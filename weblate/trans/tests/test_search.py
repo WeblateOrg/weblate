@@ -180,6 +180,22 @@ class SearchViewTest(ViewTestCase):
             '<span class="hlmatch">Hello</span>, world'
         )
 
+    def test_project_language_search(self):
+        '''
+        Searching within project.
+        '''
+        response = self.client.get(
+            reverse(
+                'search',
+                kwargs={'project': self.project.slug, 'lang': 'cs'}
+            ),
+            {'q': 'hello'}
+        )
+        self.assertContains(
+            response,
+            '<span class="hlmatch">Hello</span>, world'
+        )
+
     def test_translation_search(self):
         '''
         Searching within translation.
@@ -218,6 +234,20 @@ class SearchViewTest(ViewTestCase):
         self.do_search(
             {'q': 'xxxxx', 'search': 'xxxx'},
             'Select a valid choice. xxxx is not one of the available choices.'
+        )
+
+    def test_random(self):
+        self.edit_unit(
+            'Hello, world!\n',
+            'Nazdar svete!\n'
+        )
+        self.do_search(
+            {'type': 'random'},
+            'Nazdar svete'
+        )
+        self.do_search(
+            {'type': 'random', 'q': 'hello'},
+            'Nazdar svete'
         )
 
     def test_review(self):
