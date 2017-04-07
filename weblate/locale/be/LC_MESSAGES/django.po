@@ -8,17 +8,17 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-04-07 10:22+0000\n"
-"PO-Revision-Date: 2017-03-17 23:34+0000\n"
+"PO-Revision-Date: 2017-04-07 11:13+0000\n"
 "Last-Translator: Viktar Vauchkevich <victorenator@gmail.com>\n"
-"Language-Team: Belarusian <https://hosted.weblate.org/projects/weblate/"
-"master/be/>\n"
+"Language-Team: Belarusian "
+"<https://hosted.weblate.org/projects/weblate/master/be/>\n"
 "Language: be\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2.12\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 2.13-dev\n"
 
 #: weblate/accounts/auth.py:49
 msgid ""
@@ -358,11 +358,8 @@ msgstr ""
 "Спіс кампанентаў павінен быць абраны, калі выкарыстоўваецца як зыходны."
 
 #: weblate/accounts/models.py:883
-#, fuzzy
-#| msgid "Component list must be selected when used as default."
 msgid "Component list must not be selected when not used."
-msgstr ""
-"Спіс кампанентаў павінен быць абраны, калі выкарыстоўваецца як зыходны."
+msgstr "Спіс кампанентаў не павінен быць абраны, калі не выкарыстоўваецца."
 
 #: weblate/accounts/models.py:959
 msgid ""
@@ -706,29 +703,21 @@ msgid "Permissions"
 msgstr "Дазволы"
 
 #: weblate/permissions/data.py:149
-#, fuzzy
-#| msgid "Administration"
 msgctxt "Permissions group"
 msgid "Administration"
 msgstr "Адміністраванне"
 
 #: weblate/permissions/data.py:150
-#, fuzzy
-#| msgid "Glossary"
 msgctxt "Permissions group"
 msgid "Glossary"
 msgstr "Гласарый"
 
 #: weblate/permissions/data.py:151
-#, fuzzy
-#| msgid "Screenshots"
 msgctxt "Permissions group"
 msgid "Screenshots"
 msgstr "Здымкі экрана"
 
 #: weblate/permissions/data.py:152
-#, fuzzy
-#| msgid "Translate"
 msgctxt "Permissions group"
 msgid "Translate"
 msgstr "Перакласці"
@@ -736,7 +725,7 @@ msgstr "Перакласці"
 #: weblate/permissions/data.py:153
 msgctxt "Permissions group"
 msgid "VCS"
-msgstr ""
+msgstr "VCS"
 
 #: weblate/permissions/helpers.py:424
 #, python-format
@@ -744,10 +733,8 @@ msgid "You are not allowed to access project %s."
 msgstr "Вы не маеце доступу да праекта %s."
 
 #: weblate/permissions/models.py:56
-#, fuzzy
-#| msgid "Permissions"
 msgid "Filtered permissions"
-msgstr "Дазволы"
+msgstr "Адфільтраваныя дазволы"
 
 #: weblate/permissions/models.py:63
 msgid "Project, component or language must be specified"
@@ -4736,10 +4723,8 @@ msgid "%(filter_name)s (%(filter_count)s)"
 msgstr "%(filter_name)s (%(filter_count)s)"
 
 #: weblate/trans/admin.py:45
-#, fuzzy
-#| msgid "Administration"
 msgid "Administrators"
-msgstr "Адміністраванне"
+msgstr "Адміністратары"
 
 #: weblate/trans/admin.py:60 weblate/trans/admin.py:118
 msgid "Update VCS repository"
@@ -5314,10 +5299,8 @@ msgid "Strings with any failing checks"
 msgstr "Радкі з няпройдзенымі праверкамі"
 
 #: weblate/trans/forms.py:497 weblate/trans/models/translation.py:999
-#, fuzzy
-#| msgid "Source strings review"
 msgid "Random strings for review"
-msgstr "Перагляд зыходных радкоў"
+msgstr "Выпадковыя радкі для перагляду"
 
 #: weblate/trans/forms.py:516
 msgid "Query"
@@ -5463,10 +5446,9 @@ msgid "Whole project"
 msgstr "Увесь праект"
 
 #: weblate/trans/forms.py:883
-#, fuzzy, python-brace-format
-#| msgid "Chosen translation already exists in this project!"
+#, python-brace-format
 msgid "Similar translation already exists in the project ({0})!"
-msgstr "Выбраны пераклад ужо існуе ў праекце!"
+msgstr "Сходны пераклад ужо існуе ў праекце ({0})!"
 
 #: weblate/trans/forms.py:904
 msgid "Please select"
@@ -5762,48 +5744,33 @@ msgid "Component lists"
 msgstr "Спісы кампанентаў"
 
 #: weblate/trans/models/componentlist.py:65
-#, fuzzy
-#| msgid "Email regular expression"
 msgid "Project regular expression"
-msgstr "Рэгулярны выраз эл.пошты"
+msgstr "Рэгулярны выраз праекта"
 
 #: weblate/trans/models/componentlist.py:69
-#, fuzzy
-#| msgid "Regular expression which is used to match user email."
 msgid "Regular expression which is used to match project slug."
-msgstr ""
-"Рэгулярны выраз, які выкарыстоўваецца для супастаўлення пошты карыстальніка."
+msgstr "Рэгулярны выраз, які выкарыстоўваецца для супастаўлення слага праекта."
 
 #: weblate/trans/models/componentlist.py:73
-#, fuzzy
-#| msgid "Email regular expression"
 msgid "Component regular expression"
-msgstr "Рэгулярны выраз эл.пошты"
+msgstr "Рэгулярны выраз кампанента"
 
 #: weblate/trans/models/componentlist.py:77
-#, fuzzy
-#| msgid "Regular expression which is used to match user email."
 msgid "Regular expression which is used to match component slug."
 msgstr ""
-"Рэгулярны выраз, які выкарыстоўваецца для супастаўлення пошты карыстальніка."
+"Рэгулярны выраз, які выкарыстоўваецца для супастаўлення слага кампанента."
 
 #: weblate/trans/models/componentlist.py:82
-#, fuzzy
-#| msgid "Component lists"
 msgid "Component list to assign"
-msgstr "Спісы кампанентаў"
+msgstr "Спіс кампанентаў для прызначэння"
 
 #: weblate/trans/models/componentlist.py:96
-#, fuzzy
-#| msgid "Automatic group assignment"
 msgid "Automatic component list assignment"
-msgstr "Аўтаматычнае прызначэнне групы"
+msgstr "Аўтаматычнае прызначэнне спіса кампанентаў"
 
 #: weblate/trans/models/componentlist.py:97
-#, fuzzy
-#| msgid "Automatic group assignments"
 msgid "Automatic component list assignments"
-msgstr "Аўтаматычныя прызначэнні групы"
+msgstr "Аўтаматычнае прызначэнні спіса кампанентаў"
 
 #: weblate/trans/models/project.py:92
 msgid "Main website of translated project."
@@ -6320,10 +6287,9 @@ msgid "Got empty language code for %s, please check filemask!"
 msgstr "Не атрымалася вызначыць мову для %s, калі ласка, праверце маску!"
 
 #: weblate/trans/models/subproject.py:1140
-#, fuzzy, python-format
-#| msgid "Got empty language code for %s, please check filemask!"
+#, python-format
 msgid "Language code %s is too long, please check filemask!"
-msgstr "Не атрымалася вызначыць мову для %s, калі ласка, праверце маску!"
+msgstr "Код мовы %s занадта доўгі, калі ласка, праверце маску!"
 
 #: weblate/trans/models/subproject.py:1144
 #, python-format
@@ -6406,7 +6372,7 @@ msgstr "Не ўдалося прачытаць базавы файл перак�
 #: weblate/trans/models/subproject.py:1251
 #, python-format
 msgid "Template language (%s) does not match project source language (%s)!"
-msgstr ""
+msgstr "Мова шаблона (%s) не адпавядае зыходнай мове праекта (%s)!"
 
 #: weblate/trans/models/subproject.py:1258
 msgid "You can not use monolingual translation without base file!"
@@ -6921,10 +6887,8 @@ msgid "Invalid check flag: \"%s\""
 msgstr "Хібны флаг праверкі: «%s»"
 
 #: weblate/trans/views/acl.py:78
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Invalid parameters!"
-msgstr "Хібны запыт на зліццё!"
+msgstr "Хібныя параметры!"
 
 #: weblate/trans/views/acl.py:84 weblate/trans/views/acl.py:133
 msgid "You can not remove last owner!"
@@ -6959,10 +6923,9 @@ msgid "Invalid search query!"
 msgstr "Хібны пошукавы запыт!"
 
 #: weblate/trans/views/basic.py:308
-#, fuzzy, python-brace-format
-#| msgid "Get involved in %(project)s!"
+#, python-brace-format
 msgid "Get involved in {0}!"
-msgstr "Далучайцеся да %(project)s!"
+msgstr "Далучайцеся да {0}!"
 
 #: weblate/trans/views/basic.py:314
 #, python-format
