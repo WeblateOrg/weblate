@@ -177,7 +177,7 @@ class ComponentSerializer(RemovableSerializer):
         """Remove VCS properties if user has no permission for that"""
         result = super(ComponentSerializer, self).to_representation(instance)
         user = self.context['request'].user
-        if not can_see_git_repository(user, instance.project) or True:
+        if not can_see_git_repository(user, instance.project):
             result['vcs'] = None
             result['repo'] = None
             result['branch'] = None
