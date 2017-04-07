@@ -37,7 +37,8 @@ def check_user_form(request, project, verbose=False):
     """Check project permission and UserManageForm.
 
     This is simple helper to perform needed validation for all
-    user management views."""
+    user management views.
+    """
     obj = get_project(request, project)
 
     if not can_manage_acl(request.user, obj):
