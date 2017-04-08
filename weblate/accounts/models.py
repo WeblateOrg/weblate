@@ -595,9 +595,9 @@ class Profile(models.Model):
         max_length=30,
         verbose_name=_('Special characters'),
         help_text=_(
-            'You can specify additional special characters to be show in '
-            'visual keyboard while translating. It can be useful for chars '
-            'you use frequently but are hard to type on your keyboard.'
+            'You can specify additional special characters to be shown in '
+            'the visual keyboard while translating. It can be useful for '
+            'chars you use frequently but are hard to type on your keyboard.'
         )
     )
 

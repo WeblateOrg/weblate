@@ -15,6 +15,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='profile',
             name='special_chars',
-            field=models.CharField(blank=True, default='', help_text='You can specify additional special characters to be show in visual keyboard while translating. It can be useful for chars you use frequently but are hard to type on your keyboard.', max_length=30, verbose_name='Special characters'),
+            field=models.CharField(blank=True, default='', help_text='You can specify additional special characters to be shown in the visual keyboard while translating. It can be useful for chars you use frequently but are hard to type on your keyboard.', max_length=30, verbose_name='Special characters'),
         ),
     ]
