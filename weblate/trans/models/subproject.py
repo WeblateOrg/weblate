@@ -1574,7 +1574,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     def do_lock(self, user):
         """Locks component."""
         self.locked = True
-        self.save()
+        self.save(update_fields=['locked'])
         if self.translation_set.exists():
             Change.objects.create(
                 subproject=self, user=user, action=Change.ACTION_LOCK,
@@ -1583,7 +1583,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     def do_unlock(self, user):
         """Locks component."""
         self.locked = False
-        self.save()
+        self.save(update_fields=['locked'])
         if self.translation_set.exists():
             Change.objects.create(
                 subproject=self, user=user, action=Change.ACTION_UNLOCK,
