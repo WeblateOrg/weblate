@@ -250,7 +250,6 @@
 <div class="col-lg-6">
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Your summary" %}</h4></div>
-  <div class="panel-body">
 <table class="table table-condensed">
 {% with request.user as user %}
 {% include 'user-activity.html' %}
@@ -261,7 +260,6 @@
 <td><a href="{{ user_page }}">{{ user_page }}</a></td>
 </tr>
 </table>
-</div>
 </div>
 
 {% if enable_avatars %}
