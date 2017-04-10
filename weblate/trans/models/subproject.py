@@ -1432,10 +1432,6 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         return self.repository.needs_push()
 
     @property
-    def file_format_name(self):
-        return self.file_format_cls.name
-
-    @property
     def file_format_cls(self):
         """Returns file format object """
         if (self._file_format is None or
