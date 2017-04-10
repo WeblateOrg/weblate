@@ -49,18 +49,24 @@ class ProjectManager(models.Manager):
             return self.values_list('id', flat=True)
         if not hasattr(user, 'acl_ids_cache'):
             permission = Permission.objects.get(codename='access_project')
-            user.acl_ids_cache = set(
-                self.filter(
-                    ~Q(groupacl__permissions=permission) |
-                    (
-                        Q(groupacl__permissions=permission) &
-                        Q(groupacl__groups__permissions=permission) &
-                        Q(groupacl__groups__user=user)
-                    )
-                ).values_list(
-                    'id', flat=True
-                )
-            )
+
+            # Projects where access is not filtered by GroupACL
+            not_filtered = set(self.exclude(
+                groupacl__permissions=permission
+            ).values_list(
+                'id', flat=True
+            ))
+
+            # Projects where current user has GroupACL based access
+            have_access = set(self.filter(
+                groupacl__permissions=permission,
+                groupacl__groups__permissions=permission,
+                groupacl__groups__user=user,
+            ).values_list(
+                'id', flat=True
+            ))
+
+            user.acl_ids_cache = not_filtered | have_access
 
         return user.acl_ids_cache
 
