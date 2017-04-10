@@ -347,9 +347,7 @@ class Profile(models.Model):
         Returns date of last change user has done in Weblate.
         '''
         try:
-            return self.user.change_set.values_list(
-                'timestamp', flat=True
-            )[0]
+            return self.user.change_set.values_list('timestamp', flat=True)[0]
         except IndexError:
             return None
 
