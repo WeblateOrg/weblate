@@ -21,10 +21,14 @@
 import os
 import shutil
 
+from django.contrib.auth.models import Group, Permission
+from django.db.models import Q
 from django.db.models.signals import post_delete, post_save, m2m_changed
 from django.dispatch import receiver
 
 from weblate.accounts.models import Profile
+from weblate.permissions.data import ADMIN_PERMS, ADMIN_ONLY_PERMS
+from weblate.permissions.models import GroupACL
 from weblate.trans.models.conf import WeblateConf
 from weblate.trans.models.project import Project
 from weblate.trans.models.subproject import SubProject
@@ -248,3 +252,34 @@ def auto_project_componentlist(sender, instance, **kwargs):
 def auto_component_list(sender, instance, **kwargs):
     for auto in AutoComponentList.objects.all():
         auto.check_match(instance)
+
+
+@receiver(post_save, sender=Project)
+@disable_for_loaddata
+def setup_group_acl(sender, instance, **kwargs):
+    """Setup Group and GroupACL objects on project save."""
+    group_acl = GroupACL.objects.get_or_create(project=instance)[0]
+    if instance.enable_acl:
+        group_acl.permissions.set(
+            Permission.objects.filter(codename__in=ADMIN_PERMS)
+        )
+        lookup = Q(name__startswith='@')
+    else:
+        group_acl.permissions.set(
+            Permission.objects.filter(codename__in=ADMIN_ONLY_PERMS)
+        )
+        lookup = Q(name='@Administration')
+
+    for template_group in Group.objects.filter(lookup):
+        name = '{0}{1}'.format(instance.name, template_group.name)
+        try:
+            group = group_acl.groups.get(name__endswith=template_group.name)
+            # Update exiting group (to hanle rename)
+            if group.name != name:
+                group.name = name
+                group.save()
+        except Group.DoesNotExist:
+            # Create new group
+            group = Group.objects.get_or_create(name=name)[0]
+            group.permissions.set(template_group.permissions.all())
+            group_acl.groups.add(group)

@@ -26,17 +26,13 @@ from django.conf import settings
 from django.contrib.auth.models import Group, User, Permission
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models import Q
 from django.db.models.signals import post_save, post_migrate, m2m_changed
 from django.dispatch import receiver
 from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.lang.models import Language
-from weblate.permissions.data import (
-    DEFAULT_GROUPS, ADMIN_PERMS, ADMIN_ONLY_PERMS
-)
-from weblate.trans.models import Project, SubProject
+from weblate.permissions.data import DEFAULT_GROUPS
 from weblate.trans.fields import RegexField
 from weblate.utils.decorators import disable_for_loaddata
 
@@ -48,8 +44,8 @@ class GroupACL(models.Model):
     groups = models.ManyToManyField(Group)
 
     # avoid importing Project and SubProject because of circular dependency
-    project = models.ForeignKey(Project, null=True, blank=True)
-    subproject = models.ForeignKey(SubProject, null=True, blank=True)
+    project = models.ForeignKey('trans.Project', null=True, blank=True)
+    subproject = models.ForeignKey('trans.SubProject', null=True, blank=True)
     language = models.ForeignKey(Language, null=True, blank=True)
     permissions = models.ManyToManyField(
         Permission,
@@ -209,37 +205,6 @@ def change_acl_groups(sender, instance, action, reverse, model, pk_set,
         # Update their permissions
         for update in related:
             update.permissions.set(perms)
-
-
-@receiver(post_save, sender=Project)
-@disable_for_loaddata
-def setup_group_acl(sender, instance, **kwargs):
-    """Setup Group and GroupACL objects on project save."""
-    group_acl = GroupACL.objects.get_or_create(project=instance)[0]
-    if instance.enable_acl:
-        group_acl.permissions.set(
-            Permission.objects.filter(codename__in=ADMIN_PERMS)
-        )
-        lookup = Q(name__startswith='@')
-    else:
-        group_acl.permissions.set(
-            Permission.objects.filter(codename__in=ADMIN_ONLY_PERMS)
-        )
-        lookup = Q(name='@Administration')
-
-    for template_group in Group.objects.filter(lookup):
-        name = '{0}{1}'.format(instance.name, template_group.name)
-        try:
-            group = group_acl.groups.get(name__endswith=template_group.name)
-            # Update exiting group (to hanle rename)
-            if group.name != name:
-                group.name = name
-                group.save()
-        except Group.DoesNotExist:
-            # Create new group
-            group = Group.objects.get_or_create(name=name)[0]
-            group.permissions.set(template_group.permissions.all())
-            group_acl.groups.add(group)
 
 
 # Special hook for LDAP as it does create user without email and updates it

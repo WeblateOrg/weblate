@@ -29,6 +29,7 @@ from django.utils import translation as django_translation
 from django.utils.encoding import force_text
 
 from weblate.accounts.models import Profile
+from weblate.permissions.helpers import can_access_project
 from weblate.trans.site import get_site_url, get_site_domain
 from weblate.utils.errors import report_error
 from weblate import VERSION
@@ -388,7 +389,6 @@ def send_user(profile, notification, subproject, display_obj,
     '''
     Wrapper for sending notifications to user.
     '''
-    from weblate.permissions.helpers import can_access_project
     if context is None:
         context = {}
     if headers is None:
