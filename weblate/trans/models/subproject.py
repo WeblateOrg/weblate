@@ -58,9 +58,10 @@ from weblate.trans.validators import (
     validate_autoaccept, validate_check_flags, validate_commit_message,
 )
 from weblate.lang.models import Language
-from weblate.accounts.models import (
-    notify_parse_error, notify_merge_failure, get_author_name
+from weblate.accounts.notifications import (
+    notify_parse_error, notify_merge_failure,
 )
+from weblate.accounts.models import get_author_name
 from weblate.trans.models.change import Change
 from weblate.utils.scripts import get_script_choices
 from weblate.utils.validators import validate_repoweb

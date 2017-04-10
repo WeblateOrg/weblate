@@ -47,7 +47,8 @@ from weblate.trans.util import translation_percent, split_plural
 from weblate.accounts.avatar import get_user_display
 from weblate.trans.mixins import URLMixin, PercentMixin, LoggerMixin
 from weblate.trans.boolean_sum import do_boolean_sum
-from weblate.accounts.models import notify_new_string, get_author_name
+from weblate.accounts.notifications import notify_new_string
+from weblate.accounts.models import get_author_name
 from weblate.trans.models.change import Change
 from weblate.trans.checklists import TranslationChecklist
 

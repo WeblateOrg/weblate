@@ -25,7 +25,7 @@ from django.db import models
 from django.db.models import Count
 from django.utils.encoding import python_2_unicode_compatible
 
-from weblate.accounts.models import notify_new_suggestion
+from weblate.accounts.notifications import notify_new_suggestion
 from weblate.lang.models import Language
 from weblate.trans.models.change import Change
 from weblate.trans.mixins import UserDisplayMixin

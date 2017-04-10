@@ -26,8 +26,8 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.core import mail
 
-from weblate.accounts.models import (
-    Profile,
+from weblate.accounts.models import Profile
+from weblate.accounts.notifications import (
     notify_merge_failure,
     notify_parse_error,
     notify_new_string,

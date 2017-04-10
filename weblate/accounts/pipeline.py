@@ -38,7 +38,8 @@ from social_core.exceptions import (
     AuthException, AuthMissingParameter, AuthAlreadyAssociated
 )
 
-from weblate.accounts.models import send_notification_email, VerifiedEmail
+from weblate.accounts.notifications import send_notification_email
+from weblate.accounts.models import VerifiedEmail
 from weblate import USER_AGENT
 
 USERNAME_RE = r'^[\w.@+-]+$'

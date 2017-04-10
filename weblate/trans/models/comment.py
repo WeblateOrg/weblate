@@ -27,7 +27,7 @@ from django.utils.encoding import python_2_unicode_compatible
 from weblate.lang.models import Language
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.change import Change
-from weblate.accounts.models import notify_new_comment
+from weblate.accounts.notifications import notify_new_comment
 
 
 class CommentManager(models.Manager):

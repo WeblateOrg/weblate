@@ -50,7 +50,8 @@ from weblate.permissions.helpers import (
     can_automatic_translation, can_edit_subproject, can_edit_project,
     can_translate,
 )
-from weblate.accounts.models import Profile, notify_new_language
+from weblate.accounts.models import Profile
+from weblate.accounts.notifications import notify_new_language
 from weblate.trans.stats import get_per_language_stats
 from weblate.trans.views.helper import (
     get_project, get_subproject, get_translation,

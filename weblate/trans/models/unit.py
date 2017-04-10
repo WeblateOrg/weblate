@@ -40,7 +40,7 @@ from weblate.trans.models.comment import Comment
 from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.models.change import Change
 from weblate.trans.search import update_index_unit, fulltext_search, more_like
-from weblate.accounts.models import (
+from weblate.accounts.notifications import (
     notify_new_contributor, notify_new_translation
 )
 from weblate.trans.filelock import FileLockException
