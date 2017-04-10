@@ -7,16 +7,16 @@ msgstr ""
 "Project-Id-Version: weblate-website-ja\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-04-07 15:17+0000\n"
-"PO-Revision-Date: 2017-03-21 03:01+0000\n"
+"PO-Revision-Date: 2017-04-10 01:13+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
-"Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
-"ja/>\n"
+"Language-Team: Japanese "
+"<https://hosted.weblate.org/projects/weblate/master/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2.12\n"
+"X-Generator: Weblate 2.13-dev\n"
 
 #: weblate/accounts/auth.py:49
 msgid ""
@@ -357,12 +357,8 @@ msgstr ""
 "ません。"
 
 #: weblate/accounts/models.py:883
-#, fuzzy
-#| msgid "Component list must be selected when used as default."
 msgid "Component list must not be selected when not used."
-msgstr ""
-"コンポーネントリストをデフォルトとして使用した場合、これを選択しなければなり"
-"ません。"
+msgstr "コンポーネントリストを使用しない場合、これを選択してはなりません。"
 
 #: weblate/accounts/models.py:959
 msgid ""
@@ -708,29 +704,21 @@ msgid "Permissions"
 msgstr "パーミッション"
 
 #: weblate/permissions/data.py:149
-#, fuzzy
-#| msgid "Administration"
 msgctxt "Permissions group"
 msgid "Administration"
 msgstr "管理"
 
 #: weblate/permissions/data.py:150
-#, fuzzy
-#| msgid "Glossary"
 msgctxt "Permissions group"
 msgid "Glossary"
 msgstr "用語集"
 
 #: weblate/permissions/data.py:151
-#, fuzzy
-#| msgid "Screenshots"
 msgctxt "Permissions group"
 msgid "Screenshots"
 msgstr "スクリーンショット"
 
 #: weblate/permissions/data.py:152
-#, fuzzy
-#| msgid "Translate"
 msgctxt "Permissions group"
 msgid "Translate"
 msgstr "翻訳"
@@ -738,7 +726,7 @@ msgstr "翻訳"
 #: weblate/permissions/data.py:153
 msgctxt "Permissions group"
 msgid "VCS"
-msgstr ""
+msgstr "VCS"
 
 #: weblate/permissions/helpers.py:424
 #, python-format
@@ -746,14 +734,12 @@ msgid "You are not allowed to access project %s."
 msgstr "プロジェクト %s にアクセスする許可がありません。"
 
 #: weblate/permissions/models.py:56
-#, fuzzy
-#| msgid "Permissions"
 msgid "Filtered permissions"
-msgstr "パーミッション"
+msgstr "フィルタ済みパーミッション"
 
 #: weblate/permissions/models.py:57
 msgid "The GroupACL will affect only selected permissions."
-msgstr ""
+msgstr "GroupACL は選択したパーミッションにのみ影響を与えます。"
 
 #: weblate/permissions/models.py:64
 msgid "Project, component or language must be specified"
@@ -3029,7 +3015,7 @@ msgstr "言語を管理するには、登録してください"
 msgid ""
 "Could not find any matching translation in this component list, probably not "
 "translated to your languages."
-msgstr ""
+msgstr "このコンポーネントリスト内には、該当する翻訳が見つかりませんでした。おそらくはお使いの言語に翻訳されていないものと思われます。"
 
 #: weblate/templates/index.html:136
 msgid "Browse all changes"
@@ -3713,7 +3699,7 @@ msgstr "削除"
 msgid ""
 "The user will be removed from the project once you remove last user "
 "permission."
-msgstr ""
+msgstr "すべてのユーザパーミッションを削除すると、プロジェクトからもユーザが削除されます。"
 
 #: weblate/templates/manage-access.html:60
 msgid "Add new user"
@@ -4731,10 +4717,8 @@ msgid "%(filter_name)s (%(filter_count)s)"
 msgstr "%(filter_name)s (%(filter_count)s)"
 
 #: weblate/trans/admin.py:45
-#, fuzzy
-#| msgid "Administration"
 msgid "Administrators"
-msgstr "管理"
+msgstr "管理者"
 
 #: weblate/trans/admin.py:60 weblate/trans/admin.py:118
 msgid "Update VCS repository"
@@ -5309,10 +5293,8 @@ msgid "Strings with any failing checks"
 msgstr "何らかのチェックに失敗した文字列"
 
 #: weblate/trans/forms.py:497 weblate/trans/models/translation.py:999
-#, fuzzy
-#| msgid "Source strings review"
 msgid "Random strings for review"
-msgstr "原文の査読"
+msgstr "ランダムな文字列 (査読用)"
 
 #: weblate/trans/forms.py:516
 msgid "Query"
@@ -5459,10 +5441,9 @@ msgid "Whole project"
 msgstr "プロジェクト全体"
 
 #: weblate/trans/forms.py:883
-#, fuzzy, python-brace-format
-#| msgid "Chosen translation already exists in this project!"
+#, python-brace-format
 msgid "Similar translation already exists in the project ({0})!"
-msgstr "選択した翻訳は、このプロジェクト内に既に存在しています！"
+msgstr "類似の翻訳がプロジェクト ({0}) 内に既に存在しています！"
 
 #: weblate/trans/forms.py:904
 msgid "Please select"
@@ -5758,46 +5739,32 @@ msgid "Component lists"
 msgstr "コンポーネントリスト"
 
 #: weblate/trans/models/componentlist.py:65
-#, fuzzy
-#| msgid "Email regular expression"
 msgid "Project regular expression"
-msgstr "電子メールの正規表現"
+msgstr "プロジェクトの正規表現"
 
 #: weblate/trans/models/componentlist.py:69
-#, fuzzy
-#| msgid "Regular expression which is used to match user email."
 msgid "Regular expression which is used to match project slug."
-msgstr "ユーザの電子メールアドレスへのマッチングに使用する正規表現。"
+msgstr "プロジェクトの部分マッチングに使用する正規表現。"
 
 #: weblate/trans/models/componentlist.py:73
-#, fuzzy
-#| msgid "Email regular expression"
 msgid "Component regular expression"
-msgstr "電子メールの正規表現"
+msgstr "コンポーネントの正規表現"
 
 #: weblate/trans/models/componentlist.py:77
-#, fuzzy
-#| msgid "Regular expression which is used to match user email."
 msgid "Regular expression which is used to match component slug."
-msgstr "ユーザの電子メールアドレスへのマッチングに使用する正規表現。"
+msgstr "コンポーネントの部分マッチングに使用する正規表現。"
 
 #: weblate/trans/models/componentlist.py:82
-#, fuzzy
-#| msgid "Component lists"
 msgid "Component list to assign"
-msgstr "コンポーネントリスト"
+msgstr "割り当てるコンポーネントリスト"
 
 #: weblate/trans/models/componentlist.py:96
-#, fuzzy
-#| msgid "Automatic group assignment"
 msgid "Automatic component list assignment"
-msgstr "自動的なグループの割り当て"
+msgstr "自動的なコンポーネントリストの割り当て"
 
 #: weblate/trans/models/componentlist.py:97
-#, fuzzy
-#| msgid "Automatic group assignments"
 msgid "Automatic component list assignments"
-msgstr "自動的なグループの割り当て"
+msgstr "自動的なコンポーネントリストの割り当て"
 
 #: weblate/trans/models/project.py:92
 msgid "Main website of translated project."
@@ -6314,10 +6281,9 @@ msgid "Got empty language code for %s, please check filemask!"
 msgstr "%s で言語コードが設定されていません。ファイルマスクをご確認ください！"
 
 #: weblate/trans/models/subproject.py:1140
-#, fuzzy, python-format
-#| msgid "Got empty language code for %s, please check filemask!"
+#, python-format
 msgid "Language code %s is too long, please check filemask!"
-msgstr "%s で言語コードが設定されていません。ファイルマスクをご確認ください！"
+msgstr "言語コード %s が長すぎます。ファイルマスクをご確認ください！"
 
 #: weblate/trans/models/subproject.py:1144
 #, python-format
@@ -6401,7 +6367,7 @@ msgstr "翻訳のベースファイルがパースできませんでした：%s"
 #: weblate/trans/models/subproject.py:1251
 #, python-format
 msgid "Template language (%s) does not match project source language (%s)!"
-msgstr ""
+msgstr "ひな形となる言語 (%s) がプロジェクトの翻訳元言語 (%s) と一致していません！"
 
 #: weblate/trans/models/subproject.py:1258
 msgid "You can not use monolingual translation without base file!"
@@ -6888,10 +6854,8 @@ msgid "Invalid check flag: \"%s\""
 msgstr "チェックフラグが正しくありません: \"%s\""
 
 #: weblate/trans/views/acl.py:78
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Invalid parameters!"
-msgstr "マージリクエストが正しくありません！"
+msgstr "パラメータが正しくありません！"
 
 #: weblate/trans/views/acl.py:84 weblate/trans/views/acl.py:133
 msgid "You can not remove last owner!"
@@ -6927,10 +6891,9 @@ msgid "Invalid search query!"
 msgstr "検索文字列が無効です！"
 
 #: weblate/trans/views/basic.py:308
-#, fuzzy, python-brace-format
-#| msgid "Get involved in %(project)s!"
+#, python-brace-format
 msgid "Get involved in {0}!"
-msgstr "%(project)s に参加する！"
+msgstr "{0} に参加する！"
 
 #: weblate/trans/views/basic.py:314
 #, python-format
