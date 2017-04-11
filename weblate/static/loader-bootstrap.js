@@ -69,7 +69,7 @@ function submitForm(evt) {
     }
     if ($form.length > 0) {
         var submits = $form.find('input[type="submit"]');
-        if (submits.length == 0) {
+        if (submits.length === 0) {
             submits = $form.find('button[type="submit"]');
         }
         if (submits.length > 0) {
