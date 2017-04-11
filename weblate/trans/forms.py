@@ -208,7 +208,7 @@ class PluralTextarea(forms.Textarea):
 
         return TOOLBAR_TEMPLATE.format('\n'.join(groups))
 
-    def render(self, name, value, attrs=None):
+    def render(self, name, value, attrs=None, renderer=None):
         '''
         Renders all textareas with correct plural labels.
         '''
@@ -238,7 +238,8 @@ class PluralTextarea(forms.Textarea):
             textarea = super(PluralTextarea, self).render(
                 fieldname,
                 val,
-                attrs
+                attrs,
+                renderer,
             )
             # Label for plural
             if len(values) == 1:
