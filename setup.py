@@ -78,6 +78,7 @@ setup(
     author='Michal Čihař',
     author_email='michal@cihar.com',
     install_requires=REQUIRES,
+    zip_safe=False,
     extras_require={
         'Mercurial': ['Mercurial>=2.8'],
         'Unicode': ['pyuca>=1.1', 'python-bidi>=0.4.0', 'chardet'],
