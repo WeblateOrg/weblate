@@ -34,9 +34,7 @@ class CommentManager(models.Manager):
     # pylint: disable=W0232
 
     def add(self, unit, user, lang, text):
-        '''
-        Adds comment to this unit.
-        '''
+        """Add comment to this unit."""
         new_comment = self.create(
             user=user,
             content_hash=unit.content_hash,

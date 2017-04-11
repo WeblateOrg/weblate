@@ -37,7 +37,7 @@ def validate_re(value):
 
 
 def validate_bitmap(value):
-    """Validates bitmap, based on django.forms.fields.ImageField"""
+    """Validate bitmap, based on django.forms.fields.ImageField"""
     if value is None or not hasattr(value.file, 'content_type'):
         return
 
@@ -56,10 +56,10 @@ def validate_bitmap(value):
 
 
 def validate_repoweb(val):
-    '''
-    Validates whether URL for repository browser is valid and
-    can be filled in using format string.
-    '''
+    """Validate whether URL for repository browser is valid.
+
+    It checks whether it can be filled in using format string.
+    """
     try:
         val % {'file': 'file.po', 'line': '9', 'branch': 'master'}
     except Exception as error:

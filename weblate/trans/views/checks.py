@@ -48,9 +48,7 @@ def encode_optional(params):
 
 
 def show_checks(request):
-    '''
-    List of failing checks.
-    '''
+    """List of failing checks."""
     ignore = ('ignored' in request.GET)
     url_params = {}
 
@@ -83,9 +81,7 @@ def show_checks(request):
 
 
 def show_check(request, name):
-    '''
-    Details about failing check.
-    '''
+    """Show details about failing check."""
     try:
         check = CHECKS[name]
     except KeyError:
@@ -130,9 +126,7 @@ def show_check(request, name):
 
 
 def show_check_project(request, name, project):
-    '''
-    Show checks failing in a project.
-    '''
+    """Show checks failing in a project."""
     prj = get_project(request, project)
     try:
         check = CHECKS[name]
@@ -229,9 +223,7 @@ def show_check_project(request, name, project):
 
 
 def show_check_subproject(request, name, project, subproject):
-    '''
-    Show checks failing in a subproject.
-    '''
+    """Show checks failing in a subproject."""
     subprj = get_subproject(request, project, subproject)
     try:
         check = CHECKS[name]

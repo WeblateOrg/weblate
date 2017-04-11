@@ -99,9 +99,7 @@ AMAGAMA_JSON = '''
 
 
 class MachineTranslationTest(TestCase):
-    '''
-    Testing of machine translation core.
-    '''
+    """Testing of machine translation core."""
     def test_support(self):
         machine_translation = DummyTranslation()
         self.assertTrue(machine_translation.is_supported('en', 'cs'))

@@ -32,24 +32,18 @@ UNICODE = re.compile(r'\\[uU][0-9a-fA-F]{4}')
 
 
 def sort_key(line):
-    """
-    Sort key for properties.
-    """
+    """Sort key for properties."""
     prefix = SPLITTER.split(line, 1)[0]
     return prefix.lower()
 
 
 def unicode_format(match):
-    """
-    Callback for re.sub for formatting unicode chars.
-    """
+    """Callback for re.sub for formatting unicode chars."""
     return '\\u{0}'.format(match.group(0)[2:].upper())
 
 
 def fix_newlines(lines):
-    """
-    Converts newlines to unix.
-    """
+    """Convert newlines to unix."""
     for i in range(len(lines)):
         if lines[i].endswith('\r\n'):
             lines[i] = lines[i][:-2] + '\n'
@@ -58,9 +52,7 @@ def fix_newlines(lines):
 
 
 def format_unicode(lines):
-    """
-    Standard formatting for unicode chars.
-    """
+    """Standard formatting for unicode chars."""
     for i in range(len(lines)):
         if UNICODE.findall(lines[i]) is None:
             continue
@@ -68,9 +60,7 @@ def format_unicode(lines):
 
 
 def value_quality(value):
-    """
-    Calculates value quality.
-    """
+    """Calculate value quality."""
     if not value:
         return 0
     if '[translate me]' in value:
@@ -81,9 +71,7 @@ def value_quality(value):
 
 
 def filter_lines(lines):
-    """
-    Filters comments, empty lines and duplicate strings.
-    """
+    """Filter comments, empty lines and duplicate strings."""
     result = []
     lastkey = None
     lastvalue = None
@@ -133,9 +121,7 @@ def filter_lines(lines):
 
 
 def format_file(filename):
-    """
-    Formats single properties file.
-    """
+    """Format single properties file."""
     with open(filename, 'r') as handle:
         lines = handle.readlines()
 
@@ -151,9 +137,7 @@ def format_file(filename):
 
 
 def main():
-    """
-    Command line interface.
-    """
+    """Command line interface."""
     parser = argparse.ArgumentParser(
         description='Formats Java properties translation'
     )

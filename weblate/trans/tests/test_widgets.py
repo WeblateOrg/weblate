@@ -18,9 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-"""
-Tests for widgets.
-"""
+"""Test for widgets."""
 
 from django.core.urlresolvers import reverse
 
@@ -30,9 +28,7 @@ from weblate.trans.views.widgets import WIDGETS
 
 
 class WidgetsTest(ViewTestCase):
-    '''
-    Testing of widgets.
-    '''
+    """Testing of widgets."""
     def test_view_widgets_root(self):
         response = self.client.get(
             reverse('widgets_root')

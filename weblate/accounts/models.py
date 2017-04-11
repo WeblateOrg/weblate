@@ -47,8 +47,7 @@ from weblate.utils.decorators import disable_for_loaddata
 
 
 class WeblateAnonymousUser(User):
-    """
-    Proxy model to customize User behavior.
+    """Proxy model to customize User behavior.
 
     TODO: Remove Callable* return values and replace them with booleans once
     djangp-rest-framework supports this (changed in Django 1.10).
@@ -74,7 +73,7 @@ def get_anonymous():
 
 
 def get_author_name(user, email=True):
-    """Returns formatted author name with email."""
+    """Return formatted author name with email."""
     # Get full name from database
     full_name = user.first_name
 
@@ -90,9 +89,8 @@ def get_author_name(user, email=True):
 
 @python_2_unicode_compatible
 class VerifiedEmail(models.Model):
-    '''
-    Storage for verified emails from auth backends.
-    '''
+    """Storage for verified emails from auth backends."""
+
     social = models.ForeignKey(UserSocialAuth)
     email = models.EmailField(max_length=254)
 
@@ -104,9 +102,7 @@ class VerifiedEmail(models.Model):
 
 
 class ProfileManager(models.Manager):
-    '''
-    Manager providing shortcuts for subscription queries.
-    '''
+    """Manager providing shortcuts for subscription queries."""
     # pylint: disable=W0232
 
     def subscribed_any_translation(self, project, language, user):
@@ -171,9 +167,8 @@ class ProfileManager(models.Manager):
 
 @python_2_unicode_compatible
 class Profile(models.Model):
-    '''
-    User profiles storage.
-    '''
+    """User profiles storage."""
+
     user = models.OneToOneField(User, unique=True, editable=False)
     language = models.CharField(
         verbose_name=_('Interface Language'),
@@ -343,9 +338,7 @@ class Profile(models.Model):
 
     @property
     def last_change(self):
-        '''
-        Returns date of last change user has done in Weblate.
-        '''
+        """Return date of last change user has done in Weblate."""
         try:
             return self.user.change_set.values_list('timestamp', flat=True)[0]
         except IndexError:
@@ -353,15 +346,11 @@ class Profile(models.Model):
 
     @property
     def full_name(self):
-        '''
-        Returns user's full name.
-        '''
+        """Return user's full name."""
         return self.user.first_name
 
     def clean(self):
-        '''
-        Check if component list is selected when required.
-        '''
+        """Check if component list is selected when required."""
         if (self.dashboard_view == Profile.DASHBOARD_COMPONENT_LIST and
                 self.dashboard_component_list is None):
             raise ValidationError({
@@ -377,17 +366,13 @@ class Profile(models.Model):
 
 
 def set_lang(request, profile):
-    """
-    Sets session language based on user preferences.
-    """
+    """Set session language based on user preferences."""
     if profile.language:
         request.session[LANGUAGE_SESSION_KEY] = profile.language
 
 
 def remove_user(user):
-    '''
-    Removes user account.
-    '''
+    """Remove user account."""
     # Send signal (to commit any pending changes)
     user_pre_delete.send(instance=user, sender=user.__class__)
 
@@ -415,10 +400,10 @@ def remove_user(user):
 
 @receiver(user_logged_in)
 def post_login_handler(sender, request, user, **kwargs):
-    '''
-    Signal handler for setting user language and
-    migrating profile if needed.
-    '''
+    """Signal handler for post login.
+
+    It sets user language and migrates profile if needed.
+    """
 
     # Warning about setting password
     if (getattr(user, 'backend', '').endswith('.EmailAuth') and
@@ -464,9 +449,7 @@ def post_logout_handler(sender, request, user, **kwargs):
 @receiver(post_save, sender=User)
 @disable_for_loaddata
 def create_profile_callback(sender, instance, created=False, **kwargs):
-    '''
-    Automatically adds user to Users group.
-    '''
+    """Automatically create token and profile for user."""
     if created:
         # Create API token
         Token.objects.create(user=instance)

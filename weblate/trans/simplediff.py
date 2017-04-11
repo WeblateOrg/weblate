@@ -23,9 +23,7 @@ from difflib import SequenceMatcher
 
 
 def html_diff(old, new):
-    '''
-    Generates HTML formatted diff of two strings.
-    '''
+    """Generate HTML formatted diff of two strings."""
     diff = SequenceMatcher(None, old, new)
     result = []
     for tag, oldpos1, oldpos2, newpos1, newpos2 in diff.get_opcodes():

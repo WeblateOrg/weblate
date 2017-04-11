@@ -77,9 +77,7 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        '''
-        Automatic import of components.
-        '''
+        """Automatic import of components."""
         # Get project
         try:
             project = Project.objects.get(slug=options['project'])

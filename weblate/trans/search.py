@@ -18,9 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-'''
-Whoosh based full text search.
-'''
+"""Whoosh based full text search."""
 
 import functools
 import shutil
@@ -44,18 +42,14 @@ STORAGE = FileStorage(data_dir('whoosh'))
 
 
 class TargetSchema(SchemaClass):
-    '''
-    Fultext index schema for target strings.
-    '''
+    """Fultext index schema for target strings."""
     pk = NUMERIC(stored=True, unique=True)
     target = TEXT()
     comment = TEXT()
 
 
 class SourceSchema(SchemaClass):
-    '''
-    Fultext index schema for source and context strings.
-    '''
+    """Fultext index schema for source and context strings."""
     pk = NUMERIC(stored=True, unique=True)
     source = TEXT()
     context = TEXT()
@@ -63,41 +57,31 @@ class SourceSchema(SchemaClass):
 
 
 def clean_indexes():
-    """
-    Cleans all indexes.
-    """
+    """Clean all indexes."""
     shutil.rmtree(data_dir('whoosh'))
     create_index()
 
 
 @receiver(post_migrate)
 def create_index(sender=None, **kwargs):
-    '''
-    Automatically creates storage directory.
-    '''
+    """Automatically creates storage directory."""
     STORAGE.create()
 
 
 def create_source_index():
-    '''
-    Creates source string index.
-    '''
+    """Create source string index."""
     create_index()
     return STORAGE.create_index(SourceSchema(), 'source')
 
 
 def create_target_index(lang):
-    '''
-    Creates traget string index for given language.
-    '''
+    """Create traget string index for given language."""
     create_index()
     return STORAGE.create_index(TargetSchema(), 'target-{0}'.format(lang))
 
 
 def update_source_unit_index(writer, unit):
-    '''
-    Updates source index for given unit.
-    '''
+    """Update source index for given unit."""
     writer.update_document(
         pk=unit.pk,
         source=force_text(unit.source),
@@ -107,9 +91,7 @@ def update_source_unit_index(writer, unit):
 
 
 def update_target_unit_index(writer, unit):
-    '''
-    Updates target index for given unit.
-    '''
+    """Update target index for given unit."""
     writer.update_document(
         pk=unit.pk,
         target=force_text(unit.target),
@@ -118,9 +100,7 @@ def update_target_unit_index(writer, unit):
 
 
 def get_source_index():
-    '''
-    Returns source index object.
-    '''
+    """Return source index object."""
     try:
         exists = STORAGE.index_exists('source')
     except OSError:
@@ -139,9 +119,7 @@ def get_source_index():
 
 
 def get_target_index(lang):
-    '''
-    Returns target index object.
-    '''
+    """Return target index object."""
     name = 'target-{0}'.format(lang)
     try:
         exists = STORAGE.index_exists(name)
@@ -161,9 +139,7 @@ def get_target_index(lang):
 
 
 def update_index(units, source_units=None):
-    '''
-    Updates fulltext index for given set of units.
-    '''
+    """Update fulltext index for given set of units."""
     languages = Language.objects.have_translation()
 
     # Default to same set for both updates
@@ -226,9 +202,7 @@ def add_index_update(unit_id, source, to_delete, language_code=''):
 
 
 def update_index_unit(unit, source=True):
-    '''
-    Adds single unit to index.
-    '''
+    """Add single unit to index."""
     # Should this happen in background?
     if settings.OFFLOAD_INDEXING:
         add_index_update(unit.id, source, False)
@@ -248,9 +222,7 @@ def update_index_unit(unit, source=True):
 
 
 def base_search(index, query, params, search, schema):
-    '''
-    Wrapper for fulltext search.
-    '''
+    """Wrapper for fulltext search."""
     with index.searcher() as searcher:
         queries = []
         for param in params:
@@ -264,9 +236,7 @@ def base_search(index, query, params, search, schema):
 
 
 def fulltext_search(query, lang, params):
-    '''
-    Performs fulltext search in given areas, returns set of primary keys.
-    '''
+    """Perform fulltext search in given areas, returns set of primary keys."""
     pks = set()
 
     search = {
@@ -304,9 +274,7 @@ def fulltext_search(query, lang, params):
 
 
 def more_like(pk, source, top=5):
-    '''
-    Finds similar units.
-    '''
+    """Find similar units."""
     index = get_source_index()
     with index.searcher() as searcher:
         docnum = searcher.document_number(pk=pk)
@@ -319,7 +287,7 @@ def more_like(pk, source, top=5):
 
 
 def clean_search_unit(pk, lang):
-    """Cleanups search index on unit deletion."""
+    """Cleanup search index on unit deletion."""
     if settings.OFFLOAD_INDEXING:
         add_index_update(pk, False, True, lang)
     else:
@@ -336,9 +304,7 @@ def delete_search_unit(pk, lang):
 
 
 def delete_search_units(source_units, languages):
-    '''
-    Delete fulltext index for given set of units.
-    '''
+    """Delete fulltext index for given set of units."""
     # Update source index
     index = get_source_index()
     writer = index.writer()

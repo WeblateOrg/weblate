@@ -18,9 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-"""
-Tests for translation views.
-"""
+"""Test for translation views."""
 
 from __future__ import unicode_literals
 import time
@@ -32,9 +30,7 @@ from weblate.trans.models import Change
 
 
 class EditTest(ViewTestCase):
-    '''
-    Tests for manipulating translation.
-    '''
+    """Test for manipulating translation."""
     has_plurals = True
     monolingual = False
 
@@ -100,9 +96,7 @@ class EditTest(ViewTestCase):
         self.assert_backend(0)
 
     def test_plurals(self):
-        '''
-        Test plural editing.
-        '''
+        """Test plural editing."""
         if not self.has_plurals:
             return
 
@@ -307,9 +301,7 @@ class EditTest(ViewTestCase):
         self.assertFalse(self.subproject.project.repo_needs_push())
 
     def test_fuzzy(self):
-        '''
-        Test for fuzzy flag handling.
-        '''
+        """Test for fuzzy flag handling."""
         unit = self.get_unit()
         self.assertFalse(unit.fuzzy)
         self.edit_unit(
@@ -340,9 +332,7 @@ class EditTest(ViewTestCase):
         self.assertFalse(unit.has_failing_check)
 
     def test_skip_fuzzy(self):
-        '''
-        Test for fuzzy flag handling.
-        '''
+        """Test for fuzzy flag handling."""
         if self.monolingual:
             return
         unit = self.get_unit()

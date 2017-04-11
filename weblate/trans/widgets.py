@@ -66,17 +66,13 @@ WIDGETS = {}
 
 
 def register_widget(widget):
-    '''
-    Registers widget in dictionary.
-    '''
+    """Register widget in dictionary."""
     WIDGETS[widget.name] = widget
     return widget
 
 
 class Widget(object):
-    '''
-    Generic widget class.
-    '''
+    """Generic widget class."""
     name = None
     colors = ('grey', 'white', 'black')
     progress = {}
@@ -86,9 +82,7 @@ class Widget(object):
     order = 100
 
     def __init__(self, obj, color=None, lang=None):
-        '''
-        Creates Widget object.
-        '''
+        """Create Widget object."""
         # Get object and related params
         self.obj = obj
         self.percent = obj.get_translated_percent(lang)
@@ -106,25 +100,19 @@ class Widget(object):
         self.width = 0
 
     def get_color_name(self, color):
-        '''
-        Return color name based on allowed ones.
-        '''
+        """Return color name based on allowed ones."""
         if color not in self.colors:
             return self.colors[0]
         return color
 
     def get_line_width(self):
-        '''
-        Returns line width for current widget.
-        '''
+        """Return line width for current widget."""
         if self.color == 'black':
             return 0.8
         return 0.2
 
     def get_text_params(self):
-        '''
-        Creates dictionary used for text formatting.
-        '''
+        """Create dictionary used for text formatting."""
         return {
             'name': self.obj.name,
             'count': self.total,
@@ -133,9 +121,7 @@ class Widget(object):
         }
 
     def get_filename(self):
-        '''
-        Returns widgets filename.
-        '''
+        """Return widgets filename."""
         return os.path.join(
             os.path.dirname(__file__),
             'widget-images',
@@ -146,9 +132,7 @@ class Widget(object):
         )
 
     def render(self):
-        '''
-        Renders widget.
-        '''
+        """Render widget."""
         # PIL objects
         if self.alpha:
             mode = 'RGBA'
@@ -166,9 +150,7 @@ class Widget(object):
         self.render_texts()
 
     def render_progress(self):
-        '''
-        Renders progress bar.
-        '''
+        """Render progress bar."""
         # Filled bar
         if self.progress['horizontal']:
             self.draw.rectangle(
@@ -241,15 +223,11 @@ class Widget(object):
             offset += layout_size[1]
 
     def render_texts(self):
-        '''
-        Text rendering method to be overridden.
-        '''
+        """Text rendering method to be overridden."""
         raise NotImplementedError()
 
     def get_image(self):
-        '''
-        Returns PNG data.
-        '''
+        """Return PNG data."""
         out = BytesIO()
         if self.alpha:
             image = self.image
@@ -372,9 +350,7 @@ class ShieldsBadgeWidget(Widget):
         )
 
     def render_texts(self):
-        '''
-        Text rendering method to be overridden.
-        '''
+        """Text rendering method to be overridden."""
         raise Exception('Not supported')
 
 
@@ -426,9 +402,7 @@ class SVGBadgeWidget(Widget):
         return self.image
 
     def render_texts(self):
-        '''
-        Text rendering method to be overridden.
-        '''
+        """Text rendering method to be overridden."""
         raise Exception('Not supported')
 
 

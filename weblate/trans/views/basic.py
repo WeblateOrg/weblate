@@ -64,7 +64,7 @@ import weblate
 
 
 def get_suggestions(request, user, base):
-    """Returns suggested translations for user"""
+    """Return suggested translations for user"""
 
     # Grab all untranslated translations
     result = base.exclude(
@@ -110,8 +110,7 @@ def get_user_translations(user, project_ids):
 
 
 def home(request):
-    """
-    Home page of Weblate showing list of projects, stats
+    """Home page of Weblate showing list of projects, stats
     and user links if logged in.
     """
 
@@ -203,7 +202,7 @@ def home(request):
 
 
 def list_projects(request):
-    """Lists all projects"""
+    """List all projects"""
 
     return render(
         request,
@@ -216,9 +215,7 @@ def list_projects(request):
 
 
 def search(request, project=None, subproject=None, lang=None):
-    """
-    Performs site-wide search on units.
-    """
+    """Perform site-wide search on units."""
     search_form = SiteSearchForm(request.GET)
     context = {
         'search_form': search_form,
@@ -525,9 +522,7 @@ def show_translation(request, project, subproject, lang):
 
 
 def not_found(request):
-    """
-    Error handler showing list of available projects.
-    """
+    """Error handler showing list of available projects."""
     return render(
         request,
         '404.html',
@@ -540,9 +535,7 @@ def not_found(request):
 
 
 def denied(request):
-    """
-    Error handler showing list of available projects.
-    """
+    """Error handler showing list of available projects."""
     return render(
         request,
         '403.html',
@@ -555,9 +548,7 @@ def denied(request):
 
 
 def server_error(request):
-    """
-    Error handler for server errors.
-    """
+    """Error handler for server errors."""
     try:
         return render(
             request,
@@ -573,9 +564,7 @@ def server_error(request):
 
 
 def about(request):
-    """
-    Shows about page with version information.
-    """
+    """Show about page with version information."""
     context = {}
     context['title'] = _('About Weblate')
     context['versions'] = get_versions() + get_optional_versions()
@@ -588,7 +577,7 @@ def about(request):
 
 
 def stats(request):
-    """Various stats about Weblate"""
+    """View with Various stats about Weblate."""
 
     context = {}
 

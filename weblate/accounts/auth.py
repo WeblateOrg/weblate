@@ -60,10 +60,10 @@ class EmailAuth(social_core.backends.email.EmailAuth):
 
 
 class WeblateUserBackend(ModelBackend):
-    '''
-    Authentication backend which allows to control anonymous user
-    permissions and to login using email.
-    '''
+    """Weblate authentication backend.
+
+    It allows to control anonymous user permissions and to login using email.
+    """
     def get_all_permissions(self, user_obj, obj=None):
         if ((not user_obj.is_active and not user_obj.is_anonymous)
                 or obj is not None):
@@ -75,9 +75,9 @@ class WeblateUserBackend(ModelBackend):
         return user_obj._perm_cache
 
     def _get_permissions(self, user_obj, obj, from_name):
-        """
-        Returns the permissions of `user_obj` from `from_name`. `from_name` can
-        be either "group" or "user" to return permissions from
+        """Return the permissions of `user_obj` from `from_name`.
+
+        `from_name` can be either "group" or "user" to return permissions from
         `_get_group_permissions` or `_get_user_permissions` respectively.
         """
         if not user_obj.is_active and not user_obj.is_anonymous:
@@ -110,9 +110,7 @@ class WeblateUserBackend(ModelBackend):
         return Permission.objects.filter(group__in=user_groups)
 
     def authenticate(self, username=None, password=None, **kwargs):
-        '''
-        Prohibits login for anonymous user and allows to login by email.
-        '''
+        """Prohibit login for anonymous user and allows to login by email."""
         if username == settings.ANONYMOUS_USER_NAME or username is None:
             return None
 
@@ -128,9 +126,7 @@ class WeblateUserBackend(ModelBackend):
             return None
 
     def has_perm(self, user_obj, perm, obj=None):
-        '''
-        Allows checking permissions for anonymous user as well.
-        '''
+        """Allow checking permissions for anonymous user as well."""
         if not user_obj.is_active and not user_obj.is_anonymous:
             return False
         return perm in self.get_all_permissions(user_obj, obj)
@@ -138,9 +134,7 @@ class WeblateUserBackend(ModelBackend):
 
 @receiver(pre_save, sender=User)
 def disable_anon_user_password_save(sender, **kwargs):
-    '''
-    Blocks setting password for anonymous user.
-    '''
+    """Block setting password for anonymous user."""
     instance = kwargs['instance']
     if (instance.username == settings.ANONYMOUS_USER_NAME and
             instance.has_usable_password()):

@@ -28,9 +28,7 @@ from weblate.trans.models.unit import Unit
 
 
 def format_unit_match(unit, quality):
-    '''
-    Formats unit to translation service result.
-    '''
+    """Format unit to translation service result."""
     return (
         unit.get_target_plurals()[0],
         quality,
@@ -44,22 +42,16 @@ class WeblateBase(MachineTranslation):
     # pylint: disable=W0223
 
     def is_supported(self, source, language):
-        '''
-        Any language is supported.
-        '''
+        """Any language is supported."""
         return True
 
 
 class WeblateTranslation(WeblateBase):
-    '''
-    Translation service using strings already translated in Weblate.
-    '''
+    """Translation service using strings already translated in Weblate."""
     name = 'Weblate'
 
     def download_translations(self, source, language, text, unit, user):
-        '''
-        Downloads list of possible translations from a service.
-        '''
+        """Download list of possible translations from a service."""
         matching_units = Unit.objects.same_source(unit)
 
         return [
@@ -70,15 +62,11 @@ class WeblateTranslation(WeblateBase):
 
 
 class WeblateSimilarTranslation(WeblateBase):
-    '''
-    Translation service using strings already translated in Weblate.
-    '''
+    """Translation service using strings already translated in Weblate."""
     name = 'Weblate similarity'
 
     def download_translations(self, source, language, text, unit, user):
-        '''
-        Downloads list of possible translations from a service.
-        '''
+        """Download list of possible translations from a service."""
         matching_units = Unit.objects.more_like_this(unit)
 
         return [

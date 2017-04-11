@@ -29,7 +29,7 @@ from weblate.trans.util import translation_percent
 
 
 def get_per_language_stats(project):
-    """Calculates per language stats for project"""
+    """Calculate per language stats for project"""
     result = []
 
     # List languages
@@ -75,7 +75,7 @@ def get_per_language_stats(project):
 
 
 def get_project_stats(project):
-    """Returns stats for project"""
+    """Return stats for project"""
     return [
         {
             'language': force_text(tup[0]),

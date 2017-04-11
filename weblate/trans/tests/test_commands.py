@@ -18,9 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-"""
-Tests for management commands.
-"""
+"""Test for management commands."""
 
 from unittest import SkipTest
 
@@ -259,9 +257,7 @@ class ImportProjectTest(RepoTestCase):
         self.assertEqual(project.subproject_set.count(), 4)
 
     def test_import_against_existing(self):
-        '''
-        Test importing with a weblate:// URL
-        '''
+        """Test importing with a weblate:// URL"""
         android = self.create_android()
         project = android.project
         self.assertEqual(project.subproject_set.count(), 1)
@@ -276,9 +272,7 @@ class ImportProjectTest(RepoTestCase):
         self.assertEqual(project.subproject_set.count(), 5)
 
     def test_import_missing_project(self):
-        '''
-        Test of correct handling of missing project.
-        '''
+        """Test of correct handling of missing project."""
         self.assertRaises(
             CommandError,
             call_command,
@@ -290,9 +284,7 @@ class ImportProjectTest(RepoTestCase):
         )
 
     def test_import_missing_wildcard(self):
-        '''
-        Test of correct handling of missing wildcard.
-        '''
+        """Test of correct handling of missing wildcard."""
         self.create_project()
         self.assertRaises(
             CommandError,
@@ -305,9 +297,7 @@ class ImportProjectTest(RepoTestCase):
         )
 
     def test_import_wrong_vcs(self):
-        '''
-        Test of correct handling of wrong vcs.
-        '''
+        """Test of correct handling of wrong vcs."""
         self.create_project()
         self.assertRaises(
             CommandError,
@@ -451,10 +441,7 @@ class PeriodicCommandTest(RepoTestCase):
 
 
 class CheckGitTest(RepoTestCase):
-    '''
-    Base class for handling tests of WeblateCommand
-    based commands.
-    '''
+    """Base class for handling tests of WeblateCommand based commands."""
     command_name = 'checkgit'
     expected_string = 'On branch master'
 
@@ -562,9 +549,7 @@ class FixupFlagsTest(CheckGitTest):
 
 
 class ListTranslatorsTest(RepoTestCase):
-    '''
-    Test translators list
-    '''
+    """Test translators list"""
     def setUp(self):
         super(ListTranslatorsTest, self).setUp()
         self.create_subproject()
@@ -584,9 +569,7 @@ class ListTranslatorsTest(RepoTestCase):
 
 
 class LockingCommandTest(RepoTestCase):
-    '''
-    Test locking and unlocking.
-    '''
+    """Test locking and unlocking."""
     def setUp(self):
         super(LockingCommandTest, self).setUp()
         self.create_subproject()
@@ -619,9 +602,7 @@ class LockingCommandTest(RepoTestCase):
 
 
 class BenchmarkCommandTest(RepoTestCase):
-    '''
-    Benchmarking test.
-    '''
+    """Benchmarking test."""
     def setUp(self):
         super(BenchmarkCommandTest, self).setUp()
         self.create_subproject()
@@ -636,9 +617,7 @@ class BenchmarkCommandTest(RepoTestCase):
 
 
 class SuggestionCommandTest(RepoTestCase):
-    '''
-    Test suggestion addding.
-    '''
+    """Test suggestion addding."""
     def setUp(self):
         super(SuggestionCommandTest, self).setUp()
         self.subproject = self.create_subproject()
@@ -682,9 +661,7 @@ class SuggestionCommandTest(RepoTestCase):
 
 
 class ImportCommandTest(RepoTestCase):
-    '''
-    Import test.
-    '''
+    """Import test."""
     def setUp(self):
         super(ImportCommandTest, self).setUp()
         self.subproject = self.create_subproject()

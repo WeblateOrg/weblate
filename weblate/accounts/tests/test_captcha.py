@@ -71,9 +71,7 @@ class CaptchaTest(TestCase):
         )
 
     def test_generate(self):
-        '''
-        Test generating of captcha for every operator.
-        '''
+        """Test generating of captcha for every operator."""
         captcha = MathCaptcha()
         for operator in MathCaptcha.operators:
             captcha.operators = (operator,)

@@ -29,9 +29,7 @@ from weblate.trans.ssh import create_ssh_wrapper
 
 
 def get_root_dir():
-    '''
-    Returns Weblate root dir.
-    '''
+    """Return Weblate root dir."""
     curdir = os.path.dirname(os.path.abspath(__file__))
     return os.path.abspath(os.path.join(curdir, '..'))
 
@@ -56,9 +54,7 @@ except (RepositoryException, OSError):
 
 
 def get_doc_url(page, anchor=''):
-    '''
-    Return URL to documentation.
-    '''
+    """Return URL to documentation."""
     # Should we use tagged release or latest version
     if '-dev' in VERSION:
         version = 'latest'
@@ -74,9 +70,7 @@ def get_doc_url(page, anchor=''):
 
 
 def get_versions_list():
-    '''
-    Returns list with version information summary.
-    '''
+    """Return list with version information summary."""
     return (
         [('Weblate', '', GIT_VERSION)] +
         get_versions() +
@@ -85,9 +79,7 @@ def get_versions_list():
 
 
 def get_versions_string():
-    '''
-    Returns string with version information summary.
-    '''
+    """Return string with version information summary."""
     result = []
     for version in get_versions_list():
         result.append(

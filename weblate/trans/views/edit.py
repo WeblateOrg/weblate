@@ -61,9 +61,7 @@ from weblate.utils.hash import checksum_to_hash
 
 
 def cleanup_session(session):
-    '''
-    Deletes old search results from session storage.
-    '''
+    """Delete old search results from session storage."""
     now = int(time.time())
     keys = list(session.keys())
     for key in keys:
@@ -75,9 +73,7 @@ def cleanup_session(session):
 
 
 def search(translation, request):
-    '''
-    Performs search or returns cached search results.
-    '''
+    """Perform search or returns cached search results."""
 
     # Already performed search
     if 'sid' in request.GET:
@@ -181,9 +177,7 @@ def search(translation, request):
 
 
 def perform_suggestion(unit, form, request):
-    '''
-    Handle suggesion saving.
-    '''
+    """Handle suggesion saving."""
     if form.cleaned_data['target'][0] == '':
         messages.error(request, _('Your suggestion is empty!'))
         # Stay on same entry
@@ -221,9 +215,7 @@ def perform_suggestion(unit, form, request):
 
 
 def perform_translation(unit, form, request):
-    '''
-    Handles translation and stores it to a backend.
-    '''
+    """Handle translation and stores it to a backend."""
     # Remember old checks
     oldchecks = set(
         unit.active_checks().values_list('check', flat=True)
@@ -277,9 +269,7 @@ def perform_translation(unit, form, request):
 
 def handle_translate(translation, request, user_locked,
                      this_unit_url, next_unit_url):
-    '''
-    Saves translation or suggestion to database and backend.
-    '''
+    """Save translation or suggestion to database and backend."""
     # Antispam protection
     antispam = AntispamForm(request.POST)
     if not antispam.is_valid():
@@ -325,9 +315,7 @@ def handle_translate(translation, request, user_locked,
 
 
 def handle_merge(translation, request, next_unit_url):
-    '''
-    Handles unit merging.
-    '''
+    """Handle unit merging."""
     if not can_translate(request.user, translation):
         messages.error(
             request,
@@ -404,9 +392,7 @@ def handle_revert(translation, request, next_unit_url):
 
 
 def check_suggest_permissions(request, mode, translation, suggestion):
-    """
-    Checks permission for suggestion handling.
-    """
+    """Check permission for suggestion handling."""
     if mode in ('accept', 'accept_edit'):
         if not can_accept_suggestion(request.user, translation):
             messages.error(
@@ -432,9 +418,7 @@ def check_suggest_permissions(request, mode, translation, suggestion):
 
 
 def handle_suggestions(translation, request, this_unit_url, next_unit_url):
-    '''
-    Handles suggestion deleting/accepting.
-    '''
+    """Handle suggestion deleting/accepting."""
     sugid = ''
     params = ('accept', 'accept_edit', 'delete', 'upvote', 'downvote')
     redirect_url = this_unit_url
@@ -478,9 +462,7 @@ def handle_suggestions(translation, request, this_unit_url, next_unit_url):
 
 
 def translate(request, project, subproject, lang):
-    '''
-    Generic entry point for translating, suggesting and searching.
-    '''
+    """Generic entry point for translating, suggesting and searching."""
     translation = get_translation(request, project, subproject, lang)
 
     # Check locks
@@ -654,9 +636,7 @@ def auto_translation(request, project, subproject, lang):
 
 @login_required
 def comment(request, pk):
-    '''
-    Adds new comment.
-    '''
+    """Add new comment."""
     unit = get_object_or_404(Unit, pk=pk)
     check_access(request, unit.translation.subproject.project)
 
@@ -686,9 +666,7 @@ def comment(request, pk):
 @login_required
 @require_POST
 def delete_comment(request, pk):
-    """
-    Deletes comment.
-    """
+    """Delete comment."""
     comment_obj = get_object_or_404(Comment, pk=pk)
     check_access(request, comment_obj.project)
 
@@ -708,9 +686,7 @@ def delete_comment(request, pk):
 
 
 def get_zen_unitdata(translation, request):
-    '''
-    Loads unit data for zen mode.
-    '''
+    """Load unit data for zen mode."""
     # Search results
     search_result = search(translation, request)
 
@@ -755,9 +731,7 @@ def get_zen_unitdata(translation, request):
 
 
 def zen(request, project, subproject, lang):
-    '''
-    Generic entry point for translating, suggesting and searching.
-    '''
+    """Generic entry point for translating, suggesting and searching."""
     translation = get_translation(request, project, subproject, lang)
     search_result, unitdata = get_zen_unitdata(translation, request)
 
@@ -785,9 +759,7 @@ def zen(request, project, subproject, lang):
 
 
 def load_zen(request, project, subproject, lang):
-    '''
-    Loads additional units for zen editor.
-    '''
+    """Load additional units for zen editor."""
     translation = get_translation(request, project, subproject, lang)
     search_result, unitdata = get_zen_unitdata(translation, request)
 
@@ -811,9 +783,7 @@ def load_zen(request, project, subproject, lang):
 @login_required
 @require_POST
 def save_zen(request, project, subproject, lang):
-    '''
-    Save handler for zen mode.
-    '''
+    """Save handler for zen mode."""
     translation = get_translation(request, project, subproject, lang)
     user_locked = translation.is_user_locked(request.user)
 

@@ -18,9 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-"""
-Tests for ACL management.
-"""
+"""Test for ACL management."""
 
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User, Group
@@ -44,9 +42,7 @@ class ACLViewTest(ViewTestCase):
         )
 
     def add_acl(self):
-        """
-        Adds user to ACL.
-        """
+        """Add user to ACL."""
         self.project.add_user(self.user, '@Translate')
 
     def test_acl_denied(self):

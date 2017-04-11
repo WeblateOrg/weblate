@@ -37,9 +37,7 @@ from weblate.logger import LOGGER
 
 
 def notify_merge_failure(subproject, error, status):
-    '''
-    Notification on merge failure.
-    '''
+    """Notification on merge failure."""
     subscriptions = Profile.objects.subscribed_merge_failure(
         subproject.project,
     )
@@ -76,9 +74,7 @@ def notify_merge_failure(subproject, error, status):
 
 
 def notify_parse_error(subproject, translation, error, filename):
-    '''
-    Notification on parse error.
-    '''
+    """Notification on parse error."""
     subscriptions = Profile.objects.subscribed_merge_failure(
         subproject.project,
     )
@@ -120,9 +116,7 @@ def notify_parse_error(subproject, translation, error, filename):
 
 
 def notify_new_string(translation):
-    '''
-    Notification on new string to translate.
-    '''
+    """Notification on new string to translate."""
     mails = []
     subscriptions = Profile.objects.subscribed_new_string(
         translation.subproject.project, translation.language
@@ -136,9 +130,7 @@ def notify_new_string(translation):
 
 
 def notify_new_language(subproject, language, user):
-    '''
-    Notify subscribed users about new language requests
-    '''
+    """Notify subscribed users about new language requests"""
     mails = []
     subscriptions = Profile.objects.subscribed_new_language(
         subproject.project,
@@ -177,9 +169,7 @@ def notify_new_language(subproject, language, user):
 
 
 def notify_new_translation(unit, oldunit, user):
-    '''
-    Notify subscribed users about new translation
-    '''
+    """Notify subscribed users about new translation"""
     mails = []
     subscriptions = Profile.objects.subscribed_any_translation(
         unit.translation.subproject.project,
@@ -195,9 +185,7 @@ def notify_new_translation(unit, oldunit, user):
 
 
 def notify_new_contributor(unit, user):
-    '''
-    Notify about new contributor.
-    '''
+    """Notify about new contributor."""
     mails = []
     subscriptions = Profile.objects.subscribed_new_contributor(
         unit.translation.subproject.project,
@@ -216,9 +204,7 @@ def notify_new_contributor(unit, user):
 
 
 def notify_new_suggestion(unit, suggestion, user):
-    '''
-    Notify about new suggestion.
-    '''
+    """Notify about new suggestion."""
     mails = []
     subscriptions = Profile.objects.subscribed_new_suggestion(
         unit.translation.subproject.project,
@@ -239,9 +225,7 @@ def notify_new_suggestion(unit, suggestion, user):
 
 
 def notify_new_comment(unit, comment, user, report_source_bugs):
-    '''
-    Notify about new comment.
-    '''
+    """Notify about new comment."""
     mails = []
     subscriptions = Profile.objects.subscribed_new_comment(
         unit.translation.subproject.project,
@@ -274,9 +258,7 @@ def notify_new_comment(unit, comment, user, report_source_bugs):
 def get_notification_email(language, email, notification,
                            translation_obj=None, context=None, headers=None,
                            user=None, info=None):
-    '''
-    Renders notification email.
-    '''
+    """Render notification email."""
     cur_language = django_translation.get_language()
     context = context or {}
     headers = headers or {}
@@ -374,9 +356,7 @@ def get_notification_email(language, email, notification,
 def send_notification_email(language, email, notification,
                             translation_obj=None, context=None, headers=None,
                             user=None, info=None):
-    '''
-    Renders and sends notification email.
-    '''
+    """Render and sends notification email."""
     email = get_notification_email(
         language, email, notification, translation_obj, context, headers,
         user, info
@@ -386,9 +366,7 @@ def send_notification_email(language, email, notification,
 
 def send_user(profile, notification, subproject, display_obj,
               context=None, headers=None, user=None):
-    '''
-    Wrapper for sending notifications to user.
-    '''
+    """Wrapper for sending notifications to user."""
     if context is None:
         context = {}
     if headers is None:
@@ -409,9 +387,7 @@ def send_user(profile, notification, subproject, display_obj,
 
 
 def send_any_translation(profile, unit, oldunit):
-    '''
-    Sends notification on translation.
-    '''
+    """Send notification on translation."""
     if oldunit.translated:
         template = 'changed_translation'
     else:
@@ -429,9 +405,7 @@ def send_any_translation(profile, unit, oldunit):
 
 
 def send_new_language(profile, subproject, language, user):
-    '''
-    Sends notification on new language request.
-    '''
+    """Send notification on new language request."""
     return send_user(
         profile,
         'new_language',
@@ -446,9 +420,7 @@ def send_new_language(profile, subproject, language, user):
 
 
 def send_new_string(profile, translation):
-    '''
-    Sends notification on new strings to translate.
-    '''
+    """Send notification on new strings to translate."""
     return send_user(
         profile,
         'new_string',
@@ -458,9 +430,7 @@ def send_new_string(profile, translation):
 
 
 def send_new_suggestion(profile, translation, suggestion, unit):
-    '''
-    Sends notification on new suggestion.
-    '''
+    """Send notification on new suggestion."""
     return send_user(
         profile,
         'new_suggestion',
@@ -474,9 +444,7 @@ def send_new_suggestion(profile, translation, suggestion, unit):
 
 
 def send_new_contributor(profile, translation, user):
-    '''
-    Sends notification on new contributor.
-    '''
+    """Send notification on new contributor."""
     return send_user(
         profile,
         'new_contributor',
@@ -489,9 +457,7 @@ def send_new_contributor(profile, translation, user):
 
 
 def send_new_comment(profile, unit, comment, user):
-    '''
-    Sends notification about new comment.
-    '''
+    """Send notification about new comment."""
     return send_user(
         profile,
         'new_comment',
@@ -507,9 +473,7 @@ def send_new_comment(profile, unit, comment, user):
 
 
 def send_merge_failure(profile, subproject, error, status):
-    '''
-    Sends notification on merge failure.
-    '''
+    """Send notification on merge failure."""
     return send_user(
         profile,
         'merge_failure',
@@ -524,9 +488,7 @@ def send_merge_failure(profile, subproject, error, status):
 
 
 def send_parse_error(profile, subproject, translation, error, filename):
-    '''
-    Sends notification on parse error.
-    '''
+    """Send notification on parse error."""
     return send_user(
         profile,
         'parse_error',
@@ -542,7 +504,7 @@ def send_parse_error(profile, subproject, translation, error, filename):
 
 
 def send_mails(mails):
-    """Sends multiple mails in single connection."""
+    """Send multiple mails in single connection."""
     try:
         connection = get_connection()
         connection.send_messages(

@@ -48,9 +48,7 @@ from weblate.trans.views.helper import get_project, import_message
 
 
 def dict_title(prj, lang):
-    """
-    Returns dictionary title.
-    """
+    """Return dictionary title."""
     return _('%(language)s dictionary for %(project)s') % {
         'language': lang,
         'project': prj
@@ -188,9 +186,7 @@ def upload_dictionary(request, project, lang):
 
 
 def download_dictionary_ttkit(export_format, prj, lang, words):
-    '''
-    Translate-toolkit builder for dictionary downloads.
-    '''
+    """Translate-toolkit builder for dictionary downloads."""
     exporter = get_exporter(export_format)(
         prj, lang,
         get_site_url(reverse(
@@ -210,9 +206,7 @@ def download_dictionary_ttkit(export_format, prj, lang, words):
 
 
 def download_dictionary(request, project, lang):
-    '''
-    Exports dictionary into various formats.
-    '''
+    """Export dictionary into various formats."""
     prj = get_project(request, project)
     lang = get_object_or_404(Language, code=lang)
 

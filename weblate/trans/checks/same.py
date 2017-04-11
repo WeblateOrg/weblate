@@ -76,11 +76,10 @@ DB_TAGS = (
 
 
 def strip_format(msg, flags):
-    '''
-    Checks whether given string contains only format strings
+    """Check whether given string contains only format strings
     and possible punctation. These are quite often not changed
     by translators.
-    '''
+    """
     if 'python-format' in flags:
         regex = PYTHON_PRINTF_MATCH
     elif 'python-brace-format' in flags:
@@ -98,9 +97,7 @@ def strip_format(msg, flags):
 
 
 def strip_string(msg, flags):
-    '''
-    Strips (usually) not translated parts from the string.
-    '''
+    """Strip (usually) not translated parts from the string."""
     # Strip format strings
     stripped = strip_format(msg, flags)
 
@@ -127,25 +124,19 @@ def strip_string(msg, flags):
 
 
 def test_word(word):
-    '''
-    Test whether word should be ignored.
-    '''
+    """Test whether word should be ignored."""
     return len(word) <= 2 or word in SAME_BLACKLIST
 
 
 class SameCheck(TargetCheck):
-    '''
-    Check for not translated entries.
-    '''
+    """Check for not translated entries."""
     check_id = 'same'
     name = _('Unchanged translation')
     description = _('Source and translated strings are same')
     severity = 'warning'
 
     def should_ignore(self, source, unit):
-        '''
-        Check whether given unit should be ignored.
-        '''
+        """Check whether given unit should be ignored."""
         # Ignore some docbook tags
         if unit.comment.startswith('Tag: ') and unit.comment[5:] in DB_TAGS:
             return True

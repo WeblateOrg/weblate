@@ -17,9 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-'''
-Font handling wrapper.
-'''
+"""Font handling wrapper."""
 import os.path
 
 from django.conf import settings
@@ -673,16 +671,12 @@ FONT_CACHE = {}
 
 
 def is_base(text):
-    '''
-    Checks whether text should use CJK fonts.
-    '''
+    """Check whether text should use CJK fonts."""
     return min([ord(char) in BASE_CHARS for char in text])
 
 
 def get_font(size, bold=False, base_font=True):
-    '''
-    Returns PIL font object matching parameters.
-    '''
+    """Return PIL font object matching parameters."""
     cache_key = '{0:d}-{1}-{2}'.format(size, bold, base_font)
     if cache_key not in FONT_CACHE:
         if base_font:

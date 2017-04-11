@@ -18,9 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-"""
-Tests for AJAX/JS views.
-"""
+"""Test for AJAX/JS views."""
 
 from __future__ import unicode_literals
 
@@ -35,12 +33,10 @@ from weblate.trans.machine import MACHINE_TRANSLATION_SERVICES
 
 
 class JSViewsTest(ViewTestCase):
-    '''
-    Testing of AJAX/JS views.
-    '''
+    """Testing of AJAX/JS views."""
     @staticmethod
     def ensure_dummy_mt():
-        """Ensures we have dummy mt installed"""
+        """Ensure we have dummy mt installed"""
         if 'dummy' in MACHINE_TRANSLATION_SERVICES:
             return
         name = 'weblate.trans.machine.dummy.DummyTranslation'

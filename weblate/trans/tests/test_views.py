@@ -18,9 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-"""
-Tests for translation views.
-"""
+"""Test for translation views."""
 
 from xml.dom import minidom
 from io import BytesIO
@@ -42,9 +40,7 @@ from weblate.accounts.models import Profile
 
 
 class RegistrationTestMixin(object):
-    """
-    Helper to share code for registration testing.
-    """
+    """Helper to share code for registration testing."""
     def assert_registration_mailbox(self, match=None):
         if match is None:
             match = '[Weblate] Your registration on Weblate'
@@ -108,9 +104,7 @@ class ViewTestCase(RepoTestCase):
         self.subproject_url = self.subproject.get_absolute_url()
 
     def make_manager(self):
-        """
-        Makes user a Manager.
-        """
+        """Make user a Manager."""
         # Sitewide privileges
         self.user.groups.add(
             Group.objects.get(name='Managers')
@@ -119,9 +113,7 @@ class ViewTestCase(RepoTestCase):
         self.project.add_user(self.user, '@Administration')
 
     def get_request(self, *args, **kwargs):
-        '''
-        Wrapper to get fake request object.
-        '''
+        """Wrapper to get fake request object."""
         request = self.factory.get(*args, **kwargs)
         request.user = self.user
         setattr(request, 'session', 'session')
@@ -144,9 +136,7 @@ class ViewTestCase(RepoTestCase):
         unit.save_backend(self.get_request('/'))
 
     def edit_unit(self, source, target, **kwargs):
-        '''
-        Does edit single unit using web interface.
-        '''
+        """Doe edit single unit using web interface."""
         unit = self.get_unit(source)
         params = {
             'checksum': unit.checksum,
@@ -159,9 +149,7 @@ class ViewTestCase(RepoTestCase):
         )
 
     def assert_redirects_offset(self, response, exp_path, exp_offset):
-        '''
-        Asserts that offset in response matches expected one.
-        '''
+        """Assert that offset in response matches expected one."""
         self.assertEqual(response.status_code, 302)
 
         # We don't use all variables
@@ -177,32 +165,26 @@ class ViewTestCase(RepoTestCase):
         )
 
     def assert_png(self, response):
-        '''
-        Checks whether response contains valid PNG image.
-        '''
+        """Check whether response contains valid PNG image."""
         # Check response status code
         self.assertEqual(response.status_code, 200)
         self.assert_png_data(response.content)
 
     def assert_png_data(self, content):
-        """Checks whether data is PNG image"""
+        """Check whether data is PNG image"""
         # Try to load PNG with PIL
         image = Image.open(BytesIO(content))
         self.assertEqual(image.format, 'PNG')
 
     def assert_svg(self, response):
-        """
-        Checks whether response is a SVG image.
-        """
+        """Check whether response is a SVG image."""
         # Check response status code
         self.assertEqual(response.status_code, 200)
         dom = minidom.parseString(response.content)
         self.assertEqual(dom.firstChild.nodeName, 'svg')
 
     def assert_backend(self, expected_translated):
-        '''
-        Checks that backend has correct data.
-        '''
+        """Check that backend has correct data."""
         translation = self.get_translation()
         store = translation.subproject.file_format_cls(
             translation.get_filename(),
@@ -530,7 +512,7 @@ class BasicLinkViewTest(BasicViewTest):
 
 
 class HomeViewTest(ViewTestCase):
-    """Tests for home/inidex view."""
+    """Test for home/inidex view."""
     def test_view_home(self):
         response = self.client.get(reverse('home'))
         self.assertContains(response, 'Test/Test')

@@ -43,22 +43,16 @@ LANGUAGE_MAP = {
 
 
 class ApertiumAPYTranslation(MachineTranslation):
-    '''
-    Apertium machine translation support.
-    '''
+    """Apertium machine translation support."""
     name = 'Apertium APy'
 
     def __init__(self):
-        '''
-        Checks configuration.
-        '''
+        """Check configuration."""
         super(ApertiumAPYTranslation, self).__init__()
         self.url = self.get_server_url()
 
     def get_server_url(self):
-        '''
-        Returns URL of a server.
-        '''
+        """Return URL of a server."""
         if settings.MT_APERTIUM_APY is None:
             raise MissingConfiguration(
                 'Not configured Apertium APy URL'
@@ -76,9 +70,7 @@ class ApertiumAPYTranslation(MachineTranslation):
         )
 
     def convert_language(self, language):
-        '''
-        Converts language to service specific code.
-        '''
+        """Convert language to service specific code."""
         # Force download of supported languages
         language = language.replace('-', '_')
         if language not in self.all_langs and language in LANGUAGE_MAP:
@@ -86,9 +78,7 @@ class ApertiumAPYTranslation(MachineTranslation):
         return language
 
     def download_languages(self):
-        '''
-        Downloads list of supported languages from a service.
-        '''
+        """Download list of supported languages from a service."""
         data = self.json_status_req('{0}/listPairs'.format(self.url))
         return [
             (item['sourceLanguage'], item['targetLanguage'])
@@ -96,15 +86,11 @@ class ApertiumAPYTranslation(MachineTranslation):
         ]
 
     def is_supported(self, source, language):
-        '''
-        Checks whether given language combination is supported.
-        '''
+        """Check whether given language combination is supported."""
         return (source, language) in self.supported_languages
 
     def download_translations(self, source, language, text, unit, user):
-        '''
-        Downloads list of possible translations from Apertium.
-        '''
+        """Download list of possible translations from Apertium."""
         args = {
             'langpair': '{0}|{1}'.format(source, language),
             'q': text,
@@ -125,9 +111,7 @@ class ApertiumAPYTranslation(MachineTranslation):
 
 
 class ApertiumTranslation(ApertiumAPYTranslation):
-    '''
-    Apertium machine translation support.
-    '''
+    """Apertium machine translation support."""
     name = 'Apertium'
 
     def get_server_url(self):

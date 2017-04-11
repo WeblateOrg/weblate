@@ -28,7 +28,7 @@ class TranslationChecklist(list):
             self.add(name, label, count, level, words)
 
     def add(self, name, label, count, level, words=None):
-        """Adds item to the list"""
+        """Add item to the list"""
         if words is not None:
             self.append((name, label, count, level, words))
         else:

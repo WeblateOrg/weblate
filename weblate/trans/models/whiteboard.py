@@ -30,7 +30,7 @@ from weblate.lang.models import Language
 
 class WhiteboardManager(models.Manager):
     def context_filter(self, project=None, subproject=None, language=None):
-        """Filters whiteboard messages by context."""
+        """Filter whiteboard messages by context."""
         base = self.all()
 
         if language and project is None and subproject is None:

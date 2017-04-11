@@ -47,9 +47,7 @@ from weblate.utils.errors import report_error
 
 
 def avatar_for_email(email, size=80, skip_cache=False):
-    """
-    Generates url for avatar.
-    """
+    """Generate url for avatar."""
 
     # Safely handle blank email
     if email == '':
@@ -93,9 +91,7 @@ def avatar_for_email(email, size=80, skip_cache=False):
 
 
 def get_fallback_avatar_url(size):
-    """
-    Returns URL of fallback avatar.
-    """
+    """Return URL of fallback avatar."""
     return os.path.join(
         settings.STATIC_URL,
         'weblate-{0}.png'.format(size)
@@ -103,18 +99,14 @@ def get_fallback_avatar_url(size):
 
 
 def get_fallback_avatar(size):
-    """
-    Returns fallback avatar.
-    """
+    """Return fallback avatar."""
     filename = finders.find('weblate-{0}.png'.format(size))
     with open(filename, 'rb') as handle:
         return handle.read()
 
 
 def get_avatar_image(request, user, size):
-    """
-    Returns avatar image from cache (if available) or downloads it.
-    """
+    """Return avatar image from cache (if available) or download it."""
 
     cache_key = '-'.join((
         'avatar-img',
@@ -150,9 +142,7 @@ def get_avatar_image(request, user, size):
 
 
 def download_avatar_image(user, size):
-    """
-    Downloads avatar image from remote server.
-    """
+    """Download avatar image from remote server."""
     url = avatar_for_email(user.email, size)
     request = Request(url)
     request.timeout = 0.5
@@ -166,9 +156,7 @@ def download_avatar_image(user, size):
 
 
 def get_user_display(user, icon=True, link=False):
-    """
-    Nicely formats user for display.
-    """
+    """Nicely format user for display."""
     # Did we get any user?
     if user is None:
         # None user, probably remotely triggered action

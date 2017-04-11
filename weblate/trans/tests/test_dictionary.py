@@ -18,9 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-"""
-Tests for dictionary manipulations.
-"""
+"""Test for dictionary manipulations."""
 
 from __future__ import unicode_literals
 
@@ -37,9 +35,7 @@ TEST_PO = get_test_file('terms.po')
 
 
 class DictionaryTest(ViewTestCase):
-    '''
-    Testing of dictionary manipulations.
-    '''
+    """Testing of dictionary manipulations."""
 
     def get_url(self, url):
         return reverse(url, kwargs={
@@ -57,9 +53,7 @@ class DictionaryTest(ViewTestCase):
             )
 
     def test_import(self):
-        '''
-        Test for importing of TBX into glossary.
-        '''
+        """Test for importing of TBX into glossary."""
         show_url = self.get_url('show_dictionary')
 
         # Import file
@@ -134,9 +128,7 @@ class DictionaryTest(ViewTestCase):
         self.assertEqual(Dictionary.objects.count(), 164)
 
     def test_edit(self):
-        '''
-        Test for manually adding words to glossary.
-        '''
+        """Test for manually adding words to glossary."""
         show_url = self.get_url('show_dictionary')
         edit_url = self.get_url('edit_dictionary')
         delete_url = self.get_url('delete_dictionary')
@@ -183,9 +175,7 @@ class DictionaryTest(ViewTestCase):
         self.assertEqual(Dictionary.objects.count(), 0)
 
     def test_download_csv(self):
-        '''
-        Test for downloading CVS file.
-        '''
+        """Test for downloading CVS file."""
         # Import test data
         self.import_file(TEST_TBX)
 
@@ -199,9 +189,7 @@ class DictionaryTest(ViewTestCase):
         )
 
     def test_download_tbx(self):
-        '''
-        Test for downloading TBX file.
-        '''
+        """Test for downloading TBX file."""
         # Import test data
         self.import_file(TEST_TBX)
 
@@ -219,9 +207,7 @@ class DictionaryTest(ViewTestCase):
         )
 
     def test_download_xliff(self):
-        '''
-        Test for downloading XLIFF file.
-        '''
+        """Test for downloading XLIFF file."""
         # Import test data
         self.import_file(TEST_TBX)
 
@@ -239,9 +225,7 @@ class DictionaryTest(ViewTestCase):
         )
 
     def test_download_po(self):
-        '''
-        Test for downloading PO file.
-        '''
+        """Test for downloading PO file."""
         # Import test data
         self.import_file(TEST_TBX)
 
@@ -255,9 +239,7 @@ class DictionaryTest(ViewTestCase):
         )
 
     def test_list(self):
-        '''
-        Test for listing dictionaries.
-        '''
+        """Test for listing dictionaries."""
         self.import_file(TEST_TBX)
 
         # List dictionaries

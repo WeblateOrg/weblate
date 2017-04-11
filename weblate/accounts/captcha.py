@@ -17,9 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-"""
-Simple mathematical captcha.
-"""
+"""Simple mathematical captcha."""
 
 from __future__ import unicode_literals
 
@@ -43,9 +41,7 @@ OPERATORS = {
 
 
 class MathCaptcha(object):
-    '''
-    Simple match captcha object.
-    '''
+    """Simple match captcha object."""
     operators = ('+', '-', '*')
     operators_display = {
         '+': '<i class="fa fa-plus"></i>',
@@ -65,9 +61,7 @@ class MathCaptcha(object):
             self.timestamp = timestamp
 
     def generate_question(self):
-        '''
-        Generates random question.
-        '''
+        """Generate random question."""
         generator = SystemRandom()
         operation = generator.choice(self.operators)
         first = generator.randint(self.interval[0], self.interval[1])
@@ -85,23 +79,17 @@ class MathCaptcha(object):
 
     @staticmethod
     def from_hash(hashed):
-        '''
-        Creates object from hash.
-        '''
+        """Create object from hash."""
         question, timestamp = unhash_question(hashed)
         return MathCaptcha(question, timestamp)
 
     @property
     def hashed(self):
-        '''
-        Returns hashed question.
-        '''
+        """Return hashed question."""
         return hash_question(self.question, self.timestamp)
 
     def validate(self, answer):
-        '''
-        Validates answer.
-        '''
+        """Validate answer."""
         return (
             self.result == answer and
             self.timestamp + TIMEDELTA > time.time()
@@ -109,16 +97,12 @@ class MathCaptcha(object):
 
     @property
     def result(self):
-        '''
-        Returns result.
-        '''
+        """Return result."""
         return eval_expr(self.question)
 
     @property
     def display(self):
-        '''
-        Gets unicode for display.
-        '''
+        """Get unicode for display."""
         parts = self.question.split()
         return ' '.join((
             parts[0],
@@ -128,25 +112,19 @@ class MathCaptcha(object):
 
 
 def format_timestamp(timestamp):
-    '''
-    Formats timestamp in a form usable in captcha.
-    '''
+    """Format timestamp in a form usable in captcha."""
     return '{0:>010x}'.format(int(timestamp))
 
 
 def checksum_question(question, timestamp):
-    '''
-    Returns checksum for a question.
-    '''
+    """Return checksum for a question."""
     challenge = ''.join((settings.SECRET_KEY, question, timestamp))
     sha = hashlib.sha1(challenge.encode('utf-8'))
     return sha.hexdigest()
 
 
 def hash_question(question, timestamp):
-    '''
-    Hashes question so that it can be later verified.
-    '''
+    """Hashe question so that it can be later verified."""
     timestamp = format_timestamp(timestamp)
     hexsha = checksum_question(question, timestamp)
     return ''.join((
@@ -157,9 +135,7 @@ def hash_question(question, timestamp):
 
 
 def unhash_question(question):
-    '''
-    Unhashes question, verifying its content.
-    '''
+    """Unhashe question, verifying its content."""
     if len(question) < 40:
         raise ValueError('Invalid data')
     hexsha = question[:40]
@@ -174,8 +150,7 @@ def unhash_question(question):
 
 
 def eval_expr(expr):
-    """
-    Evaluates arithmetic expression used in Captcha.
+    """Evaluate arithmetic expression used in Captcha.
 
     >>> eval_expr('2+6')
     8
@@ -186,9 +161,7 @@ def eval_expr(expr):
 
 
 def eval_node(node):
-    """
-    Evaluates single AST node.
-    """
+    """Evaluate single AST node."""
     if isinstance(node, ast.Num):
         # number
         return node.n

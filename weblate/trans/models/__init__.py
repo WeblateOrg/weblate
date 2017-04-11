@@ -67,9 +67,7 @@ __all__ = [
 @receiver(post_delete, sender=Project)
 @receiver(post_delete, sender=SubProject)
 def delete_object_dir(sender, instance, **kwargs):
-    """
-    Handler to delete (sub)project directory on project deletion.
-    """
+    """Handler to delete (sub)project directory on project deletion."""
     # Do not delete linked subprojects
     if hasattr(instance, 'is_repo_link') and instance.is_repo_link:
         return
@@ -84,9 +82,7 @@ def delete_object_dir(sender, instance, **kwargs):
 @receiver(post_save, sender=Source)
 @disable_for_loaddata
 def update_source(sender, instance, **kwargs):
-    """
-    Updates unit priority or checks based on source change.
-    """
+    """Update unit priority or checks based on source change."""
     related_units = Unit.objects.filter(
         id_hash=instance.id_hash,
         translation__subproject=instance.subproject,
@@ -103,9 +99,7 @@ def update_source(sender, instance, **kwargs):
 
 
 def get_related_units(unitdata):
-    '''
-    Returns queryset with related units.
-    '''
+    """Return queryset with related units."""
     related_units = Unit.objects.filter(
         content_hash=unitdata.content_hash,
         translation__subproject__project=unitdata.project,
@@ -124,9 +118,7 @@ def get_related_units(unitdata):
 @receiver(post_save, sender=Check)
 @disable_for_loaddata
 def update_failed_check_flag(sender, instance, **kwargs):
-    """
-    Update related unit failed check flag.
-    """
+    """Update related unit failed check flag."""
     if instance.language is None:
         return
     related = get_related_units(instance)
@@ -140,9 +132,7 @@ def update_failed_check_flag(sender, instance, **kwargs):
 @receiver(post_save, sender=Comment)
 @disable_for_loaddata
 def update_comment_flag(sender, instance, **kwargs):
-    """
-    Update related unit comment flags
-    """
+    """Update related unit comment flags"""
     for unit in get_related_units(instance):
         # Update unit stats
         unit.update_has_comment()
@@ -156,9 +146,7 @@ def update_comment_flag(sender, instance, **kwargs):
 @receiver(post_save, sender=Suggestion)
 @disable_for_loaddata
 def update_suggestion_flag(sender, instance, **kwargs):
-    """
-    Update related unit suggestion flags
-    """
+    """Update related unit suggestion flags"""
     for unit in get_related_units(instance):
         # Update unit stats
         unit.update_has_suggestion()

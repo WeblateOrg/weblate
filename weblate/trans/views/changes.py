@@ -38,9 +38,7 @@ from weblate.permissions.helpers import can_download_changes
 
 
 class ChangesView(ListView):
-    '''
-    Browser for changes.
-    '''
+    """Browser for changes."""
     paginate_by = 20
 
     def __init__(self, **kwargs):
@@ -53,9 +51,7 @@ class ChangesView(ListView):
         self.glossary = False
 
     def get_context_data(self, **kwargs):
-        '''
-        Creates context for rendering page.
-        '''
+        """Create context for rendering page."""
         context = super(ChangesView, self).get_context_data(
             **kwargs
         )
@@ -132,9 +128,7 @@ class ChangesView(ListView):
         return context
 
     def _get_queryset_project(self):
-        """
-        Filtering by translation/project.
-        """
+        """Filtering by translation/project."""
         if 'project' in self.request.GET:
             try:
                 self.project, self.subproject, self.translation = \
@@ -151,9 +145,7 @@ class ChangesView(ListView):
                 )
 
     def _get_queryset_language(self):
-        """
-        Filtering by language
-        """
+        """Filtering by language"""
         if self.translation is None and 'lang' in self.request.GET:
             try:
                 self.language = Language.objects.get(
@@ -166,9 +158,7 @@ class ChangesView(ListView):
                 )
 
     def _get_queryset_user(self):
-        """
-        Filtering by user
-        """
+        """Filtering by user"""
         if 'user' in self.request.GET:
             try:
                 self.user = User.objects.get(
@@ -181,9 +171,7 @@ class ChangesView(ListView):
                 )
 
     def get_queryset(self):
-        '''
-        Returns list of changes to browse.
-        '''
+        """Return list of changes to browse."""
         self._get_queryset_project()
 
         self._get_queryset_language()

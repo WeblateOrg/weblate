@@ -18,9 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-"""
-Tests for check views.
-"""
+"""Test for check views."""
 
 from __future__ import unicode_literals
 
@@ -30,9 +28,7 @@ from weblate.trans.tests.test_views import ViewTestCase
 
 
 class ChecksViewTest(ViewTestCase):
-    '''
-    Testing of check views.
-    '''
+    """Testing of check views."""
     def test_browse(self):
         response = self.client.get(reverse('checks'))
         self.assertContains(response, '/same/')

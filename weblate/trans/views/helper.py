@@ -17,9 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-'''
-Helper methods for views.
-'''
+"""Helper methods for views."""
 
 from django.http import HttpResponse, Http404
 from django.shortcuts import get_object_or_404
@@ -33,9 +31,7 @@ from weblate.trans.models import Project, SubProject, Translation
 
 
 def get_translation(request, project, subproject, lang, skip_acl=False):
-    '''
-    Returns translation matching parameters.
-    '''
+    """Return translation matching parameters."""
     translation = get_object_or_404(
         Translation.objects.prefetch(),
         language__code=lang,
@@ -49,9 +45,7 @@ def get_translation(request, project, subproject, lang, skip_acl=False):
 
 
 def get_subproject(request, project, subproject, skip_acl=False):
-    '''
-    Returns subproject matching parameters.
-    '''
+    """Return subproject matching parameters."""
     subproject = get_object_or_404(
         SubProject.objects.prefetch(),
         project__slug=project,
@@ -63,9 +57,7 @@ def get_subproject(request, project, subproject, skip_acl=False):
 
 
 def get_project(request, project, skip_acl=False):
-    '''
-    Returns project matching parameters.
-    '''
+    """Return project matching parameters."""
     project = get_object_or_404(
         Project,
         slug=project,
@@ -76,9 +68,7 @@ def get_project(request, project, skip_acl=False):
 
 
 def get_project_translation(request, project=None, subproject=None, lang=None):
-    '''
-    Returns project, subproject, translation tuple for given parameters.
-    '''
+    """Return project, subproject, translation tuple for given parameters."""
 
     if lang is not None and subproject is not None:
         # Language defined? We can get all
@@ -100,9 +90,7 @@ def get_project_translation(request, project=None, subproject=None, lang=None):
 
 
 def try_set_language(lang):
-    '''
-    Tries to activate language
-    '''
+    """Try to activate language"""
 
     try:
         django.utils.translation.activate(lang)
@@ -162,9 +150,7 @@ def download_translation_file(translation, fmt=None):
 
 
 def show_form_errors(request, form):
-    '''
-    Shows all form errors as a message.
-    '''
+    """Show all form errors as a message."""
     for error in form.non_field_errors():
         messages.error(request, error)
     for field in form:

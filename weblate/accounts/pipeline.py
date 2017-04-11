@@ -74,9 +74,7 @@ def get_github_email(access_token):
 @partial
 def require_email(strategy, backend, details, user=None, is_new=False,
                   **kwargs):
-    '''
-    Forces entering email for backends which don't provide it.
-    '''
+    """Force entering email for backends which don't provide it."""
 
     if backend.name == 'github':
         email = get_github_email(kwargs['response']['access_token'])
@@ -95,9 +93,7 @@ def require_email(strategy, backend, details, user=None, is_new=False,
 
 
 def send_validation(strategy, backend, code):
-    '''
-    Sends verification email.
-    '''
+    """Send verification email."""
 
     # We need to have existing session
     if not strategy.request.session.session_key:
@@ -126,9 +122,7 @@ def send_validation(strategy, backend, code):
 
 
 def password_reset(strategy, details, user=None, **kwargs):
-    """
-    Sets unusable password on reset.
-    """
+    """Set unusable password on reset."""
     if (strategy.request is not None and
             user is not None and
             strategy.request.GET.get('type', '') == 'reset'):
@@ -137,9 +131,7 @@ def password_reset(strategy, details, user=None, **kwargs):
 
 
 def verify_open(strategy, backend, user=None, **kwargs):
-    '''
-    Checks whether it is possible to create new user.
-    '''
+    """Check whether it is possible to create new user."""
 
     if not user and not settings.REGISTRATION_OPEN:
         raise AuthException(backend, _('New registrations are disabled!'))
@@ -161,9 +153,7 @@ def verify_username(strategy, backend, details, user=None, **kwargs):
 
 
 def store_email(strategy, backend, user, social, details, **kwargs):
-    '''
-    Stores verified email.
-    '''
+    """Store verified email."""
     if 'email' not in details or details['email'] is None:
         raise AuthMissingParameter(backend, 'email')
     verified, dummy = VerifiedEmail.objects.get_or_create(social=social)
@@ -173,9 +163,7 @@ def store_email(strategy, backend, user, social, details, **kwargs):
 
 
 def user_full_name(strategy, details, user=None, **kwargs):
-    """
-    Update user full name using data from provider.
-    """
+    """Update user full name using data from provider."""
     if user:
         full_name = details.get('fullname', '').strip()
 

@@ -17,28 +17,20 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-'''
-Machine translation example.
-'''
+"""Machine translation example."""
 
 from weblate.trans.machine.base import MachineTranslation
 import dictionary
 
 
 class SampleTranslation(MachineTranslation):
-    '''
-    Sample machine translation interface.
-    '''
+    """Sample machine translation interface."""
     name = 'Sample'
 
     def download_languages(self):
-        '''
-        Returns list of languages your machine translation supports.
-        '''
+        """Return list of languages your machine translation supports."""
         return set(('cs',))
 
     def download_translations(self, source, language, text, unit, user):
-        '''
-        Returns tuple with translations.
-        '''
+        """Return tuple with translations."""
         return [(t, 100, self.name, text) for t in dictionary.translate(text)]

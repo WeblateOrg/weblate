@@ -89,9 +89,7 @@ class UserSitemap(WeblateSitemap):
 
 
 class EngageSitemap(ProjectSitemap):
-    '''
-    Wrapper around ProjectSitemap to point to engage page.
-    '''
+    """Wrapper around ProjectSitemap to point to engage page."""
     priority = 1.0
 
     def location(self, obj):
@@ -99,15 +97,11 @@ class EngageSitemap(ProjectSitemap):
 
 
 class EngageLangSitemap(Sitemap):
-    '''
-    Wrapper to generate sitemap for all per language engage pages.
-    '''
+    """Wrapper to generate sitemap for all per language engage pages."""
     priority = 0.9
 
     def items(self):
-        '''
-        Return list of existing project, langauge tuples.
-        '''
+        """Return list of existing project, langauge tuples."""
         ret = []
         for project in Project.objects.filter(enable_acl=False):
             for lang in project.get_languages():

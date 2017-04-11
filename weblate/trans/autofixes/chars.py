@@ -59,9 +59,7 @@ CONTROLCHARS = (
 
 
 class ReplaceTrailingDotsWithEllipsis(AutoFix):
-    '''
-    Replace Trailing Dots with an Ellipsis.
-    '''
+    """Replace Trailing Dots with an Ellipsis."""
 
     fix_id = 'end-ellipsis'
     name = _('Trailing ellipsis')
@@ -73,9 +71,7 @@ class ReplaceTrailingDotsWithEllipsis(AutoFix):
 
 
 class RemoveZeroSpace(AutoFix):
-    '''
-    Remove zero width space if there is none in the source.
-    '''
+    """Remove zero width space if there is none in the source."""
 
     fix_id = 'zero-width-space'
     name = _('Zero-width space')
@@ -89,9 +85,7 @@ class RemoveZeroSpace(AutoFix):
 
 
 class RemoveControlChars(AutoFix):
-    '''
-    Remove control chars from the string.
-    '''
+    """Remove control chars from the string."""
 
     fix_id = 'control-chars'
     name = _('Control chars')

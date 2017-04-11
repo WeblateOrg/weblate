@@ -63,7 +63,7 @@ class ScriptTest(RepoTestCase):
         )
 
     def assert_content(self, subproject):
-        """Checks file content and cleans it."""
+        """Check file content and cleans it."""
         with open(self.output.name, 'r') as handle:
             data = handle.read()
             self.assertIn(subproject.get_path(), data)

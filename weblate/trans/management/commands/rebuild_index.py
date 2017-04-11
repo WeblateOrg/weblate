@@ -48,7 +48,7 @@ class Command(WeblateCommand):
         )
 
     def optimize_index(self):
-        """Optimizes index structures"""
+        """Optimize index structures"""
         index = get_source_index()
         index.optimize()
         languages = Language.objects.have_translation()

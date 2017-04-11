@@ -32,10 +32,9 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        '''
-        Creates default set of languages, optionally updating them
+        """Create default set of languages, optionally updating them
         to match current shipped definitions.
-        '''
+        """
         errors = Language.objects.check_definitions(options['test-file'])
         for error in errors:
             self.stderr.write(error)

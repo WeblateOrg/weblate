@@ -17,9 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-"""
-Minimal distributed version control system abstraction for Weblate needs.
-"""
+"""Minimal distributed version control system abstraction for Weblate needs."""
 from __future__ import unicode_literals
 # For some reasons, this fails in PyLint sometimes...
 # pylint: disable=E0611,F0401
@@ -53,9 +51,7 @@ VCS_CHOICES = []
 
 
 def register_vcs(vcs):
-    """
-    Registers VCS if it's supported.
-    """
+    """Register VCS if it's supported."""
     if vcs.is_supported():
         key = vcs.name.lower()
         VCS_REGISTRY[key] = vcs
@@ -66,9 +62,7 @@ def register_vcs(vcs):
 
 
 class RepositoryException(Exception):
-    """
-    Error while working with a repository.
-    """
+    """Error while working with a repository."""
     def __init__(self, retcode, stderr, stdout):
         super(RepositoryException, self).__init__(stderr or stdout)
         self.retcode = retcode
@@ -89,9 +83,7 @@ class RepositoryException(Exception):
 
 
 class Repository(object):
-    """
-    Basic repository object.
-    """
+    """Basic repository object."""
     _last_revision = None
     _last_remote_revision = None
     _cmd = 'false'
@@ -128,27 +120,19 @@ class Repository(object):
         return LOGGER.debug('weblate: %s: %s', cls._cmd, message)
 
     def check_config(self):
-        """
-        Checks VCS configuration.
-        """
+        """Check VCS configuration."""
         raise NotImplementedError()
 
     def is_valid(self):
-        '''
-        Checks whether this is a valid repository.
-        '''
+        """Check whether this is a valid repository."""
         raise NotImplementedError()
 
     def init(self):
-        '''
-        Initializes the repository.
-        '''
+        """Initialize the repository."""
         raise NotImplementedError()
 
     def resolve_symlinks(self, path):
-        """
-        Resolves any symlinks in the path.
-        """
+        """Resolve any symlinks in the path."""
         # Resolve symlinks first
         real_path = path_separator(
             os.path.realpath(os.path.join(self.path, path))
@@ -164,14 +148,12 @@ class Repository(object):
 
     @staticmethod
     def _getenv():
-        """Generates environment for process execution."""
+        """Generate environment for process execution."""
         return get_clean_env({'GIT_SSH': ssh_file(SSH_WRAPPER)})
 
     @classmethod
     def _popen(cls, args, cwd=None, err=False):
-        '''
-        Executes the command using popen.
-        '''
+        """Execute the command using popen."""
         if args is None:
             raise RepositoryException(0, 'Not supported functionality', '')
         args = [cls._cmd] + args
@@ -202,9 +184,7 @@ class Repository(object):
         return output.decode('utf-8')
 
     def execute(self, args, needs_lock=True):
-        '''
-        Executes command and caches its output.
-        '''
+        """Execute command and caches its output."""
         if needs_lock and not self.lock.is_locked:
             raise RuntimeWarning('Repository operation without lock held!')
         self.last_output = self._popen(args, self.path)
@@ -212,9 +192,7 @@ class Repository(object):
 
     @property
     def last_revision(self):
-        '''
-        Returns last local revision.
-        '''
+        """Return last local revision."""
         if self._last_revision is None:
             self._last_revision = self.execute(
                 self._cmd_last_revision,
@@ -224,9 +202,7 @@ class Repository(object):
 
     @property
     def last_remote_revision(self):
-        '''
-        Returns last remote revision.
-        '''
+        """Return last remote revision."""
         if self._last_remote_revision is None:
             self._last_remote_revision = self.execute(
                 self._cmd_last_remote_revision,
@@ -236,91 +212,66 @@ class Repository(object):
 
     @classmethod
     def _clone(cls, source, target, branch=None):
-        """
-        Clones repository.
-        """
+        """Clone repository."""
         raise NotImplementedError()
 
     @classmethod
     def clone(cls, source, target, branch=None):
-        """
-        Clones repository and returns Repository object for cloned
-        repository.
-        """
+        """Clone repository and return object for cloned repository."""
         cls._clone(source, target, branch)
         return cls(target, branch)
 
     def update_remote(self):
-        """
-        Updates remote repository.
-        """
+        """Update remote repository."""
         self.execute(self._cmd_update_remote)
         self._last_remote_revision = None
 
     def status(self):
-        """
-        Returns status of the repository.
-        """
+        """Return status of the repository."""
         return self.execute(
             self._cmd_status,
             needs_lock=False
         )
 
     def push(self):
-        """
-        Pushes given branch to remote repository.
-        """
+        """Push given branch to remote repository."""
         self.execute(self._cmd_push + [self.branch])
 
     def reset(self):
-        """
-        Resets working copy to match remote branch.
-        """
+        """Reset working copy to match remote branch."""
         raise NotImplementedError()
 
     def merge(self, abort=False):
-        """
-        Merges remote branch or reverts the merge.
-        """
+        """Merge remote branch or reverts the merge."""
         raise NotImplementedError()
 
     def rebase(self, abort=False):
-        """
-        Rebases working copy on top of remote branch.
-        """
+        """Rebase working copy on top of remote branch."""
         raise NotImplementedError()
 
     def needs_commit(self, filename=None):
-        """
-        Checks whether repository needs commit.
-        """
+        """Check whether repository needs commit."""
         raise NotImplementedError()
 
     def needs_merge(self):
-        """
-        Checks whether repository needs merge with upstream
+        """Check whether repository needs merge with upstream
         (is missing some revisions).
         """
         raise NotImplementedError()
 
     def needs_push(self):
-        """
-        Checks whether repository needs push to upstream
+        """Check whether repository needs push to upstream
         (has additional revisions).
         """
         raise NotImplementedError()
 
     def get_revision_info(self, revision):
-        """
-        Returns dictionary with detailed revision information.
-        """
+        """Return dictionary with detailed revision information."""
         raise NotImplementedError()
 
     @classmethod
     def is_supported(cls):
-        """
-        Checks whether this VCS backend is supported.
-        """
+        """Check whether this VCS backend is supported."""
         if cls._is_supported is not None:
             return cls._is_supported
         try:
@@ -345,42 +296,30 @@ class Repository(object):
 
     @classmethod
     def get_version(cls):
-        """
-        Cached getting of version.
-        """
+        """Cached getting of version."""
         if cls._version is None:
             cls._version = cls._get_version()
         return cls._version
 
     @classmethod
     def _get_version(cls):
-        """
-        Returns VCS program version.
-        """
+        """Return VCS program version."""
         return cls._popen(['--version'])
 
     def set_committer(self, name, mail):
-        """
-        Configures commiter name.
-        """
+        """Configure commiter name."""
         raise NotImplementedError()
 
     def commit(self, message, author=None, timestamp=None, files=None):
-        """
-        Creates new revision.
-        """
+        """Create new revision."""
         raise NotImplementedError()
 
     def remove(self, files, message, author=None):
-        """
-        Removes files and creates new revision.
-        """
+        """Remove files and creates new revision."""
         raise NotImplementedError()
 
     def get_object_hash(self, path):
-        """
-        Returns hash of object in the VCS in a way compatible with Git.
-        """
+        """Return hash of object in the VCS in a way compatible with Git."""
         real_path = os.path.join(
             self.path,
             self.resolve_symlinks(path)
@@ -395,21 +334,15 @@ class Repository(object):
         return objhash.hexdigest()
 
     def configure_remote(self, pull_url, push_url, branch):
-        """
-        Configure remote repository.
-        """
+        """Configure remote repository."""
         raise NotImplementedError()
 
     def configure_branch(self, branch):
-        """
-        Configure repository branch.
-        """
+        """Configure repository branch."""
         raise NotImplementedError()
 
     def describe(self):
-        """
-        Verbosely describes current revision.
-        """
+        """Verbosely describes current revision."""
         raise NotImplementedError()
 
     @staticmethod
@@ -432,9 +365,7 @@ class Repository(object):
 
 @register_vcs
 class GitRepository(Repository):
-    """
-    Repository implementation for Git.
-    """
+    """Repository implementation for Git."""
     _cmd = 'git'
     _cmd_last_revision = [
         'log', '-n', '1', '--format=format:%H', 'HEAD'
@@ -449,89 +380,66 @@ class GitRepository(Repository):
     default_branch = 'master'
 
     def is_valid(self):
-        '''
-        Checks whether this is a valid repository.
-        '''
+        """Check whether this is a valid repository."""
         return (
             os.path.exists(os.path.join(self.path, '.git', 'config')) or
             os.path.exists(os.path.join(self.path, 'config'))
         )
 
     def init(self):
-        '''
-        Initializes the repository.
-        '''
+        """Initialize the repository."""
         self._popen(['init', self.path])
 
     def check_config(self):
-        """
-        Checks VCS configuration.
-        """
+        """Check VCS configuration."""
         # We directly set config as it takes same time as reading it
         self.set_config('push.default', 'current')
 
     @classmethod
     def _clone(cls, source, target, branch=None):
-        """
-        Clones repository and returns Repository object for cloned
-        repository.
-        """
+        """Clone repository."""
         cls._popen(['clone', source, target])
 
     def get_config(self, path):
-        """
-        Reads entry from configuration.
-        """
+        """Read entry from configuration."""
         return self.execute(
             ['config', path],
             needs_lock=False
         ).strip()
 
     def set_config(self, path, value):
-        """
-        Set entry in local configuration.
-        """
+        """Set entry in local configuration."""
         self.execute(
             ['config', path, value.encode('utf-8')],
             needs_lock=False
         )
 
     def set_committer(self, name, mail):
-        """
-        Configures commiter name.
-        """
+        """Configure commiter name."""
         self.set_config('user.name', name)
         self.set_config('user.email', mail)
 
     def reset(self):
-        """
-        Resets working copy to match remote branch.
-        """
+        """Reset working copy to match remote branch."""
         self.execute(['reset', '--hard', 'origin/{0}'.format(self.branch)])
         self._last_revision = None
 
     def rebase(self, abort=False):
-        """
-        Rebases working copy on top of remote branch.
-        """
+        """Rebase working copy on top of remote branch."""
         if abort:
             self.execute(['rebase', '--abort'])
         else:
             self.execute(['rebase', 'origin/{0}'.format(self.branch)])
 
     def merge(self, abort=False):
-        """
-        Merges remote branch or reverts the merge.
-        """
+        """Merge remote branch or reverts the merge."""
         if abort:
             self.execute(['merge', '--abort'])
         else:
             self.execute(['merge', 'origin/{0}'.format(self.branch)])
 
     def needs_commit(self, filename=None):
-        """
-        Checks whether repository needs commit.
-        """
+        """Check whether repository needs commit."""
         if filename is None:
             cmd = ['status', '--porcelain']
         else:
@@ -540,9 +448,7 @@ class GitRepository(Repository):
         return status != ''
 
     def get_revision_info(self, revision):
-        """
-        Returns dictionary with detailed revision information.
-        """
+        """Return dictionary with detailed revision information."""
         text = self.execute(
             [
                 'log',
@@ -590,17 +496,14 @@ class GitRepository(Repository):
         return result
 
     def _log_revisions(self, refspec):
-        """
-        Returns revisin log for given refspec.
-        """
+        """Return revisin log for given refspec."""
         return self.execute(
             ['log', '--oneline', refspec, '--'],
             needs_lock=False
         )
 
     def needs_merge(self):
-        """
-        Checks whether repository needs merge with upstream
+        """Check whether repository needs merge with upstream
         (is missing some revisions).
         """
         return self._log_revisions(
@@ -608,8 +511,7 @@ class GitRepository(Repository):
         ) != ''
 
     def needs_push(self):
-        """
-        Checks whether repository needs push to upstream
+        """Check whether repository needs push to upstream
         (has additional revisions).
         """
         return self._log_revisions(
@@ -618,15 +520,11 @@ class GitRepository(Repository):
 
     @classmethod
     def _get_version(cls):
-        """
-        Returns VCS program version.
-        """
+        """Return VCS program version."""
         return cls._popen(['--version']).split()[-1]
 
     def commit(self, message, author=None, timestamp=None, files=None):
-        """
-        Creates new revision.
-        """
+        """Create new revision."""
         # Add files
         if files is not None:
             self.execute(['add', '--force', '--'] + files)
@@ -646,16 +544,12 @@ class GitRepository(Repository):
         self._last_revision = None
 
     def remove(self, files, message, author=None):
-        """
-        Removes files and creates new revision.
-        """
+        """Remove files and creates new revision."""
         self.execute(['rm', '--force', '--'] + files)
         self.commit(message, author)
 
     def get_object_hash(self, path):
-        """
-        Returns hash of object in the VCS.
-        """
+        """Return hash of object in the VCS."""
         real_path = self.resolve_symlinks(path)
 
         git_hash = self.execute(
@@ -669,9 +563,7 @@ class GitRepository(Repository):
         return git_hash.split()[2]
 
     def configure_remote(self, pull_url, push_url, branch):
-        """
-        Configure remote repository.
-        """
+        """Configure remote repository."""
         old_pull = None
         old_push = None
         # Parse existing remotes
@@ -713,9 +605,7 @@ class GitRepository(Repository):
         self.branch = branch
 
     def configure_branch(self, branch):
-        """
-        Configure repository branch.
-        """
+        """Configure repository branch."""
         # Get List of current branches in local repository
         # (we get additional * there indicating current branch)
         branches = self.execute(['branch']).splitlines()
@@ -739,9 +629,7 @@ class GitRepository(Repository):
         self.branch = branch
 
     def describe(self):
-        """
-        Verbosely describes current revision.
-        """
+        """Verbosely describes current revision."""
         return self.execute(
             ['describe', '--always'],
             needs_lock=False
@@ -749,7 +637,7 @@ class GitRepository(Repository):
 
     @classmethod
     def global_setup(cls):
-        """Performs global settings"""
+        """Perform global settings"""
         merge_driver = cls.get_merge_driver('po')
         if merge_driver is not None:
             cls._popen([
@@ -774,9 +662,7 @@ class GitWithGerritRepository(GitRepository):
 
     @classmethod
     def _get_version(cls):
-        """
-        Returns VCS program version.
-        """
+        """Return VCS program version."""
         return cls._popen(['review', '--version'], err=True).split()[-1]
 
     def push(self):
@@ -802,15 +688,11 @@ class SubversionRepository(GitRepository):
 
     @classmethod
     def _get_version(cls):
-        """
-        Returns VCS program version.
-        """
+        """Return VCS program version."""
         return cls._popen(['svn', '--version']).split()[2]
 
     def configure_remote(self, pull_url, push_url, branch):
-        '''
-        Initializes the git-svn repository.
-        '''
+        """Initialize the git-svn repository."""
         try:
             oldurl = self.get_config('svn-remote.svn.url')
         except RepositoryException:
@@ -823,23 +705,17 @@ class SubversionRepository(GitRepository):
 
     @classmethod
     def _clone(cls, source, target, branch=None):
-        """
-        Clones svn repository with git-svn and returns
-        Repository object for cloned repository.
-        """
+        """Clone svn repository with git-svn."""
         cls._popen([
             'svn', 'clone', '-s', '--prefix=origin/', source, target
         ])
 
     def merge(self, abort=False):
-        """
-        Rebases. Git-svn does not support merge.
-        """
+        """Rebases. Git-svn does not support merge."""
         self.rebase(abort)
 
     def rebase(self, abort=False):
-        """
-        Rebases remote branch or reverts the rebase.
+        """Rebase remote branch or reverts the rebase.
         Git-svn does not support merge.
         """
         if abort:
@@ -848,8 +724,7 @@ class SubversionRepository(GitRepository):
             self.execute(['svn', 'rebase'])
 
     def needs_merge(self):
-        """
-        Checks whether repository needs merge with upstream
+        """Check whether repository needs merge with upstream
         (is missing some revisions).
         """
         return self._log_revisions(
@@ -857,8 +732,7 @@ class SubversionRepository(GitRepository):
         ) != ''
 
     def needs_push(self):
-        """
-        Checks whether repository needs push to upstream
+        """Check whether repository needs push to upstream
         (has additional revisions).
         """
         return self._log_revisions(
@@ -866,17 +740,13 @@ class SubversionRepository(GitRepository):
         ) != ''
 
     def reset(self):
-        """
-        Resets working copy to match remote branch.
-        """
+        """Reset working copy to match remote branch."""
         self.execute(['reset', '--hard', self.get_remote_branch_name()])
         self._last_revision = None
 
     @property
     def last_remote_revision(self):
-        '''
-        Returns last remote revision.
-        '''
+        """Return last remote revision."""
         if self._last_remote_revision is None:
             self._last_remote_revision = self.execute(
                 [
@@ -888,10 +758,9 @@ class SubversionRepository(GitRepository):
         return self._last_remote_revision
 
     def get_remote_branch_name(self):
-        '''
-        Returns the remote branch name: trunk if local branch is master,
+        """Return the remote branch name: trunk if local branch is master,
         local branch otherwise.
-        '''
+        """
         if self.branch == 'master':
             return 'origin/trunk'
         else:
@@ -915,7 +784,7 @@ class GithubRepository(GitRepository):
 
     @staticmethod
     def _getenv():
-        """Generates environment for process execution."""
+        """Generate environment for process execution."""
         env = {'GIT_SSH': ssh_file(SSH_WRAPPER)}
 
         # Add path to config if it exists
@@ -926,8 +795,7 @@ class GithubRepository(GitRepository):
         return get_clean_env(env)
 
     def create_pull_request(self, origin_branch, fork_branch):
-        """
-        Creates pull request to merge branch in forked repository into
+        """Create pull request to merge branch in forked repository into
         branch of remote repository.
         """
         cmd = [
@@ -940,22 +808,17 @@ class GithubRepository(GitRepository):
         self.execute(cmd)
 
     def push_to_fork(self, local_branch, fork_branch):
-        """
-        Pushes given local branch to branch in forked repository.
-        """
+        """Push given local branch to branch in forked repository."""
         self.execute(self._cmd_push + ['{0}:{1}'.format(local_branch,
                                                         fork_branch)])
 
     def fork(self):
-        """
-        Creates fork of original repository if one doesn't exist yet.
-        """
+        """Create fork of original repository if one doesn't exist yet."""
         if self._hub_user not in self.execute(['remote']).splitlines():
             self.execute(['fork'])
 
     def push(self):
-        """
-        Forks repository on Github, pushes changes to *-weblate branch
+        """Fork repository on Github, pushes changes to *-weblate branch
         on fork and creates pull request against original repository.
         """
         self.fork()
@@ -983,9 +846,7 @@ class GithubRepository(GitRepository):
 
 @register_vcs
 class HgRepository(Repository):
-    """
-    Repository implementation for Mercurial.
-    """
+    """Repository implementation for Mercurial."""
     _cmd = 'hg'
     _cmd_last_revision = [
         'log', '--limit', '1', '--template', '{node}'
@@ -1001,36 +862,25 @@ class HgRepository(Repository):
     VERSION_RE = re.compile(r'.*\(version ([^)]*)\).*')
 
     def is_valid(self):
-        '''
-        Checks whether this is a valid repository.
-        '''
+        """Check whether this is a valid repository."""
         return os.path.exists(os.path.join(self.path, '.hg', 'requires'))
 
     def init(self):
-        '''
-        Initializes the repository.
-        '''
+        """Initialize the repository."""
         self._popen(['init', self.path])
 
     def check_config(self):
-        """
-        Checks VCS configuration.
-        """
+        """Check VCS configuration."""
         # We directly set config as it takes same time as reading it
         self.set_config('ui.ssh', ssh_file(SSH_WRAPPER))
 
     @classmethod
     def _clone(cls, source, target, branch=None):
-        """
-        Clones repository and returns Repository object for cloned
-        repository.
-        """
+        """Clone repository."""
         cls._popen(['clone', source, target])
 
     def get_config(self, path):
-        """
-        Reads entry from configuration.
-        """
+        """Read entry from configuration."""
         result = None
         section, option = path.split('.', 1)
         filename = os.path.join(self.path, '.hg', 'hgrc')
@@ -1043,9 +893,7 @@ class HgRepository(Repository):
         return result
 
     def set_config(self, path, value):
-        """
-        Set entry in local configuration.
-        """
+        """Set entry in local configuration."""
         section, option = path.split('.', 1)
         filename = os.path.join(self.path, '.hg', 'hgrc')
         if six.PY2:
@@ -1064,18 +912,14 @@ class HgRepository(Repository):
             config.write(handle)
 
     def set_committer(self, name, mail):
-        """
-        Configures commiter name.
-        """
+        """Configure commiter name."""
         self.set_config(
             'ui.username',
             '{0} <{1}>'.format(name, mail)
         )
 
     def reset(self):
-        """
-        Resets working copy to match remote branch.
-        """
+        """Reset working copy to match remote branch."""
         self.set_config('extensions.strip', '')
         self.execute(['update', '--clean', 'remote(.)'])
         if self.needs_push():
@@ -1083,9 +927,7 @@ class HgRepository(Repository):
         self._last_revision = None
 
     def configure_merge(self):
-        """
-        Select the correct merge tool
-        """
+        """Select the correct merge tool"""
         self.set_config('ui.merge', 'internal:merge')
         merge_driver = self.get_merge_driver('po')
         if merge_driver is not None:
@@ -1099,9 +941,7 @@ class HgRepository(Repository):
             )
 
     def rebase(self, abort=False):
-        """
-        Rebases working copy on top of remote branch.
-        """
+        """Rebase working copy on top of remote branch."""
         self.set_config('extensions.rebase', '')
         if abort:
             self.execute(['rebase', '--abort'])
@@ -1125,9 +965,7 @@ class HgRepository(Repository):
                     raise
 
     def merge(self, abort=False):
-        """
-        Merges remote branch or reverts the merge.
-        """
+        """Merge remote branch or reverts the merge."""
         if abort:
             self.execute(['update', '--clean', '.'])
         elif self.needs_merge():
@@ -1146,9 +984,7 @@ class HgRepository(Repository):
                 self.execute(['commit', '--message', 'Merge'])
 
     def needs_commit(self, filename=None):
-        """
-        Checks whether repository needs commit.
-        """
+        """Check whether repository needs commit."""
         if filename is None:
             cmd = ['status']
         else:
@@ -1157,9 +993,7 @@ class HgRepository(Repository):
         return status != ''
 
     def get_revision_info(self, revision):
-        """
-        Returns dictionary with detailed revision information.
-        """
+        """Return dictionary with detailed revision information."""
         template = '''
         author_name: {person(author)}
         author_email: {email(author)}
@@ -1214,8 +1048,7 @@ class HgRepository(Repository):
         return result
 
     def needs_ff(self):
-        """
-        Checks whether repository needs a fast-forward to upstream
+        """Check whether repository needs a fast-forward to upstream
         (the path to the upstream is linear).
         """
         return self.execute(
@@ -1224,8 +1057,7 @@ class HgRepository(Repository):
         ) != ''
 
     def needs_merge(self):
-        """
-        Checks whether repository needs merge with upstream
+        """Check whether repository needs merge with upstream
         (has multiple heads or not up-to-date).
         """
         return self.execute(
@@ -1234,8 +1066,7 @@ class HgRepository(Repository):
         ) != ''
 
     def needs_push(self):
-        """
-        Checks whether repository needs push to upstream
+        """Check whether repository needs push to upstream
         (has additional revisions).
         """
         return self.execute(
@@ -1245,9 +1076,7 @@ class HgRepository(Repository):
 
     @classmethod
     def _get_version(cls):
-        """
-        Returns VCS program version.
-        """
+        """Return VCS program version."""
         output = cls._popen(['version', '-q'])
         matches = cls.VERSION_RE.match(output)
         if matches is None:
@@ -1255,9 +1084,7 @@ class HgRepository(Repository):
         return matches.group(1)
 
     def commit(self, message, author=None, timestamp=None, files=None):
-        """
-        Creates new revision.
-        """
+        """Create new revision."""
         # Build the commit command
         cmd = [
             'commit',
@@ -1282,16 +1109,12 @@ class HgRepository(Repository):
         self._last_revision = None
 
     def remove(self, files, message, author=None):
-        """
-        Removes files and creates new revision.
-        """
+        """Remove files and creates new revision."""
         self.execute(['remove', '--force', '--'] + files)
         self.commit(message, author)
 
     def configure_remote(self, pull_url, push_url, branch):
-        """
-        Configure remote repository.
-        """
+        """Configure remote repository."""
         old_pull = self.get_config('paths.default')
         old_push = self.get_config('paths.default-push')
 
@@ -1311,16 +1134,12 @@ class HgRepository(Repository):
         self.branch = branch
 
     def configure_branch(self, branch):
-        """
-        Configure repository branch.
-        """
+        """Configure repository branch."""
         self.execute(['update', branch])
         self.branch = branch
 
     def describe(self):
-        """
-        Verbosely describes current revision.
-        """
+        """Verbosely describes current revision."""
         return self.execute(
             [
                 'log',
@@ -1331,9 +1150,7 @@ class HgRepository(Repository):
         ).strip()
 
     def push(self):
-        """
-        Pushes given branch to remote repository.
-        """
+        """Push given branch to remote repository."""
         try:
             self.execute(['push', '-r', '.'])
         except RepositoryException as error:

@@ -18,9 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-"""
-Tests for translation models.
-"""
+"""Test for translation models."""
 
 from __future__ import print_function
 
@@ -44,17 +42,13 @@ from weblate.trans.tests.utils import get_test_file, RepoTestMixin
 
 
 class RepoTestCase(TestCase, RepoTestMixin):
-    """
-    Generic class for tests working with repositories.
-    """
+    """Generic class for tests working with repositories."""
     def setUp(self):
         self.clone_test_repos()
 
 
 class ProjectTest(RepoTestCase):
-    """
-    Project object testing.
-    """
+    """Project object testing."""
 
     def test_create(self):
         project = self.create_project()
@@ -98,9 +92,7 @@ class ProjectTest(RepoTestCase):
             )
 
     def test_acl(self):
-        """
-        Test for ACL handling.
-        """
+        """Test for ACL handling."""
         # Create user to verify ACL
         user = User.objects.create_user(
             'testuser',
@@ -129,9 +121,7 @@ class ProjectTest(RepoTestCase):
 
 
 class TranslationTest(RepoTestCase):
-    """
-    Translation testing.
-    """
+    """Translation testing."""
     def test_basic(self):
         project = self.create_subproject()
         translation = project.translation_set.get(language_code='cs')
@@ -140,9 +130,7 @@ class TranslationTest(RepoTestCase):
         self.assertEqual(translation.fuzzy, 0)
 
     def test_extra_file(self):
-        """
-        Test extra commit file handling.
-        """
+        """Test extra commit file handling."""
         subproject = self.create_subproject()
         subproject.pre_commit_script = get_test_file('hook-generate-mo')
         weblate.trans.models.subproject.PRE_COMMIT_SCRIPT_CHOICES.append(
@@ -171,17 +159,13 @@ class TranslationTest(RepoTestCase):
         self.assertFalse(translation.repo_needs_commit())
 
     def test_validation(self):
-        """
-        Translation validation
-        """
+        """Translation validation"""
         project = self.create_subproject()
         translation = project.translation_set.get(language_code='cs')
         translation.full_clean()
 
     def test_update_stats(self):
-        """
-        Check update stats with no units.
-        """
+        """Check update stats with no units."""
         project = self.create_subproject()
         translation = project.translation_set.get(language_code='cs')
         translation.update_stats()
@@ -254,9 +238,7 @@ class ModelTestCase(RepoTestCase):
 
 
 class SourceTest(ModelTestCase):
-    """
-    Source objects testing.
-    """
+    """Source objects testing."""
     def test_exists(self):
         self.assertTrue(Source.objects.exists())
 
@@ -274,9 +256,7 @@ class SourceTest(ModelTestCase):
         self.assertEqual(unit2.priority, 200)
 
     def test_check_flags(self):
-        """
-        Setting of Source check_flags changes checks for related units.
-        """
+        """Setting of Source check_flags changes checks for related units."""
         self.assertEqual(Check.objects.count(), 3)
         check = Check.objects.all()[0]
         unit = get_related_units(check)[0]

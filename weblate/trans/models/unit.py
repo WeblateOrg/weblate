@@ -116,9 +116,7 @@ class UnitManager(models.Manager):
         return dbunit, created
 
     def filter_checks(self, rqtype, translation, ignored=False):
-        """
-        Filtering for checks.
-        """
+        """Filtering for checks."""
 
         # Filter checks for current project
         checks = Check.objects.filter(
@@ -157,9 +155,7 @@ class UnitManager(models.Manager):
         return ret
 
     def filter_type(self, rqtype, translation, ignored=False):
-        """
-        Basic filtering based on unit state or failed checks.
-        """
+        """Basic filtering based on unit state or failed checks."""
         if rqtype in SIMPLE_FILTERS:
             return self.filter(**SIMPLE_FILTERS[rqtype])
         elif rqtype == 'random':
@@ -183,9 +179,7 @@ class UnitManager(models.Manager):
             return self.all()
 
     def count_type(self, rqtype, translation):
-        """
-        Cached counting of failing checks (and other stats).
-        """
+        """Cached counting of failing checks (and other stats)."""
         # Try to get value from cache
         cache_key = 'counts-{0}-{1}-{2}'.format(
             translation.subproject.get_full_slug(),
@@ -204,9 +198,7 @@ class UnitManager(models.Manager):
         return ret
 
     def review(self, date, user):
-        """
-        Returns units touched by other users since given time.
-        """
+        """Return units touched by other users since given time."""
         if user.is_anonymous:
             return self.none()
         try:
@@ -229,9 +221,7 @@ class UnitManager(models.Manager):
         )
 
     def search(self, translation, params):
-        """
-        High level wrapper for searching.
-        """
+        """High level wrapper for searching."""
         base = self.prefetch()
         if params['type'] != 'all':
             base = self.filter_type(
@@ -281,9 +271,7 @@ class UnitManager(models.Manager):
         return result
 
     def same_source(self, unit):
-        """
-        Finds units with same source.
-        """
+        """Find units with same source."""
         pks = fulltext_search(
             unit.get_source_plurals()[0],
             unit.translation.language.code,
@@ -299,9 +287,7 @@ class UnitManager(models.Manager):
         )
 
     def more_like_this(self, unit, top=5):
-        """
-        Finds closely similar units.
-        """
+        """Find closely similar units."""
         if settings.MT_WEBLATE_LIMIT >= 0:
             queue = multiprocessing.Queue()
             proc = multiprocessing.Process(
@@ -335,9 +321,7 @@ class UnitManager(models.Manager):
         )
 
     def same(self, unit, exclude=True):
-        """
-        Units with same source within same project.
-        """
+        """Unit with same source within same project."""
         project = unit.translation.subproject.project
         result = self.prefetch().filter(
             content_hash=unit.content_hash,
@@ -407,9 +391,7 @@ class Unit(models.Model, LoggerMixin):
         unique_together = ('translation', 'id_hash')
 
     def __init__(self, *args, **kwargs):
-        """
-        Constructor to initialize some cache properties.
-        """
+        """Constructor to initialize some cache properties."""
         super(Unit, self).__init__(*args, **kwargs)
         self._all_flags = None
         self._source_info = None
@@ -453,9 +435,7 @@ class Unit(models.Model, LoggerMixin):
         return translated, unit.is_fuzzy()
 
     def update_from_unit(self, unit, pos, created):
-        """
-        Updates Unit from ttkit unit.
-        """
+        """Update Unit from ttkit unit."""
         # Get unit attributes
         location = unit.get_locations()
         flags = unit.get_flags()
@@ -549,21 +529,15 @@ class Unit(models.Model, LoggerMixin):
             self.update_has_suggestion(update_stats=False)
 
     def is_plural(self):
-        """
-        Checks whether message is plural.
-        """
+        """Check whether message is plural."""
         return is_plural(self.source) or is_plural(self.target)
 
     def get_source_plurals(self):
-        """
-        Returns source plurals in array.
-        """
+        """Return source plurals in array."""
         return split_plural(self.source)
 
     def get_target_plurals(self):
-        """
-        Returns target plurals in array.
-        """
+        """Return target plurals in array."""
         # Is this plural?
         if not self.is_plural():
             return [self.target]
@@ -587,9 +561,7 @@ class Unit(models.Model, LoggerMixin):
         return ret
 
     def propagate(self, request, change_action=None):
-        """
-        Propagates current translation to all others.
-        """
+        """Propagate current translation to all others."""
         allunits = Unit.objects.same(self).filter(
             translation__subproject__allow_translation_propagation=True
         )
@@ -711,7 +683,7 @@ class Unit(models.Model, LoggerMixin):
         return True
 
     def update_source_units(self, previous_source):
-        """Updates source for units withing same component.
+        """Update source for units withing same component.
 
         This is needed when editing template translation for monolingual
         formats.
@@ -756,9 +728,7 @@ class Unit(models.Model, LoggerMixin):
             unit.translation.update_stats()
 
     def generate_change(self, request, author, oldunit, change_action):
-        """
-        Creates Change entry for saving unit.
-        """
+        """Create Change entry for saving unit."""
         # Notify about new contributor
         user_changes = Change.objects.filter(
             translation=self.translation,
@@ -828,9 +798,7 @@ class Unit(models.Model, LoggerMixin):
             update_index_unit(self, force_insert)
 
     def suggestions(self):
-        """
-        Returns all suggestions for this unit.
-        """
+        """Return all suggestions for this unit."""
         if self._suggestions is None:
             self._suggestions = Suggestion.objects.filter(
                 content_hash=self.content_hash,
@@ -840,9 +808,7 @@ class Unit(models.Model, LoggerMixin):
         return self._suggestions
 
     def cleanup_checks(self, source, target):
-        """
-        Cleanups listed source and target checks.
-        """
+        """Cleanup listed source and target checks."""
         if len(source) == 0 and len(target) == 0:
             return False
         todelete = Check.objects.filter(
@@ -858,9 +824,7 @@ class Unit(models.Model, LoggerMixin):
         return False
 
     def checks(self):
-        """
-        Returns all checks for this unit (even ignored).
-        """
+        """Return all checks for this unit (even ignored)."""
         return Check.objects.filter(
             content_hash=self.content_hash,
             project=self.translation.subproject.project,
@@ -868,9 +832,7 @@ class Unit(models.Model, LoggerMixin):
         )
 
     def source_checks(self):
-        """
-        Returns all source checks for this unit (even ignored).
-        """
+        """Return all source checks for this unit (even ignored)."""
         return Check.objects.filter(
             content_hash=self.content_hash,
             project=self.translation.subproject.project,
@@ -878,9 +840,7 @@ class Unit(models.Model, LoggerMixin):
         )
 
     def active_checks(self):
-        """
-        Returns all active (not ignored) checks for this unit.
-        """
+        """Return all active (not ignored) checks for this unit."""
         return Check.objects.filter(
             content_hash=self.content_hash,
             project=self.translation.subproject.project,
@@ -889,9 +849,7 @@ class Unit(models.Model, LoggerMixin):
         )
 
     def active_source_checks(self):
-        """
-        Returns all active (not ignored) source checks for this unit.
-        """
+        """Return all active (not ignored) source checks for this unit."""
         return Check.objects.filter(
             content_hash=self.content_hash,
             project=self.translation.subproject.project,
@@ -900,9 +858,7 @@ class Unit(models.Model, LoggerMixin):
         )
 
     def get_comments(self):
-        """
-        Returns list of target comments.
-        """
+        """Return list of target comments."""
         return Comment.objects.filter(
             content_hash=self.content_hash,
             project=self.translation.subproject.project,
@@ -911,9 +867,7 @@ class Unit(models.Model, LoggerMixin):
         )
 
     def get_source_comments(self):
-        """
-        Returns list of target comments.
-        """
+        """Return list of target comments."""
         return Comment.objects.filter(
             content_hash=self.content_hash,
             project=self.translation.subproject.project,
@@ -968,9 +922,7 @@ class Unit(models.Model, LoggerMixin):
         return checks_to_run, cleanup_checks
 
     def run_checks(self, same_state=True, same_content=True, is_new=False):
-        """
-        Updates checks for this unit.
-        """
+        """Update checks for this unit."""
         was_change = False
 
         checks_to_run, cleanup_checks = self.get_checks_to_run(
@@ -1031,9 +983,7 @@ class Unit(models.Model, LoggerMixin):
             self.update_has_failing_check(was_change)
 
     def update_has_failing_check(self, recurse=False, update_stats=True):
-        """
-        Updates flag counting failing checks.
-        """
+        """Update flag counting failing checks."""
         has_failing_check = self.translated and self.active_checks().exists()
 
         # Change attribute if it has changed
@@ -1055,9 +1005,7 @@ class Unit(models.Model, LoggerMixin):
                 unit.update_has_failing_check(False)
 
     def update_has_suggestion(self, update_stats=True):
-        """
-        Updates flag counting suggestions.
-        """
+        """Update flag counting suggestions."""
         has_suggestion = len(self.suggestions()) > 0
         if has_suggestion != self.has_suggestion:
             self.has_suggestion = has_suggestion
@@ -1068,9 +1016,7 @@ class Unit(models.Model, LoggerMixin):
                 self.translation.update_stats()
 
     def update_has_comment(self, update_stats=True):
-        """
-        Updates flag counting comments.
-        """
+        """Update flag counting comments."""
         has_comment = len(self.get_comments()) > 0
         if has_comment != self.has_comment:
             self.has_comment = has_comment
@@ -1081,9 +1027,7 @@ class Unit(models.Model, LoggerMixin):
                 self.translation.update_stats()
 
     def nearby(self):
-        """
-        Returns list of nearby messages based on location.
-        """
+        """Return list of nearby messages based on location."""
         return Unit.objects.prefetch().filter(
             translation=self.translation,
             position__gte=self.position - settings.NEARBY_MESSAGES,
@@ -1092,9 +1036,7 @@ class Unit(models.Model, LoggerMixin):
 
     def translate(self, request, new_target, new_fuzzy, change_action=None,
                   propagate=True):
-        """
-        Stores new translation of a unit.
-        """
+        """Store new translation of a unit."""
         # Update unit and save it
         self.target = join_plural(new_target)
         self.fuzzy = new_fuzzy
@@ -1108,9 +1050,7 @@ class Unit(models.Model, LoggerMixin):
 
     @property
     def all_flags(self):
-        """
-        Returns union of own and subproject flags.
-        """
+        """Return union of own and subproject flags."""
         if self._all_flags is None:
             self._all_flags = set(
                 self.flags.split(',') +
@@ -1122,9 +1062,7 @@ class Unit(models.Model, LoggerMixin):
 
     @property
     def source_info(self):
-        """
-        Returns related source string object.
-        """
+        """Return related source string object."""
         if self._source_info is None:
             self._source_info = Source.objects.get(
                 id_hash=self.id_hash,
@@ -1133,9 +1071,7 @@ class Unit(models.Model, LoggerMixin):
         return self._source_info
 
     def get_secondary_units(self, user):
-        '''
-        Returns list of secondary units.
-        '''
+        """Return list of secondary units."""
         secondary_langs = user.profile.secondary_languages.exclude(
             id=self.translation.language.id
         )

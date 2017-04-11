@@ -39,9 +39,7 @@ from weblate.utils.errors import report_error
 
 
 def execute_locked(request, obj, message, call, *args, **kwargs):
-    """
-    Helper function to catch possible lock exception.
-    """
+    """Helper function to catch possible lock exception."""
     try:
         result = call(*args, **kwargs)
         # With False the call is supposed to show errors on its own
@@ -60,9 +58,7 @@ def execute_locked(request, obj, message, call, *args, **kwargs):
 
 
 def perform_commit(request, obj):
-    """
-    Helper function to do the repository commmit.
-    """
+    """Helper function to do the repository commmit."""
     return execute_locked(
         request,
         obj,
@@ -73,9 +69,7 @@ def perform_commit(request, obj):
 
 
 def perform_update(request, obj):
-    """
-    Helper function to do the repository update.
-    """
+    """Helper function to do the repository update."""
     return execute_locked(
         request,
         obj,
@@ -87,9 +81,7 @@ def perform_update(request, obj):
 
 
 def perform_push(request, obj):
-    """
-    Helper function to do the repository push.
-    """
+    """Helper function to do the repository push."""
     return execute_locked(
         request,
         obj,
@@ -100,9 +92,7 @@ def perform_push(request, obj):
 
 
 def perform_reset(request, obj):
-    """
-    Helper function to do the repository reset.
-    """
+    """Helper function to do the repository reset."""
     return execute_locked(
         request,
         obj,

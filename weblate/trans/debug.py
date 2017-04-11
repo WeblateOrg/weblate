@@ -17,9 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-'''
-Wrapper to include useful information in error mails.
-'''
+"""Wrapper to include useful information in error mails."""
 
 from django.views.debug import SafeExceptionReporterFilter
 from weblate import get_versions_list

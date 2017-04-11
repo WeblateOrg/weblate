@@ -89,8 +89,6 @@ class Check(models.Model):
         return ''
 
     def set_ignore(self):
-        '''
-        Sets ignore flag.
-        '''
+        """Set ignore flag."""
         self.ignore = True
         self.save()

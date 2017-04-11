@@ -17,9 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-"""
-Helper code to get user special chars specific for given language.
-"""
+"""Helper code to get user special chars specific for given language."""
 
 from __future__ import unicode_literals
 from django.utils.translation import ugettext as _, ugettext_lazy
@@ -424,16 +422,14 @@ EXTRA_CHARS = {
 
 
 def get_quote(code, data, name):
-    """
-    Returns special char for quote.
-    """
+    """Return special char for quote."""
     if code in data:
         return name, data[code]
     return name, data['ALL']
 
 
 def get_char_description(char):
-    """Returns verbose description of a character."""
+    """Return verbose description of a character."""
     if char in CHAR_NAMES:
         return CHAR_NAMES[char]
     else:
@@ -441,9 +437,7 @@ def get_char_description(char):
 
 
 def get_special_chars(language, additional=''):
-    """
-    Returns list of special characters.
-    """
+    """Return list of special characters."""
     for char in SPECIAL_CHARS:
         yield get_char_description(char), char
     code = language.code.replace('_', '-').split('-')[0]

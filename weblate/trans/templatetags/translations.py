@@ -85,9 +85,7 @@ PERM_TEMPLATE = '''
 
 
 def fmt_whitespace(value):
-    '''
-    Formats whitespace so that it is more visible.
-    '''
+    """Format whitespace so that it is more visible."""
     # Highlight exta whitespace
     value = WHITESPACE_RE.sub(
         '<span class="hlspace">\\1</span>',
@@ -110,7 +108,7 @@ def fmt_diff(value, diff, idx):
 
 
 def fmt_highlights(raw_value, value, unit):
-    """Formats check highlights"""
+    """Format check highlights"""
     if unit is None:
         return value
     highlights = highlight_string(raw_value, unit)
@@ -127,7 +125,7 @@ def fmt_highlights(raw_value, value, unit):
 
 
 def fmt_search(value, search_match):
-    """Formats search match"""
+    """Format search match"""
     if search_match:
         # Since the search ignored case, we need to highlight any
         # combination of upper and lower case we find. This is too
@@ -145,9 +143,7 @@ def fmt_search(value, search_match):
 @register.inclusion_tag('format-translation.html')
 def format_translation(value, language, diff=None, search_match=None,
                        simple=False, num_plurals=2, unit=None):
-    """
-    Nicely formats translation text possibly handling plurals or diff.
-    """
+    """Nicely formats translation text possibly handling plurals or diff."""
     # Split plurals to separate strings
     plurals = split_plural(value)
 
@@ -209,9 +205,7 @@ def format_translation(value, language, diff=None, search_match=None,
 
 @register.simple_tag
 def check_severity(check):
-    '''
-    Returns check severity, or its id if check is not known.
-    '''
+    """Return check severity, or its id if check is not known."""
     try:
         return escape(CHECKS[check].severity)
     except KeyError:
@@ -220,9 +214,7 @@ def check_severity(check):
 
 @register.simple_tag
 def check_name(check):
-    '''
-    Returns check name, or its id if check is not known.
-    '''
+    """Return check name, or its id if check is not known."""
     try:
         return escape(CHECKS[check].name)
     except KeyError:
@@ -231,9 +223,7 @@ def check_name(check):
 
 @register.simple_tag
 def check_description(check):
-    '''
-    Returns check description, or its id if check is not known.
-    '''
+    """Return check description, or its id if check is not known."""
     try:
         return escape(CHECKS[check].description)
     except KeyError:
@@ -242,17 +232,13 @@ def check_description(check):
 
 @register.simple_tag
 def project_name(prj):
-    '''
-    Gets project name based on slug.
-    '''
+    """Get project name based on slug."""
     return escape(force_text(Project.objects.get(slug=prj)))
 
 
 @register.simple_tag
 def subproject_name(prj, subprj):
-    '''
-    Gets subproject name based on slug.
-    '''
+    """Get subproject name based on slug."""
     return escape(
         force_text(SubProject.objects.get(project__slug=prj, slug=subprj))
     )
@@ -260,41 +246,31 @@ def subproject_name(prj, subprj):
 
 @register.simple_tag
 def language_name(code):
-    '''
-    Gets language name based on its code.
-    '''
+    """Get language name based on its code."""
     return escape(force_text(Language.objects.get(code=code)))
 
 
 @register.simple_tag
 def dictionary_count(lang, project):
-    '''
-    Returns number of words in dictionary.
-    '''
+    """Return number of words in dictionary."""
     return Dictionary.objects.filter(project=project, language=lang).count()
 
 
 @register.simple_tag
 def documentation(page, anchor=''):
-    '''
-    Returns link to Weblate documentation.
-    '''
+    """Return link to Weblate documentation."""
     return weblate.get_doc_url(page, anchor)
 
 
 @register.assignment_tag
 def doc_url(page, anchor=''):
-    '''
-    Returns link to Weblate documentation.
-    '''
+    """Return link to Weblate documentation."""
     return weblate.get_doc_url(page, anchor)
 
 
 @register.simple_tag
 def admin_boolean_icon(val):
-    '''
-    Admin icon wrapper.
-    '''
+    """Admin icon wrapper."""
     if django.VERSION > (1, 9):
         ext = 'svg'
     else:
@@ -328,9 +304,7 @@ def show_checks(project, checks, user):
 
 
 def naturaltime_past(value, now):
-    """
-    Handling of past dates for naturaltime.
-    """
+    """Handling of past dates for naturaltime."""
 
     # this function is huge
     # pylint: disable=R0911,R0912
@@ -389,9 +363,7 @@ def naturaltime_past(value, now):
 
 
 def naturaltime_future(value, now):
-    """
-    Handling of future dates for naturaltime.
-    """
+    """Handling of future dates for naturaltime."""
 
     # this function is huge
     # pylint: disable=R0911,R0912
@@ -482,9 +454,7 @@ def naturaltime(value, now=None):
 
 @register.simple_tag
 def get_advertisement_text_mail():
-    '''
-    Returns advertisement text.
-    '''
+    """Return advertisement text."""
     advertisement = Advertisement.objects.get_advertisement(
         Advertisement.PLACEMENT_MAIL_TEXT
     )
@@ -495,9 +465,7 @@ def get_advertisement_text_mail():
 
 @register.simple_tag
 def get_advertisement_html_mail():
-    '''
-    Returns advertisement text.
-    '''
+    """Return advertisement text."""
     advertisement = Advertisement.objects.get_advertisement(
         Advertisement.PLACEMENT_MAIL_HTML
     )
@@ -540,9 +508,7 @@ def words_progress(translation):
 
 @register.simple_tag
 def get_state_badge(unit):
-    """
-    Returns state badge.
-    """
+    """Return state badge."""
     flag = None
 
     if unit.fuzzy:
@@ -569,9 +535,7 @@ def get_state_badge(unit):
 
 @register.simple_tag
 def get_state_flags(unit):
-    """
-    Returns state flags.
-    """
+    """Return state flags."""
     flags = []
 
     if unit.fuzzy:
@@ -608,9 +572,7 @@ def get_state_flags(unit):
 
 @register.simple_tag
 def get_location_links(profile, unit):
-    """
-    Generates links to source files where translation was used.
-    """
+    """Generate links to source files where translation was used."""
     ret = []
 
     # Do we have any locations?
@@ -651,7 +613,7 @@ def get_location_links(profile, unit):
 
 @register.simple_tag
 def whiteboard_messages(project=None, subproject=None, language=None):
-    """Displays whiteboard messages for given context"""
+    """Display whiteboard messages for given context"""
     ret = []
 
     whiteboards = WhiteboardMessage.objects.context_filter(

@@ -36,9 +36,7 @@ class ChangeManager(models.Manager):
     # pylint: disable=W0232
 
     def content(self, prefetch=False):
-        '''
-        Returns queryset with content changes.
-        '''
+        """Return queryset with content changes."""
         base = self
         if prefetch:
             base = base.prefetch()
@@ -49,10 +47,9 @@ class ChangeManager(models.Manager):
 
     @staticmethod
     def count_stats(days, step, dtstart, base):
-        '''
-        Counts number of changes in given dataset and period grouped by
+        """Count number of changes in given dataset and period grouped by
         step days.
-        '''
+        """
 
         # Count number of changes
         result = []
@@ -76,9 +73,7 @@ class ChangeManager(models.Manager):
     def base_stats(self, days, step,
                    project=None, subproject=None, translation=None,
                    language=None, user=None):
-        '''
-        Core of daily/weekly/monthly stats calculation.
-        '''
+        """Core of daily/weekly/monthly stats calculation."""
 
         # Get range (actually start)
         dtstart = timezone.now() - timezone.timedelta(days=days + 1)
@@ -105,10 +100,9 @@ class ChangeManager(models.Manager):
         return self.count_stats(days, step, dtstart, base)
 
     def prefetch(self):
-        '''
-        Fetches related fields in a big chungs to avoid loading them
+        """Fetch related fields in a big chungs to avoid loading them
         individually.
-        '''
+        """
         return self.prefetch_related(
             'user', 'translation', 'subproject', 'unit', 'dictionary',
             'translation__language',
@@ -138,10 +132,9 @@ class ChangeManager(models.Manager):
         )
 
     def last_changes(self, user):
-        '''
-        Prefilters Changes by ACL for users and fetches related fields
+        """Prefilter Changes by ACL for users and fetches related fields
         for last changes display.
-        '''
+        """
         acl_projects = Project.objects.get_acl_ids(user)
         return self.prefetch().filter(
             Q(subproject__project_id__in=acl_projects) |
@@ -310,17 +303,13 @@ class Change(models.Model, UserDisplayMixin):
         return self.action in self.ACTIONS_MERGE_FAILURE
 
     def get_absolute_url(self):
-        '''
-        Returns link either to unit or translation.
-        '''
+        """Return link either to unit or translation."""
         if self.unit is not None:
             return self.unit.get_absolute_url()
         return self.get_translation_url()
 
     def get_translation_url(self):
-        '''
-        Returns URL for translation.
-        '''
+        """Return URL for translation."""
         if self.translation is not None:
             return self.translation.get_absolute_url()
         elif self.subproject is not None:
@@ -330,9 +319,7 @@ class Change(models.Model, UserDisplayMixin):
         return None
 
     def get_translation_display(self):
-        '''
-        Returns display name for translation.
-        '''
+        """Return display name for translation."""
         if self.translation is not None:
             return force_text(self.translation)
         elif self.subproject is not None:

@@ -41,9 +41,7 @@ class Command(BaseCommand):
 
     @staticmethod
     def import_subscriptions(profile, userprofile):
-        """
-        Imports user subscriptions.
-        """
+        """Import user subscriptions."""
         # Add subscriptions
         for subscription in userprofile['subscriptions']:
             try:
@@ -59,9 +57,7 @@ class Command(BaseCommand):
 
     @staticmethod
     def update_languages(profile, userprofile):
-        """
-        Updates user language preferences.
-        """
+        """Update user language preferences."""
         profile.language = userprofile['language']
         for lang in userprofile['secondary_languages']:
             profile.secondary_languages.add(
@@ -73,10 +69,10 @@ class Command(BaseCommand):
             )
 
     def handle(self, **options):
-        '''
-        Creates default set of groups and optionally updates them and moves
-        users around to default group.
-        '''
+        """Create default set of groups.
+
+        Also ptionally updates them and moves users around to default group.
+        """
         userdata = json.load(options['json-file'])
 
         for userprofile in userdata:

@@ -17,10 +17,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-'''
-Import all the autofixes defined in settings.  Note, unlike checks, using
-a sortable data object so fixes are applied in desired order.
-'''
+"""Import all the autofixes defined in settings.
+
+Note, unlike checks, using a sortable data object so fixes are applied in
+desired order.
+"""
 
 from weblate.utils.classloader import ClassLoader
 
@@ -28,9 +29,7 @@ AUTOFIXES = ClassLoader('AUTOFIX_LIST')
 
 
 def fix_target(target, unit):
-    '''
-    Apply each autofix to the target translation.
-    '''
+    """Apply each autofix to the target translation."""
     if target == []:
         return target, []
     fixups = []

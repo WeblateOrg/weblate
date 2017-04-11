@@ -61,10 +61,10 @@ class WeblateUserCreationForm(UserCreationForm, UniqueEmailMixin):
 
 
 class WeblateUserAdmin(UserAdmin):
-    '''
-    Custom UserAdmin to add listing of group membership and whether user is
-    active.
-    '''
+    """Custom UserAdmin class.
+
+    Used to add listing of group membership and whether user is active.
+    """
     list_display = UserAdmin.list_display + ('is_active', 'user_groups', 'id')
     form = WeblateUserChangeForm
     add_form = WeblateUserCreationForm
@@ -76,10 +76,7 @@ class WeblateUserAdmin(UserAdmin):
     )
 
     def user_groups(self, obj):
-        """
-        Get group, separate by comma, and display empty string if user has
-        no group
-        """
+        """Display comma separated list of user groups."""
         return ','.join([g.name for g in obj.groups.all()])
 
 

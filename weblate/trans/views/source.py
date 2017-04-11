@@ -55,9 +55,7 @@ def get_source(request, project, subproject):
 
 
 def review_source(request, project, subproject):
-    """
-    Listing of source strings to review.
-    """
+    """Listing of source strings to review."""
     obj, source = get_source(request, project, subproject)
 
     # Grab search type and page number
@@ -109,9 +107,7 @@ def review_source(request, project, subproject):
 
 
 def show_source(request, project, subproject):
-    """
-    Show source strings summary and checks.
-    """
+    """Show source strings summary and checks."""
     obj, source = get_source(request, project, subproject)
 
     return render(
@@ -129,9 +125,7 @@ def show_source(request, project, subproject):
 @require_POST
 @login_required
 def edit_priority(request, pk):
-    """
-    Change source string priority.
-    """
+    """Change source string priority."""
     source = get_object_or_404(Source, pk=pk)
 
     if not can_edit_priority(request.user, source.subproject.project):
@@ -149,9 +143,7 @@ def edit_priority(request, pk):
 @require_POST
 @login_required
 def edit_check_flags(request, pk):
-    """
-    Change source string check flags.
-    """
+    """Change source string check flags."""
     source = get_object_or_404(Source, pk=pk)
 
     if not can_edit_flags(request.user, source.subproject.project):

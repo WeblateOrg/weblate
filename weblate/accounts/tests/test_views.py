@@ -18,9 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-"""
-Tests for user handling.
-"""
+"""Test for user handling."""
 
 from django.test import TestCase
 from django.test.utils import override_settings
@@ -35,9 +33,7 @@ from weblate.lang.models import Language
 
 
 class ViewTest(TestCase):
-    '''
-    Test for views.
-    '''
+    """Test for views."""
 
     def get_user(self):
         user = User.objects.create_user(
@@ -51,9 +47,7 @@ class ViewTest(TestCase):
         return user
 
     def test_contact(self):
-        '''
-        Test for contact form.
-        '''
+        """Test for contact form."""
         # Basic get
         response = self.client.get(reverse('contact'))
         self.assertContains(response, 'id="id_message"')
@@ -79,9 +73,7 @@ class ViewTest(TestCase):
 
     @override_settings(OFFER_HOSTING=False)
     def test_hosting_disabled(self):
-        '''
-        Test for hosting form with disabled hosting
-        '''
+        """Test for hosting form with disabled hosting"""
         self.get_user()
         self.client.login(username='testuser', password='testpassword')
         response = self.client.get(reverse('hosting'))
@@ -89,9 +81,7 @@ class ViewTest(TestCase):
 
     @override_settings(OFFER_HOSTING=True)
     def test_hosting(self):
-        '''
-        Test for hosting form with enabled hosting.
-        '''
+        """Test for hosting form with enabled hosting."""
         self.get_user()
         self.client.login(username='testuser', password='testpassword')
         response = self.client.get(reverse('hosting'))
@@ -142,9 +132,7 @@ class ViewTest(TestCase):
         self.assertContains(response, 'noreply@weblate.org')
 
     def test_user(self):
-        '''
-        Test user pages.
-        '''
+        """Test user pages."""
         # Setup user
         user = self.get_user()
 

@@ -33,9 +33,7 @@ URL_DONATE = 'https://weblate.org/donate/?utm_source=weblate&utm_term=%s'
 
 
 def weblate_context(request):
-    """
-    Context processor to inject various useful variables into context.
-    """
+    """Context processor to inject various useful variables into context."""
     if 'next' in request.GET:
         login_redirect_url = request.GET['next']
     else:

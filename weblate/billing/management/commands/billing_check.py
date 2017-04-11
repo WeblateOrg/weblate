@@ -27,9 +27,7 @@ from weblate.billing.models import Billing
 
 
 class Command(BaseCommand):
-    """
-    Command for billing check.
-    """
+    """Command for billing check."""
     help = 'checks billing limits'
 
     def add_arguments(self, parser):

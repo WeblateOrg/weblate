@@ -44,9 +44,7 @@ from six.moves.urllib.parse import urlencode
 
 
 def translate(request, unit_id):
-    '''
-    AJAX handler for translating.
-    '''
+    """AJAX handler for translating."""
     unit = get_object_or_404(Unit, pk=int(unit_id))
     check_access(request, unit.translation.subproject.project)
     if not can_use_mt(request.user, unit.translation):
@@ -89,9 +87,7 @@ def translate(request, unit_id):
 
 
 def get_unit_changes(request, unit_id):
-    '''
-    Returns unit's recent changes.
-    '''
+    """Return unit's recent changes."""
     unit = get_object_or_404(Unit, pk=int(unit_id))
     check_access(request, unit.translation.subproject.project)
 
@@ -196,9 +192,7 @@ def git_status_translation(request, project, subproject, lang):
 
 
 def mt_services(request):
-    '''
-    Generates list of installed machine translation services in JSON.
-    '''
+    """Generate list of installed machine translation services in JSON."""
     # Machine translation
     machine_services = list(MACHINE_TRANSLATION_SERVICES.keys())
 
@@ -209,9 +203,7 @@ def mt_services(request):
 
 
 def get_detail(request, project, subproject, checksum):
-    '''
-    Returns source translation detail in all languages.
-    '''
+    """Return source translation detail in all languages."""
     subproject = get_subproject(request, project, subproject)
     try:
         units = Unit.objects.filter(

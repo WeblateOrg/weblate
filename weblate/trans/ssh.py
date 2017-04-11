@@ -50,9 +50,7 @@ ssh \
 
 
 def ssh_file(filename):
-    """
-    Generates full path to SSH configuration file.
-    """
+    """Generate full path to SSH configuration file."""
     return os.path.join(
         data_dir('ssh'),
         filename
@@ -60,9 +58,7 @@ def ssh_file(filename):
 
 
 def is_key_line(key):
-    """
-    Checks whether this line looks like a valid known_hosts line.
-    """
+    """Check whether this line looks like a valid known_hosts line."""
     if not key:
         return False
     # Comment
@@ -79,9 +75,7 @@ def is_key_line(key):
 
 
 def parse_hosts_line(line):
-    """
-    Parses single hosts line into tuple host, key fingerprint.
-    """
+    """Parse single hosts line into tuple host, key fingerprint."""
     host, keytype, key = line.strip().split(None, 3)[:3]
     fp_plain = hashlib.md5(b64decode(key)).hexdigest()
     fingerprint = ':'.join(
@@ -94,9 +88,7 @@ def parse_hosts_line(line):
 
 
 def get_host_keys():
-    """
-    Returns list of host keys.
-    """
+    """Return list of host keys."""
     try:
         result = []
         with open(ssh_file(KNOWN_HOSTS), 'r') as handle:
@@ -111,9 +103,7 @@ def get_host_keys():
 
 
 def get_key_data():
-    """
-    Parses host key and returns it.
-    """
+    """Parse host key and returns it."""
     # Read key data if it exists
     if os.path.exists(ssh_file(RSA_KEY_PUB)):
         with open(ssh_file(RSA_KEY_PUB)) as handle:
@@ -129,9 +119,7 @@ def get_key_data():
 
 
 def generate_ssh_key(request):
-    """
-    Generates SSH key.
-    """
+    """Generate SSH key."""
     try:
         # Actually generate the key
         subprocess.check_output(
@@ -155,9 +143,7 @@ def generate_ssh_key(request):
 
 
 def add_host_key(request):
-    """
-    Adds host key for a host.
-    """
+    """Add host key for a host."""
     host = request.POST.get('host', '')
     port = request.POST.get('port', '')
     if len(host) == 0:
@@ -213,16 +199,12 @@ def add_host_key(request):
 
 
 def can_generate_key():
-    """
-    Checks whether we can generate key.
-    """
+    """Check whether we can generate key."""
     return find_executable('ssh-keygen') is not None
 
 
 def create_ssh_wrapper():
-    """
-    Creates wrapper for SSH to pass custom known hosts and key.
-    """
+    """Create wrapper for SSH to pass custom known hosts and key."""
     ssh_wrapper = ssh_file(SSH_WRAPPER)
 
     with open(ssh_wrapper, 'w') as handle:

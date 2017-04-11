@@ -38,34 +38,26 @@ def run_post_update_script(component, previous_head):
 
 
 def run_pre_commit_script(component, translation, filename):
-    """
-    Pre commit hook
-    """
+    """Pre commit hook"""
     run_hook(
         component, translation, component.pre_commit_script, None, filename
     )
 
 
 def run_post_commit_script(component, translation, filename):
-    """
-    Post commit hook
-    """
+    """Post commit hook"""
     run_hook(
         component, translation, component.post_commit_script, None, filename
     )
 
 
 def run_post_add_script(component, translation, filename):
-    """
-    Post add hook
-    """
+    """Post add hook"""
     run_hook(component, translation, component.post_add_script, None, filename)
 
 
 def run_hook(component, translation, script, env=None, *args):
-    """
-    Generic script hook executor.
-    """
+    """Generic script hook executor."""
     if script:
         command = [script]
         if args:

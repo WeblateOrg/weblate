@@ -18,9 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-"""
-Tests for charts and widgets.
-"""
+"""Test for charts and widgets."""
 
 import json
 
@@ -30,22 +28,16 @@ from weblate.trans.tests.test_views import ViewTestCase
 
 
 class ChartsTest(ViewTestCase):
-    '''
-    Testing of charts.
-    '''
+    """Testing of charts."""
     def assert_json_chart_data(self, response):
-        """
-        Tests whether response has valid json chart data.
-        """
+        """Test whether response has valid json chart data."""
         self.assertEqual(response.get('Content-Type'), 'application/json')
         data = json.loads(response.content.decode('utf-8'))
         self.assertTrue('series' in data)
         self.assertTrue('labels' in data)
 
     def test_activity_monthly(self):
-        '''
-        Test of monthly activity charts.
-        '''
+        """Test of monthly activity charts."""
         response = self.client.get(
             reverse('monthly_activity')
         )
@@ -80,9 +72,7 @@ class ChartsTest(ViewTestCase):
         self.assert_json_chart_data(response)
 
     def test_activity_yearly(self):
-        '''
-        Test of yearly activity charts.
-        '''
+        """Test of yearly activity charts."""
         response = self.client.get(
             reverse('yearly_activity')
         )

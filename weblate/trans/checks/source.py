@@ -32,9 +32,7 @@ PLURAL_MATCH = re.compile(r'\(s\)(\W|\Z)')
 
 
 class OptionalPluralCheck(SourceCheck):
-    '''
-    Check for not used plural form.
-    '''
+    """Check for not used plural form."""
     check_id = 'optional_plural'
     name = _('Optional plural')
     description = _(
@@ -49,9 +47,7 @@ class OptionalPluralCheck(SourceCheck):
 
 
 class EllipsisCheck(SourceCheck):
-    '''
-    Check for using ... instead of …
-    '''
+    """Check for using ... instead of …"""
     check_id = 'ellipsis'
     name = _('Ellipsis')
     description = _(
@@ -65,9 +61,7 @@ class EllipsisCheck(SourceCheck):
 
 
 class MultipleFailingCheck(SourceCheck):
-    '''
-    Checks whether there are more failing checks on this translation.
-    '''
+    """Check whether there are more failing checks on this translation."""
     check_id = 'multiple_failures'
     name = _('Multiple failing checks')
     description = _(

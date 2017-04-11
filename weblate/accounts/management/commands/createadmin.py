@@ -63,12 +63,11 @@ class Command(BaseCommand):
         return ''.join(generator.choice(chars) for i in range(length))
 
     def handle(self, *args, **options):
-        '''
-        Create admin account with admin password.
+        """Create admin account with admin password.
 
         This is useful mostly for setup inside appliances, when user wants
         to be able to login remotely and change password then.
-        '''
+        """
         exists = User.objects.filter(username=options['username']).exists()
         if exists and not options['update']:
             raise CommandError(

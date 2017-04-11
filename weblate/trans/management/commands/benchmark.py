@@ -27,9 +27,7 @@ from weblate.trans.models import SubProject, Project
 
 
 class Command(BaseCommand):
-    '''
-    Runs simple project import to perform benchmarks.
-    '''
+    """Run simple project import to perform benchmarks."""
     help = 'performs import benchmark'
 
     def add_arguments(self, parser):

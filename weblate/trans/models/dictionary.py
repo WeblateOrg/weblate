@@ -44,9 +44,7 @@ class DictionaryManager(models.Manager):
     # pylint: disable=W0232
 
     def upload(self, request, project, language, fileobj, method):
-        '''
-        Handles dictionary upload.
-        '''
+        """Handle dictionary upload."""
         from weblate.trans.models.change import Change
         store = AutoFormat.parse(fileobj)
 
@@ -96,9 +94,7 @@ class DictionaryManager(models.Manager):
         return ret
 
     def create(self, user, **kwargs):
-        '''
-        Creates new dictionary object.
-        '''
+        """Create new dictionary object."""
         from weblate.trans.models.change import Change
         action = kwargs.pop('action', Change.ACTION_DICTIONARY_NEW)
         created = super(DictionaryManager, self).create(**kwargs)
@@ -111,9 +107,7 @@ class DictionaryManager(models.Manager):
         return created
 
     def get_words(self, unit):
-        """
-        Returns list of word pairs for an unit.
-        """
+        """Return list of word pairs for an unit."""
         words = set()
 
         # Prepare analyzers
@@ -220,9 +214,7 @@ class Dictionary(models.Model):
         )
 
     def edit(self, request, source, target):
-        '''
-        Edits word in a dictionary.
-        '''
+        """Edit word in a dictionary."""
         from weblate.trans.models.change import Change
         self.source = source
         self.target = target

@@ -35,15 +35,11 @@ LANGUAGE_MAP = {
 
 
 class GoogleTranslation(MachineTranslation):
-    '''
-    Google Translate API v2 machine translation support.
-    '''
+    """Google Translate API v2 machine translation support."""
     name = 'Google Translate'
 
     def __init__(self):
-        '''
-        Checks configuration.
-        '''
+        """Check configuration."""
         super(GoogleTranslation, self).__init__()
         if settings.MT_GOOGLE_KEY is None:
             raise MissingConfiguration(
@@ -51,9 +47,7 @@ class GoogleTranslation(MachineTranslation):
             )
 
     def convert_language(self, language):
-        '''
-        Converts language to service specific code.
-        '''
+        """Convert language to service specific code."""
         language = language.replace('_', '-').split('@')[0]
 
         if language in LANGUAGE_MAP:
@@ -62,9 +56,7 @@ class GoogleTranslation(MachineTranslation):
         return language
 
     def download_languages(self):
-        '''
-        List of supported languages.
-        '''
+        """List of supported languages."""
         response = self.json_req(
             'https://www.googleapis.com/language/translate/v2/languages',
             key=settings.MT_GOOGLE_KEY
@@ -76,9 +68,7 @@ class GoogleTranslation(MachineTranslation):
         return [d['language'] for d in response['data']['languages']]
 
     def download_translations(self, source, language, text, unit, user):
-        '''
-        Downloads list of possible translations from a service.
-        '''
+        """Download list of possible translations from a service."""
         response = self.json_req(
             'https://www.googleapis.com/language/translate/v2/',
             key=settings.MT_GOOGLE_KEY,

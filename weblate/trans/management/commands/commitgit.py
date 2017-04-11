@@ -25,8 +25,6 @@ class Command(WeblateCommand):
     help = 'forces commiting changes to git repo'
 
     def handle(self, *args, **options):
-        '''
-        Commits pending translations in given projects.
-        '''
+        """Commit pending translations in given projects."""
         for subproject in self.get_subprojects(*args, **options):
             subproject.commit_pending(None)

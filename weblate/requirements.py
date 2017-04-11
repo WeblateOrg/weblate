@@ -32,10 +32,10 @@ from weblate.trans.vcs import (
 
 
 def get_version_module(module, name, url, optional=False):
-    '''
-    Returns module object, on error raises verbose
-    exception with name and URL.
-    '''
+    """Return module object.
+
+    On error raises verbose exception with name and URL.
+    """
     try:
         mod = importlib.import_module(module)
     except ImportError:
@@ -64,9 +64,7 @@ def get_optional_module(result, module, name, url, attr='__version__'):
 
 
 def get_optional_versions():
-    '''
-    Returns versions of optional modules.
-    '''
+    """Return versions of optional modules."""
     result = []
 
     get_optional_module(
@@ -131,7 +129,7 @@ def get_optional_versions():
 
 
 def get_single(name, url, module, required, getter='__version__'):
-    """Returns version information for single module"""
+    """Return version information for single module"""
     mod = get_version_module(module, name, url)
     version_getter = getattr(mod, getter)
     if hasattr(version_getter, '__call__'):
@@ -147,9 +145,7 @@ def get_single(name, url, module, required, getter='__version__'):
 
 
 def get_versions():
-    '''
-    Returns list of used versions.
-    '''
+    """Return list of used versions."""
     result = []
 
     result.append((
@@ -275,9 +271,7 @@ def get_versions():
 
 
 def check_version(name, url, version, expected):
-    '''
-    Check for single module version.
-    '''
+    """Check for single module version."""
     if expected is None:
         return False
     if LooseVersion(version) < LooseVersion(expected):
@@ -289,9 +283,7 @@ def check_version(name, url, version, expected):
 
 
 def check_requirements():
-    '''
-    Performs check on requirements and raises an exception on error.
-    '''
+    """Perform check on requirements and raises an exception on error."""
     versions = get_versions() + get_optional_versions()
     failure = False
 

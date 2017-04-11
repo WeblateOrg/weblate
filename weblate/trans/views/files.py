@@ -66,9 +66,7 @@ def download_language_pack(request, project, subproject, lang):
 
 @require_POST
 def upload_translation(request, project, subproject, lang):
-    '''
-    Handling of translation uploads.
-    '''
+    """Handling of translation uploads."""
     obj = get_translation(request, project, subproject, lang)
 
     if not can_upload_translation(request.user, obj):

@@ -18,9 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-'''
-File based locking for Unix systems.
-'''
+"""File based locking for Unix and Windows systems."""
 
 import os
 import time
@@ -35,15 +33,12 @@ except ImportError:
 
 
 class FileLockException(Exception):
-    """
-    Exception raised when locking is not possible.
-    """
+    """Exception raised when locking is not possible."""
     pass
 
 
 class FileLockBase(object):
-    """
-    Base file locking class.
+    """Base file locking class.
 
     It can be also used as a context-manager using with statement.
     """
@@ -65,20 +60,19 @@ class FileLockBase(object):
         self.handle = None
 
     def open_file(self):
-        """Opens lock file"""
+        """Open lock file"""
         return os.open(self.lockfile, os.O_CREAT | os.O_WRONLY)
 
     def try_lock(self, handle):
-        """Tries to lock the file"""
+        """Try to lock the file"""
         raise NotImplementedError()
 
     def unlock(self, handle):
-        """Unlocks lock"""
+        """Unlock lock"""
         raise NotImplementedError()
 
     def acquire(self):
-        """
-        Acquire the lock, if possible.
+        """Acquire the lock, if possible.
 
         If the lock is in use, it check again every `wait` seconds. It does
         this until it either gets the lock or exceeds `timeout` number of
@@ -110,9 +104,7 @@ class FileLockBase(object):
             time.sleep(self.delay)
 
     def check_lock(self):
-        '''
-        Checks whether lock is locked.
-        '''
+        """Check whether lock is locked."""
         handle = self.open_file()
         try:
             self.try_lock(handle)
@@ -124,9 +116,7 @@ class FileLockBase(object):
             return True
 
     def release(self):
-        """
-        Release the lock and delete underlaying file.
-        """
+        """Release the lock and delete underlaying file."""
         self.depth -= 1
         if self.is_locked and self.depth == 0:
             self.unlock(self.handle)
@@ -139,8 +129,7 @@ class FileLockBase(object):
             self.is_locked = False
 
     def __enter__(self):
-        """
-        Context-manager support, executed when entering with statement.
+        """Context-manager support, executed when entering with statement.
 
         Automatically acquires lock.
         """
@@ -148,16 +137,14 @@ class FileLockBase(object):
         return self
 
     def __exit__(self, typ, value, traceback):
-        """
-        Context-manager support, executed when leaving with statement.
+        """Context-manager support, executed when leaving with statement.
 
         Automatically releases lock.
         """
         self.release()
 
     def __del__(self):
-        """
-        Make sure that the FileLock instance doesn't leave a lockfile
+        """Make sure that the FileLock instance doesn't leave a lockfile
         lying around.
         """
         self.release()
@@ -168,11 +155,11 @@ class FcntlFileLock(FileLockBase):
     A file locking mechanism for Unix systems based on flock.
     """
     def try_lock(self, handle):
-        """Tries to lock the file"""
+        """Try to lock the file"""
         fcntl.flock(handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
 
     def unlock(self, handle):
-        """Unlocks lock"""
+        """Unlock lock"""
         fcntl.flock(handle, fcntl.LOCK_UN)
 
 
@@ -181,11 +168,11 @@ class WindowsFileLock(FileLockBase):
     A file locking mechanism for Windows systems.
     """
     def try_lock(self, handle):
-        """Tries to lock the file"""
+        """Try to lock the file"""
         msvcrt.locking(handle, msvcrt.LK_NBLCK, 1)
 
     def unlock(self, handle):
-        """Unlocks lock"""
+        """Unlock lock"""
         msvcrt.locking(handle, msvcrt.LK_UNLCK, 1)
 
 

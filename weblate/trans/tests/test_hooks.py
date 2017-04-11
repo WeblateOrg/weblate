@@ -18,9 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-"""
-Tests for notification hooks.
-"""
+"""Test for notification hooks."""
 
 from django.core.urlresolvers import reverse
 from django.test.utils import override_settings
@@ -477,9 +475,7 @@ class HooksViewTest(ViewTestCase):
 
     @override_settings(ENABLE_HOOKS=False)
     def test_disabled(self):
-        '''
-        Test for hooks disabling.
-        '''
+        """Test for hooks disabling."""
         self.assert_disabled()
 
         response = self.client.post(
@@ -514,9 +510,7 @@ class HooksViewTest(ViewTestCase):
         self.assertEqual(response.status_code, 405)
 
     def test_wrong_payload_github(self):
-        '''
-        Tests for invalid payloads with github.
-        '''
+        """Test for invalid payloads with github."""
         # missing
         response = self.client.post(
             reverse('hook-github'),
@@ -548,9 +542,7 @@ class HooksViewTest(ViewTestCase):
         )
 
     def test_wrong_payload_gitlab(self):
-        '''
-        Tests for invalid payloads with gitlab.
-        '''
+        """Test for invalid payloads with gitlab."""
         # missing
         response = self.client.post(
             reverse('hook-gitlab'),

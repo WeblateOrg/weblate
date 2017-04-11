@@ -27,9 +27,7 @@ class Command(BaseCommand):
     help = 'lists versions of required software components'
 
     def handle(self, *args, **options):
-        '''
-        Prints versions of dependencies.
-        '''
+        """Print versions of dependencies."""
         self.stdout.write(get_versions_string())
         self.stdout.write(
             ' * Database backends: ' +

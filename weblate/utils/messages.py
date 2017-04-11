@@ -28,49 +28,37 @@ from django.contrib.messages import add_message
 
 
 def get_request(request):
-    """
-    Returns Django request object even for DRF requests.
-    """
+    """Return Django request object even for DRF requests."""
     if hasattr(request, '_request'):
         return getattr(request, '_request')
     return request
 
 
 def debug(request, message):
-    """
-    Adds a message with the ``DEBUG`` level.
-    """
+    """Add a message with the ``DEBUG`` level."""
     if request is not None:
         add_message(get_request(request), constants.DEBUG, message)
 
 
 def info(request, message):
-    """
-    Adds a message with the ``INFO`` level.
-    """
+    """Add a message with the ``INFO`` level."""
     if request is not None:
         add_message(get_request(request), constants.INFO, message)
 
 
 def success(request, message):
-    """
-    Adds a message with the ``SUCCESS`` level.
-    """
+    """Add a message with the ``SUCCESS`` level."""
     if request is not None:
         add_message(get_request(request), constants.SUCCESS, message)
 
 
 def warning(request, message):
-    """
-    Adds a message with the ``WARNING`` level.
-    """
+    """Add a message with the ``WARNING`` level."""
     if request is not None:
         add_message(get_request(request), constants.WARNING, message)
 
 
 def error(request, message):
-    """
-    Adds a message with the ``ERROR`` level.
-    """
+    """Add a message with the ``ERROR`` level."""
     if request is not None:
         add_message(get_request(request), constants.ERROR, message)

@@ -6,7 +6,7 @@ from django.db import migrations
 
 
 def fill_in_subscriptions(apps, schema_editor):
-    """Adds subscriptions to owners or ACL enabled users"""
+    """Add subscriptions to owners or ACL enabled users"""
     Project = apps.get_model('trans', 'Project')
     Group = apps.get_model('auth', 'Group')
     Profile = apps.get_model('accounts', 'Profile')

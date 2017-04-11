@@ -18,9 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-"""
-Tests for import and export.
-"""
+"""Test for import and export."""
 
 from __future__ import unicode_literals
 
@@ -46,9 +44,7 @@ TRANSLATION_PO = 'Ahoj světe!\n'
 
 
 class ImportBaseTest(ViewTestCase):
-    '''
-    Base test of file imports.
-    '''
+    """Base test of file imports."""
     test_file = TEST_PO
 
     def setUp(self):
@@ -58,9 +54,7 @@ class ImportBaseTest(ViewTestCase):
         self.user.save()
 
     def do_import(self, test_file=None, follow=False, **kwargs):
-        '''
-        Helper to perform file import.
-        '''
+        """Helper to perform file import."""
         if test_file is None:
             test_file = self.test_file
 
@@ -78,15 +72,11 @@ class ImportBaseTest(ViewTestCase):
 
 
 class ImportTest(ImportBaseTest):
-    '''
-    Testing of file imports.
-    '''
+    """Testing of file imports."""
     test_file = TEST_PO
 
     def test_import_normal(self):
-        '''
-        Test importing normally.
-        '''
+        """Test importing normally."""
         response = self.do_import()
         self.assertRedirects(response, self.translation_url)
 
@@ -101,9 +91,7 @@ class ImportTest(ImportBaseTest):
         self.assertEqual(unit.target, TRANSLATION_PO)
 
     def test_import_header(self):
-        '''
-        Test importing with header merge.
-        '''
+        """Test importing with header merge."""
         response = self.do_import(
             merge_header='1',
         )
@@ -132,9 +120,7 @@ class ImportTest(ImportBaseTest):
             )
 
     def test_import_author(self):
-        '''
-        Test importing normally.
-        '''
+        """Test importing normally."""
         response = self.do_import(
             author_name='Testing User',
             author_email='noreply@weblate.org'
@@ -152,9 +138,7 @@ class ImportTest(ImportBaseTest):
         self.assertEqual(unit.target, TRANSLATION_PO)
 
     def test_import_overwrite(self):
-        '''
-        Test importing with overwriting.
-        '''
+        """Test importing with overwriting."""
         # Translate one unit
         self.change_unit(TRANSLATION_OURS)
 
@@ -166,9 +150,7 @@ class ImportTest(ImportBaseTest):
         self.assertEqual(unit.target, TRANSLATION_PO)
 
     def test_import_no_overwrite(self):
-        '''
-        Test importing without overwriting.
-        '''
+        """Test importing without overwriting."""
         # Translate one unit
         self.change_unit(TRANSLATION_OURS)
 
@@ -180,9 +162,7 @@ class ImportTest(ImportBaseTest):
         self.assertEqual(unit.target, TRANSLATION_OURS)
 
     def test_import_fuzzy(self):
-        '''
-        Test importing as fuzzy.
-        '''
+        """Test importing as fuzzy."""
         response = self.do_import(method='fuzzy')
         self.assertRedirects(response, self.translation_url)
 
@@ -198,9 +178,7 @@ class ImportTest(ImportBaseTest):
         self.assertEqual(translation.total, 4)
 
     def test_import_suggest(self):
-        '''
-        Test importing as suggestion.
-        '''
+        """Test importing as suggestion."""
         response = self.do_import(method='suggest')
         self.assertRedirects(response, self.translation_url)
 
@@ -220,14 +198,12 @@ class ImportTest(ImportBaseTest):
 
 
 class ImportErrorTest(ImportBaseTest):
-    '''
-    Testing import of broken files.
-    '''
+    """Testing import of broken files."""
     def test_mismatched_plurals(self):
-        '''
-        Test importing a file with different number of plural forms.
+        """Test importing a file with different number of plural forms.
+
         In response to issue #900
-        '''
+        """
         response = self.do_import(test_file=TEST_BADPLURALS, follow=True)
         self.assertRedirects(response, self.translation_url)
         messages = list(response.context["messages"])
@@ -245,15 +221,11 @@ class XliffImportTest(ImportTest):
 
 
 class ImportFuzzyTest(ImportBaseTest):
-    '''
-    Testing of fuzzy file imports.
-    '''
+    """Testing of fuzzy file imports."""
     test_file = TEST_FUZZY_PO
 
     def test_import_normal(self):
-        '''
-        Test importing normally.
-        '''
+        """Test importing normally."""
         response = self.do_import(
             fuzzy=''
         )
@@ -266,9 +238,7 @@ class ImportFuzzyTest(ImportBaseTest):
         self.assertEqual(translation.total, 4)
 
     def test_import_process(self):
-        '''
-        Test importing normally.
-        '''
+        """Test importing normally."""
         response = self.do_import(
             fuzzy='process'
         )
@@ -281,9 +251,7 @@ class ImportFuzzyTest(ImportBaseTest):
         self.assertEqual(translation.total, 4)
 
     def test_import_approve(self):
-        '''
-        Test importing normally.
-        '''
+        """Test importing normally."""
         response = self.do_import(
             fuzzy='approve'
         )
@@ -297,16 +265,12 @@ class ImportFuzzyTest(ImportBaseTest):
 
 
 class ImportMoTest(ImportTest):
-    '''
-    Testing of mo file imports.
-    '''
+    """Testing of mo file imports."""
     test_file = TEST_MO
 
 
 class ImportMoPoTest(ImportTest):
-    '''
-    Testing of mo file imports.
-    '''
+    """Testing of mo file imports."""
     test_file = TEST_MO
 
     def create_subproject(self):
@@ -314,9 +278,7 @@ class ImportMoPoTest(ImportTest):
 
 
 class StringsImportTest(ImportTest):
-    '''
-    Testing of mo file imports.
-    '''
+    """Testing of mo file imports."""
     test_file = TEST_PO
 
     def create_subproject(self):
@@ -377,9 +339,7 @@ class CSVQuotesEscapedImportTest(CSVImportTest):
 
 
 class ExportTest(ViewTestCase):
-    '''
-    Testing of file export.
-    '''
+    """Testing of file export."""
     def create_subproject(self):
         # Needs to create PO file to have language pack option
         return self.create_po()

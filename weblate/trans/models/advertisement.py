@@ -51,9 +51,7 @@ class AdvertisementManager(models.Manager):
     )
 
     def get_advertisement(self, placement):
-        '''
-        Returns random advertisement for given placement.
-        '''
+        """Return random advertisement for given placement."""
         now = timezone.now()
         base = self.filter(
             placement=placement,
@@ -67,9 +65,7 @@ class AdvertisementManager(models.Manager):
         return base[offset]
 
     def fallback_advertisement(self, placement):
-        '''
-        Returns fallback advertisement.
-        '''
+        """Return fallback advertisement."""
         if not settings.SELF_ADVERTISEMENT:
             return None
 

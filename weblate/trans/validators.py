@@ -43,9 +43,7 @@ IGNORE_CHECK_FLAGS = {CHECKS[x].ignore_string for x in CHECKS}
 
 
 def validate_extra_file(val):
-    '''
-    Validates extra file to commit.
-    '''
+    """Validate extra file to commit."""
     try:
         val % {'language': 'cs'}
     except Exception as error:
@@ -53,9 +51,7 @@ def validate_extra_file(val):
 
 
 def validate_commit_message(val):
-    '''
-    Validates that commit message is a valid format string.
-    '''
+    """Validate that commit message is a valid format string."""
     try:
         val % {
             'language': 'cs',
@@ -76,9 +72,7 @@ def validate_commit_message(val):
 
 
 def validate_filemask(val):
-    '''
-    Validates file mask that it contains *.
-    '''
+    """Validate file mask that it contains *."""
     if '*' not in val:
         raise ValidationError(
             _('File mask does not contain * as a language placeholder!')
@@ -86,9 +80,7 @@ def validate_filemask(val):
 
 
 def validate_autoaccept(val):
-    '''
-    Validates correct value for autoaccept.
-    '''
+    """Validate correct value for autoaccept."""
     if val == 1:
         raise ValidationError(_(
             'Value of 1 is not allowed for autoaccept as '
@@ -97,9 +89,7 @@ def validate_autoaccept(val):
 
 
 def validate_check_flags(val):
-    '''
-    Validates check influencing flags.
-    '''
+    """Validate check influencing flags."""
     if not val:
         return
     for flag in val.split(','):

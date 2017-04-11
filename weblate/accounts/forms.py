@@ -41,11 +41,7 @@ from weblate.logger import LOGGER
 
 class UniqueEmailMixin(object):
     def clean_email(self):
-        """
-        Validate that the supplied email address is unique for the
-        site.
-
-        """
+        """Validate that the supplied email address is unique for the site. """
         if User.objects.filter(email__iexact=self.cleaned_data['email']):
             raise forms.ValidationError(
                 _(
@@ -57,9 +53,7 @@ class UniqueEmailMixin(object):
 
 
 class NoStripEmailField(forms.EmailField):
-    """
-    Email field which does no stripping.
-    """
+    """Email field which does no stripping."""
     def clean(self, value):
         value = self.to_python(value)
         # We call super-super method to skip default EmailField behavior
@@ -86,9 +80,7 @@ class UsernameField(forms.RegexField):
         super(UsernameField, self).__init__(*args, **kwargs)
 
     def clean(self, value):
-        '''
-        Username validation, requires unique name.
-        '''
+        """Username validation, requires unique name."""
         if value is not None:
             existing = User.objects.filter(
                 username__iexact=value
@@ -105,13 +97,9 @@ class UsernameField(forms.RegexField):
 
 
 class SortedSelectMixin(object):
-    '''
-    Mixin for Select widgets to sort choices alphabetically.
-    '''
+    """Mixin for Select widgets to sort choices alphabetically."""
     def render_options(self, selected_choices):
-        '''
-        Renders sorted options.
-        '''
+        """Render sorted options."""
         # Normalize to strings.
         selected_choices = set(force_text(v) for v in selected_choices)
         output = []
@@ -130,21 +118,15 @@ class SortedSelectMixin(object):
 
 
 class SortedSelectMultiple(SortedSelectMixin, forms.SelectMultiple):
-    '''
-    Wrapper class to sort choices alphabetically.
-    '''
+    """Wrapper class to sort choices alphabetically."""
 
 
 class SortedSelect(SortedSelectMixin, forms.Select):
-    '''
-    Wrapper class to sort choices alphabetically.
-    '''
+    """Wrapper class to sort choices alphabetically."""
 
 
 class ProfileForm(forms.ModelForm):
-    '''
-    User profile editing.
-    '''
+    """User profile editing."""
     class Meta(object):
         model = Profile
         fields = (
@@ -167,9 +149,7 @@ class ProfileForm(forms.ModelForm):
 
 
 class SubscriptionForm(forms.ModelForm):
-    '''
-    User subscription management.
-    '''
+    """User subscription management."""
     class Meta(object):
         model = Profile
         fields = (
@@ -188,9 +168,7 @@ class SubscriptionForm(forms.ModelForm):
 
 
 class SubscriptionSettingsForm(forms.ModelForm):
-    '''
-    User subscription management.
-    '''
+    """User subscription management."""
     class Meta(object):
         model = Profile
         fields = Profile.SUBSCRIPTION_FIELDS
@@ -225,9 +203,7 @@ class SubscriptionSettingsForm(forms.ModelForm):
 
 
 class UserSettingsForm(forms.ModelForm):
-    '''
-    User settings form.
-    '''
+    """User settings form."""
     class Meta(object):
         model = Profile
         fields = (
@@ -240,9 +216,7 @@ class UserSettingsForm(forms.ModelForm):
 
 
 class DashboardSettingsForm(forms.ModelForm):
-    '''
-    Dashboard settings form.
-    '''
+    """Dashboard settings form."""
     class Meta(object):
         model = Profile
         fields = (
@@ -252,9 +226,7 @@ class DashboardSettingsForm(forms.ModelForm):
 
 
 class UserForm(forms.ModelForm):
-    '''
-    User information form.
-    '''
+    """User information form."""
     username = UsernameField()
     email = forms.ChoiceField(
         label=_('E-mail'),
@@ -292,9 +264,7 @@ class UserForm(forms.ModelForm):
 
 
 class ContactForm(forms.Form):
-    '''
-    Form for contacting site owners.
-    '''
+    """Form for contacting site owners."""
     subject = forms.CharField(label=_('Subject'), required=True)
     name = forms.CharField(label=_('Your name'), required=True)
     email = forms.EmailField(label=_('Your email'), required=True)
@@ -310,18 +280,14 @@ class ContactForm(forms.Form):
     content = forms.CharField(required=False)
 
     def clean_content(self):
-        '''
-        Check if content is empty.
-        '''
+        """Check if content is empty."""
         if self.cleaned_data['content'] != '':
             raise forms.ValidationError('Invalid value')
         return ''
 
 
 class EmailForm(forms.Form, UniqueEmailMixin):
-    '''
-    Email change form.
-    '''
+    """Email change form."""
     required_css_class = "required"
     error_css_class = "error"
 
@@ -333,18 +299,14 @@ class EmailForm(forms.Form, UniqueEmailMixin):
     content = forms.CharField(required=False)
 
     def clean_content(self):
-        '''
-        Check if content is empty.
-        '''
+        """Check if content is empty."""
         if self.cleaned_data['content'] != '':
             raise forms.ValidationError('Invalid value')
         return ''
 
 
 class RegistrationForm(EmailForm):
-    '''
-    Registration form.
-    '''
+    """Registration form."""
     required_css_class = "required"
     error_css_class = "error"
 
@@ -353,18 +315,14 @@ class RegistrationForm(EmailForm):
     content = forms.CharField(required=False)
 
     def clean_content(self):
-        '''
-        Check if content is empty.
-        '''
+        """Check if content is empty."""
         if self.cleaned_data['content'] != '':
             raise forms.ValidationError('Invalid value')
         return ''
 
 
 class CaptchaRegistrationForm(RegistrationForm):
-    '''
-    Registration form with captcha protection.
-    '''
+    """Registration form with captcha protection."""
     captcha = forms.IntegerField(required=True)
     captcha_id = forms.CharField(widget=forms.HiddenInput)
 
@@ -395,9 +353,7 @@ class CaptchaRegistrationForm(RegistrationForm):
         self.fields['captcha_id'].initial = self.captcha.hashed
 
     def clean_captcha(self):
-        '''
-        Validation for captcha.
-        '''
+        """Validation for captcha."""
         if (self.tampering or
                 not self.captcha.validate(self.cleaned_data['captcha'])):
             raise forms.ValidationError(
@@ -415,9 +371,7 @@ class CaptchaRegistrationForm(RegistrationForm):
 
 
 class PasswordForm(forms.Form):
-    '''
-    Form for setting password.
-    '''
+    """Form for setting password."""
     password1 = forms.CharField(
         widget=forms.PasswordInput(render_value=False),
         label=_("New password"),
@@ -433,9 +387,7 @@ class PasswordForm(forms.Form):
     )
 
     def clean_password1(self):
-        '''
-        Password validation, requires length of six chars.
-        '''
+        """Password validation, requires length of six chars."""
         if len(self.cleaned_data['password1']) < 6:
             raise forms.ValidationError(
                 _('Password needs to have at least six characters.')
@@ -443,12 +395,10 @@ class PasswordForm(forms.Form):
         return self.cleaned_data['password1']
 
     def clean(self):
-        """
-        Verify that the values entered into the two password fields
-        match. Note that an error here will end up in
-        ``non_field_errors()`` because it doesn't apply to a single
-        field.
+        """Verify that the values entered into the two password fields match.
 
+        Note that an error here will end up in ``non_field_errors()`` because
+        it doesn't apply to a single field.
         """
         password1 = self.cleaned_data.get('password1', '')
         password2 = self.cleaned_data.get('password2', '')
@@ -539,9 +489,7 @@ class LoginForm(forms.Form):
 
 
 class HostingForm(forms.Form):
-    '''
-    Form for asking for hosting.
-    '''
+    """Form for asking for hosting."""
     name = forms.CharField(label=_('Your name'), required=True)
     email = forms.EmailField(label=_('Your email'), required=True)
     project = forms.CharField(label=_('Project name'), required=True)
@@ -570,9 +518,7 @@ class HostingForm(forms.Form):
     content = forms.CharField(required=False)
 
     def clean_content(self):
-        '''
-        Check if content is empty.
-        '''
+        """Check if content is empty."""
         if self.cleaned_data['content'] != '':
             raise forms.ValidationError('Invalid value')
         return ''

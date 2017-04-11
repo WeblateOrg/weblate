@@ -17,9 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-'''
-Simple quality check example.
-'''
+"""Simple quality check example."""
 
 from weblate.trans.checks.base import TargetCheck
 from django.utils.translation import ugettext_lazy as _

@@ -20,24 +20,18 @@
 
 
 class AutoFix(object):
-    '''
-    Base class for AutoFixes
-    '''
+    """Base class for AutoFixes"""
     fix_id = 'auto'
 
     def get_identifier(self):
         return self.fix_id
 
     def fix_single_target(self, target, source, unit):
-        '''
-        Fix a single target, implement this method in subclasses.
-        '''
+        """Fix a single target, implement this method in subclasses."""
         raise NotImplementedError()
 
     def fix_target(self, target, unit):
-        '''
-        Returns a target translation array with a single fix applied.
-        '''
+        """Return a target translation array with a single fix applied."""
         source = unit.get_source_plurals()[0]
         results = [self.fix_single_target(t, source, unit) for t in target]
         return [r[0] for r in results], max([r[1] for r in results])

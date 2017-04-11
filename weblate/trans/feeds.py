@@ -32,9 +32,7 @@ from weblate.trans.views.helper import (
 
 
 class ChangesFeed(Feed):
-    '''
-    Generic RSS feed for Weblate changes.
-    '''
+    """Generic RSS feed for Weblate changes."""
     def get_object(self, request):
         return request.user
 
@@ -66,9 +64,7 @@ class ChangesFeed(Feed):
 
 
 class TranslationChangesFeed(ChangesFeed):
-    '''
-    RSS feed for changes in translation.
-    '''
+    """RSS feed for changes in translation."""
 
     # Arguments number differs from overridden method
     # pylint: disable=W0221
@@ -92,9 +88,7 @@ class TranslationChangesFeed(ChangesFeed):
 
 
 class SubProjectChangesFeed(TranslationChangesFeed):
-    '''
-    RSS feed for changes in subproject.
-    '''
+    """RSS feed for changes in subproject."""
 
     # Arguments number differs from overridden method
     # pylint: disable=W0221
@@ -109,9 +103,7 @@ class SubProjectChangesFeed(TranslationChangesFeed):
 
 
 class ProjectChangesFeed(TranslationChangesFeed):
-    '''
-    RSS feed for changes in project.
-    '''
+    """RSS feed for changes in project."""
 
     # Arguments number differs from overridden method
     # pylint: disable=W0221
@@ -126,9 +118,7 @@ class ProjectChangesFeed(TranslationChangesFeed):
 
 
 class LanguageChangesFeed(TranslationChangesFeed):
-    '''
-    RSS feed for changes in language.
-    '''
+    """RSS feed for changes in language."""
 
     # Arguments number differs from overridden method
     # pylint: disable=W0221

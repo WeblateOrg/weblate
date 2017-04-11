@@ -18,9 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-"""
-Tests for user handling.
-"""
+"""Test for user handling."""
 
 import json
 
@@ -190,9 +188,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         self.assertContains(response, 'Failed to verify your registration')
 
     def test_reset(self):
-        '''
-        Test for password reset.
-        '''
+        """Test for password reset."""
         User.objects.create_user('testuser', 'test@example.com', 'x')
 
         response = self.client.get(
@@ -210,9 +206,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         self.assert_registration('[Weblate] Password reset on Weblate')
 
     def test_reset_nonexisting(self):
-        '''
-        Test for password reset.
-        '''
+        """Test for password reset."""
         response = self.client.get(
             reverse('password_reset'),
         )
@@ -227,9 +221,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         self.assertEqual(len(mail.outbox), 0)
 
     def test_reset_anonymous(self):
-        '''
-        Test for password reset of anonymous user.
-        '''
+        """Test for password reset of anonymous user."""
         response = self.client.get(
             reverse('password_reset'),
         )
@@ -244,9 +236,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         self.assertEqual(len(mail.outbox), 0)
 
     def test_reset_twice(self):
-        '''
-        Test for password reset.
-        '''
+        """Test for password reset."""
         User.objects.create_user('testuser', 'test@example.com', 'x')
         User.objects.create_user('testuser2', 'test2@example.com', 'x')
 

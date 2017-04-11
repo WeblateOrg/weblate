@@ -18,9 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-"""
-Tests for language manipulations.
-"""
+"""Test for language manipulations."""
 
 import os.path
 import gettext
@@ -227,9 +225,7 @@ class LanguagesTest(TestCase):
     )
 
     def test_auto_create(self):
-        '''
-        Tests that auto create correctly handles languages
-        '''
+        """Test that auto create correctly handles languages"""
         for original, expected, direction, plural, name in self.TEST_LANGUAGES:
             # Create language
             lang = Language.objects.auto_get_or_create(original)
@@ -260,9 +256,7 @@ class LanguagesTest(TestCase):
             self.assertEqual(force_text(lang), name)
 
     def test_plurals(self):
-        '''
-        Test whether plural form is correctly calculated.
-        '''
+        """Test whether plural form is correctly calculated."""
         lang = Language.objects.get(code='cs')
         self.assertEqual(
             lang.get_plural_form(),
@@ -299,9 +293,7 @@ class LanguagesTest(TestCase):
 
 
 class CommandTest(TestCase):
-    '''
-    Tests for management commands.
-    '''
+    """Test for management commands."""
     def test_setuplang(self):
         call_command('setuplang')
         self.assertTrue(Language.objects.exists())
@@ -319,11 +311,10 @@ class CommandTest(TestCase):
 
 
 class VerifyPluralsTest(TestCase):
-    """
-    In database plural form verification.
-    """
+    """In database plural form verification."""
+
     def test_valid(self):
-        """Validates that we can name all plural equations"""
+        """Validate that we can name all plural equations"""
         for language in Language.objects.all():
             self.assertNotEqual(
                 get_plural_type(
@@ -338,7 +329,7 @@ class VerifyPluralsTest(TestCase):
             )
 
     def test_equation(self):
-        """Validates that all equations can be parsed by gettext"""
+        """Validate that all equations can be parsed by gettext"""
         # Verify we get an error on invalid syntax
         self.assertRaises(
             (SyntaxError, ValueError),

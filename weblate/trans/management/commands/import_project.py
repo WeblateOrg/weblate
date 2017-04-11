@@ -39,9 +39,7 @@ from weblate.logger import LOGGER
 
 
 class Command(BaseCommand):
-    """
-    Command for mass importing of repositories into Weblate.
-    """
+    """Command for mass importing of repositories into Weblate."""
     help = 'imports projects with more components'
 
     def add_arguments(self, parser):
@@ -148,17 +146,13 @@ class Command(BaseCommand):
         self._mask_regexp = None
 
     def format_string(self, template, match):
-        '''
-        Formats template string with match.
-        '''
+        """Format template string with match."""
         if '%s' in template:
             return template % match
         return template
 
     def get_name(self, path):
-        """
-        Returns file name from patch based on filemask.
-        """
+        """Return file name from patch based on filemask."""
         matches = self.match_regexp.match(path)
         if matches is None:
             self.logger.warning('Skipping %s', path)
@@ -167,9 +161,7 @@ class Command(BaseCommand):
 
     @property
     def match_regexp(self):
-        '''
-        Returns regexp for file matching
-        '''
+        """Return regexp for file matching"""
         if self.component_re is not None:
             return self.component_re
         if self._mask_regexp is None:
@@ -181,9 +173,7 @@ class Command(BaseCommand):
         return self._mask_regexp
 
     def checkout_tmp(self, project, repo, branch):
-        '''
-        Checkouts project to temporary location.
-        '''
+        """Checkout project to temporary location."""
         # Create temporary working dir
         workdir = tempfile.mkdtemp(dir=project.get_path())
         # Make the temporary directory readable by others
@@ -199,18 +189,14 @@ class Command(BaseCommand):
         return workdir
 
     def get_matching_files(self, repo):
-        '''
-        Returns relative path of matched files.
-        '''
+        """Return relative path of matched files."""
         matches = glob(os.path.join(repo, self.filemask))
         return [
             path_separator(f.replace(repo, '')).strip('/') for f in matches
         ]
 
     def get_matching_subprojects(self, repo):
-        '''
-        Scan the master repository for names matching our mask
-        '''
+        """Scan the master repository for names matching our mask"""
         # Find matching files
         matches = self.get_matching_files(repo)
         self.logger.info('Found %d matching files', len(matches))
@@ -254,7 +240,7 @@ class Command(BaseCommand):
         )
 
     def parse_options(self, options):
-        """Parses parameters"""
+        """Parse parameters"""
         self.filemask = options['filemask']
         self.vcs = options['vcs']
         self.file_format = options['file_format']
@@ -304,9 +290,7 @@ class Command(BaseCommand):
             )
 
     def handle(self, *args, **options):
-        '''
-        Automatic import of project.
-        '''
+        """Automatic import of project."""
         # Read params
         repo = options['repo']
         branch = options['branch']
@@ -398,9 +382,7 @@ class Command(BaseCommand):
         return result
 
     def import_initial(self, project, repo, branch, slug_len, name_len):
-        '''
-        Import the first repository of a project
-        '''
+        """Import the first repository of a project"""
         # Checkout git to temporary dir
         workdir = self.checkout_tmp(project, repo, branch)
         matches = self.get_matching_subprojects(workdir)

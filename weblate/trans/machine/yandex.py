@@ -28,15 +28,11 @@ from weblate.trans.machine.base import (
 
 
 class YandexTranslation(MachineTranslation):
-    '''
-    Yandex machine translation support.
-    '''
+    """Yandex machine translation support."""
     name = 'Yandex'
 
     def __init__(self):
-        '''
-        Checks configuration.
-        '''
+        """Check configuration."""
         super(YandexTranslation, self).__init__()
         if settings.MT_YANDEX_KEY is None:
             raise MissingConfiguration(
@@ -53,9 +49,7 @@ class YandexTranslation(MachineTranslation):
         )
 
     def download_languages(self):
-        '''
-        Downloads list of supported languages from a service.
-        '''
+        """Download list of supported languages from a service."""
         response = self.json_req(
             'https://translate.yandex.net/api/v1.5/tr.json/getLangs',
             key=settings.MT_YANDEX_KEY
@@ -64,15 +58,11 @@ class YandexTranslation(MachineTranslation):
         return [tuple(item.split('-')) for item in response['dirs']]
 
     def is_supported(self, source, language):
-        '''
-        Checks whether given language combination is supported.
-        '''
+        """Check whether given language combination is supported."""
         return (source, language) in self.supported_languages
 
     def download_translations(self, source, language, text, unit, user):
-        '''
-        Downloads list of possible translations from a service.
-        '''
+        """Download list of possible translations from a service."""
         response = self.json_req(
             'https://translate.yandex.net/api/v1.5/tr.json/translate',
             key=settings.MT_YANDEX_KEY,

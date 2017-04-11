@@ -24,27 +24,19 @@ from weblate.trans.machine.base import MachineTranslation
 
 
 class GlosbeTranslation(MachineTranslation):
-    '''
-    Glosbe machine translation support.
-    '''
+    """Glosbe machine translation support."""
     name = 'Glosbe'
 
     def convert_language(self, language):
-        '''
-        Converts language to service specific code.
-        '''
+        """Convert language to service specific code."""
         return language.replace('_', '-').split('-')[0].lower()
 
     def is_supported(self, source, language):
-        '''
-        Any language is supported.
-        '''
+        """Any language is supported."""
         return True
 
     def download_translations(self, source, language, text, unit, user):
-        '''
-        Downloads list of possible translations from a service.
-        '''
+        """Download list of possible translations from a service."""
         params = {
             'from': source,
             'dest': language,

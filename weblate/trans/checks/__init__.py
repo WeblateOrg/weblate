@@ -22,7 +22,7 @@ from weblate.utils.classloader import ClassLoader
 
 
 def highlight_string(source, unit):
-    """Returns highlights for a string"""
+    """Return highlights for a string"""
     if unit is None:
         return []
     highlights = []

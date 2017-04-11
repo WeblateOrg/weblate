@@ -25,9 +25,7 @@ from django.core.exceptions import ImproperlyConfigured
 
 
 def load_class(name, setting):
-    '''
-    Imports module and creates class given by name in string.
-    '''
+    """Import module and creates class given by name in string."""
     try:
         module, attr = name.rsplit('.', 1)
     except ValueError as error:
@@ -56,8 +54,7 @@ def load_class(name, setting):
 
 
 class ClassLoader(object):
-    """Dict like object to lazy load list of classes.
-    """
+    """Dict like object to lazy load list of classes."""
     def __init__(self, name):
         self.name = name
         self._data = None

@@ -126,17 +126,13 @@ class WeblateDateField(forms.DateField):
 
 
 class PluralTextarea(forms.Textarea):
-    '''
-    Text area extension which possibly handles plurals.
-    '''
+    """Text area extension which possibly handles plurals."""
     def __init__(self, *args, **kwargs):
         self.profile = None
         super(PluralTextarea, self).__init__(*args, **kwargs)
 
     def get_toolbar(self, language, fieldname, unit, idx):
-        """
-        Returns toolbar HTML code.
-        """
+        """Return toolbar HTML code."""
         profile = self.profile
         groups = []
         plurals = unit.get_source_plurals()
@@ -209,9 +205,7 @@ class PluralTextarea(forms.Textarea):
         return TOOLBAR_TEMPLATE.format('\n'.join(groups))
 
     def render(self, name, value, attrs=None, renderer=None):
-        '''
-        Renders all textareas with correct plural labels.
-        '''
+        """Render all textareas with correct plural labels."""
         unit = value
         values = unit.get_target_plurals()
         lang = unit.translation.language
@@ -279,9 +273,7 @@ class PluralTextarea(forms.Textarea):
         return mark_safe(''.join(ret))
 
     def value_from_datadict(self, data, files, name):
-        '''
-        Returns processed plurals as a list.
-        '''
+        """Return processed plurals as a list."""
         ret = []
         for idx in range(0, 10):
             fieldname = '{0}_{1:d}'.format(name, idx)
@@ -293,11 +285,11 @@ class PluralTextarea(forms.Textarea):
 
 
 class PluralField(forms.CharField):
-    '''
-    Renderer for plural field. The only difference
-    from CharField is that it does not force value to be
-    string.
-    '''
+    """Renderer for the plural field.
+
+    The only difference from CharField is that it does not force value to
+    be string.
+    """
     def __init__(self, max_length=None, min_length=None, *args, **kwargs):
         kwargs['label'] = ''
         super(PluralField, self).__init__(
@@ -307,16 +299,12 @@ class PluralField(forms.CharField):
         )
 
     def to_python(self, value):
-        '''
-        Returns list or string as returned by PluralTextarea.
-        '''
+        """Return list or string as returned by PluralTextarea."""
         return value
 
 
 class ChecksumForm(forms.Form):
-    '''
-    Form for handling checksum ids for translation.
-    '''
+    """Form for handling checksum ids for translation."""
     checksum = forms.CharField(widget=forms.HiddenInput)
 
     def __init__(self, translation, *args, **kwargs):
@@ -324,9 +312,7 @@ class ChecksumForm(forms.Form):
         super(ChecksumForm, self).__init__(*args, **kwargs)
 
     def clean_checksum(self):
-        '''
-        Validates whether checksum is valid and fetches unit for it.
-        '''
+        """Validate whether checksum is valid and fetches unit for it."""
         if 'checksum' not in self.cleaned_data:
             return
 
@@ -347,9 +333,7 @@ class ChecksumForm(forms.Form):
 
 
 class TranslationForm(ChecksumForm):
-    '''
-    Form used for translation of single string.
-    '''
+    """Form used for translation of single string."""
     target = PluralField(
         required=False,
     )
@@ -380,24 +364,18 @@ class TranslationForm(ChecksumForm):
 
 
 class AntispamForm(forms.Form):
-    '''
-    Honeypot based spam protection form.
-    '''
+    """Honeypot based spam protection form."""
     content = forms.CharField(required=False)
 
     def clean_content(self):
-        '''
-        Check if content is empty.
-        '''
+        """Check if content is empty."""
         if self.cleaned_data['content'] != '':
             raise ValidationError('Invalid value')
         return ''
 
 
 class SimpleUploadForm(forms.Form):
-    '''
-    Base form for uploading a file.
-    '''
+    """Base form for uploading a file."""
     file = forms.FileField(label=_('File'))
     method = forms.ChoiceField(
         label=_('Merge method'),
@@ -432,9 +410,7 @@ class SimpleUploadForm(forms.Form):
 
 
 class UploadForm(SimpleUploadForm):
-    '''
-    Upload form with option to overwrite current messages.
-    '''
+    """Upload form with option to overwrite current messages."""
     upload_overwrite = forms.BooleanField(
         label=_('Overwrite existing translations'),
         help_text=_(
@@ -447,9 +423,7 @@ class UploadForm(SimpleUploadForm):
 
 
 class ExtraUploadForm(UploadForm):
-    '''
-    Advanced upload form for users who can override authorship.
-    '''
+    """Advanced upload form for users who can override authorship."""
     author_name = forms.CharField(
         label=_('Author name'),
         required=False,
@@ -463,9 +437,7 @@ class ExtraUploadForm(UploadForm):
 
 
 def get_upload_form(user, translation, *args):
-    '''
-    Returns correct upload form based on user permissions.
-    '''
+    """Return correct upload form based on user permissions."""
     project = translation.subproject.project
     if can_author_translation(user, project):
         form = ExtraUploadForm
@@ -509,9 +481,7 @@ class FilterField(forms.ChoiceField):
 
 
 class SearchForm(forms.Form):
-    '''
-    Text searching form.
-    '''
+    """Text searching form."""
     # pylint: disable=C0103
     q = forms.CharField(
         label=_('Query'),
@@ -562,9 +532,7 @@ class SearchForm(forms.Form):
     )
 
     def clean(self):
-        '''
-        Sanity checking for search type.
-        '''
+        """Sanity checking for search type."""
         cleaned_data = super(SearchForm, self).clean()
 
         # Default to fulltext / all strings
@@ -590,9 +558,7 @@ class SearchForm(forms.Form):
         return cleaned_data
 
     def urlencode(self):
-        '''
-        Encodes query string to be used in URL.
-        '''
+        """Encode query string to be used in URL."""
         query = {}
 
         if self.cleaned_data['q']:
@@ -610,9 +576,7 @@ class SearchForm(forms.Form):
         return urlencode(query)
 
     def get_name(self):
-        """
-        Returns verbose name for a search.
-        """
+        """Return verbose name for a search."""
         search_name = ''
         filter_name = ''
 
@@ -657,10 +621,7 @@ class SiteSearchForm(SearchForm):
     )
 
     def __init__(self, *args, **kwargs):
-        '''
-        Dynamically generate choices for used languages
-        in project
-        '''
+        """Dynamically generate choices for used languages in project."""
         super(SiteSearchForm, self).__init__(*args, **kwargs)
 
         self.fields['lang'].choices += [
@@ -670,23 +631,17 @@ class SiteSearchForm(SearchForm):
 
 
 class MergeForm(ChecksumForm):
-    '''
-    Simple form for merging translation of two units.
-    '''
+    """Simple form for merging translation of two units."""
     merge = forms.IntegerField()
 
 
 class RevertForm(ChecksumForm):
-    '''
-    Form for reverting edits.
-    '''
+    """Form for reverting edits."""
     revert = forms.IntegerField()
 
 
 class AutoForm(forms.Form):
-    '''
-    Automatic translation form.
-    '''
+    """Automatic translation form."""
     overwrite = forms.BooleanField(
         label=_('Overwrite strings'),
         required=False,
@@ -704,10 +659,7 @@ class AutoForm(forms.Form):
     )
 
     def __init__(self, obj, user, *args, **kwargs):
-        '''
-        Dynamically generate choices for other subproject
-        in same project
-        '''
+        """Dynamically generate choices for other subproject in same project."""
         other_subprojects = obj.subproject.project.subproject_set.exclude(
             id=obj.subproject.id
         )
@@ -731,9 +683,7 @@ class AutoForm(forms.Form):
 
 
 class WordForm(forms.Form):
-    '''
-    Form for adding word to a glossary.
-    '''
+    """Form for adding word to a glossary."""
     source = forms.CharField(label=_('Source'))
     target = forms.CharField(label=_('Translation'))
 
@@ -749,9 +699,7 @@ class InlineWordForm(WordForm):
 
 
 class DictUploadForm(forms.Form):
-    '''
-    Uploading file to a dictionary.
-    '''
+    """Uploading file to a dictionary."""
     file = forms.FileField(
         label=_('File'),
         help_text=_(
@@ -771,9 +719,7 @@ class DictUploadForm(forms.Form):
 
 
 class ReviewForm(forms.Form):
-    '''
-    Translation review form.
-    '''
+    """Translation review form."""
     date = WeblateDateField(
         label=_('Starting date'),
     )
@@ -786,9 +732,7 @@ class ReviewForm(forms.Form):
 
 
 class LetterForm(forms.Form):
-    '''
-    Form for choosing starting letter in a glossary.
-    '''
+    """Form for choosing starting letter in a glossary."""
     LETTER_CHOICES = [(chr(97 + x), chr(65 + x)) for x in range(26)]
     any_letter = pgettext_lazy('Select starting letter in glossary', 'Any')
     letter = forms.ChoiceField(
@@ -805,9 +749,7 @@ class LetterForm(forms.Form):
 
 
 class CommentForm(forms.Form):
-    '''
-    Simple commenting form.
-    '''
+    """Simple commenting form."""
     scope = forms.ChoiceField(
         label=_('Scope'),
         help_text=_(
@@ -833,19 +775,14 @@ class CommentForm(forms.Form):
 
 
 class EnageLanguageForm(forms.Form):
-    '''
-    Form to choose language for engagement widgets.
-    '''
+    """Form to choose language for engagement widgets."""
     lang = forms.ChoiceField(
         required=False,
         choices=[('', _('Whole project'))],
     )
 
     def __init__(self, project, *args, **kwargs):
-        '''
-        Dynamically generate choices for used languages
-        in project
-        '''
+        """Dynamically generate choices for used languages in project."""
         choices = [(l.code, force_text(l)) for l in project.get_languages()]
 
         super(EnageLanguageForm, self).__init__(*args, **kwargs)
@@ -854,9 +791,7 @@ class EnageLanguageForm(forms.Form):
 
 
 class NewLanguageOwnerForm(forms.Form):
-    '''
-    Form for requesting new language.
-    '''
+    """Form for requesting new language."""
     lang = forms.MultipleChoiceField(
         label=_('Languages'),
         choices=[]
@@ -891,9 +826,7 @@ class NewLanguageOwnerForm(forms.Form):
 
 
 class NewLanguageForm(NewLanguageOwnerForm):
-    '''
-    Form for requesting new language.
-    '''
+    """Form for requesting new language."""
     lang = forms.ChoiceField(
         label=_('Language'),
         choices=[]
@@ -911,7 +844,7 @@ class NewLanguageForm(NewLanguageOwnerForm):
 
 
 def get_new_language_form(request, component):
-    """Returns new language form for user"""
+    """Return new language form for user"""
     if not can_add_translation(request.user, component.project):
         raise PermissionDenied()
     if can_mass_add_translation(request.user, component.project):
@@ -945,9 +878,7 @@ class CheckFlagsForm(forms.Form):
         )
 
     def clean_flags(self):
-        """
-        Be a little bit more tolerant on whitespaces.
-        """
+        """Be a little bit more tolerant on whitespaces."""
         flags = [
             x.strip() for x in self.cleaned_data['flags'].strip().split(',')
         ]
@@ -1094,9 +1025,7 @@ class ReplaceForm(forms.Form):
 
 
 class MatrixLanguageForm(forms.Form):
-    '''
-    Form for requesting new language.
-    '''
+    """Form for requesting new language."""
     lang = forms.MultipleChoiceField(
         label=_('Languages'),
         choices=[]

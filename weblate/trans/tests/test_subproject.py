@@ -18,9 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-"""
-Tests for translation models.
-"""
+"""Test for translation models."""
 
 import os
 import shutil
@@ -36,9 +34,7 @@ from weblate.trans.tests.test_views import ViewTestCase
 
 
 class SubProjectTest(RepoTestCase):
-    """
-    SubProject object testing.
-    """
+    """SubProject object testing."""
     def verify_subproject(self, project, translations, lang=None, units=0,
                           unit='Hello, world!\n', fail=False):
         # Validation
@@ -249,9 +245,7 @@ class SubProjectTest(RepoTestCase):
         self.verify_subproject(project, 3, 'cs', 4)
 
     def test_extra_file(self):
-        """
-        Extra commit file validation.
-        """
+        """Extra commit file validation."""
         project = self.create_subproject()
         project.full_clean()
 
@@ -269,9 +263,7 @@ class SubProjectTest(RepoTestCase):
         )
 
     def test_check_flags(self):
-        """
-        Check flags validation.
-        """
+        """Check flags validation."""
         project = self.create_subproject()
         project.full_clean()
 
@@ -306,9 +298,7 @@ class SubProjectTest(RepoTestCase):
 
 
 class SubProjectDeleteTest(RepoTestCase):
-    """
-    SubProject object deleting testing.
-    """
+    """SubProject object deleting testing."""
     def test_delete(self):
         project = self.create_subproject()
         self.assertTrue(os.path.exists(project.get_path()))
@@ -331,9 +321,7 @@ class SubProjectDeleteTest(RepoTestCase):
 
 
 class SubProjectChangeTest(RepoTestCase):
-    """
-    SubProject object change testing.
-    """
+    """SubProject object change testing."""
     def test_rename(self):
         subproject = self.create_subproject()
         old_path = subproject.get_path()
@@ -393,9 +381,7 @@ class SubProjectChangeTest(RepoTestCase):
 
 
 class SubProjectValidationTest(RepoTestCase):
-    """
-    SubProject object validation testing.
-    """
+    """SubProject object validation testing."""
     def setUp(self):
         super(SubProjectValidationTest, self).setUp()
         self.component = self.create_subproject()
@@ -577,7 +563,7 @@ class SubProjectValidationTest(RepoTestCase):
 
 
 class SubProjectErrorTest(RepoTestCase):
-    """Tests for error handling"""
+    """Test for error handling"""
 
     def setUp(self):
         super(SubProjectErrorTest, self).setUp()
@@ -679,7 +665,7 @@ class SubProjectErrorTest(RepoTestCase):
 
 
 class SubProjectEditTest(ViewTestCase):
-    """Tests for error handling"""
+    """Test for error handling"""
     @staticmethod
     def remove_units(store):
         store.units = []
@@ -705,7 +691,7 @@ class SubProjectEditTest(ViewTestCase):
 
 
 class SubProjectEditMonoTest(SubProjectEditTest):
-    """Tests for error handling"""
+    """Test for error handling"""
     def create_subproject(self):
         return self.create_ts_mono()
 

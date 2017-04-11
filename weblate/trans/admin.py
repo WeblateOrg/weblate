@@ -49,9 +49,7 @@ class ProjectAdmin(WeblateAdmin):
     num_vcs.short_description = _('VCS repositories')
 
     def update_from_git(self, request, queryset):
-        """
-        Updates selected components from git.
-        """
+        """Update selected components from git."""
         for project in queryset:
             project.do_update(request)
         self.message_user(
@@ -60,9 +58,7 @@ class ProjectAdmin(WeblateAdmin):
     update_from_git.short_description = _('Update VCS repository')
 
     def update_checks(self, request, queryset):
-        """
-        Recalculates checks for selected components.
-        """
+        """Recalculate checks for selected components."""
         cnt = 0
         units = Unit.objects.filter(
             translation__subproject__project__in=queryset
@@ -76,9 +72,7 @@ class ProjectAdmin(WeblateAdmin):
     update_checks.short_description = _('Update quality checks')
 
     def force_commit(self, request, queryset):
-        """
-        Commits pending changes for selected components.
-        """
+        """Commit pending changes for selected components."""
         for project in queryset:
             project.commit_pending(request)
         self.message_user(
@@ -107,9 +101,7 @@ class SubProjectAdmin(WeblateAdmin):
     actions = ['update_from_git', 'update_checks', 'force_commit']
 
     def update_from_git(self, request, queryset):
-        """
-        Updates selected components from git.
-        """
+        """Update selected components from git."""
         for project in queryset:
             project.do_update(request)
         self.message_user(
@@ -118,9 +110,7 @@ class SubProjectAdmin(WeblateAdmin):
     update_from_git.short_description = _('Update VCS repository')
 
     def update_checks(self, request, queryset):
-        """
-        Recalculates checks for selected components.
-        """
+        """Recalculate checks for selected components."""
         cnt = 0
         units = Unit.objects.filter(
             translation__subproject__in=queryset
@@ -135,9 +125,7 @@ class SubProjectAdmin(WeblateAdmin):
     update_checks.short_description = _('Update quality checks')
 
     def force_commit(self, request, queryset):
-        """
-        Commits pending changes for selected components.
-        """
+        """Commit pending changes for selected components."""
         for project in queryset:
             project.commit_pending(request)
         self.message_user(

@@ -38,9 +38,7 @@ class Command(BaseCommand):
     help = 'clenups orphaned checks and suggestions'
 
     def handle(self, *args, **options):
-        '''
-        Perfoms cleanup of Weblate database.
-        '''
+        """Perfom cleanup of Weblate database."""
         with transaction.atomic():
             self.cleanup_sources()
         self.cleanup_database()
@@ -61,7 +59,7 @@ class Command(BaseCommand):
             ).delete()
 
     def cleanup_files(self):
-        """Removes stale screenshots"""
+        """Remove stale screenshots"""
         storage = DefaultStorage()
         try:
             files = storage.listdir('screenshots')[1]
@@ -73,7 +71,7 @@ class Command(BaseCommand):
                 storage.delete(fullname)
 
     def cleanup_fulltext(self):
-        """Removes stale units from fulltext"""
+        """Remove stale units from fulltext"""
         languages = Language.objects.have_translation().values_list(
             'code', flat=True
         )
@@ -90,7 +88,7 @@ class Command(BaseCommand):
                 clean_search_unit(item['pk'], lang)
 
     def cleanup_database(self):
-        """Cleanups the database"""
+        """Cleanup the database"""
         for prj in Project.objects.all():
             with transaction.atomic():
 

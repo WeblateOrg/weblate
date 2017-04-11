@@ -18,9 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-"""
-Tests for user handling.
-"""
+"""Test for user handling."""
 
 import tempfile
 from django.test import TestCase
@@ -35,9 +33,7 @@ from weblate.accounts.models import Profile
 
 
 class CommandTest(TestCase):
-    '''
-    Tests for management commands.
-    '''
+    """Test for management commands."""
     def test_createadmin(self):
         call_command('createadmin')
         user = User.objects.get(username='admin')

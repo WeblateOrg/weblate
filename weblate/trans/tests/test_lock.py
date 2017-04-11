@@ -18,9 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-"""
-Tests for locking.
-"""
+"""Test for locking."""
 
 from django.core.urlresolvers import reverse
 

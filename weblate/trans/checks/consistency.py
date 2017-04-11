@@ -23,9 +23,7 @@ from weblate.trans.checks.base import TargetCheck
 
 
 class PluralsCheck(TargetCheck):
-    '''
-    Check for incomplete plural forms
-    '''
+    """Check for incomplete plural forms"""
     check_id = 'plurals'
     name = _('Missing plurals')
     description = _('Some plural forms are not translated')
@@ -42,16 +40,12 @@ class PluralsCheck(TargetCheck):
         return '' in targets
 
     def check_single(self, source, target, unit):
-        '''
-        We don't check target strings here.
-        '''
+        """We don't check target strings here."""
         return False
 
 
 class SamePluralsCheck(TargetCheck):
-    '''
-    Check for same plural forms
-    '''
+    """Check for same plural forms"""
     check_id = 'same-plurals'
     name = _('Same plurals')
     description = _('Some plural forms are translated in the same way')
@@ -66,16 +60,12 @@ class SamePluralsCheck(TargetCheck):
         return len(set(targets)) != len(targets)
 
     def check_single(self, source, target, unit):
-        '''
-        We don't check target strings here.
-        '''
+        """We don't check target strings here."""
         return False
 
 
 class ConsistencyCheck(TargetCheck):
-    '''
-    Check for inconsistent translations
-    '''
+    """Check for inconsistent translations"""
     check_id = 'inconsistent'
     name = _('Inconsistent')
     description = _(
@@ -100,16 +90,12 @@ class ConsistencyCheck(TargetCheck):
         return related.exists()
 
     def check_single(self, source, target, unit):
-        '''
-        We don't check target strings here.
-        '''
+        """We don't check target strings here."""
         return False
 
 
 class TranslatedCheck(TargetCheck):
-    '''
-    Check for inconsistent translations
-    '''
+    """Check for inconsistent translations"""
     check_id = 'translated'
     name = _('Has been translated')
     description = _(
@@ -125,7 +111,5 @@ class TranslatedCheck(TargetCheck):
         return unit.change_set.content().exists()
 
     def check_single(self, source, target, unit):
-        '''
-        We don't check target strings here.
-        '''
+        """We don't check target strings here."""
         return False

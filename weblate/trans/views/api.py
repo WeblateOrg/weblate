@@ -83,18 +83,14 @@ def hook_response(response='Update triggered', status='success'):
 
 
 def register_hook(handler):
-    """
-    Registers hook handler.
-    """
+    """Register hook handler."""
     name = handler.__name__.split('_')[0]
     HOOK_HANDLERS[name] = handler
     return handler
 
 
 def perform_update(obj):
-    '''
-    Triggers update of given object.
-    '''
+    """Trigger update of given object."""
     if settings.BACKGROUND_HOOKS:
         thread = threading.Thread(target=obj.do_update)
         thread.start()
@@ -104,9 +100,7 @@ def perform_update(obj):
 
 @csrf_exempt
 def update_subproject(request, project, subproject):
-    '''
-    API hook for updating git repos.
-    '''
+    """API hook for updating git repos."""
     if not settings.ENABLE_HOOKS:
         return HttpResponseNotAllowed([])
     obj = get_subproject(request, project, subproject, True)
@@ -118,9 +112,7 @@ def update_subproject(request, project, subproject):
 
 @csrf_exempt
 def update_project(request, project):
-    '''
-    API hook for updating git repos.
-    '''
+    """API hook for updating git repos."""
     if not settings.ENABLE_HOOKS:
         return HttpResponseNotAllowed([])
     obj = get_project(request, project, True)
@@ -131,7 +123,7 @@ def update_project(request, project):
 
 
 def parse_hook_payload(request):
-    """Parses hook payload."""
+    """Parse hook payload."""
     # GitLab sends json as application/json
     if request.META['CONTENT_TYPE'] == 'application/json':
         return json.loads(request.body.decode('utf-8'))
@@ -143,13 +135,12 @@ def parse_hook_payload(request):
 @require_POST
 @csrf_exempt
 def vcs_service_hook(request, service):
-    '''
-    Shared code between VCS service hooks.
+    """Shared code between VCS service hooks.
 
     Currently used for bitbucket_hook, github_hook and gitlab_hook, but should
     be usable for other VCS services (Google Code, custom coded sites, etc.)
     too.
-    '''
+    """
     # We support only post methods
     if not settings.ENABLE_HOOKS:
         return HttpResponseNotAllowed(())
@@ -247,9 +238,7 @@ def bitbucket_webhook_helper(data):
 
 @register_hook
 def bitbucket_hook_helper(data):
-    '''
-    API to handle service hooks from Bitbucket.
-    '''
+    """API to handle service hooks from Bitbucket."""
     if 'push' in data:
         return bitbucket_webhook_helper(data)
 
@@ -286,9 +275,7 @@ def bitbucket_hook_helper(data):
 
 @register_hook
 def github_hook_helper(data):
-    '''
-    API to handle commit hooks from GitHub.
-    '''
+    """API to handle commit hooks from GitHub."""
     # Parse owner, branch and repository name
     owner = data['repository']['owner']['name']
     slug = data['repository']['name']
@@ -309,9 +296,7 @@ def github_hook_helper(data):
 
 @register_hook
 def gitlab_hook_helper(data):
-    '''
-    API to handle commit hooks from GitLab.
-    '''
+    """API to handle commit hooks from GitLab."""
     ssh_url = data['repository']['url']
     http_url = '.'.join((data['repository']['homepage'], 'git'))
     branch = re.sub(r'^refs/heads/', '', data['ref'])
@@ -333,9 +318,7 @@ def gitlab_hook_helper(data):
 
 
 def export_stats_project(request, project):
-    '''
-    Exports stats in JSON format.
-    '''
+    """Export stats in JSON format."""
     obj = get_project(request, project)
 
     data = get_project_stats(obj)
@@ -357,9 +340,7 @@ def export_stats_project(request, project):
 
 
 def export_stats(request, project, subproject):
-    '''
-    Exports stats in JSON format.
-    '''
+    """Export stats in JSON format."""
     subprj = get_subproject(request, project, subproject)
 
     data = [

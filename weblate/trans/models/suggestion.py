@@ -35,9 +35,7 @@ class SuggestionManager(models.Manager):
     # pylint: disable=W0232
 
     def add(self, unit, target, request, vote=False):
-        '''
-        Creates new suggestion for this unit.
-        '''
+        """Create new suggestion for this unit."""
         user = request.user
 
         same = self.filter(
@@ -87,7 +85,7 @@ class SuggestionManager(models.Manager):
         return True
 
     def copy(self, project):
-        """Copies suggestions to new project
+        """Copy suggestions to new project
 
         This is used on moving component to other project and ensures nothing
         is lost. We don't actually look where the suggestion belongs as it
@@ -163,18 +161,14 @@ class Suggestion(models.Model, UserDisplayMixin):
         self.delete()
 
     def get_num_votes(self):
-        '''
-        Returns number of votes.
-        '''
+        """Return number of votes."""
         votes = Vote.objects.filter(suggestion=self)
         positive = votes.filter(positive=True).aggregate(Count('id'))
         negative = votes.filter(positive=False).aggregate(Count('id'))
         return positive['id__count'] - negative['id__count']
 
     def add_vote(self, translation, request, positive):
-        '''
-        Adds (or updates) vote for a suggestion.
-        '''
+        """Add (or updates) vote for a suggestion."""
         if not request.user.is_authenticated:
             return
 
@@ -195,9 +189,7 @@ class Suggestion(models.Model, UserDisplayMixin):
 
 @python_2_unicode_compatible
 class Vote(models.Model):
-    '''
-    Suggestion voting.
-    '''
+    """Suggestion voting."""
     suggestion = models.ForeignKey(Suggestion)
     user = models.ForeignKey(User)
     positive = models.BooleanField(default=True)

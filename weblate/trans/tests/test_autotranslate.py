@@ -18,9 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-"""
-Tests for automatic translation
-"""
+"""Test for automatic translation"""
 
 from django.core.urlresolvers import reverse
 from django.core.management import call_command
@@ -51,9 +49,7 @@ class AutoTranslationTest(ViewTestCase):
         )
 
     def test_none(self):
-        '''
-        Tests for automatic translation with no content.
-        '''
+        """Test for automatic translation with no content."""
         url = reverse('auto_translation', kwargs=self.kw_translation)
         response = self.client.post(
             url
@@ -88,9 +84,7 @@ class AutoTranslationTest(ViewTestCase):
         self.assertEqual(translation.translated, expected)
 
     def test_different(self):
-        '''
-        Tests for automatic translation with different content.
-        '''
+        """Test for automatic translation with different content."""
         self.perform_auto()
 
     def test_inconsistent(self):

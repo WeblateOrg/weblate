@@ -18,9 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-"""
-Tests for search views.
-"""
+"""Test for search views."""
 
 from __future__ import unicode_literals
 
@@ -48,9 +46,7 @@ class SearchViewTest(ViewTestCase):
         self.translate_url = self.translation.get_translate_url()
 
     def do_search(self, params, expected, url=None):
-        '''
-        Helper method for performing search test.
-        '''
+        """Helper method for performing search test."""
         if url is None:
             url = self.translate_url
         response = self.client.get(url, params)
@@ -67,9 +63,7 @@ class SearchViewTest(ViewTestCase):
         return response
 
     def test_all_search(self):
-        '''
-        Searching in all projects.
-        '''
+        """Searching in all projects."""
         response = self.client.get(
             reverse('search'),
             {'q': 'hello'}
@@ -154,9 +148,7 @@ class SearchViewTest(ViewTestCase):
         )
 
     def test_language_search(self):
-        '''
-        Searching in all projects.
-        '''
+        """Searching in all projects."""
         response = self.client.get(
             reverse('search'),
             {'q': 'hello', 'lang': 'cs'}
@@ -167,9 +159,7 @@ class SearchViewTest(ViewTestCase):
         )
 
     def test_project_search(self):
-        '''
-        Searching within project.
-        '''
+        """Searching within project."""
         # Default
         response = self.client.get(
             reverse('search', kwargs=self.kw_project),
@@ -181,9 +171,7 @@ class SearchViewTest(ViewTestCase):
         )
 
     def test_project_language_search(self):
-        '''
-        Searching within project.
-        '''
+        """Searching within project."""
         response = self.client.get(
             reverse(
                 'search',
@@ -197,9 +185,7 @@ class SearchViewTest(ViewTestCase):
         )
 
     def test_translation_search(self):
-        '''
-        Searching within translation.
-        '''
+        """Searching within translation."""
         # Default
         self.do_search(
             {'q': 'hello'},
@@ -328,9 +314,7 @@ class SearchViewTest(ViewTestCase):
         )
 
     def test_mixed_sid(self):
-        """
-        Tests using SID from other translation.
-        """
+        """Test using SID from other translation."""
         translation = self.subproject.translation_set.get(
             language_code='de'
         )

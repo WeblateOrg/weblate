@@ -31,9 +31,7 @@ from weblate.utils.unittest import tempdir_setting
 
 
 class AdminTest(ViewTestCase):
-    '''
-    Tests for customized admin interface.
-    '''
+    """Test for customized admin interface."""
     def setUp(self):
         super(AdminTest, self).setUp()
         self.user.is_staff = True
@@ -110,25 +108,19 @@ class AdminTest(ViewTestCase):
         )
 
     def test_subproject(self):
-        '''
-        Test for custom subproject actions.
-        '''
+        """Test for custom subproject actions."""
         self.assert_custom_admin(
             reverse('admin:trans_subproject_changelist')
         )
 
     def test_project(self):
-        '''
-        Test for custom project actions.
-        '''
+        """Test for custom project actions."""
         self.assert_custom_admin(
             reverse('admin:trans_project_changelist')
         )
 
     def assert_custom_admin(self, url):
-        '''
-        Test for (sub)project custom admin.
-        '''
+        """Test for (sub)project custom admin."""
         response = self.client.get(url)
         self.assertContains(
             response, 'Update VCS repository'

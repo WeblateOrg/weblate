@@ -28,22 +28,16 @@ from six.moves.urllib.parse import quote
 
 
 class TMServerTranslation(MachineTranslation):
-    '''
-    tmserver machine translation support.
-    '''
+    """tmserver machine translation support."""
     name = 'tmserver'
 
     def __init__(self):
-        '''
-        Checks configuration.
-        '''
+        """Check configuration."""
         super(TMServerTranslation, self).__init__()
         self.url = self.get_server_url()
 
     def get_server_url(self):
-        '''
-        Returns URL of a server.
-        '''
+        """Return URL of a server."""
         if settings.MT_TMSERVER is None:
             raise MissingConfiguration(
                 'Not configured tmserver URL'
@@ -52,15 +46,11 @@ class TMServerTranslation(MachineTranslation):
         return settings.MT_TMSERVER.rstrip('/')
 
     def convert_language(self, language):
-        '''
-        Converts language to service specific code.
-        '''
+        """Convert language to service specific code."""
         return language.replace('-', '_').lower()
 
     def download_languages(self):
-        '''
-        Downloads list of supported languages from a service.
-        '''
+        """Download list of supported languages from a service."""
         data = self.json_req('{0}/languages/'.format(self.url))
         return [
             (src, tgt)
@@ -69,9 +59,7 @@ class TMServerTranslation(MachineTranslation):
         ]
 
     def is_supported(self, source, language):
-        '''
-        Checks whether given language combination is supported.
-        '''
+        """Check whether given language combination is supported."""
         if len(self.supported_languages) == 0:
             # Fallback for old tmserver which does not export list of
             # supported languages
@@ -79,9 +67,7 @@ class TMServerTranslation(MachineTranslation):
         return (source, language) in self.supported_languages
 
     def download_translations(self, source, language, text, unit, user):
-        '''
-        Downloads list of possible translations from a service.
-        '''
+        """Download list of possible translations from a service."""
         url = '{0}/{1}/{2}/unit/{3}'.format(
             self.url,
             quote(source),
@@ -95,9 +81,7 @@ class TMServerTranslation(MachineTranslation):
 
 
 class AmagamaTranslation(TMServerTranslation):
-    '''
-    Specific instance of tmserver ran by Virtaal authors.
-    '''
+    """Specific instance of tmserver ran by Virtaal authors."""
     name = 'Amagama'
 
     def get_server_url(self):

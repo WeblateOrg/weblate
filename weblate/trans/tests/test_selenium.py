@@ -250,9 +250,7 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
 
     @override_settings(REGISTRATION_CAPTCHA=False)
     def test_register(self, clear=False):
-        """
-        Test registration.
-        """
+        """Test registration."""
         url = self.register_user()
 
         # Delete all cookies
@@ -281,9 +279,7 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
         )
 
     def test_register_nocookie(self):
-        """
-        Test registration without cookies.
-        """
+        """Test registration without cookies."""
         self.test_register(True)
 
 
@@ -302,9 +298,7 @@ EXTRA_PLATFORMS = {
 
 
 def create_extra_classes():
-    '''
-    Create classes for testing with other browsers
-    '''
+    """Create classes for testing with other browsers"""
     classes = {}
     for platform, caps in EXTRA_PLATFORMS.items():
         name = '{0}_{1}'.format(

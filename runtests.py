@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-"""This file mainly exists to allow python setup.py test to work."""
+"""Wrapper to execute Django tests from setup.py."""
 
 import os
 import sys

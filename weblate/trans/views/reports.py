@@ -33,7 +33,7 @@ from weblate.permissions.helpers import can_view_reports
 
 
 def generate_credits(component, start_date, end_date):
-    """Generates credits data for given component."""
+    """Generate credits data for given component."""
 
     result = []
 
@@ -121,7 +121,7 @@ def get_credits(request, project, subproject):
 
 
 def generate_counts(component, start_date, end_date):
-    """Generates credits data for given component."""
+    """Generate credits data for given component."""
 
     result = {}
 

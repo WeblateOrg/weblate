@@ -22,9 +22,7 @@ import weblate
 
 
 class Check(object):
-    '''
-    Basic class for checks.
-    '''
+    """Basic class for checks."""
     check_id = ''
     name = ''
     description = ''
@@ -62,9 +60,7 @@ class Check(object):
         return False
 
     def check_target(self, sources, targets, unit):
-        '''
-        Checks target strings.
-        '''
+        """Check target strings."""
         if self.enable_check_value:
             return self.check_target_unit_with_flag(
                 sources, targets, unit
@@ -77,15 +73,11 @@ class Check(object):
         return self.check_target_unit(sources, targets, unit)
 
     def check_target_unit_with_flag(self, sources, targets, unit):
-        '''
-        Checks flag value
-        '''
+        """Check flag value"""
         raise NotImplementedError()
 
     def check_target_unit(self, sources, targets, unit):
-        '''
-        Checks single unit, handling plurals.
-        '''
+        """Check single unit, handling plurals."""
         # Check singular
         if self.check_single(sources[0], targets[0], unit):
             return True
@@ -100,21 +92,15 @@ class Check(object):
         return False
 
     def check_single(self, source, target, unit):
-        '''
-        Check for single phrase, not dealing with plurals.
-        '''
+        """Check for single phrase, not dealing with plurals."""
         raise NotImplementedError()
 
     def check_source(self, source, unit):
-        '''
-        Checks source string
-        '''
+        """Check source string"""
         raise NotImplementedError()
 
     def check_chars(self, source, target, pos, chars):
-        '''
-        Generic checker for chars presence.
-        '''
+        """Generic checker for chars presence."""
         try:
             src = source[pos]
             tgt = target[pos]
@@ -127,117 +113,83 @@ class Check(object):
         )
 
     def check_ends(self, target, ends):
-        """
-        Check whether target ends with one of given ends.
-        """
+        """Check whether target ends with one of given ends."""
         for end in ends:
             if target.endswith(end):
                 return True
         return False
 
     def is_language(self, unit, vals):
-        '''
-        Detects whether language is in given list, ignores language
-        variants.
-        '''
+        """Detect whether language is in given list, ignores variants."""
         return unit.translation.language.code.split('_')[0] in vals
 
     def get_doc_url(self):
-        '''
-        Returns link to documentation.
-        '''
+        """Return link to documentation."""
         return weblate.get_doc_url('user/checks', self.doc_id)
 
     def check_highlight(self, source, unit):
-        '''
-        Returns parts of the text that match to hightlight them
+        """Return parts of the text that match to hightlight them
         return is table that contains lists of two elements with
         start position of the match and the value of the match
-        '''
+        """
         return []
 
 
 class TargetCheck(Check):
-    '''
-    Basic class for target checks.
-    '''
+    """Basic class for target checks."""
     target = True
 
     def check_target_unit_with_flag(self, sources, targets, unit):
-        '''
-        We don't check flag value here.
-        '''
+        """We don't check flag value here."""
         return False
 
     def check_source(self, source, unit):
-        '''
-        We don't check source strings here.
-        '''
+        """We don't check source strings here."""
         return False
 
     def check_single(self, source, target, unit):
-        '''
-        Check for single phrase, not dealing with plurals.
-        '''
+        """Check for single phrase, not dealing with plurals."""
         raise NotImplementedError()
 
 
 class SourceCheck(Check):
-    '''
-    Basic class for source checks.
-    '''
+    """Basic class for source checks."""
     source = True
 
     def check_target_unit_with_flag(self, sources, targets, unit):
-        '''
-        We don't check flag value here.
-        '''
+        """We don't check flag value here."""
         return False
 
     def check_single(self, source, target, unit):
-        '''
-        We don't check target strings here.
-        '''
+        """We don't check target strings here."""
         return False
 
     def check_source(self, source, unit):
-        '''
-        Checks source string
-        '''
+        """Check source string"""
         raise NotImplementedError()
 
 
 class TargetCheckWithFlag(Check):
-    '''
-    Basic class for target checks with flag value.
-    '''
+    """Basic class for target checks with flag value."""
     default_disabled = True
     enable_check_value = True
     target = True
 
     def check_target_unit_with_flag(self, sources, targets, unit):
-        '''
-        Checks flag value
-        '''
+        """Check flag value"""
         raise NotImplementedError()
 
     def check_single(self, source, target, unit):
-        '''
-        We don't check single phrase here.
-        '''
+        """We don't check single phrase here."""
         return False
 
     def check_source(self, source, unit):
-        '''
-        We don't check source strings here.
-        '''
+        """We don't check source strings here."""
         return False
 
 
 class CountingCheck(TargetCheck):
-    '''
-    Check whether there is same count of given string.
-    '''
+    """Check whether there is same count of given string."""
     string = None
 
     def check_single(self, source, target, unit):

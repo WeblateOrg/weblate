@@ -25,9 +25,7 @@ class Command(WeblateCommand):
     help = 'checks status of git repo'
 
     def handle(self, *args, **options):
-        '''
-        Shows status of git repository in given projects.
-        '''
+        """Show status of git repository in given projects."""
         for subproject in self.get_subprojects(*args, **options):
             self.stdout.write('{0}:'.format(subproject))
             self.stdout.write(subproject.repository.status())

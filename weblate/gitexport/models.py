@@ -31,7 +31,7 @@ SUPPORTED_VCS = frozenset(('git', 'gerrit', 'github', 'subversion'))
 
 
 def get_export_url(component):
-    """Returns Git export URL for component"""
+    """Return Git export URL for component"""
     return get_site_url(
         reverse(
             'git-export',

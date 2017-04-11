@@ -23,9 +23,7 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class ReplaceFooWithBar(AutoFix):
-    '''
-    Replaces foo with bar.
-    '''
+    """Replace foo with bar."""
 
     name = _('Foobar')
 

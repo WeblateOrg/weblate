@@ -58,9 +58,7 @@ PRIORITY_CHOICES = (
 
 
 def is_plural(text):
-    '''
-    Checks whether string is plural form.
-    '''
+    """Check whether string is plural form."""
     return text.find(PLURAL_SEPARATOR) != -1
 
 
@@ -73,9 +71,7 @@ def join_plural(text):
 
 
 def get_string(text):
-    '''
-    Returns correctly formatted string from ttkit unit data.
-    '''
+    """Return correctly formatted string from ttkit unit data."""
     # Check for null target (happens with XLIFF)
     if text is None:
         return ''
@@ -85,18 +81,17 @@ def get_string(text):
 
 
 def is_repo_link(val):
-    '''
-    Checks whether repository is just a link for other one.
-    '''
+    """Check whether repository is just a link for other one."""
     return val.startswith('weblate://')
 
 
 def get_distinct_translations(units):
-    '''
-    Returns list of distinct translations. It should be possible to use
+    """Return list of distinct translations.
+
+    It should be possible to use
     distinct('target') since Django 1.4, but it is not supported with MySQL, so
     let's emulate that based on presumption we won't get too many results.
-    '''
+    """
     targets = {}
     result = []
     for unit in units:
@@ -108,9 +103,7 @@ def get_distinct_translations(units):
 
 
 def translation_percent(translated, total):
-    '''
-    Returns translation percentage.
-    '''
+    """Return translation percentage."""
     if total == 0 or total is None:
         return 0.0
     perc = round(1000 * translated / total) / 10.0
@@ -123,9 +116,7 @@ def translation_percent(translated, total):
 
 
 def add_configuration_error(name, message):
-    """
-    Logs configuration error.
-    """
+    """Log configuration error."""
     errors = cache.get('configuration-errors', [])
     errors.append({
         'name': name,
@@ -135,16 +126,12 @@ def add_configuration_error(name, message):
 
 
 def get_configuration_errors():
-    """
-    Returns all configuration errors.
-    """
+    """Return all configuration errors."""
     return cache.get('configuration-errors', [])
 
 
 def get_clean_env(extra=None):
-    """
-    Returns cleaned up environment for subprocess execution.
-    """
+    """Return cleaned up environment for subprocess execution."""
     environ = {
         'LANG': 'en_US.UTF-8',
         'HOME': data_dir('home'),
@@ -165,9 +152,7 @@ def get_clean_env(extra=None):
 
 
 def cleanup_repo_url(url):
-    """
-    Removes credentials from repository URL.
-    """
+    """Remove credentials from repository URL."""
     parsed = urlparse(url)
     if parsed.username and parsed.password:
         return url.replace(
@@ -188,18 +173,14 @@ def cleanup_repo_url(url):
 
 
 def redirect_param(location, params, *args, **kwargs):
-    """
-    Redirects to a URL with parameters.
-    """
+    """Redirect to a URL with parameters."""
     return HttpResponseRedirect(
         resolve_url(location, *args, **kwargs) + params
     )
 
 
 def cleanup_path(path):
-    """
-    Removes leading ./ or / from path.
-    """
+    """Remove leading ./ or / from path."""
     if path.startswith('./'):
         path = path[2:]
     if path.startswith('/'):
@@ -208,7 +189,7 @@ def cleanup_path(path):
 
 
 def get_project_description(project):
-    """Returns verbose description for project translation"""
+    """Return verbose description for project translation"""
     return _(
         '{0} is translated into {1} languages using Weblate. '
         'Join the translation or start translating your own project.',
@@ -228,7 +209,7 @@ def render(request, template, context=None, status=None):
 
 
 def path_separator(path):
-    """Always use / as path separator for consistency"""
+    """Alway use / as path separator for consistency"""
     if os.path.sep != '/':
         return path.replace(os.path.sep, '/')
     return path
@@ -250,25 +231,22 @@ def sort_unicode(choices, key):
 
 
 def remove_accents(input_str):
-    """
-    Removes accents from a string.
-    """
+    """Remove accents from a string."""
     nkfd_form = unicodedata.normalize('NFKD', force_text(input_str))
     only_ascii = nkfd_form.encode('ASCII', 'ignore')
     return only_ascii
 
 
 def sort_choices(choices):
-    '''
-    Sorts choices alphabetically.
+    """Sort choices alphabetically.
 
     Either using cmp or pyuca.
-    '''
+    """
     return sort_unicode(choices, lambda tup: tup[1])
 
 
 def sort_objects(objects):
-    """Sorts objects alphabetically"""
+    """Sort objects alphabetically"""
     return sort_unicode(objects, force_text)
 
 
@@ -280,7 +258,7 @@ class WeblateAdmin(ModelAdmin):
 
 
 def check_domain(domain):
-    """Checks whether site domain is correctly set"""
+    """Check whether site domain is correctly set"""
     return (
         domain not in DEFAULT_DOMAINS and
         not domain.startswith('http:') and

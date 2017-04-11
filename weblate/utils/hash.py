@@ -24,7 +24,7 @@ from siphashc import siphash
 
 
 def calculate_hash(source, context):
-    """Calculates checksum identifying translation."""
+    """Calculate checksum identifying translation."""
     if source is not None:
         data = source.encode('utf-8') + context.encode('utf-8')
     else:

@@ -26,36 +26,26 @@ from weblate.trans.machine.base import MachineTranslation
 
 
 class MyMemoryTranslation(MachineTranslation):
-    '''
-    MyMemory machine translation support.
-    '''
+    """MyMemory machine translation support."""
     name = 'MyMemory'
 
     def convert_language(self, language):
-        '''
-        Converts language to service specific code.
-        '''
+        """Convert language to service specific code."""
         return language.replace('_', '-').lower()
 
     def is_supported(self, source, language):
-        '''
-        Checks whether given language combination is supported.
-        '''
+        """Check whether given language combination is supported."""
         return self.lang_supported(source) and self.lang_supported(language)
 
     @staticmethod
     def lang_supported(language):
-        '''
-        Almost any language without modifiers is supported.
-        '''
+        """Almost any language without modifiers is supported."""
         if language in ('ia', 'tt', 'ug'):
             return False
         return '@' not in language and len(language) == 2
 
     def format_match(self, match):
-        '''
-        Reformats match to (translation, quality) tuple.
-        '''
+        """Reformat match to (translation, quality) tuple."""
         if isinstance(match['quality'], int):
             quality = match['quality']
         elif match['quality'] is not None and match['quality'].isdigit():
@@ -79,9 +69,7 @@ class MyMemoryTranslation(MachineTranslation):
         )
 
     def download_translations(self, source, language, text, unit, user):
-        '''
-        Downloads list of possible translations from MyMemory.
-        '''
+        """Download list of possible translations from MyMemory."""
         args = {
             'q': text.split('. ')[0][:500],
             'langpair': '{0}|{1}'.format(source, language),

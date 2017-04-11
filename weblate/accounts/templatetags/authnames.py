@@ -17,9 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-"""
-Provides user friendly names for social authentication methods.
-"""
+"""Provide user friendly names for social authentication methods."""
 from __future__ import unicode_literals
 from django import template
 from django.utils.safestring import mark_safe
@@ -60,9 +58,7 @@ FL_SOCIAL_TEMPLATE = '''
 
 @register.simple_tag
 def auth_name(auth, extra_class='fa-4x', separator='<br />'):
-    """
-    Creates HTML markup for social authentication method.
-    """
+    """Create HTML markup for social authentication method."""
 
     params = {
         'name': auth,

@@ -18,9 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-"""
-Helpers for quality checks tests.
-"""
+"""Helper for quality checks tests."""
 from __future__ import unicode_literals
 
 import random
@@ -29,35 +27,27 @@ from django.test import TestCase
 
 
 class MockLanguage(object):
-    '''
-    Mock language object.
-    '''
+    """Mock language object."""
     def __init__(self, code='cs'):
         self.code = code
 
 
 class MockProject(object):
-    '''
-    Mock project object.
-    '''
+    """Mock project object."""
     def __init__(self):
         self.id = 1
         self.source_language = MockLanguage('en')
 
 
 class MockSubProject(object):
-    '''
-    Mock subproject object.
-    '''
+    """Mock subproject object."""
     def __init__(self):
         self.id = 1
         self.project = MockProject()
 
 
 class MockTranslation(object):
-    '''
-    Mock translation object.
-    '''
+    """Mock translation object."""
     def __init__(self, code='cs'):
         self.language = MockLanguage(code)
         self.subproject = MockSubProject()
@@ -68,9 +58,7 @@ class MockTranslation(object):
 
 
 class MockUnit(object):
-    '''
-    Mock unit object.
-    '''
+    """Mock unit object."""
     def __init__(self, id_hash=None, flags='', code='cs', source='',
                  comment=''):
         if id_hash is None:
@@ -92,9 +80,7 @@ class MockUnit(object):
 
 
 class CheckTestCase(TestCase):
-    '''
-    Generic test, also serves for testing base class.
-    '''
+    """Generic test, also serves for testing base class."""
     check = None
 
     def setUp(self):
@@ -111,9 +97,7 @@ class CheckTestCase(TestCase):
         self.test_highlight = ()
 
     def do_test(self, expected, data, lang='cs'):
-        '''
-        Performs single check if we have data to test.
-        '''
+        """Perform single check if we have data to test."""
         if not data or self.check is None:
             return
         result = self.check.check_single(

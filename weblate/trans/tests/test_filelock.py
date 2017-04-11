@@ -36,9 +36,7 @@ class LockTest(TestCase):
         shutil.rmtree(self.testdir)
 
     def test_lock(self):
-        '''
-        Basic locking test.
-        '''
+        """Basic locking test."""
         lock = FileLock(self.testfile)
         lock.acquire()
         self.assertTrue(lock.is_locked)
@@ -48,9 +46,7 @@ class LockTest(TestCase):
         self.assertFalse(lock.check_lock())
 
     def test_lock_twice(self):
-        '''
-        Basic locking test.
-        '''
+        """Basic locking test."""
         lock = FileLock(self.testfile)
         lock.acquire()
         lock.acquire()
@@ -61,16 +57,12 @@ class LockTest(TestCase):
         self.assertFalse(lock.is_locked)
 
     def test_lock_invalid(self):
-        '''
-        Basic locking test.
-        '''
+        """Basic locking test."""
         lock = FileLock(os.path.join(self.testdir, 'invalid', 'lock', 'path'))
         self.assertRaises(OSError, lock.acquire)
 
     def test_context(self):
-        '''
-        Test of context handling.
-        '''
+        """Test of context handling."""
         lock = FileLock(self.testfile)
         lock2 = FileLock(self.testfile, timeout=0)
         with lock:
@@ -81,9 +73,7 @@ class LockTest(TestCase):
         self.assertFalse(lock.check_lock())
 
     def test_double(self):
-        '''
-        Test of double locking.
-        '''
+        """Test of double locking."""
         lock1 = FileLock(self.testfile)
         lock2 = FileLock(self.testfile, timeout=0)
         lock1.acquire()
@@ -93,9 +83,7 @@ class LockTest(TestCase):
         lock2.release()
 
     def test_stale(self):
-        '''
-        Handling of stale lock files.
-        '''
+        """Handling of stale lock files."""
         lock = FileLock(self.testfile)
         lockfile = open(lock.lockfile, 'w')
         lock.acquire()
@@ -111,9 +99,7 @@ class LockTest(TestCase):
         lock.release()
 
     def test_process(self):
-        '''
-        Test of double locking.
-        '''
+        """Test of double locking."""
         lock = FileLock(self.testfile)
         lock.acquire()
         try:

@@ -34,9 +34,7 @@ TEST_HOSTS = get_test_file('known_hosts')
 
 
 class SSHTest(TestCase):
-    '''
-    Tests for customized admin interface.
-    '''
+    """Test for customized admin interface."""
     @tempdir_setting('DATA_DIR')
     def test_parse(self):
         check_data_writable()

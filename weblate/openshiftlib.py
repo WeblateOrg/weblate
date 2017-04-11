@@ -28,7 +28,7 @@ from string import Template
 
 
 def get_openshift_secret_key():
-    """Tries to get secred token from OpenShift environment"""
+    """Trie to get secred token from OpenShift environment"""
 
     # Use actual secret token
     token = os.getenv('OPENSHIFT_SECRET_TOKEN')
@@ -50,7 +50,7 @@ def get_openshift_secret_key():
 
 
 def import_env_vars(environ, target):
-    """Imports WEBLATE_* variables into given object.
+    """Import WEBLATE_* variables into given object.
 
     This is used for importing settings from environment into settings module.
     """

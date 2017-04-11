@@ -56,9 +56,7 @@ def admin_context(request):
 
 @staff_member_required
 def report(request):
-    """
-    Provides report about git status of all repos.
-    """
+    """Provide report about git status of all repos."""
     context = admin_context(request)
     context['subprojects'] = SubProject.objects.all()
     return render(
@@ -69,7 +67,7 @@ def report(request):
 
 
 def get_first_loader():
-    """Returns first loader from settings"""
+    """Return first loader from settings"""
     if settings.TEMPLATES:
         loaders = settings.TEMPLATES[0].get(
             'OPTIONS', {}
@@ -87,9 +85,7 @@ def get_first_loader():
 
 @staff_member_required
 def performance(request):
-    """
-    Shows performance tuning tips.
-    """
+    """Show performance tuning tips."""
     checks = []
     # Check for debug mode
     checks.append((
@@ -245,9 +241,7 @@ def performance(request):
 
 @staff_member_required
 def ssh(request):
-    """
-    Show information and manipulate with SSH key.
-    """
+    """Show information and manipulate with SSH key."""
     # Check whether we can generate SSH key
     can_generate = can_generate_key()
 

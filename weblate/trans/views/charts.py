@@ -17,9 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-'''
-Charting library for Weblate.
-'''
+"""Charting library for Weblate."""
 
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
@@ -33,9 +31,7 @@ from weblate.trans.views.helper import get_project_translation
 
 def get_json_stats(request, days, step, project=None, subproject=None,
                    lang=None, user=None):
-    """
-    Parse json stats URL params.
-    """
+    """Parse json stats URL params."""
     if project is None and lang is None and user is None:
         project = None
         subproject = None
@@ -79,9 +75,7 @@ def get_json_stats(request, days, step, project=None, subproject=None,
 
 def yearly_activity(request, project=None, subproject=None, lang=None,
                     user=None):
-    """
-    Returns yearly activity for matching changes as json.
-    """
+    """Return yearly activity for matching changes as json."""
     activity = get_json_stats(
         request, 364, 7,
         project, subproject, lang, user,
@@ -114,9 +108,7 @@ def yearly_activity(request, project=None, subproject=None, lang=None,
 
 def monthly_activity(request, project=None, subproject=None, lang=None,
                      user=None):
-    """
-    Returns monthly activity for matching changes as json.
-    """
+    """Return monthly activity for matching changes as json."""
     activity = get_json_stats(
         request, 31, 1,
         project, subproject, lang, user

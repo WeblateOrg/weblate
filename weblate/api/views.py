@@ -115,9 +115,7 @@ class MultipleFieldMixin(object):
 
 
 class WeblateViewSet(viewsets.ReadOnlyModelViewSet):
-    """
-    Allows to skip content negotiation for certain requests.
-    """
+    """Allow to skip content negotiation for certain requests."""
     raw_urls = ()
 
     def perform_content_negotiation(self, request, force=False):
@@ -229,8 +227,7 @@ class WeblateViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class ProjectViewSet(WeblateViewSet):
-    """Translation projects API.
-    """
+    """Translation projects API."""
 
     queryset = Project.objects.none()
     serializer_class = ProjectSerializer
@@ -280,8 +277,8 @@ class ProjectViewSet(WeblateViewSet):
 
 
 class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
-    """Translation components API.
-    """
+    """Translation components API."""
+
     queryset = SubProject.objects.none()
     serializer_class = ComponentSerializer
     lookup_fields = ('project__slug', 'slug')
@@ -398,8 +395,8 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
 
 
 class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
-    """Translation components API.
-    """
+    """Translation components API."""
+
     queryset = Translation.objects.none()
     serializer_class = TranslationSerializer
     lookup_fields = (
@@ -498,8 +495,8 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
 
 
 class LanguageViewSet(viewsets.ReadOnlyModelViewSet):
-    """Languages API.
-    """
+    """Languages API."""
+
     queryset = Language.objects.none()
     serializer_class = LanguageSerializer
     lookup_field = 'code'
@@ -510,6 +507,7 @@ class LanguageViewSet(viewsets.ReadOnlyModelViewSet):
 
 class UnitViewSet(viewsets.ReadOnlyModelViewSet):
     """Units API"""
+
     queryset = Unit.objects.none()
     serializer_class = UnitSerializer
 
@@ -522,6 +520,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet):
 
 class ChangeViewSet(viewsets.ReadOnlyModelViewSet):
     """Changes API"""
+
     queryset = Change.objects.none()
     serializer_class = ChangeSerializer
 

@@ -17,9 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-'''
-Helper classes for management commands.
-'''
+"""Helper classes for management commands."""
 
 from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
@@ -29,9 +27,7 @@ from weblate.trans.models import Unit, SubProject, Translation
 
 
 class WeblateCommand(BaseCommand):
-    '''
-    Command which accepts project/component/--all params to process.
-    '''
+    """Command which accepts project/component/--all params to process."""
     def add_arguments(self, parser):
         parser.add_argument(
             '--all',
@@ -47,9 +43,7 @@ class WeblateCommand(BaseCommand):
         )
 
     def get_units(self, **options):
-        '''
-        Returns list of units matching parameters.
-        '''
+        """Return list of units matching parameters."""
         if options['all']:
             return Unit.objects.all()
         return Unit.objects.filter(
@@ -57,9 +51,7 @@ class WeblateCommand(BaseCommand):
         )
 
     def iterate_units(self, **options):
-        """
-        Memory effective iteration over units.
-        """
+        """Memory effective iteration over units."""
         units = self.get_units(**options).order_by('pk')
         count = units.count()
         if not count:
@@ -90,17 +82,13 @@ class WeblateCommand(BaseCommand):
         self.stdout.write('Operation completed')
 
     def get_translations(self, **options):
-        '''
-        Returns list of translations matching parameters.
-        '''
+        """Return list of translations matching parameters."""
         return Translation.objects.filter(
             subproject__in=self.get_subprojects(**options)
         )
 
     def get_subprojects(self, **options):
-        '''
-        Returns list of components matching parameters.
-        '''
+        """Return list of components matching parameters."""
         if options['all']:
             # all components
             result = SubProject.objects.all()
@@ -143,16 +131,15 @@ class WeblateCommand(BaseCommand):
         """
         The actual logic of the command. Subclasses must implement
         this method.
-
         """
         raise NotImplementedError()
 
 
 class WeblateLangCommand(WeblateCommand):
-    '''
+    """
     Command accepting additional language parameter to filter
     list of languages to process.
-    '''
+    """
     def add_arguments(self, parser):
         super(WeblateLangCommand, self).add_arguments(parser)
         parser.add_argument(
@@ -164,9 +151,7 @@ class WeblateLangCommand(WeblateCommand):
         )
 
     def get_units(self, **options):
-        '''
-        Returns list of units matching parameters.
-        '''
+        """Return list of units matching parameters."""
         units = super(WeblateLangCommand, self).get_units(**options)
 
         if options['lang'] is not None:
@@ -177,9 +162,7 @@ class WeblateLangCommand(WeblateCommand):
         return units
 
     def get_translations(self, **options):
-        '''
-        Returns list of translations matching parameters.
-        '''
+        """Return list of translations matching parameters."""
         result = super(WeblateLangCommand, self).get_translations(
             **options
         )
@@ -194,7 +177,6 @@ class WeblateLangCommand(WeblateCommand):
         """
         The actual logic of the command. Subclasses must implement
         this method.
-
         """
         raise NotImplementedError()
 
@@ -244,6 +226,5 @@ class WeblateTranslationCommand(BaseCommand):
         """
         The actual logic of the command. Subclasses must implement
         this method.
-
         """
         raise NotImplementedError()

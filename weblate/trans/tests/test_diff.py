@@ -26,9 +26,7 @@ from weblate.trans.tests.test_checks import MockUnit, MockLanguage
 
 
 class DiffTest(TestCase):
-    '''
-    Testing of HTML diff function.
-    '''
+    """Testing of HTML diff function."""
     def test_same(self):
         self.assertEqual(
             html_diff('first text', 'first text'),

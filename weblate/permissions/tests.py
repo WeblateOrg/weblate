@@ -96,8 +96,7 @@ class PermissionsTest(TestCase):
         self.assertTrue(can_delete_comment(self.user, self.project))
 
     def test_default_groups(self):
-        """
-        Check consistency of default permissions.
+        """Check consistency of default permissions.
 
         - The admin permissions have to contain all used permissions
         """
@@ -139,11 +138,11 @@ class GroupACLTest(ModelTestCase):
         self.privileged.groups.add(self.group)
 
     def test_acl_lockout(self):
-        '''
-        Basic sanity check.
+        """Basic sanity check.
+
         Group ACL set on a subproject should only allow members of
         the marked group to edit it.
-        '''
+        """
         self.assertTrue(can_edit(self.user, self.trans, self.PERMISSION))
         self.assertTrue(can_edit(self.privileged, self.trans, self.PERMISSION))
 
@@ -155,11 +154,11 @@ class GroupACLTest(ModelTestCase):
         self.assertFalse(can_edit(self.user, self.trans, self.PERMISSION))
 
     def test_acl_overlap(self):
-        '''
-        Overlap test.
+        """ACL overlap test.
+
         When two ACLs can apply to a translation object, only the most
         specific one should apply.
-        '''
+        """
         acl_lang = GroupACL.objects.create(language=self.language)
         acl_lang.groups.add(self.group)
 
@@ -207,11 +206,11 @@ class GroupACLTest(ModelTestCase):
         self.assertIsNone(acl.project)
 
     def test_acl_project(self):
-        '''
-        Basic sanity check for project-level actions.
+        """Basic sanity check for project-level actions.
+
         When a Group ACL is set for a project, and only for a project,
         it should apply to project-level actions on that project.
-        '''
+        """
         acl = GroupACL.objects.get(project=self.project)
         acl.groups.add(self.group)
         permission = Permission.objects.get(
@@ -227,11 +226,11 @@ class GroupACLTest(ModelTestCase):
         )
 
     def test_affects_unrelated(self):
-        '''
-        Unrelated objects test.
+        """Unrelated objects test.
+
         If I set an ACL on an object, it should not affect objects
         that it doesn't match. (in this case, a different language)
-        '''
+        """
         lang_cs = Language.objects.get(code='cs')
         lang_de = Language.objects.get(code='de')
         trans_cs = Translation.objects.create(
@@ -253,11 +252,11 @@ class GroupACLTest(ModelTestCase):
         self.assertTrue(can_edit(self.user, trans_de, self.PERMISSION))
 
     def test_affects_partial_match(self):
-        '''
-        Partial match test.
+        """Partial ACL match test.
+
         If I set an ACL on two criteria, e.g., subproject and language,
         it should not affect objects that only match one of the criteria.
-        '''
+        """
         lang_cs = Language.objects.get(code='cs')
         lang_de = Language.objects.get(code='de')
         trans_cs = Translation.objects.create(
@@ -282,15 +281,14 @@ class GroupACLTest(ModelTestCase):
         self.assertTrue(can_edit(self.user, trans_de, self.PERMISSION))
 
     def clear_permission_cache(self):
-        '''
-        Clear permission cache.
+        """Clear permission cache.
 
         This is necessary when testing interaction of the built-in permissions
         mechanism and Group ACL. The built-in mechanism will cache results
         of `has_perm` and friends, but these can be affected by the Group ACL
         lockout. Usually the cache will get cleared on every page request,
         but here we need to do it manually.
-        '''
+        """
         attribs = (
             '_perm_cache',
             '_user_perm_cache',
@@ -305,14 +303,14 @@ class GroupACLTest(ModelTestCase):
                     delattr(user, cache)
 
     def test_group_locked(self):
-        '''
-        Limited privilege test.
+        """Limited privilege test.
+
         Once a group is used in a GroupACL, it is said to be "locked".
         Privileges from the locked group should not apply outside GroupACL.
         I.e., if I gain "author_translation" privilege through membership
         in a "privileged_group", applicable to Czech language, this should
         not apply to any other language.
-        '''
+        """
         lang_cs = Language.objects.get(code='cs')
         lang_de = Language.objects.get(code='de')
         trans_cs = Translation.objects.create(
@@ -349,13 +347,13 @@ class GroupACLTest(ModelTestCase):
         self.assertFalse(can_edit(self.privileged, trans_de, perm_name))
 
     def test_project_specific(self):
-        '''
-        Project specificity test.
+        """Project specificity test.
+
         Project-level actions should only be affected by Group ACLs that
         are specific to the project, and don't have other criteria.
         E.g., if a GroupACL lists project+language, this should not give
         you project-level permissions.
-        '''
+        """
         permission = Permission.objects.get(
             codename='author_translation', content_type__app_label='trans'
         )
@@ -383,11 +381,11 @@ class GroupACLTest(ModelTestCase):
         ))
 
     def test_acl_not_filtered(self):
-        '''
-        Basic sanity check.
+        """Basic sanity check.
+
         Group ACL set on a subproject should only allow members of
         the marked group to edit it.
-        '''
+        """
         self.assertTrue(can_edit(self.user, self.trans, self.PERMISSION))
         self.assertTrue(can_edit(self.privileged, self.trans, self.PERMISSION))
 
@@ -432,9 +430,7 @@ class AutoGroupTest(TestCase):
 
 
 class CommandTest(TestCase):
-    '''
-    Tests for management commands.
-    '''
+    """Test for management commands."""
     def test_setupgroups(self):
         call_command('setupgroups')
         group = Group.objects.get(name='Users')

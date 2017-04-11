@@ -82,13 +82,9 @@ Additional message:
 
 
 class RegistrationTemplateView(TemplateView):
-    '''
-    Class for rendering registration pages.
-    '''
+    """Class for rendering registration pages."""
     def get_context_data(self, **kwargs):
-        '''
-        Creates context for rendering page.
-        '''
+        """Create context for rendering page."""
         context = super(RegistrationTemplateView, self).get_context_data(
             **kwargs
         )
@@ -97,9 +93,7 @@ class RegistrationTemplateView(TemplateView):
 
 
 def mail_admins_contact(request, subject, message, context, sender):
-    '''
-    Sends a message to the admins, as defined by the ADMINS setting.
-    '''
+    """Send a message to the admins, as defined by the ADMINS setting."""
     LOGGER.info(
         'contact form from %s',
         sender,
@@ -130,9 +124,7 @@ def mail_admins_contact(request, subject, message, context, sender):
 
 
 def deny_demo(request):
-    """
-    Denies editing of demo account on demo server.
-    """
+    """Deny editing of demo account on demo server."""
     messages.warning(
         request,
         _('You cannot change demo account on the demo server.')
@@ -259,9 +251,7 @@ def user_remove(request):
 
 
 def get_initial_contact(request):
-    '''
-    Fills in initial contact form fields from request.
-    '''
+    """Fill in initial contact form fields from request."""
     initial = {}
     if request.user.is_authenticated:
         initial['name'] = request.user.first_name
@@ -299,9 +289,7 @@ def contact(request):
 
 @login_required
 def hosting(request):
-    '''
-    Form for hosting request.
-    '''
+    """Form for hosting request."""
     if not settings.OFFER_HOSTING:
         return redirect('home')
 
@@ -333,9 +321,7 @@ def hosting(request):
 
 
 def user_page(request, user):
-    '''
-    User details page.
-    '''
+    """User details page."""
     user = get_object_or_404(User, username=user)
     profile = Profile.objects.get_or_create(user=user)[0]
 
@@ -369,9 +355,7 @@ def user_page(request, user):
 
 
 def user_avatar(request, user, size):
-    '''
-    User avatar page.
-    '''
+    """User avatar view."""
     user = get_object_or_404(User, username=user)
 
     if user.email == 'noreply@weblate.org':
@@ -388,9 +372,7 @@ def user_avatar(request, user, size):
 
 
 def weblate_login(request):
-    '''
-    Login handler, just wrapper around login.
-    '''
+    """Login handler, just wrapper around standard Django login."""
 
     # Redirect logged in users to profile
     if request.user.is_authenticated:
@@ -417,9 +399,7 @@ def weblate_login(request):
 
 @login_required
 def weblate_logout(request):
-    '''
-    Logout handler, just wrapper around standard logout.
-    '''
+    """Logout handler, just wrapper around standard Django logout."""
     messages.info(request, _('Thanks for using Weblate!'))
 
     return auth_views.logout(
@@ -429,9 +409,7 @@ def weblate_logout(request):
 
 
 def register(request):
-    '''
-    Registration form.
-    '''
+    """Registration form."""
     if settings.REGISTRATION_CAPTCHA:
         form_class = CaptchaRegistrationForm
     else:
@@ -470,9 +448,7 @@ def register(request):
 
 @login_required
 def email_login(request):
-    '''
-    Connect email.
-    '''
+    """Connect email."""
     if request.method == 'POST':
         form = EmailForm(request.POST)
         if form.is_valid():
@@ -492,9 +468,7 @@ def email_login(request):
 
 @login_required
 def password(request):
-    '''
-    Password change / set form.
-    '''
+    """Password change / set form."""
     if settings.DEMO_SERVER and request.user.username == 'demo':
         return deny_demo(request)
 
@@ -554,9 +528,7 @@ def password(request):
 
 
 def reset_password(request):
-    '''
-    Password reset handling.
-    '''
+    """Password reset handling."""
     if 'email' not in load_backends(BACKENDS).keys():
         messages.error(
             request,
@@ -591,7 +563,7 @@ def reset_password(request):
 
 @login_required
 def reset_api_key(request):
-    """Resets user API key"""
+    """Reset user API key"""
     request.user.auth_token.delete()
     Token.objects.create(
         user=request.user,

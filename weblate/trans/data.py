@@ -17,9 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-"""
-Data files helpers.
-"""
+"""Data files helpers."""
 import os
 
 from django.conf import settings
@@ -37,9 +35,7 @@ def create_and_check_dir(path):
 
 
 def check_data_writable():
-    """
-    Check we can write to data dir.
-    """
+    """Check we can write to data dir."""
     create_and_check_dir(settings.DATA_DIR)
     create_and_check_dir(data_dir('home'))
     create_and_check_dir(data_dir('whoosh'))
@@ -48,7 +44,5 @@ def check_data_writable():
 
 
 def data_dir(component):
-    """
-    Returns path to data dir for given component.
-    """
+    """Return path to data dir for given component."""
     return os.path.join(settings.DATA_DIR, component)

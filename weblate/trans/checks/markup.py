@@ -40,16 +40,12 @@ XML_ENTITY_MATCH = re.compile(r'&#?\w+;')
 
 
 def strip_entities(text):
-    '''
-    Strips all HTML entities (we don't care about them).
-    '''
+    """Strip all HTML entities (we don't care about them)."""
     return XML_ENTITY_MATCH.sub('', text)
 
 
 class BBCodeCheck(TargetCheck):
-    '''
-    Check for matching bbcode tags.
-    '''
+    """Check for matching bbcode tags."""
     check_id = 'bbcode'
     name = _('Mismatched BBcode')
     description = _('BBcode in translation does not match source')
@@ -87,9 +83,7 @@ class BBCodeCheck(TargetCheck):
 
 class BaseXMLCheck(TargetCheck):
     def parse_xml(self, text):
-        '''
-        Wrapper for parsing XML.
-        '''
+        """Wrapper for parsing XML."""
         text = ''.join(
             ('<weblate>', strip_entities(text), '</weblate>')
         )
@@ -106,16 +100,12 @@ class BaseXMLCheck(TargetCheck):
         return '<' in source and len(XML_MATCH.findall(source))
 
     def check_single(self, source, target, unit):
-        '''
-        Check for single phrase, not dealing with plurals.
-        '''
+        """Check for single phrase, not dealing with plurals."""
         raise NotImplementedError()
 
 
 class XMLValidityCheck(BaseXMLCheck):
-    '''
-    Check whether XML in target is valid.
-    '''
+    """Check whether XML in target is valid."""
     check_id = 'xml-invalid'
     name = _('Invalid XML markup')
     description = _('The translaton is not valid XML')
@@ -143,9 +133,7 @@ class XMLValidityCheck(BaseXMLCheck):
 
 
 class XMLTagsCheck(BaseXMLCheck):
-    '''
-    Check whether XML in target matches source.
-    '''
+    """Check whether XML in target matches source."""
     check_id = 'xml-tags'
     name = _('XML tags mismatch')
     description = _('XML tags in translation do not match source')

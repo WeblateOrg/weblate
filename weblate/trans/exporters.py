@@ -46,13 +46,13 @@ EXPORTERS = {}
 
 
 def register_exporter(exporter):
-    """Registerss exporter"""
+    """Register an exporter."""
     EXPORTERS[exporter.name] = exporter
     return exporter
 
 
 def get_exporter(name):
-    """Returns registered exporter"""
+    """Return registered exporter"""
     return EXPORTERS[name]
 
 
@@ -95,7 +95,7 @@ class BaseExporter(object):
         raise NotImplementedError()
 
     def add_dictionary(self, word):
-        """Adds dictionary word"""
+        """Add dictionary word"""
         unit = self.storage.UnitClass(self.string_filter(word.source))
         if self.has_lang:
             unit.settarget(self.string_filter(word.target), self.language.code)
@@ -151,7 +151,7 @@ class BaseExporter(object):
         return response
 
     def serialize(self):
-        """Returns storage content"""
+        """Return storage content"""
         return FileFormat.serialize(self.storage)
 
 

@@ -42,9 +42,7 @@ REPOWEB_URL = \
 
 
 def get_test_file(name):
-    '''
-    Returns filename of test file.
-    '''
+    """Return filename of test file."""
     return os.path.join(TEST_DATA, name)
 
 
@@ -57,7 +55,7 @@ def remove_readonly(func, path, _):
 class RepoTestMixin(object):
     @staticmethod
     def optional_extract(output, tarname):
-        """Extracts test repository data if needed
+        """Extract test repository data if needed
 
         Checks whether directory exists or is older than archive.
         """
@@ -161,9 +159,7 @@ class RepoTestMixin(object):
         clean_indexes()
 
     def create_project(self):
-        """
-        Creates test project.
-        """
+        """Create test project."""
         project = Project.objects.create(
             name='Test',
             slug='test',
@@ -174,9 +170,7 @@ class RepoTestMixin(object):
 
     def _create_subproject(self, file_format, mask, template='',
                            new_base='', vcs='git', branch=None, **kwargs):
-        """
-        Creates real test subproject.
-        """
+        """Create real test subproject."""
         if file_format not in FILE_FORMATS:
             raise SkipTest(
                 'File format {0} is not supported!'.format(file_format)
@@ -224,9 +218,7 @@ class RepoTestMixin(object):
         )
 
     def create_subproject(self):
-        """
-        Wrapper method for providing test subproject.
-        """
+        """Wrapper method for providing test subproject."""
         return self._create_subproject(
             'auto',
             'po/*.po',

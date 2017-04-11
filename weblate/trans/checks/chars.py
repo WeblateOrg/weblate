@@ -30,9 +30,7 @@ from weblate.trans.checks.base import (
 
 
 class BeginNewlineCheck(TargetCheck):
-    '''
-    Checks for newlines at beginning.
-    '''
+    """Check for newlines at beginning."""
     check_id = 'begin_newline'
     name = _('Starting newline')
     description = _('Source and translation do not both start with a newline')
@@ -43,9 +41,7 @@ class BeginNewlineCheck(TargetCheck):
 
 
 class EndNewlineCheck(TargetCheck):
-    '''
-    Checks for newlines at end.
-    '''
+    """Check for newlines at end."""
     check_id = 'end_newline'
     name = _('Trailing newline')
     description = _('Source and translation do not both end with a newline')
@@ -56,9 +52,7 @@ class EndNewlineCheck(TargetCheck):
 
 
 class BeginSpaceCheck(TargetCheck):
-    '''
-    Whitespace check, starting whitespace usually is important for UI
-    '''
+    """Whitespace check, starting whitespace usually is important for UI"""
     check_id = 'begin_space'
     name = _('Starting spaces')
     description = _(
@@ -87,9 +81,7 @@ class BeginSpaceCheck(TargetCheck):
 
 
 class EndSpaceCheck(TargetCheck):
-    '''
-    Whitespace check
-    '''
+    """Whitespace check"""
     check_id = 'end_space'
     name = _('Trailing space')
     description = _('Source and translation do not both end with a space')
@@ -121,9 +113,7 @@ class EndSpaceCheck(TargetCheck):
 
 
 class EndStopCheck(TargetCheck):
-    '''
-    Check for final stop
-    '''
+    """Check for final stop"""
     check_id = 'end_stop'
     name = _('Trailing stop')
     description = _('Source and translation do not both end with a full stop')
@@ -168,9 +158,7 @@ class EndStopCheck(TargetCheck):
 
 
 class EndColonCheck(TargetCheck):
-    '''
-    Check for final colon
-    '''
+    """Check for final colon"""
     check_id = 'end_colon'
     name = _('Trailing colon')
     description = _(
@@ -225,9 +213,7 @@ class EndColonCheck(TargetCheck):
 
 
 class EndQuestionCheck(TargetCheck):
-    '''
-    Check for final question mark
-    '''
+    """Check for final question mark"""
     check_id = 'end_question'
     name = _('Trailing question')
     description = _(
@@ -282,9 +268,7 @@ class EndQuestionCheck(TargetCheck):
 
 
 class EndExclamationCheck(TargetCheck):
-    '''
-    Check for final exclamation mark
-    '''
+    """Check for final exclamation mark"""
     check_id = 'end_exclamation'
     name = _('Trailing exclamation')
     description = _(
@@ -325,9 +309,7 @@ class EndExclamationCheck(TargetCheck):
 
 
 class EndEllipsisCheck(TargetCheck):
-    '''
-    Check for ellipsis at the end of string.
-    '''
+    """Check for ellipsis at the end of string."""
     check_id = 'end_ellipsis'
     name = _('Trailing ellipsis')
     description = _('Source and translation do not both end with an ellipsis')
@@ -343,9 +325,7 @@ class EndEllipsisCheck(TargetCheck):
 
 
 class NewlineCountingCheck(CountingCheck):
-    '''
-    Check whether there is same amount of \n strings
-    '''
+    """Check whether there is same amount of \n strings"""
     string = '\\n'
     check_id = 'escaped_newline'
     name = _('Mismatched \\n')
@@ -354,9 +334,7 @@ class NewlineCountingCheck(CountingCheck):
 
 
 class ZeroWidthSpaceCheck(TargetCheck):
-    '''
-    Check for zero width space char (<U+200B>).
-    '''
+    """Check for zero width space char (<U+200B>)."""
     check_id = 'zero-width-space'
     name = _('Zero-width space')
     description = _('Translation contains extra zero-width space character')
@@ -369,9 +347,7 @@ class ZeroWidthSpaceCheck(TargetCheck):
 
 
 class MaxLengthCheck(TargetCheckWithFlag):
-    '''
-    Check for maximum length of translation.
-    '''
+    """Check for maximum length of translation."""
     check_id = 'max-length'
     name = _('Maximum length of translation')
     description = _('Translation should not exceed given length')

@@ -40,9 +40,7 @@ def widgets_root(request):
 
 
 def widgets_sorter(widget):
-    """
-    Provides better ordering of widgets.
-    """
+    """Provide better ordering of widgets."""
     return WIDGETS[widget].order
 
 

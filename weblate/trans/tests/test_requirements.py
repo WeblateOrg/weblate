@@ -23,9 +23,7 @@ from weblate.requirements import check_version
 
 
 class RequirementsTest(TestCase):
-    '''
-    Testing of requirements checking code.
-    '''
+    """Testing of requirements checking code."""
     def test_check(self):
         self.assertFalse(check_version(
             'Test',

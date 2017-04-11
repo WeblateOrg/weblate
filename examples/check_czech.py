@@ -17,9 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-'''
-Quality check example for Czech plurals.
-'''
+"""Quality check example for Czech plurals."""
 
 from weblate.trans.checks.base import TargetCheck
 from django.utils.translation import ugettext_lazy as _
@@ -44,7 +42,5 @@ class PluralCzechCheck(TargetCheck):
         return False
 
     def check_single(self, source, target, unit):
-        '''
-        We don't check target strings here.
-        '''
+        """We don't check target strings here."""
         return False

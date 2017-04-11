@@ -43,7 +43,7 @@ GIT_PATHS = [
 
 
 def find_git_http_backend():
-    """Finds git http backend"""
+    """Find git http backend"""
 
     if hasattr(find_git_http_backend, 'result'):
         return find_git_http_backend.result
@@ -63,18 +63,14 @@ def find_git_http_backend():
 
 
 def response_authenticate():
-    """
-    Returns 401 response with authenticate header.
-    """
+    """Return 401 response with authenticate header."""
     response = HttpResponse(status=401)
     response['WWW-Authenticate'] = 'Basic realm="Weblate Git access"'
     return response
 
 
 def authenticate(request, auth):
-    """
-    Performs authentication with HTTP Basic auth
-    """
+    """Perform authentication with HTTP Basic auth"""
     auth = force_text(auth, encoding='iso-8859-1')
     try:
         method, data = auth.split(None, 1)

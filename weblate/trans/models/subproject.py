@@ -121,7 +121,7 @@ class SubProjectManager(models.Manager):
         )
 
     def get_linked(self, val):
-        """Returns subproject for linked repo."""
+        """Return subproject for linked repo."""
         if not is_repo_link(val):
             return None
         project, subproject = val[10:].split('/', 1)
@@ -522,20 +522,20 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         return '/'.join((self.project.slug, self.slug))
 
     def _reverse_url_kwargs(self):
-        """Returns kwargs for URL reversing."""
+        """Return kwargs for URL reversing."""
         return {
             'project': self.project.slug,
             'subproject': self.slug
         }
 
     def get_widgets_url(self):
-        """Returns absolute URL for widgets."""
+        """Return absolute URL for widgets."""
         return get_site_url(
             reverse('widgets', kwargs={'project': self.project.slug})
         )
 
     def get_share_url(self):
-        """Returns absolute URL usable for sharing."""
+        """Return absolute URL usable for sharing."""
         return get_site_url(
             reverse('engage', kwargs={'project': self.project.slug})
         )
@@ -548,26 +548,26 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
     @perform_on_link
     def _get_path(self):
-        """Returns full path to subproject VCS repository."""
+        """Return full path to subproject VCS repository."""
         return os.path.join(self.project.get_path(), self.slug)
 
     @perform_on_link
     def can_push(self):
-        """Returns true if push is possible for this subproject."""
+        """Return true if push is possible for this subproject."""
         return self.push != '' and self.push is not None
 
     @property
     def is_repo_link(self):
-        """Checks whether repository is just a link for other one."""
+        """Check whether repository is just a link for other one."""
         return is_repo_link(self.repo)
 
     def can_add_language(self):
-        """Returns true if new languages can be added."""
+        """Return true if new languages can be added."""
         return self.new_lang != 'none'
 
     @property
     def linked_subproject(self):
-        """Returns subproject for linked repo."""
+        """Return subproject for linked repo."""
         if self._linked_subproject is None:
             self._linked_subproject = SubProject.objects.get_linked(self.repo)
         return self._linked_subproject
@@ -592,7 +592,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         return self._get_repository()
 
     def get_last_remote_commit(self):
-        """Returns latest remote commit we know."""
+        """Return latest remote commit we know."""
         cache_key = '{0}-last-commit'.format(self.get_full_slug())
 
         result = cache.get(cache_key)
@@ -606,23 +606,23 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
     @perform_on_link
     def get_repo_url(self):
-        """Returns link to repository."""
+        """Return link to repository."""
         if not settings.HIDE_REPO_CREDENTIALS:
             return self.repo
         return cleanup_repo_url(self.repo)
 
     @perform_on_link
     def get_repo_branch(self):
-        """Returns branch in repository."""
+        """Return branch in repository."""
         return self.branch
 
     @perform_on_link
     def get_export_url(self):
-        """Returns URL of exported VCS repository."""
+        """Return URL of exported VCS repository."""
         return self.git_export
 
     def get_repoweb_link(self, filename, line):
-        """Generates link to source code browser for given file and line
+        """Generate link to source code browser for given file and line
 
         For linked repositories, it is possible to override linked
         repository path here.
@@ -640,7 +640,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
     @perform_on_link
     def update_remote_branch(self, validate=False):
-        """Pulls from remote repository."""
+        """Pull from remote repository."""
         # Update
         self.log_info('updating repository')
         try:
@@ -667,7 +667,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             return False
 
     def configure_repo(self, validate=False):
-        """Ensures repository is correctly configured"""
+        """Ensure repository is correctly configured"""
         if self.is_repo_link:
             return
 
@@ -681,7 +681,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             self.update_remote_branch(validate)
 
     def configure_branch(self):
-        """Ensures local tracking branch exists and is checkouted."""
+        """Ensure local tracking branch exists and is checkouted."""
         if self.is_repo_link:
             return
 
@@ -847,7 +847,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         self._linked_subproject = linked
 
     def get_linked_childs(self):
-        """Returns list of subprojects which link repository to us."""
+        """Return list of subprojects which link repository to us."""
         result = SubProject.objects.prefetch().filter(
             repo=self.get_repo_link_url()
         )
@@ -856,7 +856,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         return result
 
     def commit_pending(self, request, from_link=False, skip_push=False):
-        """Checks whether there is any translation which needs commit."""
+        """Check whether there is any translation which needs commit."""
         if not from_link and self.is_repo_link:
             return self.linked_subproject.commit_pending(
                 request, True, skip_push=skip_push
@@ -896,7 +896,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
     @perform_on_link
     def update_branch(self, request=None, method=None):
-        """Updates current branch to match remote (if possible)."""
+        """Update current branch to match remote (if possible)."""
         if method is None:
             method = self.merge_style
 
@@ -972,7 +972,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 return False
 
     def get_mask_matches(self):
-        """Returns files matching current mask."""
+        """Return files matching current mask."""
         prefix = path_separator(os.path.join(self.get_path(), ''))
         matches = set()
         for filename in glob(os.path.join(self.get_path(), self.filemask)):
@@ -1000,7 +1000,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
     def create_translations(self, force=False, langs=None, request=None,
                             changed_template=False):
-        """Loads translations from VCS."""
+        """Load translations from VCS."""
         translations = set()
         languages = set()
         matches = self.get_mask_matches()
@@ -1053,7 +1053,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         self.log_info('updating completed')
 
     def get_lang_code(self, path):
-        """Parses language code from path."""
+        """Parse language code from path."""
         # Parse filename
         matches = self.filemask_re.match(path)
 
@@ -1071,7 +1071,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         return code
 
     def sync_git_repo(self, validate=False):
-        """Brings VCS repo in sync with current model."""
+        """Bring VCS repo in sync with current model."""
         if self.is_repo_link:
             return
         self.configure_repo(validate)
@@ -1085,7 +1085,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             self.branch = VCS_REGISTRY[self.vcs].default_branch
 
     def clean_repo_link(self):
-        """Validates repository link."""
+        """Validate repository link."""
         try:
             repo = SubProject.objects.get_linked(self.repo)
             if repo is not None and repo.is_repo_link:
@@ -1122,7 +1122,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             )
 
     def clean_lang_codes(self, matches):
-        """Validates that there are no double language codes"""
+        """Validate that there are no double language codes"""
         if len(matches) == 0 and not self.can_add_new_language():
             raise ValidationError(
                 {'filemask': _('The mask did not match any files!')}
@@ -1156,7 +1156,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             translated_langs.add(lang.code)
 
     def clean_files(self, matches):
-        """Validates whether we can parse translation files."""
+        """Validate whether we can parse translation files."""
         notrecognized = []
         errors = []
         dir_path = self.get_path()
@@ -1189,7 +1189,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             ))
 
     def clean_new_lang(self):
-        """Validates new language choices."""
+        """Validate new language choices."""
         if self.new_lang == 'add':
             if not self.file_format_cls.supports_new_language():
                 msg = _(
@@ -1218,7 +1218,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             raise ValidationError({'new_lang': msg, 'new_base': msg})
 
     def clean_template(self):
-        """Validates template value."""
+        """Validate template value."""
         # Test for unexpected template usage
         if self.template != '' and self.file_format_cls.monolingual is False:
             msg = _('You can not use base file with bilingual translation!')
@@ -1344,11 +1344,11 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             )
 
     def get_template_filename(self):
-        """Creates absolute filename for template."""
+        """Create absolute filename for template."""
         return os.path.join(self.get_path(), self.template)
 
     def get_new_base_filename(self):
-        """Creates absolute filename for base file for new translations."""
+        """Create absolute filename for base file for new translations."""
         if not self.new_base:
             return None
         return os.path.join(self.get_path(), self.new_base)
@@ -1416,31 +1416,31 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             old.project.suggestion_set.copy(self.project)
 
     def _get_percents(self):
-        """Returns percentages of translation status"""
+        """Return percentages of translation status"""
         return self.translation_set.get_percents()
 
     def repo_needs_commit(self):
-        """Checks whether there are some not committed changes"""
+        """Check whether there are some not committed changes"""
         return self.repository.needs_commit()
 
     def repo_needs_merge(self):
-        """Checks whether there is something to merge from remote repository"""
+        """Check whether there is something to merge from remote repository"""
         return self.repository.needs_merge()
 
     def repo_needs_push(self):
-        """Checks whether there is something to push to remote repository"""
+        """Check whether there is something to push to remote repository"""
         return self.repository.needs_push()
 
     @property
     def file_format_cls(self):
-        """Returns file format object """
+        """Return file format object """
         if (self._file_format is None or
                 self._file_format.name != self.file_format):
             self._file_format = FILE_FORMATS[self.file_format]
         return self._file_format
 
     def has_template(self):
-        """Returns true if subproject is using template for translation"""
+        """Return true if subproject is using template for translation"""
         monolingual = self.file_format_cls.monolingual
         return (
             (monolingual or monolingual is None) and
@@ -1449,14 +1449,14 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         )
 
     def load_template_store(self):
-        """Loads translate-toolkit store for template."""
+        """Load translate-toolkit store for template."""
         return self.file_format_cls.parse(
             self.get_template_filename(),
         )
 
     @property
     def template_store(self):
-        """Gets translate-toolkit store for template."""
+        """Get translate-toolkit store for template."""
         # Do we need template?
         if not self.has_template():
             return None
@@ -1471,7 +1471,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
     @property
     def last_change(self):
-        """Returns date of last change done in Weblate."""
+        """Return date of last change done in Weblate."""
         try:
             return Change.objects.content().filter(
                 translation__subproject=self
@@ -1483,7 +1483,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
     @property
     def all_flags(self):
-        """Returns parsed list of flags."""
+        """Return parsed list of flags."""
         if self._all_flags is None:
             self._all_flags = (
                 self.check_flags.split(',') +
@@ -1506,7 +1506,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         return True
 
     def add_new_language(self, language, request):
-        """Creates new language file."""
+        """Create new language file."""
         if not self.can_add_new_language():
             if request:
                 messages.error(
@@ -1569,7 +1569,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         return True
 
     def do_lock(self, user):
-        """Locks component."""
+        """Lock component."""
         self.locked = True
         self.save(update_fields=['locked'])
         if self.translation_set.exists():
@@ -1578,7 +1578,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             )
 
     def do_unlock(self, user):
-        """Locks component."""
+        """Unlock component."""
         self.locked = False
         self.save(update_fields=['locked'])
         if self.translation_set.exists():

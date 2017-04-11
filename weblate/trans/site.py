@@ -23,14 +23,12 @@ from django.contrib.sites.models import Site
 
 
 def get_site_domain():
-    """Returns current site domain."""
+    """Return current site domain."""
     return Site.objects.get_current().domain
 
 
 def get_site_url(url=''):
-    '''
-    Returns root url of current site with domain.
-    '''
+    """Return root url of current site with domain."""
     return '{0}://{1}{2}'.format(
         'https' if settings.ENABLE_HTTPS else 'http',
         get_site_domain(),
