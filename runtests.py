@@ -23,8 +23,8 @@ import os
 import sys
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'weblate.settings_test'
-test_dir = os.path.dirname(__file__)
-sys.path.insert(0, test_dir)
+TEST_DIR = os.path.dirname(__file__)
+sys.path.insert(0, TEST_DIR)
 
 from django.core.management import execute_from_command_line
 
