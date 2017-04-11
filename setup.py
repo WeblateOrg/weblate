@@ -115,4 +115,9 @@ setup(
             'weblate = weblate.runner:main',
         ],
     },
+    tests_require=(
+        'selenium',
+        'httpretty',
+    ),
+    test_suite='runtests.runtests',
 )
