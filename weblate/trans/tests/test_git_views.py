@@ -90,7 +90,7 @@ class GitNoChangeTranslationTest(GitNoChangeProjectTest):
 
 
 class GitChangeProjectTest(GitNoChangeProjectTest):
-    """Testing of project git manipulations with not committed change in repo."""
+    """Testing of project git manipulations with not committed change."""
 
     STATUS_CHECK = 'There are some not committed changes!'
 
@@ -100,12 +100,12 @@ class GitChangeProjectTest(GitNoChangeProjectTest):
 
 
 class GitChangeSubProjectTest(GitChangeProjectTest):
-    """Testing of subproject git manipulations with not committed change in repo."""
+    """Testing of subproject git manipulations with not committed change."""
     TEST_TYPE = 'subproject'
 
 
 class GitChangeTranslationTest(GitChangeProjectTest):
-    """Testing of translation git manipulations with not committed change in repo."""
+    """Testing of translation git manipulations with not committed change."""
     TEST_TYPE = 'translation'
 
 
@@ -121,10 +121,10 @@ class GitCommittedChangeProjectTest(GitNoChangeProjectTest):
 
 
 class GitCommittedChangeSubProjectTest(GitCommittedChangeProjectTest):
-    """Testing of subproject git manipulations with committed change in repo."""
+    """Testing of subproject git manipulations with committed change."""
     TEST_TYPE = 'subproject'
 
 
 class GitCommittedChangeTranslationTest(GitCommittedChangeProjectTest):
-    """Testing of translation git manipulations with committed change in repo."""
+    """Testing of translation git manipulations with committed change."""
     TEST_TYPE = 'translation'
