@@ -23,13 +23,17 @@ import os
 import sys
 from django.core.wsgi import get_wsgi_application
 
+VIRTUALENV = os.path.join(
+    os.environ['OPENSHIFT_PYTHON_DIR'], 'virtenv', 'bin', 'activate_this.py'
+)
+
 sys.path.append(os.path.join(os.environ['OPENSHIFT_REPO_DIR'], 'weblate'))
 sys.path.append(os.path.join(os.environ['OPENSHIFT_REPO_DIR'], 'openshift'))
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'weblate.settings_openshift'
 
-exec(open(os.path.join(
-    os.environ['OPENSHIFT_REPO_DIR'], 'openshift', 'virtualenv.py'
-)).read())
+with open(VIRTUALENV) as handle:
+    code = compile(handle.read(), 'activate_this.py', 'exec')
+    exec(code, dict(__file__=VIRTUALENV))
 
 application = get_wsgi_application()
