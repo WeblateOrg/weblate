@@ -26,6 +26,7 @@ import re
 
 from django.conf import settings
 from django.db import models, transaction
+from django.db.models import Q
 from django.db.utils import OperationalError
 from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.utils.translation import (
@@ -101,12 +102,12 @@ class LanguageManager(models.Manager):
             self._default_lang = self.get(code='en')
         return self._default_lang
 
-    def try_get(self, **kwargs):
+    def try_get(self, *args, **kwargs):
         '''
         Tries to get language by code.
         '''
         try:
-            return self.get(**kwargs)
+            return self.get(*args, **kwargs)
         except (Language.DoesNotExist, Language.MultipleObjectsReturned):
             return None
 
@@ -168,20 +169,20 @@ class LanguageManager(models.Manager):
         '''
         code = self.sanitize_code(code)
 
-        # First try getting langauge as is
-        ret = self.try_get(code__iexact=code)
-        if ret is not None:
-            return ret
+        lookups = [
+            # First try getting langauge as is
+            Q(code__iexact=code),
+            # Replace dash with underscore (for things as zh_Hant)
+            Q(code__iexact=code.replace('-', '_')),
+            # Try using name
+            Q(name__iexact=code),
+        ]
 
-        # Replace dash with underscore (for things as zh_Hant)
-        ret = self.try_get(code__iexact=code.replace('-', '_'))
-        if ret is not None:
-            return ret
-
-        # Try using name
-        ret = self.try_get(name__iexact=code)
-        if ret is not None:
-            return ret
+        for lookup in lookups:
+            # First try getting langauge as is
+            ret = self.try_get(lookup)
+            if ret is not None:
+                return ret
 
         # Handle aliases
         ret = self.aliases_get(code)
