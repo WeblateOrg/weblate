@@ -101,10 +101,9 @@ class BaseXMLCheck(TargetCheck):
 
     def is_source_xml(self, flags, source):
         """Quick check if source looks like XML."""
-        if 'xml-text' not in flags:
-            if '<' not in source or len(XML_MATCH.findall(source)) == 0:
-                return False
-        return True
+        if 'xml-text' in flags:
+            return True
+        return '<' in source and len(XML_MATCH.findall(source))
 
     def check_single(self, source, target, unit):
         '''
