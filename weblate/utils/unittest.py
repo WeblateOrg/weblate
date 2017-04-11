@@ -26,6 +26,7 @@ from django.test.utils import override_settings
 
 
 # Lowercase name to be consistent with Django
+# pylint: disable=C0103
 class tempdir_setting(override_settings):  # noqa
     def __init__(self, setting):
         kwargs = {setting: None}
