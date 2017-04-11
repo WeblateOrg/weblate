@@ -151,12 +151,13 @@ def verify_username(strategy, backend, details, user=None, **kwargs):
     It can happen that user has registered several times or other user has
     taken the username meanwhile.
     """
-    if not user and 'username' in details:
-        if User.objects.filter(username__iexact=details['username']).exists():
-            raise AuthAlreadyAssociated(
-                backend,
-                _('This username is already taken. Please choose another.')
-            )
+    if user or 'username' not in details:
+        return
+    if User.objects.filter(username__iexact=details['username']).exists():
+        raise AuthAlreadyAssociated(
+            backend,
+            _('This username is already taken. Please choose another.')
+        )
 
 
 def store_email(strategy, backend, user, social, details, **kwargs):
