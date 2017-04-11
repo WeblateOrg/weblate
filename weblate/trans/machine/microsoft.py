@@ -135,7 +135,7 @@ class MicrosoftTranslation(MachineTranslation):
 
 
 class MicrosoftCognitiveTranslation(MicrosoftTranslation):
-    """Microsoft Cognitive Services Translator API machine translation support."""
+    """Microsoft Cognitive Services Translator API support."""
     name = 'Microsoft Translator'
 
     LANGUAGE_CONVERTER = {

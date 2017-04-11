@@ -659,7 +659,7 @@ class AutoForm(forms.Form):
     )
 
     def __init__(self, obj, user, *args, **kwargs):
-        """Dynamically generate choices for other subproject in same project."""
+        """Generate choices for other subproject in same project."""
         other_subprojects = obj.subproject.project.subproject_set.exclude(
             id=obj.subproject.id
         )
