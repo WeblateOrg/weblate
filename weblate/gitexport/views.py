@@ -102,9 +102,10 @@ def authenticate(request, auth):
 @never_cache
 @csrf_exempt
 def git_export(request, project, subproject, path):
-    """
-    Wrapper around git-http-backend to provide Git
-    repositories export over HTTP.
+    """Git HTTP server view.
+
+    Wrapper around git-http-backend to provide Git repositories export over
+    HTTP. Performs permission checks and hands over execution to the wrapper.
     """
     # Probably browser access
     if path == '':
@@ -131,6 +132,11 @@ def git_export(request, project, subproject, path):
             return response_authenticate()
         raise
 
+    return run_git_http(request, obj, path)
+
+
+def run_git_http(request, obj, path):
+    """Git HTTP backend execution wrapper."""
     # Find Git HTTP backend
     git_http_backend = find_git_http_backend()
     if git_http_backend is None:
