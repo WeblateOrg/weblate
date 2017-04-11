@@ -28,7 +28,7 @@ are:
 - It will let more precise specification of what tests to run.
 """
 
-from weblate.settings_test import *
+from weblate.settings_test import *  # noqa
 
 INSTALLED_APPS = INSTALLED_APPS + ('django_nose', )
 

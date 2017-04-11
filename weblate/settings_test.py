@@ -25,7 +25,7 @@
 import warnings
 import os
 
-from weblate.settings_example import *
+from weblate.settings_example import *  # noqa
 
 if 'CI_DATABASE' in os.environ:
     if os.environ['CI_DATABASE'] == 'mysql':

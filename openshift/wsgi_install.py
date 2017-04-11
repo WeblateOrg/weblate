@@ -28,7 +28,7 @@ VIRTUALENV = os.path.join(
 
 with open(VIRTUALENV) as handle:
     code = compile(handle.read(), 'activate_this.py', 'exec')
-    exec(code, dict(__file__=VIRTUALENV))
+    exec(code, dict(__file__=VIRTUALENV))  # noqa
 
 
 def application(environ, start_response):

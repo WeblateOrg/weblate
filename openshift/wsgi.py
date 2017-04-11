@@ -34,6 +34,6 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'weblate.settings_openshift'
 
 with open(VIRTUALENV) as handle:
     code = compile(handle.read(), 'activate_this.py', 'exec')
-    exec(code, dict(__file__=VIRTUALENV))
+    exec(code, dict(__file__=VIRTUALENV))  # noqa
 
 application = get_wsgi_application()
