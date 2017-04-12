@@ -435,7 +435,7 @@ Follow generic upgrade instructions, there is no special change.
 
 Notable configuration or dependencies changes:
 
-* there is new quality check: :ref:`check-translated`
+* There is new quality check: :ref:`check-translated`.
 * The ``INSTALLED_APPS`` now should include ``weblate.permissions``.
 * The per project ALCs are now implemented using Group ACL, you might need to
   adjust your setup if you were using Group ACLs before, see :ref:`groupacl`
