@@ -2,14 +2,9 @@ Changes
 =======
 
 weblate 2.13.1
-------------
+--------------
 
-Released on ? 2017.
-
-weblate 2.14
-------------
-
-Released on ? 2017.
+Released on Apr 12th 2017.
 
 * Fixed listing of managed projects in profile.
 * Fixed migration issue where some permissions were missing.
