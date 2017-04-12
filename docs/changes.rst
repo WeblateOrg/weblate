@@ -7,6 +7,7 @@ weblate 2.14
 Released on ? 2017.
 
 * Fixed listing of managed projects in profile.
+* Fixed migration issue where some permissions were missing.
 
 weblate 2.13
 ------------
