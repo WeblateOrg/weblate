@@ -77,6 +77,9 @@ class Migration(migrations.Migration):
         ('permissions', '0005_groupacl_permissions'),
         ('trans', '0083_auto_20170404_1633'),
         ('screenshots', '0003_auto_20170215_1633'),
+        ('contenttypes', '0001_initial'),
+        ('auth', '0001_initial'),
+        ('sites', '0001_initial'),
     ]
 
     operations = [
