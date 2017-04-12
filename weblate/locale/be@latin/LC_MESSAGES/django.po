@@ -8,17 +8,17 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-04-11 11:45+0000\n"
-"PO-Revision-Date: 2017-03-17 23:34+0000\n"
+"PO-Revision-Date: 2017-04-12 20:49+0000\n"
 "Last-Translator: Viktar Vauchkevich <victorenator@gmail.com>\n"
-"Language-Team: Belarusian (latin) <https://hosted.weblate.org/projects/"
-"weblate/master/be_Latn/>\n"
+"Language-Team: Belarusian (latin) "
+"<https://hosted.weblate.org/projects/weblate/master/be_Latn/>\n"
 "Language: be@latin\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2.12\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 2.14-dev\n"
 
 #: weblate/accounts/auth.py:49
 msgid ""
@@ -359,11 +359,8 @@ msgstr ""
 "Spis kampanientaŭ pavinien być abrany, kali vykarystoŭvajecca jak zychodny."
 
 #: weblate/accounts/models.py:364
-#, fuzzy
-#| msgid "Component list must be selected when used as default."
 msgid "Component list must not be selected when not used."
-msgstr ""
-"Spis kampanientaŭ pavinien być abrany, kali vykarystoŭvajecca jak zychodny."
+msgstr "Spis kampanientaŭ nie patrebna abirać, kali nie vykarystoŭvaiucca."
 
 #: weblate/accounts/models.py:436
 msgid ""
@@ -708,37 +705,29 @@ msgid "Permissions"
 msgstr "Dazvoly"
 
 #: weblate/permissions/data.py:149
-#, fuzzy
-#| msgid "Administration"
 msgctxt "Permissions group"
 msgid "Administration"
 msgstr "Administravannie"
 
 #: weblate/permissions/data.py:150
-#, fuzzy
-#| msgid "Glossary"
 msgctxt "Permissions group"
 msgid "Glossary"
 msgstr "Hlasaryj"
 
 #: weblate/permissions/data.py:151
-#, fuzzy
-#| msgid "Screenshots"
 msgctxt "Permissions group"
 msgid "Screenshots"
 msgstr "Zdymki ekrana"
 
 #: weblate/permissions/data.py:152
-#, fuzzy
-#| msgid "Translate"
 msgctxt "Permissions group"
 msgid "Translate"
-msgstr "Pieraklascі"
+msgstr "Pieraklad"
 
 #: weblate/permissions/data.py:153
 msgctxt "Permissions group"
 msgid "VCS"
-msgstr ""
+msgstr "VCS"
 
 #: weblate/permissions/helpers.py:424
 #, python-format
@@ -746,14 +735,12 @@ msgid "You are not allowed to access project %s."
 msgstr "Vy nie majecie dostupu da prajekta %s."
 
 #: weblate/permissions/models.py:52
-#, fuzzy
-#| msgid "Permissions"
 msgid "Filtered permissions"
-msgstr "Dazvoly"
+msgstr "Adfiĺtravanyja dazvoly"
 
 #: weblate/permissions/models.py:53
 msgid "The GroupACL will affect only selected permissions."
-msgstr ""
+msgstr "GroupACL budzie ŭplyvać toĺki na vybranyja pravy."
 
 #: weblate/permissions/models.py:60
 msgid "Project, component or language must be specified"
@@ -3041,6 +3028,8 @@ msgid ""
 "Could not find any matching translation in this component list, probably not "
 "translated to your languages."
 msgstr ""
+"Nie ŭdalosia znajsci nivodnaha adpaviednaha pierakladu ŭ hetym spisie "
+"kampanientaŭ, napeŭna, nie pierakladzienych na vašy movy."
 
 #: weblate/templates/index.html:136
 msgid "Browse all changes"
@@ -3739,6 +3728,8 @@ msgid ""
 "The user will be removed from the project once you remove last user "
 "permission."
 msgstr ""
+"Hety karystaĺnik budzie vydalieny z prajekta paslia taho, jak vy vydalicie "
+"apošni dazvol."
 
 #: weblate/templates/manage-access.html:60
 msgid "Add new user"
@@ -4762,10 +4753,8 @@ msgid "%(filter_name)s (%(filter_count)s)"
 msgstr "%(filter_name)s (%(filter_count)s)"
 
 #: weblate/trans/admin.py:45
-#, fuzzy
-#| msgid "Administration"
 msgid "Administrators"
-msgstr "Administravannie"
+msgstr "Administratary"
 
 #: weblate/trans/admin.py:58 weblate/trans/admin.py:110
 msgid "Update VCS repository"
@@ -5341,10 +5330,8 @@ msgid "Strings with any failing checks"
 msgstr "Radkі ź niaprojdzienymі pravierkamі"
 
 #: weblate/trans/forms.py:470 weblate/trans/models/translation.py:999
-#, fuzzy
-#| msgid "Source strings review"
 msgid "Random strings for review"
-msgstr "Prahliad kliučoŭ"
+msgstr "Vypadkovyja radki dlia pierahliadu"
 
 #: weblate/trans/forms.py:487
 msgid "Query"
@@ -5491,10 +5478,9 @@ msgid "Whole project"
 msgstr "Uvieś prajekt"
 
 #: weblate/trans/forms.py:819
-#, fuzzy, python-brace-format
-#| msgid "Chosen translation already exists in this project!"
+#, python-brace-format
 msgid "Similar translation already exists in the project ({0})!"
-msgstr "Vybrany pieraklad užo іsnuje ŭ prajekcie!"
+msgstr "Schodny pieraklad užo іsnuje ŭ prajekcie ({0})!"
 
 #: weblate/trans/forms.py:838
 msgid "Please select"
@@ -5790,50 +5776,35 @@ msgid "Component lists"
 msgstr "Spisy kampanientaŭ"
 
 #: weblate/trans/models/componentlist.py:65
-#, fuzzy
-#| msgid "Email regular expression"
 msgid "Project regular expression"
-msgstr "Rehuliarny vyraz el.pošty"
+msgstr "Rehuliarny vyraz prajekta"
 
 #: weblate/trans/models/componentlist.py:69
-#, fuzzy
-#| msgid "Regular expression which is used to match user email."
 msgid "Regular expression which is used to match project slug."
 msgstr ""
-"Rehuliarny vyraz, jaki vykarystoŭvajecca dlia supastaŭliennia pošty "
-"karystaĺnika."
+"Rehuliarny vyraz, jaki vykarystoŭvajecca dlia supastaŭliennia slaha prajekta."
 
 #: weblate/trans/models/componentlist.py:73
-#, fuzzy
-#| msgid "Email regular expression"
 msgid "Component regular expression"
-msgstr "Rehuliarny vyraz el.pošty"
+msgstr "Rehuliarny vyraz kampanienta"
 
 #: weblate/trans/models/componentlist.py:77
-#, fuzzy
-#| msgid "Regular expression which is used to match user email."
 msgid "Regular expression which is used to match component slug."
 msgstr ""
-"Rehuliarny vyraz, jaki vykarystoŭvajecca dlia supastaŭliennia pošty "
-"karystaĺnika."
+"Rehuliarny vyraz, jaki vykarystoŭvajecca dlia supastaŭliennia slaha "
+"kampanienta."
 
 #: weblate/trans/models/componentlist.py:82
-#, fuzzy
-#| msgid "Component lists"
 msgid "Component list to assign"
-msgstr "Spisy kampanientaŭ"
+msgstr "Spis kampanientaŭ dlia pryznačennia"
 
 #: weblate/trans/models/componentlist.py:96
-#, fuzzy
-#| msgid "Automatic group assignment"
 msgid "Automatic component list assignment"
-msgstr "Aŭtamatyčnaje pryznačennie hrupy"
+msgstr "Aŭtamatyčnaje pryznačennie spisa kampanientaŭ"
 
 #: weblate/trans/models/componentlist.py:97
-#, fuzzy
-#| msgid "Automatic group assignments"
 msgid "Automatic component list assignments"
-msgstr "Aŭtamatyčnyja pryznačenni hrupy"
+msgstr "Aŭtamatyčnyja pryznačenni spisa kampanientaŭ"
 
 #: weblate/trans/models/project.py:98
 msgid "Main website of translated project."
@@ -6354,10 +6325,9 @@ msgid "Got empty language code for %s, please check filemask!"
 msgstr "Nie atrymalasia vyznačyć movu dlia %s, kali laska, praviercie masku!"
 
 #: weblate/trans/models/subproject.py:1141
-#, fuzzy, python-format
-#| msgid "Got empty language code for %s, please check filemask!"
+#, python-format
 msgid "Language code %s is too long, please check filemask!"
-msgstr "Nie atrymalasia vyznačyć movu dlia %s, kali laska, praviercie masku!"
+msgstr "Kod movy %s zanadta doŭhi, kali laska, praviercie masku!"
 
 #: weblate/trans/models/subproject.py:1145
 #, python-format
@@ -6441,7 +6411,7 @@ msgstr "Nie ŭdalosia pračytać bazavy fajl pierakladu: %s"
 #: weblate/trans/models/subproject.py:1252
 #, python-format
 msgid "Template language (%s) does not match project source language (%s)!"
-msgstr ""
+msgstr "Mova šablona (%s) nie adpaviadaje zychodnaj movie prajekta (%s)!"
 
 #: weblate/trans/models/subproject.py:1259
 msgid "You can not use monolingual translation without base file!"
@@ -6957,10 +6927,8 @@ msgid "Invalid check flag: \"%s\""
 msgstr "Chіbny flah pravierkі: «%s»"
 
 #: weblate/trans/views/acl.py:78
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Invalid parameters!"
-msgstr "Chіbnaje zapytannie na zlіccio!"
+msgstr "Chibnyja paramietry!"
 
 #: weblate/trans/views/acl.py:84 weblate/trans/views/acl.py:133
 msgid "You can not remove last owner!"
@@ -6995,10 +6963,9 @@ msgid "Invalid search query!"
 msgstr "Chіbnaje pošukavaje zapytannie!"
 
 #: weblate/trans/views/basic.py:306
-#, fuzzy, python-brace-format
-#| msgid "Get involved in %(project)s!"
+#, python-brace-format
 msgid "Get involved in {0}!"
-msgstr "Dalučajciesia da %(project)s!"
+msgstr "Dalučajciesia da {0}!"
 
 #: weblate/trans/views/basic.py:312
 #, python-format
