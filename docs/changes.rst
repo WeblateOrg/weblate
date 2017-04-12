@@ -4,7 +4,7 @@ Changes
 weblate 2.13
 ------------
 
-Released on ? 2017.
+Released on Apr 12th 2017.
 
 * Fixed quality checks on translation templates.
 * Added quality check to trigger on losing translation.
