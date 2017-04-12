@@ -22,8 +22,8 @@ Permissions abstract layer for Weblate.
 """
 from django.conf import settings
 from django.contrib.auth.models import Permission
-from django.core.exceptions import PermissionDenied
 from django.db.models import Q
+from django.http import Http404
 from django.utils.translation import ugettext as _
 
 from weblate.accounts.models import get_anonymous
@@ -423,4 +423,4 @@ def check_access(request, project):
             request,
             _('You are not allowed to access project %s.') % project.name
         )
-        raise PermissionDenied()
+        raise Http404('Access denied')

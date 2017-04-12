@@ -119,14 +119,9 @@ def git_export(request, project, subproject, path):
         return response_authenticate()
 
     # Permissions
-    try:
-        obj = get_subproject(request, project, subproject)
-        if not can_access_vcs(request.user, obj.project):
-            raise PermissionDenied('No VCS permissions')
-    except PermissionDenied:
-        if not request.user.is_authenticated:
-            return response_authenticate()
-        raise
+    obj = get_subproject(request, project, subproject)
+    if not can_access_vcs(request.user, obj.project):
+        raise PermissionDenied('No VCS permissions')
 
     return run_git_http(request, obj, path)
 

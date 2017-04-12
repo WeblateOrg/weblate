@@ -49,7 +49,7 @@ class ACLViewTest(ViewTestCase):
         """No access to the project without ACL.
         """
         response = self.client.get(self.access_url)
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 404)
 
     def test_acl(self):
         """Regular user should not have access to user management.

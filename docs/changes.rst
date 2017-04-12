@@ -9,6 +9,7 @@ Released on ? 2017.
 * Fixed listing of managed projects in profile.
 * Fixed migration issue where some permissions were missing.
 * Fixed listing of current file format in translation download.
+* Return HTTP 404 when trying to access project where user lacks privileges.
 
 weblate 2.13
 ------------

@@ -115,7 +115,7 @@ class GitExportTest(ViewTestCase):
     def test_git_receive_acl_denied(self):
         self.enable_acl()
         response = self.git_receive()
-        self.assertEqual(401, response.status_code)
+        self.assertEqual(404, response.status_code)
 
     def test_git_receive_acl_auth(self):
         self.enable_acl()
@@ -130,7 +130,7 @@ class GitExportTest(ViewTestCase):
         response = self.git_receive(
             HTTP_AUTHORIZATION=self.get_auth_string(self.user.auth_token.key)
         )
-        self.assertEqual(403, response.status_code)
+        self.assertEqual(404, response.status_code)
 
     def test_get_export_url(self):
         self.assertEqual(
