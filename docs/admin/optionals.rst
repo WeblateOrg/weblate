@@ -86,3 +86,28 @@ Usage
 After installation you can control billing in the admin interface. Users with
 billing enabled will get new :guilabel:`Billing` tab in their
 :ref:`user-profile`.
+
+.. _avatars:
+
+Avatars
+-------
+
+Weblate comes with built in support for showing user avatars based on emails.
+This can be disabled using :setting:`ENABLE_AVATARS`. The avatars are
+downloaded and cached server side to reduce information leaks to the sites
+serving them.
+
+Weblate currently supports two backends:
+
+* `Libravatar <https://www.libravatar.org/>`_, what is federated avatar service
+  with fallback to `Gravatar`_. Libravatar is used automatically when 
+  `pyLibravatar <https://pypi.python.org/pypi/pyLibravatar>`_ is installed.
+* `Gravatar`_ can be also used directly by Weblate, that is used if the
+  pyLibravatar library is not found.
+
+.. _Gravatar: http://gravatar.com/
+
+.. seealso:: 
+   
+   :ref:`production-cache-avatar`,
+   :setting:`ENABLE_AVATARS`

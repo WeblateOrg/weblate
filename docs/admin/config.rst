@@ -249,7 +249,8 @@ this.
 
 .. seealso:: 
    
-   :ref:`production-cache-avatar`
+   :ref:`production-cache-avatar`,
+   :ref:`avatars`
 
 .. setting:: ENABLE_HOOKS
 
