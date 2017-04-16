@@ -876,7 +876,10 @@ recommended to use separate, file backed cache for this purpose:
 
 .. seealso::
 
-   :setting:`ENABLE_AVATARS`, :ref:`production-cache`, `Django’s cache framework <https://docs.djangoproject.com/en/stable/topics/cache/>`_
+   :setting:`ENABLE_AVATARS`, 
+   :ref:`avatars`,
+   :ref:`production-cache`, 
+   `Django’s cache framework <https://docs.djangoproject.com/en/stable/topics/cache/>`_
 
 .. _production-email:
 
