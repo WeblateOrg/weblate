@@ -354,7 +354,7 @@ class MaxLengthCheck(TargetCheckWithFlag):
     severity = 'danger'
     default_disabled = True
 
-    FLAGS_PAIR_RE = re.compile(r'\b([-\w]+):(\w+)\b')
+    FLAGS_PAIR_RE = re.compile(r'\b([-\w]+)(?:[ \b\t\n\f\r]*):(?:[ \b\t\n\f\r]*)(\w+)\b')
 
     def check_target_unit_with_flag(self, sources, targets, unit):
         check_pair = set(self.FLAGS_PAIR_RE.findall('\n'.join(unit.all_flags)))
