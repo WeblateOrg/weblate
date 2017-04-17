@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-04-11 11:45+0000\n"
-"PO-Revision-Date: 2017-04-12 07:23+0000\n"
-"Last-Translator: Joan Montané <joan@montane.cat>\n"
+"PO-Revision-Date: 2017-04-17 16:28+0000\n"
+"Last-Translator: Ecron <ecron_89@hotmail.com>\n"
 "Language-Team: Catalan "
 "<https://hosted.weblate.org/projects/weblate/master/ca/>\n"
 "Language: ca\n"
@@ -17,20 +17,20 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.13\n"
+"X-Generator: Weblate 2.14-dev\n"
 
 #: weblate/accounts/auth.py:49
 msgid ""
 "Failed to verify your registration! Probably the verification token has "
 "expired. Please try the registration again."
 msgstr ""
-"No s'ha pogut verificar la vostre registració! Probablement la clau de "
-"verificació ha expirat. torneu a provar registració."
+"No s'ha pogut verificar el vostre registre! Probablement la clau de "
+"verificació ha expirat. Torneu a provar-ho."
 
 #: weblate/accounts/avatar.py:163
 msgctxt "No known user"
 msgid "None"
-msgstr "Desconegut"
+msgstr "Cap"
 
 #: weblate/accounts/forms.py:48
 msgid ""
@@ -43,8 +43,8 @@ msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
 "+ - _"
 msgstr ""
-"El nom d'usuari només pot contenir lletres, números i els següents "
-"caràcters: @ . + - _"
+"El nom d'usuari només pot contenir lletres, números i els caràcters següents:"
+" @ . + - _"
 
 #: weblate/accounts/forms.py:73 weblate/templates/manage-access.html:18
 msgid "Username"
@@ -58,33 +58,26 @@ msgstr "Aquest nom d'usuari no és disponible. Trieu-ne un altre."
 #, fuzzy
 #| msgid "Components"
 msgid "Component wide notifications"
-msgstr "Components"
+msgstr "Notificacions de components"
 
 #: weblate/accounts/forms.py:184
-#, fuzzy
-#| msgid ""
-#| "You will automatically receive important notifications on managed "
-#| "projects."
 msgid ""
 "You will receive notification on every such event in your watched projects."
 msgstr ""
-"Rebreu automàticament notificacions importants  respecte els projectes que "
-"gestioneu."
+"Rebreu notificacions de tots els esdeveniments d'aquest tipus als projectes "
+"que seguiu."
 
 #: weblate/accounts/forms.py:191
 msgid "Translation notifications"
 msgstr "Notificacions de traducció"
 
 #: weblate/accounts/forms.py:193
-#, fuzzy
-#| msgid ""
-#| "You will receive chosen notifications via email for all your languages."
 msgid ""
 "You will receive these notifications only for your translated languages in "
 "your watched projects."
 msgstr ""
-"Rebreu notificacions per correu electrònic segons els vostres idiomes "
-"seleccionats."
+"Rebreu aquestes notificacions només per a les llengües traduïdes als "
+"projectes que seguiu."
 
 #: weblate/accounts/forms.py:232 weblate/accounts/forms.py:296
 #: weblate/templates/manage-access.html:20
@@ -98,7 +91,7 @@ msgstr "Podeu afegir altres adreces electròniques a la pestanya Autenticació."
 #: weblate/accounts/forms.py:261 weblate/accounts/forms.py:314
 #: weblate/templates/manage-access.html:19
 msgid "Full name"
-msgstr "El vostre nom complet"
+msgstr "Nom complet"
 
 #: weblate/accounts/forms.py:268
 msgid "Subject"
@@ -110,7 +103,7 @@ msgstr "El vostre nom"
 
 #: weblate/accounts/forms.py:270 weblate/accounts/forms.py:494
 msgid "Your email"
-msgstr "La vostra adreça"
+msgstr "La vostra adreça electrònica"
 
 #: weblate/accounts/forms.py:272 weblate/templates/admin/performance.html:47
 #: weblate/trans/models/whiteboard.py:65
@@ -148,12 +141,12 @@ msgstr "Com a mínim 6 caràcters."
 
 #: weblate/accounts/forms.py:382
 msgid "New password (again)"
-msgstr "Nova contrasenya (altre cop)"
+msgstr "Contrasenya nova (altra vegada)"
 
 #: weblate/accounts/forms.py:384
 msgid "Repeat the password so we can verify you typed it in correctly."
 msgstr ""
-"Repetiu la contrasenya per poder verificar que l'heu escrita correctament."
+"Repetiu la contrasenya per a poder verificar que l'heu escrita correctament."
 
 #: weblate/accounts/forms.py:393
 msgid "Password needs to have at least six characters."
@@ -173,7 +166,7 @@ msgstr "No s'ha trobat cap usuari amb aquesta adreça electrònica."
 
 #: weblate/accounts/forms.py:439
 msgid "Username or email"
-msgstr "Nom d'usuari o adreça de correu"
+msgstr "Nom d'usuari o adreça electrònica"
 
 #: weblate/accounts/forms.py:442 weblate/templates/accounts/profile.html:191
 msgid "Password"
@@ -184,8 +177,8 @@ msgid ""
 "Please enter a correct username and password. Note that both fields may be "
 "case-sensitive."
 msgstr ""
-"Indiqueu un nom d'usuari i paraula de pas vàlids. Noteu que ambdós "
-"diferencien entre majúscules i minúscules."
+"Indiqueu un nom d'usuari i contrasenya vàlids. Noteu que ambdós diferencien "
+"entre majúscules i minúscules."
 
 #: weblate/accounts/forms.py:449
 msgid "This account is inactive."
@@ -198,15 +191,15 @@ msgstr "Nom del projecte"
 #: weblate/accounts/forms.py:496 weblate/templates/project_info.html:3
 #: weblate/trans/models/project.py:97
 msgid "Project website"
-msgstr "Adreça web del projecte"
+msgstr "Lloc web del projecte"
 
 #: weblate/accounts/forms.py:498 weblate/trans/models/subproject.py:159
 msgid "Source code repository"
-msgstr "Dipòsit de codi font"
+msgstr "Dipòsit del codi font"
 
 #: weblate/accounts/forms.py:500
 msgid "URL of source code repository for example Git or Mercurial."
-msgstr "URL del dipòsit del codi font com per exemple Git o Mercurial."
+msgstr "URL del dipòsit del codi font, com per exemple Git o Mercurial."
 
 #: weblate/accounts/forms.py:505 weblate/trans/models/subproject.py:208
 msgid "File mask"
@@ -217,8 +210,8 @@ msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
 msgstr ""
-"Ruta dels fitxers a traduir, utilitzeu * en comptes del codi del idioma, per "
-"exemple:  po/*.po o locale/*/LC_MESSAGES/gjango.po."
+"Ruta dels fitxers a traduir, utilitzeu * en comptes del codi de la llengua, "
+"per exemple:  po/*.po o locale/*/LC_MESSAGES/django.po."
 
 #: weblate/accounts/forms.py:514
 msgid "Additional message"
@@ -234,7 +227,7 @@ msgstr "Llengües traduïdes"
 
 #: weblate/accounts/models.py:183
 msgid "Choose languages to which you can translate."
-msgstr "Escolliu les llengües que podeu traduir."
+msgstr "Trieu les llengües a les que podeu traduir."
 
 #: weblate/accounts/models.py:187
 msgid "Secondary languages"
@@ -245,12 +238,12 @@ msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
 msgstr ""
-"Trieu les llengües que compreneu, les cadenes en aquestes llengües es "
-"mostraran, a més de la cadena d'origen."
+"Trieu les llengües que compreneu, es mostraran les cadenes en aquestes "
+"llengües a més de la cadena d'origen."
 
 #: weblate/accounts/models.py:199
 msgid "Hide completed translations on dashboard"
-msgstr "Amaga les traduccions realitzades en el tauler"
+msgstr "Amaga les traduccions completades al tauler"
 
 #: weblate/accounts/models.py:203
 msgid "Show secondary translations in zen mode"
@@ -258,7 +251,7 @@ msgstr "Mostra les traduccions secundàries en mode Zen"
 
 #: weblate/accounts/models.py:207
 msgid "Hide source if there is secondary language"
-msgstr "Amaga la font si aquesta és en una llengua secundària"
+msgstr "Amaga la font si hi ha una llengua secundària"
 
 #: weblate/accounts/models.py:213
 msgid "Editor link"
@@ -272,6 +265,10 @@ msgid ""
 "placeholders. Usually something like editor://open/?file=%(file)s&line="
 "%(line)s is good option."
 msgstr ""
+"Introduïu un URL personalitzat per a utilitzar-lo com a enllaç al codi font. "
+"Podeu utilitzar %(branch)s per a les branques, %(file)s i %(line)s com a nom "
+"de fitxer i marcadors de línia. Normalment alguna cosa com "
+"editor://open/?file=%(file)s&line=%(line)s és una bona opció."
 
 #: weblate/accounts/models.py:226
 msgid "Special characters"
@@ -283,6 +280,9 @@ msgid ""
 "keyboard while translating. It can be useful for chars you use frequently "
 "but are hard to type on your keyboard."
 msgstr ""
+"Podeu especificar caràcters especials addicionals per a que es mostren al "
+"teclat visual mentre traduïu. Pot ser útil per a caràcters que utilitzeu amb "
+"freqüència però que són difícils de trobar al vostre teclat."
 
 #: weblate/accounts/models.py:240 weblate/templates/index.html:31
 msgid "Watched translations"
@@ -302,11 +302,11 @@ msgstr "Traduccions suggerides"
 
 #: weblate/accounts/models.py:259
 msgid "Default dashboard view"
-msgstr ""
+msgstr "Visualització del tauler predeterminada"
 
 #: weblate/accounts/models.py:265
 msgid "Default component list"
-msgstr "Llista dels components predeterminats"
+msgstr "Llista dels components predeterminada"
 
 #: weblate/accounts/models.py:272 weblate/templates/accounts/profile.html:116
 #: weblate/templates/base.html:107
@@ -319,6 +319,8 @@ msgid ""
 "You can receive notifications for watched projects and they are shown on "
 "dashboard by default."
 msgstr ""
+"Podeu rebre notificacions dels projectes en seguiment i es mostraran al "
+"tauler de forma predeterminada."
 
 #: weblate/accounts/models.py:281
 msgid "Notification on any translation"
@@ -334,7 +336,7 @@ msgstr "Notificació de suggeriments nous"
 
 #: weblate/accounts/models.py:293
 msgid "Notification on new contributor"
-msgstr "Notifiació de col·laboradors nous"
+msgstr "Notificació de col·laboradors nous"
 
 #: weblate/accounts/models.py:297
 msgid "Notification on new comment"
@@ -346,17 +348,17 @@ msgstr "Notificació d’error de fusió"
 
 #: weblate/accounts/models.py:305
 msgid "Notification on new language request"
-msgstr "Notificació pel suggeriment de nou llenguatge"
+msgstr "Notificació de sol·licitud nova de llengua"
 
 #: weblate/accounts/models.py:358
 msgid "Component list must be selected when used as default."
-msgstr "La llista de components s'ha de seleccionar quan s'empra per defecte."
+msgstr ""
+"S'ha de seleccionar una llista de components quan s'empra com a "
+"predeterminada."
 
 #: weblate/accounts/models.py:364
-#, fuzzy
-#| msgid "Component list must be selected when used as default."
 msgid "Component list must not be selected when not used."
-msgstr "La llista de components s'ha de seleccionar quan s'empra per defecte."
+msgstr "No s'ha de seleccionar una llista de components si no s'utilitza."
 
 #: weblate/accounts/models.py:436
 msgid ""
@@ -368,11 +370,11 @@ msgstr ""
 
 #: weblate/accounts/pipeline.py:137
 msgid "New registrations are disabled!"
-msgstr ""
+msgstr "Els registres nous són desactivats!"
 
 #: weblate/accounts/views.py:91 weblate/accounts/views.py:443
 msgid "User registration"
-msgstr "Registre d'usuaris nou"
+msgstr "Registre d'usuari"
 
 #: weblate/accounts/views.py:104
 msgid "Message could not be sent to administrator!"
@@ -397,7 +399,7 @@ msgstr "Perfil de l'usuari"
 
 #: weblate/accounts/views.py:242
 msgid "Your account has been removed."
-msgstr "S'ha esborrat el vostre perfil."
+msgstr "S'ha suprimit el vostre compte."
 
 #: weblate/accounts/views.py:285 weblate/templates/accounts/contact.html:6
 #: weblate/templates/accounts/contact.html:21
@@ -415,7 +417,7 @@ msgstr "Entrada"
 
 #: weblate/accounts/views.py:403
 msgid "Thanks for using Weblate!"
-msgstr "Mercès per utilitzar Weblate!"
+msgstr "Gràcies per utilitzar el Weblate!"
 
 #: weblate/accounts/views.py:463 weblate/templates/accounts/email.html:16
 msgid "Register email"
@@ -423,7 +425,7 @@ msgstr "Registre d'adreça de correu"
 
 #: weblate/accounts/views.py:488
 msgid "You have entered an invalid password."
-msgstr "Heu introduït una paraula de pas invàlida."
+msgstr "Heu introduït una contrasenya no vàlida."
 
 #: weblate/accounts/views.py:513
 msgid "Your password has been changed."
@@ -437,13 +439,13 @@ msgstr "Canvia la contrasenya"
 #: weblate/accounts/views.py:535
 msgid "Can not reset password, email authentication is disabled!"
 msgstr ""
-"No es pot restablir la contrasenya, l'autenticació del correu electrònic "
-"està inhabilitada!"
+"No es pot restablir la contrasenya, l'autenticació de l'adreça electrònica "
+"està desactivada!"
 
 #: weblate/accounts/views.py:558 weblate/templates/accounts/reset.html:7
 #: weblate/templates/accounts/reset.html:21
 msgid "Password reset"
-msgstr "Reinicialització de la contrasenya"
+msgstr "Restabliment de la contrasenya"
 
 #: weblate/billing/admin.py:52 weblate/billing/models.py:122
 #: weblate/templates/accounts/user.html:30
@@ -459,7 +461,7 @@ msgstr "Actiu"
 
 #: weblate/billing/models.py:70
 msgid "Trial"
-msgstr ""
+msgstr "De prova"
 
 #: weblate/billing/models.py:71
 msgid "Expired"
@@ -509,7 +511,7 @@ msgstr "Nombre de cadenes"
 
 #: weblate/billing/models.py:193
 msgid "N/A"
-msgstr ""
+msgstr "No disponible"
 
 #: weblate/billing/models.py:194
 msgid "Last invoice"
