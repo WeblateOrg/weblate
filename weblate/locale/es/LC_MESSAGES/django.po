@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: Weblate website\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-04-11 11:45+0000\n"
-"PO-Revision-Date: 2017-03-22 18:47+0000\n"
-"Last-Translator: Franco <fulanodetal.github1@openaliasbox.org>\n"
-"Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/master/"
-"es/>\n"
+"PO-Revision-Date: 2017-04-18 18:35+0000\n"
+"Last-Translator: Laura Arjona Reina <larjona@larjona.net>\n"
+"Language-Team: Spanish "
+"<https://hosted.weblate.org/projects/weblate/master/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.12\n"
+"X-Generator: Weblate 2.14-dev\n"
 
 #: weblate/accounts/auth.py:49
 msgid ""
@@ -357,12 +357,8 @@ msgstr ""
 "predeterminado."
 
 #: weblate/accounts/models.py:364
-#, fuzzy
-#| msgid "Component list must be selected when used as default."
 msgid "Component list must not be selected when not used."
-msgstr ""
-"La lista de componentes debe seleccionarse cuando se utiliza como "
-"predeterminado."
+msgstr "La lista de componentes no debe seleccionarse cuando no se utiliza."
 
 #: weblate/accounts/models.py:436
 msgid ""
@@ -710,22 +706,16 @@ msgid "Permissions"
 msgstr "Permisos"
 
 #: weblate/permissions/data.py:149
-#, fuzzy
-#| msgid "Administration"
 msgctxt "Permissions group"
 msgid "Administration"
 msgstr "Administración"
 
 #: weblate/permissions/data.py:150
-#, fuzzy
-#| msgid "Glossary"
 msgctxt "Permissions group"
 msgid "Glossary"
 msgstr "Glosario"
 
 #: weblate/permissions/data.py:151
-#, fuzzy
-#| msgid "Screenshots"
 msgctxt "Permissions group"
 msgid "Screenshots"
 msgstr "Capturas de pantalla"
@@ -740,7 +730,7 @@ msgstr "Traducir"
 #: weblate/permissions/data.py:153
 msgctxt "Permissions group"
 msgid "VCS"
-msgstr ""
+msgstr "Sistema de Control de Versiones"
 
 #: weblate/permissions/helpers.py:424
 #, python-format
@@ -751,7 +741,7 @@ msgstr "No tiene permitido acceder al proyecto %s."
 #, fuzzy
 #| msgid "Permissions"
 msgid "Filtered permissions"
-msgstr "Permisos"
+msgstr "Permisos filtrados"
 
 #: weblate/permissions/models.py:53
 msgid "The GroupACL will affect only selected permissions."
@@ -3041,10 +3031,13 @@ msgid "Register to manage your languages"
 msgstr "Regístrate para gestionar tus idiomas"
 
 #: weblate/templates/index.html:117
+#, fuzzy
 msgid ""
 "Could not find any matching translation in this component list, probably not "
 "translated to your languages."
 msgstr ""
+"No se pudo encontrar ninguna traducción que coincida en esta lista de "
+"componentes, probablemente no está traducida a tus idiomas."
 
 #: weblate/templates/index.html:136
 msgid "Browse all changes"
@@ -3730,10 +3723,13 @@ msgid "Remove"
 msgstr "Eliminar"
 
 #: weblate/templates/manage-access.html:48
+#, fuzzy
 msgid ""
 "The user will be removed from the project once you remove last user "
 "permission."
 msgstr ""
+"Se eliminará el usuario del proyecto una vez que elimines el último permiso "
+"del usuario."
 
 #: weblate/templates/manage-access.html:60
 msgid "Add new user"
@@ -4757,7 +4753,7 @@ msgstr "%(filter_name)s (%(filter_count)s)"
 #, fuzzy
 #| msgid "Administration"
 msgid "Administrators"
-msgstr "Administración"
+msgstr "Administradores"
 
 #: weblate/trans/admin.py:58 weblate/trans/admin.py:110
 msgid "Update VCS repository"
@@ -5342,7 +5338,7 @@ msgstr "Cadenas con comprobaciones fallidas"
 #, fuzzy
 #| msgid "Source strings review"
 msgid "Random strings for review"
-msgstr "Revision de cadenas originales"
+msgstr "Cadenas aleatorias para revisar"
 
 #: weblate/trans/forms.py:487
 msgid "Query"
@@ -5491,7 +5487,7 @@ msgstr "Proyecto completo"
 #, fuzzy, python-brace-format
 #| msgid "Chosen translation already exists in this project!"
 msgid "Similar translation already exists in the project ({0})!"
-msgstr "¡La traducción seleccionada ya existe en este proyecto!"
+msgstr "¡Ya existe una traducción similar en el proyecto ({0})!"
 
 #: weblate/trans/forms.py:838
 msgid "Please select"
@@ -5790,47 +5786,47 @@ msgstr "Listas de componentes"
 #, fuzzy
 #| msgid "Email regular expression"
 msgid "Project regular expression"
-msgstr "Expresión regular del correo electrónico"
+msgstr "Expresión regular del proyecto"
 
 #: weblate/trans/models/componentlist.py:69
 #, fuzzy
 #| msgid "Regular expression which is used to match user email."
 msgid "Regular expression which is used to match project slug."
 msgstr ""
-"Expresión regular utilizada para coincidir con el correo electrónico del "
-"usuario."
+"Expresión regular utilizada para coincidir con el nombre corto («slug») del "
+"proyecto."
 
 #: weblate/trans/models/componentlist.py:73
 #, fuzzy
 #| msgid "Email regular expression"
 msgid "Component regular expression"
-msgstr "Expresión regular del correo electrónico"
+msgstr "Expresión regular del componente"
 
 #: weblate/trans/models/componentlist.py:77
 #, fuzzy
 #| msgid "Regular expression which is used to match user email."
 msgid "Regular expression which is used to match component slug."
 msgstr ""
-"Expresión regular utilizada para coincidir con el correo electrónico del "
-"usuario."
+"Expresión regular utilizada para coincidir con el nombre corto («slug») del "
+"componente."
 
 #: weblate/trans/models/componentlist.py:82
 #, fuzzy
 #| msgid "Component lists"
 msgid "Component list to assign"
-msgstr "Listas de componentes"
+msgstr "Listas de componentes para asignar"
 
 #: weblate/trans/models/componentlist.py:96
 #, fuzzy
 #| msgid "Automatic group assignment"
 msgid "Automatic component list assignment"
-msgstr "Asignación de grupo automático"
+msgstr "Asignación de lista de componentes automática"
 
 #: weblate/trans/models/componentlist.py:97
 #, fuzzy
 #| msgid "Automatic group assignments"
 msgid "Automatic component list assignments"
-msgstr "Asignaciones de grupo automático"
+msgstr "Asignaciones de lista de componentes automáticas"
 
 #: weblate/trans/models/project.py:98
 msgid "Main website of translated project."
@@ -6355,7 +6351,9 @@ msgstr "¡Código de lenguaje vacío para %s, compruebe la mascara del archivo!"
 #, fuzzy, python-format
 #| msgid "Got empty language code for %s, please check filemask!"
 msgid "Language code %s is too long, please check filemask!"
-msgstr "¡Código de lenguaje vacío para %s, compruebe la mascara del archivo!"
+msgstr ""
+"¡Código de lenguaje demasiado largo para %s, compruebe la mascara del "
+"archivo!"
 
 #: weblate/trans/models/subproject.py:1145
 #, python-format
@@ -6439,9 +6437,11 @@ msgid "Failed to parse translation base file: %s"
 msgstr "No se pudo procesar el archivo de traducción base: %s"
 
 #: weblate/trans/models/subproject.py:1252
-#, python-format
+#, fuzzy, python-format
 msgid "Template language (%s) does not match project source language (%s)!"
 msgstr ""
+"¡El idioma de la plantilla (%s) no coincide con el idioma origen del "
+"proyecto (%s)!"
 
 #: weblate/trans/models/subproject.py:1259
 msgid "You can not use monolingual translation without base file!"
@@ -6950,7 +6950,7 @@ msgstr "La opción de comprobación no es válida: «%s»"
 #, fuzzy
 #| msgid "Invalid merge request!"
 msgid "Invalid parameters!"
-msgstr "¡Solicitud de fusión inválida!"
+msgstr "¡Parámetros no válidos!"
 
 #: weblate/trans/views/acl.py:84 weblate/trans/views/acl.py:133
 msgid "You can not remove last owner!"
@@ -6989,7 +6989,7 @@ msgstr "¡Búsqueda inválida!"
 #, fuzzy, python-brace-format
 #| msgid "Get involved in %(project)s!"
 msgid "Get involved in {0}!"
-msgstr "¡Involúcrate en %(project)s!"
+msgstr "¡Involúcrate en {0}!"
 
 #: weblate/trans/views/basic.py:312
 #, python-format
