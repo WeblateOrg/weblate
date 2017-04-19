@@ -143,8 +143,8 @@ class DictionaryManager(models.Manager):
                     words.update(
                         [
                             ' '.join(new_words[x:y])
-                            for x in range(len(new_words) - 1)
-                            for y in range(1, min(x + 5, len(new_words)))
+                            for x in range(len(new_words))
+                            for y in range(1, min(x + 6, len(new_words) + 1))
                             if x != y
                         ]
                     )
