@@ -288,12 +288,14 @@ function processMachineTranslation(data) {
         });
         $('a.copymt').click(function () {
             var text = $(this).parent().parent().find('.target').text();
-            $('.translation-editor').val(text).trigger('autosize.resize');
+            $('.translation-editor').val(text);
+            autosize.update($('.translation-editor'));
             $('#id_fuzzy').prop('checked', true);
         });
         $('a.copymt-save').click(function () {
             var text = $(this).parent().parent().find('.target').text();
-            $('.translation-editor').val(text).trigger('autosize.resize');
+            $('.translation-editor').val(text);
+            autosize.update($('.translation-editor'));
             $('#id_fuzzy').prop('checked', false);
             submitForm({target:$('.translation-editor')});
         });
@@ -502,7 +504,8 @@ function insertEditor(text, element)
         }
     }
 
-    editor.insertAtCaret($.trim(text)).trigger('autosize.resize');;
+    editor.insertAtCaret($.trim(text));
+    autosize.update(editor);
 }
 
 function updateLock() {
