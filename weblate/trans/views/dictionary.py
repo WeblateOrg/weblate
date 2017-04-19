@@ -24,17 +24,18 @@ import sys
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _, ungettext
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
+from django.template.loader import render_to_string
 
 import six
 from six.moves.urllib.parse import urlencode
 
 from weblate.utils import messages
 from weblate.trans.exporters import get_exporter
-from weblate.trans.models import Translation, Dictionary, Change
+from weblate.trans.models import Translation, Dictionary, Change, Unit
 from weblate.lang.models import Language
 from weblate.trans.site import get_site_url
 from weblate.utils.errors import report_error
@@ -42,7 +43,7 @@ from weblate.trans.util import render
 from weblate.trans.forms import WordForm, DictUploadForm, LetterForm
 from weblate.permissions.helpers import (
     can_add_dictionary, can_upload_dictionary, can_delete_dictionary,
-    can_change_dictionary,
+    can_change_dictionary, check_access,
 )
 from weblate.trans.views.helper import get_project, import_message
 
@@ -250,6 +251,41 @@ def download_dictionary(request, project, lang):
             ))
 
     return response
+
+
+def add_dictionary(request, unit_id):
+    unit = get_object_or_404(Unit, pk=int(unit_id))
+    check_access(request, unit.translation.subproject.project)
+
+    prj = unit.translation.subproject.project
+    lang = unit.translation.language
+
+    code = 403
+    results = ''
+
+    if request.method == 'POST' and can_add_dictionary(request.user, prj):
+        form = WordForm(request.POST)
+        if form.is_valid():
+            Dictionary.objects.create(
+                request.user,
+                project=prj,
+                language=lang,
+                source=form.cleaned_data['source'],
+                target=form.cleaned_data['target']
+            )
+            code = 200
+            results = render_to_string(
+                'glossary-embed.html',
+                {
+                    'glossary': Dictionary.objects.get_words(unit),
+                    'unit': unit,
+                    'user': request.user,
+                }
+            )
+
+    return JsonResponse(
+        data={'responseCode': code, 'results': results}
+    )
 
 
 def show_dictionary(request, project, lang):

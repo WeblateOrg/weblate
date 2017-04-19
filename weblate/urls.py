@@ -899,6 +899,11 @@ urlpatterns = [
             query_string=True
         )
     ),
+    url(
+        r'^js/glossary/(?P<unit_id>[0-9]+)/$',
+        weblate.trans.views.dictionary.add_dictionary,
+        name='js-add-glossary',
+    ),
 
     # Old activity charts
     url(

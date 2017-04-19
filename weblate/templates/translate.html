@@ -382,13 +382,14 @@
 {% endif %}
 {% endwith %}
 
-<form action="{% url 'show_dictionary' project=unit.translation.subproject.project.slug lang=unit.translation.language.code %}" method="POST">
+<form action="{% url 'js-add-glossary' unit_id=unit.id %}" method="POST" class="add-dict-inline">
 {% csrf_token %}
 <input type="hidden" name="next" value="{{ this_unit_url }}" />
 <div class="panel panel-primary">
   <div class="panel-heading">
   <h4 class="panel-title">
     <a class="pull-right flip" title="{% trans "Manage glossary" %}" href="{% url 'show_dictionary' project=unit.translation.subproject.project.slug lang=unit.translation.language.code %}"><i class="fa fa-pencil-square-o"></i></a>
+    <i id="glossary-add-loading" class="fa fa-spinner fa-spin pull-right flip" style="display:none;"></i>
     {% trans "Glossary" %}
   </h4>
   </div>
@@ -401,23 +402,7 @@
         </tr>
         </thead>
         <tbody>
-    {% for item in glossary %}
-        <tr>
-        <td>{{ item.source }}</td>
-        <td class="target">{% format_translation item.target unit.translation.language simple=True %}</td>
-        <td>
-        {% if user_can_translate or user_can_suggest %}
-        <a class="copydict btn btn-default btn-xs" title="{% trans "Copy word to translation" %}">{% trans "Copy" %}</a>
-        {% endif %}
-        </td>
-        </tr>
-    {% empty %}
-        <tr>
-        <td colspan="3">
-    {% trans "No related strings were found in the glossary." %}
-        </td>
-        </tr>
-    {% endfor %}
+        {% include "glossary-embed.html" %}
         </tbody>
 {% if user_can_add_dictionary %}
         <tfoot>

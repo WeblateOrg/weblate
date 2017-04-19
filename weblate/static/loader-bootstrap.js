@@ -1223,4 +1223,26 @@ $(function () {
             },
         });
     });
+
+    /* Inline dictionary adding */
+    $('.add-dict-inline').submit(function () {
+        var form = $(this);
+        increaseLoading('#glossary-add-loading');
+        $.ajax({
+            type: 'POST',
+            url: form.attr('action'),
+            data: form.serialize(),
+            dataType: 'json',
+            success: function (data) {
+                decreaseLoading('#glossary-add-loading');
+                if (data.responseCode === 200) {
+                    form.find('tbody').html(data.results);
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                decreaseLoading('#glossary-add-loading');
+            }
+        });
+        return false;
+    });
 });

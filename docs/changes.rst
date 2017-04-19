@@ -6,6 +6,8 @@ weblate 2.14
 
 Released on ? 2017.
 
+* Add glossary entries using AJAX.
+
 weblate 2.13.1
 --------------
 
