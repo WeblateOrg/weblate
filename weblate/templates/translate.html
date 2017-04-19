@@ -27,6 +27,7 @@
 {% can_edit_priority user unit.translation.subproject.project as user_can_edit_priority %}
 {% can_add_screenshot user project as user_can_add_screenshot %}
 {% can_add_comment user project as user_can_add_comment %}
+{% can_add_dictionary user project as user_can_add_dictionary %}
 
 {% if user_can_translate %}
 <a href="{% url 'zen' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug lang=unit.translation.language.code %}?sid={{ search_id }}" title="{% trans "Edit in Zen mode" %}" class="btn btn-default pull-right flip"><i class="fa fa-arrows-alt"></i> {% trans "Zen" %}</a>
@@ -418,6 +419,7 @@
         </tr>
     {% endfor %}
         </tbody>
+{% if user_can_add_dictionary %}
         <tfoot>
         <tr class="form-inline">
         <td>{{ addword_form.source }}</td>
@@ -426,6 +428,7 @@
         <input type="submit" class="btn btn-default btn-xs" title="{% trans "Add word to glossary" %}" value="{% trans "Add" %}" />
         <td>
         </tfoot>
+{% endif %}
     </table>
 </div>
 </form>
