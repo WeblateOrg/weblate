@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate website\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-04-11 11:45+0000\n"
-"PO-Revision-Date: 2017-04-18 18:35+0000\n"
-"Last-Translator: Laura Arjona Reina <larjona@larjona.net>\n"
+"PO-Revision-Date: 2017-04-21 20:01+0000\n"
+"Last-Translator: Franco <fulanodetal.github1@openaliasbox.org>\n"
 "Language-Team: Spanish "
 "<https://hosted.weblate.org/projects/weblate/master/es/>\n"
 "Language: es\n"
@@ -721,8 +721,6 @@ msgid "Screenshots"
 msgstr "Capturas de pantalla"
 
 #: weblate/permissions/data.py:152
-#, fuzzy
-#| msgid "Translate"
 msgctxt "Permissions group"
 msgid "Translate"
 msgstr "Traducir"
@@ -738,14 +736,12 @@ msgid "You are not allowed to access project %s."
 msgstr "No tiene permitido acceder al proyecto %s."
 
 #: weblate/permissions/models.py:52
-#, fuzzy
-#| msgid "Permissions"
 msgid "Filtered permissions"
-msgstr "Permisos filtrados"
+msgstr "Filtrado de permisos"
 
 #: weblate/permissions/models.py:53
 msgid "The GroupACL will affect only selected permissions."
-msgstr ""
+msgstr "El GroupACL afectará sólo a los permisos seleccionados."
 
 #: weblate/permissions/models.py:60
 msgid "Project, component or language must be specified"
@@ -3031,13 +3027,12 @@ msgid "Register to manage your languages"
 msgstr "Regístrate para gestionar tus idiomas"
 
 #: weblate/templates/index.html:117
-#, fuzzy
 msgid ""
 "Could not find any matching translation in this component list, probably not "
 "translated to your languages."
 msgstr ""
-"No se pudo encontrar ninguna traducción que coincida en esta lista de "
-"componentes, probablemente no está traducida a tus idiomas."
+"No se encontró traducción que coincida en esta lista de componentes, "
+"probablemente no se tradujo a tus idiomas."
 
 #: weblate/templates/index.html:136
 msgid "Browse all changes"
@@ -3723,12 +3718,11 @@ msgid "Remove"
 msgstr "Eliminar"
 
 #: weblate/templates/manage-access.html:48
-#, fuzzy
 msgid ""
 "The user will be removed from the project once you remove last user "
 "permission."
 msgstr ""
-"Se eliminará el usuario del proyecto una vez que elimines el último permiso "
+"El usuario será eliminado del proyecto, una vez eliminado el último permiso "
 "del usuario."
 
 #: weblate/templates/manage-access.html:60
@@ -4750,8 +4744,6 @@ msgid "%(filter_name)s (%(filter_count)s)"
 msgstr "%(filter_name)s (%(filter_count)s)"
 
 #: weblate/trans/admin.py:45
-#, fuzzy
-#| msgid "Administration"
 msgid "Administrators"
 msgstr "Administradores"
 
@@ -5335,8 +5327,6 @@ msgid "Strings with any failing checks"
 msgstr "Cadenas con comprobaciones fallidas"
 
 #: weblate/trans/forms.py:470 weblate/trans/models/translation.py:999
-#, fuzzy
-#| msgid "Source strings review"
 msgid "Random strings for review"
 msgstr "Cadenas aleatorias para revisar"
 
@@ -5484,8 +5474,7 @@ msgid "Whole project"
 msgstr "Proyecto completo"
 
 #: weblate/trans/forms.py:819
-#, fuzzy, python-brace-format
-#| msgid "Chosen translation already exists in this project!"
+#, python-brace-format
 msgid "Similar translation already exists in the project ({0})!"
 msgstr "¡Ya existe una traducción similar en el proyecto ({0})!"
 
@@ -5783,8 +5772,6 @@ msgid "Component lists"
 msgstr "Listas de componentes"
 
 #: weblate/trans/models/componentlist.py:65
-#, fuzzy
-#| msgid "Email regular expression"
 msgid "Project regular expression"
 msgstr "Expresión regular del proyecto"
 
@@ -5797,8 +5784,6 @@ msgstr ""
 "proyecto."
 
 #: weblate/trans/models/componentlist.py:73
-#, fuzzy
-#| msgid "Email regular expression"
 msgid "Component regular expression"
 msgstr "Expresión regular del componente"
 
@@ -5811,22 +5796,16 @@ msgstr ""
 "componente."
 
 #: weblate/trans/models/componentlist.py:82
-#, fuzzy
-#| msgid "Component lists"
 msgid "Component list to assign"
 msgstr "Listas de componentes para asignar"
 
 #: weblate/trans/models/componentlist.py:96
-#, fuzzy
-#| msgid "Automatic group assignment"
 msgid "Automatic component list assignment"
-msgstr "Asignación de lista de componentes automática"
+msgstr "Asignación de la lista de componentes automática"
 
 #: weblate/trans/models/componentlist.py:97
-#, fuzzy
-#| msgid "Automatic group assignments"
 msgid "Automatic component list assignments"
-msgstr "Asignaciones de lista de componentes automáticas"
+msgstr "Asignaciones de la lista de componentes automáticas"
 
 #: weblate/trans/models/project.py:98
 msgid "Main website of translated project."
@@ -6348,12 +6327,10 @@ msgid "Got empty language code for %s, please check filemask!"
 msgstr "¡Código de lenguaje vacío para %s, compruebe la mascara del archivo!"
 
 #: weblate/trans/models/subproject.py:1141
-#, fuzzy, python-format
-#| msgid "Got empty language code for %s, please check filemask!"
+#, python-format
 msgid "Language code %s is too long, please check filemask!"
 msgstr ""
-"¡Código de lenguaje demasiado largo para %s, compruebe la mascara del "
-"archivo!"
+"¡Código de idioma demasiado largo para %s, compruebe la mascara del archivo!"
 
 #: weblate/trans/models/subproject.py:1145
 #, python-format
@@ -6437,7 +6414,7 @@ msgid "Failed to parse translation base file: %s"
 msgstr "No se pudo procesar el archivo de traducción base: %s"
 
 #: weblate/trans/models/subproject.py:1252
-#, fuzzy, python-format
+#, python-format
 msgid "Template language (%s) does not match project source language (%s)!"
 msgstr ""
 "¡El idioma de la plantilla (%s) no coincide con el idioma origen del "
@@ -6947,10 +6924,8 @@ msgid "Invalid check flag: \"%s\""
 msgstr "La opción de comprobación no es válida: «%s»"
 
 #: weblate/trans/views/acl.py:78
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Invalid parameters!"
-msgstr "¡Parámetros no válidos!"
+msgstr "¡Parámetros inválidos!"
 
 #: weblate/trans/views/acl.py:84 weblate/trans/views/acl.py:133
 msgid "You can not remove last owner!"
@@ -6986,8 +6961,7 @@ msgid "Invalid search query!"
 msgstr "¡Búsqueda inválida!"
 
 #: weblate/trans/views/basic.py:306
-#, fuzzy, python-brace-format
-#| msgid "Get involved in %(project)s!"
+#, python-brace-format
 msgid "Get involved in {0}!"
 msgstr "¡Involúcrate en {0}!"
 
