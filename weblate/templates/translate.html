@@ -27,6 +27,7 @@
 {% can_edit_priority user unit.translation.subproject.project as user_can_edit_priority %}
 {% can_add_screenshot user project as user_can_add_screenshot %}
 {% can_add_comment user project as user_can_add_comment %}
+{% can_add_dictionary user project as user_can_add_dictionary %}
 
 {% if user_can_translate %}
 <a href="{% url 'zen' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug lang=unit.translation.language.code %}?sid={{ search_id }}" title="{% trans "Edit in Zen mode" %}" class="btn btn-default pull-right flip"><i class="fa fa-arrows-alt"></i> {% trans "Zen" %}</a>
@@ -381,13 +382,14 @@
 {% endif %}
 {% endwith %}
 
-<form action="{% url 'show_dictionary' project=unit.translation.subproject.project.slug lang=unit.translation.language.code %}" method="POST">
+<form action="{% url 'js-add-glossary' unit_id=unit.id %}" method="POST" class="add-dict-inline">
 {% csrf_token %}
 <input type="hidden" name="next" value="{{ this_unit_url }}" />
 <div class="panel panel-primary">
   <div class="panel-heading">
   <h4 class="panel-title">
     <a class="pull-right flip" title="{% trans "Manage glossary" %}" href="{% url 'show_dictionary' project=unit.translation.subproject.project.slug lang=unit.translation.language.code %}"><i class="fa fa-pencil-square-o"></i></a>
+    <i id="glossary-add-loading" class="fa fa-spinner fa-spin pull-right flip" style="display:none;"></i>
     {% trans "Glossary" %}
   </h4>
   </div>
@@ -400,24 +402,9 @@
         </tr>
         </thead>
         <tbody>
-    {% for item in glossary %}
-        <tr>
-        <td>{{ item.source }}</td>
-        <td class="target">{% format_translation item.target unit.translation.language simple=True %}</td>
-        <td>
-        {% if user_can_translate or user_can_suggest %}
-        <a class="copydict btn btn-default btn-xs" title="{% trans "Copy word to translation" %}">{% trans "Copy" %}</a>
-        {% endif %}
-        </td>
-        </tr>
-    {% empty %}
-        <tr>
-        <td colspan="3">
-    {% trans "No related strings were found in the glossary." %}
-        </td>
-        </tr>
-    {% endfor %}
+        {% include "glossary-embed.html" %}
         </tbody>
+{% if user_can_add_dictionary %}
         <tfoot>
         <tr class="form-inline">
         <td>{{ addword_form.source }}</td>
@@ -426,6 +413,7 @@
         <input type="submit" class="btn btn-default btn-xs" title="{% trans "Add word to glossary" %}" value="{% trans "Add" %}" />
         <td>
         </tfoot>
+{% endif %}
     </table>
 </div>
 </form>

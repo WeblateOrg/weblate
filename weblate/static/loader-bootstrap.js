@@ -288,12 +288,14 @@ function processMachineTranslation(data) {
         });
         $('a.copymt').click(function () {
             var text = $(this).parent().parent().find('.target').text();
-            $('.translation-editor').val(text).trigger('autosize.resize');
+            $('.translation-editor').val(text);
+            autosize.update($('.translation-editor'));
             $('#id_fuzzy').prop('checked', true);
         });
         $('a.copymt-save').click(function () {
             var text = $(this).parent().parent().find('.target').text();
-            $('.translation-editor').val(text).trigger('autosize.resize');
+            $('.translation-editor').val(text);
+            autosize.update($('.translation-editor'));
             $('#id_fuzzy').prop('checked', false);
             submitForm({target:$('.translation-editor')});
         });
@@ -502,7 +504,8 @@ function insertEditor(text, element)
         }
     }
 
-    editor.insertAtCaret($.trim(text)).trigger('autosize.resize');;
+    editor.insertAtCaret($.trim(text));
+    autosize.update(editor);
 }
 
 function updateLock() {
@@ -1219,5 +1222,27 @@ $(function () {
                 $this.prop('disabled', false);
             },
         });
+    });
+
+    /* Inline dictionary adding */
+    $('.add-dict-inline').submit(function () {
+        var form = $(this);
+        increaseLoading('#glossary-add-loading');
+        $.ajax({
+            type: 'POST',
+            url: form.attr('action'),
+            data: form.serialize(),
+            dataType: 'json',
+            success: function (data) {
+                decreaseLoading('#glossary-add-loading');
+                if (data.responseCode === 200) {
+                    form.find('tbody').html(data.results);
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                decreaseLoading('#glossary-add-loading');
+            }
+        });
+        return false;
     });
 });

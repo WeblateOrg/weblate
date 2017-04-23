@@ -307,3 +307,14 @@ class DictionaryTest(ViewTestCase):
             Dictionary.objects.get_words(unit).count(),
             3
         )
+        Dictionary.objects.create(
+            self.user,
+            project=self.project,
+            language=translation.language,
+            source='thank you for using Weblate',
+            target='děkujeme vám za použití Weblate',
+        )
+        self.assertEqual(
+            Dictionary.objects.get_words(unit).count(),
+            4
+        )

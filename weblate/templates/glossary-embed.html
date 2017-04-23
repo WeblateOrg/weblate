@@ -1,0 +1,24 @@
+{% load i18n %}
+{% load permissions %}
+{% load translations %}
+
+{% can_translate user unit.translation as user_can_translate %}
+{% can_suggest user unit.translation as user_can_suggest %}
+
+{% for item in glossary %}
+    <tr>
+    <td>{{ item.source }}</td>
+    <td class="target">{% format_translation item.target unit.translation.language simple=True %}</td>
+    <td>
+    {% if user_can_translate or user_can_suggest %}
+    <a class="copydict btn btn-default btn-xs" title="{% trans "Copy word to translation" %}">{% trans "Copy" %}</a>
+    {% endif %}
+    </td>
+    </tr>
+{% empty %}
+    <tr>
+    <td colspan="3">
+{% trans "No related strings were found in the glossary." %}
+    </td>
+    </tr>
+{% endfor %}
