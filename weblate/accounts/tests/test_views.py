@@ -186,8 +186,8 @@ class ViewTest(TestCase):
             reverse('password'),
             {
                 'password': '123456',
-                'password1': '123456',
-                'password2': '123456'
+                'new_password1': '123456',
+                'new_password2': '123456'
             }
         )
         self.assertContains(response, 'You have entered an invalid password.')
@@ -196,14 +196,14 @@ class ViewTest(TestCase):
             reverse('password'),
             {
                 'password': 'testpassword',
-                'password1': '123456',
-                'password2': '123456'
+                'new_password1': '1pa$$word!',
+                'new_password2': '1pa$$word!'
             }
         )
 
         self.assertRedirects(response, reverse('profile') + '#auth')
         self.assertTrue(
-            User.objects.get(username='testuser').check_password('123456')
+            User.objects.get(username='testuser').check_password('1pa$$word!')
         )
 
     def test_api_key(self):

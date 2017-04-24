@@ -110,8 +110,8 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         response = self.client.post(
             reverse('password'),
             {
-                'password1': 'password',
-                'password2': 'password',
+                'new_password1': '1pa$$word!',
+                'new_password2': '1pa$$word!',
             }
         )
         self.assertRedirects(response, reverse('profile'))

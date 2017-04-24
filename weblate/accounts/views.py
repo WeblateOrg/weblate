@@ -26,6 +26,7 @@ from django.contrib.auth import logout
 from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import SetPasswordForm
 from django.core.mail.message import EmailMultiAlternatives
 from django.utils import translation
 from django.utils.cache import patch_response_headers
@@ -47,7 +48,7 @@ from social_django.utils import BACKENDS
 from social_django.views import complete
 
 from weblate.accounts.forms import (
-    RegistrationForm, PasswordForm, PasswordChangeForm, EmailForm, ResetForm,
+    RegistrationForm, PasswordChangeForm, EmailForm, ResetForm,
     LoginForm, HostingForm, CaptchaRegistrationForm
 )
 from weblate.logger import LOGGER
@@ -500,7 +501,7 @@ def password(request):
         change_form = PasswordChangeForm()
 
     if request.method == 'POST':
-        form = PasswordForm(request.POST)
+        form = SetPasswordForm(request.user, request.POST)
         if form.is_valid() and do_change:
 
             # Clear flag forcing user to set password
@@ -509,13 +510,11 @@ def password(request):
                 del request.session['show_set_password']
                 redirect_page = ''
 
-            request.user.set_password(
-                form.cleaned_data['password1']
-            )
-            request.user.save()
+            # Change the password
+            user = form.save()
 
             # Update session hash
-            update_session_auth_hash(request, request.user)
+            update_session_auth_hash(request, user)
 
             messages.success(
                 request,
@@ -523,7 +522,7 @@ def password(request):
             )
             return redirect_profile(redirect_page)
     else:
-        form = PasswordForm()
+        form = SetPasswordForm(request.user)
 
     return render(
         request,
