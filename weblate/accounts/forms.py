@@ -381,17 +381,11 @@ class PasswordChangeForm(forms.Form):
 
 class ResetForm(EmailForm):
     def clean_email(self):
-        users = User.objects.filter(email__iexact=self.cleaned_data['email'])
-
-        if not users.exists():
-            raise forms.ValidationError(
-                _('User with this email address was not found.')
-            )
         if self.cleaned_data['email'] == 'noreply@weblate.org':
             raise forms.ValidationError(
                 'No password reset for deleted or anonymous user.'
             )
-        return users[0]
+        return self.cleaned_data['email']
 
 
 class LoginForm(forms.Form):

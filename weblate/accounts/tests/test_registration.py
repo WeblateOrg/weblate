@@ -206,7 +206,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         self.assert_registration('[Weblate] Password reset on Weblate')
 
     def test_reset_nonexisting(self):
-        """Test for password reset."""
+        """Test for password reset of nonexisting email."""
         response = self.client.get(
             reverse('password_reset'),
         )
@@ -218,6 +218,24 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
             }
         )
         self.assertRedirects(response, reverse('email-sent'))
+        self.assertEqual(len(mail.outbox), 0)
+
+    def test_reset_invalid(self):
+        """Test for password reset of invalid email."""
+        response = self.client.get(
+            reverse('password_reset'),
+        )
+        self.assertContains(response, 'Reset my password')
+        response = self.client.post(
+            reverse('password_reset'),
+            {
+                'email': '@example.com'
+            }
+        )
+        self.assertContains(
+            response,
+            'Enter a valid email address.'
+        )
         self.assertEqual(len(mail.outbox), 0)
 
     def test_reset_anonymous(self):
@@ -232,7 +250,10 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
                 'email': 'noreply@weblate.org'
             }
         )
-        self.assertRedirects(response, reverse('email-sent'))
+        self.assertContains(
+            response,
+            'No password reset for deleted or anonymous user.'
+        )
         self.assertEqual(len(mail.outbox), 0)
 
     def test_reset_twice(self):

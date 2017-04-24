@@ -552,10 +552,14 @@ def reset_password(request):
             if request.user.is_authenticated:
                 logout(request)
 
-            request.session['password_reset'] = True
-            return complete(request, 'email')
-        else:
-            return redirect('email-sent')
+            users = User.objects.filter(
+                email__iexact=form.cleaned_data['email']
+            )
+            if users.exists():
+                request.session['password_reset'] = True
+                return complete(request, 'email')
+            else:
+                return redirect('email-sent')
     else:
         form = ResetForm()
 
