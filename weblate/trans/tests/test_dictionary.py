@@ -37,11 +37,12 @@ TEST_PO = get_test_file('terms.po')
 class DictionaryTest(ViewTestCase):
     """Testing of dictionary manipulations."""
 
-    def get_url(self, url):
-        return reverse(url, kwargs={
+    def get_url(self, url, **kwargs):
+        kwargs.update({
             'lang': 'cs',
             'project': self.subproject.project.slug,
         })
+        return reverse(url, kwargs=kwargs)
 
     def import_file(self, filename, **kwargs):
         with open(filename, 'rb') as handle:
@@ -130,8 +131,6 @@ class DictionaryTest(ViewTestCase):
     def test_edit(self):
         """Test for manually adding words to glossary."""
         show_url = self.get_url('show_dictionary')
-        edit_url = self.get_url('edit_dictionary')
-        delete_url = self.get_url('delete_dictionary')
 
         # Add word
         response = self.client.post(
@@ -146,19 +145,19 @@ class DictionaryTest(ViewTestCase):
         self.assertEqual(Dictionary.objects.count(), 1)
 
         dict_id = Dictionary.objects.all()[0].id
-        dict_id_url = '?id={0:d}'.format(dict_id)
+        edit_url = self.get_url('edit_dictionary', pk=dict_id)
 
         # Check they are shown
         response = self.client.get(show_url)
         self.assertContains(response, 'překlad')
 
         # Edit page
-        response = self.client.get(edit_url + dict_id_url)
+        response = self.client.get(edit_url)
         self.assertContains(response, 'překlad')
 
         # Edit translation
         response = self.client.post(
-            edit_url + dict_id_url,
+            edit_url,
             {'source': 'src', 'target': 'přkld'}
         )
         self.assertRedirects(response, show_url)
@@ -168,7 +167,8 @@ class DictionaryTest(ViewTestCase):
         self.assertContains(response, 'přkld')
 
         # Test deleting
-        response = self.client.post(delete_url, {'id': dict_id})
+        delete_url = self.get_url('delete_dictionary', pk=dict_id)
+        response = self.client.post(delete_url)
         self.assertRedirects(response, show_url)
 
         # Check number of objects

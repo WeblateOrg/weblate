@@ -73,7 +73,7 @@ def show_dictionaries(request, project):
     )
 
 
-def edit_dictionary(request, project, lang):
+def edit_dictionary(request, project, lang, pk):
     prj = get_project(request, project)
     if not can_change_dictionary(request.user, prj):
         raise PermissionDenied()
@@ -82,7 +82,7 @@ def edit_dictionary(request, project, lang):
         Dictionary,
         project=prj,
         language=lang,
-        id=request.GET.get('id')
+        id=pk,
     )
 
     if request.method == 'POST':
@@ -125,7 +125,7 @@ def edit_dictionary(request, project, lang):
     )
 
 
-def delete_dictionary(request, project, lang):
+def delete_dictionary(request, project, lang, pk):
     prj = get_project(request, project)
     if not can_delete_dictionary(request.user, prj):
         raise PermissionDenied()
@@ -135,7 +135,7 @@ def delete_dictionary(request, project, lang):
         Dictionary,
         project=prj,
         language=lang,
-        id=request.POST.get('id')
+        id=pk
     )
 
     word.delete()

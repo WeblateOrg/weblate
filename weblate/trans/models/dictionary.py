@@ -195,16 +195,16 @@ class Dictionary(models.Model):
             self.target
         )
 
+    @models.permalink
     def get_absolute_url(self):
-        return '{0}?id={1:d}'.format(
-            reverse(
-                'edit_dictionary',
-                kwargs={
-                    'project': self.project.slug,
-                    'lang': self.language.code
-                }
-            ),
-            self.pk
+        return (
+            'edit_dictionary',
+            (),
+            {
+                'project': self.project.slug,
+                'lang': self.language.code,
+                'pk': self.id,
+            }
         )
 
     def get_parent_url(self):
