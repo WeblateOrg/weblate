@@ -325,6 +325,8 @@ class RegistrationForm(EmailForm):
 
 class CaptchaMixin(object):
     """Mixin to add Captcha to form."""
+    tampering = True
+
     def load_captcha(self, data):
         # Load data
         self.tampering = False
