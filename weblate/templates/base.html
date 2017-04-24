@@ -122,7 +122,7 @@ var _rollbarConfig = {
         {% if user.is_staff %}
         <li><a class="button" id="admin-button" href="{% url 'admin:index' %}" title="{% trans "Administration" %}"><i class="fa fa-wrench"></i></a></li>
         {% endif %}
-        <li><a class="button" id="logout-button" href="{% url 'logout' %}" title="{% trans "Logout" %}"><i class="fa fa-sign-out"></i></a></li>
+        <li><a class="button link-post" id="logout-button" href="{% url 'logout' %}" title="{% trans "Logout" %}"><i class="fa fa-sign-out"></i></a></li>
         {% else %}
         {% if registration_open %}
         <li><a class="button" id="register-button" href="{% url 'register' %}">{% trans "Register" %}</a></li>

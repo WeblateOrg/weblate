@@ -159,8 +159,12 @@ class ViewTest(TestCase):
         response = self.client.get(reverse('login'))
         self.assertRedirects(response, reverse('profile'))
 
-        # Logout
+        # Logout with GET should fail
         response = self.client.get(reverse('logout'))
+        self.assertEqual(response.status_code, 405)
+
+        # Logout
+        response = self.client.post(reverse('logout'))
         self.assertRedirects(response, reverse('home'))
 
     def test_password(self):

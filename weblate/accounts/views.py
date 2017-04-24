@@ -34,6 +34,7 @@ from django.utils.translation import get_language
 from django.contrib.auth.models import User
 from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView, ListView
+from django.views.decorators.http import require_POST
 from django.contrib.auth import update_session_auth_hash
 from django.core.urlresolvers import reverse
 
@@ -398,6 +399,7 @@ def weblate_login(request):
     )
 
 
+@require_POST
 @login_required
 def weblate_logout(request):
     """Logout handler, just wrapper around standard Django logout."""
