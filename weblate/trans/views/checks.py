@@ -21,6 +21,7 @@ from __future__ import unicode_literals
 
 from six.moves.urllib.parse import urlencode
 
+from django.http import QueryDict
 from django.shortcuts import render
 from django.utils.translation import ugettext as _
 from django.utils.encoding import force_text
@@ -42,7 +43,9 @@ def acl_checks(user):
 
 def encode_optional(params):
     if params:
-        return '?{0}'.format(urlencode(params))
+        query = QueryDict(mutable=True)
+        query.update(params)
+        return '?{0}'.format(query.urlencode())
     else:
         return ''
 
