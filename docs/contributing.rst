@@ -86,6 +86,7 @@ by email to michal@cihar.com. You can choose to encrypt it using his PGP key
 
     * `Django <https://docs.djangoproject.com/en/dev/internals/security/>`_
     * `Django REST Framework <http://www.django-rest-framework.org/#security>`_
+    * `Python Social Auth <https://github.com/python-social-auth>`_
 
 Starting with our codebase
 --------------------------
