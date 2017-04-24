@@ -513,8 +513,12 @@ def password(request):
             # Change the password
             user = form.save()
 
-            # Update session hash
+            # Updating the password logs out all other sessions for the user
+            # except the current one.
             update_session_auth_hash(request, user)
+
+            # Change key for current session
+            request.session.cycle_key()
 
             messages.success(
                 request,
