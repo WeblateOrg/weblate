@@ -42,7 +42,7 @@ from weblate.lang.models import Language
 from weblate.utils import messages
 from weblate.accounts.avatar import get_user_display
 from weblate.trans.signals import user_pre_delete
-from weblate.utils.validators import validate_repoweb
+from weblate.utils.validators import validate_editor
 from weblate.utils.decorators import disable_for_loaddata
 
 
@@ -218,7 +218,7 @@ class Profile(models.Model):
             'Usually something like editor://open/?file=%(file)s&line=%(line)s'
             ' is good option.'
         ),
-        validators=[validate_repoweb],
+        validators=[validate_editor],
     )
     special_chars = models.CharField(
         default='', blank=True,

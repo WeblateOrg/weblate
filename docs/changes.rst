@@ -10,6 +10,7 @@ Released on ? 2017.
 * The logout now uses POST to avoid CSRF.
 * The API key token reset now uses POST to avoid CSRF.
 * Weblate sets Content-Security-Policy by default.
+* The local editor URL is validated to avoid self-XSS.
 
 weblate 2.13.1
 --------------

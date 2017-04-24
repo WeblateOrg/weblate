@@ -23,10 +23,23 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _
 
 
-ALLOWED_IMAGES = (
+ALLOWED_IMAGES = frozenset((
     'image/jpeg',
     'image/png',
-)
+))
+
+# List of schemes not allowed in editor URL
+# This list is not intededed to be complete, just block
+# the possibly dangerous ones.
+FORBIDDEN_URL_SCHEMES = frozenset((
+    'javascript',
+    'data',
+    'vbscript',
+    'mailto',
+    'ftp',
+    'sms',
+    'tel',
+))
 
 
 def validate_re(value):
@@ -64,3 +77,22 @@ def validate_repoweb(val):
         val % {'file': 'file.po', 'line': '9', 'branch': 'master'}
     except Exception as error:
         raise ValidationError(_('Bad format string (%s)') % str(error))
+
+
+def validate_editor(val):
+    """Validate URL for custom editor link.
+
+    - Check whether it correctly uses format strings.
+    - Check whether scheme is sane.
+    """
+    if not val:
+        return
+    validate_repoweb(val)
+
+    if ':' not in val:
+        raise ValidationError(_('The editor link lacks URL scheme!'))
+
+    scheme = val.split(':', 1)[0]
+
+    if scheme in FORBIDDEN_URL_SCHEMES:
+        raise ValidationError(_('Forbidden URL scheme!'))
