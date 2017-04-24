@@ -581,7 +581,8 @@ def reset_password(request):
 @login_required
 def reset_api_key(request):
     """Reset user API key"""
-    request.user.auth_token.delete()
+    if hasattr(request.user, 'auth_token'):
+        request.user.auth_token.delete()
     Token.objects.create(
         user=request.user,
         key=get_random_string(40)
