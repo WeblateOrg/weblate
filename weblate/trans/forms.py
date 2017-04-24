@@ -684,8 +684,8 @@ class AutoForm(forms.Form):
 
 class WordForm(forms.Form):
     """Form for adding word to a glossary."""
-    source = forms.CharField(label=_('Source'))
-    target = forms.CharField(label=_('Translation'))
+    source = forms.CharField(label=_('Source'), max_length=190)
+    target = forms.CharField(label=_('Translation'), max_length=190)
 
 
 class InlineWordForm(WordForm):
