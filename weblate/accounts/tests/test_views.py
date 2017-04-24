@@ -206,6 +206,20 @@ class ViewTest(TestCase):
             User.objects.get(username='testuser').check_password('123456')
         )
 
+    def test_api_key(self):
+        # Create user
+        self.get_user()
+        # Login
+        self.client.login(username='testuser', password='testpassword')
+
+        # API key reset with GET should fail
+        response = self.client.get(reverse('reset-api-key'))
+        self.assertEqual(response.status_code, 405)
+
+        # API key reset
+        response = self.client.post(reverse('reset-api-key'))
+        self.assertRedirects(response, reverse('profile') + '#api')
+
 
 class ProfileTest(ViewTestCase):
     def test_profile(self):

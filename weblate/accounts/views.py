@@ -564,6 +564,7 @@ def reset_password(request):
     )
 
 
+@require_POST
 @login_required
 def reset_api_key(request):
     """Reset user API key"""
