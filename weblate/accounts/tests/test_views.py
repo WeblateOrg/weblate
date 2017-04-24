@@ -117,9 +117,9 @@ class ViewTest(TestCase):
         # With set subject
         response = self.client.get(
             reverse('contact'),
-            {'subject': 'Weblate test message'}
+            {'t': 'reg'}
         )
-        self.assertContains(response, 'Weblate test message')
+        self.assertContains(response, 'Registration problems')
 
     def test_contact_user(self):
         self.get_user()

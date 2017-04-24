@@ -81,6 +81,12 @@ Additional message:
 %(message)s
 '''
 
+CONTACT_SUBJECTS = {
+    'lang': 'New language request',
+    'reg': 'Registration problems',
+    'hosting': 'Commercial hosting',
+}
+
 
 class RegistrationTemplateView(TemplateView):
     """Class for rendering registration pages."""
@@ -275,8 +281,8 @@ def contact(request):
             return redirect('home')
     else:
         initial = get_initial_contact(request)
-        if 'subject' in request.GET:
-            initial['subject'] = request.GET['subject']
+        if request.GET.get('t') in CONTACT_SUBJECTS:
+            initial['subject'] = CONTACT_SUBJECTS[request.GET['t']]
         form = ContactForm(initial=initial)
 
     return render(

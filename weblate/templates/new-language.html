@@ -29,7 +29,7 @@
 <p>{% trans "Project maintainers will get notified about this request and will add the language manually." %}</p>
 {% endif %}
 {{ form|crispy }}
-<p class="help-block"><a href="{% url 'contact' %}?subject=New+language+request+for+{{ object }}">{% trans "Can't find your language in the list above?" %}</a></p>
+<p class="help-block"><a href="{% url 'contact' %}?t=lang">{% trans "Can't find your language in the list above?" %}</a></p>
 </div>
 <div class="panel-footer">
 {% if object.new_lang == 'contact' %}

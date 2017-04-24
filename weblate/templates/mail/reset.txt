@@ -8,6 +8,6 @@
 
 {% blocktrans %}If there is a problem with your registration, please contact us:{% endblocktrans %}
 
-{{ current_site_url }}{% url 'contact' %}?subject=Registration
+{{ current_site_url }}{% url 'contact' %}?t=reg
 
 {% endfilter%}{% endautoescape %}{% include "mail/signature.txt" %}
