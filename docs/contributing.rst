@@ -47,11 +47,45 @@ You can also specify individual tests to run:
     See `Testing in Django <https://docs.djangoproject.com/en/stable/topics/testing/>`_ 
     for more information on running and writing tests for Django.
 
+Reporting issues
+----------------
+
 Issue tracking
 ++++++++++++++
 
-The issue tracker is hosted on GitHub as well:
+Our issue tracker is hosted at GitHub:
 <https://github.com/WeblateOrg/weblate/issues>
+
+Feel welcome to report any issues or suggestions to improve Weblate there. In
+case you have found security issue in Weblate, please consult section below.
+
+.. _security:
+
+Security issues
++++++++++++++++
+
+In order to give the community time to respond and upgrade we strongly urge you
+report all security issues privately. We're currently using HackerOne to handle
+security issues, so you are welcome to report issues directly at
+<https://hackerone.com/weblate>.
+
+Alternatively you can report them to security@weblate.org, which ends up on
+HackerOne as well.
+
+If you don't want to use HackerOne for whatever reason, you can send the report
+by email to michal@cihar.com. You can choose to encrypt it using his PGP key
+`9C27B31342B7511D`.
+
+.. note::
+
+    We're heavily depending on third party components for many things.  In case
+    you find vulnerability which is affecting those components in general,
+    please report it directly to them.
+
+    See following sites for some of these:
+
+    * `Django <https://docs.djangoproject.com/en/dev/internals/security/>`_
+    * `Django REST Framework <http://www.django-rest-framework.org/#security>`_
 
 Starting with our codebase
 --------------------------
