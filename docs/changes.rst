@@ -11,6 +11,7 @@ Released on ? 2017.
 * The API key token reset now uses POST to avoid CSRF.
 * Weblate sets Content-Security-Policy by default.
 * The local editor URL is validated to avoid self-XSS.
+* The password is now validated against common flaws by default.
 
 weblate 2.13.1
 --------------

@@ -459,6 +459,8 @@ Notable configuration or dependencies changes:
 
 * There is new middleware ``weblate.middleware.SecurityMiddleware`` in the
   default configuration, see :ref:`csp` for more details.
+* Weblate now uses Django password validation, it's controlled by
+  ``AUTH_PASSWORD_VALIDATORS`` setting.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

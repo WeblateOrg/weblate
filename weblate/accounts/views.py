@@ -510,13 +510,11 @@ def password(request):
                 del request.session['show_set_password']
                 redirect_page = ''
 
-            request.user.set_password(
-                form.cleaned_data['password1']
-            )
-            request.user.save()
+            # Change the password
+            user = form.save()
 
             # Update session hash
-            update_session_auth_hash(request, request.user)
+            update_session_auth_hash(request, user)
 
             messages.success(
                 request,
