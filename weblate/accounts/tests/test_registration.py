@@ -156,7 +156,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
             response,
             reverse('password')
         )
-        self.client.get(reverse('logout'))
+        self.client.post(reverse('logout'))
 
         # Confirm second account
         response = self.client.get(second_url, follow=True)
