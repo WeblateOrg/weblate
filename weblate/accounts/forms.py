@@ -375,12 +375,18 @@ class CaptchaRegistrationForm(RegistrationForm):
 class PasswordForm(forms.Form):
     """Form for setting password."""
     password1 = forms.CharField(
-        widget=forms.PasswordInput(render_value=False),
+        widget=forms.PasswordInput(
+            render_value=False,
+            attrs={'autocomplete': 'off'},
+        ),
         label=_("New password"),
         help_text=_('At least six characters long.'),
     )
     password2 = forms.CharField(
-        widget=forms.PasswordInput(render_value=False),
+        widget=forms.PasswordInput(
+            render_value=False,
+            attrs={'autocomplete': 'off'},
+        ),
         label=_("New password (again)"),
         help_text=_(
             'Repeat the password so we can verify '
