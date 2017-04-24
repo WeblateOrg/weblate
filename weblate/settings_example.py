@@ -275,6 +275,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'social_django.middleware.SocialAuthExceptionMiddleware',
     'weblate.accounts.middleware.RequireLoginMiddleware',
+    'weblate.middleware.SecurityMiddleware',
 )
 
 ROOT_URLCONF = 'weblate.urls'

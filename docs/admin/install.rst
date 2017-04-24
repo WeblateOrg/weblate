@@ -1096,6 +1096,18 @@ use that for following paths:
     `Deploying Django <https://docs.djangoproject.com/en/stable/howto/deployment/>`_,
     `Deploying static files <https://docs.djangoproject.com/en/stable/howto/static-files/deployment/>`_
 
+.. _csp:
+
+Content security policy
++++++++++++++++++++++++
+
+Default Weblate configuration enables ``weblate.middleware.SecurityMiddleware``
+middleware which sets security related HTTP headers like ``Content-Security-Policy``
+or ``X-XSS-Protection``. These are set to work with Weblate and it's
+configuration, but this might clash with your customization. If that is your
+case, it is recommended to disable this middleware and set these headers
+manually.
+
 Sample configuration for Apache
 +++++++++++++++++++++++++++++++
 

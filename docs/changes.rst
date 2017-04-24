@@ -9,6 +9,7 @@ Released on ? 2017.
 * Add glossary entries using AJAX.
 * The logout now uses POST to avoid CSRF.
 * The API key token reset now uses POST to avoid CSRF.
+* Weblate sets Content-Security-Policy by default.
 
 weblate 2.13.1
 --------------
