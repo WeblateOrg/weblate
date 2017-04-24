@@ -52,8 +52,8 @@ class SecurityMiddleware(object):
             script.append('cdnjs.cloudflare.com')
 
         if settings.PIWIK_URL:
-            script.append(PIWIK_URL)
-            image.append(PIWIK_URL)
+            script.append(settings.PIWIK_URL)
+            image.append(settings.PIWIK_URL)
 
         if settings.GOOGLE_ANALYTICS_ID:
             script.append('www.google-analytics.com')
