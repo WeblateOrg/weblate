@@ -198,7 +198,7 @@ def matrix_load(request, project, subproject):
     obj = get_subproject(request, project, subproject)
 
     try:
-        offset = int(request.GET.get('offset'))
+        offset = int(request.GET.get('offset', ''))
     except ValueError:
         return HttpResponseServerError('Missing offset')
     language_codes = request.GET.get('lang')
