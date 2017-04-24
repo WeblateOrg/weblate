@@ -123,6 +123,8 @@ def search(translation, request):
             translation,
             search_form.cleaned_data,
         )
+        if search_form.cleaned_data['type'] == 'random':
+            allunits = allunits[:25]
 
         search_query = search_form.cleaned_data['q']
         name = search_form.get_name()

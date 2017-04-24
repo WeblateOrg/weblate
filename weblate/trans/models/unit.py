@@ -266,8 +266,6 @@ class UnitManager(models.Manager):
                     params
                 )
             )
-        if params['type'] == 'random':
-            return result[:25]
         return result
 
     def same_source(self, unit):
