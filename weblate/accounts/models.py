@@ -74,12 +74,15 @@ def get_anonymous():
 
 def get_author_name(user, email=True):
     """Return formatted author name with email."""
+    # The < > are replace to avoid tricking Git to use
+    # name as email
+
     # Get full name from database
-    full_name = user.first_name
+    full_name = user.first_name.replace('<', '').replace('>', '')
 
     # Use username if full name is empty
     if full_name == '':
-        full_name = user.username
+        full_name = user.username.replace('<', '').replace('>', '')
 
     # Add email if we are asked for it
     if not email:
