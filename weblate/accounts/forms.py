@@ -311,7 +311,9 @@ class RegistrationForm(EmailForm):
     error_css_class = "error"
 
     username = UsernameField()
-    first_name = forms.CharField(label=_('Full name'))
+    # The Django User model limit is 30 chars, this should
+    # be raised if we switch to custom User model
+    first_name = forms.CharField(label=_('Full name'), max_length=30)
     content = forms.CharField(required=False)
 
     def clean_content(self):
