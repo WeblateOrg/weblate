@@ -19,8 +19,6 @@
 #
 from __future__ import unicode_literals
 
-from six.moves.urllib.parse import urlencode
-
 from django.http import QueryDict
 from django.shortcuts import render
 from django.utils.translation import ugettext as _
