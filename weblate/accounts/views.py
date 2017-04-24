@@ -49,7 +49,8 @@ from social_django.views import complete
 
 from weblate.accounts.forms import (
     RegistrationForm, PasswordChangeForm, EmailForm, ResetForm,
-    LoginForm, HostingForm, CaptchaRegistrationForm
+    LoginForm, HostingForm, CaptchaRegistrationForm,
+    CaptchaResetForm,
 )
 from weblate.logger import LOGGER
 from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
@@ -548,8 +549,13 @@ def reset_password(request):
         )
         return redirect('login')
 
+    if settings.REGISTRATION_CAPTCHA:
+        form_class = CaptchaResetForm
+    else:
+        form_class = ResetForm
+
     if request.method == 'POST':
-        form = ResetForm(request.POST)
+        form = form_class(request.POST)
         if form.is_valid():
             # Force creating new session
             request.session.create()
@@ -565,7 +571,7 @@ def reset_password(request):
             else:
                 return redirect('email-sent')
     else:
-        form = ResetForm()
+        form = form_class()
 
     return render(
         request,

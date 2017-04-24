@@ -323,18 +323,9 @@ class RegistrationForm(EmailForm):
         return ''
 
 
-class CaptchaRegistrationForm(RegistrationForm):
-    """Registration form with captcha protection."""
-    captcha = forms.IntegerField(required=True)
-    captcha_id = forms.CharField(widget=forms.HiddenInput)
-
-    def __init__(self, data=None, *args, **kwargs):
-        super(CaptchaRegistrationForm, self).__init__(
-            data,
-            *args,
-            **kwargs
-        )
-
+class CaptchaMixin(object):
+    """Mixin to add Captcha to form."""
+    def load_captcha(self, data):
         # Load data
         self.tampering = False
         if data is None or 'captcha_id' not in data:
@@ -372,6 +363,16 @@ class CaptchaRegistrationForm(RegistrationForm):
         )
 
 
+class CaptchaRegistrationForm(RegistrationForm, CaptchaMixin):
+    """Registration form with captcha protection."""
+    captcha = forms.IntegerField(required=True)
+    captcha_id = forms.CharField(widget=forms.HiddenInput)
+
+    def __init__(self, data=None, *args, **kwargs):
+        super(CaptchaRegistrationForm, self).__init__(data, *args, **kwargs)
+        self.load_captcha(data)
+
+
 class PasswordChangeForm(forms.Form):
     password = forms.CharField(
         widget=forms.PasswordInput(render_value=False),
@@ -386,6 +387,16 @@ class ResetForm(EmailForm):
                 'No password reset for deleted or anonymous user.'
             )
         return self.cleaned_data['email']
+
+
+class CaptchaResetForm(ResetForm, CaptchaMixin):
+    captcha = forms.IntegerField(required=True)
+    captcha_id = forms.CharField(widget=forms.HiddenInput)
+
+    def __init__(self, data=None, *args, **kwargs):
+        super(CaptchaResetForm, self).__init__(data, *args, **kwargs)
+        self.load_captcha(data)
+
 
 
 class LoginForm(forms.Form):

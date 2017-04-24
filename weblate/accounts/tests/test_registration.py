@@ -187,6 +187,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         self.assertRedirects(response, reverse('login'))
         self.assertContains(response, 'Failed to verify your registration')
 
+    @override_settings(REGISTRATION_CAPTCHA=False)
     def test_reset(self):
         """Test for password reset."""
         User.objects.create_user('testuser', 'test@example.com', 'x')
@@ -205,6 +206,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
 
         self.assert_registration('[Weblate] Password reset on Weblate')
 
+    @override_settings(REGISTRATION_CAPTCHA=False)
     def test_reset_nonexisting(self):
         """Test for password reset of nonexisting email."""
         response = self.client.get(
@@ -220,6 +222,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         self.assertRedirects(response, reverse('email-sent'))
         self.assertEqual(len(mail.outbox), 0)
 
+    @override_settings(REGISTRATION_CAPTCHA=False)
     def test_reset_invalid(self):
         """Test for password reset of invalid email."""
         response = self.client.get(
@@ -238,6 +241,27 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         )
         self.assertEqual(len(mail.outbox), 0)
 
+    @override_settings(REGISTRATION_CAPTCHA=True)
+    def test_reset_captcha(self):
+        """Test for password reset of invalid captcha."""
+        response = self.client.get(
+            reverse('password_reset'),
+        )
+        self.assertContains(response, 'Reset my password')
+        response = self.client.post(
+            reverse('password_reset'),
+            {
+                'email': 'test@example.com',
+                'captcha': 9999,
+            }
+        )
+        self.assertContains(
+            response,
+            'Please check your math and try again.'
+        )
+        self.assertEqual(len(mail.outbox), 0)
+
+    @override_settings(REGISTRATION_CAPTCHA=False)
     def test_reset_anonymous(self):
         """Test for password reset of anonymous user."""
         response = self.client.get(
@@ -256,6 +280,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         )
         self.assertEqual(len(mail.outbox), 0)
 
+    @override_settings(REGISTRATION_CAPTCHA=False)
     def test_reset_twice(self):
         """Test for password reset."""
         User.objects.create_user('testuser', 'test@example.com', 'x')
