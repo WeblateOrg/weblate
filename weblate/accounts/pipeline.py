@@ -219,3 +219,8 @@ def slugify_username(value):
 
     value = STRIP_MATCHER.sub('', value).strip()
     return CLEANUP_MATCHER.sub('-', value)
+
+
+def cycle_session(strategy, *args, **kwargs):
+    # Change key for current session
+    strategy.request.session.cycle_key()

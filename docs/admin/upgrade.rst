@@ -461,6 +461,8 @@ Notable configuration or dependencies changes:
   default configuration, see :ref:`csp` for more details.
 * Weblate now uses Django password validation, it's controlled by
   ``AUTH_PASSWORD_VALIDATORS`` setting.
+* Weblate now customizes disconnect pipeline for Python Social Auth,
+  the ``SOCIAL_AUTH_DISCONNECT_PIPELINE`` setting is now needed.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
