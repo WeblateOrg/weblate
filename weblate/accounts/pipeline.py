@@ -29,6 +29,7 @@ from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.utils.encoding import force_text
+from django.utils.http import is_safe_url
 from django.utils.translation import ugettext as _
 
 from six.moves.urllib.request import Request, urlopen
@@ -146,6 +147,12 @@ def verify_open(strategy, backend, user=None, **kwargs):
         raise AuthException(
             backend, _('Can not change authentication for demo!')
         )
+
+    # This is mostly fix for lack of next validation in Python Social Auth
+    # see https://github.com/python-social-auth/social-core/issues/62
+    url = backend.strategy.session_get('next')
+    if url and not is_safe_url(url):
+        backend.strategy.session_set('next', None)
 
 
 def verify_username(strategy, backend, details, user=None, **kwargs):
