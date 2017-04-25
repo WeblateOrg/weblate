@@ -647,7 +647,7 @@ class ZenViewTest(ViewTestCase):
         )
         self.assertContains(
             response,
-            'nonexisting-type is not one of the available choices'
+            'Please select a valid filter type.',
         )
 
     def test_load_zen(self):
