@@ -94,5 +94,5 @@ def validate_editor(val):
 
     scheme = val.split(':', 1)[0]
 
-    if scheme in FORBIDDEN_URL_SCHEMES:
+    if scheme.strip().lower() in FORBIDDEN_URL_SCHEMES:
         raise ValidationError(_('Forbidden URL scheme!'))

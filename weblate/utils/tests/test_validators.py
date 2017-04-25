@@ -54,3 +54,13 @@ class EditorValidatorTest(TestCase):
             validate_editor,
             'javascript:alert(0)'
         )
+        self.assertRaises(
+            ValidationError,
+            validate_editor,
+            'javaScript:alert(0)'
+        )
+        self.assertRaises(
+            ValidationError,
+            validate_editor,
+            ' javaScript:alert(0)'
+        )
