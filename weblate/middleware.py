@@ -25,7 +25,7 @@ from django.conf import settings
 
 CSP_TEMPLATE = (
     "default-src 'self'; style-src {0}; img-src {1}; script-src {2}; "
-    "connect-src 'self'; object-src 'none'; "
+    "connect-src {3}; object-src 'none'; "
     "child-src 'none'; frame-ancestors 'none';"
 )
 
@@ -44,12 +44,14 @@ class SecurityMiddleware(object):
         style = ["'self'", "'unsafe-inline'"]
         script = ["'self'"]
         image = ["'self'"]
+        connect = ["'self'"]
 
         if (hasattr(settings, 'ROLLBAR') and
                 'client_token' in settings.ROLLBAR and
                 'environment' in settings.ROLLBAR):
             script.append("'unsafe-inline'")
             script.append('cdnjs.cloudflare.com')
+            connect.append('api.rollbar.com')
 
         if settings.PIWIK_URL:
             script.append(settings.PIWIK_URL)
@@ -63,6 +65,7 @@ class SecurityMiddleware(object):
             ' '.join(style),
             ' '.join(image),
             ' '.join(script),
+            ' '.join(connect),
         )
         response['X-XSS-Protection'] = '1; mode=block'
         return response
