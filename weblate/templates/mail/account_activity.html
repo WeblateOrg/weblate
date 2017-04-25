@@ -1,0 +1,26 @@
+{% extends "mail/base.html" %}
+
+{% load i18n %}{% load translations %}
+
+{% block content %}
+<p>
+{% trans "Hi,"%}
+</p>
+
+<p>
+{% blocktrans %}There has been a change in your account at {{ site_title }}:{% endblocktrans %}
+</p>
+
+<p>
+{{ message }}
+</p>
+
+<p>
+{% blocktrans %}If you did not request this change, please notify us as soon as possible using following form:{% endblocktrans %}
+</p>
+
+<p>
+<a href="{{ current_site_url }}{% url 'contact' %}?t=account">{{ current_site_url }}{% url 'contact' %}?t=account</a>
+</p>
+
+{% endblock %}

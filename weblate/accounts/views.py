@@ -62,6 +62,7 @@ from weblate.accounts.forms import (
     ProfileForm, SubscriptionForm, UserForm, ContactForm,
     SubscriptionSettingsForm, UserSettingsForm, DashboardSettingsForm
 )
+from weblate.accounts.notifications import notify_account_activity
 
 CONTACT_TEMPLATE = '''
 Message from %(name)s <%(email)s>:
@@ -87,6 +88,7 @@ CONTACT_SUBJECTS = {
     'lang': 'New language request',
     'reg': 'Registration problems',
     'hosting': 'Commercial hosting',
+    'account': 'Suspicious account activity',
 }
 
 
@@ -525,6 +527,7 @@ def password(request):
                 request,
                 _('Your password has been changed.')
             )
+            notify_account_activity(request, 'password')
             return redirect_profile(redirect_page)
     else:
         form = SetPasswordForm(request.user)

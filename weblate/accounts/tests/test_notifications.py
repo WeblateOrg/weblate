@@ -36,6 +36,7 @@ from weblate.accounts.notifications import (
     notify_new_translation,
     notify_new_contributor,
     notify_new_language,
+    notify_account_activity,
 )
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.models import Suggestion, Comment
@@ -253,6 +254,15 @@ class NotificationTest(ViewTestCase):
         self.assertEqual(
             mail.outbox[1].subject,
             '[Weblate] New comment in Test/Test'
+        )
+
+    def test_notify_account(self):
+        request = self.get_request('/')
+        notify_account_activity(request, 'password')
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(
+            mail.outbox[0].subject,
+            '[Weblate] Activity on your account at Weblate'
         )
 
 

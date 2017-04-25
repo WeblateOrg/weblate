@@ -12,6 +12,7 @@ Released on ? 2017.
 * Weblate sets Content-Security-Policy by default.
 * The local editor URL is validated to avoid self-XSS.
 * The password is now validated against common flaws by default.
+* Notify users about imporant activity with their account such as password change.
 
 weblate 2.13.1
 --------------

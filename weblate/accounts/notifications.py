@@ -26,6 +26,7 @@ from django.conf import settings
 from django.core.mail import EmailMultiAlternatives, get_connection
 from django.template.loader import render_to_string
 from django.utils import translation as django_translation
+from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import force_text
 
 from weblate.accounts.models import Profile
@@ -34,6 +35,13 @@ from weblate.trans.site import get_site_url, get_site_domain
 from weblate.utils.errors import report_error
 from weblate import VERSION
 from weblate.logger import LOGGER
+
+
+ACCOUNT_ACTIVITY = {
+    'password': _('Password has been changed.'),
+    'auth-new': _('Authentication using {method} has been added.'),
+    'auth-removed': _('Authentication using {method} has been removed.'),
+}
 
 
 def notify_merge_failure(subproject, error, status):
@@ -362,6 +370,25 @@ def send_notification_email(language, email, notification,
         user, info
     )
     send_mails([email])
+
+
+def notify_account_activity(request, activity, **kwargs):
+    """Notification about important activity with account."""
+    info = request.META.get('REMOTE_ADDR' '')
+
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        info += x_forwarded_for
+
+    kwargs['message'] = ACCOUNT_ACTIVITY[activity].format(kwargs)
+
+    send_notification_email(
+        request.user.profile.language,
+        request.user.email,
+        'account_activity',
+        context=kwargs,
+        info=info,
+    )
 
 
 def send_user(profile, notification, subproject, display_obj,
