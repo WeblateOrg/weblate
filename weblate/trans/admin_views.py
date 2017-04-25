@@ -170,6 +170,7 @@ def performance(request):
         'root@localhost',
         'webmaster@localhost',
         'noreply@weblate.org'
+        'noreply@example.com'
     )
     checks.append((
         _('Email addresses'),
