@@ -514,7 +514,11 @@ function updateLock() {
         return;
     }
     $.ajax({
+        type: 'POST',
         url: $('#js-lock').attr('href'),
+        data: {
+            csrfmiddlewaretoken: $('#link-post').find('input').val()
+        },
         success: function(data) {
             if (! data.status) {
                 $('.lock-error').remove();

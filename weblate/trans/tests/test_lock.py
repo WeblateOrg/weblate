@@ -63,7 +63,7 @@ class LockTest(ViewTestCase):
         )
 
     def test_subproject(self):
-        response = self.client.get(
+        response = self.client.post(
             reverse('lock_subproject', kwargs=self.kw_subproject)
         )
         self.assertRedirects(
@@ -72,7 +72,7 @@ class LockTest(ViewTestCase):
         )
         self.assert_component_locked()
 
-        response = self.client.get(
+        response = self.client.post(
             reverse('unlock_subproject', kwargs=self.kw_subproject)
         )
         self.assertRedirects(
@@ -82,7 +82,7 @@ class LockTest(ViewTestCase):
         self.assert_component_not_locked()
 
     def test_project(self):
-        response = self.client.get(
+        response = self.client.post(
             reverse('lock_project', kwargs=self.kw_project)
         )
         self.assertRedirects(
@@ -99,7 +99,7 @@ class LockTest(ViewTestCase):
             'This translation is currently locked for updates!'
         )
 
-        response = self.client.get(
+        response = self.client.post(
             reverse('unlock_project', kwargs=self.kw_project)
         )
         self.assertRedirects(
@@ -109,7 +109,7 @@ class LockTest(ViewTestCase):
         self.assert_component_not_locked()
 
     def test_translation(self):
-        response = self.client.get(
+        response = self.client.post(
             reverse('lock_translation', kwargs=self.kw_translation)
         )
         self.assertRedirects(
@@ -118,7 +118,7 @@ class LockTest(ViewTestCase):
         )
         self.assertTrue(self.get_translation().is_user_locked())
 
-        response = self.client.get(
+        response = self.client.post(
             reverse('unlock_translation', kwargs=self.kw_translation)
         )
         self.assertRedirects(
@@ -127,7 +127,7 @@ class LockTest(ViewTestCase):
         )
         self.assertFalse(self.get_translation().is_user_locked())
 
-        response = self.client.get(
+        response = self.client.post(
             reverse('js-lock', kwargs=self.kw_translation)
         )
         self.assertFalse(self.get_translation().is_user_locked())

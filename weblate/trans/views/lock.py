@@ -23,6 +23,7 @@ from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.views.decorators.http import require_POST
 
 from weblate.utils import messages
 from weblate.trans.views.helper import (
@@ -33,6 +34,7 @@ from weblate.permissions.helpers import (
 )
 
 
+@require_POST
 @login_required
 def update_lock(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
@@ -50,6 +52,7 @@ def update_lock(request, project, subproject, lang):
     return JsonResponse(data=response)
 
 
+@require_POST
 @login_required
 def lock_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
@@ -64,6 +67,7 @@ def lock_translation(request, project, subproject, lang):
     return redirect(obj)
 
 
+@require_POST
 @login_required
 def unlock_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
@@ -81,6 +85,7 @@ def unlock_translation(request, project, subproject, lang):
     return redirect(obj)
 
 
+@require_POST
 @login_required
 def lock_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
@@ -100,6 +105,7 @@ def lock_subproject(request, project, subproject):
     return redirect(obj)
 
 
+@require_POST
 @login_required
 def unlock_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
@@ -117,6 +123,7 @@ def unlock_subproject(request, project, subproject):
     return redirect(obj)
 
 
+@require_POST
 @login_required
 def lock_project(request, project):
     obj = get_project(request, project)
@@ -137,6 +144,7 @@ def lock_project(request, project):
     return redirect(obj)
 
 
+@require_POST
 @login_required
 def unlock_project(request, project):
     obj = get_project(request, project)
