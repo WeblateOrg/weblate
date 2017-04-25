@@ -25,7 +25,7 @@ from django.conf import settings
 
 CSP_TEMPLATE = (
     "default-src 'self'; style-src {0}; img-src {1}; script-src {2}; "
-    "connect-src 'none'; object-src 'none'; "
+    "connect-src 'self'; object-src 'none'; "
     "child-src 'none'; frame-ancestors 'none';"
 )
 
