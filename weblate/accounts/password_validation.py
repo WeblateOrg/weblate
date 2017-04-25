@@ -45,4 +45,7 @@ class CharsPasswordValidator(object):
             )
 
     def get_help_text(self):
-        return _("Your password can't consists of single character or whitespace.")
+        return _(
+            "Your password can't consist of "
+            "single character or whitespace only."
+        )
