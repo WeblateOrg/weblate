@@ -138,6 +138,11 @@ def verify_open(strategy, backend, user=None, **kwargs):
     if not user and not settings.REGISTRATION_OPEN:
         raise AuthException(backend, _('New registrations are disabled!'))
 
+    if user and settings.DEMO_SERVER and user.username == 'demo':
+        raise AuthException(
+            backend, _('Can not change authentication for demo!')
+        )
+
 
 def verify_username(strategy, backend, details, user=None, **kwargs):
     """Verified whether username is still free.
