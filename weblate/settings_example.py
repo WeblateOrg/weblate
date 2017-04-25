@@ -281,6 +281,9 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+    {
+        'NAME': 'weblate.accounts.password_validation.CharsPasswordValidator',
+    },
 ]
 
 # Middleware
