@@ -527,7 +527,7 @@ def password(request):
                 request,
                 _('Your password has been changed.')
             )
-            notify_account_activity(request, 'password')
+            notify_account_activity(request.user, request, 'password')
             return redirect_profile(redirect_page)
     else:
         form = SetPasswordForm(request.user)

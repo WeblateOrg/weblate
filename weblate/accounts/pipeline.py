@@ -38,7 +38,10 @@ from social_core.exceptions import (
     AuthException, AuthMissingParameter, AuthAlreadyAssociated
 )
 
-from weblate.accounts.notifications import send_notification_email
+from weblate.accounts.notifications import (
+    send_notification_email, notify_account_activity
+)
+from weblate.accounts.templatetags.authnames import get_auth_name
 from weblate.accounts.models import VerifiedEmail
 from weblate.utils import messages
 from weblate import USER_AGENT
@@ -170,6 +173,17 @@ def store_email(strategy, backend, user, social, details, **kwargs):
         verified.save()
 
 
+def notify_connect(strategy, backend, user, social, **kwargs):
+    """Store verified email."""
+    notify_account_activity(
+        user,
+        strategy.request,
+        'auth-connect',
+        method=get_auth_name(backend.name),
+        name=social.uid
+    )
+
+
 def user_full_name(strategy, details, user=None, **kwargs):
     """Update user full name using data from provider."""
     if user:
@@ -248,3 +262,15 @@ def adjust_primary_mail(strategy, entries, user, *args, **kwargs):
             user.email
         )
     )
+
+
+def notify_disconnect(strategy, backend, entries, user, **kwargs):
+    """Store verified email."""
+    for social in entries:
+        notify_account_activity(
+            user,
+            strategy.request,
+            'auth-disconnect',
+            method=get_auth_name(backend.name),
+            name=social.uid
+        )

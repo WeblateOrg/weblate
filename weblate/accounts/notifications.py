@@ -38,9 +38,15 @@ from weblate.logger import LOGGER
 
 
 ACCOUNT_ACTIVITY = {
-    'password': _('Password has been changed.'),
-    'auth-new': _('Authentication using {method} has been added.'),
-    'auth-removed': _('Authentication using {method} has been removed.'),
+    'password': _(
+        'Password has been changed.'
+    ),
+    'auth-connect': _(
+        'Authentication using {method} ({name}) has been added.'
+    ),
+    'auth-disconnect': _(
+        'Authentication using {method} ({name}) has been removed.'
+    ),
 }
 
 
@@ -372,7 +378,7 @@ def send_notification_email(language, email, notification,
     send_mails([email])
 
 
-def notify_account_activity(request, activity, **kwargs):
+def notify_account_activity(user, request, activity, **kwargs):
     """Notification about important activity with account."""
     info = request.META.get('REMOTE_ADDR' '')
 
@@ -380,11 +386,11 @@ def notify_account_activity(request, activity, **kwargs):
     if x_forwarded_for:
         info += x_forwarded_for
 
-    kwargs['message'] = ACCOUNT_ACTIVITY[activity].format(kwargs)
+    kwargs['message'] = ACCOUNT_ACTIVITY[activity].format(**kwargs)
 
     send_notification_email(
-        request.user.profile.language,
-        request.user.email,
+        user.profile.language,
+        user.email,
         'account_activity',
         context=kwargs,
         info=info,

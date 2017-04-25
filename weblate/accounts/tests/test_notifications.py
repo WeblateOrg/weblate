@@ -258,7 +258,7 @@ class NotificationTest(ViewTestCase):
 
     def test_notify_account(self):
         request = self.get_request('/')
-        notify_account_activity(request, 'password')
+        notify_account_activity(request.user, request, 'password')
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(
             mail.outbox[0].subject,

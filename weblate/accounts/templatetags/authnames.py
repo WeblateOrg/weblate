@@ -76,3 +76,10 @@ def auth_name(auth, extra_class='fa-4x', separator='<br />'):
         html_template = FA_SOCIAL_TEMPLATE
 
     return mark_safe(html_template.format(**params))
+
+
+def get_auth_name(auth):
+    """Get nice name for authentication backend."""
+    if auth in SOCIALS:
+        return SOCIALS[auth]['name']
+    return auth
