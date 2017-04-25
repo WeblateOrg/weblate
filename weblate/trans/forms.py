@@ -472,6 +472,9 @@ class FilterField(forms.ChoiceField):
             (CHECKS[check].url_id, CHECKS[check].description)
             for check in CHECKS if CHECKS[check].target
         ]
+        kwargs['error_messages'] = {
+            'invalid_choice': _('Please select a valid filter type.'),
+        }
         super(FilterField, self).__init__(*args, **kwargs)
 
     def to_python(self, value):
