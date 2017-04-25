@@ -92,7 +92,7 @@ def require_email(strategy, backend, details, user=None, is_new=False,
         return redirect('register')
 
 
-def send_validation(strategy, backend, code):
+def send_validation(strategy, backend, code, partial_token=None):
     """Send verification email."""
 
     # We need to have existing session
@@ -109,6 +109,8 @@ def send_validation(strategy, backend, code):
         strategy.request.session.session_key,
         template
     )
+    if partial_token:
+        url += '&partial_token={0}'.format(partial_token)
 
     send_notification_email(
         None,
