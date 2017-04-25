@@ -40,6 +40,7 @@ from social_core.exceptions import (
 
 from weblate.accounts.notifications import send_notification_email
 from weblate.accounts.models import VerifiedEmail
+from weblate.utils import messages
 from weblate import USER_AGENT
 
 USERNAME_RE = r'^[\w.@+-]+$'
@@ -224,3 +225,26 @@ def slugify_username(value):
 def cycle_session(strategy, *args, **kwargs):
     # Change key for current session
     strategy.request.session.cycle_key()
+
+
+def adjust_primary_mail(strategy, entries, user, *args, **kwargs):
+    """Fix primary mail on disconnect."""
+    verified = VerifiedEmail.objects.filter(
+        social__user=user,
+    ).exclude(
+        social__in=entries
+    )
+    if verified.filter(email=user.email).exists():
+        return
+
+    user.email = verified[0].email
+    user.save()
+    messages.warning(
+        strategy.request,
+        _(
+            'Your email no longer belongs to verified account, '
+            'it has been changed to {0}.'
+        ).format(
+            user.email
+        )
+    )

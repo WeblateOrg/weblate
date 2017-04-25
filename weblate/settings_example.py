@@ -246,6 +246,14 @@ SOCIAL_AUTH_PIPELINE = (
     'weblate.accounts.pipeline.store_email',
     'weblate.accounts.pipeline.password_reset',
 )
+SOCIAL_AUTH_DISCONNECT_PIPELINE = (
+    'social_core.pipeline.disconnect.allowed_to_disconnect',
+    'social_core.pipeline.disconnect.get_entries',
+    'social_core.pipeline.disconnect.revoke_tokens',
+    'weblate.accounts.pipeline.cycle_session',
+    'weblate.accounts.pipeline.adjust_primary_mail',
+    'social_core.pipeline.disconnect.disconnect',
+)
 
 # Custom authentication strategy
 SOCIAL_AUTH_STRATEGY = 'weblate.accounts.strategy.WeblateStrategy'
