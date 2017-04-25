@@ -118,7 +118,7 @@ class SearchViewTest(ViewTestCase):
         )
         self.assertContains(
             response,
-            'xxx is not one of the available choices.'
+            'Please select a valid filter type.',
         )
 
     def test_pagination(self):
@@ -219,7 +219,7 @@ class SearchViewTest(ViewTestCase):
         # Wrong type
         self.do_search(
             {'q': 'xxxxx', 'search': 'xxxx'},
-            'Select a valid choice. xxxx is not one of the available choices.'
+            'Please select a valid search type.'
         )
 
     def test_random(self):
@@ -392,7 +392,7 @@ class SearchViewTest(ViewTestCase):
     def test_search_errors(self):
         self.do_search(
             {'type': 'nonexisting-type'},
-            'nonexisting-type is not one of the available choices'
+            'Please select a valid filter type.',
         )
         self.do_search(
             {'date': 'nonexisting'},

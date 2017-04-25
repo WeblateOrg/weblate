@@ -499,7 +499,10 @@ class SearchForm(forms.Form):
             ('ftx', _('Fulltext')),
             ('exact', _('Exact match')),
         ),
-        initial='substring'
+        initial='substring',
+        error_messages={
+            'invalid_choice': _('Please select a valid search type.'),
+        }
     )
     source = forms.BooleanField(
         label=_('Search in source strings'),
