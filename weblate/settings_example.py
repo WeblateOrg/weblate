@@ -506,6 +506,12 @@ SITE_TITLE = 'Weblate'
 # Whether site uses https
 ENABLE_HTTPS = False
 
+# Make CSRF cookie HttpOnly, see documentation for more details:
+# https://docs.djangoproject.com/en/1.11/ref/settings/#csrf-cookie-httponly
+CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SECURE = ENABLE_HTTPS
+SESSION_COOKIE_SECURE = ENABLE_HTTPS
+
 # URL of login
 LOGIN_URL = '{0}/accounts/login/'.format(URL_PREFIX)
 
