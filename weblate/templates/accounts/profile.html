@@ -200,7 +200,7 @@
 <td>{{ assoc.uid }}</td>
 <td>
 {% if associated.count > 1 %}
-<a href="{% url 'social:disconnect_individual' assoc.provider assoc.id %}?next={% url 'profile' %}" class="disconnect btn btn-danger"><i class="fa fa-trash"></i> {% trans "Disconnect" %}</a>
+<a href="{% url 'social:disconnect_individual' assoc.provider assoc.id %}?next={% url 'profile' %}%23auth" class="disconnect btn btn-danger"><i class="fa fa-trash"></i> {% trans "Disconnect" %}</a>
 {% endif %}
 </td>
 
@@ -212,7 +212,7 @@
 {% if new_backends %}
 <p>{% trans "Add new association:" %}</p>
 {% for name in new_backends %}
-  <a class="btn btn-link" href="{% url 'social:begin' name %}?next={% url 'profile' %}">{% auth_name name %}</a>
+  <a class="btn btn-link" href="{% url 'social:begin' name %}?next={% url 'profile' %}%23auth">{% auth_name name %}</a>
 {% endfor %}
 {% endif %}
 </div>
