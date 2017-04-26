@@ -280,5 +280,5 @@ class CSVExporter(BaseExporter):
         that big.
         """
         if text and text[0] in ('=', '+', '-', '@', '|', '%'):
-            return "'{0}'".format(text.replace('|', '\|'))
+            return "'{0}'".format(text.replace('|', '\\|'))
         return text
