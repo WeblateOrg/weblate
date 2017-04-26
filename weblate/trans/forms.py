@@ -777,6 +777,7 @@ class CommentForm(forms.Form):
     comment = forms.CharField(
         widget=forms.Textarea(attrs={'dir': 'auto'}),
         label=_('New comment'),
+        max_length=1000,
     )
 
 
