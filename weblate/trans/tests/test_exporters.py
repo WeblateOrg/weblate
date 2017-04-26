@@ -199,4 +199,4 @@ class CSVExporterTest(PoExporterTest):
             source='=HYPERLINK("https://weblate.org/"&A1, "Weblate")',
             target='yyy',
         )
-        self.assertIn('"\'=HYPERLINK', output)
+        self.assertIn(b'"\'=HYPERLINK', output)
