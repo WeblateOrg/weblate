@@ -426,6 +426,47 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
             ).exists()
         )
 
+    def test_pipeline_redirect(self):
+        """Test pipeline redirect using next parameter."""
+        # Create user
+        self.test_register()
+
+        # Valid next URL
+        response = self.client.get(
+            reverse('social:begin', args=('email',)),
+            {'next': '/#valid' }
+        )
+        response = self.client.post(
+            reverse('email_login'),
+            {'email': 'second@example.net'},
+            follow=True,
+        )
+        self.assertRedirects(response, reverse('email-sent'))
+
+        # Verify confirmation mail
+        url = self.assert_registration_mailbox()
+        mail.outbox.pop()
+        response = self.client.get(url, follow=True)
+        self.assertRedirects(response, '/#valid')
+
+        # Invalid next URL
+        response = self.client.get(
+            reverse('social:begin', args=('email',)),
+            {'next': '////example.com' }
+        )
+        response = self.client.post(
+            reverse('email_login'),
+            {'email': 'second@example.net'},
+            follow=True,
+        )
+        self.assertRedirects(response, reverse('email-sent'))
+
+        # Verify confirmation mail
+        url = self.assert_registration_mailbox()
+        response = self.client.get(url, follow=True)
+        # We should fallback to default URL
+        self.assertRedirects(response, '/accounts/profile/#auth')
+
     @httpretty.activate
     @override_settings(AUTHENTICATION_BACKENDS=GH_BACKENDS)
     def test_github(self):

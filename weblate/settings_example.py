@@ -230,7 +230,6 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = ''
 SOCIAL_AUTH_PIPELINE = (
     'weblate.accounts.pipeline.verify_open',
     'weblate.accounts.pipeline.store_type',
-    'weblate.accounts.pipeline.cleanup_next',
     'social_core.pipeline.social_auth.social_details',
     'social_core.pipeline.social_auth.social_uid',
     'social_core.pipeline.social_auth.auth_allowed',
@@ -245,6 +244,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.user.create_user',
     'social_core.pipeline.social_auth.associate_user',
     'social_core.pipeline.social_auth.load_extra_data',
+    'weblate.accounts.pipeline.cleanup_next',
     'weblate.accounts.pipeline.user_full_name',
     'weblate.accounts.pipeline.store_email',
     'weblate.accounts.pipeline.password_reset',
