@@ -125,22 +125,22 @@ urlpatterns = [
         name='show_dictionary',
     ),
     url(
-        r'^dictionaries/' + PROJECT_LANG + 'upload/$',
+        r'^upload-dictionaries/' + PROJECT_LANG + '$',
         weblate.trans.views.dictionary.upload_dictionary,
         name='upload_dictionary',
     ),
     url(
-        r'^dictionaries/' + PROJECT_LANG + 'delete/(?P<pk>[0-9]+)/$',
+        r'^delete-dictionaries/' + PROJECT_LANG + '(?P<pk>[0-9]+)/$',
         weblate.trans.views.dictionary.delete_dictionary,
         name='delete_dictionary',
     ),
     url(
-        r'^dictionaries/' + PROJECT_LANG + 'edit/(?P<pk>[0-9]+)/$',
+        r'^edit-dictionaries/' + PROJECT_LANG + '(?P<pk>[0-9]+)/$',
         weblate.trans.views.dictionary.edit_dictionary,
         name='edit_dictionary',
     ),
     url(
-        r'^dictionaries/' + PROJECT_LANG + 'download/$',
+        r'^download-dictionaries/' + PROJECT_LANG + '$',
         weblate.trans.views.dictionary.download_dictionary,
         name='download_dictionary',
     ),
