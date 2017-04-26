@@ -122,7 +122,7 @@ class WeblateUserBackend(ModelBackend):
             user = User.objects.get(**kwargs)
             if user.check_password(password):
                 return user
-        except User.DoesNotExist:
+        except (User.DoesNotExist, User.MultipleObjectsReturned):
             return None
 
     def has_perm(self, user_obj, perm, obj=None):
