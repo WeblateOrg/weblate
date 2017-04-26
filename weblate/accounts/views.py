@@ -444,6 +444,7 @@ def register(request):
                     request,
                     'connect'
                 )
+                request.session['registration-email-sent'] = True
                 return redirect('email-sent')
             # Ensure we do registration in separate session
             # not sent to client
@@ -485,6 +486,7 @@ def email_login(request):
                     request,
                     'connect'
                 )
+                request.session['registration-email-sent'] = True
                 return redirect('email-sent')
             return complete(request, 'email')
     else:
@@ -590,6 +592,7 @@ def reset_password(request):
                 request.session['password_reset'] = True
                 return complete(request, 'email')
             else:
+                request.session['registration-email-sent'] = True
                 return redirect('email-sent')
     else:
         form = form_class()
