@@ -1249,9 +1249,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 ).base_code()
                 if lang != self.project.source_language.base_code():
                     msg = _(
-                        'Template language (%s) does not '
-                        'match project source language (%s)!'
-                    ) % (code, self.project.source_language.code)
+                        'Template language ({0}) does not '
+                        'match project source language ({1})!'
+                    ).format(code, self.project.source_language.code)
                     raise ValidationError({'template': msg})
 
         elif self.file_format_cls.monolingual:
