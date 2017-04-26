@@ -434,7 +434,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         # Valid next URL
         response = self.client.get(
             reverse('social:begin', args=('email',)),
-            {'next': '/#valid' }
+            {'next': '/#valid'}
         )
         response = self.client.post(
             reverse('email_login'),
@@ -452,7 +452,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         # Invalid next URL
         response = self.client.get(
             reverse('social:begin', args=('email',)),
-            {'next': '////example.com' }
+            {'next': '////example.com'}
         )
         response = self.client.post(
             reverse('email_login'),
