@@ -69,9 +69,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         return url
 
     @override_settings(REGISTRATION_CAPTCHA=True)
-    def test_register_captcha(self):
-        # Enable captcha
-
+    def test_register_captcha_fail(self):
         response = self.client.post(
             reverse('register'),
             REGISTRATION_DATA,
@@ -81,6 +79,23 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
             response,
             'Please check your math and try again.'
         )
+
+    @override_settings(REGISTRATION_CAPTCHA=True)
+    def test_register_captcha(self):
+        """Test registration with captcha enabled."""
+        response = self.client.get(
+            reverse('register')
+        )
+        form = response.context['form']
+        data = REGISTRATION_DATA.copy()
+        data['captcha_id'] = form.fields['captcha_id'].initial
+        data['captcha'] = form.captcha.result
+        response = self.client.post(
+            reverse('register'),
+            data,
+            follow=True
+        )
+        self.assertContains(response, 'Thank you for registering.')
 
     @override_settings(REGISTRATION_OPEN=False)
     def test_register_closed(self):
