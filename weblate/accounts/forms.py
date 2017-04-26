@@ -26,7 +26,8 @@ from crispy_forms.layout import Layout, Fieldset, HTML
 from django import forms
 from django.utils.html import escape
 from django.utils.translation import ugettext_lazy as _, pgettext
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, password_validation
+from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.utils.encoding import force_text
@@ -61,6 +62,14 @@ class UniqueEmailMixin(object):
                     )
                 )
         return self.cleaned_data['email']
+
+
+class PasswordField(forms.CharField):
+    """Password field."""
+    def __init__(self, *args, **kwargs):
+        kwargs['widget'] = forms.PasswordInput(render_value=False)
+        kwargs['max_length'] = 256
+        super(PasswordField, self).__init__(*args, **kwargs)
 
 
 class NoStripEmailField(forms.EmailField):
@@ -334,6 +343,16 @@ class RegistrationForm(EmailForm):
         return ''
 
 
+class SetPasswordForm(DjangoSetPasswordForm):
+    new_password1 = PasswordField(
+        label=_("New password"),
+        help_text=password_validation.password_validators_help_text_html(),
+    )
+    new_password2 = PasswordField(
+        label=_("New password confirmation"),
+    )
+
+
 class CaptchaMixin(object):
     """Mixin to add Captcha to form."""
     tampering = True
@@ -387,8 +406,7 @@ class CaptchaRegistrationForm(RegistrationForm, CaptchaMixin):
 
 
 class PasswordChangeForm(forms.Form):
-    password = forms.CharField(
-        widget=forms.PasswordInput(render_value=False),
+    password = PasswordField(
         label=_("Current password"),
     )
 
@@ -416,10 +434,8 @@ class LoginForm(forms.Form):
         max_length=254,
         label=_('Username or email')
     )
-    password = forms.CharField(
+    password = PasswordField(
         label=_("Password"),
-        strip=False,
-        widget=forms.PasswordInput
     )
 
     error_messages = {

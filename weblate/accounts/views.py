@@ -26,7 +26,6 @@ from django.contrib.auth import logout
 from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import SetPasswordForm
 from django.core.mail.message import EmailMultiAlternatives
 from django.utils import translation
 from django.utils.cache import patch_response_headers
@@ -50,7 +49,7 @@ from social_django.views import complete
 from weblate.accounts.forms import (
     RegistrationForm, PasswordChangeForm, EmailForm, ResetForm,
     LoginForm, HostingForm, CaptchaRegistrationForm,
-    CaptchaResetForm,
+    CaptchaResetForm, SetPasswordForm,
 )
 from weblate.logger import LOGGER
 from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
