@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-04-26 20:20+0000\n"
-"PO-Revision-Date: 2017-04-07 16:48+0000\n"
-"Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
-"Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
-"tr/>\n"
+"PO-Revision-Date: 2017-04-26 22:22+0000\n"
+"Last-Translator: monolifed <monolifed@gmail.com>\n"
+"Language-Team: Turkish "
+"<http://hosted.weblate.org/projects/weblate/master/tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2.13-dev\n"
+"X-Generator: Weblate 2.14-dev\n"
 
 #: weblate/accounts/auth.py:49
 msgid ""
@@ -337,56 +337,52 @@ msgstr ""
 "gönderemezsiniz."
 
 #: weblate/accounts/notifications.py:42
-#, fuzzy
-#| msgid "Your password has been changed."
 msgid "Password has been changed."
-msgstr "Parolanız değiştirildi."
+msgstr "Parola değiştirildi."
 
 #: weblate/accounts/notifications.py:45
 #, python-brace-format
 msgid "Authentication using {method} ({name}) has been added."
-msgstr ""
+msgstr "{method} ({name}) kullanarak kimlik doğrulama eklendi."
 
 #: weblate/accounts/notifications.py:48
 #, python-brace-format
 msgid "Authentication using {method} ({name}) has been removed."
-msgstr ""
+msgstr "{method} ({name}) kullanarak kimlik doğrulama kaldırıldı."
 
 #: weblate/accounts/notifications.py:51
 msgid "Somebody has attempted to register with your email."
-msgstr ""
+msgstr "Birisi sizin epostanızla kaydolmaya çalıştı."
 
 #: weblate/accounts/notifications.py:54
 msgid "Somebody has attempted to add your email to existing account."
-msgstr ""
+msgstr "Birisi sizin epostanızı var olan hesaba eklemeye çalıştı."
 
 #: weblate/accounts/password_validation.py:38
 msgid "This password consists of whitespace only."
-msgstr ""
+msgstr "Bu parola sadece boşluktan oluşuyor."
 
 #: weblate/accounts/password_validation.py:43
 msgid "This password consists of single character."
-msgstr ""
+msgstr "Bu parola tek karakterden oluşuyor."
 
 #: weblate/accounts/password_validation.py:49
 msgid "Your password can't consist of single character or whitespace only."
-msgstr ""
+msgstr "Parolanız tek karakterden veya sadece boşluktan oluşamaz."
 
 #: weblate/accounts/pipeline.py:177
 msgid "New registrations are disabled!"
 msgstr "Yeni kayıt olma işlemleri etkisizleştirildi!"
 
 #: weblate/accounts/pipeline.py:181
-#, fuzzy
-#| msgid "Can not reset password, email authentication is disabled!"
 msgid "Can not change authentication for demo!"
-msgstr "Parola sıfırlanamıyor, e-posta kimlik doğrulaması etkisizleştirilmiş!"
+msgstr "Kimlik doğrulaması demo için değiştirilemiyor!"
 
 #: weblate/accounts/pipeline.py:327
 #, python-brace-format
 msgid ""
 "Your email no longer belongs to verified account, it has been changed to {0}."
-msgstr ""
+msgstr "Epostanız artık doğrulanmış hesaba ait değil, {0} olarak değiştirildi."
 
 #: weblate/accounts/views.py:102 weblate/accounts/views.py:474
 msgid "User registration"
@@ -988,11 +984,7 @@ msgstr ""
 "unutmayın. Çalışmadığı durumda, lütfen tekrar kayıt olun."
 
 #: weblate/templates/accounts/email-sent.html:20
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder or retry "
-#| "the registration. If the problem persists, please <a href="
-#| "\"%(contact_url)s?subject=Registration problems\">contact us</a>."
+#, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. If the problem persists, please <a href=\"%(contact_url)s?t=reg"
@@ -1000,8 +992,7 @@ msgid ""
 msgstr ""
 "Eğer kısa sürede almadıysanız, lütfen gereksiz/istenmeyen iletiler klasörünü "
 "kontrol edin ya da yeniden kayıt olmayı deneyin. Eğer sorun sürüyorsa, "
-"lütfen <a href=\"%(contact_url)s?subject=Registration problems\">bize "
-"ulaşın</a>."
+"lütfen <a href=\"%(contact_url)s?t=reg\">bize ulaşın</a>."
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:19
@@ -3405,12 +3396,9 @@ msgstr "Merhaba,"
 
 #: weblate/templates/mail/account_activity.html:11
 #: weblate/templates/mail/account_activity.txt:3
-#, fuzzy, python-format
-#| msgid ""
-#| "There has been a change in translation on %(translation)s at "
-#| "%(site_title)s."
+#, python-format
 msgid "There has been a change in your account at %(site_title)s:"
-msgstr "%(site_title)s sitesinde %(translation)s dilinde değişiklik yapıldı."
+msgstr "%(site_title)s sitesinde hesabınızda bir değişiklik oldu:"
 
 #: weblate/templates/mail/account_activity.html:19
 #: weblate/templates/mail/account_activity.txt:7
@@ -3418,11 +3406,13 @@ msgid ""
 "If you did not request this change, please notify us as soon as possible "
 "using following form:"
 msgstr ""
+"Bu değişikliği siz talep etmediyseniz, lütfen aşağıdaki formu kullanarak "
+"bizi en kısa sürede bilgilendirin:"
 
 #: weblate/templates/mail/account_activity_subject.txt:4
 #, python-format
 msgid "Activity on your account at %(site_title)s"
-msgstr ""
+msgstr "%(site_title)s sitesindeki hesabınızdaki etkinlik"
 
 #: weblate/templates/mail/activation.html:11
 #: weblate/templates/mail/activation.txt:3
@@ -5352,7 +5342,7 @@ msgstr "Gözden geçirme için rasgele dizgiler"
 
 #: weblate/trans/forms.py:476
 msgid "Please select a valid filter type."
-msgstr ""
+msgstr "Lütfen geçerli bir süzgeç türü seçin."
 
 #: weblate/trans/forms.py:490
 msgid "Query"
@@ -5376,7 +5366,7 @@ msgstr "Tam eşleşme"
 
 #: weblate/trans/forms.py:504
 msgid "Please select a valid search type."
-msgstr ""
+msgstr "Lütfen geçerli bir arama türü seçin."
 
 #: weblate/trans/forms.py:508
 msgid "Search in source strings"
@@ -6420,10 +6410,9 @@ msgid "Failed to parse translation base file: %s"
 msgstr "Çeviri ana dosyasını ayrıştırma başarısız: %s"
 
 #: weblate/trans/models/subproject.py:1252
-#, fuzzy, python-brace-format
-#| msgid "Template language (%s) does not match project source language (%s)!"
+#, python-brace-format
 msgid "Template language ({0}) does not match project source language ({1})!"
-msgstr "Şablon dili (%s) proje kaynak dili (%s) ile eşleşmiyor!"
+msgstr "Şablon dili ({0}) proje kaynak dili ({1}) ile eşleşmiyor!"
 
 #: weblate/trans/models/subproject.py:1259
 msgid "You can not use monolingual translation without base file!"
@@ -7374,11 +7363,11 @@ msgstr "Resim çok büyük, lütfen bunu küçültün veya uygun kısmı kırpı
 
 #: weblate/utils/validators.py:93
 msgid "The editor link lacks URL scheme!"
-msgstr ""
+msgstr "Düzenleyici bağlantısı URL düzeninden yoksun!"
 
 #: weblate/utils/validators.py:98
 msgid "Forbidden URL scheme!"
-msgstr ""
+msgstr "Yasaklı URL düzeni!"
 
 #~ msgid "New password"
 #~ msgstr "Yeni parola"
