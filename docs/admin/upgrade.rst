@@ -464,6 +464,7 @@ Notable configuration or dependencies changes:
 * Weblate now customizes disconnect pipeline for Python Social Auth,
   the ``SOCIAL_AUTH_DISCONNECT_PIPELINE`` setting is now needed.
 * There is change in ``SOCIAL_AUTH_PIPELINE`` default settings.
+* All pending email verifications will be invalid due to validation change.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
