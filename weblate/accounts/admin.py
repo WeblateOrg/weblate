@@ -52,6 +52,8 @@ class WeblateUserChangeForm(UserChangeForm):
 
 
 class WeblateUserCreationForm(UserCreationForm, UniqueEmailMixin):
+    validate_unique_mail = True
+
     class Meta(object):
         fields = ('username', 'email')
 

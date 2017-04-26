@@ -40,15 +40,21 @@ from weblate.logger import LOGGER
 
 
 class UniqueEmailMixin(object):
+    validate_unique_mail = False
+
     def clean_email(self):
         """Validate that the supplied email address is unique for the site. """
-        if User.objects.filter(email__iexact=self.cleaned_data['email']):
-            raise forms.ValidationError(
-                _(
-                    "This email address is already in use. "
-                    "Please supply a different email address."
+        self.cleaned_data['email_user'] = None
+        users = User.objects.filter(email__iexact=self.cleaned_data['email'])
+        if users.exists():
+            self.cleaned_data['email_user'] = users[0]
+            if self.validate_unique_mail:
+                raise forms.ValidationError(
+                    _(
+                        "This email address is already in use. "
+                        "Please supply a different email address."
+                    )
                 )
-            )
         return self.cleaned_data['email']
 
 
@@ -388,7 +394,7 @@ class ResetForm(EmailForm):
             raise forms.ValidationError(
                 'No password reset for deleted or anonymous user.'
             )
-        return self.cleaned_data['email']
+        return super(ResetForm, self).clean_email()
 
 
 class CaptchaResetForm(ResetForm, CaptchaMixin):

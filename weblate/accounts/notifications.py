@@ -47,6 +47,12 @@ ACCOUNT_ACTIVITY = {
     'auth-disconnect': _(
         'Authentication using {method} ({name}) has been removed.'
     ),
+    'register': _(
+        'Somebody has attempted to register with your email.'
+    ),
+    'connect': _(
+        'Somebody has attempted to add your email to existing account.'
+    ),
 }
 
 
