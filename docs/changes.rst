@@ -14,6 +14,7 @@ Released on ? 2017.
 * The password is now validated against common flaws by default.
 * Notify users about imporant activity with their account such as password change.
 * The CSV exports now escape potential formulas.
+* Various minor improvements in security.
 
 weblate 2.13.1
 --------------

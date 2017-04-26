@@ -463,6 +463,7 @@ Notable configuration or dependencies changes:
   ``AUTH_PASSWORD_VALIDATORS`` setting.
 * Weblate now customizes disconnect pipeline for Python Social Auth,
   the ``SOCIAL_AUTH_DISCONNECT_PIPELINE`` setting is now needed.
+* There is change in ``SOCIAL_AUTH_PIPELINE`` default settings.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
