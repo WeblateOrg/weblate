@@ -103,6 +103,7 @@ def send_validation(strategy, backend, code, partial_token=None):
     # We need to have existing session
     if not strategy.request.session.session_key:
         strategy.request.session.create()
+    strategy.session_set('registration-email-sent', True)
 
     template = 'activation'
     if strategy.request.session.pop('password_reset', False):

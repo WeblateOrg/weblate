@@ -102,6 +102,13 @@ class RegistrationTemplateView(TemplateView):
         context['title'] = _('User registration')
         return context
 
+    def get(self, request, *args, **kwargs):
+        if not request.session.get('registration-email-sent'):
+            return redirect('home')
+
+        request.session.pop('registration-email-sent')
+        return super(RegistrationTemplateView, self).get(request, *args, **kwargs)
+
 
 def mail_admins_contact(request, subject, message, context, sender):
     """Send a message to the admins, as defined by the ADMINS setting."""
