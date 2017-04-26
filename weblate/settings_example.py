@@ -438,6 +438,11 @@ LOGGING = {
         #     'handlers': [DEFAULT_LOG],
         #     'level': 'DEBUG',
         # },
+        # Python Social Auth logging
+        # 'social': {
+        #     'handlers': [DEFAULT_LOG],
+        #     'level': 'DEBUG',
+        # },
     }
 }
 

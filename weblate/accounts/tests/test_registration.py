@@ -105,6 +105,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
 
         # Confirm account
         self.assert_registration()
+        mail.outbox.pop()
 
         # Set password
         response = self.client.post(
@@ -115,6 +116,12 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
             }
         )
         self.assertRedirects(response, reverse('profile'))
+        # Password change notification
+        notification = mail.outbox.pop()
+        self.assertEqual(
+            notification.subject,
+            '[Weblate] Activity on your account at Weblate'
+        )
 
         # Check we can access home (was redirected to password change)
         response = self.client.get(reverse('home'))
@@ -343,7 +350,6 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
     def test_add_mail(self):
         # Create user
         self.test_register()
-        mail.outbox.pop()
 
         # Check adding email page
         response = self.client.get(

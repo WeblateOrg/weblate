@@ -431,6 +431,13 @@ def register(request):
     if request.method == 'POST':
         form = form_class(request.POST)
         if form.is_valid() and settings.REGISTRATION_OPEN:
+            if form.cleaned_data['email_user']:
+                notify_account_activity(
+                    form.cleaned_data['email_user'],
+                    request,
+                    'connect'
+                )
+                return redirect('email-sent')
             # Ensure we do registration in separate session
             # not sent to client
             request.session.create()
@@ -465,6 +472,13 @@ def email_login(request):
     if request.method == 'POST':
         form = EmailForm(request.POST)
         if form.is_valid():
+            if form.cleaned_data['email_user']:
+                notify_account_activity(
+                    form.cleaned_data['email_user'],
+                    request,
+                    'connect'
+                )
+                return redirect('email-sent')
             return complete(request, 'email')
     else:
         form = EmailForm()
@@ -565,10 +579,7 @@ def reset_password(request):
             if request.user.is_authenticated:
                 logout(request)
 
-            users = User.objects.filter(
-                email__iexact=form.cleaned_data['email']
-            )
-            if users.exists():
+            if form.cleaned_data['email_user']:
                 request.session['password_reset'] = True
                 return complete(request, 'email')
             else:

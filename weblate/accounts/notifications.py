@@ -47,6 +47,12 @@ ACCOUNT_ACTIVITY = {
     'auth-disconnect': _(
         'Authentication using {method} ({name}) has been removed.'
     ),
+    'register': _(
+        'Somebody has attempted to register with your email.'
+    ),
+    'connect': _(
+        'Somebody has attempted to add your email to existing account.'
+    ),
 }
 
 
@@ -380,11 +386,11 @@ def send_notification_email(language, email, notification,
 
 def notify_account_activity(user, request, activity, **kwargs):
     """Notification about important activity with account."""
-    info = request.META.get('REMOTE_ADDR' '')
+    addr = request.META.get('REMOTE_ADDR' '')
 
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
-        info += x_forwarded_for
+        addr = '{0},{1}'.format(addr, x_forwarded_for)
 
     kwargs['message'] = ACCOUNT_ACTIVITY[activity].format(**kwargs)
 
@@ -393,7 +399,7 @@ def notify_account_activity(user, request, activity, **kwargs):
         user.email,
         'account_activity',
         context=kwargs,
-        info=info,
+        info='{0} from {1}'.format(activity, addr),
     )
 
 
