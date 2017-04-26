@@ -59,11 +59,21 @@ LOGGING = {
             '()': 'django.utils.log.RequireDebugFalse'
         }
     },
+    'formatters': {
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
     'handlers': {
         'mail_admins': {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
         },
     },
     'loggers': {
@@ -75,7 +85,11 @@ LOGGING = {
         'weblate': {
             'handlers': [],
             'level': 'ERROR',
-        }
+        },
+        'social': {
+            'handlers': [],
+            'level': 'ERROR',
+        },
     }
 }
 
