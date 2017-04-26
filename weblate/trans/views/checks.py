@@ -104,7 +104,7 @@ def show_check(request, name):
         checks = checks.filter(language__code=request.GET['language'])
         url_params['language'] = request.GET['language']
 
-    if 'project' in request.GET:
+    if 'project' in request.GET and '/' not in request.GET['project']:
         return redirect_param(
             'show_check_project',
             encode_optional(url_params),
@@ -252,7 +252,7 @@ def show_check_subproject(request, name, project, subproject):
             subproject=subprj.slug,
         )
 
-    if 'language' in request.GET:
+    if 'language' in request.GET and '/' not in request.GET['language']:
         url_params['type'] = check.url_id
         return redirect_param(
             'translate',
