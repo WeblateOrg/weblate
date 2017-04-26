@@ -98,10 +98,11 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         # Disable captcha
         response = self.client.post(
             reverse('register'),
-            REGISTRATION_DATA
+            REGISTRATION_DATA,
+            follow=True
         )
         # Check we did succeed
-        self.assertRedirects(response, reverse('email-sent'))
+        self.assertContains(response, 'Thank you for registering.')
 
         # Confirm account
         self.assert_registration()
@@ -178,10 +179,11 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         # Disable captcha
         response = self.client.post(
             reverse('register'),
-            REGISTRATION_DATA
+            REGISTRATION_DATA,
+            follow=True
         )
         # Check we did succeed
-        self.assertRedirects(response, reverse('email-sent'))
+        self.assertContains(response, 'Thank you for registering.')
 
         # Confirm account
         url = self.assert_registration_mailbox()
@@ -207,9 +209,10 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
             reverse('password_reset'),
             {
                 'email': 'test@example.com'
-            }
+            },
+            follow=True
         )
-        self.assertRedirects(response, reverse('email-sent'))
+        self.assertContains(response, 'Thank you for registering.')
 
         self.assert_registration('[Weblate] Password reset on Weblate')
 
@@ -224,9 +227,10 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
             reverse('password_reset'),
             {
                 'email': 'test@example.com'
-            }
+            },
+            follow=True
         )
-        self.assertRedirects(response, reverse('email-sent'))
+        self.assertContains(response, 'Thank you for registering.')
         self.assertEqual(len(mail.outbox), 0)
 
     @override_settings(REGISTRATION_CAPTCHA=False)
