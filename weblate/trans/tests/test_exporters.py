@@ -193,3 +193,10 @@ class CSVExporterTest(PoExporterTest):
     def check_plurals(self, result):
         # Doesn't support plurals
         pass
+
+    def test_escaping(self):
+        output = self.check_unit(
+            source='=HYPERLINK("https://weblate.org/"&A1, "Weblate")',
+            target='yyy',
+        )
+        self.assertIn('"\'=HYPERLINK', output)

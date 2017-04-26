@@ -13,6 +13,7 @@ Released on ? 2017.
 * The local editor URL is validated to avoid self-XSS.
 * The password is now validated against common flaws by default.
 * Notify users about imporant activity with their account such as password change.
+* The CSV exports now escape potential formulas.
 
 weblate 2.13.1
 --------------

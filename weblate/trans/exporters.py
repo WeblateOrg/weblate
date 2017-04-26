@@ -269,3 +269,16 @@ class CSVExporter(BaseExporter):
 
     def get_storage(self):
         return csvfile()
+
+    def string_filter(self, text):
+        """Avoid Excel interpreting text as formula.
+
+        This is really bad idea implemented in Excel as this change leads
+        to displaying additional ' in all other tools, but this seems to be
+        what most people are get used to. Hopefully these chars are not widely
+        used at first position of translatable strings, so the harm is not
+        that big.
+        """
+        if text and text[0] in ('=', '+', '-', '@'):
+            return "'" + text
+        return text
