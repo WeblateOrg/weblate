@@ -414,6 +414,7 @@ class LoginForm(forms.Form):
     )
     password = forms.CharField(
         label=_("Password"),
+        strip=False,
         widget=forms.PasswordInput
     )
 
