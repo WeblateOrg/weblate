@@ -114,7 +114,9 @@ class RegistrationTemplateView(TemplateView):
         else:
             request.session.pop('registration-email-sent')
 
-        return super(RegistrationTemplateView, self).get(request, *args, **kwargs)
+        return super(RegistrationTemplateView, self).get(
+            request, *args, **kwargs
+        )
 
 
 def mail_admins_contact(request, subject, message, context, sender):
