@@ -279,6 +279,6 @@ class CSVExporter(BaseExporter):
         used at first position of translatable strings, so the harm is not
         that big.
         """
-        if text and text[0] in ('=', '+', '-', '@'):
-            return "'" + text
+        if text and text[0] in ('=', '+', '-', '@', '|', '%'):
+            return "'{0}'".format(text.replace('|', '\|'))
         return text
