@@ -28,6 +28,7 @@ from django.utils.html import escape
 from django.utils.translation import ugettext_lazy as _, pgettext
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
+from django.db.models import Q
 from django.utils.encoding import force_text
 
 from weblate.accounts.models import Profile, VerifiedEmail
@@ -45,7 +46,11 @@ class UniqueEmailMixin(object):
     def clean_email(self):
         """Validate that the supplied email address is unique for the site. """
         self.cleaned_data['email_user'] = None
-        users = User.objects.filter(email__iexact=self.cleaned_data['email'])
+        mail = self.cleaned_data['email']
+        users = User.objects.filter(
+            Q(social_auth__verifiedemail__email__iexact=mail) |
+            Q(email__iexact=mail)
+        )
         if users.exists():
             self.cleaned_data['email_user'] = users[0]
             if self.validate_unique_mail:
@@ -404,7 +409,6 @@ class CaptchaResetForm(ResetForm, CaptchaMixin):
     def __init__(self, data=None, *args, **kwargs):
         super(CaptchaResetForm, self).__init__(data, *args, **kwargs)
         self.load_captcha(data)
-
 
 
 class LoginForm(forms.Form):

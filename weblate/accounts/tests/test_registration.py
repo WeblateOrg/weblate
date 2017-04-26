@@ -456,7 +456,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         )
         response = self.client.post(
             reverse('email_login'),
-            {'email': 'second@example.net'},
+            {'email': 'third@example.net'},
             follow=True,
         )
         self.assertRedirects(response, reverse('email-sent'))
