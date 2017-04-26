@@ -106,7 +106,14 @@ class RegistrationTemplateView(TemplateView):
         if not request.session.get('registration-email-sent'):
             return redirect('home')
 
-        request.session.pop('registration-email-sent')
+        # Remove session for not authenticated user here.
+        # It is no longer needed and will just cause problems
+        # with multiple registrations from single browser.
+        if not request.user.is_authenticated():
+            request.session.flush()
+        else:
+            request.session.pop('registration-email-sent')
+
         return super(RegistrationTemplateView, self).get(request, *args, **kwargs)
 
 
@@ -446,13 +453,7 @@ def register(request):
                 )
                 request.session['registration-email-sent'] = True
                 return redirect('email-sent')
-            # Ensure we do registration in separate session
-            # not sent to client
-            request.session.create()
-            result = complete(request, 'email')
-            request.session.save()
-            request.session = None
-            return result
+            return complete(request, 'email')
     else:
         form = form_class()
 

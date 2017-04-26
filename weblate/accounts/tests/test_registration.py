@@ -66,6 +66,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
             response,
             reverse('password')
         )
+        return url
 
     @override_settings(REGISTRATION_CAPTCHA=True)
     def test_register_captcha(self):
@@ -73,7 +74,8 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
 
         response = self.client.post(
             reverse('register'),
-            REGISTRATION_DATA
+            REGISTRATION_DATA,
+            follow=True
         )
         self.assertContains(
             response,
@@ -85,7 +87,8 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         # Disable registration
         response = self.client.post(
             reverse('register'),
-            REGISTRATION_DATA
+            REGISTRATION_DATA,
+            follow=True
         )
         self.assertContains(
             response,
@@ -136,13 +139,37 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
 
     @override_settings(REGISTRATION_OPEN=True)
     @override_settings(REGISTRATION_CAPTCHA=False)
+    def test_double_link(self):
+        """Test that verification link works just once."""
+        response = self.client.post(
+            reverse('register'),
+            REGISTRATION_DATA,
+            follow=True
+        )
+        # Check we did succeed
+        self.assertContains(response, 'Thank you for registering.')
+        url = self.assert_registration()
+
+        # Clear cookies
+        if self.clear_cookie and 'sessionid' in self.client.cookies:
+            del self.client.cookies['sessionid']
+
+        response = self.client.get(url, follow=True)
+        self.assertContains(
+            response,
+            'Email couldn&#39;t be validated'
+        )
+
+    @override_settings(REGISTRATION_OPEN=True)
+    @override_settings(REGISTRATION_CAPTCHA=False)
     def test_double_register(self):
         """Test double registration from single browser"""
 
         # First registration
         response = self.client.post(
             reverse('register'),
-            REGISTRATION_DATA
+            REGISTRATION_DATA,
+            follow=True
         )
         first_url = self.assert_registration_mailbox()
         mail.outbox.pop()
@@ -154,6 +181,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         response = self.client.post(
             reverse('register'),
             data,
+            follow=True
         )
         second_url = self.assert_registration_mailbox()
         mail.outbox.pop()
@@ -176,6 +204,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
     @override_settings(REGISTRATION_OPEN=True)
     @override_settings(REGISTRATION_CAPTCHA=False)
     def test_register_missing(self):
+        """Test handling of incomplete registration URL."""
         # Disable captcha
         response = self.client.post(
             reverse('register'),
@@ -188,8 +217,8 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         # Confirm account
         url = self.assert_registration_mailbox()
 
-        # Remove session ID from URL
-        url = url.split('&id=')[0]
+        # Remove partial_token from URL
+        url = url.split('?')[0]
 
         # Confirm account
         response = self.client.get(url, follow=True)
@@ -320,7 +349,8 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         data['username'] = ''
         response = self.client.post(
             reverse('register'),
-            data
+            data,
+            follow=True
         )
         self.assertContains(
             response,
@@ -332,7 +362,8 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         data['email'] = 'x'
         response = self.client.post(
             reverse('register'),
-            data
+            data,
+            follow=True
         )
         self.assertContains(
             response,
@@ -344,7 +375,8 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         data['content'] = 'x'
         response = self.client.post(
             reverse('register'),
-            data
+            data,
+            follow=True
         )
         self.assertContains(
             response,

@@ -228,6 +228,9 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = ''
 
 # Social auth settings
 SOCIAL_AUTH_PIPELINE = (
+    'weblate.accounts.pipeline.verify_open',
+    'weblate.accounts.pipeline.store_type',
+    'weblate.accounts.pipeline.cleanup_next',
     'social_core.pipeline.social_auth.social_details',
     'social_core.pipeline.social_auth.social_uid',
     'social_core.pipeline.social_auth.auth_allowed',
@@ -236,8 +239,8 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.user.get_username',
     'weblate.accounts.pipeline.require_email',
     'social_core.pipeline.mail.mail_validation',
+    'weblate.accounts.pipeline.revoke_mail_code',
     'social_core.pipeline.social_auth.associate_by_email',
-    'weblate.accounts.pipeline.verify_open',
     'weblate.accounts.pipeline.verify_username',
     'social_core.pipeline.user.create_user',
     'social_core.pipeline.social_auth.associate_user',

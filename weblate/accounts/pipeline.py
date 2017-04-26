@@ -109,11 +109,9 @@ def send_validation(strategy, backend, code, partial_token=None):
     if strategy.request.session.pop('password_reset', False):
         template = 'reset'
 
-    url = '{0}?verification_code={1}&id={2}&type={3}'.format(
+    url = '{0}?verification_code={1}'.format(
         reverse('social:complete', args=(backend.name,)),
         code.code,
-        strategy.request.session.session_key,
-        template
     )
     if partial_token:
         url += '&partial_token={0}'.format(partial_token)
@@ -129,18 +127,17 @@ def send_validation(strategy, backend, code, partial_token=None):
     )
 
 
-def password_reset(strategy, details, user=None, **kwargs):
+def password_reset(strategy, details, weblate_action, user=None, **kwargs):
     """Set unusable password on reset."""
     if (strategy.request is not None and
             user is not None and
-            strategy.request.GET.get('type', '') == 'reset'):
+            weblate_action == 'reset'):
         user.set_unusable_password()
         user.save()
 
 
 def verify_open(strategy, backend, user=None, **kwargs):
     """Check whether it is possible to create new user."""
-
     if not user and not settings.REGISTRATION_OPEN:
         raise AuthException(backend, _('New registrations are disabled!'))
 
@@ -149,11 +146,23 @@ def verify_open(strategy, backend, user=None, **kwargs):
             backend, _('Can not change authentication for demo!')
         )
 
+
+def cleanup_next(strategy, **kwargs):
     # This is mostly fix for lack of next validation in Python Social Auth
     # see https://github.com/python-social-auth/social-core/issues/62
-    url = backend.strategy.session_get('next')
+    url = strategy.session_get('next')
     if url and not is_safe_url(url):
-        backend.strategy.session_set('next', None)
+        strategy.session_set('next', None)
+
+
+def store_type(strategy, **kwargs):
+    # Store action in pipeline data
+    if strategy.request.session.get('password_reset', False):
+        action = 'reset'
+    else:
+        action = 'activation'
+
+    return {'weblate_action': action}
 
 
 def verify_username(strategy, backend, details, user=None, **kwargs):
@@ -169,6 +178,22 @@ def verify_username(strategy, backend, details, user=None, **kwargs):
             backend,
             _('This username is already taken. Please choose another.')
         )
+
+
+def revoke_mail_code(strategy, details, **kwargs):
+    """Revoke mail validation code for Python Social Auth.
+
+    This might be better to handle directly there, but it's
+    not done yet:
+    https://github.com/python-social-auth/social-core/pull/71
+    """
+    data = strategy.request_data()
+    if details['email'] and 'verification_code' in data:
+        strategy.storage.code.objects.get(
+            code=data['verification_code'],
+            email=details['email'],
+            verified=True
+        ).delete()
 
 
 def store_email(strategy, backend, user, social, details, **kwargs):
