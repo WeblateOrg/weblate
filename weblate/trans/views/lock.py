@@ -113,7 +113,7 @@ def unlock_subproject(request, project, subproject):
     if not can_lock_subproject(request.user, obj.project):
         raise PermissionDenied()
 
-    obj.do_unlock(request.user)
+    obj.do_lock(request.user, False)
 
     messages.success(
         request,
@@ -153,7 +153,7 @@ def unlock_project(request, project):
         raise PermissionDenied()
 
     for subproject in obj.subproject_set.all():
-        subproject.do_unlock(request.user)
+        subproject.do_lock(request.user, False)
 
     messages.success(
         request,

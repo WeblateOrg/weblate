@@ -304,10 +304,7 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
             serializer = LockRequestSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
 
-            if serializer.validated_data['lock']:
-                obj.do_lock(request.user)
-            else:
-                obj.do_unlock(request.user)
+            obj.do_lock(request.user, serializer.validated_data['lock'])
 
         return Response(data=LockSerializer(obj).data)
 
