@@ -5,8 +5,8 @@ var lastEditor = null;
 var jsLockUpdate = null;
 var idleTime = 0;
 
-
-if (window.location.hash && window.location.hash.indexOf('=') > -1) {
+// Remove some weird things from location hash
+if (window.location.hash && (window.location.hash.indexOf('"') > -1 || window.location.hash.indexOf('=') > -1)) {
     window.location.hash = '';
 }
 
