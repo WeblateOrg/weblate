@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-04-26 20:20+0000\n"
-"PO-Revision-Date: 2017-04-26 17:02+0000\n"
+"PO-Revision-Date: 2017-04-27 10:33+0000\n"
 "Last-Translator: Слободан Симић(Slobodan Simić) <slsimic@gmail.com>\n"
-"Language-Team: Serbian <https://hosted.weblate.org/projects/weblate/master/"
-"sr/>\n"
+"Language-Team: Serbian "
+"<http://hosted.weblate.org/projects/weblate/master/sr/>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.14-dev\n"
 
 #: weblate/accounts/auth.py:49
@@ -164,11 +164,11 @@ msgstr "Веб сајт пројекта"
 
 #: weblate/accounts/forms.py:477 weblate/trans/models/subproject.py:159
 msgid "Source code repository"
-msgstr "Ризница изворног кôда"
+msgstr "Складиште изворног кôда"
 
 #: weblate/accounts/forms.py:479
 msgid "URL of source code repository for example Git or Mercurial."
-msgstr "УРЛ ризнице изворног кôда, нпр. Гитхаб или Меркјуриал."
+msgstr "УРЛ складишта изворног кôда, нпр. Гитхаб или Меркјуриал."
 
 #: weblate/accounts/forms.py:484 weblate/trans/models/subproject.py:208
 msgid "File mask"
@@ -234,6 +234,10 @@ msgid ""
 "placeholders. Usually something like editor://open/?file=%(file)s&line="
 "%(line)s is good option."
 msgstr ""
+"Унесите прилагођени УРЛ који се користи као линк за отварање изворног кода. "
+"Можете користити %(branch)s за гране, %(file)s и %(line)s као називе фајла и "
+"место за линије. Најчешће, нешто попут "
+"editor://open/?file=%(file)s&line=%(line)s је добра опција."
 
 #: weblate/accounts/models.py:229
 msgid "Special characters"
@@ -245,6 +249,9 @@ msgid ""
 "keyboard while translating. It can be useful for chars you use frequently "
 "but are hard to type on your keyboard."
 msgstr ""
+"Можете навести додатне специјалне карактере који ће бити приказани у "
+"екранској тастатури док преводите. Може бити корисно за знакове које често "
+"користите али их је теже откуцати на тастатури."
 
 #: weblate/accounts/models.py:243 weblate/templates/index.html:31
 msgid "Watched translations"
@@ -327,57 +334,52 @@ msgid ""
 msgstr "Не можете послати преводе јер нисте доделили ниједну адресу е-поште."
 
 #: weblate/accounts/notifications.py:42
-#, fuzzy
-#| msgid "Your password has been changed."
 msgid "Password has been changed."
-msgstr "Ваша лозинка је измењена."
+msgstr "Лозинка је измењена."
 
 #: weblate/accounts/notifications.py:45
 #, python-brace-format
 msgid "Authentication using {method} ({name}) has been added."
-msgstr ""
+msgstr "Начин пријављивања помоћу {method} {name} је додат."
 
 #: weblate/accounts/notifications.py:48
 #, python-brace-format
 msgid "Authentication using {method} ({name}) has been removed."
-msgstr ""
+msgstr "Начин пријављивања помоћу {method} {name} је уклоњен."
 
 #: weblate/accounts/notifications.py:51
 msgid "Somebody has attempted to register with your email."
-msgstr ""
+msgstr "Неко је покушао да се региструје са вашом е-адресом."
 
 #: weblate/accounts/notifications.py:54
 msgid "Somebody has attempted to add your email to existing account."
-msgstr ""
+msgstr "Неко је покушао да дода вашу е-адресу у постојећи налог."
 
 #: weblate/accounts/password_validation.py:38
 msgid "This password consists of whitespace only."
-msgstr ""
+msgstr "Ова лозинка су све сами размаци."
 
 #: weblate/accounts/password_validation.py:43
 msgid "This password consists of single character."
-msgstr ""
+msgstr "Ова лозинка се састоји од истог знака."
 
 #: weblate/accounts/password_validation.py:49
 msgid "Your password can't consist of single character or whitespace only."
-msgstr ""
+msgstr "Ваша лозинка се не може састојати само од истог знака или размака."
 
 #: weblate/accounts/pipeline.py:177
 msgid "New registrations are disabled!"
 msgstr "Нове регистрације су онемогућене!"
 
 #: weblate/accounts/pipeline.py:181
-#, fuzzy
-#| msgid "Can not reset password, email authentication is disabled!"
 msgid "Can not change authentication for demo!"
-msgstr ""
-"Лозинку није могуће ресетовати. Аутентификација е-поштом је онемогућена!"
+msgstr "Не можете мењати демо налог!"
 
 #: weblate/accounts/pipeline.py:327
 #, python-brace-format
 msgid ""
 "Your email no longer belongs to verified account, it has been changed to {0}."
-msgstr ""
+msgstr "Ваша е-адреса не припада овереном налогу. Промењена је у {0}."
 
 #: weblate/accounts/views.py:102 weblate/accounts/views.py:474
 msgid "User registration"
@@ -801,7 +803,7 @@ msgstr "Снимак екрана је отпремљен. Сада га мож�
 
 #: weblate/screenshots/views.py:114
 msgid "Failed to upload screenshot, please fix errors below."
-msgstr ""
+msgstr "Неуспело отпремање снимка екрана. Отклоните грешке испод."
 
 #: weblate/screenshots/views.py:166
 #, python-format
@@ -976,19 +978,15 @@ msgstr ""
 "поново."
 
 #: weblate/templates/accounts/email-sent.html:20
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder or retry "
-#| "the registration. If the problem persists, please <a href="
-#| "\"%(contact_url)s?subject=Registration problems\">contact us</a>."
+#, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. If the problem persists, please <a href=\"%(contact_url)s?t=reg"
 "\">contact us</a>."
 msgstr ""
 "Ако је не примите ускоро, проверите фасциклу за нежељену пошту или се "
-"региструјте поново. Ако се проблеми наставе, молимо вас да нас <a href="
-"\"%(contact_url)s?subject=Registration problems\">контактирате</a>."
+"региструјте поново. Ако се проблеми наставе, молимо вас да нас <a href=\""
+"%(contact_url)s?t=reg\">контактирате</a>."
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:19
@@ -1485,7 +1483,7 @@ msgstr "Извештаји"
 #: weblate/templates/admin/custom-index.html:13
 #: weblate/templates/admin/report.html:4 weblate/templates/admin/report.html:13
 msgid "Status of repositories"
-msgstr "Стање спремишта"
+msgstr "Стање складишта"
 
 #: weblate/templates/admin/custom-index.html:19
 #: weblate/templates/admin/ssh.html:4 weblate/templates/admin/ssh.html:8
@@ -1534,8 +1532,8 @@ msgid ""
 "Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
 "%(repo)s</a> instead."
 msgstr ""
-"Не приказује стање повезаног спремишта. Зато проверите <a href=\"#%(slug)s\">"
-"%(repo)s</a>."
+"Не приказује се стање повезаног складишта. Проверите <a href=\"#%(slug)s\""
+">%(repo)s</a>."
 
 #: weblate/templates/admin/ssh.html:14
 msgid "Public SSH key"
@@ -1692,7 +1690,7 @@ msgstr "Ограничење језика"
 
 #: weblate/templates/billing/detail.html:22
 msgid "Repositories limit"
-msgstr "Ограничење спремишта"
+msgstr "Ограничење складишта"
 
 #: weblate/templates/billing/detail.html:27
 msgid "Projects limit"
@@ -1863,7 +1861,7 @@ msgstr ""
 
 #: weblate/templates/data.html:115
 msgid "For example telling Weblate to pull remote repository can be done by:"
-msgstr ""
+msgstr "На пример, да Веблејт повуче удаљено складиште можете урадити помоћу:"
 
 #: weblate/templates/data.html:124
 msgid ""
@@ -3046,7 +3044,7 @@ msgstr "Коментари корисника"
 #: weblate/templates/js/git-status.html:18
 #: weblate/templates/mail/merge_failure.html:21
 msgid "Repository status"
-msgstr "Статус спремишта"
+msgstr "Статус складишта"
 
 #: weblate/templates/js/git-status.html:21
 msgid "There are some not committed changes!"
@@ -3054,7 +3052,7 @@ msgstr ""
 
 #: weblate/templates/js/git-status.html:25
 msgid "There has been a merge failure on the repository:"
-msgstr ""
+msgstr "У складишту је дошло до грешке стапања:"
 
 #: weblate/templates/js/git-status.html:27
 #: weblate/templates/mail/merge_failure.html:36
@@ -3064,15 +3062,15 @@ msgstr ""
 
 #: weblate/templates/js/git-status.html:31
 msgid "The remote repository needs to be merged!"
-msgstr ""
+msgstr "Удаљено складиште треба стопити!"
 
 #: weblate/templates/js/git-status.html:34
 msgid "There are some new commits in the local repository!"
-msgstr ""
+msgstr "Има нових промена у локалном складишту!"
 
 #: weblate/templates/js/git-status.html:37
 msgid "The local repository is up to date."
-msgstr "Локално спремиште је ажурирано."
+msgstr "Локално складиште је ажурирано."
 
 #: weblate/templates/js/git-status.html:45
 msgid "Last remote commit:"
@@ -3086,15 +3084,15 @@ msgstr "Складиште са Веблејт преводима:"
 
 #: weblate/templates/js/git-status.html:62
 msgid "Repository details"
-msgstr "Детаљи спремишта"
+msgstr "Детаљи складишта"
 
 #: weblate/templates/js/git-status.html:74
 msgid "Repository changes"
-msgstr "Измене спремишта"
+msgstr "Измене складишта"
 
 #: weblate/templates/js/git-status.html:102
 msgid "Repository tools"
-msgstr "Алатке спремишта"
+msgstr "Алатке складишта"
 
 #: weblate/templates/js/git-status.html:112 weblate/templates/project.html:44
 #: weblate/templates/subproject.html:48 weblate/templates/translation.html:51
@@ -3103,7 +3101,7 @@ msgstr ""
 
 #: weblate/templates/js/git-status.html:116
 msgid "Commit pending changes to the local repository"
-msgstr ""
+msgstr "Записујем измене у локално складиште"
 
 #: weblate/templates/js/git-status.html:126
 msgid "Pull"
@@ -3111,7 +3109,7 @@ msgstr ""
 
 #: weblate/templates/js/git-status.html:130
 msgid "Pull changes from the remote repository"
-msgstr ""
+msgstr "Довуци измене из удаљеног складишта"
 
 #: weblate/templates/js/git-status.html:140
 msgid "Push"
@@ -3119,7 +3117,7 @@ msgstr ""
 
 #: weblate/templates/js/git-status.html:144
 msgid "Push changes to the remote repository"
-msgstr ""
+msgstr "Отпреми измене у удаљено складиште"
 
 #: weblate/templates/js/git-status.html:154
 #: weblate/trans/models/subproject.py:99
@@ -3128,7 +3126,7 @@ msgstr ""
 
 #: weblate/templates/js/git-status.html:158
 msgid "Rebase local changes onto the remote repository"
-msgstr ""
+msgstr "Премести локалне измене у удаљено складиште"
 
 #: weblate/templates/js/git-status.html:168
 msgid "Reset"
@@ -3136,7 +3134,7 @@ msgstr ""
 
 #: weblate/templates/js/git-status.html:172
 msgid "Reset all changes in the local repository"
-msgstr ""
+msgstr "Поништи све измене у локалном складишту"
 
 #: weblate/templates/js/git-status.html:184
 #: weblate/templates/translation.html:253
@@ -3145,7 +3143,7 @@ msgstr "Откључај"
 
 #: weblate/templates/js/git-status.html:188
 msgid "Allow changes in the local repository"
-msgstr "Дозволи измене у локалном спремишту"
+msgstr "Дозволи измене у локалном складишту"
 
 #: weblate/templates/js/git-status.html:196
 #: weblate/templates/translation.html:255
@@ -3154,11 +3152,11 @@ msgstr "Закључај"
 
 #: weblate/templates/js/git-status.html:200
 msgid "Prevent any changes in the local repository"
-msgstr "Спречи било какве промене у локалном спремишту"
+msgstr "Спречи било какве промене у локалном складишту"
 
 #: weblate/templates/js/git-status.html:215
 msgid "Removes current translation from the repository."
-msgstr "Уклања тренутни превод из спремишта."
+msgstr "Уклања тренутни превод из складишта."
 
 #: weblate/templates/language-project.html:16 weblate/templates/project.html:25
 #: weblate/trans/models/subproject.py:503
@@ -3514,7 +3512,7 @@ msgstr "Порука грешке:"
 
 #: weblate/templates/mail/merge_failure.txt:9
 msgid "Repository status:"
-msgstr "Статус спремишта:"
+msgstr "Статус складишта:"
 
 #: weblate/templates/mail/merge_failure_subject.txt:3
 #, python-format
@@ -3775,7 +3773,7 @@ msgstr ""
 #: weblate/templates/project.html:47 weblate/templates/subproject.html:51
 #: weblate/templates/translation.html:54
 msgid "Repository maintenance"
-msgstr ""
+msgstr "Одржавање складишта"
 
 #: weblate/templates/project.html:55 weblate/templates/project.html:204
 #: weblate/templates/subproject.html:65 weblate/templates/subproject.html:212
@@ -4080,12 +4078,12 @@ msgstr "Лиценца превода"
 
 #: weblate/templates/subproject_info.html:25
 msgid "Repository"
-msgstr "Спремиште"
+msgstr "Складиште"
 
 #: weblate/templates/subproject_info.html:32
 #: weblate/trans/models/subproject.py:201
 msgid "Repository branch"
-msgstr "Грана спремишта"
+msgstr "Грана складишта"
 
 #: weblate/templates/subproject_info.html:44
 msgid "Repository with Weblate translations"
@@ -4679,7 +4677,7 @@ msgstr "Администратори"
 
 #: weblate/trans/admin.py:58 weblate/trans/admin.py:110
 msgid "Update VCS repository"
-msgstr "Ажурирај VCS спремиште"
+msgstr "Ажурирај ВЦС складиште"
 
 #: weblate/trans/admin.py:72 weblate/trans/admin.py:125
 msgid "Update quality checks"
@@ -5628,23 +5626,23 @@ msgstr ""
 
 #: weblate/trans/models/change.py:215
 msgid "Reset repository"
-msgstr ""
+msgstr "Ресетуј складиште"
 
 #: weblate/trans/models/change.py:216
 msgid "Merged repository"
-msgstr ""
+msgstr "Стопљено складиште"
 
 #: weblate/trans/models/change.py:217
 msgid "Rebased repository"
-msgstr ""
+msgstr "Пресложено складиште"
 
 #: weblate/trans/models/change.py:218
 msgid "Failed merge on repository"
-msgstr ""
+msgstr "Неуспело стапање складишта"
 
 #: weblate/trans/models/change.py:219
 msgid "Failed rebase on repository"
-msgstr ""
+msgstr "Неуспело преслагивање складишта"
 
 #: weblate/trans/models/change.py:220
 msgid "Parse error"
@@ -5740,7 +5738,7 @@ msgstr ""
 
 #: weblate/trans/models/project.py:116
 msgid "Whether the repository should be pushed upstream on every commit."
-msgstr ""
+msgstr "Да ли ће се складиште одаслати на горе при свакој измени."
 
 #: weblate/trans/models/project.py:121
 msgid "Set Translation-Team header"
@@ -5831,7 +5829,7 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:175
 msgid "Repository browser"
-msgstr ""
+msgstr "Прегледач складишта"
 
 #: weblate/trans/models/subproject.py:177
 #, python-format
@@ -5860,14 +5858,14 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:203
 msgid "Repository branch to translate"
-msgstr "Грана спремишта за превођење"
+msgstr "Грана складишта за превођење"
 
 #: weblate/trans/models/subproject.py:212
 msgid ""
 "Path of files to translate relative to repository root, use * instead of "
 "language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po."
 msgstr ""
-"Путања датотека за превод у односу на основно спремиште. Користите * уместо "
+"Путања фајлова за превод у односу на корен складишта. Користите * уместо "
 "кода језика, нпр: po/*.po или locale/*/LC_MESSAGES/django.po."
 
 #: weblate/trans/models/subproject.py:218
@@ -6117,7 +6115,7 @@ msgstr ""
 #: weblate/trans/models/subproject.py:665
 #, python-format
 msgid "Failed to fetch repository: %s"
-msgstr ""
+msgstr "Нисам успео да довучем складиште:%s"
 
 #: weblate/trans/models/subproject.py:755
 #, python-format
@@ -6277,7 +6275,7 @@ msgstr ""
 #: weblate/trans/models/subproject.py:1309
 #, python-format
 msgid "Failed to update repository: %s"
-msgstr ""
+msgstr "Нисам успео да освећим складиште:%s"
 
 #: weblate/trans/models/subproject.py:1329
 msgid "Can not validate file matches due to invalid regular expression."
@@ -6301,6 +6299,8 @@ msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
+"Фајл под називом %s није нађен у складишту. Да додате нови превод, додајте "
+"језички фајл у складиште."
 
 #: weblate/trans/models/translation.py:227
 #, python-format
@@ -6763,13 +6763,15 @@ msgstr ""
 
 #: weblate/trans/views/acl.py:137
 msgid "User has been removed from this project."
-msgstr ""
+msgstr "Корисник је уклоњен из овог пројекта."
 
 #: weblate/trans/views/basic.py:121
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to login next time."
 msgstr ""
+"Активирали сте свој налог. Сада треба да поставите лозинку да бисте могли да "
+"се пријавите следећи пут."
 
 #: weblate/trans/views/basic.py:140
 msgid "Please set your full name in your profile."
@@ -6778,7 +6780,7 @@ msgstr ""
 #: weblate/trans/views/basic.py:271
 #, python-format
 msgid "Search for %s"
-msgstr ""
+msgstr "Тражи %s"
 
 #: weblate/trans/views/basic.py:277
 msgid "Invalid search query!"
@@ -6815,7 +6817,7 @@ msgstr ""
 
 #: weblate/trans/views/basic.py:347 weblate/trans/views/basic.py:415
 msgid "Settings saved"
-msgstr ""
+msgstr "Поставке сачуване"
 
 #: weblate/trans/views/basic.py:352 weblate/trans/views/basic.py:420
 msgid "Invalid settings, please check the form for errors!"
@@ -7069,7 +7071,7 @@ msgstr "Неуспело стапање садржаја фајла: %s"
 
 #: weblate/trans/views/git.py:51
 msgid "Failed to lock the repository, another operation in progress."
-msgstr "Неуспело закључавање спремишта. Друга операција је у току."
+msgstr "Неуспело закључавање складишта. Друга операција је у току."
 
 #: weblate/trans/views/git.py:65
 msgid "All pending translations were committed."
@@ -7209,7 +7211,7 @@ msgstr ""
 
 #: weblate/utils/validators.py:98
 msgid "Forbidden URL scheme!"
-msgstr ""
+msgstr "Недозвољена УРЛ шема!"
 
 #~ msgid "New password"
 #~ msgstr "Нова лозинка"
