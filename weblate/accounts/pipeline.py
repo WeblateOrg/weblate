@@ -243,7 +243,6 @@ def revoke_mail_code(strategy, details, **kwargs):
 def ensure_same_user(strategy, backend, user, registering_user, weblate_action,
                      **kwargs):
     """Ensure the activation link is not valid for other user."""
-    print 'ENSURE', user, registering_user
     # There is different scope for password reset
     if weblate_action == 'reset':
         return
