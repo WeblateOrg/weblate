@@ -222,6 +222,7 @@ class WeblateConf(AppConf):
     AUTH_MAX_ATTEMPTS = 5
     AUTH_CHECK_WINDOW = 300
     AUTH_LOCKOUT_TIME = 600
+    AUTH_TOKEN_VALID = 3600
 
     class Meta(object):
         prefix = ''

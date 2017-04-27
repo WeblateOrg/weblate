@@ -67,6 +67,7 @@ Defaults to 300 (5 minutes).
 
 AUTH_LOCKOUT_TIME
 -----------------
+
 .. versionadded:: 2.14
 
 Length of authentication lockout window after rate limit is applied.
@@ -78,6 +79,17 @@ Defaults to 600 (10 minutes).
     :ref:`rate-limit`,
     :setting:`AUTH_MAX_ATTEMPTS`,
     :setting:`AUTH_CHECK_WINDOW`
+
+.. setting:: AUTH_TOKEN_VALID
+
+AUTH_TOKEN_VALID
+----------------
+
+.. versionadded:: 2.14
+
+Validity of token in activation and password reset mails in seconds.
+
+Defaults to 3600 (1 hour).
 
 .. setting:: AUTO_LOCK
 

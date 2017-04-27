@@ -22,6 +22,7 @@ from __future__ import unicode_literals
 
 import json
 import re
+import time
 import unicodedata
 
 from django.conf import settings
@@ -213,7 +214,8 @@ def store_params(strategy, user, **kwargs):
 
     return {
         'weblate_action': action,
-        'registering_user': registering_user
+        'registering_user': registering_user,
+        'weblate_expires': int(time.time() + settings.AUTH_TOKEN_VALID),
     }
 
 
@@ -248,14 +250,18 @@ def revoke_mail_code(strategy, details, **kwargs):
         ).delete()
 
 
-def ensure_same_user(strategy, backend, user, registering_user, weblate_action,
-                     **kwargs):
-    """Ensure the activation link is not valid for other user."""
-    # There is different scope for password reset
+def ensure_valid(strategy, backend, user, registering_user, weblate_action,
+                 weblate_expires, **kwargs):
+    """Ensure the activation link is still."""
+    # Didn't the link expire?
+    if weblate_expires < time.time():
+        raise AuthStateForbidden(backend, 'expires')
+
+    # We allow password reset
     if weblate_action == 'reset':
         return
 
-    # Add/register should stay on same user
+    # Add email/register should stay on same user
     if user and user.is_authenticated:
         current_user = user.pk
     else:
