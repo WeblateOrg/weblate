@@ -481,9 +481,14 @@ def register(request):
 @login_required
 def email_login(request):
     """Connect email."""
+    captcha_form = None
+
     if request.method == 'POST':
         form = EmailForm(request.POST)
-        if form.is_valid():
+        if settings.REGISTRATION_CAPTCHA:
+            captcha_form = CaptchaForm(request, request.POST)
+        if ((captcha_form is None or captcha_form.is_valid()) and
+                form.is_valid()):
             if form.cleaned_data['email_user']:
                 notify_account_activity(
                     form.cleaned_data['email_user'],
@@ -495,6 +500,8 @@ def email_login(request):
             return complete(request, 'email')
     else:
         form = EmailForm()
+        if settings.REGISTRATION_CAPTCHA:
+            captcha_form = CaptchaForm(request)
 
     return render(
         request,
@@ -502,6 +509,7 @@ def email_login(request):
         {
             'title': _('Register email'),
             'form': form,
+            'captcha_form': captcha_form,
         }
     )
 

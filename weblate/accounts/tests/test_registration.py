@@ -419,7 +419,9 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
             'Invalid value'
         )
 
+    @override_settings(REGISTRATION_CAPTCHA=False)
     def test_add_mail(self):
+        """Adding mail to existing account."""
         # Create user
         self.test_register()
 
@@ -470,6 +472,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
             '[Weblate] Activity on your account at Weblate'
         )
 
+    @override_settings(REGISTRATION_CAPTCHA=False)
     def test_pipeline_redirect(self):
         """Test pipeline redirect using next parameter."""
         # Create user
