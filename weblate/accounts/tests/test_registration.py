@@ -160,6 +160,9 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         # Verify stored first/last name
         self.assertEqual(user.first_name, 'First Last')
 
+        # Ensure we've picked up all mails
+        self.assertEqual(len(mail.outbox), 0)
+
     @override_settings(REGISTRATION_OPEN=True)
     @override_settings(REGISTRATION_CAPTCHA=False)
     def test_double_link(self):
@@ -355,8 +358,15 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         )
         self.assertRedirects(response, reverse('email-sent'))
         self.assert_registration('[Weblate] Password reset on Weblate')
+        # Pop notification
         sent_mail = mail.outbox.pop()
         self.assertEqual(['test@example.com'], sent_mail.to)
+        self.assertEqual(
+            sent_mail.subject,
+            '[Weblate] Activity on your account at Weblate'
+        )
+        # Pop password change
+        sent_mail = mail.outbox.pop()
 
         response = self.client.post(
             reverse('password_reset'),
@@ -364,8 +374,11 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         )
         self.assertRedirects(response, reverse('email-sent'))
         self.assert_registration('[Weblate] Password reset on Weblate')
+        # Notification
         sent_mail = mail.outbox.pop()
         self.assertEqual(['test2@example.com'], sent_mail.to)
+        # Pop password change
+        sent_mail = mail.outbox.pop()
 
     def test_wrong_username(self):
         data = REGISTRATION_DATA.copy()
@@ -412,7 +425,8 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
 
         # Check adding email page
         response = self.client.get(
-            reverse('email_login')
+            reverse('social:begin', args=('email',)),
+            follow=True,
         )
         self.assertContains(response, 'Register email')
 
@@ -449,6 +463,13 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
             ).exists()
         )
 
+        # Check notification
+        notification = mail.outbox.pop()
+        self.assertEqual(
+            notification.subject,
+            '[Weblate] Activity on your account at Weblate'
+        )
+
     def test_pipeline_redirect(self):
         """Test pipeline redirect using next parameter."""
         # Create user
@@ -468,9 +489,12 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
 
         # Verify confirmation mail
         url = self.assert_registration_mailbox()
+        # Confirmation
         mail.outbox.pop()
         response = self.client.get(url, follow=True)
         self.assertRedirects(response, '/#valid')
+        # Activity
+        mail.outbox.pop()
 
         # Invalid next URL
         response = self.client.get(
