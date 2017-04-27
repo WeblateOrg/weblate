@@ -290,7 +290,12 @@ def get_initial_contact(request):
 def contact(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
-        if form.is_valid():
+        if not check_rate_limit(request):
+            messages.error(
+                request,
+                _('Too many messages sent, please try again later!')
+            )
+        elif form.is_valid():
             mail_admins_contact(
                 request,
                 '%(subject)s',

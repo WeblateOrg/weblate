@@ -31,6 +31,13 @@ from weblate.accounts.models import Profile
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.lang.models import Language
 
+CONTACT_DATA = {
+    'name': 'Test',
+    'email': 'noreply@weblate.org',
+    'subject': 'Message from dark side',
+    'message': 'Hi\n\nThis app looks really cool!',
+}
+
 
 class ViewTest(TestCase):
     """Test for views."""
@@ -53,15 +60,7 @@ class ViewTest(TestCase):
         self.assertContains(response, 'id="id_message"')
 
         # Sending message
-        response = self.client.post(
-            reverse('contact'),
-            {
-                'name': 'Test',
-                'email': 'noreply@weblate.org',
-                'subject': 'Message from dark side',
-                'message': 'Hi\n\nThis app looks really cool!',
-            }
-        )
+        response = self.client.post(reverse('contact'), CONTACT_DATA)
         self.assertRedirects(response, reverse('home'))
 
         # Verify message
@@ -69,6 +68,17 @@ class ViewTest(TestCase):
         self.assertEqual(
             mail.outbox[0].subject,
             '[Weblate] Message from dark side'
+        )
+
+    @override_settings(
+        AUTH_MAX_ATTEMPTS=0,
+    )
+    def test_contact_rate(self):
+        """Test for contact form rate limiting."""
+        response = self.client.post(reverse('contact'), CONTACT_DATA)
+        self.assertContains(
+            response,
+            'Too many messages sent, please try again later!'
         )
 
     @override_settings(OFFER_HOSTING=False)
