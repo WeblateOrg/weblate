@@ -230,6 +230,10 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
             User.objects.filter(email='noreply@example.net').exists(),
             logout
         )
+        self.assertEqual(
+            VerifiedEmail.objects.filter(email='noreply@example.net').exists(),
+            logout
+        )
 
     def test_double_register(self):
         """Test double registration from single browser without logout."""
