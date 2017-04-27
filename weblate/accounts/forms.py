@@ -353,21 +353,27 @@ class SetPasswordForm(DjangoSetPasswordForm):
     )
 
 
-class CaptchaMixin(object):
-    """Mixin to add Captcha to form."""
-    tampering = True
+class CaptchaForm(forms.Form):
+    captcha = forms.IntegerField(required=True)
+    captcha_id = forms.CharField(widget=forms.HiddenInput)
 
-    def load_captcha(self, data):
-        # Load data
-        self.tampering = False
-        if data is None or 'captcha_id' not in data:
+    def __init__(self, request, data=None, *args, **kwargs):
+        super(CaptchaForm, self).__init__(data, *args, **kwargs)
+        self.fresh = False
+
+        if (data is None or
+                'captcha_id' not in data or
+                'captcha' not in request.session or
+                data['captcha_id'] not in request.session['captcha']):
             self.captcha = MathCaptcha()
+            self.fresh = True
+            request.session['captcha'] = {self.captcha.id: self.captcha.hashed}
         else:
-            try:
-                self.captcha = MathCaptcha.from_hash(data['captcha_id'])
-            except ValueError:
-                self.captcha = MathCaptcha()
-                self.tampering = True
+            captcha_id = data['captcha_id']
+            self.captcha = MathCaptcha.from_hash(
+                request.session['captcha'].pop(captcha_id),
+                captcha_id
+            )
 
         # Set correct label
         self.fields['captcha'].label = pgettext(
@@ -375,11 +381,11 @@ class CaptchaMixin(object):
             'the %s is an arithmetic problem',
             'What is %s?'
         ) % self.captcha.display
-        self.fields['captcha_id'].initial = self.captcha.hashed
+        self.fields['captcha_id'].initial = self.captcha.id
 
     def clean_captcha(self):
         """Validation for captcha."""
-        if (self.tampering or
+        if (self.fresh or
                 not self.captcha.validate(self.cleaned_data['captcha'])):
             raise forms.ValidationError(
                 _('Please check your math and try again.')
@@ -395,16 +401,6 @@ class CaptchaMixin(object):
         )
 
 
-class CaptchaRegistrationForm(RegistrationForm, CaptchaMixin):
-    """Registration form with captcha protection."""
-    captcha = forms.IntegerField(required=True)
-    captcha_id = forms.CharField(widget=forms.HiddenInput)
-
-    def __init__(self, data=None, *args, **kwargs):
-        super(CaptchaRegistrationForm, self).__init__(data, *args, **kwargs)
-        self.load_captcha(data)
-
-
 class PasswordChangeForm(forms.Form):
     password = PasswordField(
         label=_("Current password"),
@@ -418,15 +414,6 @@ class ResetForm(EmailForm):
                 'No password reset for deleted or anonymous user.'
             )
         return super(ResetForm, self).clean_email()
-
-
-class CaptchaResetForm(ResetForm, CaptchaMixin):
-    captcha = forms.IntegerField(required=True)
-    captcha_id = forms.CharField(widget=forms.HiddenInput)
-
-    def __init__(self, data=None, *args, **kwargs):
-        super(CaptchaResetForm, self).__init__(data, *args, **kwargs)
-        self.load_captcha(data)
 
 
 class LoginForm(forms.Form):

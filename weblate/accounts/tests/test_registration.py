@@ -86,7 +86,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         response = self.client.get(
             reverse('register')
         )
-        form = response.context['form']
+        form = response.context['captcha_form']
         data = REGISTRATION_DATA.copy()
         data['captcha_id'] = form.fields['captcha_id'].initial
         data['captcha'] = form.captcha.result
@@ -96,6 +96,14 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
             follow=True
         )
         self.assertContains(response, 'Thank you for registering.')
+
+        # Second registration should fail
+        response = self.client.post(
+            reverse('register'),
+            data,
+            follow=True
+        )
+        self.assertNotContains(response, 'Thank you for registering.')
 
     @override_settings(REGISTRATION_OPEN=False)
     def test_register_closed(self):

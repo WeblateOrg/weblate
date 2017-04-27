@@ -27,6 +27,7 @@ import hashlib
 import operator
 from random import SystemRandom
 import time
+import uuid
 
 from django.conf import settings
 
@@ -50,7 +51,7 @@ class MathCaptcha(object):
     }
     interval = (1, 10)
 
-    def __init__(self, question=None, timestamp=None):
+    def __init__(self, question=None, timestamp=None, captcha_id=None):
         if question is None:
             self.question = self.generate_question()
         else:
@@ -59,6 +60,7 @@ class MathCaptcha(object):
             self.timestamp = time.time()
         else:
             self.timestamp = timestamp
+        self.id = captcha_id if captcha_id else str(uuid.uuid1())
 
     def generate_question(self):
         """Generate random question."""
@@ -78,10 +80,10 @@ class MathCaptcha(object):
         ))
 
     @staticmethod
-    def from_hash(hashed):
+    def from_hash(hashed, captcha_id=None):
         """Create object from hash."""
         question, timestamp = unhash_question(hashed)
-        return MathCaptcha(question, timestamp)
+        return MathCaptcha(question, timestamp, captcha_id)
 
     @property
     def hashed(self):

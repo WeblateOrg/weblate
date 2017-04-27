@@ -48,8 +48,7 @@ from social_django.views import complete
 
 from weblate.accounts.forms import (
     RegistrationForm, PasswordChangeForm, EmailForm, ResetForm,
-    LoginForm, HostingForm, CaptchaRegistrationForm,
-    CaptchaResetForm, SetPasswordForm,
+    LoginForm, HostingForm, CaptchaForm, SetPasswordForm,
 )
 from weblate.logger import LOGGER
 from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
@@ -438,14 +437,14 @@ def weblate_logout(request):
 
 def register(request):
     """Registration form."""
-    if settings.REGISTRATION_CAPTCHA:
-        form_class = CaptchaRegistrationForm
-    else:
-        form_class = RegistrationForm
+    captcha_form = None
 
     if request.method == 'POST':
-        form = form_class(request.POST)
-        if form.is_valid() and settings.REGISTRATION_OPEN:
+        form = RegistrationForm(request.POST)
+        if settings.REGISTRATION_CAPTCHA:
+            captcha_form = CaptchaForm(request, request.POST)
+        if ((captcha_form is None or captcha_form.is_valid()) and
+                form.is_valid() and settings.REGISTRATION_OPEN):
             if form.cleaned_data['email_user']:
                 notify_account_activity(
                     form.cleaned_data['email_user'],
@@ -456,7 +455,9 @@ def register(request):
                 return redirect('email-sent')
             return complete(request, 'email')
     else:
-        form = form_class()
+        form = RegistrationForm()
+        if settings.REGISTRATION_CAPTCHA:
+            captcha_form = CaptchaForm(request)
 
     backends = set(load_backends(BACKENDS).keys())
 
@@ -472,6 +473,7 @@ def register(request):
             'registration_backends': backends - set(['email']),
             'title': _('User registration'),
             'form': form,
+            'captcha_form': captcha_form,
         }
     )
 
@@ -577,14 +579,14 @@ def reset_password(request):
         )
         return redirect('login')
 
-    if settings.REGISTRATION_CAPTCHA:
-        form_class = CaptchaResetForm
-    else:
-        form_class = ResetForm
+    captcha_form = None
 
     if request.method == 'POST':
-        form = form_class(request.POST)
-        if form.is_valid():
+        form = ResetForm(request.POST)
+        if settings.REGISTRATION_CAPTCHA:
+            captcha_form = CaptchaForm(request, request.POST)
+        if ((captcha_form is None or captcha_form.is_valid()) and
+                form.is_valid()):
             # Force creating new session
             request.session.create()
             if request.user.is_authenticated:
@@ -597,7 +599,9 @@ def reset_password(request):
                 request.session['registration-email-sent'] = True
                 return redirect('email-sent')
     else:
-        form = form_class()
+        form = ResetForm()
+        if settings.REGISTRATION_CAPTCHA:
+            captcha_form = CaptchaForm(request)
 
     return render(
         request,
@@ -605,6 +609,7 @@ def reset_password(request):
         {
             'title': _('Password reset'),
             'form': form,
+            'captcha_form': captcha_form,
         }
     )
 
