@@ -372,9 +372,16 @@ def handle_revert(translation, request, next_unit_url):
 
     unit = revertform.cleaned_data['unit']
 
-    change = Change.objects.get(
-        pk=revertform.cleaned_data['revert']
-    )
+    try:
+        change = Change.objects.get(
+            pk=revertform.cleaned_data['revert']
+        )
+    except Change.DoesNotExist:
+        messages.error(
+            request,
+            _('Can not revert to nonexisting change!')
+        )
+        return
 
     if unit.id_hash != change.unit.id_hash:
         messages.error(
