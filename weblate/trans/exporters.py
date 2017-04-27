@@ -63,7 +63,7 @@ class BaseExporter(object):
     has_lang = False
 
     def __init__(self, project=None, language=None, url=None,
-                 translation=None):
+                 translation=None, fieldnames=None):
         if translation is not None:
             self.project = translation.subproject.project
             self.language = translation.language
@@ -72,6 +72,7 @@ class BaseExporter(object):
             self.project = project
             self.language = language
             self.url = url
+        self.fieldnames = fieldnames
         self.storage = self.get_storage()
         self.storage.setsourcelanguage(
             self.project.source_language.code
@@ -268,7 +269,7 @@ class CSVExporter(BaseExporter):
     has_lang = False
 
     def get_storage(self):
-        return csvfile()
+        return csvfile(fieldnames=self.fieldnames)
 
     def string_filter(self, text):
         """Avoid Excel interpreting text as formula.
