@@ -513,6 +513,12 @@ EXTRALANGS = (
         2,
         'n != 1',
     ),
+    (
+        'dv',
+        'Dhivehi',
+        2,
+        'n != 1',
+    ),
 )
 
 NO_CODE_LANGUAGES = frozenset((

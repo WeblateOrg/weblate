@@ -870,6 +870,7 @@ SAME_BLACKLIST = frozenset((
     'croatian',
     'czech',
     'danish',
+    'dhivehi',
     'dogri',
     'dutch',
     'dzongkha',
