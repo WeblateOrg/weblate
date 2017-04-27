@@ -37,7 +37,7 @@ from six.moves.urllib.request import Request, urlopen
 from social_core.pipeline.partial import partial
 from social_core.exceptions import (
     AuthException, AuthMissingParameter, AuthAlreadyAssociated,
-    InvalidEmail,
+    InvalidEmail, AuthStateForbidden,
 )
 
 from weblate.accounts.notifications import (
@@ -189,14 +189,24 @@ def cleanup_next(strategy, **kwargs):
         strategy.session_set('next', None)
 
 
-def store_type(strategy, **kwargs):
-    # Store action in pipeline data
+def store_params(strategy, user, **kwargs):
+    """Store Weblate specific parameters in the pipeline."""
+    # Registering user
+    if user and user.is_authenticated:
+        registering_user = user.pk
+    else:
+        registering_user = None
+
+    # Pipeline action
     if strategy.request.session.get('password_reset', False):
         action = 'reset'
     else:
         action = 'activation'
 
-    return {'weblate_action': action}
+    return {
+        'weblate_action': action,
+        'registering_user': registering_user
+    }
 
 
 def verify_username(strategy, backend, details, user=None, **kwargs):
@@ -228,6 +238,24 @@ def revoke_mail_code(strategy, details, **kwargs):
             email=details['email'],
             verified=True
         ).delete()
+
+
+def ensure_same_user(strategy, backend, user, registering_user, weblate_action,
+                     **kwargs):
+    """Ensure the activation link is not valid for other user."""
+    print 'ENSURE', user, registering_user
+    # There is different scope for password reset
+    if weblate_action == 'reset':
+        return
+
+    # Add/register should stay on same user
+    if user and user.is_authenticated:
+        current_user = user.pk
+    else:
+        current_user = None
+
+    if current_user != registering_user:
+        raise AuthStateForbidden(backend, 'user')
 
 
 def store_email(strategy, backend, user, social, details, **kwargs):

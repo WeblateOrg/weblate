@@ -188,8 +188,8 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
 
     @override_settings(REGISTRATION_OPEN=True)
     @override_settings(REGISTRATION_CAPTCHA=False)
-    def test_double_register(self):
-        """Test double registration from single browser"""
+    def test_double_register_logout(self, logout=True):
+        """Test double registration from single browser with logout."""
 
         # First registration
         response = self.client.post(
@@ -214,18 +214,26 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
 
         # Confirm first account
         response = self.client.get(first_url, follow=True)
+        self.assertTrue(
+            User.objects.filter(email='noreply-weblate@example.org').exists()
+        )
         self.assertRedirects(
             response,
             reverse('password')
         )
-        self.client.post(reverse('logout'))
+        if logout:
+            self.client.post(reverse('logout'))
 
         # Confirm second account
         response = self.client.get(second_url, follow=True)
-        self.assertRedirects(
-            response,
-            reverse('password')
+        self.assertEqual(
+            User.objects.filter(email='noreply@example.net').exists(),
+            logout
         )
+
+    def test_double_register(self):
+        """Test double registration from single browser without logout."""
+        self.test_double_register_logout(False)
 
     @override_settings(REGISTRATION_OPEN=True)
     @override_settings(REGISTRATION_CAPTCHA=False)
