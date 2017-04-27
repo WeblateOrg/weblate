@@ -704,6 +704,12 @@ A boolean (either ``True`` or ``False``) indicating whether registration of new
 accounts is protected by captcha. This setting is optional, and a default of
 True will be assumed if it is not supplied.
 
+If enabled the captcha is added to all pages where users enter email address:
+
+* New account registration.
+* Password recovery.
+* Adding email to an account.
+
 .. setting:: REGISTRATION_OPEN
 
 REGISTRATION_OPEN
