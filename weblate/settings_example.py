@@ -531,6 +531,11 @@ LOGIN_REDIRECT_URL = '{0}/'.format(URL_PREFIX)
 # Anonymous user name
 ANONYMOUS_USER_NAME = 'anonymous'
 
+# Reverse proxy settings
+IP_BEHIND_REVERSE_PROXY = False
+IP_PROXY_HEADER = 'HTTP_X_FORWARDED_FOR'
+IP_PROXY_OFFSET = 0
+
 # Sending HTML in mails
 EMAIL_SEND_HTML = True
 

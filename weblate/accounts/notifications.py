@@ -29,6 +29,7 @@ from django.utils import translation as django_translation
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import force_text
 
+from weblate.accounts.ratelimit import get_ip_address
 from weblate.accounts.models import Profile
 from weblate.permissions.helpers import can_access_project
 from weblate.trans.site import get_site_url, get_site_domain
@@ -386,12 +387,6 @@ def send_notification_email(language, email, notification,
 
 def notify_account_activity(user, request, activity, **kwargs):
     """Notification about important activity with account."""
-    addr = request.META.get('REMOTE_ADDR' '')
-
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        addr = '{0},{1}'.format(addr, x_forwarded_for)
-
     kwargs['message'] = ACCOUNT_ACTIVITY[activity].format(**kwargs)
 
     send_notification_email(
@@ -399,7 +394,7 @@ def notify_account_activity(user, request, activity, **kwargs):
         user.email,
         'account_activity',
         context=kwargs,
-        info='{0} from {1}'.format(activity, addr),
+        info='{0} from {1}'.format(activity, get_ip_address(request)),
     )
 
 

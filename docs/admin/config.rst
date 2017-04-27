@@ -29,6 +29,34 @@ User name of user for definining privileges of not logged in user.
    
     :ref:`privileges`
 
+.. setting:: AUTH_MAX_ATTEMPTS
+
+AUTH_MAX_ATTEMPTS
+-----------------
+
+Maximal number of authentication attempts before rate limiting applies.
+
+Defaults to 5.
+
+.. seealso::
+
+    :ref:`rate-limit`,
+    :setting:`AUTH_CHECK_WINDOW`
+
+.. setting:: AUTH_CHECK_WINDOW
+
+AUTH_CHECK_WINDOW
+-----------------
+
+Length of authentication window for rate limiting in seconds.
+
+Defaults to 300 (5 minutes).
+
+.. seealso::
+
+    :ref:`rate-limit`,
+    :setting:`AUTH_MAX_ATTEMPTS`
+
 .. setting:: AUTO_LOCK
 
 AUTO_LOCK
@@ -323,6 +351,59 @@ URL with user and password, Weblate will hide it when showing it to the users.
 
 For example instead of ``https://user:password@git.example.com/repo.git`` it
 will show just ``https://git.example.com/repo.git``.
+
+.. setting:: IP_BEHIND_REVERSE_PROXY
+
+IP_BEHIND_REVERSE_PROXY
+-----------------------
+
+Indicates whether Weblate is running behind reverse proxy. 
+
+If set to True, Weblate gets IP address from header defined by
+:setting:`IP_BEHIND_REVERSE_PROXY`. Ensure that you are actually using reverse
+proxy and that it sets this header, otherwise users will be able to fake the IP
+address.
+
+Defaults to False.
+
+.. seealso::
+
+    :ref:`rate-limit`,
+    :ref:`rate-ip`
+
+.. setting:: IP_PROXY_HEADER 
+
+IP_BEHIND_REVERSE_PROXY
+-----------------------
+
+Indicates from which header Weblate should obtain IP address when
+:setting:`IP_BEHIND_REVERSE_PROXY` is enabled.
+    
+Defaults to ``HTTP_X_FORWARDED_FOR``.
+
+.. seealso::
+
+    :ref:`rate-limit`,
+    :ref:`rate-ip`
+
+.. setting:: IP_PROXY_OFFSET
+
+IP_PROXY_OFFSET
+---------------
+
+Indicates which part of :setting:`IP_BEHIND_REVERSE_PROXY` is used as client IP
+address.
+
+Depending on your setup, this header might consist of several IP addresses,
+(for example ``X-Forwarded-For: a, b, client-ip``) and you can configure here
+which address from the header is client IP address.
+
+Defaults to 0.
+
+.. seealso::
+
+    :ref:`rate-limit`,
+    :ref:`rate-ip`
 
 .. setting:: LAZY_COMMITS
 
