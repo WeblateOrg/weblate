@@ -370,7 +370,8 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         )
         self.assertRedirects(response, reverse('email-sent'))
         self.assert_registration('[Weblate] Password reset on Weblate')
-        # Pop notification
+        # Pop notifications (new association + reset)
+        sent_mail = mail.outbox.pop()
         sent_mail = mail.outbox.pop()
         self.assertEqual(['test@example.com'], sent_mail.to)
         self.assertEqual(
@@ -386,7 +387,8 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         )
         self.assertRedirects(response, reverse('email-sent'))
         self.assert_registration('[Weblate] Password reset on Weblate')
-        # Notification
+        # Pop notifications (new association + reset)
+        sent_mail = mail.outbox.pop()
         sent_mail = mail.outbox.pop()
         self.assertEqual(['test2@example.com'], sent_mail.to)
         # Pop password change

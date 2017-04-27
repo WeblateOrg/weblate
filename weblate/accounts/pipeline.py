@@ -161,13 +161,21 @@ def send_validation(strategy, backend, code, partial_token=None):
     )
 
 
-def password_reset(strategy, details, weblate_action, user=None, **kwargs):
+def password_reset(strategy, backend, user, social, details, weblate_action,
+                   **kwargs):
     """Set unusable password on reset."""
     if (strategy.request is not None and
             user is not None and
             weblate_action == 'reset'):
         user.set_unusable_password()
-        user.save()
+        user.save(update_fields=['password'])
+        notify_account_activity(
+            user,
+            strategy.request,
+            'reset',
+            method=get_auth_name(backend.name),
+            name=social.uid
+        )
 
 
 def verify_open(strategy, backend, user=None, **kwargs):
