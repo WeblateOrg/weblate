@@ -34,6 +34,8 @@ User name of user for definining privileges of not logged in user.
 AUTH_MAX_ATTEMPTS
 -----------------
 
+.. versionadded:: 2.14
+
 Maximal number of authentication attempts before rate limiting applies.
 
 Defaults to 5.
@@ -47,6 +49,8 @@ Defaults to 5.
 
 AUTH_CHECK_WINDOW
 -----------------
+
+.. versionadded:: 2.14
 
 Length of authentication window for rate limiting in seconds.
 
@@ -357,6 +361,8 @@ will show just ``https://git.example.com/repo.git``.
 IP_BEHIND_REVERSE_PROXY
 -----------------------
 
+.. versionadded:: 2.14
+
 Indicates whether Weblate is running behind reverse proxy.
 
 If set to True, Weblate gets IP address from header defined by
@@ -376,6 +382,8 @@ Defaults to False.
 IP_BEHIND_REVERSE_PROXY
 -----------------------
 
+.. versionadded:: 2.14
+
 Indicates from which header Weblate should obtain IP address when
 :setting:`IP_BEHIND_REVERSE_PROXY` is enabled.
 
@@ -390,6 +398,8 @@ Defaults to ``HTTP_X_FORWARDED_FOR``.
 
 IP_PROXY_OFFSET
 ---------------
+
+.. versionadded:: 2.14
 
 Indicates which part of :setting:`IP_BEHIND_REVERSE_PROXY` is used as client IP
 address.

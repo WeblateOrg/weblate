@@ -15,6 +15,7 @@ Released on ? 2017.
 * Notify users about imporant activity with their account such as password change.
 * The CSV exports now escape potential formulas.
 * Various minor improvements in security.
+* The authentication attempts are now rate limited.
 
 weblate 2.13.1
 --------------

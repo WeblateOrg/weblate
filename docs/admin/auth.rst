@@ -17,6 +17,8 @@ You can also completely disable new users registration using
 Rate limiting
 -------------
 
+.. versionadded:: 2.14
+
 The password based authentication is subject to rate limiting. At most
 :setting:`AUTH_MAX_ATTEMPTS` attempts are allowed within
 :setting:`AUTH_CHECK_WINDOW` seconds.
