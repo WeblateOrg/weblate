@@ -29,7 +29,7 @@ from django.core.cache import cache
 def get_ip_address(request):
     """Return IP address for request."""
     if settings.IP_BEHIND_REVERSE_PROXY:
-        proxy = request.META.get(settings.IP_PROXY_HEADER, None)
+        proxy = request.META.get(settings.IP_PROXY_HEADER)
     else:
         proxy = None
     if proxy:
