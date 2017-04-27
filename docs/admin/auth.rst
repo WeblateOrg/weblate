@@ -32,7 +32,7 @@ behind reverse proxy to work it properly.
 
 .. seealso::
 
-    :setting:`IP_BEHIND_REVERSE_PROXY`, 
+    :setting:`IP_BEHIND_REVERSE_PROXY`,
     :setting:`IP_PROXY_HEADER`,
     :setting:`IP_PROXY_OFFSET`
 
@@ -191,7 +191,7 @@ Gitlab OAuth2
 For using Gitlab OAuth2, you need to register application on
 <https://gitlab.com/profile/applications>.
 
-The redirect URL is ``https://WEBLATE SERVER/accounts/complete/gitlab/`` and 
+The redirect URL is ``https://WEBLATE SERVER/accounts/complete/gitlab/`` and
 ensure to mark the `read_user` scope.
 
 .. code-block:: python
