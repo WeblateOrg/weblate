@@ -456,7 +456,7 @@ class LoginForm(forms.Form):
                 password=password
             )
             if self.user_cache is None:
-                rotate_token(request)
+                rotate_token(self.request)
                 raise forms.ValidationError(
                     self.error_messages['invalid_login'],
                     code='invalid_login',
