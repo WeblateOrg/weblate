@@ -186,26 +186,6 @@ def upload_dictionary(request, project, lang):
     )
 
 
-def download_dictionary_ttkit(export_format, prj, lang, words):
-    """Translate-toolkit builder for dictionary downloads."""
-    exporter = get_exporter(export_format)(
-        prj, lang,
-        get_site_url(reverse(
-            'show_dictionary',
-            kwargs={'project': prj.slug, 'lang': lang.code}
-        ))
-    )
-
-    # Add words
-    for word in words.iterator():
-        exporter.add_dictionary(word)
-
-    # Save to response
-    return exporter.get_response(
-        'glossary-{project}-{language}.{extension}'
-    )
-
-
 def download_dictionary(request, project, lang):
     """Export dictionary into various formats."""
     prj = get_project(request, project)
@@ -225,32 +205,23 @@ def download_dictionary(request, project, lang):
     ).order_by('source')
 
     # Translate toolkit based export
-    if export_format in ('po', 'tbx', 'xliff'):
-        return download_dictionary_ttkit(export_format, prj, lang, words)
-
-    # Manually create CSV file
-    response = HttpResponse(content_type='text/csv; charset=utf-8')
-    filename = 'dictionary-{0}-{1}.csv'.format(prj.slug, lang.code)
-    response['Content-Disposition'] = 'attachment; filename={0}'.format(
-        filename
+    exporter = get_exporter(export_format)(
+        prj, lang,
+        get_site_url(reverse(
+            'show_dictionary',
+            kwargs={'project': prj.slug, 'lang': lang.code}
+        )),
+        fieldnames=('source', 'target'),
     )
 
-    writer = csv.writer(response)
-
-    # Add header
-    writer.writerow(('source', 'target'))
-
+    # Add words
     for word in words.iterator():
-        if six.PY2:
-            writer.writerow((
-                word.source.encode('utf8'), word.target.encode('utf8')
-            ))
-        else:
-            writer.writerow((
-                word.source, word.target
-            ))
+        exporter.add_dictionary(word)
 
-    return response
+    # Save to response
+    return exporter.get_response(
+        'glossary-{project}-{language}.{extension}'
+    )
 
 
 def add_dictionary(request, unit_id):

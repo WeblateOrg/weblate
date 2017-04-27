@@ -185,7 +185,7 @@ class DictionaryTest(ViewTestCase):
         )
         self.assertContains(
             response,
-            'addon,doplněk'
+            '"addon","doplněk"'
         )
 
     def test_download_tbx(self):
