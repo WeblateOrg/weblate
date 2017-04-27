@@ -24,6 +24,7 @@ from hashlib import md5
 
 from django.conf import settings
 from django.core.cache import cache
+from django.utils.encoding import force_bytes
 
 
 def get_ip_address(request):
@@ -44,7 +45,7 @@ def get_cache_key(request=None, address=None):
     if address is None:
         address = get_ip_address(request)
     return 'ratelimit-{0}'.format(
-        md5(address).hexdigest()
+        md5(force_bytes(address)).hexdigest()
     )
 
 
