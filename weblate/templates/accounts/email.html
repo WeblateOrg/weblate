@@ -18,6 +18,9 @@
 
 {% csrf_token %}
 {{ form|crispy }}
+{% if captcha_form %}
+{{ captcha_form|crispy }}
+{% endif %}
 <p>
 {% trans "By registering you agree to use your name and email in the commits and provide your contribution under license defined by each translated project." %}
 </p>

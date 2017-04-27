@@ -131,7 +131,6 @@ def mail_validation(backend, details, is_new=False, *args, **kwargs):
 
 def send_validation(strategy, backend, code, partial_token=None):
     """Send verification email."""
-
     # We need to have existing session
     if not strategy.request.session.session_key:
         strategy.request.session.create()
@@ -241,15 +240,17 @@ def store_email(strategy, backend, user, social, details, **kwargs):
         verified.save()
 
 
-def notify_connect(strategy, backend, user, social, **kwargs):
-    """Store verified email."""
-    notify_account_activity(
-        user,
-        strategy.request,
-        'auth-connect',
-        method=get_auth_name(backend.name),
-        name=social.uid
-    )
+def notify_connect(strategy, backend, user, social, new_association=False,
+                   is_new=False, **kwargs):
+    """Notify about adding new link."""
+    if new_association and not is_new:
+        notify_account_activity(
+            user,
+            strategy.request,
+            'auth-connect',
+            method=get_auth_name(backend.name),
+            name=social.uid
+        )
 
 
 def user_full_name(strategy, details, user=None, **kwargs):
