@@ -24,6 +24,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import logout
 from django.conf import settings
+from django.middleware.csrf import rotate_token
 from django.utils.translation import ugettext as _
 from django.contrib.auth.decorators import login_required
 from django.core.mail.message import EmailMultiAlternatives
@@ -543,6 +544,7 @@ def password(request):
                         request,
                         _('You have entered an invalid password.')
                     )
+                    rotate_token(request)
                 else:
                     reset_rate_limit(request)
     else:

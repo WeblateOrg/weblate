@@ -30,6 +30,7 @@ from django.contrib.auth import authenticate, password_validation
 from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
 from django.contrib.auth.models import User
 from django.db.models import Q
+from django.middleware.csrf import rotate_token
 from django.utils.encoding import force_text
 
 from weblate.accounts.models import Profile, VerifiedEmail
@@ -455,6 +456,7 @@ class LoginForm(forms.Form):
                 password=password
             )
             if self.user_cache is None:
+                rotate_token(request)
                 raise forms.ValidationError(
                     self.error_messages['invalid_login'],
                     code='invalid_login',
