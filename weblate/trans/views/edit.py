@@ -285,6 +285,7 @@ def handle_translate(translation, request, user_locked,
         request.user.profile, translation, None, request.POST
     )
     if not form.is_valid():
+        show_form_errors(request, form)
         return
 
     unit = form.cleaned_data['unit']

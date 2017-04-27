@@ -94,6 +94,8 @@ COPY_TEMPLATE = '''
 data-loading-text="{0}" data-checksum="{1}" data-content="{2}"
 '''
 
+TRANSLATION_LIMIT = 10000
+
 
 class WeblateDateField(forms.DateField):
     def __init__(self, *args, **kwargs):
@@ -217,6 +219,7 @@ class PluralTextarea(forms.Textarea):
         attrs['lang'] = lang.code
         attrs['dir'] = lang.direction
         attrs['rows'] = 3
+        attrs['maxlength'] = TRANSLATION_LIMIT
 
         # Okay we have more strings
         ret = []
@@ -300,6 +303,15 @@ class PluralField(forms.CharField):
 
     def to_python(self, value):
         """Return list or string as returned by PluralTextarea."""
+        return value
+
+    def clean(self, value):
+        value = super(PluralField, self).clean(value)
+        for text in value:
+            if len(text) > TRANSLATION_LIMIT:
+                raise ValidationError(
+                    _('Translation text too long!')
+                )
         return value
 
 
