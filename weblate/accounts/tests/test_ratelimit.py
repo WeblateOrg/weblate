@@ -66,18 +66,39 @@ class RateLimitTest(TestCase):
 
     @override_settings(
         AUTH_MAX_ATTEMPTS=1,
-        AUTH_CHECK_WINDOW=1
+        AUTH_CHECK_WINDOW=2,
+        AUTH_LOCKOUT_TIME=1
     )
     def test_window(self):
         request = FakeRequest()
         self.assertTrue(
             check_rate_limit(request)
         )
+        sleep(1)
         self.assertFalse(
             check_rate_limit(request)
         )
         sleep(1)
         self.assertTrue(
+            check_rate_limit(request)
+        )
+
+    @override_settings(
+        AUTH_MAX_ATTEMPTS=1,
+        AUTH_CHECK_WINDOW=2,
+        AUTH_LOCKOUT_TIME=100
+    )
+    def test_lockout(self):
+        request = FakeRequest()
+        self.assertTrue(
+            check_rate_limit(request)
+        )
+        sleep(1)
+        self.assertFalse(
+            check_rate_limit(request)
+        )
+        sleep(1)
+        self.assertFalse(
             check_rate_limit(request)
         )
 

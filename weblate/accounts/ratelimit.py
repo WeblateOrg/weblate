@@ -62,6 +62,7 @@ def check_rate_limit(request):
     attempts = cache.get(key) or 0
 
     if attempts >= settings.AUTH_MAX_ATTEMPTS:
+        cache.set(key, attempts, settings.AUTH_LOCKOUT_TIME)
         return False
 
     try:

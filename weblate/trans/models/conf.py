@@ -220,7 +220,8 @@ class WeblateConf(AppConf):
     IP_PROXY_HEADER = 'HTTP_X_FORWARDED_FOR'
     IP_PROXY_OFFSET = 0
     AUTH_MAX_ATTEMPTS = 5
-    AUTH_CHECK_WINDOW = 5 * 60
+    AUTH_CHECK_WINDOW = 300
+    AUTH_LOCKOUT_TIME = 600
 
     class Meta(object):
         prefix = ''

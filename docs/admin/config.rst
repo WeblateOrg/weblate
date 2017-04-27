@@ -43,7 +43,8 @@ Defaults to 5.
 .. seealso::
 
     :ref:`rate-limit`,
-    :setting:`AUTH_CHECK_WINDOW`
+    :setting:`AUTH_CHECK_WINDOW`,
+    :setting:`AUTH_LOCKOUT_TIME`
 
 .. setting:: AUTH_CHECK_WINDOW
 
@@ -59,7 +60,24 @@ Defaults to 300 (5 minutes).
 .. seealso::
 
     :ref:`rate-limit`,
-    :setting:`AUTH_MAX_ATTEMPTS`
+    :setting:`AUTH_MAX_ATTEMPTS`,
+    :setting:`AUTH_LOCKOUT_TIME`
+
+.. setting:: AUTH_LOCKOUT_TIME
+
+AUTH_LOCKOUT_TIME
+-----------------
+.. versionadded:: 2.14
+
+Length of authentication lockout window after rate limit is applied.
+
+Defaults to 600 (10 minutes).
+
+.. seealso::
+
+    :ref:`rate-limit`,
+    :setting:`AUTH_MAX_ATTEMPTS`,
+    :setting:`AUTH_CHECK_WINDOW`
 
 .. setting:: AUTO_LOCK
 

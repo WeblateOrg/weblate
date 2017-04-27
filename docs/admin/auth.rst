@@ -21,7 +21,8 @@ Rate limiting
 
 The password based authentication is subject to rate limiting. At most
 :setting:`AUTH_MAX_ATTEMPTS` attempts are allowed within
-:setting:`AUTH_CHECK_WINDOW` seconds.
+:setting:`AUTH_CHECK_WINDOW` seconds. The user is then blocked
+for :setting:`AUTH_LOCKOUT_TIME`.
 
 .. _rate-ip:
 
