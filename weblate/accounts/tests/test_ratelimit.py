@@ -55,7 +55,7 @@ class RateLimitTest(TestCase):
     @override_settings(AUTH_CHECK_WINDOW=60)
     def test_limit(self):
         request = FakeRequest()
-        for i in range(5):
+        for dummy in range(5):
             self.assertTrue(
                 check_rate_limit(request)
             )
@@ -119,7 +119,7 @@ class RateLimitTest(TestCase):
         IP_PROXY_HEADER='HTTP_X_FORWARDED_FOR',
         IP_PROXY_OFFSET=0
     )
-    def test_get_ip(self):
+    def test_get_ip_proxy(self):
         request = FakeRequest()
         self.assertEqual(
             get_ip_address(request),
