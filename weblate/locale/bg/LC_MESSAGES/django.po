@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-04-26 20:20+0000\n"
-"PO-Revision-Date: 2017-04-08 05:57+0000\n"
+"PO-Revision-Date: 2017-04-27 05:47+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@abv.bg>\n"
-"Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/master/"
-"bg/>\n"
+"Language-Team: Bulgarian "
+"<http://hosted.weblate.org/projects/weblate/master/bg/>\n"
 "Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.13-dev\n"
+"X-Generator: Weblate 2.14-dev\n"
 
 #: weblate/accounts/auth.py:49
 msgid ""
@@ -339,58 +339,53 @@ msgid ""
 msgstr "Не можете да изпращате преводи, тъй като нямате зададена е-поща."
 
 #: weblate/accounts/notifications.py:42
-#, fuzzy
-#| msgid "Your password has been changed."
 msgid "Password has been changed."
-msgstr "Паролата Ви беше променена."
+msgstr "Паролата беше променена."
 
 #: weblate/accounts/notifications.py:45
 #, python-brace-format
 msgid "Authentication using {method} ({name}) has been added."
-msgstr ""
+msgstr "Беше добавено удостоверяване чрез {method} ({name})."
 
 #: weblate/accounts/notifications.py:48
 #, python-brace-format
 msgid "Authentication using {method} ({name}) has been removed."
-msgstr ""
+msgstr "Удостоверяването чрез {method} ({name}) беше премахнато."
 
 #: weblate/accounts/notifications.py:51
 msgid "Somebody has attempted to register with your email."
-msgstr ""
+msgstr "Някой се опита да се регистрира с Вашата е-поща."
 
 #: weblate/accounts/notifications.py:54
 msgid "Somebody has attempted to add your email to existing account."
-msgstr ""
+msgstr "Някой се опита да добави Вашата е-поща в съществуващ акаунт."
 
 #: weblate/accounts/password_validation.py:38
 msgid "This password consists of whitespace only."
-msgstr ""
+msgstr "Паролата е само интервал."
 
 #: weblate/accounts/password_validation.py:43
 msgid "This password consists of single character."
-msgstr ""
+msgstr "Паролата има само един знак."
 
 #: weblate/accounts/password_validation.py:49
 msgid "Your password can't consist of single character or whitespace only."
-msgstr ""
+msgstr "Паролата не може да бъде от един знак или интервал."
 
 #: weblate/accounts/pipeline.py:177
 msgid "New registrations are disabled!"
 msgstr "Новите регистрации са забранени!"
 
 #: weblate/accounts/pipeline.py:181
-#, fuzzy
-#| msgid "Can not reset password, email authentication is disabled!"
 msgid "Can not change authentication for demo!"
-msgstr ""
-"Паролата не може да бъде възстановена, тъй като удостоверяването чрез е-поща "
-"е изключено!"
+msgstr "Удостоверяването за демонстрационната версия не може да бъде променяно!"
 
 #: weblate/accounts/pipeline.py:327
 #, python-brace-format
 msgid ""
 "Your email no longer belongs to verified account, it has been changed to {0}."
 msgstr ""
+"Е-пощата Ви вече не принадлежи на потвърден акаунт. Тъй беше променен на {0}."
 
 #: weblate/accounts/views.py:102 weblate/accounts/views.py:474
 msgid "User registration"
@@ -1002,19 +997,15 @@ msgstr ""
 "случай, че не работи, моля, регистрирайте се отново."
 
 #: weblate/templates/accounts/email-sent.html:20
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder or retry "
-#| "the registration. If the problem persists, please <a href="
-#| "\"%(contact_url)s?subject=Registration problems\">contact us</a>."
+#, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. If the problem persists, please <a href=\"%(contact_url)s?t=reg"
 "\">contact us</a>."
 msgstr ""
 "Ако не получите е-писмото скоро, моля, проверете папката си с нежелана поща "
-"или се регистрирайте отново. Ако проблемът се повтори, моля, <a href="
-"\"%(contact_url)s?subject=Registration problems\">свържете се с нас</a>."
+"или се регистрирайте отново. Ако проблемът се повтори, моля, <a href=\""
+"%(contact_url)s?t=reg\">свържете се с нас</a>."
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:19
@@ -3434,12 +3425,9 @@ msgstr "Здравейте,"
 
 #: weblate/templates/mail/account_activity.html:11
 #: weblate/templates/mail/account_activity.txt:3
-#, fuzzy, python-format
-#| msgid ""
-#| "There has been a change in translation on %(translation)s at "
-#| "%(site_title)s."
+#, python-format
 msgid "There has been a change in your account at %(site_title)s:"
-msgstr "Има промяна в превода на %(translation)s в %(site_title)s."
+msgstr "Има промяна в акаунта Ви в %(site_title)s:"
 
 #: weblate/templates/mail/account_activity.html:19
 #: weblate/templates/mail/account_activity.txt:7
@@ -3447,11 +3435,13 @@ msgid ""
 "If you did not request this change, please notify us as soon as possible "
 "using following form:"
 msgstr ""
+"Ако не сте правили промени, моля, уведомете ни възможно най-скоро чрез "
+"следния формуляр:"
 
 #: weblate/templates/mail/account_activity_subject.txt:4
 #, python-format
 msgid "Activity on your account at %(site_title)s"
-msgstr ""
+msgstr "Дейност по акаунта Ви в %(site_title)s"
 
 #: weblate/templates/mail/activation.html:11
 #: weblate/templates/mail/activation.txt:3
@@ -5377,7 +5367,7 @@ msgstr "Преглед на случайни текстове"
 
 #: weblate/trans/forms.py:476
 msgid "Please select a valid filter type."
-msgstr ""
+msgstr "Моля, изберете правилен вид филтър."
 
 #: weblate/trans/forms.py:490
 msgid "Query"
@@ -5401,7 +5391,7 @@ msgstr "Точно съвпадение"
 
 #: weblate/trans/forms.py:504
 msgid "Please select a valid search type."
-msgstr ""
+msgstr "Моля, изберете правилен вид търсене."
 
 #: weblate/trans/forms.py:508
 msgid "Search in source strings"
@@ -6468,11 +6458,10 @@ msgid "Failed to parse translation base file: %s"
 msgstr "Неуспешен анализ на базовия файл за преводи: %s"
 
 #: weblate/trans/models/subproject.py:1252
-#, fuzzy, python-brace-format
-#| msgid "Template language (%s) does not match project source language (%s)!"
+#, python-brace-format
 msgid "Template language ({0}) does not match project source language ({1})!"
 msgstr ""
-"Езикът на шаблона (%s) не съответства на оригиналния език на проекта (%s)!"
+"Езикът на шаблона ({0}) не съответства на оригиналния език на проекта ({1})!"
 
 #: weblate/trans/models/subproject.py:1259
 msgid "You can not use monolingual translation without base file!"
@@ -7435,11 +7424,11 @@ msgstr ""
 
 #: weblate/utils/validators.py:93
 msgid "The editor link lacks URL scheme!"
-msgstr ""
+msgstr "Връзката към редактора няма адресна схема!"
 
 #: weblate/utils/validators.py:98
 msgid "Forbidden URL scheme!"
-msgstr ""
+msgstr "Непозволена адресна схема!"
 
 #~ msgid "New password"
 #~ msgstr "Нова парола"
