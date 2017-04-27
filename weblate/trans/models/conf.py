@@ -215,5 +215,12 @@ class WeblateConf(AppConf):
     # Billing
     INVOICE_PATH = ''
 
+    # Rate limiting
+    IP_BEHIND_REVERSE_PROXY = False
+    IP_PROXY_HEADER = 'HTTP_X_FORWARDED_FOR'
+    IP_PROXY_OFFSET = 0
+    AUTH_MAX_ATTEMPTS = 5
+    AUTH_CHECK_WINDOW = 5 * 60
+
     class Meta(object):
         prefix = ''

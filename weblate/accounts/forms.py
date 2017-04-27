@@ -30,11 +30,13 @@ from django.contrib.auth import authenticate, password_validation
 from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
 from django.contrib.auth.models import User
 from django.db.models import Q
+from django.middleware.csrf import rotate_token
 from django.utils.encoding import force_text
 
 from weblate.accounts.models import Profile, VerifiedEmail
 from weblate.accounts.captcha import MathCaptcha
 from weblate.accounts.pipeline import USERNAME_RE
+from weblate.accounts.ratelimit import reset_rate_limit, check_rate_limit
 from weblate.lang.models import Language
 from weblate.trans.models import Project
 from weblate.trans.util import sort_choices
@@ -445,11 +447,16 @@ class LoginForm(forms.Form):
         password = self.cleaned_data.get('password')
 
         if username and password:
+            if not check_rate_limit(self.request):
+                raise forms.ValidationError(
+                    _('Too many authentication attempts!')
+                )
             self.user_cache = authenticate(
                 username=username,
                 password=password
             )
             if self.user_cache is None:
+                rotate_token(request)
                 raise forms.ValidationError(
                     self.error_messages['invalid_login'],
                     code='invalid_login',
@@ -459,6 +466,7 @@ class LoginForm(forms.Form):
                     self.error_messages['inactive'],
                     code='inactive',
                 )
+            reset_rate_limit(self.request)
         return self.cleaned_data
 
     def get_user_id(self):

@@ -24,6 +24,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import logout
 from django.conf import settings
+from django.middleware.csrf import rotate_token
 from django.utils.translation import ugettext as _
 from django.contrib.auth.decorators import login_required
 from django.core.mail.message import EmailMultiAlternatives
@@ -50,6 +51,7 @@ from weblate.accounts.forms import (
     RegistrationForm, PasswordChangeForm, EmailForm, ResetForm,
     LoginForm, HostingForm, CaptchaForm, SetPasswordForm,
 )
+from weblate.accounts.ratelimit import reset_rate_limit, check_rate_limit
 from weblate.logger import LOGGER
 from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
 from weblate.accounts.models import set_lang, remove_user, Profile
@@ -288,7 +290,12 @@ def get_initial_contact(request):
 def contact(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
-        if form.is_valid():
+        if not check_rate_limit(request):
+            messages.error(
+                request,
+                _('Too many messages sent, please try again later!')
+            )
+        elif form.is_valid():
             mail_admins_contact(
                 request,
                 '%(subject)s',
@@ -526,15 +533,25 @@ def password(request):
         do_change = True
         change_form = None
     elif request.method == 'POST':
-        change_form = PasswordChangeForm(request.POST)
-        if change_form.is_valid():
-            cur_password = change_form.cleaned_data['password']
-            do_change = request.user.check_password(cur_password)
-            if not do_change:
-                messages.error(
-                    request,
-                    _('You have entered an invalid password.')
-                )
+        if not check_rate_limit(request):
+            change_form = PasswordChangeForm()
+            messages.error(
+                request,
+                _('Too many authentication attempts!')
+            )
+        else:
+            change_form = PasswordChangeForm(request.POST)
+            if change_form.is_valid():
+                cur_password = change_form.cleaned_data['password']
+                do_change = request.user.check_password(cur_password)
+                if not do_change:
+                    messages.error(
+                        request,
+                        _('You have entered an invalid password.')
+                    )
+                    rotate_token(request)
+                else:
+                    reset_rate_limit(request)
     else:
         change_form = PasswordChangeForm()
 
