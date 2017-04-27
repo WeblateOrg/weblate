@@ -116,10 +116,7 @@ class SearchViewTest(ViewTestCase):
             reverse('search'),
             {'type': 'xxx'}
         )
-        self.assertContains(
-            response,
-            'Please select a valid filter type.',
-        )
+        self.assertContains(response, 'Please select a valid filter type.')
 
     def test_pagination(self):
         response = self.client.get(

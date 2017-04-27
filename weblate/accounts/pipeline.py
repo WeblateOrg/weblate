@@ -107,9 +107,9 @@ def mail_validation(backend, details, is_new=False, *args, **kwargs):
     Can be removed once we depend on something newer than social_core 1.2.0.
     """
     requires_validation = backend.REQUIRES_EMAIL_VALIDATION or \
-                          backend.setting('FORCE_EMAIL_VALIDATION', False)
+        backend.setting('FORCE_EMAIL_VALIDATION', False)
     do_send_validation = details.get('email') and \
-                      (is_new or backend.setting('PASSWORDLESS', False))
+        (is_new or backend.setting('PASSWORDLESS', False))
     if requires_validation and do_send_validation:
         data = backend.strategy.request_data()
         if 'verification_code' in data:

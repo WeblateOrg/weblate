@@ -62,7 +62,7 @@ class WidgetsTest(ViewTestCase):
 
 
 class WidgetsMeta(type):
-    def __new__(mcs, name, bases, attrs): ## noqa
+    def __new__(mcs, name, bases, attrs):  # noqa
 
         def gen_test(widget, color):
             def test(self):
