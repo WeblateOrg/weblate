@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-04-26 20:20+0000\n"
-"PO-Revision-Date: 2017-04-27 06:17+0000\n"
+"PO-Revision-Date: 2017-04-27 08:36+0000\n"
 "Last-Translator: Tuomas Harju <tuomas@rtj-group.com>\n"
 "Language-Team: Finnish "
 "<http://hosted.weblate.org/projects/weblate/master/fi/>\n"
@@ -391,6 +391,8 @@ msgstr "Kokeilutilin tunnistautumistietoja ei voi vaihtaa!"
 msgid ""
 "Your email no longer belongs to verified account, it has been changed to {0}."
 msgstr ""
+"Sähköpostiosoitteesi ei enää ole liitetty varmistettuun tiliin, "
+"sähköpostiosoitteeksi on muutettu {0}."
 
 #: weblate/accounts/views.py:102 weblate/accounts/views.py:474
 msgid "User registration"
@@ -995,19 +997,15 @@ msgstr ""
 "ei toimi, ole hyvä ja rekisteröi uudelleen."
 
 #: weblate/templates/accounts/email-sent.html:20
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder or retry "
-#| "the registration. If the problem persists, please <a href="
-#| "\"%(contact_url)s?subject=Registration problems\">contact us</a>."
+#, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. If the problem persists, please <a href=\"%(contact_url)s?t=reg"
 "\">contact us</a>."
 msgstr ""
 "Jos et saa sitä pian, tarkista roskapostikansiosi tai rekisteröidy "
-"uudelleen. Jos ei vieläkään onnistu, <a href=\"%(contact_url)s?"
-"subject=Registration problems\">ota yhteyttä</a>."
+"uudelleen. Jos ei senkään jälkeen onnistu, <a href=\"%(contact_url)s?t=reg\">"
+"ota meihin yhteyttä</a>."
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:19
@@ -3418,13 +3416,9 @@ msgstr "Hei,"
 
 #: weblate/templates/mail/account_activity.html:11
 #: weblate/templates/mail/account_activity.txt:3
-#, fuzzy, python-format
-#| msgid ""
-#| "There has been a change in translation on %(translation)s at "
-#| "%(site_title)s."
+#, python-format
 msgid "There has been a change in your account at %(site_title)s:"
-msgstr ""
-"%(site_title)s sivuston %(translation)s -käännökseen on tehty muutoksia."
+msgstr "Sivuston %(site_title)s käyttäjätiliisi on tehty muutoksia:"
 
 #: weblate/templates/mail/account_activity.html:19
 #: weblate/templates/mail/account_activity.txt:7
@@ -3432,11 +3426,13 @@ msgid ""
 "If you did not request this change, please notify us as soon as possible "
 "using following form:"
 msgstr ""
+"Jos et pyytänyt tätä muutosta, ilmoita siitä meille mahdollisimman pian "
+"käyttäen alla olevaa lomaketta:"
 
 #: weblate/templates/mail/account_activity_subject.txt:4
 #, python-format
 msgid "Activity on your account at %(site_title)s"
-msgstr ""
+msgstr "Tominta sivuston %(site_title)s käyttäjätililläsi"
 
 #: weblate/templates/mail/activation.html:11
 #: weblate/templates/mail/activation.txt:3
@@ -5368,7 +5364,7 @@ msgstr "Satunnaiset tekstit tarkistettavaksi"
 
 #: weblate/trans/forms.py:476
 msgid "Please select a valid filter type."
-msgstr ""
+msgstr "Valitse kelvollinen suodintyyppi."
 
 #: weblate/trans/forms.py:490
 msgid "Query"
@@ -5392,7 +5388,7 @@ msgstr "Täydellinen sopivuus"
 
 #: weblate/trans/forms.py:504
 msgid "Please select a valid search type."
-msgstr ""
+msgstr "Valitse kelvollinen hakutyyppi."
 
 #: weblate/trans/forms.py:508
 msgid "Search in source strings"
@@ -6448,10 +6444,11 @@ msgid "Failed to parse translation base file: %s"
 msgstr "Käännöspohjan tiedoston jäsennys epäonnistui: %s"
 
 #: weblate/trans/models/subproject.py:1252
-#, fuzzy, python-brace-format
-#| msgid "Template language (%s) does not match project source language (%s)!"
+#, python-brace-format
 msgid "Template language ({0}) does not match project source language ({1})!"
-msgstr "Mallin kieli (%s) ei vastaa projektin lähdetekstin kieltä (%s)!"
+msgstr ""
+"Mallin kieli ({0}) ei vastaa projektille määriteltyä lähdetekstin kieltä "
+"({1})!"
 
 #: weblate/trans/models/subproject.py:1259
 msgid "You can not use monolingual translation without base file!"
