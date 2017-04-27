@@ -101,7 +101,7 @@ class BaseExporter(object):
         if self.has_lang:
             unit.settarget(self.string_filter(word.target), self.language.code)
         else:
-            unit.target = word.target
+            unit.target = self.string_filter(word.target)
         self.storage.addunit(unit)
 
     def add_units(self, translation):
