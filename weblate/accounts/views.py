@@ -107,7 +107,7 @@ class RegistrationTemplateView(TemplateView):
         # Remove session for not authenticated user here.
         # It is no longer needed and will just cause problems
         # with multiple registrations from single browser.
-        if not request.user.is_authenticated():
+        if not request.user.is_authenticated:
             request.session.flush()
         else:
             request.session.pop('registration-email-sent')
