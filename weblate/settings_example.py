@@ -259,6 +259,7 @@ SOCIAL_AUTH_DISCONNECT_PIPELINE = (
     'weblate.accounts.pipeline.adjust_primary_mail',
     'weblate.accounts.pipeline.notify_disconnect',
     'social_core.pipeline.disconnect.disconnect',
+    'weblate.accounts.pipeline.cleanup_next',
 )
 
 # Custom authentication strategy
