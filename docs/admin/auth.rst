@@ -53,13 +53,13 @@ well.
 Social authentication
 ---------------------
 
-Thanks to `python-social-auth <http://psa.matiasaguirre.net/>`_, Weblate
+Thanks to `python-social-auth <https://python-social-auth.readthedocs.io/>`_, Weblate
 support authentication using many third party services such as Facebook,
 GitHub, Google or Bitbucket.
 
 Please check their documentation for generic configuration instructions:
 
-http://psa.matiasaguirre.net/docs/configuration/django.html
+https://python-social-auth.readthedocs.io/en/latest/configuration/django.html
 
 .. note::
 
@@ -115,7 +115,7 @@ You need to register application on GitHub and then tell Weblate all the secrets
 
 .. seealso::
 
-    `Python Social Auth backends <http://psa.matiasaguirre.net/docs/backends/index.html>`_
+    `Python Social Auth backends <https://python-social-auth.readthedocs.io/en/latest/backends/index.html>`_
 
 .. _bitbucket_auth:
 
@@ -140,7 +140,7 @@ You need to register application on Bitbucket and then tell Weblate all the secr
 
 .. seealso::
 
-    `Python Social Auth backends <http://psa.matiasaguirre.net/docs/backends/index.html>`_
+    `Python Social Auth backends <https://python-social-auth.readthedocs.io/en/latest/backends/index.html>`_
 
 .. _google_auth:
 

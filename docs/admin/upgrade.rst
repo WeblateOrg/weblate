@@ -215,7 +215,7 @@ This upgrade also requires you to upgrade python-social-auth from 0.1.x to
 
     ./manage.py migrate --fake default
 
-.. _Upgrading PSA with South: http://psa.matiasaguirre.net/docs/installing.html#django-with-south
+.. _Upgrading PSA with South: https://python-social-auth.readthedocs.io/en/latest/configuration/django.html
 
 .. seealso::
 
