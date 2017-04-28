@@ -229,11 +229,11 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = ''
 # Social auth settings
 SOCIAL_AUTH_PIPELINE = (
     'weblate.accounts.pipeline.verify_open',
-    'weblate.accounts.pipeline.store_params',
     'social_core.pipeline.social_auth.social_details',
     'social_core.pipeline.social_auth.social_uid',
     'social_core.pipeline.social_auth.auth_allowed',
     'social_core.pipeline.social_auth.social_user',
+    'weblate.accounts.pipeline.store_params',
     'social_core.pipeline.user.get_username',
     'weblate.accounts.pipeline.require_email',
     'weblate.accounts.pipeline.mail_validation',
