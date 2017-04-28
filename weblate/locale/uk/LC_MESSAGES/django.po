@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-04-27 16:04+0000\n"
-"PO-Revision-Date: 2017-04-27 03:26+0000\n"
+"PO-Revision-Date: 2017-04-28 17:23+0000\n"
 "Last-Translator: Андрій Бандура <andriykopanytsia@gmail.com>\n"
-"Language-Team: Ukrainian <http://hosted.weblate.org/projects/weblate/master/"
-"uk/>\n"
+"Language-Team: Ukrainian "
+"<https://hosted.weblate.org/projects/weblate/master/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.14-dev\n"
 
 #: weblate/accounts/auth.py:49
@@ -127,10 +127,8 @@ msgid "New password"
 msgstr "Новий пароль"
 
 #: weblate/accounts/forms.py:354
-#, fuzzy
-#| msgid "New password (again)"
 msgid "New password confirmation"
-msgstr "Новий пароль (ще раз)"
+msgstr "Підтвердження нового пароля"
 
 #: weblate/accounts/forms.py:384
 #, python-format
@@ -168,11 +166,8 @@ msgid "This account is inactive."
 msgstr "Цей обліковий запис не активний."
 
 #: weblate/accounts/forms.py:452 weblate/accounts/views.py:540
-#, fuzzy
-#| msgid "Can not reset password, email authentication is disabled!"
 msgid "Too many authentication attempts!"
-msgstr ""
-"Не можна відновити пароль, бо вимкнена перевірка через електронну пошту!"
+msgstr "Надто багато спроб автентифікації!"
 
 #: weblate/accounts/forms.py:485 weblate/trans/models/project.py:85
 msgid "Project name"
@@ -363,57 +358,54 @@ msgid "Password has been changed."
 msgstr "Пароль змінився."
 
 #: weblate/accounts/notifications.py:46
-#, fuzzy
-#| msgid "Password has been changed."
 msgid "Password reset has been confirmed."
-msgstr "Пароль змінився."
+msgstr "Підтверджено обнулення пароля."
 
 #: weblate/accounts/notifications.py:49
 #, python-brace-format
 msgid "Authentication using {method} ({name}) has been added."
-msgstr ""
+msgstr "Автентифікація за допомогою {method} ({name}) вже додана."
 
 #: weblate/accounts/notifications.py:52
 #, python-brace-format
 msgid "Authentication using {method} ({name}) has been removed."
-msgstr ""
+msgstr "Автентифікація за допомогою {method} ({name}) вже вилучена."
 
 #: weblate/accounts/notifications.py:55
 msgid "Somebody has attempted to register with your email."
-msgstr ""
+msgstr "Хтось спробував зареєструватися з вашим email."
 
 #: weblate/accounts/notifications.py:58
 msgid "Somebody has attempted to add your email to existing account."
-msgstr ""
+msgstr "Хтось намагався додати ваш email до наявного облікового запису."
 
 #: weblate/accounts/password_validation.py:38
 msgid "This password consists of whitespace only."
-msgstr ""
+msgstr "Цей пароль складається тільки з пробілів."
 
 #: weblate/accounts/password_validation.py:43
 msgid "This password consists of single character."
-msgstr ""
+msgstr "Цей пароль складається з одного символу."
 
 #: weblate/accounts/password_validation.py:49
 msgid "Your password can't consist of single character or whitespace only."
-msgstr ""
+msgstr "Ваш пароль не може складатися з одного символу або тільки пробілу."
 
 #: weblate/accounts/pipeline.py:185
 msgid "New registrations are disabled!"
 msgstr "Нові реєстрації вимкнені!"
 
 #: weblate/accounts/pipeline.py:189
-#, fuzzy
-#| msgid "Can not reset password, email authentication is disabled!"
 msgid "Can not change authentication for demo!"
-msgstr ""
-"Не можна відновити пароль, бо вимкнена перевірка через електронну пошту!"
+msgstr "Не можна змінити автентифікацію для демо!"
 
 #: weblate/accounts/pipeline.py:369
 #, python-brace-format
 msgid ""
 "Your email no longer belongs to verified account, it has been changed to {0}."
 msgstr ""
+"Ваш email більше не належить до перевіреного профілю, він був змінений на "
+"{0}."
 
 #: weblate/accounts/views.py:102 weblate/accounts/views.py:481
 msgid "User registration"
@@ -445,7 +437,7 @@ msgstr "Ваш акаунт було видалено."
 
 #: weblate/accounts/views.py:296
 msgid "Too many messages sent, please try again later!"
-msgstr ""
+msgstr "Надіслано забагато повідомлень. Будь ласка, спробуйте знову!"
 
 #: weblate/accounts/views.py:318 weblate/templates/accounts/contact.html:6
 #: weblate/templates/accounts/contact.html:21
@@ -1026,19 +1018,15 @@ msgstr ""
 "термін дії. Якщо вона не працює, то зареєструйтесь знову."
 
 #: weblate/templates/accounts/email-sent.html:20
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder or retry "
-#| "the registration. If the problem persists, please <a href="
-#| "\"%(contact_url)s?subject=Registration problems\">contact us</a>."
+#, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. If the problem persists, please <a href=\"%(contact_url)s?t=reg"
 "\">contact us</a>."
 msgstr ""
 "Якщо ви не отримали його найближчим часом, то перевірте теку зі спамом або "
-"пройдіть реєстрацію заново. Якщо проблема не зникне <a href="
-"\"%(contact_url)s?subject=Registration problems\">зв'яжіться з нами</a>."
+"пройдіть реєстрацію заново. Якщо проблема не зникне <a href=\""
+"%(contact_url)s?t=reg\">зв'яжіться з нами</a>."
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:19
@@ -2341,7 +2329,7 @@ msgstr "данська"
 
 #: weblate/templates/i18n.html:67
 msgid "Dhivehi"
-msgstr ""
+msgstr "мальдівська"
 
 #: weblate/templates/i18n.html:68
 msgid "Dogri"
@@ -3453,12 +3441,9 @@ msgstr "Вітаємо,"
 
 #: weblate/templates/mail/account_activity.html:11
 #: weblate/templates/mail/account_activity.txt:3
-#, fuzzy, python-format
-#| msgid ""
-#| "There has been a change in translation on %(translation)s at "
-#| "%(site_title)s."
+#, python-format
 msgid "There has been a change in your account at %(site_title)s:"
-msgstr "Наявна зміна у перекладі %(translation)s на %(site_title)s."
+msgstr "Наявна зміна у вашому профілі на %(site_title)s:"
 
 #: weblate/templates/mail/account_activity.html:19
 #: weblate/templates/mail/account_activity.txt:7
@@ -3466,11 +3451,13 @@ msgid ""
 "If you did not request this change, please notify us as soon as possible "
 "using following form:"
 msgstr ""
+"Якщо ви не запитували ці зміни, то, будь ласка, повідомте нас якомога "
+"швидше, використовуючи наступну форму:"
 
 #: weblate/templates/mail/account_activity_subject.txt:4
 #, python-format
 msgid "Activity on your account at %(site_title)s"
-msgstr ""
+msgstr "Ативність у вашому профілі на %(site_title)s"
 
 #: weblate/templates/mail/activation.html:11
 #: weblate/templates/mail/activation.txt:3
@@ -5273,10 +5260,8 @@ msgstr ""
 "зазначеного числа (n)."
 
 #: weblate/trans/forms.py:313
-#, fuzzy
-#| msgid "Translation settings"
 msgid "Translation text too long!"
-msgstr "Параметри перекладу"
+msgstr "Текст перекладу надто довгий!"
 
 #: weblate/trans/forms.py:343
 msgid "Message you wanted to translate is no longer available!"
@@ -5399,7 +5384,7 @@ msgstr "Випадкові рядки для перевірки"
 
 #: weblate/trans/forms.py:488
 msgid "Please select a valid filter type."
-msgstr ""
+msgstr "Будь ласка, виберіть правильний тип фільтру."
 
 #: weblate/trans/forms.py:502
 msgid "Query"
@@ -5423,7 +5408,7 @@ msgstr "Точний збіг"
 
 #: weblate/trans/forms.py:516
 msgid "Please select a valid search type."
-msgstr ""
+msgstr "Будь ласка, виберіть правильний тип пошуку."
 
 #: weblate/trans/forms.py:520
 msgid "Search in source strings"
@@ -6474,10 +6459,9 @@ msgid "Failed to parse translation base file: %s"
 msgstr "Не вдалося розібрати файл перекладу: %s"
 
 #: weblate/trans/models/subproject.py:1252
-#, fuzzy, python-brace-format
-#| msgid "Template language (%s) does not match project source language (%s)!"
+#, python-brace-format
 msgid "Template language ({0}) does not match project source language ({1})!"
-msgstr "Мова шаблону (%s) не відповідає початковій мові проекту (%s)!"
+msgstr "Мова шаблону ({0}) не відповідає початковій мові проекту ({1})!"
 
 #: weblate/trans/models/subproject.py:1259
 msgid "You can not use monolingual translation without base file!"
@@ -7219,10 +7203,8 @@ msgid "Can not merge different messages!"
 msgstr "Не можна злити різні повідомлення!"
 
 #: weblate/trans/views/edit.py:382
-#, fuzzy
-#| msgid "Can not revert to empty translation!"
 msgid "Can not revert to nonexisting change!"
-msgstr "Не можна повернутися до порожнього перекладу!"
+msgstr "Неможливо відкотитися до неіснуючої зміни!"
 
 #: weblate/trans/views/edit.py:389
 msgid "Can not revert to different unit!"
@@ -7459,11 +7441,11 @@ msgstr ""
 
 #: weblate/utils/validators.py:93
 msgid "The editor link lacks URL scheme!"
-msgstr ""
+msgstr "Редактору посилань не вистачає URL-схеми!"
 
 #: weblate/utils/validators.py:98
 msgid "Forbidden URL scheme!"
-msgstr ""
+msgstr "Заборонена URL-схема!"
 
 #~ msgid "At least six characters long."
 #~ msgstr "Принаймні шість символів."
