@@ -36,6 +36,14 @@ from weblate.utils import messages
 from weblate.utils.errors import report_error
 
 
+def try_get_user(username):
+    """Wrapper to get User object for authentication."""
+    if '@' in username:
+        return User.objects.get(email=username)
+    else:
+        return User.objects.get(username=username)
+
+
 class EmailAuth(social_core.backends.email.EmailAuth):
     """Social auth handler to better report errors."""
     def auth_complete(self, *args, **kwargs):
@@ -114,12 +122,8 @@ class WeblateUserBackend(ModelBackend):
         if username == settings.ANONYMOUS_USER_NAME or username is None:
             return None
 
-        if '@' in username:
-            kwargs = {'email': username}
-        else:
-            kwargs = {'username': username}
         try:
-            user = User.objects.get(**kwargs)
+            user = try_get_user(username)
             if user.check_password(password):
                 return user
         except (User.DoesNotExist, User.MultipleObjectsReturned):
