@@ -667,7 +667,7 @@ class GitWithGerritRepository(GitRepository):
 
     def push(self):
         try:
-            self.execute(['review'])
+            self.execute(['review', '--yes'])
         except RepositoryException as error:
             if error.retcode == 1:
                 # Nothing to push
