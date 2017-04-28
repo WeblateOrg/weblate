@@ -51,7 +51,7 @@ from weblate.accounts.forms import (
     RegistrationForm, PasswordChangeForm, EmailForm, ResetForm,
     LoginForm, HostingForm, CaptchaForm, SetPasswordForm,
 )
-from weblate.accounts.ratelimit import reset_rate_limit, check_rate_limit
+from weblate.accounts.ratelimit import check_rate_limit
 from weblate.logger import LOGGER
 from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
 from weblate.accounts.models import set_lang, remove_user, Profile
@@ -529,29 +529,34 @@ def password(request):
 
     do_change = False
 
+    attempts = request.session.get('auth_attempts', 0)
+
     if not request.user.has_usable_password():
         do_change = True
         change_form = None
     elif request.method == 'POST':
-        if not check_rate_limit(request):
-            change_form = PasswordChangeForm()
+        if attempts >= settings.AUTH_MAX_ATTEMPTS:
+            logout(request)
             messages.error(
                 request,
                 _('Too many authentication attempts!')
             )
+            return redirect('login')
         else:
             change_form = PasswordChangeForm(request.POST)
             if change_form.is_valid():
                 cur_password = change_form.cleaned_data['password']
                 do_change = request.user.check_password(cur_password)
                 if not do_change:
+                    request.session['auth_attempts'] = attempts + 1
                     messages.error(
                         request,
                         _('You have entered an invalid password.')
                     )
                     rotate_token(request)
                 else:
-                    reset_rate_limit(request)
+                    request.session['auth_attempts'] = 0
+
     else:
         change_form = PasswordChangeForm()
 
