@@ -1027,6 +1027,7 @@ class ProjectSettingsForm(forms.ModelForm):
             'web',
             'mail',
             'instructions',
+            'set_translation_team',
         )
 
 
