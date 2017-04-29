@@ -338,6 +338,10 @@ class Change(models.Model, UserDisplayMixin):
             self.action in self.ACTIONS_REVERTABLE
         )
 
+    def show_content(self):
+        """Whether to show content as translation."""
+        return self.action == self.ACTION_SUGGESTION
+
     def save(self, *args, **kwargs):
         if self.unit:
             self.translation = self.unit.translation

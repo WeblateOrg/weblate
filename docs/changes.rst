@@ -16,6 +16,7 @@ Released on ? 2017.
 * The CSV exports now escape potential formulas.
 * Various minor improvements in security.
 * The authentication attempts are now rate limited.
+* Suggestion content is stored in the history.
 
 weblate 2.13.1
 --------------
