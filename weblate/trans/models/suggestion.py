@@ -63,6 +63,7 @@ class SuggestionManager(models.Manager):
             action=Change.ACTION_SUGGESTION,
             translation=unit.translation,
             user=user,
+            target=target,
             author=user
         )
 
