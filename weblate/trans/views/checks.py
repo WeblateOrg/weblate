@@ -60,11 +60,11 @@ def show_checks(request):
         ignore=ignore,
     )
 
-    if 'project' in request.GET:
+    if request.GET.get('project'):
         allchecks = allchecks.filter(project__slug=request.GET['project'])
         url_params['project'] = request.GET['project']
 
-    if 'language' in request.GET:
+    if request.GET.get('language'):
         allchecks = allchecks.filter(language__code=request.GET['language'])
         url_params['language'] = request.GET['language']
 
@@ -100,11 +100,11 @@ def show_check(request, name):
         ignore=ignore,
     )
 
-    if 'language' in request.GET:
+    if request.GET.get('language'):
         checks = checks.filter(language__code=request.GET['language'])
         url_params['language'] = request.GET['language']
 
-    if 'project' in request.GET and '/' not in request.GET['project']:
+    if request.GET.get('project') and '/' not in request.GET['project']:
         return redirect_param(
             'show_check_project',
             encode_optional(url_params),
@@ -147,7 +147,7 @@ def show_check_project(request, name, project):
     if ignore:
         url_params['ignored'] = 'true'
 
-    if 'language' in request.GET:
+    if request.GET.get('language'):
         allchecks = allchecks.filter(language__code=request.GET['language'])
         url_params['language'] = request.GET['language']
 
@@ -252,7 +252,7 @@ def show_check_subproject(request, name, project, subproject):
             subproject=subprj.slug,
         )
 
-    if 'language' in request.GET and '/' not in request.GET['language']:
+    if request.GET.get('language') and '/' not in request.GET['language']:
         url_params['type'] = check.url_id
         return redirect_param(
             'translate',
