@@ -584,7 +584,7 @@ class Unit(models.Model, LoggerMixin):
         Optional user parameters defines authorship of a change.
         """
         # For case when authorship specified, use user from request
-        if user is None:
+        if user is None or user.is_anonymous:
             user = request.user
 
         # Update lock timestamp
