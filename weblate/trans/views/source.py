@@ -23,7 +23,7 @@ from django.http.response import HttpResponseServerError
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 from django.utils.encoding import force_text
 from django.views.decorators.http import require_POST
@@ -38,7 +38,7 @@ from weblate.trans.forms import (
     PriorityForm, CheckFlagsForm, MatrixLanguageForm,
 )
 from weblate.permissions.helpers import can_edit_flags, can_edit_priority
-from weblate.trans.util import render
+from weblate.trans.util import render, redirect_next
 from weblate.utils.hash import checksum_to_hash
 
 
@@ -137,7 +137,7 @@ def edit_priority(request, pk):
         source.save()
     else:
         messages.error(request, _('Failed to change a priority!'))
-    return redirect(request.POST.get('next', source.get_absolute_url()))
+    return redirect_next(request.POST.get('next'), source.get_absolute_url())
 
 
 @require_POST
@@ -155,7 +155,7 @@ def edit_check_flags(request, pk):
         source.save()
     else:
         messages.error(request, _('Failed to change check flags!'))
-    return redirect(request.POST.get('next', source.get_absolute_url()))
+    return redirect_next(request.POST.get('next'), source.get_absolute_url())
 
 
 @login_required

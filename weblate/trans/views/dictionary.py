@@ -23,7 +23,7 @@ import sys
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _, ungettext
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import JsonResponse
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
@@ -37,7 +37,7 @@ from weblate.trans.models import Translation, Dictionary, Change, Unit
 from weblate.lang.models import Language
 from weblate.trans.site import get_site_url
 from weblate.utils.errors import report_error
-from weblate.trans.util import render
+from weblate.trans.util import render, redirect_next
 from weblate.trans.forms import WordForm, DictUploadForm, LetterForm
 from weblate.permissions.helpers import (
     can_add_dictionary, can_upload_dictionary, can_delete_dictionary,
@@ -271,8 +271,8 @@ def show_dictionary(request, project, lang):
                 source=form.cleaned_data['source'],
                 target=form.cleaned_data['target']
             )
-        return HttpResponseRedirect(
-            request.POST.get('next', request.get_full_path())
+        return redirect_next(
+            request.POST.get('next'), request.get_full_path()
         )
     else:
         form = WordForm()

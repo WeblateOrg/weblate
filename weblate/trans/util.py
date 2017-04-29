@@ -27,8 +27,9 @@ import unicodedata
 from django.contrib.admin import ModelAdmin
 from django.core.cache import cache
 from django.http import HttpResponseRedirect
-from django.shortcuts import resolve_url, render as django_render
+from django.shortcuts import resolve_url, render as django_render, redirect
 from django.utils.encoding import force_text
+from django.utils.http import is_safe_url
 from django.utils.translation import ugettext as _, ugettext_lazy
 
 try:
@@ -265,3 +266,10 @@ def check_domain(domain):
         not domain.startswith('https:') and
         not domain.endswith('/')
     )
+
+
+def redirect_next(next_url, fallback):
+    """Redirect to next URL from request after validating it."""
+    if next_url is None or not is_safe_url(next_url):
+        return redirect(fallback)
+    return redirect(next_url)

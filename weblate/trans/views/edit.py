@@ -50,7 +50,7 @@ from weblate.trans.views.helper import (
     show_form_errors,
 )
 from weblate.trans.checks import CHECKS
-from weblate.trans.util import join_plural, render
+from weblate.trans.util import join_plural, render, redirect_next
 from weblate.trans.autotranslate import auto_translate
 from weblate.permissions.helpers import (
     can_translate, can_suggest, can_accept_suggestion, can_delete_suggestion,
@@ -670,7 +670,7 @@ def comment(request, pk):
     else:
         messages.error(request, _('Failed to add comment!'))
 
-    return redirect(request.POST.get('next', unit))
+    return redirect_next(request.POST.get('next'), unit)
 
 
 @login_required
@@ -692,7 +692,7 @@ def delete_comment(request, pk):
     comment_obj.delete()
     messages.info(request, _('Translation comment has been deleted.'))
 
-    return redirect(request.POST.get('next', fallback_url))
+    return redirect_next(request.POST.get('next'), fallback_url)
 
 
 def get_zen_unitdata(translation, request):
