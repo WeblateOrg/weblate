@@ -304,6 +304,13 @@ Additionally following environment variables are available:
 
     File name of template for monolingual translations (can be empty).
 
+.. envvar:: WL_NEW_BASE
+
+    .. versionadded:: 2.14
+
+    File name of the file which is used for creating new translations (can be
+    empty).
+
 .. envvar:: WL_FILE_FORMAT
 
     File format used in current component.
