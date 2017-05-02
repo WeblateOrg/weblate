@@ -52,7 +52,7 @@
   <div class="panel-body">
 
 {% for name in registration_backends %}
-  <a class="btn btn-link" href="{% url 'social:begin' name %}">{% auth_name name %}</a>
+  <a class="btn btn-link link-post" href="{% url 'social:begin' name %}">{% auth_name name %}</a>
 {% endfor %}
 </div>
 </div>

@@ -19,8 +19,40 @@
 #
 
 from django.conf.urls import url, include
+from django.views.decorators.http import require_POST
+
+import social_django.views
 
 import weblate.accounts.views
+
+# Follows copy of social_django.urls with few changes:
+# - authentication requires POST
+# - removed some configurability
+# - the association_id has to be numeric (patch submitted upstream)
+social_urls = [
+    # authentication / association
+    url(
+        r'^login/(?P<backend>[^/]+)/$',
+        require_POST(social_django.views.auth),
+        name='begin'
+    ),
+    url(
+        r'^complete/(?P<backend>[^/]+)/$',
+        social_django.views.complete,
+        name='complete'
+    ),
+    # disconnection
+    url(
+        r'^disconnect/(?P<backend>[^/]+)/$',
+        social_django.views.disconnect,
+        name='disconnect'
+    ),
+    url(
+        r'^disconnect/(?P<backend>[^/]+)/(?P<association_id>\d+)/$',
+        social_django.views.disconnect,
+        name='disconnect_individual'
+    ),
+]
 
 
 urlpatterns = [
@@ -57,5 +89,5 @@ urlpatterns = [
     url(r'^login/$', weblate.accounts.views.weblate_login, name='login'),
     url(r'^register/$', weblate.accounts.views.register, name='register'),
     url(r'^email/$', weblate.accounts.views.email_login, name='email_login'),
-    url(r'', include('social_django.urls', namespace='social')),
+    url(r'', include(social_urls, namespace='social')),
 ]

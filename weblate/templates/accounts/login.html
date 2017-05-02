@@ -56,7 +56,7 @@
   <div class="panel-body">
 
 {% for name in login_backends %}
-  <a class="btn btn-link" href="{% url 'social:begin' name %}{% if next %}?next={{ next }}{% endif %}">{% auth_name name %}</a>
+  <a class="btn btn-link link-post" href="{% url 'social:begin' name %}{% if next %}?next={{ next }}{% endif %}">{% auth_name name %}</a>
 {% endfor %}
 </div>
 </div>
