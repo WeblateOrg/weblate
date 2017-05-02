@@ -43,8 +43,6 @@ from weblate.accounts.admin import (
 )
 from weblate.accounts.forms import LoginForm
 from weblate.accounts.models import Profile, VerifiedEmail
-from weblate.billing.admin import PlanAdmin, BillingAdmin, InvoiceAdmin
-from weblate.billing.models import Plan, Billing, Invoice
 from weblate.lang.admin import LanguageAdmin
 from weblate.lang.models import Language
 from weblate.permissions.admin import AutoGroupAdmin, GroupACLAdmin
@@ -108,6 +106,11 @@ class WeblateAdminSite(AdminSite):
 
         # Billing
         if 'weblate.billing' in settings.INSTALLED_APPS:
+            # pylint: disable=C0413
+            from weblate.billing.admin import (
+                PlanAdmin, BillingAdmin, InvoiceAdmin,
+            )
+            from weblate.billing.models import Plan, Billing, Invoice
             self.register(Plan, PlanAdmin)
             self.register(Billing, BillingAdmin)
             self.register(Invoice, InvoiceAdmin)
