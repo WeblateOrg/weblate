@@ -292,6 +292,8 @@ Additionally following environment variables are available:
 
 .. envvar:: WL_BRANCH
 
+    .. versionadded:: 2.11
+
     Repository branch configured in the current component.
 
 .. envvar:: WL_FILEMASK
