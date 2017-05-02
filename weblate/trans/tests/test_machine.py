@@ -39,7 +39,7 @@ from weblate.trans.machine.tmserver import AmagamaTranslation
 from weblate.trans.machine.microsoft import (
     MicrosoftTranslation, MicrosoftCognitiveTranslation,
 )
-from weblate.trans.machine.google import GoogleTranslation
+from weblate.trans.machine.google import GoogleTranslation, GOOGLE_API_ROOT
 from weblate.trans.machine.yandex import YandexTranslation
 from weblate.trans.machine.weblatetm import (
     WeblateSimilarTranslation, WeblateTranslation
@@ -255,7 +255,7 @@ class MachineTranslationTest(TestCase):
         cache.delete('{0}-languages'.format(GoogleTranslation().mtid))
         httpretty.register_uri(
             httpretty.GET,
-            'https://www.googleapis.com/language/translate/v2/languages',
+            GOOGLE_API_ROOT + 'languages',
             body=json.dumps(
                 {
                     'data': {
@@ -270,7 +270,7 @@ class MachineTranslationTest(TestCase):
         )
         httpretty.register_uri(
             httpretty.GET,
-            'https://www.googleapis.com/language/translate/v2/',
+            GOOGLE_API_ROOT,
             body=b'{"data":{"translations":[{"translatedText":"svet"}]}}'
         )
         machine = GoogleTranslation()

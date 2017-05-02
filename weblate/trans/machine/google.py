@@ -33,6 +33,8 @@ LANGUAGE_MAP = {
     'jv': 'jw',
 }
 
+GOOGLE_API_ROOT = 'https://translation.googleapis.com/language/translate/v2/'
+
 
 class GoogleTranslation(MachineTranslation):
     """Google Translate API v2 machine translation support."""
@@ -58,7 +60,7 @@ class GoogleTranslation(MachineTranslation):
     def download_languages(self):
         """List of supported languages."""
         response = self.json_req(
-            'https://www.googleapis.com/language/translate/v2/languages',
+            GOOGLE_API_ROOT + 'languages',
             key=settings.MT_GOOGLE_KEY
         )
 
@@ -70,7 +72,7 @@ class GoogleTranslation(MachineTranslation):
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
         response = self.json_req(
-            'https://www.googleapis.com/language/translate/v2/',
+            GOOGLE_API_ROOT,
             key=settings.MT_GOOGLE_KEY,
             q=text,
             source=source,
