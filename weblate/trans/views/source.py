@@ -24,11 +24,10 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
+from django.utils.http import urlencode
 from django.utils.translation import ugettext as _
 from django.utils.encoding import force_text
 from django.views.decorators.http import require_POST
-
-from six.moves.urllib.parse import urlencode
 
 from weblate.lang.models import Language
 from weblate.utils import messages

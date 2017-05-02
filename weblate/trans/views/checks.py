@@ -19,10 +19,10 @@
 #
 from __future__ import unicode_literals
 
-from django.http import QueryDict
 from django.shortcuts import render
 from django.utils.translation import ugettext as _
 from django.utils.encoding import force_text
+from django.utils.http import urlencode
 from django.http import Http404
 from django.db.models import Count
 
@@ -41,9 +41,7 @@ def acl_checks(user):
 
 def encode_optional(params):
     if params:
-        query = QueryDict(mutable=True)
-        query.update(params)
-        return '?{0}'.format(query.urlencode())
+        return '?{0}'.format(urlencode(params))
     else:
         return ''
 

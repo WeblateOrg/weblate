@@ -28,8 +28,7 @@ from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.template.loader import render_to_string
-
-from six.moves.urllib.parse import urlencode
+from django.utils.http import urlencode
 
 from weblate.utils import messages
 from weblate.trans.exporters import get_exporter

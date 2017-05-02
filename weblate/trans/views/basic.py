@@ -30,9 +30,8 @@ from django.http import HttpResponse
 from django.utils.safestring import mark_safe
 from django.utils import timezone
 from django.utils.encoding import force_text
+from django.utils.http import urlencode
 import django.views.defaults
-
-from six.moves.urllib.parse import urlencode
 
 from weblate.utils import messages
 from weblate.trans.models import (

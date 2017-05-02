@@ -38,10 +38,9 @@ from django.views.generic import TemplateView, ListView
 from django.views.decorators.http import require_POST
 from django.contrib.auth import update_session_auth_hash
 from django.core.urlresolvers import reverse
+from django.utils.http import urlencode
 
 from rest_framework.authtoken.models import Token
-
-from six.moves.urllib.parse import urlencode
 
 from social_core.backends.utils import load_backends
 from social_django.utils import BACKENDS
@@ -380,7 +379,7 @@ def user_page(request, user):
             'page_user': user,
             'last_changes': last_changes,
             'last_changes_url': urlencode(
-                {'user': user.username.encode('utf-8')}
+                {'user': user.username}
             ),
             'user_projects': user_projects,
         }

@@ -35,11 +35,10 @@ from django.forms.utils import from_current_timezone
 from django.utils.safestring import mark_safe
 from django.utils.encoding import smart_text, force_text
 from django.utils.html import escape
+from django.utils.http import urlencode
 from django.forms import ValidationError
 from django.db.models import Q
 from django.contrib.auth.models import User
-
-from six.moves.urllib.parse import urlencode
 
 from weblate.lang.data import LOCALE_ALIASES
 from weblate.lang.models import Language
@@ -580,7 +579,7 @@ class SearchForm(forms.Form):
         query = {}
 
         if self.cleaned_data['q']:
-            query['q'] = self.cleaned_data['q'].encode('utf-8')
+            query['q'] = self.cleaned_data['q']
             query['search'] = self.cleaned_data['search']
             for param in SEARCH_FILTERS:
                 if self.cleaned_data[param]:

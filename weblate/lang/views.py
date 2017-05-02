@@ -19,10 +19,9 @@
 #
 
 from django.shortcuts import render, redirect
-from django.utils.translation import ugettext as _
 from django.http import Http404
-
-from six.moves.urllib.parse import urlencode
+from django.utils.translation import ugettext as _
+from django.utils.http import urlencode
 
 from weblate.lang.models import Language
 from weblate.trans.forms import SiteSearchForm

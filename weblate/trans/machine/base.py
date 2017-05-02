@@ -25,11 +25,11 @@ import sys
 import json
 
 from six.moves.urllib.request import Request, urlopen
-from six.moves.urllib.parse import urlencode
 
 from django.core.cache import cache
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
+from django.utils.http import urlencode
 
 from weblate import USER_AGENT
 from weblate.logger import LOGGER
@@ -68,9 +68,7 @@ class MachineTranslation(object):
         """Perform JSON request."""
         # Encode params
         if len(kwargs) > 0:
-            params = urlencode(
-                {key: val.encode('utf-8') for key, val in kwargs.items()}
-            )
+            params = urlencode(kwargs)
         else:
             params = ''
 

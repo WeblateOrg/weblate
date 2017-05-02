@@ -24,6 +24,7 @@ from django.http import (
 )
 from django.core.exceptions import PermissionDenied
 from django.utils.encoding import force_text
+from django.utils.http import urlencode
 
 from weblate.permissions.helpers import check_access
 from weblate.screenshots.forms import ScreenshotForm
@@ -39,8 +40,6 @@ from weblate.permissions.helpers import (
     can_use_mt, can_see_repository_status, can_ignore_check,
 )
 from weblate.utils.hash import checksum_to_hash
-
-from six.moves.urllib.parse import urlencode
 
 
 def translate(request, unit_id):

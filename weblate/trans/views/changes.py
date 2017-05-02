@@ -27,8 +27,7 @@ from django.utils.translation import ugettext as _, activate, pgettext
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.core.exceptions import PermissionDenied
-
-from six.moves.urllib.parse import urlencode
+from django.utils.http import urlencode
 
 from weblate.utils import messages
 from weblate.trans.models.change import Change
@@ -111,7 +110,7 @@ class ChangesView(ListView):
 
         if self.user is not None:
             context['changes_user'] = self.user
-            url['user'] = self.user.username.encode('utf-8')
+            url['user'] = self.user.username
             if 'title' not in context:
                 context['title'] = pgettext(
                     'Changes by user', 'Changes by %s'
