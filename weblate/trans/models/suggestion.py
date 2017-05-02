@@ -45,7 +45,7 @@ class SuggestionManager(models.Manager):
             project=unit.translation.subproject.project,
         )
 
-        if same.exists():
+        if same.exists() or unit.target == target:
             return False
 
         # Create the suggestion
