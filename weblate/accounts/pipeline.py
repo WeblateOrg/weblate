@@ -243,11 +243,15 @@ def revoke_mail_code(strategy, details, **kwargs):
     """
     data = strategy.request_data()
     if details['email'] and 'verification_code' in data:
-        strategy.storage.code.objects.get(
-            code=data['verification_code'],
-            email=details['email'],
-            verified=True
-        ).delete()
+        try:
+            code = strategy.storage.code.objects.get(
+                code=data['verification_code'],
+                email=details['email'],
+                verified=True
+            )
+            code.delete()
+        except strategy.storage.code.DoesNotExist:
+            return
 
 
 def ensure_valid(strategy, backend, user, registering_user, weblate_action,
