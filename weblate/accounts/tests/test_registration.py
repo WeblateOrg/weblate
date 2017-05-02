@@ -440,7 +440,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         self.test_register()
 
         # Check adding email page
-        response = self.client.get(
+        response = self.client.post(
             reverse('social:begin', args=('email',)),
             follow=True,
         )
@@ -493,7 +493,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         self.test_register()
 
         # Valid next URL
-        response = self.client.get(
+        response = self.client.post(
             reverse('social:begin', args=('email',)),
             {'next': '/#valid'}
         )
@@ -514,7 +514,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         mail.outbox.pop()
 
         # Invalid next URL
-        response = self.client.get(
+        response = self.client.post(
             reverse('social:begin', args=('email',)),
             {'next': '////example.com'}
         )
