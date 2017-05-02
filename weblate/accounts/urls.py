@@ -26,9 +26,9 @@ import social_django.views
 import weblate.accounts.views
 
 # Follows copy of social_django.urls with few changes:
-# - authentication requires POST
-# - removed some configurability
-# - the association_id has to be numeric (patch submitted upstream)
+# - authentication requires POST (issue submitted upstream)
+# - removed some configurability (just to avoid additional deps)
+# - the association_id has to be numeric (patch accepted upstream)
 social_urls = [
     # authentication / association
     url(
