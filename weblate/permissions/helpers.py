@@ -419,8 +419,4 @@ def can_access_project(user, project):
 def check_access(request, project):
     """Raise an error if user is not allowed to access this project."""
     if not can_access_project(request.user, project):
-        messages.error(
-            request,
-            _('You are not allowed to access project %s.') % project.name
-        )
         raise Http404('Access denied')
