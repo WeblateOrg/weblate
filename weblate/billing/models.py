@@ -241,7 +241,10 @@ class Invoice(models.Model):
         ordering = ['billing', '-start']
 
     def __str__(self):
-        return '{0} - {1}: {2}'.format(self.start, self.end, self.billing)
+        return '{0} - {1}: {2}'.format(
+            self.start, self.end,
+            self.billing if self.billing_id else None
+        )
 
     @property
     def filename(self):
@@ -256,7 +259,7 @@ class Invoice(models.Model):
         if self.end <= self.start:
             raise ValidationError('Start has be to before end!')
 
-        if self.billing is None:
+        if not self.billing_id:
             return
 
         overlapping = Invoice.objects.filter(

@@ -678,7 +678,8 @@ class SuggestionView(ListView):
 
     def get_queryset(self):
         return Suggestion.objects.filter(
-            user=get_object_or_404(User, username=self.kwargs['user'])
+            user=get_object_or_404(User, username=self.kwargs['user']),
+            project__in=Project.objects.all_acl(self.request.user)
         )
 
     def get_context_data(self):

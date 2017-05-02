@@ -52,6 +52,7 @@ import weblate.trans.views.widgets
 from weblate.sitemaps import SITEMAPS
 import weblate.accounts.urls
 import weblate.api.urls
+import weblate.admin
 
 # URL regexp for language code
 LANGUAGE = r'(?P<lang>[^/]+)'
@@ -74,15 +75,11 @@ WIDGET = r'(?P<widget>[^/-]+)-(?P<color>[^/-]+)'
 # Widget extension match
 EXTENSION = r'(?P<extension>(png|svg))'
 
-admin.autodiscover()
-
 handler403 = weblate.trans.views.basic.denied
 
 handler404 = weblate.trans.views.basic.not_found
 
 handler500 = weblate.trans.views.basic.server_error
-
-admin.site.index_template = 'admin/custom-index.html'
 
 urlpatterns = [
     url(
@@ -764,7 +761,7 @@ urlpatterns = [
         weblate.trans.admin_views.performance,
         name='admin-performance'
     ),
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', include(weblate.admin.SITE.urls)),
 
     # Auth
     url(r'^accounts/', include(weblate.accounts.urls)),

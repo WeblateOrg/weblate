@@ -21,8 +21,6 @@
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 
-from weblate.permissions.models import AutoGroup, GroupACL
-
 
 class GroupACLAdmin(admin.ModelAdmin):
     list_display = ['language', 'project_subproject', 'group_list']
@@ -44,7 +42,3 @@ class GroupACLAdmin(admin.ModelAdmin):
 
 class AutoGroupAdmin(admin.ModelAdmin):
     list_display = ('group', 'match')
-
-
-admin.site.register(GroupACL, GroupACLAdmin)
-admin.site.register(AutoGroup, AutoGroupAdmin)
