@@ -573,7 +573,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
                     }
                 ])
             )
-            response = self.client.get(
+            response = self.client.post(
                 reverse('social:begin', args=('github',))
             )
             self.assertEqual(response.status_code, 302)
