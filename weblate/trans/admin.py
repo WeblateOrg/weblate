@@ -19,10 +19,9 @@
 #
 
 from django.contrib import admin
-from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
-from weblate.trans.models import AutoComponentList
+from weblate.trans.models import AutoComponentList, Unit
 from weblate.trans.util import WeblateAdmin, sort_choices
 
 

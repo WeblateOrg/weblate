@@ -20,7 +20,6 @@
 
 from django.conf.urls import include, url
 from django.conf import settings
-from django.contrib import admin
 from django.views.generic import RedirectView
 import django.contrib.sitemaps.views
 import django.views.i18n
