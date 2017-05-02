@@ -21,9 +21,13 @@
 from django.conf import settings
 from django.contrib.admin import AdminSite
 from django.contrib.auth.models import User, Group
+from django.contrib.auth.views import logout
 from django.contrib.sites.admin import SiteAdmin
 from django.contrib.sites.models import Site
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
+from django.views.decorators.cache import never_cache
+
 
 from rest_framework.authtoken.admin import TokenAdmin
 from rest_framework.authtoken.models import Token
@@ -57,6 +61,7 @@ from weblate.trans.models import (
     Unit, Suggestion, Comment, Check, Dictionary, Change,
     Source, WhiteboardMessage, ComponentList, AutoComponentList,
 )
+from weblate.utils import messages
 
 
 class WeblateAdminSite(AdminSite):
@@ -117,6 +122,11 @@ class WeblateAdminSite(AdminSite):
 
         # Django core
         self.register(Site, SiteAdmin)
+
+    @never_cache
+    def logout(self, request, extra_context=None):
+        messages.info(request, _('Thanks for using Weblate!'))
+        return logout(request, next_page=reverse('admin:login'))
 
 
 SITE = WeblateAdminSite()
