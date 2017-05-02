@@ -24,11 +24,9 @@ from django.conf import settings
 from django.contrib.auth.models import Permission
 from django.db.models import Q
 from django.http import Http404
-from django.utils.translation import ugettext as _
 
 from weblate.accounts.models import get_anonymous
 from weblate.permissions.models import GroupACL
-from weblate.utils import messages
 
 
 def has_group_perm(user, permission, translation=None, project=None):
