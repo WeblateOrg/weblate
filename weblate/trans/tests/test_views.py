@@ -433,6 +433,16 @@ class NewLangTest(ViewTestCase):
             4
         )
 
+    def test_remove(self):
+        self.test_add_owner()
+        kwargs = {'lang': 'af'}
+        kwargs.update(self.kw_subproject)
+        response = self.client.post(
+            reverse('remove_translation', kwargs=kwargs),
+            follow=True
+        )
+        self.assertContains(response, 'Translation has been removed.')
+
 
 class AndroidNewLangTest(NewLangTest):
     def create_subproject(self):
