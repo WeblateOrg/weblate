@@ -55,12 +55,11 @@ from weblate.trans.admin import (
     ProjectAdmin, SubProjectAdmin, TranslationAdmin, AdvertisementAdmin,
     UnitAdmin, SuggestionAdmin, CommentAdmin, CheckAdmin, DictionaryAdmin,
     ChangeAdmin, SourceAdmin, WhiteboardMessageAdmin, ComponentListAdmin,
-    AutoComponentListAdmin,
 )
 from weblate.trans.models import (
     Project, SubProject, Translation, Advertisement,
     Unit, Suggestion, Comment, Check, Dictionary, Change,
-    Source, WhiteboardMessage, ComponentList, AutoComponentList,
+    Source, WhiteboardMessage, ComponentList,
 )
 from weblate.utils import messages
 
