@@ -22,8 +22,6 @@ from __future__ import unicode_literals
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 
-from weblate.billing.models import Plan, Billing, Invoice
-
 
 class PlanAdmin(admin.ModelAdmin):
     list_display = (
@@ -62,8 +60,3 @@ class InvoiceAdmin(admin.ModelAdmin):
         'ref', 'note',
     )
     date_hierarchy = 'end'
-
-
-admin.site.register(Plan, PlanAdmin)
-admin.site.register(Billing, BillingAdmin)
-admin.site.register(Invoice, InvoiceAdmin)

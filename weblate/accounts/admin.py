@@ -21,10 +21,8 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin, GroupAdmin
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from django.contrib.auth.models import User, Group
 
 from weblate.accounts.forms import UniqueEmailMixin
-from weblate.accounts.models import Profile, VerifiedEmail
 
 
 class ProfileAdmin(admin.ModelAdmin):
@@ -84,14 +82,3 @@ class WeblateUserAdmin(UserAdmin):
 
 class WeblateGroupAdmin(GroupAdmin):
     save_as = True
-
-
-# Need to unregister orignal Django UserAdmin
-admin.site.unregister(User)
-admin.site.unregister(Group)
-# Set WeblateUserAdmin to handle User in admin interface
-admin.site.register(User, WeblateUserAdmin)
-admin.site.register(Group, WeblateGroupAdmin)
-# Register other admin
-admin.site.register(Profile, ProfileAdmin)
-admin.site.register(VerifiedEmail, VerifiedEmailAdmin)

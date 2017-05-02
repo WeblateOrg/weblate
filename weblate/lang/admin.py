@@ -20,7 +20,6 @@
 
 from django.contrib import admin
 
-from weblate.lang.models import Language
 from weblate.trans.util import WeblateAdmin
 
 
@@ -28,6 +27,3 @@ class LanguageAdmin(WeblateAdmin):
     list_display = ['name', 'code', 'get_plural_form', 'direction']
     search_fields = ['name', 'code']
     list_filter = ('direction', 'plural_type')
-
-
-admin.site.register(Language, LanguageAdmin)

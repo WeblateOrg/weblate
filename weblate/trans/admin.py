@@ -21,11 +21,8 @@
 from django.contrib import admin
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
-from weblate.trans.models import (
-    Project, SubProject, Translation, Advertisement,
-    Unit, Suggestion, Comment, Check, Dictionary, Change,
-    Source, WhiteboardMessage, ComponentList, AutoComponentList,
-)
+
+from weblate.trans.models import AutoComponentList
 from weblate.trans.util import WeblateAdmin, sort_choices
 
 
@@ -215,7 +212,7 @@ class ChangeAdmin(admin.ModelAdmin):
     raw_id_fields = ('unit',)
 
 
-class WhiteboardAdmin(admin.ModelAdmin):
+class WhiteboardMessageAdmin(admin.ModelAdmin):
     list_display = ['message', 'project', 'subproject', 'language']
     prepopulated_fields = {}
     search_fields = ['message']
@@ -242,22 +239,3 @@ class AdvertisementAdmin(admin.ModelAdmin):
 class SourceAdmin(admin.ModelAdmin):
     list_display = ['id_hash', 'priority', 'timestamp']
     date_hierarchy = 'timestamp'
-
-
-# Register in admin interface
-admin.site.register(Project, ProjectAdmin)
-admin.site.register(SubProject, SubProjectAdmin)
-admin.site.register(Advertisement, AdvertisementAdmin)
-admin.site.register(WhiteboardMessage, WhiteboardAdmin)
-admin.site.register(ComponentList, ComponentListAdmin)
-
-# Show some controls only in debug mode
-if settings.DEBUG and False:
-    admin.site.register(Translation, TranslationAdmin)
-    admin.site.register(Unit, UnitAdmin)
-    admin.site.register(Suggestion, SuggestionAdmin)
-    admin.site.register(Comment, CommentAdmin)
-    admin.site.register(Check, CheckAdmin)
-    admin.site.register(Dictionary, DictionaryAdmin)
-    admin.site.register(Change, ChangeAdmin)
-    admin.site.register(Source, SourceAdmin)

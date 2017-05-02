@@ -19,8 +19,6 @@
 #
 from django.contrib import admin
 
-from weblate.screenshots.models import Screenshot
-
 
 class ScreenshotAdmin(admin.ModelAdmin):
     list_display = ['name', 'component']
@@ -29,6 +27,3 @@ class ScreenshotAdmin(admin.ModelAdmin):
         'component',
     ]
     raw_id_fields = ('sources',)
-
-
-admin.site.register(Screenshot, ScreenshotAdmin)
