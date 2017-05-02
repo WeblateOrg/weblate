@@ -21,7 +21,17 @@
 from django.conf import settings
 from django.contrib.admin import AdminSite
 from django.contrib.auth.models import User, Group
+from django.contrib.sites.admin import SiteAdmin
+from django.contrib.sites.models import Site
 from django.utils.translation import ugettext_lazy as _
+
+from rest_framework.authtoken.admin import TokenAdmin
+from rest_framework.authtoken.models import Token
+
+from social_django.admin import (
+    UserSocialAuthOption, NonceOption, AssociationOption,
+)
+from social_django.models import UserSocialAuth, Nonce, Association
 
 from weblate.accounts.admin import (
     WeblateUserAdmin, WeblateGroupAdmin, ProfileAdmin, VerifiedEmailAdmin,
@@ -96,6 +106,17 @@ class WeblateAdminSite(AdminSite):
             self.register(Plan, PlanAdmin)
             self.register(Billing, BillingAdmin)
             self.register(Invoice, InvoiceAdmin)
+
+        # Python Social Auth
+        self.register(UserSocialAuth, UserSocialAuthOption)
+        self.register(Nonce, NonceOption)
+        self.register(Association, AssociationOption)
+
+        # Django REST Framework
+        self.register(Token, TokenAdmin)
+
+        # Django core
+        self.register(Site, SiteAdmin)
 
 
 SITE = WeblateAdminSite()
