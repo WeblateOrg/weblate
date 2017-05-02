@@ -24,6 +24,7 @@ from django.contrib.auth.models import User, Group
 from django.contrib.auth.views import logout
 from django.contrib.sites.admin import SiteAdmin
 from django.contrib.sites.models import Site
+from django.shortcuts import render
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.cache import never_cache
@@ -125,8 +126,12 @@ class WeblateAdminSite(AdminSite):
 
     @never_cache
     def logout(self, request, extra_context=None):
-        messages.info(request, _('Thanks for using Weblate!'))
-        return logout(request, next_page=reverse('admin:login'))
+        if request.method == 'POST':
+            messages.info(request, _('Thanks for using Weblate!'))
+            return logout(request, next_page=reverse('admin:login'))
+        context = self.each_context(request)
+        context['title'] = _('Logout')
+        return render(request, 'admin/logout-confirm.html', context)
 
 
 SITE = WeblateAdminSite()
