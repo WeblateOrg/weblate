@@ -28,7 +28,6 @@ from django.shortcuts import render
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib import admin
 from django.utils.translation import ugettext as _
-import django
 
 import six
 
@@ -45,19 +44,10 @@ from weblate.trans.ssh import (
 import weblate
 
 
-def admin_context(request):
-    """Wrapper to get admin context"""
-    # Django has changed number of parameters
-    # pylint: disable=E1120
-    if django.VERSION < (1, 8, 0):
-        return admin.site.each_context()
-    return admin.site.each_context(request)
-
-
 @staff_member_required
 def report(request):
     """Provide report about git status of all repos."""
-    context = admin_context(request)
+    context = admin.site.each_context(request)
     context['subprojects'] = SubProject.objects.all()
     return render(
         request,
@@ -229,7 +219,7 @@ def performance(request):
         settings.STATIC_ROOT,
     ))
 
-    context = admin_context(request)
+    context = admin.site.each_context(request)
     context['checks'] = checks
     context['errors'] = get_configuration_errors()
 
@@ -260,7 +250,7 @@ def ssh(request):
     if action == 'add-host':
         add_host_key(request)
 
-    context = admin_context(request)
+    context = admin.site.each_context(request)
     context['public_key'] = key
     context['can_generate'] = can_generate
     context['host_keys'] = get_host_keys()
