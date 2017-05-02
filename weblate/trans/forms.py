@@ -590,6 +590,10 @@ class SearchForm(forms.Form):
             if self.cleaned_data['ignored']:
                 query['ignored'] = 'true'
 
+        # Actually set in SiteSearchForm
+        if 'lang' in self.cleaned_data:
+            query['lang'] = self.cleaned_data['lang']
+
         return urlencode(query)
 
     def get_name(self):
