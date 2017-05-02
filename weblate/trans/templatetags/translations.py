@@ -32,7 +32,6 @@ from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _, ungettext, ugettext_lazy
 from django.utils import timezone
 from django import template
-import django
 
 import weblate
 from weblate.trans.simplediff import html_diff
@@ -271,10 +270,7 @@ def doc_url(page, anchor=''):
 @register.simple_tag
 def admin_boolean_icon(val):
     """Admin icon wrapper."""
-    if django.VERSION > (1, 9):
-        ext = 'svg'
-    else:
-        ext = 'gif'
+    ext = 'svg'
     icon_url = static(
         'admin/img/icon-{0}.{1}'.format(TYPE_MAPPING[val], ext)
     )
