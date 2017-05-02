@@ -515,7 +515,9 @@ def translate(request, project, subproject, lang):
     response = None
 
     # Any form submitted?
-    if request.method == 'POST' and not project_locked:
+    if 'skip' in request.POST:
+        return redirect(next_unit_url)
+    elif request.method == 'POST' and not project_locked:
 
         # Handle accepting/deleting suggestions
         if ('accept' not in request.POST and
