@@ -99,7 +99,7 @@ To enable this service, add ``weblate.trans.machine.microsoft.MicrosoftTranslati
 .. seealso::
 
     :setting:`MT_MICROSOFT_ID`, :setting:`MT_MICROSOFT_SECRET`,
-    `Bing Translator <http://www.bing.com/translator/>`_,
+    `Bing Translator <https://www.bing.com/translator/>`_,
     `Azure datamarket <https://datamarket.azure.com/developer/applications/>`_
 
 .. _ms-cognitive-translate:
@@ -146,7 +146,7 @@ To enable this service, add ``weblate.trans.machine.mymemory.MyMemoryTranslation
     :setting:`MT_MYMEMORY_EMAIL`,
     :setting:`MT_MYMEMORY_USER`,
     :setting:`MT_MYMEMORY_KEY`,
-    `MyMemory website <http://mymemory.translated.net/>`_
+    `MyMemory website <https://mymemory.translated.net/>`_
 
 .. _tmserver:
 

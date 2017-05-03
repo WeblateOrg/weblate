@@ -105,7 +105,7 @@ Weblate currently supports two backends:
 * `Gravatar`_ can be also used directly by Weblate, that is used if the
   pyLibravatar library is not found.
 
-.. _Gravatar: http://gravatar.com/
+.. _Gravatar: https://gravatar.com/
 
 .. seealso:: 
    

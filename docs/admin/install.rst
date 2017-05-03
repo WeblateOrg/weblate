@@ -42,15 +42,15 @@ Git (>= 1.6)
 Mercurial (>= 2.8) (optional for Mercurial repositories support)
     https://www.mercurial-scm.org/
 social-auth-core (>= 1.2.0)
-    http://python-social-auth.readthedocs.io/
+    https://python-social-auth.readthedocs.io/
 social-auth-app-django (>= 1.1.0)
-    http://python-social-auth.readthedocs.io/
+    https://python-social-auth.readthedocs.io/
 django-appconf (>= 1.0)
     https://github.com/django-compressor/django-appconf
 Whoosh (>= 2.7.0)
     https://bitbucket.org/mchaput/whoosh/wiki/Home
 PIL or Pillow library
-    http://python-pillow.org/
+    https://python-pillow.org/
 lxml (>= 3.1.0)
     http://lxml.de/
 PyYaML (>= 3.0) (optional for YAML support)
@@ -58,11 +58,11 @@ PyYaML (>= 3.0) (optional for YAML support)
 defusedxml (>= 0.4)
     https://bitbucket.org/tiran/defusedxml
 dateutil
-    http://labix.org/python-dateutil
+    https://labix.org/python-dateutil
 django_compressor (>= 2.1.1)
     https://github.com/django-compressor/django-compressor
 django-crispy-forms (>= 1.6.1)
-    http://django-crispy-forms.readthedocs.io/
+    https://django-crispy-forms.readthedocs.io/
 Django REST Framework (>=3.4)
     http://www.django-rest-framework.org/
 libravatar (optional for federated avatar support)

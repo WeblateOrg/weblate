@@ -150,7 +150,7 @@ def get_versions():
 
     result.append((
         'Python',
-        'http://www.python.org/',
+        'https://www.python.org/',
         sys.version.split()[0],
         '2.7',
     ))
@@ -172,14 +172,14 @@ def get_versions():
 
     result.append(get_single(
         'social-auth-core',
-        'http://python-social-auth.readthedocs.io/',
+        'https://python-social-auth.readthedocs.io/',
         'social_core',
         '1.2.0',
     ))
 
     result.append(get_single(
         'social-auth-app-django',
-        'http://python-social-auth.readthedocs.io/',
+        'https://python-social-auth.readthedocs.io/',
         'social_django',
         '1.1.0',
     ))
@@ -201,7 +201,7 @@ def get_versions():
 
     result.append(get_single(
         'Whoosh',
-        'http://bitbucket.org/mchaput/whoosh/',
+        'https://bitbucket.org/mchaput/whoosh/',
         'whoosh',
         '2.7',
         'versionstring',
@@ -226,7 +226,7 @@ def get_versions():
 
     result.append(get_single(
         'Pillow (PIL)',
-        'http://python-pillow.org/',
+        'https://python-pillow.org/',
         'PIL.Image',
         '1.1.6',
         'VERSION',
@@ -234,7 +234,7 @@ def get_versions():
 
     result.append(get_single(
         'dateutil',
-        'http://labix.org/python-dateutil',
+        'https://labix.org/python-dateutil',
         'dateutil',
         '1.0'
     ))
@@ -248,7 +248,7 @@ def get_versions():
 
     result.append(get_single(
         'django-crispy-forms',
-        'http://django-crispy-forms.readthedocs.io/',
+        'https://django-crispy-forms.readthedocs.io/',
         'crispy_forms',
         '1.6.1',
     ))
