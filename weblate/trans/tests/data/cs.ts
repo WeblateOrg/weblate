@@ -19,7 +19,7 @@
 <context>
     <name>Second</name>
     <message>
-        <source>Try Weblate at &lt;http://demo.weblate.org/&gt;!</source>
+        <source>Try Weblate at &lt;https://demo.weblate.org/&gt;!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

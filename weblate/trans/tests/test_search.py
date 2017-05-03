@@ -262,7 +262,7 @@ class SearchViewTest(ViewTestCase):
         )
         self.assertContains(
             response,
-            'http://demo.weblate.org/',
+            'https://demo.weblate.org/',
         )
         response = self.client.get(
             self.translate_url,
@@ -279,7 +279,7 @@ class SearchViewTest(ViewTestCase):
         )
         self.assertContains(
             response,
-            'http://demo.weblate.org/',
+            'https://demo.weblate.org/',
         )
         # Go to end
         response = self.client.get(
@@ -335,7 +335,7 @@ class SearchViewTest(ViewTestCase):
 
     def test_search_checksum(self):
         unit = self.translation.unit_set.get(
-            source='Try Weblate at <http://demo.weblate.org/>!\n'
+            source='Try Weblate at <https://demo.weblate.org/>!\n'
         )
         response = self.do_search(
             {'checksum': unit.checksum},
