@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-05-03 12:50+0000\n"
-"PO-Revision-Date: 2017-04-27 19:20+0000\n"
+"PO-Revision-Date: 2017-05-03 15:03+0000\n"
 "Last-Translator: Tuomas Harju <tuomas@rtj-group.com>\n"
-"Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
-"fi/>\n"
+"Language-Team: Finnish "
+"<https://hosted.weblate.org/projects/weblate/master/fi/>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -222,10 +222,9 @@ msgid "Authentication using {method} ({name}) has been removed."
 msgstr "Tunnistautumismenetelmä {method} ({name}) on poistettu."
 
 #: weblate/accounts/models.py:65
-#, fuzzy, python-brace-format
-#| msgid "Authentication using {method} ({name}) has been added."
+#, python-brace-format
 msgid "Successfully authenticated using {method} ({name})."
-msgstr "Tunnistautumismenetelmä {method} ({name}) on lisätty."
+msgstr "Tunnistautuminen onnistui menetelmällä {method} ({name})."
 
 #: weblate/accounts/models.py:68
 msgid "Somebody has attempted to register with your email."
@@ -237,20 +236,18 @@ msgstr ""
 "Joku on yrittänyt liittää sähköpostiosoitteesi olemassa olevalle tilille."
 
 #: weblate/accounts/models.py:74
-#, fuzzy, python-brace-format
-#| msgid "Authentication using {method} ({name}) has been added."
+#, python-brace-format
 msgid "Failed authentication attempt using {method} ({name})."
-msgstr "Tunnistautumismenetelmä {method} ({name}) on lisätty."
+msgstr "Epäonnistunut tunnistautuminen menetelmällä {method} ({name})."
 
 #: weblate/accounts/models.py:77
 msgid "Account locked due to excessive failed authentication attempts."
 msgstr ""
+"Tili on lukittu useiden epäonnistuneiden tunnistautumisyritysten vuoksi."
 
 #: weblate/accounts/models.py:169 weblate/templates/accounts/profile.html:304
-#, fuzzy
-#| msgid "Account activation"
 msgid "Account activity"
-msgstr "Käyttäjätilin aktivointi"
+msgstr "Käyttäjätilin tapahtumat"
 
 #: weblate/accounts/models.py:267
 msgid "Interface Language"
@@ -458,6 +455,7 @@ msgid ""
 "You do not have enabled password authentication, please <a href=\"{0}\">set "
 "the password</a>."
 msgstr ""
+"Et ole asettanut salasanaasi, ole hyvä ja <a href=\"{0}\">aseta salasana</a>."
 
 #: weblate/accounts/views.py:252
 msgid "User profile"
@@ -517,10 +515,8 @@ msgid "Password reset"
 msgstr "Salasanan palauttaminen"
 
 #: weblate/admin.py:68 weblate/admin.py:69
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Weblate administration"
-msgstr "Weblate -käännökset"
+msgstr "Weblate -hallinta"
 
 #: weblate/admin.py:137 weblate/templates/base.html:125
 msgid "Logout"
@@ -909,11 +905,9 @@ msgid "The page you are looking for was not found."
 msgstr "Sivua jota etsit, ei löytynyt."
 
 #: weblate/templates/404.html:15
-#, fuzzy
-#| msgid "The page you are looking for was not found."
 msgid ""
 "The project you are looking for does not exist or is not publicly available."
-msgstr "Sivua jota etsit, ei löytynyt."
+msgstr "Projekti, jota etsit, ei löytynyt tai se ei ole julkinen."
 
 #: weblate/templates/500.html:5 weblate/trans/views/basic.py:557
 msgid "Internal Server Error"
@@ -1215,7 +1209,7 @@ msgstr "Lisenssit"
 #: weblate/templates/accounts/profile.html:29
 #: weblate/templates/accounts/profile.html:299
 msgid "Audit log"
-msgstr ""
+msgstr "Valvontaloki"
 
 #: weblate/templates/accounts/profile.html:30
 #: weblate/templates/accounts/profile.html:343
@@ -1331,10 +1325,8 @@ msgstr ""
 "committeissa."
 
 #: weblate/templates/accounts/profile.html:179
-#, fuzzy
-#| msgid "User identities"
 msgid "Current user identities"
-msgstr "Käyttäjätunnisteet"
+msgstr "Nykyisen Käyttäjän tunnisteet"
 
 #: weblate/templates/accounts/profile.html:183
 msgid "Identity"
@@ -1358,10 +1350,8 @@ msgid "Disconnect"
 msgstr "Katkaise yhteys"
 
 #: weblate/templates/accounts/profile.html:213
-#, fuzzy
-#| msgid "Add new association:"
 msgid "Add new association"
-msgstr "Lisää uusi liitos:"
+msgstr "Lisää uusi liitos"
 
 #: weblate/templates/accounts/profile.html:224
 msgid "Removal"
@@ -1414,36 +1404,32 @@ msgid "When"
 msgstr "Milloin"
 
 #: weblate/templates/accounts/profile.html:305
-#, fuzzy
-#| msgid "Email addresses"
 msgid "IP address"
-msgstr "Sähköpostiosoitteet"
+msgstr "IP -osoite"
 
 #: weblate/templates/accounts/profile.html:316
-#, fuzzy
-#| msgid "No recent activity has been recorded."
 msgid "No recent activity found!"
-msgstr "Viimeaikaista aktiivisuutta ei ole tallennettu."
+msgstr "Viimeaikaisia tapahtumia ei löytynyt!"
 
 #: weblate/templates/accounts/profile.html:321
 msgid "Report suspicious activity"
-msgstr ""
+msgstr "Ilmoita epäilyttävästä toiminnasta"
 
 #: weblate/templates/accounts/profile.html:331
 msgid ""
 "Audit log shows important changes on your account. In case you see something "
 "suspicious don't hesitate to contact us."
 msgstr ""
+"Valvontaloki näyttää tilisi merkittävimmät muutokset. Jos huomaat jotain "
+"epäilyttävää, älä epäröi ottaa meihin yhteyttä."
 
 #: weblate/templates/accounts/profile.html:346
 msgid "Your personal API key:"
 msgstr "Henkilökohtainen rajapinta-avaimesi:"
 
 #: weblate/templates/accounts/profile.html:353
-#, fuzzy
-#| msgid "Regenerate"
 msgid "Regenerate API key"
-msgstr "Keksi uusi"
+msgstr "Luo uusi rajapinta-avain (API key)"
 
 #: weblate/templates/accounts/profile.html:357
 msgid "API root URL:"
@@ -1454,10 +1440,8 @@ msgid "API usage example:"
 msgstr "Rajapinnan käyttöesimerkki:"
 
 #: weblate/templates/accounts/profile.html:373
-#, fuzzy
-#| msgid "API usage example:"
 msgid "CLI usage example:"
-msgstr "Rajapinnan käyttöesimerkki:"
+msgstr "Käyttöesimerkki komentoriviltä:"
 
 #: weblate/templates/accounts/profile.html:395
 #, python-format
@@ -1632,11 +1616,11 @@ msgstr "Suorituskykyraportti"
 
 #: weblate/templates/admin/logout-confirm.html:23
 msgid "Please confirm your logout."
-msgstr ""
+msgstr "Vahvista uloskirjautumisesi."
 
 #: weblate/templates/admin/logout-confirm.html:26
 msgid "I confirm logout"
-msgstr ""
+msgstr "Vahvistan uloskirjautumisen"
 
 #: weblate/templates/admin/performance.html:9
 #: weblate/templates/admin/report.html:8 weblate/templates/admin/ssh.html:8
@@ -4422,7 +4406,7 @@ msgstr "Sinulla ei ole oikeuksia lisätä käännösehdotuksia!"
 
 #: weblate/templates/translate.html:173
 msgid "Skip"
-msgstr ""
+msgstr "Ohita"
 
 #: weblate/templates/translate.html:177
 msgid "Commit message:"
