@@ -32,7 +32,7 @@ from weblate.trans.machine.base import (
 COGNITIVE_BASE_URL = 'https://api.cognitive.microsoft.com/sts/v1.0'
 COGNITIVE_TOKEN = COGNITIVE_BASE_URL + '/issueToken?Subscription-Key={0}'
 
-BASE_URL = 'http://api.microsofttranslator.com/V2/Ajax.svc/'
+BASE_URL = 'https://api.microsofttranslator.com/V2/Ajax.svc/'
 TRANSLATE_URL = BASE_URL + 'Translate'
 LIST_URL = BASE_URL + 'GetLanguagesForTranslate'
 TOKEN_EXPIRY = timedelta(minutes=9)
@@ -73,7 +73,7 @@ class MicrosoftTranslation(MachineTranslation):
                 http_post=True,
                 client_id=settings.MT_MICROSOFT_ID,
                 client_secret=settings.MT_MICROSOFT_SECRET,
-                scope='http://api.microsofttranslator.com',
+                scope='https://api.microsofttranslator.com',
                 grant_type='client_credentials',
             )
 

@@ -212,13 +212,13 @@ class MachineTranslationTest(TestCase):
         )
         httpretty.register_uri(
             httpretty.GET,
-            'http://api.microsofttranslator.com/V2/Ajax.svc/'
+            'https://api.microsofttranslator.com/V2/Ajax.svc/'
             'GetLanguagesForTranslate',
             body='["en","cs"]'
         )
         httpretty.register_uri(
             httpretty.GET,
-            'http://api.microsofttranslator.com/V2/Ajax.svc/Translate',
+            'https://api.microsofttranslator.com/V2/Ajax.svc/Translate',
             body='"svět"'.encode('utf-8')
         )
 
@@ -236,13 +236,13 @@ class MachineTranslationTest(TestCase):
         )
         httpretty.register_uri(
             httpretty.GET,
-            'http://api.microsofttranslator.com/V2/Ajax.svc/'
+            'https://api.microsofttranslator.com/V2/Ajax.svc/'
             'GetLanguagesForTranslate',
             body='["en","cs"]'
         )
         httpretty.register_uri(
             httpretty.GET,
-            'http://api.microsofttranslator.com/V2/Ajax.svc/Translate',
+            'https://api.microsofttranslator.com/V2/Ajax.svc/Translate',
             body='"svět"'.encode('utf-8')
         )
 
