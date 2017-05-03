@@ -19,6 +19,7 @@
 #
 
 from __future__ import unicode_literals
+import json
 import os
 import binascii
 
@@ -45,6 +46,44 @@ from weblate.accounts.avatar import get_user_display
 from weblate.trans.signals import user_pre_delete
 from weblate.utils.validators import validate_editor
 from weblate.utils.decorators import disable_for_loaddata
+
+
+ACCOUNT_ACTIVITY = {
+    'password': _(
+        'Password has been changed.'
+    ),
+    'reset': _(
+        'Password reset has been confirmed.'
+    ),
+    'auth-connect': _(
+        'Authentication using {method} ({name}) has been added.'
+    ),
+    'auth-disconnect': _(
+        'Authentication using {method} ({name}) has been removed.'
+    ),
+    'register': _(
+        'Somebody has attempted to register with your email.'
+    ),
+    'connect': _(
+        'Somebody has attempted to add your email to existing account.'
+    ),
+    'failed-auth': _(
+        'Failed authentication attempt.'
+    ),
+    'locked': _(
+        'Account locked due to excessive failed authentication attempts.'
+    ),
+}
+
+NOTIFY_ACTIVITY = frozenset((
+    'password',
+    'reset',
+    'auth-connect',
+    'auth-disconnect',
+    'register',
+    'connect',
+    'locked',
+))
 
 
 class WeblateAnonymousUser(User):
@@ -89,6 +128,50 @@ def get_author_name(user, email=True):
     if not email:
         return full_name
     return '{0} <{1}>'.format(full_name, user.email)
+
+
+class AuditLogManager(models.Manager):
+    def create(self, user, activity, address, **params):
+        return super(AuditLogManager, self).create(
+            user=user,
+            activity=activity,
+            address=address,
+            params=json.dumps(params)
+        )
+
+
+@python_2_unicode_compatible
+class AuditLog(models.Model):
+    """User audit log storage."""
+
+    user = models.ForeignKey(User)
+    activity = models.CharField(
+        max_length=20,
+        choices=[(a, a) for a in sorted(ACCOUNT_ACTIVITY.keys())],
+    )
+    params = models.TextField()
+    address = models.GenericIPAddressField()
+    timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
+
+    objects = AuditLogManager()
+
+    class Meta(object):
+        ordering = ['-timestamp']
+
+    def get_message(self):
+        return ACCOUNT_ACTIVITY[self.activity].format(
+            **json.loads(self.params)
+        )
+
+    def should_notify(self):
+        return self.activity in NOTIFY_ACTIVITY
+
+    def __str__(self):
+        return '{0} for {1} from {2}'.format(
+            self.activity,
+            self.user.username,
+            self.address
+        )
 
 
 @python_2_unicode_compatible
@@ -167,6 +250,7 @@ class ProfileManager(models.Manager):
 
     def subscribed_merge_failure(self, project):
         return self.filter(subscribe_merge_failure=True, subscriptions=project)
+
 
 
 @python_2_unicode_compatible

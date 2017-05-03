@@ -30,34 +30,12 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import force_text
 
 from weblate.accounts.ratelimit import get_ip_address
-from weblate.accounts.models import Profile
+from weblate.accounts.models import Profile, AuditLog
 from weblate.permissions.helpers import can_access_project
 from weblate.trans.site import get_site_url, get_site_domain
 from weblate.utils.errors import report_error
 from weblate import VERSION
 from weblate.logger import LOGGER
-
-
-ACCOUNT_ACTIVITY = {
-    'password': _(
-        'Password has been changed.'
-    ),
-    'reset': _(
-        'Password reset has been confirmed.'
-    ),
-    'auth-connect': _(
-        'Authentication using {method} ({name}) has been added.'
-    ),
-    'auth-disconnect': _(
-        'Authentication using {method} ({name}) has been removed.'
-    ),
-    'register': _(
-        'Somebody has attempted to register with your email.'
-    ),
-    'connect': _(
-        'Somebody has attempted to add your email to existing account.'
-    ),
-}
 
 
 def notify_merge_failure(subproject, error, status):
@@ -390,15 +368,17 @@ def send_notification_email(language, email, notification,
 
 def notify_account_activity(user, request, activity, **kwargs):
     """Notification about important activity with account."""
-    kwargs['message'] = ACCOUNT_ACTIVITY[activity].format(**kwargs)
+    address = get_ip_address(request)
+    audit = AuditLog.objects.create(user, activity, address, **kwargs)
 
-    send_notification_email(
-        user.profile.language,
-        user.email,
-        'account_activity',
-        context=kwargs,
-        info='{0} from {1}'.format(activity, get_ip_address(request)),
-    )
+    if audit.should_notify():
+        send_notification_email(
+            user.profile.language,
+            user.email,
+            'account_activity',
+            context={'message': audit.get_message()},
+            info='{0} from {1}'.format(activity, address),
+        )
 
 
 def send_user(profile, notification, subproject, display_obj,

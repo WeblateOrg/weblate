@@ -17,6 +17,7 @@ Released on ? 2017.
 * Various minor improvements in security.
 * The authentication attempts are now rate limited.
 * Suggestion content is stored in the history.
+* Store important account activity in audit log.
 
 weblate 2.13.1
 --------------
