@@ -34,6 +34,8 @@ User name of user for definining privileges of not logged in user.
 AUTH_LOCK_ATTEMPTS
 ------------------
 
+.. versionadded:: 2.14
+
 Maximal number of failed authentication attempts before acccount password is
 reset. User will not be able to log in after that using password until he asks
 for password reset.
