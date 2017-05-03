@@ -177,7 +177,7 @@ class ViewTest(TestCase):
         response = self.client.post(reverse('logout'))
         self.assertRedirects(response, reverse('home'))
 
-    @override_settings(AUTH_MAX_ATTEMPTS=10, AUTH_LOCK_ATTEMPTS=5)
+    @override_settings(AUTH_MAX_ATTEMPTS=20, AUTH_LOCK_ATTEMPTS=5)
     def test_login_ratelimit(self, login=False):
         if login:
             self.test_login()
