@@ -220,7 +220,7 @@ def user_profile(request):
                 request,
                 mark_safe(
                     _(
-                        'You do not have enabled password authentication, '
+                        'You have not enabled password authentication, '
                         'please <a href="{0}">set the password</a>.'
                     ).format(reverse('password'))
                 )
