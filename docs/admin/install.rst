@@ -510,17 +510,11 @@ subset of Unicode, but this time which can be stored in four bytes in ``utf-8``
 encoding, thus covering all chars currently defined in Unicode).
 
 This can be achieved at database creation time by creating it with this
-character set and specifying the character set in connection settings (see
-:ref:`mysql-config`):
+character set (see :ref:`mysql-create`) and specifying the character set in
+connection settings (see :ref:`mysql-config`).
 
-.. code-block:: mysql
-
-    # Create database on MySQL >= 5.7.7
-    CREATE DATABASE weblate CHARACTER SET utf8mb4;
-    # Use utf8 for older versions
-    # CREATE DATABASE weblate CHARACTER SET utf8;
-
-In case you have existing database, you can change it to ``utf8mb4`` by:
+In case you have existing database, you can change it to ``utf8mb4`` by, but
+this won't change collation of existing fields:
 
 .. code-block:: mysql
 
@@ -544,6 +538,8 @@ configuration file (usually :file:`/etc/mysql/my.cnf` on Linux):
 
     `Setting sql_mode <https://docs.djangoproject.com/en/stable/ref/databases/#setting-sql-mode>`_
 
+.. _mysql-create:
+
 Creating database in MySQL
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -553,6 +549,12 @@ Create ``weblate`` user to access the ``weblate`` database:
 
     # Grant all privileges to  weblate user
     GRANT ALL PRIVILEGES ON weblate.* TO 'weblate'@'localhost'  IDENTIFIED BY 'password';
+
+    # Create database on MySQL >= 5.7.7
+    CREATE DATABASE weblate CHARACTER SET utf8mb4;
+
+    # Use utf8 for older versions
+    # CREATE DATABASE weblate CHARACTER SET utf8;
 
 .. _mysql-config:
 
