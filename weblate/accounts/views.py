@@ -257,6 +257,7 @@ def user_profile(request):
                 groupacl__groups__name__endswith='@Administration',
                 groupacl__groups__user=request.user,
             ).distinct(),
+            'auditlog': request.user.auditlog_set.all()[:20],
         }
     )
     result.set_cookie(

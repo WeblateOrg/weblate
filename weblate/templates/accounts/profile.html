@@ -26,6 +26,7 @@
 <li><a data-toggle="tab" href="#auth">{% trans "Authentication" %}</a></li>
 <li><a data-toggle="tab" href="#profile">{% trans "Profile" %}</a></li>
 <li><a data-toggle="tab" href="#licenses">{% trans "Licenses" %}</a></li>
+<li><a data-toggle="tab" href="#audit">{% trans "Audit log" %}</a></li>
 <li><a data-toggle="tab" href="#api">{% trans "API access" %}</a></li>
 {% if user.billing %}
 <li><a data-toggle="tab" href="#billing">{% trans "Billing" %}</a></li>
@@ -289,6 +290,50 @@
 
 </div>
 
+</div>
+
+<div class="tab-pane" id="audit">
+<div class="row">
+<div class="col-lg-6">
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Audit log" %}</h4></div>
+<table class="table">
+<thead>
+<tr>
+<th>{% trans "When" %}</th>
+<th>{% trans "Account activity" %}</th>
+<th>{% trans "IP address" %}</th>
+</tr>
+</thead>
+<tbody>
+{% for log in auditlog %}
+<tr>
+<td>{{ log.timestamp|naturaltime }}</td>
+<td>{{ log.get_message }}</td>
+<td>{{ log.address }}</td>
+</tr>
+{% empty %}
+<tr><td colspan="3">{% trans "No recent activity found!" %}</td></tr>
+{% endfor %}
+</tbody>
+</table>
+  <div class="panel-footer">
+    <a href="{% url 'contact' %}?t=account" class="btn btn-warning">{% trans "Report suspicious activity" %}</a>
+  </div>
+</div>
+
+</div>
+
+<div class="col-lg-6 hidden-xs">
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Description" %}</h4></div>
+  <div class="panel-body">
+    <p>{% blocktrans %}Audit log shows important changes on your account. In case you see something suspicious don't hesitate to contact us.{% endblocktrans %}</p>
+  </div>
+</div>
+</div>
+
+</div>
 </div>
 
 <div class="tab-pane" id="api">
