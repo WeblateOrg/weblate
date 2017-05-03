@@ -82,7 +82,7 @@ class MyMemoryTranslation(MachineTranslation):
             args['key'] = settings.MT_MYMEMORY_KEY
 
         response = self.json_status_req(
-            'http://mymemory.translated.net/api/get',
+            'https://mymemory.translated.net/api/get',
             **args
         )
 

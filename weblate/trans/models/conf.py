@@ -50,7 +50,7 @@ class WeblateConf(AppConf):
     MT_MICROSOFT_COGNITIVE_KEY = None
 
     # MyMemory identification email, see
-    # http://mymemory.translated.net/doc/spec.php
+    # https://mymemory.translated.net/doc/spec.php
     MT_MYMEMORY_EMAIL = None
 
     # Optional MyMemory credentials to access private translation memory

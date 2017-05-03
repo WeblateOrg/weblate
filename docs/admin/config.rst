@@ -618,7 +618,7 @@ MyMemory identification email, you can get 1000 requests per day with this.
 .. seealso::
 
    :ref:`mymemory`, :ref:`machine-translation-setup`, :ref:`machine-translation`,
-   `MyMemory: API technical specifications <http://mymemory.translated.net/doc/spec.php>`_
+   `MyMemory: API technical specifications <https://mymemory.translated.net/doc/spec.php>`_
 
 .. setting:: MT_MYMEMORY_KEY
 
@@ -630,7 +630,7 @@ MyMemory access key for private translation memory, use together with :setting:`
 .. seealso::
 
    :ref:`mymemory`, :ref:`machine-translation-setup`, :ref:`machine-translation`,
-   `MyMemory: API key generator <http://mymemory.translated.net/doc/keygen.php>`_
+   `MyMemory: API key generator <https://mymemory.translated.net/doc/keygen.php>`_
 
 .. setting:: MT_MYMEMORY_USER
 
@@ -642,7 +642,7 @@ MyMemory user id for private translation memory, use together with :setting:`MT_
 .. seealso::
 
    :ref:`mymemory`, :ref:`machine-translation-setup`, :ref:`machine-translation`,
-   `MyMemory: API key generator <http://mymemory.translated.net/doc/keygen.php>`_
+   `MyMemory: API key generator <https://mymemory.translated.net/doc/keygen.php>`_
 
 .. setting:: MT_TMSERVER
 

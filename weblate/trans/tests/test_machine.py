@@ -161,7 +161,7 @@ class MachineTranslationTest(TestCase):
     def test_mymemory(self):
         httpretty.register_uri(
             httpretty.GET,
-            'http://mymemory.translated.net/api/get',
+            'https://mymemory.translated.net/api/get',
             body=MYMEMORY_JSON
         )
         machine = MyMemoryTranslation()
