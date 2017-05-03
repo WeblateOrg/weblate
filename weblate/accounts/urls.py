@@ -19,7 +19,6 @@
 #
 
 from django.conf.urls import url, include
-from django.views.decorators.http import require_POST
 
 import social_django.views
 
@@ -27,6 +26,7 @@ import weblate.accounts.views
 
 # Follows copy of social_django.urls with few changes:
 # - authentication requires POST (issue submitted upstream)
+# - authentication stores current user (to avoid CSRF on complete)
 # - removed some configurability (just to avoid additional deps)
 # - the association_id has to be numeric (patch accepted upstream)
 social_urls = [
