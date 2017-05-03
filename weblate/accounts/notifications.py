@@ -380,7 +380,7 @@ def notify_account_activity(user, request, activity, **kwargs):
         )
 
     # Handle login rate limiting
-    if activity == 'failed-auth':
+    if activity == 'failed-auth' and user.has_usable_password():
         kwargs = {}
         try:
             latest_login = AuditLog.objects.filter(
