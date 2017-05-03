@@ -459,6 +459,7 @@ def register(request):
                 )
                 request.session['registration-email-sent'] = True
                 return redirect('email-sent')
+            store_userid(request)
             return complete(request, 'email')
     else:
         form = RegistrationForm()
@@ -503,6 +504,7 @@ def email_login(request):
                 )
                 request.session['registration-email-sent'] = True
                 return redirect('email-sent')
+            store_userid(request)
             return complete(request, 'email')
     else:
         form = EmailForm()
@@ -623,6 +625,7 @@ def reset_password(request):
 
             if form.cleaned_data['email_user']:
                 request.session['password_reset'] = True
+                store_userid(request)
                 return complete(request, 'email')
             else:
                 request.session['registration-email-sent'] = True
@@ -689,6 +692,10 @@ class SuggestionView(ListView):
         return result
 
 
+def store_userid(request):
+    """Store user ID in the session."""
+    request.session['social_auth_user'] = request.user.pk
+
 @require_POST
 def social_auth(request, backend):
     """Wrapper around social_django.views.auth.
@@ -696,5 +703,5 @@ def social_auth(request, backend):
     - requires POST (to avoid CSRF on auth)
     - it stores current user in session (to avoid CSRF on complete)
     """
-    request.session['social_auth_user'] = request.user.pk
+    store_userid(request)
     return auth(request, backend)
