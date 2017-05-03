@@ -26,7 +26,6 @@ from django.conf import settings
 from django.core.mail import EmailMultiAlternatives, get_connection
 from django.template.loader import render_to_string
 from django.utils import translation as django_translation
-from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import force_text
 
 from weblate.accounts.ratelimit import get_ip_address
