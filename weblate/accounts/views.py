@@ -31,6 +31,7 @@ from django.core.mail.message import EmailMultiAlternatives
 from django.utils import translation
 from django.utils.cache import patch_response_headers
 from django.utils.crypto import get_random_string
+from django.utils.safestring import mark_safe
 from django.utils.translation import get_language
 from django.contrib.auth.models import User
 from django.contrib.auth import views as auth_views
@@ -181,6 +182,7 @@ def user_profile(request):
         UserSettingsForm,
         DashboardSettingsForm,
     ]
+    all_backends = set(load_backends(BACKENDS).keys())
 
     if request.method == 'POST':
         # Parse POST params
@@ -213,9 +215,19 @@ def user_profile(request):
         forms = [form(instance=profile) for form in form_classes]
         forms.append(UserForm(instance=request.user))
 
+        if not request.user.has_usable_password() and 'email' in all_backends:
+            messages.warning(
+                request,
+                mark_safe(
+                    _(
+                        'You do not have enabled password authentication, '
+                        'please <a href="{0}">set the password</a>.'
+                    ).format(reverse('password'))
+                )
+            )
+
     social = request.user.social_auth.all()
     social_names = [assoc.provider for assoc in social]
-    all_backends = set(load_backends(BACKENDS).keys())
     new_backends = [
         x for x in all_backends
         if x == 'email' or x not in social_names
@@ -245,6 +257,7 @@ def user_profile(request):
                 groupacl__groups__name__endswith='@Administration',
                 groupacl__groups__user=request.user,
             ).distinct(),
+            'auditlog': request.user.auditlog_set.all()[:20],
         }
     )
     result.set_cookie(

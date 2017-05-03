@@ -26,6 +26,7 @@
 <li><a data-toggle="tab" href="#auth">{% trans "Authentication" %}</a></li>
 <li><a data-toggle="tab" href="#profile">{% trans "Profile" %}</a></li>
 <li><a data-toggle="tab" href="#licenses">{% trans "Licenses" %}</a></li>
+<li><a data-toggle="tab" href="#audit">{% trans "Audit log" %}</a></li>
 <li><a data-toggle="tab" href="#api">{% trans "API access" %}</a></li>
 {% if user.billing %}
 <li><a data-toggle="tab" href="#billing">{% trans "Billing" %}</a></li>
@@ -175,11 +176,8 @@
 <div class="row">
 <div class="col-lg-6">
 <div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "User identities" %}</h4></div>
-  <div class="panel-body">
-<p>{% trans "You can manage identities which are associated to this account and which can be used to log in." %}</p>
-<p>{% trans "Currently associated:" %}</p>
-<table class="table table-condensed">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Current user identities" %}</h4></div>
+<table class="table">
 <thead>
 <tr>
 <th>{% trans "Identity" %}</th>
@@ -208,15 +206,18 @@
 {% endfor %}
 </tbody>
 </table>
+</div>
 
 {% if new_backends %}
-<p>{% trans "Add new association:" %}</p>
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Add new association" %}</h4></div>
+  <div class="panel-body">
 {% for name in new_backends %}
   <a class="btn btn-link link-post" href="{% url 'social:begin' name %}?next={% url 'profile' %}%23auth">{% auth_name name %}</a>
 {% endfor %}
+</div>
+</div>
 {% endif %}
-</div>
-</div>
 
 
 <div class="panel panel-danger">
@@ -235,6 +236,7 @@
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Description" %}</h4></div>
   <div class="panel-body">
+    <p>{% trans "You can manage identities which are associated to this account and which can be used to log in." %}</p>
     <p>{% trans "You can configure how you will log in on this site." %}</p>
   </div>
   <div class="panel-footer">
@@ -250,7 +252,7 @@
 <div class="col-lg-6">
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Your summary" %}</h4></div>
-<table class="table table-condensed">
+<table class="table">
 {% with request.user as user %}
 {% include 'user-activity.html' %}
 {% endwith %}
@@ -290,19 +292,65 @@
 
 </div>
 
+<div class="tab-pane" id="audit">
+<div class="row">
+<div class="col-lg-6">
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Audit log" %}</h4></div>
+<table class="table">
+<thead>
+<tr>
+<th>{% trans "When" %}</th>
+<th>{% trans "Account activity" %}</th>
+<th>{% trans "IP address" %}</th>
+</tr>
+</thead>
+<tbody>
+{% for log in auditlog %}
+<tr>
+<td>{{ log.timestamp|naturaltime }}</td>
+<td>{{ log.get_message }}</td>
+<td>{{ log.address }}</td>
+</tr>
+{% empty %}
+<tr><td colspan="3">{% trans "No recent activity found!" %}</td></tr>
+{% endfor %}
+</tbody>
+</table>
+  <div class="panel-footer">
+    <a href="{% url 'contact' %}?t=account" class="btn btn-warning">{% trans "Report suspicious activity" %}</a>
+  </div>
+</div>
+
+</div>
+
+<div class="col-lg-6 hidden-xs">
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Description" %}</h4></div>
+  <div class="panel-body">
+    <p>{% blocktrans %}Audit log shows important changes on your account. In case you see something suspicious don't hesitate to contact us.{% endblocktrans %}</p>
+  </div>
+</div>
+</div>
+
+</div>
+</div>
+
 <div class="tab-pane" id="api">
 <div class="row">
 <div class="col-lg-6">
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "API access" %}</h4></div>
-  <div class="panel-body">
-<p>
 <table class="table">
 <tr>
 <th>{% trans "Your personal API key:" %}</th>
 <td>
     {{ user.auth_token.key }} 
-    <a class="pull-right flip btn btn-default btn-xs link-post" href="{% url 'reset-api-key' %}">{% trans "Regenerate" %}</a>
+</td>
+</tr>
+<tr>
+<td colspan="2">
+    <a class="pull-right flip btn btn-default link-post" href="{% url 'reset-api-key' %}">{% trans "Regenerate API key" %}</a>
 </td>
 </tr>
 <tr>
@@ -321,10 +369,20 @@ curl \
 </pre>
 </td>
 </tr>
+<tr>
+<th colspan="2">{% trans "CLI usage example:" %}</th>
+</tr>
+<tr>
+<td colspan="2">
+<pre>
+wlc \
+    --key {{ user.auth_token.key }} \
+    --url {{ site_url }}{% url 'api:api-root' %} \
+    list-projects
+</pre>
+</td>
+</tr>
 </table>
-</p>
-
-</div>
 </div>
 
 </div>
@@ -407,7 +465,6 @@ curl \
 <div class="col-lg-6">
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Invoices" %}</h4></div>
-  <div class="panel-body">
 <table class="table table-striped">
 <thead>
 <tr>
@@ -434,7 +491,6 @@ curl \
 {% endfor %}
 </tbody>
 </table>
-</div>
 </div>
 </div>
 
