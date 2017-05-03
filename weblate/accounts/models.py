@@ -31,6 +31,7 @@ from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
 from django.contrib.auth.models import User
+from django.utils.crypto import get_random_string
 from django.utils.deprecation import CallableFalse, CallableTrue
 from django.utils.translation import LANGUAGE_SESSION_KEY
 
@@ -455,6 +456,9 @@ def create_profile_callback(sender, instance, created=False, **kwargs):
     """Automatically create token and profile for user."""
     if created:
         # Create API token
-        Token.objects.create(user=instance)
+        Token.objects.create(
+            user=instance,
+            key=get_random_string(40),
+        )
         # Create profile
         Profile.objects.get_or_create(user=instance)
