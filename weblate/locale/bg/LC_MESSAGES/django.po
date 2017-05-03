@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-05-03 12:50+0000\n"
-"PO-Revision-Date: 2017-05-03 05:38+0000\n"
+"PO-Revision-Date: 2017-05-03 13:28+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@abv.bg>\n"
-"Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/master/"
-"bg/>\n"
+"Language-Team: Bulgarian "
+"<https://hosted.weblate.org/projects/weblate/master/bg/>\n"
 "Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -219,10 +219,9 @@ msgid "Authentication using {method} ({name}) has been removed."
 msgstr "Удостоверяването чрез {method} ({name}) беше премахнато."
 
 #: weblate/accounts/models.py:65
-#, fuzzy, python-brace-format
-#| msgid "Authentication using {method} ({name}) has been added."
+#, python-brace-format
 msgid "Successfully authenticated using {method} ({name})."
-msgstr "Беше добавено удостоверяване чрез {method} ({name})."
+msgstr "Успешно удостоверяване чрез ({method}) ({name})."
 
 #: weblate/accounts/models.py:68
 msgid "Somebody has attempted to register with your email."
@@ -233,20 +232,18 @@ msgid "Somebody has attempted to add your email to existing account."
 msgstr "Някой се опита да добави Вашата е-поща в съществуващ акаунт."
 
 #: weblate/accounts/models.py:74
-#, fuzzy, python-brace-format
-#| msgid "Authentication using {method} ({name}) has been added."
+#, python-brace-format
 msgid "Failed authentication attempt using {method} ({name})."
-msgstr "Беше добавено удостоверяване чрез {method} ({name})."
+msgstr "Неуспешен опит за удостоверяване чрез {method} ({name})."
 
 #: weblate/accounts/models.py:77
 msgid "Account locked due to excessive failed authentication attempts."
 msgstr ""
+"Акаунтът е заключен поради твърде много неуспешни опити за удостоверяване."
 
 #: weblate/accounts/models.py:169 weblate/templates/accounts/profile.html:304
-#, fuzzy
-#| msgid "Last activity"
 msgid "Account activity"
-msgstr "Последна дейност"
+msgstr "Дейност на акаунта"
 
 #: weblate/accounts/models.py:267
 msgid "Interface Language"
@@ -452,6 +449,8 @@ msgid ""
 "You do not have enabled password authentication, please <a href=\"{0}\">set "
 "the password</a>."
 msgstr ""
+"Удостоверяването чрез парола не е включено. Моля, <a href=\"{0}\">задайте "
+"парола</a>."
 
 #: weblate/accounts/views.py:252
 msgid "User profile"
@@ -1213,7 +1212,7 @@ msgstr "Лицензи"
 #: weblate/templates/accounts/profile.html:29
 #: weblate/templates/accounts/profile.html:299
 msgid "Audit log"
-msgstr ""
+msgstr "Журнал на дейността"
 
 #: weblate/templates/accounts/profile.html:30
 #: weblate/templates/accounts/profile.html:343
@@ -1330,10 +1329,8 @@ msgstr ""
 "изпращате преводи."
 
 #: weblate/templates/accounts/profile.html:179
-#, fuzzy
-#| msgid "User identities"
 msgid "Current user identities"
-msgstr "Идентификационни данни на потребителя"
+msgstr "Идентификационни данни на текущия потребител"
 
 #: weblate/templates/accounts/profile.html:183
 msgid "Identity"
@@ -1357,10 +1354,8 @@ msgid "Disconnect"
 msgstr "Разкачане"
 
 #: weblate/templates/accounts/profile.html:213
-#, fuzzy
-#| msgid "Add new association:"
 msgid "Add new association"
-msgstr "Добавяне на нова връзка:"
+msgstr "Добавяне на нова връзка"
 
 #: weblate/templates/accounts/profile.html:224
 msgid "Removal"
@@ -1413,36 +1408,32 @@ msgid "When"
 msgstr "Кога"
 
 #: weblate/templates/accounts/profile.html:305
-#, fuzzy
-#| msgid "Email addresses"
 msgid "IP address"
-msgstr "Адреси на е-пощи"
+msgstr "IP адреси"
 
 #: weblate/templates/accounts/profile.html:316
-#, fuzzy
-#| msgid "No matching activity has been found."
 msgid "No recent activity found!"
-msgstr "Не е намерено съответстващо действие."
+msgstr "Не е открита скорошна дейност!"
 
 #: weblate/templates/accounts/profile.html:321
 msgid "Report suspicious activity"
-msgstr ""
+msgstr "Докладване на подозрителна дейност"
 
 #: weblate/templates/accounts/profile.html:331
 msgid ""
 "Audit log shows important changes on your account. In case you see something "
 "suspicious don't hesitate to contact us."
 msgstr ""
+"Журналът на дейността показва важните промени по акаунта Ви. Ако видите нещо "
+"подозрително, не се притеснявайте да се свържете с нас."
 
 #: weblate/templates/accounts/profile.html:346
 msgid "Your personal API key:"
 msgstr "Вашият личен ключ за ППИ:"
 
 #: weblate/templates/accounts/profile.html:353
-#, fuzzy
-#| msgid "Regenerate"
 msgid "Regenerate API key"
-msgstr "Пресъздаване"
+msgstr "Пресъздаване на ключа за ППИ"
 
 #: weblate/templates/accounts/profile.html:357
 msgid "API root URL:"
@@ -1453,10 +1444,8 @@ msgid "API usage example:"
 msgstr "Пример за използване на ППИ:"
 
 #: weblate/templates/accounts/profile.html:373
-#, fuzzy
-#| msgid "API usage example:"
 msgid "CLI usage example:"
-msgstr "Пример за използване на ППИ:"
+msgstr "Пример за използване на клиента за команден ред:"
 
 #: weblate/templates/accounts/profile.html:395
 #, python-format
