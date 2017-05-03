@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-05-02 14:42+0000\n"
-"PO-Revision-Date: 2017-04-29 00:53+0000\n"
+"PO-Revision-Date: 2017-05-03 00:44+0000\n"
 "Last-Translator: Igor <f2404@yandex.ru>\n"
-"Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
-"ru/>\n"
+"Language-Team: Russian "
+"<https://hosted.weblate.org/projects/weblate/master/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.14-dev\n"
 
 #: weblate/accounts/auth.py:57
@@ -363,32 +363,35 @@ msgstr "Сброс пароля подтверждён."
 #: weblate/accounts/notifications.py:49
 #, python-brace-format
 msgid "Authentication using {method} ({name}) has been added."
-msgstr ""
+msgstr "Добавлена аутентификация с использованием {method}{name}."
 
 #: weblate/accounts/notifications.py:52
 #, python-brace-format
 msgid "Authentication using {method} ({name}) has been removed."
-msgstr ""
+msgstr "Аутентификация с использованием {method}{name} удалена."
 
 #: weblate/accounts/notifications.py:55
 msgid "Somebody has attempted to register with your email."
-msgstr ""
+msgstr "Кто-то пробовал зарегистрироваться с вашим адресом электронный почты."
 
 #: weblate/accounts/notifications.py:58
 msgid "Somebody has attempted to add your email to existing account."
 msgstr ""
+"Кто-то пробовал добавить ваш адрес электронной почты к существующей учётной "
+"записи."
 
 #: weblate/accounts/password_validation.py:38
 msgid "This password consists of whitespace only."
-msgstr ""
+msgstr "Этот пароль состоит только из пробелов."
 
 #: weblate/accounts/password_validation.py:43
 msgid "This password consists of single character."
-msgstr ""
+msgstr "Этот пароль состоит из единственного символа."
 
 #: weblate/accounts/password_validation.py:49
 msgid "Your password can't consist of single character or whitespace only."
 msgstr ""
+"Ваш пароль не может состоять только из пробелов или единственного символа."
 
 #: weblate/accounts/pipeline.py:185
 msgid "New registrations are disabled!"
@@ -403,6 +406,8 @@ msgstr "Невозможно изменить аутентификацию дл�
 msgid ""
 "Your email no longer belongs to verified account, it has been changed to {0}."
 msgstr ""
+"Ваш адрес электронной почты больше не принадлежит к проверенной учётной "
+"записи, он был изменён на {0}."
 
 #: weblate/accounts/views.py:101 weblate/accounts/views.py:480
 msgid "User registration"
@@ -434,7 +439,7 @@ msgstr "Ваша учётная запись была удалена."
 
 #: weblate/accounts/views.py:295
 msgid "Too many messages sent, please try again later!"
-msgstr ""
+msgstr "Слишком много отправленных сообщений, попробуйте, пожалуйста, позже!"
 
 #: weblate/accounts/views.py:317 weblate/templates/accounts/contact.html:6
 #: weblate/templates/accounts/contact.html:21
@@ -481,10 +486,8 @@ msgid "Password reset"
 msgstr "Сброс пароля"
 
 #: weblate/admin.py:69 weblate/admin.py:70
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Weblate administration"
-msgstr "Weblate переводы"
+msgstr "Управление Weblate"
 
 #: weblate/admin.py:132 weblate/templates/base.html:125
 msgid "Logout"
@@ -771,7 +774,7 @@ msgstr "Перевод"
 #: weblate/permissions/data.py:153
 msgctxt "Permissions group"
 msgid "VCS"
-msgstr ""
+msgstr "Система контроля версий (VCS)"
 
 #: weblate/permissions/models.py:52
 msgid "Filtered permissions"
@@ -874,11 +877,9 @@ msgid "The page you are looking for was not found."
 msgstr "Страница, которую вы ищете, не найдена."
 
 #: weblate/templates/404.html:15
-#, fuzzy
-#| msgid "The page you are looking for was not found."
 msgid ""
 "The project you are looking for does not exist or is not publicly available."
-msgstr "Страница, которую вы ищете, не найдена."
+msgstr "Проект, который вы ищете, не существует или недоступен публично."
 
 #: weblate/templates/500.html:5 weblate/trans/views/basic.py:557
 msgid "Internal Server Error"
@@ -1549,11 +1550,11 @@ msgstr "Отчет производительности"
 
 #: weblate/templates/admin/logout-confirm.html:23
 msgid "Please confirm your logout."
-msgstr ""
+msgstr "Подтвердите, пожалуйста, выход из учётной записи."
 
 #: weblate/templates/admin/logout-confirm.html:26
 msgid "I confirm logout"
-msgstr ""
+msgstr "Я подтверждаю выход"
 
 #: weblate/templates/admin/performance.html:9
 #: weblate/templates/admin/report.html:8 weblate/templates/admin/ssh.html:8
@@ -4331,7 +4332,7 @@ msgstr "Отсутствуют привилегии для предложени�
 
 #: weblate/templates/translate.html:173
 msgid "Skip"
-msgstr ""
+msgstr "Пропустить"
 
 #: weblate/templates/translate.html:177
 msgid "Commit message:"
