@@ -18,6 +18,7 @@ Released on ? 2017.
 * The authentication attempts are now rate limited.
 * Suggestion content is stored in the history.
 * Store important account activity in audit log.
+* Authentication attempts are rate limited.
 
 weblate 2.13.1
 --------------

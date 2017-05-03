@@ -177,6 +177,32 @@ class ViewTest(TestCase):
         response = self.client.post(reverse('logout'))
         self.assertRedirects(response, reverse('home'))
 
+    @override_settings(AUTH_MAX_ATTEMPTS=10, AUTH_LOCK_ATTEMPTS=5)
+    def test_login_ratelimit(self, login=False):
+        if login:
+            self.test_login()
+        else:
+            self.get_user()
+
+        # Use auth attempts
+        for i in range(5):
+            response = self.client.post(
+                reverse('login'),
+                {'username': 'testuser', 'password': 'invalid'}
+            )
+            self.assertContains(response, 'Please try again.')
+
+        # Try login with valid password
+        response = self.client.post(
+            reverse('login'),
+            {'username': 'testuser', 'password': 'testpassword'}
+        )
+        self.assertContains(response, 'Please try again.')
+
+    @override_settings(AUTH_MAX_ATTEMPTS=10, AUTH_LOCK_ATTEMPTS=5)
+    def test_login_ratelimit_login(self):
+        self.test_login_ratelimit(True)
+
     def test_password(self):
         # Create user
         self.get_user()

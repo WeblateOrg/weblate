@@ -379,6 +379,26 @@ def notify_account_activity(user, request, activity, **kwargs):
             info='{0} from {1}'.format(activity, address),
         )
 
+    # Handle login rate limiting
+    if activity == 'failed-auth':
+        kwargs = {}
+        try:
+            latest_login = AuditLog.objects.filter(
+                user=user, activity='login'
+            )[0]
+            kwargs['timestamp__gt'] = latest_login.timestamp
+        except IndexError:
+            pass
+        failures = AuditLog.objects.filter(
+            user=user,
+            activity='failed-auth',
+            **kwargs
+        )
+        if failures.count() >= settings.AUTH_LOCK_ATTEMPTS:
+            user.set_unusable_password()
+            user.save(update_fields=['password'])
+            notify_account_activity(user, request, 'locked')
+
 
 def send_user(profile, notification, subproject, display_obj,
               context=None, headers=None, user=None):

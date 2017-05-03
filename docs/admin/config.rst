@@ -29,6 +29,21 @@ User name of user for definining privileges of not logged in user.
 
     :ref:`privileges`
 
+.. setting:: AUTH_LOCK_ATTEMPTS
+
+AUTH_LOCK_ATTEMPTS
+------------------
+
+Maximal number of failed authentication attempts before acccount password is
+reset. User will not be able to log in after that using password until he asks
+for password reset.
+
+Defaults to 10.
+
+.. seealso::
+
+    :ref:`rate-limit`,
+
 .. setting:: AUTH_MAX_ATTEMPTS
 
 AUTH_MAX_ATTEMPTS

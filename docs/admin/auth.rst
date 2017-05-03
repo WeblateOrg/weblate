@@ -24,6 +24,10 @@ The password based authentication is subject to rate limiting. At most
 :setting:`AUTH_CHECK_WINDOW` seconds. The user is then blocked
 for :setting:`AUTH_LOCKOUT_TIME`.
 
+If there are more than :setting:`AUTH_LOCK_ATTEMPTS` failed authentication
+attempts on one account, this account password authentication is disabled and
+it's not possible to login until user asks for password reset.
+
 .. _rate-ip:
 
 IP address for rate limiting
