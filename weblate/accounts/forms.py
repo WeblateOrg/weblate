@@ -33,8 +33,10 @@ from django.db.models import Q
 from django.middleware.csrf import rotate_token
 from django.utils.encoding import force_text
 
+from weblate.accounts.auth import try_get_user
 from weblate.accounts.models import Profile, VerifiedEmail
 from weblate.accounts.captcha import MathCaptcha
+from weblate.accounts.notifications import notify_account_activity
 from weblate.accounts.pipeline import USERNAME_RE
 from weblate.accounts.ratelimit import reset_rate_limit, check_rate_limit
 from weblate.lang.models import Language
@@ -456,6 +458,16 @@ class LoginForm(forms.Form):
                 password=password
             )
             if self.user_cache is None:
+                try:
+                    notify_account_activity(
+                        try_get_user(username),
+                        self.request,
+                        'failed-auth',
+                        method='Password',
+                        name=username,
+                    )
+                except User.DoesNotExist:
+                    pass
                 rotate_token(self.request)
                 raise forms.ValidationError(
                     self.error_messages['invalid_login'],
@@ -465,6 +477,14 @@ class LoginForm(forms.Form):
                 raise forms.ValidationError(
                     self.error_messages['inactive'],
                     code='inactive',
+                )
+            else:
+                notify_account_activity(
+                    self.user_cache,
+                    self.request,
+                    'login',
+                    method='Password',
+                    name=username,
                 )
             reset_rate_limit(self.request)
         return self.cleaned_data

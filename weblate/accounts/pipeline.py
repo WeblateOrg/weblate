@@ -295,11 +295,15 @@ def store_email(strategy, backend, user, social, details, **kwargs):
 def notify_connect(strategy, backend, user, social, new_association=False,
                    is_new=False, **kwargs):
     """Notify about adding new link."""
-    if new_association and not is_new:
+    if user and not is_new:
+        if new_association:
+            action = 'auth-connect'
+        else:
+            action = 'login'
         notify_account_activity(
             user,
             strategy.request,
-            'auth-connect',
+            action,
             method=get_auth_name(backend.name),
             name=social.uid
         )

@@ -61,6 +61,9 @@ ACCOUNT_ACTIVITY = {
     'auth-disconnect': _(
         'Authentication using {method} ({name}) has been removed.'
     ),
+    'login': _(
+        'Successfully authenticated using {method} ({name}).'
+    ),
     'register': _(
         'Somebody has attempted to register with your email.'
     ),
@@ -68,7 +71,7 @@ ACCOUNT_ACTIVITY = {
         'Somebody has attempted to add your email to existing account.'
     ),
     'failed-auth': _(
-        'Failed authentication attempt.'
+        'Failed authentication attempt using {method} ({name}).'
     ),
     'locked': _(
         'Account locked due to excessive failed authentication attempts.'
@@ -148,6 +151,7 @@ class AuditLog(models.Model):
     activity = models.CharField(
         max_length=20,
         choices=[(a, a) for a in sorted(ACCOUNT_ACTIVITY.keys())],
+        db_index=True,
     )
     params = models.TextField()
     address = models.GenericIPAddressField()
