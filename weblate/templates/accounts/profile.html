@@ -175,11 +175,8 @@
 <div class="row">
 <div class="col-lg-6">
 <div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "User identities" %}</h4></div>
-  <div class="panel-body">
-<p>{% trans "You can manage identities which are associated to this account and which can be used to log in." %}</p>
-<p>{% trans "Currently associated:" %}</p>
-<table class="table table-condensed">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Current user identities" %}</h4></div>
+<table class="table">
 <thead>
 <tr>
 <th>{% trans "Identity" %}</th>
@@ -208,15 +205,18 @@
 {% endfor %}
 </tbody>
 </table>
+</div>
 
 {% if new_backends %}
-<p>{% trans "Add new association:" %}</p>
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Add new association" %}</h4></div>
+  <div class="panel-body">
 {% for name in new_backends %}
   <a class="btn btn-link link-post" href="{% url 'social:begin' name %}?next={% url 'profile' %}%23auth">{% auth_name name %}</a>
 {% endfor %}
+</div>
+</div>
 {% endif %}
-</div>
-</div>
 
 
 <div class="panel panel-danger">
@@ -235,6 +235,7 @@
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Description" %}</h4></div>
   <div class="panel-body">
+    <p>{% trans "You can manage identities which are associated to this account and which can be used to log in." %}</p>
     <p>{% trans "You can configure how you will log in on this site." %}</p>
   </div>
   <div class="panel-footer">
@@ -250,7 +251,7 @@
 <div class="col-lg-6">
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Your summary" %}</h4></div>
-<table class="table table-condensed">
+<table class="table">
 {% with request.user as user %}
 {% include 'user-activity.html' %}
 {% endwith %}
