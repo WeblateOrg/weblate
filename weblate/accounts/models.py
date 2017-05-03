@@ -162,6 +162,7 @@ class AuditLog(models.Model):
         return ACCOUNT_ACTIVITY[self.activity].format(
             **json.loads(self.params)
         )
+    get_message.short_description = _('Account activity')
 
     def should_notify(self):
         return self.activity in NOTIFY_ACTIVITY

@@ -25,6 +25,20 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from weblate.accounts.forms import UniqueEmailMixin
 
 
+class AuditLogAdmin(admin.ModelAdmin):
+    list_display = [
+        'get_message',
+        'user',
+        'address',
+        'timestamp',
+    ]
+    search_fields = [
+        'user__username',
+        'address',
+        'activity',
+    ]
+
+
 class ProfileAdmin(admin.ModelAdmin):
     list_display = [
         'user', 'full_name', 'language', 'suggested', 'translated'
