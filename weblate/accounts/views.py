@@ -44,7 +44,7 @@ from rest_framework.authtoken.models import Token
 
 from social_core.backends.utils import load_backends
 from social_django.utils import BACKENDS
-from social_django.views import complete
+from social_django.views import complete, auth
 
 from weblate.accounts.forms import (
     RegistrationForm, PasswordChangeForm, EmailForm, ResetForm,
@@ -687,3 +687,14 @@ class SuggestionView(ListView):
         result['page_user'] = user
         result['page_profile'] = user.profile
         return result
+
+
+@require_POST
+def social_auth(request, backend):
+    """Wrapper around social_django.views.auth.
+
+    - requires POST (to avoid CSRF on auth)
+    - it stores current user in session (to avoid CSRF on complete)
+    """
+    request.session['social_auth_user'] = request.user.pk
+    return auth(request, backend)

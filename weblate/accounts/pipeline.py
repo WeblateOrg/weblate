@@ -181,13 +181,20 @@ def password_reset(strategy, backend, user, social, details, weblate_action,
 
 def verify_open(strategy, backend, user=None, **kwargs):
     """Check whether it is possible to create new user."""
+    # Check whether registration is open
     if not user and not settings.REGISTRATION_OPEN:
         raise AuthException(backend, _('New registrations are disabled!'))
 
+    # Avoid adding associations to demo user
     if user and settings.DEMO_SERVER and user.username == 'demo':
         raise AuthException(
             backend, _('Can not change authentication for demo!')
         )
+
+    # Ensure it's still same user
+    request = strategy.request
+    if request.user.pk != request.session.get('social_auth_user'):
+        raise AuthStateForbidden(backend, 'user')
 
 
 def cleanup_next(strategy, **kwargs):

@@ -33,7 +33,7 @@ social_urls = [
     # authentication / association
     url(
         r'^login/(?P<backend>[^/]+)/$',
-        require_POST(social_django.views.auth),
+        weblate.accounts.views.social_auth,
         name='begin'
     ),
     url(
