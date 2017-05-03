@@ -4,10 +4,10 @@ msgstr ""
 "Project-Id-Version: French (Weblate)\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-05-03 18:19+0000\n"
-"PO-Revision-Date: 2017-05-02 16:02+0000\n"
+"PO-Revision-Date: 2017-05-03 19:18+0000\n"
 "Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
-"Language-Team: French <https://hosted.weblate.org/projects/weblate/master/fr/"
-">\n"
+"Language-Team: French "
+"<https://hosted.weblate.org/projects/weblate/master/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -219,10 +219,9 @@ msgid "Authentication using {method} ({name}) has been removed."
 msgstr "L'authentification utilisant {method} ({name}) a été supprimée."
 
 #: weblate/accounts/models.py:65
-#, fuzzy, python-brace-format
-#| msgid "Authentication using {method} ({name}) has been added."
+#, python-brace-format
 msgid "Successfully authenticated using {method} ({name})."
-msgstr "L'authentification utilisant {method}{name} a été ajoutée."
+msgstr "Authentification réussie en utilisant {method}{name}."
 
 #: weblate/accounts/models.py:68
 msgid "Somebody has attempted to register with your email."
@@ -234,20 +233,19 @@ msgstr ""
 "Quelqu'un a essayé d'ajouter votre adresse email à un compte déjà existant."
 
 #: weblate/accounts/models.py:74
-#, fuzzy, python-brace-format
-#| msgid "Authentication using {method} ({name}) has been added."
+#, python-brace-format
 msgid "Failed authentication attempt using {method} ({name})."
-msgstr "L'authentification utilisant {method}{name} a été ajoutée."
+msgstr "Authentification échouée en utilisant {method}{name}."
 
 #: weblate/accounts/models.py:77
 msgid "Account locked due to excessive failed authentication attempts."
 msgstr ""
+"Compte verrouillé en raison d'un trop grand nombre de tentatives de "
+"connexion erronées."
 
 #: weblate/accounts/models.py:169 weblate/templates/accounts/profile.html:304
-#, fuzzy
-#| msgid "Account activation"
 msgid "Account activity"
-msgstr "Activation du compte"
+msgstr "Activité du compte"
 
 #: weblate/accounts/models.py:267
 msgid "Interface Language"
@@ -460,6 +458,8 @@ msgid ""
 "You have not enabled password authentication, please <a href=\"{0}\">set the "
 "password</a>."
 msgstr ""
+"Aucun mot de passe n'est défini, merci de <a href=\"{0}\">définir un mot de "
+"passe</a>."
 
 #: weblate/accounts/views.py:252
 msgid "User profile"
@@ -1229,7 +1229,7 @@ msgstr "Licences"
 #: weblate/templates/accounts/profile.html:29
 #: weblate/templates/accounts/profile.html:299
 msgid "Audit log"
-msgstr ""
+msgstr "Journal d'audit"
 
 #: weblate/templates/accounts/profile.html:30
 #: weblate/templates/accounts/profile.html:343
@@ -1344,10 +1344,8 @@ msgstr ""
 "Vos nom et adresse courriel apparaîtront en tant qu’auteur dans les commits."
 
 #: weblate/templates/accounts/profile.html:179
-#, fuzzy
-#| msgid "User identities"
 msgid "Current user identities"
-msgstr "Identifiants de l’utilisateur"
+msgstr "Identifiants de l’utilisateur courant"
 
 #: weblate/templates/accounts/profile.html:183
 msgid "Identity"
@@ -1371,10 +1369,8 @@ msgid "Disconnect"
 msgstr "Se déconnecter"
 
 #: weblate/templates/accounts/profile.html:213
-#, fuzzy
-#| msgid "Add new association:"
 msgid "Add new association"
-msgstr "Ajouter une association :"
+msgstr "Ajouter une association"
 
 #: weblate/templates/accounts/profile.html:224
 msgid "Removal"
@@ -1427,36 +1423,32 @@ msgid "When"
 msgstr "Quand"
 
 #: weblate/templates/accounts/profile.html:305
-#, fuzzy
-#| msgid "Email address"
 msgid "IP address"
-msgstr "Adresse courriel"
+msgstr "Adresse IP"
 
 #: weblate/templates/accounts/profile.html:316
-#, fuzzy
-#| msgid "No recent activity has been recorded."
 msgid "No recent activity found!"
-msgstr "Aucune activité récente n'a été enregistrée."
+msgstr "Aucune activité récente !"
 
 #: weblate/templates/accounts/profile.html:321
 msgid "Report suspicious activity"
-msgstr ""
+msgstr "Signaler une activité suspecte"
 
 #: weblate/templates/accounts/profile.html:331
 msgid ""
 "Audit log shows important changes on your account. In case you see something "
 "suspicious don't hesitate to contact us."
 msgstr ""
+"Le journal d'audit signale les modifications importantes de votre compte. En "
+"cas d’activité anormale, n'hésitez pas à nous contacter."
 
 #: weblate/templates/accounts/profile.html:346
 msgid "Your personal API key:"
 msgstr "Votre clef personnelle API :"
 
 #: weblate/templates/accounts/profile.html:353
-#, fuzzy
-#| msgid "Regenerate"
 msgid "Regenerate API key"
-msgstr "Regénérer"
+msgstr "Régénérer la clef d'API"
 
 #: weblate/templates/accounts/profile.html:357
 msgid "API root URL:"
@@ -1467,10 +1459,8 @@ msgid "API usage example:"
 msgstr "Exemple d’utilisation de l’API :"
 
 #: weblate/templates/accounts/profile.html:373
-#, fuzzy
-#| msgid "API usage example:"
 msgid "CLI usage example:"
-msgstr "Exemple d’utilisation de l’API :"
+msgstr "Exemple d’utilisation CLI :"
 
 #: weblate/templates/accounts/profile.html:395
 #, python-format
@@ -4183,7 +4173,7 @@ msgstr ""
 
 #: weblate/templates/show-lock.html:6
 msgid "This translation is currently locked for updates!"
-msgstr "Cette traduction est actuellement bloquée pour les mises à jour !"
+msgstr "Cette traduction est actuellement verrouillée pour mise à jour !"
 
 #: weblate/templates/source-review.html:10 weblate/templates/source.html:7
 msgid "source strings"
