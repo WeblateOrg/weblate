@@ -296,14 +296,16 @@
 <div class="col-lg-6">
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "API access" %}</h4></div>
-  <div class="panel-body">
-<p>
 <table class="table">
 <tr>
 <th>{% trans "Your personal API key:" %}</th>
 <td>
     {{ user.auth_token.key }} 
-    <a class="pull-right flip btn btn-default btn-xs link-post" href="{% url 'reset-api-key' %}">{% trans "Regenerate" %}</a>
+</td>
+</tr>
+<tr>
+<td colspan="2">
+    <a class="pull-right flip btn btn-default link-post" href="{% url 'reset-api-key' %}">{% trans "Regenerate API key" %}</a>
 </td>
 </tr>
 <tr>
@@ -322,10 +324,20 @@ curl \
 </pre>
 </td>
 </tr>
+<tr>
+<th colspan="2">{% trans "CLI usage example:" %}</th>
+</tr>
+<tr>
+<td colspan="2">
+<pre>
+wlc \
+    --key {{ user.auth_token.key }} \
+    --url {{ site_url }}{% url 'api:api-root' %} \
+    list-projects
+</pre>
+</td>
+</tr>
 </table>
-</p>
-
-</div>
 </div>
 
 </div>
