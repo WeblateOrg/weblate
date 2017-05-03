@@ -185,7 +185,7 @@ class ViewTest(TestCase):
             self.get_user()
 
         # Use auth attempts
-        for i in range(5):
+        for dummy in range(5):
             response = self.client.post(
                 reverse('login'),
                 {'username': 'testuser', 'password': 'invalid'}
