@@ -31,7 +31,6 @@ from django.core.mail.message import EmailMultiAlternatives
 from django.utils import translation
 from django.utils.cache import patch_response_headers
 from django.utils.crypto import get_random_string
-from django.utils.safestring import mark_safe
 from django.utils.translation import get_language
 from django.contrib.auth.models import User
 from django.contrib.auth import views as auth_views
@@ -40,6 +39,7 @@ from django.views.decorators.http import require_POST
 from django.contrib.auth import update_session_auth_hash
 from django.core.urlresolvers import reverse
 from django.utils.http import urlencode
+from django.template.loader import render_to_string
 
 from rest_framework.authtoken.models import Token
 
@@ -48,7 +48,7 @@ from social_django.utils import BACKENDS
 from social_django.views import complete, auth
 
 from weblate.accounts.forms import (
-    RegistrationForm, PasswordChangeForm, EmailForm, ResetForm,
+    RegistrationForm, PasswordConfirmForm, EmailForm, ResetForm,
     LoginForm, HostingForm, CaptchaForm, SetPasswordForm,
 )
 from weblate.accounts.ratelimit import check_rate_limit
@@ -159,6 +159,31 @@ def deny_demo(request):
     return redirect_profile(request.POST.get('activetab'))
 
 
+def avoid_demo(function):
+    """Avoid page being served to demo account."""
+    def demo_wrap(request, *args, **kwargs):
+        if settings.DEMO_SERVER and request.user.username == 'demo':
+            return deny_demo(request)
+        return function(request, *args, **kwargs)
+    return demo_wrap
+
+
+def ratelimit_post(function):
+    """Session based rate limiting for POST requests."""
+    def rate_wrap(request, *args, **kwargs):
+        attempts = request.session.get('auth_attempts', 0)
+        if (request.method == 'POST' and
+                attempts >= settings.AUTH_MAX_ATTEMPTS):
+            logout(request)
+            messages.error(
+                request,
+                _('Too many authentication attempts!')
+            )
+            return redirect('login')
+        return function(request, *args, **kwargs)
+    return rate_wrap
+
+
 def redirect_profile(page=''):
     url = reverse('profile')
     if page and page.startswith('#'):
@@ -218,12 +243,7 @@ def user_profile(request):
         if not request.user.has_usable_password() and 'email' in all_backends:
             messages.warning(
                 request,
-                mark_safe(
-                    _(
-                        'You have not enabled password authentication, '
-                        'please <a href="{0}">set the password</a>.'
-                    ).format(reverse('password'))
-                )
+                render_to_string('accounts/password-warning.html')
             )
 
     social = request.user.social_auth.all()
@@ -268,10 +288,8 @@ def user_profile(request):
 
 
 @login_required
+@avoid_demo
 def user_remove(request):
-    if settings.DEMO_SERVER and request.user.username == 'demo':
-        return deny_demo(request)
-
     if request.method == 'POST':
         remove_user(request.user)
 
@@ -499,6 +517,7 @@ def register(request):
 
 
 @login_required
+@avoid_demo
 def email_login(request):
     """Connect email."""
     captcha_form = None
@@ -536,43 +555,17 @@ def email_login(request):
 
 
 @login_required
+@avoid_demo
+@ratelimit_post
 def password(request):
     """Password change / set form."""
-    if settings.DEMO_SERVER and request.user.username == 'demo':
-        return deny_demo(request)
-
     do_change = False
 
-    attempts = request.session.get('auth_attempts', 0)
-
-    if not request.user.has_usable_password():
-        do_change = True
-        change_form = None
-    elif request.method == 'POST':
-        if attempts >= settings.AUTH_MAX_ATTEMPTS:
-            logout(request)
-            messages.error(
-                request,
-                _('Too many authentication attempts!')
-            )
-            return redirect('login')
-        else:
-            change_form = PasswordChangeForm(request.POST)
-            if change_form.is_valid():
-                cur_password = change_form.cleaned_data['password']
-                do_change = request.user.check_password(cur_password)
-                if not do_change:
-                    request.session['auth_attempts'] = attempts + 1
-                    messages.error(
-                        request,
-                        _('You have entered an invalid password.')
-                    )
-                    rotate_token(request)
-                else:
-                    request.session['auth_attempts'] = 0
-
+    if request.method == 'POST':
+        change_form = PasswordConfirmForm(request, request.POST)
+        do_change = change_form.is_valid()
     else:
-        change_form = PasswordChangeForm()
+        change_form = PasswordConfirmForm(request)
 
     if request.method == 'POST':
         form = SetPasswordForm(request.user, request.POST)
@@ -661,6 +654,7 @@ def reset_password(request):
 
 @require_POST
 @login_required
+@avoid_demo
 def reset_api_key(request):
     """Reset user API key"""
     if hasattr(request.user, 'auth_token'):
@@ -674,6 +668,7 @@ def reset_api_key(request):
 
 
 @login_required
+@avoid_demo
 def watch(request, project):
     obj = get_project(request, project)
     request.user.profile.subscriptions.add(obj)
@@ -681,6 +676,7 @@ def watch(request, project):
 
 
 @login_required
+@avoid_demo
 def unwatch(request, project):
     obj = get_project(request, project)
     request.user.profile.subscriptions.remove(obj)
