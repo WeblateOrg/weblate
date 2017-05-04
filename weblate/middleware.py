@@ -41,25 +41,27 @@ class SecurityMiddleware(object):
         if settings.DEBUG:
             return response
 
-        style = ["'self'", "'unsafe-inline'"]
-        script = ["'self'"]
-        image = ["'self'"]
-        connect = ["'self'"]
+        style = set(["'self'", "'unsafe-inline'"])
+        script = set(["'self'"])
+        image = set(["'self'"])
+        connect = set(["'self'"])
 
         if (hasattr(settings, 'ROLLBAR') and
                 'client_token' in settings.ROLLBAR and
                 'environment' in settings.ROLLBAR):
-            script.append("'unsafe-inline'")
-            script.append('cdnjs.cloudflare.com')
-            connect.append('api.rollbar.com')
+            script.add("'unsafe-inline'")
+            script.add('cdnjs.cloudflare.com')
+            connect.add('api.rollbar.com')
 
         if settings.PIWIK_URL:
-            script.append(settings.PIWIK_URL)
-            image.append(settings.PIWIK_URL)
+            script.add("'unsafe-inline'")
+            script.add(settings.PIWIK_URL)
+            image.add(settings.PIWIK_URL)
 
         if settings.GOOGLE_ANALYTICS_ID:
-            script.append('www.google-analytics.com')
-            image.append('www.google-analytics.com')
+            script.add("'unsafe-inline'")
+            script.add('www.google-analytics.com')
+            image.add('www.google-analytics.com')
 
         response['Content-Security-Policy'] = CSP_TEMPLATE.format(
             ' '.join(style),
