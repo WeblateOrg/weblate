@@ -29,7 +29,6 @@ class PagesSitemap(Sitemap):
         return (
             ('/', 1.0, 'daily'),
             ('/about/', 0.8, 'daily'),
-            ('/contact/', 0.2, 'monthly'),
         )
 
     def location(self, item):
