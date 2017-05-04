@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-05-04 13:59+0000\n"
-"PO-Revision-Date: 2017-05-03 22:59+0000\n"
+"PO-Revision-Date: 2017-05-04 16:38+0000\n"
 "Last-Translator: Tuomas Harju <tuomas@rtj-group.com>\n"
-"Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
-"fi/>\n"
+"Language-Team: Finnish "
+"<https://hosted.weblate.org/projects/weblate/master/fi/>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -147,7 +147,7 @@ msgstr "Nykyinen salasana"
 
 #: weblate/accounts/forms.py:424
 msgid "Keep the field empty if you have not yet set your password."
-msgstr ""
+msgstr "Jätä kenttä tyhjäksi jos et ole vielä asettanut salasanaa."
 
 #: weblate/accounts/forms.py:446
 msgid "You have entered an invalid password."
@@ -1020,10 +1020,8 @@ msgstr "Profiilisi"
 
 #: weblate/templates/accounts/confirm.html:14
 #: weblate/templates/accounts/confirm.html:23
-#, fuzzy
-#| msgid "Add new association"
 msgid "Confirm new association"
-msgstr "Lisää uusi liitos"
+msgstr "Vahvista uuden liitoksen lisääminen"
 
 #: weblate/templates/accounts/confirm.html:17
 #, python-format
@@ -1031,6 +1029,8 @@ msgid ""
 "After confirming this, you will be able to authenticate to Weblate using "
 "%(backend_verbose)s (%(uid)s)."
 msgstr ""
+"Hyväksymisen jälkeen voit tunnistautua Weblateen käyttämällä "
+"%(backend_verbose)s (%(uid)s)."
 
 #: weblate/templates/accounts/contact.html:12
 msgid "You can contact maintainers of this server here."
@@ -1173,23 +1173,24 @@ msgstr ""
 "\"%(register_url)s\">täällä</a>."
 
 #: weblate/templates/accounts/password-warning.html:3
-#, fuzzy, python-format
-#| msgid ""
-#| "You have not enabled password authentication, please <a href=\"{0}\">set "
-#| "the password</a>."
+#, python-format
 msgid ""
 "You have not enabled password authentication, please <a href=\"%(url)s\">set "
 "the password</a>."
 msgstr ""
-"Et ole asettanut salasanaasi, ole hyvä ja <a href=\"{0}\">aseta salasana</a>."
+"Et ole asettanut salasanaasi, ole hyvä ja <a href=\"%(url)s\">aseta "
+"salasana</a>."
 
 #: weblate/templates/accounts/password-warning.html:6
 msgid "You will be still able to authenticate using third party services."
 msgstr ""
+"Voit silti tunnistautua käyttämällä jonkin kolmannen osapuolen palvelua."
 
 #: weblate/templates/accounts/password-warning.html:7
 msgid "The password is used to verify important changes on your account."
 msgstr ""
+"Salasanaa käytetään varmistuksena tilisi tärkeimpien tietojen muuttamisen "
+"yhteydessä."
 
 #: weblate/templates/accounts/password.html:16
 msgid ""
@@ -3644,7 +3645,7 @@ msgstr "Muokattu käännös %(translation)s"
 
 #: weblate/templates/mail/footer.html:3 weblate/templates/mail/footer.txt:1
 msgid "Translation summary:"
-msgstr "Käännöksen yhteenveto:"
+msgstr "Käännösten yhteenveto:"
 
 #: weblate/templates/mail/footer.html:7 weblate/templates/mail/footer.txt:3
 msgid "Total strings:"
@@ -3666,12 +3667,14 @@ msgstr "Tarkistettavaksi merkityt tekstit:"
 #, python-format
 msgid ""
 "You can translate at <a href=\"%(translation_url)s\">%(translation_url)s</a>"
-msgstr "Voit kääntää <a href=\"%(translation_url)s\">%(translation_url)s</a>"
+msgstr ""
+"Voit kääntää tekstejä osoitteessa <a href=\"%(translation_url)s\""
+">%(translation_url)s</a>"
 
 #: weblate/templates/mail/footer.txt:8
 #, python-format
 msgid "You can translate at %(translation_url)s"
-msgstr "Voit kääntää %(translation_url)s"
+msgstr "Voit kääntää tekstejä osoitteessa %(translation_url)s"
 
 #: weblate/templates/mail/merge_failure.html:11
 #: weblate/templates/mail/merge_failure.txt:3
@@ -3787,13 +3790,13 @@ msgstr "Uuden kielen pyyntö %(translation)s"
 msgid ""
 "There are new strings to translate on %(translation)s at %(site_title)s."
 msgstr ""
-"Sivustolla %(site_title)s on uusia tekstejä käännettäväksi kielelle "
+"Sivustolla %(site_title)s on uusia tekstejä käännettäväksi projektissa "
 "%(translation)s."
 
 #: weblate/templates/mail/new_string_subject.txt:3
 #, python-format
 msgid "New string to translate in %(translation)s"
-msgstr "Uusi teksti käännettäväksi kielelle %(translation)s"
+msgstr "Uusia tekstejä käännettäväksi projektissa %(translation)s"
 
 #: weblate/templates/mail/new_suggestion.html:11
 #: weblate/templates/mail/new_suggestion.txt:3
