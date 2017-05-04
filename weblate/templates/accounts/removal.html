@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load translations %}
+{% load crispy_forms_tags %}
 
 {% block breadcrumbs %}
 <li><a href="{% url 'profile' %}">{% trans "Your profile" %}</a></li>
@@ -14,6 +15,7 @@
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Account removal" %}</h4></div>
   <div class="panel-body">
+{{ confirm_form|crispy }}
 <p>{% blocktrans %}By pressing following button, your will no longer be able to use this account.{% endblocktrans %}</p>
 {% csrf_token %}
 </div>

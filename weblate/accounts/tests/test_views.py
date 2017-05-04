@@ -278,3 +278,41 @@ class ProfileTest(ViewTestCase):
             }
         )
         self.assertRedirects(response, reverse('profile'))
+
+
+class RemoveAcccountTest(ViewTestCase):
+    def test_removal_nopass(self):
+        response = self.client.post(
+            reverse('remove'),
+            {
+                'password': 'invalid',
+            }
+        )
+        self.assertContains(response, 'You have entered an invalid password.')
+        self.assertTrue(
+            User.objects.filter(username='testuser').exists()
+        )
+
+    def test_removal(self):
+        response = self.client.post(
+            reverse('remove'),
+            {
+                'password': 'testpassword',
+            }
+        )
+        self.assertRedirects(response, reverse('home'))
+        self.assertFalse(
+            User.objects.filter(username='testuser').exists()
+        )
+
+    def test_removal_change(self):
+        self.edit_unit(
+            'Hello, world!\n',
+            'Nazdar svete!\n'
+        )
+        # We should have some change to commit
+        self.assertTrue(self.subproject.repo_needs_commit())
+        # Remove account
+        self.test_removal()
+        # Changes should be committed
+        self.assertFalse(self.subproject.repo_needs_commit())

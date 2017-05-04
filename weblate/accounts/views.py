@@ -24,7 +24,6 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import logout
 from django.conf import settings
-from django.middleware.csrf import rotate_token
 from django.utils.translation import ugettext as _
 from django.contrib.auth.decorators import login_required
 from django.core.mail.message import EmailMultiAlternatives
@@ -289,22 +288,27 @@ def user_profile(request):
 
 @login_required
 @avoid_demo
+@ratelimit_post
 def user_remove(request):
     if request.method == 'POST':
-        remove_user(request.user)
-
-        logout(request)
-
-        messages.success(
-            request,
-            _('Your account has been removed.')
-        )
-
-        return redirect('home')
+        confirm_form = PasswordConfirmForm(request, request.POST)
+        if confirm_form.is_valid():
+            remove_user(request.user)
+            logout(request)
+            messages.success(
+                request,
+                _('Your account has been removed.')
+            )
+            return redirect('home')
+    else:
+        confirm_form = PasswordConfirmForm(request)
 
     return render(
         request,
         'accounts/removal.html',
+        {
+            'confirm_form': confirm_form,
+        }
     )
 
 
@@ -704,6 +708,7 @@ class SuggestionView(ListView):
 def store_userid(request):
     """Store user ID in the session."""
     request.session['social_auth_user'] = request.user.pk
+
 
 @require_POST
 def social_auth(request, backend):
