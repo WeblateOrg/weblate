@@ -22,7 +22,7 @@ from unittest import TestCase
 
 from django.core.exceptions import ValidationError
 
-from weblate.utils.validators import validate_editor
+from weblate.utils.validators import validate_editor, clean_fullname
 
 
 class EditorValidatorTest(TestCase):
@@ -63,4 +63,28 @@ class EditorValidatorTest(TestCase):
             ValidationError,
             validate_editor,
             ' javaScript:alert(0)'
+        )
+
+
+class FullNameCleanTest(TestCase):
+    def test_cleanup(self):
+        self.assertEqual(
+            'ahoj',
+            clean_fullname('ahoj')
+        )
+        self.assertEqual(
+            'ahojbar',
+            clean_fullname('ahoj\x00bar')
+        )
+
+    def test_whitespace(self):
+        self.assertEqual(
+            'ahoj',
+            clean_fullname(' ahoj ')
+        )
+
+    def test_none(self):
+        self.assertEqual(
+            None,
+            clean_fullname(None),
         )

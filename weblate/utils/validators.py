@@ -96,3 +96,13 @@ def validate_editor(val):
 
     if scheme.strip().lower() in FORBIDDEN_URL_SCHEMES:
         raise ValidationError(_('Forbidden URL scheme!'))
+
+
+def clean_fullname(val):
+    """Remove special chars from user full name."""
+    if not val:
+        return val
+    val = val.strip()
+    for i in range(0x20):
+        val = val.replace(chr(i), '')
+    return val

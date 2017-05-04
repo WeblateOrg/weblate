@@ -42,6 +42,7 @@ from weblate.accounts.ratelimit import reset_rate_limit, check_rate_limit
 from weblate.lang.models import Language
 from weblate.trans.models import Project
 from weblate.trans.util import sort_choices
+from weblate.utils.validators import clean_fullname
 from weblate.logger import LOGGER
 
 
@@ -118,6 +119,20 @@ class UsernameField(forms.RegexField):
                 )
 
         return super(UsernameField, self).clean(value)
+
+
+class FullNameField(forms.CharField):
+    def __init__(self, *args, **kwargs):
+        # The Django User model limit is 30 chars, this should
+        # be raised if we switch to custom User model
+        kwargs['max_length'] = 30
+        kwargs['label'] = _('Full name')
+        kwargs['required'] = True
+        super(FullNameField, self).__init__(*args, **kwargs)
+
+    def clean(self, value):
+        value = super(UsernameField, self).clean(value)
+        return clean_fullname(value)
 
 
 class SortedSelectMixin(object):
@@ -262,6 +277,7 @@ class UserForm(forms.ModelForm):
         ),
         required=True
     )
+    first_name = FullNameField()
 
     class Meta(object):
         model = User
@@ -281,8 +297,6 @@ class UserForm(forms.ModelForm):
         emails = {x.email for x in verified_mails}
         emails.add(self.instance.email)
 
-        self.fields['first_name'].required = True
-        self.fields['first_name'].label = _('Full name')
         self.fields['email'].choices = [(x, x) for x in emails]
         self.fields['username'].valid = self.instance.username
 
@@ -335,9 +349,7 @@ class RegistrationForm(EmailForm):
     error_css_class = "error"
 
     username = UsernameField()
-    # The Django User model limit is 30 chars, this should
-    # be raised if we switch to custom User model
-    first_name = forms.CharField(label=_('Full name'), max_length=30)
+    first_name = FullNameField()
     content = forms.CharField(required=False)
 
     def clean_content(self):

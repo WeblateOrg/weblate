@@ -47,6 +47,7 @@ from weblate.accounts.notifications import (
 from weblate.accounts.templatetags.authnames import get_auth_name
 from weblate.accounts.models import VerifiedEmail
 from weblate.utils import messages
+from weblate.utils.validators import clean_fullname
 from weblate import USER_AGENT
 
 USERNAME_RE = r'^[\w.@+-]+$'
@@ -326,7 +327,7 @@ def user_full_name(strategy, details, user=None, **kwargs):
             else:
                 full_name = last_name
 
-        full_name = full_name.strip()
+        full_name = clean_fullname(full_name)
 
         # The Django User model limit is 30 chars, this should
         # be raised if we switch to custom User model
