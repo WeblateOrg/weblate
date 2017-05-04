@@ -31,7 +31,6 @@ from django.core.mail.message import EmailMultiAlternatives
 from django.utils import translation
 from django.utils.cache import patch_response_headers
 from django.utils.crypto import get_random_string
-from django.utils.safestring import mark_safe
 from django.utils.translation import get_language
 from django.contrib.auth.models import User
 from django.contrib.auth import views as auth_views
@@ -40,6 +39,7 @@ from django.views.decorators.http import require_POST
 from django.contrib.auth import update_session_auth_hash
 from django.core.urlresolvers import reverse
 from django.utils.http import urlencode
+from django.template.loader import render_to_string
 
 from rest_framework.authtoken.models import Token
 
@@ -218,12 +218,7 @@ def user_profile(request):
         if not request.user.has_usable_password() and 'email' in all_backends:
             messages.warning(
                 request,
-                mark_safe(
-                    _(
-                        'You have not enabled password authentication, '
-                        'please <a href="{0}">set the password</a>.'
-                    ).format(reverse('password'))
-                )
+                render_to_string('accounts/password-warning.html')
             )
 
     social = request.user.social_auth.all()
