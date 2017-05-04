@@ -159,6 +159,15 @@ def deny_demo(request):
     return redirect_profile(request.POST.get('activetab'))
 
 
+def avoid_demo(function):
+    """Avoid page being served to demo account."""
+    def demo_wrap(request, *args, **kwargs):
+        if settings.DEMO_SERVER and request.user.username == 'demo':
+            return deny_demo(request)
+        return function(request, *args, **kwargs)
+    return demo_wrap
+
+
 def redirect_profile(page=''):
     url = reverse('profile')
     if page and page.startswith('#'):
@@ -263,10 +272,8 @@ def user_profile(request):
 
 
 @login_required
+@avoid_demo
 def user_remove(request):
-    if settings.DEMO_SERVER and request.user.username == 'demo':
-        return deny_demo(request)
-
     if request.method == 'POST':
         remove_user(request.user)
 
@@ -494,6 +501,7 @@ def register(request):
 
 
 @login_required
+@avoid_demo
 def email_login(request):
     """Connect email."""
     captcha_form = None
@@ -531,11 +539,9 @@ def email_login(request):
 
 
 @login_required
+@avoid_demo
 def password(request):
     """Password change / set form."""
-    if settings.DEMO_SERVER and request.user.username == 'demo':
-        return deny_demo(request)
-
     do_change = False
 
     attempts = request.session.get('auth_attempts', 0)
@@ -641,6 +647,7 @@ def reset_password(request):
 
 @require_POST
 @login_required
+@avoid_demo
 def reset_api_key(request):
     """Reset user API key"""
     if hasattr(request.user, 'auth_token'):
@@ -654,6 +661,7 @@ def reset_api_key(request):
 
 
 @login_required
+@avoid_demo
 def watch(request, project):
     obj = get_project(request, project)
     request.user.profile.subscriptions.add(obj)
@@ -661,6 +669,7 @@ def watch(request, project):
 
 
 @login_required
+@avoid_demo
 def unwatch(request, project):
     obj = get_project(request, project)
     request.user.profile.subscriptions.remove(obj)
