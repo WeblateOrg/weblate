@@ -131,7 +131,7 @@ class FullNameField(forms.CharField):
         super(FullNameField, self).__init__(*args, **kwargs)
 
     def clean(self, value):
-        value = super(UsernameField, self).clean(value)
+        value = super(FullNameField, self).clean(value)
         return clean_fullname(value)
 
 
