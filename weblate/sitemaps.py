@@ -21,7 +21,6 @@
 from django.contrib.sitemaps import Sitemap
 from django.core.urlresolvers import reverse
 from weblate.trans.models import Project, SubProject, Translation, Change
-from weblate.accounts.models import Profile
 
 
 class PagesSitemap(Sitemap):
