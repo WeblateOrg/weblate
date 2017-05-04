@@ -121,7 +121,7 @@ def mail_validation(backend, details, is_new=False, *args, **kwargs):
                 raise InvalidEmail(backend)
         else:
             current_partial = kwargs.get('current_partial')
-            # Hack to pass
+            # Hack to pass partial token
             backend.partial_token = current_partial.token
             backend.strategy.send_email_validation(backend, details['email'])
             backend.strategy.session_set('email_validation_address',
