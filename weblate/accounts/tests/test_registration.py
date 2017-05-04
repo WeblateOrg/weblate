@@ -464,6 +464,21 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         # Verify confirmation mail
         url = self.assert_registration_mailbox()
         response = self.client.get(url, follow=True)
+        self.assertRedirects(response, reverse('confirm'))
+
+        # Enter wrong password
+        response = self.client.post(
+            reverse('confirm'),
+            {'password': 'invalid'}
+        )
+        self.assertContains(response, 'You have entered an invalid password.')
+
+        # Correct password
+        response = self.client.post(
+            reverse('confirm'),
+            {'password': '1pa$$word!'},
+            follow=True
+        )
         self.assertRedirects(
             response, '{0}#auth'.format(reverse('profile'))
         )
@@ -509,6 +524,12 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         # Confirmation
         mail.outbox.pop()
         response = self.client.get(url, follow=True)
+        self.assertRedirects(response, reverse('confirm'))
+        response = self.client.post(
+            reverse('confirm'),
+            {'password': '1pa$$word!'},
+            follow=True
+        )
         self.assertRedirects(response, '/#valid')
         # Activity
         mail.outbox.pop()
@@ -528,6 +549,12 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         # Verify confirmation mail
         url = self.assert_registration_mailbox()
         response = self.client.get(url, follow=True)
+        self.assertRedirects(response, reverse('confirm'))
+        response = self.client.post(
+            reverse('confirm'),
+            {'password': '1pa$$word!'},
+            follow=True
+        )
         # We should fallback to default URL
         self.assertRedirects(response, '/accounts/profile/#auth')
 

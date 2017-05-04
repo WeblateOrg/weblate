@@ -312,6 +312,35 @@ def user_remove(request):
     )
 
 
+@login_required
+@avoid_demo
+@ratelimit_post
+def confirm(request):
+    details = request.session.get('reauthenticate')
+    if not details:
+        return redirect('home')
+
+    if request.method == 'POST':
+        confirm_form = PasswordConfirmForm(request, request.POST)
+        if confirm_form.is_valid():
+            request.session.pop('reauthenticate')
+            request.session['reauthenticate_done'] = True
+            return redirect('social:complete', backend=details['backend'])
+    else:
+        confirm_form = PasswordConfirmForm(request)
+
+    context = {
+        'confirm_form': confirm_form,
+    }
+    context.update(details)
+
+    return render(
+        request,
+        'accounts/confirm.html',
+        context
+    )
+
+
 def get_initial_contact(request):
     """Fill in initial contact form fields from request."""
     initial = {}

@@ -19,7 +19,7 @@ Released on ? 2017.
 * Suggestion content is stored in the history.
 * Store important account activity in audit log.
 * Authentication attempts are rate limited.
-* Ask for password confirmation when removing account.
+* Ask for password confirmation when removing account or adding new associations.
 
 weblate 2.13.1
 --------------

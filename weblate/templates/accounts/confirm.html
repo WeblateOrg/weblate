@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+{% load crispy_forms_tags %}
+
+{% block breadcrumbs %}
+<li><a href="{% url 'profile' %}">{% trans "Your profile" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+<form method="post" action="{% url 'confirm' %}">
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Confirm new association" %}</h4></div>
+  <div class="panel-body">
+  <p>
+  {% blocktrans %}After confirming this, you will be able to authenticate to Weblate using {{ backend_verbose }} ({{ uid }}).{% endblocktrans %}
+  </p>
+{{ confirm_form|crispy }}
+{% csrf_token %}
+</div>
+<div class="panel-footer">
+<button type="submit" class="btn btn-success">{% trans "Confirm new association" %}</button>
+</div>
+</form>
+</div>
+</div>
+
+{% endblock %}

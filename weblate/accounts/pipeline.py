@@ -80,6 +80,21 @@ def get_github_email(access_token):
 
 
 @partial
+def reauthenticate(strategy, backend, user, social, uid, **kwargs):
+    """Force authentication when adding new association."""
+    if strategy.request.session.pop('reauthenticate_done', False):
+        return
+    if user and not social and user.has_usable_password():
+        strategy.request.session['reauthenticate'] = {
+            'backend': backend.name,
+            'backend_verbose': get_auth_name(backend.name),
+            'uid': uid,
+            'done': False,
+        }
+        return redirect('confirm')
+
+
+@partial
 def require_email(strategy, backend, details, current_partial, user=None,
                   is_new=False, **kwargs):
     """Force entering email for backends which don't provide it."""
