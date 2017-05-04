@@ -9,10 +9,10 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-05-04 13:59+0000\n"
-"PO-Revision-Date: 2017-05-03 19:07+0000\n"
+"PO-Revision-Date: 2017-05-04 14:05+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
-"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/"
-">\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/>"
+"\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -145,7 +145,7 @@ msgstr "Současné heslo"
 
 #: weblate/accounts/forms.py:424
 msgid "Keep the field empty if you have not yet set your password."
-msgstr ""
+msgstr "Pokud nemáte nastavené heslo, nechte pole prázdné."
 
 #: weblate/accounts/forms.py:446
 msgid "You have entered an invalid password."
@@ -1002,10 +1002,8 @@ msgstr "Váš profil"
 
 #: weblate/templates/accounts/confirm.html:14
 #: weblate/templates/accounts/confirm.html:23
-#, fuzzy
-#| msgid "Add new association"
 msgid "Confirm new association"
-msgstr "Přidat novou identitu"
+msgstr "Potvrdit novou identitu"
 
 #: weblate/templates/accounts/confirm.html:17
 #, python-format
@@ -1013,6 +1011,8 @@ msgid ""
 "After confirming this, you will be able to authenticate to Weblate using "
 "%(backend_verbose)s (%(uid)s)."
 msgstr ""
+"Po potvrzení se budete moci do Weblate přihlásit pomocí %(backend_verbose)s "
+"(%(uid)s)."
 
 #: weblate/templates/accounts/contact.html:12
 msgid "You can contact maintainers of this server here."
@@ -1151,21 +1151,21 @@ msgstr ""
 "Nemáte ještě účet? Můžete se <a href=\"%(register_url)s\">zaregistrovat</a>."
 
 #: weblate/templates/accounts/password-warning.html:3
-#, fuzzy, python-format
-#| msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
+#, python-format
 msgid ""
 "You have not enabled password authentication, please <a href=\"%(url)s\">set "
 "the password</a>."
 msgstr ""
-"Heslo si můžete změnit na <a href=\"%(pw_url)s\">samostatné stránce</a>."
+"Nemáte povolené přihlašování heslem, prosím <a href=\"%(url)s\">nastavte si "
+"ho</a>."
 
 #: weblate/templates/accounts/password-warning.html:6
 msgid "You will be still able to authenticate using third party services."
-msgstr ""
+msgstr "Stále se budete moci přihlásit pomocí třetích stran."
 
 #: weblate/templates/accounts/password-warning.html:7
 msgid "The password is used to verify important changes on your account."
-msgstr ""
+msgstr "Heslo je používáno pro ověření důležitých změn vašeho účtu."
 
 #: weblate/templates/accounts/password.html:16
 msgid ""
@@ -1212,7 +1212,7 @@ msgstr "Licence"
 #: weblate/templates/accounts/profile.html:29
 #: weblate/templates/accounts/profile.html:299
 msgid "Audit log"
-msgstr "Audit aktivity"
+msgstr "Kontrolní záznamy"
 
 #: weblate/templates/accounts/profile.html:30
 #: weblate/templates/accounts/profile.html:343
@@ -1418,16 +1418,16 @@ msgid ""
 "Audit log shows important changes on your account. In case you see something "
 "suspicious don't hesitate to contact us."
 msgstr ""
+"Kontrolní záznamy zobrazují důležité změny na vašem účtu. Pokud v nich "
+"najdete něco podezřelého, neváhejte nás kontaktovat."
 
 #: weblate/templates/accounts/profile.html:346
 msgid "Your personal API key:"
 msgstr "Váš osobní klíč pro API:"
 
 #: weblate/templates/accounts/profile.html:353
-#, fuzzy
-#| msgid "Regenerate"
 msgid "Regenerate API key"
-msgstr "Vytvořit nový"
+msgstr "Vytvořit nový API klíč"
 
 #: weblate/templates/accounts/profile.html:357
 msgid "API root URL:"
@@ -1438,10 +1438,8 @@ msgid "API usage example:"
 msgstr "Příklad použití API:"
 
 #: weblate/templates/accounts/profile.html:373
-#, fuzzy
-#| msgid "API usage example:"
 msgid "CLI usage example:"
-msgstr "Příklad použití API:"
+msgstr "Příklad použití CLI:"
 
 #: weblate/templates/accounts/profile.html:395
 #, python-format
