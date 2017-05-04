@@ -48,7 +48,7 @@ from social_django.utils import BACKENDS
 from social_django.views import complete, auth
 
 from weblate.accounts.forms import (
-    RegistrationForm, PasswordChangeForm, EmailForm, ResetForm,
+    RegistrationForm, PasswordConfirmForm, EmailForm, ResetForm,
     LoginForm, HostingForm, CaptchaForm, SetPasswordForm,
 )
 from weblate.accounts.ratelimit import check_rate_limit
@@ -540,10 +540,7 @@ def password(request):
 
     attempts = request.session.get('auth_attempts', 0)
 
-    if not request.user.has_usable_password():
-        do_change = True
-        change_form = None
-    elif request.method == 'POST':
+    if request.method == 'POST':
         if attempts >= settings.AUTH_MAX_ATTEMPTS:
             logout(request)
             messages.error(
@@ -552,22 +549,10 @@ def password(request):
             )
             return redirect('login')
         else:
-            change_form = PasswordChangeForm(request.POST)
-            if change_form.is_valid():
-                cur_password = change_form.cleaned_data['password']
-                do_change = request.user.check_password(cur_password)
-                if not do_change:
-                    request.session['auth_attempts'] = attempts + 1
-                    messages.error(
-                        request,
-                        _('You have entered an invalid password.')
-                    )
-                    rotate_token(request)
-                else:
-                    request.session['auth_attempts'] = 0
-
+            change_form = PasswordConfirmForm(request, request.POST)
+            do_change = change_form.is_valid()
     else:
-        change_form = PasswordChangeForm()
+        change_form = PasswordConfirmForm(request)
 
     if request.method == 'POST':
         form = SetPasswordForm(request.user, request.POST)

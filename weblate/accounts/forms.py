@@ -417,10 +417,34 @@ class CaptchaForm(forms.Form):
         )
 
 
-class PasswordChangeForm(forms.Form):
+class PasswordConfirmForm(forms.Form):
     password = PasswordField(
         label=_("Current password"),
+        help_text=_(
+            'Keep the field empty if you have not yet set your password.'
+        ),
+        required=False,
     )
+
+    def __init__(self, request, *args, **kwargs):
+        self.request = request
+        super(PasswordConfirmForm, self).__init__(*args, **kwargs)
+
+    def clean_password(self):
+        cur_password = self.cleaned_data['password']
+        if self.request.user.has_usable_password():
+            valid = self.request.user.check_password(cur_password)
+        else:
+            valid = (cur_password == '')
+        if valid:
+            self.request.session['auth_attempts'] = 0
+        else:
+            attempts = self.request.session.get('auth_attempts', 0)
+            self.request.session['auth_attempts'] = attempts + 1
+            rotate_token(self.request)
+            raise forms.ValidationError(
+                _('You have entered an invalid password.')
+            )
 
 
 class ResetForm(EmailForm):
