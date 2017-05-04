@@ -187,6 +187,7 @@ def home(request):
         request,
         'index.html',
         {
+            'allow_index': True,
             'suggestions': suggestions,
             'last_changes': last_changes[:10],
             'last_changes_url': '',
@@ -207,6 +208,7 @@ def list_projects(request):
         request,
         'projects.html',
         {
+            'allow_index': True,
             'projects': Project.objects.all_acl(request.user),
             'title': _('Projects'),
         }
@@ -295,6 +297,7 @@ def show_engage(request, project, lang=None):
     languages = obj.get_language_count()
 
     context = {
+        'allow_index': True,
         'object': obj,
         'project': obj,
         'languages': languages,
@@ -377,6 +380,7 @@ def show_project(request, project):
         request,
         'project.html',
         {
+            'allow_index': True,
             'object': obj,
             'project': obj,
             'dicts': dict_langs,
@@ -438,6 +442,7 @@ def show_subproject(request, project, subproject):
         request,
         'subproject.html',
         {
+            'allow_index': True,
             'object': obj,
             'project': obj.project,
             'translations': sort_objects(obj.translation_set.enabled()),
@@ -500,6 +505,7 @@ def show_translation(request, project, subproject, lang):
         request,
         'translation.html',
         {
+            'allow_index': True,
             'object': obj,
             'project': obj.subproject.project,
             'form': form,
@@ -564,14 +570,14 @@ def server_error(request):
 
 def about(request):
     """Show about page with version information."""
-    context = {}
-    context['title'] = _('About Weblate')
-    context['versions'] = get_versions() + get_optional_versions()
-
     return render(
         request,
         'about.html',
-        context
+        {
+            'title': _('About Weblate'),
+            'versions': get_versions() + get_optional_versions(),
+            'allow_index': True,
+        }
     )
 
 

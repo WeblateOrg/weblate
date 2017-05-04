@@ -99,4 +99,5 @@ def weblate_context(request):
 
         'rollbar_token': rollbar_token,
         'rollbar_environment': rollbar_environment,
+        'allow_index': False,
     }

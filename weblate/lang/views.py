@@ -35,6 +35,7 @@ def show_languages(request):
         request,
         'languages.html',
         {
+            'allow_index': True,
             'languages': sort_objects(
                 Language.objects.have_translation()
             ),
@@ -67,6 +68,7 @@ def show_language(request, lang):
         request,
         'language.html',
         {
+            'allow_index': True,
             'object': obj,
             'last_changes': last_changes,
             'last_changes_url': urlencode({'lang': obj.code}),
@@ -102,6 +104,7 @@ def show_project(request, lang, project):
         request,
         'language-project.html',
         {
+            'allow_index': True,
             'language': obj,
             'project': pobj,
             'last_changes': last_changes,

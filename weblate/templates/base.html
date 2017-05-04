@@ -12,6 +12,7 @@
   <meta name="referrer" content="origin" />
   <meta name="author" content="Michal Čihař" />
   <meta name="copyright" content="Copyright &copy; 2003 - {{ current_year }} Michal Čihař" />
+  {% if not allow_index %}<meta name="robots" content="noindex,nofollow" />{% endif %}
 
   <title>{% include "title.html" %}</title>
   <meta name="description" content="{{ description }}" />
