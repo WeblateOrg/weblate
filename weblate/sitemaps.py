@@ -81,13 +81,6 @@ class TranslationSitemap(WeblateSitemap):
         )
 
 
-class UserSitemap(WeblateSitemap):
-    priority = 0.1
-
-    def items(self):
-        return Profile.objects.all()
-
-
 class EngageSitemap(ProjectSitemap):
     """Wrapper around ProjectSitemap to point to engage page."""
     priority = 1.0
@@ -121,6 +114,5 @@ SITEMAPS = {
     'engagelang': EngageLangSitemap(),
     'subproject': ComponentSitemap(),
     'translation': TranslationSitemap(),
-    'user': UserSitemap(),
     'pages': PagesSitemap(),
 }
