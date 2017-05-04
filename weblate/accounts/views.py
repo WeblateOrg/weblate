@@ -168,6 +168,22 @@ def avoid_demo(function):
     return demo_wrap
 
 
+def ratelimit_post(function):
+    """Session based rate limiting for POST requests."""
+    def rate_wrap(request, *args, **kwargs):
+        attempts = request.session.get('auth_attempts', 0)
+        if (request.method == 'POST' and
+                attempts >= settings.AUTH_MAX_ATTEMPTS):
+            logout(request)
+            messages.error(
+                request,
+                _('Too many authentication attempts!')
+            )
+            return redirect('login')
+        return function(request, *args, **kwargs)
+    return rate_wrap
+
+
 def redirect_profile(page=''):
     url = reverse('profile')
     if page and page.startswith('#'):
@@ -540,23 +556,14 @@ def email_login(request):
 
 @login_required
 @avoid_demo
+@ratelimit_post
 def password(request):
     """Password change / set form."""
     do_change = False
 
-    attempts = request.session.get('auth_attempts', 0)
-
     if request.method == 'POST':
-        if attempts >= settings.AUTH_MAX_ATTEMPTS:
-            logout(request)
-            messages.error(
-                request,
-                _('Too many authentication attempts!')
-            )
-            return redirect('login')
-        else:
-            change_form = PasswordConfirmForm(request, request.POST)
-            do_change = change_form.is_valid()
+        change_form = PasswordConfirmForm(request, request.POST)
+        do_change = change_form.is_valid()
     else:
         change_form = PasswordConfirmForm(request)
 
