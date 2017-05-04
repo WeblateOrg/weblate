@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Swedish (Weblate)\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-05-03 18:19+0000\n"
+"POT-Creation-Date: 2017-05-04 13:59+0000\n"
 "PO-Revision-Date: 2017-03-15 21:12+0000\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/master/"
@@ -27,13 +27,13 @@ msgctxt "No known user"
 msgid "None"
 msgstr "Ingen"
 
-#: weblate/accounts/forms.py:64
+#: weblate/accounts/forms.py:65
 msgid ""
 "This email address is already in use. Please supply a different email "
 "address."
 msgstr "E-postadressen används redan. Ange en annan e-postadress."
 
-#: weblate/accounts/forms.py:91
+#: weblate/accounts/forms.py:92
 msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
 "+ - _"
@@ -41,21 +41,25 @@ msgstr ""
 "Användarnamnet får endast innehålla bokstäver, siffror och följande tecken: "
 "@ . + - _"
 
-#: weblate/accounts/forms.py:97 weblate/templates/manage-access.html:18
+#: weblate/accounts/forms.py:98 weblate/templates/manage-access.html:18
 msgid "Username"
 msgstr "Användarnamn"
 
-#: weblate/accounts/forms.py:115 weblate/accounts/pipeline.py:240
+#: weblate/accounts/forms.py:116 weblate/accounts/pipeline.py:256
 msgid "This username is already taken. Please choose another."
 msgstr "Användarnamnet är upptaget. Välj ett annat användarnamn."
 
-#: weblate/accounts/forms.py:206
+#: weblate/accounts/forms.py:129 weblate/templates/manage-access.html:19
+msgid "Full name"
+msgstr "Fullständigt namn"
+
+#: weblate/accounts/forms.py:221
 #, fuzzy
 #| msgid "Comments"
 msgid "Component wide notifications"
 msgstr "Kommentarer"
 
-#: weblate/accounts/forms.py:208
+#: weblate/accounts/forms.py:223
 #, fuzzy
 #| msgid ""
 #| "You will receive chosen notifications via email for all your languages."
@@ -64,13 +68,13 @@ msgid ""
 msgstr ""
 "Du kommer att erhålla valda meddelanden via e-post för alla dina språk."
 
-#: weblate/accounts/forms.py:215
+#: weblate/accounts/forms.py:230
 #, fuzzy
 #| msgid "Translation instructions"
 msgid "Translation notifications"
 msgstr "Översättningsinstruktioner"
 
-#: weblate/accounts/forms.py:217
+#: weblate/accounts/forms.py:232
 #, fuzzy
 #| msgid ""
 #| "You will receive chosen notifications via email for all your languages."
@@ -80,40 +84,35 @@ msgid ""
 msgstr ""
 "Du kommer att erhålla valda meddelanden via e-post för alla dina språk."
 
-#: weblate/accounts/forms.py:256 weblate/accounts/forms.py:320
+#: weblate/accounts/forms.py:271 weblate/accounts/forms.py:334
 #: weblate/templates/manage-access.html:20
 msgid "E-mail"
 msgstr "E-post"
 
-#: weblate/accounts/forms.py:258
+#: weblate/accounts/forms.py:273
 #, fuzzy
 #| msgid "You can add another emails on Authentication tab."
 msgid "You can add another email address on the Authentication tab."
 msgstr "Du kan lägga till fler e-postadresser under fliken Autentisering."
 
-#: weblate/accounts/forms.py:285 weblate/accounts/forms.py:340
-#: weblate/templates/manage-access.html:19
-msgid "Full name"
-msgstr "Fullständigt namn"
-
-#: weblate/accounts/forms.py:292
+#: weblate/accounts/forms.py:306
 msgid "Subject"
 msgstr "Ämne"
 
-#: weblate/accounts/forms.py:293 weblate/accounts/forms.py:503
+#: weblate/accounts/forms.py:307 weblate/accounts/forms.py:539
 msgid "Your name"
 msgstr "Ditt namn"
 
-#: weblate/accounts/forms.py:294 weblate/accounts/forms.py:504
+#: weblate/accounts/forms.py:308 weblate/accounts/forms.py:540
 msgid "Your email"
 msgstr "Din e-postadress"
 
-#: weblate/accounts/forms.py:296 weblate/templates/admin/performance.html:47
+#: weblate/accounts/forms.py:310 weblate/templates/admin/performance.html:47
 #: weblate/trans/models/whiteboard.py:65
 msgid "Message"
 msgstr "Meddelande"
 
-#: weblate/accounts/forms.py:299
+#: weblate/accounts/forms.py:313
 msgid ""
 "Please contact us in English, otherwise we might be unable to understand "
 "your request."
@@ -121,42 +120,50 @@ msgstr ""
 "Var snäll och hantera kommunikationen på Engelska eftersom vi inte kommer "
 "att förstå din förfrågan annars."
 
-#: weblate/accounts/forms.py:321
+#: weblate/accounts/forms.py:335
 msgid "Activation email will be sent here."
 msgstr "Aktiveringsmeddelande skickas hit."
 
-#: weblate/accounts/forms.py:352
+#: weblate/accounts/forms.py:364
 msgid "New password"
 msgstr "Nytt lösenord"
 
-#: weblate/accounts/forms.py:356
+#: weblate/accounts/forms.py:368
 msgid "New password confirmation"
 msgstr "Bekräfta nytt lösenord"
 
-#: weblate/accounts/forms.py:386
+#: weblate/accounts/forms.py:398
 #, python-format
 msgctxt ""
 "Question for a mathematics-based CAPTCHA, the %s is an arithmetic problem"
 msgid "What is %s?"
 msgstr "Vad är %s?"
 
-#: weblate/accounts/forms.py:395
+#: weblate/accounts/forms.py:407
 msgid "Please check your math and try again."
 msgstr "Kontrollera matematiken och försök igen."
 
-#: weblate/accounts/forms.py:410
+#: weblate/accounts/forms.py:422
 msgid "Current password"
 msgstr "Nuvarande lösenord"
 
-#: weblate/accounts/forms.py:426
+#: weblate/accounts/forms.py:424
+msgid "Keep the field empty if you have not yet set your password."
+msgstr ""
+
+#: weblate/accounts/forms.py:446
+msgid "You have entered an invalid password."
+msgstr "Du har angett ett felaktigt lösenord."
+
+#: weblate/accounts/forms.py:462
 msgid "Username or email"
 msgstr "Användarnamn eller e-post"
 
-#: weblate/accounts/forms.py:429 weblate/templates/accounts/profile.html:189
+#: weblate/accounts/forms.py:465 weblate/templates/accounts/profile.html:189
 msgid "Password"
 msgstr "Lösenord"
 
-#: weblate/accounts/forms.py:433
+#: weblate/accounts/forms.py:469
 msgid ""
 "Please enter a correct username and password. Note that both fields may be "
 "case-sensitive."
@@ -164,38 +171,38 @@ msgstr ""
 "Ange korrekt användarnamn och lösenord. Notera att bägge fälten kan vara "
 "skiftlägeskänsliga."
 
-#: weblate/accounts/forms.py:435
+#: weblate/accounts/forms.py:471
 msgid "This account is inactive."
 msgstr "Detta konto är inaktiverat."
 
-#: weblate/accounts/forms.py:454 weblate/accounts/views.py:556
+#: weblate/accounts/forms.py:490 weblate/accounts/views.py:179
 #, fuzzy
 #| msgid "Can not reset password, email authentication is disabled!"
 msgid "Too many authentication attempts!"
 msgstr "Kan inte återställa lösenordet, e-postautentisering är avstängd!"
 
-#: weblate/accounts/forms.py:505 weblate/trans/models/project.py:85
+#: weblate/accounts/forms.py:541 weblate/trans/models/project.py:85
 msgid "Project name"
 msgstr "Projektnamn"
 
-#: weblate/accounts/forms.py:506 weblate/templates/project_info.html:3
+#: weblate/accounts/forms.py:542 weblate/templates/project_info.html:3
 #: weblate/trans/models/project.py:97
 msgid "Project website"
 msgstr "Projektwebbplats"
 
-#: weblate/accounts/forms.py:508 weblate/trans/models/subproject.py:159
+#: weblate/accounts/forms.py:544 weblate/trans/models/subproject.py:159
 msgid "Source code repository"
 msgstr "Källkodsförråd"
 
-#: weblate/accounts/forms.py:510
+#: weblate/accounts/forms.py:546
 msgid "URL of source code repository for example Git or Mercurial."
 msgstr "URL till källkodsförråd som t.ex. Git eller Mercurial."
 
-#: weblate/accounts/forms.py:515 weblate/trans/models/subproject.py:208
+#: weblate/accounts/forms.py:551 weblate/trans/models/subproject.py:208
 msgid "File mask"
 msgstr "Filmask"
 
-#: weblate/accounts/forms.py:517
+#: weblate/accounts/forms.py:553
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
@@ -203,7 +210,7 @@ msgstr ""
 "Sökväg för filer att översätta, använd * istället för språkkod, till "
 "exempel: po/*.po ellerr locale/*/LC_MESSAGES/django.po."
 
-#: weblate/accounts/forms.py:524
+#: weblate/accounts/forms.py:560
 msgid "Additional message"
 msgstr "Ytterligare meddelande"
 
@@ -348,7 +355,7 @@ msgid "Default component list"
 msgstr "Standardlista för komponenter"
 
 #: weblate/accounts/models.py:365 weblate/templates/accounts/profile.html:117
-#: weblate/templates/base.html:107
+#: weblate/templates/base.html:108
 #, fuzzy
 #| msgid "Whole project"
 msgid "Watched projects"
@@ -425,103 +432,92 @@ msgstr ""
 msgid "Your password can't consist of single character or whitespace only."
 msgstr ""
 
-#: weblate/accounts/pipeline.py:186
+#: weblate/accounts/pipeline.py:202
 msgid "New registrations are disabled!"
 msgstr "Nya registreringar är avstängda!"
 
-#: weblate/accounts/pipeline.py:191
+#: weblate/accounts/pipeline.py:207
 #, fuzzy
 #| msgid "Can not reset password, email authentication is disabled!"
 msgid "Can not change authentication for demo!"
 msgstr "Kan inte återställa lösenordet, e-postautentisering är avstängd!"
 
-#: weblate/accounts/pipeline.py:384
+#: weblate/accounts/pipeline.py:400
 #, python-brace-format
 msgid ""
 "Your email no longer belongs to verified account, it has been changed to {0}."
 msgstr ""
 
-#: weblate/accounts/views.py:102 weblate/accounts/views.py:494
+#: weblate/accounts/views.py:101 weblate/accounts/views.py:545
 msgid "User registration"
 msgstr "Användarregistrering"
 
-#: weblate/accounts/views.py:131
+#: weblate/accounts/views.py:130
 msgid "Message could not be sent to administrator!"
 msgstr "Meddelandet kunde inte skickas till administratören!"
 
-#: weblate/accounts/views.py:149
+#: weblate/accounts/views.py:148
 msgid "Message has been sent to administrator."
 msgstr "Meddelandet har skickats till administratören."
 
-#: weblate/accounts/views.py:157
+#: weblate/accounts/views.py:156
 #, fuzzy
 #| msgid "You can not change demo account on the demo server."
 msgid "You cannot change demo account on the demo server."
 msgstr "Du kan inte ändra demo-kontot på demo-servern."
 
-#: weblate/accounts/views.py:211
+#: weblate/accounts/views.py:235
 msgid "Your profile has been updated."
 msgstr "Din profil har uppdaterats."
 
-#: weblate/accounts/views.py:223
-#, python-brace-format
-msgid ""
-"You have not enabled password authentication, please <a href=\"{0}\">set the "
-"password</a>."
-msgstr ""
-
-#: weblate/accounts/views.py:252
+#: weblate/accounts/views.py:271
 msgid "User profile"
 msgstr "Användarprofil"
 
-#: weblate/accounts/views.py:282
+#: weblate/accounts/views.py:300
 msgid "Your account has been removed."
 msgstr "Ditt konto har tagits bort."
 
-#: weblate/accounts/views.py:308
+#: weblate/accounts/views.py:359
 msgid "Too many messages sent, please try again later!"
 msgstr ""
 
-#: weblate/accounts/views.py:330 weblate/templates/accounts/contact.html:6
+#: weblate/accounts/views.py:381 weblate/templates/accounts/contact.html:6
 #: weblate/templates/accounts/contact.html:21
 msgid "Contact"
 msgstr "Kontakt"
 
-#: weblate/accounts/views.py:363 weblate/templates/accounts/hosting.html:7
+#: weblate/accounts/views.py:414 weblate/templates/accounts/hosting.html:7
 msgid "Hosting"
 msgstr "Hosting"
 
-#: weblate/accounts/views.py:440 weblate/templates/accounts/login.html:8
-#: weblate/templates/accounts/login.html:43 weblate/templates/base.html:130
+#: weblate/accounts/views.py:491 weblate/templates/accounts/login.html:8
+#: weblate/templates/accounts/login.html:43 weblate/templates/base.html:131
 msgid "Login"
 msgstr "Logga in"
 
-#: weblate/accounts/views.py:449 weblate/admin.py:134
+#: weblate/accounts/views.py:500 weblate/admin.py:134
 msgid "Thanks for using Weblate!"
 msgstr "Tack för att du använder Weblate!"
 
-#: weblate/accounts/views.py:531 weblate/templates/accounts/email.html:16
+#: weblate/accounts/views.py:583 weblate/templates/accounts/email.html:16
 msgid "Register email"
 msgstr "Registrera e-post"
 
-#: weblate/accounts/views.py:568
-msgid "You have entered an invalid password."
-msgstr "Du har angett ett felaktigt lösenord."
-
-#: weblate/accounts/views.py:599
+#: weblate/accounts/views.py:625
 msgid "Your password has been changed."
 msgstr "Ditt lösenord har ändrats."
 
-#: weblate/accounts/views.py:610 weblate/templates/accounts/password.html:13
+#: weblate/accounts/views.py:636 weblate/templates/accounts/password.html:13
 #: weblate/templates/accounts/profile.html:192
 msgid "Change password"
 msgstr "Byt lösenord"
 
-#: weblate/accounts/views.py:622
+#: weblate/accounts/views.py:648
 msgid "Can not reset password, email authentication is disabled!"
 msgstr "Kan inte återställa lösenordet, e-postautentisering är avstängd!"
 
-#: weblate/accounts/views.py:655 weblate/templates/accounts/reset.html:7
+#: weblate/accounts/views.py:681 weblate/templates/accounts/reset.html:7
 #: weblate/templates/accounts/reset.html:21
 msgid "Password reset"
 msgstr "Nollställ lösenord"
@@ -532,7 +528,7 @@ msgstr "Nollställ lösenord"
 msgid "Weblate administration"
 msgstr "Dina översättningar"
 
-#: weblate/admin.py:137 weblate/templates/base.html:125
+#: weblate/admin.py:137 weblate/templates/base.html:126
 msgid "Logout"
 msgstr "Logga ut"
 
@@ -540,7 +536,7 @@ msgstr "Logga ut"
 #: weblate/templates/accounts/user.html:30
 #: weblate/templates/billing/detail.html:31 weblate/templates/language.html:15
 #: weblate/templates/projects.html:5 weblate/trans/models/project.py:166
-#: weblate/trans/views/basic.py:211
+#: weblate/trans/views/basic.py:213
 msgid "Projects"
 msgstr "Projekt"
 
@@ -583,7 +579,7 @@ msgid "Source words"
 msgstr "Källord"
 
 #: weblate/billing/models.py:157 weblate/lang/models.py:450
-#: weblate/lang/views.py:41 weblate/templates/accounts/profile.html:22
+#: weblate/lang/views.py:42 weblate/templates/accounts/profile.html:22
 #: weblate/templates/accounts/profile.html:41 weblate/templates/language.html:6
 #: weblate/templates/languages.html:6 weblate/templates/project.html:26
 #: weblate/templates/trans/change_list.html:18 weblate/trans/forms.py:818
@@ -939,7 +935,7 @@ msgstr "Översättningen har sparats!"
 msgid "Source has been removed."
 msgstr "Ditt konto har tagits bort."
 
-#: weblate/templates/403.html:5 weblate/trans/views/basic.py:543
+#: weblate/templates/403.html:5 weblate/trans/views/basic.py:549
 msgid "Permission Denied"
 msgstr "Åtkomst nekad"
 
@@ -959,7 +955,7 @@ msgid ""
 msgstr ""
 "Dock finns följande översättningsprojekt tillgängliga på den här servern:"
 
-#: weblate/templates/404.html:5 weblate/trans/views/basic.py:530
+#: weblate/templates/404.html:5 weblate/trans/views/basic.py:536
 msgid "Page Not Found"
 msgstr "Sidan hittades inte"
 
@@ -974,7 +970,7 @@ msgid ""
 "The project you are looking for does not exist or is not publicly available."
 msgstr "Sidan du letar efter hittades inte."
 
-#: weblate/templates/500.html:5 weblate/trans/views/basic.py:557
+#: weblate/templates/500.html:5 weblate/trans/views/basic.py:563
 #, fuzzy
 #| msgid "Server Error"
 msgid "Internal Server Error"
@@ -993,7 +989,7 @@ msgstr ""
 "tränade apor för att rätta till problemet."
 
 #: weblate/templates/about.html:5 weblate/templates/about.html:13
-#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:568
+#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:577
 msgid "About Weblate"
 msgstr "Om Weblate"
 
@@ -1088,6 +1084,28 @@ msgstr "Versioner"
 msgid "This site is built using following projects:"
 msgstr "Detta webbplats byggdes med följande projekt:"
 
+#: weblate/templates/accounts/confirm.html:7
+#: weblate/templates/accounts/password.html:6
+#: weblate/templates/accounts/profile.html:8
+#: weblate/templates/accounts/removal.html:7 weblate/templates/base.html:122
+#: weblate/templates/billing/overview.html:5
+msgid "Your profile"
+msgstr "Din profil"
+
+#: weblate/templates/accounts/confirm.html:14
+#: weblate/templates/accounts/confirm.html:23
+#, fuzzy
+#| msgid "Add new association:"
+msgid "Confirm new association"
+msgstr "Lägg till ny koppling:"
+
+#: weblate/templates/accounts/confirm.html:17
+#, python-format
+msgid ""
+"After confirming this, you will be able to authenticate to Weblate using "
+"%(backend_verbose)s (%(uid)s)."
+msgstr ""
+
 #: weblate/templates/accounts/contact.html:12
 msgid "You can contact maintainers of this server here."
 msgstr "Du kan kontakta de som driver den här servern här."
@@ -1156,7 +1174,7 @@ msgstr ""
 "definieras av varje översatt projekt."
 
 #: weblate/templates/accounts/email.html:29
-#: weblate/templates/accounts/register.html:39 weblate/templates/base.html:128
+#: weblate/templates/accounts/register.html:39 weblate/templates/base.html:129
 msgid "Register"
 msgstr "Registrera"
 
@@ -1231,12 +1249,21 @@ msgstr ""
 "Har du inte ett konto än? Du kan <a href=\"%(register_url)s\">registrera "
 "dig</a>."
 
-#: weblate/templates/accounts/password.html:6
-#: weblate/templates/accounts/profile.html:8
-#: weblate/templates/accounts/removal.html:6 weblate/templates/base.html:121
-#: weblate/templates/billing/overview.html:5
-msgid "Your profile"
-msgstr "Din profil"
+#: weblate/templates/accounts/password-warning.html:3
+#, fuzzy, python-format
+#| msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
+msgid ""
+"You have not enabled password authentication, please <a href=\"%(url)s\">set "
+"the password</a>."
+msgstr "Du kan byta lösenord på en <a href=\"%(pw_url)s\">separat sida</a>."
+
+#: weblate/templates/accounts/password-warning.html:6
+msgid "You will be still able to authenticate using third party services."
+msgstr ""
+
+#: weblate/templates/accounts/password-warning.html:7
+msgid "The password is used to verify important changes on your account."
+msgstr ""
 
 #: weblate/templates/accounts/password.html:16
 msgid ""
@@ -1246,11 +1273,11 @@ msgstr ""
 "Var god skriv in ditt nya lösenord två gånger så vi kan bekräfta att du "
 "skrivit in det korrekt."
 
-#: weblate/templates/accounts/password.html:25
+#: weblate/templates/accounts/password.html:23
 msgid "Change my password"
 msgstr "Byt mitt lösenord"
 
-#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:673
+#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:679
 #: weblate/trans/views/files.py:88
 msgid "Please fix errors in the form."
 msgstr "Var god rätta till fel i formuläret."
@@ -1353,7 +1380,7 @@ msgstr ""
 #: weblate/templates/accounts/profile.html:243
 #: weblate/templates/accounts/profile.html:286
 #: weblate/templates/admin/performance.html:23
-#: weblate/templates/admin/performance.html:32 weblate/templates/base.html:117
+#: weblate/templates/admin/performance.html:32 weblate/templates/base.html:118
 #: weblate/templates/check.html:42 weblate/templates/check_project.html:43
 #: weblate/templates/check_subproject.html:44 weblate/templates/checks.html:34
 #: weblate/templates/footer.html:8
@@ -1433,7 +1460,7 @@ msgid "Removal"
 msgstr "Borttagning"
 
 #: weblate/templates/accounts/profile.html:227
-#: weblate/templates/accounts/removal.html:11
+#: weblate/templates/accounts/removal.html:12
 msgid "Removal of the account deletes all your private data."
 msgstr "Borttagning av kontot tar bort alla dina privata data."
 
@@ -1624,18 +1651,18 @@ msgstr ""
 "Tyvärr, registreringen är inaktiverad på denna sida. Du kan <a href="
 "\"%(contact_url)s\">kontakta oss</a> för mer information."
 
-#: weblate/templates/accounts/removal.html:15
+#: weblate/templates/accounts/removal.html:16
 msgid "Account removal"
 msgstr "Kontoborttagning"
 
-#: weblate/templates/accounts/removal.html:17
+#: weblate/templates/accounts/removal.html:19
 msgid ""
 "By pressing following button, your will no longer be able to use this "
 "account."
 msgstr ""
 "Då du trycker på denna knapp kommer du inte längre kunna använda detta konto."
 
-#: weblate/templates/accounts/removal.html:21
+#: weblate/templates/accounts/removal.html:23
 msgid "Delete this account"
 msgstr "Ta bort detta konto"
 
@@ -1838,36 +1865,36 @@ msgstr ""
 "Import av en ny översättning kan ta lite tid, se <a href=\"%(url)s\">vår "
 "dokumentation</a> för information över hur detta kan förbättras."
 
-#: weblate/templates/base.html:93
+#: weblate/templates/base.html:94
 #, fuzzy
 #| msgid "Toggle text direction"
 msgid "Toggle navigation"
 msgstr "Skifta navigering"
 
-#: weblate/templates/base.html:104 weblate/templates/base.html:140
+#: weblate/templates/base.html:105 weblate/templates/base.html:141
 msgid "Dashboard"
 msgstr "Instrumentpanel"
 
-#: weblate/templates/base.html:113 weblate/templates/index.html:75
+#: weblate/templates/base.html:114 weblate/templates/index.html:75
 #, fuzzy
 #| msgid "Hostname"
 msgid "Manage watched projects"
 msgstr "Värdnamn"
 
-#: weblate/templates/base.html:123
+#: weblate/templates/base.html:124
 #, fuzzy
 #| msgid "Registration"
 msgid "Administration"
 msgstr "Registrering"
 
-#: weblate/templates/base.html:149
+#: weblate/templates/base.html:150
 msgid ""
 "Weblate does not support Microsoft Internet Explorer 8 and older, please use "
 "some more recent browser like <a href=\"https://www.mozilla.org/firefox/"
 "\">Firefox</a>."
 msgstr ""
 
-#: weblate/templates/base.html:172 weblate/templates/base.html:179
+#: weblate/templates/base.html:173 weblate/templates/base.html:180
 msgid "Close"
 msgstr ""
 
@@ -5356,15 +5383,15 @@ msgstr ""
 msgid "Weblate translations"
 msgstr "Dina översättningar"
 
-#: weblate/trans/autofixes/chars.py:65 weblate/trans/checks/chars.py:314
+#: weblate/trans/autofixes/chars.py:40 weblate/trans/checks/chars.py:314
 msgid "Trailing ellipsis"
 msgstr "Avslutande ellips"
 
-#: weblate/trans/autofixes/chars.py:77 weblate/trans/checks/chars.py:339
+#: weblate/trans/autofixes/chars.py:52 weblate/trans/checks/chars.py:339
 msgid "Zero-width space"
 msgstr ""
 
-#: weblate/trans/autofixes/chars.py:91
+#: weblate/trans/autofixes/chars.py:66
 #, fuzzy
 #| msgid "Repository status"
 msgid "Control chars"
@@ -7692,22 +7719,22 @@ msgstr ""
 msgid "Please set your full name in your profile."
 msgstr "Var god ange ditt fullständiga namn i din profil."
 
-#: weblate/trans/views/basic.py:270
+#: weblate/trans/views/basic.py:272
 #, python-format
 msgid "Search for %s"
 msgstr "Sök efter %s"
 
-#: weblate/trans/views/basic.py:276
+#: weblate/trans/views/basic.py:278
 msgid "Invalid search query!"
 msgstr "Ogiltig sökning!"
 
-#: weblate/trans/views/basic.py:305
+#: weblate/trans/views/basic.py:308
 #, fuzzy, python-brace-format
 #| msgid "Get involved in %(project)s!"
 msgid "Get involved in {0}!"
 msgstr "Engagera dig i %(project)s!"
 
-#: weblate/trans/views/basic.py:311
+#: weblate/trans/views/basic.py:314
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
@@ -7722,7 +7749,7 @@ msgstr ""
 
 #. Translators: line of text in engagement widget, please use your
 #. language name instead of English
-#: weblate/trans/views/basic.py:319
+#: weblate/trans/views/basic.py:322
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -7733,23 +7760,23 @@ msgstr ""
 "har för närvarande %(total)s strängar för översättning och är %(percent)s%% "
 "klart."
 
-#: weblate/trans/views/basic.py:346 weblate/trans/views/basic.py:414
+#: weblate/trans/views/basic.py:349 weblate/trans/views/basic.py:418
 #, fuzzy
 #| msgid "Starting spaces"
 msgid "Settings saved"
 msgstr "Inledande mellanslag"
 
-#: weblate/trans/views/basic.py:351 weblate/trans/views/basic.py:419
+#: weblate/trans/views/basic.py:354 weblate/trans/views/basic.py:423
 msgid "Invalid settings, please check the form for errors!"
 msgstr ""
 
-#: weblate/trans/views/basic.py:583
+#: weblate/trans/views/basic.py:589
 #, fuzzy
 #| msgid "Your translations"
 msgid "Weblate statistics"
 msgstr "Dina översättningar"
 
-#: weblate/trans/views/basic.py:663
+#: weblate/trans/views/basic.py:669
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr ""
@@ -8714,9 +8741,6 @@ msgstr ""
 
 #~ msgid "You need to log in to be able to save translations!"
 #~ msgstr "Du måste logga in för att kunna spara översättningar!"
-
-#~ msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
-#~ msgstr "Du kan byta lösenord på en <a href=\"%(pw_url)s\">separat sida</a>."
 
 #~ msgid "Invalid link to repository!"
 #~ msgstr "Ogiltig länk till förråd!"
