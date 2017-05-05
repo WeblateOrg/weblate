@@ -32,6 +32,11 @@ with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
 with open('requirements.txt') as requirements:
     REQUIRES = requirements.read().splitlines()
 
+DATA_FILES = [
+    ('share/weblate/' + root, [os.path.join(root, f) for f in files])
+    for root, dirs, files in os.walk('examples')
+]
+
 setup(
     name='Weblate',
     version='2.14',
@@ -120,4 +125,5 @@ setup(
         'httpretty',
     ),
     test_suite='runtests.runtests',
+    data_files=DATA_FILES,
 )
