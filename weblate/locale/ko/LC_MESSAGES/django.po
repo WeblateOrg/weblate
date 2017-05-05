@@ -8,22 +8,22 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-05-04 13:59+0000\n"
-"PO-Revision-Date: 2016-07-07 21:36+0000\n"
-"Last-Translator: Kyeong Su Shin <cdac1234@gmail.com>\n"
-"Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
-">\n"
+"PO-Revision-Date: 2017-05-05 08:45+0000\n"
+"Last-Translator: HanShinJo <gockgange@gmail.com>\n"
+"Language-Team: Korean "
+"<https://hosted.weblate.org/projects/weblate/master/ko/>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2.7-dev\n"
+"X-Generator: Weblate 2.14-dev\n"
 
 #: weblate/accounts/auth.py:57
 msgid ""
 "Failed to verify your registration! Probably the verification token has "
 "expired. Please try the registration again."
-msgstr ""
+msgstr "등록을 확인할 수 없습니다! 등록된 데이터의 유효 시간이 초과되었을 수 있으니, 다시 한번 등록해주시기 바랍니다"
 
 #: weblate/accounts/avatar.py:163
 msgctxt "No known user"
@@ -144,7 +144,7 @@ msgstr "현재 암호"
 
 #: weblate/accounts/forms.py:424
 msgid "Keep the field empty if you have not yet set your password."
-msgstr ""
+msgstr "아직 비밀번호를 설정하지 않으셨다면, 빈칸으로 남겨두십시오."
 
 #: weblate/accounts/forms.py:446
 msgid "You have entered an invalid password."
@@ -222,34 +222,34 @@ msgstr "당신의 암호가 변경되었습니다."
 #: weblate/accounts/models.py:59
 #, python-brace-format
 msgid "Authentication using {method} ({name}) has been added."
-msgstr ""
+msgstr "{method}{name}을 이용한 확인절차가 추가되었습니다."
 
 #: weblate/accounts/models.py:62
 #, python-brace-format
 msgid "Authentication using {method} ({name}) has been removed."
-msgstr ""
+msgstr "{method}{name}을 이용한 확인절차가 제거되었습니다."
 
 #: weblate/accounts/models.py:65
 #, python-brace-format
 msgid "Successfully authenticated using {method} ({name})."
-msgstr ""
+msgstr "성공적으로 {method}{name}을 이용하여 승인을 하였습니다."
 
 #: weblate/accounts/models.py:68
 msgid "Somebody has attempted to register with your email."
-msgstr ""
+msgstr "누군가 당신의 이메일을 이용하여 등록을 시도하였습니다."
 
 #: weblate/accounts/models.py:71
 msgid "Somebody has attempted to add your email to existing account."
-msgstr ""
+msgstr "누군가 당신의 이메일을 이미 존재하는 계정에 추가하려는 시도가 있었습니다."
 
 #: weblate/accounts/models.py:74
 #, python-brace-format
 msgid "Failed authentication attempt using {method} ({name})."
-msgstr ""
+msgstr "{method}{name}을 이용한 승인 절차에 실패하였습니다."
 
 #: weblate/accounts/models.py:77
 msgid "Account locked due to excessive failed authentication attempts."
-msgstr ""
+msgstr "확인 절차에 실패한 횟수가 초과되어 계정이 비활성화 되었습니다."
 
 #: weblate/accounts/models.py:169 weblate/templates/accounts/profile.html:304
 #, fuzzy
@@ -291,7 +291,7 @@ msgstr "2차 번역을 전체 화면 모드에서 보기"
 
 #: weblate/accounts/models.py:300
 msgid "Hide source if there is secondary language"
-msgstr ""
+msgstr "제2 외국어가 있다면 소스를 숨기어 주십시오."
 
 #: weblate/accounts/models.py:306
 #, fuzzy
@@ -307,6 +307,9 @@ msgid ""
 "placeholders. Usually something like editor://open/?file=%(file)s&line="
 "%(line)s is good option."
 msgstr ""
+"소스 코드를 열고 싶을 때 쓰일 커스텀 주소를 입력해주십시오. 브랜치를 위하여 %(branch)s, 파일이름을 위하여 %(file)s "
+"그리고 라인 위치홀더를 위한 %(line)s이 쓰일 수 있습니다. 주로 "
+"editor://open/?file=%(file)s&line=%(line)s와 같은 형식이 쓰입니다."
 
 #: weblate/accounts/models.py:319
 #, fuzzy
@@ -320,6 +323,8 @@ msgid ""
 "keyboard while translating. It can be useful for chars you use frequently "
 "but are hard to type on your keyboard."
 msgstr ""
+"당신은 번역중 쓰일 시각키보드를 위한 추가적인 특수문자를 설정할 수 있습니다. 이 기능은 키보드의 자주 쓰이지만, 입력하기 어려운 문자를 "
+"위하여 쓰입니다."
 
 #: weblate/accounts/models.py:333 weblate/templates/index.html:31
 #, fuzzy
@@ -361,7 +366,7 @@ msgstr "모든 프로젝트"
 msgid ""
 "You can receive notifications for watched projects and they are shown on "
 "dashboard by default."
-msgstr ""
+msgstr "당신이 보았던 프로젝트와 관련된 알림을 받을 수 있습니다. 이것은 당신의 대시보드에 기본적으로 나타나게 됩니다."
 
 #: weblate/accounts/models.py:374
 msgid "Notification on any translation"
@@ -393,29 +398,29 @@ msgstr "새로운 언어 추가 요청이 있을 경우 알리기"
 
 #: weblate/accounts/models.py:451
 msgid "Component list must be selected when used as default."
-msgstr ""
+msgstr "구성요소 목록은 기본 설정으로 쓰이기 위해서는 꼭 선택되어야 합니다."
 
 #: weblate/accounts/models.py:457
 msgid "Component list must not be selected when not used."
-msgstr ""
+msgstr "구성 요소 목록은 쓰이지 않을 때는 선택되어서는 안됩니다."
 
 #: weblate/accounts/models.py:529
 msgid ""
 "You can not submit translations as you do not have assigned any email "
 "address."
-msgstr ""
+msgstr "설정된 이메일 주소 없이는 번역을 제출할 수 없습니다."
 
 #: weblate/accounts/password_validation.py:38
 msgid "This password consists of whitespace only."
-msgstr ""
+msgstr "이 비밀번호는 공백으로만 이루어져있습니다."
 
 #: weblate/accounts/password_validation.py:43
 msgid "This password consists of single character."
-msgstr ""
+msgstr "이 비밀번호는 동일한 문자로 이루어져있습니다."
 
 #: weblate/accounts/password_validation.py:49
 msgid "Your password can't consist of single character or whitespace only."
-msgstr ""
+msgstr "당신의 비밀번호는 동일한 문자열이나 공백으로만 이루어질 수 없습니다."
 
 #: weblate/accounts/pipeline.py:202
 msgid "New registrations are disabled!"
@@ -431,7 +436,7 @@ msgstr "이메일 인증이 활성화되어 있지 않아 비밀번호를 초기
 #, python-brace-format
 msgid ""
 "Your email no longer belongs to verified account, it has been changed to {0}."
-msgstr ""
+msgstr "당신의 이메일은 더 이상 확인된 계정에 속하지 않습니다, 이미 {0}으로 바뀌었습니다."
 
 #: weblate/accounts/views.py:101 weblate/accounts/views.py:545
 msgid "User registration"
@@ -463,7 +468,7 @@ msgstr "계정이 삭제되었습니다."
 
 #: weblate/accounts/views.py:359
 msgid "Too many messages sent, please try again later!"
-msgstr ""
+msgstr "너무 많은 메시지가 전달되었습니다! 잠시 후 다시 시도하시기 바랍니다."
 
 #: weblate/accounts/views.py:381 weblate/templates/accounts/contact.html:6
 #: weblate/templates/accounts/contact.html:21
@@ -529,19 +534,19 @@ msgstr "활동"
 
 #: weblate/billing/models.py:70
 msgid "Trial"
-msgstr ""
+msgstr "시도"
 
 #: weblate/billing/models.py:71
 msgid "Expired"
-msgstr ""
+msgstr "유효시간 초과"
 
 #: weblate/billing/models.py:90
 msgid "Changes in last month"
-msgstr ""
+msgstr "저번 달에 변경됨"
 
 #: weblate/billing/models.py:94
 msgid "Changes in last quarter"
-msgstr ""
+msgstr "저번 쿼터에 변경됨"
 
 #: weblate/billing/models.py:98
 msgid "Changes in last year"
@@ -583,7 +588,7 @@ msgstr "복수를 위한 문서화."
 
 #: weblate/billing/models.py:193
 msgid "N/A"
-msgstr ""
+msgstr "없음"
 
 #: weblate/billing/models.py:194
 #, fuzzy
@@ -657,7 +662,7 @@ msgstr "없음"
 #: weblate/lang/models.py:366
 msgctxt "Plural type"
 msgid "One/other (classic plural)"
-msgstr ""
+msgstr "하나/다른 것 (클래식 다수)"
 
 #: weblate/lang/models.py:370
 msgctxt "Plural type"
