@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-05-04 13:59+0000\n"
-"PO-Revision-Date: 2017-03-26 16:06+0000\n"
-"Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
-"Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
-"weblate/master/zh_Hant/>\n"
+"PO-Revision-Date: 2017-05-05 08:44+0000\n"
+"Last-Translator: chester <chesteran321@yahoo.com.tw>\n"
+"Language-Team: Chinese (Traditional) "
+"<https://hosted.weblate.org/projects/weblate/master/zh_Hant/>\n"
 "Language: zh_Hant\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2.12\n"
+"X-Generator: Weblate 2.14-dev\n"
 
 #: weblate/accounts/auth.py:57
 msgid ""
@@ -144,8 +144,9 @@ msgid "Current password"
 msgstr "目前密碼"
 
 #: weblate/accounts/forms.py:424
+#, fuzzy
 msgid "Keep the field empty if you have not yet set your password."
-msgstr ""
+msgstr "如果尚未設定你的密碼請留空"
 
 #: weblate/accounts/forms.py:446
 msgid "You have entered an invalid password."
@@ -221,32 +222,34 @@ msgid "Password reset has been confirmed."
 msgstr "您的密碼已變更。"
 
 #: weblate/accounts/models.py:59
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Authentication using {method} ({name}) has been added."
-msgstr ""
+msgstr "認證使用{method}{name}已被添加"
 
 #: weblate/accounts/models.py:62
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Authentication using {method} ({name}) has been removed."
-msgstr ""
+msgstr "認證使用{method}{name}已被添加。"
 
 #: weblate/accounts/models.py:65
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Successfully authenticated using {method} ({name})."
-msgstr ""
+msgstr "成功認證使用{method}{name}"
 
 #: weblate/accounts/models.py:68
+#, fuzzy
 msgid "Somebody has attempted to register with your email."
-msgstr ""
+msgstr "有人已經嘗試去登入你的信箱。"
 
 #: weblate/accounts/models.py:71
+#, fuzzy
 msgid "Somebody has attempted to add your email to existing account."
-msgstr ""
+msgstr "有人已經嘗試增添你的信箱到已存在的帳號。"
 
 #: weblate/accounts/models.py:74
 #, python-brace-format
 msgid "Failed authentication attempt using {method} ({name})."
-msgstr ""
+msgstr "認證失敗請嘗試使用{method}{name}"
 
 #: weblate/accounts/models.py:77
 msgid "Account locked due to excessive failed authentication attempts."
@@ -395,22 +398,23 @@ msgid "Component list must not be selected when not used."
 msgstr "必須選擇元件列表作為預設。"
 
 #: weblate/accounts/models.py:529
+#, fuzzy
 msgid ""
 "You can not submit translations as you do not have assigned any email "
 "address."
-msgstr ""
+msgstr "你不能繳交翻譯結果當你尚未指派任何的信箱"
 
 #: weblate/accounts/password_validation.py:38
 msgid "This password consists of whitespace only."
-msgstr ""
+msgstr "這個密碼只由空白鍵組成。"
 
 #: weblate/accounts/password_validation.py:43
 msgid "This password consists of single character."
-msgstr ""
+msgstr "這個密碼由單一字元組成。"
 
 #: weblate/accounts/password_validation.py:49
 msgid "Your password can't consist of single character or whitespace only."
-msgstr ""
+msgstr "你的密碼不能只由單一字元或空白鍵組成。"
 
 #: weblate/accounts/pipeline.py:202
 msgid "New registrations are disabled!"
@@ -426,7 +430,7 @@ msgstr "無法重設密碼，Email 驗證功能已被停用！"
 #, python-brace-format
 msgid ""
 "Your email no longer belongs to verified account, it has been changed to {0}."
-msgstr ""
+msgstr "你的信箱不再屬於認證帳號，它已被轉換成{0}。"
 
 #: weblate/accounts/views.py:101 weblate/accounts/views.py:545
 msgid "User registration"
@@ -458,7 +462,7 @@ msgstr "您的帳號已被移除。"
 
 #: weblate/accounts/views.py:359
 msgid "Too many messages sent, please try again later!"
-msgstr ""
+msgstr "太多訊息被傳送，稍後請再試一次!"
 
 #: weblate/accounts/views.py:381 weblate/templates/accounts/contact.html:6
 #: weblate/templates/accounts/contact.html:21
@@ -578,7 +582,7 @@ msgstr "複數說明文件。"
 
 #: weblate/billing/models.py:193
 msgid "N/A"
-msgstr ""
+msgstr "N/A"
 
 #: weblate/billing/models.py:194
 #, fuzzy
@@ -588,8 +592,9 @@ msgstr "下載收據"
 
 #. Translators: Whether the package is inside displayed (soft) limits
 #: weblate/billing/models.py:218
+#, fuzzy
 msgid "In display limits"
-msgstr ""
+msgstr "顯示限制"
 
 #: weblate/lang/apps.py:28
 msgid "Weblate languages"
@@ -650,14 +655,15 @@ msgid "None"
 msgstr "無"
 
 #: weblate/lang/models.py:366
+#, fuzzy
 msgctxt "Plural type"
 msgid "One/other (classic plural)"
-msgstr ""
+msgstr "一個/其他(經典複數)"
 
 #: weblate/lang/models.py:370
 msgctxt "Plural type"
 msgid "One/few/other (Slavic languages)"
-msgstr ""
+msgstr "一個/少數/其他(斯拉夫語)"
 
 #: weblate/lang/models.py:374
 #, fuzzy
@@ -669,47 +675,48 @@ msgstr "所有語言"
 #: weblate/lang/models.py:378
 msgctxt "Plural type"
 msgid "Zero/one/other"
-msgstr ""
+msgstr "零/一個/其他"
 
 #: weblate/lang/models.py:382
 msgctxt "Plural type"
 msgid "One/two/other"
-msgstr ""
+msgstr "一個/兩個/其他"
 
 #: weblate/lang/models.py:386
 msgctxt "Plural type"
 msgid "One/two/few/other"
-msgstr ""
+msgstr "一個/兩個/少數/其他"
 
 #: weblate/lang/models.py:390
 msgctxt "Plural type"
 msgid "One/two/three/other"
-msgstr ""
+msgstr "一個/兩個/三個/其他"
 
 #: weblate/lang/models.py:394
+#, fuzzy
 msgctxt "Plural type"
 msgid "One/other/zero"
-msgstr ""
+msgstr "一個/其他/零個"
 
 #: weblate/lang/models.py:398
 msgctxt "Plural type"
 msgid "One/few/many/other"
-msgstr ""
+msgstr "一個/少數/多個/其他"
 
 #: weblate/lang/models.py:402
 msgctxt "Plural type"
 msgid "Two/other"
-msgstr ""
+msgstr "兩個/其他"
 
 #: weblate/lang/models.py:406
 msgctxt "Plural type"
 msgid "One/two/few/many/other"
-msgstr ""
+msgstr "一個/兩個/少數/多個/其他"
 
 #: weblate/lang/models.py:410
 msgctxt "Plural type"
 msgid "Unknown"
-msgstr ""
+msgstr "未知"
 
 #: weblate/lang/models.py:415 weblate/templates/language.html:57
 #, fuzzy
@@ -742,11 +749,11 @@ msgstr "切換文字方向"
 
 #: weblate/lang/models.py:435
 msgid "Left to right"
-msgstr ""
+msgstr "從左到右"
 
 #: weblate/lang/models.py:436
 msgid "Right to left"
-msgstr ""
+msgstr "從右到左"
 
 #: weblate/lang/models.py:442 weblate/templates/language.html:45
 #, fuzzy
@@ -777,9 +784,9 @@ msgstr "複數形態 %d"
 
 #. Translators: Label for plurals with example counts
 #: weblate/lang/models.py:505
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "{name} (e.g. {examples})"
-msgstr ""
+msgstr "{name}(例如:{examples})"
 
 #: weblate/permissions/admin.py:40
 msgid "Project / Component"
@@ -820,9 +827,10 @@ msgid "Translate"
 msgstr "翻譯"
 
 #: weblate/permissions/data.py:153
+#, fuzzy
 msgctxt "Permissions group"
 msgid "VCS"
-msgstr ""
+msgstr "VCS"
 
 #: weblate/permissions/models.py:52
 #, fuzzy
@@ -831,8 +839,9 @@ msgid "Filtered permissions"
 msgstr "版本"
 
 #: weblate/permissions/models.py:53
+#, fuzzy
 msgid "The GroupACL will affect only selected permissions."
-msgstr ""
+msgstr "GroupACL只會影響選取同意"
 
 #: weblate/permissions/models.py:60
 msgid "Project, component or language must be specified"
@@ -882,16 +891,17 @@ msgid "Image"
 msgstr "圖片 URL"
 
 #: weblate/screenshots/models.py:39
+#, fuzzy
 msgid "Upload JPEG or PNG images up to 2000x2000 pixels."
-msgstr ""
+msgstr "上傳JPED或PNG圖像到2000x2000像素。"
 
 #: weblate/screenshots/views.py:106
 msgid "Screenshot has been uploaded, you can now assign it to source strings."
-msgstr ""
+msgstr "截圖已被上傳，你現在可以指派它到來源字串。"
 
 #: weblate/screenshots/views.py:114
 msgid "Failed to upload screenshot, please fix errors below."
-msgstr ""
+msgstr "上傳截圖失敗，請嘗試修正下列的錯誤。"
 
 #: weblate/screenshots/views.py:166
 #, fuzzy, python-format
@@ -1051,11 +1061,11 @@ msgid "Confirm new association"
 msgstr "新增連結："
 
 #: weblate/templates/accounts/confirm.html:17
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "After confirming this, you will be able to authenticate to Weblate using "
 "%(backend_verbose)s (%(uid)s)."
-msgstr ""
+msgstr "認證它之後，你將會認證Weblate藉由使用%(backend_verbose)s%(uid)s。"
 
 #: weblate/templates/accounts/contact.html:12
 msgid "You can contact maintainers of this server here."
@@ -1196,12 +1206,13 @@ msgid ""
 msgstr "您可以在<a href=\"%(pw_url)s\">分頁</a>上更改密碼。"
 
 #: weblate/templates/accounts/password-warning.html:6
+#, fuzzy
 msgid "You will be still able to authenticate using third party services."
-msgstr ""
+msgstr "你將仍可透過第三方伺服器來認證。"
 
 #: weblate/templates/accounts/password-warning.html:7
 msgid "The password is used to verify important changes on your account."
-msgstr ""
+msgstr "在你的帳號有重大改變，這個密碼將會被用來核對。"
 
 #: weblate/templates/accounts/password.html:16
 msgid ""
@@ -1247,8 +1258,9 @@ msgstr "授權"
 
 #: weblate/templates/accounts/profile.html:29
 #: weblate/templates/accounts/profile.html:299
+#, fuzzy
 msgid "Audit log"
-msgstr ""
+msgstr "稽核日誌"
 
 #: weblate/templates/accounts/profile.html:30
 #: weblate/templates/accounts/profile.html:343
