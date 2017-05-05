@@ -1,0 +1,7 @@
+#!/bin/sh
+# Post-update hook to merge POT translations into PO.
+# Requires gettext.
+
+[ -z "${WL_NEW_BASE}" ] && exit 0
+msgmerge -U "$1" "${WL_NEW_BASE}"
+exit $?
