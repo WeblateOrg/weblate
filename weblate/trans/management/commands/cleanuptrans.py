@@ -19,10 +19,13 @@
 #
 
 import os.path
+import time
 
 from django.core.files.storage import DefaultStorage
 from django.core.management.base import BaseCommand
 from django.db import transaction
+
+from social_django.models import Partial
 
 from whoosh.index import EmptyIndexError
 
@@ -43,6 +46,19 @@ class Command(BaseCommand):
         self.cleanup_database()
         self.cleanup_fulltext()
         self.cleanup_files()
+        self.cleanup_social()
+
+    def cleanup_social(self):
+        """Cleanup expired partial social authentications."""
+        with transaction.atomic():
+            for partial in Partial.objects.all():
+                kwargs = partial.data['kwargs']
+                if not 'weblate_expires' in kwargs:
+                    # Old entry without expiry set
+                    partial.delete()
+                elif kwargs['weblate_expires'] < time.time():
+                    # Expired entry
+                    partial.delete()
 
     def cleanup_sources(self):
         with transaction.atomic():
