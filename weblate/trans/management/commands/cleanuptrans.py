@@ -39,24 +39,25 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         """Perfom cleanup of Weblate database."""
-        with transaction.atomic():
-            self.cleanup_sources()
+        self.cleanup_sources()
         self.cleanup_database()
-        with transaction.atomic():
-            self.cleanup_fulltext()
-        with transaction.atomic():
-            self.cleanup_files()
+        self.cleanup_fulltext()
+        self.cleanup_files()
 
     def cleanup_sources(self):
-        for component in SubProject.objects.all():
-            source_ids = Unit.objects.filter(
-                translation__subproject=component
-            ).values('id_hash').distinct()
-            Source.objects.filter(
-                subproject=component
-            ).exclude(
-                id_hash__in=source_ids
-            ).delete()
+        with transaction.atomic():
+            components = list(SubProject.objects.values_list('id', flat=True))
+        for pk in components:
+            with transaction.atomic():
+                component = SubProject.objects.get(pk=pk)
+                source_ids = Unit.objects.filter(
+                    translation__subproject=component
+                ).values('id_hash').distinct()
+                Source.objects.filter(
+                    subproject=component
+                ).exclude(
+                    id_hash__in=source_ids
+                ).delete()
 
     def cleanup_files(self):
         """Remove stale screenshots"""
@@ -72,9 +73,10 @@ class Command(BaseCommand):
 
     def cleanup_fulltext(self):
         """Remove stale units from fulltext"""
-        languages = Language.objects.have_translation().values_list(
-            'code', flat=True
-        )
+        with transaction.atomic():
+            languages = list(Language.objects.have_translation().values_list(
+                'code', flat=True
+            ))
         # We operate only on target indexes as they will have all IDs anyway
         for lang in languages:
             index = get_target_index(lang)
@@ -89,8 +91,11 @@ class Command(BaseCommand):
 
     def cleanup_database(self):
         """Cleanup the database"""
-        for prj in Project.objects.all():
+        with transaction.atomic():
+            projects = list(Project.objects.values_list('id', flat=True))
+        for pk in projects:
             with transaction.atomic():
+                prj = Project.objects.get(pk=pk)
 
                 # List all current unit content_hashs
                 units = Unit.objects.filter(
