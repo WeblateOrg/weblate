@@ -252,7 +252,7 @@ Authentication settings
 .. envvar:: WEBLATE_SOCIAL_AUTH_GITHUB_KEY
 .. envvar:: WEBLATE_SOCIAL_AUTH_GITHUB_SECRET
 
-    Enables :ref:`google_auth`.
+    Enables :ref:`github_auth`.
 
 .. envvar:: WEBLATE_SOCIAL_AUTH_BITBUCKET_KEY
 .. envvar:: WEBLATE_SOCIAL_AUTH_BITBUCKET_SECRET
