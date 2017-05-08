@@ -300,6 +300,11 @@ To make outgoing email work, you need to provide mail server.
 
     Mail server, the server has to listen on port 587 and understand TLS.
 
+.. envvar:: WEBLATE_EMAIL_PORT
+
+    Mail server port, use if your cloud provider or ISP blocks outgoing
+    connections on port 587.
+
 .. envvar:: WEBLATE_EMAIL_USER
 
     Email authentication user, do NOT use quotes here.
