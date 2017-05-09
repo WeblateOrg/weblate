@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-05-04 13:59+0000\n"
-"PO-Revision-Date: 2017-04-13 08:36+0000\n"
+"PO-Revision-Date: 2017-05-09 07:40+0000\n"
 "Last-Translator: Stanisław Krukowski <ack0079@riseup.net>\n"
-"Language-Team: Polish <https://hosted.weblate.org/projects/weblate/master/pl/"
-">\n"
+"Language-Team: Polish "
+"<https://hosted.weblate.org/projects/weblate/master/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -171,10 +171,8 @@ msgid "This account is inactive."
 msgstr "To konto jest już nieaktywne."
 
 #: weblate/accounts/forms.py:490 weblate/accounts/views.py:179
-#, fuzzy
-#| msgid "Can not reset password, email authentication is disabled!"
 msgid "Too many authentication attempts!"
-msgstr "Nie można zresetować hasła, wyłączone jest uwierzytelnienie e-mail!"
+msgstr "Zbyt wiele prób uwierzytelnienia!"
 
 #: weblate/accounts/forms.py:541 weblate/trans/models/project.py:85
 msgid "Project name"
@@ -210,16 +208,12 @@ msgid "Additional message"
 msgstr "Wiadomość dodatkowa"
 
 #: weblate/accounts/models.py:53
-#, fuzzy
-#| msgid "Your password has been changed."
 msgid "Password has been changed."
 msgstr "Hasło zostało zmienione."
 
 #: weblate/accounts/models.py:56
-#, fuzzy
-#| msgid "Your password has been changed."
 msgid "Password reset has been confirmed."
-msgstr "Hasło zostało zmienione."
+msgstr "Reset hasła został potwierdzony."
 
 #: weblate/accounts/models.py:59
 #, python-brace-format
@@ -254,10 +248,8 @@ msgid "Account locked due to excessive failed authentication attempts."
 msgstr ""
 
 #: weblate/accounts/models.py:169 weblate/templates/accounts/profile.html:304
-#, fuzzy
-#| msgid "Account activation"
 msgid "Account activity"
-msgstr "Aktywacja konta"
+msgstr "Aktywność konta"
 
 #: weblate/accounts/models.py:267
 msgid "Interface Language"
@@ -417,10 +409,8 @@ msgid "New registrations are disabled!"
 msgstr "Nowe rejestracje są wyłączone!"
 
 #: weblate/accounts/pipeline.py:207
-#, fuzzy
-#| msgid "Can not reset password, email authentication is disabled!"
 msgid "Can not change authentication for demo!"
-msgstr "Nie można zresetować hasła, wyłączone jest uwierzytelnienie e-mail!"
+msgstr "Nie można zmienić uwierzytelnienia dla demo!"
 
 #: weblate/accounts/pipeline.py:400
 #, python-brace-format
@@ -501,10 +491,8 @@ msgid "Password reset"
 msgstr "Resetowanie hasła"
 
 #: weblate/admin.py:68 weblate/admin.py:69
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Weblate administration"
-msgstr "Tłumaczenia Weblate"
+msgstr "Administracja Weblate"
 
 #: weblate/admin.py:137 weblate/templates/base.html:126
 msgid "Logout"
@@ -894,11 +882,10 @@ msgid "The page you are looking for was not found."
 msgstr "Poszukiwana strona nie została odnaleziona."
 
 #: weblate/templates/404.html:15
-#, fuzzy
-#| msgid "The page you are looking for was not found."
 msgid ""
 "The project you are looking for does not exist or is not publicly available."
-msgstr "Poszukiwana strona nie została odnaleziona."
+msgstr ""
+"Projekt, którego szukasz, nie istnieje lub nie jest dostępny publicznie."
 
 #: weblate/templates/500.html:5 weblate/trans/views/basic.py:563
 msgid "Internal Server Error"
@@ -1016,10 +1003,8 @@ msgstr "Profil użytkownika"
 
 #: weblate/templates/accounts/confirm.html:14
 #: weblate/templates/accounts/confirm.html:23
-#, fuzzy
-#| msgid "Add new association:"
 msgid "Confirm new association"
-msgstr "Dodaj nowe powiązanie:"
+msgstr "Potwierdź nowe powiązanie"
 
 #: weblate/templates/accounts/confirm.html:17
 #, python-format
@@ -1065,19 +1050,15 @@ msgstr ""
 "przypadku, gdy link nie działa, proszę zarejestrować się ponownie."
 
 #: weblate/templates/accounts/email-sent.html:20
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder or retry "
-#| "the registration. If the problem persists, please <a href="
-#| "\"%(contact_url)s?subject=Registration problems\">contact us</a>."
+#, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. If the problem persists, please <a href=\"%(contact_url)s?t=reg"
 "\">contact us</a>."
 msgstr ""
 "Jeśli nie otrzymasz go wkrótce, proszę sprawdzić folder spam lub ponowić "
-"rejestrację. Jeśli problem nadal występuje <a href=\"%(contact_url)s?"
-"subject=Lost activation code\">prosimy o kontakt z nami</a>."
+"rejestrację. Jeśli problem nadal występuje, prosimy <a href=\""
+"%(contact_url)s?t=reg\">skontaktować się z nami</a>."
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:19
@@ -1173,12 +1154,13 @@ msgstr ""
 "\">zarejestrować</a>."
 
 #: weblate/templates/accounts/password-warning.html:3
-#, fuzzy, python-format
-#| msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
+#, python-format
 msgid ""
 "You have not enabled password authentication, please <a href=\"%(url)s\">set "
 "the password</a>."
-msgstr "Możesz zmienić hasło na <a href=\"%(pw_url)s\">osobnej stronie</a>."
+msgstr ""
+"Nie włączyłeś uwierzytelnienia hasła, proszę <a href=\"%(url)s\">ustawić "
+"hasło</a>."
 
 #: weblate/templates/accounts/password-warning.html:6
 msgid "You will be still able to authenticate using third party services."
@@ -1353,8 +1335,6 @@ msgstr ""
 "przesłaniach plików (ang. commits)."
 
 #: weblate/templates/accounts/profile.html:179
-#, fuzzy
-#| msgid "User identities"
 msgid "Current user identities"
 msgstr "Dane uwierzytelniające użytkownika"
 
@@ -1380,10 +1360,8 @@ msgid "Disconnect"
 msgstr "Rozłącz"
 
 #: weblate/templates/accounts/profile.html:213
-#, fuzzy
-#| msgid "Add new association:"
 msgid "Add new association"
-msgstr "Dodaj nowe powiązanie:"
+msgstr "Dodaj nowe powiązanie"
 
 #: weblate/templates/accounts/profile.html:224
 msgid "Removal"
@@ -1436,16 +1414,12 @@ msgid "When"
 msgstr "Kiedy"
 
 #: weblate/templates/accounts/profile.html:305
-#, fuzzy
-#| msgid "Email addresses"
 msgid "IP address"
-msgstr "Adresy e-mail"
+msgstr "Adres IP"
 
 #: weblate/templates/accounts/profile.html:316
-#, fuzzy
-#| msgid "No recent activity has been recorded."
 msgid "No recent activity found!"
-msgstr "Nie zarejestrowano żadnej ostatniej aktywności."
+msgstr "Nie znaleziono żadnej ostatniej aktywności!"
 
 #: weblate/templates/accounts/profile.html:321
 msgid "Report suspicious activity"
@@ -1462,10 +1436,8 @@ msgid "Your personal API key:"
 msgstr "Osobisty klucz:"
 
 #: weblate/templates/accounts/profile.html:353
-#, fuzzy
-#| msgid "Regenerate"
 msgid "Regenerate API key"
-msgstr "Wygeneruj"
+msgstr "Zregeneruj klucz API"
 
 #: weblate/templates/accounts/profile.html:357
 msgid "API root URL:"
@@ -1476,10 +1448,8 @@ msgid "API usage example:"
 msgstr "Przykład użycia:"
 
 #: weblate/templates/accounts/profile.html:373
-#, fuzzy
-#| msgid "API usage example:"
 msgid "CLI usage example:"
-msgstr "Przykład użycia:"
+msgstr "Przykład użycia CLI:"
 
 #: weblate/templates/accounts/profile.html:395
 #, python-format
@@ -3554,13 +3524,9 @@ msgstr "Witaj,"
 
 #: weblate/templates/mail/account_activity.html:11
 #: weblate/templates/mail/account_activity.txt:3
-#, fuzzy, python-format
-#| msgid ""
-#| "There has been a change in translation on %(translation)s at "
-#| "%(site_title)s."
+#, python-format
 msgid "There has been a change in your account at %(site_title)s:"
-msgstr ""
-"Zmieniono tłumaczenie w projekcie %(translation)s na stronie %(site_title)s."
+msgstr "Jest zmiana w twoim koncie %(translation)s na stronie %(site_title)s:"
 
 #: weblate/templates/mail/account_activity.html:19
 #: weblate/templates/mail/account_activity.txt:7
@@ -4153,10 +4119,8 @@ msgid "Strings"
 msgstr "Napisy"
 
 #: weblate/templates/screenshots/screenshot_sources_body.html:29
-#, fuzzy
-#| msgid "No screenshot currently associated!"
 msgid "No source strings are currently assigned!"
-msgstr "Obecnie, nie skojarzony żaden zrzut ekranu!"
+msgstr "Obecnie, nie przypisano żadnego napisu!"
 
 #: weblate/templates/search.html:42
 msgid "No matching strings found!"
@@ -4334,16 +4298,12 @@ msgid "Suggestions"
 msgstr "Sugestie"
 
 #: weblate/templates/trans/suggestion_list.html:15
-#, fuzzy
-#| msgid "Suggestion:"
 msgid "Suggestion"
-msgstr "Sugestia:"
+msgstr "Sugestia"
 
 #: weblate/templates/trans/suggestion_list.html:28
-#, fuzzy
-#| msgid "No matching strings found!"
 msgid "No matching translations found!"
-msgstr "Nie znaleziono pasujących napisów!"
+msgstr "Nie znaleziono pasujących tłumaczeń!"
 
 #: weblate/templates/translate.html:16
 msgid "translate"
@@ -4550,10 +4510,8 @@ msgid "Accept and edit"
 msgstr "Akceptuj i modyfikuj"
 
 #: weblate/templates/translate.html:279
-#, fuzzy
-#| msgid "Use this translation"
 msgid "This translation"
-msgstr "Użyj tego tłumaczenia"
+msgstr "To tłumaczenie"
 
 #: weblate/templates/translate.html:288
 msgid "Use this translation for all components"
