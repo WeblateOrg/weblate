@@ -16,7 +16,7 @@
 {% get_location_links user.profile item.unit %}
 </td>
 <td>
-<a href="{% url 'translate' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}?sid={{ search_id }}&amp;offset={{ item.offset }}" class="btn btn-xs btn-default pull-right flip" title="{% trans "Open in full editor" %}"><i class="fa fa-pencil"></i> {% trans "Edit" %}</a>
+<a href="{% url 'translate' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}?{{ search_url }}&amp;offset={{ item.offset }}" class="btn btn-xs btn-default pull-right flip" title="{% trans "Open in full editor" %}"><i class="fa fa-pencil"></i> {% trans "Edit" %}</a>
 </td>
 </tr>
 {% if item.unit.comment %}

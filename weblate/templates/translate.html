@@ -30,7 +30,7 @@
 {% can_add_dictionary user project as user_can_add_dictionary %}
 
 {% if user_can_translate %}
-<a href="{% url 'zen' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug lang=unit.translation.language.code %}?sid={{ search_id }}" title="{% trans "Edit in Zen mode" %}" class="btn btn-default pull-right flip"><i class="fa fa-arrows-alt"></i> {% trans "Zen" %}</a>
+<a href="{% url 'zen' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug lang=unit.translation.language.code %}?{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Edit in Zen mode" %}" class="btn btn-default pull-right flip"><i class="fa fa-arrows-alt"></i> {% trans "Zen" %}</a>
 {% endif %}
 
 {% with unit.translation as object %}
@@ -287,7 +287,7 @@
     </td>
     <td{% if item.translated and item.translation.subproject != unit.translation.subproject %}  rowspan="2"{% endif %}>
     {% if user_can_translate and item.translated %}
-    <a class="mergebutton small-button btn btn-success" href="{{ unit.translation.get_translate_url}}?sid={{ search_id }}&amp;offset={{ offset }}&amp;checksum={{ unit.checksum }}&amp;merge={{ item.id }}" title="{% trans "Use this translation for all components" %}"><i class="fa fa-check"></i> {% trans "Use this translation" %}</a>
+    <a class="mergebutton small-button btn btn-success" href="{{ unit.translation.get_translate_url}}?{{ search_url }}&amp;offset={{ offset }}&amp;checksum={{ unit.checksum }}&amp;merge={{ item.id }}" title="{% trans "Use this translation for all components" %}"><i class="fa fa-check"></i> {% trans "Use this translation" %}</a>
     {% endif %}
     </td>
     </tr>

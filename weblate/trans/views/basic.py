@@ -18,8 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-import datetime
-
 from django.shortcuts import redirect, get_object_or_404
 from django.utils import translation
 from django.utils.translation import ugettext as _
@@ -28,7 +26,6 @@ from django.db.models import Sum, Count, F
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
 from django.utils.safestring import mark_safe
-from django.utils import timezone
 from django.utils.encoding import force_text
 from django.utils.http import urlencode
 import django.views.defaults
@@ -491,11 +488,7 @@ def show_translation(request, project, subproject, lang):
     if request.user.is_anonymous:
         review_form = None
     else:
-        review_form = ReviewForm(
-            initial={
-                'date': timezone.now().date() - datetime.timedelta(days=31)
-            }
-        )
+        review_form = ReviewForm()
 
     replace_form = None
     if can_translate(request.user, obj):

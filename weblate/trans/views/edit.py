@@ -20,8 +20,6 @@
 
 from __future__ import unicode_literals
 
-import copy
-import uuid
 import time
 
 from django.shortcuts import get_object_or_404, redirect
@@ -30,7 +28,6 @@ from django.utils.translation import ugettext as _, ungettext
 from django.utils.encoding import force_text
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
-from django.utils import formats
 from django.core.exceptions import PermissionDenied
 
 from weblate.utils import messages
@@ -57,7 +54,6 @@ from weblate.permissions.helpers import (
     can_vote_suggestion, can_delete_comment, can_automatic_translation,
     can_add_comment,
 )
-from weblate.utils.hash import checksum_to_hash
 
 
 def cleanup_session(session):
@@ -74,67 +70,54 @@ def cleanup_session(session):
 
 def search(translation, request):
     """Perform search or returns cached search results."""
-
-    # Already performed search
-    if 'sid' in request.GET:
-        # Grab from session storage
-        search_id = 'search_{0}'.format(request.GET['sid'])
-
-        # Check if we know the search
-        if search_id not in request.session:
-            messages.error(request, _('Invalid search string!'))
-            return redirect(translation)
-
-        search_result = copy.copy(request.session[search_id])
-        if 'params' in search_result:
-            search_result['form'] = SearchForm(search_result['params'])
-        else:
-            search_result['form'] = SearchForm()
-
-        return search_result
-
     # Possible new search
     search_form = SearchForm(request.GET)
     review_form = ReviewForm(request.GET)
 
-    search_query = None
+    # Process form
     if 'date' in request.GET:
         if review_form.is_valid():
-            # Review
-            allunits = translation.unit_set.review(
-                review_form.cleaned_data['date'],
-                request.user
-            )
-
-            formatted_date = formats.date_format(
-                review_form.cleaned_data['date'],
-                'SHORT_DATE_FORMAT'
-            )
-            name = _('Review of translations since %s') % formatted_date
+            form = review_form
         else:
             show_form_errors(request, review_form)
-
-            # Filtering by type
-            allunits = translation.unit_set.all()
-            name = _('All strings')
+            # Use blank form
+            form = SearchForm([])
+            form.is_valid()
     elif search_form.is_valid():
-        # Apply search conditions
+        form = search_form
+    else:
+        show_form_errors(request, search_form)
+        # Use blank form
+        form = SearchForm([])
+        form.is_valid()
+
+    search_result = {
+        'form': form,
+        'offset': form.cleaned_data['offset'],
+        'checksum': form.cleaned_data['checksum'],
+    }
+    search_url = form.urlencode()
+    session_key = 'search_{0}_{1}'.format(translation.pk, search_url)
+
+    if session_key in request.session:
+        search_result.update(request.session[session_key])
+        return search_result
+
+    if form.cleaned_data['type'] == 'review':
+        allunits = translation.unit_set.review(
+            form.cleaned_data['date'],
+            request.user
+        )
+    else:
         allunits = translation.unit_set.search(
             translation,
-            search_form.cleaned_data,
+            form.cleaned_data,
         )
-        if search_form.cleaned_data['type'] == 'random':
+        if form.cleaned_data['type'] == 'random':
             allunits = allunits[:25]
 
-        search_query = search_form.cleaned_data['q']
-        name = search_form.get_name()
-    else:
-        # Error reporting
-        show_form_errors(request, search_form)
-
-        # Filtering by type
-        allunits = translation.unit_set.all()
-        name = _('All strings')
+    search_query = form.get_search_query()
+    name = form.get_name()
 
     # Grab unit IDs
     unit_ids = list(allunits.values_list('id', flat=True))
@@ -144,37 +127,20 @@ def search(translation, request):
         messages.warning(request, _('No string matched your search!'))
         return redirect(translation)
 
-    # Checksum unit access
-    offset = 0
-    if 'checksum' in request.GET:
-        try:
-            unit = allunits.filter(
-                id_hash=checksum_to_hash(request.GET['checksum'])
-            )[0]
-            offset = unit_ids.index(unit.id)
-        except (Unit.DoesNotExist, IndexError, ValueError):
-            messages.warning(request, _('No string matched your search!'))
-            return redirect(translation)
-
     # Remove old search results
     cleanup_session(request.session)
 
-    # Store in cache and return
-    search_id = str(uuid.uuid1())
-    search_result = {
-        'params': request.GET,
+    store_result = {
         'query': search_query,
+        'url': search_url,
+        'key': session_key,
         'name': force_text(name),
         'ids': unit_ids,
-        'search_id': search_id,
         'ttl': int(time.time()) + 86400,
-        'offset': offset,
     }
+    request.session[session_key] = store_result
 
-    request.session['search_{0}'.format(search_id)] = search_result
-
-    search_result = copy.copy(search_result)
-    search_result['form'] = search_form
+    search_result.update(store_result)
     return search_result
 
 
@@ -491,23 +457,29 @@ def translate(request, project, subproject, lang):
     num_results = len(search_result['ids'])
 
     # Search offset
-    try:
-        offset = int(request.GET.get('offset', search_result.get('offset', 0)))
-    except ValueError:
-        offset = 0
+    offset = search_result['offset']
+
+    # Checksum unit access
+    if search_result['checksum']:
+        try:
+            unit = translation.unit_set.get(id_hash=search_result['checksum'])
+            offset = search_result['ids'].index(unit.id)
+        except (Unit.DoesNotExist, IndexError):
+            messages.warning(request, _('No string matched your search!'))
+            return redirect(translation)
 
     # Check boundaries
     if not 0 <= offset < num_results:
         messages.info(request, _('You have reached end of translating.'))
         # Delete search
-        del request.session['search_{0}'.format(search_result['search_id'])]
+        del request.session[search_result['key']]
         # Redirect to translation
         return redirect(translation)
 
     # Some URLs we will most likely use
-    base_unit_url = '{0}?sid={1}&offset='.format(
+    base_unit_url = '{0}?{1}&offset='.format(
         translation.get_translate_url(),
-        search_result['search_id']
+        search_result['url']
     )
     this_unit_url = base_unit_url + str(offset)
     next_unit_url = base_unit_url + str(offset + 1)
@@ -590,7 +562,7 @@ def translate(request, project, subproject, lang):
             'others': others,
             'others_count': others.exclude(target=unit.target).count(),
             'total': translation.unit_set.all().count(),
-            'search_id': search_result['search_id'],
+            'search_url': search_result['url'],
             'search_query': search_result['query'],
             'offset': offset,
             'filter_name': search_result['name'],
@@ -599,7 +571,7 @@ def translate(request, project, subproject, lang):
             'form': form,
             'antispam': antispam,
             'comment_form': CommentForm(),
-            'search_form': search_result['form'],
+            'search_form': search_result['form'].reset_offset(),
             'update_lock': translation.lock_user == request.user,
             'secondary': secondary,
             'locked': locked,
@@ -702,18 +674,12 @@ def get_zen_unitdata(translation, request):
     # Search results
     search_result = search(translation, request)
 
-    # Search offset
-    try:
-        offset = int(request.GET.get('offset', 0))
-    except ValueError:
-        offset = 0
-
     # Handle redirects
     if isinstance(search_result, HttpResponse):
         return search_result, None
 
+    offset = search_result['offset']
     search_result['last_section'] = offset + 20 >= len(search_result['ids'])
-    search_result['offset'] = offset
 
     units = translation.unit_set.filter(
         pk__in=search_result['ids'][offset:offset + 20]
@@ -762,9 +728,9 @@ def zen(request, project, subproject, lang):
             'filter_name': search_result['name'],
             'filter_count': len(search_result['ids']),
             'last_section': search_result['last_section'],
-            'search_id': search_result['search_id'],
+            'search_url': search_result['url'],
             'offset': search_result['offset'],
-            'search_form': search_result['form'],
+            'search_form': search_result['form'].reset_offset(),
             'update_lock': translation.lock_user == request.user,
         }
     )
@@ -786,7 +752,7 @@ def load_zen(request, project, subproject, lang):
             'object': translation,
             'unitdata': unitdata,
             'search_query': search_result['query'],
-            'search_id': search_result['search_id'],
+            'search_url': search_result['url'],
             'last_section': search_result['last_section'],
         }
     )

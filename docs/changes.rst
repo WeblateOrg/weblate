@@ -22,6 +22,7 @@ Released on ? 2017.
 * Ask for password confirmation when removing account or adding new associations.
 * Show time when suggestion has been made.
 * There is new quality check for trailing semicolon.
+* Ensure that search links can be shared.
 
 weblate 2.13.1
 --------------

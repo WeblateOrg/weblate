@@ -20,7 +20,8 @@
 
 from __future__ import unicode_literals
 
-from datetime import date, datetime
+import copy
+from datetime import date, datetime, timedelta
 import json
 
 from crispy_forms.helper import FormHelper
@@ -32,6 +33,8 @@ from django.utils.translation import (
     ugettext_lazy as _, ugettext, pgettext_lazy, pgettext
 )
 from django.forms.utils import from_current_timezone
+from django.utils import formats
+from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django.utils.encoding import smart_text, force_text
 from django.utils.html import escape
@@ -43,7 +46,6 @@ from django.contrib.auth.models import User
 from weblate.lang.data import LOCALE_ALIASES
 from weblate.lang.models import Language
 from weblate.trans.models import SubProject, Unit, Project
-from weblate.trans.models.unit import SEARCH_FILTERS
 from weblate.trans.models.source import PRIORITY_CHOICES
 from weblate.trans.checks import CHECKS
 from weblate.permissions.helpers import (
@@ -124,6 +126,21 @@ class WeblateDateField(forms.DateField):
                 )
             )
         return value
+
+
+class ChecksumField(forms.CharField):
+    """Field for handling checksum ids for translation."""
+    def __init__(self, *args, **kwargs):
+        kwargs['widget'] = forms.HiddenInput
+        super(ChecksumField, self).__init__(*args, **kwargs)
+
+    def clean(self, value):
+        if not value:
+            return
+        try:
+            return checksum_to_hash(value)
+        except ValueError:
+            raise ValidationError(_('Invalid checksum specified!'))
 
 
 class PluralTextarea(forms.Textarea):
@@ -316,7 +333,7 @@ class PluralField(forms.CharField):
 
 class ChecksumForm(forms.Form):
     """Form for handling checksum ids for translation."""
-    checksum = forms.CharField(widget=forms.HiddenInput)
+    checksum = ChecksumField()
 
     def __init__(self, translation, *args, **kwargs):
         self.translation = translation
@@ -331,9 +348,9 @@ class ChecksumForm(forms.Form):
 
         try:
             self.cleaned_data['unit'] = unit_set.filter(
-                id_hash=checksum_to_hash(self.cleaned_data['checksum'])
+                id_hash=self.cleaned_data['checksum']
             )[0]
-        except (Unit.DoesNotExist, IndexError, ValueError):
+        except (Unit.DoesNotExist, IndexError):
             LOGGER.error(
                 'message %s disappeared!',
                 self.cleaned_data['checksum']
@@ -494,7 +511,67 @@ class FilterField(forms.ChoiceField):
         return super(FilterField, self).to_python(value)
 
 
-class SearchForm(forms.Form):
+class BaseSearchForm(forms.Form):
+    checksum = ChecksumField(required=False)
+    offset = forms.IntegerField(
+        min_value=0,
+        required=False,
+        widget=forms.HiddenInput,
+    )
+
+    def clean_offset(self):
+        if self.cleaned_data.get('offset') is None:
+            self.cleaned_data['offset'] = 0
+        return self.cleaned_data['offset']
+
+    def get_name(self):
+        return ''
+
+    def get_search_query(self):
+        return None
+
+    def urlencode(self):
+        items = []
+        # Skip checksum and offset as these change
+        ignored = set(('checksum', 'offset'))
+        # Skip search params if query is empty
+        if not self.cleaned_data.get('q'):
+            ignored.update((
+                'search', 'source', 'target', 'context',
+                'location', 'comment'
+            ))
+        for param in sorted(self.cleaned_data):
+            value = self.cleaned_data[param]
+            # We don't care about empty values or ignored
+            if value is None or param in ignored:
+                continue
+            if isinstance(value, bool):
+                # Only store true values
+                if value:
+                    items.append((param, '1'))
+            elif isinstance(value, int):
+                # Avoid storing 0 values
+                if value > 0:
+                    items.append((param, str(value)))
+            elif isinstance(value, datetime):
+                # Convert date to string
+                items.append((param, value.date().isoformat()))
+            else:
+                # It should be string here
+                if value:
+                    items.append((param, value))
+        return urlencode(items)
+
+    def reset_offset(self):
+        """Reset offset to avoid using form as defaults for new search."""
+        data = copy.copy(self.data)
+        data['offset'] = '0'
+        data['checksum'] = ''
+        self.data = data
+        return self
+
+
+class SearchForm(BaseSearchForm):
     """Text searching form."""
     # pylint: disable=C0103
     q = forms.CharField(
@@ -550,51 +627,25 @@ class SearchForm(forms.Form):
 
     def clean(self):
         """Sanity checking for search type."""
-        cleaned_data = super(SearchForm, self).clean()
-
         # Default to fulltext / all strings
-        if 'search' not in cleaned_data or cleaned_data['search'] == '':
-            cleaned_data['search'] = 'substring'
-        if 'type' not in cleaned_data or cleaned_data['type'] == '':
-            cleaned_data['type'] = 'all'
+        if not self.cleaned_data.get('search'):
+            self.cleaned_data['search'] = 'substring'
+        if not self.cleaned_data.get('type'):
+            self.cleaned_data['type'] = 'all'
 
-        if (cleaned_data['q'] and
-                cleaned_data['search'] != 'exact' and
-                len(cleaned_data['q']) < 2):
+        if (self.cleaned_data['q'] and
+                self.cleaned_data['search'] != 'exact' and
+                len(self.cleaned_data['q']) < 2):
             raise ValidationError(_('The query string has to be longer!'))
 
         # Default to source and target search
-        if (not cleaned_data['source'] and
-                not cleaned_data['target'] and
-                not cleaned_data['location'] and
-                not cleaned_data['comment'] and
-                not cleaned_data['context']):
-            cleaned_data['source'] = True
-            cleaned_data['target'] = True
-
-        return cleaned_data
-
-    def urlencode(self):
-        """Encode query string to be used in URL."""
-        query = {}
-
-        if self.cleaned_data['q']:
-            query['q'] = self.cleaned_data['q']
-            query['search'] = self.cleaned_data['search']
-            for param in SEARCH_FILTERS:
-                if self.cleaned_data[param]:
-                    query[param] = 'on'
-
-        if self.cleaned_data['type'] != 'all':
-            query['type'] = self.cleaned_data['type']
-            if self.cleaned_data['ignored']:
-                query['ignored'] = 'true'
-
-        # Actually set in SiteSearchForm
-        if 'lang' in self.cleaned_data:
-            query['lang'] = self.cleaned_data['lang']
-
-        return urlencode(query)
+        if (not self.cleaned_data['source'] and
+                not self.cleaned_data['target'] and
+                not self.cleaned_data['location'] and
+                not self.cleaned_data['comment'] and
+                not self.cleaned_data['context']):
+            self.cleaned_data['source'] = True
+            self.cleaned_data['target'] = True
 
     def get_name(self):
         """Return verbose name for a search."""
@@ -631,6 +682,9 @@ class SearchForm(forms.Form):
             return search_name
         else:
             return filter_name
+
+    def get_search_query(self):
+        return self.cleaned_data['q']
 
 
 class SiteSearchForm(SearchForm):
@@ -739,17 +793,31 @@ class DictUploadForm(forms.Form):
     )
 
 
-class ReviewForm(forms.Form):
+class ReviewForm(BaseSearchForm):
     """Translation review form."""
     date = WeblateDateField(
         label=_('Starting date'),
+        initial=lambda: timezone.now() - timedelta(days=31),
     )
-    type = forms.CharField(widget=forms.HiddenInput, initial='review')
+    type = forms.CharField(
+        widget=forms.HiddenInput,
+        initial='review',
+        required=False
+    )
 
     def clean_type(self):
-        if self.cleaned_data['type'] != 'review':
+        if not self.cleaned_data.get('type'):
+            self.cleaned_data['type'] = 'review'
+        elif self.cleaned_data['type'] != 'review':
             raise ValidationError('Invalid value')
         return self.cleaned_data['type']
+
+    def get_name(self):
+        formatted_date = formats.date_format(
+            self.cleaned_data['date'],
+            'SHORT_DATE_FORMAT'
+        )
+        return _('Review of translations since %s') % formatted_date
 
 
 class LetterForm(forms.Form):
