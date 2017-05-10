@@ -105,6 +105,20 @@ DEFAULT_GROUPS = {
         'upload_translation',
         'overwrite_translation',
         'save_translation',
+        'accept_suggestion',
+        'delete_suggestion',
+        'vote_suggestion',
+        'ignore_check',
+        'lock_translation',
+        'add_comment',
+        'add_suggestion',
+        'use_mt',
+    },
+    '@Template': {
+        'access_project',
+        'upload_translation',
+        'overwrite_translation',
+        'save_translation',
         'save_template',
         'accept_suggestion',
         'delete_suggestion',
@@ -114,6 +128,9 @@ DEFAULT_GROUPS = {
         'add_comment',
         'add_suggestion',
         'use_mt',
+    },
+    '@Languages': {
+        'access_project',
         'add_translation',
         'delete_translation',
     },
@@ -147,6 +164,8 @@ ADMIN_ONLY_PERMS = ADMIN_PERMS - DEFAULT_GROUPS['Users']
 def translate_groups():
     """Dummy method to allow extraction of group names translation."""
     pgettext('Permissions group', 'Administration')
+    pgettext('Permissions group', 'Template')
+    pgettext('Permissions group', 'Languages')
     pgettext('Permissions group', 'Glossary')
     pgettext('Permissions group', 'Screenshots')
     pgettext('Permissions group', 'Translate')
