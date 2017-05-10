@@ -265,3 +265,38 @@ The user management is available in :guilabel:`Tools` menu of a project:
    
    :ref:`acl`
 
+.. _groups:
+
+Predefined groups
++++++++++++++++++
+
+Weblate comes with predefined set of groups where you can assign users.
+
+.. describe:: Administration
+
+    Has all permissions on the project.
+
+.. describe:: Glossary
+
+    Can manage glossary (add or remove entries or upload glossary).
+
+.. describe:: Languages
+
+    Can manage translated languages - add or remove translations.
+
+.. describe:: Screenshots
+
+    Can manage screenshots - add or remove them and associate them to source
+    strings.
+
+.. describe:: Template
+
+    Can edit translation template in :ref:`monolingual`.
+
+.. describe:: Translate
+
+    Can translate project, including upload of offline translatoins.
+
+.. describe:: VCS
+
+    Can manage VCS and access exported repository.

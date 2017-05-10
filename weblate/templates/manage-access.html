@@ -11,7 +11,11 @@
 {% block content %}
 
 <div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Users" %}</h4></div>
+  <div class="panel-heading"><h4 class="panel-title">
+    {% doc_url 'admin/access' 'groups' as groups_doc_url %}
+    <a class="pull-right flip" href="{{ groups_doc_url }}"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+  {% trans "Users" %}
+  </h4></div>
   <table class="table table-striped">
   <thead>
   <tr>
