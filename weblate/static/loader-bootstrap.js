@@ -1253,17 +1253,12 @@ $(function () {
     /* Avoid double submission of non AJAX forms */
     $('form:not(.double-submission)').on('submit', function(e){
         var $form = $(this);
-        console.log('submit', $form);
-
         if ($form.data('submitted') === true) {
             // Previously submitted - don't submit again
             e.preventDefault();
-            console.log('Prevent');
         } else {
             // Mark it so that the next submit can be ignored
             $form.data('submitted', true);
-            $form.find('input[type=submit]').prop('disabled', true);
-            $form.find('button').prop('disabled', true);
         }
     });
 });
