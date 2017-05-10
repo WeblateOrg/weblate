@@ -236,7 +236,7 @@ SOCIAL_AUTH_PIPELINE = (
     'weblate.accounts.pipeline.store_params',
     'social_core.pipeline.user.get_username',
     'weblate.accounts.pipeline.require_email',
-    'weblate.accounts.pipeline.mail_validation',
+    'social_core.pipeline.mail.mail_validation',
     'weblate.accounts.pipeline.revoke_mail_code',
     'weblate.accounts.pipeline.ensure_valid',
     'weblate.accounts.pipeline.reauthenticate',

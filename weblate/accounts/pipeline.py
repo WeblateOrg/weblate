@@ -38,7 +38,7 @@ from six.moves.urllib.request import Request, urlopen
 from social_core.pipeline.partial import partial
 from social_core.exceptions import (
     AuthException, AuthMissingParameter, AuthAlreadyAssociated,
-    InvalidEmail, AuthStateForbidden,
+    AuthStateForbidden,
 )
 
 from weblate.accounts.notifications import (
@@ -95,8 +95,7 @@ def reauthenticate(strategy, backend, user, social, uid, **kwargs):
 
 
 @partial
-def require_email(strategy, backend, details, current_partial, user=None,
-                  is_new=False, **kwargs):
+def require_email(backend, details, user=None, is_new=False, **kwargs):
     """Force entering email for backends which don't provide it."""
 
     if backend.name == 'github':
@@ -115,38 +114,7 @@ def require_email(strategy, backend, details, current_partial, user=None,
         return redirect('register')
 
 
-@partial
-def mail_validation(backend, details, is_new=False, *args, **kwargs):
-    """Mail validation taken from Python Social Auth master.
-
-    It just allows to pass partial_token without API change.
-
-    Can be removed once we depend on something newer than social_core 1.2.0.
-    """
-    requires_validation = backend.REQUIRES_EMAIL_VALIDATION or \
-        backend.setting('FORCE_EMAIL_VALIDATION', False)
-    do_send_validation = details.get('email') and \
-        (is_new or backend.setting('PASSWORDLESS', False))
-    if requires_validation and do_send_validation:
-        data = backend.strategy.request_data()
-        if 'verification_code' in data:
-            backend.strategy.session_pop('email_validation_address')
-            if not backend.strategy.validate_email(details['email'],
-                                                   data['verification_code']):
-                raise InvalidEmail(backend)
-        else:
-            current_partial = kwargs.get('current_partial')
-            # Hack to pass partial token
-            backend.partial_token = current_partial.token
-            backend.strategy.send_email_validation(backend, details['email'])
-            backend.strategy.session_set('email_validation_address',
-                                         details['email'])
-            return backend.strategy.redirect(
-                backend.strategy.setting('EMAIL_VALIDATION_URL')
-            )
-
-
-def send_validation(strategy, backend, code, partial_token=None):
+def send_validation(strategy, backend, code, partial_token):
     """Send verification email."""
     # We need to have existing session
     if not strategy.request.session.session_key:
@@ -156,10 +124,6 @@ def send_validation(strategy, backend, code, partial_token=None):
     template = 'activation'
     if strategy.request.session.pop('password_reset', False):
         template = 'reset'
-
-    if partial_token is None:
-        # Set by mail_validation above
-        partial_token = backend.partial_token
 
     url = '{0}?verification_code={1}&partial_token={2}'.format(
         reverse('social:complete', args=(backend.name,)),
