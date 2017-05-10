@@ -490,6 +490,9 @@ def remove_user(user):
     # Remove all social auth associations
     user.social_auth.all().delete()
 
+    # Remove user from all groups
+    user.groups.clear()
+
 
 @receiver(user_logged_in)
 def post_login_handler(sender, request, user, **kwargs):
