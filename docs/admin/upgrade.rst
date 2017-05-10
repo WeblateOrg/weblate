@@ -440,6 +440,13 @@ Notable configuration or dependencies changes:
 * The per project ALCs are now implemented using Group ACL, you might need to
   adjust your setup if you were using Group ACLs before, see :ref:`groupacl`
   for more information about the setup.
+* There are several new permissions which should be assigned to default groups,
+  you should run ``./manage.py setupgroups`` to update them. Alternatively you
+  might want to add following permissions where applicable (see :ref:`extra-privs`
+  for their default setup):
+
+  * Can access VCS repository
+  * Can access project
 
 .. note::
 

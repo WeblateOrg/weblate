@@ -28,6 +28,8 @@ To completely lock down your Weblate installation you can use
     If you do not want to use these features, just remove all privileges from
     them.
 
+.. _extra-privs:
+
 Extra privileges
 ----------------
 
@@ -87,8 +89,8 @@ Can use machine translation [Users, Managers]
     Can use machine translations (see :ref:`machine-translation-setup`).
 Can manage ACL rules for a project [Managers]
     Can add users to ACL controlled projects (see :ref:`acl`)
-Can access project [Managers]
-    Can access ACL controlled projects (see :ref:`acl`)
+Can access project [Users, Managers, Guests]
+    Can access project (see :ref:`acl`)
 Can edit priority [Managers]
     Can adjust source string priority
 Can edit check flags [Managers]
