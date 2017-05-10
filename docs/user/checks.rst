@@ -148,6 +148,15 @@ when the original string was using that as well.
    
    `Ellipsis on wikipedia <https://en.wikipedia.org/wiki/Ellipsis>`_
 
+
+.. _check-end-semicolon:
+
+Trailing semicolon
+~~~~~~~~~~~~~~~~~~
+
+Source and translation do not both end with a semicolon. This can be useful to
+keep formatting of entries such as desktop files.
+
 .. _check-max-length:
 
 Maximum Length

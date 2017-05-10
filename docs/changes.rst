@@ -21,6 +21,7 @@ Released on ? 2017.
 * Authentication attempts are rate limited.
 * Ask for password confirmation when removing account or adding new associations.
 * Show time when suggestion has been made.
+* There is new quality check for trailing semicolon.
 
 weblate 2.13.1
 --------------

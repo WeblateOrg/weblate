@@ -29,7 +29,7 @@ from weblate.trans.checks.chars import (
     BeginSpaceCheck, EndSpaceCheck,
     EndStopCheck, EndColonCheck,
     EndQuestionCheck, EndExclamationCheck,
-    EndEllipsisCheck,
+    EndEllipsisCheck, EndSemicolonCheck,
     NewlineCountingCheck,
     ZeroWidthSpaceCheck,
     MaxLengthCheck,
@@ -296,3 +296,14 @@ class MaxLengthCheckTest(TestCase):
                 MockUnit(flags=('max-length:3,max-length:12'))
             )
         )
+
+
+class EndSemicolonCheckTest(CheckTestCase):
+    check = EndSemicolonCheck()
+
+    def setUp(self):
+        super(EndSemicolonCheckTest, self).setUp()
+        self.test_good_matching = ('string;', 'string;', '')
+        self.test_failure_1 = ('string;', 'string', '')
+        self.test_failure_2 = ('string:', 'string;', '')
+        self.test_failure_3 = ('string', 'string;', '')

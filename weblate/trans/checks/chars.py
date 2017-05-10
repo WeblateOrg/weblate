@@ -365,3 +365,14 @@ class MaxLengthCheck(TargetCheckWithFlag):
             )[1]
             return len(targets[0]) > int(check_value)
         return False
+
+
+class EndSemicolonCheck(TargetCheck):
+    """Check for semicolon at end."""
+    check_id = 'end_semicolon'
+    name = _('Trailing semicolon')
+    description = _('Source and translation do not both end with a semicolon')
+    severity = 'warning'
+
+    def check_single(self, source, target, unit):
+        return self.check_chars(source, target, -1, [';'])

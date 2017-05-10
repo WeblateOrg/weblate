@@ -117,6 +117,7 @@ class WeblateConf(AppConf):
         'weblate.trans.checks.chars.EndQuestionCheck',
         'weblate.trans.checks.chars.EndExclamationCheck',
         'weblate.trans.checks.chars.EndEllipsisCheck',
+        'weblate.trans.checks.chars.EndSemicolonCheck',
         'weblate.trans.checks.chars.MaxLengthCheck',
         'weblate.trans.checks.format.PythonFormatCheck',
         'weblate.trans.checks.format.PythonBraceFormatCheck',
