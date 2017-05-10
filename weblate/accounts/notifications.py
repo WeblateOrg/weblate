@@ -386,7 +386,7 @@ def notify_account_activity(user, request, activity, **kwargs):
             latest_login = AuditLog.objects.filter(
                 user=user, activity='login'
             )[0]
-            kwargs['timestamp__gt'] = latest_login.timestamp
+            kwargs['timestamp__gte'] = latest_login.timestamp
         except IndexError:
             pass
         failures = AuditLog.objects.filter(
