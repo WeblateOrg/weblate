@@ -229,6 +229,7 @@
 <div class="tab-pane" id="suggestions">
 <form action="{{ this_unit_url }}" method="post">
     {% csrf_token %}
+<input type="hidden" name="checksum" value="{{ unit.checksum }}" />
 
 {% for suggestion in unit.suggestions %}
 <h5>
