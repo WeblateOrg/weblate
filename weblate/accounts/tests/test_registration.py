@@ -57,7 +57,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
     clear_cookie = False
 
     def setUp(self):
-        super(ViewTest, self).setUp()
+        super(RegistrationTest, self).setUp()
         reset_rate_limit(address='127.0.0.1')
 
     def assert_registration(self, match=None):
