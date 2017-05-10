@@ -561,6 +561,9 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             has_failing_check__sum=do_boolean_sum('has_failing_check'),
             has_suggestion__sum=do_boolean_sum('has_suggestion'),
             has_comment__sum=do_boolean_sum('has_comment'),
+            translated_words__sum=do_boolean_sum('translated', 'num_words'),
+            fuzzy_words__sum=do_boolean_sum('fuzzy', 'num_words'),
+            check_words__sum=do_boolean_sum('has_failing_check', 'num_words'),
         )
 
         # Check if we have any units
@@ -572,6 +575,9 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             self.failing_checks = 0
             self.have_suggestion = 0
             self.have_comment = 0
+            self.translated_words = 0
+            self.fuzzy_words = 0
+            self.failing_checks_words = 0
         else:
             self.total_words = stats['num_words__sum']
             self.total = stats['id__count']
@@ -580,36 +586,9 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             self.failing_checks = int(stats['has_failing_check__sum'])
             self.have_suggestion = int(stats['has_suggestion__sum'])
             self.have_comment = int(stats['has_comment__sum'])
-
-        # Count translated words
-        self.translated_words = self.unit_set.filter(
-            translated=True
-        ).aggregate(
-            Sum('num_words')
-        )['num_words__sum']
-        # Nothing matches filter
-        if self.translated_words is None:
-            self.translated_words = 0
-
-        # Count fuzzy words
-        self.fuzzy_words = self.unit_set.filter(
-            fuzzy=True
-        ).aggregate(
-            Sum('num_words')
-        )['num_words__sum']
-        # Nothing matches filter
-        if self.fuzzy_words is None:
-            self.fuzzy_words = 0
-
-        # Count words with failing checks
-        self.failing_checks_words = self.unit_set.filter(
-            has_failing_check=True
-        ).aggregate(
-            Sum('num_words')
-        )['num_words__sum']
-        # Nothing matches filter
-        if self.failing_checks_words is None:
-            self.failing_checks_words = 0
+            self.translated_words = int(stats['translated_words__sum'])
+            self.fuzzy_words = int(stats['fuzzy_words__sum'])
+            self.failing_checks_words = int(stats['check_words__sum'])
 
         self.save()
 
