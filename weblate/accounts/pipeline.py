@@ -221,26 +221,6 @@ def verify_username(strategy, backend, details, user=None, **kwargs):
         )
 
 
-def revoke_mail_code(strategy, details, **kwargs):
-    """Revoke mail validation code for Python Social Auth.
-
-    This might be better to handle directly there, but it's
-    not done yet:
-    https://github.com/python-social-auth/social-core/pull/71
-    """
-    data = strategy.request_data()
-    if details['email'] and 'verification_code' in data:
-        try:
-            code = strategy.storage.code.objects.get(
-                code=data['verification_code'],
-                email=details['email'],
-                verified=True
-            )
-            code.delete()
-        except strategy.storage.code.DoesNotExist:
-            return
-
-
 def ensure_valid(strategy, backend, user, registering_user, weblate_action,
                  weblate_expires, **kwargs):
     """Ensure the activation link is still."""
