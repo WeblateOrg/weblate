@@ -35,7 +35,6 @@ from weblate.trans.views.helper import get_subproject
 from weblate.permissions.helpers import can_access_vcs
 
 
-GIT_HTTP_BACKEND = None
 GIT_PATHS = [
     '/usr/lib/git',
     '/usr/lib/git-core',
