@@ -385,7 +385,7 @@
 {% endif %}
 {% endwith %}
 
-<form action="{% url 'js-add-glossary' unit_id=unit.id %}" method="POST" class="add-dict-inline">
+<form action="{% url 'js-add-glossary' unit_id=unit.id %}" method="POST" class="add-dict-inline double-submission">
 {% csrf_token %}
 <input type="hidden" name="next" value="{{ this_unit_url }}" />
 <div class="panel panel-primary">
