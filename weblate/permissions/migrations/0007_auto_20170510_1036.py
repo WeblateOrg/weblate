@@ -34,7 +34,9 @@ def add_groups(apps, schema_editor):
     # Create ACL groups for ACL enabled projects
     for project in Project.objects.filter(enable_acl=True).iterator():
         # Create GroupACL object
-        group_acl = GroupACL.objects.get_or_create(project=project)[0]
+        group_acl = GroupACL.objects.get_or_create(
+            project=project, subproject=None, language=None
+        )[0]
 
         # Create groups
         for name in group_perms.keys():

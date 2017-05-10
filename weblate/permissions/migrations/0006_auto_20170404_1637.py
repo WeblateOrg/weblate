@@ -37,7 +37,9 @@ def migrate_acl(apps, schema_editor):
     # Create ACL groups for ACL enabled projects
     for project in Project.objects.iterator():
         # Create GroupACL object
-        group_acl = GroupACL.objects.get_or_create(project=project)[0]
+        group_acl = GroupACL.objects.get_or_create(
+            project=project, subproject=None, language=None
+        )[0]
         if project.enable_acl:
             group_acl.permissions.set(all_perms)
             old_group = Group.objects.get(name=project.name)

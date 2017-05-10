@@ -246,7 +246,9 @@ def auto_component_list(sender, instance, **kwargs):
 @disable_for_loaddata
 def setup_group_acl(sender, instance, **kwargs):
     """Setup Group and GroupACL objects on project save."""
-    group_acl = GroupACL.objects.get_or_create(project=instance)[0]
+    group_acl = GroupACL.objects.get_or_create(
+        project=instance, subproject=None, language=None
+    )[0]
     if instance.enable_acl:
         group_acl.permissions.set(
             Permission.objects.filter(codename__in=ADMIN_PERMS)
