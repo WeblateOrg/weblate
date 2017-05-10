@@ -110,6 +110,7 @@ class Suggestion(models.Model, UserDisplayMixin):
     user = models.ForeignKey(User, null=True, blank=True)
     project = models.ForeignKey('Project')
     language = models.ForeignKey(Language)
+    timestamp = models.DateTimeField(auto_now_add=True)
 
     votes = models.ManyToManyField(
         User,

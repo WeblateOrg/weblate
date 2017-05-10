@@ -20,6 +20,7 @@ Released on ? 2017.
 * Store important account activity in audit log.
 * Authentication attempts are rate limited.
 * Ask for password confirmation when removing account or adding new associations.
+* Show time when suggestion has been made.
 
 weblate 2.13.1
 --------------

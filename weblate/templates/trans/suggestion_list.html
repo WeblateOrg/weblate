@@ -13,12 +13,14 @@
 <thead>
 <tr>
 <th>{% trans "Suggestion" %}</th>
+<th>{% trans "When" %}</th>
 <th>{% trans "Translations" %}</th>
 </tr>
 <tbody>
 {% for suggestion in object_list %}
 <tr>
 <td class="translatetext">{% format_translation suggestion.target suggestion.language %}</td>
+<td>{{ suggestion.timestamp|naturaltime }}</td>
 <td>
 {% matching_cotentsum suggestion as units %}
 <ul>

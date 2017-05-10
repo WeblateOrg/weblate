@@ -231,7 +231,9 @@
     {% csrf_token %}
 
 {% for suggestion in unit.suggestions %}
-<h5><strong>
+<h5>
+<span class="pull-right flip">{{ suggestion.timestamp|naturaltime }}</span>
+<strong>
 {% if suggestion.user %}
 {% blocktrans with suggestion.get_user_display as user %}{{ user }} has suggested{% endblocktrans %}
 {% else %}
