@@ -34,6 +34,8 @@ from django.test.utils import override_settings
 import social_django.utils
 
 from weblate.accounts.models import VerifiedEmail
+from weblate.accounts.ratelimit import reset_rate_limit
+
 from weblate.trans.tests.test_views import RegistrationTestMixin
 
 REGISTRATION_DATA = {
@@ -53,6 +55,10 @@ GH_BACKENDS = (
 
 class RegistrationTest(TestCase, RegistrationTestMixin):
     clear_cookie = False
+
+    def setUp(self):
+        super(ViewTest, self).setUp()
+        reset_rate_limit(address='127.0.0.1')
 
     def assert_registration(self, match=None):
         url = self.assert_registration_mailbox(match)

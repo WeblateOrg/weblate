@@ -27,6 +27,7 @@ from django.contrib.auth.models import User
 from django.core import mail
 
 from weblate.accounts.models import Profile
+from weblate.accounts.ratelimit import reset_rate_limit
 
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.lang.models import Language
@@ -41,6 +42,10 @@ CONTACT_DATA = {
 
 class ViewTest(TestCase):
     """Test for views."""
+
+    def setUp(self):
+        super(ViewTest, self).setUp()
+        reset_rate_limit(address='127.0.0.1')
 
     def get_user(self):
         user = User.objects.create_user(
