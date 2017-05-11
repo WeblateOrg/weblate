@@ -344,7 +344,9 @@ graphviz_output_format = 'svg'
 
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3.5', None),
-    'django': ('https://docs.djangoproject.com/en/stable/', 'https://docs.djangoproject.com/en/stable/_objects/')
+    'python2': ('https://docs.python.org/2.7', None),
+    'django': ('https://docs.djangoproject.com/en/stable/', 'https://docs.djangoproject.com/en/stable/_objects/'),
+    'psa': ('https://python-social-auth.readthedocs.io/en/latest/', None),
 }
 
 # Ignore missing targets for the http:obj <type>, it's how we declare the types

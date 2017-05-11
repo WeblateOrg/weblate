@@ -61,9 +61,8 @@ Thanks to `python-social-auth <https://python-social-auth.readthedocs.io/>`_, We
 support authentication using many third party services such as Facebook,
 GitHub, Google or Bitbucket.
 
-Please check their documentation for generic configuration instructions:
-
-https://python-social-auth.readthedocs.io/en/latest/configuration/django.html
+Please check their documentation for generic configuration instructions
+in :doc:`psa:configuration/django`.
 
 .. note::
 
@@ -119,7 +118,7 @@ You need to register application on GitHub and then tell Weblate all the secrets
 
 .. seealso::
 
-    `Python Social Auth backends <https://python-social-auth.readthedocs.io/en/latest/backends/index.html>`_
+    :doc:`Python Social Auth backend <psa:backends/index>`
 
 .. _bitbucket_auth:
 
@@ -144,7 +143,7 @@ You need to register application on Bitbucket and then tell Weblate all the secr
 
 .. seealso::
 
-    `Python Social Auth backends <https://python-social-auth.readthedocs.io/en/latest/backends/index.html>`_
+    :doc:`Python Social Auth backend <psa:backends/index>`
 
 .. _google_auth:
 

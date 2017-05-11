@@ -209,13 +209,11 @@ correct values).
 
 This upgrade also requires you to upgrade python-social-auth from 0.1.x to
 0.2.x series, what will most likely to need to fake one of their migrations
-(see `Upgrading PSA with South`_ for more information):
+(see :doc:`Upgrading PSA with South <psa:configuration/django>` for more information):
 
 .. code-block:: sh
 
     ./manage.py migrate --fake default
-
-.. _Upgrading PSA with South: https://python-social-auth.readthedocs.io/en/latest/configuration/django.html
 
 .. seealso::
 

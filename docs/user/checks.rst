@@ -197,8 +197,8 @@ should really keep the format string matching the original one.
 
 .. seealso::
 
-    `Python string formatting <https://docs.python.org/2.7/library/stdtypes.html#string-formatting>`_,
-    `Python brace format <https://docs.python.org/3.3/library/string.html#string-formatting>`_,
+    :ref:`Python string formatting <python2:string-formatting>`,
+    :ref:`Python brace format <python:formatstrings>`,
     `PHP format strings <https://php.net/manual/en/function.sprintf.php>`_,
     `C printf format <https://en.wikipedia.org/wiki/Printf_format_string>`_,
     `AngularJS: API: $interpolate <https://docs.angularjs.org/api/ng/service/$interpolate>`_
