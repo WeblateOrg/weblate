@@ -997,6 +997,29 @@ Sources
     :>json int priority: source string priority, 100 is default
     :>json string check_flags: source string flags
 
+Screeenshots
+++++++++++++
+
+.. versionadded:: 2.14
+
+.. http:get:: /api/screenshots/
+
+    Returns list of screenshot string informations.
+
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
+
+        Sources object attributes are documented at :http:get:`/api/screenshots/(int:pk)/`.
+
+.. http:get:: /api/screenshots/(int:pk)/
+
+    Returns information about screenshot information.
+
+    :>json string name: name of a screenshot
+    :>json string component: URL of a related component object
+    :>json string file_url: URL to download a file
+
 .. _hooks:
 
 Notification hooks
