@@ -24,6 +24,7 @@ Released on ? 2017.
 * There is new quality check for trailing semicolon.
 * Ensure that search links can be shared.
 * Included source string information and screenshots in the API.
+* Allow to overwrite translations through API upload.
 
 weblate 2.13.1
 --------------

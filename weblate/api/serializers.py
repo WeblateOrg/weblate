@@ -309,6 +309,10 @@ class LockRequestSerializer(ReadOnlySerializer):
     lock = serializers.BooleanField()
 
 
+class UploadRequestSerializer(ReadOnlySerializer):
+    overwrite = serializers.BooleanField()
+
+
 class RepoRequestSerializer(ReadOnlySerializer):
     operation = serializers.ChoiceField(
         choices=('commit', 'pull', 'push', 'reset')

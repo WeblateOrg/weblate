@@ -821,6 +821,7 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
+    :query boolean overwrite: Whether to overwrite existing translations (defaults to no)
 
     .. seealso::
 

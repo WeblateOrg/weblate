@@ -38,6 +38,7 @@ from weblate.api.serializers import (
     LanguageSerializer, LockRequestSerializer, LockSerializer,
     RepoRequestSerializer, StatisticsSerializer, UnitSerializer,
     ChangeSerializer, SourceSerializer, ScreenshotSerializer,
+    UploadRequestSerializer,
 )
 from weblate.trans.exporters import EXPORTERS
 from weblate.trans.models import (
@@ -46,7 +47,7 @@ from weblate.trans.models import (
 from weblate.permissions.helpers import (
     can_upload_translation, can_lock_subproject, can_see_repository_status,
     can_commit_translation, can_update_translation, can_reset_translation,
-    can_push_translation,
+    can_push_translation, can_overwrite_translation,
 )
 from weblate.trans.stats import get_project_stats
 from weblate.lang.models import Language
@@ -424,9 +425,11 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
             parsers.FormParser,
             parsers.FileUploadParser,
         ),
+        serializer_class=UploadRequestSerializer
     )
     def file(self, request, **kwargs):
         obj = self.get_object()
+        project = obj.subproject.project
         if request.method == 'GET':
             fmt = self.format_kwarg or request.query_params.get('format')
             return download_translation_file(obj, fmt)
@@ -438,10 +441,17 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
         if 'file' not in request.data:
             raise ParseError('Missing file parameter')
 
+        serializer = UploadRequestSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        if (serializer.validated_data['overwrite'] and
+                not can_overwrite_translation(request.user, project)):
+            raise PermissionDenied()
+
         not_found, skipped, accepted, total = obj.merge_upload(
             request,
             request.data['file'],
-            False
+            serializer.validated_data['overwrite'],
         )
 
         return Response(data={

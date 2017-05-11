@@ -445,6 +445,27 @@ class TranslationAPITest(APIBaseTest):
             }
         )
 
+    def test_upload_overwrite(self):
+        self.test_upload()
+        response = self.client.put(
+            reverse(
+                'api:translation-file',
+                kwargs=self.translation_kwargs
+            ),
+            {'file': open(TEST_PO, 'rb'), 'overwrite': 1},
+        )
+        self.assertEqual(
+            response.data,
+            {
+                'accepted': 1,
+                'count': 5,
+                'not_found': 0,
+                'result': True,
+                'skipped': 0,
+                'total': 5
+            }
+        )
+
     def test_upload_invalid(self):
         self.authenticate()
         response = self.client.put(
