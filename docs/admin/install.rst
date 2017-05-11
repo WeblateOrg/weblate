@@ -521,6 +521,10 @@ this won't change collation of existing fields:
 
     ALTER DATABASE weblate CHARACTER SET utf8mb4;
 
+.. seealso::
+
+    `Using Innodb_large_prefix to Avoid ERROR 1071 <http://mechanics.flite.com/blog/2014/07/29/using-innodb-large-prefix-to-avoid-error-1071/>`_
+
 Transaction locking
 ~~~~~~~~~~~~~~~~~~~
 
