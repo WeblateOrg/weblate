@@ -1000,8 +1000,8 @@ Sources
     :>json array units: links to units, see :http:get:`/api/units/(int:pk)/`
     :>json array screenshots: links to assigned screenshots, see :http:get:`/api/screenshots/(int:pk)/`
 
-Screeenshots
-++++++++++++
+Screenshots
++++++++++++
 
 .. versionadded:: 2.14
 
