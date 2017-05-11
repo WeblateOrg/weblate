@@ -361,12 +361,17 @@ class SourceSerializer(RemovableSerializer):
         lookup_field=('subproject__project__slug', 'subproject__slug'),
         strip_parts=1,
     )
+    units = serializers.HyperlinkedRelatedField(
+        read_only=True,
+        many=True,
+        view_name='api:unit-detail'
+    )
 
     class Meta(object):
         model = Source
         fields = (
             'id_hash', 'component', 'timestamp', 'priority', 'check_flags',
-            'url',
+            'url', 'units',
         )
         extra_kwargs = {
             'url': {

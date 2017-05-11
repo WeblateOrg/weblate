@@ -82,6 +82,13 @@ class Source(models.Model):
         except ObjectDoesNotExist:
             return None
 
+    def units(self):
+        from weblate.trans.models import Unit
+        return Unit.objects.filter(
+            id_hash=self.id_hash,
+            translation__subproject=self.subproject
+        )
+
     @models.permalink
     def get_absolute_url(self):
         return ('review_source', (), {

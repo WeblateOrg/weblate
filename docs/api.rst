@@ -996,6 +996,7 @@ Sources
     :>json timestamp timestamp: timestamp when source string was first seen by Weblate
     :>json int priority: source string priority, 100 is default
     :>json string check_flags: source string flags
+    :>json array units: link to units, see :http:get:`/api/units/(int:pk)/`
 
 Screeenshots
 ++++++++++++
