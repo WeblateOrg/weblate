@@ -111,7 +111,7 @@ def translation_percent(translated, total):
     # Avoid displaying misleading rounded 0.0% or 100.0%
     if perc == 0.0 and translated != 0:
         return 0.1
-    if perc == 100.0 and translated != total:
+    if perc == 100.0 and translated < total:
         return 99.9
     return perc
 
