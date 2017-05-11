@@ -169,6 +169,7 @@ class EndQuestionCheckTest(CheckTestCase):
 
     def test_greek(self):
         self.do_test(False, ('Text?', 'Texte;', ''), 'el')
+        self.do_test(False, ('Text?', 'Texte;', ''), 'el')
 
     def test_greek_ignore(self):
         self.do_test(False, ('Text', 'Texte', ''), 'el')
