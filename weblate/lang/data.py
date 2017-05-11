@@ -888,7 +888,7 @@ LOCALE_ALIASES = {
     # we can map only those which do not collide with existing language code
     'dk': 'da',
     'gr': 'el',
-    'rs', 'sr',
+    'rs': 'sr',
 }
 
 # List of languages we do not want to import from translate-toolkit
