@@ -19,14 +19,17 @@
 #
 
 from django.contrib.auth.models import User, Group
+from django.core.files import File
 from django.core.urlresolvers import reverse
 
 from rest_framework.test import APITestCase
 
-from weblate.trans.models import Project, Change, Unit
+from weblate.screenshots.models import Screenshot
+from weblate.trans.models import Project, Change, Unit, Source
 from weblate.trans.tests.utils import RepoTestMixin, get_test_file
 
 TEST_PO = get_test_file('cs.po')
+TEST_SCREENSHOT = get_test_file('screenshot.png')
 
 
 class APIBaseTest(APITestCase, RepoTestMixin):
@@ -528,6 +531,68 @@ class UnitAPITest(APIBaseTest):
         self.assertIn(
             'translation',
             response.data,
+        )
+
+
+class SourceAPITest(APIBaseTest):
+    def test_list_sources(self):
+        response = self.client.get(
+            reverse('api:source-list')
+        )
+        self.assertEqual(response.data['count'], 4)
+
+    def test_get_source(self):
+        response = self.client.get(
+            reverse(
+                'api:source-detail',
+                kwargs={'pk': Source.objects.all()[0].pk}
+            )
+        )
+        self.assertIn(
+            'component',
+            response.data,
+        )
+
+
+class ScreenshotAPITest(APIBaseTest):
+    def setUp(self):
+        super(ScreenshotAPITest, self).setUp()
+        shot = Screenshot.objects.create(
+            name='Obrazek',
+            component=self.subproject
+        )
+        shot.image.save(
+            'screenshot.png',
+            File(open(TEST_SCREENSHOT, 'rb'))
+        )
+
+    def test_list_screenshots(self):
+        response = self.client.get(
+            reverse('api:screenshot-list')
+        )
+        self.assertEqual(response.data['count'], 1)
+
+    def test_get_screenshot(self):
+        response = self.client.get(
+            reverse(
+                'api:screenshot-detail',
+                kwargs={'pk': Screenshot.objects.all()[0].pk}
+            )
+        )
+        self.assertIn(
+            'file_url',
+            response.data,
+        )
+
+    def test_download(self):
+        response = self.client.get(
+            reverse(
+                'api:screenshot-file',
+                kwargs={'pk': Screenshot.objects.all()[0].pk}
+            )
+        )
+        self.assertContains(
+            response, b'PNG',
         )
 
 
