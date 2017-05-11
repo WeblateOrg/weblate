@@ -616,6 +616,25 @@ class ScreenshotAPITest(APIBaseTest):
             response, b'PNG',
         )
 
+    def test_upload(self):
+        self.authenticate()
+        Screenshot.objects.update(file=None)
+
+        with open(TEST_SCREENSHOT, 'rb') as fp:
+            response = self.client.post(
+                reverse(
+                    'api:screenshot-file',
+                    kwargs={
+                        'pk': Screenshot.objects.all()[0].pk,
+                    }
+                ),
+                {
+                    'file': fp,
+                }
+            )
+        self.assertEqual(response.status_code, 204)
+        self.assertContains(Screenshot.objects.all()[0].file, b'PNG')
+
 
 class ChangeAPITest(APIBaseTest):
     def test_list_changes(self):
