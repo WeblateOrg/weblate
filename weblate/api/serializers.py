@@ -20,9 +20,12 @@
 
 from rest_framework import serializers
 
-from weblate.trans.models import Project, SubProject, Translation, Unit, Change
+from weblate.trans.models import (
+    Project, SubProject, Translation, Unit, Change, Source,
+)
 from weblate.lang.models import Language
 from weblate.permissions.helpers import can_see_git_repository
+from weblate.screenshots.models import Screenshot
 from weblate.trans.site import get_site_url
 
 
@@ -330,6 +333,11 @@ class UnitSerializer(RemovableSerializer):
         ),
         strip_parts=1,
     )
+    source_info = serializers.HyperlinkedRelatedField(
+        read_only=True,
+        source='source_info.pk',
+        view_name='api:source-detail'
+    )
 
     class Meta(object):
         model = Unit
@@ -338,11 +346,70 @@ class UnitSerializer(RemovableSerializer):
             'content_hash', 'location', 'context', 'comment', 'flags', 'fuzzy',
             'translated', 'position', 'has_suggestion', 'has_comment',
             'has_failing_check', 'num_words', 'priority', 'id', 'web_url',
-            'url',
+            'url', 'source_info',
         )
         extra_kwargs = {
             'url': {
                 'view_name': 'api:unit-detail',
+            },
+        }
+
+
+class SourceSerializer(RemovableSerializer):
+    component = MultiFieldHyperlinkedIdentityField(
+        view_name='api:component-detail',
+        lookup_field=('subproject__project__slug', 'subproject__slug'),
+        strip_parts=1,
+    )
+    units = serializers.HyperlinkedRelatedField(
+        read_only=True,
+        many=True,
+        view_name='api:unit-detail'
+    )
+    screenshots = serializers.HyperlinkedRelatedField(
+        read_only=True,
+        many=True,
+        view_name='api:screenshot-detail'
+    )
+
+    class Meta(object):
+        model = Source
+        fields = (
+            'id_hash', 'component', 'timestamp', 'priority', 'check_flags',
+            'url', 'units', 'screenshots',
+        )
+        extra_kwargs = {
+            'url': {
+                'view_name': 'api:source-detail',
+            },
+        }
+
+
+class ScreenshotSerializer(RemovableSerializer):
+    component = MultiFieldHyperlinkedIdentityField(
+        view_name='api:component-detail',
+        lookup_field=('component__project__slug', 'component__slug'),
+        strip_parts=1,
+    )
+    file_url = serializers.HyperlinkedRelatedField(
+        read_only=True,
+        source='pk',
+        view_name='api:screenshot-file'
+    )
+    sources = serializers.HyperlinkedRelatedField(
+        many=True,
+        read_only=True,
+        view_name='api:source-detail'
+    )
+
+    class Meta(object):
+        model = Screenshot
+        fields = (
+            'name', 'component', 'file_url', 'sources', 'url',
+        )
+        extra_kwargs = {
+            'url': {
+                'view_name': 'api:screenshot-detail',
             },
         }
 

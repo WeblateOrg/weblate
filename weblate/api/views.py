@@ -37,11 +37,11 @@ from weblate.api.serializers import (
     ProjectSerializer, ComponentSerializer, TranslationSerializer,
     LanguageSerializer, LockRequestSerializer, LockSerializer,
     RepoRequestSerializer, StatisticsSerializer, UnitSerializer,
-    ChangeSerializer,
+    ChangeSerializer, SourceSerializer, ScreenshotSerializer,
 )
 from weblate.trans.exporters import EXPORTERS
 from weblate.trans.models import (
-    Project, SubProject, Translation, Change, Unit,
+    Project, SubProject, Translation, Change, Unit, Source,
 )
 from weblate.permissions.helpers import (
     can_upload_translation, can_lock_subproject, can_see_repository_status,
@@ -50,6 +50,7 @@ from weblate.permissions.helpers import (
 )
 from weblate.trans.stats import get_project_stats
 from weblate.lang.models import Language
+from weblate.screenshots.models import Screenshot
 from weblate.trans.views.helper import download_translation_file
 from weblate import get_doc_url
 
@@ -114,7 +115,21 @@ class MultipleFieldMixin(object):
         return get_object_or_404(queryset, **lookup)
 
 
-class WeblateViewSet(viewsets.ReadOnlyModelViewSet):
+class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
+    def download_file(self, filename, content_type):
+        """Wrapper for file download"""
+        with open(filename, 'rb') as handle:
+            response = HttpResponse(
+                handle.read(),
+                content_type=content_type
+            )
+        response['Content-Disposition'] = 'attachment; filename="{0}"'.format(
+            os.path.basename(filename)
+        )
+        return response
+
+
+class WeblateViewSet(DownloadViewSet):
     """Allow to skip content negotiation for certain requests."""
     raw_urls = ()
 
@@ -307,18 +322,6 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
             obj.do_lock(request.user, serializer.validated_data['lock'])
 
         return Response(data=LockSerializer(obj).data)
-
-    def download_file(self, filename, content_type):
-        """Wrapper for file download"""
-        with open(filename, 'rb') as handle:
-            response = HttpResponse(
-                handle.read(),
-                content_type=content_type
-            )
-        response['Content-Disposition'] = 'attachment; filename="{0}"'.format(
-            os.path.basename(filename)
-        )
-        return response
 
     @detail_route(methods=['get'])
     def monolingual_base(self, request, **kwargs):
@@ -513,6 +516,54 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet):
         return Unit.objects.filter(
             translation__subproject__project__in=acl_projects
         )
+
+
+class SourceViewSet(viewsets.ReadOnlyModelViewSet):
+    """Sources API"""
+
+    queryset = Source.objects.none()
+    serializer_class = SourceSerializer
+
+    def get_queryset(self):
+        acl_projects = Project.objects.get_acl_ids(self.request.user)
+        return Source.objects.filter(
+            subproject__project__in=acl_projects
+        )
+
+
+class ScreenshotViewSet(DownloadViewSet):
+    """Screenshots API"""
+
+    queryset = Screenshot.objects.none()
+    serializer_class = ScreenshotSerializer
+
+    def get_queryset(self):
+        acl_projects = Project.objects.get_acl_ids(self.request.user)
+        return Screenshot.objects.filter(
+            component__project__in=acl_projects
+        )
+
+    @detail_route(
+        methods=['get', 'put', 'post'],
+        parser_classes=(
+            parsers.MultiPartParser,
+            parsers.FormParser,
+            parsers.FileUploadParser,
+        ),
+    )
+    def file(self, request, **kwargs):
+        obj = self.get_object()
+        if request.method == 'GET':
+            return self.download_file(
+                obj.image.path,
+                'application/binary',
+            )
+
+        if 'file' not in request.data:
+            raise ParseError('Missing file parameter')
+
+        # No uploads for now
+        raise PermissionDenied()
 
 
 class ChangeViewSet(viewsets.ReadOnlyModelViewSet):

@@ -912,7 +912,7 @@ Units
 
         Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
-        Translation object attributes are documented at :http:get:`/api/units/(int:pk)/`.
+        Unit object attributes are documented at :http:get:`/api/units/(int:pk)/`.
 
 .. http:get:: /api/units/(int:pk)/
 
@@ -938,6 +938,7 @@ Units
     :>json int priority: translation priority, 100 is default
     :>json int id: unit identifier
     :>json string web_url: URL where unit can be edited
+    :>json string souce_info: Source string information link, see :http:get:`/api/sources/(int:pk)/`
 
 Changes
 +++++++
@@ -952,7 +953,7 @@ Changes
 
         Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
-        Translation object attributes are documented at :http:get:`/api/changes/(int:pk)/`.
+        Change object attributes are documented at :http:get:`/api/changes/(int:pk)/`.
 
 .. http:get:: /api/changes/(int:pk)/
 
@@ -970,6 +971,57 @@ Changes
     :>json string action_name: text description of action
     :>json string target: event changed text or detail
     :>json int id: change identifier
+
+Sources
++++++++
+
+.. versionadded:: 2.14
+
+.. http:get:: /api/sources/
+
+    Returns list of source string informations.
+
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
+
+        Sources object attributes are documented at :http:get:`/api/sources/(int:pk)/`.
+
+.. http:get:: /api/sources/(int:pk)/
+
+    Returns information about source information.
+
+    :>json string id_hash: unique identifier of the unit
+    :>json string component: URL of a related component object
+    :>json timestamp timestamp: timestamp when source string was first seen by Weblate
+    :>json int priority: source string priority, 100 is default
+    :>json string check_flags: source string flags
+    :>json array units: links to units, see :http:get:`/api/units/(int:pk)/`
+    :>json array screenshots: links to assigned screenshots, see :http:get:`/api/screenshots/(int:pk)/`
+
+Screeenshots
+++++++++++++
+
+.. versionadded:: 2.14
+
+.. http:get:: /api/screenshots/
+
+    Returns list of screenshot string informations.
+
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
+
+        Sources object attributes are documented at :http:get:`/api/screenshots/(int:pk)/`.
+
+.. http:get:: /api/screenshots/(int:pk)/
+
+    Returns information about screenshot information.
+
+    :>json string name: name of a screenshot
+    :>json string component: URL of a related component object
+    :>json string file_url: URL to download a file
+    :>json array sources: link to asssociated source string information, see :http:get:`/api/sources/(int:pk)/`
 
 .. _hooks:
 
