@@ -366,6 +366,7 @@ class SourceSerializer(RemovableSerializer):
         model = Source
         fields = (
             'id_hash', 'component', 'timestamp', 'priority', 'check_flags',
+            'url',
         )
         extra_kwargs = {
             'url': {
@@ -385,11 +386,16 @@ class ScreenshotSerializer(RemovableSerializer):
         source='pk',
         view_name='api:screenshot-file'
     )
+    sources = serializers.HyperlinkedRelatedField(
+        many=True,
+        read_only=True,
+        view_name='api:source-detail'
+    )
 
     class Meta(object):
         model = Screenshot
         fields = (
-            'name', 'component', 'file_url',
+            'name', 'component', 'file_url', 'sources', 'url',
         )
         extra_kwargs = {
             'url': {

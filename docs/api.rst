@@ -1019,6 +1019,7 @@ Screeenshots
     :>json string name: name of a screenshot
     :>json string component: URL of a related component object
     :>json string file_url: URL to download a file
+    :>json array sources: link to asssociated source string information, see :http:get:`/api/sources/(int:pk)/`
 
 .. _hooks:
 
