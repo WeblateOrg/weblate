@@ -391,6 +391,21 @@ capable database, see :ref:`production-database` for more information.
    
    :ref:`production-database`, `Django's databases <https://docs.djangoproject.com/en/stable/ref/databases/>`_
 
+
+When accessing the site I get Bad Request (400) error
+-----------------------------------------------------
+
+This is most likely caused by not properly configured :setting:`ALLOWED_HOSTS`.
+It needs to contain all hostnames you want to access your Weblate. For example:
+
+.. code-block:: python
+
+    ALLOWED_HOSTS = ['weblate.example.com', 'weblate', 'localhost']
+
+.. seealso::
+
+    :ref:`production-hosts`
+
 Features
 ++++++++
 
