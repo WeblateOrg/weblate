@@ -37,11 +37,11 @@ from weblate.api.serializers import (
     ProjectSerializer, ComponentSerializer, TranslationSerializer,
     LanguageSerializer, LockRequestSerializer, LockSerializer,
     RepoRequestSerializer, StatisticsSerializer, UnitSerializer,
-    ChangeSerializer,
+    ChangeSerializer, SourceSerializer,
 )
 from weblate.trans.exporters import EXPORTERS
 from weblate.trans.models import (
-    Project, SubProject, Translation, Change, Unit,
+    Project, SubProject, Translation, Change, Unit, Source,
 )
 from weblate.permissions.helpers import (
     can_upload_translation, can_lock_subproject, can_see_repository_status,
@@ -512,6 +512,19 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet):
         acl_projects = Project.objects.get_acl_ids(self.request.user)
         return Unit.objects.filter(
             translation__subproject__project__in=acl_projects
+        )
+
+
+class SourceViewSet(viewsets.ReadOnlyModelViewSet):
+    """Sources API"""
+
+    queryset = Source.objects.none()
+    serializer_class = SourceSerializer
+
+    def get_queryset(self):
+        acl_projects = Project.objects.get_acl_ids(self.request.user)
+        return Source.objects.filter(
+            subproject__project__in=acl_projects
         )
 
 
