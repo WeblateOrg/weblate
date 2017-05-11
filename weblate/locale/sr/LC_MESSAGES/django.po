@@ -7,17 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-05-04 13:59+0000\n"
+"POT-Creation-Date: 2017-05-11 15:35+0000\n"
 "PO-Revision-Date: 2017-05-06 19:16+0000\n"
 "Last-Translator: Слободан Симић(Slobodan Simić) <slsimic@gmail.com>\n"
-"Language-Team: Serbian "
-"<https://hosted.weblate.org/projects/weblate/master/sr/>\n"
+"Language-Team: Serbian <https://hosted.weblate.org/projects/weblate/master/"
+"sr/>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
-"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.14-dev\n"
 
 #: weblate/accounts/auth.py:57
@@ -44,18 +44,18 @@ msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
 "+ - _"
 msgstr ""
-"Корисничко име може садржати само слова, бројеве или следеће знакове: @ . + -"
-" _"
+"Корисничко име може садржати само слова, бројеве или следеће знакове: @ . + "
+"- _"
 
-#: weblate/accounts/forms.py:98 weblate/templates/manage-access.html:18
+#: weblate/accounts/forms.py:98 weblate/templates/manage-access.html:22
 msgid "Username"
 msgstr "Корисничко име"
 
-#: weblate/accounts/forms.py:116 weblate/accounts/pipeline.py:256
+#: weblate/accounts/forms.py:116 weblate/accounts/pipeline.py:220
 msgid "This username is already taken. Please choose another."
 msgstr "Корисничко име је заузето. Изаберите друго."
 
-#: weblate/accounts/forms.py:129 weblate/templates/manage-access.html:19
+#: weblate/accounts/forms.py:129 weblate/templates/manage-access.html:23
 msgid "Full name"
 msgstr "Пуно име"
 
@@ -82,7 +82,7 @@ msgstr ""
 "пројектима."
 
 #: weblate/accounts/forms.py:271 weblate/accounts/forms.py:334
-#: weblate/templates/manage-access.html:20
+#: weblate/templates/manage-access.html:24
 msgid "E-mail"
 msgstr "е-пошта"
 
@@ -390,7 +390,7 @@ msgstr "Списак компоненти мора бити одабран ка�
 msgid "Component list must not be selected when not used."
 msgstr "Списак компоненти не сме бити одабран ако се не користи."
 
-#: weblate/accounts/models.py:529
+#: weblate/accounts/models.py:532
 msgid ""
 "You can not submit translations as you do not have assigned any email "
 "address."
@@ -408,15 +408,15 @@ msgstr "Ова лозинка се састоји од истог знака."
 msgid "Your password can't consist of single character or whitespace only."
 msgstr "Ваша лозинка се не може састојати само од истог знака или размака."
 
-#: weblate/accounts/pipeline.py:202
+#: weblate/accounts/pipeline.py:166
 msgid "New registrations are disabled!"
 msgstr "Нове регистрације су онемогућене!"
 
-#: weblate/accounts/pipeline.py:207
+#: weblate/accounts/pipeline.py:171
 msgid "Can not change authentication for demo!"
 msgstr "Не можете мењати демо налог!"
 
-#: weblate/accounts/pipeline.py:400
+#: weblate/accounts/pipeline.py:344
 #, python-brace-format
 msgid ""
 "Your email no longer belongs to verified account, it has been changed to {0}."
@@ -507,7 +507,7 @@ msgstr "Одјављивање"
 #: weblate/templates/accounts/user.html:30
 #: weblate/templates/billing/detail.html:31 weblate/templates/language.html:15
 #: weblate/templates/projects.html:5 weblate/trans/models/project.py:166
-#: weblate/trans/views/basic.py:213
+#: weblate/trans/views/basic.py:210
 msgid "Projects"
 msgstr "Пројекти"
 
@@ -551,8 +551,8 @@ msgstr "Изворне речи"
 #: weblate/lang/views.py:42 weblate/templates/accounts/profile.html:22
 #: weblate/templates/accounts/profile.html:41 weblate/templates/language.html:6
 #: weblate/templates/languages.html:6 weblate/templates/project.html:26
-#: weblate/templates/trans/change_list.html:18 weblate/trans/forms.py:818
-#: weblate/trans/forms.py:1053 weblate/trans/models/project.py:347
+#: weblate/templates/trans/change_list.html:18 weblate/trans/forms.py:886
+#: weblate/trans/forms.py:1121 weblate/trans/models/project.py:347
 msgid "Languages"
 msgstr "Језици"
 
@@ -706,7 +706,7 @@ msgid "Number of plurals"
 msgstr "Облика множине"
 
 #: weblate/lang/models.py:428 weblate/templates/language.html:49
-#: weblate/trans/forms.py:268
+#: weblate/trans/forms.py:285
 msgid "Plural equation"
 msgstr "Формула за множину"
 
@@ -729,8 +729,8 @@ msgstr "Тип множине"
 #: weblate/lang/models.py:449 weblate/templates/dictionaries.html:14
 #: weblate/templates/js/detail.html:16 weblate/templates/languages.html:14
 #: weblate/templates/list-translations.html:7
-#: weblate/templates/project.html:119 weblate/trans/forms.py:639
-#: weblate/trans/forms.py:853 weblate/trans/models/whiteboard.py:82
+#: weblate/templates/project.html:119 weblate/trans/forms.py:693
+#: weblate/trans/forms.py:921 weblate/trans/models/whiteboard.py:82
 msgid "Language"
 msgstr "Језик"
 
@@ -761,27 +761,39 @@ msgstr "Пројекат / Компонента"
 msgid "Permissions"
 msgstr "Дозволе"
 
-#: weblate/permissions/data.py:149
+#: weblate/permissions/data.py:166
 msgctxt "Permissions group"
 msgid "Administration"
 msgstr "Администрација"
 
-#: weblate/permissions/data.py:150
+#: weblate/permissions/data.py:167
+msgctxt "Permissions group"
+msgid "Template"
+msgstr ""
+
+#: weblate/permissions/data.py:168
+#, fuzzy
+#| msgid "Languages"
+msgctxt "Permissions group"
+msgid "Languages"
+msgstr "Језици"
+
+#: weblate/permissions/data.py:169
 msgctxt "Permissions group"
 msgid "Glossary"
 msgstr "Појмовник"
 
-#: weblate/permissions/data.py:151
+#: weblate/permissions/data.py:170
 msgctxt "Permissions group"
 msgid "Screenshots"
 msgstr "Снимци екрана"
 
-#: weblate/permissions/data.py:152
+#: weblate/permissions/data.py:171
 msgctxt "Permissions group"
 msgid "Translate"
 msgstr "Преведи"
 
-#: weblate/permissions/data.py:153
+#: weblate/permissions/data.py:172
 msgctxt "Permissions group"
 msgid "VCS"
 msgstr "Систем контроле верзија"
@@ -858,7 +870,7 @@ msgstr "Снимак екрана %s је обрисан."
 msgid "Source has been removed."
 msgstr "Извор је уклоњен."
 
-#: weblate/templates/403.html:5 weblate/trans/views/basic.py:549
+#: weblate/templates/403.html:5 weblate/trans/views/basic.py:542
 msgid "Permission Denied"
 msgstr "Приступ одбијен"
 
@@ -875,7 +887,7 @@ msgid ""
 "However the following translation projects are available on this server:"
 msgstr "Следећи пројекти превођења су доступни на овом серверу:"
 
-#: weblate/templates/404.html:5 weblate/trans/views/basic.py:536
+#: weblate/templates/404.html:5 weblate/trans/views/basic.py:529
 msgid "Page Not Found"
 msgstr "Страница није нађена"
 
@@ -888,7 +900,7 @@ msgid ""
 "The project you are looking for does not exist or is not publicly available."
 msgstr "Пројекат који сте тражили не постоји или није јавно доступан."
 
-#: weblate/templates/500.html:5 weblate/trans/views/basic.py:563
+#: weblate/templates/500.html:5 weblate/trans/views/basic.py:556
 msgid "Internal Server Error"
 msgstr "Интерна грешка сервера"
 
@@ -905,7 +917,7 @@ msgstr ""
 "нашег тренираног мајмуна да реши проблем."
 
 #: weblate/templates/about.html:5 weblate/templates/about.html:13
-#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:577
+#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:570
 msgid "About Weblate"
 msgstr "О Веблејту"
 
@@ -1172,7 +1184,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Измени моју лозинку"
 
-#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:679
+#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:672
 #: weblate/trans/views/files.py:88
 msgid "Please fix errors in the form."
 msgstr "Исправите грешке у обрасцу."
@@ -1229,7 +1241,7 @@ msgstr "Наплата"
 #: weblate/templates/project.html:211
 #: weblate/templates/screenshots/screenshot_detail.html:102
 #: weblate/templates/subproject.html:219 weblate/templates/translate.html:160
-#: weblate/templates/translate.html:350
+#: weblate/templates/translate.html:353
 msgid "Save"
 msgstr "Сачувај"
 
@@ -1392,6 +1404,7 @@ msgstr "Ваш јавни профил на овом сајту."
 
 #: weblate/templates/accounts/profile.html:303
 #: weblate/templates/last-changes-content.html:8
+#: weblate/templates/trans/suggestion_list.html:16
 msgid "When"
 msgstr "Када"
 
@@ -1468,7 +1481,7 @@ msgstr ""
 msgid "Project"
 msgstr "Пројекат"
 
-#: weblate/templates/accounts/profile.html:419 weblate/trans/forms.py:986
+#: weblate/templates/accounts/profile.html:419 weblate/trans/forms.py:1054
 msgid "License"
 msgstr "Лиценца"
 
@@ -2046,16 +2059,16 @@ msgstr "Историјат"
 #: weblate/templates/dictionary.html:54 weblate/templates/matrix.html:17
 #: weblate/templates/search.html:29 weblate/templates/source-review.html:25
 #: weblate/templates/translate.html:141 weblate/templates/translate.html:213
-#: weblate/templates/translate.html:317 weblate/templates/translate.html:400
-#: weblate/trans/forms.py:243 weblate/trans/forms.py:708
+#: weblate/templates/translate.html:320 weblate/templates/translate.html:403
+#: weblate/trans/forms.py:260 weblate/trans/forms.py:762
 msgid "Source"
 msgstr "Извор"
 
 #: weblate/templates/dictionary.html:55
 #: weblate/templates/last-changes-content.html:11
-#: weblate/templates/translate.html:213 weblate/templates/translate.html:273
-#: weblate/templates/translate.html:316 weblate/templates/translate.html:401
-#: weblate/trans/forms.py:245 weblate/trans/forms.py:709
+#: weblate/templates/translate.html:213 weblate/templates/translate.html:276
+#: weblate/templates/translate.html:319 weblate/templates/translate.html:404
+#: weblate/trans/forms.py:262 weblate/trans/forms.py:763
 msgid "Translation"
 msgstr "Превод"
 
@@ -2071,7 +2084,7 @@ msgstr "Уреди"
 #: weblate/templates/list-comments.html:23
 #: weblate/templates/screenshots/screenshot_detail.html:117
 #: weblate/templates/screenshots/screenshot_list.html:43
-#: weblate/templates/translate.html:260
+#: weblate/templates/translate.html:263
 msgid "Delete"
 msgstr "Избриши"
 
@@ -2080,7 +2093,7 @@ msgid "No words found!"
 msgstr "Нема пронађених речи!"
 
 #: weblate/templates/dictionary.html:92 weblate/templates/js/detail.html:42
-#: weblate/templates/manage-access.html:66 weblate/templates/translate.html:414
+#: weblate/templates/manage-access.html:70 weblate/templates/translate.html:417
 msgid "Add"
 msgstr "Додај"
 
@@ -2168,7 +2181,7 @@ msgstr "Објавио %(author)s дана %(date)s"
 msgid "Copy word to translation"
 msgstr "Копирај реч у превод"
 
-#: weblate/templates/glossary-embed.html:14 weblate/trans/forms.py:157
+#: weblate/templates/glossary-embed.html:14 weblate/trans/forms.py:174
 msgid "Copy"
 msgstr "Копирај"
 
@@ -3127,11 +3140,11 @@ msgstr "Прегледај све измене компоненти"
 msgid "Ignore: %(check)s"
 msgstr "Занемари: %(check)s"
 
-#: weblate/templates/js/detail.html:77 weblate/templates/translate.html:435
+#: weblate/templates/js/detail.html:77 weblate/templates/translate.html:438
 msgid "Screenshot context"
 msgstr "Контекст снимка екрана"
 
-#: weblate/templates/js/detail.html:84 weblate/templates/translate.html:443
+#: weblate/templates/js/detail.html:84 weblate/templates/translate.html:446
 msgid "No screenshot currently associated!"
 msgstr "Нема придруженог снимка екрана!"
 
@@ -3279,7 +3292,7 @@ msgstr "Компоненте"
 
 #: weblate/templates/language-project.html:25
 #: weblate/templates/language.html:25 weblate/templates/project.html:49
-#: weblate/templates/source-review.html:27 weblate/templates/translate.html:488
+#: weblate/templates/source-review.html:27 weblate/templates/translate.html:491
 #: weblate/trans/views/checks.py:76
 msgid "Failing checks"
 msgstr "Грешке при провери"
@@ -3793,22 +3806,22 @@ msgstr "Измена поставки претплате:"
 msgid "Manage users"
 msgstr "Управљајте корисницима"
 
-#: weblate/templates/manage-access.html:14
+#: weblate/templates/manage-access.html:17
 msgid "Users"
 msgstr "Корисници"
 
-#: weblate/templates/manage-access.html:39
+#: weblate/templates/manage-access.html:43
 #: weblate/templates/screenshots/screenshot_sources_body.html:20
 msgid "Remove"
 msgstr "Уклони"
 
-#: weblate/templates/manage-access.html:48
+#: weblate/templates/manage-access.html:52
 msgid ""
 "The user will be removed from the project once you remove last user "
 "permission."
 msgstr ""
 
-#: weblate/templates/manage-access.html:60
+#: weblate/templates/manage-access.html:64
 msgid "Add new user"
 msgstr "Додај новог корисника"
 
@@ -3924,7 +3937,7 @@ msgstr "Страница за прикључење"
 msgid "Status widgets"
 msgstr "Виџети статуса"
 
-#: weblate/templates/project.html:85 weblate/templates/translate.html:273
+#: weblate/templates/project.html:85 weblate/templates/translate.html:276
 #: weblate/trans/models/subproject.py:502 weblate/trans/models/whiteboard.py:76
 msgid "Component"
 msgstr ""
@@ -3955,8 +3968,8 @@ msgid "Process"
 msgstr ""
 
 #: weblate/templates/project.html:191 weblate/templates/subproject.html:150
-#: weblate/templates/translate.html:307 weblate/templates/translation.html:236
-#: weblate/trans/forms.py:146
+#: weblate/templates/translate.html:310 weblate/templates/translation.html:236
+#: weblate/trans/forms.py:163
 msgid "Loading…"
 msgstr "Учитавам…"
 
@@ -4083,7 +4096,7 @@ msgstr "изворне ниске"
 msgid "review"
 msgstr ""
 
-#: weblate/templates/source-review.html:26 weblate/trans/forms.py:879
+#: weblate/templates/source-review.html:26 weblate/trans/forms.py:947
 #: weblate/trans/models/subproject.py:478
 msgid "Priority"
 msgstr "Приоритет"
@@ -4149,7 +4162,7 @@ msgid "Failing checks found"
 msgstr "Грешака у провери нађено"
 
 #: weblate/templates/subproject.html:30
-#: weblate/templates/trans/suggestion_list.html:16
+#: weblate/templates/trans/suggestion_list.html:17
 msgid "Translations"
 msgstr "Преводи"
 
@@ -4211,8 +4224,8 @@ msgid "Follow using RSS"
 msgstr ""
 
 #: weblate/templates/trans/suggestion_list.html:7
-#: weblate/templates/translate.html:194 weblate/templates/translate.html:372
-#: weblate/trans/forms.py:991
+#: weblate/templates/translate.html:194 weblate/templates/translate.html:375
+#: weblate/trans/forms.py:1059
 msgid "Suggestions"
 msgstr "Предлози"
 
@@ -4220,7 +4233,7 @@ msgstr "Предлози"
 msgid "Suggestion"
 msgstr "Предлог"
 
-#: weblate/templates/trans/suggestion_list.html:28
+#: weblate/templates/trans/suggestion_list.html:30
 msgid "No matching translations found!"
 msgstr "Нема одговарајућих превода!"
 
@@ -4309,7 +4322,7 @@ msgstr "Уређивање изворног низа"
 msgid "Source change"
 msgstr "Измена извора"
 
-#: weblate/templates/translate.html:119 weblate/templates/translate.html:450
+#: weblate/templates/translate.html:119 weblate/templates/translate.html:453
 msgid "Context"
 msgstr "Контекст"
 
@@ -4364,11 +4377,11 @@ msgstr ""
 msgid "Nearby messages"
 msgstr "Суседне поруке"
 
-#: weblate/templates/translate.html:197 weblate/templates/translate.html:375
+#: weblate/templates/translate.html:197 weblate/templates/translate.html:378
 msgid "Other translations"
 msgstr "Остали преводи"
 
-#: weblate/templates/translate.html:200 weblate/templates/translate.html:379
+#: weblate/templates/translate.html:200 weblate/templates/translate.html:382
 #: weblate/templates/unit-details.html:13
 msgid "Comments"
 msgstr "Коментари"
@@ -4389,20 +4402,20 @@ msgstr "Списак последњих измена одрађених у Ве�
 msgid "State"
 msgstr "Стање"
 
-#: weblate/templates/translate.html:236
+#: weblate/templates/translate.html:239
 #, python-format
 msgid "%(user)s has suggested"
 msgstr "%(user)s је предложио"
 
-#: weblate/templates/translate.html:238
+#: weblate/templates/translate.html:241
 msgid "Anonymous user has suggested"
 msgstr "Анонимни корисник је предложио"
 
-#: weblate/templates/translate.html:242
+#: weblate/templates/translate.html:245
 msgid "Suggested change:"
 msgstr "Предложена измена:"
 
-#: weblate/templates/translate.html:246
+#: weblate/templates/translate.html:249
 #, python-format
 msgid "%(count)s vote"
 msgid_plural "%(count)s votes"
@@ -4410,82 +4423,82 @@ msgstr[0] "%(count)s глас"
 msgstr[1] "%(count)s гласа"
 msgstr[2] "%(count)s гласова"
 
-#: weblate/templates/translate.html:251
+#: weblate/templates/translate.html:254
 msgid "Vote for"
 msgstr "Гласај за"
 
-#: weblate/templates/translate.html:252
+#: weblate/templates/translate.html:255
 msgid "Vote against"
 msgstr "Гласај против"
 
-#: weblate/templates/translate.html:255
+#: weblate/templates/translate.html:258
 msgid "Accept"
 msgstr "Прихвати"
 
-#: weblate/templates/translate.html:256
+#: weblate/templates/translate.html:259
 msgid "Accept and edit"
 msgstr "Прихвати и уреди"
 
-#: weblate/templates/translate.html:279
+#: weblate/templates/translate.html:282
 msgid "This translation"
 msgstr "овај превод"
 
-#: weblate/templates/translate.html:288
+#: weblate/templates/translate.html:291
 msgid "Use this translation for all components"
 msgstr "Користи овај превод за све компоненте"
 
-#: weblate/templates/translate.html:288
+#: weblate/templates/translate.html:291
 msgid "Use this translation"
 msgstr "Користи овај превод"
 
-#: weblate/templates/translate.html:295
+#: weblate/templates/translate.html:298
 msgid "Change compared to this translation:"
 msgstr "Измене у поређењу са овим преводом:"
 
-#: weblate/templates/translate.html:318
+#: weblate/templates/translate.html:321
 msgid "Service"
 msgstr "Сервис"
 
-#: weblate/templates/translate.html:344 weblate/trans/forms.py:794
+#: weblate/templates/translate.html:347 weblate/trans/forms.py:862
 msgid "New comment"
 msgstr "Нови коментар"
 
-#: weblate/templates/translate.html:346
+#: weblate/templates/translate.html:349
 msgid ""
 "You can share comments about this string with other translators and "
 "developers."
 msgstr ""
 "Можете делити коментаре о овом низу са осталим преводиоцима и програмерима."
 
-#: weblate/templates/translate.html:369
+#: weblate/templates/translate.html:372
 msgid "Things to check"
 msgstr "Елементи за проверу"
 
-#: weblate/templates/translate.html:392
+#: weblate/templates/translate.html:395
 msgid "Manage glossary"
 msgstr "Управљај речником"
 
-#: weblate/templates/translate.html:394
+#: weblate/templates/translate.html:397
 msgid "Glossary"
 msgstr "Речник"
 
-#: weblate/templates/translate.html:414
+#: weblate/templates/translate.html:417
 msgid "Add word to glossary"
 msgstr "Додај реч у речник"
 
-#: weblate/templates/translate.html:427
+#: weblate/templates/translate.html:430
 msgid "Source information"
 msgstr "Информације о извору"
 
-#: weblate/templates/translate.html:460
+#: weblate/templates/translate.html:463
 msgid "Flags"
 msgstr "Заставице"
 
-#: weblate/templates/translate.html:468
+#: weblate/templates/translate.html:471
 msgid "No flags currently set!"
 msgstr "Тренутно нема постављених заставица!"
 
-#: weblate/templates/translate.html:477
+#: weblate/templates/translate.html:480
 msgid "String priority"
 msgstr "Приоритет низа"
 
@@ -4767,7 +4780,7 @@ msgctxt "Message needs review"
 msgid "Review"
 msgstr "Овери"
 
-#: weblate/templates/zen-units.html:77 weblate/trans/views/edit.py:501
+#: weblate/templates/zen-units.html:77 weblate/trans/views/edit.py:473
 msgid "You have reached end of translating."
 msgstr "Стигли сте до краја превода."
 
@@ -4990,6 +5003,18 @@ msgstr "Највећа дужина превода"
 #: weblate/trans/checks/chars.py:353
 msgid "Translation should not exceed given length"
 msgstr "Превод не би требао да премаши задату дужину"
+
+#: weblate/trans/checks/chars.py:373
+#, fuzzy
+#| msgid "Trailing colon"
+msgid "Trailing semicolon"
+msgstr "Двотачка на крају"
+
+#: weblate/trans/checks/chars.py:374
+#, fuzzy
+#| msgid "Source and translation do not both end with a newline"
+msgid "Source and translation do not both end with a semicolon"
+msgstr "Извор и превод не завршавају новим редом"
 
 #: weblate/trans/checks/consistency.py:28
 msgid "Missing plurals"
@@ -5221,383 +5246,391 @@ msgstr ""
 msgid "Ruby YAML file"
 msgstr ""
 
-#: weblate/trans/forms.py:155
+#: weblate/trans/forms.py:143
+msgid "Invalid checksum specified!"
+msgstr ""
+
+#: weblate/trans/forms.py:172
 msgid "Fill in with source string"
 msgstr ""
 
-#: weblate/trans/forms.py:184 weblate/trans/forms.py:192
+#: weblate/trans/forms.py:201 weblate/trans/forms.py:209
 msgid "Toggle text direction"
 msgstr ""
 
-#: weblate/trans/forms.py:262
+#: weblate/trans/forms.py:279
 msgid "Documentation for plurals."
 msgstr ""
 
-#: weblate/trans/forms.py:265
+#: weblate/trans/forms.py:282
 msgid ""
 "This equation identifies which plural form will be used based on given count "
 "(n)."
 msgstr ""
 
-#: weblate/trans/forms.py:312
+#: weblate/trans/forms.py:329
 msgid "Translation text too long!"
 msgstr "Текст превода је предугачак!"
 
-#: weblate/trans/forms.py:342
+#: weblate/trans/forms.py:359
 msgid "Message you wanted to translate is no longer available!"
 msgstr ""
 
-#: weblate/trans/forms.py:354
+#: weblate/trans/forms.py:371
 msgctxt "Checkbox for marking translation needing review"
 msgid "Needs review"
 msgstr "Потребна је овера"
 
-#: weblate/trans/forms.py:390 weblate/trans/forms.py:725
+#: weblate/trans/forms.py:407 weblate/trans/forms.py:779
 msgid "File"
 msgstr ""
 
-#: weblate/trans/forms.py:392 weblate/trans/forms.py:732
+#: weblate/trans/forms.py:409 weblate/trans/forms.py:786
 msgid "Merge method"
 msgstr ""
 
-#: weblate/trans/forms.py:394
+#: weblate/trans/forms.py:411
 msgid "Add as translation"
 msgstr ""
 
-#: weblate/trans/forms.py:395
+#: weblate/trans/forms.py:412
 msgid "Add as a suggestion"
 msgstr ""
 
-#: weblate/trans/forms.py:396
+#: weblate/trans/forms.py:413
 msgid "Add as translation needing review"
 msgstr ""
 
-#: weblate/trans/forms.py:400
+#: weblate/trans/forms.py:417
 msgid "Processing of strings needing review"
 msgstr ""
 
-#: weblate/trans/forms.py:402
+#: weblate/trans/forms.py:419
 msgid "Do not import"
 msgstr ""
 
-#: weblate/trans/forms.py:403
+#: weblate/trans/forms.py:420
 msgid "Import as string needing review"
 msgstr ""
 
-#: weblate/trans/forms.py:404
+#: weblate/trans/forms.py:421
 msgid "Import as translated"
 msgstr "Увези као преведено"
 
-#: weblate/trans/forms.py:409
+#: weblate/trans/forms.py:426
 msgid "Merge file header"
 msgstr ""
 
-#: weblate/trans/forms.py:410
+#: weblate/trans/forms.py:427
 msgid "Merges content of file header into the translation."
 msgstr ""
 
-#: weblate/trans/forms.py:426
+#: weblate/trans/forms.py:443
 msgid "Overwrite existing translations"
 msgstr ""
 
-#: weblate/trans/forms.py:428
+#: weblate/trans/forms.py:445
 msgid ""
 "Whether to overwrite existing translations if the string is already "
 "translated."
 msgstr "Да ли уписати преко постојећих превода ако је низ већ преведен."
 
-#: weblate/trans/forms.py:439
+#: weblate/trans/forms.py:456
 msgid "Author name"
 msgstr "Име аутора"
 
-#: weblate/trans/forms.py:441 weblate/trans/forms.py:446
+#: weblate/trans/forms.py:458 weblate/trans/forms.py:463
 msgid "Keep empty for using currently logged in user."
 msgstr ""
 
-#: weblate/trans/forms.py:444
+#: weblate/trans/forms.py:461
 msgid "Author email"
 msgstr "Е-пошта аутора"
 
-#: weblate/trans/forms.py:470
+#: weblate/trans/forms.py:487
 msgid "Search filter"
 msgstr "Филтер претраге"
 
-#: weblate/trans/forms.py:473 weblate/trans/models/translation.py:875
-#: weblate/trans/models/translation.py:917 weblate/trans/views/edit.py:119
-#: weblate/trans/views/edit.py:137
+#: weblate/trans/forms.py:490 weblate/trans/models/translation.py:854
+#: weblate/trans/models/translation.py:896
 msgid "All strings"
 msgstr "Сви низови"
 
-#: weblate/trans/forms.py:474 weblate/trans/models/translation.py:944
+#: weblate/trans/forms.py:491 weblate/trans/models/translation.py:923
 msgid "Not translated strings"
 msgstr "Непреведени низови"
 
-#: weblate/trans/forms.py:475 weblate/trans/models/translation.py:935
+#: weblate/trans/forms.py:492 weblate/trans/models/translation.py:914
 msgid "Strings needing action"
 msgstr "Низови који захтевају радњу"
 
-#: weblate/trans/forms.py:476 weblate/trans/models/translation.py:926
+#: weblate/trans/forms.py:493 weblate/trans/models/translation.py:905
 msgid "Translated strings"
 msgstr "Преведени низови"
 
-#: weblate/trans/forms.py:477 weblate/trans/models/translation.py:953
+#: weblate/trans/forms.py:494 weblate/trans/models/translation.py:932
 msgid "Strings marked for review"
 msgstr "Низови означени за оверу"
 
-#: weblate/trans/forms.py:478 weblate/trans/models/translation.py:962
+#: weblate/trans/forms.py:495 weblate/trans/models/translation.py:941
 msgid "Strings with suggestions"
 msgstr "Низови са предлозима"
 
-#: weblate/trans/forms.py:479 weblate/trans/models/translation.py:903
-#: weblate/trans/models/translation.py:990
+#: weblate/trans/forms.py:496 weblate/trans/models/translation.py:882
+#: weblate/trans/models/translation.py:969
 msgid "Strings with comments"
 msgstr "Низови са коментарима"
 
-#: weblate/trans/forms.py:480 weblate/trans/models/translation.py:883
-#: weblate/trans/models/translation.py:970
+#: weblate/trans/forms.py:497 weblate/trans/models/translation.py:862
+#: weblate/trans/models/translation.py:949
 msgid "Strings with any failing checks"
 msgstr ""
 
-#: weblate/trans/forms.py:481 weblate/trans/models/translation.py:999
+#: weblate/trans/forms.py:498 weblate/trans/models/translation.py:978
 msgid "Random strings for review"
 msgstr "Случајно одабране ниске за преглед"
 
-#: weblate/trans/forms.py:487
+#: weblate/trans/forms.py:504
 msgid "Please select a valid filter type."
 msgstr ""
 
-#: weblate/trans/forms.py:501
+#: weblate/trans/forms.py:578
 msgid "Query"
 msgstr "Упит"
 
-#: weblate/trans/forms.py:506
+#: weblate/trans/forms.py:583
 msgid "Search type"
 msgstr "Тип претраге"
 
-#: weblate/trans/forms.py:509
+#: weblate/trans/forms.py:586
 msgid "Substring"
 msgstr ""
 
-#: weblate/trans/forms.py:510
+#: weblate/trans/forms.py:587
 msgid "Fulltext"
 msgstr "Пун текст"
 
-#: weblate/trans/forms.py:511
+#: weblate/trans/forms.py:588
 msgid "Exact match"
 msgstr ""
 
-#: weblate/trans/forms.py:515
+#: weblate/trans/forms.py:592
 msgid "Please select a valid search type."
 msgstr ""
 
-#: weblate/trans/forms.py:519
+#: weblate/trans/forms.py:596
 msgid "Search in source strings"
 msgstr ""
 
-#: weblate/trans/forms.py:524
+#: weblate/trans/forms.py:601
 msgid "Search in target strings"
 msgstr ""
 
-#: weblate/trans/forms.py:529
+#: weblate/trans/forms.py:606
 msgid "Search in context strings"
 msgstr ""
 
-#: weblate/trans/forms.py:534
+#: weblate/trans/forms.py:611
 msgid "Search in location strings"
 msgstr ""
 
-#: weblate/trans/forms.py:539
+#: weblate/trans/forms.py:616
 msgid "Search in comment strings"
 msgstr ""
 
-#: weblate/trans/forms.py:546
+#: weblate/trans/forms.py:623
 msgid "Show ignored checks as well"
 msgstr ""
 
-#: weblate/trans/forms.py:564
+#: weblate/trans/forms.py:639
 msgid "The query string has to be longer!"
 msgstr "Низ упита мора бити дужи!"
 
-#: weblate/trans/forms.py:610
+#: weblate/trans/forms.py:661
 #, python-format
 msgid "Fulltext search for \"%s\""
 msgstr ""
 
-#: weblate/trans/forms.py:612
+#: weblate/trans/forms.py:663
 #, python-format
 msgid "Search for exact string \"%s\""
 msgstr ""
 
-#: weblate/trans/forms.py:614
+#: weblate/trans/forms.py:665
 #, python-format
 msgid "Substring search for \"%s\""
 msgstr ""
 
-#: weblate/trans/forms.py:625
+#: weblate/trans/forms.py:676
 #, python-brace-format
 msgctxt "String to concatenate search and filter names"
 msgid "{filter_name}, {search_name}"
 msgstr ""
 
-#: weblate/trans/forms.py:641
+#: weblate/trans/forms.py:695
 msgid "All languages"
 msgstr "Сви језици"
 
-#: weblate/trans/forms.py:667
+#: weblate/trans/forms.py:721
 msgid "Overwrite strings"
 msgstr ""
 
-#: weblate/trans/forms.py:672
+#: weblate/trans/forms.py:726
 msgid "Replace inconsistent"
 msgstr ""
 
-#: weblate/trans/forms.py:677
+#: weblate/trans/forms.py:731
 msgid "Component to use"
 msgstr ""
 
-#: weblate/trans/forms.py:703
+#: weblate/trans/forms.py:757
 msgid "All components in current project"
 msgstr ""
 
-#: weblate/trans/forms.py:727
+#: weblate/trans/forms.py:781
 msgid ""
 "You can upload any format which is understood by Translate Toolkit "
 "(including TBX, CSV or Gettext PO files)."
 msgstr ""
 
-#: weblate/trans/forms.py:734
+#: weblate/trans/forms.py:788
 msgid "Keep current"
 msgstr ""
 
-#: weblate/trans/forms.py:735
+#: weblate/trans/forms.py:789
 msgid "Overwrite existing"
 msgstr ""
 
-#: weblate/trans/forms.py:736
+#: weblate/trans/forms.py:790
 msgid "Add as other translation"
 msgstr ""
 
-#: weblate/trans/forms.py:745 weblate/trans/forms.py:946
+#: weblate/trans/forms.py:799 weblate/trans/forms.py:1014
 msgid "Starting date"
 msgstr ""
 
-#: weblate/trans/forms.py:758
+#: weblate/trans/forms.py:820
+#, python-format
+msgid "Review of translations since %s"
+msgstr "Провера превода од %s"
+
+#: weblate/trans/forms.py:826
 msgctxt "Select starting letter in glossary"
 msgid "Any"
 msgstr ""
 
-#: weblate/trans/forms.py:760
+#: weblate/trans/forms.py:828
 msgid "Starting letter"
 msgstr ""
 
-#: weblate/trans/forms.py:775
+#: weblate/trans/forms.py:843
 msgid "Scope"
 msgstr ""
 
-#: weblate/trans/forms.py:777
+#: weblate/trans/forms.py:845
 msgid ""
 "Is your comment specific to this translation or generic for all of them?"
 msgstr ""
 
-#: weblate/trans/forms.py:783
+#: weblate/trans/forms.py:851
 msgid "Source string comment, suggestions to change this string"
 msgstr ""
 
-#: weblate/trans/forms.py:787
+#: weblate/trans/forms.py:855
 msgid "Translation comment, discussions with other translators"
 msgstr ""
 
-#: weblate/trans/forms.py:803
+#: weblate/trans/forms.py:871
 msgid "Whole project"
 msgstr ""
 
-#: weblate/trans/forms.py:841
+#: weblate/trans/forms.py:909
 #, python-brace-format
 msgid "Similar translation already exists in the project ({0})!"
 msgstr ""
 
-#: weblate/trans/forms.py:860
+#: weblate/trans/forms.py:928
 msgid "Please select"
 msgstr "Изаберите"
 
-#: weblate/trans/forms.py:882
+#: weblate/trans/forms.py:950
 msgid "Strings with higher priority are offered first to translators."
 msgstr ""
 
-#: weblate/trans/forms.py:889
+#: weblate/trans/forms.py:957
 msgid "Check flags"
 msgstr ""
 
-#: weblate/trans/forms.py:896
+#: weblate/trans/forms.py:964
 #, python-brace-format
 msgid ""
 "Please enter a comma separated list of check flags, see <a href="
 "\"{url}\">documentation</a> for more details."
 msgstr ""
 
-#: weblate/trans/forms.py:914
+#: weblate/trans/forms.py:982
 msgid "User to add"
 msgstr ""
 
-#: weblate/trans/forms.py:916
+#: weblate/trans/forms.py:984
 msgid ""
 "Please provide username or email. User needs to already have an active "
 "account in Weblate."
 msgstr ""
 
-#: weblate/trans/forms.py:930
+#: weblate/trans/forms.py:998
 msgid "No matching user found!"
 msgstr ""
 
-#: weblate/trans/forms.py:932
+#: weblate/trans/forms.py:1000
 msgid "More users matched!"
 msgstr ""
 
-#: weblate/trans/forms.py:937
+#: weblate/trans/forms.py:1005
 msgid "Report format"
 msgstr "Формат извештаја"
 
-#: weblate/trans/forms.py:938
+#: weblate/trans/forms.py:1006
 msgid "Choose file format for the report"
 msgstr ""
 
-#: weblate/trans/forms.py:940
+#: weblate/trans/forms.py:1008
 msgid "reStructuredText"
 msgstr ""
 
-#: weblate/trans/forms.py:941
+#: weblate/trans/forms.py:1009
 msgid "JSON"
 msgstr ""
 
-#: weblate/trans/forms.py:942
+#: weblate/trans/forms.py:1010
 msgid "HTML"
 msgstr ""
 
-#: weblate/trans/forms.py:950
+#: weblate/trans/forms.py:1018
 msgid "Ending date"
 msgstr ""
 
-#: weblate/trans/forms.py:997
+#: weblate/trans/forms.py:1065
 msgid "Commit messages"
 msgstr ""
 
-#: weblate/trans/forms.py:1003
+#: weblate/trans/forms.py:1071
 msgid "Languages processing"
 msgstr "Обрада језика"
 
-#: weblate/trans/forms.py:1012
+#: weblate/trans/forms.py:1080
 msgid "Upstream links"
 msgstr ""
 
-#: weblate/trans/forms.py:1017
+#: weblate/trans/forms.py:1085
 msgid "Translation settings"
 msgstr "Подешавање превода"
 
-#: weblate/trans/forms.py:1039
+#: weblate/trans/forms.py:1107
 msgid "Search string"
 msgstr "Претрага ниске"
 
-#: weblate/trans/forms.py:1044
+#: weblate/trans/forms.py:1112
 msgid "Replacement string"
 msgstr ""
 
@@ -6886,7 +6919,7 @@ msgstr ""
 msgid "User has been removed from this project."
 msgstr "Корисник је уклоњен из овог пројекта."
 
-#: weblate/trans/views/basic.py:120
+#: weblate/trans/views/basic.py:117
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to login next time."
@@ -6894,25 +6927,25 @@ msgstr ""
 "Активирали сте свој налог. Сада треба да поставите лозинку да бисте могли да "
 "се пријавите следећи пут."
 
-#: weblate/trans/views/basic.py:139
+#: weblate/trans/views/basic.py:136
 msgid "Please set your full name in your profile."
 msgstr ""
 
-#: weblate/trans/views/basic.py:272
+#: weblate/trans/views/basic.py:269
 #, python-format
 msgid "Search for %s"
 msgstr "Тражи %s"
 
-#: weblate/trans/views/basic.py:278
+#: weblate/trans/views/basic.py:275
 msgid "Invalid search query!"
 msgstr "Неважећи упит за претрагу!"
 
-#: weblate/trans/views/basic.py:308
+#: weblate/trans/views/basic.py:305
 #, python-brace-format
 msgid "Get involved in {0}!"
 msgstr "Прикључите се превођењу за {0}!"
 
-#: weblate/trans/views/basic.py:314
+#: weblate/trans/views/basic.py:311
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
@@ -6926,7 +6959,7 @@ msgstr ""
 
 #. Translators: line of text in engagement widget, please use your
 #. language name instead of English
-#: weblate/trans/views/basic.py:322
+#: weblate/trans/views/basic.py:319
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -6936,19 +6969,19 @@ msgstr ""
 "<a href=\"%(url)s\">%(project)s пројекат превођења</a> на српски тренутно "
 "садржи %(total)s порука за превођење и завршен је %(percent)s%%."
 
-#: weblate/trans/views/basic.py:349 weblate/trans/views/basic.py:418
+#: weblate/trans/views/basic.py:346 weblate/trans/views/basic.py:415
 msgid "Settings saved"
 msgstr "Поставке сачуване"
 
-#: weblate/trans/views/basic.py:354 weblate/trans/views/basic.py:423
+#: weblate/trans/views/basic.py:351 weblate/trans/views/basic.py:420
 msgid "Invalid settings, please check the form for errors!"
 msgstr ""
 
-#: weblate/trans/views/basic.py:589
+#: weblate/trans/views/basic.py:582
 msgid "Weblate statistics"
 msgstr "Веблејт статистика"
 
-#: weblate/trans/views/basic.py:669
+#: weblate/trans/views/basic.py:662
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr ""
@@ -7033,33 +7066,24 @@ msgstr[2] "Увезено је %d речи из отпремљених фајл�
 msgid "File upload has failed: %s"
 msgstr "Неуспело слање фајла: %s"
 
-#: weblate/trans/views/dictionary.py:178 weblate/trans/views/edit.py:625
-#: weblate/trans/views/edit.py:846
+#: weblate/trans/views/dictionary.py:178 weblate/trans/views/edit.py:597
+#: weblate/trans/views/edit.py:812
 msgid "Failed to process form!"
 msgstr "Неуспела обрада обрасца!"
 
-#: weblate/trans/views/edit.py:85 weblate/trans/views/edit.py:558
-msgid "Invalid search string!"
-msgstr "Неисправан појам за претрагу!"
-
-#: weblate/trans/views/edit.py:113
-#, python-format
-msgid "Review of translations since %s"
-msgstr "Провера превода од %s"
-
-#: weblate/trans/views/edit.py:144 weblate/trans/views/edit.py:156
+#: weblate/trans/views/edit.py:127 weblate/trans/views/edit.py:468
 msgid "No string matched your search!"
 msgstr "Нема поклапања са претрагом!"
 
-#: weblate/trans/views/edit.py:184
+#: weblate/trans/views/edit.py:150
 msgid "Your suggestion is empty!"
 msgstr "Ваш предлог је празан!"
 
-#: weblate/trans/views/edit.py:191
+#: weblate/trans/views/edit.py:157
 msgid "You don't have privileges to add suggestions!"
 msgstr "Немате дозволе за додавање предлога!"
 
-#: weblate/trans/views/edit.py:203
+#: weblate/trans/views/edit.py:169
 msgid ""
 "There is currently no active translator for this translation, please "
 "consider becoming a translator as your suggestion might otherwise remain "
@@ -7068,66 +7092,70 @@ msgstr ""
 "Нема активних преводилаца за овај превод. Размислите да постанете преводилац "
 "јер ваш предлог може остати неприхваћен."
 
-#: weblate/trans/views/edit.py:215
+#: weblate/trans/views/edit.py:181
 msgid "Your suggestion already exists!"
 msgstr "Ваш предлог већ постоји!"
 
-#: weblate/trans/views/edit.py:244
+#: weblate/trans/views/edit.py:210
 #, python-format
 msgid "Following fixups were applied to translation: %s"
 msgstr "Следећа сређивања су урађена на преводу: %s"
 
-#: weblate/trans/views/edit.py:259
+#: weblate/trans/views/edit.py:225
 #, python-brace-format
 msgid "Some checks have failed on your translation: {0}"
 msgstr "Ваш превод није прошао неке провере: {0}"
 
-#: weblate/trans/views/edit.py:299 weblate/trans/views/edit.py:325
-#: weblate/trans/views/edit.py:365 weblate/trans/views/edit.py:808
+#: weblate/trans/views/edit.py:265 weblate/trans/views/edit.py:291
+#: weblate/trans/views/edit.py:331 weblate/trans/views/edit.py:774
 msgid "You don't have privileges to save translations!"
 msgstr "Немате дозволе да сачувате преводе!"
 
-#: weblate/trans/views/edit.py:333
+#: weblate/trans/views/edit.py:299
 msgid "Invalid merge request!"
 msgstr "Неисправан захтев за стапање!"
 
-#: weblate/trans/views/edit.py:346
+#: weblate/trans/views/edit.py:312
 msgid "Can not merge different messages!"
 msgstr "Не могу да стопим различите поруке!"
 
-#: weblate/trans/views/edit.py:382
+#: weblate/trans/views/edit.py:348
 msgid "Can not revert to nonexisting change!"
 msgstr "Не могу да вратим на непостојећу измену!"
 
-#: weblate/trans/views/edit.py:389
+#: weblate/trans/views/edit.py:355
 msgid "Can not revert to different unit!"
 msgstr "Не могу да вратим на различиту јединицу!"
 
-#: weblate/trans/views/edit.py:394
+#: weblate/trans/views/edit.py:360
 msgid "Can not revert to empty translation!"
 msgstr "Не могу да вратим на празан превод!"
 
-#: weblate/trans/views/edit.py:410
+#: weblate/trans/views/edit.py:376
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Немате дозволе да прихватате предлоге!"
 
-#: weblate/trans/views/edit.py:417
+#: weblate/trans/views/edit.py:383
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Немате дозволе да бришете предлоге!"
 
-#: weblate/trans/views/edit.py:424
+#: weblate/trans/views/edit.py:390
 msgid "You do not have privilege to vote for suggestions!"
 msgstr "Немате дозволе да гласате за предлоге!"
 
-#: weblate/trans/views/edit.py:452
+#: weblate/trans/views/edit.py:418
 msgid "Invalid suggestion!"
 msgstr "Неисправан предлог!"
 
-#: weblate/trans/views/edit.py:638
+#: weblate/trans/views/edit.py:530
+msgid "Invalid search string!"
+msgstr "Неисправан појам за претрагу!"
+
+#: weblate/trans/views/edit.py:610
 msgid "Automatic translation completed, no strings were updated."
 msgstr "Аутоматски превод завршен, низови нису ажурирани."
 
-#: weblate/trans/views/edit.py:640
+#: weblate/trans/views/edit.py:612
 #, python-format
 msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
@@ -7135,27 +7163,27 @@ msgstr[0] "Аутоматски превод завршен, %d низ је аж
 msgstr[1] "Аутоматски превод завршен, %d низа су ажурирана."
 msgstr[2] "Аутоматски превод завршен, %d низова је ажурирано."
 
-#: weblate/trans/views/edit.py:671
+#: weblate/trans/views/edit.py:643
 msgid "Posted new comment"
 msgstr "Постављен нови коментар"
 
-#: weblate/trans/views/edit.py:673
+#: weblate/trans/views/edit.py:645
 msgid "Failed to add comment!"
 msgstr "Неуспело додавање коментара!"
 
-#: weblate/trans/views/edit.py:695
+#: weblate/trans/views/edit.py:667
 msgid "Translation comment has been deleted."
 msgstr "Коментар превода је обрисан."
 
-#: weblate/trans/views/edit.py:811
+#: weblate/trans/views/edit.py:777
 msgid "Failed to save translation!"
 msgstr "Неуспело снимање превода!"
 
-#: weblate/trans/views/edit.py:861
+#: weblate/trans/views/edit.py:827
 msgid "Search and replace completed, no strings were updated."
 msgstr "Претрага и замена завршена, низови нису ажурирани."
 
-#: weblate/trans/views/edit.py:863
+#: weblate/trans/views/edit.py:829
 #, python-format
 msgid "Search and replace completed, %d string was updated."
 msgid_plural "Search and replace completed, %d strings were updated."
