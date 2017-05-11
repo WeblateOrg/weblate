@@ -431,7 +431,8 @@ is really good for testing purposes only.
 
 .. seealso::
 
-   :ref:`production-database`, `Django's databases <https://docs.djangoproject.com/en/stable/ref/databases/>`_
+   :ref:`production-database`,
+   :doc:`django:ref/databases`
 
 PostgreSQL
 ++++++++++
@@ -441,7 +442,7 @@ database using for implementing Django database layer.
 
 .. seealso::
 
-    `PostgreSQL notes <https://docs.djangoproject.com/en/stable/ref/databases/#postgresql-notes>`_
+    :ref:`django:postgresql-notes`
 
 Creating database in PostgreSQL
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -491,7 +492,7 @@ you might hit some problems caused by it.
 
 .. seealso::
 
-    `MySQL notes <https://docs.djangoproject.com/en/stable/ref/databases/#mysql-notes>`_
+    :ref:`django:mysql-notes`
 
 Unicode issues in MySQL
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -536,7 +537,7 @@ configuration file (usually :file:`/etc/mysql/my.cnf` on Linux):
 
 .. seealso::
 
-    `Setting sql_mode <https://docs.djangoproject.com/en/stable/ref/databases/#setting-sql-mode>`_
+    :ref:`django:mysql-sql-mode`
 
 .. _mysql-create:
 
@@ -602,10 +603,11 @@ Weblate sends out emails on various occasions - for account activation and on
 various notifications configured by users. For this it needs access to the SMTP
 server, which will handle this.
 
-The mail server setup is configured using settings ``EMAIL_HOST``,
-``EMAIL_HOST_PASSWORD``, ``EMAIL_HOST_USER`` and ``EMAIL_PORT``.
-Their names are quite self-explaining, but you can find our more information in the
-`Django documentation on them <https://docs.djangoproject.com/en/stable/ref/settings/#email-host>`_.
+The mail server setup is configured using settings
+:setting:`django:EMAIL_HOST`, :setting:`django:EMAIL_HOST_PASSWORD`,
+:setting:`django:EMAIL_HOST_USER` and :setting:`django:EMAIL_PORT`.  Their
+names are quite self-explaining, but you can find our more information in the
+Django documentation.
 
 .. _installation:
 
@@ -629,7 +631,7 @@ options:
 
     .. seealso::
 
-        `ADMINS setting documentation <https://docs.djangoproject.com/en/stable/ref/settings/#admins>`_
+        :setting:`django:ADMINS`
 
 .. setting:: ALLOWED_HOSTS
 
@@ -644,7 +646,7 @@ options:
 
     .. seealso::
 
-        `ALLOWED_HOSTS setting documentation <https://docs.djangoproject.com/en/stable/ref/settings/#std:setting-ALLOWED_HOSTS>`_
+        :setting:`django:ALLOWED_HOSTS`
 
 .. setting:: SESSION_ENGINE
 
@@ -657,7 +659,8 @@ options:
 
     .. seealso::
 
-        `Configuring sessions in Django <https://docs.djangoproject.com/en/stable/topics/http/sessions/#configuring-sessions>`_
+        :ref:`django:configuring-sessions`,
+        :setting:`django:SESSION_ENGINE`
 
 .. setting:: DATABASES
 
@@ -668,9 +671,9 @@ options:
 
     .. seealso::
 
-        :ref:`database-setup`
-        `DATABASES setting documentation <https://docs.djangoproject.com/en/stable/ref/settings/#databases>`_,
-        `Django databases support <https://docs.djangoproject.com/en/stable/ref/databases/>`_
+        :ref:`database-setup`,
+        :setting:`django:DATABASES`,
+        :doc:`django:ref/databases`
 
 .. setting:: DEBUG
 
@@ -685,7 +688,7 @@ options:
 
     .. seealso::
 
-        `DEBUG setting documentation <https://docs.djangoproject.com/en/stable/ref/settings/#debug>`_
+        :setting:`django:DEBUG`,
 
 .. setting:: DEFAULT_FROM_EMAIL
 
@@ -695,7 +698,7 @@ options:
 
     .. seealso::
 
-        `DEFAULT_FROM_EMAIL setting documentation`_
+        :std:setting:`django:DEFAULT_FROM_EMAIL`,
 
 .. setting:: SECRET_KEY
 
@@ -713,7 +716,7 @@ options:
 
     .. seealso::
 
-        `SERVER_EMAIL setting documentation`_
+        :std:setting:`django:SERVER_EMAIL`
 
 .. _tables-setup:
 
@@ -818,7 +821,7 @@ For production site, you want something like:
 .. seealso::
 
    :ref:`faq-site`, :djadmin:`changesite`,
-   `Django sites documentation <https://docs.djangoproject.com/en/stable/ref/contrib/sites/>`_
+   :doc:`django:ref/contrib/sites`
 
 .. _production-indexing:
 
@@ -843,8 +846,9 @@ environment), see :ref:`database-setup` for more information.
 
 .. seealso::
 
-   :ref:`database-setup`, :ref:`installation`,
-   `Django's databases <https://docs.djangoproject.com/en/stable/ref/databases/>`_
+    :ref:`database-setup`, 
+    :ref:`installation`,
+    :doc:`django:ref/databases`
 
 .. _production-cache:
 
@@ -865,7 +869,8 @@ variable, for example:
 
 .. seealso::
 
-   :ref:`production-cache-avatar`, `Django’s cache framework <https://docs.djangoproject.com/en/stable/topics/cache/>`_
+    :ref:`production-cache-avatar`, 
+    :doc:`django:topics/cache`
 
 .. _production-cache-avatar:
 
@@ -894,10 +899,10 @@ recommended to use separate, file backed cache for this purpose:
 
 .. seealso::
 
-   :setting:`ENABLE_AVATARS`, 
-   :ref:`avatars`,
-   :ref:`production-cache`, 
-   `Django’s cache framework <https://docs.djangoproject.com/en/stable/topics/cache/>`_
+    :setting:`ENABLE_AVATARS`, 
+    :ref:`avatars`,
+    :ref:`production-cache`, 
+    :doc:`django:topics/cache`
 
 .. _production-email:
 
@@ -916,11 +921,8 @@ have correct sender address, please configure :setting:`SERVER_EMAIL` and
 .. seealso::
 
     :ref:`installation`,
-    `DEFAULT_FROM_EMAIL setting documentation`_,
-    `SERVER_EMAIL setting documentation`_
-
-.. _DEFAULT_FROM_EMAIL setting documentation: https://docs.djangoproject.com/en/stable/ref/settings/#default-from-email
-.. _SERVER_EMAIL setting documentation: https://docs.djangoproject.com/en/stable/ref/settings/#server-email
+    :std:setting:`django:DEFAULT_FROM_EMAIL`,
+    :std:setting:`django:SERVER_EMAIL`
 
 
 .. _production-hosts:
@@ -933,7 +935,7 @@ your site is allowed to serve, having it empty will block any request.
 
 .. seealso::
 
-   `ALLOWED_HOSTS setting documentation <https://docs.djangoproject.com/en/stable/ref/settings/#std:setting-ALLOWED_HOSTS>`_
+    :std:setting:`django:ALLOWED_HOSTS`
 
 .. _production-avatar:
 
@@ -968,9 +970,10 @@ really use own value rather than using the one coming from example setup.
 You can generate new key using :file:`examples/generate-secret-key` shipped
 with Weblate.
 
-    .. seealso::
+.. seealso::
 
-        `SECRET_KEY setting documentation <https://docs.djangoproject.com/en/stable/ref/settings/#std:setting-SECRET_KEY>`_
+    :std:setting:`django:SECRET_KEY`
+
 
 .. _production-admin-files:
 
@@ -1039,7 +1042,7 @@ configure it using following snippet:
 
 .. seealso::
 
-   `Django documentation on template loading <https://docs.djangoproject.com/en/stable/ref/templates/api/#django.template.loaders.cached.Loader>`_
+    :py:class:`django:django.template.loaders.cached.Loader`
 
 .. _production-cron:
 
@@ -1111,8 +1114,8 @@ use that for following paths:
 
 .. seealso::
 
-    `Deploying Django <https://docs.djangoproject.com/en/stable/howto/deployment/>`_,
-    `Deploying static files <https://docs.djangoproject.com/en/stable/howto/static-files/deployment/>`_
+    :doc:`django:howto/deployment/index`,
+    :doc:`django:howto/static-files/deployment`
 
 .. _csp:
 
@@ -1140,7 +1143,7 @@ replace `Require all granted` with `Allow from all`.
 
 .. seealso::
 
-    `How to use Django with Apache and mod_wsgi <https://docs.djangoproject.com/en/stable/howto/deployment/wsgi/modwsgi/>`_
+    :doc:`django:howto/deployment/wsgi/modwsgi`
 
 Sample configuration for Apache and gunicorn
 ++++++++++++++++++++++++++++++++++++++++++++
@@ -1153,7 +1156,7 @@ Following configuration runs Weblate in gunicorn and Apache 2.4
 
 .. seealso::
 
-    `How to use Django with Gunicorn <https://docs.djangoproject.com/en/stable/howto/deployment/wsgi/gunicorn/>`_
+    :doc:`django:howto/deployment/wsgi/gunicorn`
 
 Sample configuration for nginx and uwsgi
 ++++++++++++++++++++++++++++++++++++++++
@@ -1172,7 +1175,7 @@ Configuration for uwsgi (also available as :file:`examples/weblate.uwsgi.ini`):
 
 .. seealso::
 
-    `How to use Django with uWSGI <https://docs.djangoproject.com/en/stable/howto/deployment/wsgi/uwsgi/>`_
+    :doc:`django:howto/deployment/wsgi/uwsgi`
 
 Running Weblate under path
 ++++++++++++++++++++++++++

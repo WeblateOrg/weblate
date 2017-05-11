@@ -389,7 +389,8 @@ capable database, see :ref:`production-database` for more information.
 
 .. seealso:: 
    
-   :ref:`production-database`, `Django's databases <https://docs.djangoproject.com/en/stable/ref/databases/>`_
+   :ref:`production-database`,
+   :doc:`django:ref/databases`
 
 
 When accessing the site I get Bad Request (400) error

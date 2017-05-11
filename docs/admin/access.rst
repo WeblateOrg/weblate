@@ -142,7 +142,7 @@ user management on project page as described in :ref:`manage-acl`.
 
 .. seealso:: 
    
-   `Managing users in the Django admin <https://docs.djangoproject.com/en/stable/topics/auth/default/#auth-admin>`_
+    :ref:`django:auth-admin`
 
 .. note::
 

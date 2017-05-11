@@ -13,10 +13,8 @@ All settings are stored in :file:`settings.py` (as usual for Django).
 
 .. seealso::
 
-    Please check also `Django's documentation`_ for parameters which configure
-    Django itself.
-
-.. _`Django's documentation`: https://docs.djangoproject.com/en/stable/ref/settings/
+    Please check also :doc:`Django's documentation <django:ref/settings>` for
+    parameters which configure Django itself.
 
 .. setting:: ANONYMOUS_USER_NAME
 

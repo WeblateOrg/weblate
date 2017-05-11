@@ -44,8 +44,8 @@ You can also specify individual tests to run:
 
 .. seealso::
 
-    See `Testing in Django <https://docs.djangoproject.com/en/stable/topics/testing/>`_ 
-    for more information on running and writing tests for Django.
+    See :doc:`django:topics/testing/index` for more information on running and
+    writing tests for Django.
 
 Reporting issues
 ----------------
@@ -84,7 +84,7 @@ by email to michal@cihar.com. You can choose to encrypt it using his PGP key
 
     See following sites for some of these:
 
-    * `Django <https://docs.djangoproject.com/en/dev/internals/security/>`_
+    * :doc:`Django <django:internals/security>`
     * `Django REST Framework <http://www.django-rest-framework.org/#security>`_
     * `Python Social Auth <https://github.com/python-social-auth>`_
 
