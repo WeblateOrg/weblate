@@ -40,10 +40,6 @@ def get_per_language_stats(project):
         ).distinct().order_by()
     }
 
-    # Calculates total strings in project
-    total = project.get_total()
-    total_words = project.get_source_words()
-
     # Translated strings in language
     data = Translation.objects.filter(
         language__pk__in=languages.keys(),
@@ -53,11 +49,11 @@ def get_per_language_stats(project):
     ).annotate(
         Sum('translated'),
         Sum('translated_words'),
+        Sum('total'),
+        Sum('total_words'),
     ).order_by()
     for item in data:
-        language = languages[item['language']]
         translated = item['translated__sum']
-        translated_words = item['translated_words__sum']
 
         # Insert sort
         pos = None
@@ -65,7 +61,13 @@ def get_per_language_stats(project):
             if translated >= data[1]:
                 pos = i
                 break
-        value = (language, translated, total, translated_words, total_words)
+        value = (
+            languages[item['language']],
+            translated,
+            item['total__sum'],
+            item['translated_words__sum'],
+            item['total_words__sum'],
+        )
         if pos is not None:
             result.insert(pos, value)
         else:
