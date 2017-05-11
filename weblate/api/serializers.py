@@ -25,6 +25,7 @@ from weblate.trans.models import (
 )
 from weblate.lang.models import Language
 from weblate.permissions.helpers import can_see_git_repository
+from weblate.screenshots.models import Screenshot
 from weblate.trans.site import get_site_url
 
 
@@ -369,6 +370,30 @@ class SourceSerializer(RemovableSerializer):
         extra_kwargs = {
             'url': {
                 'view_name': 'api:source-detail',
+            },
+        }
+
+
+class ScreenshotSerializer(RemovableSerializer):
+    component = MultiFieldHyperlinkedIdentityField(
+        view_name='api:component-detail',
+        lookup_field=('component__project__slug', 'component__slug'),
+        strip_parts=1,
+    )
+    file_url = serializers.HyperlinkedRelatedField(
+        read_only=True,
+        source='pk',
+        view_name='api:screenshot-file'
+    )
+
+    class Meta(object):
+        model = Screenshot
+        fields = (
+            'name', 'component', 'file_url',
+        )
+        extra_kwargs = {
+            'url': {
+                'view_name': 'api:screenshot-detail',
             },
         }
 

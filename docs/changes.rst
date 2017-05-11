@@ -23,7 +23,7 @@ Released on ? 2017.
 * Show time when suggestion has been made.
 * There is new quality check for trailing semicolon.
 * Ensure that search links can be shared.
-* Included source string information in the API.
+* Included source string information and screenshots in the API.
 
 weblate 2.13.1
 --------------

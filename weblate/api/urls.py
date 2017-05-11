@@ -24,7 +24,7 @@ from django.conf.urls import url, include
 
 from weblate.api.views import (
     ProjectViewSet, ComponentViewSet, TranslationViewSet, LanguageViewSet,
-    UnitViewSet, ChangeViewSet, SourceViewSet,
+    UnitViewSet, ChangeViewSet, SourceViewSet, ScreenshotViewSet,
 )
 from weblate.api.routers import WeblateRouter
 
@@ -58,6 +58,10 @@ router.register(
 router.register(
     r'sources',
     SourceViewSet
+)
+router.register(
+    r'screnshots',
+    ScreenshotViewSet
 )
 
 
