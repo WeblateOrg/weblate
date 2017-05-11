@@ -366,12 +366,17 @@ class SourceSerializer(RemovableSerializer):
         many=True,
         view_name='api:unit-detail'
     )
+    screenshots = serializers.HyperlinkedRelatedField(
+        read_only=True,
+        many=True,
+        view_name='api:screenshot-detail'
+    )
 
     class Meta(object):
         model = Source
         fields = (
             'id_hash', 'component', 'timestamp', 'priority', 'check_flags',
-            'url', 'units',
+            'url', 'units', 'screenshots',
         )
         extra_kwargs = {
             'url': {
