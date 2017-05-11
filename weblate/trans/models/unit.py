@@ -693,9 +693,10 @@ class Unit(models.Model, LoggerMixin):
         ).exclude(
             id=self.id
         )
-        # Update source and content_hash
+        # Update source, number of words and content_hash
         same_source.update(
             source=self.source,
+            num_words=self.num_words,
             content_hash=self.content_hash
         )
         # Find reverted units
