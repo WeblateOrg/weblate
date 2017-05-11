@@ -884,6 +884,11 @@ LOCALE_ALIASES = {
     'zh_tw': 'zh_Hant',
     # ios translations
     'base': 'en',
+    # Country codes used instead of language,
+    # we can map only those which do not collide with existing language code
+    'dk': 'da',
+    'gr': 'el',
+    'rs', 'sr',
 }
 
 # List of languages we do not want to import from translate-toolkit
