@@ -48,6 +48,7 @@ class Source(models.Model):
         )
         app_label = 'trans'
         unique_together = ('id_hash', 'subproject')
+        ordering = ('id', )
 
     def __init__(self, *args, **kwargs):
         super(Source, self).__init__(*args, **kwargs)
