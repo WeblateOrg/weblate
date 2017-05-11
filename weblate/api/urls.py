@@ -60,7 +60,7 @@ router.register(
     SourceViewSet
 )
 router.register(
-    r'screnshots',
+    r'screenshots',
     ScreenshotViewSet
 )
 
