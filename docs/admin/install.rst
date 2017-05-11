@@ -620,6 +620,8 @@ Copy :file:`weblate/settings_example.py` to :file:`weblate/settings.py` and
 adjust it to match your setup. You will probably want to adjust following
 options:
 
+.. setting:: ADMINS
+
 ``ADMINS``
 
     List of site administrators to receive notifications when something goes
@@ -628,6 +630,8 @@ options:
     .. seealso::
 
         `ADMINS setting documentation <https://docs.djangoproject.com/en/stable/ref/settings/#admins>`_
+
+.. setting:: ALLOWED_HOSTS
 
 ``ALLOWED_HOSTS``
 
@@ -642,6 +646,8 @@ options:
 
         `ALLOWED_HOSTS setting documentation <https://docs.djangoproject.com/en/stable/ref/settings/#std:setting-ALLOWED_HOSTS>`_
 
+.. setting:: SESSION_ENGINE
+
 ``SESSION_ENGINE``
 
     Configure how your sessions will be stored. In case you keep default
@@ -653,6 +659,8 @@ options:
 
         `Configuring sessions in Django <https://docs.djangoproject.com/en/stable/topics/http/sessions/#configuring-sessions>`_
 
+.. setting:: DATABASES
+
 ``DATABASES``
 
     Connectivity to database server, please check Django's documentation for more
@@ -663,6 +671,8 @@ options:
         :ref:`database-setup`
         `DATABASES setting documentation <https://docs.djangoproject.com/en/stable/ref/settings/#databases>`_,
         `Django databases support <https://docs.djangoproject.com/en/stable/ref/databases/>`_
+
+.. setting:: DEBUG
 
 ``DEBUG``
 
@@ -677,6 +687,8 @@ options:
 
         `DEBUG setting documentation <https://docs.djangoproject.com/en/stable/ref/settings/#debug>`_
 
+.. setting:: DEFAULT_FROM_EMAIL
+
 ``DEFAULT_FROM_EMAIL``
 
     Email sender address for outgoing email, for example registration emails.
@@ -685,10 +697,14 @@ options:
 
         `DEFAULT_FROM_EMAIL setting documentation`_
 
+.. setting:: SECRET_KEY
+
 ``SECRET_KEY``
 
     Key used by Django to sign some information in cookies, see
     :ref:`production-secret` for more information.
+
+.. setting:: SERVER_EMAIL
 
 ``SERVER_EMAIL``
 
@@ -736,7 +752,7 @@ For production setup you should do following adjustments:
 Disable debug mode
 ++++++++++++++++++
 
-Disable Django's debug mode by:
+Disable Django's debug mode (:setting:`DEBUG`) by:
 
 .. code-block:: python
 
@@ -754,7 +770,7 @@ of errors what is not desired in production setup.
 Properly configure admins
 +++++++++++++++++++++++++
 
-Set correct admin addresses to ``ADMINS`` setting for defining who will receive
+Set correct admin addresses to :setting:`ADMINS` setting for defining who will receive
 mail in case something goes wrong on the server, for example:
 
 .. code-block:: python
@@ -889,8 +905,8 @@ Configure email addresses
 +++++++++++++++++++++++++
 
 Weblate needs to send out emails on several occasions and these emails should
-have correct sender address, please configure ``SERVER_EMAIL`` and
-``DEFAULT_FROM_EMAIL`` to match your environment, for example:
+have correct sender address, please configure :setting:`SERVER_EMAIL` and
+:setting:`DEFAULT_FROM_EMAIL` to match your environment, for example:
 
 .. code-block:: python
 
@@ -912,7 +928,7 @@ have correct sender address, please configure ``SERVER_EMAIL`` and
 Allowed hosts setup
 +++++++++++++++++++
 
-Django 1.5 and newer require ``ALLOWED_HOSTS`` to hold list of domain names
+Django 1.5 and newer require :setting:`ALLOWED_HOSTS` to hold list of domain names
 your site is allowed to serve, having it empty will block any request.
 
 .. seealso::
@@ -946,7 +962,7 @@ Japanese, Chinese or Arabic or for languages with accented letters.
 Django secret key
 +++++++++++++++++
 
-The ``SECRET_KEY`` setting is used by Django to sign cookies and you should
+The :setting:`SECRET_KEY` setting is used by Django to sign cookies and you should
 really use own value rather than using the one coming from example setup.
 
 You can generate new key using :file:`examples/generate-secret-key` shipped

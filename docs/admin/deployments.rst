@@ -108,7 +108,7 @@ Generic settings
 
 .. envvar:: WEBLATE_DEBUG
 
-    Configures Django debug mode, see :ref:`production-debug`.
+    Configures Django debug mode using :setting:`DEBUG`, see :ref:`production-debug`.
 
     **Example:**
 
@@ -157,7 +157,8 @@ Generic settings
 
 .. envvar:: WEBLATE_ALLOWED_HOSTS
 
-    Configures allowed HTTP hostnames, see :ref:`production-hosts`
+    Configures allowed HTTP hostnames using :setting:`ALLOWED_HOSTS`, see
+    :ref:`production-hosts`
 
     **Example:**
 
@@ -411,9 +412,9 @@ Default Configuration
 
 After installation on OpenShift Weblate is ready to use and preconfigured as follows:
 
-* SQLite embedded database (DATABASES)
+* SQLite embedded database (:setting:`DATABASES`)
 * Random admin password
-* Random Django secret key (SECRET_KEY)
+* Random Django secret key (:setting:`SECRET_KEY`)
 * Indexing offloading if the cron cartridge is installed (:setting:`OFFLOAD_INDEXING`)
 * Committing of pending changes if the cron cartridge is installed (:djadmin:`commit_pending`)
 * Weblate machine translations for suggestions bases on previous translations (:setting:`MACHINE_TRANSLATION_SERVICES`)
@@ -472,7 +473,7 @@ under :ref:`config` using ``rhc env set`` by prepending the settings name with
 so it is parsed as Python string, after replacing environment variables in it
 (eg. ``$PATH``). To put literal ``$`` you need to escape it as ``$$``.
 
-For example override the ``ADMINS`` setting like this:
+For example override the :setting:`ADMINS` setting like this:
 
 .. code-block:: sh
 
