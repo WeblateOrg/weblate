@@ -116,6 +116,21 @@ class MultipleFieldMixin(object):
 
 
 class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
+    raw_urls = ()
+    raw_formats = {}
+
+    def perform_content_negotiation(self, request, force=False):
+        """Custom content negotiation"""
+        if request.resolver_match.url_name in self.raw_urls:
+            fmt = self.format_kwarg or request.query_params.get('format')
+            if fmt is None or fmt in self.raw_formats:
+                renderers = self.get_renderers()
+                return (renderers[0], renderers[0].media_type)
+            raise Http404('Not supported format')
+        return super(DownloadViewSet, self).perform_content_negotiation(
+            request, force
+        )
+
     def download_file(self, filename, content_type):
         """Wrapper for file download"""
         with open(filename, 'rb') as handle:
@@ -131,20 +146,6 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
 
 class WeblateViewSet(DownloadViewSet):
     """Allow to skip content negotiation for certain requests."""
-    raw_urls = ()
-
-    def perform_content_negotiation(self, request, force=False):
-        """Custom content negotiation"""
-        if request.resolver_match.url_name in self.raw_urls:
-            fmt = self.format_kwarg or request.query_params.get('format')
-            if fmt is None or fmt in EXPORTERS:
-                renderers = self.get_renderers()
-                return (renderers[0], renderers[0].media_type)
-            raise Http404('Not supported exporter')
-        return super(WeblateViewSet, self).perform_content_negotiation(
-            request, force
-        )
-
     def repository_operation(self, request, obj, project, operation):
         permission_check, method = REPO_OPERATIONS[operation]
 
@@ -405,6 +406,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
     raw_urls = (
         'translation-file',
     )
+    raw_formats = EXPORTERS
 
     def get_queryset(self):
         return Translation.objects.prefetch().filter(
@@ -536,6 +538,9 @@ class ScreenshotViewSet(DownloadViewSet):
 
     queryset = Screenshot.objects.none()
     serializer_class = ScreenshotSerializer
+    raw_urls = (
+        'screenshot-file',
+    )
 
     def get_queryset(self):
         acl_projects = Project.objects.get_acl_ids(self.request.user)
