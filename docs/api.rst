@@ -921,7 +921,7 @@ Units
     Returns information about translation unit.
 
     :param pk: Unit ID
-    :type pk: integer
+    :type pk: int
     :>json string translation: URL of a related translation object
     :>json string source: source string
     :>json string previous_source: previous source string used for fuzzy matching
@@ -964,7 +964,7 @@ Changes
     Returns information about translation change.
 
     :param pk: Change ID
-    :type pk: integer
+    :type pk: int
     :>json string unit: URL of a related unit object
     :>json string translation: URL of a related translation object
     :>json string component: URL of a related component object
@@ -997,7 +997,7 @@ Sources
     Returns information about source information.
 
     :param pk: Source information ID
-    :type pk: integer
+    :type pk: int
     :>json string id_hash: unique identifier of the unit
     :>json string component: URL of a related component object
     :>json timestamp timestamp: timestamp when source string was first seen by Weblate
@@ -1026,7 +1026,7 @@ Screenshots
     Returns information about screenshot information.
 
     :param pk: Screenshot ID
-    :type pk: integer
+    :type pk: int
     :>json string name: name of a screenshot
     :>json string component: URL of a related component object
     :>json string file_url: URL to download a file, see :http:get:`/api/screenshots/(int:pk)/file/`
@@ -1037,14 +1037,14 @@ Screenshots
     Download the screenshots image.
 
     :param pk: Screenshot ID
-    :type pk: integer
+    :type pk: int
 
 .. http:post:: /api/screenshots/(int:pk)/file/
 
     Replace screenshot image.
 
     :param pk: Screenshot ID
-    :type pk: integer
+    :type pk: int
     :form file image: Uploaded file
 
     .. seealso::
