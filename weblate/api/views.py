@@ -47,7 +47,7 @@ from weblate.trans.models import (
 from weblate.permissions.helpers import (
     can_upload_translation, can_lock_subproject, can_see_repository_status,
     can_commit_translation, can_update_translation, can_reset_translation,
-    can_push_translation, can_overwrite_translation,
+    can_push_translation, can_overwrite_translation, can_change_screenshot,
 )
 from weblate.trans.stats import get_project_stats
 from weblate.lang.models import Language
@@ -577,8 +577,17 @@ class ScreenshotViewSet(DownloadViewSet):
         if 'file' not in request.data:
             raise ParseError('Missing file parameter')
 
-        # No uploads for now
-        raise PermissionDenied()
+        if not can_change_screenshot(request.user, obj.component.project):
+            raise PermissionDenied()
+
+        obj.image.save(
+            request.data['file'].name,
+            request.data['file']
+        )
+
+        return Response(data={
+            'result': True,
+        })
 
 
 class ChangeViewSet(viewsets.ReadOnlyModelViewSet):
