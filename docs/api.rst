@@ -1028,6 +1028,26 @@ Screenshots
 
     Download the screenshots image.
 
+.. http:post:: /api/screenshots/(int:pk)/file/
+
+    Replace screenshot image.
+
+    :param pk: Screenshot ID
+    :type pk: interger
+
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
+
+    **CURL example:**
+
+    .. code-block:: sh
+
+        curl -X POST \
+            -F file=@image.png \
+            -H "Authorization: Token TOKEN" \
+            http://example.com/api/screenshots/1/file/
+
 
 .. _hooks:
 
