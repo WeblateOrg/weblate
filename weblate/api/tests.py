@@ -618,8 +618,9 @@ class ScreenshotAPITest(APIBaseTest):
 
     def test_upload(self):
         self.authenticate()
-        Screenshot.objects.update(file=None)
+        Screenshot.objects.all()[0].image.delete()
 
+        self.assertEqual(Screenshot.objects.all()[0].image, '')
         with open(TEST_SCREENSHOT, 'rb') as fp:
             response = self.client.post(
                 reverse(
@@ -632,8 +633,10 @@ class ScreenshotAPITest(APIBaseTest):
                     'file': fp,
                 }
             )
-        self.assertEqual(response.status_code, 204)
-        self.assertContains(Screenshot.objects.all()[0].file, b'PNG')
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.data['result'])
+
+        self.assertIn('.png', Screenshot.objects.all()[0].image.path)
 
 
 class ChangeAPITest(APIBaseTest):

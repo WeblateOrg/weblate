@@ -31,7 +31,6 @@ from rest_framework.decorators import detail_route
 from rest_framework.exceptions import ParseError
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-from rest_framework.status import HTTP_204_NO_CONTENT
 from rest_framework.utils import formatting
 
 from weblate.api.serializers import (
@@ -578,10 +577,14 @@ class ScreenshotViewSet(DownloadViewSet):
         if 'file' not in request.data:
             raise ParseError('Missing file parameter')
 
-        obj.image = request.data['file']
-        if 'name' in request.data:
-            obj.image = request.data['name']
-        return HttpResponse(status=HTTP_204_NO_CONTENT)
+        obj.image.save(
+            request.data['file'].name,
+            request.data['file']
+        )
+
+        return Response(data={
+            'result': True,
+        })
 
 
 class ChangeViewSet(viewsets.ReadOnlyModelViewSet):
