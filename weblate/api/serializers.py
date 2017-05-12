@@ -27,6 +27,7 @@ from weblate.lang.models import Language
 from weblate.permissions.helpers import can_see_git_repository
 from weblate.screenshots.models import Screenshot
 from weblate.trans.site import get_site_url
+from weblate.utils.validators import validate_bitmap
 
 
 class MultiFieldHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
@@ -414,6 +415,23 @@ class ScreenshotSerializer(RemovableSerializer):
         extra_kwargs = {
             'url': {
                 'view_name': 'api:screenshot-detail',
+            },
+        }
+
+
+class ScreenshotFileSerializer(serializers.ModelSerializer):
+    image = serializers.ImageField(
+        validators=[validate_bitmap]
+    )
+
+    class Meta(object):
+        model = Screenshot
+        fields = (
+            'image',
+        )
+        extra_kwargs = {
+            'url': {
+                'view_name': 'api:screenshot-file',
             },
         }
 

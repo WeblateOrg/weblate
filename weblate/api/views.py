@@ -38,7 +38,7 @@ from weblate.api.serializers import (
     LanguageSerializer, LockRequestSerializer, LockSerializer,
     RepoRequestSerializer, StatisticsSerializer, UnitSerializer,
     ChangeSerializer, SourceSerializer, ScreenshotSerializer,
-    UploadRequestSerializer,
+    UploadRequestSerializer, ScreenshotFileSerializer,
 )
 from weblate.trans.exporters import EXPORTERS
 from weblate.trans.models import (
@@ -565,6 +565,7 @@ class ScreenshotViewSet(DownloadViewSet):
             parsers.FormParser,
             parsers.FileUploadParser,
         ),
+        serializer_class=ScreenshotFileSerializer,
     )
     def file(self, request, **kwargs):
         obj = self.get_object()
@@ -574,15 +575,15 @@ class ScreenshotViewSet(DownloadViewSet):
                 'application/binary',
             )
 
-        if 'file' not in request.data:
-            raise ParseError('Missing file parameter')
-
         if not can_change_screenshot(request.user, obj.component.project):
             raise PermissionDenied()
 
+        serializer = ScreenshotFileSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
         obj.image.save(
-            request.data['file'].name,
-            request.data['file']
+            serializer.validated_data['image'].name,
+            serializer.validated_data['image']
         )
 
         return Response(data={

@@ -18,7 +18,14 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from io import BytesIO
 import re
+import sys
+
+from PIL import Image
+
+import six
+
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _
 
@@ -51,8 +58,42 @@ def validate_re(value):
 
 def validate_bitmap(value):
     """Validate bitmap, based on django.forms.fields.ImageField"""
-    if value is None or not hasattr(value.file, 'content_type'):
+    if value is None:
         return
+
+    # Ensure we have image object and content type
+    # Pretty much copy from django.forms.fields.ImageField:
+    if not hasattr(value.file, 'content_type'):
+        # We need to get a file object for Pillow. We might have a path or we
+        # might have to read the data into memory.
+        if hasattr(value, 'temporary_file_path'):
+            content = value.temporary_file_path()
+        else:
+            if hasattr(value, 'read'):
+                content = BytesIO(value.read())
+            else:
+                content = BytesIO(value['content'])
+
+        try:
+            # load() could spot a truncated JPEG, but it loads the entire
+            # image in memory, which is a DoS vector. See #3848 and #18520.
+            image = Image.open(content)
+            # verify() must be called immediately after the constructor.
+            image.verify()
+
+            # Annotating so subclasses can reuse it for their own validation
+            value.file.image = image
+            # Pillow doesn't detect the MIME type of all formats. In those
+            # cases, content_type will be None.
+            value.file.content_type = Image.MIME.get(image.format)
+        except Exception:
+            # Pillow doesn't recognize it as an image.
+            six.reraise(ValidationError, ValidationError(
+                _('Invalid image!'),
+                code='invalid_image',
+            ), sys.exc_info()[2])
+        if hasattr(value.file, 'seek') and callable(value.file.seek):
+            value.file.seek(0)
 
     # Check image type
     if value.file.content_type not in ALLOWED_IMAGES:

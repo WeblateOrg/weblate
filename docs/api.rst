@@ -821,7 +821,8 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
-    :query boolean overwrite: Whether to overwrite existing translations (defaults to no)
+    :form boolean overwrite: Whether to overwrite existing translations (defaults to no)
+    :form file file: Uploaded file
 
     .. seealso::
 
@@ -1044,6 +1045,7 @@ Screenshots
 
     :param pk: Screenshot ID
     :type pk: interger
+    :form file image: Uploaded file
 
     .. seealso::
 
@@ -1054,7 +1056,7 @@ Screenshots
     .. code-block:: sh
 
         curl -X POST \
-            -F file=@image.png \
+            -F image=@image.png \
             -H "Authorization: Token TOKEN" \
             http://example.com/api/screenshots/1/file/
 

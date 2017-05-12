@@ -616,12 +616,12 @@ class ScreenshotAPITest(APIBaseTest):
             response, b'PNG',
         )
 
-    def test_upload(self, superuser=True):
+    def test_upload(self, superuser=True, code=200, filename=TEST_SCREENSHOT):
         self.authenticate(superuser)
         Screenshot.objects.all()[0].image.delete()
 
         self.assertEqual(Screenshot.objects.all()[0].image, '')
-        with open(TEST_SCREENSHOT, 'rb') as fp:
+        with open(filename, 'rb') as handle:
             response = self.client.post(
                 reverse(
                     'api:screenshot-file',
@@ -630,19 +630,20 @@ class ScreenshotAPITest(APIBaseTest):
                     }
                 ),
                 {
-                    'file': fp,
+                    'image': handle,
                 }
             )
-        if superuser:
-            self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, code)
+        if code == 200:
             self.assertTrue(response.data['result'])
 
             self.assertIn('.png', Screenshot.objects.all()[0].image.path)
-        else:
-            self.assertEqual(response.status_code, 403)
 
     def test_upload_denied(self):
-        self.test_upload(False)
+        self.test_upload(False, 403)
+
+    def test_upload_invalid(self):
+        self.test_upload(True, 400, TEST_PO)
 
 
 class ChangeAPITest(APIBaseTest):
