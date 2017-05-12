@@ -616,8 +616,8 @@ class ScreenshotAPITest(APIBaseTest):
             response, b'PNG',
         )
 
-    def test_upload(self):
-        self.authenticate()
+    def test_upload(self, superuser=True):
+        self.authenticate(superuser)
         Screenshot.objects.all()[0].image.delete()
 
         self.assertEqual(Screenshot.objects.all()[0].image, '')
@@ -633,10 +633,16 @@ class ScreenshotAPITest(APIBaseTest):
                     'file': fp,
                 }
             )
-        self.assertEqual(response.status_code, 200)
-        self.assertTrue(response.data['result'])
+        if superuser:
+            self.assertEqual(response.status_code, 200)
+            self.assertTrue(response.data['result'])
 
-        self.assertIn('.png', Screenshot.objects.all()[0].image.path)
+            self.assertIn('.png', Screenshot.objects.all()[0].image.path)
+        else:
+            self.assertEqual(response.status_code, 403)
+
+    def test_upload_denied(self):
+        self.test_upload(False)
 
 
 class ChangeAPITest(APIBaseTest):
