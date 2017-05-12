@@ -919,6 +919,8 @@ Units
 
     Returns information about translation unit.
 
+    :param pk: Unit ID
+    :type pk: interger
     :>json string translation: URL of a related translation object
     :>json string source: source string
     :>json string previous_source: previous source string used for fuzzy matching
@@ -960,7 +962,8 @@ Changes
 
     Returns information about translation change.
 
-
+    :param pk: Change ID
+    :type pk: interger
     :>json string unit: URL of a related unit object
     :>json string translation: URL of a related translation object
     :>json string component: URL of a related component object
@@ -980,7 +983,7 @@ Sources
 
 .. http:get:: /api/sources/
 
-    Returns list of source string informations.
+    Returns list of source string information.
 
     .. seealso::
 
@@ -992,6 +995,8 @@ Sources
 
     Returns information about source information.
 
+    :param pk: Source information ID
+    :type pk: interger
     :>json string id_hash: unique identifier of the unit
     :>json string component: URL of a related component object
     :>json timestamp timestamp: timestamp when source string was first seen by Weblate
@@ -1019,6 +1024,8 @@ Screenshots
 
     Returns information about screenshot information.
 
+    :param pk: Screenshot ID
+    :type pk: interger
     :>json string name: name of a screenshot
     :>json string component: URL of a related component object
     :>json string file_url: URL to download a file, see :http:get:`/api/screenshots/(int:pk)/file/`
@@ -1027,6 +1034,9 @@ Screenshots
 .. http:get:: /api/screenshots/(int:pk)/file/
 
     Download the screenshots image.
+
+    :param pk: Screenshot ID
+    :type pk: interger
 
 .. http:post:: /api/screenshots/(int:pk)/file/
 
