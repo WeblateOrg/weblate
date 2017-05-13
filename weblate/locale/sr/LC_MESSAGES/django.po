@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-05-11 15:35+0000\n"
-"PO-Revision-Date: 2017-05-06 19:16+0000\n"
+"PO-Revision-Date: 2017-05-13 12:38+0000\n"
 "Last-Translator: Слободан Симић(Slobodan Simić) <slsimic@gmail.com>\n"
-"Language-Team: Serbian <https://hosted.weblate.org/projects/weblate/master/"
-"sr/>\n"
+"Language-Team: Serbian "
+"<https://hosted.weblate.org/projects/weblate/master/sr/>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.14-dev\n"
 
 #: weblate/accounts/auth.py:57
@@ -769,11 +769,9 @@ msgstr "Администрација"
 #: weblate/permissions/data.py:167
 msgctxt "Permissions group"
 msgid "Template"
-msgstr ""
+msgstr "Шаблон"
 
 #: weblate/permissions/data.py:168
-#, fuzzy
-#| msgid "Languages"
 msgctxt "Permissions group"
 msgid "Languages"
 msgstr "Језици"
@@ -804,7 +802,7 @@ msgstr "Филтриране дозволе"
 
 #: weblate/permissions/models.py:53
 msgid "The GroupACL will affect only selected permissions."
-msgstr ""
+msgstr "Групни АЦЛ имаће утицаја само на изабране дозволе."
 
 #: weblate/permissions/models.py:60
 msgid "Project, component or language must be specified"
@@ -812,11 +810,11 @@ msgstr "Пројекат, компонента или језик морају б
 
 #: weblate/permissions/models.py:93
 msgid "Group ACL"
-msgstr ""
+msgstr "Групни АЦЛ"
 
 #: weblate/permissions/models.py:94
 msgid "Group ACLs"
-msgstr ""
+msgstr "Групни АЦЛ-ови"
 
 #: weblate/permissions/models.py:100
 msgid "Email regular expression"
@@ -828,7 +826,7 @@ msgstr "Регуларни израз који се користи за покл
 
 #: weblate/permissions/models.py:109
 msgid "Group to assign"
-msgstr ""
+msgstr "Група за доделу"
 
 #: weblate/permissions/models.py:113
 msgid "Automatic group assignment"
@@ -836,7 +834,7 @@ msgstr "Аутоматско додељивање групи"
 
 #: weblate/permissions/models.py:114
 msgid "Automatic group assignments"
-msgstr ""
+msgstr "Аутоматске доделе групи"
 
 #: weblate/screenshots/models.py:34
 #: weblate/templates/screenshots/screenshot_list.html:20
@@ -1021,6 +1019,8 @@ msgid ""
 "After confirming this, you will be able to authenticate to Weblate using "
 "%(backend_verbose)s (%(uid)s)."
 msgstr ""
+"Након потврде, моћи ћете да се пријавите на Веблејт помоћу %(backend_verbose)"
+"s (%(uid)s)."
 
 #: weblate/templates/accounts/contact.html:12
 msgid "You can contact maintainers of this server here."
@@ -1164,14 +1164,16 @@ msgid ""
 "You have not enabled password authentication, please <a href=\"%(url)s\">set "
 "the password</a>."
 msgstr ""
+"Нисте укључили пријаву са лозинком. <a href=\"%(url)s\">Поставите "
+"лозинку</a>."
 
 #: weblate/templates/accounts/password-warning.html:6
 msgid "You will be still able to authenticate using third party services."
-msgstr ""
+msgstr "И даље ћете моћи да се пријавите помоћу сервиса треће стране."
 
 #: weblate/templates/accounts/password-warning.html:7
 msgid "The password is used to verify important changes on your account."
-msgstr ""
+msgstr "Лозинка се користи за оверу важних измена на вашем налогу."
 
 #: weblate/templates/accounts/password.html:16
 msgid ""
@@ -1418,7 +1420,7 @@ msgstr "Нема недавних активности!"
 
 #: weblate/templates/accounts/profile.html:321
 msgid "Report suspicious activity"
-msgstr ""
+msgstr "Пријави сумњиве активности"
 
 #: weblate/templates/accounts/profile.html:331
 msgid ""
@@ -1436,11 +1438,11 @@ msgstr "Поново генериши АПИ кључ"
 
 #: weblate/templates/accounts/profile.html:357
 msgid "API root URL:"
-msgstr ""
+msgstr "Корени УРЛ АПИ-ја:"
 
 #: weblate/templates/accounts/profile.html:361
 msgid "API usage example:"
-msgstr ""
+msgstr "Пример коришћења АПИ-ја:"
 
 #: weblate/templates/accounts/profile.html:373
 msgid "CLI usage example:"
@@ -5005,16 +5007,12 @@ msgid "Translation should not exceed given length"
 msgstr "Превод не би требао да премаши задату дужину"
 
 #: weblate/trans/checks/chars.py:373
-#, fuzzy
-#| msgid "Trailing colon"
 msgid "Trailing semicolon"
-msgstr "Двотачка на крају"
+msgstr "Тачка-зарез на крају"
 
 #: weblate/trans/checks/chars.py:374
-#, fuzzy
-#| msgid "Source and translation do not both end with a newline"
 msgid "Source and translation do not both end with a semicolon"
-msgstr "Извор и превод не завршавају новим редом"
+msgstr "Извор и превод не завршавају са тачка-зарезом"
 
 #: weblate/trans/checks/consistency.py:28
 msgid "Missing plurals"
