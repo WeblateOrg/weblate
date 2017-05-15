@@ -840,9 +840,11 @@ PLURAL_NAMES = {
 LOCALE_ALIASES = {
     # Windows
     'arabic': 'ar',
+    'braz_por': 'pt_BR',
     'chinese_chs': 'zh_CN',
     'chinese_zh': 'zh_TW',
     'dutch_be': 'nl_BE',
+    'english': 'en',
     'english-uk': 'en_GB',
     'portuguese_br': 'pt_BR',
     'portuguese_portugal': 'pt_PT',
@@ -854,6 +856,7 @@ LOCALE_ALIASES = {
     'spanish': 'es',
     'german': 'de',
     'french': 'fr',
+    'polish': 'pl',
     # Android
     'be-rby': 'be_Latn',
     # Misc invalid codes
