@@ -120,6 +120,8 @@ def home(request):
         )
         return redirect('password')
 
+    # This is used on Hosted Weblate to handle removed translation projects.
+    # The redirect itself is done in the http server.
     if 'removed' in request.GET:
         messages.warning(
             request,
