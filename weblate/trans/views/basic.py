@@ -120,6 +120,15 @@ def home(request):
         )
         return redirect('password')
 
+    if 'removed' in request.GET:
+        messages.warning(
+            request,
+            _(
+                'The project you were looking for has been removed, '
+                'however you are welcome to contribute to other ones.'
+            )
+        )
+
     user = request.user
 
     project_ids = Project.objects.get_acl_ids(user)
