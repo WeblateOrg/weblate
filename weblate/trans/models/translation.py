@@ -992,17 +992,6 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         skipped = 0
         accepted = 0
 
-        # Are there any translations to propagate?
-        # This is just an optimalization to avoid doing that for every unit.
-        propagate = Translation.objects.filter(
-            language=self.language,
-            subproject__project=self.subproject.project
-        ).filter(
-            subproject__allow_translation_propagation=True
-        ).exclude(
-            pk=self.pk
-        ).exists()
-
         author = get_author_name(request.user)
 
         # Commit possible prior changes
@@ -1023,12 +1012,18 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
             accepted += 1
 
+            # We intentionally avoid propagating:
+            # - in most cases it's not desired
+            # - it slows down import considerably
+            # - it brings locking issues as import is
+            #   executed with lock held and linked repos
+            #   can't obtain the lock
             unit.translate(
                 request,
                 split_plural(unit2.get_target()),
                 add_fuzzy or set_fuzzy,
                 change_action=Change.ACTION_UPLOAD,
-                propagate=propagate
+                propagate=False
             )
 
         self._skip_commit = False
