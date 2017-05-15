@@ -868,6 +868,8 @@ LOCALE_ALIASES = {
     'jp': 'ja',
     'ba_ck': 'ba',
     'ca_ps': 'ca',
+    'by': 'be',
+    'ua': 'uk',
     # Old locale codes
     'iw': 'he',
     'ji': 'yi',
