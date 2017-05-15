@@ -360,6 +360,12 @@ EXTRALANGS = (
         '0',
     ),
     (
+        'zh_Hant_HK',
+        'Chinese (Hong Kong)',
+        1,
+        '0',
+    ),
+    (
         'zh_Hans',
         'Chinese (Simplified)',
         1,
@@ -841,8 +847,8 @@ LOCALE_ALIASES = {
     # Windows
     'arabic': 'ar',
     'braz_por': 'pt_BR',
-    'chinese_chs': 'zh_CN',
-    'chinese_zh': 'zh_TW',
+    'chinese_chs': 'zh_Hans',
+    'chinese_zh': 'zh_Hant',
     'dutch_be': 'nl_BE',
     'english': 'en',
     'english-uk': 'en_GB',
@@ -887,6 +893,7 @@ LOCALE_ALIASES = {
     'uz@latin': 'uz_Latn',
     'zh_cn': 'zh_Hans',
     'zh_tw': 'zh_Hant',
+    'zh_hk': 'zh_Hant_HK',
     # ios translations
     'base': 'en',
     # Country codes used instead of language,
@@ -898,5 +905,5 @@ LOCALE_ALIASES = {
 
 # List of languages we do not want to import from translate-toolkit
 SKIP_TRANSLATE_TOOLKIT = frozenset((
-    'zh_CN', 'zh_TW',
+    'zh_CN', 'zh_TW', 'zh_HK',
 ))
