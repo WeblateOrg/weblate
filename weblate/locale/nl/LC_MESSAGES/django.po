@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-05-15 15:30+0000\n"
-"PO-Revision-Date: 2017-04-24 15:32+0000\n"
+"PO-Revision-Date: 2017-05-16 14:35+0000\n"
 "Last-Translator: Dieter Adriaenssens <dieter.adriaenssens@gmail.com>\n"
-"Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/master/nl/"
-">\n"
+"Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/master/nl/>"
+"\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -172,12 +172,8 @@ msgid "This account is inactive."
 msgstr "Dit account is niet actief."
 
 #: weblate/accounts/forms.py:490 weblate/accounts/views.py:179
-#, fuzzy
-#| msgid "Can not reset password, email authentication is disabled!"
 msgid "Too many authentication attempts!"
-msgstr ""
-"Het wachtwoord kan niet opnieuw ingesteld worden, E-mailverificatie is "
-"uitgeschakeld!"
+msgstr "Te veel verificatiepogingen!"
 
 #: weblate/accounts/forms.py:541 weblate/trans/models/project.py:85
 msgid "Project name"
@@ -213,16 +209,12 @@ msgid "Additional message"
 msgstr "Bijkomend bericht"
 
 #: weblate/accounts/models.py:53
-#, fuzzy
-#| msgid "Your password has been changed."
 msgid "Password has been changed."
 msgstr "Uw wachtwoord is gewijzigd."
 
 #: weblate/accounts/models.py:56
-#, fuzzy
-#| msgid "Your password has been changed."
 msgid "Password reset has been confirmed."
-msgstr "Uw wachtwoord is gewijzigd."
+msgstr "De reset van uw wachtwoord werd bevestigd."
 
 #: weblate/accounts/models.py:59
 #, python-brace-format
@@ -257,10 +249,8 @@ msgid "Account locked due to excessive failed authentication attempts."
 msgstr ""
 
 #: weblate/accounts/models.py:169 weblate/templates/accounts/profile.html:304
-#, fuzzy
-#| msgid "Account activation"
 msgid "Account activity"
-msgstr "Accountactivering"
+msgstr "Accountactiviteit"
 
 #: weblate/accounts/models.py:267
 msgid "Interface Language"
@@ -423,12 +413,8 @@ msgid "New registrations are disabled!"
 msgstr "Nieuwe registraties zijn uitgeschakeld!"
 
 #: weblate/accounts/pipeline.py:171
-#, fuzzy
-#| msgid "Can not reset password, email authentication is disabled!"
 msgid "Can not change authentication for demo!"
-msgstr ""
-"Het wachtwoord kan niet opnieuw ingesteld worden, E-mailverificatie is "
-"uitgeschakeld!"
+msgstr "Authenticatie kan niet gewijzigd worden op de demosite!"
 
 #: weblate/accounts/pipeline.py:344
 #, python-brace-format
@@ -511,10 +497,8 @@ msgid "Password reset"
 msgstr "Wachtwoord opnieuw instellen"
 
 #: weblate/admin.py:68 weblate/admin.py:69
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Weblate administration"
-msgstr "Weblate vertalingen"
+msgstr "Weblate-beheer"
 
 #: weblate/admin.py:137 weblate/templates/base.html:126
 msgid "Logout"
@@ -793,8 +777,6 @@ msgid "Template"
 msgstr ""
 
 #: weblate/permissions/data.py:168
-#, fuzzy
-#| msgid "Languages"
 msgctxt "Permissions group"
 msgid "Languages"
 msgstr "Talen"
@@ -924,11 +906,9 @@ msgid "The page you are looking for was not found."
 msgstr "De pagina die u zoekt is niet gevonden."
 
 #: weblate/templates/404.html:15
-#, fuzzy
-#| msgid "The page you are looking for was not found."
 msgid ""
 "The project you are looking for does not exist or is not publicly available."
-msgstr "De pagina die u zoekt is niet gevonden."
+msgstr "Het project dat u zoekt bestaat niet of is niet publiek beschikbaar."
 
 #: weblate/templates/500.html:5 weblate/trans/views/basic.py:565
 msgid "Internal Server Error"
@@ -1045,10 +1025,8 @@ msgstr "Uw profiel"
 
 #: weblate/templates/accounts/confirm.html:14
 #: weblate/templates/accounts/confirm.html:23
-#, fuzzy
-#| msgid "Add new association:"
 msgid "Confirm new association"
-msgstr "Voeg een associatie toe:"
+msgstr "Bevestig nieuwe associatie"
 
 #: weblate/templates/accounts/confirm.html:17
 #, python-format
@@ -1095,11 +1073,7 @@ msgstr ""
 "In het geval dat deze niet werkt, gelieve opnieuw te registreren."
 
 #: weblate/templates/accounts/email-sent.html:20
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder or retry "
-#| "the registration. If the problem persists, please <a href="
-#| "\"%(contact_url)s?subject=Registration problems\">contact us</a>."
+#, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. If the problem persists, please <a href=\"%(contact_url)s?t=reg"
@@ -1107,8 +1081,7 @@ msgid ""
 msgstr ""
 "Als u het niet onmiddellijk ontvangt, controleer dan uw spam-map of probeer "
 "opnieuw te registreren. Als het probleem zich blijft voordoen, neem dan <a "
-"href=\"%(contact_url)s?subject=Registration problems\">contact met ons op</"
-"a>."
+"href=\"%(contact_url)s?t=reg\">contact met ons op</a>."
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:19
@@ -1204,13 +1177,13 @@ msgstr ""
 "U heeft nog geen account? U kan <a href=\"%(register_url)s\">registreren</a>."
 
 #: weblate/templates/accounts/password-warning.html:3
-#, fuzzy, python-format
-#| msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
+#, python-format
 msgid ""
 "You have not enabled password authentication, please <a href=\"%(url)s\">set "
 "the password</a>."
 msgstr ""
-"U kan uw wachtwoord wijzigen op een <a href=\"%(pw_url)s\">aparte pagina</a>."
+"Wachtwoord-authenticatie werd niet ingeschakeld, gelieve <a href=\"%(url)s\">"
+"een wachtwoord in te stellen</a>."
 
 #: weblate/templates/accounts/password-warning.html:6
 msgid "You will be still able to authenticate using third party services."
@@ -1380,10 +1353,8 @@ msgstr ""
 "Uw naam en e-mailadres zullen getoond worden als auteur van de commits."
 
 #: weblate/templates/accounts/profile.html:179
-#, fuzzy
-#| msgid "User identities"
 msgid "Current user identities"
-msgstr "Gebruikersidentiteiten"
+msgstr "Huidige gebruikersidentiteiten"
 
 #: weblate/templates/accounts/profile.html:183
 msgid "Identity"
@@ -1407,10 +1378,8 @@ msgid "Disconnect"
 msgstr "Verbinding verbreken"
 
 #: weblate/templates/accounts/profile.html:213
-#, fuzzy
-#| msgid "Add new association:"
 msgid "Add new association"
-msgstr "Voeg een associatie toe:"
+msgstr "Voeg nieuwe associatie toe"
 
 #: weblate/templates/accounts/profile.html:224
 msgid "Removal"
@@ -1464,16 +1433,12 @@ msgid "When"
 msgstr "Wanneer"
 
 #: weblate/templates/accounts/profile.html:305
-#, fuzzy
-#| msgid "Email address"
 msgid "IP address"
-msgstr "E-mailadres"
+msgstr "IP-adres"
 
 #: weblate/templates/accounts/profile.html:316
-#, fuzzy
-#| msgid "No recent activity has been recorded."
 msgid "No recent activity found!"
-msgstr "Geen recente activiteit geregistreerd."
+msgstr "Geen recente activiteit gevonden!"
 
 #: weblate/templates/accounts/profile.html:321
 msgid "Report suspicious activity"
@@ -1490,10 +1455,8 @@ msgid "Your personal API key:"
 msgstr "Je persoonlijke API sleutel :"
 
 #: weblate/templates/accounts/profile.html:353
-#, fuzzy
-#| msgid "Regenerate"
 msgid "Regenerate API key"
-msgstr "Genereer opnieuw"
+msgstr "Genereer API sleutel opnieuw"
 
 #: weblate/templates/accounts/profile.html:357
 msgid "API root URL:"
@@ -1504,10 +1467,8 @@ msgid "API usage example:"
 msgstr "API gebruiksvoorbeeld :"
 
 #: weblate/templates/accounts/profile.html:373
-#, fuzzy
-#| msgid "API usage example:"
 msgid "CLI usage example:"
-msgstr "API gebruiksvoorbeeld :"
+msgstr "CLI gebruiksvoorbeeld :"
 
 #: weblate/templates/accounts/profile.html:395
 #, python-format
@@ -1833,7 +1794,7 @@ msgstr "Dashboard"
 
 #: weblate/templates/base.html:114 weblate/templates/index.html:75
 msgid "Manage watched projects"
-msgstr "Beheerd gevolgde projecten"
+msgstr "Beheer gevolgde projecten"
 
 #: weblate/templates/base.html:124
 msgid "Administration"
@@ -3577,13 +3538,9 @@ msgstr "Hallo,"
 
 #: weblate/templates/mail/account_activity.html:11
 #: weblate/templates/mail/account_activity.txt:3
-#, fuzzy, python-format
-#| msgid ""
-#| "There has been a change in translation on %(translation)s at "
-#| "%(site_title)s."
+#, python-format
 msgid "There has been a change in your account at %(site_title)s:"
-msgstr ""
-"Er is een wijziging in de vertaling van %(translation)s op %(site_title)s."
+msgstr "Er is een wijziging in uw account op %(site_title)s :"
 
 #: weblate/templates/mail/account_activity.html:19
 #: weblate/templates/mail/account_activity.txt:7
@@ -5167,16 +5124,12 @@ msgid "Translation should not exceed given length"
 msgstr "De vertaling mag de opgegeven lengte niet overschrijden"
 
 #: weblate/trans/checks/chars.py:373
-#, fuzzy
-#| msgid "Trailing colon"
 msgid "Trailing semicolon"
-msgstr "Dubbele punt op het einde"
+msgstr "Punt-komma op het einde"
 
 #: weblate/trans/checks/chars.py:374
-#, fuzzy
-#| msgid "Source and translation do not both end with a newline"
 msgid "Source and translation do not both end with a semicolon"
-msgstr "Bron en vertaalde tekst eindigen niet allebei met een nieuwe regel"
+msgstr "Bron en vertaalde tekst eindigen niet allebei op een punt-komma"
 
 #: weblate/trans/checks/consistency.py:28
 msgid "Missing plurals"
@@ -5414,10 +5367,8 @@ msgid "Ruby YAML file"
 msgstr "Ruby YAML-bestand"
 
 #: weblate/trans/forms.py:143
-#, fuzzy
-#| msgid "Invalid user specified!"
 msgid "Invalid checksum specified!"
-msgstr "Ongeldige gebruiker opgegeven!"
+msgstr "Ongeldige controletekst opgegeven!"
 
 #: weblate/trans/forms.py:172
 msgid "Fill in with source string"
@@ -5440,10 +5391,8 @@ msgstr ""
 "zal worden afhankelijk van de opgegeven waarde (n)."
 
 #: weblate/trans/forms.py:329
-#, fuzzy
-#| msgid "Translation settings"
 msgid "Translation text too long!"
-msgstr "Vertalingsinstellingen"
+msgstr "Vertalingstekst te lang!"
 
 #: weblate/trans/forms.py:359
 msgid "Message you wanted to translate is no longer available!"
@@ -6048,16 +5997,12 @@ msgid "Component list to assign"
 msgstr "Onderdelenlijsten om toe te wijzen"
 
 #: weblate/trans/models/componentlist.py:96
-#, fuzzy
-#| msgid "Automatic group assignment"
 msgid "Automatic component list assignment"
-msgstr "Automatische groepstoewijzing"
+msgstr "Automatische onderdelenlijsttoewijzing"
 
 #: weblate/trans/models/componentlist.py:97
-#, fuzzy
-#| msgid "Automatic group assignments"
 msgid "Automatic component list assignments"
-msgstr "Automatische groepstoewijzingen"
+msgstr "Automatische onderdelenlijsttoewijzingen"
 
 #: weblate/trans/models/project.py:98
 msgid "Main website of translated project."
@@ -6577,11 +6522,9 @@ msgstr ""
 "Een lege taalcode ontvangen voor %s, gelieve het bestandsmasker na te kijken!"
 
 #: weblate/trans/models/subproject.py:1141
-#, fuzzy, python-format
-#| msgid "Got empty language code for %s, please check filemask!"
+#, python-format
 msgid "Language code %s is too long, please check filemask!"
-msgstr ""
-"Een lege taalcode ontvangen voor %s, gelieve het bestandsmasker na te kijken!"
+msgstr "Taalcode %s is te lang, gelieve het bestandsmasker na te kijken!"
 
 #: weblate/trans/models/subproject.py:1145
 #, python-format
@@ -7174,10 +7117,8 @@ msgid "Invalid check flag: \"%s\""
 msgstr "Ongeldige controlevlag: \"%s\""
 
 #: weblate/trans/views/acl.py:78
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Invalid parameters!"
-msgstr "Ongeldige verzoek tot samenvoegen!"
+msgstr "Ongeldige parameters!"
 
 #: weblate/trans/views/acl.py:84 weblate/trans/views/acl.py:133
 msgid "You can not remove last owner!"
@@ -7219,10 +7160,9 @@ msgid "Invalid search query!"
 msgstr "Ongeldige zoekopdracht!"
 
 #: weblate/trans/views/basic.py:314
-#, fuzzy, python-brace-format
-#| msgid "Get involved in %(project)s!"
+#, python-brace-format
 msgid "Get involved in {0}!"
-msgstr "Word actief bij %(project)s!"
+msgstr "Word actief bij {0}!"
 
 #: weblate/trans/views/basic.py:320
 #, python-format
@@ -7402,10 +7342,8 @@ msgid "Can not merge different messages!"
 msgstr "Kan verschillende berichten niet samenvoegen!"
 
 #: weblate/trans/views/edit.py:348
-#, fuzzy
-#| msgid "Can not revert to empty translation!"
 msgid "Can not revert to nonexisting change!"
-msgstr "Kan niet terugkeren naar een lege vertaling!"
+msgstr "Kan niet terugkeren naar een onbestaande wijziging!"
 
 #: weblate/trans/views/edit.py:355
 msgid "Can not revert to different unit!"
@@ -7633,10 +7571,8 @@ msgid "Failed to compile: {0}"
 msgstr "Compileren is mislukt : {0}"
 
 #: weblate/utils/validators.py:92
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Invalid image!"
-msgstr "Ongeldige verzoek tot samenvoegen!"
+msgstr "Ongeldige afbeelding!"
 
 #: weblate/utils/validators.py:101
 #, python-format
