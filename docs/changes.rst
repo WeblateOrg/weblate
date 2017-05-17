@@ -4,7 +4,7 @@ Changes
 weblate 2.14
 ------------
 
-Released on ? 2017.
+Released on May 17th 2017.
 
 * Add glossary entries using AJAX.
 * The logout now uses POST to avoid CSRF.
