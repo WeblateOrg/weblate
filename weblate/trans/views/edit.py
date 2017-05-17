@@ -464,7 +464,7 @@ def translate(request, project, subproject, lang):
         try:
             unit = translation.unit_set.get(id_hash=search_result['checksum'])
             offset = search_result['ids'].index(unit.id)
-        except (Unit.DoesNotExist, IndexError):
+        except (Unit.DoesNotExist, ValueError):
             messages.warning(request, _('No string matched your search!'))
             return redirect(translation)
 
