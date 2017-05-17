@@ -700,6 +700,7 @@ def reset_api_key(request):
     return redirect_profile('#api')
 
 
+@require_POST
 @login_required
 @avoid_demo
 def watch(request, project):
@@ -708,6 +709,7 @@ def watch(request, project):
     return redirect(obj)
 
 
+@require_POST
 @login_required
 @avoid_demo
 def unwatch(request, project):
