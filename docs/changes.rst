@@ -18,7 +18,6 @@ Released on May 17th 2017.
 * The authentication attempts are now rate limited.
 * Suggestion content is stored in the history.
 * Store important account activity in audit log.
-* Authentication attempts are rate limited.
 * Ask for password confirmation when removing account or adding new associations.
 * Show time when suggestion has been made.
 * There is new quality check for trailing semicolon.
