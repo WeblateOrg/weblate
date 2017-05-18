@@ -387,7 +387,7 @@ class CaptchaForm(forms.Form):
         else:
             captcha_id = data['captcha_id']
             self.captcha = MathCaptcha.from_hash(
-                request.session['captcha'].pop(captcha_id),
+                request.session.pop('captcha')[captcha_id],
                 captcha_id
             )
 
