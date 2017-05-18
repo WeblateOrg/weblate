@@ -310,7 +310,13 @@
 <tr>
 <td>{{ log.timestamp|naturaltime }}</td>
 <td>{{ log.get_message }}</td>
-<td>{{ log.address }}</td>
+<td>
+{% if not demo_server or user.username != 'demo' %}
+{{ log.address }}
+{% else %}
+{% trans "Not available" %}
+{% endif %}
+</td>
 </tr>
 {% empty %}
 <tr><td colspan="3">{% trans "No recent activity found!" %}</td></tr>
