@@ -3,6 +3,7 @@
 from __future__ import unicode_literals
 
 from django.db import migrations
+from django.db.models import Q
 
 from weblate.utils.hash import calculate_hash
 
@@ -33,8 +34,8 @@ def calculate_id_hash(apps, schema_editor):
         for model in content_models:
             model.objects.filter(
                 project=unit.translation.subproject.project,
-                language=unit.translation.language,
                 contentsum=unit.contentsum
+                Q(language=unit.translation.language) | Q(language=None),
             ).update(
                 content_hash=unit.content_hash
             )
