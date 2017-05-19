@@ -418,10 +418,11 @@ class SetPasswordForm(DjangoSetPasswordForm):
 class CaptchaForm(forms.Form):
     captcha = forms.IntegerField(required=True)
 
-    def __init__(self, request, data=None, *args, **kwargs):
+    def __init__(self, request, form=None, data=None, *args, **kwargs):
         super(CaptchaForm, self).__init__(data, *args, **kwargs)
         self.fresh = False
         self.request = request
+        self.form = form
 
         if data is None or 'captcha' not in request.session:
             self.generate_captcha()
@@ -450,7 +451,10 @@ class CaptchaForm(forms.Form):
                 _('Please check your math and try again with new expression.')
             )
 
-        mail = self.cleaned_data.get('email', 'NONE')
+        if self.form.is_valid():
+            mail = self.form.cleaned_data['email']
+        else:
+            mail = 'NONE'
 
         LOGGER.info(
             'Passed captcha for %s (%s = %s)',

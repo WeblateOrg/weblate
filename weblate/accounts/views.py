@@ -364,9 +364,9 @@ def contact(request):
     )
 
     if request.method == 'POST':
-        if show_captcha:
-            captcha = CaptchaForm(request, request.POST)
         form = ContactForm(request.POST)
+        if show_captcha:
+            captcha = CaptchaForm(request, form, request.POST)
         if not check_rate_limit(request):
             messages.error(
                 request,
@@ -529,7 +529,7 @@ def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if settings.REGISTRATION_CAPTCHA:
-            captcha = CaptchaForm(request, request.POST)
+            captcha = CaptchaForm(request, form, request.POST)
         if ((captcha is None or captcha.is_valid()) and
                 form.is_valid() and settings.REGISTRATION_OPEN):
             if form.cleaned_data['email_user']:
@@ -575,7 +575,7 @@ def email_login(request):
     if request.method == 'POST':
         form = EmailForm(request.POST)
         if settings.REGISTRATION_CAPTCHA:
-            captcha = CaptchaForm(request, request.POST)
+            captcha = CaptchaForm(request, form, request.POST)
         if (captcha is None or captcha.is_valid()) and form.is_valid():
             if form.cleaned_data['email_user']:
                 notify_account_activity(
@@ -688,7 +688,7 @@ def reset_password(request):
     elif request.method == 'POST':
         form = ResetForm(request.POST)
         if settings.REGISTRATION_CAPTCHA:
-            captcha = CaptchaForm(request, request.POST)
+            captcha = CaptchaForm(request, form, request.POST)
         if (captcha is None or captcha.is_valid()) and form.is_valid():
             # Force creating new session
             request.session.create()
