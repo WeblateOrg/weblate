@@ -341,7 +341,8 @@ class ChecksumForm(forms.Form):
 
     def clean_checksum(self):
         """Validate whether checksum is valid and fetches unit for it."""
-        if 'checksum' not in self.cleaned_data:
+        if ('checksum' not in self.cleaned_data or
+                not self.cleaned_data['checksum']):
             return
 
         unit_set = self.translation.unit_set
