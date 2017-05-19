@@ -135,7 +135,8 @@ def validate_editor(val):
 
     scheme = val.split(':', 1)[0]
 
-    if scheme.strip().lower() in FORBIDDEN_URL_SCHEMES:
+    # Block forbidden schemes as well as format strings
+    if scheme.strip().lower() in FORBIDDEN_URL_SCHEMES or '%' in scheme:
         raise ValidationError(_('Forbidden URL scheme!'))
 
 
