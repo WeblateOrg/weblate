@@ -514,7 +514,7 @@ class FilterField(forms.ChoiceField):
 class BaseSearchForm(forms.Form):
     checksum = ChecksumField(required=False)
     offset = forms.IntegerField(
-        min_value=0,
+        min_value=-1,
         required=False,
         widget=forms.HiddenInput,
     )
