@@ -38,7 +38,7 @@ social_urls = [
     ),
     url(
         r'^complete/(?P<backend>[^/]+)/$',
-        social_django.views.complete,
+        weblate.accounts.views.avoid_demo(social_django.views.complete),
         name='complete'
     ),
     # disconnection

@@ -776,6 +776,7 @@ def store_userid(request):
 
 
 @require_POST
+@avoid_demo
 def social_auth(request, backend):
     """Wrapper around social_django.views.auth.
 
