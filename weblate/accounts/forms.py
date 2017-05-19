@@ -303,9 +303,21 @@ class UserForm(forms.ModelForm):
 
 class ContactForm(forms.Form):
     """Form for contacting site owners."""
-    subject = forms.CharField(label=_('Subject'), required=True)
-    name = forms.CharField(label=_('Your name'), required=True)
-    email = forms.EmailField(label=_('Your email'), required=True)
+    subject = forms.CharField(
+        label=_('Subject'),
+        required=True,
+        max_length=100
+    )
+    name = forms.CharField(
+        label=_('Your name'),
+        required=True,
+        max_length=30
+    )
+    email = forms.EmailField(
+        label=_('Your email'),
+        required=True,
+        max_length=254
+    )
     message = forms.CharField(
         label=_('Message'),
         required=True,
@@ -313,6 +325,7 @@ class ContactForm(forms.Form):
             'Please contact us in English, otherwise we might '
             'be unable to understand your request.'
         ),
+        max_length=2000,
         widget=forms.Textarea
     )
     content = forms.CharField(required=False)
