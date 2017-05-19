@@ -351,14 +351,23 @@ def get_initial_contact(request):
 
 
 def contact(request):
+    captcha_form = None
+    show_captcha = (
+        settings.REGISTRATION_CAPTCHA and
+        not request.user.is_authenticated
+    )
+
     if request.method == 'POST':
+        if show_captcha:
+            captcha_form = CaptchaForm(request, request.POST)
         form = ContactForm(request.POST)
         if not check_rate_limit(request):
             messages.error(
                 request,
                 _('Too many messages sent, please try again later!')
             )
-        elif form.is_valid():
+        elif ((captcha_form is None or captcha_form.is_valid()) and
+                form.is_valid()):
             mail_admins_contact(
                 request,
                 '%(subject)s',
@@ -372,12 +381,15 @@ def contact(request):
         if request.GET.get('t') in CONTACT_SUBJECTS:
             initial['subject'] = CONTACT_SUBJECTS[request.GET['t']]
         form = ContactForm(initial=initial)
+        if show_captcha:
+            captcha_form = CaptchaForm(request)
 
     return render(
         request,
         'accounts/contact.html',
         {
             'form': form,
+            'captcha_form': captcha_form,
             'title': _('Contact'),
         }
     )
