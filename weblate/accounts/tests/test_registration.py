@@ -42,7 +42,6 @@ REGISTRATION_DATA = {
     'username': 'username',
     'email': 'noreply-weblate@example.org',
     'first_name': 'First Last',
-    'captcha_id': '00',
     'captcha': '9999'
 }
 
@@ -83,7 +82,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         )
         self.assertContains(
             response,
-            'Please check your math and try again.'
+            'Please check your math and try again'
         )
 
     @override_settings(REGISTRATION_CAPTCHA=True)
@@ -94,7 +93,6 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         )
         form = response.context['captcha_form']
         data = REGISTRATION_DATA.copy()
-        data['captcha_id'] = form.fields['captcha_id'].initial
         data['captcha'] = form.captcha.result
         response = self.client.post(
             reverse('register'),
@@ -341,7 +339,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         )
         self.assertContains(
             response,
-            'Please check your math and try again.'
+            'Please check your math and try again'
         )
         self.assertEqual(len(mail.outbox), 0)
 
