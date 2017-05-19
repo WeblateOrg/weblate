@@ -846,6 +846,7 @@ If enabled the captcha is added to all pages where users enter email address:
 * New account registration.
 * Password recovery.
 * Adding email to an account.
+* Contact form for not logged in users.
 
 .. setting:: REGISTRATION_OPEN
 

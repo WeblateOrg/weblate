@@ -58,6 +58,7 @@ class ViewTest(TestCase):
         Profile.objects.get_or_create(user=user)
         return user
 
+    @override_settings(REGISTRATION_CAPTCHA=False)
     def test_contact(self):
         """Test for contact form."""
         # Basic get
