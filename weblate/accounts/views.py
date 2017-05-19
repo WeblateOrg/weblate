@@ -690,9 +690,6 @@ def reset_password(request):
         if settings.REGISTRATION_CAPTCHA:
             captcha = CaptchaForm(request, form, request.POST)
         if (captcha is None or captcha.is_valid()) and form.is_valid():
-            # Force creating new session
-            request.session.create()
-
             if form.cleaned_data['email_user']:
                 rate_limited = notify_account_activity(
                     form.cleaned_data['email_user'],
