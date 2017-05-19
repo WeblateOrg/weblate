@@ -142,6 +142,21 @@ class AuditLogManager(models.Manager):
             params=json.dumps(params)
         )
 
+    def get_after(self, user, after, activity):
+        """Get user activites of given type after another activity.
+
+        This is mostly used for rate limiting as it can return number of failed
+        authentication attempts since last login.
+        """
+        try:
+            latest_login = self.filter(
+                user=user, activity=after
+            )[0]
+            kwargs = {'timestamp__gte': latest_login.timestamp}
+        except IndexError:
+            kwargs = {}
+        return self.filter(user=user, activity=activity, **kwargs)
+
 
 @python_2_unicode_compatible
 class AuditLog(models.Model):
