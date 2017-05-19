@@ -33,9 +33,9 @@ def calculate_id_hash(apps, schema_editor):
 
         for model in content_models:
             model.objects.filter(
-                project=unit.translation.subproject.project,
-                contentsum=unit.contentsum
-                Q(language=unit.translation.language) | Q(language=None),
+                (Q(language=unit.translation.language) | Q(language=None)) &
+                Q(project=unit.translation.subproject.project) &
+                Q(contentsum=unit.contentsum)
             ).update(
                 content_hash=unit.content_hash
             )
