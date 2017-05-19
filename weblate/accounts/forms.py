@@ -399,7 +399,7 @@ class SetPasswordForm(DjangoSetPasswordForm):
         # Change the password
         password = self.cleaned_data["new_password1"]
         self.user.set_password(password)
-        self.user.save()
+        self.user.save(update_fields=['password'])
 
         # Updating the password logs out all other sessions for the user
         # except the current one.
