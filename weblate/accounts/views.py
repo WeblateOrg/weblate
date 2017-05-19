@@ -663,6 +663,8 @@ def reset_password_set(request):
 
 def reset_password(request):
     """Password reset handling."""
+    if request.user.is_authenticated:
+        redirect_profile()
     if 'email' not in load_backends(BACKENDS).keys():
         messages.error(
             request,
@@ -682,8 +684,6 @@ def reset_password(request):
         if (captcha is None or captcha.is_valid()) and form.is_valid():
             # Force creating new session
             request.session.create()
-            if request.user.is_authenticated:
-                logout(request)
 
             if form.cleaned_data['email_user']:
                 request.session['password_reset'] = True
