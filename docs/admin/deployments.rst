@@ -288,7 +288,15 @@ both Weblate and PostgreSQL containers.
 
 .. envvar:: POSTGRES_DATABASE
 
-    PostgreSQL databse name.
+    PostgreSQL database name.
+
+.. envvar:: POSTGRES_HOST
+
+    PostgreSQL server hostname or IP adress. Defaults to `database`.
+
+.. envvar:: POSTGRES_PORT
+
+    PostgreSQL server port. Default to empty (use default value).
 
 Email server setup
 ~~~~~~~~~~~~~~~~~~
