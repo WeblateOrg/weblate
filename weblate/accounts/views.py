@@ -298,7 +298,7 @@ def user_remove(request):
         confirm_form = PasswordConfirmForm(request, request.POST)
         if confirm_form.is_valid():
             session_ratelimit_reset(request)
-            remove_user(request.user)
+            remove_user(request.user, request)
             logout(request)
             messages.success(
                 request,

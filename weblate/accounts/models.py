@@ -79,6 +79,9 @@ ACCOUNT_ACTIVITY = {
     'locked': _(
         'Account locked due to excessive failed authentication attempts.'
     ),
+    'removed': _(
+        'Account and all private data have been removed.'
+    ),
 }
 
 NOTIFY_ACTIVITY = frozenset((
@@ -89,6 +92,7 @@ NOTIFY_ACTIVITY = frozenset((
     'register',
     'connect',
     'locked',
+    'removed',
 ))
 
 
@@ -482,10 +486,15 @@ def set_lang(request, profile):
         request.session[LANGUAGE_SESSION_KEY] = profile.language
 
 
-def remove_user(user):
+def remove_user(user, request):
     """Remove user account."""
+    from weblate.accounts.notifications import notify_account_activity
+
     # Send signal (to commit any pending changes)
     user_pre_delete.send(instance=user, sender=user.__class__)
+
+    # Store activity log and notify
+    notify_account_activity(user, request, 'removed')
 
     # Change username
     user.username = 'deleted-{0}'.format(user.pk)
