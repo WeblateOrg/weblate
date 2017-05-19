@@ -384,40 +384,37 @@ class SetPasswordForm(DjangoSetPasswordForm):
 
 class CaptchaForm(forms.Form):
     captcha = forms.IntegerField(required=True)
-    captcha_id = forms.CharField(widget=forms.HiddenInput)
 
     def __init__(self, request, data=None, *args, **kwargs):
         super(CaptchaForm, self).__init__(data, *args, **kwargs)
         self.fresh = False
+        self.request = request
 
-        if (data is None or
-                'captcha_id' not in data or
-                'captcha' not in request.session or
-                data['captcha_id'] not in request.session['captcha']):
-            self.captcha = MathCaptcha()
+        if data is None or 'captcha' not in request.session:
+            self.generate_captcha()
             self.fresh = True
-            request.session['captcha'] = {self.captcha.id: self.captcha.hashed}
         else:
-            captcha_id = data['captcha_id']
             self.captcha = MathCaptcha.from_hash(
-                request.session.pop('captcha')[captcha_id],
-                captcha_id
+                request.session.pop('captcha')
             )
 
+    def generate_captcha(self):
+        self.captcha = MathCaptcha()
+        self.request.session['captcha'] = self.captcha.hashed
         # Set correct label
         self.fields['captcha'].label = pgettext(
             'Question for a mathematics-based CAPTCHA, '
             'the %s is an arithmetic problem',
             'What is %s?'
         ) % self.captcha.display
-        self.fields['captcha_id'].initial = self.captcha.id
 
     def clean_captcha(self):
         """Validation for captcha."""
         if (self.fresh or
                 not self.captcha.validate(self.cleaned_data['captcha'])):
+            self.generate_captcha()
             raise forms.ValidationError(
-                _('Please check your math and try again.')
+                _('Please check your math and try again with new expression.')
             )
 
         mail = self.cleaned_data.get('email', 'NONE')
