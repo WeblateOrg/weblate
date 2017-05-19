@@ -148,7 +148,9 @@ class FileUnit(object):
         if (isinstance(self.mainunit, propunit) or
                 isinstance(self.mainunit, phpunit)):
             return ''
-        result = ', '.join(self.mainunit.getlocations())
+        result = ', '.join(
+            [x for x in self.mainunit.getlocations() if x is not None]
+        )
         # Do not try to handle relative locations in Qt TS, see
         # http://qt-project.org/doc/qt-4.8/linguist-ts-file-format.html
         if LOCATIONS_RE.match(result):
