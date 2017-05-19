@@ -18,7 +18,7 @@ To upgrade database structure, you should run:
 
 .. code-block:: sh
 
-    ./manage.py migrate
+    ./manage.py migrate --noinput
 
 To collect new static files, run:
 
