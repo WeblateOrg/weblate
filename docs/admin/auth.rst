@@ -212,6 +212,7 @@ ensure to mark the `read_user` scope.
     # Social auth backends setup
     SOCIAL_AUTH_GITLAB_KEY = 'Application ID'
     SOCIAL_AUTH_GITLAB_SECRET = 'Secret'
+    SOCIAL_AUTH_GITLAB_SCOPE = ['api']
 
 
 LDAP authentication
