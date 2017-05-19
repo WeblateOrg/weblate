@@ -59,7 +59,10 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         super(RegistrationTest, self).setUp()
         reset_rate_limit(address='127.0.0.1')
 
-    def assert_registration(self, match=None):
+    def assert_registration(self, match=None, reset=False):
+        if match is None and reset:
+            match = '[Weblate] Password reset on Weblate'
+
         url = self.assert_registration_mailbox(match)
 
         if self.clear_cookie and 'sessionid' in self.client.cookies:
@@ -67,10 +70,25 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
 
         # Confirm account
         response = self.client.get(url, follow=True)
-        self.assertRedirects(
-            response,
-            reverse('password')
-        )
+        if reset:
+            # Ensure we can set the password
+            self.assertRedirects(response, reverse('password_reset'))
+            self.assertContains(response, 'You can now set new one')
+            # Invalid submission
+            response = self.client.post(reverse('password_reset'))
+            self.assertContains(response, 'You can now set new one')
+            # Set password
+            response = self.client.post(
+                reverse('password_reset'),
+                {
+                    'new_password1': '2pa$$word!',
+                    'new_password2': '2pa$$word!',
+                },
+                follow=True
+            )
+            self.assertContains(response, 'Your password has been changed')
+        else:
+            self.assertRedirects(response, reverse('password'))
         return url
 
     @override_settings(REGISTRATION_CAPTCHA=True)
@@ -285,7 +303,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         )
         self.assertContains(response, 'Thank you for registering.')
 
-        self.assert_registration('[Weblate] Password reset on Weblate')
+        self.assert_registration(reset=True)
 
     @override_settings(REGISTRATION_CAPTCHA=False)
     def test_reset_nonexisting(self):
@@ -373,8 +391,9 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
             {'email': 'test@example.com'}
         )
         self.assertRedirects(response, reverse('email-sent'))
-        self.assert_registration('[Weblate] Password reset on Weblate')
-        # Pop notifications (new association + reset)
+        self.assert_registration(reset=True)
+        # Pop notifications (new association + reset + password change)
+        sent_mail = mail.outbox.pop()
         sent_mail = mail.outbox.pop()
         sent_mail = mail.outbox.pop()
         self.assertEqual(['test@example.com'], sent_mail.to)
@@ -390,8 +409,9 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
             {'email': 'test2@example.com'}
         )
         self.assertRedirects(response, reverse('email-sent'))
-        self.assert_registration('[Weblate] Password reset on Weblate')
-        # Pop notifications (new association + reset)
+        self.assert_registration(reset=True)
+        # Pop notifications (new association + reset + password change)
+        sent_mail = mail.outbox.pop()
         sent_mail = mail.outbox.pop()
         sent_mail = mail.outbox.pop()
         self.assertEqual(['test2@example.com'], sent_mail.to)

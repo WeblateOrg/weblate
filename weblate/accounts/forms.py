@@ -27,6 +27,7 @@ from django import forms
 from django.utils.html import escape
 from django.utils.translation import ugettext_lazy as _, pgettext
 from django.contrib.auth import authenticate, password_validation
+from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
 from django.contrib.auth.models import User
 from django.db.models import Q
@@ -42,6 +43,7 @@ from weblate.accounts.ratelimit import reset_rate_limit, check_rate_limit
 from weblate.lang.models import Language
 from weblate.trans.models import Project
 from weblate.trans.util import sort_choices
+from weblate.utils import messages
 from weblate.utils.validators import clean_fullname
 from weblate.logger import LOGGER
 
@@ -391,6 +393,26 @@ class SetPasswordForm(DjangoSetPasswordForm):
         raise forms.ValidationError(_(
             'You can not change password to the one you are currently using!'
         ))
+
+    # pylint: disable=W0222
+    def save(self, request):
+        # Change the password
+        password = self.cleaned_data["new_password1"]
+        self.user.set_password(password)
+        self.user.save()
+
+        # Updating the password logs out all other sessions for the user
+        # except the current one.
+        update_session_auth_hash(request, self.user)
+
+        # Change key for current session
+        request.session.cycle_key()
+
+        messages.success(
+            request,
+            _('Your password has been changed.')
+        )
+        notify_account_activity(self.user, request, 'password')
 
 
 class CaptchaForm(forms.Form):

@@ -142,8 +142,9 @@ def send_validation(strategy, backend, code, partial_token):
     )
 
 
+@partial
 def password_reset(strategy, backend, user, social, details, weblate_action,
-                   **kwargs):
+                   current_partial, **kwargs):
     """Set unusable password on reset."""
     if (strategy.request is not None and
             user is not None and
@@ -157,6 +158,14 @@ def password_reset(strategy, backend, user, social, details, weblate_action,
             method=get_auth_name(backend.name),
             name=social.uid
         )
+        # Remove partial pipeline, we do not need it
+        strategy.clean_partial_pipeline(current_partial.token)
+        # Store user ID
+        strategy.request.session['perform_reset'] = user.pk
+        # Set short session expiry
+        strategy.request.session.set_expiry(90)
+        # Redirect to form to change password
+        return redirect('password_reset')
 
 
 def verify_open(strategy, backend, user=None, **kwargs):

@@ -35,7 +35,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView, ListView
 from django.views.decorators.http import require_POST
-from django.contrib.auth import update_session_auth_hash
 from django.core.urlresolvers import reverse
 from django.utils.http import urlencode
 from django.template.loader import render_to_string
@@ -621,20 +620,8 @@ def password(request):
                 redirect_page = ''
 
             # Change the password
-            user = form.save()
+            form.save(request)
 
-            # Updating the password logs out all other sessions for the user
-            # except the current one.
-            update_session_auth_hash(request, user)
-
-            # Change key for current session
-            request.session.cycle_key()
-
-            messages.success(
-                request,
-                _('Your password has been changed.')
-            )
-            notify_account_activity(request.user, request, 'password')
             return redirect_profile(redirect_page)
     else:
         form = SetPasswordForm(request.user)
@@ -650,6 +637,30 @@ def password(request):
     )
 
 
+def reset_password_set(request):
+    """Perform actual password reset."""
+    user = User.objects.get(pk=request.session['perform_reset'])
+    if request.method == 'POST':
+        form = SetPasswordForm(user, request.POST)
+        if form.is_valid():
+            del request.session['perform_reset']
+            form.save(request)
+            request.session.create()
+            return redirect('login')
+    else:
+        form = SetPasswordForm(user)
+    return render(
+        request,
+        'accounts/reset.html',
+        {
+            'title': _('Password reset'),
+            'form': form,
+            'captcha_form': None,
+            'second_stage': True,
+        }
+    )
+
+
 def reset_password(request):
     """Password reset handling."""
     if 'email' not in load_backends(BACKENDS).keys():
@@ -661,7 +672,10 @@ def reset_password(request):
 
     captcha = None
 
-    if request.method == 'POST':
+    # We're already in the reset phase
+    if 'perform_reset' in request.session:
+        return reset_password_set(request)
+    elif request.method == 'POST':
         form = ResetForm(request.POST)
         if settings.REGISTRATION_CAPTCHA:
             captcha = CaptchaForm(request, request.POST)
@@ -690,6 +704,7 @@ def reset_password(request):
             'title': _('Password reset'),
             'form': form,
             'captcha_form': captcha,
+            'second_stage': False,
         }
     )
 

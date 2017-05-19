@@ -9,8 +9,11 @@
 
 {% block content %}
 
-
+{% if second_stage %}
+{% show_message "info" _("Forgotten your password? You can now set new one.") %}
+{% else %}
 {% show_message "info" _("Forgotten your password? Enter your e-mail address below, and we'll e-mail instructions for setting a new one.") %}
+{% endif %}
 
 {% if form.errors %}
 {% show_message "error" _("Please fix errors in the registration form.") %}
@@ -27,7 +30,7 @@
 {% endif %}
 </div>
 <div class="panel-footer">
-<input type="submit" value="{% trans 'Reset my password' %}" class="btn btn-default" />
+<input type="submit" value="{% if second_stage %}{% trans 'Set my password' %}{% else %}{% trans 'Reset my password' %}{% endif %}" class="btn btn-default" />
 </div>
 </div>
 </form>
