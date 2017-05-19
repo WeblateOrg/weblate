@@ -381,6 +381,17 @@ class SetPasswordForm(DjangoSetPasswordForm):
         label=_("New password confirmation"),
     )
 
+    def clean(self):
+        if 'new_password2' not in self.cleaned_data:
+            return self.cleaned_data
+        if not self.user.has_usable_password():
+            return self.cleaned_data
+        if not self.user.check_password(self.cleaned_data['new_password2']):
+            return self.cleaned_data
+        raise forms.ValidationError(_(
+            'You can not change password to the one you are currently using!'
+        ))
+
 
 class CaptchaForm(forms.Form):
     captcha = forms.IntegerField(required=True)
