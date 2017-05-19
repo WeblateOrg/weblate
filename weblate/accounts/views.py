@@ -351,7 +351,7 @@ def get_initial_contact(request):
 
 
 def contact(request):
-    captcha_form = None
+    captcha = None
     show_captcha = (
         settings.REGISTRATION_CAPTCHA and
         not request.user.is_authenticated
@@ -359,15 +359,14 @@ def contact(request):
 
     if request.method == 'POST':
         if show_captcha:
-            captcha_form = CaptchaForm(request, request.POST)
+            captcha = CaptchaForm(request, request.POST)
         form = ContactForm(request.POST)
         if not check_rate_limit(request):
             messages.error(
                 request,
                 _('Too many messages sent, please try again later!')
             )
-        elif ((captcha_form is None or captcha_form.is_valid()) and
-                form.is_valid()):
+        elif (captcha is None or captcha.is_valid()) and form.is_valid():
             mail_admins_contact(
                 request,
                 '%(subject)s',
@@ -382,14 +381,14 @@ def contact(request):
             initial['subject'] = CONTACT_SUBJECTS[request.GET['t']]
         form = ContactForm(initial=initial)
         if show_captcha:
-            captcha_form = CaptchaForm(request)
+            captcha = CaptchaForm(request)
 
     return render(
         request,
         'accounts/contact.html',
         {
             'form': form,
-            'captcha_form': captcha_form,
+            'captcha_form': captcha,
             'title': _('Contact'),
         }
     )
@@ -519,13 +518,13 @@ def weblate_logout(request):
 
 def register(request):
     """Registration form."""
-    captcha_form = None
+    captcha = None
 
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if settings.REGISTRATION_CAPTCHA:
-            captcha_form = CaptchaForm(request, request.POST)
-        if ((captcha_form is None or captcha_form.is_valid()) and
+            captcha = CaptchaForm(request, request.POST)
+        if ((captcha is None or captcha.is_valid()) and
                 form.is_valid() and settings.REGISTRATION_OPEN):
             if form.cleaned_data['email_user']:
                 notify_account_activity(
@@ -540,7 +539,7 @@ def register(request):
     else:
         form = RegistrationForm()
         if settings.REGISTRATION_CAPTCHA:
-            captcha_form = CaptchaForm(request)
+            captcha = CaptchaForm(request)
 
     backends = set(load_backends(BACKENDS).keys())
 
@@ -556,7 +555,7 @@ def register(request):
             'registration_backends': backends - set(['email']),
             'title': _('User registration'),
             'form': form,
-            'captcha_form': captcha_form,
+            'captcha_form': captcha,
         }
     )
 
@@ -565,14 +564,13 @@ def register(request):
 @avoid_demo
 def email_login(request):
     """Connect email."""
-    captcha_form = None
+    captcha = None
 
     if request.method == 'POST':
         form = EmailForm(request.POST)
         if settings.REGISTRATION_CAPTCHA:
-            captcha_form = CaptchaForm(request, request.POST)
-        if ((captcha_form is None or captcha_form.is_valid()) and
-                form.is_valid()):
+            captcha = CaptchaForm(request, request.POST)
+        if (captcha is None or captcha.is_valid()) and form.is_valid():
             if form.cleaned_data['email_user']:
                 notify_account_activity(
                     form.cleaned_data['email_user'],
@@ -586,7 +584,7 @@ def email_login(request):
     else:
         form = EmailForm()
         if settings.REGISTRATION_CAPTCHA:
-            captcha_form = CaptchaForm(request)
+            captcha = CaptchaForm(request)
 
     return render(
         request,
@@ -594,7 +592,7 @@ def email_login(request):
         {
             'title': _('Register email'),
             'form': form,
-            'captcha_form': captcha_form,
+            'captcha_form': captcha,
         }
     )
 
@@ -661,14 +659,13 @@ def reset_password(request):
         )
         return redirect('login')
 
-    captcha_form = None
+    captcha = None
 
     if request.method == 'POST':
         form = ResetForm(request.POST)
         if settings.REGISTRATION_CAPTCHA:
-            captcha_form = CaptchaForm(request, request.POST)
-        if ((captcha_form is None or captcha_form.is_valid()) and
-                form.is_valid()):
+            captcha = CaptchaForm(request, request.POST)
+        if (captcha is None or captcha.is_valid()) and form.is_valid():
             # Force creating new session
             request.session.create()
             if request.user.is_authenticated:
@@ -684,7 +681,7 @@ def reset_password(request):
     else:
         form = ResetForm()
         if settings.REGISTRATION_CAPTCHA:
-            captcha_form = CaptchaForm(request)
+            captcha = CaptchaForm(request)
 
     return render(
         request,
@@ -692,7 +689,7 @@ def reset_password(request):
         {
             'title': _('Password reset'),
             'form': form,
-            'captcha_form': captcha_form,
+            'captcha_form': captcha,
         }
     )
 
