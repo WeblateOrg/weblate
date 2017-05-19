@@ -237,8 +237,10 @@ def ensure_valid(strategy, backend, user, registering_user, weblate_action,
     if weblate_expires < time.time():
         raise AuthStateForbidden(backend, 'expires')
 
-    # We allow password reset
+    # We allow password reset for unauthenticated users
     if weblate_action == 'reset':
+        if strategy.request.user.is_authenticated:
+            raise AuthStateForbidden(backend, 'user')
         return
 
     # Add email/register should stay on same user
