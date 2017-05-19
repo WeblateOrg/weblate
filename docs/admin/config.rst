@@ -34,9 +34,14 @@ AUTH_LOCK_ATTEMPTS
 
 .. versionadded:: 2.14
 
-Maximal number of failed authentication attempts before acccount password is
-reset. User will not be able to log in after that using password until he asks
-for password reset.
+Maximal number of failed authentication attempts before rate limiting is applied.
+
+This is currently applied in following locations:
+
+* On login, the acccount password is reset. User will not be able to log in
+  after that using password until he asks for password reset.
+* On password reset, the reset mails are no longer sent. This avoids spamming
+  user with too many password reset attempts.
 
 Defaults to 10.
 

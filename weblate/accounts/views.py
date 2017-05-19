@@ -166,20 +166,25 @@ def avoid_demo(function):
     return demo_wrap
 
 
-def ratelimit_post(function):
+def session_ratelimit_post(function):
     """Session based rate limiting for POST requests."""
     def rate_wrap(request, *args, **kwargs):
         attempts = request.session.get('auth_attempts', 0)
-        if (request.method == 'POST' and
-                attempts >= settings.AUTH_MAX_ATTEMPTS):
-            logout(request)
-            messages.error(
-                request,
-                _('Too many authentication attempts!')
-            )
-            return redirect('login')
+        if request.method == 'POST':
+            if attempts >= settings.AUTH_MAX_ATTEMPTS:
+                logout(request)
+                messages.error(
+                    request,
+                    _('Too many authentication attempts!')
+                )
+                return redirect('login')
+            request.session['auth_attempts'] = attempts + 1
         return function(request, *args, **kwargs)
     return rate_wrap
+
+
+def session_ratelimit_reset(request):
+    request.session['auth_attempts'] = 0
 
 
 def redirect_profile(page=''):
@@ -287,11 +292,12 @@ def user_profile(request):
 
 @login_required
 @avoid_demo
-@ratelimit_post
+@session_ratelimit_post
 def user_remove(request):
     if request.method == 'POST':
         confirm_form = PasswordConfirmForm(request, request.POST)
         if confirm_form.is_valid():
+            session_ratelimit_reset(request)
             remove_user(request.user)
             logout(request)
             messages.success(
@@ -313,7 +319,7 @@ def user_remove(request):
 
 @login_required
 @avoid_demo
-@ratelimit_post
+@session_ratelimit_post
 def confirm(request):
     details = request.session.get('reauthenticate')
     if not details:
@@ -322,6 +328,7 @@ def confirm(request):
     if request.method == 'POST':
         confirm_form = PasswordConfirmForm(request, request.POST)
         if confirm_form.is_valid():
+            session_ratelimit_reset(request)
             request.session.pop('reauthenticate')
             request.session['reauthenticate_done'] = True
             return redirect('social:complete', backend=details['backend'])
@@ -598,7 +605,7 @@ def email_login(request):
 
 @login_required
 @avoid_demo
-@ratelimit_post
+@session_ratelimit_post
 def password(request):
     """Password change / set form."""
     do_change = False
@@ -612,6 +619,7 @@ def password(request):
     if request.method == 'POST':
         form = SetPasswordForm(request.user, request.POST)
         if form.is_valid() and do_change:
+            session_ratelimit_reset(request)
 
             # Clear flag forcing user to set password
             redirect_page = '#auth'
@@ -663,6 +671,8 @@ def reset_password_set(request):
 
 def reset_password(request):
     """Password reset handling."""
+    if request.user.is_authenticated:
+        redirect_profile()
     if 'email' not in load_backends(BACKENDS).keys():
         messages.error(
             request,
@@ -682,16 +692,19 @@ def reset_password(request):
         if (captcha is None or captcha.is_valid()) and form.is_valid():
             # Force creating new session
             request.session.create()
-            if request.user.is_authenticated:
-                logout(request)
 
             if form.cleaned_data['email_user']:
-                request.session['password_reset'] = True
-                store_userid(request)
-                return complete(request, 'email')
-            else:
-                request.session['registration-email-sent'] = True
-                return redirect('email-sent')
+                rate_limited = notify_account_activity(
+                    form.cleaned_data['email_user'],
+                    request,
+                    'reset-request'
+                )
+                if not rate_limited:
+                    request.session['password_reset'] = True
+                    store_userid(request)
+                    return complete(request, 'email')
+            request.session['registration-email-sent'] = True
+            return redirect('email-sent')
     else:
         form = ResetForm()
         if settings.REGISTRATION_CAPTCHA:

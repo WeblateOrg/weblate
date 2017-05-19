@@ -52,11 +52,11 @@ GH_BACKENDS = (
 )
 
 
-class RegistrationTest(TestCase, RegistrationTestMixin):
+class BaseRegistrationTest(TestCase, RegistrationTestMixin):
     clear_cookie = False
 
     def setUp(self):
-        super(RegistrationTest, self).setUp()
+        super(BaseRegistrationTest, self).setUp()
         reset_rate_limit(address='127.0.0.1')
 
     def assert_registration(self, match=None, reset=False):
@@ -91,6 +91,51 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
             self.assertRedirects(response, reverse('password'))
         return url
 
+    @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
+    def perform_registration(self):
+        response = self.client.post(
+            reverse('register'),
+            REGISTRATION_DATA,
+            follow=True
+        )
+        # Check we did succeed
+        self.assertContains(response, 'Thank you for registering.')
+
+        # Confirm account
+        self.assert_registration()
+        mail.outbox.pop()
+
+        # Set password
+        response = self.client.post(
+            reverse('password'),
+            {
+                'new_password1': '1pa$$word!',
+                'new_password2': '1pa$$word!',
+            }
+        )
+        self.assertRedirects(response, reverse('profile'))
+        # Password change notification
+        notification = mail.outbox.pop()
+        self.assertEqual(
+            notification.subject,
+            '[Weblate] Activity on your account at Weblate'
+        )
+
+        # Check we can access home (was redirected to password change)
+        response = self.client.get(reverse('home'))
+        self.assertContains(response, 'First Last')
+
+        user = User.objects.get(username='username')
+        # Verify user is active
+        self.assertTrue(user.is_active)
+        # Verify stored first/last name
+        self.assertEqual(user.first_name, 'First Last')
+
+        # Ensure we've picked up all mails
+        self.assertEqual(len(mail.outbox), 0)
+
+
+class RegistrationTest(BaseRegistrationTest):
     @override_settings(REGISTRATION_CAPTCHA=True)
     def test_register_captcha_fail(self):
         response = self.client.post(
@@ -140,76 +185,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
             'Sorry, but registrations on this site are disabled.'
         )
 
-    @override_settings(REGISTRATION_OPEN=True)
-    @override_settings(REGISTRATION_CAPTCHA=False)
-    def test_register(self):
-        # Disable captcha
-        response = self.client.post(
-            reverse('register'),
-            REGISTRATION_DATA,
-            follow=True
-        )
-        # Check we did succeed
-        self.assertContains(response, 'Thank you for registering.')
-
-        # Confirm account
-        self.assert_registration()
-        mail.outbox.pop()
-
-        # Set password
-        response = self.client.post(
-            reverse('password'),
-            {
-                'new_password1': '1pa$$word!',
-                'new_password2': '1pa$$word!',
-            }
-        )
-        self.assertRedirects(response, reverse('profile'))
-        # Password change notification
-        notification = mail.outbox.pop()
-        self.assertEqual(
-            notification.subject,
-            '[Weblate] Activity on your account at Weblate'
-        )
-
-        # Check we can access home (was redirected to password change)
-        response = self.client.get(reverse('home'))
-        self.assertContains(response, 'First Last')
-
-        user = User.objects.get(username='username')
-        # Verify user is active
-        self.assertTrue(user.is_active)
-        # Verify stored first/last name
-        self.assertEqual(user.first_name, 'First Last')
-
-        # Ensure we've picked up all mails
-        self.assertEqual(len(mail.outbox), 0)
-
-    @override_settings(REGISTRATION_OPEN=True)
-    @override_settings(REGISTRATION_CAPTCHA=False)
-    def test_double_link(self):
-        """Test that verification link works just once."""
-        response = self.client.post(
-            reverse('register'),
-            REGISTRATION_DATA,
-            follow=True
-        )
-        # Check we did succeed
-        self.assertContains(response, 'Thank you for registering.')
-        url = self.assert_registration()
-
-        # Clear cookies
-        if self.clear_cookie and 'sessionid' in self.client.cookies:
-            del self.client.cookies['sessionid']
-
-        response = self.client.get(url, follow=True)
-        self.assertContains(
-            response,
-            'Email couldn&#39;t be validated'
-        )
-
-    @override_settings(REGISTRATION_OPEN=True)
-    @override_settings(REGISTRATION_CAPTCHA=False)
+    @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
     def test_double_register_logout(self, logout=True):
         """Test double registration from single browser with logout."""
 
@@ -261,8 +237,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         """Test double registration from single browser without logout."""
         self.test_double_register_logout(False)
 
-    @override_settings(REGISTRATION_OPEN=True)
-    @override_settings(REGISTRATION_CAPTCHA=False)
+    @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
     def test_register_missing(self):
         """Test handling of incomplete registration URL."""
         # Disable captcha
@@ -285,25 +260,23 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         self.assertRedirects(response, reverse('login'))
         self.assertContains(response, 'Failed to verify your registration')
 
-    @override_settings(REGISTRATION_CAPTCHA=False)
-    def test_reset(self):
+    @override_settings(REGISTRATION_CAPTCHA=False, AUTH_LOCK_ATTEMPTS=5)
+    def test_reset_ratelimit(self):
         """Test for password reset."""
         User.objects.create_user('testuser', 'test@example.com', 'x')
+        self.assertEqual(len(mail.outbox), 0)
 
-        response = self.client.get(
-            reverse('password_reset'),
-        )
-        self.assertContains(response, 'Reset my password')
-        response = self.client.post(
-            reverse('password_reset'),
-            {
-                'email': 'test@example.com'
-            },
-            follow=True
-        )
-        self.assertContains(response, 'Thank you for registering.')
+        for dummy in range(10):
+            response = self.client.post(
+                reverse('password_reset'),
+                {'email': 'test@example.com'},
+                follow=True
+            )
+            self.assertContains(response, 'Thank you for registering.')
 
-        self.assert_registration(reset=True)
+        # Even though we've asked 10 times for reset, user should get only
+        # emails until rate limit is applied
+        self.assertEqual(len(mail.outbox), 4)
 
     @override_settings(REGISTRATION_CAPTCHA=False)
     def test_reset_nonexisting(self):
@@ -461,7 +434,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
     def test_add_mail(self):
         """Adding mail to existing account."""
         # Create user
-        self.test_register()
+        self.perform_registration()
 
         # Check adding email page
         response = self.client.post(
@@ -529,7 +502,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
     def test_pipeline_redirect(self):
         """Test pipeline redirect using next parameter."""
         # Create user
-        self.test_register()
+        self.perform_registration()
 
         # Valid next URL
         response = self.client.post(
@@ -651,5 +624,52 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
             social_django.utils.BACKENDS = orig_backends
 
 
-class NoCookieRegistrationTest(RegistrationTest):
+class CookieRegistrationTest(BaseRegistrationTest):
+    def test_register(self):
+        self.perform_registration()
+
+    @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
+    def test_double_link(self):
+        """Test that verification link works just once."""
+        response = self.client.post(
+            reverse('register'),
+            REGISTRATION_DATA,
+            follow=True
+        )
+        # Check we did succeed
+        self.assertContains(response, 'Thank you for registering.')
+        url = self.assert_registration()
+
+        # Clear cookies
+        if self.clear_cookie and 'sessionid' in self.client.cookies:
+            del self.client.cookies['sessionid']
+
+        response = self.client.get(url, follow=True)
+        self.assertContains(
+            response,
+            'Email couldn&#39;t be validated'
+        )
+
+    @override_settings(REGISTRATION_CAPTCHA=False)
+    def test_reset(self):
+        """Test for password reset."""
+        User.objects.create_user('testuser', 'test@example.com', 'x')
+
+        response = self.client.get(
+            reverse('password_reset'),
+        )
+        self.assertContains(response, 'Reset my password')
+        response = self.client.post(
+            reverse('password_reset'),
+            {
+                'email': 'test@example.com'
+            },
+            follow=True
+        )
+        self.assertContains(response, 'Thank you for registering.')
+
+        self.assert_registration(reset=True)
+
+
+class NoCookieRegistrationTest(CookieRegistrationTest):
     clear_cookie = True
