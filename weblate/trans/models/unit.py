@@ -636,6 +636,11 @@ class Unit(models.Model, LoggerMixin):
         # removed)
         self.flags = pounit.get_flags()
 
+        # Propagate to other projects
+        # This has to be done before changing source/content_hash for template
+        if propagate:
+            self.propagate(request, change_action)
+
         if self.translation.is_template():
             self.source = self.target
             self.content_hash = calculate_hash(self.source, self.context)
@@ -673,10 +678,6 @@ class Unit(models.Model, LoggerMixin):
         # Update related source strings if working on a template
         if self.translation.is_template():
             self.update_source_units(self.old_unit.source)
-
-        # Propagate to other projects
-        if propagate:
-            self.propagate(request, change_action)
 
         return True
 
