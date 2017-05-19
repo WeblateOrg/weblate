@@ -479,11 +479,7 @@ class PasswordConfirmForm(forms.Form):
             valid = self.request.user.check_password(cur_password)
         else:
             valid = (cur_password == '')
-        if valid:
-            self.request.session['auth_attempts'] = 0
-        else:
-            attempts = self.request.session.get('auth_attempts', 0)
-            self.request.session['auth_attempts'] = attempts + 1
+        if not valid:
             rotate_token(self.request)
             raise forms.ValidationError(
                 _('You have entered an invalid password.')
