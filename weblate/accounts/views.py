@@ -694,12 +694,17 @@ def reset_password(request):
             request.session.create()
 
             if form.cleaned_data['email_user']:
-                request.session['password_reset'] = True
-                store_userid(request)
-                return complete(request, 'email')
-            else:
-                request.session['registration-email-sent'] = True
-                return redirect('email-sent')
+                rate_limited = notify_account_activity(
+                    form.cleaned_data['email_user'],
+                    request,
+                    'reset-request'
+                )
+                if not rate_limited:
+                    request.session['password_reset'] = True
+                    store_userid(request)
+                    return complete(request, 'email')
+            request.session['registration-email-sent'] = True
+            return redirect('email-sent')
     else:
         form = ResetForm()
         if settings.REGISTRATION_CAPTCHA:

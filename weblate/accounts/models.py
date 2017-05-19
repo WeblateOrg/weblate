@@ -52,6 +52,9 @@ ACCOUNT_ACTIVITY = {
     'password': _(
         'Password has been changed.'
     ),
+    'reset-request': _(
+        'Password reset has been requested.'
+    ),
     'reset': _(
         'Password reset has been confirmed.'
     ),

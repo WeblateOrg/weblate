@@ -366,7 +366,9 @@ def send_notification_email(language, email, notification,
 
 
 def notify_account_activity(user, request, activity, **kwargs):
-    """Notification about important activity with account."""
+    """Notification about important activity with account.
+
+    Returns whether the activity should be rate limited."""
     address = get_ip_address(request)
     audit = AuditLog.objects.create(user, activity, address, **kwargs)
 
@@ -379,13 +381,22 @@ def notify_account_activity(user, request, activity, **kwargs):
             info='{0} from {1}'.format(activity, address),
         )
 
-    # Handle login rate limiting
+    # Handle rate limiting
     if activity == 'failed-auth' and user.has_usable_password():
         failures = AuditLog.objects.get_after(user, 'login', 'failed-auth')
         if failures.count() >= settings.AUTH_LOCK_ATTEMPTS:
             user.set_unusable_password()
             user.save(update_fields=['password'])
             notify_account_activity(user, request, 'locked')
+            return True
+
+    elif activity == 'reset-request':
+        failures = AuditLog.objects.get_after(user, 'login', 'reset-request')
+        if failures.count() >= settings.AUTH_LOCK_ATTEMPTS:
+            return True
+
+    return False
+
 
 
 def send_user(profile, notification, subproject, display_obj,

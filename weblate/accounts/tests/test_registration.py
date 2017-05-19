@@ -260,6 +260,24 @@ class RegistrationTest(BaseRegistrationTest):
         self.assertRedirects(response, reverse('login'))
         self.assertContains(response, 'Failed to verify your registration')
 
+    @override_settings(REGISTRATION_CAPTCHA=False, AUTH_LOCK_ATTEMPTS=5)
+    def test_reset_ratelimit(self):
+        """Test for password reset."""
+        User.objects.create_user('testuser', 'test@example.com', 'x')
+        self.assertEqual(len(mail.outbox), 0)
+
+        for dummy in range(10):
+            response = self.client.post(
+                reverse('password_reset'),
+                {'email': 'test@example.com'},
+                follow=True
+            )
+            self.assertContains(response, 'Thank you for registering.')
+
+        # Even though we've asked 10 times for reset, user should get only
+        # emails until rate limit is applied
+        self.assertEqual(len(mail.outbox), 4)
+
     @override_settings(REGISTRATION_CAPTCHA=False)
     def test_reset_nonexisting(self):
         """Test for password reset of nonexisting email."""
