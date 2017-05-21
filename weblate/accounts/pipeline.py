@@ -41,6 +41,8 @@ from social_core.exceptions import (
     AuthStateForbidden,
 )
 
+from social_django.models import Code
+
 from weblate.accounts.notifications import (
     send_notification_email, notify_account_activity
 )
@@ -102,6 +104,10 @@ def require_email(backend, details, user=None, is_new=False, **kwargs):
         email = get_github_email(kwargs['response']['access_token'])
         if email is not None:
             details['email'] = email
+
+    # Remove any pending email validation codes
+    if details.get('email') and backend.name == 'email':
+        Code.objects.filter(email=details['email']).delete()
 
     if user and user.email:
         # Force validation of new email address
@@ -228,6 +234,24 @@ def verify_username(strategy, backend, details, user=None, **kwargs):
             backend,
             _('This username is already taken. Please choose another.')
         )
+
+
+def revoke_mail_code(strategy, details, **kwargs):
+    """Revmove old mail validation code for Python Social Auth.
+
+    PSA keeps them around, but we really don't need them again.
+    """
+    data = strategy.request_data()
+    if details['email'] and 'verification_code' in data:
+        try:
+            code = strategy.storage.code.objects.get(
+                code=data['verification_code'],
+                email=details['email'],
+                verified=True
+            )
+            code.delete()
+        except strategy.storage.code.DoesNotExist:
+            return
 
 
 def ensure_valid(strategy, backend, user, registering_user, weblate_action,
