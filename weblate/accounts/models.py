@@ -38,7 +38,7 @@ from django.utils.translation import LANGUAGE_SESSION_KEY
 
 from rest_framework.authtoken.models import Token
 
-from social_django.models import UserSocialAuth
+from social_django.models import UserSocialAuth, Code
 
 from weblate.lang.models import Language
 from weblate.utils import messages
@@ -508,6 +508,9 @@ def remove_user(user, request):
 
     # Store activity log and notify
     notify_account_activity(user, request, 'removed')
+
+    # Remove any email validation codes
+    Code.objects.filter(email__in=get_all_user_mails(user)).delete()
 
     # Change username
     user.username = 'deleted-{0}'.format(user.pk)
