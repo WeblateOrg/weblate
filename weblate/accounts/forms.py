@@ -35,7 +35,7 @@ from django.middleware.csrf import rotate_token
 from django.utils.encoding import force_text
 
 from weblate.accounts.auth import try_get_user
-from weblate.accounts.models import Profile, VerifiedEmail
+from weblate.accounts.models import Profile, get_all_user_mails
 from weblate.accounts.captcha import MathCaptcha
 from weblate.accounts.notifications import notify_account_activity
 from weblate.accounts.pipeline import USERNAME_RE
@@ -293,13 +293,9 @@ class UserForm(forms.ModelForm):
 
         super(UserForm, self).__init__(*args, **kwargs)
 
-        verified_mails = VerifiedEmail.objects.filter(
-            social__user=self.instance
-        )
-        emails = {x.email for x in verified_mails}
-        emails.add(self.instance.email)
+        emails = get_all_user_mails(self.instance)
 
-        self.fields['email'].choices = [(x, x) for x in emails]
+        self.fields['email'].choices = [(x, x) for x in sorted(emails)]
         self.fields['username'].valid = self.instance.username
 
 

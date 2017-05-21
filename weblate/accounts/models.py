@@ -486,6 +486,19 @@ def set_lang(request, profile):
         request.session[LANGUAGE_SESSION_KEY] = profile.language
 
 
+def get_all_user_mails(user):
+    """Return all verified mails for user."""
+    emails = set(
+        VerifiedEmail.objects.filter(
+            social__user=user
+        ).values_list(
+            'email', flat=True
+        )
+    )
+    emails.add(user.email)
+    return emails
+
+
 def remove_user(user, request):
     """Remove user account."""
     from weblate.accounts.notifications import notify_account_activity
