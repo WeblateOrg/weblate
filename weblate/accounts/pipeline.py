@@ -41,6 +41,8 @@ from social_core.exceptions import (
     AuthStateForbidden,
 )
 
+from social_django.models import Code
+
 from weblate.accounts.notifications import (
     send_notification_email, notify_account_activity
 )
@@ -102,6 +104,10 @@ def require_email(backend, details, user=None, is_new=False, **kwargs):
         email = get_github_email(kwargs['response']['access_token'])
         if email is not None:
             details['email'] = email
+
+    # Remove any pending email validation codes
+    if details.get('email') and backend.name == 'email':
+        Code.objects.filter(email=details['email']).delete()
 
     if user and user.email:
         # Force validation of new email address
