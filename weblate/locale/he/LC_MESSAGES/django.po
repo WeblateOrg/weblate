@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-05-15 15:30+0000\n"
-"PO-Revision-Date: 2017-05-19 12:09+0000\n"
+"PO-Revision-Date: 2017-05-21 10:17+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew "
 "<https://hosted.weblate.org/projects/weblate/master/he/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.14\n"
+"X-Generator: Weblate 2.14.1-dev\n"
 
 #: weblate/accounts/auth.py:57
 msgid ""
@@ -5283,7 +5283,7 @@ msgstr "קובץ"
 
 #: weblate/trans/forms.py:409 weblate/trans/forms.py:786
 msgid "Merge method"
-msgstr "מזג שיטה"
+msgstr "שיטת מיזוג"
 
 #: weblate/trans/forms.py:411
 msgid "Add as translation"
@@ -5315,11 +5315,11 @@ msgstr "ייבוא המחרוזת כמתורגמת"
 
 #: weblate/trans/forms.py:426
 msgid "Merge file header"
-msgstr "מזג תקורת קובץ"
+msgstr "מיזוג כותרת קובץ"
 
 #: weblate/trans/forms.py:427
 msgid "Merges content of file header into the translation."
-msgstr "הפעולה תמזג תוכן תקורת קובץ לתוך התרגום."
+msgstr "הפעולה תמזג תוכן כותרת קובץ לתוך התרגום."
 
 #: weblate/trans/forms.py:443
 msgid "Overwrite existing translations"
@@ -5957,7 +5957,7 @@ msgstr "ללא הוספה של שפה"
 
 #: weblate/trans/models/subproject.py:98
 msgid "Merge"
-msgstr "מזג"
+msgstr "מיזוג"
 
 #: weblate/trans/models/subproject.py:134
 msgid "Component name"
@@ -6038,28 +6038,21 @@ msgid "Monolingual base language file"
 msgstr "קובץ בסיס שפה חד לשוני"
 
 #: weblate/trans/models/subproject.py:222
-#, fuzzy
-#| msgid ""
-#| "Filename of translations template, this is recommended to use for "
-#| "translations which store only translated string like Android resource "
-#| "strings."
 msgid ""
 "Filename of translations base file, which contains all strings and their "
 "source; this is recommended to use for monolingual translation formats."
 msgstr ""
-"שמות קובצי תבניות התרגום, מומלץ להשתמש בזה רק לטובת מתרגמים ששומרים מחרוזות "
-"מתורגמות בלבד כמו למשל מחרוזות משאבים של Android."
+"שם הקובץ של קובץ בסיס התרגום, קובץ זה מכיל את כל המחרוזות והמקור שלהן, מומלץ "
+"לשימוש עבור תבניות תרגום חד־לשוני."
 
 #: weblate/trans/models/subproject.py:228
 msgid "Edit base file"
 msgstr "עריכת קובץ בסיס"
 
 #: weblate/trans/models/subproject.py:231
-#, fuzzy
-#| msgid "You can not use monolingual translation without template!"
 msgid ""
 "Whether users will be able to edit base file for monolingual translations."
-msgstr "לא ניתן להשתמש בתרגום חד־לשוני ללא תבנית!"
+msgstr "האם משתמשים יוכלו לערוך קובץ בסיס עבור תרגומים חד־לשוניים."
 
 #: weblate/trans/models/subproject.py:236
 msgid "Base file for new translations"
@@ -6097,15 +6090,11 @@ msgid "Post-update script"
 msgstr "סקריפט לאחר עדכון"
 
 #: weblate/trans/models/subproject.py:271
-#, fuzzy
-#| msgid ""
-#| "Script to be executed before committing translation, please check "
-#| "documentation for more details."
 msgid ""
 "Script to be executed after receiving a repository update, please check "
 "documentation for more details."
 msgstr ""
-"סקריפט שיש להפעיל לפני שמירת התרגום, ניתן לחפש בתיעוד לקבלת פרטים נוספים."
+"סקריפט שיש להפעיל לאחר קבלת עדכון למאגר, ניתן לחפש בתיעוד לקבלת פרטים נוספים."
 
 #: weblate/trans/models/subproject.py:276
 msgid "Pre-commit script"
@@ -6123,45 +6112,33 @@ msgid "Post-commit script"
 msgstr "סקריפט לאחר הגשה"
 
 #: weblate/trans/models/subproject.py:293
-#, fuzzy
-#| msgid ""
-#| "Script to be executed before committing translation, please check "
-#| "documentation for more details."
 msgid ""
 "Script to be executed after committing translation, please check "
 "documentation for more details."
-msgstr ""
-"סקריפט שיש להפעיל לפני שמירת התרגום, ניתן לחפש בתיעוד לקבלת פרטים נוספים."
+msgstr "סקריפט שיש להפעיל לאחר הגשת תרגום, ניתן לחפש בתיעוד לקבלת פרטים נוספים."
 
 #: weblate/trans/models/subproject.py:298
 msgid "Post-push script"
 msgstr "סקריפט לאחר דחיפה"
 
 #: weblate/trans/models/subproject.py:304
-#, fuzzy
-#| msgid ""
-#| "Script to be executed before committing translation, please check "
-#| "documentation for more details."
 msgid ""
 "Script to be executed after pushing translation to remote, please check "
 "documentation for more details."
 msgstr ""
-"סקריפט שיש להפעיל לפני שמירת התרגום, ניתן לחפש בתיעוד לקבלת פרטים נוספים."
+"סקריפט שיש להפעיל לאחר דחיפת התרגום לצד המרוחק, ניתן לחפש בתיעוד לקבלת פרטים "
+"נוספים."
 
 #: weblate/trans/models/subproject.py:309
 msgid "Post-add script"
 msgstr "סקריפט לאחר הוספה"
 
 #: weblate/trans/models/subproject.py:315
-#, fuzzy
-#| msgid ""
-#| "Script to be executed before committing translation, please check "
-#| "documentation for more details."
 msgid ""
 "Script to be executed after adding new translation, please check "
 "documentation for more details."
 msgstr ""
-"סקריפט שיש להפעיל לפני שמירת התרגום, ניתן לחפש בתיעוד לקבלת פרטים נוספים."
+"סקריפט שיש להפעיל לאחר הוספת תרגום חדש, ניתן לחפש בתיעוד לקבלת פרטים נוספים."
 
 #: weblate/trans/models/subproject.py:321
 msgid "Locked"
@@ -6222,14 +6199,12 @@ msgid "Quality checks flags"
 msgstr "סימוני בדיקות איכות"
 
 #: weblate/trans/models/subproject.py:370
-#, fuzzy
-#| msgid ""
-#| "Additional file to include in commits, please check documentation for "
-#| "more details."
 msgid ""
 "Additional comma-separated flags to influence quality checks, check "
 "documentation for possible values."
-msgstr "קובץ נוסף לכלול בשמירת התרגום, ניתן לחפש פרטים נוספים בתיעוד."
+msgstr ""
+"דגלונים נוספים עם הפרדה לפסיקים להשפעה על איכות הבדיקות, ניתן לחפש פרטים "
+"נוספים בתיעוד."
 
 #: weblate/trans/models/subproject.py:384
 msgid "Optional short summary of license used for translations."
@@ -6386,16 +6361,13 @@ msgid "Language code %s is too long, please check filemask!"
 msgstr "קוד השפה %s ארוך מדי, נא לבדוק את מסכת הקובץ!"
 
 #: weblate/trans/models/subproject.py:1145
-#, fuzzy, python-format
-#| msgid ""
-#| "There are more files for single language, please adjust the mask and use "
-#| "subprojects for translating different resources."
+#, python-format
 msgid ""
 "There are more files for single language (%s), please adjust the mask and "
 "use components for translating different resources."
 msgstr ""
-"יש יותר מדי קבצים לשפה אחת, נא להתאים את המסכה לשימוש בתת מיזמים לצורך תרגום "
-"של משאבים שונים."
+"יש עוד קבצים לשפה אחת (%s), נא להתאים את המסכה לשימוש ברכיבים לצורך תרגום של "
+"משאבים שונים."
 
 #: weblate/trans/models/subproject.py:1151
 #, python-format
@@ -6930,16 +6902,12 @@ msgid "Skip review flag when importing"
 msgstr "דילוג על דגלון הסקירה בעת ייבוא"
 
 #: weblate/trans/validators.py:36
-#, fuzzy
-#| msgid "Search in source strings"
 msgid "Add review flag for new source strings"
-msgstr "חפש בתוך מחרוזות מקור"
+msgstr "הוספת דגלון סקירה למחרוזות מקור חדשות"
 
 #: weblate/trans/validators.py:39
-#, fuzzy
-#| msgid "Search in source strings"
 msgid "Add review flag for new translated strings"
-msgstr "חפש בתוך מחרוזות מקור"
+msgstr "הוספת דגלון סקירה למחרוזות מתורגמות חדשות"
 
 #: weblate/trans/validators.py:50 weblate/trans/validators.py:71
 #: weblate/utils/validators.py:120
@@ -7117,7 +7085,7 @@ msgid "No words to import found in file."
 msgstr "לא נמצאו מילים לייבוא בקובץ."
 
 #: weblate/trans/views/dictionary.py:167
-#, python-format, fuzzy
+#, python-format
 msgid "Imported %d word from the uploaded file."
 msgid_plural "Imported %d words from the uploaded file."
 msgstr[0] "יובאה מילה אחת מהקובץ שהועלה."
@@ -7218,7 +7186,7 @@ msgid "Automatic translation completed, no strings were updated."
 msgstr "התרגום האוטומטי הושלם, לא עודכנו מחרוזות."
 
 #: weblate/trans/views/edit.py:612
-#, python-format, fuzzy
+#, python-format
 msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
 msgstr[0] "התרגום האוטומטי הושלם, מחרוזת אחת עודכנה."
@@ -7245,7 +7213,7 @@ msgid "Search and replace completed, no strings were updated."
 msgstr "החיפוש וההחלפה הושלמו, לא עודכנו מחרוזות."
 
 #: weblate/trans/views/edit.py:829
-#, python-format, fuzzy
+#, python-format
 msgid "Search and replace completed, %d string was updated."
 msgid_plural "Search and replace completed, %d strings were updated."
 msgstr[0] "החיפוש וההחלפה הושלמו, מחרוזת אחת עודכנה."
