@@ -230,6 +230,24 @@ def verify_username(strategy, backend, details, user=None, **kwargs):
         )
 
 
+def revoke_mail_code(strategy, details, **kwargs):
+    """Revmove old mail validation code for Python Social Auth.
+
+    PSA keeps them around, but we really don't need them again.
+    """
+    data = strategy.request_data()
+    if details['email'] and 'verification_code' in data:
+        try:
+            code = strategy.storage.code.objects.get(
+                code=data['verification_code'],
+                email=details['email'],
+                verified=True
+            )
+            code.delete()
+        except strategy.storage.code.DoesNotExist:
+            return
+
+
 def ensure_valid(strategy, backend, user, registering_user, weblate_action,
                  weblate_expires, **kwargs):
     """Ensure the activation link is still."""
