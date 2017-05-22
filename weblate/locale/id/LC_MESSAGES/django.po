@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-05-15 15:30+0000\n"
-"PO-Revision-Date: 2017-05-21 13:13+0000\n"
-"Last-Translator: se7entime <se7entime@protonmail.com>\n"
+"PO-Revision-Date: 2017-05-22 18:48+0700\n"
+"Last-Translator: Arif Budiman <arifpedia@gmail.com>\n"
 "Language-Team: Indonesian "
 "<https://hosted.weblate.org/projects/weblate/master/id/>\n"
 "Language: id\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2.14.1-dev\n"
+"X-Generator: Poedit 2.0.2\n"
 
 #: weblate/accounts/auth.py:57
 msgid ""
@@ -249,10 +249,8 @@ msgid "Account locked due to excessive failed authentication attempts."
 msgstr "Akun dikunci karena percobaan autentikasi gagal yang terlalu sering."
 
 #: weblate/accounts/models.py:169 weblate/templates/accounts/profile.html:304
-#, fuzzy
-#| msgid "Account activation"
 msgid "Account activity"
-msgstr "Aktivasi akun"
+msgstr "Aktivitas akun"
 
 #: weblate/accounts/models.py:267
 msgid "Interface Language"
@@ -405,32 +403,32 @@ msgstr ""
 
 #: weblate/accounts/password_validation.py:38
 msgid "This password consists of whitespace only."
-msgstr ""
+msgstr "Kata sandi ini hanya terdiri dari spasi."
 
 #: weblate/accounts/password_validation.py:43
 msgid "This password consists of single character."
-msgstr ""
+msgstr "Kata sandi ini terdiri dari karakter tunggal."
 
 #: weblate/accounts/password_validation.py:49
 msgid "Your password can't consist of single character or whitespace only."
 msgstr ""
+"Kata sandi Anda tidak boleh terdiri dari karakter tunggal atau spasi saja."
 
 #: weblate/accounts/pipeline.py:166
 msgid "New registrations are disabled!"
 msgstr "Pendaftaran baru dinonaktifkan!"
 
 #: weblate/accounts/pipeline.py:171
-#, fuzzy
-#| msgid "Can not reset password, email authentication is disabled!"
 msgid "Can not change authentication for demo!"
-msgstr ""
-"Tidak dapat mengatur ulang kata sandi, autentikasi surel akan dinonaktikan!"
+msgstr "Tidak dapat mengubah autentikasi untuk demo!"
 
 #: weblate/accounts/pipeline.py:344
 #, python-brace-format
 msgid ""
 "Your email no longer belongs to verified account, it has been changed to {0}."
 msgstr ""
+"Surel Anda tidak lagi milik akun terverifikasi, akun Anda telah diubah "
+"menjadi {0}."
 
 #: weblate/accounts/views.py:101 weblate/accounts/views.py:545
 msgid "User registration"
@@ -462,7 +460,7 @@ msgstr "Akun Anda telah dihapus."
 
 #: weblate/accounts/views.py:359
 msgid "Too many messages sent, please try again later!"
-msgstr ""
+msgstr "Terlalu banyak pesan yang dikirim, silakan coba lagi nanti!"
 
 #: weblate/accounts/views.py:381 weblate/templates/accounts/contact.html:6
 #: weblate/templates/accounts/contact.html:21
@@ -506,10 +504,8 @@ msgid "Password reset"
 msgstr "Atur ulang kata sandi"
 
 #: weblate/admin.py:68 weblate/admin.py:69
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Weblate administration"
-msgstr "Terjemahan Weblate"
+msgstr "Administrasi Weblate"
 
 #: weblate/admin.py:137 weblate/templates/base.html:126
 msgid "Logout"
@@ -781,11 +777,9 @@ msgstr "Administrasi"
 #: weblate/permissions/data.py:167
 msgctxt "Permissions group"
 msgid "Template"
-msgstr ""
+msgstr "Templat"
 
 #: weblate/permissions/data.py:168
-#, fuzzy
-#| msgid "Languages"
 msgctxt "Permissions group"
 msgid "Languages"
 msgstr "Bahasa"
@@ -910,11 +904,9 @@ msgid "The page you are looking for was not found."
 msgstr "Halaman yang Anda cari tidak ditemukan."
 
 #: weblate/templates/404.html:15
-#, fuzzy
-#| msgid "The page you are looking for was not found."
 msgid ""
 "The project you are looking for does not exist or is not publicly available."
-msgstr "Halaman yang Anda cari tidak ditemukan."
+msgstr "Proyek yang Anda cari tidak ada atau tidak tersedia untuk umum."
 
 #: weblate/templates/500.html:5 weblate/trans/views/basic.py:565
 msgid "Internal Server Error"
@@ -1030,10 +1022,8 @@ msgstr "Profil Anda"
 
 #: weblate/templates/accounts/confirm.html:14
 #: weblate/templates/accounts/confirm.html:23
-#, fuzzy
-#| msgid "Add new association:"
 msgid "Confirm new association"
-msgstr "Tambahkan keterkaitan baru:"
+msgstr "Konfirmasi kaitan baru"
 
 #: weblate/templates/accounts/confirm.html:17
 #, python-format
@@ -1041,6 +1031,8 @@ msgid ""
 "After confirming this, you will be able to authenticate to Weblate using "
 "%(backend_verbose)s (%(uid)s)."
 msgstr ""
+"Setelah mengkonfirmasikan ini, Anda akan bisa melakukan autentikasi ke "
+"Weblate menggunakan %(backend_verbose)s (%(uid)s)."
 
 #: weblate/templates/accounts/contact.html:12
 msgid "You can contact maintainers of this server here."
@@ -1080,19 +1072,15 @@ msgstr ""
 "bekerja, silakan daftar lagi."
 
 #: weblate/templates/accounts/email-sent.html:20
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder or retry "
-#| "the registration. If the problem persists, please <a href="
-#| "\"%(contact_url)s?subject=Registration problems\">contact us</a>."
+#, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. If the problem persists, please <a href=\"%(contact_url)s?t=reg"
 "\">contact us</a>."
 msgstr ""
 "Jika Anda tidak segera menerimanya, silakan periksa folder surel spam atau "
-"ulangi pendaftaran. Jika masalah masih berlanjut, silakan <a href="
-"\"%(contact_url)s?subject=Registration problems\">hubungi kami</a>."
+"ulangi pendaftaran. Jika masalah masih berlanjut, silakan <a href=\""
+"%(contact_url)s?t=reg\">hubungi kami</a>."
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:19
@@ -1187,22 +1175,22 @@ msgstr ""
 "a>."
 
 #: weblate/templates/accounts/password-warning.html:3
-#, fuzzy, python-format
-#| msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
+#, python-format
 msgid ""
 "You have not enabled password authentication, please <a href=\"%(url)s\">set "
 "the password</a>."
 msgstr ""
-"Anda dapat mengubah sandilewat pada <a href=\"%(pw_url)s\">halaman terpisah</"
-"a>."
+"Anda tidak mengaktifkan autentikasi kata sandi, silakan <a href=\"%(url)s\">"
+"atur kata sandi</a>."
 
 #: weblate/templates/accounts/password-warning.html:6
 msgid "You will be still able to authenticate using third party services."
-msgstr ""
+msgstr "Anda akan bisa melakukan autentikasi menggunakan layanan pihak ketiga."
 
 #: weblate/templates/accounts/password-warning.html:7
 msgid "The password is used to verify important changes on your account."
 msgstr ""
+"Kata sandi ini digunakan untuk verifikasi perubahan penting pada akun Anda."
 
 #: weblate/templates/accounts/password.html:16
 msgid ""
@@ -1251,7 +1239,7 @@ msgstr "Lisensi"
 #: weblate/templates/accounts/profile.html:29
 #: weblate/templates/accounts/profile.html:299
 msgid "Audit log"
-msgstr ""
+msgstr "Log audit"
 
 #: weblate/templates/accounts/profile.html:30
 #: weblate/templates/accounts/profile.html:343
@@ -1366,10 +1354,8 @@ msgid "Your name and email will appear as author on the commits."
 msgstr "Nama dan surel Anda akan muncul sebagai penulis dalam commit."
 
 #: weblate/templates/accounts/profile.html:179
-#, fuzzy
-#| msgid "User identities"
 msgid "Current user identities"
-msgstr "Identitas pengguna"
+msgstr "Identitas pengguna saat ini"
 
 #: weblate/templates/accounts/profile.html:183
 msgid "Identity"
@@ -1393,10 +1379,8 @@ msgid "Disconnect"
 msgstr "Putus koneksi"
 
 #: weblate/templates/accounts/profile.html:213
-#, fuzzy
-#| msgid "Add new association:"
 msgid "Add new association"
-msgstr "Tambahkan keterkaitan baru:"
+msgstr "Tambahkan kaitan baru"
 
 #: weblate/templates/accounts/profile.html:224
 msgid "Removal"
@@ -1450,36 +1434,32 @@ msgid "When"
 msgstr "Kapan"
 
 #: weblate/templates/accounts/profile.html:305
-#, fuzzy
-#| msgid "Email address"
 msgid "IP address"
-msgstr "Alamat surel"
+msgstr "Alamat IP"
 
 #: weblate/templates/accounts/profile.html:316
-#, fuzzy
-#| msgid "No recent activity has been recorded."
 msgid "No recent activity found!"
-msgstr "Tidak ada kegiatan baru-baru ini telah direkam."
+msgstr "Tidak ada aktivitas terbaru yang ditemukan!"
 
 #: weblate/templates/accounts/profile.html:321
 msgid "Report suspicious activity"
-msgstr ""
+msgstr "Laporkan aktivitas yang mencurigakan"
 
 #: weblate/templates/accounts/profile.html:331
 msgid ""
 "Audit log shows important changes on your account. In case you see something "
 "suspicious don't hesitate to contact us."
 msgstr ""
+"Log audit menampilkan perubahan penting pada akun Anda. Jika Anda melihat "
+"sesuatu yang mencurigakan jangan ragu untuk menghubungi kami."
 
 #: weblate/templates/accounts/profile.html:346
 msgid "Your personal API key:"
 msgstr "Kunci API pribadi Anda:"
 
 #: weblate/templates/accounts/profile.html:353
-#, fuzzy
-#| msgid "Regenerate"
 msgid "Regenerate API key"
-msgstr "Hasilkan Ulang"
+msgstr "Buat ulang kunci API"
 
 #: weblate/templates/accounts/profile.html:357
 msgid "API root URL:"
@@ -1490,10 +1470,8 @@ msgid "API usage example:"
 msgstr "Contoh penggunaan API:"
 
 #: weblate/templates/accounts/profile.html:373
-#, fuzzy
-#| msgid "API usage example:"
 msgid "CLI usage example:"
-msgstr "Contoh penggunaan API:"
+msgstr "Contoh penggunaan CLI:"
 
 #: weblate/templates/accounts/profile.html:395
 #, python-format
@@ -1668,11 +1646,11 @@ msgstr "Laporan kinerja"
 
 #: weblate/templates/admin/logout-confirm.html:23
 msgid "Please confirm your logout."
-msgstr ""
+msgstr "Silakan konfirmasi untuk keluar."
 
 #: weblate/templates/admin/logout-confirm.html:26
 msgid "I confirm logout"
-msgstr ""
+msgstr "Saya mengkonfirmasi keluar"
 
 #: weblate/templates/admin/performance.html:9
 #: weblate/templates/admin/report.html:8 weblate/templates/admin/ssh.html:8
@@ -2461,7 +2439,7 @@ msgstr "Denmark"
 
 #: weblate/templates/i18n.html:67
 msgid "Dhivehi"
-msgstr ""
+msgstr "Divehi"
 
 #: weblate/templates/i18n.html:68
 msgid "Dogri"
@@ -3559,12 +3537,9 @@ msgstr "Hai,"
 
 #: weblate/templates/mail/account_activity.html:11
 #: weblate/templates/mail/account_activity.txt:3
-#, fuzzy, python-format
-#| msgid ""
-#| "There has been a change in translation on %(translation)s at "
-#| "%(site_title)s."
+#, python-format
 msgid "There has been a change in your account at %(site_title)s:"
-msgstr "Ada perubahan penerjemahan pada %(translation)s di %(site_title)s."
+msgstr "Ada perubahan pada akun Anda di %(site_title)s:"
 
 #: weblate/templates/mail/account_activity.html:19
 #: weblate/templates/mail/account_activity.txt:7
@@ -3572,11 +3547,13 @@ msgid ""
 "If you did not request this change, please notify us as soon as possible "
 "using following form:"
 msgstr ""
+"Jika Anda tidak meminta perubahan ini, mohon beritahu kami sesegera mungkin "
+"dengan menggunakan formulir berikut:"
 
 #: weblate/templates/mail/account_activity_subject.txt:4
 #, python-format
 msgid "Activity on your account at %(site_title)s"
-msgstr ""
+msgstr "Aktivitas pada akun Anda di %(site_title)s"
 
 #: weblate/templates/mail/activation.html:11
 #: weblate/templates/mail/activation.txt:3
@@ -4462,7 +4439,7 @@ msgstr "Tidak ada hak akses untuk menambahkan saran!"
 
 #: weblate/templates/translate.html:173
 msgid "Skip"
-msgstr ""
+msgstr "Lewati"
 
 #: weblate/templates/translate.html:177
 msgid "Commit message:"
@@ -4987,7 +4964,7 @@ msgstr "Mendukung avatar terfederasi"
 
 #: weblate/trans/admin_views.py:183
 msgid "pyuca library"
-msgstr "Pustaka pyuca"
+msgstr "pustaka pyuca"
 
 #: weblate/trans/admin_views.py:190
 msgid "Secret key"
@@ -5134,16 +5111,12 @@ msgid "Translation should not exceed given length"
 msgstr "Terjemahan tidak boleh melebihi panjang yang diberikan"
 
 #: weblate/trans/checks/chars.py:373
-#, fuzzy
-#| msgid "Trailing colon"
 msgid "Trailing semicolon"
-msgstr "Titik dua di belakang"
+msgstr "Titik koma di belakang"
 
 #: weblate/trans/checks/chars.py:374
-#, fuzzy
-#| msgid "Source and translation do not both end with a newline"
 msgid "Source and translation do not both end with a semicolon"
-msgstr "Sumber dan terjemahan tidak diakhiri dengan baris baru"
+msgstr "Sumber dan terjemahan tidak diakhiri dengan titik koma"
 
 #: weblate/trans/checks/consistency.py:28
 msgid "Missing plurals"
@@ -5379,10 +5352,8 @@ msgid "Ruby YAML file"
 msgstr "Berkas YAML Ruby"
 
 #: weblate/trans/forms.py:143
-#, fuzzy
-#| msgid "Invalid search string!"
 msgid "Invalid checksum specified!"
-msgstr "Pencarian string tidak valid!"
+msgstr "Ceksum yang ditentukan tidak valid!"
 
 #: weblate/trans/forms.py:172
 msgid "Fill in with source string"
@@ -5405,10 +5376,8 @@ msgstr ""
 "jumlah (n) yang diberikan."
 
 #: weblate/trans/forms.py:329
-#, fuzzy
-#| msgid "Translation settings"
 msgid "Translation text too long!"
-msgstr "Pengaturan penerjemahan"
+msgstr "Teks penerjemahan terlalu panjang!"
 
 #: weblate/trans/forms.py:359
 msgid "Message you wanted to translate is no longer available!"
@@ -5531,7 +5500,7 @@ msgstr "String acak untuk ditinjau"
 
 #: weblate/trans/forms.py:504
 msgid "Please select a valid filter type."
-msgstr ""
+msgstr "Mohon pilih tipe filter yang valid."
 
 #: weblate/trans/forms.py:578
 msgid "Query"
@@ -5555,7 +5524,7 @@ msgstr "Sama persis"
 
 #: weblate/trans/forms.py:592
 msgid "Please select a valid search type."
-msgstr ""
+msgstr "Mohon pilih tipe penelusuran yang valid."
 
 #: weblate/trans/forms.py:596
 msgid "Search in source strings"
@@ -6618,10 +6587,9 @@ msgid "Failed to parse translation base file: %s"
 msgstr "Gagal untuk mengurai berkas dasar penerjemahan: %s"
 
 #: weblate/trans/models/subproject.py:1252
-#, fuzzy, python-brace-format
-#| msgid "Template language (%s) does not match project source language (%s)!"
+#, python-brace-format
 msgid "Template language ({0}) does not match project source language ({1})!"
-msgstr "Templat bahasa (%s) tidak cocok dengan bahasa sumber proyek (%s)!"
+msgstr "Templat bahasa ({0}) tidak cocok dengan bahasa sumber proyek ({1})!"
 
 #: weblate/trans/models/subproject.py:1259
 msgid "You can not use monolingual translation without base file!"
@@ -7136,6 +7104,8 @@ msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
 msgstr ""
+"Proyek yang Anda cari telah dihapus, namun Anda dipersilakan untuk "
+"berkontribusi pada proyek lain."
 
 #: weblate/trans/views/basic.py:145
 msgid "Please set your full name in your profile."
@@ -7331,10 +7301,8 @@ msgid "Can not merge different messages!"
 msgstr "Tidak dapat menggabungkan pesan yang berbeda!"
 
 #: weblate/trans/views/edit.py:348
-#, fuzzy
-#| msgid "Can not revert to empty translation!"
 msgid "Can not revert to nonexisting change!"
-msgstr "Tidak dapat kembali ke penerjemahan yang kosong!"
+msgstr "Tidak dapat kembali ke perubahan yang tidak ada!"
 
 #: weblate/trans/views/edit.py:355
 msgid "Can not revert to different unit!"
@@ -7553,10 +7521,8 @@ msgid "Failed to compile: {0}"
 msgstr "Gagal mengkompilasi: {0}"
 
 #: weblate/utils/validators.py:92
-#, fuzzy
-#| msgid "Invalid parameters!"
 msgid "Invalid image!"
-msgstr "Parameter tidak valid!"
+msgstr "Gambar tidak valid!"
 
 #: weblate/utils/validators.py:101
 #, python-format
@@ -7571,11 +7537,11 @@ msgstr ""
 
 #: weblate/utils/validators.py:134
 msgid "The editor link lacks URL scheme!"
-msgstr ""
+msgstr "Tautan penyunting tidak memiliki skema URL!"
 
 #: weblate/utils/validators.py:139
 msgid "Forbidden URL scheme!"
-msgstr ""
+msgstr "Skema URL dilarang!"
 
 #~ msgid "Currently associated:"
 #~ msgstr "Keterkaitan saat ini:"
