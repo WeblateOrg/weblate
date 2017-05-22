@@ -32,7 +32,9 @@ from django.contrib.auth import authenticate, password_validation
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
 from django.contrib.auth.models import User
+from django.core.validators import validate_email
 from django.db.models import Q
+from django.forms.widgets import EmailInput
 from django.middleware.csrf import rotate_token
 from django.utils.encoding import force_text
 
@@ -85,10 +87,16 @@ class PasswordField(forms.CharField):
         super(PasswordField, self).__init__(*args, **kwargs)
 
 
-class EmailField(forms.EmailField):
-    """Slightly restricted EmailField."""
+class EmailField(forms.CharField):
+    """Slightly restricted EmailField.
+
+    - We avoid striping of the form.
+    - We blacklist some additional local parts."""
+    widget = EmailInput
+    default_validators = [validate_email]
+
     def clean(self, value):
-        value = super(forms.EmailField, self).clean(value)
+        value = super(forms.CharField, self).clean(value)
         user_part = value.rsplit('@', 1)[0]
         if EMAIL_BLACKLIST.match(user_part):
             raise forms.ValidationError(_('Enter a valid email address.'))

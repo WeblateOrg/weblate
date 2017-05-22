@@ -737,10 +737,10 @@ class RevertForm(ChecksumForm):
 
     def clean(self):
         super(RevertForm, self).clean()
-        if 'unit' not in self.cleaned_data or 'revert' not in self.cleaned_data:
+        if ('unit' not in self.cleaned_data or
+                'revert' not in self.cleaned_data):
             return
         try:
-            project = self.translation.subproject.project
             self.cleaned_data['revert_change'] = Change.objects.get(
                 pk=self.cleaned_data['revert'],
                 unit=self.cleaned_data['unit'],
