@@ -136,7 +136,7 @@ class ViewTestCase(RepoTestCase):
         unit.save_backend(self.get_request('/'))
 
     def edit_unit(self, source, target, **kwargs):
-        """Doe edit single unit using web interface."""
+        """Do edit single unit using web interface."""
         unit = self.get_unit(source)
         params = {
             'checksum': unit.checksum,
