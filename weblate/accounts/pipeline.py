@@ -264,6 +264,14 @@ def ensure_valid(strategy, backend, user, registering_user, weblate_action,
     # We allow password reset for unauthenticated users
     if weblate_action == 'reset':
         if strategy.request.user.is_authenticated:
+            messages.warning(
+                strategy.request,
+                _('You can not complete password reset while logged in!')
+            )
+            messages.warning(
+                strategy.request,
+                _('The registration link has been invalidated.')
+            )
             raise AuthStateForbidden(backend, 'user')
         return
 
@@ -274,6 +282,21 @@ def ensure_valid(strategy, backend, user, registering_user, weblate_action,
         current_user = None
 
     if current_user != registering_user:
+        if registering_user is None:
+            messages.warning(
+                strategy.request,
+                _('You can not complete registration while logged in!')
+            )
+        else:
+            messages.warning(
+                strategy.request,
+                _('You can confirm your registration only while logged in!')
+            )
+        messages.warning(
+            strategy.request,
+            _('The registration link has been invalidated.')
+        )
+
         raise AuthStateForbidden(backend, 'user')
 
 
