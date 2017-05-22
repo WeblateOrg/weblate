@@ -18,7 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from django.conf.urls import url, include
+from django.conf.urls import url
 
 from weblate.legal.views import (
     LegalView, TermsView, CookiesView, SecurityView,
