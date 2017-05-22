@@ -96,7 +96,7 @@ class EmailField(forms.CharField):
     default_validators = [validate_email]
 
     def clean(self, value):
-        value = super(forms.CharField, self).clean(value)
+        value = super(EmailField, self).clean(value)
         user_part = value.rsplit('@', 1)[0]
         if EMAIL_BLACKLIST.match(user_part):
             raise forms.ValidationError(_('Enter a valid email address.'))
