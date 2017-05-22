@@ -434,7 +434,7 @@ class EditTest(ViewTestCase):
 class EditValidationTest(ViewTestCase):
     def edit(self, **kwargs):
         """Editing with no specific params."""
-        unit = self.get_unit('Hello, world!\n')
+        unit = self.get_unit()
         params = {'checksum': unit.checksum}
         params.update(kwargs)
         return self.client.post(
