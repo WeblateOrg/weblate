@@ -458,6 +458,18 @@ class EditValidationTest(ViewTestCase):
         response = self.edit(content='1')
         self.assertContains(response, 'po/cs.po, translation unit 2')
 
+    def test_merge(self):
+        # Translate unit to have something to start with
+        response = self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
+        unit = self.get_unit()
+        # Try the merge
+        response = self.client.get(
+            unit.translation.get_translate_url(),
+            {'checksum': unit.checksum, 'merge': 'invalid'},
+            follow=True,
+        )
+        self.assertContains(response, 'Invalid merge request!')
+
 
 class EditResourceTest(EditTest):
     has_plurals = False
