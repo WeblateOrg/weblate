@@ -21,6 +21,7 @@
 from __future__ import unicode_literals
 
 import functools
+import re
 import sys
 
 from django.core.urlresolvers import reverse
@@ -38,6 +39,9 @@ from weblate.lang.models import Language
 from weblate.trans.formats import AutoFormat
 from weblate.trans.models.project import Project
 from weblate.utils.errors import report_error
+
+
+SPLIT_RE = re.compile(r'[\s,.:!?]+', re.UNICODE)
 
 
 class DictionaryManager(models.Manager):
@@ -115,6 +119,7 @@ class DictionaryManager(models.Manager):
         # - stemming extracts stems, to catch things like plurals
         analyzers = [
             (SimpleAnalyzer(), True),
+            (SimpleAnalyzer(expression=SPLIT_RE, gaps=True), True),
             (StandardAnalyzer(), False),
             (StemmingAnalyzer(), False),
         ]

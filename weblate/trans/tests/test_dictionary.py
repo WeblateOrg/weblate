@@ -318,3 +318,19 @@ class DictionaryTest(ViewTestCase):
             Dictionary.objects.get_words(unit).count(),
             4
         )
+
+    def test_get_dash(self):
+        translation = self.get_translation()
+        unit = self.get_unit('Thank you for using Weblate.')
+        unit.source = 'Nordrhein-Westfalen'
+        Dictionary.objects.create(
+            self.user,
+            project=self.project,
+            language=translation.language,
+            source='Nordrhein-Westfalen',
+            target='Northrhine Westfalia'
+        )
+        self.assertEqual(
+            Dictionary.objects.get_words(unit).count(),
+            1
+        )
