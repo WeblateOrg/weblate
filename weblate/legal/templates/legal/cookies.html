@@ -16,6 +16,24 @@
 <div class="panel-heading"><h4 class="panel-title">{% trans "Cookies Policy" %}</h4></div>
 <div class="panel-body">
 
+<p>
+{% url 'legal:terms' as terms_url %}
+{% blocktrans %}This page is based on <a href="{{ terms_url }}">Terms of Service</a>, you should still read the original document to fully understand it.{% endblocktrans %}
+</p>
+
+<p>
+{% blocktrans %}We use cookies for following purposes:{% endblocktrans %}
+</p>
+
+<ol>
+<li>{% trans "Authentication cookies which are required for recognizing authenticated users." %}</li>
+<li>{% trans "Cross site request forgery cookies which we use to prevent certain Cross Site Request Forgeries attacks." %}</li>
+<li>{% trans "We use Piwik to analyze traffic on our website." %}</li>
+</ol>
+
+<p>
+{% blocktrans %}You can find more information about cookies in the <a href="https://en.wikipedia.org/wiki/HTTP_cookie">Wikipedia article</a>.{% endblocktrans %}
+</p>
 
 </div>
 </div>
@@ -23,5 +41,3 @@
 </div>
 
 {% endblock %}
-
-
