@@ -4,6 +4,7 @@
  <ul>
   <li>{% blocktrans %}Powered by <a href="{{ weblate_url }}">Weblate {{ version }}</a>{% endblocktrans %}</li>
   <li><a href="{% url 'about' %}">{% blocktrans %}About Weblate{% endblocktrans %}</a></li>
+  {% if legal %}<li><a href="{% url 'legal:index' %}">{% trans "Legal" %}</a></li>{% endif %}
   <li><a href="{% url 'contact' %}">{% trans "Contact us" %}</a></li>
   <li><a href="{% documentation 'user/index' %}">{% trans "Documentation" %}</a></li>
   <li><a href="{{ donate_url }}">{% trans "Donate to Weblate!" %}</a></li>
