@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block breadcrumbs %}
+<li><a href="{% url 'legal:index' %}">{% trans "Legal" %}</a></li>
+<li><a href="{% url 'legal:terms' %}">{% trans "Terms" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+{% include 'legal/menu.html' %}
+
+<div class="container-fluid">
+
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Terms of Service" %}</h4></div>
+<div class="panel-body">
+
+
+</div>
+</div>
+</div>
+</div>
+
+{% endblock %}
+

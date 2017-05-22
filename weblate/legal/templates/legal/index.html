@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block breadcrumbs %}
+<li><a href="{% url 'legal:index' %}">{% trans "Legal" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+{% include 'legal/menu.html' %}
+
+<div class="container-fluid">
+
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Legal Terms Overview" %}</h4></div>
+<div class="panel-body">
+
+<p>
+{% url 'legal:terms' as terms_url %}
+{% blocktrans %}This page is based on <a href="{{ terms_url }}">Terms of Service</a>, you should still read the original document to fully understand it.{% endblocktrans %}
+</p>
+
+<ul>
+<li>{% blocktrans %}The services are provided “as is”, at your own risk, without any warranty.{% endblocktrans %}</li>
+<li>{% blocktrans %}Additional guarantees might apply to commercial customers, those are expressed in corresponding contracts.{% endblocktrans %}</li>
+<li>{% blocktrans %}We process private data (such as your email), those will be discarded from our database as soon as you remove your account.{% endblocktrans %}</li>
+<li>{% blocktrans %}Your translations are made under license which is specified by each translation.{% endblocktrans %}</li>
+<li>{% blocktrans %}Your name and email is used in VCS commits, it will stay there forever.{% endblocktrans %}</li>
+<li>{% blocktrans %}We use cookies to deliver our services.{% endblocktrans %}</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+{% endblock %}

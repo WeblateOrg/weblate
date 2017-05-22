@@ -1016,6 +1016,13 @@ if 'weblate.gitexport' in settings.INSTALLED_APPS:
         ),
     ]
 
+if 'weblate.legal' in settings.INSTALLED_APPS:
+    # pylint: disable=C0413
+    import weblate.legal.views
+    urlpatterns += [
+        url(r'^legal/', include('weblate.legal.urls', namespace='legal')),
+    ]
+
 if settings.DEBUG:
     urlpatterns += [
         url(

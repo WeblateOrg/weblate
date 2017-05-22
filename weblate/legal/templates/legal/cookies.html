@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block breadcrumbs %}
+<li><a href="{% url 'legal:index' %}">{% trans "Legal" %}</a></li>
+<li><a href="{% url 'legal:cookies' %}">{% trans "Cookies" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+{% include 'legal/menu.html' %}
+
+<div class="container-fluid">
+
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Cookies Policy" %}</h4></div>
+<div class="panel-body">
+
+<p>
+{% url 'legal:terms' as terms_url %}
+{% blocktrans %}This page is based on <a href="{{ terms_url }}">Terms of Service</a>, you should still read the original document to fully understand it.{% endblocktrans %}
+</p>
+
+<p>
+{% blocktrans %}We use cookies for following purposes:{% endblocktrans %}
+</p>
+
+<ol>
+<li>{% trans "Authentication cookies which are required for recognizing authenticated users." %}</li>
+<li>{% trans "Cross site request forgery cookies which we use to prevent certain Cross Site Request Forgeries attacks." %}</li>
+<li>{% trans "We use Piwik to analyze traffic on our website." %}</li>
+</ol>
+
+<p>
+{% blocktrans %}You can find more information about cookies in the <a href="https://en.wikipedia.org/wiki/HTTP_cookie">Wikipedia article</a>.{% endblocktrans %}
+</p>
+
+</div>
+</div>
+</div>
+</div>
+
+{% endblock %}
