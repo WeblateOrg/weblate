@@ -459,8 +459,6 @@ class EditValidationTest(ViewTestCase):
         self.assertContains(response, 'po/cs.po, translation unit 2')
 
     def test_merge(self):
-        # Translate unit to have something to start with
-        response = self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
         unit = self.get_unit()
         # Try the merge
         response = self.client.get(
@@ -469,6 +467,23 @@ class EditValidationTest(ViewTestCase):
             follow=True,
         )
         self.assertContains(response, 'Invalid merge request!')
+
+    def test_revert(self):
+        unit = self.get_unit()
+        # Try the merge
+        response = self.client.get(
+            unit.translation.get_translate_url(),
+            {'checksum': unit.checksum, 'revert': 'invalid'},
+            follow=True,
+        )
+        self.assertContains(response, 'Invalid revert request!')
+        # Try the merge
+        response = self.client.get(
+            unit.translation.get_translate_url(),
+            {'checksum': unit.checksum, 'revert': -1},
+            follow=True,
+        )
+        self.assertContains(response, 'Can not revert to nonexisting change!')
 
 
 class EditResourceTest(EditTest):

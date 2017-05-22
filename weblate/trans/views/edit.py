@@ -334,6 +334,7 @@ def handle_revert(translation, request, next_unit_url):
 
     revertform = RevertForm(translation, request.GET)
     if not revertform.is_valid():
+        messages.error(request, _('Invalid revert request!'))
         return
 
     unit = revertform.cleaned_data['unit']
