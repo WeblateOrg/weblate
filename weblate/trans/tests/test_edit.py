@@ -192,7 +192,7 @@ class EditTest(ViewTestCase):
             self.translate_url,
             {'checksum': unit.checksum, 'revert': change.id}
         )
-        self.assertContains(response, "Can not revert to different unit")
+        self.assertContains(response, 'Invalid revert request!')
         self.assert_backend(2)
 
     def test_edit_message(self):
@@ -497,7 +497,7 @@ class EditValidationTest(ViewTestCase):
             {'checksum': unit.checksum, 'revert': -1},
             follow=True,
         )
-        self.assertContains(response, 'Can not revert to nonexisting change!')
+        self.assertContains(response, 'Invalid revert request!')
 
 
 class EditResourceTest(EditTest):

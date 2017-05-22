@@ -326,28 +326,10 @@ def handle_revert(translation, request, next_unit_url):
         return
 
     unit = revertform.cleaned_data['unit']
+    change = revertform.cleaned_data['revert_change']
 
-    try:
-        change = Change.objects.get(
-            pk=revertform.cleaned_data['revert']
-        )
-    except Change.DoesNotExist:
-        messages.error(
-            request,
-            _('Can not revert to nonexisting change!')
-        )
-        return
-
-    if unit.id_hash != change.unit.id_hash:
-        messages.error(
-            request,
-            _('Can not revert to different unit!')
-        )
-    elif change.target == "":
-        messages.error(
-            request,
-            _('Can not revert to empty translation!')
-        )
+    if change.target == "":
+        messages.error(request, _('Can not revert to empty translation!'))
     else:
         # Store unit
         unit.target = change.target

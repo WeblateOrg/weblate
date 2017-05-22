@@ -45,7 +45,7 @@ from django.contrib.auth.models import User
 
 from weblate.lang.data import LOCALE_ALIASES
 from weblate.lang.models import Language
-from weblate.trans.models import SubProject, Unit, Project
+from weblate.trans.models import SubProject, Unit, Project, Change
 from weblate.trans.models.source import PRIORITY_CHOICES
 from weblate.trans.checks import CHECKS
 from weblate.permissions.helpers import (
@@ -734,6 +734,20 @@ class MergeForm(ChecksumForm):
 class RevertForm(ChecksumForm):
     """Form for reverting edits."""
     revert = forms.IntegerField()
+
+    def clean(self):
+        super(RevertForm, self).clean()
+        if 'unit' not in self.cleaned_data or 'revert' not in self.cleaned_data:
+            return
+        try:
+            project = self.translation.subproject.project
+            self.cleaned_data['revert_change'] = Change.objects.get(
+                pk=self.cleaned_data['revert'],
+                unit=self.cleaned_data['unit'],
+            )
+        except Change.DoesNotExist:
+            raise ValidationError(_('Reverted change not found!'))
+        return self.cleaned_data
 
 
 class AutoForm(forms.Form):
