@@ -453,6 +453,11 @@ class EditValidationTest(ViewTestCase):
         response = self.edit(suggest='1')
         self.assertContains(response, 'Missing translated string!')
 
+    def test_edit_spam(self):
+        """Editing with spam trap."""
+        response = self.edit(content='1')
+        self.assertContains(response, 'po/cs.po, translation unit 2')
+
 
 class EditResourceTest(EditTest):
     has_plurals = False
