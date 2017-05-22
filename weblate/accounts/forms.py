@@ -20,6 +20,8 @@
 
 from __future__ import unicode_literals
 
+import re
+
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, HTML
 
@@ -46,6 +48,10 @@ from weblate.trans.util import sort_choices
 from weblate.utils import messages
 from weblate.utils.validators import clean_fullname
 from weblate.logger import LOGGER
+
+
+# Reject some suspicious email addresses, based on checks enforced by Exim MTA
+EMAIL_BLACKLIST = re.compile(r'^([./|]|.*([@%!`#&?]|/\.\./))')
 
 
 class UniqueEmailMixin(object):
@@ -79,13 +85,14 @@ class PasswordField(forms.CharField):
         super(PasswordField, self).__init__(*args, **kwargs)
 
 
-class NoStripEmailField(forms.EmailField):
-    """Email field which does no stripping."""
+class EmailField(forms.EmailField):
+    """Slightly restricted EmailField."""
     def clean(self, value):
-        value = self.to_python(value)
-        # We call super-super method to skip default EmailField behavior
-        # pylint: disable=E1003
-        return super(forms.EmailField, self).clean(value)
+        value = super(forms.EmailField, self).clean(value)
+        user_part = value.rsplit('@', 1)[0]
+        if EMAIL_BLACKLIST.match(user_part):
+            raise forms.ValidationError(_('Enter a valid email address.'))
+        return value
 
 
 class UsernameField(forms.RegexField):
@@ -311,7 +318,7 @@ class ContactForm(forms.Form):
         required=True,
         max_length=30
     )
-    email = forms.EmailField(
+    email = EmailField(
         label=_('Your email'),
         required=True,
         max_length=254
@@ -340,7 +347,8 @@ class EmailForm(forms.Form, UniqueEmailMixin):
     required_css_class = "required"
     error_css_class = "error"
 
-    email = NoStripEmailField(
+    email = EmailField(
+        strip=False,
         max_length=75,
         label=_("E-mail"),
         help_text=_('Activation email will be sent here.'),
@@ -576,7 +584,7 @@ class LoginForm(forms.Form):
 class HostingForm(forms.Form):
     """Form for asking for hosting."""
     name = forms.CharField(label=_('Your name'), required=True)
-    email = forms.EmailField(label=_('Your email'), required=True)
+    email = EmailField(label=_('Your email'), required=True)
     project = forms.CharField(label=_('Project name'), required=True)
     url = forms.URLField(label=_('Project website'), required=True)
     repo = forms.CharField(

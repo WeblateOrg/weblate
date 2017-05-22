@@ -76,6 +76,15 @@ class ViewTest(TestCase):
             '[Weblate] Message from dark side'
         )
 
+    @override_settings(REGISTRATION_CAPTCHA=False)
+    def test_contact_invalid(self):
+        """Test for contact form."""
+        # Sending message
+        data = CONTACT_DATA.copy()
+        data['email'] = 'rejected&mail@example.com'
+        response = self.client.post(reverse('contact'), data)
+        self.assertContains(response, 'Enter a valid email address.')
+
     @override_settings(
         AUTH_MAX_ATTEMPTS=0,
     )
