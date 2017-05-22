@@ -431,6 +431,29 @@ class EditTest(ViewTestCase):
         self.assertEqual(unit.target, 'Ahoj svete!\n')
 
 
+class EditValidationTest(ViewTestCase):
+    def edit(self, **kwargs):
+        """Editing with no specific params."""
+        unit = self.get_unit('Hello, world!\n')
+        params = {'checksum': unit.checksum}
+        params.update(kwargs)
+        return self.client.post(
+            unit.translation.get_translate_url(),
+            params,
+            follow=True
+        )
+
+    def test_edit_invalid(self):
+        """Editing with invalid params."""
+        response = self.edit()
+        self.assertContains(response, 'Missing translated string!')
+
+    def test_suggest_invalid(self):
+        """Suggesting with invalid params."""
+        response = self.edit(suggest='1')
+        self.assertContains(response, 'Missing translated string!')
+
+
 class EditResourceTest(EditTest):
     has_plurals = False
     monolingual = True

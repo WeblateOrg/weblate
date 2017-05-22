@@ -323,6 +323,10 @@ class PluralField(forms.CharField):
 
     def clean(self, value):
         value = super(PluralField, self).clean(value)
+        if len(value) == 0:
+            raise ValidationError(
+                _('Missing translated string!')
+            )
         for text in value:
             if len(text) > TRANSLATION_LIMIT:
                 raise ValidationError(
