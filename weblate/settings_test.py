@@ -100,6 +100,7 @@ SESSION_COOKIE_HTTPONLY = False
 INSTALLED_APPS += (
     'weblate.billing',
     'weblate.gitexport',
+    'weblate.legal',
 )
 
 # Test GitHub auth
