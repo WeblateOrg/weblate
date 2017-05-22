@@ -32,7 +32,7 @@ TOS_DATE = date(2017, 6, 1)
 
 @python_2_unicode_compatible
 class Agreement(models.Model):
-    user = models.OneToOneField(User, unique=True, editable=False)
+    user = models.OneToOneField(User, unique=True)
     tos = models.DateField()
     timestamp = models.DateTimeField(auto_now_add=True)
 
