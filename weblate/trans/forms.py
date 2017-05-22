@@ -333,7 +333,7 @@ class PluralField(forms.CharField):
 
 class ChecksumForm(forms.Form):
     """Form for handling checksum ids for translation."""
-    checksum = ChecksumField()
+    checksum = ChecksumField(required=True)
 
     def __init__(self, translation, *args, **kwargs):
         self.translation = translation
