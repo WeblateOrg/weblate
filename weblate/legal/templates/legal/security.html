@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load translations %}
 
 {% block breadcrumbs %}
 <li><a href="{% url 'legal:index' %}">{% trans "Legal" %}</a></li>
@@ -16,6 +17,14 @@
 <div class="panel-heading"><h4 class="panel-title">{% trans "Security Policy" %}</h4></div>
 <div class="panel-body">
 
+{% doc_url 'contributing' 'security' as security_url %}
+<p>
+{% trans "At Weblate, we take security seriously and strive to maintain an environment that values the security and privacy of our users." %}
+</p>
+
+<p>
+{% blocktrans %}Please see our <a href="{{ security_url }}">documentation</a> for instructions how to report security weakness in our platform.{% endblocktrans %}
+</p>
 
 </div>
 </div>
