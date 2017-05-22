@@ -714,6 +714,22 @@ class MergeForm(ChecksumForm):
     """Simple form for merging translation of two units."""
     merge = forms.IntegerField()
 
+    def clean(self):
+        super(MergeForm, self).clean()
+        if 'unit' not in self.cleaned_data or 'merge' not in self.cleaned_data:
+            return
+        try:
+            project = self.translation.subproject.project
+            self.cleaned_data['merge_unit'] = Unit.objects.get(
+                pk=self.cleaned_data['merge'],
+                translation__subproject__project=project,
+                translation__language=self.translation.language,
+                id_hash=self.cleaned_data['unit'].id_hash,
+            )
+        except Unit.DoesNotExist:
+            raise ValidationError(_('Merged unit not found!'))
+        return self.cleaned_data
+
 
 class RevertForm(ChecksumForm):
     """Form for reverting edits."""

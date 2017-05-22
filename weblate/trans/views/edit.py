@@ -294,34 +294,22 @@ def handle_merge(translation, request, next_unit_url):
 
     mergeform = MergeForm(translation, request.GET)
     if not mergeform.is_valid():
-        messages.error(
-            request,
-            _('Invalid merge request!')
-        )
+        messages.error(request, _('Invalid merge request!'))
         return
 
     unit = mergeform.cleaned_data['unit']
+    merged = mergeform.cleaned_data['merge_unit']
 
-    merged = Unit.objects.get(
-        pk=mergeform.cleaned_data['merge']
-    )
-
-    if unit.id_hash != merged.id_hash:
-        messages.error(
-            request,
-            _('Can not merge different messages!')
-        )
-    else:
-        # Store unit
-        unit.target = merged.target
-        unit.fuzzy = merged.fuzzy
-        saved = unit.save_backend(request)
-        # Update stats if there was change
-        if saved:
-            request.user.profile.translated += 1
-            request.user.profile.save()
-        # Redirect to next entry
-        return HttpResponseRedirect(next_unit_url)
+    # Store unit
+    unit.target = merged.target
+    unit.fuzzy = merged.fuzzy
+    saved = unit.save_backend(request)
+    # Update stats if there was change
+    if saved:
+        request.user.profile.translated += 1
+        request.user.profile.save()
+    # Redirect to next entry
+    return HttpResponseRedirect(next_unit_url)
 
 
 def handle_revert(translation, request, next_unit_url):

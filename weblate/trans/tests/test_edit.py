@@ -151,7 +151,7 @@ class EditTest(ViewTestCase):
             self.translate_url,
             {'checksum': unit.checksum, 'merge': unit2.id}
         )
-        self.assertContains(response, 'Can not merge different messages!')
+        self.assertContains(response, 'Invalid merge request!')
 
     def test_revert(self):
         source = 'Hello, world!\n'
@@ -459,11 +459,25 @@ class EditValidationTest(ViewTestCase):
         self.assertContains(response, 'po/cs.po, translation unit 2')
 
     def test_merge(self):
+        """Merging with invalid parameter."""
         unit = self.get_unit()
-        # Try the merge
         response = self.client.get(
             unit.translation.get_translate_url(),
             {'checksum': unit.checksum, 'merge': 'invalid'},
+            follow=True,
+        )
+        self.assertContains(response, 'Invalid merge request!')
+
+    def test_merge_lang(self):
+        """Merging across langauges."""
+        unit = self.get_unit()
+        trans = self.subproject.translation_set.exclude(
+            language_code='cs'
+        )[0]
+        other = trans.unit_set.get(content_hash=unit.content_hash)
+        response = self.client.get(
+            unit.translation.get_translate_url(),
+            {'checksum': unit.checksum, 'merge': other.pk},
             follow=True,
         )
         self.assertContains(response, 'Invalid merge request!')
