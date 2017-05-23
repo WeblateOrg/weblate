@@ -29,6 +29,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.template.loader import render_to_string
 from django.utils.http import urlencode
+from django.views.decorators.http import require_POST
 
 from weblate.utils import messages
 from weblate.trans.exporters import get_exporter
@@ -122,6 +123,7 @@ def edit_dictionary(request, project, lang, pk):
     )
 
 
+@require_POST
 def delete_dictionary(request, project, lang, pk):
     prj = get_project(request, project)
     if not can_delete_dictionary(request.user, prj):
@@ -144,6 +146,7 @@ def delete_dictionary(request, project, lang, pk):
     )
 
 
+@require_POST
 def upload_dictionary(request, project, lang):
     prj = get_project(request, project)
     if not can_upload_dictionary(request.user, prj):
