@@ -56,6 +56,7 @@ from weblate.trans.specialchars import get_special_chars
 from weblate.trans.validators import validate_check_flags
 from weblate.trans.util import sort_choices
 from weblate.utils.hash import checksum_to_hash
+from weblate.utils.validators import validate_file_extension
 from weblate.logger import LOGGER
 from weblate import get_doc_url
 
@@ -409,7 +410,10 @@ class AntispamForm(forms.Form):
 
 class SimpleUploadForm(forms.Form):
     """Base form for uploading a file."""
-    file = forms.FileField(label=_('File'))
+    file = forms.FileField(
+        label=_('File'),
+        validators=[validate_file_extension],
+    )
     method = forms.ChoiceField(
         label=_('Merge method'),
         choices=(
@@ -812,6 +816,7 @@ class DictUploadForm(forms.Form):
     """Uploading file to a dictionary."""
     file = forms.FileField(
         label=_('File'),
+        validators=[validate_file_extension],
         help_text=_(
             'You can upload any format which is understood by '
             'Translate Toolkit (including TBX, CSV or Gettext PO files).'

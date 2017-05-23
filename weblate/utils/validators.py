@@ -19,6 +19,7 @@
 #
 
 from io import BytesIO
+import os
 import re
 import sys
 
@@ -46,6 +47,22 @@ FORBIDDEN_URL_SCHEMES = frozenset((
     'ftp',
     'sms',
     'tel',
+))
+
+# File formats we do not accept on translation/glossary upload
+FORBIDDEN_EXTENSIONS = frozenset((
+    '.png',
+    '.jpg',
+    '.svg',
+    '.doc',
+    '.xls',
+    '.docx',
+    '.xlsx',
+    '.html',
+    '.py',
+    '.js',
+    '.exe',
+    '.zip',
 ))
 
 
@@ -148,3 +165,11 @@ def clean_fullname(val):
     for i in range(0x20):
         val = val.replace(chr(i), '')
     return val
+
+
+def validate_file_extension(value):
+    """Simple extension based validation for uploads."""
+    ext = os.path.splitext(value.name)[1]
+    if ext.lower() in FORBIDDEN_EXTENSIONS:
+        raise ValidationError(_('Unsupported file format.'))
+    return value
