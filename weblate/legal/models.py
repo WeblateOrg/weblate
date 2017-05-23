@@ -27,7 +27,7 @@ from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 
 # Current TOS date
-TOS_DATE = date(2017, 6, 1)
+TOS_DATE = date(2017, 7, 1)
 
 
 @python_2_unicode_compatible

@@ -294,3 +294,21 @@ legend {
 .load-error .tooltip.bottom .tooltip-arrow {
   border-bottom-color: #d9534f;
 }
+
+.tos {
+    counter-reset: tos_chapter;
+}
+
+.tos h2:before {
+    counter-increment: tos_chapter;
+    content: counter(tos_chapter) ". ";
+}
+
+.tos h2 {
+    counter-reset: tos_paragraph;
+}
+
+.tos  p.item:before {
+    counter-increment: tos_paragraph;
+    content: counter(tos_chapter) "." counter(tos_paragraph) ". ";
+}
