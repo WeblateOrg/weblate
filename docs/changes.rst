@@ -7,6 +7,7 @@ weblate 2.14.1
 Released on ? 2017.
 
 * Fixed possible error when paginating search results.
+* Fixed migrations from older versions in some corner cases.
 * Fixed possible CSRF on project watch and unwatch.
 * The password reset no longer authenticates user.
 * Fixed possible captcha bypass on forgotten password.
