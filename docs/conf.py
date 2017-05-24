@@ -60,7 +60,7 @@ copyright = '2012 - 2017 Michal Čihař'
 # built documents.
 #
 # The short X.Y version.
-version = '2.14.1'
+version = '2.15'
 # The full version, including alpha/beta/rc tags.
 release = version
 
