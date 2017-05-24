@@ -4,7 +4,7 @@ Changes
 weblate 2.14.1
 --------------
 
-Released on ? 2017.
+Released on May 24th 2017.
 
 * Fixed possible error when paginating search results.
 * Fixed migrations from older versions in some corner cases.
