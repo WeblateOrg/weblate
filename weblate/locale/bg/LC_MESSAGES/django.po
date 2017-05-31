@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-05-31 15:16+0000\n"
-"PO-Revision-Date: 2017-05-16 13:12+0000\n"
+"PO-Revision-Date: 2017-05-31 15:50+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@abv.bg>\n"
-"Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/master/"
-"bg/>\n"
+"Language-Team: Bulgarian "
+"<https://hosted.weblate.org/projects/weblate/master/bg/>\n"
 "Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.14-dev\n"
+"X-Generator: Weblate 2.15-dev\n"
 
 #: weblate/accounts/auth.py:57
 msgid ""
@@ -40,10 +40,8 @@ msgstr ""
 "Тази е-поща вече се използва в системата. Моля, въведете друга ел. поща."
 
 #: weblate/accounts/forms.py:102
-#, fuzzy
-#| msgid "Email addresses"
 msgid "Enter a valid email address."
-msgstr "Адреси на е-пощи"
+msgstr "Въведете правилен адрес на е-поща."
 
 #: weblate/accounts/forms.py:109
 msgid ""
@@ -134,7 +132,7 @@ msgstr "Потвърждение на новата парола"
 
 #: weblate/accounts/forms.py:406
 msgid "You can not change password to the one you are currently using!"
-msgstr ""
+msgstr "Не можете да промените паролата си с тази, която използвате в момента!"
 
 #: weblate/accounts/forms.py:425
 msgid "Your password has been changed."
@@ -148,11 +146,10 @@ msgid "What is %s?"
 msgstr "Какво е %s?"
 
 #: weblate/accounts/forms.py:463
-#, fuzzy
-#| msgid "Please check your math and try again."
 msgid "Please check your math and try again with new expression."
 msgstr ""
-"Моля, проверете дали сте сметнали задачката правилно и опитайте отново."
+"Моля, проверете дали сте сметнали задачката правилно и опитайте отново с "
+"друг израз."
 
 #: weblate/accounts/forms.py:481
 msgid "Current password"
@@ -228,10 +225,8 @@ msgid "Password has been changed."
 msgstr "Паролата беше променена."
 
 #: weblate/accounts/models.py:56
-#, fuzzy
-#| msgid "Password reset has been confirmed."
 msgid "Password reset has been requested."
-msgstr "Подновяването на паролата беше потвърдено."
+msgstr "Беше заявено подновяване на паролата."
 
 #: weblate/accounts/models.py:59
 msgid "Password reset has been confirmed."
@@ -272,7 +267,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:83
 msgid "Account and all private data have been removed."
-msgstr ""
+msgstr "Акаунтът и всички лични данни бяха премахнати."
 
 #: weblate/accounts/models.py:191 weblate/templates/accounts/profile.html:304
 msgid "Account activity"
@@ -452,20 +447,21 @@ msgstr ""
 #: weblate/accounts/pipeline.py:269
 msgid "You can not complete password reset while logged in!"
 msgstr ""
+"Не можете да завършите подновяването на паролата, докато сте вписан(а) в "
+"системата!"
 
 #: weblate/accounts/pipeline.py:273 weblate/accounts/pipeline.py:297
-#, fuzzy
-#| msgid "Translation comment has been deleted."
 msgid "The registration link has been invalidated."
-msgstr "Коментарът към превода беше изтрит."
+msgstr "Връзката за регистрация загуби давност."
 
 #: weblate/accounts/pipeline.py:288
 msgid "You can not complete registration while logged in!"
-msgstr ""
+msgstr "Не можете да завършите регистрацията, докато сте вписан(а) в системата!"
 
 #: weblate/accounts/pipeline.py:293
 msgid "You can confirm your registration only while logged in!"
 msgstr ""
+"Можете да потвърдите регистрацията си само докато сте вписан(а) в системата!"
 
 #: weblate/accounts/pipeline.py:402
 #, python-brace-format
@@ -808,15 +804,15 @@ msgstr "{name} (например: {examples})"
 #: weblate/legal/templates/legal/security.html:6
 #: weblate/legal/templates/legal/terms.html:5 weblate/templates/footer.html:7
 msgid "Legal"
-msgstr ""
+msgstr "Правна информация"
 
 #: weblate/legal/templates/legal/cookies.html:6 weblate/legal/views.py:40
 msgid "Cookies"
-msgstr ""
+msgstr "Бисквитки"
 
 #: weblate/legal/templates/legal/cookies.html:16
 msgid "Cookies Policy"
-msgstr ""
+msgstr "Политика за бисквитките"
 
 #: weblate/legal/templates/legal/cookies.html:21
 #: weblate/legal/templates/legal/index.html:20
@@ -825,44 +821,52 @@ msgid ""
 "This page is based on <a href=\"%(terms_url)s\">Terms of Service</a>, you "
 "should still read the original document to fully understand it."
 msgstr ""
+"Тази страница е основана на <a href=\"%(terms_url)s\">„Условията на "
+"услугата“</a>. Трябва да прочетете оригиналния документ, за да разберете "
+"всички подробности."
 
 #: weblate/legal/templates/legal/cookies.html:25
 msgid "We use cookies for following purposes:"
-msgstr ""
+msgstr "Използваме бисквитки поради следните причини:"
 
 #: weblate/legal/templates/legal/cookies.html:29
 msgid ""
 "Authentication cookies which are required for recognizing authenticated "
 "users."
 msgstr ""
+"Бисквитките за удостоверяване са нужни за разпознаване на регистрираните "
+"потребители."
 
 #: weblate/legal/templates/legal/cookies.html:30
 msgid "Preferences cookie to store user preferences in certain situations."
 msgstr ""
+"Бисквитките за предпочитания съхраняват предпочитанията на потребителя в "
+"някои случаи."
 
 #: weblate/legal/templates/legal/cookies.html:31
 msgid ""
 "Cross site request forgery cookies which we use to prevent certain Cross "
 "Site Request Forgeries attacks."
 msgstr ""
+"Бисквитките против измамни междусайтови заявки имат за цел да предотвратят "
+"някои възможни такива измами."
 
 #: weblate/legal/templates/legal/cookies.html:32
 msgid ""
 "We use Piwik to analyze traffic on our website. Piwik does respect Do Not "
 "Track settings in your browser."
 msgstr ""
+"Използваме „Piwik“, за да анализираме трафика на уеб сайта си. „Piwik“ не "
+"зачита настройките на браузъра Ви против следене."
 
 #: weblate/legal/templates/legal/cookies.html:36
-#, fuzzy
-#| msgid ""
-#| "You can find more information about setting up SSH keys in <a href="
-#| "\"%(ssh_docs)s\">the Weblate manual</a>."
 msgid ""
 "You can find more information about cookies in the <a href=\"https://en."
 "wikipedia.org/wiki/HTTP_cookie\">Wikipedia article</a>."
 msgstr ""
-"Можете да намерите повече информация относно настройката на SSH-ключове в <a "
-"href=\"%(ssh_docs)s\">ръководството на Weblate</a>."
+"Можете да намерите повече информация относно бисквитките в <a href=\"https://"
+"bg.wikipedia.org/wiki/HTTP-%D0%B1%D0%B8%D1%81%D0%BA%D0%B2%D0%B8%D1%82%D0%BA%D"
+"0%B0\">тази статия в Уикипедия</a>."
 
 #: weblate/legal/templates/legal/index.html:15
 msgid "Legal Terms Overview"
