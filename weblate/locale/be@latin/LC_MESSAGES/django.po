@@ -8,17 +8,17 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-05-31 15:16+0000\n"
-"PO-Revision-Date: 2017-05-17 07:19+0000\n"
+"PO-Revision-Date: 2017-05-31 17:22+0000\n"
 "Last-Translator: Viktar Vauchkevich <victorenator@gmail.com>\n"
-"Language-Team: Belarusian (latin) <https://hosted.weblate.org/projects/"
-"weblate/master/be_Latn/>\n"
+"Language-Team: Belarusian (latin) "
+"<https://hosted.weblate.org/projects/weblate/master/be_Latn/>\n"
 "Language: be@latin\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2.14-dev\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 2.15-dev\n"
 
 #: weblate/accounts/auth.py:57
 msgid ""
@@ -40,10 +40,8 @@ msgid ""
 msgstr "Hety adras el. pošty zaniaty. Kalі laska, abiarycie іnšy."
 
 #: weblate/accounts/forms.py:102
-#, fuzzy
-#| msgid "Email addresses"
 msgid "Enter a valid email address."
-msgstr "Adrasy el. pošty"
+msgstr "Uviadzicie dziejny email-adras."
 
 #: weblate/accounts/forms.py:109
 msgid ""
@@ -136,7 +134,7 @@ msgstr "Pacvierdžannie novaha parolia"
 
 #: weblate/accounts/forms.py:406
 msgid "You can not change password to the one you are currently using!"
-msgstr ""
+msgstr "Vy nie možacie zmianić paroĺ na toj, jaki vy vykarystoŭvajecie!"
 
 #: weblate/accounts/forms.py:425
 msgid "Your password has been changed."
@@ -150,10 +148,8 @@ msgid "What is %s?"
 msgstr "Što takoje %s?"
 
 #: weblate/accounts/forms.py:463
-#, fuzzy
-#| msgid "Please check your math and try again."
 msgid "Please check your math and try again with new expression."
-msgstr "Spraŭdzіcie aryfmietyku і pasprabujcie znoŭ."
+msgstr "Praviercie aryfmietyku i pasprabujcie znoŭ z novym vyrazam."
 
 #: weblate/accounts/forms.py:481
 msgid "Current password"
@@ -229,10 +225,8 @@ msgid "Password has been changed."
 msgstr "Paroĺ zmienieny."
 
 #: weblate/accounts/models.py:56
-#, fuzzy
-#| msgid "Password reset has been confirmed."
 msgid "Password reset has been requested."
-msgstr "Skid parolia pacvierdžany."
+msgstr "Skid parolia zaprošany."
 
 #: weblate/accounts/models.py:59
 msgid "Password reset has been confirmed."
@@ -273,7 +267,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:83
 msgid "Account and all private data have been removed."
-msgstr ""
+msgstr "Vydalienyja kont i ŭsie pryvatnyja danyja."
 
 #: weblate/accounts/models.py:191 weblate/templates/accounts/profile.html:304
 msgid "Account activity"
@@ -454,21 +448,20 @@ msgstr "Nieĺha zmianić aŭtentyfikacyju dlia dema!"
 
 #: weblate/accounts/pipeline.py:269
 msgid "You can not complete password reset while logged in!"
-msgstr ""
+msgstr "Vy nie možacie calkam skinuć paroĺ, pakuĺ znachodziciesia ŭ sistemie!"
 
 #: weblate/accounts/pipeline.py:273 weblate/accounts/pipeline.py:297
-#, fuzzy
-#| msgid "Translation comment has been deleted."
 msgid "The registration link has been invalidated."
-msgstr "Kamientaryj da pierakladu vydalieny."
+msgstr "Spasylka na rehistracyju ŭžo nie dziejnaja."
 
 #: weblate/accounts/pipeline.py:288
 msgid "You can not complete registration while logged in!"
 msgstr ""
+"Vy nie možacie zaviaršyć rehistracyjaju, pakuĺ znachodziciesia ŭ sistemie!"
 
 #: weblate/accounts/pipeline.py:293
 msgid "You can confirm your registration only while logged in!"
-msgstr ""
+msgstr "Vy možacie pacvierdzić vašu rehistracyju toĺki, kali ŭvajdziecie!"
 
 #: weblate/accounts/pipeline.py:402
 #, python-brace-format
@@ -810,15 +803,15 @@ msgstr "{name} (napr. {examples})"
 #: weblate/legal/templates/legal/security.html:6
 #: weblate/legal/templates/legal/terms.html:5 weblate/templates/footer.html:7
 msgid "Legal"
-msgstr ""
+msgstr "Jurydyčnaja infarmacyja"
 
 #: weblate/legal/templates/legal/cookies.html:6 weblate/legal/views.py:40
 msgid "Cookies"
-msgstr ""
+msgstr "Kuki"
 
 #: weblate/legal/templates/legal/cookies.html:16
 msgid "Cookies Policy"
-msgstr ""
+msgstr "Palityka kukaŭ"
 
 #: weblate/legal/templates/legal/cookies.html:21
 #: weblate/legal/templates/legal/index.html:20
@@ -827,93 +820,110 @@ msgid ""
 "This page is based on <a href=\"%(terms_url)s\">Terms of Service</a>, you "
 "should still read the original document to fully understand it."
 msgstr ""
+"Hetaja staronka bazujecca na <a href=\"%(terms_url)s\">Umovach "
+"absluhoŭvannia</a>, vy ŭsie adno pavinny pračytać aryhinaĺny dakumient, kab "
+"zrazumieć jaho poŭnasciu."
 
 #: weblate/legal/templates/legal/cookies.html:25
 msgid "We use cookies for following purposes:"
-msgstr ""
+msgstr "My vykarystoŭvajem kuki dlia nastupnych met:"
 
 #: weblate/legal/templates/legal/cookies.html:29
 msgid ""
 "Authentication cookies which are required for recognizing authenticated "
 "users."
-msgstr ""
+msgstr "Aŭtentyfikacyjnyja kuki nieabchodnyja kab raspaznavać karystaĺnikaŭ."
 
 #: weblate/legal/templates/legal/cookies.html:30
 msgid "Preferences cookie to store user preferences in certain situations."
-msgstr ""
+msgstr "Kuki nalad zachoŭvajuć nalady karystaĺnika ŭ peŭnych situacyjach."
 
 #: weblate/legal/templates/legal/cookies.html:31
 msgid ""
 "Cross site request forgery cookies which we use to prevent certain Cross "
 "Site Request Forgeries attacks."
 msgstr ""
+"Kuki mižsajtavaj padrobki zapytaŭ my vykarystoŭvajem dlia praduchiliennia "
+"padobnych atak."
 
 #: weblate/legal/templates/legal/cookies.html:32
 msgid ""
 "We use Piwik to analyze traffic on our website. Piwik does respect Do Not "
 "Track settings in your browser."
 msgstr ""
+"My vykarystoŭvajem Piwik, kab analizavać trafik na našym sajcie. Piwik "
+"prysluchoŭvajecca da «Do Not Track» nalady vašaha braŭziera."
 
 #: weblate/legal/templates/legal/cookies.html:36
-#, fuzzy
-#| msgid ""
-#| "You can find more information about setting up SSH keys in <a href="
-#| "\"%(ssh_docs)s\">the Weblate manual</a>."
 msgid ""
 "You can find more information about cookies in the <a href=\"https://en."
 "wikipedia.org/wiki/HTTP_cookie\">Wikipedia article</a>."
 msgstr ""
-"Boĺš іnfarmacyі pra ŭžyvannie SSH-kliučoŭ u <a href=\"%(ssh_docs)s"
-"\">іnstrukcyі na Weblate</a>."
+"Boĺš infarmacyi pra ŭžyvannie kukaŭ u <a href=\""
+"https://en.wikipedia.org/wiki/HTTP_cookie\">artykulie na Vikipiedyi</a>."
 
 #: weblate/legal/templates/legal/index.html:15
 msgid "Legal Terms Overview"
-msgstr ""
+msgstr "Ahliad jurydyčnych umoŭ"
 
 #: weblate/legal/templates/legal/index.html:24
 msgid ""
 "The services are provided “as is”, at your own risk, without any warranty."
 msgstr ""
+"Pasluhi pradastaŭliajucca «jak josć», na svoj strach i ryzyku, biez jakoj-"
+"niebudź harantyi."
 
 #: weblate/legal/templates/legal/index.html:25
 msgid ""
 "Additional guarantees might apply to commercial customers, those are "
 "expressed in corresponding contracts."
 msgstr ""
+"Dadatkovyja harantyi mohuć prymianiacca dlia kamiercyjnych klijentaŭ, što "
+"adliustroŭvajecca ŭ adpaviednych damovach."
 
 #: weblate/legal/templates/legal/index.html:26
 msgid ""
 "We process private data (such as your email), those will be discarded from "
 "our database as soon as you remove your account."
 msgstr ""
+"My apracoŭvajem asabistyja dadzienyja (napryklad, adras eliektronnaj pošty). "
+"Jany buduć vykinuty z našaj bazy dadzienych, jak toĺki vy vydalicie svoj "
+"kont."
 
 #: weblate/legal/templates/legal/index.html:27
 msgid ""
 "Your translations are made under license which is specified by each "
 "translation."
 msgstr ""
+"Vašy pieraklady zroblienyja na ŭmovach licenzii, što zadadzienaja dlia "
+"kožnaha pieriekladu."
 
 #: weblate/legal/templates/legal/index.html:28
 msgid "Your name and email is used in VCS commits, it will stay there forever."
 msgstr ""
+"Vyša imia i eliektronnaja pošta vykarystoŭvajucca ŭ VCS i zastanucca tam "
+"nazaŭždy."
 
 #: weblate/legal/templates/legal/index.html:29
 msgid "We use cookies to deliver our services."
-msgstr ""
+msgstr "My vykarystoŭvajem kuki, kab dastaŭliać našy pasluhi."
 
 #: weblate/legal/templates/legal/security.html:7 weblate/legal/views.py:45
 msgid "Security"
-msgstr ""
+msgstr "Biaspieka"
 
 #: weblate/legal/templates/legal/security.html:17
 msgid "Security Policy"
-msgstr ""
+msgstr "Palityka biaspieki"
 
 #: weblate/legal/templates/legal/security.html:22
 msgid ""
 "At Weblate, we take security seriously and strive to maintain an environment "
 "that values the security and privacy of our users."
 msgstr ""
+"U Weblate my sur'jozna stavimsia da biaspieki i imkniemsia zbierahać "
+"navakoĺnaje asiaroddzie tak, kab jano šanavala biaspieku i kanfidencyjaĺnasć "
+"našych karystaĺnikaŭ."
 
 #: weblate/legal/templates/legal/security.html:26
 #, python-format
@@ -921,20 +931,22 @@ msgid ""
 "Please see our <a href=\"%(security_url)s\">documentation</a> for "
 "instructions how to report security weakness in our platform."
 msgstr ""
+"Kali laska, pahliadzicie našu <a href=\"%(security_url)s\">dakumientacyju</a>"
+" z instrukcyjami, jak paviedamić ab chibach biaspieki našaj platformy."
 
 #: weblate/legal/templates/legal/terms.html:6
 msgid "Terms"
-msgstr ""
+msgstr "Umovy"
 
 #: weblate/legal/templates/legal/terms.html:16 weblate/legal/views.py:35
-#, fuzzy
-#| msgid "Service"
 msgid "Terms of Service"
-msgstr "Služba"
+msgstr "Umovy absluhoŭvannia"
 
 #: weblate/legal/templates/legal/terms.html:19
 msgid "The Terms of Service document is not translated as it's legal document."
 msgstr ""
+"Dakumient «Umovy absluhoŭvannia» nie pierakladzieny, bo heta jurydyčna "
+"značny dakumient."
 
 #: weblate/legal/views.py:30 weblate/templates/translation.html:29
 msgid "Overview"
@@ -1629,7 +1641,7 @@ msgstr "IP-adras"
 
 #: weblate/templates/accounts/profile.html:317
 msgid "Hidden"
-msgstr ""
+msgstr "Schavany"
 
 #: weblate/templates/accounts/profile.html:322
 msgid "No recent activity found!"
@@ -1782,11 +1794,8 @@ msgid "Delete this account"
 msgstr "Vydalіć hety ŭlіkovy zapіs"
 
 #: weblate/templates/accounts/reset.html:13
-#, fuzzy
-#| msgid ""
-#| "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
 msgid "Forgotten your password? You can now set new one."
-msgstr "Zabylі paroĺ? Jaho možna <a href=\"%(reset_url)s\">skіnuć</a>."
+msgstr "Zabyli paroĺ? Ciapier vy možacie zadać novy."
 
 #: weblate/templates/accounts/reset.html:15
 msgid ""
@@ -1797,10 +1806,8 @@ msgstr ""
 "nastaŭlienni novaha."
 
 #: weblate/templates/accounts/reset.html:33
-#, fuzzy
-#| msgid "Set password"
 msgid "Set my password"
-msgstr "Pastavіć paroĺ"
+msgstr "Zadać moj paroĺ"
 
 #: weblate/templates/accounts/reset.html:33
 msgid "Reset my password"
@@ -5590,10 +5597,8 @@ msgstr ""
 "koĺkaścі (n)."
 
 #: weblate/trans/forms.py:329
-#, fuzzy
-#| msgid "Untranslated strings"
 msgid "Missing translated string!"
-msgstr "Niepierakladzienyja radkі"
+msgstr "Zhublieny pierakladzieny radok!"
 
 #: weblate/trans/forms.py:334
 msgid "Translation text too long!"
@@ -5799,16 +5804,12 @@ msgid "All languages"
 msgstr "Usie movy"
 
 #: weblate/trans/forms.py:734
-#, fuzzy
-#| msgid "Template file not found!"
 msgid "Merged unit not found!"
-msgstr "Fajl šablona nie znojdzieny!"
+msgstr "Zlitaja adzinka nie znojdzienaja!"
 
 #: weblate/trans/forms.py:753
-#, fuzzy
-#| msgid "Template file not found!"
 msgid "Reverted change not found!"
-msgstr "Fajl šablona nie znojdzieny!"
+msgstr "Admienienaje zmianiennie nie znojdziena!"
 
 #: weblate/trans/forms.py:760
 msgid "Overwrite strings"
@@ -7558,10 +7559,8 @@ msgid "Invalid merge request!"
 msgstr "Chіbnaje zapytannie na zlіccio!"
 
 #: weblate/trans/views/edit.py:325
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Invalid revert request!"
-msgstr "Chіbnaje zapytannie na zlіccio!"
+msgstr "Chibny zapyt na admienu!"
 
 #: weblate/trans/views/edit.py:332
 msgid "Can not revert to empty translation!"
@@ -7812,10 +7811,8 @@ msgid "Forbidden URL scheme!"
 msgstr "Zabaronienaja URL-schiema!"
 
 #: weblate/utils/validators.py:174
-#, fuzzy
-#| msgid "Unsupported file format: {0}"
 msgid "Unsupported file format."
-msgstr "Niepadtrymlіvajemy farmat fajla: {0}"
+msgstr "Niepadtrymlivajemy farmat fajla."
 
 #~ msgid "Can not merge different messages!"
 #~ msgstr "Niemahčyma zlіć roznyja paviedamliennі!"
