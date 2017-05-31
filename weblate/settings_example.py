@@ -521,6 +521,8 @@ ENABLE_HTTPS = False
 # https://docs.djangoproject.com/en/1.11/ref/settings/#csrf-cookie-httponly
 CSRF_COOKIE_HTTPONLY = True
 CSRF_COOKIE_SECURE = ENABLE_HTTPS
+# Store CSRF token in session (since Django 1.11)
+CSRF_USE_SESSIONS = True
 SESSION_COOKIE_SECURE = ENABLE_HTTPS
 
 # URL of login
