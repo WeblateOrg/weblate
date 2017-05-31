@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-05-31 15:16+0000\n"
-"PO-Revision-Date: 2017-05-31 19:02+0000\n"
+"PO-Revision-Date: 2017-05-31 20:33+0000\n"
 "Last-Translator: monolifed <monolifed@gmail.com>\n"
 "Language-Team: Turkish "
 "<https://hosted.weblate.org/projects/weblate/master/tr/>\n"
@@ -391,7 +391,7 @@ msgstr "Yeni öneride bildirim"
 
 #: weblate/accounts/models.py:408
 msgid "Notification on new contributor"
-msgstr "Yeni katkıda bulunmada bildirim"
+msgstr "Yeni katılımcıda bildirim"
 
 #: weblate/accounts/models.py:412
 msgid "Notification on new comment"
@@ -812,6 +812,8 @@ msgid ""
 "This page is based on <a href=\"%(terms_url)s\">Terms of Service</a>, you "
 "should still read the original document to fully understand it."
 msgstr ""
+"Bu sayfa <a href=\"%(terms_url)s\">Hizmet Şartları'nı</a> temel alır, yine "
+"de tam olarak anlamak için özgün belgeyi okumalısınız."
 
 #: weblate/legal/templates/legal/cookies.html:25
 msgid "We use cookies for following purposes:"
@@ -874,16 +876,14 @@ msgstr ""
 "sözleşmelerde ifade edilir."
 
 #: weblate/legal/templates/legal/index.html:26
-#, fuzzy
 msgid ""
 "We process private data (such as your email), those will be discarded from "
 "our database as soon as you remove your account."
 msgstr ""
-"Özel verileri (eposta gibi) işleriz, bunlar siz hesabınızı kaldır kaldırmaz "
-"veri tabanımızdan atılır."
+"Özel verileri (epostanız gibi) işleriz, bunlar siz hesabınızı kaldır "
+"kaldırmaz veri tabanımızdan atılır."
 
 #: weblate/legal/templates/legal/index.html:27
-#, fuzzy
 msgid ""
 "Your translations are made under license which is specified by each "
 "translation."
@@ -933,7 +933,7 @@ msgstr "Hizmet Şartları"
 
 #: weblate/legal/templates/legal/terms.html:19
 msgid "The Terms of Service document is not translated as it's legal document."
-msgstr ""
+msgstr "Yasal belge olduğundan Hizmet Şartları belgesi çevrilmemiştir."
 
 #: weblate/legal/views.py:30 weblate/templates/translation.html:29
 msgid "Overview"
@@ -1114,7 +1114,7 @@ msgid ""
 msgstr ""
 "Weblate sıkı sürüm kontrolü tümleştirmeli web tabanlı bir çeviri aracıdır. "
 "Özellikleri, basit ve temiz bir kullanıcı arayüzü, bileşenler arasında "
-"çevirileri yayma, kalite kontrolleri ve kaynak dosyalara otomatik "
+"çevirileri yayma, kalite denetimleri ve kaynak dosyalara otomatik "
 "bağlantılardır."
 
 #: weblate/templates/about.html:18 weblate/templates/accounts/contact.html:13
@@ -1123,9 +1123,9 @@ msgid ""
 "If you are looking for support for Weblate or want to file bug reports check "
 "its website at <a href=\"%(weblate_url)s\">weblate.org</a>."
 msgstr ""
-"Eğer Weblate için destek arıyorsanız ya da dosya hatası raporları "
-"istiyorsanız web sitesini <a href=\"%(weblate_url)s\">weblate.org</a> "
-"adresinden kontrol edin."
+"Eğer Weblate için destek arıyorsanız ya da hata raporları kaydettirmek "
+"istiyorsanız <a href=\"%(weblate_url)s\">weblate.org</a> adresinden web "
+"sitesine bakın."
 
 #: weblate/templates/about.html:20
 msgid ""
@@ -1254,9 +1254,9 @@ msgid ""
 "registration. If the problem persists, please <a href=\"%(contact_url)s?t=reg"
 "\">contact us</a>."
 msgstr ""
-"Eğer kısa sürede almadıysanız, lütfen gereksiz/istenmeyen iletiler klasörünü "
-"kontrol edin ya da yeniden kayıt olmayı deneyin. Eğer sorun sürüyorsa, "
-"lütfen <a href=\"%(contact_url)s?t=reg\">bize ulaşın</a>."
+"Eğer kısa sürede almazsanız, lütfen gereksiz/istenmeyen iletiler klasörüne "
+"bakın ya da yeniden kayıt olmayı deneyin. Eğer sorun sürüyorsa, lütfen <a "
+"href=\"%(contact_url)s?t=reg\">bize ulaşın</a>."
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:19
@@ -1271,7 +1271,7 @@ msgid ""
 "provide your contribution under license defined by each translated project."
 msgstr ""
 "Kaydolarak, adınızı ve epostanızı işlenenlerde kullanmayı ve her çevrilmiş "
-"proje tarafından tanımlanmış lisans altında katkı sağlamayı kabul ettiniz."
+"proje tarafından tanımlanmış lisans altında katkıda bulunmayı kabul ettiniz."
 
 #: weblate/templates/accounts/email.html:29
 #: weblate/templates/accounts/register.html:39 weblate/templates/base.html:129
@@ -1604,7 +1604,7 @@ msgstr "IP adresi"
 
 #: weblate/templates/accounts/profile.html:317
 msgid "Hidden"
-msgstr ""
+msgstr "Gizli"
 
 #: weblate/templates/accounts/profile.html:322
 msgid "No recent activity found!"
@@ -1648,8 +1648,8 @@ msgid ""
 "You can control Weblate using HTTP REST API. Please check <a href="
 "\"%(api_doc)s\">API documentation</a> for more details."
 msgstr ""
-"HTTP REST API kullanarak Weblate'i kontrol edebilirsiniz. Lütfen daha çok "
-"ayrıntı için <a href=\"%(api_doc)s\">API belgelerini</a> kontrol edin."
+"HTTP REST API kullanarak Weblate'i yönetebilirsiniz. Lütfen daha çok ayrıntı "
+"için <a href=\"%(api_doc)s\">API belgelerine</a> bakın."
 
 #: weblate/templates/accounts/profile.html:403
 #, python-format
@@ -1659,7 +1659,7 @@ msgid ""
 msgstr ""
 "API anahtarı aynı zamanda dışa aktarılmış Git havuzlarına erişmek için "
 "kullanılır, lütfen daha çok ayrıntı için <a href=\"%(git_doc)s\""
-">belgeleri</a> kontrol edin."
+">belgelere</a> bakın."
 
 #: weblate/templates/accounts/profile.html:422
 msgid ""
@@ -1723,7 +1723,7 @@ msgid ""
 msgstr ""
 "Kaydolarak, adınızı ve epostanızı sürüm kontrol sistemi işlemelerinde "
 "kullanmayı ve her çevrilmiş proje tarafından tanımlanmış lisans altında "
-"katkı sağlamayı kabul ettiniz."
+"katkıda bulunmayı kabul ettiniz."
 
 #: weblate/templates/accounts/register.html:29
 msgid "Register using email"
@@ -1866,8 +1866,8 @@ msgid ""
 "Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
 "%(repo)s</a> instead."
 msgstr ""
-"Bağlantılı havuzun durumu gösterilmiyor. Bunun yerine <a href=\"#%(slug)s\">"
-"%(repo)s</a> kontrol edin."
+"Bağlantılı havuzun durumu gösterilmiyor. Bunun yerine <a href=\"#%(slug)s\""
+">%(repo)s</a> adresine bakın."
 
 #: weblate/templates/admin/ssh.html:14
 msgid "Public SSH key"
@@ -2043,17 +2043,17 @@ msgstr "%(used)s / %(total)s kullanıldı"
 #: weblate/templates/check_subproject.html:6 weblate/templates/checks.html:6
 #: weblate/templates/js/detail.html:18
 msgid "Checks"
-msgstr "Kontroller"
+msgstr "Denetimler"
 
 #: weblate/templates/check.html:16 weblate/templates/check_project.html:17
 #: weblate/templates/check_subproject.html:18 weblate/templates/checks.html:15
 msgid "Checks listing"
-msgstr "Kontrolleri listeleme"
+msgstr "Denetimler listesi"
 
 #: weblate/templates/check.html:26 weblate/templates/check_project.html:27
 #: weblate/templates/check_subproject.html:28
 msgid "No matching checks found!"
-msgstr "Bulunan eşleşen kontroller yok!"
+msgstr "Eşleşen bir denetim bulunmadı!"
 
 #: weblate/templates/check.html:35 weblate/templates/check_project.html:36
 #: weblate/templates/check_subproject.html:37
@@ -2071,7 +2071,7 @@ msgid ""
 "Customizable quality checks will help you in improving quality of "
 "translations."
 msgstr ""
-"Özelleştirilebilir kalite kontrolleri çevirilerin kalitesini iyileştirmede "
+"Özelleştirilebilir kalite denetimleri çevirilerin kalitesini iyileştirmede "
 "size yardımcı olacaktır."
 
 #: weblate/templates/checks.html:31
@@ -2079,8 +2079,8 @@ msgid ""
 "The checks can help you identify problematic translations or source strings "
 "which are hard to translate."
 msgstr ""
-"Durum işaretleri sorunlu çevirileri ya da çevrilmesi zor olan kaynak "
-"satırları tanımlamanızda yardımcı olabilir."
+"Denetimler sorunlu çevirileri ya da çevrilmesi zor olan kaynak satırları "
+"tanımlamanızda yardımcı olabilir."
 
 #: weblate/templates/data-root.html:5 weblate/templates/index.html:49
 #: weblate/templates/share.html:29
@@ -2139,7 +2139,7 @@ msgid ""
 "more information."
 msgstr ""
 "Proje başına dışa aktarılan daha çok veri var, lütfen daha çok bilgi için "
-"aşağıdaki bağlantıları kontrol edin."
+"aşağıdaki bağlantılara bakın."
 
 #: weblate/templates/data-root.html:48 weblate/templates/data.html:85
 msgid "Notification hooks"
@@ -3316,7 +3316,7 @@ msgstr "Tüm projeler"
 
 #: weblate/templates/index.html:48
 msgid "Checks overview"
-msgstr "Kontrollere genel bakış"
+msgstr "Denetimlere genel bakış"
 
 #: weblate/templates/index.html:50 weblate/templates/share.html:13
 #: weblate/templates/widgets-root.html:5 weblate/templates/widgets.html:6
@@ -3422,7 +3422,7 @@ msgstr "Havuzda birleştirme başarısız oldu:"
 #: weblate/templates/mail/merge_failure.html:36
 #: weblate/templates/mail/merge_failure.txt:17
 msgid "Check our FAQ for information how to resolve this."
-msgstr "Bunu nasıl çözeceğinizin bilgisi için SSS bölümümüzü kontrol edin."
+msgstr "Bunu nasıl çözeceğinizin bilgisi için SSS bölümümüze bakın."
 
 #: weblate/templates/js/git-status.html:31
 msgid "The remote repository needs to be merged!"
@@ -3532,13 +3532,13 @@ msgstr "Bileşenler"
 #: weblate/templates/source-review.html:27 weblate/templates/translate.html:491
 #: weblate/trans/views/checks.py:76
 msgid "Failing checks"
-msgstr "Başarısız kontrolleri"
+msgstr "Başarısız olan denetimler"
 
 #: weblate/templates/language-project.html:26
 #: weblate/templates/language.html:26 weblate/templates/project.html:50
 #: weblate/templates/stats.html:103
 msgid "Ignored checks"
-msgstr "Yok sayılan kontroller"
+msgstr "Yok sayılan denetimler"
 
 #: weblate/templates/language-project.html:40
 #: weblate/templates/language.html:66
@@ -3584,7 +3584,7 @@ msgstr "İyi çeviriler"
 
 #: weblate/templates/legend.html:8 weblate/templates/progress.html:8
 msgid "Translations with failing checks"
-msgstr "Başarısız kontrolleri olan çeviriler"
+msgstr "Başarısız olan denetimlere sahip çeviriler"
 
 #: weblate/templates/legend.html:11 weblate/templates/progress.html:11
 msgid "Fuzzy translations"
@@ -3621,7 +3621,7 @@ msgstr "İnceleme"
 #: weblate/templates/list-translations.html:24
 msgctxt "Number of failing checks"
 msgid "Checks"
-msgstr "Kontrol"
+msgstr "Denetimler"
 
 #: weblate/templates/list-translations.html:14
 #: weblate/templates/list-translations.html:25
@@ -3660,8 +3660,8 @@ msgstr[1] "Gözden geçirilmesi gereken %(count)s satır var."
 #, python-format
 msgid "There is %(count)s failing check."
 msgid_plural "There are %(count)s failing checks."
-msgstr[0] "%(count)s başarısız kontrolü var."
-msgstr[1] "%(count)s başarısız kontrolü var."
+msgstr[0] "%(count)s başarısız olan denetimi var."
+msgstr[1] "%(count)s başarısız olan denetimi var."
 
 #: weblate/templates/list-translations.html:63
 #, python-format
@@ -3911,9 +3911,9 @@ msgstr ""
 "katkıyı henüz yaptı."
 
 #: weblate/templates/mail/new_contributor_subject.txt:3
-#, fuzzy, python-format
+#, python-format
 msgid "New contributor in %(translation)s"
-msgstr "%(translation)s içinde yeni katkıda bulunan"
+msgstr "%(translation)s içinde yeni katılımcı"
 
 #: weblate/templates/mail/new_language.html:11
 #: weblate/templates/mail/new_language.txt:3
@@ -4376,7 +4376,7 @@ msgstr "Eşleşen kaynak satırlar yok!"
 
 #: weblate/templates/source.html:19 weblate/templates/translation.html:119
 msgid "Strings to check"
-msgstr "Kontrol edilen satırlar"
+msgstr "Denetlenecek satırlar"
 
 #: weblate/templates/source.html:34 weblate/templates/translation.html:143
 msgid "Project Information"
@@ -4424,7 +4424,7 @@ msgstr "Yapılmış çeviri"
 
 #: weblate/templates/stats.html:99
 msgid "Failing checks found"
-msgstr "Bulunan başarısız kontrolleri"
+msgstr "Başarısız olan denetimler bulundu"
 
 #: weblate/templates/subproject.html:30
 #: weblate/templates/trans/suggestion_list.html:17
@@ -4744,7 +4744,7 @@ msgstr ""
 
 #: weblate/templates/translate.html:372
 msgid "Things to check"
-msgstr "Kontrol edilenler"
+msgstr "Denetlenecekler"
 
 #: weblate/templates/translate.html:395
 msgid "Manage glossary"
@@ -4928,7 +4928,7 @@ msgstr "Toplam"
 
 #: weblate/templates/translation.html:339
 msgid "Failing check"
-msgstr "Başarısız kontrolü"
+msgstr "Başarısız olan denetim"
 
 #: weblate/templates/translation.html:354
 msgid "Last activity"
@@ -5019,8 +5019,8 @@ msgid ""
 "contributors."
 msgstr ""
 "Projenizin çevirisini tanıtmak için aşağıdaki parçacıkları "
-"kullanabilirsiniz. Çeviri projelerinizin görünürlüğünü arttırabilir ve yeni "
-"katkıda bulunanları getirebilirler."
+"kullanabilirsiniz. Bunlar çeviri projelerinizin görünürlüğünü arttırabilir "
+"ve yeni katılımcılar getirebilir."
 
 #: weblate/templates/widgets.html:31
 #, python-format
@@ -5095,7 +5095,7 @@ msgstr "VCS havuzunu güncelle"
 
 #: weblate/trans/admin.py:68 weblate/trans/admin.py:121
 msgid "Update quality checks"
-msgstr "Kalite kontrollerini güncelle"
+msgstr "Kalite denetimlerini güncelle"
 
 #: weblate/trans/admin.py:78 weblate/trans/admin.py:131
 msgid "Commit pending changes"
@@ -5422,11 +5422,11 @@ msgstr "Satır, üç nokta karakteri (…) yerine üç tane nokta (...) kullanı
 
 #: weblate/trans/checks/source.py:66
 msgid "Multiple failing checks"
-msgstr "Çoklu başarısız kontrolleri"
+msgstr "Başarısız olan birçok denetim"
 
 #: weblate/trans/checks/source.py:68
 msgid "The translations in several languages have failing checks"
-msgstr "Birkaç dildeki çeviriler, başarısız kontrollerine sahip"
+msgstr "Birkaç dildeki çeviri, başarısız olan denetimlere sahip"
 
 #: weblate/trans/context_processors.py:52
 msgid "Hosted Weblate, the place to translate your software project."
@@ -5558,7 +5558,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Untranslated strings"
 msgid "Missing translated string!"
-msgstr "Eksik çevrilmiş satır!"
+msgstr "Eksik olan çevrilmiş satır!"
 
 #: weblate/trans/forms.py:334
 msgid "Translation text too long!"
@@ -5678,7 +5678,7 @@ msgstr "Yorumları olan satır"
 #: weblate/trans/forms.py:506 weblate/trans/models/translation.py:862
 #: weblate/trans/models/translation.py:949
 msgid "Strings with any failing checks"
-msgstr "Herhangi bir başarısız kontrolü olan satır"
+msgstr "Başarısız olan herhangi bir denetime sahip satırlar"
 
 #: weblate/trans/forms.py:507 weblate/trans/models/translation.py:978
 msgid "Random strings for review"
@@ -5734,7 +5734,7 @@ msgstr "Yorum satırlarında ara"
 
 #: weblate/trans/forms.py:632
 msgid "Show ignored checks as well"
-msgstr "Yoksayılan kontrolleri de göster"
+msgstr "Yok sayılan denetimleri de göster"
 
 #: weblate/trans/forms.py:648
 msgid "The query string has to be longer!"
@@ -5863,7 +5863,7 @@ msgstr "Önce yüksek öncelikli satırlar çevirmenlere sunulur."
 
 #: weblate/trans/forms.py:997
 msgid "Check flags"
-msgstr "Kontrol bayrakları"
+msgstr "Denetim bayrakları"
 
 #: weblate/trans/forms.py:1004
 #, python-brace-format
@@ -5871,7 +5871,7 @@ msgid ""
 "Please enter a comma separated list of check flags, see <a href="
 "\"{url}\">documentation</a> for more details."
 msgstr ""
-"Lütfen kontrol bayraklarının virgülle ayrılmış bir listesini girin, daha çok "
+"Lütfen denetim bayraklarının virgülle ayrılmış bir listesini girin, daha çok "
 "ayrıntı için <a href=\"{url}\">belgelere</a> bakın."
 
 #: weblate/trans/forms.py:1022
@@ -6224,7 +6224,7 @@ msgid ""
 "enabling this."
 msgstr ""
 "Bu proje için ACL'nin etkinleştirilip etkinleştirilmeyeceği, lütfen bunu "
-"etkinleştirmeden önce belgeleri kontrol edin."
+"etkinleştirmeden önce belgelere bakın."
 
 #: weblate/trans/models/project.py:140
 msgid "Enable hooks"
@@ -6397,7 +6397,7 @@ msgid ""
 "documentation for more details."
 msgstr ""
 "İşlenenlere dahil etmek için ek dosyalar, satır başına bir tane; lütfen daha "
-"çok ayrıntı için belgeleri kontrol edin."
+"çok ayrıntı için belgelere bakın."
 
 #: weblate/trans/models/subproject.py:265
 msgid "Post-update script"
@@ -6409,7 +6409,7 @@ msgid ""
 "documentation for more details."
 msgstr ""
 "Bir havuz güncellemesi alınmasından sonra çalıştırılacak olan betik, lütfen "
-"daha çok ayrıntı için belgeleri kontrol edin."
+"daha çok ayrıntı için belgelere bakın."
 
 #: weblate/trans/models/subproject.py:276
 msgid "Pre-commit script"
@@ -6421,7 +6421,7 @@ msgid ""
 "documentation for more details."
 msgstr ""
 "Çeviri işlenmesinden önce çalıştırılacak olan betik, lütfen daha çok ayrıntı "
-"için belgeleri kontrol edin."
+"için belgelere bakın."
 
 #: weblate/trans/models/subproject.py:287
 msgid "Post-commit script"
@@ -6433,7 +6433,7 @@ msgid ""
 "documentation for more details."
 msgstr ""
 "Çeviri işlenmesinden sonra çalıştırılacak olan betik, lütfen daha çok "
-"ayrıntı için belgeleri kontrol edin."
+"ayrıntı için belgelere bakın."
 
 #: weblate/trans/models/subproject.py:298
 msgid "Post-push script"
@@ -6445,7 +6445,7 @@ msgid ""
 "documentation for more details."
 msgstr ""
 "Çeviri uzağa yollandıktan sonra çalıştırılacak olan betik, lütfen daha çok "
-"ayrıntı için belgeleri kontrol edin."
+"ayrıntı için belgelere bakın."
 
 #: weblate/trans/models/subproject.py:309
 msgid "Post-add script"
@@ -6457,7 +6457,7 @@ msgid ""
 "documentation for more details."
 msgstr ""
 "Yeni çeviri eklendikten sonra çalıştırılacak olan betik, lütfen daha çok "
-"ayrıntı için belgeleri kontrol edin."
+"ayrıntı için belgelere bakın."
 
 #: weblate/trans/models/subproject.py:321
 msgid "Locked"
@@ -6516,15 +6516,15 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:367
 msgid "Quality checks flags"
-msgstr "Kalite kontrol bayrakları"
+msgstr "Kalite denetimleri bayrakları"
 
 #: weblate/trans/models/subproject.py:370
 msgid ""
 "Additional comma-separated flags to influence quality checks, check "
 "documentation for possible values."
 msgstr ""
-"Kalite kontrollerini etkilemek için virgülle ayırılmış ilave bayraklar, "
-"olası değerler için belgeleri kontrol edin."
+"Kalite denetimlerini etkilemek için virgülle ayrılmış ilave bayraklar, olası "
+"değerler için belgelere bakın."
 
 #: weblate/trans/models/subproject.py:384
 msgid "Optional short summary of license used for translations."
@@ -6581,7 +6581,7 @@ msgid ""
 "documentation for more details."
 msgstr ""
 "Çeşitli bilgiler için biçim satırları kullanabilirsiniz, lütfen daha çok "
-"ayrıntı için belgeleri kontrol edin."
+"ayrıntı için belgelere bakın."
 
 #: weblate/trans/models/subproject.py:437
 msgid "Commit message when adding translation"
@@ -7178,7 +7178,7 @@ msgstr "İleti çevrilmedi"
 
 #: weblate/trans/templatetags/translations.py:549
 msgid "Message has failing checks"
-msgstr "İletinin başarısız kontrolleri var"
+msgstr "İletinin başarısız olan denetimleri var"
 
 #: weblate/trans/templatetags/translations.py:554
 msgid "Message is translated"
@@ -7267,7 +7267,7 @@ msgstr ""
 #: weblate/trans/validators.py:99
 #, python-format
 msgid "Invalid check flag: \"%s\""
-msgstr "Geçersiz kontrol bayrağı: \"%s\""
+msgstr "Geçersiz denetim bayrağı: \"%s\""
 
 #: weblate/trans/views/acl.py:78
 msgid "Invalid parameters!"
@@ -7298,6 +7298,8 @@ msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
 msgstr ""
+"Aradığınız proje kaldırılmış bulunmakta, ancak isterseniz diğerlerine "
+"katkıda bulunabilirsiniz."
 
 #: weblate/trans/views/basic.py:147
 msgid "Please set your full name in your profile."
@@ -7347,7 +7349,7 @@ msgstr "Ayarlar kaydedildi"
 
 #: weblate/trans/views/basic.py:362 weblate/trans/views/basic.py:431
 msgid "Invalid settings, please check the form for errors!"
-msgstr "Geçersiz ayarlar, lütfen formu hataları için kontrol edin!"
+msgstr "Geçersiz ayarlar, lütfen formu hatalara karşı denetleyin!"
 
 #: weblate/trans/views/basic.py:593
 msgid "Weblate statistics"
@@ -7475,7 +7477,7 @@ msgstr "Şurada belirtilen düzeltmeler çeviriye uygulandı: %s"
 #: weblate/trans/views/edit.py:225
 #, python-brace-format
 msgid "Some checks have failed on your translation: {0}"
-msgstr "Çeviriniz bazı kotrollerde başarısız oldu: {0}"
+msgstr "Bazı denetimler çevirinizde başarısız oldu: {0}"
 
 #: weblate/trans/views/edit.py:265 weblate/trans/views/edit.py:291
 #: weblate/trans/views/edit.py:319 weblate/trans/views/edit.py:745
@@ -7653,7 +7655,7 @@ msgstr "Bir öncelik değiştirilemedi!"
 
 #: weblate/trans/views/source.py:156
 msgid "Failed to change check flags!"
-msgstr "Kontrol bayrakları değiştirilemedi!"
+msgstr "Denetim bayrakları değiştirilemedi!"
 
 #. Translators: please keep the text short to fit into widget
 #: weblate/trans/widgets.py:261
