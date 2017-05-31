@@ -422,7 +422,7 @@ class TranslationAPITest(APIBaseTest):
             ),
             {'file': open(TEST_PO, 'rb')},
         )
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 404)
 
     def test_upload(self):
         self.authenticate()
