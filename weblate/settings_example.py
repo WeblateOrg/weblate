@@ -524,6 +524,8 @@ CSRF_COOKIE_SECURE = ENABLE_HTTPS
 # Store CSRF token in session (since Django 1.11)
 CSRF_USE_SESSIONS = True
 SESSION_COOKIE_SECURE = ENABLE_HTTPS
+# Session cookie age (in seconds)
+SESSION_COOKIE_AGE = 1209600
 
 # URL of login
 LOGIN_URL = '{0}/accounts/login/'.format(URL_PREFIX)
