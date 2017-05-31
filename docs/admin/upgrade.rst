@@ -504,6 +504,20 @@ the initial setup, you might need to fake some of the migrations though:
 
     ./manage.py migrate --fake-initial
 
+Upgrading from Python 2.x to 3.x
+--------------------------------
+
+The upgrade from Python 2.x to 3.x, should work without major problems. Take
+care about some changed module names when installing dependencies (eg. pydns
+vs. py3dns).
+
+The Whoosh index has to be rebuilt as it's encoding depends on Python version,
+you can do that using following command:
+
+.. code-block:: sh
+
+    ./manage.py rebuild_index --clean --all
+
 .. _pootle-migration:
 
 Migrating from Pootle
