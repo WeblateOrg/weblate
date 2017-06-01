@@ -222,6 +222,8 @@ class Billing(models.Model):
 class Invoice(models.Model):
     CURRENCY_EUR = 0
     CURRENCY_BTC = 1
+    CURRENCY_USD = 2
+    CURRENCY_CZK = 3
 
     billing = models.ForeignKey(Billing)
     start = models.DateField()
@@ -231,6 +233,8 @@ class Invoice(models.Model):
         choices=(
             (CURRENCY_EUR, 'EUR'),
             (CURRENCY_BTC, 'mBTC'),
+            (CURRENCY_USD, 'USD'),
+            (CURRENCY_CZK, 'CZK'),
         ),
         default=CURRENCY_EUR,
     )
