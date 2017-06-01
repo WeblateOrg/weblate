@@ -7,16 +7,16 @@ msgstr ""
 "Project-Id-Version: weblate-website-ja\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-05-31 15:16+0000\n"
-"PO-Revision-Date: 2017-05-15 23:01+0000\n"
+"PO-Revision-Date: 2017-06-01 05:02+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
-"Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
-"ja/>\n"
+"Language-Team: Japanese "
+"<https://hosted.weblate.org/projects/weblate/master/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2.14-dev\n"
+"X-Generator: Weblate 2.15-dev\n"
 
 #: weblate/accounts/auth.py:57
 msgid ""
@@ -39,10 +39,8 @@ msgstr ""
 "このメールアドレスは既に使用されています。別のメールアドレスにしてください。"
 
 #: weblate/accounts/forms.py:102
-#, fuzzy
-#| msgid "Email addresses"
 msgid "Enter a valid email address."
-msgstr "電子メールアドレス"
+msgstr "正しい電子メールアドレスを入力してください。"
 
 #: weblate/accounts/forms.py:109
 msgid ""
@@ -135,7 +133,7 @@ msgstr "新しいパスワード確認"
 
 #: weblate/accounts/forms.py:406
 msgid "You can not change password to the one you are currently using!"
-msgstr ""
+msgstr "現在使用中のパスワードと同じものに変更することはできません！"
 
 #: weblate/accounts/forms.py:425
 msgid "Your password has been changed."
@@ -149,10 +147,8 @@ msgid "What is %s?"
 msgstr "%s は何でしょうか？"
 
 #: weblate/accounts/forms.py:463
-#, fuzzy
-#| msgid "Please check your math and try again."
 msgid "Please check your math and try again with new expression."
-msgstr "計算結果が間違っています。やり直してください。"
+msgstr "計算結果が間違っています。新しい計算式でやり直してください。"
 
 #: weblate/accounts/forms.py:481
 msgid "Current password"
@@ -231,10 +227,8 @@ msgid "Password has been changed."
 msgstr "パスワードを変更しました。"
 
 #: weblate/accounts/models.py:56
-#, fuzzy
-#| msgid "Password reset has been confirmed."
 msgid "Password reset has been requested."
-msgstr "パスワードリセットを確認しました。"
+msgstr "パスワードリセットを要求しました。"
 
 #: weblate/accounts/models.py:59
 msgid "Password reset has been confirmed."
@@ -276,7 +270,7 @@ msgstr "認証の失敗回数が規定値を超過したため、アカウント
 
 #: weblate/accounts/models.py:83
 msgid "Account and all private data have been removed."
-msgstr ""
+msgstr "アカウントと全てのプライベートデータを削除しました。"
 
 #: weblate/accounts/models.py:191 weblate/templates/accounts/profile.html:304
 msgid "Account activity"
@@ -455,21 +449,19 @@ msgstr "デモ環境の場合、認証を変更することはできません！
 
 #: weblate/accounts/pipeline.py:269
 msgid "You can not complete password reset while logged in!"
-msgstr ""
+msgstr "ログイン中にパスワードリセットを完了することはできません！"
 
 #: weblate/accounts/pipeline.py:273 weblate/accounts/pipeline.py:297
-#, fuzzy
-#| msgid "Translation comment has been deleted."
 msgid "The registration link has been invalidated."
-msgstr "翻訳文のコメントを削除しました。"
+msgstr "登録リンクを検証しました。"
 
 #: weblate/accounts/pipeline.py:288
 msgid "You can not complete registration while logged in!"
-msgstr ""
+msgstr "ログイン中に登録処理を完了することはできません！"
 
 #: weblate/accounts/pipeline.py:293
 msgid "You can confirm your registration only while logged in!"
-msgstr ""
+msgstr "ログイン中にのみ登録を確認することができます！"
 
 #: weblate/accounts/pipeline.py:402
 #, python-brace-format
@@ -813,15 +805,15 @@ msgstr "{name} (例: {examples})"
 #: weblate/legal/templates/legal/security.html:6
 #: weblate/legal/templates/legal/terms.html:5 weblate/templates/footer.html:7
 msgid "Legal"
-msgstr ""
+msgstr "法律上の告知事項"
 
 #: weblate/legal/templates/legal/cookies.html:6 weblate/legal/views.py:40
 msgid "Cookies"
-msgstr ""
+msgstr "Cookie について"
 
 #: weblate/legal/templates/legal/cookies.html:16
 msgid "Cookies Policy"
-msgstr ""
+msgstr "Cookie ポリシー"
 
 #: weblate/legal/templates/legal/cookies.html:21
 #: weblate/legal/templates/legal/index.html:20
@@ -830,93 +822,94 @@ msgid ""
 "This page is based on <a href=\"%(terms_url)s\">Terms of Service</a>, you "
 "should still read the original document to fully understand it."
 msgstr ""
+"このページは <a href=\"%(terms_url)s\">サービス利用規約</a> "
+"をベースにしているものです。詳しくお読みになりたい場合は、左記の文書をお読みください。"
 
 #: weblate/legal/templates/legal/cookies.html:25
 msgid "We use cookies for following purposes:"
-msgstr ""
+msgstr "本サイトでは、 Cookie を下記の用途で使用しています:"
 
 #: weblate/legal/templates/legal/cookies.html:29
 msgid ""
 "Authentication cookies which are required for recognizing authenticated "
 "users."
-msgstr ""
+msgstr "認証済みのユーザを識別するために必要な認証 Cookie"
 
 #: weblate/legal/templates/legal/cookies.html:30
 msgid "Preferences cookie to store user preferences in certain situations."
-msgstr ""
+msgstr "ある状況におけるユーザ設定を記憶するための設定 Cookie"
 
 #: weblate/legal/templates/legal/cookies.html:31
 msgid ""
 "Cross site request forgery cookies which we use to prevent certain Cross "
 "Site Request Forgeries attacks."
-msgstr ""
+msgstr "特定のクロスサイトリクエストフォージェリ (CSRF) 攻撃を防ぐための CSRF Cookie"
 
 #: weblate/legal/templates/legal/cookies.html:32
 msgid ""
 "We use Piwik to analyze traffic on our website. Piwik does respect Do Not "
 "Track settings in your browser."
 msgstr ""
+"なお、 Web サイトのトラフィックを解析する目的で、 Piwik を使用しています。 Piwik ではブラウザの Do Not Track (追跡禁止)"
+" 設定を尊重して動作します。"
 
 #: weblate/legal/templates/legal/cookies.html:36
-#, fuzzy
-#| msgid ""
-#| "You can find more information about setting up SSH keys in <a href="
-#| "\"%(ssh_docs)s\">the Weblate manual</a>."
 msgid ""
 "You can find more information about cookies in the <a href=\"https://en."
 "wikipedia.org/wiki/HTTP_cookie\">Wikipedia article</a>."
 msgstr ""
-"SSH 鍵の設定方法について、詳しくは <a href=\"%(ssh_docs)s\">Weblate のマニュ"
-"アル</a> をお読みください。"
+"Cookie について、詳しくは <a href=\"https://ja.wikipedia.org/wiki/HTTP_cookie\">"
+"Wikipedia の記事</a> をお読みください。"
 
 #: weblate/legal/templates/legal/index.html:15
 msgid "Legal Terms Overview"
-msgstr ""
+msgstr "法律上の告知事項の概要"
 
 #: weblate/legal/templates/legal/index.html:24
 msgid ""
 "The services are provided “as is”, at your own risk, without any warranty."
-msgstr ""
+msgstr "サービスは \"現状ありのまま\" で提供されるものであり、一切の保証はありません。ご自身の責任範囲下でお使いください。"
 
 #: weblate/legal/templates/legal/index.html:25
 msgid ""
 "Additional guarantees might apply to commercial customers, those are "
 "expressed in corresponding contracts."
-msgstr ""
+msgstr "なお、有償ホスティングをご契約のお客様に対しては、追加の保証事項が適用されます。詳しくは契約時の内容をご覧ください。"
 
 #: weblate/legal/templates/legal/index.html:26
 msgid ""
 "We process private data (such as your email), those will be discarded from "
 "our database as soon as you remove your account."
 msgstr ""
+"プライベートデータ (電子メールアドレスなど) については厳重に扱います。アカウントを削除した際には、データベースから即時にこれらを廃棄します。"
 
 #: weblate/legal/templates/legal/index.html:27
 msgid ""
 "Your translations are made under license which is specified by each "
 "translation."
-msgstr ""
+msgstr "翻訳文は、各翻訳で指定されたライセンスのもとで作成したものとされます。"
 
 #: weblate/legal/templates/legal/index.html:28
 msgid "Your name and email is used in VCS commits, it will stay there forever."
-msgstr ""
+msgstr "名前と電子メールアドレスは VCS (バージョン管理システム) 内のコミットデータ内に書き込まれ、永久保存されます。"
 
 #: weblate/legal/templates/legal/index.html:29
 msgid "We use cookies to deliver our services."
-msgstr ""
+msgstr "サービスの提供を目的として、 Cookie を使用しています。"
 
 #: weblate/legal/templates/legal/security.html:7 weblate/legal/views.py:45
 msgid "Security"
-msgstr ""
+msgstr "セキュリティ"
 
 #: weblate/legal/templates/legal/security.html:17
 msgid "Security Policy"
-msgstr ""
+msgstr "セキュリティポリシー"
 
 #: weblate/legal/templates/legal/security.html:22
 msgid ""
 "At Weblate, we take security seriously and strive to maintain an environment "
 "that values the security and privacy of our users."
-msgstr ""
+msgstr "Weblate ではセキュリティを重要な課題として位置づけており、セキュリティとユーザのプライバシー保護のため、環境の維持に努力しています。"
 
 #: weblate/legal/templates/legal/security.html:26
 #, python-format
@@ -924,20 +917,20 @@ msgid ""
 "Please see our <a href=\"%(security_url)s\">documentation</a> for "
 "instructions how to report security weakness in our platform."
 msgstr ""
+"本プラットフォームにおけるセキュリティ問題の報告方法については、 <a href=\"%(security_url)s\">ドキュメンテーション</a> "
+"内の手順をお読みください。"
 
 #: weblate/legal/templates/legal/terms.html:6
 msgid "Terms"
-msgstr ""
+msgstr "規約"
 
 #: weblate/legal/templates/legal/terms.html:16 weblate/legal/views.py:35
-#, fuzzy
-#| msgid "Service"
 msgid "Terms of Service"
-msgstr "サービス"
+msgstr "サービス利用規約"
 
 #: weblate/legal/templates/legal/terms.html:19
 msgid "The Terms of Service document is not translated as it's legal document."
-msgstr ""
+msgstr "サービス利用規約の文書は法的な文書であることから、翻訳は行なわれていません。"
 
 #: weblate/legal/views.py:30 weblate/templates/translation.html:29
 msgid "Overview"
@@ -1239,7 +1232,7 @@ msgstr "登録"
 
 #: weblate/templates/accounts/email-sent.html:11
 msgid "Registration almost complete"
-msgstr "ほぼ完全な登録"
+msgstr "登録完了まであと少しです"
 
 #: weblate/templates/accounts/email-sent.html:14
 msgid ""
@@ -1574,7 +1567,7 @@ msgstr "除去"
 #: weblate/templates/accounts/profile.html:227
 #: weblate/templates/accounts/removal.html:12
 msgid "Removal of the account deletes all your private data."
-msgstr "アカウントの削除は、すべてのプライベート データを削除します。"
+msgstr "アカウントの削除は、すべてのプライベートデータを削除します。"
 
 #: weblate/templates/accounts/profile.html:230
 msgid "Remove my account"
@@ -1624,7 +1617,7 @@ msgstr "IP アドレス"
 
 #: weblate/templates/accounts/profile.html:317
 msgid "Hidden"
-msgstr ""
+msgstr "非表示"
 
 #: weblate/templates/accounts/profile.html:322
 msgid "No recent activity found!"
@@ -1773,13 +1766,8 @@ msgid "Delete this account"
 msgstr "このアカウントを削除"
 
 #: weblate/templates/accounts/reset.html:13
-#, fuzzy
-#| msgid ""
-#| "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
 msgid "Forgotten your password? You can now set new one."
-msgstr ""
-"パスワードをお忘れですか？ こちらから<a href=\"%(reset_url)s\">パスワードのリ"
-"セット</a>が行えます。"
+msgstr "パスワードをお忘れですか？ ここから新しいパスワードを設定することができます。"
 
 #: weblate/templates/accounts/reset.html:15
 msgid ""
@@ -1790,10 +1778,8 @@ msgstr ""
 "セット方法をメールでお知らせします。"
 
 #: weblate/templates/accounts/reset.html:33
-#, fuzzy
-#| msgid "Set password"
 msgid "Set my password"
-msgstr "新しいパスワード"
+msgstr "パスワードの設定"
 
 #: weblate/templates/accounts/reset.html:33
 msgid "Reset my password"
@@ -5565,10 +5551,8 @@ msgstr ""
 "す。"
 
 #: weblate/trans/forms.py:329
-#, fuzzy
-#| msgid "Untranslated strings"
 msgid "Missing translated string!"
-msgstr "未翻訳の文字列"
+msgstr "翻訳文がありません！"
 
 #: weblate/trans/forms.py:334
 msgid "Translation text too long!"
@@ -5774,16 +5758,12 @@ msgid "All languages"
 msgstr "すべての言語"
 
 #: weblate/trans/forms.py:734
-#, fuzzy
-#| msgid "Template file not found!"
 msgid "Merged unit not found!"
-msgstr "テンプレートファイルが見つかりませんでした！"
+msgstr "マージ済みの単位が見つかりません！"
 
 #: weblate/trans/forms.py:753
-#, fuzzy
-#| msgid "Template file not found!"
 msgid "Reverted change not found!"
-msgstr "テンプレートファイルが見つかりませんでした！"
+msgstr "戻した変更項目が見つかりません！"
 
 #: weblate/trans/forms.py:760
 msgid "Overwrite strings"
@@ -7495,10 +7475,8 @@ msgid "Invalid merge request!"
 msgstr "マージリクエストが正しくありません！"
 
 #: weblate/trans/views/edit.py:325
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Invalid revert request!"
-msgstr "マージリクエストが正しくありません！"
+msgstr "差し戻し要求が正しくありません！"
 
 #: weblate/trans/views/edit.py:332
 msgid "Can not revert to empty translation!"
@@ -7739,10 +7717,8 @@ msgid "Forbidden URL scheme!"
 msgstr "禁止されている URL スキームです！"
 
 #: weblate/utils/validators.py:174
-#, fuzzy
-#| msgid "Unsupported file format: {0}"
 msgid "Unsupported file format."
-msgstr "未対応のファイル形式です: {0}"
+msgstr "未対応のファイル形式です。"
 
 #~ msgid "Can not merge different messages!"
 #~ msgstr "異なるメッセージを結合することができません！"
