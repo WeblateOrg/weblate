@@ -13,9 +13,10 @@ before_commands:
     - sudo pip3 install -r ci/requirements-scrutinizer.txt
 build:
     environment:
-            python: 3.4
+            python: 3.5
     dependencies:
         override:
+            - pip install six
             - pip install -r ci/requirements-scrutinizer.txt
     tests:
         override:
