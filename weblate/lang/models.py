@@ -579,6 +579,14 @@ class Language(models.Model, PercentMixin):
             self.pluralequation = (
                 'n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3'
             )
+        elif self.code == 'lt':
+            # Lithuanian should use 4 plurals
+            # see https://github.com/WeblateOrg/weblate/issues/901
+            self.nplurals = 4
+            self.pluralequation = (
+                'n==1 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : '
+                'n%10==0 || (n%100>10 && n%100<20) ? 2 : 3'
+            )
 
     def base_code(self):
         return self.code.replace('_', '-').split('-')[0]
