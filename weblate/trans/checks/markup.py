@@ -108,7 +108,7 @@ class XMLValidityCheck(BaseXMLCheck):
     """Check whether XML in target is valid."""
     check_id = 'xml-invalid'
     name = _('Invalid XML markup')
-    description = _('The translaton is not valid XML')
+    description = _('The translation is not valid XML')
     severity = 'danger'
 
     def check_single(self, source, target, unit):

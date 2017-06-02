@@ -210,7 +210,7 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_LOCK, ugettext_lazy('Component locked')),
         (ACTION_UNLOCK, ugettext_lazy('Component unlocked')),
         (ACTION_DUPLICATE_STRING, ugettext_lazy('Detected duplicate string')),
-        (ACTION_COMMIT, ugettext_lazy('Commited changes')),
+        (ACTION_COMMIT, ugettext_lazy('Committed changes')),
         (ACTION_PUSH, ugettext_lazy('Pushed changes')),
         (ACTION_RESET, ugettext_lazy('Reset repository')),
         (ACTION_MERGE, ugettext_lazy('Merged repository')),
