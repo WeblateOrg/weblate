@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-05-31 15:16+0000\n"
-"PO-Revision-Date: 2017-05-16 06:02+0000\n"
+"PO-Revision-Date: 2017-06-02 10:34+0000\n"
 "Last-Translator: Tuomas Harju <tuomas@rtj-group.com>\n"
-"Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
-"fi/>\n"
+"Language-Team: Finnish "
+"<https://hosted.weblate.org/projects/weblate/master/fi/>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.14-dev\n"
+"X-Generator: Weblate 2.15-dev\n"
 
 #: weblate/accounts/auth.py:57
 msgid ""
@@ -40,10 +40,8 @@ msgstr ""
 "Tämä sähköpostiosoite on jo käytössä. Ole hyvä ja anna eri sähköpostiosoite."
 
 #: weblate/accounts/forms.py:102
-#, fuzzy
-#| msgid "Email addresses"
 msgid "Enter a valid email address."
-msgstr "Sähköpostiosoitteet"
+msgstr "Anna toimiva sähköpostiosoite."
 
 #: weblate/accounts/forms.py:109
 msgid ""
@@ -138,7 +136,7 @@ msgstr "Uuden salasanan varmistus"
 
 #: weblate/accounts/forms.py:406
 msgid "You can not change password to the one you are currently using!"
-msgstr ""
+msgstr "Et voi käyttää nykyistä salasanaa uutena salasanana!"
 
 #: weblate/accounts/forms.py:425
 msgid "Your password has been changed."
@@ -152,10 +150,9 @@ msgid "What is %s?"
 msgstr "Mitä on %s?"
 
 #: weblate/accounts/forms.py:463
-#, fuzzy
-#| msgid "Please check your math and try again."
 msgid "Please check your math and try again with new expression."
-msgstr "Tarkista laskutoimitus ja yritä uudelleen."
+msgstr ""
+"Vastauksesi varmistuslaskuun oli väärä. Yritä uudelleen toisella laskulla."
 
 #: weblate/accounts/forms.py:481
 msgid "Current password"
@@ -231,10 +228,8 @@ msgid "Password has been changed."
 msgstr "Salasana on vaihdettu."
 
 #: weblate/accounts/models.py:56
-#, fuzzy
-#| msgid "Password reset has been confirmed."
 msgid "Password reset has been requested."
-msgstr "Salasanan palutus on vahvistettu."
+msgstr "Salasanasi palutuspyyntö on tehty."
 
 #: weblate/accounts/models.py:59
 msgid "Password reset has been confirmed."
@@ -276,7 +271,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:83
 msgid "Account and all private data have been removed."
-msgstr ""
+msgstr "Tilisi ja kaikki siihen liittyvät yksityiset tietosi on poistettu."
 
 #: weblate/accounts/models.py:191 weblate/templates/accounts/profile.html:304
 msgid "Account activity"
@@ -457,20 +452,19 @@ msgstr "Kokeilutilin tunnistautumistietoja ei voi vaihtaa!"
 #: weblate/accounts/pipeline.py:269
 msgid "You can not complete password reset while logged in!"
 msgstr ""
+"Et voi viedä loppuun salasanan palautusta koska olet kirjautunut sisään!"
 
 #: weblate/accounts/pipeline.py:273 weblate/accounts/pipeline.py:297
-#, fuzzy
-#| msgid "Translation comment has been deleted."
 msgid "The registration link has been invalidated."
-msgstr "Käännösksen kommentti on poistettu."
+msgstr "Rekisteröintilinkki ei ole enään kelvollinen."
 
 #: weblate/accounts/pipeline.py:288
 msgid "You can not complete registration while logged in!"
-msgstr ""
+msgstr "Et voi tehdä rekisteröintiä loppuun koska olet kirjautunut sisään!"
 
 #: weblate/accounts/pipeline.py:293
 msgid "You can confirm your registration only while logged in!"
-msgstr ""
+msgstr "Voit vahvistaa rekisteröitymisesi vain jos olet kirjautunut sisään!"
 
 #: weblate/accounts/pipeline.py:402
 #, python-brace-format
@@ -813,15 +807,15 @@ msgstr "{name} (esim. {examples})"
 #: weblate/legal/templates/legal/security.html:6
 #: weblate/legal/templates/legal/terms.html:5 weblate/templates/footer.html:7
 msgid "Legal"
-msgstr ""
+msgstr "Sallittu"
 
 #: weblate/legal/templates/legal/cookies.html:6 weblate/legal/views.py:40
 msgid "Cookies"
-msgstr ""
+msgstr "Evästeet"
 
 #: weblate/legal/templates/legal/cookies.html:16
 msgid "Cookies Policy"
-msgstr ""
+msgstr "Evästeitä koskeva käytäntö"
 
 #: weblate/legal/templates/legal/cookies.html:21
 #: weblate/legal/templates/legal/index.html:20
@@ -830,93 +824,112 @@ msgid ""
 "This page is based on <a href=\"%(terms_url)s\">Terms of Service</a>, you "
 "should still read the original document to fully understand it."
 msgstr ""
+"Tämä sivu perustuu <a href=\"%(terms_url)s\"> Palvelun Käyttöehtoihin </a>. "
+"Sinun tulisi kuitenkin lukea alkuperäinen dokumentti ymmärtääksesi ehdot "
+"täysin."
 
 #: weblate/legal/templates/legal/cookies.html:25
 msgid "We use cookies for following purposes:"
-msgstr ""
+msgstr "Käytämme evästeitä seuraaviin tarkoituksiin:"
 
 #: weblate/legal/templates/legal/cookies.html:29
 msgid ""
 "Authentication cookies which are required for recognizing authenticated "
 "users."
 msgstr ""
+"Todennusevästeet, joita tarvitaan kirjautuneiden käyttäjien tunnistamiseen."
 
 #: weblate/legal/templates/legal/cookies.html:30
 msgid "Preferences cookie to store user preferences in certain situations."
 msgstr ""
+"Asetusevästeet, joita käytetään käyttäjän asetusten tallentamiseen joissain "
+"tapauksissa."
 
 #: weblate/legal/templates/legal/cookies.html:31
 msgid ""
 "Cross site request forgery cookies which we use to prevent certain Cross "
 "Site Request Forgeries attacks."
 msgstr ""
+"Toisiin sivustoihin tehtävien pyyntöhuijausten (CSRF) estoevästeet, joita "
+"käytetään estämään vahingollisen koodin ajaminen sivustolla."
 
 #: weblate/legal/templates/legal/cookies.html:32
 msgid ""
 "We use Piwik to analyze traffic on our website. Piwik does respect Do Not "
 "Track settings in your browser."
 msgstr ""
+"Käytämme Piwik -palvelua analysoimaan sivustomme liikennettä. Piwik "
+"noudattaa selaimesi \"Älä seuraa\" / \"Do Not Track\" -asetusta."
 
 #: weblate/legal/templates/legal/cookies.html:36
-#, fuzzy
-#| msgid ""
-#| "You can find more information about setting up SSH keys in <a href="
-#| "\"%(ssh_docs)s\">the Weblate manual</a>."
 msgid ""
 "You can find more information about cookies in the <a href=\"https://en."
 "wikipedia.org/wiki/HTTP_cookie\">Wikipedia article</a>."
 msgstr ""
-"Löydät lisätietoja SSH avaimista <a href=\"%(ssh_docs)s\">Weblaten "
-"käsikirjasta</a>."
+"Löydät lisätietoja evästeistä esimerkiksi <a href=\""
+"https://fi.wikipedia.org/wiki/Eväste\">Wikipediasta</a>."
 
 #: weblate/legal/templates/legal/index.html:15
 msgid "Legal Terms Overview"
-msgstr ""
+msgstr "Oikeudellisten ehtojen yleiskuvaus"
 
 #: weblate/legal/templates/legal/index.html:24
 msgid ""
 "The services are provided “as is”, at your own risk, without any warranty."
 msgstr ""
+"Palvelut toimitetaan \"sellaisenaan\", omalla vastuullasi ilman "
+"minkäänlaista takuuta."
 
 #: weblate/legal/templates/legal/index.html:25
 msgid ""
 "Additional guarantees might apply to commercial customers, those are "
 "expressed in corresponding contracts."
 msgstr ""
+"Kaupallisille asiakkaille voidaan soveltaa lisätakuita, jotka ilmaistaan "
+"vastaavissa sopimuksissa."
 
 #: weblate/legal/templates/legal/index.html:26
 msgid ""
 "We process private data (such as your email), those will be discarded from "
 "our database as soon as you remove your account."
 msgstr ""
+"Käsittelemme yksityisiä tietoja (kuten sähköpostiosoite), ja ne poistetaan "
+"tietokannasta samalla kun poistat käyttäjätilisi."
 
 #: weblate/legal/templates/legal/index.html:27
 msgid ""
 "Your translations are made under license which is specified by each "
 "translation."
 msgstr ""
+"Käännöksesi on tehty sen lisenssin ehtojen mukaisesti mikä on määritelty "
+"kullekkin käännösprojektille."
 
 #: weblate/legal/templates/legal/index.html:28
 msgid "Your name and email is used in VCS commits, it will stay there forever."
 msgstr ""
+"Nimeäsi ja sähköpostiosoitettasi on käytetty käännösten viemisesessä "
+"versionhallintaan. Niitä ei voi poistaa tai muuttaa, ja ne tulevat pysymään "
+"siellä ikuisesti."
 
 #: weblate/legal/templates/legal/index.html:29
 msgid "We use cookies to deliver our services."
-msgstr ""
+msgstr "Käytämme evästeitä palvelun tuottamisessa."
 
 #: weblate/legal/templates/legal/security.html:7 weblate/legal/views.py:45
 msgid "Security"
-msgstr ""
+msgstr "Turvallisuus"
 
 #: weblate/legal/templates/legal/security.html:17
 msgid "Security Policy"
-msgstr ""
+msgstr "Turvallisuuskäytännöt"
 
 #: weblate/legal/templates/legal/security.html:22
 msgid ""
 "At Weblate, we take security seriously and strive to maintain an environment "
 "that values the security and privacy of our users."
 msgstr ""
+"Me Weblatella otamme turvallisuuden tosissaan ja pyrimme ylläpitämään "
+"palveluympäristöä joka arvostaa käyttäjien turvallisuutta ja yksityisyyttä."
 
 #: weblate/legal/templates/legal/security.html:26
 #, python-format
@@ -924,20 +937,22 @@ msgid ""
 "Please see our <a href=\"%(security_url)s\">documentation</a> for "
 "instructions how to report security weakness in our platform."
 msgstr ""
+"Katso <a href=\"%(security_url)s\">ohjeistamme</a> kuinka voit raportoida "
+"tietoturvaan liittyvistä epäkohdista palvelussamme."
 
 #: weblate/legal/templates/legal/terms.html:6
 msgid "Terms"
-msgstr ""
+msgstr "Ehdot"
 
 #: weblate/legal/templates/legal/terms.html:16 weblate/legal/views.py:35
-#, fuzzy
-#| msgid "Service"
 msgid "Terms of Service"
-msgstr "Palvelu"
+msgstr "Palvelun käyttöehdot"
 
 #: weblate/legal/templates/legal/terms.html:19
 msgid "The Terms of Service document is not translated as it's legal document."
 msgstr ""
+"Käyttöehdot -asiakirjaa ei ole käännetty, koska se on oikeudellinen "
+"asiakirja."
 
 #: weblate/legal/views.py:30 weblate/templates/translation.html:29
 msgid "Overview"
@@ -1626,7 +1641,7 @@ msgstr "IP -osoite"
 
 #: weblate/templates/accounts/profile.html:317
 msgid "Hidden"
-msgstr ""
+msgstr "Piilotettu"
 
 #: weblate/templates/accounts/profile.html:322
 msgid "No recent activity found!"
@@ -1778,12 +1793,8 @@ msgid "Delete this account"
 msgstr "Poista tämä käyttäjätili"
 
 #: weblate/templates/accounts/reset.html:13
-#, fuzzy
-#| msgid ""
-#| "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
 msgid "Forgotten your password? You can now set new one."
-msgstr ""
-"Unohditko salasanasi? Voit <a href=\"%(reset_url)s\">palauttaa sen</a>."
+msgstr "Unohditko salasanasi? Voit nyt asettaa uuden salasanan."
 
 #: weblate/templates/accounts/reset.html:15
 msgid ""
@@ -1794,10 +1805,8 @@ msgstr ""
 "salasanan luomiseksi."
 
 #: weblate/templates/accounts/reset.html:33
-#, fuzzy
-#| msgid "Set password"
 msgid "Set my password"
-msgstr "Aseta salasana"
+msgstr "Aseta salasanani"
 
 #: weblate/templates/accounts/reset.html:33
 msgid "Reset my password"
@@ -5582,10 +5591,8 @@ msgstr ""
 "annetulle laskurille (n)."
 
 #: weblate/trans/forms.py:329
-#, fuzzy
-#| msgid "Untranslated strings"
 msgid "Missing translated string!"
-msgstr "Kääntämättömät merkkijonot"
+msgstr "Käännösteksti puuttuu!"
 
 #: weblate/trans/forms.py:334
 msgid "Translation text too long!"
@@ -5792,16 +5799,12 @@ msgid "All languages"
 msgstr "Kaikki kielet"
 
 #: weblate/trans/forms.py:734
-#, fuzzy
-#| msgid "Template file not found!"
 msgid "Merged unit not found!"
-msgstr "Mallitiedostoa ei löydy!"
+msgstr "Yhdistettyä yksikköä ei löydy!"
 
 #: weblate/trans/forms.py:753
-#, fuzzy
-#| msgid "Template file not found!"
 msgid "Reverted change not found!"
-msgstr "Mallitiedostoa ei löydy!"
+msgstr "Palautettua muutosta ei löydy!"
 
 #: weblate/trans/forms.py:760
 msgid "Overwrite strings"
@@ -7533,10 +7536,8 @@ msgid "Invalid merge request!"
 msgstr "Virheellinen liitäntäpyyntö!"
 
 #: weblate/trans/views/edit.py:325
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Invalid revert request!"
-msgstr "Virheellinen liitäntäpyyntö!"
+msgstr "Virheellinen palautuspyyntö!"
 
 #: weblate/trans/views/edit.py:332
 msgid "Can not revert to empty translation!"
@@ -7784,10 +7785,8 @@ msgid "Forbidden URL scheme!"
 msgstr "Kielletty osoitteen tyyppi (URL scheme)!"
 
 #: weblate/utils/validators.py:174
-#, fuzzy
-#| msgid "Unsupported file format: {0}"
 msgid "Unsupported file format."
-msgstr "Tiedostomuotoa ei tueta: {0}"
+msgstr "Tiedostomuotoa ei tueta."
 
 #~ msgid "Can not merge different messages!"
 #~ msgstr "Et voi yhdistää toisia tekstejä!"
