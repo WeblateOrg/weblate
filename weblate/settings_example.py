@@ -86,6 +86,7 @@ LANGUAGES = (
     ('da', 'Dansk'),
     ('de', 'Deutsch'),
     ('en', 'English'),
+    ('en-gb', 'English (United Kingdom)'),
     ('el', 'Ελληνικά'),
     ('es', 'Español'),
     ('fi', 'Suomi'),
