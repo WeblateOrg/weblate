@@ -64,14 +64,22 @@ class DictionaryManager(models.Manager):
                 continue
 
             # Get object
-            word, created = self.get_or_create(
-                project=project,
-                language=language,
-                source=source,
-                defaults={
-                    'target': target,
-                },
-            )
+            try:
+                word, created = self.get_or_create(
+                    project=project,
+                    language=language,
+                    source=source,
+                    defaults={
+                        'target': target,
+                    },
+                )
+            except self.MultipleObjectsReturned:
+                word = self.filter(
+                    project=project,
+                    language=language,
+                    source=source
+                )[0]
+                created = False
 
             # Already existing entry found
             if not created:
