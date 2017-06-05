@@ -202,9 +202,6 @@ class FileUnit(object):
         reason do not correctly set source/target attributes.
         """
         return (
-            hasattr(self.unit, 'name') and
-            hasattr(self.unit, 'value') and
-            hasattr(self.unit, 'translation') and
             hasattr(self.mainunit, 'name') and
             hasattr(self.mainunit, 'value') and
             hasattr(self.mainunit, 'translation')
@@ -299,7 +296,9 @@ class FileUnit(object):
         """Check whether unit is translated."""
         if self.unit is None:
             return False
-        if self.is_unit_key_value():
+        # The hasattr check here is needed for merged storages
+        # where template is different kind than translations
+        if self.is_unit_key_value() and hasattr(self.unit, 'value'):
             return not self.unit.isfuzzy() and self.unit.value != ''
         else:
             return self.unit.istranslated()
