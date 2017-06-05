@@ -49,6 +49,10 @@ touch $OPENSHIFT_DATA_DIR/.install
 export PYTHONUNBUFFERED=1
 source $OPENSHIFT_HOMEDIR/python/virtenv/bin/activate
 
+# Stop unneeded cartridges to save memory
+gear stop --cart cron
+gear stop --cart mysql
+
 cd ${OPENSHIFT_REPO_DIR}
 
 # Pin Django version to 1.10 to avoid surprises when 1.11 comes out.
@@ -67,6 +71,9 @@ while read line; do
     sh "pip install --no-cache-dir --disable-pip-version-check \"$line\"" || true
   fi
 done < $OPENSHIFT_REPO_DIR/requirements-optional.txt
+
+# Start the database again as it is needed for setup scripts
+gear start --cart mysql
 
 sh "python ${OPENSHIFT_REPO_DIR}/setup_weblate.py develop"
 
@@ -102,7 +109,7 @@ if find_script_dir; then
   ln -sf ${OPENSHIFT_REPO_DIR}/openshift/settings.sh $SCRIPT_DIR/settings
 fi
 
-gear stop
+gear stop --cart python
 
 # Link sources below $OPENSHIFT_REPO_DIR must be relative or they will be invalid after restore/clone operations
 ln -sf ../openshift/wsgi.py $OPENSHIFT_REPO_DIR/wsgi/application
