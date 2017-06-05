@@ -30,7 +30,7 @@ from django.contrib.auth.backends import ModelBackend
 import social_core.backends.email
 from social_core.exceptions import (
     AuthMissingParameter, InvalidEmail, AuthFailed, AuthCanceled,
-    AuthStateMissing, AuthStateForbidden,
+    AuthStateMissing, AuthStateForbidden, AuthAlreadyAssociated,
 )
 
 from weblate.utils import messages
@@ -82,6 +82,15 @@ class EmailAuth(social_core.backends.email.EmailAuth):
             messages.error(
                 self.strategy.request,
                 _('Authentication has been cancelled.'),
+            )
+            return redirect(reverse('login'))
+        except AuthAlreadyAssociated:
+            messages.error(
+                self.strategy.request,
+                _(
+                    'Authentication failed, this account is already '
+                    'associated with another account!'
+                ),
             )
             return redirect(reverse('login'))
 
