@@ -30,6 +30,7 @@ from django.contrib.auth.backends import ModelBackend
 import social_core.backends.email
 from social_core.exceptions import (
     AuthMissingParameter, InvalidEmail, AuthFailed, AuthCanceled,
+    AuthStateMissing, AuthStateForbidden,
 )
 
 from weblate.utils import messages
@@ -63,7 +64,11 @@ class EmailAuth(social_core.backends.email.EmailAuth):
         except AuthMissingParameter as error:
             if error.parameter in ('email', 'user', 'expires'):
                 return self.redirect_token()
+            elif error.parameter in ('state'):
+                return self.redirect_state()
             raise
+        except (AuthStateMissing, AuthStateForbidden):
+            return self.redirect_state()
         except AuthFailed:
             messages.error(
                 self.strategy.request,
@@ -88,6 +93,13 @@ class EmailAuth(social_core.backends.email.EmailAuth):
                 'Probably the verification token has expired. '
                 'Please try the registration again.'
             )
+        )
+        return redirect(reverse('login'))
+
+    def redirect_state(self):
+        messages.error(
+            self.strategy.request,
+            _('Authentication failed due to invalid session state.')
         )
         return redirect(reverse('login'))
 
