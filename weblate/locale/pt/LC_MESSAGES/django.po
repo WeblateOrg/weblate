@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-05-31 15:16+0000\n"
+"POT-Creation-Date: 2017-06-05 14:49+0000\n"
 "PO-Revision-Date: 2017-05-08 08:30+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
@@ -19,13 +19,42 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 2.14-dev\n"
 
-#: weblate/accounts/auth.py:57
+#: weblate/accounts/auth.py:74
+msgid "Can not change authentication for demo!"
+msgstr "Não é possível alterar a autenticação para demonstração!"
+
+#: weblate/accounts/auth.py:76
+msgid "New registrations are disabled!"
+msgstr "Novos registos estão desactivados!"
+
+#: weblate/accounts/auth.py:82
+msgid ""
+"Authentication has failed, probably due to expired token or connection error."
+msgstr ""
+
+#: weblate/accounts/auth.py:86
+#, fuzzy
+#| msgid "Authentication using {method} ({name}) has been added."
+msgid "Authentication has been cancelled."
+msgstr "A autenticação {method} ({name}) foi adicionada."
+
+#: weblate/accounts/auth.py:89
+msgid ""
+"Failed to complete your registration! This authenticaation is already "
+"associated with another account!"
+msgstr ""
+
+#: weblate/accounts/auth.py:95
 msgid ""
 "Failed to verify your registration! Probably the verification token has "
 "expired. Please try the registration again."
 msgstr ""
 "Não foi possível verificar o seu registo! Provavelmente a ficha de "
 "verificação expirou. Por favor, tente registar-se novamente."
+
+#: weblate/accounts/auth.py:102
+msgid "Authentication failed due to invalid session state."
+msgstr ""
 
 #: weblate/accounts/avatar.py:163
 msgctxt "No known user"
@@ -58,7 +87,7 @@ msgstr ""
 msgid "Username"
 msgstr "Nome de utilizador"
 
-#: weblate/accounts/forms.py:133 weblate/accounts/pipeline.py:235
+#: weblate/accounts/forms.py:133 weblate/accounts/pipeline.py:229
 msgid "This username is already taken. Please choose another."
 msgstr ""
 "Este nome de utilizador já está a ser utilizado. Por favor, escolha outro."
@@ -105,11 +134,11 @@ msgstr ""
 msgid "Subject"
 msgstr "Assunto"
 
-#: weblate/accounts/forms.py:325 weblate/accounts/forms.py:594
+#: weblate/accounts/forms.py:325 weblate/accounts/forms.py:595
 msgid "Your name"
 msgstr "O seu nome"
 
-#: weblate/accounts/forms.py:330 weblate/accounts/forms.py:595
+#: weblate/accounts/forms.py:330 weblate/accounts/forms.py:596
 msgid "Your email"
 msgstr "O seu endereço de correio eletrónico"
 
@@ -153,34 +182,34 @@ msgctxt ""
 msgid "What is %s?"
 msgstr "Quanto é %s?"
 
-#: weblate/accounts/forms.py:463
+#: weblate/accounts/forms.py:464
 #, fuzzy
 #| msgid "Please check your math and try again."
 msgid "Please check your math and try again with new expression."
 msgstr "Favor verifique as suas contas e tente novamente."
 
-#: weblate/accounts/forms.py:481
+#: weblate/accounts/forms.py:482
 msgid "Current password"
 msgstr "Palavra-passe actual"
 
-#: weblate/accounts/forms.py:483
+#: weblate/accounts/forms.py:484
 msgid "Keep the field empty if you have not yet set your password."
 msgstr ""
 "Mantenha o campo vazio se ainda não tiver definido a sua palavra-passe."
 
-#: weblate/accounts/forms.py:501
+#: weblate/accounts/forms.py:502
 msgid "You have entered an invalid password."
 msgstr "Introduziu uma palavra-passe inválida."
 
-#: weblate/accounts/forms.py:517
+#: weblate/accounts/forms.py:518
 msgid "Username or email"
 msgstr "Nome de utilizador ou endereço de mail"
 
-#: weblate/accounts/forms.py:520 weblate/templates/accounts/profile.html:189
+#: weblate/accounts/forms.py:521 weblate/templates/accounts/profile.html:189
 msgid "Password"
 msgstr "Palavra-passe"
 
-#: weblate/accounts/forms.py:524
+#: weblate/accounts/forms.py:525
 msgid ""
 "Please enter a correct username and password. Note that both fields may be "
 "case-sensitive."
@@ -188,36 +217,36 @@ msgstr ""
 "Por favor introduza um nome de utilizador e palavra-passe corretos. Note que "
 "ambos os campos são sensíveis a maiúsculas e minúsculas."
 
-#: weblate/accounts/forms.py:526
+#: weblate/accounts/forms.py:527
 msgid "This account is inactive."
 msgstr "Esta conta está inativa."
 
-#: weblate/accounts/forms.py:545 weblate/accounts/views.py:178
+#: weblate/accounts/forms.py:546 weblate/accounts/views.py:178
 msgid "Too many authentication attempts!"
 msgstr "Muitas tentativas de autenticação!"
 
-#: weblate/accounts/forms.py:596 weblate/trans/models/project.py:87
+#: weblate/accounts/forms.py:597 weblate/trans/models/project.py:87
 msgid "Project name"
 msgstr "Nome do projecto"
 
-#: weblate/accounts/forms.py:597 weblate/templates/project_info.html:3
+#: weblate/accounts/forms.py:598 weblate/templates/project_info.html:3
 #: weblate/trans/models/project.py:99
 msgid "Project website"
 msgstr "Página do projecto"
 
-#: weblate/accounts/forms.py:599 weblate/trans/models/subproject.py:159
+#: weblate/accounts/forms.py:600 weblate/trans/models/subproject.py:159
 msgid "Source code repository"
 msgstr "Repositório de código-fonte"
 
-#: weblate/accounts/forms.py:601
+#: weblate/accounts/forms.py:602
 msgid "URL of source code repository for example Git or Mercurial."
 msgstr "URL do repositório de código-fonte, por exemplo Git ou Mercurial."
 
-#: weblate/accounts/forms.py:606 weblate/trans/models/subproject.py:208
+#: weblate/accounts/forms.py:607 weblate/trans/models/subproject.py:208
 msgid "File mask"
 msgstr "Máscara de ficheiros"
 
-#: weblate/accounts/forms.py:608
+#: weblate/accounts/forms.py:609
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
@@ -225,7 +254,7 @@ msgstr ""
 "Caminho dos ficheiros para traduzir, use * em vez do código do idioma, como "
 "por exemplo: po/*.po ou locale/*/LC_MESSAGES/django.po."
 
-#: weblate/accounts/forms.py:615
+#: weblate/accounts/forms.py:616
 msgid "Additional message"
 msgstr "Mensagem adicional"
 
@@ -445,33 +474,25 @@ msgstr ""
 "A sua palavra-passe não pode consistir apenas num único caractere ou espaço "
 "em branco."
 
-#: weblate/accounts/pipeline.py:181
-msgid "New registrations are disabled!"
-msgstr "Novos registos estão desactivados!"
-
-#: weblate/accounts/pipeline.py:186
-msgid "Can not change authentication for demo!"
-msgstr "Não é possível alterar a autenticação para demonstração!"
-
-#: weblate/accounts/pipeline.py:269
+#: weblate/accounts/pipeline.py:263
 msgid "You can not complete password reset while logged in!"
 msgstr ""
 
-#: weblate/accounts/pipeline.py:273 weblate/accounts/pipeline.py:297
+#: weblate/accounts/pipeline.py:267 weblate/accounts/pipeline.py:291
 #, fuzzy
 #| msgid "Translation comment has been deleted."
 msgid "The registration link has been invalidated."
 msgstr "O comentário da tradução foi eliminado."
 
-#: weblate/accounts/pipeline.py:288
+#: weblate/accounts/pipeline.py:282
 msgid "You can not complete registration while logged in!"
 msgstr ""
 
-#: weblate/accounts/pipeline.py:293
+#: weblate/accounts/pipeline.py:287
 msgid "You can confirm your registration only while logged in!"
 msgstr ""
 
-#: weblate/accounts/pipeline.py:402
+#: weblate/accounts/pipeline.py:396
 #, python-brace-format
 msgid ""
 "Your email no longer belongs to verified account, it has been changed to {0}."
@@ -636,48 +657,48 @@ msgstr ""
 msgid "Weblate languages"
 msgstr "Idiomas do Weblate"
 
-#: weblate/lang/data.py:774 weblate/lang/data.py:778 weblate/lang/data.py:784
-#: weblate/lang/data.py:792 weblate/lang/data.py:796 weblate/lang/data.py:801
-#: weblate/lang/data.py:807 weblate/lang/data.py:813 weblate/lang/data.py:818
-#: weblate/lang/data.py:824 weblate/lang/data.py:836
+#: weblate/lang/data.py:776 weblate/lang/data.py:780 weblate/lang/data.py:786
+#: weblate/lang/data.py:794 weblate/lang/data.py:798 weblate/lang/data.py:803
+#: weblate/lang/data.py:809 weblate/lang/data.py:815 weblate/lang/data.py:820
+#: weblate/lang/data.py:826 weblate/lang/data.py:838
 msgctxt "Plural form description"
 msgid "One"
 msgstr "Um"
 
-#: weblate/lang/data.py:775 weblate/lang/data.py:780 weblate/lang/data.py:788
-#: weblate/lang/data.py:793 weblate/lang/data.py:798 weblate/lang/data.py:804
-#: weblate/lang/data.py:810 weblate/lang/data.py:814 weblate/lang/data.py:821
-#: weblate/lang/data.py:828 weblate/lang/data.py:832 weblate/lang/data.py:840
+#: weblate/lang/data.py:777 weblate/lang/data.py:782 weblate/lang/data.py:790
+#: weblate/lang/data.py:795 weblate/lang/data.py:800 weblate/lang/data.py:806
+#: weblate/lang/data.py:812 weblate/lang/data.py:816 weblate/lang/data.py:823
+#: weblate/lang/data.py:830 weblate/lang/data.py:834 weblate/lang/data.py:842
 msgctxt "Plural form description"
 msgid "Other"
 msgstr "Outros"
 
-#: weblate/lang/data.py:779 weblate/lang/data.py:786 weblate/lang/data.py:809
-#: weblate/lang/data.py:819 weblate/lang/data.py:826 weblate/lang/data.py:838
+#: weblate/lang/data.py:781 weblate/lang/data.py:788 weblate/lang/data.py:811
+#: weblate/lang/data.py:821 weblate/lang/data.py:828 weblate/lang/data.py:840
 msgctxt "Plural form description"
 msgid "Few"
 msgstr "Alguns"
 
-#: weblate/lang/data.py:783 weblate/lang/data.py:791 weblate/lang/data.py:815
-#: weblate/lang/data.py:835
+#: weblate/lang/data.py:785 weblate/lang/data.py:793 weblate/lang/data.py:817
+#: weblate/lang/data.py:837
 msgctxt "Plural form description"
 msgid "Zero"
 msgstr "Zero"
 
-#: weblate/lang/data.py:785 weblate/lang/data.py:797 weblate/lang/data.py:802
-#: weblate/lang/data.py:808 weblate/lang/data.py:825 weblate/lang/data.py:831
-#: weblate/lang/data.py:837
+#: weblate/lang/data.py:787 weblate/lang/data.py:799 weblate/lang/data.py:804
+#: weblate/lang/data.py:810 weblate/lang/data.py:827 weblate/lang/data.py:833
+#: weblate/lang/data.py:839
 msgctxt "Plural form description"
 msgid "Two"
 msgstr "Dois"
 
-#: weblate/lang/data.py:787 weblate/lang/data.py:820 weblate/lang/data.py:827
-#: weblate/lang/data.py:839
+#: weblate/lang/data.py:789 weblate/lang/data.py:822 weblate/lang/data.py:829
+#: weblate/lang/data.py:841
 msgctxt "Plural form description"
 msgid "Many"
 msgstr "Muitos"
 
-#: weblate/lang/data.py:803
+#: weblate/lang/data.py:805
 msgctxt "Plural form description"
 msgid "Three"
 msgstr "Três"
@@ -846,17 +867,11 @@ msgstr ""
 
 #: weblate/legal/templates/legal/cookies.html:31
 msgid ""
-"Cross site request forgery cookies which we use to prevent certain Cross "
-"Site Request Forgeries attacks."
-msgstr ""
-
-#: weblate/legal/templates/legal/cookies.html:32
-msgid ""
 "We use Piwik to analyze traffic on our website. Piwik does respect Do Not "
 "Track settings in your browser."
 msgstr ""
 
-#: weblate/legal/templates/legal/cookies.html:36
+#: weblate/legal/templates/legal/cookies.html:35
 #, fuzzy
 #| msgid ""
 #| "You can find more information about setting up SSH keys in <a href="
@@ -935,7 +950,7 @@ msgid "Terms of Service"
 msgstr "Serviço"
 
 #: weblate/legal/templates/legal/terms.html:19
-msgid "The Terms of Service document is not translated as it's legal document."
+msgid "The Terms of Service document is currently available only in English."
 msgstr ""
 
 #: weblate/legal/views.py:30 weblate/templates/translation.html:29
@@ -5663,101 +5678,101 @@ msgid "All recent changes made using Weblate in %s."
 msgstr ""
 "Todas as alterações realizadas recentemente utilizando o Weblate no %s."
 
-#: weblate/trans/formats.py:780
+#: weblate/trans/formats.py:782
 msgid "Automatic detection"
 msgstr "Detecção automática"
 
-#: weblate/trans/formats.py:811
+#: weblate/trans/formats.py:813
 msgid "Gettext PO file"
 msgstr "Ficheiro Gettext PO"
 
-#: weblate/trans/formats.py:882
+#: weblate/trans/formats.py:884
 msgid "Gettext PO file (monolingual)"
 msgstr "Ficheiro Gettext PO (idioma único)"
 
-#: weblate/trans/formats.py:889
+#: weblate/trans/formats.py:891
 msgid "Qt Linguist Translation File"
 msgstr "Ficheiro de tradução Qt Linguist"
 
-#: weblate/trans/formats.py:920
+#: weblate/trans/formats.py:922
 msgid "XLIFF Translation File"
 msgstr "Ficheiro de Tradução XLIFF"
 
-#: weblate/trans/formats.py:975
+#: weblate/trans/formats.py:977
 #, fuzzy
 #| msgid "XLIFF Translation File"
 msgid "XLIFF Translation File with PO extensions"
 msgstr "Ficheiro de Tradução XLIFF"
 
-#: weblate/trans/formats.py:983
+#: weblate/trans/formats.py:985
 msgid "OS X Strings"
 msgstr "Cadeias OS X"
 
-#: weblate/trans/formats.py:992
+#: weblate/trans/formats.py:994
 msgid "OS X Strings (UTF-8)"
 msgstr "Strings para OS X (UTF-8)"
 
-#: weblate/trans/formats.py:1000
+#: weblate/trans/formats.py:1002
 msgid "Java Properties (UTF-8)"
 msgstr "Propriedades Java (UTF-8)"
 
-#: weblate/trans/formats.py:1009
+#: weblate/trans/formats.py:1011
 #, fuzzy
 #| msgid "Java Properties (UTF-8)"
 msgid "Java Properties (UTF-16)"
 msgstr "Propriedades Java (UTF-8)"
 
-#: weblate/trans/formats.py:1016
+#: weblate/trans/formats.py:1018
 #, fuzzy
 #| msgid "Java Properties (UTF-8)"
 msgid "Java Properties (ISO-8859-1)"
 msgstr "Propriedades Java (UTF-8)"
 
-#: weblate/trans/formats.py:1038
+#: weblate/trans/formats.py:1040
 #, fuzzy
 #| msgid "Language filter"
 msgid "Joomla Language File"
 msgstr "Filtro de idioma"
 
-#: weblate/trans/formats.py:1048
+#: weblate/trans/formats.py:1050
 msgid "PHP strings"
 msgstr "Cadeias PHP"
 
-#: weblate/trans/formats.py:1088
+#: weblate/trans/formats.py:1090
 msgid ".Net resource file"
 msgstr "Ficheiro com elementos .Net"
 
-#: weblate/trans/formats.py:1099
+#: weblate/trans/formats.py:1101
 msgid "Android String Resource"
 msgstr "Recurso de cadeias do Android"
 
-#: weblate/trans/formats.py:1129
+#: weblate/trans/formats.py:1131
 msgid "JSON file"
 msgstr "Ficheiro JSON"
 
-#: weblate/trans/formats.py:1163
+#: weblate/trans/formats.py:1165
 #, fuzzy
 #| msgid "JSON file"
 msgid "CSV file"
 msgstr "Ficheiro JSON"
 
-#: weblate/trans/formats.py:1224
+#: weblate/trans/formats.py:1226
 #, fuzzy
 #| msgid "JSON file"
 msgid "Simple CSV file"
 msgstr "Ficheiro JSON"
 
-#: weblate/trans/formats.py:1261
+#: weblate/trans/formats.py:1263
 #, fuzzy
 #| msgid "Java Properties (UTF-8)"
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Propriedades Java (UTF-8)"
 
-#: weblate/trans/formats.py:1268
+#: weblate/trans/formats.py:1270
 msgid "YAML file"
 msgstr ""
 
-#: weblate/trans/formats.py:1306
+#: weblate/trans/formats.py:1308
 msgid "Ruby YAML file"
 msgstr ""
 

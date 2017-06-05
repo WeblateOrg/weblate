@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-05-31 15:16+0000\n"
+"POT-Creation-Date: 2017-06-05 14:49+0000\n"
 "PO-Revision-Date: 2017-05-20 03:44+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
@@ -19,13 +19,44 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 2.14.1-dev\n"
 
-#: weblate/accounts/auth.py:57
+#: weblate/accounts/auth.py:74
+#, fuzzy
+#| msgid "Can not reset password, email authentication is disabled!"
+msgid "Can not change authentication for demo!"
+msgstr "Kan ikke nullstille passord, e-postbekreftelse er deaktivert!"
+
+#: weblate/accounts/auth.py:76
+msgid "New registrations are disabled!"
+msgstr "Nye registreringer er deaktivert!"
+
+#: weblate/accounts/auth.py:82
+msgid ""
+"Authentication has failed, probably due to expired token or connection error."
+msgstr ""
+
+#: weblate/accounts/auth.py:86
+#, fuzzy
+#| msgid "Translation has been removed."
+msgid "Authentication has been cancelled."
+msgstr "Oversettelsen er fjernet."
+
+#: weblate/accounts/auth.py:89
+msgid ""
+"Failed to complete your registration! This authenticaation is already "
+"associated with another account!"
+msgstr ""
+
+#: weblate/accounts/auth.py:95
 msgid ""
 "Failed to verify your registration! Probably the verification token has "
 "expired. Please try the registration again."
 msgstr ""
 "Klarte ikke bekrefte registreringen din. Antagelig har den gått ut på dato. "
 "Prøv å registrere deg på nytt."
+
+#: weblate/accounts/auth.py:102
+msgid "Authentication failed due to invalid session state."
+msgstr ""
 
 #: weblate/accounts/avatar.py:163
 msgctxt "No known user"
@@ -55,7 +86,7 @@ msgstr ""
 msgid "Username"
 msgstr "Brukernavn"
 
-#: weblate/accounts/forms.py:133 weblate/accounts/pipeline.py:235
+#: weblate/accounts/forms.py:133 weblate/accounts/pipeline.py:229
 msgid "This username is already taken. Please choose another."
 msgstr "Brukernavnet er allerede tatt. Velg et annet."
 
@@ -98,11 +129,11 @@ msgstr "Du kan legge til en annen e-postadresse i Bekreftelsesflippen."
 msgid "Subject"
 msgstr "Emne"
 
-#: weblate/accounts/forms.py:325 weblate/accounts/forms.py:594
+#: weblate/accounts/forms.py:325 weblate/accounts/forms.py:595
 msgid "Your name"
 msgstr "Ditt navn"
 
-#: weblate/accounts/forms.py:330 weblate/accounts/forms.py:595
+#: weblate/accounts/forms.py:330 weblate/accounts/forms.py:596
 msgid "Your email"
 msgstr "Din e-post"
 
@@ -148,33 +179,33 @@ msgctxt ""
 msgid "What is %s?"
 msgstr "Hva er %s?"
 
-#: weblate/accounts/forms.py:463
+#: weblate/accounts/forms.py:464
 #, fuzzy
 #| msgid "Please check your math and try again."
 msgid "Please check your math and try again with new expression."
 msgstr "Sjekk din matematikk, og prøv igjen."
 
-#: weblate/accounts/forms.py:481
+#: weblate/accounts/forms.py:482
 msgid "Current password"
 msgstr "Gjeldende passord"
 
-#: weblate/accounts/forms.py:483
+#: weblate/accounts/forms.py:484
 msgid "Keep the field empty if you have not yet set your password."
 msgstr ""
 
-#: weblate/accounts/forms.py:501
+#: weblate/accounts/forms.py:502
 msgid "You have entered an invalid password."
 msgstr "Du har angitt et ugyldig passord."
 
-#: weblate/accounts/forms.py:517
+#: weblate/accounts/forms.py:518
 msgid "Username or email"
 msgstr "Brukernavn eller e-postadresse"
 
-#: weblate/accounts/forms.py:520 weblate/templates/accounts/profile.html:189
+#: weblate/accounts/forms.py:521 weblate/templates/accounts/profile.html:189
 msgid "Password"
 msgstr "Passord"
 
-#: weblate/accounts/forms.py:524
+#: weblate/accounts/forms.py:525
 msgid ""
 "Please enter a correct username and password. Note that both fields may be "
 "case-sensitive."
@@ -182,38 +213,38 @@ msgstr ""
 "Skriv inn korrekt brukernavn og passord. Merk at begge feltene kan skille "
 "mellom store og små bokstaver."
 
-#: weblate/accounts/forms.py:526
+#: weblate/accounts/forms.py:527
 msgid "This account is inactive."
 msgstr "Denne kontoen er inaktiv."
 
-#: weblate/accounts/forms.py:545 weblate/accounts/views.py:178
+#: weblate/accounts/forms.py:546 weblate/accounts/views.py:178
 #, fuzzy
 #| msgid "Can not reset password, email authentication is disabled!"
 msgid "Too many authentication attempts!"
 msgstr "Kan ikke nullstille passord, e-postbekreftelse er deaktivert!"
 
-#: weblate/accounts/forms.py:596 weblate/trans/models/project.py:87
+#: weblate/accounts/forms.py:597 weblate/trans/models/project.py:87
 msgid "Project name"
 msgstr "Prosjektnavn"
 
-#: weblate/accounts/forms.py:597 weblate/templates/project_info.html:3
+#: weblate/accounts/forms.py:598 weblate/templates/project_info.html:3
 #: weblate/trans/models/project.py:99
 msgid "Project website"
 msgstr "Prosjektnettsted"
 
-#: weblate/accounts/forms.py:599 weblate/trans/models/subproject.py:159
+#: weblate/accounts/forms.py:600 weblate/trans/models/subproject.py:159
 msgid "Source code repository"
 msgstr "Kildekodearkiv"
 
-#: weblate/accounts/forms.py:601
+#: weblate/accounts/forms.py:602
 msgid "URL of source code repository for example Git or Mercurial."
 msgstr "Nettadresse til kildekodearkiv, f.eks. Git eller Mercurial."
 
-#: weblate/accounts/forms.py:606 weblate/trans/models/subproject.py:208
+#: weblate/accounts/forms.py:607 weblate/trans/models/subproject.py:208
 msgid "File mask"
 msgstr "Filmaske"
 
-#: weblate/accounts/forms.py:608
+#: weblate/accounts/forms.py:609
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
@@ -221,7 +252,7 @@ msgstr ""
 "Sti til filer for oversettelse, bruk * i stedet for språkkode, for eksempel: "
 "po/*.po eller locale/*/LC_MESSAGES/django.po."
 
-#: weblate/accounts/forms.py:615
+#: weblate/accounts/forms.py:616
 msgid "Additional message"
 msgstr "Tilleggsmelding"
 
@@ -448,35 +479,25 @@ msgstr "Dette passordet består av ett tegn."
 msgid "Your password can't consist of single character or whitespace only."
 msgstr ""
 
-#: weblate/accounts/pipeline.py:181
-msgid "New registrations are disabled!"
-msgstr "Nye registreringer er deaktivert!"
-
-#: weblate/accounts/pipeline.py:186
-#, fuzzy
-#| msgid "Can not reset password, email authentication is disabled!"
-msgid "Can not change authentication for demo!"
-msgstr "Kan ikke nullstille passord, e-postbekreftelse er deaktivert!"
-
-#: weblate/accounts/pipeline.py:269
+#: weblate/accounts/pipeline.py:263
 msgid "You can not complete password reset while logged in!"
 msgstr ""
 
-#: weblate/accounts/pipeline.py:273 weblate/accounts/pipeline.py:297
+#: weblate/accounts/pipeline.py:267 weblate/accounts/pipeline.py:291
 #, fuzzy
 #| msgid "Translation comment has been deleted."
 msgid "The registration link has been invalidated."
 msgstr "Oversettelseskommentar er slettet."
 
-#: weblate/accounts/pipeline.py:288
+#: weblate/accounts/pipeline.py:282
 msgid "You can not complete registration while logged in!"
 msgstr ""
 
-#: weblate/accounts/pipeline.py:293
+#: weblate/accounts/pipeline.py:287
 msgid "You can confirm your registration only while logged in!"
 msgstr ""
 
-#: weblate/accounts/pipeline.py:402
+#: weblate/accounts/pipeline.py:396
 #, python-brace-format
 msgid ""
 "Your email no longer belongs to verified account, it has been changed to {0}."
@@ -640,48 +661,48 @@ msgstr "Innenfor skjermvisningsgrenser"
 msgid "Weblate languages"
 msgstr "Weblate-språk"
 
-#: weblate/lang/data.py:774 weblate/lang/data.py:778 weblate/lang/data.py:784
-#: weblate/lang/data.py:792 weblate/lang/data.py:796 weblate/lang/data.py:801
-#: weblate/lang/data.py:807 weblate/lang/data.py:813 weblate/lang/data.py:818
-#: weblate/lang/data.py:824 weblate/lang/data.py:836
+#: weblate/lang/data.py:776 weblate/lang/data.py:780 weblate/lang/data.py:786
+#: weblate/lang/data.py:794 weblate/lang/data.py:798 weblate/lang/data.py:803
+#: weblate/lang/data.py:809 weblate/lang/data.py:815 weblate/lang/data.py:820
+#: weblate/lang/data.py:826 weblate/lang/data.py:838
 msgctxt "Plural form description"
 msgid "One"
 msgstr "One/en"
 
-#: weblate/lang/data.py:775 weblate/lang/data.py:780 weblate/lang/data.py:788
-#: weblate/lang/data.py:793 weblate/lang/data.py:798 weblate/lang/data.py:804
-#: weblate/lang/data.py:810 weblate/lang/data.py:814 weblate/lang/data.py:821
-#: weblate/lang/data.py:828 weblate/lang/data.py:832 weblate/lang/data.py:840
+#: weblate/lang/data.py:777 weblate/lang/data.py:782 weblate/lang/data.py:790
+#: weblate/lang/data.py:795 weblate/lang/data.py:800 weblate/lang/data.py:806
+#: weblate/lang/data.py:812 weblate/lang/data.py:816 weblate/lang/data.py:823
+#: weblate/lang/data.py:830 weblate/lang/data.py:834 weblate/lang/data.py:842
 msgctxt "Plural form description"
 msgid "Other"
 msgstr "Andre"
 
-#: weblate/lang/data.py:779 weblate/lang/data.py:786 weblate/lang/data.py:809
-#: weblate/lang/data.py:819 weblate/lang/data.py:826 weblate/lang/data.py:838
+#: weblate/lang/data.py:781 weblate/lang/data.py:788 weblate/lang/data.py:811
+#: weblate/lang/data.py:821 weblate/lang/data.py:828 weblate/lang/data.py:840
 msgctxt "Plural form description"
 msgid "Few"
 msgstr "Få"
 
-#: weblate/lang/data.py:783 weblate/lang/data.py:791 weblate/lang/data.py:815
-#: weblate/lang/data.py:835
+#: weblate/lang/data.py:785 weblate/lang/data.py:793 weblate/lang/data.py:817
+#: weblate/lang/data.py:837
 msgctxt "Plural form description"
 msgid "Zero"
 msgstr "Null"
 
-#: weblate/lang/data.py:785 weblate/lang/data.py:797 weblate/lang/data.py:802
-#: weblate/lang/data.py:808 weblate/lang/data.py:825 weblate/lang/data.py:831
-#: weblate/lang/data.py:837
+#: weblate/lang/data.py:787 weblate/lang/data.py:799 weblate/lang/data.py:804
+#: weblate/lang/data.py:810 weblate/lang/data.py:827 weblate/lang/data.py:833
+#: weblate/lang/data.py:839
 msgctxt "Plural form description"
 msgid "Two"
 msgstr "To"
 
-#: weblate/lang/data.py:787 weblate/lang/data.py:820 weblate/lang/data.py:827
-#: weblate/lang/data.py:839
+#: weblate/lang/data.py:789 weblate/lang/data.py:822 weblate/lang/data.py:829
+#: weblate/lang/data.py:841
 msgctxt "Plural form description"
 msgid "Many"
 msgstr "Mange"
 
-#: weblate/lang/data.py:803
+#: weblate/lang/data.py:805
 msgctxt "Plural form description"
 msgid "Three"
 msgstr "Tre"
@@ -850,17 +871,11 @@ msgstr ""
 
 #: weblate/legal/templates/legal/cookies.html:31
 msgid ""
-"Cross site request forgery cookies which we use to prevent certain Cross "
-"Site Request Forgeries attacks."
-msgstr ""
-
-#: weblate/legal/templates/legal/cookies.html:32
-msgid ""
 "We use Piwik to analyze traffic on our website. Piwik does respect Do Not "
 "Track settings in your browser."
 msgstr ""
 
-#: weblate/legal/templates/legal/cookies.html:36
+#: weblate/legal/templates/legal/cookies.html:35
 #, fuzzy
 #| msgid ""
 #| "You can find more information about setting up SSH keys in <a href="
@@ -939,7 +954,7 @@ msgid "Terms of Service"
 msgstr "Service"
 
 #: weblate/legal/templates/legal/terms.html:19
-msgid "The Terms of Service document is not translated as it's legal document."
+msgid "The Terms of Service document is currently available only in English."
 msgstr ""
 
 #: weblate/legal/views.py:30 weblate/templates/translation.html:29
@@ -5481,87 +5496,87 @@ msgstr "Nylige forandringer i %s"
 msgid "All recent changes made using Weblate in %s."
 msgstr "Alle seneste endringer er laget med Weblate i %s."
 
-#: weblate/trans/formats.py:780
+#: weblate/trans/formats.py:782
 msgid "Automatic detection"
 msgstr "Automatisk gjenkjenning"
 
-#: weblate/trans/formats.py:811
+#: weblate/trans/formats.py:813
 msgid "Gettext PO file"
 msgstr "Gettext PO-fil"
 
-#: weblate/trans/formats.py:882
+#: weblate/trans/formats.py:884
 msgid "Gettext PO file (monolingual)"
 msgstr "Gettext PO-fil (ettspråklig)"
 
-#: weblate/trans/formats.py:889
+#: weblate/trans/formats.py:891
 msgid "Qt Linguist Translation File"
 msgstr "Qt Linguist Translation-fil"
 
-#: weblate/trans/formats.py:920
+#: weblate/trans/formats.py:922
 msgid "XLIFF Translation File"
 msgstr "XLIFF-oversettelsesfil"
 
-#: weblate/trans/formats.py:975
+#: weblate/trans/formats.py:977
 msgid "XLIFF Translation File with PO extensions"
 msgstr "XLIFF-oversettelsesfil med PO-forlengelser"
 
-#: weblate/trans/formats.py:983
+#: weblate/trans/formats.py:985
 msgid "OS X Strings"
 msgstr "OS X-strenger"
 
-#: weblate/trans/formats.py:992
+#: weblate/trans/formats.py:994
 msgid "OS X Strings (UTF-8)"
 msgstr "OS X-strenger (UTF-8)"
 
-#: weblate/trans/formats.py:1000
+#: weblate/trans/formats.py:1002
 msgid "Java Properties (UTF-8)"
 msgstr "Java Properties (UTF-8)"
 
-#: weblate/trans/formats.py:1009
+#: weblate/trans/formats.py:1011
 msgid "Java Properties (UTF-16)"
 msgstr "Java Properties (UTF-16)"
 
-#: weblate/trans/formats.py:1016
+#: weblate/trans/formats.py:1018
 msgid "Java Properties (ISO-8859-1)"
 msgstr "Java Properties (ISO-8859-1)"
 
-#: weblate/trans/formats.py:1038
+#: weblate/trans/formats.py:1040
 msgid "Joomla Language File"
 msgstr "Joomla språkfil"
 
-#: weblate/trans/formats.py:1048
+#: weblate/trans/formats.py:1050
 msgid "PHP strings"
 msgstr "PHP-strenger"
 
-#: weblate/trans/formats.py:1088
+#: weblate/trans/formats.py:1090
 msgid ".Net resource file"
 msgstr ".Net-ressursfil"
 
-#: weblate/trans/formats.py:1099
+#: weblate/trans/formats.py:1101
 msgid "Android String Resource"
 msgstr "Android String Resource"
 
-#: weblate/trans/formats.py:1129
+#: weblate/trans/formats.py:1131
 msgid "JSON file"
 msgstr "JSON-fil"
 
-#: weblate/trans/formats.py:1163
+#: weblate/trans/formats.py:1165
 msgid "CSV file"
 msgstr "CSV-fil"
 
-#: weblate/trans/formats.py:1224
+#: weblate/trans/formats.py:1226
 msgid "Simple CSV file"
 msgstr "Enkel CSV-fil"
 
-#: weblate/trans/formats.py:1261
+#: weblate/trans/formats.py:1263
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Enkel CSV-fil (ISO-8859-1)"
 
-#: weblate/trans/formats.py:1268
+#: weblate/trans/formats.py:1270
 msgid "YAML file"
 msgstr "YAML-fil"
 
-#: weblate/trans/formats.py:1306
+#: weblate/trans/formats.py:1308
 msgid "Ruby YAML file"
 msgstr "Ruby-YAML-fil"
 

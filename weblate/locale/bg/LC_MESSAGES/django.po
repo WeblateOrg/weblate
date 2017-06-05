@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-05-31 15:16+0000\n"
+"POT-Creation-Date: 2017-06-05 14:49+0000\n"
 "PO-Revision-Date: 2017-06-01 06:29+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@abv.bg>\n"
-"Language-Team: Bulgarian "
-"<https://hosted.weblate.org/projects/weblate/master/bg/>\n"
+"Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/master/"
+"bg/>\n"
 "Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,13 +19,43 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 2.15-dev\n"
 
-#: weblate/accounts/auth.py:57
+#: weblate/accounts/auth.py:74
+msgid "Can not change authentication for demo!"
+msgstr ""
+"Удостоверяването за демонстрационната версия не може да бъде променяно!"
+
+#: weblate/accounts/auth.py:76
+msgid "New registrations are disabled!"
+msgstr "Новите регистрации са забранени!"
+
+#: weblate/accounts/auth.py:82
+msgid ""
+"Authentication has failed, probably due to expired token or connection error."
+msgstr ""
+
+#: weblate/accounts/auth.py:86
+#, fuzzy
+#| msgid "Authentication using {method} ({name}) has been added."
+msgid "Authentication has been cancelled."
+msgstr "Беше добавено удостоверяване чрез {method} ({name})."
+
+#: weblate/accounts/auth.py:89
+msgid ""
+"Failed to complete your registration! This authenticaation is already "
+"associated with another account!"
+msgstr ""
+
+#: weblate/accounts/auth.py:95
 msgid ""
 "Failed to verify your registration! Probably the verification token has "
 "expired. Please try the registration again."
 msgstr ""
 "Регистрацията Ви не може да бъде потвърдена! Може би времето на валидност е "
 "изтекла. Моля, опитайте да се регистрирате отново."
+
+#: weblate/accounts/auth.py:102
+msgid "Authentication failed due to invalid session state."
+msgstr ""
 
 #: weblate/accounts/avatar.py:163
 msgctxt "No known user"
@@ -55,7 +85,7 @@ msgstr ""
 msgid "Username"
 msgstr "Потребителско име"
 
-#: weblate/accounts/forms.py:133 weblate/accounts/pipeline.py:235
+#: weblate/accounts/forms.py:133 weblate/accounts/pipeline.py:229
 msgid "This username is already taken. Please choose another."
 msgstr "Това потребителско име е заето. Моля, изберете друго."
 
@@ -98,11 +128,11 @@ msgstr "Може да добавите друга е-поща в раздела 
 msgid "Subject"
 msgstr "Тема"
 
-#: weblate/accounts/forms.py:325 weblate/accounts/forms.py:594
+#: weblate/accounts/forms.py:325 weblate/accounts/forms.py:595
 msgid "Your name"
 msgstr "Вашето име"
 
-#: weblate/accounts/forms.py:330 weblate/accounts/forms.py:595
+#: weblate/accounts/forms.py:330 weblate/accounts/forms.py:596
 msgid "Your email"
 msgstr "Вашата е-поща"
 
@@ -145,33 +175,33 @@ msgctxt ""
 msgid "What is %s?"
 msgstr "Какво е %s?"
 
-#: weblate/accounts/forms.py:463
+#: weblate/accounts/forms.py:464
 msgid "Please check your math and try again with new expression."
 msgstr ""
 "Моля, проверете дали сте сметнали задачката правилно и опитайте отново с "
 "друг израз."
 
-#: weblate/accounts/forms.py:481
+#: weblate/accounts/forms.py:482
 msgid "Current password"
 msgstr "Текуща парола"
 
-#: weblate/accounts/forms.py:483
+#: weblate/accounts/forms.py:484
 msgid "Keep the field empty if you have not yet set your password."
 msgstr "Оставете полето празно, ако все още не сте задали парола."
 
-#: weblate/accounts/forms.py:501
+#: weblate/accounts/forms.py:502
 msgid "You have entered an invalid password."
 msgstr "Въведохте грешна парола."
 
-#: weblate/accounts/forms.py:517
+#: weblate/accounts/forms.py:518
 msgid "Username or email"
 msgstr "Потребителско име или е-поща"
 
-#: weblate/accounts/forms.py:520 weblate/templates/accounts/profile.html:189
+#: weblate/accounts/forms.py:521 weblate/templates/accounts/profile.html:189
 msgid "Password"
 msgstr "Парола"
 
-#: weblate/accounts/forms.py:524
+#: weblate/accounts/forms.py:525
 msgid ""
 "Please enter a correct username and password. Note that both fields may be "
 "case-sensitive."
@@ -179,36 +209,36 @@ msgstr ""
 "Моля, въведете правилно потребителско име и парола. Имайте предвид, че и "
 "двете полета различават малки и главни букви."
 
-#: weblate/accounts/forms.py:526
+#: weblate/accounts/forms.py:527
 msgid "This account is inactive."
 msgstr "Този акаунт е неактивен."
 
-#: weblate/accounts/forms.py:545 weblate/accounts/views.py:178
+#: weblate/accounts/forms.py:546 weblate/accounts/views.py:178
 msgid "Too many authentication attempts!"
 msgstr "Твърде много опити за удостоверяване!"
 
-#: weblate/accounts/forms.py:596 weblate/trans/models/project.py:87
+#: weblate/accounts/forms.py:597 weblate/trans/models/project.py:87
 msgid "Project name"
 msgstr "Име на проекта"
 
-#: weblate/accounts/forms.py:597 weblate/templates/project_info.html:3
+#: weblate/accounts/forms.py:598 weblate/templates/project_info.html:3
 #: weblate/trans/models/project.py:99
 msgid "Project website"
 msgstr "Уеб сайт на проекта"
 
-#: weblate/accounts/forms.py:599 weblate/trans/models/subproject.py:159
+#: weblate/accounts/forms.py:600 weblate/trans/models/subproject.py:159
 msgid "Source code repository"
 msgstr "Хранилище за изходния код"
 
-#: weblate/accounts/forms.py:601
+#: weblate/accounts/forms.py:602
 msgid "URL of source code repository for example Git or Mercurial."
 msgstr "Адрес на хранилището за изходния код, например Git или Mercurial."
 
-#: weblate/accounts/forms.py:606 weblate/trans/models/subproject.py:208
+#: weblate/accounts/forms.py:607 weblate/trans/models/subproject.py:208
 msgid "File mask"
 msgstr "Файлова маска"
 
-#: weblate/accounts/forms.py:608
+#: weblate/accounts/forms.py:609
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
@@ -216,7 +246,7 @@ msgstr ""
 "Път до файловете за превод. Използвайте * вместо езиков код. Например: po/*."
 "po или locale/*/LC_MESSAGES/django.po."
 
-#: weblate/accounts/forms.py:615
+#: weblate/accounts/forms.py:616
 msgid "Additional message"
 msgstr "Допълнително съобщение"
 
@@ -435,35 +465,27 @@ msgstr "Паролата има само един знак."
 msgid "Your password can't consist of single character or whitespace only."
 msgstr "Паролата не може да бъде от един знак или интервал."
 
-#: weblate/accounts/pipeline.py:181
-msgid "New registrations are disabled!"
-msgstr "Новите регистрации са забранени!"
-
-#: weblate/accounts/pipeline.py:186
-msgid "Can not change authentication for demo!"
-msgstr ""
-"Удостоверяването за демонстрационната версия не може да бъде променяно!"
-
-#: weblate/accounts/pipeline.py:269
+#: weblate/accounts/pipeline.py:263
 msgid "You can not complete password reset while logged in!"
 msgstr ""
 "Не можете да завършите подновяването на паролата, докато сте вписан(а) в "
 "системата!"
 
-#: weblate/accounts/pipeline.py:273 weblate/accounts/pipeline.py:297
+#: weblate/accounts/pipeline.py:267 weblate/accounts/pipeline.py:291
 msgid "The registration link has been invalidated."
 msgstr "Връзката за регистрация загуби давност."
 
-#: weblate/accounts/pipeline.py:288
+#: weblate/accounts/pipeline.py:282
 msgid "You can not complete registration while logged in!"
-msgstr "Не можете да завършите регистрацията, докато сте вписан(а) в системата!"
+msgstr ""
+"Не можете да завършите регистрацията, докато сте вписан(а) в системата!"
 
-#: weblate/accounts/pipeline.py:293
+#: weblate/accounts/pipeline.py:287
 msgid "You can confirm your registration only while logged in!"
 msgstr ""
 "Можете да потвърдите регистрацията си само докато сте вписан(а) в системата!"
 
-#: weblate/accounts/pipeline.py:402
+#: weblate/accounts/pipeline.py:396
 #, python-brace-format
 msgid ""
 "Your email no longer belongs to verified account, it has been changed to {0}."
@@ -628,48 +650,48 @@ msgstr "В рамките на екрана"
 msgid "Weblate languages"
 msgstr "Езици на Weblate"
 
-#: weblate/lang/data.py:774 weblate/lang/data.py:778 weblate/lang/data.py:784
-#: weblate/lang/data.py:792 weblate/lang/data.py:796 weblate/lang/data.py:801
-#: weblate/lang/data.py:807 weblate/lang/data.py:813 weblate/lang/data.py:818
-#: weblate/lang/data.py:824 weblate/lang/data.py:836
+#: weblate/lang/data.py:776 weblate/lang/data.py:780 weblate/lang/data.py:786
+#: weblate/lang/data.py:794 weblate/lang/data.py:798 weblate/lang/data.py:803
+#: weblate/lang/data.py:809 weblate/lang/data.py:815 weblate/lang/data.py:820
+#: weblate/lang/data.py:826 weblate/lang/data.py:838
 msgctxt "Plural form description"
 msgid "One"
 msgstr "Едно"
 
-#: weblate/lang/data.py:775 weblate/lang/data.py:780 weblate/lang/data.py:788
-#: weblate/lang/data.py:793 weblate/lang/data.py:798 weblate/lang/data.py:804
-#: weblate/lang/data.py:810 weblate/lang/data.py:814 weblate/lang/data.py:821
-#: weblate/lang/data.py:828 weblate/lang/data.py:832 weblate/lang/data.py:840
+#: weblate/lang/data.py:777 weblate/lang/data.py:782 weblate/lang/data.py:790
+#: weblate/lang/data.py:795 weblate/lang/data.py:800 weblate/lang/data.py:806
+#: weblate/lang/data.py:812 weblate/lang/data.py:816 weblate/lang/data.py:823
+#: weblate/lang/data.py:830 weblate/lang/data.py:834 weblate/lang/data.py:842
 msgctxt "Plural form description"
 msgid "Other"
 msgstr "Други"
 
-#: weblate/lang/data.py:779 weblate/lang/data.py:786 weblate/lang/data.py:809
-#: weblate/lang/data.py:819 weblate/lang/data.py:826 weblate/lang/data.py:838
+#: weblate/lang/data.py:781 weblate/lang/data.py:788 weblate/lang/data.py:811
+#: weblate/lang/data.py:821 weblate/lang/data.py:828 weblate/lang/data.py:840
 msgctxt "Plural form description"
 msgid "Few"
 msgstr "Няколко"
 
-#: weblate/lang/data.py:783 weblate/lang/data.py:791 weblate/lang/data.py:815
-#: weblate/lang/data.py:835
+#: weblate/lang/data.py:785 weblate/lang/data.py:793 weblate/lang/data.py:817
+#: weblate/lang/data.py:837
 msgctxt "Plural form description"
 msgid "Zero"
 msgstr "Нула"
 
-#: weblate/lang/data.py:785 weblate/lang/data.py:797 weblate/lang/data.py:802
-#: weblate/lang/data.py:808 weblate/lang/data.py:825 weblate/lang/data.py:831
-#: weblate/lang/data.py:837
+#: weblate/lang/data.py:787 weblate/lang/data.py:799 weblate/lang/data.py:804
+#: weblate/lang/data.py:810 weblate/lang/data.py:827 weblate/lang/data.py:833
+#: weblate/lang/data.py:839
 msgctxt "Plural form description"
 msgid "Two"
 msgstr "Две"
 
-#: weblate/lang/data.py:787 weblate/lang/data.py:820 weblate/lang/data.py:827
-#: weblate/lang/data.py:839
+#: weblate/lang/data.py:789 weblate/lang/data.py:822 weblate/lang/data.py:829
+#: weblate/lang/data.py:841
 msgctxt "Plural form description"
 msgid "Many"
 msgstr "Много"
 
-#: weblate/lang/data.py:803
+#: weblate/lang/data.py:805
 msgctxt "Plural form description"
 msgid "Three"
 msgstr "Три"
@@ -845,28 +867,20 @@ msgstr ""
 
 #: weblate/legal/templates/legal/cookies.html:31
 msgid ""
-"Cross site request forgery cookies which we use to prevent certain Cross "
-"Site Request Forgeries attacks."
-msgstr ""
-"Бисквитките против измамни междусайтови заявки имат за цел да предотвратят "
-"някои възможни такива измами."
-
-#: weblate/legal/templates/legal/cookies.html:32
-msgid ""
 "We use Piwik to analyze traffic on our website. Piwik does respect Do Not "
 "Track settings in your browser."
 msgstr ""
 "Използваме „Piwik“, за да анализираме трафика на уеб сайта си. „Piwik“ не "
 "зачита настройките на браузъра Ви против следене."
 
-#: weblate/legal/templates/legal/cookies.html:36
+#: weblate/legal/templates/legal/cookies.html:35
 msgid ""
 "You can find more information about cookies in the <a href=\"https://en."
 "wikipedia.org/wiki/HTTP_cookie\">Wikipedia article</a>."
 msgstr ""
 "Можете да намерите повече информация относно бисквитките в <a href=\"https://"
-"bg.wikipedia.org/wiki/HTTP-%D0%B1%D0%B8%D1%81%D0%BA%D0%B2%D0%B8%D1%82%D0%BA%D"
-"0%B0\">тази статия в Уикипедия</a>."
+"bg.wikipedia.org/wiki/HTTP-%D0%B1%D0%B8%D1%81%D0%BA%D0%B2%D0%B8%D1%82%D0%BA"
+"%D0%B0\">тази статия в Уикипедия</a>."
 
 #: weblate/legal/templates/legal/index.html:15
 msgid "Legal Terms Overview"
@@ -949,8 +963,12 @@ msgid "Terms of Service"
 msgstr "Условия на услугата"
 
 #: weblate/legal/templates/legal/terms.html:19
-msgid "The Terms of Service document is not translated as it's legal document."
-msgstr "Условията на услугата не са преведени, тъй като това е правен документ."
+#, fuzzy
+#| msgid ""
+#| "The Terms of Service document is not translated as it's legal document."
+msgid "The Terms of Service document is currently available only in English."
+msgstr ""
+"Условията на услугата не са преведени, тъй като това е правен документ."
 
 #: weblate/legal/views.py:30 weblate/templates/translation.html:29
 msgid "Overview"
@@ -5484,87 +5502,87 @@ msgstr "Скорошни промени в %s"
 msgid "All recent changes made using Weblate in %s."
 msgstr "Всички скорошни промени, направени с помощта на Weblate в %s."
 
-#: weblate/trans/formats.py:780
+#: weblate/trans/formats.py:782
 msgid "Automatic detection"
 msgstr "Автоматично разпознаване"
 
-#: weblate/trans/formats.py:811
+#: weblate/trans/formats.py:813
 msgid "Gettext PO file"
 msgstr "Файл на „Gettext PO“"
 
-#: weblate/trans/formats.py:882
+#: weblate/trans/formats.py:884
 msgid "Gettext PO file (monolingual)"
 msgstr "Файл във формат „Gettext PO“ (един език)"
 
-#: weblate/trans/formats.py:889
+#: weblate/trans/formats.py:891
 msgid "Qt Linguist Translation File"
 msgstr "Файл за превод във формат „Qt Linguist“"
 
-#: weblate/trans/formats.py:920
+#: weblate/trans/formats.py:922
 msgid "XLIFF Translation File"
 msgstr "Файл за превод във формат „XLIFF“"
 
-#: weblate/trans/formats.py:975
+#: weblate/trans/formats.py:977
 msgid "XLIFF Translation File with PO extensions"
 msgstr "Файл за превод във формат „XLIFF“ с разширения за „PO“"
 
-#: weblate/trans/formats.py:983
+#: weblate/trans/formats.py:985
 msgid "OS X Strings"
 msgstr "Низове за OS X"
 
-#: weblate/trans/formats.py:992
+#: weblate/trans/formats.py:994
 msgid "OS X Strings (UTF-8)"
 msgstr "Низове за OS X (UTF-8)"
 
-#: weblate/trans/formats.py:1000
+#: weblate/trans/formats.py:1002
 msgid "Java Properties (UTF-8)"
 msgstr "Свойства на Java (UTF-8)"
 
-#: weblate/trans/formats.py:1009
+#: weblate/trans/formats.py:1011
 msgid "Java Properties (UTF-16)"
 msgstr "Свойства на Java (UTF-16)"
 
-#: weblate/trans/formats.py:1016
+#: weblate/trans/formats.py:1018
 msgid "Java Properties (ISO-8859-1)"
 msgstr "Свойства на Java (ISO-8859-1)"
 
-#: weblate/trans/formats.py:1038
+#: weblate/trans/formats.py:1040
 msgid "Joomla Language File"
 msgstr "Езиков файл за Joomla"
 
-#: weblate/trans/formats.py:1048
+#: weblate/trans/formats.py:1050
 msgid "PHP strings"
 msgstr "Низове за PHP"
 
-#: weblate/trans/formats.py:1088
+#: weblate/trans/formats.py:1090
 msgid ".Net resource file"
 msgstr "Ресурсен файл на .Net"
 
-#: weblate/trans/formats.py:1099
+#: weblate/trans/formats.py:1101
 msgid "Android String Resource"
 msgstr "Ресурсен файл с низове за Андроид"
 
-#: weblate/trans/formats.py:1129
+#: weblate/trans/formats.py:1131
 msgid "JSON file"
 msgstr "Файл JSON"
 
-#: weblate/trans/formats.py:1163
+#: weblate/trans/formats.py:1165
 msgid "CSV file"
 msgstr "Файл CSV"
 
-#: weblate/trans/formats.py:1224
+#: weblate/trans/formats.py:1226
 msgid "Simple CSV file"
 msgstr "Обикновен файл CSV"
 
-#: weblate/trans/formats.py:1261
+#: weblate/trans/formats.py:1263
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Обикновен файл CSV (ISO-8859-1)"
 
-#: weblate/trans/formats.py:1268
+#: weblate/trans/formats.py:1270
 msgid "YAML file"
 msgstr "Файл YAML"
 
-#: weblate/trans/formats.py:1306
+#: weblate/trans/formats.py:1308
 msgid "Ruby YAML file"
 msgstr "Файл YAML за Ruby"
 
@@ -7806,6 +7824,13 @@ msgstr "Непозволена адресна схема!"
 #: weblate/utils/validators.py:174
 msgid "Unsupported file format."
 msgstr "Неподдържан файлов формат."
+
+#~ msgid ""
+#~ "Cross site request forgery cookies which we use to prevent certain Cross "
+#~ "Site Request Forgeries attacks."
+#~ msgstr ""
+#~ "Бисквитките против измамни междусайтови заявки имат за цел да "
+#~ "предотвратят някои възможни такива измами."
 
 #~ msgid "Can not merge different messages!"
 #~ msgstr "Сливането не различни съобщения е невъзможно!"

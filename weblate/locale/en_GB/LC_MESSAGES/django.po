@@ -6,11 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-05-31 15:16+0000\n"
+"POT-Creation-Date: 2017-06-05 14:49+0000\n"
 "PO-Revision-Date: 2017-06-02 14:44+0000\n"
 "Last-Translator: monolifed <monolifed@gmail.com>\n"
-"Language-Team: English (United Kingdom) "
-"<https://hosted.weblate.org/projects/weblate/master/en_GB/>\n"
+"Language-Team: English (United Kingdom) <https://hosted.weblate.org/projects/"
+"weblate/master/en_GB/>\n"
 "Language: en_GB\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,13 +18,42 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 2.15-dev\n"
 
-#: weblate/accounts/auth.py:57
+#: weblate/accounts/auth.py:74
+msgid "Can not change authentication for demo!"
+msgstr "Can not change authentication for demo!"
+
+#: weblate/accounts/auth.py:76
+msgid "New registrations are disabled!"
+msgstr "New registrations are disabled!"
+
+#: weblate/accounts/auth.py:82
+msgid ""
+"Authentication has failed, probably due to expired token or connection error."
+msgstr ""
+
+#: weblate/accounts/auth.py:86
+#, fuzzy
+#| msgid "Authentication using {method} ({name}) has been added."
+msgid "Authentication has been cancelled."
+msgstr "Authentication using {method} ({name}) has been added."
+
+#: weblate/accounts/auth.py:89
+msgid ""
+"Failed to complete your registration! This authenticaation is already "
+"associated with another account!"
+msgstr ""
+
+#: weblate/accounts/auth.py:95
 msgid ""
 "Failed to verify your registration! Probably the verification token has "
 "expired. Please try the registration again."
 msgstr ""
 "Failed to verify your registration! Probably the verification token has "
 "expired. Please try the registration again."
+
+#: weblate/accounts/auth.py:102
+msgid "Authentication failed due to invalid session state."
+msgstr ""
 
 #: weblate/accounts/avatar.py:163
 msgctxt "No known user"
@@ -55,7 +84,7 @@ msgstr ""
 msgid "Username"
 msgstr "Username"
 
-#: weblate/accounts/forms.py:133 weblate/accounts/pipeline.py:235
+#: weblate/accounts/forms.py:133 weblate/accounts/pipeline.py:229
 msgid "This username is already taken. Please choose another."
 msgstr "This username is already taken. Please choose another."
 
@@ -98,11 +127,11 @@ msgstr "You can add another email address on the Authentication tab."
 msgid "Subject"
 msgstr "Subject"
 
-#: weblate/accounts/forms.py:325 weblate/accounts/forms.py:594
+#: weblate/accounts/forms.py:325 weblate/accounts/forms.py:595
 msgid "Your name"
 msgstr "Your name"
 
-#: weblate/accounts/forms.py:330 weblate/accounts/forms.py:595
+#: weblate/accounts/forms.py:330 weblate/accounts/forms.py:596
 msgid "Your email"
 msgstr "Your email"
 
@@ -146,31 +175,31 @@ msgctxt ""
 msgid "What is %s?"
 msgstr "What is %s?"
 
-#: weblate/accounts/forms.py:463
+#: weblate/accounts/forms.py:464
 msgid "Please check your math and try again with new expression."
 msgstr "Please check your math and try again with new expression."
 
-#: weblate/accounts/forms.py:481
+#: weblate/accounts/forms.py:482
 msgid "Current password"
 msgstr "Current password"
 
-#: weblate/accounts/forms.py:483
+#: weblate/accounts/forms.py:484
 msgid "Keep the field empty if you have not yet set your password."
 msgstr "Keep the field empty if you have not yet set your password."
 
-#: weblate/accounts/forms.py:501
+#: weblate/accounts/forms.py:502
 msgid "You have entered an invalid password."
 msgstr "You have entered an invalid password."
 
-#: weblate/accounts/forms.py:517
+#: weblate/accounts/forms.py:518
 msgid "Username or email"
 msgstr "Username or email"
 
-#: weblate/accounts/forms.py:520 weblate/templates/accounts/profile.html:189
+#: weblate/accounts/forms.py:521 weblate/templates/accounts/profile.html:189
 msgid "Password"
 msgstr "Password"
 
-#: weblate/accounts/forms.py:524
+#: weblate/accounts/forms.py:525
 msgid ""
 "Please enter a correct username and password. Note that both fields may be "
 "case-sensitive."
@@ -178,36 +207,36 @@ msgstr ""
 "Please enter a correct username and password. Note that both fields may be "
 "case-sensitive."
 
-#: weblate/accounts/forms.py:526
+#: weblate/accounts/forms.py:527
 msgid "This account is inactive."
 msgstr "This account is inactive."
 
-#: weblate/accounts/forms.py:545 weblate/accounts/views.py:178
+#: weblate/accounts/forms.py:546 weblate/accounts/views.py:178
 msgid "Too many authentication attempts!"
 msgstr "Too many authentication attempts!"
 
-#: weblate/accounts/forms.py:596 weblate/trans/models/project.py:87
+#: weblate/accounts/forms.py:597 weblate/trans/models/project.py:87
 msgid "Project name"
 msgstr "Project name"
 
-#: weblate/accounts/forms.py:597 weblate/templates/project_info.html:3
+#: weblate/accounts/forms.py:598 weblate/templates/project_info.html:3
 #: weblate/trans/models/project.py:99
 msgid "Project website"
 msgstr "Project website"
 
-#: weblate/accounts/forms.py:599 weblate/trans/models/subproject.py:159
+#: weblate/accounts/forms.py:600 weblate/trans/models/subproject.py:159
 msgid "Source code repository"
 msgstr "Source code repository"
 
-#: weblate/accounts/forms.py:601
+#: weblate/accounts/forms.py:602
 msgid "URL of source code repository for example Git or Mercurial."
 msgstr "URL of source code repository for example Git or Mercurial."
 
-#: weblate/accounts/forms.py:606 weblate/trans/models/subproject.py:208
+#: weblate/accounts/forms.py:607 weblate/trans/models/subproject.py:208
 msgid "File mask"
 msgstr "File mask"
 
-#: weblate/accounts/forms.py:608
+#: weblate/accounts/forms.py:609
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
@@ -215,7 +244,7 @@ msgstr ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
 
-#: weblate/accounts/forms.py:615
+#: weblate/accounts/forms.py:616
 msgid "Additional message"
 msgstr "Additional message"
 
@@ -321,8 +350,8 @@ msgid ""
 msgstr ""
 "Enter custom URL to be used as link to open source code. You can use "
 "%(branch)s for branch, %(file)s and %(line)s as filename and line "
-"placeholders. Usually something like "
-"editor://open/?file=%(file)s&line=%(line)s is good option."
+"placeholders. Usually something like editor://open/?file=%(file)s&line="
+"%(line)s is good option."
 
 #: weblate/accounts/models.py:341
 msgid "Special characters"
@@ -432,31 +461,23 @@ msgstr "This password consists of single character."
 msgid "Your password can't consist of single character or whitespace only."
 msgstr "Your password can't consist of single character or white-space only."
 
-#: weblate/accounts/pipeline.py:181
-msgid "New registrations are disabled!"
-msgstr "New registrations are disabled!"
-
-#: weblate/accounts/pipeline.py:186
-msgid "Can not change authentication for demo!"
-msgstr "Can not change authentication for demo!"
-
-#: weblate/accounts/pipeline.py:269
+#: weblate/accounts/pipeline.py:263
 msgid "You can not complete password reset while logged in!"
 msgstr "You can not complete password reset while logged in!"
 
-#: weblate/accounts/pipeline.py:273 weblate/accounts/pipeline.py:297
+#: weblate/accounts/pipeline.py:267 weblate/accounts/pipeline.py:291
 msgid "The registration link has been invalidated."
 msgstr "The registration link has been invalidated."
 
-#: weblate/accounts/pipeline.py:288
+#: weblate/accounts/pipeline.py:282
 msgid "You can not complete registration while logged in!"
 msgstr "You can not complete registration while logged in!"
 
-#: weblate/accounts/pipeline.py:293
+#: weblate/accounts/pipeline.py:287
 msgid "You can confirm your registration only while logged in!"
 msgstr "You can confirm your registration only while logged in!"
 
-#: weblate/accounts/pipeline.py:402
+#: weblate/accounts/pipeline.py:396
 #, python-brace-format
 msgid ""
 "Your email no longer belongs to verified account, it has been changed to {0}."
@@ -619,48 +640,48 @@ msgstr "In display limits"
 msgid "Weblate languages"
 msgstr "Weblate languages"
 
-#: weblate/lang/data.py:774 weblate/lang/data.py:778 weblate/lang/data.py:784
-#: weblate/lang/data.py:792 weblate/lang/data.py:796 weblate/lang/data.py:801
-#: weblate/lang/data.py:807 weblate/lang/data.py:813 weblate/lang/data.py:818
-#: weblate/lang/data.py:824 weblate/lang/data.py:836
+#: weblate/lang/data.py:776 weblate/lang/data.py:780 weblate/lang/data.py:786
+#: weblate/lang/data.py:794 weblate/lang/data.py:798 weblate/lang/data.py:803
+#: weblate/lang/data.py:809 weblate/lang/data.py:815 weblate/lang/data.py:820
+#: weblate/lang/data.py:826 weblate/lang/data.py:838
 msgctxt "Plural form description"
 msgid "One"
 msgstr "One"
 
-#: weblate/lang/data.py:775 weblate/lang/data.py:780 weblate/lang/data.py:788
-#: weblate/lang/data.py:793 weblate/lang/data.py:798 weblate/lang/data.py:804
-#: weblate/lang/data.py:810 weblate/lang/data.py:814 weblate/lang/data.py:821
-#: weblate/lang/data.py:828 weblate/lang/data.py:832 weblate/lang/data.py:840
+#: weblate/lang/data.py:777 weblate/lang/data.py:782 weblate/lang/data.py:790
+#: weblate/lang/data.py:795 weblate/lang/data.py:800 weblate/lang/data.py:806
+#: weblate/lang/data.py:812 weblate/lang/data.py:816 weblate/lang/data.py:823
+#: weblate/lang/data.py:830 weblate/lang/data.py:834 weblate/lang/data.py:842
 msgctxt "Plural form description"
 msgid "Other"
 msgstr "Other"
 
-#: weblate/lang/data.py:779 weblate/lang/data.py:786 weblate/lang/data.py:809
-#: weblate/lang/data.py:819 weblate/lang/data.py:826 weblate/lang/data.py:838
+#: weblate/lang/data.py:781 weblate/lang/data.py:788 weblate/lang/data.py:811
+#: weblate/lang/data.py:821 weblate/lang/data.py:828 weblate/lang/data.py:840
 msgctxt "Plural form description"
 msgid "Few"
 msgstr "Few"
 
-#: weblate/lang/data.py:783 weblate/lang/data.py:791 weblate/lang/data.py:815
-#: weblate/lang/data.py:835
+#: weblate/lang/data.py:785 weblate/lang/data.py:793 weblate/lang/data.py:817
+#: weblate/lang/data.py:837
 msgctxt "Plural form description"
 msgid "Zero"
 msgstr "Zero"
 
-#: weblate/lang/data.py:785 weblate/lang/data.py:797 weblate/lang/data.py:802
-#: weblate/lang/data.py:808 weblate/lang/data.py:825 weblate/lang/data.py:831
-#: weblate/lang/data.py:837
+#: weblate/lang/data.py:787 weblate/lang/data.py:799 weblate/lang/data.py:804
+#: weblate/lang/data.py:810 weblate/lang/data.py:827 weblate/lang/data.py:833
+#: weblate/lang/data.py:839
 msgctxt "Plural form description"
 msgid "Two"
 msgstr "Two"
 
-#: weblate/lang/data.py:787 weblate/lang/data.py:820 weblate/lang/data.py:827
-#: weblate/lang/data.py:839
+#: weblate/lang/data.py:789 weblate/lang/data.py:822 weblate/lang/data.py:829
+#: weblate/lang/data.py:841
 msgctxt "Plural form description"
 msgid "Many"
 msgstr "Many"
 
-#: weblate/lang/data.py:803
+#: weblate/lang/data.py:805
 msgctxt "Plural form description"
 msgid "Three"
 msgstr "Three"
@@ -833,27 +854,19 @@ msgstr "Preferences cookie to store user preferences in certain situations."
 
 #: weblate/legal/templates/legal/cookies.html:31
 msgid ""
-"Cross site request forgery cookies which we use to prevent certain Cross "
-"Site Request Forgeries attacks."
-msgstr ""
-"Cross site request forgery cookies which we use to prevent certain Cross "
-"Site Request Forgeries attacks."
-
-#: weblate/legal/templates/legal/cookies.html:32
-msgid ""
 "We use Piwik to analyze traffic on our website. Piwik does respect Do Not "
 "Track settings in your browser."
 msgstr ""
 "We use Piwik to analyze traffic on our website. Piwik does respect Do Not "
 "Track settings in your browser."
 
-#: weblate/legal/templates/legal/cookies.html:36
+#: weblate/legal/templates/legal/cookies.html:35
 msgid ""
 "You can find more information about cookies in the <a href=\"https://en."
 "wikipedia.org/wiki/HTTP_cookie\">Wikipedia article</a>."
 msgstr ""
-"You can find more information about cookies in the <a href=\""
-"https://en.wikipedia.org/wiki/HTTP_cookie\">Wikipedia article</a>."
+"You can find more information about cookies in the <a href=\"https://en."
+"wikipedia.org/wiki/HTTP_cookie\">Wikipedia article</a>."
 
 #: weblate/legal/templates/legal/index.html:15
 msgid "Legal Terms Overview"
@@ -891,7 +904,8 @@ msgstr ""
 
 #: weblate/legal/templates/legal/index.html:28
 msgid "Your name and email is used in VCS commits, it will stay there forever."
-msgstr "Your name and email is used in VCS commits, it will stay there forever."
+msgstr ""
+"Your name and email is used in VCS commits, it will stay there forever."
 
 #: weblate/legal/templates/legal/index.html:29
 msgid "We use cookies to deliver our services."
@@ -931,8 +945,12 @@ msgid "Terms of Service"
 msgstr "Terms of Service"
 
 #: weblate/legal/templates/legal/terms.html:19
-msgid "The Terms of Service document is not translated as it's legal document."
-msgstr "The Terms of Service document is not translated as it's legal document."
+#, fuzzy
+#| msgid ""
+#| "The Terms of Service document is not translated as it's legal document."
+msgid "The Terms of Service document is currently available only in English."
+msgstr ""
+"The Terms of Service document is not translated as it's legal document."
 
 #: weblate/legal/views.py:30 weblate/templates/translation.html:29
 msgid "Overview"
@@ -1255,8 +1273,8 @@ msgid ""
 "\">contact us</a>."
 msgstr ""
 "If you don't receive it shortly, please check your spam folder or retry the "
-"registration. If the problem persists, please <a href=\"%(contact_url)s?t="
-"reg\">contact us</a>."
+"registration. If the problem persists, please <a href=\"%(contact_url)s?t=reg"
+"\">contact us</a>."
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:19
@@ -1343,8 +1361,8 @@ msgid ""
 "Do not have an account yet? You can <a href=\"%(register_url)s\">register</"
 "a>."
 msgstr ""
-"Do not have an account yet? You can <a href=\"%(register_url)s\""
-">register</a>."
+"Do not have an account yet? You can <a href=\"%(register_url)s\">register</"
+"a>."
 
 #: weblate/templates/accounts/password-warning.html:3
 #, python-format
@@ -1502,7 +1520,8 @@ msgstr ""
 
 #: weblate/templates/accounts/profile.html:130
 msgid "You will receive chosen notifications via email for all your languages."
-msgstr "You will receive chosen notifications via email for all your languages."
+msgstr ""
+"You will receive chosen notifications via email for all your languages."
 
 #: weblate/templates/accounts/profile.html:131
 msgid ""
@@ -1650,8 +1669,8 @@ msgid ""
 "You can control Weblate using HTTP REST API. Please check <a href="
 "\"%(api_doc)s\">API documentation</a> for more details."
 msgstr ""
-"You can control Weblate using HTTP REST API. Please check <a href=\""
-"%(api_doc)s\">API documentation</a> for more details."
+"You can control Weblate using HTTP REST API. Please check <a href="
+"\"%(api_doc)s\">API documentation</a> for more details."
 
 #: weblate/templates/accounts/profile.html:403
 #, python-format
@@ -1659,8 +1678,8 @@ msgid ""
 "The API key is also used to access exported Git repositories, please check "
 "<a href=\"%(git_doc)s\">documentation</a> for more details."
 msgstr ""
-"The API key is also used to access exported Git repositories, please check <"
-"a href=\"%(git_doc)s\">documentation</a> for more details."
+"The API key is also used to access exported Git repositories, please check "
+"<a href=\"%(git_doc)s\">documentation</a> for more details."
 
 #: weblate/templates/accounts/profile.html:422
 msgid ""
@@ -1739,8 +1758,8 @@ msgid ""
 "Sorry, but registrations on this site are disabled. You can <a href="
 "\"%(contact_url)s\">contact us</a> for more details."
 msgstr ""
-"Sorry, but registrations on this site are disabled. You can <a href=\""
-"%(contact_url)s\">contact us</a> for more details."
+"Sorry, but registrations on this site are disabled. You can <a href="
+"\"%(contact_url)s\">contact us</a> for more details."
 
 #: weblate/templates/accounts/removal.html:16
 msgid "Account removal"
@@ -1868,8 +1887,8 @@ msgid ""
 "Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
 "%(repo)s</a> instead."
 msgstr ""
-"Not showing status of linked repository. Check <a href=\"#%(slug)s\""
-">%(repo)s</a> instead."
+"Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
+"%(repo)s</a> instead."
 
 #: weblate/templates/admin/ssh.html:14
 msgid "Public SSH key"
@@ -1946,8 +1965,8 @@ msgid ""
 "You can find more information about setting up SSH keys in <a href="
 "\"%(ssh_docs)s\">the Weblate manual</a>."
 msgstr ""
-"You can find more information about setting up SSH keys in <a href=\""
-"%(ssh_docs)s\">the Weblate manual</a>."
+"You can find more information about setting up SSH keys in <a href="
+"\"%(ssh_docs)s\">the Weblate manual</a>."
 
 #: weblate/templates/admin/trans/change_form.html:18
 msgid "Do not change this object here, please use Weblate interface instead."
@@ -1959,8 +1978,8 @@ msgid ""
 "Importing a new translation can take some time, please check <a href="
 "\"%(url)s\">our documentation</a> for information on how to improve this."
 msgstr ""
-"Importing a new translation can take some time, please check <a href=\"%(url)"
-"s\">our documentation</a> for information on how to improve this."
+"Importing a new translation can take some time, please check <a href="
+"\"%(url)s\">our documentation</a> for information on how to improve this."
 
 #: weblate/templates/base.html:94
 msgid "Toggle navigation"
@@ -1985,8 +2004,8 @@ msgid ""
 "\">Firefox</a>."
 msgstr ""
 "Weblate does not support Microsoft Internet Explorer 8 and older, please use "
-"some more recent browser like <a href=\"https://www.mozilla.org/firefox/\""
-">Firefox</a>."
+"some more recent browser like <a href=\"https://www.mozilla.org/firefox/"
+"\">Firefox</a>."
 
 #: weblate/templates/base.html:173 weblate/templates/base.html:180
 msgid "Close"
@@ -2108,8 +2127,8 @@ msgid ""
 "More information about exported RSS feeds is available in <a href="
 "\"%(rss_docs)s\">the documentation</a>."
 msgstr ""
-"More information about exported RSS feeds is available in <a href=\""
-"%(rss_docs)s\">the documentation</a>."
+"More information about exported RSS feeds is available in <a href="
+"\"%(rss_docs)s\">the documentation</a>."
 
 #: weblate/templates/data-root.html:24 weblate/templates/data.html:27
 #: weblate/templates/data.html:58 weblate/templates/data.html:96
@@ -2348,8 +2367,8 @@ msgid ""
 "a>, a web tool designed to ease translating for both developers and "
 "translators."
 msgstr ""
-"%(project)s is being translated using <a href=\"%(weblate_url)s\">Weblate</a>"
-", a web tool designed to ease translating for both developers and "
+"%(project)s is being translated using <a href=\"%(weblate_url)s\">Weblate</"
+"a>, a web tool designed to ease translating for both developers and "
 "translators."
 
 #: weblate/templates/engage.html:31
@@ -2358,8 +2377,8 @@ msgid ""
 "If you would like to contribute to translation of %(project)s, you need to "
 "<a href=\"%(reg_url)s\">register on this server</a>."
 msgstr ""
-"If you would like to contribute to translation of %(project)s, you need to <"
-"a href=\"%(reg_url)s\">register on this server</a>."
+"If you would like to contribute to translation of %(project)s, you need to "
+"<a href=\"%(reg_url)s\">register on this server</a>."
 
 #: weblate/templates/engage.html:35
 msgid ""
@@ -2375,8 +2394,8 @@ msgid ""
 "Once you have activated your account just proceed to the <a href=\"%(url)s"
 "\">translation section</a>."
 msgstr ""
-"Once you have activated your account just proceed to the <a href=\"%(url)s\">"
-"translation section</a>."
+"Once you have activated your account just proceed to the <a href=\"%(url)s"
+"\">translation section</a>."
 
 #: weblate/templates/footer.html:5
 #, python-format
@@ -3628,7 +3647,8 @@ msgstr "Configure columns"
 #: weblate/templates/list-translations.html:36
 #: weblate/templates/translation.html:90
 msgid "This translation is being used as source strings within this component."
-msgstr "This translation is being used as source strings within this component."
+msgstr ""
+"This translation is being used as source strings within this component."
 
 #: weblate/templates/list-translations.html:36
 msgid "source"
@@ -3929,8 +3949,8 @@ msgid ""
 "More information on adding new language files is available in <a href="
 "\"%(doc_url)s\">the documentation</a>."
 msgstr ""
-"More information on adding new language files is available in <a href=\""
-"%(doc_url)s\">the documentation</a>."
+"More information on adding new language files is available in <a href="
+"\"%(doc_url)s\">the documentation</a>."
 
 #: weblate/templates/mail/new_language.html:27
 #: weblate/templates/mail/new_language.txt:9
@@ -4089,8 +4109,8 @@ msgid ""
 "Should your language be missing, please follow <a href=\"%(url)s"
 "\">translator instructions</a>."
 msgstr ""
-"Should your language be missing, please follow <a href=\"%(url)s\">"
-"translator instructions</a>."
+"Should your language be missing, please follow <a href=\"%(url)s"
+"\">translator instructions</a>."
 
 #: weblate/templates/new-language.html:27
 msgid "Please choose the language into which you would like to translate."
@@ -4320,8 +4340,8 @@ msgid ""
 "You can also promote this translation project using various <a href="
 "\"%(widgets_url)s\">other possibilities</a>."
 msgstr ""
-"You can also promote this translation project using various <a href=\""
-"%(widgets_url)s\">other possibilities</a>."
+"You can also promote this translation project using various <a href="
+"\"%(widgets_url)s\">other possibilities</a>."
 
 #: weblate/templates/share.html:32
 #, python-format
@@ -4972,8 +4992,8 @@ msgid ""
 "You can point newcomers to the introduction page at <a href=\"%(engage_url)s"
 "\">%(engage_url)s</a>."
 msgstr ""
-"You can point newcomers to the introduction page at <a href=\"%(engage_url)"
-"s\">%(engage_url)s</a>."
+"You can point newcomers to the introduction page at <a href=\"%(engage_url)s"
+"\">%(engage_url)s</a>."
 
 #: weblate/templates/widgets.html:17
 msgid "Promoting specific translations"
@@ -5256,9 +5276,7 @@ msgstr "Mismatched \\n"
 
 #: weblate/trans/checks/chars.py:332
 msgid "Number of \\n in translation does not match source"
-msgstr ""
-"Number of \\n"
-" in translation does not match source"
+msgstr "Number of \\n in translation does not match source"
 
 #: weblate/trans/checks/chars.py:340
 msgid "Translation contains extra zero-width space character"
@@ -5426,87 +5444,87 @@ msgstr "Recent changes in %s"
 msgid "All recent changes made using Weblate in %s."
 msgstr "All recent changes made using Weblate in %s."
 
-#: weblate/trans/formats.py:780
+#: weblate/trans/formats.py:782
 msgid "Automatic detection"
 msgstr "Automatic detection"
 
-#: weblate/trans/formats.py:811
+#: weblate/trans/formats.py:813
 msgid "Gettext PO file"
 msgstr "Gettext PO file"
 
-#: weblate/trans/formats.py:882
+#: weblate/trans/formats.py:884
 msgid "Gettext PO file (monolingual)"
 msgstr "Gettext PO file (monolingual)"
 
-#: weblate/trans/formats.py:889
+#: weblate/trans/formats.py:891
 msgid "Qt Linguist Translation File"
 msgstr "Qt Linguist Translation File"
 
-#: weblate/trans/formats.py:920
+#: weblate/trans/formats.py:922
 msgid "XLIFF Translation File"
 msgstr "XLIFF Translation File"
 
-#: weblate/trans/formats.py:975
+#: weblate/trans/formats.py:977
 msgid "XLIFF Translation File with PO extensions"
 msgstr "XLIFF Translation File with PO extensions"
 
-#: weblate/trans/formats.py:983
+#: weblate/trans/formats.py:985
 msgid "OS X Strings"
 msgstr "OS X Strings"
 
-#: weblate/trans/formats.py:992
+#: weblate/trans/formats.py:994
 msgid "OS X Strings (UTF-8)"
 msgstr "OS X Strings (UTF-8)"
 
-#: weblate/trans/formats.py:1000
+#: weblate/trans/formats.py:1002
 msgid "Java Properties (UTF-8)"
 msgstr "Java Properties (UTF-8)"
 
-#: weblate/trans/formats.py:1009
+#: weblate/trans/formats.py:1011
 msgid "Java Properties (UTF-16)"
 msgstr "Java Properties (UTF-16)"
 
-#: weblate/trans/formats.py:1016
+#: weblate/trans/formats.py:1018
 msgid "Java Properties (ISO-8859-1)"
 msgstr "Java Properties (ISO-8859-1)"
 
-#: weblate/trans/formats.py:1038
+#: weblate/trans/formats.py:1040
 msgid "Joomla Language File"
 msgstr "Joomla Language File"
 
-#: weblate/trans/formats.py:1048
+#: weblate/trans/formats.py:1050
 msgid "PHP strings"
 msgstr "PHP strings"
 
-#: weblate/trans/formats.py:1088
+#: weblate/trans/formats.py:1090
 msgid ".Net resource file"
 msgstr ".Net resource file"
 
-#: weblate/trans/formats.py:1099
+#: weblate/trans/formats.py:1101
 msgid "Android String Resource"
 msgstr "Android String Resource"
 
-#: weblate/trans/formats.py:1129
+#: weblate/trans/formats.py:1131
 msgid "JSON file"
 msgstr "JSON file"
 
-#: weblate/trans/formats.py:1163
+#: weblate/trans/formats.py:1165
 msgid "CSV file"
 msgstr "CSV file"
 
-#: weblate/trans/formats.py:1224
+#: weblate/trans/formats.py:1226
 msgid "Simple CSV file"
 msgstr "Simple CSV file"
 
-#: weblate/trans/formats.py:1261
+#: weblate/trans/formats.py:1263
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Simple CSV file (ISO-8859-1)"
 
-#: weblate/trans/formats.py:1268
+#: weblate/trans/formats.py:1270
 msgid "YAML file"
 msgstr "YAML file"
 
-#: weblate/trans/formats.py:1306
+#: weblate/trans/formats.py:1308
 msgid "Ruby YAML file"
 msgstr "Ruby YAML file"
 
@@ -5772,8 +5790,8 @@ msgid ""
 "You can upload any format which is understood by Translate Toolkit "
 "(including TBX, CSV or Gettext PO files)."
 msgstr ""
-"You can upload any format which is understood by Translate Toolkit ("
-"including TBX, CSV or Gettext PO files)."
+"You can upload any format which is understood by Translate Toolkit "
+"(including TBX, CSV or Gettext PO files)."
 
 #: weblate/trans/forms.py:828
 msgid "Keep current"
@@ -5850,8 +5868,8 @@ msgid ""
 "Please enter a comma separated list of check flags, see <a href="
 "\"{url}\">documentation</a> for more details."
 msgstr ""
-"Please enter a comma separated list of check flags, see <a href=\"{url}\""
-">documentation</a> for more details."
+"Please enter a comma separated list of check flags, see <a href="
+"\"{url}\">documentation</a> for more details."
 
 #: weblate/trans/forms.py:1022
 msgid "User to add"
@@ -6359,7 +6377,8 @@ msgstr "File format"
 
 #: weblate/trans/models/subproject.py:250
 msgid "Automatic detection might fail for some formats and is slightly slower."
-msgstr "Automatic detection might fail for some formats and is slightly slower."
+msgstr ""
+"Automatic detection might fail for some formats and is slightly slower."
 
 #: weblate/trans/models/subproject.py:255
 msgid "Additional commit files"
@@ -7707,6 +7726,13 @@ msgstr "Forbidden URL scheme!"
 #: weblate/utils/validators.py:174
 msgid "Unsupported file format."
 msgstr "Unsupported file format."
+
+#~ msgid ""
+#~ "Cross site request forgery cookies which we use to prevent certain Cross "
+#~ "Site Request Forgeries attacks."
+#~ msgstr ""
+#~ "Cross site request forgery cookies which we use to prevent certain Cross "
+#~ "Site Request Forgeries attacks."
 
 #~ msgid "At least six characters long."
 #~ msgstr "At least six characters long."
