@@ -18,8 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-import sys
-
 from django.conf import settings
 from django.contrib.auth.models import User, Permission
 from django.shortcuts import redirect
@@ -30,12 +28,9 @@ from django.utils.translation import ugettext as _
 from django.contrib.auth.backends import ModelBackend
 
 import social_core.backends.email
-from social_core.exceptions import (
-    SocialAuthBaseException, AuthMissingParameter, InvalidEmail,
-)
+from social_core.exceptions import AuthMissingParameter, InvalidEmail
 
 from weblate.utils import messages
-from weblate.utils.errors import report_error
 
 
 def try_get_user(username):
