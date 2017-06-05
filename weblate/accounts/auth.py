@@ -64,7 +64,7 @@ class EmailAuth(social_core.backends.email.EmailAuth):
         except AuthMissingParameter as error:
             if error.parameter in ('email', 'user', 'expires'):
                 return self.redirect_token()
-            elif error.parameter in ('state'):
+            elif error.parameter in ('state', 'code'):
                 return self.redirect_state()
             raise
         except (AuthStateMissing, AuthStateForbidden):
