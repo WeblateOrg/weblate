@@ -86,7 +86,7 @@ class EmailAuth(social_core.backends.email.EmailAuth):
             return self.fail(_('Authentication has been cancelled.'))
         except AuthAlreadyAssociated:
             return self.fail(_(
-                'Failed to complete your registration! This authenticaation is '
+                'Failed to complete your registration! This authentication is '
                 'already associated with another account!'
             ))
 
