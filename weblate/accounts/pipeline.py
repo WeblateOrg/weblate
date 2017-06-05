@@ -17,7 +17,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-
 from __future__ import unicode_literals
 
 import json
@@ -36,9 +35,7 @@ from django.utils.translation import ugettext as _
 from six.moves.urllib.request import Request, urlopen
 
 from social_core.pipeline.partial import partial
-from social_core.exceptions import (
-    AuthException, AuthMissingParameter, AuthAlreadyAssociated,
-)
+from social_core.exceptions import AuthMissingParameter, AuthAlreadyAssociated
 
 from social_django.models import Code
 
@@ -177,13 +174,11 @@ def verify_open(strategy, backend, user=None, **kwargs):
     """Check whether it is possible to create new user."""
     # Check whether registration is open
     if not user and not settings.REGISTRATION_OPEN:
-        raise AuthException(backend, _('New registrations are disabled!'))
+        raise AuthMissingParameter(backend, 'disabled')
 
     # Avoid adding associations to demo user
     if user and settings.DEMO_SERVER and user.username == 'demo':
-        raise AuthException(
-            backend, _('Can not change authentication for demo!')
-        )
+        raise AuthMissingParameter(backend, 'demo')
 
     # Ensure it's still same user
     request = strategy.request

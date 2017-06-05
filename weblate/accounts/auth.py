@@ -56,6 +56,10 @@ class EmailAuth(social_core.backends.email.EmailAuth):
             super(EmailAuth, self).authenticate, args, kwargs
         )
 
+    def fail(self, message):
+        messages.error(self.strategy.request, message)
+        return redirect(reverse('login'))
+
     def wrap_error(self, method, args, kwargs):
         try:
             return method(*args, **kwargs)
@@ -66,6 +70,10 @@ class EmailAuth(social_core.backends.email.EmailAuth):
                 return self.redirect_token()
             elif error.parameter in ('state', 'code'):
                 return self.redirect_state()
+            elif error.parameter == 'demo':
+                return self.fail(_('Can not change authentication for demo!'))
+            elif error.parameter == 'disabled':
+                return self.fail(_('New registrations are disabled!'))
             raise
         except (AuthStateMissing, AuthStateForbidden):
             return self.redirect_state()
