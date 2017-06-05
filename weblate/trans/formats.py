@@ -202,6 +202,9 @@ class FileUnit(object):
         reason do not correctly set source/target attributes.
         """
         return (
+            hasattr(self.unit, 'name') and
+            hasattr(self.unit, 'value') and
+            hasattr(self.unit, 'translation') and
             hasattr(self.mainunit, 'name') and
             hasattr(self.mainunit, 'value') and
             hasattr(self.mainunit, 'translation')
