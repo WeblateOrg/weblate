@@ -78,47 +78,29 @@ class EmailAuth(social_core.backends.email.EmailAuth):
         except (AuthStateMissing, AuthStateForbidden):
             return self.redirect_state()
         except AuthFailed:
-            messages.error(
-                self.strategy.request,
-                _(
-                    'Authentication failed, probably due to expired token '
-                    'or connection error.'
-                ),
-            )
-            return redirect(reverse('login'))
+            return self.fail(_(
+                'Authentication has failed, probably due to expired token '
+                'or connection error.'
+            ))
         except AuthCanceled:
-            messages.error(
-                self.strategy.request,
-                _('Authentication has been cancelled.'),
-            )
-            return redirect(reverse('login'))
+            return self.fail(_('Authentication has been cancelled.'))
         except AuthAlreadyAssociated:
-            messages.error(
-                self.strategy.request,
-                _(
-                    'Authentication failed, this account is already '
-                    'associated with another account!'
-                ),
-            )
-            return redirect(reverse('login'))
+            return self.fail(_(
+                'Failed to complete your registration! This authenticaation is '
+                'already associated with another account!'
+            ))
 
     def redirect_token(self):
-        messages.error(
-            self.strategy.request,
-            _(
-                'Failed to verify your registration! '
-                'Probably the verification token has expired. '
-                'Please try the registration again.'
-            )
-        )
-        return redirect(reverse('login'))
+        return self.fail( _(
+            'Failed to verify your registration! '
+            'Probably the verification token has expired. '
+            'Please try the registration again.'
+        ))
 
     def redirect_state(self):
-        messages.error(
-            self.strategy.request,
+        return self.fail(
             _('Authentication failed due to invalid session state.')
         )
-        return redirect(reverse('login'))
 
 
 class WeblateUserBackend(ModelBackend):
