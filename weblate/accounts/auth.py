@@ -86,12 +86,12 @@ class EmailAuth(social_core.backends.email.EmailAuth):
             return self.fail(_('Authentication has been cancelled.'))
         except AuthAlreadyAssociated:
             return self.fail(_(
-                'Failed to complete your registration! This authentication is '
-                'already associated with another account!'
+                'Failed to complete your registration! This authentication '
+                'is already associated with another account!'
             ))
 
     def redirect_token(self):
-        return self.fail( _(
+        return self.fail(_(
             'Failed to verify your registration! '
             'Probably the verification token has expired. '
             'Please try the registration again.'
