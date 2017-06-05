@@ -124,6 +124,7 @@ SAME_BLACKLIST = frozenset((
     'context',
     'control',
     'cookie',
+    'cookies',
     'copyright',
     'creation',
     'criteria',
