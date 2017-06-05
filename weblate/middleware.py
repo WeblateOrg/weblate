@@ -20,6 +20,8 @@
 
 from __future__ import unicode_literals
 
+from six.moves.urllib.parse import urlparse
+
 from django.conf import settings
 
 
@@ -62,6 +64,16 @@ class SecurityMiddleware(object):
             script.add("'unsafe-inline'")
             script.add('www.google-analytics.com')
             image.add('www.google-analytics.com')
+
+        if '://' in settings.MEDIA_URL:
+            domain = urlparse(settings.MEDIA_URL).netloc
+            image.add(domain)
+
+        if '://' in settings.STATIC_URL:
+            domain = urlparse(settings.STATIC_URL).netloc
+            script.add(domain)
+            image.add(domain)
+            style.add(domain)
 
         response['Content-Security-Policy'] = CSP_TEMPLATE.format(
             ' '.join(style),
