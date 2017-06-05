@@ -28,7 +28,9 @@ from django.utils.translation import ugettext as _
 from django.contrib.auth.backends import ModelBackend
 
 import social_core.backends.email
-from social_core.exceptions import AuthMissingParameter, InvalidEmail
+from social_core.exceptions import (
+    AuthMissingParameter, InvalidEmail, AuthFailed, AuthCanceled,
+)
 
 from weblate.utils import messages
 
@@ -62,6 +64,21 @@ class EmailAuth(social_core.backends.email.EmailAuth):
             if error.parameter in ('email', 'user', 'expires'):
                 return self.redirect_token()
             raise
+        except AuthFailed:
+            messages.error(
+                self.strategy.request,
+                _(
+                    'Authentication failed, probably due to expired token '
+                    'or connection error.'
+                ),
+            )
+            return redirect(reverse('login'))
+        except AuthCanceled:
+            messages.error(
+                self.strategy.request,
+                _('Authentication has been cancelled.'),
+            )
+            return redirect(reverse('login'))
 
     def redirect_token(self):
         messages.error(
