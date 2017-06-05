@@ -647,7 +647,7 @@ class CookieRegistrationTest(BaseRegistrationTest):
         response = self.client.get(url, follow=True)
         self.assertContains(
             response,
-            'Email couldn&#39;t be validated'
+            'Probably the verification token has expired.'
         )
 
     @override_settings(REGISTRATION_CAPTCHA=False)

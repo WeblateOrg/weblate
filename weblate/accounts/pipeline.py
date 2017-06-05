@@ -38,7 +38,6 @@ from six.moves.urllib.request import Request, urlopen
 from social_core.pipeline.partial import partial
 from social_core.exceptions import (
     AuthException, AuthMissingParameter, AuthAlreadyAssociated,
-    AuthStateForbidden,
 )
 
 from social_django.models import Code
@@ -189,7 +188,7 @@ def verify_open(strategy, backend, user=None, **kwargs):
     # Ensure it's still same user
     request = strategy.request
     if request.user.pk != request.session.get('social_auth_user'):
-        raise AuthStateForbidden(backend, 'user')
+        raise AuthMissingParameter(backend, 'user')
 
 
 def cleanup_next(strategy, **kwargs):
@@ -259,7 +258,7 @@ def ensure_valid(strategy, backend, user, registering_user, weblate_action,
     """Ensure the activation link is still."""
     # Didn't the link expire?
     if weblate_expires < time.time():
-        raise AuthStateForbidden(backend, 'expires')
+        raise AuthMissingParameter(backend, 'expires')
 
     # We allow password reset for unauthenticated users
     if weblate_action == 'reset':
@@ -272,7 +271,7 @@ def ensure_valid(strategy, backend, user, registering_user, weblate_action,
                 strategy.request,
                 _('The registration link has been invalidated.')
             )
-            raise AuthStateForbidden(backend, 'user')
+            raise AuthMissingParameter(backend, 'user')
         return
 
     # Add email/register should stay on same user
@@ -297,7 +296,7 @@ def ensure_valid(strategy, backend, user, registering_user, weblate_action,
             _('The registration link has been invalidated.')
         )
 
-        raise AuthStateForbidden(backend, 'user')
+        raise AuthMissingParameter(backend, 'user')
 
 
 def store_email(strategy, backend, user, social, details, **kwargs):

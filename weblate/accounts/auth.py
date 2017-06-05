@@ -30,7 +30,9 @@ from django.utils.translation import ugettext as _
 from django.contrib.auth.backends import ModelBackend
 
 import social_core.backends.email
-from social_core.exceptions import AuthMissingParameter
+from social_core.exceptions import (
+    SocialAuthBaseException, AuthMissingParameter, InvalidEmail,
+)
 
 from weblate.utils import messages
 from weblate.utils.errors import report_error
@@ -47,24 +49,35 @@ def try_get_user(username):
 class EmailAuth(social_core.backends.email.EmailAuth):
     """Social auth handler to better report errors."""
     def auth_complete(self, *args, **kwargs):
+        return self.wrap_error(
+            super(EmailAuth, self).auth_complete, args, kwargs
+        )
+
+    def authenticate(self, *args, **kwargs):
+        return self.wrap_error(
+            super(EmailAuth, self).authenticate, args, kwargs
+        )
+
+    def wrap_error(self, method, args, kwargs):
         try:
-            return super(EmailAuth, self).auth_complete(*args, **kwargs)
+            return method(*args, **kwargs)
+        except InvalidEmail:
+            return self.redirect_token()
         except AuthMissingParameter as error:
-            if error.parameter == 'email':
-                messages.error(
-                    self.strategy.request,
-                    _(
-                        'Failed to verify your registration! '
-                        'Probably the verification token has expired. '
-                        'Please try the registration again.'
-                    )
-                )
-                report_error(
-                    error, sys.exc_info(),
-                    extra_data=self.data
-                )
-                return redirect(reverse('login'))
+            if error.parameter in ('email', 'user', 'expires'):
+                return self.redirect_token()
             raise
+
+    def redirect_token(self):
+        messages.error(
+            self.strategy.request,
+            _(
+                'Failed to verify your registration! '
+                'Probably the verification token has expired. '
+                'Please try the registration again.'
+            )
+        )
+        return redirect(reverse('login'))
 
 
 class WeblateUserBackend(ModelBackend):

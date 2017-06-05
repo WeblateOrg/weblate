@@ -266,8 +266,8 @@ SOCIAL_AUTH_DISCONNECT_PIPELINE = (
 # Custom authentication strategy
 SOCIAL_AUTH_STRATEGY = 'weblate.accounts.strategy.WeblateStrategy'
 
-# Avoid raising exceptions even in debug mode
-SOCIAL_AUTH_RAISE_EXCEPTIONS = False
+# Raise exceptions so that we can handle them later
+SOCIAL_AUTH_RAISE_EXCEPTIONS = True
 
 SOCIAL_AUTH_EMAIL_VALIDATION_FUNCTION = \
     'weblate.accounts.pipeline.send_validation'
