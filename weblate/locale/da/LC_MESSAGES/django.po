@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-05-31 15:16+0000\n"
-"PO-Revision-Date: 2017-06-04 17:52+0000\n"
+"PO-Revision-Date: 2017-06-05 14:41+0000\n"
 "Last-Translator: jan madsen <jsm@janz.dk>\n"
 "Language-Team: Danish "
 "<https://hosted.weblate.org/projects/weblate/master/da/>\n"
@@ -127,8 +127,9 @@ msgid "New password confirmation"
 msgstr "Bekræftelse af ny adgangskode"
 
 #: weblate/accounts/forms.py:406
+#, fuzzy
 msgid "You can not change password to the one you are currently using!"
-msgstr ""
+msgstr "Du kan ikke ændre adgangskoden til den, du bruger i øjeblikket!"
 
 #: weblate/accounts/forms.py:425
 msgid "Your password has been changed."
@@ -440,20 +441,24 @@ msgid "Can not change authentication for demo!"
 msgstr "Kan ikke ændre godkendelse for demo!"
 
 #: weblate/accounts/pipeline.py:269
+#, fuzzy
 msgid "You can not complete password reset while logged in!"
 msgstr ""
+"Du kan ikke fuldføre nulstilling af adgangskoden, mens du er logget ind!"
 
 #: weblate/accounts/pipeline.py:273 weblate/accounts/pipeline.py:297
 msgid "The registration link has been invalidated."
 msgstr "Registreringslink er ugyldigt."
 
 #: weblate/accounts/pipeline.py:288
+#, fuzzy
 msgid "You can not complete registration while logged in!"
-msgstr ""
+msgstr "Du kan ikke fuldføre registreringen, mens du er logget ind!"
 
 #: weblate/accounts/pipeline.py:293
+#, fuzzy
 msgid "You can confirm your registration only while logged in!"
-msgstr ""
+msgstr "Du kan kun bekræfte din tilmelding, mens du er logget ind!"
 
 #: weblate/accounts/pipeline.py:402
 #, fuzzy, python-brace-format
@@ -820,10 +825,12 @@ msgid "We use cookies for following purposes:"
 msgstr "Cookies anvendes til følgende formål:"
 
 #: weblate/legal/templates/legal/cookies.html:29
+#, fuzzy
 msgid ""
 "Authentication cookies which are required for recognizing authenticated "
 "users."
 msgstr ""
+"Godkendelse cookies, som er nødvendige for at genkende godkendte brugere."
 
 #: weblate/legal/templates/legal/cookies.html:30
 #, fuzzy
@@ -831,10 +838,13 @@ msgid "Preferences cookie to store user preferences in certain situations."
 msgstr "Præferencer cookie til at gemme brugerpræferencer i visse situationer."
 
 #: weblate/legal/templates/legal/cookies.html:31
+#, fuzzy
 msgid ""
 "Cross site request forgery cookies which we use to prevent certain Cross "
 "Site Request Forgeries attacks."
 msgstr ""
+"Cross-site Request forgery cookies, som vi bruger til at forhindre visse "
+"Cross Site Request Forgeries-angreb."
 
 #: weblate/legal/templates/legal/cookies.html:32
 msgid ""
@@ -874,24 +884,32 @@ msgstr ""
 "de respektive kontrakter."
 
 #: weblate/legal/templates/legal/index.html:26
+#, fuzzy
 msgid ""
 "We process private data (such as your email), those will be discarded from "
 "our database as soon as you remove your account."
 msgstr ""
+"Vi behandler private data (såsom din e-mail), de bliver slettet fra vores "
+"database, så snart du fjerner din konto."
 
 #: weblate/legal/templates/legal/index.html:27
+#, fuzzy
 msgid ""
 "Your translations are made under license which is specified by each "
 "translation."
 msgstr ""
+"Dine oversættelser er foretaget i henhold til en licens, som er angivet ved "
+"hver enkelt oversættelse."
 
 #: weblate/legal/templates/legal/index.html:28
+#, fuzzy
 msgid "Your name and email is used in VCS commits, it will stay there forever."
-msgstr ""
+msgstr "Dit navn og e-mail bruges i VCS, de bliver der for evigt."
 
 #: weblate/legal/templates/legal/index.html:29
+#, fuzzy
 msgid "We use cookies to deliver our services."
-msgstr ""
+msgstr "Vi bruger cookies til at levere vores tjenester."
 
 #: weblate/legal/templates/legal/security.html:7 weblate/legal/views.py:45
 msgid "Security"
@@ -3742,8 +3760,7 @@ msgstr "Hej,"
 #| "There has been a change in translation on %(translation)s at "
 #| "%(site_title)s."
 msgid "There has been a change in your account at %(site_title)s:"
-msgstr ""
-"Der er foretaget en ny oversættelse af %(translation)s på %(site_title)s."
+msgstr "Der er sket en ændring i din konto på %(site_title)s:"
 
 #: weblate/templates/mail/account_activity.html:19
 #: weblate/templates/mail/account_activity.txt:7
