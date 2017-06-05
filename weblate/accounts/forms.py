@@ -459,6 +459,7 @@ class CaptchaForm(forms.Form):
         if (self.fresh or
                 not self.captcha.validate(self.cleaned_data['captcha'])):
             self.generate_captcha()
+            rotate_token(self.request)
             raise forms.ValidationError(
                 _('Please check your math and try again with new expression.')
             )
