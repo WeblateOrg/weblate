@@ -37,7 +37,7 @@ from weblate.trans.models import Translation, Dictionary, Change, Unit
 from weblate.lang.models import Language
 from weblate.trans.site import get_site_url
 from weblate.utils.errors import report_error
-from weblate.trans.util import render, redirect_next
+from weblate.trans.util import render, redirect_next, redirect_param
 from weblate.trans.forms import WordForm, DictUploadForm, LetterForm
 from weblate.permissions.helpers import (
     can_add_dictionary, can_upload_dictionary, can_delete_dictionary,
@@ -139,8 +139,19 @@ def delete_dictionary(request, project, lang, pk):
 
     word.delete()
 
-    return redirect(
+    params = {}
+    for param in ('letter', 'limit', 'page'):
+        if param in request.POST:
+            params[param] = request.POST[param]
+
+    if params:
+        param = '?' + urlencode(params)
+    else:
+        param = ''
+
+    return redirect_param(
         'show_dictionary',
+        param,
         project=prj.slug,
         lang=lang.code
     )
@@ -326,6 +337,8 @@ def show_dictionary(request, project, lang):
             'uploadform': uploadform,
             'letterform': letterform,
             'letter': letter,
+            'limit': limit,
+            'page': page,
             'last_changes': last_changes,
             'last_changes_url': urlencode({
                 'project': prj.slug,
