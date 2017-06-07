@@ -314,8 +314,8 @@ scripts, for example:
     Sets :setting:`POST_ADD_SCRIPTS`.
 
 
-PostgreSQL databse setup
-~~~~~~~~~~~~~~~~~~~~~~~~
+PostgreSQL database setup
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The database is created by :file:`docker-compose.yml`, so this settings affects
 both Weblate and PostgreSQL containers.
