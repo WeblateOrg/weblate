@@ -191,6 +191,8 @@ Facebook. Once this is done, you can configure Weblate to use it:
     SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'public_profile']
 
 
+.. _gitlab_auth:
+
 Gitlab OAuth2
 ~~~~~~~~~~~~~
 

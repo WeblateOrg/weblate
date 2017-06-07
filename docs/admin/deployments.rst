@@ -246,6 +246,9 @@ Machine translation settings
 
     Enables Google machine translation and sets :setting:`MT_GOOGLE_KEY`
 
+.. envvar:: WEBLATE_MT_MICROSOFT_COGNITIVE_KEY
+
+    Enables Microsoft machine translation and sets :setting:`MT_MICROSOFT_COGNITIVE_KEY`
 
 Authentication settings
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -269,6 +272,12 @@ Authentication settings
 .. envvar:: WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET
 
     Enables :ref:`google_auth`.
+
+.. envvar:: WEBLATE_SOCIAL_AUTH_GITLAB_KEY
+.. envvar:: WEBLATE_SOCIAL_AUTH_GITLAB_SECRET
+.. envvar:: WEBLATE_SOCIAL_AUTH_GITLAB_API_URL
+
+    Enables :ref:`gitlab_auth`.
 
 PostgreSQL databse setup
 ~~~~~~~~~~~~~~~~~~~~~~~~
