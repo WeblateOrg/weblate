@@ -200,7 +200,7 @@ GITHUB_USERNAME = None
 
 # Authentication configuration
 AUTHENTICATION_BACKENDS = (
-    'weblate.accounts.auth.EmailAuth',
+    'social_core.backends.email.EmailAuth',
     # 'social_core.backends.google.GoogleOAuth2',
     # 'social_core.backends.github.GithubOAuth2',
     # 'social_core.backends.bitbucket.BitbucketOAuth',

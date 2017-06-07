@@ -475,6 +475,19 @@ Notable configuration or dependencies changes:
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
+Upgrade from 2.14 to 2.15
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Follow generic upgrade instructions, there is no special change.
+
+Notable configuration or dependencies changes:
+
+* The ``AUTHENTICATION_BACKENDS`` setting should be changed to include
+  ``social_core.backends.email.EmailAuth`` as shipped by Python Social Auth.
+  Weblate no longer uses own email auth backend.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
 .. _django-17:
 
 Upgrading to Django 1.7

@@ -105,7 +105,7 @@ INSTALLED_APPS += (
 
 # Test GitHub auth
 AUTHENTICATION_BACKENDS = (
-    'weblate.accounts.auth.EmailAuth',
+    'social_core.backends.email.EmailAuth',
     'social_core.backends.github.GithubOAuth2',
     'weblate.accounts.auth.WeblateUserBackend',
 )

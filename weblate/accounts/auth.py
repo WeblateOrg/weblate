@@ -20,20 +20,9 @@
 
 from django.conf import settings
 from django.contrib.auth.models import User, Permission
-from django.shortcuts import redirect
-from django.core.urlresolvers import reverse
 from django.db.models.signals import pre_save
 from django.dispatch.dispatcher import receiver
-from django.utils.translation import ugettext as _
 from django.contrib.auth.backends import ModelBackend
-
-import social_core.backends.email
-from social_core.exceptions import (
-    AuthMissingParameter, InvalidEmail, AuthFailed, AuthCanceled,
-    AuthStateMissing, AuthStateForbidden, AuthAlreadyAssociated,
-)
-
-from weblate.utils import messages
 
 
 def try_get_user(username):
@@ -42,65 +31,6 @@ def try_get_user(username):
         return User.objects.get(email=username)
     else:
         return User.objects.get(username=username)
-
-
-class EmailAuth(social_core.backends.email.EmailAuth):
-    """Social auth handler to better report errors."""
-    def auth_complete(self, *args, **kwargs):
-        return self.wrap_error(
-            super(EmailAuth, self).auth_complete, args, kwargs
-        )
-
-    def authenticate(self, *args, **kwargs):
-        return self.wrap_error(
-            super(EmailAuth, self).authenticate, args, kwargs
-        )
-
-    def fail(self, message):
-        messages.error(self.strategy.request, message)
-        return redirect(reverse('login'))
-
-    def wrap_error(self, method, args, kwargs):
-        try:
-            return method(*args, **kwargs)
-        except InvalidEmail:
-            return self.redirect_token()
-        except AuthMissingParameter as error:
-            if error.parameter in ('email', 'user', 'expires'):
-                return self.redirect_token()
-            elif error.parameter in ('state', 'code'):
-                return self.redirect_state()
-            elif error.parameter == 'demo':
-                return self.fail(_('Can not change authentication for demo!'))
-            elif error.parameter == 'disabled':
-                return self.fail(_('New registrations are disabled!'))
-            raise
-        except (AuthStateMissing, AuthStateForbidden):
-            return self.redirect_state()
-        except AuthFailed:
-            return self.fail(_(
-                'Authentication has failed, probably due to expired token '
-                'or connection error.'
-            ))
-        except AuthCanceled:
-            return self.fail(_('Authentication has been cancelled.'))
-        except AuthAlreadyAssociated:
-            return self.fail(_(
-                'Failed to complete your registration! This authentication '
-                'is already associated with another account!'
-            ))
-
-    def redirect_token(self):
-        return self.fail(_(
-            'Failed to verify your registration! '
-            'Probably the verification token has expired. '
-            'Please try the registration again.'
-        ))
-
-    def redirect_state(self):
-        return self.fail(
-            _('Authentication failed due to invalid session state.')
-        )
 
 
 class WeblateUserBackend(ModelBackend):

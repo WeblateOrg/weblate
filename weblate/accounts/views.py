@@ -42,6 +42,10 @@ from django.template.loader import render_to_string
 from rest_framework.authtoken.models import Token
 
 from social_core.backends.utils import load_backends
+from social_core.exceptions import (
+    AuthMissingParameter, InvalidEmail, AuthFailed, AuthCanceled,
+    AuthStateMissing, AuthStateForbidden, AuthAlreadyAssociated,
+)
 from social_django.utils import BACKENDS
 from social_django.views import complete, auth
 
@@ -785,3 +789,60 @@ def social_auth(request, backend):
     """
     store_userid(request)
     return auth(request, backend)
+
+
+@avoid_demo
+def social_complete(request, backend):
+    """Wrapper around social_django.views.complete.
+
+    - blocks access for demo user
+    - gracefuly handle backend errors
+    """
+    def fail(message):
+        messages.error(request, message)
+        return redirect(reverse('login'))
+
+    def redirect_token():
+        return fail(_(
+            'Failed to verify your registration! '
+            'Probably the verification token has expired. '
+            'Please try the registration again.'
+        ))
+
+    def redirect_state():
+        return fail(
+            _('Authentication failed due to invalid session state.')
+        )
+
+    try:
+        return complete(request, backend)
+    except InvalidEmail:
+        return redirect_token()
+    except AuthMissingParameter as error:
+        if error.parameter in ('email', 'user', 'expires'):
+            return redirect_token()
+        elif error.parameter in ('state', 'code'):
+            return redirect_state()
+        elif error.parameter == 'demo':
+            return fail(
+                _('Can not change authentication for demo!')
+            )
+        elif error.parameter == 'disabled':
+            return fail(
+                _('New registrations are disabled!')
+            )
+        raise
+    except (AuthStateMissing, AuthStateForbidden):
+        return redirect_state()
+    except AuthFailed:
+        return fail(_(
+            'Authentication has failed, probably due to expired token '
+            'or connection error.'
+        ))
+    except AuthCanceled:
+        return fail(_('Authentication has been cancelled.'))
+    except AuthAlreadyAssociated:
+        return fail(_(
+            'Failed to complete your registration! This authentication '
+            'is already associated with another account!'
+        ))
