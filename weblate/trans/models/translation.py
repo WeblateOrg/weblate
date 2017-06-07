@@ -790,6 +790,12 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                     unit.fuzzy == pounit.is_fuzzy()):
                 return False, pounit
 
+            # Optionally add unit to translation file.
+            # This has be done prior setting tatget as some formats
+            # generate content based on target language.
+            if add:
+                self.store.add_unit(pounit)
+
             # Store translations
             if unit.is_plural():
                 pounit.set_target(unit.get_target_plurals())
@@ -798,10 +804,6 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
             # Update fuzzy flag
             pounit.mark_fuzzy(unit.fuzzy)
-
-            # Optionally add unit to translation file
-            if add:
-                self.store.add_unit(pounit)
 
             # We need to update backend now
             author = get_author_name(user)
