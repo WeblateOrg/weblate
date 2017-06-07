@@ -873,6 +873,7 @@ class LetterForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(LetterForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
+        self.helper.disable_csrf = True
         self.helper.form_class = 'form-inline'
         self.helper.field_template = 'bootstrap3/layout/inline_field.html'
 
