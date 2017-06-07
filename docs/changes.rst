@@ -4,6 +4,10 @@ Changes
 weblate 2.15
 ------------
 
+* Use 4 plural forms for Lithuanian by default.
+* Fixed upload for monolingual files of different format.
+* Improved error messages on failed authentication.
+* Keep page state when removing word from glossary.
 * Added direct link to edit secondary language translation.
 
 Released on ? 2017.
