@@ -4,6 +4,8 @@ Changes
 weblate 2.15
 ------------
 
+* Added direct link to edit secondary language translation.
+
 Released on ? 2017.
 
 weblate 2.14.1

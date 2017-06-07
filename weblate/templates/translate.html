@@ -96,6 +96,10 @@
     {% for secondary_unit in secondary %}
     <div class="form-group">
     <label>{{ secondary_unit.translation.language }}</label>
+    {% can_translate user secondary_unit.translation as user_can_edit_secondary %}
+    {% if user_can_edit_secondary %}
+    <a title="{% trans "Edit string" %}"href="{{ secondary_unit.get_absolute_url }}"><i class="fa fa-pencil"></i></a>
+    {% endif %}
     {% if user.profile.hide_source_secondary %}
     {% format_translation secondary_unit.target secondary_unit.translation.language search_match=search_query num_plurals=unit.translation.language.nplurals unit=unit %}
     {% else %}
