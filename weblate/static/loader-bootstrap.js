@@ -1241,6 +1241,7 @@ $(function () {
                 decreaseLoading('#glossary-add-loading');
                 if (data.responseCode === 200) {
                     form.find('tbody').html(data.results);
+                    form.find('[name=words]').attr('value', data.words);
                 }
             },
             error: function (xhr, textStatus, errorThrown) {

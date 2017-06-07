@@ -244,29 +244,40 @@ def add_dictionary(request, unit_id):
 
     code = 403
     results = ''
+    words = []
+
 
     if request.method == 'POST' and can_add_dictionary(request.user, prj):
         form = WordForm(request.POST)
         if form.is_valid():
-            Dictionary.objects.create(
+            word = Dictionary.objects.create(
                 request.user,
                 project=prj,
                 language=lang,
                 source=form.cleaned_data['source'],
                 target=form.cleaned_data['target']
             )
+            words = form.cleaned_data['words']
+            words.append(word.id)
             code = 200
             results = render_to_string(
                 'glossary-embed.html',
                 {
-                    'glossary': Dictionary.objects.get_words(unit),
+                    'glossary': (
+                        Dictionary.objects.get_words(unit) |
+                        Dictionary.objects.filter(project=prj, pk__in=words)
+                    ),
                     'unit': unit,
                     'user': request.user,
                 }
             )
 
     return JsonResponse(
-        data={'responseCode': code, 'results': results}
+        data={
+            'responseCode': code,
+            'results': results,
+            'words': ','.join([str(x) for x in words])
+        }
     )
 
 

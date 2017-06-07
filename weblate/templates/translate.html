@@ -397,6 +397,7 @@
 
 <form action="{% url 'js-add-glossary' unit_id=unit.id %}" method="POST" class="add-dict-inline double-submission">
 {% csrf_token %}
+{{ addword_form.words }}
 <input type="hidden" name="next" value="{{ this_unit_url }}" />
 <div class="panel panel-primary">
   <div class="panel-heading">
