@@ -96,6 +96,13 @@ class JSViewsTest(ViewTestCase):
         )
         self.assertContains(response, 'href="/changes/?')
 
+    def test_get_unit_translations(self):
+        unit = self.get_unit()
+        response = self.client.get(
+            reverse('js-unit-translations', kwargs={'unit_id': unit.id}),
+        )
+        self.assertContains(response, 'href="/translate/')
+
     @override_settings(MACHINE_TRANSLATION_ENABLED=True)
     def test_mt_services(self):
         self.ensure_dummy_mt()

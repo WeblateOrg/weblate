@@ -100,6 +100,25 @@ def get_unit_changes(request, unit_id):
     )
 
 
+def get_unit_translations(request, unit_id):
+    """Return unit's other translations."""
+    unit = get_object_or_404(Unit, pk=int(unit_id))
+    check_access(request, unit.translation.subproject.project)
+
+    return render(
+        request,
+        'js/translations.html',
+        {
+            'units': Unit.objects.filter(
+                id_hash=unit.id_hash,
+                translation__subproject=unit.translation.subproject,
+            ).exclude(
+                pk=unit.pk
+            ),
+        }
+    )
+
+
 def ignore_check(request, check_id):
     obj = get_object_or_404(Check, pk=int(check_id))
     check_access(request, obj.project)

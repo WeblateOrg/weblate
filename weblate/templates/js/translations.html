@@ -1,0 +1,23 @@
+{% load i18n %}
+{% load translations %}
+
+<table class="table table-condensed">
+<thead>
+<tr>
+<th>{% trans "Language" %}</th>
+<th>{% trans "Status" %}</th>
+<th>{% trans "Translation" %}</th>
+<th>{% trans "Edit" %}</th>
+</tr>
+</thead>
+<tbody>
+{% for unit in units %}
+<tr>
+<th>{{ unit.translation.language }}</th>
+<td>{% get_state_flags unit %}</td>
+<td>{% format_translation unit.target unit.translation.language %}</td>
+<td><a href="{{ unit.get_absolute_url }}" class="btn btn-info">{% trans "Edit" %}</a></td>
+</tr>
+{% endfor %}
+</tbody>
+</table>

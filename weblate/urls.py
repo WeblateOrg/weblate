@@ -713,6 +713,11 @@ urlpatterns = [
         name='js-unit-changes',
     ),
     url(
+        r'^js/translations/(?P<unit_id>[0-9]+)/$',
+        weblate.trans.views.js.get_unit_translations,
+        name='js-unit-translations',
+    ),
+    url(
         r'^js/detail/' + SUBPROJECT + '(?P<checksum>[^/]+)/$',
         weblate.trans.views.js.get_detail,
         name='js-detail',
