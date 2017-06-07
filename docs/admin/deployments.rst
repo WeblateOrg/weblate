@@ -279,6 +279,41 @@ Authentication settings
 
     Enables :ref:`gitlab_auth`.
 
+Processing hooks
+~~~~~~~~~~~~~~~~
+
+All these processing hooks should get comma separaated list of available
+scripts, for example:
+
+.. code-block:: sh
+
+    WEBLATE_POST_UPDATE_SCRIPTS=/usr/local/share/weblate/examples/hook-cleanup-android
+
+.. seealso::
+
+    :ref:`processing`
+
+.. envvar:: WEBLATE_POST_UPDATE_SCRIPTS
+
+    Sets :setting:`POST_UPDATE_SCRIPTS`.
+
+.. envvar:: WEBLATE_PRE_COMMIT_SCRIPTS
+
+    Sets :setting:`PRE_COMMIT_SCRIPTS`.
+
+.. envvar:: WEBLATE_POST_COMMIT_SCRIPTS
+
+    Sets :setting:`POST_COMMIT_SCRIPTS`.
+
+.. envvar:: WEBLATE_POST_PUSH_SCRIPTS
+
+    Sets :setting:`POST_PUSH_SCRIPTS`.
+
+.. envvar:: WEBLATE_POST_ADD_SCRIPTS
+
+    Sets :setting:`POST_ADD_SCRIPTS`.
+
+
 PostgreSQL databse setup
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
