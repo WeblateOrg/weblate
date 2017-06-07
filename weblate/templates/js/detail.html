@@ -25,7 +25,7 @@
 <th>{{ unit.translation.language }}</th>
 <td>{% get_state_flags unit %}</td>
 <td>{% show_checks unit.translation.subproject.project unit.checks user %}</td>
-<td><a href="{{ unit.get_absolute_url }}" class="button small-button">{% trans "Edit" %}</a></td>
+<td><a href="{{ unit.get_absolute_url }}" class="btn btn-info">{% trans "Edit" %}</a></td>
 </tr>
 {% endfor %}
 </tbody>
