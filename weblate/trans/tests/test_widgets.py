@@ -82,9 +82,9 @@ class WidgetsRenderTest(ViewTestCase):
     def assert_widget(self, widget, response):
         if hasattr(WIDGETS[widget], 'redirect'):
             if hasattr(response, 'redirect_chain'):
-                self.assertEqual(response.redirect_chain[0][1], 302)
+                self.assertEqual(response.redirect_chain[0][1], 301)
             else:
-                self.assertEqual(response.status_code, 302)
+                self.assertEqual(response.status_code, 301)
         elif 'svg' in WIDGETS[widget].content_type:
             self.assert_svg(response)
         else:

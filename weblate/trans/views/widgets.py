@@ -148,15 +148,15 @@ def render_widget(request, project, widget='287x66', color=None, lang=None,
             kwargs['color'] = color
         if lang:
             kwargs['lang'] = lang
-            return redirect('widget-image-lang', **kwargs)
-        return redirect('widget-image', **kwargs)
+            return redirect('widget-image-lang', permanent=True, **kwargs)
+        return redirect('widget-image', permanent=True, **kwargs)
 
     # Construct object
     widget = widget_class(obj, color, lang)
 
     # Redirect widget
     if hasattr(widget, 'redirect'):
-        return redirect(widget.redirect())
+        return redirect(widget.redirect(), permanent=True)
 
     # Render widget
     widget.render()
