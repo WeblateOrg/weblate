@@ -139,33 +139,29 @@ def render_widget(request, project, widget='287x66', color=None, lang=None,
         raise Http404()
 
     # Construct object
-    widget = widget_class(obj, color, lang)
+    widget_obj = widget_class(obj, color, lang)
 
     # Redirect widget
-    if hasattr(widget, 'redirect'):
-        return redirect(widget.redirect(), permanent=True)
+    if hasattr(widget_obj, 'redirect'):
+        return redirect(widget_obj.redirect(), permanent=True)
 
     # Invalid extension
-    if extension != widget.extension:
+    if extension != widget_obj.extension or color != widget_obj.color:
         kwargs = {
             'project': project,
             'widget': widget,
-            'extension': widget_class.extension,
+            'color': widget_obj.color,
+            'extension': widget_obj.extension,
         }
-        if color:
-            kwargs['color'] = color
         if lang:
             kwargs['lang'] = lang
             return redirect('widget-image-lang', permanent=True, **kwargs)
         return redirect('widget-image', permanent=True, **kwargs)
 
     # Render widget
-    widget.render()
-
-    # Get image data
-    data = widget.get_image()
+    widget_obj.render()
 
     return HttpResponse(
-        content_type=widget.content_type,
-        content=data
+        content_type=widget_obj.content_type,
+        content=widget_obj.get_image()
     )
