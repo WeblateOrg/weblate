@@ -68,6 +68,8 @@ def widgets(request, project):
     widget_list = []
     for widget_name in sorted(WIDGETS, key=widgets_sorter):
         widget_class = WIDGETS[widget_name]
+        if not widget_class.show:
+            continue
         color_list = []
         for color in widget_class.colors:
             if lang is None:

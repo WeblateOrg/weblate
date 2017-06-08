@@ -80,6 +80,7 @@ class Widget(object):
     extension = 'png'
     content_type = 'image/png'
     order = 100
+    show = True
 
     def __init__(self, obj, color=None, lang=None):
         """Create Widget object."""
@@ -304,6 +305,7 @@ class BadgeWidget(Widget):
     colors = ('badge', )
     alpha = True
     order = 90
+    show = False
 
     def get_filename(self):
         if self.percent >= 90:
@@ -342,6 +344,7 @@ class ShieldsBadgeWidget(Widget):
     extension = 'svg'
     content_type = 'image/svg+xml'
     order = 85
+    show = False
 
     def redirect(self):
         if self.percent >= 90:
