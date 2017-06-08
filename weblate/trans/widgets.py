@@ -347,7 +347,7 @@ class SVGBadgeWidget(ContentWidget):
     order = 80
 
     def render(self):
-        translated_text = self.get_text(_('translated'))
+        translated_text = _('translated')
         font = get_font(11, False, is_base(translated_text))
         translated_width = font.getsize(translated_text)[0] + 12
 
