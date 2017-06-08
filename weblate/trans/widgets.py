@@ -32,8 +32,6 @@ from django.template.loader import render_to_string
 
 from PIL import Image, ImageDraw
 
-from six.moves.urllib.parse import quote
-
 from weblate.trans.fonts import is_base, get_font
 from weblate.trans.site import get_site_url
 from weblate.trans.stats import get_per_language_stats
@@ -243,6 +241,19 @@ class Widget(object):
         image.save(out, 'PNG')
         return out.getvalue()
 
+    def redirect_svg(self):
+        """Redirect to matching SVG badge."""
+        kwargs = {
+            'project': self.obj.slug,
+            'widget': 'svg',
+            'color': 'badge',
+            'extension': 'svg',
+        }
+        if self.lang:
+            kwargs['lang'] = self.lang
+            return reverse('widget-image-lang', kwargs=kwargs)
+        return reverse('widget-image', kwargs=kwargs)
+
 
 @register_widget
 class NormalWidget(Widget):
@@ -339,6 +350,7 @@ class BadgeWidget(Widget):
 
 @register_widget
 class ShieldsBadgeWidget(Widget):
+    """Legacy badge which used to redirect to shields.io."""
     name = 'shields'
     colors = ('badge', )
     extension = 'svg'
@@ -347,18 +359,7 @@ class ShieldsBadgeWidget(Widget):
     show = False
 
     def redirect(self):
-        if self.percent >= 90:
-            color = 'brightgreen'
-        elif self.percent >= 75:
-            color = 'yellow'
-        else:
-            color = 'red'
-
-        return 'https://img.shields.io/badge/{0}-{1}-{2}.svg'.format(
-            quote(_('translated').encode('utf-8')),
-            quote(self.get_percent_text()),
-            color
-        )
+        return self.redirect_svg()
 
     def render_texts(self):
         """Text rendering method to be overridden."""
