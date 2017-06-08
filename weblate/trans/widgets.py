@@ -73,8 +73,6 @@ class Widget(object):
     """Generic widget class."""
     name = None
     colors = ('grey', 'white', 'black')
-    progress = {}
-    alpha = False
     extension = 'png'
     content_type = 'image/png'
     order = 100
@@ -115,7 +113,6 @@ class BitmapWidget(ContentWidget):
     name = None
     colors = ('grey', 'white', 'black')
     progress = {}
-    alpha = False
     extension = 'png'
     content_type = 'image/png'
     order = 100
@@ -156,10 +153,7 @@ class BitmapWidget(ContentWidget):
     def render(self):
         """Render widget."""
         # PIL objects
-        if self.alpha:
-            mode = 'RGBA'
-        else:
-            mode = 'RGB'
+        mode = 'RGB'
         self.image = Image.open(self.get_filename()).convert(mode)
         self.draw = ImageDraw.Draw(self.image)
         self.width = self.image.size[0]
@@ -252,10 +246,7 @@ class BitmapWidget(ContentWidget):
     def get_image(self):
         """Return PNG data."""
         out = BytesIO()
-        if self.alpha:
-            image = self.image
-        else:
-            image = self.image.convert('P', palette=Image.ADAPTIVE)
+        image = self.image.convert('P', palette=Image.ADAPTIVE)
         image.save(out, 'PNG')
         return out.getvalue()
 
