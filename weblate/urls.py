@@ -72,7 +72,7 @@ PROJECT_LANG = PROJECT + LANGUAGE + '/'
 WIDGET = r'(?P<widget>[^/-]+)-(?P<color>[^/-]+)'
 
 # Widget extension match
-EXTENSION = r'(?P<extension>(png|svg))'
+EXTENSION = r'(?P<extension>(png|svg|bin))'
 
 handler403 = weblate.trans.views.basic.denied
 

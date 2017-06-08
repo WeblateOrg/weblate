@@ -81,7 +81,10 @@ class WidgetsRenderTest(ViewTestCase):
 
     def assert_widget(self, widget, response):
         if hasattr(WIDGETS[widget], 'redirect'):
-            self.assertEqual(response.status_code, 302)
+            if hasattr(response, 'redirect_chain'):
+                self.assertEqual(response.redirect_chain[0][1], 302)
+            else:
+                self.assertEqual(response.status_code, 302)
         elif 'svg' in WIDGETS[widget].content_type:
             self.assert_svg(response)
         else:
@@ -95,7 +98,7 @@ class WidgetsRenderTest(ViewTestCase):
                     'project': self.project.slug,
                     'widget': widget,
                     'color': color,
-                    'extension': 'png',
+                    'extension': WIDGETS[widget].extension,
                 }
             )
         )
@@ -114,7 +117,7 @@ class WidgetsPercentRenderTest(WidgetsRenderTest):
                         'project': self.project.slug,
                         'widget': widget,
                         'color': color,
-                        'extension': 'png',
+                        'extension': WIDGETS[widget].extension,
                     }
                 )
             )
@@ -132,9 +135,46 @@ class WidgetsLanguageRenderTest(WidgetsRenderTest):
                     'widget': widget,
                     'color': color,
                     'lang': 'cs',
-                    'extension': 'png',
+                    'extension': WIDGETS[widget].extension,
                 }
             )
+        )
+
+        self.assert_widget(widget, response)
+
+
+class WidgetsRedirectRenderTest(WidgetsRenderTest):
+    def perform_test(self, widget, color):
+        response = self.client.get(
+            reverse(
+                'widget-image',
+                kwargs={
+                    'project': self.project.slug,
+                    'widget': widget,
+                    'color': color,
+                    'extension': 'bin'
+                }
+            ),
+            follow=True
+        )
+
+        self.assert_widget(widget, response)
+
+
+class WidgetsLanguageRedirectRenderTest(WidgetsRenderTest):
+    def perform_test(self, widget, color):
+        response = self.client.get(
+            reverse(
+                'widget-image-lang',
+                kwargs={
+                    'project': self.project.slug,
+                    'widget': widget,
+                    'color': color,
+                    'lang': 'cs',
+                    'extension': 'bin'
+                }
+            ),
+            follow=True
         )
 
         self.assert_widget(widget, response)

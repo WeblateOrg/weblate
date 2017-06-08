@@ -137,7 +137,17 @@ def render_widget(request, project, widget='287x66', color=None, lang=None,
         raise Http404()
 
     if extension != widget_class.extension:
-        raise Http404()
+        kwargs = {
+            'project': project,
+            'widget': widget,
+            'extension': widget_class.extension,
+        }
+        if color:
+            kwargs['color'] = color
+        if lang:
+            kwargs['lang'] = lang
+            return redirect('widget-image-lang', **kwargs)
+        return redirect('widget-image', **kwargs)
 
     # Construct object
     widget = widget_class(obj, color, lang)
