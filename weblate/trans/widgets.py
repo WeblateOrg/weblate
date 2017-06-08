@@ -27,7 +27,8 @@ except ImportError:
     from django.utils.encoding import force_text as get_display
 
 from django.core.urlresolvers import reverse
-from django.utils.translation import ugettext as _
+from django.utils.http import urlencode
+from django.utils.translation import ugettext as _, pgettext
 from django.template.loader import render_to_string
 
 from PIL import Image, ImageDraw
@@ -131,6 +132,11 @@ class Widget(object):
             })
         )
 
+    def get_percent_text(self):
+        return pgettext('Translated percents in widget', '{0}%').format(
+            int(self.percent)
+        )
+
     def render(self):
         """Render widget."""
         # PIL objects
@@ -197,8 +203,9 @@ class Widget(object):
         return text % self.params
 
     def render_text(self, text, lang_text, base_font_size, bold_font,
-                    pos_x, pos_y):
-        text = self.get_text(text, lang_text)
+                    pos_x, pos_y, transform=True):
+        if transform:
+            text = self.get_text(text, lang_text)
         base_font = is_base(text)
         offset = 0
 
@@ -317,13 +324,15 @@ class BadgeWidget(Widget):
             _('translated'),
             None,
             10, False,
-            4, 3
+            4, 3,
+            False
         )
         self.render_text(
-            '%(percent)d%%',
+            self.get_percent_text(),
             None,
             10, False,
-            60, 3
+            60, 3,
+            False
         )
 
 
@@ -345,7 +354,7 @@ class ShieldsBadgeWidget(Widget):
 
         return 'https://img.shields.io/badge/{0}-{1}-{2}.svg'.format(
             quote(_('translated').encode('utf-8')),
-            '{0}%25'.format(int(self.percent)),
+            quote(self.get_percent_text()),
             color
         )
 
@@ -367,7 +376,7 @@ class SVGBadgeWidget(Widget):
         font = get_font(11, False, is_base(translated_text))
         translated_width = font.getsize(translated_text)[0] + 12
 
-        percent_text = '{0}%'.format(int(self.percent))
+        percent_text = self.get_percent_text()
         font = get_font(11, False, is_base(percent_text))
         percent_width = font.getsize(percent_text)[0] + 7
 
