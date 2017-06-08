@@ -163,5 +163,5 @@ def render_widget(request, project, widget='287x66', color=None, lang=None,
 
     return HttpResponse(
         content_type=widget_obj.content_type,
-        content=widget_obj.get_image()
+        content=widget_obj.get_content()
     )

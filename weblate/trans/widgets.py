@@ -243,7 +243,7 @@ class BitmapWidget(ContentWidget):
         """Text rendering method to be overridden."""
         raise NotImplementedError()
 
-    def get_image(self):
+    def get_content(self):
         """Return PNG data."""
         out = BytesIO()
         image = self.image.convert('P', palette=Image.ADAPTIVE)
@@ -255,7 +255,7 @@ class SVGWidget(ContentWidget):
     extension = 'svg'
     content_type = 'image/svg+xml; charset=utf-8'
 
-    def get_image(self):
+    def get_content(self):
         return self.image
 
     def render(self):
