@@ -192,6 +192,8 @@ def cleanup_next(strategy, **kwargs):
     url = strategy.session_get('next')
     if url and not is_safe_url(url):
         strategy.session_set('next', None)
+    if 'next' in kwargs and not is_safe_url(kwargs['next']):
+        return {'next': None}
 
 
 def store_params(strategy, user, **kwargs):
