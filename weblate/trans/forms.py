@@ -724,11 +724,16 @@ class MergeForm(ChecksumForm):
             return
         try:
             project = self.translation.subproject.project
-            self.cleaned_data['merge_unit'] = Unit.objects.get(
+            self.cleaned_data['merge_unit'] = merge_unit = Unit.objects.get(
                 pk=self.cleaned_data['merge'],
                 translation__subproject__project=project,
                 translation__language=self.translation.language,
             )
+            unit = self.cleaned_data['unit']
+            if (unit.id_hash != merge_unit.id_hash and
+                    unit.content_hash != merge_unit.content_hash and
+                    unit.source != merge_unit.source):
+                raise ValidationError(_('Merged unit not found!'))
         except Unit.DoesNotExist:
             raise ValidationError(_('Merged unit not found!'))
         return self.cleaned_data
