@@ -312,40 +312,19 @@ class SmallWidget(Widget):
 
 @register_widget
 class BadgeWidget(Widget):
+    """Legacy badge which used to render PNG."""
     name = 'status'
     colors = ('badge', )
     alpha = True
     order = 90
     show = False
 
-    def get_filename(self):
-        if self.percent >= 90:
-            mode = 'passing'
-        elif self.percent >= 75:
-            mode = 'medium'
-        else:
-            mode = 'failing'
-        return os.path.join(
-            os.path.dirname(__file__),
-            'widget-images',
-            'badge-{0}.png'.format(mode)
-        )
+    def redirect(self):
+        return self.redirect_svg()
 
     def render_texts(self):
-        self.render_text(
-            _('translated'),
-            None,
-            10, False,
-            4, 3,
-            False
-        )
-        self.render_text(
-            self.get_percent_text(),
-            None,
-            10, False,
-            60, 3,
-            False
-        )
+        """Text rendering method to be overridden."""
+        raise Exception('Not supported')
 
 
 @register_widget
