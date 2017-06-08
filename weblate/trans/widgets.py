@@ -235,7 +235,12 @@ class Widget(object):
         image.save(out, 'PNG')
         return out.getvalue()
 
-    def redirect_svg(self):
+
+class RedirectWidget(Widget):
+    """Generic redirect widget class."""
+    show = False
+
+    def redirect(self):
         """Redirect to matching SVG badge."""
         kwargs = {
             'project': self.obj.slug,
@@ -305,38 +310,17 @@ class SmallWidget(Widget):
 
 
 @register_widget
-class BadgeWidget(Widget):
+class BadgeWidget(RedirectWidget):
     """Legacy badge which used to render PNG."""
     name = 'status'
     colors = ('badge', )
-    alpha = True
-    order = 90
-    show = False
-
-    def redirect(self):
-        return self.redirect_svg()
-
-    def render_texts(self):
-        """Text rendering method to be overridden."""
-        raise Exception('Not supported')
 
 
 @register_widget
-class ShieldsBadgeWidget(Widget):
+class ShieldsBadgeWidget(RedirectWidget):
     """Legacy badge which used to redirect to shields.io."""
     name = 'shields'
     colors = ('badge', )
-    extension = 'svg'
-    content_type = 'image/svg+xml'
-    order = 85
-    show = False
-
-    def redirect(self):
-        return self.redirect_svg()
-
-    def render_texts(self):
-        """Text rendering method to be overridden."""
-        raise Exception('Not supported')
 
 
 @register_widget
