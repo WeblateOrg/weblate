@@ -108,6 +108,10 @@ class ContentWidget(Widget):
             int(self.percent)
         )
 
+    def get_content(self):
+        """Return content of the badge."""
+        raise NotImplementedError()
+
 
 class BitmapWidget(ContentWidget):
     """Base class for bitmap rendering widgets."""
