@@ -6,3 +6,4 @@ List of Weblate supporters from
 
 * Yashiro Ccs
 * Cheng-Chia Tseng
+* Timon Reinhard
