@@ -802,18 +802,21 @@ class CommaSeparatedIntegerField(forms.Field):
             return []
 
         try:
-            value = [int(item.strip()) for item in value.split(',') if item.strip()]
-        except (ValueError, TypeError) as error:
+            return [
+                int(item.strip()) for item in value.split(',') if item.strip()
+            ]
+        except (ValueError, TypeError):
             raise ValidationError(_('Invalid integer list!'))
-
-        return value
 
 
 class WordForm(forms.Form):
     """Form for adding word to a glossary."""
     source = forms.CharField(label=_('Source'), max_length=190)
     target = forms.CharField(label=_('Translation'), max_length=190)
-    words = CommaSeparatedIntegerField(widget=forms.HiddenInput, required=False)
+    words = CommaSeparatedIntegerField(
+        widget=forms.HiddenInput,
+        required=False
+    )
 
 
 class InlineWordForm(WordForm):
