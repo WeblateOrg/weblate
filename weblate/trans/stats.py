@@ -54,19 +54,26 @@ def get_per_language_stats(project):
     ).order_by()
     for item in data:
         translated = item['translated__sum']
+        total = item['total__sum']
+        if total == 0:
+            percent = 0
+        else:
+            percent = int(100 * translated / total)
 
         # Insert sort
         pos = None
         for i, data in enumerate(result):
-            if translated >= data[1]:
+            if percent >= data[5]:
                 pos = i
                 break
+
         value = (
             languages[item['language']],
             translated,
-            item['total__sum'],
+            total,
             item['translated_words__sum'],
             item['total_words__sum'],
+            percent,
         )
         if pos is not None:
             result.insert(pos, value)
