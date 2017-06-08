@@ -84,25 +84,40 @@ class Widget(object):
         """Create Widget object."""
         # Get object and related params
         self.obj = obj
-        self.percent = obj.get_translated_percent(lang)
-        self.total = obj.get_total()
-        self.languages = obj.get_language_count()
-        self.params = self.get_text_params()
-
-        # Process parameters
         self.color = self.get_color_name(color)
         self.lang = lang
-
-        # Set rendering variables
-        self.image = None
-        self.draw = None
-        self.width = 0
 
     def get_color_name(self, color):
         """Return color name based on allowed ones."""
         if color not in self.colors:
             return self.colors[0]
         return color
+
+
+class ContentWidget(Widget):
+    """Generic content widget class."""
+    name = None
+    colors = ('grey', 'white', 'black')
+    progress = {}
+    alpha = False
+    extension = 'png'
+    content_type = 'image/png'
+    order = 100
+    show = True
+
+    def __init__(self, obj, color=None, lang=None):
+        """Create Widget object."""
+        super(ContentWidget, self).__init__(obj, color, lang)
+        # Get object and related params
+        self.percent = obj.get_translated_percent(lang)
+        self.total = obj.get_total()
+        self.languages = obj.get_language_count()
+        self.params = self.get_text_params()
+
+        # Set rendering variables
+        self.image = None
+        self.draw = None
+        self.width = 0
 
     def get_text_params(self):
         """Create dictionary used for text formatting."""
@@ -255,7 +270,7 @@ class RedirectWidget(Widget):
 
 
 @register_widget
-class NormalWidget(Widget):
+class NormalWidget(ContentWidget):
     name = '287x66'
     progress = {
         'x': 72,
@@ -287,7 +302,7 @@ class NormalWidget(Widget):
 
 
 @register_widget
-class SmallWidget(Widget):
+class SmallWidget(ContentWidget):
     name = '88x31'
     order = 120
 
@@ -324,7 +339,7 @@ class ShieldsBadgeWidget(RedirectWidget):
 
 
 @register_widget
-class SVGBadgeWidget(Widget):
+class SVGBadgeWidget(ContentWidget):
     name = 'svg'
     colors = ('badge', )
     extension = 'svg'
