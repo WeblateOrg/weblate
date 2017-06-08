@@ -136,6 +136,9 @@ def render_widget(request, project, widget='287x66', color=None, lang=None,
     except KeyError:
         raise Http404()
 
+    if extension != widget_class.extension:
+        raise Http404()
+
     # Construct object
     widget = widget_class(obj, color, lang)
 
