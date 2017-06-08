@@ -104,12 +104,6 @@ class Widget(object):
             return self.colors[0]
         return color
 
-    def get_line_width(self):
-        """Return line width for current widget."""
-        if self.color == 'black':
-            return 0.8
-        return 0.2
-
     def get_text_params(self):
         """Create dictionary used for text formatting."""
         return {
