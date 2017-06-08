@@ -96,6 +96,22 @@ class Widget(object):
 
 class ContentWidget(Widget):
     """Generic content widget class."""
+
+    def __init__(self, obj, color=None, lang=None):
+        """Create Widget object."""
+        super(ContentWidget, self).__init__(obj, color, lang)
+        # Get translation status
+        self.percent = obj.get_translated_percent(lang)
+        # Set rendering variables
+        self.image = None
+
+    def get_percent_text(self):
+        return pgettext('Translated percents in widget', '{0}%').format(
+            int(self.percent)
+        )
+
+
+class BitmapWidget(ContentWidget):
     name = None
     colors = ('grey', 'white', 'black')
     progress = {}
@@ -107,15 +123,13 @@ class ContentWidget(Widget):
 
     def __init__(self, obj, color=None, lang=None):
         """Create Widget object."""
-        super(ContentWidget, self).__init__(obj, color, lang)
+        super(BitmapWidget, self).__init__(obj, color, lang)
         # Get object and related params
-        self.percent = obj.get_translated_percent(lang)
         self.total = obj.get_total()
         self.languages = obj.get_language_count()
         self.params = self.get_text_params()
 
         # Set rendering variables
-        self.image = None
         self.draw = None
         self.width = 0
 
@@ -137,11 +151,6 @@ class ContentWidget(Widget):
                 'color': self.color,
                 'widget': self.name,
             })
-        )
-
-    def get_percent_text(self):
-        return pgettext('Translated percents in widget', '{0}%').format(
-            int(self.percent)
         )
 
     def render(self):
@@ -251,6 +260,18 @@ class ContentWidget(Widget):
         return out.getvalue()
 
 
+class SVGWidget(ContentWidget):
+    extension = 'svg'
+    content_type = 'image/svg+xml; charset=utf-8'
+
+    def get_image(self):
+        return self.image
+
+    def render(self):
+        """Rendering method to be implemented."""
+        raise NotImplementedError()
+
+
 class RedirectWidget(Widget):
     """Generic redirect widget class."""
     show = False
@@ -270,7 +291,7 @@ class RedirectWidget(Widget):
 
 
 @register_widget
-class NormalWidget(ContentWidget):
+class NormalWidget(BitmapWidget):
     name = '287x66'
     progress = {
         'x': 72,
@@ -302,7 +323,7 @@ class NormalWidget(ContentWidget):
 
 
 @register_widget
-class SmallWidget(ContentWidget):
+class SmallWidget(BitmapWidget):
     name = '88x31'
     order = 120
 
@@ -339,11 +360,9 @@ class ShieldsBadgeWidget(RedirectWidget):
 
 
 @register_widget
-class SVGBadgeWidget(ContentWidget):
+class SVGBadgeWidget(SVGWidget):
     name = 'svg'
     colors = ('badge', )
-    extension = 'svg'
-    content_type = 'image/svg+xml; charset=utf-8'
     order = 80
 
     def render(self):
@@ -382,16 +401,9 @@ class SVGBadgeWidget(ContentWidget):
             }
         )
 
-    def get_image(self):
-        return self.image
-
-    def render_texts(self):
-        """Text rendering method to be overridden."""
-        raise Exception('Not supported')
-
 
 @register_widget
-class MultiLanguageWidget(SVGBadgeWidget):
+class MultiLanguageWidget(SVGWidget):
     name = 'multi'
     order = 81
     colors = ('red', 'green', 'blue', 'auto')
