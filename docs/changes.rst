@@ -4,6 +4,7 @@ Changes
 weblate 2.15
 ------------
 
+* Show more related translations in other translations.
 * Add option to see translations of current unit to other languages.
 * Use 4 plural forms for Lithuanian by default.
 * Fixed upload for monolingual files of different format.

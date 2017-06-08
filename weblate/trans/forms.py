@@ -728,7 +728,6 @@ class MergeForm(ChecksumForm):
                 pk=self.cleaned_data['merge'],
                 translation__subproject__project=project,
                 translation__language=self.translation.language,
-                id_hash=self.cleaned_data['unit'].id_hash,
             )
         except Unit.DoesNotExist:
             raise ValidationError(_('Merged unit not found!'))

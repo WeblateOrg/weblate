@@ -513,10 +513,7 @@ def translate(request, project, subproject, lang):
     # Prepare form
     form = TranslationForm(request.user.profile, translation, unit)
 
-    others = Unit.objects.same(unit, False)
-    # Is it only this unit?
-    if others.count() == 1:
-        others = Unit.objects.none()
+    others = unit.get_other_units()
 
     return render(
         request,
