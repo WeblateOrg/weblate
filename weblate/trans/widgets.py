@@ -110,6 +110,7 @@ class ContentWidget(Widget):
 
 
 class BitmapWidget(ContentWidget):
+    """Base class for bitmap rendering widgets."""
     name = None
     colors = ('grey', 'white', 'black')
     progress = {}
@@ -252,6 +253,7 @@ class BitmapWidget(ContentWidget):
 
 
 class SVGWidget(ContentWidget):
+    """Base class for SVG rendering widgets."""
     extension = 'svg'
     content_type = 'image/svg+xml; charset=utf-8'
 
