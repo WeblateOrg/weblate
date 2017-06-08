@@ -7,6 +7,25 @@
 {% include "project_info.html" %}
 {% endwith %}
 
+<tr>
+<th>{% trans "Translation process" %}</th>
+<td colspan="2">
+<ul>
+{% if object.suggestion_voting %}
+<li>{% trans "Translations can be made only through suggesting." %}</li>
+<li>{% blocktrans count count=object.suggestion_autoaccept %}Suggestions are automatically accepted as translations once they have {{ count }} vote.{% plural %}Suggestions are automatically accepted as translations once they have {{ count }} votes.{% endblocktrans %}</li>
+{% else %}
+<li>{% trans "Translations can be made directly." %}</li>
+{% endif %}
+{% if object.project.enable_acl %}
+<li>{% trans "Only selected users can contribute." %}</li>
+{% else %}
+<li>{% trans "Any authenticated users can contribute." %}</li>
+{% endif %}
+</ul>
+</td>
+
+
 {% if object.license %}
 <tr>
 <th>{% trans "Translation license" %}</th>
