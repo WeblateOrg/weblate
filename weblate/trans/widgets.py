@@ -432,7 +432,7 @@ class MultiLanguageWidget(SVGBadgeWidget):
         offset = 30
         color = self.COLOR_MAP[self.color]
         for data in get_per_language_stats(self.obj):
-            language, translated, total = data[:3]
+            language = data[0]
             percent = data[5]
             if self.color == 'auto':
                 if percent >= 90:
