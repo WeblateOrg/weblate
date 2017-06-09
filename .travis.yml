@@ -12,13 +12,13 @@ python:
 # build matrix configuration
 env:
   matrix:
-    - CI_PIP_DEPS="Django>=1.10,<1.11" CI_DATABASE=postgresql
-    - CI_PIP_DEPS="Django>=1.11,<1.12" CI_DATABASE=sqlite
-    - CI_PIP_DEPS="Django>=1.11,<1.12" CI_DATABASE=mysql
-    - CI_PIP_DEPS="Django>=1.11,<1.12" CI_DATABASE=postgresql
-    - CI_PIP_DEPS="Django>=1.11,<1.12" CI_DATABASE=postgresql CI_MODE=selenium
-    - CI_PIP_DEPS="Django>=1.11,<1.12" CI_DATABASE=postgresql CI_MODE=setup
-    - CI_PIP_DEPS="sphinxcontrib-httpdomain" CI_MODE=docs
+    - CI_DEPS="Django>=1.10,<1.11" CI_DATABASE=postgresql
+    - CI_DEPS="Django>=1.11,<1.12" CI_DATABASE=sqlite
+    - CI_DEPS="Django>=1.11,<1.12" CI_DATABASE=mysql
+    - CI_DEPS="Django>=1.11,<1.12" CI_DATABASE=postgresql
+    - CI_DEPS="Django>=1.11,<1.12" CI_DATABASE=postgresql CI_MODE=selenium
+    - CI_DEPS="Django>=1.11,<1.12" CI_DATABASE=postgresql CI_MODE=setup
+    - CI_DEPS="sphinxcontrib-httpdomain" CI_MODE=docs
   global:
     - DJANGO_SETTINGS_MODULE=weblate.settings_test
     - CI_MODE=test
@@ -34,7 +34,7 @@ install:
   # Get newer pip and whell for binary caching support
   - pip install --upgrade pip wheel
   # Install PyPI packages
-  - pip install $CI_PIP_DEPS Cython
+  - pip install $CI_DEPS Cython
   - pip install -r requirements-optional.txt -r ci/requirements-travis.txt -r ci/requirements-${CI_DATABASE}.txt
   - if [ "$CI_MODE" = selenium -a -n "$SAUCE_USERNAME" -a -n "$SAUCE_ACCESS_KEY" ] ; then ./ci/install-sauce ; fi
 # create databases
@@ -61,7 +61,7 @@ sudo: false
 matrix:
   include:
     - python: "3.5"
-      env: CI_PIP_DEPS="Django>=1.11,<1.12" CI_DATABASE=postgresql
+      env: CI_DEPS="Django>=1.11,<1.12" CI_DATABASE=postgresql
 addons:
   apt:
     packages:
