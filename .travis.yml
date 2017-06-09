@@ -49,6 +49,8 @@ script:
   - ./ci/run-$CI_MODE
 # upload coverage
 after_script:
+  # Kill Sauce Connect Proxy if running
+  - if [ -f ~/.sauce-pid ] ; then kill `cat ~/.sauce-pid` ; fi
   # Combine partial reports
   - coverage combine
   - coverage xml

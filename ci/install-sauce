@@ -12,6 +12,8 @@ $SC_TEMP/*/bin/sc \
     -f $SC_TEMP/ready \
     -l $SC_TEMP/log &
 
+echo $! > ~/.sauce-pid
+
 echo "Waiting for Sauce Connect readyfile"
 while [ ! -f $SC_TEMP/ready ]; do
     sleep .5
