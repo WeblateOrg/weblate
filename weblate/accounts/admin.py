@@ -21,8 +21,10 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin, GroupAdmin
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.models import User
+from django.utils.translation import ugettext_lazy as _
 
-from weblate.accounts.forms import UniqueEmailMixin
+from weblate.accounts.forms import UniqueEmailMixin, FullNameField, UsernameField
 
 
 class AuditLogAdmin(admin.ModelAdmin):
@@ -58,16 +60,30 @@ class VerifiedEmailAdmin(admin.ModelAdmin):
 
 
 class WeblateUserChangeForm(UserChangeForm):
+    class Meta:
+        model = User
+        fields = '__all__'
+        field_classes = {
+            'username': UsernameField,
+            'first_name': FullNameField,
+        }
+
     def __init__(self, *args, **kwargs):
         super(WeblateUserChangeForm, self).__init__(*args, **kwargs)
         self.fields['email'].required = True
+        self.fields['username'].valid = self.instance.username
 
 
 class WeblateUserCreationForm(UserCreationForm, UniqueEmailMixin):
     validate_unique_mail = True
 
     class Meta(object):
-        fields = ('username', 'email')
+        model = User
+        fields = ('username', 'email', 'first_name')
+        field_classes = {
+            'username': UsernameField,
+            'first_name': FullNameField,
+        }
 
     def __init__(self, *args, **kwargs):
         super(WeblateUserCreationForm, self).__init__(*args, **kwargs)
@@ -83,10 +99,16 @@ class WeblateUserAdmin(UserAdmin):
     form = WeblateUserChangeForm
     add_form = WeblateUserCreationForm
     add_fieldsets = (
-        (None, {
-            'classes': ('wide',),
-            'fields': ('username', 'email', 'password1', 'password2'),
-        }),
+        (None, {'fields': ('username',)}),
+        (_('Personal info'), {'fields': ('first_name', 'email')}),
+        (_('Authentication'), {'fields': ('password1', 'password2')}),
+    )
+    fieldsets = (
+        (None, {'fields': ('username', 'password')}),
+        (_('Personal info'), {'fields': ('first_name', 'email')}),
+        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
+                                       'groups', 'user_permissions')}),
+        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
     )
 
     def user_groups(self, obj):
