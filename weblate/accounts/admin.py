@@ -24,7 +24,9 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 
-from weblate.accounts.forms import UniqueEmailMixin, FullNameField, UsernameField
+from weblate.accounts.forms import (
+    UniqueEmailMixin, FullNameField, UsernameField,
+)
 
 
 class AuditLogAdmin(admin.ModelAdmin):
@@ -106,8 +108,10 @@ class WeblateUserAdmin(UserAdmin):
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
         (_('Personal info'), {'fields': ('first_name', 'email')}),
-        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
-                                       'groups', 'user_permissions')}),
+        (_('Permissions'), {'fields': (
+            'is_active', 'is_staff', 'is_superuser',
+            'groups', 'user_permissions'
+        )}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
     )
 
