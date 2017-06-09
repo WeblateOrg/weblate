@@ -20,19 +20,18 @@
 
 from __future__ import unicode_literals
 
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
-from django.shortcuts import redirect, get_object_or_404
-from django.utils import translation
-from django.utils.html import escape
-from django.utils.safestring import mark_safe
-from django.utils.translation import ugettext as _
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum, Count, F
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
-from django.utils.safestring import mark_safe
+from django.shortcuts import redirect, get_object_or_404
+from django.utils import translation
 from django.utils.encoding import force_text
+from django.utils.html import escape
 from django.utils.http import urlencode
+from django.utils.safestring import mark_safe
+from django.utils.translation import ugettext as _
 import django.views.defaults
 
 from weblate.utils import messages
