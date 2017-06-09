@@ -34,10 +34,10 @@ install:
   - wget --no-check-certificate -O - https://dl.cihar.com/ci/tesseract.tar.xz | tar xJ
   - if [ ! -f $TESSERACT_PKG/tesseract.pc -o ! -f $TESSERACT_PKG/lept.pc ] ; then ./ci/install-tesseract ; fi
   # Get newer pip and whell for binary caching support
-  # - pip install --upgrade pip wheel
+  - pip install --upgrade pip wheel
   # Install PyPI packages
   - pip install $CI_PIP_DEPS Cython
-  - pip install -r requirements-optional.txt -r ci/requirements-${CI_REQUIREMENTS}.txt -r ci/requirements-${CI_DATABASE}.txt
+  - pip install --no-binary :all: -r requirements-optional.txt -r ci/requirements-${CI_REQUIREMENTS}.txt -r ci/requirements-${CI_DATABASE}.txt
   - if [ "$CI_MODE" = selenium -a -n "$SAUCE_USERNAME" -a -n "$SAUCE_ACCESS_KEY" ] ; then ./ci/install-sauce ; fi
 # create databases
 before_script:
