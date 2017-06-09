@@ -548,20 +548,6 @@ class GitRepository(Repository):
         self.execute(['rm', '--force', '--'] + files)
         self.commit(message, author)
 
-    def get_object_hash(self, path):
-        """Return hash of object in the VCS."""
-        real_path = self.resolve_symlinks(path)
-
-        git_hash = self.execute(
-            ['ls-tree', 'HEAD', real_path],
-            needs_lock=False
-        )
-
-        if not git_hash:
-            return super(GitRepository, self).get_object_hash(path)
-
-        return git_hash.split()[2]
-
     def configure_remote(self, pull_url, push_url, branch):
         """Configure remote repository."""
         old_pull = None
