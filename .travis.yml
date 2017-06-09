@@ -1,7 +1,7 @@
 #
 # Weblate testsuite for Travis-CI
 #
-# - Test against all supported Django versions with sqlite
+# - Test against all supported Django versions with postgresql
 # - Test against all supported databases with current Django
 # - Run Selenium tests on current Django
 # - Test setup.py
@@ -12,18 +12,18 @@ python:
 # build matrix configuration
 env:
   matrix:
-    - CI_PIP_DEPS="Django>=1.11,<1.12"
-    - CI_PIP_DEPS="Django>=1.11,<1.12" CI_MODE=setup
+    - CI_PIP_DEPS="Django>=1.10,<1.11" CI_DATABASE=postgresql
+    - CI_PIP_DEPS="Django>=1.11,<1.12" CI_DATABASE=sqlite
     - CI_PIP_DEPS="Django>=1.11,<1.12" CI_DATABASE=mysql
     - CI_PIP_DEPS="Django>=1.11,<1.12" CI_DATABASE=postgresql
     - CI_PIP_DEPS="Django>=1.11,<1.12" CI_DATABASE=postgresql CI_MODE=selenium
-    - CI_PIP_DEPS="Django>=1.10,<1.11" CI_DATABASE=postgresql
+    - CI_PIP_DEPS="Django>=1.11,<1.12" CI_DATABASE=postgresql CI_MODE=setup
     - CI_PIP_DEPS="sphinxcontrib-httpdomain" CI_MODE=docs
   global:
     - DJANGO_SETTINGS_MODULE=weblate.settings_test
     - CI_REQUIREMENTS=travis
     - CI_MODE=test
-    - CI_DATABASE=sqlite
+    - CI_DATABASE=postgresql
 # commands to install dependencies
 install:
   - export TESSERACT_INSTALL=`pwd`/.tesseract
@@ -63,7 +63,7 @@ sudo: false
 matrix:
   include:
     - python: "3.5"
-      env: CI_PIP_DEPS="Django>=1.11,<1.12"
+      env: CI_PIP_DEPS="Django>=1.11,<1.12" CI_DATABASE=postgresql
 addons:
   apt:
     packages:
