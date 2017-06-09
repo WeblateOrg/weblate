@@ -21,9 +21,7 @@ env:
     - CI_PIP_DEPS="sphinxcontrib-httpdomain" CI_MODE=docs
   global:
     - DJANGO_SETTINGS_MODULE=weblate.settings_test
-    - CI_REQUIREMENTS=travis
     - CI_MODE=test
-    - CI_DATABASE=postgresql
 # commands to install dependencies
 install:
   - export TESSERACT_INSTALL=`pwd`/.tesseract
@@ -37,7 +35,7 @@ install:
   - pip install --upgrade pip wheel
   # Install PyPI packages
   - pip install $CI_PIP_DEPS Cython
-  - pip install -r requirements-optional.txt -r ci/requirements-${CI_REQUIREMENTS}.txt -r ci/requirements-${CI_DATABASE}.txt
+  - pip install -r requirements-optional.txt -r ci/requirements-travis.txt -r ci/requirements-${CI_DATABASE}.txt
   - if [ "$CI_MODE" = selenium -a -n "$SAUCE_USERNAME" -a -n "$SAUCE_ACCESS_KEY" ] ; then ./ci/install-sauce ; fi
 # create databases
 before_script:
