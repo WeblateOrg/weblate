@@ -18,8 +18,13 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
+
+from django.core.urlresolvers import reverse
 from django.shortcuts import redirect, get_object_or_404
 from django.utils import translation
+from django.utils.html import escape
+from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum, Count, F
@@ -144,7 +149,10 @@ def home(request):
     if not user.is_anonymous and user.first_name == '':
         messages.warning(
             request,
-            _('Please set your full name in your profile.')
+            mark_safe('<a href="{0}">{1}</a>'.format(
+                reverse('profile') + '#account',
+                escape(_('Please set your full name in your profile.'))
+            ))
         )
 
     # Some stats
