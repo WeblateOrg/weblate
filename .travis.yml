@@ -34,7 +34,7 @@ install:
   - wget --no-check-certificate -O - https://dl.cihar.com/ci/tesseract.tar.xz | tar xJ
   - if [ ! -f $TESSERACT_PKG/tesseract.pc -o ! -f $TESSERACT_PKG/lept.pc ] ; then ./ci/install-tesseract ; fi
   # Get newer pip and whell for binary caching support
-  - pip install --upgrade pip wheel
+  # - pip install --upgrade pip wheel
   # Install PyPI packages
   - pip install $CI_PIP_DEPS Cython
   - pip install -r requirements-optional.txt -r ci/requirements-${CI_REQUIREMENTS}.txt -r ci/requirements-${CI_DATABASE}.txt
