@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-06-08 08:25+0000\n"
-"PO-Revision-Date: 2017-05-28 11:59+0000\n"
+"PO-Revision-Date: 2017-06-11 21:20+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
-"Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/master/he/"
-">\n"
+"Language-Team: Hebrew "
+"<https://hosted.weblate.org/projects/weblate/master/he/>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.14.1\n"
+"X-Generator: Weblate 2.15-dev\n"
 
 #: weblate/accounts/avatar.py:163
 msgctxt "No known user"
@@ -31,10 +31,8 @@ msgid ""
 msgstr "כתובת דוא״ל זו כבר בשימוש. נא לספק כתובת דוא״ל אחרת."
 
 #: weblate/accounts/forms.py:102
-#, fuzzy
-#| msgid "Email addresses"
 msgid "Enter a valid email address."
-msgstr "כתובת דוא״ל"
+msgstr "נא להקליד כתובת דוא״ל תקנית."
 
 #: weblate/accounts/forms.py:109
 msgid ""
@@ -121,11 +119,11 @@ msgstr "אימות הססמה החדשה"
 
 #: weblate/accounts/forms.py:406
 msgid "You can not change password to the one you are currently using!"
-msgstr ""
+msgstr "אין אפשרות לשנות את הססמה לאותה אחת שמוגדרת כרגע!"
 
 #: weblate/accounts/forms.py:425
 msgid "Your password has been changed."
-msgstr "סיסמתך שונתה."
+msgstr "ססמתך הוחלפה."
 
 #: weblate/accounts/forms.py:454
 #, python-format
@@ -135,10 +133,8 @@ msgid "What is %s?"
 msgstr "כמה זה %s?"
 
 #: weblate/accounts/forms.py:464
-#, fuzzy
-#| msgid "Please check your math and try again."
 msgid "Please check your math and try again with new expression."
-msgstr "נא לבדוק את החישובים שלך ולנסות שוב."
+msgstr "נא לבדוק את החישובים שלך ולנסות שוב עם ביטוי חדש."
 
 #: weblate/accounts/forms.py:482
 msgid "Current password"
@@ -214,10 +210,8 @@ msgid "Password has been changed."
 msgstr "הססמה הוחלפה."
 
 #: weblate/accounts/models.py:56
-#, fuzzy
-#| msgid "Password reset has been confirmed."
 msgid "Password reset has been requested."
-msgstr "איפוס הססמה התקבל."
+msgstr "הבקשה לאיפוס הססמה התקבלה."
 
 #: weblate/accounts/models.py:59
 msgid "Password reset has been confirmed."
@@ -257,7 +251,7 @@ msgstr "החשבון ננעל עקב ריבוי ניסיונות אימות כו
 
 #: weblate/accounts/models.py:83
 msgid "Account and all private data have been removed."
-msgstr ""
+msgstr "החשבון וכל הנתונים האישיים הוסרו."
 
 #: weblate/accounts/models.py:191 weblate/templates/accounts/profile.html:304
 msgid "Account activity"
@@ -265,7 +259,7 @@ msgstr "פעילות בחשבון"
 
 #: weblate/accounts/models.py:289
 msgid "Interface Language"
-msgstr "שפת ממשק"
+msgstr "שפת מנשק"
 
 #: weblate/accounts/models.py:296
 msgid "Translated languages"
@@ -296,7 +290,7 @@ msgstr "הצגת תרגומים משניים במצב ריכוז"
 
 #: weblate/accounts/models.py:322
 msgid "Hide source if there is secondary language"
-msgstr "הסתר מקור אם ישנה שפה משנית"
+msgstr "הסתרת מקור אם ישנה שפה משנית"
 
 #: weblate/accounts/models.py:328
 msgid "Editor link"
@@ -371,11 +365,11 @@ msgstr "הודעה עם כל תרגום"
 
 #: weblate/accounts/models.py:400
 msgid "Notification on new string to translate"
-msgstr "הודעה על מחרוזת חדשה לתרגם"
+msgstr "התרעה על מחרוזת חדשה לתרגום"
 
 #: weblate/accounts/models.py:404
 msgid "Notification on new suggestion"
-msgstr "הודעה על הצעה חדשה"
+msgstr "התרעה על הצעה חדשה"
 
 #: weblate/accounts/models.py:408
 msgid "Notification on new contributor"
@@ -391,7 +385,7 @@ msgstr "הודעה על שגיאת מיזוג"
 
 #: weblate/accounts/models.py:420
 msgid "Notification on new language request"
-msgstr "התראה על בקשת שפה חדשה"
+msgstr "התרעה על בקשת שפה חדשה"
 
 #: weblate/accounts/models.py:473
 msgid "Component list must be selected when used as default."
@@ -421,21 +415,19 @@ msgstr "הססמה שלך לא יכולה להיות מורכבת מתו בוד�
 
 #: weblate/accounts/pipeline.py:263
 msgid "You can not complete password reset while logged in!"
-msgstr ""
+msgstr "לא ניתן להשלים את איפוס הססמה בעודך בחשבון!"
 
 #: weblate/accounts/pipeline.py:267 weblate/accounts/pipeline.py:291
-#, fuzzy
-#| msgid "Translation comment has been deleted."
 msgid "The registration link has been invalidated."
-msgstr "ההערה על התרגום נמחקה."
+msgstr "תוקף קישור ההרשמה פג."
 
 #: weblate/accounts/pipeline.py:282
 msgid "You can not complete registration while logged in!"
-msgstr ""
+msgstr "לא ניתן להשלים את ההרשמה בעודך בחשבון!"
 
 #: weblate/accounts/pipeline.py:287
 msgid "You can confirm your registration only while logged in!"
-msgstr ""
+msgstr "ניתן לאמת את ההרשמה רק לאחר כניסה לחשבון!"
 
 #: weblate/accounts/pipeline.py:396
 #, python-brace-format
@@ -449,7 +441,7 @@ msgstr "רישום משתמש"
 
 #: weblate/accounts/views.py:133
 msgid "Message could not be sent to administrator!"
-msgstr "הודעה לא היתה יכולה להישלח למנהל!"
+msgstr "לא ניתן לשלוח את ההודעה למנהל!"
 
 #: weblate/accounts/views.py:151
 msgid "Message has been sent to administrator."
@@ -457,7 +449,7 @@ msgstr "הודעה נשלחה למנהל."
 
 #: weblate/accounts/views.py:159
 msgid "You cannot change demo account on the demo server."
-msgstr "אינך יכול לשנות חשבון הדגמה על שרת הדגמה."
+msgstr "אין לך הרשאה לשנות חשבון הדגמה על שרת ההדגמה."
 
 #: weblate/accounts/views.py:243
 msgid "Your profile has been updated."
@@ -478,7 +470,7 @@ msgstr "נשלחו יותר מדי הודעות, נא לנסות שוב מאוח
 #: weblate/accounts/views.py:402 weblate/templates/accounts/contact.html:6
 #: weblate/templates/accounts/contact.html:21
 msgid "Contact"
-msgstr "צור קשר"
+msgstr "יצירת קשר"
 
 #: weblate/accounts/views.py:435 weblate/templates/accounts/hosting.html:7
 msgid "Hosting"
@@ -491,7 +483,7 @@ msgstr "כניסה"
 
 #: weblate/accounts/views.py:521 weblate/admin.py:141
 msgid "Thanks for using Weblate!"
-msgstr "תודה על שהשתמשתם במערכת Weblate!"
+msgstr "תודה על השימוש במערכת Weblate!"
 
 #: weblate/accounts/views.py:603 weblate/templates/accounts/email.html:16
 msgid "Register email"
@@ -500,7 +492,7 @@ msgstr "הרשמה דוא\"ל"
 #: weblate/accounts/views.py:645 weblate/templates/accounts/password.html:13
 #: weblate/templates/accounts/profile.html:192
 msgid "Change password"
-msgstr "שינוי ססמה"
+msgstr "החלפת ססמה"
 
 #: weblate/accounts/views.py:668 weblate/accounts/views.py:718
 #: weblate/templates/accounts/reset.html:7
@@ -520,7 +512,7 @@ msgstr "אימות ההרשמה נכשל! כנראה שאסימון האימות
 
 #: weblate/accounts/views.py:814
 msgid "Authentication failed due to invalid session state."
-msgstr ""
+msgstr "האימות נכשל עקב מצב הפעלה שגוי."
 
 #: weblate/accounts/views.py:828
 msgid "Can not change authentication for demo!"
@@ -528,24 +520,22 @@ msgstr "לא ניתן לשנות את האימות למערכת ההדגמה!"
 
 #: weblate/accounts/views.py:832
 msgid "New registrations are disabled!"
-msgstr "הרשמות חדשות הינן מנוטרלות!"
+msgstr "הרשמות חדשות מנוטרלות!"
 
 #: weblate/accounts/views.py:839
 msgid ""
 "Authentication has failed, probably due to expired token or connection error."
-msgstr ""
+msgstr "האימות נכשל, כנראה עקב אסימון שתוקפו פג או בעיית חיבור."
 
 #: weblate/accounts/views.py:843
-#, fuzzy
-#| msgid "Authentication using {method} ({name}) has been added."
 msgid "Authentication has been cancelled."
-msgstr "נוסף אימות באמצעות {method} ‏({name})."
+msgstr "האימות בוטל."
 
 #: weblate/accounts/views.py:846
 msgid ""
 "Failed to complete your registration! This authentication is already "
 "associated with another account!"
-msgstr ""
+msgstr "השלמת ההרשמה שלך נכשלה! האימות כבר משויך לחשבון אחר!"
 
 #: weblate/admin.py:68 weblate/admin.py:69
 msgid "Weblate administration"
@@ -573,7 +563,7 @@ msgstr "ניסיון"
 
 #: weblate/billing/models.py:71
 msgid "Expired"
-msgstr "פקעה"
+msgstr "פגה"
 
 #: weblate/billing/models.py:90
 msgid "Changes in last month"
@@ -589,7 +579,7 @@ msgstr "שינויים בשנה האחרונה"
 
 #: weblate/billing/models.py:112 weblate/trans/admin.py:45
 msgid "VCS repositories"
-msgstr "מאגרי VCS"
+msgstr "מאגרי ניהול גרסאות קוד"
 
 #: weblate/billing/models.py:134 weblate/trans/models/project.py:319
 msgid "Source strings"
@@ -811,15 +801,15 @@ msgstr "{name} (לדוגמה: {examples})"
 #: weblate/legal/templates/legal/security.html:6
 #: weblate/legal/templates/legal/terms.html:5 weblate/templates/footer.html:7
 msgid "Legal"
-msgstr ""
+msgstr "משפטי"
 
 #: weblate/legal/templates/legal/cookies.html:6 weblate/legal/views.py:40
 msgid "Cookies"
-msgstr ""
+msgstr "עוגיות"
 
 #: weblate/legal/templates/legal/cookies.html:16
 msgid "Cookies Policy"
-msgstr ""
+msgstr "מדיניות עוגיות"
 
 #: weblate/legal/templates/legal/cookies.html:21
 #: weblate/legal/templates/legal/index.html:20
@@ -828,87 +818,94 @@ msgid ""
 "This page is based on <a href=\"%(terms_url)s\">Terms of Service</a>, you "
 "should still read the original document to fully understand it."
 msgstr ""
+"עמוד זה מבוסס על <a href=\"%(terms_url)s\">תנאי השירות</a>, עליך עדיין לקרוא "
+"את המסמך המקורי כדי להבין אותו במלואו."
 
 #: weblate/legal/templates/legal/cookies.html:25
 msgid "We use cookies for following purposes:"
-msgstr ""
+msgstr "אנו משתמשים בעוגיות למטרות הבאות:"
 
 #: weblate/legal/templates/legal/cookies.html:29
 msgid ""
 "Authentication cookies which are required for recognizing authenticated "
 "users."
-msgstr ""
+msgstr "עוגיות אימות נדרשות לצורך זיהוי משתמשים שעברו אימות."
 
 #: weblate/legal/templates/legal/cookies.html:30
 msgid "Preferences cookie to store user preferences in certain situations."
-msgstr ""
+msgstr "עוגיית העדפות שומרת את העדפות המשתמש במצבים מסוימים."
 
 #: weblate/legal/templates/legal/cookies.html:31
 msgid ""
 "We use Piwik to analyze traffic on our website. Piwik does respect Do Not "
 "Track settings in your browser."
 msgstr ""
+"אנו משתמשים ב־Piwik כדי לנתח את התעבורה באתר שלנו. המנגנון של Piwik מכבד את "
+"הגדרות מניעת המעקב בדפדפן שלך."
 
 #: weblate/legal/templates/legal/cookies.html:35
-#, fuzzy
-#| msgid ""
-#| "You can find more information about setting up SSH keys in <a href="
-#| "\"%(ssh_docs)s\">the Weblate manual</a>."
 msgid ""
 "You can find more information about cookies in the <a href=\"https://en."
 "wikipedia.org/wiki/HTTP_cookie\">Wikipedia article</a>."
 msgstr ""
-"ניתן למצוא פרטים נוספים על הגדרת מפתחות SSH תחת <a href=\"%(ssh_docs)s"
-"\">המדריך של Weblate</a>."
+"ניתן למצוא פרטים נוספים על עוגיות ב<a href=\""
+"https://he.wikipedia.org/wiki/עוגייה_(אינטרנט)\">ערך בוויקיפדיה</a>."
 
 #: weblate/legal/templates/legal/index.html:15
 msgid "Legal Terms Overview"
-msgstr ""
+msgstr "סקירת התנאים המשפטיים"
 
 #: weblate/legal/templates/legal/index.html:24
 msgid ""
 "The services are provided “as is”, at your own risk, without any warranty."
-msgstr ""
+msgstr "השירותים מסופקים „כמות שהם“, באחריותך הבלעדית וללא שום אחריות."
 
 #: weblate/legal/templates/legal/index.html:25
 msgid ""
 "Additional guarantees might apply to commercial customers, those are "
 "expressed in corresponding contracts."
 msgstr ""
+"ערבויות נוספות עשויות לחול על משתמשים מסחריים, אלה מיוצגות בחוזים מתאימים."
 
 #: weblate/legal/templates/legal/index.html:26
 msgid ""
 "We process private data (such as your email), those will be discarded from "
 "our database as soon as you remove your account."
 msgstr ""
+"אנו מעבדים נתונים אישיים (כגון כתובת הדוא״ל שלך), נתונים אלו נמחקים ממסד "
+"הנתונים שלנו עם הסרת החשבון שלך."
 
 #: weblate/legal/templates/legal/index.html:27
 msgid ""
 "Your translations are made under license which is specified by each "
 "translation."
-msgstr ""
+msgstr "על התרגומים שלך חלים הרישיונות שצוינו בידי מיזם התרגום עצמו."
 
 #: weblate/legal/templates/legal/index.html:28
 msgid "Your name and email is used in VCS commits, it will stay there forever."
 msgstr ""
+"נעשה שימוש בשמך ובכתובת הדוא״ל שלך בהגשות למערכת בקרת גרסאות הקוד, אלו "
+"יישארו שם לנצח."
 
 #: weblate/legal/templates/legal/index.html:29
 msgid "We use cookies to deliver our services."
-msgstr ""
+msgstr "אנו משתמשים בעוגיות כדי להגיש את השירותים שלנו."
 
 #: weblate/legal/templates/legal/security.html:7 weblate/legal/views.py:45
 msgid "Security"
-msgstr ""
+msgstr "אבטחה"
 
 #: weblate/legal/templates/legal/security.html:17
 msgid "Security Policy"
-msgstr ""
+msgstr "מדיניות אבטחה"
 
 #: weblate/legal/templates/legal/security.html:22
 msgid ""
 "At Weblate, we take security seriously and strive to maintain an environment "
 "that values the security and privacy of our users."
 msgstr ""
+"ב־Weblate אנו מתייחסים לאבטחה ברצינות רבה וחותרים לקיים סביבה שמעריכה אבטחה "
+"ואת פרטיות המשתמשים שלנו."
 
 #: weblate/legal/templates/legal/security.html:26
 #, python-format
@@ -916,24 +913,24 @@ msgid ""
 "Please see our <a href=\"%(security_url)s\">documentation</a> for "
 "instructions how to report security weakness in our platform."
 msgstr ""
+"נא לבקר ב<a href=\"%(security_url)s\">תיעוד</a> שלנו לקבלת הנחיות בנוגע "
+"לדיווח על חולשות אבטחה בפלטפורמה שלנו."
 
 #: weblate/legal/templates/legal/terms.html:6
 msgid "Terms"
-msgstr ""
+msgstr "תנאים"
 
 #: weblate/legal/templates/legal/terms.html:16 weblate/legal/views.py:35
-#, fuzzy
-#| msgid "Service"
 msgid "Terms of Service"
-msgstr "שירות"
+msgstr "תנאי השירות"
 
 #: weblate/legal/templates/legal/terms.html:19
 msgid "The Terms of Service document is currently available only in English."
-msgstr ""
+msgstr "מסמך תנאי השירות זמין רק באנגלית נכון לעכשיו."
 
 #: weblate/legal/views.py:30 weblate/templates/translation.html:29
 msgid "Overview"
-msgstr "סקירה מקיפה"
+msgstr "סקירה"
 
 #: weblate/permissions/admin.py:40
 msgid "Project / Component"
@@ -1052,24 +1049,24 @@ msgstr "המקור הוסר."
 
 #: weblate/templates/403.html:5 weblate/trans/views/basic.py:553
 msgid "Permission Denied"
-msgstr "גישה נאסרה"
+msgstr "הגישה נדחתה"
 
 #: weblate/templates/403.html:11
 msgid "You don't have privileges to display this page."
-msgstr "אין לך הרשאות כדי להציג את עמוד זה."
+msgstr "אין לך הרשאות להצגת עמוד זה."
 
 #: weblate/templates/403.html:14
 msgid "Login to Weblate"
-msgstr "התחבר אל Weblate"
+msgstr "כניסה אל Weblate"
 
 #: weblate/templates/403.html:20 weblate/templates/404.html:19
 msgid ""
 "However the following translation projects are available on this server:"
-msgstr "עם זאת, מיזמי התרגום הבאים הינם זמינים בשרת זה:"
+msgstr "עם זאת, מיזמי התרגום הבאים זמינים בשרת זה:"
 
 #: weblate/templates/404.html:5 weblate/trans/views/basic.py:540
 msgid "Page Not Found"
-msgstr "עמוד לא נמצא"
+msgstr "העמוד לא נמצא"
 
 #: weblate/templates/404.html:11
 msgid "The page you are looking for was not found."
@@ -1093,8 +1090,8 @@ msgid ""
 "The server had serious problems while serving your request. We've just sent "
 "our trained monkeys to fix the issue."
 msgstr ""
-"השרת חווה תקלות רציניות בעת עיבוד בקשתך. שלחנו צוות קופים מאולפים כדי תקן את "
-"הבעיה."
+"השרת חווה תקלות רציניות בעת עיבוד בקשתך. שלחנו צוות קופים מאולפים כדי לתקן "
+"את הבעיה."
 
 #: weblate/templates/about.html:5 weblate/templates/about.html:13
 #: weblate/templates/footer.html:6 weblate/trans/views/basic.py:581
@@ -1108,9 +1105,9 @@ msgid ""
 "translations across components, quality checks and automatic linking to "
 "source files."
 msgstr ""
-"Weblate הינו כלי תרגום מבוסס רשת עם שילוב version control הדוק. הוא כולל "
-"ממשק משתמש פשוט ונקי, התפשטות של תרגומים על פני רכיבים, בדיקות איכות וקישור "
-"אוטומטי לקבצי מקור."
+"Weblate הנו כלי תרגום מבוסס שליטת דפדפן עם שילוב הדוק במערכת ניהול גרסאות "
+"קוד. לכלי מנשק משתמש פשוט ונקי, הפצה של תרגומים בין רכיבים שונים, בדיקות "
+"איכות וקישור אוטומטי לקובצי מקור."
 
 #: weblate/templates/about.html:18 weblate/templates/accounts/contact.html:13
 #, python-format
@@ -1118,20 +1115,20 @@ msgid ""
 "If you are looking for support for Weblate or want to file bug reports check "
 "its website at <a href=\"%(weblate_url)s\">weblate.org</a>."
 msgstr ""
-"אם אתם מחפשים תמיכה עבור Weblate או שברצונכם לדווח על תקלה, בדקו את האתר <a "
-"href=\"%(weblate_url)s\">weblate.org</a>."
+"אם יש לך צורך בתמיכה עבור Weblate או לדווח על תקלה, כדאי לבקר באתר <a href=\""
+"%(weblate_url)s\">weblate.org</a>."
 
 #: weblate/templates/about.html:20
 msgid ""
 "Weblate is free software created by volunteers, but you can still support "
 "them financially."
 msgstr ""
-"Weblate הינו מיזם חופשי אשר נוצר על ידי מתנדבים, אך אתם יכולים עדיין לתמוך "
-"בהם כלכלית."
+"Weblate הוא מיזם תכנה חופשית שנוצר על ידי מתנדבים, אך בכל זאת ניתן לתמוך בהם "
+"כלכלית."
 
 #: weblate/templates/about.html:24
 msgid "Fund Weblate!"
-msgstr "ממנו את Weblate!"
+msgstr "הצעת מימון ל־Weblate!"
 
 #: weblate/templates/about.html:25 weblate/templates/footer.html:10
 msgid "Donate to Weblate!"
@@ -1277,7 +1274,7 @@ msgstr "נא לבדוק מראש אם המיזם שלך זכאי לאירוח מ
 
 #: weblate/templates/accounts/hosting.html:33
 msgid "Conditions for free hosting"
-msgstr "תנאים לצורך ארוח חינמי"
+msgstr "תנאים לצורך אירוח חינמי"
 
 #: weblate/templates/accounts/hosting.html:36
 msgid ""
@@ -1314,12 +1311,12 @@ msgstr ""
 
 #: weblate/templates/accounts/login.html:27
 msgid "Password login"
-msgstr "סיסמת כניסה"
+msgstr "כניסה עם ססמה"
 
 #: weblate/templates/accounts/login.html:35
 #, python-format
 msgid "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
-msgstr "שכחת את סיסמתך? באפשרותך <a href=\"%(reset_url)s\">לאפס אותה</a>."
+msgstr "שכחת את ססמתך? ניתן <a href=\"%(reset_url)s\">לאפס אותה</a>."
 
 #: weblate/templates/accounts/login.html:55
 msgid "Third party login"
@@ -1584,7 +1581,7 @@ msgstr "כתובת IP"
 
 #: weblate/templates/accounts/profile.html:317
 msgid "Hidden"
-msgstr ""
+msgstr "מוסתר"
 
 #: weblate/templates/accounts/profile.html:322
 msgid "No recent activity found!"
@@ -1604,7 +1601,7 @@ msgstr ""
 
 #: weblate/templates/accounts/profile.html:352
 msgid "Your personal API key:"
-msgstr "מפתח API האישי שלך:"
+msgstr "מפתח ה־API האישי שלך:"
 
 #: weblate/templates/accounts/profile.html:359
 msgid "Regenerate API key"
@@ -1657,7 +1654,7 @@ msgstr "מיזם"
 
 #: weblate/templates/accounts/profile.html:425 weblate/trans/forms.py:1112
 msgid "License"
-msgstr "רשיון"
+msgstr "רישיון"
 
 #: weblate/templates/accounts/profile.html:452
 msgid ""
@@ -1681,7 +1678,7 @@ msgstr "סכום החשבונית"
 
 #: weblate/templates/accounts/profile.html:479
 msgid "Download invoice"
-msgstr "הורד חשבונית"
+msgstr "הורדת חשבונית"
 
 #: weblate/templates/accounts/profile.html:491
 msgid "Not available"
@@ -1702,7 +1699,7 @@ msgstr ""
 
 #: weblate/templates/accounts/register.html:29
 msgid "Register using email"
-msgstr "הירשם באמצעות דוא״ל"
+msgstr "הרשמה באמצעות דוא״ל"
 
 #: weblate/templates/accounts/register.html:51
 msgid "Third party registration"
@@ -1729,14 +1726,11 @@ msgstr "לחיצה על הכפתור הבא תמנע ממך להשתמש בחש�
 
 #: weblate/templates/accounts/removal.html:23
 msgid "Delete this account"
-msgstr "מחק את חשבון זה"
+msgstr "מחיקת חשבון זה"
 
 #: weblate/templates/accounts/reset.html:13
-#, fuzzy
-#| msgid ""
-#| "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
 msgid "Forgotten your password? You can now set new one."
-msgstr "שכחת את סיסמתך? באפשרותך <a href=\"%(reset_url)s\">לאפס אותה</a>."
+msgstr "שכחת את ססמתך? כעת ניתן להגדיר אחת חדשה."
 
 #: weblate/templates/accounts/reset.html:15
 msgid ""
@@ -1747,10 +1741,8 @@ msgstr ""
 "חדשה."
 
 #: weblate/templates/accounts/reset.html:33
-#, fuzzy
-#| msgid "Set password"
 msgid "Set my password"
-msgstr "הגדרת ססמה"
+msgstr "הגדרת הססמה שלי"
 
 #: weblate/templates/accounts/reset.html:33
 msgid "Reset my password"
@@ -1762,11 +1754,11 @@ msgstr "שינויים אחרונים"
 
 #: weblate/templates/accounts/user.html:47
 msgid "Browse all changes for user"
-msgstr "עיין בשינויים של משתמש"
+msgstr "עיון בכל השינויים של משתמש"
 
 #: weblate/templates/activity-tab.html:5
 msgid "Activity in last 30 days"
-msgstr "פעילות בתוך 30 הימים האחרונים"
+msgstr "פעילות ב־30 הימים האחרונים"
 
 #: weblate/templates/activity-tab.html:8
 msgid "Activity in last year"
@@ -1779,8 +1771,8 @@ msgid ""
 "Required fields are marked as bold, you can find more information in the <a "
 "href=\"%(url)s\">documentation</a>."
 msgstr ""
-"השדות הנבחרים מסומנים כמודגשים, ניתן למצואמידע נוסף ב<a href=\"%(url)s"
-"\">תיעוד</a>."
+"השדות הנבחרים מסומנים בהדגשה, ניתן למצוא מידע נוסף ב<a href=\"%(url)s\""
+">תיעוד</a>."
 
 #: weblate/templates/admin/custom-index.html:10
 msgid "Reports"
@@ -1942,7 +1934,7 @@ msgstr ""
 
 #: weblate/templates/base.html:94
 msgid "Toggle navigation"
-msgstr "החלף ניווט"
+msgstr "החלפת ניווט"
 
 #: weblate/templates/base.html:105 weblate/templates/base.html:141
 msgid "Dashboard"
@@ -3988,7 +3980,7 @@ msgstr "שגיאת פענוח ב־%(subproject)s"
 #: weblate/templates/mail/reset.html:11 weblate/templates/mail/reset.txt:3
 #, python-format
 msgid "There was a request to reset your Weblate password at %(site_title)s."
-msgstr "נתקבלה בקשה לאפס סיסמת Weblate שלך באתר %(site_title)s."
+msgstr "נתקבלה בקשה לאפס את הססמה שלך ב־Weblate באתר %(site_title)s."
 
 #: weblate/templates/mail/reset_subject.txt:4
 #, python-format
@@ -4401,14 +4393,12 @@ msgid "Reports number of strings and words translated by each translator."
 msgstr "מדווחת על מספר המחרוזות והמילים שתורגמו על ידי כל מתרגם."
 
 #: weblate/templates/subproject_info.html:11
-#, fuzzy
-#| msgid "Translation reports"
 msgid "Translation process"
-msgstr "דוחות תרגום"
+msgstr "תהליך תרגום"
 
 #: weblate/templates/subproject_info.html:15
 msgid "Translations can be made only through suggesting."
-msgstr ""
+msgstr "ניתן להגיש תרגומים רק באמצעות הצעות."
 
 #: weblate/templates/subproject_info.html:16
 #, python-format
@@ -4418,22 +4408,20 @@ msgid ""
 msgid_plural ""
 "Suggestions are automatically accepted as translations once they have "
 "%(count)s votes."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "הצעות מתקבלות אוטומטית כתרגומים לאחר קבלת קול אחד."
+msgstr[1] "הצעות מתקבלות אוטומטית כתרגומים לאחר קבלת %(count)s קולות."
 
 #: weblate/templates/subproject_info.html:18
-#, fuzzy
-#| msgid "Translations made"
 msgid "Translations can be made directly."
-msgstr "תרגומים שהוגשו"
+msgstr "ניתן לתרגם ישירות."
 
 #: weblate/templates/subproject_info.html:21
 msgid "Only selected users can contribute."
-msgstr ""
+msgstr "רק משתמשים נבחרים יכולים לתרום."
 
 #: weblate/templates/subproject_info.html:23
 msgid "Any authenticated users can contribute."
-msgstr ""
+msgstr "כל משתמש שעבר אימות יכול לתרום."
 
 #: weblate/templates/subproject_info.html:31
 #: weblate/trans/models/subproject.py:379
@@ -4477,7 +4465,7 @@ msgstr "לא נמצאו תרגומים תואמים!"
 
 #: weblate/templates/translate.html:16
 msgid "translate"
-msgstr "תרגם"
+msgstr "תרגום"
 
 #: weblate/templates/translate.html:33
 msgid "Edit in Zen mode"
@@ -4557,10 +4545,8 @@ msgid "Editing source string"
 msgstr "עריכת מחרוזת המקור"
 
 #: weblate/templates/translate.html:101
-#, fuzzy
-#| msgid "Edit source string"
 msgid "Edit string"
-msgstr "עריכת מחרוזת מקור"
+msgstr "עריכת מחרוזת"
 
 #: weblate/templates/translate.html:115 weblate/templates/zen-units.html:37
 msgid "Source change"
@@ -4642,10 +4628,8 @@ msgid "Machine translation"
 msgstr "תרגום מכונה"
 
 #: weblate/templates/translate.html:209
-#, fuzzy
-#| msgid "Translation is now open for translation updates."
 msgid "Translations of this unit to other languages"
-msgstr "התרגום פתוח כעת לעדכוני תרגום."
+msgstr "תרגום היחידה הזאת לשפות אחרות"
 
 #: weblate/templates/translate.html:210
 msgid "List of recent changes done in Weblate"
@@ -5522,10 +5506,8 @@ msgstr ""
 "משוואה זו מזהה איזו צורת רבים צריכה להימצא בשימוש בהתאם לספירה נתונה (n)."
 
 #: weblate/trans/forms.py:329
-#, fuzzy
-#| msgid "Untranslated strings"
 msgid "Missing translated string!"
-msgstr "מחרוזות לא מתורגמות"
+msgstr "המחרוזת המתורגמת חסרה!"
 
 #: weblate/trans/forms.py:334
 msgid "Translation text too long!"
@@ -5731,16 +5713,12 @@ msgid "All languages"
 msgstr "כל השפות"
 
 #: weblate/trans/forms.py:734
-#, fuzzy
-#| msgid "Template file not found!"
 msgid "Merged unit not found!"
-msgstr "קובץ התבנית לא נמצא!"
+msgstr "היחידה שמוזגה לא נמצאה!"
 
 #: weblate/trans/forms.py:753
-#, fuzzy
-#| msgid "Template file not found!"
 msgid "Reverted change not found!"
-msgstr "קובץ התבנית לא נמצא!"
+msgstr "השינוי לשחזור לא נמצא!"
 
 #: weblate/trans/forms.py:760
 msgid "Overwrite strings"
@@ -5759,10 +5737,8 @@ msgid "All components in current project"
 msgstr "כל הרכיבים במיזם הנוכחי"
 
 #: weblate/trans/forms.py:809
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Invalid integer list!"
-msgstr "בקשת המיזוג שגויה!"
+msgstr "רשימת המספרים השלמים שגויה!"
 
 #: weblate/trans/forms.py:838
 msgid ""
@@ -5934,7 +5910,7 @@ msgstr "ניתן למצוא מידע נוסף על Weblate תחת {0}"
 
 #: weblate/trans/models/advertisement.py:47
 msgid "Donate to Weblate"
-msgstr "תרמו למיזם Weblate"
+msgstr "תרומה למיזם Weblate"
 
 #: weblate/trans/models/advertisement.py:48
 msgid "Support Weblate on Liberapay"
@@ -7428,10 +7404,8 @@ msgid "Invalid merge request!"
 msgstr "בקשת המיזוג שגויה!"
 
 #: weblate/trans/views/edit.py:325
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Invalid revert request!"
-msgstr "בקשת המיזוג שגויה!"
+msgstr "בקשת השחזור שגויה!"
 
 #: weblate/trans/views/edit.py:332
 msgid "Can not revert to empty translation!"
@@ -7601,7 +7575,7 @@ msgstr "שינוי סמני הבדיקה נכשל!"
 #, python-brace-format
 msgctxt "Translated percents in widget"
 msgid "{0}%"
-msgstr ""
+msgstr "{0}%"
 
 #. Translators: please keep the text short to fit into widget
 #: weblate/trans/widgets.py:268
@@ -7666,7 +7640,7 @@ msgstr "סוג התמונה אינו נתמך: %s"
 
 #: weblate/utils/validators.py:125
 msgid "Image is too big, please scale it down or crop relevant part!"
-msgstr "התמונה גדולה מדיי, נא להקטין או לחתוך ממנה רק את הקטע הנחוץ!"
+msgstr "התמונה גדולה מדי, נא להקטין או לחתוך ממנה רק את הקטע הנחוץ!"
 
 #: weblate/utils/validators.py:151
 msgid "The editor link lacks URL scheme!"
@@ -7677,10 +7651,8 @@ msgid "Forbidden URL scheme!"
 msgstr "סכימת הכתובת אסורה!"
 
 #: weblate/utils/validators.py:174
-#, fuzzy
-#| msgid "Unsupported file format: {0}"
 msgid "Unsupported file format."
-msgstr "תבנית הקובץ אינה נתמכת: {0}"
+msgstr "תבנית הקובץ אינה נתמכת."
 
 #~ msgid "Can not merge different messages!"
 #~ msgstr "לא ניתן למזג הודעות שונות!"
