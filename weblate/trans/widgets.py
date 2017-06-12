@@ -282,7 +282,7 @@ class RedirectWidget(Widget):
             'extension': 'svg',
         }
         if self.lang:
-            kwargs['lang'] = self.lang
+            kwargs['lang'] = self.lang.code
             return reverse('widget-image-lang', kwargs=kwargs)
         return reverse('widget-image', kwargs=kwargs)
 
