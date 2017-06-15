@@ -31,6 +31,7 @@ from django.test.client import RequestFactory
 from django.contrib.auth.models import Group, User, Permission
 from django.core.urlresolvers import reverse
 from django.contrib.messages.storage.fallback import FallbackStorage
+from django.core.management import call_command
 from django.core import mail
 
 from weblate.lang.models import Language
@@ -217,14 +218,22 @@ class ViewTestCase(RepoTestCase):
 
 
 class FixtureTestCase(ViewTestCase):
-    fixtures = ['test']
-
     @classmethod
-    def setUpClass(cls):
+    def setUpTestData(cls):
+        """Manually load fixture."""
         # Ensure there are no Language objects, we add
         # them in defined order in fixture
         Language.objects.all().delete()
-        super(FixtureTestCase, cls).setUpClass()
+
+        # Stolen from setUpClass, we just need to do it
+        # after transaction checkpoint and deleting languages
+        for db_name in cls._databases_names(include_mirrors=False):
+            call_command(
+                'loaddata', 'test',
+                verbosity= 0,
+                commit= False,
+                database=db_name
+            )
 
     def clone_test_repos(self):
         return
