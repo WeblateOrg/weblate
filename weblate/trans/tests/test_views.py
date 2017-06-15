@@ -230,8 +230,8 @@ class FixtureTestCase(ViewTestCase):
         for db_name in cls._databases_names(include_mirrors=False):
             call_command(
                 'loaddata', 'test',
-                verbosity= 0,
-                commit= False,
+                verbosity=0,
+                commit=False,
                 database=db_name
             )
 
