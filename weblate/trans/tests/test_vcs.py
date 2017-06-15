@@ -23,12 +23,11 @@ from __future__ import unicode_literals
 import tempfile
 import shutil
 import os.path
-from unittest import SkipTest
+from unittest import SkipTest, TestCase
 
-from django.test import TestCase
 from django.utils import timezone
 
-from weblate.trans.tests.test_models import RepoTestCase
+from weblate.trans.tests.utils import RepoTestMixin
 from weblate.trans.vcs import GitRepository, HgRepository, \
     RepositoryException, GitWithGerritRepository, GithubRepository, \
     SubversionRepository
@@ -82,7 +81,7 @@ class RepositoryTest(TestCase):
         self.assertTrue(GitTestRepository.is_supported())
 
 
-class VCSGitTest(RepoTestCase):
+class VCSGitTest(TestCase, RepoTestMixin):
     _tempdir = None
     _class = GitRepository
     _vcs = 'git'
@@ -93,6 +92,8 @@ class VCSGitTest(RepoTestCase):
         super(VCSGitTest, self).setUp()
         if not self._class.is_supported():
             raise SkipTest('Not supported')
+
+        self.clone_test_repos()
 
         self._tempdir = tempfile.mkdtemp()
         self.repo = self.clone_repo(self._tempdir)
