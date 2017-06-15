@@ -219,6 +219,13 @@ class ViewTestCase(RepoTestCase):
 class FixtureTestCase(ViewTestCase):
     fixtures = ['test']
 
+    @classmethod
+    def setUpClass(cls):
+        # Ensure there are no Language objects, we add
+        # them in defined order in fixture
+        Language.objects.all().delete()
+        super(FixtureTestCase, cls).setUpClass()
+
     def clone_test_repos(self):
         return
 
