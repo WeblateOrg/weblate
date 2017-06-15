@@ -28,7 +28,7 @@ from django.core.management import call_command
 from django.utils.encoding import force_text
 from weblate.lang.models import Language, get_plural_type
 from weblate.lang import data
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import FixtureTestCase
 
 
 class LanguagesTest(TestCase):
@@ -354,7 +354,7 @@ class VerifyPluralsTest(TestCase):
             )
 
 
-class LanguagesViewTest(ViewTestCase):
+class LanguagesViewTest(FixtureTestCase):
     def test_languages(self):
         response = self.client.get(reverse('languages'))
         self.assertContains(response, 'Czech')

@@ -33,7 +33,7 @@ import httpretty
 from PIL import Image
 
 from weblate.accounts import avatar
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import FixtureTestCase
 
 
 TEST_URL = (
@@ -42,7 +42,7 @@ TEST_URL = (
 )
 
 
-class AvatarTest(ViewTestCase):
+class AvatarTest(FixtureTestCase):
     def setUp(self):
         super(AvatarTest, self).setUp()
         self.user.email = 'test@example.com'

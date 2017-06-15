@@ -24,10 +24,10 @@ import json
 
 from django.core.urlresolvers import reverse
 
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import FixtureTestCase
 
 
-class ChartsTest(ViewTestCase):
+class ChartsTest(FixtureTestCase):
     """Testing of charts."""
     def assert_json_chart_data(self, response):
         """Test whether response has valid json chart data."""

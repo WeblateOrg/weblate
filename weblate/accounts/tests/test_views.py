@@ -29,7 +29,7 @@ from django.core import mail
 from weblate.accounts.models import Profile
 from weblate.accounts.ratelimit import reset_rate_limit
 
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import ViewTestCase, FixtureTestCase
 from weblate.lang.models import Language
 
 CONTACT_DATA = {
@@ -272,7 +272,7 @@ class ViewTest(TestCase):
         self.assertRedirects(response, reverse('profile') + '#api')
 
 
-class ProfileTest(ViewTestCase):
+class ProfileTest(FixtureTestCase):
     def test_profile(self):
         # Get profile page
         response = self.client.get(reverse('profile'))

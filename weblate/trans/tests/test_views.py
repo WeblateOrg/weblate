@@ -34,7 +34,9 @@ from django.contrib.messages.storage.fallback import FallbackStorage
 from django.core import mail
 
 from weblate.lang.models import Language
-from weblate.trans.models import ComponentList, WhiteboardMessage
+from weblate.trans.models import (
+    ComponentList, WhiteboardMessage, Project, SubProject, setup_group_acl,
+)
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.accounts.models import Profile
 
@@ -212,6 +214,21 @@ class ViewTestCase(RepoTestCase):
                 translated, expected_translated
             )
         )
+
+
+class FixtureTestCase(ViewTestCase):
+    fixtures = ['test']
+
+    def clone_test_repos(self):
+        return
+
+    def create_project(self):
+        project = Project.objects.all()[0]
+        setup_group_acl(self, project)
+        return project
+
+    def create_subproject(self):
+        return self.create_project().subproject_set.all()[0]
 
 
 class TranslationManipulationTest(ViewTestCase):

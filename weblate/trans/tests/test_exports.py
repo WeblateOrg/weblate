@@ -26,10 +26,10 @@ import json
 
 from django.core.urlresolvers import reverse
 
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import FixtureTestCase
 
 
-class ExportsViewTest(ViewTestCase):
+class ExportsViewTest(FixtureTestCase):
     def test_view_rss(self):
         response = self.client.get(
             reverse('rss')

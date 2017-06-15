@@ -24,11 +24,11 @@ Tests for comment views.
 
 from django.core.urlresolvers import reverse
 
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.models import Comment
 
 
-class CommentViewTest(ViewTestCase):
+class CommentViewTest(FixtureTestCase):
     def setUp(self):
         super(CommentViewTest, self).setUp()
         self.translation = self.subproject.translation_set.get(

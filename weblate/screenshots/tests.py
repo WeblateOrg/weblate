@@ -20,14 +20,14 @@
 from django.core.urlresolvers import reverse
 
 from weblate.screenshots.models import Screenshot
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import get_test_file
 import weblate.screenshots.views
 
 TEST_SCREENSHOT = get_test_file('screenshot.png')
 
 
-class ViewTest(ViewTestCase):
+class ViewTest(FixtureTestCase):
     def test_list_empty(self):
         response = self.client.get(
             reverse('screenshots', kwargs=self.kw_subproject)

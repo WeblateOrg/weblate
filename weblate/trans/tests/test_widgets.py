@@ -23,11 +23,11 @@
 from django.core.urlresolvers import reverse
 
 from weblate.trans.models import Translation
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.views.widgets import WIDGETS
 
 
-class WidgetsTest(ViewTestCase):
+class WidgetsTest(FixtureTestCase):
     """Testing of widgets."""
     def test_view_widgets_root(self):
         response = self.client.get(
@@ -76,7 +76,7 @@ class WidgetsMeta(type):
         return type.__new__(mcs, name, bases, attrs)
 
 
-class WidgetsRenderTest(ViewTestCase):
+class WidgetsRenderTest(FixtureTestCase):
     __metaclass__ = WidgetsMeta
 
     def assert_widget(self, widget, response):

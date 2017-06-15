@@ -24,10 +24,10 @@ Tests for sitemaps.
 
 from xml.etree import cElementTree as ElementTree
 
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import FixtureTestCase
 
 
-class SitemapTest(ViewTestCase):
+class SitemapTest(FixtureTestCase):
     def test_sitemaps(self):
         # Get root sitemap
         response = self.client.get('/sitemap.xml')

@@ -24,10 +24,10 @@ Tests for data exports.
 
 from django.core.urlresolvers import reverse
 
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import FixtureTestCase
 
 
-class BasicViewTest(ViewTestCase):
+class BasicViewTest(FixtureTestCase):
     def test_about(self):
         response = self.client.get(
             reverse('about')

@@ -1,0 +1,752 @@
+[
+{
+  "model": "trans.project",
+  "pk": 1,
+  "fields": {
+    "name": "Test",
+    "slug": "test",
+    "web": "https://weblate.org/",
+    "mail": "",
+    "instructions": "",
+    "push_on_commit": false,
+    "set_translation_team": true,
+    "enable_acl": false,
+    "enable_hooks": true,
+    "source_language": 76
+  }
+},
+{
+  "model": "trans.check",
+  "pk": 1,
+  "fields": {
+    "content_hash": 7590565419956117013,
+    "project": 1,
+    "language": 47,
+    "check": "same",
+    "ignore": false
+  }
+},
+{
+  "model": "trans.check",
+  "pk": 2,
+  "fields": {
+    "content_hash": 7590565419956117013,
+    "project": 1,
+    "language": 83,
+    "check": "same",
+    "ignore": false
+  }
+},
+{
+  "model": "trans.check",
+  "pk": 3,
+  "fields": {
+    "content_hash": 7590565419956117013,
+    "project": 1,
+    "language": null,
+    "check": "multiple_failures",
+    "ignore": false
+  }
+},
+{
+  "model": "trans.source",
+  "pk": 1,
+  "fields": {
+    "id_hash": -2012431413508206962,
+    "subproject": 1,
+    "timestamp": "2017-06-15T11:30:47.359Z",
+    "priority": 100,
+    "check_flags": ""
+  }
+},
+{
+  "model": "trans.source",
+  "pk": 2,
+  "fields": {
+    "id_hash": 2097404709965985808,
+    "subproject": 1,
+    "timestamp": "2017-06-15T11:30:47.376Z",
+    "priority": 100,
+    "check_flags": ""
+  }
+},
+{
+  "model": "trans.source",
+  "pk": 3,
+  "fields": {
+    "id_hash": 7590565419956117013,
+    "subproject": 1,
+    "timestamp": "2017-06-15T11:30:47.386Z",
+    "priority": 100,
+    "check_flags": ""
+  }
+},
+{
+  "model": "trans.source",
+  "pk": 4,
+  "fields": {
+    "id_hash": -3793118914799002855,
+    "subproject": 1,
+    "timestamp": "2017-06-15T11:30:47.396Z",
+    "priority": 100,
+    "check_flags": ""
+  }
+},
+{
+  "model": "trans.change",
+  "pk": 1,
+  "fields": {
+    "unit": null,
+    "subproject": 1,
+    "translation": null,
+    "dictionary": null,
+    "user": null,
+    "author": null,
+    "timestamp": "2017-06-15T11:30:47.325Z",
+    "action": 20,
+    "target": "",
+    "old": ""
+  }
+},
+{
+  "model": "trans.change",
+  "pk": 2,
+  "fields": {
+    "unit": 1,
+    "subproject": 1,
+    "translation": 1,
+    "dictionary": null,
+    "user": null,
+    "author": null,
+    "timestamp": "2017-06-15T11:30:47.372Z",
+    "action": 13,
+    "target": "",
+    "old": ""
+  }
+},
+{
+  "model": "trans.change",
+  "pk": 3,
+  "fields": {
+    "unit": 2,
+    "subproject": 1,
+    "translation": 1,
+    "dictionary": null,
+    "user": null,
+    "author": null,
+    "timestamp": "2017-06-15T11:30:47.384Z",
+    "action": 13,
+    "target": "",
+    "old": ""
+  }
+},
+{
+  "model": "trans.change",
+  "pk": 4,
+  "fields": {
+    "unit": 3,
+    "subproject": 1,
+    "translation": 1,
+    "dictionary": null,
+    "user": null,
+    "author": null,
+    "timestamp": "2017-06-15T11:30:47.394Z",
+    "action": 13,
+    "target": "",
+    "old": ""
+  }
+},
+{
+  "model": "trans.change",
+  "pk": 5,
+  "fields": {
+    "unit": 4,
+    "subproject": 1,
+    "translation": 1,
+    "dictionary": null,
+    "user": null,
+    "author": null,
+    "timestamp": "2017-06-15T11:30:47.403Z",
+    "action": 13,
+    "target": "",
+    "old": ""
+  }
+},
+{
+  "model": "trans.change",
+  "pk": 6,
+  "fields": {
+    "unit": null,
+    "subproject": 1,
+    "translation": 1,
+    "dictionary": null,
+    "user": null,
+    "author": null,
+    "timestamp": "2017-06-15T11:30:47.410Z",
+    "action": 0,
+    "target": "",
+    "old": ""
+  }
+},
+{
+  "model": "trans.change",
+  "pk": 7,
+  "fields": {
+    "unit": null,
+    "subproject": 1,
+    "translation": 2,
+    "dictionary": null,
+    "user": null,
+    "author": null,
+    "timestamp": "2017-06-15T11:30:47.510Z",
+    "action": 0,
+    "target": "",
+    "old": ""
+  }
+},
+{
+  "model": "trans.change",
+  "pk": 8,
+  "fields": {
+    "unit": null,
+    "subproject": 1,
+    "translation": 3,
+    "dictionary": null,
+    "user": null,
+    "author": null,
+    "timestamp": "2017-06-15T11:30:47.595Z",
+    "action": 0,
+    "target": "",
+    "old": ""
+  }
+},
+{
+  "model": "trans.unit",
+  "pk": 1,
+  "fields": {
+    "translation": 1,
+    "id_hash": -2012431413508206962,
+    "content_hash": -2012431413508206962,
+    "location": "main.c:11",
+    "context": "",
+    "comment": "",
+    "flags": "c-format",
+    "source": "Hello, world!\n",
+    "previous_source": "",
+    "target": "",
+    "fuzzy": false,
+    "translated": false,
+    "position": 1,
+    "has_suggestion": false,
+    "has_comment": false,
+    "has_failing_check": false,
+    "num_words": 2,
+    "priority": 100
+  }
+},
+{
+  "model": "trans.unit",
+  "pk": 2,
+  "fields": {
+    "translation": 1,
+    "id_hash": 2097404709965985808,
+    "content_hash": 2097404709965985808,
+    "location": "main.c:12",
+    "context": "",
+    "comment": "",
+    "flags": "c-format",
+    "source": "Orangutan has %d banana.\n\u001e\u001eOrangutan has %d bananas.\n",
+    "previous_source": "",
+    "target": "\u001e\u001e\u001e\u001e",
+    "fuzzy": false,
+    "translated": false,
+    "position": 2,
+    "has_suggestion": false,
+    "has_comment": false,
+    "has_failing_check": false,
+    "num_words": 4,
+    "priority": 100
+  }
+},
+{
+  "model": "trans.unit",
+  "pk": 3,
+  "fields": {
+    "translation": 1,
+    "id_hash": 7590565419956117013,
+    "content_hash": 7590565419956117013,
+    "location": "main.c:13",
+    "context": "",
+    "comment": "",
+    "flags": "c-format",
+    "source": "Try Weblate at <https://demo.weblate.org/>!\n",
+    "previous_source": "",
+    "target": "",
+    "fuzzy": false,
+    "translated": false,
+    "position": 3,
+    "has_suggestion": false,
+    "has_comment": false,
+    "has_failing_check": false,
+    "num_words": 4,
+    "priority": 100
+  }
+},
+{
+  "model": "trans.unit",
+  "pk": 4,
+  "fields": {
+    "translation": 1,
+    "id_hash": -3793118914799002855,
+    "content_hash": -3793118914799002855,
+    "location": "main.c:14",
+    "context": "",
+    "comment": "",
+    "flags": "",
+    "source": "Thank you for using Weblate.",
+    "previous_source": "",
+    "target": "",
+    "fuzzy": false,
+    "translated": false,
+    "position": 4,
+    "has_suggestion": false,
+    "has_comment": false,
+    "has_failing_check": false,
+    "num_words": 5,
+    "priority": 100
+  }
+},
+{
+  "model": "trans.unit",
+  "pk": 5,
+  "fields": {
+    "translation": 2,
+    "id_hash": -2012431413508206962,
+    "content_hash": -2012431413508206962,
+    "location": "main.c:11",
+    "context": "",
+    "comment": "",
+    "flags": "c-format",
+    "source": "Hello, world!\n",
+    "previous_source": "",
+    "target": "",
+    "fuzzy": false,
+    "translated": false,
+    "position": 1,
+    "has_suggestion": false,
+    "has_comment": false,
+    "has_failing_check": false,
+    "num_words": 2,
+    "priority": 100
+  }
+},
+{
+  "model": "trans.unit",
+  "pk": 6,
+  "fields": {
+    "translation": 2,
+    "id_hash": 2097404709965985808,
+    "content_hash": 2097404709965985808,
+    "location": "main.c:12",
+    "context": "",
+    "comment": "",
+    "flags": "c-format",
+    "source": "Orangutan has %d banana.\n\u001e\u001eOrangutan has %d bananas.\n",
+    "previous_source": "",
+    "target": "\u001e\u001e",
+    "fuzzy": false,
+    "translated": false,
+    "position": 2,
+    "has_suggestion": false,
+    "has_comment": false,
+    "has_failing_check": false,
+    "num_words": 4,
+    "priority": 100
+  }
+},
+{
+  "model": "trans.unit",
+  "pk": 7,
+  "fields": {
+    "translation": 2,
+    "id_hash": 7590565419956117013,
+    "content_hash": 7590565419956117013,
+    "location": "main.c:13",
+    "context": "",
+    "comment": "",
+    "flags": "c-format",
+    "source": "Try Weblate at <https://demo.weblate.org/>!\n",
+    "previous_source": "",
+    "target": "Try Weblate at <https://demo.weblate.org/>!\n",
+    "fuzzy": false,
+    "translated": true,
+    "position": 3,
+    "has_suggestion": false,
+    "has_comment": false,
+    "has_failing_check": true,
+    "num_words": 4,
+    "priority": 100
+  }
+},
+{
+  "model": "trans.unit",
+  "pk": 8,
+  "fields": {
+    "translation": 2,
+    "id_hash": -3793118914799002855,
+    "content_hash": -3793118914799002855,
+    "location": "main.c:14",
+    "context": "",
+    "comment": "",
+    "flags": "",
+    "source": "Thank you for using Weblate.",
+    "previous_source": "",
+    "target": "",
+    "fuzzy": false,
+    "translated": false,
+    "position": 4,
+    "has_suggestion": false,
+    "has_comment": false,
+    "has_failing_check": false,
+    "num_words": 5,
+    "priority": 100
+  }
+},
+{
+  "model": "trans.unit",
+  "pk": 9,
+  "fields": {
+    "translation": 3,
+    "id_hash": -2012431413508206962,
+    "content_hash": -2012431413508206962,
+    "location": "main.c:11",
+    "context": "",
+    "comment": "",
+    "flags": "c-format",
+    "source": "Hello, world!\n",
+    "previous_source": "",
+    "target": "",
+    "fuzzy": false,
+    "translated": false,
+    "position": 1,
+    "has_suggestion": false,
+    "has_comment": false,
+    "has_failing_check": false,
+    "num_words": 2,
+    "priority": 100
+  }
+},
+{
+  "model": "trans.unit",
+  "pk": 10,
+  "fields": {
+    "translation": 3,
+    "id_hash": 2097404709965985808,
+    "content_hash": 2097404709965985808,
+    "location": "main.c:12",
+    "context": "",
+    "comment": "",
+    "flags": "c-format",
+    "source": "Orangutan has %d banana.\n\u001e\u001eOrangutan has %d bananas.\n",
+    "previous_source": "",
+    "target": "\u001e\u001e",
+    "fuzzy": false,
+    "translated": false,
+    "position": 2,
+    "has_suggestion": false,
+    "has_comment": false,
+    "has_failing_check": false,
+    "num_words": 4,
+    "priority": 100
+  }
+},
+{
+  "model": "trans.unit",
+  "pk": 11,
+  "fields": {
+    "translation": 3,
+    "id_hash": 7590565419956117013,
+    "content_hash": 7590565419956117013,
+    "location": "main.c:13",
+    "context": "",
+    "comment": "",
+    "flags": "c-format",
+    "source": "Try Weblate at <https://demo.weblate.org/>!\n",
+    "previous_source": "",
+    "target": "Try Weblate at <https://demo.weblate.org/>!\n",
+    "fuzzy": false,
+    "translated": true,
+    "position": 3,
+    "has_suggestion": false,
+    "has_comment": false,
+    "has_failing_check": true,
+    "num_words": 4,
+    "priority": 100
+  }
+},
+{
+  "model": "trans.unit",
+  "pk": 12,
+  "fields": {
+    "translation": 3,
+    "id_hash": -3793118914799002855,
+    "content_hash": -3793118914799002855,
+    "location": "main.c:14",
+    "context": "",
+    "comment": "",
+    "flags": "",
+    "source": "Thank you for using Weblate.",
+    "previous_source": "",
+    "target": "",
+    "fuzzy": false,
+    "translated": false,
+    "position": 4,
+    "has_suggestion": false,
+    "has_comment": false,
+    "has_failing_check": false,
+    "num_words": 5,
+    "priority": 100
+  }
+},
+{
+  "model": "trans.translation",
+  "pk": 1,
+  "fields": {
+    "subproject": 1,
+    "language": 14,
+    "revision": "982875b6566ab02d65d1faf2ce01d7cfc7e53ca2",
+    "filename": "po/cs.po",
+    "translated": 0,
+    "fuzzy": 0,
+    "total": 4,
+    "translated_words": 0,
+    "fuzzy_words": 0,
+    "failing_checks_words": 0,
+    "total_words": 15,
+    "failing_checks": 0,
+    "have_suggestion": 0,
+    "have_comment": 0,
+    "enabled": true,
+    "language_code": "cs",
+    "lock_user": null,
+    "lock_time": "2017-06-15T11:30:47.351Z",
+    "commit_message": ""
+  }
+},
+{
+  "model": "trans.translation",
+  "pk": 2,
+  "fields": {
+    "subproject": 1,
+    "language": 47,
+    "revision": "9664eec5f123841a531ecf0eb09fa747f4cf7662",
+    "filename": "po/de.po",
+    "translated": 1,
+    "fuzzy": 0,
+    "total": 4,
+    "translated_words": 4,
+    "fuzzy_words": 0,
+    "failing_checks_words": 4,
+    "total_words": 15,
+    "failing_checks": 1,
+    "have_suggestion": 0,
+    "have_comment": 0,
+    "enabled": true,
+    "language_code": "de",
+    "lock_user": null,
+    "lock_time": "2017-06-15T11:30:47.440Z",
+    "commit_message": ""
+  }
+},
+{
+  "model": "trans.translation",
+  "pk": 3,
+  "fields": {
+    "subproject": 1,
+    "language": 83,
+    "revision": "207e0fabd8db4ec39b5989a7f4185d2434cacbd4",
+    "filename": "po/it.po",
+    "translated": 1,
+    "fuzzy": 0,
+    "total": 4,
+    "translated_words": 4,
+    "fuzzy_words": 0,
+    "failing_checks_words": 4,
+    "total_words": 15,
+    "failing_checks": 1,
+    "have_suggestion": 0,
+    "have_comment": 0,
+    "enabled": true,
+    "language_code": "it",
+    "lock_user": null,
+    "lock_time": "2017-06-15T11:30:47.534Z",
+    "commit_message": ""
+  }
+},
+{
+  "model": "trans.subproject",
+  "pk": 1,
+  "fields": {
+    "name": "Test",
+    "slug": "test",
+    "project": 1,
+    "vcs": "git",
+    "repo": "file:///home/nijel/work/weblate/data-test/test-repo.git",
+    "push": "",
+    "repoweb": "",
+    "git_export": "http://example.com/git/test/test/",
+    "report_source_bugs": "",
+    "branch": "master",
+    "filemask": "po/*.po",
+    "template": "",
+    "edit_template": true,
+    "new_base": "",
+    "file_format": "po",
+    "extra_commit_file": "",
+    "post_update_script": "",
+    "pre_commit_script": "",
+    "post_commit_script": "",
+    "post_push_script": "",
+    "post_add_script": "",
+    "locked": false,
+    "allow_translation_propagation": true,
+    "save_history": true,
+    "enable_suggestions": true,
+    "suggestion_voting": false,
+    "suggestion_autoaccept": 0,
+    "check_flags": "",
+    "license": "",
+    "license_url": "",
+    "agreement": "",
+    "new_lang": "add",
+    "merge_style": "merge",
+    "commit_message": "Translated using Weblate (%(language_name)s)\n\nCurrently translated at %(translated_percent)s%% (%(translated)s of %(total)s strings)\n\nTranslation: %(project)s/%(component)s\nTranslate-URL: %(url)s",
+    "add_message": "Added translation using Weblate (%(language_name)s)\n\n",
+    "delete_message": "Deleted translation using Weblate (%(language_name)s)\n\n",
+    "committer_name": "Weblate",
+    "committer_email": "noreply@weblate.org",
+    "language_regex": "^[^.]+$",
+    "priority": 100
+  }
+},
+{
+  "model": "trans.indexupdate",
+  "pk": 1,
+  "fields": {
+    "unitid": 1,
+    "source": true,
+    "to_delete": false,
+    "language_code": ""
+  }
+},
+{
+  "model": "trans.indexupdate",
+  "pk": 2,
+  "fields": {
+    "unitid": 2,
+    "source": true,
+    "to_delete": false,
+    "language_code": ""
+  }
+},
+{
+  "model": "trans.indexupdate",
+  "pk": 3,
+  "fields": {
+    "unitid": 3,
+    "source": true,
+    "to_delete": false,
+    "language_code": ""
+  }
+},
+{
+  "model": "trans.indexupdate",
+  "pk": 4,
+  "fields": {
+    "unitid": 4,
+    "source": true,
+    "to_delete": false,
+    "language_code": ""
+  }
+},
+{
+  "model": "trans.indexupdate",
+  "pk": 5,
+  "fields": {
+    "unitid": 5,
+    "source": true,
+    "to_delete": false,
+    "language_code": ""
+  }
+},
+{
+  "model": "trans.indexupdate",
+  "pk": 6,
+  "fields": {
+    "unitid": 6,
+    "source": true,
+    "to_delete": false,
+    "language_code": ""
+  }
+},
+{
+  "model": "trans.indexupdate",
+  "pk": 7,
+  "fields": {
+    "unitid": 7,
+    "source": true,
+    "to_delete": false,
+    "language_code": ""
+  }
+},
+{
+  "model": "trans.indexupdate",
+  "pk": 8,
+  "fields": {
+    "unitid": 8,
+    "source": true,
+    "to_delete": false,
+    "language_code": ""
+  }
+},
+{
+  "model": "trans.indexupdate",
+  "pk": 9,
+  "fields": {
+    "unitid": 9,
+    "source": true,
+    "to_delete": false,
+    "language_code": ""
+  }
+},
+{
+  "model": "trans.indexupdate",
+  "pk": 10,
+  "fields": {
+    "unitid": 10,
+    "source": true,
+    "to_delete": false,
+    "language_code": ""
+  }
+},
+{
+  "model": "trans.indexupdate",
+  "pk": 11,
+  "fields": {
+    "unitid": 11,
+    "source": true,
+    "to_delete": false,
+    "language_code": ""
+  }
+},
+{
+  "model": "trans.indexupdate",
+  "pk": 12,
+  "fields": {
+    "unitid": 12,
+    "source": true,
+    "to_delete": false,
+    "language_code": ""
+  }
+}
+]

@@ -22,11 +22,11 @@
 
 from django.core.urlresolvers import reverse
 
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.models.subproject import SubProject
 
 
-class LockTest(ViewTestCase):
+class LockTest(FixtureTestCase):
     def setUp(self):
         super(LockTest, self).setUp()
 

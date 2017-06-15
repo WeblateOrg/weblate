@@ -24,7 +24,7 @@ from __future__ import unicode_literals
 
 from django.core.urlresolvers import reverse
 
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.models import Dictionary
 from weblate.trans.tests.utils import get_test_file
 
@@ -34,7 +34,7 @@ TEST_CSV_HEADER = get_test_file('terms-header.csv')
 TEST_PO = get_test_file('terms.po')
 
 
-class DictionaryTest(ViewTestCase):
+class DictionaryTest(FixtureTestCase):
     """Testing of dictionary manipulations."""
 
     def get_url(self, url, **kwargs):

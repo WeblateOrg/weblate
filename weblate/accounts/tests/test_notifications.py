@@ -37,12 +37,12 @@ from weblate.accounts.notifications import (
     notify_new_language,
     notify_account_activity,
 )
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.models import Suggestion, Comment
 from weblate.lang.models import Language
 
 
-class NotificationTest(ViewTestCase):
+class NotificationTest(FixtureTestCase):
     def setUp(self):
         super(NotificationTest, self).setUp()
         self.user.email = 'noreply@weblate.org'

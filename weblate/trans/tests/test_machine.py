@@ -27,7 +27,7 @@ from django.core.cache import cache
 
 import httpretty
 
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.models.unit import Unit
 from weblate.trans.machine.dummy import DummyTranslation
 from weblate.trans.machine.glosbe import GlosbeTranslation
@@ -365,7 +365,7 @@ class MachineTranslationTest(TestCase):
         self.assert_translate(machine, empty=True)
 
 
-class WeblateTranslationTest(ViewTestCase):
+class WeblateTranslationTest(FixtureTestCase):
     def test_same(self):
         machine = WeblateTranslation()
         unit = Unit.objects.all()[0]

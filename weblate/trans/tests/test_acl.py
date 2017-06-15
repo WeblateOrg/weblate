@@ -22,10 +22,10 @@
 
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User, Group
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import FixtureTestCase
 
 
-class ACLViewTest(ViewTestCase):
+class ACLViewTest(FixtureTestCase):
     def setUp(self):
         super(ACLViewTest, self).setUp()
         self.project.enable_acl = True

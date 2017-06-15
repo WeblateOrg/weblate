@@ -23,14 +23,14 @@ import os
 from django.conf import settings
 from django.core.urlresolvers import reverse
 
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.util import add_configuration_error
 from weblate.trans.tests.utils import get_test_file
 from weblate.trans.data import check_data_writable
 from weblate.utils.unittest import tempdir_setting
 
 
-class AdminTest(ViewTestCase):
+class AdminTest(FixtureTestCase):
     """Test for customized admin interface."""
     def setUp(self):
         super(AdminTest, self).setUp()

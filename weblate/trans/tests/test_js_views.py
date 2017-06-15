@@ -27,12 +27,12 @@ import json
 from django.core.urlresolvers import reverse
 from django.test.utils import override_settings
 
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.utils.classloader import load_class
 from weblate.trans.machine import MACHINE_TRANSLATION_SERVICES
 
 
-class JSViewsTest(ViewTestCase):
+class JSViewsTest(FixtureTestCase):
     """Testing of AJAX/JS views."""
     @staticmethod
     def ensure_dummy_mt():
