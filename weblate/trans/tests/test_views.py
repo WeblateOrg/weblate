@@ -35,7 +35,7 @@ from django.core import mail
 
 from weblate.lang.models import Language
 from weblate.trans.models import (
-    ComponentList, WhiteboardMessage, Project, SubProject, setup_group_acl,
+    ComponentList, WhiteboardMessage, Project, setup_group_acl,
 )
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.accounts.models import Profile
