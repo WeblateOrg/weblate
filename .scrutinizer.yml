@@ -13,7 +13,14 @@ before_commands:
     - sudo pip3 install -r ci/requirements-scrutinizer.txt
 build:
     environment:
-            python: 3.5
+    nodes:
+        python27:
+            environment:
+                python: 2.7
+
+        python3.6:
+            environment:
+                python: 3.6
     dependencies:
         override:
             - pip install six
