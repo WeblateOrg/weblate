@@ -42,6 +42,12 @@ if 'CI_DATABASE' in os.environ:
         DATABASES['default']['NAME'] = 'weblate'
         DATABASES['default']['USER'] = 'postgres'
         DATABASES['default']['PASSWORD'] = ''
+elif 'SCRUTINIZER' in os.environ:
+    DATABASES['default']['ENGINE'] = \
+        'django.db.backends.postgresql_psycopg2'
+    DATABASES['default']['NAME'] = 'scrutinizer'
+    DATABASES['default']['USER'] = 'scrutinizer'
+    DATABASES['default']['PASSWORD'] = 'scrutinizer'
 
 
 # Configure admins
