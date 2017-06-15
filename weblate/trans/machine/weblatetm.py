@@ -27,16 +27,6 @@ from weblate.trans.machine.base import MachineTranslation
 from weblate.trans.models.unit import Unit
 
 
-def format_unit_match(name, unit, quality):
-    """Format unit to translation service result."""
-    return (
-        unit.get_target_plurals()[0],
-        quality,
-        '{0} ({1})'.format(force_text(name), force_text(unit.translation.subproject)),
-        unit.get_source_plurals()[0],
-    )
-
-
 class WeblateBase(MachineTranslation):
     """Base class for Weblate based MT"""
     # pylint: disable=W0223
@@ -44,6 +34,18 @@ class WeblateBase(MachineTranslation):
     def is_supported(self, source, language):
         """Any language is supported."""
         return True
+
+    def format_unit_match(self, unit, quality):
+        """Format unit to translation service result."""
+        return (
+            unit.get_target_plurals()[0],
+            quality,
+            '{0} ({1})'.format(
+                self.name,
+                force_text(unit.translation.subproject)
+            ),
+            unit.get_source_plurals()[0],
+        )
 
 
 class WeblateTranslation(WeblateBase):
@@ -55,7 +57,7 @@ class WeblateTranslation(WeblateBase):
         matching_units = Unit.objects.same_source(unit)
 
         return [
-            format_unit_match(self.name, munit, 100)
+            self.format_unit_match(munit, 100)
             for munit in matching_units
             if can_access_project(user, munit.translation.subproject.project)
         ]
@@ -70,7 +72,7 @@ class WeblateSimilarTranslation(WeblateBase):
         matching_units = Unit.objects.more_like_this(unit)
 
         return [
-            format_unit_match(self.name, munit, 50)
+            self.format_unit_match(munit, 50)
             for munit in matching_units
             if can_access_project(user, munit.translation.subproject.project)
         ]
