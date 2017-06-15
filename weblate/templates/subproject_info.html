@@ -11,7 +11,7 @@
 <th>{% trans "Translation process" %}</th>
 <td colspan="2">
 <ul>
-{% if object.suggestion_voting %}
+{% if object.suggestion_voting and object.suggestion_autoaccept %}
 <li>{% trans "Translations can be made only through suggesting." %}</li>
 <li>{% blocktrans count count=object.suggestion_autoaccept %}Suggestions are automatically accepted as translations once they have {{ count }} vote.{% plural %}Suggestions are automatically accepted as translations once they have {{ count }} votes.{% endblocktrans %}</li>
 {% else %}
