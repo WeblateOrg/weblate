@@ -51,8 +51,7 @@ class RateLimitTest(TestCase):
             check_rate_limit(FakeRequest())
         )
 
-    @override_settings(AUTH_MAX_ATTEMPTS=5)
-    @override_settings(AUTH_CHECK_WINDOW=60)
+    @override_settings(AUTH_MAX_ATTEMPTS=5, AUTH_CHECK_WINDOW=60)
     def test_limit(self):
         request = FakeRequest()
         for dummy in range(5):
