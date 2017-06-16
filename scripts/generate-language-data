@@ -1,0 +1,36 @@
+#!/usr/bin/env python
+
+from __future__ import unicode_literals, print_function
+
+import json
+import sys
+
+from babel import Locale, UnknownLocaleError
+
+names = {}
+
+with open('/usr/share/iso-codes/json/iso_639-2.json', 'r') as handle:
+    for item in json.load(handle)['639-2']:
+        for value in ('alpha_2', 'alpha_3'):
+            if value in item:
+                names[item[value]] = item['name']
+
+for code in sys.argv[1:]:
+    try:
+        plurals = Locale(code).plural_form.tags
+        if len(plurals) <= 1:
+            plurals = 'n != 1'
+            nplurals = 2
+        else:
+            nplurals = len(plurals)
+
+    except UnknownLocaleError:
+        plurals = 'n != 1'
+        nplurals = 2
+
+    print("""    (
+        '{0}',
+        '{1}',
+        {2},
+        '{3}',
+    ),""".format(code, names[code].split(';')[-1].strip(), nplurals, plurals))

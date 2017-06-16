@@ -16,7 +16,9 @@ for l in Language.objects.exclude(name__contains='generated').values_list('name'
     print '{%% trans "%s" %%}' % l
 
 -->
+{% trans "Abkhazian" %}
 {% trans "Acholi" %}
+{% trans "Afar" %}
 {% trans "Afrikaans" %}
 {% trans "Akan" %}
 {% trans "Albanian" %}
@@ -30,25 +32,32 @@ for l in Language.objects.exclude(name__contains='generated').values_list('name'
 {% trans "Assamese" %}
 {% trans "Asturian" %}
 {% trans "Austrian German" %}
+{% trans "Avaric" %}
+{% trans "Avestan" %}
 {% trans "Aymará" %}
 {% trans "Azerbaijani" %}
+{% trans "Bambara" %}
 {% trans "Bashkir" %}
 {% trans "Basque" %}
 {% trans "Bavarian" %}
 {% trans "Belarusian" %}
 {% trans "Belarusian (latin)" %}
 {% trans "Bengali" %}
+{% trans "Bengali (Bangladesh)" %}
 {% trans "Bengali (India)" %}
+{% trans "Bihari languages" %}
+{% trans "Bislama" %}
 {% trans "Bodo" %}
 {% trans "Bosnian" %}
-{% trans "Bosnian (latin)" %}
 {% trans "Bosnian (cyrillic)" %}
+{% trans "Bosnian (latin)" %}
 {% trans "Breton" %}
 {% trans "Bulgarian" %}
 {% trans "Burmese" %}
 {% trans "Catalan" %}
 {% trans "Central Khmer" %}
 {% trans "Chamorro" %}
+{% trans "Chechen" %}
 {% trans "Cherokee" %}
 {% trans "Chhattisgarhi" %}
 {% trans "Chiga" %}
@@ -58,8 +67,11 @@ for l in Language.objects.exclude(name__contains='generated').values_list('name'
 {% trans "Chinese (Simplified)" %}
 {% trans "Chinese (Taiwan)" %}
 {% trans "Chinese (Traditional)" %}
+{% trans "Chuang" %}
+{% trans "Chuvash" %}
 {% trans "Colognian" %}
 {% trans "Cornish" %}
+{% trans "Corsican" %}
 {% trans "Cree" %}
 {% trans "Croatian" %}
 {% trans "Czech" %}
@@ -79,7 +91,9 @@ for l in Language.objects.exclude(name__contains='generated').values_list('name'
 {% trans "English (United States)" %}
 {% trans "Esperanto" %}
 {% trans "Estonian" %}
+{% trans "Ewe" %}
 {% trans "Faroese" %}
+{% trans "Fijian" %}
 {% trans "Filipino" %}
 {% trans "Finnish" %}
 {% trans "Franco-Provençal" %}
@@ -90,37 +104,51 @@ for l in Language.objects.exclude(name__contains='generated').values_list('name'
 {% trans "Fulah" %}
 {% trans "Gaelic" %}
 {% trans "Galician" %}
+{% trans "Ganda" %}
 {% trans "Georgian" %}
 {% trans "German" %}
+{% trans "Gikuyu" %}
 {% trans "Greek" %}
 {% trans "Greenlandic" %}
+{% trans "Guarani" %}
 {% trans "Gujarati" %}
 {% trans "Gun" %}
 {% trans "Haitian" %}
 {% trans "Hausa" %}
 {% trans "Hawaiian" %}
 {% trans "Hebrew" %}
+{% trans "Herero" %}
 {% trans "Hindi" %}
+{% trans "Hiri Motu" %}
 {% trans "Hungarian" %}
 {% trans "Icelandic" %}
+{% trans "Ido" %}
 {% trans "Igbo" %}
 {% trans "Indonesian" %}
 {% trans "Interlingua" %}
+{% trans "Inuktitut" %}
+{% trans "Inupiaq" %}
 {% trans "Irish" %}
 {% trans "Italian" %}
 {% trans "Japanese" %}
 {% trans "Javanese" %}
 {% trans "Kabyle" %}
 {% trans "Kannada" %}
+{% trans "Kanuri" %}
+{% trans "Kashmiri" %}
 {% trans "Kashubian" %}
 {% trans "Kazakh" %}
-{% trans "Kirghiz" %}
 {% trans "Kinyarwanda" %}
+{% trans "Kirghiz" %}
 {% trans "Klingon" %}
 {% trans "Klingon (pIqaD)" %}
+{% trans "Komi" %}
+{% trans "Kongo" %}
+{% trans "Konkani" %}
 {% trans "Korean" %}
 {% trans "Kurdish" %}
 {% trans "Kurdish Sorani" %}
+{% trans "Kwanyama" %}
 {% trans "Kyrgyz" %}
 {% trans "Lao" %}
 {% trans "Latin" %}
@@ -130,6 +158,7 @@ for l in Language.objects.exclude(name__contains='generated').values_list('name'
 {% trans "Lithuanian" %}
 {% trans "Lojban" %}
 {% trans "Low German" %}
+{% trans "Luba-Katanga" %}
 {% trans "Luxembourgish" %}
 {% trans "Macedonian" %}
 {% trans "Maithili" %}
@@ -139,24 +168,38 @@ for l in Language.objects.exclude(name__contains='generated').values_list('name'
 {% trans "Maltese" %}
 {% trans "Mandinka" %}
 {% trans "Manipuri" %}
+{% trans "Manx" %}
 {% trans "Maori" %}
 {% trans "Mapudungun" %}
 {% trans "Marathi" %}
+{% trans "Marshallese" %}
+{% trans "Moldovan" %}
 {% trans "Mongolian" %}
+{% trans "Montenegro" %}
 {% trans "Morisyen" %}
 {% trans "N'Ko" %}
 {% trans "Nahuatl languages" %}
+{% trans "Nauru" %}
+{% trans "Navaho" %}
+{% trans "Ndonga" %}
 {% trans "Neapolitan" %}
 {% trans "Nepali" %}
+{% trans "North Ndebele" %}
 {% trans "Northern Sami" %}
 {% trans "Norwegian (old code)" %}
 {% trans "Norwegian Bokmål" %}
 {% trans "Norwegian Nynorsk" %}
+{% trans "Nuosu" %}
 {% trans "Nyanja" %}
+{% trans "Occidental" %}
 {% trans "Occitan" %}
+{% trans "Odia" %}
 {% trans "Ojibwe" %}
 {% trans "Oriya" %}
+{% trans "Old Church Slavonic" %}
+{% trans "Oromo" %}
 {% trans "Ossetian" %}
+{% trans "Pali" %}
 {% trans "Papiamento" %}
 {% trans "Pedi" %}
 {% trans "Persian" %}
@@ -168,9 +211,15 @@ for l in Language.objects.exclude(name__contains='generated').values_list('name'
 {% trans "Portuguese (Portugal)" %}
 {% trans "Punjabi" %}
 {% trans "Pushto" %}
+{% trans "Quechua" %}
 {% trans "Romanian" %}
 {% trans "Romansh" %}
+{% trans "Rundi" %}
 {% trans "Russian" %}
+{% trans "Rusyn" %}
+{% trans "Samoan" %}
+{% trans "Sango" %}
+{% trans "Sanskrit" %}
 {% trans "Santali" %}
 {% trans "Sardinian" %}
 {% trans "Scots" %}
@@ -179,6 +228,7 @@ for l in Language.objects.exclude(name__contains='generated').values_list('name'
 {% trans "Serbian (latin)" %}
 {% trans "Serbo-Croatian" %}
 {% trans "Shona" %}
+{% trans "Silesian" %}
 {% trans "Sindhi" %}
 {% trans "Sinhala" %}
 {% trans "Slovak" %}
@@ -186,6 +236,8 @@ for l in Language.objects.exclude(name__contains='generated').values_list('name'
 {% trans "Somali" %}
 {% trans "Songhai languages" %}
 {% trans "Sotho" %}
+{% trans "South Ndebele" %}
+{% trans "Southern Sami" %}
 {% trans "Spanish" %}
 {% trans "Spanish (American)" %}
 {% trans "Spanish (Argentina)" %}
@@ -193,9 +245,11 @@ for l in Language.objects.exclude(name__contains='generated').values_list('name'
 {% trans "Spanish (Puerto Rico)" %}
 {% trans "Sundanese" %}
 {% trans "Swahili" %}
+{% trans "Swati" %}
 {% trans "Swedish" %}
 {% trans "Swiss High German" %}
 {% trans "Tagalog" %}
+{% trans "Tahitian" %}
 {% trans "Tajik" %}
 {% trans "Tamil" %}
 {% trans "Tatar" %}
@@ -203,9 +257,12 @@ for l in Language.objects.exclude(name__contains='generated').values_list('name'
 {% trans "Thai" %}
 {% trans "Tibetan" %}
 {% trans "Tigrinya" %}
+{% trans "Tonga (Tonga Islands)" %}
 {% trans "Tsonga" %}
+{% trans "Tswana" %}
 {% trans "Turkish" %}
 {% trans "Turkmen" %}
+{% trans "Twi" %}
 {% trans "Uighur" %}
 {% trans "Ukrainian" %}
 {% trans "Upper Sorbian" %}
@@ -217,11 +274,14 @@ for l in Language.objects.exclude(name__contains='generated').values_list('name'
 {% trans "Venda" %}
 {% trans "Venetian" %}
 {% trans "Vietnamese" %}
+{% trans "Volapük" %}
 {% trans "Walloon" %}
 {% trans "Welsh" %}
 {% trans "West Flemish" %}
 {% trans "Wolof" %}
+{% trans "Xhosa" %}
 {% trans "Yakut" %}
 {% trans "Yiddish" %}
 {% trans "Yoruba" %}
+{% trans "Yue" %}
 {% trans "Zulu" %}

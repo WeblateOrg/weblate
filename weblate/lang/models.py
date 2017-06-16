@@ -52,8 +52,6 @@ def get_plural_type(code, pluralequation):
     # Remove not needed parenthesis
     if pluralequation[-1] == ';':
         pluralequation = pluralequation[:-1]
-    if pluralequation[0] == '(' and pluralequation[-1] == ')':
-        pluralequation = pluralequation[1:-1]
 
     # Get base language code
     base_code = code.replace('_', '-').split('-')[0]
