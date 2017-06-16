@@ -988,6 +988,7 @@ LANGUAGE_NAME_FIXUPS = {
     'pa': 'Punjabi',
     'ca@valencia': 'Valencian',
     'ky': 'Kyrgyz',
+    'me': 'Montenegrin',
 }
 
 
