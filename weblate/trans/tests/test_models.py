@@ -20,11 +20,12 @@
 
 """Test for translation models."""
 
-from __future__ import print_function
 
 import shutil
 import os
 
+from django.core.management.color import no_style
+from django.db import connection
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.utils import timezone
@@ -45,6 +46,15 @@ class RepoTestCase(TestCase, RepoTestMixin):
     """Generic class for tests working with repositories."""
     def setUp(self):
         self.clone_test_repos()
+        cursor = connection.cursor()
+        # Reset sequence for Language objects as
+        # we're manipulating with them in FixtureTestCase.setUpTestData
+        # and that seems to affect sequence for other tests as well
+        # on some PostgreSQL versions (probably sequence is not rolled back
+        # in a transaction).
+        commands = connection.ops.sequence_reset_sql(no_style(), [Language])
+        for sql in commands:
+            cursor.execute(sql)
 
 
 class ProjectTest(RepoTestCase):
