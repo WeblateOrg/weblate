@@ -132,7 +132,13 @@ def validate_repoweb(val):
     It checks whether it can be filled in using format string.
     """
     try:
-        val % {'file': 'file.po', 'line': '9', 'branch': 'master'}
+        val % {
+            'file': 'file.po',
+            '../file': 'file.po',
+            '../../file': 'file.po',
+            'line': '9',
+            'branch': 'master'
+        }
     except Exception as error:
         raise ValidationError(_('Bad format string (%s)') % str(error))
 
