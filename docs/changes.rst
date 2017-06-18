@@ -11,6 +11,7 @@ weblate 2.15
 * Improved error messages on failed authentication.
 * Keep page state when removing word from glossary.
 * Added direct link to edit secondary language translation.
+* Added Perl format quality check.
 
 Released on ? 2017.
 

@@ -26,6 +26,7 @@ from __future__ import unicode_literals
 from weblate.trans.tests.test_checks import CheckTestCase
 from weblate.trans.checks.format import (
     PythonFormatCheck, PHPFormatCheck, CFormatCheck, PythonBraceFormatCheck,
+    PerlFormatCheck,
 )
 
 
@@ -223,11 +224,12 @@ class PHPFormatCheckTest(CheckTestCase):
 
 class CFormatCheckTest(CheckTestCase):
     check = CFormatCheck()
+    flag = 'c-format'
 
     def setUp(self):
         super(CFormatCheckTest, self).setUp()
         self.test_highlight = (
-            'c-format',
+            self.flag,
             '%sstring%d',
             [(0, 2, u'%s'), (8, 10, u'%d')],
         )
@@ -301,6 +303,10 @@ class CFormatCheckTest(CheckTestCase):
             'radky: %\'6.3f',
             False
         ))
+
+class PerlFormatCheckTest(CFormatCheckTest):
+    check = PerlFormatCheck()
+    flag = 'perl-format'
 
 
 class PythonBraceFormatCheckTest(CheckTestCase):

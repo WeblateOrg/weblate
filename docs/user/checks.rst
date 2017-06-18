@@ -177,6 +177,7 @@ Unlike the other checks, the flag should be set as a ``key:value`` pair like
 .. _check-python-brace-format:
 .. _check-php-format:
 .. _check-c-format:
+.. _check-perl-format:
 .. _check-javascript-format:
 .. _check-angularjs-format:
 
@@ -189,6 +190,7 @@ Format string does not match source. Weblate supports following formats:
 * Python brace format
 * PHP format
 * C format
+* Perl format
 * Javascript format
 * AngularJS interpolation string
 
@@ -201,6 +203,7 @@ should really keep the format string matching the original one.
     :ref:`Python brace format <python:formatstrings>`,
     `PHP format strings <https://php.net/manual/en/function.sprintf.php>`_,
     `C printf format <https://en.wikipedia.org/wiki/Printf_format_string>`_,
+    `Perl sprintf <https://perldoc.perl.org/functions/sprintf.html>`_,
     `AngularJS: API: $interpolate <https://docs.angularjs.org/api/ng/service/$interpolate>`_
 
 .. _check-plurals:

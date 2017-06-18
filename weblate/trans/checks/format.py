@@ -240,6 +240,17 @@ class CFormatCheck(BaseFormatCheck):
         return '$' not in string and string != '%'
 
 
+class PerlFormatCheck(BaseFormatCheck):
+    """Check for Perl format string"""
+    check_id = 'perl_format'
+    name = _('Perl format')
+    description = _('Perl format string does not match source')
+    regexp = C_PRINTF_MATCH
+
+    def is_position_based(self, string):
+        return '$' not in string and string != '%'
+
+
 class JavascriptFormatCheck(CFormatCheck):
     """Check for Javascript format string"""
     check_id = 'javascript_format'
