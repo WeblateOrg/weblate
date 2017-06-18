@@ -229,7 +229,7 @@ class FixtureTestCase(ViewTestCase):
         # after transaction checkpoint and deleting languages
         for db_name in cls._databases_names(include_mirrors=False):
             call_command(
-                'loaddata', 'test',
+                'loaddata', 'simple-project.json',
                 verbosity=0,
                 commit=False,
                 database=db_name
