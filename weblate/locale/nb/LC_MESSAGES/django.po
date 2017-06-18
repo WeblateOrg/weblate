@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-06-16 20:45+0000\n"
+"POT-Creation-Date: 2017-06-18 11:17+0000\n"
 "PO-Revision-Date: 2017-05-20 03:44+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
@@ -5761,18 +5761,30 @@ msgid "C format string does not match source"
 msgstr "C-formatstreng samsvarer ikke med kilde"
 
 #: weblate/trans/checks/format.py:246
+#, fuzzy
+#| msgid "PHP format"
+msgid "Perl format"
+msgstr "PHP-format"
+
+#: weblate/trans/checks/format.py:247
+#, fuzzy
+#| msgid "PHP format string does not match source"
+msgid "Perl format string does not match source"
+msgstr "PHP-formatstreng samsvarer ikke med kilde"
+
+#: weblate/trans/checks/format.py:257
 msgid "Javascript format"
 msgstr "Javascript-format"
 
-#: weblate/trans/checks/format.py:247
+#: weblate/trans/checks/format.py:258
 msgid "Javascript format string does not match source"
 msgstr "Javascript-formatstreng samsvarer ikke med kilde"
 
-#: weblate/trans/checks/format.py:253
+#: weblate/trans/checks/format.py:264
 msgid "Python brace format"
 msgstr "Python-klammeformat"
 
-#: weblate/trans/checks/format.py:254
+#: weblate/trans/checks/format.py:265
 msgid "Python brace format string does not match source"
 msgstr "Python-klammeparentes formatstreng samsvarer ikke med kilden"
 
@@ -7049,7 +7061,7 @@ msgstr ""
 msgid "Components with higher priority are offered first to translators."
 msgstr "Deler med høyere prioritet tilbys først til oversettere."
 
-#: weblate/trans/models/subproject.py:661
+#: weblate/trans/models/subproject.py:663
 msgid ""
 "Failed to verify SSH host key, please add them in SSH page in the admin "
 "interface."
@@ -7057,73 +7069,73 @@ msgstr ""
 "Kunne ikke bekrefte SSH-vertsnøkkel, legg dem i SSH-siden i admin-"
 "grensesnittet."
 
-#: weblate/trans/models/subproject.py:665
+#: weblate/trans/models/subproject.py:667
 #, python-format
 msgid "Failed to fetch repository: %s"
 msgstr "Klarte ikke å hente kodelageret: %s"
 
-#: weblate/trans/models/subproject.py:755
+#: weblate/trans/models/subproject.py:757
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Push er deaktivert for %s."
 
-#: weblate/trans/models/subproject.py:802
+#: weblate/trans/models/subproject.py:804
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Kunne ikke flytte til ekstern gren på %s."
 
-#: weblate/trans/models/subproject.py:832
+#: weblate/trans/models/subproject.py:834
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Kunne ikke tilbakestille til ekstern gren på %s."
 
-#: weblate/trans/models/subproject.py:906
+#: weblate/trans/models/subproject.py:908
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "Kunne ikke rebase vår gren på ekstern gren %s."
 
-#: weblate/trans/models/subproject.py:911
+#: weblate/trans/models/subproject.py:913
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Kunne ikke flette ekstern gren med %s."
 
-#: weblate/trans/models/subproject.py:1094
+#: weblate/trans/models/subproject.py:1096
 msgid "Invalid link to a Weblate project, can not link to linked repository!"
 msgstr ""
 "Ugyldig lenke til et Weblate-prosjekt. Kan ikke koble til lenket kodelager!"
 
-#: weblate/trans/models/subproject.py:1101
+#: weblate/trans/models/subproject.py:1103
 msgid "Invalid link to a Weblate project, can not link to self!"
 msgstr "Ugyldig lenke til et Weblate-prosjekt. Kan ikke lenke til seg selv!"
 
-#: weblate/trans/models/subproject.py:1108
+#: weblate/trans/models/subproject.py:1110
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
 "Ugyldig kobling til et Weblate-prosjekt, bruk weblate://project/component."
 
-#: weblate/trans/models/subproject.py:1114
+#: weblate/trans/models/subproject.py:1116
 msgid "Push URL is not used when repository is linked!"
 msgstr "Push URL brukes ikke når kodelageret er tilknyttet!"
 
-#: weblate/trans/models/subproject.py:1120
+#: weblate/trans/models/subproject.py:1122
 msgid "Export URL is not used when repository is linked!"
 msgstr "Eksportadresse brukes ikke når kodelager er tilknyttet!"
 
-#: weblate/trans/models/subproject.py:1128
+#: weblate/trans/models/subproject.py:1130
 msgid "The mask did not match any files!"
 msgstr "Masken samsvarte ikke med noen filer!"
 
-#: weblate/trans/models/subproject.py:1136
+#: weblate/trans/models/subproject.py:1138
 #, python-format
 msgid "Got empty language code for %s, please check filemask!"
 msgstr "Fikk tom språkkode for %s. Sjekk filmasken!"
 
-#: weblate/trans/models/subproject.py:1141
+#: weblate/trans/models/subproject.py:1143
 #, python-format
 msgid "Language code %s is too long, please check filemask!"
 msgstr "Språkkoden for %s er for lang. Sjekk filmasken!"
 
-#: weblate/trans/models/subproject.py:1145
+#: weblate/trans/models/subproject.py:1147
 #, python-format
 msgid ""
 "There are more files for single language (%s), please adjust the mask and "
@@ -7132,7 +7144,7 @@ msgstr ""
 "Det er flere filer for ett språk (%s), juster masken, og bruk komponenter "
 "for å oversette ulike ressurser."
 
-#: weblate/trans/models/subproject.py:1151
+#: weblate/trans/models/subproject.py:1153
 #, python-format
 msgid ""
 "Multiple translations were mapped to a single language code (%s). You should "
@@ -7143,21 +7155,21 @@ msgstr ""
 "deaktivere SIMPLIFY_LANGUAGES for å hindre Weblate å koble lignende språk "
 "sammen til ett."
 
-#: weblate/trans/models/subproject.py:1170
+#: weblate/trans/models/subproject.py:1172
 msgid "File does not seem to be valid!"
 msgstr "Filen synes ikke å være gyldig!"
 
-#: weblate/trans/models/subproject.py:1178
+#: weblate/trans/models/subproject.py:1180
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Formatet med %d filsamsvar gjenkjennes ikke."
 
-#: weblate/trans/models/subproject.py:1187
+#: weblate/trans/models/subproject.py:1189
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Kan ikke analysere %d filsamsvar!"
 
-#: weblate/trans/models/subproject.py:1196
+#: weblate/trans/models/subproject.py:1198
 msgid ""
 "Chosen file format does not support adding new translations as chosen in "
 "project settings."
@@ -7165,7 +7177,7 @@ msgstr ""
 "Valgte filformat støtter ikke å legge til nye oversettelser som valgt i "
 "prosjektinnstillingene."
 
-#: weblate/trans/models/subproject.py:1204
+#: weblate/trans/models/subproject.py:1206
 msgid ""
 "You have configured Weblate to add new translation files, but did not "
 "provide base file to do that!"
@@ -7173,11 +7185,11 @@ msgstr ""
 "Du har satt opp Weblate til å legge til nye oversetterfiler, men ikke "
 "bidratt med utgangsfiler for å gjøre dette!"
 
-#: weblate/trans/models/subproject.py:1208
+#: weblate/trans/models/subproject.py:1210
 msgid "Format of base file for new translations was not recognized!"
 msgstr "Gjenkjenner ikke formatet på basefilen for nye oversettelser!"
 
-#: weblate/trans/models/subproject.py:1213
+#: weblate/trans/models/subproject.py:1215
 msgid ""
 "Base file for new translations is not used because of component settings. "
 "You probably want to enable automatic adding of new translations."
@@ -7186,34 +7198,34 @@ msgstr ""
 "komponentinnstillinger. Du ønsker sannsynligvis å gjøre det mulig at nye "
 "oversettelser legges til automatisk."
 
-#: weblate/trans/models/subproject.py:1224
+#: weblate/trans/models/subproject.py:1226
 msgid "You can not use base file with bilingual translation!"
 msgstr "Du kan ikke bruke basefilen med tospråklig oversettelse!"
 
-#: weblate/trans/models/subproject.py:1229
+#: weblate/trans/models/subproject.py:1231
 msgid "Using .pot file as base file is not supported!"
 msgstr "Det er ikke støttet å bruke .pot-fil som basefil!"
 
-#: weblate/trans/models/subproject.py:1236
+#: weblate/trans/models/subproject.py:1238
 msgid "Template file not found!"
 msgstr "Filmalen finnes ikke!"
 
-#: weblate/trans/models/subproject.py:1242
+#: weblate/trans/models/subproject.py:1244
 #, python-format
 msgid "Failed to parse translation base file: %s"
 msgstr "Kunne ikke analysere oversettelsens basefil: %s"
 
-#: weblate/trans/models/subproject.py:1252
+#: weblate/trans/models/subproject.py:1254
 #, fuzzy, python-brace-format
 #| msgid "Template language (%s) does not match project source language (%s)!"
 msgid "Template language ({0}) does not match project source language ({1})!"
 msgstr "Mal-språket (%s) stemmer ikke med prosjektets kilde-språk (%s)!"
 
-#: weblate/trans/models/subproject.py:1259
+#: weblate/trans/models/subproject.py:1261
 msgid "You can not use monolingual translation without base file!"
 msgstr "Du kan ikke bruke enspråklig oversettelse uten basefilen!"
 
-#: weblate/trans/models/subproject.py:1270
+#: weblate/trans/models/subproject.py:1272
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
@@ -7221,39 +7233,39 @@ msgstr ""
 "Fyll ut instruksjonsnettadresse, eller bruk annet alternativ for å legge til "
 "nytt språk."
 
-#: weblate/trans/models/subproject.py:1277
+#: weblate/trans/models/subproject.py:1279
 msgid "License URL can not be used without license summary."
 msgstr "Lisensadresse kan ikke brukes uten lisenssammendrag."
 
-#: weblate/trans/models/subproject.py:1297
+#: weblate/trans/models/subproject.py:1299
 msgid "Changing version control system is not supported!"
 msgstr "Støtter ikke endring av versjonskontrollsystemet!"
 
-#: weblate/trans/models/subproject.py:1302
+#: weblate/trans/models/subproject.py:1304
 #, python-brace-format
 msgid "Unsupported file format: {0}"
 msgstr "Filformat som ikke støttes: {0}"
 
-#: weblate/trans/models/subproject.py:1309
+#: weblate/trans/models/subproject.py:1311
 #, python-format
 msgid "Failed to update repository: %s"
 msgstr "Kan ikke oppdatere kodelageret: %s"
 
-#: weblate/trans/models/subproject.py:1329
+#: weblate/trans/models/subproject.py:1331
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr "Kan ikke bekrefte filsamsvar på grunn av et ugyldig regulært uttrykk."
 
-#: weblate/trans/models/subproject.py:1339
+#: weblate/trans/models/subproject.py:1341
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
 "Automatisk godtaking av forslag kan bare skje ved at stemmegivning er "
 "aktivert!"
 
-#: weblate/trans/models/subproject.py:1518
+#: weblate/trans/models/subproject.py:1520
 msgid "Failed to add new translation file!"
 msgstr "Klarte ikke å legge til ny oversettelsesfil!"
 
-#: weblate/trans/models/subproject.py:1540
+#: weblate/trans/models/subproject.py:1542
 msgid "Translation file already exists!"
 msgstr "Oversettelsesfil finnes allerede!"
 
@@ -7683,7 +7695,7 @@ msgid "Add review flag for new translated strings"
 msgstr "Legg til utførtflagg for nyoversatte strenger"
 
 #: weblate/trans/validators.py:50 weblate/trans/validators.py:71
-#: weblate/utils/validators.py:137
+#: weblate/utils/validators.py:143
 #, python-format
 msgid "Bad format string (%s)"
 msgstr "Ugyldig formatstreng (%s)"
@@ -8174,15 +8186,15 @@ msgstr "Ikke-støttet bildetype: %s"
 msgid "Image is too big, please scale it down or crop relevant part!"
 msgstr "Bildet er for stort.  Skaler det ned eller klipp ut relevant del!"
 
-#: weblate/utils/validators.py:151
+#: weblate/utils/validators.py:157
 msgid "The editor link lacks URL scheme!"
 msgstr ""
 
-#: weblate/utils/validators.py:157
+#: weblate/utils/validators.py:163
 msgid "Forbidden URL scheme!"
 msgstr ""
 
-#: weblate/utils/validators.py:174
+#: weblate/utils/validators.py:180
 #, fuzzy
 #| msgid "Unsupported file format: {0}"
 msgid "Unsupported file format."

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-06-16 20:45+0000\n"
+"POT-Creation-Date: 2017-06-18 11:17+0000\n"
 "PO-Revision-Date: 2017-05-17 18:30+0000\n"
 "Last-Translator: Domen <mitenem@outlook.com>\n"
 "Language-Team: Slovenian <https://hosted.weblate.org/projects/weblate/master/"
@@ -5742,18 +5742,30 @@ msgid "C format string does not match source"
 msgstr "Oblika niza C se ne ujema z izvirnikom"
 
 #: weblate/trans/checks/format.py:246
+#, fuzzy
+#| msgid "PHP format"
+msgid "Perl format"
+msgstr "Oblika PHP"
+
+#: weblate/trans/checks/format.py:247
+#, fuzzy
+#| msgid "PHP format string does not match source"
+msgid "Perl format string does not match source"
+msgstr "Oblika niza PHP se ne ujema z izvirnikom"
+
+#: weblate/trans/checks/format.py:257
 msgid "Javascript format"
 msgstr "Oblika JavaScript"
 
-#: weblate/trans/checks/format.py:247
+#: weblate/trans/checks/format.py:258
 msgid "Javascript format string does not match source"
 msgstr "Oblika niza JavaScript se ne ujema z izvirnikom"
 
-#: weblate/trans/checks/format.py:253
+#: weblate/trans/checks/format.py:264
 msgid "Python brace format"
 msgstr "Oblika oklepajev Python"
 
-#: weblate/trans/checks/format.py:254
+#: weblate/trans/checks/format.py:265
 msgid "Python brace format string does not match source"
 msgstr "Oblika niza oklepajev Python se ne ujema z izvirnikom"
 
@@ -7010,7 +7022,7 @@ msgstr ""
 msgid "Components with higher priority are offered first to translators."
 msgstr "Komponente z višjo prioriteto bodo prevajalcem prikazane najprej."
 
-#: weblate/trans/models/subproject.py:661
+#: weblate/trans/models/subproject.py:663
 msgid ""
 "Failed to verify SSH host key, please add them in SSH page in the admin "
 "interface."
@@ -7018,79 +7030,79 @@ msgstr ""
 "Preverjanje gostiteljskega ključa SSH je spodletelo; prosimo, dodajte jih na "
 "strani SSH v administratorskem vmesniku."
 
-#: weblate/trans/models/subproject.py:665
+#: weblate/trans/models/subproject.py:667
 #, python-format
 msgid "Failed to fetch repository: %s"
 msgstr "Zajemanje shrambe je spodletelo: %s"
 
-#: weblate/trans/models/subproject.py:755
+#: weblate/trans/models/subproject.py:757
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Potiskanje je onemogočeno za %s."
 
-#: weblate/trans/models/subproject.py:802
+#: weblate/trans/models/subproject.py:804
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Nismo uspeli potisniti na oddaljeno podvejo na %s."
 
-#: weblate/trans/models/subproject.py:832
+#: weblate/trans/models/subproject.py:834
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Nismo uspeli ponastaviti oddaljene podveje na %s."
 
-#: weblate/trans/models/subproject.py:906
+#: weblate/trans/models/subproject.py:908
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "Napaka pri prebaziranju lokalne veje na oddaljeno vejo %s."
 
-#: weblate/trans/models/subproject.py:911
+#: weblate/trans/models/subproject.py:913
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Nismo uspeli združiti oddaljene podveje z %s."
 
-#: weblate/trans/models/subproject.py:1094
+#: weblate/trans/models/subproject.py:1096
 msgid "Invalid link to a Weblate project, can not link to linked repository!"
 msgstr ""
 "Neveljavna povezava do projekta Weblate; ne morem povezati do povezane "
 "shrambe!"
 
-#: weblate/trans/models/subproject.py:1101
+#: weblate/trans/models/subproject.py:1103
 msgid "Invalid link to a Weblate project, can not link to self!"
 msgstr "Neveljavna povezava do projekta Weblate; ne morem povezati nase!"
 
-#: weblate/trans/models/subproject.py:1108
+#: weblate/trans/models/subproject.py:1110
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
 "Neveljavna povezava do projekta Weblate; uporabite weblate://projekt/"
 "komponenta."
 
-#: weblate/trans/models/subproject.py:1114
+#: weblate/trans/models/subproject.py:1116
 msgid "Push URL is not used when repository is linked!"
 msgstr ""
 "URL za potiskanje se ne uporablja, če je skladišče povezano (linked "
 "repository)!"
 
-#: weblate/trans/models/subproject.py:1120
+#: weblate/trans/models/subproject.py:1122
 msgid "Export URL is not used when repository is linked!"
 msgstr ""
 "URL za izvoz se ne uporablja, ko je skladišče povezano (linked repository)!"
 
-#: weblate/trans/models/subproject.py:1128
+#: weblate/trans/models/subproject.py:1130
 msgid "The mask did not match any files!"
 msgstr "Maska se ne ujema z nobeno datoteko!"
 
-#: weblate/trans/models/subproject.py:1136
+#: weblate/trans/models/subproject.py:1138
 #, python-format
 msgid "Got empty language code for %s, please check filemask!"
 msgstr ""
 "Za %s smo dobili prazno kodo jezika. Prosimo, preverite masko datoteke!"
 
-#: weblate/trans/models/subproject.py:1141
+#: weblate/trans/models/subproject.py:1143
 #, python-format
 msgid "Language code %s is too long, please check filemask!"
 msgstr "Koda jezika %s je predolga. Prosimo, preverite masko datoteke!"
 
-#: weblate/trans/models/subproject.py:1145
+#: weblate/trans/models/subproject.py:1147
 #, python-format
 msgid ""
 "There are more files for single language (%s), please adjust the mask and "
@@ -7099,7 +7111,7 @@ msgstr ""
 "Za posamezen jezik obstaja več datotek (%s); prosimo, prilagodite masko in "
 "uporabite komponente za prevajanje različnih virov."
 
-#: weblate/trans/models/subproject.py:1151
+#: weblate/trans/models/subproject.py:1153
 #, python-format
 msgid ""
 "Multiple translations were mapped to a single language code (%s). You should "
@@ -7110,21 +7122,21 @@ msgstr ""
 "SIMPLIFY_LANGUAGES, da preprečite Weblate preslikanje podobnih jezikov v "
 "enega."
 
-#: weblate/trans/models/subproject.py:1170
+#: weblate/trans/models/subproject.py:1172
 msgid "File does not seem to be valid!"
 msgstr "Kot kaže, datoteka ni veljavna!"
 
-#: weblate/trans/models/subproject.py:1178
+#: weblate/trans/models/subproject.py:1180
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Oblike %d ujemajočih datotek nismo mogli prepoznati."
 
-#: weblate/trans/models/subproject.py:1187
+#: weblate/trans/models/subproject.py:1189
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Nismo uspeli razčleniti %d ujemajočih se datotek!"
 
-#: weblate/trans/models/subproject.py:1196
+#: weblate/trans/models/subproject.py:1198
 msgid ""
 "Chosen file format does not support adding new translations as chosen in "
 "project settings."
@@ -7132,7 +7144,7 @@ msgstr ""
 "Izbrana oblika datoteke ne podpira dodajanja novih prevodov, kot je izbrano "
 "v nastavitvah projekta."
 
-#: weblate/trans/models/subproject.py:1204
+#: weblate/trans/models/subproject.py:1206
 msgid ""
 "You have configured Weblate to add new translation files, but did not "
 "provide base file to do that!"
@@ -7140,11 +7152,11 @@ msgstr ""
 "Weblate ste konfigurirali za dodajanje novih datotek s prevodi, vendar za to "
 "niste dodali temeljne datoteke!"
 
-#: weblate/trans/models/subproject.py:1208
+#: weblate/trans/models/subproject.py:1210
 msgid "Format of base file for new translations was not recognized!"
 msgstr "Ne morem prepoznati oblike temeljne datoteke za nove prevode!"
 
-#: weblate/trans/models/subproject.py:1213
+#: weblate/trans/models/subproject.py:1215
 msgid ""
 "Base file for new translations is not used because of component settings. "
 "You probably want to enable automatic adding of new translations."
@@ -7153,33 +7165,33 @@ msgstr ""
 "komponente. Najverjetneje želite omogočiti samodejno dodajanje novih "
 "prevodov."
 
-#: weblate/trans/models/subproject.py:1224
+#: weblate/trans/models/subproject.py:1226
 msgid "You can not use base file with bilingual translation!"
 msgstr "Ne morete uporabiti temeljne datoteke z dvojezičnim prevodom!"
 
-#: weblate/trans/models/subproject.py:1229
+#: weblate/trans/models/subproject.py:1231
 msgid "Using .pot file as base file is not supported!"
 msgstr "Uporaba datoteke .pot kot temeljne datoteke ni podprto!"
 
-#: weblate/trans/models/subproject.py:1236
+#: weblate/trans/models/subproject.py:1238
 msgid "Template file not found!"
 msgstr "Ne najdem datoteke predloge!"
 
-#: weblate/trans/models/subproject.py:1242
+#: weblate/trans/models/subproject.py:1244
 #, python-format
 msgid "Failed to parse translation base file: %s"
 msgstr "Razčlenjevanje temeljne datoteke prevoda je spodletelo: %s"
 
-#: weblate/trans/models/subproject.py:1252
+#: weblate/trans/models/subproject.py:1254
 #, python-brace-format
 msgid "Template language ({0}) does not match project source language ({1})!"
 msgstr "Jezik predloge ({0}) se ne ujema z izvirnim jezikom projekta ({1})!"
 
-#: weblate/trans/models/subproject.py:1259
+#: weblate/trans/models/subproject.py:1261
 msgid "You can not use monolingual translation without base file!"
 msgstr "Ne morete uporabljati enojezičnega prevoda brez temeljne datoteke!"
 
-#: weblate/trans/models/subproject.py:1270
+#: weblate/trans/models/subproject.py:1272
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
@@ -7187,39 +7199,39 @@ msgstr ""
 "Prosimo, vnesite URL navodil ali uporabite drugo možnost za dodajanje novega "
 "jezika."
 
-#: weblate/trans/models/subproject.py:1277
+#: weblate/trans/models/subproject.py:1279
 msgid "License URL can not be used without license summary."
 msgstr "URL-naslova dovoljenja ni mogoče uporabiti brez povzetka dovoljenja."
 
-#: weblate/trans/models/subproject.py:1297
+#: weblate/trans/models/subproject.py:1299
 msgid "Changing version control system is not supported!"
 msgstr "Spreminjanje sistema za nadzor različic ni podprto!"
 
-#: weblate/trans/models/subproject.py:1302
+#: weblate/trans/models/subproject.py:1304
 #, python-brace-format
 msgid "Unsupported file format: {0}"
 msgstr "Nepodprta oblika datoteke: {0}"
 
-#: weblate/trans/models/subproject.py:1309
+#: weblate/trans/models/subproject.py:1311
 #, python-format
 msgid "Failed to update repository: %s"
 msgstr "Posodabljanje shrambe je spodletelo: %s"
 
-#: weblate/trans/models/subproject.py:1329
+#: weblate/trans/models/subproject.py:1331
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
 "Ne moremo preveriti ujemanja datotek zaradi neveljavnega regularnega izraza."
 
-#: weblate/trans/models/subproject.py:1339
+#: weblate/trans/models/subproject.py:1341
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
 "Samodejno sprejemanje predlogov deluje samo, ko je glasovanje omogočeno!"
 
-#: weblate/trans/models/subproject.py:1518
+#: weblate/trans/models/subproject.py:1520
 msgid "Failed to add new translation file!"
 msgstr "Nismo uspeli dodati nove datoteke s prevodom!"
 
-#: weblate/trans/models/subproject.py:1540
+#: weblate/trans/models/subproject.py:1542
 msgid "Translation file already exists!"
 msgstr "Datoteka s prevodom že obstaja!"
 
@@ -7677,7 +7689,7 @@ msgid "Add review flag for new translated strings"
 msgstr "Novim prevedenim nizom dodaj oznako za pregled"
 
 #: weblate/trans/validators.py:50 weblate/trans/validators.py:71
-#: weblate/utils/validators.py:137
+#: weblate/utils/validators.py:143
 #, python-format
 msgid "Bad format string (%s)"
 msgstr "Slaba oblika niza (%s)"
@@ -8170,15 +8182,15 @@ msgid "Image is too big, please scale it down or crop relevant part!"
 msgstr ""
 "Slika je prevelika; prosimo, zmanjšajte jo ali izrežite relevantni del!"
 
-#: weblate/utils/validators.py:151
+#: weblate/utils/validators.py:157
 msgid "The editor link lacks URL scheme!"
 msgstr ""
 
-#: weblate/utils/validators.py:157
+#: weblate/utils/validators.py:163
 msgid "Forbidden URL scheme!"
 msgstr "Prepovedana URL-shema!"
 
-#: weblate/utils/validators.py:174
+#: weblate/utils/validators.py:180
 #, fuzzy
 #| msgid "Unsupported file format: {0}"
 msgid "Unsupported file format."

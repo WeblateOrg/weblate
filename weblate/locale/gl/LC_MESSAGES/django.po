@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-06-16 20:45+0000\n"
+"POT-Creation-Date: 2017-06-18 11:17+0000\n"
 "PO-Revision-Date: 2016-01-14 15:07+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/weblate/master/"
@@ -6191,22 +6191,34 @@ msgid "C format string does not match source"
 msgstr "O formato da cadea non casa coa orixe"
 
 #: weblate/trans/checks/format.py:246
+#, fuzzy
+#| msgid "PHP format"
+msgid "Perl format"
+msgstr "Formato PHP"
+
+#: weblate/trans/checks/format.py:247
+#, fuzzy
+#| msgid "Format string does not match source"
+msgid "Perl format string does not match source"
+msgstr "O formato da cadea non casa coa orixe"
+
+#: weblate/trans/checks/format.py:257
 msgid "Javascript format"
 msgstr ""
 
-#: weblate/trans/checks/format.py:247
+#: weblate/trans/checks/format.py:258
 #, fuzzy
 #| msgid "Format string does not match source"
 msgid "Javascript format string does not match source"
 msgstr "O formato da cadea non casa coa orixe"
 
-#: weblate/trans/checks/format.py:253
+#: weblate/trans/checks/format.py:264
 #, fuzzy
 #| msgid "Python format"
 msgid "Python brace format"
 msgstr "Formato Python"
 
-#: weblate/trans/checks/format.py:254
+#: weblate/trans/checks/format.py:265
 #, fuzzy
 #| msgid "Format string does not match source"
 msgid "Python brace format string does not match source"
@@ -7647,84 +7659,84 @@ msgstr ""
 msgid "Components with higher priority are offered first to translators."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:661
+#: weblate/trans/models/subproject.py:663
 msgid ""
 "Failed to verify SSH host key, please add them in SSH page in the admin "
 "interface."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:665
+#: weblate/trans/models/subproject.py:667
 #, fuzzy, python-format
 #| msgid "Failed to fetch git repository: %s"
 msgid "Failed to fetch repository: %s"
 msgstr "Fallou o tentar obeter o repositorio git: %s"
 
-#: weblate/trans/models/subproject.py:755
+#: weblate/trans/models/subproject.py:757
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "O pulo está desactivado para %s."
 
-#: weblate/trans/models/subproject.py:802
+#: weblate/trans/models/subproject.py:804
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Fallou o pular á ramificación remota en %s."
 
-#: weblate/trans/models/subproject.py:832
+#: weblate/trans/models/subproject.py:834
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Produciuse un erro ao restabelecer a ramificación remota en %s."
 
-#: weblate/trans/models/subproject.py:906
+#: weblate/trans/models/subproject.py:908
 #, fuzzy, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "Produciuse un erro ao restabelecer a ramificación remota en %s."
 
-#: weblate/trans/models/subproject.py:911
+#: weblate/trans/models/subproject.py:913
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Fallou o fusionar a ramificación remota en %s."
 
-#: weblate/trans/models/subproject.py:1094
+#: weblate/trans/models/subproject.py:1096
 #, fuzzy
 #| msgid "Can not link to linked repository!"
 msgid "Invalid link to a Weblate project, can not link to linked repository!"
 msgstr "Non se poder ligar co repositorio vinculado!"
 
-#: weblate/trans/models/subproject.py:1101
+#: weblate/trans/models/subproject.py:1103
 #, fuzzy
 #| msgid "Can not link to linked repository!"
 msgid "Invalid link to a Weblate project, can not link to self!"
 msgstr "Non se poder ligar co repositorio vinculado!"
 
-#: weblate/trans/models/subproject.py:1108
+#: weblate/trans/models/subproject.py:1110
 #, fuzzy
 #| msgid "Can not link to linked repository!"
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr "Non se poder ligar co repositorio vinculado!"
 
-#: weblate/trans/models/subproject.py:1114
+#: weblate/trans/models/subproject.py:1116
 msgid "Push URL is not used when repository is linked!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1120
+#: weblate/trans/models/subproject.py:1122
 msgid "Export URL is not used when repository is linked!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1128
+#: weblate/trans/models/subproject.py:1130
 msgid "The mask did not match any files!"
 msgstr "A máscara non casa con ningún ficheiro!"
 
-#: weblate/trans/models/subproject.py:1136
+#: weblate/trans/models/subproject.py:1138
 #, python-format
 msgid "Got empty language code for %s, please check filemask!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1141
+#: weblate/trans/models/subproject.py:1143
 #, python-format
 msgid "Language code %s is too long, please check filemask!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1145
+#: weblate/trans/models/subproject.py:1147
 #, fuzzy, python-format
 #| msgid ""
 #| "There are more files for single language, please adjust the mask and use "
@@ -7736,7 +7748,7 @@ msgstr ""
 "Hai máis ficheiros para un idioma particular, axuste a máscara e use "
 "subproxectos para traducir recursos diferentes."
 
-#: weblate/trans/models/subproject.py:1151
+#: weblate/trans/models/subproject.py:1153
 #, python-format
 msgid ""
 "Multiple translations were mapped to a single language code (%s). You should "
@@ -7744,74 +7756,74 @@ msgid ""
 "one."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1170
+#: weblate/trans/models/subproject.py:1172
 msgid "File does not seem to be valid!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1178
+#: weblate/trans/models/subproject.py:1180
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Non se pode recoñecer o formto dos %d ficheiros atopados."
 
-#: weblate/trans/models/subproject.py:1187
+#: weblate/trans/models/subproject.py:1189
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Fallou ao procesar os %d ficheiros atopados!"
 
-#: weblate/trans/models/subproject.py:1196
+#: weblate/trans/models/subproject.py:1198
 msgid ""
 "Chosen file format does not support adding new translations as chosen in "
 "project settings."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1204
+#: weblate/trans/models/subproject.py:1206
 msgid ""
 "You have configured Weblate to add new translation files, but did not "
 "provide base file to do that!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1208
+#: weblate/trans/models/subproject.py:1210
 #, fuzzy
 #| msgid "Format of translation template could not be recognized."
 msgid "Format of base file for new translations was not recognized!"
 msgstr "Non se recoñeceu o formato do modelo de tradución."
 
-#: weblate/trans/models/subproject.py:1213
+#: weblate/trans/models/subproject.py:1215
 msgid ""
 "Base file for new translations is not used because of component settings. "
 "You probably want to enable automatic adding of new translations."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1224
+#: weblate/trans/models/subproject.py:1226
 #, fuzzy
 #| msgid "You don't have privileges to save translations!"
 msgid "You can not use base file with bilingual translation!"
 msgstr "Non ten permisos para gardar as traducións!"
 
-#: weblate/trans/models/subproject.py:1229
+#: weblate/trans/models/subproject.py:1231
 msgid "Using .pot file as base file is not supported!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1236
+#: weblate/trans/models/subproject.py:1238
 msgid "Template file not found!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1242
+#: weblate/trans/models/subproject.py:1244
 #, fuzzy, python-format
 #| msgid "Failed to parse translation template."
 msgid "Failed to parse translation base file: %s"
 msgstr "Fallou ao procesar o modelo da tradución."
 
-#: weblate/trans/models/subproject.py:1252
+#: weblate/trans/models/subproject.py:1254
 #, python-brace-format
 msgid "Template language ({0}) does not match project source language ({1})!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1259
+#: weblate/trans/models/subproject.py:1261
 msgid "You can not use monolingual translation without base file!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1270
+#: weblate/trans/models/subproject.py:1272
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
@@ -7819,40 +7831,40 @@ msgstr ""
 "Cumpra as indicacións do URL de instrucións ou utilice unha opción diferente "
 "para engadir un novo idioma."
 
-#: weblate/trans/models/subproject.py:1277
+#: weblate/trans/models/subproject.py:1279
 msgid "License URL can not be used without license summary."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1297
+#: weblate/trans/models/subproject.py:1299
 msgid "Changing version control system is not supported!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1302
+#: weblate/trans/models/subproject.py:1304
 #, python-brace-format
 msgid "Unsupported file format: {0}"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1309
+#: weblate/trans/models/subproject.py:1311
 #, fuzzy, python-format
 #| msgid "Failed to fetch git repository: %s"
 msgid "Failed to update repository: %s"
 msgstr "Fallou o tentar obeter o repositorio git: %s"
 
-#: weblate/trans/models/subproject.py:1329
+#: weblate/trans/models/subproject.py:1331
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1339
+#: weblate/trans/models/subproject.py:1341
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1518
+#: weblate/trans/models/subproject.py:1520
 #, fuzzy
 #| msgid "Failed to process form!"
 msgid "Failed to add new translation file!"
 msgstr "Fallou o procesamento do formulario!"
 
-#: weblate/trans/models/subproject.py:1540
+#: weblate/trans/models/subproject.py:1542
 #, fuzzy
 #| msgid "Translation"
 msgid "Translation file already exists!"
@@ -8347,7 +8359,7 @@ msgid "Add review flag for new translated strings"
 msgstr "Buscar nas cadeas de orixe"
 
 #: weblate/trans/validators.py:50 weblate/trans/validators.py:71
-#: weblate/utils/validators.py:137
+#: weblate/utils/validators.py:143
 #, python-format
 msgid "Bad format string (%s)"
 msgstr "Cadea de formato incorrecto (%s)"
@@ -8872,15 +8884,15 @@ msgstr ""
 msgid "Image is too big, please scale it down or crop relevant part!"
 msgstr ""
 
-#: weblate/utils/validators.py:151
+#: weblate/utils/validators.py:157
 msgid "The editor link lacks URL scheme!"
 msgstr ""
 
-#: weblate/utils/validators.py:157
+#: weblate/utils/validators.py:163
 msgid "Forbidden URL scheme!"
 msgstr ""
 
-#: weblate/utils/validators.py:174
+#: weblate/utils/validators.py:180
 msgid "Unsupported file format."
 msgstr ""
 
