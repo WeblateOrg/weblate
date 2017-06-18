@@ -234,6 +234,7 @@ class FixtureTestCase(ViewTestCase):
                 commit=False,
                 database=db_name
             )
+        super(FixtureTestCase, cls).setUpTestData()
 
     def clone_test_repos(self):
         return

@@ -46,6 +46,9 @@ class RepoTestCase(TestCase, RepoTestMixin):
     """Generic class for tests working with repositories."""
     def setUp(self):
         self.clone_test_repos()
+
+    @classmethod
+    def setUpTestData(cls):
         cursor = connection.cursor()
         # Reset sequence for Language objects as
         # we're manipulating with them in FixtureTestCase.setUpTestData
