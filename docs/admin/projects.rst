@@ -187,6 +187,14 @@ Repository browser
     URL of repository browser to display source files (location where messages
     are used). When empty no such links will be generated.
 
+    You can use following format strings:
+        
+    * ``%(branchs)s`` - current branch
+    * ``%(line)s`` - line in file
+    * ``%(file)s`` - filename
+    * ``%(../file)s`` - filename in parent directory
+    * ``%(../../file)s`` - filename in grandparent directory
+
     For example on GitHub, you would use something like
     ``https://github.com/WeblateOrg/hello/blob/%(branch)s/%(file)s#L%(line)s``.
 Exported repository URL

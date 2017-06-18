@@ -634,6 +634,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
         return self.repoweb % {
             'file': filename,
+            '../file': filename.split('/', 1)[-1],
+            '../../file': filename.split('/', 2)[-1],
             'line': line,
             'branch': self.branch
         }
