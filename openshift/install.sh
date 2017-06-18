@@ -51,20 +51,17 @@ source $OPENSHIFT_HOMEDIR/python/virtenv/bin/activate
 
 cd ${OPENSHIFT_REPO_DIR}
 
-# Pin Django version to 1.10 to avoid surprises when 1.11 comes out.
-# Prevent lxml 3.5 or later to be used on OpenShift because its compilation
-# needs more memory than small gears can provide.
-sed -e 's/Django[<>=]\+.*/Django>=1.10,<1.11/' \
-  -e 's/lxml[<>=]\+.*/\0,<3.5/' \
-  $OPENSHIFT_REPO_DIR/requirements.txt \
-  >/tmp/requirements.txt
-
-sh "pip install --no-cache-dir --disable-pip-version-check -U -r /tmp/requirements.txt"
+# Upgrade pip and install wheel to allow installation of wheels
+sh "pip install --no-cache-dir --upgrade pip wheel"
+# Pin Django version to 1.12 to avoid surprises when 1.12 comes out.
+sh "pip install 'Django>=1.11,<1.12'"
+# Install dependencies
+sh "pip install --no-cache-dir -r /tmp/requirements.txt"
 
 # Install optional dependencies without failing if some can't be installed.
 while read line; do
   if [[ $line != -r* ]] && [[ $line != \#* ]]; then
-    sh "pip install --no-cache-dir --disable-pip-version-check \"$line\"" || true
+    sh "pip install --no-cache-dir \"$line\"" || true
   fi
 done < $OPENSHIFT_REPO_DIR/requirements-optional.txt
 
