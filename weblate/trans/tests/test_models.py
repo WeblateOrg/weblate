@@ -49,15 +49,16 @@ class RepoTestCase(TestCase, RepoTestMixin):
 
     @classmethod
     def setUpTestData(cls):
-        cursor = connection.cursor()
         # Reset sequence for Language objects as
         # we're manipulating with them in FixtureTestCase.setUpTestData
         # and that seems to affect sequence for other tests as well
         # on some PostgreSQL versions (probably sequence is not rolled back
         # in a transaction).
         commands = connection.ops.sequence_reset_sql(no_style(), [Language])
-        for sql in commands:
-            cursor.execute(sql)
+        if commands:
+            with connection.cursor() as cursor:
+                for sql in commands:
+                    cursor.execute(sql)
 
 
 class ProjectTest(RepoTestCase):
