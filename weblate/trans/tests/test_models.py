@@ -42,11 +42,7 @@ from weblate.permissions.helpers import can_access_project
 from weblate.trans.tests.utils import get_test_file, RepoTestMixin
 
 
-class RepoTestCase(TestCase, RepoTestMixin):
-    """Generic class for tests working with repositories."""
-    def setUp(self):
-        self.clone_test_repos()
-
+class BaseTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
         # Reset sequence for Language objects as
@@ -59,6 +55,12 @@ class RepoTestCase(TestCase, RepoTestMixin):
             with connection.cursor() as cursor:
                 for sql in commands:
                     cursor.execute(sql)
+
+
+class RepoTestCase(BaseTestCase, RepoTestMixin):
+    """Generic class for tests working with repositories."""
+    def setUp(self):
+        self.clone_test_repos()
 
 
 class ProjectTest(RepoTestCase):
