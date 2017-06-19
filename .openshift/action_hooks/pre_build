@@ -18,12 +18,10 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-# Don't let OpenShift install weblate and its dependencies directly as this leads to timeouts during gear creation and deploys
-export OPENSHIFT_PYTHON_REQUIREMENTS_PATH=no_such_file
-
-if [ -e $OPENSHIFT_REPO_DIR/setup.py ]; then
-  mv $OPENSHIFT_REPO_DIR/setup.py $OPENSHIFT_REPO_DIR/setup_weblate.py
-fi
+# Upgrade pip and install wheel to allow installation of wheels
+pip install --no-cache-dir --upgrade pip wheel
+# Pin Django version to 1.12 to avoid surprises when 1.12 comes out.
+pip install 'Django>=1.11,<1.12'
 
 # Show install/update page, will be replaced with app by install.sh
 # Link sources below $OPENSHIFT_REPO_DIR must be relative or they will be invalid after restore/clone operations

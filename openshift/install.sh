@@ -51,13 +51,6 @@ source $OPENSHIFT_HOMEDIR/python/virtenv/bin/activate
 
 cd ${OPENSHIFT_REPO_DIR}
 
-# Upgrade pip and install wheel to allow installation of wheels
-sh "pip install --no-cache-dir --upgrade pip wheel"
-# Pin Django version to 1.12 to avoid surprises when 1.12 comes out.
-sh "pip install 'Django>=1.11,<1.12'"
-# Install dependencies
-sh "pip install --no-cache-dir -r /tmp/requirements.txt"
-
 # Install optional dependencies without failing if some can't be installed.
 while read line; do
   if [[ $line != -r* ]] && [[ $line != \#* ]]; then
