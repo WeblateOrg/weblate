@@ -128,7 +128,7 @@ Automatically receiving changes from GitHub
 
 Weblate comes with native support for GitHub. To receive notifications on every
 push to GitHub repository, you just need to enable Weblate Service in the
-repository settings (:guilabel:`Webhooks & Services`) as shown on the image below:
+repository settings (:guilabel:`Integrations & services`) as shown on the image below:
 
 .. image:: ../images/github-settings.png
 
