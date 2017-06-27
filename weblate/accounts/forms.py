@@ -90,8 +90,7 @@ class PasswordField(forms.CharField):
 class EmailField(forms.CharField):
     """Slightly restricted EmailField.
 
-    - We avoid striping of the form.
-    - We blacklist some additional local parts."""
+    We blacklist some additional local parts."""
     widget = EmailInput
     default_validators = [validate_email]
 
