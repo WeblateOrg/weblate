@@ -20,6 +20,7 @@
 
 from __future__ import unicode_literals
 
+from django.db import transaction
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import logout
@@ -731,11 +732,12 @@ def reset_password(request):
 def reset_api_key(request):
     """Reset user API key"""
     # Need to delete old token as key is primary key
-    Token.objects.filter(user=request.user).delete()
-    Token.objects.create(
-        user=request.user,
-        key=get_random_string(40)
-    )
+    with transaction.atomic():
+        Token.objects.filter(user=request.user).delete()
+        Token.objects.create(
+            user=request.user,
+            key=get_random_string(40)
+        )
 
     return redirect_profile('#api')
 
