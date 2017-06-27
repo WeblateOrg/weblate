@@ -18,6 +18,14 @@
 <div class="col-lg-10">
 {% with page_profile as profile and page_user as user %}
 <table class="table table-condensed">
+<tr>
+<th>{% trans "Username" %}</th>
+<td>{{ user.username }}</td>
+</tr>
+<tr>
+<th>{% trans "Name" %}</th>
+<td>{{ page_profile.get_user_name }}</td>
+</tr>
 {% include 'user-activity.html' %}
 </table>
 {% endwith %}
