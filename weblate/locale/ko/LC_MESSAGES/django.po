@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-06-18 11:17+0000\n"
+"POT-Creation-Date: 2017-06-27 15:45+0000\n"
 "PO-Revision-Date: 2017-06-18 12:26+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
-"Language-Team: Korean "
-"<https://hosted.weblate.org/projects/weblate/master/ko/>\n"
+"Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
+">\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -52,37 +52,38 @@ msgid ""
 "address."
 msgstr "이미 사용 중인 이메일 주소입니다. 다른 이메일 주소를 입력해 주세요."
 
-#: weblate/accounts/forms.py:102
+#: weblate/accounts/forms.py:101
 #, fuzzy
 #| msgid "Email addresses"
 msgid "Enter a valid email address."
 msgstr "이메일 주소"
 
-#: weblate/accounts/forms.py:109
+#: weblate/accounts/forms.py:108
 msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
 "+ - _"
 msgstr "사용자 이름은 문자, 숫자 및 특수문자(@ . + - _)만을 포함할 수 있습니다"
 
-#: weblate/accounts/forms.py:115 weblate/templates/manage-access.html:22
+#: weblate/accounts/forms.py:114 weblate/templates/accounts/user.html:22
+#: weblate/templates/manage-access.html:22
 msgid "Username"
 msgstr "사용자 이름"
 
-#: weblate/accounts/forms.py:133 weblate/accounts/pipeline.py:231
+#: weblate/accounts/forms.py:130 weblate/accounts/pipeline.py:231
 msgid "This username is already taken. Please choose another."
 msgstr "이 사용자 이름은 이미 사용중입니다. 다른 이름을 선택해주세요."
 
-#: weblate/accounts/forms.py:146 weblate/templates/manage-access.html:23
+#: weblate/accounts/forms.py:145 weblate/templates/manage-access.html:23
 msgid "Full name"
 msgstr "전체 이름"
 
-#: weblate/accounts/forms.py:238
+#: weblate/accounts/forms.py:233
 #, fuzzy
 #| msgid "Components"
 msgid "Component wide notifications"
 msgstr "컴포넌트"
 
-#: weblate/accounts/forms.py:240
+#: weblate/accounts/forms.py:235
 #, fuzzy
 #| msgid ""
 #| "You will receive chosen notifications via email for all your languages."
@@ -90,13 +91,13 @@ msgid ""
 "You will receive notification on every such event in your watched projects."
 msgstr "선택한 모든 언어에 대한 알림을 이메일로 받게 됩니다."
 
-#: weblate/accounts/forms.py:247
+#: weblate/accounts/forms.py:242
 #, fuzzy
 #| msgid "Translation instructions"
 msgid "Translation notifications"
 msgstr "번역 안내"
 
-#: weblate/accounts/forms.py:249
+#: weblate/accounts/forms.py:244
 #, fuzzy
 #| msgid ""
 #| "You will receive chosen notifications via email for all your languages."
@@ -105,129 +106,129 @@ msgid ""
 "your watched projects."
 msgstr "선택한 모든 언어에 대한 알림을 이메일로 받게 됩니다."
 
-#: weblate/accounts/forms.py:288 weblate/accounts/forms.py:361
+#: weblate/accounts/forms.py:283 weblate/accounts/forms.py:356
 #: weblate/templates/manage-access.html:24
 msgid "E-mail"
 msgstr "이메일"
 
-#: weblate/accounts/forms.py:290
+#: weblate/accounts/forms.py:285
 msgid "You can add another email address on the Authentication tab."
 msgstr "인증 탭에서 다른 이메일 주소를 추가할 수 있습니다."
 
-#: weblate/accounts/forms.py:320
+#: weblate/accounts/forms.py:315
 msgid "Subject"
 msgstr "제목"
 
-#: weblate/accounts/forms.py:325 weblate/accounts/forms.py:595
+#: weblate/accounts/forms.py:320 weblate/accounts/forms.py:590
 msgid "Your name"
 msgstr "이름"
 
-#: weblate/accounts/forms.py:330 weblate/accounts/forms.py:596
+#: weblate/accounts/forms.py:325 weblate/accounts/forms.py:591
 msgid "Your email"
 msgstr "이메일"
 
-#: weblate/accounts/forms.py:335 weblate/templates/admin/performance.html:47
+#: weblate/accounts/forms.py:330 weblate/templates/admin/performance.html:47
 #: weblate/trans/models/whiteboard.py:65
 msgid "Message"
 msgstr "메세지"
 
-#: weblate/accounts/forms.py:338
+#: weblate/accounts/forms.py:333
 msgid ""
 "Please contact us in English, otherwise we might be unable to understand "
 "your request."
 msgstr "영어로 연락하시지 않으면 저희가 요청 사항을 이해할 수 없을 것입니다."
 
-#: weblate/accounts/forms.py:362
+#: weblate/accounts/forms.py:357
 msgid "Activation email will be sent here."
 msgstr "활성화 이메일이 이 곳으로 전송됩니다."
 
-#: weblate/accounts/forms.py:391
+#: weblate/accounts/forms.py:386
 msgid "New password"
 msgstr "새로운 암호"
 
-#: weblate/accounts/forms.py:395
+#: weblate/accounts/forms.py:390
 msgid "New password confirmation"
 msgstr "새 비밀번호 확인"
 
-#: weblate/accounts/forms.py:406
+#: weblate/accounts/forms.py:401
 msgid "You can not change password to the one you are currently using!"
 msgstr ""
 
-#: weblate/accounts/forms.py:425
+#: weblate/accounts/forms.py:420
 msgid "Your password has been changed."
 msgstr "당신의 암호가 변경되었습니다."
 
-#: weblate/accounts/forms.py:454
+#: weblate/accounts/forms.py:449
 #, python-format
 msgctxt ""
 "Question for a mathematics-based CAPTCHA, the %s is an arithmetic problem"
 msgid "What is %s?"
 msgstr "%s가 뭐죠?"
 
-#: weblate/accounts/forms.py:464
+#: weblate/accounts/forms.py:459
 #, fuzzy
 #| msgid "Please check your math and try again."
 msgid "Please check your math and try again with new expression."
 msgstr "다시 계산해주세요."
 
-#: weblate/accounts/forms.py:482
+#: weblate/accounts/forms.py:477
 msgid "Current password"
 msgstr "현재 암호"
 
-#: weblate/accounts/forms.py:484
+#: weblate/accounts/forms.py:479
 msgid "Keep the field empty if you have not yet set your password."
 msgstr "아직 비밀번호를 설정하지 않으셨다면, 빈칸으로 남겨두십시오."
 
-#: weblate/accounts/forms.py:502
+#: weblate/accounts/forms.py:497
 msgid "You have entered an invalid password."
 msgstr "잘못된 암호를 입력하였습니다."
 
-#: weblate/accounts/forms.py:518
+#: weblate/accounts/forms.py:513
 msgid "Username or email"
 msgstr "사용자 이름이나 이메일 주소"
 
-#: weblate/accounts/forms.py:521 weblate/templates/accounts/profile.html:189
+#: weblate/accounts/forms.py:516 weblate/templates/accounts/profile.html:189
 msgid "Password"
 msgstr "암호"
 
-#: weblate/accounts/forms.py:525
+#: weblate/accounts/forms.py:520
 msgid ""
 "Please enter a correct username and password. Note that both fields may be "
 "case-sensitive."
 msgstr "올바른 사용자 이름과 암호를 입력해주세요. 이는 대소문자를 구분합니다."
 
-#: weblate/accounts/forms.py:527
+#: weblate/accounts/forms.py:522
 msgid "This account is inactive."
 msgstr "이 계정은 비활성화된 계정입니다."
 
-#: weblate/accounts/forms.py:546 weblate/accounts/views.py:182
+#: weblate/accounts/forms.py:541 weblate/accounts/views.py:183
 #, fuzzy
 #| msgid "Can not reset password, email authentication is disabled!"
 msgid "Too many authentication attempts!"
 msgstr "이메일 인증이 활성화되어 있지 않아 비밀번호를 초기화할 수 없습니다!"
 
-#: weblate/accounts/forms.py:597 weblate/trans/models/project.py:87
+#: weblate/accounts/forms.py:592 weblate/trans/models/project.py:87
 msgid "Project name"
 msgstr "프로젝트 이름"
 
-#: weblate/accounts/forms.py:598 weblate/templates/project_info.html:3
+#: weblate/accounts/forms.py:593 weblate/templates/project_info.html:3
 #: weblate/trans/models/project.py:99
 msgid "Project website"
 msgstr "프로젝트 주소"
 
-#: weblate/accounts/forms.py:600 weblate/trans/models/subproject.py:159
+#: weblate/accounts/forms.py:595 weblate/trans/models/subproject.py:159
 msgid "Source code repository"
 msgstr "소스 코드 저장소"
 
-#: weblate/accounts/forms.py:602
+#: weblate/accounts/forms.py:597
 msgid "URL of source code repository for example Git or Mercurial."
 msgstr "Git이나 Mercurial 등 소스 코드 저장소의 URL."
 
-#: weblate/accounts/forms.py:607 weblate/trans/models/subproject.py:208
+#: weblate/accounts/forms.py:602 weblate/trans/models/subproject.py:208
 msgid "File mask"
 msgstr "파일 마스크"
 
-#: weblate/accounts/forms.py:609
+#: weblate/accounts/forms.py:604
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
@@ -235,7 +236,7 @@ msgstr ""
 "번역할 파일 경로, 언어 코드 대신 * 를 사용하세요. 예를 들면 다음과 같습니다: "
 "po/*.po 또는 locale/*/LC_MESSAGE/django.po."
 
-#: weblate/accounts/forms.py:616
+#: weblate/accounts/forms.py:611
 msgid "Additional message"
 msgstr "추가 메세지"
 
@@ -494,107 +495,109 @@ msgstr ""
 "당신의 이메일은 더 이상 확인된 계정에 속하지 않습니다, 이미 {0}으로 바뀌었습"
 "니다."
 
-#: weblate/accounts/views.py:104 weblate/accounts/views.py:566
+#: weblate/accounts/views.py:105 weblate/accounts/views.py:567
 msgid "User registration"
 msgstr "사용자 회원 가입"
 
-#: weblate/accounts/views.py:133
+#: weblate/accounts/views.py:134
 msgid "Message could not be sent to administrator!"
 msgstr "관리자에게 메세지를 보내지 못했습니다!"
 
-#: weblate/accounts/views.py:151
+#: weblate/accounts/views.py:152
 msgid "Message has been sent to administrator."
 msgstr "관리자에게 메세지를 보냈습니다."
 
-#: weblate/accounts/views.py:159
+#: weblate/accounts/views.py:160
 msgid "You cannot change demo account on the demo server."
 msgstr "데모 서버에서는 데모 계정을 변경할 수 없습니다."
 
-#: weblate/accounts/views.py:243
+#: weblate/accounts/views.py:244
 msgid "Your profile has been updated."
 msgstr "당신의 프로필이 업데이트되었습니다."
 
-#: weblate/accounts/views.py:279
+#: weblate/accounts/views.py:280
 msgid "User profile"
 msgstr "사용자 프로필"
 
-#: weblate/accounts/views.py:309
+#: weblate/accounts/views.py:310
 msgid "Your account has been removed."
 msgstr "계정이 삭제되었습니다."
 
-#: weblate/accounts/views.py:377
+#: weblate/accounts/views.py:378
 msgid "Too many messages sent, please try again later!"
 msgstr "너무 많은 메시지가 전달되었습니다! 잠시 후 다시 시도하시기 바랍니다!"
 
-#: weblate/accounts/views.py:402 weblate/templates/accounts/contact.html:6
+#: weblate/accounts/views.py:403 weblate/templates/accounts/contact.html:6
 #: weblate/templates/accounts/contact.html:21
 msgid "Contact"
 msgstr "연락"
 
-#: weblate/accounts/views.py:435 weblate/templates/accounts/hosting.html:7
+#: weblate/accounts/views.py:436 weblate/templates/accounts/hosting.html:7
 msgid "Hosting"
 msgstr "호스팅"
 
-#: weblate/accounts/views.py:512 weblate/templates/accounts/login.html:8
+#: weblate/accounts/views.py:513 weblate/templates/accounts/login.html:8
 #: weblate/templates/accounts/login.html:43 weblate/templates/base.html:131
 msgid "Login"
 msgstr "로그인"
 
-#: weblate/accounts/views.py:521 weblate/admin.py:141
+#: weblate/accounts/views.py:522 weblate/admin.py:141
 msgid "Thanks for using Weblate!"
 msgstr "Weblate를 사용하여 주셔서 감사합니다!"
 
-#: weblate/accounts/views.py:603 weblate/templates/accounts/email.html:16
+#: weblate/accounts/views.py:604 weblate/templates/accounts/email.html:16
 msgid "Register email"
 msgstr "이메일 등록"
 
-#: weblate/accounts/views.py:645 weblate/templates/accounts/password.html:13
+#: weblate/accounts/views.py:646 weblate/templates/accounts/password.html:13
 #: weblate/templates/accounts/profile.html:192
 msgid "Change password"
 msgstr "암호 변경"
 
-#: weblate/accounts/views.py:668 weblate/accounts/views.py:718
+#: weblate/accounts/views.py:670 weblate/accounts/views.py:720
 #: weblate/templates/accounts/reset.html:7
 #: weblate/templates/accounts/reset.html:24
 msgid "Password reset"
 msgstr "암호 초기화"
 
-#: weblate/accounts/views.py:683
+#: weblate/accounts/views.py:685
 msgid "Can not reset password, email authentication is disabled!"
 msgstr "이메일 인증이 활성화되어 있지 않아 비밀번호를 초기화할 수 없습니다!"
 
-#: weblate/accounts/views.py:807
+#: weblate/accounts/views.py:811
 msgid ""
 "Failed to verify your registration! Probably the verification token has "
 "expired. Please try the registration again."
-msgstr "등록을 확인할 수 없습니다! 등록된 데이터의 유효 시간이 초과되었을 수 있으니, 다시 한번 등록해주시기 바랍니다."
+msgstr ""
+"등록을 확인할 수 없습니다! 등록된 데이터의 유효 시간이 초과되었을 수 있으니, "
+"다시 한번 등록해주시기 바랍니다."
 
-#: weblate/accounts/views.py:814
+#: weblate/accounts/views.py:818
 msgid "Authentication failed due to invalid session state."
 msgstr ""
 
-#: weblate/accounts/views.py:828
+#: weblate/accounts/views.py:832
 #, fuzzy
 #| msgid "Can not reset password, email authentication is disabled!"
 msgid "Can not change authentication for demo!"
 msgstr "이메일 인증이 활성화되어 있지 않아 비밀번호를 초기화할 수 없습니다!"
 
-#: weblate/accounts/views.py:832
+#: weblate/accounts/views.py:836
 msgid "New registrations are disabled!"
 msgstr "회원 가입이 비활성화되어 있습니다!"
 
-#: weblate/accounts/views.py:839
+#: weblate/accounts/views.py:843
 msgid ""
 "Authentication has failed, probably due to expired token or connection error."
 msgstr ""
 
-#: weblate/accounts/views.py:843
+#: weblate/accounts/views.py:847
 #, fuzzy
 #| msgid "Authentication using {method} ({name}) has been added."
 msgid "Authentication has been cancelled."
 msgstr "{method}{name}을 이용한 확인절차가 추가되었습니다."
 
-#: weblate/accounts/views.py:846
+#: weblate/accounts/views.py:850
 msgid ""
 "Failed to complete your registration! This authentication is already "
 "associated with another account!"
@@ -611,7 +614,7 @@ msgid "Logout"
 msgstr "로그아웃"
 
 #: weblate/billing/admin.py:50 weblate/billing/models.py:122
-#: weblate/templates/accounts/user.html:30
+#: weblate/templates/accounts/user.html:38
 #: weblate/templates/billing/detail.html:31 weblate/templates/language.html:15
 #: weblate/templates/projects.html:5 weblate/trans/models/project.py:168
 #: weblate/trans/views/basic.py:228
@@ -1892,11 +1895,16 @@ msgstr "암호 설정"
 msgid "Reset my password"
 msgstr "내 암호 재설정"
 
-#: weblate/templates/accounts/user.html:43
+#: weblate/templates/accounts/user.html:26
+#: weblate/templates/admin/performance.html:46
+msgid "Name"
+msgstr "이름"
+
+#: weblate/templates/accounts/user.html:51
 msgid "Recent changes"
 msgstr "최근 변경사항"
 
-#: weblate/templates/accounts/user.html:47
+#: weblate/templates/accounts/user.html:55
 #, fuzzy
 #| msgid "Browse changes"
 msgid "Browse all changes for user"
@@ -1974,10 +1982,6 @@ msgstr "결과"
 #: weblate/templates/admin/performance.html:40
 msgid "Configuration errors"
 msgstr "구성 오류"
-
-#: weblate/templates/admin/performance.html:46
-msgid "Name"
-msgstr "이름"
 
 #: weblate/templates/admin/report.html:17
 #, python-format
@@ -8539,7 +8543,11 @@ msgstr ""
 msgid "Forbidden URL scheme!"
 msgstr ""
 
-#: weblate/utils/validators.py:180
+#: weblate/utils/validators.py:179
+msgid "Please avoid using special chars in the full name."
+msgstr ""
+
+#: weblate/utils/validators.py:188
 #, fuzzy
 #| msgid "Unsupported file format: {0}"
 msgid "Unsupported file format."

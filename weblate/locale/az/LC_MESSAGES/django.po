@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-06-18 11:17+0000\n"
+"POT-Creation-Date: 2017-06-27 15:45+0000\n"
 "PO-Revision-Date: 2017-02-14 21:21+0000\n"
 "Last-Translator: Sevdimali İsa <sevdimaliisayev@mail.ru>\n"
 "Language-Team: Azerbaijani <https://hosted.weblate.org/projects/weblate/"
@@ -52,13 +52,13 @@ msgid ""
 "address."
 msgstr "Bu mail adresi mövcuddur. Zəhmət olmasa başqasın seçin."
 
-#: weblate/accounts/forms.py:102
+#: weblate/accounts/forms.py:101
 #, fuzzy
 #| msgid "Email addresses"
 msgid "Enter a valid email address."
 msgstr "Mail adresləri"
 
-#: weblate/accounts/forms.py:109
+#: weblate/accounts/forms.py:108
 msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
 "+ - _"
@@ -66,23 +66,24 @@ msgstr ""
 "İstifadəçi adı sadəcə hərflər, rəqəmlər və burada göstərilən simvollar ola "
 "bilər: @ . + - _"
 
-#: weblate/accounts/forms.py:115 weblate/templates/manage-access.html:22
+#: weblate/accounts/forms.py:114 weblate/templates/accounts/user.html:22
+#: weblate/templates/manage-access.html:22
 msgid "Username"
 msgstr "İstifadəçi adı"
 
-#: weblate/accounts/forms.py:133 weblate/accounts/pipeline.py:231
+#: weblate/accounts/forms.py:130 weblate/accounts/pipeline.py:231
 msgid "This username is already taken. Please choose another."
 msgstr "Bu istifadəçi adı mövcuddur. Zəhmət olmasa başqasın seçin."
 
-#: weblate/accounts/forms.py:146 weblate/templates/manage-access.html:23
+#: weblate/accounts/forms.py:145 weblate/templates/manage-access.html:23
 msgid "Full name"
 msgstr "Tam adınız"
 
-#: weblate/accounts/forms.py:238
+#: weblate/accounts/forms.py:233
 msgid "Component wide notifications"
 msgstr "Geniş Komponent Bildirişləri"
 
-#: weblate/accounts/forms.py:240
+#: weblate/accounts/forms.py:235
 #, fuzzy
 #| msgid ""
 #| "You will receive chosen notifications via email for all your languages."
@@ -90,11 +91,11 @@ msgid ""
 "You will receive notification on every such event in your watched projects."
 msgstr "Bütün dillər üçün seçilən bildirişləri maillə alacaqsınız."
 
-#: weblate/accounts/forms.py:247
+#: weblate/accounts/forms.py:242
 msgid "Translation notifications"
 msgstr "Tərcümə Bildirişləri"
 
-#: weblate/accounts/forms.py:249
+#: weblate/accounts/forms.py:244
 #, fuzzy
 #| msgid ""
 #| "You will receive chosen notifications via email for all your languages."
@@ -103,95 +104,95 @@ msgid ""
 "your watched projects."
 msgstr "Bütün dillər üçün seçilən bildirişləri maillə alacaqsınız."
 
-#: weblate/accounts/forms.py:288 weblate/accounts/forms.py:361
+#: weblate/accounts/forms.py:283 weblate/accounts/forms.py:356
 #: weblate/templates/manage-access.html:24
 msgid "E-mail"
 msgstr "E-mail"
 
-#: weblate/accounts/forms.py:290
+#: weblate/accounts/forms.py:285
 msgid "You can add another email address on the Authentication tab."
 msgstr "İdentifikasiya pəncərəsində başqa mailllər əlavə edə bilərsiniz."
 
-#: weblate/accounts/forms.py:320
+#: weblate/accounts/forms.py:315
 msgid "Subject"
 msgstr "Mövzu"
 
-#: weblate/accounts/forms.py:325 weblate/accounts/forms.py:595
+#: weblate/accounts/forms.py:320 weblate/accounts/forms.py:590
 msgid "Your name"
 msgstr "Adınız"
 
-#: weblate/accounts/forms.py:330 weblate/accounts/forms.py:596
+#: weblate/accounts/forms.py:325 weblate/accounts/forms.py:591
 msgid "Your email"
 msgstr "E-mail adresiniz"
 
-#: weblate/accounts/forms.py:335 weblate/templates/admin/performance.html:47
+#: weblate/accounts/forms.py:330 weblate/templates/admin/performance.html:47
 #: weblate/trans/models/whiteboard.py:65
 msgid "Message"
 msgstr "Mesaj"
 
-#: weblate/accounts/forms.py:338
+#: weblate/accounts/forms.py:333
 msgid ""
 "Please contact us in English, otherwise we might be unable to understand "
 "your request."
 msgstr ""
 "Zəhmət olmasa İngilis dilində əlaqə qurun, yoxsa sizi başa düşə bilmərik."
 
-#: weblate/accounts/forms.py:362
+#: weblate/accounts/forms.py:357
 msgid "Activation email will be sent here."
 msgstr "Aktivasiya maili buraya göndəriləcək."
 
-#: weblate/accounts/forms.py:391
+#: weblate/accounts/forms.py:386
 msgid "New password"
 msgstr "Yeni Parol"
 
-#: weblate/accounts/forms.py:395
+#: weblate/accounts/forms.py:390
 #, fuzzy
 #| msgid "New password (again)"
 msgid "New password confirmation"
 msgstr "Yeni Parol(təkrar)"
 
-#: weblate/accounts/forms.py:406
+#: weblate/accounts/forms.py:401
 msgid "You can not change password to the one you are currently using!"
 msgstr ""
 
-#: weblate/accounts/forms.py:425
+#: weblate/accounts/forms.py:420
 msgid "Your password has been changed."
 msgstr "Parolunuz dəyişdirildi."
 
-#: weblate/accounts/forms.py:454
+#: weblate/accounts/forms.py:449
 #, python-format
 msgctxt ""
 "Question for a mathematics-based CAPTCHA, the %s is an arithmetic problem"
 msgid "What is %s?"
 msgstr "%s nədir?"
 
-#: weblate/accounts/forms.py:464
+#: weblate/accounts/forms.py:459
 #, fuzzy
 #| msgid "Please check your math and try again."
 msgid "Please check your math and try again with new expression."
 msgstr "Düzgün hesablayın və təkrar sınayın."
 
-#: weblate/accounts/forms.py:482
+#: weblate/accounts/forms.py:477
 msgid "Current password"
 msgstr "Cari parol"
 
-#: weblate/accounts/forms.py:484
+#: weblate/accounts/forms.py:479
 msgid "Keep the field empty if you have not yet set your password."
 msgstr ""
 
-#: weblate/accounts/forms.py:502
+#: weblate/accounts/forms.py:497
 msgid "You have entered an invalid password."
 msgstr "Yanlış parol daxil etdiniz."
 
-#: weblate/accounts/forms.py:518
+#: weblate/accounts/forms.py:513
 msgid "Username or email"
 msgstr "İstifadəçi adı və ya mail"
 
-#: weblate/accounts/forms.py:521 weblate/templates/accounts/profile.html:189
+#: weblate/accounts/forms.py:516 weblate/templates/accounts/profile.html:189
 msgid "Password"
 msgstr "Parol"
 
-#: weblate/accounts/forms.py:525
+#: weblate/accounts/forms.py:520
 msgid ""
 "Please enter a correct username and password. Note that both fields may be "
 "case-sensitive."
@@ -199,39 +200,39 @@ msgstr ""
 "Zəhmət olmasa düzgün istifadəçi adı və şifrə daxil edin. Hər iki sahədə də "
 "böyük, kiçik hərfə diqqət edin."
 
-#: weblate/accounts/forms.py:527
+#: weblate/accounts/forms.py:522
 msgid "This account is inactive."
 msgstr "Bu hesab deaktivdir."
 
-#: weblate/accounts/forms.py:546 weblate/accounts/views.py:182
+#: weblate/accounts/forms.py:541 weblate/accounts/views.py:183
 #, fuzzy
 #| msgid "Can not reset password, email authentication is disabled!"
 msgid "Too many authentication attempts!"
 msgstr ""
 "Email təsdiqlənməsi deaktiv edilmişdir, parolunuzu sıfırlaya bilməzsiniz!"
 
-#: weblate/accounts/forms.py:597 weblate/trans/models/project.py:87
+#: weblate/accounts/forms.py:592 weblate/trans/models/project.py:87
 msgid "Project name"
 msgstr "Layihə adı"
 
-#: weblate/accounts/forms.py:598 weblate/templates/project_info.html:3
+#: weblate/accounts/forms.py:593 weblate/templates/project_info.html:3
 #: weblate/trans/models/project.py:99
 msgid "Project website"
 msgstr "Layihənin web səhifəsi"
 
-#: weblate/accounts/forms.py:600 weblate/trans/models/subproject.py:159
+#: weblate/accounts/forms.py:595 weblate/trans/models/subproject.py:159
 msgid "Source code repository"
 msgstr "Qaynaq kod deposu"
 
-#: weblate/accounts/forms.py:602
+#: weblate/accounts/forms.py:597
 msgid "URL of source code repository for example Git or Mercurial."
 msgstr "Qaynaq kod deposunun URL-si məsələn Git və ya Mercurial."
 
-#: weblate/accounts/forms.py:607 weblate/trans/models/subproject.py:208
+#: weblate/accounts/forms.py:602 weblate/trans/models/subproject.py:208
 msgid "File mask"
 msgstr "Fayl maskası"
 
-#: weblate/accounts/forms.py:609
+#: weblate/accounts/forms.py:604
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
@@ -239,7 +240,7 @@ msgstr ""
 "Tərcümə üçün faylları yolu, dil kodu yerinə * istifadə edin, məsələn:po/*.po "
 "və ya locale/*/LC_MESSAGES/django.po."
 
-#: weblate/accounts/forms.py:616
+#: weblate/accounts/forms.py:611
 msgid "Additional message"
 msgstr "Əlavə mesaj"
 
@@ -483,77 +484,77 @@ msgid ""
 "Your email no longer belongs to verified account, it has been changed to {0}."
 msgstr ""
 
-#: weblate/accounts/views.py:104 weblate/accounts/views.py:566
+#: weblate/accounts/views.py:105 weblate/accounts/views.py:567
 msgid "User registration"
 msgstr "İstifadəçi qeydiyyatı"
 
-#: weblate/accounts/views.py:133
+#: weblate/accounts/views.py:134
 msgid "Message could not be sent to administrator!"
 msgstr "Mesaj idarəçiyə göndərilə bilmədi!"
 
-#: weblate/accounts/views.py:151
+#: weblate/accounts/views.py:152
 msgid "Message has been sent to administrator."
 msgstr "Mesaj idarəçiyə göndərildi."
 
-#: weblate/accounts/views.py:159
+#: weblate/accounts/views.py:160
 msgid "You cannot change demo account on the demo server."
 msgstr "Demo hesabınızı Demo serverdə dəyişdirə bilməzsiniz."
 
-#: weblate/accounts/views.py:243
+#: weblate/accounts/views.py:244
 msgid "Your profile has been updated."
 msgstr "Profiliniz yeniləndi."
 
-#: weblate/accounts/views.py:279
+#: weblate/accounts/views.py:280
 msgid "User profile"
 msgstr "İstifadəçi profili"
 
-#: weblate/accounts/views.py:309
+#: weblate/accounts/views.py:310
 msgid "Your account has been removed."
 msgstr "Hesabınız silindi."
 
-#: weblate/accounts/views.py:377
+#: weblate/accounts/views.py:378
 msgid "Too many messages sent, please try again later!"
 msgstr ""
 
-#: weblate/accounts/views.py:402 weblate/templates/accounts/contact.html:6
+#: weblate/accounts/views.py:403 weblate/templates/accounts/contact.html:6
 #: weblate/templates/accounts/contact.html:21
 msgid "Contact"
 msgstr "Əlaqə"
 
-#: weblate/accounts/views.py:435 weblate/templates/accounts/hosting.html:7
+#: weblate/accounts/views.py:436 weblate/templates/accounts/hosting.html:7
 msgid "Hosting"
 msgstr "Hostinq"
 
-#: weblate/accounts/views.py:512 weblate/templates/accounts/login.html:8
+#: weblate/accounts/views.py:513 weblate/templates/accounts/login.html:8
 #: weblate/templates/accounts/login.html:43 weblate/templates/base.html:131
 msgid "Login"
 msgstr "Login"
 
-#: weblate/accounts/views.py:521 weblate/admin.py:141
+#: weblate/accounts/views.py:522 weblate/admin.py:141
 msgid "Thanks for using Weblate!"
 msgstr "Weblate istifadə etdiyinizə görə təşəkkürlər!"
 
-#: weblate/accounts/views.py:603 weblate/templates/accounts/email.html:16
+#: weblate/accounts/views.py:604 weblate/templates/accounts/email.html:16
 msgid "Register email"
 msgstr "Mail qeydiyyatdan keçirt"
 
-#: weblate/accounts/views.py:645 weblate/templates/accounts/password.html:13
+#: weblate/accounts/views.py:646 weblate/templates/accounts/password.html:13
 #: weblate/templates/accounts/profile.html:192
 msgid "Change password"
 msgstr "Parolu dəyiş"
 
-#: weblate/accounts/views.py:668 weblate/accounts/views.py:718
+#: weblate/accounts/views.py:670 weblate/accounts/views.py:720
 #: weblate/templates/accounts/reset.html:7
 #: weblate/templates/accounts/reset.html:24
 msgid "Password reset"
 msgstr "Parol sıfırlama"
 
-#: weblate/accounts/views.py:683
+#: weblate/accounts/views.py:685
 msgid "Can not reset password, email authentication is disabled!"
 msgstr ""
 "Email təsdiqlənməsi deaktiv edilmişdir, parolunuzu sıfırlaya bilməzsiniz!"
 
-#: weblate/accounts/views.py:807
+#: weblate/accounts/views.py:811
 msgid ""
 "Failed to verify your registration! Probably the verification token has "
 "expired. Please try the registration again."
@@ -561,33 +562,33 @@ msgstr ""
 "Qeydiyyat təsdiqlənməsi uğursuz oldu! Çox güman ki, təsdiqləmə vaxtı keçib. "
 "Zəhmət olmasa yenidən qeydiyyatdan keçməyi sınayın."
 
-#: weblate/accounts/views.py:814
+#: weblate/accounts/views.py:818
 msgid "Authentication failed due to invalid session state."
 msgstr ""
 
-#: weblate/accounts/views.py:828
+#: weblate/accounts/views.py:832
 #, fuzzy
 #| msgid "Can not reset password, email authentication is disabled!"
 msgid "Can not change authentication for demo!"
 msgstr ""
 "Email təsdiqlənməsi deaktiv edilmişdir, parolunuzu sıfırlaya bilməzsiniz!"
 
-#: weblate/accounts/views.py:832
+#: weblate/accounts/views.py:836
 msgid "New registrations are disabled!"
 msgstr "Yeni qeydiyyat deaktiv edildi!"
 
-#: weblate/accounts/views.py:839
+#: weblate/accounts/views.py:843
 msgid ""
 "Authentication has failed, probably due to expired token or connection error."
 msgstr ""
 
-#: weblate/accounts/views.py:843
+#: weblate/accounts/views.py:847
 #, fuzzy
 #| msgid "Translation has been saved!"
 msgid "Authentication has been cancelled."
 msgstr "Tərcümə yaddaşa verildi!"
 
-#: weblate/accounts/views.py:846
+#: weblate/accounts/views.py:850
 msgid ""
 "Failed to complete your registration! This authentication is already "
 "associated with another account!"
@@ -604,7 +605,7 @@ msgid "Logout"
 msgstr "Çıxış"
 
 #: weblate/billing/admin.py:50 weblate/billing/models.py:122
-#: weblate/templates/accounts/user.html:30
+#: weblate/templates/accounts/user.html:38
 #: weblate/templates/billing/detail.html:31 weblate/templates/language.html:15
 #: weblate/templates/projects.html:5 weblate/trans/models/project.py:168
 #: weblate/trans/views/basic.py:228
@@ -1891,11 +1892,16 @@ msgstr "Parolu nizamla"
 msgid "Reset my password"
 msgstr "Parolu sıfırla"
 
-#: weblate/templates/accounts/user.html:43
+#: weblate/templates/accounts/user.html:26
+#: weblate/templates/admin/performance.html:46
+msgid "Name"
+msgstr "Ad"
+
+#: weblate/templates/accounts/user.html:51
 msgid "Recent changes"
 msgstr "Son dəyişikliklər"
 
-#: weblate/templates/accounts/user.html:47
+#: weblate/templates/accounts/user.html:55
 msgid "Browse all changes for user"
 msgstr "İstifadəçi üçün bütün dəyişikliklərə baxın"
 
@@ -1971,10 +1977,6 @@ msgstr "Nəticə"
 #: weblate/templates/admin/performance.html:40
 msgid "Configuration errors"
 msgstr "Konfiqurasiya xətaları"
-
-#: weblate/templates/admin/performance.html:46
-msgid "Name"
-msgstr "Ad"
 
 #: weblate/templates/admin/report.html:17
 #, python-format
@@ -8721,7 +8723,11 @@ msgstr ""
 msgid "Forbidden URL scheme!"
 msgstr ""
 
-#: weblate/utils/validators.py:180
+#: weblate/utils/validators.py:179
+msgid "Please avoid using special chars in the full name."
+msgstr ""
+
+#: weblate/utils/validators.py:188
 #, fuzzy
 #| msgid "Support Weblate at {0}"
 msgid "Unsupported file format."

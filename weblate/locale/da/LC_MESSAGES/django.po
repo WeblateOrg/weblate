@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-06-18 11:17+0000\n"
+"POT-Creation-Date: 2017-06-27 15:45+0000\n"
 "PO-Revision-Date: 2017-06-17 17:00+0000\n"
 "Last-Translator: jan madsen <jsm@janz.dk>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/master/da/"
@@ -46,74 +46,75 @@ msgid ""
 "address."
 msgstr "E-mailadressen er allerede i brug. Angiv en anden e-mailadresse."
 
-#: weblate/accounts/forms.py:102
+#: weblate/accounts/forms.py:101
 msgid "Enter a valid email address."
 msgstr "Angiv en gyldig e-mail-adresse."
 
-#: weblate/accounts/forms.py:109
+#: weblate/accounts/forms.py:108
 msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
 "+ - _"
 msgstr "Brugernavn må kun indeholde bogstaver, tal eller følgende tegn: @.+-_"
 
-#: weblate/accounts/forms.py:115 weblate/templates/manage-access.html:22
+#: weblate/accounts/forms.py:114 weblate/templates/accounts/user.html:22
+#: weblate/templates/manage-access.html:22
 msgid "Username"
 msgstr "Brugernavn"
 
-#: weblate/accounts/forms.py:133 weblate/accounts/pipeline.py:231
+#: weblate/accounts/forms.py:130 weblate/accounts/pipeline.py:231
 msgid "This username is already taken. Please choose another."
 msgstr "Brugernavnet er allerede i brug. Vælg et andet."
 
-#: weblate/accounts/forms.py:146 weblate/templates/manage-access.html:23
+#: weblate/accounts/forms.py:145 weblate/templates/manage-access.html:23
 msgid "Full name"
 msgstr "Fulde navn"
 
-#: weblate/accounts/forms.py:238
+#: weblate/accounts/forms.py:233
 msgid "Component wide notifications"
 msgstr "Meddelelser for alle komponenter"
 
-#: weblate/accounts/forms.py:240
+#: weblate/accounts/forms.py:235
 msgid ""
 "You will receive notification on every such event in your watched projects."
 msgstr "Modtag meddelelse om alle sådanne hændelser i overvågede projekter."
 
-#: weblate/accounts/forms.py:247
+#: weblate/accounts/forms.py:242
 msgid "Translation notifications"
 msgstr "Oversættelsesunderretninger"
 
-#: weblate/accounts/forms.py:249
+#: weblate/accounts/forms.py:244
 msgid ""
 "You will receive these notifications only for your translated languages in "
 "your watched projects."
 msgstr "Modtag underretninger for kun oversatte sprog i overvågede projekter."
 
-#: weblate/accounts/forms.py:288 weblate/accounts/forms.py:361
+#: weblate/accounts/forms.py:283 weblate/accounts/forms.py:356
 #: weblate/templates/manage-access.html:24
 msgid "E-mail"
 msgstr "E-mail"
 
-#: weblate/accounts/forms.py:290
+#: weblate/accounts/forms.py:285
 msgid "You can add another email address on the Authentication tab."
 msgstr "Tilføj endnu en e-mail adresse under fanen godkendelse."
 
-#: weblate/accounts/forms.py:320
+#: weblate/accounts/forms.py:315
 msgid "Subject"
 msgstr "Emne"
 
-#: weblate/accounts/forms.py:325 weblate/accounts/forms.py:595
+#: weblate/accounts/forms.py:320 weblate/accounts/forms.py:590
 msgid "Your name"
 msgstr "Dit navn"
 
-#: weblate/accounts/forms.py:330 weblate/accounts/forms.py:596
+#: weblate/accounts/forms.py:325 weblate/accounts/forms.py:591
 msgid "Your email"
 msgstr "Din e-mail"
 
-#: weblate/accounts/forms.py:335 weblate/templates/admin/performance.html:47
+#: weblate/accounts/forms.py:330 weblate/templates/admin/performance.html:47
 #: weblate/trans/models/whiteboard.py:65
 msgid "Message"
 msgstr "Besked"
 
-#: weblate/accounts/forms.py:338
+#: weblate/accounts/forms.py:333
 msgid ""
 "Please contact us in English, otherwise we might be unable to understand "
 "your request."
@@ -121,59 +122,59 @@ msgstr ""
 "Kontakt os på engelsk. Vi forstår muligvis ikke forstår din forespørgsel, "
 "hvis den er på et andet sprog."
 
-#: weblate/accounts/forms.py:362
+#: weblate/accounts/forms.py:357
 msgid "Activation email will be sent here."
 msgstr "Aktiverings-e-mail bliver sendt hertil."
 
-#: weblate/accounts/forms.py:391
+#: weblate/accounts/forms.py:386
 msgid "New password"
 msgstr "Ny adgangskode"
 
-#: weblate/accounts/forms.py:395
+#: weblate/accounts/forms.py:390
 msgid "New password confirmation"
 msgstr "Bekræftelse af ny adgangskode"
 
-#: weblate/accounts/forms.py:406
+#: weblate/accounts/forms.py:401
 #, fuzzy
 msgid "You can not change password to the one you are currently using!"
 msgstr "Du kan ikke ændre adgangskoden til den, du bruger i øjeblikket!"
 
-#: weblate/accounts/forms.py:425
+#: weblate/accounts/forms.py:420
 msgid "Your password has been changed."
 msgstr "Din adgangskode er ændret."
 
-#: weblate/accounts/forms.py:454
+#: weblate/accounts/forms.py:449
 #, python-format
 msgctxt ""
 "Question for a mathematics-based CAPTCHA, the %s is an arithmetic problem"
 msgid "What is %s?"
 msgstr "Hvad er %s?"
 
-#: weblate/accounts/forms.py:464
+#: weblate/accounts/forms.py:459
 msgid "Please check your math and try again with new expression."
 msgstr "Kontroller det matematiske udtryk, og prøv igen med et nyt udtryk."
 
-#: weblate/accounts/forms.py:482
+#: weblate/accounts/forms.py:477
 msgid "Current password"
 msgstr "Nuværende adgangskode"
 
-#: weblate/accounts/forms.py:484
+#: weblate/accounts/forms.py:479
 msgid "Keep the field empty if you have not yet set your password."
 msgstr "Lad feltet være tomt, hvis der ikke er angivet en adgangskode."
 
-#: weblate/accounts/forms.py:502
+#: weblate/accounts/forms.py:497
 msgid "You have entered an invalid password."
 msgstr "Du har indtastet en ugyldig adgangskode."
 
-#: weblate/accounts/forms.py:518
+#: weblate/accounts/forms.py:513
 msgid "Username or email"
 msgstr "Brugernavn eller e-mail"
 
-#: weblate/accounts/forms.py:521 weblate/templates/accounts/profile.html:189
+#: weblate/accounts/forms.py:516 weblate/templates/accounts/profile.html:189
 msgid "Password"
 msgstr "Adgangskode"
 
-#: weblate/accounts/forms.py:525
+#: weblate/accounts/forms.py:520
 msgid ""
 "Please enter a correct username and password. Note that both fields may be "
 "case-sensitive."
@@ -181,36 +182,36 @@ msgstr ""
 "Angiv et korrekt brugernavn og adgangskode. Bemærk at begge felter kan være "
 "versalfølsom."
 
-#: weblate/accounts/forms.py:527
+#: weblate/accounts/forms.py:522
 msgid "This account is inactive."
 msgstr "Kontoen er inaktiv."
 
-#: weblate/accounts/forms.py:546 weblate/accounts/views.py:182
+#: weblate/accounts/forms.py:541 weblate/accounts/views.py:183
 msgid "Too many authentication attempts!"
 msgstr "For mange godkendelsesforsøg!"
 
-#: weblate/accounts/forms.py:597 weblate/trans/models/project.py:87
+#: weblate/accounts/forms.py:592 weblate/trans/models/project.py:87
 msgid "Project name"
 msgstr "Projektnavn"
 
-#: weblate/accounts/forms.py:598 weblate/templates/project_info.html:3
+#: weblate/accounts/forms.py:593 weblate/templates/project_info.html:3
 #: weblate/trans/models/project.py:99
 msgid "Project website"
 msgstr "Projektets websted"
 
-#: weblate/accounts/forms.py:600 weblate/trans/models/subproject.py:159
+#: weblate/accounts/forms.py:595 weblate/trans/models/subproject.py:159
 msgid "Source code repository"
 msgstr "Kildekode arkiv"
 
-#: weblate/accounts/forms.py:602
+#: weblate/accounts/forms.py:597
 msgid "URL of source code repository for example Git or Mercurial."
 msgstr "URL-adressen på kildekode arkiv  for eksempel Git eller Mercurial."
 
-#: weblate/accounts/forms.py:607 weblate/trans/models/subproject.py:208
+#: weblate/accounts/forms.py:602 weblate/trans/models/subproject.py:208
 msgid "File mask"
 msgstr "Filmaske"
 
-#: weblate/accounts/forms.py:609
+#: weblate/accounts/forms.py:604
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
@@ -218,7 +219,7 @@ msgstr ""
 "Sti for filer som skal oversættes. Anvend * i stedet for sprogkode, "
 "eksempelvis: po/*.po eller locale/*/LC_MESSAGES/django.po."
 
-#: weblate/accounts/forms.py:616
+#: weblate/accounts/forms.py:611
 msgid "Additional message"
 msgstr "Yderligere besked"
 
@@ -465,76 +466,76 @@ msgstr ""
 "Din e-mail tilhører ikke længere en verificeret konto, den er blevet ændret "
 "til {0}."
 
-#: weblate/accounts/views.py:104 weblate/accounts/views.py:566
+#: weblate/accounts/views.py:105 weblate/accounts/views.py:567
 msgid "User registration"
 msgstr "Brugerregistrering"
 
-#: weblate/accounts/views.py:133
+#: weblate/accounts/views.py:134
 msgid "Message could not be sent to administrator!"
 msgstr "Besked kunne ikke sendes til administrator!"
 
-#: weblate/accounts/views.py:151
+#: weblate/accounts/views.py:152
 msgid "Message has been sent to administrator."
 msgstr "Besked er sendt til administrator."
 
-#: weblate/accounts/views.py:159
+#: weblate/accounts/views.py:160
 msgid "You cannot change demo account on the demo server."
 msgstr "Du kan ikke ændre demokontoen på demoserveren."
 
-#: weblate/accounts/views.py:243
+#: weblate/accounts/views.py:244
 msgid "Your profile has been updated."
 msgstr "Din profil er blevet opdateret."
 
-#: weblate/accounts/views.py:279
+#: weblate/accounts/views.py:280
 msgid "User profile"
 msgstr "Brugerprofil"
 
-#: weblate/accounts/views.py:309
+#: weblate/accounts/views.py:310
 msgid "Your account has been removed."
 msgstr "Din konto er blevet fjernet."
 
-#: weblate/accounts/views.py:377
+#: weblate/accounts/views.py:378
 msgid "Too many messages sent, please try again later!"
 msgstr "For mange beskeder sendt, prøv igen senere!"
 
-#: weblate/accounts/views.py:402 weblate/templates/accounts/contact.html:6
+#: weblate/accounts/views.py:403 weblate/templates/accounts/contact.html:6
 #: weblate/templates/accounts/contact.html:21
 msgid "Contact"
 msgstr "Kontakt"
 
-#: weblate/accounts/views.py:435 weblate/templates/accounts/hosting.html:7
+#: weblate/accounts/views.py:436 weblate/templates/accounts/hosting.html:7
 msgid "Hosting"
 msgstr "Hosting"
 
-#: weblate/accounts/views.py:512 weblate/templates/accounts/login.html:8
+#: weblate/accounts/views.py:513 weblate/templates/accounts/login.html:8
 #: weblate/templates/accounts/login.html:43 weblate/templates/base.html:131
 msgid "Login"
 msgstr "Log ind"
 
-#: weblate/accounts/views.py:521 weblate/admin.py:141
+#: weblate/accounts/views.py:522 weblate/admin.py:141
 msgid "Thanks for using Weblate!"
 msgstr "Tak fordi du bruger Weblate!"
 
-#: weblate/accounts/views.py:603 weblate/templates/accounts/email.html:16
+#: weblate/accounts/views.py:604 weblate/templates/accounts/email.html:16
 msgid "Register email"
 msgstr "Registrer e-mail"
 
-#: weblate/accounts/views.py:645 weblate/templates/accounts/password.html:13
+#: weblate/accounts/views.py:646 weblate/templates/accounts/password.html:13
 #: weblate/templates/accounts/profile.html:192
 msgid "Change password"
 msgstr "Skift adgangskode"
 
-#: weblate/accounts/views.py:668 weblate/accounts/views.py:718
+#: weblate/accounts/views.py:670 weblate/accounts/views.py:720
 #: weblate/templates/accounts/reset.html:7
 #: weblate/templates/accounts/reset.html:24
 msgid "Password reset"
 msgstr "Nulstilling af adgangskode"
 
-#: weblate/accounts/views.py:683
+#: weblate/accounts/views.py:685
 msgid "Can not reset password, email authentication is disabled!"
 msgstr "Kan ikke nulstille adgangskoden, e-mail-godkendelse er deaktiveret!"
 
-#: weblate/accounts/views.py:807
+#: weblate/accounts/views.py:811
 msgid ""
 "Failed to verify your registration! Probably the verification token has "
 "expired. Please try the registration again."
@@ -542,22 +543,22 @@ msgstr ""
 "Tilmeldingen kunne ikke bekræftes! Sandsynligvis er verifikation token "
 "udløbet. Prøv at registrere igen."
 
-#: weblate/accounts/views.py:814
+#: weblate/accounts/views.py:818
 #, fuzzy
 msgid "Authentication failed due to invalid session state."
 msgstr "Godkendelse mislykkedes på grund af ugyldigt sessionstilstand."
 
-#: weblate/accounts/views.py:828
+#: weblate/accounts/views.py:832
 #, fuzzy
 #| msgid "Can not reset password, email authentication is disabled!"
 msgid "Can not change authentication for demo!"
 msgstr "Kan ikke ændre godkendelse for demo!"
 
-#: weblate/accounts/views.py:832
+#: weblate/accounts/views.py:836
 msgid "New registrations are disabled!"
 msgstr "Nye registreringer er deaktiveret!"
 
-#: weblate/accounts/views.py:839
+#: weblate/accounts/views.py:843
 #, fuzzy
 msgid ""
 "Authentication has failed, probably due to expired token or connection error."
@@ -565,13 +566,13 @@ msgstr ""
 "Godkendelse har sandsynligvis mislykkedes på grund af udløbet token eller "
 "forbindelsesfejl."
 
-#: weblate/accounts/views.py:843
+#: weblate/accounts/views.py:847
 #, fuzzy
 #| msgid "Authentication using {method} ({name}) has been added."
 msgid "Authentication has been cancelled."
 msgstr "Godkendelse er blevet annulleret."
 
-#: weblate/accounts/views.py:846
+#: weblate/accounts/views.py:850
 #, fuzzy
 msgid ""
 "Failed to complete your registration! This authentication is already "
@@ -589,7 +590,7 @@ msgid "Logout"
 msgstr "Log ud"
 
 #: weblate/billing/admin.py:50 weblate/billing/models.py:122
-#: weblate/templates/accounts/user.html:30
+#: weblate/templates/accounts/user.html:38
 #: weblate/templates/billing/detail.html:31 weblate/templates/language.html:15
 #: weblate/templates/projects.html:5 weblate/trans/models/project.py:168
 #: weblate/trans/views/basic.py:228
@@ -1843,11 +1844,16 @@ msgstr "Angiv adgangskoden"
 msgid "Reset my password"
 msgstr "Nulstil min adgangskode"
 
-#: weblate/templates/accounts/user.html:43
+#: weblate/templates/accounts/user.html:26
+#: weblate/templates/admin/performance.html:46
+msgid "Name"
+msgstr "Navn"
+
+#: weblate/templates/accounts/user.html:51
 msgid "Recent changes"
 msgstr "Seneste ændringer"
 
-#: weblate/templates/accounts/user.html:47
+#: weblate/templates/accounts/user.html:55
 msgid "Browse all changes for user"
 msgstr "Gennemse alle ændringer for brugeren"
 
@@ -1923,10 +1929,6 @@ msgstr "Resultat"
 #: weblate/templates/admin/performance.html:40
 msgid "Configuration errors"
 msgstr "Konfigurationsfejl"
-
-#: weblate/templates/admin/performance.html:46
-msgid "Name"
-msgstr "Navn"
 
 #: weblate/templates/admin/report.html:17
 #, python-format
@@ -8199,7 +8201,11 @@ msgstr "Editor link mangler URL-skema!"
 msgid "Forbidden URL scheme!"
 msgstr "Forbudt URL-skema!"
 
-#: weblate/utils/validators.py:180
+#: weblate/utils/validators.py:179
+msgid "Please avoid using special chars in the full name."
+msgstr ""
+
+#: weblate/utils/validators.py:188
 msgid "Unsupported file format."
 msgstr "Ikke understøttet filformat."
 
