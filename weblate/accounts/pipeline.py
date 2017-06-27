@@ -48,7 +48,7 @@ from weblate.utils import messages
 from weblate.utils.validators import clean_fullname
 from weblate import USER_AGENT
 
-USERNAME_RE = r'^[\w.@+-]+$'
+USERNAME_RE = r'^[\w@+-][\w.@+-]*$'
 USERNAME_MATCHER = re.compile(USERNAME_RE)
 STRIP_MATCHER = re.compile(r'[^\w\s.@+-]')
 CLEANUP_MATCHER = re.compile(r'[-\s]+')
@@ -371,7 +371,7 @@ def slugify_username(value):
     if USERNAME_MATCHER.match(value):
         return value
 
-    value = STRIP_MATCHER.sub('', value).strip()
+    value = STRIP_MATCHER.sub('', value).strip().lstrip('.')
     return CLEANUP_MATCHER.sub('-', value)
 
 
