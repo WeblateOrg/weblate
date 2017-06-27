@@ -655,7 +655,7 @@ def reset_password_set(request):
     if request.method == 'POST':
         form = SetPasswordForm(user, request.POST)
         if form.is_valid():
-            del request.session['perform_reset']
+            request.session.delete()
             form.save(request)
             request.session.create()
             return redirect('login')
