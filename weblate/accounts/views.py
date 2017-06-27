@@ -727,6 +727,7 @@ def reset_password(request):
 @require_POST
 @login_required
 @avoid_demo
+@session_ratelimit_post
 def reset_api_key(request):
     """Reset user API key"""
     # Need to delete old token as key is primary key
