@@ -48,7 +48,7 @@ from weblate.lang.models import Language
 from weblate.trans.models import Project
 from weblate.trans.util import sort_choices
 from weblate.utils import messages
-from weblate.utils.validators import clean_fullname
+from weblate.utils.validators import validate_fullname
 from weblate.logger import LOGGER
 
 
@@ -138,6 +138,8 @@ class UsernameField(forms.RegexField):
 
 
 class FullNameField(forms.CharField):
+    default_validators = [validate_fullname]
+
     def __init__(self, *args, **kwargs):
         # The Django User model limit is 30 chars, this should
         # be raised if we switch to custom User model
@@ -145,10 +147,6 @@ class FullNameField(forms.CharField):
         kwargs['label'] = _('Full name')
         kwargs['required'] = True
         super(FullNameField, self).__init__(*args, **kwargs)
-
-    def clean(self, value):
-        value = super(FullNameField, self).clean(value)
-        return clean_fullname(value)
 
 
 class SortedSelectMixin(object):
