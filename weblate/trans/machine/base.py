@@ -216,6 +216,8 @@ class MachineTranslation(object):
             # Try without country code
             if '_' in language or '-' in language:
                 language = language.replace('-', '_').split('_')[0]
+                if source == language:
+                    return []
                 if not self.is_supported(source, language):
                     return []
             else:
