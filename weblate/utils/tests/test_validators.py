@@ -22,7 +22,9 @@ from unittest import TestCase
 
 from django.core.exceptions import ValidationError
 
-from weblate.utils.validators import validate_editor, clean_fullname
+from weblate.utils.validators import (
+    validate_editor, clean_fullname, validate_fullname,
+)
 
 
 class EditorValidatorTest(TestCase):
@@ -87,4 +89,11 @@ class FullNameCleanTest(TestCase):
         self.assertEqual(
             None,
             clean_fullname(None),
+        )
+
+    def test_invalid(self):
+        self.assertRaises(
+            ValidationError,
+            validate_fullname,
+            'ahoj\x00bar'
         )

@@ -173,6 +173,14 @@ def clean_fullname(val):
     return val
 
 
+def validate_fullname(val):
+    if val != clean_fullname(val):
+        raise ValidationError(
+            _('Please avoid using special chars in the full name.')
+        )
+    return val
+
+
 def validate_file_extension(value):
     """Simple extension based validation for uploads."""
     ext = os.path.splitext(value.name)[1]
