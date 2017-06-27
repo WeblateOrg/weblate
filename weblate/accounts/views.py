@@ -729,8 +729,8 @@ def reset_password(request):
 @avoid_demo
 def reset_api_key(request):
     """Reset user API key"""
-    if hasattr(request.user, 'auth_token'):
-        request.user.auth_token.delete()
+    # Need to delete old token as key is primary key
+    Token.objects.filter(user=request.user).delete()
     Token.objects.create(
         user=request.user,
         key=get_random_string(40)

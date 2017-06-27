@@ -259,7 +259,7 @@ class ViewTest(TestCase):
 
     def test_api_key(self):
         # Create user
-        self.get_user()
+        user = self.get_user()
         # Login
         self.client.login(username='testuser', password='testpassword')
 
@@ -268,6 +268,11 @@ class ViewTest(TestCase):
         self.assertEqual(response.status_code, 405)
 
         # API key reset
+        response = self.client.post(reverse('reset-api-key'))
+        self.assertRedirects(response, reverse('profile') + '#api')
+
+        # API key reset without token
+        user.auth_token.delete()
         response = self.client.post(reverse('reset-api-key'))
         self.assertRedirects(response, reverse('profile') + '#api')
 
