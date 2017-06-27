@@ -123,9 +123,7 @@ class UsernameField(forms.RegexField):
     def clean(self, value):
         """Username validation, requires unique name."""
         if value is not None:
-            existing = User.objects.filter(
-                username__iexact=value
-            )
+            existing = User.objects.filter(username=value)
             if existing.exists() and value != self.valid:
                 raise forms.ValidationError(
                     _(
