@@ -51,3 +51,7 @@ class PipelineTest(TestCase):
             slugify_username('ahoj - ahoj'),
             'ahoj-ahoj'
         )
+        self.assertEqual(
+            slugify_username('..test'),
+            'test'
+        )
