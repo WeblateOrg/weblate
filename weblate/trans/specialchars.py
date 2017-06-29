@@ -25,6 +25,9 @@ import unicodedata
 
 from django.utils.translation import ugettext as _, ugettext_lazy
 
+import six
+
+
 # Hard coded list of special chars
 SPECIAL_CHARS = ('→', '↵', '…')
 
@@ -478,4 +481,4 @@ def get_special_chars(language, additional=''):
         yield _('User configured character: {}').format(char), char, char
 
 
-RTL_CHARS_DATA = [format_char(unichr(code)) for code in RTL_CHARS]
+RTL_CHARS_DATA = [format_char(six.unichr(code)) for code in RTL_CHARS]
