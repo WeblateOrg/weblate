@@ -28,7 +28,7 @@ from six.moves.urllib.parse import parse_qs, urlparse
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.core import mail
-from django.test import TestCase
+from django.test import TestCase, Client
 from django.test.utils import override_settings
 
 import social_django.utils
@@ -390,6 +390,68 @@ class RegistrationTest(BaseRegistrationTest):
         self.assertEqual(['test2@example.com'], sent_mail.to)
         # Pop password change
         sent_mail = mail.outbox.pop()
+
+    @override_settings(REGISTRATION_CAPTCHA=False)
+    def test_reset_paralel(self):
+        """Test for password reset from two browsers."""
+        User.objects.create_user('testuser', 'test@example.com', 'x')
+        match = '[Weblate] Password reset on Weblate'
+
+        client2 = Client()
+
+        # First reset
+        response = self.client.post(
+            reverse('password_reset'),
+            {'email': 'test@example.com'}
+        )
+        self.assertRedirects(response, reverse('email-sent'))
+
+        response = self.client.get(
+            self.assert_registration_mailbox(match),
+            follow=True
+        )
+        self.assertRedirects(response, reverse('password_reset'))
+        self.assertContains(response, 'You can now set new one')
+
+        mail.outbox = []
+
+        # Second reset
+        response = client2.post(
+            reverse('password_reset'),
+            {'email': 'test@example.com'}
+        )
+        self.assertRedirects(response, reverse('email-sent'))
+
+        response = client2.get(
+            self.assert_registration_mailbox(match),
+            follow=True
+        )
+        self.assertRedirects(response, reverse('password_reset'))
+        self.assertContains(response, 'You can now set new one')
+
+        # Set first password
+        response = self.client.post(
+            reverse('password_reset'),
+            {
+                'new_password1': '2pa$$word!',
+                'new_password2': '2pa$$word!',
+            },
+            follow=True
+        )
+        self.assertContains(response, 'Your password has been changed')
+
+        # Set second password
+        response = client2.post(
+            reverse('password_reset'),
+            {
+                'new_password1': '3pa$$word!',
+                'new_password2': '3pa$$word!',
+            },
+            follow=True
+        )
+        self.assertContains(
+            response, 'Password reset has been already completed!'
+        )
 
     def test_wrong_username(self):
         data = REGISTRATION_DATA.copy()
