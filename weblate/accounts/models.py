@@ -543,17 +543,17 @@ def post_login_handler(sender, request, user, **kwargs):
 
     It sets user language and migrates profile if needed.
     """
+    is_email_auth = getattr(user, 'backend', '').endswith('.EmailAuth')
 
     # Warning about setting password
-    if (getattr(user, 'backend', '').endswith('.EmailAuth') and
-            not user.has_usable_password()):
+    if is_email_auth and not user.has_usable_password():
         request.session['show_set_password'] = True
 
     # Ensure user has a profile
     profile = Profile.objects.get_or_create(user=user)[0]
 
     # Migrate django-registration based verification to python-social-auth
-    if (user.has_usable_password() and user.email and
+    if (is_email_auth and user.has_usable_password() and user.email and
             not user.social_auth.filter(provider='email').exists()):
         social = user.social_auth.create(
             provider='email',
