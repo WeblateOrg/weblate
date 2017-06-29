@@ -325,7 +325,7 @@ def notify_connect(strategy, backend, user, social, new_association=False,
 
 def user_full_name(strategy, details, user=None, **kwargs):
     """Update user full name using data from provider."""
-    if user:
+    if user and not user.first_name:
         full_name = details.get('fullname', '').strip()
 
         if (not full_name and
