@@ -175,11 +175,16 @@ def can_accept_suggestion(user, translation):
 
 
 @cache_permission
-def can_delete_suggestion(user, translation, suggestion):
+def _can_delete_suggestion(user, translation):
     """Check whether user can delete suggestions to given translation."""
+    return can_edit(user, translation, 'trans.delete_suggestion')
+
+
+def can_delete_suggestion(user, translation, suggestion):
+    """Check whether user can delete given suggestion."""
     if user.is_authenticated and suggestion.user == user:
         return True
-    return can_edit(user, translation, 'trans.delete_suggestion')
+    return _can_delete_suggestion(user, translation)
 
 
 @cache_permission
