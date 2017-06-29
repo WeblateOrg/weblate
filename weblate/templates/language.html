@@ -31,7 +31,26 @@
 <div class="tab-content">
 
 <div class="tab-pane active" id="overview">
-{% include "list-projects.html" %}
+<table class="sort table">
+<thead>
+<tr>
+<th>{% trans "Project" %}</th>
+<th colspan="2">{% trans "Translated" %}</th>
+<th colspan="2">{% trans "Words" %}</th>
+</tr>
+<tbody>
+{% for prj in projects %}
+<tr>
+<th><a href="{% url 'project-language' lang=object.code project=prj.slug %}">{{ prj }}</a></th>
+<td class="progress-cell">{% generic_progress prj.language_stats.0 %}</td>
+<td class="percent">{{ prj.language_stats.0 }}%</td>
+<td class="progress-cell">{% generic_progress prj.language_stats.1 %}</td>
+<td class="percent">{{ prj.language_stats.1 }}%</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
 </div>
 
 <div class="tab-pane" id="information">

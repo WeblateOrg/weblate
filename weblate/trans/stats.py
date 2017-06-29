@@ -28,16 +28,20 @@ from weblate.trans.models import Translation
 from weblate.trans.util import translation_percent
 
 
-def get_per_language_stats(project):
+def get_per_language_stats(project, lang=None):
     """Calculate per language stats for project"""
     result = []
 
+    language_objects = Language.objects.filter(
+        translation__subproject__project=project
+    )
+
+    if lang:
+        language_objects = language_objects.filter(pk=lang.pk)
+
     # List languages
     languages = {
-        language.pk: language for language in
-        Language.objects.filter(
-            translation__subproject__project=project
-        ).distinct().order_by()
+        language.pk: language for language in language_objects
     }
 
     # Translated strings in language
