@@ -12,6 +12,7 @@ weblate 2.15
 * Keep page state when removing word from glossary.
 * Added direct link to edit secondary language translation.
 * Added Perl format quality check.
+* Added support for rejecting reused passwords.
 
 Released on ? 2017.
 

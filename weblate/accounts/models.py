@@ -22,6 +22,7 @@ from __future__ import unicode_literals
 import json
 import os
 import binascii
+import datetime
 
 from django.db import models
 from django.dispatch import receiver
@@ -32,6 +33,7 @@ from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
 from django.contrib.auth.models import User
+from django.utils import timezone
 from django.utils.crypto import get_random_string
 from django.utils.deprecation import CallableFalse, CallableTrue
 from django.utils.translation import LANGUAGE_SESSION_KEY
@@ -164,6 +166,17 @@ class AuditLogManager(models.Manager):
             kwargs = {}
         return self.filter(user=user, activity=activity, **kwargs)
 
+    def get_password(self, user):
+        """Get user activities with password change."""
+        start = timezone.now() - datetime.timedelta(
+            days=settings.AUTH_PASSWORD_DAYS
+        )
+        return self.filter(
+            user=user,
+            activity__in=('reset', 'password'),
+            timestamp__gt=start,
+        )
+
 
 @python_2_unicode_compatible
 class AuditLog(models.Model):
@@ -186,9 +199,12 @@ class AuditLog(models.Model):
 
     def get_message(self):
         return ACCOUNT_ACTIVITY[self.activity].format(
-            **json.loads(self.params)
+            **self.get_params()
         )
     get_message.short_description = _('Account activity')
+
+    def get_params(self):
+        return json.loads(self.params)
 
     def should_notify(self):
         return self.activity in NOTIFY_ACTIVITY

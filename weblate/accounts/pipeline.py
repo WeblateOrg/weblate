@@ -161,15 +161,16 @@ def password_reset(strategy, backend, user, social, details, weblate_action,
     if (strategy.request is not None and
             user is not None and
             weblate_action == 'reset'):
-        user.set_unusable_password()
-        user.save(update_fields=['password'])
         notify_account_activity(
             user,
             strategy.request,
             'reset',
             method=get_auth_name(backend.name),
-            name=social.uid
+            name=social.uid,
+            password=user.password
         )
+        user.set_unusable_password()
+        user.save(update_fields=['password'])
         # Remove partial pipeline, we do not need it
         strategy.clean_partial_pipeline(current_partial.token)
         # Store user ID

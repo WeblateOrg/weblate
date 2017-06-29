@@ -111,6 +111,21 @@ Validity of token in activation and password reset mails in seconds.
 
 Defaults to 3600 (1 hour).
 
+
+AUTH_PASSWORD_DAYS
+------------------
+
+.. versionadded:: 2.15
+
+Define (in days) how long in past Weblate should reject reusing same password.
+
+.. note::
+
+    Password changes done prior to Weblate 2.15 will not be accounted for this
+    policy, it is valid only
+
+Defaults to 180 days.
+
 .. setting:: AUTO_LOCK
 
 AUTO_LOCK
