@@ -307,7 +307,7 @@
     {% endif %}
     </td>
     </tr>
-    {% if item.translated and item.translation.subproject != unit.translation.subproject %}
+    {% if item.translated and item.translation.subproject != unit.translation.subproject and item.target != unit.target %}
     <tr>
     <td>
     <p class="help-block">{% trans "Change compared to this translation:" %}</p>
