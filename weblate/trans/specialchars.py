@@ -423,20 +423,8 @@ EXTRA_CHARS = {
     'brx': ('।', '॥'),
 }
 
+# Additional chars for RTL languages
 RTL_CHARS = (8204, 8205, 8206, 8207, 8234, 8235, 8236, 8237, 8238)
-
-RTL_CHARS_DATA = []
-
-for _code in RTL_CHARS:
-    _char = unichr(_code)
-    _name = unicodedata.name(_char)
-    RTL_CHARS_DATA.append((
-        _name,
-        ''.join([
-            x[0] for x in _name.replace('-TO-', ' ').replace('-', ' ').split()
-        ]),
-        _char,
-    ))
 
 
 def get_quote(code, data, name):
@@ -446,23 +434,31 @@ def get_quote(code, data, name):
     return name, data['ALL'], data['ALL']
 
 
-def get_char_description(char):
+def format_char(char):
     """Return verbose description of a character."""
+    display = char
     if char in CHAR_NAMES:
-        return CHAR_NAMES[char]
+        name = CHAR_NAMES[char]
+    elif unicodedata.category(char)[0] in ('C', 'Z'):
+        # Various control and space chars
+        name = unicodedata.name(char)
+        display = ''.join([
+            x[0] for x in name.replace('-TO-', ' ').replace('-', ' ').split()
+        ])
     else:
-        return _('Insert character {0}').format(char)
+        name = _('Insert character {0}').format(char)
+    return name, display, char
 
 
 def get_special_chars(language, additional=''):
     """Return list of special characters."""
     for char in SPECIAL_CHARS:
-        yield get_char_description(char), char, char
+        yield format_char(char)
     code = language.code.replace('_', '-').split('-')[0]
 
     if code in EXTRA_CHARS:
         for char in EXTRA_CHARS[code]:
-            yield get_char_description(char), char, char
+            yield format_char(char)
 
     yield get_quote(code, DOUBLE_OPEN, _('Opening double quote'))
     yield get_quote(code, DOUBLE_CLOSE, _('Closing double quote'))
@@ -480,3 +476,6 @@ def get_special_chars(language, additional=''):
 
     for char in additional:
         yield _('User configured character: {}').format(char), char, char
+
+
+RTL_CHARS_DATA = [format_char(unichr(code)) for code in RTL_CHARS]
