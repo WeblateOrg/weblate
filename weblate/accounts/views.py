@@ -856,6 +856,6 @@ def social_complete(request, backend):
         return fail(_('Authentication has been cancelled.'))
     except AuthAlreadyAssociated:
         return fail(_(
-            'Failed to complete your registration! This authentication '
-            'is already associated with another account!'
+            'Failed to complete your registration! This authentication, '
+            'email or username are already associated with another account!'
         ))

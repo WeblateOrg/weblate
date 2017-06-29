@@ -237,10 +237,7 @@ def verify_username(strategy, backend, details, user=None, **kwargs):
     if user or 'username' not in details:
         return
     if User.objects.filter(username__iexact=details['username']).exists():
-        raise AuthAlreadyAssociated(
-            backend,
-            _('This username is already taken. Please choose another.')
-        )
+        raise AuthAlreadyAssociated(backend, 'Username exists')
 
 
 def revoke_mail_code(strategy, details, **kwargs):
@@ -262,7 +259,7 @@ def revoke_mail_code(strategy, details, **kwargs):
 
 
 def ensure_valid(strategy, backend, user, registering_user, weblate_action,
-                 weblate_expires, **kwargs):
+                 weblate_expires, new_association, details, **kwargs):
     """Ensure the activation link is still."""
     # Didn't the link expire?
     if weblate_expires < time.time():
@@ -305,6 +302,17 @@ def ensure_valid(strategy, backend, user, registering_user, weblate_action,
         )
 
         raise AuthMissingParameter(backend, 'user')
+
+    # Verify if this mail is not used on other accounts
+    if new_association:
+        same = VerifiedEmail.objects.filter(
+            email=details['email']
+        )
+        if user:
+            same = same.exclude(social__user=user)
+
+        if same.exists():
+            raise AuthAlreadyAssociated(backend, 'Email exists')
 
 
 def store_email(strategy, backend, user, social, details, **kwargs):
