@@ -279,7 +279,6 @@ class ProfileManager(models.Manager):
         return self.filter(subscribe_merge_failure=True, subscriptions=project)
 
 
-
 @python_2_unicode_compatible
 class Profile(models.Model):
     """User profiles storage."""

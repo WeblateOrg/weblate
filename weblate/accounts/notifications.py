@@ -398,7 +398,6 @@ def notify_account_activity(user, request, activity, **kwargs):
     return False
 
 
-
 def send_user(profile, notification, subproject, display_obj,
               context=None, headers=None, user=None):
     """Wrapper for sending notifications to user."""

@@ -533,7 +533,6 @@ class EditComplexTest(ViewTestCase):
         self.translation = self.get_translation()
         self.translate_url = reverse('translate', kwargs=self.kw_translation)
 
-
     def test_replace(self):
         response = self.edit_unit(
             'Hello, world!\n',

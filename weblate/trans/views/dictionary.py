@@ -246,7 +246,6 @@ def add_dictionary(request, unit_id):
     results = ''
     words = []
 
-
     if request.method == 'POST' and can_add_dictionary(request.user, prj):
         form = WordForm(request.POST)
         if form.is_valid():

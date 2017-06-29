@@ -53,7 +53,7 @@ class Command(BaseCommand):
         with transaction.atomic():
             for partial in Partial.objects.all():
                 kwargs = partial.data['kwargs']
-                if not 'weblate_expires' in kwargs:
+                if 'weblate_expires' not in kwargs:
                     # Old entry without expiry set
                     partial.delete()
                 elif kwargs['weblate_expires'] < time.time():

@@ -304,6 +304,7 @@ class CFormatCheckTest(CheckTestCase):
             False
         ))
 
+
 class PerlFormatCheckTest(CFormatCheckTest):
     check = PerlFormatCheck()
     flag = 'perl-format'
