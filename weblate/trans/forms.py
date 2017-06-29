@@ -52,7 +52,7 @@ from weblate.permissions.helpers import (
     can_author_translation, can_overwrite_translation, can_translate,
     can_suggest, can_add_translation, can_mass_add_translation,
 )
-from weblate.trans.specialchars import get_special_chars
+from weblate.trans.specialchars import get_special_chars, RTL_CHARS_DATA
 from weblate.trans.validators import validate_check_flags
 from weblate.trans.util import sort_choices
 from weblate.utils.hash import checksum_to_hash
@@ -79,8 +79,8 @@ TOOLBAR_TEMPLATE = '''
 <div class="btn-toolbar pull-right flip editor-toolbar">{0}</div>
 '''
 EDITOR_TEMPLATE = '''
-<div class="translation-item">
-{0}<label for="{1}">{2}</label>
+<div class="translation-item"><label for="{1}">{2}</label>
+{0}
 {3}
 </div>
 '''
@@ -150,6 +150,55 @@ class PluralTextarea(forms.Textarea):
         self.profile = None
         super(PluralTextarea, self).__init__(*args, **kwargs)
 
+    def get_rtl_toolbar(self, fieldname):
+        groups = []
+
+        # Special chars
+        chars = []
+        for name, char, value in RTL_CHARS_DATA:
+            chars.append(
+                BUTTON_TEMPLATE.format(
+                    'specialchar',
+                    name,
+                    'data-value="{}"'.format(
+                        value.encode('ascii', 'xmlcharrefreplace')
+                    ),
+                    char
+                )
+            )
+
+        groups.append(
+            GROUP_TEMPLATE.format('', '\n'.join(chars))
+        )
+
+        # RTL/LTR switch
+        rtl_name = 'rtl-{0}'.format(fieldname)
+        rtl_switch = [
+            RADIO_TEMPLATE.format(
+                'direction-toggle active',
+                ugettext('Toggle text direction'),
+                rtl_name,
+                'rtl',
+                'checked="checked"',
+                'RTL',
+            ),
+            RADIO_TEMPLATE.format(
+                'direction-toggle',
+                ugettext('Toggle text direction'),
+                rtl_name,
+                'ltr',
+                '',
+                'LTR'
+            ),
+        ]
+        groups.append(
+            GROUP_TEMPLATE.format(
+                'data-toggle="buttons"',
+                '\n'.join(rtl_switch)
+            )
+        )
+        return TOOLBAR_TEMPLATE.format('\n'.join(groups))
+
     def get_toolbar(self, language, fieldname, unit, idx):
         """Return toolbar HTML code."""
         profile = self.profile
@@ -179,12 +228,14 @@ class PluralTextarea(forms.Textarea):
 
         # Special chars
         chars = []
-        for name, char in get_special_chars(language, profile.special_chars):
+        for name, char, value in get_special_chars(language, profile.special_chars):
             chars.append(
                 BUTTON_TEMPLATE.format(
                     'specialchar',
                     name,
-                    '',
+                    'data-value="{}"'.format(
+                        value.encode('ascii', 'xmlcharrefreplace')
+                    ),
                     char
                 )
             )
@@ -193,35 +244,12 @@ class PluralTextarea(forms.Textarea):
             GROUP_TEMPLATE.format('', '\n'.join(chars))
         )
 
-        # RTL/LTR switch
-        if language.direction == 'rtl':
-            rtl_name = 'rtl-{0}'.format(fieldname)
-            rtl_switch = [
-                RADIO_TEMPLATE.format(
-                    'direction-toggle active',
-                    ugettext('Toggle text direction'),
-                    rtl_name,
-                    'rtl',
-                    'checked="checked"',
-                    'RTL',
-                ),
-                RADIO_TEMPLATE.format(
-                    'direction-toggle',
-                    ugettext('Toggle text direction'),
-                    rtl_name,
-                    'ltr',
-                    '',
-                    'LTR'
-                ),
-            ]
-            groups.append(
-                GROUP_TEMPLATE.format(
-                    'data-toggle="buttons"',
-                    '\n'.join(rtl_switch)
-                )
-            )
+        result = [TOOLBAR_TEMPLATE.format('\n'.join(groups))]
 
-        return TOOLBAR_TEMPLATE.format('\n'.join(groups))
+        if language.direction == 'rtl':
+            result.append(self.get_rtl_toolbar(fieldname))
+
+        return '<div class="clearfix"></div>'.join(result)
 
     def render(self, name, value, attrs=None, **kwargs):
         """Render all textareas with correct plural labels."""

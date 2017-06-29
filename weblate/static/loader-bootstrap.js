@@ -230,7 +230,7 @@ function initEditor() {
     /* Special characters */
     $('.specialchar').click(function (e) {
         var $this = $(this);
-        var text = $this.text();
+        var text = $this.data('value');
         if (text === '\\t') {
             text = '\t';
         } else if (text === '→') {

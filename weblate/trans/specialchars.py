@@ -20,6 +20,9 @@
 """Helper code to get user special chars specific for given language."""
 
 from __future__ import unicode_literals
+
+import unicodedata
+
 from django.utils.translation import ugettext as _, ugettext_lazy
 
 # Hard coded list of special chars
@@ -420,12 +423,27 @@ EXTRA_CHARS = {
     'brx': ('।', '॥'),
 }
 
+RTL_CHARS = (8204, 8205, 8206, 8207, 8234, 8235, 8236, 8237, 8238)
+
+RTL_CHARS_DATA = []
+
+for _code in RTL_CHARS:
+    _char = unichr(_code)
+    _name = unicodedata.name(_char)
+    RTL_CHARS_DATA.append((
+        _name,
+        ''.join([
+            x[0] for x in _name.replace('-TO-', ' ').replace('-', ' ').split()
+        ]),
+        _char,
+    ))
+
 
 def get_quote(code, data, name):
     """Return special char for quote."""
     if code in data:
-        return name, data[code]
-    return name, data['ALL']
+        return name, data[code], data[code]
+    return name, data['ALL'], data['ALL']
 
 
 def get_char_description(char):
@@ -439,12 +457,12 @@ def get_char_description(char):
 def get_special_chars(language, additional=''):
     """Return list of special characters."""
     for char in SPECIAL_CHARS:
-        yield get_char_description(char), char
+        yield get_char_description(char), char, char
     code = language.code.replace('_', '-').split('-')[0]
 
     if code in EXTRA_CHARS:
         for char in EXTRA_CHARS[code]:
-            yield get_char_description(char), char
+            yield get_char_description(char), char, char
 
     yield get_quote(code, DOUBLE_OPEN, _('Opening double quote'))
     yield get_quote(code, DOUBLE_CLOSE, _('Closing double quote'))
@@ -452,13 +470,13 @@ def get_special_chars(language, additional=''):
     yield get_quote(code, SINGLE_CLOSE, _('Closing single quote'))
 
     if code in HYPHEN_LANGS:
-        yield _('Hyphen'), '-'
+        yield _('Hyphen'), '-', '-'
 
     if code in EN_DASH_LANGS:
-        yield _('En dash'), '–'
+        yield _('En dash'), '–', '–'
 
     if code in EM_DASH_LANGS:
-        yield _('Em dash'), '—'
+        yield _('Em dash'), '—', '—'
 
     for char in additional:
-        yield _('User configured character: {}').format(char), char
+        yield _('User configured character: {}').format(char), char, char

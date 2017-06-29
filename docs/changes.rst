@@ -13,6 +13,7 @@ weblate 2.15
 * Added direct link to edit secondary language translation.
 * Added Perl format quality check.
 * Added support for rejecting reused passwords.
+* Extended toolbar for editing RTL languages.
 
 Released on ? 2017.
 
