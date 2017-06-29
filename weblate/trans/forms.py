@@ -227,18 +227,18 @@ class PluralTextarea(forms.Textarea):
         )
 
         # Special chars
-        chars = []
-        for name, char, value in get_special_chars(language, profile.special_chars):
-            chars.append(
-                BUTTON_TEMPLATE.format(
-                    'specialchar',
-                    name,
-                    'data-value="{}"'.format(
-                        value.encode('ascii', 'xmlcharrefreplace')
-                    ),
-                    char
-                )
+        chars = [
+            BUTTON_TEMPLATE.format(
+                'specialchar',
+                name,
+                'data-value="{}"'.format(
+                    value.encode('ascii', 'xmlcharrefreplace')
+                ),
+                char
             )
+            for name, char, value in
+            get_special_chars(language, profile.special_chars)
+        ]
 
         groups.append(
             GROUP_TEMPLATE.format('', '\n'.join(chars))
