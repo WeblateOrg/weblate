@@ -93,7 +93,8 @@ def reauthenticate(strategy, backend, user, social, uid, **kwargs):
 
 
 @partial
-def require_email(backend, details, user=None, is_new=False, **kwargs):
+def require_email(backend, details, weblate_action, user=None, is_new=False,
+                  **kwargs):
     """Force entering email for backends which don't provide it."""
 
     if backend.name == 'github':
@@ -104,6 +105,15 @@ def require_email(backend, details, user=None, is_new=False, **kwargs):
     # Remove any pending email validation codes
     if details.get('email') and backend.name == 'email':
         Code.objects.filter(email=details['email']).delete()
+        # Remove all account reset codes
+        if user and weblate_action == 'reset':
+            Code.objects.filter(
+                email__in=VerifiedEmail.objects.filter(
+                    social__user=user,
+                ).values_list(
+                    'email', flat=True
+                )
+            ).delete()
 
     if user and user.email:
         # Force validation of new email address
