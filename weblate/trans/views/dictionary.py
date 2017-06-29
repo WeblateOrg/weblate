@@ -20,6 +20,7 @@
 
 import sys
 
+from django.db.models.functions import Lower
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _, ungettext
@@ -213,7 +214,7 @@ def download_dictionary(request, project, lang):
     words = Dictionary.objects.filter(
         project=prj,
         language=lang
-    ).order_by('source')
+    ).order_by(Lower('source'))
 
     # Translate toolkit based export
     exporter = get_exporter(export_format)(
@@ -304,7 +305,7 @@ def show_dictionary(request, project, lang):
 
     words = Dictionary.objects.filter(
         project=prj, language=lang
-    ).order_by('source')
+    ).order_by(Lower('source'))
 
     limit = request.GET.get('limit', 25)
     page = request.GET.get('page', 1)
