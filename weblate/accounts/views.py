@@ -36,6 +36,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView, ListView
 from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_exempt
 from django.core.urlresolvers import reverse
 from django.utils.http import urlencode
 from django.template.loader import render_to_string
@@ -804,6 +805,7 @@ def social_auth(request, backend):
     return auth(request, backend)
 
 
+@csrf_exempt
 @avoid_demo
 def social_complete(request, backend):
     """Wrapper around social_django.views.complete.
