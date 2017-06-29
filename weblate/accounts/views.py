@@ -546,7 +546,7 @@ def register(request):
                 request.session['registration-email-sent'] = True
                 return redirect('email-sent')
             store_userid(request)
-            return complete(request, 'email')
+            return social_complete(request, 'email')
     else:
         form = RegistrationForm()
         if settings.REGISTRATION_CAPTCHA:
@@ -591,7 +591,7 @@ def email_login(request):
                 request.session['registration-email-sent'] = True
                 return redirect('email-sent')
             store_userid(request)
-            return complete(request, 'email')
+            return social_complete(request, 'email')
     else:
         form = EmailForm()
         if settings.REGISTRATION_CAPTCHA:
@@ -714,7 +714,7 @@ def reset_password(request):
                 if not rate_limited:
                     request.session['password_reset'] = True
                     store_userid(request)
-                    return complete(request, 'email')
+                    return social_complete(request, 'email')
             request.session['registration-email-sent'] = True
             return redirect('email-sent')
     else:
