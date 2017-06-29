@@ -311,8 +311,13 @@ def store_email(strategy, backend, user, social, details, **kwargs):
     """Store verified email."""
     if 'email' not in details or details['email'] is None:
         raise AuthMissingParameter(backend, 'email')
-    verified, dummy = VerifiedEmail.objects.get_or_create(social=social)
-    if verified.email != details['email']:
+    verified, created = VerifiedEmail.objects.get_or_create(
+        social=social,
+        defaults={
+            'email': details['email']
+        }
+    )
+    if not created and verified.email != details['email']:
         verified.email = details['email']
         verified.save()
 
