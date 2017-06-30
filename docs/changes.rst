@@ -4,6 +4,8 @@ Changes
 weblate 2.15
 ------------
 
+Released on June 30th 2017.
+
 * Show more related translations in other translations.
 * Add option to see translations of current unit to other languages.
 * Use 4 plural forms for Lithuanian by default.
@@ -14,8 +16,6 @@ weblate 2.15
 * Added Perl format quality check.
 * Added support for rejecting reused passwords.
 * Extended toolbar for editing RTL languages.
-
-Released on ? 2017.
 
 weblate 2.14.1
 --------------
