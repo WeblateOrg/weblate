@@ -301,7 +301,7 @@
     <td>
     {% format_translation item.target item.translation.language %}
     </td>
-    <td{% if item.translated and item.translation.subproject != unit.translation.subproject %}  rowspan="2"{% endif %}>
+    <td{% if item.translated and item.translation.subproject != unit.translation.subproject and item.target != unit.target %}  rowspan="2"{% endif %}>
     {% if user_can_translate and item.translated %}
     <a class="mergebutton btn btn-success" href="{{ unit.translation.get_translate_url}}?{{ search_url }}&amp;offset={{ offset }}&amp;checksum={{ unit.checksum }}&amp;merge={{ item.id }}" title="{% trans "Use this translation for all components" %}"><i class="fa fa-check"></i> {% trans "Use this translation" %}</a>
     {% endif %}
