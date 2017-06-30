@@ -1036,6 +1036,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             if merge_header:
                 self.store.merge_header(store2)
                 self.store.save()
+            self.store_hash()
 
             self.git_commit(
                 request, author, timezone.now(),
