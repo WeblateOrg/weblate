@@ -39,7 +39,7 @@ DATA_FILES = [
 
 setup(
     name='Weblate',
-    version='2.15',
+    version='2.16',
     packages=[
         'weblate',
     ],
