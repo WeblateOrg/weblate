@@ -1118,7 +1118,7 @@ class Unit(models.Model, LoggerMixin):
         result = same | same_id | same_source
 
         # Is it only this unit?
-        if result.count() == 1:
+        if len(result) == 1:
             return Unit.objects.none()
 
         return result
