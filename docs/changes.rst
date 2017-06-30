@@ -6,6 +6,8 @@ weblate 2.16
 
 Released on ? 2017.
 
+* Various performance improvements.
+
 weblate 2.15
 ------------
 
