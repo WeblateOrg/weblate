@@ -36,7 +36,6 @@
   </ul>
 </li>
 <li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
-<li><a href="#history" data-toggle="tab">{% trans "History" %}</a></li>
 <li><a href="#activity" data-toggle="tab" data-load="activity" data-yearly="{% url 'yearly_activity' %}" data-monthly="{% url 'monthly_activity' %}">{% trans "Activity" %}</a></li>
 <li class="dropdown">
   <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -49,6 +48,7 @@
     <li><a href="{% url 'data_root' %}">{% trans "Data export" %}</a></li>
     <li><a href="{% url 'widgets_root' %}">{% trans "Widgets" %}</a></li>
     <li><a href="{% url 'stats' %}">{% trans "Statistics" %}</a></li>
+    <li><a href="{% url 'changes' %}">{% trans "History" %}</a></li>
   </ul>
 </li>
 </ul>
@@ -130,11 +130,6 @@
 </div>
 
 {% include "activity-tab.html" %}
-
-<div class="tab-pane" id="history">
-{% include "last-changes-content.html" %}
-<a class="btn btn-link" href="{% url 'changes' %}?{{ last_changes_url }}">{% trans "Browse all changes" %}</a>
-</div>
 
 </div>
 

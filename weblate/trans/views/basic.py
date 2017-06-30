@@ -154,9 +154,6 @@ def home(request):
             ))
         )
 
-    # Some stats
-    last_changes = Change.objects.last_changes(user)
-
     # dashboard_choices is dict with labels of choices as a keys
     dashboard_choices = dict(Profile.DASHBOARD_CHOICES)
     usersubscriptions = None
@@ -191,9 +188,6 @@ def home(request):
             id__in=project_ids
         )
 
-        last_changes = last_changes.filter(
-            subproject__project__in=subscribed_projects
-        )
         usersubscriptions = components_by_language.filter(
             subproject__project__in=subscribed_projects
         )
@@ -204,8 +198,6 @@ def home(request):
         {
             'allow_index': True,
             'suggestions': suggestions,
-            'last_changes': last_changes[:10],
-            'last_changes_url': '',
             'search_form': SiteSearchForm(),
             'usersubscriptions': usersubscriptions,
             'userlanguages': userlanguages,
