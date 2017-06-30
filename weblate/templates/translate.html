@@ -452,7 +452,8 @@
   </h4>
   </div>
   <table class="table table-striped table-condensed">
-    {% if unit.source_info.screenshots.all or user_can_add_screenshot %}
+    {% with unit.source_info.screenshots.all as screenshots %}
+    {% if screenshots or user_can_add_screenshot %}
     <tr>
     <th>
     {% if user_can_add_screenshot %} <a class="button smallbutton pull-right flip" href="{% url 'review_source' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug  %}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>{% endif %}
@@ -461,14 +462,15 @@
     </tr>
     <tr>
     <td>
-    {% for screenshot in unit.source_info.screenshots.all %}
+    {% for screenshot in screenshots %}
     {% include "screenshots/screenshot_show.html" %}
     {% empty %}
     {% trans "No screenshot currently associated!" %}
     {% endfor %}
     </td>
     </tr>
-    {% endif %}
+    {% endif %} 
+    {% endwith %}
     {% if unit.context %}
     <tr>
     <th>{% trans "Context" %}</th>
