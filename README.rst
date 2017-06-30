@@ -7,7 +7,7 @@ Weblate
 
 .. image:: https://ci.appveyor.com/api/projects/status/92elnra2etjgfpc8/branch/master?svg=true
     :target: https://ci.appveyor.com/project/nijel/weblate/branch/master
-    :target: Build status
+    :alt: Build status
 
 .. image:: https://hosted.weblate.org/widgets/weblate/-/svg-badge.svg
     :alt: Translation status
