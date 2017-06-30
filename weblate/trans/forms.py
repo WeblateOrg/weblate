@@ -136,6 +136,7 @@ class ChecksumField(forms.CharField):
         super(ChecksumField, self).__init__(*args, **kwargs)
 
     def clean(self, value):
+        super(ChecksumField, self).clean(value)
         if not value:
             return
         try:
@@ -374,8 +375,7 @@ class ChecksumForm(forms.Form):
 
     def clean_checksum(self):
         """Validate whether checksum is valid and fetches unit for it."""
-        if ('checksum' not in self.cleaned_data or
-                not self.cleaned_data['checksum']):
+        if 'checksum' not in self.cleaned_data:
             return
 
         unit_set = self.translation.unit_set
