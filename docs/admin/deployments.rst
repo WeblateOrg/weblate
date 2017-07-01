@@ -358,11 +358,11 @@ To make outgoing email work, you need to provide mail server.
     Mail server port, use if your cloud provider or ISP blocks outgoing
     connections on port 587.
 
-.. envvar:: WEBLATE_EMAIL_USER
+.. envvar:: WEBLATE_EMAIL_HOST_USER
 
     Email authentication user, do NOT use quotes here.
 
-.. envvar:: WEBLATE_EMAIL_PASSWORD
+.. envvar:: WEBLATE_EMAIL_HOST_PASSWORD
 
     Email authentication password, do NOT use quotes here.
 
