@@ -8,22 +8,20 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-06-29 13:33+0000\n"
-"PO-Revision-Date: 2017-06-12 05:37+0000\n"
-"Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
-"Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
-"weblate/master/zh_Hans/>\n"
+"PO-Revision-Date: 2017-07-02 12:50+0000\n"
+"Last-Translator: zhangmiao <myzhm@163.com>\n"
+"Language-Team: Chinese (Simplified) "
+"<https://hosted.weblate.org/projects/weblate/master/zh_Hans/>\n"
 "Language: zh_Hans\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2.15-dev\n"
+"X-Generator: Weblate 2.16-dev\n"
 
 #: weblate/accounts/admin.py:105 weblate/accounts/admin.py:110
-#, fuzzy
-#| msgid "Persian"
 msgid "Personal info"
-msgstr "波斯语（فارسی）"
+msgstr "个人信息"
 
 #: weblate/accounts/admin.py:106 weblate/templates/accounts/profile.html:26
 msgid "Authentication"
@@ -69,7 +67,7 @@ msgstr "用户名"
 
 #: weblate/accounts/forms.py:128
 msgid "Username can not start with full stop."
-msgstr ""
+msgstr "用户名不能以句点开头。"
 
 #: weblate/accounts/forms.py:135
 msgid "This username is already taken. Please choose another."
@@ -329,6 +327,8 @@ msgid ""
 "placeholders. Usually something like editor://open/?file=%(file)s&line="
 "%(line)s is good option."
 msgstr ""
+"键入自定义 URL 作为开源代码的链接。您可以使用 %(branch)s 作为分割符， %(file)s 与 %(line)s "
+"作为文件名和行占位符。通常情况下，如下样式 editor://open/?file=%(file)s&line=%(line)s 作为首选。"
 
 #: weblate/accounts/models.py:356
 msgid "Special characters"
@@ -339,7 +339,7 @@ msgid ""
 "You can specify additional special characters to be shown in the visual "
 "keyboard while translating. It can be useful for chars you use frequently "
 "but are hard to type on your keyboard."
-msgstr ""
+msgstr "在翻译时您可以指定额外的特殊字母显示于可视键盘上。在您需要使用一些常用但难于通过键盘输入的字符时，这将会非常有用。"
 
 #: weblate/accounts/models.py:370 weblate/templates/index.html:31
 msgid "Watched translations"
@@ -431,11 +431,11 @@ msgstr "该密码只含有单个字符。"
 
 #: weblate/accounts/password_validation.py:49
 msgid "Your password can't consist of single character or whitespace only."
-msgstr ""
+msgstr "您的口令不能仅包含单个字符或空格。"
 
 #: weblate/accounts/pipeline.py:273
 msgid "You can not complete password reset while logged in!"
-msgstr ""
+msgstr "在登录时无法完成密码重置！"
 
 #: weblate/accounts/pipeline.py:277 weblate/accounts/pipeline.py:301
 #, fuzzy
@@ -445,17 +445,17 @@ msgstr "翻译评论已删除。"
 
 #: weblate/accounts/pipeline.py:292
 msgid "You can not complete registration while logged in!"
-msgstr ""
+msgstr "登录时无法完成注册！"
 
 #: weblate/accounts/pipeline.py:297
 msgid "You can confirm your registration only while logged in!"
-msgstr ""
+msgstr "您仅当登入后方可确定您的注册信息！"
 
 #: weblate/accounts/pipeline.py:422
 #, python-brace-format
 msgid ""
 "Your email no longer belongs to verified account, it has been changed to {0}."
-msgstr ""
+msgstr "您的电子邮箱不属于认证账号，它已被变更为{0}。"
 
 #: weblate/accounts/views.py:106 weblate/accounts/views.py:568
 msgid "User registration"
@@ -487,7 +487,7 @@ msgstr "您的账户已删除。"
 
 #: weblate/accounts/views.py:379
 msgid "Too many messages sent, please try again later!"
-msgstr ""
+msgstr "发送了太多信息，请稍后重试！"
 
 #: weblate/accounts/views.py:404 weblate/templates/accounts/contact.html:6
 #: weblate/templates/accounts/contact.html:21
@@ -540,7 +540,7 @@ msgstr "注册验证失败！可能验证令牌已过期。请再试一次。"
 
 #: weblate/accounts/views.py:829
 msgid "Authentication failed due to invalid session state."
-msgstr ""
+msgstr "因会话状态无效，验证失败。"
 
 #: weblate/accounts/views.py:843
 #, fuzzy
@@ -555,7 +555,7 @@ msgstr "已禁止新的注册！"
 #: weblate/accounts/views.py:854
 msgid ""
 "Authentication has failed, probably due to expired token or connection error."
-msgstr ""
+msgstr "验证已失败，可能是由于过期令牌或者连接错误。"
 
 #: weblate/accounts/views.py:858
 #, fuzzy
@@ -567,7 +567,7 @@ msgstr "使用 {method} ({name}) 的身份验证已被添加。"
 msgid ""
 "Failed to complete your registration! This authentication, email or username "
 "are already associated with another account!"
-msgstr ""
+msgstr "未能完成注册！本次验证所用的电子邮箱或用户名已经与另一账号相关联！"
 
 #: weblate/admin.py:68 weblate/admin.py:69
 #, fuzzy
@@ -841,15 +841,15 @@ msgstr "{name} (例如 {examples})"
 #: weblate/legal/templates/legal/security.html:6
 #: weblate/legal/templates/legal/terms.html:5 weblate/templates/footer.html:7
 msgid "Legal"
-msgstr ""
+msgstr "合法"
 
 #: weblate/legal/templates/legal/cookies.html:6 weblate/legal/views.py:40
 msgid "Cookies"
-msgstr ""
+msgstr "Cookies"
 
 #: weblate/legal/templates/legal/cookies.html:16
 msgid "Cookies Policy"
-msgstr ""
+msgstr "Cookies 方针"
 
 #: weblate/legal/templates/legal/cookies.html:21
 #: weblate/legal/templates/legal/index.html:20
@@ -857,27 +857,27 @@ msgstr ""
 msgid ""
 "This page is based on <a href=\"%(terms_url)s\">Terms of Service</a>, you "
 "should still read the original document to fully understand it."
-msgstr ""
+msgstr "本页面基于 <a href=\"%(terms_url)s\">服务条款</a>，您仍需阅读原始文本以完全了解它。"
 
 #: weblate/legal/templates/legal/cookies.html:25
 msgid "We use cookies for following purposes:"
-msgstr ""
+msgstr "我们在以下用途中使用 cookie："
 
 #: weblate/legal/templates/legal/cookies.html:29
 msgid ""
 "Authentication cookies which are required for recognizing authenticated "
 "users."
-msgstr ""
+msgstr "验证 cookie 用于识别已验证的用户。"
 
 #: weblate/legal/templates/legal/cookies.html:30
 msgid "Preferences cookie to store user preferences in certain situations."
-msgstr ""
+msgstr "设定 cookie 用于存储用户在特定情况下的设定信息。"
 
 #: weblate/legal/templates/legal/cookies.html:31
 msgid ""
 "We use Piwik to analyze traffic on our website. Piwik does respect Do Not "
 "Track settings in your browser."
-msgstr ""
+msgstr "我们使用 Piwik 来分析本网站的流量。Piwik 不遵循您浏览器的“禁止跟踪” 设定。"
 
 #: weblate/legal/templates/legal/cookies.html:35
 #, fuzzy
@@ -893,24 +893,24 @@ msgstr ""
 
 #: weblate/legal/templates/legal/index.html:15
 msgid "Legal Terms Overview"
-msgstr ""
+msgstr "法律条款概述"
 
 #: weblate/legal/templates/legal/index.html:24
 msgid ""
 "The services are provided “as is”, at your own risk, without any warranty."
-msgstr ""
+msgstr "本服务是 “按现状” 提供的，风险自担，无任何保证。"
 
 #: weblate/legal/templates/legal/index.html:25
 msgid ""
 "Additional guarantees might apply to commercial customers, those are "
 "expressed in corresponding contracts."
-msgstr ""
+msgstr "对于商业用户，可能需要额外的保证，需表述于相应的约定中。"
 
 #: weblate/legal/templates/legal/index.html:26
 msgid ""
 "We process private data (such as your email), those will be discarded from "
 "our database as soon as you remove your account."
-msgstr ""
+msgstr "我们会处理私有数据（如您的电子邮箱），在您删除账号时，将会从我们的数据库中删除相关内容。"
 
 #: weblate/legal/templates/legal/index.html:27
 msgid ""
@@ -920,36 +920,36 @@ msgstr ""
 
 #: weblate/legal/templates/legal/index.html:28
 msgid "Your name and email is used in VCS commits, it will stay there forever."
-msgstr ""
+msgstr "在 VCS 提交中会使用您的姓名及电子邮箱，它将永久保存。"
 
 #: weblate/legal/templates/legal/index.html:29
 msgid "We use cookies to deliver our services."
-msgstr ""
+msgstr "我们使用 cookie 以提供服务。"
 
 #: weblate/legal/templates/legal/security.html:7 weblate/legal/views.py:45
 msgid "Security"
-msgstr ""
+msgstr "安全"
 
 #: weblate/legal/templates/legal/security.html:17
 msgid "Security Policy"
-msgstr ""
+msgstr "安全政策"
 
 #: weblate/legal/templates/legal/security.html:22
 msgid ""
 "At Weblate, we take security seriously and strive to maintain an environment "
 "that values the security and privacy of our users."
-msgstr ""
+msgstr "在 Weblate，我们注重安全，并努力给用户提供一个注重安全与隐私的环境。"
 
 #: weblate/legal/templates/legal/security.html:26
 #, python-format
 msgid ""
 "Please see our <a href=\"%(security_url)s\">documentation</a> for "
 "instructions how to report security weakness in our platform."
-msgstr ""
+msgstr "请参阅我们的 <a href=\"%(security_url)s\"> 文档</a> 以获得如何报告平台安全漏洞的说明。"
 
 #: weblate/legal/templates/legal/terms.html:6
 msgid "Terms"
-msgstr ""
+msgstr "条款"
 
 #: weblate/legal/templates/legal/terms.html:16 weblate/legal/views.py:35
 #, fuzzy
@@ -959,7 +959,7 @@ msgstr "服务"
 
 #: weblate/legal/templates/legal/terms.html:19
 msgid "The Terms of Service document is currently available only in English."
-msgstr ""
+msgstr "服务条款文档现仅提供英文版。"
 
 #: weblate/legal/views.py:30 weblate/templates/translation.html:29
 msgid "Overview"
@@ -979,7 +979,7 @@ msgstr "管理"
 #: weblate/permissions/data.py:167
 msgctxt "Permissions group"
 msgid "Template"
-msgstr ""
+msgstr "模板"
 
 #: weblate/permissions/data.py:168
 #, fuzzy
@@ -1012,7 +1012,7 @@ msgstr "翻译"
 #: weblate/permissions/data.py:172
 msgctxt "Permissions group"
 msgid "VCS"
-msgstr ""
+msgstr "VCS"
 
 #: weblate/permissions/models.py:52
 #, fuzzy
@@ -1022,7 +1022,7 @@ msgstr "版本"
 
 #: weblate/permissions/models.py:53
 msgid "The GroupACL will affect only selected permissions."
-msgstr ""
+msgstr "GroupACL 将仅影响已选的许可。"
 
 #: weblate/permissions/models.py:60
 msgid "Project, component or language must be specified"
@@ -1077,11 +1077,11 @@ msgstr "上传 JPEG 或 PNG 图像，最高 2000x2000 像素。"
 
 #: weblate/screenshots/views.py:106
 msgid "Screenshot has been uploaded, you can now assign it to source strings."
-msgstr ""
+msgstr "屏幕截图已上传，您现在可以将它指定于源字符串。"
 
 #: weblate/screenshots/views.py:114
 msgid "Failed to upload screenshot, please fix errors below."
-msgstr ""
+msgstr "上传截图失败，请修正如下错误。"
 
 #: weblate/screenshots/views.py:166
 #, fuzzy, python-format
@@ -1384,11 +1384,11 @@ msgstr "您需要在 <a href=\"%(pw_url)s\">单独的页面</a> 中修改密码�
 
 #: weblate/templates/accounts/password-warning.html:6
 msgid "You will be still able to authenticate using third party services."
-msgstr ""
+msgstr "您仍能使用第三方服务验证。"
 
 #: weblate/templates/accounts/password-warning.html:7
 msgid "The password is used to verify important changes on your account."
-msgstr ""
+msgstr "密码用于确认您账号相关的重要变更。"
 
 #: weblate/templates/accounts/password.html:16
 msgid ""
@@ -1431,7 +1431,7 @@ msgstr "许可协议"
 #: weblate/templates/accounts/profile.html:29
 #: weblate/templates/accounts/profile.html:299
 msgid "Audit log"
-msgstr ""
+msgstr "审计日志"
 
 #: weblate/templates/accounts/profile.html:30
 #: weblate/templates/accounts/profile.html:349
@@ -1624,7 +1624,7 @@ msgstr "电子邮件地址"
 
 #: weblate/templates/accounts/profile.html:317
 msgid "Hidden"
-msgstr ""
+msgstr "隐藏"
 
 #: weblate/templates/accounts/profile.html:322
 #, fuzzy
@@ -1634,13 +1634,13 @@ msgstr "没有最近活动的记录。"
 
 #: weblate/templates/accounts/profile.html:327
 msgid "Report suspicious activity"
-msgstr ""
+msgstr "报告可疑行为"
 
 #: weblate/templates/accounts/profile.html:337
 msgid ""
 "Audit log shows important changes on your account. In case you see something "
 "suspicious don't hesitate to contact us."
-msgstr ""
+msgstr "审计日志会显示您账号的重要变更事项。 如果您看到可疑事项，请毫不犹豫地联系我们。"
 
 #: weblate/templates/accounts/profile.html:352
 msgid "Your personal API key:"
@@ -1847,11 +1847,11 @@ msgstr "性能报告"
 
 #: weblate/templates/admin/logout-confirm.html:23
 msgid "Please confirm your logout."
-msgstr ""
+msgstr "请确认您的登出。"
 
 #: weblate/templates/admin/logout-confirm.html:26
 msgid "I confirm logout"
-msgstr ""
+msgstr "我确认登出"
 
 #: weblate/templates/admin/performance.html:9
 #: weblate/templates/admin/report.html:8 weblate/templates/admin/ssh.html:8
@@ -2411,7 +2411,7 @@ msgstr "按住 “Ctrl” 或 Mac 上的 “Command” 键多选。"
 
 #: weblate/templates/i18n.html:19
 msgid "Abkhazian"
-msgstr ""
+msgstr "阿布哈兹语"
 
 #: weblate/templates/i18n.html:20
 msgid "Acholi"
@@ -2419,7 +2419,7 @@ msgstr "阿乔利语（Acholi）"
 
 #: weblate/templates/i18n.html:21
 msgid "Afar"
-msgstr ""
+msgstr "阿法尔语"
 
 #: weblate/templates/i18n.html:22
 msgid "Afrikaans"
@@ -2481,7 +2481,7 @@ msgstr "阿姆哈拉语（አማርኛ）"
 
 #: weblate/templates/i18n.html:36
 msgid "Avestan"
-msgstr ""
+msgstr "阿维斯陀语"
 
 #: weblate/templates/i18n.html:37
 msgid "Aymará"
@@ -2493,7 +2493,7 @@ msgstr "阿塞拜疆语（Азәрбајҹан дили）"
 
 #: weblate/templates/i18n.html:39
 msgid "Bambara"
-msgstr ""
+msgstr "班巴拉语"
 
 #: weblate/templates/i18n.html:40
 msgid "Bashkir"
@@ -2537,7 +2537,7 @@ msgstr "桑海语（Songhai）"
 
 #: weblate/templates/i18n.html:49
 msgid "Bislama"
-msgstr ""
+msgstr "比斯拉马语"
 
 #: weblate/templates/i18n.html:50
 msgid "Bodo"
@@ -2623,11 +2623,11 @@ msgstr "中文（繁体）"
 
 #: weblate/templates/i18n.html:70
 msgid "Chuang"
-msgstr ""
+msgstr "壮语"
 
 #: weblate/templates/i18n.html:71
 msgid "Chuvash"
-msgstr ""
+msgstr "楚瓦什语"
 
 #: weblate/templates/i18n.html:72
 msgid "Colognian"
@@ -2639,7 +2639,7 @@ msgstr "康沃尔语（Kernewek）"
 
 #: weblate/templates/i18n.html:74
 msgid "Corsican"
-msgstr ""
+msgstr "科西嘉语"
 
 #: weblate/templates/i18n.html:75
 msgid "Cree"
@@ -2659,7 +2659,7 @@ msgstr "丹麦语（dansk）"
 
 #: weblate/templates/i18n.html:79
 msgid "Dhivehi"
-msgstr ""
+msgstr "迪维希语"
 
 #: weblate/templates/i18n.html:80
 msgid "Dogri"
@@ -2719,7 +2719,7 @@ msgstr "爱沙尼亚语（Eesti keel）"
 
 #: weblate/templates/i18n.html:94
 msgid "Ewe"
-msgstr ""
+msgstr "埃维语"
 
 #: weblate/templates/i18n.html:95
 msgid "Faroese"
@@ -2727,7 +2727,7 @@ msgstr "法罗语（Føroyskt）"
 
 #: weblate/templates/i18n.html:96
 msgid "Fijian"
-msgstr ""
+msgstr "斐济语"
 
 #: weblate/templates/i18n.html:97
 msgid "Filipino"
@@ -2785,7 +2785,7 @@ msgstr "德语（Deutsch）"
 
 #: weblate/templates/i18n.html:110
 msgid "Gikuyu"
-msgstr ""
+msgstr "基库尤语"
 
 #: weblate/templates/i18n.html:111
 msgid "Greek"
@@ -2797,7 +2797,7 @@ msgstr "格陵兰语（kalaallisut）"
 
 #: weblate/templates/i18n.html:113
 msgid "Guarani"
-msgstr ""
+msgstr "瓜拉尼语"
 
 #: weblate/templates/i18n.html:114
 msgid "Gujarati"
@@ -2825,7 +2825,7 @@ msgstr "希伯来语（עִבְרִית ）"
 
 #: weblate/templates/i18n.html:120
 msgid "Herero"
-msgstr ""
+msgstr "赫雷罗语"
 
 #: weblate/templates/i18n.html:121
 msgid "Hindi"
@@ -2833,7 +2833,7 @@ msgstr "印地语（हिन्दी）"
 
 #: weblate/templates/i18n.html:122
 msgid "Hiri Motu"
-msgstr ""
+msgstr "希利摩陀语"
 
 #: weblate/templates/i18n.html:123
 msgid "Hungarian"
@@ -2845,7 +2845,7 @@ msgstr "冰岛语（íslenska）"
 
 #: weblate/templates/i18n.html:125
 msgid "Ido"
-msgstr ""
+msgstr "伊多语"
 
 #: weblate/templates/i18n.html:126
 msgid "Igbo"
@@ -2861,11 +2861,11 @@ msgstr "国际语（Interlingua）"
 
 #: weblate/templates/i18n.html:129
 msgid "Inuktitut"
-msgstr ""
+msgstr "因纽特语"
 
 #: weblate/templates/i18n.html:130
 msgid "Inupiaq"
-msgstr ""
+msgstr "伊努皮克语"
 
 #: weblate/templates/i18n.html:131
 msgid "Irish"
@@ -2893,11 +2893,11 @@ msgstr "卡纳达语（ಕನ್ನಡ）"
 
 #: weblate/templates/i18n.html:137
 msgid "Kanuri"
-msgstr ""
+msgstr "卡努里语"
 
 #: weblate/templates/i18n.html:138
 msgid "Kashmiri"
-msgstr ""
+msgstr "克什米尔语"
 
 #: weblate/templates/i18n.html:139
 msgid "Kashubian"
@@ -2925,15 +2925,15 @@ msgstr "克林贡语 (pIqaD)"
 
 #: weblate/templates/i18n.html:145
 msgid "Komi"
-msgstr ""
+msgstr "科米语"
 
 #: weblate/templates/i18n.html:146
 msgid "Kongo"
-msgstr ""
+msgstr "刚果语"
 
 #: weblate/templates/i18n.html:147
 msgid "Konkani"
-msgstr ""
+msgstr "孔卡尼语"
 
 #: weblate/templates/i18n.html:148
 msgid "Korean"
@@ -2949,7 +2949,7 @@ msgstr "库尔德语索拉尼方言"
 
 #: weblate/templates/i18n.html:151
 msgid "Kwanyama"
-msgstr ""
+msgstr "库瓦亚马语"
 
 #: weblate/templates/i18n.html:152
 msgid "Kyrgyz"
@@ -2989,7 +2989,7 @@ msgstr "低地德语（Plattdüütsch）"
 
 #: weblate/templates/i18n.html:161
 msgid "Luba-Katanga"
-msgstr ""
+msgstr "卢巴卡丹加语"
 
 #: weblate/templates/i18n.html:162
 msgid "Luxembourgish"
@@ -3029,7 +3029,7 @@ msgstr "曼尼普尔语（মেইতেই লোন্）"
 
 #: weblate/templates/i18n.html:171
 msgid "Manx"
-msgstr ""
+msgstr "马恩岛语"
 
 #: weblate/templates/i18n.html:172
 msgid "Maori"
@@ -3045,11 +3045,11 @@ msgstr "马拉地语（मराठी）"
 
 #: weblate/templates/i18n.html:175
 msgid "Marshallese"
-msgstr ""
+msgstr "马绍尔语"
 
 #: weblate/templates/i18n.html:176
 msgid "Moldovan"
-msgstr ""
+msgstr "摩尔多瓦语"
 
 #: weblate/templates/i18n.html:177
 msgid "Mongolian"
@@ -3057,7 +3057,7 @@ msgstr "蒙古语（Монгол хэл/ᠮᠣᠨᠭᠭᠣᠯ ᠬᠡᠯᠡ ）"
 
 #: weblate/templates/i18n.html:178
 msgid "Montenegrin"
-msgstr ""
+msgstr "黑山语"
 
 #: weblate/templates/i18n.html:179
 msgid "Morisyen"
@@ -3073,11 +3073,11 @@ msgstr "纳瓦特尔语（nāhuatl）"
 
 #: weblate/templates/i18n.html:182
 msgid "Nauru"
-msgstr ""
+msgstr "瑙鲁语"
 
 #: weblate/templates/i18n.html:183
 msgid "Navaho"
-msgstr ""
+msgstr "纳瓦霍语"
 
 #: weblate/templates/i18n.html:184
 #, fuzzy
@@ -3095,7 +3095,7 @@ msgstr "尼泊尔语（नेपाली）"
 
 #: weblate/templates/i18n.html:187
 msgid "North Ndebele"
-msgstr ""
+msgstr "北恩德贝莱语"
 
 #: weblate/templates/i18n.html:188
 msgid "Northern Sami"
@@ -3103,11 +3103,11 @@ msgstr "北萨米语（davvisámegiella）"
 
 #: weblate/templates/i18n.html:189
 msgid "Norwegian (old code)"
-msgstr "老挪威语（gamle koden）"
+msgstr "挪威语（旧代码）"
 
 #: weblate/templates/i18n.html:190
 msgid "Norwegian Bokmål"
-msgstr "巴克摩挪威语（Norsk bokmål）"
+msgstr "书面挪威语（Norsk bokmål）"
 
 #: weblate/templates/i18n.html:191
 msgid "Norwegian Nynorsk"
@@ -3115,7 +3115,7 @@ msgstr "新挪威语（nynorsk）"
 
 #: weblate/templates/i18n.html:192
 msgid "Nuosu"
-msgstr ""
+msgstr "诺苏语"
 
 #: weblate/templates/i18n.html:193
 msgid "Nyanja"
@@ -3133,7 +3133,7 @@ msgstr "奥克西坦语（Lenga d'òc）"
 
 #: weblate/templates/i18n.html:196
 msgid "Odia"
-msgstr ""
+msgstr "奥里亚语"
 
 #: weblate/templates/i18n.html:197
 msgid "Ojibwe"
@@ -3145,13 +3145,11 @@ msgstr "奥里雅语（ଓଡ଼ିଆ）"
 
 #: weblate/templates/i18n.html:199
 msgid "Old Church Slavonic"
-msgstr ""
+msgstr "古教会斯拉夫语"
 
 #: weblate/templates/i18n.html:200
-#, fuzzy
-#| msgid "Promote"
 msgid "Oromo"
-msgstr "宣传"
+msgstr "奥罗莫语（Oromo）"
 
 #: weblate/templates/i18n.html:201
 msgid "Ossetian"
@@ -3159,7 +3157,7 @@ msgstr "奥赛梯语（Ирон æвзаг）"
 
 #: weblate/templates/i18n.html:202
 msgid "Pali"
-msgstr ""
+msgstr "巴利语"
 
 #: weblate/templates/i18n.html:203
 msgid "Papiamento"
@@ -3207,7 +3205,7 @@ msgstr "普什图语（پښتو）"
 
 #: weblate/templates/i18n.html:214
 msgid "Quechua"
-msgstr ""
+msgstr "盖丘亚语"
 
 #: weblate/templates/i18n.html:215
 msgid "Romanian"
@@ -3219,7 +3217,7 @@ msgstr "罗曼斯语（Rumantsch）"
 
 #: weblate/templates/i18n.html:217
 msgid "Rundi"
-msgstr ""
+msgstr "隆迪班图语"
 
 #: weblate/templates/i18n.html:218
 msgid "Russian"
@@ -3227,19 +3225,19 @@ msgstr "俄语（Русский язык）"
 
 #: weblate/templates/i18n.html:219
 msgid "Rusyn"
-msgstr ""
+msgstr "卢森尼亚语"
 
 #: weblate/templates/i18n.html:220
 msgid "Samoan"
-msgstr ""
+msgstr "萨摩亚语"
 
 #: weblate/templates/i18n.html:221
 msgid "Sango"
-msgstr ""
+msgstr "桑戈语"
 
 #: weblate/templates/i18n.html:222
 msgid "Sanskrit"
-msgstr ""
+msgstr "梵语"
 
 #: weblate/templates/i18n.html:223
 msgid "Santali"
@@ -3309,7 +3307,7 @@ msgstr "塞索托语（Sesotho）"
 
 #: weblate/templates/i18n.html:239
 msgid "South Ndebele"
-msgstr ""
+msgstr "南恩德贝勒语"
 
 #: weblate/templates/i18n.html:240
 #, fuzzy
@@ -3347,7 +3345,7 @@ msgstr "斯瓦希里语（Kiswahili）"
 
 #: weblate/templates/i18n.html:248
 msgid "Swati"
-msgstr ""
+msgstr "斯瓦蒂语"
 
 #: weblate/templates/i18n.html:249
 msgid "Swedish"
@@ -3397,7 +3395,7 @@ msgstr "提格利尼亚语（ትግርኛ）"
 
 #: weblate/templates/i18n.html:260
 msgid "Tonga (Tonga Islands)"
-msgstr ""
+msgstr "汤加语(汤加群岛)"
 
 #: weblate/templates/i18n.html:261
 msgid "Tsonga"
@@ -3405,7 +3403,7 @@ msgstr "聪加语（Xitsonga）"
 
 #: weblate/templates/i18n.html:262
 msgid "Tswana"
-msgstr ""
+msgstr "茨瓦纳语"
 
 #: weblate/templates/i18n.html:263
 msgid "Turkish"
@@ -3468,7 +3466,7 @@ msgstr "越南语（Tiếng Việt）"
 
 #: weblate/templates/i18n.html:277
 msgid "Volapük"
-msgstr ""
+msgstr "沃拉普克语"
 
 #: weblate/templates/i18n.html:278
 msgid "Walloon"
@@ -3488,7 +3486,7 @@ msgstr "沃洛夫语（Wolof）"
 
 #: weblate/templates/i18n.html:282
 msgid "Xhosa"
-msgstr ""
+msgstr "科萨语"
 
 #: weblate/templates/i18n.html:283
 msgid "Yakut"
@@ -3504,7 +3502,7 @@ msgstr "约鲁巴语（Èdè Yorùbá）"
 
 #: weblate/templates/i18n.html:286
 msgid "Yue"
-msgstr ""
+msgstr "粤语"
 
 #: weblate/templates/i18n.html:287
 msgid "Zulu"
@@ -3606,7 +3604,7 @@ msgstr "注册以管理您的语言"
 msgid ""
 "Could not find any matching translation in this component list, probably not "
 "translated to your languages."
-msgstr ""
+msgstr "在本组件列表中未能找到任何匹配的翻译，可能尚未翻译为您的语言。"
 
 #: weblate/templates/index.html:136
 msgid "Browse all changes"
@@ -3973,12 +3971,12 @@ msgstr "%(site_title)s 网站上的 %(translation)s 翻译有一个变更。"
 msgid ""
 "If you did not request this change, please notify us as soon as possible "
 "using following form:"
-msgstr ""
+msgstr "如果您不需要本变更，请立即通知我们，使用如下形式："
 
 #: weblate/templates/mail/account_activity_subject.txt:4
 #, python-format
 msgid "Activity on your account at %(site_title)s"
-msgstr ""
+msgstr "您的账号在 %(site_title)s 的活跃度"
 
 #: weblate/templates/mail/activation.html:11
 #: weblate/templates/mail/activation.txt:3
@@ -4731,7 +4729,7 @@ msgstr ""
 
 #: weblate/templates/subproject_info.html:23
 msgid "Any authenticated users can contribute."
-msgstr ""
+msgstr "任何验证用户均可参与贡献。"
 
 #: weblate/templates/subproject_info.html:31
 #: weblate/trans/models/subproject.py:379
@@ -6001,7 +5999,7 @@ msgstr "随机复查字符串"
 
 #: weblate/trans/forms.py:541
 msgid "Please select a valid filter type."
-msgstr ""
+msgstr "请选择有效的筛选类型。"
 
 #: weblate/trans/forms.py:615
 msgid "Query"
@@ -6025,7 +6023,7 @@ msgstr "精确匹配"
 
 #: weblate/trans/forms.py:629
 msgid "Please select a valid search type."
-msgstr ""
+msgstr "请选择有效的搜索类型。"
 
 #: weblate/trans/forms.py:633
 msgid "Search in source strings"
@@ -7053,7 +7051,7 @@ msgstr "无法解析翻译模板文件: %s"
 #: weblate/trans/models/subproject.py:1254
 #, python-brace-format
 msgid "Template language ({0}) does not match project source language ({1})!"
-msgstr ""
+msgstr "模板语言 ({0}) 与项目源语言不匹配 ({1})！"
 
 #: weblate/trans/models/subproject.py:1261
 msgid "You can not use monolingual translation without base file!"
@@ -7564,7 +7562,7 @@ msgstr "您已经激活了您的账户，请设置密码以登录。"
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
-msgstr ""
+msgstr "您查找的项目已经移除，尽管如此，欢迎您参与贡献其他项目。"
 
 #: weblate/trans/views/basic.py:153
 msgid "Please set your full name in your profile."
@@ -7922,7 +7920,7 @@ msgstr "更改检查标记失败！"
 #, python-brace-format
 msgctxt "Translated percents in widget"
 msgid "{0}%"
-msgstr ""
+msgstr "{0}%"
 
 #. Translators: please keep the text short to fit into widget
 #: weblate/trans/widgets.py:311
@@ -7992,15 +7990,15 @@ msgstr "图像太大，请缩小比例或裁剪无关部分！"
 
 #: weblate/utils/validators.py:157
 msgid "The editor link lacks URL scheme!"
-msgstr ""
+msgstr "编辑器链接 缺少 URL scheme！"
 
 #: weblate/utils/validators.py:163
 msgid "Forbidden URL scheme!"
-msgstr ""
+msgstr "禁用的 URL scheme！"
 
 #: weblate/utils/validators.py:179
 msgid "Please avoid using special chars in the full name."
-msgstr ""
+msgstr "避免在全名中使用特殊字符。"
 
 #: weblate/utils/validators.py:188
 #, fuzzy
