@@ -318,6 +318,13 @@ class RepoTestMixin(object):
             'json-mono/en.json',
         )
 
+    def create_json_nested(self):
+        return self._create_subproject(
+            'json',
+            'json-nested/*.json',
+            'json-nested/en.json',
+        )
+
     def create_joomla(self):
         return self._create_subproject(
             'joomla',

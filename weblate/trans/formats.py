@@ -1161,6 +1161,13 @@ class JSONFormat(FileFormat):
 
 
 @register_fileformat
+class JSONNestedFormat(JSONFormat):
+    name = _('JSON nested structure file')
+    format_id = 'json-nested'
+    loader = ('jsonl10n', 'JsonNestedFile')
+
+
+@register_fileformat
 class CSVFormat(FileFormat):
     name = _('CSV file')
     format_id = 'csv'

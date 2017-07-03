@@ -34,7 +34,7 @@ from translate.storage.po import pofile
 from weblate.lang.models import Language
 from weblate.trans.formats import (
     AutoFormat, PoFormat, AndroidFormat, PropertiesFormat, JoomlaFormat,
-    JSONFormat, RESXFormat, PhpFormat, XliffFormat, TSFormat,
+    JSONFormat, JSONNestedFormat, RESXFormat, PhpFormat, XliffFormat, TSFormat,
     YAMLFormat, RubyYAMLFormat, FILE_FORMATS, detect_filename,
 )
 from weblate.trans.tests.utils import get_test_file
@@ -42,6 +42,7 @@ from weblate.trans.tests.utils import get_test_file
 
 TEST_PO = get_test_file('cs.po')
 TEST_JSON = get_test_file('cs.json')
+TEST_NESTED_JSON = get_test_file('cs-nested.json')
 TEST_PHP = get_test_file('cs.php')
 TEST_JOOMLA = get_test_file('cs.ini')
 TEST_PROPERTIES = get_test_file('swing.properties')
@@ -282,6 +283,15 @@ class JSONFormatTest(AutoFormatTest):
 
     def assert_same(self, newdata, testdata):
         self.assertJSONEqual(newdata, testdata)
+
+
+class JSONNestedFormatTest(JSONFormatTest):
+    FORMAT = JSONNestedFormat
+    FILE = TEST_NESTED_JSON
+    COUNT = 4
+    MASK = 'json-nested/*.json'
+    EXPECTED_PATH = 'json-nested/cs_CZ.json'
+    FIND = 'weblate.hello'
 
 
 class PhpFormatTest(AutoFormatTest):

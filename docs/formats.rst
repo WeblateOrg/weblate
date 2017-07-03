@@ -313,13 +313,18 @@ Example file:
 
     `PHP files in translate-toolkit documentation <http://docs.translatehouse.org/projects/translate-toolkit/en/latest/formats/php.html>`_
 
-JSON files
-----------
+JSON and nested structure JSON files
+------------------------------------
 
 .. index::
     pair: JSON; file format
 
 .. versionadded:: 2.0
+
+.. versionchanged:: 2.16
+
+    Since Weblate 2.16 and wiht translate-toolkit at least 2.2.4 nested
+    structure JSON files are supported as well.
 
 JSON is format used mostly for translating applications implemented in
 Javascript.
@@ -327,20 +332,15 @@ Javascript.
 JSON translations are usually monolingual, so it is recommended to specify base
 file with English strings.
 
-.. note::
-
-    Weblate currently supports only simple JSON files with key value mappings,
-    more complex formats like the ones used by Chrome extensions are currently
-    not supported by translate-toolkit and will produce invalid results.
-
-    If you are using nested dictionaries structure in your translations, you
-    can workardound above limitation by using
-    :file:`examples/hook-json_restore_hierarchy` as
-    :setting:`PRE_COMMIT_SCRIPTS`.
-
 Example file:
 
 .. literalinclude:: ../weblate/trans/tests/data/cs.json
+    :language: json
+    :encoding: utf-8
+
+Nested files are supported as well (see above for requirements), such file can look as:
+
+.. literalinclude:: ../weblate/trans/tests/data/cs-nested.json
     :language: json
     :encoding: utf-8
 
