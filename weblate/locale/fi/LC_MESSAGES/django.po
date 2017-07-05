@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-06-29 13:33+0000\n"
-"PO-Revision-Date: 2017-07-04 17:35+0000\n"
-"Last-Translator: Nikolay Korotkiy <sikmir@gmail.com>\n"
+"PO-Revision-Date: 2017-07-05 21:01+0000\n"
+"Last-Translator: Tuomas Harju <tuomas@rtj-group.com>\n"
 "Language-Team: Finnish "
 "<https://hosted.weblate.org/projects/weblate/master/fi/>\n"
 "Language: fi\n"
@@ -66,7 +66,7 @@ msgstr "Käyttäjänimi"
 
 #: weblate/accounts/forms.py:128
 msgid "Username can not start with full stop."
-msgstr ""
+msgstr "Käyttäjätunnus ei voi alkaa lopetusmerkillä."
 
 #: weblate/accounts/forms.py:135
 msgid "This username is already taken. Please choose another."
@@ -148,10 +148,8 @@ msgid "New password confirmation"
 msgstr "Uuden salasanan varmistus"
 
 #: weblate/accounts/forms.py:414
-#, fuzzy
-#| msgid "You can not change password to the one you are currently using!"
 msgid "You can not change password to the one you were using!"
-msgstr "Et voi käyttää nykyistä salasanaa uutena salasanana!"
+msgstr "Et voi asettaa nykyistä salasanaasi uudeksi salasanaksi!"
 
 #: weblate/accounts/forms.py:440
 msgid "Your password has been changed."
@@ -541,10 +539,8 @@ msgid "Change password"
 msgstr "Vaihda salasana"
 
 #: weblate/accounts/views.py:663
-#, fuzzy
-#| msgid "Password reset has been requested."
 msgid "Password reset has been already completed!"
-msgstr "Salasanasi palutuspyyntö on tehty."
+msgstr "Salasanasi palutuspyyntö on jo suoritettu loppuun asti!"
 
 #: weblate/accounts/views.py:680 weblate/accounts/views.py:730
 #: weblate/templates/accounts/reset.html:7
@@ -589,16 +585,12 @@ msgid "Authentication has been cancelled."
 msgstr "Tunnistautuminen on keskeytetty."
 
 #: weblate/accounts/views.py:861
-#, fuzzy
-#| msgid ""
-#| "Failed to complete your registration! This authentication is already "
-#| "associated with another account!"
 msgid ""
 "Failed to complete your registration! This authentication, email or username "
 "are already associated with another account!"
 msgstr ""
-"Rekisteröinti epäonnistui! Käyttämäsi tunniste on jo rekisteröity toiselle "
-"käyttäjätilille!"
+"Rekisteröinti epäonnistui! Käyttämäsi tunniste, joko sähköposti tai "
+"käyttäjänimi on jo rekisteröity toiselle käyttäjätilille!"
 
 #: weblate/admin.py:68 weblate/admin.py:69
 msgid "Weblate administration"
