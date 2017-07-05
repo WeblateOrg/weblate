@@ -283,7 +283,7 @@
     <tbody>
     {% for item in others %}
     <tr>
-    <td{% if item.translated and item.translation.subproject != unit.translation.subproject %} rowspan="2"{% endif %} class="vertical-badge">
+    <td{% if item.translated and item.translation.subproject != unit.translation.subproject and item.target != unit.target %} rowspan="2"{% endif %} class="vertical-badge">
     {% if item.source == unit.source and item.context == unit.context %}
     {% elif item.source == unit.source %}
     <span class="badge pull-right flip" title="{% trans "This string has different context but same source." %}">{% trans "Different context" %}</span>
