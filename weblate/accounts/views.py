@@ -528,12 +528,13 @@ def weblate_logout(request):
     )
 
 
+@session_ratelimit_post
 def register(request):
     """Registration form."""
     captcha = None
 
     if request.method == 'POST':
-        form = RegistrationForm(request.POST)
+        form = RegistrationForm(request, request.POST)
         if settings.REGISTRATION_CAPTCHA:
             captcha = CaptchaForm(request, form, request.POST)
         if ((captcha is None or captcha.is_valid()) and
@@ -549,7 +550,7 @@ def register(request):
             store_userid(request)
             return social_complete(request, 'email')
     else:
-        form = RegistrationForm()
+        form = RegistrationForm(request)
         if settings.REGISTRATION_CAPTCHA:
             captcha = CaptchaForm(request)
 

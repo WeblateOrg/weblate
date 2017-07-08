@@ -379,11 +379,26 @@ class RegistrationForm(EmailForm):
     first_name = FullNameField()
     content = forms.CharField(required=False)
 
+    def __init__(self, request=None, *args, **kwargs):
+        """
+        The 'request' parameter is set for custom auth use by subclasses.
+        The form data comes in via the standard 'data' kwarg.
+        """
+        self.request = request
+        super(RegistrationForm, self).__init__(*args, **kwargs)
+
     def clean_content(self):
         """Check if content is empty."""
         if self.cleaned_data['content'] != '':
             raise forms.ValidationError('Invalid value')
         return ''
+
+    def clean(self):
+        if not check_rate_limit(self.request):
+            raise forms.ValidationError(
+                _('Too many registration attempts!')
+            )
+        return self.cleaned_data
 
 
 class SetPasswordForm(DjangoSetPasswordForm):
