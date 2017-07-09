@@ -792,12 +792,6 @@ urlpatterns = [
     ),
 
     # Avatars
-    # Compatibility URL, remove for 2.6
-    url(
-        r'^avatar/(?P<user>[^/]+)/(?P<size>(32|128))/$',
-        weblate.accounts.views.user_avatar,
-        name='user_avatar_compat',
-    ),
     url(
         r'^avatar/(?P<size>(32|128))/(?P<user>[^/]+)\.png$',
         weblate.accounts.views.user_avatar,
