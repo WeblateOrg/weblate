@@ -35,6 +35,7 @@ from django.utils.translation import get_language
 from django.contrib.auth.models import User
 from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView, ListView
+from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from django.core.urlresolvers import reverse
@@ -200,6 +201,7 @@ def redirect_profile(page=''):
     return HttpResponseRedirect(url)
 
 
+@never_cache
 @login_required
 def user_profile(request):
 
@@ -299,6 +301,7 @@ def user_profile(request):
 @login_required
 @avoid_demo
 @session_ratelimit_post
+@never_cache
 def user_remove(request):
     if request.method == 'POST':
         confirm_form = PasswordConfirmForm(request, request.POST)
@@ -326,6 +329,7 @@ def user_remove(request):
 @login_required
 @avoid_demo
 @session_ratelimit_post
+@never_cache
 def confirm(request):
     details = request.session.get('reauthenticate')
     if not details:
@@ -362,6 +366,7 @@ def get_initial_contact(request):
     return initial
 
 
+@never_cache
 def contact(request):
     captcha = None
     show_captcha = (
@@ -407,6 +412,7 @@ def contact(request):
 
 
 @login_required
+@never_cache
 def hosting(request):
     """Form for hosting request."""
     if not settings.OFFER_HOSTING:
@@ -490,6 +496,7 @@ def user_avatar(request, user, size):
     return response
 
 
+@never_cache
 def weblate_login(request):
     """Login handler, just wrapper around standard Django login."""
 
@@ -518,6 +525,7 @@ def weblate_login(request):
 
 @require_POST
 @login_required
+@never_cache
 def weblate_logout(request):
     """Logout handler, just wrapper around standard Django logout."""
     messages.info(request, _('Thanks for using Weblate!'))
@@ -529,6 +537,7 @@ def weblate_logout(request):
 
 
 @session_ratelimit_post
+@never_cache
 def register(request):
     """Registration form."""
     captcha = None
@@ -575,6 +584,7 @@ def register(request):
 
 @login_required
 @avoid_demo
+@never_cache
 def email_login(request):
     """Connect email."""
     captcha = None
@@ -613,6 +623,7 @@ def email_login(request):
 @login_required
 @avoid_demo
 @session_ratelimit_post
+@never_cache
 def password(request):
     """Password change / set form."""
     do_change = False
@@ -686,6 +697,7 @@ def reset_password_set(request):
     )
 
 
+@never_cache
 def reset_password(request):
     """Password reset handling."""
     if request.user.is_authenticated:
@@ -808,6 +820,7 @@ def social_auth(request, backend):
 
 @csrf_exempt
 @avoid_demo
+@never_cache
 def social_complete(request, backend):
     """Wrapper around social_django.views.complete.
 
