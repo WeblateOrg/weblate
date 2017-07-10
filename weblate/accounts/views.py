@@ -25,6 +25,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import logout
 from django.conf import settings
+from django.middleware.csrf import rotate_token
 from django.utils.translation import ugettext as _
 from django.contrib.auth.decorators import login_required
 from django.core.mail.message import EmailMultiAlternatives
@@ -179,6 +180,7 @@ def session_ratelimit_post(function):
         attempts = request.session.get('auth_attempts', 0)
         if request.method == 'POST':
             if attempts >= settings.AUTH_MAX_ATTEMPTS:
+                rotate_token(request)
                 logout(request)
                 messages.error(
                     request,
@@ -308,6 +310,7 @@ def user_remove(request):
         if confirm_form.is_valid():
             session_ratelimit_reset(request)
             remove_user(request.user, request)
+            rotate_token(request)
             logout(request)
             messages.success(
                 request,
