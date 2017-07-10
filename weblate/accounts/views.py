@@ -182,7 +182,7 @@ def session_ratelimit_post(function):
                 logout(request)
                 messages.error(
                     request,
-                    _('Too many authentication attempts!')
+                    _('Too many attempts, you have been logged out!')
                 )
                 return redirect('login')
             request.session['auth_attempts'] = attempts + 1
