@@ -30,6 +30,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.template.loader import render_to_string
 from django.utils.http import urlencode
+from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 
 from weblate.utils import messages
@@ -55,6 +56,7 @@ def dict_title(prj, lang):
     }
 
 
+@never_cache
 def show_dictionaries(request, project):
     obj = get_project(request, project)
     dicts = Translation.objects.filter(
@@ -72,6 +74,7 @@ def show_dictionaries(request, project):
     )
 
 
+@never_cache
 def edit_dictionary(request, project, lang, pk):
     prj = get_project(request, project)
     if not can_change_dictionary(request.user, prj):
@@ -198,6 +201,7 @@ def upload_dictionary(request, project, lang):
     )
 
 
+@never_cache
 def download_dictionary(request, project, lang):
     """Export dictionary into various formats."""
     prj = get_project(request, project)
@@ -281,6 +285,7 @@ def add_dictionary(request, unit_id):
     )
 
 
+@never_cache
 def show_dictionary(request, project, lang):
     prj = get_project(request, project)
     lang = get_object_or_404(Language, code=lang)

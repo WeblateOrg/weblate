@@ -27,6 +27,7 @@ from django.db.models import Sum, Count, F
 from django.http import HttpResponse
 from django.shortcuts import redirect, get_object_or_404
 from django.utils import translation
+from django.views.decorators.cache import never_cache
 from django.utils.encoding import force_text
 from django.utils.html import escape
 from django.utils.http import urlencode
@@ -109,6 +110,7 @@ def get_user_translations(user, project_ids):
     return result
 
 
+@never_cache
 def home(request):
     """Home page of Weblate showing list of projects, stats
     and user links if logged in.
@@ -208,6 +210,7 @@ def home(request):
     )
 
 
+@never_cache
 def list_projects(request):
     """List all projects"""
 
@@ -222,6 +225,7 @@ def list_projects(request):
     )
 
 
+@never_cache
 def search(request, project=None, subproject=None, lang=None):
     """Perform site-wide search on units."""
     search_form = SiteSearchForm(request.GET)
@@ -342,6 +346,7 @@ def show_engage(request, project, lang=None):
     )
 
 
+@never_cache
 def show_project(request, project):
     obj = get_project(request, project)
 
@@ -412,6 +417,7 @@ def show_project(request, project):
     )
 
 
+@never_cache
 def show_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
 
@@ -625,6 +631,7 @@ def stats(request):
     )
 
 
+@never_cache
 def data_root(request):
     return render(
         request,
@@ -637,6 +644,7 @@ def data_root(request):
     )
 
 
+@never_cache
 def data_project(request, project):
     obj = get_project(request, project)
     return render(
@@ -652,6 +660,7 @@ def data_project(request, project):
     )
 
 
+@never_cache
 @login_required
 def new_language(request, project, subproject):
     obj = get_subproject(request, project, subproject)
@@ -695,6 +704,7 @@ def new_language(request, project, subproject):
     )
 
 
+@never_cache
 def healthz(request):
     """Simple health check endpoint"""
     return HttpResponse('ok')
