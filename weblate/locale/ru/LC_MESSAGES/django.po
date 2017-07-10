@@ -7,17 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-06-29 13:33+0000\n"
+"POT-Creation-Date: 2017-07-10 07:05+0000\n"
 "PO-Revision-Date: 2017-07-04 18:02+0000\n"
 "Last-Translator: Nikolay Korotkiy <sikmir@gmail.com>\n"
-"Language-Team: Russian "
-"<https://hosted.weblate.org/projects/weblate/master/ru/>\n"
+"Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
+"ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
-"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.16-dev\n"
 
 #: weblate/accounts/admin.py:105 weblate/accounts/admin.py:110
@@ -114,11 +114,11 @@ msgstr ""
 msgid "Subject"
 msgstr "Тема"
 
-#: weblate/accounts/forms.py:325 weblate/accounts/forms.py:609
+#: weblate/accounts/forms.py:325 weblate/accounts/forms.py:624
 msgid "Your name"
 msgstr "Ваше имя"
 
-#: weblate/accounts/forms.py:330 weblate/accounts/forms.py:610
+#: weblate/accounts/forms.py:330 weblate/accounts/forms.py:625
 msgid "Your email"
 msgstr "Ваш E-mail"
 
@@ -139,55 +139,61 @@ msgstr ""
 msgid "Activation email will be sent here."
 msgstr "Письмо для активации отправлено."
 
-#: weblate/accounts/forms.py:391
+#: weblate/accounts/forms.py:399
+#, fuzzy
+#| msgid "Too many authentication attempts!"
+msgid "Too many registration attempts!"
+msgstr "Слишком много попыток аутентификации!"
+
+#: weblate/accounts/forms.py:406
 msgid "New password"
 msgstr "Новый пароль"
 
-#: weblate/accounts/forms.py:395
+#: weblate/accounts/forms.py:410
 msgid "New password confirmation"
 msgstr "Подтверждение нового пароля"
 
-#: weblate/accounts/forms.py:414
+#: weblate/accounts/forms.py:429
 msgid "You can not change password to the one you were using!"
 msgstr "Вы не можете изменить пароль на тот, который уже использовали!"
 
-#: weblate/accounts/forms.py:440
+#: weblate/accounts/forms.py:455
 msgid "Your password has been changed."
 msgstr "Ваш пароль был изменён."
 
-#: weblate/accounts/forms.py:468
+#: weblate/accounts/forms.py:483
 #, python-format
 msgctxt ""
 "Question for a mathematics-based CAPTCHA, the %s is an arithmetic problem"
 msgid "What is %s?"
 msgstr "Сколько будет %s?"
 
-#: weblate/accounts/forms.py:478
+#: weblate/accounts/forms.py:493
 msgid "Please check your math and try again with new expression."
 msgstr ""
 "Пожалуйста, проверьте вычисления и повторите попытку с новым выражением."
 
-#: weblate/accounts/forms.py:496
+#: weblate/accounts/forms.py:511
 msgid "Current password"
 msgstr "Текущий пароль"
 
-#: weblate/accounts/forms.py:498
+#: weblate/accounts/forms.py:513
 msgid "Keep the field empty if you have not yet set your password."
 msgstr "Оставьте поле пустым, если вы ещё не задали пароль."
 
-#: weblate/accounts/forms.py:516
+#: weblate/accounts/forms.py:531
 msgid "You have entered an invalid password."
 msgstr "Вы ввели неверный пароль."
 
-#: weblate/accounts/forms.py:532
+#: weblate/accounts/forms.py:547
 msgid "Username or email"
 msgstr "Имя пользователя или адрес эл. почты"
 
-#: weblate/accounts/forms.py:535 weblate/templates/accounts/profile.html:189
+#: weblate/accounts/forms.py:550 weblate/templates/accounts/profile.html:189
 msgid "Password"
 msgstr "Пароль"
 
-#: weblate/accounts/forms.py:539
+#: weblate/accounts/forms.py:554
 msgid ""
 "Please enter a correct username and password. Note that both fields may be "
 "case-sensitive."
@@ -195,36 +201,36 @@ msgstr ""
 "Пожалуйста, введите правильное имя пользователя и пароль. Обратите внимание "
 "на то, что значения в обоих полях могут зависеть от регистра."
 
-#: weblate/accounts/forms.py:541
+#: weblate/accounts/forms.py:556
 msgid "This account is inactive."
 msgstr "Эта учетная запись неактивна."
 
-#: weblate/accounts/forms.py:560 weblate/accounts/views.py:184
+#: weblate/accounts/forms.py:575
 msgid "Too many authentication attempts!"
 msgstr "Слишком много попыток аутентификации!"
 
-#: weblate/accounts/forms.py:611 weblate/trans/models/project.py:87
+#: weblate/accounts/forms.py:626 weblate/trans/models/project.py:87
 msgid "Project name"
 msgstr "Название проекта"
 
-#: weblate/accounts/forms.py:612 weblate/templates/project_info.html:3
+#: weblate/accounts/forms.py:627 weblate/templates/project_info.html:3
 #: weblate/trans/models/project.py:99
 msgid "Project website"
 msgstr "Веб-сайт проекта"
 
-#: weblate/accounts/forms.py:614 weblate/trans/models/subproject.py:159
+#: weblate/accounts/forms.py:629 weblate/trans/models/subproject.py:159
 msgid "Source code repository"
 msgstr "Репозиторий исходного кода"
 
-#: weblate/accounts/forms.py:616
+#: weblate/accounts/forms.py:631
 msgid "URL of source code repository for example Git or Mercurial."
 msgstr "URL репозитория исходного кода, например, Git или Mercurial."
 
-#: weblate/accounts/forms.py:621 weblate/trans/models/subproject.py:208
+#: weblate/accounts/forms.py:636 weblate/trans/models/subproject.py:208
 msgid "File mask"
 msgstr "Маска файла"
 
-#: weblate/accounts/forms.py:623
+#: weblate/accounts/forms.py:638
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
@@ -232,7 +238,7 @@ msgstr ""
 "Путь к файлам для перевода, используйте * вместо кода языка, например: po/*."
 "po или locale/*/LC_MESSAGES/django.po."
 
-#: weblate/accounts/forms.py:630
+#: weblate/accounts/forms.py:645
 msgid "Additional message"
 msgstr "Дополнительное сообщение"
 
@@ -478,80 +484,84 @@ msgstr ""
 "Ваш адрес электронной почты больше не принадлежит к проверенной учётной "
 "записи, он был изменён на {0}."
 
-#: weblate/accounts/views.py:106 weblate/accounts/views.py:568
+#: weblate/accounts/views.py:107 weblate/accounts/views.py:578
 msgid "User registration"
 msgstr "Регистрация пользователя"
 
-#: weblate/accounts/views.py:135
+#: weblate/accounts/views.py:136
 msgid "Message could not be sent to administrator!"
 msgstr "Сообщение не было отправлено администратору!"
 
-#: weblate/accounts/views.py:153
+#: weblate/accounts/views.py:154
 msgid "Message has been sent to administrator."
 msgstr "Сообщение было отправлено администратору."
 
-#: weblate/accounts/views.py:161
+#: weblate/accounts/views.py:162
 msgid "You cannot change demo account on the demo server."
 msgstr "Вы не можете изменить учетную запись демо на демо-сервере."
 
-#: weblate/accounts/views.py:245
+#: weblate/accounts/views.py:185
+msgid "Too many attempts, you have been logged out!"
+msgstr ""
+
+#: weblate/accounts/views.py:247
 msgid "Your profile has been updated."
 msgstr "Ваш профиль был обновлен."
 
-#: weblate/accounts/views.py:281
+#: weblate/accounts/views.py:283
 msgid "User profile"
 msgstr "Профиль пользователя"
 
-#: weblate/accounts/views.py:311
+#: weblate/accounts/views.py:314
 msgid "Your account has been removed."
 msgstr "Ваша учётная запись была удалена."
 
-#: weblate/accounts/views.py:379
+#: weblate/accounts/views.py:384
 msgid "Too many messages sent, please try again later!"
 msgstr "Слишком много отправленных сообщений, попробуйте, пожалуйста, позже!"
 
-#: weblate/accounts/views.py:404 weblate/templates/accounts/contact.html:6
+#: weblate/accounts/views.py:409 weblate/templates/accounts/contact.html:6
 #: weblate/templates/accounts/contact.html:21
 msgid "Contact"
 msgstr "Контактная информация"
 
-#: weblate/accounts/views.py:437 weblate/templates/accounts/hosting.html:7
+#: weblate/accounts/views.py:443 weblate/templates/accounts/hosting.html:7
 msgid "Hosting"
 msgstr "Хостинг"
 
-#: weblate/accounts/views.py:514 weblate/templates/accounts/login.html:8
+#: weblate/accounts/views.py:521 weblate/templates/accounts/login.html:8
 #: weblate/templates/accounts/login.html:43 weblate/templates/base.html:131
 msgid "Login"
 msgstr "Логин"
 
-#: weblate/accounts/views.py:523 weblate/admin.py:141
+#: weblate/accounts/views.py:531 weblate/admin.py:141
 msgid "Thanks for using Weblate!"
 msgstr "Спасибо за использование Weblate!"
 
-#: weblate/accounts/views.py:605 weblate/templates/accounts/email.html:16
+#: weblate/accounts/views.py:616 weblate/templates/accounts/email.html:16
 msgid "Register email"
 msgstr "Регистрация адреса эл. почты"
 
-#: weblate/accounts/views.py:647 weblate/templates/accounts/password.html:13
+#: weblate/accounts/views.py:659 weblate/templates/accounts/password.html:13
 #: weblate/templates/accounts/profile.html:192
 msgid "Change password"
 msgstr "Изменить пароль"
 
-#: weblate/accounts/views.py:663
+#: weblate/accounts/views.py:675
 msgid "Password reset has been already completed!"
 msgstr "Сброс пароля уже завершён!"
 
-#: weblate/accounts/views.py:680 weblate/accounts/views.py:730
+#: weblate/accounts/views.py:692 weblate/accounts/views.py:743
 #: weblate/templates/accounts/reset.html:7
 #: weblate/templates/accounts/reset.html:24
 msgid "Password reset"
 msgstr "Сброс пароля"
 
-#: weblate/accounts/views.py:695
+#: weblate/accounts/views.py:708
 msgid "Can not reset password, email authentication is disabled!"
 msgstr "Невозможно сбросить пароль, email авторизация деактивирована!"
 
-#: weblate/accounts/views.py:822
+#: weblate/accounts/views.py:836
 msgid ""
 "Failed to verify your registration! Probably the verification token has "
 "expired. Please try the registration again."
@@ -559,30 +569,30 @@ msgstr ""
 "Не удалось проверить вашу регистрацию! Возможно, токен подтверждения "
 "устарел. Пожалуйста, попробуйте зарегистрироваться еще раз."
 
-#: weblate/accounts/views.py:829
+#: weblate/accounts/views.py:843
 msgid "Authentication failed due to invalid session state."
 msgstr "Аутентификация не удалась из-за неправильного состояния сессии."
 
-#: weblate/accounts/views.py:843
+#: weblate/accounts/views.py:857
 msgid "Can not change authentication for demo!"
 msgstr "Невозможно изменить аутентификацию для демо!"
 
-#: weblate/accounts/views.py:847
+#: weblate/accounts/views.py:861
 msgid "New registrations are disabled!"
 msgstr "Регистрация новых пользователей отключена!"
 
-#: weblate/accounts/views.py:854
+#: weblate/accounts/views.py:868
 msgid ""
 "Authentication has failed, probably due to expired token or connection error."
 msgstr ""
 "Аутентификация не удалась, возможно, из-за истёкшего токена или ошибки "
 "соединения."
 
-#: weblate/accounts/views.py:858
+#: weblate/accounts/views.py:872
 msgid "Authentication has been cancelled."
 msgstr "Аутентификация отменена."
 
-#: weblate/accounts/views.py:861
+#: weblate/accounts/views.py:875
 msgid ""
 "Failed to complete your registration! This authentication, email or username "
 "are already associated with another account!"
@@ -602,7 +612,7 @@ msgstr "Выйти"
 #: weblate/templates/accounts/user.html:38
 #: weblate/templates/billing/detail.html:31 weblate/templates/language.html:15
 #: weblate/templates/projects.html:5 weblate/trans/models/project.py:168
-#: weblate/trans/views/basic.py:228
+#: weblate/trans/views/basic.py:223
 msgid "Projects"
 msgstr "Проекты"
 
@@ -807,7 +817,7 @@ msgid "Number of plurals"
 msgstr "Количество форм множественного числа"
 
 #: weblate/lang/models.py:426 weblate/templates/language.html:68
-#: weblate/trans/forms.py:314
+#: weblate/trans/forms.py:315
 msgid "Plural equation"
 msgstr "Уравнение для множественного числа"
 
@@ -1107,7 +1117,7 @@ msgstr "Скриншот %s был удален."
 msgid "Source has been removed."
 msgstr "Источник был удален."
 
-#: weblate/templates/403.html:5 weblate/trans/views/basic.py:560
+#: weblate/templates/403.html:5 weblate/trans/views/basic.py:558
 msgid "Permission Denied"
 msgstr "Отказано в доступе"
 
@@ -1124,7 +1134,7 @@ msgid ""
 "However the following translation projects are available on this server:"
 msgstr "Однако, доступны следующие проекты переводов на этом сервере:"
 
-#: weblate/templates/404.html:5 weblate/trans/views/basic.py:547
+#: weblate/templates/404.html:5 weblate/trans/views/basic.py:545
 msgid "Page Not Found"
 msgstr "Страница не найдена"
 
@@ -1137,7 +1147,7 @@ msgid ""
 "The project you are looking for does not exist or is not publicly available."
 msgstr "Проект, который вы ищете, не существует или недоступен публично."
 
-#: weblate/templates/500.html:5 weblate/trans/views/basic.py:574
+#: weblate/templates/500.html:5 weblate/trans/views/basic.py:572
 msgid "Internal Server Error"
 msgstr "Внутренняя ошибка сервера"
 
@@ -1155,7 +1165,7 @@ msgstr ""
 "проблемы."
 
 #: weblate/templates/about.html:5 weblate/templates/about.html:13
-#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:588
+#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:586
 msgid "About Weblate"
 msgstr "О Weblate"
 
@@ -1434,7 +1444,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Изменить мой пароль"
 
-#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:690
+#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:691
 #: weblate/trans/views/files.py:88
 msgid "Please fix errors in the form."
 msgstr "Пожалуйста, исправьте ошибки в форме."
@@ -2134,7 +2144,7 @@ msgstr ""
 "Проверки могут помочь определить проблемные переводы или строки-исходники, "
 "которые трудно перевести."
 
-#: weblate/templates/data-root.html:5 weblate/templates/index.html:49
+#: weblate/templates/data-root.html:5 weblate/templates/index.html:48
 #: weblate/templates/share.html:29
 msgid "Data export"
 msgstr "Экспорт данных"
@@ -2222,7 +2232,7 @@ msgstr ""
 "Также доступны RSS-каналы по языку, вы можете получить их, добавив код языка "
 "к вышеупомянутым ссылкам."
 
-#: weblate/templates/data.html:48 weblate/templates/index.html:51
+#: weblate/templates/data.html:48 weblate/templates/index.html:50
 #: weblate/templates/stats.html:5 weblate/templates/stats.html:62
 #: weblate/templates/translation.html:34 weblate/templates/translation.html:309
 msgid "Statistics"
@@ -2327,7 +2337,7 @@ msgid "TermBase eXchange (TBX)"
 msgstr "TermBase eXchange (TBX)"
 
 #: weblate/templates/dictionary.html:39
-#: weblate/templates/edit_dictionary.html:35 weblate/templates/index.html:39
+#: weblate/templates/edit_dictionary.html:35 weblate/templates/index.html:51
 #: weblate/templates/language-project.html:17
 #: weblate/templates/language.html:17 weblate/templates/project.html:29
 #: weblate/templates/subproject.html:32 weblate/templates/translate.html:210
@@ -2339,7 +2349,7 @@ msgstr "История"
 #: weblate/templates/search.html:29 weblate/templates/source-review.html:25
 #: weblate/templates/translate.html:145 weblate/templates/translate.html:218
 #: weblate/templates/translate.html:338 weblate/templates/translate.html:424
-#: weblate/trans/forms.py:289 weblate/trans/forms.py:846
+#: weblate/trans/forms.py:290 weblate/trans/forms.py:846
 msgid "Source"
 msgstr "Источник"
 
@@ -2348,7 +2358,7 @@ msgstr "Источник"
 #: weblate/templates/last-changes-content.html:11
 #: weblate/templates/translate.html:218 weblate/templates/translate.html:281
 #: weblate/templates/translate.html:337 weblate/templates/translate.html:425
-#: weblate/trans/forms.py:291 weblate/trans/forms.py:847
+#: weblate/trans/forms.py:292 weblate/trans/forms.py:847
 msgid "Translation"
 msgstr "Перевод"
 
@@ -2464,7 +2474,7 @@ msgstr "Опубликовано %(author)s в %(date)s"
 msgid "Copy word to translation"
 msgstr "Скопировать слово в перевод"
 
-#: weblate/templates/glossary-embed.html:14 weblate/trans/forms.py:224
+#: weblate/templates/glossary-embed.html:14 weblate/trans/forms.py:225
 msgid "Copy"
 msgstr "Копировать"
 
@@ -3588,31 +3598,31 @@ msgstr ""
 msgid "Search"
 msgstr "Поиск"
 
-#: weblate/templates/index.html:40 weblate/templates/language-project.html:18
+#: weblate/templates/index.html:39 weblate/templates/language-project.html:18
 #: weblate/templates/language.html:18 weblate/templates/project.html:30
 #: weblate/templates/subproject.html:33 weblate/templates/translation.html:33
 msgid "Activity"
 msgstr "Активность"
 
-#: weblate/templates/index.html:43 weblate/templates/language-project.html:21
+#: weblate/templates/index.html:42 weblate/templates/language-project.html:21
 #: weblate/templates/language.html:22 weblate/templates/project.html:33
 #: weblate/templates/subproject.html:36 weblate/templates/translation.html:45
 msgid "Tools"
 msgstr "Инструменты"
 
-#: weblate/templates/index.html:46
+#: weblate/templates/index.html:45
 msgid "Languages summary"
 msgstr "Сведения по языкам"
 
-#: weblate/templates/index.html:47
+#: weblate/templates/index.html:46
 msgid "All projects"
 msgstr "Все проекты"
 
-#: weblate/templates/index.html:48
+#: weblate/templates/index.html:47
 msgid "Checks overview"
 msgstr "Обзор проверок"
 
-#: weblate/templates/index.html:50 weblate/templates/share.html:13
+#: weblate/templates/index.html:49 weblate/templates/share.html:13
 #: weblate/templates/widgets-root.html:5 weblate/templates/widgets.html:6
 msgid "Widgets"
 msgstr "Виджеты"
@@ -3658,10 +3668,6 @@ msgstr ""
 "Не удалось найти подходящего перевода в этом списке компонентов, возможно, "
 "на ваш язык нет перевода."
 
-#: weblate/templates/index.html:136
-msgid "Browse all changes"
-msgstr "Показать все изменения"
-
 #: weblate/templates/js/changes.html:5 weblate/templates/subproject.html:143
 msgid "Browse all component changes"
 msgstr "Показать изменения всех компонентов"
@@ -3671,11 +3677,11 @@ msgstr "Показать изменения всех компонентов"
 msgid "Ignore: %(check)s"
 msgstr "Игнорировать: %(check)s"
 
-#: weblate/templates/js/detail.html:77 weblate/templates/translate.html:459
+#: weblate/templates/js/detail.html:77 weblate/templates/translate.html:460
 msgid "Screenshot context"
 msgstr "Контекст снимка экрана"
 
-#: weblate/templates/js/detail.html:84 weblate/templates/translate.html:467
+#: weblate/templates/js/detail.html:84 weblate/templates/translate.html:468
 msgid "No screenshot currently associated!"
 msgstr "Ни одного снимка экрана не связано!"
 
@@ -3823,7 +3829,7 @@ msgstr "Компоненты"
 
 #: weblate/templates/language-project.html:25
 #: weblate/templates/language.html:25 weblate/templates/project.html:49
-#: weblate/templates/source-review.html:27 weblate/templates/translate.html:512
+#: weblate/templates/source-review.html:27 weblate/templates/translate.html:514
 #: weblate/trans/views/checks.py:76
 msgid "Failing checks"
 msgstr "Непройденные проверки"
@@ -4518,7 +4524,7 @@ msgstr "Процесс"
 
 #: weblate/templates/project.html:191 weblate/templates/subproject.html:150
 #: weblate/templates/translate.html:325 weblate/templates/translate.html:329
-#: weblate/templates/translation.html:236 weblate/trans/forms.py:213
+#: weblate/templates/translation.html:236 weblate/trans/forms.py:214
 msgid "Loading…"
 msgstr "Загрузка…"
 
@@ -4918,7 +4924,7 @@ msgstr "Редактировать строку"
 msgid "Source change"
 msgstr "Изменение источника"
 
-#: weblate/templates/translate.html:123 weblate/templates/translate.html:474
+#: weblate/templates/translate.html:123 weblate/templates/translate.html:476
 msgid "Context"
 msgstr "Контекст"
 
@@ -5110,15 +5116,15 @@ msgstr "Добавить слово в глоссарий"
 msgid "Source information"
 msgstr "Информация по источнику"
 
-#: weblate/templates/translate.html:484
+#: weblate/templates/translate.html:486
 msgid "Flags"
 msgstr "Флаги"
 
-#: weblate/templates/translate.html:492
+#: weblate/templates/translate.html:494
 msgid "No flags currently set!"
 msgstr "Ни одного флага не установлено!"
 
-#: weblate/templates/translate.html:501
+#: weblate/templates/translate.html:503
 msgid "String priority"
 msgstr "Приоритет строки"
 
@@ -5872,42 +5878,46 @@ msgid "JSON file"
 msgstr "Файл JSON"
 
 #: weblate/trans/formats.py:1165
+msgid "JSON nested structure file"
+msgstr ""
+
+#: weblate/trans/formats.py:1172
 msgid "CSV file"
 msgstr "Файл CSV"
 
-#: weblate/trans/formats.py:1226
+#: weblate/trans/formats.py:1233
 msgid "Simple CSV file"
 msgstr "Простой CSV файл"
 
-#: weblate/trans/formats.py:1263
+#: weblate/trans/formats.py:1270
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Простой CSV файл (ISO-8859-1)"
 
-#: weblate/trans/formats.py:1270
+#: weblate/trans/formats.py:1277
 msgid "YAML file"
 msgstr "Файл YAML"
 
-#: weblate/trans/formats.py:1308
+#: weblate/trans/formats.py:1315
 msgid "Ruby YAML file"
 msgstr "Файл Ruby YAML"
 
-#: weblate/trans/forms.py:144
+#: weblate/trans/forms.py:145
 msgid "Invalid checksum specified!"
 msgstr "Указана неверная контрольная сумма!"
 
-#: weblate/trans/forms.py:179 weblate/trans/forms.py:187
+#: weblate/trans/forms.py:180 weblate/trans/forms.py:188
 msgid "Toggle text direction"
 msgstr "Изменить направление текста"
 
-#: weblate/trans/forms.py:222
+#: weblate/trans/forms.py:223
 msgid "Fill in with source string"
 msgstr "Заполнить строкой-исходником"
 
-#: weblate/trans/forms.py:308
+#: weblate/trans/forms.py:309
 msgid "Documentation for plurals."
 msgstr "Документация для множественных форм."
 
-#: weblate/trans/forms.py:311
+#: weblate/trans/forms.py:312
 msgid ""
 "This equation identifies which plural form will be used based on given count "
 "(n)."
@@ -5915,11 +5925,11 @@ msgstr ""
 "Это уравнение определяет, какая форма множественного числа будет "
 "использована в зависимости от количества (n)."
 
-#: weblate/trans/forms.py:357
+#: weblate/trans/forms.py:358
 msgid "Missing translated string!"
 msgstr "Нет переведённой строки!"
 
-#: weblate/trans/forms.py:362
+#: weblate/trans/forms.py:363
 msgid "Translation text too long!"
 msgstr "Перевод слишком длинный!"
 
@@ -7660,7 +7670,7 @@ msgstr "Пользователь добавлен к этому проекту."
 msgid "User has been removed from this project."
 msgstr "Пользователь удалён из этого проекта."
 
-#: weblate/trans/views/basic.py:121
+#: weblate/trans/views/basic.py:123
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to login next time."
@@ -7668,7 +7678,7 @@ msgstr ""
 "Вы активировали свой аккаунт, теперь необходимо установить пароль для "
 "последующего входа."
 
-#: weblate/trans/views/basic.py:133
+#: weblate/trans/views/basic.py:135
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
@@ -7676,25 +7686,25 @@ msgstr ""
 "Проект, который вы искали, удалён, однако мы приглашаем вас к участию в "
 "других проектах."
 
-#: weblate/trans/views/basic.py:153
+#: weblate/trans/views/basic.py:155
 msgid "Please set your full name in your profile."
 msgstr "Пожалуйста укажите Ваше полное имя в профайле."
 
-#: weblate/trans/views/basic.py:287
+#: weblate/trans/views/basic.py:283
 #, python-format
 msgid "Search for %s"
 msgstr "Поиск %s"
 
-#: weblate/trans/views/basic.py:293
+#: weblate/trans/views/basic.py:289
 msgid "Invalid search query!"
 msgstr "Неверный поисковый запрос!"
 
-#: weblate/trans/views/basic.py:323
+#: weblate/trans/views/basic.py:319
 #, python-brace-format
 msgid "Get involved in {0}!"
 msgstr "Примите участие в {0}!"
 
-#: weblate/trans/views/basic.py:329
+#: weblate/trans/views/basic.py:325
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
@@ -7708,7 +7718,7 @@ msgstr ""
 
 #. Translators: line of text in engagement widget, please use your
 #. language name instead of English
-#: weblate/trans/views/basic.py:337
+#: weblate/trans/views/basic.py:333
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -7718,19 +7728,19 @@ msgstr ""
 "<a href=\"%(url)s\">Проект перевода %(project)s</a> на русский в настоящий "
 "момент содержит %(total)s строк и готов на %(percent)s%%."
 
-#: weblate/trans/views/basic.py:364 weblate/trans/views/basic.py:433
+#: weblate/trans/views/basic.py:361 weblate/trans/views/basic.py:431
 msgid "Settings saved"
 msgstr "Настройки сохранены"
 
-#: weblate/trans/views/basic.py:369 weblate/trans/views/basic.py:438
+#: weblate/trans/views/basic.py:366 weblate/trans/views/basic.py:436
 msgid "Invalid settings, please check the form for errors!"
 msgstr "Настройки некорректны, проверьте формы на наличие ошибок!"
 
-#: weblate/trans/views/basic.py:600
+#: weblate/trans/views/basic.py:598
 msgid "Weblate statistics"
 msgstr "Статистика Weblate"
 
-#: weblate/trans/views/basic.py:680
+#: weblate/trans/views/basic.py:681
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "Запрос на новый перевод отправлен сопровождающему проекта."
@@ -7789,20 +7799,20 @@ msgctxt "Format string for monthly activity chart"
 msgid "{day}/{month}"
 msgstr "{day}/{month}"
 
-#: weblate/trans/views/dictionary.py:52
+#: weblate/trans/views/dictionary.py:53
 #, python-format
 msgid "%(language)s dictionary for %(project)s"
 msgstr "%(language)s словарь для %(project)s"
 
-#: weblate/trans/views/dictionary.py:68
+#: weblate/trans/views/dictionary.py:70
 msgid "Dictionaries"
 msgstr "Словари"
 
-#: weblate/trans/views/dictionary.py:180
+#: weblate/trans/views/dictionary.py:183
 msgid "No words to import found in file."
 msgstr "В файле не найдено слов для импорта."
 
-#: weblate/trans/views/dictionary.py:182
+#: weblate/trans/views/dictionary.py:185
 #, python-format
 msgid "Imported %d word from the uploaded file."
 msgid_plural "Imported %d words from the uploaded file."
@@ -7810,12 +7820,12 @@ msgstr[0] "Импортировано %d слово из загруженног�
 msgstr[1] "Импортировано %d слова из загруженного файла."
 msgstr[2] "Импортировано %d слов из загруженного файла."
 
-#: weblate/trans/views/dictionary.py:190
+#: weblate/trans/views/dictionary.py:193
 #, python-format
 msgid "File upload has failed: %s"
 msgstr "Ошибка загрузки файла: %s"
 
-#: weblate/trans/views/dictionary.py:193 weblate/trans/views/edit.py:565
+#: weblate/trans/views/dictionary.py:196 weblate/trans/views/edit.py:565
 #: weblate/trans/views/edit.py:780
 msgid "Failed to process form!"
 msgstr "Ошибка при обработке формы!"
@@ -8126,6 +8136,9 @@ msgstr ""
 #: weblate/utils/validators.py:188
 msgid "Unsupported file format."
 msgstr "Неподдерживаемый формат файла."
+
+#~ msgid "Browse all changes"
+#~ msgstr "Показать все изменения"
 
 #~ msgid "Can not merge different messages!"
 #~ msgstr "Слияние разных сообщений невозможно!"
