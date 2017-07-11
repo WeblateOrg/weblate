@@ -154,7 +154,7 @@ def render_widget(request, project, widget='287x66', color=None, lang=None,
             'extension': widget_obj.extension,
         }
         if lang:
-            kwargs['lang'] = lang
+            kwargs['lang'] = lang.code
             return redirect('widget-image-lang', permanent=True, **kwargs)
         return redirect('widget-image', permanent=True, **kwargs)
 
