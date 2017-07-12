@@ -53,8 +53,10 @@ FORBIDDEN_URL_SCHEMES = frozenset((
 FORBIDDEN_EXTENSIONS = frozenset((
     '.png',
     '.jpg',
+    '.gif',
     '.svg',
     '.doc',
+    '.rtf',
     '.xls',
     '.docx',
     '.xlsx',
@@ -62,6 +64,7 @@ FORBIDDEN_EXTENSIONS = frozenset((
     '.py',
     '.js',
     '.exe',
+    '.dll',
     '.zip',
 ))
 
