@@ -21,9 +21,9 @@ Weblate
     :alt: Code Health
     :target: https://landscape.io/github/WeblateOrg/weblate/master
 
-.. image:: https://www.codacy.com/project/badge/394a22d396414d48abb6a85054f4415e
+.. image:: https://api.codacy.com/project/badge/Grade/394a22d396414d48abb6a85054f4415e
     :alt: Codacy Badge
-    :target: https://www.codacy.com/public/nijel/weblate
+    :target: https://www.codacy.com/app/Weblate/weblate
 
 .. image:: https://www.quantifiedcode.com/api/v1/project/7a0d0496a5c2496080db30f17a584b9d/badge.svg
     :target: https://www.quantifiedcode.com/app/project/7a0d0496a5c2496080db30f17a584b9d
