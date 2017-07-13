@@ -45,6 +45,9 @@ from weblate.logger import LOGGER
 PLURAL_RE = re.compile(
     r'\s*nplurals\s*=\s*([0-9]+)\s*;\s*plural\s*=\s*([()n0-9!=|&<>+*/%\s?:-]+)'
 )
+PLURAL_TITLE = '''
+{name} <i class="fa fa-question-circle text-primary" title="{examples}"></i></span>
+'''
 
 
 def get_plural_type(code, pluralequation):
@@ -499,10 +502,12 @@ class Language(models.Model, PercentMixin):
                     continue
                 self._plural_examples[ret].append(str(i))
 
-        # Translators: Label for plurals with example counts
-        return _('{name} (e.g. {examples})').format(
+        return PLURAL_TITLE.format(
             name=self.get_plural_name(idx),
-            examples=', '.join(self._plural_examples[idx])
+            # Translators: Label for plurals with example counts
+            examples=_('For example: {0}').format(
+                ', '.join(self._plural_examples[idx])
+            )
         )
 
     @models.permalink
