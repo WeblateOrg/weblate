@@ -46,7 +46,7 @@ class ComponentList(models.Model):
         help_text=_('Name used in URLs and file names.')
     )
 
-    components = models.ManyToManyField('SubProject')
+    components = models.ManyToManyField('SubProject', blank=True)
 
     def tab_slug(self):
         return "list-" + self.slug
