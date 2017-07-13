@@ -245,12 +245,12 @@ class PluralTextarea(forms.Textarea):
             GROUP_TEMPLATE.format('', '\n'.join(chars))
         )
 
-        result = [TOOLBAR_TEMPLATE.format('\n'.join(groups))]
+        result = TOOLBAR_TEMPLATE.format('\n'.join(groups))
 
         if language.direction == 'rtl':
-            result.append(self.get_rtl_toolbar(fieldname))
+            result = self.get_rtl_toolbar(fieldname) + result
 
-        return '<div class="clearfix"></div>'.join(result)
+        return result
 
     def render(self, name, value, attrs=None, **kwargs):
         """Render all textareas with correct plural labels."""
