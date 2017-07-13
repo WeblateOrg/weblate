@@ -193,6 +193,20 @@ class LanguagesTest(BaseTestCase):
             'Chinese (Simplified)',
         ),
         (
+            'zh_HK',
+            'zh_Hant_HK',
+            'ltr',
+            '0',
+            'Chinese (Hong Kong)',
+        ),
+        (
+            'zh_Hant-rHK',
+            'zh_Hant_HK',
+            'ltr',
+            '0',
+            'Chinese (Hong Kong)',
+        ),
+        (
             'ar',
             'ar',
             'rtl',
