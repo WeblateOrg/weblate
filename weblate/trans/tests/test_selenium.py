@@ -26,7 +26,6 @@ import json
 from base64 import b64encode
 from six.moves.http_client import HTTPConnection
 import django
-from django.test import LiveServerTestCase
 from django.test.utils import override_settings
 from django.core.urlresolvers import reverse
 from django.core import mail
@@ -41,6 +40,7 @@ except ImportError:
     HAS_SELENIUM = False
 
 from weblate.trans.tests.test_views import RegistrationTestMixin
+from weblate.trans.tests.test_models import BaseLiveServerTestCase
 
 # Check whether we should run Selenium tests
 DO_SELENIUM = (
@@ -51,7 +51,7 @@ DO_SELENIUM = (
 )
 
 
-class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
+class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
     caps = {
         'browserName': 'firefox',
         'platform': 'Linux',

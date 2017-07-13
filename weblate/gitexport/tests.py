@@ -19,13 +19,19 @@
 #
 
 from base64 import b64encode
+import shutil
+import subprocess
+import tempfile
 
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http.request import HttpRequest
 
 from weblate.gitexport.views import authenticate
 from weblate.gitexport.models import get_export_url
+from weblate.trans.tests.test_models import BaseLiveServerTestCase
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.utils import RepoTestMixin
 
 
 class GitExportTest(ViewTestCase):
@@ -115,7 +121,7 @@ class GitExportTest(ViewTestCase):
     def test_git_receive_acl_denied(self):
         self.enable_acl()
         response = self.git_receive()
-        self.assertEqual(404, response.status_code)
+        self.assertEqual(401, response.status_code)
 
     def test_git_receive_acl_auth(self):
         self.enable_acl()
@@ -137,3 +143,52 @@ class GitExportTest(ViewTestCase):
             'http://example.com/git/test/test/',
             get_export_url(self.subproject)
         )
+
+
+class GitCloneTest(BaseLiveServerTestCase, RepoTestMixin):
+    """Integration tests using git to clone the repo."""
+    acl = True
+
+    def setUp(self):
+        super(GitCloneTest, self).setUp()
+        self.clone_test_repos()
+        self.subproject = self.create_subproject()
+        self.subproject.project.enable_acl = True
+        self.subproject.project.save()
+        self.user = User.objects.create_user(
+            'testuser',
+            'noreply@weblate.org',
+            'testpassword',
+            first_name='Weblate Test',
+        )
+
+    def test_clone(self):
+        testdir = tempfile.mkdtemp()
+        if self.acl:
+            self.subproject.project.add_user(self.user, '@VCS')
+        try:
+            url = get_export_url(self.subproject).replace(
+                'http://example.com', self.live_server_url
+            ).replace(
+                'http://', 'http://{0}:{1}@'.format(
+                    self.user.username, self.user.auth_token.key
+                )
+            )
+            process = subprocess.Popen(
+                ['git', 'clone', url],
+                cwd=testdir,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                stdin=subprocess.PIPE,
+            )
+            output = process.communicate()[0]
+            retcode = process.poll()
+        finally:
+            shutil.rmtree(testdir)
+
+        check = self.assertEqual if self.acl else self.assertNotEqual
+        check(retcode, 0, 'Failed: {0}'.format(output))
+
+
+class GitCloneFailTest(GitCloneTest):
+    acl = False

@@ -26,7 +26,7 @@ import os
 
 from django.core.management.color import no_style
 from django.db import connection
-from django.test import TestCase
+from django.test import TestCase, LiveServerTestCase
 from django.test.utils import override_settings
 from django.utils import timezone
 from django.contrib.auth.models import User, Group
@@ -42,19 +42,29 @@ from weblate.permissions.helpers import can_access_project
 from weblate.trans.tests.utils import get_test_file, RepoTestMixin
 
 
+def fixup_languages_seq():
+    # Reset sequence for Language objects as
+    # we're manipulating with them in FixtureTestCase.setUpTestData
+    # and that seems to affect sequence for other tests as well
+    # on some PostgreSQL versions (probably sequence is not rolled back
+    # in a transaction).
+    commands = connection.ops.sequence_reset_sql(no_style(), [Language])
+    if commands:
+        with connection.cursor() as cursor:
+            for sql in commands:
+                cursor.execute(sql)
+
+
 class BaseTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
-        # Reset sequence for Language objects as
-        # we're manipulating with them in FixtureTestCase.setUpTestData
-        # and that seems to affect sequence for other tests as well
-        # on some PostgreSQL versions (probably sequence is not rolled back
-        # in a transaction).
-        commands = connection.ops.sequence_reset_sql(no_style(), [Language])
-        if commands:
-            with connection.cursor() as cursor:
-                for sql in commands:
-                    cursor.execute(sql)
+        fixup_languages_seq()
+
+
+class BaseLiveServerTestCase(LiveServerTestCase):
+    @classmethod
+    def setUpTestData(cls):
+        fixup_languages_seq()
 
 
 class RepoTestCase(BaseTestCase, RepoTestMixin):
