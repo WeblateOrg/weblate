@@ -25,6 +25,7 @@ import subprocess
 
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
+from django.http import Http404
 from django.http.response import HttpResponseServerError, HttpResponse
 from django.shortcuts import redirect
 from django.utils.encoding import force_text
@@ -118,7 +119,12 @@ def git_export(request, project, subproject, path):
         return response_authenticate()
 
     # Permissions
-    obj = get_subproject(request, project, subproject)
+    try:
+        obj = get_subproject(request, project, subproject)
+    except Http404:
+        if not request.user.is_authenticated():
+            return response_authenticate()
+        raise
     if not can_access_vcs(request.user, obj.project):
         raise PermissionDenied('No VCS permissions')
 
