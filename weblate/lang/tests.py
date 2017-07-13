@@ -293,18 +293,15 @@ class LanguagesTest(BaseTestCase):
 
     def test_plural_labels(self):
         lang = Language.objects.get(code='cs')
-        self.assertEqual(
-            lang.get_plural_label(0),
-            'One (e.g. 1)'
-        )
-        self.assertEqual(
-            lang.get_plural_label(1),
-            'Few (e.g. 2, 3, 4)'
-        )
-        self.assertEqual(
-            lang.get_plural_label(2),
-            'Other (e.g. 0, 5, 6, 7, 8, 9, 10, 11, 12, 13)'
-        )
+        label = lang.get_plural_label(0)
+        self.assertIn('One', label)
+        self.assertIn('1', label)
+        label = lang.get_plural_label(1)
+        self.assertIn('Few', label)
+        self.assertIn('2, 3, 4', label)
+        label = lang.get_plural_label(2)
+        self.assertIn('Other', label)
+        self.assertIn('5, 6, 7', label)
 
 
 class CommandTest(TestCase):
