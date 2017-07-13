@@ -29,3 +29,9 @@ rules to automatically add components to the list based on their slug. This can
 be useful for maintaining component lists for large installations or in case
 you want to have component list with all components on your Weblate
 installation.
+
+To create component list containing all components, you can simply define
+:guilabel:`Automatic component list assignment` with ``^.*$`` regular expresion
+on both project and component as shown on following image:
+
+.. image:: ../images/componentlist-add.png
