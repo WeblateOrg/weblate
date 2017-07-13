@@ -418,6 +418,20 @@ class MonolingualSimpleUnit(MonolingualIDUnit):
         return True
 
 
+class CSVUnit(MonolingualSimpleUnit):
+    def get_context(self):
+        # Needed to avoid translate-toolkit construct ID
+        # as context\04source
+        if self.template is not None:
+            if self.template.id:
+                return self.template.id
+            elif self.template.context:
+                return self.template.context
+            return self.template.getid()
+        else:
+            return self.mainunit.getcontext()
+
+
 class RESXUnit(FileUnit):
     def get_locations(self):
         return ''
@@ -1172,7 +1186,7 @@ class CSVFormat(FileFormat):
     name = _('CSV file')
     format_id = 'csv'
     loader = ('csvl10n', 'csvfile')
-    unit_class = MonolingualSimpleUnit
+    unit_class = CSVUnit
     autoload = ('.csv',)
 
     @property
