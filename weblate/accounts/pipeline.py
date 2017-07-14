@@ -181,10 +181,12 @@ def password_reset(strategy, backend, user, social, details, weblate_action,
         return redirect('password_reset')
 
 
-def verify_open(strategy, backend, user=None, **kwargs):
+def verify_open(strategy, backend, user, weblate_action, **kwargs):
     """Check whether it is possible to create new user."""
     # Check whether registration is open
-    if not user and not settings.REGISTRATION_OPEN:
+    if (not user and
+            not settings.REGISTRATION_OPEN and
+            weblate_action != 'reset'):
         raise AuthMissingParameter(backend, 'disabled')
 
     # Avoid adding associations to demo user
