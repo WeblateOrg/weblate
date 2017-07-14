@@ -461,7 +461,7 @@ class HooksViewTest(ViewTestCase):
         )
         self.assertContains(response, 'No matching repositories found!')
 
-    @override_settings(ENABLE_HOOKS=False)
+    @override_settings(ENABLE_HOOKS=False, BACKGROUND_HOOKS=False)
     def test_disabled(self):
         """Test for hooks disabling."""
         self.assert_disabled()
@@ -497,6 +497,7 @@ class HooksViewTest(ViewTestCase):
         )
         self.assertEqual(response.status_code, 405)
 
+    @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
     def test_wrong_payload_github(self):
         """Test for invalid payloads with github."""
         # missing
@@ -529,6 +530,7 @@ class HooksViewTest(ViewTestCase):
             status_code=400
         )
 
+    @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
     def test_wrong_payload_gitlab(self):
         """Test for invalid payloads with gitlab."""
         # missing
