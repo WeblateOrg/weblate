@@ -277,7 +277,8 @@ def bitbucket_hook_helper(data):
 def github_hook_helper(data):
     """API to handle commit hooks from GitHub."""
     # Parse owner, branch and repository name
-    owner = data['repository']['owner']['name']
+    o_data = data['repository']['owner']
+    owner = o_data['login'] if 'login' in o_data else o_data['name']
     slug = data['repository']['name']
     branch = re.sub(r'^refs/heads/', '', data['ref'])
 
