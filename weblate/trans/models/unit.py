@@ -507,6 +507,12 @@ class Unit(models.Model, LoggerMixin):
         self.content_hash = content_hash
         self.previous_source = previous_source
         self.priority = source_info.priority
+
+        # Sanitize number of plurals
+        if self.is_plural():
+            self.target = join_plural(self.get_target_plurals())
+
+        # Save into database
         self.save(
             force_insert=created,
             backend=True,
