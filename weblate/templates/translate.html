@@ -197,8 +197,8 @@
 {% if unit.suggestions %}
 <li><a href="#suggestions" data-toggle="tab">{% trans "Suggestions" %} <span class="badge">{{ unit.suggestions.count }}</span></a></li>
 {% endif %}
-{% if others %}
-<li><a href="#others" data-toggle="tab">{% trans "Other translations" %} <span class="badge">{{ others.count }}</span></a></li>
+{% if others.exists %}
+<li><a href="#others" data-toggle="tab">{% trans "Other translations" %} <span class="badge">{{ others.exists }}</span></a></li>
 {% endif %}
 {% if comments or user_can_add_comment %}
 <li><a href="#comments" data-toggle="tab">{% trans "Comments" %}{% if comments %} <span class="badge">{{ comments.count }}</span>{% endif %}</a></li>
@@ -273,17 +273,6 @@
 </form>
 </div>
 {% endif %}
-
-{% if others %}
-<div class="tab-pane" id="others">
-<table class="table table-condensed">
-    <thead>
-    <tr><th>{% trans "Component" %}</th><th>{% trans "Translation" %}</th><th></th></tr>
-    </thead>
-    <tbody>
-    {% for item in others %}
-    <tr>
-    <td{% if item.translated and item.translation.subproject != unit.translation.subproject and item.target != unit.target %} rowspan="2"{% endif %} class="vertical-badge">
     {% if item.source == unit.source and item.context == unit.context %}
     {% elif item.source == unit.source %}
     <span class="badge pull-right flip" title="{% trans "This string has different context but same source." %}">{% trans "Different context" %}</span>
@@ -292,31 +281,44 @@
     {% else %}
     <span class="badge pull-right flip">Bug!</span>
     {% endif %}
-    {% if item.translation.subproject == unit.translation.subproject %}
-    <span class="badge pull-right flip">{% trans "This translation" %}</span>
-    {% endif %}
-    {% get_state_badge item %}
-    <a href="{{ item.get_absolute_url }}">{{ item.translation.subproject }}</a>
-    </td>
-    <td>
-    {% format_translation item.target item.translation.language %}
-    </td>
-    <td{% if item.translated and item.translation.subproject != unit.translation.subproject and item.target != unit.target %}  rowspan="2"{% endif %}>
-    {% if user_can_translate and item.translated %}
-    <a class="mergebutton btn btn-success" href="{{ unit.translation.get_translate_url}}?{{ search_url }}&amp;offset={{ offset }}&amp;checksum={{ unit.checksum }}&amp;merge={{ item.id }}" title="{% trans "Use this translation for all components" %}"><i class="fa fa-check"></i> {% trans "Use this translation" %}</a>
-    {% endif %}
-    </td>
-    </tr>
-    {% if item.translated and item.translation.subproject != unit.translation.subproject and item.target != unit.target %}
-    <tr>
-    <td>
-    <p class="help-block">{% trans "Change compared to this translation:" %}</p>
-    {% format_translation item.target item.translation.language unit.target %}
-    </td>
-    </tr>
-    {% endif %}
+
+{% if others.exists %}
+<div class="tab-pane" id="others">
+<table class="table table-condensed">
+    <thead>
+    <tr><th>{% trans "Component" %}</th><th>{% trans "Translation" %}</th><th></th></tr>
+    </thead>
+    {% if others.same %}
+    <tbody>
+    {% for item in others.same %}
+    {% include "trans/other-row.html" %}
     {% endfor %}
     </tbody>
+    {% endif %}
+    {% if others.matching %}
+    <tr><th colspan="3" class="warning">{% trans "Following strings have same context and same source." %}</td></tr>
+    <tbody>
+    {% for item in others.matching %}
+    {% include "trans/other-row.html" %}
+    {% endfor %}
+    </tbody>
+    {% endif %}
+    {% if others.source %}
+    <tr><th colspan="3" class="warning">{% trans "Following strings have different context but same source." %}</td></tr>
+    <tbody>
+    {% for item in others.source %}
+    {% include "trans/other-row.html" %}
+    {% endfor %}
+    </tbody>
+    {% endif %}
+    {% if others.context %}
+    <tr><th colspan="3" class="warning">{% trans "Following strings have different source but same context." %}</td></tr>
+    <tbody>
+    {% for item in others.context %}
+    {% include "trans/other-row.html" %}
+    {% endfor %}
+    </tbody>
+    {% endif %}
     </table>
 </div>
 {% endif %}
@@ -387,15 +389,15 @@
 <div class="col-sm-3 small">
 
 {% with unit.active_checks as checks %}
-{% if checks or unit.suggestions or others_count %}
+{% if checks or unit.suggestions or others.count %}
 <div class="panel panel-danger">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Things to check" %}</h4></div>
   <div class="panel-body">
   {% if unit.suggestions %}
   <div class="alert alert-warning check"><a href="#suggestions" data-toggle="tab" class="alert-link">{% trans "Suggestions" %}</a> <span class="badge pull-right flip">{{ unit.suggestions.count }}</span></div>
   {% endif %}
-  {% if others_count %}
-  <div class="alert alert-warning check"><a href="#others" data-toggle="tab" class="alert-link">{% trans "Other translations" %}</a> <span class="badge pull-right flip">{{ others_count }}</span></div>
+  {% if others.count %}
+  <div class="alert alert-warning check"><a href="#others" data-toggle="tab" class="alert-link">{% trans "Other translations" %}</a> <span class="badge pull-right flip">{{ others.count }}</span></div>
   {% endif %}
   {% show_checks unit.translation.subproject.project checks user %}
   {% if comments %}

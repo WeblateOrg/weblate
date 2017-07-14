@@ -58,6 +58,15 @@ from weblate.permissions.helpers import (
 
 def get_other_units(unit):
     """Returns other units to show while translating."""
+    result = {
+        'count': 0,
+        'exists': False,
+        'same': [],
+        'matching': [],
+        'context': [],
+        'source': [],
+    }
+
     kwargs = {
         'translation__subproject__project':
             unit.translation.subproject.project,
@@ -76,11 +85,26 @@ def get_other_units(unit):
         **kwargs
     )
 
-    result = same | same_id | same_source
+    units = same | same_id | same_source
 
     # Is it only this unit?
-    if len(result) == 1:
-        return Unit.objects.none()
+    if len(units) == 1:
+        return result
+
+    for item in units:
+        if item.pk == unit.pk:
+            result['same'].append(item)
+        elif item.source == unit.source and item.context == unit.context:
+            result['matching'].append(item)
+        elif item.source == unit.source:
+            result['source'].append(item)
+        elif item.context == unit.context:
+            result['context'].append(item)
+
+    result['count'] = len(result['matching'])
+    result['exists'] = sum(
+        [len(result[x]) for x in ('matching', 'source', 'context')]
+    )
 
     return result
 
@@ -542,8 +566,6 @@ def translate(request, project, subproject, lang):
     # Prepare form
     form = TranslationForm(request.user.profile, translation, unit)
 
-    others = get_other_units(unit)
-
     return render(
         request,
         'translate.html',
@@ -556,8 +578,7 @@ def translate(request, project, subproject, lang):
             'object': translation,
             'project': translation.subproject.project,
             'unit': unit,
-            'others': others,
-            'others_count': others.exclude(target=unit.target).count(),
+            'others': get_other_units(unit),
             'total': translation.unit_set.all().count(),
             'search_url': search_result['url'],
             'search_query': search_result['query'],

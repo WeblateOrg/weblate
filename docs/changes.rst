@@ -10,6 +10,7 @@ Released on ? 2017.
 * Added suport for nested JSON format.
 * Fixed git exporter authentication.
 * Improved CSV import in certain situations.
+* Improved look of Other translations widget.
 
 weblate 2.15
 ------------
