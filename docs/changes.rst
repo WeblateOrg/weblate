@@ -8,6 +8,8 @@ Released on ? 2017.
 
 * Various performance improvements.
 * Added suport for nested JSON format.
+* Fixed git exporter authentication.
+* Improved CSV import in certain situations.
 
 weblate 2.15
 ------------
