@@ -56,6 +56,35 @@ from weblate.permissions.helpers import (
 )
 
 
+def get_other_units(unit):
+    """Returns other units to show while translating."""
+    kwargs = {
+        'translation__subproject__project':
+            unit.translation.subproject.project,
+        'translation__language':
+            unit.translation.language,
+        'translated': True,
+    }
+
+    same = Unit.objects.same(unit, False)
+    same_id = Unit.objects.prefetch().filter(
+        id_hash=unit.id_hash,
+        **kwargs
+    )
+    same_source = Unit.objects.prefetch().filter(
+        source=unit.source,
+        **kwargs
+    )
+
+    result = same | same_id | same_source
+
+    # Is it only this unit?
+    if len(result) == 1:
+        return Unit.objects.none()
+
+    return result
+
+
 def cleanup_session(session):
     """Delete old search results from session storage."""
     now = int(time.time())
@@ -513,7 +542,7 @@ def translate(request, project, subproject, lang):
     # Prepare form
     form = TranslationForm(request.user.profile, translation, unit)
 
-    others = unit.get_other_units()
+    others = get_other_units(unit)
 
     return render(
         request,

@@ -1095,31 +1095,3 @@ class Unit(models.Model, LoggerMixin):
 
     def same_units(self):
         return Unit.objects.same(self)
-
-    def get_other_units(self):
-        """Returns other units to show while translating."""
-        kwargs = {
-            'translation__subproject__project':
-                self.translation.subproject.project,
-            'translation__language':
-                self.translation.language,
-            'translated': True,
-        }
-
-        same = Unit.objects.same(self, False)
-        same_id = Unit.objects.prefetch().filter(
-            id_hash=self.id_hash,
-            **kwargs
-        )
-        same_source = Unit.objects.prefetch().filter(
-            source=self.source,
-            **kwargs
-        )
-
-        result = same | same_id | same_source
-
-        # Is it only this unit?
-        if len(result) == 1:
-            return Unit.objects.none()
-
-        return result
