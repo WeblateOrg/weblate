@@ -40,6 +40,7 @@ from weblate.permissions.helpers import (
     can_use_mt, can_see_repository_status, can_ignore_check,
 )
 from weblate.utils.hash import checksum_to_hash
+from weblate.trans.util import sort_objects
 
 
 def translate(request, unit_id):
@@ -109,11 +110,13 @@ def get_unit_translations(request, unit_id):
         request,
         'js/translations.html',
         {
-            'units': Unit.objects.filter(
-                id_hash=unit.id_hash,
-                translation__subproject=unit.translation.subproject,
-            ).exclude(
-                pk=unit.pk
+            'units': sort_objects(
+                Unit.objects.filter(
+                    id_hash=unit.id_hash,
+                    translation__subproject=unit.translation.subproject,
+                ).exclude(
+                    pk=unit.pk
+                )
             ),
         }
     )

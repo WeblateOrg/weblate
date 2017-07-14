@@ -206,7 +206,7 @@
 {% if user_can_use_mt %}
 <li><a href="#machine" data-toggle="tab" data-load="mt" title="{% trans "Machine translation suggestions" %}">{% trans "Machine translation" %}</a></li>
 {% endif %}
-<li><a href="#translations" data-toggle="tab" data-href="{% url 'js-unit-translations' unit_id=unit.id %}" title="{% trans "Translations of this unit to other languages" %}">{% trans "Other translations" %}</a></li>
+<li><a href="#translations" data-toggle="tab" data-href="{% url 'js-unit-translations' unit_id=unit.id %}" title="{% trans "Translations of this unit to other languages" %}">{% trans "Other languages" %}</a></li>
 <li><a href="#history" data-toggle="tab" data-href="{% url 'js-unit-changes' unit_id=unit.id %}" title="{% trans "List of recent changes done in Weblate" %}">{% trans "History" %}</a></li>
 </ul>
 
