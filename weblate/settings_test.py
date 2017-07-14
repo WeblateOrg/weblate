@@ -44,7 +44,7 @@ if 'CI_DATABASE' in os.environ:
         DATABASES['default']['USER'] = 'postgres'
         DATABASES['default']['PASSWORD'] = ''
     else:
-        DATABASES['default']['TEST'] = {'NAME': 'weblate.db'}
+        DATABASES['default']['TEST'] = {'NAME': 'weblate_test.db'}
 elif 'SCRUTINIZER' in os.environ:
     DATABASES['default']['ENGINE'] = \
         'django.db.backends.postgresql_psycopg2'
