@@ -91,13 +91,9 @@ def get_english_lang():
 class LanguageManager(models.Manager):
     # pylint: disable=W0232
 
-    _default_lang = None
-
     def get_default(self):
         """Return default source language object."""
-        if self._default_lang is None:
-            self._default_lang = self.get(code='en')
-        return self._default_lang
+        return self.get(code='en')
 
     def try_get(self, *args, **kwargs):
         """Trie to get language by code."""
