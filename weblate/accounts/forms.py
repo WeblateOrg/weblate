@@ -123,6 +123,8 @@ class UsernameField(forms.RegexField):
 
     def clean(self, value):
         """Username validation, requires unique name."""
+        if value is None:
+            return
         if value.startswith('.'):
             raise forms.ValidationError(
                 _('Username can not start with full stop.')
