@@ -53,7 +53,7 @@ class PercentMixin(object):
 
     def get_untranslated_percent(self):
         """Return percent of untranslated strings."""
-        return 100 - self.get_percents()[0]
+        return round(100 - self.get_percents()[0], 1)
 
     def get_fuzzy_percent(self):
         """Return percent of fuzzy strings."""
