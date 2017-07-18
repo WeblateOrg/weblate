@@ -162,7 +162,9 @@ class PluralTextarea(forms.Textarea):
                     'specialchar',
                     name,
                     'data-value="{}"'.format(
-                        value.encode('ascii', 'xmlcharrefreplace')
+                        value.encode(
+                            'ascii', 'xmlcharrefreplace'
+                        ).decode('ascii')
                     ),
                     char
                 )
@@ -233,7 +235,7 @@ class PluralTextarea(forms.Textarea):
                 'specialchar',
                 name,
                 'data-value="{}"'.format(
-                    value.encode('ascii', 'xmlcharrefreplace')
+                    value.encode('ascii', 'xmlcharrefreplace').decode('ascii')
                 ),
                 char
             )
