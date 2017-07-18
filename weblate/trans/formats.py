@@ -367,6 +367,22 @@ class XliffUnit(FileUnit):
         """Return comma separated list of locations."""
         return ''
 
+    def get_flags(self):
+        """Return flags from unit.
+
+        We currently extract maxwidth attribute.
+        """
+        maxwidth = None
+        if self.unit is not None:
+            maxwidth = self.unit.get('maxwidth')
+        if not maxwidth and self.template is not None:
+            maxwidth = self.template.get('maxwidth')
+
+        if maxwidth:
+            return 'max-length:{0}'.format(maxwidth)
+
+        return ''
+
 
 class MonolingualIDUnit(FileUnit):
     def get_context(self):
