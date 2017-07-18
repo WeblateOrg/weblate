@@ -85,14 +85,14 @@ class ProjectManager(models.Manager):
 class Project(models.Model, PercentMixin, URLMixin, PathMixin):
     name = models.CharField(
         verbose_name=ugettext_lazy('Project name'),
-        max_length=100,
+        max_length=60,
         unique=True,
         help_text=ugettext_lazy('Name to display')
     )
     slug = models.SlugField(
         verbose_name=ugettext_lazy('URL slug'),
         db_index=True, unique=True,
-        max_length=100,
+        max_length=60,
         help_text=ugettext_lazy('Name used in URLs and file names.')
     )
     web = models.URLField(
