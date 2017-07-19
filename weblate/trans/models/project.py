@@ -111,14 +111,6 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         help_text=ugettext_lazy('URL with instructions for translators.'),
     )
 
-    push_on_commit = models.BooleanField(
-        verbose_name=ugettext_lazy('Push on commit'),
-        default=False,
-        help_text=ugettext_lazy(
-            'Whether the repository should be pushed upstream on every commit.'
-        ),
-    )
-
     set_translation_team = models.BooleanField(
         verbose_name=ugettext_lazy('Set Translation-Team header'),
         default=True,

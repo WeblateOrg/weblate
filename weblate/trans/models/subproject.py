@@ -752,7 +752,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         * Configured push
         * There is something to push
         """
-        if on_commit and not self.project.push_on_commit:
+        if on_commit and not self.push_on_commit:
             return True
         if not self.can_push():
             return True
