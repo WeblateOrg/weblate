@@ -825,10 +825,8 @@ class Unit(models.Model, LoggerMixin):
             (Q(language=self.translation.language) & Q(check__in=target)) |
             (Q(language=None) & Q(check__in=source))
         )
-        if todelete.exists():
-            todelete.delete()
-            return True
-        return False
+        result = todelete.delete()
+        return result[0] > 0
 
     def checks(self):
         """Return all checks for this unit (even ignored)."""
