@@ -27,8 +27,15 @@ levels (filesystem, database and Weblate).
 Software requirements
 ---------------------
 
-Python (2.7, 3.4 or newer)
-    https://www.python.org/
+.. _python-deps:
+
+Python dependencies
++++++++++++++++++++
+
+Weblate is written in `Python <https://www.python.org/`_ and support Python
+2.7, 3.4 or newer. Following dependencies can be installed using pip or your
+distribution packages:
+    
 Django (>= 1.10)
     https://www.djangoproject.com/
 siphashc3
@@ -37,8 +44,6 @@ Translate-toolkit (>= 2.0.0)
     http://toolkit.translatehouse.org/
 Six (>= 1.7.0)
     https://pypi.python.org/pypi/six
-Git (>= 1.6)
-    https://git-scm.com/
 Mercurial (>= 2.8) (optional for Mercurial repositories support)
     https://www.mercurial-scm.org/
 social-auth-core (>= 1.3.0)
@@ -81,15 +86,32 @@ pytz (optional, but recommended by Django)
     https://pypi.python.org/pypi/pytz/
 python-bidi (optional for proper rendering of badges in RTL languages)
     https://github.com/MeirKriheli/python-bidi
+tesserocr (>= 2.0.0) (optional for screenshots OCR)
+    https://github.com/sirfz/tesserocr
+
+Other system requirements
++++++++++++++++++++++++++
+
+Following dependencies have to be installed on the system:
+
+Git (>= 1.6)
+    https://git-scm.com/
 hub (optional for sending pull requests to GitHub)
     https://hub.github.com/
 git-review (optional for Gerrit support)
     https://pypi.python.org/pypi/git-review
 git-svn (>= 2.10.0) (optional for Subversion support)
     https://git-scm.com/docs/git-svn
-tesserocr (>= 2.0.0) (optional for screenshots OCR)
-    https://github.com/sirfz/tesserocr
+tesseract and it's data (optional for screenshots OCR)
+    https://github.com/tesseract-ocr/tesseract
 
+Compile time dependencies
++++++++++++++++++++++++++
+
+To compile some of the :ref:`python-deps` you might need to install their
+dependencies. This depends on how you install them and please consult
+individual packages for domentation. You won't need those if using prebuilt
+Wheels while installing using pip or when you use distribution packages.
 
 .. _install-weblate:
 
