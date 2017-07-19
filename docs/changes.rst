@@ -7,7 +7,7 @@ weblate 2.16
 Released on ? 2017.
 
 * Various performance improvements.
-* Added suport for nested JSON format.
+* Added support for nested JSON format.
 * Added support for WebExtension JSON format.
 * Fixed git exporter authentication.
 * Improved CSV import in certain situations.
