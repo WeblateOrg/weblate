@@ -24,12 +24,15 @@ import time
 
 from django.shortcuts import get_object_or_404, redirect
 from django.views.decorators.http import require_POST
+from django.utils.html import escape
+from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _, ungettext
 from django.utils.encoding import force_text
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 
+from weblate import get_doc_url
 from weblate.utils import messages
 from weblate.permissions.helpers import check_access
 from weblate.trans.models import (
@@ -214,8 +217,8 @@ def perform_suggestion(unit, form, request):
     # Invite user to become translator if there is nobody else
     # and the project is accepting translations
     translation = unit.translation
-    if (not translation.suggestion_voting
-            or not translation.suggestion_autoaccept):
+    if (not translation.subproject.suggestion_voting
+            or not translation.subproject.suggestion_autoaccept):
         recent_changes = Change.objects.content(True).filter(
             translation=translation,
         ).exclude(
@@ -226,6 +229,15 @@ def perform_suggestion(unit, form, request):
                 'There is currently no active translator for this '
                 'translation, please consider becoming a translator '
                 'as your suggestion might otherwise remain unreviewed.'
+            ))
+            messages.info(request, mark_safe(
+                '<a href="{0}">{1}</a>'.format(
+                    escape(get_doc_url('user/translating')),
+                    escape(_(
+                        'See our documentation for more information '
+                        'on translating using Weblate.'
+                    )),
+                )
             ))
     # Create the suggestion
     result = Suggestion.objects.add(

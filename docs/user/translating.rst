@@ -1,6 +1,20 @@
 Translating using Weblate
 =========================
 
+Thank you for interest in translating using Weblate. Weblate can be used to
+translate many projects and every project can have different settings which
+influence whether you can translate or add suggestions only.
+
+Overall there are following possibilities for translating:
+
+* Projects accepts direct translations
+* Projects accepts only suggestions and those are accepted once they get defined number of votes
+
+There are also some options for translation project visibility:
+
+* It can be publicly visible and anybody can contribute
+* It can be visible only to certain group of translators
+
 .. _strings-to-check:
 
 Translation links
