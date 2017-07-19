@@ -14,7 +14,7 @@ are welcome to fork the code and open pull requests. Patches in any other form
 are welcome as well. 
 
 Coding standard
-+++++++++++++++
+---------------
 
 The code should follow PEP-8 coding guidelines.
 
@@ -23,7 +23,7 @@ It is good idea to check your contributions using :program:`pep8`,
 by script :file:`ci/run-lint`.
 
 Developer's Certificate of Origin
-+++++++++++++++++++++++++++++++++
+---------------------------------
 
 If you would like to make a contribution to the Weblate Project, please
 certify to the following:
@@ -70,7 +70,7 @@ behalf of your employer, then please use your corporate email address in the
 Signed-off-by tag.  If not, then please use a personal email address.
 
 Testsuite
-+++++++++
+---------
 
 We do write testsuite for our code, so please add testcases for any new
 functionality and verify that it works. You can see current test results on
@@ -97,9 +97,6 @@ You can also specify individual tests to run:
 Reporting issues
 ----------------
 
-Issue tracking
-++++++++++++++
-
 Our issue tracker is hosted at GitHub:
 <https://github.com/WeblateOrg/weblate/issues>
 
@@ -109,7 +106,7 @@ case you have found security issue in Weblate, please consult section below.
 .. _security:
 
 Security issues
-+++++++++++++++
+---------------
 
 In order to give the community time to respond and upgrade we strongly urge you
 report all security issues privately. We're currently using HackerOne to handle
