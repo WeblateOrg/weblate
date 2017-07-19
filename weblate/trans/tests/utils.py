@@ -325,6 +325,13 @@ class RepoTestMixin(object):
             'json-nested/en.json',
         )
 
+    def create_json_webextension(self):
+        return self._create_subproject(
+            'webextension',
+            'webextension/_locales/*/messages.json',
+            'webextension/_locales/en/messages.json',
+        )
+
     def create_joomla(self):
         return self._create_subproject(
             'joomla',

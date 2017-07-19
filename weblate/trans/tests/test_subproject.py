@@ -170,6 +170,10 @@ class SubProjectTest(RepoTestCase):
         project = self.create_json_nested()
         self.verify_subproject(project, 2, 'cs', 4)
 
+    def test_create_json_webextension(self):
+        project = self.create_json_webextension()
+        self.verify_subproject(project, 2, 'cs', 4)
+
     def test_create_joomla(self):
         project = self.create_joomla()
         self.verify_subproject(project, 3, 'cs', 4)

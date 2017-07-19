@@ -36,6 +36,7 @@ from weblate.trans.formats import (
     AutoFormat, PoFormat, AndroidFormat, PropertiesFormat, JoomlaFormat,
     JSONFormat, JSONNestedFormat, RESXFormat, PhpFormat, XliffFormat, TSFormat,
     YAMLFormat, RubyYAMLFormat, FILE_FORMATS, detect_filename,
+    WebExtensionJSONFormat,
 )
 from weblate.trans.tests.utils import get_test_file
 
@@ -43,6 +44,7 @@ from weblate.trans.tests.utils import get_test_file
 TEST_PO = get_test_file('cs.po')
 TEST_JSON = get_test_file('cs.json')
 TEST_NESTED_JSON = get_test_file('cs-nested.json')
+TEST_WEBEXT_JSON = get_test_file('cs-webext.json')
 TEST_PHP = get_test_file('cs.php')
 TEST_JOOMLA = get_test_file('cs.ini')
 TEST_PROPERTIES = get_test_file('swing.properties')
@@ -292,6 +294,15 @@ class JSONNestedFormatTest(JSONFormatTest):
     MASK = 'json-nested/*.json'
     EXPECTED_PATH = 'json-nested/cs_CZ.json'
     FIND = 'weblate.hello'
+
+
+class WebExtesionJSONFormatTest(JSONFormatTest):
+    FORMAT = WebExtensionJSONFormat
+    FILE = TEST_WEBEXT_JSON
+    COUNT = 4
+    MASK = 'webextension/_locales/*/messages.json'
+    EXPECTED_PATH = 'webextension/_locales/cs_CZ/messages.json'
+    FIND = 'hello'
 
 
 class PhpFormatTest(AutoFormatTest):

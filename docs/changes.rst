@@ -8,6 +8,7 @@ Released on ? 2017.
 
 * Various performance improvements.
 * Added suport for nested JSON format.
+* Added support for WebExtension JSON format.
 * Fixed git exporter authentication.
 * Improved CSV import in certain situations.
 * Improved look of Other translations widget.

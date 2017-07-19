@@ -348,6 +348,26 @@ Nested files are supported as well (see above for requirements), such file can l
 
    `JSON in translate-toolkit documentation <http://docs.translatehouse.org/projects/translate-toolkit/en/latest/formats/json.html>`_
 
+WebExtension JSON
+-----------------
+
+.. versionadded:: 2.16
+
+    This is supported since Weblate 2.16 and with translate-toolkit at least 2.2.4.
+
+File format used by translating extensions for Google Chrome or Mozilla Firefox.
+
+Example file:
+
+.. literalinclude:: ../weblate/trans/tests/data/cs-webext.json
+    :language: json
+    :encoding: utf-8
+
+.. seealso::
+
+    `Google chrome.i18n <https://developer.chrome.com/extensions/i18n>`_,
+    `Mozilla Extensions Internationalization <https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Internationalization>`_
+
 .Net Resource files
 -------------------
 

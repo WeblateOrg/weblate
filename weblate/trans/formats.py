@@ -1198,6 +1198,14 @@ class JSONNestedFormat(JSONFormat):
 
 
 @register_fileformat
+class WebExtensionJSONFormat(JSONFormat):
+    name = _('WebExtension JSON file')
+    format_id = 'webextension'
+    loader = ('jsonl10n', 'WebExtensionJsonFile')
+    monolingual = True
+
+
+@register_fileformat
 class CSVFormat(FileFormat):
     name = _('CSV file')
     format_id = 'csv'
