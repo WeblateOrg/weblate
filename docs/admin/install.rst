@@ -32,7 +32,7 @@ Software requirements
 Python dependencies
 +++++++++++++++++++
 
-Weblate is written in `Python <https://www.python.org/`_ and support Python
+Weblate is written in `Python <https://www.python.org/>`_ and support Python
 2.7, 3.4 or newer. Following dependencies can be installed using pip or your
 distribution packages:
     
