@@ -1129,9 +1129,10 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             keys = [cache_type]
 
         # Actually delete the cache
-        for rqtype in keys:
-            cache_key = 'counts-{0}-{1}-{2}'.format(slug, code, rqtype)
-            cache.delete(cache_key)
+        cache.delete_many([
+            'counts-{0}-{1}-check:{2}'.format(slug, code, rqtype)
+            for rqtype in keys
+        ])
 
     def get_kwargs(self):
         return {
