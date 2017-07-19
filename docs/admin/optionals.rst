@@ -53,6 +53,9 @@ case you need to authenticate using your API token (you can obtain it in your
 
     git clone 'https://user:KEY@example.org/git/weblate/master/'
 
+
+.. _billing:
+
 Billing
 -------
 
@@ -86,6 +89,8 @@ Usage
 After installation you can control billing in the admin interface. Users with
 billing enabled will get new :guilabel:`Billing` tab in their
 :ref:`user-profile`.
+
+.. _legal:
 
 Legal
 -----

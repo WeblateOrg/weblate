@@ -11,7 +11,11 @@ Code and development
 
 Weblate is being developed on GitHub <https://github.com/WeblateOrg/weblate>. You
 are welcome to fork the code and open pull requests. Patches in any other form
-are welcome as well. 
+are welcome as well.
+
+.. seealso::
+
+    Check out :ref:`internals` to see how Weblate looks from inside.
 
 Coding standard
 ---------------

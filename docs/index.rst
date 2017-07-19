@@ -23,6 +23,7 @@ Contents:
     python
     changes
     contributing
+    internals
     license
 
 
