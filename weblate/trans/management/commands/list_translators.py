@@ -18,11 +18,11 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from weblate.trans.management.commands import WeblateCommand
+from weblate.trans.management.commands import WeblateComponentCommand
 from weblate.trans.models.change import Change
 
 
-class Command(WeblateCommand):
+class Command(WeblateComponentCommand):
     help = 'List translators for a subproject'
 
     def add_arguments(self, parser):

@@ -18,10 +18,10 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from weblate.trans.management.commands import WeblateCommand
+from weblate.trans.management.commands import WeblateComponentCommand
 
 
-class Command(WeblateCommand):
+class Command(WeblateComponentCommand):
     help = 'checks status of git repo'
 
     def handle(self, *args, **options):

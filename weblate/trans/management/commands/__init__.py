@@ -19,14 +19,37 @@
 #
 """Helper classes for management commands."""
 
+import logging
+
 from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 
 from weblate.lang.models import Language
 from weblate.trans.models import Unit, SubProject, Translation
+from weblate.logger import LOGGER
 
 
 class WeblateCommand(BaseCommand):
+    def execute(self, *args, **options):
+        """Wrapper to configure logging prior execution."""
+        verbosity = int(options['verbosity'])
+        if verbosity > 1:
+            LOGGER.setLevel(logging.DEBUG)
+        elif verbosity == 1:
+            LOGGER.setLevel(logging.INFO)
+        else:
+            LOGGER.setLevel(logging.ERROR)
+        super(WeblateCommand, self).execute(*args, **options)
+
+    def handle(self, *args, **options):
+        """
+        The actual logic of the command. Subclasses must implement
+        this method.
+        """
+        raise NotImplementedError()
+
+
+class WeblateComponentCommand(WeblateCommand):
     """Command which accepts project/component/--all params to process."""
     def add_arguments(self, parser):
         parser.add_argument(
@@ -135,7 +158,7 @@ class WeblateCommand(BaseCommand):
         raise NotImplementedError()
 
 
-class WeblateLangCommand(WeblateCommand):
+class WeblateLangCommand(WeblateComponentCommand):
     """
     Command accepting additional language parameter to filter
     list of languages to process.

@@ -18,7 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from weblate.trans.management.commands import WeblateCommand
+from weblate.trans.management.commands import WeblateComponentCommand
 from weblate.trans.search import (
     get_source_index, get_target_index,
     update_source_unit_index, update_target_unit_index,
@@ -27,7 +27,7 @@ from weblate.trans.search import (
 from weblate.lang.models import Language
 
 
-class Command(WeblateCommand):
+class Command(WeblateComponentCommand):
     help = 'rebuilds index for fulltext search'
 
     def add_arguments(self, parser):
