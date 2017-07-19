@@ -1124,13 +1124,13 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
         # Are we asked for specific cache key?
         if cache_type is None:
-            keys = list(CHECKS)
+            keys = ['check:{0}'.format(c) for c in CHECKS]
         else:
             keys = [cache_type]
 
         # Actually delete the cache
         cache.delete_many([
-            'counts-{0}-{1}-check:{2}'.format(slug, code, rqtype)
+            'counts-{0}-{1}-{2}'.format(slug, code, rqtype)
             for rqtype in keys
         ])
 
