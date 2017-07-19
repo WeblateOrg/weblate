@@ -46,7 +46,7 @@ PLURAL_RE = re.compile(
     r'\s*nplurals\s*=\s*([0-9]+)\s*;\s*plural\s*=\s*([()n0-9!=|&<>+*/%\s?:-]+)'
 )
 PLURAL_TITLE = '''
-{name} <i class="fa fa-question-circle text-primary" title="{examples}"></i></span>
+{name} <i class="fa fa-question-circle text-primary" title="{examples}"></i>
 '''
 
 
