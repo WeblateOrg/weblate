@@ -64,6 +64,11 @@ class SubProjectTest(RepoTestCase):
         self.verify_subproject(project, 3, 'cs', 4)
         self.assertTrue(os.path.exists(project.get_path()))
 
+    def test_create(self):
+        project = self.create_subproject()
+        self.verify_subproject(project, 3, 'cs', 4)
+        self.assertTrue(os.path.exists(project.get_path()))
+
     def test_create_dot(self):
         project = self._create_subproject(
             'auto',
@@ -136,6 +141,10 @@ class SubProjectTest(RepoTestCase):
 
     def test_create_po_branch(self):
         project = self.create_po_branch()
+        self.verify_subproject(project, 3, 'cs', 4)
+
+    def test_create_po_push(self):
+        project = self.create_po_push()
         self.verify_subproject(project, 3, 'cs', 4)
 
     def test_create_po_svn(self):

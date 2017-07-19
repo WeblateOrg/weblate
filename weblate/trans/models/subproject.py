@@ -1087,12 +1087,14 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             return code.split('.')[0]
         return code
 
-    def sync_git_repo(self, validate=False):
+    def sync_git_repo(self, validate=False, skip_push=None):
         """Bring VCS repo in sync with current model."""
         if self.is_repo_link:
             return
+        if skip_push is None:
+            skip_push=validate
         self.configure_repo(validate)
-        self.commit_pending(None, skip_push=validate)
+        self.commit_pending(None, skip_push=skip_push)
         self.configure_branch()
         self.update_branch()
 
@@ -1416,7 +1418,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
         # Configure git repo if there were changes
         if changed_git:
-            self.sync_git_repo()
+            self.sync_git_repo(skip_push=kwargs.get('force_insert', False))
 
         # Rescan for possibly new translations if there were changes, needs to
         # be done after actual creating the object above

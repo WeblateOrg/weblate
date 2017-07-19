@@ -198,6 +198,9 @@ class RepoTestMixin(object):
         if 'new_lang' not in kwargs:
             kwargs['new_lang'] = 'contact'
 
+        if 'push_on_commit' not in kwargs:
+            kwargs['push_on_commit'] = False
+
         if branch is None:
             branch = d_branch
 
@@ -235,6 +238,13 @@ class RepoTestMixin(object):
             'po',
             'translations/*.po',
             branch='translations'
+        )
+
+    def create_po_push(self):
+        return self._create_subproject(
+            'po',
+            'po/*.po',
+            push_on_commit=True
         )
 
     def create_po_empty(self):
