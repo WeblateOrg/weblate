@@ -18,13 +18,17 @@ their versions as well. You can collect all using
 ## Patches submission
 
 Patches are welcome either as [pull requests on GitHub][2] or using email on
-[our mailing list][3].
+[our mailing list][3]. Please include a Signed-off-by tag in the commit message
+(you can do this by passing `--signoff` parameter to Git).  Note that by
+submitting patches with the Signed-off-by tag, you are giving permission to
+license the patch as GPLv2-or-later.  See [the DCO file][4] for details.
 
 [2]: https://github.com/WeblateOrg/weblate/pulls
 [3]: https://lists.cihar.com/cgi-bin/mailman/listinfo/weblate
+[4]: https://github.com/WeblateOrg/weblate/blob/master/DCO
 
 ## More information
 
 You can find more information on our website:
 
-https://weblate.org/en/contribute/
+https://weblate.org/contribute/
