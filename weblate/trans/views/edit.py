@@ -212,17 +212,21 @@ def perform_suggestion(unit, form, request):
         # Stay on same entry
         return False
     # Invite user to become translator if there is nobody else
-    recent_changes = Change.objects.content(True).filter(
-        translation=unit.translation,
-    ).exclude(
-        user=None
-    )
-    if not recent_changes.exists():
-        messages.info(request, _(
-            'There is currently no active translator for this '
-            'translation, please consider becoming a translator '
-            'as your suggestion might otherwise remain unreviewed.'
-        ))
+    # and the project is accepting translations
+    translation = unit.translation
+    if (not translation.suggestion_voting
+            or not translation.suggestion_autoaccept):
+        recent_changes = Change.objects.content(True).filter(
+            translation=translation,
+        ).exclude(
+            user=None
+        )
+        if not recent_changes.exists():
+            messages.info(request, _(
+                'There is currently no active translator for this '
+                'translation, please consider becoming a translator '
+                'as your suggestion might otherwise remain unreviewed.'
+            ))
     # Create the suggestion
     result = Suggestion.objects.add(
         unit,
