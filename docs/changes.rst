@@ -11,6 +11,7 @@ Released on ? 2017.
 * Fixed git exporter authentication.
 * Improved CSV import in certain situations.
 * Improved look of Other translations widget.
+* The max-length checks is now enforcing length of text in form.
 
 weblate 2.15
 ------------

@@ -96,8 +96,6 @@ COPY_TEMPLATE = '''
 data-loading-text="{0}" data-checksum="{1}" data-content="{2}"
 '''
 
-TRANSLATION_LIMIT = 10000
-
 
 class WeblateDateField(forms.DateField):
     def __init__(self, *args, **kwargs):
@@ -267,7 +265,7 @@ class PluralTextarea(forms.Textarea):
         attrs['lang'] = lang.code
         attrs['dir'] = lang.direction
         attrs['rows'] = 3
-        attrs['maxlength'] = TRANSLATION_LIMIT
+        attrs['maxlength'] = unit.get_max_length()
 
         # Okay we have more strings
         ret = []
@@ -359,11 +357,6 @@ class PluralField(forms.CharField):
             raise ValidationError(
                 _('Missing translated string!')
             )
-        for text in value:
-            if len(text) > TRANSLATION_LIMIT:
-                raise ValidationError(
-                    _('Translation text too long!')
-                )
         return value
 
 
@@ -425,6 +418,17 @@ class TranslationForm(ChecksumForm):
         self.fields['fuzzy'].widget.attrs['class'] = 'fuzzy_checkbox'
         self.fields['target'].widget.attrs['tabindex'] = tabindex
         self.fields['target'].widget.profile = profile
+
+    def clean(self):
+        super(TranslationForm, self).clean()
+        if 'unit' not in self.cleaned_data or 'target' not in self.cleaned_data:
+            return
+        max_length = self.cleaned_data['unit'].get_max_length()
+        for text in self.cleaned_data['target']:
+            if len(text) > max_length:
+                raise ValidationError(
+                    _('Translation text too long!')
+                )
 
 
 class AntispamForm(forms.Form):

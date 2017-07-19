@@ -1099,3 +1099,14 @@ class Unit(models.Model, LoggerMixin):
 
     def same_units(self):
         return Unit.objects.same(self)
+
+    def get_max_length(self):
+        """Returns maximal translation length."""
+        for flag in self.all_flags:
+            if flag.startswith('max-length:'):
+                try:
+                    return int(flag[11:])
+                except ValueError:
+                    continue
+        # Fallback to reasonably big value
+        return 10000
