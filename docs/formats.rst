@@ -323,7 +323,7 @@ JSON and nested structure JSON files
 
 .. versionchanged:: 2.16
 
-    Since Weblate 2.16 and wiht translate-toolkit at least 2.2.4 nested
+    Since Weblate 2.16 and with translate-toolkit at least 2.2.4 nested
     structure JSON files are supported as well.
 
 JSON is format used mostly for translating applications implemented in
