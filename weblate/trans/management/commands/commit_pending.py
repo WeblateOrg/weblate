@@ -38,17 +38,25 @@ class Command(WeblateLangCommand):
             action='store',
             type=int,
             dest='age',
-            default=settings.COMMIT_PENDING_HOURS,
+            default=0,
             help='Age of changes to commit in hours'
         )
 
     def handle(self, *args, **options):
 
-        age = timezone.now() - timedelta(hours=options['age'])
+        hours = options['age']
+
+        if hours:
+            age = timezone.now() - timedelta(hours=hours)
 
         for translation in self.get_translations(**options):
             if not translation.repo_needs_commit():
                 continue
+
+            if not hours:
+                age = timezone.now() - timedelta(
+                    hours=translation.subproject.commit_pending_age
+                )
 
             last_change = translation.last_change
             if last_change is None:

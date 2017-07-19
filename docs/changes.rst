@@ -13,6 +13,7 @@ Released on ? 2017.
 * Improved CSV import in certain situations.
 * Improved look of Other translations widget.
 * The max-length checks is now enforcing length of text in form.
+* Make the commit_pending age configurable per component.
 
 weblate 2.15
 ------------

@@ -115,9 +115,6 @@ Mailing list
     Mailing list where translators can discuss or comment translations.
 Translation instructions
     URL where you have more detailed instructions for translators.
-Push on commit
-    Whether any committed changes should be automatically pushed to upstream
-    repository.
 Set Translation-Team header
     Whether Weblate should manage Translation-Team header (this is
     :ref:`gettext` only feature right now).
@@ -286,6 +283,13 @@ Committer email
     Email of commiter used on Weblate commits, the author will be always the
     real translator. On some VCS this might be not supported. Default value
     can be changed by :setting:`DEFAULT_COMMITER_EMAIL`.
+Push on commit
+    Whether any committed changes should be automatically pushed to upstream
+    repository.
+Age of changes to commit
+    Configures how old changes (in hours) will be committed by
+    :djadmin:`commit_pending` management command (usually executed by cron).
+    Default value can be changed by :setting:`COMMIT_PENDING_HOURS`.
 Language filter
     Regular expression which is used to filter translation when scanning for
     file mask. This can be used to limit list of languages managed by Weblate

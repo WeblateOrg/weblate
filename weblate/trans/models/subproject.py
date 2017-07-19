@@ -461,6 +461,21 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         max_length=254,
         default=settings.DEFAULT_COMMITER_EMAIL,
     )
+    push_on_commit = models.BooleanField(
+        verbose_name=ugettext_lazy('Push on commit'),
+        default=True,
+        help_text=ugettext_lazy(
+            'Whether the repository should be pushed upstream on every commit.'
+        ),
+    )
+    commit_pending_age = models.IntegerField(
+        verbose_name=ugettext_lazy('Age of changes to commit'),
+        default=settings.COMMIT_PENDING_HOURS,
+        help_text=ugettext_lazy(
+            'Configures how old changes (in hours) will be committed by '
+            'commit_pending management command (usually executed by cron).'
+        ),
+    )
 
     language_regex = RegexField(
         verbose_name=ugettext_lazy('Language filter'),
