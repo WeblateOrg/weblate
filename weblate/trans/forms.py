@@ -421,7 +421,8 @@ class TranslationForm(ChecksumForm):
 
     def clean(self):
         super(TranslationForm, self).clean()
-        if 'unit' not in self.cleaned_data or 'target' not in self.cleaned_data:
+        if ('unit' not in self.cleaned_data or
+                'target' not in self.cleaned_data):
             return
         max_length = self.cleaned_data['unit'].get_max_length()
         for text in self.cleaned_data['target']:

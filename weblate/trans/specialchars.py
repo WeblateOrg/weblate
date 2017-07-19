@@ -481,4 +481,4 @@ def get_special_chars(language, additional=''):
         yield _('User configured character: {}').format(char), char, char
 
 
-RTL_CHARS_DATA = [format_char(six.unichr(code)) for code in RTL_CHARS]
+RTL_CHARS_DATA = [format_char(six.unichr(c)) for c in RTL_CHARS]
