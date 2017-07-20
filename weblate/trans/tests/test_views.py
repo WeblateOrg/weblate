@@ -596,7 +596,7 @@ class HomeViewTest(ViewTestCase):
 
         response = self.client.get(reverse('home'))
         self.assertContains(response, 'TestCL')
-        self.assertEqual(response.context['active_tab_label'], 'TestCL')
+        self.assertEqual(response.context['active_tab_slug'], 'list-testcl')
 
     def test_subscriptions(self):
         # no subscribed projects at first
