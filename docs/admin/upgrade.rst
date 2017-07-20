@@ -14,6 +14,11 @@ changed. Once all requirements are installed or updated, please adjust your
 :file:`settings.py` to match changes in the configuration (consult
 :file:`settings_example.py` for correct values).
 
+.. note::
+
+    It is recommended to perform database backup prior to upgrade so that you
+    can roll back the database in case upgrade fails.
+
 To upgrade database structure, you should run:
 
 .. code-block:: sh
