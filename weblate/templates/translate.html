@@ -288,7 +288,7 @@
     </tbody>
     {% endif %}
     {% if others.matching %}
-    <tr><th colspan="3" class="warning">{% trans "Following strings have same context and same source." %}</td></tr>
+    <tr><th colspan="3" class="warning">{% blocktrans count count=others.matching|length %}Following string has same context and same source.{% plural %}Following strings have same context and same source.{% endblocktrans %}</td></tr>
     <tbody>
     {% for item in others.matching %}
     {% include "trans/other-row.html" %}
@@ -296,7 +296,7 @@
     </tbody>
     {% endif %}
     {% if others.source %}
-    <tr><th colspan="3" class="warning">{% trans "Following strings have different context but same source." %}</td></tr>
+    <tr><th colspan="3" class="warning">{% blocktrans count count=others.source|length %}Following string has different context but same source.{% plural %}Following strings have different contexts but same source.{% endblocktrans %}</td></tr>
     <tbody>
     {% for item in others.source %}
     {% include "trans/other-row.html" %}
@@ -304,7 +304,7 @@
     </tbody>
     {% endif %}
     {% if others.context %}
-    <tr><th colspan="3" class="warning">{% trans "Following strings have different source but same context." %}</td></tr>
+    <tr><th colspan="3" class="warning">{% blocktrans count count=others.context|length %}Following string has different source but same context.{% plural %}Following strings have different sources but same context.{% endblocktrans %}</td></tr>
     <tbody>
     {% for item in others.context %}
     {% include "trans/other-row.html" %}
