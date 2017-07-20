@@ -83,6 +83,9 @@
     </ul>
   </li>
 {% endif %}
+{% with object.subproject.project as project %}
+{% include "watch-dropdown.html" %}
+{% endwith %}
 </ul>
 
 
