@@ -261,14 +261,16 @@
 {% else %}
 <p>{% trans "Translation is currently not locked." %}</p>
 {% endif %}
+</div>
 {% if user_can_lock_translation %}
+<div class="panel-footer">
 {% if object.lock_user == request.user %}
 <a class="btn btn-default link-post" href="{% url 'unlock_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}">{% trans "Unlock" %}</a>
 {% elif not object.is_user_locked %}
 <a class="btn btn-default link-post" href="{% url 'lock_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}">{% trans "Lock" %}</a>
 {% endif %}
-{% endif %}
 </div>
+{% endif %}
 
 </div>
 </div>
