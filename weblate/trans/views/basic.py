@@ -202,7 +202,9 @@ def home(request):
         )
 
         if user.profile.hide_completed:
-            usersubscriptions = usersubscriptions.exclude(total=F('translated'))
+            usersubscriptions = usersubscriptions.exclude(
+                total=F('translated')
+            )
             userlanguages = userlanguages.exclude(total=F('translated'))
 
     return render(
