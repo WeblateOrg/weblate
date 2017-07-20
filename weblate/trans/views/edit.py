@@ -89,6 +89,7 @@ def get_other_units(unit):
     )
 
     units = same | same_id | same_source
+    units = units.distinct()
 
     # Is it only this unit?
     if len(units) == 1:
