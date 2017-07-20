@@ -75,12 +75,16 @@ def get_suggestions(request, user, base):
     )
 
     if user.is_authenticated and user.profile.languages.exists():
-        # Find other translations for user language
+        # Remove user subscriptions
         result = result.exclude(
             subproject__project__in=user.profile.subscriptions.all()
         )
 
-    return result[:10]
+    result = result[:10]
+
+    if result:
+        return result
+    return base.order_by('?')[:10]
 
 
 def get_user_translations(user, project_ids):
