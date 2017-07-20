@@ -23,6 +23,7 @@
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.core.urlresolvers import reverse
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.core import mail
 
@@ -53,7 +54,7 @@ class ViewTest(TestCase):
             password='testpassword'
         )
         user.first_name = 'First Second'
-        user.email = 'noreply@weblate.org'
+        user.email = 'noreply@example.com'
         user.save()
         Profile.objects.get_or_create(user=user)
         return user
@@ -147,14 +148,14 @@ class ViewTest(TestCase):
         self.assertContains(response, 'Registration problems')
 
     def test_contact_user(self):
-        self.get_user()
+        user = self.get_user()
         # Login
-        self.client.login(username='testuser', password='testpassword')
+        self.client.login(username=user.username, password='testpassword')
         response = self.client.get(
             reverse('contact'),
         )
         self.assertContains(response, 'value="First Second"')
-        self.assertContains(response, 'noreply@weblate.org')
+        self.assertContains(response, user.email)
 
     def test_user(self):
         """Test user pages."""
@@ -162,7 +163,7 @@ class ViewTest(TestCase):
         user = self.get_user()
 
         # Login as user
-        self.client.login(username='testuser', password='testpassword')
+        self.client.login(username=user.username, password='testpassword')
 
         # Get public profile
         response = self.client.get(
@@ -171,12 +172,12 @@ class ViewTest(TestCase):
         self.assertContains(response, '="/activity/')
 
     def test_login(self):
-        self.get_user()
+        user = self.get_user()
 
         # Login
         response = self.client.post(
             reverse('login'),
-            {'username': 'testuser', 'password': 'testpassword'}
+            {'username': user.username, 'password': 'testpassword'}
         )
         self.assertRedirects(response, reverse('home'))
 
@@ -191,6 +192,30 @@ class ViewTest(TestCase):
         # Logout
         response = self.client.post(reverse('logout'))
         self.assertRedirects(response, reverse('home'))
+
+    def test_login_email(self):
+        user = self.get_user()
+
+        # Login
+        response = self.client.post(
+            reverse('login'),
+            {'username': user.email, 'password': 'testpassword'}
+        )
+        self.assertRedirects(response, reverse('home'))
+
+    def test_login_anonymous(self):
+        # Login
+        response = self.client.post(
+            reverse('login'),
+            {
+                'username': settings.ANONYMOUS_USER_NAME,
+                'password': 'testpassword'
+            }
+        )
+        self.assertContains(
+            response,
+            'This username/password combination was not found.'
+        )
 
     @override_settings(AUTH_MAX_ATTEMPTS=20, AUTH_LOCK_ATTEMPTS=5)
     def test_login_ratelimit(self, login=False):
