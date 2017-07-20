@@ -29,8 +29,7 @@
 </tr>
 <tbody>
 {% for trans in translations %}
-{% with trans.get_untranslated_percent as untranslated and trans.get_translated_percent as percent and trans.get_fuzzy_percent as fuzzy and trans.failing_checks as checks and trans.untranslated as count and trans.have_suggestion as suggestions %}
-{% if not hide_completed or count > 0 %}
+{% with trans.get_untranslated_percent as untranslated and trans.get_translated_percent as percent and trans.get_fuzzy_percent as fuzzy and trans.failing_checks as checks and trans.untranslated as untranslated and trans.have_suggestion as suggestions %}
 <tr>
 <th><a href="{{ trans.get_absolute_url }}">{% if show_language == 1 %}{{ trans.language }}{% else %}{% if show_only_component %}{{ trans.subproject.name }}{% else %}{{ trans.subproject }}{% endif %}{% if show_language == 2 %} ({{ trans.language }}){% endif %}{% endif %}</a>
 {% if trans.is_template %}<span class="badge pull-rigth flip tooltip-control" title="{% trans "This translation is being used as source strings within this component." %}">{% trans "source" %}</span>{% endif %}
@@ -68,14 +67,13 @@
 {% endif %}
 </td>
 <td>
-{% if count > 0 %}
+{% if untranslated > 0 %}
 <a href="{{ trans.get_translate_url }}?type=untranslated" title="{% blocktrans count trans.untranslated as count %}There is {{ count }} not translated string.{% plural %}There are {{ count }} not translated strings.{% endblocktrans %}" class="btn btn-default btn-xs"><i class="fa fa-pencil"></i> {% trans "Translate" %}</a>
 {% else %}
 <a href="{{ trans.get_translate_url }}?type=all" title="{% blocktrans count trans.total as count %}There is {{ count }} translated string.{% plural %}There are {{ count }} translated strings.{% endblocktrans %}" class="btn btn-default btn-xs"><i class="fa fa-pencil"></i> {% trans "Translate" %}</a>
 {% endif %}
 </td>
 </tr>
-{% endif %}
 {% endwith %}
 {% endfor %}
 </tbody>

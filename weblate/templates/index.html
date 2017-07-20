@@ -58,7 +58,7 @@
 <div {% active_tab "your-subscriptions" %}>
 {% if subscribed_projects %}
     {% if usersubscriptions %}
-        {% with usersubscriptions as translations and 2 as show_language and user.profile.hide_completed as hide_completed %}
+        {% with usersubscriptions as translations and 2 as show_language %}
         {% include "list-translations.html" %}
         {% endwith %}
         <p>{% include "legend.html" %}</p>
@@ -78,7 +78,7 @@
 
 <div {% active_tab "your-languages" %}>
 {% if userlanguages %}
-{% with userlanguages as translations and 2 as show_language and user.profile.hide_completed as hide_completed %}
+{% with userlanguages as translations and 2 as show_language %}
 {% include "list-translations.html" %}
 {% endwith %}
 <p>{% include "legend.html" %}</p>
