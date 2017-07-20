@@ -1141,6 +1141,8 @@ class SubprojectSettingsForm(forms.ModelForm):
             'add_message',
             'delete_message',
             'language_regex',
+            'push_on_commit',
+            'commit_pending_age',
         )
 
     def __init__(self, *args, **kwargs):
@@ -1183,6 +1185,11 @@ class SubprojectSettingsForm(forms.ModelForm):
                 'allow_translation_propagation',
                 'save_history',
                 'check_flags',
+            ),
+            Fieldset(
+                _('Version control settings'),
+                'push_on_commit',
+                'commit_pending_age',
             ),
         )
 
