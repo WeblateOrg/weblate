@@ -179,6 +179,9 @@ def home(request):
         componentlist.translations = components_by_language.filter(
             subproject__in=componentlist.components.all()
         )
+    # Filter out component lists with translations
+    # This will remove the ones where user doesn't have access to anything
+    componentlists = [c for c in componentlists if c.translations]
 
     active_tab_id = user.profile.dashboard_view
     active_tab_slug = Profile.DASHBOARD_SLUGS.get(active_tab_id)

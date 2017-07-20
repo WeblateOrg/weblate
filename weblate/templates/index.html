@@ -110,12 +110,8 @@
 {% for componentlist in componentlists %}
     <div {% active_tab componentlist.tab_slug %}>
     {% with componentlist.translations as translations and 2 as show_language and user.profile.hide_completed as hide_completed %}
-    {% if translations %}
     {% include "list-translations.html" %}
     <p>{% include "legend.html" %}</p>
-    {% else %}
-    <p class="help-block">{% trans "Could not find any matching translation in this component list, probably not translated to your languages." %}</p>
-    {% endif %}
     {% endwith %}
     <p><a class="btn btn-default" href="{% url 'profile' %}#languages">{% trans "Manage your languages" %}</a></p>
 </div>{% endfor %}
