@@ -1092,7 +1092,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         if self.is_repo_link:
             return
         if skip_push is None:
-            skip_push=validate
+            skip_push = validate
         self.configure_repo(validate)
         self.commit_pending(None, skip_push=skip_push)
         self.configure_branch()
