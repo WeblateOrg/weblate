@@ -416,6 +416,9 @@ Notable configuration or dependencies changes:
     See `Migrating from python-social-auth to split social <https://github.com/omab/python-social-auth/blob/master/MIGRATING_TO_SOCIAL.md#migrations>`_
     for more information.
 
+    If you are upgrading from older version, you should first upgrade to
+    Weblate 2.10 and python-social-auth 0.2.21 and then continue in upgrading.
+
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
