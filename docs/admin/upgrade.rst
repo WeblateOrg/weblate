@@ -14,6 +14,12 @@ changed. Once all requirements are installed or updated, please adjust your
 :file:`settings.py` to match changes in the configuration (consult
 :file:`settings_example.py` for correct values).
 
+Always check :ref:`version-specific-instructions` before upgrade. In case you
+are skipping some versions, please follow instructions for all versions you are
+skipping in the upgrade. Sometimes it's better to upgrade to some intermediate
+version to ensure smooth migration. Upgrading across multiple releases should
+work, but is not that well tested as single version upgrades.
+
 .. note::
 
     It is recommended to perform database backup prior to upgrade so that you
