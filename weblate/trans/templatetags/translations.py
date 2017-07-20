@@ -639,6 +639,13 @@ def active_tab(context, slug):
     return mark_safe('class="tab-pane {0}" id="{1}"'.format(active, slug))
 
 
+@register.simple_tag(takes_context=True)
+def active_link(context, slug):
+    if slug == context['active_tab_slug']:
+        return mark_safe('class="active"')
+    return ''
+
+
 @register.assignment_tag
 def matching_cotentsum(item):
     """Find matching objects to suggestion, comment or check"""

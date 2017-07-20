@@ -205,7 +205,6 @@ def home(request):
             'userlanguages': userlanguages,
             'componentlists': componentlists,
             'active_tab_slug': active_tab_slug,
-            'active_tab_label': dashboard_choices.get(active_tab_id)
         }
     )
 
