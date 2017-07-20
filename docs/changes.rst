@@ -14,6 +14,7 @@ Released on ? 2017.
 * Improved look of Other translations widget.
 * The max-length checks is now enforcing length of text in form.
 * Make the commit_pending age configurable per component.
+* Various user interface cleanups.
 
 weblate 2.15
 ------------
