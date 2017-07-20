@@ -273,14 +273,6 @@
 </form>
 </div>
 {% endif %}
-    {% if item.source == unit.source and item.context == unit.context %}
-    {% elif item.source == unit.source %}
-    <span class="badge pull-right flip" title="{% trans "This string has different context but same source." %}">{% trans "Different context" %}</span>
-    {% elif item.context == unit.context %}
-    <span class="badge pull-right flip" title="{% trans "This string has different source but same context." %}">{% trans "Different source" %}</span>
-    {% else %}
-    <span class="badge pull-right flip">Bug!</span>
-    {% endif %}
 
 {% if others.exists %}
 <div class="tab-pane" id="others">
