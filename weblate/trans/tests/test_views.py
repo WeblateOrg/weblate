@@ -580,6 +580,7 @@ class HomeViewTest(ViewTestCase):
     def test_component_list(self):
         clist = ComponentList(name="TestCL", slug="testcl")
         clist.save()
+        clist.components.add(self.subproject)
 
         response = self.client.get(reverse('home'))
         self.assertContains(response, 'TestCL')
@@ -587,6 +588,7 @@ class HomeViewTest(ViewTestCase):
 
     def test_user_component_list(self):
         clist = ComponentList.objects.create(name="TestCL", slug="testcl")
+        clist.components.add(self.subproject)
 
         self.user.profile.dashboard_view = Profile.DASHBOARD_COMPONENT_LIST
         self.user.profile.dashboard_component_list = clist
