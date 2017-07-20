@@ -190,7 +190,7 @@ def home(request):
         active_tab_slug = clist.tab_slug()
         dashboard_choices[active_tab_id] = clist.name
 
-    if request.user.is_authenticated:
+    if user.is_authenticated:
         # Ensure ACL filtering applies (user could have been removed
         # from the project meanwhile)
         subscribed_projects = user.profile.subscriptions.filter(
@@ -200,6 +200,10 @@ def home(request):
         usersubscriptions = components_by_language.filter(
             subproject__project__in=subscribed_projects
         )
+
+        if user.profile.hide_completed:
+            usersubscriptions = usersubscriptions.exclude(total=F('translated'))
+            userlanguages = userlanguages.exclude(total=F('translated'))
 
     return render(
         request,
