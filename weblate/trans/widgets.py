@@ -27,7 +27,7 @@ except ImportError:
     from django.utils.encoding import force_text as get_display
 
 from django.core.urlresolvers import reverse
-from django.utils.translation import ugettext as _, pgettext
+from django.utils.translation import ugettext as _, pgettext, get_language
 from django.template.loader import render_to_string
 
 from PIL import Image, ImageDraw
@@ -378,11 +378,6 @@ class SVGBadgeWidget(SVGWidget):
         else:
             color = '#e05d44'
 
-        if self.lang:
-            lang = self.lang.code
-        else:
-            lang = 'en'
-
         self.image = render_to_string(
             'badge.svg',
             {
@@ -394,7 +389,7 @@ class SVGBadgeWidget(SVGWidget):
                 'color': color,
                 'translated_offset': translated_width / 2,
                 'percent_offset': translated_width + percent_width / 2,
-                'lang': lang,
+                'lang': get_language(),
             }
         )
 
