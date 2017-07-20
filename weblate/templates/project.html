@@ -26,8 +26,17 @@
   <li><a href="#languages" data-toggle="tab">{% trans "Languages" %}</a></li>
   <li><a href="#information" data-toggle="tab">{% trans "Information" %}</a></li>
   <li><a href="#glossaries" data-toggle="tab">{% trans "Glossaries" %}</a></li>
-  <li><a href="#history" data-toggle="tab">{% trans "History" %}</a></li>
-  <li><a href="#activity" data-toggle="tab" data-load="activity" data-yearly="{% url 'yearly_activity' project=object.slug %}" data-monthly="{% url 'monthly_activity' project=object.slug %}">{% trans "Activity" %}</a></li>
+  <li class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+      {% trans "Pulse" %} <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+      <li><a href="#history" data-toggle="tab">{% trans "History" %}</a></li>
+      <li><a href="#activity" data-toggle="tab" data-load="activity" data-yearly="{% url 'yearly_activity' project=object.slug %}" data-monthly="{% url 'monthly_activity' project=object.slug %}">{% trans "Activity" %}</a></li>
+      <li><a href="{% url 'export_stats' project=object.slug %}?format=csv">{% trans "Download statistics (CSV)" %}</a></li>
+      <li><a href="{% url 'export_stats' project=object.slug %}?format=json">{% trans "Download statistics (JSON)" %}</a></li>
+    </ul>
+  </li>
   <li class="dropdown">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
       {% trans "Tools" %} <span class="caret"></span>
@@ -38,8 +47,6 @@
       <li><a href="#replace" data-toggle="tab">{% trans "Search and replace" %}</a></li>
       {% endif %}
       <li><a href="{% url 'data_project' project=object.slug  %}">{% trans "Data exports" %}</a></li>
-      <li><a href="{% url 'export_stats' project=object.slug %}?format=csv">{% trans "Download statistics (CSV)" %}</a></li>
-      <li><a href="{% url 'export_stats' project=object.slug %}?format=json">{% trans "Download statistics (JSON)" %}</a></li>
       {% if user_can_commit_translation %}
       <li><a href="{{ object.get_commit_url }}" class="link-post">{% trans "Commit" %}</a></li>
       {% endif %}

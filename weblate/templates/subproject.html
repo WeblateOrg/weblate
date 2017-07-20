@@ -29,8 +29,17 @@
 <ul class="nav nav-pills">
   <li class="active"><a href="#translations" data-toggle="tab">{% trans "Translations" %}</a></li>
   <li><a href="#information" data-toggle="tab">{% trans "Information" %}</a></li>
-  <li><a href="#history" data-toggle="tab">{% trans "History" %}</a></li>
-  <li><a href="#activity" data-toggle="tab" data-load="activity" data-yearly="{% url 'yearly_activity' project=object.project.slug subproject=object.slug %}" data-monthly="{% url 'monthly_activity' project=object.project.slug subproject=object.slug %}">{% trans "Activity" %}</a></li>
+  <li class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+      {% trans "Pulse" %} <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+      <li><a href="#history" data-toggle="tab">{% trans "History" %}</a></li>
+      <li><a href="#activity" data-toggle="tab" data-load="activity" data-yearly="{% url 'yearly_activity' project=object.project.slug subproject=object.slug %}" data-monthly="{% url 'monthly_activity' project=object.project.slug subproject=object.slug %}">{% trans "Activity" %}</a></li>
+      <li><a href="{% url 'export_stats' project=object.project.slug subproject=object.slug %}?format=csv">{% trans "Download statistics (CSV)" %}</a></li>
+      <li><a href="{% url 'export_stats' project=object.project.slug subproject=object.slug %}?format=json">{% trans "Download statistics (JSON)" %}</a></li>
+    </ul>
+  </li>
   <li class="dropdown">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
       {% trans "Tools" %} <span class="caret"></span>
@@ -41,8 +50,6 @@
       <li><a href="#replace" data-toggle="tab">{% trans "Search and replace" %}</a></li>
       {% endif %}
       <li><a href="{% url 'data_project' project=object.project.slug  %}">{% trans "Data exports" %}</a></li>
-      <li><a href="{% url 'export_stats' project=object.project.slug subproject=object.slug %}?format=csv">{% trans "Download statistics (CSV)" %}</a></li>
-      <li><a href="{% url 'export_stats' project=object.project.slug subproject=object.slug %}?format=json">{% trans "Download statistics (JSON)" %}</a></li>
       <li><a href="{% url 'matrix' project=object.project.slug subproject=object.slug %}">{% trans "Matrix view" %}</a></li>
       {% if user_can_commit_translation %}
       <li><a href="{{ object.get_commit_url }}" class="link-post">{% trans "Commit" %}</a></li>
