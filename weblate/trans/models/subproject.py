@@ -472,8 +472,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         verbose_name=ugettext_lazy('Age of changes to commit'),
         default=settings.COMMIT_PENDING_HOURS,
         help_text=ugettext_lazy(
-            'Configures how old changes (in hours) will be committed by '
-            'commit_pending management command (usually executed by cron).'
+            'Time in hours after which any pending changes will be '
+            'committed to the VCS.'
         ),
     )
 

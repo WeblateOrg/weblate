@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='subproject',
             name='commit_pending_age',
-            field=models.IntegerField(default=24, help_text='Configures how old changes (in hours) will be committed by commit_pending management command (usually executed by cron).', verbose_name='Age of changes to commit'),
+            field=models.IntegerField(default=24, help_text='Time in hours after which any pending changes will be committed to the VCS.', verbose_name='Age of changes to commit'),
         ),
         migrations.AddField(
             model_name='subproject',
