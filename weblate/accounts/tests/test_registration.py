@@ -561,6 +561,35 @@ class RegistrationTest(BaseRegistrationTest):
         )
 
     @override_settings(REGISTRATION_CAPTCHA=False)
+    def test_remove_mail(self):
+        # Register user with two mails
+        self.test_add_mail()
+        mail.outbox = []
+
+        user = User.objects.get(username='username')
+        social = user.social_auth.get(uid='noreply-weblate@example.org')
+
+        response = self.client.post(
+            reverse(
+                'social:disconnect_individual',
+                kwargs={
+                    'backend': social.provider,
+                    'association_id': social.pk,
+                }
+            ),
+            follow=True
+        )
+        self.assertContains(
+            response,
+            'Your email no longer belongs to verified account'
+        )
+        notification = mail.outbox.pop()
+        self.assertEqual(
+            notification.subject,
+            '[Weblate] Activity on your account at Weblate'
+        )
+
+    @override_settings(REGISTRATION_CAPTCHA=False)
     def test_pipeline_redirect(self):
         """Test pipeline redirect using next parameter."""
         # Create user
