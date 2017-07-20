@@ -20,12 +20,12 @@
 
 from django.utils.translation import ugettext as _
 from django.http import JsonResponse
-from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.views.decorators.http import require_POST
 
 from weblate.utils import messages
+from weblate.trans.util import redirect_param
 from weblate.trans.views.helper import (
     get_project, get_subproject, get_translation
 )
@@ -64,7 +64,7 @@ def lock_translation(request, project, subproject, lang):
         obj.create_lock(request.user, True)
         messages.success(request, _('Translation is now locked for you.'))
 
-    return redirect(obj)
+    return redirect_param(obj, '#locking')
 
 
 @require_POST
@@ -82,7 +82,7 @@ def unlock_translation(request, project, subproject, lang):
             _('Translation is now open for translation updates.')
         )
 
-    return redirect(obj)
+    return redirect_param(obj, '#locking')
 
 
 @require_POST
@@ -102,7 +102,7 @@ def lock_subproject(request, project, subproject):
         _('Component is now locked for translation updates!')
     )
 
-    return redirect(obj)
+    return redirect_param(obj, '#repository')
 
 
 @require_POST
@@ -120,7 +120,7 @@ def unlock_subproject(request, project, subproject):
         _('Component is now open for translation updates.')
     )
 
-    return redirect(obj)
+    return redirect_param(obj, '#repository')
 
 
 @require_POST
@@ -141,7 +141,7 @@ def lock_project(request, project):
         _('All components are now locked for translation updates!')
     )
 
-    return redirect(obj)
+    return redirect_param(obj, '#repository')
 
 
 @require_POST
@@ -160,4 +160,4 @@ def unlock_project(request, project):
         _('Project is now open for translation updates.')
     )
 
-    return redirect(obj)
+    return redirect_param(obj, '#repository')

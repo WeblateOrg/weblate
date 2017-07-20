@@ -66,29 +66,26 @@ class LockTest(FixtureTestCase):
         response = self.client.post(
             reverse('lock_subproject', kwargs=self.kw_subproject)
         )
-        self.assertRedirects(
-            response,
+        redirect_url = '{}#repository'.format(
             reverse('subproject', kwargs=self.kw_subproject)
         )
+        self.assertRedirects(response, redirect_url)
         self.assert_component_locked()
 
         response = self.client.post(
             reverse('unlock_subproject', kwargs=self.kw_subproject)
         )
-        self.assertRedirects(
-            response,
-            reverse('subproject', kwargs=self.kw_subproject)
-        )
+        self.assertRedirects(response, redirect_url)
         self.assert_component_not_locked()
 
     def test_project(self):
         response = self.client.post(
             reverse('lock_project', kwargs=self.kw_project)
         )
-        self.assertRedirects(
-            response,
+        redirect_url = '{}#repository'.format(
             reverse('project', kwargs=self.kw_project)
         )
+        self.assertRedirects(response, redirect_url)
         self.assert_component_locked()
 
         response = self.client.get(
@@ -102,29 +99,23 @@ class LockTest(FixtureTestCase):
         response = self.client.post(
             reverse('unlock_project', kwargs=self.kw_project)
         )
-        self.assertRedirects(
-            response,
-            reverse('project', kwargs=self.kw_project)
-        )
+        self.assertRedirects(response, redirect_url)
         self.assert_component_not_locked()
 
     def test_translation(self):
         response = self.client.post(
             reverse('lock_translation', kwargs=self.kw_translation)
         )
-        self.assertRedirects(
-            response,
+        redirect_url = '{}#locking'.format(
             reverse('translation', kwargs=self.kw_translation)
         )
+        self.assertRedirects(response, redirect_url)
         self.assertTrue(self.get_translation().is_user_locked())
 
         response = self.client.post(
             reverse('unlock_translation', kwargs=self.kw_translation)
         )
-        self.assertRedirects(
-            response,
-            reverse('translation', kwargs=self.kw_translation)
-        )
+        self.assertRedirects(response, redirect_url)
         self.assertFalse(self.get_translation().is_user_locked())
 
         response = self.client.post(
