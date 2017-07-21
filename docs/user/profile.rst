@@ -26,11 +26,11 @@ and their translation progress.
 
 By default, this will show the components of projects you are watching,
 cross-referenced with your preferred languages.  You can switch to different
-views using the drop-down menu on the highlighted button.
+views using the navigation tabs.
 
 .. image:: ../images/dashboard-dropdown.png
 
-The drop-down will have several options:
+The tabs will show several options:
 
 - :guilabel:`All projects` will show translation status of all projects on the
   Weblate instance.
