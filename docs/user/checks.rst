@@ -86,7 +86,7 @@ Trailing stop
 Source and translated do not both end with a full stop. Full stop is also
 checked in various language variants (Chinese, Japanese, Devanagari or Urdu).
 
-Whet the original string is a sentence, the translated one should be sentence
+When the original string is a sentence, the translated one should be a sentence
 as well to be consistent within the translated content.
 
 .. _check-end-colon:
@@ -333,7 +333,7 @@ Ellipsis
 
 The string uses three dots (``...``) instead of an ellipsis character (``…``).
 
-Using Unicode character is in most cases better approach and looks better when
+Using Unicode character is in most cases the better approach and looks better when
 rendered.
 
 .. seealso::
@@ -346,9 +346,9 @@ Multiple failing checks
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 More translations of this string have some failed quality checks. This is
-usually indication that something could be done about improving the source
+usually an indication that something could be done about improving the source
 string.
 
-This check can be quite often caused by missing full stop at the end of
-sentence or similar minor issues which translators tend to fix in
+This check can quite often be caused by a missing full stop at the end of
+a sentence or similar minor issues which translators tend to fix in
 translations, while it would be better to fix it in a source string.
