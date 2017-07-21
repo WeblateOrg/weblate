@@ -26,13 +26,12 @@ from django.conf import settings
 from django.contrib.sites.models import Site
 from django.shortcuts import render
 from django.contrib.admin.views.decorators import staff_member_required
-from django.contrib import admin
 from django.utils.translation import ugettext as _
 
 import six
 
 from weblate.trans.models import SubProject, IndexUpdate
-from weblate import settings_example
+from weblate import settings_example, admin
 from weblate.accounts.avatar import HAS_LIBRAVATAR
 from weblate.trans.util import (
     get_configuration_errors, HAS_PYUCA, check_domain
@@ -47,7 +46,7 @@ import weblate
 @staff_member_required
 def report(request):
     """Provide report about git status of all repos."""
-    context = admin.site.each_context(request)
+    context = admin.SITE.each_context(request)
     context['subprojects'] = SubProject.objects.all()
     return render(
         request,
@@ -219,7 +218,7 @@ def performance(request):
         settings.STATIC_ROOT,
     ))
 
-    context = admin.site.each_context(request)
+    context = admin.SITE.each_context(request)
     context['checks'] = checks
     context['errors'] = get_configuration_errors()
 
@@ -250,7 +249,7 @@ def ssh(request):
     if action == 'add-host':
         add_host_key(request)
 
-    context = admin.site.each_context(request)
+    context = admin.SITE.each_context(request)
     context['public_key'] = key
     context['can_generate'] = can_generate
     context['host_keys'] = get_host_keys()
