@@ -4,7 +4,7 @@ Translation progress reporting
 It is often useful to be able to see how translation progresses over given
 period. For this purpose Weblate includes reporting features, where you can
 obtain summaries of contributions to given component over time. You can find
-the reporting tool in the :guilabel:`Tools` menu for a translation component:
+the reporting tool in the :guilabel:`Insights` menu for a translation component:
 
 .. image:: ../images/reporting.png
     
