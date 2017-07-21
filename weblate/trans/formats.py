@@ -1203,6 +1203,7 @@ class WebExtensionJSONFormat(JSONFormat):
     format_id = 'webextension'
     loader = ('jsonl10n', 'WebExtensionJsonFile')
     monolingual = True
+    autoload = (('messages', '.json'),)
 
 
 @register_fileformat
