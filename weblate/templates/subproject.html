@@ -38,6 +38,9 @@
       <li><a href="#activity" data-toggle="tab" data-load="activity" data-yearly="{% url 'yearly_activity' project=object.project.slug subproject=object.slug %}" data-monthly="{% url 'monthly_activity' project=object.project.slug subproject=object.slug %}">{% trans "Activity" %}</a></li>
       <li><a href="{% url 'export_stats' project=object.project.slug subproject=object.slug %}?format=csv">{% trans "Download statistics (CSV)" %}</a></li>
       <li><a href="{% url 'export_stats' project=object.project.slug subproject=object.slug %}?format=json">{% trans "Download statistics (JSON)" %}</a></li>
+      {% if user_can_view_reports %}
+      <li><a href="#reports" data-toggle="tab">{% trans "Translation reports" %}</a></li>
+      {% endif %}
     </ul>
   </li>
   <li class="dropdown">
@@ -61,9 +64,6 @@
       <li><a href="{% url 'screenshots' project=object.project.slug subproject=object.slug %}">{% trans "Manage screenshots" %}</a></li>
       {% if user_can_manage_acl %}
       <li><a href="{{ object.project.get_absolute_url }}#acl">{% trans "Manage users" %}</a></li>
-      {% endif %}
-      {% if user_can_view_reports %}
-      <li><a href="#reports" data-toggle="tab">{% trans "Translation reports" %}</a></li>
       {% endif %}
       {% if object.can_add_language and user_can_add_translation %}
       <li><a href="{% url "new-language" project=object.project.slug subproject=object.slug %}">{% trans "Start new translation" %}</a></li>
