@@ -65,7 +65,7 @@ Translated languages
 ++++++++++++++++++++
 
 Choose here which languages you prefer to translate. These will be offered to
-you on main page to have easier access to translations.
+you on main page for watched projects to have easier access to these translations.
 
 .. image:: ../images/your-translations.png
 
