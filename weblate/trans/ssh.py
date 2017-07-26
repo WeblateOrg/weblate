@@ -40,7 +40,7 @@ RSA_KEY_PUB = 'id_rsa.pub'
 SSH_WRAPPER = 'ssh-weblate-wrapper'
 
 SSH_WRAPPER_TEMPLATE = r'''#!/bin/sh
-ssh \
+exec ssh \
     -o "UserKnownHostsFile={known_hosts}" \
     -o "IdentityFile={identity}" \
     -o StrictHostKeyChecking=yes \
