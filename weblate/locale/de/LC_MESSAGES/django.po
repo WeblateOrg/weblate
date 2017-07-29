@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-07-21 18:24+0000\n"
-"PO-Revision-Date: 2017-07-25 17:47+0000\n"
+"PO-Revision-Date: 2017-07-29 00:53+0000\n"
 "Last-Translator: Bamstam <max.strube@posteo.de>\n"
 "Language-Team: German "
 "<https://hosted.weblate.org/projects/weblate/master/de/>\n"
@@ -288,7 +288,9 @@ msgstr "Authentifizierungsversuch mittels {method} ({name}) fehlgeschlagen."
 
 #: weblate/accounts/models.py:82
 msgid "Account locked due to excessive failed authentication attempts."
-msgstr "Konto durch viele fehlgeschlagene Authentifizierungsversuche gesperrt."
+msgstr ""
+"Benutzerkonto ist wegen zu vielen fehlgeschlagenen "
+"Authentifizierungsversuchen gesperrt."
 
 #: weblate/accounts/models.py:85
 msgid "Account and all private data have been removed."
@@ -1401,7 +1403,8 @@ msgstr ""
 msgid ""
 "Source code has to be publicly available in supported version control system."
 msgstr ""
-"Der Quellcode muss öffentlich zugänglich in einer Versionsverwaltung sein."
+"Der Quellcode muss in einer unterstützten Versionsverwaltung öffentlich "
+"zugänglich bereitgestellt werden."
 
 #: weblate/templates/accounts/hosting.html:38
 msgid "There is no guarantee for service availability or quality."
@@ -1520,7 +1523,7 @@ msgstr "Audit-Protokoll"
 #: weblate/templates/accounts/profile.html:30
 #: weblate/templates/accounts/profile.html:349
 msgid "API access"
-msgstr "API Zugang"
+msgstr "API-Zugang"
 
 #: weblate/templates/accounts/profile.html:32
 #: weblate/templates/billing/overview.html:6
@@ -1905,7 +1908,7 @@ msgstr "Letzte Änderungen"
 
 #: weblate/templates/accounts/user.html:55
 msgid "Browse all changes for user"
-msgstr "Alle Änderungen des Benutzers durchsehen"
+msgstr "Alle Änderungen des Benutzers durchsuchen"
 
 #: weblate/templates/activity-tab.html:5
 msgid "Activity in last 30 days"
@@ -2687,6 +2690,7 @@ msgid "Bosnian (cyrillic)"
 msgstr "Bosnisch (Kyrillisch)"
 
 #: weblate/templates/i18n.html:53
+#, fuzzy
 msgid "Bosnian (latin)"
 msgstr "Weißrussisch (lateinisch)"
 
@@ -3100,7 +3104,7 @@ msgstr "Lettisch"
 
 #: weblate/templates/i18n.html:156
 msgid "Limburgish"
-msgstr "Luxemburgisch"
+msgstr "Limburgisch"
 
 #: weblate/templates/i18n.html:157
 msgid "Lingala"
@@ -4484,7 +4488,7 @@ msgstr ""
 
 #: weblate/templates/new-language.html:27
 msgid "Please choose the language into which you would like to translate."
-msgstr "Bitte wählen Sie eine Sprache, in die Sie gerne übersetzen möchten."
+msgstr "Bitte wählen Sie die Sprache, in die Sie gerne übersetzen möchten."
 
 #: weblate/templates/new-language.html:29
 msgid ""
@@ -5354,7 +5358,7 @@ msgstr "Die Sperre endet:"
 
 #: weblate/templates/translation.html:262
 msgid "Translation is currently not locked."
-msgstr "Die Überstzung ist momentan nicht gesperrt."
+msgstr "Die Übersetzung ist momentan nicht gesperrt."
 
 #: weblate/templates/translation.html:301
 #: weblate/templates/translation.html:348
@@ -5904,11 +5908,13 @@ msgstr ""
 
 #: weblate/trans/checks/source.py:66
 msgid "Multiple failing checks"
-msgstr "Mehrfach fehlgeschlagene Prüfungen"
+msgstr "Mehrfach fehlgeschlagene Überpüfungen"
 
 #: weblate/trans/checks/source.py:68
 msgid "The translations in several languages have failing checks"
-msgstr "Die Übersetzungen in mehreren Sprachen haben fehlgeschlagene Prüfungen"
+msgstr ""
+"In mehreren Sprachen liegen bei den Übersetzungen fehlgeschlagene "
+"Überprüfungen vor"
 
 #: weblate/trans/context_processors.py:52
 msgid "Hosted Weblate, the place to translate your software project."
@@ -6317,7 +6323,7 @@ msgstr "Übersetzungen seit %s begutachten"
 #: weblate/trans/forms.py:922
 msgctxt "Select starting letter in glossary"
 msgid "Any"
-msgstr "Beliebig"
+msgstr "Alle"
 
 #: weblate/trans/forms.py:924
 msgid "Starting letter"
@@ -6780,8 +6786,8 @@ msgstr "Versionsverwaltung"
 msgid ""
 "Version control system to use to access your repository with translations."
 msgstr ""
-"Versionsverwaltung, das zum Zugreifen auf Ihre Paketquelle mit Übersetzungen "
-"verwendet werden soll."
+"Versionsverwaltung, die für den Zugriff auf die Paketquelle mit den "
+"Übersetzungen verwendet werden soll."
 
 #: weblate/trans/models/subproject.py:162
 msgid ""
@@ -7076,7 +7082,7 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:428
 msgid "Commit message when translating"
-msgstr "Commit Nachricht für Übersetzung"
+msgstr "Commit-Nachricht für Übersetzung"
 
 #: weblate/trans/models/subproject.py:430
 #: weblate/trans/models/subproject.py:439
@@ -7208,7 +7214,7 @@ msgid "The mask did not match any files!"
 msgstr "Es wurden keine auf das Suchmuster passenden Dateien gefunden!"
 
 #: weblate/trans/models/subproject.py:1155
-#, python-format
+#, fuzzy, python-format
 msgid "Got empty language code for %s, please check filemask!"
 msgstr ""
 "Es gab einen leeren Sprachcode für %s, bitte überprüfen Sie die Dateimaske!"
@@ -7490,7 +7496,7 @@ msgstr "[Hostname gehasht]"
 
 #: weblate/trans/ssh.py:136
 msgid "Created new SSH key."
-msgstr "Neuer SSH Schlüssel wurde erzeugt."
+msgstr "Neuer SSH-Schlüssel wurde erzeugt."
 
 #: weblate/trans/ssh.py:140
 #, python-format
@@ -8083,7 +8089,7 @@ msgstr[1] ""
 
 #: weblate/trans/views/edit.py:678
 msgid "Posted new comment"
-msgstr "Neuer Kommentar geschrieben"
+msgstr "Neuer Kommentar wurde erstellt"
 
 #: weblate/trans/views/edit.py:680
 msgid "Failed to add comment!"
