@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-07-21 18:24+0000\n"
-"PO-Revision-Date: 2017-07-23 18:31+0000\n"
+"PO-Revision-Date: 2017-07-30 19:04+0000\n"
 "Last-Translator: jan madsen <jsm@janz.dk>\n"
 "Language-Team: Danish "
 "<https://hosted.weblate.org/projects/weblate/master/da/>\n"
@@ -131,10 +131,8 @@ msgid "Activation email will be sent here."
 msgstr "Aktiverings-e-mail bliver sendt hertil."
 
 #: weblate/accounts/forms.py:401
-#, fuzzy
-#| msgid "Too many authentication attempts!"
 msgid "Too many registration attempts!"
-msgstr "For mange godkendelsesforsøg!"
+msgstr "Alt for mange registreringsforsøg!"
 
 #: weblate/accounts/forms.py:408
 msgid "New password"
@@ -145,9 +143,8 @@ msgid "New password confirmation"
 msgstr "Bekræftelse af ny adgangskode"
 
 #: weblate/accounts/forms.py:431
-#, fuzzy
 msgid "You can not change password to the one you were using!"
-msgstr "Du kan ikke ændre adgangskoden til den, du bruger i øjeblikket!"
+msgstr "Den nye adgangskode skal være forskellig fra den gamle!"
 
 #: weblate/accounts/forms.py:457
 msgid "Your password has been changed."
@@ -261,12 +258,10 @@ msgid "Successfully authenticated using {method} ({name})."
 msgstr "Godkendt ved hjælp af {method} ({name})."
 
 #: weblate/accounts/models.py:73
-#, fuzzy
 msgid "Somebody has attempted to register with your email."
 msgstr "Nogen har forsøgt at registrere med din e-mail."
 
 #: weblate/accounts/models.py:76
-#, fuzzy
 msgid "Somebody has attempted to add your email to existing account."
 msgstr "Nogen har forsøgt at tilføje din e-mail til en eksisterende konto."
 
@@ -449,27 +444,23 @@ msgid "Your password can't consist of single character or whitespace only."
 msgstr "Adgangskoden kan ikke bestå kun af et enkelt tegn eller mellemrum."
 
 #: weblate/accounts/pipeline.py:275
-#, fuzzy
 msgid "You can not complete password reset while logged in!"
-msgstr ""
-"Du kan ikke fuldføre nulstilling af adgangskoden, mens du er logget ind!"
+msgstr "Adgangskoden kan ikke nulstilles, når du er logget ind!"
 
 #: weblate/accounts/pipeline.py:279 weblate/accounts/pipeline.py:303
 msgid "The registration link has been invalidated."
 msgstr "Registreringslink er ugyldigt."
 
 #: weblate/accounts/pipeline.py:294
-#, fuzzy
 msgid "You can not complete registration while logged in!"
-msgstr "Du kan ikke fuldføre registreringen, mens du er logget ind!"
+msgstr "Registreringen kan ikke fuldføres, så længe du er logget ind!"
 
 #: weblate/accounts/pipeline.py:299
-#, fuzzy
 msgid "You can confirm your registration only while logged in!"
-msgstr "Du kan kun bekræfte din tilmelding, mens du er logget ind!"
+msgstr "Tilmelding kan kun bekræftes, mens du er logget ind!"
 
 #: weblate/accounts/pipeline.py:424
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "Your email no longer belongs to verified account, it has been changed to {0}."
 msgstr ""
@@ -493,7 +484,6 @@ msgid "You cannot change demo account on the demo server."
 msgstr "Du kan ikke ændre demokontoen på demoserveren."
 
 #: weblate/accounts/views.py:187
-#, fuzzy
 msgid "Too many attempts, you have been logged out!"
 msgstr "Alt for mange forsøg, du er blevet logget ud!"
 
@@ -541,10 +531,8 @@ msgid "Change password"
 msgstr "Skift adgangskode"
 
 #: weblate/accounts/views.py:678
-#, fuzzy
-#| msgid "Password reset has been requested."
 msgid "Password reset has been already completed!"
-msgstr "Anmodning om nulstilling af adgangskoden."
+msgstr "Nulstilling af adgangskoden er allerede afsluttet!"
 
 #: weblate/accounts/views.py:695 weblate/accounts/views.py:746
 #: weblate/templates/accounts/reset.html:7
@@ -565,36 +553,29 @@ msgstr ""
 "udløbet. Prøv at registrere igen."
 
 #: weblate/accounts/views.py:846
-#, fuzzy
 msgid "Authentication failed due to invalid session state."
 msgstr "Godkendelse mislykkedes på grund af ugyldigt sessionstilstand."
 
 #: weblate/accounts/views.py:860
-#, fuzzy
-#| msgid "Can not reset password, email authentication is disabled!"
 msgid "Can not change authentication for demo!"
-msgstr "Kan ikke ændre godkendelse for demo!"
+msgstr "Godkendelse for demo kan ikke ændres!"
 
 #: weblate/accounts/views.py:864
 msgid "New registrations are disabled!"
 msgstr "Nye registreringer er deaktiveret!"
 
 #: weblate/accounts/views.py:871
-#, fuzzy
 msgid ""
 "Authentication has failed, probably due to expired token or connection error."
 msgstr ""
-"Godkendelse har sandsynligvis mislykkedes på grund af udløbet token eller "
+"Godkendelsen mislykkedes, sandsynligvis på grund af et udløbet token eller "
 "forbindelsesfejl."
 
 #: weblate/accounts/views.py:875
-#, fuzzy
-#| msgid "Authentication using {method} ({name}) has been added."
 msgid "Authentication has been cancelled."
 msgstr "Godkendelse er blevet annulleret."
 
 #: weblate/accounts/views.py:878
-#, fuzzy
 msgid ""
 "Failed to complete your registration! This authentication, email or username "
 "are already associated with another account!"
@@ -863,10 +844,9 @@ msgstr "Flertalsform %d"
 
 #. Translators: Label for plurals with example counts
 #: weblate/lang/models.py:504
-#, fuzzy, python-brace-format
-#| msgid "Failed to compile: {0}"
+#, python-brace-format
 msgid "For example: {0}"
-msgstr "Lykkedes ikke at kompilere: {0}"
+msgstr "For eksempel: {0}"
 
 #: weblate/legal/templates/legal/cookies.html:5
 #: weblate/legal/templates/legal/index.html:5
@@ -898,17 +878,15 @@ msgid "We use cookies for following purposes:"
 msgstr "Cookies anvendes til følgende formål:"
 
 #: weblate/legal/templates/legal/cookies.html:29
-#, fuzzy
 msgid ""
 "Authentication cookies which are required for recognizing authenticated "
 "users."
 msgstr ""
-"Godkendelse cookies, som er nødvendige for at genkende godkendte brugere."
+"Godkendelsescookies, som er nødvendige for at genkende godkendte brugere."
 
 #: weblate/legal/templates/legal/cookies.html:30
-#, fuzzy
 msgid "Preferences cookie to store user preferences in certain situations."
-msgstr "Præferencer cookie til at gemme brugerpræferencer i visse situationer."
+msgstr "Præferencecookie til at gemme brugerpræferencer i visse situationer."
 
 #: weblate/legal/templates/legal/cookies.html:31
 msgid ""
@@ -927,9 +905,8 @@ msgstr ""
 "HTTP_cookie\">Wikipedia-artikel</a>."
 
 #: weblate/legal/templates/legal/index.html:15
-#, fuzzy
 msgid "Legal Terms Overview"
-msgstr "Juridisk overblik"
+msgstr "Oversigt over juridiske vilkår"
 
 #: weblate/legal/templates/legal/index.html:24
 #, fuzzy
@@ -948,7 +925,6 @@ msgstr ""
 "de respektive kontrakter."
 
 #: weblate/legal/templates/legal/index.html:26
-#, fuzzy
 msgid ""
 "We process private data (such as your email), those will be discarded from "
 "our database as soon as you remove your account."
@@ -966,9 +942,8 @@ msgstr ""
 "hver enkelt oversættelse."
 
 #: weblate/legal/templates/legal/index.html:28
-#, fuzzy
 msgid "Your name and email is used in VCS commits, it will stay there forever."
-msgstr "Dit navn og e-mail bruges i VCS, de bliver der for evigt."
+msgstr "Dit navn og e-mail bruges i VCS, der bliver de for evigt."
 
 #: weblate/legal/templates/legal/index.html:29
 #, fuzzy
@@ -1065,8 +1040,6 @@ msgid "VCS"
 msgstr "VCS"
 
 #: weblate/permissions/models.py:52
-#, fuzzy
-#| msgid "Versions"
 msgid "Filtered permissions"
 msgstr "Filtrerede tilladelser"
 
@@ -1703,10 +1676,8 @@ msgid "Hidden"
 msgstr "Skjult"
 
 #: weblate/templates/accounts/profile.html:322
-#, fuzzy
-#| msgid "No recent activity has been recorded."
 msgid "No recent activity found!"
-msgstr "Ingen seneste aktivitet fundet!"
+msgstr "Ingen nylig aktivitet fundet!"
 
 #: weblate/templates/accounts/profile.html:327
 msgid "Report suspicious activity"
@@ -2529,7 +2500,6 @@ msgid "Acholi"
 msgstr "Acholi"
 
 #: weblate/templates/i18n.html:21
-#, fuzzy
 msgid "Afar"
 msgstr "Afar"
 
@@ -2638,8 +2608,6 @@ msgid "Bengali (India)"
 msgstr "Bengali (Indien)"
 
 #: weblate/templates/i18n.html:48
-#, fuzzy
-#| msgid "Songhai languages"
 msgid "Bihari languages"
 msgstr "Bihari sprog"
 
@@ -2824,7 +2792,6 @@ msgid "Estonian"
 msgstr "Estisk"
 
 #: weblate/templates/i18n.html:94
-#, fuzzy
 msgid "Ewe"
 msgstr "Ewe"
 
@@ -2877,8 +2844,6 @@ msgid "Galician"
 msgstr "Galicisk"
 
 #: weblate/templates/i18n.html:107
-#, fuzzy
-#| msgid "Danda"
 msgid "Ganda"
 msgstr "Ganda"
 
@@ -2891,7 +2856,6 @@ msgid "German"
 msgstr "Tysk"
 
 #: weblate/templates/i18n.html:110
-#, fuzzy
 msgid "Gikuyu"
 msgstr "Gikuyu"
 
@@ -2904,7 +2868,6 @@ msgid "Greenlandic"
 msgstr "Grønlandsk"
 
 #: weblate/templates/i18n.html:113
-#, fuzzy
 msgid "Guarani"
 msgstr "Guarani"
 
@@ -2933,7 +2896,6 @@ msgid "Hebrew"
 msgstr "Hebraisk"
 
 #: weblate/templates/i18n.html:120
-#, fuzzy
 msgid "Herero"
 msgstr "Herero"
 
@@ -2942,7 +2904,6 @@ msgid "Hindi"
 msgstr "Hindi"
 
 #: weblate/templates/i18n.html:122
-#, fuzzy
 msgid "Hiri Motu"
 msgstr "Hiri Motu"
 
@@ -2955,7 +2916,6 @@ msgid "Icelandic"
 msgstr "Islandsk"
 
 #: weblate/templates/i18n.html:125
-#, fuzzy
 msgid "Ido"
 msgstr "Ido"
 
@@ -2972,12 +2932,10 @@ msgid "Interlingua"
 msgstr "Interlingua"
 
 #: weblate/templates/i18n.html:129
-#, fuzzy
 msgid "Inuktitut"
 msgstr "Inuktitut"
 
 #: weblate/templates/i18n.html:130
-#, fuzzy
 msgid "Inupiaq"
 msgstr "Inupiaq"
 
@@ -3006,7 +2964,6 @@ msgid "Kannada"
 msgstr "Kannaresisk"
 
 #: weblate/templates/i18n.html:137
-#, fuzzy
 msgid "Kanuri"
 msgstr "Kanuri"
 
@@ -3039,19 +2996,16 @@ msgid "Klingon (pIqaD)"
 msgstr "Klingon (pIqaD)"
 
 #: weblate/templates/i18n.html:145
-#, fuzzy
 msgid "Komi"
 msgstr "Komi"
 
 #: weblate/templates/i18n.html:146
-#, fuzzy
 msgid "Kongo"
 msgstr "Kongo"
 
 #: weblate/templates/i18n.html:147
-#, fuzzy
 msgid "Konkani"
-msgstr "konkani"
+msgstr "Konkani"
 
 #: weblate/templates/i18n.html:148
 msgid "Korean"
@@ -3066,7 +3020,6 @@ msgid "Kurdish Sorani"
 msgstr "Sorani"
 
 #: weblate/templates/i18n.html:151
-#, fuzzy
 msgid "Kwanyama"
 msgstr "Kwanyama"
 
@@ -3107,7 +3060,6 @@ msgid "Low German"
 msgstr "Plattysk"
 
 #: weblate/templates/i18n.html:161
-#, fuzzy
 msgid "Luba-Katanga"
 msgstr "Luba-Katanga"
 
@@ -3148,7 +3100,6 @@ msgid "Manipuri"
 msgstr "Manipuri"
 
 #: weblate/templates/i18n.html:171
-#, fuzzy
 msgid "Manx"
 msgstr "Manx"
 
@@ -3177,9 +3128,8 @@ msgid "Mongolian"
 msgstr "Mongolsk"
 
 #: weblate/templates/i18n.html:178
-#, fuzzy
 msgid "Montenegrin"
-msgstr "Montenegro"
+msgstr "Montenegrinsk"
 
 #: weblate/templates/i18n.html:179
 msgid "Morisyen"
@@ -3194,20 +3144,16 @@ msgid "Nahuatl languages"
 msgstr "Nahuatl-sprog"
 
 #: weblate/templates/i18n.html:182
-#, fuzzy
 msgid "Nauru"
 msgstr "Nauru"
 
 #: weblate/templates/i18n.html:183
-#, fuzzy
 msgid "Navaho"
-msgstr "Navaho"
+msgstr "Navajo"
 
 #: weblate/templates/i18n.html:184
-#, fuzzy
-#| msgid "Tsonga"
 msgid "Ndonga"
-msgstr "Tsonga"
+msgstr "Ndonga"
 
 #: weblate/templates/i18n.html:185
 msgid "Neapolitan"
@@ -3218,7 +3164,6 @@ msgid "Nepali"
 msgstr "Nepalesisk"
 
 #: weblate/templates/i18n.html:187
-#, fuzzy
 msgid "North Ndebele"
 msgstr "Nord-Ndebele"
 
@@ -3239,7 +3184,6 @@ msgid "Norwegian Nynorsk"
 msgstr "Nynorsk"
 
 #: weblate/templates/i18n.html:192
-#, fuzzy
 msgid "Nuosu"
 msgstr "Nuosu"
 
@@ -3248,19 +3192,16 @@ msgid "Nyanja"
 msgstr "Nyanja"
 
 #: weblate/templates/i18n.html:194
-#, fuzzy
-#| msgid "Occitan"
 msgid "Occidental"
-msgstr "Occitansk"
+msgstr "Occidental"
 
 #: weblate/templates/i18n.html:195
 msgid "Occitan"
 msgstr "Occitansk"
 
 #: weblate/templates/i18n.html:196
-#, fuzzy
 msgid "Odia"
-msgstr "Odia"
+msgstr "Oriya"
 
 #: weblate/templates/i18n.html:197
 msgid "Ojibwe"
@@ -3275,17 +3216,14 @@ msgid "Old Church Slavonic"
 msgstr "Oldkirkeslavisk"
 
 #: weblate/templates/i18n.html:200
-#, fuzzy
-#| msgid "Promote"
 msgid "Oromo"
-msgstr "Promovér"
+msgstr "Oromo"
 
 #: weblate/templates/i18n.html:201
 msgid "Ossetian"
 msgstr "Ossetiske"
 
 #: weblate/templates/i18n.html:202
-#, fuzzy
 msgid "Pali"
 msgstr "Pali"
 
@@ -3346,7 +3284,6 @@ msgid "Romansh"
 msgstr "Rætoromansk"
 
 #: weblate/templates/i18n.html:217
-#, fuzzy
 msgid "Rundi"
 msgstr "Rundi"
 
@@ -3360,7 +3297,6 @@ msgid "Rusyn"
 msgstr "Russinsk"
 
 #: weblate/templates/i18n.html:220
-#, fuzzy
 msgid "Samoan"
 msgstr "Samoansk"
 
@@ -3406,10 +3342,8 @@ msgid "Shona"
 msgstr "Shona"
 
 #: weblate/templates/i18n.html:231
-#, fuzzy
-#| msgid "Frisian"
 msgid "Silesian"
-msgstr "Frisisk"
+msgstr "Schlesisk"
 
 #: weblate/templates/i18n.html:232
 msgid "Sindhi"
@@ -3440,7 +3374,6 @@ msgid "Sotho"
 msgstr "Sesotho"
 
 #: weblate/templates/i18n.html:239
-#, fuzzy
 msgid "South Ndebele"
 msgstr "Syd Ndebele"
 
@@ -3477,7 +3410,6 @@ msgid "Swahili"
 msgstr "Swahili"
 
 #: weblate/templates/i18n.html:248
-#, fuzzy
 msgid "Swati"
 msgstr "Swati"
 
@@ -3526,18 +3458,16 @@ msgid "Tigrinya"
 msgstr "Tigrinja"
 
 #: weblate/templates/i18n.html:260
-#, fuzzy
 msgid "Tonga (Tonga Islands)"
-msgstr "Tonga (Tonga-Øerne)"
+msgstr "Tongansk (Tonga-Øerne)"
 
 #: weblate/templates/i18n.html:261
 msgid "Tsonga"
 msgstr "Tsonga"
 
 #: weblate/templates/i18n.html:262
-#, fuzzy
 msgid "Tswana"
-msgstr "Tswana"
+msgstr "Setswana"
 
 #: weblate/templates/i18n.html:263
 msgid "Turkish"
@@ -3548,11 +3478,8 @@ msgid "Turkmen"
 msgstr "Turkmensk"
 
 #: weblate/templates/i18n.html:265
-#, fuzzy
-#| msgctxt "Plural form description"
-#| msgid "Two"
 msgid "Twi"
-msgstr "To"
+msgstr "Twi"
 
 #: weblate/templates/i18n.html:266
 msgid "Uighur"
@@ -3619,7 +3546,6 @@ msgid "Wolof"
 msgstr "Wolof"
 
 #: weblate/templates/i18n.html:282
-#, fuzzy
 msgid "Xhosa"
 msgstr "Xhosa"
 
@@ -3636,9 +3562,8 @@ msgid "Yoruba"
 msgstr "Yoruba"
 
 #: weblate/templates/i18n.html:286
-#, fuzzy
 msgid "Yue"
-msgstr "Yue"
+msgstr "Kantonesisk"
 
 #: weblate/templates/i18n.html:287
 msgid "Zulu"
@@ -4846,13 +4771,10 @@ msgid "Reports number of strings and words translated by each translator."
 msgstr "Rapporterer antallet af strenge og ord oversat af hver oversætter."
 
 #: weblate/templates/subproject_info.html:11
-#, fuzzy
-#| msgid "Translation reports"
 msgid "Translation process"
-msgstr "Oversættelsesrapporter"
+msgstr "Oversættelsesproces"
 
 #: weblate/templates/subproject_info.html:15
-#, fuzzy
 msgid "Translations can be made only through suggesting."
 msgstr "Oversættelser kan kun foretages med foreslag."
 
@@ -4871,18 +4793,14 @@ msgstr[1] ""
 "stemner."
 
 #: weblate/templates/subproject_info.html:18
-#, fuzzy
-#| msgid "Translations made"
 msgid "Translations can be made directly."
 msgstr "Oversættelser kan foretages direkte."
 
 #: weblate/templates/subproject_info.html:21
-#, fuzzy
 msgid "Only selected users can contribute."
 msgstr "Kun udvalgte brugere kan bidrage."
 
 #: weblate/templates/subproject_info.html:23
-#, fuzzy
 msgid "Any authenticated users can contribute."
 msgstr "Alle godkendte brugere kan bidrage."
 
@@ -4913,8 +4831,6 @@ msgid "Follow using RSS"
 msgstr "Følg ved hjælp af RSS"
 
 #: weblate/templates/trans/other-row.html:7
-#, fuzzy
-#| msgid "Use this translation"
 msgid "This translation"
 msgstr "Denne oversættelse"
 
@@ -5112,10 +5028,8 @@ msgid "Translations of this unit to other languages"
 msgstr "Oversættelser af enheden til andre sprog"
 
 #: weblate/templates/translate.html:209
-#, fuzzy
-#| msgid "Songhai languages"
 msgid "Other languages"
-msgstr "Bihari sprog"
+msgstr "Andre sprog"
 
 #: weblate/templates/translate.html:210
 msgid "List of recent changes done in Weblate"
@@ -5162,28 +5076,22 @@ msgid "Accept and edit"
 msgstr "Accepter og rediger"
 
 #: weblate/templates/translate.html:291
-#, fuzzy
-#| msgid "This string has been translated in the past"
 msgid "Following string has same context and same source."
 msgid_plural "Following strings have same context and same source."
-msgstr[0] "Denne streng har forskellige sammenhæng, men samme kilde."
-msgstr[1] "Denne streng har forskellige sammenhæng, men samme kilde."
+msgstr[0] "Følgende streng har samme kontekst og samme kilde."
+msgstr[1] "Følgende strenge har samme kontekst og samme kilde."
 
 #: weblate/templates/translate.html:299
-#, fuzzy
-#| msgid "This string has been translated in the past"
 msgid "Following string has different context but same source."
 msgid_plural "Following strings have different contexts but same source."
-msgstr[0] "Denne streng har forskellige sammenhæng, men samme kilde."
-msgstr[1] "Denne streng har forskellige sammenhæng, men samme kilde."
+msgstr[0] "Følgende streng har forskellig kontekst, men samme kilde."
+msgstr[1] "Følgende strenge har forskellige kontekst, men samme kilde."
 
 #: weblate/templates/translate.html:307
-#, fuzzy
-#| msgid "This string has been translated in the past"
 msgid "Following string has different source but same context."
 msgid_plural "Following strings have different sources but same context."
-msgstr[0] "Denne streng har forskellig kilde men samme kontekst."
-msgstr[1] "Denne streng har forskellig kilde men samme kontekst."
+msgstr[0] "Følgende streng har en anden kilde, men samme kontekst."
+msgstr[1] "Følgende strenge har en anden kilde, men samme kontekst."
 
 #: weblate/templates/translate.html:333
 msgid "Service"
@@ -5417,7 +5325,7 @@ msgstr "%(filename)s, oversættelsesenhed %(position)s"
 #, fuzzy
 #| msgid "Enable suggestions"
 msgid "Pending suggestions"
-msgstr "Aktiver forslag"
+msgstr "Verserende forslag"
 
 #: weblate/templates/user-activity.html:15
 msgid "Browse pending"
@@ -5820,16 +5728,12 @@ msgid "C format string does not match source"
 msgstr "C format på streng matcher ikke kilden"
 
 #: weblate/trans/checks/format.py:246
-#, fuzzy
-#| msgid "PHP format"
 msgid "Perl format"
-msgstr "PHP-format"
+msgstr "Perl-format"
 
 #: weblate/trans/checks/format.py:247
-#, fuzzy
-#| msgid "PHP format string does not match source"
 msgid "Perl format string does not match source"
-msgstr "PHP format på streng matcher ikke kilden"
+msgstr "Perl formatstreng stemmer ikke overens med kilden"
 
 #: weblate/trans/checks/format.py:257
 msgid "Javascript format"
@@ -6278,10 +6182,8 @@ msgid "All components in current project"
 msgstr "Alle komponenter i det aktuelle projekt"
 
 #: weblate/trans/forms.py:848
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Invalid integer list!"
-msgstr "Ugyldig heltal liste!"
+msgstr "Ugyldig heltalsliste!"
 
 #: weblate/trans/forms.py:877
 msgid ""
@@ -6431,10 +6333,8 @@ msgid "Translation settings"
 msgstr "Oversættelsesindstillinger"
 
 #: weblate/trans/forms.py:1190
-#, fuzzy
-#| msgid "Version control system"
 msgid "Version control settings"
-msgstr "Versionskontrolsystem"
+msgstr "Version kontrol indstillinger"
 
 #: weblate/trans/forms.py:1211
 msgid "Search string"
