@@ -33,7 +33,6 @@ from weblate.trans.views.changes import ChangesView, ChangesCSVView
 import weblate.accounts.views
 import weblate.lang.views
 import weblate.screenshots.views
-import weblate.trans.admin_views
 import weblate.trans.views.acl
 import weblate.trans.views.api
 import weblate.trans.views.basic
@@ -52,6 +51,7 @@ from weblate.sitemaps import SITEMAPS
 import weblate.accounts.urls
 import weblate.api.urls
 import weblate.wladmin.sites
+import weblate.wladmin.views
 
 # URL regexp for language code
 LANGUAGE = r'(?P<lang>[^/]+)'
@@ -752,17 +752,17 @@ urlpatterns = [
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(
         r'^admin/report/$',
-        weblate.trans.admin_views.report,
+        weblate.wladmin.views.report,
         name='admin-report'
     ),
     url(
         r'^admin/ssh/$',
-        weblate.trans.admin_views.ssh,
+        weblate.wladmin.views.ssh,
         name='admin-ssh'
     ),
     url(
         r'^admin/performance/$',
-        weblate.trans.admin_views.performance,
+        weblate.wladmin.views.performance,
         name='admin-performance'
     ),
     url(r'^admin/', include(weblate.wladmin.sites.SITE.urls)),
