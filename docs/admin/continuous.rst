@@ -194,7 +194,7 @@ more details.
 .. note::
 
    You can also enable automatic pushing changes on commit, this can be done in
-   project configuration.
+   :ref:`component`.
 
 .. seealso::
 
