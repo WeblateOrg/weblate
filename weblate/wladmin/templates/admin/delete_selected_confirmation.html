@@ -1,0 +1,6 @@
+{% extends "admin/delete_selected_confirmation.html" %}
+{% block content %}
+{% with empty_selectable_objects_list as deletable_objects %}
+    {{ block.super }}
+{% endwith %}
+{% endblock %}

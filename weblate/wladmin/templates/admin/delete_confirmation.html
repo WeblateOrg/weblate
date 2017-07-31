@@ -1,0 +1,7 @@
+{% extends "admin/delete_confirmation.html" %}
+{% block content %}
+{% with empty_objects_list as deleted_objects %}
+    {{ block.super }}
+{% endwith %}
+{% endblock %}
+
