@@ -51,7 +51,7 @@ import weblate.trans.views.widgets
 from weblate.sitemaps import SITEMAPS
 import weblate.accounts.urls
 import weblate.api.urls
-import weblate.admin
+import weblate.wladmin.sites
 
 # URL regexp for language code
 LANGUAGE = r'(?P<lang>[^/]+)'
@@ -765,7 +765,7 @@ urlpatterns = [
         weblate.trans.admin_views.performance,
         name='admin-performance'
     ),
-    url(r'^admin/', include(weblate.admin.SITE.urls)),
+    url(r'^admin/', include(weblate.wladmin.sites.SITE.urls)),
 
     # Auth
     url(r'^accounts/', include(weblate.accounts.urls)),

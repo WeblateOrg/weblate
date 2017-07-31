@@ -322,6 +322,9 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'weblate.urls'
 
 INSTALLED_APPS = (
+    # Has to be first to override Django admin templates:
+    'weblate.wladmin',
+
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',

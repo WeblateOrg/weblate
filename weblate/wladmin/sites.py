@@ -144,6 +144,13 @@ class WeblateAdminSite(AdminSite):
         context['title'] = _('Logout')
         return render(request, 'admin/logout-confirm.html', context)
 
+    def each_context(self, request):
+        result = super(WeblateAdminSite, self).each_context(request)
+        result['empty_selectable_objects_list'] = [[_('Object listing disabled')]]
+        result['empty_objects_list'] = [_('Object listing disabled')]
+        return result
+
 
 SITE = WeblateAdminSite()
 SITE.discover()
+

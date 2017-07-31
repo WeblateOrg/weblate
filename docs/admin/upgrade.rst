@@ -510,6 +510,7 @@ Follow generic upgrade instructions, there is no special change.
 Notable configuration or dependencies changes:
 
 * There is change in ``SOCIAL_AUTH_PIPELINE`` default settings.
+* The ``weblate.wladmin`` should now be first in the ``INSTALLED_APPS`` settings.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
