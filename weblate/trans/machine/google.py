@@ -31,6 +31,7 @@ from weblate.trans.machine.base import (
 LANGUAGE_MAP = {
     'he': 'iw',
     'jv': 'jw',
+    'nb': 'no',
 }
 
 GOOGLE_API_ROOT = 'https://translation.googleapis.com/language/translate/v2/'
