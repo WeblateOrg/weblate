@@ -1,13 +1,10 @@
 Upgrading Weblate
 =================
 
-Upgrading
----------
-
 .. _generic-upgrade-instructions:
 
 Generic upgrade instructions
-++++++++++++++++++++++++++++
+----------------------------
 
 Before upgrading, please check current :ref:`requirements` as they might have
 changed. Once all requirements are installed or updated, please adjust your
@@ -87,7 +84,7 @@ every time you are upgrading. You can do this by invoking:
 .. _version-specific-instructions:
 
 Version specific instructions
-+++++++++++++++++++++++++++++
+-----------------------------
 
 Upgrade from 0.5 to 0.6
 ~~~~~~~~~~~~~~~~~~~~~~~
