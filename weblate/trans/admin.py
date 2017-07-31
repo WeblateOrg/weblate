@@ -22,10 +22,10 @@ from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.trans.models import AutoComponentList, Unit
-from weblate.trans.util import WeblateAdmin, sort_choices
+from weblate.trans.util import  sort_choices
 
 
-class ProjectAdmin(WeblateAdmin):
+class ProjectAdmin(admin.ModelAdmin):
     list_display = (
         'name', 'slug', 'web', 'list_admins', 'enable_acl', 'enable_hooks',
         'num_vcs', 'get_total', 'get_source_words', 'get_language_count',
@@ -87,7 +87,7 @@ class ProjectAdmin(WeblateAdmin):
         return result
 
 
-class SubProjectAdmin(WeblateAdmin):
+class SubProjectAdmin(admin.ModelAdmin):
     list_display = [
         'name', 'slug', 'project', 'repo', 'branch', 'vcs', 'file_format'
     ]
@@ -131,7 +131,7 @@ class SubProjectAdmin(WeblateAdmin):
     force_commit.short_description = _('Commit pending changes')
 
 
-class TranslationAdmin(WeblateAdmin):
+class TranslationAdmin(admin.ModelAdmin):
     list_display = [
         'subproject', 'language', 'translated', 'total',
         'fuzzy', 'revision', 'filename', 'enabled'

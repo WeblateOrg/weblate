@@ -18,10 +18,10 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from weblate.trans.util import WeblateAdmin
+from django.contrib import admin
 
 
-class LanguageAdmin(WeblateAdmin):
+class LanguageAdmin(admin.ModelAdmin):
     list_display = ['name', 'code', 'get_plural_form', 'direction']
     search_fields = ['name', 'code']
     list_filter = ('direction', 'plural_type')
