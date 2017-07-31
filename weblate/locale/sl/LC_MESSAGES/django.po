@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-07-21 18:24+0000\n"
+"POT-Creation-Date: 2017-07-31 13:10+0000\n"
 "PO-Revision-Date: 2017-07-18 19:34+0000\n"
 "Last-Translator: Domen <mitenem@outlook.com>\n"
 "Language-Team: Slovenian <https://hosted.weblate.org/projects/weblate/master/"
@@ -121,8 +121,8 @@ msgstr "Vaše ime"
 msgid "Your email"
 msgstr "Vaš e-poštni naslov"
 
-#: weblate/accounts/forms.py:337 weblate/templates/admin/performance.html:47
-#: weblate/trans/models/whiteboard.py:65
+#: weblate/accounts/forms.py:337 weblate/trans/models/whiteboard.py:65
+#: weblate/wladmin/templates/admin/performance.html:47
 msgid "Message"
 msgstr "Sporočilo"
 
@@ -532,7 +532,7 @@ msgstr "Gostovanje"
 msgid "Login"
 msgstr "Prijava"
 
-#: weblate/accounts/views.py:534 weblate/admin.py:141
+#: weblate/accounts/views.py:534 weblate/wladmin/sites.py:144
 msgid "Thanks for using Weblate!"
 msgstr "Hvala, ker uporabljate Weblate!"
 
@@ -599,16 +599,6 @@ msgid ""
 "Failed to complete your registration! This authentication, email or username "
 "are already associated with another account!"
 msgstr ""
-
-#: weblate/admin.py:68 weblate/admin.py:69
-#, fuzzy
-#| msgid "Weblate translations"
-msgid "Weblate administration"
-msgstr "Prevodi Weblate"
-
-#: weblate/admin.py:144 weblate/templates/base.html:126
-msgid "Logout"
-msgstr "Odjava"
 
 #: weblate/billing/admin.py:50 weblate/billing/models.py:122
 #: weblate/templates/accounts/user.html:38
@@ -1536,12 +1526,12 @@ msgstr ""
 #: weblate/templates/accounts/profile.html:134
 #: weblate/templates/accounts/profile.html:169
 #: weblate/templates/accounts/profile.html:243
-#: weblate/templates/accounts/profile.html:286
-#: weblate/templates/admin/performance.html:23
-#: weblate/templates/admin/performance.html:32 weblate/templates/base.html:118
+#: weblate/templates/accounts/profile.html:286 weblate/templates/base.html:118
 #: weblate/templates/check.html:42 weblate/templates/check_project.html:43
 #: weblate/templates/check_subproject.html:44 weblate/templates/checks.html:34
 #: weblate/templates/footer.html:9
+#: weblate/wladmin/templates/admin/performance.html:23
+#: weblate/wladmin/templates/admin/performance.html:32
 msgid "Documentation"
 msgstr "Dokumentacija"
 
@@ -1841,7 +1831,7 @@ msgid "Reset my password"
 msgstr "Ponastavi moje geslo"
 
 #: weblate/templates/accounts/user.html:26
-#: weblate/templates/admin/performance.html:46
+#: weblate/wladmin/templates/admin/performance.html:46
 msgid "Name"
 msgstr "Ime"
 
@@ -1861,172 +1851,6 @@ msgstr "Dejavnost v zadnjih 30 dneh"
 msgid "Activity in last year"
 msgstr "Dejavnost v zadnjem letu"
 
-#: weblate/templates/admin/accounts/change_form.html:8
-#: weblate/templates/admin/trans/change_form.html:20
-#, python-format
-msgid ""
-"Required fields are marked as bold, you can find more information in the <a "
-"href=\"%(url)s\">documentation</a>."
-msgstr ""
-"Obvezna polja so označena krepko; več informacij je na voljo v <a href="
-"\"%(url)s\">dokumentaciji</a>."
-
-#: weblate/templates/admin/custom-index.html:10
-msgid "Reports"
-msgstr "Poročila"
-
-#: weblate/templates/admin/custom-index.html:13
-#: weblate/templates/admin/report.html:4 weblate/templates/admin/report.html:13
-msgid "Status of repositories"
-msgstr "Stanje shramb"
-
-#: weblate/templates/admin/custom-index.html:19
-#: weblate/templates/admin/ssh.html:4 weblate/templates/admin/ssh.html:8
-msgid "SSH keys"
-msgstr "Ključi SSH"
-
-#: weblate/templates/admin/custom-index.html:25
-#: weblate/templates/admin/performance.html:5
-#: weblate/templates/admin/performance.html:14
-msgid "Performance report"
-msgstr "Poročilo o uspešnosti"
-
-#: weblate/templates/admin/logout-confirm.html:23
-msgid "Please confirm your logout."
-msgstr "Prosimo, potrdite svojo odjavo."
-
-#: weblate/templates/admin/logout-confirm.html:26
-msgid "I confirm logout"
-msgstr "Potrjujem odjavo"
-
-#: weblate/templates/admin/performance.html:9
-#: weblate/templates/admin/report.html:8 weblate/templates/admin/ssh.html:8
-msgid "Home"
-msgstr "Domov"
-
-#: weblate/templates/admin/performance.html:9
-msgid "Performance"
-msgstr "Uspešnost"
-
-#: weblate/templates/admin/performance.html:20
-msgid "Check"
-msgstr "Preverjanje"
-
-#: weblate/templates/admin/performance.html:21
-#: weblate/templates/admin/report.html:8 weblate/templates/js/detail.html:17
-#: weblate/templates/js/translations.html:8
-msgid "Status"
-msgstr "Stanje"
-
-#: weblate/templates/admin/performance.html:22
-msgid "Result"
-msgstr "Rezultat"
-
-#: weblate/templates/admin/performance.html:40
-msgid "Configuration errors"
-msgstr "Napake konfiguracije"
-
-#: weblate/templates/admin/report.html:17
-#, python-format
-msgid ""
-"Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
-"%(repo)s</a> instead."
-msgstr ""
-"Ne prikazujem stanja povezane shrambe. Namesto tega preverite <a href=\"#"
-"%(slug)s\">%(repo)s</a>."
-
-#: weblate/templates/admin/ssh.html:14
-msgid "Public SSH key"
-msgstr "Javni ključ SSH"
-
-#: weblate/templates/admin/ssh.html:15
-msgid "Weblate currently uses following SSH key:"
-msgstr "Weblate trenutno uporablja naslednji ključ SSH:"
-
-#: weblate/templates/admin/ssh.html:22
-msgid "Generate SSH key"
-msgstr "Ustvari ključ SSH"
-
-#: weblate/templates/admin/ssh.html:23
-msgid ""
-"You don't seem to have existing SSH key, by pressing button below Weblate "
-"will generate it for you."
-msgstr ""
-"Kot kaže, nimate obstoječega ključa SSH; s klikom na spodnji gumb bo ga "
-"Weblate ustvaril za vas."
-
-#: weblate/templates/admin/ssh.html:27 weblate/templates/subproject.html:180
-#: weblate/templates/subproject.html:201
-msgid "Generate"
-msgstr "Ustvari"
-
-#: weblate/templates/admin/ssh.html:33
-msgid "Known host keys"
-msgstr "Znani gostiteljski ključi"
-
-#: weblate/templates/admin/ssh.html:40
-msgid "Hostname"
-msgstr "Ime gostitelja"
-
-#: weblate/templates/admin/ssh.html:41
-msgid "Key type"
-msgstr "Vrsta ključa"
-
-#: weblate/templates/admin/ssh.html:42
-msgid "Fingerprint"
-msgstr "Prstni odtis"
-
-#: weblate/templates/admin/ssh.html:55
-msgid "Add host key"
-msgstr "Dodaj gostiteljski ključ"
-
-#: weblate/templates/admin/ssh.html:56
-msgid ""
-"To access SSH hosts, its host key needs to be verified. You can get the host "
-"key by entering a domain name or IP for the host in the form below."
-msgstr ""
-"Za dostopanje do gostiteljev SSH morate potrditi njihove gostiteljske "
-"ključe. Gostiteljski ključ lahko pridobite tako, da v spodnji obrazec "
-"vpišete ime domene ali IP gostitelja."
-
-#: weblate/templates/admin/ssh.html:60
-msgid "Host:"
-msgstr "Gostitelj:"
-
-#: weblate/templates/admin/ssh.html:62
-msgid "Port:"
-msgstr "Vrata:"
-
-#: weblate/templates/admin/ssh.html:64
-msgid "Submit"
-msgstr "Potrdi"
-
-#: weblate/templates/admin/ssh.html:67
-msgid "More information"
-msgstr "Več informacij"
-
-#: weblate/templates/admin/ssh.html:69
-#, python-format
-msgid ""
-"You can find more information about setting up SSH keys in <a href="
-"\"%(ssh_docs)s\">the Weblate manual</a>."
-msgstr ""
-"Več informacij o nastavljanju ključev SSH lahko najdetev v <a href="
-"\"%(ssh_docs)s\">priročniku Weblate</a>."
-
-#: weblate/templates/admin/trans/change_form.html:22
-msgid "Do not change this object here, please use Weblate interface instead."
-msgstr "Ne spreminjajte objekta tukaj; uporabite vmesnik Weblate."
-
-#: weblate/templates/admin/trans/change_form.html:26
-#, python-format
-msgid ""
-"Importing a new translation can take some time, please check <a href="
-"\"%(url)s\">our documentation</a> for information on how to improve this."
-msgstr ""
-"Uvažanje novih prevodov lahko traja nekaj časa; prosimo, oglejte si <a href="
-"\"%(url)s\">našo dokumentacijo</a> za informacije, kako to izboljšati."
-
 #: weblate/templates/base.html:94
 msgid "Toggle navigation"
 msgstr "Preklopi krmarjenje"
@@ -2042,6 +1866,10 @@ msgstr "Upravljajte spremljane projekte"
 #: weblate/templates/base.html:124
 msgid "Administration"
 msgstr "Administracija"
+
+#: weblate/templates/base.html:126 weblate/wladmin/sites.py:147
+msgid "Logout"
+msgstr "Odjava"
 
 #: weblate/templates/base.html:150
 msgid ""
@@ -3691,6 +3519,12 @@ msgstr "Registrirajte se za upravljanje svojih jezikov"
 msgid "Browse all component changes"
 msgstr "Brskanje po vseh spremembah komponent"
 
+#: weblate/templates/js/detail.html:17 weblate/templates/js/translations.html:8
+#: weblate/wladmin/templates/admin/performance.html:21
+#: weblate/wladmin/templates/admin/report.html:8
+msgid "Status"
+msgstr "Stanje"
+
 #: weblate/templates/js/detail.html:50 weblate/templates/list-checks.html:9
 #, python-format
 msgid "Ignore: %(check)s"
@@ -4787,6 +4621,11 @@ msgstr ""
 "časovnem obdobju. Lahko so uporabne za vključitev v vašo dokumentacijo ali "
 "aplikacijo, da se zahvalite prevajalcem."
 
+#: weblate/templates/subproject.html:180 weblate/templates/subproject.html:201
+#: weblate/wladmin/templates/admin/ssh.html:27
+msgid "Generate"
+msgstr "Ustvari"
+
 #: weblate/templates/subproject.html:192
 msgid "Contributor stats"
 msgstr "Statistika sodelavca"
@@ -5520,68 +5359,6 @@ msgstr "Posodobi preverjanja kakovosti"
 #: weblate/trans/admin.py:78 weblate/trans/admin.py:131
 msgid "Commit pending changes"
 msgstr "Objavi spremembe v teku"
-
-#: weblate/trans/admin_views.py:81
-msgid "Debug mode"
-msgstr "Razhroščevalni način"
-
-#: weblate/trans/admin_views.py:89
-msgid "Site domain"
-msgstr "Domena strani"
-
-#: weblate/trans/admin_views.py:96
-msgid "Database backend"
-msgstr "Podatkovna baza zaledja"
-
-#: weblate/trans/admin_views.py:103
-msgid "Site administrator"
-msgstr "Skrbnik strani"
-
-#. Translators: Indexing is postponed to cron job
-#: weblate/trans/admin_views.py:112
-msgid "Indexing offloading"
-msgstr "Preusmeritev indeksiranja"
-
-#. Translators: Indexing is postponed to cron job
-#: weblate/trans/admin_views.py:127
-msgid "Indexing offloading processing"
-msgstr "Obdelovanje preusmeritve indeksiranja"
-
-#: weblate/trans/admin_views.py:144
-msgid "Django caching"
-msgstr "Predpomnjenje Django"
-
-#: weblate/trans/admin_views.py:151
-msgid "Avatar caching"
-msgstr "Predpomnjenje avatarjev"
-
-#: weblate/trans/admin_views.py:165
-msgid "Email addresses"
-msgstr "E-poštni naslovi"
-
-#: weblate/trans/admin_views.py:175
-msgid "Federated avatar support"
-msgstr "Podpora povezanim podobam"
-
-#: weblate/trans/admin_views.py:182
-msgid "pyuca library"
-msgstr "Knjižnica pyuca"
-
-#: weblate/trans/admin_views.py:189
-msgid "Secret key"
-msgstr "Skrivni ključ"
-
-#: weblate/trans/admin_views.py:196
-msgid "Allowed hosts"
-msgstr "Dovoljena imena strežnikov"
-
-#: weblate/trans/admin_views.py:205
-msgid "Cached template loader"
-msgstr "Predpomnjen nalagalnik predlog"
-
-#: weblate/trans/admin_views.py:213
-msgid "Admin static files"
-msgstr "Administratorske statične datoteke"
 
 #: weblate/trans/apps.py:34
 msgid "Weblate translations"
@@ -7692,27 +7469,27 @@ msgstr "Sporočilo ima pripombe"
 msgid "unit ID %s"
 msgstr "ID enote %s"
 
-#: weblate/trans/util.py:53
+#: weblate/trans/util.py:52
 msgid "Very high"
 msgstr "Zelo visoka"
 
-#: weblate/trans/util.py:54
+#: weblate/trans/util.py:53
 msgid "High"
 msgstr "Visoka"
 
-#: weblate/trans/util.py:55
+#: weblate/trans/util.py:54
 msgid "Medium"
 msgstr "Srednje"
 
-#: weblate/trans/util.py:56
+#: weblate/trans/util.py:55
 msgid "Low"
 msgstr "Nizka"
 
-#: weblate/trans/util.py:57
+#: weblate/trans/util.py:56
 msgid "Very low"
 msgstr "Zelo nizka"
 
-#: weblate/trans/util.py:195
+#: weblate/trans/util.py:194
 #, python-brace-format
 msgid ""
 "{0} is translated into {1} languages using Weblate. Join the translation or "
@@ -7720,10 +7497,6 @@ msgid ""
 msgstr ""
 "{0} je preveden v {1} jezikov z uporabo Weblate. Pridružite se prevajanju "
 "ali pričnite prevajati svoj projekt."
-
-#: weblate/trans/util.py:257
-msgid "Object listing disabled"
-msgstr "Seznam objektov je onemogočen"
 
 #: weblate/trans/validators.py:30
 msgid "RST text"
@@ -8261,6 +8034,236 @@ msgstr ""
 #| msgid "Unsupported file format: {0}"
 msgid "Unsupported file format."
 msgstr "Nepodprta oblika datoteke: {0}"
+
+#: weblate/wladmin/sites.py:72 weblate/wladmin/sites.py:73
+#, fuzzy
+#| msgid "Weblate translations"
+msgid "Weblate administration"
+msgstr "Prevodi Weblate"
+
+#: weblate/wladmin/sites.py:152
+msgid "Object listing disabled"
+msgstr "Seznam objektov je onemogočen"
+
+#: weblate/wladmin/templates/admin/accounts/change_form.html:8
+#: weblate/wladmin/templates/admin/trans/change_form.html:20
+#, python-format
+msgid ""
+"Required fields are marked as bold, you can find more information in the <a "
+"href=\"%(url)s\">documentation</a>."
+msgstr ""
+"Obvezna polja so označena krepko; več informacij je na voljo v <a href="
+"\"%(url)s\">dokumentaciji</a>."
+
+#: weblate/wladmin/templates/admin/index.html:10
+msgid "Reports"
+msgstr "Poročila"
+
+#: weblate/wladmin/templates/admin/index.html:13
+#: weblate/wladmin/templates/admin/report.html:4
+#: weblate/wladmin/templates/admin/report.html:13
+msgid "Status of repositories"
+msgstr "Stanje shramb"
+
+#: weblate/wladmin/templates/admin/index.html:19
+#: weblate/wladmin/templates/admin/ssh.html:4
+#: weblate/wladmin/templates/admin/ssh.html:8
+msgid "SSH keys"
+msgstr "Ključi SSH"
+
+#: weblate/wladmin/templates/admin/index.html:25
+#: weblate/wladmin/templates/admin/performance.html:5
+#: weblate/wladmin/templates/admin/performance.html:14
+msgid "Performance report"
+msgstr "Poročilo o uspešnosti"
+
+#: weblate/wladmin/templates/admin/logout-confirm.html:23
+msgid "Please confirm your logout."
+msgstr "Prosimo, potrdite svojo odjavo."
+
+#: weblate/wladmin/templates/admin/logout-confirm.html:26
+msgid "I confirm logout"
+msgstr "Potrjujem odjavo"
+
+#: weblate/wladmin/templates/admin/performance.html:9
+#: weblate/wladmin/templates/admin/report.html:8
+#: weblate/wladmin/templates/admin/ssh.html:8
+msgid "Home"
+msgstr "Domov"
+
+#: weblate/wladmin/templates/admin/performance.html:9
+msgid "Performance"
+msgstr "Uspešnost"
+
+#: weblate/wladmin/templates/admin/performance.html:20
+msgid "Check"
+msgstr "Preverjanje"
+
+#: weblate/wladmin/templates/admin/performance.html:22
+msgid "Result"
+msgstr "Rezultat"
+
+#: weblate/wladmin/templates/admin/performance.html:40
+msgid "Configuration errors"
+msgstr "Napake konfiguracije"
+
+#: weblate/wladmin/templates/admin/report.html:17
+#, python-format
+msgid ""
+"Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
+"%(repo)s</a> instead."
+msgstr ""
+"Ne prikazujem stanja povezane shrambe. Namesto tega preverite <a href=\"#"
+"%(slug)s\">%(repo)s</a>."
+
+#: weblate/wladmin/templates/admin/ssh.html:14
+msgid "Public SSH key"
+msgstr "Javni ključ SSH"
+
+#: weblate/wladmin/templates/admin/ssh.html:15
+msgid "Weblate currently uses following SSH key:"
+msgstr "Weblate trenutno uporablja naslednji ključ SSH:"
+
+#: weblate/wladmin/templates/admin/ssh.html:22
+msgid "Generate SSH key"
+msgstr "Ustvari ključ SSH"
+
+#: weblate/wladmin/templates/admin/ssh.html:23
+msgid ""
+"You don't seem to have existing SSH key, by pressing button below Weblate "
+"will generate it for you."
+msgstr ""
+"Kot kaže, nimate obstoječega ključa SSH; s klikom na spodnji gumb bo ga "
+"Weblate ustvaril za vas."
+
+#: weblate/wladmin/templates/admin/ssh.html:33
+msgid "Known host keys"
+msgstr "Znani gostiteljski ključi"
+
+#: weblate/wladmin/templates/admin/ssh.html:40
+msgid "Hostname"
+msgstr "Ime gostitelja"
+
+#: weblate/wladmin/templates/admin/ssh.html:41
+msgid "Key type"
+msgstr "Vrsta ključa"
+
+#: weblate/wladmin/templates/admin/ssh.html:42
+msgid "Fingerprint"
+msgstr "Prstni odtis"
+
+#: weblate/wladmin/templates/admin/ssh.html:55
+msgid "Add host key"
+msgstr "Dodaj gostiteljski ključ"
+
+#: weblate/wladmin/templates/admin/ssh.html:56
+msgid ""
+"To access SSH hosts, its host key needs to be verified. You can get the host "
+"key by entering a domain name or IP for the host in the form below."
+msgstr ""
+"Za dostopanje do gostiteljev SSH morate potrditi njihove gostiteljske "
+"ključe. Gostiteljski ključ lahko pridobite tako, da v spodnji obrazec "
+"vpišete ime domene ali IP gostitelja."
+
+#: weblate/wladmin/templates/admin/ssh.html:60
+msgid "Host:"
+msgstr "Gostitelj:"
+
+#: weblate/wladmin/templates/admin/ssh.html:62
+msgid "Port:"
+msgstr "Vrata:"
+
+#: weblate/wladmin/templates/admin/ssh.html:64
+msgid "Submit"
+msgstr "Potrdi"
+
+#: weblate/wladmin/templates/admin/ssh.html:67
+msgid "More information"
+msgstr "Več informacij"
+
+#: weblate/wladmin/templates/admin/ssh.html:69
+#, python-format
+msgid ""
+"You can find more information about setting up SSH keys in <a href="
+"\"%(ssh_docs)s\">the Weblate manual</a>."
+msgstr ""
+"Več informacij o nastavljanju ključev SSH lahko najdetev v <a href="
+"\"%(ssh_docs)s\">priročniku Weblate</a>."
+
+#: weblate/wladmin/templates/admin/trans/change_form.html:22
+msgid "Do not change this object here, please use Weblate interface instead."
+msgstr "Ne spreminjajte objekta tukaj; uporabite vmesnik Weblate."
+
+#: weblate/wladmin/templates/admin/trans/change_form.html:26
+#, python-format
+msgid ""
+"Importing a new translation can take some time, please check <a href="
+"\"%(url)s\">our documentation</a> for information on how to improve this."
+msgstr ""
+"Uvažanje novih prevodov lahko traja nekaj časa; prosimo, oglejte si <a href="
+"\"%(url)s\">našo dokumentacijo</a> za informacije, kako to izboljšati."
+
+#: weblate/wladmin/views.py:78
+msgid "Debug mode"
+msgstr "Razhroščevalni način"
+
+#: weblate/wladmin/views.py:86
+msgid "Site domain"
+msgstr "Domena strani"
+
+#: weblate/wladmin/views.py:93
+msgid "Database backend"
+msgstr "Podatkovna baza zaledja"
+
+#: weblate/wladmin/views.py:100
+msgid "Site administrator"
+msgstr "Skrbnik strani"
+
+#. Translators: Indexing is postponed to cron job
+#: weblate/wladmin/views.py:109
+msgid "Indexing offloading"
+msgstr "Preusmeritev indeksiranja"
+
+#. Translators: Indexing is postponed to cron job
+#: weblate/wladmin/views.py:124
+msgid "Indexing offloading processing"
+msgstr "Obdelovanje preusmeritve indeksiranja"
+
+#: weblate/wladmin/views.py:141
+msgid "Django caching"
+msgstr "Predpomnjenje Django"
+
+#: weblate/wladmin/views.py:148
+msgid "Avatar caching"
+msgstr "Predpomnjenje avatarjev"
+
+#: weblate/wladmin/views.py:162
+msgid "Email addresses"
+msgstr "E-poštni naslovi"
+
+#: weblate/wladmin/views.py:172
+msgid "Federated avatar support"
+msgstr "Podpora povezanim podobam"
+
+#: weblate/wladmin/views.py:179
+msgid "pyuca library"
+msgstr "Knjižnica pyuca"
+
+#: weblate/wladmin/views.py:186
+msgid "Secret key"
+msgstr "Skrivni ključ"
+
+#: weblate/wladmin/views.py:193
+msgid "Allowed hosts"
+msgstr "Dovoljena imena strežnikov"
+
+#: weblate/wladmin/views.py:202
+msgid "Cached template loader"
+msgstr "Predpomnjen nalagalnik predlog"
+
+#: weblate/wladmin/views.py:210
+msgid "Admin static files"
+msgstr "Administratorske statične datoteke"
 
 #~ msgid ""
 #~ "Could not find any matching translation in this component list, probably "

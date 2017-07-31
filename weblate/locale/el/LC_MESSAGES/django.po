@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-07-21 18:24+0000\n"
+"POT-Creation-Date: 2017-07-31 13:10+0000\n"
 "PO-Revision-Date: 2017-06-19 08:25+0000\n"
 "Last-Translator: Efstathios Iosifidis <iefstathios@gmail.com>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/weblate/master/el/"
@@ -119,8 +119,8 @@ msgstr "Το όνομά σας"
 msgid "Your email"
 msgstr "Η ηλεκτρονική σας διευθυνση"
 
-#: weblate/accounts/forms.py:337 weblate/templates/admin/performance.html:47
-#: weblate/trans/models/whiteboard.py:65
+#: weblate/accounts/forms.py:337 weblate/trans/models/whiteboard.py:65
+#: weblate/wladmin/templates/admin/performance.html:47
 msgid "Message"
 msgstr "Μήνυμα"
 
@@ -550,7 +550,7 @@ msgstr "Φιλοξενία"
 msgid "Login"
 msgstr "Σύνδεση"
 
-#: weblate/accounts/views.py:534 weblate/admin.py:141
+#: weblate/accounts/views.py:534 weblate/wladmin/sites.py:144
 msgid "Thanks for using Weblate!"
 msgstr "Ευχαριστούμε που χρησιμποιείτε το Weblate!"
 
@@ -621,16 +621,6 @@ msgid ""
 "Failed to complete your registration! This authentication, email or username "
 "are already associated with another account!"
 msgstr ""
-
-#: weblate/admin.py:68 weblate/admin.py:69
-#, fuzzy
-#| msgid "Weblate translations"
-msgid "Weblate administration"
-msgstr "Μεταφράσεις Weblate"
-
-#: weblate/admin.py:144 weblate/templates/base.html:126
-msgid "Logout"
-msgstr "Αποσύνδεση"
 
 #: weblate/billing/admin.py:50 weblate/billing/models.py:122
 #: weblate/templates/accounts/user.html:38
@@ -1580,12 +1570,12 @@ msgstr ""
 #: weblate/templates/accounts/profile.html:134
 #: weblate/templates/accounts/profile.html:169
 #: weblate/templates/accounts/profile.html:243
-#: weblate/templates/accounts/profile.html:286
-#: weblate/templates/admin/performance.html:23
-#: weblate/templates/admin/performance.html:32 weblate/templates/base.html:118
+#: weblate/templates/accounts/profile.html:286 weblate/templates/base.html:118
 #: weblate/templates/check.html:42 weblate/templates/check_project.html:43
 #: weblate/templates/check_subproject.html:44 weblate/templates/checks.html:34
 #: weblate/templates/footer.html:9
+#: weblate/wladmin/templates/admin/performance.html:23
+#: weblate/wladmin/templates/admin/performance.html:32
 msgid "Documentation"
 msgstr "Τεκμηρίωση"
 
@@ -1906,7 +1896,7 @@ msgid "Reset my password"
 msgstr "Επαναφορά του κωδικού μου"
 
 #: weblate/templates/accounts/user.html:26
-#: weblate/templates/admin/performance.html:46
+#: weblate/wladmin/templates/admin/performance.html:46
 msgid "Name"
 msgstr "Όνομα"
 
@@ -1926,174 +1916,6 @@ msgstr "Δραστηριότητα τις τελευταίες 30 ημέρες"
 msgid "Activity in last year"
 msgstr "Δραστηριότητα το τελευταίο έτος"
 
-#: weblate/templates/admin/accounts/change_form.html:8
-#: weblate/templates/admin/trans/change_form.html:20
-#, python-format
-msgid ""
-"Required fields are marked as bold, you can find more information in the <a "
-"href=\"%(url)s\">documentation</a>."
-msgstr ""
-"Τα απαιτούμενα πεδία έχουν έντονα επισημανθεί, μπορείτε να βρείτε "
-"περισσότερες πληροφορίες στην <a href=\"%(url)s\">τεκμηρίωση</a>."
-
-#: weblate/templates/admin/custom-index.html:10
-msgid "Reports"
-msgstr "Αναφορές"
-
-#: weblate/templates/admin/custom-index.html:13
-#: weblate/templates/admin/report.html:4 weblate/templates/admin/report.html:13
-msgid "Status of repositories"
-msgstr "Κατάσταση αποθετηρίων"
-
-#: weblate/templates/admin/custom-index.html:19
-#: weblate/templates/admin/ssh.html:4 weblate/templates/admin/ssh.html:8
-msgid "SSH keys"
-msgstr "Κλειδιά SSH"
-
-#: weblate/templates/admin/custom-index.html:25
-#: weblate/templates/admin/performance.html:5
-#: weblate/templates/admin/performance.html:14
-msgid "Performance report"
-msgstr "Αναφορά απόδοσης"
-
-#: weblate/templates/admin/logout-confirm.html:23
-msgid "Please confirm your logout."
-msgstr ""
-
-#: weblate/templates/admin/logout-confirm.html:26
-msgid "I confirm logout"
-msgstr ""
-
-#: weblate/templates/admin/performance.html:9
-#: weblate/templates/admin/report.html:8 weblate/templates/admin/ssh.html:8
-msgid "Home"
-msgstr "Αρχική"
-
-#: weblate/templates/admin/performance.html:9
-msgid "Performance"
-msgstr "Απόδοση"
-
-#: weblate/templates/admin/performance.html:20
-msgid "Check"
-msgstr "Έλεγχος"
-
-#: weblate/templates/admin/performance.html:21
-#: weblate/templates/admin/report.html:8 weblate/templates/js/detail.html:17
-#: weblate/templates/js/translations.html:8
-msgid "Status"
-msgstr "Κατάσταση"
-
-#: weblate/templates/admin/performance.html:22
-msgid "Result"
-msgstr "Αποτέλεσμα"
-
-#: weblate/templates/admin/performance.html:40
-msgid "Configuration errors"
-msgstr "Σφάλματα ρύθμισης"
-
-#: weblate/templates/admin/report.html:17
-#, python-format
-msgid ""
-"Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
-"%(repo)s</a> instead."
-msgstr ""
-"Δεν εμφανίζεται η κατάσταση του συνδεδεμένου αποθετηρίου. Ελέξτε εναλλακτικά "
-"το <a href=\"#%(slug)s\">%(repo)s</a>."
-
-#: weblate/templates/admin/ssh.html:14
-msgid "Public SSH key"
-msgstr "Δημόσιο κλειδί SSH"
-
-#: weblate/templates/admin/ssh.html:15
-msgid "Weblate currently uses following SSH key:"
-msgstr "Το Weblate, αυτή τη στιγμή, χρησιμοποιεί το ακόλουθο κλειδί SSH:"
-
-#: weblate/templates/admin/ssh.html:22
-msgid "Generate SSH key"
-msgstr "Δημιουργία κλειδιού SSH"
-
-#: weblate/templates/admin/ssh.html:23
-msgid ""
-"You don't seem to have existing SSH key, by pressing button below Weblate "
-"will generate it for you."
-msgstr ""
-"Δεν φαίνεται να έχετε υπάρχον κλειδί SSH, πατώντας το κουμπί παρακάτω το "
-"Weblate θα δημιουργηθεί για σας."
-
-#: weblate/templates/admin/ssh.html:27 weblate/templates/subproject.html:180
-#: weblate/templates/subproject.html:201
-msgid "Generate"
-msgstr "Δημιουργία"
-
-#: weblate/templates/admin/ssh.html:33
-msgid "Known host keys"
-msgstr "Γνωστά κλειδιά φιλοξενίας"
-
-#: weblate/templates/admin/ssh.html:40
-msgid "Hostname"
-msgstr "Όνομα φιλοξενητή"
-
-#: weblate/templates/admin/ssh.html:41
-msgid "Key type"
-msgstr "Τύπος κλειδιού"
-
-#: weblate/templates/admin/ssh.html:42
-msgid "Fingerprint"
-msgstr "Αποτύπωμα"
-
-#: weblate/templates/admin/ssh.html:55
-msgid "Add host key"
-msgstr "Προσθήκη κλειδιού φιλοξενίας"
-
-#: weblate/templates/admin/ssh.html:56
-msgid ""
-"To access SSH hosts, its host key needs to be verified. You can get the host "
-"key by entering a domain name or IP for the host in the form below."
-msgstr ""
-"Για πρόσβαση σε φιλοξενίες SSH, το κλειδί φιλοξενίας πρέπει να επιβεβαιωθεί. "
-"Μπορείτε να λάβετε το κλειδί φιλοξενίας εισάγοντας ένα όνομα domain ή IP για "
-"τη φιλοξενία στην παρακάτω φόρμα."
-
-#: weblate/templates/admin/ssh.html:60
-msgid "Host:"
-msgstr "Φιλοξενητής:"
-
-#: weblate/templates/admin/ssh.html:62
-msgid "Port:"
-msgstr "Θύρα:"
-
-#: weblate/templates/admin/ssh.html:64
-msgid "Submit"
-msgstr "Υποβολή"
-
-#: weblate/templates/admin/ssh.html:67
-msgid "More information"
-msgstr "Περισσότερες πληροφορίες"
-
-#: weblate/templates/admin/ssh.html:69
-#, python-format
-msgid ""
-"You can find more information about setting up SSH keys in <a href="
-"\"%(ssh_docs)s\">the Weblate manual</a>."
-msgstr ""
-"Μπορείτε να βρείτε περισσότερες πληροφορίες σχετικά με τη ρύθμιση κλειδιών "
-"SSH στο <a href=\"%(ssh_docs)s\">εγχειρίδιο του Weblate</a>."
-
-#: weblate/templates/admin/trans/change_form.html:22
-msgid "Do not change this object here, please use Weblate interface instead."
-msgstr ""
-"Μη αλλάξετε το αντικείμενο εδώ, χρησιμοποιήστε το περιβάλλον του Weblate."
-
-#: weblate/templates/admin/trans/change_form.html:26
-#, python-format
-msgid ""
-"Importing a new translation can take some time, please check <a href="
-"\"%(url)s\">our documentation</a> for information on how to improve this."
-msgstr ""
-"Η εισαγωγή μιας νέας μετάφρασης ίσως πάρει λίγο χρόνο, ελέγξτε <a href="
-"\"%(url)s\">την τεκμηρίωσή μας</a> για πληροφορίες για το πως να τη "
-"βελτιώσετε."
-
 #: weblate/templates/base.html:94
 msgid "Toggle navigation"
 msgstr "Εναλλαγή πλοήγησης"
@@ -2109,6 +1931,10 @@ msgstr "Διαχείριση παρακολουθούμενων έργων"
 #: weblate/templates/base.html:124
 msgid "Administration"
 msgstr "Διαχείριση"
+
+#: weblate/templates/base.html:126 weblate/wladmin/sites.py:147
+msgid "Logout"
+msgstr "Αποσύνδεση"
 
 #: weblate/templates/base.html:150
 msgid ""
@@ -3768,6 +3594,12 @@ msgstr "Εγγραφείτε για να διαχειριστείτε τις γ�
 msgid "Browse all component changes"
 msgstr "Αναζήτηση όλων των αλλαγών περιεχομένου"
 
+#: weblate/templates/js/detail.html:17 weblate/templates/js/translations.html:8
+#: weblate/wladmin/templates/admin/performance.html:21
+#: weblate/wladmin/templates/admin/report.html:8
+msgid "Status"
+msgstr "Κατάσταση"
+
 #: weblate/templates/js/detail.html:50 weblate/templates/list-checks.html:9
 #, python-format
 msgid "Ignore: %(check)s"
@@ -4855,6 +4687,11 @@ msgstr ""
 "χρήσιμο για να το συμπεριλάβετε στην τεκμηρίωσή σας ή την εφαρμογή σας για "
 "να ευχαριστήσετε τους μεταφραστές."
 
+#: weblate/templates/subproject.html:180 weblate/templates/subproject.html:201
+#: weblate/wladmin/templates/admin/ssh.html:27
+msgid "Generate"
+msgstr "Δημιουργία"
+
 #: weblate/templates/subproject.html:192
 msgid "Contributor stats"
 msgstr "Στατιστικά διανομέα"
@@ -5581,68 +5418,6 @@ msgstr "Ενημέρωση ελέγχων ποιότητας"
 #: weblate/trans/admin.py:78 weblate/trans/admin.py:131
 msgid "Commit pending changes"
 msgstr "Διάπραξη διαπραχθεισών αλλαγών"
-
-#: weblate/trans/admin_views.py:81
-msgid "Debug mode"
-msgstr "Κατάσταση αποσφαλμάτωσης"
-
-#: weblate/trans/admin_views.py:89
-msgid "Site domain"
-msgstr "Τομέας σελίδας"
-
-#: weblate/trans/admin_views.py:96
-msgid "Database backend"
-msgstr "Παρασκήνιο βάσης δεδομένων"
-
-#: weblate/trans/admin_views.py:103
-msgid "Site administrator"
-msgstr "Διαχειριστής σελίδας"
-
-#. Translators: Indexing is postponed to cron job
-#: weblate/trans/admin_views.py:112
-msgid "Indexing offloading"
-msgstr "Αποφόρτωση ευρετηρίου"
-
-#. Translators: Indexing is postponed to cron job
-#: weblate/trans/admin_views.py:127
-msgid "Indexing offloading processing"
-msgstr "διαδικασία αποφόρτωσης ευρετηρίου"
-
-#: weblate/trans/admin_views.py:144
-msgid "Django caching"
-msgstr "Λανθάνουσα μνήμη Django"
-
-#: weblate/trans/admin_views.py:151
-msgid "Avatar caching"
-msgstr "Λανθάνουσα μνήμη Ειδώλου"
-
-#: weblate/trans/admin_views.py:165
-msgid "Email addresses"
-msgstr "Ηλεκτρονικές διευθύνσεις"
-
-#: weblate/trans/admin_views.py:175
-msgid "Federated avatar support"
-msgstr "Υποσυήτιξη ομοσπονδιακών ειδώλων"
-
-#: weblate/trans/admin_views.py:182
-msgid "pyuca library"
-msgstr "Βιβλιοθήκη pyuca"
-
-#: weblate/trans/admin_views.py:189
-msgid "Secret key"
-msgstr "Μυστικό κλειδί"
-
-#: weblate/trans/admin_views.py:196
-msgid "Allowed hosts"
-msgstr "Επιτρεπόμενοι φιλοξενητές"
-
-#: weblate/trans/admin_views.py:205
-msgid "Cached template loader"
-msgstr "Πρόγραμμα φόρτωσης προτύπου λανθάνουσας μνήμης"
-
-#: weblate/trans/admin_views.py:213
-msgid "Admin static files"
-msgstr "Στατικά αρχεία διαχειριστή"
 
 #: weblate/trans/apps.py:34
 msgid "Weblate translations"
@@ -7767,27 +7542,27 @@ msgstr "Το μήνυμα έχει σχόλια"
 msgid "unit ID %s"
 msgstr "μέχρι ID %s"
 
-#: weblate/trans/util.py:53
+#: weblate/trans/util.py:52
 msgid "Very high"
 msgstr "Πολύ υψηλά"
 
-#: weblate/trans/util.py:54
+#: weblate/trans/util.py:53
 msgid "High"
 msgstr "Υψηλά"
 
-#: weblate/trans/util.py:55
+#: weblate/trans/util.py:54
 msgid "Medium"
 msgstr "Μέσα"
 
-#: weblate/trans/util.py:56
+#: weblate/trans/util.py:55
 msgid "Low"
 msgstr "Χαμηλά"
 
-#: weblate/trans/util.py:57
+#: weblate/trans/util.py:56
 msgid "Very low"
 msgstr "Πολύ χαμηλά"
 
-#: weblate/trans/util.py:195
+#: weblate/trans/util.py:194
 #, python-brace-format
 msgid ""
 "{0} is translated into {1} languages using Weblate. Join the translation or "
@@ -7795,10 +7570,6 @@ msgid ""
 msgstr ""
 "Το {0} έχει μεταφραστεί σε {1} γλώσσες με τη χρήση του Weblate. Συμμετέχετε "
 "στη μετάφραση ή ξεκινήστε να μεταφράζετε το δικό σας έργο."
-
-#: weblate/trans/util.py:257
-msgid "Object listing disabled"
-msgstr "Η κατάσταση αντικειμένων απενεργοποιήθηκε"
 
 #: weblate/trans/validators.py:30
 msgid "RST text"
@@ -8331,6 +8102,238 @@ msgstr ""
 #| msgid "Unsupported file format: {0}"
 msgid "Unsupported file format."
 msgstr "Μη υποστηριζόμενη μορφή αρχείου {0}"
+
+#: weblate/wladmin/sites.py:72 weblate/wladmin/sites.py:73
+#, fuzzy
+#| msgid "Weblate translations"
+msgid "Weblate administration"
+msgstr "Μεταφράσεις Weblate"
+
+#: weblate/wladmin/sites.py:152
+msgid "Object listing disabled"
+msgstr "Η κατάσταση αντικειμένων απενεργοποιήθηκε"
+
+#: weblate/wladmin/templates/admin/accounts/change_form.html:8
+#: weblate/wladmin/templates/admin/trans/change_form.html:20
+#, python-format
+msgid ""
+"Required fields are marked as bold, you can find more information in the <a "
+"href=\"%(url)s\">documentation</a>."
+msgstr ""
+"Τα απαιτούμενα πεδία έχουν έντονα επισημανθεί, μπορείτε να βρείτε "
+"περισσότερες πληροφορίες στην <a href=\"%(url)s\">τεκμηρίωση</a>."
+
+#: weblate/wladmin/templates/admin/index.html:10
+msgid "Reports"
+msgstr "Αναφορές"
+
+#: weblate/wladmin/templates/admin/index.html:13
+#: weblate/wladmin/templates/admin/report.html:4
+#: weblate/wladmin/templates/admin/report.html:13
+msgid "Status of repositories"
+msgstr "Κατάσταση αποθετηρίων"
+
+#: weblate/wladmin/templates/admin/index.html:19
+#: weblate/wladmin/templates/admin/ssh.html:4
+#: weblate/wladmin/templates/admin/ssh.html:8
+msgid "SSH keys"
+msgstr "Κλειδιά SSH"
+
+#: weblate/wladmin/templates/admin/index.html:25
+#: weblate/wladmin/templates/admin/performance.html:5
+#: weblate/wladmin/templates/admin/performance.html:14
+msgid "Performance report"
+msgstr "Αναφορά απόδοσης"
+
+#: weblate/wladmin/templates/admin/logout-confirm.html:23
+msgid "Please confirm your logout."
+msgstr ""
+
+#: weblate/wladmin/templates/admin/logout-confirm.html:26
+msgid "I confirm logout"
+msgstr ""
+
+#: weblate/wladmin/templates/admin/performance.html:9
+#: weblate/wladmin/templates/admin/report.html:8
+#: weblate/wladmin/templates/admin/ssh.html:8
+msgid "Home"
+msgstr "Αρχική"
+
+#: weblate/wladmin/templates/admin/performance.html:9
+msgid "Performance"
+msgstr "Απόδοση"
+
+#: weblate/wladmin/templates/admin/performance.html:20
+msgid "Check"
+msgstr "Έλεγχος"
+
+#: weblate/wladmin/templates/admin/performance.html:22
+msgid "Result"
+msgstr "Αποτέλεσμα"
+
+#: weblate/wladmin/templates/admin/performance.html:40
+msgid "Configuration errors"
+msgstr "Σφάλματα ρύθμισης"
+
+#: weblate/wladmin/templates/admin/report.html:17
+#, python-format
+msgid ""
+"Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
+"%(repo)s</a> instead."
+msgstr ""
+"Δεν εμφανίζεται η κατάσταση του συνδεδεμένου αποθετηρίου. Ελέξτε εναλλακτικά "
+"το <a href=\"#%(slug)s\">%(repo)s</a>."
+
+#: weblate/wladmin/templates/admin/ssh.html:14
+msgid "Public SSH key"
+msgstr "Δημόσιο κλειδί SSH"
+
+#: weblate/wladmin/templates/admin/ssh.html:15
+msgid "Weblate currently uses following SSH key:"
+msgstr "Το Weblate, αυτή τη στιγμή, χρησιμοποιεί το ακόλουθο κλειδί SSH:"
+
+#: weblate/wladmin/templates/admin/ssh.html:22
+msgid "Generate SSH key"
+msgstr "Δημιουργία κλειδιού SSH"
+
+#: weblate/wladmin/templates/admin/ssh.html:23
+msgid ""
+"You don't seem to have existing SSH key, by pressing button below Weblate "
+"will generate it for you."
+msgstr ""
+"Δεν φαίνεται να έχετε υπάρχον κλειδί SSH, πατώντας το κουμπί παρακάτω το "
+"Weblate θα δημιουργηθεί για σας."
+
+#: weblate/wladmin/templates/admin/ssh.html:33
+msgid "Known host keys"
+msgstr "Γνωστά κλειδιά φιλοξενίας"
+
+#: weblate/wladmin/templates/admin/ssh.html:40
+msgid "Hostname"
+msgstr "Όνομα φιλοξενητή"
+
+#: weblate/wladmin/templates/admin/ssh.html:41
+msgid "Key type"
+msgstr "Τύπος κλειδιού"
+
+#: weblate/wladmin/templates/admin/ssh.html:42
+msgid "Fingerprint"
+msgstr "Αποτύπωμα"
+
+#: weblate/wladmin/templates/admin/ssh.html:55
+msgid "Add host key"
+msgstr "Προσθήκη κλειδιού φιλοξενίας"
+
+#: weblate/wladmin/templates/admin/ssh.html:56
+msgid ""
+"To access SSH hosts, its host key needs to be verified. You can get the host "
+"key by entering a domain name or IP for the host in the form below."
+msgstr ""
+"Για πρόσβαση σε φιλοξενίες SSH, το κλειδί φιλοξενίας πρέπει να επιβεβαιωθεί. "
+"Μπορείτε να λάβετε το κλειδί φιλοξενίας εισάγοντας ένα όνομα domain ή IP για "
+"τη φιλοξενία στην παρακάτω φόρμα."
+
+#: weblate/wladmin/templates/admin/ssh.html:60
+msgid "Host:"
+msgstr "Φιλοξενητής:"
+
+#: weblate/wladmin/templates/admin/ssh.html:62
+msgid "Port:"
+msgstr "Θύρα:"
+
+#: weblate/wladmin/templates/admin/ssh.html:64
+msgid "Submit"
+msgstr "Υποβολή"
+
+#: weblate/wladmin/templates/admin/ssh.html:67
+msgid "More information"
+msgstr "Περισσότερες πληροφορίες"
+
+#: weblate/wladmin/templates/admin/ssh.html:69
+#, python-format
+msgid ""
+"You can find more information about setting up SSH keys in <a href="
+"\"%(ssh_docs)s\">the Weblate manual</a>."
+msgstr ""
+"Μπορείτε να βρείτε περισσότερες πληροφορίες σχετικά με τη ρύθμιση κλειδιών "
+"SSH στο <a href=\"%(ssh_docs)s\">εγχειρίδιο του Weblate</a>."
+
+#: weblate/wladmin/templates/admin/trans/change_form.html:22
+msgid "Do not change this object here, please use Weblate interface instead."
+msgstr ""
+"Μη αλλάξετε το αντικείμενο εδώ, χρησιμοποιήστε το περιβάλλον του Weblate."
+
+#: weblate/wladmin/templates/admin/trans/change_form.html:26
+#, python-format
+msgid ""
+"Importing a new translation can take some time, please check <a href="
+"\"%(url)s\">our documentation</a> for information on how to improve this."
+msgstr ""
+"Η εισαγωγή μιας νέας μετάφρασης ίσως πάρει λίγο χρόνο, ελέγξτε <a href="
+"\"%(url)s\">την τεκμηρίωσή μας</a> για πληροφορίες για το πως να τη "
+"βελτιώσετε."
+
+#: weblate/wladmin/views.py:78
+msgid "Debug mode"
+msgstr "Κατάσταση αποσφαλμάτωσης"
+
+#: weblate/wladmin/views.py:86
+msgid "Site domain"
+msgstr "Τομέας σελίδας"
+
+#: weblate/wladmin/views.py:93
+msgid "Database backend"
+msgstr "Παρασκήνιο βάσης δεδομένων"
+
+#: weblate/wladmin/views.py:100
+msgid "Site administrator"
+msgstr "Διαχειριστής σελίδας"
+
+#. Translators: Indexing is postponed to cron job
+#: weblate/wladmin/views.py:109
+msgid "Indexing offloading"
+msgstr "Αποφόρτωση ευρετηρίου"
+
+#. Translators: Indexing is postponed to cron job
+#: weblate/wladmin/views.py:124
+msgid "Indexing offloading processing"
+msgstr "διαδικασία αποφόρτωσης ευρετηρίου"
+
+#: weblate/wladmin/views.py:141
+msgid "Django caching"
+msgstr "Λανθάνουσα μνήμη Django"
+
+#: weblate/wladmin/views.py:148
+msgid "Avatar caching"
+msgstr "Λανθάνουσα μνήμη Ειδώλου"
+
+#: weblate/wladmin/views.py:162
+msgid "Email addresses"
+msgstr "Ηλεκτρονικές διευθύνσεις"
+
+#: weblate/wladmin/views.py:172
+msgid "Federated avatar support"
+msgstr "Υποσυήτιξη ομοσπονδιακών ειδώλων"
+
+#: weblate/wladmin/views.py:179
+msgid "pyuca library"
+msgstr "Βιβλιοθήκη pyuca"
+
+#: weblate/wladmin/views.py:186
+msgid "Secret key"
+msgstr "Μυστικό κλειδί"
+
+#: weblate/wladmin/views.py:193
+msgid "Allowed hosts"
+msgstr "Επιτρεπόμενοι φιλοξενητές"
+
+#: weblate/wladmin/views.py:202
+msgid "Cached template loader"
+msgstr "Πρόγραμμα φόρτωσης προτύπου λανθάνουσας μνήμης"
+
+#: weblate/wladmin/views.py:210
+msgid "Admin static files"
+msgstr "Στατικά αρχεία διαχειριστή"
 
 #~ msgid ""
 #~ "Could not find any matching translation in this component list, probably "

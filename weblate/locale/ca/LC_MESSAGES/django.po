@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-07-21 18:24+0000\n"
+"POT-Creation-Date: 2017-07-31 13:10+0000\n"
 "PO-Revision-Date: 2017-04-17 16:28+0000\n"
 "Last-Translator: Ecron <ecron_89@hotmail.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/master/"
@@ -127,8 +127,8 @@ msgstr "El vostre nom"
 msgid "Your email"
 msgstr "La vostra adreça electrònica"
 
-#: weblate/accounts/forms.py:337 weblate/templates/admin/performance.html:47
-#: weblate/trans/models/whiteboard.py:65
+#: weblate/accounts/forms.py:337 weblate/trans/models/whiteboard.py:65
+#: weblate/wladmin/templates/admin/performance.html:47
 msgid "Message"
 msgstr "Missatge"
 
@@ -553,7 +553,7 @@ msgstr "Allotjament"
 msgid "Login"
 msgstr "Entrada"
 
-#: weblate/accounts/views.py:534 weblate/admin.py:141
+#: weblate/accounts/views.py:534 weblate/wladmin/sites.py:144
 msgid "Thanks for using Weblate!"
 msgstr "Gràcies per utilitzar el Weblate!"
 
@@ -624,16 +624,6 @@ msgid ""
 "Failed to complete your registration! This authentication, email or username "
 "are already associated with another account!"
 msgstr ""
-
-#: weblate/admin.py:68 weblate/admin.py:69
-#, fuzzy
-#| msgid "Weblate translations"
-msgid "Weblate administration"
-msgstr "Traduccions Weblate"
-
-#: weblate/admin.py:144 weblate/templates/base.html:126
-msgid "Logout"
-msgstr "Surt"
 
 #: weblate/billing/admin.py:50 weblate/billing/models.py:122
 #: weblate/templates/accounts/user.html:38
@@ -1581,12 +1571,12 @@ msgstr ""
 #: weblate/templates/accounts/profile.html:134
 #: weblate/templates/accounts/profile.html:169
 #: weblate/templates/accounts/profile.html:243
-#: weblate/templates/accounts/profile.html:286
-#: weblate/templates/admin/performance.html:23
-#: weblate/templates/admin/performance.html:32 weblate/templates/base.html:118
+#: weblate/templates/accounts/profile.html:286 weblate/templates/base.html:118
 #: weblate/templates/check.html:42 weblate/templates/check_project.html:43
 #: weblate/templates/check_subproject.html:44 weblate/templates/checks.html:34
 #: weblate/templates/footer.html:9
+#: weblate/wladmin/templates/admin/performance.html:23
+#: weblate/wladmin/templates/admin/performance.html:32
 msgid "Documentation"
 msgstr "Documentació"
 
@@ -1901,7 +1891,7 @@ msgid "Reset my password"
 msgstr "Estableix una nova paraula de pas"
 
 #: weblate/templates/accounts/user.html:26
-#: weblate/templates/admin/performance.html:46
+#: weblate/wladmin/templates/admin/performance.html:46
 msgid "Name"
 msgstr "Nom"
 
@@ -1923,175 +1913,6 @@ msgstr "Activitat en els últims 30 dies"
 msgid "Activity in last year"
 msgstr "Activitat en l'últim any"
 
-#: weblate/templates/admin/accounts/change_form.html:8
-#: weblate/templates/admin/trans/change_form.html:20
-#, python-format
-msgid ""
-"Required fields are marked as bold, you can find more information in the <a "
-"href=\"%(url)s\">documentation</a>."
-msgstr ""
-"Els camp obligatoris són en negreta, podeu trobar més informació a la <a "
-"href=\"%(url)s\">documentació</a>."
-
-#: weblate/templates/admin/custom-index.html:10
-msgid "Reports"
-msgstr "Informes"
-
-#: weblate/templates/admin/custom-index.html:13
-#: weblate/templates/admin/report.html:4 weblate/templates/admin/report.html:13
-msgid "Status of repositories"
-msgstr "Estat dels dipòsits"
-
-#: weblate/templates/admin/custom-index.html:19
-#: weblate/templates/admin/ssh.html:4 weblate/templates/admin/ssh.html:8
-msgid "SSH keys"
-msgstr "Claus SSH"
-
-#: weblate/templates/admin/custom-index.html:25
-#: weblate/templates/admin/performance.html:5
-#: weblate/templates/admin/performance.html:14
-msgid "Performance report"
-msgstr "Informe de rendiment"
-
-#: weblate/templates/admin/logout-confirm.html:23
-msgid "Please confirm your logout."
-msgstr ""
-
-#: weblate/templates/admin/logout-confirm.html:26
-msgid "I confirm logout"
-msgstr ""
-
-#: weblate/templates/admin/performance.html:9
-#: weblate/templates/admin/report.html:8 weblate/templates/admin/ssh.html:8
-msgid "Home"
-msgstr "Inici"
-
-#: weblate/templates/admin/performance.html:9
-msgid "Performance"
-msgstr "Rendiment"
-
-#: weblate/templates/admin/performance.html:20
-msgid "Check"
-msgstr "Comprova"
-
-#: weblate/templates/admin/performance.html:21
-#: weblate/templates/admin/report.html:8 weblate/templates/js/detail.html:17
-#: weblate/templates/js/translations.html:8
-msgid "Status"
-msgstr "Estat"
-
-#: weblate/templates/admin/performance.html:22
-msgid "Result"
-msgstr "Resultat"
-
-#: weblate/templates/admin/performance.html:40
-msgid "Configuration errors"
-msgstr "Errors de configuració"
-
-#: weblate/templates/admin/report.html:17
-#, python-format
-msgid ""
-"Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
-"%(repo)s</a> instead."
-msgstr ""
-"No es mostra l'estat del dipòsit enllaçat. Altrament, verifiqueu <a href=\"#"
-"%(slug)s\">%(repo)s</a>."
-
-#: weblate/templates/admin/ssh.html:14
-msgid "Public SSH key"
-msgstr "Clau SSH pública"
-
-#: weblate/templates/admin/ssh.html:15
-msgid "Weblate currently uses following SSH key:"
-msgstr "Weblate utilitza actualment les claus SSH següents:"
-
-#: weblate/templates/admin/ssh.html:22
-msgid "Generate SSH key"
-msgstr "Genera una clau SSH"
-
-#: weblate/templates/admin/ssh.html:23
-msgid ""
-"You don't seem to have existing SSH key, by pressing button below Weblate "
-"will generate it for you."
-msgstr ""
-"Si, com sembla, no teniu una clau SSH, Weblate us en generarà una prement el "
-"botó de sota."
-
-#: weblate/templates/admin/ssh.html:27 weblate/templates/subproject.html:180
-#: weblate/templates/subproject.html:201
-msgid "Generate"
-msgstr "Genera"
-
-#: weblate/templates/admin/ssh.html:33
-msgid "Known host keys"
-msgstr "Claus conegudes d'allotjament"
-
-#: weblate/templates/admin/ssh.html:40
-msgid "Hostname"
-msgstr "Nom del servidor"
-
-#: weblate/templates/admin/ssh.html:41
-msgid "Key type"
-msgstr "Tipus de clau"
-
-#: weblate/templates/admin/ssh.html:42
-msgid "Fingerprint"
-msgstr "Empremta dactilar"
-
-#: weblate/templates/admin/ssh.html:55
-msgid "Add host key"
-msgstr "Afegir una clau de servidor"
-
-#: weblate/templates/admin/ssh.html:56
-msgid ""
-"To access SSH hosts, its host key needs to be verified. You can get the host "
-"key by entering a domain name or IP for the host in the form below."
-msgstr ""
-"Per accedir als allotjament SSH, cal que les seves claus es verifiquin. "
-"Podeu obtenir una clau d'allotjament indicant el nom de domini o la IP de "
-"l'allotjament en el formulari de sota."
-
-#: weblate/templates/admin/ssh.html:60
-msgid "Host:"
-msgstr "Allotjament:"
-
-#: weblate/templates/admin/ssh.html:62
-msgid "Port:"
-msgstr "Port:"
-
-#: weblate/templates/admin/ssh.html:64
-msgid "Submit"
-msgstr "Desar"
-
-#: weblate/templates/admin/ssh.html:67
-msgid "More information"
-msgstr "Més informació"
-
-#: weblate/templates/admin/ssh.html:69
-#, python-format
-msgid ""
-"You can find more information about setting up SSH keys in <a href="
-"\"%(ssh_docs)s\">the Weblate manual</a>."
-msgstr ""
-"Podeu trobar més informació sobre la configuració de les claus SSH al <a "
-"href=\"%(ssh_docs)s\">manual de Weblate</a>."
-
-#: weblate/templates/admin/trans/change_form.html:22
-msgid "Do not change this object here, please use Weblate interface instead."
-msgstr ""
-"Si us plau no canvieu aquest objecte aquí, altrament utilitzeu la interfície "
-"Weblate."
-
-#: weblate/templates/admin/trans/change_form.html:26
-#, python-format
-msgid ""
-"Importing a new translation can take some time, please check <a href="
-"\"%(url)s\">our documentation</a> for information on how to improve this."
-msgstr ""
-"La importació d'una traducció nova pot prendre temps. Consulteu <a href="
-"\"%(url)s\">la nostra documentació</a> per a informar-vos de com millorar "
-"aquest punt."
-
 #: weblate/templates/base.html:94
 msgid "Toggle navigation"
 msgstr "Commuta la navegació"
@@ -2109,6 +1930,10 @@ msgstr "Projectes gestionats"
 #: weblate/templates/base.html:124
 msgid "Administration"
 msgstr "Administració"
+
+#: weblate/templates/base.html:126 weblate/wladmin/sites.py:147
+msgid "Logout"
+msgstr "Surt"
 
 #: weblate/templates/base.html:150
 msgid ""
@@ -3809,6 +3634,12 @@ msgstr "Gestioneu les vostres traduccions"
 msgid "Browse all component changes"
 msgstr "Exploreu canvis"
 
+#: weblate/templates/js/detail.html:17 weblate/templates/js/translations.html:8
+#: weblate/wladmin/templates/admin/performance.html:21
+#: weblate/wladmin/templates/admin/report.html:8
+msgid "Status"
+msgstr "Estat"
+
 #: weblate/templates/js/detail.html:50 weblate/templates/list-checks.html:9
 #, python-format
 msgid "Ignore: %(check)s"
@@ -4947,6 +4778,11 @@ msgid ""
 "application to thank translators."
 msgstr ""
 
+#: weblate/templates/subproject.html:180 weblate/templates/subproject.html:201
+#: weblate/wladmin/templates/admin/ssh.html:27
+msgid "Generate"
+msgstr "Genera"
+
 #: weblate/templates/subproject.html:192
 msgid "Contributor stats"
 msgstr "Estadístiques de contribuïdor"
@@ -5693,68 +5529,6 @@ msgstr "Actualitza els indicadors de  qualitat"
 #: weblate/trans/admin.py:78 weblate/trans/admin.py:131
 msgid "Commit pending changes"
 msgstr "Envia els canvis pendents"
-
-#: weblate/trans/admin_views.py:81
-msgid "Debug mode"
-msgstr "Mode de depuració"
-
-#: weblate/trans/admin_views.py:89
-msgid "Site domain"
-msgstr "Domini del lloc web"
-
-#: weblate/trans/admin_views.py:96
-msgid "Database backend"
-msgstr ""
-
-#: weblate/trans/admin_views.py:103
-msgid "Site administrator"
-msgstr ""
-
-#. Translators: Indexing is postponed to cron job
-#: weblate/trans/admin_views.py:112
-msgid "Indexing offloading"
-msgstr ""
-
-#. Translators: Indexing is postponed to cron job
-#: weblate/trans/admin_views.py:127
-msgid "Indexing offloading processing"
-msgstr ""
-
-#: weblate/trans/admin_views.py:144
-msgid "Django caching"
-msgstr ""
-
-#: weblate/trans/admin_views.py:151
-msgid "Avatar caching"
-msgstr "Captura d'avatar"
-
-#: weblate/trans/admin_views.py:165
-msgid "Email addresses"
-msgstr "Adreces de correu electrònic"
-
-#: weblate/trans/admin_views.py:175
-msgid "Federated avatar support"
-msgstr ""
-
-#: weblate/trans/admin_views.py:182
-msgid "pyuca library"
-msgstr ""
-
-#: weblate/trans/admin_views.py:189
-msgid "Secret key"
-msgstr "Clau secreta"
-
-#: weblate/trans/admin_views.py:196
-msgid "Allowed hosts"
-msgstr ""
-
-#: weblate/trans/admin_views.py:205
-msgid "Cached template loader"
-msgstr ""
-
-#: weblate/trans/admin_views.py:213
-msgid "Admin static files"
-msgstr "Fitxers estàtics de l'administrador"
 
 #: weblate/trans/apps.py:34
 msgid "Weblate translations"
@@ -7880,35 +7654,31 @@ msgstr "El missatge té comentaris"
 msgid "unit ID %s"
 msgstr ""
 
-#: weblate/trans/util.py:53
+#: weblate/trans/util.py:52
 msgid "Very high"
 msgstr ""
 
-#: weblate/trans/util.py:54
+#: weblate/trans/util.py:53
 msgid "High"
 msgstr ""
 
-#: weblate/trans/util.py:55
+#: weblate/trans/util.py:54
 msgid "Medium"
 msgstr "Mitjana"
 
-#: weblate/trans/util.py:56
+#: weblate/trans/util.py:55
 msgid "Low"
 msgstr "Baix"
 
-#: weblate/trans/util.py:57
+#: weblate/trans/util.py:56
 msgid "Very low"
 msgstr ""
 
-#: weblate/trans/util.py:195
+#: weblate/trans/util.py:194
 #, python-brace-format
 msgid ""
 "{0} is translated into {1} languages using Weblate. Join the translation or "
 "start translating your own project."
-msgstr ""
-
-#: weblate/trans/util.py:257
-msgid "Object listing disabled"
 msgstr ""
 
 #: weblate/trans/validators.py:30
@@ -8448,6 +8218,239 @@ msgstr ""
 #: weblate/utils/validators.py:191
 msgid "Unsupported file format."
 msgstr ""
+
+#: weblate/wladmin/sites.py:72 weblate/wladmin/sites.py:73
+#, fuzzy
+#| msgid "Weblate translations"
+msgid "Weblate administration"
+msgstr "Traduccions Weblate"
+
+#: weblate/wladmin/sites.py:152
+msgid "Object listing disabled"
+msgstr ""
+
+#: weblate/wladmin/templates/admin/accounts/change_form.html:8
+#: weblate/wladmin/templates/admin/trans/change_form.html:20
+#, python-format
+msgid ""
+"Required fields are marked as bold, you can find more information in the <a "
+"href=\"%(url)s\">documentation</a>."
+msgstr ""
+"Els camp obligatoris són en negreta, podeu trobar més informació a la <a "
+"href=\"%(url)s\">documentació</a>."
+
+#: weblate/wladmin/templates/admin/index.html:10
+msgid "Reports"
+msgstr "Informes"
+
+#: weblate/wladmin/templates/admin/index.html:13
+#: weblate/wladmin/templates/admin/report.html:4
+#: weblate/wladmin/templates/admin/report.html:13
+msgid "Status of repositories"
+msgstr "Estat dels dipòsits"
+
+#: weblate/wladmin/templates/admin/index.html:19
+#: weblate/wladmin/templates/admin/ssh.html:4
+#: weblate/wladmin/templates/admin/ssh.html:8
+msgid "SSH keys"
+msgstr "Claus SSH"
+
+#: weblate/wladmin/templates/admin/index.html:25
+#: weblate/wladmin/templates/admin/performance.html:5
+#: weblate/wladmin/templates/admin/performance.html:14
+msgid "Performance report"
+msgstr "Informe de rendiment"
+
+#: weblate/wladmin/templates/admin/logout-confirm.html:23
+msgid "Please confirm your logout."
+msgstr ""
+
+#: weblate/wladmin/templates/admin/logout-confirm.html:26
+msgid "I confirm logout"
+msgstr ""
+
+#: weblate/wladmin/templates/admin/performance.html:9
+#: weblate/wladmin/templates/admin/report.html:8
+#: weblate/wladmin/templates/admin/ssh.html:8
+msgid "Home"
+msgstr "Inici"
+
+#: weblate/wladmin/templates/admin/performance.html:9
+msgid "Performance"
+msgstr "Rendiment"
+
+#: weblate/wladmin/templates/admin/performance.html:20
+msgid "Check"
+msgstr "Comprova"
+
+#: weblate/wladmin/templates/admin/performance.html:22
+msgid "Result"
+msgstr "Resultat"
+
+#: weblate/wladmin/templates/admin/performance.html:40
+msgid "Configuration errors"
+msgstr "Errors de configuració"
+
+#: weblate/wladmin/templates/admin/report.html:17
+#, python-format
+msgid ""
+"Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
+"%(repo)s</a> instead."
+msgstr ""
+"No es mostra l'estat del dipòsit enllaçat. Altrament, verifiqueu <a href=\"#"
+"%(slug)s\">%(repo)s</a>."
+
+#: weblate/wladmin/templates/admin/ssh.html:14
+msgid "Public SSH key"
+msgstr "Clau SSH pública"
+
+#: weblate/wladmin/templates/admin/ssh.html:15
+msgid "Weblate currently uses following SSH key:"
+msgstr "Weblate utilitza actualment les claus SSH següents:"
+
+#: weblate/wladmin/templates/admin/ssh.html:22
+msgid "Generate SSH key"
+msgstr "Genera una clau SSH"
+
+#: weblate/wladmin/templates/admin/ssh.html:23
+msgid ""
+"You don't seem to have existing SSH key, by pressing button below Weblate "
+"will generate it for you."
+msgstr ""
+"Si, com sembla, no teniu una clau SSH, Weblate us en generarà una prement el "
+"botó de sota."
+
+#: weblate/wladmin/templates/admin/ssh.html:33
+msgid "Known host keys"
+msgstr "Claus conegudes d'allotjament"
+
+#: weblate/wladmin/templates/admin/ssh.html:40
+msgid "Hostname"
+msgstr "Nom del servidor"
+
+#: weblate/wladmin/templates/admin/ssh.html:41
+msgid "Key type"
+msgstr "Tipus de clau"
+
+#: weblate/wladmin/templates/admin/ssh.html:42
+msgid "Fingerprint"
+msgstr "Empremta dactilar"
+
+#: weblate/wladmin/templates/admin/ssh.html:55
+msgid "Add host key"
+msgstr "Afegir una clau de servidor"
+
+#: weblate/wladmin/templates/admin/ssh.html:56
+msgid ""
+"To access SSH hosts, its host key needs to be verified. You can get the host "
+"key by entering a domain name or IP for the host in the form below."
+msgstr ""
+"Per accedir als allotjament SSH, cal que les seves claus es verifiquin. "
+"Podeu obtenir una clau d'allotjament indicant el nom de domini o la IP de "
+"l'allotjament en el formulari de sota."
+
+#: weblate/wladmin/templates/admin/ssh.html:60
+msgid "Host:"
+msgstr "Allotjament:"
+
+#: weblate/wladmin/templates/admin/ssh.html:62
+msgid "Port:"
+msgstr "Port:"
+
+#: weblate/wladmin/templates/admin/ssh.html:64
+msgid "Submit"
+msgstr "Desar"
+
+#: weblate/wladmin/templates/admin/ssh.html:67
+msgid "More information"
+msgstr "Més informació"
+
+#: weblate/wladmin/templates/admin/ssh.html:69
+#, python-format
+msgid ""
+"You can find more information about setting up SSH keys in <a href="
+"\"%(ssh_docs)s\">the Weblate manual</a>."
+msgstr ""
+"Podeu trobar més informació sobre la configuració de les claus SSH al <a "
+"href=\"%(ssh_docs)s\">manual de Weblate</a>."
+
+#: weblate/wladmin/templates/admin/trans/change_form.html:22
+msgid "Do not change this object here, please use Weblate interface instead."
+msgstr ""
+"Si us plau no canvieu aquest objecte aquí, altrament utilitzeu la interfície "
+"Weblate."
+
+#: weblate/wladmin/templates/admin/trans/change_form.html:26
+#, python-format
+msgid ""
+"Importing a new translation can take some time, please check <a href="
+"\"%(url)s\">our documentation</a> for information on how to improve this."
+msgstr ""
+"La importació d'una traducció nova pot prendre temps. Consulteu <a href="
+"\"%(url)s\">la nostra documentació</a> per a informar-vos de com millorar "
+"aquest punt."
+
+#: weblate/wladmin/views.py:78
+msgid "Debug mode"
+msgstr "Mode de depuració"
+
+#: weblate/wladmin/views.py:86
+msgid "Site domain"
+msgstr "Domini del lloc web"
+
+#: weblate/wladmin/views.py:93
+msgid "Database backend"
+msgstr ""
+
+#: weblate/wladmin/views.py:100
+msgid "Site administrator"
+msgstr ""
+
+#. Translators: Indexing is postponed to cron job
+#: weblate/wladmin/views.py:109
+msgid "Indexing offloading"
+msgstr ""
+
+#. Translators: Indexing is postponed to cron job
+#: weblate/wladmin/views.py:124
+msgid "Indexing offloading processing"
+msgstr ""
+
+#: weblate/wladmin/views.py:141
+msgid "Django caching"
+msgstr ""
+
+#: weblate/wladmin/views.py:148
+msgid "Avatar caching"
+msgstr "Captura d'avatar"
+
+#: weblate/wladmin/views.py:162
+msgid "Email addresses"
+msgstr "Adreces de correu electrònic"
+
+#: weblate/wladmin/views.py:172
+msgid "Federated avatar support"
+msgstr ""
+
+#: weblate/wladmin/views.py:179
+msgid "pyuca library"
+msgstr ""
+
+#: weblate/wladmin/views.py:186
+msgid "Secret key"
+msgstr "Clau secreta"
+
+#: weblate/wladmin/views.py:193
+msgid "Allowed hosts"
+msgstr ""
+
+#: weblate/wladmin/views.py:202
+msgid "Cached template loader"
+msgstr ""
+
+#: weblate/wladmin/views.py:210
+msgid "Admin static files"
+msgstr "Fitxers estàtics de l'administrador"
 
 #~ msgid "This site is built using following projects:"
 #~ msgstr "Aquest lloc empra els projectes següents:"

@@ -6,11 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: weblate-website-ja\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-07-21 18:24+0000\n"
+"POT-Creation-Date: 2017-07-31 13:10+0000\n"
 "PO-Revision-Date: 2017-07-21 22:33+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
-"Language-Team: Japanese "
-"<https://hosted.weblate.org/projects/weblate/master/ja/>\n"
+"Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
+"ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -119,8 +119,8 @@ msgstr "お名前"
 msgid "Your email"
 msgstr "電子メールアドレス"
 
-#: weblate/accounts/forms.py:337 weblate/templates/admin/performance.html:47
-#: weblate/trans/models/whiteboard.py:65
+#: weblate/accounts/forms.py:337 weblate/trans/models/whiteboard.py:65
+#: weblate/wladmin/templates/admin/performance.html:47
 msgid "Message"
 msgstr "メッセージ"
 
@@ -530,7 +530,7 @@ msgstr "ホスティング"
 msgid "Login"
 msgstr "ログイン"
 
-#: weblate/accounts/views.py:534 weblate/admin.py:141
+#: weblate/accounts/views.py:534 weblate/wladmin/sites.py:144
 msgid "Thanks for using Weblate!"
 msgstr "Weblate のご利用ありがとうございました！"
 
@@ -595,14 +595,6 @@ msgid ""
 msgstr ""
 "登録を完了することができませんでした。この認証 (電子メールアドレスまたはユー"
 "ザ名) が既に他のアカウントと関連づけられています！"
-
-#: weblate/admin.py:68 weblate/admin.py:69
-msgid "Weblate administration"
-msgstr "Weblate の管理"
-
-#: weblate/admin.py:144 weblate/templates/base.html:126
-msgid "Logout"
-msgstr "ログアウト"
 
 #: weblate/billing/admin.py:50 weblate/billing/models.py:122
 #: weblate/templates/accounts/user.html:38
@@ -1552,12 +1544,12 @@ msgstr ""
 #: weblate/templates/accounts/profile.html:134
 #: weblate/templates/accounts/profile.html:169
 #: weblate/templates/accounts/profile.html:243
-#: weblate/templates/accounts/profile.html:286
-#: weblate/templates/admin/performance.html:23
-#: weblate/templates/admin/performance.html:32 weblate/templates/base.html:118
+#: weblate/templates/accounts/profile.html:286 weblate/templates/base.html:118
 #: weblate/templates/check.html:42 weblate/templates/check_project.html:43
 #: weblate/templates/check_subproject.html:44 weblate/templates/checks.html:34
 #: weblate/templates/footer.html:9
+#: weblate/wladmin/templates/admin/performance.html:23
+#: weblate/wladmin/templates/admin/performance.html:32
 msgid "Documentation"
 msgstr "ドキュメント"
 
@@ -1851,7 +1843,7 @@ msgid "Reset my password"
 msgstr "パスワードをリセットする"
 
 #: weblate/templates/accounts/user.html:26
-#: weblate/templates/admin/performance.html:46
+#: weblate/wladmin/templates/admin/performance.html:46
 msgid "Name"
 msgstr "名前"
 
@@ -1871,174 +1863,6 @@ msgstr "過去 30 日間の作業"
 msgid "Activity in last year"
 msgstr "昨年の作業"
 
-#: weblate/templates/admin/accounts/change_form.html:8
-#: weblate/templates/admin/trans/change_form.html:20
-#, python-format
-msgid ""
-"Required fields are marked as bold, you can find more information in the <a "
-"href=\"%(url)s\">documentation</a>."
-msgstr ""
-"必須項目を太字でマークしています。詳しくは <a href=\"%(url)s\">ドキュメンテー"
-"ション</a> をお読みください。"
-
-#: weblate/templates/admin/custom-index.html:10
-msgid "Reports"
-msgstr "レポート"
-
-#: weblate/templates/admin/custom-index.html:13
-#: weblate/templates/admin/report.html:4 weblate/templates/admin/report.html:13
-msgid "Status of repositories"
-msgstr "リポジトリの状態"
-
-#: weblate/templates/admin/custom-index.html:19
-#: weblate/templates/admin/ssh.html:4 weblate/templates/admin/ssh.html:8
-msgid "SSH keys"
-msgstr "SSH 鍵"
-
-#: weblate/templates/admin/custom-index.html:25
-#: weblate/templates/admin/performance.html:5
-#: weblate/templates/admin/performance.html:14
-msgid "Performance report"
-msgstr "性能レポート"
-
-#: weblate/templates/admin/logout-confirm.html:23
-msgid "Please confirm your logout."
-msgstr "ログアウトしたことをご確認ください。"
-
-#: weblate/templates/admin/logout-confirm.html:26
-msgid "I confirm logout"
-msgstr "ログアウト確認"
-
-#: weblate/templates/admin/performance.html:9
-#: weblate/templates/admin/report.html:8 weblate/templates/admin/ssh.html:8
-msgid "Home"
-msgstr "トップ"
-
-#: weblate/templates/admin/performance.html:9
-msgid "Performance"
-msgstr "性能"
-
-#: weblate/templates/admin/performance.html:20
-msgid "Check"
-msgstr "校正"
-
-#: weblate/templates/admin/performance.html:21
-#: weblate/templates/admin/report.html:8 weblate/templates/js/detail.html:17
-#: weblate/templates/js/translations.html:8
-msgid "Status"
-msgstr "状態"
-
-#: weblate/templates/admin/performance.html:22
-msgid "Result"
-msgstr "結果"
-
-#: weblate/templates/admin/performance.html:40
-msgid "Configuration errors"
-msgstr "設定エラー"
-
-#: weblate/templates/admin/report.html:17
-#, python-format
-msgid ""
-"Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
-"%(repo)s</a> instead."
-msgstr ""
-"リンクされているリポジトリの状態は表示していません。 <a href=\"#%(slug)s\">"
-"%(repo)s</a> をご確認ください。"
-
-#: weblate/templates/admin/ssh.html:14
-msgid "Public SSH key"
-msgstr "公開 SSH 鍵"
-
-#: weblate/templates/admin/ssh.html:15
-msgid "Weblate currently uses following SSH key:"
-msgstr "Weblate では現在、下記の SSH 鍵を使用しています:"
-
-#: weblate/templates/admin/ssh.html:22
-msgid "Generate SSH key"
-msgstr "SSH 鍵の生成"
-
-#: weblate/templates/admin/ssh.html:23
-msgid ""
-"You don't seem to have existing SSH key, by pressing button below Weblate "
-"will generate it for you."
-msgstr ""
-"既存の SSH 鍵はありません。下記のボタンを押すことで、 Weblate が鍵を生成しま"
-"す。"
-
-#: weblate/templates/admin/ssh.html:27 weblate/templates/subproject.html:180
-#: weblate/templates/subproject.html:201
-msgid "Generate"
-msgstr "生成"
-
-#: weblate/templates/admin/ssh.html:33
-msgid "Known host keys"
-msgstr "既知のホスト鍵"
-
-#: weblate/templates/admin/ssh.html:40
-msgid "Hostname"
-msgstr "ホスト名"
-
-#: weblate/templates/admin/ssh.html:41
-msgid "Key type"
-msgstr "鍵のタイプ"
-
-#: weblate/templates/admin/ssh.html:42
-msgid "Fingerprint"
-msgstr "指紋"
-
-#: weblate/templates/admin/ssh.html:55
-msgid "Add host key"
-msgstr "ホスト鍵の追加"
-
-#: weblate/templates/admin/ssh.html:56
-msgid ""
-"To access SSH hosts, its host key needs to be verified. You can get the host "
-"key by entering a domain name or IP for the host in the form below."
-msgstr ""
-"SSH ホストにアクセスするには、ホスト鍵を検証する必要があります。下記のフォー"
-"ムにドメイン名または IP アドレスを入力して、ホスト鍵を取得してください。"
-
-#: weblate/templates/admin/ssh.html:60
-msgid "Host:"
-msgstr "ホスト:"
-
-#: weblate/templates/admin/ssh.html:62
-msgid "Port:"
-msgstr "ポート:"
-
-#: weblate/templates/admin/ssh.html:64
-msgid "Submit"
-msgstr "送信"
-
-#: weblate/templates/admin/ssh.html:67
-msgid "More information"
-msgstr "さらなる情報"
-
-#: weblate/templates/admin/ssh.html:69
-#, python-format
-msgid ""
-"You can find more information about setting up SSH keys in <a href="
-"\"%(ssh_docs)s\">the Weblate manual</a>."
-msgstr ""
-"SSH 鍵の設定方法について、詳しくは <a href=\"%(ssh_docs)s\">Weblate のマニュ"
-"アル</a> をお読みください。"
-
-#: weblate/templates/admin/trans/change_form.html:22
-msgid "Do not change this object here, please use Weblate interface instead."
-msgstr ""
-"ここではこのオブジェクトを変更せず、 Weblate のインターフェイスを利用して変更"
-"してください。"
-
-#: weblate/templates/admin/trans/change_form.html:26
-#, python-format
-msgid ""
-"Importing a new translation can take some time, please check <a href="
-"\"%(url)s\">our documentation</a> for information on how to improve this."
-msgstr ""
-"新しい翻訳のインポートには、しばらく時間がかかります。この処理の改善方法につ"
-"いて、詳しくは <a href=\"%(url)s\">ドキュメンテーション</a> をお読みくださ"
-"い。"
-
 #: weblate/templates/base.html:94
 msgid "Toggle navigation"
 msgstr "ナビゲーションの切り替え"
@@ -2054,6 +1878,10 @@ msgstr "監視しているプロジェクトの管理"
 #: weblate/templates/base.html:124
 msgid "Administration"
 msgstr "管理"
+
+#: weblate/templates/base.html:126 weblate/wladmin/sites.py:147
+msgid "Logout"
+msgstr "ログアウト"
 
 #: weblate/templates/base.html:150
 msgid ""
@@ -3682,6 +3510,12 @@ msgstr "言語を管理するには、登録してください"
 msgid "Browse all component changes"
 msgstr "すべてのコンポーネントの変更を参照する"
 
+#: weblate/templates/js/detail.html:17 weblate/templates/js/translations.html:8
+#: weblate/wladmin/templates/admin/performance.html:21
+#: weblate/wladmin/templates/admin/report.html:8
+msgid "Status"
+msgstr "状態"
+
 #: weblate/templates/js/detail.html:50 weblate/templates/list-checks.html:9
 #, python-format
 msgid "Ignore: %(check)s"
@@ -4762,6 +4596,11 @@ msgstr ""
 "一覧表示されます。翻訳者への謝辞を示すため、ドキュメンテーションやアプリケー"
 "ションに記載する際に使用することができます。"
 
+#: weblate/templates/subproject.html:180 weblate/templates/subproject.html:201
+#: weblate/wladmin/templates/admin/ssh.html:27
+msgid "Generate"
+msgstr "生成"
+
 #: weblate/templates/subproject.html:192
 msgid "Contributor stats"
 msgstr "貢献者の統計情報"
@@ -5463,68 +5302,6 @@ msgstr "品質チェックの更新"
 #: weblate/trans/admin.py:78 weblate/trans/admin.py:131
 msgid "Commit pending changes"
 msgstr "保留中の変更をコミットする"
-
-#: weblate/trans/admin_views.py:81
-msgid "Debug mode"
-msgstr "デバッグモード"
-
-#: weblate/trans/admin_views.py:89
-msgid "Site domain"
-msgstr "サイトドメイン"
-
-#: weblate/trans/admin_views.py:96
-msgid "Database backend"
-msgstr "データベースのバックエンド"
-
-#: weblate/trans/admin_views.py:103
-msgid "Site administrator"
-msgstr "サイト管理者"
-
-#. Translators: Indexing is postponed to cron job
-#: weblate/trans/admin_views.py:112
-msgid "Indexing offloading"
-msgstr "索引作成の負荷軽減"
-
-#. Translators: Indexing is postponed to cron job
-#: weblate/trans/admin_views.py:127
-msgid "Indexing offloading processing"
-msgstr "処理中の索引作成の負荷軽減"
-
-#: weblate/trans/admin_views.py:144
-msgid "Django caching"
-msgstr "Django キャッシュ"
-
-#: weblate/trans/admin_views.py:151
-msgid "Avatar caching"
-msgstr "アバターのキャッシュ"
-
-#: weblate/trans/admin_views.py:165
-msgid "Email addresses"
-msgstr "電子メールアドレス"
-
-#: weblate/trans/admin_views.py:175
-msgid "Federated avatar support"
-msgstr "外部アバターのサポート"
-
-#: weblate/trans/admin_views.py:182
-msgid "pyuca library"
-msgstr "pyuca ライブラリ"
-
-#: weblate/trans/admin_views.py:189
-msgid "Secret key"
-msgstr "機密鍵"
-
-#: weblate/trans/admin_views.py:196
-msgid "Allowed hosts"
-msgstr "許可済みホスト"
-
-#: weblate/trans/admin_views.py:205
-msgid "Cached template loader"
-msgstr "キャッシュ済みテンプレートローダ"
-
-#: weblate/trans/admin_views.py:213
-msgid "Admin static files"
-msgstr "固定ファイルの管理"
 
 #: weblate/trans/apps.py:34
 msgid "Weblate translations"
@@ -7585,27 +7362,27 @@ msgstr "コメントがあります"
 msgid "unit ID %s"
 msgstr "ユニット ID %s"
 
-#: weblate/trans/util.py:53
+#: weblate/trans/util.py:52
 msgid "Very high"
 msgstr "非常に高い"
 
-#: weblate/trans/util.py:54
+#: weblate/trans/util.py:53
 msgid "High"
 msgstr "高"
 
-#: weblate/trans/util.py:55
+#: weblate/trans/util.py:54
 msgid "Medium"
 msgstr "中規模"
 
-#: weblate/trans/util.py:56
+#: weblate/trans/util.py:55
 msgid "Low"
 msgstr "低"
 
-#: weblate/trans/util.py:57
+#: weblate/trans/util.py:56
 msgid "Very low"
 msgstr "非常に低い"
 
-#: weblate/trans/util.py:195
+#: weblate/trans/util.py:194
 #, python-brace-format
 msgid ""
 "{0} is translated into {1} languages using Weblate. Join the translation or "
@@ -7613,10 +7390,6 @@ msgid ""
 msgstr ""
 "{0} は Weblate を利用して {1} 種類の言語に翻訳されています。翻訳に参加する"
 "か、独自のプロジェクトで翻訳を始めましょう。"
-
-#: weblate/trans/util.py:257
-msgid "Object listing disabled"
-msgstr "オブジェクトの一覧が無効化されています"
 
 #: weblate/trans/validators.py:30
 msgid "RST text"
@@ -8141,6 +7914,236 @@ msgstr "フルネームには特殊な文字を使用しないでください。
 #: weblate/utils/validators.py:191
 msgid "Unsupported file format."
 msgstr "未対応のファイル形式です。"
+
+#: weblate/wladmin/sites.py:72 weblate/wladmin/sites.py:73
+msgid "Weblate administration"
+msgstr "Weblate の管理"
+
+#: weblate/wladmin/sites.py:152
+msgid "Object listing disabled"
+msgstr "オブジェクトの一覧が無効化されています"
+
+#: weblate/wladmin/templates/admin/accounts/change_form.html:8
+#: weblate/wladmin/templates/admin/trans/change_form.html:20
+#, python-format
+msgid ""
+"Required fields are marked as bold, you can find more information in the <a "
+"href=\"%(url)s\">documentation</a>."
+msgstr ""
+"必須項目を太字でマークしています。詳しくは <a href=\"%(url)s\">ドキュメンテー"
+"ション</a> をお読みください。"
+
+#: weblate/wladmin/templates/admin/index.html:10
+msgid "Reports"
+msgstr "レポート"
+
+#: weblate/wladmin/templates/admin/index.html:13
+#: weblate/wladmin/templates/admin/report.html:4
+#: weblate/wladmin/templates/admin/report.html:13
+msgid "Status of repositories"
+msgstr "リポジトリの状態"
+
+#: weblate/wladmin/templates/admin/index.html:19
+#: weblate/wladmin/templates/admin/ssh.html:4
+#: weblate/wladmin/templates/admin/ssh.html:8
+msgid "SSH keys"
+msgstr "SSH 鍵"
+
+#: weblate/wladmin/templates/admin/index.html:25
+#: weblate/wladmin/templates/admin/performance.html:5
+#: weblate/wladmin/templates/admin/performance.html:14
+msgid "Performance report"
+msgstr "性能レポート"
+
+#: weblate/wladmin/templates/admin/logout-confirm.html:23
+msgid "Please confirm your logout."
+msgstr "ログアウトしたことをご確認ください。"
+
+#: weblate/wladmin/templates/admin/logout-confirm.html:26
+msgid "I confirm logout"
+msgstr "ログアウト確認"
+
+#: weblate/wladmin/templates/admin/performance.html:9
+#: weblate/wladmin/templates/admin/report.html:8
+#: weblate/wladmin/templates/admin/ssh.html:8
+msgid "Home"
+msgstr "トップ"
+
+#: weblate/wladmin/templates/admin/performance.html:9
+msgid "Performance"
+msgstr "性能"
+
+#: weblate/wladmin/templates/admin/performance.html:20
+msgid "Check"
+msgstr "校正"
+
+#: weblate/wladmin/templates/admin/performance.html:22
+msgid "Result"
+msgstr "結果"
+
+#: weblate/wladmin/templates/admin/performance.html:40
+msgid "Configuration errors"
+msgstr "設定エラー"
+
+#: weblate/wladmin/templates/admin/report.html:17
+#, python-format
+msgid ""
+"Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
+"%(repo)s</a> instead."
+msgstr ""
+"リンクされているリポジトリの状態は表示していません。 <a href=\"#%(slug)s\">"
+"%(repo)s</a> をご確認ください。"
+
+#: weblate/wladmin/templates/admin/ssh.html:14
+msgid "Public SSH key"
+msgstr "公開 SSH 鍵"
+
+#: weblate/wladmin/templates/admin/ssh.html:15
+msgid "Weblate currently uses following SSH key:"
+msgstr "Weblate では現在、下記の SSH 鍵を使用しています:"
+
+#: weblate/wladmin/templates/admin/ssh.html:22
+msgid "Generate SSH key"
+msgstr "SSH 鍵の生成"
+
+#: weblate/wladmin/templates/admin/ssh.html:23
+msgid ""
+"You don't seem to have existing SSH key, by pressing button below Weblate "
+"will generate it for you."
+msgstr ""
+"既存の SSH 鍵はありません。下記のボタンを押すことで、 Weblate が鍵を生成しま"
+"す。"
+
+#: weblate/wladmin/templates/admin/ssh.html:33
+msgid "Known host keys"
+msgstr "既知のホスト鍵"
+
+#: weblate/wladmin/templates/admin/ssh.html:40
+msgid "Hostname"
+msgstr "ホスト名"
+
+#: weblate/wladmin/templates/admin/ssh.html:41
+msgid "Key type"
+msgstr "鍵のタイプ"
+
+#: weblate/wladmin/templates/admin/ssh.html:42
+msgid "Fingerprint"
+msgstr "指紋"
+
+#: weblate/wladmin/templates/admin/ssh.html:55
+msgid "Add host key"
+msgstr "ホスト鍵の追加"
+
+#: weblate/wladmin/templates/admin/ssh.html:56
+msgid ""
+"To access SSH hosts, its host key needs to be verified. You can get the host "
+"key by entering a domain name or IP for the host in the form below."
+msgstr ""
+"SSH ホストにアクセスするには、ホスト鍵を検証する必要があります。下記のフォー"
+"ムにドメイン名または IP アドレスを入力して、ホスト鍵を取得してください。"
+
+#: weblate/wladmin/templates/admin/ssh.html:60
+msgid "Host:"
+msgstr "ホスト:"
+
+#: weblate/wladmin/templates/admin/ssh.html:62
+msgid "Port:"
+msgstr "ポート:"
+
+#: weblate/wladmin/templates/admin/ssh.html:64
+msgid "Submit"
+msgstr "送信"
+
+#: weblate/wladmin/templates/admin/ssh.html:67
+msgid "More information"
+msgstr "さらなる情報"
+
+#: weblate/wladmin/templates/admin/ssh.html:69
+#, python-format
+msgid ""
+"You can find more information about setting up SSH keys in <a href="
+"\"%(ssh_docs)s\">the Weblate manual</a>."
+msgstr ""
+"SSH 鍵の設定方法について、詳しくは <a href=\"%(ssh_docs)s\">Weblate のマニュ"
+"アル</a> をお読みください。"
+
+#: weblate/wladmin/templates/admin/trans/change_form.html:22
+msgid "Do not change this object here, please use Weblate interface instead."
+msgstr ""
+"ここではこのオブジェクトを変更せず、 Weblate のインターフェイスを利用して変更"
+"してください。"
+
+#: weblate/wladmin/templates/admin/trans/change_form.html:26
+#, python-format
+msgid ""
+"Importing a new translation can take some time, please check <a href="
+"\"%(url)s\">our documentation</a> for information on how to improve this."
+msgstr ""
+"新しい翻訳のインポートには、しばらく時間がかかります。この処理の改善方法につ"
+"いて、詳しくは <a href=\"%(url)s\">ドキュメンテーション</a> をお読みくださ"
+"い。"
+
+#: weblate/wladmin/views.py:78
+msgid "Debug mode"
+msgstr "デバッグモード"
+
+#: weblate/wladmin/views.py:86
+msgid "Site domain"
+msgstr "サイトドメイン"
+
+#: weblate/wladmin/views.py:93
+msgid "Database backend"
+msgstr "データベースのバックエンド"
+
+#: weblate/wladmin/views.py:100
+msgid "Site administrator"
+msgstr "サイト管理者"
+
+#. Translators: Indexing is postponed to cron job
+#: weblate/wladmin/views.py:109
+msgid "Indexing offloading"
+msgstr "索引作成の負荷軽減"
+
+#. Translators: Indexing is postponed to cron job
+#: weblate/wladmin/views.py:124
+msgid "Indexing offloading processing"
+msgstr "処理中の索引作成の負荷軽減"
+
+#: weblate/wladmin/views.py:141
+msgid "Django caching"
+msgstr "Django キャッシュ"
+
+#: weblate/wladmin/views.py:148
+msgid "Avatar caching"
+msgstr "アバターのキャッシュ"
+
+#: weblate/wladmin/views.py:162
+msgid "Email addresses"
+msgstr "電子メールアドレス"
+
+#: weblate/wladmin/views.py:172
+msgid "Federated avatar support"
+msgstr "外部アバターのサポート"
+
+#: weblate/wladmin/views.py:179
+msgid "pyuca library"
+msgstr "pyuca ライブラリ"
+
+#: weblate/wladmin/views.py:186
+msgid "Secret key"
+msgstr "機密鍵"
+
+#: weblate/wladmin/views.py:193
+msgid "Allowed hosts"
+msgstr "許可済みホスト"
+
+#: weblate/wladmin/views.py:202
+msgid "Cached template loader"
+msgstr "キャッシュ済みテンプレートローダ"
+
+#: weblate/wladmin/views.py:210
+msgid "Admin static files"
+msgstr "固定ファイルの管理"
 
 #~ msgid "Pulse"
 #~ msgstr "パルス"

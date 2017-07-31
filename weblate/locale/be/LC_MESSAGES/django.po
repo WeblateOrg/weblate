@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-07-21 18:24+0000\n"
+"POT-Creation-Date: 2017-07-31 13:10+0000\n"
 "PO-Revision-Date: 2017-07-10 20:12+0000\n"
 "Last-Translator: Viktar Vauchkevich <victorenator@gmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/weblate/"
@@ -120,8 +120,8 @@ msgstr "Вашае імя"
 msgid "Your email"
 msgstr "Адрас вашай эл. пошты"
 
-#: weblate/accounts/forms.py:337 weblate/templates/admin/performance.html:47
-#: weblate/trans/models/whiteboard.py:65
+#: weblate/accounts/forms.py:337 weblate/trans/models/whiteboard.py:65
+#: weblate/wladmin/templates/admin/performance.html:47
 msgid "Message"
 msgstr "Паведамленне"
 
@@ -526,7 +526,7 @@ msgstr "Хостынг"
 msgid "Login"
 msgstr "Уваход"
 
-#: weblate/accounts/views.py:534 weblate/admin.py:141
+#: weblate/accounts/views.py:534 weblate/wladmin/sites.py:144
 msgid "Thanks for using Weblate!"
 msgstr "Дзякуем за карыстанне сістэмай Weblate!"
 
@@ -591,14 +591,6 @@ msgid ""
 msgstr ""
 "Не атрымалася закончыць вашу рэгістрацыю! Гэтая аўтэнтыфікацыя, электронная "
 "пошта ці імя карыстальніка ўжо звязаная з іншым контам!"
-
-#: weblate/admin.py:68 weblate/admin.py:69
-msgid "Weblate administration"
-msgstr "Адміністраванне Weblate"
-
-#: weblate/admin.py:144 weblate/templates/base.html:126
-msgid "Logout"
-msgstr "Выйсці"
 
 #: weblate/billing/admin.py:50 weblate/billing/models.py:122
 #: weblate/templates/accounts/user.html:38
@@ -1551,12 +1543,12 @@ msgstr ""
 #: weblate/templates/accounts/profile.html:134
 #: weblate/templates/accounts/profile.html:169
 #: weblate/templates/accounts/profile.html:243
-#: weblate/templates/accounts/profile.html:286
-#: weblate/templates/admin/performance.html:23
-#: weblate/templates/admin/performance.html:32 weblate/templates/base.html:118
+#: weblate/templates/accounts/profile.html:286 weblate/templates/base.html:118
 #: weblate/templates/check.html:42 weblate/templates/check_project.html:43
 #: weblate/templates/check_subproject.html:44 weblate/templates/checks.html:34
 #: weblate/templates/footer.html:9
+#: weblate/wladmin/templates/admin/performance.html:23
+#: weblate/wladmin/templates/admin/performance.html:32
 msgid "Documentation"
 msgstr "Дакументацыя"
 
@@ -1854,7 +1846,7 @@ msgid "Reset my password"
 msgstr "Скінуць пароль"
 
 #: weblate/templates/accounts/user.html:26
-#: weblate/templates/admin/performance.html:46
+#: weblate/wladmin/templates/admin/performance.html:46
 msgid "Name"
 msgstr "Назва"
 
@@ -1874,174 +1866,6 @@ msgstr "Актыўнасць за апошнія 30 дзён"
 msgid "Activity in last year"
 msgstr "Актыўнасць за год"
 
-#: weblate/templates/admin/accounts/change_form.html:8
-#: weblate/templates/admin/trans/change_form.html:20
-#, python-format
-msgid ""
-"Required fields are marked as bold, you can find more information in the <a "
-"href=\"%(url)s\">documentation</a>."
-msgstr ""
-"Абавязковыя палі пазначаны тоўстым шрыфтам. Падрабязнасці ў <a href=\"%(url)s"
-"\">дакументацыі</a>."
-
-#: weblate/templates/admin/custom-index.html:10
-msgid "Reports"
-msgstr "Справаздачы"
-
-#: weblate/templates/admin/custom-index.html:13
-#: weblate/templates/admin/report.html:4 weblate/templates/admin/report.html:13
-msgid "Status of repositories"
-msgstr "Стан рэпазіторыяў"
-
-#: weblate/templates/admin/custom-index.html:19
-#: weblate/templates/admin/ssh.html:4 weblate/templates/admin/ssh.html:8
-msgid "SSH keys"
-msgstr "SSH-ключы"
-
-#: weblate/templates/admin/custom-index.html:25
-#: weblate/templates/admin/performance.html:5
-#: weblate/templates/admin/performance.html:14
-msgid "Performance report"
-msgstr "Справаздача па прадукцыйнасці"
-
-#: weblate/templates/admin/logout-confirm.html:23
-msgid "Please confirm your logout."
-msgstr "Калі ласка, пацвердзіце выхад."
-
-#: weblate/templates/admin/logout-confirm.html:26
-msgid "I confirm logout"
-msgstr "Я пацвярджаю выхад"
-
-#: weblate/templates/admin/performance.html:9
-#: weblate/templates/admin/report.html:8 weblate/templates/admin/ssh.html:8
-msgid "Home"
-msgstr "Пачатковая"
-
-#: weblate/templates/admin/performance.html:9
-msgid "Performance"
-msgstr "Прадукцыйнасць"
-
-#: weblate/templates/admin/performance.html:20
-msgid "Check"
-msgstr "Праверка"
-
-#: weblate/templates/admin/performance.html:21
-#: weblate/templates/admin/report.html:8 weblate/templates/js/detail.html:17
-#: weblate/templates/js/translations.html:8
-msgid "Status"
-msgstr "Стан"
-
-#: weblate/templates/admin/performance.html:22
-msgid "Result"
-msgstr "Вынік"
-
-#: weblate/templates/admin/performance.html:40
-msgid "Configuration errors"
-msgstr "Няслушная канфігурацыя"
-
-#: weblate/templates/admin/report.html:17
-#, python-format
-msgid ""
-"Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
-"%(repo)s</a> instead."
-msgstr ""
-"Стан звязанага рэпазіторыя не паказваецца. Ужывайце <a href=\"#%(slug)s\">"
-"%(repo)s</a>."
-
-#: weblate/templates/admin/ssh.html:14
-msgid "Public SSH key"
-msgstr "Публічны SSH-ключ"
-
-#: weblate/templates/admin/ssh.html:15
-msgid "Weblate currently uses following SSH key:"
-msgstr "SSH-ключ, які зараз выкарыстоўвае Weblate:"
-
-#: weblate/templates/admin/ssh.html:22
-msgid "Generate SSH key"
-msgstr "Згенераваць SSH-ключ"
-
-#: weblate/templates/admin/ssh.html:23
-msgid ""
-"You don't seem to have existing SSH key, by pressing button below Weblate "
-"will generate it for you."
-msgstr ""
-"Здаецца, у вас няма SSH-ключа. Weblate можа згенераваць яго для вас. Для "
-"гэтага пстрыкніце кнопку ніжэй."
-
-#: weblate/templates/admin/ssh.html:27 weblate/templates/subproject.html:180
-#: weblate/templates/subproject.html:201
-msgid "Generate"
-msgstr "Згенераваць"
-
-#: weblate/templates/admin/ssh.html:33
-msgid "Known host keys"
-msgstr "Вядомыя ключы хаста"
-
-#: weblate/templates/admin/ssh.html:40
-msgid "Hostname"
-msgstr "Імя хаста"
-
-#: weblate/templates/admin/ssh.html:41
-msgid "Key type"
-msgstr "Тып ключа"
-
-#: weblate/templates/admin/ssh.html:42
-msgid "Fingerprint"
-msgstr "Адбітак"
-
-#: weblate/templates/admin/ssh.html:55
-msgid "Add host key"
-msgstr "Дадаць ключ хаста"
-
-#: weblate/templates/admin/ssh.html:56
-msgid ""
-"To access SSH hosts, its host key needs to be verified. You can get the host "
-"key by entering a domain name or IP for the host in the form below."
-msgstr ""
-"Каб атрымаць доступ да SSH-хаста, яго ключ мусіць быць верыфікаваны. Вы "
-"можаце атрымаць ключ хаста, увёўшы даменнае імя або IP-адрас для хаста ў "
-"форму ніжэй."
-
-#: weblate/templates/admin/ssh.html:60
-msgid "Host:"
-msgstr "Сервер:"
-
-#: weblate/templates/admin/ssh.html:62
-msgid "Port:"
-msgstr "Порт:"
-
-#: weblate/templates/admin/ssh.html:64
-msgid "Submit"
-msgstr "Адправіць"
-
-#: weblate/templates/admin/ssh.html:67
-msgid "More information"
-msgstr "Падрабязней"
-
-#: weblate/templates/admin/ssh.html:69
-#, python-format
-msgid ""
-"You can find more information about setting up SSH keys in <a href="
-"\"%(ssh_docs)s\">the Weblate manual</a>."
-msgstr ""
-"Больш інфармацыі пра ўжыванне SSH-ключоў у <a href=\"%(ssh_docs)s"
-"\">інструкцыі на Weblate</a>."
-
-#: weblate/templates/admin/trans/change_form.html:22
-msgid "Do not change this object here, please use Weblate interface instead."
-msgstr ""
-"Гэты аб'ект тут мяняць не трэба. Калі ласка, ужывайце для гэтага інтэрфейс "
-"Weblate."
-
-#: weblate/templates/admin/trans/change_form.html:26
-#, python-format
-msgid ""
-"Importing a new translation can take some time, please check <a href="
-"\"%(url)s\">our documentation</a> for information on how to improve this."
-msgstr ""
-"Імпартаванне новых перакладаў можа заняць пэўны час. Калі ласка, звярніцеся "
-"да <a href=\"%(url)s\">дакументацыі</a>, каб даведацца, як гэта палепшыць."
-
 #: weblate/templates/base.html:94
 msgid "Toggle navigation"
 msgstr "Пераключыць накірунак руху"
@@ -2057,6 +1881,10 @@ msgstr "Кіраванне назіраемымі праектамі"
 #: weblate/templates/base.html:124
 msgid "Administration"
 msgstr "Адміністраванне"
+
+#: weblate/templates/base.html:126 weblate/wladmin/sites.py:147
+msgid "Logout"
+msgstr "Выйсці"
 
 #: weblate/templates/base.html:150
 msgid ""
@@ -3679,6 +3507,12 @@ msgstr "Зарэгіструйцеся, каб кіраваць Вашымі м�
 msgid "Browse all component changes"
 msgstr "Праглядзець усе змены ў кампаненце"
 
+#: weblate/templates/js/detail.html:17 weblate/templates/js/translations.html:8
+#: weblate/wladmin/templates/admin/performance.html:21
+#: weblate/wladmin/templates/admin/report.html:8
+msgid "Status"
+msgstr "Стан"
+
 #: weblate/templates/js/detail.html:50 weblate/templates/list-checks.html:9
 #, python-format
 msgid "Ignore: %(check)s"
@@ -4766,6 +4600,11 @@ msgstr ""
 "гэтым кампаненце ў зададзены прамежак часу. Гэта можа быць карысна для "
 "інтэграцыі ў дакументацыю або праграму для падзякі перакладнікам."
 
+#: weblate/templates/subproject.html:180 weblate/templates/subproject.html:201
+#: weblate/wladmin/templates/admin/ssh.html:27
+msgid "Generate"
+msgstr "Згенераваць"
+
 #: weblate/templates/subproject.html:192
 msgid "Contributor stats"
 msgstr "Статыстыка ўдзельніка"
@@ -5493,68 +5332,6 @@ msgstr "Абнавіць праверкі якасці"
 #: weblate/trans/admin.py:78 weblate/trans/admin.py:131
 msgid "Commit pending changes"
 msgstr "Запісаць чаргу змен"
-
-#: weblate/trans/admin_views.py:81
-msgid "Debug mode"
-msgstr "Рэжым адладкі"
-
-#: weblate/trans/admin_views.py:89
-msgid "Site domain"
-msgstr "Дамен сайта"
-
-#: weblate/trans/admin_views.py:96
-msgid "Database backend"
-msgstr "Сервер базы даных"
-
-#: weblate/trans/admin_views.py:103
-msgid "Site administrator"
-msgstr "Адміністратар сайта"
-
-#. Translators: Indexing is postponed to cron job
-#: weblate/trans/admin_views.py:112
-msgid "Indexing offloading"
-msgstr "Індэксаванне выгрузкі"
-
-#. Translators: Indexing is postponed to cron job
-#: weblate/trans/admin_views.py:127
-msgid "Indexing offloading processing"
-msgstr "Апрацоўка разгрузкі індэксавання"
-
-#: weblate/trans/admin_views.py:144
-msgid "Django caching"
-msgstr "Буфераванне Django"
-
-#: weblate/trans/admin_views.py:151
-msgid "Avatar caching"
-msgstr "Кэшаванне аватараў"
-
-#: weblate/trans/admin_views.py:165
-msgid "Email addresses"
-msgstr "Адрасы эл. пошты"
-
-#: weblate/trans/admin_views.py:175
-msgid "Federated avatar support"
-msgstr "Інтэграваная падтрымка аватараў"
-
-#: weblate/trans/admin_views.py:182
-msgid "pyuca library"
-msgstr "Бібліятэка pyuca"
-
-#: weblate/trans/admin_views.py:189
-msgid "Secret key"
-msgstr "Тайны ключ"
-
-#: weblate/trans/admin_views.py:196
-msgid "Allowed hosts"
-msgstr "Дазволеныя хасты"
-
-#: weblate/trans/admin_views.py:205
-msgid "Cached template loader"
-msgstr "Загрузчык кэшаванага шаблона"
-
-#: weblate/trans/admin_views.py:213
-msgid "Admin static files"
-msgstr "Адміністратарскія статычныя файлы"
 
 #: weblate/trans/apps.py:34
 msgid "Weblate translations"
@@ -7641,27 +7418,27 @@ msgstr "Радок мае каментарыі"
 msgid "unit ID %s"
 msgstr "ID модулю %s"
 
-#: weblate/trans/util.py:53
+#: weblate/trans/util.py:52
 msgid "Very high"
 msgstr "Вельмі высокі"
 
-#: weblate/trans/util.py:54
+#: weblate/trans/util.py:53
 msgid "High"
 msgstr "Высокі"
 
-#: weblate/trans/util.py:55
+#: weblate/trans/util.py:54
 msgid "Medium"
 msgstr "Сярэдні"
 
-#: weblate/trans/util.py:56
+#: weblate/trans/util.py:55
 msgid "Low"
 msgstr "Нізкі"
 
-#: weblate/trans/util.py:57
+#: weblate/trans/util.py:56
 msgid "Very low"
 msgstr "Вельмі нізкі"
 
-#: weblate/trans/util.py:195
+#: weblate/trans/util.py:194
 #, python-brace-format
 msgid ""
 "{0} is translated into {1} languages using Weblate. Join the translation or "
@@ -7669,10 +7446,6 @@ msgid ""
 msgstr ""
 "{0} перакладзены на {1} моў з дапамогай Weblate. Далучайціся да перакладу "
 "або пачніце пераклад уласнага праекта."
-
-#: weblate/trans/util.py:257
-msgid "Object listing disabled"
-msgstr "Ліставанне аб'ектаў адключана"
 
 #: weblate/trans/validators.py:30
 msgid "RST text"
@@ -8203,6 +7976,236 @@ msgstr "Калі ласка, пазбягайце адмысловых сімв�
 #: weblate/utils/validators.py:191
 msgid "Unsupported file format."
 msgstr "Непадтрымліваемы фармат файла."
+
+#: weblate/wladmin/sites.py:72 weblate/wladmin/sites.py:73
+msgid "Weblate administration"
+msgstr "Адміністраванне Weblate"
+
+#: weblate/wladmin/sites.py:152
+msgid "Object listing disabled"
+msgstr "Ліставанне аб'ектаў адключана"
+
+#: weblate/wladmin/templates/admin/accounts/change_form.html:8
+#: weblate/wladmin/templates/admin/trans/change_form.html:20
+#, python-format
+msgid ""
+"Required fields are marked as bold, you can find more information in the <a "
+"href=\"%(url)s\">documentation</a>."
+msgstr ""
+"Абавязковыя палі пазначаны тоўстым шрыфтам. Падрабязнасці ў <a href=\"%(url)s"
+"\">дакументацыі</a>."
+
+#: weblate/wladmin/templates/admin/index.html:10
+msgid "Reports"
+msgstr "Справаздачы"
+
+#: weblate/wladmin/templates/admin/index.html:13
+#: weblate/wladmin/templates/admin/report.html:4
+#: weblate/wladmin/templates/admin/report.html:13
+msgid "Status of repositories"
+msgstr "Стан рэпазіторыяў"
+
+#: weblate/wladmin/templates/admin/index.html:19
+#: weblate/wladmin/templates/admin/ssh.html:4
+#: weblate/wladmin/templates/admin/ssh.html:8
+msgid "SSH keys"
+msgstr "SSH-ключы"
+
+#: weblate/wladmin/templates/admin/index.html:25
+#: weblate/wladmin/templates/admin/performance.html:5
+#: weblate/wladmin/templates/admin/performance.html:14
+msgid "Performance report"
+msgstr "Справаздача па прадукцыйнасці"
+
+#: weblate/wladmin/templates/admin/logout-confirm.html:23
+msgid "Please confirm your logout."
+msgstr "Калі ласка, пацвердзіце выхад."
+
+#: weblate/wladmin/templates/admin/logout-confirm.html:26
+msgid "I confirm logout"
+msgstr "Я пацвярджаю выхад"
+
+#: weblate/wladmin/templates/admin/performance.html:9
+#: weblate/wladmin/templates/admin/report.html:8
+#: weblate/wladmin/templates/admin/ssh.html:8
+msgid "Home"
+msgstr "Пачатковая"
+
+#: weblate/wladmin/templates/admin/performance.html:9
+msgid "Performance"
+msgstr "Прадукцыйнасць"
+
+#: weblate/wladmin/templates/admin/performance.html:20
+msgid "Check"
+msgstr "Праверка"
+
+#: weblate/wladmin/templates/admin/performance.html:22
+msgid "Result"
+msgstr "Вынік"
+
+#: weblate/wladmin/templates/admin/performance.html:40
+msgid "Configuration errors"
+msgstr "Няслушная канфігурацыя"
+
+#: weblate/wladmin/templates/admin/report.html:17
+#, python-format
+msgid ""
+"Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
+"%(repo)s</a> instead."
+msgstr ""
+"Стан звязанага рэпазіторыя не паказваецца. Ужывайце <a href=\"#%(slug)s\">"
+"%(repo)s</a>."
+
+#: weblate/wladmin/templates/admin/ssh.html:14
+msgid "Public SSH key"
+msgstr "Публічны SSH-ключ"
+
+#: weblate/wladmin/templates/admin/ssh.html:15
+msgid "Weblate currently uses following SSH key:"
+msgstr "SSH-ключ, які зараз выкарыстоўвае Weblate:"
+
+#: weblate/wladmin/templates/admin/ssh.html:22
+msgid "Generate SSH key"
+msgstr "Згенераваць SSH-ключ"
+
+#: weblate/wladmin/templates/admin/ssh.html:23
+msgid ""
+"You don't seem to have existing SSH key, by pressing button below Weblate "
+"will generate it for you."
+msgstr ""
+"Здаецца, у вас няма SSH-ключа. Weblate можа згенераваць яго для вас. Для "
+"гэтага пстрыкніце кнопку ніжэй."
+
+#: weblate/wladmin/templates/admin/ssh.html:33
+msgid "Known host keys"
+msgstr "Вядомыя ключы хаста"
+
+#: weblate/wladmin/templates/admin/ssh.html:40
+msgid "Hostname"
+msgstr "Імя хаста"
+
+#: weblate/wladmin/templates/admin/ssh.html:41
+msgid "Key type"
+msgstr "Тып ключа"
+
+#: weblate/wladmin/templates/admin/ssh.html:42
+msgid "Fingerprint"
+msgstr "Адбітак"
+
+#: weblate/wladmin/templates/admin/ssh.html:55
+msgid "Add host key"
+msgstr "Дадаць ключ хаста"
+
+#: weblate/wladmin/templates/admin/ssh.html:56
+msgid ""
+"To access SSH hosts, its host key needs to be verified. You can get the host "
+"key by entering a domain name or IP for the host in the form below."
+msgstr ""
+"Каб атрымаць доступ да SSH-хаста, яго ключ мусіць быць верыфікаваны. Вы "
+"можаце атрымаць ключ хаста, увёўшы даменнае імя або IP-адрас для хаста ў "
+"форму ніжэй."
+
+#: weblate/wladmin/templates/admin/ssh.html:60
+msgid "Host:"
+msgstr "Сервер:"
+
+#: weblate/wladmin/templates/admin/ssh.html:62
+msgid "Port:"
+msgstr "Порт:"
+
+#: weblate/wladmin/templates/admin/ssh.html:64
+msgid "Submit"
+msgstr "Адправіць"
+
+#: weblate/wladmin/templates/admin/ssh.html:67
+msgid "More information"
+msgstr "Падрабязней"
+
+#: weblate/wladmin/templates/admin/ssh.html:69
+#, python-format
+msgid ""
+"You can find more information about setting up SSH keys in <a href="
+"\"%(ssh_docs)s\">the Weblate manual</a>."
+msgstr ""
+"Больш інфармацыі пра ўжыванне SSH-ключоў у <a href=\"%(ssh_docs)s"
+"\">інструкцыі на Weblate</a>."
+
+#: weblate/wladmin/templates/admin/trans/change_form.html:22
+msgid "Do not change this object here, please use Weblate interface instead."
+msgstr ""
+"Гэты аб'ект тут мяняць не трэба. Калі ласка, ужывайце для гэтага інтэрфейс "
+"Weblate."
+
+#: weblate/wladmin/templates/admin/trans/change_form.html:26
+#, python-format
+msgid ""
+"Importing a new translation can take some time, please check <a href="
+"\"%(url)s\">our documentation</a> for information on how to improve this."
+msgstr ""
+"Імпартаванне новых перакладаў можа заняць пэўны час. Калі ласка, звярніцеся "
+"да <a href=\"%(url)s\">дакументацыі</a>, каб даведацца, як гэта палепшыць."
+
+#: weblate/wladmin/views.py:78
+msgid "Debug mode"
+msgstr "Рэжым адладкі"
+
+#: weblate/wladmin/views.py:86
+msgid "Site domain"
+msgstr "Дамен сайта"
+
+#: weblate/wladmin/views.py:93
+msgid "Database backend"
+msgstr "Сервер базы даных"
+
+#: weblate/wladmin/views.py:100
+msgid "Site administrator"
+msgstr "Адміністратар сайта"
+
+#. Translators: Indexing is postponed to cron job
+#: weblate/wladmin/views.py:109
+msgid "Indexing offloading"
+msgstr "Індэксаванне выгрузкі"
+
+#. Translators: Indexing is postponed to cron job
+#: weblate/wladmin/views.py:124
+msgid "Indexing offloading processing"
+msgstr "Апрацоўка разгрузкі індэксавання"
+
+#: weblate/wladmin/views.py:141
+msgid "Django caching"
+msgstr "Буфераванне Django"
+
+#: weblate/wladmin/views.py:148
+msgid "Avatar caching"
+msgstr "Кэшаванне аватараў"
+
+#: weblate/wladmin/views.py:162
+msgid "Email addresses"
+msgstr "Адрасы эл. пошты"
+
+#: weblate/wladmin/views.py:172
+msgid "Federated avatar support"
+msgstr "Інтэграваная падтрымка аватараў"
+
+#: weblate/wladmin/views.py:179
+msgid "pyuca library"
+msgstr "Бібліятэка pyuca"
+
+#: weblate/wladmin/views.py:186
+msgid "Secret key"
+msgstr "Тайны ключ"
+
+#: weblate/wladmin/views.py:193
+msgid "Allowed hosts"
+msgstr "Дазволеныя хасты"
+
+#: weblate/wladmin/views.py:202
+msgid "Cached template loader"
+msgstr "Загрузчык кэшаванага шаблона"
+
+#: weblate/wladmin/views.py:210
+msgid "Admin static files"
+msgstr "Адміністратарскія статычныя файлы"
 
 #~ msgid ""
 #~ "Could not find any matching translation in this component list, probably "

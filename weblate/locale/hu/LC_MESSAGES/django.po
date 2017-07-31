@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-07-21 18:24+0000\n"
+"POT-Creation-Date: 2017-07-31 13:10+0000\n"
 "PO-Revision-Date: 2017-05-14 17:11+0000\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/master/"
@@ -131,8 +131,8 @@ msgstr "Az Ön neve"
 msgid "Your email"
 msgstr "E-mail cím"
 
-#: weblate/accounts/forms.py:337 weblate/templates/admin/performance.html:47
-#: weblate/trans/models/whiteboard.py:65
+#: weblate/accounts/forms.py:337 weblate/trans/models/whiteboard.py:65
+#: weblate/wladmin/templates/admin/performance.html:47
 msgid "Message"
 msgstr "Üzenet"
 
@@ -541,7 +541,7 @@ msgstr "Elhelyezés"
 msgid "Login"
 msgstr "Bejelentkezés"
 
-#: weblate/accounts/views.py:534 weblate/admin.py:141
+#: weblate/accounts/views.py:534 weblate/wladmin/sites.py:144
 msgid "Thanks for using Weblate!"
 msgstr "Köszönjük, hogy a Weblate-et használja!"
 
@@ -612,16 +612,6 @@ msgid ""
 "Failed to complete your registration! This authentication, email or username "
 "are already associated with another account!"
 msgstr ""
-
-#: weblate/admin.py:68 weblate/admin.py:69
-#, fuzzy
-#| msgid "Weblate translations"
-msgid "Weblate administration"
-msgstr "Weblate fordítások"
-
-#: weblate/admin.py:144 weblate/templates/base.html:126
-msgid "Logout"
-msgstr "Kijelentkezés"
 
 #: weblate/billing/admin.py:50 weblate/billing/models.py:122
 #: weblate/templates/accounts/user.html:38
@@ -1601,12 +1591,12 @@ msgstr ""
 #: weblate/templates/accounts/profile.html:134
 #: weblate/templates/accounts/profile.html:169
 #: weblate/templates/accounts/profile.html:243
-#: weblate/templates/accounts/profile.html:286
-#: weblate/templates/admin/performance.html:23
-#: weblate/templates/admin/performance.html:32 weblate/templates/base.html:118
+#: weblate/templates/accounts/profile.html:286 weblate/templates/base.html:118
 #: weblate/templates/check.html:42 weblate/templates/check_project.html:43
 #: weblate/templates/check_subproject.html:44 weblate/templates/checks.html:34
 #: weblate/templates/footer.html:9
+#: weblate/wladmin/templates/admin/performance.html:23
+#: weblate/wladmin/templates/admin/performance.html:32
 msgid "Documentation"
 msgstr "Dokumentáció"
 
@@ -1921,7 +1911,7 @@ msgid "Reset my password"
 msgstr "Alaphelyzetbe állít"
 
 #: weblate/templates/accounts/user.html:26
-#: weblate/templates/admin/performance.html:46
+#: weblate/wladmin/templates/admin/performance.html:46
 msgid "Name"
 msgstr "Név"
 
@@ -1941,174 +1931,6 @@ msgstr "Az elmúlt 30 nap tevékenységei"
 msgid "Activity in last year"
 msgstr "Az elmúlt év tevékenységei"
 
-#: weblate/templates/admin/accounts/change_form.html:8
-#: weblate/templates/admin/trans/change_form.html:20
-#, python-format
-msgid ""
-"Required fields are marked as bold, you can find more information in the <a "
-"href=\"%(url)s\">documentation</a>."
-msgstr ""
-"A kötelező mezőket félkövér kiemelés jelzi. További információkat a <a href="
-"\"%(url)s\">dokumentációban</a> talál."
-
-#: weblate/templates/admin/custom-index.html:10
-msgid "Reports"
-msgstr "Jelentések"
-
-#: weblate/templates/admin/custom-index.html:13
-#: weblate/templates/admin/report.html:4 weblate/templates/admin/report.html:13
-msgid "Status of repositories"
-msgstr "Tárolók állapota"
-
-#: weblate/templates/admin/custom-index.html:19
-#: weblate/templates/admin/ssh.html:4 weblate/templates/admin/ssh.html:8
-msgid "SSH keys"
-msgstr "SSH kulcsok"
-
-#: weblate/templates/admin/custom-index.html:25
-#: weblate/templates/admin/performance.html:5
-#: weblate/templates/admin/performance.html:14
-msgid "Performance report"
-msgstr "Teljesítmény jelentés"
-
-#: weblate/templates/admin/logout-confirm.html:23
-msgid "Please confirm your logout."
-msgstr ""
-
-#: weblate/templates/admin/logout-confirm.html:26
-msgid "I confirm logout"
-msgstr ""
-
-#: weblate/templates/admin/performance.html:9
-#: weblate/templates/admin/report.html:8 weblate/templates/admin/ssh.html:8
-msgid "Home"
-msgstr "Kezdőlap"
-
-#: weblate/templates/admin/performance.html:9
-msgid "Performance"
-msgstr "Teljesítmény"
-
-#: weblate/templates/admin/performance.html:20
-msgid "Check"
-msgstr "Ellenőrzés"
-
-#: weblate/templates/admin/performance.html:21
-#: weblate/templates/admin/report.html:8 weblate/templates/js/detail.html:17
-#: weblate/templates/js/translations.html:8
-msgid "Status"
-msgstr "Állapot"
-
-#: weblate/templates/admin/performance.html:22
-msgid "Result"
-msgstr "Eredmény"
-
-#: weblate/templates/admin/performance.html:40
-msgid "Configuration errors"
-msgstr "Konfigurációs hibák"
-
-#: weblate/templates/admin/report.html:17
-#, python-format
-msgid ""
-"Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
-"%(repo)s</a> instead."
-msgstr ""
-"A csatolt tároló státusza nem jelenik meg. Látogasson el ide: <a href=\"#"
-"%(slug)s\">%(repo)s</a>."
-
-#: weblate/templates/admin/ssh.html:14
-msgid "Public SSH key"
-msgstr "Nyilvános SSH kulcs"
-
-#: weblate/templates/admin/ssh.html:15
-msgid "Weblate currently uses following SSH key:"
-msgstr "A Weblate jelenleg az alábbi SSH kulcsokat használja:"
-
-#: weblate/templates/admin/ssh.html:22
-msgid "Generate SSH key"
-msgstr "SSH kulcs generálása"
-
-#: weblate/templates/admin/ssh.html:23
-msgid ""
-"You don't seem to have existing SSH key, by pressing button below Weblate "
-"will generate it for you."
-msgstr ""
-"Úgy tűnik, nem rendelkezel SSH kulccsal. Az alábbi gomb megnyomásával a "
-"Weblate generál egyet neked."
-
-#: weblate/templates/admin/ssh.html:27 weblate/templates/subproject.html:180
-#: weblate/templates/subproject.html:201
-msgid "Generate"
-msgstr "Generálás"
-
-#: weblate/templates/admin/ssh.html:33
-msgid "Known host keys"
-msgstr "Ismert host-azonosító kulcsok"
-
-#: weblate/templates/admin/ssh.html:40
-msgid "Hostname"
-msgstr "Gépnév"
-
-#: weblate/templates/admin/ssh.html:41
-msgid "Key type"
-msgstr "Kulcs típusa"
-
-#: weblate/templates/admin/ssh.html:42
-msgid "Fingerprint"
-msgstr "Ujjlenyomat"
-
-#: weblate/templates/admin/ssh.html:55
-msgid "Add host key"
-msgstr "Host-azonosító kulcs hozzáadása"
-
-#: weblate/templates/admin/ssh.html:56
-msgid ""
-"To access SSH hosts, its host key needs to be verified. You can get the host "
-"key by entering a domain name or IP for the host in the form below."
-msgstr ""
-"SSH hostok eléréséhez ezen gépek kulcsát ellenőrizni kell. A host kulcsok "
-"ellenőrzéséhez adja meg a gép DNS nevét vagy IP címét az alábbi űrlapon."
-
-#: weblate/templates/admin/ssh.html:60
-msgid "Host:"
-msgstr "Gép:"
-
-#: weblate/templates/admin/ssh.html:62
-msgid "Port:"
-msgstr "Port:"
-
-#: weblate/templates/admin/ssh.html:64
-msgid "Submit"
-msgstr "Beküldés"
-
-#: weblate/templates/admin/ssh.html:67
-msgid "More information"
-msgstr "További információ"
-
-#: weblate/templates/admin/ssh.html:69
-#, python-format
-msgid ""
-"You can find more information about setting up SSH keys in <a href="
-"\"%(ssh_docs)s\">the Weblate manual</a>."
-msgstr ""
-"Az SSH kulcsok beállításáról a <a href=\"%(ssh_docs)s\">the Weblate "
-"kézikönyvben</a> talál további információt."
-
-#: weblate/templates/admin/trans/change_form.html:22
-msgid "Do not change this object here, please use Weblate interface instead."
-msgstr ""
-"Itt ne változtasson ezen az objektumon, kérjük használja inkább a Weblate "
-"felületet."
-
-#: weblate/templates/admin/trans/change_form.html:26
-#, python-format
-msgid ""
-"Importing a new translation can take some time, please check <a href="
-"\"%(url)s\">our documentation</a> for information on how to improve this."
-msgstr ""
-"Az új fordítás importálása hosszabb időt is igénybe vehet. A <a href="
-"\"%(url)s\">dokumentációban</a> talál információt arról, hogy hogyan lehet "
-"ezen javítani."
-
 #: weblate/templates/base.html:94
 msgid "Toggle navigation"
 msgstr "Navigáció ki- vagy bekapcsolása"
@@ -2124,6 +1946,10 @@ msgstr "Figyelt projektek kezelése"
 #: weblate/templates/base.html:124
 msgid "Administration"
 msgstr "Adminisztráció"
+
+#: weblate/templates/base.html:126 weblate/wladmin/sites.py:147
+msgid "Logout"
+msgstr "Kijelentkezés"
 
 #: weblate/templates/base.html:150
 msgid ""
@@ -3778,6 +3604,12 @@ msgstr "A nyelvek kezeléséhez regisztráljon"
 msgid "Browse all component changes"
 msgstr "Minden komponens módosítás tallózása"
 
+#: weblate/templates/js/detail.html:17 weblate/templates/js/translations.html:8
+#: weblate/wladmin/templates/admin/performance.html:21
+#: weblate/wladmin/templates/admin/report.html:8
+msgid "Status"
+msgstr "Állapot"
+
 #: weblate/templates/js/detail.html:50 weblate/templates/list-checks.html:9
 #, python-format
 msgid "Ignore: %(check)s"
@@ -4912,6 +4744,11 @@ msgstr ""
 "a komponenshez egy adott időszakban. Hasznos lehet a dokumentációban vagy az "
 "alkalmazásban a fordítóknak szánt köszönetnél."
 
+#: weblate/templates/subproject.html:180 weblate/templates/subproject.html:201
+#: weblate/wladmin/templates/admin/ssh.html:27
+msgid "Generate"
+msgstr "Generálás"
+
 #: weblate/templates/subproject.html:192
 msgid "Contributor stats"
 msgstr "Közreműködési statisztikák"
@@ -5655,68 +5492,6 @@ msgstr "Minőségellenőrzések frissítése"
 #: weblate/trans/admin.py:78 weblate/trans/admin.py:131
 msgid "Commit pending changes"
 msgstr "Függő módosítások kommitolása"
-
-#: weblate/trans/admin_views.py:81
-msgid "Debug mode"
-msgstr "Hibakeresési mód"
-
-#: weblate/trans/admin_views.py:89
-msgid "Site domain"
-msgstr "Webhely tartomány"
-
-#: weblate/trans/admin_views.py:96
-msgid "Database backend"
-msgstr "Adatbázis háttérrendszer"
-
-#: weblate/trans/admin_views.py:103
-msgid "Site administrator"
-msgstr "Webhely adminisztrátor"
-
-#. Translators: Indexing is postponed to cron job
-#: weblate/trans/admin_views.py:112
-msgid "Indexing offloading"
-msgstr "Indexelési tehermentesítés"
-
-#. Translators: Indexing is postponed to cron job
-#: weblate/trans/admin_views.py:127
-msgid "Indexing offloading processing"
-msgstr "Indexelési tehermentesítés folyamatban"
-
-#: weblate/trans/admin_views.py:144
-msgid "Django caching"
-msgstr "Django gyorsítótárazás"
-
-#: weblate/trans/admin_views.py:151
-msgid "Avatar caching"
-msgstr "Avatar gyorsítótárazás"
-
-#: weblate/trans/admin_views.py:165
-msgid "Email addresses"
-msgstr "E-mail címek"
-
-#: weblate/trans/admin_views.py:175
-msgid "Federated avatar support"
-msgstr "Külső avatár támogatás"
-
-#: weblate/trans/admin_views.py:182
-msgid "pyuca library"
-msgstr "pyuca programkönyvtár"
-
-#: weblate/trans/admin_views.py:189
-msgid "Secret key"
-msgstr "Titkos kulcs"
-
-#: weblate/trans/admin_views.py:196
-msgid "Allowed hosts"
-msgstr "Engedélyezett gépek"
-
-#: weblate/trans/admin_views.py:205
-msgid "Cached template loader"
-msgstr "Gyorstárban található sablonbetöltők"
-
-#: weblate/trans/admin_views.py:213
-msgid "Admin static files"
-msgstr "Admin statikus fájlok"
 
 #: weblate/trans/apps.py:34
 msgid "Weblate translations"
@@ -7877,27 +7652,27 @@ msgstr "Az üzenethez megjegyzés tartozik"
 msgid "unit ID %s"
 msgstr "%s egység azonosító"
 
-#: weblate/trans/util.py:53
+#: weblate/trans/util.py:52
 msgid "Very high"
 msgstr "Nagyon magas"
 
-#: weblate/trans/util.py:54
+#: weblate/trans/util.py:53
 msgid "High"
 msgstr "Magas"
 
-#: weblate/trans/util.py:55
+#: weblate/trans/util.py:54
 msgid "Medium"
 msgstr "Közepes"
 
-#: weblate/trans/util.py:56
+#: weblate/trans/util.py:55
 msgid "Low"
 msgstr "Alacsony"
 
-#: weblate/trans/util.py:57
+#: weblate/trans/util.py:56
 msgid "Very low"
 msgstr "Nagyon alacsony"
 
-#: weblate/trans/util.py:195
+#: weblate/trans/util.py:194
 #, python-brace-format
 msgid ""
 "{0} is translated into {1} languages using Weblate. Join the translation or "
@@ -7905,10 +7680,6 @@ msgid ""
 msgstr ""
 "A(z) {0} a Weblate segítségével {1} nyelvre lett lefordítva. Csatlakozz a "
 "fordításhoz vagy kezdd el fordítani a saját projekted."
-
-#: weblate/trans/util.py:257
-msgid "Object listing disabled"
-msgstr "Objektumlistázás letiltva"
 
 #: weblate/trans/validators.py:30
 msgid "RST text"
@@ -8443,6 +8214,238 @@ msgstr ""
 #| msgid "Unsupported file format: {0}"
 msgid "Unsupported file format."
 msgstr "Nem támogatott állománytípus: {0}"
+
+#: weblate/wladmin/sites.py:72 weblate/wladmin/sites.py:73
+#, fuzzy
+#| msgid "Weblate translations"
+msgid "Weblate administration"
+msgstr "Weblate fordítások"
+
+#: weblate/wladmin/sites.py:152
+msgid "Object listing disabled"
+msgstr "Objektumlistázás letiltva"
+
+#: weblate/wladmin/templates/admin/accounts/change_form.html:8
+#: weblate/wladmin/templates/admin/trans/change_form.html:20
+#, python-format
+msgid ""
+"Required fields are marked as bold, you can find more information in the <a "
+"href=\"%(url)s\">documentation</a>."
+msgstr ""
+"A kötelező mezőket félkövér kiemelés jelzi. További információkat a <a href="
+"\"%(url)s\">dokumentációban</a> talál."
+
+#: weblate/wladmin/templates/admin/index.html:10
+msgid "Reports"
+msgstr "Jelentések"
+
+#: weblate/wladmin/templates/admin/index.html:13
+#: weblate/wladmin/templates/admin/report.html:4
+#: weblate/wladmin/templates/admin/report.html:13
+msgid "Status of repositories"
+msgstr "Tárolók állapota"
+
+#: weblate/wladmin/templates/admin/index.html:19
+#: weblate/wladmin/templates/admin/ssh.html:4
+#: weblate/wladmin/templates/admin/ssh.html:8
+msgid "SSH keys"
+msgstr "SSH kulcsok"
+
+#: weblate/wladmin/templates/admin/index.html:25
+#: weblate/wladmin/templates/admin/performance.html:5
+#: weblate/wladmin/templates/admin/performance.html:14
+msgid "Performance report"
+msgstr "Teljesítmény jelentés"
+
+#: weblate/wladmin/templates/admin/logout-confirm.html:23
+msgid "Please confirm your logout."
+msgstr ""
+
+#: weblate/wladmin/templates/admin/logout-confirm.html:26
+msgid "I confirm logout"
+msgstr ""
+
+#: weblate/wladmin/templates/admin/performance.html:9
+#: weblate/wladmin/templates/admin/report.html:8
+#: weblate/wladmin/templates/admin/ssh.html:8
+msgid "Home"
+msgstr "Kezdőlap"
+
+#: weblate/wladmin/templates/admin/performance.html:9
+msgid "Performance"
+msgstr "Teljesítmény"
+
+#: weblate/wladmin/templates/admin/performance.html:20
+msgid "Check"
+msgstr "Ellenőrzés"
+
+#: weblate/wladmin/templates/admin/performance.html:22
+msgid "Result"
+msgstr "Eredmény"
+
+#: weblate/wladmin/templates/admin/performance.html:40
+msgid "Configuration errors"
+msgstr "Konfigurációs hibák"
+
+#: weblate/wladmin/templates/admin/report.html:17
+#, python-format
+msgid ""
+"Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
+"%(repo)s</a> instead."
+msgstr ""
+"A csatolt tároló státusza nem jelenik meg. Látogasson el ide: <a href=\"#"
+"%(slug)s\">%(repo)s</a>."
+
+#: weblate/wladmin/templates/admin/ssh.html:14
+msgid "Public SSH key"
+msgstr "Nyilvános SSH kulcs"
+
+#: weblate/wladmin/templates/admin/ssh.html:15
+msgid "Weblate currently uses following SSH key:"
+msgstr "A Weblate jelenleg az alábbi SSH kulcsokat használja:"
+
+#: weblate/wladmin/templates/admin/ssh.html:22
+msgid "Generate SSH key"
+msgstr "SSH kulcs generálása"
+
+#: weblate/wladmin/templates/admin/ssh.html:23
+msgid ""
+"You don't seem to have existing SSH key, by pressing button below Weblate "
+"will generate it for you."
+msgstr ""
+"Úgy tűnik, nem rendelkezel SSH kulccsal. Az alábbi gomb megnyomásával a "
+"Weblate generál egyet neked."
+
+#: weblate/wladmin/templates/admin/ssh.html:33
+msgid "Known host keys"
+msgstr "Ismert host-azonosító kulcsok"
+
+#: weblate/wladmin/templates/admin/ssh.html:40
+msgid "Hostname"
+msgstr "Gépnév"
+
+#: weblate/wladmin/templates/admin/ssh.html:41
+msgid "Key type"
+msgstr "Kulcs típusa"
+
+#: weblate/wladmin/templates/admin/ssh.html:42
+msgid "Fingerprint"
+msgstr "Ujjlenyomat"
+
+#: weblate/wladmin/templates/admin/ssh.html:55
+msgid "Add host key"
+msgstr "Host-azonosító kulcs hozzáadása"
+
+#: weblate/wladmin/templates/admin/ssh.html:56
+msgid ""
+"To access SSH hosts, its host key needs to be verified. You can get the host "
+"key by entering a domain name or IP for the host in the form below."
+msgstr ""
+"SSH hostok eléréséhez ezen gépek kulcsát ellenőrizni kell. A host kulcsok "
+"ellenőrzéséhez adja meg a gép DNS nevét vagy IP címét az alábbi űrlapon."
+
+#: weblate/wladmin/templates/admin/ssh.html:60
+msgid "Host:"
+msgstr "Gép:"
+
+#: weblate/wladmin/templates/admin/ssh.html:62
+msgid "Port:"
+msgstr "Port:"
+
+#: weblate/wladmin/templates/admin/ssh.html:64
+msgid "Submit"
+msgstr "Beküldés"
+
+#: weblate/wladmin/templates/admin/ssh.html:67
+msgid "More information"
+msgstr "További információ"
+
+#: weblate/wladmin/templates/admin/ssh.html:69
+#, python-format
+msgid ""
+"You can find more information about setting up SSH keys in <a href="
+"\"%(ssh_docs)s\">the Weblate manual</a>."
+msgstr ""
+"Az SSH kulcsok beállításáról a <a href=\"%(ssh_docs)s\">the Weblate "
+"kézikönyvben</a> talál további információt."
+
+#: weblate/wladmin/templates/admin/trans/change_form.html:22
+msgid "Do not change this object here, please use Weblate interface instead."
+msgstr ""
+"Itt ne változtasson ezen az objektumon, kérjük használja inkább a Weblate "
+"felületet."
+
+#: weblate/wladmin/templates/admin/trans/change_form.html:26
+#, python-format
+msgid ""
+"Importing a new translation can take some time, please check <a href="
+"\"%(url)s\">our documentation</a> for information on how to improve this."
+msgstr ""
+"Az új fordítás importálása hosszabb időt is igénybe vehet. A <a href="
+"\"%(url)s\">dokumentációban</a> talál információt arról, hogy hogyan lehet "
+"ezen javítani."
+
+#: weblate/wladmin/views.py:78
+msgid "Debug mode"
+msgstr "Hibakeresési mód"
+
+#: weblate/wladmin/views.py:86
+msgid "Site domain"
+msgstr "Webhely tartomány"
+
+#: weblate/wladmin/views.py:93
+msgid "Database backend"
+msgstr "Adatbázis háttérrendszer"
+
+#: weblate/wladmin/views.py:100
+msgid "Site administrator"
+msgstr "Webhely adminisztrátor"
+
+#. Translators: Indexing is postponed to cron job
+#: weblate/wladmin/views.py:109
+msgid "Indexing offloading"
+msgstr "Indexelési tehermentesítés"
+
+#. Translators: Indexing is postponed to cron job
+#: weblate/wladmin/views.py:124
+msgid "Indexing offloading processing"
+msgstr "Indexelési tehermentesítés folyamatban"
+
+#: weblate/wladmin/views.py:141
+msgid "Django caching"
+msgstr "Django gyorsítótárazás"
+
+#: weblate/wladmin/views.py:148
+msgid "Avatar caching"
+msgstr "Avatar gyorsítótárazás"
+
+#: weblate/wladmin/views.py:162
+msgid "Email addresses"
+msgstr "E-mail címek"
+
+#: weblate/wladmin/views.py:172
+msgid "Federated avatar support"
+msgstr "Külső avatár támogatás"
+
+#: weblate/wladmin/views.py:179
+msgid "pyuca library"
+msgstr "pyuca programkönyvtár"
+
+#: weblate/wladmin/views.py:186
+msgid "Secret key"
+msgstr "Titkos kulcs"
+
+#: weblate/wladmin/views.py:193
+msgid "Allowed hosts"
+msgstr "Engedélyezett gépek"
+
+#: weblate/wladmin/views.py:202
+msgid "Cached template loader"
+msgstr "Gyorstárban található sablonbetöltők"
+
+#: weblate/wladmin/views.py:210
+msgid "Admin static files"
+msgstr "Admin statikus fájlok"
 
 #, fuzzy
 #~| msgid "This message has more than one translation in this project"

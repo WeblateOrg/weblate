@@ -8,11 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-07-21 18:24+0000\n"
+"POT-Creation-Date: 2017-07-31 13:10+0000\n"
 "PO-Revision-Date: 2017-07-21 18:27+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
-"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/>"
-"\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/"
+">\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -120,8 +120,8 @@ msgstr "Vaše jméno"
 msgid "Your email"
 msgstr "Váš email"
 
-#: weblate/accounts/forms.py:337 weblate/templates/admin/performance.html:47
-#: weblate/trans/models/whiteboard.py:65
+#: weblate/accounts/forms.py:337 weblate/trans/models/whiteboard.py:65
+#: weblate/wladmin/templates/admin/performance.html:47
 msgid "Message"
 msgstr "Zpráva"
 
@@ -519,7 +519,7 @@ msgstr "Hostování"
 msgid "Login"
 msgstr "Přihlásit"
 
-#: weblate/accounts/views.py:534 weblate/admin.py:141
+#: weblate/accounts/views.py:534 weblate/wladmin/sites.py:144
 msgid "Thanks for using Weblate!"
 msgstr "Děkujeme za použití Weblate!"
 
@@ -583,14 +583,6 @@ msgid ""
 msgstr ""
 "Nepodařilo se dokončit registraci! Toto přihlašování, email nebo uživatelské "
 "jméno je již připojené k jinému účtu!"
-
-#: weblate/admin.py:68 weblate/admin.py:69
-msgid "Weblate administration"
-msgstr "Správa Weblate"
-
-#: weblate/admin.py:144 weblate/templates/base.html:126
-msgid "Logout"
-msgstr "Odhlásit"
 
 #: weblate/billing/admin.py:50 weblate/billing/models.py:122
 #: weblate/templates/accounts/user.html:38
@@ -1525,12 +1517,12 @@ msgstr ""
 #: weblate/templates/accounts/profile.html:134
 #: weblate/templates/accounts/profile.html:169
 #: weblate/templates/accounts/profile.html:243
-#: weblate/templates/accounts/profile.html:286
-#: weblate/templates/admin/performance.html:23
-#: weblate/templates/admin/performance.html:32 weblate/templates/base.html:118
+#: weblate/templates/accounts/profile.html:286 weblate/templates/base.html:118
 #: weblate/templates/check.html:42 weblate/templates/check_project.html:43
 #: weblate/templates/check_subproject.html:44 weblate/templates/checks.html:34
 #: weblate/templates/footer.html:9
+#: weblate/wladmin/templates/admin/performance.html:23
+#: weblate/wladmin/templates/admin/performance.html:32
 msgid "Documentation"
 msgstr "Dokumentace"
 
@@ -1823,7 +1815,7 @@ msgid "Reset my password"
 msgstr "Obnovit heslo"
 
 #: weblate/templates/accounts/user.html:26
-#: weblate/templates/admin/performance.html:46
+#: weblate/wladmin/templates/admin/performance.html:46
 msgid "Name"
 msgstr "Název"
 
@@ -1843,172 +1835,6 @@ msgstr "Aktivita za posledních 30 dní"
 msgid "Activity in last year"
 msgstr "Aktivita za poslední rok"
 
-#: weblate/templates/admin/accounts/change_form.html:8
-#: weblate/templates/admin/trans/change_form.html:20
-#, python-format
-msgid ""
-"Required fields are marked as bold, you can find more information in the <a "
-"href=\"%(url)s\">documentation</a>."
-msgstr ""
-"Povinné položky jsou vyznačeny tučně, více informací je k dispozici v <a "
-"href=\"%(url)s\">dokumentaci</a>."
-
-#: weblate/templates/admin/custom-index.html:10
-msgid "Reports"
-msgstr "Zprávy"
-
-#: weblate/templates/admin/custom-index.html:13
-#: weblate/templates/admin/report.html:4 weblate/templates/admin/report.html:13
-msgid "Status of repositories"
-msgstr "Stav Git repozitáře"
-
-#: weblate/templates/admin/custom-index.html:19
-#: weblate/templates/admin/ssh.html:4 weblate/templates/admin/ssh.html:8
-msgid "SSH keys"
-msgstr "SSH klíče"
-
-#: weblate/templates/admin/custom-index.html:25
-#: weblate/templates/admin/performance.html:5
-#: weblate/templates/admin/performance.html:14
-msgid "Performance report"
-msgstr "Informace o výkonosti"
-
-#: weblate/templates/admin/logout-confirm.html:23
-msgid "Please confirm your logout."
-msgstr "Prosím potvrďte odhlášení."
-
-#: weblate/templates/admin/logout-confirm.html:26
-msgid "I confirm logout"
-msgstr "Potvrzuji odhlášení"
-
-#: weblate/templates/admin/performance.html:9
-#: weblate/templates/admin/report.html:8 weblate/templates/admin/ssh.html:8
-msgid "Home"
-msgstr "Domů"
-
-#: weblate/templates/admin/performance.html:9
-msgid "Performance"
-msgstr "Výkonost"
-
-#: weblate/templates/admin/performance.html:20
-msgid "Check"
-msgstr "Kontrola"
-
-#: weblate/templates/admin/performance.html:21
-#: weblate/templates/admin/report.html:8 weblate/templates/js/detail.html:17
-#: weblate/templates/js/translations.html:8
-msgid "Status"
-msgstr "Stav"
-
-#: weblate/templates/admin/performance.html:22
-msgid "Result"
-msgstr "Výsledek"
-
-#: weblate/templates/admin/performance.html:40
-msgid "Configuration errors"
-msgstr "Chyby v nastavení"
-
-#: weblate/templates/admin/report.html:17
-#, python-format
-msgid ""
-"Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
-"%(repo)s</a> instead."
-msgstr ""
-"Nezobrazuji stav odkazovaného repozitáře. Podívejte se na <a href=\"#%(slug)s"
-"\">%(repo)s</a>."
-
-#: weblate/templates/admin/ssh.html:14
-msgid "Public SSH key"
-msgstr "Veřejný SSH klíč"
-
-#: weblate/templates/admin/ssh.html:15
-msgid "Weblate currently uses following SSH key:"
-msgstr "Weblate v současné době používá tento SSH klíč:"
-
-#: weblate/templates/admin/ssh.html:22
-msgid "Generate SSH key"
-msgstr "Vytvořit SSH klíč"
-
-#: weblate/templates/admin/ssh.html:23
-msgid ""
-"You don't seem to have existing SSH key, by pressing button below Weblate "
-"will generate it for you."
-msgstr ""
-"Zdá se, že nemáte SSH klíč, Weblate ho pro vás může vytvořit po stisknutí "
-"následujícího tlačítka."
-
-#: weblate/templates/admin/ssh.html:27 weblate/templates/subproject.html:180
-#: weblate/templates/subproject.html:201
-msgid "Generate"
-msgstr "Vytvořit"
-
-#: weblate/templates/admin/ssh.html:33
-msgid "Known host keys"
-msgstr "Známé klíče hostitelů"
-
-#: weblate/templates/admin/ssh.html:40
-msgid "Hostname"
-msgstr "Jméno hostitele"
-
-#: weblate/templates/admin/ssh.html:41
-msgid "Key type"
-msgstr "Typ klíče"
-
-#: weblate/templates/admin/ssh.html:42
-msgid "Fingerprint"
-msgstr "Otisk"
-
-#: weblate/templates/admin/ssh.html:55
-msgid "Add host key"
-msgstr "Přidat klíč hostitele"
-
-#: weblate/templates/admin/ssh.html:56
-msgid ""
-"To access SSH hosts, its host key needs to be verified. You can get the host "
-"key by entering a domain name or IP for the host in the form below."
-msgstr ""
-"Pro přístup k SSH hostitelům musí být jejich klíče ověřeny. K přidání "
-"dalšího klíče zadejte jméno nebo IP adresu serveru do formuláře níže na "
-"stránce."
-
-#: weblate/templates/admin/ssh.html:60
-msgid "Host:"
-msgstr "Server:"
-
-#: weblate/templates/admin/ssh.html:62
-msgid "Port:"
-msgstr "Port:"
-
-#: weblate/templates/admin/ssh.html:64
-msgid "Submit"
-msgstr "Odeslat"
-
-#: weblate/templates/admin/ssh.html:67
-msgid "More information"
-msgstr "Více informací"
-
-#: weblate/templates/admin/ssh.html:69
-#, python-format
-msgid ""
-"You can find more information about setting up SSH keys in <a href="
-"\"%(ssh_docs)s\">the Weblate manual</a>."
-msgstr ""
-"Další informace o používání SSH klíčů naleznete v <a href=\"%(ssh_docs)s"
-"\">příručce Weblate</a>."
-
-#: weblate/templates/admin/trans/change_form.html:22
-msgid "Do not change this object here, please use Weblate interface instead."
-msgstr "Neměňte zde tento objekt, prosím použijte rozhraní Weblate."
-
-#: weblate/templates/admin/trans/change_form.html:26
-#, python-format
-msgid ""
-"Importing a new translation can take some time, please check <a href="
-"\"%(url)s\">our documentation</a> for information on how to improve this."
-msgstr ""
-"Nahrávání nových překladů může trvat poměrně dlouho, v <a href=\"%(url)s"
-"\">naší dokumentaci</a> naleznete několik tipů, jak ho urychlit."
-
 #: weblate/templates/base.html:94
 msgid "Toggle navigation"
 msgstr "Přepnout navigaci"
@@ -2024,6 +1850,10 @@ msgstr "Spravujte sledované projekty"
 #: weblate/templates/base.html:124
 msgid "Administration"
 msgstr "Správcovské rozhraní"
+
+#: weblate/templates/base.html:126 weblate/wladmin/sites.py:147
+msgid "Logout"
+msgstr "Odhlásit"
 
 #: weblate/templates/base.html:150
 msgid ""
@@ -3649,6 +3479,12 @@ msgstr "Zaregistrujte se pro nastavení vašich jazyků"
 msgid "Browse all component changes"
 msgstr "Procházet všechny změny v komponentě"
 
+#: weblate/templates/js/detail.html:17 weblate/templates/js/translations.html:8
+#: weblate/wladmin/templates/admin/performance.html:21
+#: weblate/wladmin/templates/admin/report.html:8
+msgid "Status"
+msgstr "Stav"
+
 #: weblate/templates/js/detail.html:50 weblate/templates/list-checks.html:9
 #, python-format
 msgid "Ignore: %(check)s"
@@ -4731,6 +4567,11 @@ msgstr ""
 "zadaném intervalu. Přehled může být užitečný pro začlenění do dokumentace "
 "nebo aplikace pro poděkování překladatelům."
 
+#: weblate/templates/subproject.html:180 weblate/templates/subproject.html:201
+#: weblate/wladmin/templates/admin/ssh.html:27
+msgid "Generate"
+msgstr "Vytvořit"
+
 #: weblate/templates/subproject.html:192
 msgid "Contributor stats"
 msgstr "Statistiky přispěvatelů"
@@ -5444,68 +5285,6 @@ msgstr "Aktualizovat kontrolu kvality"
 #: weblate/trans/admin.py:78 weblate/trans/admin.py:131
 msgid "Commit pending changes"
 msgstr "Zapsat čekající změny"
-
-#: weblate/trans/admin_views.py:81
-msgid "Debug mode"
-msgstr "Ladicí režim"
-
-#: weblate/trans/admin_views.py:89
-msgid "Site domain"
-msgstr "Doména stránek"
-
-#: weblate/trans/admin_views.py:96
-msgid "Database backend"
-msgstr "Použitá databáze"
-
-#: weblate/trans/admin_views.py:103
-msgid "Site administrator"
-msgstr "Správce stránek"
-
-#. Translators: Indexing is postponed to cron job
-#: weblate/trans/admin_views.py:112
-msgid "Indexing offloading"
-msgstr "Odložení indexování"
-
-#. Translators: Indexing is postponed to cron job
-#: weblate/trans/admin_views.py:127
-msgid "Indexing offloading processing"
-msgstr "Zpracování odloženého indexování"
-
-#: weblate/trans/admin_views.py:144
-msgid "Django caching"
-msgstr "Mezipaměť Djanga"
-
-#: weblate/trans/admin_views.py:151
-msgid "Avatar caching"
-msgstr "Mezipaměť pro avatary"
-
-#: weblate/trans/admin_views.py:165
-msgid "Email addresses"
-msgstr "Emailové adresy"
-
-#: weblate/trans/admin_views.py:175
-msgid "Federated avatar support"
-msgstr "Podpora distribuovaných avatarů"
-
-#: weblate/trans/admin_views.py:182
-msgid "pyuca library"
-msgstr "Knihovna pyuca"
-
-#: weblate/trans/admin_views.py:189
-msgid "Secret key"
-msgstr "Tajný klíč"
-
-#: weblate/trans/admin_views.py:196
-msgid "Allowed hosts"
-msgstr "Povolené servery"
-
-#: weblate/trans/admin_views.py:205
-msgid "Cached template loader"
-msgstr "Načítání šablon s mezipamětí"
-
-#: weblate/trans/admin_views.py:213
-msgid "Admin static files"
-msgstr "Statické soubory administrace"
 
 #: weblate/trans/apps.py:34
 msgid "Weblate translations"
@@ -7572,27 +7351,27 @@ msgstr "Řetězec má komentáře"
 msgid "unit ID %s"
 msgstr "ID jednotky %s"
 
-#: weblate/trans/util.py:53
+#: weblate/trans/util.py:52
 msgid "Very high"
 msgstr "Velmi vysoká"
 
-#: weblate/trans/util.py:54
+#: weblate/trans/util.py:53
 msgid "High"
 msgstr "Vysoká"
 
-#: weblate/trans/util.py:55
+#: weblate/trans/util.py:54
 msgid "Medium"
 msgstr "Střední"
 
-#: weblate/trans/util.py:56
+#: weblate/trans/util.py:55
 msgid "Low"
 msgstr "Nízká"
 
-#: weblate/trans/util.py:57
+#: weblate/trans/util.py:56
 msgid "Very low"
 msgstr "Velmi nízká"
 
-#: weblate/trans/util.py:195
+#: weblate/trans/util.py:194
 #, python-brace-format
 msgid ""
 "{0} is translated into {1} languages using Weblate. Join the translation or "
@@ -7600,10 +7379,6 @@ msgid ""
 msgstr ""
 "Projekt {0} je překládán do {1} jazyků pomocí Weblate. Připojte se k "
 "překladu nebo začněte překládat svůj projekt."
-
-#: weblate/trans/util.py:257
-msgid "Object listing disabled"
-msgstr "Vypisování objektů je vypnuté"
 
 #: weblate/trans/validators.py:30
 msgid "RST text"
@@ -8134,6 +7909,234 @@ msgstr "Prosíme vyhněte se používání zvláštních znaků ve jméně."
 #: weblate/utils/validators.py:191
 msgid "Unsupported file format."
 msgstr "Nepodporovaný formát."
+
+#: weblate/wladmin/sites.py:72 weblate/wladmin/sites.py:73
+msgid "Weblate administration"
+msgstr "Správa Weblate"
+
+#: weblate/wladmin/sites.py:152
+msgid "Object listing disabled"
+msgstr "Vypisování objektů je vypnuté"
+
+#: weblate/wladmin/templates/admin/accounts/change_form.html:8
+#: weblate/wladmin/templates/admin/trans/change_form.html:20
+#, python-format
+msgid ""
+"Required fields are marked as bold, you can find more information in the <a "
+"href=\"%(url)s\">documentation</a>."
+msgstr ""
+"Povinné položky jsou vyznačeny tučně, více informací je k dispozici v <a "
+"href=\"%(url)s\">dokumentaci</a>."
+
+#: weblate/wladmin/templates/admin/index.html:10
+msgid "Reports"
+msgstr "Zprávy"
+
+#: weblate/wladmin/templates/admin/index.html:13
+#: weblate/wladmin/templates/admin/report.html:4
+#: weblate/wladmin/templates/admin/report.html:13
+msgid "Status of repositories"
+msgstr "Stav Git repozitáře"
+
+#: weblate/wladmin/templates/admin/index.html:19
+#: weblate/wladmin/templates/admin/ssh.html:4
+#: weblate/wladmin/templates/admin/ssh.html:8
+msgid "SSH keys"
+msgstr "SSH klíče"
+
+#: weblate/wladmin/templates/admin/index.html:25
+#: weblate/wladmin/templates/admin/performance.html:5
+#: weblate/wladmin/templates/admin/performance.html:14
+msgid "Performance report"
+msgstr "Informace o výkonosti"
+
+#: weblate/wladmin/templates/admin/logout-confirm.html:23
+msgid "Please confirm your logout."
+msgstr "Prosím potvrďte odhlášení."
+
+#: weblate/wladmin/templates/admin/logout-confirm.html:26
+msgid "I confirm logout"
+msgstr "Potvrzuji odhlášení"
+
+#: weblate/wladmin/templates/admin/performance.html:9
+#: weblate/wladmin/templates/admin/report.html:8
+#: weblate/wladmin/templates/admin/ssh.html:8
+msgid "Home"
+msgstr "Domů"
+
+#: weblate/wladmin/templates/admin/performance.html:9
+msgid "Performance"
+msgstr "Výkonost"
+
+#: weblate/wladmin/templates/admin/performance.html:20
+msgid "Check"
+msgstr "Kontrola"
+
+#: weblate/wladmin/templates/admin/performance.html:22
+msgid "Result"
+msgstr "Výsledek"
+
+#: weblate/wladmin/templates/admin/performance.html:40
+msgid "Configuration errors"
+msgstr "Chyby v nastavení"
+
+#: weblate/wladmin/templates/admin/report.html:17
+#, python-format
+msgid ""
+"Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
+"%(repo)s</a> instead."
+msgstr ""
+"Nezobrazuji stav odkazovaného repozitáře. Podívejte se na <a href=\"#%(slug)s"
+"\">%(repo)s</a>."
+
+#: weblate/wladmin/templates/admin/ssh.html:14
+msgid "Public SSH key"
+msgstr "Veřejný SSH klíč"
+
+#: weblate/wladmin/templates/admin/ssh.html:15
+msgid "Weblate currently uses following SSH key:"
+msgstr "Weblate v současné době používá tento SSH klíč:"
+
+#: weblate/wladmin/templates/admin/ssh.html:22
+msgid "Generate SSH key"
+msgstr "Vytvořit SSH klíč"
+
+#: weblate/wladmin/templates/admin/ssh.html:23
+msgid ""
+"You don't seem to have existing SSH key, by pressing button below Weblate "
+"will generate it for you."
+msgstr ""
+"Zdá se, že nemáte SSH klíč, Weblate ho pro vás může vytvořit po stisknutí "
+"následujícího tlačítka."
+
+#: weblate/wladmin/templates/admin/ssh.html:33
+msgid "Known host keys"
+msgstr "Známé klíče hostitelů"
+
+#: weblate/wladmin/templates/admin/ssh.html:40
+msgid "Hostname"
+msgstr "Jméno hostitele"
+
+#: weblate/wladmin/templates/admin/ssh.html:41
+msgid "Key type"
+msgstr "Typ klíče"
+
+#: weblate/wladmin/templates/admin/ssh.html:42
+msgid "Fingerprint"
+msgstr "Otisk"
+
+#: weblate/wladmin/templates/admin/ssh.html:55
+msgid "Add host key"
+msgstr "Přidat klíč hostitele"
+
+#: weblate/wladmin/templates/admin/ssh.html:56
+msgid ""
+"To access SSH hosts, its host key needs to be verified. You can get the host "
+"key by entering a domain name or IP for the host in the form below."
+msgstr ""
+"Pro přístup k SSH hostitelům musí být jejich klíče ověřeny. K přidání "
+"dalšího klíče zadejte jméno nebo IP adresu serveru do formuláře níže na "
+"stránce."
+
+#: weblate/wladmin/templates/admin/ssh.html:60
+msgid "Host:"
+msgstr "Server:"
+
+#: weblate/wladmin/templates/admin/ssh.html:62
+msgid "Port:"
+msgstr "Port:"
+
+#: weblate/wladmin/templates/admin/ssh.html:64
+msgid "Submit"
+msgstr "Odeslat"
+
+#: weblate/wladmin/templates/admin/ssh.html:67
+msgid "More information"
+msgstr "Více informací"
+
+#: weblate/wladmin/templates/admin/ssh.html:69
+#, python-format
+msgid ""
+"You can find more information about setting up SSH keys in <a href="
+"\"%(ssh_docs)s\">the Weblate manual</a>."
+msgstr ""
+"Další informace o používání SSH klíčů naleznete v <a href=\"%(ssh_docs)s"
+"\">příručce Weblate</a>."
+
+#: weblate/wladmin/templates/admin/trans/change_form.html:22
+msgid "Do not change this object here, please use Weblate interface instead."
+msgstr "Neměňte zde tento objekt, prosím použijte rozhraní Weblate."
+
+#: weblate/wladmin/templates/admin/trans/change_form.html:26
+#, python-format
+msgid ""
+"Importing a new translation can take some time, please check <a href="
+"\"%(url)s\">our documentation</a> for information on how to improve this."
+msgstr ""
+"Nahrávání nových překladů může trvat poměrně dlouho, v <a href=\"%(url)s"
+"\">naší dokumentaci</a> naleznete několik tipů, jak ho urychlit."
+
+#: weblate/wladmin/views.py:78
+msgid "Debug mode"
+msgstr "Ladicí režim"
+
+#: weblate/wladmin/views.py:86
+msgid "Site domain"
+msgstr "Doména stránek"
+
+#: weblate/wladmin/views.py:93
+msgid "Database backend"
+msgstr "Použitá databáze"
+
+#: weblate/wladmin/views.py:100
+msgid "Site administrator"
+msgstr "Správce stránek"
+
+#. Translators: Indexing is postponed to cron job
+#: weblate/wladmin/views.py:109
+msgid "Indexing offloading"
+msgstr "Odložení indexování"
+
+#. Translators: Indexing is postponed to cron job
+#: weblate/wladmin/views.py:124
+msgid "Indexing offloading processing"
+msgstr "Zpracování odloženého indexování"
+
+#: weblate/wladmin/views.py:141
+msgid "Django caching"
+msgstr "Mezipaměť Djanga"
+
+#: weblate/wladmin/views.py:148
+msgid "Avatar caching"
+msgstr "Mezipaměť pro avatary"
+
+#: weblate/wladmin/views.py:162
+msgid "Email addresses"
+msgstr "Emailové adresy"
+
+#: weblate/wladmin/views.py:172
+msgid "Federated avatar support"
+msgstr "Podpora distribuovaných avatarů"
+
+#: weblate/wladmin/views.py:179
+msgid "pyuca library"
+msgstr "Knihovna pyuca"
+
+#: weblate/wladmin/views.py:186
+msgid "Secret key"
+msgstr "Tajný klíč"
+
+#: weblate/wladmin/views.py:193
+msgid "Allowed hosts"
+msgstr "Povolené servery"
+
+#: weblate/wladmin/views.py:202
+msgid "Cached template loader"
+msgstr "Načítání šablon s mezipamětí"
+
+#: weblate/wladmin/views.py:210
+msgid "Admin static files"
+msgstr "Statické soubory administrace"
 
 #~ msgid "Pulse"
 #~ msgstr "Puls"

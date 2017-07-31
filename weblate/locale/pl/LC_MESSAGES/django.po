@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-07-21 18:24+0000\n"
+"POT-Creation-Date: 2017-07-31 13:10+0000\n"
 "PO-Revision-Date: 2017-06-20 16:45+0000\n"
 "Last-Translator: Stanisław Krukowski <stdf021@riseup.net>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/master/pl/"
@@ -119,8 +119,8 @@ msgstr "Twoje imię"
 msgid "Your email"
 msgstr "Twój e-mail"
 
-#: weblate/accounts/forms.py:337 weblate/templates/admin/performance.html:47
-#: weblate/trans/models/whiteboard.py:65
+#: weblate/accounts/forms.py:337 weblate/trans/models/whiteboard.py:65
+#: weblate/wladmin/templates/admin/performance.html:47
 msgid "Message"
 msgstr "Wiadomość"
 
@@ -518,7 +518,7 @@ msgstr "Hosting"
 msgid "Login"
 msgstr "Zaloguj"
 
-#: weblate/accounts/views.py:534 weblate/admin.py:141
+#: weblate/accounts/views.py:534 weblate/wladmin/sites.py:144
 msgid "Thanks for using Weblate!"
 msgstr "Dziękujemy za używanie Weblate!"
 
@@ -583,14 +583,6 @@ msgid ""
 "Failed to complete your registration! This authentication, email or username "
 "are already associated with another account!"
 msgstr ""
-
-#: weblate/admin.py:68 weblate/admin.py:69
-msgid "Weblate administration"
-msgstr "Administracja Weblate"
-
-#: weblate/admin.py:144 weblate/templates/base.html:126
-msgid "Logout"
-msgstr "Wyloguj"
 
 #: weblate/billing/admin.py:50 weblate/billing/models.py:122
 #: weblate/templates/accounts/user.html:38
@@ -1517,12 +1509,12 @@ msgstr ""
 #: weblate/templates/accounts/profile.html:134
 #: weblate/templates/accounts/profile.html:169
 #: weblate/templates/accounts/profile.html:243
-#: weblate/templates/accounts/profile.html:286
-#: weblate/templates/admin/performance.html:23
-#: weblate/templates/admin/performance.html:32 weblate/templates/base.html:118
+#: weblate/templates/accounts/profile.html:286 weblate/templates/base.html:118
 #: weblate/templates/check.html:42 weblate/templates/check_project.html:43
 #: weblate/templates/check_subproject.html:44 weblate/templates/checks.html:34
 #: weblate/templates/footer.html:9
+#: weblate/wladmin/templates/admin/performance.html:23
+#: weblate/wladmin/templates/admin/performance.html:32
 msgid "Documentation"
 msgstr "Dokumentacja"
 
@@ -1826,7 +1818,7 @@ msgid "Reset my password"
 msgstr "Zresetuj moje hasło"
 
 #: weblate/templates/accounts/user.html:26
-#: weblate/templates/admin/performance.html:46
+#: weblate/wladmin/templates/admin/performance.html:46
 msgid "Name"
 msgstr "Nazwa"
 
@@ -1846,174 +1838,6 @@ msgstr "Aktywność w ostatnich 30 dniach"
 msgid "Activity in last year"
 msgstr "Aktywność w ostatnim roku"
 
-#: weblate/templates/admin/accounts/change_form.html:8
-#: weblate/templates/admin/trans/change_form.html:20
-#, python-format
-msgid ""
-"Required fields are marked as bold, you can find more information in the <a "
-"href=\"%(url)s\">documentation</a>."
-msgstr ""
-"Pogrubione pola są wymagane. Więcej informacji znajdziesz w <a href=\"%(url)s"
-"\">dokumentacji</a>."
-
-#: weblate/templates/admin/custom-index.html:10
-msgid "Reports"
-msgstr "Raporty"
-
-#: weblate/templates/admin/custom-index.html:13
-#: weblate/templates/admin/report.html:4 weblate/templates/admin/report.html:13
-msgid "Status of repositories"
-msgstr "Stan repozytoriów"
-
-#: weblate/templates/admin/custom-index.html:19
-#: weblate/templates/admin/ssh.html:4 weblate/templates/admin/ssh.html:8
-msgid "SSH keys"
-msgstr "Klucze SSH"
-
-#: weblate/templates/admin/custom-index.html:25
-#: weblate/templates/admin/performance.html:5
-#: weblate/templates/admin/performance.html:14
-msgid "Performance report"
-msgstr "Raport wydajności"
-
-#: weblate/templates/admin/logout-confirm.html:23
-msgid "Please confirm your logout."
-msgstr ""
-
-#: weblate/templates/admin/logout-confirm.html:26
-msgid "I confirm logout"
-msgstr ""
-
-#: weblate/templates/admin/performance.html:9
-#: weblate/templates/admin/report.html:8 weblate/templates/admin/ssh.html:8
-msgid "Home"
-msgstr "Strona domowa"
-
-#: weblate/templates/admin/performance.html:9
-msgid "Performance"
-msgstr "Wydajność"
-
-#: weblate/templates/admin/performance.html:20
-msgid "Check"
-msgstr "Sprawdź"
-
-#: weblate/templates/admin/performance.html:21
-#: weblate/templates/admin/report.html:8 weblate/templates/js/detail.html:17
-#: weblate/templates/js/translations.html:8
-msgid "Status"
-msgstr "Stan"
-
-#: weblate/templates/admin/performance.html:22
-msgid "Result"
-msgstr "Wynik"
-
-#: weblate/templates/admin/performance.html:40
-msgid "Configuration errors"
-msgstr "Błędy konfiguracji"
-
-#: weblate/templates/admin/report.html:17
-#, python-format
-msgid ""
-"Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
-"%(repo)s</a> instead."
-msgstr ""
-"Stan przyłączonego repozytorium jest nieznany. Zamiast tego, sprawdź <a href="
-"\"#%(slug)s\">%(repo)s</a>."
-
-#: weblate/templates/admin/ssh.html:14
-msgid "Public SSH key"
-msgstr "Klucz publiczny SSH"
-
-#: weblate/templates/admin/ssh.html:15
-msgid "Weblate currently uses following SSH key:"
-msgstr "Weblate obecnie używa następującego klucza SSH:"
-
-#: weblate/templates/admin/ssh.html:22
-msgid "Generate SSH key"
-msgstr "Generuj klucz SSH"
-
-#: weblate/templates/admin/ssh.html:23
-msgid ""
-"You don't seem to have existing SSH key, by pressing button below Weblate "
-"will generate it for you."
-msgstr ""
-"Nie wydaje się, żebyś miał /miała istniejący klucz SSH; gdy naciśniesz "
-"przycisk poniżej — Weblate wygeneruje go dla ciebie."
-
-#: weblate/templates/admin/ssh.html:27 weblate/templates/subproject.html:180
-#: weblate/templates/subproject.html:201
-msgid "Generate"
-msgstr "Generuj"
-
-#: weblate/templates/admin/ssh.html:33
-msgid "Known host keys"
-msgstr "Klucze znanych hostów"
-
-#: weblate/templates/admin/ssh.html:40
-msgid "Hostname"
-msgstr "Nazwa hosta"
-
-#: weblate/templates/admin/ssh.html:41
-msgid "Key type"
-msgstr "Typ klucza"
-
-#: weblate/templates/admin/ssh.html:42
-msgid "Fingerprint"
-msgstr "”Odcisk palca” (ang. fingerprint)"
-
-#: weblate/templates/admin/ssh.html:55
-msgid "Add host key"
-msgstr "Dodaj klucz hosta"
-
-#: weblate/templates/admin/ssh.html:56
-msgid ""
-"To access SSH hosts, its host key needs to be verified. You can get the host "
-"key by entering a domain name or IP for the host in the form below."
-msgstr ""
-"Aby uzyskać dostęp do hostów SSH, trzeba zweryfikować klucz tych hostów.  "
-"Klucz hosta można otrzymać wprowadzając nazwę domeny lub IP dla hosta w "
-"poniższym formularzu."
-
-#: weblate/templates/admin/ssh.html:60
-msgid "Host:"
-msgstr "Host:"
-
-#: weblate/templates/admin/ssh.html:62
-msgid "Port:"
-msgstr "Port:"
-
-#: weblate/templates/admin/ssh.html:64
-msgid "Submit"
-msgstr "Wyślij"
-
-#: weblate/templates/admin/ssh.html:67
-msgid "More information"
-msgstr "Więcej informacji"
-
-#: weblate/templates/admin/ssh.html:69
-#, python-format
-msgid ""
-"You can find more information about setting up SSH keys in <a href="
-"\"%(ssh_docs)s\">the Weblate manual</a>."
-msgstr ""
-"Więcej informacji na temat tworzenia kluczy SSH można znaleźć w <a href="
-"\"%(ssh_docs)s\">podręczniku Weblate</a>."
-
-#: weblate/templates/admin/trans/change_form.html:22
-msgid "Do not change this object here, please use Weblate interface instead."
-msgstr ""
-"Nie zmieniaj tutaj tego obiektu, zamiast tego proszę użyj interfejsu Weblate."
-
-#: weblate/templates/admin/trans/change_form.html:26
-#, python-format
-msgid ""
-"Importing a new translation can take some time, please check <a href="
-"\"%(url)s\">our documentation</a> for information on how to improve this."
-msgstr ""
-"Importowanie nowego tłumaczenia może zająć trochę czasu. Proszę sprawdzić <a "
-"href=\"%(url)s\">naszą dokumentację</a> na temat informacji, jak to "
-"usprawnić."
-
 #: weblate/templates/base.html:94
 msgid "Toggle navigation"
 msgstr "Przełącz nawigację"
@@ -2029,6 +1853,10 @@ msgstr "Zarządzaj obserwowanymi projektami"
 #: weblate/templates/base.html:124
 msgid "Administration"
 msgstr "Administracja"
+
+#: weblate/templates/base.html:126 weblate/wladmin/sites.py:147
+msgid "Logout"
+msgstr "Wyloguj"
 
 #: weblate/templates/base.html:150
 msgid ""
@@ -3683,6 +3511,12 @@ msgstr "Zarejestruj się, aby zarządzać językami"
 msgid "Browse all component changes"
 msgstr "Przeglądaj wszystkie zmiany komponentu"
 
+#: weblate/templates/js/detail.html:17 weblate/templates/js/translations.html:8
+#: weblate/wladmin/templates/admin/performance.html:21
+#: weblate/wladmin/templates/admin/report.html:8
+msgid "Status"
+msgstr "Stan"
+
 #: weblate/templates/js/detail.html:50 weblate/templates/list-checks.html:9
 #, python-format
 msgid "Ignore: %(check)s"
@@ -4770,6 +4604,11 @@ msgstr ""
 "komponentu w danym okresie czasu. Dołączenie podziękowań dla tłumaczy w "
 "twojej dokumentacji lub programie może okazać się pożyteczne."
 
+#: weblate/templates/subproject.html:180 weblate/templates/subproject.html:201
+#: weblate/wladmin/templates/admin/ssh.html:27
+msgid "Generate"
+msgstr "Generuj"
+
 #: weblate/templates/subproject.html:192
 msgid "Contributor stats"
 msgstr "Statystyki współpracownika"
@@ -5499,68 +5338,6 @@ msgstr "Aktualizacja testów jakości"
 #: weblate/trans/admin.py:78 weblate/trans/admin.py:131
 msgid "Commit pending changes"
 msgstr "Prześlij oczekujące zmiany"
-
-#: weblate/trans/admin_views.py:81
-msgid "Debug mode"
-msgstr "Tryb diagnozowania błędów"
-
-#: weblate/trans/admin_views.py:89
-msgid "Site domain"
-msgstr "Domena witryny"
-
-#: weblate/trans/admin_views.py:96
-msgid "Database backend"
-msgstr "Końcówka bazy danych"
-
-#: weblate/trans/admin_views.py:103
-msgid "Site administrator"
-msgstr "Administrator witryny"
-
-#. Translators: Indexing is postponed to cron job
-#: weblate/trans/admin_views.py:112
-msgid "Indexing offloading"
-msgstr "Indeksowanie wyładunku"
-
-#. Translators: Indexing is postponed to cron job
-#: weblate/trans/admin_views.py:127
-msgid "Indexing offloading processing"
-msgstr "Indeksowanie wyładunku"
-
-#: weblate/trans/admin_views.py:144
-msgid "Django caching"
-msgstr "Buforowanie Django"
-
-#: weblate/trans/admin_views.py:151
-msgid "Avatar caching"
-msgstr "Pamięć podręczna awatarów"
-
-#: weblate/trans/admin_views.py:165
-msgid "Email addresses"
-msgstr "Adresy e-mail"
-
-#: weblate/trans/admin_views.py:175
-msgid "Federated avatar support"
-msgstr "Obsługa dołączonego avataru"
-
-#: weblate/trans/admin_views.py:182
-msgid "pyuca library"
-msgstr "Biblioteka pyuca"
-
-#: weblate/trans/admin_views.py:189
-msgid "Secret key"
-msgstr "Tajny klucz"
-
-#: weblate/trans/admin_views.py:196
-msgid "Allowed hosts"
-msgstr "Hosty dozwolone"
-
-#: weblate/trans/admin_views.py:205
-msgid "Cached template loader"
-msgstr "Buforowany program wczytujący szablon"
-
-#: weblate/trans/admin_views.py:213
-msgid "Admin static files"
-msgstr "Pliki statyczne administratora"
 
 #: weblate/trans/apps.py:34
 msgid "Weblate translations"
@@ -7665,27 +7442,27 @@ msgstr "Ciąg ma komentarze"
 msgid "unit ID %s"
 msgstr "ID jednostki %s"
 
-#: weblate/trans/util.py:53
+#: weblate/trans/util.py:52
 msgid "Very high"
 msgstr "Bardzo wysoki"
 
-#: weblate/trans/util.py:54
+#: weblate/trans/util.py:53
 msgid "High"
 msgstr "Wysoki"
 
-#: weblate/trans/util.py:55
+#: weblate/trans/util.py:54
 msgid "Medium"
 msgstr "Średni"
 
-#: weblate/trans/util.py:56
+#: weblate/trans/util.py:55
 msgid "Low"
 msgstr "Niski"
 
-#: weblate/trans/util.py:57
+#: weblate/trans/util.py:56
 msgid "Very low"
 msgstr "Bardzo niski"
 
-#: weblate/trans/util.py:195
+#: weblate/trans/util.py:194
 #, python-brace-format
 msgid ""
 "{0} is translated into {1} languages using Weblate. Join the translation or "
@@ -7693,10 +7470,6 @@ msgid ""
 msgstr ""
 "Projekt {0} jest przetłumaczony na {1} języków za pomocą Weblate. Dołącz do "
 "tłumaczy lub rozpocznij tłumaczenie własnego projektu."
-
-#: weblate/trans/util.py:257
-msgid "Object listing disabled"
-msgstr "Wyłączone listowanie obiektowe"
 
 #: weblate/trans/validators.py:30
 msgid "RST text"
@@ -8229,6 +8002,236 @@ msgstr ""
 #: weblate/utils/validators.py:191
 msgid "Unsupported file format."
 msgstr "Nieobsługiwany format pliku."
+
+#: weblate/wladmin/sites.py:72 weblate/wladmin/sites.py:73
+msgid "Weblate administration"
+msgstr "Administracja Weblate"
+
+#: weblate/wladmin/sites.py:152
+msgid "Object listing disabled"
+msgstr "Wyłączone listowanie obiektowe"
+
+#: weblate/wladmin/templates/admin/accounts/change_form.html:8
+#: weblate/wladmin/templates/admin/trans/change_form.html:20
+#, python-format
+msgid ""
+"Required fields are marked as bold, you can find more information in the <a "
+"href=\"%(url)s\">documentation</a>."
+msgstr ""
+"Pogrubione pola są wymagane. Więcej informacji znajdziesz w <a href=\"%(url)s"
+"\">dokumentacji</a>."
+
+#: weblate/wladmin/templates/admin/index.html:10
+msgid "Reports"
+msgstr "Raporty"
+
+#: weblate/wladmin/templates/admin/index.html:13
+#: weblate/wladmin/templates/admin/report.html:4
+#: weblate/wladmin/templates/admin/report.html:13
+msgid "Status of repositories"
+msgstr "Stan repozytoriów"
+
+#: weblate/wladmin/templates/admin/index.html:19
+#: weblate/wladmin/templates/admin/ssh.html:4
+#: weblate/wladmin/templates/admin/ssh.html:8
+msgid "SSH keys"
+msgstr "Klucze SSH"
+
+#: weblate/wladmin/templates/admin/index.html:25
+#: weblate/wladmin/templates/admin/performance.html:5
+#: weblate/wladmin/templates/admin/performance.html:14
+msgid "Performance report"
+msgstr "Raport wydajności"
+
+#: weblate/wladmin/templates/admin/logout-confirm.html:23
+msgid "Please confirm your logout."
+msgstr ""
+
+#: weblate/wladmin/templates/admin/logout-confirm.html:26
+msgid "I confirm logout"
+msgstr ""
+
+#: weblate/wladmin/templates/admin/performance.html:9
+#: weblate/wladmin/templates/admin/report.html:8
+#: weblate/wladmin/templates/admin/ssh.html:8
+msgid "Home"
+msgstr "Strona domowa"
+
+#: weblate/wladmin/templates/admin/performance.html:9
+msgid "Performance"
+msgstr "Wydajność"
+
+#: weblate/wladmin/templates/admin/performance.html:20
+msgid "Check"
+msgstr "Sprawdź"
+
+#: weblate/wladmin/templates/admin/performance.html:22
+msgid "Result"
+msgstr "Wynik"
+
+#: weblate/wladmin/templates/admin/performance.html:40
+msgid "Configuration errors"
+msgstr "Błędy konfiguracji"
+
+#: weblate/wladmin/templates/admin/report.html:17
+#, python-format
+msgid ""
+"Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
+"%(repo)s</a> instead."
+msgstr ""
+"Stan przyłączonego repozytorium jest nieznany. Zamiast tego, sprawdź <a href="
+"\"#%(slug)s\">%(repo)s</a>."
+
+#: weblate/wladmin/templates/admin/ssh.html:14
+msgid "Public SSH key"
+msgstr "Klucz publiczny SSH"
+
+#: weblate/wladmin/templates/admin/ssh.html:15
+msgid "Weblate currently uses following SSH key:"
+msgstr "Weblate obecnie używa następującego klucza SSH:"
+
+#: weblate/wladmin/templates/admin/ssh.html:22
+msgid "Generate SSH key"
+msgstr "Generuj klucz SSH"
+
+#: weblate/wladmin/templates/admin/ssh.html:23
+msgid ""
+"You don't seem to have existing SSH key, by pressing button below Weblate "
+"will generate it for you."
+msgstr ""
+"Nie wydaje się, żebyś miał /miała istniejący klucz SSH; gdy naciśniesz "
+"przycisk poniżej — Weblate wygeneruje go dla ciebie."
+
+#: weblate/wladmin/templates/admin/ssh.html:33
+msgid "Known host keys"
+msgstr "Klucze znanych hostów"
+
+#: weblate/wladmin/templates/admin/ssh.html:40
+msgid "Hostname"
+msgstr "Nazwa hosta"
+
+#: weblate/wladmin/templates/admin/ssh.html:41
+msgid "Key type"
+msgstr "Typ klucza"
+
+#: weblate/wladmin/templates/admin/ssh.html:42
+msgid "Fingerprint"
+msgstr "”Odcisk palca” (ang. fingerprint)"
+
+#: weblate/wladmin/templates/admin/ssh.html:55
+msgid "Add host key"
+msgstr "Dodaj klucz hosta"
+
+#: weblate/wladmin/templates/admin/ssh.html:56
+msgid ""
+"To access SSH hosts, its host key needs to be verified. You can get the host "
+"key by entering a domain name or IP for the host in the form below."
+msgstr ""
+"Aby uzyskać dostęp do hostów SSH, trzeba zweryfikować klucz tych hostów.  "
+"Klucz hosta można otrzymać wprowadzając nazwę domeny lub IP dla hosta w "
+"poniższym formularzu."
+
+#: weblate/wladmin/templates/admin/ssh.html:60
+msgid "Host:"
+msgstr "Host:"
+
+#: weblate/wladmin/templates/admin/ssh.html:62
+msgid "Port:"
+msgstr "Port:"
+
+#: weblate/wladmin/templates/admin/ssh.html:64
+msgid "Submit"
+msgstr "Wyślij"
+
+#: weblate/wladmin/templates/admin/ssh.html:67
+msgid "More information"
+msgstr "Więcej informacji"
+
+#: weblate/wladmin/templates/admin/ssh.html:69
+#, python-format
+msgid ""
+"You can find more information about setting up SSH keys in <a href="
+"\"%(ssh_docs)s\">the Weblate manual</a>."
+msgstr ""
+"Więcej informacji na temat tworzenia kluczy SSH można znaleźć w <a href="
+"\"%(ssh_docs)s\">podręczniku Weblate</a>."
+
+#: weblate/wladmin/templates/admin/trans/change_form.html:22
+msgid "Do not change this object here, please use Weblate interface instead."
+msgstr ""
+"Nie zmieniaj tutaj tego obiektu, zamiast tego proszę użyj interfejsu Weblate."
+
+#: weblate/wladmin/templates/admin/trans/change_form.html:26
+#, python-format
+msgid ""
+"Importing a new translation can take some time, please check <a href="
+"\"%(url)s\">our documentation</a> for information on how to improve this."
+msgstr ""
+"Importowanie nowego tłumaczenia może zająć trochę czasu. Proszę sprawdzić <a "
+"href=\"%(url)s\">naszą dokumentację</a> na temat informacji, jak to "
+"usprawnić."
+
+#: weblate/wladmin/views.py:78
+msgid "Debug mode"
+msgstr "Tryb diagnozowania błędów"
+
+#: weblate/wladmin/views.py:86
+msgid "Site domain"
+msgstr "Domena witryny"
+
+#: weblate/wladmin/views.py:93
+msgid "Database backend"
+msgstr "Końcówka bazy danych"
+
+#: weblate/wladmin/views.py:100
+msgid "Site administrator"
+msgstr "Administrator witryny"
+
+#. Translators: Indexing is postponed to cron job
+#: weblate/wladmin/views.py:109
+msgid "Indexing offloading"
+msgstr "Indeksowanie wyładunku"
+
+#. Translators: Indexing is postponed to cron job
+#: weblate/wladmin/views.py:124
+msgid "Indexing offloading processing"
+msgstr "Indeksowanie wyładunku"
+
+#: weblate/wladmin/views.py:141
+msgid "Django caching"
+msgstr "Buforowanie Django"
+
+#: weblate/wladmin/views.py:148
+msgid "Avatar caching"
+msgstr "Pamięć podręczna awatarów"
+
+#: weblate/wladmin/views.py:162
+msgid "Email addresses"
+msgstr "Adresy e-mail"
+
+#: weblate/wladmin/views.py:172
+msgid "Federated avatar support"
+msgstr "Obsługa dołączonego avataru"
+
+#: weblate/wladmin/views.py:179
+msgid "pyuca library"
+msgstr "Biblioteka pyuca"
+
+#: weblate/wladmin/views.py:186
+msgid "Secret key"
+msgstr "Tajny klucz"
+
+#: weblate/wladmin/views.py:193
+msgid "Allowed hosts"
+msgstr "Hosty dozwolone"
+
+#: weblate/wladmin/views.py:202
+msgid "Cached template loader"
+msgstr "Buforowany program wczytujący szablon"
+
+#: weblate/wladmin/views.py:210
+msgid "Admin static files"
+msgstr "Pliki statyczne administratora"
 
 #, fuzzy
 #~| msgid "This string has been translated in the past"
