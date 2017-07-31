@@ -25,14 +25,12 @@ import os.path
 from django.conf import settings
 from django.contrib.sites.models import Site
 from django.shortcuts import render
-from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.translation import ugettext as _
 
 import six
 
 from weblate.trans.models import SubProject, IndexUpdate
 from weblate import settings_example
-from weblate.wladmin.sites import SITE
 from weblate.accounts.avatar import HAS_LIBRAVATAR
 from weblate.trans.util import (
     get_configuration_errors, HAS_PYUCA, check_domain
@@ -44,10 +42,9 @@ from weblate.trans.ssh import (
 import weblate
 
 
-@staff_member_required
-def report(request):
+def report(request, admin_site):
     """Provide report about git status of all repos."""
-    context = SITE.each_context(request)
+    context = admin_site.each_context(request)
     context['subprojects'] = SubProject.objects.all()
     return render(
         request,
@@ -73,8 +70,7 @@ def get_first_loader():
     return loaders[0][0]
 
 
-@staff_member_required
-def performance(request):
+def performance(request, admin_site):
     """Show performance tuning tips."""
     checks = []
     # Check for debug mode
@@ -219,7 +215,7 @@ def performance(request):
         settings.STATIC_ROOT,
     ))
 
-    context = SITE.each_context(request)
+    context = admin_site.each_context(request)
     context['checks'] = checks
     context['errors'] = get_configuration_errors()
 
@@ -230,8 +226,7 @@ def performance(request):
     )
 
 
-@staff_member_required
-def ssh(request):
+def ssh(request, admin_site):
     """Show information and manipulate with SSH key."""
     # Check whether we can generate SSH key
     can_generate = can_generate_key()
@@ -250,7 +245,7 @@ def ssh(request):
     if action == 'add-host':
         add_host_key(request)
 
-    context = SITE.each_context(request)
+    context = admin_site.each_context(request)
     context['public_key'] = key
     context['can_generate'] = can_generate
     context['host_keys'] = get_host_keys()

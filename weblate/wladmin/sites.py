@@ -18,7 +18,10 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from functools import update_wrapper
+
 from django.conf import settings
+from django.conf.urls import url
 from django.contrib.admin import AdminSite
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.views import logout
@@ -61,6 +64,7 @@ from weblate.trans.models import (
     Source, WhiteboardMessage, ComponentList,
 )
 from weblate.utils import messages
+import weblate.wladmin.views
 
 
 class WeblateAdminSite(AdminSite):
@@ -150,7 +154,32 @@ class WeblateAdminSite(AdminSite):
         result['empty_objects_list'] = [_('Object listing disabled')]
         return result
 
+    def get_urls(self):
+        def wrap(view, cacheable=False):
+            def wrapper(*args, **kwargs):
+                return self.admin_view(view, cacheable)(*args, admin_site=self, **kwargs)
+            return update_wrapper(wrapper, view)
+
+        urls = super(WeblateAdminSite, self).get_urls()
+        urls += [
+            url(
+                r'^admin/report/$',
+                wrap(weblate.wladmin.views.report),
+                name='report'
+            ),
+            url(
+                r'^admin/ssh/$',
+                wrap(weblate.wladmin.views.ssh),
+                name='ssh'
+            ),
+            url(
+                r'^admin/performance/$',
+                wrap(weblate.wladmin.views.performance),
+                name='performance'
+            ),
+        ]
+        return urls
+
 
 SITE = WeblateAdminSite()
 SITE.discover()
-

@@ -43,17 +43,17 @@ class AdminTest(FixtureTestCase):
         self.assertContains(response, 'SSH')
 
     def test_ssh(self):
-        response = self.client.get(reverse('admin-ssh'))
+        response = self.client.get(reverse('admin:ssh'))
         self.assertContains(response, 'SSH keys')
 
     @tempdir_setting('DATA_DIR')
     def test_ssh_generate(self):
         check_data_writable()
-        response = self.client.get(reverse('admin-ssh'))
+        response = self.client.get(reverse('admin:ssh'))
         self.assertContains(response, 'Generate SSH key')
 
         response = self.client.post(
-            reverse('admin-ssh'),
+            reverse('admin:ssh'),
             {'action': 'generate'}
         )
         self.assertContains(response, 'Created new SSH key')
@@ -67,12 +67,12 @@ class AdminTest(FixtureTestCase):
                 (get_test_file(''), os.environ['PATH'])
             )
             # Verify there is button for adding
-            response = self.client.get(reverse('admin-ssh'))
+            response = self.client.get(reverse('admin:ssh'))
             self.assertContains(response, 'Add host key')
 
             # Add the key
             response = self.client.post(
-                reverse('admin-ssh'),
+                reverse('admin:ssh'),
                 {'action': 'add-host', 'host': 'github.com'}
             )
             self.assertContains(response, 'Added host key for github.com')
@@ -85,16 +85,16 @@ class AdminTest(FixtureTestCase):
             self.assertIn('github.com', handle.read())
 
     def test_performace(self):
-        response = self.client.get(reverse('admin-performance'))
+        response = self.client.get(reverse('admin:performance'))
         self.assertContains(response, 'Django caching')
 
     def test_error(self):
         add_configuration_error('Test error', 'FOOOOOOOOOOOOOO')
-        response = self.client.get(reverse('admin-performance'))
+        response = self.client.get(reverse('admin:performance'))
         self.assertContains(response, 'FOOOOOOOOOOOOOO')
 
     def test_report(self):
-        response = self.client.get(reverse('admin-report'))
+        response = self.client.get(reverse('admin:report'))
         self.assertContains(response, 'On branch master')
 
     def test_create_project(self):

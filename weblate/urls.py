@@ -51,7 +51,6 @@ from weblate.sitemaps import SITEMAPS
 import weblate.accounts.urls
 import weblate.api.urls
 import weblate.wladmin.sites
-import weblate.wladmin.views
 
 # URL regexp for language code
 LANGUAGE = r'(?P<lang>[^/]+)'
@@ -750,21 +749,6 @@ urlpatterns = [
 
     # Admin interface
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-    url(
-        r'^admin/report/$',
-        weblate.wladmin.views.report,
-        name='admin-report'
-    ),
-    url(
-        r'^admin/ssh/$',
-        weblate.wladmin.views.ssh,
-        name='admin-ssh'
-    ),
-    url(
-        r'^admin/performance/$',
-        weblate.wladmin.views.performance,
-        name='admin-performance'
-    ),
     url(r'^admin/', include(weblate.wladmin.sites.SITE.urls)),
 
     # Auth
