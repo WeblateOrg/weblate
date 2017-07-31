@@ -149,14 +149,17 @@ class WeblateAdminSite(AdminSite):
 
     def each_context(self, request):
         result = super(WeblateAdminSite, self).each_context(request)
-        result['empty_selectable_objects_list'] = [[_('Object listing disabled')]]
-        result['empty_objects_list'] = [_('Object listing disabled')]
+        empty = [_('Object listing disabled')]
+        result['empty_selectable_objects_list'] = [empty]
+        result['empty_objects_list'] = empty
         return result
 
     def get_urls(self):
         def wrap(view, cacheable=False):
             def wrapper(*args, **kwargs):
-                return self.admin_view(view, cacheable)(*args, admin_site=self, **kwargs)
+                return self.admin_view(view, cacheable)(
+                    *args, admin_site=self, **kwargs
+                )
             return update_wrapper(wrapper, view)
 
         urls = super(WeblateAdminSite, self).get_urls()
