@@ -63,7 +63,7 @@
       <li><a href="{% url 'show_source' project=object.project.slug subproject=object.slug %}">{% trans "Source strings review" %}</a></li>
       <li><a href="{% url 'screenshots' project=object.project.slug subproject=object.slug %}">{% trans "Manage screenshots" %}</a></li>
       {% if user_can_manage_acl %}
-      <li><a href="{{ object.project.get_absolute_url }}#acl">{% trans "Manage users" %}</a></li>
+      <li><a href="{% url 'manage-access' project=object.project.slug %}">{% trans "Manage users" %}</a></li>
       {% endif %}
       {% if object.can_add_language and user_can_add_translation %}
       <li><a href="{% url "new-language" project=object.project.slug subproject=object.slug %}">{% trans "Start new translation" %}</a></li>
