@@ -69,6 +69,31 @@ actions.
     # Push changes to upstream respository, Weblate will fetch merge from there
     git push
 
+If you're using multiple branches in Weblate, you can work similarly on all
+branches:
+
+.. code-block:: sh
+
+    # Add and update remotes
+    git remote add weblate-4.7 https://hosted.weblate.org/git/phpmyadmin/4-7/
+    git remote add weblate https://hosted.weblate.org/git/phpmyadmin/master/
+    git remote update weblate-4.7 weblate
+
+    # Merge QA_4_7 branch
+    git checkout QA_4_7
+    git merge weblate-4.7/QA_4_7
+    ... # Resolve conflicts
+    git commit
+
+    # Merge master branch
+    git checkout master
+    git merge weblate/master
+    ... # Resolve conflicts
+    git commit
+
+    # Push changes to upstream respository, Weblate will fetch merge from there
+    git push
+
 .. seealso:: 
    
    :ref:`git-export`
