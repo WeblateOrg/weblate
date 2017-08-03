@@ -51,11 +51,11 @@ actions.
 
 .. code-block:: sh
 
-    # Add remote
+    # Add weblate as remote
     git remote add weblate https://hosted.weblate.org/git/weblate/master/
 
-    # Update remotes
-    git remote update
+    # Update weblate remote
+    git remote update weblate
 
     # Merge Weblate changes
     git merge weblate/master
