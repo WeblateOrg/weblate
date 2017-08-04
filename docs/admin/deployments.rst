@@ -61,7 +61,12 @@ this.
 
     docker-compose up
 
-Enjoy your Weblate deployment, it's accessible on port 80 of the web container.
+Enjoy your Weblate deployment, it's accessible on port 80 of the ``weblate`` container.
+
+.. versionchanged:: 2.15-2
+
+    The setup has changed recently, prior there was separate web server
+    container, since 2.15-2 the web server is embedded in weblate container.
 
 .. seealso:: :ref:`invoke-manage`
 
