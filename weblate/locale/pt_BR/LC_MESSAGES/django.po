@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-07-31 14:07+0000\n"
+"POT-Creation-Date: 2017-08-04 08:01+0000\n"
 "PO-Revision-Date: 2017-07-20 16:54+0000\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
@@ -595,7 +595,7 @@ msgstr ""
 #: weblate/templates/accounts/user.html:38
 #: weblate/templates/billing/detail.html:31 weblate/templates/language.html:15
 #: weblate/templates/projects.html:5 weblate/trans/models/project.py:160
-#: weblate/trans/views/basic.py:235
+#: weblate/trans/views/basic.py:236
 msgid "Projects"
 msgstr "Projetos"
 
@@ -974,10 +974,13 @@ msgstr ""
 "Infrastructure Initiative da The Linux Foundation."
 
 #: weblate/legal/templates/legal/security.html:32
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "Please see our <a href=\"%(security_url)s\">documentation</a> for "
+#| "instructions how to report security weakness in our platform."
 msgid ""
 "Please see our <a href=\"%(security_url)s\">documentation</a> for "
-"instructions how to report security weakness in our platform."
+"instructions how to report security weaknesses in our platform."
 msgstr ""
 "Veja nossa <a href=\"%(security_url)s\">documentação</a> para instruções "
 "sobre como relatar falhas de segurança em nossa plataforma."
@@ -1112,7 +1115,7 @@ msgstr "A captura de tela %s foi apagada."
 msgid "Source has been removed."
 msgstr "A fonte foi removida."
 
-#: weblate/templates/403.html:5 weblate/trans/views/basic.py:570
+#: weblate/templates/403.html:5 weblate/trans/views/basic.py:567
 msgid "Permission Denied"
 msgstr "Permissão negada"
 
@@ -1131,7 +1134,7 @@ msgstr ""
 "No entanto, os seguintes projetos de tradução estão disponíveis neste "
 "servidor:"
 
-#: weblate/templates/404.html:5 weblate/trans/views/basic.py:557
+#: weblate/templates/404.html:5 weblate/trans/views/basic.py:554
 msgid "Page Not Found"
 msgstr "Página não encontrada"
 
@@ -1146,7 +1149,7 @@ msgstr ""
 "A projeto que você está procurando não existe ou não está disponível "
 "publicamente."
 
-#: weblate/templates/500.html:5 weblate/trans/views/basic.py:584
+#: weblate/templates/500.html:5 weblate/trans/views/basic.py:581
 msgid "Internal Server Error"
 msgstr "Erro interno do servidor"
 
@@ -1163,7 +1166,7 @@ msgstr ""
 "nossos macaquinhos amestrados para consertar este problema."
 
 #: weblate/templates/about.html:5 weblate/templates/about.html:13
-#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:598
+#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:595
 msgid "About Weblate"
 msgstr "Sobre o Weblate"
 
@@ -1437,7 +1440,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Alterar minha senha"
 
-#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:703
+#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:700
 #: weblate/trans/views/files.py:88
 msgid "Please fix errors in the form."
 msgstr "Por favor, corrija os erros no formulário."
@@ -7476,7 +7479,7 @@ msgstr "Usuário foi adicionado a este projeto."
 msgid "User has been removed from this project."
 msgstr "Usuário foi removido desse projeto."
 
-#: weblate/trans/views/basic.py:127
+#: weblate/trans/views/basic.py:128
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to login next time."
@@ -7484,7 +7487,7 @@ msgstr ""
 "Você ativou sua conta, agora você deve definir a senha para poder fazer o "
 "login da próxima vez."
 
-#: weblate/trans/views/basic.py:139
+#: weblate/trans/views/basic.py:140
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
@@ -7492,25 +7495,25 @@ msgstr ""
 "O projeto que você está procurando foi removido, no entanto você está "
 "convidado a contribuir em outros."
 
-#: weblate/trans/views/basic.py:159
+#: weblate/trans/views/basic.py:160
 msgid "Please set your full name in your profile."
 msgstr "Preencha seu nome completo no perfil."
 
-#: weblate/trans/views/basic.py:295
+#: weblate/trans/views/basic.py:292
 #, python-format
 msgid "Search for %s"
 msgstr "Pesquisar por %s"
 
-#: weblate/trans/views/basic.py:301
+#: weblate/trans/views/basic.py:298
 msgid "Invalid search query!"
 msgstr "Texto de pesquisa inválido!"
 
-#: weblate/trans/views/basic.py:331
+#: weblate/trans/views/basic.py:328
 #, python-brace-format
 msgid "Get involved in {0}!"
 msgstr "Envolva-se com o {0}!"
 
-#: weblate/trans/views/basic.py:337
+#: weblate/trans/views/basic.py:334
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
@@ -7525,7 +7528,7 @@ msgstr ""
 
 #. Translators: line of text in engagement widget, please use your
 #. language name instead of English
-#: weblate/trans/views/basic.py:345
+#: weblate/trans/views/basic.py:342
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -7536,19 +7539,19 @@ msgstr ""
 "do Brasil contém %(total)s textos para traduzir e está %(percent)s%% "
 "completo."
 
-#: weblate/trans/views/basic.py:373 weblate/trans/views/basic.py:443
+#: weblate/trans/views/basic.py:370 weblate/trans/views/basic.py:440
 msgid "Settings saved"
 msgstr "Configurações salvas"
 
-#: weblate/trans/views/basic.py:378 weblate/trans/views/basic.py:448
+#: weblate/trans/views/basic.py:375 weblate/trans/views/basic.py:445
 msgid "Invalid settings, please check the form for errors!"
 msgstr "Configurações inválidas, verifique o formulário por erros!"
 
-#: weblate/trans/views/basic.py:610
+#: weblate/trans/views/basic.py:607
 msgid "Weblate statistics"
 msgstr "Estatísticas do Weblate"
 
-#: weblate/trans/views/basic.py:693
+#: weblate/trans/views/basic.py:690
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr ""
@@ -7608,32 +7611,32 @@ msgctxt "Format string for monthly activity chart"
 msgid "{day}/{month}"
 msgstr "{day}/{month}"
 
-#: weblate/trans/views/dictionary.py:53
+#: weblate/trans/views/dictionary.py:54
 #, python-format
 msgid "%(language)s dictionary for %(project)s"
 msgstr "Dicionário de %(language)s para %(project)s"
 
-#: weblate/trans/views/dictionary.py:70
+#: weblate/trans/views/dictionary.py:71
 msgid "Dictionaries"
 msgstr "Dicionários"
 
-#: weblate/trans/views/dictionary.py:183
+#: weblate/trans/views/dictionary.py:184
 msgid "No words to import found in file."
 msgstr "Nenhuma palavra para importar do arquivo."
 
-#: weblate/trans/views/dictionary.py:185
+#: weblate/trans/views/dictionary.py:186
 #, python-format
 msgid "Imported %d word from the uploaded file."
 msgid_plural "Imported %d words from the uploaded file."
 msgstr[0] "%d palavra importada do arquivo enviado."
 msgstr[1] "%d palavras importadas do arquivo enviado."
 
-#: weblate/trans/views/dictionary.py:193
+#: weblate/trans/views/dictionary.py:194
 #, python-format
 msgid "File upload has failed: %s"
 msgstr "Falha ao enviar o arquivo: %s"
 
-#: weblate/trans/views/dictionary.py:196 weblate/trans/views/edit.py:632
+#: weblate/trans/views/dictionary.py:197 weblate/trans/views/edit.py:632
 #: weblate/trans/views/edit.py:847
 msgid "Failed to process form!"
 msgstr "Falha ao processar o formulário!"
@@ -7840,21 +7843,21 @@ msgstr "Todos os componentes estão bloqueados para atualizações na tradução
 msgid "Project is now open for translation updates."
 msgstr "O projeto agora está aberto para atualizações na tradução."
 
-#: weblate/trans/views/source.py:103
+#: weblate/trans/views/source.py:100
 #, python-format
 msgid "Review source strings in %s"
 msgstr "Revisar texto fonte em %s"
 
-#: weblate/trans/views/source.py:119
+#: weblate/trans/views/source.py:116
 #, python-format
 msgid "Source strings in %s"
 msgstr "Texto fonte em %s"
 
-#: weblate/trans/views/source.py:138
+#: weblate/trans/views/source.py:135
 msgid "Failed to change a priority!"
 msgstr "Falha ao alterar uma prioridade!"
 
-#: weblate/trans/views/source.py:156
+#: weblate/trans/views/source.py:153
 msgid "Failed to change check flags!"
 msgstr "Falha ao alterar os marcadores de verificação!"
 

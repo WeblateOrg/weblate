@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-07-31 14:07+0000\n"
+"POT-Creation-Date: 2017-08-04 08:01+0000\n"
 "PO-Revision-Date: 2017-06-22 13:06+0000\n"
 "Last-Translator: Arif Budiman <arifpedia@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
@@ -608,7 +608,7 @@ msgstr ""
 #: weblate/templates/accounts/user.html:38
 #: weblate/templates/billing/detail.html:31 weblate/templates/language.html:15
 #: weblate/templates/projects.html:5 weblate/trans/models/project.py:160
-#: weblate/trans/views/basic.py:235
+#: weblate/trans/views/basic.py:236
 msgid "Projects"
 msgstr "Proyek"
 
@@ -984,10 +984,13 @@ msgid ""
 msgstr ""
 
 #: weblate/legal/templates/legal/security.html:32
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "Please see our <a href=\"%(security_url)s\">documentation</a> for "
+#| "instructions how to report security weakness in our platform."
 msgid ""
 "Please see our <a href=\"%(security_url)s\">documentation</a> for "
-"instructions how to report security weakness in our platform."
+"instructions how to report security weaknesses in our platform."
 msgstr ""
 "Lihat <a href=\"%(security_url)s\">dokumentasi</a> untuk petunjuk cara "
 "melaporkan kelemahan keamanan di platform kami."
@@ -1122,7 +1125,7 @@ msgstr "Tangkapan layar %s telah dihapus."
 msgid "Source has been removed."
 msgstr "Sumber telah dihapus."
 
-#: weblate/templates/403.html:5 weblate/trans/views/basic.py:570
+#: weblate/templates/403.html:5 weblate/trans/views/basic.py:567
 msgid "Permission Denied"
 msgstr "Izin ditolak"
 
@@ -1139,7 +1142,7 @@ msgid ""
 "However the following translation projects are available on this server:"
 msgstr "Namun proyek penerjemahan berikut tersedia di server ini:"
 
-#: weblate/templates/404.html:5 weblate/trans/views/basic.py:557
+#: weblate/templates/404.html:5 weblate/trans/views/basic.py:554
 msgid "Page Not Found"
 msgstr "Halaman Tidak Ditemukan"
 
@@ -1152,7 +1155,7 @@ msgid ""
 "The project you are looking for does not exist or is not publicly available."
 msgstr "Proyek yang Anda cari tidak ada atau tidak tersedia untuk umum."
 
-#: weblate/templates/500.html:5 weblate/trans/views/basic.py:584
+#: weblate/templates/500.html:5 weblate/trans/views/basic.py:581
 msgid "Internal Server Error"
 msgstr "Kesalahan Server Internal"
 
@@ -1169,7 +1172,7 @@ msgstr ""
 "mengirimkan monyet-monyet terlatih kami untuk memperbaiki masalah tsb."
 
 #: weblate/templates/about.html:5 weblate/templates/about.html:13
-#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:598
+#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:595
 msgid "About Weblate"
 msgstr "Tentang Weblate"
 
@@ -1449,7 +1452,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Ubah kata sandi saya"
 
-#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:703
+#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:700
 #: weblate/trans/views/files.py:88
 msgid "Please fix errors in the form."
 msgstr "Harap perbaiki kesalahan dalam formulir."
@@ -7482,7 +7485,7 @@ msgstr "Pengguna telah ditambahkan pada proyek ini."
 msgid "User has been removed from this project."
 msgstr "Pengguna telah dihapus dari proyek ini."
 
-#: weblate/trans/views/basic.py:127
+#: weblate/trans/views/basic.py:128
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to login next time."
@@ -7490,7 +7493,7 @@ msgstr ""
 "Anda telah mengaktifkan akun Anda, sekarang Anda harus mengatur kata sandi "
 "untuk bisa masuk saat berikutnya."
 
-#: weblate/trans/views/basic.py:139
+#: weblate/trans/views/basic.py:140
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
@@ -7498,25 +7501,25 @@ msgstr ""
 "Proyek yang Anda cari telah dihapus, namun Anda dipersilakan untuk "
 "berkontribusi pada proyek lain."
 
-#: weblate/trans/views/basic.py:159
+#: weblate/trans/views/basic.py:160
 msgid "Please set your full name in your profile."
 msgstr "Silakan atur nama lengkap Anda di profil anda."
 
-#: weblate/trans/views/basic.py:295
+#: weblate/trans/views/basic.py:292
 #, python-format
 msgid "Search for %s"
 msgstr "Cari untuk %s"
 
-#: weblate/trans/views/basic.py:301
+#: weblate/trans/views/basic.py:298
 msgid "Invalid search query!"
 msgstr "Kueri pencarian tidak valid!"
 
-#: weblate/trans/views/basic.py:331
+#: weblate/trans/views/basic.py:328
 #, python-brace-format
 msgid "Get involved in {0}!"
 msgstr "Terlibat dalam  {0}!"
 
-#: weblate/trans/views/basic.py:337
+#: weblate/trans/views/basic.py:334
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
@@ -7531,7 +7534,7 @@ msgstr ""
 
 #. Translators: line of text in engagement widget, please use your
 #. language name instead of English
-#: weblate/trans/views/basic.py:345
+#: weblate/trans/views/basic.py:342
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -7542,19 +7545,19 @@ msgstr ""
 "Indonesia saat ini telah berisi %(total)s string untuk diterjemahankan dan "
 "%(percent)s%% lengkap."
 
-#: weblate/trans/views/basic.py:373 weblate/trans/views/basic.py:443
+#: weblate/trans/views/basic.py:370 weblate/trans/views/basic.py:440
 msgid "Settings saved"
 msgstr "Pengaturan disimpan"
 
-#: weblate/trans/views/basic.py:378 weblate/trans/views/basic.py:448
+#: weblate/trans/views/basic.py:375 weblate/trans/views/basic.py:445
 msgid "Invalid settings, please check the form for errors!"
 msgstr "Pengaturan tidak valid, silakan periksa formulir kesalahannya!"
 
-#: weblate/trans/views/basic.py:610
+#: weblate/trans/views/basic.py:607
 msgid "Weblate statistics"
 msgstr "Statistik Weblate"
 
-#: weblate/trans/views/basic.py:693
+#: weblate/trans/views/basic.py:690
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "Permintaan untuk penerjemahan baru telah dikirim ke pengelola proyek."
@@ -7613,31 +7616,31 @@ msgctxt "Format string for monthly activity chart"
 msgid "{day}/{month}"
 msgstr "{day}/{month}"
 
-#: weblate/trans/views/dictionary.py:53
+#: weblate/trans/views/dictionary.py:54
 #, python-format
 msgid "%(language)s dictionary for %(project)s"
 msgstr "Kamus %(language)s untuk %(project)s"
 
-#: weblate/trans/views/dictionary.py:70
+#: weblate/trans/views/dictionary.py:71
 msgid "Dictionaries"
 msgstr "Kamus"
 
-#: weblate/trans/views/dictionary.py:183
+#: weblate/trans/views/dictionary.py:184
 msgid "No words to import found in file."
 msgstr "Tidak ada kata untuk diimpor ditemukan dalam berkas."
 
-#: weblate/trans/views/dictionary.py:185
+#: weblate/trans/views/dictionary.py:186
 #, python-format
 msgid "Imported %d word from the uploaded file."
 msgid_plural "Imported %d words from the uploaded file."
 msgstr[0] "Diimpor %d kata dari berkas yang diunggah."
 
-#: weblate/trans/views/dictionary.py:193
+#: weblate/trans/views/dictionary.py:194
 #, python-format
 msgid "File upload has failed: %s"
 msgstr "Unggahan berkas telah gagal: %s"
 
-#: weblate/trans/views/dictionary.py:196 weblate/trans/views/edit.py:632
+#: weblate/trans/views/dictionary.py:197 weblate/trans/views/edit.py:632
 #: weblate/trans/views/edit.py:847
 msgid "Failed to process form!"
 msgstr "Gagal untuk memproses formulir!"
@@ -7838,21 +7841,21 @@ msgstr "Semua komponen sekarang terkunci untuk memperbarui penerjemahan!"
 msgid "Project is now open for translation updates."
 msgstr "Proyek sekarang terbuka untuk memperbarui penerjemahan."
 
-#: weblate/trans/views/source.py:103
+#: weblate/trans/views/source.py:100
 #, python-format
 msgid "Review source strings in %s"
 msgstr "Tinjau string sumber dalam %s"
 
-#: weblate/trans/views/source.py:119
+#: weblate/trans/views/source.py:116
 #, python-format
 msgid "Source strings in %s"
 msgstr "String sumber dalam %s"
 
-#: weblate/trans/views/source.py:138
+#: weblate/trans/views/source.py:135
 msgid "Failed to change a priority!"
 msgstr "Gagal mengubah prioritas!"
 
-#: weblate/trans/views/source.py:156
+#: weblate/trans/views/source.py:153
 msgid "Failed to change check flags!"
 msgstr "Gagal mengubah tanda cek!"
 

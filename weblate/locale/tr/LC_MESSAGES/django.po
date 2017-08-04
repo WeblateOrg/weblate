@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-07-31 14:07+0000\n"
+"POT-Creation-Date: 2017-08-04 08:01+0000\n"
 "PO-Revision-Date: 2017-07-22 13:14+0000\n"
 "Last-Translator: monolifed <monolifed@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
@@ -592,7 +592,7 @@ msgstr ""
 #: weblate/templates/accounts/user.html:38
 #: weblate/templates/billing/detail.html:31 weblate/templates/language.html:15
 #: weblate/templates/projects.html:5 weblate/trans/models/project.py:160
-#: weblate/trans/views/basic.py:235
+#: weblate/trans/views/basic.py:236
 msgid "Projects"
 msgstr "Projeler"
 
@@ -970,10 +970,13 @@ msgstr ""
 "Uygulamalar'ı izler."
 
 #: weblate/legal/templates/legal/security.html:32
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "Please see our <a href=\"%(security_url)s\">documentation</a> for "
+#| "instructions how to report security weakness in our platform."
 msgid ""
 "Please see our <a href=\"%(security_url)s\">documentation</a> for "
-"instructions how to report security weakness in our platform."
+"instructions how to report security weaknesses in our platform."
 msgstr ""
 "Lütfen platformumuzdaki güvenlik zayıflıklarının nasıl bildirileceğiyle "
 "ilgili yönergeler için <a href=\"%(security_url)s\">belgelerimize</a> bakın."
@@ -1105,7 +1108,7 @@ msgstr "Ekran görüntüsü %s silindi."
 msgid "Source has been removed."
 msgstr "Kaynak kaldırıldı."
 
-#: weblate/templates/403.html:5 weblate/trans/views/basic.py:570
+#: weblate/templates/403.html:5 weblate/trans/views/basic.py:567
 msgid "Permission Denied"
 msgstr "İzin Verilmedi"
 
@@ -1122,7 +1125,7 @@ msgid ""
 "However the following translation projects are available on this server:"
 msgstr "Ancak aşağıdaki çeviri projeleri bu sunucuda bulunur:"
 
-#: weblate/templates/404.html:5 weblate/trans/views/basic.py:557
+#: weblate/templates/404.html:5 weblate/trans/views/basic.py:554
 msgid "Page Not Found"
 msgstr "Sayfa Bulunamadı"
 
@@ -1135,7 +1138,7 @@ msgid ""
 "The project you are looking for does not exist or is not publicly available."
 msgstr "Aradığınız proje yok ya da herkese açık değil."
 
-#: weblate/templates/500.html:5 weblate/trans/views/basic.py:584
+#: weblate/templates/500.html:5 weblate/trans/views/basic.py:581
 msgid "Internal Server Error"
 msgstr "İç Sunucu Hatası"
 
@@ -1152,7 +1155,7 @@ msgstr ""
 "çözmesi için eğitimli afacanlarımızı şimdi gönderdik."
 
 #: weblate/templates/about.html:5 weblate/templates/about.html:13
-#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:598
+#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:595
 msgid "About Weblate"
 msgstr "Weblate hakkında"
 
@@ -1428,7 +1431,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Parolamı değiştir"
 
-#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:703
+#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:700
 #: weblate/trans/views/files.py:88
 msgid "Please fix errors in the form."
 msgstr "Lütfen formdaki hataları düzeltin."
@@ -7455,7 +7458,7 @@ msgstr "Kullanıcı bu projeye eklendi."
 msgid "User has been removed from this project."
 msgstr "Kullanıcı bu projeden kaldırıldı."
 
-#: weblate/trans/views/basic.py:127
+#: weblate/trans/views/basic.py:128
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to login next time."
@@ -7463,7 +7466,7 @@ msgstr ""
 "Hesabınızı etkinleştirdiniz, şimdi bir dahaki seferde oturum açabilmek için "
 "parola ayarlamalısınız."
 
-#: weblate/trans/views/basic.py:139
+#: weblate/trans/views/basic.py:140
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
@@ -7471,25 +7474,25 @@ msgstr ""
 "Aradığınız proje kaldırılmış bulunmakta, ancak isterseniz diğerlerine "
 "katkıda bulunabilirsiniz."
 
-#: weblate/trans/views/basic.py:159
+#: weblate/trans/views/basic.py:160
 msgid "Please set your full name in your profile."
 msgstr "Lütfen profilinizde tam adınızı ayarlayın."
 
-#: weblate/trans/views/basic.py:295
+#: weblate/trans/views/basic.py:292
 #, python-format
 msgid "Search for %s"
 msgstr "%s ara"
 
-#: weblate/trans/views/basic.py:301
+#: weblate/trans/views/basic.py:298
 msgid "Invalid search query!"
 msgstr "Geçersiz arama sorgusu!"
 
-#: weblate/trans/views/basic.py:331
+#: weblate/trans/views/basic.py:328
 #, python-brace-format
 msgid "Get involved in {0}!"
 msgstr "{0} içinde yer alın!"
 
-#: weblate/trans/views/basic.py:337
+#: weblate/trans/views/basic.py:334
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
@@ -7503,7 +7506,7 @@ msgstr ""
 
 #. Translators: line of text in engagement widget, please use your
 #. language name instead of English
-#: weblate/trans/views/basic.py:345
+#: weblate/trans/views/basic.py:342
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -7513,19 +7516,19 @@ msgstr ""
 "Türkçe dilinde <a href=\"%(url)s\">%(project)s çeviri projesi</a>, çeviri "
 "için şu anda %(total)s satır içeriyor ve %%%(percent)s tamamlandı."
 
-#: weblate/trans/views/basic.py:373 weblate/trans/views/basic.py:443
+#: weblate/trans/views/basic.py:370 weblate/trans/views/basic.py:440
 msgid "Settings saved"
 msgstr "Ayarlar kaydedildi"
 
-#: weblate/trans/views/basic.py:378 weblate/trans/views/basic.py:448
+#: weblate/trans/views/basic.py:375 weblate/trans/views/basic.py:445
 msgid "Invalid settings, please check the form for errors!"
 msgstr "Geçersiz ayarlar, lütfen formu hatalara karşı denetleyin!"
 
-#: weblate/trans/views/basic.py:610
+#: weblate/trans/views/basic.py:607
 msgid "Weblate statistics"
 msgstr "Weblate istatistikleri"
 
-#: weblate/trans/views/basic.py:693
+#: weblate/trans/views/basic.py:690
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "Yeni bir çeviri için istek projenin geliştiricilerine gönderildi."
@@ -7584,32 +7587,32 @@ msgctxt "Format string for monthly activity chart"
 msgid "{day}/{month}"
 msgstr "{day}/{month}"
 
-#: weblate/trans/views/dictionary.py:53
+#: weblate/trans/views/dictionary.py:54
 #, python-format
 msgid "%(language)s dictionary for %(project)s"
 msgstr "%(project)s için %(language)s sözlüğü"
 
-#: weblate/trans/views/dictionary.py:70
+#: weblate/trans/views/dictionary.py:71
 msgid "Dictionaries"
 msgstr "Sözlükler"
 
-#: weblate/trans/views/dictionary.py:183
+#: weblate/trans/views/dictionary.py:184
 msgid "No words to import found in file."
 msgstr "Dosyada içe aktarmak için bulunan kelime yok."
 
-#: weblate/trans/views/dictionary.py:185
+#: weblate/trans/views/dictionary.py:186
 #, python-format
 msgid "Imported %d word from the uploaded file."
 msgid_plural "Imported %d words from the uploaded file."
 msgstr[0] "Gönderilen dosyadan %d kelime içe aktarıldı."
 msgstr[1] "Gönderilen dosyadan %d kelime içe aktarıldı."
 
-#: weblate/trans/views/dictionary.py:193
+#: weblate/trans/views/dictionary.py:194
 #, python-format
 msgid "File upload has failed: %s"
 msgstr "Dosya gönderme başarısız: %s"
 
-#: weblate/trans/views/dictionary.py:196 weblate/trans/views/edit.py:632
+#: weblate/trans/views/dictionary.py:197 weblate/trans/views/edit.py:632
 #: weblate/trans/views/edit.py:847
 msgid "Failed to process form!"
 msgstr "Form işlenemedi!"
@@ -7815,21 +7818,21 @@ msgstr "Tüm bileşenler şu an çeviri güncellemeleri için kilitli!"
 msgid "Project is now open for translation updates."
 msgstr "Proje şu an çeviri güncellemeleri için açık."
 
-#: weblate/trans/views/source.py:103
+#: weblate/trans/views/source.py:100
 #, python-format
 msgid "Review source strings in %s"
 msgstr "%s içindeki kaynak satırları gözden geçir"
 
-#: weblate/trans/views/source.py:119
+#: weblate/trans/views/source.py:116
 #, python-format
 msgid "Source strings in %s"
 msgstr "%s içindeki kaynak satır"
 
-#: weblate/trans/views/source.py:138
+#: weblate/trans/views/source.py:135
 msgid "Failed to change a priority!"
 msgstr "Bir öncelik değiştirilemedi!"
 
-#: weblate/trans/views/source.py:156
+#: weblate/trans/views/source.py:153
 msgid "Failed to change check flags!"
 msgstr "Denetim bayrakları değiştirilemedi!"
 

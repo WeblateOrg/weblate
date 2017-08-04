@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-07-31 14:07+0000\n"
+"POT-Creation-Date: 2017-08-04 08:01+0000\n"
 "PO-Revision-Date: 2017-07-27 20:43+0000\n"
 "Last-Translator: Petter Reinholdtsen <pere-weblate@hungry.com>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
@@ -591,7 +591,7 @@ msgstr ""
 #: weblate/templates/accounts/user.html:38
 #: weblate/templates/billing/detail.html:31 weblate/templates/language.html:15
 #: weblate/templates/projects.html:5 weblate/trans/models/project.py:160
-#: weblate/trans/views/basic.py:235
+#: weblate/trans/views/basic.py:236
 msgid "Projects"
 msgstr "Prosjekter"
 
@@ -959,7 +959,7 @@ msgstr ""
 #, python-format
 msgid ""
 "Please see our <a href=\"%(security_url)s\">documentation</a> for "
-"instructions how to report security weakness in our platform."
+"instructions how to report security weaknesses in our platform."
 msgstr ""
 
 #: weblate/legal/templates/legal/terms.html:6
@@ -1101,7 +1101,7 @@ msgstr "Skjermbilde %s er slettet."
 msgid "Source has been removed."
 msgstr "Kilden er blitt fjernet."
 
-#: weblate/templates/403.html:5 weblate/trans/views/basic.py:570
+#: weblate/templates/403.html:5 weblate/trans/views/basic.py:567
 msgid "Permission Denied"
 msgstr "Adgang avslått"
 
@@ -1120,7 +1120,7 @@ msgstr ""
 "Følgende oversettelsesprosjekter er imidlertid tilgjengelige på denne "
 "serveren:"
 
-#: weblate/templates/404.html:5 weblate/trans/views/basic.py:557
+#: weblate/templates/404.html:5 weblate/trans/views/basic.py:554
 msgid "Page Not Found"
 msgstr "Side ikke funnet"
 
@@ -1135,7 +1135,7 @@ msgid ""
 "The project you are looking for does not exist or is not publicly available."
 msgstr "Siden du leter etter ble ikke funnet."
 
-#: weblate/templates/500.html:5 weblate/trans/views/basic.py:584
+#: weblate/templates/500.html:5 weblate/trans/views/basic.py:581
 msgid "Internal Server Error"
 msgstr "Intern serverfeil"
 
@@ -1152,7 +1152,7 @@ msgstr ""
 "nettopp sendt våre trente «apekatter» for å fikse problemet."
 
 #: weblate/templates/about.html:5 weblate/templates/about.html:13
-#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:598
+#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:595
 msgid "About Weblate"
 msgstr "Om Weblate"
 
@@ -1428,7 +1428,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Bytt passord"
 
-#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:703
+#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:700
 #: weblate/trans/views/files.py:88
 msgid "Please fix errors in the form."
 msgstr "Du kan gjerne fikse feil i skjemaet."
@@ -7541,7 +7541,7 @@ msgstr "Bruker er lagt til dette prosjektet."
 msgid "User has been removed from this project."
 msgstr "Brukeren er fjernet fra prosjektet."
 
-#: weblate/trans/views/basic.py:127
+#: weblate/trans/views/basic.py:128
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to login next time."
@@ -7549,32 +7549,32 @@ msgstr ""
 "Du har aktivert kontoen din nå. Nå bør du sette et passord for å kunne logge "
 "inn neste gang."
 
-#: weblate/trans/views/basic.py:139
+#: weblate/trans/views/basic.py:140
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
 msgstr ""
 
-#: weblate/trans/views/basic.py:159
+#: weblate/trans/views/basic.py:160
 msgid "Please set your full name in your profile."
 msgstr "Angi hele navnet ditt i profilen."
 
-#: weblate/trans/views/basic.py:295
+#: weblate/trans/views/basic.py:292
 #, python-format
 msgid "Search for %s"
 msgstr "Søk etter %s"
 
-#: weblate/trans/views/basic.py:301
+#: weblate/trans/views/basic.py:298
 msgid "Invalid search query!"
 msgstr "Ugyldig søk!"
 
-#: weblate/trans/views/basic.py:331
+#: weblate/trans/views/basic.py:328
 #, fuzzy, python-brace-format
 #| msgid "Get involved in %(project)s!"
 msgid "Get involved in {0}!"
 msgstr "Bli med i %(project)s!"
 
-#: weblate/trans/views/basic.py:337
+#: weblate/trans/views/basic.py:334
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
@@ -7589,7 +7589,7 @@ msgstr ""
 
 #. Translators: line of text in engagement widget, please use your
 #. language name instead of English
-#: weblate/trans/views/basic.py:345
+#: weblate/trans/views/basic.py:342
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -7600,19 +7600,19 @@ msgstr ""
 "inneholder for tiden %(total)s strenger til oversettelse, og er %(percent)s"
 "%% komplett."
 
-#: weblate/trans/views/basic.py:373 weblate/trans/views/basic.py:443
+#: weblate/trans/views/basic.py:370 weblate/trans/views/basic.py:440
 msgid "Settings saved"
 msgstr "Oppsett lagret"
 
-#: weblate/trans/views/basic.py:378 weblate/trans/views/basic.py:448
+#: weblate/trans/views/basic.py:375 weblate/trans/views/basic.py:445
 msgid "Invalid settings, please check the form for errors!"
 msgstr "Ugyldig oppsett, ta en ekstra titt på skjemaet etter feil!"
 
-#: weblate/trans/views/basic.py:610
+#: weblate/trans/views/basic.py:607
 msgid "Weblate statistics"
 msgstr "Weblate-statistikk"
 
-#: weblate/trans/views/basic.py:693
+#: weblate/trans/views/basic.py:690
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr ""
@@ -7672,32 +7672,32 @@ msgctxt "Format string for monthly activity chart"
 msgid "{day}/{month}"
 msgstr "{day}/{month}"
 
-#: weblate/trans/views/dictionary.py:53
+#: weblate/trans/views/dictionary.py:54
 #, python-format
 msgid "%(language)s dictionary for %(project)s"
 msgstr "%(language)s ordliste for %(project)s"
 
-#: weblate/trans/views/dictionary.py:70
+#: weblate/trans/views/dictionary.py:71
 msgid "Dictionaries"
 msgstr "Ordlister"
 
-#: weblate/trans/views/dictionary.py:183
+#: weblate/trans/views/dictionary.py:184
 msgid "No words to import found in file."
 msgstr "Ingen ord å importere funnet i filen."
 
-#: weblate/trans/views/dictionary.py:185
+#: weblate/trans/views/dictionary.py:186
 #, python-format
 msgid "Imported %d word from the uploaded file."
 msgid_plural "Imported %d words from the uploaded file."
 msgstr[0] "Importerte %d ord fra den opplastede filen."
 msgstr[1] "Importerte %d ord fra den opplastede filen."
 
-#: weblate/trans/views/dictionary.py:193
+#: weblate/trans/views/dictionary.py:194
 #, python-format
 msgid "File upload has failed: %s"
 msgstr "Filopplasting mislyktes: %s"
 
-#: weblate/trans/views/dictionary.py:196 weblate/trans/views/edit.py:632
+#: weblate/trans/views/dictionary.py:197 weblate/trans/views/edit.py:632
 #: weblate/trans/views/edit.py:847
 msgid "Failed to process form!"
 msgstr "Kunne ikke behandle skjemaet!"
@@ -7907,21 +7907,21 @@ msgstr "Alle komponenter er nå låst for oversettelsesoppdateringer!"
 msgid "Project is now open for translation updates."
 msgstr "Prosjektet er nå åpent for oversettelsesoppdateringer."
 
-#: weblate/trans/views/source.py:103
+#: weblate/trans/views/source.py:100
 #, python-format
 msgid "Review source strings in %s"
 msgstr "Gå igjennom kildestrenger i %s"
 
-#: weblate/trans/views/source.py:119
+#: weblate/trans/views/source.py:116
 #, python-format
 msgid "Source strings in %s"
 msgstr "Kildestrenger i %s"
 
-#: weblate/trans/views/source.py:138
+#: weblate/trans/views/source.py:135
 msgid "Failed to change a priority!"
 msgstr "Kunne ikke endre en prioritet!"
 
-#: weblate/trans/views/source.py:156
+#: weblate/trans/views/source.py:153
 msgid "Failed to change check flags!"
 msgstr "Feilet i å endre kontrollflagg!"
 

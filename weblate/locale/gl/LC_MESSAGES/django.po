@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-07-31 14:07+0000\n"
+"POT-Creation-Date: 2017-08-04 08:01+0000\n"
 "PO-Revision-Date: 2016-01-14 15:07+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/weblate/master/"
@@ -616,7 +616,7 @@ msgstr ""
 #: weblate/templates/accounts/user.html:38
 #: weblate/templates/billing/detail.html:31 weblate/templates/language.html:15
 #: weblate/templates/projects.html:5 weblate/trans/models/project.py:160
-#: weblate/trans/views/basic.py:235
+#: weblate/trans/views/basic.py:236
 msgid "Projects"
 msgstr "Proxectos"
 
@@ -999,7 +999,7 @@ msgstr ""
 #, python-format
 msgid ""
 "Please see our <a href=\"%(security_url)s\">documentation</a> for "
-"instructions how to report security weakness in our platform."
+"instructions how to report security weaknesses in our platform."
 msgstr ""
 
 #: weblate/legal/templates/legal/terms.html:6
@@ -1151,7 +1151,7 @@ msgstr "Contexto da tradución"
 msgid "Source has been removed."
 msgstr "A súa conta foi retirada."
 
-#: weblate/templates/403.html:5 weblate/trans/views/basic.py:570
+#: weblate/templates/403.html:5 weblate/trans/views/basic.py:567
 msgid "Permission Denied"
 msgstr "Permiso denegado"
 
@@ -1169,7 +1169,7 @@ msgid ""
 msgstr ""
 "No entanto, hai os seguintes proxectos de tradución dispoñíbeis no servidor:"
 
-#: weblate/templates/404.html:5 weblate/trans/views/basic.py:557
+#: weblate/templates/404.html:5 weblate/trans/views/basic.py:554
 msgid "Page Not Found"
 msgstr "Non se atopou a páxina"
 
@@ -1184,7 +1184,7 @@ msgid ""
 "The project you are looking for does not exist or is not publicly available."
 msgstr "A páxina que está a buscar non se atopou."
 
-#: weblate/templates/500.html:5 weblate/trans/views/basic.py:584
+#: weblate/templates/500.html:5 weblate/trans/views/basic.py:581
 msgid "Internal Server Error"
 msgstr "Erro interno do servidor"
 
@@ -1201,7 +1201,7 @@ msgstr ""
 "enviar os trasnos para para arranxar o problema."
 
 #: weblate/templates/about.html:5 weblate/templates/about.html:13
-#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:598
+#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:595
 msgid "About Weblate"
 msgstr "Sobre o Weblate"
 
@@ -1485,7 +1485,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Cambiar o meu contrasinal"
 
-#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:703
+#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:700
 #: weblate/trans/views/files.py:88
 msgid "Please fix errors in the form."
 msgstr "Arranxe os erros do formulario."
@@ -8230,40 +8230,40 @@ msgstr ""
 msgid "User has been removed from this project."
 msgstr ""
 
-#: weblate/trans/views/basic.py:127
+#: weblate/trans/views/basic.py:128
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to login next time."
 msgstr ""
 
-#: weblate/trans/views/basic.py:139
+#: weblate/trans/views/basic.py:140
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
 msgstr ""
 
-#: weblate/trans/views/basic.py:159
+#: weblate/trans/views/basic.py:160
 msgid "Please set your full name in your profile."
 msgstr "Estabeleza o seu nome completo no seu perfil."
 
-#: weblate/trans/views/basic.py:295
+#: weblate/trans/views/basic.py:292
 #, fuzzy, python-format
 msgid "Search for %s"
 msgstr "Buscar \"%s\""
 
-#: weblate/trans/views/basic.py:301
+#: weblate/trans/views/basic.py:298
 #, fuzzy
 #| msgid "Invalid suggestion!"
 msgid "Invalid search query!"
 msgstr "Suxestión incorrecta!"
 
-#: weblate/trans/views/basic.py:331
+#: weblate/trans/views/basic.py:328
 #, fuzzy, python-brace-format
 #| msgid "Get involved in %(project)s!"
 msgid "Get involved in {0}!"
 msgstr "Participe en %(project)s!"
 
-#: weblate/trans/views/basic.py:337
+#: weblate/trans/views/basic.py:334
 #, fuzzy, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
@@ -8277,7 +8277,7 @@ msgstr ""
 
 #. Translators: line of text in engagement widget, please use your
 #. language name instead of English
-#: weblate/trans/views/basic.py:345
+#: weblate/trans/views/basic.py:342
 #, fuzzy, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -8288,22 +8288,22 @@ msgstr ""
 "tradución e <a href=\"%(url)s\">está a se traducir en %(languages)s idiomas</"
 "a>. A media desas traducións acada un %(percent)s%% do total."
 
-#: weblate/trans/views/basic.py:373 weblate/trans/views/basic.py:443
+#: weblate/trans/views/basic.py:370 weblate/trans/views/basic.py:440
 #, fuzzy
 msgid "Settings saved"
 msgstr "Data de inicio"
 
-#: weblate/trans/views/basic.py:378 weblate/trans/views/basic.py:448
+#: weblate/trans/views/basic.py:375 weblate/trans/views/basic.py:445
 msgid "Invalid settings, please check the form for errors!"
 msgstr ""
 
-#: weblate/trans/views/basic.py:610
+#: weblate/trans/views/basic.py:607
 #, fuzzy
 #| msgid "Your translations"
 msgid "Weblate statistics"
 msgstr "As súas traducións"
 
-#: weblate/trans/views/basic.py:693
+#: weblate/trans/views/basic.py:690
 #, fuzzy
 #| msgid "The request for machine translation has failed."
 msgid ""
@@ -8370,20 +8370,20 @@ msgctxt "Format string for monthly activity chart"
 msgid "{day}/{month}"
 msgstr ""
 
-#: weblate/trans/views/dictionary.py:53
+#: weblate/trans/views/dictionary.py:54
 #, python-format
 msgid "%(language)s dictionary for %(project)s"
 msgstr "Corrector de %(language)s para %(project)s"
 
-#: weblate/trans/views/dictionary.py:70
+#: weblate/trans/views/dictionary.py:71
 msgid "Dictionaries"
 msgstr "Correctores"
 
-#: weblate/trans/views/dictionary.py:183
+#: weblate/trans/views/dictionary.py:184
 msgid "No words to import found in file."
 msgstr "Non se atoparon palabras para importar no ficheiro."
 
-#: weblate/trans/views/dictionary.py:185
+#: weblate/trans/views/dictionary.py:186
 #, fuzzy, python-format
 #| msgid "Imported %d words from file."
 msgid "Imported %d word from the uploaded file."
@@ -8391,13 +8391,13 @@ msgid_plural "Imported %d words from the uploaded file."
 msgstr[0] "Importáronse %d palabras do ficheiro."
 msgstr[1] "Importáronse %d palabras do ficheiro."
 
-#: weblate/trans/views/dictionary.py:193
+#: weblate/trans/views/dictionary.py:194
 #, fuzzy, python-format
 #| msgid "File content merge failed: %s"
 msgid "File upload has failed: %s"
 msgstr "Fallou a fusión do contido do ficheiro: %s"
 
-#: weblate/trans/views/dictionary.py:196 weblate/trans/views/edit.py:632
+#: weblate/trans/views/dictionary.py:197 weblate/trans/views/edit.py:632
 #: weblate/trans/views/edit.py:847
 msgid "Failed to process form!"
 msgstr "Fallou o procesamento do formulario!"
@@ -8634,22 +8634,22 @@ msgstr ""
 msgid "Project is now open for translation updates."
 msgstr "O proxecto está agora aberto para actualizacións da tradución."
 
-#: weblate/trans/views/source.py:103
+#: weblate/trans/views/source.py:100
 #, fuzzy, python-format
 msgid "Review source strings in %s"
 msgstr "Buscar nas cadeas de orixe"
 
-#: weblate/trans/views/source.py:119
+#: weblate/trans/views/source.py:116
 #, fuzzy, python-format
 msgid "Source strings in %s"
 msgstr "Cadea de orixe:"
 
-#: weblate/trans/views/source.py:138
+#: weblate/trans/views/source.py:135
 #, fuzzy
 msgid "Failed to change a priority!"
 msgstr "Fallou o procesamento do formulario!"
 
-#: weblate/trans/views/source.py:156
+#: weblate/trans/views/source.py:153
 #, fuzzy
 #| msgid "Failed to parse %d matched files!"
 msgid "Failed to change check flags!"

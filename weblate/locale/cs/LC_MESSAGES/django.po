@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-07-31 14:07+0000\n"
+"POT-Creation-Date: 2017-08-04 08:01+0000\n"
 "PO-Revision-Date: 2017-07-21 18:27+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/"
@@ -588,7 +588,7 @@ msgstr ""
 #: weblate/templates/accounts/user.html:38
 #: weblate/templates/billing/detail.html:31 weblate/templates/language.html:15
 #: weblate/templates/projects.html:5 weblate/trans/models/project.py:160
-#: weblate/trans/views/basic.py:235
+#: weblate/trans/views/basic.py:236
 msgid "Projects"
 msgstr "Projekty"
 
@@ -965,10 +965,13 @@ msgstr ""
 "Initiative od Linux Foundation."
 
 #: weblate/legal/templates/legal/security.html:32
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "Please see our <a href=\"%(security_url)s\">documentation</a> for "
+#| "instructions how to report security weakness in our platform."
 msgid ""
 "Please see our <a href=\"%(security_url)s\">documentation</a> for "
-"instructions how to report security weakness in our platform."
+"instructions how to report security weaknesses in our platform."
 msgstr ""
 "Podívejte se prosím na naši <a href=\"%(security_url)s\">dokumentaci</a> pro "
 "návod, jak nahlásit bezpečnostní slabinu v naší platformě."
@@ -1101,7 +1104,7 @@ msgstr "Obrázek %s byl smazán."
 msgid "Source has been removed."
 msgstr "Řetězec byl odstraněn."
 
-#: weblate/templates/403.html:5 weblate/trans/views/basic.py:570
+#: weblate/templates/403.html:5 weblate/trans/views/basic.py:567
 msgid "Permission Denied"
 msgstr "Přístup zamítnut"
 
@@ -1118,7 +1121,7 @@ msgid ""
 "However the following translation projects are available on this server:"
 msgstr "Na tomto serveru se nicméně překládají následující projekty:"
 
-#: weblate/templates/404.html:5 weblate/trans/views/basic.py:557
+#: weblate/templates/404.html:5 weblate/trans/views/basic.py:554
 msgid "Page Not Found"
 msgstr "Stránka nenalezena"
 
@@ -1131,7 +1134,7 @@ msgid ""
 "The project you are looking for does not exist or is not publicly available."
 msgstr "Projekt, který hledáte, neexistuje, nebo není veřejně dostupný."
 
-#: weblate/templates/500.html:5 weblate/trans/views/basic.py:584
+#: weblate/templates/500.html:5 weblate/trans/views/basic.py:581
 msgid "Internal Server Error"
 msgstr "Interní chyba serveru"
 
@@ -1148,7 +1151,7 @@ msgstr ""
 "vyslali cvičené opice, aby problém opravily."
 
 #: weblate/templates/about.html:5 weblate/templates/about.html:13
-#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:598
+#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:595
 msgid "About Weblate"
 msgstr "O Weblate"
 
@@ -1419,7 +1422,7 @@ msgstr "Vložte dvakrát nové heslo. Tak ověříme, že bylo zadáno správně
 msgid "Change my password"
 msgstr "Změnit heslo"
 
-#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:703
+#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:700
 #: weblate/trans/views/files.py:88
 msgid "Please fix errors in the form."
 msgstr "Prosím opravte chyby ve formuláři."
@@ -7439,13 +7442,13 @@ msgstr "Uživatel byl přidán do tohoto projektu."
 msgid "User has been removed from this project."
 msgstr "Uživatel byl odebrán z tohoto projektu."
 
-#: weblate/trans/views/basic.py:127
+#: weblate/trans/views/basic.py:128
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to login next time."
 msgstr "Máte aktivní účet, nyní si nastavte heslo pro příští přihlášení."
 
-#: weblate/trans/views/basic.py:139
+#: weblate/trans/views/basic.py:140
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
@@ -7453,25 +7456,25 @@ msgstr ""
 "Projekt, který hledáte, byt odstraněn, ale budeme rádi, když přispějete do "
 "jiných."
 
-#: weblate/trans/views/basic.py:159
+#: weblate/trans/views/basic.py:160
 msgid "Please set your full name in your profile."
 msgstr "Prosím nastavte si v profilu vaše jméno."
 
-#: weblate/trans/views/basic.py:295
+#: weblate/trans/views/basic.py:292
 #, python-format
 msgid "Search for %s"
 msgstr "Hledání %s"
 
-#: weblate/trans/views/basic.py:301
+#: weblate/trans/views/basic.py:298
 msgid "Invalid search query!"
 msgstr "Chybný vyhledávací řetězec!"
 
-#: weblate/trans/views/basic.py:331
+#: weblate/trans/views/basic.py:328
 #, python-brace-format
 msgid "Get involved in {0}!"
 msgstr "Zapojte se do projektu {0}!"
 
-#: weblate/trans/views/basic.py:337
+#: weblate/trans/views/basic.py:334
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
@@ -7485,7 +7488,7 @@ msgstr ""
 
 #. Translators: line of text in engagement widget, please use your
 #. language name instead of English
-#: weblate/trans/views/basic.py:345
+#: weblate/trans/views/basic.py:342
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -7495,19 +7498,19 @@ msgstr ""
 "<a href=\"%(url)s\">Překlad projektu %(project)s</a> do češtiny v současné "
 "době obsahuje %(total)s řetězců k překladu a je hotový z %(percent)s%%."
 
-#: weblate/trans/views/basic.py:373 weblate/trans/views/basic.py:443
+#: weblate/trans/views/basic.py:370 weblate/trans/views/basic.py:440
 msgid "Settings saved"
 msgstr "Nastavení uloženo"
 
-#: weblate/trans/views/basic.py:378 weblate/trans/views/basic.py:448
+#: weblate/trans/views/basic.py:375 weblate/trans/views/basic.py:445
 msgid "Invalid settings, please check the form for errors!"
 msgstr "Chybné nastavení, prosím zkontrolujte chyby ve formuláři!"
 
-#: weblate/trans/views/basic.py:610
+#: weblate/trans/views/basic.py:607
 msgid "Weblate statistics"
 msgstr "Statistiky Weblate"
 
-#: weblate/trans/views/basic.py:693
+#: weblate/trans/views/basic.py:690
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "Správcům projektu byl odeslán požadavek na přidání překladu."
@@ -7566,20 +7569,20 @@ msgctxt "Format string for monthly activity chart"
 msgid "{day}/{month}"
 msgstr "{day}. {month}."
 
-#: weblate/trans/views/dictionary.py:53
+#: weblate/trans/views/dictionary.py:54
 #, python-format
 msgid "%(language)s dictionary for %(project)s"
 msgstr "Slovník pro %(project)s - %(language)s"
 
-#: weblate/trans/views/dictionary.py:70
+#: weblate/trans/views/dictionary.py:71
 msgid "Dictionaries"
 msgstr "Slovníky"
 
-#: weblate/trans/views/dictionary.py:183
+#: weblate/trans/views/dictionary.py:184
 msgid "No words to import found in file."
 msgstr "V souboru nebyla nalezena žádná slova k importu."
 
-#: weblate/trans/views/dictionary.py:185
+#: weblate/trans/views/dictionary.py:186
 #, python-format
 msgid "Imported %d word from the uploaded file."
 msgid_plural "Imported %d words from the uploaded file."
@@ -7587,12 +7590,12 @@ msgstr[0] "Ze souboru bylo importováno %d slovo."
 msgstr[1] "Ze souboru byla importována %d slova."
 msgstr[2] "Ze souboru bylo importováno %d slov."
 
-#: weblate/trans/views/dictionary.py:193
+#: weblate/trans/views/dictionary.py:194
 #, python-format
 msgid "File upload has failed: %s"
 msgstr "Selhalo nahrání obsahu souboru: %s"
 
-#: weblate/trans/views/dictionary.py:196 weblate/trans/views/edit.py:632
+#: weblate/trans/views/dictionary.py:197 weblate/trans/views/edit.py:632
 #: weblate/trans/views/edit.py:847
 msgid "Failed to process form!"
 msgstr "Nepodařilo se zpracovat formulář!"
@@ -7804,21 +7807,21 @@ msgstr "Všechny komponenty byly zamčeny pro překlady!"
 msgid "Project is now open for translation updates."
 msgstr "Projekt je nyní přístupný pro překladání."
 
-#: weblate/trans/views/source.py:103
+#: weblate/trans/views/source.py:100
 #, python-format
 msgid "Review source strings in %s"
 msgstr "Zkontrolovat zdrojové řetězce v %s"
 
-#: weblate/trans/views/source.py:119
+#: weblate/trans/views/source.py:116
 #, python-format
 msgid "Source strings in %s"
 msgstr "Zdrojové řetězce v %s"
 
-#: weblate/trans/views/source.py:138
+#: weblate/trans/views/source.py:135
 msgid "Failed to change a priority!"
 msgstr "Nepodařilo se změnit prioritu!"
 
-#: weblate/trans/views/source.py:156
+#: weblate/trans/views/source.py:153
 msgid "Failed to change check flags!"
 msgstr "Nepodařilo ze změnit značky kontrol!"
 
