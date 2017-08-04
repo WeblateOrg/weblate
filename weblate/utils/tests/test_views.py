@@ -18,17 +18,37 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
 
-def get_page_limit(request, default):
-    """Return page and limit as integers."""
-    try:
-        limit = int(request.GET.get('limit', default))
-    except ValueError:
-        limit = default
-    limit = min(max(default, limit), 200)
-    try:
-        page = int(request.GET.get('page', 1))
-    except ValueError:
-        page = 1
-    page = max(1, page)
-    return page, limit
+from unittest import TestCase
+
+from django.http import HttpRequest
+
+from weblate.utils.views import get_page_limit
+
+
+def fake_request(page, limit):
+    request = HttpRequest()
+    request.GET['page'] = page
+    request.GET['limit'] = limit
+    return request
+
+
+class PageLimitTest(TestCase):
+    def test_defaults(self):
+        self.assertEqual(
+            (1, 42),
+            get_page_limit(fake_request('x', 'x'), 42)
+        )
+
+    def test_negative(self):
+        self.assertEqual(
+            (1, 42),
+            get_page_limit(fake_request('-1', '-1'), 42)
+        )
+
+    def test_valid(self):
+        self.assertEqual(
+            (33, 66),
+            get_page_limit(fake_request('33', '66'), 42)
+        )
