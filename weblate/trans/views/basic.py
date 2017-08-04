@@ -20,7 +20,7 @@
 
 from __future__ import unicode_literals
 
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.paginator import Paginator, EmptyPage
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum, Count, F
@@ -61,6 +61,7 @@ from weblate.trans.views.helper import (
 from weblate.trans.util import (
     render, sort_objects, sort_unicode, translation_percent,
 )
+from weblate.utils.views import get_page_limit
 import weblate
 
 
@@ -276,16 +277,12 @@ def search(request, project=None, subproject=None, lang=None):
                 translation__language=context['language']
             )
 
-        limit = min(max(50, request.GET.get('limit', 50)), 200)
-        page = max(1, request.GET.get('page', 1))
+        page, limit = get_page_limit(request, 50)
 
         paginator = Paginator(units, limit)
 
         try:
             units = paginator.page(page)
-        except PageNotAnInteger:
-            # If page is not an integer, deliver first page.
-            units = paginator.page(1)
         except EmptyPage:
             # If page is out of range (e.g. 9999), deliver last page of
             # results.

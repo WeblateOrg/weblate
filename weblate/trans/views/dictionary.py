@@ -26,7 +26,7 @@ from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _, ungettext
 from django.http import JsonResponse
 from django.core.exceptions import PermissionDenied
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.paginator import Paginator, EmptyPage
 from django.core.urlresolvers import reverse
 from django.template.loader import render_to_string
 from django.utils.http import urlencode
@@ -46,6 +46,7 @@ from weblate.permissions.helpers import (
     can_change_dictionary, check_access,
 )
 from weblate.trans.views.helper import get_project, import_message
+from weblate.utils.views import get_page_limit
 
 
 def dict_title(prj, lang):
@@ -312,8 +313,7 @@ def show_dictionary(request, project, lang):
         project=prj, language=lang
     ).order_by(Lower('source'))
 
-    limit = min(max(25, request.GET.get('limit', 25)), 100)
-    page = max(1, request.GET.get('page', 1))
+    page, limit = get_page_limit(request, 25)
 
     letterform = LetterForm(request.GET)
 
@@ -329,9 +329,6 @@ def show_dictionary(request, project, lang):
 
     try:
         words = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-        words = paginator.page(1)
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
         words = paginator.page(paginator.num_pages)
