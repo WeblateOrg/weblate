@@ -59,8 +59,8 @@ def review_source(request, project, subproject):
 
     # Grab search type and page number
     rqtype = request.GET.get('type', 'all')
-    limit = request.GET.get('limit', 50)
-    page = request.GET.get('page', 1)
+    limit = min(max(50, request.GET.get('limit', 50)), 200)
+    page = max(1, request.GET.get('page', 1))
     try:
         id_hash = checksum_to_hash(request.GET.get('checksum', ''))
     except ValueError:

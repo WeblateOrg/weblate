@@ -276,8 +276,8 @@ def search(request, project=None, subproject=None, lang=None):
                 translation__language=context['language']
             )
 
-        limit = request.GET.get('limit', 50)
-        page = request.GET.get('page', 1)
+        limit = min(max(50, request.GET.get('limit', 50)), 200)
+        page = max(1, request.GET.get('page', 1))
 
         paginator = Paginator(units, limit)
 

@@ -312,8 +312,8 @@ def show_dictionary(request, project, lang):
         project=prj, language=lang
     ).order_by(Lower('source'))
 
-    limit = request.GET.get('limit', 25)
-    page = request.GET.get('page', 1)
+    limit = min(max(25, request.GET.get('limit', 25)), 100)
+    page = max(1, request.GET.get('page', 1))
 
     letterform = LetterForm(request.GET)
 
