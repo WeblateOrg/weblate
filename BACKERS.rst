@@ -7,3 +7,4 @@ List of Weblate supporters from
 * Yashiro Ccs
 * Cheng-Chia Tseng
 * Timon Reinhard
+* `Cassidy James <https://cassidyjames.com/>`_
