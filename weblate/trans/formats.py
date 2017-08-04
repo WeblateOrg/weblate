@@ -447,6 +447,13 @@ class CSVUnit(MonolingualSimpleUnit):
         else:
             return self.mainunit.getcontext()
 
+    def get_source(self):
+        # Needed to avoid translate-toolkit construct ID
+        # as context\04source
+        if self.template is None:
+            return get_string(self.mainunit.source)
+        return super(CSVUnit, self).get_source()
+
 
 class RESXUnit(FileUnit):
     def get_locations(self):
@@ -1213,6 +1220,13 @@ class CSVFormat(FileFormat):
     loader = ('csvl10n', 'csvfile')
     unit_class = CSVUnit
     autoload = ('.csv',)
+
+    def __init__(self, storefile, template_store=None, language_code=None):
+        super(CSVFormat, self).__init__(storefile, template_store, language_code)
+        # Remove template if the file contains source, this is needed
+        # for import, but probably usable elsewhere as well
+        if 'source' in self.store.fieldnames:
+            self.template_store = None
 
     @property
     def mimetype(self):
