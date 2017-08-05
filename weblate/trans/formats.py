@@ -1225,7 +1225,8 @@ class CSVFormat(FileFormat):
         super(CSVFormat, self).__init__(storefile, template_store, language_code)
         # Remove template if the file contains source, this is needed
         # for import, but probably usable elsewhere as well
-        if 'source' in self.store.fieldnames:
+        if ('source' in self.store.fieldnames and
+                not isinstance(template_store, CSVFormat)):
             self.template_store = None
 
     @property
