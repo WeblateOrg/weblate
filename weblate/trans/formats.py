@@ -1222,7 +1222,9 @@ class CSVFormat(FileFormat):
     autoload = ('.csv',)
 
     def __init__(self, storefile, template_store=None, language_code=None):
-        super(CSVFormat, self).__init__(storefile, template_store, language_code)
+        super(CSVFormat, self).__init__(
+            storefile, template_store, language_code
+        )
         # Remove template if the file contains source, this is needed
         # for import, but probably usable elsewhere as well
         if ('source' in self.store.fieldnames and
