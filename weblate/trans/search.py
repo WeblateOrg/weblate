@@ -138,16 +138,12 @@ def get_target_index(lang):
     return index
 
 
-def update_index(units, source_units=None):
+def update_index(units):
     """Update fulltext index for given set of units."""
     languages = Language.objects.have_translation()
 
-    # Default to same set for both updates
-    if source_units is None:
-        source_units = units
-
     # Update source index
-    if source_units.exists():
+    if units.exists():
         index = get_source_index()
         writer = BufferedWriter(index)
         try:
@@ -175,13 +171,12 @@ def update_index(units, source_units=None):
                 writer.close()
 
 
-def add_index_update(unit_id, source, to_delete, language_code=''):
+def add_index_update(unit_id, to_delete, language_code=''):
     from weblate.trans.models.search import IndexUpdate
     try:
         with transaction.atomic():
             IndexUpdate.objects.create(
                 unitid=unit_id,
-                source=source,
                 to_delete=to_delete,
                 language_code=language_code,
             )
@@ -189,30 +184,25 @@ def add_index_update(unit_id, source, to_delete, language_code=''):
     except IntegrityError:
         try:
             update = IndexUpdate.objects.get(unitid=unit_id)
-            if to_delete or source:
-                if source:
-                    update.source = True
-                if to_delete:
-                    update.to_delete = True
-                    update.language_code = language_code
+            if to_delete and not update.to_delete:
+                update.to_delete = True
                 update.save()
         except IndexUpdate.DoesNotExist:
             # It did exist, but was deleted meanwhile
             return
 
 
-def update_index_unit(unit, source=True):
+def update_index_unit(unit):
     """Add single unit to index."""
     # Should this happen in background?
     if settings.OFFLOAD_INDEXING:
-        add_index_update(unit.id, source, False)
+        add_index_update(unit.id, False)
         return
 
     # Update source
-    if source:
-        index = get_source_index()
-        with AsyncWriter(index) as writer:
-            update_source_unit_index(writer, unit)
+    index = get_source_index()
+    with AsyncWriter(index) as writer:
+        update_source_unit_index(writer, unit)
 
     # Update target
     if unit.target:
