@@ -196,7 +196,7 @@ def update_index_unit(unit):
     """Add single unit to index."""
     # Should this happen in background?
     if settings.OFFLOAD_INDEXING:
-        add_index_update(unit.id, False, unit.language.code)
+        add_index_update(unit.id, False, unit.translation.language.code)
         return
 
     # Update source
