@@ -88,7 +88,7 @@ def get_english_lang():
         return 65535
 
 
-class LanguageManager(models.Manager):
+class LanguageQuerySet(models.QuerySet):
     # pylint: disable=W0232
 
     def get_default(self):
@@ -439,7 +439,7 @@ class Language(models.Model, PercentMixin):
         verbose_name=ugettext_lazy('Plural type'),
     )
 
-    objects = LanguageManager()
+    objects = LanguageQuerySet.as_manager()
 
     class Meta(object):
         ordering = ['name']

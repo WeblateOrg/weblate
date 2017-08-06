@@ -32,7 +32,7 @@ from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.project import Project
 
 
-class ChangeManager(models.Manager):
+class ChangeQuerySet(models.QuerySet):
     # pylint: disable=W0232
 
     def content(self, prefetch=False):
@@ -154,6 +154,8 @@ class ChangeManager(models.Manager):
             'author__email', 'author__first_name'
         )
 
+
+class ChangeManager(models.Manager):
     def create(self, user=None, **kwargs):
         """Wrapper to avoid using anonymous user as change owner"""
         if user is not None and not user.is_authenticated:
@@ -282,7 +284,7 @@ class Change(models.Model, UserDisplayMixin):
     target = models.TextField(default='', blank=True)
     old = models.TextField(default='', blank=True)
 
-    objects = ChangeManager()
+    objects = ChangeManager.from_queryset(ChangeQuerySet)()
 
     class Meta(object):
         ordering = ['-timestamp']

@@ -34,7 +34,7 @@ LIBERAPAY = 'https://liberapay.com/Weblate/donate'
 WEBLATE = 'https://weblate.org/'
 
 
-class AdvertisementManager(models.Manager):
+class AdvertisementQuerySet(models.QuerySet):
     # pylint: disable=W0232
 
     _fallback_choices = (
@@ -124,7 +124,7 @@ class Advertisement(models.Model):
         blank=True
     )
 
-    objects = AdvertisementManager()
+    objects = AdvertisementQuerySet.as_manager()
 
     class Meta(object):
         app_label = 'trans'

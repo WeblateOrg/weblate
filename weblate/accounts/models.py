@@ -151,6 +151,8 @@ class AuditLogManager(models.Manager):
             params=json.dumps(params)
         )
 
+
+class AuditLogQuerySet(models.QuerySet):
     def get_after(self, user, after, activity):
         """Get user activites of given type after another activity.
 
@@ -192,7 +194,7 @@ class AuditLog(models.Model):
     address = models.GenericIPAddressField()
     timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
 
-    objects = AuditLogManager()
+    objects = AuditLogManager.from_queryset(AuditLogQuerySet)()
 
     class Meta(object):
         ordering = ['-timestamp']

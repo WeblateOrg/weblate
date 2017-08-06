@@ -112,7 +112,7 @@ def perform_on_link(func):
     return wrapper
 
 
-class SubProjectManager(models.Manager):
+class SubProjectQuerySet(models.QuerySet):
     # pylint: disable=W0232
 
     def prefetch(self):
@@ -496,7 +496,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         ),
     )
 
-    objects = SubProjectManager()
+    objects = SubProjectQuerySet.as_manager()
 
     is_lockable = True
     _reverse_url_name = 'subproject'

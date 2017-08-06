@@ -73,8 +73,6 @@ def more_like_queue(pk, source, top, queue):
 
 
 class UnitManager(models.Manager):
-    # pylint: disable=W0232
-
     @staticmethod
     def update_from_unit(translation, unit, pos):
         """
@@ -115,6 +113,8 @@ class UnitManager(models.Manager):
         # Return result
         return dbunit, created
 
+
+class UnitQuerySet(models.QuerySet):
     def filter_checks(self, rqtype, translation, ignored=False):
         """Filtering for checks."""
 
@@ -377,7 +377,7 @@ class Unit(models.Model, LoggerMixin):
 
     priority = models.IntegerField(default=100, db_index=True)
 
-    objects = UnitManager()
+    objects = UnitManager.from_queryset(UnitQuerySet)()
 
     class Meta(object):
         permissions = (
