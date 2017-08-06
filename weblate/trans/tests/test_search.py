@@ -426,7 +426,7 @@ class SearchMigrationTest(TestCase):
         writer.commit()
         for item in ('source', 'context', 'location', 'target'):
             self.assertEqual(
-                fulltext_search(item, 'cs', {item: True}),
+                fulltext_search(item, ['cs'], {item: True}),
                 set([1])
             )
 

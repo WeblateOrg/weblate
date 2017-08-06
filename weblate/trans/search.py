@@ -225,7 +225,7 @@ def base_search(index, query, params, search, schema):
         return [result['pk'] for result in searcher.search(terms, limit=None)]
 
 
-def fulltext_search(query, lang, params):
+def fulltext_search(query, langs, params):
     """Perform fulltext search in given areas, returns set of primary keys."""
     pks = set()
 
@@ -250,15 +250,16 @@ def fulltext_search(query, lang, params):
         )
 
     if search['target'] or search['comment']:
-        pks.update(
-            base_search(
-                get_target_index(lang),
-                query,
-                ('target', 'comment'),
-                search,
-                TargetSchema()
+        for lang in langs:
+            pks.update(
+                base_search(
+                    get_target_index(lang),
+                    query,
+                    ('target', 'comment'),
+                    search,
+                    TargetSchema()
+                )
             )
-        )
 
     return pks
 

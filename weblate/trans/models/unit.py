@@ -256,13 +256,13 @@ class UnitManager(models.Manager):
 
             result = base.filter(query)
         else:
-            lang = self.values_list(
+            langs = set(self.values_list(
                 'translation__language__code', flat=True
-            )[0]
+            ))
             result = base.filter(
                 pk__in=fulltext_search(
                     params['q'],
-                    lang,
+                    langs,
                     params
                 )
             )
@@ -272,7 +272,7 @@ class UnitManager(models.Manager):
         """Find units with same source."""
         pks = fulltext_search(
             unit.get_source_plurals()[0],
-            unit.translation.language.code,
+            [unit.translation.language.code],
             {'source': True}
         )
 
@@ -306,7 +306,7 @@ class UnitManager(models.Manager):
 
         same_results = fulltext_search(
             unit.get_source_plurals()[0],
-            unit.translation.language.code,
+            [unit.translation.language.code],
             {'source': True}
         )
 
