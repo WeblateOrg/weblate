@@ -731,7 +731,7 @@ class Unit(models.Model, LoggerMixin):
         )
         # Update source index and stats
         for unit in same_source.iterator():
-            update_index_unit(unit, True)
+            update_index_unit(unit)
             unit.translation.update_stats()
 
     def generate_change(self, request, author, oldunit, change_action):
@@ -802,7 +802,7 @@ class Unit(models.Model, LoggerMixin):
 
         # Update fulltext index if content has changed or this is a new unit
         if force_insert or not same_content:
-            update_index_unit(self, force_insert)
+            update_index_unit(self)
 
     def suggestions(self):
         """Return all suggestions for this unit."""

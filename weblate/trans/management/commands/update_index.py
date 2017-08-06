@@ -69,7 +69,6 @@ class Command(BaseCommand):
     def do_update(self, limit):
         indexupdates = set()
         unit_ids = set()
-        source_unit_ids = set()
 
         # Grab all updates from the database
         with transaction.atomic():
@@ -78,19 +77,13 @@ class Command(BaseCommand):
                 indexupdates.add(update.pk)
                 unit_ids.add(update.unitid)
 
-                if update.source:
-                    source_unit_ids.add(update.unitid)
-
         # Filter matching units
         units = Unit.objects.filter(
             id__in=unit_ids
         )
-        source_units = Unit.objects.filter(
-            id__in=source_unit_ids
-        )
 
         # Udate index
-        update_index(units, source_units)
+        update_index(units)
 
         # Delete processed updates
         with transaction.atomic():
