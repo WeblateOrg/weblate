@@ -171,7 +171,7 @@ def update_index(units):
                 writer.close()
 
 
-def add_index_update(unit_id, to_delete, language_code=''):
+def add_index_update(unit_id, to_delete, language_code):
     from weblate.trans.models.search import IndexUpdate
     try:
         with transaction.atomic():
@@ -196,7 +196,7 @@ def update_index_unit(unit):
     """Add single unit to index."""
     # Should this happen in background?
     if settings.OFFLOAD_INDEXING:
-        add_index_update(unit.id, False)
+        add_index_update(unit.id, False, unit.language.code)
         return
 
     # Update source
@@ -279,7 +279,7 @@ def more_like(pk, source, top=5):
 def clean_search_unit(pk, lang):
     """Cleanup search index on unit deletion."""
     if settings.OFFLOAD_INDEXING:
-        add_index_update(pk, False, True, lang)
+        add_index_update(pk, True, lang)
     else:
         delete_search_unit(pk, lang)
 
