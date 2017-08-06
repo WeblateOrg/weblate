@@ -367,10 +367,8 @@ class SearchBackendTest(ViewTestCase):
         unit = self.get_translation().unit_set.get(
             source='Hello, world!\n',
         )
-        #
-        update_index_unit(unit, False)
-        update_index_unit(unit, True)
-        update_index_unit(unit, True)
+        update_index_unit(unit)
+        update_index_unit(unit)
 
     @override_settings(OFFLOAD_INDEXING=False)
     def test_add(self):
