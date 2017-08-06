@@ -298,7 +298,9 @@ class UnitQuerySet(models.QuerySet):
                 proc.terminate()
 
             if queue.empty():
-                raise Exception('Request timed out.')
+                raise Exception(
+                    'Request for more like {0} timed out.'.format(unit.pk)
+                )
 
             more_results = queue.get()
         else:

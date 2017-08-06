@@ -302,7 +302,10 @@ class UnitTest(ModelTestCase):
     def test_more_like_timeout(self):
         unit = Unit.objects.all()[0]
         self.assertRaisesMessage(
-            Exception, 'Request timed out.', Unit.objects.more_like_this, unit
+            Exception,
+            'Request for more like {0} timed out.'.format(unit.pk),
+            Unit.objects.more_like_this,
+            unit
         )
 
     @override_settings(MT_WEBLATE_LIMIT=-1)
