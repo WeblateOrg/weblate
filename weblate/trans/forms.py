@@ -631,7 +631,7 @@ class SearchForm(BaseSearchForm):
             ('ftx', _('Fulltext')),
             ('exact', _('Exact match')),
         ),
-        initial='substring',
+        initial='ftx',
         error_messages={
             'invalid_choice': _('Please select a valid search type.'),
         }
@@ -673,7 +673,7 @@ class SearchForm(BaseSearchForm):
         """Sanity checking for search type."""
         # Default to fulltext / all strings
         if not self.cleaned_data.get('search'):
-            self.cleaned_data['search'] = 'substring'
+            self.cleaned_data['search'] = 'ftx'
         if not self.cleaned_data.get('type'):
             self.cleaned_data['type'] = 'all'
 
