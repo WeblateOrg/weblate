@@ -222,7 +222,7 @@ def base_search(index, query, params, search, schema):
                     parser.parse(query)
                 )
         terms = functools.reduce(lambda x, y: x | y, queries)
-        return [result['pk'] for result in searcher.search(terms)]
+        return [result['pk'] for result in searcher.search(terms, limit=None)]
 
 
 def fulltext_search(query, lang, params):
