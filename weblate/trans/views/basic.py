@@ -258,20 +258,20 @@ def search(request, project=None, subproject=None, lang=None):
         context['language'] = get_object_or_404(Language, code=lang)
 
     if search_form.is_valid():
-        units = Unit.objects.search(
+        # Filter results by ACL
+        if subproject:
+            units = Unit.objects.filter(translation__subproject=obj)
+        elif project:
+            units = Unit.objects.filter(translation__subproject__project=obj)
+        else:
+            projects = Project.objects.get_acl_ids(request.user)
+            units = Unit.objects.filter(
+                translation__subproject__project_id__in=projects
+            )
+        units = units.search(
             None,
             search_form.cleaned_data,
         )
-        # Filter results by ACL
-        if subproject:
-            units = units.filter(translation__subproject=obj)
-        elif project:
-            units = units.filter(translation__subproject__project=obj)
-        else:
-            projects = Project.objects.get_acl_ids(request.user)
-            units = units.filter(
-                translation__subproject__project_id__in=projects
-            )
         if lang:
             units = units.filter(
                 translation__language=context['language']
