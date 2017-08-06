@@ -7,17 +7,17 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-08-04 08:01+0000\n"
-"PO-Revision-Date: 2017-06-20 16:45+0000\n"
+"PO-Revision-Date: 2017-08-06 12:27+0000\n"
 "Last-Translator: Stanisław Krukowski <stdf021@riseup.net>\n"
-"Language-Team: Polish <https://hosted.weblate.org/projects/weblate/master/pl/"
-">\n"
+"Language-Team: Polish "
+"<https://hosted.weblate.org/projects/weblate/master/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2.15-dev\n"
+"X-Generator: Weblate 2.16-dev\n"
 
 #: weblate/accounts/admin.py:105 weblate/accounts/admin.py:110
 msgid "Personal info"
@@ -65,7 +65,7 @@ msgstr "Nazwa użytkownika"
 
 #: weblate/accounts/forms.py:130
 msgid "Username can not start with full stop."
-msgstr ""
+msgstr "Nazwa użytkownika nie może zaczynać się kropką."
 
 #: weblate/accounts/forms.py:137
 msgid "This username is already taken. Please choose another."
@@ -137,10 +137,8 @@ msgid "Activation email will be sent here."
 msgstr "E-mail aktywacyjny zostanie wysłany tutaj."
 
 #: weblate/accounts/forms.py:401
-#, fuzzy
-#| msgid "Too many authentication attempts!"
 msgid "Too many registration attempts!"
-msgstr "Zbyt wiele prób uwierzytelnienia!"
+msgstr "Zbyt wiele prób rejestracji!"
 
 #: weblate/accounts/forms.py:408
 msgid "New password"
@@ -151,10 +149,8 @@ msgid "New password confirmation"
 msgstr "Potwierdzenie nowego hasła"
 
 #: weblate/accounts/forms.py:431
-#, fuzzy
-#| msgid "You can not change password to the one you are currently using!"
 msgid "You can not change password to the one you were using!"
-msgstr "Nie możesz zmienić hasła na to samo, którego obecnie używasz!"
+msgstr "Nie możesz zmienić hasła na to samo, którego używałeś /używałaś!"
 
 #: weblate/accounts/forms.py:457
 msgid "Your password has been changed."
@@ -334,13 +330,17 @@ msgid "Editor link"
 msgstr "Odsyłacz edytora"
 
 #: weblate/accounts/models.py:345
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "Enter custom URL to be used as link to open source code. You can use "
 "%(branch)s for branch, %(file)s and %(line)s as filename and line "
 "placeholders. Usually something like editor://open/?file=%(file)s&line="
 "%(line)s is good option."
 msgstr ""
+"Wprowadź dostosowany URL, aby go użyć jako odsyłacza do kodu "
+"otwartoźródłowego. Dla gałęzi można użyć %(branch)s, a %(file)s i %(line)s "
+"jako nazwę dla pliku i jako symbol zastępczy linii. Zwykle dobrą opcją jest "
+"coś takiego: %(file)s%(line)s."
 
 #: weblate/accounts/models.py:356
 msgid "Special characters"
@@ -352,6 +352,10 @@ msgid ""
 "keyboard while translating. It can be useful for chars you use frequently "
 "but are hard to type on your keyboard."
 msgstr ""
+"Można wyszczególnić dodatkowe znaki specjalne, aby były widoczne na "
+"klawiaturze ekranowej podczas tłumaczenia. Może to być użyteczne dla znaków "
+"graficznych często stosowanych, lecz znaki takie mogą być trudne do "
+"wpisywania z klawiatury."
 
 #: weblate/accounts/models.py:370 weblate/templates/index.html:24
 msgid "Watched translations"
@@ -436,19 +440,23 @@ msgstr ""
 
 #: weblate/accounts/password_validation.py:38
 msgid "This password consists of whitespace only."
-msgstr ""
+msgstr "To hasło składa się tylko ze znaku /znaków spacji."
 
 #: weblate/accounts/password_validation.py:43
 msgid "This password consists of single character."
-msgstr ""
+msgstr "To hasło składa się tylko z pojedynczego znaku."
 
 #: weblate/accounts/password_validation.py:49
 msgid "Your password can't consist of single character or whitespace only."
 msgstr ""
+"Twoje hasło nie może składać się jedynie z pojedynczego znaku lub "
+"pojedynczej spacji."
 
 #: weblate/accounts/pipeline.py:275
 msgid "You can not complete password reset while logged in!"
 msgstr ""
+"Nie można dokończyć resetowania hasła będąc jednocześnie zalogowanym "
+"/zalogowaną!"
 
 #: weblate/accounts/pipeline.py:279 weblate/accounts/pipeline.py:303
 msgid "The registration link has been invalidated."
@@ -457,16 +465,19 @@ msgstr "Odsyłacz rejestracyjny utracił ważność."
 #: weblate/accounts/pipeline.py:294
 msgid "You can not complete registration while logged in!"
 msgstr ""
+"Nie można dokończyć rejestracji będąc jednocześnie zalogowanym /zalogowaną!"
 
 #: weblate/accounts/pipeline.py:299
 msgid "You can confirm your registration only while logged in!"
-msgstr ""
+msgstr "Rejestrację można potwierdzić jedynie będąc zalogowanym /zalogowaną!"
 
 #: weblate/accounts/pipeline.py:424
 #, python-brace-format
 msgid ""
 "Your email no longer belongs to verified account, it has been changed to {0}."
 msgstr ""
+"Twój adres e-mail nie należy już do zweryfikowanego konta. Został on "
+"zmieniony na {0}."
 
 #: weblate/accounts/views.py:108 weblate/accounts/views.py:581
 msgid "User registration"
@@ -486,7 +497,7 @@ msgstr "Nie możesz zmieniać konta demo na serwerze demo."
 
 #: weblate/accounts/views.py:187
 msgid "Too many attempts, you have been logged out!"
-msgstr ""
+msgstr "Zbyt wiele prób. Zostałeś /zostałaś wylogowany /wylogowana!"
 
 #: weblate/accounts/views.py:249
 msgid "Your profile has been updated."
@@ -502,7 +513,7 @@ msgstr "Konto zostało usunięte."
 
 #: weblate/accounts/views.py:387
 msgid "Too many messages sent, please try again later!"
-msgstr ""
+msgstr "Zbyt wiele wysłanych komunikatów. Proszę spróbować jeszcze raz później!"
 
 #: weblate/accounts/views.py:412 weblate/templates/accounts/contact.html:6
 #: weblate/templates/accounts/contact.html:21
@@ -532,10 +543,8 @@ msgid "Change password"
 msgstr "Zmień hasło"
 
 #: weblate/accounts/views.py:678
-#, fuzzy
-#| msgid "Password reset has been requested."
 msgid "Password reset has been already completed!"
-msgstr "Zażądano resetu hasła."
+msgstr "Resetowanie hasła jest już zakończone!"
 
 #: weblate/accounts/views.py:695 weblate/accounts/views.py:746
 #: weblate/templates/accounts/reset.html:7
