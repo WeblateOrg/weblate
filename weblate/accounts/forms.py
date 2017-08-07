@@ -95,6 +95,10 @@ class EmailField(forms.CharField):
     widget = EmailInput
     default_validators = [validate_email]
 
+    def __init__(self, *args, **kwargs):
+        kwargs['max_length'] = 254
+        super(EmailField, self).__init__(*args, **kwargs)
+
     def clean(self, value):
         value = super(EmailField, self).clean(value)
         user_part = value.rsplit('@', 1)[0]
@@ -331,7 +335,6 @@ class ContactForm(forms.Form):
     email = EmailField(
         label=_('Your email'),
         required=True,
-        max_length=254
     )
     message = forms.CharField(
         label=_('Message'),
@@ -359,7 +362,6 @@ class EmailForm(forms.Form, UniqueEmailMixin):
 
     email = EmailField(
         strip=False,
-        max_length=75,
         label=_("E-mail"),
         help_text=_('Activation email will be sent here.'),
     )
