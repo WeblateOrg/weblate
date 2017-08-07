@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-08-04 08:01+0000\n"
-"PO-Revision-Date: 2017-07-04 18:02+0000\n"
-"Last-Translator: Nikolay Korotkiy <sikmir@gmail.com>\n"
-"Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
-"ru/>\n"
+"PO-Revision-Date: 2017-08-07 02:42+0000\n"
+"Last-Translator: Igor <f2404@yandex.ru>\n"
+"Language-Team: Russian "
+"<https://hosted.weblate.org/projects/weblate/master/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.16-dev\n"
 
 #: weblate/accounts/admin.py:105 weblate/accounts/admin.py:110
@@ -140,10 +140,8 @@ msgid "Activation email will be sent here."
 msgstr "Письмо для активации отправлено."
 
 #: weblate/accounts/forms.py:401
-#, fuzzy
-#| msgid "Too many authentication attempts!"
 msgid "Too many registration attempts!"
-msgstr "Слишком много попыток аутентификации!"
+msgstr "Слишком много попыток регистрации!"
 
 #: weblate/accounts/forms.py:408
 msgid "New password"
@@ -502,7 +500,7 @@ msgstr "Вы не можете изменить учетную запись де
 
 #: weblate/accounts/views.py:187
 msgid "Too many attempts, you have been logged out!"
-msgstr ""
+msgstr "Слишком много попыток, вы вышли из системы!"
 
 #: weblate/accounts/views.py:249
 msgid "Your profile has been updated."
@@ -853,10 +851,9 @@ msgstr "Форма множественного числа %d"
 
 #. Translators: Label for plurals with example counts
 #: weblate/lang/models.py:504
-#, fuzzy, python-brace-format
-#| msgid "Failed to compile: {0}"
+#, python-brace-format
 msgid "For example: {0}"
-msgstr "Ошибка компиляции: {0}"
+msgstr "Например: {0}"
 
 #: weblate/legal/templates/legal/cookies.html:5
 #: weblate/legal/templates/legal/index.html:5
@@ -978,10 +975,7 @@ msgid ""
 msgstr ""
 
 #: weblate/legal/templates/legal/security.html:32
-#, fuzzy, python-format
-#| msgid ""
-#| "Please see our <a href=\"%(security_url)s\">documentation</a> for "
-#| "instructions how to report security weakness in our platform."
+#, python-format
 msgid ""
 "Please see our <a href=\"%(security_url)s\">documentation</a> for "
 "instructions how to report security weaknesses in our platform."
@@ -1253,7 +1247,7 @@ msgstr "Версии"
 
 #: weblate/templates/about.html:68
 msgid "Weblate would not exist without these projects."
-msgstr ""
+msgstr "Weblate бы не существовало без этих проектов."
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -3051,7 +3045,7 @@ msgstr "Ория"
 
 #: weblate/templates/i18n.html:199
 msgid "Old Church Slavonic"
-msgstr ""
+msgstr "Староцерковный славянский"
 
 #: weblate/templates/i18n.html:200
 msgid "Oromo"
@@ -3143,7 +3137,7 @@ msgstr ""
 
 #: weblate/templates/i18n.html:222
 msgid "Sanskrit"
-msgstr ""
+msgstr "Санскрит"
 
 #: weblate/templates/i18n.html:223
 msgid "Santali"
@@ -4618,7 +4612,7 @@ msgstr "Процесс перевода"
 
 #: weblate/templates/subproject_info.html:15
 msgid "Translations can be made only through suggesting."
-msgstr ""
+msgstr "Можно только предлагать переводы."
 
 #: weblate/templates/subproject_info.html:16
 #, python-format
@@ -4633,18 +4627,16 @@ msgstr[1] ""
 msgstr[2] ""
 
 #: weblate/templates/subproject_info.html:18
-#, fuzzy
-#| msgid "Translations made"
 msgid "Translations can be made directly."
-msgstr "Сделанные переводы"
+msgstr "Можно переводить прямо."
 
 #: weblate/templates/subproject_info.html:21
 msgid "Only selected users can contribute."
-msgstr ""
+msgstr "Только выбранные пользователи могут участвовать."
 
 #: weblate/templates/subproject_info.html:23
 msgid "Any authenticated users can contribute."
-msgstr ""
+msgstr "Любой аутентифицированный пользователь может участвовать."
 
 #: weblate/templates/subproject_info.html:31
 #: weblate/trans/models/subproject.py:379
@@ -4870,10 +4862,8 @@ msgid "Translations of this unit to other languages"
 msgstr "Переводы этого элемента на другие языки"
 
 #: weblate/templates/translate.html:209
-#, fuzzy
-#| msgid "Bihari languages"
 msgid "Other languages"
-msgstr "Бихарские языки"
+msgstr "Другие языки"
 
 #: weblate/templates/translate.html:210
 msgid "List of recent changes done in Weblate"
@@ -4921,31 +4911,25 @@ msgid "Accept and edit"
 msgstr "Принять и изменить"
 
 #: weblate/templates/translate.html:291
-#, fuzzy
-#| msgid "This string has different context but same source."
 msgid "Following string has same context and same source."
 msgid_plural "Following strings have same context and same source."
-msgstr[0] "У этой строки другой контекст, но тот же источник."
-msgstr[1] "У этой строки другой контекст, но тот же источник."
-msgstr[2] "У этой строки другой контекст, но тот же источник."
+msgstr[0] "У этой строки одни и те же контекст и источник."
+msgstr[1] "У этих строк одни и те же контекст и источник."
+msgstr[2] "У этих строк одни и те же контекст и источник."
 
 #: weblate/templates/translate.html:299
-#, fuzzy
-#| msgid "This string has different context but same source."
 msgid "Following string has different context but same source."
 msgid_plural "Following strings have different contexts but same source."
 msgstr[0] "У этой строки другой контекст, но тот же источник."
-msgstr[1] "У этой строки другой контекст, но тот же источник."
-msgstr[2] "У этой строки другой контекст, но тот же источник."
+msgstr[1] "У этих строк другой контекст, но тот же источник."
+msgstr[2] "У этих строк одни и те же контекст и источник."
 
 #: weblate/templates/translate.html:307
-#, fuzzy
-#| msgid "This string has different source but same context."
 msgid "Following string has different source but same context."
 msgid_plural "Following strings have different sources but same context."
 msgstr[0] "У этой строки другой источник, но тот же контекст."
-msgstr[1] "У этой строки другой источник, но тот же контекст."
-msgstr[2] "У этой строки другой источник, но тот же контекст."
+msgstr[1] "У этих строк другой источник, но тот же контекст."
+msgstr[2] "У этих строк другой источник, но тот же контекст."
 
 #: weblate/templates/translate.html:333
 msgid "Service"
@@ -5179,10 +5163,8 @@ msgid "%(filename)s, translation unit %(position)s"
 msgstr "%(filename)s, перевод юнита %(position)s"
 
 #: weblate/templates/user-activity.html:13
-#, fuzzy
-#| msgid "Enable suggestions"
 msgid "Pending suggestions"
-msgstr "Предлагать перевод"
+msgstr "Ожидающие предложения"
 
 #: weblate/templates/user-activity.html:15
 msgid "Browse pending"
@@ -5690,11 +5672,11 @@ msgstr "Файл JSON"
 
 #: weblate/trans/formats.py:1195
 msgid "JSON nested structure file"
-msgstr ""
+msgstr "Файл JSON вложенной структуры"
 
 #: weblate/trans/formats.py:1202
 msgid "WebExtension JSON file"
-msgstr ""
+msgstr "Файл WebExtension JSON"
 
 #: weblate/trans/formats.py:1211
 msgid "CSV file"
@@ -6123,10 +6105,8 @@ msgid "Translation settings"
 msgstr "Настройки перевода"
 
 #: weblate/trans/forms.py:1190
-#, fuzzy
-#| msgid "Version control system"
 msgid "Version control settings"
-msgstr "Система контроля версий"
+msgstr "Настройки контроля версий"
 
 #: weblate/trans/forms.py:1211
 msgid "Search string"
@@ -6799,12 +6779,12 @@ msgstr "Пушить ли изменения в удалённый репози�
 
 #: weblate/trans/models/subproject.py:472
 msgid "Age of changes to commit"
-msgstr ""
+msgstr "Возраст изменений для коммита"
 
 #: weblate/trans/models/subproject.py:475
 msgid ""
 "Time in hours after which any pending changes will be committed to the VCS."
-msgstr ""
+msgstr "Время в часах, после которого изменения будут закоммичены в VCS."
 
 #: weblate/trans/models/subproject.py:481
 msgid "Language filter"
@@ -7963,6 +7943,8 @@ msgstr "Запрещённая схема URL!"
 #: weblate/utils/validators.py:182
 msgid "Please avoid using special chars in the full name."
 msgstr ""
+"Пожалуйста, воздержитесь от использования специальных символов в полном "
+"имени."
 
 #: weblate/utils/validators.py:191
 msgid "Unsupported file format."
