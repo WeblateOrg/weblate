@@ -147,7 +147,7 @@ def update_index(units):
         index = get_source_index()
         writer = BufferedWriter(index)
         try:
-            for unit in source_units.iterator():
+            for unit in units.iterator():
                 update_source_unit_index(writer, unit)
         finally:
             writer.close()
