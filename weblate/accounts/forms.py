@@ -625,16 +625,32 @@ class LoginForm(forms.Form):
 
 class HostingForm(forms.Form):
     """Form for asking for hosting."""
-    name = forms.CharField(label=_('Your name'), required=True)
-    email = EmailField(label=_('Your email'), required=True)
-    project = forms.CharField(label=_('Project name'), required=True)
-    url = forms.URLField(label=_('Project website'), required=True)
+    name = forms.CharField(
+        label=_('Your name'),
+        required=True,
+        max_length=30,
+    )
+    email = EmailField(
+        label=_('Your email'),
+        required=True
+    )
+    project = forms.CharField(
+        label=_('Project name'),
+        required=True,
+        max_length=60,
+    )
+    url = forms.URLField(
+        label=_('Project website'),
+        required=True,
+        max_length=200,
+    )
     repo = forms.CharField(
         label=_('Source code repository'),
         help_text=_(
             'URL of source code repository for example Git or Mercurial.'
         ),
-        required=True
+        required=True,
+        max_length=200,
     )
     mask = forms.CharField(
         label=_('File mask'),
@@ -642,13 +658,15 @@ class HostingForm(forms.Form):
             'Path of files to translate, use * instead of language code, '
             'for example: po/*.po or locale/*/LC_MESSAGES/django.po.'
         ),
-        required=True
+        required=True,
+        max_length=200,
     )
 
     message = forms.CharField(
         label=_('Additional message'),
         required=True,
-        widget=forms.Textarea
+        widget=forms.Textarea,
+        max_length=1000,
     )
     content = forms.CharField(required=False)
 
