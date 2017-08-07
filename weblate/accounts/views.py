@@ -415,6 +415,7 @@ def contact(request):
 
 
 @login_required
+@session_ratelimit_post
 @never_cache
 def hosting(request):
     """Form for hosting request."""
