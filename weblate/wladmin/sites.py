@@ -165,17 +165,17 @@ class WeblateAdminSite(AdminSite):
         urls = super(WeblateAdminSite, self).get_urls()
         urls += [
             url(
-                r'^admin/report/$',
+                r'^report/$',
                 wrap(weblate.wladmin.views.report),
                 name='report'
             ),
             url(
-                r'^admin/ssh/$',
+                r'^ssh/$',
                 wrap(weblate.wladmin.views.ssh),
                 name='ssh'
             ),
             url(
-                r'^admin/performance/$',
+                r'^performance/$',
                 wrap(weblate.wladmin.views.performance),
                 name='performance'
             ),
