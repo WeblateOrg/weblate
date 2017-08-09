@@ -15,7 +15,7 @@ files (matching mask defined in :ref:`component`) appear in VCS repository.
 
 .. note::
 
-    You can share cloned VCS repositories using :ref:`internal-urls`.
+    You can share cloned VCS repositories using :ref:`internal-urls`. Using shared repositories feature is highly recommended when you have many components that use the same VCS. It will improve performance and use less disk space.
 
 .. _admin-interface:
 
