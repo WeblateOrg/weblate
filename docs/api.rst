@@ -908,7 +908,7 @@ Units
 
 .. http:get:: /api/units/
 
-    Returns list of translation unitss.
+    Returns list of translation units.
 
     .. seealso::
 
@@ -933,7 +933,7 @@ Units
     :>json string comment: translation unit comment
     :>json string flags: translation unit flags
     :>json boolean fuzzy: whether unit is fuzzy or marked for review
-    :>json boolean translated: whteher unit is translated
+    :>json boolean translated: whether unit is translated
     :>json int position: unit position in translation file
     :>json boolean has_suggestion: whether unit has suggestions
     :>json boolean has_comment: whether unit has comments
