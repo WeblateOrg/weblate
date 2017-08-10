@@ -128,31 +128,24 @@ class UnitQuerySet(models.QuerySet):
                 project=translation.subproject.project,
             )
 
-        filter_translated = True
-
         # Filter by language
         if rqtype == 'allchecks':
             return self.filter(has_failing_check=True)
         elif rqtype == 'sourcechecks':
             checks = checks.filter(language=None)
-            filter_translated = False
         elif rqtype.startswith('check:'):
             check_id = rqtype[6:]
             if check_id not in CHECKS:
                 return self.all()
             if CHECKS[check_id].source:
                 checks = checks.filter(language=None)
-                filter_translated = False
             elif CHECKS[check_id].target and translation is not None:
                 checks = checks.filter(language=translation.language)
             # Filter by check type
             checks = checks.filter(check=check_id)
 
         checks = checks.values_list('content_hash', flat=True)
-        ret = self.filter(content_hash__in=checks)
-        if filter_translated:
-            ret = ret.filter(translated=True)
-        return ret
+        return self.filter(content_hash__in=checks)
 
     def filter_type(self, rqtype, translation, ignored=False):
         """Basic filtering based on unit state or failed checks."""
