@@ -160,7 +160,6 @@ def show_check_project(request, name, project):
                 content_hash__in=checks,
                 translation__language=lang,
                 translation__subproject__project=prj,
-                translated=True
             ).values(
                 'translation__subproject__slug',
                 'translation__subproject__project__slug'
