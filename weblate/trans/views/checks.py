@@ -273,7 +273,6 @@ def show_check_subproject(request, name, project, subproject):
                 translation__subproject=subprj,
                 content_hash__in=checks,
                 translation__language=lang,
-                translated=True
             ).values(
                 'translation__language__code'
             ).annotate(count=Count('id'))
