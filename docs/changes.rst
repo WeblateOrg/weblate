@@ -4,7 +4,7 @@ Changes
 weblate 2.16
 ------------
 
-Released on ? 2017.
+Released on August 11th 2017.
 
 * Various performance improvements.
 * Added support for nested JSON format.
