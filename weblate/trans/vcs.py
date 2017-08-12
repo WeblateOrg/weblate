@@ -398,7 +398,12 @@ class GitRepository(Repository):
     @classmethod
     def _clone(cls, source, target, branch=None):
         """Clone repository."""
-        cls._popen(['clone', source, target])
+        cls._popen([
+            'clone',
+            '--depth', '1',
+            '--shallow-submodules',
+            source, target
+        ])
 
     def get_config(self, path):
         """Read entry from configuration."""
