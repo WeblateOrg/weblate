@@ -401,7 +401,6 @@ class GitRepository(Repository):
         cls._popen([
             'clone',
             '--depth', '1',
-            '--shallow-submodules',
             source, target
         ])
 
