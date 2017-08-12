@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+{% load crispy_forms_tags %}
+
+{% block breadcrumbs %}
+<li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
+<li><a href="{% url 'settings' project=object.slug %}">{% trans "Settings" %}</a></li>
+{% endblock %}
+
+{% block content %}
+<form action="{% url 'settings' project=object.slug %}" method="post" enctype="multipart/form-data">
+{% csrf_token %}
+<div class="panel panel-primary">
+<div class="panel-heading">
+{% doc_url 'admin/projects' 'project' as settings_doc_url %}
+<h4 class="panel-title">
+<a class="pull-right flip" href="{{ settings_doc_url }}"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+{% trans "Settings" %}
+</h4>
+</div>
+<div class="panel-body">
+{% crispy settings_form %}
+</div>
+<div class="panel-footer">
+<input type="submit" value="{% trans "Save" %}" class="btn btn-default" />
+</div>
+</div>
+</div>
+</div>
+</form>
+{% endblock %}
