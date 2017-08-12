@@ -45,11 +45,9 @@ from weblate.trans.forms import (
     get_upload_form, SearchForm, SiteSearchForm,
     AutoForm, ReviewForm, get_new_language_form,
     ReportsForm, ReplaceForm,
-    SubprojectSettingsForm, ProjectSettingsForm,
 )
 from weblate.permissions.helpers import (
-    can_automatic_translation, can_edit_subproject, can_edit_project,
-    can_translate,
+    can_automatic_translation, can_translate,
 )
 from weblate.accounts.models import Profile
 from weblate.accounts.notifications import notify_new_language
@@ -363,20 +361,6 @@ def show_project(request, project):
         dictionary__project=obj
     ).annotate(Count('dictionary'))
 
-    if request.method == 'POST' and can_edit_project(request.user, obj):
-        settings_form = ProjectSettingsForm(request.POST, instance=obj)
-        if settings_form.is_valid():
-            settings_form.save()
-            messages.success(request, _('Settings saved'))
-            return redirect(obj)
-        else:
-            messages.error(
-                request,
-                _('Invalid settings, please check the form for errors!')
-            )
-    else:
-        settings_form = ProjectSettingsForm(instance=obj)
-
     last_changes = Change.objects.for_project(obj)[:10]
 
     language_stats = sort_unicode(
@@ -409,7 +393,6 @@ def show_project(request, project):
             'last_changes_url': urlencode(
                 {'project': obj.slug}
             ),
-            'settings_form': settings_form,
             'language_stats': language_stats,
             'unit_count': Unit.objects.filter(
                 translation__subproject__project=obj
@@ -431,21 +414,6 @@ def show_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
 
     last_changes = Change.objects.for_component(obj)[:10]
-
-    if (request.method == 'POST' and
-            can_edit_subproject(request.user, obj.project)):
-        settings_form = SubprojectSettingsForm(request.POST, instance=obj)
-        if settings_form.is_valid():
-            settings_form.save()
-            messages.success(request, _('Settings saved'))
-            return redirect(obj)
-        else:
-            messages.error(
-                request,
-                _('Invalid settings, please check the form for errors!')
-            )
-    else:
-        settings_form = SubprojectSettingsForm(instance=obj)
 
     try:
         sample = obj.translation_set.all()[0]
@@ -474,7 +442,6 @@ def show_subproject(request, project, subproject):
             'last_changes_url': urlencode(
                 {'subproject': obj.slug, 'project': obj.project.slug}
             ),
-            'settings_form': settings_form,
             'unit_count': Unit.objects.filter(
                 translation__subproject=obj
             ).count(),

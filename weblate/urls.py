@@ -45,6 +45,7 @@ import weblate.trans.views.git
 import weblate.trans.views.js
 import weblate.trans.views.lock
 import weblate.trans.views.reports
+import weblate.trans.views.settings
 import weblate.trans.views.source
 import weblate.trans.views.widgets
 from weblate.sitemaps import SITEMAPS
@@ -252,6 +253,16 @@ urlpatterns = [
         r'^access/' + PROJECT + '$',
         weblate.trans.views.acl.manage_access,
         name='manage-access',
+    ),
+    url(
+        r'^settings/' + PROJECT + '$',
+        weblate.trans.views.settings.change_project,
+        name='settings',
+    ),
+    url(
+        r'^settings/' + SUBPROJECT + '$',
+        weblate.trans.views.settings.change_subproject,
+        name='settings',
     ),
     url(
         r'^access/' + PROJECT + 'add/$',

@@ -70,7 +70,7 @@
       <li><a href="{% url 'manage-access' project=object.slug %}">{% trans "Manage users" %}</a></li>
       {% endif %}
       {% if user_can_edit_project %}
-      <li><a href="#settings" data-toggle="tab">{% trans "Settings" %}</a></li>
+      <li><a href="{% url 'settings' project=object.slug %}">{% trans "Settings" %}</a></li>
       {% endif %}
     </ul>
   </li>
@@ -208,31 +208,6 @@
 {% if user_can_see_repository_status %}
 <div class="tab-pane" id="repository">
 <p>{% trans "Loading…" %}</p>
-</div>
-{% endif %}
-
-{% if user_can_edit_project %}
-<div class="tab-pane" id="settings">
-<form action="{% url 'project' project=object.slug %}#settings" method="post" enctype="multipart/form-data">
-{% csrf_token %}
-<div class="panel panel-primary">
-<div class="panel-heading">
-{% doc_url 'admin/projects' 'project' as settings_doc_url %}
-<h4 class="panel-title">
-<a class="pull-right flip" href="{{ settings_doc_url }}"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
-{% trans "Settings" %}
-</h4>
-</div>
-<div class="panel-body">
-{% crispy settings_form %}
-</div>
-<div class="panel-footer">
-<input type="submit" value="{% trans "Save" %}" class="btn btn-default" />
-</div>
-</div>
-</div>
-</div>
-</form>
 </div>
 {% endif %}
 
