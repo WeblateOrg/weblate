@@ -1,6 +1,13 @@
 Changes
 =======
 
+weblate 2.17
+------------
+
+Released on ? 2017.
+
+* Weblate by default does shallow Git clones now.
+
 weblate 2.16
 ------------
 
