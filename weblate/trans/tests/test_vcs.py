@@ -237,19 +237,19 @@ class VCSGitTest(TestCase, RepoTestMixin):
 
     def check_valid_info(self, info):
         self.assertTrue('summary' in info)
-        self.assertTrue(info['summary'] != '')
+        self.assertNotEqual(info['summary'], '')
         self.assertTrue('author' in info)
-        self.assertTrue(info['author'] != '')
+        self.assertNotEqual(info['author'], '')
         self.assertTrue('authordate' in info)
-        self.assertTrue(info['authordate'] != '')
+        self.assertNotEqual(info['authordate'], '')
         self.assertTrue('commit' in info)
-        self.assertTrue(info['commit'] != '')
+        self.assertNotEqual(info['commit'], '')
         self.assertTrue('commitdate' in info)
-        self.assertTrue(info['commitdate'] != '')
+        self.assertNotEqual(info['commitdate'], '')
         self.assertTrue('revision' in info)
-        self.assertTrue(info['revision'] != '')
+        self.assertNotEqual(info['revision'], '')
         self.assertTrue('shortrevision' in info)
-        self.assertTrue(info['shortrevision'] != '')
+        self.assertNotEqual(info['shortrevision'], '')
 
     def test_revision_info(self):
         # Latest commit
@@ -268,7 +268,7 @@ class VCSGitTest(TestCase, RepoTestMixin):
         self.assertTrue(self._class.is_supported())
 
     def test_get_version(self):
-        self.assertTrue(self._class.get_version() != '')
+        self.assertNotEqual(self._class.get_version(), '')
 
     def test_set_committer(self):
         self.repo.set_committer('Foo Bar Žač', 'foo@example.net')
