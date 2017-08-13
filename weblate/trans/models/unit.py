@@ -32,6 +32,7 @@ from django.utils.translation import ugettext as _
 from django.utils.encoding import python_2_unicode_compatible
 from django.core.cache import cache
 
+from weblate.accounts.models import get_author_name
 from weblate.utils import messages
 from weblate.trans.checks import CHECKS
 from weblate.trans.models.source import Source
@@ -590,6 +591,9 @@ class Unit(models.Model, LoggerMixin):
 
         # Update lock timestamp
         self.update_lock(request, user, change_action)
+
+        # Commit possible previous changes by other author
+        self.translation.commit_pending(request, get_author_name(user))
 
         # Store to backend
         try:
