@@ -25,8 +25,7 @@ from datetime import date, datetime, timedelta
 import json
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout
-from crispy_forms.bootstrap import TabHolder, Tab
+from crispy_forms.layout import Layout, Fieldset
 
 from django import forms
 from django.core.exceptions import PermissionDenied
@@ -1118,83 +1117,136 @@ class ReportsForm(forms.Form):
     )
 
 
-class SubprojectSettingsForm(forms.ModelForm):
+class SubprojectVCSSettingsForm(forms.ModelForm):
     """Component settings form."""
     class Meta(object):
         model = SubProject
         fields = (
-            'repoweb',
-            'report_source_bugs',
-            'edit_template',
-            'allow_translation_propagation',
-            'save_history',
-            'enable_suggestions',
-            'suggestion_voting',
-            'suggestion_autoaccept',
-            'check_flags',
-            'license',
-            'license_url',
-            'new_lang',
-            'new_base',
-            'filemask',
-            'template',
             'commit_message',
             'add_message',
             'delete_message',
-            'language_regex',
+            'repoweb',
             'push_on_commit',
             'commit_pending_age',
             'merge_style',
         )
 
     def __init__(self, *args, **kwargs):
-        super(SubprojectSettingsForm, self).__init__(*args, **kwargs)
+        super(SubprojectVCSSettingsForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
-        self.helper.layout = Layout(TabHolder(
-            Tab(
-                _('License'),
-                'license',
-                'license_url',
-            ),
-            Tab(
-                _('Suggestions'),
-                'enable_suggestions',
-                'suggestion_voting',
-                'suggestion_autoaccept',
-            ),
-            Tab(
-                _('Commit messages'),
-                'commit_message',
-                'add_message',
-                'delete_message',
-            ),
-            Tab(
-                _('Languages processing'),
-                'filemask',
-                'template',
-                'language_regex',
-                'edit_template',
-                'new_lang',
-                'new_base',
-            ),
-            Tab(
-                _('Upstream links'),
+        self.helper.layout = Layout(
+            Fieldset(
+                _('Locations'),
                 'repoweb',
-                'report_source_bugs',
             ),
-            Tab(
-                _('Translation settings'),
-                'allow_translation_propagation',
-                'save_history',
-                'check_flags',
-            ),
-            Tab(
+            Fieldset(
                 _('Version control settings'),
                 'push_on_commit',
                 'commit_pending_age',
                 'merge_style',
             ),
-        ))
+            Fieldset(
+                _('Commit messages'),
+                'commit_message',
+                'add_message',
+                'delete_message',
+            ),
+        )
+
+
+class SubprojectTranslationSettingsForm(forms.ModelForm):
+    """Component settings form."""
+    class Meta(object):
+        model = SubProject
+        fields = (
+            'allow_translation_propagation',
+            'save_history',
+            'enable_suggestions',
+            'suggestion_voting',
+            'suggestion_autoaccept',
+            'check_flags',
+        )
+
+    def __init__(self, *args, **kwargs):
+        super(SubprojectTranslationSettingsForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Fieldset(
+                _('Suggestions'),
+                'enable_suggestions',
+                'suggestion_voting',
+                'suggestion_autoaccept',
+            ),
+            Fieldset(
+                _('Translation settings'),
+                'allow_translation_propagation',
+                'save_history',
+                'check_flags',
+            ),
+        )
+
+
+class SubprojectBasicSettingsForm(forms.ModelForm):
+    """Component settings form."""
+    class Meta(object):
+        model = SubProject
+        fields = (
+            'report_source_bugs',
+            'license',
+            'license_url',
+        )
+
+    def __init__(self, *args, **kwargs):
+        super(SubprojectBasicSettingsForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Fieldset(
+                _('License'),
+                'license',
+                'license_url',
+            ),
+            Fieldset(
+                _('Upstream links'),
+                'report_source_bugs',
+            ),
+        )
+
+
+class SubprojectFileSettingsForm(forms.ModelForm):
+    """Component settings form."""
+    class Meta(object):
+        model = SubProject
+        fields = (
+            'edit_template',
+            'new_lang',
+            'new_base',
+            'filemask',
+            'template',
+            'language_regex',
+        )
+
+    def __init__(self, *args, **kwargs):
+        super(SubprojectFileSettingsForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Fieldset(
+                _('Languages processing'),
+                'filemask',
+                'language_regex',
+                'template',
+                'edit_template',
+                'new_base',
+                'new_lang',
+            ),
+        )
+
+
+SUBPROJECT_SETTINGS = [
+    SubprojectBasicSettingsForm,
+    SubprojectTranslationSettingsForm,
+    SubprojectVCSSettingsForm,
+    SubprojectFileSettingsForm,
+]
 
 
 class ProjectSettingsForm(forms.ModelForm):
