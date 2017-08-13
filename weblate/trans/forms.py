@@ -25,7 +25,8 @@ from datetime import date, datetime, timedelta
 import json
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Fieldset
+from crispy_forms.layout import Layout
+from crispy_forms.bootstrap import TabHolder, Tab
 
 from django import forms
 from django.core.exceptions import PermissionDenied
@@ -1143,30 +1144,31 @@ class SubprojectSettingsForm(forms.ModelForm):
             'language_regex',
             'push_on_commit',
             'commit_pending_age',
+            'merge_style',
         )
 
     def __init__(self, *args, **kwargs):
         super(SubprojectSettingsForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
-        self.helper.layout = Layout(
-            Fieldset(
+        self.helper.layout = Layout(TabHolder(
+            Tab(
                 _('License'),
                 'license',
                 'license_url',
             ),
-            Fieldset(
+            Tab(
                 _('Suggestions'),
                 'enable_suggestions',
                 'suggestion_voting',
                 'suggestion_autoaccept',
             ),
-            Fieldset(
+            Tab(
                 _('Commit messages'),
                 'commit_message',
                 'add_message',
                 'delete_message',
             ),
-            Fieldset(
+            Tab(
                 _('Languages processing'),
                 'filemask',
                 'template',
@@ -1175,23 +1177,24 @@ class SubprojectSettingsForm(forms.ModelForm):
                 'new_lang',
                 'new_base',
             ),
-            Fieldset(
+            Tab(
                 _('Upstream links'),
                 'repoweb',
                 'report_source_bugs',
             ),
-            Fieldset(
+            Tab(
                 _('Translation settings'),
                 'allow_translation_propagation',
                 'save_history',
                 'check_flags',
             ),
-            Fieldset(
+            Tab(
                 _('Version control settings'),
                 'push_on_commit',
                 'commit_pending_age',
+                'merge_style',
             ),
-        )
+        ))
 
 
 class ProjectSettingsForm(forms.ModelForm):
