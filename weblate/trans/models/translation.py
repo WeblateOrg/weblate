@@ -184,7 +184,6 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         self._store = None
         self._last_change_obj = None
         self._last_change_obj_valid = False
-        self._skip_commit = False
 
     @property
     def log_prefix(self):
@@ -630,8 +629,6 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
     def commit_pending(self, request, author=None, skip_push=False):
         """Commit any pending changes."""
-        if self._skip_commit:
-            return False
         # Get author of last changes
         last = self.get_last_author(True)
 
@@ -735,8 +732,6 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         sync updates git hash stored within the translation (otherwise
         translation rescan will be needed)
         """
-        if self._skip_commit:
-            return False
         with self.subproject.repository.lock:
             # Is there something for commit?
             if not force_new and not self.repo_needs_commit():
@@ -1023,8 +1018,6 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
         # Commit possible prior changes
         self.commit_pending(request, author)
-        # Avoid committing while we're importing
-        self._skip_commit = True
 
         for set_fuzzy, unit2 in store2.iterate_merge(fuzzy):
             try:
@@ -1052,8 +1045,6 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                 change_action=Change.ACTION_UPLOAD,
                 propagate=False
             )
-
-        self._skip_commit = False
 
         if accepted > 0:
             self.update_stats()
