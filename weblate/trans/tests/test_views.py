@@ -189,6 +189,7 @@ class ViewTestCase(RepoTestCase):
     def assert_backend(self, expected_translated):
         """Check that backend has correct data."""
         translation = self.get_translation()
+        translation.commit_pending(None)
         store = translation.subproject.file_format_cls(
             translation.get_filename(),
             None

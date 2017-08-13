@@ -154,6 +154,7 @@ class EditTest(ViewTestCase):
             fuzzy='yes'
         )
         unit = self.get_unit()
+        unit.translation.commit_pending(None)
         self.assertTrue(unit.fuzzy)
         self.subproject.check_flags = 'skip-review-flag'
         self.subproject.save()

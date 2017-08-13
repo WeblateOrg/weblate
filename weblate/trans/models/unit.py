@@ -373,6 +373,8 @@ class Unit(models.Model, LoggerMixin):
 
     priority = models.IntegerField(default=100, db_index=True)
 
+    pending = models.BooleanField(default=False, db_index=True)
+
     objects = UnitManager.from_queryset(UnitQuerySet)()
 
     class Meta(object):
@@ -595,51 +597,15 @@ class Unit(models.Model, LoggerMixin):
         # Commit possible previous changes by other author
         self.translation.commit_pending(request, get_author_name(user))
 
-        # Store to backend
-        try:
-            (saved, pounit) = self.translation.update_unit(self, request, user)
-        except FileLockException:
-            self.log_error('failed to lock backend for %s!', self)
-            messages.error(
-                request,
-                _(
-                    'Failed to store message in the backend, '
-                    'lock timeout occurred!'
-                )
-            )
-            return False
-
-        # Handle situation when backend did not find the message
-        if pounit is None:
-            self.log_error('message %s disappeared!', self)
-            messages.error(
-                request,
-                _(
-                    'Message not found in backend storage, '
-                    'it is probably corrupted.'
-                )
-            )
-            # Try reloading from backend
-            self.translation.check_sync(True)
-            return False
-
         # Return if there was no change
         # We have to explicitly check for fuzzy flag change on monolingual
         # files, where we handle it ourselves without storing to backend
-        if (not saved and
-                self.old_unit.fuzzy == self.fuzzy and
+        if (self.old_unit.fuzzy == self.fuzzy and
                 self.old_unit.target == self.target):
             # Propagate if we should
             if propagate:
                 self.propagate(request, change_action)
             return False
-
-        # Update translated flag
-        self.translated = pounit.is_translated()
-
-        # Update comments as they might have been changed (eg, fuzzy flag
-        # removed)
-        self.flags = pounit.get_flags()
 
         # Propagate to other projects
         # This has to be done before changing source/content_hash for template
@@ -649,6 +615,14 @@ class Unit(models.Model, LoggerMixin):
         if self.translation.is_template():
             self.source = self.target
             self.content_hash = calculate_hash(self.source, self.context)
+
+        # Unit is pending for write
+        self.pending = True
+        # Update translated flag (not fuzzy and at least one transltion)
+        self.translated = (
+            not self.fuzzy
+            and bool(max(self.get_target_plurals()))
+        )
 
         # Save updated unit to database
         self.save(backend=True)

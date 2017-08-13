@@ -178,6 +178,7 @@ class TranslationTest(RepoTestCase):
             None, 'TEST <test@example.net>', timezone.now(),
             force_commit=True
         )
+        self.assertFalse(translation.repo_needs_commit())
         linguas = os.path.join(subproject.get_path(), 'po', 'LINGUAS')
         with open(linguas, 'r') as handle:
             data = handle.read()

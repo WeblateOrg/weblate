@@ -7,6 +7,7 @@ weblate 2.17
 Released on ? 2017.
 
 * Weblate by default does shallow Git clones now.
+* Improved performance when updating large translation files.
 
 weblate 2.16
 ------------

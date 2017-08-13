@@ -697,7 +697,7 @@ class SubProjectEditTest(ViewTestCase):
         unit = translation.unit_set.all()[0]
         request = self.get_request('/')
 
-        self.assertFalse(
+        self.assertTrue(
             unit.translate(request, ['Empty'], False)
         )
 

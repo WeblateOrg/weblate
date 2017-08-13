@@ -112,7 +112,7 @@ class ImportTest(ImportBaseTest):
                 hasattr(unit.translation.store.store, 'parseheader')):
             header = unit.translation.store.store.parseheader()
             self.assertEqual(
-                header['Language-Team'], 'Test Team <noreply@weblate.org>'
+                header['POT-Creation-Date'], '2000-01-02 03:04+0100'
             )
             self.assertIn(
                 'Testing Weblate, 2015.',

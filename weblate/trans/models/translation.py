@@ -715,7 +715,10 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
     def repo_needs_commit(self):
         """Check whether there are some not committed changes."""
-        return self.subproject.repository.needs_commit(self.filename)
+        return (
+            self.unit_set.filter(pending=True).exists() or
+            self.subproject.repository.needs_commit(self.filename)
+        )
 
     def repo_needs_merge(self):
         return self.subproject.repo_needs_merge()
@@ -748,6 +751,13 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                 )
                 return False
 
+            if not force_new:
+                # Commit pending units
+                self.update_units(author)
+                # Bail out if no change was done
+                if not self.repo_needs_commit():
+                    return False
+
             # Do actual commit with git lock
             self.log_info(
                 'commiting %s as %s',
@@ -768,27 +778,32 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
         return True
 
-    def update_unit(self, unit, request, user=None):
+    def update_units(self, author):
         """Update backend file and unit."""
-        if user is None:
-            user = request.user
-        # Save with lock acquired
-        with self.subproject.repository.lock:
+        updated = False
+        for unit in self.unit_set.filter(pending=True):
 
             src = unit.get_source_plurals()[0]
             add = False
 
             pounit, add = self.store.find_unit(unit.context, src)
 
+            unit.pending = False
+
             # Bail out if we have not found anything
             if pounit is None or pounit.is_obsolete():
-                return False, None
+                self.log_error('message %s disappeared!', unit)
+                unit.save(backend=True, update_fields=['pending'])
+                continue
 
             # Check for changes
             if ((not add or unit.target == '') and
                     unit.target == pounit.get_target() and
                     unit.fuzzy == pounit.is_fuzzy()):
-                return False, pounit
+                unit.save(backend=True, update_fields=['pending'])
+                continue
+
+            updated = True
 
             # Optionally add unit to translation file.
             # This has be done prior setting tatget as some formats
@@ -805,46 +820,58 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             # Update fuzzy flag
             pounit.mark_fuzzy(unit.fuzzy)
 
-            # We need to update backend now
-            author = get_author_name(user)
-
-            # Update po file header
-            now = timezone.now()
-            if not timezone.is_aware(now):
-                now = timezone.make_aware(now, timezone.utc)
-
-            # Prepare headers to update
-            headers = {
-                'add': True,
-                'last_translator': author,
-                'plural_forms': self.language.get_plural_form(),
-                'language': self.language_code,
-                'PO_Revision_Date': now.strftime('%Y-%m-%d %H:%M%z'),
-            }
-
-            # Optionally store language team with link to website
-            if self.subproject.project.set_translation_team:
-                headers['language_team'] = '{0} <{1}>'.format(
-                    self.language.name,
-                    get_site_url(self.get_absolute_url())
-                )
-
-            # Optionally store email for reporting bugs in source
-            report_source_bugs = self.subproject.report_source_bugs
-            if report_source_bugs != '':
-                headers['report_msgid_bugs_to'] = report_source_bugs
-
-            # Update genric headers
-            self.store.update_header(
-                **headers
+            # Update comments as they might have been changed (eg, fuzzy flag
+            # removed)
+            translated = pounit.is_translated()
+            flags = pounit.get_flags()
+            if translated != unit.translated or flags != unit.flags:
+                unit.translated = translated
+                unit.flags = flags
+            unit.save(
+                backend=True,
+                update_fields=['translated', 'flags', 'pending']
             )
 
-            # save translation changes
-            self.store.save()
-            # commit VCS repo if needed
-            self.git_commit(request, author, timezone.now(), sync=True)
+        # Did we do any updates?
+        if not updated:
+            return
 
-        return True, pounit
+        # Update po file header
+        now = timezone.now()
+        if not timezone.is_aware(now):
+            now = timezone.make_aware(now, timezone.utc)
+
+        # Prepare headers to update
+        headers = {
+            'add': True,
+            'last_translator': author,
+            'plural_forms': self.language.get_plural_form(),
+            'language': self.language_code,
+            'PO_Revision_Date': now.strftime('%Y-%m-%d %H:%M%z'),
+        }
+
+        # Optionally store language team with link to website
+        if self.subproject.project.set_translation_team:
+            headers['language_team'] = '{0} <{1}>'.format(
+                self.language.name,
+                get_site_url(self.get_absolute_url())
+            )
+
+        # Optionally store email for reporting bugs in source
+        report_source_bugs = self.subproject.report_source_bugs
+        if report_source_bugs != '':
+            headers['report_msgid_bugs_to'] = report_source_bugs
+
+        # Update genric headers
+        self.store.update_header(
+            **headers
+        )
+
+        # save translation changes
+        self.store.save()
+
+        # Update stats (the translated flag might have changed)
+        self.update_stats()
 
     def get_source_checks(self):
         """Return list of failing source checks on current subproject."""

@@ -1440,6 +1440,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
     def repo_needs_commit(self):
         """Check whether there are some not committed changes"""
+        for translation in self.translation_set.all():
+            if translation.unit_set.filter(pending=True).exists():
+                return True
         return self.repository.needs_commit()
 
     def repo_needs_merge(self):
