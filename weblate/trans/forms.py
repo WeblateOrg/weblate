@@ -25,8 +25,7 @@ from datetime import date, datetime, timedelta
 import json
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout
-from crispy_forms.bootstrap import TabHolder, Tab
+from crispy_forms.layout import Layout, Fieldset
 
 from django import forms
 from django.core.exceptions import PermissionDenied
@@ -1150,25 +1149,25 @@ class SubprojectSettingsForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(SubprojectSettingsForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
-        self.helper.layout = Layout(TabHolder(
-            Tab(
+        self.helper.layout = Layout(
+            Fieldset(
                 _('License'),
                 'license',
                 'license_url',
             ),
-            Tab(
+            Fieldset(
                 _('Suggestions'),
                 'enable_suggestions',
                 'suggestion_voting',
                 'suggestion_autoaccept',
             ),
-            Tab(
+            Fieldset(
                 _('Commit messages'),
                 'commit_message',
                 'add_message',
                 'delete_message',
             ),
-            Tab(
+            Fieldset(
                 _('Languages processing'),
                 'filemask',
                 'template',
@@ -1177,24 +1176,24 @@ class SubprojectSettingsForm(forms.ModelForm):
                 'new_lang',
                 'new_base',
             ),
-            Tab(
+            Fieldset(
                 _('Upstream links'),
                 'repoweb',
                 'report_source_bugs',
             ),
-            Tab(
+            Fieldset(
                 _('Translation settings'),
                 'allow_translation_propagation',
                 'save_history',
                 'check_flags',
             ),
-            Tab(
+            Fieldset(
                 _('Version control settings'),
                 'push_on_commit',
                 'commit_pending_age',
                 'merge_style',
             ),
-        ))
+        )
 
 
 class ProjectSettingsForm(forms.ModelForm):
