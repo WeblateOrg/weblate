@@ -60,7 +60,9 @@ class SettingsTest(ViewTestCase):
         url = reverse('settings', kwargs=self.kw_subproject)
         response = self.client.get(url)
         self.assertContains(response, 'Settings')
-        data = response.context['settings_form'].initial
+        data = {}
+        for form in response.context['settings_forms']:
+            data.update(form.initial)
         data['license_url'] = 'https://example.com/test/'
         data['license'] = 'test'
         response = self.client.post(url, data, follow=True)
