@@ -28,12 +28,10 @@ import multiprocessing
 from django.conf import settings
 from django.db import models
 from django.db.models import Q
-from django.utils.translation import ugettext as _
 from django.utils.encoding import python_2_unicode_compatible
 from django.core.cache import cache
 
 from weblate.accounts.models import get_author_name
-from weblate.utils import messages
 from weblate.trans.checks import CHECKS
 from weblate.trans.models.source import Source
 from weblate.trans.models.check import Check
@@ -44,7 +42,6 @@ from weblate.trans.search import update_index_unit, fulltext_search, more_like
 from weblate.accounts.notifications import (
     notify_new_contributor, notify_new_translation
 )
-from weblate.trans.filelock import FileLockException
 from weblate.trans.mixins import LoggerMixin
 from weblate.trans.util import (
     is_plural, split_plural, join_plural, get_distinct_translations,
