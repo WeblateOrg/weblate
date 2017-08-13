@@ -839,8 +839,6 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                 **headers
             )
 
-            # commit possible previous changes (by other author)
-            self.commit_pending(request, author)
             # save translation changes
             self.store.save()
             # commit VCS repo if needed
