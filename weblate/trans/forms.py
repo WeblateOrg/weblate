@@ -1144,6 +1144,7 @@ class SubprojectSettingsForm(forms.ModelForm):
             'language_regex',
             'push_on_commit',
             'commit_pending_age',
+            'merge_style',
         )
 
     def __init__(self, *args, **kwargs):
@@ -1191,6 +1192,7 @@ class SubprojectSettingsForm(forms.ModelForm):
                 _('Version control settings'),
                 'push_on_commit',
                 'commit_pending_age',
+                'merge_style',
             ),
         ))
 
