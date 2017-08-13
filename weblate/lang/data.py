@@ -834,7 +834,7 @@ EXTRALANGS = (
     ),
     (
         'za',
-        'Chuang',
+        'Zhuang',
         2,
         'n != 1',
     ),

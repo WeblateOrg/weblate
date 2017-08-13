@@ -1071,6 +1071,7 @@ SAME_BLACKLIST = frozenset((
     'yiddish',
     'yoruba',
     'yue',
+    'zhuang',
     'zulu',
 
     # whole alphabet
