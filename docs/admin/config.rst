@@ -884,7 +884,7 @@ You can use it to restrict registration to single domain emails:
 
 .. code-block:: python
 
-    REGISTRATION_EMAIL_MATCH = '^.*@weblate.org$'
+    REGISTRATION_EMAIL_MATCH = r'^.*@weblate\.org$'
 
 .. setting:: REGISTRATION_OPEN
 
