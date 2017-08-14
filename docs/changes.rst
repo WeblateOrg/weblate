@@ -8,6 +8,7 @@ Released on ? 2017.
 
 * Weblate by default does shallow Git clones now.
 * Improved performance when updating large translation files.
+* Added support for blocking certain emails from registration.
 
 weblate 2.16
 ------------

@@ -173,6 +173,9 @@ class WeblateConf(AppConf):
     # Enable registrations
     REGISTRATION_OPEN = True
 
+    # Registration email filter
+    REGISTRATION_EMAIL_MATCH = '.*'
+
     # Captcha for registrations
     REGISTRATION_CAPTCHA = True
 

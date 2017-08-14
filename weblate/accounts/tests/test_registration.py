@@ -479,6 +479,30 @@ class RegistrationTest(BaseRegistrationTest):
             'Enter a valid email address.'
         )
 
+    @override_settings(REGISTRATION_EMAIL_MATCH='^.*@weblate.org$')
+    def test_filtered_mail(self):
+        data = REGISTRATION_DATA.copy()
+        data['email'] = 'noreply@example.com'
+        response = self.client.post(
+            reverse('register'),
+            data,
+            follow=True
+        )
+        self.assertContains(
+            response,
+            'This email address is not allowed.'
+        )
+        data['email'] = 'noreply@weblate.org'
+        response = self.client.post(
+            reverse('register'),
+            data,
+            follow=True
+        )
+        self.assertNotContains(
+            response,
+            'This email address is not allowed.'
+        )
+
     def test_spam(self):
         data = REGISTRATION_DATA.copy()
         data['content'] = 'x'

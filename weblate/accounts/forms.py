@@ -26,6 +26,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, HTML
 
 from django import forms
+from django.conf import settings
 from django.utils.html import escape
 from django.utils.translation import ugettext_lazy as _, pgettext
 from django.contrib.auth import authenticate, password_validation
@@ -104,7 +105,9 @@ class EmailField(forms.CharField):
         user_part = value.rsplit('@', 1)[0]
         if EMAIL_BLACKLIST.match(user_part):
             raise forms.ValidationError(_('Enter a valid email address.'))
-        return value
+        if re.match(settings.REGISTRATION_EMAIL_MATCH, value):
+            return value
+        raise forms.ValidationError(_('This email address is not allowed.'))
 
 
 class UsernameField(forms.RegexField):

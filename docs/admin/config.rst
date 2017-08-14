@@ -869,6 +869,23 @@ If enabled the captcha is added to all pages where users enter email address:
 * Adding email to an account.
 * Contact form for not logged in users.
 
+.. setting:: REGISTRATION_EMAIL_MATCH
+
+REGISTRATION_EMAIL_MATCH
+------------------------
+
+.. versionadded:: 2.17
+
+Allows you to filter email addresses which can register.
+
+Defaults to ``.*`` which allows any address to register.
+
+You can use it to restrict registration to single domain emails:
+
+.. code-block:: python
+
+    REGISTRATION_EMAIL_MATCH = '^.*@weblate.org$'
+
 .. setting:: REGISTRATION_OPEN
 
 REGISTRATION_OPEN
