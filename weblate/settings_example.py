@@ -321,10 +321,8 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'weblate.urls'
 
-INSTALLED_APPS = (
-    # Has to be first to override Django admin templates:
-    'weblate.wladmin',
-
+# Core apps
+INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -348,10 +346,13 @@ INSTALLED_APPS = (
 
     # Optional: Git exporter
     # 'weblate.gitexport',
+]
 
-    # This application has to be placed last!
-    'weblate',
-)
+# Has to be first to override Django admin templates:
+INSTALLED_APPS.insert(0, 'weblate.wladmin')
+
+# This application has to be placed last!
+INSTALLED_APPS.append('weblate')
 
 # Path to locales
 LOCALE_PATHS = (os.path.join(BASE_DIR, 'locale'), )
