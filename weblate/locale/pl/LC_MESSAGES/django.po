@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-08-04 08:01+0000\n"
-"PO-Revision-Date: 2017-08-14 10:48+0000\n"
+"PO-Revision-Date: 2017-08-14 11:45+0000\n"
 "Last-Translator: pskosinski <email@pskosinski.pl>\n"
 "Language-Team: Polish "
 "<https://hosted.weblate.org/projects/weblate/master/pl/>\n"
@@ -279,7 +279,8 @@ msgstr "Nieudana próba uwierzytelnienia przy za pomocą {method} {name})."
 #: weblate/accounts/models.py:82
 msgid "Account locked due to excessive failed authentication attempts."
 msgstr ""
-"Konto zamknięte z powodu nadmiernych i nieudanych prób uwierzytelnienia."
+"Konto zostało zablokowane z powodu zbyt częstych nieudanych prób "
+"uwierzytelnienia."
 
 #: weblate/accounts/models.py:85
 msgid "Account and all private data have been removed."
@@ -310,7 +311,7 @@ msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
 msgstr ""
-"Proszę wybrać języki, które rozumiesz. Napisy w tych językach pojawią się "
+"Wybierz języki, które rozumiesz. Napisy w tych językach pojawią się "
 "dodatkowo, oprócz napisu źródłowego."
 
 #: weblate/accounts/models.py:329
@@ -369,7 +370,7 @@ msgstr "Lista komponentów"
 
 #: weblate/accounts/models.py:373 weblate/templates/index.html:27
 msgid "Suggested translations"
-msgstr "Tłumaczenia sugerowane"
+msgstr "Sugerowane tłumaczenia"
 
 #: weblate/accounts/models.py:389
 msgid "Default dashboard view"
@@ -552,7 +553,8 @@ msgstr "Resetowanie hasła"
 
 #: weblate/accounts/views.py:711
 msgid "Can not reset password, email authentication is disabled!"
-msgstr "Nie można zresetować hasła, wyłączone jest uwierzytelnienie e-mail!"
+msgstr ""
+"Nie można zresetować hasła, uwierzytelnianie poprzez e-mail jest wyłączone!"
 
 #: weblate/accounts/views.py:839
 msgid ""
@@ -568,7 +570,7 @@ msgstr "Uwierzytelnienie nie powiodło się z powodu nieprawidłowego stanu sesj
 
 #: weblate/accounts/views.py:860
 msgid "Can not change authentication for demo!"
-msgstr "Nie można zmienić uwierzytelnienia dla demo!"
+msgstr "Nie można zmienić ustawień uwierzytelniania w wersji demo!"
 
 #: weblate/accounts/views.py:864
 msgid "New registrations are disabled!"
@@ -1180,7 +1182,7 @@ msgid ""
 msgstr ""
 "Weblate jest internetowym narzędziem do tłumaczenia ze ścisłą integracją z "
 "systemami kontroli wersji. Oferuje ono prosty i przejrzysty interfejs "
-"użytkownika, propagację tłumaczeń pomiędzy wszystkimi zasobami, kontrolę "
+"użytkownika, propagację tłumaczeń pomiędzy wszystkimi komponentami, kontrolę "
 "jakości oraz automatyczne odsyłanie do plików źródłowych."
 
 #: weblate/templates/about.html:18 weblate/templates/accounts/contact.html:13
@@ -1223,8 +1225,8 @@ msgstr ""
 msgid ""
 "We can host your project as well, if you are interested, please contact us."
 msgstr ""
-"Możemy również utrzymywać Twój projekt. Jeśli jesteś zainteresowany, to "
-"prosimy o kontakt z nami."
+"Możemy również hostować Twój projekt. Jeśli jesteś zainteresowany, to "
+"prosimy o kontakt."
 
 #: weblate/templates/about.html:39 weblate/templates/accounts/hosting.html:48
 msgid ""
@@ -1424,8 +1426,8 @@ msgid ""
 "You have not enabled password authentication, please <a href=\"%(url)s\">set "
 "the password</a>."
 msgstr ""
-"Nie włączyłeś uwierzytelnienia hasła, proszę <a href=\"%(url)s\">ustawić "
-"hasło</a>."
+"Nie włączyłeś uwierzytelniania za pomocą hasła, prosimy o <a href=\"%(url)s\""
+">ustawienie hasła</a>."
 
 #: weblate/templates/accounts/password-warning.html:6
 msgid "You will be still able to authenticate using third party services."
@@ -1485,7 +1487,7 @@ msgstr "Log kontrolny"
 #: weblate/templates/accounts/profile.html:30
 #: weblate/templates/accounts/profile.html:349
 msgid "API access"
-msgstr "Dostęp interfejsu API"
+msgstr "Dostęp do API"
 
 #: weblate/templates/accounts/profile.html:32
 #: weblate/templates/billing/overview.html:6
@@ -1696,24 +1698,24 @@ msgid ""
 "Audit log shows important changes on your account. In case you see something "
 "suspicious don't hesitate to contact us."
 msgstr ""
-"Log kontrolny zawiera istotne zmiany dokonywane na Twoim koncie. Jeśli "
-"zobaczysz coś podejrzanego skontaktuj się z nami."
+"Log kontrolny zawiera listę istotnych zmian dokonywanych na Twoim koncie. "
+"Jeśli zobaczysz coś podejrzanego skontaktuj się z nami."
 
 #: weblate/templates/accounts/profile.html:352
 msgid "Your personal API key:"
-msgstr "Osobisty klucz:"
+msgstr "Twój osobisty klucz API:"
 
 #: weblate/templates/accounts/profile.html:359
 msgid "Regenerate API key"
-msgstr "Zregeneruj klucz API"
+msgstr "Wygeneruj ponownie klucz API"
 
 #: weblate/templates/accounts/profile.html:363
 msgid "API root URL:"
-msgstr "Główny adres URL:"
+msgstr "Baza adresu URL API:"
 
 #: weblate/templates/accounts/profile.html:367
 msgid "API usage example:"
-msgstr "Przykład użycia:"
+msgstr "Przykład użycia API:"
 
 #: weblate/templates/accounts/profile.html:379
 msgid "CLI usage example:"
@@ -1725,8 +1727,8 @@ msgid ""
 "You can control Weblate using HTTP REST API. Please check <a href="
 "\"%(api_doc)s\">API documentation</a> for more details."
 msgstr ""
-"Możesz kontrolować Weblate używając HTTP REST API. Sprawdź proszę <a href="
-"\"%(api_doc)s\">dokumentację API</a>, aby uzyskać więcej szczegółów."
+"Możesz kontrolować Weblate używając HTTP REST API. Przejrzyj <a href=\""
+"%(api_doc)s\">dokumentację API</a>, aby dowiedzieć się więcej."
 
 #: weblate/templates/accounts/profile.html:403
 #, python-format
@@ -1764,8 +1766,9 @@ msgid ""
 "Please pay attention to the licensing information as these specify how "
 "others are allowed to use your translations."
 msgstr ""
-"Proszę zwrócić uwagę na informacje licencyjne, ponieważ one wyszczególniają, "
-"jak inni mogą używać twoich /waszych tłumaczeń."
+"Prosimy o zwrócenie szczególnej uwagi na informacje o licencjach tłumaczeń, "
+"ponieważ zależy od nich czy oraz jak inni będą mogli korzystać z Twoich "
+"tłumaczeń."
 
 #: weblate/templates/accounts/profile.html:473
 msgid "Invoices"
@@ -2264,7 +2267,7 @@ msgstr "Zaangażuj się w %(project)s!"
 
 #: weblate/templates/engage.html:21
 msgid "Hi, and thank you for your interest!"
-msgstr "Cześć i dziękuję za zainteresowanie!"
+msgstr "Witamy i dziękujemy za zainteresowanie!"
 
 #: weblate/templates/engage.html:24
 #, python-format
@@ -3437,8 +3440,7 @@ msgid ""
 "You need to be logged in for translating, otherwise you can only make "
 "suggestions."
 msgstr ""
-"Musisz się zalogować by tłumaczyć, w przeciwnym razie możesz tylko tworzyć "
-"sugestie."
+"Musisz się zalogować by tłumaczyć, w przeciwnym razie możesz tylko sugerować."
 
 #: weblate/templates/index.html:33 weblate/templates/project.html:31
 #: weblate/templates/subproject.html:34 weblate/templates/translation.html:34
@@ -3513,7 +3515,7 @@ msgid ""
 "Could not find any suggestions for you, please choose your languages in "
 "preferences to get more suggestions."
 msgstr ""
-"Nie można znaleźć żadnych sugestii. Proszę wybrać swoje języki w "
+"Nie udało się znaleźć żadnych sugestii, prosimy o wybranie języków w "
 "preferencjach, aby uzyskać więcej sugestii."
 
 #: weblate/templates/index.html:105
@@ -4150,7 +4152,7 @@ msgstr "Nowy napis do przetłumaczenia w projekcie %(translation)s"
 msgid ""
 "There is a new suggestion to evaluate on %(translation)s at %(site_title)s."
 msgstr ""
-"Dodano nową propozycję tłumaczenia w projekcie %(translation)s na stronie "
+"Dodano nową sugestię tłumaczenia w projekcie %(translation)s na stronie "
 "%(site_title)s."
 
 #: weblate/templates/mail/new_suggestion.html:28
@@ -4556,11 +4558,11 @@ msgstr "Najaktywniejsi tłumacze"
 
 #: weblate/templates/stats.html:37
 msgid "Most active suggesters"
-msgstr "Najaktywniejsze osoby sugerujące"
+msgstr "Najaktywniejsi sugerujący"
 
 #: weblate/templates/stats.html:42
 msgid "Suggested"
-msgstr "Zaproponowane"
+msgstr "Sugerowane"
 
 #: weblate/templates/stats.html:66
 msgid "Strings to translate"
@@ -4584,7 +4586,7 @@ msgstr "Zarejestrowani użytkownicy"
 
 #: weblate/templates/stats.html:86 weblate/templates/user-activity.html:7
 msgid "Suggestions made"
-msgstr "Propozycje tłumaczeń"
+msgstr "Dodane sugestie"
 
 #: weblate/templates/stats.html:90 weblate/templates/user-activity.html:3
 msgid "Translations made"
@@ -5374,7 +5376,7 @@ msgstr "Ciąg znaków interpolacji AngularJS"
 
 #: weblate/trans/checks/angularjs.py:44
 msgid "AngularJS interpolation strings do not match source"
-msgstr "Format napisu nie pasuje do źródła"
+msgstr "Napisy interpolacji AngularJS nie pasują do źródła"
 
 #: weblate/trans/checks/chars.py:35
 msgid "Starting newline"
@@ -5790,7 +5792,7 @@ msgstr "Dodanie jako tłumaczenie"
 
 #: weblate/trans/forms.py:456
 msgid "Add as a suggestion"
-msgstr "Dodanie jako sugestia"
+msgstr "Dodanie jako sugestię"
 
 #: weblate/trans/forms.py:457
 msgid "Add as translation needing review"
@@ -5828,8 +5830,7 @@ msgstr "Zastąp istniejące tłumaczenia"
 msgid ""
 "Whether to overwrite existing translations if the string is already "
 "translated."
-msgstr ""
-"Czy nadpisać istniejące tłumaczenia, gdy napis jest już przetłumaczony."
+msgstr "Czy nadpisać istniejące tłumaczenie, gdy napis jest już przetłumaczony."
 
 #: weblate/trans/forms.py:500
 msgid "Author name"
@@ -6046,7 +6047,7 @@ msgstr ""
 
 #: weblate/trans/forms.py:948
 msgid "Source string comment, suggestions to change this string"
-msgstr "Komentarz do napisu źródłowego, sugestie, aby zmienić ten napis"
+msgstr "Komentarz do napisu źródłowego, sugestie zmiany tego napisu"
 
 #: weblate/trans/forms.py:952
 msgid "Translation comment, discussions with other translators"
@@ -6248,11 +6249,11 @@ msgstr "Dodano komentarz"
 
 #: weblate/trans/models/change.py:201
 msgid "Suggestion added"
-msgstr "Dodano propozycję"
+msgstr "Dodano sugestię"
 
 #: weblate/trans/models/change.py:203
 msgid "Suggestion accepted"
-msgstr "Zaakceptowano propozycję"
+msgstr "Zaakceptowano sugestię"
 
 #: weblate/trans/models/change.py:204
 msgid "Translation reverted"
@@ -6333,7 +6334,7 @@ msgstr "Usunięto sugestię"
 #: weblate/trans/models/change.py:295
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
-msgstr "%(action)s o %(time)s na %(translation)s przez %(user)s"
+msgstr "%(action)s o %(time)s w projekcie %(translation)s przez %(user)s"
 
 #: weblate/trans/models/componentlist.py:36
 msgid "Component list name"
@@ -6701,7 +6702,7 @@ msgstr "Włącz sugestie"
 
 #: weblate/trans/models/subproject.py:347
 msgid "Whether to allow translation suggestions at all."
-msgstr "Czy w ogóle pozwolić na sugestie tłumaczeń."
+msgstr "Czy w ogóle pozwolić na sugerowanie tłumaczeń."
 
 #: weblate/trans/models/subproject.py:351
 msgid "Suggestion voting"
@@ -7078,7 +7079,7 @@ msgstr "To tłumaczenie jest zablokowane przez %(user)s!"
 
 #: weblate/trans/models/unit.py:607
 msgid "Failed to store message in the backend, lock timeout occurred!"
-msgstr "Nie udało się zapisać wiadomość w backend, blokada limit czasu!"
+msgstr "Nie udało się zachować wiadomości po stronie serwera, blokada wygasła!"
 
 #: weblate/trans/models/unit.py:619
 msgid "Message not found in backend storage, it is probably corrupted."
@@ -7509,8 +7510,8 @@ msgid ""
 "Value of 1 is not allowed for autoaccept as every user gives vote to his "
 "suggestion."
 msgstr ""
-"Wartość 1 nie jest dozwolona dla autoaccept, ponieważ każdy użytkownik "
-"oddaje jeden głos na sugestię."
+"Wartość 1 nie jest dozwolona dla automatycznego akceptowania, ponieważ każdy "
+"użytkownik oddaje jeden głos na własną sugestię."
 
 #: weblate/trans/validators.py:99
 #, python-format
@@ -7589,7 +7590,7 @@ msgid ""
 "currently contains %(total)s strings for translation and is %(percent)s%% "
 "complete."
 msgstr ""
-"<a href=\"%(url)s\">Tłumaczenie projektu dla %(project)s</a> na język polski "
+"<a href=\"%(url)s\">Tłumaczenie projektu %(project)s</a> na język polski "
 "zawiera obecnie %(total)s napisów do tłumaczenia i jest %(percent)s%% "
 "kompletne."
 
@@ -7703,11 +7704,11 @@ msgstr "Nie odnaleziono pasującego ciągu!"
 
 #: weblate/trans/views/edit.py:207
 msgid "Your suggestion is empty!"
-msgstr "Propozycja tłumaczenia jest pusta!"
+msgstr "Sugestia jest pusta!"
 
 #: weblate/trans/views/edit.py:214
 msgid "You don't have privileges to add suggestions!"
-msgstr "Brak uprawnień do dodawania propozycji tłumaczeń!"
+msgstr "Brak uprawnień do sugerowania tłumaczeń!"
 
 #: weblate/trans/views/edit.py:230
 msgid ""
@@ -7716,7 +7717,10 @@ msgid ""
 "unreviewed."
 msgstr ""
 "Obecnie nie istnieje aktywny tłumacz dla tego tłumaczenia, należy rozważyć "
-"stałego tłumacza jako sugestię mogłyby pozostać niesprawdzone."
+"stałego tłumacza jako sugestię mogłyby pozostać niesprawdzone.\n"
+"\n"
+"Obecnie nie ma osób aktywnie to tłumaczących. Rozważ zostanie tłumaczem, bo "
+"inaczej Twoje sugestie mogą pozostać nieprzejrzane."
 
 #: weblate/trans/views/edit.py:238
 msgid ""
@@ -7834,14 +7838,14 @@ msgid_plural ""
 "Processed {0} strings from the uploaded files (skipped: {1}, not found: {2}, "
 "updated: {3})."
 msgstr[0] ""
-"Przetworzono {0} napis z plików wczytanych (skipped: {1}, not found: {2}, "
-"updated: {3})."
+"Przetworzono {0} napis z wczytanych plików (pominięto: {1}, nie znaleziono: "
+"{2}, zaktualizowano: {3})."
 msgstr[1] ""
-"Przetworzono {0} napisy z plików wczytanych (skipped: {1}, not found: {2}, "
-"updated: {3})."
+"Przetworzono {0} napisy z wczytanych plików (pominięto: {1}, nie znaleziono: "
+"{2}, zaktualizowano: {3})."
 msgstr[2] ""
-"Przetworzono {0} napisów z plików wczytanych (skipped: {1}, not found: {2}, "
-"updated: {3})."
+"Przetworzono {0} napisów z wczytanych plików (pominięto: {1}, nie znaleziono:"
+" {2}, zaktualizowano: {3})."
 
 #: weblate/trans/views/files.py:134
 #, python-format
@@ -8166,7 +8170,8 @@ msgstr ""
 #: weblate/wladmin/templates/admin/trans/change_form.html:22
 msgid "Do not change this object here, please use Weblate interface instead."
 msgstr ""
-"Nie zmieniaj tutaj tego obiektu, zamiast tego proszę użyj interfejsu Weblate."
+"Nie zmieniaj tutaj tego obiektu, zamiast tego prosimy o użycie interfejsu "
+"Weblate."
 
 #: weblate/wladmin/templates/admin/trans/change_form.html:26
 #, python-format
