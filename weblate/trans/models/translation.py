@@ -317,7 +317,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         if is_new or new_lock_time > self.lock_time:
             self.lock_time = new_lock_time
 
-        self.save()
+        self.save(update_fields=['lock_time', 'lock_user'])
 
     def update_lock(self, user, create=True):
         """Update lock timestamp."""
