@@ -449,7 +449,6 @@ class Language(models.Model, PercentMixin):
     def __init__(self, *args, **kwargs):
         """Constructor to initialize some cache properties."""
         super(Language, self).__init__(*args, **kwargs)
-        self._percents = None
         self._plural_examples = {}
 
     def __str__(self):
@@ -512,19 +511,9 @@ class Language(models.Model, PercentMixin):
             'lang': self.code
         })
 
-    def _get_percents(self):
+    def _get_percents(self, lang=None):
         """Return percentages of translation status."""
-        # Use cache if available
-        if self._percents is not None:
-            return self._percents
-
-        # Get translations percents
-        result = self.translation_set.get_percents()
-
-        # Update cache
-        self._percents = result
-
-        return result
+        return self.translation_set.get_percents()
 
     def get_html(self):
         """Return html attributes for markup in this language, includes
