@@ -647,7 +647,7 @@ urlpatterns = [
         r'^widgets/(?P<project>[^/]+)-' + WIDGET + '-' +
         LANGUAGE + r'\.' + EXTENSION + r'$',
         weblate.trans.views.widgets.render_widget,
-        name='widget-image-lang-dash',
+        name='widget-image-dash',
     ),
     url(
         r'^widgets/(?P<project>[^/]+)-' + WIDGET + r'\.' + EXTENSION + r'$',
@@ -665,7 +665,7 @@ urlpatterns = [
         r'^widgets/' + PROJECT + LANGUAGE + '/' +
         WIDGET + r'\.' + EXTENSION + r'$',
         weblate.trans.views.widgets.render_widget,
-        name='widget-image-lang',
+        name='widget-image',
     ),
     url(
         r'^widgets/' + PROJECT + '$',

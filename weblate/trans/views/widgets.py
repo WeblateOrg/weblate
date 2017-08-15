@@ -85,7 +85,7 @@ def widgets(request, project):
                 )
             else:
                 color_url = reverse(
-                    'widget-image-lang',
+                    'widget-image',
                     kwargs={
                         'project': obj.slug,
                         'widget': widget_name,
@@ -157,7 +157,7 @@ def render_widget(request, project, widget='287x66', color=None, lang=None,
         }
         if lang:
             kwargs['lang'] = lang.code
-            return redirect('widget-image-lang', permanent=True, **kwargs)
+            return redirect('widget-image', permanent=True, **kwargs)
         return redirect('widget-image', permanent=True, **kwargs)
 
     # Render widget

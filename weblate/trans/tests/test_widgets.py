@@ -129,7 +129,7 @@ class WidgetsLanguageRenderTest(WidgetsRenderTest):
     def perform_test(self, widget, color):
         response = self.client.get(
             reverse(
-                'widget-image-lang',
+                'widget-image',
                 kwargs={
                     'project': self.project.slug,
                     'widget': widget,
@@ -165,7 +165,7 @@ class WidgetsLanguageRedirectRenderTest(WidgetsRenderTest):
     def perform_test(self, widget, color):
         response = self.client.get(
             reverse(
-                'widget-image-lang',
+                'widget-image',
                 kwargs={
                     'project': self.project.slug,
                     'widget': widget,
