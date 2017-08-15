@@ -125,6 +125,24 @@ class WidgetsPercentRenderTest(WidgetsRenderTest):
             self.assert_widget(widget, response)
 
 
+class WidgetsSubprojectRenderTest(WidgetsRenderTest):
+    def perform_test(self, widget, color):
+        response = self.client.get(
+            reverse(
+                'widget-image',
+                kwargs={
+                    'project': self.project.slug,
+                    'subproject': self.subproject.slug,
+                    'widget': widget,
+                    'color': color,
+                    'extension': WIDGETS[widget].extension,
+                }
+            )
+        )
+
+        self.assert_widget(widget, response)
+
+
 class WidgetsLanguageRenderTest(WidgetsRenderTest):
     def perform_test(self, widget, color):
         response = self.client.get(
