@@ -56,7 +56,7 @@ class WidgetsTest(FixtureTestCase):
 
     def test_view_engage_lang(self):
         response = self.client.get(
-            reverse('engage-lang', kwargs=self.kw_lang_project)
+            reverse('engage', kwargs=self.kw_lang_project)
         )
         self.assertContains(response, 'Test')
 

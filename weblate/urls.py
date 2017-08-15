@@ -106,7 +106,7 @@ urlpatterns = [
     url(
         r'^engage/' + PROJECT_LANG + '$',
         weblate.trans.views.basic.show_engage,
-        name='engage-lang',
+        name='engage',
     ),
 
     # Glossary/Dictionary pages

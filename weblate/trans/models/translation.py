@@ -362,7 +362,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         """Return absolute URL usable for sharing."""
         return get_site_url(
             reverse(
-                'engage-lang',
+                'engage',
                 kwargs={
                     'project': self.subproject.project.slug,
                     'lang': self.language.code

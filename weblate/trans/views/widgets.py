@@ -60,7 +60,7 @@ def widgets(request, project):
         engage_base = reverse('engage', kwargs={'project': obj.slug})
     else:
         engage_base = reverse(
-            'engage-lang',
+            'engage',
             kwargs={'project': obj.slug, 'lang': lang.code}
         )
     engage_url = get_site_url(engage_base)

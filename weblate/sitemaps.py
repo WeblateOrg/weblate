@@ -101,7 +101,7 @@ class EngageLangSitemap(Sitemap):
 
     def location(self, item):
         return reverse(
-            'engage-lang',
+            'engage',
             kwargs={'project': item[0].slug, 'lang': item[1].code}
         )
 
