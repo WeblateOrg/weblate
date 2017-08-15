@@ -965,7 +965,7 @@ class EngageForm(forms.Form):
     """Form to choose language for engagement widgets."""
     lang = forms.ChoiceField(
         required=False,
-        choices=[('', _('Whole project'))],
+        choices=[('', _('All languages'))],
     )
     component = forms.ChoiceField(
         required=False,
