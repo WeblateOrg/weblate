@@ -28,7 +28,9 @@ from weblate.trans.site import get_site_url
 from weblate.lang.models import Language
 from weblate.trans.forms import EnageLanguageForm
 from weblate.trans.widgets import WIDGETS
-from weblate.trans.views.helper import get_project, try_set_language
+from weblate.trans.views.helper import (
+    get_project, get_subproject, try_set_language,
+)
 from weblate.trans.util import render
 
 
@@ -122,9 +124,12 @@ def widgets(request, project):
 @cache_page(3600)
 @vary_on_cookie
 def render_widget(request, project, widget='287x66', color=None, lang=None,
-                  extension='png'):
+                  subproject=None, extension='png'):
     # We intentionally skip ACL here to allow widget sharing
-    obj = get_project(request, project, skip_acl=True)
+    if subproject is None:
+        obj = get_project(request, project, skip_acl=True)
+    else:
+        obj = get_subproject(request, project, subproject, skip_acl=True)
 
     # Handle language parameter
     if lang is not None:

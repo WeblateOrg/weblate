@@ -668,6 +668,18 @@ urlpatterns = [
         name='widget-image',
     ),
     url(
+        r'^widgets/' + PROJECT + '-/' +
+        r'(?P<subproject>[^/]+)/' + WIDGET + r'\.' + EXTENSION + r'$',
+        weblate.trans.views.widgets.render_widget,
+        name='widget-image',
+    ),
+    url(
+        r'^widgets/' + PROJECT + LANGUAGE + '/' +
+        r'(?P<subproject>[^/]+)/' + WIDGET + r'\.' + EXTENSION + r'$',
+        weblate.trans.views.widgets.render_widget,
+        name='widget-image',
+    ),
+    url(
         r'^widgets/' + PROJECT + '$',
         weblate.trans.views.widgets.widgets,
         name='widgets',
