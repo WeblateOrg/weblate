@@ -30,12 +30,14 @@ from weblate.accounts.avatar import get_user_display
 
 class PercentMixin(object):
     """Define API to getting percentage status of translations."""
-    _percents = {}
+    _percents = None
 
     def get_percents(self, lang=None):
         """Return percentages of translation status."""
+        if self._percents is None:
+            self._percents = {}
         if lang not in self._percents:
-            self._percents[lang] = self._get_percents()
+            self._percents[lang] = self._get_percents(lang)
 
         return self._percents[lang]
 

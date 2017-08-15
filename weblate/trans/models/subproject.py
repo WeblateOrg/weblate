@@ -1436,10 +1436,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
     def _get_percents(self, lang=None):
         """Return percentages of translation status"""
-        base = self.translation_set.all()
-        if lang:
-            base = base.filter(language__code=lang)
-        return base.get_percents()
+        return self.translation_set.get_percents(language=lang)
 
     def repo_needs_commit(self):
         """Check whether there are some not committed changes"""
