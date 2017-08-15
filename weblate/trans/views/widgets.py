@@ -56,14 +56,10 @@ def widgets(request, project):
     if form.is_valid() and form.cleaned_data['lang'] != '':
         lang = Language.objects.get(code=form.cleaned_data['lang'])
 
-    if lang is None:
-        engage_base = reverse('engage', kwargs={'project': obj.slug})
-    else:
-        engage_base = reverse(
-            'engage',
-            kwargs={'project': obj.slug, 'lang': lang.code}
-        )
-    engage_url = get_site_url(engage_base)
+    kwargs = {'project': obj.slug}
+    if lang is not None:
+        kwargs['lang'] = lang.code
+    engage_url = get_site_url(reverse('engage', kwargs=kwargs))
     engage_url_track = '{0}?utm_source=widget'.format(engage_url)
     widget_base_url = get_site_url(
         reverse('widgets', kwargs={'project': obj.slug})
@@ -75,27 +71,15 @@ def widgets(request, project):
             continue
         color_list = []
         for color in widget_class.colors:
-            if lang is None:
-                color_url = reverse(
-                    'widget-image',
-                    kwargs={
-                        'project': obj.slug,
-                        'widget': widget_name,
-                        'color': color,
-                        'extension': widget_class.extension,
-                    }
-                )
-            else:
-                color_url = reverse(
-                    'widget-image',
-                    kwargs={
-                        'project': obj.slug,
-                        'widget': widget_name,
-                        'color': color,
-                        'lang': lang.code,
-                        'extension': widget_class.extension,
-                    }
-                )
+            kwargs = {
+                'project': obj.slug,
+                'widget': widget_name,
+                'color': color,
+                'extension': widget_class.extension,
+            }
+            if lang is not None:
+                kwargs['lang'] = lang.code
+            color_url = reverse('widget-image', kwargs=kwargs)
             color_list.append({
                 'name': color,
                 'url': get_site_url(color_url),
