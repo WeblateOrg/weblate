@@ -348,13 +348,14 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
     def get_widgets_url(self):
         """Return absolute URL for widgets."""
         return get_site_url(
-            '{0}?lang={1}'.format(
+            '{0}?lang={1}&component={2}'.format(
                 reverse(
                     'widgets', kwargs={
                         'project': self.subproject.project.slug,
                     }
                 ),
-                self.language.code
+                self.language.code,
+                self.subproject.slug,
             )
         )
 

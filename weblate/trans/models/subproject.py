@@ -546,7 +546,10 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     def get_widgets_url(self):
         """Return absolute URL for widgets."""
         return get_site_url(
-            reverse('widgets', kwargs={'project': self.project.slug})
+            '{0}?component={1}'.format(
+                reverse('widgets', kwargs={'project': self.project.slug}),
+                self.slug,
+            )
         )
 
     def get_share_url(self):

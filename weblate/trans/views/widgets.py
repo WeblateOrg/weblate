@@ -26,7 +26,8 @@ from django.views.decorators.cache import cache_page
 
 from weblate.trans.site import get_site_url
 from weblate.lang.models import Language
-from weblate.trans.forms import EnageLanguageForm
+from weblate.trans.forms import EngageForm
+from weblate.trans.models import SubProject
 from weblate.trans.widgets import WIDGETS
 from weblate.trans.views.helper import (
     get_project, get_subproject, try_set_language,
@@ -51,14 +52,20 @@ def widgets(request, project):
     obj = get_project(request, project)
 
     # Parse possible language selection
-    form = EnageLanguageForm(obj, request.GET)
+    form = EngageForm(obj, request.GET)
     lang = None
-    if form.is_valid() and form.cleaned_data['lang'] != '':
-        lang = Language.objects.get(code=form.cleaned_data['lang'])
+    component = None
+    if form.is_valid():
+        if form.cleaned_data['lang']:
+            lang = Language.objects.get(code=form.cleaned_data['lang']).code
+        if form.cleaned_data['component']:
+            component = SubProject.objects.get(
+                slug=form.cleaned_data['component']
+            ).slug
 
     kwargs = {'project': obj.slug}
     if lang is not None:
-        kwargs['lang'] = lang.code
+        kwargs['lang'] = lang
     engage_url = get_site_url(reverse('engage', kwargs=kwargs))
     engage_url_track = '{0}?utm_source=widget'.format(engage_url)
     widget_base_url = get_site_url(
@@ -78,7 +85,9 @@ def widgets(request, project):
                 'extension': widget_class.extension,
             }
             if lang is not None:
-                kwargs['lang'] = lang.code
+                kwargs['lang'] = lang
+            if component is not None:
+                kwargs['subproject'] = component
             color_url = reverse('widget-image', kwargs=kwargs)
             color_list.append({
                 'name': color,

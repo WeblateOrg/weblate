@@ -961,20 +961,26 @@ class CommentForm(forms.Form):
     )
 
 
-class EnageLanguageForm(forms.Form):
+class EngageForm(forms.Form):
     """Form to choose language for engagement widgets."""
     lang = forms.ChoiceField(
         required=False,
         choices=[('', _('Whole project'))],
     )
+    component = forms.ChoiceField(
+        required=False,
+        choices=[('', _('All components'))],
+    )
 
     def __init__(self, project, *args, **kwargs):
         """Dynamically generate choices for used languages in project."""
         choices = [(l.code, force_text(l)) for l in project.get_languages()]
+        components = [(c.slug, c.name) for c in project.subproject_set.all()]
 
-        super(EnageLanguageForm, self).__init__(*args, **kwargs)
+        super(EngageForm, self).__init__(*args, **kwargs)
 
         self.fields['lang'].choices += choices
+        self.fields['component'].choices += components
 
 
 class NewLanguageOwnerForm(forms.Form):
