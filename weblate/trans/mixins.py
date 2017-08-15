@@ -30,38 +30,38 @@ from weblate.accounts.avatar import get_user_display
 
 class PercentMixin(object):
     """Define API to getting percentage status of translations."""
-    _percents = None
+    _percents = {}
 
-    def get_percents(self):
+    def get_percents(self, lang=None):
         """Return percentages of translation status."""
-        if self._percents is None:
-            self._percents = self._get_percents()
+        if lang not in self._percents:
+            self._percents[lang] = self._get_percents()
 
-        return self._percents
+        return self._percents[lang]
 
-    def _get_percents(self):
+    def _get_percents(self, lang=None):
         """Return percentages of translation status."""
         raise NotImplementedError()
 
-    def get_translated_percent(self):
+    def get_translated_percent(self, lang=None):
         """Return percent of translated strings."""
-        return self.get_percents()[0]
+        return self.get_percents(lang)[0]
 
-    def get_words_percent(self):
+    def get_words_percent(self, lang=None):
         """Return percent of translated strings."""
-        return self.get_percents()[3]
+        return self.get_percents(lang)[3]
 
-    def get_untranslated_percent(self):
+    def get_untranslated_percent(self, lang=None):
         """Return percent of untranslated strings."""
-        return round(100 - self.get_percents()[0], 1)
+        return round(100 - self.get_percents(lang)[0], 1)
 
-    def get_fuzzy_percent(self):
+    def get_fuzzy_percent(self, lang=None):
         """Return percent of fuzzy strings."""
-        return self.get_percents()[1]
+        return self.get_percents(lang)[1]
 
-    def get_failing_checks_percent(self):
+    def get_failing_checks_percent(self, lang=None):
         """Return percentage of failed checks."""
-        return self.get_percents()[2]
+        return self.get_percents(lang)[2]
 
 
 class URLMixin(object):

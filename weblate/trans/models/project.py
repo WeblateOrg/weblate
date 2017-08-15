@@ -264,9 +264,6 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
 
         super(Project, self).save(*args, **kwargs)
 
-    # Arguments number differs from overridden method
-    # pylint: disable=W0221
-
     def _get_percents(self, lang=None):
         """Return percentages of translation status."""
         # Import translations
@@ -274,15 +271,6 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
 
         # Get percents:
         return Translation.objects.get_percents(project=self, language=lang)
-
-    # Arguments number differs from overridden method
-    # pylint: disable=W0221
-
-    def get_translated_percent(self, lang=None):
-        """Return percent of translated strings."""
-        if lang is None:
-            return super(Project, self).get_translated_percent()
-        return self._get_percents(lang)[0]
 
     def _get_totals(self):
         """Backend for calculating totals"""

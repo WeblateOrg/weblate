@@ -54,13 +54,6 @@ from weblate.trans.checklists import TranslationChecklist
 
 
 class TranslationManager(models.Manager):
-    # pylint: disable=W0232
-
-    def prefetch(self):
-        return self.select_related(
-            'subproject', 'subproject__project', 'language'
-        )
-
     def check_sync(self, subproject, lang, code, path, force=False,
                    request=None):
         """Parse translation meta info and updates translation object"""
@@ -79,6 +72,13 @@ class TranslationManager(models.Manager):
         translation.check_sync(force, request=request)
 
         return translation
+
+
+class TranslationQuerySet(models.QuerySet):
+    def prefetch(self):
+        return self.select_related(
+            'subproject', 'subproject__project', 'language'
+        )
 
     def enabled(self):
         """Filter enabled translations."""
@@ -152,7 +152,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
     commit_message = models.TextField(default='', blank=True)
 
-    objects = TranslationManager()
+    objects = TranslationManager.from_queryset(TranslationQuerySet)()
 
     is_lockable = False
     _reverse_url_name = 'translation'
@@ -229,7 +229,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                 }
             )
 
-    def _get_percents(self):
+    def _get_percents(self, lang=None):
         """Return percentages of translation status."""
         return (
             translation_percent(self.translated, self.total),
