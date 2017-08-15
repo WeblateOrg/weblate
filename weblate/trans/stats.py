@@ -24,7 +24,7 @@ from django.db.models import Sum
 from django.utils.encoding import force_text
 
 from weblate.lang.models import Language
-from weblate.trans.models import Translation
+from weblate.trans.models import Translation, Project
 from weblate.trans.util import translation_percent
 
 
@@ -32,9 +32,14 @@ def get_per_language_stats(project, lang=None):
     """Calculate per language stats for project"""
     result = []
 
-    language_objects = Language.objects.filter(
-        translation__subproject__project=project
-    )
+    if isinstance(project, Project):
+        language_objects = Language.objects.filter(
+            translation__subproject__project=project
+        )
+    else:
+        language_objects = Language.objects.filter(
+            translation__subproject=project
+        )
 
     if lang:
         language_objects = language_objects.filter(pk=lang.pk)
@@ -43,12 +48,18 @@ def get_per_language_stats(project, lang=None):
     languages = {
         language.pk: language for language in language_objects
     }
-
+    if isinstance(project, Project):
+        base = Translation.objects.filter(
+            language__pk__in=languages.keys(),
+            subproject__project=project
+        )
+    else:
+        base = Translation.objects.filter(
+            language__pk__in=languages.keys(),
+            subproject=project
+        )
     # Translated strings in language
-    data = Translation.objects.filter(
-        language__pk__in=languages.keys(),
-        subproject__project=project
-    ).values(
+    data = base.values(
         'language'
     ).annotate(
         Sum('translated'),

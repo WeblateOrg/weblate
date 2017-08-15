@@ -1617,3 +1617,11 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         return self.translation_set.aggregate(
             Sum('total_words'),
         )['total_words__sum']
+
+    def get_total(self):
+        return self.translation_set.aggregate(
+            Sum('total'),
+        )['total__sum']
+
+    def get_language_count(self):
+        return self.translation_set.count()
