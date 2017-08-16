@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-08-04 08:01+0000\n"
+"POT-Creation-Date: 2017-08-16 11:11+0000\n"
 "PO-Revision-Date: 2017-08-08 20:19+0000\n"
 "Last-Translator: monolifed <monolifed@gmail.com>\n"
-"Language-Team: Turkish "
-"<https://hosted.weblate.org/projects/weblate/master/tr/>\n"
+"Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
+"tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,18 +40,24 @@ msgctxt "No known user"
 msgid "None"
 msgstr "Yok"
 
-#: weblate/accounts/forms.py:76
+#: weblate/accounts/forms.py:77
 msgid ""
 "This email address is already in use. Please supply a different email "
 "address."
 msgstr ""
 "Bu eposta adresi zaten kullanılıyor. Lütfen farklı bir eposta adresi verin."
 
-#: weblate/accounts/forms.py:102
+#: weblate/accounts/forms.py:107
 msgid "Enter a valid email address."
 msgstr "Geçerli bir eposta adresi girin."
 
-#: weblate/accounts/forms.py:109
+#: weblate/accounts/forms.py:110
+#, fuzzy
+#| msgid "User with this email address was not found."
+msgid "This email address is not allowed."
+msgstr "Bu eposta adresiyle kullanıcı bulunamadı."
+
+#: weblate/accounts/forms.py:116
 msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
 "+ - _"
@@ -59,37 +65,37 @@ msgstr ""
 "Kullanıcı adı sadece harfleri, sayıları veya şurada belirtilen karakterleri "
 "içerebilir: @ . + - _"
 
-#: weblate/accounts/forms.py:115 weblate/templates/accounts/user.html:22
+#: weblate/accounts/forms.py:122 weblate/templates/accounts/user.html:22
 #: weblate/templates/manage-access.html:22
 msgid "Username"
 msgstr "Kullanıcı adı"
 
-#: weblate/accounts/forms.py:130
+#: weblate/accounts/forms.py:137
 msgid "Username can not start with full stop."
 msgstr "Kullanıcı adı nokta ile başlayamaz."
 
-#: weblate/accounts/forms.py:137
+#: weblate/accounts/forms.py:144
 msgid "This username is already taken. Please choose another."
 msgstr "Bu kullanıcı adı zaten alınmış. Lütfen başka bir tane seçin."
 
-#: weblate/accounts/forms.py:152 weblate/templates/manage-access.html:23
+#: weblate/accounts/forms.py:159 weblate/templates/manage-access.html:23
 msgid "Full name"
 msgstr "Tam ad"
 
-#: weblate/accounts/forms.py:240
+#: weblate/accounts/forms.py:247
 msgid "Component wide notifications"
 msgstr "Kapsamlı bileşen bildirimleri"
 
-#: weblate/accounts/forms.py:242
+#: weblate/accounts/forms.py:249
 msgid ""
 "You will receive notification on every such event in your watched projects."
 msgstr "İzlediğiniz projelerde her tür olayda bildirim alacaksınız."
 
-#: weblate/accounts/forms.py:249
+#: weblate/accounts/forms.py:256
 msgid "Translation notifications"
 msgstr "Çeviri bildirimleri"
 
-#: weblate/accounts/forms.py:251
+#: weblate/accounts/forms.py:258
 msgid ""
 "You will receive these notifications only for your translated languages in "
 "your watched projects."
@@ -97,33 +103,33 @@ msgstr ""
 "Bu bildirimleri sadece izlediğiniz projelerdeki çevirdiğiniz diller için "
 "alacaksınız."
 
-#: weblate/accounts/forms.py:290 weblate/accounts/forms.py:363
+#: weblate/accounts/forms.py:297 weblate/accounts/forms.py:368
 #: weblate/templates/manage-access.html:24
 msgid "E-mail"
 msgstr "E-posta"
 
-#: weblate/accounts/forms.py:292
+#: weblate/accounts/forms.py:299
 msgid "You can add another email address on the Authentication tab."
 msgstr "Kimlik doğrulaması sekmesinde başka eposta adresi ekleyebilirsiniz."
 
-#: weblate/accounts/forms.py:322
+#: weblate/accounts/forms.py:329
 msgid "Subject"
 msgstr "Konu"
 
-#: weblate/accounts/forms.py:327 weblate/accounts/forms.py:626
+#: weblate/accounts/forms.py:334 weblate/accounts/forms.py:632
 msgid "Your name"
 msgstr "Adınız"
 
-#: weblate/accounts/forms.py:332 weblate/accounts/forms.py:627
+#: weblate/accounts/forms.py:339 weblate/accounts/forms.py:637
 msgid "Your email"
 msgstr "Epostanız"
 
-#: weblate/accounts/forms.py:337 weblate/trans/models/whiteboard.py:65
+#: weblate/accounts/forms.py:343 weblate/trans/models/whiteboard.py:65
 #: weblate/wladmin/templates/admin/performance.html:47
 msgid "Message"
 msgstr "İleti"
 
-#: weblate/accounts/forms.py:340
+#: weblate/accounts/forms.py:346
 msgid ""
 "Please contact us in English, otherwise we might be unable to understand "
 "your request."
@@ -131,62 +137,62 @@ msgstr ""
 "Lütfen bizimle İngilizce olarak iletişime geçin, yoksa isteğinizi "
 "anlayamayabiliriz."
 
-#: weblate/accounts/forms.py:364
+#: weblate/accounts/forms.py:369
 msgid "Activation email will be sent here."
 msgstr "Etkinleştirme epostası buraya gönderilecektir."
 
-#: weblate/accounts/forms.py:401
+#: weblate/accounts/forms.py:406
 msgid "Too many registration attempts!"
 msgstr "Çok fazla kaydolma girişimi!"
 
-#: weblate/accounts/forms.py:408
+#: weblate/accounts/forms.py:413
 msgid "New password"
 msgstr "Yeni parola"
 
-#: weblate/accounts/forms.py:412
+#: weblate/accounts/forms.py:417
 msgid "New password confirmation"
 msgstr "Yeni parola onayı"
 
-#: weblate/accounts/forms.py:431
+#: weblate/accounts/forms.py:436
 msgid "You can not change password to the one you were using!"
 msgstr "Parolayı kullanmakta olduğunuza değiştiremezsiniz!"
 
-#: weblate/accounts/forms.py:457
+#: weblate/accounts/forms.py:462
 msgid "Your password has been changed."
 msgstr "Parolanız değiştirildi."
 
-#: weblate/accounts/forms.py:485
+#: weblate/accounts/forms.py:490
 #, python-format
 msgctxt ""
 "Question for a mathematics-based CAPTCHA, the %s is an arithmetic problem"
 msgid "What is %s?"
 msgstr "%s nedir?"
 
-#: weblate/accounts/forms.py:495
+#: weblate/accounts/forms.py:500
 msgid "Please check your math and try again with new expression."
 msgstr "Lütfen eşleşmenizi kontrol edin ve yeni ifadeyle tekrar deneyin."
 
-#: weblate/accounts/forms.py:513
+#: weblate/accounts/forms.py:518
 msgid "Current password"
 msgstr "Şu anki parola"
 
-#: weblate/accounts/forms.py:515
+#: weblate/accounts/forms.py:520
 msgid "Keep the field empty if you have not yet set your password."
 msgstr "Parolanızı henüz ayarlamadıysanız alanı boş bırakın."
 
-#: weblate/accounts/forms.py:533
+#: weblate/accounts/forms.py:538
 msgid "You have entered an invalid password."
 msgstr "Geçersiz bir parola girdiniz."
 
-#: weblate/accounts/forms.py:549
+#: weblate/accounts/forms.py:554
 msgid "Username or email"
 msgstr "Kullanıcı adı veya eposta"
 
-#: weblate/accounts/forms.py:552 weblate/templates/accounts/profile.html:189
+#: weblate/accounts/forms.py:557 weblate/templates/accounts/profile.html:189
 msgid "Password"
 msgstr "Parola"
 
-#: weblate/accounts/forms.py:556
+#: weblate/accounts/forms.py:561
 msgid ""
 "Please enter a correct username and password. Note that both fields may be "
 "case-sensitive."
@@ -194,36 +200,36 @@ msgstr ""
 "Lütfen doğru bir kullanıcı adı ve parola girin. Her iki alanın da büyük "
 "küçük harfe duyarlı olabileceğini unutmayın."
 
-#: weblate/accounts/forms.py:558
+#: weblate/accounts/forms.py:563
 msgid "This account is inactive."
 msgstr "Hesabınız devre dışı."
 
-#: weblate/accounts/forms.py:577
+#: weblate/accounts/forms.py:582
 msgid "Too many authentication attempts!"
 msgstr "Çok fazla kimlik doğrulaması girişimi!"
 
-#: weblate/accounts/forms.py:628 weblate/trans/models/project.py:87
+#: weblate/accounts/forms.py:641 weblate/trans/models/project.py:87
 msgid "Project name"
 msgstr "Proje adı"
 
-#: weblate/accounts/forms.py:629 weblate/templates/project_info.html:3
+#: weblate/accounts/forms.py:646 weblate/templates/project_info.html:3
 #: weblate/trans/models/project.py:99
 msgid "Project website"
 msgstr "Proje web sitesi"
 
-#: weblate/accounts/forms.py:631 weblate/trans/models/subproject.py:159
+#: weblate/accounts/forms.py:651 weblate/trans/models/subproject.py:159
 msgid "Source code repository"
 msgstr "Kaynak kod havuzu"
 
-#: weblate/accounts/forms.py:633
+#: weblate/accounts/forms.py:653
 msgid "URL of source code repository for example Git or Mercurial."
 msgstr "Kaynak kod havuzunun URL'si örneğin Git veya Mercurial."
 
-#: weblate/accounts/forms.py:638 weblate/trans/models/subproject.py:208
+#: weblate/accounts/forms.py:659 weblate/trans/models/subproject.py:208
 msgid "File mask"
 msgstr "Dosya maskesi"
 
-#: weblate/accounts/forms.py:640
+#: weblate/accounts/forms.py:661
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
@@ -231,7 +237,7 @@ msgstr ""
 "Çevirmek için dosyaların yolu, dil kodu yerine * kullanın, örneğin: po/*.po "
 "veya locale/*/LC_MESSAGES/django.po."
 
-#: weblate/accounts/forms.py:647
+#: weblate/accounts/forms.py:669
 msgid "Additional message"
 msgstr "Ek ileti"
 
@@ -285,27 +291,27 @@ msgstr ""
 msgid "Account and all private data have been removed."
 msgstr "Hesap ve tüm özel veriler kaldırıldı."
 
-#: weblate/accounts/models.py:204 weblate/templates/accounts/profile.html:304
+#: weblate/accounts/models.py:206 weblate/templates/accounts/profile.html:304
 msgid "Account activity"
 msgstr "Hesap etkinliği"
 
-#: weblate/accounts/models.py:304
+#: weblate/accounts/models.py:306
 msgid "Interface Language"
 msgstr "Arayüz Dili"
 
-#: weblate/accounts/models.py:311
+#: weblate/accounts/models.py:313
 msgid "Translated languages"
 msgstr "Çevrilen diller"
 
-#: weblate/accounts/models.py:313
+#: weblate/accounts/models.py:315
 msgid "Choose languages to which you can translate."
 msgstr "Çevirebileceğiniz dillleri seçin."
 
-#: weblate/accounts/models.py:317
+#: weblate/accounts/models.py:319
 msgid "Secondary languages"
 msgstr "İkincil diller"
 
-#: weblate/accounts/models.py:319
+#: weblate/accounts/models.py:321
 msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
@@ -313,23 +319,23 @@ msgstr ""
 "Anlayabildiğiniz dilleri seçin, bu dillerdeki satırlar kaynak satıra ek "
 "olarak gösterilecektir."
 
-#: weblate/accounts/models.py:329
+#: weblate/accounts/models.py:331
 msgid "Hide completed translations on dashboard"
 msgstr "Panelde tamamlanan çevirileri gizle"
 
-#: weblate/accounts/models.py:333
+#: weblate/accounts/models.py:335
 msgid "Show secondary translations in zen mode"
 msgstr "İkincil çevirileri zen kipinde göster"
 
-#: weblate/accounts/models.py:337
+#: weblate/accounts/models.py:339
 msgid "Hide source if there is secondary language"
 msgstr "İkincil dil varsa kaynağı gizle"
 
-#: weblate/accounts/models.py:343
+#: weblate/accounts/models.py:345
 msgid "Editor link"
 msgstr "Düzenleyici bağlantısı"
 
-#: weblate/accounts/models.py:345
+#: weblate/accounts/models.py:347
 #, python-format
 msgid ""
 "Enter custom URL to be used as link to open source code. You can use "
@@ -342,11 +348,11 @@ msgstr ""
 "kullanabilirsiniz. Genellikle editor://open/?file=%(file)s&line=%(line)s "
 "gibi birşey iyi seçenektir."
 
-#: weblate/accounts/models.py:356
+#: weblate/accounts/models.py:358
 msgid "Special characters"
 msgstr "Özel karakterler"
 
-#: weblate/accounts/models.py:358
+#: weblate/accounts/models.py:360
 msgid ""
 "You can specify additional special characters to be shown in the visual "
 "keyboard while translating. It can be useful for chars you use frequently "
@@ -356,36 +362,36 @@ msgstr ""
 "belirleyebilirsiniz. Sık kullandığınız ancak klavyenizde yazması zor "
 "karakterler için yararlı olabilir."
 
-#: weblate/accounts/models.py:370 weblate/templates/index.html:24
+#: weblate/accounts/models.py:372 weblate/templates/index.html:24
 msgid "Watched translations"
 msgstr "İzlenen çeviriler"
 
-#: weblate/accounts/models.py:371 weblate/templates/index.html:25
+#: weblate/accounts/models.py:373 weblate/templates/index.html:25
 msgid "Your languages"
 msgstr "Dilinizdekiler"
 
-#: weblate/accounts/models.py:372 weblate/trans/models/componentlist.py:58
+#: weblate/accounts/models.py:374 weblate/trans/models/componentlist.py:58
 msgid "Component list"
 msgstr "Bileşen litesi"
 
-#: weblate/accounts/models.py:373 weblate/templates/index.html:27
+#: weblate/accounts/models.py:375 weblate/templates/index.html:27
 msgid "Suggested translations"
 msgstr "Önerilen çeviriler"
 
-#: weblate/accounts/models.py:389
+#: weblate/accounts/models.py:391
 msgid "Default dashboard view"
 msgstr "Varsayılan panel görünümü"
 
-#: weblate/accounts/models.py:395
+#: weblate/accounts/models.py:397
 msgid "Default component list"
 msgstr "Varsayılan bileşen listesi"
 
-#: weblate/accounts/models.py:402 weblate/templates/accounts/profile.html:117
+#: weblate/accounts/models.py:404 weblate/templates/accounts/profile.html:117
 #: weblate/templates/base.html:108
 msgid "Watched projects"
 msgstr "İzlenen projeler"
 
-#: weblate/accounts/models.py:404 weblate/templates/watch-dropdown.html:5
+#: weblate/accounts/models.py:406 weblate/templates/watch-dropdown.html:5
 #: weblate/templates/watch-dropdown.html:9
 msgid ""
 "You can receive notifications for watched projects and they are shown on "
@@ -394,43 +400,43 @@ msgstr ""
 "İzlenen projeler için bildirim alabilirsiniz ve bunlar varsayılan olarak "
 "panelde gösterilirler."
 
-#: weblate/accounts/models.py:411
+#: weblate/accounts/models.py:413
 msgid "Notification on any translation"
 msgstr "Herhangi bir çeviride bildirim"
 
-#: weblate/accounts/models.py:415
+#: weblate/accounts/models.py:417
 msgid "Notification on new string to translate"
 msgstr "Yeni satır çevirmek için bildirim"
 
-#: weblate/accounts/models.py:419
+#: weblate/accounts/models.py:421
 msgid "Notification on new suggestion"
 msgstr "Yeni öneride bildirim"
 
-#: weblate/accounts/models.py:423
+#: weblate/accounts/models.py:425
 msgid "Notification on new contributor"
 msgstr "Yeni katılımcıda bildirim"
 
-#: weblate/accounts/models.py:427
+#: weblate/accounts/models.py:429
 msgid "Notification on new comment"
 msgstr "Yeni yorumda bildirim"
 
-#: weblate/accounts/models.py:431
+#: weblate/accounts/models.py:433
 msgid "Notification on merge failure"
 msgstr "Birleştirmenin başarısız olmasında bildirim"
 
-#: weblate/accounts/models.py:435
+#: weblate/accounts/models.py:437
 msgid "Notification on new language request"
 msgstr "Yeni dil isteğinde bildirim"
 
-#: weblate/accounts/models.py:488
+#: weblate/accounts/models.py:490
 msgid "Component list must be selected when used as default."
 msgstr "Bileşen listesi varsayılan olarak kullanıldığında seçilmek zorundadır."
 
-#: weblate/accounts/models.py:494
+#: weblate/accounts/models.py:496
 msgid "Component list must not be selected when not used."
 msgstr "Bileşen listesi kullanılmadığında seçilmek zorunda değildir."
 
-#: weblate/accounts/models.py:590
+#: weblate/accounts/models.py:592
 msgid ""
 "You can not submit translations as you do not have assigned any email "
 "address."
@@ -472,7 +478,7 @@ msgid ""
 "Your email no longer belongs to verified account, it has been changed to {0}."
 msgstr "Epostanız artık doğrulanmış hesaba ait değil, {0} olarak değiştirildi."
 
-#: weblate/accounts/views.py:108 weblate/accounts/views.py:581
+#: weblate/accounts/views.py:108 weblate/accounts/views.py:582
 msgid "User registration"
 msgstr "Kullanıcı kaydı"
 
@@ -513,43 +519,43 @@ msgstr "Çok fazla ileti gönderildi, lütfen daha sonra tekrar deneyin!"
 msgid "Contact"
 msgstr "İletişim"
 
-#: weblate/accounts/views.py:446 weblate/templates/accounts/hosting.html:7
+#: weblate/accounts/views.py:447 weblate/templates/accounts/hosting.html:7
 msgid "Hosting"
 msgstr "Barındırma"
 
-#: weblate/accounts/views.py:524 weblate/templates/accounts/login.html:8
+#: weblate/accounts/views.py:525 weblate/templates/accounts/login.html:8
 #: weblate/templates/accounts/login.html:43 weblate/templates/base.html:131
 msgid "Login"
 msgstr "Oturum aç"
 
-#: weblate/accounts/views.py:534 weblate/wladmin/sites.py:144
+#: weblate/accounts/views.py:535 weblate/wladmin/sites.py:144
 msgid "Thanks for using Weblate!"
 msgstr "Weblate'i kullandığınız için teşekkürler!"
 
-#: weblate/accounts/views.py:619 weblate/templates/accounts/email.html:16
+#: weblate/accounts/views.py:620 weblate/templates/accounts/email.html:16
 msgid "Register email"
 msgstr "Eposta kaydettir"
 
-#: weblate/accounts/views.py:662 weblate/templates/accounts/password.html:13
+#: weblate/accounts/views.py:663 weblate/templates/accounts/password.html:13
 #: weblate/templates/accounts/profile.html:192
 msgid "Change password"
 msgstr "Parolayı değiştir"
 
-#: weblate/accounts/views.py:678
+#: weblate/accounts/views.py:679
 msgid "Password reset has been already completed!"
 msgstr "Parola sıfırlama zaten tamamlandı!"
 
-#: weblate/accounts/views.py:695 weblate/accounts/views.py:746
+#: weblate/accounts/views.py:696 weblate/accounts/views.py:747
 #: weblate/templates/accounts/reset.html:7
 #: weblate/templates/accounts/reset.html:24
 msgid "Password reset"
 msgstr "Parola sıfırlama"
 
-#: weblate/accounts/views.py:711
+#: weblate/accounts/views.py:712
 msgid "Can not reset password, email authentication is disabled!"
 msgstr "Parola sıfırlanamıyor, eposta kimlik doğrulaması devre dışı!"
 
-#: weblate/accounts/views.py:839
+#: weblate/accounts/views.py:847
 msgid ""
 "Failed to verify your registration! Probably the verification token has "
 "expired. Please try the registration again."
@@ -557,30 +563,30 @@ msgstr ""
 "Kaydınız doğrulanamadı! Muhtemelen doğrulama belirtecinin süresi doldu. "
 "Lütfen kaydolmayı tekrar deneyin."
 
-#: weblate/accounts/views.py:846
+#: weblate/accounts/views.py:854
 msgid "Authentication failed due to invalid session state."
 msgstr "Geçersiz oturum durumu yüzünden kimlik doğrulma başarısız oldu."
 
-#: weblate/accounts/views.py:860
+#: weblate/accounts/views.py:868
 msgid "Can not change authentication for demo!"
 msgstr "Kimlik doğrulaması demo için değiştirilemiyor!"
 
-#: weblate/accounts/views.py:864
+#: weblate/accounts/views.py:872
 msgid "New registrations are disabled!"
 msgstr "Yeni kayıtlar devre dışı!"
 
-#: weblate/accounts/views.py:871
+#: weblate/accounts/views.py:879
 msgid ""
 "Authentication has failed, probably due to expired token or connection error."
 msgstr ""
 "Kimlik doğrulama başarısız oldu, muhtemelen süresi geçmiş belirteç veya "
 "bağlantı hatası yüzünden."
 
-#: weblate/accounts/views.py:875
+#: weblate/accounts/views.py:883
 msgid "Authentication has been cancelled."
 msgstr "Kimlik doğrulama iptal edildi."
 
-#: weblate/accounts/views.py:878
+#: weblate/accounts/views.py:886
 msgid ""
 "Failed to complete your registration! This authentication, email or username "
 "are already associated with another account!"
@@ -592,7 +598,7 @@ msgstr ""
 #: weblate/templates/accounts/user.html:38
 #: weblate/templates/billing/detail.html:31 weblate/templates/language.html:15
 #: weblate/templates/projects.html:5 weblate/trans/models/project.py:160
-#: weblate/trans/views/basic.py:236
+#: weblate/trans/views/basic.py:234
 msgid "Projects"
 msgstr "Projeler"
 
@@ -624,11 +630,11 @@ msgstr "Geçen yıldaki değişiklikler"
 msgid "VCS repositories"
 msgstr "VCS havuzları"
 
-#: weblate/billing/models.py:134 weblate/trans/models/project.py:311
+#: weblate/billing/models.py:134 weblate/trans/models/project.py:299
 msgid "Source strings"
 msgstr "Kaynak satırlar"
 
-#: weblate/billing/models.py:145 weblate/trans/models/project.py:330
+#: weblate/billing/models.py:145 weblate/trans/models/project.py:318
 msgid "Source words"
 msgstr "Kaynak kelime"
 
@@ -636,8 +642,8 @@ msgstr "Kaynak kelime"
 #: weblate/lang/views.py:43 weblate/templates/accounts/profile.html:22
 #: weblate/templates/accounts/profile.html:41 weblate/templates/language.html:6
 #: weblate/templates/languages.html:6 weblate/templates/project.html:26
-#: weblate/templates/trans/change_list.html:18 weblate/trans/forms.py:983
-#: weblate/trans/forms.py:1225 weblate/trans/models/project.py:341
+#: weblate/templates/trans/change_list.html:18 weblate/trans/forms.py:989
+#: weblate/trans/forms.py:1288 weblate/trans/models/project.py:329
 msgid "Languages"
 msgstr "Diller"
 
@@ -821,26 +827,26 @@ msgstr "Çoğul türü"
 #: weblate/templates/js/detail.html:16 weblate/templates/js/translations.html:7
 #: weblate/templates/languages.html:14
 #: weblate/templates/list-translations.html:7
-#: weblate/templates/project.html:126 weblate/trans/forms.py:737
-#: weblate/trans/forms.py:1018 weblate/trans/models/whiteboard.py:82
+#: weblate/templates/project.html:138 weblate/trans/forms.py:737
+#: weblate/trans/forms.py:1024 weblate/trans/models/whiteboard.py:82
 msgid "Language"
 msgstr "Dil"
 
-#: weblate/lang/models.py:484
+#: weblate/lang/models.py:483
 msgid "Singular"
 msgstr "Tekil"
 
-#: weblate/lang/models.py:486
+#: weblate/lang/models.py:485
 msgid "Plural"
 msgstr "Çoğul"
 
-#: weblate/lang/models.py:487
+#: weblate/lang/models.py:486
 #, python-format
 msgid "Plural form %d"
 msgstr "Çoğul biçim %d"
 
 #. Translators: Label for plurals with example counts
-#: weblate/lang/models.py:504
+#: weblate/lang/models.py:503
 #, python-brace-format
 msgid "For example: {0}"
 msgstr "Örneğin: {0}"
@@ -1105,7 +1111,7 @@ msgstr "Ekran görüntüsü %s silindi."
 msgid "Source has been removed."
 msgstr "Kaynak kaldırıldı."
 
-#: weblate/templates/403.html:5 weblate/trans/views/basic.py:567
+#: weblate/templates/403.html:5 weblate/trans/views/basic.py:534
 msgid "Permission Denied"
 msgstr "İzin Verilmedi"
 
@@ -1122,7 +1128,7 @@ msgid ""
 "However the following translation projects are available on this server:"
 msgstr "Ancak aşağıdaki çeviri projeleri bu sunucuda bulunur:"
 
-#: weblate/templates/404.html:5 weblate/trans/views/basic.py:554
+#: weblate/templates/404.html:5 weblate/trans/views/basic.py:521
 msgid "Page Not Found"
 msgstr "Sayfa Bulunamadı"
 
@@ -1135,7 +1141,7 @@ msgid ""
 "The project you are looking for does not exist or is not publicly available."
 msgstr "Aradığınız proje yok ya da herkese açık değil."
 
-#: weblate/templates/500.html:5 weblate/trans/views/basic.py:581
+#: weblate/templates/500.html:5 weblate/trans/views/basic.py:548
 msgid "Internal Server Error"
 msgstr "İç Sunucu Hatası"
 
@@ -1152,7 +1158,7 @@ msgstr ""
 "çözmesi için eğitimli afacanlarımızı şimdi gönderdik."
 
 #: weblate/templates/about.html:5 weblate/templates/about.html:13
-#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:595
+#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:562
 msgid "About Weblate"
 msgstr "Weblate hakkında"
 
@@ -1428,7 +1434,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Parolamı değiştir"
 
-#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:700
+#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:667
 #: weblate/trans/views/files.py:88
 msgid "Please fix errors in the form."
 msgstr "Lütfen formdaki hataları düzeltin."
@@ -1478,10 +1484,10 @@ msgstr "Faturalama"
 #: weblate/templates/accounts/profile.html:158
 #: weblate/templates/edit_dictionary.html:26
 #: weblate/templates/js/detail.html:59 weblate/templates/js/detail.html:71
-#: weblate/templates/project.html:218
+#: weblate/templates/project-settings.html:26
 #: weblate/templates/screenshots/screenshot_detail.html:102
-#: weblate/templates/subproject.html:226 weblate/templates/translate.html:164
-#: weblate/templates/translate.html:367
+#: weblate/templates/subproject-settings.html:38
+#: weblate/templates/translate.html:164 weblate/templates/translate.html:367
 msgid "Save"
 msgstr "Kaydet"
 
@@ -1726,7 +1732,7 @@ msgstr ""
 msgid "Project"
 msgstr "Proje"
 
-#: weblate/templates/accounts/profile.html:425 weblate/trans/forms.py:1153
+#: weblate/templates/accounts/profile.html:425 weblate/trans/forms.py:1212
 msgid "License"
 msgstr "Lisans"
 
@@ -2055,7 +2061,7 @@ msgstr ""
 
 #: weblate/templates/data.html:48 weblate/templates/index.html:38
 #: weblate/templates/stats.html:5 weblate/templates/stats.html:62
-#: weblate/templates/translation.html:39 weblate/templates/translation.html:324
+#: weblate/templates/translation.html:39 weblate/templates/translation.html:333
 msgid "Statistics"
 msgstr "İstatistikler"
 
@@ -2116,9 +2122,9 @@ msgstr "terim sözlükleri"
 
 #: weblate/templates/dictionaries.html:15 weblate/templates/language.html:39
 #: weblate/templates/languages.html:16 weblate/templates/list-projects.html:10
-#: weblate/templates/project.html:94 weblate/templates/project.html:128
-#: weblate/templates/translation.html:115
-#: weblate/templates/translation.html:331
+#: weblate/templates/project.html:106 weblate/templates/project.html:140
+#: weblate/templates/translation.html:124
+#: weblate/templates/translation.html:340
 msgid "Words"
 msgstr "Kelime"
 
@@ -2174,6 +2180,7 @@ msgstr "Kaynak"
 #: weblate/templates/dictionary.html:55
 #: weblate/templates/js/translations.html:9
 #: weblate/templates/last-changes-content.html:11
+#: weblate/templates/subproject-settings.html:18
 #: weblate/templates/translate.html:218 weblate/templates/translate.html:281
 #: weblate/templates/translate.html:331 weblate/templates/translate.html:419
 #: weblate/trans/forms.py:292 weblate/trans/forms.py:854
@@ -3429,13 +3436,13 @@ msgstr "Araçlar"
 #: weblate/templates/index.html:46 weblate/templates/index.html:123
 #: weblate/templates/language-project.html:24
 #: weblate/templates/language-project.html:49 weblate/templates/project.html:45
-#: weblate/templates/project.html:173
+#: weblate/templates/project.html:185
 #: weblate/templates/screenshots/screenshot_detail.html:76
 #: weblate/templates/search-form.html:6 weblate/templates/search-form.html:11
 #: weblate/templates/search.html:15 weblate/templates/subproject.html:51
-#: weblate/templates/subproject.html:125 weblate/templates/translate.html:56
-#: weblate/templates/translation.html:31 weblate/templates/translation.html:285
-#: weblate/templates/translation.html:290 weblate/templates/zen.html:35
+#: weblate/templates/subproject.html:135 weblate/templates/translate.html:56
+#: weblate/templates/translation.html:31 weblate/templates/translation.html:294
+#: weblate/templates/translation.html:299 weblate/templates/zen.html:35
 msgid "Search"
 msgstr "Ara"
 
@@ -3489,7 +3496,7 @@ msgstr ""
 msgid "Register to manage your languages"
 msgstr "Dillerinizi yönetmek için kaydolun"
 
-#: weblate/templates/js/changes.html:5 weblate/templates/subproject.html:150
+#: weblate/templates/js/changes.html:5 weblate/templates/subproject.html:160
 msgid "Browse all component changes"
 msgstr "Tüm bileşen değişikliklerine gözat"
 
@@ -3512,7 +3519,7 @@ msgstr "Ekran görüntüsü bağlamı"
 msgid "No screenshot currently associated!"
 msgstr "Şu an ilişkilendirilmiş ekran görüntüsü yok!"
 
-#: weblate/templates/js/detail.html:87 weblate/templates/subproject.html:64
+#: weblate/templates/js/detail.html:87 weblate/templates/subproject.html:77
 msgid "Manage screenshots"
 msgstr "Ekran görüntülerini yönet"
 
@@ -3523,8 +3530,8 @@ msgstr "Yeni ekran görüntüsü ekle"
 
 #: weblate/templates/js/detail.html:103
 #: weblate/templates/screenshots/screenshot_list.html:63
-#: weblate/templates/translation.html:228
-#: weblate/templates/translation.html:239
+#: weblate/templates/translation.html:237
+#: weblate/templates/translation.html:248
 msgid "Upload"
 msgstr "Gönder"
 
@@ -3585,8 +3592,8 @@ msgstr "Havuz değişiklikleri"
 msgid "Repository tools"
 msgstr "Havuz araçları"
 
-#: weblate/templates/js/git-status.html:112 weblate/templates/project.html:51
-#: weblate/templates/subproject.html:58 weblate/templates/translation.html:58
+#: weblate/templates/js/git-status.html:112 weblate/templates/project.html:61
+#: weblate/templates/subproject.html:69 weblate/templates/translation.html:72
 msgid "Commit"
 msgstr "İşle"
 
@@ -3628,7 +3635,7 @@ msgid "Reset all changes in the local repository"
 msgstr "Yerel havuzdaki tüm değişiklikleri sıfırla"
 
 #: weblate/templates/js/git-status.html:184
-#: weblate/templates/translation.html:268
+#: weblate/templates/translation.html:277
 msgid "Unlock"
 msgstr "Kilidi aç"
 
@@ -3637,7 +3644,7 @@ msgid "Allow changes in the local repository"
 msgstr "Yerel havuzdaki değişikliklere izin ver"
 
 #: weblate/templates/js/git-status.html:196
-#: weblate/templates/translation.html:270
+#: weblate/templates/translation.html:279
 msgid "Lock"
 msgstr "Kilitle"
 
@@ -3655,14 +3662,14 @@ msgid "Components"
 msgstr "Bileşenler"
 
 #: weblate/templates/language-project.html:25
-#: weblate/templates/language.html:25 weblate/templates/project.html:56
+#: weblate/templates/language.html:25 weblate/templates/project.html:50
 #: weblate/templates/source-review.html:27 weblate/templates/translate.html:508
 #: weblate/trans/views/checks.py:76
 msgid "Failing checks"
 msgstr "Başarısız olan denetimler"
 
 #: weblate/templates/language-project.html:26
-#: weblate/templates/language.html:26 weblate/templates/project.html:57
+#: weblate/templates/language.html:26 weblate/templates/project.html:51
 #: weblate/templates/stats.html:98
 msgid "Ignored checks"
 msgstr "Yok sayılan denetimler"
@@ -3678,9 +3685,9 @@ msgstr "Terim Sözlükleri"
 
 #: weblate/templates/language.html:38 weblate/templates/languages.html:15
 #: weblate/templates/list-projects.html:9
-#: weblate/templates/list-translations.html:9 weblate/templates/project.html:93
-#: weblate/templates/project.html:127 weblate/templates/stats.html:20
-#: weblate/templates/translation.html:342
+#: weblate/templates/list-translations.html:9
+#: weblate/templates/project.html:105 weblate/templates/project.html:139
+#: weblate/templates/stats.html:20 weblate/templates/translation.html:351
 #: weblate/trans/templatetags/translations.py:522
 msgid "Translated"
 msgstr "Çevrilen"
@@ -3762,7 +3769,7 @@ msgid "Configure columns"
 msgstr "Sütunları yapılandır"
 
 #: weblate/templates/list-translations.html:35
-#: weblate/templates/translation.html:100
+#: weblate/templates/translation.html:109
 msgid "This translation is being used as source strings within this component."
 msgstr "Bu çeviri, bu bileşende kaynak satırlar olarak kullanılıyor."
 
@@ -3807,7 +3814,7 @@ msgstr[1] "%(count)s çevrilmemiş satır var."
 
 #: weblate/templates/list-translations.html:71
 #: weblate/templates/list-translations.html:73
-#: weblate/templates/translate.html:89 weblate/templates/translation.html:110
+#: weblate/templates/translate.html:89 weblate/templates/translation.html:119
 msgid "Translate"
 msgstr "Çevir"
 
@@ -4182,8 +4189,8 @@ msgstr "%(site_title)s sitesinde parola sıfırlama"
 msgid "Change subscription settings:"
 msgstr "Abonelik ayarlarını değiştir:"
 
-#: weblate/templates/manage-access.html:8 weblate/templates/project.html:59
-#: weblate/templates/subproject.html:66
+#: weblate/templates/manage-access.html:8 weblate/templates/project.html:70
+#: weblate/templates/subproject.html:79
 msgid "Manage users"
 msgstr "Kullanıcıları yönet"
 
@@ -4220,8 +4227,8 @@ msgid "Select"
 msgstr "Seç"
 
 #: weblate/templates/new-language.html:22
-#: weblate/templates/new-language.html:38 weblate/templates/subproject.html:69
-#: weblate/templates/subproject.html:105
+#: weblate/templates/new-language.html:38 weblate/templates/subproject.html:59
+#: weblate/templates/subproject.html:115
 msgid "Start new translation"
 msgstr "Yeni çeviri başlat"
 
@@ -4259,6 +4266,13 @@ msgstr "Yeni çeviri iste"
 msgid "%(position)s / %(total)s"
 msgstr "%(position)s / %(total)s"
 
+#: weblate/templates/project-settings.html:8
+#: weblate/templates/project-settings.html:19 weblate/templates/project.html:73
+#: weblate/templates/subproject-settings.html:9
+#: weblate/templates/subproject.html:82
+msgid "Settings"
+msgstr "Ayarlar"
+
 #: weblate/templates/project.html:36 weblate/templates/subproject.html:39
 msgid "Download statistics (CSV)"
 msgstr "İstatistikleri indir (CSV)"
@@ -4267,10 +4281,10 @@ msgstr "İstatistikleri indir (CSV)"
 msgid "Download statistics (JSON)"
 msgstr "İstatistikleri indir (JSON)"
 
-#: weblate/templates/project.html:47 weblate/templates/project.html:182
-#: weblate/templates/subproject.html:53 weblate/templates/subproject.html:134
-#: weblate/templates/translation.html:67 weblate/templates/translation.html:210
-#: weblate/trans/models/change.py:223
+#: weblate/templates/project.html:47 weblate/templates/project.html:194
+#: weblate/templates/subproject.html:53 weblate/templates/subproject.html:144
+#: weblate/templates/translation.html:61 weblate/templates/translation.html:219
+#: weblate/trans/models/change.py:225
 msgid "Search and replace"
 msgstr "Ara ve değiştir"
 
@@ -4279,67 +4293,69 @@ msgstr "Ara ve değiştir"
 msgid "Data exports"
 msgstr "Dışa veri aktarmaları"
 
-#: weblate/templates/project.html:54 weblate/templates/subproject.html:61
-#: weblate/templates/translation.html:61
+#: weblate/templates/project.html:57 weblate/templates/subproject.html:65
+#: weblate/templates/translation.html:68
+#, fuzzy
+#| msgid "Manage users"
+msgid "Manage"
+msgstr "Kullanıcıları yönet"
+
+#: weblate/templates/project.html:64 weblate/templates/subproject.html:72
+#: weblate/templates/translation.html:75
 msgid "Repository maintenance"
 msgstr "Havuz bakımı"
 
-#: weblate/templates/project.html:62 weblate/templates/project.html:211
-#: weblate/templates/subproject.html:72 weblate/templates/subproject.html:219
-msgid "Settings"
-msgstr "Ayarlar"
-
-#: weblate/templates/project.html:69 weblate/templates/subproject.html:79
-#: weblate/templates/translation.html:74
+#: weblate/templates/project.html:81 weblate/templates/subproject.html:89
+#: weblate/templates/translation.html:83
 msgid "Share"
 msgstr "Paylaş"
 
-#: weblate/templates/project.html:73 weblate/templates/share.html:9
-#: weblate/templates/subproject.html:83 weblate/templates/translation.html:78
+#: weblate/templates/project.html:85 weblate/templates/share.html:9
+#: weblate/templates/subproject.html:93 weblate/templates/translation.html:87
 msgid "Share on Facebook!"
 msgstr "Facebook'ta paylaş!"
 
-#: weblate/templates/project.html:74 weblate/templates/share.html:10
-#: weblate/templates/subproject.html:84 weblate/templates/translation.html:79
+#: weblate/templates/project.html:86 weblate/templates/share.html:10
+#: weblate/templates/subproject.html:94 weblate/templates/translation.html:88
 #, python-format
 msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
 msgstr ""
 "%(share_url)s adresinde %%23Weblate'i kullanarak %(object)s diline çevirin!"
 
-#: weblate/templates/project.html:74 weblate/templates/share.html:10
-#: weblate/templates/subproject.html:84 weblate/templates/translation.html:79
+#: weblate/templates/project.html:86 weblate/templates/share.html:10
+#: weblate/templates/subproject.html:94 weblate/templates/translation.html:88
 msgid "Tweet this translation!"
 msgstr "Bu çeviriyi tweet at!"
 
-#: weblate/templates/project.html:75 weblate/templates/subproject.html:85
-#: weblate/templates/translation.html:80
+#: weblate/templates/project.html:87 weblate/templates/subproject.html:95
+#: weblate/templates/translation.html:89
 msgid "Engage page"
 msgstr "Sayfayı devreye al"
 
-#: weblate/templates/project.html:76 weblate/templates/subproject.html:86
-#: weblate/templates/translation.html:81
+#: weblate/templates/project.html:88 weblate/templates/subproject.html:96
+#: weblate/templates/translation.html:90
 msgid "Status widgets"
 msgstr "Durum parçacıkları"
 
-#: weblate/templates/project.html:92 weblate/templates/translate.html:281
+#: weblate/templates/project.html:104 weblate/templates/translate.html:281
 #: weblate/trans/models/subproject.py:517 weblate/trans/models/whiteboard.py:76
 msgid "Component"
 msgstr "Bileşen"
 
-#: weblate/templates/project.html:155
+#: weblate/templates/project.html:167
 msgid "There are currently no glossaries defined for this project."
 msgstr "Şu anda bu proje için tanımlanmış terim sözlükleri yok."
 
-#: weblate/templates/project.html:158
+#: weblate/templates/project.html:170
 msgid "Manage all glossaries"
 msgstr "Tüm terim sözlüklerini yönet"
 
-#: weblate/templates/project.html:164
+#: weblate/templates/project.html:176
 msgid "Browse all project changes"
 msgstr "Tüm proje değişikliklerine gözat"
 
-#: weblate/templates/project.html:184 weblate/templates/subproject.html:136
-#: weblate/templates/translation.html:212
+#: weblate/templates/project.html:196 weblate/templates/subproject.html:146
+#: weblate/templates/translation.html:221
 msgid ""
 "You can replace string in all units at once. The search is simple substring "
 "case sensitive search."
@@ -4347,15 +4363,15 @@ msgstr ""
 "Satırı aynı anda tüm birimlerde değiştirebilirsiniz. Arama, basit alt satır "
 "büyük küçük harf duyarlı aramadır."
 
-#: weblate/templates/project.html:189 weblate/templates/subproject.html:141
-#: weblate/templates/translation.html:199
-#: weblate/templates/translation.html:217
+#: weblate/templates/project.html:201 weblate/templates/subproject.html:151
+#: weblate/templates/translation.html:208
+#: weblate/templates/translation.html:226
 msgid "Process"
 msgstr "İşlem"
 
-#: weblate/templates/project.html:198 weblate/templates/subproject.html:157
+#: weblate/templates/project.html:210 weblate/templates/subproject.html:167
 #: weblate/templates/translate.html:319 weblate/templates/translate.html:323
-#: weblate/templates/translation.html:249 weblate/trans/forms.py:214
+#: weblate/templates/translation.html:258 weblate/trans/forms.py:214
 msgid "Loading…"
 msgstr "Yükleniyor…"
 
@@ -4444,8 +4460,8 @@ msgstr ""
 "kaldıracak."
 
 #: weblate/templates/screenshots/screenshot_list.html:22
-#: weblate/templates/translation.html:106
-#: weblate/templates/translation.html:330
+#: weblate/templates/translation.html:115
+#: weblate/templates/translation.html:339
 msgid "Strings"
 msgstr "Satır"
 
@@ -4491,7 +4507,7 @@ msgstr "kaynak satırlar"
 msgid "review"
 msgstr "gözden geçir"
 
-#: weblate/templates/source-review.html:26 weblate/trans/forms.py:1044
+#: weblate/templates/source-review.html:26 weblate/trans/forms.py:1050
 #: weblate/trans/models/subproject.py:493
 msgid "Priority"
 msgstr "Öncelik"
@@ -4504,11 +4520,11 @@ msgstr "Yorum"
 msgid "No matching source strings found!"
 msgstr "Eşleşen kaynak satırlar yok!"
 
-#: weblate/templates/source.html:19 weblate/templates/translation.html:132
+#: weblate/templates/source.html:19 weblate/templates/translation.html:141
 msgid "Strings to check"
 msgstr "Denetlenecek satırlar"
 
-#: weblate/templates/source.html:34 weblate/templates/translation.html:156
+#: weblate/templates/source.html:34 weblate/templates/translation.html:165
 msgid "Project Information"
 msgstr "Proje Bilgisi"
 
@@ -4556,6 +4572,21 @@ msgstr "Yapılmış çeviri"
 msgid "Failing checks found"
 msgstr "Başarısız olan denetimler bulundu"
 
+#: weblate/templates/subproject-settings.html:17
+msgid "Basic"
+msgstr ""
+
+#: weblate/templates/subproject-settings.html:19
+#, fuzzy
+#| msgid "Version control system"
+msgid "Version control"
+msgstr "Sürüm kontrol sistemi"
+
+#: weblate/templates/subproject-settings.html:20
+#: weblate/templates/translation.html:44
+msgid "Files"
+msgstr "Dosyalar"
+
 #: weblate/templates/subproject.html:30
 #: weblate/templates/trans/suggestion_list.html:17
 msgid "Translations"
@@ -4569,15 +4600,15 @@ msgstr "Çeviri bildirimleri"
 msgid "Matrix view"
 msgstr "Matris görünümü"
 
-#: weblate/templates/subproject.html:63
+#: weblate/templates/subproject.html:57
 msgid "Source strings review"
 msgstr "Kaynak satırları gözden geçirme"
 
-#: weblate/templates/subproject.html:171
+#: weblate/templates/subproject.html:181
 msgid "Credits"
 msgstr "Katkıda Bulunanlar"
 
-#: weblate/templates/subproject.html:175
+#: weblate/templates/subproject.html:185
 msgid ""
 "Credits list all translators who have contributed to this component in a "
 "given time period. It can be useful for including in your documentation or "
@@ -4587,16 +4618,16 @@ msgstr ""
 "çevirmenleri listeler. Çevirmenlere teşekkür etmek için belgelerinize veya "
 "uygulamanıza dahil etmeniz yararlı olabilir."
 
-#: weblate/templates/subproject.html:180 weblate/templates/subproject.html:201
+#: weblate/templates/subproject.html:190 weblate/templates/subproject.html:211
 #: weblate/wladmin/templates/admin/ssh.html:27
 msgid "Generate"
 msgstr "Üret"
 
-#: weblate/templates/subproject.html:192
+#: weblate/templates/subproject.html:202
 msgid "Contributor stats"
 msgstr "Katılımcı istatistikleri"
 
-#: weblate/templates/subproject.html:196
+#: weblate/templates/subproject.html:206
 msgid "Reports number of strings and words translated by each translator."
 msgstr ""
 "Her bir çevirmen tarafından çevrilmiş satırların ve kelimelerin sayısını "
@@ -4679,7 +4710,7 @@ msgstr "Karşılaştırılanı bu çeviriye değiştir:"
 
 #: weblate/templates/trans/suggestion_list.html:7
 #: weblate/templates/translate.html:198 weblate/templates/translate.html:389
-#: weblate/trans/forms.py:1158
+#: weblate/trans/forms.py:1183
 msgid "Suggestions"
 msgstr "Öneriler"
 
@@ -5018,50 +5049,46 @@ msgstr "Derlenmiş çeviriyi indir"
 msgid "Upload translation"
 msgstr "Çevirileri gönder"
 
-#: weblate/templates/translation.html:44
-msgid "Files"
-msgstr "Dosyalar"
-
-#: weblate/templates/translation.html:56 weblate/templates/translation.html:255
+#: weblate/templates/translation.html:56 weblate/templates/translation.html:264
 msgid "Locking"
 msgstr "Kilitleme"
 
-#: weblate/templates/translation.html:64 weblate/templates/translation.html:192
-#: weblate/trans/models/change.py:202
+#: weblate/templates/translation.html:58 weblate/templates/translation.html:201
+#: weblate/trans/models/change.py:204
 msgid "Automatic translation"
 msgstr "Kendiliğinden Çeviri"
 
-#: weblate/templates/translation.html:96 weblate/templates/widgets.html:56
+#: weblate/templates/translation.html:105 weblate/templates/widgets.html:56
 #: weblate/templates/widgets.html:64 weblate/templates/widgets.html:71
 #: weblate/templates/widgets.html:79
 msgid "Translation status"
 msgstr "Çeviri durumu"
 
-#: weblate/templates/translation.html:137
+#: weblate/templates/translation.html:146
 #, python-format
 msgid "%(count)s word"
 msgid_plural "%(count)s words"
 msgstr[0] "%(count)s kelime"
 msgstr[1] "%(count)s kelime"
 
-#: weblate/templates/translation.html:144
+#: weblate/templates/translation.html:153
 msgid "Other components"
 msgstr "Diğer bileşenler"
 
-#: weblate/templates/translation.html:163
+#: weblate/templates/translation.html:172
 #: weblate/templates/unit-details.html:26
 msgid "Translation file"
 msgstr "Çeviri dosyası"
 
-#: weblate/templates/translation.html:167
+#: weblate/templates/translation.html:176
 msgid "Download"
 msgstr "İndir"
 
-#: weblate/templates/translation.html:184
+#: weblate/templates/translation.html:193
 msgid "Browse all translation changes"
 msgstr "Tüm çeviri değişikliklerine gözat"
 
-#: weblate/templates/translation.html:194
+#: weblate/templates/translation.html:203
 msgid ""
 "Automatic translation takes existing translations in this project and "
 "applies them to the current component. It can be used to push translations "
@@ -5073,7 +5100,7 @@ msgstr ""
 "çevirileri onarmak için ya da çeviri belleğini kullanarak yeni bir bileşeni "
 "çevirmek için kullanılabilir."
 
-#: weblate/templates/translation.html:231
+#: weblate/templates/translation.html:240
 msgid ""
 "Uploaded file will be merged with current translation. In case you want to "
 "overwrite already translated strings, don't forget to enable it."
@@ -5082,61 +5109,61 @@ msgstr ""
 "satırların üzerine yazmak istediğiniz takdirde, bunu etkinleştirmeyi "
 "unutmayın."
 
-#: weblate/templates/translation.html:233
+#: weblate/templates/translation.html:242
 msgid "Uploaded file will be merged with current translation."
 msgstr "Gönderilen dosya şu anki çeviri ile birleştirilecektir."
 
-#: weblate/templates/translation.html:257
+#: weblate/templates/translation.html:266
 msgid "Locking the translation will prevent others to work on translation."
 msgstr ""
 "Çeviriyi kilitlemek diğerlerinin çeviri üzerinde çalışmasını önleyecektir."
 
-#: weblate/templates/translation.html:259
+#: weblate/templates/translation.html:268
 msgid "Locked by:"
 msgstr "Kilitleyen:"
 
-#: weblate/templates/translation.html:260
+#: weblate/templates/translation.html:269
 msgid "Lock expires:"
 msgstr "Kilitleme sona erme:"
 
-#: weblate/templates/translation.html:262
+#: weblate/templates/translation.html:271
 msgid "Translation is currently not locked."
 msgstr "Çeviri şu an kilitli değil."
 
-#: weblate/templates/translation.html:301
-#: weblate/templates/translation.html:348
+#: weblate/templates/translation.html:310
+#: weblate/templates/translation.html:357
 msgid "Review"
 msgstr "Gözden geçirme"
 
-#: weblate/templates/translation.html:303
+#: weblate/templates/translation.html:312
 msgid "Review translations touched by other users."
 msgstr "Diğer kullanıcılar tarafından dokunulan çevirileri gözden geçir."
 
-#: weblate/templates/translation.html:307
+#: weblate/templates/translation.html:316
 msgid "Start review"
 msgstr "Gözden geçirmeyi başlat"
 
-#: weblate/templates/translation.html:329
+#: weblate/templates/translation.html:338
 msgid "Percent"
 msgstr "Yüzde"
 
-#: weblate/templates/translation.html:336
+#: weblate/templates/translation.html:345
 msgid "Total"
 msgstr "Toplam"
 
-#: weblate/templates/translation.html:354
+#: weblate/templates/translation.html:363
 msgid "Failing check"
 msgstr "Başarısız olan denetim"
 
-#: weblate/templates/translation.html:369
+#: weblate/templates/translation.html:378
 msgid "Last activity"
 msgstr "Son etkinlik"
 
-#: weblate/templates/translation.html:373
+#: weblate/templates/translation.html:382
 msgid "Last change"
 msgstr "Son değiştirme"
 
-#: weblate/templates/translation.html:377
+#: weblate/templates/translation.html:386
 msgid "Last author"
 msgstr "Son hazırlayan"
 
@@ -5203,9 +5230,13 @@ msgid "Promoting specific translations"
 msgstr "Belirli çevirilerin tanıtımı"
 
 #: weblate/templates/widgets.html:20
+#, fuzzy
+#| msgid ""
+#| "Besides promoting whole translation project, you can also choose specific "
+#| "language to promote:"
 msgid ""
 "Besides promoting whole translation project, you can also choose specific "
-"language to promote:"
+"language or component to promote:"
 msgstr ""
 "Bütün çeviri projesi tanıtımının yanı sıra, ayrıca tanıtmak için belirli bir "
 "dil seçebilirsiniz:"
@@ -5595,95 +5626,95 @@ msgstr "%s içindeki son değişiklikler"
 msgid "All recent changes made using Weblate in %s."
 msgstr "%s içinde Weblate kullanarak yapılmış tüm son değişiklikler."
 
-#: weblate/trans/formats.py:812
+#: weblate/trans/formats.py:819
 msgid "Automatic detection"
 msgstr "Kendiliğinden algılama"
 
-#: weblate/trans/formats.py:843
+#: weblate/trans/formats.py:850
 msgid "Gettext PO file"
 msgstr "Gettext PO dosyası"
 
-#: weblate/trans/formats.py:914
+#: weblate/trans/formats.py:921
 msgid "Gettext PO file (monolingual)"
 msgstr "Gettext PO dosyası (tek dilli)"
 
-#: weblate/trans/formats.py:921
+#: weblate/trans/formats.py:928
 msgid "Qt Linguist Translation File"
 msgstr "Qt Linguist Çeviri Dosyası"
 
-#: weblate/trans/formats.py:952
+#: weblate/trans/formats.py:959
 msgid "XLIFF Translation File"
 msgstr "XLIFF Çeviri Dosyası"
 
-#: weblate/trans/formats.py:1007
+#: weblate/trans/formats.py:1014
 msgid "XLIFF Translation File with PO extensions"
 msgstr "PO uzantıları olan XLIFF Çeviri Dosyası"
 
-#: weblate/trans/formats.py:1015
+#: weblate/trans/formats.py:1022
 msgid "OS X Strings"
 msgstr "OS X Satırları"
 
-#: weblate/trans/formats.py:1024
+#: weblate/trans/formats.py:1031
 msgid "OS X Strings (UTF-8)"
 msgstr "OS X Satırları (UTF-8)"
 
-#: weblate/trans/formats.py:1032
+#: weblate/trans/formats.py:1039
 msgid "Java Properties (UTF-8)"
 msgstr "Java Özellikleri (UTF-8)"
 
-#: weblate/trans/formats.py:1041
+#: weblate/trans/formats.py:1048
 msgid "Java Properties (UTF-16)"
 msgstr "Java Özellikleri (UTF-16)"
 
-#: weblate/trans/formats.py:1048
+#: weblate/trans/formats.py:1055
 msgid "Java Properties (ISO-8859-1)"
 msgstr "Java Özellikleri (ISO-8859-1)"
 
-#: weblate/trans/formats.py:1070
+#: weblate/trans/formats.py:1077
 msgid "Joomla Language File"
 msgstr "Joomla Dil Dosyası"
 
-#: weblate/trans/formats.py:1080
+#: weblate/trans/formats.py:1087
 msgid "PHP strings"
 msgstr "PHP satırlar"
 
-#: weblate/trans/formats.py:1120
+#: weblate/trans/formats.py:1127
 msgid ".Net resource file"
 msgstr ".Net kaynak dosyası"
 
-#: weblate/trans/formats.py:1131
+#: weblate/trans/formats.py:1138
 msgid "Android String Resource"
 msgstr "Android Satır Kaynağı"
 
-#: weblate/trans/formats.py:1161
+#: weblate/trans/formats.py:1168
 msgid "JSON file"
 msgstr "JSON dosyası"
 
-#: weblate/trans/formats.py:1195
+#: weblate/trans/formats.py:1202
 msgid "JSON nested structure file"
 msgstr "JSON iç içe geçmiş yapı dosyası"
 
-#: weblate/trans/formats.py:1202
+#: weblate/trans/formats.py:1209
 msgid "WebExtension JSON file"
 msgstr "WebExtension JSON dosyası"
 
-#: weblate/trans/formats.py:1211
+#: weblate/trans/formats.py:1218
 msgid "CSV file"
 msgstr "CSV dosyası"
 
-#: weblate/trans/formats.py:1272
+#: weblate/trans/formats.py:1289
 msgid "Simple CSV file"
 msgstr "Basit CSV dosyası"
 
-#: weblate/trans/formats.py:1309
+#: weblate/trans/formats.py:1326
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Basit CSV dosyası (ISO-8859-1)"
 
-#: weblate/trans/formats.py:1316
+#: weblate/trans/formats.py:1333
 msgid "YAML file"
 msgstr "YAML dosyası"
 
-#: weblate/trans/formats.py:1354
+#: weblate/trans/formats.py:1371
 msgid "Ruby YAML file"
 msgstr "Ruby YAML dosyası"
 
@@ -5799,42 +5830,42 @@ msgstr "Hazırlayanın epostası"
 msgid "Search filter"
 msgstr "Arama süzgeci"
 
-#: weblate/trans/forms.py:534 weblate/trans/models/translation.py:856
-#: weblate/trans/models/translation.py:898
+#: weblate/trans/forms.py:534 weblate/trans/models/translation.py:877
+#: weblate/trans/models/translation.py:919
 msgid "All strings"
 msgstr "Tüm satırlar"
 
-#: weblate/trans/forms.py:535 weblate/trans/models/translation.py:925
+#: weblate/trans/forms.py:535 weblate/trans/models/translation.py:946
 msgid "Not translated strings"
 msgstr "Çevrilmemiş satır"
 
-#: weblate/trans/forms.py:536 weblate/trans/models/translation.py:916
+#: weblate/trans/forms.py:536 weblate/trans/models/translation.py:937
 msgid "Strings needing action"
 msgstr "Eylem gerektiren satır"
 
-#: weblate/trans/forms.py:537 weblate/trans/models/translation.py:907
+#: weblate/trans/forms.py:537 weblate/trans/models/translation.py:928
 msgid "Translated strings"
 msgstr "Çevrilmiş satır"
 
-#: weblate/trans/forms.py:538 weblate/trans/models/translation.py:934
+#: weblate/trans/forms.py:538 weblate/trans/models/translation.py:955
 msgid "Strings marked for review"
 msgstr "Gözden geçirme için işaretlenen satır"
 
-#: weblate/trans/forms.py:539 weblate/trans/models/translation.py:943
+#: weblate/trans/forms.py:539 weblate/trans/models/translation.py:964
 msgid "Strings with suggestions"
 msgstr "Önerileri olan satır"
 
-#: weblate/trans/forms.py:540 weblate/trans/models/translation.py:884
-#: weblate/trans/models/translation.py:971
+#: weblate/trans/forms.py:540 weblate/trans/models/translation.py:905
+#: weblate/trans/models/translation.py:992
 msgid "Strings with comments"
 msgstr "Yorumları olan satır"
 
-#: weblate/trans/forms.py:541 weblate/trans/models/translation.py:864
-#: weblate/trans/models/translation.py:951
+#: weblate/trans/forms.py:541 weblate/trans/models/translation.py:885
+#: weblate/trans/models/translation.py:972
 msgid "Strings with any failing checks"
 msgstr "Başarısız olan herhangi bir denetime sahip satırlar"
 
-#: weblate/trans/forms.py:542 weblate/trans/models/translation.py:980
+#: weblate/trans/forms.py:542 weblate/trans/models/translation.py:1001
 msgid "Random strings for review"
 msgstr "Gözden geçirme için rasgele satır"
 
@@ -5915,7 +5946,7 @@ msgctxt "String to concatenate search and filter names"
 msgid "{filter_name}, {search_name}"
 msgstr "{filter_name}, {search_name}"
 
-#: weblate/trans/forms.py:739
+#: weblate/trans/forms.py:739 weblate/trans/forms.py:968
 msgid "All languages"
 msgstr "Tüm diller"
 
@@ -5967,7 +5998,7 @@ msgstr "Var olanın üzerine yaz"
 msgid "Add as other translation"
 msgstr "Diğer çeviri olarak ekle"
 
-#: weblate/trans/forms.py:895 weblate/trans/forms.py:1111
+#: weblate/trans/forms.py:895 weblate/trans/forms.py:1117
 msgid "Starting date"
 msgstr "Başlangıç tarihi"
 
@@ -6002,28 +6033,30 @@ msgstr "Kaynak satır yorumu, bu satırı değiştirmek için öneriler"
 msgid "Translation comment, discussions with other translators"
 msgstr "Çeviri yorumu, diğer çevirmenler ile tartışmalar"
 
-#: weblate/trans/forms.py:968
-msgid "Whole project"
-msgstr "Bütün proje"
+#: weblate/trans/forms.py:972
+#, fuzzy
+#| msgid "Components"
+msgid "All components"
+msgstr "Bileşenler"
 
-#: weblate/trans/forms.py:1006
+#: weblate/trans/forms.py:1012
 #, python-brace-format
 msgid "Similar translation already exists in the project ({0})!"
 msgstr "Benzer çeviri projede ({0}) zaten var!"
 
-#: weblate/trans/forms.py:1025
+#: weblate/trans/forms.py:1031
 msgid "Please select"
 msgstr "Lütfen seçin"
 
-#: weblate/trans/forms.py:1047
+#: weblate/trans/forms.py:1053
 msgid "Strings with higher priority are offered first to translators."
 msgstr "Önce yüksek öncelikli satırlar çevirmenlere sunulur."
 
-#: weblate/trans/forms.py:1054
+#: weblate/trans/forms.py:1060
 msgid "Check flags"
 msgstr "Denetim bayrakları"
 
-#: weblate/trans/forms.py:1061
+#: weblate/trans/forms.py:1067
 #, python-brace-format
 msgid ""
 "Please enter a comma separated list of check flags, see <a href="
@@ -6032,11 +6065,11 @@ msgstr ""
 "Lütfen denetim bayraklarının virgülle ayrılmış bir listesini girin, daha çok "
 "ayrıntı için <a href=\"{url}\">belgelere</a> bakın."
 
-#: weblate/trans/forms.py:1079
+#: weblate/trans/forms.py:1085
 msgid "User to add"
 msgstr "Eklemek için kullanıcı"
 
-#: weblate/trans/forms.py:1081
+#: weblate/trans/forms.py:1087
 msgid ""
 "Please provide username or email. User needs to already have an active "
 "account in Weblate."
@@ -6044,63 +6077,69 @@ msgstr ""
 "Lütfen kullanıcı adı veya eposta verin. Kullanıcının Weblate'te zaten aktif "
 "bir hesaba sahip olması gerekir."
 
-#: weblate/trans/forms.py:1095
+#: weblate/trans/forms.py:1101
 msgid "No matching user found!"
 msgstr "Eşleşen kullanıcı yok!"
 
-#: weblate/trans/forms.py:1097
+#: weblate/trans/forms.py:1103
 msgid "More users matched!"
 msgstr "Daha çok kullanıcı eşleşti!"
 
-#: weblate/trans/forms.py:1102
+#: weblate/trans/forms.py:1108
 msgid "Report format"
 msgstr "Bildirim biçimi"
 
-#: weblate/trans/forms.py:1103
+#: weblate/trans/forms.py:1109
 msgid "Choose file format for the report"
 msgstr "Bildirim için dosya biçimi seçin"
 
-#: weblate/trans/forms.py:1105
+#: weblate/trans/forms.py:1111
 msgid "reStructuredText"
 msgstr "reStructuredText"
 
-#: weblate/trans/forms.py:1106
+#: weblate/trans/forms.py:1112
 msgid "JSON"
 msgstr "JSON"
 
-#: weblate/trans/forms.py:1107
+#: weblate/trans/forms.py:1113
 msgid "HTML"
 msgstr "HTML"
 
-#: weblate/trans/forms.py:1115
+#: weblate/trans/forms.py:1121
 msgid "Ending date"
 msgstr "Bitiş tarihi"
 
-#: weblate/trans/forms.py:1164
-msgid "Commit messages"
-msgstr "İletileri işle"
+#: weblate/trans/forms.py:1145
+#, fuzzy
+#| msgid "Actions"
+msgid "Locations"
+msgstr "Eylemler"
 
-#: weblate/trans/forms.py:1170
-msgid "Languages processing"
-msgstr "Dilleri işleme"
-
-#: weblate/trans/forms.py:1179
-msgid "Upstream links"
-msgstr "Yukarı akım bağlantıları"
-
-#: weblate/trans/forms.py:1184
-msgid "Translation settings"
-msgstr "Çeviri ayarları"
-
-#: weblate/trans/forms.py:1190
+#: weblate/trans/forms.py:1149
 msgid "Version control settings"
 msgstr "Sürüm kontrol ayarları"
 
-#: weblate/trans/forms.py:1211
+#: weblate/trans/forms.py:1155
+msgid "Commit messages"
+msgstr "İletileri işle"
+
+#: weblate/trans/forms.py:1189
+msgid "Translation settings"
+msgstr "Çeviri ayarları"
+
+#: weblate/trans/forms.py:1217
+msgid "Upstream links"
+msgstr "Yukarı akım bağlantıları"
+
+#: weblate/trans/forms.py:1241
+msgid "Languages processing"
+msgstr "Dilleri işleme"
+
+#: weblate/trans/forms.py:1274
 msgid "Search string"
 msgstr "Arama satırı"
 
-#: weblate/trans/forms.py:1216
+#: weblate/trans/forms.py:1279
 msgid "Replacement string"
 msgstr "Değiştirme satırı"
 
@@ -6176,111 +6215,111 @@ msgstr "Reklam"
 msgid "Advertisements"
 msgstr "Reklamlar"
 
-#: weblate/trans/models/change.py:196
+#: weblate/trans/models/change.py:198
 msgid "Resource update"
 msgstr "Kaynak güncellemesi"
 
-#: weblate/trans/models/change.py:197
+#: weblate/trans/models/change.py:199
 msgid "Translation completed"
 msgstr "Çeviri tamamlandı"
 
-#: weblate/trans/models/change.py:198
+#: weblate/trans/models/change.py:200
 msgid "Translation changed"
 msgstr "Çeviri değiştirildi"
 
-#: weblate/trans/models/change.py:199 weblate/trans/models/subproject.py:405
+#: weblate/trans/models/change.py:201 weblate/trans/models/subproject.py:405
 msgid "New translation"
 msgstr "Yeni Çeviri"
 
-#: weblate/trans/models/change.py:200
+#: weblate/trans/models/change.py:202
 msgid "Comment added"
 msgstr "Yorum eklendi"
 
-#: weblate/trans/models/change.py:201
+#: weblate/trans/models/change.py:203
 msgid "Suggestion added"
 msgstr "Öneri eklendi"
 
-#: weblate/trans/models/change.py:203
+#: weblate/trans/models/change.py:205
 msgid "Suggestion accepted"
 msgstr "Öneri kabul edildi"
 
-#: weblate/trans/models/change.py:204
+#: weblate/trans/models/change.py:206
 msgid "Translation reverted"
 msgstr "Çeviri geri alındı"
 
-#: weblate/trans/models/change.py:205
+#: weblate/trans/models/change.py:207
 msgid "Translation uploaded"
 msgstr "Çeviri gönderildi"
 
-#: weblate/trans/models/change.py:206
+#: weblate/trans/models/change.py:208
 msgid "Glossary added"
 msgstr "Terim sözlüğüne eklendi"
 
-#: weblate/trans/models/change.py:207
+#: weblate/trans/models/change.py:209
 msgid "Glossary updated"
 msgstr "Terim sözlüğü güncellendi"
 
-#: weblate/trans/models/change.py:208
+#: weblate/trans/models/change.py:210
 msgid "Glossary uploaded"
 msgstr "Terim sözlüğü gönderildi"
 
-#: weblate/trans/models/change.py:209
+#: weblate/trans/models/change.py:211
 msgid "New source string"
 msgstr "Yeni kaynak satır"
 
-#: weblate/trans/models/change.py:210
+#: weblate/trans/models/change.py:212
 msgid "Component locked"
 msgstr "Bileşen kilitli"
 
-#: weblate/trans/models/change.py:211
+#: weblate/trans/models/change.py:213
 msgid "Component unlocked"
 msgstr "Bileşen kilitli değil"
 
-#: weblate/trans/models/change.py:212
+#: weblate/trans/models/change.py:214
 msgid "Detected duplicate string"
 msgstr "Aynı olan satır algılandı"
 
-#: weblate/trans/models/change.py:213
+#: weblate/trans/models/change.py:215
 msgid "Committed changes"
 msgstr "Değişiklikler işlendi"
 
-#: weblate/trans/models/change.py:214
+#: weblate/trans/models/change.py:216
 msgid "Pushed changes"
 msgstr "Değişiklikler yollandı"
 
-#: weblate/trans/models/change.py:215
+#: weblate/trans/models/change.py:217
 msgid "Reset repository"
 msgstr "Havuzu sıfırla"
 
-#: weblate/trans/models/change.py:216
+#: weblate/trans/models/change.py:218
 msgid "Merged repository"
 msgstr "Havuz birleştirildi"
 
-#: weblate/trans/models/change.py:217
+#: weblate/trans/models/change.py:219
 msgid "Rebased repository"
 msgstr "Havuz yeniden konumlandı"
 
-#: weblate/trans/models/change.py:218
+#: weblate/trans/models/change.py:220
 msgid "Failed merge on repository"
 msgstr "Havuzda birleştirme başarısız"
 
-#: weblate/trans/models/change.py:219
+#: weblate/trans/models/change.py:221
 msgid "Failed rebase on repository"
 msgstr "Havuzda yeniden konumlama başarısız"
 
-#: weblate/trans/models/change.py:220
+#: weblate/trans/models/change.py:222
 msgid "Parse error"
 msgstr "Ayrıştırma hatası"
 
-#: weblate/trans/models/change.py:221
+#: weblate/trans/models/change.py:223
 msgid "Removed translation"
 msgstr "Kaldırılan çeviri"
 
-#: weblate/trans/models/change.py:222
+#: weblate/trans/models/change.py:224
 msgid "Suggestion removed"
 msgstr "Öneri kaldırıldı"
 
-#: weblate/trans/models/change.py:295
+#: weblate/trans/models/change.py:297
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr ""
@@ -6787,7 +6826,7 @@ msgstr ""
 msgid "Components with higher priority are offered first to translators."
 msgstr "Önce yüksek öncelikli bileşenler çevirmenlere sunulur."
 
-#: weblate/trans/models/subproject.py:678
+#: weblate/trans/models/subproject.py:681
 msgid ""
 "Failed to verify SSH host key, please add them in SSH page in the admin "
 "interface."
@@ -6795,74 +6834,74 @@ msgstr ""
 "SSH makine anahtarı doğrulanamadı, lütfen bunları yönetici arayüzündeki SSH "
 "sayfasına ekleyin."
 
-#: weblate/trans/models/subproject.py:682
+#: weblate/trans/models/subproject.py:685
 #, python-format
 msgid "Failed to fetch repository: %s"
 msgstr "Havuz alınamadı: %s"
 
-#: weblate/trans/models/subproject.py:772
+#: weblate/trans/models/subproject.py:775
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "%s için yollama devre dışı."
 
-#: weblate/trans/models/subproject.py:819
+#: weblate/trans/models/subproject.py:822
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "%s projesindeki uzak dala yollanamadı."
 
-#: weblate/trans/models/subproject.py:849
+#: weblate/trans/models/subproject.py:852
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "%s projesindeki uzak dal sıfırlanamadı."
 
-#: weblate/trans/models/subproject.py:923
+#: weblate/trans/models/subproject.py:926
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "Dalımız, %s uzak dalının üstüne yeniden konumlanamadı."
 
-#: weblate/trans/models/subproject.py:928
+#: weblate/trans/models/subproject.py:931
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Uzak dal, %s projesinin içine birleştirilemedi."
 
-#: weblate/trans/models/subproject.py:1113
+#: weblate/trans/models/subproject.py:1116
 msgid "Invalid link to a Weblate project, can not link to linked repository!"
 msgstr ""
 "Weblate projesi için geçersiz bağlantı, bağlantılı havuza bağlantılanamıyor!"
 
-#: weblate/trans/models/subproject.py:1120
+#: weblate/trans/models/subproject.py:1123
 msgid "Invalid link to a Weblate project, can not link to self!"
 msgstr "Weblate projesi için geçersiz bağlantı, kendine bağlantılanamıyor!"
 
-#: weblate/trans/models/subproject.py:1127
+#: weblate/trans/models/subproject.py:1130
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
 "Weblate projesi için geçersiz bağlantı, weblate://project/component adresini "
 "kullanın."
 
-#: weblate/trans/models/subproject.py:1133
+#: weblate/trans/models/subproject.py:1136
 msgid "Push URL is not used when repository is linked!"
 msgstr "Havuz bağlantılandığında URL yolla kullanılmaz!"
 
-#: weblate/trans/models/subproject.py:1139
+#: weblate/trans/models/subproject.py:1142
 msgid "Export URL is not used when repository is linked!"
 msgstr "Havuz bağlantılandığında dışa aktarma URL'si kullanılmaz!"
 
-#: weblate/trans/models/subproject.py:1147
+#: weblate/trans/models/subproject.py:1150
 msgid "The mask did not match any files!"
 msgstr "Maske herhangi bir dosyayla eşleşmedi!"
 
-#: weblate/trans/models/subproject.py:1155
+#: weblate/trans/models/subproject.py:1158
 #, python-format
 msgid "Got empty language code for %s, please check filemask!"
 msgstr "%s için boş dil kodu aldınız, lütfen dosya maskesini kontrol edin!"
 
-#: weblate/trans/models/subproject.py:1160
+#: weblate/trans/models/subproject.py:1163
 #, python-format
 msgid "Language code %s is too long, please check filemask!"
 msgstr "Dil kodu %s çok uzun, lütfen dosya maskesini kontrol edin!"
 
-#: weblate/trans/models/subproject.py:1164
+#: weblate/trans/models/subproject.py:1167
 #, python-format
 msgid ""
 "There are more files for single language (%s), please adjust the mask and "
@@ -6871,7 +6910,7 @@ msgstr ""
 "Tek dil için daha çok dosya var (%s), lütfen maskeyi ayarlayın ve değişik "
 "kaynakları çevirme için bileşenleri kullanın."
 
-#: weblate/trans/models/subproject.py:1170
+#: weblate/trans/models/subproject.py:1173
 #, python-format
 msgid ""
 "Multiple translations were mapped to a single language code (%s). You should "
@@ -6882,21 +6921,21 @@ msgstr ""
 "bir taneye eşlemesini önlemek için SIMPLIFY_LANGUAGES seçeneğini devre dışı "
 "kılmalısınız."
 
-#: weblate/trans/models/subproject.py:1189
+#: weblate/trans/models/subproject.py:1192
 msgid "File does not seem to be valid!"
 msgstr "Dosya geçerli görünmüyor!"
 
-#: weblate/trans/models/subproject.py:1197
+#: weblate/trans/models/subproject.py:1200
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "%d eşleşen dosya biçimi tanınamadı."
 
-#: weblate/trans/models/subproject.py:1206
+#: weblate/trans/models/subproject.py:1209
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "%d eşleşen dosya ayrıştırılamadı!"
 
-#: weblate/trans/models/subproject.py:1215
+#: weblate/trans/models/subproject.py:1218
 msgid ""
 "Chosen file format does not support adding new translations as chosen in "
 "project settings."
@@ -6904,7 +6943,7 @@ msgstr ""
 "Dosya biçiminin seçilmesi proje ayarlarında seçildiği gibi yeni çevirileri "
 "eklemeyi desteklemez."
 
-#: weblate/trans/models/subproject.py:1223
+#: weblate/trans/models/subproject.py:1226
 msgid ""
 "You have configured Weblate to add new translation files, but did not "
 "provide base file to do that!"
@@ -6912,11 +6951,11 @@ msgstr ""
 "Weblate'i yeni çeviri dosyalarını eklemek için yapılandırdınız, ancak bunu "
 "yapmak için temel dosyayı vermediniz!"
 
-#: weblate/trans/models/subproject.py:1227
+#: weblate/trans/models/subproject.py:1230
 msgid "Format of base file for new translations was not recognized!"
 msgstr "Yeni çeviriler için ana dosyanın biçimi tanınmadı!"
 
-#: weblate/trans/models/subproject.py:1232
+#: weblate/trans/models/subproject.py:1235
 msgid ""
 "Base file for new translations is not used because of component settings. "
 "You probably want to enable automatic adding of new translations."
@@ -6925,33 +6964,33 @@ msgstr ""
 "Muhtemelen yeni çevirilerin kendiliğinden eklenmesini etkinleştirmek "
 "istiyorsunuz."
 
-#: weblate/trans/models/subproject.py:1243
+#: weblate/trans/models/subproject.py:1246
 msgid "You can not use base file with bilingual translation!"
 msgstr "İki dilli çevirisi olan ana dosyayı kullanamazsınız!"
 
-#: weblate/trans/models/subproject.py:1248
+#: weblate/trans/models/subproject.py:1251
 msgid "Using .pot file as base file is not supported!"
 msgstr ".pot dosyasını ana dosya gibi kullanmak desteklenmiyor!"
 
-#: weblate/trans/models/subproject.py:1255
+#: weblate/trans/models/subproject.py:1258
 msgid "Template file not found!"
 msgstr "Şablon dosyası bulunamadı!"
 
-#: weblate/trans/models/subproject.py:1261
+#: weblate/trans/models/subproject.py:1264
 #, python-format
 msgid "Failed to parse translation base file: %s"
 msgstr "Çeviri ana dosyası ayrıştırılamadı: %s"
 
-#: weblate/trans/models/subproject.py:1271
+#: weblate/trans/models/subproject.py:1274
 #, python-brace-format
 msgid "Template language ({0}) does not match project source language ({1})!"
 msgstr "Şablon dili ({0}) proje kaynak dili ({1}) ile eşleşmiyor!"
 
-#: weblate/trans/models/subproject.py:1278
+#: weblate/trans/models/subproject.py:1281
 msgid "You can not use monolingual translation without base file!"
 msgstr "Ana dosya olmadan tek dilli çeviriyi kullanamazsınız!"
 
-#: weblate/trans/models/subproject.py:1289
+#: weblate/trans/models/subproject.py:1292
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
@@ -6959,43 +6998,43 @@ msgstr ""
 "Yeni dil eklemek için lütfen ya yönergeler URL'sindekini doldurun ya da "
 "değişik seçenek kullanın."
 
-#: weblate/trans/models/subproject.py:1296
+#: weblate/trans/models/subproject.py:1299
 msgid "License URL can not be used without license summary."
 msgstr "Lisans URL'si lisans özeti olmadan kullanılamaz."
 
-#: weblate/trans/models/subproject.py:1316
+#: weblate/trans/models/subproject.py:1319
 msgid "Changing version control system is not supported!"
 msgstr "Sürüm kontrol sisteminin değiştirilmesi desteklenmiyor!"
 
-#: weblate/trans/models/subproject.py:1321
+#: weblate/trans/models/subproject.py:1324
 #, python-brace-format
 msgid "Unsupported file format: {0}"
 msgstr "Desteklenmeyen dosya biçimi: {0}"
 
-#: weblate/trans/models/subproject.py:1328
+#: weblate/trans/models/subproject.py:1331
 #, python-format
 msgid "Failed to update repository: %s"
 msgstr "Havuz güncellenemedi: %s"
 
-#: weblate/trans/models/subproject.py:1348
+#: weblate/trans/models/subproject.py:1351
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr "Geçersiz düzenli ifadeden dolayı dosya eşleşmeleri doğrulanamıyor."
 
-#: weblate/trans/models/subproject.py:1358
+#: weblate/trans/models/subproject.py:1361
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
 "Önerileri kendiliğinden kabul etmek sadece oylamanın etkinleştirilmesi ile "
 "çalışabilir!"
 
-#: weblate/trans/models/subproject.py:1537
+#: weblate/trans/models/subproject.py:1543
 msgid "Failed to add new translation file!"
 msgstr "Yeni çeviri dosyası eklenemedi!"
 
-#: weblate/trans/models/subproject.py:1559
+#: weblate/trans/models/subproject.py:1565
 msgid "Translation file already exists!"
 msgstr "Çeviri dosyası zaten var!"
 
-#: weblate/trans/models/translation.py:218
+#: weblate/trans/models/translation.py:217
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -7004,23 +7043,15 @@ msgstr ""
 "%s dosya adı havuzda bulunamadı! Yeni çeviri eklemek için, havuza dil "
 "dosyasını ekleyin."
 
-#: weblate/trans/models/translation.py:227
+#: weblate/trans/models/translation.py:226
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "%(file)s dosyası ayrıştırılamadı: %(error)s"
 
-#: weblate/trans/models/translation.py:262
+#: weblate/trans/models/translation.py:261
 #, python-format
 msgid "This translation is locked by %(user)s!"
 msgstr "Bu çeviri %(user)s tarafından kilitli!"
-
-#: weblate/trans/models/unit.py:607
-msgid "Failed to store message in the backend, lock timeout occurred!"
-msgstr "İleti, arka uçta depolanamadı, kilitleme zaman aşımı meydana geldi!"
-
-#: weblate/trans/models/unit.py:619
-msgid "Message not found in backend storage, it is probably corrupted."
-msgstr "İleti arka uç depolamada bulunamadı, muhtemelen bozuktur."
 
 #: weblate/trans/models/whiteboard.py:88
 msgid "Category"
@@ -7455,7 +7486,7 @@ msgstr "Kullanıcı bu projeye eklendi."
 msgid "User has been removed from this project."
 msgstr "Kullanıcı bu projeden kaldırıldı."
 
-#: weblate/trans/views/basic.py:128
+#: weblate/trans/views/basic.py:126
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to login next time."
@@ -7463,7 +7494,7 @@ msgstr ""
 "Hesabınızı etkinleştirdiniz, şimdi bir dahaki seferde oturum açabilmek için "
 "parola ayarlamalısınız."
 
-#: weblate/trans/views/basic.py:140
+#: weblate/trans/views/basic.py:138
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
@@ -7471,25 +7502,25 @@ msgstr ""
 "Aradığınız proje kaldırılmış bulunmakta, ancak isterseniz diğerlerine "
 "katkıda bulunabilirsiniz."
 
-#: weblate/trans/views/basic.py:160
+#: weblate/trans/views/basic.py:158
 msgid "Please set your full name in your profile."
 msgstr "Lütfen profilinizde tam adınızı ayarlayın."
 
-#: weblate/trans/views/basic.py:292
+#: weblate/trans/views/basic.py:290
 #, python-format
 msgid "Search for %s"
 msgstr "%s ara"
 
-#: weblate/trans/views/basic.py:298
+#: weblate/trans/views/basic.py:296
 msgid "Invalid search query!"
 msgstr "Geçersiz arama sorgusu!"
 
-#: weblate/trans/views/basic.py:328
+#: weblate/trans/views/basic.py:326
 #, python-brace-format
 msgid "Get involved in {0}!"
 msgstr "{0} içinde yer alın!"
 
-#: weblate/trans/views/basic.py:334
+#: weblate/trans/views/basic.py:332
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
@@ -7503,7 +7534,7 @@ msgstr ""
 
 #. Translators: line of text in engagement widget, please use your
 #. language name instead of English
-#: weblate/trans/views/basic.py:342
+#: weblate/trans/views/basic.py:340
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -7513,19 +7544,11 @@ msgstr ""
 "Türkçe dilinde <a href=\"%(url)s\">%(project)s çeviri projesi</a>, çeviri "
 "için şu anda %(total)s satır içeriyor ve %%%(percent)s tamamlandı."
 
-#: weblate/trans/views/basic.py:370 weblate/trans/views/basic.py:440
-msgid "Settings saved"
-msgstr "Ayarlar kaydedildi"
-
-#: weblate/trans/views/basic.py:375 weblate/trans/views/basic.py:445
-msgid "Invalid settings, please check the form for errors!"
-msgstr "Geçersiz ayarlar, lütfen formu hatalara karşı denetleyin!"
-
-#: weblate/trans/views/basic.py:607
+#: weblate/trans/views/basic.py:574
 msgid "Weblate statistics"
 msgstr "Weblate istatistikleri"
 
-#: weblate/trans/views/basic.py:690
+#: weblate/trans/views/basic.py:657
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "Yeni bir çeviri için istek projenin geliştiricilerine gönderildi."
@@ -7814,6 +7837,14 @@ msgstr "Tüm bileşenler şu an çeviri güncellemeleri için kilitli!"
 #: weblate/trans/views/lock.py:160
 msgid "Project is now open for translation updates."
 msgstr "Proje şu an çeviri güncellemeleri için açık."
+
+#: weblate/trans/views/settings.py:48 weblate/trans/views/settings.py:83
+msgid "Settings saved"
+msgstr "Ayarlar kaydedildi"
+
+#: weblate/trans/views/settings.py:53 weblate/trans/views/settings.py:90
+msgid "Invalid settings, please check the form for errors!"
+msgstr "Geçersiz ayarlar, lütfen formu hatalara karşı denetleyin!"
 
 #: weblate/trans/views/source.py:100
 #, python-format
@@ -8149,6 +8180,15 @@ msgstr "Önbelleklenmiş şablon yükleyici"
 msgid "Admin static files"
 msgstr "Yönetici sabit dosyaları"
 
+#~ msgid "Whole project"
+#~ msgstr "Bütün proje"
+
+#~ msgid "Failed to store message in the backend, lock timeout occurred!"
+#~ msgstr "İleti, arka uçta depolanamadı, kilitleme zaman aşımı meydana geldi!"
+
+#~ msgid "Message not found in backend storage, it is probably corrupted."
+#~ msgstr "İleti arka uç depolamada bulunamadı, muhtemelen bozuktur."
+
 #~ msgid ""
 #~ "Could not find any matching translation in this component list, probably "
 #~ "not translated to your languages."
@@ -8214,9 +8254,6 @@ msgstr "Yönetici sabit dosyaları"
 
 #~ msgid "You must type the same password each time."
 #~ msgstr "Sürekli aynı parolayı girmek zorundasınız."
-
-#~ msgid "User with this email address was not found."
-#~ msgstr "Bu eposta adresiyle kullanıcı bulunamadı."
 
 #~ msgid ""
 #~ "Get involved in %(project)s, which is currently being translated into "
