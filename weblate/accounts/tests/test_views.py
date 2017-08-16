@@ -171,6 +171,22 @@ class ViewTest(TestCase):
         )
         self.assertContains(response, '="/activity/')
 
+    def test_suggestions(self):
+        """Test user pages."""
+        # Setup user
+        user = self.get_user()
+
+        # Get public profile
+        response = self.client.get(
+            reverse('user_suggestions', kwargs={'user': user.username})
+        )
+        self.assertContains(response, 'Suggestions')
+
+        response = self.client.get(
+            reverse('user_suggestions', kwargs={'user': '-'})
+        )
+        self.assertContains(response, 'Suggestions')
+
     def test_login(self):
         user = self.get_user()
 
