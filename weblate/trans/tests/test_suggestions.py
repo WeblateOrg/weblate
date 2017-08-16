@@ -156,14 +156,14 @@ class SuggestionsTest(ViewTestCase):
         self.add_suggestion_2()
 
         # Get ids of created suggestions
-        suggestions = [sug.pk for sug in self.get_unit().suggestions()]
-        self.assertEqual(len(suggestions), 2)
+        suggestions = self.get_unit().suggestions()
+        self.assertEqual(suggestions.count(), 2)
 
         # Accept one of suggestions
         response = self.edit_unit(
             'Hello, world!\n',
             '',
-            accept=suggestions[0],
+            accept=suggestions.get(target='Ahoj svete!\n').pk,
         )
         self.assert_redirects_offset(response, translate_url, 1)
 
