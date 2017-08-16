@@ -127,6 +127,7 @@ class Suggestion(models.Model, UserDisplayMixin):
             ('vote_suggestion', 'Can vote for suggestion'),
         )
         app_label = 'trans'
+        ordering = ['-timestamp']
 
     def __str__(self):
         return 'suggestion for {0} by {1}'.format(

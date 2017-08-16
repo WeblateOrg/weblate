@@ -792,14 +792,21 @@ class SuggestionView(ListView):
     model = Suggestion
 
     def get_queryset(self):
+        if self.kwargs['user'] == '-':
+            user = None
+        else:
+            user = get_object_or_404(User, username=self.kwargs['user'])
         return Suggestion.objects.filter(
-            user=get_object_or_404(User, username=self.kwargs['user']),
+            user=user,
             project__in=Project.objects.all_acl(self.request.user)
         )
 
     def get_context_data(self):
         result = super(SuggestionView, self).get_context_data()
-        user = get_object_or_404(User, username=self.kwargs['user'])
+        if self.kwargs['user'] == '-':
+            user = User.objects.get(username=settings.ANONYMOUS_USER_NAME)
+        else:
+            user = get_object_or_404(User, username=self.kwargs['user'])
         result['page_user'] = user
         result['page_profile'] = user.profile
         return result
