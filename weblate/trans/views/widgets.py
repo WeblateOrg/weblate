@@ -60,7 +60,8 @@ def widgets(request, project):
             lang = Language.objects.get(code=form.cleaned_data['lang']).code
         if form.cleaned_data['component']:
             component = SubProject.objects.get(
-                slug=form.cleaned_data['component']
+                slug=form.cleaned_data['component'],
+                project=obj
             ).slug
 
     kwargs = {'project': obj.slug}
