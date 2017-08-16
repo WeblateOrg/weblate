@@ -163,7 +163,7 @@ class SuggestionsTest(ViewTestCase):
         response = self.edit_unit(
             'Hello, world!\n',
             '',
-            accept=suggestions[1],
+            accept=suggestions[0],
         )
         self.assert_redirects_offset(response, translate_url, 1)
 
