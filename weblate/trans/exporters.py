@@ -123,7 +123,7 @@ class BaseExporter(object):
                 output.addlocation(location)
         note = self.string_filter(unit.comment)
         if note:
-            output.addnote(note)
+            output.addnote(note, origin='developer')
         if hasattr(output, 'settypecomment'):
             for flag in unit.flags.split(','):
                 if flag:
