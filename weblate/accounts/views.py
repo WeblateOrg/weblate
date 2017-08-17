@@ -671,9 +671,8 @@ def reset_password_set(request):
     """Perform actual password reset."""
     user = User.objects.get(pk=request.session['perform_reset'])
     if user.has_usable_password():
-        request.session.pop('perform_reset')
-        request.session.delete()
-        request.session.create()
+        request.session.flush()
+        request.session.set_expiry(None)
         messages.error(
             request,
             _('Password reset has been already completed!')
@@ -682,10 +681,8 @@ def reset_password_set(request):
     if request.method == 'POST':
         form = SetPasswordForm(user, request.POST)
         if form.is_valid():
-            request.session.pop('perform_reset')
-            request.session.delete()
-            form.save(request)
-            request.session.create()
+            request.session.set_expiry(None)
+            form.save(request, delete_session=True)
             return redirect('login')
     else:
         form = SetPasswordForm(user)

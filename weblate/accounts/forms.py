@@ -417,7 +417,7 @@ class SetPasswordForm(DjangoSetPasswordForm):
     )
 
     # pylint: disable=W0222
-    def save(self, request):
+    def save(self, request, delete_session=False):
         notify_account_activity(
             self.user,
             request,
@@ -429,12 +429,15 @@ class SetPasswordForm(DjangoSetPasswordForm):
         self.user.set_password(password)
         self.user.save(update_fields=['password'])
 
-        # Updating the password logs out all other sessions for the user
-        # except the current one.
-        update_session_auth_hash(request, self.user)
+        if delete_session:
+            request.session.flush()
+        else:
+            # Updating the password logs out all other sessions for the user
+            # except the current one.
+            update_session_auth_hash(request, self.user)
 
-        # Change key for current session
-        request.session.cycle_key()
+            # Change key for current session
+            request.session.cycle_key()
 
         messages.success(
             request,
