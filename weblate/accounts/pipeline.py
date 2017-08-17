@@ -134,7 +134,7 @@ def send_validation(strategy, backend, code, partial_token):
     strategy.request.session['registration-email-sent'] = True
 
     template = 'activation'
-    if strategy.request.session.pop('password_reset', False):
+    if strategy.request.session.get('password_reset', False):
         template = 'reset'
 
     url = '{0}?verification_code={1}&partial_token={2}'.format(
@@ -263,6 +263,7 @@ def revoke_mail_code(strategy, details, **kwargs):
 def ensure_valid(strategy, backend, user, registering_user, weblate_action,
                  weblate_expires, new_association, details, **kwargs):
     """Ensure the activation link is still."""
+
     # Didn't the link expire?
     if weblate_expires < time.time():
         raise AuthMissingParameter(backend, 'expires')

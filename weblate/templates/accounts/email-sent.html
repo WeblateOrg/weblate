@@ -8,10 +8,20 @@
 {% block content %}
 
 <div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Registration almost complete" %}</h4></div>
+  <div class="panel-heading"><h4 class="panel-title">
+{% if is_reset %}
+{% trans "Password reset almost complete" %}
+{% else %}
+{% trans "Registration almost complete" %}
+{% endif %}
+</h4></div>
   <div class="panel-body">
 
+{% if is_reset %}
+<p>{% blocktrans %}You will very soon receive an email with a confirmation link. Please follow this link in order to complete your password reset procedure.{% endblocktrans %}</p>
+{% else %}
 <p>{% blocktrans %}Thank you for registering. You will very soon receive an email with a confirmation link. Please follow this link in order to complete your registration.{% endblocktrans %}</p>
+{% endif %}
 
 <p>{% blocktrans %}Please note that the confirmation link has limited validity. In case it does not work, please register again.{% endblocktrans %}</p>
 

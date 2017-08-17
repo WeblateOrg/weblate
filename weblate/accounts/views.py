@@ -98,14 +98,22 @@ CONTACT_SUBJECTS = {
 }
 
 
-class RegistrationTemplateView(TemplateView):
-    """Class for rendering registration pages."""
+class EmailSentView(TemplateView):
+    """Class for rendering email sent page."""
+    template_name = 'accounts/email-sent.html'
+
     def get_context_data(self, **kwargs):
         """Create context for rendering page."""
-        context = super(RegistrationTemplateView, self).get_context_data(
+        context = super(EmailSentView, self).get_context_data(
             **kwargs
         )
-        context['title'] = _('User registration')
+        if self.request.session.pop('password_reset', False):
+            context['title'] = _('Password reset')
+            context['is_reset'] = True
+        else:
+            context['title'] = _('User registration')
+            context['is_reset'] = True
+
         return context
 
     def get(self, request, *args, **kwargs):
@@ -120,7 +128,7 @@ class RegistrationTemplateView(TemplateView):
         else:
             request.session.pop('registration-email-sent')
 
-        return super(RegistrationTemplateView, self).get(
+        return super(EmailSentView, self).get(
             request, *args, **kwargs
         )
 

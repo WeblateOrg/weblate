@@ -58,9 +58,7 @@ social_urls = [
 urlpatterns = [
     url(
         r'^email-sent/$',
-        weblate.accounts.views.RegistrationTemplateView.as_view(
-            template_name='accounts/email-sent.html',
-        ),
+        weblate.accounts.views.EmailSentView.as_view(),
         name='email-sent'
     ),
     url(r'^password/', weblate.accounts.views.password, name='password'),
