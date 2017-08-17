@@ -216,6 +216,7 @@ ensure to mark the `read_user` scope.
     SOCIAL_AUTH_GITLAB_SECRET = 'Secret'
     SOCIAL_AUTH_GITLAB_SCOPE = ['api']
 
+.. _ldap-auth:
 
 LDAP authentication
 -------------------

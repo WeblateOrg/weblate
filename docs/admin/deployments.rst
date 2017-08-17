@@ -330,6 +330,25 @@ Machine translation settings
 Authentication settings
 ~~~~~~~~~~~~~~~~~~~~~~~
 
+.. envvar:: WEBLATE_AUTH_LDAP_SERVER_URI
+.. envvar:: WEBLATE_AUTH_LDAP_USER_DN_TEMPLATE
+.. envvar:: WEBLATE_AUTH_LDAP_USER_ATTR_MAP
+
+    LDAP authentication configuration.
+
+    **Example:**
+
+    .. code-block:: yaml
+
+        environment:
+          - WEBLATE_AUTH_LDAP_SERVER_URI=ldap://ldap.example.org
+          - WEBLATE_AUTH_LDAP_USER_DN_TEMPLATE=uid=%(user)s,ou=People,dc=example,dc=net
+          - WEBLATE_AUTH_LDAP_USER_ATTR_MAP=first_name:name,email:mail
+
+    .. seealso::
+
+        :ref:`ldap-auth`
+
 .. envvar:: WEBLATE_SOCIAL_AUTH_GITHUB_KEY
 .. envvar:: WEBLATE_SOCIAL_AUTH_GITHUB_SECRET
 
