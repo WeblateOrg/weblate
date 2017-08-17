@@ -262,7 +262,7 @@ class RegistrationTest(BaseRegistrationTest):
 
     @override_settings(REGISTRATION_CAPTCHA=False, AUTH_LOCK_ATTEMPTS=5)
     def test_reset_ratelimit(self):
-        """Test for password reset."""
+        """Test for password reset ratelimiting."""
         User.objects.create_user('testuser', 'test@example.com', 'x')
         self.assertEqual(len(mail.outbox), 0)
 
@@ -272,7 +272,7 @@ class RegistrationTest(BaseRegistrationTest):
                 {'email': 'test@example.com'},
                 follow=True
             )
-            self.assertContains(response, 'Thank you for registering.')
+            self.assertContains(response, 'Password reset almost complete')
 
         # Even though we've asked 10 times for reset, user should get only
         # emails until rate limit is applied
@@ -292,7 +292,7 @@ class RegistrationTest(BaseRegistrationTest):
             },
             follow=True
         )
-        self.assertContains(response, 'Thank you for registering.')
+        self.assertContains(response, 'Password reset almost complete')
         self.assertEqual(len(mail.outbox), 0)
 
     @override_settings(REGISTRATION_CAPTCHA=False)
@@ -781,7 +781,7 @@ class CookieRegistrationTest(BaseRegistrationTest):
             },
             follow=True
         )
-        self.assertContains(response, 'Thank you for registering.')
+        self.assertContains(response, 'Password reset almost complete')
 
         self.assert_registration(reset=True)
 

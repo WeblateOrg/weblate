@@ -134,7 +134,7 @@ def send_validation(strategy, backend, code, partial_token):
     strategy.request.session['registration-email-sent'] = True
 
     template = 'activation'
-    if strategy.request.session.get('password_reset', False):
+    if strategy.request.session['password_reset']:
         template = 'reset'
 
     url = '{0}?verification_code={1}&partial_token={2}'.format(
@@ -218,7 +218,7 @@ def store_params(strategy, user, **kwargs):
         registering_user = None
 
     # Pipeline action
-    if strategy.request.session.get('password_reset', False):
+    if strategy.request.session['password_reset']:
         action = 'reset'
     else:
         action = 'activation'

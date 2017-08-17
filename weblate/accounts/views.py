@@ -107,12 +107,12 @@ class EmailSentView(TemplateView):
         context = super(EmailSentView, self).get_context_data(
             **kwargs
         )
-        if self.request.session.pop('password_reset', False):
+        if kwargs['password_reset']:
             context['title'] = _('Password reset')
             context['is_reset'] = True
         else:
             context['title'] = _('User registration')
-            context['is_reset'] = True
+            context['is_reset'] = False
 
         return context
 
@@ -120,6 +120,7 @@ class EmailSentView(TemplateView):
         if not request.session.get('registration-email-sent'):
             return redirect('home')
 
+        kwargs['password_reset'] = request.session['password_reset']
         # Remove session for not authenticated user here.
         # It is no longer needed and will just cause problems
         # with multiple registrations from single browser.
@@ -548,6 +549,13 @@ def weblate_logout(request):
     )
 
 
+def fake_email_sent(request, reset=False):
+    """Fake redirect to email sent page."""
+    request.session['registration-email-sent'] = True
+    request.session['password_reset'] = reset
+    return redirect('email-sent')
+
+
 @session_ratelimit_post
 @never_cache
 def register(request):
@@ -566,8 +574,7 @@ def register(request):
                     request,
                     'connect'
                 )
-                request.session['registration-email-sent'] = True
-                return redirect('email-sent')
+                return fake_email_sent(request)
             store_userid(request)
             return social_complete(request, 'email')
     else:
@@ -612,8 +619,7 @@ def email_login(request):
                     request,
                     'connect'
                 )
-                request.session['registration-email-sent'] = True
-                return redirect('email-sent')
+                return fake_email_sent(request)
             store_userid(request)
             return social_complete(request, 'email')
     else:
@@ -735,11 +741,9 @@ def reset_password(request):
                     'reset-request'
                 )
                 if not rate_limited:
-                    request.session['password_reset'] = True
-                    store_userid(request)
+                    store_userid(request, True)
                     return social_complete(request, 'email')
-            request.session['registration-email-sent'] = True
-            return redirect('email-sent')
+            return fake_email_sent(request, True)
     else:
         form = ResetForm()
         if settings.REGISTRATION_CAPTCHA:
@@ -817,9 +821,10 @@ class SuggestionView(ListView):
         return result
 
 
-def store_userid(request):
+def store_userid(request, reset=False):
     """Store user ID in the session."""
     request.session['social_auth_user'] = request.user.pk
+    request.session['password_reset'] = reset
 
 
 @require_POST
