@@ -32,7 +32,6 @@ from django.utils.translation import ugettext_lazy as _, pgettext
 from django.contrib.auth import authenticate, password_validation
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
-from django.contrib.auth.hashers import check_password
 from django.contrib.auth.models import User
 from django.core.validators import validate_email
 from django.db.models import Q
@@ -41,7 +40,7 @@ from django.middleware.csrf import rotate_token
 from django.utils.encoding import force_text
 
 from weblate.accounts.auth import try_get_user
-from weblate.accounts.models import Profile, get_all_user_mails, AuditLog
+from weblate.accounts.models import Profile, get_all_user_mails
 from weblate.accounts.captcha import MathCaptcha
 from weblate.accounts.notifications import notify_account_activity
 from weblate.accounts.pipeline import USERNAME_RE
@@ -416,26 +415,6 @@ class SetPasswordForm(DjangoSetPasswordForm):
     new_password2 = PasswordField(
         label=_("New password confirmation"),
     )
-
-    def clean(self):
-        if 'new_password2' not in self.cleaned_data:
-            return self.cleaned_data
-        new_password = self.cleaned_data['new_password2']
-        passwords = []
-        if self.user.has_usable_password():
-            passwords.append(self.user.password)
-
-        for log in AuditLog.objects.get_password(user=self.user):
-            params = log.get_params()
-            if 'password' in params:
-                passwords.append(params['password'])
-
-        for password in passwords:
-            if check_password(new_password, password):
-                raise forms.ValidationError(_(
-                    'You can not change password to the one you were using!'
-                ))
-        return self.cleaned_data
 
     # pylint: disable=W0222
     def save(self, request):

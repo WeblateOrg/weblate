@@ -512,6 +512,17 @@ Notable configuration or dependencies changes:
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
+Upgrade from 2.16 to 2.17
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Follow generic upgrade instructions, there is no special change.
+
+Notable configuration or dependencies changes:
+
+* There is new validator included in defailt ``AUTH_PASSWORD_VALIDATORS`` setting.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
 .. _django-17:
 
 Upgrading to Django 1.7

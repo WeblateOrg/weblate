@@ -21,13 +21,16 @@
 from __future__ import unicode_literals
 
 
+from django.contrib.auth.hashers import check_password
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _
+
+from weblate.accounts.models import AuditLog
 
 
 class CharsPasswordValidator(object):
     """
-    Validate whether the password is alphanumeric.
+    Validate whether the password is not only whitespace or single char.
     """
     def validate(self, password, user=None):
         if not password:
@@ -48,4 +51,33 @@ class CharsPasswordValidator(object):
         return _(
             "Your password can't consist of "
             "single character or whitespace only."
+        )
+
+
+class PastPasswordsValidator(object):
+    """
+    Validate whether the password was not used before.
+    """
+    def validate(self, password, user=None):
+        if user is not None:
+            passwords = []
+            if user.has_usable_password():
+                passwords.append(user.password)
+
+            for log in AuditLog.objects.get_password(user=user):
+                params = log.get_params()
+                if 'password' in params:
+                    passwords.append(params['password'])
+
+            for old in passwords:
+                if check_password(password, old):
+                    raise ValidationError(
+                        _('Can not use previously used password!'),
+                        code='password-past'
+                    )
+
+    def get_help_text(self):
+        return _(
+            "Your password can't match password "
+            "you have used in the past."
         )

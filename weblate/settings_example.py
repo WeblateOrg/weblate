@@ -303,6 +303,9 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'weblate.accounts.password_validation.CharsPasswordValidator',
     },
+    {
+        'NAME': 'weblate.accounts.password_validation.PastPasswordsValidator',
+    },
 ]
 
 # Middleware
