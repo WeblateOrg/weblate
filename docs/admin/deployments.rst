@@ -15,6 +15,8 @@ With dockerized weblate deployment you can get your personal weblate instance
 up an running in seconds. All of Weblate's dependencies are already included.
 PostgreSQL is configured as default database.
 
+.. _docker-deploy:
+
 Deployment
 ++++++++++
 
@@ -69,6 +71,40 @@ Enjoy your Weblate deployment, it's accessible on port 80 of the ``weblate`` con
     container, since 2.15-2 the web server is embedded in weblate container.
 
 .. seealso:: :ref:`invoke-manage`
+
+.. _docker-ssl:
+
+Docker container with https support
++++++++++++++++++++++++++++++++++++
+
+Please see :ref:`docker-deploy` for generic deployment instructions. To add
+HTTPS reverse proxy additional Docker container is required, we will use
+`https-portal <https://hub.docker.com/r/steveltn/https-portal/>`_. This is 
+used in the :file:`docker-compose-https.yml` file. Then you just need to create
+a :file:`docker-compose-https.override.yml` file with your settings:
+
+.. code-block:: yaml
+
+    version: '2'
+    services:
+      weblate:
+        environment:
+          - WEBLATE_EMAIL_HOST=smtp.example.com
+          - WEBLATE_EMAIL_HOST_USER=user
+          - WEBLATE_EMAIL_HOST_PASSWORD=pass
+          - WEBLATE_ALLOWED_HOSTS=weblate.example.com
+          - WEBLATE_ADMIN_PASSWORD=password for admin user
+      https-portal:
+        environment:
+          DOMAINS: 'weblate.example.com -> http://weblate'
+
+Whenever invoking :program:`docker-compose` you need to pass both files to it
+then:
+
+.. code-block:: console
+
+    docker-compose -f docker-compose-https.yml -f docker-compose-https.override.yml build
+    docker-compose -f docker-compose-https.yml -f docker-compose-https.override.yml up
 
 Upgrading Docker container
 ++++++++++++++++++++++++++
@@ -210,7 +246,14 @@ Generic settings
 
 .. envvar:: WEBLATE_ENABLE_HTTPS
 
-    Configures when use https in email and API links, see :ref:`production-site`.
+    Makes Weblate assume it is operated behind HTTPS reverse proxy, it make
+    Weblate https in email and API links or set secure flags on cookies.
+
+    .. note::
+
+        This does not make the Weblate container accept https connection, you
+        need to use standalone HTTPs reverse proxy, see :ref:`docker-ssl` for
+        example.
 
     **Example:**
 
@@ -218,6 +261,10 @@ Generic settings
 
         environment:
           - WEBLATE_ENABLE_HTTPS=1
+
+    .. seealso::
+
+        :ref:`production-site`
 
 .. envvar:: WEBLATE_REQUIRE_LOGIN
 
