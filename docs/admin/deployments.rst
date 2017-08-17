@@ -129,7 +129,7 @@ Generic settings
 
 .. envvar:: WEBLATE_SITE_TITLE
 
-    Configures site title, see :ref:`production-site`.
+    Configures site title shown on headings of all pages.
 
 .. envvar:: WEBLATE_ADMIN_NAME
 .. envvar:: WEBLATE_ADMIN_EMAIL
