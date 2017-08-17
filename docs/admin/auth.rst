@@ -258,6 +258,16 @@ Once you have the package installed, you can hook it to Django authentication:
         'email': 'mail',
     }
 
+.. note::
+
+    You should remove ``'social_core.backends.email.EmailAuth'`` from the
+    ``AUTHENTICATION_BACKENDS`` setting, otherwise users will be able to set
+    their password in Weblate and authenticate using that. Keeping
+    ``'weblate.accounts.auth.WeblateUserBackend'`` is still needed in order to
+    make permissions and anonymous user work correctly. It will also allow you
+    to login using local admin account if you have created it (eg. by using
+    :djadmin:`createadmin`).
+
 .. seealso::
 
     `Django Authentication Using LDAP <https://pythonhosted.org/django-auth-ldap/>`_
