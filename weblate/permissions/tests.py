@@ -25,7 +25,7 @@ from django.test import TestCase
 from django.utils.encoding import force_text
 
 from weblate.lang.models import Language
-from weblate.trans.models import Project, Translation
+from weblate.trans.models import Project, Translation, Comment
 from weblate.permissions.data import DEFAULT_GROUPS, ADMIN_PERMS
 from weblate.permissions.models import AutoGroup, GroupACL
 from weblate.permissions.helpers import (
@@ -82,18 +82,21 @@ class PermissionsTest(TestCase):
         )
 
     def test_delete_comment_owner(self):
-        self.assertTrue(can_delete_comment(self.owner, self.project))
+        comment = Comment(project=self.project)
+        self.assertTrue(can_delete_comment(self.owner, comment))
 
     def test_delete_comment_user(self):
-        self.assertFalse(can_delete_comment(self.user, self.project))
+        comment = Comment(project=self.project)
+        self.assertFalse(can_delete_comment(self.user, comment))
 
     def test_cache(self):
-        key = ('can_delete_comment', self.project.get_full_slug())
+        comment = Comment(project=self.project)
+        key = ('_can_delete_comment', self.project.get_full_slug())
         self.assertTrue(not hasattr(self.user, 'acl_permissions_cache'))
-        self.assertFalse(can_delete_comment(self.user, self.project))
+        self.assertFalse(can_delete_comment(self.user, comment))
         self.assertFalse(self.user.acl_permissions_cache[key])
         self.user.acl_permissions_cache[key] = True
-        self.assertTrue(can_delete_comment(self.user, self.project))
+        self.assertTrue(can_delete_comment(self.user, comment))
 
     def test_default_groups(self):
         """Check consistency of default permissions.

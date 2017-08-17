@@ -689,7 +689,7 @@ def delete_comment(request, pk):
     comment_obj = get_object_or_404(Comment, pk=pk)
     check_access(request, comment_obj.project)
 
-    if not can_delete_comment(request.user, comment_obj.project):
+    if not can_delete_comment(request.user, comment_obj):
         raise PermissionDenied()
 
     units = get_related_units(comment_obj)

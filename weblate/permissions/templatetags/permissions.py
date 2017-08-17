@@ -121,8 +121,8 @@ def can_ignore_check(user, project):
 
 
 @register.assignment_tag
-def can_delete_comment(user, project):
-    return weblate.permissions.helpers.can_delete_comment(user, project)
+def can_delete_comment(user, comment):
+    return weblate.permissions.helpers.can_delete_comment(user, comment)
 
 
 @register.assignment_tag

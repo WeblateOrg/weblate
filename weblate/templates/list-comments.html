@@ -2,7 +2,6 @@
 {% load i18n %}
 {% load permissions %}
 
-{% can_delete_comment user unit.translation.subproject.project as user_can_delete_comment %}
 
 {% for comment in comments %}
 <div>
@@ -16,6 +15,7 @@
 {% endif %}
 </span>
 </div>
+{% can_delete_comment user comment as user_can_delete_comment %}
 {% if user_can_delete_comment %}
 <form method="POST" action="{% url 'delete-comment' pk=comment.pk %}">
 {% csrf_token %}

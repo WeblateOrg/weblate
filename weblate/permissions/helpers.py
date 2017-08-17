@@ -276,9 +276,16 @@ def can_ignore_check(user, project):
 
 
 @cache_permission
-def can_delete_comment(user, project):
+def _can_delete_comment(user, project):
     """Check whether user can delete comment on given project."""
     return has_group_perm(user, 'trans.delete_comment', project=project)
+
+
+def can_delete_comment(user, comment):
+    """Check whether user can delete given suggestion."""
+    if user.is_authenticated and comment.user == user:
+        return True
+    return _can_delete_comment(user, comment.project)
 
 
 @cache_permission
