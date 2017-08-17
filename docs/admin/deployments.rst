@@ -163,7 +163,8 @@ Generic settings
 .. envvar:: WEBLATE_ALLOWED_HOSTS
 
     Configures allowed HTTP hostnames using :setting:`ALLOWED_HOSTS`, see
-    :ref:`production-hosts`
+    :ref:`production-hosts` and sets site name to first one, see
+    :ref:`production-site`.
 
     **Example:**
 
