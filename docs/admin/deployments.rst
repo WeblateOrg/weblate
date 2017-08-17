@@ -149,7 +149,7 @@ Generic settings
 
 .. envvar:: WEBLATE_DEBUG
 
-    Configures Django debug mode using :setting:`DEBUG`, see :ref:`production-debug`.
+    Configures Django debug mode using :setting:`DEBUG`.
 
     **Example:**
 
@@ -157,6 +157,10 @@ Generic settings
 
         environment:
           - WEBLATE_DEBUG=1
+
+    .. seealso::
+
+            :ref:`production-debug`.
 
 .. envvar:: WEBLATE_LOGLEVEL
 
@@ -170,7 +174,7 @@ Generic settings
 .. envvar:: WEBLATE_ADMIN_NAME
 .. envvar:: WEBLATE_ADMIN_EMAIL
 
-    Configures site admins name and email, see :ref:`production-admins`.
+    Configures site admins name and email.
 
     **Example:**
 
@@ -179,6 +183,10 @@ Generic settings
         environment:
           - WEBLATE_ADMIN_NAME=Weblate Admin
           - WEBLATE_ADMIN_EMAIL=noreply@example.com
+
+    .. seealso::
+
+            :ref:`production-admins`
 
 .. envvar:: WEBLATE_ADMIN_PASSWORD
 
@@ -194,13 +202,16 @@ Generic settings
 .. envvar:: WEBLATE_SERVER_EMAIL
 .. envvar:: WEBLATE_DEFAULT_FROM_EMAIL
 
-    Configures address for outgoing mails, see :ref:`production-email`.
+    Configures address for outgoing mails.
+
+    .. seealso::
+
+        :ref:`production-email`
 
 .. envvar:: WEBLATE_ALLOWED_HOSTS
 
-    Configures allowed HTTP hostnames using :setting:`ALLOWED_HOSTS`, see
-    :ref:`production-hosts` and sets site name to first one, see
-    :ref:`production-site`.
+    Configures allowed HTTP hostnames using :setting:`ALLOWED_HOSTS` and sets
+    site name to first one.
 
     **Example:**
 
@@ -209,18 +220,27 @@ Generic settings
         environment:
           - WEBLATE_ALLOWED_HOSTS=weblate.example.com,example.com
 
+    .. seealso::
+
+        :ref:`production-hosts`,
+        :ref:`production-site`
+
 .. envvar:: WEBLATE_SECRET_KEY
 
-    Configures secret for cookies signing, see :ref:`production-secret`.
+    Configures secret used for Django for cookies signing.
 
     .. deprecated:: 2.9
 
         The secret is now generated automatically on first startup, there is no
         need to set it manually.
 
+    .. seealso::
+
+        :ref:`production-secret`
+
 .. envvar:: WEBLATE_REGISTRATION_OPEN
 
-    Configures whether registrations are open, see :std:setting:`REGISTRATION_OPEN`.
+    Configures whether registrations are open by toggling :std:setting:`REGISTRATION_OPEN`.
 
     **Example:**
 
@@ -235,7 +255,7 @@ Generic settings
 
 .. envvar:: WEBLATE_OFFLOAD_INDEXING
 
-    Configures offloaded indexing, see :ref:`production-indexing`.
+    Configures offloaded indexing.
 
     **Example:**
 
@@ -243,6 +263,10 @@ Generic settings
 
         environment:
           - WEBLATE_OFFLOAD_INDEXING=1
+
+    .. seealso::
+
+        :ref:`production-indexing`
 
 .. envvar:: WEBLATE_ENABLE_HTTPS
 
@@ -279,11 +303,11 @@ Generic settings
 
 .. envvar:: WEBLATE_GOOGLE_ANALYTICS_ID
 
-    Configures ID for Google Analytics, see :setting:`GOOGLE_ANALYTICS_ID`.
+    Configures ID for Google Analytics by changing :setting:`GOOGLE_ANALYTICS_ID`.
 
 .. envvar:: WEBLATE_GITHUB_USERNAME
 
-    Configures github username for GitHub pull requests, see
+    Configures github username for GitHub pull requests by changing
     :setting:`GITHUB_USERNAME`.
 
     .. seealso::
