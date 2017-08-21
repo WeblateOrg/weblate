@@ -190,7 +190,8 @@ def session_ratelimit_post(function):
         if request.method == 'POST':
             if attempts >= settings.AUTH_MAX_ATTEMPTS:
                 rotate_token(request)
-                logout(request)
+                if request.user.is_authenticated:
+                    logout(request)
                 messages.error(
                     request,
                     _('Too many attempts, you have been logged out!')
