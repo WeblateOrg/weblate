@@ -22,6 +22,7 @@ from django.conf.urls import url
 
 from weblate.legal.views import (
     LegalView, TermsView, CookiesView, SecurityView,
+    tos_confirm,
 )
 
 urlpatterns = [
@@ -44,5 +45,10 @@ urlpatterns = [
         r'^security/$',
         SecurityView.as_view(),
         name='security',
+    ),
+    url(
+        r'^confirm/$',
+        tos_confirm,
+        name='confirm',
     ),
 ]

@@ -20,31 +20,16 @@
 
 from __future__ import unicode_literals
 
-from datetime import date
-
-from django.contrib.auth.models import User
-from django.db import models
-from django.utils.encoding import python_2_unicode_compatible
-
-# Current TOS date
-TOS_DATE = date(2017, 7, 2)
+from django import forms
+from django.utils.translation import ugettext_lazy as _
 
 
-@python_2_unicode_compatible
-class Agreement(models.Model):
-    user = models.OneToOneField(User, unique=True)
-    tos = models.DateField(default=date(1970, 1, 1))
-    timestamp = models.DateTimeField(auto_now=True)
-
-    class Meta(object):
-        ordering = ['user__username']
-
-    def __str__(self):
-        return '{0}:{1}'.format(self.user.username, self.tos)
-
-    def is_current(self):
-        return self.tos == TOS_DATE
-
-    def make_current(self):
-        self.tos = TOS_DATE
-        self.save()
+class TOSForm(forms.Form):
+    confirm = forms.BooleanField(
+        label=_("I agree with the Terms of Service document"),
+        required=True
+    )
+    next = forms.CharField(
+        required=False,
+        widget=forms.HiddenInput,
+    )

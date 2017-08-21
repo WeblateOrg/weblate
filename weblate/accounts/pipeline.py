@@ -87,7 +87,6 @@ def reauthenticate(strategy, backend, user, social, uid, **kwargs):
             'backend': backend.name,
             'backend_verbose': get_auth_name(backend.name),
             'uid': uid,
-            'done': False,
         }
         return redirect('confirm')
 
