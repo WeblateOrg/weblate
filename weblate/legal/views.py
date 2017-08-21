@@ -19,8 +19,16 @@
 #
 from __future__ import unicode_literals
 
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.shortcuts import render, redirect
+from django.views.decorators.cache import never_cache
 from django.views.generic import TemplateView
 from django.utils.translation import ugettext_lazy as _
+
+from weblate.legal.forms import TOSForm
+from weblate.legal.models import Agreement
+from weblate.trans.util import redirect_next
 
 
 MENU = (
@@ -72,3 +80,35 @@ class CookiesView(LegalView):
 
 class SecurityView(LegalView):
     page = 'security'
+
+
+@never_cache
+def tos_confirm(request):
+    user = None
+    if request.user.is_authenticated:
+        user = request.user
+    elif 'tos_user' in request.session:
+        user = User.objects.get(pk=request.session['tos_user'])
+
+    if user is None:
+        return redirect('home')
+
+    agreement = Agreement.objects.get_or_create(user=user)[0]
+    if agreement.is_current():
+        return redirect_next(request.GET.get('next'), 'home')
+
+    if request.method == 'POST':
+        form = TOSForm(request.POST)
+        if form.is_valid():
+            agreement.make_current()
+            return redirect_next(form.cleaned_data['next'], 'home')
+    else:
+        form = TOSForm(initial={'next': request.GET.get('next')})
+
+    return render(
+        request,
+        'legal/confirm.html',
+        {
+            'form': form,
+        }
+    )
