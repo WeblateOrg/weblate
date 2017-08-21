@@ -25,6 +25,6 @@
 <div class="clearfix"></div>
 {% endif %}
 <div class="list-group">
-<div class="list-group-item" dir="auto">{{ comment.comment|urlize }}</div>
+<div class="list-group-item" dir="auto">{{ comment.comment|urlize|linebreaks }}</div>
 </div>
 {% endfor %}
