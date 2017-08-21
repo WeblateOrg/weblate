@@ -1356,7 +1356,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         self.clean_new_lang()
 
         # Suggestions
-        if self.suggestion_autoaccept and not self.suggestion_voting:
+        if (hasattr(self, 'suggestion_autoaccept') and
+                self.suggestion_autoaccept and
+                not self.suggestion_voting):
             msg = _(
                 'Automatically accepting suggestions can work only with '
                 'voting enabled!'
