@@ -105,8 +105,7 @@ def get_user_translations(user, project_ids):
             result = result.filter(
                 language__code=session_lang
             )
-
-        if not result:
+        else:
             result = result.exclude(
                 language__code='en'
             )
