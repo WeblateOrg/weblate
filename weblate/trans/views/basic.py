@@ -109,7 +109,11 @@ def get_user_translations(user, project_ids):
             result = result.exclude(
                 language__code='en'
             )
-    return result
+    return result.order_by(
+        'subproject__priority',
+        'subproject__project__name',
+        'subproject__name'
+    )
 
 
 @never_cache
@@ -159,12 +163,6 @@ def home(request):
         )
 
     usersubscriptions = None
-
-    user_translations = user_translations.order_by(
-        'subproject__priority',
-        'subproject__project__name',
-        'subproject__name'
-    )
 
     componentlists = list(ComponentList.objects.all())
     for componentlist in componentlists:
