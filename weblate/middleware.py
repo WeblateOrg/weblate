@@ -27,7 +27,7 @@ from django.conf import settings
 
 CSP_TEMPLATE = (
     "default-src 'self'; style-src {0}; img-src {1}; script-src {2}; "
-    "connect-src {3}; object-src 'none'; "
+    "connect-src {3}; object-src 'none'; font-src {4};"
     "child-src 'none'; frame-ancestors 'none';"
 )
 
@@ -47,6 +47,7 @@ class SecurityMiddleware(object):
         script = set(["'self'"])
         image = set(["'self'"])
         connect = set(["'self'"])
+        font = set(["'self'"])
 
         if (hasattr(settings, 'ROLLBAR') and
                 'client_token' in settings.ROLLBAR and
@@ -74,12 +75,14 @@ class SecurityMiddleware(object):
             script.add(domain)
             image.add(domain)
             style.add(domain)
+            font.add(domain)
 
         response['Content-Security-Policy'] = CSP_TEMPLATE.format(
             ' '.join(style),
             ' '.join(image),
             ' '.join(script),
             ' '.join(connect),
+            ' '.join(font),
         )
         response['X-XSS-Protection'] = '1; mode=block'
         return response
