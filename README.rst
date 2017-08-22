@@ -25,10 +25,6 @@ Weblate
     :alt: Codacy Badge
     :target: https://www.codacy.com/app/Weblate/weblate
 
-.. image:: https://www.quantifiedcode.com/api/v1/project/7a0d0496a5c2496080db30f17a584b9d/badge.svg
-    :target: https://www.quantifiedcode.com/app/project/7a0d0496a5c2496080db30f17a584b9d
-    :alt: Code issues
-
 .. image:: https://api.bountysource.com/badge/tracker?tracker_id=253393
     :alt: Bountysource
     :target: https://www.bountysource.com/trackers/253393-weblate?utm_source=253393&utm_medium=shield&utm_campaign=TRACKER_BADGE
