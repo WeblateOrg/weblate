@@ -612,7 +612,7 @@ class HomeViewTest(ViewTestCase):
     def test_language_filters(self):
         # check language filters
         response = self.client.get(reverse('home'))
-        self.assertEqual(len(response.context['userlanguages']), 3)
+        self.assertEqual(len(response.context['userlanguages']), 1)
         self.assertFalse(response.context['usersubscriptions'])
 
         # add a language
