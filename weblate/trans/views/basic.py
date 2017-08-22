@@ -158,8 +158,6 @@ def home(request):
             ))
         )
 
-    # dashboard_choices is dict with labels of choices as a keys
-    dashboard_choices = dict(Profile.DASHBOARD_CHOICES)
     usersubscriptions = None
 
     user_translations = user_translations.order_by(
@@ -180,9 +178,7 @@ def home(request):
     active_tab_id = user.profile.dashboard_view
     active_tab_slug = Profile.DASHBOARD_SLUGS.get(active_tab_id)
     if active_tab_id == Profile.DASHBOARD_COMPONENT_LIST:
-        clist = user.profile.dashboard_component_list
-        active_tab_slug = clist.tab_slug()
-        dashboard_choices[active_tab_id] = clist.name
+        active_tab_slug = user.profile.dashboard_component_list.tab_slug()
 
     if user.is_authenticated:
         # Ensure ACL filtering applies (user could have been removed
