@@ -118,7 +118,11 @@ def guess_user_language(request, translations):
 
     # Random language from existing translations, we do not want to list all
     # languages by default
-    return translations.order_by('?')[0].language
+    try:
+        return translations.order_by('?')[0].language
+    except IndexError:
+        # There are not existing translations, so return any Language objects
+        return Language.objects.all()[0]
 
 
 def get_user_translations(request, user, project_ids):
