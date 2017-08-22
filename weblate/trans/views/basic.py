@@ -33,6 +33,7 @@ from django.utils.html import escape
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
+from django.utils.translation.trans_real import parse_accept_lang_header
 import django.views.defaults
 
 from weblate.utils import messages
@@ -86,7 +87,41 @@ def get_suggestions(request, user, base):
     return base.order_by('?')[:10]
 
 
-def get_user_translations(user, project_ids):
+def guess_user_language(request, translations):
+    """Guess user language for translations.
+
+    It tries following:
+
+    - Use session language.
+    - Parse Accept-Language header.
+    - Fallback to random language.
+    """
+    # Session language
+    session_lang = translation.get_language()
+    if session_lang and session_lang != 'en':
+        try:
+            return Language.objects.get(code=session_lang)
+        except Language.DoesNotExist:
+            pass
+
+    # Accept-Language HTTP header, for most browser it consists of browser
+    # language with higher rank and OS language with lower rank so it still
+    # might be usable guess
+    accept = request.META.get('HTTP_ACCEPT_LANGUAGE', '')
+    for accept_lang, unused in parse_accept_lang_header(accept):
+        if accept_lang == 'en':
+            continue
+        try:
+            return Language.objects.get(code=accept_lang)
+        except Language.DoesNotExist:
+            continue
+
+    # Random language from existing translations, we do not want to list all
+    # languages by default
+    return translations.order_by('?')[0].language
+
+
+def get_user_translations(request, user, project_ids):
     """Get list of translations in user languages
 
     Works also for anonymous users based on current UI language.
@@ -100,15 +135,9 @@ def get_user_translations(user, project_ids):
         )
     else:
         # Filter based on session language
-        session_lang = translation.get_language()
-        if session_lang and session_lang != 'en':
-            result = result.filter(
-                language__code=session_lang
-            )
-        else:
-            result = result.exclude(
-                language__code='en'
-            )
+        result = result.filter(
+            language=guess_user_language(request, result)
+        )
     return result.order_by(
         'subproject__priority',
         'subproject__project__name',
@@ -147,7 +176,7 @@ def home(request):
 
     project_ids = Project.objects.get_acl_ids(user)
 
-    user_translations = get_user_translations(user, project_ids)
+    user_translations = get_user_translations(request, user, project_ids)
 
     suggestions = get_suggestions(request, user, user_translations)
 
