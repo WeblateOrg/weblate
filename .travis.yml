@@ -23,6 +23,7 @@ env:
   global:
     - DJANGO_SETTINGS_MODULE=weblate.settings_test
     - CI_MODE=test
+    - SAUCE_USERNAME=nijel
 # commands to install dependencies
 install:
   - export TESSERACT_INSTALL=`pwd`/.tesseract
@@ -73,6 +74,8 @@ addons:
     - graphviz
     - tesseract-ocr
     - g++
+  jwt:
+    secure: AuFIS22evw30Mummenq+F2l5sHVI4UxmXjBWws0jWpBmz1Yc/quP4Bxf751S0QSFqQioG8fWlSCWp9KMJ7gPONhPQiDx51BXAxdtAXudw/wP1goWLOt1MVHkN/L+GHmI0Tuoz8E1Dv11YZKvqY2w5l7cw9vXQq6423d6zc5sKIY=
 services:
   - postgresql
   - mysql
