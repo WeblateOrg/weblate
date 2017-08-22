@@ -143,9 +143,9 @@ def home(request):
 
     project_ids = Project.objects.get_acl_ids(user)
 
-    translations_base = get_user_translations(user, project_ids)
+    user_translations = get_user_translations(user, project_ids)
 
-    suggestions = get_suggestions(request, user, translations_base)
+    suggestions = get_suggestions(request, user, user_translations)
 
     # Warn about not filled in username (usually caused by migration of
     # users from older system
@@ -162,19 +162,15 @@ def home(request):
     dashboard_choices = dict(Profile.DASHBOARD_CHOICES)
     usersubscriptions = None
 
-    components_by_language = translations_base.order_by(
+    user_translations = user_translations.order_by(
         'subproject__priority',
         'subproject__project__name',
         'subproject__name'
     )
 
-    userlanguages = components_by_language.filter(
-        subproject__project_id__in=project_ids
-    )
-
     componentlists = list(ComponentList.objects.all())
     for componentlist in componentlists:
-        componentlist.translations = components_by_language.filter(
+        componentlist.translations = user_translations.filter(
             subproject__in=componentlist.components.all()
         )
     # Filter out component lists with translations
@@ -195,7 +191,7 @@ def home(request):
             id__in=project_ids
         )
 
-        usersubscriptions = components_by_language.filter(
+        usersubscriptions = user_translations.filter(
             subproject__project__in=subscribed_projects
         )
 
@@ -203,7 +199,9 @@ def home(request):
             usersubscriptions = usersubscriptions.exclude(
                 total=F('translated')
             )
-            userlanguages = userlanguages.exclude(total=F('translated'))
+            user_translations = user_translations.exclude(
+                total=F('translated')
+            )
 
     return render(
         request,
@@ -213,7 +211,7 @@ def home(request):
             'suggestions': suggestions,
             'search_form': SiteSearchForm(),
             'usersubscriptions': usersubscriptions,
-            'userlanguages': userlanguages,
+            'userlanguages': user_translations,
             'componentlists': componentlists,
             'active_tab_slug': active_tab_slug,
         }
