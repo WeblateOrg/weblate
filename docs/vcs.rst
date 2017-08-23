@@ -78,6 +78,12 @@ to the users (if they are allowed to see the repository URL at all).
 For example the GitHub URL with authentication might look like 
 ``https://user:your_access_token@github.com/WeblateOrg/weblate.git``.
 
+.. note::
+
+    In case your username or password contains special chars, those have to be
+    URL encoded, for example
+    ``https://user%40example.com:%24password%23@bitbucket.org/...```.
+
 Using proxy
 +++++++++++
 
