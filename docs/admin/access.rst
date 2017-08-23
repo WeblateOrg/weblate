@@ -134,7 +134,8 @@ Per project access control
 
 Additionally you can limit users access to individual projects. This feature is
 enabled by :guilabel:`Enable ACL` at Project configuration. This automatically
-creates :ref:`groupacl` for this project
+creates :ref:`groupacl` for this project and all groups starting with ``@`` are
+automatically added to the project (see :ref:`groups`).
 
 To allow access to this project, you have to add the privilege to do so either
 directly to given user or group of users in Django admin interface. Or using
