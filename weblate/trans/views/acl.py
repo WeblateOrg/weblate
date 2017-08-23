@@ -109,10 +109,15 @@ def add_user(request, project):
     obj, form = check_user_form(request, project, True)
 
     if form is not None:
-        obj.add_user(form.cleaned_data['user'])
-        messages.success(
-            request, _('User has been added to this project.')
-        )
+        try:
+            obj.add_user(form.cleaned_data['user'])
+            messages.success(
+                request, _('User has been added to this project.')
+            )
+        except Group.DoesNotExist:
+            messages.error(
+                request, _('Failed to find group to add an user!')
+            )
 
     return redirect(
         'manage-access',
