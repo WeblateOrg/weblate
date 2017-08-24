@@ -19,11 +19,13 @@
 #
 
 from __future__ import unicode_literals
-from django.contrib import admin
+
 from django.utils.translation import ugettext_lazy as _
 
+from weblate.wladmin.models import WeblateModelAdmin
 
-class PlanAdmin(admin.ModelAdmin):
+
+class PlanAdmin(WeblateModelAdmin):
     list_display = (
         'name', 'price', 'limit_strings', 'limit_languages',
         'limit_repositories', 'limit_projects',
@@ -32,7 +34,7 @@ class PlanAdmin(admin.ModelAdmin):
     )
 
 
-class BillingAdmin(admin.ModelAdmin):
+class BillingAdmin(WeblateModelAdmin):
     list_display = (
         'user', 'plan', 'state',
         'list_projects',
@@ -50,7 +52,7 @@ class BillingAdmin(admin.ModelAdmin):
     list_projects.short_description = _('Projects')
 
 
-class InvoiceAdmin(admin.ModelAdmin):
+class InvoiceAdmin(WeblateModelAdmin):
     list_display = (
         'billing', 'start', 'end', 'payment', 'currency', 'ref'
     )

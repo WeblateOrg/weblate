@@ -24,8 +24,10 @@ from django.utils.translation import ugettext_lazy as _
 from weblate.trans.models import AutoComponentList, Unit
 from weblate.trans.util import sort_choices
 
+from weblate.wladmin.models import WeblateModelAdmin
 
-class ProjectAdmin(admin.ModelAdmin):
+
+class ProjectAdmin(WeblateModelAdmin):
     list_display = (
         'name', 'slug', 'web', 'list_admins', 'enable_acl', 'enable_hooks',
         'num_vcs', 'get_total', 'get_source_words', 'get_language_count',
@@ -87,7 +89,7 @@ class ProjectAdmin(admin.ModelAdmin):
         return result
 
 
-class SubProjectAdmin(admin.ModelAdmin):
+class SubProjectAdmin(WeblateModelAdmin):
     list_display = [
         'name', 'slug', 'project', 'repo', 'branch', 'vcs', 'file_format'
     ]
@@ -131,7 +133,7 @@ class SubProjectAdmin(admin.ModelAdmin):
     force_commit.short_description = _('Commit pending changes')
 
 
-class TranslationAdmin(admin.ModelAdmin):
+class TranslationAdmin(WeblateModelAdmin):
     list_display = [
         'subproject', 'language', 'translated', 'total',
         'fuzzy', 'revision', 'filename', 'enabled'
@@ -163,7 +165,7 @@ class TranslationAdmin(admin.ModelAdmin):
         )
 
 
-class UnitAdmin(admin.ModelAdmin):
+class UnitAdmin(WeblateModelAdmin):
     list_display = ['source', 'target', 'position', 'fuzzy', 'translated']
     search_fields = ['source', 'target', 'id_hash']
     list_filter = [
@@ -174,13 +176,13 @@ class UnitAdmin(admin.ModelAdmin):
     ]
 
 
-class SuggestionAdmin(admin.ModelAdmin):
+class SuggestionAdmin(WeblateModelAdmin):
     list_display = ['content_hash', 'target', 'project', 'language', 'user']
     list_filter = ['project', 'language']
     search_fields = ['content_hash', 'target']
 
 
-class CommentAdmin(admin.ModelAdmin):
+class CommentAdmin(WeblateModelAdmin):
     list_display = [
         'content_hash', 'comment', 'user', 'project', 'language', 'user'
     ]
@@ -188,19 +190,19 @@ class CommentAdmin(admin.ModelAdmin):
     search_fields = ['content_hash', 'comment']
 
 
-class CheckAdmin(admin.ModelAdmin):
+class CheckAdmin(WeblateModelAdmin):
     list_display = ['content_hash', 'check', 'project', 'language', 'ignore']
     search_fields = ['content_hash', 'check']
     list_filter = ['check', 'project', 'ignore']
 
 
-class DictionaryAdmin(admin.ModelAdmin):
+class DictionaryAdmin(WeblateModelAdmin):
     list_display = ['source', 'target', 'project', 'language']
     search_fields = ['source', 'target']
     list_filter = ['project', 'language']
 
 
-class ChangeAdmin(admin.ModelAdmin):
+class ChangeAdmin(WeblateModelAdmin):
     list_display = ['unit', 'user', 'timestamp']
     date_hierarchy = 'timestamp'
     list_filter = [
@@ -211,7 +213,7 @@ class ChangeAdmin(admin.ModelAdmin):
     raw_id_fields = ('unit',)
 
 
-class WhiteboardMessageAdmin(admin.ModelAdmin):
+class WhiteboardMessageAdmin(WeblateModelAdmin):
     list_display = ['message', 'project', 'subproject', 'language']
     prepopulated_fields = {}
     search_fields = ['message']
@@ -223,18 +225,18 @@ class AutoComponentListAdmin(admin.TabularInline):
     extra = 0
 
 
-class ComponentListAdmin(admin.ModelAdmin):
+class ComponentListAdmin(WeblateModelAdmin):
     list_display = ['name']
     prepopulated_fields = {'slug': ('name',)}
     inlines = [AutoComponentListAdmin]
 
 
-class AdvertisementAdmin(admin.ModelAdmin):
+class AdvertisementAdmin(WeblateModelAdmin):
     list_display = ['placement', 'date_start', 'date_end', 'text']
     search_fields = ['text', 'note']
     date_hierarchy = 'date_end'
 
 
-class SourceAdmin(admin.ModelAdmin):
+class SourceAdmin(WeblateModelAdmin):
     list_display = ['id_hash', 'priority', 'timestamp']
     date_hierarchy = 'timestamp'

@@ -18,11 +18,12 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 
+from weblate.wladmin.models import WeblateModelAdmin
 
-class GroupACLAdmin(admin.ModelAdmin):
+
+class GroupACLAdmin(WeblateModelAdmin):
     list_display = ['language', 'project_subproject', 'group_list']
 
     def group_list(self, obj):
@@ -40,5 +41,5 @@ class GroupACLAdmin(admin.ModelAdmin):
     project_subproject.short_description = _('Project / Component')
 
 
-class AutoGroupAdmin(admin.ModelAdmin):
+class AutoGroupAdmin(WeblateModelAdmin):
     list_display = ('group', 'match')
