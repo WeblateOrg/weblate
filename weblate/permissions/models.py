@@ -157,10 +157,10 @@ def move_users():
 
 
 @receiver(post_migrate)
-def sync_create_groups(sender, **kwargs):
+def sync_create_groups(sender, apps=None, **kwargs):
     """Create groups on syncdb."""
     # Execute only after all apps are migrated
-    if sender.label == next(reversed(kwargs['apps'].app_configs)):
+    if apps and sender.label == next(reversed(apps.app_configs)):
         create_groups(False)
 
 
