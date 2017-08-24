@@ -17,3 +17,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+
+from django.contrib.admin import ModelAdmin
+
+class WeblateModelAdmin(ModelAdmin):
+    """Customized Model Admin object."""
+
+    delete_confirmation_template = \
+        'wladmin/delete_confirmation.html'
+    delete_selected_confirmation_template = \
+        'wladmin/delete_selected_confirmation.html'

@@ -346,14 +346,12 @@ INSTALLED_APPS = [
     'weblate.screenshots',
     'weblate.accounts',
     'weblate.utils',
+    'weblate.wladmin',
     'weblate',
 
     # Optional: Git exporter
     # 'weblate.gitexport',
 ]
-
-# Has to be first to override Django admin templates:
-INSTALLED_APPS.insert(0, 'weblate.wladmin')
 
 # Path to locales
 LOCALE_PATHS = (os.path.join(BASE_DIR, 'locale'), )

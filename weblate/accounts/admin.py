@@ -18,7 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin, GroupAdmin
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
@@ -27,9 +26,10 @@ from django.utils.translation import ugettext_lazy as _
 from weblate.accounts.forms import (
     UniqueEmailMixin, FullNameField, UsernameField,
 )
+from weblate.wladmin.models import WeblateModelAdmin
 
 
-class AuditLogAdmin(admin.ModelAdmin):
+class AuditLogAdmin(WeblateModelAdmin):
     list_display = [
         'get_message',
         'user',
@@ -43,7 +43,7 @@ class AuditLogAdmin(admin.ModelAdmin):
     ]
 
 
-class ProfileAdmin(admin.ModelAdmin):
+class ProfileAdmin(WeblateModelAdmin):
     list_display = [
         'user', 'full_name', 'language', 'suggested', 'translated'
     ]
@@ -53,7 +53,7 @@ class ProfileAdmin(admin.ModelAdmin):
     list_filter = ['language']
 
 
-class VerifiedEmailAdmin(admin.ModelAdmin):
+class VerifiedEmailAdmin(WeblateModelAdmin):
     list_display = ('social', 'email')
     search_fields = (
         'email', 'social__user__username', 'social__user__email'
