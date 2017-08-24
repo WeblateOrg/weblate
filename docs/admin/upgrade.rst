@@ -520,6 +520,7 @@ Follow generic upgrade instructions, there is no special change.
 Notable configuration or dependencies changes:
 
 * There is new validator included in defailt ``AUTH_PASSWORD_VALIDATORS`` setting.
+* The ``siphashc3`` dependency has been replaced by ``siphashc``.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

@@ -38,8 +38,8 @@ distribution packages:
     
 Django (>= 1.10)
     https://www.djangoproject.com/
-siphashc3
-    https://github.com/carlopires/siphashc3
+siphashc (>= 0.8)
+    https://github.com/WeblateOrg/siphashc
 Translate-toolkit (>= 2.0.0)
     http://toolkit.translatehouse.org/
 Six (>= 1.7.0)
