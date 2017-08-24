@@ -71,6 +71,7 @@ class WeblateAdminSite(AdminSite):
     login_form = LoginForm
     site_header = _('Weblate administration')
     site_title = _('Weblate administration')
+    index_template = 'admin/weblate-index.html'
 
     def discover(self):
         """Manual discovery."""
