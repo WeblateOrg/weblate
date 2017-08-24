@@ -159,7 +159,8 @@ def move_users():
 @receiver(post_migrate)
 def sync_create_groups(sender, **kwargs):
     """Create groups on syncdb."""
-    if sender.label == 'weblate':
+    # Execute only after all apps are migrated
+    if sender.label == settings.INSTALLED_APPS[-1]:
         create_groups(False)
 
 

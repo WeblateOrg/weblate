@@ -346,6 +346,7 @@ INSTALLED_APPS = [
     'weblate.screenshots',
     'weblate.accounts',
     'weblate.utils',
+    'weblate',
 
     # Optional: Git exporter
     # 'weblate.gitexport',
@@ -353,9 +354,6 @@ INSTALLED_APPS = [
 
 # Has to be first to override Django admin templates:
 INSTALLED_APPS.insert(0, 'weblate.wladmin')
-
-# This application has to be placed last!
-INSTALLED_APPS.append('weblate')
 
 # Path to locales
 LOCALE_PATHS = (os.path.join(BASE_DIR, 'locale'), )
