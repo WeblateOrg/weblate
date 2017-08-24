@@ -160,7 +160,7 @@ def move_users():
 def sync_create_groups(sender, **kwargs):
     """Create groups on syncdb."""
     # Execute only after all apps are migrated
-    if sender.label == settings.INSTALLED_APPS[-1]:
+    if sender.label == next(reversed(kwargs['apps'].app_configs)):
         create_groups(False)
 
 
