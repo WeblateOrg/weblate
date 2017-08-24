@@ -22,6 +22,7 @@ from __future__ import unicode_literals
 
 import re
 
+from django.apps import apps
 from django.conf import settings
 from django.contrib.auth.models import Group, User, Permission
 from django.core.exceptions import ValidationError
@@ -157,10 +158,16 @@ def move_users():
 
 
 @receiver(post_migrate)
-def sync_create_groups(sender, apps=None, **kwargs):
+def sync_create_groups(sender, **kwargs):
     """Create groups on syncdb."""
+    # Figure out last app in signals
+    for app_config in apps.get_app_configs():
+        if app_config.models_module is None:
+            continue
+        last = app_config.label
+
     # Execute only after all apps are migrated
-    if apps and sender.label == next(reversed(apps.app_configs)):
+    if sender.label == last:
         create_groups(False)
 
 
