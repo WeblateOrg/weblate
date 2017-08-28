@@ -858,7 +858,7 @@ class Unit(models.Model, LoggerMixin):
         """
         # Run only source checks on template
         if self.translation.is_template():
-            return {x: y for x,y in CHECKS.data.items() if y.source}, True
+            return {x: y for x, y in CHECKS.data.items() if y.source}, True
 
         checks_to_run = CHECKS.data
         cleanup_checks = True
