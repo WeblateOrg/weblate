@@ -35,7 +35,11 @@ class MyMemoryTranslation(MachineTranslation):
 
     def is_supported(self, source, language):
         """Check whether given language combination is supported."""
-        return self.lang_supported(source) and self.lang_supported(language)
+        return (
+            self.lang_supported(source) and
+            self.lang_supported(language) and
+            source != language
+        )
 
     @staticmethod
     def lang_supported(language):

@@ -200,7 +200,8 @@ class MachineTranslation(object):
         """Check whether given language combination is supported."""
         return (
             language in self.supported_languages and
-            source in self.supported_languages
+            source in self.supported_languages and
+            source != language
         )
 
     def translate(self, language, text, unit, user):
