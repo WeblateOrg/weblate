@@ -786,6 +786,7 @@ class Unit(models.Model, LoggerMixin):
 
     def cleanup_checks(self, source, target):
         """Cleanup listed source and target checks."""
+        # Short circuit if there is nothing to cleanup
         if len(source) == 0 and len(target) == 0:
             return False
         todelete = Check.objects.filter(
@@ -855,8 +856,9 @@ class Unit(models.Model, LoggerMixin):
 
         Returns tuple of checks to run and whether to do cleanup.
         """
+        # Run only source checks on template
         if self.translation.is_template():
-            return {}, True
+            return {x: y for x,y in CHECKS.data.items() if y.source}, True
 
         checks_to_run = CHECKS.data
         cleanup_checks = True
