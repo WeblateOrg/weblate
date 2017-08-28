@@ -251,12 +251,14 @@ def setup_group_acl(sender, instance, **kwargs):
     )[0]
     if instance.enable_acl:
         group_acl.permissions.set(
-            Permission.objects.filter(codename__in=ADMIN_PERMS)
+            Permission.objects.filter(codename__in=ADMIN_PERMS),
+            clear=True
         )
         lookup = Q(name__startswith='@')
     else:
         group_acl.permissions.set(
-            Permission.objects.filter(codename__in=ADMIN_ONLY_PERMS)
+            Permission.objects.filter(codename__in=ADMIN_ONLY_PERMS),
+            clear=True
         )
         lookup = Q(name='@Administration')
 
