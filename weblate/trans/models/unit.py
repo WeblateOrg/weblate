@@ -913,7 +913,7 @@ class Unit(models.Model, LoggerMixin):
             self.source_checks().values_list('check', flat=True)
         )
 
-        # Run all source checks
+        # Run all target checks
         for check, check_obj in checks_to_run.items():
             if check_obj.target and check_obj.check_target(src, tgt, self):
                 if check in old_target_checks:
