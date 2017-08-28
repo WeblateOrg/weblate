@@ -58,7 +58,7 @@ ACCOUNT_ACTIVITY = {
         'Password reset has been requested.'
     ),
     'reset': _(
-        'Password reset has been confirmed.'
+        'Password reset has been confirmed and password has been reset.'
     ),
     'auth-connect': _(
         'Authentication using {method} ({name}) has been added.'
