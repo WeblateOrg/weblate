@@ -7,7 +7,7 @@ Configuration
 .. _auto-workflow:
 
 How to create an automated workflow?
----------------------------------
+------------------------------------
 
 Weblate can handle all the translation things semi-automatically for you. If
 you will give it push access to your repository, the translations can happen
@@ -117,7 +117,7 @@ Once you merge changes from Weblate, you might have to merge these branches
 .. _git-export:
 
 How to export the Git repository that Weblate uses?
-------------------------------------------
+---------------------------------------------------
 
 There is nothing special about the repository, it lives under the 
 :setting:`DATA_DIR` directory and is named :file:`vcs/<project>/<component>/`. If you
@@ -129,7 +129,7 @@ repository to the outside world.
 Alternatively you can use :ref:`git-exporter` inside Weblate to automate this.
 
 What are the options for pushing changes back upstream?
---------------------------------------------------
+-------------------------------------------------------
 
 This heavily depends on your setup, Weblate is quite flexible in this area.
 Here are examples of workflows used with Weblate:
@@ -145,7 +145,7 @@ Here are examples of workflows used with Weblate:
 Of course you are free to mix all of these as you wish.
 
 How can I limit Weblates access to translations only without exposing source code to it?
----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
 
 You can use `git submodule`_ for separating translations from source code
 while still having them under version control.
@@ -179,7 +179,7 @@ open the ``/admin/performance/`` URL directly.
 .. _faq-site:
 
 Why do links contain example.com as the domain?
----------------------------------------------
+-----------------------------------------------
 
 Weblate uses Djangos sites framework and it defines the site name inside the
 database. You need to set the domain name to match your installation.
@@ -202,7 +202,7 @@ correctly as the user who has made the translation.
    :ref:`component`
 
 Why do I get a warning about not reflected changes on database migration?
------------------------------------------------------------------------
+-------------------------------------------------------------------------
 
 When running :command:`./manage.py migrate`, you can get the following warning::
 
@@ -224,7 +224,7 @@ How do I review others translations?
   choose to browse translations made by others since a given date.
 
 How do I provide feedback on a source string?
--------------------------------------------
+---------------------------------------------
 
 On context tabs below translation, you can use the :guilabel:`Source` tab to
 provide feedback on a source string or discuss it with other translators.
@@ -271,7 +271,7 @@ Weblate also will not try to update bilingual files in any way, so if you need
 
 
 Where do language definitions come from and how can I add my own?
--------------------------------------------------------------
+-----------------------------------------------------------------
 
 The basic set of language definitions is included within Weblate and
 Translate-toolkit. This covers more than 150 languages and includes information
@@ -281,7 +281,7 @@ You are free to define own languages in the administrative interface, you just n
 to provide information about it.
 
 Can Weblate highlight changes in a fuzzy string?
------------------------------------------------
+------------------------------------------------
 
 Weblate supports this, however it needs the data to show the difference.
 
@@ -298,7 +298,7 @@ shows the differences automatically.
 .. _translations-update:
 
 Why does Weblate still show old translation strings when I've updated the template?
-------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------
 
 Weblate does not try to manipulate with the translation files in any other way
 than allowing translators to translate. So it also does not update the
