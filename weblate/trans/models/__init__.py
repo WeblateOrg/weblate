@@ -262,6 +262,7 @@ def setup_group_acl(sender, instance, **kwargs):
         )
         lookup = Q(name='@Administration')
 
+    handled = set()
     for template_group in Group.objects.filter(lookup):
         name = '{0}{1}'.format(instance.name, template_group.name)
         try:
@@ -275,3 +276,11 @@ def setup_group_acl(sender, instance, **kwargs):
             group = Group.objects.get_or_create(name=name)[0]
             group.permissions.set(template_group.permissions.all())
             group_acl.groups.add(group)
+        handled.add(group.pk)
+
+    # Remove stale groups
+    group_acl.groups.filter(
+        name__contains='@'
+    ).exclude(
+        pk__in=handled
+    ).delete()
