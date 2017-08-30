@@ -1140,6 +1140,7 @@ class SubprojectVCSSettingsForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(SubprojectVCSSettingsForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
+        self.helper.form_tag = False
         self.helper.layout = Layout(
             Fieldset(
                 _('Locations'),
@@ -1178,6 +1179,7 @@ class SubprojectTranslationSettingsForm(forms.ModelForm):
             *args, **kwargs
         )
         self.helper = FormHelper()
+        self.helper.form_tag = False
         self.helper.layout = Layout(
             Fieldset(
                 _('Suggestions'),
@@ -1207,6 +1209,7 @@ class SubprojectBasicSettingsForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(SubprojectBasicSettingsForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
+        self.helper.form_tag = False
         self.helper.layout = Layout(
             Fieldset(
                 _('License'),
@@ -1236,6 +1239,7 @@ class SubprojectFileSettingsForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(SubprojectFileSettingsForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
+        self.helper.form_tag = False
         self.helper.layout = Layout(
             Fieldset(
                 _('Languages processing'),
