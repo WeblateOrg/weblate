@@ -91,6 +91,7 @@ def search_replace(request, project, subproject=None, lang=None):
             context.update({
                 'matching': matching,
                 'search_query': search_text,
+                'replacement': replacement,
                 'form': form,
                 'confirm': ReplaceConfirmForm(matching),
             })

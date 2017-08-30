@@ -32,10 +32,10 @@
 <td><label for="confirm_{{ unit.pk }}">{{ unit }}</label></td>
 </tr>
 <tr>
-<td>{% format_translation unit.target unit.translation.language search_match=search_query %}</td>
+<td>{% format_translation unit.target unit.translation.language search_match=search_query match='replaced'%}</td>
 </tr>
 <tr>
-<td>{% format_translation unit.replacement unit.translation.language %}</td>
+<td>{% format_translation unit.replacement unit.translation.language search_match=replacement match='replacement' %}</td>
 </tr>
 {% endfor %}
 </table>

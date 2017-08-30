@@ -123,23 +123,32 @@ def fmt_highlights(raw_value, value, unit):
     return value
 
 
-def fmt_search(value, search_match):
+def fmt_search(value, search_match, match):
     """Format search match"""
     if search_match:
-        # Since the search ignored case, we need to highlight any
-        # combination of upper and lower case we find.
-        return re.sub(
-            r'(' + re.escape(search_match) + ')',
-            r'<span class="hlmatch">\1</span>',
-            value,
-            flags=re.IGNORECASE
-        )
+        search_match = escape(search_match)
+        if match == 'search':
+            # Since the search ignored case, we need to highlight any
+            # combination of upper and lower case we find.
+            return re.sub(
+                r'(' + re.escape(search_match) + ')',
+                r'<span class="hlmatch">\1</span>',
+                value,
+                flags=re.IGNORECASE
+            )
+        elif match in ('replacement', 'replaced'):
+            return value.replace(
+                search_match,
+                '<span class="{0}">{1}</span>'.format(
+                    match, search_match
+                )
+            )
     return value
 
 
 @register.inclusion_tag('format-translation.html')
 def format_translation(value, language, diff=None, search_match=None,
-                       simple=False, num_plurals=2, unit=None):
+                       simple=False, num_plurals=2, unit=None, match='search'):
     """Nicely formats translation text possibly handling plurals or diff."""
     # Split plurals to separate strings
     plurals = split_plural(value)
@@ -172,7 +181,7 @@ def format_translation(value, language, diff=None, search_match=None,
         value = fmt_highlights(raw_value, value, unit)
 
         # Format search term
-        value = fmt_search(value, search_match)
+        value = fmt_search(value, search_match, match)
 
         # Normalize newlines
         value = NEWLINES_RE.sub('\n', value)
