@@ -169,10 +169,12 @@
     {% endwith %}
     {% endif %}
 
+    {% if unit.translation.subproject.enable_suggestions %}
     {% if user_can_suggest %}
     <button class="btn btn-warning" type="submit" name="suggest" tabindex="151" {% if project_locked %}disabled="disabled"{% endif %}><i class="fa fa-comment"></i> {% trans "Suggest" %}</button>
     {% else %}
     {% trans "No privileges for adding suggestions!" %}
+    {% endif %}
     {% endif %}
     <button class="btn btn-info" type="submit" name="skip" tabindex="152"><i class="fa {% if LANGUAGE_BIDI %}fa-backward{% else %}fa-forward{% endif %}"></i> {% trans "Skip" %}</button>
 
