@@ -127,15 +127,13 @@ def fmt_search(value, search_match):
     """Format search match"""
     if search_match:
         # Since the search ignored case, we need to highlight any
-        # combination of upper and lower case we find. This is too
-        # advanced for str.replace().
-        caseless = re.compile(re.escape(search_match), re.IGNORECASE)
-        for variation in re.findall(caseless, value):
-            value = re.sub(
-                caseless,
-                '<span class="hlmatch">{0}</span>'.format(variation),
-                value,
-            )
+        # combination of upper and lower case we find.
+        return re.sub(
+            r'(' + re.escape(search_match) + ')',
+            r'<span class="hlmatch">\1</span>',
+            value,
+            flags=re.IGNORECASE
+        )
     return value
 
 
