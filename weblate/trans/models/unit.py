@@ -29,6 +29,7 @@ from django.conf import settings
 from django.db import models
 from django.db.models import Q
 from django.utils.encoding import python_2_unicode_compatible
+from django.utils.translation import ugettext as _
 from django.core.cache import cache
 
 from weblate.accounts.models import get_author_name
@@ -392,9 +393,9 @@ class Unit(models.Model, LoggerMixin):
         self.old_unit = copy(self)
 
     def __str__(self):
-        return '{0} on {1}'.format(
-            self.checksum,
-            self.translation
+        return _('{translation}, translation unit {position}').format(
+            translation=self.translation,
+            position=self.position,
         )
 
     @property
