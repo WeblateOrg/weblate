@@ -1,0 +1,154 @@
+# -*- coding: utf-8 -*-
+#
+# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+#
+# This file is part of Weblate <https://weblate.org/>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+
+from __future__ import unicode_literals
+
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
+from django.core.paginator import Paginator, EmptyPage
+from django.shortcuts import get_object_or_404, redirect
+from django.utils.translation import ugettext as _, ungettext
+from django.views.decorators.cache import never_cache
+from django.views.decorators.http import require_POST
+
+from weblate.lang.models import Language
+from weblate.permissions.helpers import can_translate
+from weblate.trans.forms import SiteSearchForm, ReplaceForm
+from weblate.trans.models import Unit, Change, Project
+from weblate.trans.views.helper import (
+    get_translation, get_subproject, get_project, import_message,
+)
+from weblate.trans.util import render
+from weblate.utils import messages
+from weblate.utils.views import get_page_limit
+
+
+@login_required
+@require_POST
+def search_replace(request, project, subproject=None, lang=None):
+    if subproject is None:
+        obj = get_project(request, project)
+        perms = {'project': obj}
+        unit_set = Unit.objects.filter(translation__subproject__project=obj)
+    elif lang is None:
+        obj = get_subproject(request, project, subproject)
+        perms = {'project': obj.project}
+        unit_set = Unit.objects.filter(translation__subproject=obj)
+    else:
+        obj = get_translation(request, project, subproject, lang)
+        perms = {'translation': obj}
+        unit_set = obj.unit_set
+
+    if not can_translate(request.user, **perms):
+        raise PermissionDenied()
+
+    form = ReplaceForm(request.POST)
+
+    if not form.is_valid():
+        messages.error(request, _('Failed to process form!'))
+        return redirect(obj)
+
+    search_text = form.cleaned_data['search']
+    replacement = form.cleaned_data['replacement']
+
+    matching = unit_set.filter(target__contains=search_text)
+    updated = matching.count()
+
+    for unit in matching.iterator():
+        unit.target = unit.target.replace(search_text, replacement)
+        unit.save_backend(request, change_action=Change.ACTION_REPLACE)
+
+    import_message(
+        request, updated,
+        _('Search and replace completed, no strings were updated.'),
+        ungettext(
+            'Search and replace completed, %d string was updated.',
+            'Search and replace completed, %d strings were updated.',
+            updated
+        )
+    )
+
+    return redirect(obj)
+
+
+@never_cache
+def search(request, project=None, subproject=None, lang=None):
+    """Perform site-wide search on units."""
+    search_form = SiteSearchForm(request.GET)
+    context = {
+        'search_form': search_form,
+    }
+    if subproject:
+        obj = get_subproject(request, project, subproject)
+        context['subproject'] = obj
+        context['project'] = obj.project
+    elif project:
+        obj = get_project(request, project)
+        context['project'] = obj
+    else:
+        obj = None
+    if lang:
+        context['language'] = get_object_or_404(Language, code=lang)
+
+    if search_form.is_valid():
+        # Filter results by ACL
+        if subproject:
+            units = Unit.objects.filter(translation__subproject=obj)
+        elif project:
+            units = Unit.objects.filter(translation__subproject__project=obj)
+        else:
+            projects = Project.objects.get_acl_ids(request.user)
+            units = Unit.objects.filter(
+                translation__subproject__project_id__in=projects
+            )
+        units = units.search(
+            None,
+            search_form.cleaned_data,
+        )
+        if lang:
+            units = units.filter(
+                translation__language=context['language']
+            )
+
+        page, limit = get_page_limit(request, 50)
+
+        paginator = Paginator(units, limit)
+
+        try:
+            units = paginator.page(page)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of
+            # results.
+            units = paginator.page(paginator.num_pages)
+
+        context['page_obj'] = units
+        context['title'] = _('Search for %s') % (
+            search_form.cleaned_data['q']
+        )
+        context['query_string'] = search_form.urlencode()
+        context['search_query'] = search_form.cleaned_data['q']
+    else:
+        messages.error(request, _('Invalid search query!'))
+
+    return render(
+        request,
+        'search.html',
+        context
+    )

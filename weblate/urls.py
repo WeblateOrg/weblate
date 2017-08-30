@@ -45,6 +45,7 @@ import weblate.trans.views.git
 import weblate.trans.views.js
 import weblate.trans.views.lock
 import weblate.trans.views.reports
+import weblate.trans.views.search
 import weblate.trans.views.settings
 import weblate.trans.views.source
 import weblate.trans.views.widgets
@@ -221,17 +222,17 @@ urlpatterns = [
     ),
     url(
         r'^replace/' + PROJECT + '$',
-        weblate.trans.views.edit.search_replace,
+        weblate.trans.views.search.search_replace,
         name='replace',
     ),
     url(
         r'^replace/' + SUBPROJECT + '$',
-        weblate.trans.views.edit.search_replace,
+        weblate.trans.views.search.search_replace,
         name='replace',
     ),
     url(
         r'^replace/' + TRANSLATION + '$',
-        weblate.trans.views.edit.search_replace,
+        weblate.trans.views.search.search_replace,
         name='replace',
     ),
     url(
@@ -940,22 +941,22 @@ urlpatterns = [
     # Site wide search
     url(
         r'^search/$',
-        weblate.trans.views.basic.search,
+        weblate.trans.views.search.search,
         name="search"
     ),
     url(
         r'^search/' + PROJECT + '$',
-        weblate.trans.views.basic.search,
+        weblate.trans.views.search.search,
         name="search"
     ),
     url(
         r'^search/' + SUBPROJECT + '$',
-        weblate.trans.views.basic.search,
+        weblate.trans.views.search.search,
         name="search"
     ),
     url(
         r'^languages/' + LANGUAGE + '/' + PROJECT + 'search/$',
-        weblate.trans.views.basic.search,
+        weblate.trans.views.search.search,
         name="search"
     ),
 

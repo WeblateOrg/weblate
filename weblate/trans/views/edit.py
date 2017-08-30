@@ -42,12 +42,11 @@ from weblate.trans.models import (
 from weblate.trans.autofixes import fix_target
 from weblate.trans.forms import (
     TranslationForm, SearchForm, InlineWordForm,
-    MergeForm, AutoForm, ReviewForm, ReplaceForm,
+    MergeForm, AutoForm, ReviewForm,
     AntispamForm, CommentForm, RevertForm
 )
 from weblate.trans.views.helper import (
-    get_translation, get_subproject, get_project, import_message,
-    show_form_errors,
+    get_translation, import_message, show_form_errors,
 )
 from weblate.trans.checks import CHECKS
 from weblate.trans.util import join_plural, render, redirect_next
@@ -820,51 +819,3 @@ def save_zen(request, project, subproject, lang):
         'zen-response.html',
         {},
     )
-
-
-@login_required
-@require_POST
-def search_replace(request, project, subproject=None, lang=None):
-    if subproject is None:
-        obj = get_project(request, project)
-        perms = {'project': obj}
-        unit_set = Unit.objects.filter(translation__subproject__project=obj)
-    elif lang is None:
-        obj = get_subproject(request, project, subproject)
-        perms = {'project': obj.project}
-        unit_set = Unit.objects.filter(translation__subproject=obj)
-    else:
-        obj = get_translation(request, project, subproject, lang)
-        perms = {'translation': obj}
-        unit_set = obj.unit_set
-
-    if not can_translate(request.user, **perms):
-        raise PermissionDenied()
-
-    form = ReplaceForm(request.POST)
-
-    if not form.is_valid():
-        messages.error(request, _('Failed to process form!'))
-        return redirect(obj)
-
-    search_text = form.cleaned_data['search']
-    replacement = form.cleaned_data['replacement']
-
-    matching = unit_set.filter(target__contains=search_text)
-    updated = matching.count()
-
-    for unit in matching.iterator():
-        unit.target = unit.target.replace(search_text, replacement)
-        unit.save_backend(request, change_action=Change.ACTION_REPLACE)
-
-    import_message(
-        request, updated,
-        _('Search and replace completed, no strings were updated.'),
-        ungettext(
-            'Search and replace completed, %d string was updated.',
-            'Search and replace completed, %d strings were updated.',
-            updated
-        )
-    )
-
-    return redirect(obj)

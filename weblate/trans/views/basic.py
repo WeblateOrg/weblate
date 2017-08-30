@@ -20,12 +20,11 @@
 
 from __future__ import unicode_literals
 
-from django.core.paginator import Paginator, EmptyPage
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum, Count, F
 from django.http import HttpResponse
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect
 from django.utils import translation
 from django.views.decorators.cache import never_cache
 from django.utils.encoding import force_text
@@ -60,7 +59,6 @@ from weblate.trans.views.helper import (
 from weblate.trans.util import (
     render, sort_objects, sort_unicode, translation_percent,
 )
-from weblate.utils.views import get_page_limit
 import weblate
 
 
@@ -257,72 +255,6 @@ def list_projects(request):
             'projects': Project.objects.all_acl(request.user),
             'title': _('Projects'),
         }
-    )
-
-
-@never_cache
-def search(request, project=None, subproject=None, lang=None):
-    """Perform site-wide search on units."""
-    search_form = SiteSearchForm(request.GET)
-    context = {
-        'search_form': search_form,
-    }
-    if subproject:
-        obj = get_subproject(request, project, subproject)
-        context['subproject'] = obj
-        context['project'] = obj.project
-    elif project:
-        obj = get_project(request, project)
-        context['project'] = obj
-    else:
-        obj = None
-    if lang:
-        context['language'] = get_object_or_404(Language, code=lang)
-
-    if search_form.is_valid():
-        # Filter results by ACL
-        if subproject:
-            units = Unit.objects.filter(translation__subproject=obj)
-        elif project:
-            units = Unit.objects.filter(translation__subproject__project=obj)
-        else:
-            projects = Project.objects.get_acl_ids(request.user)
-            units = Unit.objects.filter(
-                translation__subproject__project_id__in=projects
-            )
-        units = units.search(
-            None,
-            search_form.cleaned_data,
-        )
-        if lang:
-            units = units.filter(
-                translation__language=context['language']
-            )
-
-        page, limit = get_page_limit(request, 50)
-
-        paginator = Paginator(units, limit)
-
-        try:
-            units = paginator.page(page)
-        except EmptyPage:
-            # If page is out of range (e.g. 9999), deliver last page of
-            # results.
-            units = paginator.page(paginator.num_pages)
-
-        context['page_obj'] = units
-        context['title'] = _('Search for %s') % (
-            search_form.cleaned_data['q']
-        )
-        context['query_string'] = search_form.urlencode()
-        context['search_query'] = search_form.cleaned_data['q']
-    else:
-        messages.error(request, _('Invalid search query!'))
-
-    return render(
-        request,
-        'search.html',
-        context
     )
 
 
