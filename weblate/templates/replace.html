@@ -29,7 +29,10 @@
 <td rowspan="3">
 <input type="checkbox" name="units" checked="1" value="{{ unit.pk }}" id="confirm_{{ unit.pk }}" />
 </td>
-<td><label for="confirm_{{ unit.pk }}">{{ unit }}</label></td>
+<td>
+<a href="{{ unit.get_absolute_url }}" class="btn btn-default btn-sm pull-right flip"><i class="fa fa-pencil"></i> {% trans "Edit" %}</a>
+<label for="confirm_{{ unit.pk }}">{{ unit }}</label>
+</td>
 </tr>
 <tr>
 <td>{% format_translation unit.target unit.translation.language search_match=search_query match='replaced'%}</td>
