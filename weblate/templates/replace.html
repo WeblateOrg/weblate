@@ -7,7 +7,7 @@
 {% if subproject %}
 <li><a href="{{ subproject.get_absolute_url }}">{{ subproject.name }}</a></li>
 {% if translation %}
-<li><a href="{{ object.get_absolute_url }}">{{ object.language }}</a></li>
+<li><a href="{{ translation.get_absolute_url }}">{{ translation.language }}</a></li>
 {% endif %}
 {% endif %}
 <li>{% trans "Search and replace" %}</li>
