@@ -87,7 +87,9 @@ def search_replace(request, project, subproject=None, lang=None):
 
         if not confirm.is_valid():
             for unit in matching:
-                unit.replacement = unit.target.replace(search_text, replacement)
+                unit.replacement = unit.target.replace(
+                    search_text, replacement
+                )
             context.update({
                 'matching': matching,
                 'search_query': search_text,
