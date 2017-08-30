@@ -45,7 +45,7 @@ class SuggestionManager(models.Manager):
             project=unit.translation.subproject.project,
         )
 
-        if same.exists() or unit.target == target:
+        if same.exists() or (unit.target == target and not unit.fuzzy):
             return False
 
         # Create the suggestion
