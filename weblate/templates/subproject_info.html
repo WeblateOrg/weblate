@@ -16,6 +16,11 @@
 <li>{% blocktrans count count=object.suggestion_autoaccept %}Suggestions are automatically accepted as translations once they have {{ count }} vote.{% plural %}Suggestions are automatically accepted as translations once they have {{ count }} votes.{% endblocktrans %}</li>
 {% else %}
 <li>{% trans "Translations can be made directly." %}</li>
+{% if object.enable_suggestions %}
+<li>{% trans "Suggestions to improve translation can be given." %}</li>
+{% else %}
+<li>{% trans "Suggestions to improve translation are disabled." %}</li>
+{% endif %}
 {% endif %}
 {% if object.project.enable_acl %}
 <li>{% trans "Only selected users can contribute." %}</li>
