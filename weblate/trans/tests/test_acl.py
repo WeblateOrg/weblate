@@ -51,6 +51,16 @@ class ACLViewTest(FixtureTestCase):
         response = self.client.get(self.access_url)
         self.assertEqual(response.status_code, 404)
 
+    def test_acl_disable(self):
+        """Test disabling ACL.
+        """
+        response = self.client.get(self.access_url)
+        self.assertEqual(response.status_code, 404)
+        self.project.enable_acl = False
+        self.project.save()
+        response = self.client.get(self.access_url)
+        self.assertEqual(response.status_code, 403)
+
     def test_acl(self):
         """Regular user should not have access to user management.
         """
