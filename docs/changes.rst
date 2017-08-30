@@ -10,6 +10,7 @@ Released on ? 2017.
 * Improved performance when updating large translation files.
 * Added support for blocking certain emails from registration.
 * Users can now delete their own comments.
+* Added preview step to search and replace feature.
 
 weblate 2.16
 ------------

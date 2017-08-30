@@ -30,7 +30,9 @@ from django.views.decorators.http import require_POST
 
 from weblate.lang.models import Language
 from weblate.permissions.helpers import can_translate
-from weblate.trans.forms import SiteSearchForm, ReplaceForm
+from weblate.trans.forms import (
+    SiteSearchForm, ReplaceForm, ReplaceConfirmForm,
+)
 from weblate.trans.models import Unit, Change, Project
 from weblate.trans.views.helper import (
     get_translation, get_subproject, get_project, import_message,
@@ -43,18 +45,25 @@ from weblate.utils.views import get_page_limit
 @login_required
 @require_POST
 def search_replace(request, project, subproject=None, lang=None):
+    context = {}
     if subproject is None:
         obj = get_project(request, project)
         perms = {'project': obj}
         unit_set = Unit.objects.filter(translation__subproject__project=obj)
+        context['project'] = obj
     elif lang is None:
         obj = get_subproject(request, project, subproject)
         perms = {'project': obj.project}
         unit_set = Unit.objects.filter(translation__subproject=obj)
+        context['subproject'] = obj
+        context['project'] = obj.project
     else:
         obj = get_translation(request, project, subproject, lang)
         perms = {'translation': obj}
         unit_set = obj.unit_set
+        context['translation'] = obj
+        context['subproject'] = obj.subproject
+        context['project'] = obj.subproject.project
 
     if not can_translate(request.user, **perms):
         raise PermissionDenied()
@@ -69,11 +78,34 @@ def search_replace(request, project, subproject=None, lang=None):
     replacement = form.cleaned_data['replacement']
 
     matching = unit_set.filter(target__contains=search_text)
-    updated = matching.count()
 
-    for unit in matching.iterator():
-        unit.target = unit.target.replace(search_text, replacement)
-        unit.save_backend(request, change_action=Change.ACTION_REPLACE)
+    if matching.count() == 0:
+        updated = 0
+
+    else:
+        confirm = ReplaceConfirmForm(matching, request.POST)
+
+        if not confirm.is_valid():
+            for unit in matching:
+                unit.replacement = unit.target.replace(search_text, replacement)
+            context.update({
+                'matching': matching,
+                'search_query': search_text,
+                'form': form,
+                'confirm': ReplaceConfirmForm(matching),
+            })
+            return render(
+                request,
+                'replace.html',
+                context
+            )
+
+        matching = confirm.cleaned_data['units']
+        updated = matching.count()
+
+        for unit in matching.iterator():
+            unit.target = unit.target.replace(search_text, replacement)
+            unit.save_backend(request, change_action=Change.ACTION_REPLACE)
 
     import_message(
         request, updated,

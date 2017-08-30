@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+
+{% block breadcrumbs %}
+<li><a href="{{ project.get_absolute_url }}">{{ project.name }}</a></li>
+{% if subproject %}
+<li><a href="{{ subproject.get_absolute_url }}">{{ subproject.name }}</a></li>
+{% if translation %}
+<li><a href="{{ object.get_absolute_url }}">{{ object.language }}</a></li>
+{% endif %}
+{% endif %}
+<li>{% trans "Search and replace" %}</li>
+{% endblock %}
+
+{% block content %}
+
+{% show_message "info" _("Please review and confirm the search and replace results.") %}
+
+<form method="POST">
+{% csrf_token %}
+{{ form.search.as_hidden }}
+{{ form.replacement.as_hidden }}
+{{ confirm.confirm }}
+
+<table class="table">
+{% for unit in matching %}
+<tr>
+<td rowspan="3">
+<input type="checkbox" name="units" checked="1" value="{{ unit.pk }}" id="confirm_{{ unit.pk }}" />
+</td>
+<td><label for="confirm_{{ unit.pk }}">{{ unit }}</label></td>
+</tr>
+<tr>
+<td>{% format_translation unit.target unit.translation.language search_match=search_query %}</td>
+</tr>
+<tr>
+<td>{% format_translation unit.replacement unit.translation.language %}</td>
+</tr>
+{% endfor %}
+</table>
+<input type="submit" />
+</form>
+
+{% endblock %}
+

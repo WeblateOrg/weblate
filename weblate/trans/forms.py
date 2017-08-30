@@ -1282,6 +1282,22 @@ class ReplaceForm(forms.Form):
     )
 
 
+class ReplaceConfirmForm(forms.Form):
+    units = forms.ModelMultipleChoiceField(
+        queryset=Unit.objects.none(),
+        required=False
+    )
+    confirm = forms.BooleanField(
+        required=True,
+        initial=True,
+        widget=forms.HiddenInput,
+    )
+
+    def __init__(self, units, *args, **kwargs):
+        super(ReplaceConfirmForm, self).__init__(*args, **kwargs)
+        self.fields['units'].queryset = units
+
+
 class MatrixLanguageForm(forms.Form):
     """Form for requesting new language."""
     lang = forms.MultipleChoiceField(

@@ -465,3 +465,81 @@ class SearchMigrationTest(TestCase):
             target=TEXT(),
         )
         self.do_test(source, target)
+
+
+class ReplaceTest(ViewTestCase):
+    """Test for search and replace functionality."""
+
+    def setUp(self):
+        super(ReplaceTest, self).setUp()
+        self.edit_unit(
+            'Hello, world!\n',
+            'Nazdar svete!\n'
+        )
+        self.unit = self.get_unit()
+
+    def do_replace_test(self, url, confirm=True):
+        response = self.client.post(
+            url,
+            {
+                'search': 'Nazdar',
+                'replacement': 'Ahoj',
+            },
+            follow=True
+        )
+        self.assertContains(
+            response,
+            'Please review and confirm the search and replace results.'
+        )
+        payload = {
+            'search': 'Nazdar',
+            'replacement': 'Ahoj',
+            'confirm': '1',
+        }
+        if confirm:
+            payload['units'] = self.unit.pk
+        response = self.client.post(url, payload, follow=True)
+        unit = self.get_unit()
+        if confirm:
+            self.assertContains(
+                response,
+                'Search and replace completed, 1 string was updated.'
+            )
+            self.assertEqual(unit.target, 'Ahoj svete!\n')
+        else:
+            self.assertContains(
+                response,
+                'Search and replace completed, no strings were updated.'
+            )
+            self.assertEqual(unit.target, 'Nazdar svete!\n')
+
+    def test_no_match(self):
+        response = self.client.post(
+            reverse('replace', kwargs=self.kw_translation),
+            {
+                'search': 'Ahoj',
+                'replacement': 'Cau',
+            },
+            follow=True
+        )
+        self.assertContains(
+            response,
+            'Search and replace completed, no strings were updated.'
+        )
+        unit = self.get_unit()
+        self.assertEqual(unit.target, 'Nazdar svete!\n')
+
+    def test_replace(self):
+        self.do_replace_test(
+            reverse('replace', kwargs=self.kw_translation),
+        )
+
+    def test_replace_project(self):
+        self.do_replace_test(
+            reverse('replace', kwargs=self.kw_project),
+        )
+
+    def test_replace_component(self):
+        self.do_replace_test(
+            reverse('replace', kwargs=self.kw_subproject),
+        )
