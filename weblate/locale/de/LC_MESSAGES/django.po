@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-08-30 20:50+0000\n"
-"PO-Revision-Date: 2017-08-30 20:50+0000\n"
+"PO-Revision-Date: 2017-08-30 22:23+0000\n"
 "Last-Translator: Bamstam <am-em-am@posteo.de>\n"
-"Language-Team: German <https://hosted.weblate.org/projects/weblate/master/de/"
-">\n"
+"Language-Team: German "
+"<https://hosted.weblate.org/projects/weblate/master/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -147,10 +147,8 @@ msgid "Activation email will be sent here."
 msgstr "Aktivierungs-E-Mail wird dorthin gesendet."
 
 #: weblate/accounts/forms.py:405
-#, fuzzy
-#| msgid "Too many authentication attempts!"
 msgid "Too many registration attempts!"
-msgstr "Zu viele Authentifizierungsversuche!"
+msgstr "Zu viele Registrierungsversuche!"
 
 #: weblate/accounts/forms.py:412
 msgid "New password"
@@ -254,10 +252,10 @@ msgid "Password reset has been requested."
 msgstr "Kennwort Zurücksetzen wurde angefragt."
 
 #: weblate/accounts/models.py:61
-#, fuzzy
-#| msgid "Password reset has been confirmed."
 msgid "Password reset has been confirmed and password has been reset."
-msgstr "Kennwort-Rücksetzung wurde bestätigt."
+msgstr ""
+"Das Zurücksetzen des Passworts wurde bestätigt und das Passwort "
+"zurückgesetzt."
 
 #: weblate/accounts/models.py:64
 #, python-brace-format
@@ -470,11 +468,13 @@ msgstr ""
 
 #: weblate/accounts/password_validation.py:75
 msgid "Can not use previously used password!"
-msgstr ""
+msgstr "Ein kürzlich bereits benutztes Passwort kann nicht verwendet werden!"
 
 #: weblate/accounts/password_validation.py:81
 msgid "Your password can't match password you have used in the past."
 msgstr ""
+"Ihr Passwort darf nicht mit einem in der Vergangenheit bereits verwendeten "
+"Passwort identisch sein."
 
 #: weblate/accounts/pipeline.py:275
 msgid "You can not complete password reset while logged in!"
@@ -883,6 +883,8 @@ msgstr "Zum Beispiel: {0}"
 #: weblate/legal/forms.py:29
 msgid "I agree with the Terms of Service document"
 msgstr ""
+"Ich erkläre mein Einverständnis mit den im Dokument genannten "
+"Nutzungsbedingungen"
 
 #: weblate/legal/templates/legal/confirm.html:6
 #: weblate/legal/templates/legal/cookies.html:5
@@ -894,11 +896,13 @@ msgstr "Rechtliche Grundlagen"
 
 #: weblate/legal/templates/legal/confirm.html:13
 msgid "You have to aggree to the Terms of Service"
-msgstr ""
+msgstr "Sie müssen den Nutzungsbedingungen zustimmen"
 
 #: weblate/legal/templates/legal/confirm.html:15
 msgid "Please read following Terms of Service document:"
 msgstr ""
+"Bitte lesen Sie das nachfolgende Dokument zu den Nutzungsbedingungen "
+"aufmerksam durch:"
 
 #: weblate/legal/templates/legal/confirm.html:23
 #: weblate/wladmin/templates/admin/ssh.html:64
@@ -1050,8 +1054,8 @@ msgstr "Nutzungsbedingungen"
 #: weblate/legal/templates/legal/terms.html:19
 msgid "The Terms of Service document is currently available only in English."
 msgstr ""
-"Das Schriftstück zu den Nutzungsbedingungen steht momentan nur in englischer "
-"Sprache zur Verfügung. "
+"Das Dokument zu den Nutzungsbedingungen steht momentan nur in englischer "
+"Sprache zur Verfügung."
 
 #: weblate/legal/views.py:37 weblate/templates/translation.html:29
 msgid "Overview"
@@ -1352,28 +1356,20 @@ msgid "Registration"
 msgstr "Registrierung"
 
 #: weblate/templates/accounts/email-sent.html:13
-#, fuzzy
-#| msgid "Password reset has been already completed!"
 msgid "Password reset almost complete"
-msgstr "Kennwort-Zurücksetzen wurde bereits fertiggestellt!"
+msgstr "Zurücksetzen des Passworts ist fast vollständig abgeschlossen"
 
 #: weblate/templates/accounts/email-sent.html:15
 msgid "Registration almost complete"
 msgstr "Registrierung fast vollständig"
 
 #: weblate/templates/accounts/email-sent.html:21
-#, fuzzy
-#| msgid ""
-#| "Thank you for registering. You will very soon receive an email with a "
-#| "confirmation link. Please follow this link in order to complete your "
-#| "registration."
 msgid ""
 "You will very soon receive an email with a confirmation link. Please follow "
 "this link in order to complete your password reset procedure."
 msgstr ""
-"Vielen Dank für die Registrierung. Sie erhalten in Kürze eine E-Mail mit "
-"einem Bestätigungs-Link. Bitte folgen Sie diesem Link, um Ihre Registrierung "
-"abzuschließen."
+"Sie erhalten in Kürze eine E-Mail mit einem Bestätigungs-Link. Bitte folgen "
+"Sie diesem Link, um den Vorgang zum Zurücksetzen des Passworts abzuschließen."
 
 #: weblate/templates/accounts/email-sent.html:23
 msgid ""
@@ -1467,6 +1463,8 @@ msgid ""
 "The hosting requests are usually processed once in a month, so please be "
 "patient after submitting it."
 msgstr ""
+"Hosting-Anfragen werden gewöhnlich einmal pro Monat bearbeitet, bitte haben "
+"Sie deshalb nach der Beauftragung ein wenig Geduld."
 
 #: weblate/templates/accounts/hosting.html:45
 msgid "Commercial hosting"
@@ -1897,6 +1895,8 @@ msgid ""
 "Please read our <a href=\"%(legal_url)s\">Terms of Service</a> prior to "
 "registration."
 msgstr ""
+"Bitte lesen Sie unser Dokument zu den <a href=\"%(legal_url)s\""
+">Nutzungsbedingungen</a> vor der Registrierung aufmerksam durch."
 
 #: weblate/templates/accounts/register.html:21
 msgid ""
@@ -2120,7 +2120,7 @@ msgstr ""
 
 #: weblate/templates/data-root.html:14 weblate/templates/data.html:16
 msgid "RSS feeds"
-msgstr "RSS feeds"
+msgstr "RSS-Feeds"
 
 #: weblate/templates/data-root.html:17 weblate/templates/data.html:19
 msgid ""
@@ -2128,7 +2128,7 @@ msgid ""
 "important changes in translation."
 msgstr ""
 "Um den Fortschritt der Übersetzungen zu verfolgen, können Sie RSS-Feeds "
-"nutzen, die alle wichtigen Änderungen enthalten."
+"nutzen, die alle wichtigen Übersetzungsänderungen enthalten."
 
 #: weblate/templates/data-root.html:18 weblate/templates/data.html:20
 #, python-format
@@ -2192,8 +2192,9 @@ msgid ""
 "There are also per language RSS feeds available, you can construct them by "
 "appending a language code to the above URLs."
 msgstr ""
-"Es gibt auch sprachspezifische RSS-Feeds. Sie erhalten sie, indem Sie einen "
-"Sprachen-Code an die oben genannten URLs anhängen."
+"Ferner gibt es für jede Sprache eigenständige RSS-Feeds. Diese können Sie "
+"manuell erstellen, indem Sie einen Sprachen-Code an die oben genannten URLs "
+"anhängen."
 
 #: weblate/templates/data.html:48 weblate/templates/index.html:38
 #: weblate/templates/stats.html:5 weblate/templates/stats.html:62
@@ -3150,8 +3151,6 @@ msgid "Nyanja"
 msgstr "Chichewa"
 
 #: weblate/templates/i18n.html:194
-#, fuzzy
-#| msgid "Occitan"
 msgid "Occidental"
 msgstr "Okzidental"
 
@@ -4437,10 +4436,8 @@ msgstr "Datenexporte"
 
 #: weblate/templates/project.html:57 weblate/templates/subproject.html:65
 #: weblate/templates/translation.html:68
-#, fuzzy
-#| msgid "Manage users"
 msgid "Manage"
-msgstr "Benutzer verwalten"
+msgstr "Verwalten"
 
 #: weblate/templates/project.html:64 weblate/templates/subproject.html:72
 #: weblate/templates/translation.html:75
@@ -4543,7 +4540,7 @@ msgstr "Anzahl der Ausgangswörter"
 
 #: weblate/templates/replace.html:18
 msgid "Please review and confirm the search and replace results."
-msgstr ""
+msgstr "Bitte prüfen und bestätigen Sie die Suchen-und-Ersetzen-Ergebnisse."
 
 #: weblate/templates/screenshots/screenshot_detail.html:9
 #: weblate/templates/screenshots/screenshot_list.html:9
@@ -4810,13 +4807,12 @@ msgstr "Übersetzungen können direkt angefertigt werden."
 
 #: weblate/templates/subproject_info.html:20
 msgid "Suggestions to improve translation can be given."
-msgstr ""
+msgstr "Vorschläge zur Verbesserung der Übersetzung können eingebracht werden."
 
 #: weblate/templates/subproject_info.html:22
-#, fuzzy
-#| msgid "New registrations are disabled!"
 msgid "Suggestions to improve translation are disabled."
-msgstr "Die Registrierung neuer Benutzer ist deaktiviert!"
+msgstr ""
+"Vorschläge zur Verbesserung der Übersetzung können nicht eingebracht werden."
 
 #: weblate/templates/subproject_info.html:26
 msgid "Only selected users can contribute."
@@ -5118,12 +5114,14 @@ msgstr[1] ""
 "die gleiche Quelle."
 
 #: weblate/templates/translate.html:309
-#, fuzzy
-#| msgid "This string has different source but same context."
 msgid "Following string has different source but same context."
 msgid_plural "Following strings have different sources but same context."
-msgstr[0] "Dieser String hat eine andere Quelle aber denselben Kontext."
-msgstr[1] "Dieser String hat eine andere Quelle aber denselben Kontext."
+msgstr[0] ""
+"Die nachfolgende Zeichenkette hat eine andere Quelle aber den gleichen "
+"Kontext."
+msgstr[1] ""
+"Die nachfolgenden Zeichenketten haben andere Quellen aber den gleichen "
+"Kontext."
 
 #: weblate/templates/translate.html:335
 msgid "Service"
@@ -5404,10 +5402,6 @@ msgid "Promoting specific translations"
 msgstr "Bestimmte Übersetzungen gezielt fördern"
 
 #: weblate/templates/widgets.html:20
-#, fuzzy
-#| msgid ""
-#| "Besides promoting whole translation project, you can also choose specific "
-#| "language or component to promote:"
 msgid ""
 "Besides promoting the whole translation project, you can also choose a "
 "specific language or component to promote:"
@@ -5420,11 +5414,6 @@ msgid "Image widgets"
 msgstr "Bild-Widgets"
 
 #: weblate/templates/widgets.html:27
-#, fuzzy
-#| msgid ""
-#| "You can use following widgets to promote translation of your project. "
-#| "They can increase visibility of your translation projects and bring new "
-#| "contributors."
 msgid ""
 "You can use the following widgets to promote translation of your project. "
 "They can increase visibility of your translation projects and bring new "
@@ -6154,10 +6143,8 @@ msgid "Merged unit not found!"
 msgstr "Kombinierte Einheit nicht gefunden!"
 
 #: weblate/trans/forms.py:792
-#, fuzzy
-#| msgid "Template file not found!"
 msgid "Reverted change not found!"
-msgstr "Vorlagendatei nicht gefunden!"
+msgstr "Zurückgenommene Änderung konnte nicht gefunden werden!"
 
 #: weblate/trans/forms.py:799
 msgid "Overwrite strings"
@@ -6238,10 +6225,8 @@ msgid "Translation comment, discussions with other translators"
 msgstr "Übersetzungs-Kommentar, Diskussionen mit anderen Übersetzern"
 
 #: weblate/trans/forms.py:972
-#, fuzzy
-#| msgid "Components"
 msgid "All components"
-msgstr "Komponenten"
+msgstr "Alle Komponenten"
 
 #: weblate/trans/forms.py:1012
 #, python-brace-format
@@ -6315,16 +6300,12 @@ msgid "Ending date"
 msgstr "Enddatum"
 
 #: weblate/trans/forms.py:1146
-#, fuzzy
-#| msgid "Actions"
 msgid "Locations"
-msgstr "Aktionen"
+msgstr "Locations"
 
 #: weblate/trans/forms.py:1150
-#, fuzzy
-#| msgid "Version control system"
 msgid "Version control settings"
-msgstr "Versionsverwaltung"
+msgstr "Versionsverwaltungseinstellungen"
 
 #: weblate/trans/forms.py:1156
 msgid "Commit messages"
@@ -7113,10 +7094,9 @@ msgid "The mask did not match any files!"
 msgstr "Es wurden keine auf das Suchmuster passenden Dateien gefunden!"
 
 #: weblate/trans/models/subproject.py:1158
-#, fuzzy, python-format
+#, python-format
 msgid "Got empty language code for %s, please check filemask!"
-msgstr ""
-"Es gab einen leeren Sprachcode für %s, bitte überprüfen Sie die Dateimaske!"
+msgstr "Der Sprachcode für %s ist leer, bitte überprüfen Sie die Dateimaske!"
 
 #: weblate/trans/models/subproject.py:1163
 #, python-format
@@ -7281,10 +7261,9 @@ msgid "This translation is locked by %(user)s!"
 msgstr "Diese Übersetzung ist von %(user)s gesperrt!"
 
 #: weblate/trans/models/unit.py:396
-#, fuzzy, python-brace-format
-#| msgid "%(filename)s, translation unit %(position)s"
+#, python-brace-format
 msgid "{translation}, translation unit {position}"
-msgstr "%(filename)s, Übersetzungseinheit %(position)s"
+msgstr "{translation}, Übersetzungseinheit {position}"
 
 #: weblate/trans/models/whiteboard.py:88
 msgid "Category"
@@ -7716,10 +7695,10 @@ msgid "User has been added to this project."
 msgstr "Nutzer wurde diesem Projekt hinzugefügt."
 
 #: weblate/trans/views/acl.py:119
-#, fuzzy
-#| msgid "Failed to find matching user!"
 msgid "Failed to find group to add an user!"
-msgstr "Der passende Benutzer konnte nicht gefunden werden!"
+msgstr ""
+"Die Gruppe, in die der Benutzer hinzugefügt werden soll, konnte nicht "
+"gefunden werden!"
 
 #: weblate/trans/views/acl.py:142
 msgid "User has been removed from this project."
@@ -7925,10 +7904,8 @@ msgid "Invalid merge request!"
 msgstr "Ungültige Zusammenführungs-Anfrage!"
 
 #: weblate/trans/views/edit.py:394
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Invalid revert request!"
-msgstr "Ungültige Zusammenführungs-Anfrage!"
+msgstr "Ungültige Zurücksetzen-Anfrage!"
 
 #: weblate/trans/views/edit.py:401
 msgid "Can not revert to empty translation!"
