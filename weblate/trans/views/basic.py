@@ -413,6 +413,7 @@ def show_subproject(request, project, subproject):
     )
 
 
+@never_cache
 def show_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
     last_changes = Change.objects.for_translation(obj)[:10]
