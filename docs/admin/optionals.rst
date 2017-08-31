@@ -117,6 +117,18 @@ To install, simply add ``weblate.legal`` to installed applications in
         'weblate.legal',
     )
 
+    # Optionals:
+
+    # Social auth pipeline to confirm TOS on registration/login
+    SOCIAL_AUTH_PIPELINE += (
+        'weblate.legal.pipeline.tos_confirm',
+    )
+
+    # Middleware to enforce TOS confirmation of logged in users
+    MIDDLEWARE_CLASSES += (
+        'weblate.legal.middleware.RequireTOSMiddleware',
+    )
+
 This module includes additional database structures, to have them installed you
 should run the database migration:
 
