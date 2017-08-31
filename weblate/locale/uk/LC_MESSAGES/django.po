@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-08-30 20:50+0000\n"
-"PO-Revision-Date: 2017-08-17 18:37+0000\n"
+"PO-Revision-Date: 2017-08-31 06:29+0000\n"
 "Last-Translator: Андрій Бандура <andriykopanytsia@gmail.com>\n"
-"Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/master/"
-"uk/>\n"
+"Language-Team: Ukrainian "
+"<https://hosted.weblate.org/projects/weblate/master/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.17-dev\n"
 
 #: weblate/accounts/admin.py:105 weblate/accounts/admin.py:110
@@ -247,10 +247,8 @@ msgid "Password reset has been requested."
 msgstr "Подано запит на відновлення пароля."
 
 #: weblate/accounts/models.py:61
-#, fuzzy
-#| msgid "Password reset has been confirmed."
 msgid "Password reset has been confirmed and password has been reset."
-msgstr "Підтверджено обнулення пароля."
+msgstr "Відновлення пароля підтверджено і пароль відновлено."
 
 #: weblate/accounts/models.py:64
 #, python-brace-format
@@ -459,11 +457,11 @@ msgstr "Ваш пароль не може складатися з одного �
 
 #: weblate/accounts/password_validation.py:75
 msgid "Can not use previously used password!"
-msgstr ""
+msgstr "Не можна використовувати попередній пароль!"
 
 #: weblate/accounts/password_validation.py:81
 msgid "Your password can't match password you have used in the past."
-msgstr ""
+msgstr "Ваш пароль не може збігатися з тим, який ви раніше використовували."
 
 #: weblate/accounts/pipeline.py:275
 msgid "You can not complete password reset while logged in!"
@@ -865,7 +863,7 @@ msgstr "Наприклад: {0}"
 
 #: weblate/legal/forms.py:29
 msgid "I agree with the Terms of Service document"
-msgstr ""
+msgstr "Я погоджуюся з Умовами надання послуг"
 
 #: weblate/legal/templates/legal/confirm.html:6
 #: weblate/legal/templates/legal/cookies.html:5
@@ -877,11 +875,11 @@ msgstr "Юридична інформація"
 
 #: weblate/legal/templates/legal/confirm.html:13
 msgid "You have to aggree to the Terms of Service"
-msgstr ""
+msgstr "Ви повинні погодитися з Умовами надання послуг"
 
 #: weblate/legal/templates/legal/confirm.html:15
 msgid "Please read following Terms of Service document:"
-msgstr ""
+msgstr "Будь ласка, прочитайте наступні Умови надання послуг:"
 
 #: weblate/legal/templates/legal/confirm.html:23
 #: weblate/wladmin/templates/admin/ssh.html:64
@@ -1324,27 +1322,20 @@ msgid "Registration"
 msgstr "Реєстрація"
 
 #: weblate/templates/accounts/email-sent.html:13
-#, fuzzy
-#| msgid "Password reset has been already completed!"
 msgid "Password reset almost complete"
-msgstr "Відновлення пароля вже завершено!"
+msgstr "Відновлення пароля майже завершено"
 
 #: weblate/templates/accounts/email-sent.html:15
 msgid "Registration almost complete"
 msgstr "Реєстрацію майже завершено"
 
 #: weblate/templates/accounts/email-sent.html:21
-#, fuzzy
-#| msgid ""
-#| "Thank you for registering. You will very soon receive an email with a "
-#| "confirmation link. Please follow this link in order to complete your "
-#| "registration."
 msgid ""
 "You will very soon receive an email with a confirmation link. Please follow "
 "this link in order to complete your password reset procedure."
 msgstr ""
-"Дякуємо вам за реєстрацію. Дуже скоро ви отримаєте лист з посиланням для "
-"підтвердження. Будь ласка, натисніть це посилання для завершення реєстрацію."
+"Дуже скоро ви отримаєте лист з посиланням для підтвердження. Будь ласка, "
+"натисніть це посилання для завершення процедури відновлення пароля."
 
 #: weblate/templates/accounts/email-sent.html:23
 msgid ""
@@ -1431,6 +1422,8 @@ msgid ""
 "The hosting requests are usually processed once in a month, so please be "
 "patient after submitting it."
 msgstr ""
+"Запити на хостинг, як правило, обробляються один раз на місяць, тому, будь "
+"ласка, будьте терплячими після того, як ви подали його."
 
 #: weblate/templates/accounts/hosting.html:45
 msgid "Commercial hosting"
@@ -1846,6 +1839,8 @@ msgid ""
 "Please read our <a href=\"%(legal_url)s\">Terms of Service</a> prior to "
 "registration."
 msgstr ""
+"Будь ласка, прочитайте наші <a href=\"%(legal_url)s\">Умови надання "
+"послуг</a> перед реєстрацією."
 
 #: weblate/templates/accounts/register.html:21
 msgid ""
@@ -4469,7 +4464,7 @@ msgstr "Число слів сирця"
 
 #: weblate/templates/replace.html:18
 msgid "Please review and confirm the search and replace results."
-msgstr ""
+msgstr "Будь ласка, перевірте та підтвердіть результати пошуку та заміни."
 
 #: weblate/templates/screenshots/screenshot_detail.html:9
 #: weblate/templates/screenshots/screenshot_list.html:9
@@ -4733,13 +4728,11 @@ msgstr "Переклади можуть бути зроблені безпосе
 
 #: weblate/templates/subproject_info.html:20
 msgid "Suggestions to improve translation can be given."
-msgstr ""
+msgstr "Можна запропонувати варіанти для покращення перекладу."
 
 #: weblate/templates/subproject_info.html:22
-#, fuzzy
-#| msgid "New registrations are disabled!"
 msgid "Suggestions to improve translation are disabled."
-msgstr "Нові реєстрації вимкнені!"
+msgstr "Пропозиції для покращення перекладу вимкнено."
 
 #: weblate/templates/subproject_info.html:26
 msgid "Only selected users can contribute."
@@ -5316,34 +5309,25 @@ msgid "Promoting specific translations"
 msgstr "Сприяння конкретним перекладам"
 
 #: weblate/templates/widgets.html:20
-#, fuzzy
-#| msgid ""
-#| "Besides promoting whole translation project, you can also choose specific "
-#| "language or component to promote:"
 msgid ""
 "Besides promoting the whole translation project, you can also choose a "
 "specific language or component to promote:"
 msgstr ""
-"Крім сприяння окремих перекладацьких проектів, можна вибрати конкретну мову "
-"для популяризації:"
+"Крім сприяння усього перекладацького проекту, можна вибрати конкретну мову "
+"або складову для популяризації:"
 
 #: weblate/templates/widgets.html:24
 msgid "Image widgets"
 msgstr "Віджети-малюнки"
 
 #: weblate/templates/widgets.html:27
-#, fuzzy
-#| msgid ""
-#| "You can use following widgets to promote translation of your project. "
-#| "They can increase visibility of your translation projects and bring new "
-#| "contributors."
 msgid ""
 "You can use the following widgets to promote translation of your project. "
 "They can increase visibility of your translation projects and bring new "
 "contributors."
 msgstr ""
 "Такі віджети можуть застосовуватися для сприяння перекладу вашого проекту. "
-"Вони можуть привернути увагу до вашого проекту і принести нових помічників."
+"Вони можуть привернути увагу до вашого проекту і залучити нових помічників."
 
 #: weblate/templates/widgets.html:31
 #, python-format
@@ -7146,10 +7130,9 @@ msgid "This translation is locked by %(user)s!"
 msgstr "Переклад заблокований користувачем %(user)s!"
 
 #: weblate/trans/models/unit.py:396
-#, fuzzy, python-brace-format
-#| msgid "%(filename)s, translation unit %(position)s"
+#, python-brace-format
 msgid "{translation}, translation unit {position}"
-msgstr "%(filename)s, переклад блоку %(position)s"
+msgstr "{translation}, переклад блоку {position}"
 
 #: weblate/trans/models/whiteboard.py:88
 msgid "Category"
@@ -7595,10 +7578,8 @@ msgid "User has been added to this project."
 msgstr "Користувача додано до поточного проекту."
 
 #: weblate/trans/views/acl.py:119
-#, fuzzy
-#| msgid "Failed to find matching user!"
 msgid "Failed to find group to add an user!"
-msgstr "Не вдалося знайти відповідного користувача!"
+msgstr "Не вдалося знайти групу, щоб додати користувача!"
 
 #: weblate/trans/views/acl.py:142
 msgid "User has been removed from this project."
