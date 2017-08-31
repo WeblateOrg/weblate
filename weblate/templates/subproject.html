@@ -130,7 +130,7 @@
 
 <div class="tab-pane" id="search">
 
-<form action="{% url 'search' project=object.project.slug subproject=object.slug %}" method="GET">
+<form action="{% url 'search' project=object.project.slug subproject=object.slug %}" method="GET" data-persist="search-component">
 {{ search_form|crispy }}
 <input type="submit" value="{% trans "Search" %}" class="btn btn-default" />
 </form>

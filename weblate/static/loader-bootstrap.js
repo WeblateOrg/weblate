@@ -1262,4 +1262,39 @@ $(function () {
             $form.data('submitted', true);
         }
     });
+
+    /* Client side form persistence */
+    var $forms = $('[data-persist]');
+    if ($forms.length > 0 && window.localStorage) {
+        /* Load from local storage */
+        $forms.each(function () {
+            var $this = $(this);
+            var storedValue = window.localStorage[$this.data('persist')];
+            if (storedValue) {
+                storedValue = JSON.parse(storedValue);
+                $.each(storedValue, function (key, value) {
+                    var target = $this.find('[name=' + key + ']');
+                    if (target.is(":checkbox")) {
+                        target.prop('checked', value);
+                    } else {
+                        target.val(value);
+                    }
+                });
+            }
+        });
+        /* Save on submit */
+        $forms.submit(function (e) {
+            var data = {};
+            var $this = $(this);
+            $this.find(':checkbox').each(function () {
+                var $this = $(this);
+                data[$this.attr('name')] = $this.prop('checked');
+            });
+            $this.find('select').each(function () {
+                var $this = $(this);
+                data[$this.attr('name')] = $this.val();
+            });
+            window.localStorage[$this.data('persist')] = JSON.stringify(data);
+        });
+    }
 });

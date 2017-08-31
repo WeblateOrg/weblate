@@ -196,7 +196,7 @@
 
 {% if autoform %}
 <div class="tab-pane" id="auto">
-<form action="{% url 'auto_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post" enctype="multipart/form-data">
+<form action="{% url 'auto_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post" enctype="multipart/form-data" data-persist="auto-translation">
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Automatic translation" %}</h4></div>
 <div class="panel-body">
@@ -232,7 +232,7 @@
 
 {% if user_can_upload_translation %}
 <div class="tab-pane" id="upload">
-<form action="{% url 'upload_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post" enctype="multipart/form-data">
+<form action="{% url 'upload_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post" enctype="multipart/form-data" data-persist="upload-translation">
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Upload" %}</h4></div>
 <div class="panel-body">
@@ -289,7 +289,7 @@
 <div class="row">
 <div class="col-lg-6">
 
-<form action="{{ object.get_translate_url }}" method="GET">
+<form action="{{ object.get_translate_url }}" method="GET" data-persist="search-translation">
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Search" %}</h4></div>
   <div class="panel-body">

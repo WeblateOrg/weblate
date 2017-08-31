@@ -118,7 +118,7 @@
 
 <div class="tab-pane" id="search">
 
-<form action="{% url 'search' %}" method="GET">
+<form action="{% url 'search' %}" method="GET" data-persist="search-index">
 {{ search_form|crispy }}
 <input type="submit" value="{% trans "Search" %}" class="btn btn-default" />
 </form>
