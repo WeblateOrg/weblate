@@ -64,6 +64,16 @@ class SearchViewTest(ViewTestCase):
             )
         return response
 
+    def do_search_url(self, url):
+        """Test search on given URL."""
+        response = self.client.get(url, {'q': 'hello'})
+        self.assertContains(
+            response,
+            '<span class="hlmatch">Hello</span>, world'
+        )
+        response = self.client.get(url, {'date': '2010-01-10'})
+        self.assertContains(response, '2010-01-10')
+
     def test_all_search(self):
         """Searching in all projects."""
         response = self.client.get(
@@ -119,6 +129,7 @@ class SearchViewTest(ViewTestCase):
             {'type': 'xxx'}
         )
         self.assertContains(response, 'Please select a valid filter type.')
+        self.do_search_url(reverse('search'))
 
     def test_pagination(self):
         response = self.client.get(
@@ -159,28 +170,15 @@ class SearchViewTest(ViewTestCase):
 
     def test_project_search(self):
         """Searching within project."""
-        # Default
-        response = self.client.get(
-            reverse('search', kwargs=self.kw_project),
-            {'q': 'hello'}
-        )
-        self.assertContains(
-            response,
-            '<span class="hlmatch">Hello</span>, world'
-        )
+        self.do_search_url(reverse('search', kwargs=self.kw_project))
 
     def test_project_language_search(self):
         """Searching within project."""
-        response = self.client.get(
+        self.do_search_url(
             reverse(
                 'search',
                 kwargs={'project': self.project.slug, 'lang': 'cs'}
-            ),
-            {'q': 'hello'}
-        )
-        self.assertContains(
-            response,
-            '<span class="hlmatch">Hello</span>, world'
+            )
         )
 
     def test_translation_search(self):
@@ -238,12 +236,20 @@ class SearchViewTest(ViewTestCase):
     def test_review(self):
         # Review
         self.do_search(
-            {'date': '2010-01-10', 'type': 'review'},
+            {'date': '2010-01-10', 'type': 'all'},
+            None
+        )
+        self.do_search(
+            {'date': '2010-01-10', 'type': 'all', 'exclude_user': 'testuser'},
+            None
+        )
+        self.do_search(
+            {'date': '2010-01-10', 'type': 'all', 'only_user': 'testuser'},
             None
         )
         # Review, invalid date
         self.do_search(
-            {'date': '2010-01-', 'type': 'review'},
+            {'date': '2010-01-', 'type': 'all'},
             'Enter a valid date.'
         )
 
