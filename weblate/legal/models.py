@@ -26,6 +26,9 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 
+from weblate.accounts.notifications import notify_account_activity
+
+
 # Current TOS date
 TOS_DATE = date(2017, 7, 2)
 
@@ -45,6 +48,10 @@ class Agreement(models.Model):
     def is_current(self):
         return self.tos == TOS_DATE
 
-    def make_current(self):
-        self.tos = TOS_DATE
-        self.save()
+    def make_current(self, request):
+        if not self.is_current():
+            notify_account_activity(
+                self.user, request, 'tos', date=TOS_DATE.isoformat()
+            )
+            self.tos = TOS_DATE
+            self.save()

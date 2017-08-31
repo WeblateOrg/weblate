@@ -84,6 +84,9 @@ ACCOUNT_ACTIVITY = {
     'removed': _(
         'Account and all private data have been removed.'
     ),
+    'tos': _(
+        'Agreement with Terms of Service {date}.'
+    ),
 }
 
 NOTIFY_ACTIVITY = frozenset((

@@ -23,6 +23,7 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from django.http import HttpRequest
 from django.test.utils import override_settings, modify_settings
 
 from weblate.accounts.tests.test_registration import REGISTRATION_DATA
@@ -119,7 +120,9 @@ class LegalTest(TestCase, RegistrationTestMixin):
         response = self.client.get(reverse('contact'), follow=True)
         self.assertContains(response, 'You can contact maintainers')
         # Confirm current TOS
-        user.agreement.make_current()
+        request = HttpRequest()
+        request.META['REMOTE_ADDR'] = '127.0.0.1'
+        user.agreement.make_current(request)
         # Homepage now should work
         response = self.client.get(reverse('home'), follow=True)
         self.assertContains(response, 'Suggested translations')

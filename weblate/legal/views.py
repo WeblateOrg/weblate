@@ -99,7 +99,7 @@ def tos_confirm(request):
     if request.method == 'POST':
         form = TOSForm(request.POST)
         if form.is_valid():
-            agreement.make_current()
+            agreement.make_current(request)
             return redirect_next(form.cleaned_data['next'], 'home')
     else:
         form = TOSForm(initial={'next': request.GET.get('next')})
