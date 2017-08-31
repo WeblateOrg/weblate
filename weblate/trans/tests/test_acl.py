@@ -91,7 +91,7 @@ class ACLViewTest(FixtureTestCase):
         # Add user
         response = self.client.post(
             reverse('add-user', kwargs=self.kw_project),
-            {'name': self.second_user.username}
+            {'user': self.second_user.username}
         )
         self.assertRedirects(response, self.access_url)
 
@@ -104,7 +104,7 @@ class ACLViewTest(FixtureTestCase):
         # Remove user
         response = self.client.post(
             reverse('delete-user', kwargs=self.kw_project),
-            {'name': self.second_user.username}
+            {'user': self.second_user.username}
         )
         self.assertRedirects(response, self.access_url)
 
@@ -126,7 +126,7 @@ class ACLViewTest(FixtureTestCase):
         self.client.post(
             reverse('set-groups', kwargs=self.kw_project),
             {
-                'name': self.second_user.username,
+                'user': self.second_user.username,
                 'group': self.admin_group.pk,
                 'action': 'add',
             }
@@ -139,7 +139,7 @@ class ACLViewTest(FixtureTestCase):
         self.client.post(
             reverse('set-groups', kwargs=self.kw_project),
             {
-                'name': self.second_user.username,
+                'user': self.second_user.username,
                 'group': self.admin_group.pk,
                 'action': 'remove',
             }
@@ -158,7 +158,7 @@ class ACLViewTest(FixtureTestCase):
         self.client.post(
             reverse('set-groups', kwargs=self.kw_project),
             {
-                'name': self.second_user.username,
+                'user': self.second_user.username,
                 'group': self.admin_group.pk,
                 'action': 'add',
             }
@@ -176,7 +176,7 @@ class ACLViewTest(FixtureTestCase):
         self.client.post(
             reverse('set-groups', kwargs=self.kw_project),
             {
-                'name': self.second_user.username,
+                'user': self.second_user.username,
                 'group': self.admin_group.pk,
                 'action': 'remove',
             }
@@ -189,7 +189,7 @@ class ACLViewTest(FixtureTestCase):
         self.client.post(
             reverse('set-groups', kwargs=self.kw_project),
             {
-                'name': self.user.username,
+                'user': self.user.username,
                 'group': self.admin_group.pk,
                 'action': 'remove',
             }
@@ -205,7 +205,7 @@ class ACLViewTest(FixtureTestCase):
         self.project.add_user(self.user, '@Administration')
         response = self.client.post(
             reverse('add-user', kwargs=self.kw_project),
-            {'name': 'nonexisting'},
+            {'user': 'nonexisting'},
             follow=True
         )
         self.assertContains(response, 'No matching user found!')
