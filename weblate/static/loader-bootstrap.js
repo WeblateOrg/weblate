@@ -1206,7 +1206,7 @@ $(function () {
             data: {
                 csrfmiddlewaretoken: $form.find('input').val(),
                 action: ($this.prop('checked') ? 'add' : 'remove'),
-                name: $this.data('username'),
+                user: $this.data('username'),
                 group: $this.data('group'),
             },
             dataType: 'json',
