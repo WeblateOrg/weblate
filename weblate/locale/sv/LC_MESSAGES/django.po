@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Swedish (Weblate)\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-08-30 20:50+0000\n"
+"POT-Creation-Date: 2017-08-31 07:33+0000\n"
 "PO-Revision-Date: 2017-08-28 07:11+0000\n"
 "Last-Translator: anonymous <>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/master/"
@@ -309,29 +309,34 @@ msgstr ""
 msgid "Account and all private data have been removed."
 msgstr ""
 
-#: weblate/accounts/models.py:206 weblate/templates/accounts/profile.html:304
+#: weblate/accounts/models.py:88
+#, python-brace-format
+msgid "Agreement with Terms of Service {date}."
+msgstr ""
+
+#: weblate/accounts/models.py:209 weblate/templates/accounts/profile.html:304
 #, fuzzy
 #| msgid "Account activation"
 msgid "Account activity"
 msgstr "Kontoaktivering"
 
-#: weblate/accounts/models.py:306
+#: weblate/accounts/models.py:309
 msgid "Interface Language"
 msgstr "Gränssnittsspråk"
 
-#: weblate/accounts/models.py:313
+#: weblate/accounts/models.py:316
 msgid "Translated languages"
 msgstr "Översatta språk"
 
-#: weblate/accounts/models.py:315
+#: weblate/accounts/models.py:318
 msgid "Choose languages to which you can translate."
 msgstr "Var god välj språket du kan översätta till."
 
-#: weblate/accounts/models.py:319
+#: weblate/accounts/models.py:322
 msgid "Secondary languages"
 msgstr "Sekundära språk"
 
-#: weblate/accounts/models.py:321
+#: weblate/accounts/models.py:324
 msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
@@ -339,25 +344,25 @@ msgstr ""
 "Välj språk du förstår, strängar i dessa språk kommer visas tillsammans med "
 "källspråket."
 
-#: weblate/accounts/models.py:331
+#: weblate/accounts/models.py:334
 msgid "Hide completed translations on dashboard"
 msgstr "Dölj fullständiga översättningar från instrumentpanelen"
 
-#: weblate/accounts/models.py:335
+#: weblate/accounts/models.py:338
 msgid "Show secondary translations in zen mode"
 msgstr "Visa sekundära översättningar i zenläge"
 
-#: weblate/accounts/models.py:339
+#: weblate/accounts/models.py:342
 msgid "Hide source if there is secondary language"
 msgstr "Dölj källan om det finns ett sekundärt språk"
 
-#: weblate/accounts/models.py:345
+#: weblate/accounts/models.py:348
 #, fuzzy
 #| msgid "Source string:"
 msgid "Editor link"
 msgstr "Källsträng:"
 
-#: weblate/accounts/models.py:347
+#: weblate/accounts/models.py:350
 #, python-format
 msgid ""
 "Enter custom URL to be used as link to open source code. You can use "
@@ -366,53 +371,53 @@ msgid ""
 "%(line)s is good option."
 msgstr ""
 
-#: weblate/accounts/models.py:358
+#: weblate/accounts/models.py:361
 #, fuzzy
 #| msgid "Special characters:"
 msgid "Special characters"
 msgstr "Specialtecken:"
 
-#: weblate/accounts/models.py:360
+#: weblate/accounts/models.py:363
 msgid ""
 "You can specify additional special characters to be shown in the visual "
 "keyboard while translating. It can be useful for chars you use frequently "
 "but are hard to type on your keyboard."
 msgstr ""
 
-#: weblate/accounts/models.py:372 weblate/templates/index.html:24
+#: weblate/accounts/models.py:375 weblate/templates/index.html:24
 #, fuzzy
 #| msgid "Your translations"
 msgid "Watched translations"
 msgstr "Dina översättningar"
 
-#: weblate/accounts/models.py:373 weblate/templates/index.html:25
+#: weblate/accounts/models.py:376 weblate/templates/index.html:25
 msgid "Your languages"
 msgstr "Dina språk"
 
-#: weblate/accounts/models.py:374 weblate/trans/models/componentlist.py:58
+#: weblate/accounts/models.py:377 weblate/trans/models/componentlist.py:58
 msgid "Component list"
 msgstr "Lista över komponenter"
 
-#: weblate/accounts/models.py:375 weblate/templates/index.html:27
+#: weblate/accounts/models.py:378 weblate/templates/index.html:27
 msgid "Suggested translations"
 msgstr "Föreslagna översättningar"
 
-#: weblate/accounts/models.py:391
+#: weblate/accounts/models.py:394
 msgid "Default dashboard view"
 msgstr "Standard instrumentpanelsvy"
 
-#: weblate/accounts/models.py:397
+#: weblate/accounts/models.py:400
 msgid "Default component list"
 msgstr "Standardlista för komponenter"
 
-#: weblate/accounts/models.py:404 weblate/templates/accounts/profile.html:117
+#: weblate/accounts/models.py:407 weblate/templates/accounts/profile.html:117
 #: weblate/templates/base.html:108
 #, fuzzy
 #| msgid "Whole project"
 msgid "Watched projects"
 msgstr "Hela projektet"
 
-#: weblate/accounts/models.py:406 weblate/templates/watch-dropdown.html:5
+#: weblate/accounts/models.py:409 weblate/templates/watch-dropdown.html:5
 #: weblate/templates/watch-dropdown.html:9
 #, fuzzy
 #| msgid ""
@@ -425,45 +430,45 @@ msgstr ""
 "Du kan ta emot notiser för projekt du prenumererar på och de visas på "
 "instrumentpanelen som standard."
 
-#: weblate/accounts/models.py:413
+#: weblate/accounts/models.py:416
 msgid "Notification on any translation"
 msgstr "Meddelande vid all översättning"
 
-#: weblate/accounts/models.py:417
+#: weblate/accounts/models.py:420
 msgid "Notification on new string to translate"
 msgstr "Meddelande vid ny sträng att översätta"
 
-#: weblate/accounts/models.py:421
+#: weblate/accounts/models.py:424
 msgid "Notification on new suggestion"
 msgstr "Meddelande vid nytt förslag"
 
-#: weblate/accounts/models.py:425
+#: weblate/accounts/models.py:428
 msgid "Notification on new contributor"
 msgstr "Meddelande vid ny medarbetare"
 
-#: weblate/accounts/models.py:429
+#: weblate/accounts/models.py:432
 msgid "Notification on new comment"
 msgstr "Meddelande vid ny kommentar"
 
-#: weblate/accounts/models.py:433
+#: weblate/accounts/models.py:436
 msgid "Notification on merge failure"
 msgstr "Anmälan på felkoppling"
 
-#: weblate/accounts/models.py:437
+#: weblate/accounts/models.py:440
 msgid "Notification on new language request"
 msgstr "Meddelande vid ny språkförfrågan"
 
-#: weblate/accounts/models.py:490
+#: weblate/accounts/models.py:493
 msgid "Component list must be selected when used as default."
 msgstr "Komponentlistan måste väljas när den används som standard."
 
-#: weblate/accounts/models.py:496
+#: weblate/accounts/models.py:499
 #, fuzzy
 #| msgid "Component list must be selected when used as default."
 msgid "Component list must not be selected when not used."
 msgstr "Komponentlistan måste väljas när den används som standard."
 
-#: weblate/accounts/models.py:592
+#: weblate/accounts/models.py:595
 msgid ""
 "You can not submit translations as you do not have assigned any email "
 "address."
@@ -920,6 +925,12 @@ msgstr "Kunde inte lägga till kommentar!"
 
 #: weblate/legal/forms.py:29
 msgid "I agree with the Terms of Service document"
+msgstr ""
+
+#: weblate/legal/middleware.py:59
+msgid ""
+"We have new version of the Terms of Service document, please read it and "
+"confirm that you agree with it."
 msgstr ""
 
 #: weblate/legal/templates/legal/confirm.html:6

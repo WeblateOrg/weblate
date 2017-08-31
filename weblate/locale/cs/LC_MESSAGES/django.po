@@ -8,11 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-08-30 20:50+0000\n"
+"POT-Creation-Date: 2017-08-31 07:33+0000\n"
 "PO-Revision-Date: 2017-08-31 07:12+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
-"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/>"
-"\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/"
+">\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -284,27 +284,33 @@ msgstr "Účet byl uzamčen kvůli příliš mnoho chybným pokusům o přihlá�
 msgid "Account and all private data have been removed."
 msgstr "Účet byl odstraněn spolu se všemi osobními údaji."
 
-#: weblate/accounts/models.py:206 weblate/templates/accounts/profile.html:304
+#: weblate/accounts/models.py:88
+#, fuzzy, python-brace-format
+#| msgid "I agree with the Terms of Service document"
+msgid "Agreement with Terms of Service {date}."
+msgstr "Souhlasím s dokumentem „Podmínky využívání služby“"
+
+#: weblate/accounts/models.py:209 weblate/templates/accounts/profile.html:304
 msgid "Account activity"
 msgstr "Aktivita na účtu"
 
-#: weblate/accounts/models.py:306
+#: weblate/accounts/models.py:309
 msgid "Interface Language"
 msgstr "Jazyk rozhraní"
 
-#: weblate/accounts/models.py:313
+#: weblate/accounts/models.py:316
 msgid "Translated languages"
 msgstr "Překládané jazyky"
 
-#: weblate/accounts/models.py:315
+#: weblate/accounts/models.py:318
 msgid "Choose languages to which you can translate."
 msgstr "Prosím zvolte jazyky, do kterých můžete překládat."
 
-#: weblate/accounts/models.py:319
+#: weblate/accounts/models.py:322
 msgid "Secondary languages"
 msgstr "Alternativní jazyky"
 
-#: weblate/accounts/models.py:321
+#: weblate/accounts/models.py:324
 msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
@@ -312,23 +318,23 @@ msgstr ""
 "Zvolte jazyky kterým rozumíte. Řetězce přeložené do těchto jazyků budou "
 "zobrazeny vedle zdrojového řetězce."
 
-#: weblate/accounts/models.py:331
+#: weblate/accounts/models.py:334
 msgid "Hide completed translations on dashboard"
 msgstr "Skýt z nástěnky kompletní překlady"
 
-#: weblate/accounts/models.py:335
+#: weblate/accounts/models.py:338
 msgid "Show secondary translations in zen mode"
 msgstr "Zobrazit alternativní jazyky v režimu Zen"
 
-#: weblate/accounts/models.py:339
+#: weblate/accounts/models.py:342
 msgid "Hide source if there is secondary language"
 msgstr "Skrýt zdroj pokud je dostupný alternativní jazyk"
 
-#: weblate/accounts/models.py:345
+#: weblate/accounts/models.py:348
 msgid "Editor link"
 msgstr "Odkaz pro úpravy"
 
-#: weblate/accounts/models.py:347
+#: weblate/accounts/models.py:350
 #, python-format
 msgid ""
 "Enter custom URL to be used as link to open source code. You can use "
@@ -341,11 +347,11 @@ msgstr ""
 "souboru. Obvykle můžete použít něco jako editor://open/?file=%(file)s&line="
 "%(line)s."
 
-#: weblate/accounts/models.py:358
+#: weblate/accounts/models.py:361
 msgid "Special characters"
 msgstr "Zvláštní znaky"
 
-#: weblate/accounts/models.py:360
+#: weblate/accounts/models.py:363
 msgid ""
 "You can specify additional special characters to be shown in the visual "
 "keyboard while translating. It can be useful for chars you use frequently "
@@ -355,36 +361,36 @@ msgstr ""
 "překladu. Toto může být užitečné pro znaky, které často používáte, ale jsou "
 "složitě dostupné na vaší klávesnici."
 
-#: weblate/accounts/models.py:372 weblate/templates/index.html:24
+#: weblate/accounts/models.py:375 weblate/templates/index.html:24
 msgid "Watched translations"
 msgstr "Sledované překlady"
 
-#: weblate/accounts/models.py:373 weblate/templates/index.html:25
+#: weblate/accounts/models.py:376 weblate/templates/index.html:25
 msgid "Your languages"
 msgstr "Vaše jazyky"
 
-#: weblate/accounts/models.py:374 weblate/trans/models/componentlist.py:58
+#: weblate/accounts/models.py:377 weblate/trans/models/componentlist.py:58
 msgid "Component list"
 msgstr "Seznam komponent"
 
-#: weblate/accounts/models.py:375 weblate/templates/index.html:27
+#: weblate/accounts/models.py:378 weblate/templates/index.html:27
 msgid "Suggested translations"
 msgstr "Navrhované překlady"
 
-#: weblate/accounts/models.py:391
+#: weblate/accounts/models.py:394
 msgid "Default dashboard view"
 msgstr "Výchozí pohled na nástěnce"
 
-#: weblate/accounts/models.py:397
+#: weblate/accounts/models.py:400
 msgid "Default component list"
 msgstr "Výchozí seznam komponent"
 
-#: weblate/accounts/models.py:404 weblate/templates/accounts/profile.html:117
+#: weblate/accounts/models.py:407 weblate/templates/accounts/profile.html:117
 #: weblate/templates/base.html:108
 msgid "Watched projects"
 msgstr "Sledované projekty"
 
-#: weblate/accounts/models.py:406 weblate/templates/watch-dropdown.html:5
+#: weblate/accounts/models.py:409 weblate/templates/watch-dropdown.html:5
 #: weblate/templates/watch-dropdown.html:9
 msgid ""
 "You can receive notifications for watched projects and they are shown on "
@@ -393,43 +399,43 @@ msgstr ""
 "Pro sledované projekty můžete dostávat oznámení a jsou zobrazovány na "
 "nástěnce."
 
-#: weblate/accounts/models.py:413
+#: weblate/accounts/models.py:416
 msgid "Notification on any translation"
 msgstr "Upozornění při každém překladu"
 
-#: weblate/accounts/models.py:417
+#: weblate/accounts/models.py:420
 msgid "Notification on new string to translate"
 msgstr "Upozornění na nové řetězce k překladu"
 
-#: weblate/accounts/models.py:421
+#: weblate/accounts/models.py:424
 msgid "Notification on new suggestion"
 msgstr "Upozornění na nové návrhy"
 
-#: weblate/accounts/models.py:425
+#: weblate/accounts/models.py:428
 msgid "Notification on new contributor"
 msgstr "Upozornění na nového přispěvatele"
 
-#: weblate/accounts/models.py:429
+#: weblate/accounts/models.py:432
 msgid "Notification on new comment"
 msgstr "Upozornění na nový komentář"
 
-#: weblate/accounts/models.py:433
+#: weblate/accounts/models.py:436
 msgid "Notification on merge failure"
 msgstr "Upozornění na chybu při sloučení"
 
-#: weblate/accounts/models.py:437
+#: weblate/accounts/models.py:440
 msgid "Notification on new language request"
 msgstr "Upozornění na požadavky o překlad do nového jazyka"
 
-#: weblate/accounts/models.py:490
+#: weblate/accounts/models.py:493
 msgid "Component list must be selected when used as default."
 msgstr "Seznam komponent musí být vybrán pokud je používán jako výchozí."
 
-#: weblate/accounts/models.py:496
+#: weblate/accounts/models.py:499
 msgid "Component list must not be selected when not used."
 msgstr "Seznam komponent nesmí být vybrán pokud není používán jako výchozí."
 
-#: weblate/accounts/models.py:592
+#: weblate/accounts/models.py:595
 msgid ""
 "You can not submit translations as you do not have assigned any email "
 "address."
@@ -854,6 +860,12 @@ msgstr "Například: {0}"
 #: weblate/legal/forms.py:29
 msgid "I agree with the Terms of Service document"
 msgstr "Souhlasím s dokumentem „Podmínky využívání služby“"
+
+#: weblate/legal/middleware.py:59
+msgid ""
+"We have new version of the Terms of Service document, please read it and "
+"confirm that you agree with it."
+msgstr ""
 
 #: weblate/legal/templates/legal/confirm.html:6
 #: weblate/legal/templates/legal/cookies.html:5

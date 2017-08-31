@@ -7,17 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-08-30 20:50+0000\n"
+"POT-Creation-Date: 2017-08-31 07:33+0000\n"
 "PO-Revision-Date: 2017-08-31 06:29+0000\n"
 "Last-Translator: Андрій Бандура <andriykopanytsia@gmail.com>\n"
-"Language-Team: Ukrainian "
-"<https://hosted.weblate.org/projects/weblate/master/uk/>\n"
+"Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/master/"
+"uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
-"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.17-dev\n"
 
 #: weblate/accounts/admin.py:105 weblate/accounts/admin.py:110
@@ -288,27 +288,33 @@ msgstr ""
 msgid "Account and all private data have been removed."
 msgstr "Вилучено профіль та усі приватні дані."
 
-#: weblate/accounts/models.py:206 weblate/templates/accounts/profile.html:304
+#: weblate/accounts/models.py:88
+#, fuzzy, python-brace-format
+#| msgid "I agree with the Terms of Service document"
+msgid "Agreement with Terms of Service {date}."
+msgstr "Я погоджуюся з Умовами надання послуг"
+
+#: weblate/accounts/models.py:209 weblate/templates/accounts/profile.html:304
 msgid "Account activity"
 msgstr "Активність у профілі"
 
-#: weblate/accounts/models.py:306
+#: weblate/accounts/models.py:309
 msgid "Interface Language"
 msgstr "Мова інтерфейсу"
 
-#: weblate/accounts/models.py:313
+#: weblate/accounts/models.py:316
 msgid "Translated languages"
 msgstr "Перекладено мовами"
 
-#: weblate/accounts/models.py:315
+#: weblate/accounts/models.py:318
 msgid "Choose languages to which you can translate."
 msgstr "Виберіть мови, на які ви можете перекладати."
 
-#: weblate/accounts/models.py:319
+#: weblate/accounts/models.py:322
 msgid "Secondary languages"
 msgstr "Другорядні мови"
 
-#: weblate/accounts/models.py:321
+#: weblate/accounts/models.py:324
 msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
@@ -316,24 +322,24 @@ msgstr ""
 "Виберіть мови, які ви розумієте. Рядки, перекладені на ці мови, будуть "
 "відображатися поруч із джерельним рядком."
 
-#: weblate/accounts/models.py:331
+#: weblate/accounts/models.py:334
 msgid "Hide completed translations on dashboard"
 msgstr "Приховати завершені переклади у домівці"
 
-#: weblate/accounts/models.py:335
+#: weblate/accounts/models.py:338
 msgid "Show secondary translations in zen mode"
 msgstr "Показувати переклади на інших мовах у режимі дзен"
 
-#: weblate/accounts/models.py:339
+#: weblate/accounts/models.py:342
 msgid "Hide source if there is secondary language"
 msgstr ""
 "Приховати джерельний текст, коли є переклад на будь-яку другорядну мову"
 
-#: weblate/accounts/models.py:345
+#: weblate/accounts/models.py:348
 msgid "Editor link"
 msgstr "Посилання на редактор"
 
-#: weblate/accounts/models.py:347
+#: weblate/accounts/models.py:350
 #, python-format
 msgid ""
 "Enter custom URL to be used as link to open source code. You can use "
@@ -346,11 +352,11 @@ msgstr ""
 "%(line)s як номер рядка. Зазвичай щось на кшталт editor://open/?file="
 "%(file)s&line=%(line)s буде хорошим варіантом."
 
-#: weblate/accounts/models.py:358
+#: weblate/accounts/models.py:361
 msgid "Special characters"
 msgstr "Спеціальні символи"
 
-#: weblate/accounts/models.py:360
+#: weblate/accounts/models.py:363
 msgid ""
 "You can specify additional special characters to be shown in the visual "
 "keyboard while translating. It can be useful for chars you use frequently "
@@ -360,36 +366,36 @@ msgstr ""
 "клавіатурі при перекладі. Це корисне для символів, які ви часто вживаєте, "
 "але їх важко набирати на клавіатурі."
 
-#: weblate/accounts/models.py:372 weblate/templates/index.html:24
+#: weblate/accounts/models.py:375 weblate/templates/index.html:24
 msgid "Watched translations"
 msgstr "Відстежувані переклади"
 
-#: weblate/accounts/models.py:373 weblate/templates/index.html:25
+#: weblate/accounts/models.py:376 weblate/templates/index.html:25
 msgid "Your languages"
 msgstr "Ваші мови"
 
-#: weblate/accounts/models.py:374 weblate/trans/models/componentlist.py:58
+#: weblate/accounts/models.py:377 weblate/trans/models/componentlist.py:58
 msgid "Component list"
 msgstr "Список компонентів"
 
-#: weblate/accounts/models.py:375 weblate/templates/index.html:27
+#: weblate/accounts/models.py:378 weblate/templates/index.html:27
 msgid "Suggested translations"
 msgstr "Запропоновані переклади"
 
-#: weblate/accounts/models.py:391
+#: weblate/accounts/models.py:394
 msgid "Default dashboard view"
 msgstr "Усталений вигляд домівки"
 
-#: weblate/accounts/models.py:397
+#: weblate/accounts/models.py:400
 msgid "Default component list"
 msgstr "Усталений список компонент"
 
-#: weblate/accounts/models.py:404 weblate/templates/accounts/profile.html:117
+#: weblate/accounts/models.py:407 weblate/templates/accounts/profile.html:117
 #: weblate/templates/base.html:108
 msgid "Watched projects"
 msgstr "Відстежувані проекти"
 
-#: weblate/accounts/models.py:406 weblate/templates/watch-dropdown.html:5
+#: weblate/accounts/models.py:409 weblate/templates/watch-dropdown.html:5
 #: weblate/templates/watch-dropdown.html:9
 msgid ""
 "You can receive notifications for watched projects and they are shown on "
@@ -398,44 +404,44 @@ msgstr ""
 "Для відстежуваних проектів ви можете отримувати повідомлення, які "
 "відображаються у вашій домівці."
 
-#: weblate/accounts/models.py:413
+#: weblate/accounts/models.py:416
 msgid "Notification on any translation"
 msgstr "Повідомлення про будь-який переклад"
 
-#: weblate/accounts/models.py:417
+#: weblate/accounts/models.py:420
 msgid "Notification on new string to translate"
 msgstr "Повідомлення про новий рядок для перекладу"
 
-#: weblate/accounts/models.py:421
+#: weblate/accounts/models.py:424
 msgid "Notification on new suggestion"
 msgstr "Повідомлення про нову пропозицію"
 
-#: weblate/accounts/models.py:425
+#: weblate/accounts/models.py:428
 msgid "Notification on new contributor"
 msgstr "Повідомлення про нового перекладача"
 
-#: weblate/accounts/models.py:429
+#: weblate/accounts/models.py:432
 msgid "Notification on new comment"
 msgstr "Повідомлення про новий коментар"
 
-#: weblate/accounts/models.py:433
+#: weblate/accounts/models.py:436
 msgid "Notification on merge failure"
 msgstr "Повідомлення про невдале злиття"
 
-#: weblate/accounts/models.py:437
+#: weblate/accounts/models.py:440
 msgid "Notification on new language request"
 msgstr "Повідомлення про запит нової мови"
 
-#: weblate/accounts/models.py:490
+#: weblate/accounts/models.py:493
 msgid "Component list must be selected when used as default."
 msgstr ""
 "Список компонентів повинен бути вибраний, якщо використовується як усталений."
 
-#: weblate/accounts/models.py:496
+#: weblate/accounts/models.py:499
 msgid "Component list must not be selected when not used."
 msgstr "Список компонент не потрібно вибирати, якщо не використовується."
 
-#: weblate/accounts/models.py:592
+#: weblate/accounts/models.py:595
 msgid ""
 "You can not submit translations as you do not have assigned any email "
 "address."
@@ -864,6 +870,12 @@ msgstr "Наприклад: {0}"
 #: weblate/legal/forms.py:29
 msgid "I agree with the Terms of Service document"
 msgstr "Я погоджуюся з Умовами надання послуг"
+
+#: weblate/legal/middleware.py:59
+msgid ""
+"We have new version of the Terms of Service document, please read it and "
+"confirm that you agree with it."
+msgstr ""
 
 #: weblate/legal/templates/legal/confirm.html:6
 #: weblate/legal/templates/legal/cookies.html:5
@@ -1839,8 +1851,8 @@ msgid ""
 "Please read our <a href=\"%(legal_url)s\">Terms of Service</a> prior to "
 "registration."
 msgstr ""
-"Будь ласка, прочитайте наші <a href=\"%(legal_url)s\">Умови надання "
-"послуг</a> перед реєстрацією."
+"Будь ласка, прочитайте наші <a href=\"%(legal_url)s\">Умови надання послуг</"
+"a> перед реєстрацією."
 
 #: weblate/templates/accounts/register.html:21
 msgid ""

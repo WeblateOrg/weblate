@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-08-30 20:50+0000\n"
+"POT-Creation-Date: 2017-08-31 07:33+0000\n"
 "PO-Revision-Date: 2017-08-31 06:48+0000\n"
 "Last-Translator: Tuomas Harju <tuomas@rtj-group.com>\n"
-"Language-Team: Finnish "
-"<https://hosted.weblate.org/projects/weblate/master/fi/>\n"
+"Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
+"fi/>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -290,27 +290,33 @@ msgstr ""
 msgid "Account and all private data have been removed."
 msgstr "Tilisi ja kaikki siihen liittyvät yksityiset tietosi on poistettu."
 
-#: weblate/accounts/models.py:206 weblate/templates/accounts/profile.html:304
+#: weblate/accounts/models.py:88
+#, fuzzy, python-brace-format
+#| msgid "I agree with the Terms of Service document"
+msgid "Agreement with Terms of Service {date}."
+msgstr "Hyväksyn palvelun käyttöehdot (Terms of Service -asiakirjan)"
+
+#: weblate/accounts/models.py:209 weblate/templates/accounts/profile.html:304
 msgid "Account activity"
 msgstr "Käyttäjätilin tapahtumat"
 
-#: weblate/accounts/models.py:306
+#: weblate/accounts/models.py:309
 msgid "Interface Language"
 msgstr "Käyttöliittymän kieli"
 
-#: weblate/accounts/models.py:313
+#: weblate/accounts/models.py:316
 msgid "Translated languages"
 msgstr "Kääntämäni kielet"
 
-#: weblate/accounts/models.py:315
+#: weblate/accounts/models.py:318
 msgid "Choose languages to which you can translate."
 msgstr "Valitse ne kielet joille voit kääntää."
 
-#: weblate/accounts/models.py:319
+#: weblate/accounts/models.py:322
 msgid "Secondary languages"
 msgstr "Toissijaiset kielet"
 
-#: weblate/accounts/models.py:321
+#: weblate/accounts/models.py:324
 msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
@@ -318,23 +324,23 @@ msgstr ""
 "Valitse ne kielet joita ymmärrät. Valitsemiesi kielten käännökset näytetään "
 "käännöksen lähdetekstin lisäksi."
 
-#: weblate/accounts/models.py:331
+#: weblate/accounts/models.py:334
 msgid "Hide completed translations on dashboard"
 msgstr "Piilota valmiit käännökset kojelaudasta"
 
-#: weblate/accounts/models.py:335
+#: weblate/accounts/models.py:338
 msgid "Show secondary translations in zen mode"
 msgstr "Näytä toissijaiset käännökset zen-tilassa"
 
-#: weblate/accounts/models.py:339
+#: weblate/accounts/models.py:342
 msgid "Hide source if there is secondary language"
 msgstr "Piilota lähdeteksti jos on olemassa käännös toissijaisella kielellä"
 
-#: weblate/accounts/models.py:345
+#: weblate/accounts/models.py:348
 msgid "Editor link"
 msgstr "Muokkaimen linkki"
 
-#: weblate/accounts/models.py:347
+#: weblate/accounts/models.py:350
 #, python-format
 msgid ""
 "Enter custom URL to be used as link to open source code. You can use "
@@ -347,11 +353,11 @@ msgstr ""
 "Yleensä muoto editor://open/?file=%(file)s 4&line=%(line)s 5 on hyvä "
 "vaihtoehto."
 
-#: weblate/accounts/models.py:358
+#: weblate/accounts/models.py:361
 msgid "Special characters"
 msgstr "Erikoismerkit"
 
-#: weblate/accounts/models.py:360
+#: weblate/accounts/models.py:363
 msgid ""
 "You can specify additional special characters to be shown in the visual "
 "keyboard while translating. It can be useful for chars you use frequently "
@@ -361,36 +367,36 @@ msgstr ""
 "aikana. Käyttökelpoinen ominaisuus jos käytät sellaisia erikoismerkkejä "
 "paljon, jotka on hankala kirjoittaa näppäimistölläsi."
 
-#: weblate/accounts/models.py:372 weblate/templates/index.html:24
+#: weblate/accounts/models.py:375 weblate/templates/index.html:24
 msgid "Watched translations"
 msgstr "Seuratut käännökset"
 
-#: weblate/accounts/models.py:373 weblate/templates/index.html:25
+#: weblate/accounts/models.py:376 weblate/templates/index.html:25
 msgid "Your languages"
 msgstr "Valitsemasi kielet"
 
-#: weblate/accounts/models.py:374 weblate/trans/models/componentlist.py:58
+#: weblate/accounts/models.py:377 weblate/trans/models/componentlist.py:58
 msgid "Component list"
 msgstr "Komponenttilista"
 
-#: weblate/accounts/models.py:375 weblate/templates/index.html:27
+#: weblate/accounts/models.py:378 weblate/templates/index.html:27
 msgid "Suggested translations"
 msgstr "Ehdotetut käännökset"
 
-#: weblate/accounts/models.py:391
+#: weblate/accounts/models.py:394
 msgid "Default dashboard view"
 msgstr "Oletushallintanäkymä"
 
-#: weblate/accounts/models.py:397
+#: weblate/accounts/models.py:400
 msgid "Default component list"
 msgstr "Oletuskomponenttilista"
 
-#: weblate/accounts/models.py:404 weblate/templates/accounts/profile.html:117
+#: weblate/accounts/models.py:407 weblate/templates/accounts/profile.html:117
 #: weblate/templates/base.html:108
 msgid "Watched projects"
 msgstr "Seuraamani projektit"
 
-#: weblate/accounts/models.py:406 weblate/templates/watch-dropdown.html:5
+#: weblate/accounts/models.py:409 weblate/templates/watch-dropdown.html:5
 #: weblate/templates/watch-dropdown.html:9
 msgid ""
 "You can receive notifications for watched projects and they are shown on "
@@ -399,43 +405,43 @@ msgstr ""
 "Voit vastaanottaa ilmoituksia seuraamiesi projektien tapahtumista, ja "
 "seuraamasi projektit näkyvät oletuksena myös kojelaudalla."
 
-#: weblate/accounts/models.py:413
+#: weblate/accounts/models.py:416
 msgid "Notification on any translation"
 msgstr "Ilmoitus jokaisesta käännöksestä"
 
-#: weblate/accounts/models.py:417
+#: weblate/accounts/models.py:420
 msgid "Notification on new string to translate"
 msgstr "Ilmoitus uusista lähdeteksteistä jotka pitää kääntää"
 
-#: weblate/accounts/models.py:421
+#: weblate/accounts/models.py:424
 msgid "Notification on new suggestion"
 msgstr "Ilmoitus uudesta käännösehdotuksesta"
 
-#: weblate/accounts/models.py:425
+#: weblate/accounts/models.py:428
 msgid "Notification on new contributor"
 msgstr "Ilmoitus uudesta kääntäjästä"
 
-#: weblate/accounts/models.py:429
+#: weblate/accounts/models.py:432
 msgid "Notification on new comment"
 msgstr "Ilmoitus uudesta kommentista"
 
-#: weblate/accounts/models.py:433
+#: weblate/accounts/models.py:436
 msgid "Notification on merge failure"
 msgstr "Ilmoitus käännösten yhdistämisvirheestä (merge)"
 
-#: weblate/accounts/models.py:437
+#: weblate/accounts/models.py:440
 msgid "Notification on new language request"
 msgstr "Ilmoitus uuden kielen lisäyspyynnöstä"
 
-#: weblate/accounts/models.py:490
+#: weblate/accounts/models.py:493
 msgid "Component list must be selected when used as default."
 msgstr "Komponenttilista pitää olla valittuna jos on käytetty oletuksena."
 
-#: weblate/accounts/models.py:496
+#: weblate/accounts/models.py:499
 msgid "Component list must not be selected when not used."
 msgstr "Komponenttilista ei saa olla valittuna jos ominaisuus ei ole käytössä."
 
-#: weblate/accounts/models.py:592
+#: weblate/accounts/models.py:595
 msgid ""
 "You can not submit translations as you do not have assigned any email "
 "address."
@@ -868,6 +874,12 @@ msgstr "Esimerkiksi: {0}"
 #: weblate/legal/forms.py:29
 msgid "I agree with the Terms of Service document"
 msgstr "Hyväksyn palvelun käyttöehdot (Terms of Service -asiakirjan)"
+
+#: weblate/legal/middleware.py:59
+msgid ""
+"We have new version of the Terms of Service document, please read it and "
+"confirm that you agree with it."
+msgstr ""
 
 #: weblate/legal/templates/legal/confirm.html:6
 #: weblate/legal/templates/legal/cookies.html:5

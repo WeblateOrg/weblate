@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-08-30 20:50+0000\n"
+"POT-Creation-Date: 2017-08-31 07:33+0000\n"
 "PO-Revision-Date: 2017-08-30 22:23+0000\n"
 "Last-Translator: Bamstam <am-em-am@posteo.de>\n"
-"Language-Team: German "
-"<https://hosted.weblate.org/projects/weblate/master/de/>\n"
+"Language-Team: German <https://hosted.weblate.org/projects/weblate/master/de/"
+">\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -297,27 +297,35 @@ msgstr ""
 msgid "Account and all private data have been removed."
 msgstr "Konto und alle privaten Daten wurden entfernt."
 
-#: weblate/accounts/models.py:206 weblate/templates/accounts/profile.html:304
+#: weblate/accounts/models.py:88
+#, fuzzy, python-brace-format
+#| msgid "I agree with the Terms of Service document"
+msgid "Agreement with Terms of Service {date}."
+msgstr ""
+"Ich erkläre mein Einverständnis mit den im Dokument genannten "
+"Nutzungsbedingungen"
+
+#: weblate/accounts/models.py:209 weblate/templates/accounts/profile.html:304
 msgid "Account activity"
 msgstr "Kontoaktivität"
 
-#: weblate/accounts/models.py:306
+#: weblate/accounts/models.py:309
 msgid "Interface Language"
 msgstr "Sprache der Benutzeroberfläche"
 
-#: weblate/accounts/models.py:313
+#: weblate/accounts/models.py:316
 msgid "Translated languages"
 msgstr "Übersetzte Sprachen"
 
-#: weblate/accounts/models.py:315
+#: weblate/accounts/models.py:318
 msgid "Choose languages to which you can translate."
 msgstr "Wählen Sie die Sprachen aus, in die Sie übersetzen können."
 
-#: weblate/accounts/models.py:319
+#: weblate/accounts/models.py:322
 msgid "Secondary languages"
 msgstr "Zweitsprachen"
 
-#: weblate/accounts/models.py:321
+#: weblate/accounts/models.py:324
 msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
@@ -325,23 +333,23 @@ msgstr ""
 "Wählen Sie die Sprachen, die Sie verstehen. Zeichenketten in diesen Sprachen "
 "werden zusätzlich zur Ausgangszeichenkette angezeigt."
 
-#: weblate/accounts/models.py:331
+#: weblate/accounts/models.py:334
 msgid "Hide completed translations on dashboard"
 msgstr "Abgeschlossene Übersetzungen in der Übersicht ausblenden"
 
-#: weblate/accounts/models.py:335
+#: weblate/accounts/models.py:338
 msgid "Show secondary translations in zen mode"
 msgstr "Zweitsprachen im Zen-Modus anzeigen"
 
-#: weblate/accounts/models.py:339
+#: weblate/accounts/models.py:342
 msgid "Hide source if there is secondary language"
 msgstr "Ausgangstext ausblenden, wenn es die Zweitsprache ist"
 
-#: weblate/accounts/models.py:345
+#: weblate/accounts/models.py:348
 msgid "Editor link"
 msgstr "Editor-URL"
 
-#: weblate/accounts/models.py:347
+#: weblate/accounts/models.py:350
 #, python-format
 msgid ""
 "Enter custom URL to be used as link to open source code. You can use "
@@ -355,11 +363,11 @@ msgstr ""
 "beispielsweise editor://open/?file=%(file)s&line=%(line)s ist normalerweise "
 "eine gute Herangehensweise."
 
-#: weblate/accounts/models.py:358
+#: weblate/accounts/models.py:361
 msgid "Special characters"
 msgstr "Sonderzeichen"
 
-#: weblate/accounts/models.py:360
+#: weblate/accounts/models.py:363
 msgid ""
 "You can specify additional special characters to be shown in the visual "
 "keyboard while translating. It can be useful for chars you use frequently "
@@ -370,36 +378,36 @@ msgstr ""
 "Zeichen, die Sie oft verwenden, die aber schwer auf der Tastatur einzugeben "
 "sind."
 
-#: weblate/accounts/models.py:372 weblate/templates/index.html:24
+#: weblate/accounts/models.py:375 weblate/templates/index.html:24
 msgid "Watched translations"
 msgstr "Beobachtete Übersetzungen"
 
-#: weblate/accounts/models.py:373 weblate/templates/index.html:25
+#: weblate/accounts/models.py:376 weblate/templates/index.html:25
 msgid "Your languages"
 msgstr "Ihre Sprachen"
 
-#: weblate/accounts/models.py:374 weblate/trans/models/componentlist.py:58
+#: weblate/accounts/models.py:377 weblate/trans/models/componentlist.py:58
 msgid "Component list"
 msgstr "Liste der Komponenten"
 
-#: weblate/accounts/models.py:375 weblate/templates/index.html:27
+#: weblate/accounts/models.py:378 weblate/templates/index.html:27
 msgid "Suggested translations"
 msgstr "Vorgeschlagene Übersetzungsprojekte"
 
-#: weblate/accounts/models.py:391
+#: weblate/accounts/models.py:394
 msgid "Default dashboard view"
 msgstr "Standardansicht der Übersichtsseite"
 
-#: weblate/accounts/models.py:397
+#: weblate/accounts/models.py:400
 msgid "Default component list"
 msgstr "Voreingestellte Auflistung der Komponenten"
 
-#: weblate/accounts/models.py:404 weblate/templates/accounts/profile.html:117
+#: weblate/accounts/models.py:407 weblate/templates/accounts/profile.html:117
 #: weblate/templates/base.html:108
 msgid "Watched projects"
 msgstr "Beobachtete Projekte"
 
-#: weblate/accounts/models.py:406 weblate/templates/watch-dropdown.html:5
+#: weblate/accounts/models.py:409 weblate/templates/watch-dropdown.html:5
 #: weblate/templates/watch-dropdown.html:9
 msgid ""
 "You can receive notifications for watched projects and they are shown on "
@@ -408,44 +416,44 @@ msgstr ""
 "Sie erhalten Benachrichtigungen für beobachtete Projekte und diese werden "
 "standardmäßig auf der Übersichtsseite angezeigt."
 
-#: weblate/accounts/models.py:413
+#: weblate/accounts/models.py:416
 msgid "Notification on any translation"
 msgstr "Benachrichtigung über jede Übersetzung"
 
-#: weblate/accounts/models.py:417
+#: weblate/accounts/models.py:420
 msgid "Notification on new string to translate"
 msgstr "Benachrichtigung bei neuer zu übersetzender Zeichenkette"
 
-#: weblate/accounts/models.py:421
+#: weblate/accounts/models.py:424
 msgid "Notification on new suggestion"
 msgstr "Benachrichtigung bei einem neuen Vorschlag"
 
-#: weblate/accounts/models.py:425
+#: weblate/accounts/models.py:428
 msgid "Notification on new contributor"
 msgstr "Benachrichtigung bei neuem Mitwirkenden"
 
-#: weblate/accounts/models.py:429
+#: weblate/accounts/models.py:432
 msgid "Notification on new comment"
 msgstr "Benachrichtigung bei einem neuen Kommentar"
 
-#: weblate/accounts/models.py:433
+#: weblate/accounts/models.py:436
 msgid "Notification on merge failure"
 msgstr "Benachrichtigung bei Merge-Konflikt"
 
-#: weblate/accounts/models.py:437
+#: weblate/accounts/models.py:440
 msgid "Notification on new language request"
 msgstr "Benachrichtigung bei einer neuen Sprachanforderung"
 
-#: weblate/accounts/models.py:490
+#: weblate/accounts/models.py:493
 msgid "Component list must be selected when used as default."
 msgstr "Für Standardansicht bitte eine Komponentenliste auswählen."
 
-#: weblate/accounts/models.py:496
+#: weblate/accounts/models.py:499
 msgid "Component list must not be selected when not used."
 msgstr ""
 "Komponentenliste darf nicht ausgewählt sein, wenn sie nicht benutzt wird."
 
-#: weblate/accounts/models.py:592
+#: weblate/accounts/models.py:595
 msgid ""
 "You can not submit translations as you do not have assigned any email "
 "address."
@@ -885,6 +893,12 @@ msgid "I agree with the Terms of Service document"
 msgstr ""
 "Ich erkläre mein Einverständnis mit den im Dokument genannten "
 "Nutzungsbedingungen"
+
+#: weblate/legal/middleware.py:59
+msgid ""
+"We have new version of the Terms of Service document, please read it and "
+"confirm that you agree with it."
+msgstr ""
 
 #: weblate/legal/templates/legal/confirm.html:6
 #: weblate/legal/templates/legal/cookies.html:5
@@ -1895,8 +1909,8 @@ msgid ""
 "Please read our <a href=\"%(legal_url)s\">Terms of Service</a> prior to "
 "registration."
 msgstr ""
-"Bitte lesen Sie unser Dokument zu den <a href=\"%(legal_url)s\""
-">Nutzungsbedingungen</a> vor der Registrierung aufmerksam durch."
+"Bitte lesen Sie unser Dokument zu den <a href=\"%(legal_url)s"
+"\">Nutzungsbedingungen</a> vor der Registrierung aufmerksam durch."
 
 #: weblate/templates/accounts/register.html:21
 msgid ""

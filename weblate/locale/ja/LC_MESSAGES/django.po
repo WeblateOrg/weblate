@@ -6,11 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: weblate-website-ja\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-08-30 20:50+0000\n"
+"POT-Creation-Date: 2017-08-31 07:33+0000\n"
 "PO-Revision-Date: 2017-08-31 07:13+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
-"Language-Team: Japanese "
-"<https://hosted.weblate.org/projects/weblate/master/ja/>\n"
+"Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
+"ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -289,27 +289,33 @@ msgstr "認証の失敗回数が規定値を超過したため、アカウント
 msgid "Account and all private data have been removed."
 msgstr "アカウントと全てのプライベートデータを削除しました。"
 
-#: weblate/accounts/models.py:206 weblate/templates/accounts/profile.html:304
+#: weblate/accounts/models.py:88
+#, fuzzy, python-brace-format
+#| msgid "I agree with the Terms of Service document"
+msgid "Agreement with Terms of Service {date}."
+msgstr "サービス利用規約の内容に合意する"
+
+#: weblate/accounts/models.py:209 weblate/templates/accounts/profile.html:304
 msgid "Account activity"
 msgstr "アカウントの利用状況"
 
-#: weblate/accounts/models.py:306
+#: weblate/accounts/models.py:309
 msgid "Interface Language"
 msgstr "インターフェイスの言語"
 
-#: weblate/accounts/models.py:313
+#: weblate/accounts/models.py:316
 msgid "Translated languages"
 msgstr "翻訳済み言語"
 
-#: weblate/accounts/models.py:315
+#: weblate/accounts/models.py:318
 msgid "Choose languages to which you can translate."
 msgstr "あなたが翻訳することのできる言語を選択してください。"
 
-#: weblate/accounts/models.py:319
+#: weblate/accounts/models.py:322
 msgid "Secondary languages"
 msgstr "第二言語"
 
-#: weblate/accounts/models.py:321
+#: weblate/accounts/models.py:324
 msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
@@ -317,23 +323,23 @@ msgstr ""
 "理解することのできる言語を選択してください。これらの言語の文字列が、原文と共"
 "に表示されるようになります。"
 
-#: weblate/accounts/models.py:331
+#: weblate/accounts/models.py:334
 msgid "Hide completed translations on dashboard"
 msgstr "ダッシュボードでは完了した翻訳を隠す"
 
-#: weblate/accounts/models.py:335
+#: weblate/accounts/models.py:338
 msgid "Show secondary translations in zen mode"
 msgstr "Zen モードで二次翻訳を表示する"
 
-#: weblate/accounts/models.py:339
+#: weblate/accounts/models.py:342
 msgid "Hide source if there is secondary language"
 msgstr "第二言語が存在する場合はソースを隠す"
 
-#: weblate/accounts/models.py:345
+#: weblate/accounts/models.py:348
 msgid "Editor link"
 msgstr "エディタリンク"
 
-#: weblate/accounts/models.py:347
+#: weblate/accounts/models.py:350
 #, python-format
 msgid ""
 "Enter custom URL to be used as link to open source code. You can use "
@@ -346,11 +352,11 @@ msgstr ""
 "よび %(line)s をプレースホルダとして使用することができます。通常は下記のよう"
 "に設定するのがよいでしょう: editor://open/?file=%(file)s&line=%(line)s"
 
-#: weblate/accounts/models.py:358
+#: weblate/accounts/models.py:361
 msgid "Special characters"
 msgstr "特殊文字"
 
-#: weblate/accounts/models.py:360
+#: weblate/accounts/models.py:363
 msgid ""
 "You can specify additional special characters to be shown in the visual "
 "keyboard while translating. It can be useful for chars you use frequently "
@@ -359,36 +365,36 @@ msgstr ""
 "翻訳時にビジュアルキーボード内に表示する、特殊文字を指定します。多用する文字"
 "でありながら、キーボードでの入力が面倒なものを指定しておくと良いでしょう。"
 
-#: weblate/accounts/models.py:372 weblate/templates/index.html:24
+#: weblate/accounts/models.py:375 weblate/templates/index.html:24
 msgid "Watched translations"
 msgstr "翻訳の監視"
 
-#: weblate/accounts/models.py:373 weblate/templates/index.html:25
+#: weblate/accounts/models.py:376 weblate/templates/index.html:25
 msgid "Your languages"
 msgstr "お使いの言語"
 
-#: weblate/accounts/models.py:374 weblate/trans/models/componentlist.py:58
+#: weblate/accounts/models.py:377 weblate/trans/models/componentlist.py:58
 msgid "Component list"
 msgstr "コンポーネントリスト"
 
-#: weblate/accounts/models.py:375 weblate/templates/index.html:27
+#: weblate/accounts/models.py:378 weblate/templates/index.html:27
 msgid "Suggested translations"
 msgstr "翻訳の提案"
 
-#: weblate/accounts/models.py:391
+#: weblate/accounts/models.py:394
 msgid "Default dashboard view"
 msgstr "デフォルトのダッシュボードビュー"
 
-#: weblate/accounts/models.py:397
+#: weblate/accounts/models.py:400
 msgid "Default component list"
 msgstr "デフォルトのコンポーネントリスト"
 
-#: weblate/accounts/models.py:404 weblate/templates/accounts/profile.html:117
+#: weblate/accounts/models.py:407 weblate/templates/accounts/profile.html:117
 #: weblate/templates/base.html:108
 msgid "Watched projects"
 msgstr "プロジェクトの監視"
 
-#: weblate/accounts/models.py:406 weblate/templates/watch-dropdown.html:5
+#: weblate/accounts/models.py:409 weblate/templates/watch-dropdown.html:5
 #: weblate/templates/watch-dropdown.html:9
 msgid ""
 "You can receive notifications for watched projects and they are shown on "
@@ -397,45 +403,45 @@ msgstr ""
 "プロジェクトを監視することで通知を受け取ることができるほか、ダッシュボードに"
 "もデフォルトで表示されるようになります。"
 
-#: weblate/accounts/models.py:413
+#: weblate/accounts/models.py:416
 msgid "Notification on any translation"
 msgstr "あらゆる翻訳を通知"
 
-#: weblate/accounts/models.py:417
+#: weblate/accounts/models.py:420
 msgid "Notification on new string to translate"
 msgstr "翻訳すべき新しい文字列を通知"
 
-#: weblate/accounts/models.py:421
+#: weblate/accounts/models.py:424
 msgid "Notification on new suggestion"
 msgstr "新しい提案を通知"
 
-#: weblate/accounts/models.py:425
+#: weblate/accounts/models.py:428
 msgid "Notification on new contributor"
 msgstr "新しい貢献者を通知"
 
-#: weblate/accounts/models.py:429
+#: weblate/accounts/models.py:432
 msgid "Notification on new comment"
 msgstr "新しいコメントを通知"
 
-#: weblate/accounts/models.py:433
+#: weblate/accounts/models.py:436
 msgid "Notification on merge failure"
 msgstr "マージの失敗を通知"
 
-#: weblate/accounts/models.py:437
+#: weblate/accounts/models.py:440
 msgid "Notification on new language request"
 msgstr "新しい言語リクエストの通知"
 
-#: weblate/accounts/models.py:490
+#: weblate/accounts/models.py:493
 msgid "Component list must be selected when used as default."
 msgstr ""
 "コンポーネントリストをデフォルトとして使用した場合、これを選択しなければなり"
 "ません。"
 
-#: weblate/accounts/models.py:496
+#: weblate/accounts/models.py:499
 msgid "Component list must not be selected when not used."
 msgstr "コンポーネントリストを使用しない場合、これを選択してはなりません。"
 
-#: weblate/accounts/models.py:592
+#: weblate/accounts/models.py:595
 msgid ""
 "You can not submit translations as you do not have assigned any email "
 "address."
@@ -462,7 +468,8 @@ msgstr "以前に使用していたパスワードは使用できません！"
 
 #: weblate/accounts/password_validation.py:81
 msgid "Your password can't match password you have used in the past."
-msgstr "以前に使用していたパスワードと一致するパスワードは、ご利用いただけません。"
+msgstr ""
+"以前に使用していたパスワードと一致するパスワードは、ご利用いただけません。"
 
 #: weblate/accounts/pipeline.py:275
 msgid "You can not complete password reset while logged in!"
@@ -864,6 +871,12 @@ msgstr "例: {0}"
 #: weblate/legal/forms.py:29
 msgid "I agree with the Terms of Service document"
 msgstr "サービス利用規約の内容に合意する"
+
+#: weblate/legal/middleware.py:59
+msgid ""
+"We have new version of the Terms of Service document, please read it and "
+"confirm that you agree with it."
+msgstr ""
 
 #: weblate/legal/templates/legal/confirm.html:6
 #: weblate/legal/templates/legal/cookies.html:5
@@ -1328,7 +1341,9 @@ msgstr "登録完了まであと少しです"
 msgid ""
 "You will very soon receive an email with a confirmation link. Please follow "
 "this link in order to complete your password reset procedure."
-msgstr "確認用のリンクを記載したメールを、すぐにお送りします。リンク先にアクセスすることで、パスワードリセットが完了します。"
+msgstr ""
+"確認用のリンクを記載したメールを、すぐにお送りします。リンク先にアクセスする"
+"ことで、パスワードリセットが完了します。"
 
 #: weblate/templates/accounts/email-sent.html:23
 msgid ""
@@ -1414,7 +1429,9 @@ msgstr "サービスの可用性と品質に保証はありません。"
 msgid ""
 "The hosting requests are usually processed once in a month, so please be "
 "patient after submitting it."
-msgstr "ホスティング要求は、通常 1 ヶ月に 1 回程度の処理となっております。申し訳ありませんが、送信後しばらくのお時間をいただきます。"
+msgstr ""
+"ホスティング要求は、通常 1 ヶ月に 1 回程度の処理となっております。申し訳あり"
+"ませんが、送信後しばらくのお時間をいただきます。"
 
 #: weblate/templates/accounts/hosting.html:45
 msgid "Commercial hosting"
@@ -1827,7 +1844,9 @@ msgstr "インボイスが見つかりません！"
 msgid ""
 "Please read our <a href=\"%(legal_url)s\">Terms of Service</a> prior to "
 "registration."
-msgstr "登録を行なう前に、 <a href=\"%(legal_url)s\">サービス利用規約</a> をお読みください。"
+msgstr ""
+"登録を行なう前に、 <a href=\"%(legal_url)s\">サービス利用規約</a> をお読みく"
+"ださい。"
 
 #: weblate/templates/accounts/register.html:21
 msgid ""
@@ -5282,7 +5301,9 @@ msgstr "特定の翻訳を宣伝"
 msgid ""
 "Besides promoting the whole translation project, you can also choose a "
 "specific language or component to promote:"
-msgstr "翻訳プロジェクト全体を宣伝する代わりに、特定の言語やコンポーネントを宣伝することもできます:"
+msgstr ""
+"翻訳プロジェクト全体を宣伝する代わりに、特定の言語やコンポーネントを宣伝する"
+"こともできます:"
 
 #: weblate/templates/widgets.html:24
 msgid "Image widgets"
@@ -5294,8 +5315,9 @@ msgid ""
 "They can increase visibility of your translation projects and bring new "
 "contributors."
 msgstr ""
-"下記のウィジェットを利用することで、ご利用のプロジェクトの翻訳を宣伝することができます。これによって翻訳プロジェクトを可視化することができ、新しい貢献者を"
-"集めることができるようになります。"
+"下記のウィジェットを利用することで、ご利用のプロジェクトの翻訳を宣伝すること"
+"ができます。これによって翻訳プロジェクトを可視化することができ、新しい貢献者"
+"を集めることができるようになります。"
 
 #: weblate/templates/widgets.html:31
 #, python-format
