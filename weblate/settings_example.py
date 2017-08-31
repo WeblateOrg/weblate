@@ -324,8 +324,8 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'weblate.urls'
 
-# Core apps
-INSTALLED_APPS = [
+# Django and Weblate apps
+INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -351,7 +351,7 @@ INSTALLED_APPS = [
 
     # Optional: Git exporter
     # 'weblate.gitexport',
-]
+)
 
 # Path to locales
 LOCALE_PATHS = (os.path.join(BASE_DIR, 'locale'), )
