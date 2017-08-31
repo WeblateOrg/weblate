@@ -201,11 +201,13 @@ class UnitQuerySet(models.QuerySet):
             sample = self.all()[0]
         except IndexError:
             return self.none()
+        # Filter out changes we're interested in
         changes = Change.objects.content().filter(
             translation=sample.translation,
             timestamp__gte=date
         ).exclude(user=user)
-        return self.filter(id__in=changes.values_list('unit__id', flat=True))
+        # Filter units for these changes
+        return self.filter(change__in=changes)
 
     def prefetch(self):
         return self.prefetch_related(
