@@ -217,7 +217,7 @@ class SearchViewTest(ViewTestCase):
         )
         # Wrong type
         self.do_search(
-            {'q': 'xxxxx', 'search': 'xxxx'},
+            {'q': 'Thank', 'search': 'xxxx'},
             'Please select a valid search type.'
         )
 

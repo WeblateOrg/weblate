@@ -33,7 +33,6 @@ from django.utils.translation import (
     ugettext_lazy as _, ugettext, pgettext_lazy, pgettext
 )
 from django.forms.utils import from_current_timezone
-from django.utils import formats
 from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django.utils.encoding import smart_text, force_text
@@ -141,6 +140,18 @@ class ChecksumField(forms.CharField):
             return checksum_to_hash(value)
         except ValueError:
             raise ValidationError(_('Invalid checksum specified!'))
+
+
+class UserField(forms.CharField):
+    def clean(self, value):
+        if not value:
+            return
+        try:
+            return User.objects.get(Q(username=value) | Q(email=value))
+        except User.DoesNotExist:
+            raise ValidationError(_('No matching user found!'))
+        except User.MultipleObjectsReturned:
+            raise ValidationError(_('More users matched!'))
 
 
 class PluralTextarea(forms.Textarea):
@@ -668,6 +679,18 @@ class SearchForm(BaseSearchForm):
         required=False,
         initial=False
     )
+    date = WeblateDateField(
+        label=_('Changed since'),
+        required=False,
+    )
+    only_user = UserField(
+        label=_('Changed by user'),
+        required=False
+    )
+    exclude_user = UserField(
+        label=_('Exclude changes by user'),
+        required=False
+    )
 
     def clean(self):
         """Sanity checking for search type."""
@@ -680,6 +703,7 @@ class SearchForm(BaseSearchForm):
         if (self.cleaned_data['q'] and
                 self.cleaned_data['search'] != 'exact' and
                 len(self.cleaned_data['q']) < 2):
+            self.cleaned_data['q'] = None
             raise ValidationError(_('The query string has to be longer!'))
 
         # Default to source and target search
@@ -897,23 +921,13 @@ class ReviewForm(BaseSearchForm):
     )
     type = forms.CharField(
         widget=forms.HiddenInput,
-        initial='review',
+        initial='all',
         required=False
     )
-
-    def clean_type(self):
-        if not self.cleaned_data.get('type'):
-            self.cleaned_data['type'] = 'review'
-        elif self.cleaned_data['type'] != 'review':
-            raise ValidationError('Invalid value')
-        return self.cleaned_data['type']
-
-    def get_name(self):
-        formatted_date = formats.date_format(
-            self.cleaned_data['date'],
-            'SHORT_DATE_FORMAT'
-        )
-        return _('Review of translations since %s') % formatted_date
+    exclude_user = forms.CharField(
+        widget=forms.HiddenInput,
+        required=True
+    )
 
 
 class LetterForm(forms.Form):
@@ -1081,26 +1095,13 @@ class CheckFlagsForm(forms.Form):
 
 
 class UserManageForm(forms.Form):
-    name = forms.CharField(
+    user = UserField(
         label=_('User to add'),
         help_text=_(
             'Please provide username or email. '
             'User needs to already have an active account in Weblate.'
         ),
     )
-
-    def clean(self):
-        if 'name' not in self.cleaned_data:
-            return
-        try:
-            self.cleaned_data['user'] = User.objects.get(
-                Q(username=self.cleaned_data['name']) |
-                Q(email=self.cleaned_data['name'])
-            )
-        except User.DoesNotExist:
-            raise ValidationError(_('No matching user found!'))
-        except User.MultipleObjectsReturned:
-            raise ValidationError(_('More users matched!'))
 
 
 class ReportsForm(forms.Form):

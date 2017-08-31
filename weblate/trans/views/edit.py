@@ -42,8 +42,7 @@ from weblate.trans.models import (
 from weblate.trans.autofixes import fix_target
 from weblate.trans.forms import (
     TranslationForm, SearchForm, InlineWordForm,
-    MergeForm, AutoForm, ReviewForm,
-    AntispamForm, CommentForm, RevertForm
+    MergeForm, AutoForm, AntispamForm, CommentForm, RevertForm,
 )
 from weblate.trans.views.helper import (
     get_translation, import_message, show_form_errors,
@@ -127,30 +126,16 @@ def cleanup_session(session):
 def search(translation, request):
     """Perform search or returns cached search results."""
     # Possible new search
-    search_form = SearchForm(request.GET)
-    review_form = ReviewForm(request.GET)
+    form = SearchForm(request.GET)
 
     # Process form
-    if 'date' in request.GET:
-        if review_form.is_valid():
-            form = review_form
-        else:
-            show_form_errors(request, review_form)
-            # Use blank form
-            form = SearchForm([])
-            form.is_valid()
-    elif search_form.is_valid():
-        form = search_form
-    else:
-        show_form_errors(request, search_form)
-        # Use blank form
-        form = SearchForm([])
-        form.is_valid()
+    if not form.is_valid():
+        show_form_errors(request, form)
 
     search_result = {
         'form': form,
-        'offset': form.cleaned_data['offset'],
-        'checksum': form.cleaned_data['checksum'],
+        'offset': form.cleaned_data.get('offset', 1),
+        'checksum': form.cleaned_data.get('checksum'),
     }
     search_url = form.urlencode()
     session_key = 'search_{0}_{1}'.format(translation.pk, search_url)
@@ -159,19 +144,12 @@ def search(translation, request):
         search_result.update(request.session[session_key])
         return search_result
 
-    if form.cleaned_data['type'] == 'review':
-        allunits = translation.unit_set.review(
-            form.cleaned_data['date'],
-            request.user,
-            translation=translation,
-        )
-    else:
-        allunits = translation.unit_set.search(
-            form.cleaned_data,
-            translation=translation,
-        )
-        if form.cleaned_data['type'] == 'random':
-            allunits = allunits[:25]
+    allunits = translation.unit_set.search(
+        form.cleaned_data,
+        translation=translation,
+    )
+    if form.cleaned_data['type'] == 'random':
+        allunits = allunits[:25]
 
     search_query = form.get_search_query()
     name = form.get_name()

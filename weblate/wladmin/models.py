@@ -20,6 +20,7 @@
 
 from django.contrib.admin import ModelAdmin
 
+
 class WeblateModelAdmin(ModelAdmin):
     """Customized Model Admin object."""
 

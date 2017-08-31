@@ -12,6 +12,7 @@ Released on ? 2017.
 * Users can now delete their own comments.
 * Added preview step to search and replace feature.
 * Client side persistence of settings in search and upload forms.
+* Extended search capabilities.
 
 weblate 2.16
 ------------

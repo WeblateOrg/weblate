@@ -21,6 +21,7 @@
 from time import sleep
 from unittest import TestCase
 
+from django.http.request import HttpRequest
 from django.test.utils import override_settings
 
 from weblate.accounts.ratelimit import (
@@ -28,32 +29,26 @@ from weblate.accounts.ratelimit import (
 )
 
 
-META = {
-    'REMOTE_ADDR': '1.2.3.4',
-    'HTTP_X_FORWARDED_FOR': '7.8.9.0',
-}
-
-
-class FakeRequest(object):
-    """Fake Request mock for testing rate limiting."""
-    def __init__(self):
-        self.META = META
-
-
 class RateLimitTest(TestCase):
+    def get_request(self):
+        request = HttpRequest()
+        request.META['REMOTE_ADDR'] = '1.2.3.4'
+        request.META['HTTP_X_FORWARDED_FOR'] = '7.8.9.0'
+        return request
+
     def setUp(self):
         # Ensure no rate limits are there
-        for address in META.values():
-            reset_rate_limit(address=address)
+        reset_rate_limit(address='1.2.3.4')
+        reset_rate_limit(address='7.8.9.0')
 
     def test_basic(self):
         self.assertTrue(
-            check_rate_limit(FakeRequest())
+            check_rate_limit(self.get_request())
         )
 
     @override_settings(AUTH_MAX_ATTEMPTS=5, AUTH_CHECK_WINDOW=60)
     def test_limit(self):
-        request = FakeRequest()
+        request = self.get_request()
         for dummy in range(5):
             self.assertTrue(
                 check_rate_limit(request)
@@ -69,7 +64,7 @@ class RateLimitTest(TestCase):
         AUTH_LOCKOUT_TIME=1
     )
     def test_window(self):
-        request = FakeRequest()
+        request = self.get_request()
         self.assertTrue(
             check_rate_limit(request)
         )
@@ -88,7 +83,7 @@ class RateLimitTest(TestCase):
         AUTH_LOCKOUT_TIME=100
     )
     def test_lockout(self):
-        request = FakeRequest()
+        request = self.get_request()
         self.assertTrue(
             check_rate_limit(request)
         )
@@ -107,7 +102,7 @@ class RateLimitTest(TestCase):
         IP_PROXY_OFFSET=0
     )
     def test_get_ip(self):
-        request = FakeRequest()
+        request = self.get_request()
         self.assertEqual(
             get_ip_address(request),
             '1.2.3.4'
@@ -119,7 +114,7 @@ class RateLimitTest(TestCase):
         IP_PROXY_OFFSET=0
     )
     def test_get_ip_proxy(self):
-        request = FakeRequest()
+        request = self.get_request()
         self.assertEqual(
             get_ip_address(request),
             '7.8.9.0'
