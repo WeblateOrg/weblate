@@ -129,18 +129,19 @@ is one of many standards in this area.
 
 XLIFF is usually used as bilingual, but Weblate supports it as monolingual as well.
 
-.. note::
+Translations marked for review
+++++++++++++++++++++++++++++++
 
-    If the translation unit doesn't have ``approved="yes"`` it will be imported into
-    Weblate as needing review (what matches XLIFF specification).
+If the translation unit doesn't have ``approved="yes"`` it will be imported into
+Weblate as needing review (what matches XLIFF specification).
 
-    You can override this by adding ``skip-review-flag`` flag to the component,
-    see :ref:`component`, what will make Weblate ignore this and all strings
-    will appear as approved.
+You can override this by adding ``skip-review-flag`` flag to the component,
+see :ref:`component`, what will make Weblate ignore this and all strings
+will appear as approved.
 
-    Similarly on importing such files, you should choose
-    :guilabel:`Import as translated` under
-    :guilabel:`Processing of strings needing review`.
+Similarly on importing such files, you should choose
+:guilabel:`Import as translated` under
+:guilabel:`Processing of strings needing review`.
 
 .. seealso::
 
