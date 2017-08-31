@@ -198,10 +198,6 @@ class UnitQuerySet(models.QuerySet):
         """Return units touched by other users since given time."""
         if user.is_anonymous:
             return self.none()
-        try:
-            sample = self.all()[0]
-        except IndexError:
-            return self.none()
         # Filter out changes we're interested in
         changes = Change.objects.content().filter(
             timestamp__gte=date
