@@ -199,11 +199,11 @@ class UnitQuerySet(models.QuerySet):
         # Filter out changes we're interested in
         changes = Change.objects.content()
         if date:
-            changed = changes.filter(timestamp__gte=date)
+            changes = changes.filter(timestamp__gte=date)
         if exclude_user:
-            changed = changes.exclude(user=exclude_user)
+            changes = changes.exclude(user=exclude_user)
         if only_user:
-            changed = changes.filter(user=only_user)
+            changes = changes.filter(user=only_user)
         if translation:
             changes = changes.filter(translation=translation)
         else:
