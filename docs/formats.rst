@@ -143,6 +143,23 @@ Similarly on importing such files, you should choose
 :guilabel:`Import as translated` under
 :guilabel:`Processing of strings needing review`.
 
+Whitespace and newlines in XLIFF
+++++++++++++++++++++++++++++++++
+
+Generally the XML formats do not differentiate whitespace and amount of that.
+If you want to keep it, you have to add the ``xml:space="preserve"`` flag to
+the unit.
+
+For example:
+
+.. code-block:: xml
+
+        <trans-unit id="10" approved="yes">
+            <source xml:space="preserve">hello</source>
+            <target xml:space="preserve">Hello, world!
+    </target>
+        </trans-unit>
+
 .. seealso::
 
     `XLIFF on Wikipedia <https://en.wikipedia.org/wiki/XLIFF>`_,
