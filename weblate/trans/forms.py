@@ -143,6 +143,18 @@ class ChecksumField(forms.CharField):
             raise ValidationError(_('Invalid checksum specified!'))
 
 
+class UserField(forms.CharField):
+    def clean(self, value):
+        if not value:
+            return
+        try:
+            return User.objects.get(Q(username=value) | Q(email=value))
+        except User.DoesNotExist:
+            raise ValidationError(_('No matching user found!'))
+        except User.MultipleObjectsReturned:
+            raise ValidationError(_('More users matched!'))
+
+
 class PluralTextarea(forms.Textarea):
     """Text area extension which possibly handles plurals."""
     def __init__(self, *args, **kwargs):
@@ -672,11 +684,11 @@ class SearchForm(BaseSearchForm):
         label=_('Changed since'),
         required=False,
     )
-    only_user = forms.CharField(
+    only_user = UserField(
         label=_('Changed by user'),
         required=False
     )
-    exclude_user = forms.CharField(
+    exclude_user = UserField(
         label=_('Exclude changes by user'),
         required=False
     )
@@ -1085,26 +1097,13 @@ class CheckFlagsForm(forms.Form):
 
 
 class UserManageForm(forms.Form):
-    name = forms.CharField(
+    user = UserField(
         label=_('User to add'),
         help_text=_(
             'Please provide username or email. '
             'User needs to already have an active account in Weblate.'
         ),
     )
-
-    def clean(self):
-        if 'name' not in self.cleaned_data:
-            return
-        try:
-            self.cleaned_data['user'] = User.objects.get(
-                Q(username=self.cleaned_data['name']) |
-                Q(email=self.cleaned_data['name'])
-            )
-        except User.DoesNotExist:
-            raise ValidationError(_('No matching user found!'))
-        except User.MultipleObjectsReturned:
-            raise ValidationError(_('More users matched!'))
 
 
 class ReportsForm(forms.Form):
