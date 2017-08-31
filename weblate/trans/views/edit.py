@@ -134,7 +134,7 @@ def search(translation, request):
 
     search_result = {
         'form': form,
-        'offset': form.cleaned_data.get('offset', 1),
+        'offset': form.cleaned_data.get('offset', 0),
         'checksum': form.cleaned_data.get('checksum'),
     }
     search_url = form.urlencode()
