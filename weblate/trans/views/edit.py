@@ -42,8 +42,7 @@ from weblate.trans.models import (
 from weblate.trans.autofixes import fix_target
 from weblate.trans.forms import (
     TranslationForm, SearchForm, InlineWordForm,
-    MergeForm, AutoForm, ReviewForm,
-    AntispamForm, CommentForm, RevertForm
+    MergeForm, AutoForm, AntispamForm, CommentForm, RevertForm,
 )
 from weblate.trans.views.helper import (
     get_translation, import_message, show_form_errors,

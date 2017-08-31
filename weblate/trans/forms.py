@@ -33,7 +33,6 @@ from django.utils.translation import (
     ugettext_lazy as _, ugettext, pgettext_lazy, pgettext
 )
 from django.forms.utils import from_current_timezone
-from django.utils import formats
 from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django.utils.encoding import smart_text, force_text
@@ -929,7 +928,6 @@ class ReviewForm(BaseSearchForm):
         widget=forms.HiddenInput,
         required=True
     )
-
 
 
 class LetterForm(forms.Form):
