@@ -20,7 +20,6 @@
 
 import re
 
-from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect
 from django.utils.http import urlencode

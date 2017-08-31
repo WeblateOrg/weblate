@@ -27,7 +27,6 @@ from django.http import HttpRequest
 from django.test.utils import override_settings, modify_settings
 
 from weblate.accounts.tests.test_registration import REGISTRATION_DATA
-from weblate.legal.models import Agreement
 from weblate.trans.tests.test_views import RegistrationTestMixin
 
 
