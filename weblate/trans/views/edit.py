@@ -162,13 +162,13 @@ def search(translation, request):
     if form.cleaned_data['type'] == 'review':
         allunits = translation.unit_set.review(
             form.cleaned_data['date'],
-            request.user
+            request.user,
+            translation=translation,
         )
     else:
         allunits = translation.unit_set.search(
-            translation.subproject.project,
-            translation.language,
             form.cleaned_data,
+            translation=translation,
         )
         if form.cleaned_data['type'] == 'random':
             allunits = allunits[:25]

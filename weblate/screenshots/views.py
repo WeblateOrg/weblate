@@ -216,14 +216,13 @@ def search_source(request, pk):
         return search_results(500, obj)
 
     units = translation.unit_set.search(
-        translation.subproject.project,
-        translation.language,
         {
             'search': 'substring',
             'q': request.POST.get('q', ''),
             'type': 'all',
             'source': True,
-        }
+        },
+        translation=translation,
     )
 
     return search_results(200, obj, units)

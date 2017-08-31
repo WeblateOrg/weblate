@@ -193,7 +193,8 @@ class UnitQuerySet(models.QuerySet):
         cache.set(cache_key, ret)
         return ret
 
-    def review(self, date, user):
+    def review(self, date, user, project=None, subproject=None,
+               language=None, translation=None):
         """Return units touched by other users since given time."""
         if user.is_anonymous:
             return self.none()
@@ -203,9 +204,17 @@ class UnitQuerySet(models.QuerySet):
             return self.none()
         # Filter out changes we're interested in
         changes = Change.objects.content().filter(
-            translation=sample.translation,
             timestamp__gte=date
         ).exclude(user=user)
+        if translation:
+            changes = changes.filter(translation=translation)
+        else:
+            if subproject:
+                changes = changes.filter(subproject=subproject)
+            elif project:
+                changes = changes.filter(subproject__project=project)
+            if language:
+                changes = changes.filter(translation__language=language)
         # Filter units for these changes
         return self.filter(change__in=changes)
 
@@ -218,8 +227,18 @@ class UnitQuerySet(models.QuerySet):
             'translation__subproject__project__source_language',
         )
 
-    def search(self, project, language, params):
+    def search(self, params, project=None, subproject=None,
+               language=None, translation=None):
         """High level wrapper for searching."""
+        if translation is not None:
+            if subproject is None:
+                subproject = translation.subproject
+            if language is None:
+                langauge = translation.language
+        if subproject is not None:
+            if project is None:
+                project = subproject.project
+
         base = self.prefetch()
         if params['type'] != 'all':
             base = self.filter_type(
