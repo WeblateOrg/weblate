@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-08-30 20:50+0000\n"
-"PO-Revision-Date: 2017-08-16 11:23+0000\n"
+"PO-Revision-Date: 2017-08-31 06:37+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@abv.bg>\n"
-"Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/master/"
-"bg/>\n"
+"Language-Team: Bulgarian "
+"<https://hosted.weblate.org/projects/weblate/master/bg/>\n"
 "Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -246,10 +246,8 @@ msgid "Password reset has been requested."
 msgstr "Беше заявено подновяване на паролата."
 
 #: weblate/accounts/models.py:61
-#, fuzzy
-#| msgid "Password reset has been confirmed."
 msgid "Password reset has been confirmed and password has been reset."
-msgstr "Подновяването на паролата беше потвърдено."
+msgstr "Подновяването на паролата беше и паролата беше подновена."
 
 #: weblate/accounts/models.py:64
 #, python-brace-format
@@ -456,11 +454,12 @@ msgstr "Паролата не може да бъде от един знак ил
 
 #: weblate/accounts/password_validation.py:75
 msgid "Can not use previously used password!"
-msgstr ""
+msgstr "Не може да използвате вече използвана парола!"
 
 #: weblate/accounts/password_validation.py:81
 msgid "Your password can't match password you have used in the past."
 msgstr ""
+"Паролата Ви не може да е същата като такава, която вече сте използвали преди."
 
 #: weblate/accounts/pipeline.py:275
 msgid "You can not complete password reset while logged in!"
@@ -867,7 +866,7 @@ msgstr "Например: {0}"
 
 #: weblate/legal/forms.py:29
 msgid "I agree with the Terms of Service document"
-msgstr ""
+msgstr "Съгласен съм с документа за „Условията на услугата“"
 
 #: weblate/legal/templates/legal/confirm.html:6
 #: weblate/legal/templates/legal/cookies.html:5
@@ -879,11 +878,11 @@ msgstr "Правна информация"
 
 #: weblate/legal/templates/legal/confirm.html:13
 msgid "You have to aggree to the Terms of Service"
-msgstr ""
+msgstr "Трябва да се съгласите с „Условията на услугата“"
 
 #: weblate/legal/templates/legal/confirm.html:15
 msgid "Please read following Terms of Service document:"
-msgstr ""
+msgstr "Моля, прочетете следния документ с „Условията на услугата“:"
 
 #: weblate/legal/templates/legal/confirm.html:23
 #: weblate/wladmin/templates/admin/ssh.html:64
@@ -1332,28 +1331,20 @@ msgid "Registration"
 msgstr "Регистрация"
 
 #: weblate/templates/accounts/email-sent.html:13
-#, fuzzy
-#| msgid "Password reset has been already completed!"
 msgid "Password reset almost complete"
-msgstr "Подновяването на паролата вече е завършено!"
+msgstr "Подновяването на паролата е почти завършено"
 
 #: weblate/templates/accounts/email-sent.html:15
 msgid "Registration almost complete"
 msgstr "Регистрацията е почти завършена"
 
 #: weblate/templates/accounts/email-sent.html:21
-#, fuzzy
-#| msgid ""
-#| "Thank you for registering. You will very soon receive an email with a "
-#| "confirmation link. Please follow this link in order to complete your "
-#| "registration."
 msgid ""
 "You will very soon receive an email with a confirmation link. Please follow "
 "this link in order to complete your password reset procedure."
 msgstr ""
-"Благодарим Ви, че се регистрирахте. Скоро ще получите е-писмо с връзка за "
-"потвърждение. Моля, използвайте тази връзка, за да завършите регистрацията "
-"си."
+"Скоро ще получите е-писмо с връзка за потвърждение. Моля, използвайте тази "
+"връзка, за да завършите подновяването на паролата си."
 
 #: weblate/templates/accounts/email-sent.html:23
 msgid ""
@@ -1441,6 +1432,8 @@ msgid ""
 "The hosting requests are usually processed once in a month, so please be "
 "patient after submitting it."
 msgstr ""
+"Заявките за хостинг обикновено се обработват веднъж месечно, така че имайте "
+"търпение след изпращането на заявката си."
 
 #: weblate/templates/accounts/hosting.html:45
 msgid "Commercial hosting"
@@ -1862,6 +1855,8 @@ msgid ""
 "Please read our <a href=\"%(legal_url)s\">Terms of Service</a> prior to "
 "registration."
 msgstr ""
+"Моля, прочетете <a href=\"%(legal_url)s\">„Условията на услугата“</a>, преди "
+"да се регистрирате."
 
 #: weblate/templates/accounts/register.html:21
 msgid ""
@@ -4484,7 +4479,7 @@ msgstr "Брой оригинални думи"
 
 #: weblate/templates/replace.html:18
 msgid "Please review and confirm the search and replace results."
-msgstr ""
+msgstr "Моля, прегледайте и потвърдете резултатите от търсенето и замяната."
 
 #: weblate/templates/screenshots/screenshot_detail.html:9
 #: weblate/templates/screenshots/screenshot_list.html:9
@@ -4748,13 +4743,11 @@ msgstr "Преводи може да бъдат правени директно.
 
 #: weblate/templates/subproject_info.html:20
 msgid "Suggestions to improve translation can be given."
-msgstr ""
+msgstr "Могат да се правят предложения за подобряване на превода."
 
 #: weblate/templates/subproject_info.html:22
-#, fuzzy
-#| msgid "New registrations are disabled!"
 msgid "Suggestions to improve translation are disabled."
-msgstr "Новите регистрации са забранени!"
+msgstr "Предложенията за подобряване на превода са забранени."
 
 #: weblate/templates/subproject_info.html:26
 msgid "Only selected users can contribute."
@@ -5325,10 +5318,6 @@ msgid "Promoting specific translations"
 msgstr "Популяризиране на конкретни преводи"
 
 #: weblate/templates/widgets.html:20
-#, fuzzy
-#| msgid ""
-#| "Besides promoting whole translation project, you can also choose specific "
-#| "language or component to promote:"
 msgid ""
 "Besides promoting the whole translation project, you can also choose a "
 "specific language or component to promote:"
@@ -5341,11 +5330,6 @@ msgid "Image widgets"
 msgstr "Джаджи с изображения"
 
 #: weblate/templates/widgets.html:27
-#, fuzzy
-#| msgid ""
-#| "You can use following widgets to promote translation of your project. "
-#| "They can increase visibility of your translation projects and bring new "
-#| "contributors."
 msgid ""
 "You can use the following widgets to promote translation of your project. "
 "They can increase visibility of your translation projects and bring new "
@@ -7183,10 +7167,9 @@ msgid "This translation is locked by %(user)s!"
 msgstr "Този превод е заключен от %(user)s!"
 
 #: weblate/trans/models/unit.py:396
-#, fuzzy, python-brace-format
-#| msgid "%(filename)s, translation unit %(position)s"
+#, python-brace-format
 msgid "{translation}, translation unit {position}"
-msgstr "%(filename)s, единица за превод %(position)s"
+msgstr "{translation}, единица за превод {position}"
 
 #: weblate/trans/models/whiteboard.py:88
 msgid "Category"
@@ -7621,10 +7604,8 @@ msgid "User has been added to this project."
 msgstr "Потребителят беше добавен към този проект."
 
 #: weblate/trans/views/acl.py:119
-#, fuzzy
-#| msgid "Failed to find matching user!"
 msgid "Failed to find group to add an user!"
-msgstr "Не беше намерен отговарящ потребител!"
+msgstr "Не беше намерена група, в която да бъде добавен потребител!"
 
 #: weblate/trans/views/acl.py:142
 msgid "User has been removed from this project."
