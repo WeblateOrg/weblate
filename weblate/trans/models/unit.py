@@ -230,7 +230,7 @@ class UnitQuerySet(models.QuerySet):
             if subproject is None:
                 subproject = translation.subproject
             if language is None:
-                langauge = translation.language
+                language = translation.language
         if subproject is not None:
             if project is None:
                 project = subproject.project
