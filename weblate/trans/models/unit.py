@@ -193,15 +193,17 @@ class UnitQuerySet(models.QuerySet):
         cache.set(cache_key, ret)
         return ret
 
-    def review(self, date, user, project=None, subproject=None,
-               language=None, translation=None):
+    def review(self, date, exclude_user, only_user,
+               project=None, subproject=None, language=None, translation=None):
         """Return units touched by other users since given time."""
-        if user.is_anonymous:
-            return self.none()
         # Filter out changes we're interested in
-        changes = Change.objects.content().filter(
-            timestamp__gte=date
-        ).exclude(user=user)
+        changes = Change.objects.content()
+        if date:
+            changed = changes.filter(timestamp__gte=date)
+        if exclude_user:
+            changed = changes.exclude(user=exclude_user)
+        if only_user:
+            changed = changes.filter(user=only_user)
         if translation:
             changes = changes.filter(translation=translation)
         else:
@@ -212,7 +214,7 @@ class UnitQuerySet(models.QuerySet):
             if language:
                 changes = changes.filter(translation__language=language)
         # Filter units for these changes
-        return self.filter(change__in=changes)
+        return self.filter(change__in=changes).distinct()
 
     def prefetch(self):
         return self.prefetch_related(
@@ -242,6 +244,16 @@ class UnitQuerySet(models.QuerySet):
                 project,
                 language,
                 params['ignored']
+            )
+
+        if (params.get('date') or
+                params.get('exclude_user') or
+                params.get('only_user')):
+            base = base.review(
+                params.get('date'),
+                params.get('exclude_user'),
+                params.get('only_user'),
+                project, subproject, language, translation
             )
 
         if 'lang' in params and params['lang']:

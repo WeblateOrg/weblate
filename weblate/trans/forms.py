@@ -668,6 +668,18 @@ class SearchForm(BaseSearchForm):
         required=False,
         initial=False
     )
+    date = WeblateDateField(
+        label=_('Changed since'),
+        required=False,
+    )
+    only_user = forms.CharField(
+        label=_('Changed by user'),
+        required=False
+    )
+    exclude_user = forms.CharField(
+        label=_('Exclude changes by user'),
+        required=False
+    )
 
     def clean(self):
         """Sanity checking for search type."""
@@ -680,6 +692,7 @@ class SearchForm(BaseSearchForm):
         if (self.cleaned_data['q'] and
                 self.cleaned_data['search'] != 'exact' and
                 len(self.cleaned_data['q']) < 2):
+            self.cleaned_data['q'] = None
             raise ValidationError(_('The query string has to be longer!'))
 
         # Default to source and target search
@@ -897,23 +910,14 @@ class ReviewForm(BaseSearchForm):
     )
     type = forms.CharField(
         widget=forms.HiddenInput,
-        initial='review',
+        initial='all',
         required=False
     )
+    exclude_user = forms.CharField(
+        widget=forms.HiddenInput,
+        required=True
+    )
 
-    def clean_type(self):
-        if not self.cleaned_data.get('type'):
-            self.cleaned_data['type'] = 'review'
-        elif self.cleaned_data['type'] != 'review':
-            raise ValidationError('Invalid value')
-        return self.cleaned_data['type']
-
-    def get_name(self):
-        formatted_date = formats.date_format(
-            self.cleaned_data['date'],
-            'SHORT_DATE_FORMAT'
-        )
-        return _('Review of translations since %s') % formatted_date
 
 
 class LetterForm(forms.Form):

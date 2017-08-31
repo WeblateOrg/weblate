@@ -437,7 +437,9 @@ def show_translation(request, project, subproject, lang):
     if request.user.is_anonymous:
         review_form = None
     else:
-        review_form = ReviewForm()
+        review_form = ReviewForm(
+            initial={'exclude_user': request.user.username}
+        )
 
     replace_form = None
     if can_translate(request.user, obj):
