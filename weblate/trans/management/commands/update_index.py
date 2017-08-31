@@ -18,8 +18,10 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from django.core.management.base import BaseCommand
+from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
+
+from whoosh.index import LockError
 
 from weblate.trans.models import IndexUpdate, Unit
 from weblate.trans.search import update_index, delete_search_units
@@ -40,8 +42,14 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        self.do_update(options['limit'])
-        self.do_delete(options['limit'])
+        try:
+            self.do_update(options['limit'])
+            self.do_delete(options['limit'])
+        except LockError:
+            raise CommandError(
+                'Failed to acquire lock on the fulltext index, '
+                'probably some other update is already running.'
+            )
 
     def do_delete(self, limit):
         indexupdates = set()
