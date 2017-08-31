@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-08-30 20:50+0000\n"
-"PO-Revision-Date: 2017-08-21 06:01+0000\n"
+"PO-Revision-Date: 2017-08-31 06:48+0000\n"
 "Last-Translator: Tuomas Harju <tuomas@rtj-group.com>\n"
-"Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
-"fi/>\n"
+"Language-Team: Finnish "
+"<https://hosted.weblate.org/projects/weblate/master/fi/>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -249,10 +249,8 @@ msgid "Password reset has been requested."
 msgstr "Salasanasi palutuspyyntö on tehty."
 
 #: weblate/accounts/models.py:61
-#, fuzzy
-#| msgid "Password reset has been confirmed."
 msgid "Password reset has been confirmed and password has been reset."
-msgstr "Salasanan palutus on vahvistettu."
+msgstr "Salasanan palutus on vahvistettu ja salasana on palautettu."
 
 #: weblate/accounts/models.py:64
 #, python-brace-format
@@ -462,11 +460,11 @@ msgstr ""
 
 #: weblate/accounts/password_validation.py:75
 msgid "Can not use previously used password!"
-msgstr ""
+msgstr "Aiemmin käytettyä salasanaa ei voida käyttää!"
 
 #: weblate/accounts/password_validation.py:81
 msgid "Your password can't match password you have used in the past."
-msgstr ""
+msgstr "Salasanasi ei saa täsmätä salasanaan jota olet käyttänyt aiemmin."
 
 #: weblate/accounts/pipeline.py:275
 msgid "You can not complete password reset while logged in!"
@@ -869,7 +867,7 @@ msgstr "Esimerkiksi: {0}"
 
 #: weblate/legal/forms.py:29
 msgid "I agree with the Terms of Service document"
-msgstr ""
+msgstr "Hyväksyn palvelun käyttöehdot (Terms of Service -asiakirjan)"
 
 #: weblate/legal/templates/legal/confirm.html:6
 #: weblate/legal/templates/legal/cookies.html:5
@@ -881,11 +879,11 @@ msgstr "Sallittu"
 
 #: weblate/legal/templates/legal/confirm.html:13
 msgid "You have to aggree to the Terms of Service"
-msgstr ""
+msgstr "Sinun täytyy hyväksyä palvelun käyttöehdot (Terms of Service)"
 
 #: weblate/legal/templates/legal/confirm.html:15
 msgid "Please read following Terms of Service document:"
-msgstr ""
+msgstr "Lue seuraavat palvelun käyttöehdot (Terms of Service):"
 
 #: weblate/legal/templates/legal/confirm.html:23
 #: weblate/wladmin/templates/admin/ssh.html:64
@@ -1326,27 +1324,20 @@ msgid "Registration"
 msgstr "Rekisteröinti"
 
 #: weblate/templates/accounts/email-sent.html:13
-#, fuzzy
-#| msgid "Password reset has been already completed!"
 msgid "Password reset almost complete"
-msgstr "Salasanasi palutuspyyntö on jo suoritettu loppuun asti!"
+msgstr "Salasanasi palutus on melkein valmis"
 
 #: weblate/templates/accounts/email-sent.html:15
 msgid "Registration almost complete"
 msgstr "Rekisteröinti melkein valmis"
 
 #: weblate/templates/accounts/email-sent.html:21
-#, fuzzy
-#| msgid ""
-#| "Thank you for registering. You will very soon receive an email with a "
-#| "confirmation link. Please follow this link in order to complete your "
-#| "registration."
 msgid ""
 "You will very soon receive an email with a confirmation link. Please follow "
 "this link in order to complete your password reset procedure."
 msgstr ""
-"Kiitos rekisteröitymisestäsi. Saat pian sähköpostiisi vahvistuslinkin. "
-"Valitse linkki vahvistaaksesi rekisteröitymisesi."
+"Saat pian sähköpostiisi vahvistuslinkin. Klikkaa linkkiä palauttaaksesi "
+"salasanasi."
 
 #: weblate/templates/accounts/email-sent.html:23
 msgid ""
@@ -1433,6 +1424,8 @@ msgid ""
 "The hosting requests are usually processed once in a month, so please be "
 "patient after submitting it."
 msgstr ""
+"Hosting -pyynnöt käsitellään yleensä kerran kuukaudessa, joten ole "
+"kärsivällinen pyynnön lähettämisen jälkeen."
 
 #: weblate/templates/accounts/hosting.html:45
 msgid "Commercial hosting"
@@ -1854,6 +1847,8 @@ msgid ""
 "Please read our <a href=\"%(legal_url)s\">Terms of Service</a> prior to "
 "registration."
 msgstr ""
+"Ole hyvä ja lue <a href=\"%(legal_url)s\">Palvelun käyttöehdot (Terms of "
+"Service)</a> ennen rekisteröintiä."
 
 #: weblate/templates/accounts/register.html:21
 msgid ""
@@ -4478,7 +4473,7 @@ msgstr "Lähdesanojen määrä"
 
 #: weblate/templates/replace.html:18
 msgid "Please review and confirm the search and replace results."
-msgstr ""
+msgstr "Ole hyvä ja tarkista sekä vahvista etsi ja korvaa -toiminnon tulokset."
 
 #: weblate/templates/screenshots/screenshot_detail.html:9
 #: weblate/templates/screenshots/screenshot_list.html:9
@@ -4738,13 +4733,11 @@ msgstr "Käännöksiä voidaan tehdä suoraan."
 
 #: weblate/templates/subproject_info.html:20
 msgid "Suggestions to improve translation can be given."
-msgstr ""
+msgstr "Ehdotukset käännöksen parantamiseksi on sallittu."
 
 #: weblate/templates/subproject_info.html:22
-#, fuzzy
-#| msgid "New registrations are disabled!"
 msgid "Suggestions to improve translation are disabled."
-msgstr "Uudet rekisteröinnit on estetty!"
+msgstr "Ehdotukset käännöksen parantamiseksi on pois käytöstä."
 
 #: weblate/templates/subproject_info.html:26
 msgid "Only selected users can contribute."
@@ -5318,10 +5311,6 @@ msgid "Promoting specific translations"
 msgstr "Tiettyjen käännösten edistäminen"
 
 #: weblate/templates/widgets.html:20
-#, fuzzy
-#| msgid ""
-#| "Besides promoting whole translation project, you can also choose specific "
-#| "language or component to promote:"
 msgid ""
 "Besides promoting the whole translation project, you can also choose a "
 "specific language or component to promote:"
@@ -5334,11 +5323,6 @@ msgid "Image widgets"
 msgstr "Kuvawidgetit"
 
 #: weblate/templates/widgets.html:27
-#, fuzzy
-#| msgid ""
-#| "You can use following widgets to promote translation of your project. "
-#| "They can increase visibility of your translation projects and bring new "
-#| "contributors."
 msgid ""
 "You can use the following widgets to promote translation of your project. "
 "They can increase visibility of your translation projects and bring new "
@@ -5498,7 +5482,7 @@ msgstr "Lähde ja käännös eivät pääty pisteeseen"
 
 #: weblate/trans/checks/chars.py:163
 msgid "Trailing colon"
-msgstr "Tekstin jälkeen pilkku"
+msgstr "Tekstin jälkeen kaksoispiste"
 
 #: weblate/trans/checks/chars.py:165
 msgid ""
@@ -7161,10 +7145,9 @@ msgid "This translation is locked by %(user)s!"
 msgstr "Tämän käännös on lukittu käyttäjän %(user)s toimesta!"
 
 #: weblate/trans/models/unit.py:396
-#, fuzzy, python-brace-format
-#| msgid "%(filename)s, translation unit %(position)s"
+#, python-brace-format
 msgid "{translation}, translation unit {position}"
-msgstr "%(filename)s, käännösyksikkö %(position)s"
+msgstr "{translation}, käännösyksikkö {position}"
 
 #: weblate/trans/models/whiteboard.py:88
 msgid "Category"
@@ -7596,10 +7579,8 @@ msgid "User has been added to this project."
 msgstr "Käyttäjä on lisätty tähän projektiin."
 
 #: weblate/trans/views/acl.py:119
-#, fuzzy
-#| msgid "Failed to find matching user!"
 msgid "Failed to find group to add an user!"
-msgstr "Täsmäävän käyttäjän löytäminen epäonnistui!"
+msgstr "Etsimääsi ryhmää käyttäjän lisäämiseksi ei löytynyt!"
 
 #: weblate/trans/views/acl.py:142
 msgid "User has been removed from this project."
