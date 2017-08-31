@@ -114,7 +114,7 @@ class UnitManager(models.Manager):
 
 
 class UnitQuerySet(models.QuerySet):
-    def filter_checks(self, rqtype, translation, ignored=False):
+    def filter_checks(self, rqtype, project, language, ignored=False):
         """Filtering for checks."""
 
         # Filter checks for current project
@@ -122,10 +122,8 @@ class UnitQuerySet(models.QuerySet):
             ignore=ignored
         )
 
-        if translation is not None:
-            checks = checks.filter(
-                project=translation.subproject.project,
-            )
+        if project is not None:
+            checks = checks.filter(project=project)
 
         # Filter by language
         if rqtype == 'allchecks':
@@ -138,15 +136,15 @@ class UnitQuerySet(models.QuerySet):
                 return self.all()
             if CHECKS[check_id].source:
                 checks = checks.filter(language=None)
-            elif CHECKS[check_id].target and translation is not None:
-                checks = checks.filter(language=translation.language)
+            elif CHECKS[check_id].target and language is not None:
+                checks = checks.filter(language=language)
             # Filter by check type
             checks = checks.filter(check=check_id)
 
         checks = checks.values_list('content_hash', flat=True)
         return self.filter(content_hash__in=checks)
 
-    def filter_type(self, rqtype, translation, ignored=False):
+    def filter_type(self, rqtype, project, language, ignored=False):
         """Basic filtering based on unit state or failed checks."""
         if rqtype in SIMPLE_FILTERS:
             return self.filter(**SIMPLE_FILTERS[rqtype])
@@ -156,16 +154,18 @@ class UnitQuerySet(models.QuerySet):
             coms = Comment.objects.filter(
                 language=None,
             )
-            if translation is not None:
-                coms = coms.filter(
-                    project=translation.subproject.project
-                )
+            if project is not None:
+                coms = coms.filter(project=project)
             coms = coms.values_list('content_hash', flat=True)
             return self.filter(content_hash__in=coms)
-        elif rqtype.startswith('check:'):
-            return self.filter_checks(rqtype, translation, ignored)
-        elif rqtype in ['allchecks', 'sourcechecks']:
-            return self.filter_checks(rqtype, translation, ignored)
+        elif (rqtype.startswith('check:') or
+              rqtype in ['allchecks', 'sourcechecks']):
+            return self.filter_checks(
+                rqtype,
+                project,
+                language,
+                ignored
+            )
         else:
             # Catch anything not matching including 'all'
             return self.all()
@@ -183,7 +183,11 @@ class UnitQuerySet(models.QuerySet):
             return ret
 
         # Actually count units
-        ret = self.filter_type(rqtype, translation).count()
+        ret = self.filter_type(
+            rqtype,
+            translation.subproject.project,
+            translation.language,
+        ).count()
 
         # Update cache
         cache.set(cache_key, ret)
@@ -212,13 +216,14 @@ class UnitQuerySet(models.QuerySet):
             'translation__subproject__project__source_language',
         )
 
-    def search(self, translation, params):
+    def search(self, project, language, params):
         """High level wrapper for searching."""
         base = self.prefetch()
         if params['type'] != 'all':
             base = self.filter_type(
                 params['type'],
-                translation,
+                project,
+                language,
                 params['ignored']
             )
 

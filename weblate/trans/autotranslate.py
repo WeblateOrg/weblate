@@ -32,7 +32,9 @@ def auto_translate(user, translation, source, inconsistent, overwrite,
 
     if inconsistent:
         units = translation.unit_set.filter_type(
-            'check:inconsistent', translation
+            'check:inconsistent',
+            translation.subproject.project,
+            translation.language,
         )
     elif overwrite:
         units = translation.unit_set.all()

@@ -166,7 +166,8 @@ def search(translation, request):
         )
     else:
         allunits = translation.unit_set.search(
-            translation,
+            translation.subproject.project,
+            translation.language,
             form.cleaned_data,
         )
         if form.cleaned_data['type'] == 'random':

@@ -76,7 +76,12 @@ def review_source(request, project, subproject):
         sources = source.unit_set.filter(id_hash=id_hash)
         expand = True
     else:
-        sources = source.unit_set.filter_type(rqtype, source, ignored)
+        sources = source.unit_set.filter_type(
+            rqtype,
+            source.subproject.project,
+            source.language,
+            ignored
+        )
 
     paginator = Paginator(sources, limit)
 
