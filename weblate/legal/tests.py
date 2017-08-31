@@ -21,10 +21,12 @@
 """Test for legal stuff."""
 
 from django.test import TestCase
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test.utils import override_settings, modify_settings
 
 from weblate.accounts.tests.test_registration import REGISTRATION_DATA
+from weblate.legal.models import Agreement
 from weblate.trans.tests.test_views import RegistrationTestMixin
 
 
@@ -90,3 +92,34 @@ class LegalTest(TestCase, RegistrationTestMixin):
             follow=True
         )
         self.assertContains(response, 'Your profile')
+
+    @modify_settings(MIDDLEWARE_CLASSES={
+        'append': 'weblate.legal.middleware.RequireTOSMiddleware',
+    })
+    def test_middleware(self):
+        user = User.objects.create_user(
+            'testuser',
+            'noreply@weblate.org',
+            'testpassword',
+            first_name='Weblate Test',
+        )
+        # Unauthenticated
+        response = self.client.get(reverse('home'), follow=True)
+        self.assertContains(response, 'Suggested translations')
+        # Login
+        self.client.login(username='testuser', password='testpassword')
+        # Chck that homepage redirects
+        response = self.client.get(reverse('home'), follow=True)
+        self.assertTrue(
+            response.redirect_chain[-1][0].startswith(
+                reverse('legal:confirm')
+            )
+        )
+        # Check that contact works even without TOS
+        response = self.client.get(reverse('contact'), follow=True)
+        self.assertContains(response, 'You can contact maintainers')
+        # Confirm current TOS
+        user.agreement.make_current()
+        # Homepage now should work
+        response = self.client.get(reverse('home'), follow=True)
+        self.assertContains(response, 'Suggested translations')
