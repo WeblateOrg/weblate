@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-08-31 17:52+0000\n"
-"PO-Revision-Date: 2017-08-16 13:14+0000\n"
+"PO-Revision-Date: 2017-09-01 18:30+0000\n"
 "Last-Translator: Viktar Vauchkevich <victorenator@gmail.com>\n"
-"Language-Team: Belarusian <https://hosted.weblate.org/projects/weblate/"
-"master/be/>\n"
+"Language-Team: Belarusian "
+"<https://hosted.weblate.org/projects/weblate/master/be/>\n"
 "Language: be\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.17-dev\n"
 
 #: weblate/accounts/admin.py:105 weblate/accounts/admin.py:110
@@ -246,10 +246,8 @@ msgid "Password reset has been requested."
 msgstr "Скід пароля запрошаны."
 
 #: weblate/accounts/models.py:61
-#, fuzzy
-#| msgid "Password reset has been confirmed."
 msgid "Password reset has been confirmed and password has been reset."
-msgstr "Скід пароля пацверджаны."
+msgstr "Скід пароля пацверджаны і пароль скінуты."
 
 #: weblate/accounts/models.py:64
 #, python-brace-format
@@ -291,7 +289,7 @@ msgstr "Выдаленыя конт і ўсе прыватныя даныя."
 #: weblate/accounts/models.py:88
 #, python-brace-format
 msgid "Agreement with Terms of Service {date}."
-msgstr ""
+msgstr "Пагадненне аб умовах абслугоўвання {date}."
 
 #: weblate/accounts/models.py:209 weblate/templates/accounts/profile.html:304
 msgid "Account activity"
@@ -462,11 +460,11 @@ msgstr "Ваш пароль не можа складацца з аднаго с�
 
 #: weblate/accounts/password_validation.py:75
 msgid "Can not use previously used password!"
-msgstr ""
+msgstr "Немагчыма выкарыстоўваць папярэдні пароль!"
 
 #: weblate/accounts/password_validation.py:81
 msgid "Your password can't match password you have used in the past."
-msgstr ""
+msgstr "Ваш пароль не можа супадаць з паролем, які вы выкарыстоўвалі раней."
 
 #: weblate/accounts/pipeline.py:275
 msgid "You can not complete password reset while logged in!"
@@ -866,13 +864,15 @@ msgstr "Напрыклад: {0}"
 
 #: weblate/legal/forms.py:29
 msgid "I agree with the Terms of Service document"
-msgstr ""
+msgstr "Я згодны з умовамі абслугоўвання"
 
 #: weblate/legal/middleware.py:58
 msgid ""
 "We have new version of the Terms of Service document, please read it and "
 "confirm that you agree with it."
 msgstr ""
+"Мы маем новую версію дакумента «Умовы абслугоўвання». Калі ласка, прачытайце "
+"яго і пацвердзіце, што вы згодны з імі."
 
 #: weblate/legal/templates/legal/confirm.html:6
 #: weblate/legal/templates/legal/cookies.html:5
@@ -884,11 +884,11 @@ msgstr "Юрыдычная інфармацыя"
 
 #: weblate/legal/templates/legal/confirm.html:13
 msgid "You have to agree to the Terms of Service"
-msgstr ""
+msgstr "Вы павінны пагадзіцца з умовамі абслугоўвання"
 
 #: weblate/legal/templates/legal/confirm.html:15
 msgid "Please read following Terms of Service document:"
-msgstr ""
+msgstr "Калі ласка, прачытайце наступны дакумент «Умоў абслугоўвання»:"
 
 #: weblate/legal/templates/legal/confirm.html:23
 #: weblate/wladmin/templates/admin/ssh.html:64
@@ -1332,28 +1332,20 @@ msgid "Registration"
 msgstr "Рэгістрацыя"
 
 #: weblate/templates/accounts/email-sent.html:13
-#, fuzzy
-#| msgid "Password reset has been already completed!"
 msgid "Password reset almost complete"
-msgstr "Скід пароля ўжо завершаны!"
+msgstr "Скід пароля амаль завершаны"
 
 #: weblate/templates/accounts/email-sent.html:15
 msgid "Registration almost complete"
 msgstr "Рэгістрацыя амаль завершана"
 
 #: weblate/templates/accounts/email-sent.html:21
-#, fuzzy
-#| msgid ""
-#| "Thank you for registering. You will very soon receive an email with a "
-#| "confirmation link. Please follow this link in order to complete your "
-#| "registration."
 msgid ""
 "You will very soon receive an email with a confirmation link. Please follow "
 "this link in order to complete your password reset procedure."
 msgstr ""
-"Дзякуем за рэгістрацыю. Неўзабаве вы атрымаеце ліст з спасылкай на актывацыю "
-"вашага ўліковага запісу. Калі ласка, прайдзіце па той спасылцы, каб "
-"завершыць рэгістрацыю."
+"Неўзабаве вы атрымаеце ліст з спасылкай для пацверджання. Калі ласка, "
+"прайдзіце па той спасылцы, каб завершыць працэдуру скіду пароля."
 
 #: weblate/templates/accounts/email-sent.html:23
 msgid ""
@@ -1440,6 +1432,8 @@ msgid ""
 "The hosting requests are usually processed once in a month, so please be "
 "patient after submitting it."
 msgstr ""
+"Запыты на хостынг, як правіла, апрацоўваюцца раз у месяц, таму, калі ласка, "
+"будце цярплівымі пасля адпраўкі запыту."
 
 #: weblate/templates/accounts/hosting.html:45
 msgid "Commercial hosting"
@@ -1856,6 +1850,8 @@ msgid ""
 "Please read our <a href=\"%(legal_url)s\">Terms of Service</a> prior to "
 "registration."
 msgstr ""
+"Калі ласка, прачытайце нашы <a href=\"%(legal_url)s\">Умовы "
+"абслугоўвагння</a> перад рэгістрацыяй."
 
 #: weblate/templates/accounts/register.html:21
 msgid ""
@@ -4478,7 +4474,7 @@ msgstr "Колькасць зыходных слоў"
 
 #: weblate/templates/replace.html:18
 msgid "Please review and confirm the search and replace results."
-msgstr ""
+msgstr "Калі ласка, праглядзіце і пацвердзіце рэзультаты пошуку і замены."
 
 #: weblate/templates/screenshots/screenshot_detail.html:9
 #: weblate/templates/screenshots/screenshot_list.html:9
@@ -4742,13 +4738,11 @@ msgstr "Пераклады могуць быць зробленыя непаср
 
 #: weblate/templates/subproject_info.html:20
 msgid "Suggestions to improve translation can be given."
-msgstr ""
+msgstr "Можна прапанаваць варыянты для паляпшэння перакладу."
 
 #: weblate/templates/subproject_info.html:22
-#, fuzzy
-#| msgid "New registrations are disabled!"
 msgid "Suggestions to improve translation are disabled."
-msgstr "Новыя рэгістрацыі адключаны!"
+msgstr "Прапановы для паляпшэння перакладу адключаныя."
 
 #: weblate/templates/subproject_info.html:26
 msgid "Only selected users can contribute."
@@ -4941,10 +4935,8 @@ msgid "Commit message:"
 msgstr "Апісанне рэвізіі:"
 
 #: weblate/templates/translate.html:186
-#, fuzzy
-#| msgid "Additional text to include in the commit message."
 msgid "Additional text to include"
-msgstr "Дадатковы тэкст, які дадаваць у паведамленні рэвізій."
+msgstr "Дадатковы тэкст для ўключэння"
 
 #: weblate/templates/translate.html:189
 msgid ""
@@ -5327,10 +5319,6 @@ msgid "Promoting specific translations"
 msgstr "Папулярызацыя канкрэтных перакладаў"
 
 #: weblate/templates/widgets.html:20
-#, fuzzy
-#| msgid ""
-#| "Besides promoting whole translation project, you can also choose specific "
-#| "language or component to promote:"
 msgid ""
 "Besides promoting the whole translation project, you can also choose a "
 "specific language or component to promote:"
@@ -5343,11 +5331,6 @@ msgid "Image widgets"
 msgstr "Віджэты-малюнкі"
 
 #: weblate/templates/widgets.html:27
-#, fuzzy
-#| msgid ""
-#| "You can use following widgets to promote translation of your project. "
-#| "They can increase visibility of your translation projects and bring new "
-#| "contributors."
 msgid ""
 "You can use the following widgets to promote translation of your project. "
 "They can increase visibility of your translation projects and bring new "
@@ -6034,24 +6017,16 @@ msgid "Show ignored checks as well"
 msgstr "Паказваць ігнараваныя праверкі таксама"
 
 #: weblate/trans/forms.py:683
-#, fuzzy
-#| msgid "Changes"
 msgid "Changed since"
-msgstr "Змены"
+msgstr "Зменены ад"
 
 #: weblate/trans/forms.py:687
-#, fuzzy
-#| msgctxt "Changes by user"
-#| msgid "Changes by %s"
 msgid "Changed by user"
-msgstr "Змены ад %s"
+msgstr "Зменены карыстальнікам"
 
 #: weblate/trans/forms.py:691
-#, fuzzy
-#| msgctxt "Changes by user"
-#| msgid "Changes by %s"
 msgid "Exclude changes by user"
-msgstr "Змены ад %s"
+msgstr "Выключаючы змены карыстальніка"
 
 #: weblate/trans/forms.py:707
 msgid "The query string has to be longer!"
@@ -7171,10 +7146,9 @@ msgid "This translation is locked by %(user)s!"
 msgstr "Пераклад блакіраваны карыстальнікам %(user)s!"
 
 #: weblate/trans/models/unit.py:430
-#, fuzzy, python-brace-format
-#| msgid "%(filename)s, translation unit %(position)s"
+#, python-brace-format
 msgid "{translation}, translation unit {position}"
-msgstr "%(filename)s, пераклад адзінкі %(position)s"
+msgstr "{translation}, адзінка перакладу {position}"
 
 #: weblate/trans/models/whiteboard.py:88
 msgid "Category"
@@ -7620,10 +7594,8 @@ msgid "User has been added to this project."
 msgstr "Карыстальнік быў дададзены да гэтага праекта."
 
 #: weblate/trans/views/acl.py:119
-#, fuzzy
-#| msgid "Failed to find matching user!"
 msgid "Failed to find group to add an user!"
-msgstr "Не ўдалося знайсці адпаведнага карыстальніка!"
+msgstr "Не ўдалося знайсці групу, каб дадаць карыстальніка!"
 
 #: weblate/trans/views/acl.py:142
 msgid "User has been removed from this project."
