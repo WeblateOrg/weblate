@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-08-31 17:52+0000\n"
-"PO-Revision-Date: 2017-08-31 17:58+0000\n"
-"Last-Translator: Michal Čihař <michal@cihar.com>\n"
+"PO-Revision-Date: 2017-09-01 07:19+0000\n"
+"Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/>"
 "\n"
 "Language: cs\n"
@@ -49,7 +49,7 @@ msgstr "Tuto adresu již někdo používá. Prosím zadejte jinou."
 
 #: weblate/accounts/forms.py:106
 msgid "Enter a valid email address."
-msgstr "Zadejte platnou emailovou adresu."
+msgstr "Zadejte platnou e-mailovou adresu."
 
 #: weblate/accounts/forms.py:109
 msgid "This email address is not allowed."
@@ -178,11 +178,11 @@ msgstr "Pokud nemáte nastavené heslo, nechte pole prázdné."
 
 #: weblate/accounts/forms.py:520
 msgid "You have entered an invalid password."
-msgstr "Zadal jste chybné heslo."
+msgstr "Zadali jste chybné heslo."
 
 #: weblate/accounts/forms.py:536
 msgid "Username or email"
-msgstr "Uživatelské jméno nebo email"
+msgstr "Uživatelské jméno nebo e-mail"
 
 #: weblate/accounts/forms.py:539 weblate/templates/accounts/profile.html:189
 msgid "Password"
@@ -193,7 +193,8 @@ msgid ""
 "Please enter a correct username and password. Note that both fields may be "
 "case-sensitive."
 msgstr ""
-"Prosím zadejte správné jméno a heslo. Oboje rozlišuje velká a malá písmena."
+"Prosím zadejte správné uživatelské jméno a heslo. Oboje rozlišuje velká a "
+"malá písmena."
 
 #: weblate/accounts/forms.py:545
 msgid "This account is inactive."
@@ -205,7 +206,7 @@ msgstr "Příliš mnoho pokusů o přihlášení!"
 
 #: weblate/accounts/forms.py:623 weblate/trans/models/project.py:87
 msgid "Project name"
-msgstr "Jméno projektu"
+msgstr "Název projektu"
 
 #: weblate/accounts/forms.py:628 weblate/templates/project_info.html:3
 #: weblate/trans/models/project.py:99
@@ -214,7 +215,7 @@ msgstr "Stránky projektu"
 
 #: weblate/accounts/forms.py:633 weblate/trans/models/subproject.py:159
 msgid "Source code repository"
-msgstr "Zdrojový repozitář"
+msgstr "Repozitář se zdrojovými kódy"
 
 #: weblate/accounts/forms.py:635
 msgid "URL of source code repository for example Git or Mercurial."
@@ -265,7 +266,7 @@ msgstr "Úspěšné přihlášení přes {method} ({name})."
 
 #: weblate/accounts/models.py:73
 msgid "Somebody has attempted to register with your email."
-msgstr "Někdo se pokusil zaregistrovat s vaším emailem."
+msgstr "Někdo se pokusil zaregistrovat s vaším e-mailem."
 
 #: weblate/accounts/models.py:76
 msgid "Somebody has attempted to add your email to existing account."
@@ -287,7 +288,7 @@ msgstr "Účet byl odstraněn spolu se všemi osobními údaji."
 #: weblate/accounts/models.py:88
 #, python-brace-format
 msgid "Agreement with Terms of Service {date}."
-msgstr "Souhlas  Všeobecnými smluvními podmínkami {date}."
+msgstr "Souhlas s Všeobecnými smluvními podmínkami {date}."
 
 #: weblate/accounts/models.py:209 weblate/templates/accounts/profile.html:304
 msgid "Account activity"
@@ -438,7 +439,7 @@ msgstr "Seznam komponent nesmí být vybrán pokud není používán jako výcho
 msgid ""
 "You can not submit translations as you do not have assigned any email "
 "address."
-msgstr "Nemůžete překládat, protože nemáte zadanou emailovou adresu."
+msgstr "Nemůžete překládat, protože nemáte zadanou e-mailovou adresu."
 
 #: weblate/accounts/password_validation.py:41
 msgid "This password consists of whitespace only."
@@ -464,7 +465,7 @@ msgstr ""
 
 #: weblate/accounts/pipeline.py:275
 msgid "You can not complete password reset while logged in!"
-msgstr "Nelze dokončit obnovení hesla pokud jste přihlášen!"
+msgstr "Nelze dokončit obnovení hesla pokud jste přihlášeni!"
 
 #: weblate/accounts/pipeline.py:279 weblate/accounts/pipeline.py:303
 msgid "The registration link has been invalidated."
@@ -472,17 +473,17 @@ msgstr "Odkaz pro registraci byl zneplatněn."
 
 #: weblate/accounts/pipeline.py:294
 msgid "You can not complete registration while logged in!"
-msgstr "Nemůžete dokončit registraci pokud jste přihlášen!"
+msgstr "Nemůžete dokončit registraci pokud jste přihlášeni!"
 
 #: weblate/accounts/pipeline.py:299
 msgid "You can confirm your registration only while logged in!"
-msgstr "Registraci můžete potvrdit pouze pokud jste přihlášen!"
+msgstr "Registraci můžete potvrdit pouze pokud jste přihlášeni!"
 
 #: weblate/accounts/pipeline.py:424
 #, python-brace-format
 msgid ""
 "Your email no longer belongs to verified account, it has been changed to {0}."
-msgstr "Váš email už není ověřený, byl změněn na {0}."
+msgstr "Váš e-mail už není ověřený, byl změněn na {0}."
 
 #: weblate/accounts/views.py:111 weblate/accounts/views.py:708
 #: weblate/accounts/views.py:757 weblate/templates/accounts/reset.html:7
@@ -546,7 +547,7 @@ msgstr "Děkujeme za použití Weblate!"
 
 #: weblate/accounts/views.py:635 weblate/templates/accounts/email.html:16
 msgid "Register email"
-msgstr "Registrace emailu"
+msgstr "Registrace e-mailu"
 
 #: weblate/accounts/views.py:678 weblate/templates/accounts/password.html:13
 #: weblate/templates/accounts/profile.html:192
@@ -566,12 +567,12 @@ msgid ""
 "Failed to verify your registration! Probably the verification token has "
 "expired. Please try the registration again."
 msgstr ""
-"Nepodařilo se ověřit vaši registraci! Pravděpodobně vypršela platnost "
+"Nepodařilo se ověřit vaši registraci! Pravděpodobně skončila platnost "
 "ověřovacího tokenu. Prosím zkuste registraci znovu."
 
 #: weblate/accounts/views.py:865
 msgid "Authentication failed due to invalid session state."
-msgstr "Přihlašování selhalo kvůli chybnému stavu sezení."
+msgstr "Přihlašování se nezdařilo kvůli chybnému stavu sezení."
 
 #: weblate/accounts/views.py:879
 msgid "Can not change authentication for demo!"
@@ -585,7 +586,8 @@ msgstr "Nové registrace jsou zakázány!"
 msgid ""
 "Authentication has failed, probably due to expired token or connection error."
 msgstr ""
-"Přihlášení selhalo, pravděpodobně kvůli vypršení tokenu nebo chybě připojení."
+"Přihlášení se nezdařilo, pravděpodobně kvůli skončení platnosti tokenu nebo "
+"chybě připojení."
 
 #: weblate/accounts/views.py:894
 msgid "Authentication has been cancelled."
@@ -596,8 +598,8 @@ msgid ""
 "Failed to complete your registration! This authentication, email or username "
 "are already associated with another account!"
 msgstr ""
-"Nepodařilo se dokončit registraci! Toto přihlašování, email nebo uživatelské "
-"jméno je již připojené k jinému účtu!"
+"Nepodařilo se dokončit registraci! Toto přihlašování, e-mail nebo "
+"uživatelské jméno je již připojené k jinému účtu!"
 
 #: weblate/billing/admin.py:52 weblate/billing/models.py:122
 #: weblate/templates/accounts/user.html:38
@@ -801,7 +803,7 @@ msgstr "Kód jazyka"
 
 #: weblate/lang/models.py:416
 msgid "Language name"
-msgstr "Jméno jazyka"
+msgstr "Název jazyka"
 
 #: weblate/lang/models.py:420 weblate/templates/language.html:60
 msgid "Number of plurals"
@@ -963,7 +965,7 @@ msgid ""
 "our database as soon as you remove your account."
 msgstr ""
 "Zpracováváme soukromé údaje (např. e-mail), tyto údaje odstraníme z naší "
-"databáze jakmile jste odstraníte svůj účet."
+"databáze jakmile odstraníte svůj účet."
 
 #: weblate/legal/templates/legal/index.html:27
 msgid ""
@@ -975,7 +977,7 @@ msgstr ""
 
 #: weblate/legal/templates/legal/index.html:28
 msgid "Your name and email is used in VCS commits, it will stay there forever."
-msgstr "Vaše jméno a email je použito v commitech VCS, zůstane tam navždy."
+msgstr "Vaše jméno a e-mail je použito v commitech VCS, zůstane tam navždy."
 
 #: weblate/legal/templates/legal/index.html:29
 msgid "We use cookies to deliver our services."
