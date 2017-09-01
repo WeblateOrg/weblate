@@ -172,6 +172,10 @@ class SearchViewTest(ViewTestCase):
         """Searching within project."""
         self.do_search_url(reverse('search', kwargs=self.kw_project))
 
+    def test_component_search(self):
+        """Searching within component."""
+        self.do_search_url(reverse('search', kwargs=self.kw_subproject))
+
     def test_project_language_search(self):
         """Searching within project."""
         self.do_search_url(
@@ -245,6 +249,10 @@ class SearchViewTest(ViewTestCase):
         )
         self.do_search(
             {'date': '2010-01-10', 'type': 'all', 'only_user': 'testuser'},
+            None
+        )
+        self.do_search(
+            {'only_user': 'testuser'},
             None
         )
         # Review, invalid date
