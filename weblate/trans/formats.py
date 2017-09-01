@@ -1214,6 +1214,13 @@ class WebExtensionJSONFormat(JSONFormat):
 
 
 @register_fileformat
+class I18NextFormat(JSONFormat):
+    name = _('i18next JSON file')
+    format_id = 'i18next'
+    loader = ('jsonl10n', 'I18NextFile')
+
+
+@register_fileformat
 class CSVFormat(FileFormat):
     name = _('CSV file')
     format_id = 'csv'
