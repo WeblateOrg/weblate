@@ -229,13 +229,10 @@ class UnitQuerySet(models.QuerySet):
                language=None, translation=None):
         """High level wrapper for searching."""
         if translation is not None:
-            if subproject is None:
-                subproject = translation.subproject
-            if language is None:
-                language = translation.language
+            subproject = translation.subproject
+            language = translation.language
         if subproject is not None:
-            if project is None:
-                project = subproject.project
+            project = subproject.project
 
         base = self.prefetch()
         if params['type'] != 'all':
