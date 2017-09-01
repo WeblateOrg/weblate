@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-08-31 17:52+0000\n"
-"PO-Revision-Date: 2017-08-16 13:15+0000\n"
+"PO-Revision-Date: 2017-09-01 18:35+0000\n"
 "Last-Translator: Viktar Vauchkevich <victorenator@gmail.com>\n"
-"Language-Team: Belarusian (latin) <https://hosted.weblate.org/projects/"
-"weblate/master/be_Latn/>\n"
+"Language-Team: Belarusian (latin) "
+"<https://hosted.weblate.org/projects/weblate/master/be_Latn/>\n"
 "Language: be@latin\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.17-dev\n"
 
 #: weblate/accounts/admin.py:105 weblate/accounts/admin.py:110
@@ -246,10 +246,8 @@ msgid "Password reset has been requested."
 msgstr "Skid parolia zaprošany."
 
 #: weblate/accounts/models.py:61
-#, fuzzy
-#| msgid "Password reset has been confirmed."
 msgid "Password reset has been confirmed and password has been reset."
-msgstr "Skid parolia pacvierdžany."
+msgstr "Skid parolia pacvierdžany i paroĺ skinuty."
 
 #: weblate/accounts/models.py:64
 #, python-brace-format
@@ -291,7 +289,7 @@ msgstr "Vydalienyja kont i ŭsie pryvatnyja danyja."
 #: weblate/accounts/models.py:88
 #, python-brace-format
 msgid "Agreement with Terms of Service {date}."
-msgstr ""
+msgstr "Pahadniennie ab umovach absluhoŭvannia {date}."
 
 #: weblate/accounts/models.py:209 weblate/templates/accounts/profile.html:304
 msgid "Account activity"
@@ -464,11 +462,11 @@ msgstr "Vaš paroĺ nie moža skladacca z adnaho simvala ci toĺki prahalaŭ."
 
 #: weblate/accounts/password_validation.py:75
 msgid "Can not use previously used password!"
-msgstr ""
+msgstr "Niemahčyma vykarystoŭvać papiaredni paroĺ!"
 
 #: weblate/accounts/password_validation.py:81
 msgid "Your password can't match password you have used in the past."
-msgstr ""
+msgstr "Vaš paroĺ nie moža supadać z paroliem, jaki vy vykarystoŭvali raniej."
 
 #: weblate/accounts/pipeline.py:275
 msgid "You can not complete password reset while logged in!"
@@ -870,13 +868,15 @@ msgstr "Napryklad: {0}"
 
 #: weblate/legal/forms.py:29
 msgid "I agree with the Terms of Service document"
-msgstr ""
+msgstr "Ja zhodny z umovami absluhoŭvannia"
 
 #: weblate/legal/middleware.py:58
 msgid ""
 "We have new version of the Terms of Service document, please read it and "
 "confirm that you agree with it."
 msgstr ""
+"My majem novuju viersiju dakumienta «Umovy absluhoŭvannia». Kali laska, "
+"pračytajcie jaho i pacvierdzicie, što vy zhodny z imi."
 
 #: weblate/legal/templates/legal/confirm.html:6
 #: weblate/legal/templates/legal/cookies.html:5
@@ -888,11 +888,11 @@ msgstr "Jurydyčnaja infarmacyja"
 
 #: weblate/legal/templates/legal/confirm.html:13
 msgid "You have to agree to the Terms of Service"
-msgstr ""
+msgstr "Vy pavinny pahadzicca z umovami absluhoŭvannia"
 
 #: weblate/legal/templates/legal/confirm.html:15
 msgid "Please read following Terms of Service document:"
-msgstr ""
+msgstr "Kali laska, pračytajcie nastupny dakumient «Umoŭ absluhoŭvannia»:"
 
 #: weblate/legal/templates/legal/confirm.html:23
 #: weblate/wladmin/templates/admin/ssh.html:64
@@ -1338,28 +1338,20 @@ msgid "Registration"
 msgstr "Rehіstracyja"
 
 #: weblate/templates/accounts/email-sent.html:13
-#, fuzzy
-#| msgid "Password reset has been already completed!"
 msgid "Password reset almost complete"
-msgstr "Skid parolia ŭžo zavieršany!"
+msgstr "Skid parolia amaĺ zavieršany"
 
 #: weblate/templates/accounts/email-sent.html:15
 msgid "Registration almost complete"
 msgstr "Rehіstracyja amaĺ zavieršana"
 
 #: weblate/templates/accounts/email-sent.html:21
-#, fuzzy
-#| msgid ""
-#| "Thank you for registering. You will very soon receive an email with a "
-#| "confirmation link. Please follow this link in order to complete your "
-#| "registration."
 msgid ""
 "You will very soon receive an email with a confirmation link. Please follow "
 "this link in order to complete your password reset procedure."
 msgstr ""
-"Dziakujem za rehіstracyju. Nieŭzabavie vy atrymajecie lіst z spasylkaj na "
-"aktyvacyju vašaha ŭlіkovaha zapіsu. Kalі laska, prajdzіcie pa toj spasylcy, "
-"kab zavieršyć rehіstracyju."
+"Nieŭzabavie vy atrymajecie list z spasylkaj dlia pacvierdžannia. Kali laska, "
+"prajdzicie pa toj spasylcy, kab zavieršyć praceduru skidu parolia."
 
 #: weblate/templates/accounts/email-sent.html:23
 msgid ""
@@ -1448,6 +1440,8 @@ msgid ""
 "The hosting requests are usually processed once in a month, so please be "
 "patient after submitting it."
 msgstr ""
+"Zapyty na chostynh, jak pravila, apracoŭvajucca raz u miesiac, tamu, kali "
+"laska, budcie ciarplivymi paslia adpraŭki zapytu."
 
 #: weblate/templates/accounts/hosting.html:45
 msgid "Commercial hosting"
@@ -1869,6 +1863,8 @@ msgid ""
 "Please read our <a href=\"%(legal_url)s\">Terms of Service</a> prior to "
 "registration."
 msgstr ""
+"Kali laska, pračytajcie našy <a href=\"%(legal_url)s\">Umovy "
+"absluhoŭvahnnia</a> pierad rehistracyjaj."
 
 #: weblate/templates/accounts/register.html:21
 msgid ""
@@ -4500,7 +4496,7 @@ msgstr "Koĺkasć zychodnych sloŭ"
 
 #: weblate/templates/replace.html:18
 msgid "Please review and confirm the search and replace results."
-msgstr ""
+msgstr "Kali laska, prahliadzicie i pacvierdzicie rezuĺtaty pošuku i zamieny."
 
 #: weblate/templates/screenshots/screenshot_detail.html:9
 #: weblate/templates/screenshots/screenshot_list.html:9
@@ -4765,13 +4761,11 @@ msgstr "Pieraklady mohuć być zroblienyja niepasredna."
 
 #: weblate/templates/subproject_info.html:20
 msgid "Suggestions to improve translation can be given."
-msgstr ""
+msgstr "Možna prapanavać varyjanty dlia paliapšennia pierakladu."
 
 #: weblate/templates/subproject_info.html:22
-#, fuzzy
-#| msgid "New registrations are disabled!"
 msgid "Suggestions to improve translation are disabled."
-msgstr "Novyja rehistracyi adkliučany!"
+msgstr "Prapanovy dlia paliapšennia pierakladu adkliučanyja."
 
 #: weblate/templates/subproject_info.html:26
 msgid "Only selected users can contribute."
@@ -4964,10 +4958,8 @@ msgid "Commit message:"
 msgstr "Apіsannie revіzіі:"
 
 #: weblate/templates/translate.html:186
-#, fuzzy
-#| msgid "Additional text to include in the commit message."
 msgid "Additional text to include"
-msgstr "Dadatkovy tekst, jakі dadavać u paviedamliennі revіzіj."
+msgstr "Dadatkovy tekst dlia ŭkliučennia"
 
 #: weblate/templates/translate.html:189
 msgid ""
@@ -5350,10 +5342,6 @@ msgid "Promoting specific translations"
 msgstr "Papuliaryzacyja kankretnych pierakladaŭ"
 
 #: weblate/templates/widgets.html:20
-#, fuzzy
-#| msgid ""
-#| "Besides promoting whole translation project, you can also choose specific "
-#| "language or component to promote:"
 msgid ""
 "Besides promoting the whole translation project, you can also choose a "
 "specific language or component to promote:"
@@ -5366,19 +5354,14 @@ msgid "Image widgets"
 msgstr "Vіdžety-maliunkі"
 
 #: weblate/templates/widgets.html:27
-#, fuzzy
-#| msgid ""
-#| "You can use following widgets to promote translation of your project. "
-#| "They can increase visibility of your translation projects and bring new "
-#| "contributors."
 msgid ""
 "You can use the following widgets to promote translation of your project. "
 "They can increase visibility of your translation projects and bring new "
 "contributors."
 msgstr ""
-"Nastupnyja vіdžety mohuć užyvacca dzielia reklamavannia vašaha "
-"pierakladnіckaha prajekta. Jany mohuć pryciahnuć uvahu da vašaha prajekta і "
-"pryniescі novych asіstentaŭ."
+"Nastupnyja vidžety mohuć užyvacca dzielia reklamavannia vašaha "
+"pierakladnickaha prajekta. Jany mohuć pryciahnuć uvahu da vašaha prajekta i "
+"pryniesci novych asistentaŭ."
 
 #: weblate/templates/widgets.html:31
 #, python-format
@@ -6058,24 +6041,16 @@ msgid "Show ignored checks as well"
 msgstr "Pakazvać іhnaravanyja pravierkі taksama"
 
 #: weblate/trans/forms.py:683
-#, fuzzy
-#| msgid "Changes"
 msgid "Changed since"
-msgstr "Zmieny"
+msgstr "Zmienieny ad"
 
 #: weblate/trans/forms.py:687
-#, fuzzy
-#| msgctxt "Changes by user"
-#| msgid "Changes by %s"
 msgid "Changed by user"
-msgstr "Zmieny ad %s"
+msgstr "Zmienieny karystaĺnikam"
 
 #: weblate/trans/forms.py:691
-#, fuzzy
-#| msgctxt "Changes by user"
-#| msgid "Changes by %s"
 msgid "Exclude changes by user"
-msgstr "Zmieny ad %s"
+msgstr "Vykliučajučy zmieny karystaĺnika"
 
 #: weblate/trans/forms.py:707
 msgid "The query string has to be longer!"
@@ -7204,10 +7179,9 @@ msgid "This translation is locked by %(user)s!"
 msgstr "Pieraklad blakіravany karystaĺnіkam %(user)s!"
 
 #: weblate/trans/models/unit.py:430
-#, fuzzy, python-brace-format
-#| msgid "%(filename)s, translation unit %(position)s"
+#, python-brace-format
 msgid "{translation}, translation unit {position}"
-msgstr "%(filename)s, pieraklad adzіnkі %(position)s"
+msgstr "{translation}, adzinka pierakladu {position}"
 
 #: weblate/trans/models/whiteboard.py:88
 msgid "Category"
@@ -7653,10 +7627,8 @@ msgid "User has been added to this project."
 msgstr "Karystaĺnіk byŭ dadadzieny da hetaha prajektu."
 
 #: weblate/trans/views/acl.py:119
-#, fuzzy
-#| msgid "Failed to find matching user!"
 msgid "Failed to find group to add an user!"
-msgstr "Nie ŭdalosia znajscі adpaviednaha karystaĺnіka!"
+msgstr "Nie ŭdalosia znajsci hrupu, kab dadać karystaĺnika!"
 
 #: weblate/trans/views/acl.py:142
 msgid "User has been removed from this project."
