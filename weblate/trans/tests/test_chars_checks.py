@@ -203,6 +203,7 @@ class EndExclamationCheckTest(CheckTestCase):
 
     def test_french_wrong(self):
         self.do_test(True, ('Text!', 'Texte!', ''), 'fr')
+        self.do_test(False, ('Text!', 'Texte !', ''), 'fr')
 
 
 class EndEllipsisCheckTest(CheckTestCase):
