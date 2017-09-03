@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-08-31 17:52+0000\n"
+"POT-Creation-Date: 2017-09-03 08:22+0000\n"
 "PO-Revision-Date: 2017-08-22 09:49+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -879,16 +879,21 @@ msgstr "Cookies 方针"
 
 #: weblate/legal/templates/legal/cookies.html:21
 #: weblate/legal/templates/legal/index.html:20
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This page is based on <a href=\"%(terms_url)s\">Terms of Service</a>, you "
+#| "should still read the original document to fully understand it."
 msgid ""
-"This page is based on <a href=\"%(terms_url)s\">Terms of Service</a>, you "
-"should still read the original document to fully understand it."
+"This page is based on the <a href=\"%(terms_url)s\">Terms of Service</a>, "
+"you should still read the original document to fully understand them."
 msgstr ""
 "本页面基于 <a href=\"%(terms_url)s\">服务条款</a>，您仍需阅读原始文本以完全了"
 "解它。"
 
 #: weblate/legal/templates/legal/cookies.html:25
-msgid "We use cookies for following purposes:"
+#, fuzzy
+#| msgid "We use cookies for following purposes:"
+msgid "We use cookies for following:"
 msgstr "我们在以下用途中使用 cookie："
 
 #: weblate/legal/templates/legal/cookies.html:29
@@ -902,9 +907,13 @@ msgid "Preferences cookie to store user preferences in certain situations."
 msgstr "设定 cookie 用于存储用户在特定情况下的设定信息。"
 
 #: weblate/legal/templates/legal/cookies.html:31
+#, fuzzy
+#| msgid ""
+#| "We use Piwik to analyze traffic on our website. Piwik does respect Do Not "
+#| "Track settings in your browser."
 msgid ""
-"We use Piwik to analyze traffic on our website. Piwik does respect Do Not "
-"Track settings in your browser."
+"We use Piwik to analyze traffic on our website. Piwik honours Do Not Track "
+"settings in your browser."
 msgstr ""
 "我们使用 Piwik 来分析本网站的流量。Piwik 不遵循您浏览器的“禁止跟踪” 设定。"
 
@@ -932,9 +941,13 @@ msgid ""
 msgstr "对于商业用户，可能需要额外的保证，需表述于相应的约定中。"
 
 #: weblate/legal/templates/legal/index.html:26
+#, fuzzy
+#| msgid ""
+#| "We process private data (such as your email), those will be discarded "
+#| "from our database as soon as you remove your account."
 msgid ""
-"We process private data (such as your email), those will be discarded from "
-"our database as soon as you remove your account."
+"We process private data (such as your email address), those will be "
+"discarded from our database as soon as you remove your account."
 msgstr ""
 "我们会处理私有数据（如您的电子邮箱），在您删除账号时，将会从我们的数据库中删"
 "除相关内容。"
@@ -946,7 +959,12 @@ msgid ""
 msgstr "你的翻译是根据由每个翻译指定的许可证。"
 
 #: weblate/legal/templates/legal/index.html:28
-msgid "Your name and email is used in VCS commits, it will stay there forever."
+#, fuzzy
+#| msgid ""
+#| "Your name and email is used in VCS commits, it will stay there forever."
+msgid ""
+"Your name and email address is used in VCS commits, it will stay there "
+"indefinitely."
 msgstr "在 VCS 提交中会使用您的姓名及电子邮箱，它将永久保存。"
 
 #: weblate/legal/templates/legal/index.html:29
@@ -5622,22 +5640,28 @@ msgid "WebExtension JSON file"
 msgstr "WebExtension JSON 文件"
 
 #: weblate/trans/formats.py:1218
+#, fuzzy
+#| msgid "JSON file"
+msgid "i18next JSON file"
+msgstr "JSON文件"
+
+#: weblate/trans/formats.py:1225
 msgid "CSV file"
 msgstr "CSV 文件"
 
-#: weblate/trans/formats.py:1289
+#: weblate/trans/formats.py:1296
 msgid "Simple CSV file"
 msgstr "简单 CSV 文件"
 
-#: weblate/trans/formats.py:1326
+#: weblate/trans/formats.py:1333
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "简单 CSV 文件 (ISO-8859-1)"
 
-#: weblate/trans/formats.py:1333
+#: weblate/trans/formats.py:1340
 msgid "YAML file"
 msgstr "YAML 文件"
 
-#: weblate/trans/formats.py:1371
+#: weblate/trans/formats.py:1378
 msgid "Ruby YAML file"
 msgstr "Ruby YAML 文件"
 
@@ -6928,7 +6952,7 @@ msgstr "解析文件 %(file)s 失败: %(error)s"
 msgid "This translation is locked by %(user)s!"
 msgstr "此翻译已被 %(user)s 锁定！"
 
-#: weblate/trans/models/unit.py:430
+#: weblate/trans/models/unit.py:427
 #, fuzzy, python-brace-format
 #| msgid "%(filename)s, translation unit %(position)s"
 msgid "{translation}, translation unit {position}"

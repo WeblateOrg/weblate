@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kabyle (Weblate)\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-08-31 17:52+0000\n"
+"POT-Creation-Date: 2017-09-03 08:22+0000\n"
 "PO-Revision-Date: 2017-08-31 12:00+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Kabyle <https://hosted.weblate.org/projects/weblate/master/"
@@ -876,16 +876,21 @@ msgstr "Tasertit n inagan n tuqqna"
 
 #: weblate/legal/templates/legal/cookies.html:21
 #: weblate/legal/templates/legal/index.html:20
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This page is based on <a href=\"%(terms_url)s\">Terms of Service</a>, you "
+#| "should still read the original document to fully understand it."
 msgid ""
-"This page is based on <a href=\"%(terms_url)s\">Terms of Service</a>, you "
-"should still read the original document to fully understand it."
+"This page is based on the <a href=\"%(terms_url)s\">Terms of Service</a>, "
+"you should still read the original document to fully understand them."
 msgstr ""
 "Asebter-agi yebna ɣef <a href=\"%(terms_url)s\">tewtilin n umeẓlu</a>, "
 "yessefk ad teɣreḍ isemli anesli akken ad t-tegzuḍ meṛṛa."
 
 #: weblate/legal/templates/legal/cookies.html:25
-msgid "We use cookies for following purposes:"
+#, fuzzy
+#| msgid "We use cookies for following purposes:"
+msgid "We use cookies for following:"
 msgstr "Ticki tseqdaceḍ inagan n tuqqna i yiswiyen-agi:"
 
 #: weblate/legal/templates/legal/cookies.html:29
@@ -900,8 +905,8 @@ msgstr ""
 
 #: weblate/legal/templates/legal/cookies.html:31
 msgid ""
-"We use Piwik to analyze traffic on our website. Piwik does respect Do Not "
-"Track settings in your browser."
+"We use Piwik to analyze traffic on our website. Piwik honours Do Not Track "
+"settings in your browser."
 msgstr ""
 
 #: weblate/legal/templates/legal/cookies.html:35
@@ -927,8 +932,8 @@ msgstr ""
 
 #: weblate/legal/templates/legal/index.html:26
 msgid ""
-"We process private data (such as your email), those will be discarded from "
-"our database as soon as you remove your account."
+"We process private data (such as your email address), those will be "
+"discarded from our database as soon as you remove your account."
 msgstr ""
 
 #: weblate/legal/templates/legal/index.html:27
@@ -938,7 +943,9 @@ msgid ""
 msgstr ""
 
 #: weblate/legal/templates/legal/index.html:28
-msgid "Your name and email is used in VCS commits, it will stay there forever."
+msgid ""
+"Your name and email address is used in VCS commits, it will stay there "
+"indefinitely."
 msgstr ""
 
 #: weblate/legal/templates/legal/index.html:29
@@ -5528,22 +5535,28 @@ msgid "WebExtension JSON file"
 msgstr ""
 
 #: weblate/trans/formats.py:1218
+#, fuzzy
+#| msgid "JSON file"
+msgid "i18next JSON file"
+msgstr "Afaylu JSON"
+
+#: weblate/trans/formats.py:1225
 msgid "CSV file"
 msgstr "Afaylu CSV"
 
-#: weblate/trans/formats.py:1289
+#: weblate/trans/formats.py:1296
 msgid "Simple CSV file"
 msgstr ""
 
-#: weblate/trans/formats.py:1326
+#: weblate/trans/formats.py:1333
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr ""
 
-#: weblate/trans/formats.py:1333
+#: weblate/trans/formats.py:1340
 msgid "YAML file"
 msgstr "Afaylu YAML"
 
-#: weblate/trans/formats.py:1371
+#: weblate/trans/formats.py:1378
 msgid "Ruby YAML file"
 msgstr ""
 
@@ -6816,7 +6829,7 @@ msgstr ""
 msgid "This translation is locked by %(user)s!"
 msgstr ""
 
-#: weblate/trans/models/unit.py:430
+#: weblate/trans/models/unit.py:427
 #, python-brace-format
 msgid "{translation}, translation unit {position}"
 msgstr ""

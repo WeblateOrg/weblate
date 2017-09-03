@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-08-31 17:52+0000\n"
+"POT-Creation-Date: 2017-09-03 08:22+0000\n"
 "PO-Revision-Date: 2017-08-31 20:54+0000\n"
 "Last-Translator: jan madsen <jsm@janz.dk>\n"
-"Language-Team: Danish "
-"<https://hosted.weblate.org/projects/weblate/master/da/>\n"
+"Language-Team: Danish <https://hosted.weblate.org/projects/weblate/master/da/"
+">\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -896,14 +896,16 @@ msgstr "Cookiepolitik"
 #: weblate/legal/templates/legal/index.html:20
 #, fuzzy, python-format
 msgid ""
-"This page is based on <a href=\"%(terms_url)s\">Terms of Service</a>, you "
-"should still read the original document to fully understand it."
+"This page is based on the <a href=\"%(terms_url)s\">Terms of Service</a>, "
+"you should still read the original document to fully understand them."
 msgstr ""
 "Siden er baseret på <a href=\"%(terms_url)s\">Betingelser for Service</a>, "
 "det originale dokument bør dog stadig læses for at forstå det."
 
 #: weblate/legal/templates/legal/cookies.html:25
-msgid "We use cookies for following purposes:"
+#, fuzzy
+#| msgid "We use cookies for following purposes:"
+msgid "We use cookies for following:"
 msgstr "Cookies anvendes til følgende formål:"
 
 #: weblate/legal/templates/legal/cookies.html:29
@@ -918,9 +920,13 @@ msgid "Preferences cookie to store user preferences in certain situations."
 msgstr "Præferencecookie til at gemme brugerpræferencer i visse situationer."
 
 #: weblate/legal/templates/legal/cookies.html:31
+#, fuzzy
+#| msgid ""
+#| "We use Piwik to analyze traffic on our website. Piwik does respect Do Not "
+#| "Track settings in your browser."
 msgid ""
-"We use Piwik to analyze traffic on our website. Piwik does respect Do Not "
-"Track settings in your browser."
+"We use Piwik to analyze traffic on our website. Piwik honours Do Not Track "
+"settings in your browser."
 msgstr ""
 "Piwik bruges til at analysere trafikken på hjemmesiden. Piwik respekterer Do "
 "Not Track-indstillinger i browseren."
@@ -954,9 +960,13 @@ msgstr ""
 "de respektive kontrakter."
 
 #: weblate/legal/templates/legal/index.html:26
+#, fuzzy
+#| msgid ""
+#| "We process private data (such as your email), those will be discarded "
+#| "from our database as soon as you remove your account."
 msgid ""
-"We process private data (such as your email), those will be discarded from "
-"our database as soon as you remove your account."
+"We process private data (such as your email address), those will be "
+"discarded from our database as soon as you remove your account."
 msgstr ""
 "Private data (såsom e-mail) bliver slettet fra databasen, så snart kontoen "
 "fjernes."
@@ -971,7 +981,12 @@ msgstr ""
 "hver enkelt oversættelse."
 
 #: weblate/legal/templates/legal/index.html:28
-msgid "Your name and email is used in VCS commits, it will stay there forever."
+#, fuzzy
+#| msgid ""
+#| "Your name and email is used in VCS commits, it will stay there forever."
+msgid ""
+"Your name and email address is used in VCS commits, it will stay there "
+"indefinitely."
 msgstr "Dit navn og e-mail bruges i VCS, der bliver de for evigt."
 
 #: weblate/legal/templates/legal/index.html:29
@@ -5788,22 +5803,28 @@ msgid "WebExtension JSON file"
 msgstr "WebExtension JSON fil"
 
 #: weblate/trans/formats.py:1218
+#, fuzzy
+#| msgid "JSON file"
+msgid "i18next JSON file"
+msgstr "JSON fil"
+
+#: weblate/trans/formats.py:1225
 msgid "CSV file"
 msgstr "CSV fil"
 
-#: weblate/trans/formats.py:1289
+#: weblate/trans/formats.py:1296
 msgid "Simple CSV file"
 msgstr "Simpel CSV-fil"
 
-#: weblate/trans/formats.py:1326
+#: weblate/trans/formats.py:1333
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Simpel CSV-fil (ISO-8859-1)"
 
-#: weblate/trans/formats.py:1333
+#: weblate/trans/formats.py:1340
 msgid "YAML file"
 msgstr "YAML fil"
 
-#: weblate/trans/formats.py:1371
+#: weblate/trans/formats.py:1378
 msgid "Ruby YAML file"
 msgstr "Ruby YAML fil"
 
@@ -7164,7 +7185,7 @@ msgstr "Kunne ikke fortolke filen %(file)s: %(error)s"
 msgid "This translation is locked by %(user)s!"
 msgstr "Oversættelsen er låst af %(user)s!"
 
-#: weblate/trans/models/unit.py:430
+#: weblate/trans/models/unit.py:427
 #, python-brace-format
 msgid "{translation}, translation unit {position}"
 msgstr "{translation}, oversættelsesenhed {position}"

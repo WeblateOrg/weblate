@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-08-31 17:52+0000\n"
+"POT-Creation-Date: 2017-09-03 08:22+0000\n"
 "PO-Revision-Date: 2017-08-27 00:28+0000\n"
 "Last-Translator: Arif Budiman <arifpedia@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
@@ -905,16 +905,21 @@ msgstr "Kebijakan Kuki"
 
 #: weblate/legal/templates/legal/cookies.html:21
 #: weblate/legal/templates/legal/index.html:20
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This page is based on <a href=\"%(terms_url)s\">Terms of Service</a>, you "
+#| "should still read the original document to fully understand it."
 msgid ""
-"This page is based on <a href=\"%(terms_url)s\">Terms of Service</a>, you "
-"should still read the original document to fully understand it."
+"This page is based on the <a href=\"%(terms_url)s\">Terms of Service</a>, "
+"you should still read the original document to fully understand them."
 msgstr ""
 "Halaman ini berdasarkan pada <a href=\"%(terms_url)s\">Persyaratan Layanan</"
 "a>, Anda sebaiknya membaca dokumen asli untuk memahaminya sepenuhnya."
 
 #: weblate/legal/templates/legal/cookies.html:25
-msgid "We use cookies for following purposes:"
+#, fuzzy
+#| msgid "We use cookies for following purposes:"
+msgid "We use cookies for following:"
 msgstr "Kami menggunakan kuki untuk keperluan sebagai berikut:"
 
 #: weblate/legal/templates/legal/cookies.html:29
@@ -929,9 +934,13 @@ msgstr ""
 "Kuki preferensi untuk menyimpan preferensi pengguna dalam situasi tertentu."
 
 #: weblate/legal/templates/legal/cookies.html:31
+#, fuzzy
+#| msgid ""
+#| "We use Piwik to analyze traffic on our website. Piwik does respect Do Not "
+#| "Track settings in your browser."
 msgid ""
-"We use Piwik to analyze traffic on our website. Piwik does respect Do Not "
-"Track settings in your browser."
+"We use Piwik to analyze traffic on our website. Piwik honours Do Not Track "
+"settings in your browser."
 msgstr ""
 "Kami menggunakan Piwik untuk menganalisa lalu lintas di situs kami. Piwik "
 "mematuhi pengaturan Jangan Lacak di peramban Anda."
@@ -964,9 +973,13 @@ msgstr ""
 "dalam kontrak masing-masing."
 
 #: weblate/legal/templates/legal/index.html:26
+#, fuzzy
+#| msgid ""
+#| "We process private data (such as your email), those will be discarded "
+#| "from our database as soon as you remove your account."
 msgid ""
-"We process private data (such as your email), those will be discarded from "
-"our database as soon as you remove your account."
+"We process private data (such as your email address), those will be "
+"discarded from our database as soon as you remove your account."
 msgstr ""
 "Kami memproses data pribadi (seperti surel Anda), yang akan dibuang dari "
 "basis data kami segera setelah Anda menghapus akun Anda."
@@ -980,7 +993,12 @@ msgstr ""
 "terjemahan."
 
 #: weblate/legal/templates/legal/index.html:28
-msgid "Your name and email is used in VCS commits, it will stay there forever."
+#, fuzzy
+#| msgid ""
+#| "Your name and email is used in VCS commits, it will stay there forever."
+msgid ""
+"Your name and email address is used in VCS commits, it will stay there "
+"indefinitely."
 msgstr "Nama dan surel Anda digunakan di VCS, mereka akan tetap ada selamanya."
 
 #: weblate/legal/templates/legal/index.html:29
@@ -5788,22 +5806,28 @@ msgid "WebExtension JSON file"
 msgstr "Berkas JSON WebExtension"
 
 #: weblate/trans/formats.py:1218
+#, fuzzy
+#| msgid "JSON file"
+msgid "i18next JSON file"
+msgstr "Berkas JSON"
+
+#: weblate/trans/formats.py:1225
 msgid "CSV file"
 msgstr "Berkas CSV"
 
-#: weblate/trans/formats.py:1289
+#: weblate/trans/formats.py:1296
 msgid "Simple CSV file"
 msgstr "Berkas CSV Sederhana"
 
-#: weblate/trans/formats.py:1326
+#: weblate/trans/formats.py:1333
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Berkas CSV Sederhana (ISO-8859-1)"
 
-#: weblate/trans/formats.py:1333
+#: weblate/trans/formats.py:1340
 msgid "YAML file"
 msgstr "Berkas YAML"
 
-#: weblate/trans/formats.py:1371
+#: weblate/trans/formats.py:1378
 msgid "Ruby YAML file"
 msgstr "Berkas YAML Ruby"
 
@@ -7164,7 +7188,7 @@ msgstr "Gagal untuk mengurai berkas %(file)s: %(error)s"
 msgid "This translation is locked by %(user)s!"
 msgstr "Penerjemahan ini dikunci oleh %(user)s!"
 
-#: weblate/trans/models/unit.py:430
+#: weblate/trans/models/unit.py:427
 #, fuzzy, python-brace-format
 #| msgid "%(filename)s, translation unit %(position)s"
 msgid "{translation}, translation unit {position}"

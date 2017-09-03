@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-08-31 17:52+0000\n"
+"POT-Creation-Date: 2017-09-03 08:22+0000\n"
 "PO-Revision-Date: 2017-09-01 07:19+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@abv.bg>\n"
-"Language-Team: Bulgarian "
-"<https://hosted.weblate.org/projects/weblate/master/bg/>\n"
+"Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/master/"
+"bg/>\n"
 "Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -912,17 +912,22 @@ msgstr "Политика за бисквитките"
 
 #: weblate/legal/templates/legal/cookies.html:21
 #: weblate/legal/templates/legal/index.html:20
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This page is based on <a href=\"%(terms_url)s\">Terms of Service</a>, you "
+#| "should still read the original document to fully understand it."
 msgid ""
-"This page is based on <a href=\"%(terms_url)s\">Terms of Service</a>, you "
-"should still read the original document to fully understand it."
+"This page is based on the <a href=\"%(terms_url)s\">Terms of Service</a>, "
+"you should still read the original document to fully understand them."
 msgstr ""
 "Тази страница е основана на <a href=\"%(terms_url)s\">„Условията на "
 "услугата“</a>. Трябва да прочетете оригиналния документ, за да разберете "
 "всички подробности."
 
 #: weblate/legal/templates/legal/cookies.html:25
-msgid "We use cookies for following purposes:"
+#, fuzzy
+#| msgid "We use cookies for following purposes:"
+msgid "We use cookies for following:"
 msgstr "Използваме бисквитки поради следните причини:"
 
 #: weblate/legal/templates/legal/cookies.html:29
@@ -940,9 +945,13 @@ msgstr ""
 "някои случаи."
 
 #: weblate/legal/templates/legal/cookies.html:31
+#, fuzzy
+#| msgid ""
+#| "We use Piwik to analyze traffic on our website. Piwik does respect Do Not "
+#| "Track settings in your browser."
 msgid ""
-"We use Piwik to analyze traffic on our website. Piwik does respect Do Not "
-"Track settings in your browser."
+"We use Piwik to analyze traffic on our website. Piwik honours Do Not Track "
+"settings in your browser."
 msgstr ""
 "Използваме „Piwik“, за да анализираме трафика на уеб сайта си. „Piwik“ не "
 "зачита настройките на браузъра Ви против следене."
@@ -976,9 +985,13 @@ msgstr ""
 "план. Те са описани в съответните договори."
 
 #: weblate/legal/templates/legal/index.html:26
+#, fuzzy
+#| msgid ""
+#| "We process private data (such as your email), those will be discarded "
+#| "from our database as soon as you remove your account."
 msgid ""
-"We process private data (such as your email), those will be discarded from "
-"our database as soon as you remove your account."
+"We process private data (such as your email address), those will be "
+"discarded from our database as soon as you remove your account."
 msgstr ""
 "Ние съхраняваме лични данни (напр. е-пощата Ви). Те ще бъдат изтрити от "
 "нашата база данни, когато изтриете акаунта си."
@@ -992,7 +1005,12 @@ msgstr ""
 "превод."
 
 #: weblate/legal/templates/legal/index.html:28
-msgid "Your name and email is used in VCS commits, it will stay there forever."
+#, fuzzy
+#| msgid ""
+#| "Your name and email is used in VCS commits, it will stay there forever."
+msgid ""
+"Your name and email address is used in VCS commits, it will stay there "
+"indefinitely."
 msgstr ""
 "Името и е-пощата Ви се записват в коментарите към подаванията към системата "
 "за контрол на версиите. Те ще останат там завинаги."
@@ -5802,22 +5820,28 @@ msgid "WebExtension JSON file"
 msgstr "Файл JSON – WebExtension"
 
 #: weblate/trans/formats.py:1218
+#, fuzzy
+#| msgid "JSON file"
+msgid "i18next JSON file"
+msgstr "Файл JSON"
+
+#: weblate/trans/formats.py:1225
 msgid "CSV file"
 msgstr "Файл CSV"
 
-#: weblate/trans/formats.py:1289
+#: weblate/trans/formats.py:1296
 msgid "Simple CSV file"
 msgstr "Обикновен файл CSV"
 
-#: weblate/trans/formats.py:1326
+#: weblate/trans/formats.py:1333
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Обикновен файл CSV (ISO-8859-1)"
 
-#: weblate/trans/formats.py:1333
+#: weblate/trans/formats.py:1340
 msgid "YAML file"
 msgstr "Файл YAML"
 
-#: weblate/trans/formats.py:1371
+#: weblate/trans/formats.py:1378
 msgid "Ruby YAML file"
 msgstr "Файл YAML за Ruby"
 
@@ -7186,7 +7210,7 @@ msgstr "Неуспешен анализа на файла „%(file)s“: %(erro
 msgid "This translation is locked by %(user)s!"
 msgstr "Този превод е заключен от %(user)s!"
 
-#: weblate/trans/models/unit.py:430
+#: weblate/trans/models/unit.py:427
 #, python-brace-format
 msgid "{translation}, translation unit {position}"
 msgstr "{translation}, единица за превод {position}"

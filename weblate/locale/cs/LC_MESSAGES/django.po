@@ -8,11 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-08-31 17:52+0000\n"
+"POT-Creation-Date: 2017-09-03 08:22+0000\n"
 "PO-Revision-Date: 2017-09-03 06:56+0000\n"
 "Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
-"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/>"
-"\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/"
+">\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -901,17 +901,22 @@ msgstr "Politika ohledně cookie"
 
 #: weblate/legal/templates/legal/cookies.html:21
 #: weblate/legal/templates/legal/index.html:20
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This page is based on <a href=\"%(terms_url)s\">Terms of Service</a>, you "
+#| "should still read the original document to fully understand it."
 msgid ""
-"This page is based on <a href=\"%(terms_url)s\">Terms of Service</a>, you "
-"should still read the original document to fully understand it."
+"This page is based on the <a href=\"%(terms_url)s\">Terms of Service</a>, "
+"you should still read the original document to fully understand them."
 msgstr ""
 "Tato stránka vychází ze <a href=\"%(terms_url)s\">Všeobecných smluvních "
 "podmínek</a>, ale doporučujeme přečíst celý tento dokument, abyste mu plně "
 "porozuměli."
 
 #: weblate/legal/templates/legal/cookies.html:25
-msgid "We use cookies for following purposes:"
+#, fuzzy
+#| msgid "We use cookies for following purposes:"
+msgid "We use cookies for following:"
 msgstr "Používáme cookies pro následující účely:"
 
 #: weblate/legal/templates/legal/cookies.html:29
@@ -925,9 +930,13 @@ msgid "Preferences cookie to store user preferences in certain situations."
 msgstr "Cookies s některými nastaveními."
 
 #: weblate/legal/templates/legal/cookies.html:31
+#, fuzzy
+#| msgid ""
+#| "We use Piwik to analyze traffic on our website. Piwik does respect Do Not "
+#| "Track settings in your browser."
 msgid ""
-"We use Piwik to analyze traffic on our website. Piwik does respect Do Not "
-"Track settings in your browser."
+"We use Piwik to analyze traffic on our website. Piwik honours Do Not Track "
+"settings in your browser."
 msgstr ""
 "Použiváme Piwik pro analýzu provozu na našich stránkách. Piwik respektuje "
 "vaše nastavení Do Not Track."
@@ -960,9 +969,13 @@ msgstr ""
 "v příslušných smlouvách."
 
 #: weblate/legal/templates/legal/index.html:26
+#, fuzzy
+#| msgid ""
+#| "We process private data (such as your email), those will be discarded "
+#| "from our database as soon as you remove your account."
 msgid ""
-"We process private data (such as your email), those will be discarded from "
-"our database as soon as you remove your account."
+"We process private data (such as your email address), those will be "
+"discarded from our database as soon as you remove your account."
 msgstr ""
 "Zpracováváme soukromé údaje (např. e-mail), tyto údaje odstraníme z naší "
 "databáze jakmile odstraníte svůj účet."
@@ -976,7 +989,12 @@ msgstr ""
 "překladu."
 
 #: weblate/legal/templates/legal/index.html:28
-msgid "Your name and email is used in VCS commits, it will stay there forever."
+#, fuzzy
+#| msgid ""
+#| "Your name and email is used in VCS commits, it will stay there forever."
+msgid ""
+"Your name and email address is used in VCS commits, it will stay there "
+"indefinitely."
 msgstr "Vaše jméno a e-mail je použito v commitech VCS, zůstane tam navždy."
 
 #: weblate/legal/templates/legal/index.html:29
@@ -1355,8 +1373,8 @@ msgid ""
 "\">contact us</a>."
 msgstr ""
 "Pokud vám e-mail během chvíle nedorazí, podívejte se do složky s nevyžádanou "
-"poštou nebo zkuste registraci znovu. Pokud problém přetrvá, prosím <a href=\""
-"%(contact_url)s?t=reg\">napište nám</a>."
+"poštou nebo zkuste registraci znovu. Pokud problém přetrvá, prosím <a href="
+"\"%(contact_url)s?t=reg\">napište nám</a>."
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:25
@@ -4191,7 +4209,8 @@ msgstr "Nový návrh překladu v %(translation)s"
 #: weblate/templates/mail/new_translation.txt:3
 #, python-format
 msgid "There has been a new translation on %(translation)s at %(site_title)s."
-msgstr "V překladu %(translation)s na %(site_title)s byl nově přeložen řetězec."
+msgstr ""
+"V překladu %(translation)s na %(site_title)s byl nově přeložen řetězec."
 
 #: weblate/templates/mail/new_translation.txt:13
 msgid "Previously not translated"
@@ -5744,22 +5763,28 @@ msgid "WebExtension JSON file"
 msgstr "Soubor JSON pro WebExtension"
 
 #: weblate/trans/formats.py:1218
+#, fuzzy
+#| msgid "JSON file"
+msgid "i18next JSON file"
+msgstr "Soubor JSON"
+
+#: weblate/trans/formats.py:1225
 msgid "CSV file"
 msgstr "Soubor CSV"
 
-#: weblate/trans/formats.py:1289
+#: weblate/trans/formats.py:1296
 msgid "Simple CSV file"
 msgstr "Jednoduchý soubor CSV"
 
-#: weblate/trans/formats.py:1326
+#: weblate/trans/formats.py:1333
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Jednoduchý soubor CSV (ISO-8859-1)"
 
-#: weblate/trans/formats.py:1333
+#: weblate/trans/formats.py:1340
 msgid "YAML file"
 msgstr "YAML soubor"
 
-#: weblate/trans/formats.py:1371
+#: weblate/trans/formats.py:1378
 msgid "Ruby YAML file"
 msgstr "YAML soubor pro Ruby"
 
@@ -7093,7 +7118,7 @@ msgstr "Nepodařilo ze zpracovat soubor %(file)s: %(error)s"
 msgid "This translation is locked by %(user)s!"
 msgstr "Tento překlad je uzamčen pro uživatele %(user)s!"
 
-#: weblate/trans/models/unit.py:430
+#: weblate/trans/models/unit.py:427
 #, python-brace-format
 msgid "{translation}, translation unit {position}"
 msgstr "{translation}, jednotka překladu {position}"

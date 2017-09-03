@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-08-31 17:52+0000\n"
+"POT-Creation-Date: 2017-09-03 08:22+0000\n"
 "PO-Revision-Date: 2017-09-03 08:22+0000\n"
 "Last-Translator: Pedro Albuquerque <palbuquerque73@gmail.com>\n"
-"Language-Team: Portuguese "
-"<https://hosted.weblate.org/projects/weblate/master/pt/>\n"
+"Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
+"master/pt/>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -907,16 +907,21 @@ msgstr "Política de cookies"
 
 #: weblate/legal/templates/legal/cookies.html:21
 #: weblate/legal/templates/legal/index.html:20
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This page is based on <a href=\"%(terms_url)s\">Terms of Service</a>, you "
+#| "should still read the original document to fully understand it."
 msgid ""
-"This page is based on <a href=\"%(terms_url)s\">Terms of Service</a>, you "
-"should still read the original document to fully understand it."
+"This page is based on the <a href=\"%(terms_url)s\">Terms of Service</a>, "
+"you should still read the original document to fully understand them."
 msgstr ""
 "Esta página é baseada nos <a href=\"%(terms_url)s\">Termos de Serviço</a>, "
 "deve ler o documento original para melhor compreensão."
 
 #: weblate/legal/templates/legal/cookies.html:25
-msgid "We use cookies for following purposes:"
+#, fuzzy
+#| msgid "We use cookies for following purposes:"
+msgid "We use cookies for following:"
 msgstr "Utilizamos cookies para os seguintes propósitos:"
 
 #: weblate/legal/templates/legal/cookies.html:29
@@ -932,9 +937,13 @@ msgstr ""
 "Cookie de preferências para armazenar certas preferências do utilizador."
 
 #: weblate/legal/templates/legal/cookies.html:31
+#, fuzzy
+#| msgid ""
+#| "We use Piwik to analyze traffic on our website. Piwik does respect Do Not "
+#| "Track settings in your browser."
 msgid ""
-"We use Piwik to analyze traffic on our website. Piwik does respect Do Not "
-"Track settings in your browser."
+"We use Piwik to analyze traffic on our website. Piwik honours Do Not Track "
+"settings in your browser."
 msgstr ""
 "Usamos Piwik para analizar o tráfego na nossa página. O Piwik respeita as "
 "sua preferências de não ser seguido."
@@ -967,9 +976,13 @@ msgstr ""
 "expressas nos respectivos contratos."
 
 #: weblate/legal/templates/legal/index.html:26
+#, fuzzy
+#| msgid ""
+#| "We process private data (such as your email), those will be discarded "
+#| "from our database as soon as you remove your account."
 msgid ""
-"We process private data (such as your email), those will be discarded from "
-"our database as soon as you remove your account."
+"We process private data (such as your email address), those will be "
+"discarded from our database as soon as you remove your account."
 msgstr ""
 "Processamos dados privados (tal como o e-mail), que serão removidos da base "
 "de dados assim que fechar a sua conta."
@@ -982,7 +995,12 @@ msgstr ""
 "As suas traduções são feitas sob licença especificada em cada tradução."
 
 #: weblate/legal/templates/legal/index.html:28
-msgid "Your name and email is used in VCS commits, it will stay there forever."
+#, fuzzy
+#| msgid ""
+#| "Your name and email is used in VCS commits, it will stay there forever."
+msgid ""
+"Your name and email address is used in VCS commits, it will stay there "
+"indefinitely."
 msgstr ""
 "O seu nome e e-mail são usados em commits VCS, ficarão gravados para sempre."
 
@@ -2328,9 +2346,9 @@ msgid ""
 "a>, a web tool designed to ease translating for both developers and "
 "translators."
 msgstr ""
-"O %(project)s está a ser traduzido utilizando o <a href=\"%(weblate_url)s\""
-">Weblate</a>, uma ferramenta da Web criada para faciltar a tradução, tanto a "
-"programadores como a tradutores."
+"O %(project)s está a ser traduzido utilizando o <a href=\"%(weblate_url)s"
+"\">Weblate</a>, uma ferramenta da Web criada para faciltar a tradução, tanto "
+"a programadores como a tradutores."
 
 #: weblate/templates/engage.html:31
 #, python-format
@@ -2338,8 +2356,8 @@ msgid ""
 "If you would like to contribute to translation of %(project)s, you need to "
 "<a href=\"%(reg_url)s\">register on this server</a>."
 msgstr ""
-"Se pretender contribuir para a tradução de %(project)s, tem de se <a href=\""
-"%(reg_url)s\">registar neste servidor</a>."
+"Se pretender contribuir para a tradução de %(project)s, tem de se <a href="
+"\"%(reg_url)s\">registar neste servidor</a>."
 
 #: weblate/templates/engage.html:35
 msgid ""
@@ -4192,7 +4210,8 @@ msgstr "Nova cadeia para traduzir em %(translation)s"
 #, python-format
 msgid ""
 "There is a new suggestion to evaluate on %(translation)s at %(site_title)s."
-msgstr "Há uma nova sugestão para avaliar em %(translation)s em %(site_title)s."
+msgstr ""
+"Há uma nova sugestão para avaliar em %(translation)s em %(site_title)s."
 
 #: weblate/templates/mail/new_suggestion.html:28
 #: weblate/templates/mail/new_suggestion.txt:9
@@ -4307,8 +4326,8 @@ msgid ""
 "Should your language be missing, please follow <a href=\"%(url)s"
 "\">translator instructions</a>."
 msgstr ""
-"Se não encontrar o seu idioma, por favor siga as <a href=\"%(url)s\">"
-"instruções correspondentes</a>."
+"Se não encontrar o seu idioma, por favor siga as <a href=\"%(url)s"
+"\">instruções correspondentes</a>."
 
 #: weblate/templates/new-language.html:27
 msgid "Please choose the language into which you would like to translate."
@@ -4552,8 +4571,8 @@ msgid ""
 "You can also promote this translation project using various <a href="
 "\"%(widgets_url)s\">other possibilities</a>."
 msgstr ""
-"Também pode promover este projecto de tradução usando diversas <a href=\""
-"%(widgets_url)s\">outras possibilidades</a>."
+"Também pode promover este projecto de tradução usando diversas <a href="
+"\"%(widgets_url)s\">outras possibilidades</a>."
 
 #: weblate/templates/share.html:32
 #, python-format
@@ -5297,8 +5316,8 @@ msgid ""
 "You can point newcomers to the introduction page at <a href=\"%(engage_url)s"
 "\">%(engage_url)s</a>."
 msgstr ""
-"Pode encaminhar principiantes para a página de introdução em <a href=\""
-"%(engage_url)s\">%(engage_url)s</a>."
+"Pode encaminhar principiantes para a página de introdução em <a href="
+"\"%(engage_url)s\">%(engage_url)s</a>."
 
 #: weblate/templates/widgets.html:17
 msgid "Promoting specific translations"
@@ -5522,9 +5541,7 @@ msgstr "Não coincidem \\n"
 
 #: weblate/trans/checks/chars.py:332
 msgid "Number of \\n in translation does not match source"
-msgstr ""
-"O número de \\n"
-" na tradução não corresponde ao da fonte"
+msgstr "O número de \\n na tradução não corresponde ao da fonte"
 
 #: weblate/trans/checks/chars.py:340
 msgid "Translation contains extra zero-width space character"
@@ -5776,22 +5793,28 @@ msgid "WebExtension JSON file"
 msgstr "Ficheiro WebExtension JSON"
 
 #: weblate/trans/formats.py:1218
+#, fuzzy
+#| msgid "JSON file"
+msgid "i18next JSON file"
+msgstr "Ficheiro JSON"
+
+#: weblate/trans/formats.py:1225
 msgid "CSV file"
 msgstr "Ficheiro CSV"
 
-#: weblate/trans/formats.py:1289
+#: weblate/trans/formats.py:1296
 msgid "Simple CSV file"
 msgstr "Ficheiro CSV simples"
 
-#: weblate/trans/formats.py:1326
+#: weblate/trans/formats.py:1333
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Ficheiro CSV simples (ISO-8859-1)"
 
-#: weblate/trans/formats.py:1333
+#: weblate/trans/formats.py:1340
 msgid "YAML file"
 msgstr "Ficheiro YAML"
 
-#: weblate/trans/formats.py:1371
+#: weblate/trans/formats.py:1378
 msgid "Ruby YAML file"
 msgstr "Ficheiro Ruby YAML"
 
@@ -6620,8 +6643,8 @@ msgid ""
 "language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po."
 msgstr ""
 "Caminho dos ficheiros para traduzir relativo à raiz do repositório, use * em "
-"vez do código do idioma, por exemplo: po/*.po ou "
-"locale/*/LC_MESSAGES/django.po."
+"vez do código do idioma, por exemplo: po/*.po ou locale/*/LC_MESSAGES/django."
+"po."
 
 #: weblate/trans/models/subproject.py:218
 msgid "Monolingual base language file"
@@ -7151,7 +7174,7 @@ msgstr "Não foi possível analisar o ficheiro %(file)s: %(error)s"
 msgid "This translation is locked by %(user)s!"
 msgstr "Esta tradução está bloqueada por %(user)s!"
 
-#: weblate/trans/models/unit.py:430
+#: weblate/trans/models/unit.py:427
 #, fuzzy, python-brace-format
 #| msgid "%(filename)s, translation unit %(position)s"
 msgid "{translation}, translation unit {position}"
