@@ -18,17 +18,17 @@
 
 <p>
 {% url 'legal:terms' as terms_url %}
-{% blocktrans %}This page is based on <a href="{{ terms_url }}">Terms of Service</a>, you should still read the original document to fully understand it.{% endblocktrans %}
+{% blocktrans %}This page is based on the <a href="{{ terms_url }}">Terms of Service</a>, you should still read the original document to fully understand them.{% endblocktrans %}
 </p>
 
 <p>
-{% blocktrans %}We use cookies for following purposes:{% endblocktrans %}
+{% blocktrans %}We use cookies for following:{% endblocktrans %}
 </p>
 
 <ul>
 <li>{% trans "Authentication cookies which are required for recognizing authenticated users." %}</li>
 <li>{% trans "Preferences cookie to store user preferences in certain situations." %}</li>
-<li>{% trans "We use Piwik to analyze traffic on our website. Piwik does respect Do Not Track settings in your browser." %}</li>
+<li>{% trans "We use Piwik to analyze traffic on our website. Piwik honours Do Not Track settings in your browser." %}</li>
 </ul>
 
 <p>
