@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-09-03 08:22+0000\n"
-"PO-Revision-Date: 2017-08-27 00:28+0000\n"
+"PO-Revision-Date: 2017-09-05 18:22+0000\n"
 "Last-Translator: Arif Budiman <arifpedia@gmail.com>\n"
-"Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
-"master/id/>\n"
+"Language-Team: Indonesian "
+"<https://hosted.weblate.org/projects/weblate/master/id/>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -246,10 +246,10 @@ msgid "Password reset has been requested."
 msgstr "Atur ulang sandi telah diminta."
 
 #: weblate/accounts/models.py:61
-#, fuzzy
-#| msgid "Password reset has been confirmed."
 msgid "Password reset has been confirmed and password has been reset."
-msgstr "Atur ulang sandi telah terkonfirmasi."
+msgstr ""
+"Pengaturan ulang kata sandi telah dikonfirmasi dan kata sandi telah diatur "
+"ulang."
 
 #: weblate/accounts/models.py:64
 #, python-brace-format
@@ -290,7 +290,7 @@ msgstr "Akun dan semua data pribadi telah dihapus."
 #: weblate/accounts/models.py:88
 #, python-brace-format
 msgid "Agreement with Terms of Service {date}."
-msgstr ""
+msgstr "Perjanjian dengan Persyaratan Layanan {date}."
 
 #: weblate/accounts/models.py:209 weblate/templates/accounts/profile.html:304
 msgid "Account activity"
@@ -460,11 +460,13 @@ msgstr ""
 
 #: weblate/accounts/password_validation.py:75
 msgid "Can not use previously used password!"
-msgstr ""
+msgstr "Tidak dapat menggunakan kata sandi yang telah digunakan sebelumnya!"
 
 #: weblate/accounts/password_validation.py:81
 msgid "Your password can't match password you have used in the past."
 msgstr ""
+"Kata sandi Anda tidak boleh sama dengan kata sandi yang telah Anda gunakan "
+"sebelumnya."
 
 #: weblate/accounts/pipeline.py:275
 msgid "You can not complete password reset while logged in!"
@@ -866,13 +868,15 @@ msgstr "Sebagai contoh: {0}"
 
 #: weblate/legal/forms.py:29
 msgid "I agree with the Terms of Service document"
-msgstr ""
+msgstr "Saya setuju dengan dokumen Persyaratan Layanan"
 
 #: weblate/legal/middleware.py:58
 msgid ""
 "We have new version of the Terms of Service document, please read it and "
 "confirm that you agree with it."
 msgstr ""
+"Kami memiliki versi baru dari dokumen Persyaratan Layanan, harap membacanya "
+"dan konfirmasikan bahwa Anda menyetujuinya."
 
 #: weblate/legal/templates/legal/confirm.html:6
 #: weblate/legal/templates/legal/cookies.html:5
@@ -884,11 +888,11 @@ msgstr "Hukum"
 
 #: weblate/legal/templates/legal/confirm.html:13
 msgid "You have to agree to the Terms of Service"
-msgstr ""
+msgstr "Anda harus menyetujui Persyaratan Layanan"
 
 #: weblate/legal/templates/legal/confirm.html:15
 msgid "Please read following Terms of Service document:"
-msgstr ""
+msgstr "Harap baca dokumen Persyaratan Layanan berikut ini:"
 
 #: weblate/legal/templates/legal/confirm.html:23
 #: weblate/wladmin/templates/admin/ssh.html:64
@@ -905,22 +909,18 @@ msgstr "Kebijakan Kuki"
 
 #: weblate/legal/templates/legal/cookies.html:21
 #: weblate/legal/templates/legal/index.html:20
-#, fuzzy, python-format
-#| msgid ""
-#| "This page is based on <a href=\"%(terms_url)s\">Terms of Service</a>, you "
-#| "should still read the original document to fully understand it."
+#, python-format
 msgid ""
 "This page is based on the <a href=\"%(terms_url)s\">Terms of Service</a>, "
 "you should still read the original document to fully understand them."
 msgstr ""
-"Halaman ini berdasarkan pada <a href=\"%(terms_url)s\">Persyaratan Layanan</"
-"a>, Anda sebaiknya membaca dokumen asli untuk memahaminya sepenuhnya."
+"Halaman ini berdasarkan pada <a href=\"%(terms_url)s\">Persyaratan "
+"Layanan</a>, Anda sebaiknya membaca dokumen asli untuk memahaminya "
+"sepenuhnya."
 
 #: weblate/legal/templates/legal/cookies.html:25
-#, fuzzy
-#| msgid "We use cookies for following purposes:"
 msgid "We use cookies for following:"
-msgstr "Kami menggunakan kuki untuk keperluan sebagai berikut:"
+msgstr "Kami menggunakan kuki untuk berikut:"
 
 #: weblate/legal/templates/legal/cookies.html:29
 msgid ""
@@ -934,16 +934,12 @@ msgstr ""
 "Kuki preferensi untuk menyimpan preferensi pengguna dalam situasi tertentu."
 
 #: weblate/legal/templates/legal/cookies.html:31
-#, fuzzy
-#| msgid ""
-#| "We use Piwik to analyze traffic on our website. Piwik does respect Do Not "
-#| "Track settings in your browser."
 msgid ""
 "We use Piwik to analyze traffic on our website. Piwik honours Do Not Track "
 "settings in your browser."
 msgstr ""
 "Kami menggunakan Piwik untuk menganalisa lalu lintas di situs kami. Piwik "
-"mematuhi pengaturan Jangan Lacak di peramban Anda."
+"menghormati pengaturan Jangan Lacak di peramban web Anda."
 
 #: weblate/legal/templates/legal/cookies.html:35
 msgid ""
@@ -973,16 +969,12 @@ msgstr ""
 "dalam kontrak masing-masing."
 
 #: weblate/legal/templates/legal/index.html:26
-#, fuzzy
-#| msgid ""
-#| "We process private data (such as your email), those will be discarded "
-#| "from our database as soon as you remove your account."
 msgid ""
 "We process private data (such as your email address), those will be "
 "discarded from our database as soon as you remove your account."
 msgstr ""
-"Kami memproses data pribadi (seperti surel Anda), yang akan dibuang dari "
-"basis data kami segera setelah Anda menghapus akun Anda."
+"Kami memproses data pribadi (seperti alamat surel Anda), dan akan dibuang "
+"dari basis data kami segera setelah Anda menghapus akun Anda."
 
 #: weblate/legal/templates/legal/index.html:27
 msgid ""
@@ -993,9 +985,6 @@ msgstr ""
 "terjemahan."
 
 #: weblate/legal/templates/legal/index.html:28
-#, fuzzy
-#| msgid ""
-#| "Your name and email is used in VCS commits, it will stay there forever."
 msgid ""
 "Your name and email address is used in VCS commits, it will stay there "
 "indefinitely."
@@ -1340,28 +1329,21 @@ msgid "Registration"
 msgstr "Pendaftaran"
 
 #: weblate/templates/accounts/email-sent.html:13
-#, fuzzy
-#| msgid "Password reset has been already completed!"
 msgid "Password reset almost complete"
-msgstr "Atur ulang kata sandi sudah selesai!"
+msgstr "Atur ulang kata sandi hampir selesai"
 
 #: weblate/templates/accounts/email-sent.html:15
 msgid "Registration almost complete"
 msgstr "Pendaftaran hampir selesai"
 
 #: weblate/templates/accounts/email-sent.html:21
-#, fuzzy
-#| msgid ""
-#| "Thank you for registering. You will very soon receive an email with a "
-#| "confirmation link. Please follow this link in order to complete your "
-#| "registration."
 msgid ""
 "You will very soon receive an email with a confirmation link. Please follow "
 "this link in order to complete your password reset procedure."
 msgstr ""
-"Terima kasih telah mendaftar. Anda segera akan menerima surel berisi tautan "
-"untuk konfirmasi. Silakan ikuti tautan ini untuk menyelesaikan permintaan "
-"pendaftaran Anda."
+"Anda segera akan menerima surel berisi tautan untuk konfirmasi. Silakan "
+"ikuti tautan ini untuk menyelesaikan prosedur pengaturan ulang kata sandi "
+"Anda."
 
 #: weblate/templates/accounts/email-sent.html:23
 msgid ""
@@ -1448,6 +1430,8 @@ msgid ""
 "The hosting requests are usually processed once in a month, so please be "
 "patient after submitting it."
 msgstr ""
+"Permintaan hosting biasanya diproses sekali dalam sebulan, jadi mohon "
+"bersabar setelah mengirimkannya."
 
 #: weblate/templates/accounts/hosting.html:45
 msgid "Commercial hosting"
@@ -1867,6 +1851,8 @@ msgid ""
 "Please read our <a href=\"%(legal_url)s\">Terms of Service</a> prior to "
 "registration."
 msgstr ""
+"Silakan baca <a href=\"%(legal_url)s\">Persyaratan Layanan</a> kami sebelum "
+"mendaftar."
 
 #: weblate/templates/accounts/register.html:21
 msgid ""
@@ -4491,7 +4477,7 @@ msgstr "Jumlah kata sumber"
 
 #: weblate/templates/replace.html:18
 msgid "Please review and confirm the search and replace results."
-msgstr ""
+msgstr "Harap tinjau dan konfirmasikan pencarian dan ganti hasilnya."
 
 #: weblate/templates/screenshots/screenshot_detail.html:9
 #: weblate/templates/screenshots/screenshot_list.html:9
@@ -4751,13 +4737,11 @@ msgstr "Penerjemahan dapat dibuat secara langsung."
 
 #: weblate/templates/subproject_info.html:20
 msgid "Suggestions to improve translation can be given."
-msgstr ""
+msgstr "Saran untuk memperbaiki terjemahan dapat diberikan."
 
 #: weblate/templates/subproject_info.html:22
-#, fuzzy
-#| msgid "New registrations are disabled!"
 msgid "Suggestions to improve translation are disabled."
-msgstr "Pendaftaran baru dinonaktifkan!"
+msgstr "Saran untuk memperbaiki terjemahan dinonaktifkan."
 
 #: weblate/templates/subproject_info.html:26
 msgid "Only selected users can contribute."
@@ -4950,10 +4934,8 @@ msgid "Commit message:"
 msgstr "Pesan Commit:"
 
 #: weblate/templates/translate.html:186
-#, fuzzy
-#| msgid "Additional text to include in the commit message."
 msgid "Additional text to include"
-msgstr "Teks tambahan untuk disertakan dalam pesan commit."
+msgstr "Teks tambahan untuk disertakan"
 
 #: weblate/templates/translate.html:189
 msgid ""
@@ -5331,10 +5313,6 @@ msgid "Promoting specific translations"
 msgstr "Mempromosikan penerjemahan khusus"
 
 #: weblate/templates/widgets.html:20
-#, fuzzy
-#| msgid ""
-#| "Besides promoting whole translation project, you can also choose specific "
-#| "language or component to promote:"
 msgid ""
 "Besides promoting the whole translation project, you can also choose a "
 "specific language or component to promote:"
@@ -5347,11 +5325,6 @@ msgid "Image widgets"
 msgstr "Gambar widget"
 
 #: weblate/templates/widgets.html:27
-#, fuzzy
-#| msgid ""
-#| "You can use following widgets to promote translation of your project. "
-#| "They can increase visibility of your translation projects and bring new "
-#| "contributors."
 msgid ""
 "You can use the following widgets to promote translation of your project. "
 "They can increase visibility of your translation projects and bring new "
@@ -5806,10 +5779,8 @@ msgid "WebExtension JSON file"
 msgstr "Berkas JSON WebExtension"
 
 #: weblate/trans/formats.py:1218
-#, fuzzy
-#| msgid "JSON file"
 msgid "i18next JSON file"
-msgstr "Berkas JSON"
+msgstr "Berkas JSON i18next"
 
 #: weblate/trans/formats.py:1225
 msgid "CSV file"
@@ -5958,7 +5929,7 @@ msgstr "Semua string"
 
 #: weblate/trans/forms.py:546 weblate/trans/models/translation.py:946
 msgid "Not translated strings"
-msgstr "String tidak diterjemahkan"
+msgstr "String belum diterjemahkan"
 
 #: weblate/trans/forms.py:547 weblate/trans/models/translation.py:937
 msgid "Strings needing action"
@@ -6043,24 +6014,16 @@ msgid "Show ignored checks as well"
 msgstr "Tampilkan juga cek yang diabaikan"
 
 #: weblate/trans/forms.py:683
-#, fuzzy
-#| msgid "Changes"
 msgid "Changed since"
-msgstr "Ganti"
+msgstr "Berubah sejak"
 
 #: weblate/trans/forms.py:687
-#, fuzzy
-#| msgctxt "Changes by user"
-#| msgid "Changes by %s"
 msgid "Changed by user"
-msgstr "Perubahan oleh %s"
+msgstr "Perubahan oleh pengguna"
 
 #: weblate/trans/forms.py:691
-#, fuzzy
-#| msgctxt "Changes by user"
-#| msgid "Changes by %s"
 msgid "Exclude changes by user"
-msgstr "Perubahan oleh %s"
+msgstr "Tidak termasuk perubahan oleh pengguna"
 
 #: weblate/trans/forms.py:707
 msgid "The query string has to be longer!"
@@ -7189,10 +7152,9 @@ msgid "This translation is locked by %(user)s!"
 msgstr "Penerjemahan ini dikunci oleh %(user)s!"
 
 #: weblate/trans/models/unit.py:427
-#, fuzzy, python-brace-format
-#| msgid "%(filename)s, translation unit %(position)s"
+#, python-brace-format
 msgid "{translation}, translation unit {position}"
-msgstr "%(filename)s, unit penerjemahan %(position)s"
+msgstr "{translation}, unit terjemahan {position}"
 
 #: weblate/trans/models/whiteboard.py:88
 msgid "Category"
@@ -7610,10 +7572,8 @@ msgid "User has been added to this project."
 msgstr "Pengguna telah ditambahkan pada proyek ini."
 
 #: weblate/trans/views/acl.py:119
-#, fuzzy
-#| msgid "Failed to find matching user!"
 msgid "Failed to find group to add an user!"
-msgstr "Gagal menemukan pengguna yang cocok!"
+msgstr "Gagal menemukan grup untuk menambahkan pengguna!"
 
 #: weblate/trans/views/acl.py:142
 msgid "User has been removed from this project."
