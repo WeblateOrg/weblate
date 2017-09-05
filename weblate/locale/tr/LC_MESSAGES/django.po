@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-09-03 08:22+0000\n"
-"PO-Revision-Date: 2017-08-16 18:26+0000\n"
+"PO-Revision-Date: 2017-09-05 23:54+0000\n"
 "Last-Translator: monolifed <monolifed@gmail.com>\n"
-"Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
-"tr/>\n"
+"Language-Team: Turkish "
+"<https://hosted.weblate.org/projects/weblate/master/tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -244,10 +244,8 @@ msgid "Password reset has been requested."
 msgstr "Parola sıfırlama istendi."
 
 #: weblate/accounts/models.py:61
-#, fuzzy
-#| msgid "Password reset has been confirmed."
 msgid "Password reset has been confirmed and password has been reset."
-msgstr "Parola sıfırlama onaylandı."
+msgstr "Parola sıfırlama onaylandı ve parola sıfırlandı."
 
 #: weblate/accounts/models.py:64
 #, python-brace-format
@@ -290,7 +288,7 @@ msgstr "Hesap ve tüm özel veriler kaldırıldı."
 #: weblate/accounts/models.py:88
 #, python-brace-format
 msgid "Agreement with Terms of Service {date}."
-msgstr ""
+msgstr "Hizmet Şartlarının {date} Kabulü."
 
 #: weblate/accounts/models.py:209 weblate/templates/accounts/profile.html:304
 msgid "Account activity"
@@ -459,11 +457,11 @@ msgstr "Parolanız tek karakterden veya sadece boşluktan oluşamaz."
 
 #: weblate/accounts/password_validation.py:75
 msgid "Can not use previously used password!"
-msgstr ""
+msgstr "Daha önce kullanılan parola kullanılamaz!"
 
 #: weblate/accounts/password_validation.py:81
 msgid "Your password can't match password you have used in the past."
-msgstr ""
+msgstr "Şifreniz geçmişte kullandığınız şifre ile eşleşemez."
 
 #: weblate/accounts/pipeline.py:275
 msgid "You can not complete password reset while logged in!"
@@ -862,13 +860,15 @@ msgstr "Örneğin: {0}"
 
 #: weblate/legal/forms.py:29
 msgid "I agree with the Terms of Service document"
-msgstr ""
+msgstr "Hizmet Şartları belgesini kabul ediyorum"
 
 #: weblate/legal/middleware.py:58
 msgid ""
 "We have new version of the Terms of Service document, please read it and "
 "confirm that you agree with it."
 msgstr ""
+"Hizmet Şartları belgesinin yeni sürümü var, lütfen okuyun ve kabul "
+"ettiğinizi onaylayın."
 
 #: weblate/legal/templates/legal/confirm.html:6
 #: weblate/legal/templates/legal/cookies.html:5
@@ -880,11 +880,11 @@ msgstr "Yasal"
 
 #: weblate/legal/templates/legal/confirm.html:13
 msgid "You have to agree to the Terms of Service"
-msgstr ""
+msgstr "Hizmet Şartlarını kabul etmelisiniz"
 
 #: weblate/legal/templates/legal/confirm.html:15
 msgid "Please read following Terms of Service document:"
-msgstr ""
+msgstr "Lütfen aşağıdaki Hizmet Şartları belgesini okuyun:"
 
 #: weblate/legal/templates/legal/confirm.html:23
 #: weblate/wladmin/templates/admin/ssh.html:64
@@ -901,22 +901,17 @@ msgstr "Çerez İlkesi"
 
 #: weblate/legal/templates/legal/cookies.html:21
 #: weblate/legal/templates/legal/index.html:20
-#, fuzzy, python-format
-#| msgid ""
-#| "This page is based on <a href=\"%(terms_url)s\">Terms of Service</a>, you "
-#| "should still read the original document to fully understand it."
+#, python-format
 msgid ""
 "This page is based on the <a href=\"%(terms_url)s\">Terms of Service</a>, "
 "you should still read the original document to fully understand them."
 msgstr ""
 "Bu sayfa <a href=\"%(terms_url)s\">Hizmet Şartları'nı</a> temel alır, yine "
-"de tam olarak anlamak için özgün belgeyi okumalısınız."
+"de onları tam olarak anlamak için özgün belgeyi okumalısınız."
 
 #: weblate/legal/templates/legal/cookies.html:25
-#, fuzzy
-#| msgid "We use cookies for following purposes:"
 msgid "We use cookies for following:"
-msgstr "Çerezleri şu amaçlar için kullanıyoruz:"
+msgstr "Çerezleri şunlar için kullanıyoruz:"
 
 #: weblate/legal/templates/legal/cookies.html:29
 msgid ""
@@ -932,16 +927,12 @@ msgstr ""
 "Belirli durumlarda kullanıcı tercihlerini depolamak için tercih çerezleri."
 
 #: weblate/legal/templates/legal/cookies.html:31
-#, fuzzy
-#| msgid ""
-#| "We use Piwik to analyze traffic on our website. Piwik does respect Do Not "
-#| "Track settings in your browser."
 msgid ""
 "We use Piwik to analyze traffic on our website. Piwik honours Do Not Track "
 "settings in your browser."
 msgstr ""
 "Web sitemizdeki trafiği incelemek için Piwik kullanıyoruz. Piwik "
-"tarayıcınızdaki Beni İzleme ayarlarına uymaz."
+"tarayıcınızdaki Beni İzleme ayarlarına uyar."
 
 #: weblate/legal/templates/legal/cookies.html:35
 msgid ""
@@ -971,16 +962,12 @@ msgstr ""
 "ifade edilir."
 
 #: weblate/legal/templates/legal/index.html:26
-#, fuzzy
-#| msgid ""
-#| "We process private data (such as your email), those will be discarded "
-#| "from our database as soon as you remove your account."
 msgid ""
 "We process private data (such as your email address), those will be "
 "discarded from our database as soon as you remove your account."
 msgstr ""
-"Özel verileri (epostanız gibi) işleriz, bunlar siz hesabınızı kaldır "
-"kaldırmaz veri tabanımızdan atılır."
+"Özel verileri (eposta adresiniz gibi) işleriz, bunlar siz hesabınızı "
+"kaldırır kaldırmaz veri tabanımızdan atılır."
 
 #: weblate/legal/templates/legal/index.html:27
 msgid ""
@@ -989,14 +976,12 @@ msgid ""
 msgstr "Çevirileriniz her çeviri tarafından belirtilen lisans altında yapılır."
 
 #: weblate/legal/templates/legal/index.html:28
-#, fuzzy
-#| msgid ""
-#| "Your name and email is used in VCS commits, it will stay there forever."
 msgid ""
 "Your name and email address is used in VCS commits, it will stay there "
 "indefinitely."
 msgstr ""
-"Adınız ve epostanız VCS işlemelerinde kullanılır, orada sonsuza kadar kalır."
+"Adınız ve eposta adresiniz VCS işlemelerinde kullanılır, orada süresiz "
+"olarak kalır."
 
 #: weblate/legal/templates/legal/index.html:29
 msgid "We use cookies to deliver our services."
@@ -1335,28 +1320,20 @@ msgid "Registration"
 msgstr "Kayıt"
 
 #: weblate/templates/accounts/email-sent.html:13
-#, fuzzy
-#| msgid "Password reset has been already completed!"
 msgid "Password reset almost complete"
-msgstr "Parola sıfırlama zaten tamamlandı!"
+msgstr "Parola sıfırlama neredeyse tamam"
 
 #: weblate/templates/accounts/email-sent.html:15
 msgid "Registration almost complete"
 msgstr "Kayıt neredeyse tamamlandı"
 
 #: weblate/templates/accounts/email-sent.html:21
-#, fuzzy
-#| msgid ""
-#| "Thank you for registering. You will very soon receive an email with a "
-#| "confirmation link. Please follow this link in order to complete your "
-#| "registration."
 msgid ""
 "You will very soon receive an email with a confirmation link. Please follow "
 "this link in order to complete your password reset procedure."
 msgstr ""
-"Kaydolduğunuz için teşekkür ederiz. Çok yakında bir onaylama bağlantısı "
-"içeren bir eposta alacaksınız. Lütfen kaydınızı tamamlamak için bu "
-"bağlantıyı takip edin."
+"Çok yakında bir onaylama bağlantısı içeren bir eposta alacaksınız. Lütfen "
+"parola sıfırlama işleminizi tamamlamak için bu bağlantıyı takip edin."
 
 #: weblate/templates/accounts/email-sent.html:23
 msgid ""
@@ -1442,6 +1419,8 @@ msgid ""
 "The hosting requests are usually processed once in a month, so please be "
 "patient after submitting it."
 msgstr ""
+"Barındırma istekleri genellikle ayda bir kez işlenir, o yüzden gönderdikten "
+"sonra lütfen sabırlı olun."
 
 #: weblate/templates/accounts/hosting.html:45
 msgid "Commercial hosting"
@@ -1851,6 +1830,8 @@ msgid ""
 "Please read our <a href=\"%(legal_url)s\">Terms of Service</a> prior to "
 "registration."
 msgstr ""
+"Lütfen kaydolmadan önce <a href=\"%(legal_url)s\">Hizmet Şartlarımızı</a> "
+"okuyun."
 
 #: weblate/templates/accounts/register.html:21
 msgid ""
@@ -4480,7 +4461,7 @@ msgstr "Kaynak kelime sayısı"
 
 #: weblate/templates/replace.html:18
 msgid "Please review and confirm the search and replace results."
-msgstr ""
+msgstr "Lütfen arama ve yer değiştirme sonuçlarını gözden geçirip onaylayın."
 
 #: weblate/templates/screenshots/screenshot_detail.html:9
 #: weblate/templates/screenshots/screenshot_list.html:9
@@ -4741,13 +4722,11 @@ msgstr "Çeviri doğrudan yapılabilir."
 
 #: weblate/templates/subproject_info.html:20
 msgid "Suggestions to improve translation can be given."
-msgstr ""
+msgstr "Çeviriyi iyileştirmek için öneriler verilebilir."
 
 #: weblate/templates/subproject_info.html:22
-#, fuzzy
-#| msgid "New registrations are disabled!"
 msgid "Suggestions to improve translation are disabled."
-msgstr "Yeni kayıtlar devre dışı!"
+msgstr "Çeviri geliştirmek için öneriler devre dışı."
 
 #: weblate/templates/subproject_info.html:26
 msgid "Only selected users can contribute."
@@ -4940,10 +4919,8 @@ msgid "Commit message:"
 msgstr "İşleme iletisi:"
 
 #: weblate/templates/translate.html:186
-#, fuzzy
-#| msgid "Additional text to include in the commit message."
 msgid "Additional text to include"
-msgstr "İşleme iletisine dahil etmek için ek metin."
+msgstr "Dahil etmek için ek metin"
 
 #: weblate/templates/translate.html:189
 msgid ""
@@ -5323,10 +5300,6 @@ msgid "Promoting specific translations"
 msgstr "Belirli çevirilerin tanıtımı"
 
 #: weblate/templates/widgets.html:20
-#, fuzzy
-#| msgid ""
-#| "Besides promoting whole translation project, you can also choose specific "
-#| "language or component to promote:"
 msgid ""
 "Besides promoting the whole translation project, you can also choose a "
 "specific language or component to promote:"
@@ -5339,11 +5312,6 @@ msgid "Image widgets"
 msgstr "Resim parçacıkları"
 
 #: weblate/templates/widgets.html:27
-#, fuzzy
-#| msgid ""
-#| "You can use following widgets to promote translation of your project. "
-#| "They can increase visibility of your translation projects and bring new "
-#| "contributors."
 msgid ""
 "You can use the following widgets to promote translation of your project. "
 "They can increase visibility of your translation projects and bring new "
@@ -5797,10 +5765,8 @@ msgid "WebExtension JSON file"
 msgstr "WebExtension JSON dosyası"
 
 #: weblate/trans/formats.py:1218
-#, fuzzy
-#| msgid "JSON file"
 msgid "i18next JSON file"
-msgstr "JSON dosyası"
+msgstr "i18next JSON dosyası"
 
 #: weblate/trans/formats.py:1225
 msgid "CSV file"
@@ -6034,24 +6000,16 @@ msgid "Show ignored checks as well"
 msgstr "Yok sayılan denetimleri de göster"
 
 #: weblate/trans/forms.py:683
-#, fuzzy
-#| msgid "Changes"
 msgid "Changed since"
-msgstr "Değişiklikler"
+msgstr "Tarihten sonraki değişiklikler"
 
 #: weblate/trans/forms.py:687
-#, fuzzy
-#| msgctxt "Changes by user"
-#| msgid "Changes by %s"
 msgid "Changed by user"
-msgstr "%s tarafından yapılan değişiklikler"
+msgstr "Değiştiren kullanıcı"
 
 #: weblate/trans/forms.py:691
-#, fuzzy
-#| msgctxt "Changes by user"
-#| msgid "Changes by %s"
 msgid "Exclude changes by user"
-msgstr "%s tarafından yapılan değişiklikler"
+msgstr "Kullanıcının değişikliklerini içerme"
 
 #: weblate/trans/forms.py:707
 msgid "The query string has to be longer!"
@@ -7169,10 +7127,9 @@ msgid "This translation is locked by %(user)s!"
 msgstr "Bu çeviri %(user)s tarafından kilitli!"
 
 #: weblate/trans/models/unit.py:427
-#, fuzzy, python-brace-format
-#| msgid "%(filename)s, translation unit %(position)s"
+#, python-brace-format
 msgid "{translation}, translation unit {position}"
-msgstr "%(filename)s, çeviri birimi %(position)s"
+msgstr "{translation}, çeviri birimi {position}"
 
 #: weblate/trans/models/whiteboard.py:88
 msgid "Category"
@@ -7604,10 +7561,8 @@ msgid "User has been added to this project."
 msgstr "Kullanıcı bu projeye eklendi."
 
 #: weblate/trans/views/acl.py:119
-#, fuzzy
-#| msgid "Failed to find matching user!"
 msgid "Failed to find group to add an user!"
-msgstr "Eşleşen kullanıcı bulunamadı!"
+msgstr "Bir kullanıcı eklemek için grup bulunamadı!"
 
 #: weblate/trans/views/acl.py:142
 msgid "User has been removed from this project."
