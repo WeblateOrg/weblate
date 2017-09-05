@@ -68,9 +68,14 @@ in :doc:`psa:configuration/django`.
 
     By default, Weblate relies on third-party authentication services to
     provide validated email address, in case some of services you want to use
-    do not support this, please remove
-    ``social_core.pipeline.social_auth.associate_by_email`` from
-    ``SOCIAL_AUTH_PIPELINE`` settings.
+    do not support this, please enforce email validation on Weblate side
+    by configuring FORCE_EMAIL_VALIDATION for them. For example:
+
+    .. code-block:: python
+
+        SOCIAL_AUTH_OPENSUSE_FORCE_EMAIL_VALIDATION = True
+
+    .. seealso:: :doc:`psa:pipeline`
 
 Enabling individual backends is quite easy, it's just a matter of adding entry to
 ``AUTHENTICATION_BACKENDS`` setting and possibly adding keys needed for given
