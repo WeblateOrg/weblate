@@ -209,7 +209,7 @@ class PoXliffExporter(XMLExporter):
 
 @register_exporter
 class XliffExporter(XMLExporter):
-    name = 'xliff12'
+    name = 'xliff11'
     content_type = 'application/x-xliff+xml'
     extension = 'xlf'
     has_lang = True

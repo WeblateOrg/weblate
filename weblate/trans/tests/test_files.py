@@ -390,8 +390,11 @@ class ExportTest(ViewTestCase):
             response, 'Orangutan has %d banana'
         )
 
-    def test_export_xliff12(self):
-        response = self.export_format('xliff12')
+    def test_export_xliff11(self):
+        response = self.export_format('xliff11')
+        self.assertContains(
+            response, 'urn:oasis:names:tc:xliff:document:1.1'
+        )
         self.assertContains(
             response, 'Orangutan has %d banana'
         )
