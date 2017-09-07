@@ -347,6 +347,7 @@ def show_dictionary(request, project, lang):
             'language': lang,
             'page_obj': words,
             'form': form,
+            'query_string': 'letter={}'.format(letter) if letter else '',
             'uploadform': uploadform,
             'letterform': letterform,
             'letter': letter,

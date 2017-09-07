@@ -143,6 +143,7 @@ AUTO_LOCK_TIME
 --------------
 
 Time in seconds for how long the automatic lock for translation will be active.
+Defaults to 60 seconds.
 
 .. seealso::
 
