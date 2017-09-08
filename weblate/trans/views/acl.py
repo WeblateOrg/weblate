@@ -58,7 +58,7 @@ def check_user_form(request, project, verbose=False):
 @require_POST
 @login_required
 def set_groups(request, project):
-    """Change group assignment for an user."""
+    """Change group assignment for a user."""
     obj, form = check_user_form(request, project)
 
     try:
@@ -116,7 +116,7 @@ def add_user(request, project):
             )
         except Group.DoesNotExist:
             messages.error(
-                request, _('Failed to find group to add an user!')
+                request, _('Failed to find group to add a user!')
             )
 
     return redirect(
