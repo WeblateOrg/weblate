@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: Weblate website\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-09-08 19:12+0000\n"
-"PO-Revision-Date: 2017-08-17 02:24+0000\n"
-"Last-Translator: Yago Ferreyra <yagoferreyra@gmail.com>\n"
-"Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/master/"
-"es/>\n"
+"PO-Revision-Date: 2017-09-10 04:49+0000\n"
+"Last-Translator: Franco <francobenedetti.59+github1@gmail.com>\n"
+"Language-Team: Spanish "
+"<https://hosted.weblate.org/projects/weblate/master/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -246,10 +246,10 @@ msgid "Password reset has been requested."
 msgstr "Restablecimiento de contraseña solicitado."
 
 #: weblate/accounts/models.py:61
-#, fuzzy
-#| msgid "Password reset has been confirmed."
 msgid "Password reset has been confirmed and password has been reset."
-msgstr "Restablecimiento de contraseña confirmado."
+msgstr ""
+"Restablecimiento de contraseña confirmado y la contraseña ha sido "
+"restablecida."
 
 #: weblate/accounts/models.py:64
 #, python-brace-format
@@ -292,7 +292,7 @@ msgstr "Se borrará la cuenta y todos los datos privados."
 #: weblate/accounts/models.py:88
 #, python-brace-format
 msgid "Agreement with Terms of Service {date}."
-msgstr ""
+msgstr "Acuerdo con los Términos de Servicio {date}."
 
 #: weblate/accounts/models.py:209 weblate/templates/accounts/profile.html:304
 msgid "Account activity"
@@ -465,11 +465,13 @@ msgstr ""
 
 #: weblate/accounts/password_validation.py:75
 msgid "Can not use previously used password!"
-msgstr ""
+msgstr "¡No puede utilizar una contraseña utilizada anteriormente!"
 
 #: weblate/accounts/password_validation.py:81
 msgid "Your password can't match password you have used in the past."
 msgstr ""
+"Su contraseña no debe coincidir con la contraseña que ha utilizado en el "
+"pasado."
 
 #: weblate/accounts/pipeline.py:275
 msgid "You can not complete password reset while logged in!"
@@ -875,13 +877,15 @@ msgstr "Por ejemplo: {0}"
 
 #: weblate/legal/forms.py:29
 msgid "I agree with the Terms of Service document"
-msgstr ""
+msgstr "Estoy de acuerdo con el documento de Términos de Servicio"
 
 #: weblate/legal/middleware.py:58
 msgid ""
 "We have new version of the Terms of Service document, please read it and "
 "confirm that you agree with it."
 msgstr ""
+"Tenemos una nueva versión del documento de Términos de Servicio, por favor, "
+"lea y confirme que está de acuerdo con él."
 
 #: weblate/legal/templates/legal/confirm.html:6
 #: weblate/legal/templates/legal/cookies.html:5
@@ -893,11 +897,11 @@ msgstr "Legal"
 
 #: weblate/legal/templates/legal/confirm.html:13
 msgid "You have to agree to the Terms of Service"
-msgstr ""
+msgstr "Debe aceptar los Términos de Servicio"
 
 #: weblate/legal/templates/legal/confirm.html:15
 msgid "Please read following Terms of Service document:"
-msgstr ""
+msgstr "Por favor, lea el siguiente documento de Términos de Servicio:"
 
 #: weblate/legal/templates/legal/confirm.html:23
 #: weblate/wladmin/templates/admin/ssh.html:64
@@ -914,22 +918,18 @@ msgstr "Políticas de Cookies"
 
 #: weblate/legal/templates/legal/cookies.html:21
 #: weblate/legal/templates/legal/index.html:20
-#, fuzzy, python-format
-#| msgid ""
-#| "This page is based on <a href=\"%(terms_url)s\">Terms of Service</a>, you "
-#| "should still read the original document to fully understand it."
+#, python-format
 msgid ""
 "This page is based on the <a href=\"%(terms_url)s\">Terms of Service</a>, "
 "you should still read the original document to fully understand them."
 msgstr ""
-"Esta página se basa en los <a href=\"%(terms_url)s\">Terminos de Servicios</"
-"a>, debería leer la documentación original para un entendimiento completo."
+"Esta página se basa en los <a href=\"%(terms_url)s\">Terminos de "
+"Servicios</a>, debería leer la documentación original para un entendimiento "
+"completo."
 
 #: weblate/legal/templates/legal/cookies.html:25
-#, fuzzy
-#| msgid "We use cookies for following purposes:"
 msgid "We use cookies for following:"
-msgstr "Usamos cookies para los siguientes propósitos:"
+msgstr "Usamos cookies para lo siguiente:"
 
 #: weblate/legal/templates/legal/cookies.html:29
 msgid ""
@@ -945,16 +945,12 @@ msgstr ""
 "ciertas situaciones."
 
 #: weblate/legal/templates/legal/cookies.html:31
-#, fuzzy
-#| msgid ""
-#| "We use Piwik to analyze traffic on our website. Piwik does respect Do Not "
-#| "Track settings in your browser."
 msgid ""
 "We use Piwik to analyze traffic on our website. Piwik honours Do Not Track "
 "settings in your browser."
 msgstr ""
 "Utilizamos Piwik para analizar el tráfico en nuestro sitio Web. Piwik "
-"respeta los ajustes Do Not Track en su navegador."
+"respeta los ajustes «Do Not Track» en su navegador."
 
 #: weblate/legal/templates/legal/cookies.html:35
 msgid ""
@@ -984,16 +980,12 @@ msgstr ""
 "expresan en los contratos correspondientes."
 
 #: weblate/legal/templates/legal/index.html:26
-#, fuzzy
-#| msgid ""
-#| "We process private data (such as your email), those will be discarded "
-#| "from our database as soon as you remove your account."
 msgid ""
 "We process private data (such as your email address), those will be "
 "discarded from our database as soon as you remove your account."
 msgstr ""
-"Procesamos datos privados (como el correo electrónico), estos se descartarán "
-"de nuestra base de datos al borrar tu cuenta."
+"Procesamos datos privados (como la dirección de correo electrónico), estos "
+"se descartarán de nuestra base de datos al borrar tu cuenta."
 
 #: weblate/legal/templates/legal/index.html:27
 msgid ""
@@ -1003,15 +995,12 @@ msgstr ""
 "Las traducciones se realizan bajo licencia especifica de cada traducción."
 
 #: weblate/legal/templates/legal/index.html:28
-#, fuzzy
-#| msgid ""
-#| "Your name and email is used in VCS commits, it will stay there forever."
 msgid ""
 "Your name and email address is used in VCS commits, it will stay there "
 "indefinitely."
 msgstr ""
-"El nombre y correo electrónico se utilizan en envíos VCS, y permanecerán "
-"allí para siempre."
+"El nombre y dirección de correo electrónico se utilizan en envíos VCS, y "
+"permanecerán allí indefinidamente."
 
 #: weblate/legal/templates/legal/index.html:29
 msgid "We use cookies to deliver our services."
@@ -1360,27 +1349,20 @@ msgid "Registration"
 msgstr "Registro"
 
 #: weblate/templates/accounts/email-sent.html:13
-#, fuzzy
-#| msgid "Password reset has been already completed!"
 msgid "Password reset almost complete"
-msgstr "¡El restablecimiento de contraseña ya se ha completado!"
+msgstr "Restablecimiento de contraseña casi completa"
 
 #: weblate/templates/accounts/email-sent.html:15
 msgid "Registration almost complete"
 msgstr "Registro casi finalizado"
 
 #: weblate/templates/accounts/email-sent.html:21
-#, fuzzy
-#| msgid ""
-#| "Thank you for registering. You will very soon receive an email with a "
-#| "confirmation link. Please follow this link in order to complete your "
-#| "registration."
 msgid ""
 "You will very soon receive an email with a confirmation link. Please follow "
 "this link in order to complete your password reset procedure."
 msgstr ""
-"Gracias por registrarse. Pronto recibirá un correo electrónico con un enlace "
-"de confirmación. Visite dicho enlace para completar su registro."
+"Pronto recibirá un correo electrónico con un enlace de confirmación. Visite "
+"dicho enlace para completar el restablecimiento de su contraseña."
 
 #: weblate/templates/accounts/email-sent.html:23
 msgid ""
@@ -1467,6 +1449,8 @@ msgid ""
 "The hosting requests are usually processed once in a month, so please be "
 "patient after submitting it."
 msgstr ""
+"Las solicitudes de alojamiento, se procesan generalmente una vez al mes, así "
+"que por favor sea paciente luego del envío de ésta."
 
 #: weblate/templates/accounts/hosting.html:45
 msgid "Commercial hosting"
@@ -1888,6 +1872,8 @@ msgid ""
 "Please read our <a href=\"%(legal_url)s\">Terms of Service</a> prior to "
 "registration."
 msgstr ""
+"Lea nuestros <a href=\"%(legal_url)s\">Términos de Servicios</a> antes de "
+"registrarse."
 
 #: weblate/templates/accounts/register.html:21
 msgid ""
@@ -4516,8 +4502,9 @@ msgid "Number of source words"
 msgstr "Número de palabras de origen"
 
 #: weblate/templates/replace.html:18
+#, fuzzy
 msgid "Please review and confirm the search and replace results."
-msgstr ""
+msgstr "Por favor, revise y confirme la búsqueda y reemplazo de los resultados."
 
 #: weblate/templates/screenshots/screenshot_detail.html:9
 #: weblate/templates/screenshots/screenshot_list.html:9
@@ -4778,7 +4765,7 @@ msgstr "Las traducciones pueden hacerse directamente."
 
 #: weblate/templates/subproject_info.html:20
 msgid "Suggestions to improve translation can be given."
-msgstr ""
+msgstr "Se pueden hacer sugerencias para mejorar la traducción."
 
 #: weblate/templates/subproject_info.html:22
 #, fuzzy
