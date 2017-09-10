@@ -397,7 +397,8 @@ as ``TEMP`` variable:
 
 .. code-block:: sh
 
-    TEMP=/path/to/big/temp ./manage.py rebuild_index --clean
+    TEMP=/path/to/big/temp
+    ./manage.py rebuild_index --clean
 
 .. seealso:: 
    
