@@ -52,7 +52,7 @@ This check can help finding strings which were mistakenly not translated .
 Starting or trailing newline
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Source and translated do not both start (or end) with a newline.
+Source and translation do not both start (or end) with a newline.
 
 Newlines usually appear in source string for a good reason, so omitting or
 adding it can lead to formatting problems when the translated text is used in
@@ -73,7 +73,7 @@ is important to keep.
 Trailing space
 ~~~~~~~~~~~~~~
 
-Source and translated do not both end with a space.
+Source and translation do not both end with a space.
 
 Trailing space is usually used to give space between neighbouring elements, so
 removing it might break application layout.
@@ -83,7 +83,7 @@ removing it might break application layout.
 Trailing stop
 ~~~~~~~~~~~~~
 
-Source and translated do not both end with a full stop. Full stop is also
+Source and translation do not both end with a full stop. Full stop is also
 checked in various language variants (Chinese, Japanese, Devanagari or Urdu).
 
 When the original string is a sentence, the translated one should be a sentence
@@ -94,7 +94,7 @@ as well to be consistent within the translated content.
 Trailing colon
 ~~~~~~~~~~~~~~
 
-Source and translated do not both end with a colon or the colon is not
+Source and translation do not both end with a colon or the colon is not
 correctly spaced. This includes spacing rules for languages like French or
 Breton. Colon is also checked in various language variants (Chinese or
 Japanese).
