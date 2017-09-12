@@ -392,7 +392,8 @@ Notable configuration or dependencies changes:
 Upgrade from 2.10 to 2.11
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Follow generic upgrade instructions, there is no special change.
+In case you have been using python-social-aut 0.2.21 with Weblate 2.10 you can
+follow generic upgrade instructions, otherwise please read warning below.
 
 Notable configuration or dependencies changes:
 
