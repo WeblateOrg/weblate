@@ -316,7 +316,7 @@ Existing components will be skipped.
 
 .. django-admin-option:: --base-file-template TEMPLATE
 
-    Customize base file for monolingual translations.
+    Customise base file for monolingual translations.
 
 .. django-admin-option:: --file-format FORMAT
 
