@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-09-08 19:12+0000\n"
-"PO-Revision-Date: 2017-09-07 13:46+0000\n"
-"Last-Translator: zhangmiao <myzhm@163.com>\n"
-"Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
-"weblate/master/zh_Hans/>\n"
+"PO-Revision-Date: 2017-09-18 19:47+0000\n"
+"Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
+"Language-Team: Chinese (Simplified) "
+"<https://hosted.weblate.org/projects/weblate/master/zh_Hans/>\n"
 "Language: zh_Hans\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -51,10 +51,8 @@ msgid "Enter a valid email address."
 msgstr "输入一个有效的电子邮件地址。"
 
 #: weblate/accounts/forms.py:109
-#, fuzzy
-#| msgid "User with this email address was not found."
 msgid "This email address is not allowed."
-msgstr "未找到使用该电子邮件地址的用户。"
+msgstr "该电子邮件地址不被允许使用。"
 
 #: weblate/accounts/forms.py:115
 msgid ""
@@ -237,10 +235,8 @@ msgid "Password reset has been requested."
 msgstr "密码重设请求已提交。"
 
 #: weblate/accounts/models.py:61
-#, fuzzy
-#| msgid "Password reset has been confirmed."
 msgid "Password reset has been confirmed and password has been reset."
-msgstr "密码重设请求已确认。"
+msgstr "密码重设请求已确认，密码已被重设。"
 
 #: weblate/accounts/models.py:64
 #, python-brace-format
@@ -281,7 +277,7 @@ msgstr "账户和所有私人数据已被删除。"
 #: weblate/accounts/models.py:88
 #, python-brace-format
 msgid "Agreement with Terms of Service {date}."
-msgstr ""
+msgstr "同意服务条款 {date}。"
 
 #: weblate/accounts/models.py:209 weblate/templates/accounts/profile.html:304
 msgid "Account activity"
@@ -447,7 +443,7 @@ msgstr "无法使用之前用过的密码！"
 
 #: weblate/accounts/password_validation.py:81
 msgid "Your password can't match password you have used in the past."
-msgstr ""
+msgstr "您的密码不能与您曾经使用过的密码相同。"
 
 #: weblate/accounts/pipeline.py:275
 msgid "You can not complete password reset while logged in!"
@@ -846,7 +842,7 @@ msgstr "我同意本服务条款文档"
 msgid ""
 "We have new version of the Terms of Service document, please read it and "
 "confirm that you agree with it."
-msgstr ""
+msgstr "我们更新了服务条款的文档，请阅读并确认您同意该文本。"
 
 #: weblate/legal/templates/legal/confirm.html:6
 #: weblate/legal/templates/legal/cookies.html:5
@@ -858,11 +854,11 @@ msgstr "合法"
 
 #: weblate/legal/templates/legal/confirm.html:13
 msgid "You have to agree to the Terms of Service"
-msgstr ""
+msgstr "您必须同意服务条款"
 
 #: weblate/legal/templates/legal/confirm.html:15
 msgid "Please read following Terms of Service document:"
-msgstr ""
+msgstr "请阅读下列服务条款文档："
 
 #: weblate/legal/templates/legal/confirm.html:23
 #: weblate/wladmin/templates/admin/ssh.html:64
@@ -879,22 +875,15 @@ msgstr "Cookies 方针"
 
 #: weblate/legal/templates/legal/cookies.html:21
 #: weblate/legal/templates/legal/index.html:20
-#, fuzzy, python-format
-#| msgid ""
-#| "This page is based on <a href=\"%(terms_url)s\">Terms of Service</a>, you "
-#| "should still read the original document to fully understand it."
+#, python-format
 msgid ""
 "This page is based on the <a href=\"%(terms_url)s\">Terms of Service</a>, "
 "you should still read the original document to fully understand them."
-msgstr ""
-"本页面基于 <a href=\"%(terms_url)s\">服务条款</a>，您仍需阅读原始文本以完全了"
-"解它。"
+msgstr "本页面基于 <a href=\"%(terms_url)s\">服务条款</a>，您仍需阅读原始文本以完全了解其内容。"
 
 #: weblate/legal/templates/legal/cookies.html:25
-#, fuzzy
-#| msgid "We use cookies for following purposes:"
 msgid "We use cookies for following:"
-msgstr "我们在以下用途中使用 cookie："
+msgstr "我们在以下情况下使用 cookies："
 
 #: weblate/legal/templates/legal/cookies.html:29
 msgid ""
@@ -907,15 +896,10 @@ msgid "Preferences cookie to store user preferences in certain situations."
 msgstr "设定 cookie 用于存储用户在特定情况下的设定信息。"
 
 #: weblate/legal/templates/legal/cookies.html:31
-#, fuzzy
-#| msgid ""
-#| "We use Piwik to analyze traffic on our website. Piwik does respect Do Not "
-#| "Track settings in your browser."
 msgid ""
 "We use Piwik to analyze traffic on our website. Piwik honours Do Not Track "
 "settings in your browser."
-msgstr ""
-"我们使用 Piwik 来分析本网站的流量。Piwik 不遵循您浏览器的“禁止跟踪” 设定。"
+msgstr "我们使用 Piwik 来分析本网站的流量。Piwik 遵循您浏览器的“禁止跟踪” 设定。"
 
 #: weblate/legal/templates/legal/cookies.html:35
 msgid ""
@@ -941,16 +925,10 @@ msgid ""
 msgstr "对于商业用户，可能需要额外的保证，需表述于相应的约定中。"
 
 #: weblate/legal/templates/legal/index.html:26
-#, fuzzy
-#| msgid ""
-#| "We process private data (such as your email), those will be discarded "
-#| "from our database as soon as you remove your account."
 msgid ""
 "We process private data (such as your email address), those will be "
 "discarded from our database as soon as you remove your account."
-msgstr ""
-"我们会处理私有数据（如您的电子邮箱），在您删除账号时，将会从我们的数据库中删"
-"除相关内容。"
+msgstr "我们会处理私有数据（如您的电子邮件地址），在您删除账号时，将会从我们的数据库中删除相关内容。"
 
 #: weblate/legal/templates/legal/index.html:27
 msgid ""
@@ -959,13 +937,10 @@ msgid ""
 msgstr "你的翻译是根据由每个翻译指定的许可证。"
 
 #: weblate/legal/templates/legal/index.html:28
-#, fuzzy
-#| msgid ""
-#| "Your name and email is used in VCS commits, it will stay there forever."
 msgid ""
 "Your name and email address is used in VCS commits, it will stay there "
 "indefinitely."
-msgstr "在 VCS 提交中会使用您的姓名及电子邮箱，它将永久保存。"
+msgstr "在 VCS 提交中会使用您的姓名及电子邮件地址，它将不限期保存。"
 
 #: weblate/legal/templates/legal/index.html:29
 msgid "We use cookies to deliver our services."
@@ -1124,8 +1099,6 @@ msgid "Screenshot %s has been deleted."
 msgstr "屏幕截图 %s 已删除。"
 
 #: weblate/screenshots/views.py:186
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "Source has been removed."
 msgstr "源已被删除。"
 
@@ -1289,27 +1262,18 @@ msgid "Registration"
 msgstr "注册"
 
 #: weblate/templates/accounts/email-sent.html:13
-#, fuzzy
-#| msgid "Password reset has been already completed!"
 msgid "Password reset almost complete"
-msgstr "密码重设已完成！"
+msgstr "密码重设马上就完成了"
 
 #: weblate/templates/accounts/email-sent.html:15
 msgid "Registration almost complete"
 msgstr "注册即将完成"
 
 #: weblate/templates/accounts/email-sent.html:21
-#, fuzzy
-#| msgid ""
-#| "Thank you for registering. You will very soon receive an email with a "
-#| "confirmation link. Please follow this link in order to complete your "
-#| "registration."
 msgid ""
 "You will very soon receive an email with a confirmation link. Please follow "
 "this link in order to complete your password reset procedure."
-msgstr ""
-"感谢您的注册。您将很快收到一封含有确认链接的邮件。请按照链接的指引完成您的注"
-"册。"
+msgstr "您将很快收到一封含有确认链接的邮件。请按照链接的指引完成您的注册流程。"
 
 #: weblate/templates/accounts/email-sent.html:23
 msgid ""
@@ -1387,7 +1351,7 @@ msgstr "我们不担保服务的可用性和质量。"
 msgid ""
 "The hosting requests are usually processed once in a month, so please be "
 "patient after submitting it."
-msgstr ""
+msgstr "托管请求通常会在一个月内处理，所以在提交之后请耐心等待。"
 
 #: weblate/templates/accounts/hosting.html:45
 msgid "Commercial hosting"
@@ -1778,7 +1742,7 @@ msgstr "未找到发票！"
 msgid ""
 "Please read our <a href=\"%(legal_url)s\">Terms of Service</a> prior to "
 "registration."
-msgstr ""
+msgstr "请在注册之前先阅读我们的<a href=\"%(legal_url)s\">服务条款</a>。"
 
 #: weblate/templates/accounts/register.html:21
 msgid ""
@@ -3228,10 +3192,8 @@ msgid "Tagalog"
 msgstr "他加禄语（Tagalog）"
 
 #: weblate/templates/i18n.html:252
-#, fuzzy
-#| msgid "Haitian"
 msgid "Tahitian"
-msgstr "海地克里奥尔语（kreyòl ayisyen）"
+msgstr "塔希提语"
 
 #: weblate/templates/i18n.html:253
 msgid "Tajik"
@@ -3394,7 +3356,6 @@ msgstr "您需要登录才能翻译，否则您只能提出建议。"
 
 #: weblate/templates/index.html:33 weblate/templates/project.html:31
 #: weblate/templates/subproject.html:34 weblate/templates/translation.html:34
-#, fuzzy
 msgid "Insights"
 msgstr "洞察"
 
@@ -3495,10 +3456,8 @@ msgid "No screenshot currently associated!"
 msgstr "无相关的屏幕截图！"
 
 #: weblate/templates/js/detail.html:87 weblate/templates/subproject.html:77
-#, fuzzy
-#| msgid "Manage users"
 msgid "Manage screenshots"
-msgstr "管理用户"
+msgstr "管理屏幕截图"
 
 #: weblate/templates/js/detail.html:97
 #: weblate/templates/screenshots/screenshot_list.html:58
@@ -3824,12 +3783,9 @@ msgstr "您好"
 
 #: weblate/templates/mail/account_activity.html:11
 #: weblate/templates/mail/account_activity.txt:3
-#, fuzzy, python-format
-#| msgid ""
-#| "There has been a change in translation on %(translation)s at "
-#| "%(site_title)s."
+#, python-format
 msgid "There has been a change in your account at %(site_title)s:"
-msgstr "%(site_title)s 网站上的 %(translation)s 翻译有一个变更。"
+msgstr "您在 %(site_title)s 网站上的账户有一个变更："
 
 #: weblate/templates/mail/account_activity.html:19
 #: weblate/templates/mail/account_activity.txt:7
@@ -4241,10 +4197,8 @@ msgstr "数据导出"
 
 #: weblate/templates/project.html:57 weblate/templates/subproject.html:65
 #: weblate/templates/translation.html:68
-#, fuzzy
-#| msgid "Manage users"
 msgid "Manage"
-msgstr "管理用户"
+msgstr "管理"
 
 #: weblate/templates/project.html:64 weblate/templates/subproject.html:72
 #: weblate/templates/translation.html:75
@@ -4344,7 +4298,7 @@ msgstr "源字词数量"
 
 #: weblate/templates/replace.html:18
 msgid "Please review and confirm the search and replace results."
-msgstr ""
+msgstr "请复查并确认本次搜索与替换的结果。"
 
 #: weblate/templates/screenshots/screenshot_detail.html:9
 #: weblate/templates/screenshots/screenshot_list.html:9
@@ -4371,7 +4325,6 @@ msgid ""
 msgstr "屏幕截图用于为所有列出的源字符串添加可视化内容。"
 
 #: weblate/templates/screenshots/screenshot_detail.html:47
-#, fuzzy
 msgid "Assign source strings"
 msgstr "分配源字符串"
 
@@ -4380,10 +4333,8 @@ msgid "Loading results…"
 msgstr "正在加载结果…"
 
 #: weblate/templates/screenshots/screenshot_detail.html:60
-#, fuzzy
-#| msgid "Search in source strings"
 msgid "Please search below to find matching source strings."
-msgstr "搜索源字符串"
+msgstr "请在下方搜索源字符串。"
 
 #: weblate/templates/screenshots/screenshot_detail.html:69
 msgid "Automatically recognize"
@@ -4519,7 +4470,7 @@ msgstr "未通过检查"
 
 #: weblate/templates/subproject-settings.html:17
 msgid "Basic"
-msgstr ""
+msgstr "基本"
 
 #: weblate/templates/subproject-settings.html:19
 msgid "Version control"
@@ -4597,13 +4548,11 @@ msgstr "可以直接翻译。"
 
 #: weblate/templates/subproject_info.html:20
 msgid "Suggestions to improve translation can be given."
-msgstr ""
+msgstr "可以给出提升翻译质量的建议。"
 
 #: weblate/templates/subproject_info.html:22
-#, fuzzy
-#| msgid "New registrations are disabled!"
 msgid "Suggestions to improve translation are disabled."
-msgstr "已禁止新的注册！"
+msgstr "已禁止提交改进翻译的建议。"
 
 #: weblate/templates/subproject_info.html:26
 msgid "Only selected users can contribute."
@@ -4795,10 +4744,8 @@ msgid "Commit message:"
 msgstr "提交信息："
 
 #: weblate/templates/translate.html:186
-#, fuzzy
-#| msgid "Additional text to include in the commit message."
 msgid "Additional text to include"
-msgstr "在提交信息中附加的内容。"
+msgstr "要包含的额外文字"
 
 #: weblate/templates/translate.html:189
 msgid ""
@@ -4836,10 +4783,8 @@ msgid "Translations of this unit to other languages"
 msgstr "此单元的其他语言翻译"
 
 #: weblate/templates/translate.html:211
-#, fuzzy
-#| msgid "Bihari languages"
 msgid "Other languages"
-msgstr "比哈尔语言"
+msgstr "其它语言"
 
 #: weblate/templates/translate.html:212
 msgid "List of recent changes done in Weblate"
@@ -4885,25 +4830,19 @@ msgid "Accept and edit"
 msgstr "接受并修改"
 
 #: weblate/templates/translate.html:293
-#, fuzzy
-#| msgid "This message has more than one translation in this project"
 msgid "Following string has same context and same source."
 msgid_plural "Following strings have same context and same source."
-msgstr[0] "此信息在项目中有不止一种翻译方式"
+msgstr[0] "下列字符串有相同的上下文和相同的来源。"
 
 #: weblate/templates/translate.html:301
-#, fuzzy
-#| msgid "This message has more than one translation in this project"
 msgid "Following string has different context but same source."
 msgid_plural "Following strings have different contexts but same source."
-msgstr[0] "此信息在项目中有不止一种翻译方式"
+msgstr[0] "下列字符串有相同的源字符串但上下文不同。"
 
 #: weblate/templates/translate.html:309
-#, fuzzy
-#| msgid "This message has more than one translation in this project"
 msgid "Following string has different source but same context."
 msgid_plural "Following strings have different sources but same context."
-msgstr[0] "此信息在项目中有不止一种翻译方式"
+msgstr[0] "下列字符串有不同的来源，但具有相同的上下文。"
 
 #: weblate/templates/translate.html:335
 msgid "Service"
@@ -4966,10 +4905,8 @@ msgid "Download original translation file (%(format)s)"
 msgstr "下载原始译文文件 (%(format)s)"
 
 #: weblate/templates/translation-download.html:7
-#, fuzzy
-#| msgid "Download translation as Gettext PO"
 msgid "Download translation as XLIFF with Gettext extensions"
-msgstr "下载译文为 Gettext PO"
+msgstr "以带有 Gettext 扩展的 XLIFF 格式下载翻译"
 
 #: weblate/templates/translation-download.html:8
 msgid "Download translation as XLIFF 1.2"
@@ -5126,10 +5063,8 @@ msgid "%(filename)s, translation unit %(position)s"
 msgstr "%(filename)s，翻译编号 %(position)s"
 
 #: weblate/templates/user-activity.html:13
-#, fuzzy
-#| msgid "Enable suggestions"
 msgid "Pending suggestions"
-msgstr "启用建议"
+msgstr "待处理的建议"
 
 #: weblate/templates/user-activity.html:15
 msgid "Browse pending"
@@ -5175,32 +5110,21 @@ msgid "Promoting specific translations"
 msgstr "宣传特定翻译"
 
 #: weblate/templates/widgets.html:20
-#, fuzzy
-#| msgid ""
-#| "Besides promoting whole translation project, you can also choose specific "
-#| "language to promote:"
 msgid ""
 "Besides promoting the whole translation project, you can also choose a "
 "specific language or component to promote:"
-msgstr "除了宣传整个翻译项目之外，您也可以选择宣传特定的语言："
+msgstr "除了宣传整个翻译项目之外，您也可以选择宣传特定的语言或组件："
 
 #: weblate/templates/widgets.html:24
 msgid "Image widgets"
 msgstr "图片小部件"
 
 #: weblate/templates/widgets.html:27
-#, fuzzy
-#| msgid ""
-#| "You can use following widgets to promote translation of your project. "
-#| "They can increase visibility of your translation projects and bring new "
-#| "contributors."
 msgid ""
 "You can use the following widgets to promote translation of your project. "
 "They can increase visibility of your translation projects and bring new "
 "contributors."
-msgstr ""
-"您可以使用下列小部件来宣传您所翻译的项目。这可以使更多的人知道您翻译的项目并"
-"吸引新的翻译。"
+msgstr "您可以使用下列小部件来宣传您所翻译的项目。这可以使更多的人知道您翻译的项目并吸引新的翻译。"
 
 #: weblate/templates/widgets.html:31
 #, python-format
@@ -5408,10 +5332,8 @@ msgid "Trailing semicolon"
 msgstr "分号结尾"
 
 #: weblate/trans/checks/chars.py:374
-#, fuzzy
-#| msgid "Source and translation do not both end with a newline"
 msgid "Source and translation do not both end with a semicolon"
-msgstr "源字符串与已翻译字符串没有都以换行结尾"
+msgstr "源字符串与已翻译字符串没有都以分号结尾"
 
 #: weblate/trans/checks/consistency.py:28
 msgid "Missing plurals"
@@ -5442,10 +5364,8 @@ msgid "Has been translated"
 msgstr "已被翻译"
 
 #: weblate/trans/checks/consistency.py:102
-#, fuzzy
-#| msgid "This message has more than one translation in this project"
 msgid "This string has been translated in the past"
-msgstr "此信息在项目中有不止一种翻译方式"
+msgstr "字符串已在过去被翻译"
 
 #: weblate/trans/checks/format.py:213
 msgid "Python format"
@@ -5642,10 +5562,8 @@ msgid "WebExtension JSON file"
 msgstr "WebExtension JSON 文件"
 
 #: weblate/trans/formats.py:1218
-#, fuzzy
-#| msgid "JSON file"
 msgid "i18next JSON file"
-msgstr "JSON文件"
+msgstr "i18next JSON 文件"
 
 #: weblate/trans/formats.py:1225
 msgid "CSV file"
@@ -5876,24 +5794,16 @@ msgid "Show ignored checks as well"
 msgstr "显示已忽略的检查"
 
 #: weblate/trans/forms.py:683
-#, fuzzy
-#| msgid "Changes"
 msgid "Changed since"
-msgstr "改动"
+msgstr "被修改，自从"
 
 #: weblate/trans/forms.py:687
-#, fuzzy
-#| msgctxt "Changes by user"
-#| msgid "Changes by %s"
 msgid "Changed by user"
-msgstr "%s 进行的改动"
+msgstr "由用户修改"
 
 #: weblate/trans/forms.py:691
-#, fuzzy
-#| msgctxt "Changes by user"
-#| msgid "Changes by %s"
 msgid "Exclude changes by user"
-msgstr "%s 进行的改动"
+msgstr "排除用户做出的改动"
 
 #: weblate/trans/forms.py:707
 msgid "The query string has to be longer!"
@@ -6002,16 +5912,13 @@ msgid "Translation comment, discussions with other translators"
 msgstr "翻译注释，与其他翻译者交流"
 
 #: weblate/trans/forms.py:986
-#, fuzzy
-#| msgid "Components"
 msgid "All components"
-msgstr "组件"
+msgstr "全部组件"
 
 #: weblate/trans/forms.py:1026
-#, fuzzy, python-brace-format
-#| msgid "Chosen translation already exists in this project!"
+#, python-brace-format
 msgid "Similar translation already exists in the project ({0})!"
-msgstr "您所选取的翻译已在本项目中存在！"
+msgstr "类似的翻译已经在 {0} 项目中存在！"
 
 #: weblate/trans/forms.py:1045
 msgid "Please select"
@@ -6067,16 +5974,12 @@ msgid "Ending date"
 msgstr "结束日期"
 
 #: weblate/trans/forms.py:1147
-#, fuzzy
-#| msgid "Actions"
 msgid "Locations"
-msgstr "操作"
+msgstr "地点"
 
 #: weblate/trans/forms.py:1151
-#, fuzzy
-#| msgid "Version control system"
 msgid "Version control settings"
-msgstr "版本控制系统"
+msgstr "版本控制设置"
 
 #: weblate/trans/forms.py:1157
 msgid "Commit messages"
@@ -6314,7 +6217,7 @@ msgstr "项目正则表达式"
 #, fuzzy
 #| msgid "Regular expression which is used to match user email."
 msgid "Regular expression which is used to match project slug."
-msgstr "正则表达式用于匹配用户的电子邮件地址。"
+msgstr "用于匹配项目简介的正则表达式。"
 
 #: weblate/trans/models/componentlist.py:73
 msgid "Component regular expression"
@@ -6723,12 +6626,12 @@ msgstr "是否在每次提交时都要向上游代码库推送。"
 
 #: weblate/trans/models/subproject.py:472
 msgid "Age of changes to commit"
-msgstr ""
+msgstr "对变更进行提交的延时时间"
 
 #: weblate/trans/models/subproject.py:475
 msgid ""
 "Time in hours after which any pending changes will be committed to the VCS."
-msgstr ""
+msgstr "任何待提交修改提交至版本控制系统的延时（以小时计算）。"
 
 #: weblate/trans/models/subproject.py:481
 msgid "Language filter"
@@ -6810,20 +6713,16 @@ msgid "Got empty language code for %s, please check filemask!"
 msgstr "%s语言代码为空, 请检查文件掩码!"
 
 #: weblate/trans/models/subproject.py:1163
-#, fuzzy, python-format
-#| msgid "Got empty language code for %s, please check filemask!"
+#, python-format
 msgid "Language code %s is too long, please check filemask!"
-msgstr "%s语言代码为空, 请检查文件掩码!"
+msgstr "%s 语言代码过长，请检查文件掩码！"
 
 #: weblate/trans/models/subproject.py:1167
-#, fuzzy, python-format
-#| msgid ""
-#| "There are more files for single language, please adjust the mask and use "
-#| "components for translating different resources."
+#, python-format
 msgid ""
 "There are more files for single language (%s), please adjust the mask and "
 "use components for translating different resources."
-msgstr "单个语言还有更多文件，请调整掩码并使用组件翻译不同的资源。"
+msgstr "单个语言还有更多文件（%s），请调整掩码并使用组件翻译不同的资源。"
 
 #: weblate/trans/models/subproject.py:1173
 #, python-format
@@ -6955,10 +6854,9 @@ msgid "This translation is locked by %(user)s!"
 msgstr "此翻译已被 %(user)s 锁定！"
 
 #: weblate/trans/models/unit.py:427
-#, fuzzy, python-brace-format
-#| msgid "%(filename)s, translation unit %(position)s"
+#, python-brace-format
 msgid "{translation}, translation unit {position}"
-msgstr "%(filename)s，翻译编号 %(position)s"
+msgstr "{translation}，翻译编号 {position}"
 
 #: weblate/trans/models/whiteboard.py:88
 msgid "Category"
@@ -7054,10 +6952,8 @@ msgid "Em dash"
 msgstr "长破折号"
 
 #: weblate/trans/specialchars.py:481
-#, fuzzy
-#| msgid "Insert character {0}"
 msgid "User configured character: {}"
-msgstr "插入字符 {0}"
+msgstr "用户配置字符串：{}"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/trans/ssh.py:86
@@ -7376,10 +7272,8 @@ msgid "User has been added to this project."
 msgstr "用户已加入此项目。"
 
 #: weblate/trans/views/acl.py:119
-#, fuzzy
-#| msgid "Failed to find matching user!"
 msgid "Failed to find group to add a user!"
-msgstr "找不到匹配的用户！"
+msgstr "找不到要添加用户的组！"
 
 #: weblate/trans/views/acl.py:142
 msgid "User has been removed from this project."
