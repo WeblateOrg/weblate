@@ -753,6 +753,8 @@ $(function () {
     if (translationEditor.length > 0) {
         $document.on('change', '.translation-editor', testChangeHandler);
         $document.on('keypress', '.translation-editor', testChangeHandler);
+        $document.on('keydown', '.translation-editor', testChangeHandler);
+        $document.on('paste', '.translation-editor', testChangeHandler);
         $document.on('focusin', '.translation-editor', function () { lastEditor = $(this); });
         initEditor();
         translationEditor.get(0).focus();
