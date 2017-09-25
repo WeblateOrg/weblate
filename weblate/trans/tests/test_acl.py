@@ -74,7 +74,7 @@ class ACLViewTest(FixtureTestCase):
         self.project.access_control = Project.ACCESS_PROTECTED
         self.project.save()
         response = self.client.get(self.access_url)
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 403)
         response = self.client.get(self.translate_url)
         self.assertNotContains(response, 'type="submit" name="save"')
 

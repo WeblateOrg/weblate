@@ -159,7 +159,11 @@ DEFAULT_GROUPS = {
 }
 
 ADMIN_ONLY_PERMS = ADMIN_PERMS - DEFAULT_GROUPS['Users']
-PRIVATE_PERMS = ADMIN_PERMS - set(('access_project'))
+
+# GroupACL filtered permissions
+PRIVATE_PERMS = ADMIN_PERMS
+PROTECTED_PERMS = ADMIN_PERMS - {'access_project'}
+PUBLIC_PERMS = ADMIN_ONLY_PERMS
 
 
 def translate_groups():

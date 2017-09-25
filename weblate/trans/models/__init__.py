@@ -28,7 +28,7 @@ from django.dispatch import receiver
 
 from weblate.accounts.models import Profile
 from weblate.permissions.data import (
-    ADMIN_PERMS, ADMIN_ONLY_PERMS, PRIVATE_PERMS,
+    PRIVATE_PERMS, PROTECTED_PERMS, PUBLIC_PERMS,
 )
 from weblate.permissions.models import GroupACL
 from weblate.trans.models.conf import WeblateConf
@@ -252,23 +252,19 @@ def setup_group_acl(sender, instance, **kwargs):
         project=instance, subproject=None, language=None
     )[0]
     if instance.access_control == Project.ACCESS_PRIVATE:
-        group_acl.permissions.set(
-            Permission.objects.filter(codename__in=ADMIN_PERMS),
-            clear=True
-        )
+        permissions = PRIVATE_PERMS
         lookup = Q(name__startswith='@')
     elif instance.access_control == Project.ACCESS_PROTECTED:
-        group_acl.permissions.set(
-            Permission.objects.filter(codename__in=PRIVATE_PERMS),
-            clear=True
-        )
+        permissions = PROTECTED_PERMS
         lookup = Q(name__startswith='@')
     else:
-        group_acl.permissions.set(
-            Permission.objects.filter(codename__in=ADMIN_ONLY_PERMS),
-            clear=True
-        )
+        permissions = PUBLIC_PERMS
         lookup = Q(name='@Administration')
+
+    group_acl.permissions.set(
+        Permission.objects.filter(codename__in=permissions),
+        clear=True
+    )
 
     handled = set()
     for template_group in Group.objects.filter(lookup):
