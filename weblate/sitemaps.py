@@ -58,7 +58,9 @@ class ProjectSitemap(WeblateSitemap):
     priority = 0.8
 
     def items(self):
-        return Project.objects.filter(access_control__lt=Project.ACCESS_PRIVATE)
+        return Project.objects.filter(
+            access_control__lt=Project.ACCESS_PRIVATE
+        )
 
 
 class ComponentSitemap(WeblateSitemap):
