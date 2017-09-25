@@ -115,7 +115,7 @@ class GitExportTest(ViewTestCase):
         self.assertContains(response, 'refs/heads/master')
 
     def enable_acl(self):
-        self.project.enable_acl = True
+        self.project.access_control = Project.ACCESS_PRIVATE
         self.project.save()
 
     def test_git_receive_acl_denied(self):
@@ -153,7 +153,7 @@ class GitCloneTest(BaseLiveServerTestCase, RepoTestMixin):
         super(GitCloneTest, self).setUp()
         self.clone_test_repos()
         self.subproject = self.create_subproject()
-        self.subproject.project.enable_acl = True
+        self.subproject.project.access_control = Project.ACCESS_PRIVATE
         self.subproject.project.save()
         self.user = User.objects.create_user(
             'testuser',

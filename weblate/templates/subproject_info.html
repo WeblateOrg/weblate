@@ -22,7 +22,7 @@
 <li>{% trans "Suggestions to improve translation are disabled." %}</li>
 {% endif %}
 {% endif %}
-{% if object.project.enable_acl %}
+{% if object.project.access_control %}
 <li>{% trans "Only selected users can contribute." %}</li>
 {% else %}
 <li>{% trans "Any authenticated users can contribute." %}</li>

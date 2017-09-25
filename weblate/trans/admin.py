@@ -29,7 +29,7 @@ from weblate.wladmin.models import WeblateModelAdmin
 
 class ProjectAdmin(WeblateModelAdmin):
     list_display = (
-        'name', 'slug', 'web', 'list_admins', 'enable_acl', 'enable_hooks',
+        'name', 'slug', 'web', 'list_admins', 'access_control', 'enable_hooks',
         'num_vcs', 'get_total', 'get_source_words', 'get_language_count',
     )
     prepopulated_fields = {'slug': ('name',)}

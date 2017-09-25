@@ -27,7 +27,9 @@ from django.db.models.signals import post_delete, post_save, m2m_changed
 from django.dispatch import receiver
 
 from weblate.accounts.models import Profile
-from weblate.permissions.data import ADMIN_PERMS, ADMIN_ONLY_PERMS
+from weblate.permissions.data import (
+    ADMIN_PERMS, ADMIN_ONLY_PERMS, PRIVATE_PERMS,
+)
 from weblate.permissions.models import GroupACL
 from weblate.trans.models.conf import WeblateConf
 from weblate.trans.models.project import Project
@@ -249,9 +251,15 @@ def setup_group_acl(sender, instance, **kwargs):
     group_acl = GroupACL.objects.get_or_create(
         project=instance, subproject=None, language=None
     )[0]
-    if instance.enable_acl:
+    if instance.access_control == Project.ACCESS_PRIVATE:
         group_acl.permissions.set(
             Permission.objects.filter(codename__in=ADMIN_PERMS),
+            clear=True
+        )
+        lookup = Q(name__startswith='@')
+    elif instance.access_control == Project.ACCESS_PROTECTED:
+        group_acl.permissions.set(
+            Permission.objects.filter(codename__in=PRIVATE_PERMS),
             clear=True
         )
         lookup = Q(name__startswith='@')

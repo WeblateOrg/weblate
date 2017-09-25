@@ -130,7 +130,7 @@ class ProjectTest(RepoTestCase):
         project = self.create_project()
 
         # Enable ACL
-        project.enable_acl = True
+        project.access_control = Project.ACCESS_PRIVATE
         project.save()
 
         # Check user does not have access

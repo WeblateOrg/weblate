@@ -202,7 +202,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
     def add_user(self, user, group=None):
         """Add user based on username of email."""
         if group is None:
-            if self.enable_acl:
+            if self.access_control != self.ACCESS_PUBLIC:
                 group = '@Translate'
             else:
                 group = '@Administration'

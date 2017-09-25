@@ -61,7 +61,7 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         project = Project.objects.create(
             name='ACL',
             slug='acl',
-            enable_acl=True,
+            access_control=Project.ACCESS_PRIVATE,
         )
         self._create_subproject(
             'po-mono',

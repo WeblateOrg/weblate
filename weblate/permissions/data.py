@@ -159,6 +159,7 @@ DEFAULT_GROUPS = {
 }
 
 ADMIN_ONLY_PERMS = ADMIN_PERMS - DEFAULT_GROUPS['Users']
+PRIVATE_PERMS = ADMIN_PERMS - set(('access_project'))
 
 
 def translate_groups():

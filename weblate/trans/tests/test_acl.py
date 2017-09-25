@@ -22,15 +22,18 @@
 
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User, Group
+
+from weblate.trans.models import Project
 from weblate.trans.tests.test_views import FixtureTestCase
 
 
 class ACLViewTest(FixtureTestCase):
     def setUp(self):
         super(ACLViewTest, self).setUp()
-        self.project.enable_acl = True
+        self.project.access_control = Project.ACCESS_PRIVATE
         self.project.save()
         self.access_url = reverse('manage-access', kwargs=self.kw_project)
+        self.translate_url = reverse('translate', kwargs=self.kw_translation)
         self.second_user = User.objects.create_user(
             'seconduser',
             'noreply@example.org',
@@ -56,10 +59,24 @@ class ACLViewTest(FixtureTestCase):
         """
         response = self.client.get(self.access_url)
         self.assertEqual(response.status_code, 404)
-        self.project.enable_acl = False
+        self.project.access_control = Project.ACCESS_PUBLIC
         self.project.save()
         response = self.client.get(self.access_url)
         self.assertEqual(response.status_code, 403)
+        response = self.client.get(self.translate_url)
+        self.assertContains(response, 'type="submit" name="save"')
+
+    def test_acl_protected(self):
+        """Test disabling ACL.
+        """
+        response = self.client.get(self.access_url)
+        self.assertEqual(response.status_code, 404)
+        self.project.access_control = Project.ACCESS_PROTECTED
+        self.project.save()
+        response = self.client.get(self.access_url)
+        self.assertEqual(response.status_code, 403)
+        response = self.client.get(self.translate_url)
+        self.assertNotContains(response, 'type="submit" name="save"')
 
     def test_acl(self):
         """Regular user should not have access to user management.
