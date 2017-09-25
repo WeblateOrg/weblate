@@ -127,15 +127,29 @@ Per project access control
     under the hood. You might need some adjustments to your setup if you were
     using both features.
 
+.. versionchanged:: 2.17
+
+    Since Weblate 2.17 the ACL can be enabled in several levels compared to previous
+    signle :guilabel:`Enable ACL` switch.
+
 .. note::
 
     By enabling ACL, all users are prohibited to access anything within given
     project unless you add them the permission to do that.
 
 Additionally you can limit users access to individual projects. This feature is
-enabled by :guilabel:`Enable ACL` at Project configuration. This automatically
+enabled by :guilabel:`Access control` at Project configuration. This automatically
 creates :ref:`groupacl` for this project and all groups starting with ``@`` are
 automatically added to the project (see :ref:`groups`).
+
+There are following choices for :guilabel:`Access control`:
+
+Public
+    Publicly visible and translatable
+Protected
+    Publicly visible but translatable only for selected users
+Private
+    Visible and translatable only for selected users
 
 To allow access to this project, you have to add the privilege to do so either
 directly to given user or group of users in Django admin interface. Or using

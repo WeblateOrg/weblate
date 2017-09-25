@@ -13,6 +13,7 @@ Released on ? 2017.
 * Added preview step to search and replace feature.
 * Client side persistence of settings in search and upload forms.
 * Extended search capabilities.
+* More fine grained per project ACL configuration.
 
 weblate 2.16
 ------------
