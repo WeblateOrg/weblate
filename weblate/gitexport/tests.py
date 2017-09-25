@@ -29,6 +29,7 @@ from django.http.request import HttpRequest
 
 from weblate.gitexport.views import authenticate
 from weblate.gitexport.models import get_export_url
+from weblate.trans.models import Project
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import RepoTestMixin
