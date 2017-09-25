@@ -83,6 +83,10 @@ class ProjectManager(models.Manager):
 
 @python_2_unicode_compatible
 class Project(models.Model, PercentMixin, URLMixin, PathMixin):
+    ACCESS_PUBLIC = 0
+    ACCESS_PROTECTED = 1
+    ACCESS_PRIVATE = 100
+
     name = models.CharField(
         verbose_name=ugettext_lazy('Project name'),
         max_length=60,
@@ -126,6 +130,19 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         help_text=ugettext_lazy(
             'Whether to enable ACL for this project, please check '
             'documentation before enabling this.'
+        )
+    )
+    access_control = models.IntegerField(
+        default=ACCESS_PUBLIC,
+        choices=(
+            (ACCESS_PUBLIC, ugettext_lazy('Public')),
+            (ACCESS_PROTECTED, ugettext_lazy('Protected')),
+            (ACCESS_PRIVATE, ugettext_lazy('Private')),
+        ),
+        verbose_name=_('Access control'),
+        help_text=ugettext_lazy(
+            'How to restrict access to this project, please check '
+            'documentation for more details.'
         )
     )
     enable_hooks = models.BooleanField(
