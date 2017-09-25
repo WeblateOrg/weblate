@@ -67,14 +67,14 @@ class ACLViewTest(FixtureTestCase):
         self.assertContains(response, 'type="submit" name="save"')
 
     def test_acl_protected(self):
-        """Test disabling ACL.
+        """Test ACL protected project.
         """
         response = self.client.get(self.access_url)
         self.assertEqual(response.status_code, 404)
         self.project.access_control = Project.ACCESS_PROTECTED
         self.project.save()
         response = self.client.get(self.access_url)
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 404)
         response = self.client.get(self.translate_url)
         self.assertNotContains(response, 'type="submit" name="save"')
 
