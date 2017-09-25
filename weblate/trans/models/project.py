@@ -124,14 +124,6 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         ),
     )
 
-    enable_acl = models.BooleanField(
-        verbose_name=ugettext_lazy('Enable ACL'),
-        default=False,
-        help_text=ugettext_lazy(
-            'Whether to enable ACL for this project, please check '
-            'documentation before enabling this.'
-        )
-    )
     access_control = models.IntegerField(
         default=ACCESS_PUBLIC,
         choices=(
