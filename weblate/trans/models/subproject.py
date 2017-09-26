@@ -817,6 +817,11 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 'failed push on repo {0}'.format(force_text(self)),
                 msg
             )
+            Change.objects.create(
+                action=Change.ACTION_FAILED_PUSH, subproject=self,
+                target=force_text(error),
+                user=request.user if request else None,
+            )
             messages.error(
                 request,
                 _('Failed to push to remote branch on %s.') %
