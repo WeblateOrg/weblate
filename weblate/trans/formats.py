@@ -475,11 +475,6 @@ class PHPUnit(FileUnit):
     def get_locations(self):
         return ''
 
-    def get_context(self):
-        if self.template is not None:
-            return self.template.getsource()
-        return ''
-
     def get_source(self):
         if self.template is not None:
             return self.template.getsource()
@@ -1114,12 +1109,6 @@ class PhpFormat(FileFormat):
 
         with open(self.store.filename, 'wb') as handle:
             handle.writelines(outputphplines)
-
-    def _find_unit_mono(self, context, store):
-        # Do not use findid as it does not work for empty translations
-        for search_unit in store.units:
-            if search_unit.source == context:
-                return search_unit
 
 
 @register_fileformat
