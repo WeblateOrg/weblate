@@ -512,6 +512,13 @@ def server_error(request):
         return django.views.defaults.server_error(request)
 
 
+def csrf_error(request, **kwargs):
+    """
+    Error handler for csrf errors.
+    """
+    return denied(request)
+
+
 def about(request):
     """Show about page with version information."""
     return render(
