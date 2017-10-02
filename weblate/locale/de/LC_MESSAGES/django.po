@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-09-28 15:10+0000\n"
-"PO-Revision-Date: 2017-10-02 16:29+0000\n"
+"PO-Revision-Date: 2017-10-03 19:46+0000\n"
 "Last-Translator: Bamstam <am-em-am@posteo.de>\n"
 "Language-Team: German "
 "<https://hosted.weblate.org/projects/weblate/master/de/>\n"
@@ -875,7 +875,7 @@ msgstr "Einzahl"
 
 #: weblate/lang/models.py:485
 msgid "Plural"
-msgstr "Mehrzahl"
+msgstr "Plural"
 
 #: weblate/lang/models.py:486
 #, python-format
@@ -2086,12 +2086,12 @@ msgstr "%(used)s von %(total)s verwendet"
 #: weblate/templates/check_subproject.html:6 weblate/templates/checks.html:6
 #: weblate/templates/js/detail.html:18
 msgid "Checks"
-msgstr "Prüfungen"
+msgstr "Qualitätsprüfungen"
 
 #: weblate/templates/check.html:16 weblate/templates/check_project.html:17
 #: weblate/templates/check_subproject.html:18 weblate/templates/checks.html:15
 msgid "Checks listing"
-msgstr "Prüfungen"
+msgstr "Auflistung der Qualitätsprüfungen"
 
 #: weblate/templates/check.html:26 weblate/templates/check_project.html:27
 #: weblate/templates/check_subproject.html:28
@@ -2122,8 +2122,9 @@ msgid ""
 "The checks can help you identify problematic translations or source strings "
 "which are hard to translate."
 msgstr ""
-"Die Prüfungen können Ihnen helfen, problematische Übersetzungen oder "
-"Ausgangszeichenketten zu erkennen, die schwierig zu übersetzen sind."
+"Die Qualitätsprüfungen können Ihnen dabei helfen, problematische "
+"Übersetzungen oder Ausgangszeichenketten, die schwierig zu übersetzen sind, "
+"zu erkennen."
 
 #: weblate/templates/data-root.html:5 weblate/templates/index.html:50
 #: weblate/templates/share.html:29
@@ -3819,13 +3820,13 @@ msgstr "Komponenten"
 #: weblate/templates/source-review.html:27 weblate/templates/translate.html:510
 #: weblate/trans/views/checks.py:76
 msgid "Failing checks"
-msgstr "Fehler-Prüfungen"
+msgstr "Fehlgeschlagene Qualitätsprüfungen"
 
 #: weblate/templates/language-project.html:26
 #: weblate/templates/language.html:26 weblate/templates/project.html:51
 #: weblate/templates/stats.html:98
 msgid "Ignored checks"
-msgstr "Ignorierte Prüfungen"
+msgstr "Ignorierte Qualitätsprüfungen"
 
 #: weblate/templates/language-project.html:40
 #: weblate/templates/language.html:85
@@ -4732,7 +4733,7 @@ msgstr "Übersetzungen"
 
 #: weblate/templates/stats.html:94
 msgid "Failing checks found"
-msgstr "Fehler-Prüfungen"
+msgstr "Fehlgeschlagene Qualitätsprüfungen gefunden"
 
 #: weblate/templates/subproject-settings.html:17
 msgid "Basic"
@@ -5544,6 +5545,7 @@ msgid "AngularJS interpolation string"
 msgstr "AngularJS-Interpolations-Zeichenkette"
 
 #: weblate/trans/checks/angularjs.py:44
+#, fuzzy
 msgid "AngularJS interpolation strings do not match source"
 msgstr "AngularJS Format-Zeichenkette passt nicht zur Ausgangszeichenkette"
 
@@ -5668,7 +5670,7 @@ msgstr ""
 
 #: weblate/trans/checks/consistency.py:28
 msgid "Missing plurals"
-msgstr "Fehlende Mehrzahlen"
+msgstr "Fehlende Pluralformen"
 
 #: weblate/trans/checks/consistency.py:29
 msgid "Some plural forms are not translated"
@@ -5676,11 +5678,11 @@ msgstr "Einige Pluralformen sind nicht übersetzt"
 
 #: weblate/trans/checks/consistency.py:50
 msgid "Same plurals"
-msgstr "Gleiche Pluralformen"
+msgstr "Identische Pluralformen"
 
 #: weblate/trans/checks/consistency.py:51
 msgid "Some plural forms are translated in the same way"
-msgstr "Einige Pluralformen sind gleich übersetzt"
+msgstr "Einige Pluralformen sind identisch übersetzt"
 
 #: weblate/trans/checks/consistency.py:70
 msgid "Inconsistent"
@@ -5688,7 +5690,7 @@ msgstr "Inkonsistent"
 
 #: weblate/trans/checks/consistency.py:72
 msgid "This message has more than one translation in this project"
-msgstr "Diese Nachricht hat mehr als eine Übersetzung in diesem Projekt"
+msgstr "Diese Zeichenkette hat mehr als eine Übersetzung in diesem Projekt"
 
 #: weblate/trans/checks/consistency.py:100
 msgid "Has been translated"
@@ -5782,7 +5784,7 @@ msgstr "Ausgangs- und übersetzte Zeichenkette sind identisch"
 
 #: weblate/trans/checks/source.py:37
 msgid "Optional plural"
-msgstr "Optional Mehrzahl"
+msgstr "Optional Plural"
 
 #: weblate/trans/checks/source.py:39
 msgid "The string is optionally used as plural, but not using plural forms"
@@ -5964,7 +5966,7 @@ msgstr "Fehlende Übersetzungen!"
 
 #: weblate/trans/forms.py:399
 msgid "Message you wanted to translate is no longer available!"
-msgstr "Die Nachricht, die Sie übersetzen wollten, ist nicht mehr verfügbar!"
+msgstr "Die Zeichenkette, die Sie übersetzen wollten, ist nicht mehr verfügbar!"
 
 #: weblate/trans/forms.py:411
 msgctxt "Checkbox for marking translation needing review"
@@ -6136,7 +6138,7 @@ msgstr "In Kommentarzeichenketten suchen"
 
 #: weblate/trans/forms.py:678
 msgid "Show ignored checks as well"
-msgstr "Ignorierte Prüfungen ebenfalls anzeigen"
+msgstr "Ignorierte Qualitätsprüfungen ebenfalls anzeigen"
 
 #: weblate/trans/forms.py:683
 msgid "Changed since"
@@ -6212,8 +6214,8 @@ msgid ""
 "You can upload any format which is understood by Translate Toolkit "
 "(including TBX, CSV or Gettext PO files)."
 msgstr ""
-"Sie können jedes beliebige Format hochladen, das Translate Toolkit versteht, "
-"zum Beispiel eine TBX-, CSV- oder Gettext PO-Datei."
+"Sie können jedes beliebige Format hochladen, das vom Translate Toolkit "
+"unterstützt wird (u. a. TBX-, CSV- oder Gettext-PO-Dateien)."
 
 #: weblate/trans/forms.py:908
 msgid "Keep current"
@@ -6948,15 +6950,15 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:367
 msgid "Quality checks flags"
-msgstr "Markierungen für Fehler-Prüfungen"
+msgstr "Markierungen für Qualitätsprüfungen"
 
 #: weblate/trans/models/subproject.py:370
 msgid ""
 "Additional comma-separated flags to influence quality checks, check "
 "documentation for possible values."
 msgstr ""
-"Zusätzliche, mit Kommas getrennte, Markierungen zum Beeinflussen von "
-"Qualitäts-Prüfungen; mögliche Werte stehen in der Dokumentation."
+"Zusätzliche, kommagetrennte Markierungen zur Gestaltung von "
+"Qualitätsprüfungen; mögliche Werte finden Sie in der Dokumentation."
 
 #: weblate/trans/models/subproject.py:384
 msgid "Optional short summary of license used for translations."
@@ -7200,7 +7202,8 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:1235
 msgid "Format of base file for new translations was not recognized!"
-msgstr "Format der Basisdatei konnte nicht erkannt werden!"
+msgstr ""
+"Format der Basisdatei für neue Übersetzungen konnte nicht erkannt werden!"
 
 #: weblate/trans/models/subproject.py:1240
 msgid ""
@@ -7314,6 +7317,7 @@ msgid "Category"
 msgstr "Kategorie"
 
 #: weblate/trans/models/whiteboard.py:90
+#, fuzzy
 msgid "Category defines color used for the message."
 msgstr "Die Kategorie definiert die Farbe der Nachricht."
 
@@ -7631,23 +7635,23 @@ msgstr "Nicht übersetzt"
 
 #: weblate/trans/templatetags/translations.py:546
 msgid "Message needs review"
-msgstr "Nachricht erfordert Begutachtung"
+msgstr "Zeichenkette erfordert eine Begutachtung"
 
 #: weblate/trans/templatetags/translations.py:551
 msgid "Message is not translated"
-msgstr "Die Nachricht ist nicht übersetzt"
+msgstr "Die Zeichenkette ist nicht übersetzt"
 
 #: weblate/trans/templatetags/translations.py:556
 msgid "Message has failing checks"
-msgstr "Die Nachricht hat fehlgeschlagene Qualitätsprüfungen"
+msgstr "Die Zeichenkette weist fehlgeschlagene Qualitätsprüfungen auf"
 
 #: weblate/trans/templatetags/translations.py:561
 msgid "Message is translated"
-msgstr "Nachricht ist übersetzt"
+msgstr "Zeichenkette ist übersetzt"
 
 #: weblate/trans/templatetags/translations.py:567
 msgid "Message has comments"
-msgstr "Nachricht hat Kommentare"
+msgstr "Zeichenkette  hat Kommentare"
 
 #: weblate/trans/templatetags/translations.py:587
 #, python-format
@@ -7936,7 +7940,8 @@ msgstr "Folgende Korrekturen erfolgten an der Übersetzung: %s"
 #: weblate/trans/views/edit.py:273
 #, python-brace-format
 msgid "Some checks have failed on your translation: {0}"
-msgstr "Einige Prüfungen sind bei Ihrer Übersetzung fehlgeschlagen: {0}"
+msgstr ""
+"Einige Qualitätsprüfungen sind bei Ihrer Übersetzung fehlgeschlagen: {0}"
 
 #: weblate/trans/views/edit.py:313 weblate/trans/views/edit.py:339
 #: weblate/trans/views/edit.py:367 weblate/trans/views/edit.py:787
