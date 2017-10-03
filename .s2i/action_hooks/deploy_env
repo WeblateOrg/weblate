@@ -1,0 +1,29 @@
+# This is a 'deploy_env' action hook. This script will be executed
+# inline to the custom 'run' script as well as for any interactive shell
+# if so enabled. As it is executed inline, it doesn't need to start with
+# a '#!' line nor be marked as an executable file. This script will be
+# interpreted as if it is a 'bash' script. This script allows a user to
+# dynamically set additional environment variables required by the
+# deploy process. These might for example be environment variables which
+# tell an application where files it requires are located. When we
+# source the 'deploy_env' script, any environment variables set by it
+# will be automatically exported. Although principally intended for
+# setting environment variables, it can include other script logic, but
+# this should be avoided except to the extent it is required to work
+# out what to set any environment variables to.
+
+# If a secret token is not being provided through an environment variable
+# and one has not been generated previously, generate a secret and cache
+# it in the data directory.
+
+generate_secret_token() {
+    python -c 'import random; import string; import sys; sys.stdout.write("".join([random.SystemRandom().choice(string.ascii_letters+string.digits) for i in range(50)]))'
+}
+
+if [ x"$OPENSHIFT_SECRET_TOKEN" = x"" ]; then
+    if [ ! -f /opt/app-root/data/secret-token.txt ]; then
+        generate_secret_token > /opt/app-root/data/secret-token.txt
+    fi
+
+    OPENSHIFT_SECRET_TOKEN=`cat /opt/app-root/data/secret-token.txt`
+fi

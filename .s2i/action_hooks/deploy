@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# This is a 'deploy' action hook script. This script must be executable
+# and will be run by the S2I process just before any 'run' script is
+# run. This script is to allow a user to run any final steps just before
+# the application is to be started. This can include running background
+# tasks.
+
+set -eo pipefail
+
+# Ensure the media directory exists before starting application.
+
+echo " -----> Ensure media directory has been created."
+
+mkdir -p /opt/app-root/data/media
+
+# If setup has already been run, just run the data migrations, else run
+# setup for the application.
+
+if [ -f /opt/app-root/data/markers/setup ]; then
+    powershift image migrate
+else
+    powershift image setup
+fi

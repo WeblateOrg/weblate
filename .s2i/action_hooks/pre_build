@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# This is a 'pre_build' action hook script. This script must be
+# executable and will be run by the S2I process as the very first step.
+# This script can be used to install additional third party libraries
+# or packages that may be required by the build process. If the
+# 'pre_build' hook needs any files from the application source code, it
+# must grab them from the '/tmp/src' directory as they will only be
+# copied into place by the original S2I 'assemble' script later on in
+# the build process.
+
+set -eo pipefail
+
+mv /tmp/src/setup.py /tmp/src/setup-local-package.py

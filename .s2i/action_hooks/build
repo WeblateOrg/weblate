@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# This is a 'build' action hook script. This script must be executable
+# and will be run by the S2I process after the original S2I 'assemble'
+# script has been run. This hook is to allow a user to run additional
+# build steps which may need the source code or build artefacts in
+# place, or to setup any data required for the application.
+
+set -eo pipefail
+
+# Use the directory /opt/app-root/data for data. This would usually be
+# used as a mount point for a separate persistent volume, but could be
+# use if creating an ephemral instance for testing with data being
+# thrown away on restarts.
+
+echo " -----> Creating mount point for data directory."
+
+mkdir -p /opt/app-root/data
+
+# Install mod_wsgi even though not mentioned in requirements.txt file.
+
+echo " -----> Installing mod_wsgi-express."
+
+pip install mod_wsgi
+
+# Install any optional package requirements. Don't fail if a package
+# cannot be installed. Skip 'tesserocr' as we know that will not be able
+# to be installed and can cause memory resource limit to be reached with
+# the build container being killed off.
+
+echo " -----> Installing option package requirements."
+
+while read line; do
+    case "$line" in
+        -r*|\#*) continue ;;
+        tesserocr*) continue ;;
+        *) pip install "$line" || true ;;
+    esac
+done < requirements-optional.txt
+
+# Collect together all static assets used by the application.
+
+echo " -----> Running collection of Django static resources."
+
+python manage.py collectstatic --noinput
+
+#python manage.py setuplang
+#python manage.py setupgroups
+python manage.py compilemessages
+
+# Fixup permissions on all directories/files so still writable by group
+# 'root' and can be updated when image is run with assigned user ID.
+
+fix-permissions /opt/app-root

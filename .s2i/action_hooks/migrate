@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# This is a 'migrate' action hook script. This script must be executable
+# and will only be run by explicit execution of 'powershift image migrate'.
+# The script should include any actions to perform data migrations when
+# deploying a new version of the application.
+
+set -eo pipefail
+
+# Perform database migrations for the application.
+
+echo " -----> Running Django database table migrations."
+
+python manage.py migrate --noinput

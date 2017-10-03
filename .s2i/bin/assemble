@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -eo pipefail
+
+# Install 'powershift-cli[image]' package to add support for action hooks.
+
+pip install powershift-cli[image]
+
+# Run the build phase with support for action hooks.
+
+exec powershift image assemble
