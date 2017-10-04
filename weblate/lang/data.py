@@ -139,7 +139,7 @@ EXTRALANGS = (
     ),
     (
         'ckb',
-        'Kurdish Sorani',
+        'Sorani',
         2,
         'n != 1',
     ),
@@ -838,6 +838,12 @@ EXTRALANGS = (
         2,
         'n != 1',
     ),
+    (
+        'kmr',
+        'Kurmanji',
+        2,
+        'n != 1',
+    ),
 )
 
 NO_CODE_LANGUAGES = frozenset((
@@ -971,7 +977,6 @@ RTL_LANGS = set((
     'ha',
     'he',
     'ks',
-    'ku',
     'ps',
     'ug',
     'ur',
