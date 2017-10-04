@@ -651,7 +651,7 @@ ALLOWED_HOSTS = []
 #     },
 #     'avatar': {
 #         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-#         'LOCATION': os.path.join(BASE_DIR, 'avatar-cache'),
+#         'LOCATION': os.path.join(DATA_DIR, 'avatar-cache'),
 #         'TIMEOUT': 3600,
 #         'OPTIONS': {
 #             'MAX_ENTRIES': 1000,
