@@ -20,13 +20,11 @@
 
 from __future__ import unicode_literals
 
-import functools
 import re
 import sys
 
 from django.core.urlresolvers import reverse
 from django.db import models
-from django.db.models import Q
 from django.utils.encoding import python_2_unicode_compatible
 
 from whoosh.analysis import (

@@ -1105,9 +1105,10 @@ class PhpFormat(FileFormat):
         try:
             # New phply based storage handles save just fine
             # see https://github.com/translate/translate/pull/3697
+            # pylint: disable=W0612
             from translate.storage.php import PHPLexer  # noqa
             super(PhpFormat, self).save()
-        except:
+        except ImportError:
             with open(self.store.filename, 'rb') as handle:
                 convertor = po2php.rephp(handle, self.store)
 
