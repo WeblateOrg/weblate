@@ -440,6 +440,23 @@ both Weblate and PostgreSQL containers.
 
     PostgreSQL server port. Default to empty (use default value).
 
+
+Caching server setup
+~~~~~~~~~~~~~~~~~~~~
+
+Using memcached is strongly recommended by Weblate and you have to provide
+memcached instance when running Weblate in Docker.
+
+.. seealso:: :ref:`production-cache`
+
+.. envvar:: MEMCACHED_HOST
+
+   The memcached server hostname or IP adress. Defaults to ``cache``.
+
+.. envvar:: MEMCACHED_PORT
+
+    The memcached server port. Default to ``11211``.
+
 Email server setup
 ~~~~~~~~~~~~~~~~~~
 
