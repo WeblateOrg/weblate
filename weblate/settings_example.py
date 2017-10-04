@@ -579,6 +579,9 @@ AUTO_LOCK = True
 AUTO_LOCK_TIME = 60
 LOCK_TIME = 15 * 60
 
+# Use simple language codes for default language/country combinations
+SIMPLIFY_LANGUAGES = True
+
 # Render forms using bootstrap
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
