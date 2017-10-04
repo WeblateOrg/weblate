@@ -63,8 +63,8 @@ Installing using Docker
 
     See :ref:`docker` for more detailed instructions and customization options.
 
-Installing on OpenShift
------------------------
+Installing on OpenShift 2
+-------------------------
 
 #. You can install Weblate on OpenShift PaaS directly from its git repository using the OpenShift Client Tools:
 

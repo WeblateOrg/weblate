@@ -512,8 +512,8 @@ Digitalocean and many more providers.
 
 .. _openshift:
 
-Running Weblate on OpenShift
-----------------------------
+Running Weblate on OpenShift 2
+------------------------------
 
 This repository contains a configuration for the OpenShift platform as a
 service product, which facilitates easy installation of Weblate on OpenShift
