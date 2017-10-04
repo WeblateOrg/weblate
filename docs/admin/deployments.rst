@@ -315,6 +315,10 @@ Generic settings
        :ref:`github-push`,
        :ref:`hub-setup`
 
+.. envvar:: WEBLATE_SIMPLIFY_LANGUAGES
+
+    Configures language simplification policy, see :setting:`SIMPLIFY_LANGUAGES`.
+
 
 Machine translation settings
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
