@@ -434,7 +434,7 @@ both Weblate and PostgreSQL containers.
 
 .. envvar:: POSTGRES_HOST
 
-    PostgreSQL server hostname or IP adress. Defaults to `database`.
+    PostgreSQL server hostname or IP adress. Defaults to ``database``.
 
 .. envvar:: POSTGRES_PORT
 
@@ -455,7 +455,7 @@ memcached instance when running Weblate in Docker.
 
 .. envvar:: MEMCACHED_PORT
 
-    The memcached server port. Default to ``11211``.
+    The memcached server port. Defaults to ``11211``.
 
 Email server setup
 ~~~~~~~~~~~~~~~~~~
