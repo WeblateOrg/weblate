@@ -43,6 +43,26 @@ Using prebuilt appliance
 #. Everything should be set up immediately after boot, though you will want
    to adjust some settings to improve security, see :ref:`appliance`.
 
+Installing using Docker
+-----------------------
+
+#. Clone weblate-docker repo:
+
+   .. code-block:: sh
+
+        git clone https://github.com/WeblateOrg/docker.git weblate-docker
+        cd weblate-docker
+
+#. Start Weblate containers:
+
+   .. code-block:: sh
+
+        docker-compose up
+
+.. seealso::
+
+    See :ref:`docker` for more detailed instructions and customization options.
+
 Installing on OpenShift
 -----------------------
 
@@ -53,7 +73,11 @@ Installing on OpenShift
         rhc -aweblate app create -t python-2.7 --from-code \https://github.com/WeblateOrg/weblate.git --no-git
 
 #. After installation everything should be preconfigured and you can immediately start to add a translation
-   project as described below. For more information, including on how to retrieve the generated admin password, see :ref:`openshift`.
+   project as described below. 
+   
+.. seealso::
+   
+    For more information, including on how to retrieve the generated admin password, see :ref:`openshift`.
 
 Adding translation
 ------------------
