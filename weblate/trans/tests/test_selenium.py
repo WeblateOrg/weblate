@@ -287,7 +287,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
 EXTRA_PLATFORMS = {
     'Chrome': {
         'browserName': 'chrome',
-        'platform': 'XP',
+        'platform': 'Windows 10',
     },
     'Android': {
         'browserName': 'android',
