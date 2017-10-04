@@ -480,3 +480,14 @@ not using Weblate.
 
     In case there will be big demand for this feature, it might be implemented
     in future versions, but it's definitely not a priority for now.
+
+Why does Weblate use strange language codes such sr_Latn or zh_Hant?
+--------------------------------------------------------------------
+
+These are language codes defined by :rfc:`4646` to better indicate that they
+are really different languages instead previously wrongly used modifiers (for
+``@latin`` variants) or country codes (for Chinese).
+
+Weblate will still understand legacy language codes and will map them to
+current one - for example ``sr@latin`` will be handled as ``sr_Latn`` or
+``zh@CN`` as ``sr_Hans``.
