@@ -175,9 +175,8 @@ class DictionaryManager(models.Manager):
             # Build the query for fetching the words
             # Can not use __in as we want case insensitive lookup
             dictionary = dictionary.filter(
-                functools.reduce(
-                    lambda x, y: x | y,
-                    [Q(source__iexact=word) for word in words]
+                source__iregex=r'^({0})$'.format(
+                    '|'.join([re.escape(word) for word in words])
                 )
             )
 
