@@ -166,6 +166,9 @@ class DictionaryManager(models.Manager):
             language=unit.translation.language
         )
 
+        if '' in words:
+            words.remove('')
+
         if len(words) == 0:
             # No extracted words, no dictionary
             dictionary = dictionary.none()
