@@ -91,7 +91,7 @@ make %{?_smp_mflags} -C docs html
 # Copy example settings
 cp weblate/settings_example.py weblate/settings.py
 # Set correct directories in settings
-sed -i 's@^BASE_DIR = .*@BASE_DIR = "%{WLDIR}/weblate"@g' weblate/settings.py
+sed -i 's@^BASE_DIR = .*@BASE_DIR = "%{WLDIR}"@g' weblate/settings.py
 sed -i 's@^DATA_DIR = .*@DATA_DIR = "%{WLDATADIR}"@g' weblate/settings.py
 sed -i "s@/usr/share/weblate/data@%{WLDATADIR}@" examples/apache.conf
 

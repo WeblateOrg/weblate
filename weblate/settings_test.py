@@ -57,7 +57,7 @@ elif 'SCRUTINIZER' in os.environ:
 ADMINS = (('Weblate test', 'noreply@weblate.org'), )
 
 # Different root for test repos
-DATA_DIR = os.path.join(BASE_DIR, '..', 'data-test')
+DATA_DIR = os.path.join(BASE_DIR, 'data-test')
 
 # Silent logging setup
 LOGGING = {

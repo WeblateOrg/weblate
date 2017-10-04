@@ -62,11 +62,11 @@ if 'OPENSHIFT_POSTGRESQL_DB_URL' in os.environ:
     }
 
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 DATA_DIR = os.environ['OPENSHIFT_DATA_DIR']
 
-STATIC_ROOT = os.path.join(BASE_DIR, '..', 'wsgi', 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'wsgi', 'static')
 
 # Replace default keys with dynamic values if we are in OpenShift
 try:

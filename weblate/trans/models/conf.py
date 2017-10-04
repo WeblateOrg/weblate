@@ -27,10 +27,10 @@ from appconf import AppConf
 
 class WeblateConf(AppConf):
     # Weblate installation root
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
     # Data directory
-    DATA_DIR = os.path.join(settings.BASE_DIR, '..', 'data')
+    DATA_DIR = os.path.join(settings.BASE_DIR, 'data')
 
     # Machine translation API keys
 
@@ -165,7 +165,7 @@ class WeblateConf(AppConf):
     POST_ADD_SCRIPTS = ()
 
     # Font for charts and widgets
-    TTF_PATH = os.path.join(settings.BASE_DIR, 'ttf')
+    TTF_PATH = os.path.join(settings.BASE_DIR, 'weblate', 'ttf')
 
     # Anonymous user name
     ANONYMOUS_USER_NAME = 'anonymous'

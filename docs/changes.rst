@@ -14,6 +14,7 @@ Released on ? 2017.
 * Client side persistence of settings in search and upload forms.
 * Extended search capabilities.
 * More fine grained per project ACL configuration.
+* Default value of BASE_DIR has been changed.
 
 weblate 2.16
 ------------
