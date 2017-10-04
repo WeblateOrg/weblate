@@ -26,42 +26,42 @@ this.
 
 1. Clone weblate-docker repo:
 
-.. code-block:: sh
+   .. code-block:: sh
 
-    git clone https://github.com/WeblateOrg/docker.git weblate-docker
-    cd weblate-docker
+        git clone https://github.com/WeblateOrg/docker.git weblate-docker
+        cd weblate-docker
 
 2. Create a :file:`docker-compose.override.yml` file with your settings.
    See :ref:`docker-environment` full list of environment vars
 
-.. code-block:: yaml
+   .. code-block:: yaml
 
-    version: '2'
-    services:
-      weblate:
-        environment:
-          - WEBLATE_EMAIL_HOST=smtp.example.com
-          - WEBLATE_EMAIL_HOST_USER=user
-          - WEBLATE_EMAIL_HOST_PASSWORD=pass
-          - WEBLATE_ALLOWED_HOSTS=weblate.example.com
-          - WEBLATE_ADMIN_PASSWORD=password for admin user
+        version: '2'
+        services:
+          weblate:
+            environment:
+              - WEBLATE_EMAIL_HOST=smtp.example.com
+              - WEBLATE_EMAIL_HOST_USER=user
+              - WEBLATE_EMAIL_HOST_PASSWORD=pass
+              - WEBLATE_ALLOWED_HOSTS=weblate.example.com
+              - WEBLATE_ADMIN_PASSWORD=password for admin user
 
-.. note::
+   .. note::
 
-    If :envvar:`WEBLATE_ADMIN_PASSWORD` is not set, admin user is created with
-    random password printed out on first startup.
+        If :envvar:`WEBLATE_ADMIN_PASSWORD` is not set, admin user is created with
+        random password printed out on first startup.
 
 3. Build Weblate containers:
 
-.. code-block:: sh
+   .. code-block:: sh
 
-    docker-compose build
+        docker-compose build
 
 4. Start Weblate containers:
 
-.. code-block:: sh
+   .. code-block:: sh
 
-    docker-compose up
+        docker-compose up
 
 Enjoy your Weblate deployment, it's accessible on port 80 of the ``weblate`` container.
 
