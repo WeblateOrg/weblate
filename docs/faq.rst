@@ -468,7 +468,7 @@ updated to include the translator name.
 .. seealso:: :djadmin:`list_translators`
 
 Why does Weblate force to show all po files in a single tree?
-----------------------------------------------------------------
+-------------------------------------------------------------
 
 Weblate was designed in a way that every po file is represented as a single
 component. This is beneficial for translators, so they know what they are
