@@ -1102,13 +1102,19 @@ class PhpFormat(FileFormat):
         This is workaround for .save() not working as intended in
         translate-toolkit.
         """
-        with open(self.store.filename, 'rb') as handle:
-            convertor = po2php.rephp(handle, self.store)
+        try:
+            # New phply based storage handles save just fine
+            # see https://github.com/translate/translate/pull/3697
+            from translate.storage.php import PHPLexer  # noqa
+            super(PhpFormat, self).save()
+        except:
+            with open(self.store.filename, 'rb') as handle:
+                convertor = po2php.rephp(handle, self.store)
 
-            outputphplines = convertor.convertstore(False)
+                outputphplines = convertor.convertstore(False)
 
-        with open(self.store.filename, 'wb') as handle:
-            handle.writelines(outputphplines)
+            with open(self.store.filename, 'wb') as handle:
+                handle.writelines(outputphplines)
 
 
 @register_fileformat
