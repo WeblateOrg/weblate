@@ -481,8 +481,10 @@ not using Weblate.
     In case there will be big demand for this feature, it might be implemented
     in future versions, but it's definitely not a priority for now.
 
-Why does Weblate use strange language codes such sr_Latn or zh_Hant?
---------------------------------------------------------------------
+.. _faq-codes:
+
+Why does Weblate use language codes such sr_Latn or zh_Hant?
+------------------------------------------------------------
 
 These are language codes defined by :rfc:`4646` to better indicate that they
 are really different languages instead previously wrongly used modifiers (for
