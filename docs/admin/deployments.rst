@@ -763,3 +763,18 @@ You should also adjust some settings to match your environment, namely:
 * :ref:`production-debug`
 * :ref:`production-site`
 * :ref:`production-email`
+
+Weblate in YunoHost
+-------------------
+
+The self-hosting project [YunoHost](https://yunohost.org) provides a package for Weblate. Once you have your YunoHost installation, you may install Weblate as any other application. It will provide you a fully working stack with backup and restoration, but you may still have to edit your settings file for specific usages.
+
+You may use your administration interface or this button (it will bring you to your server):
+
+[![Install Weblate with YunoHost](https://install-app.yunohost.org/install-with-yunohost.png)](https://install-app.yunohost.org/?app=weblate)
+
+It also is possible to use the command line interface:
+
+   .. code-block:: sh
+
+        yunohost app install https://github.com/YunoHost-Apps/weblate_ynh
