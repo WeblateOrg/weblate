@@ -42,7 +42,7 @@ from weblate.trans.util import (
     get_clean_env, add_configuration_error, path_separator
 )
 from weblate.trans.filelock import FileLock
-from weblate.trans.ssh import ssh_file, SSH_WRAPPER
+from weblate.trans.ssh import ssh_file, SSH_WRAPPER, create_ssh_wrapper
 
 LOGGER = logging.getLogger('weblate-vcs')
 
@@ -100,7 +100,7 @@ class Repository(object):
     _is_supported = None
     _version = None
 
-    def __init__(self, path, branch=None, component=None):
+    def __init__(self, path, branch=None, component=None, local=False):
         self.path = path
         if branch is None:
             self.branch = self.default_branch
@@ -112,6 +112,9 @@ class Repository(object):
             self.path.rstrip('/').rstrip('\\') + '.lock',
             timeout=120
         )
+        if not local:
+            # Create ssh wrapper for possible use
+            create_ssh_wrapper()
         if not self.is_valid():
             self.init()
 

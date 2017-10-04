@@ -24,7 +24,9 @@ import shutil
 from django.conf import settings
 from django.test import TestCase
 
-from weblate.trans.ssh import get_host_keys, create_ssh_wrapper, ssh_file
+from weblate.trans.ssh import (
+    get_host_keys, create_ssh_wrapper, ssh_file, SSH_WRAPPER
+)
 from weblate.trans.tests.utils import get_test_file
 from weblate.trans.data import check_data_writable
 from weblate.utils.unittest import tempdir_setting
@@ -45,9 +47,7 @@ class SSHTest(TestCase):
     @tempdir_setting('DATA_DIR')
     def test_create_ssh_wrapper(self):
         check_data_writable()
-        filename = os.path.join(
-            settings.DATA_DIR, 'ssh', 'ssh-weblate-wrapper'
-        )
+        filename = os.path.join(settings.DATA_DIR, 'ssh', SSH_WRAPPER)
         create_ssh_wrapper()
         with open(filename, 'r') as handle:
             data = handle.read()
@@ -57,3 +57,7 @@ class SSHTest(TestCase):
         self.assertTrue(
             os.access(filename, os.X_OK)
         )
+        # Second run should not touch the file
+        timestamp = os.stat(filename).st_mtime
+        create_ssh_wrapper()
+        self.assertEqual(timestamp, os.stat(filename).st_mtime)

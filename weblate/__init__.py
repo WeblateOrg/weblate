@@ -25,7 +25,6 @@ from weblate.requirements import (
 )
 from weblate.trans.vcs import GitRepository, RepositoryException
 from weblate.trans.data import check_data_writable
-from weblate.trans.ssh import create_ssh_wrapper
 
 
 def get_root_dir():
@@ -46,7 +45,7 @@ USER_AGENT = 'Weblate/{0}'.format(VERSION)
 # Grab some information from git
 try:
     # Describe current checkout
-    GIT_VERSION = GitRepository(get_root_dir()).describe()
+    GIT_VERSION = GitRepository(get_root_dir(), local=True).describe()
 except (RepositoryException, OSError):
     # Import failed or git has troubles reading
     # repo (eg. swallow clone)
@@ -95,4 +94,3 @@ def get_versions_string():
 
 check_requirements()
 check_data_writable()
-create_ssh_wrapper()
