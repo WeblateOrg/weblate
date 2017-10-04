@@ -213,21 +213,4 @@ def create_ssh_wrapper():
             identity=ssh_file(RSA_KEY),
         ))
 
-    try:
-        os.chmod(ssh_wrapper, 0o755)
-
-    except OSError:
-        # Ignore any error updating permissions. If the file could
-        # not be created, then the open() call above will have failed.
-        # Updating permissions could fail though where the file had
-        # already existed but was owned by a different user. This can
-        # occur when running a container image on a platform with an
-        # enhanced security profile where the container image is run
-        # as a different user than that which the build of the image
-        # occurred as, and ability to update files was based on group
-        # ownership. Example of this is when running a container image
-        # using 'docker run -u nnn' where the user ID is differrent.
-        # Also can occur in OpenShift, and Kubernetes if container runs
-        # as assigned user ID based, rather than user ID of the image.
-
-        pass
+    os.chmod(ssh_wrapper, 0o755)

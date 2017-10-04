@@ -44,9 +44,22 @@ echo " -----> Running collection of Django static resources."
 
 python manage.py collectstatic --noinput
 
-#python manage.py setuplang
-#python manage.py setupgroups
+# Generate language specific message files used by the application.
+
+echo " -----> Running creation of language specific message files."
+
 python manage.py compilemessages
+
+# Delete the data directory and re-create it as an empty directory to
+# avoid permissions issues with files created as a side effect of the
+# running of the Django management commands above. This is only really
+# an issue when using ephemeral instance. If mounted a new persistent
+# volume over the data directory, everything in it from the build would
+# be hidden anyway.
+
+rm -rf /opt/app-root/data
+
+mkdir -p /opt/app-root/data
 
 # Fixup permissions on all directories/files so still writable by group
 # 'root' and can be updated when image is run with assigned user ID.
