@@ -883,7 +883,6 @@ def social_complete(request, backend):
             _('Authentication failed due to invalid session state.')
         )
 
-    return complete(request, backend)
     try:
         return complete(request, backend)
     except InvalidEmail:
