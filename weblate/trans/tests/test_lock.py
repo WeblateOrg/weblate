@@ -121,4 +121,4 @@ class LockTest(FixtureTestCase):
         response = self.client.post(
             reverse('js-lock', kwargs=self.kw_translation)
         )
-        self.assertFalse(self.get_translation().is_user_locked())
+        self.assertTrue(self.get_translation().is_user_locked())
