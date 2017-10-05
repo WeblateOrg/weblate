@@ -203,7 +203,7 @@ def verify_open(strategy, backend, user, weblate_action, **kwargs):
     # Check whether registration is open
     if (not user and
             not settings.REGISTRATION_OPEN and
-            weblate_action != 'reset'):
+            weblate_action not in ('reset', 'remove')):
         raise AuthMissingParameter(backend, 'disabled')
 
     # Avoid adding associations to demo user
