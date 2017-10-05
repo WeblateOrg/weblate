@@ -300,10 +300,9 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         # Clean timestamp on unlock
         if user is None:
             self.lock_time = timezone.now()
-            self.save()
-            return
-
-        self.update_lock_time(explicit, is_new)
+            self.save(update_fields=['lock_time', 'lock_user'])
+        else:
+            self.update_lock_time(explicit, is_new)
 
     def update_lock_time(self, explicit=False, is_new=True):
         """Set lock timestamp."""
@@ -319,7 +318,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
         self.save(update_fields=['lock_time', 'lock_user'])
 
-    def update_lock(self, user, create=True):
+    def update_lock(self, user):
         """Update lock timestamp."""
         # Check if we can lock
         if self.is_user_locked(user):
@@ -331,7 +330,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             return True
 
         # Auto lock if we should
-        if settings.AUTO_LOCK and create:
+        if settings.AUTO_LOCK:
             self.create_lock(user)
             return True
 

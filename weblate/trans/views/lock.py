@@ -39,7 +39,7 @@ from weblate.permissions.helpers import (
 def update_lock(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
 
-    if obj.update_lock(request.user, False):
+    if obj.update_lock(request.user):
         return JsonResponse(
             data={'status': True}
         )
