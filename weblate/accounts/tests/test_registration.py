@@ -595,7 +595,7 @@ class RegistrationTest(BaseRegistrationTest):
     @override_settings(REGISTRATION_CAPTCHA=False)
     def test_add_existing(self):
         """Adding existing mail to existing account should fail."""
-        second = User.objects.create_user('testuser', 'second@example.net', 'x')
+        User.objects.create_user('testuser', 'second@example.net', 'x')
         self.test_add_mail(True)
 
     @override_settings(REGISTRATION_CAPTCHA=False)
