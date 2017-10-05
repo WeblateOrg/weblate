@@ -767,7 +767,11 @@ You should also adjust some settings to match your environment, namely:
 Weblate in YunoHost
 -------------------
 
-The self-hosting project [YunoHost](https://yunohost.org) provides a package for Weblate. Once you have your YunoHost installation, you may install Weblate as any other application. It will provide you a fully working stack with backup and restoration, but you may still have to edit your settings file for specific usages.
+The self-hosting project `YunoHost <https://yunohost.org/>`_ provides a package
+for Weblate. Once you have your YunoHost installation, you may install Weblate
+as any other application. It will provide you a fully working stack with backup
+and restoration, but you may still have to edit your settings file for specific
+usages.
 
 You may use your administration interface or this button (it will bring you to your server):
 
@@ -777,6 +781,6 @@ You may use your administration interface or this button (it will bring you to y
 
 It also is possible to use the command line interface:
 
-   .. code-block:: sh
+.. code-block:: sh
 
-        yunohost app install https://github.com/YunoHost-Apps/weblate_ynh
+    yunohost app install https://github.com/YunoHost-Apps/weblate_ynh
