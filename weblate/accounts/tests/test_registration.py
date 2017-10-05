@@ -517,7 +517,7 @@ class RegistrationTest(BaseRegistrationTest):
         )
 
     @override_settings(REGISTRATION_CAPTCHA=False)
-    def test_add_mail(self):
+    def test_add_mail(self, fails=False):
         """Adding mail to existing account."""
         # Create user
         self.perform_registration()
@@ -543,6 +543,14 @@ class RegistrationTest(BaseRegistrationTest):
             follow=True,
         )
         self.assertRedirects(response, reverse('email-sent'))
+
+        if fails:
+            self.assertEqual(len(mail.outbox), 1)
+            self.assertEqual(
+                mail.outbox[0].subject,
+                '[Weblate] Activity on your account at Weblate'
+            )
+            return
 
         # Verify confirmation mail
         url = self.assert_registration_mailbox()
@@ -583,6 +591,12 @@ class RegistrationTest(BaseRegistrationTest):
             notification.subject,
             '[Weblate] Activity on your account at Weblate'
         )
+
+    @override_settings(REGISTRATION_CAPTCHA=False)
+    def test_add_existing(self):
+        """Adding existing mail to existing account should fail."""
+        second = User.objects.create_user('testuser', 'second@example.net', 'x')
+        self.test_add_mail(True)
 
     @override_settings(REGISTRATION_CAPTCHA=False)
     def test_remove_mail(self):
