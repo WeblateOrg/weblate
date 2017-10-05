@@ -154,7 +154,7 @@ class PoExporterTest(TestCase):
 
 class PoXliffExporterTest(PoExporterTest):
     _class = PoXliffExporter
-    _has_context = False
+    _has_context = True
 
     def check_plurals(self, result):
         self.assertIn(b'[2]', result)
@@ -162,7 +162,7 @@ class PoXliffExporterTest(PoExporterTest):
 
 class XliffExporterTest(PoExporterTest):
     _class = XliffExporter
-    _has_context = False
+    _has_context = True
 
     def check_plurals(self, result):
         # Doesn't support plurals

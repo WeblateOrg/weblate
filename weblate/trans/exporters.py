@@ -61,6 +61,7 @@ class BaseExporter(object):
     extension = 'txt'
     name = ''
     has_lang = False
+    set_id = False
 
     def __init__(self, project=None, language=None, url=None,
                  translation=None, fieldnames=None):
@@ -118,6 +119,8 @@ class BaseExporter(object):
             output.setcontext(context)
             if isinstance(output, mounit):
                 output.msgctxt = [context]
+            if self.set_id:
+                output.setid(context)
         for location in unit.location.split():
             if location:
                 output.addlocation(location)
@@ -202,6 +205,7 @@ class PoXliffExporter(XMLExporter):
     content_type = 'application/x-xliff+xml'
     extension = 'xlf'
     has_lang = True
+    set_id = True
 
     def get_storage(self):
         return PoXliffFile()
@@ -213,6 +217,7 @@ class XliffExporter(XMLExporter):
     content_type = 'application/x-xliff+xml'
     extension = 'xlf'
     has_lang = True
+    set_id = True
 
     def get_storage(self):
         return xlifffile()
