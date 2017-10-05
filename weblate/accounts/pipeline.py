@@ -334,6 +334,11 @@ def ensure_valid(strategy, backend, user, registering_user, weblate_action,
             same = same.exclude(social__user=user)
 
         if same.exists():
+            notify_account_activity(
+                same[0].social.user,
+                strategy.request,
+                'connect'
+            )
             raise AuthAlreadyAssociated(backend, 'Email exists')
 
 
