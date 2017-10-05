@@ -771,7 +771,9 @@ The self-hosting project [YunoHost](https://yunohost.org) provides a package for
 
 You may use your administration interface or this button (it will bring you to your server):
 
-[![Install Weblate with YunoHost](https://install-app.yunohost.org/install-with-yunohost.png)](https://install-app.yunohost.org/?app=weblate)
+.. image:: https://install-app.yunohost.org/install-with-yunohost.png
+             :alt: Install Weblate with YunoHost
+             :target: https://install-app.yunohost.org/?app=weblate
 
 It also is possible to use the command line interface:
 
