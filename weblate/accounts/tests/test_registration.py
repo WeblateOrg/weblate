@@ -712,7 +712,7 @@ class RegistrationTest(BaseRegistrationTest):
                     'email': 'foo@example.net',
                     'login': 'weblate',
                     'id': 1,
-                    'name': 'Weblate',
+                    'name': 'Test Weblate Name',
                 }),
             )
             httpretty.register_uri(
@@ -750,8 +750,9 @@ class RegistrationTest(BaseRegistrationTest):
                 },
                 follow=True
             )
+            self.assertContains(response, 'Test Weblate Name')
             user = User.objects.get(username='weblate')
-            self.assertEqual(user.first_name, 'Weblate')
+            self.assertEqual(user.first_name, 'Test Weblate Name')
             self.assertEqual(user.email, 'noreply-weblate@example.org')
         finally:
             social_django.utils.BACKENDS = orig_backends
