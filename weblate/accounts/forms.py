@@ -495,7 +495,13 @@ class CaptchaForm(forms.Form):
         )
 
 
-class PasswordConfirmForm(forms.Form):
+class EmptyConfirmForm(forms.Form):
+    def __init__(self, request, *args, **kwargs):
+        self.request = request
+        super(EmptyConfirmForm, self).__init__(*args, **kwargs)
+
+
+class PasswordConfirmForm(EmptyConfirmForm):
     password = PasswordField(
         label=_("Current password"),
         help_text=_(
@@ -503,10 +509,6 @@ class PasswordConfirmForm(forms.Form):
         ),
         required=False,
     )
-
-    def __init__(self, request, *args, **kwargs):
-        self.request = request
-        super(PasswordConfirmForm, self).__init__(*args, **kwargs)
 
     def clean_password(self):
         cur_password = self.cleaned_data['password']

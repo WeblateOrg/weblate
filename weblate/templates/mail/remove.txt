@@ -1,0 +1,13 @@
+{% load i18n %}{% load translations %}{% autoescape off %}{% filter wordwrap:72 %}{% trans "Hi," %}
+
+{% blocktrans %}There was a request to remove your Weblate account at {{ site_title }}.{% endblocktrans %}
+
+{% blocktrans %}Please open the following link in your web browser. If the link is split over several lines, you may need to copy it in the address bar.{% endblocktrans %}
+
+{{ current_site_url }}{{ url }}
+
+{% blocktrans %}If there is a problem with your registration, please contact us:{% endblocktrans %}
+
+{{ current_site_url }}{% url 'contact' %}?t=reg
+
+{% endfilter%}{% endautoescape %}{% include "mail/signature.txt" %}

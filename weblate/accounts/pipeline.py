@@ -135,6 +135,8 @@ def send_validation(strategy, backend, code, partial_token):
     template = 'activation'
     if strategy.request.session['password_reset']:
         template = 'reset'
+    elif strategy.request.session['account_remove']:
+        template = 'remove'
 
     url = '{0}?verification_code={1}&partial_token={2}'.format(
         reverse('social:complete', args=(backend.name,)),
@@ -180,6 +182,22 @@ def password_reset(strategy, backend, user, social, details, weblate_action,
         return redirect('password_reset')
 
 
+@partial
+def remove_account(strategy, backend, user, social, details, weblate_action,
+                   current_partial, **kwargs):
+    """Set unusable password on reset."""
+    if (strategy.request is not None and
+            user is not None and
+            weblate_action == 'remove'):
+        # Remove partial pipeline, we do not need it
+        strategy.clean_partial_pipeline(current_partial.token)
+        # Set short session expiry
+        strategy.request.session.set_expiry(90)
+        strategy.request.session['remove_confirm'] = True
+        # Redirect to form to change password
+        return redirect('remove')
+
+
 def verify_open(strategy, backend, user, weblate_action, **kwargs):
     """Check whether it is possible to create new user."""
     # Check whether registration is open
@@ -219,6 +237,8 @@ def store_params(strategy, user, **kwargs):
     # Pipeline action
     if strategy.request.session['password_reset']:
         action = 'reset'
+    elif strategy.request.session['account_remove']:
+        action = 'remove'
     else:
         action = 'activation'
 

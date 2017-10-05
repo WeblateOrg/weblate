@@ -525,6 +525,7 @@ Notable configuration or dependencies changes:
 * The default value for ``BASE_DIR`` setting has been changed to match Django
   default value. You might have to adjust some paths in the configuration as
   several default values are based on this (eg. :setting:`DATA_DIR`).
+* There is change in ``SOCIAL_AUTH_PIPELINE`` default settings.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

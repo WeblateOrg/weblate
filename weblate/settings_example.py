@@ -240,6 +240,8 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.mail.mail_validation',
     'weblate.accounts.pipeline.revoke_mail_code',
     'weblate.accounts.pipeline.ensure_valid',
+    'weblate.accounts.pipeline.password_reset',
+    'weblate.accounts.pipeline.remove_account',
     'weblate.accounts.pipeline.reauthenticate',
     'social_core.pipeline.social_auth.associate_by_email',
     'weblate.accounts.pipeline.verify_username',
@@ -250,7 +252,6 @@ SOCIAL_AUTH_PIPELINE = (
     'weblate.accounts.pipeline.user_full_name',
     'weblate.accounts.pipeline.store_email',
     'weblate.accounts.pipeline.notify_connect',
-    'weblate.accounts.pipeline.password_reset',
 )
 SOCIAL_AUTH_DISCONNECT_PIPELINE = (
     'social_core.pipeline.disconnect.allowed_to_disconnect',

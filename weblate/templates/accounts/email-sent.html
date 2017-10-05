@@ -3,6 +3,7 @@
 
 {% block breadcrumbs %}
 <li><a href="{% url 'register' %}">{% trans "Registration" %}</a></li>
+<li><a>{{ title }}</a></li>
 {% endblock %}
 
 {% block content %}
@@ -11,6 +12,8 @@
   <div class="panel-heading"><h4 class="panel-title">
 {% if is_reset %}
 {% trans "Password reset almost complete" %}
+{% elif is_remove %}
+{% trans "Account removal almost complete" %}
 {% else %}
 {% trans "Registration almost complete" %}
 {% endif %}
@@ -19,6 +22,8 @@
 
 {% if is_reset %}
 <p>{% blocktrans %}You will very soon receive an email with a confirmation link. Please follow this link in order to complete your password reset procedure.{% endblocktrans %}</p>
+{% elif is_remove %}
+<p>{% blocktrans %}You will very soon receive an email with a confirmation link. Please follow this link in order to complete your account removal procedure.{% endblocktrans %}</p>
 {% else %}
 <p>{% blocktrans %}Thank you for registering. You will very soon receive an email with a confirmation link. Please follow this link in order to complete your registration.{% endblocktrans %}</p>
 {% endif %}

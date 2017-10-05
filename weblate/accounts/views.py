@@ -56,6 +56,7 @@ from social_django.views import complete, auth
 from weblate.accounts.forms import (
     RegistrationForm, PasswordConfirmForm, EmailForm, ResetForm,
     LoginForm, HostingForm, CaptchaForm, SetPasswordForm,
+    EmptyConfirmForm,
 )
 from weblate.accounts.ratelimit import check_rate_limit
 from weblate.logger import LOGGER
@@ -107,12 +108,16 @@ class EmailSentView(TemplateView):
         context = super(EmailSentView, self).get_context_data(
             **kwargs
         )
+        context['is_reset'] = False
+        context['is_remove'] = False
         if kwargs['password_reset']:
             context['title'] = _('Password reset')
             context['is_reset'] = True
+        elif kwargs['account_remove']:
+            context['title'] = _('Remove account')
+            context['is_remove'] = True
         else:
             context['title'] = _('User registration')
-            context['is_reset'] = False
 
         return context
 
@@ -121,6 +126,7 @@ class EmailSentView(TemplateView):
             return redirect('home')
 
         kwargs['password_reset'] = request.session['password_reset']
+        kwargs['account_remove'] = request.session['account_remove']
         # Remove session for not authenticated user here.
         # It is no longer needed and will just cause problems
         # with multiple registrations from single browser.
@@ -315,10 +321,9 @@ def user_profile(request):
 @session_ratelimit_post
 @never_cache
 def user_remove(request):
-    if request.method == 'POST':
-        confirm_form = PasswordConfirmForm(request, request.POST)
-        if confirm_form.is_valid():
-            session_ratelimit_reset(request)
+    is_confirmation = 'remove_confirm' in request.session
+    if is_confirmation:
+        if request.method == 'POST':
             remove_user(request.user, request)
             rotate_token(request)
             logout(request)
@@ -327,6 +332,16 @@ def user_remove(request):
                 _('Your account has been removed.')
             )
             return redirect('home')
+        else:
+            confirm_form = EmptyConfirmForm(request)
+
+    elif request.method == 'POST':
+        confirm_form = PasswordConfirmForm(request, request.POST)
+        if confirm_form.is_valid():
+            session_ratelimit_reset(request)
+            store_userid(request, remove=True)
+            request.GET = {'email': request.user.email}
+            return social_complete(request, 'email')
     else:
         confirm_form = PasswordConfirmForm(request)
 
@@ -335,6 +350,7 @@ def user_remove(request):
         'accounts/removal.html',
         {
             'confirm_form': confirm_form,
+            'is_confirmation': is_confirmation,
         }
     )
 
@@ -554,6 +570,7 @@ def fake_email_sent(request, reset=False):
     """Fake redirect to email sent page."""
     request.session['registration-email-sent'] = True
     request.session['password_reset'] = reset
+    request.session['account_remove'] = False
     return redirect('email-sent')
 
 
@@ -822,10 +839,11 @@ class SuggestionView(ListView):
         return result
 
 
-def store_userid(request, reset=False):
+def store_userid(request, reset=False, remove=False):
     """Store user ID in the session."""
     request.session['social_auth_user'] = request.user.pk
     request.session['password_reset'] = reset
+    request.session['account_remove'] = remove
 
 
 @require_POST
@@ -865,6 +883,7 @@ def social_complete(request, backend):
             _('Authentication failed due to invalid session state.')
         )
 
+    return complete(request, backend)
     try:
         return complete(request, backend)
     except InvalidEmail:

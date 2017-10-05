@@ -35,12 +35,21 @@ class AccountRemovalTest(ViewTestCase, RegistrationTestMixin):
             'Removal of the account deletes all your private data'
         )
 
-    def test_removal(self):
-        response = self.client.post(
-            reverse('remove'),
-            {'password': 'testpassword'},
-            follow=True
+    def verify_removal(self, response):
+        self.assertRedirects(response, reverse('email-sent'))
+
+        # Get confirmation URL
+        url = self.assert_registration_mailbox(
+            '[Weblate] Account removal on Weblate'
         )
+        # Verify confirmation URL
+        response = self.client.get(url, follow=True)
+        self.assertContains(
+            response,
+            'By pressing following button, your will no longer be able to use'
+        )
+        # Confirm removal
+        response = self.client.post(reverse('remove'), follow=True)
         self.assertContains(
             response,
             'Your account has been removed.',
@@ -48,6 +57,14 @@ class AccountRemovalTest(ViewTestCase, RegistrationTestMixin):
         self.assertFalse(
             User.objects.filter(username='testuser').exists()
         )
+
+    def test_removal(self):
+        response = self.client.post(
+            reverse('remove'),
+            {'password': 'testpassword'},
+            follow=True
+        )
+        self.verify_removal(response)
 
     def test_removal_failed(self):
         response = self.client.post(
@@ -75,13 +92,7 @@ class AccountRemovalTest(ViewTestCase, RegistrationTestMixin):
             {'password': ''},
             follow=True
         )
-        self.assertContains(
-            response,
-            'Your account has been removed.',
-        )
-        self.assertFalse(
-            User.objects.filter(username='testuser').exists()
-        )
+        self.verify_removal(response)
 
     def test_removal_change(self):
         self.edit_unit(

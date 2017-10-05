@@ -15,6 +15,7 @@ Released on ? 2017.
 * Extended search capabilities.
 * More fine grained per project ACL configuration.
 * Default value of BASE_DIR has been changed.
+* Added two step account removal to prevent accidental removal.
 
 weblate 2.16
 ------------
