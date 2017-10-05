@@ -339,8 +339,6 @@ def ensure_valid(strategy, backend, user, registering_user, weblate_action,
 
 def store_email(strategy, backend, user, social, details, **kwargs):
     """Store verified email."""
-    if 'email' not in details or details['email'] is None:
-        raise AuthMissingParameter(backend, 'email')
     verified, created = VerifiedEmail.objects.get_or_create(
         social=social,
         defaults={
