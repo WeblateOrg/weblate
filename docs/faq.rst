@@ -204,7 +204,9 @@ correctly as the user who has made the translation.
 Why do I get a warning about not reflected changes on database migration?
 -------------------------------------------------------------------------
 
-When running :command:`./manage.py migrate`, you can get the following warning::
+When running :command:`./manage.py migrate`, you can get the following warning:
+
+.. code-block:: console
 
     Your models have changes that are not yet reflected in a migration, and so won't be applied.
     Run 'manage.py makemigrations' to make new migrations, and then re-run 'manage.py migrate' to apply them.
