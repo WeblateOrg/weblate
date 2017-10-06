@@ -355,7 +355,6 @@ def user_remove(request):
     )
 
 
-@login_required
 @avoid_demo
 @session_ratelimit_post
 @never_cache
@@ -363,6 +362,9 @@ def confirm(request):
     details = request.session.get('reauthenticate')
     if not details:
         return redirect('home')
+
+    # Monkey patch request
+    request.user = User.objects.get(pk=details['user_pk'])
 
     if request.method == 'POST':
         confirm_form = PasswordConfirmForm(request, request.POST)

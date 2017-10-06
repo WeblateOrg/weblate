@@ -78,15 +78,19 @@ def get_github_email(access_token):
 
 
 @partial
-def reauthenticate(strategy, backend, user, social, uid, **kwargs):
+def reauthenticate(strategy, backend, user, social, uid, weblate_action,
+                   **kwargs):
     """Force authentication when adding new association."""
     if strategy.request.session.pop('reauthenticate_done', False):
+        return
+    if weblate_action != 'activation':
         return
     if user and not social and user.has_usable_password():
         strategy.request.session['reauthenticate'] = {
             'backend': backend.name,
             'backend_verbose': get_auth_name(backend.name),
             'uid': uid,
+            'user_pk': user.pk,
         }
         return redirect('confirm')
 
