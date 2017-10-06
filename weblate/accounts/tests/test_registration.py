@@ -690,7 +690,7 @@ class RegistrationTest(BaseRegistrationTest):
 
     @httpretty.activate
     @override_settings(AUTHENTICATION_BACKENDS=GH_BACKENDS)
-    def test_github(self):
+    def test_github(self, confirm=None, fail=False):
         """Test GitHub integration"""
         try:
             # psa creates copy of settings...
@@ -750,12 +750,56 @@ class RegistrationTest(BaseRegistrationTest):
                 },
                 follow=True
             )
+            if fail:
+                self.assertContains(
+                    response, 'are already associated with another account'
+                )
+                return
+            if confirm:
+                self.assertContains(response, 'Confirm new association')
+                response = self.client.post(
+                    reverse('confirm'),
+                    {'password': confirm},
+                    follow=True
+                )
             self.assertContains(response, 'Test Weblate Name')
             user = User.objects.get(username='weblate')
             self.assertEqual(user.first_name, 'Test Weblate Name')
             self.assertEqual(user.email, 'noreply-weblate@example.org')
         finally:
             social_django.utils.BACKENDS = orig_backends
+
+    def test_github_existing(self):
+        """Adding GitHub association to existing account."""
+        User.objects.create_user('weblate', 'noreply-weblate@example.org', 'x')
+        self.test_github(confirm='x')
+
+    def test_github_loggedin(self):
+        """Adding GitHub association to existing account."""
+        User.objects.create_user('weblate', 'noreply-weblate@example.org', 'x')
+        self.client.login(username='weblate', password='x')
+        self.test_github(confirm='x')
+
+    def test_github_add_other(self):
+        """Adding authentication from another account."""
+        User.objects.create_user('weblate', 'noreply-weblate@example.org', 'x')
+        # Login so that verified mail objects are created
+        self.client.login(username='weblate', password='x')
+        # Switch to second user
+        User.objects.create_user('second', 'noreply-second@example.org', 'x')
+        # Try to add GitHub auth with other email
+        self.client.login(username='second', password='x')
+        self.test_github(fail=True)
+        # User should get an notification
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(
+            mail.outbox[0].subject,
+            '[Weblate] Activity on your account at Weblate'
+        )
+        self.assertEqual(
+            mail.outbox[0].to,
+            ['noreply-weblate@example.org']
+        )
 
 
 class CookieRegistrationTest(BaseRegistrationTest):
