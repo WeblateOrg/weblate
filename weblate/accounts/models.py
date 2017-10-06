@@ -563,7 +563,11 @@ def post_login_handler(sender, request, user, **kwargs):
 
     It sets user language and migrates profile if needed.
     """
-    is_email_auth = getattr(user, 'backend', '').endswith('.EmailAuth')
+    backend_name = getattr(user, 'backend', '')
+    is_email_auth = (
+        backend_name.endswith('.EmailAuth') or
+        backend_name.endswith('.WeblateUserBackend')
+    )
 
     # Warning about setting password
     if is_email_auth and not user.has_usable_password():
