@@ -19,9 +19,9 @@
             "required": true
         },
         {
-            "name": "WEBLATE_BASE_IMAGE",
-            "description": "The name of the weblate image stream to deploy.",
-            "value": "weblate",
+            "name": "WEBLATE_REPOSITORY_URL",
+            "description": "The URL of the Weblate Git repository.",
+            "value": "https://github.com/GrahamDumpleton/weblate",
             "required": true
         },
         {
@@ -53,9 +53,67 @@
             "description": "Email address of the initial admin user.",
             "value": "",
             "required": true
+        },
+        {
+            "name": "PYTHON_VERSION",
+            "description": "The version of the Python builder.",
+            "value": "3.5",
+            "required": true
         }
     ],
     "objects": [
+        {
+            "kind": "ImageStream",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "${APPLICATION_NAME}-img",
+                "labels": {
+                    "app": "${APPLICATION_NAME}"
+                }
+            }
+        },
+        {
+            "kind": "BuildConfig",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "${APPLICATION_NAME}",
+                "labels": {
+                    "app": "${APPLICATION_NAME}"
+                }
+            },
+            "spec": {
+                "triggers": [
+                    {
+                        "type": "ConfigChange"
+                    },
+                    {
+                        "type": "ImageChange"
+                    }
+                ],
+                "source": {
+                    "type": "Git",
+                    "git": {
+                        "uri": "${WEBLATE_REPOSITORY_URL}"
+                    }
+                },
+                "strategy": {
+                    "type": "Source",
+                    "sourceStrategy": {
+                        "from": {
+                            "kind": "ImageStreamTag",
+                            "namespace": "openshift",
+                            "name": "python:${PYTHON_VERSION}"
+                        }
+                    }
+                },
+                "output": {
+                    "to": {
+                        "kind": "ImageStreamTag",
+                        "name": "${APPLICATION_NAME}-img:latest"
+                    }
+                }
+            }
+        },
         {
             "kind": "DeploymentConfig",
             "apiVersion": "v1",
@@ -82,7 +140,7 @@
                             ],
                             "from": {
                                 "kind": "ImageStreamTag",
-                                "name": "${WEBLATE_BASE_IMAGE}:latest"
+                                "name": "${APPLICATION_NAME}-img:latest"
                             }
                         }
                     }
