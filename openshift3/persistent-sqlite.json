@@ -3,12 +3,12 @@
     "apiVersion": "v1",
     "metadata": {
         "name": "weblate-persistent-sqlite",
-	"annotations": {
+        "annotations": {
             "openshift.io/display-name": "Weblate (Persistent / SQLite)",
-	    "description": "Creates a Weblate installation with SQLite database. Requires that a single persistent volume be available. Cannot be scaled.",
-	    "tags": "quickstart,python,weblate",
+            "description": "Creates a Weblate installation with SQLite database. Requires that a single persistent volume be available. Cannot be scaled.",
+            "tags": "quickstart,python,weblate",
             "iconClass": "icon-python"
-	}
+        }
     },
     "parameters": [
         {
@@ -176,10 +176,10 @@
                                         "protocol": "TCP"
                                     }
                                 ],
-				"resources": {
+                                "resources": {
                                     "limits": {
                                         "memory": "${WEBLATE_MEMORY_LIMIT}"
-				    }
+                                    }
                                 },
                                 "env": [
                                     {
@@ -198,8 +198,7 @@
                                 "volumeMounts": [
                                     {
                                         "name": "data",
-                                        "mountPath": "/opt/app-root/data",
-                                        "subPath": "weblate-data"
+                                        "mountPath": "/opt/app-root/data"
                                     }
                                 ]
                             }
