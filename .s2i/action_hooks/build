@@ -28,15 +28,22 @@ pip install mod_wsgi
 # to be installed and can cause memory resource limit to be reached with
 # the build container being killed off.
 
-echo " -----> Installing option package requirements."
+echo " -----> Installing optional package requirements."
 
 while read line; do
     case "$line" in
         -r*|\#*) continue ;;
         tesserocr*) continue ;;
-        *) pip install "$line" || true ;;
+        *) pip install --no-cache-dir "$line" || true ;;
     esac
 done < requirements-optional.txt
+
+# Install MySQL and PostgreSQL Python packages.
+
+echo " -----> Installing Python database client packages."
+
+pip install --no-cache-dir mysqlclient
+pip install --no-cache-dir psycopg2
 
 # Collect together all static assets used by the application.
 
