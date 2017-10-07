@@ -20,6 +20,22 @@ ARGS="$ARGS --log-to-terminal"
 
 ARGS="$ARGS --port 8080"
 
+# Adjust number of mod_wsgi daemon mode processes and threads.
+
+if [ x"$MOD_WSGI_PROCESSES" != x"" ]; then
+    ARGS="$ARGS --processes $MOD_WSGI_PROCESSES"
+fi
+
+if [ x"$MOD_WSGI_THREADS" != x"" ]; then
+    ARGS="$ARGS --threads $MOD_WSGI_THREADS"
+fi
+
+# Enable request access logging if user has requested it.
+
+if [ x"$MOD_WSGI_ACCESS_LOG" != x"" ]; then
+    ARGS="$ARGS --access-log"
+fi
+
 # Trust the proxy headers sent by the router for the remote client.
 
 ARGS="$ARGS --trust-proxy-header X-Forwarded-For"
