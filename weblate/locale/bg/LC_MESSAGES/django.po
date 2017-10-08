@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-10-08 13:28+0000\n"
-"PO-Revision-Date: 2017-09-28 16:44+0000\n"
+"PO-Revision-Date: 2017-10-08 15:26+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@abv.bg>\n"
-"Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/master/"
-"bg/>\n"
+"Language-Team: Bulgarian "
+"<https://hosted.weblate.org/projects/weblate/master/bg/>\n"
 "Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -500,10 +500,8 @@ msgid "Password reset"
 msgstr "Възстановяване на паролата"
 
 #: weblate/accounts/views.py:117
-#, fuzzy
-#| msgid "Remove my account"
 msgid "Remove account"
-msgstr "Изтрийте акаунта ми"
+msgstr "Изтриване на акаунта"
 
 #: weblate/accounts/views.py:120 weblate/accounts/views.py:617
 msgid "User registration"
@@ -1356,10 +1354,8 @@ msgid "Password reset almost complete"
 msgstr "Подновяването на паролата е почти завършено"
 
 #: weblate/templates/accounts/email-sent.html:16
-#, fuzzy
-#| msgid "Password reset almost complete"
 msgid "Account removal almost complete"
-msgstr "Подновяването на паролата е почти завършено"
+msgstr "Изтриването на акаунта е почти завършено"
 
 #: weblate/templates/accounts/email-sent.html:18
 msgid "Registration almost complete"
@@ -1374,16 +1370,12 @@ msgstr ""
 "връзка, за да завършите подновяването на паролата си."
 
 #: weblate/templates/accounts/email-sent.html:26
-#, fuzzy
-#| msgid ""
-#| "You will very soon receive an email with a confirmation link. Please "
-#| "follow this link in order to complete your password reset procedure."
 msgid ""
 "You will very soon receive an email with a confirmation link. Please follow "
 "this link in order to complete your account removal procedure."
 msgstr ""
 "Скоро ще получите е-писмо с връзка за потвърждение. Моля, използвайте тази "
-"връзка, за да завършите подновяването на паролата си."
+"връзка, за да завършите изтриването на акаунта си."
 
 #: weblate/templates/accounts/email-sent.html:28
 msgid ""
@@ -1941,6 +1933,8 @@ msgid ""
 "You will have to confirm account removal by clicking link in email you will "
 "receive."
 msgstr ""
+"Ще трябва да потвърдите изтриването на акаунта си, като щракнете на връзката "
+"в е-писмото, което ще получите."
 
 #: weblate/templates/accounts/removal.html:27
 msgid "Delete this account"
@@ -2977,7 +2971,7 @@ msgstr "Кюрдски"
 
 #: weblate/templates/i18n.html:150
 msgid "Kurmanji"
-msgstr ""
+msgstr "Курманджи"
 
 #: weblate/templates/i18n.html:151
 msgid "Kwanyama"
@@ -3328,10 +3322,8 @@ msgid "Songhai languages"
 msgstr "Сонгхайски езици"
 
 #: weblate/templates/i18n.html:238
-#, fuzzy
-#| msgid "Guarani"
 msgid "Sorani"
-msgstr "Гуарански"
+msgstr "Сорани"
 
 #: weblate/templates/i18n.html:239
 msgid "Sotho"
@@ -4310,17 +4302,14 @@ msgid "Parse error in %(subproject)s"
 msgstr "Грешка при анализа в %(subproject)s"
 
 #: weblate/templates/mail/remove.html:11 weblate/templates/mail/remove.txt:3
-#, fuzzy, python-format
-#| msgid ""
-#| "There was a request to reset your Weblate password at %(site_title)s."
+#, python-format
 msgid "There was a request to remove your Weblate account at %(site_title)s."
-msgstr "Имаше заявка за нулиране на паролата Ви за Weblate в %(site_title)s."
+msgstr "Имаше заявка за изтриване на акаунта Ви в Weblate в %(site_title)s."
 
 #: weblate/templates/mail/remove_subject.txt:4
-#, fuzzy, python-format
-#| msgid "Your registration on %(site_title)s"
+#, python-format
 msgid "Account removal on %(site_title)s"
-msgstr "Вашата регистрация на %(site_title)s"
+msgstr "Изтриване на акаунта в %(site_title)s"
 
 #: weblate/templates/mail/reset.html:11 weblate/templates/mail/reset.txt:3
 #, python-format
@@ -4342,22 +4331,16 @@ msgid "Manage users"
 msgstr "Управление на потребителите"
 
 #: weblate/templates/manage-access.html:21
-#, fuzzy
-#| msgid "Access control"
 msgid "Project access control"
-msgstr "Контрол на достъпа"
+msgstr "Контрол на достъпа до проекта"
 
 #: weblate/templates/manage-access.html:28
-#, fuzzy
-#| msgid "Change word"
 msgid "Change"
-msgstr "Промяна на дума"
+msgstr "Промяна"
 
 #: weblate/templates/manage-access.html:30
-#, fuzzy
-#| msgid "You do not have privilege to accept suggestions!"
 msgid "You do not have permission to change project access control."
-msgstr "Нямате право да приемате предложения!"
+msgstr "Нямате право да приемате променяте контрола на достъпа до проекта."
 
 #: weblate/templates/manage-access.html:40
 msgid "Users"
@@ -7724,10 +7707,8 @@ msgid "User has been removed from this project."
 msgstr "Потребителят беше премахнат от този проект."
 
 #: weblate/trans/views/acl.py:172
-#, fuzzy
-#| msgid "Password has been changed."
 msgid "Project access control has been changed."
-msgstr "Паролата беше променена."
+msgstr "Контролът на достъпа до проекта беше променен."
 
 #: weblate/trans/views/basic.py:160
 msgid ""
