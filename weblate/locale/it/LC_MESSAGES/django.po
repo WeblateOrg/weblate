@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate v. 2017.09.28\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-09-28 15:10+0000\n"
-"PO-Revision-Date: 2017-10-08 09:36+0000\n"
+"PO-Revision-Date: 2017-10-08 09:57+0000\n"
 "Last-Translator: ROBERTO <roberto.boriotti@canon-europe.com>\n"
 "Language-Team: Italian "
 "<https://hosted.weblate.org/projects/weblate/master/it/>\n"
@@ -2285,6 +2285,9 @@ msgid ""
 "a>, a web tool designed to ease translating for both developers and "
 "translators."
 msgstr ""
+"%(project)s è tradotto usando <a href=\"%(weblate_url)s\">Weblate</a>, uno "
+"strumento web realizzazato per una facile traduzione per sviluppatori e "
+"traduttori."
 
 #: weblate/templates/engage.html:31
 #, python-format
@@ -4754,7 +4757,7 @@ msgstr ""
 #: weblate/templates/translate.html:48
 #, python-format
 msgid "%(filter_name)s (%(filter_pos)s / %(filter_count)s)"
-msgstr ""
+msgstr "%(filter_name)s (%(filter_pos)s / %(filter_count)s)"
 
 #: weblate/templates/translate.html:62
 msgid "Next"
@@ -4838,6 +4841,7 @@ msgid ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Log in</a> for saving "
 "translations."
 msgstr ""
+"%(login_url)s?next=%(translate_url)s\">Accedi</a> per salvare le traduzioni."
 
 #: weblate/templates/translate.html:174
 msgid "Suggest"
@@ -4923,8 +4927,8 @@ msgstr "Modifica suggerita:"
 #, python-format
 msgid "%(count)s vote"
 msgid_plural "%(count)s votes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%(count)s voto"
+msgstr[1] "%(count)s voti"
 
 #: weblate/templates/translate.html:261
 msgid "Vote for"
@@ -5135,7 +5139,7 @@ msgstr "Revisione"
 
 #: weblate/templates/translation.html:312
 msgid "Review translations touched by other users."
-msgstr "Traduzioni riviste da altri utenti."
+msgstr "Traduzioni revisionate da altri utenti."
 
 #: weblate/templates/translation.html:316
 msgid "Start review"
@@ -5303,7 +5307,7 @@ msgstr ""
 #: weblate/templates/zen.html:27
 #, python-format
 msgid "%(filter_name)s (%(filter_count)s)"
-msgstr ""
+msgstr "%(filter_name)s (%(filter_count)s)"
 
 #: weblate/trans/admin.py:43
 msgid "Administrators"
@@ -5792,15 +5796,15 @@ msgstr "Importa come stringhe che richiedono revisione"
 
 #: weblate/trans/forms.py:476
 msgid "Import as translated"
-msgstr "Importa come tradotte"
+msgstr "Importa stringhe come tradotte"
 
 #: weblate/trans/forms.py:481
 msgid "Merge file header"
-msgstr "Unisci intestazione file"
+msgstr "Unisci intestazione file in upload"
 
 #: weblate/trans/forms.py:482
 msgid "Merges content of file header into the translation."
-msgstr "Unisci contenuto dell'intestazione file nella traduzione."
+msgstr "Unisci contenuto intestazione file in caricamento nella traduzione."
 
 #: weblate/trans/forms.py:498
 msgid "Overwrite existing translations"
@@ -5925,11 +5929,11 @@ msgstr "Modifiche dal"
 
 #: weblate/trans/forms.py:687
 msgid "Changed by user"
-msgstr "Modifiche dell'utente"
+msgstr "Cerca modifiche di uno specifico utente"
 
 #: weblate/trans/forms.py:691
 msgid "Exclude changes by user"
-msgstr "Escludi modifiche dell'utente"
+msgstr "Escludi dalla ricerca modifiche di uno specifico utente"
 
 #: weblate/trans/forms.py:707
 msgid "The query string has to be longer!"
@@ -6313,7 +6317,7 @@ msgstr "Suggerimento rimosso"
 #: weblate/trans/models/change.py:302
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
-msgstr ""
+msgstr "%(action)s in %(time)s in %(translation)s di %(user)s"
 
 #: weblate/trans/models/componentlist.py:36
 msgid "Component list name"
@@ -6993,7 +6997,7 @@ msgstr ""
 #: weblate/trans/models/unit.py:427
 #, python-brace-format
 msgid "{translation}, translation unit {position}"
-msgstr ""
+msgstr "{translation}, unità traduzione {position}"
 
 #: weblate/trans/models/whiteboard.py:88
 msgid "Category"
@@ -7095,7 +7099,7 @@ msgstr "Carattere configurato da utente: {0}"
 #. Translators: placeholder SSH hashed hostname
 #: weblate/trans/ssh.py:86
 msgid "[hostname hashed]"
-msgstr ""
+msgstr "[nome host con hash]"
 
 #: weblate/trans/ssh.py:136
 msgid "Created new SSH key."
@@ -7457,6 +7461,10 @@ msgid ""
 "translated into %(languages)s languages</a>. Overall, these translations are "
 "%(percent)s%% complete."
 msgstr ""
+"<a href=\"%(url)s\">Il progetto di traduzione di %(project)s</a> attualmente "
+"contiene %(total)s stringhe per la traduzione ed è <a href=\"%(url)s\">in "
+"corso di traduzione in %(languages)s lingue</a>. Nel complesso queste "
+"traduzioni sono tradotte al %(percent)s%%."
 
 #. Translators: line of text in engagement widget, please use your
 #. language name instead of English
@@ -7467,6 +7475,9 @@ msgid ""
 "currently contains %(total)s strings for translation and is %(percent)s%% "
 "complete."
 msgstr ""
+"<a href=\"%(url)s\">Il progetto di traduzione di %(project)s</a> in Inglese "
+"attualmente contiene %(total)s stringhe da tradurre ed è tradotto al "
+"%(percent)s%%."
 
 #: weblate/trans/views/basic.py:533
 msgid "Weblate statistics"
@@ -7476,6 +7487,7 @@ msgstr "Statistiche Weblate"
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr ""
+"È stata inviata una richiesta di nuova traduzione ai gestori del progetto."
 
 #: weblate/trans/views/changes.py:73
 #, python-format
@@ -7523,18 +7535,18 @@ msgstr ""
 #, python-brace-format
 msgctxt "Format string for yearly activity chart"
 msgid "{month}/{year}"
-msgstr ""
+msgstr "{month}/{year}"
 
 #: weblate/trans/views/charts.py:126
 #, python-brace-format
 msgctxt "Format string for monthly activity chart"
 msgid "{day}/{month}"
-msgstr ""
+msgstr "{day}/{month}"
 
 #: weblate/trans/views/dictionary.py:54
 #, python-format
 msgid "%(language)s dictionary for %(project)s"
-msgstr ""
+msgstr "%(language)s dizionario per %(project)s"
 
 #: weblate/trans/views/dictionary.py:71
 msgid "Dictionaries"
@@ -7798,7 +7810,7 @@ msgstr ""
 #, python-brace-format
 msgctxt "Translated percents in widget"
 msgid "{0}%"
-msgstr ""
+msgstr "{0}%"
 
 #. Translators: please keep the text short to fit into widget
 #: weblate/trans/widgets.py:311
