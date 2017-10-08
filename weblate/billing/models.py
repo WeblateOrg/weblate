@@ -47,6 +47,7 @@ class Plan(models.Model):
     display_limit_repositories = models.IntegerField(default=0)
     limit_projects = models.IntegerField(default=0)
     display_limit_projects = models.IntegerField(default=0)
+    change_access_control = models.BooleanField(default=True)
 
     class Meta(object):
         ordering = ['price']

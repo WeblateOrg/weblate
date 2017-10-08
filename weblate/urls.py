@@ -256,6 +256,11 @@ urlpatterns = [
         name='manage-access',
     ),
     url(
+        r'^access/' + PROJECT + 'change/$',
+        weblate.trans.views.acl.change_access,
+        name='change-access',
+    ),
+    url(
         r'^settings/' + PROJECT + '$',
         weblate.trans.views.settings.change_project,
         name='settings',

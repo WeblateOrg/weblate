@@ -430,3 +430,14 @@ def check_access(request, project):
     """Raise an error if user is not allowed to access this project."""
     if not can_access_project(request.user, project):
         raise Http404('Access denied')
+
+
+@cache_permission
+def can_edit_access_control(user, project):
+    """Check whether user can edit given project."""
+    if 'weblate.billing' in settings.INSTALLED_APPS:
+        billings = project.billing_set.filter(plan__change_access_control=True)
+        if not billings.exists():
+            return False
+
+    return can_edit_project(user, project)

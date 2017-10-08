@@ -208,3 +208,8 @@ def can_change_screenshot(user, project):
 @register.assignment_tag
 def can_delete_screenshot(user, project):
     return weblate.permissions.helpers.can_delete_screenshot(user, project)
+
+
+@register.assignment_tag
+def can_edit_access_control(user, project):
+    return weblate.permissions.helpers.can_edit_access_control(user, project)

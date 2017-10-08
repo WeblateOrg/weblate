@@ -28,9 +28,13 @@ from django.shortcuts import redirect
 
 from weblate.utils import messages
 from weblate.trans.util import render
-from weblate.trans.forms import UserManageForm
+from weblate.trans.forms import (
+    UserManageForm, ProjectAccessForm, DisabledProjectAccessForm,
+)
 from weblate.trans.views.helper import get_project
-from weblate.permissions.helpers import can_manage_acl
+from weblate.permissions.helpers import (
+    can_manage_acl, can_edit_access_control,
+)
 
 
 def check_user_form(request, project, verbose=False):
@@ -148,6 +152,32 @@ def delete_user(request, project):
     )
 
 
+@require_POST
+@login_required
+def change_access(request, project):
+    obj = get_project(request, project)
+
+    if not can_edit_access_control(request.user, obj):
+        raise PermissionDenied()
+
+    form = ProjectAccessForm(request.POST, instance=obj)
+
+    if not form.is_valid():
+        for error in form.errors:
+            for message in form.errors[error]:
+                messages.error(request, message)
+    else:
+        form.save()
+        messages.success(
+            request, _('Project access control has been changed.')
+        )
+
+    return redirect(
+        'manage-access',
+        project=obj.slug,
+    )
+
+
 @login_required
 def manage_access(request, project):
     """User management view."""
@@ -155,6 +185,11 @@ def manage_access(request, project):
 
     if not can_manage_acl(request.user, obj):
         raise PermissionDenied()
+
+    if can_edit_access_control(request.user, obj):
+        access_form = ProjectAccessForm(instance=obj)
+    else:
+        access_form = DisabledProjectAccessForm(instance=obj)
 
     return render(
         request,
@@ -164,5 +199,6 @@ def manage_access(request, project):
             'project': obj,
             'groups': obj.all_groups(),
             'add_user_form': UserManageForm(),
+            'access_form': access_form,
         }
     )

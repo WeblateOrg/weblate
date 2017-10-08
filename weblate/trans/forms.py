@@ -25,7 +25,7 @@ from datetime import date, datetime, timedelta
 import json
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Fieldset
+from crispy_forms.layout import Layout, Fieldset, Field
 
 from django import forms
 from django.core.exceptions import PermissionDenied
@@ -1271,6 +1271,24 @@ class ProjectSettingsForm(forms.ModelForm):
             'mail',
             'instructions',
             'set_translation_team',
+        )
+
+
+class ProjectAccessForm(forms.ModelForm):
+    """Project access control settings form."""
+    class Meta(object):
+        model = Project
+        fields = (
+            'access_control',
+        )
+
+
+class DisabledProjectAccessForm(ProjectAccessForm):
+    def __init__(self, *args, **kwargs):
+        super(DisabledProjectAccessForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Field('access_control', disabled=True)
         )
 
 
