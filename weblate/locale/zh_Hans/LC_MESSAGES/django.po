@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-09-28 15:10+0000\n"
+"POT-Creation-Date: 2017-10-08 13:28+0000\n"
 "PO-Revision-Date: 2017-09-30 01:44+0000\n"
 "Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
-"Language-Team: Chinese (Simplified) "
-"<https://hosted.weblate.org/projects/weblate/master/zh_Hans/>\n"
+"Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
+"weblate/master/zh_Hans/>\n"
 "Language: zh_Hans\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -61,7 +61,7 @@ msgid ""
 msgstr "用户名只能由字母、数字及下列字符组成：@ . + - _"
 
 #: weblate/accounts/forms.py:121 weblate/templates/accounts/user.html:22
-#: weblate/templates/manage-access.html:22
+#: weblate/templates/manage-access.html:45
 msgid "Username"
 msgstr "用户名"
 
@@ -73,7 +73,7 @@ msgstr "用户名不能以句点开头。"
 msgid "This username is already taken. Please choose another."
 msgstr "该用户名已被注册，请另选一个。"
 
-#: weblate/accounts/forms.py:158 weblate/templates/manage-access.html:23
+#: weblate/accounts/forms.py:158 weblate/templates/manage-access.html:46
 msgid "Full name"
 msgstr "全名"
 
@@ -97,7 +97,7 @@ msgid ""
 msgstr "您将只收到您已关注项目之您已翻译语言的这些通知。"
 
 #: weblate/accounts/forms.py:296 weblate/accounts/forms.py:367
-#: weblate/templates/manage-access.html:24
+#: weblate/templates/manage-access.html:47
 msgid "E-mail"
 msgstr "电子邮箱"
 
@@ -109,11 +109,11 @@ msgstr "您可以在身份验证选项卡中添加其他电子邮箱。"
 msgid "Subject"
 msgstr "主题"
 
-#: weblate/accounts/forms.py:333 weblate/accounts/forms.py:614
+#: weblate/accounts/forms.py:333 weblate/accounts/forms.py:616
 msgid "Your name"
 msgstr "您的姓名"
 
-#: weblate/accounts/forms.py:338 weblate/accounts/forms.py:619
+#: weblate/accounts/forms.py:338 weblate/accounts/forms.py:621
 msgid "Your email"
 msgstr "您的邮箱"
 
@@ -159,62 +159,62 @@ msgstr "%s 是多少？"
 msgid "Please check your math and try again with new expression."
 msgstr "请检查您的计算结果并使用新的表达式再试一次。"
 
-#: weblate/accounts/forms.py:500
+#: weblate/accounts/forms.py:506
 msgid "Current password"
 msgstr "当前密码"
 
-#: weblate/accounts/forms.py:502
+#: weblate/accounts/forms.py:508
 msgid "Keep the field empty if you have not yet set your password."
 msgstr "如果尚未設定密碼，無需填寫此欄位。"
 
-#: weblate/accounts/forms.py:520
+#: weblate/accounts/forms.py:522
 msgid "You have entered an invalid password."
 msgstr "您输入的密码无效。"
 
-#: weblate/accounts/forms.py:536
+#: weblate/accounts/forms.py:538
 msgid "Username or email"
 msgstr "用户名或电子邮件"
 
-#: weblate/accounts/forms.py:539 weblate/templates/accounts/profile.html:189
+#: weblate/accounts/forms.py:541 weblate/templates/accounts/profile.html:189
 msgid "Password"
 msgstr "密码"
 
-#: weblate/accounts/forms.py:543
+#: weblate/accounts/forms.py:545
 msgid ""
 "Please enter a correct username and password. Note that both fields may be "
 "case-sensitive."
 msgstr "请输入正确的用户名和密码。请注意，这两者可能需区分大小写。"
 
-#: weblate/accounts/forms.py:545
+#: weblate/accounts/forms.py:547
 msgid "This account is inactive."
 msgstr "此账号已停用。"
 
-#: weblate/accounts/forms.py:564
+#: weblate/accounts/forms.py:566
 msgid "Too many authentication attempts!"
 msgstr "验证尝试次数太多！"
 
-#: weblate/accounts/forms.py:623 weblate/trans/models/project.py:91
+#: weblate/accounts/forms.py:625 weblate/trans/models/project.py:91
 msgid "Project name"
 msgstr "项目名称"
 
-#: weblate/accounts/forms.py:628 weblate/templates/project_info.html:3
+#: weblate/accounts/forms.py:630 weblate/templates/project_info.html:3
 #: weblate/trans/models/project.py:103
 msgid "Project website"
 msgstr "项目网站"
 
-#: weblate/accounts/forms.py:633 weblate/trans/models/subproject.py:159
+#: weblate/accounts/forms.py:635 weblate/trans/models/subproject.py:159
 msgid "Source code repository"
 msgstr "代码库"
 
-#: weblate/accounts/forms.py:635
+#: weblate/accounts/forms.py:637
 msgid "URL of source code repository for example Git or Mercurial."
 msgstr "代码库的公开网址，例如 Git 或 Mercurial 代码库。"
 
-#: weblate/accounts/forms.py:641 weblate/trans/models/subproject.py:208
+#: weblate/accounts/forms.py:643 weblate/trans/models/subproject.py:208
 msgid "File mask"
 msgstr "文件掩码"
 
-#: weblate/accounts/forms.py:643
+#: weblate/accounts/forms.py:645
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
@@ -222,7 +222,7 @@ msgstr ""
 "要翻译的文件路径，使用 * 代替语言代码，例如：po/*.po 或 locale/*/LC_MESSAGES/"
 "django.po。"
 
-#: weblate/accounts/forms.py:651
+#: weblate/accounts/forms.py:653
 msgid "Additional message"
 msgstr "附加信息"
 
@@ -419,7 +419,7 @@ msgstr "用作默认时组件列表必须被选中。"
 msgid "Component list must not be selected when not used."
 msgstr "不使用时不能选中组件列表。"
 
-#: weblate/accounts/models.py:595
+#: weblate/accounts/models.py:599
 msgid ""
 "You can not submit translations as you do not have assigned any email "
 "address."
@@ -445,139 +445,145 @@ msgstr "无法使用之前用过的密码！"
 msgid "Your password can't match password you have used in the past."
 msgstr "您的密码不能与您曾经使用过的密码相同。"
 
-#: weblate/accounts/pipeline.py:275
+#: weblate/accounts/pipeline.py:299
 msgid "You can not complete password reset while logged in!"
 msgstr "在登录时无法完成密码重置！"
 
-#: weblate/accounts/pipeline.py:279 weblate/accounts/pipeline.py:303
+#: weblate/accounts/pipeline.py:303 weblate/accounts/pipeline.py:327
 msgid "The registration link has been invalidated."
 msgstr "注册链接已失效。"
 
-#: weblate/accounts/pipeline.py:294
+#: weblate/accounts/pipeline.py:318
 msgid "You can not complete registration while logged in!"
 msgstr "登录时无法完成注册！"
 
-#: weblate/accounts/pipeline.py:299
+#: weblate/accounts/pipeline.py:323
 msgid "You can confirm your registration only while logged in!"
 msgstr "您仅当登入后方可确定您的注册信息！"
 
-#: weblate/accounts/pipeline.py:424
+#: weblate/accounts/pipeline.py:451
 #, python-brace-format
 msgid ""
 "Your email no longer belongs to verified account, it has been changed to {0}."
 msgstr "您的电子邮箱不属于认证账号，它已被变更为{0}。"
 
-#: weblate/accounts/views.py:111 weblate/accounts/views.py:708
-#: weblate/accounts/views.py:757 weblate/templates/accounts/reset.html:7
+#: weblate/accounts/views.py:114 weblate/accounts/views.py:728
+#: weblate/accounts/views.py:777 weblate/templates/accounts/reset.html:7
 #: weblate/templates/accounts/reset.html:24
 msgid "Password reset"
 msgstr "重设密码"
 
-#: weblate/accounts/views.py:114 weblate/accounts/views.py:598
+#: weblate/accounts/views.py:117
+#, fuzzy
+#| msgid "Remove my account"
+msgid "Remove account"
+msgstr "删除我的账户"
+
+#: weblate/accounts/views.py:120 weblate/accounts/views.py:617
 msgid "User registration"
 msgstr "注册用户"
 
-#: weblate/accounts/views.py:146
+#: weblate/accounts/views.py:152
 msgid "Message could not be sent to administrator!"
 msgstr "消息无法发送至管理员！"
 
-#: weblate/accounts/views.py:164
+#: weblate/accounts/views.py:170
 msgid "Message has been sent to administrator."
 msgstr "消息已发送给管理员。"
 
-#: weblate/accounts/views.py:172
+#: weblate/accounts/views.py:178
 msgid "You cannot change demo account on the demo server."
 msgstr "您不能修改演示服务器的 demo 帐号。"
 
-#: weblate/accounts/views.py:197
+#: weblate/accounts/views.py:203
 msgid "Too many attempts, you have been logged out!"
 msgstr "尝试太多次，您已被登出！"
 
-#: weblate/accounts/views.py:259
+#: weblate/accounts/views.py:265
 msgid "Your profile has been updated."
 msgstr "您的资料已更新。"
 
-#: weblate/accounts/views.py:295
+#: weblate/accounts/views.py:301
 msgid "User profile"
 msgstr "用户资料"
 
-#: weblate/accounts/views.py:327
+#: weblate/accounts/views.py:332
 msgid "Your account has been removed."
 msgstr "您的账户已删除。"
 
-#: weblate/accounts/views.py:397
+#: weblate/accounts/views.py:415
 msgid "Too many messages sent, please try again later!"
 msgstr "发送了太多信息，请稍后重试！"
 
-#: weblate/accounts/views.py:422 weblate/templates/accounts/contact.html:6
+#: weblate/accounts/views.py:440 weblate/templates/accounts/contact.html:6
 #: weblate/templates/accounts/contact.html:21
 msgid "Contact"
 msgstr "联系"
 
-#: weblate/accounts/views.py:457 weblate/templates/accounts/hosting.html:7
+#: weblate/accounts/views.py:475 weblate/templates/accounts/hosting.html:7
 msgid "Hosting"
 msgstr "托管"
 
-#: weblate/accounts/views.py:535 weblate/templates/accounts/login.html:8
+#: weblate/accounts/views.py:553 weblate/templates/accounts/login.html:8
 #: weblate/templates/accounts/login.html:43 weblate/templates/base.html:131
 msgid "Login"
 msgstr "登录"
 
-#: weblate/accounts/views.py:545 weblate/wladmin/sites.py:145
+#: weblate/accounts/views.py:563 weblate/wladmin/sites.py:145
 msgid "Thanks for using Weblate!"
 msgstr "感谢您使用 Weblate！"
 
-#: weblate/accounts/views.py:635 weblate/templates/accounts/email.html:16
+#: weblate/accounts/views.py:655 weblate/templates/accounts/email.html:16
 msgid "Register email"
 msgstr "注册邮箱"
 
-#: weblate/accounts/views.py:678 weblate/templates/accounts/password.html:13
+#: weblate/accounts/views.py:698 weblate/templates/accounts/password.html:13
 #: weblate/templates/accounts/profile.html:192
 msgid "Change password"
 msgstr "更改密码"
 
-#: weblate/accounts/views.py:693
+#: weblate/accounts/views.py:713
 msgid "Password reset has been already completed!"
 msgstr "密码重设已完成！"
 
-#: weblate/accounts/views.py:724
+#: weblate/accounts/views.py:744
 msgid "Can not reset password, email authentication is disabled!"
 msgstr "无法重设密码，电子邮件验证已禁用！"
 
-#: weblate/accounts/views.py:858
+#: weblate/accounts/views.py:879
 msgid ""
 "Failed to verify your registration! Probably the verification token has "
 "expired. Please try the registration again."
 msgstr "注册验证失败！可能验证令牌已过期。请再试一次。"
 
-#: weblate/accounts/views.py:865
+#: weblate/accounts/views.py:886
 msgid "Authentication failed due to invalid session state."
 msgstr "因会话状态无效，验证失败。"
 
-#: weblate/accounts/views.py:879
+#: weblate/accounts/views.py:900
 msgid "Can not change authentication for demo!"
 msgstr "无法更改 demo 的身份验证！"
 
-#: weblate/accounts/views.py:883
+#: weblate/accounts/views.py:904
 msgid "New registrations are disabled!"
 msgstr "已禁止新的注册！"
 
-#: weblate/accounts/views.py:890
+#: weblate/accounts/views.py:911
 msgid ""
 "Authentication has failed, probably due to expired token or connection error."
 msgstr "验证已失败，可能是由于过期令牌或者连接错误。"
 
-#: weblate/accounts/views.py:894
+#: weblate/accounts/views.py:915
 msgid "Authentication has been cancelled."
 msgstr "身份验证已取消。"
 
-#: weblate/accounts/views.py:897
+#: weblate/accounts/views.py:918
 msgid ""
 "Failed to complete your registration! This authentication, email or username "
 "are already associated with another account!"
 msgstr "未能完成注册！本次验证所用的电子邮箱或用户名已经与另一账号相关联！"
 
-#: weblate/billing/admin.py:52 weblate/billing/models.py:122
+#: weblate/billing/admin.py:52 weblate/billing/models.py:123
 #: weblate/templates/accounts/user.html:38
 #: weblate/templates/billing/detail.html:31 weblate/templates/language.html:15
 #: weblate/templates/projects.html:5 weblate/trans/models/project.py:169
@@ -585,70 +591,70 @@ msgstr "未能完成注册！本次验证所用的电子邮箱或用户名已经
 msgid "Projects"
 msgstr "项目"
 
-#: weblate/billing/models.py:69
+#: weblate/billing/models.py:70
 msgid "Active"
 msgstr "活动"
 
-#: weblate/billing/models.py:70
+#: weblate/billing/models.py:71
 msgid "Trial"
 msgstr "试用"
 
-#: weblate/billing/models.py:71
+#: weblate/billing/models.py:72
 msgid "Expired"
 msgstr "已过期"
 
-#: weblate/billing/models.py:90
+#: weblate/billing/models.py:91
 msgid "Changes in last month"
 msgstr "最近一个月的变化"
 
-#: weblate/billing/models.py:94
+#: weblate/billing/models.py:95
 msgid "Changes in last quarter"
 msgstr "最近一季度的变化"
 
-#: weblate/billing/models.py:98
+#: weblate/billing/models.py:99
 msgid "Changes in last year"
 msgstr "最近一年的变化"
 
-#: weblate/billing/models.py:112 weblate/trans/admin.py:47
+#: weblate/billing/models.py:113 weblate/trans/admin.py:47
 msgid "VCS repositories"
 msgstr "VCS 代码库"
 
-#: weblate/billing/models.py:134 weblate/trans/models/project.py:308
+#: weblate/billing/models.py:135 weblate/trans/models/project.py:308
 msgid "Source strings"
 msgstr "源字符串"
 
-#: weblate/billing/models.py:145 weblate/trans/models/project.py:327
+#: weblate/billing/models.py:146 weblate/trans/models/project.py:327
 msgid "Source words"
 msgstr "源词汇"
 
-#: weblate/billing/models.py:157 weblate/lang/models.py:447
+#: weblate/billing/models.py:158 weblate/lang/models.py:447
 #: weblate/lang/views.py:43 weblate/templates/accounts/profile.html:22
 #: weblate/templates/accounts/profile.html:41 weblate/templates/language.html:6
 #: weblate/templates/languages.html:6 weblate/templates/project.html:26
 #: weblate/templates/trans/change_list.html:18 weblate/trans/forms.py:1003
-#: weblate/trans/forms.py:1309 weblate/trans/models/project.py:338
+#: weblate/trans/forms.py:1327 weblate/trans/models/project.py:338
 msgid "Languages"
 msgstr "语言"
 
 #. Translators: Whether the package is inside actual (hard) limits
-#: weblate/billing/models.py:180
+#: weblate/billing/models.py:181
 msgid "In limits"
 msgstr "限制"
 
-#: weblate/billing/models.py:186 weblate/templates/project_stats.html:4
+#: weblate/billing/models.py:187 weblate/templates/project_stats.html:4
 msgid "Number of strings"
 msgstr "字符串数量"
 
-#: weblate/billing/models.py:193
+#: weblate/billing/models.py:194
 msgid "N/A"
 msgstr "不可用"
 
-#: weblate/billing/models.py:194
+#: weblate/billing/models.py:195
 msgid "Last invoice"
 msgstr "最后发票"
 
 #. Translators: Whether the package is inside displayed (soft) limits
-#: weblate/billing/models.py:218
+#: weblate/billing/models.py:219
 msgid "In display limits"
 msgstr "显示限制"
 
@@ -656,54 +662,54 @@ msgstr "显示限制"
 msgid "Weblate languages"
 msgstr "Weblate 语言"
 
-#: weblate/lang/data.py:1092 weblate/lang/data.py:1096
-#: weblate/lang/data.py:1102 weblate/lang/data.py:1110
-#: weblate/lang/data.py:1114 weblate/lang/data.py:1119
-#: weblate/lang/data.py:1125 weblate/lang/data.py:1131
-#: weblate/lang/data.py:1136 weblate/lang/data.py:1142
-#: weblate/lang/data.py:1154
+#: weblate/lang/data.py:1097 weblate/lang/data.py:1101
+#: weblate/lang/data.py:1107 weblate/lang/data.py:1115
+#: weblate/lang/data.py:1119 weblate/lang/data.py:1124
+#: weblate/lang/data.py:1130 weblate/lang/data.py:1136
+#: weblate/lang/data.py:1141 weblate/lang/data.py:1147
+#: weblate/lang/data.py:1159
 msgctxt "Plural form description"
 msgid "One"
 msgstr "单个"
 
-#: weblate/lang/data.py:1093 weblate/lang/data.py:1098
-#: weblate/lang/data.py:1106 weblate/lang/data.py:1111
-#: weblate/lang/data.py:1116 weblate/lang/data.py:1122
-#: weblate/lang/data.py:1128 weblate/lang/data.py:1132
-#: weblate/lang/data.py:1139 weblate/lang/data.py:1146
-#: weblate/lang/data.py:1150 weblate/lang/data.py:1158
+#: weblate/lang/data.py:1098 weblate/lang/data.py:1103
+#: weblate/lang/data.py:1111 weblate/lang/data.py:1116
+#: weblate/lang/data.py:1121 weblate/lang/data.py:1127
+#: weblate/lang/data.py:1133 weblate/lang/data.py:1137
+#: weblate/lang/data.py:1144 weblate/lang/data.py:1151
+#: weblate/lang/data.py:1155 weblate/lang/data.py:1163
 msgctxt "Plural form description"
 msgid "Other"
 msgstr "其他"
 
-#: weblate/lang/data.py:1097 weblate/lang/data.py:1104
-#: weblate/lang/data.py:1127 weblate/lang/data.py:1137
-#: weblate/lang/data.py:1144 weblate/lang/data.py:1156
+#: weblate/lang/data.py:1102 weblate/lang/data.py:1109
+#: weblate/lang/data.py:1132 weblate/lang/data.py:1142
+#: weblate/lang/data.py:1149 weblate/lang/data.py:1161
 msgctxt "Plural form description"
 msgid "Few"
 msgstr "很少"
 
-#: weblate/lang/data.py:1101 weblate/lang/data.py:1109
-#: weblate/lang/data.py:1133 weblate/lang/data.py:1153
+#: weblate/lang/data.py:1106 weblate/lang/data.py:1114
+#: weblate/lang/data.py:1138 weblate/lang/data.py:1158
 msgctxt "Plural form description"
 msgid "Zero"
 msgstr "零"
 
-#: weblate/lang/data.py:1103 weblate/lang/data.py:1115
-#: weblate/lang/data.py:1120 weblate/lang/data.py:1126
-#: weblate/lang/data.py:1143 weblate/lang/data.py:1149
-#: weblate/lang/data.py:1155
+#: weblate/lang/data.py:1108 weblate/lang/data.py:1120
+#: weblate/lang/data.py:1125 weblate/lang/data.py:1131
+#: weblate/lang/data.py:1148 weblate/lang/data.py:1154
+#: weblate/lang/data.py:1160
 msgctxt "Plural form description"
 msgid "Two"
 msgstr "两个"
 
-#: weblate/lang/data.py:1105 weblate/lang/data.py:1138
-#: weblate/lang/data.py:1145 weblate/lang/data.py:1157
+#: weblate/lang/data.py:1110 weblate/lang/data.py:1143
+#: weblate/lang/data.py:1150 weblate/lang/data.py:1162
 msgctxt "Plural form description"
 msgid "Many"
 msgstr "很多"
 
-#: weblate/lang/data.py:1121
+#: weblate/lang/data.py:1126
 msgctxt "Plural form description"
 msgid "Three"
 msgstr "三个"
@@ -1266,21 +1272,37 @@ msgstr "发送"
 msgid "Registration"
 msgstr "注册"
 
-#: weblate/templates/accounts/email-sent.html:13
+#: weblate/templates/accounts/email-sent.html:14
 msgid "Password reset almost complete"
 msgstr "密码重设马上就完成了"
 
-#: weblate/templates/accounts/email-sent.html:15
+#: weblate/templates/accounts/email-sent.html:16
+#, fuzzy
+#| msgid "Password reset almost complete"
+msgid "Account removal almost complete"
+msgstr "密码重设马上就完成了"
+
+#: weblate/templates/accounts/email-sent.html:18
 msgid "Registration almost complete"
 msgstr "注册即将完成"
 
-#: weblate/templates/accounts/email-sent.html:21
+#: weblate/templates/accounts/email-sent.html:24
 msgid ""
 "You will very soon receive an email with a confirmation link. Please follow "
 "this link in order to complete your password reset procedure."
 msgstr "您将很快收到一封含有确认链接的邮件。请按照链接的指引完成您的注册流程。"
 
-#: weblate/templates/accounts/email-sent.html:23
+#: weblate/templates/accounts/email-sent.html:26
+#, fuzzy
+#| msgid ""
+#| "You will very soon receive an email with a confirmation link. Please "
+#| "follow this link in order to complete your password reset procedure."
+msgid ""
+"You will very soon receive an email with a confirmation link. Please follow "
+"this link in order to complete your account removal procedure."
+msgstr "您将很快收到一封含有确认链接的邮件。请按照链接的指引完成您的注册流程。"
+
+#: weblate/templates/accounts/email-sent.html:28
 msgid ""
 "Thank you for registering. You will very soon receive an email with a "
 "confirmation link. Please follow this link in order to complete your "
@@ -1289,13 +1311,13 @@ msgstr ""
 "感谢您的注册。您将很快收到一封含有确认链接的邮件。请按照链接的指引完成您的注"
 "册。"
 
-#: weblate/templates/accounts/email-sent.html:26
+#: weblate/templates/accounts/email-sent.html:31
 msgid ""
 "Please note that the confirmation link has limited validity. In case it does "
 "not work, please register again."
 msgstr "请注意，确认链接具有时效性。如果链接失效，请重新注册。"
 
-#: weblate/templates/accounts/email-sent.html:30
+#: weblate/templates/accounts/email-sent.html:35
 #, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
@@ -1779,13 +1801,19 @@ msgstr ""
 msgid "Account removal"
 msgstr "删除账号"
 
-#: weblate/templates/accounts/removal.html:19
+#: weblate/templates/accounts/removal.html:20
 msgid ""
 "By pressing following button, your will no longer be able to use this "
 "account."
 msgstr "按下下方的按钮后，您将不能再使用这一账号。"
 
-#: weblate/templates/accounts/removal.html:23
+#: weblate/templates/accounts/removal.html:22
+msgid ""
+"You will have to confirm account removal by clicking link in email you will "
+"receive."
+msgstr ""
+
+#: weblate/templates/accounts/removal.html:27
 msgid "Delete this account"
 msgstr "删除此账号"
 
@@ -2171,7 +2199,7 @@ msgid "No words found!"
 msgstr "没有词语！"
 
 #: weblate/templates/dictionary.html:95 weblate/templates/js/detail.html:42
-#: weblate/templates/manage-access.html:70 weblate/templates/translate.html:434
+#: weblate/templates/manage-access.html:93 weblate/templates/translate.html:434
 msgid "Add"
 msgstr "添加"
 
@@ -2789,8 +2817,8 @@ msgid "Kurdish"
 msgstr "库尔德语（كوردی）"
 
 #: weblate/templates/i18n.html:150
-msgid "Kurdish Sorani"
-msgstr "库尔德语索拉尼方言"
+msgid "Kurmanji"
+msgstr ""
 
 #: weblate/templates/i18n.html:151
 msgid "Kwanyama"
@@ -3141,202 +3169,208 @@ msgid "Songhai languages"
 msgstr "桑海语（Songhai）"
 
 #: weblate/templates/i18n.html:238
+#, fuzzy
+#| msgid "Guarani"
+msgid "Sorani"
+msgstr "瓜拉尼语"
+
+#: weblate/templates/i18n.html:239
 msgid "Sotho"
 msgstr "塞索托语（Sesotho）"
 
-#: weblate/templates/i18n.html:239
+#: weblate/templates/i18n.html:240
 msgid "South Ndebele"
 msgstr "南恩德贝勒语"
 
-#: weblate/templates/i18n.html:240
+#: weblate/templates/i18n.html:241
 msgid "Southern Sami"
 msgstr "南萨米语"
 
-#: weblate/templates/i18n.html:241
+#: weblate/templates/i18n.html:242
 msgid "Spanish"
 msgstr "西班牙语（español）"
 
-#: weblate/templates/i18n.html:242
+#: weblate/templates/i18n.html:243
 msgid "Spanish (American)"
 msgstr "西班牙语（美国）"
 
-#: weblate/templates/i18n.html:243
+#: weblate/templates/i18n.html:244
 msgid "Spanish (Argentina)"
 msgstr "西班牙语 (阿根廷)"
 
-#: weblate/templates/i18n.html:244
+#: weblate/templates/i18n.html:245
 msgid "Spanish (Mexico)"
 msgstr "西班牙语 (墨西哥)"
 
-#: weblate/templates/i18n.html:245
+#: weblate/templates/i18n.html:246
 msgid "Spanish (Puerto Rico)"
 msgstr "西班牙语（波多黎各）"
 
-#: weblate/templates/i18n.html:246
+#: weblate/templates/i18n.html:247
 msgid "Sundanese"
 msgstr "巽他语（Basa Sunda）"
 
-#: weblate/templates/i18n.html:247
+#: weblate/templates/i18n.html:248
 msgid "Swahili"
 msgstr "斯瓦希里语（Kiswahili）"
 
-#: weblate/templates/i18n.html:248
+#: weblate/templates/i18n.html:249
 msgid "Swati"
 msgstr "斯瓦蒂语"
 
-#: weblate/templates/i18n.html:249
+#: weblate/templates/i18n.html:250
 msgid "Swedish"
 msgstr "瑞典语（svenska）"
 
-#: weblate/templates/i18n.html:250
+#: weblate/templates/i18n.html:251
 msgid "Swiss High German"
 msgstr "瑞士高地德语（Schweizerhochdeutsch）"
 
-#: weblate/templates/i18n.html:251
+#: weblate/templates/i18n.html:252
 msgid "Tagalog"
 msgstr "他加禄语（Tagalog）"
 
-#: weblate/templates/i18n.html:252
+#: weblate/templates/i18n.html:253
 msgid "Tahitian"
 msgstr "塔希提语"
 
-#: weblate/templates/i18n.html:253
+#: weblate/templates/i18n.html:254
 msgid "Tajik"
 msgstr "塔吉克语（Tоҷикӣ/تاجیکی‎）"
 
-#: weblate/templates/i18n.html:254
+#: weblate/templates/i18n.html:255
 msgid "Tamil"
 msgstr "泰米尔语（தமிழ்）"
 
-#: weblate/templates/i18n.html:255
+#: weblate/templates/i18n.html:256
 msgid "Tatar"
 msgstr "鞑靼语/塔塔尔语（татарча/تاتارچا‎）"
 
-#: weblate/templates/i18n.html:256
+#: weblate/templates/i18n.html:257
 msgid "Telugu"
 msgstr "泰卢固语（తెలుగు）"
 
-#: weblate/templates/i18n.html:257
+#: weblate/templates/i18n.html:258
 msgid "Thai"
 msgstr "泰语（ภาษาไทย）"
 
-#: weblate/templates/i18n.html:258
+#: weblate/templates/i18n.html:259
 msgid "Tibetan"
 msgstr "藏语（བོད་སྐད་）"
 
-#: weblate/templates/i18n.html:259
+#: weblate/templates/i18n.html:260
 msgid "Tigrinya"
 msgstr "提格利尼亚语（ትግርኛ）"
 
-#: weblate/templates/i18n.html:260
+#: weblate/templates/i18n.html:261
 msgid "Tonga (Tonga Islands)"
 msgstr "汤加语(汤加群岛)"
 
-#: weblate/templates/i18n.html:261
+#: weblate/templates/i18n.html:262
 msgid "Tsonga"
 msgstr "聪加语（Xitsonga）"
 
-#: weblate/templates/i18n.html:262
+#: weblate/templates/i18n.html:263
 msgid "Tswana"
 msgstr "茨瓦纳语"
 
-#: weblate/templates/i18n.html:263
+#: weblate/templates/i18n.html:264
 msgid "Turkish"
 msgstr "土耳其语（Türkçe）"
 
-#: weblate/templates/i18n.html:264
+#: weblate/templates/i18n.html:265
 msgid "Turkmen"
 msgstr "土库曼语（Türkmen dili）"
 
-#: weblate/templates/i18n.html:265
+#: weblate/templates/i18n.html:266
 msgid "Twi"
 msgstr "契维语（Twi）"
 
-#: weblate/templates/i18n.html:266
+#: weblate/templates/i18n.html:267
 msgid "Uighur"
 msgstr "维吾尔语（ئۇيغۇر تىلى‎）"
 
-#: weblate/templates/i18n.html:267
+#: weblate/templates/i18n.html:268
 msgid "Ukrainian"
 msgstr "乌克兰语（українська мова）"
 
-#: weblate/templates/i18n.html:268
+#: weblate/templates/i18n.html:269
 msgid "Upper Sorbian"
 msgstr "上索布语（Upper Sorbian）"
 
-#: weblate/templates/i18n.html:269
+#: weblate/templates/i18n.html:270
 msgid "Urdu"
 msgstr "乌尔都语（اردو）"
 
-#: weblate/templates/i18n.html:270
+#: weblate/templates/i18n.html:271
 msgid "Urdu (Pakistan)"
 msgstr "乌尔都语（巴基斯坦）"
 
-#: weblate/templates/i18n.html:271
+#: weblate/templates/i18n.html:272
 msgid "Uzbek"
 msgstr "乌兹别克语/乌孜别克语（Ўзбекча/اوزبیکچه）"
 
-#: weblate/templates/i18n.html:272
+#: weblate/templates/i18n.html:273
 msgid "Uzbek (latin)"
 msgstr "拉丁乌兹别克语（oʻzbek tili）"
 
-#: weblate/templates/i18n.html:273
+#: weblate/templates/i18n.html:274
 msgid "Valencian"
 msgstr "巴伦西亚语（Valencià）"
 
-#: weblate/templates/i18n.html:274
+#: weblate/templates/i18n.html:275
 msgid "Venda"
 msgstr "文达语（Tshivenḓa）"
 
-#: weblate/templates/i18n.html:275
+#: weblate/templates/i18n.html:276
 msgid "Venetian"
 msgstr "威尼托语（Venetic）"
 
-#: weblate/templates/i18n.html:276
+#: weblate/templates/i18n.html:277
 msgid "Vietnamese"
 msgstr "越南语（Tiếng Việt）"
 
-#: weblate/templates/i18n.html:277
+#: weblate/templates/i18n.html:278
 msgid "Volapük"
 msgstr "沃拉普克语"
 
-#: weblate/templates/i18n.html:278
+#: weblate/templates/i18n.html:279
 msgid "Walloon"
 msgstr "瓦龙语（Walon）"
 
-#: weblate/templates/i18n.html:279
+#: weblate/templates/i18n.html:280
 msgid "Welsh"
 msgstr "威尔士语（Cymraeg）"
 
-#: weblate/templates/i18n.html:280
+#: weblate/templates/i18n.html:281
 msgid "West Flemish"
 msgstr "西佛兰德语（West-Vlaams）"
 
-#: weblate/templates/i18n.html:281
+#: weblate/templates/i18n.html:282
 msgid "Wolof"
 msgstr "沃洛夫语（Wolof）"
 
-#: weblate/templates/i18n.html:282
+#: weblate/templates/i18n.html:283
 msgid "Xhosa"
 msgstr "科萨语"
 
-#: weblate/templates/i18n.html:283
+#: weblate/templates/i18n.html:284
 msgid "Yakut"
 msgstr "雅库特语（Саха тыла）"
 
-#: weblate/templates/i18n.html:284
+#: weblate/templates/i18n.html:285
 msgid "Yiddish"
 msgstr "意第绪语（ייִדיש‎）"
 
-#: weblate/templates/i18n.html:285
+#: weblate/templates/i18n.html:286
 msgid "Yoruba"
 msgstr "约鲁巴语（Èdè Yorùbá）"
 
-#: weblate/templates/i18n.html:286
+#: weblate/templates/i18n.html:287
 msgid "Yue"
 msgstr "粤语"
 
-#: weblate/templates/i18n.html:287
+#: weblate/templates/i18n.html:288
 msgid "Zulu"
 msgstr "祖鲁语（isiZulu）"
 
@@ -3781,8 +3815,9 @@ msgstr[0] "已有 %(count)s 个字符串被翻译。"
 #: weblate/templates/mail/new_translation.html:7
 #: weblate/templates/mail/new_translation.txt:1
 #: weblate/templates/mail/parse_error.html:7
-#: weblate/templates/mail/parse_error.txt:1 weblate/templates/mail/reset.html:7
-#: weblate/templates/mail/reset.txt:1
+#: weblate/templates/mail/parse_error.txt:1
+#: weblate/templates/mail/remove.html:7 weblate/templates/mail/remove.txt:1
+#: weblate/templates/mail/reset.html:7 weblate/templates/mail/reset.txt:1
 msgid "Hi,"
 msgstr "您好"
 
@@ -3813,8 +3848,9 @@ msgid ""
 msgstr "这是一封帮助您完成注册 %(site_title)s 的自动发送的邮件。"
 
 #: weblate/templates/mail/activation.html:15
-#: weblate/templates/mail/activation.txt:5 weblate/templates/mail/reset.html:15
-#: weblate/templates/mail/reset.txt:5
+#: weblate/templates/mail/activation.txt:5
+#: weblate/templates/mail/remove.html:15 weblate/templates/mail/remove.txt:5
+#: weblate/templates/mail/reset.html:15 weblate/templates/mail/reset.txt:5
 msgid ""
 "Please open the following link in your web browser. If the link is split "
 "over several lines, you may need to copy it in the address bar."
@@ -3823,8 +3859,9 @@ msgstr ""
 "栏中。"
 
 #: weblate/templates/mail/activation.html:23
-#: weblate/templates/mail/activation.txt:9 weblate/templates/mail/reset.html:23
-#: weblate/templates/mail/reset.txt:9
+#: weblate/templates/mail/activation.txt:9
+#: weblate/templates/mail/remove.html:23 weblate/templates/mail/remove.txt:9
+#: weblate/templates/mail/reset.html:23 weblate/templates/mail/reset.txt:9
 msgid "If there is a problem with your registration, please contact us:"
 msgstr "如果您对注册还有问题，请联系我们："
 
@@ -4087,6 +4124,19 @@ msgstr "失败的文件："
 msgid "Parse error in %(subproject)s"
 msgstr "%(subproject)s 中解析出错"
 
+#: weblate/templates/mail/remove.html:11 weblate/templates/mail/remove.txt:3
+#, fuzzy, python-format
+#| msgid ""
+#| "There was a request to reset your Weblate password at %(site_title)s."
+msgid "There was a request to remove your Weblate account at %(site_title)s."
+msgstr "已有请求要求重置您在 %(site_title)s 上的 Weblate 密码。"
+
+#: weblate/templates/mail/remove_subject.txt:4
+#, fuzzy, python-format
+#| msgid "Your registration on %(site_title)s"
+msgid "Account removal on %(site_title)s"
+msgstr "您在 %(site_title)s 上的注册"
+
 #: weblate/templates/mail/reset.html:11 weblate/templates/mail/reset.txt:3
 #, python-format
 msgid "There was a request to reset your Weblate password at %(site_title)s."
@@ -4101,27 +4151,45 @@ msgstr "重置 %(site_title)s 上的密码"
 msgid "Change subscription settings:"
 msgstr "更改订阅设置："
 
-#: weblate/templates/manage-access.html:8 weblate/templates/project.html:70
+#: weblate/templates/manage-access.html:9 weblate/templates/project.html:70
 #: weblate/templates/subproject.html:79
 msgid "Manage users"
 msgstr "管理用户"
 
-#: weblate/templates/manage-access.html:17
+#: weblate/templates/manage-access.html:21
+#, fuzzy
+#| msgid "Access control"
+msgid "Project access control"
+msgstr "访问控制"
+
+#: weblate/templates/manage-access.html:28
+#, fuzzy
+#| msgid "changes"
+msgid "Change"
+msgstr "修改"
+
+#: weblate/templates/manage-access.html:30
+#, fuzzy
+#| msgid "You do not have privilege to accept suggestions!"
+msgid "You do not have permission to change project access control."
+msgstr "您没有接受建议的权限！"
+
+#: weblate/templates/manage-access.html:40
 msgid "Users"
 msgstr "用户"
 
-#: weblate/templates/manage-access.html:43
+#: weblate/templates/manage-access.html:66
 #: weblate/templates/screenshots/screenshot_sources_body.html:20
 msgid "Remove"
 msgstr "删除"
 
-#: weblate/templates/manage-access.html:52
+#: weblate/templates/manage-access.html:75
 msgid ""
 "The user will be removed from the project once you remove last user "
 "permission."
 msgstr "如果您去掉最终用户许可协议，用户将会从项目中移除。"
 
-#: weblate/templates/manage-access.html:64
+#: weblate/templates/manage-access.html:87
 msgid "Add new user"
 msgstr "添加新用户"
 
@@ -5548,47 +5616,47 @@ msgstr "Joomla 语言文件"
 msgid "PHP strings"
 msgstr "PHP 字符串"
 
-#: weblate/trans/formats.py:1116
+#: weblate/trans/formats.py:1123
 msgid ".Net resource file"
 msgstr ".Net 资源文件"
 
-#: weblate/trans/formats.py:1127
+#: weblate/trans/formats.py:1134
 msgid "Android String Resource"
 msgstr "Android 字符串资源"
 
-#: weblate/trans/formats.py:1157
+#: weblate/trans/formats.py:1164
 msgid "JSON file"
 msgstr "JSON文件"
 
-#: weblate/trans/formats.py:1191
+#: weblate/trans/formats.py:1198
 msgid "JSON nested structure file"
 msgstr "JSON 嵌套结构文件"
 
-#: weblate/trans/formats.py:1198
+#: weblate/trans/formats.py:1205
 msgid "WebExtension JSON file"
 msgstr "WebExtension JSON 文件"
 
-#: weblate/trans/formats.py:1207
+#: weblate/trans/formats.py:1214
 msgid "i18next JSON file"
 msgstr "i18next JSON 文件"
 
-#: weblate/trans/formats.py:1214
+#: weblate/trans/formats.py:1221
 msgid "CSV file"
 msgstr "CSV 文件"
 
-#: weblate/trans/formats.py:1285
+#: weblate/trans/formats.py:1292
 msgid "Simple CSV file"
 msgstr "简单 CSV 文件"
 
-#: weblate/trans/formats.py:1322
+#: weblate/trans/formats.py:1329
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "简单 CSV 文件 (ISO-8859-1)"
 
-#: weblate/trans/formats.py:1329
+#: weblate/trans/formats.py:1336
 msgid "YAML file"
 msgstr "YAML 文件"
 
-#: weblate/trans/formats.py:1367
+#: weblate/trans/formats.py:1374
 msgid "Ruby YAML file"
 msgstr "Ruby YAML 文件"
 
@@ -5709,42 +5777,42 @@ msgstr "作者邮箱"
 msgid "Search filter"
 msgstr "搜索筛选"
 
-#: weblate/trans/forms.py:545 weblate/trans/models/translation.py:877
-#: weblate/trans/models/translation.py:919
+#: weblate/trans/forms.py:545 weblate/trans/models/translation.py:876
+#: weblate/trans/models/translation.py:918
 msgid "All strings"
 msgstr "所有字符串"
 
-#: weblate/trans/forms.py:546 weblate/trans/models/translation.py:946
+#: weblate/trans/forms.py:546 weblate/trans/models/translation.py:945
 msgid "Not translated strings"
 msgstr "未翻译字符串"
 
-#: weblate/trans/forms.py:547 weblate/trans/models/translation.py:937
+#: weblate/trans/forms.py:547 weblate/trans/models/translation.py:936
 msgid "Strings needing action"
 msgstr "字符串需要处理"
 
-#: weblate/trans/forms.py:548 weblate/trans/models/translation.py:928
+#: weblate/trans/forms.py:548 weblate/trans/models/translation.py:927
 msgid "Translated strings"
 msgstr "已翻译的字符串"
 
-#: weblate/trans/forms.py:549 weblate/trans/models/translation.py:955
+#: weblate/trans/forms.py:549 weblate/trans/models/translation.py:954
 msgid "Strings marked for review"
 msgstr "已标记复查的字符串"
 
-#: weblate/trans/forms.py:550 weblate/trans/models/translation.py:964
+#: weblate/trans/forms.py:550 weblate/trans/models/translation.py:963
 msgid "Strings with suggestions"
 msgstr "有建议的字符串"
 
-#: weblate/trans/forms.py:551 weblate/trans/models/translation.py:905
-#: weblate/trans/models/translation.py:992
+#: weblate/trans/forms.py:551 weblate/trans/models/translation.py:904
+#: weblate/trans/models/translation.py:991
 msgid "Strings with comments"
 msgstr "带有注释的字符串"
 
-#: weblate/trans/forms.py:552 weblate/trans/models/translation.py:885
-#: weblate/trans/models/translation.py:972
+#: weblate/trans/forms.py:552 weblate/trans/models/translation.py:884
+#: weblate/trans/models/translation.py:971
 msgid "Strings with any failing checks"
 msgstr "任何未通过检查的字符串"
 
-#: weblate/trans/forms.py:553 weblate/trans/models/translation.py:1001
+#: weblate/trans/forms.py:553 weblate/trans/models/translation.py:1000
 msgid "Random strings for review"
 msgstr "随机复查字符串"
 
@@ -6004,11 +6072,11 @@ msgstr "上游链接"
 msgid "Languages processing"
 msgstr "语言处理"
 
-#: weblate/trans/forms.py:1279
+#: weblate/trans/forms.py:1297
 msgid "Search string"
 msgstr "搜索字符串"
 
-#: weblate/trans/forms.py:1284
+#: weblate/trans/forms.py:1302
 msgid "Replacement string"
 msgstr "替换字符串"
 
@@ -6979,24 +7047,24 @@ msgid "User configured character: {}"
 msgstr "用户配置字符串：{}"
 
 #. Translators: placeholder SSH hashed hostname
-#: weblate/trans/ssh.py:86
+#: weblate/trans/ssh.py:87
 msgid "[hostname hashed]"
 msgstr "[主机哈希加密]"
 
-#: weblate/trans/ssh.py:136
+#: weblate/trans/ssh.py:137
 msgid "Created new SSH key."
 msgstr "已创建 SSH 密钥。"
 
-#: weblate/trans/ssh.py:140
+#: weblate/trans/ssh.py:141
 #, python-format
 msgid "Failed to generate key: %s"
 msgstr "生成密钥失败：%s"
 
-#: weblate/trans/ssh.py:150
+#: weblate/trans/ssh.py:151
 msgid "Invalid host name given!"
 msgstr "主机名无效！"
 
-#: weblate/trans/ssh.py:172
+#: weblate/trans/ssh.py:173
 #, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), "
@@ -7005,11 +7073,11 @@ msgstr ""
 "已为主机 %(host)s 添加指纹为 %(fingerprint)s (%(keytype)s) 的密钥，请验证是否"
 "正确。"
 
-#: weblate/trans/ssh.py:184
+#: weblate/trans/ssh.py:185
 msgid "Failed to fetch public key for a host!"
 msgstr "获取一个主机的公钥失败！"
 
-#: weblate/trans/ssh.py:192 weblate/trans/ssh.py:197
+#: weblate/trans/ssh.py:193 weblate/trans/ssh.py:198
 #, python-format
 msgid "Failed to get host key: %s"
 msgstr "获取主机密钥失败：%s"
@@ -7282,25 +7350,31 @@ msgstr "因为每一个用户给了他自己的建议一票，因而值为1是�
 msgid "Invalid check flag: \"%s\""
 msgstr "无效的勾选标记: \"%s\""
 
-#: weblate/trans/views/acl.py:78
+#: weblate/trans/views/acl.py:82
 msgid "Invalid parameters!"
 msgstr "无效参数！"
 
-#: weblate/trans/views/acl.py:84 weblate/trans/views/acl.py:138
+#: weblate/trans/views/acl.py:88 weblate/trans/views/acl.py:142
 msgid "You can not remove last owner!"
 msgstr "您不能移除最终拥有者！"
 
-#: weblate/trans/views/acl.py:115
+#: weblate/trans/views/acl.py:119
 msgid "User has been added to this project."
 msgstr "用户已加入此项目。"
 
-#: weblate/trans/views/acl.py:119
+#: weblate/trans/views/acl.py:123
 msgid "Failed to find group to add a user!"
 msgstr "找不到要添加用户的组！"
 
-#: weblate/trans/views/acl.py:142
+#: weblate/trans/views/acl.py:146
 msgid "User has been removed from this project."
 msgstr "用户已被此项目中移除。"
+
+#: weblate/trans/views/acl.py:172
+#, fuzzy
+#| msgid "Password has been changed."
+msgid "Project access control has been changed."
+msgstr "密码已被更改。"
 
 #: weblate/trans/views/basic.py:160
 msgid ""
@@ -7968,6 +8042,9 @@ msgstr "缓存模板加载器"
 msgid "Admin static files"
 msgstr "Admin静态文件"
 
+#~ msgid "Kurdish Sorani"
+#~ msgstr "库尔德语索拉尼方言"
+
 #~ msgid "Enable ACL"
 #~ msgstr "启用ACL"
 
@@ -8377,9 +8454,6 @@ msgstr "Admin静态文件"
 
 #~ msgid "Git repository:"
 #~ msgstr "Git 代码库："
-
-#~ msgid "changes"
-#~ msgstr "修改"
 
 #~ msgid "Suggested by anonymous user"
 #~ msgstr "建议者为匿名用户"
