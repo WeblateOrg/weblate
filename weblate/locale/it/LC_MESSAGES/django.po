@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate v. 2017.09.28\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-09-28 15:10+0000\n"
-"PO-Revision-Date: 2017-10-08 10:04+0000\n"
+"PO-Revision-Date: 2017-10-08 10:29+0000\n"
 "Last-Translator: ROBERTO <roberto.boriotti@canon-europe.com>\n"
 "Language-Team: Italian "
 "<https://hosted.weblate.org/projects/weblate/master/it/>\n"
@@ -3688,7 +3688,7 @@ msgstr "Componenti"
 #: weblate/templates/source-review.html:27 weblate/templates/translate.html:510
 #: weblate/trans/views/checks.py:76
 msgid "Failing checks"
-msgstr "Controlli falliti"
+msgstr "Errori"
 
 #: weblate/templates/language-project.html:26
 #: weblate/templates/language.html:26 weblate/templates/project.html:51
@@ -3741,7 +3741,7 @@ msgstr "Traduzioni corrette"
 
 #: weblate/templates/legend.html:8 weblate/templates/progress.html:8
 msgid "Translations with failing checks"
-msgstr "Traduzioni con verifiche fallite"
+msgstr "Traduzioni con errori"
 
 #: weblate/templates/legend.html:11 weblate/templates/progress.html:11
 msgid "Fuzzy translations"
@@ -3819,8 +3819,8 @@ msgstr[1] "%(count)s stringhe richiedono una revisione."
 #, python-format
 msgid "There is %(count)s failing check."
 msgid_plural "There are %(count)s failing checks."
-msgstr[0] "%(count)s stringa ha fallito la verifica."
-msgstr[1] "%(count)s stringhe hanno fallito la verifica."
+msgstr[0] "%(count)s stringa con errori."
+msgstr[1] "%(count)s stringhe con errori."
 
 #: weblate/templates/list-translations.html:62
 #, python-format
@@ -4582,7 +4582,7 @@ msgstr "Traduzioni completate"
 
 #: weblate/templates/stats.html:94
 msgid "Failing checks found"
-msgstr "Controlli falliti"
+msgstr "Errori trovati"
 
 #: weblate/templates/subproject-settings.html:17
 msgid "Basic"
@@ -4841,7 +4841,8 @@ msgid ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Log in</a> for saving "
 "translations."
 msgstr ""
-"%(login_url)s?next=%(translate_url)s\">Accedi</a> per salvare le traduzioni."
+"<a href=\"%(login_url)s?next=%(translate_url)s\">Accedi</a> per salvare le "
+"traduzioni."
 
 #: weblate/templates/translate.html:174
 msgid "Suggest"
@@ -5558,7 +5559,7 @@ msgstr "Codice XML non valido"
 
 #: weblate/trans/checks/markup.py:111
 msgid "The translation is not valid XML"
-msgstr "La traduzione contiene un tag XML non valido"
+msgstr "Traduzione con errori nel codice XML"
 
 #: weblate/trans/checks/markup.py:138
 msgid "XML tags mismatch"
@@ -5594,11 +5595,11 @@ msgstr "La stringa usa tre punti (...) invece di un carattere elissi (…)"
 
 #: weblate/trans/checks/source.py:66
 msgid "Multiple failing checks"
-msgstr "Stringhe con verifiche mancanti"
+msgstr "Stringhe con errori"
 
 #: weblate/trans/checks/source.py:68
 msgid "The translations in several languages have failing checks"
-msgstr "La traduzione in diverse lingue ha fallito alcune verifiche"
+msgstr "La traduzione in diverse lingue contiene alcuni errori"
 
 #: weblate/trans/context_processors.py:52
 msgid "Hosted Weblate, the place to translate your software project."
@@ -5865,7 +5866,7 @@ msgstr "Stringhe con commenti"
 #: weblate/trans/forms.py:552 weblate/trans/models/translation.py:885
 #: weblate/trans/models/translation.py:972
 msgid "Strings with any failing checks"
-msgstr "Stringhe con verifiche mancanti"
+msgstr "Stringhe con errori"
 
 #: weblate/trans/forms.py:553 weblate/trans/models/translation.py:1001
 msgid "Random strings for review"
@@ -7327,11 +7328,11 @@ msgstr "Il messaggio non è tradotto"
 
 #: weblate/trans/templatetags/translations.py:556
 msgid "Message has failing checks"
-msgstr "Il messaggio ha fallito alcune verifiche"
+msgstr "Il messaggio contiene alcuni errori"
 
 #: weblate/trans/templatetags/translations.py:561
 msgid "Message is translated"
-msgstr "Il emssaggio è tradotto"
+msgstr "Il messaggio è tradotto"
 
 #: weblate/trans/templatetags/translations.py:567
 msgid "Message has comments"
