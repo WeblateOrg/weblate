@@ -25,7 +25,7 @@ from datetime import date, datetime, timedelta
 import json
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Fieldset, Field
+from crispy_forms.layout import Layout, Fieldset, Field, Div
 
 from django import forms
 from django.core.exceptions import PermissionDenied
@@ -1282,14 +1282,19 @@ class ProjectAccessForm(forms.ModelForm):
             'access_control',
         )
 
+    def __init__(self, *args, **kwargs):
+        super(ProjectAccessForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Field('access_control'),
+            Div(template='access_control_description.html'),
+        )
+
 
 class DisabledProjectAccessForm(ProjectAccessForm):
     def __init__(self, *args, **kwargs):
         super(DisabledProjectAccessForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper(self)
-        self.helper.layout = Layout(
-            Field('access_control', disabled=True)
-        )
+        self.helper.layout[0] = Field('access_control', disabled=True)
 
 
 class ReplaceForm(forms.Form):

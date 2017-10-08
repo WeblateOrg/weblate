@@ -10,28 +10,6 @@
 {% endblock %}
 
 {% block content %}
-{% can_edit_access_control user object as user_can_edit_access_control %}
-
-<form action="{% url "change-access" project=object.slug %}" method="post">
-{% csrf_token %}
-<div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">
-    {% doc_url 'admin/access' 'acl' as acl_doc_url %}
-    <a class="pull-right flip" href="{{ acl_doc_url }}"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
-  {% trans "Project access control" %}
-  </h4></div>
-  <div class="panel-body">
-  {% crispy access_form %}
-  </div>
-  <div class="panel-footer">
-{% if user_can_edit_access_control %}
-  <input type="submit" class="btn btn-default" value="{% trans "Change" %}" />
-{% else %}
-    <p class="helptext">{% trans "You do not have permission to change project access control." %}</p>
-{% endif %}
-  </div>
-</div>
-</form>
 
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">
@@ -95,4 +73,26 @@
 </div>
 </form>
 
+{% can_edit_access_control user object as user_can_edit_access_control %}
+
+<form action="{% url "change-access" project=object.slug %}" method="post">
+{% csrf_token %}
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">
+    {% doc_url 'admin/access' 'acl' as acl_doc_url %}
+    <a class="pull-right flip" href="{{ acl_doc_url }}"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+  {% trans "Project access control" %}
+  </h4></div>
+  <div class="panel-body">
+  {% crispy access_form %}
+  </div>
+  <div class="panel-footer">
+{% if user_can_edit_access_control %}
+  <input type="submit" class="btn btn-default" value="{% trans "Change" %}" />
+{% else %}
+    <p class="helptext">{% trans "You do not have permission to change project access control." %}</p>
+{% endif %}
+  </div>
+</div>
+</form>
 {% endblock %}
