@@ -182,7 +182,7 @@ class ProjectAPITest(APIBaseTest):
             'api:project-changes',
             self.project_kwargs,
         )
-        self.assertEqual(request.data['count'], 7)
+        self.assertEqual(request.data['count'], 8)
 
     def test_statistics(self):
         request = self.do_request(
@@ -331,7 +331,7 @@ class ComponentAPITest(APIBaseTest):
             'api:component-changes',
             self.component_kwargs,
         )
-        self.assertEqual(request.data['count'], 7)
+        self.assertEqual(request.data['count'], 8)
 
 
 class LanguageAPITest(APIBaseTest):
