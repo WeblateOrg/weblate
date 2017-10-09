@@ -1608,12 +1608,11 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         """Lock or unlock component."""
         self.locked = lock
         self.save(update_fields=['locked'])
-        if self.translation_set.exists():
-            Change.objects.create(
-                subproject=self,
-                user=user,
-                action=Change.ACTION_LOCK if lock else Change.ACTION_UNLOCK,
-            )
+        Change.objects.create(
+            subproject=self,
+            user=user,
+            action=Change.ACTION_LOCK if lock else Change.ACTION_UNLOCK,
+        )
 
     def get_editable_template(self):
         if not self.edit_template or not self.has_template():
