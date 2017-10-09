@@ -701,3 +701,6 @@ REST_FRAMEWORK = {
 
 # Force sane test runner
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
+
+# Handler CSRF errors
+CSRF_FAILURE_VIEW = 'weblate.trans.views.basic.denied'
