@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-10-08 13:28+0000\n"
+"POT-Creation-Date: 2017-10-09 06:47+0000\n"
 "PO-Revision-Date: 2017-09-30 01:44+0000\n"
 "Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -61,7 +61,7 @@ msgid ""
 msgstr "用户名只能由字母、数字及下列字符组成：@ . + - _"
 
 #: weblate/accounts/forms.py:121 weblate/templates/accounts/user.html:22
-#: weblate/templates/manage-access.html:45
+#: weblate/templates/manage-access.html:23
 msgid "Username"
 msgstr "用户名"
 
@@ -73,7 +73,7 @@ msgstr "用户名不能以句点开头。"
 msgid "This username is already taken. Please choose another."
 msgstr "该用户名已被注册，请另选一个。"
 
-#: weblate/accounts/forms.py:158 weblate/templates/manage-access.html:46
+#: weblate/accounts/forms.py:158 weblate/templates/manage-access.html:24
 msgid "Full name"
 msgstr "全名"
 
@@ -97,7 +97,7 @@ msgid ""
 msgstr "您将只收到您已关注项目之您已翻译语言的这些通知。"
 
 #: weblate/accounts/forms.py:296 weblate/accounts/forms.py:367
-#: weblate/templates/manage-access.html:47
+#: weblate/templates/manage-access.html:25
 msgid "E-mail"
 msgstr "电子邮箱"
 
@@ -632,7 +632,7 @@ msgstr "源词汇"
 #: weblate/templates/accounts/profile.html:41 weblate/templates/language.html:6
 #: weblate/templates/languages.html:6 weblate/templates/project.html:26
 #: weblate/templates/trans/change_list.html:18 weblate/trans/forms.py:1003
-#: weblate/trans/forms.py:1327 weblate/trans/models/project.py:338
+#: weblate/trans/forms.py:1332 weblate/trans/models/project.py:338
 msgid "Languages"
 msgstr "语言"
 
@@ -1236,6 +1236,33 @@ msgstr "版本"
 #: weblate/templates/about.html:68
 msgid "Weblate would not exist without these projects."
 msgstr "没有这些项目，Weblate 不可能存在。"
+
+#: weblate/templates/access_control_description.html:4
+#: weblate/trans/models/project.py:130
+msgid "Public"
+msgstr "公开的"
+
+#: weblate/templates/access_control_description.html:5
+msgid "Publicly visible and translatable"
+msgstr ""
+
+#: weblate/templates/access_control_description.html:6
+#: weblate/trans/models/project.py:131
+msgid "Protected"
+msgstr "受保护的"
+
+#: weblate/templates/access_control_description.html:7
+msgid "Publicly visible but translatable only for selected users"
+msgstr ""
+
+#: weblate/templates/access_control_description.html:8
+#: weblate/trans/models/project.py:132
+msgid "Private"
+msgstr "私有的"
+
+#: weblate/templates/access_control_description.html:9
+msgid "Visible and translatable only for selected users"
+msgstr ""
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -2199,7 +2226,7 @@ msgid "No words found!"
 msgstr "没有词语！"
 
 #: weblate/templates/dictionary.html:95 weblate/templates/js/detail.html:42
-#: weblate/templates/manage-access.html:93 weblate/templates/translate.html:434
+#: weblate/templates/manage-access.html:71 weblate/templates/translate.html:434
 msgid "Add"
 msgstr "添加"
 
@@ -4156,42 +4183,42 @@ msgstr "更改订阅设置："
 msgid "Manage users"
 msgstr "管理用户"
 
-#: weblate/templates/manage-access.html:21
-#, fuzzy
-#| msgid "Access control"
-msgid "Project access control"
-msgstr "访问控制"
-
-#: weblate/templates/manage-access.html:28
-#, fuzzy
-#| msgid "changes"
-msgid "Change"
-msgstr "修改"
-
-#: weblate/templates/manage-access.html:30
-#, fuzzy
-#| msgid "You do not have privilege to accept suggestions!"
-msgid "You do not have permission to change project access control."
-msgstr "您没有接受建议的权限！"
-
-#: weblate/templates/manage-access.html:40
+#: weblate/templates/manage-access.html:18
 msgid "Users"
 msgstr "用户"
 
-#: weblate/templates/manage-access.html:66
+#: weblate/templates/manage-access.html:44
 #: weblate/templates/screenshots/screenshot_sources_body.html:20
 msgid "Remove"
 msgstr "删除"
 
-#: weblate/templates/manage-access.html:75
+#: weblate/templates/manage-access.html:53
 msgid ""
 "The user will be removed from the project once you remove last user "
 "permission."
 msgstr "如果您去掉最终用户许可协议，用户将会从项目中移除。"
 
-#: weblate/templates/manage-access.html:87
+#: weblate/templates/manage-access.html:65
 msgid "Add new user"
 msgstr "添加新用户"
+
+#: weblate/templates/manage-access.html:84
+#, fuzzy
+#| msgid "Access control"
+msgid "Project access control"
+msgstr "访问控制"
+
+#: weblate/templates/manage-access.html:91
+#, fuzzy
+#| msgid "changes"
+msgid "Change"
+msgstr "修改"
+
+#: weblate/templates/manage-access.html:93
+#, fuzzy
+#| msgid "You do not have privilege to accept suggestions!"
+msgid "You do not have permission to change project access control."
+msgstr "您没有接受建议的权限！"
 
 #: weblate/templates/matrix.html:8
 msgid "matrix"
@@ -6072,11 +6099,11 @@ msgstr "上游链接"
 msgid "Languages processing"
 msgstr "语言处理"
 
-#: weblate/trans/forms.py:1297
+#: weblate/trans/forms.py:1302
 msgid "Search string"
 msgstr "搜索字符串"
 
-#: weblate/trans/forms.py:1302
+#: weblate/trans/forms.py:1307
 msgid "Replacement string"
 msgstr "替换字符串"
 
@@ -6348,18 +6375,6 @@ msgstr "设定翻译团队的负责人"
 msgid ""
 "Whether the Translation-Team in file headers should be updated by Weblate."
 msgstr "Weblate 是否应该更新文件头中的 Translation-Team 。"
-
-#: weblate/trans/models/project.py:130
-msgid "Public"
-msgstr "公开的"
-
-#: weblate/trans/models/project.py:131
-msgid "Protected"
-msgstr "受保护的"
-
-#: weblate/trans/models/project.py:132
-msgid "Private"
-msgstr "私有的"
 
 #: weblate/trans/models/project.py:134
 msgid "Access control"

@@ -7,17 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-10-08 13:28+0000\n"
+"POT-Creation-Date: 2017-10-09 06:47+0000\n"
 "PO-Revision-Date: 2017-10-08 15:51+0000\n"
 "Last-Translator: Viktar Vauchkevich <victorenator@gmail.com>\n"
-"Language-Team: Belarusian (latin) "
-"<https://hosted.weblate.org/projects/weblate/master/be_Latn/>\n"
+"Language-Team: Belarusian (latin) <https://hosted.weblate.org/projects/"
+"weblate/master/be_Latn/>\n"
 "Language: be@latin\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
-"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.17-dev\n"
 
 #: weblate/accounts/admin.py:105 weblate/accounts/admin.py:110
@@ -64,7 +64,7 @@ msgstr ""
 "@ . + - _"
 
 #: weblate/accounts/forms.py:121 weblate/templates/accounts/user.html:22
-#: weblate/templates/manage-access.html:45
+#: weblate/templates/manage-access.html:23
 msgid "Username"
 msgstr "Іmia karystaĺnіka"
 
@@ -76,7 +76,7 @@ msgstr "Imia karystaĺnika nie pavinna pačynacca z kropki."
 msgid "This username is already taken. Please choose another."
 msgstr "Heta іmia karystaĺnіka zaniata. Kalі laska, abiarycie іnšaje."
 
-#: weblate/accounts/forms.py:158 weblate/templates/manage-access.html:46
+#: weblate/accounts/forms.py:158 weblate/templates/manage-access.html:24
 msgid "Full name"
 msgstr "Poŭnaje іmia"
 
@@ -104,7 +104,7 @@ msgstr ""
 "praektach, za jakimi vy nazirajecie."
 
 #: weblate/accounts/forms.py:296 weblate/accounts/forms.py:367
-#: weblate/templates/manage-access.html:47
+#: weblate/templates/manage-access.html:25
 msgid "E-mail"
 msgstr "El. pošta"
 
@@ -662,7 +662,7 @@ msgstr "Zychdnyja slovy"
 #: weblate/templates/accounts/profile.html:41 weblate/templates/language.html:6
 #: weblate/templates/languages.html:6 weblate/templates/project.html:26
 #: weblate/templates/trans/change_list.html:18 weblate/trans/forms.py:1003
-#: weblate/trans/forms.py:1327 weblate/trans/models/project.py:338
+#: weblate/trans/forms.py:1332 weblate/trans/models/project.py:338
 msgid "Languages"
 msgstr "Movy"
 
@@ -1306,6 +1306,33 @@ msgstr "Viersіі"
 #: weblate/templates/about.html:68
 msgid "Weblate would not exist without these projects."
 msgstr "Weblate nie isnavaŭ by biez hetych prajektaŭ."
+
+#: weblate/templates/access_control_description.html:4
+#: weblate/trans/models/project.py:130
+msgid "Public"
+msgstr "Publičny"
+
+#: weblate/templates/access_control_description.html:5
+msgid "Publicly visible and translatable"
+msgstr ""
+
+#: weblate/templates/access_control_description.html:6
+#: weblate/trans/models/project.py:131
+msgid "Protected"
+msgstr "Abaronieny"
+
+#: weblate/templates/access_control_description.html:7
+msgid "Publicly visible but translatable only for selected users"
+msgstr ""
+
+#: weblate/templates/access_control_description.html:8
+#: weblate/trans/models/project.py:132
+msgid "Private"
+msgstr "Pryvatny"
+
+#: weblate/templates/access_control_description.html:9
+msgid "Visible and translatable only for selected users"
+msgstr ""
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -2337,7 +2364,7 @@ msgid "No words found!"
 msgstr "Žadnaha slova nie znojdziena!"
 
 #: weblate/templates/dictionary.html:95 weblate/templates/js/detail.html:42
-#: weblate/templates/manage-access.html:93 weblate/templates/translate.html:434
+#: weblate/templates/manage-access.html:71 weblate/templates/translate.html:434
 msgid "Add"
 msgstr "Dadać"
 
@@ -4335,28 +4362,16 @@ msgstr "Zmianіć nalady padpіskі:"
 msgid "Manage users"
 msgstr "Kіravannie karystaĺnіkamі"
 
-#: weblate/templates/manage-access.html:21
-msgid "Project access control"
-msgstr "Kantroĺ dostupu da prajekta"
-
-#: weblate/templates/manage-access.html:28
-msgid "Change"
-msgstr "Zmianić"
-
-#: weblate/templates/manage-access.html:30
-msgid "You do not have permission to change project access control."
-msgstr "Vam nie dastaje pravoŭ, kab zmianić pravy dostupu da prajekta."
-
-#: weblate/templates/manage-access.html:40
+#: weblate/templates/manage-access.html:18
 msgid "Users"
 msgstr "Karystaĺnіkі"
 
-#: weblate/templates/manage-access.html:66
+#: weblate/templates/manage-access.html:44
 #: weblate/templates/screenshots/screenshot_sources_body.html:20
 msgid "Remove"
 msgstr "Vydalіć"
 
-#: weblate/templates/manage-access.html:75
+#: weblate/templates/manage-access.html:53
 msgid ""
 "The user will be removed from the project once you remove last user "
 "permission."
@@ -4364,9 +4379,21 @@ msgstr ""
 "Hety karystaĺnik budzie vydalieny z prajekta paslia taho, jak vy vydalicie "
 "apošni dazvol."
 
-#: weblate/templates/manage-access.html:87
+#: weblate/templates/manage-access.html:65
 msgid "Add new user"
 msgstr "Dadać novaha karystaĺnіka"
+
+#: weblate/templates/manage-access.html:84
+msgid "Project access control"
+msgstr "Kantroĺ dostupu da prajekta"
+
+#: weblate/templates/manage-access.html:91
+msgid "Change"
+msgstr "Zmianić"
+
+#: weblate/templates/manage-access.html:93
+msgid "You do not have permission to change project access control."
+msgstr "Vam nie dastaje pravoŭ, kab zmianić pravy dostupu da prajekta."
 
 #: weblate/templates/matrix.html:8
 msgid "matrix"
@@ -6310,11 +6337,11 @@ msgstr "Zniešnija spasylki"
 msgid "Languages processing"
 msgstr "Apracoŭka moŭ"
 
-#: weblate/trans/forms.py:1297
+#: weblate/trans/forms.py:1302
 msgid "Search string"
 msgstr "Pošuk radka"
 
-#: weblate/trans/forms.py:1302
+#: weblate/trans/forms.py:1307
 msgid "Replacement string"
 msgstr "Radok zamieny"
 
@@ -6585,18 +6612,6 @@ msgstr "Nastavіć zahalovak Translation-Team"
 msgid ""
 "Whether the Translation-Team in file headers should be updated by Weblate."
 msgstr "Cі maje Weblate abnaŭliać zahaloŭkі Translation-Team."
-
-#: weblate/trans/models/project.py:130
-msgid "Public"
-msgstr "Publičny"
-
-#: weblate/trans/models/project.py:131
-msgid "Protected"
-msgstr "Abaronieny"
-
-#: weblate/trans/models/project.py:132
-msgid "Private"
-msgstr "Pryvatny"
 
 #: weblate/trans/models/project.py:134
 msgid "Access control"

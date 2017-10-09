@@ -8,11 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-10-08 13:28+0000\n"
+"POT-Creation-Date: 2017-10-09 06:47+0000\n"
 "PO-Revision-Date: 2017-10-08 13:41+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
-"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/>"
-"\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/"
+">\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -64,7 +64,7 @@ msgstr ""
 "znaky: @ . + - _"
 
 #: weblate/accounts/forms.py:121 weblate/templates/accounts/user.html:22
-#: weblate/templates/manage-access.html:45
+#: weblate/templates/manage-access.html:23
 msgid "Username"
 msgstr "Uživatelské jméno"
 
@@ -76,7 +76,7 @@ msgstr "Uživatelské jméno nesmí začínat tečkou."
 msgid "This username is already taken. Please choose another."
 msgstr "Toto uživatelské jméno je již obsazené. Prosím zvolte si jiné."
 
-#: weblate/accounts/forms.py:158 weblate/templates/manage-access.html:46
+#: weblate/accounts/forms.py:158 weblate/templates/manage-access.html:24
 msgid "Full name"
 msgstr "Celé jméno"
 
@@ -104,7 +104,7 @@ msgstr ""
 "projektech."
 
 #: weblate/accounts/forms.py:296 weblate/accounts/forms.py:367
-#: weblate/templates/manage-access.html:47
+#: weblate/templates/manage-access.html:25
 msgid "E-mail"
 msgstr "E-mail"
 
@@ -654,7 +654,7 @@ msgstr "Zdrojová slova"
 #: weblate/templates/accounts/profile.html:41 weblate/templates/language.html:6
 #: weblate/templates/languages.html:6 weblate/templates/project.html:26
 #: weblate/templates/trans/change_list.html:18 weblate/trans/forms.py:1003
-#: weblate/trans/forms.py:1327 weblate/trans/models/project.py:338
+#: weblate/trans/forms.py:1332 weblate/trans/models/project.py:338
 msgid "Languages"
 msgstr "Jazyky"
 
@@ -1284,6 +1284,33 @@ msgstr "Verze"
 #: weblate/templates/about.html:68
 msgid "Weblate would not exist without these projects."
 msgstr "Weblate by nemohlo existovat bez těchto projektů."
+
+#: weblate/templates/access_control_description.html:4
+#: weblate/trans/models/project.py:130
+msgid "Public"
+msgstr "Veřejný"
+
+#: weblate/templates/access_control_description.html:5
+msgid "Publicly visible and translatable"
+msgstr ""
+
+#: weblate/templates/access_control_description.html:6
+#: weblate/trans/models/project.py:131
+msgid "Protected"
+msgstr "Omezený"
+
+#: weblate/templates/access_control_description.html:7
+msgid "Publicly visible but translatable only for selected users"
+msgstr ""
+
+#: weblate/templates/access_control_description.html:8
+#: weblate/trans/models/project.py:132
+msgid "Private"
+msgstr "Soukromý"
+
+#: weblate/templates/access_control_description.html:9
+msgid "Visible and translatable only for selected users"
+msgstr ""
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -2296,7 +2323,7 @@ msgid "No words found!"
 msgstr "Nebyly nalezena žádná slova!"
 
 #: weblate/templates/dictionary.html:95 weblate/templates/js/detail.html:42
-#: weblate/templates/manage-access.html:93 weblate/templates/translate.html:434
+#: weblate/templates/manage-access.html:71 weblate/templates/translate.html:434
 msgid "Add"
 msgstr "Přidat"
 
@@ -4289,37 +4316,37 @@ msgstr "Změňte nastavení upozornění:"
 msgid "Manage users"
 msgstr "Spravovat uživatele"
 
-#: weblate/templates/manage-access.html:21
-msgid "Project access control"
-msgstr "Řízení přístupu k projektu"
-
-#: weblate/templates/manage-access.html:28
-msgid "Change"
-msgstr "Změnit"
-
-#: weblate/templates/manage-access.html:30
-msgid "You do not have permission to change project access control."
-msgstr "Pro změnu přístupu nemáte oprávnění."
-
-#: weblate/templates/manage-access.html:40
+#: weblate/templates/manage-access.html:18
 msgid "Users"
 msgstr "Uživatelé"
 
-#: weblate/templates/manage-access.html:66
+#: weblate/templates/manage-access.html:44
 #: weblate/templates/screenshots/screenshot_sources_body.html:20
 msgid "Remove"
 msgstr "Odstranit"
 
-#: weblate/templates/manage-access.html:75
+#: weblate/templates/manage-access.html:53
 msgid ""
 "The user will be removed from the project once you remove last user "
 "permission."
 msgstr ""
 "Uživatel bude odebrán z projektu poté, co mu odeberete poslední oprávnění."
 
-#: weblate/templates/manage-access.html:87
+#: weblate/templates/manage-access.html:65
 msgid "Add new user"
 msgstr "Přidat uživatele"
+
+#: weblate/templates/manage-access.html:84
+msgid "Project access control"
+msgstr "Řízení přístupu k projektu"
+
+#: weblate/templates/manage-access.html:91
+msgid "Change"
+msgstr "Změnit"
+
+#: weblate/templates/manage-access.html:93
+msgid "You do not have permission to change project access control."
+msgstr "Pro změnu přístupu nemáte oprávnění."
 
 #: weblate/templates/matrix.html:8
 msgid "matrix"
@@ -6246,11 +6273,11 @@ msgstr "Odkazy na projekt"
 msgid "Languages processing"
 msgstr "Zpracování jazyků"
 
-#: weblate/trans/forms.py:1297
+#: weblate/trans/forms.py:1302
 msgid "Search string"
 msgstr "Hledaný řetězec"
 
-#: weblate/trans/forms.py:1302
+#: weblate/trans/forms.py:1307
 msgid "Replacement string"
 msgstr "Nahradit řetězcem"
 
@@ -6518,18 +6545,6 @@ msgstr "Nastavit hlavičku Translation-Team"
 msgid ""
 "Whether the Translation-Team in file headers should be updated by Weblate."
 msgstr "Zda má být hlavička Translation-Team aktualizována Weblate."
-
-#: weblate/trans/models/project.py:130
-msgid "Public"
-msgstr "Veřejný"
-
-#: weblate/trans/models/project.py:131
-msgid "Protected"
-msgstr "Omezený"
-
-#: weblate/trans/models/project.py:132
-msgid "Private"
-msgstr "Soukromý"
 
 #: weblate/trans/models/project.py:134
 msgid "Access control"

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Swedish (Weblate)\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-10-08 13:28+0000\n"
+"POT-Creation-Date: 2017-10-09 06:47+0000\n"
 "PO-Revision-Date: 2017-09-25 12:05+0000\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/master/"
@@ -58,7 +58,7 @@ msgstr ""
 "@ . + - _"
 
 #: weblate/accounts/forms.py:121 weblate/templates/accounts/user.html:22
-#: weblate/templates/manage-access.html:45
+#: weblate/templates/manage-access.html:23
 msgid "Username"
 msgstr "Användarnamn"
 
@@ -70,7 +70,7 @@ msgstr "Användarnamnet kan inte börja med punkt."
 msgid "This username is already taken. Please choose another."
 msgstr "Användarnamnet är upptaget. Välj ett annat användarnamn."
 
-#: weblate/accounts/forms.py:158 weblate/templates/manage-access.html:46
+#: weblate/accounts/forms.py:158 weblate/templates/manage-access.html:24
 msgid "Full name"
 msgstr "Fullständigt namn"
 
@@ -104,7 +104,7 @@ msgstr ""
 "Du kommer att erhålla valda meddelanden via e-post för alla dina språk."
 
 #: weblate/accounts/forms.py:296 weblate/accounts/forms.py:367
-#: weblate/templates/manage-access.html:47
+#: weblate/templates/manage-access.html:25
 msgid "E-mail"
 msgstr "E-post"
 
@@ -687,7 +687,7 @@ msgstr "Källord"
 #: weblate/templates/accounts/profile.html:41 weblate/templates/language.html:6
 #: weblate/templates/languages.html:6 weblate/templates/project.html:26
 #: weblate/templates/trans/change_list.html:18 weblate/trans/forms.py:1003
-#: weblate/trans/forms.py:1327 weblate/trans/models/project.py:338
+#: weblate/trans/forms.py:1332 weblate/trans/models/project.py:338
 msgid "Languages"
 msgstr "Språk"
 
@@ -1363,6 +1363,35 @@ msgstr "Versioner"
 
 #: weblate/templates/about.html:68
 msgid "Weblate would not exist without these projects."
+msgstr ""
+
+#: weblate/templates/access_control_description.html:4
+#: weblate/trans/models/project.py:130
+#, fuzzy
+#| msgid "Public SSH key"
+msgid "Public"
+msgstr "Offentlig SSH-nyckel"
+
+#: weblate/templates/access_control_description.html:5
+msgid "Publicly visible and translatable"
+msgstr ""
+
+#: weblate/templates/access_control_description.html:6
+#: weblate/trans/models/project.py:131
+msgid "Protected"
+msgstr ""
+
+#: weblate/templates/access_control_description.html:7
+msgid "Publicly visible but translatable only for selected users"
+msgstr ""
+
+#: weblate/templates/access_control_description.html:8
+#: weblate/trans/models/project.py:132
+msgid "Private"
+msgstr ""
+
+#: weblate/templates/access_control_description.html:9
+msgid "Visible and translatable only for selected users"
 msgstr ""
 
 #: weblate/templates/accounts/confirm.html:7
@@ -2434,7 +2463,7 @@ msgid "No words found!"
 msgstr "Inga ord hittades!"
 
 #: weblate/templates/dictionary.html:95 weblate/templates/js/detail.html:42
-#: weblate/templates/manage-access.html:93 weblate/templates/translate.html:434
+#: weblate/templates/manage-access.html:71 weblate/templates/translate.html:434
 msgid "Add"
 msgstr "Lägg till"
 
@@ -4571,48 +4600,48 @@ msgstr ""
 msgid "Manage users"
 msgstr "Hantera ordlista"
 
-#: weblate/templates/manage-access.html:21
-#, fuzzy
-#| msgid "Version control"
-msgid "Project access control"
-msgstr "Versionskontroll"
-
-#: weblate/templates/manage-access.html:28
-#, fuzzy
-#| msgid "changes"
-msgid "Change"
-msgstr "ändringar"
-
-#: weblate/templates/manage-access.html:30
-#, fuzzy
-#| msgid "You do not have privilege to accept suggestions!"
-msgid "You do not have permission to change project access control."
-msgstr "Du har inte behörighet att acceptera förslag!"
-
-#: weblate/templates/manage-access.html:40
+#: weblate/templates/manage-access.html:18
 #, fuzzy
 #| msgid "User"
 msgid "Users"
 msgstr "Användare"
 
-#: weblate/templates/manage-access.html:66
+#: weblate/templates/manage-access.html:44
 #: weblate/templates/screenshots/screenshot_sources_body.html:20
 #, fuzzy
 #| msgid "Removal"
 msgid "Remove"
 msgstr "Borttagning"
 
-#: weblate/templates/manage-access.html:75
+#: weblate/templates/manage-access.html:53
 msgid ""
 "The user will be removed from the project once you remove last user "
 "permission."
 msgstr ""
 
-#: weblate/templates/manage-access.html:87
+#: weblate/templates/manage-access.html:65
 #, fuzzy
 #| msgid "Add new word"
 msgid "Add new user"
 msgstr "Lägg till nytt ord"
+
+#: weblate/templates/manage-access.html:84
+#, fuzzy
+#| msgid "Version control"
+msgid "Project access control"
+msgstr "Versionskontroll"
+
+#: weblate/templates/manage-access.html:91
+#, fuzzy
+#| msgid "changes"
+msgid "Change"
+msgstr "ändringar"
+
+#: weblate/templates/manage-access.html:93
+#, fuzzy
+#| msgid "You do not have privilege to accept suggestions!"
+msgid "You do not have permission to change project access control."
+msgstr "Du har inte behörighet att acceptera förslag!"
 
 #: weblate/templates/matrix.html:8
 msgid "matrix"
@@ -6857,13 +6886,13 @@ msgstr ""
 msgid "Languages processing"
 msgstr "Luddiga strängar"
 
-#: weblate/trans/forms.py:1297
+#: weblate/trans/forms.py:1302
 #, fuzzy
 #| msgid "Source strings"
 msgid "Search string"
 msgstr "Källsträngar"
 
-#: weblate/trans/forms.py:1302
+#: weblate/trans/forms.py:1307
 #, fuzzy
 #| msgid "Search in context strings"
 msgid "Replacement string"
@@ -7185,20 +7214,6 @@ msgstr "Översättningar"
 #: weblate/trans/models/project.py:122
 msgid ""
 "Whether the Translation-Team in file headers should be updated by Weblate."
-msgstr ""
-
-#: weblate/trans/models/project.py:130
-#, fuzzy
-#| msgid "Public SSH key"
-msgid "Public"
-msgstr "Offentlig SSH-nyckel"
-
-#: weblate/trans/models/project.py:131
-msgid "Protected"
-msgstr ""
-
-#: weblate/trans/models/project.py:132
-msgid "Private"
 msgstr ""
 
 #: weblate/trans/models/project.py:134

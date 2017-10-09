@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-10-08 13:28+0000\n"
+"POT-Creation-Date: 2017-10-09 06:47+0000\n"
 "PO-Revision-Date: 2017-09-28 15:25+0000\n"
 "Last-Translator: Андрій Бандура <andriykopanytsia@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/master/"
@@ -66,7 +66,7 @@ msgstr ""
 "- _"
 
 #: weblate/accounts/forms.py:121 weblate/templates/accounts/user.html:22
-#: weblate/templates/manage-access.html:45
+#: weblate/templates/manage-access.html:23
 msgid "Username"
 msgstr "Ім'я користувача"
 
@@ -78,7 +78,7 @@ msgstr "Ім'я користувача не повинно починатися 
 msgid "This username is already taken. Please choose another."
 msgstr "Таке ім'я користувача вже використовується. Виберіть собі інше."
 
-#: weblate/accounts/forms.py:158 weblate/templates/manage-access.html:46
+#: weblate/accounts/forms.py:158 weblate/templates/manage-access.html:24
 msgid "Full name"
 msgstr "Повне ім’я"
 
@@ -105,7 +105,7 @@ msgstr ""
 "відстежуваних вами проектах."
 
 #: weblate/accounts/forms.py:296 weblate/accounts/forms.py:367
-#: weblate/templates/manage-access.html:47
+#: weblate/templates/manage-access.html:25
 msgid "E-mail"
 msgstr "Електронна пошта"
 
@@ -664,7 +664,7 @@ msgstr "Джерельний текст"
 #: weblate/templates/accounts/profile.html:41 weblate/templates/language.html:6
 #: weblate/templates/languages.html:6 weblate/templates/project.html:26
 #: weblate/templates/trans/change_list.html:18 weblate/trans/forms.py:1003
-#: weblate/trans/forms.py:1327 weblate/trans/models/project.py:338
+#: weblate/trans/forms.py:1332 weblate/trans/models/project.py:338
 msgid "Languages"
 msgstr "Мови"
 
@@ -1304,6 +1304,33 @@ msgstr "Версії"
 #: weblate/templates/about.html:68
 msgid "Weblate would not exist without these projects."
 msgstr "Weblate не існував би без цих проектів."
+
+#: weblate/templates/access_control_description.html:4
+#: weblate/trans/models/project.py:130
+msgid "Public"
+msgstr "Відкритий"
+
+#: weblate/templates/access_control_description.html:5
+msgid "Publicly visible and translatable"
+msgstr ""
+
+#: weblate/templates/access_control_description.html:6
+#: weblate/trans/models/project.py:131
+msgid "Protected"
+msgstr "Захищений"
+
+#: weblate/templates/access_control_description.html:7
+msgid "Publicly visible but translatable only for selected users"
+msgstr ""
+
+#: weblate/templates/access_control_description.html:8
+#: weblate/trans/models/project.py:132
+msgid "Private"
+msgstr "Приватний"
+
+#: weblate/templates/access_control_description.html:9
+msgid "Visible and translatable only for selected users"
+msgstr ""
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -2330,7 +2357,7 @@ msgid "No words found!"
 msgstr "Жодного слова не знайдено!"
 
 #: weblate/templates/dictionary.html:95 weblate/templates/js/detail.html:42
-#: weblate/templates/manage-access.html:93 weblate/templates/translate.html:434
+#: weblate/templates/manage-access.html:71 weblate/templates/translate.html:434
 msgid "Add"
 msgstr "Додати"
 
@@ -4326,34 +4353,16 @@ msgstr "Змінити налаштування підписки:"
 msgid "Manage users"
 msgstr "Управління користувачами"
 
-#: weblate/templates/manage-access.html:21
-#, fuzzy
-#| msgid "Access control"
-msgid "Project access control"
-msgstr "Управління доступом"
-
-#: weblate/templates/manage-access.html:28
-#, fuzzy
-#| msgid "changes"
-msgid "Change"
-msgstr "зміни"
-
-#: weblate/templates/manage-access.html:30
-#, fuzzy
-#| msgid "You do not have privilege to accept suggestions!"
-msgid "You do not have permission to change project access control."
-msgstr "У вас немає прав для прийняття пропозицій!"
-
-#: weblate/templates/manage-access.html:40
+#: weblate/templates/manage-access.html:18
 msgid "Users"
 msgstr "Користувачі"
 
-#: weblate/templates/manage-access.html:66
+#: weblate/templates/manage-access.html:44
 #: weblate/templates/screenshots/screenshot_sources_body.html:20
 msgid "Remove"
 msgstr "Видалити"
 
-#: weblate/templates/manage-access.html:75
+#: weblate/templates/manage-access.html:53
 msgid ""
 "The user will be removed from the project once you remove last user "
 "permission."
@@ -4361,9 +4370,27 @@ msgstr ""
 "Цей користувач буде вилучений з проекту після того, як ви видалите останній "
 "дозвіл."
 
-#: weblate/templates/manage-access.html:87
+#: weblate/templates/manage-access.html:65
 msgid "Add new user"
 msgstr "Додати нового користувача"
+
+#: weblate/templates/manage-access.html:84
+#, fuzzy
+#| msgid "Access control"
+msgid "Project access control"
+msgstr "Управління доступом"
+
+#: weblate/templates/manage-access.html:91
+#, fuzzy
+#| msgid "changes"
+msgid "Change"
+msgstr "зміни"
+
+#: weblate/templates/manage-access.html:93
+#, fuzzy
+#| msgid "You do not have privilege to accept suggestions!"
+msgid "You do not have permission to change project access control."
+msgstr "У вас немає прав для прийняття пропозицій!"
 
 #: weblate/templates/matrix.html:8
 msgid "matrix"
@@ -6302,11 +6329,11 @@ msgstr "Посилання на проект"
 msgid "Languages processing"
 msgstr "Опрацьовані мови"
 
-#: weblate/trans/forms.py:1297
+#: weblate/trans/forms.py:1302
 msgid "Search string"
 msgstr "Пошук рядка"
 
-#: weblate/trans/forms.py:1302
+#: weblate/trans/forms.py:1307
 msgid "Replacement string"
 msgstr "Заміна рядка"
 
@@ -6576,18 +6603,6 @@ msgstr "Установка заголовку Translation-Team"
 msgid ""
 "Whether the Translation-Team in file headers should be updated by Weblate."
 msgstr "Чи повинна система Weblate оновлювати заголовок Translation-Team."
-
-#: weblate/trans/models/project.py:130
-msgid "Public"
-msgstr "Відкритий"
-
-#: weblate/trans/models/project.py:131
-msgid "Protected"
-msgstr "Захищений"
-
-#: weblate/trans/models/project.py:132
-msgid "Private"
-msgstr "Приватний"
 
 #: weblate/trans/models/project.py:134
 msgid "Access control"

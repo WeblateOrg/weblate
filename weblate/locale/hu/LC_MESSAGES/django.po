@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-10-08 13:28+0000\n"
+"POT-Creation-Date: 2017-10-09 06:47+0000\n"
 "PO-Revision-Date: 2017-08-22 09:50+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/master/"
@@ -74,7 +74,7 @@ msgstr ""
 "tartalmazhatja: @ . + - _"
 
 #: weblate/accounts/forms.py:121 weblate/templates/accounts/user.html:22
-#: weblate/templates/manage-access.html:45
+#: weblate/templates/manage-access.html:23
 msgid "Username"
 msgstr "Felhasználói név"
 
@@ -86,7 +86,7 @@ msgstr ""
 msgid "This username is already taken. Please choose another."
 msgstr "Ez a felhasználónév már használatban van. Válasszon egy másikat."
 
-#: weblate/accounts/forms.py:158 weblate/templates/manage-access.html:46
+#: weblate/accounts/forms.py:158 weblate/templates/manage-access.html:24
 msgid "Full name"
 msgstr "Teljes név"
 
@@ -117,7 +117,7 @@ msgstr ""
 "nyelv esetében."
 
 #: weblate/accounts/forms.py:296 weblate/accounts/forms.py:367
-#: weblate/templates/manage-access.html:47
+#: weblate/templates/manage-access.html:25
 msgid "E-mail"
 msgstr "E-mail cím"
 
@@ -683,7 +683,7 @@ msgstr "Forrásszavak"
 #: weblate/templates/accounts/profile.html:41 weblate/templates/language.html:6
 #: weblate/templates/languages.html:6 weblate/templates/project.html:26
 #: weblate/templates/trans/change_list.html:18 weblate/trans/forms.py:1003
-#: weblate/trans/forms.py:1327 weblate/trans/models/project.py:338
+#: weblate/trans/forms.py:1332 weblate/trans/models/project.py:338
 msgid "Languages"
 msgstr "Nyelvek"
 
@@ -1347,6 +1347,35 @@ msgstr "Verziók"
 
 #: weblate/templates/about.html:68
 msgid "Weblate would not exist without these projects."
+msgstr ""
+
+#: weblate/templates/access_control_description.html:4
+#: weblate/trans/models/project.py:130
+#, fuzzy
+#| msgid "Public SSH key"
+msgid "Public"
+msgstr "Nyilvános SSH kulcs"
+
+#: weblate/templates/access_control_description.html:5
+msgid "Publicly visible and translatable"
+msgstr ""
+
+#: weblate/templates/access_control_description.html:6
+#: weblate/trans/models/project.py:131
+msgid "Protected"
+msgstr ""
+
+#: weblate/templates/access_control_description.html:7
+msgid "Publicly visible but translatable only for selected users"
+msgstr ""
+
+#: weblate/templates/access_control_description.html:8
+#: weblate/trans/models/project.py:132
+msgid "Private"
+msgstr ""
+
+#: weblate/templates/access_control_description.html:9
+msgid "Visible and translatable only for selected users"
 msgstr ""
 
 #: weblate/templates/accounts/confirm.html:7
@@ -2400,7 +2429,7 @@ msgid "No words found!"
 msgstr "Szavak nem találhatók!"
 
 #: weblate/templates/dictionary.html:95 weblate/templates/js/detail.html:42
-#: weblate/templates/manage-access.html:93 weblate/templates/translate.html:434
+#: weblate/templates/manage-access.html:71 weblate/templates/translate.html:434
 msgid "Add"
 msgstr "Hozzáadás"
 
@@ -4440,42 +4469,42 @@ msgstr "Feliratkozási beállítások módosítása:"
 msgid "Manage users"
 msgstr "Felhasználók kezelése"
 
-#: weblate/templates/manage-access.html:21
-#, fuzzy
-#| msgid "Version control"
-msgid "Project access control"
-msgstr "Verziókezelés"
-
-#: weblate/templates/manage-access.html:28
-#, fuzzy
-#| msgid "changes"
-msgid "Change"
-msgstr "Változások"
-
-#: weblate/templates/manage-access.html:30
-#, fuzzy
-#| msgid "You do not have privilege to accept suggestions!"
-msgid "You do not have permission to change project access control."
-msgstr "Nincs jogosultsága javaslatok elfogadására!"
-
-#: weblate/templates/manage-access.html:40
+#: weblate/templates/manage-access.html:18
 msgid "Users"
 msgstr "Felhasználók"
 
-#: weblate/templates/manage-access.html:66
+#: weblate/templates/manage-access.html:44
 #: weblate/templates/screenshots/screenshot_sources_body.html:20
 msgid "Remove"
 msgstr "Eltávolítás"
 
-#: weblate/templates/manage-access.html:75
+#: weblate/templates/manage-access.html:53
 msgid ""
 "The user will be removed from the project once you remove last user "
 "permission."
 msgstr ""
 
-#: weblate/templates/manage-access.html:87
+#: weblate/templates/manage-access.html:65
 msgid "Add new user"
 msgstr "Új felhasználó hozzáadása"
+
+#: weblate/templates/manage-access.html:84
+#, fuzzy
+#| msgid "Version control"
+msgid "Project access control"
+msgstr "Verziókezelés"
+
+#: weblate/templates/manage-access.html:91
+#, fuzzy
+#| msgid "changes"
+msgid "Change"
+msgstr "Változások"
+
+#: weblate/templates/manage-access.html:93
+#, fuzzy
+#| msgid "You do not have privilege to accept suggestions!"
+msgid "You do not have permission to change project access control."
+msgstr "Nincs jogosultsága javaslatok elfogadására!"
 
 #: weblate/templates/matrix.html:8
 msgid "matrix"
@@ -6551,13 +6580,13 @@ msgstr ""
 msgid "Languages processing"
 msgstr "Nyelvek feldolgozása"
 
-#: weblate/trans/forms.py:1297
+#: weblate/trans/forms.py:1302
 #, fuzzy
 #| msgid "Source strings"
 msgid "Search string"
 msgstr "Keresett szöveg"
 
-#: weblate/trans/forms.py:1302
+#: weblate/trans/forms.py:1307
 #, fuzzy
 #| msgid "Search in comment strings"
 msgid "Replacement string"
@@ -6850,20 +6879,6 @@ msgstr "Fordítási csapat beállítása a fejlécben"
 msgid ""
 "Whether the Translation-Team in file headers should be updated by Weblate."
 msgstr "Frissítse-e a Weblate a fájlok fejléceiben a fordítási csapatot."
-
-#: weblate/trans/models/project.py:130
-#, fuzzy
-#| msgid "Public SSH key"
-msgid "Public"
-msgstr "Nyilvános SSH kulcs"
-
-#: weblate/trans/models/project.py:131
-msgid "Protected"
-msgstr ""
-
-#: weblate/trans/models/project.py:132
-msgid "Private"
-msgstr ""
 
 #: weblate/trans/models/project.py:134
 #, fuzzy

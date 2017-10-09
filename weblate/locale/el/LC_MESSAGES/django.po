@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-10-08 13:28+0000\n"
+"POT-Creation-Date: 2017-10-09 06:47+0000\n"
 "PO-Revision-Date: 2017-08-31 12:00+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/weblate/master/el/"
@@ -65,7 +65,7 @@ msgstr ""
 "χαρακτήρες: @ . + - _"
 
 #: weblate/accounts/forms.py:121 weblate/templates/accounts/user.html:22
-#: weblate/templates/manage-access.html:45
+#: weblate/templates/manage-access.html:23
 msgid "Username"
 msgstr "Όνομα χρήστη"
 
@@ -77,7 +77,7 @@ msgstr ""
 msgid "This username is already taken. Please choose another."
 msgstr "Το όνομα χρήστη υπάρχει ήδη. Επιλέξτε άλλο."
 
-#: weblate/accounts/forms.py:158 weblate/templates/manage-access.html:46
+#: weblate/accounts/forms.py:158 weblate/templates/manage-access.html:24
 msgid "Full name"
 msgstr "Πλήρες όνομα"
 
@@ -104,7 +104,7 @@ msgstr ""
 "παρακολουθούμενα έργα σας."
 
 #: weblate/accounts/forms.py:296 weblate/accounts/forms.py:367
-#: weblate/templates/manage-access.html:47
+#: weblate/templates/manage-access.html:25
 msgid "E-mail"
 msgstr "Ηλεκτρονική διευθυνση"
 
@@ -689,7 +689,7 @@ msgstr "Λέξεις προέλευσης"
 #: weblate/templates/accounts/profile.html:41 weblate/templates/language.html:6
 #: weblate/templates/languages.html:6 weblate/templates/project.html:26
 #: weblate/templates/trans/change_list.html:18 weblate/trans/forms.py:1003
-#: weblate/trans/forms.py:1327 weblate/trans/models/project.py:338
+#: weblate/trans/forms.py:1332 weblate/trans/models/project.py:338
 msgid "Languages"
 msgstr "Γλώσσες"
 
@@ -1313,6 +1313,35 @@ msgstr "Εκδόσεις"
 
 #: weblate/templates/about.html:68
 msgid "Weblate would not exist without these projects."
+msgstr ""
+
+#: weblate/templates/access_control_description.html:4
+#: weblate/trans/models/project.py:130
+#, fuzzy
+#| msgid "Public SSH key"
+msgid "Public"
+msgstr "Δημόσιο κλειδί SSH"
+
+#: weblate/templates/access_control_description.html:5
+msgid "Publicly visible and translatable"
+msgstr ""
+
+#: weblate/templates/access_control_description.html:6
+#: weblate/trans/models/project.py:131
+msgid "Protected"
+msgstr ""
+
+#: weblate/templates/access_control_description.html:7
+msgid "Publicly visible but translatable only for selected users"
+msgstr ""
+
+#: weblate/templates/access_control_description.html:8
+#: weblate/trans/models/project.py:132
+msgid "Private"
+msgstr ""
+
+#: weblate/templates/access_control_description.html:9
+msgid "Visible and translatable only for selected users"
 msgstr ""
 
 #: weblate/templates/accounts/confirm.html:7
@@ -2388,7 +2417,7 @@ msgid "No words found!"
 msgstr "Δεν βρέθηκαν λέξεις!"
 
 #: weblate/templates/dictionary.html:95 weblate/templates/js/detail.html:42
-#: weblate/templates/manage-access.html:93 weblate/templates/translate.html:434
+#: weblate/templates/manage-access.html:71 weblate/templates/translate.html:434
 msgid "Add"
 msgstr "Προσθήκη"
 
@@ -4411,34 +4440,16 @@ msgstr "Αλλαγή ρυθμίσεων συνδρομής:"
 msgid "Manage users"
 msgstr "Διαχείριση χρηστών"
 
-#: weblate/templates/manage-access.html:21
-#, fuzzy
-#| msgid "Version control"
-msgid "Project access control"
-msgstr "Έλεγχος έκδοσης"
-
-#: weblate/templates/manage-access.html:28
-#, fuzzy
-#| msgid "changes"
-msgid "Change"
-msgstr "αλλαγές"
-
-#: weblate/templates/manage-access.html:30
-#, fuzzy
-#| msgid "You do not have privilege to accept suggestions!"
-msgid "You do not have permission to change project access control."
-msgstr "Δεν έχει δικαίωμα να αποδεχτείτε προτάσεις!"
-
-#: weblate/templates/manage-access.html:40
+#: weblate/templates/manage-access.html:18
 msgid "Users"
 msgstr "Χρήστες"
 
-#: weblate/templates/manage-access.html:66
+#: weblate/templates/manage-access.html:44
 #: weblate/templates/screenshots/screenshot_sources_body.html:20
 msgid "Remove"
 msgstr "Απομάκρυνση"
 
-#: weblate/templates/manage-access.html:75
+#: weblate/templates/manage-access.html:53
 msgid ""
 "The user will be removed from the project once you remove last user "
 "permission."
@@ -4446,9 +4457,27 @@ msgstr ""
 "Ο χρήστης θα απομακρυνθεί από το έργο μόλις απομακρύνεται την τελευταία "
 "αδειοδότητα χρήστη."
 
-#: weblate/templates/manage-access.html:87
+#: weblate/templates/manage-access.html:65
 msgid "Add new user"
 msgstr "Προσθήκη νέου χρήστη"
+
+#: weblate/templates/manage-access.html:84
+#, fuzzy
+#| msgid "Version control"
+msgid "Project access control"
+msgstr "Έλεγχος έκδοσης"
+
+#: weblate/templates/manage-access.html:91
+#, fuzzy
+#| msgid "changes"
+msgid "Change"
+msgstr "αλλαγές"
+
+#: weblate/templates/manage-access.html:93
+#, fuzzy
+#| msgid "You do not have privilege to accept suggestions!"
+msgid "You do not have permission to change project access control."
+msgstr "Δεν έχει δικαίωμα να αποδεχτείτε προτάσεις!"
 
 #: weblate/templates/matrix.html:8
 msgid "matrix"
@@ -6467,11 +6496,11 @@ msgstr "Σύνδεσμοι άνω ροής"
 msgid "Languages processing"
 msgstr "Διεργασία Γλωσσών"
 
-#: weblate/trans/forms.py:1297
+#: weblate/trans/forms.py:1302
 msgid "Search string"
 msgstr "Κείμενο αναζήτησης"
 
-#: weblate/trans/forms.py:1302
+#: weblate/trans/forms.py:1307
 msgid "Replacement string"
 msgstr "Κείμενο αντικατάστασης"
 
@@ -6746,20 +6775,6 @@ msgid ""
 msgstr ""
 "Αν θα πρέπει η Μεταφραστική Ομάδα στις κεφαλίδες αρχείου να ενημερώνετε από "
 "το Weblate."
-
-#: weblate/trans/models/project.py:130
-#, fuzzy
-#| msgid "Public SSH key"
-msgid "Public"
-msgstr "Δημόσιο κλειδί SSH"
-
-#: weblate/trans/models/project.py:131
-msgid "Protected"
-msgstr ""
-
-#: weblate/trans/models/project.py:132
-msgid "Private"
-msgstr ""
 
 #: weblate/trans/models/project.py:134
 #, fuzzy

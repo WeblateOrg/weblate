@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kabyle (Weblate)\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-10-08 13:28+0000\n"
+"POT-Creation-Date: 2017-10-09 06:47+0000\n"
 "PO-Revision-Date: 2017-08-31 12:00+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Kabyle <https://hosted.weblate.org/projects/weblate/master/"
@@ -58,7 +58,7 @@ msgstr ""
 "Yessefk asulay ad yegber kan: isekkilen, izwilen neɣ isekkilen-agi: @ . + - _"
 
 #: weblate/accounts/forms.py:121 weblate/templates/accounts/user.html:22
-#: weblate/templates/manage-access.html:45
+#: weblate/templates/manage-access.html:23
 msgid "Username"
 msgstr "Isem n useqdac"
 
@@ -70,7 +70,7 @@ msgstr "ISem n useqdac ur ibeddu ara s tneqqiṭ."
 msgid "This username is already taken. Please choose another."
 msgstr "Isem-agi n useqdac yettwaṭṭef yakan. Fren wayeḍ."
 
-#: weblate/accounts/forms.py:158 weblate/templates/manage-access.html:46
+#: weblate/accounts/forms.py:158 weblate/templates/manage-access.html:24
 msgid "Full name"
 msgstr "Isem inek ummid"
 
@@ -95,7 +95,7 @@ msgstr ""
 "Ad d-remseḍ ilɣa-agi kan i tutlayin n tsuqilt akked isenfaṛen i tettɛassaḍ."
 
 #: weblate/accounts/forms.py:296 weblate/accounts/forms.py:367
-#: weblate/templates/manage-access.html:47
+#: weblate/templates/manage-access.html:25
 msgid "E-mail"
 msgstr "Imayl"
 
@@ -633,7 +633,7 @@ msgstr "Awalen iɣbula"
 #: weblate/templates/accounts/profile.html:41 weblate/templates/language.html:6
 #: weblate/templates/languages.html:6 weblate/templates/project.html:26
 #: weblate/templates/trans/change_list.html:18 weblate/trans/forms.py:1003
-#: weblate/trans/forms.py:1327 weblate/trans/models/project.py:338
+#: weblate/trans/forms.py:1332 weblate/trans/models/project.py:338
 msgid "Languages"
 msgstr "Tutlayin"
 
@@ -1231,6 +1231,33 @@ msgstr "Ileqman"
 
 #: weblate/templates/about.html:68
 msgid "Weblate would not exist without these projects."
+msgstr ""
+
+#: weblate/templates/access_control_description.html:4
+#: weblate/trans/models/project.py:130
+msgid "Public"
+msgstr ""
+
+#: weblate/templates/access_control_description.html:5
+msgid "Publicly visible and translatable"
+msgstr ""
+
+#: weblate/templates/access_control_description.html:6
+#: weblate/trans/models/project.py:131
+msgid "Protected"
+msgstr ""
+
+#: weblate/templates/access_control_description.html:7
+msgid "Publicly visible but translatable only for selected users"
+msgstr ""
+
+#: weblate/templates/access_control_description.html:8
+#: weblate/trans/models/project.py:132
+msgid "Private"
+msgstr ""
+
+#: weblate/templates/access_control_description.html:9
+msgid "Visible and translatable only for selected users"
 msgstr ""
 
 #: weblate/templates/accounts/confirm.html:7
@@ -2167,7 +2194,7 @@ msgid "No words found!"
 msgstr "Ur ttwafen ara wawalen!"
 
 #: weblate/templates/dictionary.html:95 weblate/templates/js/detail.html:42
-#: weblate/templates/manage-access.html:93 weblate/templates/translate.html:434
+#: weblate/templates/manage-access.html:71 weblate/templates/translate.html:434
 msgid "Add"
 msgstr "Rnu"
 
@@ -4113,39 +4140,39 @@ msgstr ""
 msgid "Manage users"
 msgstr ""
 
-#: weblate/templates/manage-access.html:21
-#, fuzzy
-#| msgid "Versions"
-msgid "Project access control"
-msgstr "Ileqman"
-
-#: weblate/templates/manage-access.html:28
-#, fuzzy
-#| msgid "Change word"
-msgid "Change"
-msgstr "Beddel awal"
-
-#: weblate/templates/manage-access.html:30
-msgid "You do not have permission to change project access control."
-msgstr ""
-
-#: weblate/templates/manage-access.html:40
+#: weblate/templates/manage-access.html:18
 msgid "Users"
 msgstr "Iseqdacen"
 
-#: weblate/templates/manage-access.html:66
+#: weblate/templates/manage-access.html:44
 #: weblate/templates/screenshots/screenshot_sources_body.html:20
 msgid "Remove"
 msgstr "Kkes"
 
-#: weblate/templates/manage-access.html:75
+#: weblate/templates/manage-access.html:53
 msgid ""
 "The user will be removed from the project once you remove last user "
 "permission."
 msgstr ""
 
-#: weblate/templates/manage-access.html:87
+#: weblate/templates/manage-access.html:65
 msgid "Add new user"
+msgstr ""
+
+#: weblate/templates/manage-access.html:84
+#, fuzzy
+#| msgid "Versions"
+msgid "Project access control"
+msgstr "Ileqman"
+
+#: weblate/templates/manage-access.html:91
+#, fuzzy
+#| msgid "Change word"
+msgid "Change"
+msgstr "Beddel awal"
+
+#: weblate/templates/manage-access.html:93
+msgid "You do not have permission to change project access control."
 msgstr ""
 
 #: weblate/templates/matrix.html:8
@@ -6043,11 +6070,11 @@ msgstr ""
 msgid "Languages processing"
 msgstr ""
 
-#: weblate/trans/forms.py:1297
+#: weblate/trans/forms.py:1302
 msgid "Search string"
 msgstr ""
 
-#: weblate/trans/forms.py:1302
+#: weblate/trans/forms.py:1307
 msgid "Replacement string"
 msgstr ""
 
@@ -6314,18 +6341,6 @@ msgstr ""
 #: weblate/trans/models/project.py:122
 msgid ""
 "Whether the Translation-Team in file headers should be updated by Weblate."
-msgstr ""
-
-#: weblate/trans/models/project.py:130
-msgid "Public"
-msgstr ""
-
-#: weblate/trans/models/project.py:131
-msgid "Protected"
-msgstr ""
-
-#: weblate/trans/models/project.py:132
-msgid "Private"
 msgstr ""
 
 #: weblate/trans/models/project.py:134

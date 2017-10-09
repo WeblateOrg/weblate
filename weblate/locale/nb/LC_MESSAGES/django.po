@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-10-08 13:28+0000\n"
+"POT-Creation-Date: 2017-10-09 06:47+0000\n"
 "PO-Revision-Date: 2017-10-05 08:22+0000\n"
 "Last-Translator: Petter Reinholdtsen <pere-weblate@hungry.com>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
@@ -62,7 +62,7 @@ msgstr ""
 "Brukernavn kan kun inneholde bokstaver, tall eller følgende tegn: @. + - _"
 
 #: weblate/accounts/forms.py:121 weblate/templates/accounts/user.html:22
-#: weblate/templates/manage-access.html:45
+#: weblate/templates/manage-access.html:23
 msgid "Username"
 msgstr "Brukernavn"
 
@@ -74,7 +74,7 @@ msgstr "Brukernavn kan ikke starte med punktum."
 msgid "This username is already taken. Please choose another."
 msgstr "Brukernavnet er allerede tatt. Velg et annet."
 
-#: weblate/accounts/forms.py:158 weblate/templates/manage-access.html:46
+#: weblate/accounts/forms.py:158 weblate/templates/manage-access.html:24
 msgid "Full name"
 msgstr "Fullt navn"
 
@@ -101,7 +101,7 @@ msgstr ""
 "prosjektene du følger med på."
 
 #: weblate/accounts/forms.py:296 weblate/accounts/forms.py:367
-#: weblate/templates/manage-access.html:47
+#: weblate/templates/manage-access.html:25
 msgid "E-mail"
 msgstr "E-post"
 
@@ -656,7 +656,7 @@ msgstr "Kildeord"
 #: weblate/templates/accounts/profile.html:41 weblate/templates/language.html:6
 #: weblate/templates/languages.html:6 weblate/templates/project.html:26
 #: weblate/templates/trans/change_list.html:18 weblate/trans/forms.py:1003
-#: weblate/trans/forms.py:1327 weblate/trans/models/project.py:338
+#: weblate/trans/forms.py:1332 weblate/trans/models/project.py:338
 msgid "Languages"
 msgstr "Språk"
 
@@ -1287,6 +1287,33 @@ msgstr "Versjoner"
 #: weblate/templates/about.html:68
 msgid "Weblate would not exist without these projects."
 msgstr "Weblate ville ikke eksistert uten disse prosjektene."
+
+#: weblate/templates/access_control_description.html:4
+#: weblate/trans/models/project.py:130
+msgid "Public"
+msgstr "Offentlig"
+
+#: weblate/templates/access_control_description.html:5
+msgid "Publicly visible and translatable"
+msgstr ""
+
+#: weblate/templates/access_control_description.html:6
+#: weblate/trans/models/project.py:131
+msgid "Protected"
+msgstr ""
+
+#: weblate/templates/access_control_description.html:7
+msgid "Publicly visible but translatable only for selected users"
+msgstr ""
+
+#: weblate/templates/access_control_description.html:8
+#: weblate/trans/models/project.py:132
+msgid "Private"
+msgstr ""
+
+#: weblate/templates/access_control_description.html:9
+msgid "Visible and translatable only for selected users"
+msgstr ""
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -2310,7 +2337,7 @@ msgid "No words found!"
 msgstr "Ingen ord funnet!"
 
 #: weblate/templates/dictionary.html:95 weblate/templates/js/detail.html:42
-#: weblate/templates/manage-access.html:93 weblate/templates/translate.html:434
+#: weblate/templates/manage-access.html:71 weblate/templates/translate.html:434
 msgid "Add"
 msgstr "Legg til"
 
@@ -4308,43 +4335,43 @@ msgstr "Forandre abonnementsinnstillingene:"
 msgid "Manage users"
 msgstr "Administere brukere"
 
-#: weblate/templates/manage-access.html:21
-#, fuzzy
-#| msgid "Access control"
-msgid "Project access control"
-msgstr "Tilgangskontroll"
-
-#: weblate/templates/manage-access.html:28
-#, fuzzy
-#| msgid "Change word"
-msgid "Change"
-msgstr "Endre ord"
-
-#: weblate/templates/manage-access.html:30
-#, fuzzy
-#| msgid "You do not have privilege to accept suggestions!"
-msgid "You do not have permission to change project access control."
-msgstr "Du har ikke rettighet til å godta forslag!"
-
-#: weblate/templates/manage-access.html:40
+#: weblate/templates/manage-access.html:18
 msgid "Users"
 msgstr "Brukere"
 
-#: weblate/templates/manage-access.html:66
+#: weblate/templates/manage-access.html:44
 #: weblate/templates/screenshots/screenshot_sources_body.html:20
 msgid "Remove"
 msgstr "Fjern"
 
-#: weblate/templates/manage-access.html:75
+#: weblate/templates/manage-access.html:53
 msgid ""
 "The user will be removed from the project once you remove last user "
 "permission."
 msgstr ""
 "Brukeren blir fjernet fra prosjektet når den siste brukertilgangen fjernes."
 
-#: weblate/templates/manage-access.html:87
+#: weblate/templates/manage-access.html:65
 msgid "Add new user"
 msgstr "Legge til ny bruker"
+
+#: weblate/templates/manage-access.html:84
+#, fuzzy
+#| msgid "Access control"
+msgid "Project access control"
+msgstr "Tilgangskontroll"
+
+#: weblate/templates/manage-access.html:91
+#, fuzzy
+#| msgid "Change word"
+msgid "Change"
+msgstr "Endre ord"
+
+#: weblate/templates/manage-access.html:93
+#, fuzzy
+#| msgid "You do not have privilege to accept suggestions!"
+msgid "You do not have permission to change project access control."
+msgstr "Du har ikke rettighet til å godta forslag!"
 
 #: weblate/templates/matrix.html:8
 msgid "matrix"
@@ -6274,11 +6301,11 @@ msgstr "Oppstrømslenker"
 msgid "Languages processing"
 msgstr "Behandling av språk"
 
-#: weblate/trans/forms.py:1297
+#: weblate/trans/forms.py:1302
 msgid "Search string"
 msgstr "Søkestreng"
 
-#: weblate/trans/forms.py:1302
+#: weblate/trans/forms.py:1307
 msgid "Replacement string"
 msgstr "Erstatningsstring"
 
@@ -6547,18 +6574,6 @@ msgid ""
 "Whether the Translation-Team in file headers should be updated by Weblate."
 msgstr ""
 "Om Translation-Team i fil-topptekstene skulle bli oppdatert av Weblate."
-
-#: weblate/trans/models/project.py:130
-msgid "Public"
-msgstr "Offentlig"
-
-#: weblate/trans/models/project.py:131
-msgid "Protected"
-msgstr ""
-
-#: weblate/trans/models/project.py:132
-msgid "Private"
-msgstr ""
 
 #: weblate/trans/models/project.py:134
 msgid "Access control"

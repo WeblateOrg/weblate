@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-10-08 13:28+0000\n"
+"POT-Creation-Date: 2017-10-09 06:47+0000\n"
 "PO-Revision-Date: 2017-10-04 07:18+0000\n"
 "Last-Translator: monolifed <monolifed@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
@@ -64,7 +64,7 @@ msgstr ""
 "karakterleri içerebilir: @ . + - _"
 
 #: weblate/accounts/forms.py:121 weblate/templates/accounts/user.html:22
-#: weblate/templates/manage-access.html:45
+#: weblate/templates/manage-access.html:23
 msgid "Username"
 msgstr "Kullanıcı adı"
 
@@ -76,7 +76,7 @@ msgstr "Kullanıcı adı nokta ile başlayamaz."
 msgid "This username is already taken. Please choose another."
 msgstr "Bu kullanıcı adı zaten alınmış. Lütfen başka bir tane seçin."
 
-#: weblate/accounts/forms.py:158 weblate/templates/manage-access.html:46
+#: weblate/accounts/forms.py:158 weblate/templates/manage-access.html:24
 msgid "Full name"
 msgstr "Tam ad"
 
@@ -102,7 +102,7 @@ msgstr ""
 "alacaksınız."
 
 #: weblate/accounts/forms.py:296 weblate/accounts/forms.py:367
-#: weblate/templates/manage-access.html:47
+#: weblate/templates/manage-access.html:25
 msgid "E-mail"
 msgstr "E-posta"
 
@@ -654,7 +654,7 @@ msgstr "Kaynak sözcükler"
 #: weblate/templates/accounts/profile.html:41 weblate/templates/language.html:6
 #: weblate/templates/languages.html:6 weblate/templates/project.html:26
 #: weblate/templates/trans/change_list.html:18 weblate/trans/forms.py:1003
-#: weblate/trans/forms.py:1327 weblate/trans/models/project.py:338
+#: weblate/trans/forms.py:1332 weblate/trans/models/project.py:338
 msgid "Languages"
 msgstr "Diller"
 
@@ -1285,6 +1285,33 @@ msgstr "Sürümler"
 #: weblate/templates/about.html:68
 msgid "Weblate would not exist without these projects."
 msgstr "Weblate bu projeler olmadan var olamazdı."
+
+#: weblate/templates/access_control_description.html:4
+#: weblate/trans/models/project.py:130
+msgid "Public"
+msgstr "Açık"
+
+#: weblate/templates/access_control_description.html:5
+msgid "Publicly visible and translatable"
+msgstr ""
+
+#: weblate/templates/access_control_description.html:6
+#: weblate/trans/models/project.py:131
+msgid "Protected"
+msgstr "Korumalı"
+
+#: weblate/templates/access_control_description.html:7
+msgid "Publicly visible but translatable only for selected users"
+msgstr ""
+
+#: weblate/templates/access_control_description.html:8
+#: weblate/trans/models/project.py:132
+msgid "Private"
+msgstr "Özel"
+
+#: weblate/templates/access_control_description.html:9
+msgid "Visible and translatable only for selected users"
+msgstr ""
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -2304,7 +2331,7 @@ msgid "No words found!"
 msgstr "Hiçbir sözcük bulunmadı!"
 
 #: weblate/templates/dictionary.html:95 weblate/templates/js/detail.html:42
-#: weblate/templates/manage-access.html:93 weblate/templates/translate.html:434
+#: weblate/templates/manage-access.html:71 weblate/templates/translate.html:434
 msgid "Add"
 msgstr "Ekle"
 
@@ -4306,43 +4333,43 @@ msgstr "Abonelik ayarlarını değiştir:"
 msgid "Manage users"
 msgstr "Kullanıcıları yönet"
 
-#: weblate/templates/manage-access.html:21
-#, fuzzy
-#| msgid "Access control"
-msgid "Project access control"
-msgstr "Erişim kontrolü"
-
-#: weblate/templates/manage-access.html:28
-#, fuzzy
-#| msgid "changes"
-msgid "Change"
-msgstr "değişiklikler"
-
-#: weblate/templates/manage-access.html:30
-#, fuzzy
-#| msgid "You do not have privilege to accept suggestions!"
-msgid "You do not have permission to change project access control."
-msgstr "Önerileri kabul etmek için yetkiniz yok!"
-
-#: weblate/templates/manage-access.html:40
+#: weblate/templates/manage-access.html:18
 msgid "Users"
 msgstr "Kullanıcılar"
 
-#: weblate/templates/manage-access.html:66
+#: weblate/templates/manage-access.html:44
 #: weblate/templates/screenshots/screenshot_sources_body.html:20
 msgid "Remove"
 msgstr "Kaldır"
 
-#: weblate/templates/manage-access.html:75
+#: weblate/templates/manage-access.html:53
 msgid ""
 "The user will be removed from the project once you remove last user "
 "permission."
 msgstr ""
 "Son kullanıcı iznini kaldırmanızdan sonra kullanıcı projeden kaldırılacaktır."
 
-#: weblate/templates/manage-access.html:87
+#: weblate/templates/manage-access.html:65
 msgid "Add new user"
 msgstr "Yeni kullanıcı ekle"
+
+#: weblate/templates/manage-access.html:84
+#, fuzzy
+#| msgid "Access control"
+msgid "Project access control"
+msgstr "Erişim kontrolü"
+
+#: weblate/templates/manage-access.html:91
+#, fuzzy
+#| msgid "changes"
+msgid "Change"
+msgstr "değişiklikler"
+
+#: weblate/templates/manage-access.html:93
+#, fuzzy
+#| msgid "You do not have privilege to accept suggestions!"
+msgid "You do not have permission to change project access control."
+msgstr "Önerileri kabul etmek için yetkiniz yok!"
 
 #: weblate/templates/matrix.html:8
 msgid "matrix"
@@ -6276,11 +6303,11 @@ msgstr "Yukarı akım bağlantıları"
 msgid "Languages processing"
 msgstr "Dilleri işleme"
 
-#: weblate/trans/forms.py:1297
+#: weblate/trans/forms.py:1302
 msgid "Search string"
 msgstr "Arama satırı"
 
-#: weblate/trans/forms.py:1302
+#: weblate/trans/forms.py:1307
 msgid "Replacement string"
 msgstr "Değiştirme satırı"
 
@@ -6551,18 +6578,6 @@ msgid ""
 msgstr ""
 "Dosya başlıklarında Çeviri-Takımının Weblate tarafından güncellenip "
 "güncellenmeyeceği."
-
-#: weblate/trans/models/project.py:130
-msgid "Public"
-msgstr "Açık"
-
-#: weblate/trans/models/project.py:131
-msgid "Protected"
-msgstr "Korumalı"
-
-#: weblate/trans/models/project.py:132
-msgid "Private"
-msgstr "Özel"
 
 #: weblate/trans/models/project.py:134
 msgid "Access control"

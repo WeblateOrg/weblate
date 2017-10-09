@@ -6,11 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate v. 2017.09.28\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-10-08 13:28+0000\n"
+"POT-Creation-Date: 2017-10-09 06:47+0000\n"
 "PO-Revision-Date: 2017-10-08 18:11+0000\n"
 "Last-Translator: ROBERTO <roberto.boriotti@canon-europe.com>\n"
-"Language-Team: Italian "
-"<https://hosted.weblate.org/projects/weblate/master/it/>\n"
+"Language-Team: Italian <https://hosted.weblate.org/projects/weblate/master/"
+"it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -64,7 +64,7 @@ msgstr ""
 "@ . + - _"
 
 #: weblate/accounts/forms.py:121 weblate/templates/accounts/user.html:22
-#: weblate/templates/manage-access.html:45
+#: weblate/templates/manage-access.html:23
 msgid "Username"
 msgstr "Nome utente"
 
@@ -76,7 +76,7 @@ msgstr "Il nome utente non può iniziare con un punto."
 msgid "This username is already taken. Please choose another."
 msgstr "Nome utente già in uso. Scegli un nome utente differente."
 
-#: weblate/accounts/forms.py:158 weblate/templates/manage-access.html:46
+#: weblate/accounts/forms.py:158 weblate/templates/manage-access.html:24
 msgid "Full name"
 msgstr "Nome e cognome"
 
@@ -103,7 +103,7 @@ msgstr ""
 "monitori."
 
 #: weblate/accounts/forms.py:296 weblate/accounts/forms.py:367
-#: weblate/templates/manage-access.html:47
+#: weblate/templates/manage-access.html:25
 msgid "E-mail"
 msgstr "Email"
 
@@ -658,7 +658,7 @@ msgstr "Parole sorgente"
 #: weblate/templates/accounts/profile.html:41 weblate/templates/language.html:6
 #: weblate/templates/languages.html:6 weblate/templates/project.html:26
 #: weblate/templates/trans/change_list.html:18 weblate/trans/forms.py:1003
-#: weblate/trans/forms.py:1327 weblate/trans/models/project.py:338
+#: weblate/trans/forms.py:1332 weblate/trans/models/project.py:338
 msgid "Languages"
 msgstr "Lingue"
 
@@ -1265,6 +1265,33 @@ msgstr "Versioni"
 
 #: weblate/templates/about.html:68
 msgid "Weblate would not exist without these projects."
+msgstr ""
+
+#: weblate/templates/access_control_description.html:4
+#: weblate/trans/models/project.py:130
+msgid "Public"
+msgstr "Pubblica"
+
+#: weblate/templates/access_control_description.html:5
+msgid "Publicly visible and translatable"
+msgstr ""
+
+#: weblate/templates/access_control_description.html:6
+#: weblate/trans/models/project.py:131
+msgid "Protected"
+msgstr "Protetta"
+
+#: weblate/templates/access_control_description.html:7
+msgid "Publicly visible but translatable only for selected users"
+msgstr ""
+
+#: weblate/templates/access_control_description.html:8
+#: weblate/trans/models/project.py:132
+msgid "Private"
+msgstr "Privata"
+
+#: weblate/templates/access_control_description.html:9
+msgid "Visible and translatable only for selected users"
 msgstr ""
 
 #: weblate/templates/accounts/confirm.html:7
@@ -2284,7 +2311,7 @@ msgid "No words found!"
 msgstr "Nessuna parola trovata!"
 
 #: weblate/templates/dictionary.html:95 weblate/templates/js/detail.html:42
-#: weblate/templates/manage-access.html:93 weblate/templates/translate.html:434
+#: weblate/templates/manage-access.html:71 weblate/templates/translate.html:434
 msgid "Add"
 msgstr "Aggiungi"
 
@@ -4268,41 +4295,41 @@ msgstr "Modifica impostazioni sottoscrizione:"
 msgid "Manage users"
 msgstr "Gestione utenti"
 
-#: weblate/templates/manage-access.html:21
-#, fuzzy
-#| msgid "Access control"
-msgid "Project access control"
-msgstr "Controllo accesso"
-
-#: weblate/templates/manage-access.html:28
-#, fuzzy
-#| msgid "Change word"
-msgid "Change"
-msgstr "Modifica parola"
-
-#: weblate/templates/manage-access.html:30
-msgid "You do not have permission to change project access control."
-msgstr ""
-
-#: weblate/templates/manage-access.html:40
+#: weblate/templates/manage-access.html:18
 msgid "Users"
 msgstr "Utenti"
 
-#: weblate/templates/manage-access.html:66
+#: weblate/templates/manage-access.html:44
 #: weblate/templates/screenshots/screenshot_sources_body.html:20
 msgid "Remove"
 msgstr "Rimuovi"
 
-#: weblate/templates/manage-access.html:75
+#: weblate/templates/manage-access.html:53
 msgid ""
 "The user will be removed from the project once you remove last user "
 "permission."
 msgstr ""
 "L'utente verrà rimosso dal progetto una volta rimosso l'ultimo permesso."
 
-#: weblate/templates/manage-access.html:87
+#: weblate/templates/manage-access.html:65
 msgid "Add new user"
 msgstr "Aggiungi nuovo utente"
+
+#: weblate/templates/manage-access.html:84
+#, fuzzy
+#| msgid "Access control"
+msgid "Project access control"
+msgstr "Controllo accesso"
+
+#: weblate/templates/manage-access.html:91
+#, fuzzy
+#| msgid "Change word"
+msgid "Change"
+msgstr "Modifica parola"
+
+#: weblate/templates/manage-access.html:93
+msgid "You do not have permission to change project access control."
+msgstr ""
 
 #: weblate/templates/matrix.html:8
 msgid "matrix"
@@ -6197,11 +6224,11 @@ msgstr ""
 msgid "Languages processing"
 msgstr "Elaborazione lingue"
 
-#: weblate/trans/forms.py:1297
+#: weblate/trans/forms.py:1302
 msgid "Search string"
 msgstr "Stringa ricerca"
 
-#: weblate/trans/forms.py:1302
+#: weblate/trans/forms.py:1307
 msgid "Replacement string"
 msgstr ""
 
@@ -6473,18 +6500,6 @@ msgstr "Imposta intestazione team traduzione"
 msgid ""
 "Whether the Translation-Team in file headers should be updated by Weblate."
 msgstr ""
-
-#: weblate/trans/models/project.py:130
-msgid "Public"
-msgstr "Pubblica"
-
-#: weblate/trans/models/project.py:131
-msgid "Protected"
-msgstr "Protetta"
-
-#: weblate/trans/models/project.py:132
-msgid "Private"
-msgstr "Privata"
 
 #: weblate/trans/models/project.py:134
 msgid "Access control"

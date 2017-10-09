@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-10-08 13:28+0000\n"
+"POT-Creation-Date: 2017-10-09 06:47+0000\n"
 "PO-Revision-Date: 2017-10-06 13:25+0000\n"
 "Last-Translator: Bamstam <am-em-am@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/master/de/"
@@ -65,7 +65,7 @@ msgstr ""
 "enthalten: @ . + - _"
 
 #: weblate/accounts/forms.py:121 weblate/templates/accounts/user.html:22
-#: weblate/templates/manage-access.html:45
+#: weblate/templates/manage-access.html:23
 msgid "Username"
 msgstr "Benutzername"
 
@@ -79,7 +79,7 @@ msgstr ""
 "Dieser Benutzername wird bereits verwendet. Bitte wählen Sie einen anderen "
 "Benutzernamen."
 
-#: weblate/accounts/forms.py:158 weblate/templates/manage-access.html:46
+#: weblate/accounts/forms.py:158 weblate/templates/manage-access.html:24
 msgid "Full name"
 msgstr "Vollständiger Name"
 
@@ -107,7 +107,7 @@ msgstr ""
 "in Ihren beobachteten Projekten."
 
 #: weblate/accounts/forms.py:296 weblate/accounts/forms.py:367
-#: weblate/templates/manage-access.html:47
+#: weblate/templates/manage-access.html:25
 msgid "E-mail"
 msgstr "E-Mail"
 
@@ -686,7 +686,7 @@ msgstr "Ausgangswörter"
 #: weblate/templates/accounts/profile.html:41 weblate/templates/language.html:6
 #: weblate/templates/languages.html:6 weblate/templates/project.html:26
 #: weblate/templates/trans/change_list.html:18 weblate/trans/forms.py:1003
-#: weblate/trans/forms.py:1327 weblate/trans/models/project.py:338
+#: weblate/trans/forms.py:1332 weblate/trans/models/project.py:338
 msgid "Languages"
 msgstr "Sprachen"
 
@@ -1341,6 +1341,33 @@ msgstr "Versionen"
 #: weblate/templates/about.html:68
 msgid "Weblate would not exist without these projects."
 msgstr "Weblate wäre ohne die oben genannten Projekte nicht umsetzbar."
+
+#: weblate/templates/access_control_description.html:4
+#: weblate/trans/models/project.py:130
+msgid "Public"
+msgstr "Öffentlich"
+
+#: weblate/templates/access_control_description.html:5
+msgid "Publicly visible and translatable"
+msgstr ""
+
+#: weblate/templates/access_control_description.html:6
+#: weblate/trans/models/project.py:131
+msgid "Protected"
+msgstr "Geschützt"
+
+#: weblate/templates/access_control_description.html:7
+msgid "Publicly visible but translatable only for selected users"
+msgstr ""
+
+#: weblate/templates/access_control_description.html:8
+#: weblate/trans/models/project.py:132
+msgid "Private"
+msgstr "Privat"
+
+#: weblate/templates/access_control_description.html:9
+msgid "Visible and translatable only for selected users"
+msgstr ""
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -2398,7 +2425,7 @@ msgid "No words found!"
 msgstr "Keine anderen Wörter gefunden!"
 
 #: weblate/templates/dictionary.html:95 weblate/templates/js/detail.html:42
-#: weblate/templates/manage-access.html:93 weblate/templates/translate.html:434
+#: weblate/templates/manage-access.html:71 weblate/templates/translate.html:434
 msgid "Add"
 msgstr "Hinzufügen"
 
@@ -4406,34 +4433,16 @@ msgstr "Benachrichtigungen ändern:"
 msgid "Manage users"
 msgstr "Benutzer verwalten"
 
-#: weblate/templates/manage-access.html:21
-#, fuzzy
-#| msgid "Access control"
-msgid "Project access control"
-msgstr "Zugriffssteuerung"
-
-#: weblate/templates/manage-access.html:28
-#, fuzzy
-#| msgid "changes"
-msgid "Change"
-msgstr "Änderungen"
-
-#: weblate/templates/manage-access.html:30
-#, fuzzy
-#| msgid "You do not have privilege to accept suggestions!"
-msgid "You do not have permission to change project access control."
-msgstr "Sie haben nicht die Berechtigung, Vorschläge anzunehmen!"
-
-#: weblate/templates/manage-access.html:40
+#: weblate/templates/manage-access.html:18
 msgid "Users"
 msgstr "Benutzer"
 
-#: weblate/templates/manage-access.html:66
+#: weblate/templates/manage-access.html:44
 #: weblate/templates/screenshots/screenshot_sources_body.html:20
 msgid "Remove"
 msgstr "Löschen"
 
-#: weblate/templates/manage-access.html:75
+#: weblate/templates/manage-access.html:53
 msgid ""
 "The user will be removed from the project once you remove last user "
 "permission."
@@ -4441,9 +4450,27 @@ msgstr ""
 "Der Benutzer wird aus dem Projekt entfernt, sobald Sie die letzte "
 "Benutzerberechtigung entfernt haben."
 
-#: weblate/templates/manage-access.html:87
+#: weblate/templates/manage-access.html:65
 msgid "Add new user"
 msgstr "Neuen Benutzer hinzufügen"
+
+#: weblate/templates/manage-access.html:84
+#, fuzzy
+#| msgid "Access control"
+msgid "Project access control"
+msgstr "Zugriffssteuerung"
+
+#: weblate/templates/manage-access.html:91
+#, fuzzy
+#| msgid "changes"
+msgid "Change"
+msgstr "Änderungen"
+
+#: weblate/templates/manage-access.html:93
+#, fuzzy
+#| msgid "You do not have privilege to accept suggestions!"
+msgid "You do not have permission to change project access control."
+msgstr "Sie haben nicht die Berechtigung, Vorschläge anzunehmen!"
 
 #: weblate/templates/matrix.html:8
 msgid "matrix"
@@ -6427,11 +6454,11 @@ msgstr "Quell-Links"
 msgid "Languages processing"
 msgstr "Sprachverarbeitung"
 
-#: weblate/trans/forms.py:1297
+#: weblate/trans/forms.py:1302
 msgid "Search string"
 msgstr "Suchzeichenkette"
 
-#: weblate/trans/forms.py:1302
+#: weblate/trans/forms.py:1307
 msgid "Replacement string"
 msgstr "Ersetzungszeichenkette"
 
@@ -6704,18 +6731,6 @@ msgid ""
 "Whether the Translation-Team in file headers should be updated by Weblate."
 msgstr ""
 "Ob das Übersetzerteam in Dateiheadern von Weblate aktualisiert werden soll."
-
-#: weblate/trans/models/project.py:130
-msgid "Public"
-msgstr "Öffentlich"
-
-#: weblate/trans/models/project.py:131
-msgid "Protected"
-msgstr "Geschützt"
-
-#: weblate/trans/models/project.py:132
-msgid "Private"
-msgstr "Privat"
 
 #: weblate/trans/models/project.py:134
 msgid "Access control"
