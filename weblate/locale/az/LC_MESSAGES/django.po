@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-10-09 09:42+0000\n"
+"POT-Creation-Date: 2017-10-09 17:48+0000\n"
 "PO-Revision-Date: 2017-08-22 09:49+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Azerbaijani <https://hosted.weblate.org/projects/weblate/"
@@ -1208,7 +1208,8 @@ msgstr "Tərcümə yaddaşa verildi!"
 msgid "Source has been removed."
 msgstr "Hesabınız silindi."
 
-#: weblate/templates/403.html:5 weblate/trans/views/basic.py:493
+#: weblate/templates/403.html:5 weblate/templates/403_csrf.html:5
+#: weblate/trans/views/basic.py:494
 msgid "Permission Denied"
 msgstr "İcazə verilmədi"
 
@@ -1225,7 +1226,7 @@ msgid ""
 "However the following translation projects are available on this server:"
 msgstr "Bu serverdə ancaq aşağıdakı tərcümə layihələri vardır:"
 
-#: weblate/templates/404.html:5 weblate/trans/views/basic.py:480
+#: weblate/templates/404.html:5 weblate/trans/views/basic.py:481
 msgid "Page Not Found"
 msgstr "Səhifə tapılmadı"
 
@@ -1240,7 +1241,7 @@ msgid ""
 "The project you are looking for does not exist or is not publicly available."
 msgstr "Axtardığınız səhifə tapılmadı."
 
-#: weblate/templates/500.html:5 weblate/trans/views/basic.py:507
+#: weblate/templates/500.html:5 weblate/trans/views/basic.py:508
 msgid "Internal Server Error"
 msgstr "Daxili Server Xətası"
 
@@ -1257,7 +1258,7 @@ msgstr ""
 "etməsi üçün indicə Cırtdan və dostların göndərdik."
 
 #: weblate/templates/about.html:5 weblate/templates/about.html:13
-#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:521
+#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:522
 msgid "About Weblate"
 msgstr "Weblate haqqında"
 
@@ -1616,7 +1617,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Parolu dəyişdir"
 
-#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:626
+#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:627
 #: weblate/trans/views/files.py:88
 msgid "Please fix errors in the form."
 msgstr "Zəhmət olmasa formdakı xətaları düzəldin."
@@ -8351,27 +8352,28 @@ msgstr ""
 msgid "Please set your full name in your profile."
 msgstr "Zəhmət olmasa profilinzdə tam adınızı yazın."
 
-#: weblate/trans/views/basic.py:282
+#: weblate/trans/views/basic.py:283
 #, fuzzy, python-brace-format
 #| msgid "Get involved in %(project)s!"
 msgid "Get involved in {0}!"
 msgstr "%(project)s layihəyə qoşulun!"
 
-#: weblate/trans/views/basic.py:288
+#: weblate/trans/views/basic.py:289
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
-"contains %(total)s strings for translation and is <a href=\"%(lang_url)s\">being "
-"translated into %(languages)s languages</a>. Overall, these translations are "
-"%(percent)s%% complete."
+"contains %(total)s strings for translation and is <a href=\"%(lang_url)s"
+"\">being translated into %(languages)s languages</a>. Overall, these "
+"translations are %(percent)s%% complete."
 msgstr ""
 "<a href=\"%(url)s\">%(project)s tərcümə layihəsi</a>, tərcümə üçün hal-"
-"hazırda %(total)s sətir təşkil edir və <a href=\"%(lang_url)s\"> %(languages)s "
-"dilə çevrilməkdədir</a>. Bu tərcümələrdən cəmi %(percent)s%% tamamlandı."
+"hazırda %(total)s sətir təşkil edir və <a href=\"%(lang_url)s\"> "
+"%(languages)s dilə çevrilməkdədir</a>. Bu tərcümələrdən cəmi %(percent)s%% "
+"tamamlandı."
 
 #. Translators: line of text in engagement widget, please use your
 #. language name instead of English
-#: weblate/trans/views/basic.py:296
+#: weblate/trans/views/basic.py:297
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -8381,13 +8383,13 @@ msgstr ""
 "Azərbaycan dilində <a href=\"%(url)s\">%(project)s tərcümə layihəsi</a>, "
 "tərcümə üçün hal-hazırda %(total)s sətir var və %(percent)s%% tamamlandı."
 
-#: weblate/trans/views/basic.py:533
+#: weblate/trans/views/basic.py:534
 #, fuzzy
 #| msgid "Your translations"
 msgid "Weblate statistics"
 msgstr "Tərcümələriniz"
 
-#: weblate/trans/views/basic.py:616
+#: weblate/trans/views/basic.py:617
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "Yeni br tərcümə üçün istək layihənin idarəçilərinə göndəildi."
@@ -8654,7 +8656,7 @@ msgstr ""
 msgid "Translation has been removed."
 msgstr "Tərcümə yaddaşa verildi!"
 
-#: weblate/trans/views/helper.py:160
+#: weblate/trans/views/helper.py:164
 #, python-format
 msgid "Error in parameter %(field)s: %(error)s"
 msgstr "%(field)s parametrində Xəta: %(error)s"

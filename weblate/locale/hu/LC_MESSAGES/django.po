@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-10-09 09:42+0000\n"
+"POT-Creation-Date: 2017-10-09 17:48+0000\n"
 "PO-Revision-Date: 2017-08-22 09:50+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/master/"
@@ -1207,7 +1207,8 @@ msgstr "A fordítási megjegyzés törölve lett."
 msgid "Source has been removed."
 msgstr "A fiókja törölve van."
 
-#: weblate/templates/403.html:5 weblate/trans/views/basic.py:493
+#: weblate/templates/403.html:5 weblate/templates/403_csrf.html:5
+#: weblate/trans/views/basic.py:494
 msgid "Permission Denied"
 msgstr "Hozzáférés megtagadva"
 
@@ -1225,7 +1226,7 @@ msgid ""
 msgstr ""
 "Mindazonáltal az alábbi fordítási projektek elérhetők ezen a szerveren:"
 
-#: weblate/templates/404.html:5 weblate/trans/views/basic.py:480
+#: weblate/templates/404.html:5 weblate/trans/views/basic.py:481
 msgid "Page Not Found"
 msgstr "Lap nem található"
 
@@ -1240,7 +1241,7 @@ msgid ""
 "The project you are looking for does not exist or is not publicly available."
 msgstr "Az Ön által keresett oldal nem található."
 
-#: weblate/templates/500.html:5 weblate/trans/views/basic.py:507
+#: weblate/templates/500.html:5 weblate/trans/views/basic.py:508
 msgid "Internal Server Error"
 msgstr "Belső szerverhiba"
 
@@ -1257,7 +1258,7 @@ msgstr ""
 "Különlegesen kiképzett majmainkat bevetettük a hiba javításához."
 
 #: weblate/templates/about.html:5 weblate/templates/about.html:13
-#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:521
+#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:522
 msgid "About Weblate"
 msgstr "A Weblate-ről"
 
@@ -1614,7 +1615,7 @@ msgstr "Adja meg az új jelszavát kétszer, így ellenőrizhető, hogy nem írt
 msgid "Change my password"
 msgstr "Jelszóváltás"
 
-#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:626
+#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:627
 #: weblate/trans/views/files.py:88
 msgid "Please fix errors in the form."
 msgstr "Kérjük javítsa ki a hibákat az űrlapon."
@@ -8033,27 +8034,28 @@ msgstr ""
 msgid "Please set your full name in your profile."
 msgstr "Állítsa be a teljes nevét a profilban."
 
-#: weblate/trans/views/basic.py:282
+#: weblate/trans/views/basic.py:283
 #, fuzzy, python-brace-format
 #| msgid "Get involved in %(project)s!"
 msgid "Get involved in {0}!"
 msgstr "Szálljon be a(z) %(project)s projektbe!"
 
-#: weblate/trans/views/basic.py:288
+#: weblate/trans/views/basic.py:289
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
-"contains %(total)s strings for translation and is <a href=\"%(lang_url)s\">being "
-"translated into %(languages)s languages</a>. Overall, these translations are "
-"%(percent)s%% complete."
+"contains %(total)s strings for translation and is <a href=\"%(lang_url)s"
+"\">being translated into %(languages)s languages</a>. Overall, these "
+"translations are %(percent)s%% complete."
 msgstr ""
 "<a href=\"%(url)s\">A(z) %(project)s</a> fordítási projekt %(total)s "
-"fordítandó szöveget tartalmaz és <a href=\"%(lang_url)s\">%(languages)s nyelvre "
-"van lefordítva</a>. Ezen fordítások készültségi foka összesen %(percent)s%%."
+"fordítandó szöveget tartalmaz és <a href=\"%(lang_url)s\">%(languages)s "
+"nyelvre van lefordítva</a>. Ezen fordítások készültségi foka összesen "
+"%(percent)s%%."
 
 #. Translators: line of text in engagement widget, please use your
 #. language name instead of English
-#: weblate/trans/views/basic.py:296
+#: weblate/trans/views/basic.py:297
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -8063,11 +8065,11 @@ msgstr ""
 "<a href=\"%(url)s\">A(z) %(project)s fordítása</a> angolra %(total)s "
 "fordítandó szöveget tartalmaz és %(percent)s%%-ban van kész."
 
-#: weblate/trans/views/basic.py:533
+#: weblate/trans/views/basic.py:534
 msgid "Weblate statistics"
 msgstr "Weblate statisztikák"
 
-#: weblate/trans/views/basic.py:616
+#: weblate/trans/views/basic.py:617
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "A fordítás kérést elküldtük a projekt fenntartóinak."
@@ -8320,7 +8322,7 @@ msgstr "Minden tároló visszaállításra (reset) került."
 msgid "Translation has been removed."
 msgstr "A fordítás el lett távolítva."
 
-#: weblate/trans/views/helper.py:160
+#: weblate/trans/views/helper.py:164
 #, python-format
 msgid "Error in parameter %(field)s: %(error)s"
 msgstr "Hiba a(z) %(field)s paraméterben: %(error)s"

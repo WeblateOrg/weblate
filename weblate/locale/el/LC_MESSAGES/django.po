@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-10-09 09:42+0000\n"
+"POT-Creation-Date: 2017-10-09 17:48+0000\n"
 "PO-Revision-Date: 2017-08-31 12:00+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/weblate/master/el/"
@@ -1176,7 +1176,8 @@ msgstr "Το στιγμιότυπο %s έχει διαγραφεί."
 msgid "Source has been removed."
 msgstr "Η προέλευση απομακρύνθηκε."
 
-#: weblate/templates/403.html:5 weblate/trans/views/basic.py:493
+#: weblate/templates/403.html:5 weblate/templates/403_csrf.html:5
+#: weblate/trans/views/basic.py:494
 msgid "Permission Denied"
 msgstr "Άρνηση Δικαιώματος"
 
@@ -1194,7 +1195,7 @@ msgid ""
 msgstr ""
 "Ωστόσο, τα ακόλουθα έργα μετάφρασης είναι διαθέσιμα σε αυτό το διακομιστή:"
 
-#: weblate/templates/404.html:5 weblate/trans/views/basic.py:480
+#: weblate/templates/404.html:5 weblate/trans/views/basic.py:481
 msgid "Page Not Found"
 msgstr "Η Σελίδα Δεν Βρέθηκε"
 
@@ -1209,7 +1210,7 @@ msgid ""
 "The project you are looking for does not exist or is not publicly available."
 msgstr "Η σελίδα που αναζητάτε δεν βρέθηκε."
 
-#: weblate/templates/500.html:5 weblate/trans/views/basic.py:507
+#: weblate/templates/500.html:5 weblate/trans/views/basic.py:508
 msgid "Internal Server Error"
 msgstr "Εσωτερικό Σφάλμα Διακομιστή"
 
@@ -1226,7 +1227,7 @@ msgstr ""
 "τους τεχνικούς μας να διορθώσουν το θέμα."
 
 #: weblate/templates/about.html:5 weblate/templates/about.html:13
-#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:521
+#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:522
 msgid "About Weblate"
 msgstr "Σχετικά με το Weblate"
 
@@ -1591,7 +1592,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Αλλαγή του κωδικού μου"
 
-#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:626
+#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:627
 #: weblate/trans/views/files.py:88
 msgid "Please fix errors in the form."
 msgstr "Διορθώστε σφάλματα στη φόρμα."
@@ -7916,18 +7917,18 @@ msgstr ""
 msgid "Please set your full name in your profile."
 msgstr "Ορίστε το πλήρες σας όνομα στο προφίλ σας."
 
-#: weblate/trans/views/basic.py:282
+#: weblate/trans/views/basic.py:283
 #, python-brace-format
 msgid "Get involved in {0}!"
 msgstr "Συμμετέχετε στο {0}!"
 
-#: weblate/trans/views/basic.py:288
+#: weblate/trans/views/basic.py:289
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
-"contains %(total)s strings for translation and is <a href=\"%(lang_url)s\">being "
-"translated into %(languages)s languages</a>. Overall, these translations are "
-"%(percent)s%% complete."
+"contains %(total)s strings for translation and is <a href=\"%(lang_url)s"
+"\">being translated into %(languages)s languages</a>. Overall, these "
+"translations are %(percent)s%% complete."
 msgstr ""
 "<a href=\"%(url)s\">Το μεταφραστικό έργο για το %(project)s</a> περιέχει "
 "προς το παρόν %(total)s κείμενα για μετάφραση και <a href=\"%(lang_url)s"
@@ -7936,7 +7937,7 @@ msgstr ""
 
 #. Translators: line of text in engagement widget, please use your
 #. language name instead of English
-#: weblate/trans/views/basic.py:296
+#: weblate/trans/views/basic.py:297
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -7947,11 +7948,11 @@ msgstr ""
 "περιέχει προς το παρόν %(total)s κείμενα για μετάφραση και είναι "
 "μεταφρασμένο κατά %(percent)s%%."
 
-#: weblate/trans/views/basic.py:533
+#: weblate/trans/views/basic.py:534
 msgid "Weblate statistics"
 msgstr "Στατιστικά Weblate"
 
-#: weblate/trans/views/basic.py:616
+#: weblate/trans/views/basic.py:617
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "Ένα αίτημα για μια νέα μετάφραση εστάλει στους συντηρητές του έργου."
@@ -8205,7 +8206,7 @@ msgstr "Όλα τα αποθετήρια εναναφέρθηκαν."
 msgid "Translation has been removed."
 msgstr "Η μετάφραση έχει απομακρυνθεί."
 
-#: weblate/trans/views/helper.py:160
+#: weblate/trans/views/helper.py:164
 #, python-format
 msgid "Error in parameter %(field)s: %(error)s"
 msgstr "Σφάλμα στην παράμετρο %(field)s: %(error)s"

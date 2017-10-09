@@ -7,17 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-10-09 09:42+0000\n"
+"POT-Creation-Date: 2017-10-09 17:48+0000\n"
 "PO-Revision-Date: 2017-10-09 16:01+0000\n"
 "Last-Translator: Igor <f2404@yandex.ru>\n"
-"Language-Team: Russian "
-"<https://hosted.weblate.org/projects/weblate/master/ru/>\n"
+"Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
+"ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
-"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.17-dev\n"
 
 #: weblate/accounts/admin.py:105 weblate/accounts/admin.py:110
@@ -1168,7 +1168,8 @@ msgstr "Скриншот %s был удален."
 msgid "Source has been removed."
 msgstr "Источник был удален."
 
-#: weblate/templates/403.html:5 weblate/trans/views/basic.py:493
+#: weblate/templates/403.html:5 weblate/templates/403_csrf.html:5
+#: weblate/trans/views/basic.py:494
 msgid "Permission Denied"
 msgstr "Отказано в доступе"
 
@@ -1185,7 +1186,7 @@ msgid ""
 "However the following translation projects are available on this server:"
 msgstr "Однако, доступны следующие проекты переводов на этом сервере:"
 
-#: weblate/templates/404.html:5 weblate/trans/views/basic.py:480
+#: weblate/templates/404.html:5 weblate/trans/views/basic.py:481
 msgid "Page Not Found"
 msgstr "Страница не найдена"
 
@@ -1198,7 +1199,7 @@ msgid ""
 "The project you are looking for does not exist or is not publicly available."
 msgstr "Проект, который вы ищете, не существует или недоступен публично."
 
-#: weblate/templates/500.html:5 weblate/trans/views/basic.py:507
+#: weblate/templates/500.html:5 weblate/trans/views/basic.py:508
 msgid "Internal Server Error"
 msgstr "Внутренняя ошибка сервера"
 
@@ -1216,7 +1217,7 @@ msgstr ""
 "проблемы."
 
 #: weblate/templates/about.html:5 weblate/templates/about.html:13
-#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:521
+#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:522
 msgid "About Weblate"
 msgstr "О Weblate"
 
@@ -1554,7 +1555,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Изменить мой пароль"
 
-#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:626
+#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:627
 #: weblate/trans/views/files.py:88
 msgid "Please fix errors in the form."
 msgstr "Пожалуйста, исправьте ошибки в форме."
@@ -7726,26 +7727,26 @@ msgstr ""
 msgid "Please set your full name in your profile."
 msgstr "Пожалуйста укажите Ваше полное имя в профайле."
 
-#: weblate/trans/views/basic.py:282
+#: weblate/trans/views/basic.py:283
 #, python-brace-format
 msgid "Get involved in {0}!"
 msgstr "Примите участие в {0}!"
 
-#: weblate/trans/views/basic.py:288
+#: weblate/trans/views/basic.py:289
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
-"contains %(total)s strings for translation and is <a href=\"%(lang_url)s\">being "
-"translated into %(languages)s languages</a>. Overall, these translations are "
-"%(percent)s%% complete."
+"contains %(total)s strings for translation and is <a href=\"%(lang_url)s"
+"\">being translated into %(languages)s languages</a>. Overall, these "
+"translations are %(percent)s%% complete."
 msgstr ""
 "<a href=\"%(url)s\">Проект перевода %(project)s</a> в настоящий момент "
-"содержит %(total)s строк для перевода и <a href=\"%(lang_url)s\">переводится на "
-"%(languages)s языков</a>. В целом, переводы готовы на %(percent)s%%."
+"содержит %(total)s строк для перевода и <a href=\"%(lang_url)s\">переводится "
+"на %(languages)s языков</a>. В целом, переводы готовы на %(percent)s%%."
 
 #. Translators: line of text in engagement widget, please use your
 #. language name instead of English
-#: weblate/trans/views/basic.py:296
+#: weblate/trans/views/basic.py:297
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -7755,11 +7756,11 @@ msgstr ""
 "<a href=\"%(url)s\">Проект перевода %(project)s</a> на русский в настоящий "
 "момент содержит %(total)s строк и готов на %(percent)s%%."
 
-#: weblate/trans/views/basic.py:533
+#: weblate/trans/views/basic.py:534
 msgid "Weblate statistics"
 msgstr "Статистика Weblate"
 
-#: weblate/trans/views/basic.py:616
+#: weblate/trans/views/basic.py:617
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "Запрос на новый перевод отправлен сопровождающему проекта."
@@ -8016,7 +8017,7 @@ msgstr "Все репозитории сброшены."
 msgid "Translation has been removed."
 msgstr "Перевод удалён."
 
-#: weblate/trans/views/helper.py:160
+#: weblate/trans/views/helper.py:164
 #, python-format
 msgid "Error in parameter %(field)s: %(error)s"
 msgstr "Ошибка в параметрах %(field)s: %(error)s"

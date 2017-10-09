@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-10-09 09:42+0000\n"
+"POT-Creation-Date: 2017-10-09 17:48+0000\n"
 "PO-Revision-Date: 2017-10-08 15:51+0000\n"
 "Last-Translator: Viktar Vauchkevich <victorenator@gmail.com>\n"
 "Language-Team: Belarusian (latin) <https://hosted.weblate.org/projects/"
@@ -1170,7 +1170,8 @@ msgstr "Zdymak ekrana %s byŭ vydalieny."
 msgid "Source has been removed."
 msgstr "Krynica byla vydaliena."
 
-#: weblate/templates/403.html:5 weblate/trans/views/basic.py:493
+#: weblate/templates/403.html:5 weblate/templates/403_csrf.html:5
+#: weblate/trans/views/basic.py:494
 msgid "Permission Denied"
 msgstr "U dostupie admoŭliena"
 
@@ -1187,7 +1188,7 @@ msgid ""
 "However the following translation projects are available on this server:"
 msgstr "Adnak nastupnyja pierakladnіckіja prajekty dastupnyja na sierviery:"
 
-#: weblate/templates/404.html:5 weblate/trans/views/basic.py:480
+#: weblate/templates/404.html:5 weblate/trans/views/basic.py:481
 msgid "Page Not Found"
 msgstr "Staronka nie znojdziena"
 
@@ -1201,7 +1202,7 @@ msgid ""
 msgstr ""
 "Prajekt, jaki vy šukajecie, nie isnuje ci nie zjaŭlajecca ahulnadastupnym."
 
-#: weblate/templates/500.html:5 weblate/trans/views/basic.py:507
+#: weblate/templates/500.html:5 weblate/trans/views/basic.py:508
 msgid "Internal Server Error"
 msgstr "Unutranaja pamylka sierviera"
 
@@ -1219,7 +1220,7 @@ msgstr ""
 "papravić."
 
 #: weblate/templates/about.html:5 weblate/templates/about.html:13
-#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:521
+#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:522
 msgid "About Weblate"
 msgstr "Pra Weblate"
 
@@ -1560,7 +1561,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Zmianіć paroĺ"
 
-#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:626
+#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:627
 #: weblate/trans/views/files.py:88
 msgid "Please fix errors in the form."
 msgstr "Kalі laska, papraŭcie pamylkі ŭ farmuliary."
@@ -7748,18 +7749,18 @@ msgstr ""
 msgid "Please set your full name in your profile."
 msgstr "Kalі laska, paznačcie svajo poŭnaje іmia ŭ ankiecie."
 
-#: weblate/trans/views/basic.py:282
+#: weblate/trans/views/basic.py:283
 #, python-brace-format
 msgid "Get involved in {0}!"
 msgstr "Dalučajciesia da {0}!"
 
-#: weblate/trans/views/basic.py:288
+#: weblate/trans/views/basic.py:289
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
-"contains %(total)s strings for translation and is <a href=\"%(lang_url)s\">being "
-"translated into %(languages)s languages</a>. Overall, these translations are "
-"%(percent)s%% complete."
+"contains %(total)s strings for translation and is <a href=\"%(lang_url)s"
+"\">being translated into %(languages)s languages</a>. Overall, these "
+"translations are %(percent)s%% complete."
 msgstr ""
 "<a href=\"%(url)s\">Prajekt pierakladu %(project)s</a> na dadzieny momant "
 "utrymoŭvaje %(total)s radkoŭ na pieraklad і <a href=\"%(lang_url)s"
@@ -7768,7 +7769,7 @@ msgstr ""
 
 #. Translators: line of text in engagement widget, please use your
 #. language name instead of English
-#: weblate/trans/views/basic.py:296
+#: weblate/trans/views/basic.py:297
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -7779,11 +7780,11 @@ msgstr ""
 "ŭtrymoŭvaje %(total)s radkoŭ na pieraklad, z jakіch pierakladziena "
 "%(percent)s%%."
 
-#: weblate/trans/views/basic.py:533
+#: weblate/trans/views/basic.py:534
 msgid "Weblate statistics"
 msgstr "Statystyka Weblate"
 
-#: weblate/trans/views/basic.py:616
+#: weblate/trans/views/basic.py:617
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "Zapyt na novy pieraklad adpraŭlieny dahliadčykam prajekta."
@@ -8043,7 +8044,7 @@ msgstr "Usie repazіtoryі skіnuty."
 msgid "Translation has been removed."
 msgstr "Pieraklad byŭ vydalieny."
 
-#: weblate/trans/views/helper.py:160
+#: weblate/trans/views/helper.py:164
 #, python-format
 msgid "Error in parameter %(field)s: %(error)s"
 msgstr "Pamylka ŭ paramietry %(field)s: %(error)s"

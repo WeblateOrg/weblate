@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-10-09 09:42+0000\n"
+"POT-Creation-Date: 2017-10-09 17:48+0000\n"
 "PO-Revision-Date: 2017-09-30 01:44+0000\n"
 "Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -1113,7 +1113,8 @@ msgstr "屏幕截图 %s 已删除。"
 msgid "Source has been removed."
 msgstr "源已被删除。"
 
-#: weblate/templates/403.html:5 weblate/trans/views/basic.py:493
+#: weblate/templates/403.html:5 weblate/templates/403_csrf.html:5
+#: weblate/trans/views/basic.py:494
 msgid "Permission Denied"
 msgstr "权限被拒绝"
 
@@ -1130,7 +1131,7 @@ msgid ""
 "However the following translation projects are available on this server:"
 msgstr "此服务器上还有以下翻译项目："
 
-#: weblate/templates/404.html:5 weblate/trans/views/basic.py:480
+#: weblate/templates/404.html:5 weblate/trans/views/basic.py:481
 msgid "Page Not Found"
 msgstr "页面未找到"
 
@@ -1143,7 +1144,7 @@ msgid ""
 "The project you are looking for does not exist or is not publicly available."
 msgstr "你正在寻找的项目不存在，或者不是公开可用的。"
 
-#: weblate/templates/500.html:5 weblate/trans/views/basic.py:507
+#: weblate/templates/500.html:5 weblate/trans/views/basic.py:508
 msgid "Internal Server Error"
 msgstr "服务器内部错误"
 
@@ -1159,7 +1160,7 @@ msgstr ""
 "服务器在处理您的请求时遇到严重问题。我们已通知我们的程序猿去修复该问题。"
 
 #: weblate/templates/about.html:5 weblate/templates/about.html:13
-#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:521
+#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:522
 msgid "About Weblate"
 msgstr "关于 Weblate"
 
@@ -1468,7 +1469,7 @@ msgstr "请输入两次新密码，让我们确认您已正确输入了想要设
 msgid "Change my password"
 msgstr "更改我的密码"
 
-#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:626
+#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:627
 #: weblate/trans/views/files.py:88
 msgid "Please fix errors in the form."
 msgstr "请更正表单中的错误。"
@@ -7407,26 +7408,26 @@ msgstr "您查找的项目已经移除，尽管如此，欢迎您参与贡献其
 msgid "Please set your full name in your profile."
 msgstr "请在资料中设置您的全名。"
 
-#: weblate/trans/views/basic.py:282
+#: weblate/trans/views/basic.py:283
 #, python-brace-format
 msgid "Get involved in {0}!"
 msgstr "参与翻译 {0}！"
 
-#: weblate/trans/views/basic.py:288
+#: weblate/trans/views/basic.py:289
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
-"contains %(total)s strings for translation and is <a href=\"%(lang_url)s\">being "
-"translated into %(languages)s languages</a>. Overall, these translations are "
-"%(percent)s%% complete."
+"contains %(total)s strings for translation and is <a href=\"%(lang_url)s"
+"\">being translated into %(languages)s languages</a>. Overall, these "
+"translations are %(percent)s%% complete."
 msgstr ""
 "<a href=\"%(url)s\">%(project)s 的翻译项目</a>当前共有 %(total)s 个字符串，"
-"<a href=\"%(lang_url)s\">已翻译为 %(languages)s 种语言</a>。总体而言，翻译已完成 "
-"%(percent)s%% 。"
+"<a href=\"%(lang_url)s\">已翻译为 %(languages)s 种语言</a>。总体而言，翻译已"
+"完成 %(percent)s%% 。"
 
 #. Translators: line of text in engagement widget, please use your
 #. language name instead of English
-#: weblate/trans/views/basic.py:296
+#: weblate/trans/views/basic.py:297
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -7436,11 +7437,11 @@ msgstr ""
 "<a href=\"%(url)s\">翻译项目 %(project)s</a>到简体中文当前有 %(total)s 个字符"
 "串，已完成 %(percent)s%%。"
 
-#: weblate/trans/views/basic.py:533
+#: weblate/trans/views/basic.py:534
 msgid "Weblate statistics"
 msgstr "Weblate 统计"
 
-#: weblate/trans/views/basic.py:616
+#: weblate/trans/views/basic.py:617
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "新增翻译的请求已发送给项目维护者。"
@@ -7683,7 +7684,7 @@ msgstr "已重设所有代码库。"
 msgid "Translation has been removed."
 msgstr "翻译已移除。"
 
-#: weblate/trans/views/helper.py:160
+#: weblate/trans/views/helper.py:164
 #, python-format
 msgid "Error in parameter %(field)s: %(error)s"
 msgstr "参数 %(field)s 出错：%(error)s"

@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-10-09 09:42+0000\n"
+"POT-Creation-Date: 2017-10-09 17:48+0000\n"
 "PO-Revision-Date: 2017-10-09 17:48+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
-"Language-Team: Norwegian Bokmål "
-"<https://hosted.weblate.org/projects/weblate/master/nb/>\n"
+"Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
+"master/nb/>\n"
 "Language: nb\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1150,7 +1150,8 @@ msgstr "Skjermbilde %s er slettet."
 msgid "Source has been removed."
 msgstr "Kilden er blitt fjernet."
 
-#: weblate/templates/403.html:5 weblate/trans/views/basic.py:493
+#: weblate/templates/403.html:5 weblate/templates/403_csrf.html:5
+#: weblate/trans/views/basic.py:494
 msgid "Permission Denied"
 msgstr "Adgang avslått"
 
@@ -1169,7 +1170,7 @@ msgstr ""
 "Følgende oversettelsesprosjekter er imidlertid tilgjengelige på denne "
 "serveren:"
 
-#: weblate/templates/404.html:5 weblate/trans/views/basic.py:480
+#: weblate/templates/404.html:5 weblate/trans/views/basic.py:481
 msgid "Page Not Found"
 msgstr "Side ikke funnet"
 
@@ -1183,7 +1184,7 @@ msgid ""
 msgstr ""
 "Prosjektet du leter etter finnes ikke eller er ikke offentlig tilgjengelig."
 
-#: weblate/templates/500.html:5 weblate/trans/views/basic.py:507
+#: weblate/templates/500.html:5 weblate/trans/views/basic.py:508
 msgid "Internal Server Error"
 msgstr "Intern serverfeil"
 
@@ -1200,7 +1201,7 @@ msgstr ""
 "nettopp sendt våre trente «apekatter» for å fikse problemet."
 
 #: weblate/templates/about.html:5 weblate/templates/about.html:13
-#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:521
+#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:522
 msgid "About Weblate"
 msgstr "Om Weblate"
 
@@ -1544,7 +1545,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Bytt passord"
 
-#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:626
+#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:627
 #: weblate/trans/views/files.py:88
 msgid "Please fix errors in the form."
 msgstr "Du kan gjerne fikse feil i skjemaet."
@@ -7690,27 +7691,27 @@ msgstr ""
 msgid "Please set your full name in your profile."
 msgstr "Angi hele navnet ditt i profilen."
 
-#: weblate/trans/views/basic.py:282
+#: weblate/trans/views/basic.py:283
 #, python-brace-format
 msgid "Get involved in {0}!"
 msgstr "Bli med i {0}!"
 
-#: weblate/trans/views/basic.py:288
+#: weblate/trans/views/basic.py:289
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
-"contains %(total)s strings for translation and is <a href=\"%(lang_url)s\">being "
-"translated into %(languages)s languages</a>. Overall, these translations are "
-"%(percent)s%% complete."
+"contains %(total)s strings for translation and is <a href=\"%(lang_url)s"
+"\">being translated into %(languages)s languages</a>. Overall, these "
+"translations are %(percent)s%% complete."
 msgstr ""
 "<a href=\"%(url)s\">Oversettelsesprosjekt for %(project)s</a> inneholder nå "
-"%(total)s strenger for oversettelse, og blir <a href=\"%(lang_url)s\">oversatt "
-"til %(languages)s språk</a>. I det hele er disse oversettelsene %(percent)s"
-"%% komplette."
+"%(total)s strenger for oversettelse, og blir <a href=\"%(lang_url)s"
+"\">oversatt til %(languages)s språk</a>. I det hele er disse oversettelsene "
+"%(percent)s%% komplette."
 
 #. Translators: line of text in engagement widget, please use your
 #. language name instead of English
-#: weblate/trans/views/basic.py:296
+#: weblate/trans/views/basic.py:297
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -7721,11 +7722,11 @@ msgstr ""
 "inneholder for tiden %(total)s strenger til oversettelse, og er %(percent)s"
 "%% komplett."
 
-#: weblate/trans/views/basic.py:533
+#: weblate/trans/views/basic.py:534
 msgid "Weblate statistics"
 msgstr "Weblate-statistikk"
 
-#: weblate/trans/views/basic.py:616
+#: weblate/trans/views/basic.py:617
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr ""
@@ -7980,7 +7981,7 @@ msgstr "Alle kodelagre er tilbakestilt."
 msgid "Translation has been removed."
 msgstr "Oversettelsen er fjernet."
 
-#: weblate/trans/views/helper.py:160
+#: weblate/trans/views/helper.py:164
 #, python-format
 msgid "Error in parameter %(field)s: %(error)s"
 msgstr "Feil i parameter %(field)s: %(error)s"

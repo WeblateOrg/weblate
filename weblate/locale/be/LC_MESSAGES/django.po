@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-10-09 09:42+0000\n"
+"POT-Creation-Date: 2017-10-09 17:48+0000\n"
 "PO-Revision-Date: 2017-10-08 15:49+0000\n"
 "Last-Translator: Viktar Vauchkevich <victorenator@gmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/weblate/"
@@ -1164,7 +1164,8 @@ msgstr "Здымак экрана %s быў выдалены."
 msgid "Source has been removed."
 msgstr "Крыніца была выдалена."
 
-#: weblate/templates/403.html:5 weblate/trans/views/basic.py:493
+#: weblate/templates/403.html:5 weblate/templates/403_csrf.html:5
+#: weblate/trans/views/basic.py:494
 msgid "Permission Denied"
 msgstr "У доступе адмоўлена"
 
@@ -1181,7 +1182,7 @@ msgid ""
 "However the following translation projects are available on this server:"
 msgstr "Аднак наступныя перакладніцкія праекты даступныя на серверы:"
 
-#: weblate/templates/404.html:5 weblate/trans/views/basic.py:480
+#: weblate/templates/404.html:5 weblate/trans/views/basic.py:481
 msgid "Page Not Found"
 msgstr "Старонка не знойдзена"
 
@@ -1194,7 +1195,7 @@ msgid ""
 "The project you are looking for does not exist or is not publicly available."
 msgstr "Праект, што вы шукаеце, не існуе або публічна не даступны."
 
-#: weblate/templates/500.html:5 weblate/trans/views/basic.py:507
+#: weblate/templates/500.html:5 weblate/trans/views/basic.py:508
 msgid "Internal Server Error"
 msgstr "Унутраная памылка сервера"
 
@@ -1211,7 +1212,7 @@ msgstr ""
 "што мы выправілі сваіх спецыянальна-навучаных малпачак, каб гэта паправіць."
 
 #: weblate/templates/about.html:5 weblate/templates/about.html:13
-#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:521
+#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:522
 msgid "About Weblate"
 msgstr "Пра Weblate"
 
@@ -1550,7 +1551,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Змяніць пароль"
 
-#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:626
+#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:627
 #: weblate/trans/views/files.py:88
 msgid "Please fix errors in the form."
 msgstr "Калі ласка, папраўце памылкі ў фармуляры."
@@ -7712,26 +7713,27 @@ msgstr ""
 msgid "Please set your full name in your profile."
 msgstr "Калі ласка, пазначце сваё поўнае імя ў анкеце."
 
-#: weblate/trans/views/basic.py:282
+#: weblate/trans/views/basic.py:283
 #, python-brace-format
 msgid "Get involved in {0}!"
 msgstr "Далучайцеся да {0}!"
 
-#: weblate/trans/views/basic.py:288
+#: weblate/trans/views/basic.py:289
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
-"contains %(total)s strings for translation and is <a href=\"%(lang_url)s\">being "
-"translated into %(languages)s languages</a>. Overall, these translations are "
-"%(percent)s%% complete."
+"contains %(total)s strings for translation and is <a href=\"%(lang_url)s"
+"\">being translated into %(languages)s languages</a>. Overall, these "
+"translations are %(percent)s%% complete."
 msgstr ""
 "<a href=\"%(url)s\">Праект перакладу %(project)s</a> на дадзены момант "
-"утрымоўвае %(total)s радкоў на пераклад і <a href=\"%(lang_url)s\">перакладаецца "
-"на %(languages)s моў</a>. Агулам пераклады скончаныя на %(percent)s%%."
+"утрымоўвае %(total)s радкоў на пераклад і <a href=\"%(lang_url)s"
+"\">перакладаецца на %(languages)s моў</a>. Агулам пераклады скончаныя на "
+"%(percent)s%%."
 
 #. Translators: line of text in engagement widget, please use your
 #. language name instead of English
-#: weblate/trans/views/basic.py:296
+#: weblate/trans/views/basic.py:297
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -7741,11 +7743,11 @@ msgstr ""
 "<a href=\"%(url)s\">Праект перакладу %(project)s</a> на беларускую "
 "ўтрымоўвае %(total)s радкоў на пераклад, з якіх перакладзена %(percent)s%%."
 
-#: weblate/trans/views/basic.py:533
+#: weblate/trans/views/basic.py:534
 msgid "Weblate statistics"
 msgstr "Статыстыка Weblate"
 
-#: weblate/trans/views/basic.py:616
+#: weblate/trans/views/basic.py:617
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "Запыт на новы пераклад адпраўлены дагляднікам праекта."
@@ -8003,7 +8005,7 @@ msgstr "Усе рэпазіторыі скінуты."
 msgid "Translation has been removed."
 msgstr "Пераклад быў выдалены."
 
-#: weblate/trans/views/helper.py:160
+#: weblate/trans/views/helper.py:164
 #, python-format
 msgid "Error in parameter %(field)s: %(error)s"
 msgstr "Памылка ў параметры %(field)s: %(error)s"

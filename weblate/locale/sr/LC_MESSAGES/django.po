@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-10-09 09:42+0000\n"
+"POT-Creation-Date: 2017-10-09 17:48+0000\n"
 "PO-Revision-Date: 2017-08-22 09:50+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Serbian <https://hosted.weblate.org/projects/weblate/master/"
@@ -1135,7 +1135,8 @@ msgstr "Снимак екрана %s је обрисан."
 msgid "Source has been removed."
 msgstr "Извор је уклоњен."
 
-#: weblate/templates/403.html:5 weblate/trans/views/basic.py:493
+#: weblate/templates/403.html:5 weblate/templates/403_csrf.html:5
+#: weblate/trans/views/basic.py:494
 msgid "Permission Denied"
 msgstr "Приступ одбијен"
 
@@ -1152,7 +1153,7 @@ msgid ""
 "However the following translation projects are available on this server:"
 msgstr "Следећи пројекти превођења су доступни на овом серверу:"
 
-#: weblate/templates/404.html:5 weblate/trans/views/basic.py:480
+#: weblate/templates/404.html:5 weblate/trans/views/basic.py:481
 msgid "Page Not Found"
 msgstr "Страница није нађена"
 
@@ -1165,7 +1166,7 @@ msgid ""
 "The project you are looking for does not exist or is not publicly available."
 msgstr "Пројекат који сте тражили не постоји или није јавно доступан."
 
-#: weblate/templates/500.html:5 weblate/trans/views/basic.py:507
+#: weblate/templates/500.html:5 weblate/trans/views/basic.py:508
 msgid "Internal Server Error"
 msgstr "Интерна грешка сервера"
 
@@ -1182,7 +1183,7 @@ msgstr ""
 "нашег тренираног мајмуна да реши проблем."
 
 #: weblate/templates/about.html:5 weblate/templates/about.html:13
-#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:521
+#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:522
 msgid "About Weblate"
 msgstr "О Веблејту"
 
@@ -1526,7 +1527,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Измени моју лозинку"
 
-#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:626
+#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:627
 #: weblate/trans/views/files.py:88
 msgid "Please fix errors in the form."
 msgstr "Исправите грешке у обрасцу."
@@ -7589,26 +7590,26 @@ msgstr ""
 msgid "Please set your full name in your profile."
 msgstr ""
 
-#: weblate/trans/views/basic.py:282
+#: weblate/trans/views/basic.py:283
 #, python-brace-format
 msgid "Get involved in {0}!"
 msgstr "Прикључите се превођењу за {0}!"
 
-#: weblate/trans/views/basic.py:288
+#: weblate/trans/views/basic.py:289
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
-"contains %(total)s strings for translation and is <a href=\"%(lang_url)s\">being "
-"translated into %(languages)s languages</a>. Overall, these translations are "
-"%(percent)s%% complete."
+"contains %(total)s strings for translation and is <a href=\"%(lang_url)s"
+"\">being translated into %(languages)s languages</a>. Overall, these "
+"translations are %(percent)s%% complete."
 msgstr ""
 "<a href=\"%(url)s\">%(project)s превод</a> тренутно садржи %(total)s низова "
-"за превођење и <a href=\"%(lang_url)s\">преводи се на %(languages)s језика</a>. "
-"Укупно гледано, преводи су %(percent)s%% завршени."
+"за превођење и <a href=\"%(lang_url)s\">преводи се на %(languages)s језика</"
+"a>. Укупно гледано, преводи су %(percent)s%% завршени."
 
 #. Translators: line of text in engagement widget, please use your
 #. language name instead of English
-#: weblate/trans/views/basic.py:296
+#: weblate/trans/views/basic.py:297
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -7618,11 +7619,11 @@ msgstr ""
 "<a href=\"%(url)s\">%(project)s пројекат превођења</a> на српски тренутно "
 "садржи %(total)s порука за превођење и завршен је %(percent)s%%."
 
-#: weblate/trans/views/basic.py:533
+#: weblate/trans/views/basic.py:534
 msgid "Weblate statistics"
 msgstr "Веблејт статистика"
 
-#: weblate/trans/views/basic.py:616
+#: weblate/trans/views/basic.py:617
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr ""
@@ -7878,7 +7879,7 @@ msgstr "Сва спремишта су ресетована."
 msgid "Translation has been removed."
 msgstr "Превод је уклоњен."
 
-#: weblate/trans/views/helper.py:160
+#: weblate/trans/views/helper.py:164
 #, python-format
 msgid "Error in parameter %(field)s: %(error)s"
 msgstr "Грешка параметра %(field)s: %(error)s"

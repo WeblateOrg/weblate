@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-10-09 09:42+0000\n"
+"POT-Creation-Date: 2017-10-09 17:48+0000\n"
 "PO-Revision-Date: 2017-09-01 07:19+0000\n"
 "Last-Translator: Cyan K <arewecy@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
@@ -1148,7 +1148,8 @@ msgstr "번역 댓글이 삭제되었습니다."
 msgid "Source has been removed."
 msgstr "계정이 삭제되었습니다."
 
-#: weblate/templates/403.html:5 weblate/trans/views/basic.py:493
+#: weblate/templates/403.html:5 weblate/templates/403_csrf.html:5
+#: weblate/trans/views/basic.py:494
 msgid "Permission Denied"
 msgstr "사용 권한이 거부되었습니다"
 
@@ -1165,7 +1166,7 @@ msgid ""
 "However the following translation projects are available on this server:"
 msgstr "하지만 이 서버에서는 다음 번역 프로젝트가 가능합니다:"
 
-#: weblate/templates/404.html:5 weblate/trans/views/basic.py:480
+#: weblate/templates/404.html:5 weblate/trans/views/basic.py:481
 msgid "Page Not Found"
 msgstr "페이지를 찾을 수 없습니다"
 
@@ -1180,7 +1181,7 @@ msgid ""
 "The project you are looking for does not exist or is not publicly available."
 msgstr "찾으시는 요청하신 페이지를 찾을 수 없습니다."
 
-#: weblate/templates/500.html:5 weblate/trans/views/basic.py:507
+#: weblate/templates/500.html:5 weblate/trans/views/basic.py:508
 msgid "Internal Server Error"
 msgstr "내부 서버 오류"
 
@@ -1197,7 +1198,7 @@ msgstr ""
 "다."
 
 #: weblate/templates/about.html:5 weblate/templates/about.html:13
-#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:521
+#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:522
 msgid "About Weblate"
 msgstr "Weblate에 대하여"
 
@@ -1550,7 +1551,7 @@ msgstr "정확히 입력되었는지 확인하기 위해 새로운 암호를 두
 msgid "Change my password"
 msgstr "암호 변경"
 
-#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:626
+#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:627
 #: weblate/trans/views/files.py:88
 msgid "Please fix errors in the form."
 msgstr "양식의 오류를 수정하세요."
@@ -8111,27 +8112,27 @@ msgstr ""
 msgid "Please set your full name in your profile."
 msgstr "약력에서 귀하의 전체 이름을 입력 하십시오."
 
-#: weblate/trans/views/basic.py:282
+#: weblate/trans/views/basic.py:283
 #, fuzzy, python-brace-format
 #| msgid "Get involved in %(project)s!"
 msgid "Get involved in {0}!"
 msgstr "%(project)s에 참여하세요!"
 
-#: weblate/trans/views/basic.py:288
+#: weblate/trans/views/basic.py:289
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
-"contains %(total)s strings for translation and is <a href=\"%(lang_url)s\">being "
-"translated into %(languages)s languages</a>. Overall, these translations are "
-"%(percent)s%% complete."
+"contains %(total)s strings for translation and is <a href=\"%(lang_url)s"
+"\">being translated into %(languages)s languages</a>. Overall, these "
+"translations are %(percent)s%% complete."
 msgstr ""
 "<a href=\"%(url)s\">번역 프로젝트 %(project)s</a>는 현재 번역 %(total)s 개의 "
-"문자열을 포함하고 있고, <a href=\"%(lang_url)s\">%(languages)s로 번역</a>되고 있습"
-"니다. 전반적으로, 이 번역은 %(percent)s%% 완료 되었습니다."
+"문자열을 포함하고 있고, <a href=\"%(lang_url)s\">%(languages)s로 번역</a>되"
+"고 있습니다. 전반적으로, 이 번역은 %(percent)s%% 완료 되었습니다."
 
 #. Translators: line of text in engagement widget, please use your
 #. language name instead of English
-#: weblate/trans/views/basic.py:296
+#: weblate/trans/views/basic.py:297
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -8141,11 +8142,11 @@ msgstr ""
 "영어로 <a href=\"%(url)s\">번역 프로젝트 %(project)s</a>는 현재 번역 "
 "%(total)s 개의 문자열을 포함하고 있고 %(percent)s%% 완료 되었습니다."
 
-#: weblate/trans/views/basic.py:533
+#: weblate/trans/views/basic.py:534
 msgid "Weblate statistics"
 msgstr "Weblate 통계"
 
-#: weblate/trans/views/basic.py:616
+#: weblate/trans/views/basic.py:617
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "새로운 번역 요청을 프로젝트 관리자에게 보냈습니다."
@@ -8400,7 +8401,7 @@ msgstr "모든 저장소가 재설정 되었습니다."
 msgid "Translation has been removed."
 msgstr "번역 댓글이 삭제되었습니다."
 
-#: weblate/trans/views/helper.py:160
+#: weblate/trans/views/helper.py:164
 #, python-format
 msgid "Error in parameter %(field)s: %(error)s"
 msgstr "매개변수 %(field)s: %(error)s 오류"

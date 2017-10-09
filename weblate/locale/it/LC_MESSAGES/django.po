@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate v. 2017.09.28\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-10-09 09:42+0000\n"
+"POT-Creation-Date: 2017-10-09 17:48+0000\n"
 "PO-Revision-Date: 2017-10-09 09:06+0000\n"
 "Last-Translator: ROBERTO <roberto.boriotti@canon-europe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/master/"
@@ -1130,7 +1130,8 @@ msgstr "La cattura schermo %s è stata eliminata."
 msgid "Source has been removed."
 msgstr "Il sorgente è stato rimosso."
 
-#: weblate/templates/403.html:5 weblate/trans/views/basic.py:493
+#: weblate/templates/403.html:5 weblate/templates/403_csrf.html:5
+#: weblate/trans/views/basic.py:494
 msgid "Permission Denied"
 msgstr "Permesso negato"
 
@@ -1149,7 +1150,7 @@ msgstr ""
 "In ogni caso questi sono i progetti di traduzioni disponibili in questo "
 "server:"
 
-#: weblate/templates/404.html:5 weblate/trans/views/basic.py:480
+#: weblate/templates/404.html:5 weblate/trans/views/basic.py:481
 msgid "Page Not Found"
 msgstr "Pagina non trovata"
 
@@ -1163,7 +1164,7 @@ msgid ""
 msgstr ""
 "Il progetto che stai cercando non esiste o non è disponibile pubblicamente."
 
-#: weblate/templates/500.html:5 weblate/trans/views/basic.py:507
+#: weblate/templates/500.html:5 weblate/trans/views/basic.py:508
 msgid "Internal Server Error"
 msgstr "Errore interno del server"
 
@@ -1180,7 +1181,7 @@ msgstr ""
 "appena inviato le nostre scimmie ammaestrate per risolvere il problema."
 
 #: weblate/templates/about.html:5 weblate/templates/about.html:13
-#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:521
+#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:522
 msgid "About Weblate"
 msgstr "Informazioni su Weblate"
 
@@ -1511,7 +1512,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Modifica password"
 
-#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:626
+#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:627
 #: weblate/trans/views/files.py:88
 msgid "Please fix errors in the form."
 msgstr "Correggi gli errori nel modulo."
@@ -7523,27 +7524,27 @@ msgstr ""
 msgid "Please set your full name in your profile."
 msgstr ""
 
-#: weblate/trans/views/basic.py:282
+#: weblate/trans/views/basic.py:283
 #, python-brace-format
 msgid "Get involved in {0}!"
 msgstr ""
 
-#: weblate/trans/views/basic.py:288
+#: weblate/trans/views/basic.py:289
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
-"contains %(total)s strings for translation and is <a href=\"%(lang_url)s\">being "
-"translated into %(languages)s languages</a>. Overall, these translations are "
-"%(percent)s%% complete."
+"contains %(total)s strings for translation and is <a href=\"%(lang_url)s"
+"\">being translated into %(languages)s languages</a>. Overall, these "
+"translations are %(percent)s%% complete."
 msgstr ""
 "<a href=\"%(url)s\">Il progetto di traduzione di %(project)s</a> attualmente "
-"contiene %(total)s stringhe per la traduzione ed è <a href=\"%(lang_url)s\">in "
-"corso di traduzione in %(languages)s lingue</a>. Nel complesso queste "
+"contiene %(total)s stringhe per la traduzione ed è <a href=\"%(lang_url)s"
+"\">in corso di traduzione in %(languages)s lingue</a>. Nel complesso queste "
 "traduzioni sono tradotte al %(percent)s%%."
 
 #. Translators: line of text in engagement widget, please use your
 #. language name instead of English
-#: weblate/trans/views/basic.py:296
+#: weblate/trans/views/basic.py:297
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -7554,11 +7555,11 @@ msgstr ""
 "attualmente contiene %(total)s stringhe da tradurre ed è tradotto al "
 "%(percent)s%%."
 
-#: weblate/trans/views/basic.py:533
+#: weblate/trans/views/basic.py:534
 msgid "Weblate statistics"
 msgstr "Statistiche Weblate"
 
-#: weblate/trans/views/basic.py:616
+#: weblate/trans/views/basic.py:617
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr ""
@@ -7808,7 +7809,7 @@ msgstr "Tutti i repository sono stati ripristinati."
 msgid "Translation has been removed."
 msgstr "La traduzione è stata rimossa."
 
-#: weblate/trans/views/helper.py:160
+#: weblate/trans/views/helper.py:164
 #, python-format
 msgid "Error in parameter %(field)s: %(error)s"
 msgstr "Errore nel parametro %(field)s: %(error)s"
