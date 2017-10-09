@@ -508,7 +508,8 @@ def translate(request, project, subproject, lang):
     # Any form submitted?
     if 'skip' in request.POST:
         return redirect(next_unit_url)
-    elif request.method == 'POST' and not project_locked:
+    elif (request.method == 'POST' and
+          (not project_locked or 'delete' in request.POST)):
 
         # Handle accepting/deleting suggestions
         if ('accept' not in request.POST and
@@ -520,7 +521,7 @@ def translate(request, project, subproject, lang):
                 translation, request, user_locked,
                 this_unit_url, next_unit_url
             )
-        elif not locked:
+        elif not locked or 'delete' in request.POST:
             response = handle_suggestions(
                 translation, request, this_unit_url, next_unit_url,
             )
