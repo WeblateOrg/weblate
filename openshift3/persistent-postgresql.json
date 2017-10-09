@@ -51,19 +51,19 @@
         {
             "name": "WEBLATE_ADMIN_USERNAME",
             "description": "Name of initial admin user to create",
-            "value": "",
-            "required": true
+            "from": "admin[a-f0-9]{8}",
+            "generate": "expression"
         },
         {
             "name": "WEBLATE_ADMIN_PASSWORD",
             "description": "Password of the initial admin user.",
-            "value": "",
-            "required": true
+            "from": "[a-zA-Z0-9]{12}",
+            "generate": "expression"
         },
         {
             "name": "WEBLATE_ADMIN_EMAIL",
             "description": "Email address of the initial admin user.",
-            "value": "",
+            "value": "noreply@example.com",
             "required": true
         },
         {
