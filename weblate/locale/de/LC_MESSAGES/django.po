@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-10-09 06:47+0000\n"
-"PO-Revision-Date: 2017-10-09 07:09+0000\n"
+"PO-Revision-Date: 2017-10-09 08:47+0000\n"
 "Last-Translator: Bamstam <am-em-am@posteo.de>\n"
 "Language-Team: German "
 "<https://hosted.weblate.org/projects/weblate/master/de/>\n"
@@ -619,8 +619,8 @@ msgstr "Die Registrierung neuer Benutzer ist deaktiviert!"
 msgid ""
 "Authentication has failed, probably due to expired token or connection error."
 msgstr ""
-"Authentifizierung fehlgeschlagen. Vermutlich auf Grund von abgelaufenen "
-"Token oder Verbindungsfehlern."
+"Authentifizierung fehlgeschlagen, vermutlich aufgrund eines abgelaufenen "
+"Tokens oder eines Verbindungsfehlers."
 
 #: weblate/accounts/views.py:915
 msgid "Authentication has been cancelled."
@@ -1411,10 +1411,8 @@ msgid "Password reset almost complete"
 msgstr "Zurücksetzen des Passworts ist fast vollständig abgeschlossen"
 
 #: weblate/templates/accounts/email-sent.html:16
-#, fuzzy
-#| msgid "Password reset almost complete"
 msgid "Account removal almost complete"
-msgstr "Zurücksetzen des Passworts ist fast vollständig abgeschlossen"
+msgstr "Die Löschung des Benutzerkontos ist fast vollständig abgeschlossen"
 
 #: weblate/templates/accounts/email-sent.html:18
 msgid "Registration almost complete"
@@ -1429,16 +1427,13 @@ msgstr ""
 "Sie diesem Link, um den Vorgang zum Zurücksetzen des Passworts abzuschließen."
 
 #: weblate/templates/accounts/email-sent.html:26
-#, fuzzy
-#| msgid ""
-#| "You will very soon receive an email with a confirmation link. Please "
-#| "follow this link in order to complete your password reset procedure."
 msgid ""
 "You will very soon receive an email with a confirmation link. Please follow "
 "this link in order to complete your account removal procedure."
 msgstr ""
 "Sie erhalten in Kürze eine E-Mail mit einem Bestätigungs-Link. Bitte folgen "
-"Sie diesem Link, um den Vorgang zum Zurücksetzen des Passworts abzuschließen."
+"Sie diesem Link, um den Vorgang zum Löschen Ihres Benutzerkontos "
+"abzuschließen."
 
 #: weblate/templates/accounts/email-sent.html:28
 msgid ""
@@ -1685,8 +1680,8 @@ msgid ""
 "on the dashboard to have easier access to chosen translations."
 msgstr ""
 "Bitte wählen Sie die Sprachen aus, die Sie bevorzugt übersetzen möchten. Die "
-"ausgewählten Sprachen werden dann direkt auf Ihrem Dashboard angezeigt und "
-"ermöglichen einen schnellen Zugriff auf die gewünschten Übersetzungen."
+"ausgewählten Sprachen werden dann direkt auf Ihrer Übersichtsseite angezeigt "
+"und ermöglichen einen schnellen Zugriff auf die gewünschten Übersetzungen."
 
 #: weblate/templates/accounts/profile.html:58
 msgid ""
@@ -1745,8 +1740,8 @@ msgid ""
 "Watched projects are also shown on dashboard, so choose all projects you "
 "want to translate."
 msgstr ""
-"Beobachtete Projekte werden außerdem auf dem Dashboard angezeigt. Bitte alle "
-"zu übersetzenden Projekte wählen."
+"Beobachtete Projekte werden auch auf der Übersichtsseite angezeigt. Bitte "
+"wählen Sie alle Projekte aus, die Sie übersetzen möchten."
 
 #: weblate/templates/accounts/profile.html:138
 msgid "Subscription settings"
@@ -3405,10 +3400,8 @@ msgid "Songhai languages"
 msgstr "Songhai-Sprachen"
 
 #: weblate/templates/i18n.html:238
-#, fuzzy
-#| msgid "Guarani"
 msgid "Sorani"
-msgstr "Guaranitisch"
+msgstr "Sorani"
 
 #: weblate/templates/i18n.html:239
 msgid "Sotho"
@@ -3769,7 +3762,7 @@ msgstr "Es gibt einige nicht eingespielte Änderungen!"
 
 #: weblate/templates/js/git-status.html:25
 msgid "There has been a merge failure on the repository:"
-msgstr "Es gab einen Fehler beim Zusammenführen auf der Paketquelle:"
+msgstr "es gab einen Merge-Konflikt im nachfolgenden Repository:"
 
 #: weblate/templates/js/git-status.html:27
 #: weblate/templates/mail/merge_failure.html:36
@@ -4193,7 +4186,7 @@ msgstr "Zusammenfassung der Übersetzung:"
 
 #: weblate/templates/mail/footer.html:7 weblate/templates/mail/footer.txt:3
 msgid "Total strings:"
-msgstr "Alle Zeichenketten:"
+msgstr "Gesamtanzahl Zeichenketten:"
 
 #: weblate/templates/mail/footer.html:10 weblate/templates/mail/footer.txt:4
 msgid "Translated strings:"
@@ -4400,19 +4393,16 @@ msgid "Parse error in %(subproject)s"
 msgstr "Fehler beim Analysieren in %(subproject)s"
 
 #: weblate/templates/mail/remove.html:11 weblate/templates/mail/remove.txt:3
-#, fuzzy, python-format
-#| msgid ""
-#| "There was a request to reset your Weblate password at %(site_title)s."
+#, python-format
 msgid "There was a request to remove your Weblate account at %(site_title)s."
 msgstr ""
-"Es gab eine Anfrage zum Zurücksetzen Ihres Weblate-Kennworts bei "
+"Es gab eine Anfrage zum Löschen Ihres Weblate-Benutzerkontos auf "
 "%(site_title)s."
 
 #: weblate/templates/mail/remove_subject.txt:4
-#, fuzzy, python-format
-#| msgid "Your registration on %(site_title)s"
+#, python-format
 msgid "Account removal on %(site_title)s"
-msgstr "Ihre Registrierung bei %(site_title)s"
+msgstr "Löschen des Benutzerkontos auf %(site_title)s"
 
 #: weblate/templates/mail/reset.html:11 weblate/templates/mail/reset.txt:3
 #, python-format
@@ -4457,22 +4447,18 @@ msgid "Add new user"
 msgstr "Neuen Benutzer hinzufügen"
 
 #: weblate/templates/manage-access.html:84
-#, fuzzy
-#| msgid "Access control"
 msgid "Project access control"
-msgstr "Zugriffssteuerung"
+msgstr "Projekt-Zugriffssteuerung"
 
 #: weblate/templates/manage-access.html:91
-#, fuzzy
-#| msgid "changes"
 msgid "Change"
-msgstr "Änderungen"
+msgstr "Ändern"
 
 #: weblate/templates/manage-access.html:93
-#, fuzzy
-#| msgid "You do not have privilege to accept suggestions!"
 msgid "You do not have permission to change project access control."
-msgstr "Sie haben nicht die Berechtigung, Vorschläge anzunehmen!"
+msgstr ""
+"Sie haben keine Berechtigung, die Zugriffssteuerung für das Projekt zu "
+"ändern."
 
 #: weblate/templates/matrix.html:8
 msgid "matrix"
@@ -7844,10 +7830,8 @@ msgid "User has been removed from this project."
 msgstr "Benutzer wurde aus diesem Projekt entfernt."
 
 #: weblate/trans/views/acl.py:172
-#, fuzzy
-#| msgid "Password has been changed."
 msgid "Project access control has been changed."
-msgstr "Kennwort wurde geändert."
+msgstr "Die Zugriffssteuerung für das Projekt wurde geändert."
 
 #: weblate/trans/views/basic.py:160
 msgid ""
