@@ -288,8 +288,9 @@ def show_engage(request, project, lang=None):
         status_text = _(
             '<a href="%(url)s">Translation project for %(project)s</a> '
             'currently contains %(total)s strings for translation and is '
-            '<a href="%(lang_url)s">being translated into %(languages)s languages'
-            '</a>. Overall, these translations are %(percent)s%% complete.'
+            '<a href="%(lang_url)s">being translated into %(languages)s '
+            'languages</a>. Overall, these translations are %(percent)s%% '
+            'complete.'
         )
     else:
         # Translators: line of text in engagement widget, please use your
