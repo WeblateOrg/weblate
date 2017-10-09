@@ -117,14 +117,12 @@ class ChangeQuerySet(models.QuerySet):
 
     def for_project(self, project):
         return self.prefetch().filter(
-            Q(translation__subproject__project=project) |
+            Q(subproject__project=project) |
             Q(dictionary__project=project)
         )
 
     def for_component(self, component):
-        return self.prefetch().filter(
-            translation__subproject=component
-        )
+        return self.prefetch().filter(subproject=component)
 
     def for_translation(self, translation):
         return self.prefetch().filter(
