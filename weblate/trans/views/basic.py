@@ -278,6 +278,7 @@ def show_engage(request, project, lang=None):
         'total': obj.get_total(),
         'percent': obj.get_translated_percent(language),
         'url': obj.get_absolute_url(),
+        'lang_url': obj.get_absolute_url() + '#languages',
         'language': language,
         'title': _('Get involved in {0}!').format(obj),
     }
@@ -287,7 +288,7 @@ def show_engage(request, project, lang=None):
         status_text = _(
             '<a href="%(url)s">Translation project for %(project)s</a> '
             'currently contains %(total)s strings for translation and is '
-            '<a href="%(url)s">being translated into %(languages)s languages'
+            '<a href="%(lang_url)s">being translated into %(languages)s languages'
             '</a>. Overall, these translations are %(percent)s%% complete.'
         )
     else:
