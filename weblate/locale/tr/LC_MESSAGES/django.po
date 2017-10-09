@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-10-09 17:48+0000\n"
-"PO-Revision-Date: 2017-10-04 07:18+0000\n"
+"PO-Revision-Date: 2017-10-09 22:15+0000\n"
 "Last-Translator: monolifed <monolifed@gmail.com>\n"
-"Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
-"tr/>\n"
+"Language-Team: Turkish "
+"<https://hosted.weblate.org/projects/weblate/master/tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -490,10 +490,8 @@ msgid "Password reset"
 msgstr "Parola sıfırlama"
 
 #: weblate/accounts/views.py:117
-#, fuzzy
-#| msgid "Remove my account"
 msgid "Remove account"
-msgstr "Hesabımı kaldır"
+msgstr "Hesabı kaldır"
 
 #: weblate/accounts/views.py:120 weblate/accounts/views.py:617
 msgid "User registration"
@@ -1294,7 +1292,7 @@ msgstr "Açık"
 
 #: weblate/templates/access_control_description.html:5
 msgid "Publicly visible and translatable"
-msgstr ""
+msgstr "Herkes görebilir ve çevirebilir"
 
 #: weblate/templates/access_control_description.html:6
 #: weblate/trans/models/project.py:131
@@ -1303,7 +1301,7 @@ msgstr "Korumalı"
 
 #: weblate/templates/access_control_description.html:7
 msgid "Publicly visible but translatable only for selected users"
-msgstr ""
+msgstr "Herkes görebilir ancak yalnızca seçilmiş kullanıcılar çevirebilir"
 
 #: weblate/templates/access_control_description.html:8
 #: weblate/trans/models/project.py:132
@@ -1312,7 +1310,7 @@ msgstr "Özel"
 
 #: weblate/templates/access_control_description.html:9
 msgid "Visible and translatable only for selected users"
-msgstr ""
+msgstr "Yalnızca seçilmiş kullanıcılar görebilir ve çevirebilir"
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -1356,10 +1354,8 @@ msgid "Password reset almost complete"
 msgstr "Parola sıfırlama neredeyse tamam"
 
 #: weblate/templates/accounts/email-sent.html:16
-#, fuzzy
-#| msgid "Password reset almost complete"
 msgid "Account removal almost complete"
-msgstr "Parola sıfırlama neredeyse tamam"
+msgstr "Hesap kaldırma neredeyse tamam"
 
 #: weblate/templates/accounts/email-sent.html:18
 msgid "Registration almost complete"
@@ -1374,16 +1370,12 @@ msgstr ""
 "parola sıfırlama işleminizi tamamlamak için bu bağlantıyı takip edin."
 
 #: weblate/templates/accounts/email-sent.html:26
-#, fuzzy
-#| msgid ""
-#| "You will very soon receive an email with a confirmation link. Please "
-#| "follow this link in order to complete your password reset procedure."
 msgid ""
 "You will very soon receive an email with a confirmation link. Please follow "
 "this link in order to complete your account removal procedure."
 msgstr ""
 "Çok yakında bir onaylama bağlantısı içeren bir eposta alacaksınız. Lütfen "
-"parola sıfırlama işleminizi tamamlamak için bu bağlantıyı takip edin."
+"hesap kaldırma işleminizi tamamlamak için bu bağlantıyı takip edin."
 
 #: weblate/templates/accounts/email-sent.html:28
 msgid ""
@@ -1925,6 +1917,8 @@ msgid ""
 "You will have to confirm account removal by clicking link in email you will "
 "receive."
 msgstr ""
+"Hesap kaldırmayı alacağınız epostadaki bağlantıya tıklayarak onaylamanız "
+"gerekecek."
 
 #: weblate/templates/accounts/removal.html:27
 msgid "Delete this account"
@@ -2960,7 +2954,7 @@ msgstr "Kürtçe"
 
 #: weblate/templates/i18n.html:150
 msgid "Kurmanji"
-msgstr ""
+msgstr "Kurmançça"
 
 #: weblate/templates/i18n.html:151
 msgid "Kwanyama"
@@ -3311,10 +3305,8 @@ msgid "Songhai languages"
 msgstr "Songhay dilleri"
 
 #: weblate/templates/i18n.html:238
-#, fuzzy
-#| msgid "Guarani"
 msgid "Sorani"
-msgstr "Guarani"
+msgstr "Soranice"
 
 #: weblate/templates/i18n.html:239
 msgid "Sotho"
@@ -4303,17 +4295,14 @@ msgid "Parse error in %(subproject)s"
 msgstr "%(subproject)s içinde ayrıştırma hatası"
 
 #: weblate/templates/mail/remove.html:11 weblate/templates/mail/remove.txt:3
-#, fuzzy, python-format
-#| msgid ""
-#| "There was a request to reset your Weblate password at %(site_title)s."
+#, python-format
 msgid "There was a request to remove your Weblate account at %(site_title)s."
-msgstr "%(site_title)s sitesinde Weblate parolanızı sıfırlama isteği oldu."
+msgstr "%(site_title)s sitesinde Weblate hesabınızı kaldırma isteği oldu."
 
 #: weblate/templates/mail/remove_subject.txt:4
-#, fuzzy, python-format
-#| msgid "Your registration on %(site_title)s"
+#, python-format
 msgid "Account removal on %(site_title)s"
-msgstr "%(site_title)s üstündeki kaydınız"
+msgstr "%(site_title)s sitesinde hesap kaldırma"
 
 #: weblate/templates/mail/reset.html:11 weblate/templates/mail/reset.txt:3
 #, python-format
@@ -4355,22 +4344,16 @@ msgid "Add new user"
 msgstr "Yeni kullanıcı ekle"
 
 #: weblate/templates/manage-access.html:84
-#, fuzzy
-#| msgid "Access control"
 msgid "Project access control"
-msgstr "Erişim kontrolü"
+msgstr "Proje erişim kontrolü"
 
 #: weblate/templates/manage-access.html:91
-#, fuzzy
-#| msgid "changes"
 msgid "Change"
-msgstr "değişiklikler"
+msgstr "Değişiklik"
 
 #: weblate/templates/manage-access.html:93
-#, fuzzy
-#| msgid "You do not have privilege to accept suggestions!"
 msgid "You do not have permission to change project access control."
-msgstr "Önerileri kabul etmek için yetkiniz yok!"
+msgstr "Proje erişim kontrolünü değiştirmek için yetkiniz yok."
 
 #: weblate/templates/matrix.html:8
 msgid "matrix"
@@ -7669,10 +7652,8 @@ msgid "User has been removed from this project."
 msgstr "Kullanıcı bu projeden kaldırıldı."
 
 #: weblate/trans/views/acl.py:172
-#, fuzzy
-#| msgid "Password has been changed."
 msgid "Project access control has been changed."
-msgstr "Parola değiştirildi."
+msgstr "Proje erişim kontrolü değiştirildi."
 
 #: weblate/trans/views/basic.py:160
 msgid ""
@@ -7829,10 +7810,8 @@ msgid "You don't have privileges to add suggestions!"
 msgstr "Önerileri eklemek için yetkileriniz yok!"
 
 #: weblate/trans/views/edit.py:202
-#, fuzzy
-#| msgid "Your suggestion already exists!"
 msgid "Your suggestion has been identified as spam!"
-msgstr "Zaten öneriniz var!"
+msgstr "Öneriniz spam olarak belirlendi!"
 
 #: weblate/trans/views/edit.py:218
 msgid ""
