@@ -33,6 +33,10 @@ echo " -----> Setting up Weblate group definitions."
 
 python manage.py setupgroups
 
+echo " -----> Rebuild index after initial updates."
+
+python manage.py rebuild_index --all
+
 # Create an initial super user account if supplied with credentials, or
 # if script run in an interactive session, prompt for the credentials.
 
