@@ -69,6 +69,9 @@ class WeblateConf(AppConf):
     # Limit (in seconds) for Weblate machine translation
     MT_WEBLATE_LIMIT = 15
 
+    # Akismet API key
+    AKISMET_API_KEY = None
+
     # Title of site to use
     SITE_TITLE = 'Weblate'
 

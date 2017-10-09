@@ -168,3 +168,17 @@ Weblate currently supports two backends:
    
    :ref:`production-cache-avatar`,
    :setting:`ENABLE_AVATARS`
+
+Spam protection
+---------------
+
+Optionally Weblate can be protected against suggestion spamming by
+unauthenticated users through `akismet.com <https://akismet.com/>`_
+service.
+
+To enable this, you need to install `akismet` Python module and configure
+Akismet API key.
+
+.. seealso::
+
+    :setting:`AKISMET_API_KEY`
