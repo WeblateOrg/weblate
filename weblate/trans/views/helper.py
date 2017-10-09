@@ -123,6 +123,10 @@ def download_translation_file(translation, fmt=None):
             )
         )
 
+    # Force flushing pending units
+    author = translation.get_last_author(True)
+    translation.update_units(author)
+
     srcfilename = translation.get_filename()
 
     # Construct file name (do not use real filename as it is usually not
