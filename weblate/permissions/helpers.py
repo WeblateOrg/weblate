@@ -177,7 +177,7 @@ def can_accept_suggestion(user, translation):
 @cache_permission
 def _can_delete_suggestion(user, translation):
     """Check whether user can delete suggestions to given translation."""
-    return can_edit(user, translation, 'trans.delete_suggestion')
+    return has_group_perm(user, 'trans.delete_suggestion', translation)
 
 
 def can_delete_suggestion(user, translation, suggestion):
