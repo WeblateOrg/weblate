@@ -360,6 +360,7 @@ class ExportTest(ViewTestCase):
             )
         )
         self.assertContains(response, 'Weblate Hello World 2016')
+        self.assertContains(response, 'Nazdar svete!')
         self.assertEqual(
             response['Content-Disposition'],
             'attachment; filename=test-test-cs.po'
