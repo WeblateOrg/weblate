@@ -16,6 +16,15 @@ All settings are stored in :file:`settings.py` (as usual for Django).
     Please check also :doc:`Django's documentation <django:ref/settings>` for
     parameters which configure Django itself.
 
+.. setting:: AKISMET_API_KEY
+
+AKISMET_API_KEY
+---------------
+
+Weblate can use Akismet to check incoming anonymous suggestions for spam.
+Visit `akismet.com <https://akismet.com/>`_ to purchase an API key
+and associate it with a site.
+
 .. setting:: ANONYMOUS_USER_NAME
 
 ANONYMOUS_USER_NAME

@@ -34,6 +34,7 @@ from django.core.exceptions import PermissionDenied
 
 from weblate import get_doc_url
 from weblate.utils import messages
+from weblate.utils.antispam import is_spam
 from weblate.permissions.helpers import check_access
 from weblate.trans.models import (
     Unit, Change, Comment, Suggestion, Dictionary,
@@ -193,6 +194,15 @@ def perform_suggestion(unit, form, request):
         )
         # Stay on same entry
         return False
+    elif not request.user.is_authenticated:
+        # Spam check
+        if is_spam('\n'.join(form.cleaned_data['target']), request):
+            messages.error(
+                request,
+                _('Your suggestion has been identified as spam!')
+            )
+            return False
+
     # Invite user to become translator if there is nobody else
     # and the project is accepting translations
     translation = unit.translation

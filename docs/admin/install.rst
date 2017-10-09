@@ -88,6 +88,8 @@ python-bidi (optional for proper rendering of badges in RTL languages)
     https://github.com/MeirKriheli/python-bidi
 tesserocr (>= 2.0.0) (optional for screenshots OCR)
     https://github.com/sirfz/tesserocr
+akismet (>= 1.0) (optional for suggestion spam protection)
+    https://github.com/ubernostrum/akismet
 
 Other system requirements
 +++++++++++++++++++++++++

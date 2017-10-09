@@ -17,6 +17,7 @@ Released on ? 2017.
 * Default value of BASE_DIR has been changed.
 * Added two step account removal to prevent accidental removal.
 * Project access control settings is now editable.
+* Added optional spam protection for suggestions using Akismet.
 
 weblate 2.16
 ------------
