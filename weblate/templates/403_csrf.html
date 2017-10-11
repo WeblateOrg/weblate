@@ -5,6 +5,7 @@
 <li><a href="{% url 'home' %}">{% trans "Permission Denied" %}</a></li>
 {% endblock %}
 
+{% block content %}
 <p>{{ main }}</p>
 
 {% if no_referer %}
