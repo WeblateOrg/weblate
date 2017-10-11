@@ -140,13 +140,15 @@ class EmailSentView(TemplateView):
         )
 
 
-def mail_admins_contact(request, subject, message, context, sender):
+def mail_admins_contact(request, subject, message, context, sender, to):
     """Send a message to the admins, as defined by the ADMINS setting."""
     LOGGER.info(
         'contact form from %s',
         sender,
     )
-    if not settings.ADMINS:
+    if not to and settings.ADMINS:
+        to = [a[1] for a in settings.ADMINS]
+    elif not settings.ADMINS:
         messages.error(
             request,
             _('Message could not be sent to administrator!')
@@ -159,7 +161,7 @@ def mail_admins_contact(request, subject, message, context, sender):
     mail = EmailMultiAlternatives(
         '{0}{1}'.format(settings.EMAIL_SUBJECT_PREFIX, subject % context),
         message % context,
-        to=[a[1] for a in settings.ADMINS],
+        to=to,
         headers={'Reply-To': sender},
     )
 
@@ -421,6 +423,7 @@ def contact(request):
                 CONTACT_TEMPLATE,
                 form.cleaned_data,
                 form.cleaned_data['email'],
+                settings.ADMINS_CONTACT,
             )
             return redirect('home')
     else:
@@ -461,6 +464,7 @@ def hosting(request):
                 HOSTING_TEMPLATE,
                 context,
                 form.cleaned_data['email'],
+                settings.ADMINS_HOSTING,
             )
             return redirect('home')
     else:

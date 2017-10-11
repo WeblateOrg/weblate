@@ -234,5 +234,9 @@ class WeblateConf(AppConf):
     AUTH_LOCK_ATTEMPTS = 10
     AUTH_PASSWORD_DAYS = 180
 
+    # Mail customization
+    ADMINS_CONTACT = []
+    ADMINS_HOSTING = []
+
     class Meta(object):
         prefix = ''

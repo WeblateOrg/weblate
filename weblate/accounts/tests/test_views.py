@@ -59,7 +59,10 @@ class ViewTest(TestCase):
         Profile.objects.get_or_create(user=user)
         return user
 
-    @override_settings(REGISTRATION_CAPTCHA=False)
+    @override_settings(
+        REGISTRATION_CAPTCHA=False,
+        ADMINS=(('Weblate test', 'noreply@weblate.org'), )
+    )
     def test_contact(self):
         """Test for contact form."""
         # Basic get
@@ -76,6 +79,25 @@ class ViewTest(TestCase):
             mail.outbox[0].subject,
             '[Weblate] Message from dark side'
         )
+        self.assertEqual(mail.outbox[0].to, ['noreply@weblate.org'])
+
+    @override_settings(
+        REGISTRATION_CAPTCHA=False,
+        ADMINS_CONTACT=['noreply@example.com'],
+    )
+    def test_contact_separate(self):
+        """Test for contact form."""
+        # Sending message
+        response = self.client.post(reverse('contact'), CONTACT_DATA)
+        self.assertRedirects(response, reverse('home'))
+
+        # Verify message
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(
+            mail.outbox[0].subject,
+            '[Weblate] Message from dark side'
+        )
+        self.assertEqual(mail.outbox[0].to, ['noreply@example.com'])
 
     @override_settings(REGISTRATION_CAPTCHA=False)
     def test_contact_invalid(self):
@@ -105,7 +127,11 @@ class ViewTest(TestCase):
         response = self.client.get(reverse('hosting'))
         self.assertRedirects(response, reverse('home'))
 
-    @override_settings(OFFER_HOSTING=True)
+    @override_settings(
+        REGISTRATION_CAPTCHA=False,
+        OFFER_HOSTING=True,
+        ADMINS_HOSTING=['noreply@example.com'],
+    )
     def test_hosting(self):
         """Test for hosting form with enabled hosting."""
         self.get_user()
@@ -138,6 +164,7 @@ class ViewTest(TestCase):
             'testuser',
             mail.outbox[0].body,
         )
+        self.assertEqual(mail.outbox[0].to, ['noreply@example.com'])
 
     def test_contact_subject(self):
         # With set subject
