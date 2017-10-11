@@ -637,6 +637,11 @@ The mail server setup is configured using settings
 names are quite self-explaining, but you can find our more information in the
 Django documentation.
 
+.. note::
+
+        You can verify whether outgoing mail is working correctly by using
+        :djadmin:`django:sendtestemail` management command.
+
 .. _installation:
 
 Installation
