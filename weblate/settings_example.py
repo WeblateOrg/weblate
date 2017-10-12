@@ -304,6 +304,14 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'weblate.accounts.password_validation.PastPasswordsValidator',
     },
+    # Optional password strength validation by django-zxcvbn-password
+    # {
+    #     'NAME': 'zxcvbn_password.ZXCVBNValidator',
+    #     'OPTIONS': {
+    #         'min_score': 3,
+    #         'user_attributes': ('username', 'email', 'first_name')
+    #     }
+    # },
 ]
 
 # Middleware

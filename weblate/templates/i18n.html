@@ -9,6 +9,42 @@ These are from django core
 {% blocktrans %}Hold down "Control", or "Command" on a Mac, to select more than one.{% endblocktrans %}
 
 <!--
+Additional password validation by django-zxcvbn-password
+
+It supports internationalization, but there are no translations
+shipped with it.
+-->
+
+{% blocktrans %}Your password must be stronger.{% endblocktrans %}
+{% blocktrans %}Use a few words, avoid common phrases.{% endblocktrans %}
+{% blocktrans %}No need for symbols, digits, or uppercase letters.{% endblocktrans %}
+{% blocktrans %}Add another word or two. Uncommon words are better.{% endblocktrans %}
+{% blocktrans %}Straight rows of keys are easy to guess.{% endblocktrans %}
+{% blocktrans %}Short keyboard patterns are easy to guess.{% endblocktrans %}
+{% blocktrans %}Use a longer keyboard pattern with more turns.{% endblocktrans %}
+{% blocktrans %}Repeats like "aaa" are easy to guess.{% endblocktrans %}
+{% blocktrans %}Repeats like "abcabcabc" are only slightly harder to guess than "abc".{% endblocktrans %}
+{% blocktrans %}Avoid repeated words and characters.{% endblocktrans %}
+{% blocktrans %}Sequences like abc or 6543 are easy to guess.{% endblocktrans %}
+{% blocktrans %}Avoid sequences.{% endblocktrans %}
+{% blocktrans %}Recent years are easy to guess.{% endblocktrans %}
+{% blocktrans %}Avoid recent years.{% endblocktrans %}
+{% blocktrans %}Avoid years that are associated with you.{% endblocktrans %}
+{% blocktrans %}Dates are often easy to guess.{% endblocktrans %}
+{% blocktrans %}Avoid dates and years that are associated with you.{% endblocktrans %}
+{% blocktrans %}This is a top-10 common password.{% endblocktrans %}
+{% blocktrans %}This is a top-100 common password.{% endblocktrans %}
+{% blocktrans %}This is a very common password.{% endblocktrans %}
+{% blocktrans %}This is similar to a commonly used password.{% endblocktrans %}
+{% blocktrans %}A word by itself is easy to guess.{% endblocktrans %}
+{% blocktrans %}Names and surnames by themselves are easy to guess.{% endblocktrans %}
+{% blocktrans %}Common names and surnames are easy to guess.{% endblocktrans %}
+{% blocktrans %}Capitalization doesn't help very much.{% endblocktrans %}
+{% blocktrans %}All-uppercase is almost as easy to guess as all-lowercase.{% endblocktrans %}
+{% blocktrans %}Reversed words aren't much harder to guess.{% endblocktrans %}
+{% blocktrans %}Predictable substitutions like '@' instead of 'a' don't help very much.{% endblocktrans %}
+
+<!--
 Language names, generated using:
 
 from weblate.lang.models import Language

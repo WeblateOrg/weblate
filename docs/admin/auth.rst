@@ -221,6 +221,26 @@ ensure to mark the `read_user` scope.
     SOCIAL_AUTH_GITLAB_SECRET = 'Secret'
     SOCIAL_AUTH_GITLAB_SCOPE = ['api']
 
+Password authentication
+-----------------------
+
+The default :file:`settings.py` comes with reasonable set of
+:setting:`django:AUTH_PASSWORD_VALIDATORS`:
+
+* Password can't be too similar to your other personal information.
+* Password must contain at least 6 characters.
+* Password can't be a commonly used password.
+* Password can't be entirely numeric.
+* Password can't consist of single character or whitespace only.
+* Password can't match password you have used in the past.
+
+You can customize this setting to match your password policy.
+
+Additionally you can also install
+`django-zxcvbn-password <https://pypi.python.org/pypi/django-zxcvbn-password/>`_
+which gives quite realistic estimates of password difficulty and allows to reject
+passwords below certain threshold.
+
 .. _ldap-auth:
 
 LDAP authentication
