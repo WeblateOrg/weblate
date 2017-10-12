@@ -435,6 +435,14 @@ def cycle_session(strategy, *args, **kwargs):
 
 def adjust_primary_mail(strategy, entries, user, *args, **kwargs):
     """Fix primary mail on disconnect."""
+    # Remove pending verification codes
+    mails = VerifiedEmail.objects.filter(
+        social__user=user,
+        social__in=entries
+    ).values_list('email', flat=True)
+    Code.objects.filter(email__in=mails).delete()
+
+    # Check remaining verified mails
     verified = VerifiedEmail.objects.filter(
         social__user=user,
     ).exclude(
