@@ -140,9 +140,9 @@ Starting with our codebase
 --------------------------
 
 If you are looking for some bugs which should be good for starting with our
-codebase, you can find them labelled with :guilabel:`newbie` tag:
+codebase, you can find them labelled with :guilabel:`good first issue` tag:
 
-https://github.com/WeblateOrg/weblate/labels/newbie
+https://github.com/WeblateOrg/weblate/labels/good%20first%20issue
 
 Earning money by coding
 -----------------------
