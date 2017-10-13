@@ -186,7 +186,6 @@ class Command(BaseCommand):
 
                         if not units.exclude(target=sug.target).exists():
                             sug.delete_log(
-                                units[0].translation,
                                 anonymous_user,
                                 Change.ACTION_SUGGESTION_CLEANUP
                             )
@@ -203,7 +202,6 @@ class Command(BaseCommand):
                         )
                         if sugs.exists():
                             sug.delete_log(
-                                units[0].translation,
                                 anonymous_user,
                                 Change.ACTION_SUGGESTION_CLEANUP
                             )
