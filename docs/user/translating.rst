@@ -123,6 +123,22 @@ While translating you can use following keyboard shortcuts:
 :kbd:`Alt+F`
     Toggles fuzzy flag.
 
+.. _visual-keyboard:
+
+Visual keyboard
++++++++++++++++
+
+There is small visual keyboard shown when translating. This can be useful for
+typing chars which are usually not present on the keyboard.
+
+The symbols shown can be split into three categories:
+
+* User configured chars defined in the :ref:`user-profile`
+* Per language chars provided by Weblate (eg. quotes or RTL specific chars)
+* Chars configured using :setting:`SPECIAL_CHARS`
+
+.. image:: ../images/visual-keyboard.png
+
 .. _source-context:
 
 Translation context

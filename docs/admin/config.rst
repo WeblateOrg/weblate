@@ -935,6 +935,19 @@ SITE_TITLE
 
 Site title to be used in website and emails as well.
 
+.. setting:: SPECIAL_CHARS
+
+SPECIAL_CHARS
+-------------
+
+Additional chars to show in the visual keyboard, see :ref:`visual-keyboard`.
+
+The default value is:
+
+.. code-block:: python
+
+    SPECIAL_CHARS = ('→', '↵', '…')
+
 .. setting:: TTF_PATH
 
 TTF_PATH

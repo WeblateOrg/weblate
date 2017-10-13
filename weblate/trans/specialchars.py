@@ -23,13 +23,11 @@ from __future__ import unicode_literals
 
 import unicodedata
 
+from django.conf import settings
 from django.utils.translation import ugettext as _, ugettext_lazy
 
 import six
 
-
-# Hard coded list of special chars
-SPECIAL_CHARS = ('→', '↵', '…')
 
 # Names of hardcoded chars
 CHAR_NAMES = {
@@ -455,7 +453,7 @@ def format_char(char):
 
 def get_special_chars(language, additional=''):
     """Return list of special characters."""
-    for char in SPECIAL_CHARS:
+    for char in settings.SPECIAL_CHARS:
         yield format_char(char)
     code = language.code.replace('_', '-').split('-')[0]
 
