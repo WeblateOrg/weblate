@@ -111,17 +111,15 @@ class Command(BaseCommand):
             projects = list(Project.objects.values_list('id', flat=True))
         for pk in projects:
             with transaction.atomic():
-                prj = Project.objects.get(pk=pk)
-
                 # List all current unit content_hashs
                 units = Unit.objects.filter(
-                    translation__subproject__project=prj
+                    translation__subproject__project__pk=pk
                 ).values('content_hash').distinct()
 
                 # Remove source comments referring to deleted units
                 Comment.objects.filter(
                     language=None,
-                    project=prj
+                    project__pk=pk
                 ).exclude(
                     content_hash__in=units
                 ).delete()
@@ -129,7 +127,7 @@ class Command(BaseCommand):
                 # Remove source checks referring to deleted units
                 Check.objects.filter(
                     language=None,
-                    project=prj
+                    project__pk=pk
                 ).exclude(
                     content_hash__in=units
                 ).delete()
@@ -141,10 +139,10 @@ class Command(BaseCommand):
                     translatedunits = Unit.objects.filter(
                         translation__language=lang,
                         translated=True,
-                        translation__subproject__project=prj
+                        translation__subproject__project__pk=pk
                     ).values('content_hash').distinct()
                     Check.objects.filter(
-                        language=lang, project=prj
+                        language=lang, project__pk=pk
                     ).exclude(
                         content_hash__in=translatedunits
                     ).delete()
@@ -152,13 +150,13 @@ class Command(BaseCommand):
                     # List current unit content_hashs
                     units = Unit.objects.filter(
                         translation__language=lang,
-                        translation__subproject__project=prj
+                        translation__subproject__project__pk=pk
                     ).values('content_hash').distinct()
 
                     # Remove suggestions referring to deleted units
                     Suggestion.objects.filter(
                         language=lang,
-                        project=prj
+                        project__pk=pk
                     ).exclude(
                         content_hash__in=units
                     ).delete()
@@ -166,7 +164,7 @@ class Command(BaseCommand):
                     # Remove translation comments referring to deleted units
                     Comment.objects.filter(
                         language=lang,
-                        project=prj
+                        project__pk=pk
                     ).exclude(
                         content_hash__in=units
                     ).delete()
@@ -174,14 +172,14 @@ class Command(BaseCommand):
                     # Process suggestions
                     all_suggestions = Suggestion.objects.filter(
                         language=lang,
-                        project=prj
+                        project__pk=pk
                     )
                     for sug in all_suggestions.iterator():
                         # Remove suggestions with same text as real translation
                         units = Unit.objects.filter(
                             content_hash=sug.content_hash,
                             translation__language=lang,
-                            translation__subproject__project=prj,
+                            translation__subproject__project__pk=pk,
                             target=sug.target
                         )
                         if units.exists():
@@ -193,7 +191,7 @@ class Command(BaseCommand):
                         sugs = Suggestion.objects.filter(
                             content_hash=sug.content_hash,
                             language=lang,
-                            project=prj,
+                            project__pk=pk,
                             target=sug.target
                         ).exclude(
                             id=sug.id
