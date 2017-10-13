@@ -184,7 +184,7 @@ class Command(BaseCommand):
                             translation__subproject__project__pk=pk,
                         )
 
-                        if units.filter(target=sug.target).exists():
+                        if not units.exclude(target=sug.target).exists():
                             sug.delete_log(
                                 units[0].translation,
                                 anonymous_user,
