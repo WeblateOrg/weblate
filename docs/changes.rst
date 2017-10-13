@@ -2,9 +2,12 @@ Changes
 =======
 
 weblate 2.17.1
-------------
+--------------
 
-Released on ? 2017.
+Released on October 13th 2017.
+
+* Fixed running testsuite in some specific situations.
+* Locales updates.
 
 weblate 2.17
 ------------
