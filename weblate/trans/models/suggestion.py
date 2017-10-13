@@ -148,7 +148,7 @@ class Suggestion(models.Model, UserDisplayMixin):
 
         self.delete()
 
-    def delete_log(self, translation, request):
+    def delete_log(self, translation, user, change=Change.ACTION_SUGGESTION_DELETE,):
         """Delete with logging change"""
         allunits = translation.unit_set.filter(
             content_hash=self.content_hash,
@@ -156,10 +156,10 @@ class Suggestion(models.Model, UserDisplayMixin):
         for unit in allunits:
             Change.objects.create(
                 unit=unit,
-                action=Change.ACTION_SUGGESTION_DELETE,
+                action=change,
                 translation=unit.translation,
-                user=request.user,
-                author=request.user
+                user=user,
+                author=user
             )
         self.delete()
 

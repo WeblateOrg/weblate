@@ -192,6 +192,7 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_SUGGESTION_DELETE = 26
     ACTION_REPLACE = 27
     ACTION_FAILED_PUSH = 28
+    ACTION_SUGGESTION_CLEANUP = 29
 
     ACTION_CHOICES = (
         (ACTION_UPDATE, ugettext_lazy('Resource update')),
@@ -223,6 +224,7 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_REMOVE, ugettext_lazy('Removed translation')),
         (ACTION_SUGGESTION_DELETE, ugettext_lazy('Suggestion removed')),
         (ACTION_REPLACE, ugettext_lazy('Search and replace')),
+        (ACTION_SUGGESTION_CLEANUP, ugettext_lazy('Suggestion cleanup')),
     )
 
     ACTIONS_SUBPROJECT = set((

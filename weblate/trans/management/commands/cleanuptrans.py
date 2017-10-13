@@ -29,8 +29,9 @@ from social_django.models import Partial
 
 from whoosh.index import EmptyIndexError
 
+from weblate.accounts.models import get_anonymous
 from weblate.trans.models import (
-    Suggestion, Comment, Check, Unit, Project, Source, SubProject
+    Suggestion, Comment, Check, Unit, Project, Source, SubProject, Change,
 )
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
@@ -107,6 +108,7 @@ class Command(BaseCommand):
 
     def cleanup_database(self):
         """Cleanup the database"""
+        anonymous_user = get_anonymous()
         with transaction.atomic():
             projects = list(Project.objects.values_list('id', flat=True))
         for pk in projects:
@@ -180,12 +182,15 @@ class Command(BaseCommand):
                             content_hash=sug.content_hash,
                             translation__language=lang,
                             translation__subproject__project__pk=pk,
-                            target=sug.target
                         )
-                        if units.exists():
-                            sug.delete()
-                            for unit in units:
-                                unit.update_has_suggestion()
+
+                        if units.filter(target=sug.target).exists():
+                            sug.delete_log(
+                                units[0].translation,
+                                anonymous_user,
+                                Change.ACTION_SUGGESTION_CLEANUP
+                            )
+                            continue
 
                         # Remove duplicate suggestions
                         sugs = Suggestion.objects.filter(
@@ -197,4 +202,8 @@ class Command(BaseCommand):
                             id=sug.id
                         )
                         if sugs.exists():
-                            sugs.delete()
+                            sug.delete_log(
+                                units[0].translation,
+                                anonymous_user,
+                                Change.ACTION_SUGGESTION_CLEANUP
+                            )

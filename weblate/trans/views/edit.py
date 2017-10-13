@@ -457,7 +457,7 @@ def handle_suggestions(translation, request, this_unit_url, next_unit_url):
         if 'accept' in request.POST:
             redirect_url = next_unit_url
     elif 'delete' in request.POST:
-        suggestion.delete_log(translation, request)
+        suggestion.delete_log(translation, request.user)
     elif 'upvote' in request.POST:
         suggestion.add_vote(translation, request, True)
     elif 'downvote' in request.POST:
