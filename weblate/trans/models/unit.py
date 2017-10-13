@@ -733,8 +733,11 @@ class Unit(models.Model, LoggerMixin):
         )
         # Update source index and stats
         for unit in same_source.iterator():
+            unit.update_has_comment(update_stats=False)
+            unit.update_has_suggestion(update_stats=False)
+            # This calls translation.update_stats()
+            unit.run_checks(False, False)
             update_index_unit(unit)
-            unit.translation.update_stats()
 
     def generate_change(self, request, author, oldunit, change_action):
         """Create Change entry for saving unit."""
