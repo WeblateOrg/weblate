@@ -39,6 +39,11 @@
 <td colspan="4">{% format_translation c.target c.unit.translation.language %}</td>
 <td></td>
 </tr>
+{% elif c.show_source %}
+<tr class="{{ rowcolors }}">
+<td colspan="4">{% format_translation c.target c.project.source_language diff=c.old %}</td>
+<td></td>
+</tr>
 {% elif c.target %}
 <tr class="{{ rowcolors }}">
 <td colspan="4"><pre>{{ c.target }}</td>

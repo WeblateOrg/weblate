@@ -686,11 +686,11 @@ class Unit(models.Model, LoggerMixin):
 
         # Update related source strings if working on a template
         if self.translation.is_template():
-            self.update_source_units(self.old_unit.source)
+            self.update_source_units(self.old_unit.source, user)
 
         return True
 
-    def update_source_units(self, previous_source):
+    def update_source_units(self, previous_source, user):
         """Update source for units withing same component.
 
         This is needed when editing template translation for monolingual
@@ -737,6 +737,15 @@ class Unit(models.Model, LoggerMixin):
             unit.update_has_suggestion(update_stats=False)
             unit.run_checks(False, False)
             update_index_unit(unit)
+            Change.objects.create(
+                unit=unit,
+                translation=unit.translation,
+                action=Change.ACTION_SOURCE_CHANGE,
+                user=user,
+                author=user,
+                old=previous_source,
+                target=self.source,
+            )
             unit.translation.update_stats()
 
     def generate_change(self, request, author, oldunit, change_action):
