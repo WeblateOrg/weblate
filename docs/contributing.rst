@@ -105,7 +105,8 @@ Our issue tracker is hosted at GitHub:
 <https://github.com/WeblateOrg/weblate/issues>
 
 Feel welcome to report any issues or suggestions to improve Weblate there. In
-case you have found security issue in Weblate, please consult section below.
+case you have found a security issue in Weblate, please consult the "Security
+issues" section below.
 
 .. _security:
 
@@ -127,10 +128,10 @@ by email to michal@cihar.com. You can choose to encrypt it using his PGP key
 .. note::
 
     We're heavily depending on third party components for many things.  In case
-    you find vulnerability which is affecting those components in general,
+    you find a vulnerability which is affecting those components in general,
     please report it directly to them.
 
-    See following sites for some of these:
+    Some of these are:
 
     * :doc:`Django <django:internals/security>`
     * `Django REST Framework <http://www.django-rest-framework.org/#security>`_

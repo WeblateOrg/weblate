@@ -6,7 +6,7 @@ Upgrading Weblate
 Generic upgrade instructions
 ----------------------------
 
-Before upgrading, please check current :ref:`requirements` as they might have
+Before upgrading, please check the current :ref:`requirements` as they might have
 changed. Once all requirements are installed or updated, please adjust your
 :file:`settings.py` to match changes in the configuration (consult
 :file:`settings_example.py` for correct values).
@@ -14,12 +14,12 @@ changed. Once all requirements are installed or updated, please adjust your
 Always check :ref:`version-specific-instructions` before upgrade. In case you
 are skipping some versions, please follow instructions for all versions you are
 skipping in the upgrade. Sometimes it's better to upgrade to some intermediate
-version to ensure smooth migration. Upgrading across multiple releases should
-work, but is not that well tested as single version upgrades.
+version to ensure a smooth migration. Upgrading across multiple releases should
+work, but is not as well tested as single version upgrades.
 
 .. note::
 
-    It is recommended to perform database backup prior to upgrade so that you
+    It is recommended to perform a full database backup prior to upgrade so that you
     can roll back the database in case upgrade fails.
 
 1. Upgrade database structure:
@@ -72,13 +72,13 @@ work, but is not that well tested as single version upgrades.
 .. versionchanged:: 2.11
 
     Since version 2.11, there is reduced support for migrating from
-    older not released versions. In case you hit problem in this, please 
-    upgrade first to closest released version and then continue in 
+    older non-released versions. In case you hit problem in this, please
+    upgrade first to the closest release version and then continue in
     upgrading to latest one.
 
 .. versionchanged:: 2.12
 
-    Since version 2.12 upgrade is not supported for versions prior to 2.2. In
+    Since version 2.12, upgrade is not supported for versions prior to 2.2. In
     case you are upgrading from such old version, please upgrade to 2.2 first
     and then continue in upgrading to current release.
 
@@ -90,28 +90,28 @@ Version specific instructions
 Upgrade from 0.5 to 0.6
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-On upgrade to version 0.6 you should run :samp:`./manage.py syncdb` and
+On upgrade to version 0.6, you should run :samp:`./manage.py syncdb` and
 :samp:`./manage.py setupgroups --move` to setup access control as described
-in installation section.
+in the installation section.
 
 Upgrade from 0.6 to 0.7
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-On upgrade to version 0.7 you should run :samp:`./manage.py syncdb` to
-setup new tables and :samp:`./manage.py rebuild_index` to build index for
+On upgrade to version 0.7, you should run :samp:`./manage.py syncdb` to
+setup new tables and :samp:`./manage.py rebuild_index` to build the index for
 fulltext search.
 
 Upgrade from 0.7 to 0.8
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-On upgrade to version 0.8 you should run :samp:`./manage.py syncdb` to setup
+On upgrade to version 0.8, you should run :samp:`./manage.py syncdb` to set up
 new tables, :samp:`./manage.py setupgroups` to update privileges setup and
 :samp:`./manage.py rebuild_index` to rebuild index for fulltext search.
 
 Upgrade from 0.8 to 0.9
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-On upgrade to version 0.9 file structure has changed. You need to move
+On upgrade to version 0.9, file structure has changed. You need to move
 :file:`repos` and :file:`whoosh-index` to :file:`weblate` folder. Also running
 :samp:`./manage.py syncdb`, :samp:`./manage.py setupgroups` and
 :samp:`./manage.py setuplang` is recommended to get latest updates of
@@ -120,8 +120,8 @@ privileges and language definitions.
 Upgrade from 0.9 to 1.0
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-On upgrade to version 1.0 one field has been added to database, you need to
-invoke following SQL command to adjust it:
+On upgrade to version 1.0, one field has been added to database, you need to
+invoke the following SQL command to adjust it:
 
 .. code-block:: sql
 
@@ -151,22 +151,22 @@ Upgrade from 1.2 to 1.3
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 Since 1.3, :file:`settings.py` is not shipped with Weblate, but only example
-settings as :file:`settings_example.py` it is recommended to use it as new base
+settings as :file:`settings_example.py`; it is recommended to use it as new base
 for your setup.
 
 Upgrade from 1.4 to 1.5
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 Several internal modules and paths have been renamed and changed, please adjust
-your :file:`settings.py` to match that (consult :file:`settings_example.py` for
+your :file:`settings.py` to match (consult :file:`settings_example.py` for
 correct values).
 
 * Many modules lost their ``weblate.`` prefix.
 * Checks were moved to submodules.
 * Locales were moved to top level directory.
 
-The migration of database structure to 1.5 might take quite long, it is
-recommended to put your site offline, while the migration is going on.
+The migration of database structure to 1.5 might take quite long; it is
+recommended to put your site offline while the migration is going on.
 
 .. note::
 
@@ -179,7 +179,7 @@ Upgrade from 1.6 to 1.7
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 The migration of database structure to 1.7 might take quite long, it is
-recommended to put your site offline, while the migration is going on.
+recommended to put your site offline while the migration is going on.
 
 If you are translating monolingual files, it is recommended to rerun quality
 checks as they might have been wrongly linked to units in previous versions.
@@ -188,10 +188,10 @@ Upgrade from 1.7 to 1.8
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 The migration of database structure to 1.8 might take quite long, it is
-recommended to put your site offline, while the migration is going on.
+recommended to put your site offline while the migration is going on.
 
 Authentication setup has been changed and some internal modules have changed
-name, please adjust your :file:`settings.py` to match that (consult
+name, please adjust your :file:`settings.py` to match (consult
 :file:`settings_example.py` for correct values).
 
 Also please note that there are several new requirements, see
@@ -201,23 +201,23 @@ Upgrade from 1.8 to 1.9
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 Several internal modules and paths have been renamed and changed, please adjust
-your :file:`settings.py` to match that (consult :file:`settings_example.py` for
+your :file:`settings.py` to match (consult :file:`settings_example.py` for
 correct values).
 
 .. seealso::
 
-    If you are upgrading to Django 1.7 in same step, please consult
+    If you are upgrading to Django 1.7 at the same time, please consult
     :ref:`django-17`.
 
 Upgrade from 1.9 to 2.0
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 Several internal modules and paths have been renamed and changed, please adjust
-your :file:`settings.py` to match that (consult :file:`settings_example.py` for
+your :file:`settings.py` to match (consult :file:`settings_example.py` for
 correct values).
 
 This upgrade also requires you to upgrade python-social-auth from 0.1.x to
-0.2.x series, what will most likely to need to fake one of their migrations
+0.2.x series, which will most likely need to fake one of their migrations
 (see :doc:`Upgrading PSA with South <psa:configuration/django>` for more information):
 
 .. code-block:: sh
@@ -226,7 +226,7 @@ This upgrade also requires you to upgrade python-social-auth from 0.1.x to
 
 .. seealso::
 
-    If you are upgrading to Django 1.7 in same step, please consult
+    If you are upgrading to Django 1.7 at the same time, please consult
     :ref:`django-17`.
 
 Upgrade from 2.0 to 2.1
@@ -234,13 +234,13 @@ Upgrade from 2.0 to 2.1
 
 The filesystem paths configuration has changed, the :setting:`GIT_ROOT` and
 :setting:`WHOOSH_INDEX` are gone and now all data resides in
-:setting:`DATA_DIR`. The existing data should be automatically migrated by
+:setting:`DATA_DIR`. The existing data should be automatically migrated by the
 supplied migration, but in case of non standard setup, you might need to move
 these manually.
 
 .. seealso::
 
-    If you are upgrading to Django 1.7 in same step, please consult
+    If you are upgrading to Django 1.7 at the same time, please consult
     :ref:`django-17`.
 
 Upgrade from 2.1 to 2.2
@@ -253,9 +253,9 @@ work on existing data you need to update fulltext index by:
 
     ./manage.py rebuild_index --clean --all
 
-If you have some monolingual translations, Weblate now allows to edit template
-(source) strings as well. To see them, you need to reload translations, what
-will either happen automatically on next repository update or you can force it
+If you have some monolingual translations, Weblate now allows editing of template
+(source) strings as well. To see them, you need to reload translations, which
+will either happen automatically on te next repository update or you can force it
 manually:
 
 .. code-block:: sh
@@ -264,14 +264,14 @@ manually:
 
 .. seealso::
 
-    If you are upgrading to Django 1.7 in same step, please consult
+    If you are upgrading to Django 1.7 at the same time, please consult
     :ref:`django-17`.
 
 Upgrade from 2.2 to 2.3
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 If you have not yet performed upgrade to Django 1.7 and newer, first upgrade to
-2.2 following instructions above. Weblate 2.3 no longer supports migration from
+2.2 following the instructions above. Weblate 2.3 no longer supports migration from
 Django 1.6.
 
 If you were using Weblate 2.2 with Django 1.6, you will now need to fake some
@@ -283,8 +283,8 @@ migrations:
     ./manage.py migrate --fake lang 0001_initial
     ./manage.py migrate --fake trans 0018_auto_20150213_1447
 
-Previous Weblate releases contained bug which made some monolingual
-translations behave inconsistently for fuzzy and not translated strings, if you
+Previous Weblate releases contained a bug which made some monolingual
+translations behave inconsistently for fuzzy and untranslated strings, if you
 have such, it is recommended to run:
 
 .. code-block:: sh
@@ -334,7 +334,7 @@ Notable configuration or dependencies changes:
 
 .. note::
 
-    Weblate now much more relies on correct site name in the database, please 
+    Weblate now relies much more on having the correct site name in the database, please
     see :ref:`production-site` for instructions how to set it up.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
@@ -384,7 +384,7 @@ Notable configuration or dependencies changes:
 * You might want to enable optional :ref:`git-exporter`.
 * There is new ``RemoveControlChars`` in default :setting:`AUTOFIX_LIST`.
 * If you are using Microsoft Translator, please replace
-  :ref:`ms-translate` with :ref:`ms-cognitive-translate`,
+  :ref:`ms-translate` with :ref:`ms-cognitive-translate`;
   Microsoft has changed authentication scheme.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
@@ -452,10 +452,9 @@ Notable configuration or dependencies changes:
   adjust your setup if you were using Group ACLs before, see :ref:`groupacl`
   for more information about the setup.
 * There are several new permissions which should be assigned to default groups,
-  you should run ``./manage.py setupgroups`` to update them. Alternatively you
-  might want to add following permissions where applicable (see :ref:`extra-privs`
+  you should run ``./manage.py setupgroups`` to update them. Alternatively, you
+  might want to add the following permissions where applicable (see :ref:`extra-privs`
   for their default setup):
-
   * Can access VCS repository
   * Can access project
 

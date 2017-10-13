@@ -10,7 +10,7 @@ How to create an automated workflow?
 ------------------------------------
 
 Weblate can handle all the translation things semi-automatically for you. If
-you will give it push access to your repository, the translations can happen
+you give it push access to your repository, the translations can happen
 without interaction unless some merge conflict occurs.
 
 1. Set up your git repository to tell Weblate whenever there is any change, see
@@ -19,7 +19,7 @@ without interaction unless some merge conflict occurs.
    to push changes to your repository.
 3. Enable push on commit on your :ref:`project` in Weblate, this will make
    Weblate push changes to your repository whenever they are committed at Weblate.
-4. Optionally setup a cron job for :djadmin:`commit_pending`.
+4. Optionally set up a cron job for :djadmin:`commit_pending`.
 
 .. seealso:: 
    
@@ -136,7 +136,7 @@ Here are examples of workflows used with Weblate:
 
 - Weblate automatically pushes and merges changes (see :ref:`auto-workflow`)
 - You manually tell Weblate to push (it needs push access to the upstream repository)
-- Somebody manually merges changes from Weblates git repository into the upstream
+- Somebody manually merges changes from the Weblate git repository into the upstream
   repository
 - Somebody rewrites history produced by Weblate (eg. by eliminating merge
   commits), merges changes and tells Weblate to reset the content on the upstream
@@ -159,7 +159,7 @@ while still having them under version control.
 
 3. Link Weblate to this repository, it no longer needs access to the repository
    with your source code.
-4. You can update the main repository by translations from Weblate by:
+4. You can update the main repository with translations from Weblate by:
 
    .. code-block:: sh
 
@@ -181,7 +181,7 @@ open the ``/admin/performance/`` URL directly.
 Why do links contain example.com as the domain?
 -----------------------------------------------
 
-Weblate uses Djangos sites framework and it defines the site name inside the
+Weblate uses Django's sites framework and it defines the site name inside the
 database. You need to set the domain name to match your installation.
 
 .. seealso:: 
@@ -302,7 +302,7 @@ shows the differences automatically.
 Why does Weblate still show old translation strings when I've updated the template?
 -----------------------------------------------------------------------------------
 
-Weblate does not try to manipulate with the translation files in any other way
+Weblate does not try to manipulate the translation files in any way other
 than allowing translators to translate. So it also does not update the
 translatable files when the template or source code have been changed. You
 simply have to do this manually and push changes to the repository, Weblate
@@ -409,7 +409,7 @@ as ``TEMP`` variable:
 Database operations fail with "too many SQL variables"
 ------------------------------------------------------
 
-This can happen with SQLite database as it is not powerful enough for some
+This can happen when using theSQLite database as it is not powerful enough for some
 relations used within Weblate. The only way to fix this is to use some more
 capable database, see :ref:`production-database` for more information.
 
@@ -422,7 +422,7 @@ capable database, see :ref:`production-database` for more information.
 When accessing the site I get Bad Request (400) error
 -----------------------------------------------------
 
-This is most likely caused by not properly configured :setting:`ALLOWED_HOSTS`.
+This is most likely caused by an improperly configured :setting:`ALLOWED_HOSTS`.
 It needs to contain all hostnames you want to access your Weblate. For example:
 
 .. code-block:: python
@@ -441,7 +441,7 @@ Features
 Does Weblate support other VCS than Git and Mercurial?
 ------------------------------------------------------
 
-Weblate currently does not have native support for anything else than
+Weblate currently does not have native support for anything other than
 :ref:`vcs-git` (with extended support for :ref:`vcs-github` and
 :ref:`vcs-git-svn`) and ref:`vcs-mercurial`, but it is possible to write
 backends for other VCSes.
@@ -452,7 +452,7 @@ You can also use :ref:`vcs-git-helpers` in Git to access other VCSes.
 .. note::
 
     For native support of other VCS, Weblate requires distributed VCS and could
-    be probably adjusted to work with anything else than Git and Mercurial, but
+    be probably adjusted to work with anything other than Git and Mercurial, but
     somebody has to implement this support.
 
 .. seealso:: :ref:`vcs`

@@ -24,20 +24,20 @@ Failing checks on translation
 -----------------------------
 
 On the other side, failing translation checks might also indicate problem in
-the source strings. Translators often tend to fix some mistakes in translation
-instead of reporting it - typical example is missing full stop at the end of
-sentence, but there are more such cases.
+the source strings. Translators often tend to fix some mistakes in the translation
+instead of reporting it - a typical example is a missing full stop at the end of
+sentence, but there are more similar cases.
 
 Reviewing all failing checks on your translation can bring you valuable
 feedback for improving source strings as well.
 
 You can find the :guilabel:`Source strings review` in the :guilabel:`Tools`
-menu of a translation component. You will get similar view when opening
+menu of a translation component. You will get a similar view when opening
 translation, with slightly different checks being displayed:
 
 .. image:: ../images/source-review.png
 
-One of the most interesting check here is the :ref:`check-multiple-failures` -
+One of the most interesting checks here is the :ref:`check-multiple-failures` -
 it fires whenever there is failure on multiple translations of given string.
 Usually this is something to look for as this is string where translators have
 problems doing the translation properly. It might be just wrong punctation at

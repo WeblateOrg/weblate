@@ -16,11 +16,11 @@ Installing from sources
    them, see :ref:`install-weblate`.
 
 #. Copy :file:`weblate/settings_example.py` to :file:`weblate/settings.py` and
-   adjust it to match your setup. You will at least need to configure database
+   adjust it to match your setup. You will at least need to configure the database
    connection (possibly adding user and creating the database). Check
    :ref:`config` for Weblate specific configuration options.
 
-#. Create database which will be used by Weblate, see :ref:`database-setup`.
+#. Create the database which will be used by Weblate, see :ref:`database-setup`.
 
 #. Build Django tables, static files and initial data (see
    :ref:`tables-setup` and :ref:`static-files`):
@@ -37,7 +37,7 @@ Installing from sources
 Using prebuilt appliance
 ------------------------
 
-#. Download the appliance and start it. You need to choose format depending on
+#. Download the appliance and start it. You need to choose the appliance format depending on
    your target environment.
 
 #. Everything should be set up immediately after boot, though you will want
@@ -66,7 +66,7 @@ Installing using Docker
 Installing on OpenShift 2
 -------------------------
 
-#. You can install Weblate on OpenShift PaaS directly from its git repository using the OpenShift Client Tools:
+#. You can install Weblate on OpenShift PaaS directly from its Git repository using the OpenShift Client Tools:
 
    .. parsed-literal::
 
@@ -92,11 +92,11 @@ Adding translation
    for more details.
 
    The important fields here being component name, VCS repository address and
-   mask for finding translatable files. Weblate supports wide range of formats
+   mask for finding translatable files. Weblate supports a wide range of formats
    including Gettext PO files, Android resource strings, OS X string properties,
    Java properties or Qt Linguist files, see :ref:`formats` for more details.
 
 
-#. Once above is completed (it can be lengthy process depending on size of
+#. Once the above is completed (it can be lengthy process depending on size of
    your VCS repository and number of messages to translate), you can start
    translating.

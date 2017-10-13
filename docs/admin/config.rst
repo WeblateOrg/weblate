@@ -13,7 +13,7 @@ All settings are stored in :file:`settings.py` (as usual for Django).
 
 .. seealso::
 
-    Please check also :doc:`Django's documentation <django:ref/settings>` for
+    Please also check :doc:`Django's documentation <django:ref/settings>` for
     parameters which configure Django itself.
 
 .. setting:: AKISMET_API_KEY
@@ -43,9 +43,9 @@ AUTH_LOCK_ATTEMPTS
 
 .. versionadded:: 2.14
 
-Maximal number of failed authentication attempts before rate limiting is applied.
+Maximum number of failed authentication attempts before rate limiting is applied.
 
-This is currently applied in following locations:
+This is currently applied in the following locations:
 
 * On login, the acccount password is reset. User will not be able to log in
   after that using password until he asks for password reset.
@@ -65,7 +65,7 @@ AUTH_MAX_ATTEMPTS
 
 .. versionadded:: 2.14
 
-Maximal number of authentication attempts before rate limiting applies.
+Maximum number of authentication attempts before rate limiting applies.
 
 Defaults to 5.
 
@@ -165,7 +165,7 @@ AUTOFIX_LIST
 
 List of automatic fixups to apply when saving the message.
 
-You need to provide fully-qualified path to Python class implementing the
+You need to provide a fully-qualified path to the Python class implementing the
 autofixer interface.
 
 Available fixes:
@@ -173,7 +173,7 @@ Available fixes:
 ``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``
     Fixes up whitespace in beginning and end of the string to match source.
 ``weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``
-    Replaces traling dots with ellipsis if source string has it.
+    Replaces trailing dots with ellipsis if source string has it.
 ``weblate.trans.autofixes.chars.RemoveZeroSpace``
     Removes zero width space char if source does not contain it.
 ``weblate.trans.autofixes.chars.RemoveControlCharS``
@@ -207,11 +207,11 @@ CHECK_LIST
 
 List of quality checks to perform on translation.
 
-You need to provide fully-qualified path to Python class implementing the check
+You need to provide afully-qualified path to the Python class implementing the check
 interface.
 
 Some of the checks are not useful for all projects, so you are welcome to
-adjust list of performed on your installation.
+adjust the list list of checks to be performed on your installation.
 
 For example you can enable only few of them:
 
@@ -251,9 +251,9 @@ For example you can enable only few of them:
 
 .. note::
 
-    Once you change this setting the existing checks will be still stored in
-    the database, only newly changed translation will be affected by the
-    change. To apply change to already stored translations, you need to run
+    Once you change this setting the existing checks will still be stored in
+    the database, only newly changed translations will be affected by the
+    change. To apply the change to the stored translations, you need to run
     :djadmin:`updatechecks`.
 
 .. seealso::
@@ -287,7 +287,7 @@ DATA_DIR
 Directory where Weblate stores all data. This consists of VCS repositories,
 fulltext index and various configuration files for external tools.
 
-Following subdirectories usually exist:
+The following subdirectories usually exist:
 
 :file:`home`
     Home directory used for invoking scripts.
@@ -309,7 +309,7 @@ DEFAULT_COMMITER_EMAIL
 
 .. versionadded:: 2.4
 
-Default commiter email when creating translation component (see
+Default committer email when creating translation component (see
 :ref:`component`), defaults to ``noreply@weblate.org``.
 
 .. seealso::
@@ -323,7 +323,7 @@ DEFAULT_COMMITER_NAME
 
 .. versionadded:: 2.4
 
-Default commiter name when creating translation component (see
+Default committer name when creating translation component (see
 :ref:`component`), defaults to ``Weblate``.
 
 .. seealso::
@@ -377,7 +377,7 @@ Whether to enable anonymous remote hooks.
 ENABLE_HTTPS
 ------------
 
-Whether to send links to the Weblate as https or http. This setting
+Whether to send links to Weblate as https or http. This setting
 affects sent mails and generated absolute URLs.
 
 .. seealso::
@@ -399,7 +399,7 @@ GIT_ROOT
 .. deprecated:: 2.1
    This setting is no longer used, use :setting:`DATA_DIR` instead.
 
-Path where Weblate will store cloned VCS repositories. Defaults to
+Path where Weblate will store the cloned VCS repositories. Defaults to
 :file:`repos` subdirectory.
 
 .. setting:: GITHUB_USERNAME
@@ -440,7 +440,7 @@ IP_BEHIND_REVERSE_PROXY
 
 .. versionadded:: 2.14
 
-Indicates whether Weblate is running behind reverse proxy.
+Indicates whether Weblate is running behind a reverse proxy.
 
 If set to True, Weblate gets IP address from header defined by
 :setting:`IP_BEHIND_REVERSE_PROXY`. Ensure that you are actually using reverse
@@ -461,7 +461,7 @@ IP_BEHIND_REVERSE_PROXY
 
 .. versionadded:: 2.14
 
-Indicates from which header Weblate should obtain IP address when
+Indicates from which header Weblate should obtain the IP address when
 :setting:`IP_BEHIND_REVERSE_PROXY` is enabled.
 
 Defaults to ``HTTP_X_FORWARDED_FOR``.
@@ -497,7 +497,7 @@ Defaults to 0.
 LAZY_COMMITS
 ------------
 
-Delay creating VCS commits until this is necessary. This heavily reduces
+Delay creating VCS commits until necessary. This heavily reduces
 number of commits generated by Weblate at expense of temporarily not being
 able to merge some changes as they are not yet committed.
 
@@ -522,7 +522,7 @@ translator when locked manually.
 LOGIN_REQUIRED_URLS
 -------------------
 
-List of URL which require login (besides standard rules built into Weblate).
+List of URLs which require login (besides standard rules built into Weblate).
 This allows you to password protect whole installation using:
 
 .. code-block:: python
@@ -536,9 +536,9 @@ This allows you to password protect whole installation using:
 LOGIN_REQUIRED_URLS_EXCEPTIONS
 ------------------------------
 
-List of exceptions for :setting:`LOGIN_REQUIRED_URLS`, in case you won't
+List of exceptions for :setting:`LOGIN_REQUIRED_URLS`. If you don't
 specify this list, the default value will be used, which allows users to access
-login page.
+the login page.
 
 Some of exceptions you might want to include:
 
@@ -602,7 +602,7 @@ MT_APERTIUM_KEY
 
 API key for Apertium Web Service, currently not used.
 
-Not needed at all when running own Apertium APy server.
+Not needed at all when running your own Apertium APy server.
 
 .. seealso::
 
@@ -624,7 +624,7 @@ API key for Google Translate API, you can register at https://cloud.google.com/t
 MT_MICROSOFT_ID
 ---------------
 
-Cliend ID for Microsoft Translator service.
+Client ID for Microsoft Translator service.
 
 .. seealso::
 
@@ -733,7 +733,7 @@ outdated index, which might still point to older content.
 While enabling this, don't forget scheduling runs of
 :djadmin:`update_index` in cron or similar tool.
 
-This is recommended setup for production use.
+This is the recommended setup for production use.
 
 .. seealso::
 
@@ -877,7 +877,7 @@ If enabled the captcha is added to all pages where users enter email address:
 * New account registration.
 * Password recovery.
 * Adding email to an account.
-* Contact form for not logged in users.
+* Contact form for users who are not logged in.
 
 .. setting:: REGISTRATION_EMAIL_MATCH
 
@@ -890,7 +890,7 @@ Allows you to filter email addresses which can register.
 
 Defaults to ``.*`` which allows any address to register.
 
-You can use it to restrict registration to single domain emails:
+You can use it to restrict registration to a single email domain:
 
 .. code-block:: python
 

@@ -12,13 +12,13 @@ Weblate Client
 .. versionadded:: 2.7
 
     The wlc utility is fully supported since Weblate 2.7. If you are using an older version
-    some incompatibilities with API might occur.
+    some incompatibilities with the API might occur.
 
 Installation
 ++++++++++++
 
-The Weblate Client is shipped separately, you need to install wlc to have it,
-it also includes Python module :mod:`wlc`:
+The Weblate Client is shipped separately and includes the Python module.
+You need to install :mod:`wlc`:, wlc to use these.
 
 .. code-block:: sh
 
@@ -38,12 +38,12 @@ Description
 
 Weblate Client is Python library and command line utility to manage Weblate remotely
 using :ref:`api`. The command line utility can be invoked as :command:`wlc` and is
-build on :mod:`wlc`.
+built on :mod:`wlc`.
 
 Global options
 --------------
 
-The program accepts following global options, which must be entered before subcommand.
+The program accepts the following global options, which must be entered before subcommand.
 
 .. option:: --format {csv,json,text,html}
 
@@ -70,7 +70,7 @@ The program accepts following global options, which must be entered before subco
 Subcommands
 -----------
 
-Currently following subcommands are available:
+Currently the following subcommands are available:
 
 .. option:: version
 

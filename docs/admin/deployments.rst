@@ -4,7 +4,7 @@ Weblate deployments
 ===================
 
 Weblate comes with support for deployment using several technologies. This
-section brings overview of them.
+section is overview of them.
 
 .. _docker:
 
@@ -13,14 +13,14 @@ Running Weblate in the Docker
 
 With dockerized weblate deployment you can get your personal weblate instance
 up an running in seconds. All of Weblate's dependencies are already included.
-PostgreSQL is configured as default database.
+PostgreSQL is configured as the default database.
 
 .. _docker-deploy:
 
 Deployment
 ++++++++++
 
-Following examples assume you have working Docker environment, with
+The following examples assume you have a working Docker environment, with
 docker-compose installed. Please check Docker documentation for instructions on
 this.
 
@@ -109,9 +109,9 @@ then:
 Upgrading Docker container
 ++++++++++++++++++++++++++
 
-Usually it is good idea to update weblate container only and keep PostgreSQL
-one at version you have as upgrading PostgreSQL is quite painful and in most
-cases it does not bring much benefits.
+Usually it is good idea to update the weblate container only and keep the PostgreSQL
+container at version you have as upgrading PostgreSQL is quite painful and in most
+cases it does not bring many benefits.
 
 You can do this by sticking with existing docker-compose and just pulling
 latest images and restarting:
@@ -251,7 +251,7 @@ Generic settings
 
 .. envvar:: WEBLATE_TIME_ZONE
 
-    Configures used time zone.
+    Configures time zone used.
 
 .. envvar:: WEBLATE_OFFLOAD_INDEXING
 
@@ -270,13 +270,13 @@ Generic settings
 
 .. envvar:: WEBLATE_ENABLE_HTTPS
 
-    Makes Weblate assume it is operated behind HTTPS reverse proxy, it make
-    Weblate https in email and API links or set secure flags on cookies.
+    Makes Weblate assume it is operated behind HTTPS reverse proxy, it makes
+    Weblate use https in email and API links or set secure flags on cookies.
 
     .. note::
 
-        This does not make the Weblate container accept https connection, you
-        need to use standalone HTTPs reverse proxy, see :ref:`docker-ssl` for
+        This does not make the Weblate container accept https connections, you
+        need to use a standalone HTTPS reverse proxy, see :ref:`docker-ssl` for
         example.
 
     **Example:**
@@ -384,7 +384,7 @@ Authentication settings
 Processing hooks
 ~~~~~~~~~~~~~~~~
 
-All these processing hooks should get comma separaated list of available
+All these processing hooks should get a comma-separated list of available
 scripts, for example:
 
 .. code-block:: sh
@@ -438,7 +438,7 @@ both Weblate and PostgreSQL containers.
 
 .. envvar:: POSTGRES_HOST
 
-    PostgreSQL server hostname or IP adress. Defaults to ``database``.
+    PostgreSQL server hostname or IP address. Defaults to ``database``.
 
 .. envvar:: POSTGRES_PORT
 
@@ -496,7 +496,7 @@ In order to use the Github pull requests feature, you must initialize hub config
     cd
     HOME=/app/data/home hub clone octocat/Spoon-Knife
 
-The username passed for credentials must be the same than :setting:`GITHUB_USERNAME`.
+The username passed for credentials must be the same as :setting:`GITHUB_USERNAME`.
 
 .. seealso::
 
@@ -546,7 +546,7 @@ Prerequisites
 Installation
 ++++++++++++
 
-You can install Weblate on OpenShift directly from Weblate's github repository
+You can install Weblate on OpenShift directly from Weblate's Github repository
 with the following command:
 
 .. code-block:: sh

@@ -11,7 +11,7 @@ Git exporter
 
 .. versionadded:: 2.10
 
-The Git exporter provides you read only access to underlaying Git repository
+The Git exporter provides you read only access to the underlaying Git repository
 using http.
 
 Installation
@@ -26,7 +26,7 @@ To install, simply add ``weblate.gitexport`` to installed applications in
         'weblate.gitexport',
     )
 
-After installing you need to migrate your database, so that existing
+After installing, you need to migrate your database so that existing
 repositories are properly exported:
 
 .. code-block:: sh
@@ -159,7 +159,7 @@ Weblate currently supports two backends:
 * `Libravatar <https://www.libravatar.org/>`_, what is federated avatar service
   with fallback to `Gravatar`_. Libravatar is used automatically when 
   `pyLibravatar <https://pypi.python.org/pypi/pyLibravatar>`_ is installed.
-* `Gravatar`_ can be also used directly by Weblate, that is used if the
+* `Gravatar`_ can be also used directly by Weblate and is used if the
   pyLibravatar library is not found.
 
 .. _Gravatar: https://gravatar.com/

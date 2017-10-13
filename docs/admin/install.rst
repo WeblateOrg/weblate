@@ -6,8 +6,8 @@ Installation instructions
 Hardware requirements
 ---------------------
 
-Weblate should run on any contemporary hardware without problems, following are
-minimal configuration required to run Weblate on single host (Weblate, database
+Weblate should run on any contemporary hardware without problems, the following is
+the minimal configuration required to run Weblate on single host (Weblate, database
 and web server):
 
 * 1 GB of RAM memory
@@ -19,7 +19,7 @@ levels (filesystem, database and Weblate).
 
 .. note::
 
-    The actual requirements for your installation heavily vary on size of
+    The actual requirements for your installation heavily vary based on the size of
     translations managed by Weblate.
 
 .. _requirements:
@@ -32,8 +32,8 @@ Software requirements
 Python dependencies
 +++++++++++++++++++
 
-Weblate is written in `Python <https://www.python.org/>`_ and support Python
-2.7, 3.4 or newer. Following dependencies can be installed using pip or your
+Weblate is written in `Python <https://www.python.org/>`_ and supports Python
+2.7, 3.4 or newer. The following dependencies can be installed using pip or your
 distribution packages:
     
 Django (>= 1.10)
@@ -94,7 +94,7 @@ akismet (>= 1.0) (optional for suggestion spam protection)
 Other system requirements
 +++++++++++++++++++++++++
 
-Following dependencies have to be installed on the system:
+The following dependencies have to be installed on the system:
 
 Git (>= 1.6)
     https://git-scm.com/
@@ -111,8 +111,8 @@ Compile time dependencies
 +++++++++++++++++++++++++
 
 To compile some of the :ref:`python-deps` you might need to install their
-dependencies. This depends on how you install them and please consult
-individual packages for domentation. You won't need those if using prebuilt
+dependencies. This depends on how you install them, so please consult
+individual packages for documentation. You won't need those if using prebuilt
 Wheels while installing using pip or when you use distribution packages.
 
 .. _install-weblate:
@@ -120,7 +120,7 @@ Wheels while installing using pip or when you use distribution packages.
 Installing Weblate
 ------------------
 
-Choose installation method that best fits your environment.
+Choose an installation method that best fits your environment.
 
 First choices include complete setup without relying on your system libraries:
 
@@ -130,7 +130,7 @@ First choices include complete setup without relying on your system libraries:
 * :ref:`appliance`
 
 You can also install Weblate directly on your system either fully using
-distribution packages (as of now available for openSUSE only) or mixed setup.
+distribution packages (currently available for openSUSE only) or mixed setup.
 
 Choose installation method:
 
@@ -215,7 +215,7 @@ system Python libraries.
 Installing Weblate from Git
 +++++++++++++++++++++++++++
 
-You can also run latest version from Git. It is maintained stable and
+You can also run the latest version from Git. It is maintained stable and
 production ready. You can usually find it running on 
 `Hosted Weblate <https://weblate.org/hosting/>`_.
 
@@ -227,7 +227,7 @@ To get latest sources using Git use:
 
 .. note::
 
-    If you are running version from Git, you should also regenerate locale
+    If you are running a version from Git, you should also regenerate locale
     files every time you are upgrading. You can do this by invoking script
     :file:`./scripts/generate-locales`.
 
@@ -427,10 +427,10 @@ All optional dependencies (see above) can be installed using:
 Filesystem permissions
 ----------------------
 
-Weblate process needs to be able to read and write to the directory where it
+The Weblate process needs to be able to read and write to the directory where it
 keeps data - :setting:`DATA_DIR`.
 
-The default configuration places them in same tree as Weblate sources, however
+The default configuration places them in the same tree as Weblate sources, however
 you might prefer to move these to better location such as
 :file:`/var/lib/weblate`.
 
@@ -438,7 +438,7 @@ Weblate tries to create these directories automatically, but it will fail
 when it does not have permissions to do so.
 
 You should also take care when running :ref:`manage`, as they should be run
-under same user as Weblate itself is running, otherwise permissions on some
+under the same user as Weblate itself is running, otherwise permissions on some
 files might be wrong.
 
 .. seealso::
@@ -451,7 +451,7 @@ Database setup for Weblate
 --------------------------
 
 It is recommended to run Weblate on some database server. Using SQLite backend
-is really good for testing purposes only.
+is really suitable only for testing purposes.
 
 .. seealso::
 
@@ -461,8 +461,8 @@ is really good for testing purposes only.
 PostgreSQL
 ++++++++++
 
-PostgreSQL is usually best choice for Django based sites. It's the reference
-database using for implementing Django database layer.
+PostgreSQL is usually the best choice for Django based sites. It's the reference
+database used for implementing Django database layer.
 
 .. seealso::
 
@@ -471,7 +471,7 @@ database using for implementing Django database layer.
 Creating database in PostgreSQL
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-It is usually good idea to run Weblate in separate database and separate user:
+It is usually good idea to run Weblate in a separate database and separate user account:
 
 .. code-block:: sh
 
@@ -511,7 +511,7 @@ The :file:`settings.py` snippet for PostgreSQL:
 MySQL or MariaDB
 ++++++++++++++++
 
-MySQL or MariaDB are quite good choice to run Weblate. However when using MySQL
+MySQL or MariaDB are quite good choices to run Weblate. However when using MySQL
 you might hit some problems caused by it.
 
 .. seealso::
@@ -634,7 +634,7 @@ server, which will handle this.
 The mail server setup is configured using settings
 :setting:`django:EMAIL_HOST`, :setting:`django:EMAIL_HOST_PASSWORD`,
 :setting:`django:EMAIL_HOST_USER` and :setting:`django:EMAIL_PORT`.  Their
-names are quite self-explaining, but you can find our more information in the
+names are quite self-explanatory, but you can find out more information in the
 Django documentation.
 
 .. note::
@@ -652,7 +652,7 @@ Installation
    :ref:`sample-configuration`
 
 Copy :file:`weblate/settings_example.py` to :file:`weblate/settings.py` and
-adjust it to match your setup. You will probably want to adjust following
+adjust it to match your setup. You will probably want to adjust the following
 options:
 
 .. setting:: ADMINS
@@ -757,14 +757,14 @@ Filling up the database
 -----------------------
 
 After your configuration is ready, you can run
-:samp:`./manage.py migrate` to create database structure. Now you should be
-able to create translation projects using admin interface.
+:samp:`./manage.py migrate` to create the database structure. Now you should be
+able to create translation projects using the admin interface.
 
 In case you want to run installation non interactively, you can use
 :samp:`./manage.py migrate --noinput` and then create admin user using
 :djadmin:`createadmin` command.
 
-You should also login to admin interface (on ``/admin/`` URL) and adjust
+You should also login to admin interface (on ``/admin/`` URL) and adjust the
 default site name to match your domain by clicking on :guilabel:`Sites` and there
 changing the :samp:`example.com` record to match your real domain name.
 
@@ -795,7 +795,7 @@ Disable Django's debug mode (:setting:`DEBUG`) by:
     DEBUG = False
 
 With debug mode Django stores all executed queries and shows users backtraces
-of errors what is not desired in production setup.
+of errors which is not desired in production setup.
 
 .. seealso::
 
@@ -827,19 +827,19 @@ Set correct site name
 Adjust site name in admin interface, otherwise links in RSS or registration
 emails will not work.
 
-Please open admin interface and edit default site name and domain under the
+Please open the admin interface and edit default site name and domain under the
 :guilabel:`Sites › Sites` (or you can do that directly at
 ``/admin/sites/site/1/`` URL under your Weblate installation). You have to change
 the :guilabel:`Domain name` to match your setup.
 
 .. note::
 
-    This setting should contain only domain name. For configuring protocol
+    This setting should contain only the domain name. For configuring protocol
     (enabling HTTPS) use :setting:`ENABLE_HTTPS` and for changing URL use
     :setting:`URL_PREFIX`.
 
-Alternatively you can set the site name from command line using
-:djadmin:`changesite`. For example for using built in server:
+Alternatively, you can set the site name from command line using
+:djadmin:`changesite`. For example, when using built in server:
 
 .. code-block:: sh
 
@@ -862,7 +862,7 @@ Enable indexing offloading
 ++++++++++++++++++++++++++
 
 Enable :setting:`OFFLOAD_INDEXING` to prevent locking issues and improve
-performance. Don't forget to schedule indexing in background job to keep the
+performance. Don't forget to schedule indexing as a background job to keep the
 index up to date.
 
 .. seealso::
@@ -874,7 +874,7 @@ index up to date.
 Use powerful database engine
 ++++++++++++++++++++++++++++
 
-Use powerful database engine (SQLite is usually not good enough for production
+Use a powerful database engine (SQLite is usually not good enough for production
 environment), see :ref:`database-setup` for more information.
 
 .. seealso::
@@ -963,7 +963,7 @@ have correct sender address, please configure :setting:`SERVER_EMAIL` and
 Allowed hosts setup
 +++++++++++++++++++
 
-Django 1.5 and newer require :setting:`ALLOWED_HOSTS` to hold list of domain names
+Django 1.5 and newer require :setting:`ALLOWED_HOSTS` to hold a list of domain names
 your site is allowed to serve, having it empty will block any request.
 
 .. seealso::
@@ -998,7 +998,7 @@ Django secret key
 +++++++++++++++++
 
 The :setting:`SECRET_KEY` setting is used by Django to sign cookies and you should
-really use own value rather than using the one coming from example setup.
+really generate your own value rather than using the one coming from example setup.
 
 You can generate new key using :file:`examples/generate-secret-key` shipped
 with Weblate.
@@ -1031,10 +1031,10 @@ Home directory
    This is no longer required, Weblate now stores all its data in
    :setting:`DATA_DIR`.
 
-The home directory for user which is running Weblate should be existing and
+The home directory for the user which is running Weblate should be existing and
 writable by this user. This is especially needed if you want to use SSH to
 access private repositories, but Git might need to access this directory as
-well (depends on Git version you use).
+well (depends on the Git version you use).
 
 You can change the directory used by Weblate in :file:`settings.py`, for
 example to set it to ``configuration`` directory under Weblate tree:
@@ -1049,7 +1049,7 @@ example to set it to ``configuration`` directory under Weblate tree:
     defined in :file:`/etc/passwd`. Many distributions default to non writable
     directory for users used for serving web content (such as ``apache``,
     ``www-data`` or ``wwwrun``, so you either have to run Weblate under
-    different user or change this setting.
+    a different user or change this setting.
 
 .. seealso::
 
@@ -1061,8 +1061,8 @@ Template loading
 ++++++++++++++++
 
 It is recommended to use cached template loader for Django. It caches parsed
-templates and avoids need to do the parsing with every single request. You can
-configure it using following snippet:
+templates and avoids the need to do the parsing with every single request. You can
+configure it using the following snippet:
 
 .. code-block:: python
 
@@ -1085,7 +1085,7 @@ Running maintenance tasks
 For optimal performance, it is good idea to run some maintenance tasks in the
 background.
 
-On Unix system, this can be scheduled using cron:
+On a Unix-likesystem, this can be scheduled using cron:
 
 .. code-block:: text
 
@@ -1111,7 +1111,7 @@ Running Weblate is not different from running any other Django based
 application. Django is usually executed as uwsgi or fcgi (see examples for
 different webservers below).
 
-For testing purposes, you can use Django builtin web server:
+For testing purposes, you can use the Django built-in web server:
 
 .. code-block:: sh
 
@@ -1129,7 +1129,7 @@ Serving static files
 
 Django needs to collect its static files to a single directory. To do so,
 execute :samp:`./manage.py collectstatic --noinput`. This will copy the static
-files into directory specified by ``STATIC_ROOT`` setting (this default to
+files into directory specified by ``STATIC_ROOT`` setting (this defaults to
 ``static`` directory inside :setting:`DATA_DIR`).
 
 It is recommended to serve static files directly by your web server, you should
@@ -1194,7 +1194,7 @@ Following configuration runs Weblate in gunicorn and Apache 2.4
 Sample configuration for nginx and uwsgi
 ++++++++++++++++++++++++++++++++++++++++
 
-Following configuration runs Weblate as uwsgi under nginx webserver.
+The following configuration runs Weblate as uwsgi under nginx webserver.
 
 Configuration for nginx (also available as :file:`examples/weblate.nginx.conf`):
 
@@ -1223,7 +1223,7 @@ mod_wsgi (also available as :file:`examples/apache-path.conf`):
 .. literalinclude:: ../../examples/apache-path.conf
     :language: apache
 
-Additionally you will have to adjust :file:`weblate/settings.py`:
+Additionally, you will have to adjust :file:`weblate/settings.py`:
 
 .. code-block:: python
 
@@ -1294,7 +1294,7 @@ the database. The most straightforward one is to dump the database on one
 server and import it on the new one. Alternatively you can use replication in
 case your database supports it.
 
-The best approach is to use database native tools as they are usually most
+The best approach is to use database native tools as they are usually the most
 effective (eg. :command:`mysqldump` or :command:`pg_dump`). If you want to
 migrate between different databases, the only option might be to use Django
 management to dump and import the database:
@@ -1317,7 +1317,7 @@ Migrating fulltext index
 ++++++++++++++++++++++++
 
 For the fulltext index (stored in :setting:`DATA_DIR`) it is better not to
-migrate it, but rather to generate fresh one using :djadmin:`rebuild_index`.
+migrate it, but rather to generate a fresh one using :djadmin:`rebuild_index`.
 
 Other notes
 +++++++++++

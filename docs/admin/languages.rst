@@ -3,15 +3,15 @@
 Language definitions
 ====================
 
-In order to properly present different translation Weblate needs to know some
+In order to properly present different translations, Weblate needs to know some
 information about used languages. Currently it comes with definitions for
-about 200 languages and the definition include language name, text direction,
+about 200 languages and the definition includes language name, text direction,
 plural definitions and language code.
 
 Parsing language codes
 ----------------------
 
-While parsing translations, Weblate attempts to map language code (usually ISO
+While parsing translations, Weblate attempts to map language code (usually the ISO
 639-1 one) to existing language object. If it can not find exact match, it
 tries to find best fit in existing languages (eg. it ignores default country
 code for given language - choosing ``cs`` instead of ``cs_CZ``). Should this
@@ -28,6 +28,6 @@ Changing language defintions
 
 You can change language definitions in the admin interface (see
 :ref:`admin-interface`). The :guilabel:`Weblate languages` section 
-allows you to change or add language definitions. While editing make sure that
+allows you to change or add language definitions. While editing, make sure that
 all fields are correct (especially plurals and text direction), otherwise the
 translators won't be able to properly edit those translations.

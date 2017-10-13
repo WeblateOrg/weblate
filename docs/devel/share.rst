@@ -8,7 +8,7 @@ promote the translation project. It also has a nice welcome page for new contrib
 to give them basic information about the translation. Additionally you can
 share information about translation using Facebook or Twitter. All these
 possibilities can be found on the :guilabel:`Share` tab. Example of status badges
-for Weblate itself are show below.
+for Weblate itself are shown below.
 
 Shields.IO badge often used to quickly see status of a project:
 

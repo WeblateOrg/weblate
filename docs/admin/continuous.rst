@@ -3,9 +3,9 @@
 Continuous translation
 ======================
 
-Weblate provides you great infrastructure for translation to closely follow
-your development. This way translators can work on translations whole time and
-are not forced to translate huge amount of new texts before release.
+Weblate provides you with a great infrastructure for translation to closely follow
+your development. This way translators can work on translations the entire time and
+are not forced to translate a huge amount of new texts before release.
 
 The complete process can be described in following steps:
 
@@ -65,7 +65,7 @@ And enable its use by defining proper attributes in given repository (eg. in
 
 .. note::
 
-    This merge driver assumes the changes in POT files always are done in branch
+    This merge driver assumes the changes in POT files always are done in the branch
     we're trying to merge.
 
 .. versionchanged:: 2.9
@@ -118,7 +118,7 @@ all separatey:
 .. note::
 
     The example uses :ref:`wlc`, which will need configuration (API keys) to be
-    able to control Weblate remotely. You can achieve same using any HTTP
+    able to control Weblate remotely. You can also achieve this using any HTTP
     client instead of wlc, eg. curl, see :ref:`api`.
 
 .. _github-setup:
@@ -151,7 +151,7 @@ You can also use generic :guilabel:`Webhook`, in that case the
 Automatically receiving changes from Bitbucket
 ++++++++++++++++++++++++++++++++++++++++++++++
 
-Weblate has support for Bitbucket webhooks, all you need to do is add webhook
+Weblate has support for Bitbucket webhooks, all you need to do is add a webhook
 which triggers on repository push with destination to ``/hooks/bitbucket/`` URL
 on your Weblate installation (for example
 ``https://hosted.weblate.org/hooks/bitbucket/``).
@@ -180,20 +180,20 @@ with destination to ``/hooks/gitlab/`` URL on your Weblate installation
 Pushing changes
 ---------------
 
-Each project can have configured push URL and in such case Weblate offers
-button to push changes to remote repository in web interface.
+Each project can have a push URL configured and in that case Weblate offers
+a button in the web interface to push changes to the remote repository.
 Weblate can be also configured to automatically push changes on every commit.
 
 If you are using SSH to push, you will need to have a key without a passphrase
 (or use ssh-agent for Django) and the remote server needs to be verified by you
 via the admin interface first, otherwise pushing will fail.
 
-The push options differ based on used :ref:`vcs`, please check that chapter for
+The push options differ based on the :ref:`vcs` used, please check that chapter for
 more details.
 
 .. note::
 
-   You can also enable automatic pushing changes on commit, this can be done in
+   You can also enable the automatic pushing of changes on commit, this can be done in
    :ref:`component`.
 
 .. seealso::
@@ -206,7 +206,7 @@ more details.
 Pushing changes from Hosted Weblate
 +++++++++++++++++++++++++++++++++++
 
-For Hosted Weblate there is dedicated push user registered on GitHub, Bitbucket
+For Hosted Weblate there is a dedicated push user registered on GitHub, Bitbucket
 and GitLab (with username :guilabel:`weblate` and named
 :guilabel:`Weblate push user`). You need to add this user as a collabolator and
 give him permissions to push to your repository. Let us know when you've done
@@ -217,15 +217,15 @@ so and we will enable pushing changes from Hosted Weblate for you.
 Merge or rebase
 ---------------
 
-By default Weblate merges upstream repository into its own. This is safest way
-in case you also access underlying repository by other means. In case you don't
-need this, you can enable rebasing of changes on upstream, what will produce
-history with less merge commits.
+By default, Weblate merges the upstream repository into its own. This is the safest way
+in case you also access the underlying repository by other means. In case you don't
+need this, you can enable rebasing of changes on upstream, which will produce
+history with fewer merge commits.
 
 .. note::
 
     Rebasing can cause you troubles in case of complicated merges, so carefully
-    consider whether you want to enable them or not.
+    consider whether or not you want to enable them.
 
 Interacting with others
 -----------------------
@@ -241,17 +241,17 @@ Weblate makes it easy to interact with others using its API.
 Lazy commits
 ------------
 
-Default behaviour (configured by :setting:`LAZY_COMMITS`) of Weblate is to group
-commits from same author into one if possible. This heavily reduces number of
-commits, however you might need to explicitly tell to do the commits in case
-you want to get VCS repository in sync, eg. for merge (this is by default
+The default behaviour (configured by :setting:`LAZY_COMMITS`) of Weblate is to group
+commits from the same author into one commit if possible. This greatly reduces the number of
+commits, however you might need to explicitly tell it to do the commits in case
+you want to get the VCS repository in sync, eg. for merge (this is by default
 allowed for Managers group, see :ref:`privileges`).
 
 The changes are in this mode committed once any of following conditions is
 fulfilled:
 
 * somebody else works on the translation
-* merge from upstream occurs
+* a merge from upstream occurs
 * import of translation happens
 * translation for a language is completed
 * explicit commit is requested
@@ -264,23 +264,23 @@ delay, see :djadmin:`commit_pending` and :ref:`production-cron`.
 Processing repository with scripts
 ----------------------------------
 
-You can customize way how Weblate manipulates with repository by set of
+You can customize how Weblate interacts with the repository through a set of
 scripts. These include :guilabel:`Post-update script`, :guilabel:`Pre-commit
 script`, :guilabel:`Post-commit script`, :guilabel:`Post-add script` and
 :guilabel:`Post-push script` and are briefly described in :ref:`component`.
 
-Their naming quite clearly tells when given script is executed. The commit
+Their naming quite clearly tells when a particular script is executed. The commit
 related scripts always get one parameter with full path to the translation file
 which has been changed.
 
-The script is executed with the current directory set to root of VCS repository
+The script is executed with the current directory set to the root of the VCS repository
 for given component.
 
-Additionally following environment variables are available:
+Additionally, the following environment variables are available:
 
 .. envvar:: WL_VCS
 
-    Used version control system.
+    Version control system used.
 
 .. envvar:: WL_REPO
 
@@ -352,15 +352,15 @@ For example with gulp you can do it using following code:
 Pre commit processing of translations
 +++++++++++++++++++++++++++++++++++++
 
-In many cases you might want to automatically do some changes to translation
+In many cases you might want to automatically do some changes to the translation
 before it is committed to the repository. The pre commit script is exactly the
 place to achieve this.
 
-Before using any scripts, you need to list them in
+Before using any scripts, you need to list them in the
 :setting:`PRE_COMMIT_SCRIPTS` configuration variable. Then you can enable them
 at :ref:`component` configuration as :guilabel:`Pre commit script`.
 
-It is passed single parameter consisting of file name of current translation.
+It is passed a single parameter consisting of file name of current translation.
 
 The script can also generate additional file to be included in the commit. This
 can be configured as :guilabel:`Extra commit file` at :ref:`component`
@@ -381,9 +381,9 @@ Allow usage of the hook in the configuration
     )
 
 To enable it, choose now :guilabel:`hook-generate-mo` as :guilabel:`Pre commit
-script`. You will also want to add path to generated files to be included in
+script`. You will also want to add path to the generated files to be included in
 VCS commit, for example ``po/%(language)s.mo`` as :guilabel:`Extra commit file`.
 
 
-You can find more example scripts in ``examples`` folder within Weblate sources,
+You can find more example scripts in ``examples`` the folder within Weblate sources,
 their name start with ``hook-``.
