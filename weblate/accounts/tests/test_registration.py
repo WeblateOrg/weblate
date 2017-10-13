@@ -95,13 +95,14 @@ class BaseRegistrationTest(TestCase, RegistrationTestMixin):
             self.assertRedirects(response, reverse('password'))
         return url
 
+    def do_register(self, data=None):
+        if data is None:
+            data = REGISTRATION_DATA
+        return self.client.post(reverse('register'), data, follow=True)
+
     @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
     def perform_registration(self):
-        response = self.client.post(
-            reverse('register'),
-            REGISTRATION_DATA,
-            follow=True
-        )
+        response = self.do_register()
         # Check we did succeed
         self.assertContains(response, 'Thank you for registering.')
 
@@ -142,11 +143,7 @@ class BaseRegistrationTest(TestCase, RegistrationTestMixin):
 class RegistrationTest(BaseRegistrationTest):
     @override_settings(REGISTRATION_CAPTCHA=True)
     def test_register_captcha_fail(self):
-        response = self.client.post(
-            reverse('register'),
-            REGISTRATION_DATA,
-            follow=True
-        )
+        response = self.do_register()
         self.assertContains(
             response,
             'Please check your math and try again'
@@ -161,29 +158,17 @@ class RegistrationTest(BaseRegistrationTest):
         form = response.context['captcha_form']
         data = REGISTRATION_DATA.copy()
         data['captcha'] = form.captcha.result
-        response = self.client.post(
-            reverse('register'),
-            data,
-            follow=True
-        )
+        response = self.do_register(data)
         self.assertContains(response, 'Thank you for registering.')
 
         # Second registration should fail
-        response = self.client.post(
-            reverse('register'),
-            data,
-            follow=True
-        )
+        response = self.do_register(data)
         self.assertNotContains(response, 'Thank you for registering.')
 
     @override_settings(REGISTRATION_OPEN=False)
     def test_register_closed(self):
         # Disable registration
-        response = self.client.post(
-            reverse('register'),
-            REGISTRATION_DATA,
-            follow=True
-        )
+        response = self.do_register()
         self.assertContains(
             response,
             'Sorry, but registrations on this site are disabled.'
@@ -194,11 +179,7 @@ class RegistrationTest(BaseRegistrationTest):
         """Test double registration from single browser with logout."""
 
         # First registration
-        response = self.client.post(
-            reverse('register'),
-            REGISTRATION_DATA,
-            follow=True
-        )
+        response = self.do_register()
         first_url = self.assert_registration_mailbox()
         mail.outbox.pop()
 
@@ -206,11 +187,7 @@ class RegistrationTest(BaseRegistrationTest):
         data = REGISTRATION_DATA.copy()
         data['email'] = 'noreply@example.net'
         data['username'] = 'second'
-        response = self.client.post(
-            reverse('register'),
-            data,
-            follow=True
-        )
+        response = self.do_register(data)
         second_url = self.assert_registration_mailbox()
         mail.outbox.pop()
 
@@ -245,11 +222,7 @@ class RegistrationTest(BaseRegistrationTest):
     def test_register_missing(self):
         """Test handling of incomplete registration URL."""
         # Disable captcha
-        response = self.client.post(
-            reverse('register'),
-            REGISTRATION_DATA,
-            follow=True
-        )
+        response = self.do_register()
         # Check we did succeed
         self.assertContains(response, 'Thank you for registering.')
 
@@ -460,11 +433,7 @@ class RegistrationTest(BaseRegistrationTest):
     def test_wrong_username(self):
         data = REGISTRATION_DATA.copy()
         data['username'] = ''
-        response = self.client.post(
-            reverse('register'),
-            data,
-            follow=True
-        )
+        response = self.do_register(data)
         self.assertContains(
             response,
             'This field is required.',
@@ -473,11 +442,7 @@ class RegistrationTest(BaseRegistrationTest):
     def test_wrong_mail(self):
         data = REGISTRATION_DATA.copy()
         data['email'] = 'x'
-        response = self.client.post(
-            reverse('register'),
-            data,
-            follow=True
-        )
+        response = self.do_register(data)
         self.assertContains(
             response,
             'Enter a valid email address.'
@@ -487,11 +452,7 @@ class RegistrationTest(BaseRegistrationTest):
     def test_filtered_mail(self):
         data = REGISTRATION_DATA.copy()
         data['email'] = 'noreply@example.com'
-        response = self.client.post(
-            reverse('register'),
-            data,
-            follow=True
-        )
+        response = self.do_register(data)
         self.assertContains(
             response,
             'This email address is not allowed.'
@@ -510,11 +471,7 @@ class RegistrationTest(BaseRegistrationTest):
     def test_spam(self):
         data = REGISTRATION_DATA.copy()
         data['content'] = 'x'
-        response = self.client.post(
-            reverse('register'),
-            data,
-            follow=True
-        )
+        response = self.do_register(data)
         self.assertContains(
             response,
             'Invalid value'
@@ -809,11 +766,7 @@ class CookieRegistrationTest(BaseRegistrationTest):
     @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
     def test_double_link(self):
         """Test that verification link works just once."""
-        response = self.client.post(
-            reverse('register'),
-            REGISTRATION_DATA,
-            follow=True
-        )
+        response = self.do_register()
         # Check we did succeed
         self.assertContains(response, 'Thank you for registering.')
         url = self.assert_registration()
