@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: French (Weblate)\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-10-13 13:06+0000\n"
-"PO-Revision-Date: 2017-10-13 15:09+0000\n"
+"PO-Revision-Date: 2017-10-13 15:50+0000\n"
 "Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French "
 "<https://hosted.weblate.org/projects/weblate/master/fr/>\n"
@@ -623,9 +623,8 @@ msgid ""
 "Failed to complete your registration! This authentication, email or username "
 "are already associated with another account!"
 msgstr ""
-"Impossible de terminer votre inscription ! Cette authentification, cette "
-"adresse courriel ou ce nom d'utilisateur sont déjà associés à un autre "
-"compte !"
+"Impossible de terminer votre inscription ! Un compte utilise déjà cette "
+"authentification, cette adresse courriel ou ce nom d'utilisateur !"
 
 #: weblate/billing/admin.py:52 weblate/billing/models.py:123
 #: weblate/templates/accounts/user.html:38
@@ -1050,9 +1049,8 @@ msgid ""
 "Please see our <a href=\"%(security_url)s\">documentation</a> for "
 "instructions how to report security weaknesses in our platform."
 msgstr ""
-"Veuillez consulter notre <a href=\"%(security_url)s\">documentation</a> qui "
-"vous donnera des instructions pour nous signaler des failles de sécurité de "
-"notre plateforme."
+"Veuillez consulter les instructions de notre <a href=\"%(security_url)s\""
+">documentation</a> pour nous signaler des failles de sécurité."
 
 #: weblate/legal/templates/legal/terms.html:6
 msgid "Terms"
@@ -1171,14 +1169,14 @@ msgstr "Utilisez des images JPEG ou PNG jusqu’à 2000 x 2000 pixels."
 #: weblate/screenshots/views.py:106
 msgid "Screenshot has been uploaded, you can now assign it to source strings."
 msgstr ""
-"La capture d'écran a été téléversée, vous pouvez maintenant l'associer à des "
+"La capture d'écran a été envoyée, vous pouvez maintenant l'associer à des "
 "chaînes sources."
 
 #: weblate/screenshots/views.py:114
 msgid "Failed to upload screenshot, please fix errors below."
 msgstr ""
-"Échec de téléversement de la capture d'écran, veuillez corriger les erreurs "
-"ci-dessous."
+"Échec d'envoi de la capture d'écran, veuillez corriger les erreurs ci-"
+"dessous."
 
 #: weblate/screenshots/views.py:166
 #, python-format
@@ -1512,8 +1510,8 @@ msgid ""
 "The hosting requests are usually processed once in a month, so please be "
 "patient after submitting it."
 msgstr ""
-"Les demandes d'hébergement sont habituellement examinées une fois par mois, "
-"veuillez donc faire preuve de patience après avoir envoyé la vôtre."
+"Les demandes d'hébergement sont habituellement examinées une fois par mois. "
+"Merci pour votre compréhension."
 
 #: weblate/templates/accounts/hosting.html:45
 msgid "Commercial hosting"
@@ -1681,7 +1679,7 @@ msgid ""
 "want to translate."
 msgstr ""
 "Seules les langues en cours de traduction sont affichées. Si vous souhaitez "
-"traduire dans une autre langue, veuillez la demander au projet que vous "
+"traduire dans une nouvelle langue, veuillez la demander au projet que vous "
 "souhaitez traduire."
 
 #: weblate/templates/accounts/profile.html:65
@@ -2451,7 +2449,7 @@ msgid ""
 "to contribute please get in touch with project maintainers."
 msgstr ""
 "Cette traduction n’est ouverte qu’à un nombre limité de traducteurs, si vous "
-"souhaitez y contribuer, veuillez contacter les mainteneurs du projet."
+"souhaitez y contribuer, veuillez contacter les responsables du projet."
 
 #: weblate/templates/engage.html:39
 #, python-format
@@ -2459,8 +2457,8 @@ msgid ""
 "Once you have activated your account just proceed to the <a href=\"%(url)s"
 "\">translation section</a>."
 msgstr ""
-"Une fois votre compte activé, visitez la zone de <a href=\"%(url)s"
-"\">traduction</a>."
+"Une fois votre compte activé, visitez la section <a href=\"%(url)s\""
+">traduction</a>."
 
 #: weblate/templates/footer.html:5
 #, python-format
@@ -3920,7 +3918,7 @@ msgstr "Pousser"
 
 #: weblate/templates/js/git-status.html:144
 msgid "Push changes to the remote repository"
-msgstr "Pousser les changements vers le dépôt distant"
+msgstr "Pousser les modifications vers le dépôt distant"
 
 #: weblate/templates/js/git-status.html:154
 #: weblate/trans/models/subproject.py:99
@@ -5401,7 +5399,7 @@ msgstr "Télécharger la traduction compilée"
 
 #: weblate/templates/translation-download.html:17
 msgid "Upload translation"
-msgstr "Téléverser votre traduction"
+msgstr "Envoyer votre traduction"
 
 #: weblate/templates/translation.html:56 weblate/templates/translation.html:264
 msgid "Locking"
@@ -6376,8 +6374,8 @@ msgid ""
 "You can upload any format which is understood by Translate Toolkit "
 "(including TBX, CSV or Gettext PO files)."
 msgstr ""
-"Vous pouvez téléverser tous les formats reconnus par « Translate Toolkit » ("
-"incluant des fichiers TBX, CSV ou PO de Gettext)."
+"Vous pouvez envoyer tous les formats reconnus par « Translate Toolkit » ("
+"comme des fichiers TBX, CSV ou PO de Gettext)."
 
 #: weblate/trans/forms.py:908
 msgid "Keep current"
@@ -6715,7 +6713,7 @@ msgstr "Suggestion acceptée"
 
 #: weblate/trans/models/change.py:229
 msgid "Source string changed"
-msgstr "Changement de la chaîne source"
+msgstr "Chaîne source modifiée"
 
 #: weblate/trans/models/change.py:304
 #, python-format
@@ -7290,11 +7288,11 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:1141
 msgid "Push URL is not used when repository is linked!"
-msgstr "Le URL pour pousser n’est pas utilisée quand le dépôt est lié !"
+msgstr "L'URL pour pousser n’est pas utilisée quand le dépôt est lié !"
 
 #: weblate/trans/models/subproject.py:1147
 msgid "Export URL is not used when repository is linked!"
-msgstr "Le URL pour exporter n’est pas utilisé quand le dépôt est lié !"
+msgstr "L'URL d'export n’est pas utilisée quand le dépôt est lié !"
 
 #: weblate/trans/models/subproject.py:1155
 msgid "The mask did not match any files!"
