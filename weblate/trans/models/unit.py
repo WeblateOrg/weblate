@@ -1015,6 +1015,7 @@ class Unit(models.Model, LoggerMixin):
 
     def update_has_suggestion(self, update_stats=True):
         """Update flag counting suggestions."""
+        self._suggestions = None
         has_suggestion = len(self.suggestions()) > 0
         if has_suggestion != self.has_suggestion:
             self.has_suggestion = has_suggestion
