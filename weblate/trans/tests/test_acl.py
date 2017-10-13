@@ -233,12 +233,12 @@ class ACLViewTest(FixtureTestCase):
         url = reverse('change-access', kwargs=self.kw_project)
         self.project.add_user(self.user, '@Administration')
 
-        # No permissions
-        response = self.client.post(url, {'access_control': 0})
-        self.assertEqual(response.status_code, 403)
-
-        # Allow editing by creating billing plan
         if 'weblate.billing' in settings.INSTALLED_APPS:
+            # No permissions
+            response = self.client.post(url, {'access_control': 0})
+            self.assertEqual(response.status_code, 403)
+
+            # Allow editing by creating billing plan
             from weblate.billing.models import Plan, Billing
             plan = Plan.objects.create()
             billing = Billing.objects.create(plan=plan, user=self.user)
