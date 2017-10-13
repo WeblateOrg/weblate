@@ -134,8 +134,8 @@ class Command(BaseCommand):
                     content_hash__in=units
                 ).delete()
 
-                for lang in Language.objects.all():
-
+            for lang in Language.objects.all():
+                with transaction.atomic():
                     # Remove checks referring to deleted or not translated
                     # units
                     translatedunits = Unit.objects.filter(
