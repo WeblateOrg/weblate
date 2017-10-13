@@ -20,10 +20,10 @@
 
 """Test for ACL management."""
 
+from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User, Group
 
-from weblate.billing.models import Plan, Billing
 from weblate.trans.models import Project
 from weblate.trans.tests.test_views import FixtureTestCase
 
@@ -238,9 +238,11 @@ class ACLViewTest(FixtureTestCase):
         self.assertEqual(response.status_code, 403)
 
         # Allow editing by creating billing plan
-        plan = Plan.objects.create()
-        billing = Billing.objects.create(plan=plan, user=self.user)
-        billing.projects.add(self.project)
+        if 'weblate.billing' in settings.INSTALLED_APPS:
+            from weblate.billing.models import Plan, Billing
+            plan = Plan.objects.create()
+            billing = Billing.objects.create(plan=plan, user=self.user)
+            billing.projects.add(self.project)
 
         # Editing should now work
         response = self.client.post(
