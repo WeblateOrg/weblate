@@ -1,6 +1,11 @@
 Changes
 =======
 
+weblate 2.17.1
+------------
+
+Released on ? 2017.
+
 weblate 2.17
 ------------
 
