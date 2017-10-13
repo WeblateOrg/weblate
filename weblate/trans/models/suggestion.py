@@ -58,14 +58,17 @@ class SuggestionManager(models.Manager):
         )
 
         # Record in change
-        Change.objects.create(
-            unit=unit,
-            action=Change.ACTION_SUGGESTION,
-            translation=unit.translation,
-            user=user,
-            target=target,
-            author=user
-        )
+        from weblate.trans.models import get_related_units
+        allunits = get_related_units(suggestion)
+        for aunit in allunits:
+            Change.objects.create(
+                unit=aunit,
+                action=Change.ACTION_SUGGESTION,
+                translation=aunit.translation,
+                user=user,
+                target=target,
+                author=user
+            )
 
         # Add unit vote
         if vote:
