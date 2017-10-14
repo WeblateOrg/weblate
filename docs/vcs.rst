@@ -225,7 +225,8 @@ action with `hub`_ to finish the configuration, for example:
 
 .. code-block:: sh
 
-    HOME=${DATA_DIR}/home hub clone octocat/Spoon-Knife
+    HOME=${DATA_DIR}/home
+    hub clone octocat/Spoon-Knife
 
 The `hub`_ will ask you for your GitHub credentials, retrieve a token and
 store it into :file:`~/.config/hub`.
@@ -284,7 +285,8 @@ credential, if needed. It will look into the DATA_DIR directory. To insert your
 credential and accept the certificate, you can run svn once with the `$HOME`
 environment variable set to the DATA_DIR::
 
-    HOME=${DATA_DIR}/home svn co https://svn.example.com/example
+    HOME=${DATA_DIR}/home
+    svn co https://svn.example.com/example
 
 .. seealso::
 
