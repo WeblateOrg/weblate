@@ -225,7 +225,10 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_REMOVE, ugettext_lazy('Removed translation')),
         (ACTION_SUGGESTION_DELETE, ugettext_lazy('Suggestion removed')),
         (ACTION_REPLACE, ugettext_lazy('Search and replace')),
-        (ACTION_SUGGESTION_CLEANUP, ugettext_lazy('Suggestion cleanup')),
+        (
+            ACTION_SUGGESTION_CLEANUP,
+            ugettext_lazy('Suggestion removed during cleanup')
+        ),
         (ACTION_SOURCE_CHANGE, ugettext_lazy('Source string changed')),
     )
 
