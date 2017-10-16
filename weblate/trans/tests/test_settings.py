@@ -61,8 +61,7 @@ class SettingsTest(ViewTestCase):
         response = self.client.get(url)
         self.assertContains(response, 'Settings')
         data = {}
-        for form in response.context['settings_forms']:
-            data.update(form.initial)
+        data.update(response.context['form'].initial)
         data['license_url'] = 'https://example.com/test/'
         data['license'] = 'test'
         response = self.client.post(url, data, follow=True)
