@@ -319,6 +319,10 @@ Generic settings
 
     Configures language simplification policy, see :setting:`SIMPLIFY_LANGUAGES`.
 
+.. envvar:: WEBLATE_AKISMET_API_KEY
+
+    Configures Akismet API key, see :setting:`AKISMET_API_KEY`.
+
 
 Machine translation settings
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
