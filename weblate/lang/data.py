@@ -234,6 +234,12 @@ EXTRALANGS = (
         'n != 1',
     ),
     (
+        'es_CL',
+        'Spanish (Chile)',
+        2,
+        'n != 1',
+    ),
+    (
         'es_MX',
         'Spanish (Mexico)',
         2,
