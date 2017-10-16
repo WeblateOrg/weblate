@@ -27,7 +27,7 @@ from django.views.decorators.cache import never_cache
 from django.utils.translation import ugettext as _
 
 from weblate.permissions.helpers import can_edit_subproject, can_edit_project
-from weblate.trans.forms import SUBPROJECT_SETTINGS, ProjectSettingsForm
+from weblate.trans.forms import SubprojectSettingsForm, ProjectSettingsForm
 from weblate.trans.util import render
 from weblate.trans.views.helper import get_project, get_subproject
 from weblate.utils import messages
@@ -74,12 +74,9 @@ def change_subproject(request, project, subproject):
         raise Http404()
 
     if request.method == 'POST':
-        settings_forms = [
-            form(request.POST, instance=obj) for form in SUBPROJECT_SETTINGS
-        ]
-        if all([form.is_valid() for form in settings_forms]):
-            for form in settings_forms:
-                form.save()
+        form = SubprojectSettingsForm(request.POST, instance=obj)
+        if form.is_valid():
+            form.save()
             messages.success(request, _('Settings saved'))
             return redirect(
                 'settings', project=obj.project.slug, subproject=obj.slug
@@ -90,7 +87,7 @@ def change_subproject(request, project, subproject):
                 _('Invalid settings, please check the form for errors!')
             )
     else:
-        settings_forms = [form(instance=obj) for form in SUBPROJECT_SETTINGS]
+        form = SubprojectSettingsForm(instance=obj)
 
     return render(
         request,
@@ -98,6 +95,6 @@ def change_subproject(request, project, subproject):
         {
             'project': obj.project,
             'object': obj,
-            'settings_forms': settings_forms,
+            'form': form,
         }
     )
