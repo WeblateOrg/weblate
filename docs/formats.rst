@@ -5,7 +5,7 @@ Supported formats
 
 Weblate supports any translation format understood by Translate-toolkit,
 however each format being slightly different, there might be some issues with
-not well tested formats.
+formats that are not well tested.
 
 .. seealso:: 
    
@@ -13,21 +13,21 @@ not well tested formats.
 
 .. note::
 
-    When choosing file format for your application, it's better to stick some
-    well established format in toolkit/platform you use. This way your
+    When choosing a file format for your application, it's better to stick some
+    well established format in the toolkit/platform you use. This way your
     translators can use whatever tools they are get used to and will more
     likely contribute to your project.
 
 
 Weblate does support both :index:`monolingual <pair: translation; monolingual>`
-and :index:`bilingual <pair: translation; bilingual>` formats.  Bilingual
+and :index:`bilingual <pair: translation; bilingual>` formats. Bilingual
 formats store two languages in single file - source and translation (typical
-examples is :ref:`gettext`, :ref:`xliff` or :ref:`apple`). On the other side,
+examples are :ref:`gettext`, :ref:`xliff` or :ref:`apple`). On the other side,
 monolingual formats identify the string by ID and each language file contains
 only mapping of those to given language (typically :ref:`aresource`). Some file
 formats are used in both variants, see detailed description below.
 
-For correct use of monolingual files, Weblate requires access to file
+For correct use of monolingual files, Weblate requires access to a file
 containing complete list of strings to translate with their source - this file
 is called :guilabel:`Monolingual base language file` within Weblate, though the
 naming might vary in your application.
@@ -49,7 +49,7 @@ GNU Gettext
     pair: PO; file format
 
 Most widely used format in translating free software. This was first format
-supported by Weblate and still has best support.
+supported by Weblate and still has the best support.
 
 Weblate supports contextual information stored in the file, adjusting its
 headers or linking to corresponding source files.
@@ -124,7 +124,7 @@ XLIFF
 .. index::
     pair: XLIFF; file format
 
-XML based format created to standardize translation files, but in the end it
+XML-based format created to standardize translation files, but in the end it
 is one of many standards in this area.
 
 XLIFF is usually used as bilingual, but Weblate supports it as monolingual as well.
@@ -133,10 +133,10 @@ Translations marked for review
 ++++++++++++++++++++++++++++++
 
 If the translation unit doesn't have ``approved="yes"`` it will be imported into
-Weblate as needing review (what matches XLIFF specification).
+Weblate as needing review (which matches XLIFF specification).
 
 You can override this by adding ``skip-review-flag`` flag to the component,
-see :ref:`component`, what will make Weblate ignore this and all strings
+see :ref:`component`, which will make Weblate ignore this and all strings
 will appear as approved.
 
 Similarly on importing such files, you should choose
@@ -146,7 +146,7 @@ Similarly on importing such files, you should choose
 Whitespace and newlines in XLIFF
 ++++++++++++++++++++++++++++++++
 
-Generally the XML formats do not differentiate whitespace and amount of that.
+Generally the XML formats do not differentiate between types or ammounts of whitespace.
 If you want to keep it, you have to add the ``xml:space="preserve"`` flag to
 the unit.
 
@@ -175,7 +175,7 @@ Native Java format for translations.
 
 Java properties are usually used as monolingual.
 
-This format supports creating new languages. When a new languages is created, a
+This format supports creating new languages. When a new language is created, a
 new empty file will be added to the repository. Only keys that are defined will
 be written to the newly created file. The Weblate maintainer needs to make sure
 that this is the expected behaviour with the framework in use.
@@ -197,9 +197,9 @@ Joomla translations
 
 Native Joomla format for translations.
 
-Joomla translation are usually used as monolingual.
+Joomla translations are usually used as monolingual.
 
-This format supports creating new languages. When a new languages is created, a
+This format supports creating new languages. When a new language is created, a
 new empty file will be added to the repository. Only keys that are defined will
 be written to the newly created file. This should work fine since Joomla 3.0.
 
@@ -240,8 +240,8 @@ Android string resources
 Android specific file format for translating applications.
 
 Android string resources are monolingual, the
-:guilabel:`Monolingual base language file` file being stored in different
-location than others :file:`res/values/strings.xml`.
+:guilabel:`Monolingual base language file` file is stored in a different
+location from the others :file:`res/values/strings.xml`.
 
 .. seealso::
 
@@ -349,7 +349,7 @@ JSON and nested structure JSON files
     Since Weblate 2.17 and with translate-toolkit at least 2.2.5 i18next
     JSON files with plurals are supported as well.
 
-JSON is format used mostly for translating applications implemented in
+JSON format is used mostly for translating applications implemented in
 Javascript.
 
 JSON translations are usually monolingual, so it is recommended to specify base
@@ -361,7 +361,7 @@ Example file:
     :language: json
     :encoding: utf-8
 
-Nested files are supported as well (see above for requirements), such file can look as:
+Nested files are supported as well (see above for requirements), such file can look like:
 
 .. literalinclude:: ../weblate/trans/tests/data/cs-nested.json
     :language: json
@@ -378,7 +378,7 @@ WebExtension JSON
 
     This is supported since Weblate 2.16 and with translate-toolkit at least 2.2.4.
 
-File format used by translating extensions for Google Chrome or Mozilla Firefox.
+File format used when translating extensions for Google Chrome or Mozilla Firefox.
 
 Example file:
 
@@ -416,11 +416,11 @@ CSV files
 
 .. versionadded:: 2.4
 
-CSV files can contain simple list of source and translation. Weblate supports
-following files:
+CSV files can contain a simple list of source and translation. Weblate supports
+the following files:
 
 * Files with header defining fields (source, translation, location, ...)
-* Files with two fileld - source and translation (in this order), choose
+* Files with two fields - source and translation (in this order), choose
   :guilabel:`Simple CSV file` as file format
 * Files with fields as defined by translate-toolkit: location, source,
   target, id, fuzzy, context, translator_comments, developer_comments
@@ -448,7 +448,7 @@ currently supports following:
 
 .. note::
 
-    You currently need patched version of translate-toolkit to support YAML.
+    You currently need a patched version of translate-toolkit to support YAML.
     Check `translate-toolkit issue tracker <https://github.com/translate/translate/issues/3248>`_ for more details.
 
 Example YAML file:

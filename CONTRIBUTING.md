@@ -4,13 +4,13 @@ As an open source project, Weblate welcomes contributions of many forms.
 
 ## Bug reporting
 
-Please use the [issue tracker on GitHub][1]. Useful error report contains
-backtrace if possible. In production setup, admins receive it on configured
+Please use the [issue tracker on GitHub][1]. Useful error report contain a
+backtrace if possible. In production setup, admins receive it on the configured
 email address, in debug mode, it is shown on screen and for management
-commands, you can obtain full backtrace using ``--traceback`` parameter.
+commands, you can obtain the full backtrace using ``--traceback`` parameter.
 
 Many bugs might be also caused by third party libraries, so please include
-their versions as well. You can collect all using
+their versions as well. You can collect them all using
 ``./manage.py list_versions``.
 
 [1]: https://github.com/WeblateOrg/weblate/issues

@@ -8,7 +8,7 @@ While everybody can browse projects, view translations or suggest them, only
 registered users are allowed to actually save changes and are credited for
 every translation made.
 
-You can register following two simple steps:
+You can register by following a few simple steps:
 
 1. Fill out the registration form with your credentials
 2. Activate registration by following in email you receive
@@ -20,7 +20,7 @@ Dashboard
 ---------
 
 When you log in to Weblate, you will see an overview of projects and components
-and their translation progress.
+as well as their translation progress.
 
 .. versionadded:: 2.5
 

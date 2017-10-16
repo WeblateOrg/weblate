@@ -5,10 +5,10 @@ Thank you for interest in translating using Weblate. Weblate can be used to
 translate many projects and every project can have different settings which
 influence whether you can translate or add suggestions only.
 
-Overall there are following possibilities for translating:
+Overall there are the following possibilities for translating:
 
 * Projects accepts direct translations
-* Projects accepts only suggestions and those are accepted once they get defined number of votes
+* Projects accepts only suggestions and those are accepted once they get a defined number of votes
 
 There are also some options for translation project visibility:
 
@@ -23,7 +23,7 @@ Translation links
 Once you navigate to a translation, you will be shown set of links which lead
 to translation. These are results of various checks, like untranslated or
 strings needing review. Should no other checks fire, there will be still link
-to all translations. Alternatively you can use search field to find translation
+to all translations. Alternatively you can use the search field to find a translation
 you need to fix.
 
 .. image:: ../images/strings-to-check.png
@@ -32,7 +32,7 @@ Suggestions
 -----------
 
 As an anonymous user, you have no other choice than making a suggestion.
-However if you are logged in you can still decide to make only a suggestion
+However, if you are logged in you can still decide to make only a suggestion
 instead of saving translation, for example in case you are unsure about the
 translation and you want somebody else to review it.
 
@@ -44,7 +44,7 @@ translation and you want somebody else to review it.
 Translating
 -----------
 
-On translate page, you are shown source string and edit area for translating.
+On translate page, you are shown the source string and an edit area for translating.
 Should the translation be plural, multiple source strings and edit areas are
 shown, each described with label for plural form.
 
@@ -52,13 +52,13 @@ Any special whitespace chars are underlined in red and indicated with grey
 symbols. Also more than one space is underlined in red to allow translator to
 keep formatting.
 
-There are various extra information which can be shown on this page. Most of
+There are various bits of extra information which can be shown on this page. Most of
 them are coming from the project source code (like context, comments or where
 the message is being used). When you configure secondary languages in your
 preferences, translation to these languages will be shown (see 
 :ref:`secondary-languages`).
 
-Bellow translation can be also shown suggestions from other users, which you
+Below the translation, suggestions from other users can be shown, which you
 can accept or delete.
 
 .. _plurals:
@@ -69,7 +69,7 @@ Plurals
 What are plurals? Generally spoken plurals are words which take into account
 numeric meanings. But as you may imagine each language has its own definition
 of plurals. English, for example, supports one plural. We have a singular
-definition, for example "car", which means implicit one car, and we have the
+definition, for example "car", which means implicitly one car, and we have the
 plural definition, "cars" which could mean more than one car but also zero
 cars. Other languages like Czech or Arabic have more plurals and also the
 rules for plurals are different.
@@ -88,7 +88,7 @@ Consortium.
 Keyboard shortcuts
 ++++++++++++++++++
 
-While translating you can use following keyboard shortcuts:
+While translating you can use the following keyboard shortcuts:
 
 :kbd:`Alt+Home`
     Navigates to first translation in current search.
@@ -171,7 +171,7 @@ Project
     Project information like instructions for translators or information about
     VCS repository.
 
-If translation format supports it, you can also follow links to source code
+If the translation format supports it, you can also follow links to source code
 which contains translated strings.
 
 Translation history
@@ -179,25 +179,25 @@ Translation history
 
 Every change is by default (unless disabled in component settings) saved in
 the database and can be reverted. Of course you can still also revert anything
-in underlaying version control system.
+in the underlaying version control system.
 
 Glossary
 --------
 
-Each project can have assigned glossary for any language. This could be used
-for storing terminology for given project, so that translations are consistent.
-You can display terms from currently translated string in bottom tabs.
+Each project can have an assigned glossary for any language. This could be used
+for storing terminology for a given project, so that translations are consistent.
+You can display terms from the currently translated string in the bottom tabs.
 
 Managing glossaries
 +++++++++++++++++++
 
-On project page, on :guilabel:`Glossaries` tab, you can find link
+On project page, on :guilabel:`Glossaries` tab, you can find a link
 :guilabel:`Manage all glossaries`, where you can start new glossaries or edit
-existing ones. Once glossary is existing, it will also show up on this tab.
+existing ones. Once a glossary is existing, it will also show up on this tab.
 
 .. image:: ../images/project-glossaries.png
 
-On further page, you can choose which glossary to manage (all languages used in
+On the next page, you can choose which glossary to manage (all languages used in
 current project are shown). Following this language link will lead you to page,
 which can be used to edit, import or export the glossary:
 
@@ -208,7 +208,7 @@ which can be used to edit, import or export the glossary:
 Machine translation
 -------------------
 
-Based on configuration and your language, Weblate provides buttons for following
+Based on configuration and your language, Weblate provides buttons for the following
 machine translation tools.
 
 All machine translations are available on single tab on translation page.

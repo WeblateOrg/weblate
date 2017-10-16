@@ -5,11 +5,11 @@ Management commands
 
 .. note::
 
-    Running management commands under different user than is running your
+    Running management commands under a different user than is running your
     webserver can cause wrong permissions on some files, please check
     :ref:`file-permissions` for more details.
 
-Django comes with management script (available as :file:`./manage.py` in
+Django comes with a management script (available as :file:`./manage.py` in
 sources or installed as :command:`weblate` when Weblate is installed). It
 provides various management commands and Weblate extends it with several
 additional commands.
@@ -29,7 +29,7 @@ done as:
 
     python ./manage.py list_versions
 
-If you've istalled Weblate using PIP installer or by :file:`./setup.py` script,
+If you've installed Weblate using PIP installer or by :file:`./setup.py` script,
 the :command:`weblate` is installed to your path and you can use it to control
 Weblate:
 
@@ -65,8 +65,8 @@ add_suggestions
 
 .. versionadded:: 2.5
 
-Imports translation from the file as a suggestions to given translation. It
-skips translations which are same as existing ones, only different ones are
+Imports translation from the file as a suggestion to given translation. It
+skips translations which are the same as existing ones, only different ones are
 added.
 
 .. django-admin-option:: --author USER@EXAMPLE.COM
@@ -150,7 +150,7 @@ checkgit
 
 .. django-admin:: checkgit <project|project/component>
 
-Prints current state of backend git repository.
+Prints current state of the backend git repository.
 
 You can either define which project or component to update (eg.
 ``weblate/master``) or use ``--all`` to update all existing components.
@@ -240,7 +240,7 @@ dumpuserdata
 
 Dumps userdata to file for later use by :djadmin:`importuserdata`
 
-This is useful when migrating of merging Weblate instances.
+This is useful when migrating or merging Weblate instances.
 
 import_json
 -----------
@@ -316,7 +316,7 @@ Existing components will be skipped.
 
 .. django-admin-option:: --base-file-template TEMPLATE
 
-    Customize base file for monolingual translations.
+    Customise base file for monolingual translations.
 
 .. django-admin-option:: --file-format FORMAT
 
@@ -532,7 +532,7 @@ rebuild_index
 .. django-admin:: rebuild_index <project|project/component>
 
 Rebuilds index for fulltext search. This might be lengthy operation if you
-have huge set of translation units.
+have a huge set of translation units.
 
 .. django-admin-option:: --clean
 
@@ -540,7 +540,7 @@ have huge set of translation units.
 
 .. django-admin-option:: --optimize
 
-    The index will not be processed again, only it's content will be optimized
+    The index will not be processed again, only its content will be optimized
     (removing stale entries and merging possibly split index files).
 
 .. seealso:: 
@@ -566,8 +566,8 @@ unlock_translation
 
 .. django-admin:: unlock_translation <project|project/component>
 
-Unnocks given component for translating. This is useful in case you want to do
-some maintenance on underlaying repository.
+Unlocks a given component for translating. This is useful in case you want to do
+some maintenance on the underlaying repository.
 
 You can either define which project or component to update (eg.
 ``weblate/master``) or use ``--all`` to update all existing components.

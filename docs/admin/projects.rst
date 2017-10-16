@@ -8,8 +8,8 @@ Weblate organizes translatable content into tree like structure. The toplevel
 object is :ref:`project`, which should hold all translations which belong
 together (for example translation of an application in several versions
 and/or documentation). On the next level, there is :ref:`component`, which is
-actually the component to translate. Here you define VCS repository to use and
-mask of files to translate. Bellow :ref:`component` there are individual
+actually the component to translate. Here you define the VCS repository to use and
+mask of files to translate. Below :ref:`component` there are individual
 translations, which are handled automatically by Weblate as the translation
 files (matching mask defined in :ref:`component`) appear in VCS repository.
 
@@ -24,7 +24,7 @@ Administration
 
 Administration of Weblate is done through standard Django admin interface,
 which is available under :file:`/admin/` URL. Once logged in as user with
-proper privileges, you can access it using wrench icon in top navigation:
+proper privileges, you can access it using the wrench icon in top navigation:
 
 .. image:: ../images/admin-wrench.png
 
@@ -33,14 +33,14 @@ and other settings:
 
 .. image:: ../images/admin.png
 
-In the :guilabel:`Reports` section you can check status of your site, tweak
+In the :guilabel:`Reports` section you can check the status of your site, tweak
 it for :ref:`production` or manage SSH keys to access :ref:`vcs-repos`.
 
-All sections below you can manage database objects. The most interesting one is
+With all sections below you can manage database objects. The most interesting one is
 probably :guilabel:`Weblate translations`, where you can manage translatable
 projects, see :ref:`project` and :ref:`component`.
 
-Another section, :guilabel:`Weblate languages` holds language defintions, see
+Another section, :guilabel:`Weblate languages` holds language definitions, see
 :ref:`languages` for more details.
 
 Adding new components
@@ -71,7 +71,7 @@ components. Usually you create one project for one piece of software or book
 Bilingual components
 ++++++++++++++++++++
 
-Once you have added a project, you can add translation compontents to it
+Once you have added a project, you can add translation components to it
 (see :ref:`component` for information on individual parameters):
 
 .. image:: ../images/add-component.png
@@ -85,7 +85,7 @@ Once you have added a project, you can add translation compontents to it
 Monolingual components
 ++++++++++++++++++++++
 
-For easier translating of monolingual formats, you should provide template
+For easier translating of monolingual formats, you should provide a template
 file, which contains mapping of message IDs to source language (usually
 English) (see :ref:`component` for information on individual parameters):
 
@@ -100,19 +100,19 @@ English) (see :ref:`component` for information on individual parameters):
 Project configuration
 ---------------------
 
-To add new component to translate, you need to create translation project first.
-The project is sort of shelf, in which real translations are folded. All
-components in same project share suggestions and dictionary, also the
-translations are automatically propagated through the all component in single
+To add a new component to translate, you need to create a translation project first.
+The project is a sort of shelf, in which real translations are folded. All
+components in the same project share suggestions and the dictionary; also the
+translations are automatically propagated through all components in a single
 project (unless disabled in component configuration).
 
-The project has only few attributes giving translators information about
-project:
+The project has only a few attributes giving translators information about
+the project:
 
 Project website
     URL where translators can find more information about the project.
 Mailing list
-    Mailing list where translators can discuss or comment translations.
+    Mailing list where translators can discuss or comment on translations.
 Translation instructions
     URL where you have more detailed instructions for translators.
 Set Translation-Team header
@@ -146,7 +146,7 @@ Component configuration
 -----------------------
 
 Component is real component for translating. You enter VCS repository location
-and file mask which files to translate and Weblate automatically fetches the VCS
+and file mask for which files to translate and Weblate automatically fetches from the VCS
 and finds all matching translatable files.
 
 .. note::
@@ -155,14 +155,14 @@ and finds all matching translatable files.
     the translation by anything what makes sense in your case (individual
     applications or addons, book chapters or websites).
 
-    Weblate handles just fine translations with 10000 of units, but it is harder
-    to split work and coordinate amongh translators with such big translation.
+    Weblate easily handles translations with 10000 of units, but it is harder
+    to split work and coordinate among translators with such a large translation.
     Also when one translator is working on a component, this translation is locked
     for others, see :ref:`locking`.
 
-Should the language definition for translation be missing, empty definition is
+Should the language definition for translation be missing, an empty definition is
 created and named as "cs_CZ (generated)". You should adjust the definition and
-report this back to Weblate authors so that missing language can be included in
+report this back to Weblate authors so that the missing language can be included in
 next release.
 
 The component contains all important parameters for working with VCS and
@@ -173,7 +173,7 @@ Version control system
 Source code repository
     VCS repository used to pull changes, see :ref:`vcs-repos` for more details.
     
-    This can be either real VCS URL or ``weblate://project/component``
+    This can be either a real VCS URL or ``weblate://project/component``
     indicating that the repository should be shared with another component.
     See :ref:`internal-urls` for more details.
 Repository push URL
@@ -227,24 +227,24 @@ Allow translation propagation
     components within same project. This really depends on what you are
     translating, sometimes it's desirable to have same string used.
 
-    It's usually good idea to disable this for monolingual translations unless
-    you are using same IDs across whole project.
+    It's usually a good idea to disable this for monolingual translations unless
+    you are using the same IDs across the whole project.
 Post-update script
-    One of scripts defined in :setting:`POST_UPDATE_SCRIPTS` which is executed
+    One of the scripts defined in :setting:`POST_UPDATE_SCRIPTS` which is executed
     after receiving update. This can be used to update the translation files.
 Pre-commit script
-    One of scripts defined in :setting:`PRE_COMMIT_SCRIPTS` which is executed
+    One of the scripts defined in :setting:`PRE_COMMIT_SCRIPTS` which is executed
     before commit. This can be used to generate some metadata about translation
     or to generate binary form of a translation.
 Post-commit script
-    One of scripts defined in :setting:`POST_COMMIT_SCRIPTS` which is executed
+    One of the scripts defined in :setting:`POST_COMMIT_SCRIPTS` which is executed
     after commit. This can be used to notify external parties about the change.
 Post-push script
-    One of scripts defined in :setting:`POST_PUSH_SCRIPTS` which is executed
+    One of the scripts defined in :setting:`POST_PUSH_SCRIPTS` which is executed
     after push to remote repository. This can be used to generate notify external
     parties about the change in repository (i.e. create pull request).
 Post-add script
-    One of scripts defined in :setting:`POST_ADD_SCRIPTS` which is executed
+    One of the scripts defined in :setting:`POST_ADD_SCRIPTS` which is executed
     when new translation has been added. This can be used to adjust additional
     files in the repository when adding new translation.
 Additional commit files
@@ -255,7 +255,7 @@ Additional commit files
     Supply the ``%(language)s`` in the path like this:
     ``path/to/addditinal/%(language)s_file.example``
 Save translation history
-    Whether to store history of translation changes in database.
+    Whether to store a history of translation changes in database.
 Suggestion voting
     Enable voting for suggestions, see :ref:`voting`.
 Autoaccept suggestions
@@ -267,20 +267,20 @@ Translation license
 License URL
     URL where users can find full text of a license.
 New language
-    How to handle requests for creating new languages. Please note that
+    How to handle requests for creating new languages. Please note that the
     availability of choices depends on the file format, see :ref:`formats`.
 Merge style
-    You can configure how the updates from upstream repository are handled.
+    You can configure how the updates from the upstream repository are handled.
     This might not be supported for some VCS. See :ref:`merge-rebase` for
     more details.
 Commit message
     Message used when committing translation, see :ref:`commit-message`.
 Committer name
-    Name of commiter used on Weblate commits, the author will be always the
+    Name of the committer used on Weblate commits, the author will be always the
     real translator. On some VCS this might be not supported. Default value
     can be changed by :setting:`DEFAULT_COMMITER_NAME`.
 Committer email
-    Email of commiter used on Weblate commits, the author will be always the
+    Email of committer used on Weblate commits, the author will be always the
     real translator. On some VCS this might be not supported. Default value
     can be changed by :setting:`DEFAULT_COMMITER_EMAIL`.
 Push on commit
@@ -339,14 +339,14 @@ strings in the message:
 Importing speed
 ---------------
 
-Fetching VCS repository and importing translations to Weblate can be lengthy
+Fetching VCS repository and importing translations to Weblate can be a lengthy
 process depending on size of your translations. Here are some tips to improve
 this situation:
 
 Clone Git repository in advance
 +++++++++++++++++++++++++++++++
 
-You can put in place Git repository which will be used by Weblate. The
+You can put in place a Git repository which will be used by Weblate. The
 repositories are stored in :file:`vcs` directory in path defined by
 :setting:`DATA_DIR` in :file:`settings.py` in :file:`<project>/<component>`
 directories.
@@ -366,7 +366,7 @@ Optimize configuration
 
 The default configuration is useful for testing and debugging Weblate, while
 for production setup, you should do some adjustments. Many of them have quite
-big impact on performance. Please check :ref:`production` for more details,
+a big impact on performance. Please check :ref:`production` for more details,
 especially:
 
 * :ref:`production-indexing`
@@ -390,7 +390,7 @@ In case you have project with dozen of translation files, you might want to
 import all at once. This can be achieved using :djadmin:`import_project` or
 :djadmin:`import_json`.
 
-First you need to create project which will contain all components and then
+First, you need to create a project which will contain all components and then
 it's just a matter of running :djadmin:`import_project` or
 :djadmin:`import_json`.
 
@@ -404,17 +404,17 @@ Fulltext search
 ---------------
 
 Fulltext search is based on Whoosh. You can either allow Weblate to directly
-update index on every change to content or offload this to separate process by
+update the index on every change to content or offload this to separate process by
 :setting:`OFFLOAD_INDEXING`.
 
-The first approach (immediate updates) allows more up to date index, but
-suffers locking issues in some setup (eg. Apache's mod_wsgi) and produces more
+The first approach (immediate updates) allows for a more up to date index, but
+suffers locking issues in some setups (eg. Apache's mod_wsgi) and produces a more
 fragmented index.
 
-Offloaded indexing is always better choice for production setup - it only marks
-which items need to be reindexed and you need to schedule background process
-(:djadmin:`update_index`) to update index. This leads to faster response of the
-site and less fragmented index with cost that it might be slightly outdated.
+Offloaded indexing is always the better choice for production setup - it only marks
+which items need to be reindexed and you need to schedule a background process
+(:djadmin:`update_index`) to update index. This leads to a faster response of the
+site and less fragmented index with the cost that it might be slightly outdated.
 
 .. seealso:: 
    

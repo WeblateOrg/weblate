@@ -18,7 +18,7 @@ processing of the data.
 Translator credits
 ------------------
 
-Generates document usable for crediting translators - sorted by language
+Generates a document usable for crediting translators - sorted by language
 and listing all contributors to given language:
 
 .. code-block:: rst

@@ -3,14 +3,14 @@
 Access control
 ==============
 
-Weblate uses privileges system based on Django, but is extended in several ways
+Weblate uses a privileges system based on Django, but is extended in several ways
 to allow managing access at more fine grained level. See :ref:`acl` and
 :ref:`groupacl` for more detailed information on those extensions.
 
 The default setup (after you run :djadmin:`setupgroups`) consists of three
 groups `Guests`, `Users` and `Managers` which have privileges as described
 above.  All new users are automatically added to `Users` group (thanks to
-:ref:`autogroup`). The `Guests` groups is used for not logged in users.
+:ref:`autogroup`). The `Guests` groups is used for users who are not logged in.
 
 To customize this setup, it is recommended to remove privileges from `Users`
 group and create additional groups with finer privileges (eg. `Translators`
@@ -33,7 +33,7 @@ To completely lock down your Weblate installation you can use
 Extra privileges
 ----------------
 
-Weblate defines following extra privileges:
+Weblate defines the following extra privileges:
 
 Can upload translation [Users, Managers]
     Uploading of translation files.
@@ -123,7 +123,7 @@ Per project access control
 
 .. versionchanged:: 2.13
 
-    Since Weblate 2.13 the per project access control uses :ref:`groupacl`
+    Since Weblate 2.13 the per-project access control uses :ref:`groupacl`
     under the hood. You might need some adjustments to your setup if you were
     using both features.
 
@@ -134,10 +134,10 @@ Per project access control
 
 .. note::
 
-    By enabling ACL, all users are prohibited to access anything within given
-    project unless you add them the permission to do that.
+    By enabling ACL, all users are prohibited from accessing anything within a given
+    project unless you add the permissions for them to do that.
 
-Additionally you can limit users access to individual projects. This feature is
+Additionally, you can limit user's access to individual projects. This feature is
 enabled by :guilabel:`Access control` at Project configuration. This automatically
 creates :ref:`groupacl` for this project and all groups starting with ``@`` are
 automatically added to the project (see :ref:`groups`).
@@ -152,8 +152,8 @@ Private
     Visible and translatable only for selected users
 
 To allow access to this project, you have to add the privilege to do so either
-directly to given user or group of users in Django admin interface. Or using
-user management on project page as described in :ref:`manage-acl`.
+directly to the given user or group of users in Django admin interface, or by using
+user management on the project page as described in :ref:`manage-acl`.
 
 .. seealso:: 
    
@@ -174,7 +174,7 @@ Automatic group assignments
 .. versionadded:: 2.5
 
 You can configure Weblate to automatically add users to groups based on their
-email. This automatic assignment happens only at time of account creation.
+email. This automatic assignment happens only at the time of account creation.
 
 This can be configured in the Django admin interface (in the
 :guilabel:`Accounts` section).
@@ -194,7 +194,7 @@ implement :ref:`acl` by automatically created groups for each project.  For
 example, you can use this feature to designate a language-specific translator
 team with full privileges for their own language.
 
-This works by "locking" given permission for the group(s) in question to the
+This works by "locking" a given permission for the group(s) in question to the
 object, the effect of which is twofold.
 
 Firstly, groups that are locked for some object are the *only* groups that have
@@ -222,7 +222,7 @@ is as follows:
    newly created group.
 
 For example, you could create a group called ``czech_translators``, assign it
-full privileges, and lock it to Czech language. From that point on, all users
+full privileges, and lock it to the Czech language. From that point on, all users
 in this groups would get full privileges for the Czech language in all projects
 and components, but not for any other languages. Also, users who are not
 members of the ``czech_translators`` group would get no privileges on Czech
@@ -245,7 +245,7 @@ part of the combination: a group ACL that is locked to a particular component
 is more specific than a group ACL locked to this component's project and
 a particular language. That means that members of the component-specific groups
 will have privileges on the component, and members of the
-project-and-language-specific groups will not. The latter will, of course, have
+project- and language-specific groups will not. The latter will, of course, have
 privileges on their language in all other components of the project.
 
 For project-level actions (such as pushing upstream, setting priority, etc.),

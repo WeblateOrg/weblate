@@ -3,9 +3,9 @@
 Machine translation
 ===================
 
-Weblate has builtin support for several machine translation services and it's
-up to administrator to enable them. The services have different terms of use, so
-please check whether you are allowed to use them before enabling in Weblate.
+Weblate has built in support for several machine translation services and it's
+up to the administrator to enable them. The services have different terms of use, so
+please check whether you are allowed to use them before enabling them in Weblate.
 The individual services are enabled using :setting:`MACHINE_TRANSLATION_SERVICES`.
 
 The source language can be configured at :ref:`project`.
@@ -28,9 +28,9 @@ Apertium
 --------
 
 A free/open-source machine translation platform providing translation to
-limited set of languages.
+a limited set of languages.
 
-The recommended way how to use Apertium is to run own Apertium APy server.
+The recommended way to use Apertium is to run your own Apertium APy server.
 
 Alternatively you can use https://www.apertium.org/apy if you don't expect 
 to make too many requests.
@@ -48,8 +48,8 @@ Glosbe
 
 Free dictionary and translation memory for almost every living language.
 
-API is free to use, regarding indicated data source license. There is a limit
-of call that may be done from one IP in fixed period of time, to prevent from
+API is free to use, but subject to the used data source license. There is a limit
+of calls that may be done from one IP in fixed period of time, to prevent
 abuse.
 
 To enable this service, add ``weblate.trans.machine.glosbe.GlosbeTranslation`` to
@@ -66,7 +66,7 @@ Google Translate
 
 Machine translation service provided by Google.
 
-This service uses Translation API and you need to obtain API key and enable
+This service uses Translation API and you need to obtain an API key and enable
 billing on Google API console.
 
 To enable this service, add ``weblate.trans.machine.google.GoogleTranslation`` to
@@ -86,7 +86,7 @@ Microsoft Translator
 
 .. note::
 
-    This service is deprecated by Microsoft as needs to be replaced by 
+    This service is deprecated by Microsoft and has been replaced by
     :ref:`ms-cognitive-translate`.
 
 Machine translation service provided by Microsoft, it's known as Bing Translator as well.
@@ -116,7 +116,7 @@ Microsoft Cognitive Services Translator
 Machine transation service provided by Microsoft in Azure portal as a one of
 Cognitive Services.
 
-You need to register at Azure portal and use key you obtain there.
+You need to register at Azure portal and use the key you obtain there.
 
 To enable this service, add ``weblate.trans.machine.microsoft.MicrosoftCognitiveTranslation`` to
 :setting:`MACHINE_TRANSLATION_SERVICES`.
@@ -136,7 +136,7 @@ Huge translation memory with machine translation.
 
 Free, anonymous usage is currently limited to 100 requests/day, or to 1000
 requests/day when you provide contact email in :setting:`MT_MYMEMORY_EMAIL`.
-you can also ask them for more.
+You can also ask them for more.
 
 To enable this service, add ``weblate.trans.machine.mymemory.MyMemoryTranslation`` to
 :setting:`MACHINE_TRANSLATION_SERVICES`.
@@ -155,7 +155,7 @@ tmserver
 
 You can run your own translation memory server which is bundled with
 Translate-toolkit and let Weblate talk to it. You can also use it with
-amaGama server, which is enhanced version of tmserver.
+amaGama server, which is an enhanced version of tmserver.
 
 First you will want to import some data to the translation memory:
 
@@ -210,7 +210,7 @@ Weblate can be source of machine translation as well. There are two services to
 provide you results - one does exact search for string, the other one finds all
 similar strings.
 
-First one is useful for full string translations, the second one for finding
+The first one is useful for full string translations, the second one for finding
 individual phrases or words to keep the translation consistent.
 
 To enable these services, add
@@ -220,14 +220,14 @@ string matching) to :setting:`MACHINE_TRANSLATION_SERVICES`.
 
 .. note::
 
-    For similarity matching, it is recommended to have Whoosh 2.5.2 or later,
-    earlier versions can cause infinite looks under some occasions.
+    For similarity matching, it is recommended to have Whoosh 2.5.2 or later;
+    earlier versions can cause infinite looks under some conditions.
 
 Custom machine translation
 --------------------------
 
-You can also implement own machine translation services using few lines of
-Python code. Following example implements translation to fixed list of
+You can also implement your own machine translation services using a few lines of
+Python code. This example implements translation to a fixed list of
 languages using ``dictionary`` Python module:
 
 .. literalinclude:: ../../examples/mt_service.py

@@ -10,8 +10,8 @@ Weblate's Python API
 Instalation
 ===========
 
-The Python API is shipped separately, you need to install wlc to have it,
-it also include :ref:`wlc`:
+The Python API is shipped separately, you need to install
+:ref:`wlc`:, wlc, to have it.
 
 .. code-block:: sh
 
@@ -80,7 +80,7 @@ it also include :ref:`wlc`:
 
     .. method:: load(path=None)
 
-        :param path: Path where to load configuration.
+        :param path: Path from which to load configuration.
         :type path: string
 
         Loads configuration from a file, if none is specified it loads from

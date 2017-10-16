@@ -5,9 +5,9 @@ User registration
 -----------------
 
 The default setup for Weblate is to use python-social-auth for handling new
-users. This allows them to register using form on the website and after
-confirming their email they can contribute or by using some third party service
-to authenticate.
+users. This allows them to register using a form on the website and after
+confirming their email they can contribute or authenticate by using some
+third party service.
 
 You can also completely disable new users registration using
 :setting:`REGISTRATION_OPEN`.
@@ -34,7 +34,7 @@ IP address for rate limiting
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The rate limiting is based on client IP address. This is obtained from HTTP
-headers and you will have to change configuration in case Weblate is running
+headers and you will have to change configuration in the event Weblate is running
 behind reverse proxy to work it properly.
 
 .. seealso::
@@ -46,7 +46,7 @@ behind reverse proxy to work it properly.
 Authentication backends
 -----------------------
 
-By default Weblate uses Django built-in authentication and includes various
+By default Weblate uses the Django built-in authentication and includes various
 social authentication options. Thanks to using Django authentication, you can
 also import user database from other Django based projects (see
 :ref:`pootle-migration`).
@@ -67,7 +67,7 @@ in :doc:`psa:configuration/django`.
 .. note::
 
     By default, Weblate relies on third-party authentication services to
-    provide validated email address, in case some of services you want to use
+    provide a validated email address, in case some of the services you want to use
     do not support this, please enforce email validation on Weblate side
     by configuring FORCE_EMAIL_VALIDATION for them. For example:
 
@@ -77,8 +77,8 @@ in :doc:`psa:configuration/django`.
 
     .. seealso:: :doc:`psa:pipeline`
 
-Enabling individual backends is quite easy, it's just a matter of adding entry to
-``AUTHENTICATION_BACKENDS`` setting and possibly adding keys needed for given
+Enabling individual backends is quite easy, it's just a matter of adding an entry to
+the ``AUTHENTICATION_BACKENDS`` setting and possibly adding keys needed for given
 authentication. Please note that some backends do not provide user email by
 default, you have to request it explicitly, otherwise Weblate will not be able
 to properly credit users contributions.
@@ -86,7 +86,7 @@ to properly credit users contributions.
 OpenID authentication
 ~~~~~~~~~~~~~~~~~~~~~
 
-For OpenID based services it's usually just a matter of enabling them. Following
+For OpenID based services it's usually just a matter of enabling them. The following
 section enables OpenID authentication for OpenSUSE, Fedora and Ubuntu:
 
 .. code-block:: python
@@ -105,7 +105,7 @@ section enables OpenID authentication for OpenSUSE, Fedora and Ubuntu:
 GitHub authentication
 ~~~~~~~~~~~~~~~~~~~~~
 
-You need to register application on GitHub and then tell Weblate all the secrets:
+You need to register an application on GitHub and then tell Weblate all the secrets:
 
 .. code-block:: python
 
@@ -130,7 +130,7 @@ You need to register application on GitHub and then tell Weblate all the secrets
 Bitbucket authentication
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-You need to register application on Bitbucket and then tell Weblate all the secrets:
+You need to register an application on Bitbucket and then tell Weblate all the secrets:
 
 .. code-block:: python
 
@@ -155,7 +155,7 @@ You need to register application on Bitbucket and then tell Weblate all the secr
 Google OAuth2
 ~~~~~~~~~~~~~
 
-For using Google OAuth2, you need to register application on
+For using Google OAuth2, you need to register an application on
 <https://console.developers.google.com/> and enable Google+ API.
 
 The redirect URL is ``https://WEBLATE SERVER/accounts/complete/google-oauth2/``
