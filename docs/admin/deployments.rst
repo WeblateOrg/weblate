@@ -472,18 +472,44 @@ To make outgoing email work, you need to provide mail server.
 
     Mail server, the server has to listen on port 587 and understand TLS.
 
+    .. seealso:: :setting:`django:EMAIL_HOST`
+
 .. envvar:: WEBLATE_EMAIL_PORT
 
     Mail server port, use if your cloud provider or ISP blocks outgoing
     connections on port 587.
 
+    .. seealso:: :setting:`django:EMAIL_PORT`
+
 .. envvar:: WEBLATE_EMAIL_HOST_USER
 
     Email authentication user, do NOT use quotes here.
 
+    .. seealso:: :setting:`django:EMAIL_HOST_USER`
+
 .. envvar:: WEBLATE_EMAIL_HOST_PASSWORD
 
     Email authentication password, do NOT use quotes here.
+
+    .. seealso:: :setting:`django:EMAIL_HOST_PASSWORD`
+
+.. envvar:: WEBLATE_EMAIL_USE_SSL
+
+    Whether to use an implicit TLS (secure) connection when talking to the SMTP
+    server. In most email documentation this type of TLS connection is referred
+    to as SSL. It is generally used on port 465. If you are experiencing
+    problems, see the explicit TLS setting :envvar:`WEBLATE_EMAIL_USE_TLS`.
+
+    .. seealso:: :setting:`django:EMAIL_USE_SSL`
+
+.. envvar:: WEBLATE_EMAIL_USE_TLS
+
+    Whether to use a TLS (secure) connection when talking to the SMTP server.
+    This is used for explicit TLS connections, generally on port 587. If you
+    are experiencing hanging connections, see the implicit TLS setting
+    :envvar:`WEBLATE_EMAIL_USE_SSL`.
+
+    .. seealso:: :setting:`django:EMAIL_USE_TLS`
 
 Hub setup
 +++++++++
