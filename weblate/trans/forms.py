@@ -1171,7 +1171,7 @@ class ReportsForm(forms.Form):
             if (not self.cleaned_data['start_date']
                     or not self.cleaned_data['end_date']):
                 raise ValidationError(
-                     _('Starting and ending dates have to be specified!')
+                    _('Starting and ending dates have to be specified!')
                 )
             start = self.cleaned_data['start_date']
             end = self.cleaned_data['end_date']

@@ -22,7 +22,6 @@ from __future__ import unicode_literals
 
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.http import require_POST
-from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 
@@ -219,7 +218,7 @@ def get_counts(request, project, subproject):
         mime = 'text/html'
         end = '</table>'
     else:
-        start =  '{0}\n{1} {2}\n{0}'.format(
+        start = '{0}\n{1} {2}\n{0}'.format(
             RST_HEADING,
             ' '.join(['{0:40}'.format(h) for h in headers[:2]]),
             ' '.join(['{0:12}'.format(h) for h in headers[2:]]),
