@@ -1,6 +1,13 @@
 Changes
 =======
 
+weblate 2.18
+------------
+
+Released on ? 2017.
+
+* Extended contributor stats.
+
 weblate 2.17.1
 --------------
 
