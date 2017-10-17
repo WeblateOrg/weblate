@@ -1,10 +1,10 @@
-SIZES=16 32 64 120 128 200 1024
+SIZES=16 32 64 120 128 200 1024 152 144
 
 LOGOS=$(addprefix weblate-,$(addsuffix .png,$(SIZES)))
 
 JPGS=weblate-1024.jpg 
 
-STATIC=../weblate/static/weblate-128.png ../weblate/static/weblate-32.png
+STATIC=../weblate/static/weblate-128.png ../weblate/static/weblate-32.png ../weblate/static/weblate-152.png ../weblate/static/weblate-144.png
 
 all: $(LOGOS) $(JPGS) $(STATIC)
 
