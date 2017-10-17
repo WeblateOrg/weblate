@@ -98,17 +98,18 @@ data-loading-text="{0}" data-checksum="{1}" data-content="{2}"
 
 
 class WeblateDateField(forms.DateField):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, datepicker=True, **kwargs):
         if 'widget' not in kwargs:
+            attrs = {
+                'type': 'date',
+            }
+            if datepicker:
+                attrs['data-provide'] = 'datepicker'
+                attrs['data-date-format'] = 'yyyy-mm-dd'
             kwargs['widget'] = forms.DateInput(
-                attrs={
-                    'type': 'date',
-                    'data-provide': 'datepicker',
-                    'data-date-format': 'yyyy-mm-dd',
-                },
-                format='%Y-%m-%d'
+                attrs=attrs, format='%Y-%m-%d'
             )
-        super(WeblateDateField, self).__init__(*args, **kwargs)
+        super(WeblateDateField, self).__init__(**kwargs)
 
     def to_python(self, value):
         """Produce timezone aware datetime with 00:00:00 as time"""
@@ -1126,11 +1127,29 @@ class ReportsForm(forms.Form):
     start_date = WeblateDateField(
         label=_('Starting date'),
         required=False,
+        datepicker=False,
     )
     end_date = WeblateDateField(
         label=_('Ending date'),
         required=False,
+        datepicker=False,
     )
+
+    def __init__(self, *args, **kwargs):
+        super(ReportsForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+        self.helper.layout = Layout(
+            Field('style'),
+            Field('period'),
+            Div(
+                'start_date',
+                'end_date',
+                css_class='input-group input-daterange',
+                data_provide='datepicker',
+                data_date_format='yyyy-mm-dd',
+            )
+        )
 
     def clean(self):
         super(ReportsForm, self).clean()
