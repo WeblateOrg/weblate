@@ -1121,8 +1121,9 @@ class ReportsForm(forms.Form):
         choices=(
             ('month', _('Last month')),
             ('year', _('Last year')),
-            ('custom', _('As specified')),
-        )
+            ('', _('As specified')),
+        ),
+        required=False,
     )
     start_date = WeblateDateField(
         label=_('Starting date'),
@@ -1154,7 +1155,7 @@ class ReportsForm(forms.Form):
     def clean(self):
         super(ReportsForm, self).clean()
         # Invalid value, skip rest of the validation
-        if not self.cleaned_data['period']:
+        if 'period' not in self.cleaned_data:
             return
 
         # Handle predefined periods
@@ -1163,8 +1164,8 @@ class ReportsForm(forms.Form):
             start = end.replace(day=1)
         elif self.cleaned_data['period'] == 'year':
             year = timezone.now().year - 1
-            end = timezone.datetime(year, 12, 31)
-            start = timezone.datetime(year, 1, 1)
+            end = timezone.make_aware(timezone.datetime(year, 12, 31))
+            start = timezone.make_aware(timezone.datetime(year, 1, 1))
         else:
             # Validate custom period
             if (not self.cleaned_data['start_date']

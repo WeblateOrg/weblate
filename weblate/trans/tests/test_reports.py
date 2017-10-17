@@ -86,6 +86,7 @@ class ReportsTest(ViewTestCase):
         return self.client.post(
             reverse('credits', kwargs=self.kw_subproject),
             {
+                'period': '',
                 'style': style,
                 'start_date': '2000-01-01',
                 'end_date': '2100-01-01'
@@ -127,21 +128,34 @@ class ReportsTest(ViewTestCase):
         )
         self.assertEqual(data, COUNTS_DATA)
 
-    def get_counts(self, style):
+    def get_counts(self, style, **kwargs):
         self.add_change()
+        params = {
+            'style': style,
+            'period': '',
+            'start_date': '2000-01-01',
+            'end_date': '2100-01-01'
+        }
+        params.update(kwargs)
         return self.client.post(
             reverse('counts', kwargs=self.kw_subproject),
-            {
-                'style': style,
-                'start_date': '2000-01-01',
-                'end_date': '2100-01-01'
-            },
+            params
         )
 
     def test_counts_view_json(self):
         response = self.get_counts('json')
         data = json.loads(response.content.decode('utf-8'))
         self.assertEqual(data, COUNTS_DATA)
+
+    def test_counts_view_month(self):
+        response = self.get_counts('json', period='month')
+        data = json.loads(response.content.decode('utf-8'))
+        self.assertEqual(data, [])
+
+    def test_counts_view_year(self):
+        response = self.get_counts('json', period='year')
+        data = json.loads(response.content.decode('utf-8'))
+        self.assertEqual(data, [])
 
     def test_counts_view_rst(self):
         response = self.get_counts('rst')
