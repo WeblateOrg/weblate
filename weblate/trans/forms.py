@@ -1115,14 +1115,53 @@ class ReportsForm(forms.Form):
             ('html', _('HTML')),
         ),
     )
+    period = forms.ChoiceField(
+        label=_('Report period'),
+        choices=(
+            ('month', _('Last month')),
+            ('year', _('Last year')),
+            ('custom', _('As specified')),
+        )
+    )
     start_date = WeblateDateField(
         label=_('Starting date'),
-        initial=date(2000, 1, 1),
+        required=False,
     )
     end_date = WeblateDateField(
         label=_('Ending date'),
-        initial=date(2100, 1, 1),
+        required=False,
     )
+
+    def clean(self):
+        super(ReportsForm, self).clean()
+        # Invalid value, skip rest of the validation
+        if not self.cleaned_data['period']:
+            return
+
+        # Handle predefined periods
+        if self.cleaned_data['period'] == 'month':
+            end = timezone.now().replace(day=1) - timedelta(days=1)
+            start = end.replace(day=1)
+        elif self.cleaned_data['period'] == 'year':
+            year = timezone.now().year - 1
+            end = timezone.datetime(year, 12, 31)
+            start = timezone.datetime(year, 1, 1)
+        else:
+            # Validate custom period
+            if (not self.cleaned_data['start_date']
+                    or not self.cleaned_data['end_date']):
+                raise ValidationError(
+                     _('Starting and ending dates have to be specified!')
+                )
+            start = self.cleaned_data['start_date']
+            end = self.cleaned_data['end_date']
+        # Sanitize timestamps
+        self.cleaned_data['start_date'] = start.replace(
+            hour=0, minute=0, second=0, microsecond=0
+        )
+        self.cleaned_data['end_date'] = end.replace(
+            hour=23, minute=59, second=59, microsecond=999999
+        )
 
 
 class SubprojectSettingsForm(forms.ModelForm):
