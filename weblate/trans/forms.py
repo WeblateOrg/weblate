@@ -1181,6 +1181,11 @@ class ReportsForm(forms.Form):
         self.cleaned_data['end_date'] = end.replace(
             hour=23, minute=59, second=59, microsecond=999999
         )
+        # Final validation
+        if self.cleaned_data['start_date'] > self.cleaned_data['end_date']:
+            raise ValidationError(
+                _('Starting date has to be before ending date!')
+            )
 
 
 class SubprojectSettingsForm(forms.ModelForm):
