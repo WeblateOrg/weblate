@@ -28,7 +28,8 @@ from django.core.exceptions import PermissionDenied
 
 from weblate.trans.models.change import Change
 from weblate.trans.forms import ReportsForm
-from weblate.trans.views.helper import get_subproject
+from weblate.trans.util import redirect_param
+from weblate.trans.views.helper import get_subproject, show_form_errors
 from weblate.permissions.helpers import can_view_reports
 
 
@@ -75,7 +76,8 @@ def get_credits(request, project, subproject):
     form = ReportsForm(request.POST)
 
     if not form.is_valid():
-        return redirect(obj)
+        show_form_errors(request, form)
+        return redirect_param(obj, '#reports')
 
     data = generate_credits(
         obj,
@@ -184,7 +186,8 @@ def get_counts(request, project, subproject):
     form = ReportsForm(request.POST)
 
     if not form.is_valid():
-        return redirect(obj)
+        show_form_errors(request, form)
+        return redirect_param(obj, '#reports')
 
     data = generate_counts(
         obj,
