@@ -30,6 +30,18 @@ from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.views.reports import generate_credits, generate_counts
 
 
+COUNTS_DATA = [{
+    'count': 1,
+    'count_edit': 0,
+    'count_new': 1,
+    'name': 'Weblate Test',
+    'words': 2,
+    'words_edit': 0,
+    'words_new': 2,
+    'email': 'noreply@weblate.org'
+}]
+
+
 class ReportsTest(ViewTestCase):
     def setUp(self):
         super(ReportsTest, self).setUp()
@@ -113,15 +125,7 @@ class ReportsTest(ViewTestCase):
             timezone.now() - timedelta(days=1),
             timezone.now() + timedelta(days=1)
         )
-        self.assertEqual(
-            data,
-            [{
-                'count': 1,
-                'name': 'Weblate Test',
-                'words': 2,
-                'email': 'noreply@weblate.org'
-            }]
-        )
+        self.assertEqual(data, COUNTS_DATA)
 
     def get_counts(self, style):
         self.add_change()
@@ -137,15 +141,7 @@ class ReportsTest(ViewTestCase):
     def test_counts_view_json(self):
         response = self.get_counts('json')
         data = json.loads(response.content.decode('utf-8'))
-        self.assertEqual(
-            data,
-            [{
-                'count': 1,
-                'email': 'noreply@weblate.org',
-                'name': 'Weblate Test',
-                'words': 2
-            }]
-        )
+        self.assertEqual(data, COUNTS_DATA)
 
     def test_counts_view_rst(self):
         response = self.get_counts('rst')
@@ -156,10 +152,16 @@ class ReportsTest(ViewTestCase):
         self.assertHTMLEqual(
             response.content.decode('utf-8'),
             '<table>\n'
-            '<tr><th>Name</th><th>Email</th><th>Words</th><th>Count</th></tr>'
+            '<tr><th>Name</th><th>Email</th>'
+            '<th>Words total</th><th>Count total</th>'
+            '<th>Words edited</th><th>Count edited</th>'
+            '<th>Words new</th><th>Count new</th>'
+            '</tr>'
             '\n'
             '<tr>\n<td>Weblate Test</td>\n'
             '<td>noreply@weblate.org</td>\n'
             '<td>2</td>\n<td>1</td>\n'
+            '<td>2</td>\n<td>1</td>\n'
+            '<td>0</td>\n<td>0</td>\n'
             '\n</tr>\n</table>'
         )
