@@ -8,17 +8,17 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-10-16 15:02+0000\n"
-"PO-Revision-Date: 2017-08-22 09:50+0000\n"
-"Last-Translator: Michal Čihař <michal@cihar.com>\n"
-"Language-Team: Slovenian <https://hosted.weblate.org/projects/weblate/master/"
-"sl/>\n"
+"PO-Revision-Date: 2017-10-19 05:18+0000\n"
+"Last-Translator: Oto Popis <otopopis@gmail.com>\n"
+"Language-Team: Slovenian "
+"<https://hosted.weblate.org/projects/weblate/master/sl/>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
-"%100==4 ? 2 : 3;\n"
-"X-Generator: Weblate 2.17-dev\n"
+"Plural-Forms: nplurals=4; plural=n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
+"n%100==4 ? 2 : 3;\n"
+"X-Generator: Weblate 2.17\n"
 
 #: weblate/accounts/admin.py:105 weblate/accounts/admin.py:110
 msgid "Personal info"
@@ -53,10 +53,8 @@ msgid "Enter a valid email address."
 msgstr "Vnesite veljaven e-poštni naslov."
 
 #: weblate/accounts/forms.py:109
-#, fuzzy
-#| msgid "User with this email address was not found."
 msgid "This email address is not allowed."
-msgstr "Uporabnika s tem e-naslovom nismo našli."
+msgstr "Ta e-poštni naslov ni veljaven."
 
 #: weblate/accounts/forms.py:115
 msgid ""
@@ -177,7 +175,7 @@ msgstr "Trenutno geslo"
 
 #: weblate/accounts/forms.py:508
 msgid "Keep the field empty if you have not yet set your password."
-msgstr ""
+msgstr "Pustite to polje prazno, če še niste nastavili gesla."
 
 #: weblate/accounts/forms.py:522
 msgid "You have entered an invalid password."
@@ -207,7 +205,7 @@ msgstr "Račun ni dejaven."
 #, fuzzy
 #| msgid "Can not reset password, email authentication is disabled!"
 msgid "Too many authentication attempts!"
-msgstr "Ne morem ponastaviti gesla; overitev z e-pošto je onemogočena!"
+msgstr "Napaka: preveč poskusov overitve!"
 
 #: weblate/accounts/forms.py:625 weblate/trans/models/project.py:91
 msgid "Project name"
@@ -247,44 +245,40 @@ msgid "Password has been changed."
 msgstr "Geslo smo spremenili."
 
 #: weblate/accounts/models.py:58
-#, fuzzy
-#| msgid "Your password has been changed."
 msgid "Password reset has been requested."
-msgstr "Vaše geslo smo spremenili."
+msgstr "Prejeli smo prošnjo za ponastavitev gesla."
 
 #: weblate/accounts/models.py:61
-#, fuzzy
-#| msgid "Your password has been changed."
 msgid "Password reset has been confirmed and password has been reset."
-msgstr "Vaše geslo smo spremenili."
+msgstr "Geslo je ponastavljeno."
 
 #: weblate/accounts/models.py:64
 #, python-brace-format
 msgid "Authentication using {method} ({name}) has been added."
-msgstr ""
+msgstr "Dodana je bila overitev z uporabo {method} ({name})."
 
 #: weblate/accounts/models.py:67
 #, python-brace-format
 msgid "Authentication using {method} ({name}) has been removed."
-msgstr ""
+msgstr "Odstranjena je bila overitev z uporabo {method} ({name})."
 
 #: weblate/accounts/models.py:70
 #, python-brace-format
 msgid "Successfully authenticated using {method} ({name})."
-msgstr ""
+msgstr "Overitev z uporabo {method} ({name}) uspešno opravljena."
 
 #: weblate/accounts/models.py:73
 msgid "Somebody has attempted to register with your email."
-msgstr ""
+msgstr "Nekdo se je poskusil registrirati z vašim e-poštnim naslovom."
 
 #: weblate/accounts/models.py:76
 msgid "Somebody has attempted to add your email to existing account."
-msgstr ""
+msgstr "Nekdo je poskusil dodati vaš e-poštni naslov v svoj uporabniški račun."
 
 #: weblate/accounts/models.py:79
 #, python-brace-format
 msgid "Failed authentication attempt using {method} ({name})."
-msgstr ""
+msgstr "Poskus overitve z uporabo {method} ({name}) ni uspel."
 
 #: weblate/accounts/models.py:82
 msgid "Account locked due to excessive failed authentication attempts."
@@ -292,12 +286,12 @@ msgstr ""
 
 #: weblate/accounts/models.py:85
 msgid "Account and all private data have been removed."
-msgstr ""
+msgstr "Vaši uporabniški podatki so odstranjeni."
 
 #: weblate/accounts/models.py:88
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Agreement with Terms of Service {date}."
-msgstr ""
+msgstr "Pogoji uporabe {date}."
 
 #: weblate/accounts/models.py:209 weblate/templates/accounts/profile.html:304
 msgid "Account activity"
@@ -462,7 +456,7 @@ msgstr "Geslo vsebuje en znak."
 
 #: weblate/accounts/password_validation.py:52
 msgid "Your password can't consist of single character or whitespace only."
-msgstr ""
+msgstr "Geslo ne more biti le iz enega znaka ali presledka."
 
 #: weblate/accounts/password_validation.py:75
 msgid "Can not use previously used password!"
