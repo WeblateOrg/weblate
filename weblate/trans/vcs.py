@@ -608,7 +608,7 @@ class GitRepository(Repository):
         # Add branch
         if branch not in branches:
             self.execute(
-                ['branch', '--track', branch, 'origin/{0}'.format(branch)]
+                ['checkout', '-b', branch, 'origin/{0}'.format(branch)]
             )
         else:
             # Ensure it tracks correct upstream
@@ -758,30 +758,6 @@ class SubversionRepository(GitRepository):
             return 'origin/trunk'
         else:
             return 'origin/{0}'.format(self.branch)
-
-    def configure_branch(self, branch):
-        """Configure repository branch."""
-        # Get List of current branches in local repository
-        # (we get additional * there indicating current branch)
-        branches = self.execute(['branch']).splitlines()
-        if '* {0}'.format(branch) in branches:
-            return
-
-        # Add branch
-        if branch not in branches:
-            self.execute(
-                ['checkout', '-b', branch, 'origin/{0}'.format(branch)]
-            )
-        else:
-            # Ensure it tracks correct upstream
-            self.set_config(
-                'branch.{0}.remote'.format(branch),
-                'origin',
-            )
-
-        # Checkout
-        self.execute(['checkout', branch])
-        self.branch = branch
 
 
 @register_vcs
