@@ -608,7 +608,7 @@ class GitRepository(Repository):
         # Add branch
         if branch not in branches:
             self.execute(
-                ['branch', '--track', branch, 'origin/{0}'.format(branch)]
+                ['checkout', '-b', branch, 'origin/{0}'.format(branch)]
             )
         else:
             # Ensure it tracks correct upstream
