@@ -191,6 +191,9 @@ class WeblateConf(AppConf):
     # Google Analytics
     GOOGLE_ANALYTICS_ID = None
 
+    # URL with status monitoring
+    STATUS_URL = None
+
     # Self advertisement
     SELF_ADVERTISEMENT = False
 

@@ -948,6 +948,13 @@ The default value is:
 
     SPECIAL_CHARS = ('→', '↵', '…')
 
+.. setting:: STATUS_URL
+
+STATUS_URL
+----------
+
+URL where your Weblate instance reports it's status.
+
 .. setting:: TTF_PATH
 
 TTF_PATH
