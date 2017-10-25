@@ -231,13 +231,6 @@ function initEditor() {
     $('.specialchar').click(function (e) {
         var $this = $(this);
         var text = $this.data('value');
-        if (text === '\\t') {
-            text = '\t';
-        } else if (text === '→') {
-            text = '\t';
-        } else if (text === '↵') {
-            text = '\r';
-        }
         $this.parents('.translation-item').find('.translation-editor').insertAtCaret(text);
         autosize.update($('.translation-editor'));
         e.preventDefault();

@@ -244,7 +244,7 @@ class WeblateConf(AppConf):
     ADMINS_HOSTING = []
 
     # Special chars for visual keyboard
-    SPECIAL_CHARS = ('→', '↵', '…')
+    SPECIAL_CHARS = ('\t', '\n', '…')
 
     class Meta(object):
         prefix = ''

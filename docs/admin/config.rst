@@ -946,7 +946,7 @@ The default value is:
 
 .. code-block:: python
 
-    SPECIAL_CHARS = ('→', '↵', '…')
+    SPECIAL_CHARS = ('\t', '\n', '…')
 
 .. setting:: STATUS_URL
 
