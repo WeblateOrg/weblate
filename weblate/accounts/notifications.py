@@ -28,11 +28,11 @@ from django.template.loader import render_to_string
 from django.utils import translation as django_translation
 from django.utils.encoding import force_text
 
-from weblate.accounts.ratelimit import get_ip_address
 from weblate.accounts.models import Profile, AuditLog
 from weblate.permissions.helpers import can_access_project
 from weblate.trans.site import get_site_url, get_site_domain
 from weblate.utils.errors import report_error
+from weblate.utils.request import get_ip_address
 from weblate import VERSION
 from weblate.logger import LOGGER
 

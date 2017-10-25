@@ -24,22 +24,18 @@ from unittest import TestCase
 from django.http.request import HttpRequest
 from django.test.utils import override_settings
 
-from weblate.accounts.ratelimit import (
-    reset_rate_limit, check_rate_limit, get_ip_address,
-)
+from weblate.accounts.ratelimit import reset_rate_limit, check_rate_limit
 
 
 class RateLimitTest(TestCase):
     def get_request(self):
         request = HttpRequest()
         request.META['REMOTE_ADDR'] = '1.2.3.4'
-        request.META['HTTP_X_FORWARDED_FOR'] = '7.8.9.0'
         return request
 
     def setUp(self):
         # Ensure no rate limits are there
         reset_rate_limit(address='1.2.3.4')
-        reset_rate_limit(address='7.8.9.0')
 
     def test_basic(self):
         self.assertTrue(
@@ -94,28 +90,4 @@ class RateLimitTest(TestCase):
         sleep(1)
         self.assertFalse(
             check_rate_limit(request)
-        )
-
-    @override_settings(
-        IP_BEHIND_REVERSE_PROXY=False,
-        IP_PROXY_HEADER='HTTP_X_FORWARDED_FOR',
-        IP_PROXY_OFFSET=0
-    )
-    def test_get_ip(self):
-        request = self.get_request()
-        self.assertEqual(
-            get_ip_address(request),
-            '1.2.3.4'
-        )
-
-    @override_settings(
-        IP_BEHIND_REVERSE_PROXY=True,
-        IP_PROXY_HEADER='HTTP_X_FORWARDED_FOR',
-        IP_PROXY_OFFSET=0
-    )
-    def test_get_ip_proxy(self):
-        request = self.get_request()
-        self.assertEqual(
-            get_ip_address(request),
-            '7.8.9.0'
         )
