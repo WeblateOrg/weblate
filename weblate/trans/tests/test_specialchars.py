@@ -52,5 +52,4 @@ class SpecialCharsTest(TestCase):
     @override_settings(SPECIAL_CHARS=[six.unichr(x) for x in range(256)])
     def test_settings(self):
         chars = list(get_special_chars(Language(code='cs')))
-        print chars
         self.assertEqual(len(chars), 262)
