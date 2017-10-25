@@ -69,6 +69,9 @@ ACCOUNT_ACTIVITY = {
     'login': _(
         'Successfully authenticated using {method} ({name}).'
     ),
+    'login-new': _(
+        'Successfully authenticated using {method} ({name}) from new device.'
+    ),
     'register': _(
         'Somebody has attempted to register with your email.'
     ),
@@ -98,6 +101,7 @@ NOTIFY_ACTIVITY = frozenset((
     'connect',
     'locked',
     'removed',
+    'login-new',
 ))
 
 

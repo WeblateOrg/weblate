@@ -365,12 +365,30 @@ def send_notification_email(language, email, notification,
     send_mails([email])
 
 
+def is_new_login(user, address):
+    """Checks whether this login is coming from new device.
+
+    This is currently based purely in IP address.
+    """
+    logins = AuditLog.objects.filter(user=user, activity='login')
+
+    # First login
+    if not logins.exists():
+        return False
+
+    return not logins.filter(address=address).exists()
+
+
 def notify_account_activity(user, request, activity, **kwargs):
     """Notification about important activity with account.
 
     Returns whether the activity should be rate limited."""
     address = get_ip_address(request)
     user_agent = get_user_agent(request)
+
+    if activity == 'login' and is_new_login(user, address):
+        activity = 'login-new'
+
     audit = AuditLog.objects.create(
         user, activity, address, user_agent, **kwargs
     )
