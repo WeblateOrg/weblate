@@ -449,14 +449,15 @@ def format_char(char):
         try:
             name = unicodedata.name(char)
             display = ''.join([
-                x[0] for x in name.replace('-TO-', ' ').replace('-', ' ').split()
+                x[0] for x in
+                name.replace('-TO-', ' ').replace('-', ' ').split()
             ])
             name = _('Insert {0}').format(name)
         except ValueError:
             # Char now known to unicode data
             # This mostly happens for control chars < 0x20
-            name = display = char.encode('unicode_escape')
-            name = _('Insert character {0}').format(name)
+            display = char.encode('unicode_escape')
+            name = _('Insert character {0}').format(display)
     else:
         name = _('Insert character {0}').format(char)
     return name, display, char
