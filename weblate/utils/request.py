@@ -21,6 +21,7 @@
 from __future__ import unicode_literals
 
 from django.conf import settings
+from django.utils.encoding import force_text
 
 
 def get_ip_address(request):
@@ -35,3 +36,11 @@ def get_ip_address(request):
     else:
         return request.META.get('REMOTE_ADDR', '')
 
+
+def get_user_agent(request, max_length=200):
+    """Return user agent for request."""
+    result = force_text(
+        request.META.get('HTTP_USER_AGENT', ''),
+        errors='replace'
+    )
+    return result[:max_length]

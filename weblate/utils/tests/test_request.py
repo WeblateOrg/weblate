@@ -23,7 +23,7 @@ from unittest import TestCase
 from django.http.request import HttpRequest
 from django.test.utils import override_settings
 
-from weblate.utils.request import get_ip_address
+from weblate.utils.request import get_ip_address, get_user_agent
 
 
 class RequestTest(TestCase):
@@ -57,3 +57,18 @@ class RequestTest(TestCase):
             '7.8.9.0'
         )
 
+    def test_agent(self):
+        request = HttpRequest()
+        request.META['HTTP_USER_AGENT'] = 'agent'
+        self.assertEqual(
+            get_user_agent(request),
+            'agent'
+        )
+
+    def test_agent_long(self):
+        request = HttpRequest()
+        request.META['HTTP_USER_AGENT'] = 'agent ' * 200
+        self.assertEqual(
+            len(get_user_agent(request)),
+            200
+        )
