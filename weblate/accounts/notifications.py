@@ -32,7 +32,7 @@ from weblate.accounts.models import Profile, AuditLog
 from weblate.permissions.helpers import can_access_project
 from weblate.trans.site import get_site_url, get_site_domain
 from weblate.utils.errors import report_error
-from weblate.utils.request import get_ip_address
+from weblate.utils.request import get_ip_address, get_user_agent
 from weblate import VERSION
 from weblate.logger import LOGGER
 
@@ -370,7 +370,10 @@ def notify_account_activity(user, request, activity, **kwargs):
 
     Returns whether the activity should be rate limited."""
     address = get_ip_address(request)
-    audit = AuditLog.objects.create(user, activity, address, **kwargs)
+    user_agent = get_user_agent(request)
+    audit = AuditLog.objects.create(
+        user, activity, address, user_agent, **kwargs
+    )
 
     if audit.should_notify():
         profile = Profile.objects.get_or_create(user=user)[0]

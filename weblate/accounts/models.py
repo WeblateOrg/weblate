@@ -146,11 +146,12 @@ def get_author_name(user, email=True):
 
 
 class AuditLogManager(models.Manager):
-    def create(self, user, activity, address, **params):
+    def create(self, user, activity, address, user_agent, **params):
         return super(AuditLogManager, self).create(
             user=user,
             activity=activity,
             address=address,
+            user_agent=user_agent,
             params=json.dumps(params)
         )
 
@@ -195,6 +196,7 @@ class AuditLog(models.Model):
     )
     params = models.TextField()
     address = models.GenericIPAddressField()
+    user_agent = models.CharField(max_length=200, default='')
     timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
 
     objects = AuditLogManager.from_queryset(AuditLogQuerySet)()
