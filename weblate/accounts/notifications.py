@@ -381,7 +381,11 @@ def notify_account_activity(user, request, activity, **kwargs):
             profile.language,
             user.email,
             'account_activity',
-            context={'message': audit.get_message()},
+            context={
+                'message': audit.get_message(),
+                'address': address,
+                'user_agent': user_agent,
+            },
             info='{0} from {1}'.format(activity, address),
         )
 
