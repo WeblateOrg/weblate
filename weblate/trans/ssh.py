@@ -78,7 +78,7 @@ def is_key_line(key):
 def parse_hosts_line(line):
     """Parse single hosts line into tuple host, key fingerprint."""
     host, keytype, key = line.strip().split(None, 3)[:3]
-    fp_plain = hashlib.md5(b64decode(key)).hexdigest()
+    fp_plain = hashlib.sha256(b64decode(key)).hexdigest()
     fingerprint = ':'.join(
         [a + b for a, b in zip(fp_plain[::2], fp_plain[1::2])]
     )
