@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-10-16 15:02+0000\n"
-"PO-Revision-Date: 2017-10-28 09:51+0000\n"
-"Last-Translator: Andika Triwidada <andika@gmail.com>\n"
+"PO-Revision-Date: 2017-10-28 09:52+0000\n"
+"Last-Translator: Arif Budiman <arifpedia@gmail.com>\n"
 "Language-Team: Indonesian "
 "<https://hosted.weblate.org/projects/weblate/master/id/>\n"
 "Language: id\n"
@@ -361,7 +361,7 @@ msgid ""
 msgstr ""
 "Anda dapat menentukan karakter khusus tambahan untuk ditampilkan dalam papan "
 "ketik virtual saat menerjemahkan. Itu dapat berguna untuk karakter yang "
-"sering digunakan tatapi sulit diketik pada papan ketik Anda."
+"sering digunakan tetapi sulit diketik pada papan ketik Anda."
 
 #: weblate/accounts/models.py:375 weblate/templates/index.html:24
 msgid "Watched translations"
@@ -499,10 +499,8 @@ msgid "Password reset"
 msgstr "Atur ulang kata sandi"
 
 #: weblate/accounts/views.py:117
-#, fuzzy
-#| msgid "Remove my account"
 msgid "Remove account"
-msgstr "Hapus akun saya"
+msgstr "Hapus akun"
 
 #: weblate/accounts/views.py:120 weblate/accounts/views.py:621
 msgid "User registration"
@@ -1304,7 +1302,7 @@ msgstr "Publik"
 
 #: weblate/templates/access_control_description.html:5
 msgid "Publicly visible and translatable"
-msgstr ""
+msgstr "Terlihat publik dan dapat diterjemahkan"
 
 #: weblate/templates/access_control_description.html:6
 #: weblate/trans/models/project.py:131
@@ -1313,7 +1311,7 @@ msgstr "Terlindungi"
 
 #: weblate/templates/access_control_description.html:7
 msgid "Publicly visible but translatable only for selected users"
-msgstr ""
+msgstr "Terlihat publik tetapi hanya dapat diterjemahkan oleh pengguna terpilih"
 
 #: weblate/templates/access_control_description.html:8
 #: weblate/trans/models/project.py:132
@@ -1322,7 +1320,7 @@ msgstr "Privat"
 
 #: weblate/templates/access_control_description.html:9
 msgid "Visible and translatable only for selected users"
-msgstr ""
+msgstr "Hanya terlihat dan dapat diterjemahkan oleh pengguna terpilih"
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -1366,10 +1364,8 @@ msgid "Password reset almost complete"
 msgstr "Atur ulang kata sandi hampir selesai"
 
 #: weblate/templates/accounts/email-sent.html:16
-#, fuzzy
-#| msgid "Password reset almost complete"
 msgid "Account removal almost complete"
-msgstr "Atur ulang kata sandi hampir selesai"
+msgstr "Penghapusan akun hampir selesai"
 
 #: weblate/templates/accounts/email-sent.html:18
 msgid "Registration almost complete"
@@ -1385,17 +1381,12 @@ msgstr ""
 "Anda."
 
 #: weblate/templates/accounts/email-sent.html:26
-#, fuzzy
-#| msgid ""
-#| "You will very soon receive an email with a confirmation link. Please "
-#| "follow this link in order to complete your password reset procedure."
 msgid ""
 "You will very soon receive an email with a confirmation link. Please follow "
 "this link in order to complete your account removal procedure."
 msgstr ""
 "Anda segera akan menerima surel berisi tautan untuk konfirmasi. Silakan "
-"ikuti tautan ini untuk menyelesaikan prosedur pengaturan ulang kata sandi "
-"Anda."
+"ikuti tautan ini untuk menyelesaikan prosedur penghapusan akun Anda."
 
 #: weblate/templates/accounts/email-sent.html:28
 msgid ""
@@ -1949,6 +1940,8 @@ msgid ""
 "You will have to confirm account removal by clicking link in email you will "
 "receive."
 msgstr ""
+"Anda harus mengkonfirmasi penghapusan akun dengan mengklik tautan di surel "
+"yang akan Anda terima."
 
 #: weblate/templates/accounts/removal.html:27
 msgid "Delete this account"
@@ -2462,121 +2455,122 @@ msgstr ""
 "lebih dari satu."
 
 #: weblate/templates/i18n.html:18
-#, fuzzy
-#| msgid "Your password has been changed."
 msgid "Your password must be stronger."
-msgstr "Kata sandi Anda telah diubah."
+msgstr "Kata sandi Anda harus lebih kuat."
 
 #: weblate/templates/i18n.html:19
 msgid "Use a few words, avoid common phrases."
-msgstr ""
+msgstr "Gunakan beberapa kata, hindari ungkapan umum."
 
 #: weblate/templates/i18n.html:20
 msgid "No need for symbols, digits, or uppercase letters."
-msgstr ""
+msgstr "Tidak memerlukan simbol, angka dan huruf kapital."
 
 #: weblate/templates/i18n.html:21
 msgid "Add another word or two. Uncommon words are better."
 msgstr ""
+"Tambahkan satu atau dua kata lagi. Kata-kata yang tidak biasa lebih baik."
 
 #: weblate/templates/i18n.html:22
 msgid "Straight rows of keys are easy to guess."
-msgstr ""
+msgstr "Urutan baris tombol mudah ditebak."
 
 #: weblate/templates/i18n.html:23
 msgid "Short keyboard patterns are easy to guess."
-msgstr ""
+msgstr "Pola papan ketik singkat mudah ditebak."
 
 #: weblate/templates/i18n.html:24
 msgid "Use a longer keyboard pattern with more turns."
-msgstr ""
+msgstr "Gunakan pola papan ketik yang lebih panjang dan berkelok."
 
 #: weblate/templates/i18n.html:25
 msgid "Repeats like \"aaa\" are easy to guess."
-msgstr ""
+msgstr "Pengulangan seperti \"aaa\" mudah ditebak."
 
 #: weblate/templates/i18n.html:26
 msgid ""
 "Repeats like \"abcabcabc\" are only slightly harder to guess than \"abc\"."
 msgstr ""
+"Pengulangan seperti \"abcabcabc\" hanya sedikit lebih sulit ditebak daripada "
+"\"abc\"."
 
 #: weblate/templates/i18n.html:27
-#, fuzzy
-#| msgid "At least five characters long."
 msgid "Avoid repeated words and characters."
-msgstr "Setidaknya panjang lima karakter."
+msgstr "Hindari pengulangan kata dan karakter."
 
 #: weblate/templates/i18n.html:28
 msgid "Sequences like abc or 6543 are easy to guess."
-msgstr ""
+msgstr "Urutan seperti abc atau 6543 mudah ditebak."
 
 #: weblate/templates/i18n.html:29
 msgid "Avoid sequences."
-msgstr ""
+msgstr "Hindari urutan."
 
 #: weblate/templates/i18n.html:30
 msgid "Recent years are easy to guess."
-msgstr ""
+msgstr "Penggunaan tahun lalu mudah ditebak."
 
 #: weblate/templates/i18n.html:31
 msgid "Avoid recent years."
-msgstr ""
+msgstr "Hindari penggunaan tahun lalu."
 
 #: weblate/templates/i18n.html:32
 msgid "Avoid years that are associated with you."
-msgstr ""
+msgstr "Hindari tahun yang berhubungan dengan Anda."
 
 #: weblate/templates/i18n.html:33
 msgid "Dates are often easy to guess."
-msgstr ""
+msgstr "Tanggal seringkali mudah ditebak."
 
 #: weblate/templates/i18n.html:34
 msgid "Avoid dates and years that are associated with you."
-msgstr ""
+msgstr "Hindari tanggal dan tahun yang berhubungan dengan Anda."
 
 #: weblate/templates/i18n.html:35
 msgid "This is a top-10 common password."
-msgstr ""
+msgstr "Ini adalah 10 kata sandi yang sering dipakai."
 
 #: weblate/templates/i18n.html:36
 msgid "This is a top-100 common password."
-msgstr ""
+msgstr "Ini adalah 100 kata sandi yang sering dipakai."
 
 #: weblate/templates/i18n.html:37
 msgid "This is a very common password."
-msgstr ""
+msgstr "Ini adalah kata sandi yang sangat sering dipakai."
 
 #: weblate/templates/i18n.html:38
 msgid "This is similar to a commonly used password."
-msgstr ""
+msgstr "Kata sandi ini mirip dengan kata yang sangat sering dipakai."
 
 #: weblate/templates/i18n.html:39
 msgid "A word by itself is easy to guess."
-msgstr ""
+msgstr "Sebuah kata mudah ditebak."
 
 #: weblate/templates/i18n.html:40
 msgid "Names and surnames by themselves are easy to guess."
-msgstr ""
+msgstr "Nama dan julukan mudah ditebak."
 
 #: weblate/templates/i18n.html:41
 msgid "Common names and surnames are easy to guess."
-msgstr ""
+msgstr "Nama umum dan julukan mudah ditebak."
 
 #: weblate/templates/i18n.html:42
 msgid "Capitalization doesn't help very much."
-msgstr ""
+msgstr "Kapitalisasi tidak banyak membantu."
 
 #: weblate/templates/i18n.html:43
 msgid "All-uppercase is almost as easy to guess as all-lowercase."
-msgstr ""
+msgstr "Semua huruf kapital mudah ditebak seperti halnya semua huruf kecil."
 
 #: weblate/templates/i18n.html:44
 msgid "Reversed words aren't much harder to guess."
-msgstr ""
+msgstr "Kata yang dibalik tidak sulit ditebak."
 
 #: weblate/templates/i18n.html:45
 msgid "Predictable substitutions like '@' instead of 'a' don't help very much."
 msgstr ""
+"Substitusi yang dapat diprediksi seperti '@' sebagai pengganti 'a' tidak "
+"banyak membantu."
 
 #: weblate/templates/i18n.html:55
 msgid "Abkhazian"
@@ -3104,7 +3098,7 @@ msgstr "Kurdi"
 
 #: weblate/templates/i18n.html:186
 msgid "Kurmanji"
-msgstr ""
+msgstr "Kurmanji"
 
 #: weblate/templates/i18n.html:187
 msgid "Kwanyama"
@@ -3455,10 +3449,8 @@ msgid "Songhai languages"
 msgstr "Bahasa Songhai"
 
 #: weblate/templates/i18n.html:274
-#, fuzzy
-#| msgid "Guarani"
 msgid "Sorani"
-msgstr "Guarani"
+msgstr "Sorani"
 
 #: weblate/templates/i18n.html:275
 msgid "Sotho"
@@ -3485,10 +3477,8 @@ msgid "Spanish (Argentina)"
 msgstr "Spanyol (Argentina)"
 
 #: weblate/templates/i18n.html:281
-#, fuzzy
-#| msgid "Spanish (Mexico)"
 msgid "Spanish (Chile)"
-msgstr "Spanyol (Meksiko)"
+msgstr "Spanyol (Chili)"
 
 #: weblate/templates/i18n.html:282
 msgid "Spanish (Mexico)"
@@ -4442,19 +4432,14 @@ msgid "Parse error in %(subproject)s"
 msgstr "Kesalahan penguraian di %(subproject)s"
 
 #: weblate/templates/mail/remove.html:11 weblate/templates/mail/remove.txt:3
-#, fuzzy, python-format
-#| msgid ""
-#| "There was a request to reset your Weblate password at %(site_title)s."
+#, python-format
 msgid "There was a request to remove your Weblate account at %(site_title)s."
-msgstr ""
-"Ada permintaan untuk mengatur ulang kata sandi Weblate Anda di "
-"%(site_title)s."
+msgstr "Ada permintaan untuk menghapus akun Weblate Anda di %(site_title)s."
 
 #: weblate/templates/mail/remove_subject.txt:4
-#, fuzzy, python-format
-#| msgid "Your registration on %(site_title)s"
+#, python-format
 msgid "Account removal on %(site_title)s"
-msgstr "Anda mendaftar pada %(site_title)s"
+msgstr "Penghapusan akun di %(site_title)s"
 
 #: weblate/templates/mail/reset.html:11 weblate/templates/mail/reset.txt:3
 #, python-format
@@ -4499,22 +4484,16 @@ msgid "Add new user"
 msgstr "Tambah pengguna baru"
 
 #: weblate/templates/manage-access.html:84
-#, fuzzy
-#| msgid "Version control"
 msgid "Project access control"
-msgstr "Kontrol versi"
+msgstr "Kontrol akses proyek"
 
 #: weblate/templates/manage-access.html:91
-#, fuzzy
-#| msgid "changes"
 msgid "Change"
-msgstr "perubahan"
+msgstr "Ubah"
 
 #: weblate/templates/manage-access.html:93
-#, fuzzy
-#| msgid "You do not have privilege to accept suggestions!"
 msgid "You do not have permission to change project access control."
-msgstr "Anda tidak memiliki kewenangan untuk menerima saran!"
+msgstr "Anda tidak memiliki kewenangan untuk mengubah kontrol akses proyek."
 
 #: weblate/templates/matrix.html:8
 msgid "matrix"
@@ -6126,7 +6105,7 @@ msgstr "Nama penulis"
 
 #: weblate/trans/forms.py:514 weblate/trans/forms.py:519
 msgid "Keep empty for using currently logged in user."
-msgstr "Biarkan kosong untuk menggunakan log masuk pengguna saat ini."
+msgstr "Biarkan kosong untuk menggunakan pengguna yang saat ini masuk."
 
 #: weblate/trans/forms.py:517
 msgid "Author email"
@@ -6595,11 +6574,11 @@ msgstr "String ganda terdeteksi"
 
 #: weblate/trans/models/change.py:216
 msgid "Committed changes"
-msgstr "Perubahan di-commit"
+msgstr "Perubahan telah di-commit"
 
 #: weblate/trans/models/change.py:217
 msgid "Pushed changes"
-msgstr "Perubahan di-push"
+msgstr "Perubahan telah di-push"
 
 #: weblate/trans/models/change.py:218
 msgid "Reset repository"
@@ -6638,16 +6617,12 @@ msgid "Suggestion removed"
 msgstr "Saran dihapus"
 
 #: weblate/trans/models/change.py:230
-#, fuzzy
-#| msgid "Suggestion removed"
 msgid "Suggestion removed during cleanup"
-msgstr "Saran dihapus"
+msgstr "Saran akan dihapus saat pembersihan"
 
 #: weblate/trans/models/change.py:232
-#, fuzzy
-#| msgid "Source string age"
 msgid "Source string changed"
-msgstr "Usia string sumber"
+msgstr "String sumber diubah"
 
 #: weblate/trans/models/change.py:307
 #, python-format
@@ -7818,10 +7793,8 @@ msgid "User has been removed from this project."
 msgstr "Pengguna telah dihapus dari proyek ini."
 
 #: weblate/trans/views/acl.py:172
-#, fuzzy
-#| msgid "Password has been changed."
 msgid "Project access control has been changed."
-msgstr "Sandi telah berubah."
+msgstr "Kontrol akses proyek telah diubah."
 
 #: weblate/trans/views/basic.py:160
 msgid ""
@@ -7979,10 +7952,8 @@ msgid "You don't have privileges to add suggestions!"
 msgstr "Anda tidak memiliki hak untuk menambahkan saran!"
 
 #: weblate/trans/views/edit.py:202
-#, fuzzy
-#| msgid "Your suggestion already exists!"
 msgid "Your suggestion has been identified as spam!"
-msgstr "Saran Anda sudah ada!"
+msgstr "Saran Anda telah diidentifikasi sebagai spam!"
 
 #: weblate/trans/views/edit.py:218
 msgid ""
