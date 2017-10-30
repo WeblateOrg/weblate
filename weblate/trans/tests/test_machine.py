@@ -37,7 +37,9 @@ from weblate.trans.machine.apertium import (
 )
 from weblate.trans.machine.tmserver import AmagamaTranslation
 from weblate.trans.machine.microsoft import (
-    MicrosoftTranslation, MicrosoftCognitiveTranslation,
+    MicrosoftTranslation,
+    MicrosoftCognitiveTranslation,
+    MicrosoftTerminologyService
 )
 from weblate.trans.machine.google import GoogleTranslation, GOOGLE_API_ROOT
 from weblate.trans.machine.yandex import YandexTranslation
@@ -248,6 +250,53 @@ class MachineTranslationTest(TestCase):
 
         machine = MicrosoftCognitiveTranslation()
         self.assert_translate(machine)
+
+    @httpretty.activate
+    def test_microsoft_terminology(self):
+        httpretty.register_uri(
+            httpretty.POST,
+            'http://api.terminology.microsoft.com/Terminology.svc',
+            body="""
+                <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns="http://api.terminology.microsoft.com/terminology">
+                  <soapenv:Header/>
+                  <soapenv:Body>
+                    <GetLanguages/>
+                  </soapenv:Body>
+                </soapenv:Envelope>
+            """,
+            content_type='text/xml',
+            adding_headers={'SOAPAction': ('"http://api.terminology.microsoft.com/terminology/Terminology/GetLanguages"')}
+        )
+        httpretty.register_uri(
+            httpretty.POST,
+            'http://api.terminology.microsoft.com/Terminology.svc',
+            body="""
+                    <soap-env:Envelope xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/">
+                        <soap-env:Header>
+                            <wsa:Action xmlns:wsa="http://www.w3.org/2005/08/addressing">http://api.terminology.microsoft.com/terminology/Terminology/GetTranslations</wsa:Action>
+                            <wsa:MessageID xmlns:wsa="http://www.w3.org/2005/08/addressing">urn:uuid:15534598-4744-485b-a901-e1dcf8b3ff67</wsa:MessageID>
+                            <wsa:To xmlns:wsa="http://www.w3.org/2005/08/addressing">http://api.terminology.microsoft.com/Terminology.svc</wsa:To>
+                        </soap-env:Header>
+                        <soap-env:Body>
+                            <ns0:GetTranslations xmlns:ns0="http://api.terminology.microsoft.com/terminology">
+                                <ns0:text>world</ns0:text>
+                                <ns0:from>en-US</ns0:from>
+                                <ns0:to>es-MX</ns0:to>
+                                <ns0:sources>
+                                    <ns0:TranslationSource>Terms</ns0:TranslationSource>
+                                    <ns0:TranslationSource>UiStrings</ns0:TranslationSource>
+                                </ns0:sources>
+                                <ns0:maxTranslations>5</ns0:maxTranslations>
+                            </ns0:GetTranslations>
+                        </soap-env:Body>
+                    </soap-env:Envelope>""",
+            content_type='text/xml',
+            adding_headers={'SOAPAction': ('"http://api.terminology.microsoft.com/terminology/Terminology/GetTranslations"')}
+        )
+        machine = MicrosoftTerminologyService()
+        self.assert_translate(machine)
+        self.assert_translate(machine, lang='es-MX')
 
     @override_settings(MT_GOOGLE_KEY='KEY')
     @httpretty.activate
