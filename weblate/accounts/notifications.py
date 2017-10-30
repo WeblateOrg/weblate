@@ -28,11 +28,11 @@ from django.template.loader import render_to_string
 from django.utils import translation as django_translation
 from django.utils.encoding import force_text
 
-from weblate.accounts.ratelimit import get_ip_address
 from weblate.accounts.models import Profile, AuditLog
 from weblate.permissions.helpers import can_access_project
 from weblate.trans.site import get_site_url, get_site_domain
 from weblate.utils.errors import report_error
+from weblate.utils.request import get_ip_address, get_user_agent
 from weblate import VERSION
 from weblate.logger import LOGGER
 
@@ -365,12 +365,33 @@ def send_notification_email(language, email, notification,
     send_mails([email])
 
 
+def is_new_login(user, address):
+    """Checks whether this login is coming from new device.
+
+    This is currently based purely in IP address.
+    """
+    logins = AuditLog.objects.filter(user=user, activity='login')
+
+    # First login
+    if not logins.exists():
+        return False
+
+    return not logins.filter(address=address).exists()
+
+
 def notify_account_activity(user, request, activity, **kwargs):
     """Notification about important activity with account.
 
     Returns whether the activity should be rate limited."""
     address = get_ip_address(request)
-    audit = AuditLog.objects.create(user, activity, address, **kwargs)
+    user_agent = get_user_agent(request)
+
+    if activity == 'login' and is_new_login(user, address):
+        activity = 'login-new'
+
+    audit = AuditLog.objects.create(
+        user, activity, address, user_agent, **kwargs
+    )
 
     if audit.should_notify():
         profile = Profile.objects.get_or_create(user=user)[0]
@@ -378,7 +399,11 @@ def notify_account_activity(user, request, activity, **kwargs):
             profile.language,
             user.email,
             'account_activity',
-            context={'message': audit.get_message()},
+            context={
+                'message': audit.get_message(),
+                'address': address,
+                'user_agent': user_agent,
+            },
             info='{0} from {1}'.format(activity, address),
         )
 

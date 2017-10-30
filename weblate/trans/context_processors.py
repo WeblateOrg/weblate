@@ -101,4 +101,5 @@ def weblate_context(request):
         'rollbar_environment': rollbar_environment,
         'allow_index': False,
         'legal': 'weblate.legal' in settings.INSTALLED_APPS,
+        'status_url': settings.STATUS_URL,
     }

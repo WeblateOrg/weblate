@@ -34,6 +34,7 @@ class AuditLogAdmin(WeblateModelAdmin):
         'get_message',
         'user',
         'address',
+        'user_agent',
         'timestamp',
     ]
     search_fields = [

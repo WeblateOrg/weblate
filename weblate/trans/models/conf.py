@@ -191,6 +191,9 @@ class WeblateConf(AppConf):
     # Google Analytics
     GOOGLE_ANALYTICS_ID = None
 
+    # URL with status monitoring
+    STATUS_URL = None
+
     # Self advertisement
     SELF_ADVERTISEMENT = False
 
@@ -241,7 +244,7 @@ class WeblateConf(AppConf):
     ADMINS_HOSTING = []
 
     # Special chars for visual keyboard
-    SPECIAL_CHARS = ('→', '↵', '…')
+    SPECIAL_CHARS = ('\t', '\n', '…')
 
     class Meta(object):
         prefix = ''

@@ -18,24 +18,29 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
+
 from django.conf import settings
-
-from weblate.trans.site import get_site_url
-from weblate.utils.request import get_ip_address
+from django.utils.encoding import force_text
 
 
-def is_spam(text, request):
-    """Generic spam checker interface."""
-    if settings.AKISMET_API_KEY:
-        from akismet import Akismet
-        akismet = Akismet(
-            settings.AKISMET_API_KEY,
-            get_site_url()
-        )
-        return akismet.comment_check(
-            get_ip_address(request),
-            request.META.get('HTTP_USER_AGENT', ''),
-            comment_content=text,
-            comment_type='comment'
-        )
-    return False
+def get_ip_address(request):
+    """Return IP address for request."""
+    if settings.IP_BEHIND_REVERSE_PROXY:
+        proxy = request.META.get(settings.IP_PROXY_HEADER)
+    else:
+        proxy = None
+    if proxy:
+        # X_FORWARDED_FOR returns client1, proxy1, proxy2,...
+        return proxy.split(', ')[settings.IP_PROXY_OFFSET]
+    else:
+        return request.META.get('REMOTE_ADDR', '')
+
+
+def get_user_agent(request, max_length=200):
+    """Return user agent for request."""
+    result = force_text(
+        request.META.get('HTTP_USER_AGENT', ''),
+        errors='replace'
+    )
+    return result[:max_length]
