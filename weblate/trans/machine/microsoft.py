@@ -20,7 +20,11 @@
 
 from __future__ import unicode_literals
 
+from uuid import uuid4
 from datetime import timedelta
+
+from six.moves.urllib.request import Request, urlopen
+from xml.etree import ElementTree as ET
 
 from django.conf import settings
 from django.utils import timezone
@@ -178,3 +182,172 @@ class MicrosoftCognitiveTranslation(MicrosoftTranslation):
         if language in self.LANGUAGE_CONVERTER:
             return self.LANGUAGE_CONVERTER[language]
         return language.split('-')[0]
+
+
+class MicrosoftTerminologyService(MachineTranslation):
+    """
+    The Microsoft Terminology Service API.
+
+    Allows you to programmatically access the terminology,
+    definitions and user interface (UI) strings available
+    on the MS Language Portal through a web service (SOAP).
+    """
+    name = 'Microsoft Terminology'
+
+    MS_TM_BASE = 'http://api.terminology.microsoft.com'
+    MS_TM_API_URL = '{base}/Terminology.svc'.format(base=MS_TM_BASE)
+    MS_TM_SOAP_XMLNS = '{base}/terminology'.format(base=MS_TM_BASE)
+    MS_TM_SOAP_HEADER = '{xmlns}/Terminology/'.format(xmlns=MS_TM_SOAP_XMLNS)
+    MS_TM_XPATH = './/{{{xmlns}}}'.format(xmlns=MS_TM_SOAP_XMLNS)
+
+    def soap_req(self, url, http_post=False, skip_auth=False, **kwargs):
+        soap_action = kwargs.get('soap_action', '')
+        url = self.MS_TM_API_URL
+        action = self.MS_TM_SOAP_HEADER + soap_action
+        headers = {
+            'SOAPAction': (
+                '"{action}"'
+            ).format(action=action),
+            'Content-Type': 'text/xml; charset=utf-8'
+        }
+        if soap_action == 'GetLanguages':
+            payload = """
+                <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns="{xmlns}">
+                  <soapenv:Header/>
+                  <soapenv:Body>
+                    <{soap_action}/>
+                  </soapenv:Body>
+                </soapenv:Envelope>
+            """.format(xmlns=self.MS_TM_SOAP_XMLNS, soap_action=soap_action)
+        elif soap_action == 'GetTranslations':
+            source = kwargs.get('source', '')
+            language = kwargs.get('language', '')
+            text = kwargs.get('text', '')
+            max_result = 5
+            if soap_action and source and language and text:
+                payload = """
+                    <soap-env:Envelope xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/">
+                        <soap-env:Header>
+                            <wsa:Action xmlns:wsa="http://www.w3.org/2005/08/addressing">{action}</wsa:Action>
+                            <wsa:MessageID xmlns:wsa="http://www.w3.org/2005/08/addressing">urn:uuid:{uuid}</wsa:MessageID>
+                            <wsa:To xmlns:wsa="http://www.w3.org/2005/08/addressing">{url}</wsa:To>
+                        </soap-env:Header>
+                        <soap-env:Body>
+                            <ns0:GetTranslations xmlns:ns0="{xmlns}">
+                                <ns0:text>{text}</ns0:text>
+                                <ns0:from>{from_lang}</ns0:from>
+                                <ns0:to>{to_lang}</ns0:to>
+                                <ns0:sources>
+                                    <ns0:TranslationSource>Terms</ns0:TranslationSource>
+                                    <ns0:TranslationSource>UiStrings</ns0:TranslationSource>
+                                </ns0:sources>
+                                <ns0:maxTranslations>{max_result}</ns0:maxTranslations>
+                            </ns0:GetTranslations>
+                        </soap-env:Body>
+                    </soap-env:Envelope>
+                """.format(action=action,
+                           url=url,
+                           xmlns=self.MS_TM_SOAP_XMLNS,
+                           uuid=uuid4(),
+                           text=text,
+                           from_lang=source,
+                           to_lang=language,
+                           max_result=max_result)
+        else:
+            raise MachineTranslationError('Wrong SOAP request: "{soap_action}."').format(soap_action=soap_action)
+        try:
+            request = Request(url)
+            request.timeout = 0.5
+            for h, v in headers.iteritems():
+                request.add_header(h, v)
+            request.add_data(payload)
+            handle = urlopen(request)
+            if settings.DEBUG:
+                print('Request: ', request, 'handle: ', handle)
+        except Exception as e:
+            raise MachineTranslationError('{err}'.format(err=e))
+        return handle
+
+    def json_req(self, url, http_post=False, skip_auth=False, raw=False,
+                 **kwargs):
+        """Adapter to soap_req"""
+
+        response = self.soap_req(url, http_post=False, skip_auth=True, raw=True, **kwargs)
+
+        return response
+
+    def soap_status_req(self, url, http_post=False, skip_auth=False, **kwargs):
+        """Perform SOAP request with checking response status."""
+        # Perform request
+        response = self.soap_req(url, http_post, skip_auth, **kwargs)
+
+        # Check response status
+        if response.code != 200:
+            raise MachineTranslationError(response.msg)
+
+        # Return data
+        return response
+
+    def json_status_req(self, url, http_post=False, skip_auth=False, **kwargs):
+        """Perform SOAP request with checking response status."""
+        # Perform request
+        response = self.soap_status_req(url, http_post, skip_auth=True, **kwargs)
+
+        # Check response status
+        if response.code != 200:
+            raise MachineTranslationError(response.msg)
+
+        # Return data
+        return response
+
+    def download_languages(self):
+        """List of supported languages."""
+        soap_action = 'GetLanguages'
+        soap_target = 'GetLanguagesResult'
+        soap_target_envelop = 'Code'
+        languages = []
+        xpath = self.MS_TM_XPATH
+        resp = self.soap_status_req(self.MS_TM_API_URL,
+                                    soap_action=soap_action)
+        root = ET.fromstring(resp.read())
+        results = root.find(xpath + soap_target)
+        if results is not None:
+            for lang in results:
+                languages.append(lang.find(xpath + soap_target_envelop).text)
+        return languages
+
+    def download_translations(self, source, language, text, unit, user):
+        """Download list of possible translations from a service."""
+        soap_action = 'GetTranslations'
+        soap_target = 'GetTranslationsResult'
+        soap_target_translated = 'TranslatedText'
+        soap_target_confidence = 'ConfidenceLevel'
+        soap_target_original = 'OriginalText'
+        translations = []
+        xpath = self.MS_TM_XPATH
+        resp = self.soap_status_req(self.MS_TM_API_URL,
+                                    soap_action=soap_action,
+                                    source=source,
+                                    language=language,
+                                    text=text)
+        root = ET.fromstring(resp.read())
+        results = root.find(xpath + soap_target)
+        if results is not None:
+            for translation in results:
+                translations.append(tuple([
+                    translation.find(xpath + soap_target_translated).text,
+                    int(translation.find(xpath + soap_target_confidence).text),
+                    self.name,
+                    translation.find(xpath + soap_target_original).text
+                ]))
+        return translations
+
+    def convert_language(self, language):
+        """Convert language to service specific code."""
+        if len(language.split('-')) < 2:
+            supported_langs = self.download_languages()
+            for lang in supported_langs:
+                if lang.split('-')[0] == language:
+                    return lang
+        raise MachineTranslationError('Language: {lang} not supported by remote service: {service}'.format(lang=language, service=self.name))
