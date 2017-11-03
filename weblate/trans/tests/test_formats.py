@@ -196,20 +196,19 @@ class AutoFormatTest(SimpleTestCase):
             self.assertEqual(unit.get_target(), self.FIND_MATCH)
 
     def test_add(self):
-        if self.FORMAT.supports_new_language():
-            self.assertTrue(self.FORMAT.is_valid_base_for_new(self.BASE))
-            out = tempfile.NamedTemporaryFile(
-                suffix='.{0}'.format(self.EXT),
-                mode='w+'
-            )
-            self.FORMAT.add_language(
-                out.name,
-                Language(code='cs', nplurals=2),
-                self.BASE
-            )
-            data = out.read()
-            self.assertTrue(self.MATCH in data)
-            out.close()
+        self.assertTrue(self.FORMAT.is_valid_base_for_new(self.BASE))
+        out = tempfile.NamedTemporaryFile(
+            suffix='.{0}'.format(self.EXT),
+            mode='w+'
+        )
+        self.FORMAT.add_language(
+            out.name,
+            Language(code='cs', nplurals=2),
+            self.BASE
+        )
+        data = out.read()
+        self.assertTrue(self.MATCH in data)
+        out.close()
 
     def test_get_language_filename(self):
         self.assertEqual(
@@ -316,6 +315,7 @@ class PhpFormatTest(AutoFormatTest):
     MATCH = '<?php\n'
     FIND = '$LANG[\'foo\']'
     FIND_MATCH = 'bar'
+    BASE = ''
 
 
 class AndroidFormatTest(XMLMixin, AutoFormatTest):
@@ -327,6 +327,7 @@ class AndroidFormatTest(XMLMixin, AutoFormatTest):
     MATCH = '<resources></resources>'
     MASK = 'res/values-*/strings.xml'
     EXPECTED_PATH = 'res/values-cs-rCZ/strings.xml'
+    BASE = ''
 
 
 class XliffFormatTest(XMLMixin, AutoFormatTest):
@@ -353,6 +354,7 @@ class RESXFormatTest(XMLMixin, AutoFormatTest):
     FIND = 'Hello'
     FIND_MATCH = ''
     MATCH = 'text/microsoft-resx'
+    BASE = ''
 
 
 class YAMLFormatTest(AutoFormatTest):

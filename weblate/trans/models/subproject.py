@@ -1218,12 +1218,6 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     def clean_new_lang(self):
         """Validate new language choices."""
         if self.new_lang == 'add':
-            if not self.file_format_cls.supports_new_language():
-                msg = _(
-                    'Chosen file format does not support adding '
-                    'new translations as chosen in project settings.'
-                )
-                raise ValidationError({'file_format': msg, 'new_lang': msg})
             filename = self.get_new_base_filename()
             if not self.file_format_cls.is_valid_base_for_new(filename):
                 if filename is not None:
@@ -1530,9 +1524,6 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     def can_add_new_language(self):
         """Wrapper to check if we can add new language."""
         if self.new_lang != 'add':
-            return False
-
-        if not self.file_format_cls.supports_new_language():
             return False
 
         base_filename = self.get_new_base_filename()
