@@ -724,14 +724,20 @@ class FileFormat(object):
         return True
 
     @classmethod
-    def supports_new_language(cls):
-        """Whether it supports creating new translation."""
-        return cls.new_translation is not None
+    def is_valid_base_for_new(cls, base):
+        """Check whether base is valid."""
+        return True
 
     @classmethod
     def is_valid_base_for_new(cls, base):
         """Check whether base is valid."""
-        return True
+        if not base:
+            return cls.new_translation is not None
+        try:
+            cls.parse_store(base)
+            return True
+        except Exception:
+            return False
 
     @staticmethod
     def get_language_code(code):
@@ -759,11 +765,18 @@ class FileFormat(object):
     @classmethod
     def create_new_file(cls, filename, language, base):
         """Handle creation of new translation file."""
-        if cls.new_translation is None:
-            raise ValueError('Not supported')
+        if base:
+            storeclass = cls.get_class()
 
-        with open(filename, 'w') as output:
-            output.write(cls.new_translation)
+            # Parse file
+            store = cls.parse_store(base)
+            cls.untranslate_store(store, language)
+            store.savefile(filename)
+        elif cls.new_translation is None:
+            raise ValueError('Not supported')
+        else:
+            with open(filename, 'w') as output:
+                output.write(cls.new_translation);
 
     def iterate_merge(self, fuzzy):
         """Iterate over units for merging.
@@ -851,11 +864,6 @@ class PoFormat(FileFormat):
     unit_class = PoUnit
 
     @classmethod
-    def supports_new_language(cls):
-        """Check whether we can create new language file."""
-        return True
-
-    @classmethod
     def is_valid_base_for_new(cls, base):
         """Check whether base is valid."""
         try:
@@ -865,19 +873,15 @@ class PoFormat(FileFormat):
             return False
 
     @classmethod
-    def create_new_file(cls, filename, language, base):
-        """Handle creation of new translation file."""
-        store = pofile.parsefile(base)
-
-        cls.untranslate_store(store, language)
+    def untranslate_store(cls, store, language, fuzzy=False):
+        """Remove translations from ttkit store"""
+        super(PoFormat, cls).untranslate_store(store, language, fuzzy)
 
         store.updateheader(
             last_translator='Automatically generated',
             plural_forms=language.get_plural_form(),
             language_team='none',
         )
-
-        store.savefile(filename)
 
     def merge_header(self, otherstore):
         """Try to merge headers"""
@@ -927,19 +931,6 @@ class TSFormat(FileFormat):
     unit_class = TSUnit
 
     @classmethod
-    def supports_new_language(cls):
-        """Check whether we can create new language file."""
-        return True
-
-    @classmethod
-    def create_new_file(cls, filename, language, base):
-        store = tsfile.parsefile(base)
-
-        cls.untranslate_store(store, language, True)
-
-        store.savefile(filename)
-
-    @classmethod
     def is_valid_base_for_new(cls, base):
         """Check whether base is valid."""
         try:
@@ -976,11 +967,6 @@ class XliffFormat(FileFormat):
         return (None, False)
 
     @classmethod
-    def supports_new_language(cls):
-        """Check whether we can create new language file."""
-        return True
-
-    @classmethod
     def is_valid_base_for_new(cls, base):
         """Check whether base is valid."""
         try:
@@ -988,13 +974,6 @@ class XliffFormat(FileFormat):
             return True
         except Exception:
             return False
-
-    @classmethod
-    def create_new_file(cls, filename, language, base):
-        """Handle creation of new translation file."""
-        content = cls.loader.parsefile(base)
-        content.settargetlanguage(language.code)
-        content.savefile(filename)
 
     def _find_unit_mono(self, context, store):
         # Do not use findid as it does not work for empty translations
@@ -1166,21 +1145,7 @@ class JSONFormat(FileFormat):
     loader = ('jsonl10n', 'JsonFile')
     unit_class = MonolingualSimpleUnit
     autoload = ('.json',)
-
-    @classmethod
-    def supports_new_language(cls):
-        """Check whether we can create new language file."""
-        return True
-
-    @classmethod
-    def create_new_file(cls, filename, language, base):
-        """Handle creation of new translation file."""
-        content = b'{}\n'
-        if base:
-            with open(base, 'rb') as handle:
-                content = handle.read()
-        with open(filename, 'wb') as output:
-            output.write(content)
+    new_translation = '{}\n'
 
     @property
     def mimetype(self):
@@ -1338,25 +1303,7 @@ class YAMLFormat(FileFormat):
     loader = ('yaml', 'YAMLFile')
     unit_class = MonolingualSimpleUnit
     autoload = ('.pyml',)
-
-    @classmethod
-    def supports_new_language(cls):
-        """Check whether we can create new language file."""
-        return True
-
-    @classmethod
-    def create_new_file(cls, filename, language, base):
-        """Handle creation of new translation file."""
-        if base:
-            storeclass = cls.get_class()
-
-            # Parse file
-            store = storeclass.parsefile(base)
-            cls.untranslate_store(store, language)
-            store.savefile(filename)
-        else:
-            with open(filename, 'wb') as output:
-                output.write(b'{}\n')
+    new_translation = '{}\n'
 
     @property
     def mimetype(self):
