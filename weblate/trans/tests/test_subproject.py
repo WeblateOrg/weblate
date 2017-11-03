@@ -514,13 +514,8 @@ class SubProjectValidationTest(RepoTestCase):
         self.component.new_lang = 'add'
         self.component.save()
 
-        # Check that it warns about not supported format
-        self.assertRaisesMessage(
-            ValidationError,
-            'Chosen file format does not support adding new '
-            'translations as chosen in project settings.',
-            self.component.full_clean
-        )
+        # Check that it doesn't warn about not supported format
+        self.component.full_clean()
 
         self.component.file_format = 'po'
         self.component.save()
