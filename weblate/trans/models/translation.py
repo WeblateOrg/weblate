@@ -762,6 +762,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             Change.objects.create(
                 action=Change.ACTION_COMMIT,
                 translation=self,
+                user=request.user if request else None,
             )
             self.__git_commit(author, timestamp, sync)
 
