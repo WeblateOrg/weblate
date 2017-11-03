@@ -726,11 +726,6 @@ class FileFormat(object):
     @classmethod
     def is_valid_base_for_new(cls, base):
         """Check whether base is valid."""
-        return True
-
-    @classmethod
-    def is_valid_base_for_new(cls, base):
-        """Check whether base is valid."""
         if not base:
             return cls.new_translation is not None
         try:
@@ -766,8 +761,6 @@ class FileFormat(object):
     def create_new_file(cls, filename, language, base):
         """Handle creation of new translation file."""
         if base:
-            storeclass = cls.get_class()
-
             # Parse file
             store = cls.parse_store(base)
             cls.untranslate_store(store, language)
@@ -776,7 +769,7 @@ class FileFormat(object):
             raise ValueError('Not supported')
         else:
             with open(filename, 'w') as output:
-                output.write(cls.new_translation);
+                output.write(cls.new_translation)
 
     def iterate_merge(self, fuzzy):
         """Iterate over units for merging.
@@ -808,8 +801,8 @@ class FileFormat(object):
         """Try to merge headers"""
         return
 
-    @staticmethod
-    def untranslate_store(store, language, fuzzy=False):
+    @classmethod
+    def untranslate_store(cls, store, language, fuzzy=False):
         """Remove translations from ttkit store"""
         store.settargetlanguage(language.code)
 
