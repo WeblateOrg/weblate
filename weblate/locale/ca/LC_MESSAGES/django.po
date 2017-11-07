@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-10-16 15:02+0000\n"
+"POT-Creation-Date: 2017-11-07 10:39+0000\n"
 "PO-Revision-Date: 2017-08-22 09:49+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/master/"
@@ -19,21 +19,21 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 2.17-dev\n"
 
-#: weblate/accounts/admin.py:105 weblate/accounts/admin.py:110
+#: weblate/accounts/admin.py:106 weblate/accounts/admin.py:111
 #, fuzzy
 #| msgid "Persian"
 msgid "Personal info"
 msgstr "persa"
 
-#: weblate/accounts/admin.py:106 weblate/templates/accounts/profile.html:26
+#: weblate/accounts/admin.py:107 weblate/templates/accounts/profile.html:26
 msgid "Authentication"
 msgstr "Autenticació"
 
-#: weblate/accounts/admin.py:111 weblate/permissions/apps.py:30
+#: weblate/accounts/admin.py:112 weblate/permissions/apps.py:30
 msgid "Permissions"
 msgstr "Permisos"
 
-#: weblate/accounts/admin.py:115
+#: weblate/accounts/admin.py:116
 #, fuzzy
 #| msgid "Import as translated"
 msgid "Important dates"
@@ -133,7 +133,7 @@ msgstr "El vostre nom"
 msgid "Your email"
 msgstr "La vostra adreça electrònica"
 
-#: weblate/accounts/forms.py:342 weblate/trans/models/whiteboard.py:65
+#: weblate/accounts/forms.py:342 weblate/trans/models/whiteboard.py:66
 #: weblate/wladmin/templates/admin/performance.html:47
 msgid "Message"
 msgstr "Missatge"
@@ -288,54 +288,59 @@ msgid "Successfully authenticated using {method} ({name})."
 msgstr ""
 
 #: weblate/accounts/models.py:73
-msgid "Somebody has attempted to register with your email."
+#, python-brace-format
+msgid "Successfully authenticated using {method} ({name}) from new device."
 msgstr ""
 
 #: weblate/accounts/models.py:76
-msgid "Somebody has attempted to add your email to existing account."
+msgid "Somebody has attempted to register with your email."
 msgstr ""
 
 #: weblate/accounts/models.py:79
+msgid "Somebody has attempted to add your email to existing account."
+msgstr ""
+
+#: weblate/accounts/models.py:82
 #, python-brace-format
 msgid "Failed authentication attempt using {method} ({name})."
 msgstr ""
 
-#: weblate/accounts/models.py:82
+#: weblate/accounts/models.py:85
 msgid "Account locked due to excessive failed authentication attempts."
 msgstr ""
 
-#: weblate/accounts/models.py:85
+#: weblate/accounts/models.py:88
 msgid "Account and all private data have been removed."
 msgstr ""
 
-#: weblate/accounts/models.py:88
+#: weblate/accounts/models.py:91
 #, python-brace-format
 msgid "Agreement with Terms of Service {date}."
 msgstr ""
 
-#: weblate/accounts/models.py:209 weblate/templates/accounts/profile.html:304
+#: weblate/accounts/models.py:215 weblate/templates/accounts/profile.html:309
 #, fuzzy
 #| msgid "Account activation"
 msgid "Account activity"
 msgstr "Activació del compte"
 
-#: weblate/accounts/models.py:309
+#: weblate/accounts/models.py:315
 msgid "Interface Language"
 msgstr "Llengua de la interfície"
 
-#: weblate/accounts/models.py:316
+#: weblate/accounts/models.py:322
 msgid "Translated languages"
 msgstr "Llengües traduïdes"
 
-#: weblate/accounts/models.py:318
+#: weblate/accounts/models.py:324
 msgid "Choose languages to which you can translate."
 msgstr "Trieu les llengües a les que podeu traduir."
 
-#: weblate/accounts/models.py:322
+#: weblate/accounts/models.py:328
 msgid "Secondary languages"
 msgstr "Llengües secundàries"
 
-#: weblate/accounts/models.py:324
+#: weblate/accounts/models.py:330
 msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
@@ -343,23 +348,23 @@ msgstr ""
 "Trieu les llengües que compreneu, es mostraran les cadenes en aquestes "
 "llengües a més de la cadena d'origen."
 
-#: weblate/accounts/models.py:334
+#: weblate/accounts/models.py:340
 msgid "Hide completed translations on dashboard"
 msgstr "Amaga les traduccions completades al tauler"
 
-#: weblate/accounts/models.py:338
+#: weblate/accounts/models.py:344
 msgid "Show secondary translations in zen mode"
 msgstr "Mostra les traduccions secundàries en mode Zen"
 
-#: weblate/accounts/models.py:342
+#: weblate/accounts/models.py:348
 msgid "Hide source if there is secondary language"
 msgstr "Amaga la font si hi ha una llengua secundària"
 
-#: weblate/accounts/models.py:348
+#: weblate/accounts/models.py:354
 msgid "Editor link"
 msgstr "Enllaç de l'editor"
 
-#: weblate/accounts/models.py:350
+#: weblate/accounts/models.py:356
 #, python-format
 msgid ""
 "Enter custom URL to be used as link to open source code. You can use "
@@ -372,11 +377,11 @@ msgstr ""
 "de fitxer i marcadors de línia. Normalment alguna cosa com editor://open/?"
 "file=%(file)s&line=%(line)s és una bona opció."
 
-#: weblate/accounts/models.py:361
+#: weblate/accounts/models.py:367
 msgid "Special characters"
 msgstr "Caràcters especials"
 
-#: weblate/accounts/models.py:363
+#: weblate/accounts/models.py:369
 msgid ""
 "You can specify additional special characters to be shown in the visual "
 "keyboard while translating. It can be useful for chars you use frequently "
@@ -386,36 +391,36 @@ msgstr ""
 "teclat visual mentre traduïu. Pot ser útil per a caràcters que utilitzeu amb "
 "freqüència però que són difícils de trobar al vostre teclat."
 
-#: weblate/accounts/models.py:375 weblate/templates/index.html:24
+#: weblate/accounts/models.py:381 weblate/templates/index.html:24
 msgid "Watched translations"
 msgstr "Traduccions en seguiment"
 
-#: weblate/accounts/models.py:376 weblate/templates/index.html:25
+#: weblate/accounts/models.py:382 weblate/templates/index.html:25
 msgid "Your languages"
 msgstr "Les vostres llengües"
 
-#: weblate/accounts/models.py:377 weblate/trans/models/componentlist.py:58
+#: weblate/accounts/models.py:383 weblate/trans/models/componentlist.py:58
 msgid "Component list"
 msgstr "Llista dels components"
 
-#: weblate/accounts/models.py:378 weblate/templates/index.html:27
+#: weblate/accounts/models.py:384 weblate/templates/index.html:27
 msgid "Suggested translations"
 msgstr "Traduccions suggerides"
 
-#: weblate/accounts/models.py:394
+#: weblate/accounts/models.py:400
 msgid "Default dashboard view"
 msgstr "Visualització del tauler predeterminada"
 
-#: weblate/accounts/models.py:400
+#: weblate/accounts/models.py:406
 msgid "Default component list"
 msgstr "Llista dels components predeterminada"
 
-#: weblate/accounts/models.py:407 weblate/templates/accounts/profile.html:117
-#: weblate/templates/base.html:108
+#: weblate/accounts/models.py:413 weblate/templates/accounts/profile.html:117
+#: weblate/templates/base.html:111
 msgid "Watched projects"
 msgstr "Projectes en seguiment"
 
-#: weblate/accounts/models.py:409 weblate/templates/watch-dropdown.html:5
+#: weblate/accounts/models.py:415 weblate/templates/watch-dropdown.html:5
 #: weblate/templates/watch-dropdown.html:9
 msgid ""
 "You can receive notifications for watched projects and they are shown on "
@@ -424,45 +429,45 @@ msgstr ""
 "Podeu rebre notificacions dels projectes en seguiment i es mostraran al "
 "tauler de forma predeterminada."
 
-#: weblate/accounts/models.py:416
+#: weblate/accounts/models.py:422
 msgid "Notification on any translation"
 msgstr "Notificació de qualsevol traducció"
 
-#: weblate/accounts/models.py:420
+#: weblate/accounts/models.py:426
 msgid "Notification on new string to translate"
 msgstr "Notificació de noves cadenes disponibles per traduir"
 
-#: weblate/accounts/models.py:424
+#: weblate/accounts/models.py:430
 msgid "Notification on new suggestion"
 msgstr "Notificació de suggeriments nous"
 
-#: weblate/accounts/models.py:428
+#: weblate/accounts/models.py:434
 msgid "Notification on new contributor"
 msgstr "Notificació de col·laboradors nous"
 
-#: weblate/accounts/models.py:432
+#: weblate/accounts/models.py:438
 msgid "Notification on new comment"
 msgstr "Notificació de comentaris nous"
 
-#: weblate/accounts/models.py:436
+#: weblate/accounts/models.py:442
 msgid "Notification on merge failure"
 msgstr "Notificació d’error de fusió"
 
-#: weblate/accounts/models.py:440
+#: weblate/accounts/models.py:446
 msgid "Notification on new language request"
 msgstr "Notificació de sol·licitud nova de llengua"
 
-#: weblate/accounts/models.py:493
+#: weblate/accounts/models.py:499
 msgid "Component list must be selected when used as default."
 msgstr ""
 "S'ha de seleccionar una llista de components quan s'empra com a "
 "predeterminada."
 
-#: weblate/accounts/models.py:499
+#: weblate/accounts/models.py:505
 msgid "Component list must not be selected when not used."
 msgstr "No s'ha de seleccionar una llista de components si no s'utilitza."
 
-#: weblate/accounts/models.py:599
+#: weblate/accounts/models.py:605
 msgid ""
 "You can not submit translations as you do not have assigned any email "
 "address."
@@ -573,7 +578,7 @@ msgid "Hosting"
 msgstr "Allotjament"
 
 #: weblate/accounts/views.py:557 weblate/templates/accounts/login.html:8
-#: weblate/templates/accounts/login.html:43 weblate/templates/base.html:131
+#: weblate/templates/accounts/login.html:43 weblate/templates/base.html:134
 msgid "Login"
 msgstr "Entrada"
 
@@ -691,8 +696,8 @@ msgstr "Paraules originals"
 #: weblate/lang/views.py:43 weblate/templates/accounts/profile.html:22
 #: weblate/templates/accounts/profile.html:41 weblate/templates/language.html:6
 #: weblate/templates/languages.html:6 weblate/templates/project.html:26
-#: weblate/templates/trans/change_list.html:18 weblate/trans/forms.py:1004
-#: weblate/trans/forms.py:1300 weblate/trans/models/project.py:338
+#: weblate/templates/trans/change_list.html:18 weblate/trans/forms.py:1005
+#: weblate/trans/forms.py:1364 weblate/trans/models/project.py:338
 msgid "Languages"
 msgstr "Llengües"
 
@@ -722,54 +727,54 @@ msgstr ""
 msgid "Weblate languages"
 msgstr "Llengües Weblate"
 
-#: weblate/lang/data.py:1103 weblate/lang/data.py:1107
-#: weblate/lang/data.py:1113 weblate/lang/data.py:1121
-#: weblate/lang/data.py:1125 weblate/lang/data.py:1130
-#: weblate/lang/data.py:1136 weblate/lang/data.py:1142
-#: weblate/lang/data.py:1147 weblate/lang/data.py:1153
-#: weblate/lang/data.py:1165
+#: weblate/lang/data.py:1133 weblate/lang/data.py:1137
+#: weblate/lang/data.py:1143 weblate/lang/data.py:1151
+#: weblate/lang/data.py:1155 weblate/lang/data.py:1160
+#: weblate/lang/data.py:1166 weblate/lang/data.py:1172
+#: weblate/lang/data.py:1177 weblate/lang/data.py:1183
+#: weblate/lang/data.py:1195
 msgctxt "Plural form description"
 msgid "One"
 msgstr ""
 
-#: weblate/lang/data.py:1104 weblate/lang/data.py:1109
-#: weblate/lang/data.py:1117 weblate/lang/data.py:1122
-#: weblate/lang/data.py:1127 weblate/lang/data.py:1133
-#: weblate/lang/data.py:1139 weblate/lang/data.py:1143
-#: weblate/lang/data.py:1150 weblate/lang/data.py:1157
-#: weblate/lang/data.py:1161 weblate/lang/data.py:1169
+#: weblate/lang/data.py:1134 weblate/lang/data.py:1139
+#: weblate/lang/data.py:1147 weblate/lang/data.py:1152
+#: weblate/lang/data.py:1157 weblate/lang/data.py:1163
+#: weblate/lang/data.py:1169 weblate/lang/data.py:1173
+#: weblate/lang/data.py:1180 weblate/lang/data.py:1187
+#: weblate/lang/data.py:1191 weblate/lang/data.py:1199
 msgctxt "Plural form description"
 msgid "Other"
 msgstr "Altre"
 
-#: weblate/lang/data.py:1108 weblate/lang/data.py:1115
-#: weblate/lang/data.py:1138 weblate/lang/data.py:1148
-#: weblate/lang/data.py:1155 weblate/lang/data.py:1167
+#: weblate/lang/data.py:1138 weblate/lang/data.py:1145
+#: weblate/lang/data.py:1168 weblate/lang/data.py:1178
+#: weblate/lang/data.py:1185 weblate/lang/data.py:1197
 msgctxt "Plural form description"
 msgid "Few"
 msgstr "Pocs"
 
-#: weblate/lang/data.py:1112 weblate/lang/data.py:1120
-#: weblate/lang/data.py:1144 weblate/lang/data.py:1164
+#: weblate/lang/data.py:1142 weblate/lang/data.py:1150
+#: weblate/lang/data.py:1174 weblate/lang/data.py:1194
 msgctxt "Plural form description"
 msgid "Zero"
 msgstr ""
 
-#: weblate/lang/data.py:1114 weblate/lang/data.py:1126
-#: weblate/lang/data.py:1131 weblate/lang/data.py:1137
-#: weblate/lang/data.py:1154 weblate/lang/data.py:1160
-#: weblate/lang/data.py:1166
+#: weblate/lang/data.py:1144 weblate/lang/data.py:1156
+#: weblate/lang/data.py:1161 weblate/lang/data.py:1167
+#: weblate/lang/data.py:1184 weblate/lang/data.py:1190
+#: weblate/lang/data.py:1196
 msgctxt "Plural form description"
 msgid "Two"
 msgstr "Dos"
 
-#: weblate/lang/data.py:1116 weblate/lang/data.py:1149
-#: weblate/lang/data.py:1156 weblate/lang/data.py:1168
+#: weblate/lang/data.py:1146 weblate/lang/data.py:1179
+#: weblate/lang/data.py:1186 weblate/lang/data.py:1198
 msgctxt "Plural form description"
 msgid "Many"
 msgstr ""
 
-#: weblate/lang/data.py:1132
+#: weblate/lang/data.py:1162
 msgctxt "Plural form description"
 msgid "Three"
 msgstr "Tres"
@@ -852,7 +857,7 @@ msgid "Number of plurals"
 msgstr "Nombre dels plurals"
 
 #: weblate/lang/models.py:425 weblate/templates/language.html:68
-#: weblate/trans/forms.py:327
+#: weblate/trans/forms.py:328
 msgid "Plural equation"
 msgstr ""
 
@@ -876,8 +881,8 @@ msgstr "Tipus de plural"
 #: weblate/templates/js/detail.html:16 weblate/templates/js/translations.html:7
 #: weblate/templates/languages.html:14
 #: weblate/templates/list-translations.html:7
-#: weblate/templates/project.html:138 weblate/trans/forms.py:762
-#: weblate/trans/forms.py:1039 weblate/trans/models/whiteboard.py:82
+#: weblate/templates/project.html:138 weblate/trans/forms.py:763
+#: weblate/trans/forms.py:1040 weblate/trans/models/whiteboard.py:83
 msgid "Language"
 msgstr "Llengua"
 
@@ -1269,7 +1274,7 @@ msgstr ""
 msgid "Fund Weblate!"
 msgstr "Financeu Weblate!"
 
-#: weblate/templates/about.html:25 weblate/templates/footer.html:10
+#: weblate/templates/about.html:25 weblate/templates/footer.html:11
 msgid "Donate to Weblate!"
 msgstr "Feu un donatiu a Weblate!"
 
@@ -1357,7 +1362,7 @@ msgstr ""
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
 #: weblate/templates/accounts/profile.html:8
-#: weblate/templates/accounts/removal.html:7 weblate/templates/base.html:122
+#: weblate/templates/accounts/removal.html:7 weblate/templates/base.html:125
 #: weblate/templates/billing/overview.html:5
 msgid "Your profile"
 msgstr "El vostre perfil"
@@ -1476,7 +1481,7 @@ msgid "Please fix errors in the registration form."
 msgstr "Esmeneu els errors del formulari de registre."
 
 #: weblate/templates/accounts/email.html:25
-#: weblate/templates/accounts/profile.html:418
+#: weblate/templates/accounts/profile.html:414
 msgid ""
 "By registering you agree to use your name and email in the commits and "
 "provide your contribution under license defined by each translated project."
@@ -1486,7 +1491,7 @@ msgstr ""
 "llicència definida a cada projecte traduït."
 
 #: weblate/templates/accounts/email.html:29
-#: weblate/templates/accounts/register.html:45 weblate/templates/base.html:129
+#: weblate/templates/accounts/register.html:45 weblate/templates/base.html:132
 msgid "Register"
 msgstr "Registre"
 
@@ -1619,17 +1624,17 @@ msgid "Profile"
 msgstr "Perfil"
 
 #: weblate/templates/accounts/profile.html:28
-#: weblate/templates/accounts/profile.html:415
+#: weblate/templates/accounts/profile.html:411
 msgid "Licenses"
 msgstr "Llicències"
 
 #: weblate/templates/accounts/profile.html:29
-#: weblate/templates/accounts/profile.html:299
+#: weblate/templates/accounts/profile.html:304
 msgid "Audit log"
 msgstr ""
 
 #: weblate/templates/accounts/profile.html:30
-#: weblate/templates/accounts/profile.html:349
+#: weblate/templates/accounts/profile.html:345
 msgid "API access"
 msgstr "Accés de l'API"
 
@@ -1658,9 +1663,9 @@ msgstr "Desa"
 #: weblate/templates/accounts/profile.html:164
 #: weblate/templates/accounts/profile.html:237
 #: weblate/templates/accounts/profile.html:281
-#: weblate/templates/accounts/profile.html:335
-#: weblate/templates/accounts/profile.html:398
-#: weblate/templates/accounts/profile.html:450
+#: weblate/templates/accounts/profile.html:297
+#: weblate/templates/accounts/profile.html:394
+#: weblate/templates/accounts/profile.html:446
 msgid "Description"
 msgstr "Descripció"
 
@@ -1691,10 +1696,10 @@ msgstr ""
 #: weblate/templates/accounts/profile.html:134
 #: weblate/templates/accounts/profile.html:169
 #: weblate/templates/accounts/profile.html:243
-#: weblate/templates/accounts/profile.html:286 weblate/templates/base.html:118
+#: weblate/templates/accounts/profile.html:286 weblate/templates/base.html:121
 #: weblate/templates/check.html:42 weblate/templates/check_project.html:43
 #: weblate/templates/check_subproject.html:44 weblate/templates/checks.html:34
-#: weblate/templates/footer.html:9
+#: weblate/templates/footer.html:10
 #: weblate/wladmin/templates/admin/performance.html:23
 #: weblate/wladmin/templates/admin/performance.html:32
 msgid "Documentation"
@@ -1817,75 +1822,82 @@ msgstr "Es proporcionen avatars  fent servir libravatar."
 msgid "Your public appearance on this site."
 msgstr "La vostra aparença pública en aquest lloc."
 
-#: weblate/templates/accounts/profile.html:303
-#: weblate/templates/last-changes-content.html:8
-#: weblate/templates/trans/suggestion_list.html:16
-msgid "When"
-msgstr "Quan"
-
-#: weblate/templates/accounts/profile.html:305
-#, fuzzy
-#| msgid "Email addresses"
-msgid "IP address"
-msgstr "Adreces de correu electrònic"
-
-#: weblate/templates/accounts/profile.html:317
-msgid "Hidden"
-msgstr ""
-
-#: weblate/templates/accounts/profile.html:322
-#, fuzzy
-#| msgid "No words found!"
-msgid "No recent activity found!"
-msgstr "No s'ha trobat cap paraula!"
-
-#: weblate/templates/accounts/profile.html:327
-msgid "Report suspicious activity"
-msgstr ""
-
-#: weblate/templates/accounts/profile.html:337
+#: weblate/templates/accounts/profile.html:299
 msgid ""
 "Audit log shows important changes on your account. In case you see something "
 "suspicious don't hesitate to contact us."
 msgstr ""
 
-#: weblate/templates/accounts/profile.html:352
+#: weblate/templates/accounts/profile.html:308
+#: weblate/templates/last-changes-content.html:8
+#: weblate/templates/trans/suggestion_list.html:16
+msgid "When"
+msgstr "Quan"
+
+#: weblate/templates/accounts/profile.html:310
+#, fuzzy
+#| msgid "Email addresses"
+msgid "IP address"
+msgstr "Adreces de correu electrònic"
+
+#: weblate/templates/accounts/profile.html:311
+#, fuzzy
+#| msgid "User comments"
+msgid "User agent"
+msgstr "Comentaris de l'usuari"
+
+#: weblate/templates/accounts/profile.html:323
+#: weblate/templates/accounts/profile.html:324
+msgid "Hidden"
+msgstr ""
+
+#: weblate/templates/accounts/profile.html:330
+#, fuzzy
+#| msgid "No words found!"
+msgid "No recent activity found!"
+msgstr "No s'ha trobat cap paraula!"
+
+#: weblate/templates/accounts/profile.html:335
+msgid "Report suspicious activity"
+msgstr ""
+
+#: weblate/templates/accounts/profile.html:348
 msgid "Your personal API key:"
 msgstr ""
 
-#: weblate/templates/accounts/profile.html:359
+#: weblate/templates/accounts/profile.html:355
 #, fuzzy
 #| msgid "Generate"
 msgid "Regenerate API key"
 msgstr "Genera"
 
-#: weblate/templates/accounts/profile.html:363
+#: weblate/templates/accounts/profile.html:359
 msgid "API root URL:"
 msgstr ""
 
-#: weblate/templates/accounts/profile.html:367
+#: weblate/templates/accounts/profile.html:363
 msgid "API usage example:"
 msgstr ""
 
-#: weblate/templates/accounts/profile.html:379
+#: weblate/templates/accounts/profile.html:375
 msgid "CLI usage example:"
 msgstr ""
 
-#: weblate/templates/accounts/profile.html:401
+#: weblate/templates/accounts/profile.html:397
 #, python-format
 msgid ""
 "You can control Weblate using HTTP REST API. Please check <a href="
 "\"%(api_doc)s\">API documentation</a> for more details."
 msgstr ""
 
-#: weblate/templates/accounts/profile.html:403
+#: weblate/templates/accounts/profile.html:399
 #, python-format
 msgid ""
 "The API key is also used to access exported Git repositories, please check "
 "<a href=\"%(git_doc)s\">documentation</a> for more details."
 msgstr ""
 
-#: weblate/templates/accounts/profile.html:422
+#: weblate/templates/accounts/profile.html:418
 msgid ""
 "Following translations have explicitly specified their licensing and "
 "copyright conditions:"
@@ -1893,20 +1905,20 @@ msgstr ""
 "Les següents traduccions han indicat explícitament les seves condicions de "
 "llicència i drets d'autor:"
 
-#: weblate/templates/accounts/profile.html:425 weblate/templates/data.html:26
+#: weblate/templates/accounts/profile.html:421 weblate/templates/data.html:26
 #: weblate/templates/data.html:57 weblate/templates/data.html:95
 #: weblate/templates/language.html:37 weblate/templates/list-projects.html:8
 #: weblate/templates/list-translations.html:7
 #: weblate/trans/models/project.py:168 weblate/trans/models/subproject.py:146
-#: weblate/trans/models/whiteboard.py:70
+#: weblate/trans/models/whiteboard.py:71
 msgid "Project"
 msgstr "Projecte"
 
-#: weblate/templates/accounts/profile.html:425 weblate/trans/forms.py:1169
+#: weblate/templates/accounts/profile.html:421 weblate/trans/forms.py:1233
 msgid "License"
 msgstr "Llicència"
 
-#: weblate/templates/accounts/profile.html:452
+#: weblate/templates/accounts/profile.html:448
 msgid ""
 "Please pay attention to the licensing information as these specify how "
 "others are allowed to use your translations."
@@ -1914,29 +1926,29 @@ msgstr ""
 "Mireu atentament la informació de llicències doncs allí s'especifica com "
 "s'autoritza d'altres utilitzar les vostres traduccions."
 
-#: weblate/templates/accounts/profile.html:473
+#: weblate/templates/accounts/profile.html:469
 msgid "Invoices"
 msgstr ""
 
-#: weblate/templates/accounts/profile.html:477
+#: weblate/templates/accounts/profile.html:473
 msgid "Invoice period"
 msgstr ""
 
-#: weblate/templates/accounts/profile.html:478
+#: weblate/templates/accounts/profile.html:474
 msgid "Invoice amount"
 msgstr ""
 
-#: weblate/templates/accounts/profile.html:479
+#: weblate/templates/accounts/profile.html:475
 #, fuzzy
 #| msgid "Download source file"
 msgid "Download invoice"
 msgstr "Baixa el fitxer font"
 
-#: weblate/templates/accounts/profile.html:491
+#: weblate/templates/accounts/profile.html:487
 msgid "Not available"
 msgstr ""
 
-#: weblate/templates/accounts/profile.html:496
+#: weblate/templates/accounts/profile.html:492
 #, fuzzy
 #| msgid "No words found!"
 msgid "No invoices found!"
@@ -2046,29 +2058,29 @@ msgstr "Activitat en els últims 30 dies"
 msgid "Activity in last year"
 msgstr "Activitat en l'últim any"
 
-#: weblate/templates/base.html:94
+#: weblate/templates/base.html:97
 msgid "Toggle navigation"
 msgstr "Commuta la navegació"
 
-#: weblate/templates/base.html:105 weblate/templates/base.html:141
+#: weblate/templates/base.html:108 weblate/templates/base.html:144
 msgid "Dashboard"
 msgstr "Tauler"
 
-#: weblate/templates/base.html:114 weblate/templates/index.html:75
+#: weblate/templates/base.html:117 weblate/templates/index.html:75
 #, fuzzy
 #| msgid "Managed projects"
 msgid "Manage watched projects"
 msgstr "Projectes gestionats"
 
-#: weblate/templates/base.html:124
+#: weblate/templates/base.html:127
 msgid "Administration"
 msgstr "Administració"
 
-#: weblate/templates/base.html:126 weblate/wladmin/sites.py:148
+#: weblate/templates/base.html:129 weblate/wladmin/sites.py:148
 msgid "Logout"
 msgstr "Surt"
 
-#: weblate/templates/base.html:150
+#: weblate/templates/base.html:153
 msgid ""
 "Weblate does not support Microsoft Internet Explorer 8 and older, please use "
 "some more recent browser like <a href=\"https://www.mozilla.org/firefox/"
@@ -2078,7 +2090,7 @@ msgstr ""
 "us plau utilitzeu un navegador més recent com <a href=\"https://www.mozilla."
 "org/firefox/\"> Firefox</a>."
 
-#: weblate/templates/base.html:173 weblate/templates/base.html:180
+#: weblate/templates/base.html:176 weblate/templates/base.html:183
 msgid "Close"
 msgstr ""
 
@@ -2382,7 +2394,7 @@ msgstr "Historial"
 #: weblate/templates/search.html:29 weblate/templates/source-review.html:25
 #: weblate/templates/translate.html:145 weblate/templates/translate.html:220
 #: weblate/templates/translate.html:334 weblate/templates/translate.html:420
-#: weblate/trans/forms.py:302 weblate/trans/forms.py:878
+#: weblate/trans/forms.py:303 weblate/trans/forms.py:879
 msgid "Source"
 msgstr "Origen"
 
@@ -2391,8 +2403,8 @@ msgstr "Origen"
 #: weblate/templates/last-changes-content.html:11
 #: weblate/templates/translate.html:220 weblate/templates/translate.html:283
 #: weblate/templates/translate.html:333 weblate/templates/translate.html:421
-#: weblate/trans/forms.py:304 weblate/trans/forms.py:879
-#: weblate/trans/forms.py:1180
+#: weblate/trans/forms.py:305 weblate/trans/forms.py:880
+#: weblate/trans/forms.py:1244
 msgid "Translation"
 msgstr "Traducció"
 
@@ -2490,6 +2502,12 @@ msgstr ""
 "Funciona amb tecnologia <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
 
 #: weblate/templates/footer.html:8
+#, fuzzy
+#| msgid "Status"
+msgid "Service status"
+msgstr "Estat"
+
+#: weblate/templates/footer.html:9
 msgid "Contact us"
 msgstr "Contacte"
 
@@ -2507,7 +2525,7 @@ msgstr "En fou autor %(author)s el %(date)s"
 msgid "Copy word to translation"
 msgstr "Copia la paraula per la traducció"
 
-#: weblate/templates/glossary-embed.html:14 weblate/trans/forms.py:237
+#: weblate/templates/glossary-embed.html:14 weblate/trans/forms.py:238
 msgid "Copy"
 msgstr "Copia"
 
@@ -2567,7 +2585,7 @@ msgid "Avoid repeated words and characters."
 msgstr "Com a mínim 4 caràcters."
 
 #: weblate/templates/i18n.html:28
-msgid "Sequences like abc or 6543 are easy to guess."
+msgid "Sequences like \"abc\" or \"6543\" are easy to guess."
 msgstr ""
 
 #: weblate/templates/i18n.html:29
@@ -2749,122 +2767,122 @@ msgid "Belarusian (latin)"
 msgstr "bielorús (llatí)"
 
 #: weblate/templates/i18n.html:81
+msgid "Bemba"
+msgstr ""
+
+#: weblate/templates/i18n.html:82
 msgid "Bengali"
 msgstr "bengalí"
 
-#: weblate/templates/i18n.html:82
+#: weblate/templates/i18n.html:83
 #, fuzzy
 #| msgid "Bengali (India)"
 msgid "Bengali (Bangladesh)"
 msgstr "bengalí (Índia)"
 
-#: weblate/templates/i18n.html:83
+#: weblate/templates/i18n.html:84
 msgid "Bengali (India)"
 msgstr "bengalí (Índia)"
 
-#: weblate/templates/i18n.html:84
+#: weblate/templates/i18n.html:85
 #, fuzzy
 #| msgid "Songhai languages"
 msgid "Bihari languages"
 msgstr "llengües songhai"
 
-#: weblate/templates/i18n.html:85
+#: weblate/templates/i18n.html:86
 msgid "Bislama"
 msgstr ""
 
-#: weblate/templates/i18n.html:86
+#: weblate/templates/i18n.html:87
 msgid "Bodo"
 msgstr "bodo"
 
-#: weblate/templates/i18n.html:87
+#: weblate/templates/i18n.html:88
 msgid "Bosnian"
 msgstr "bosnià"
 
-#: weblate/templates/i18n.html:88
+#: weblate/templates/i18n.html:89
 #, fuzzy
 #| msgid "Serbian (cyrillic)"
 msgid "Bosnian (cyrillic)"
 msgstr "serbi (ciríl·lic)"
 
-#: weblate/templates/i18n.html:89
+#: weblate/templates/i18n.html:90
 #, fuzzy
 #| msgid "Belarusian (latin)"
 msgid "Bosnian (latin)"
 msgstr "bielorús (llatí)"
 
-#: weblate/templates/i18n.html:90
+#: weblate/templates/i18n.html:91
 msgid "Breton"
 msgstr "bretó"
 
-#: weblate/templates/i18n.html:91
+#: weblate/templates/i18n.html:92
 msgid "Bulgarian"
 msgstr "búlgar"
 
-#: weblate/templates/i18n.html:92
+#: weblate/templates/i18n.html:93
 msgid "Burmese"
 msgstr "birmà"
 
-#: weblate/templates/i18n.html:93
+#: weblate/templates/i18n.html:94
 msgid "Catalan"
 msgstr "català"
 
-#: weblate/templates/i18n.html:94
+#: weblate/templates/i18n.html:95
 msgid "Central Khmer"
 msgstr "khmer central"
 
-#: weblate/templates/i18n.html:95
+#: weblate/templates/i18n.html:96
 msgid "Chamorro"
 msgstr ""
 
-#: weblate/templates/i18n.html:96
+#: weblate/templates/i18n.html:97
 #, fuzzy
 #| msgid "Check"
 msgid "Chechen"
 msgstr "Comprova"
 
-#: weblate/templates/i18n.html:97
+#: weblate/templates/i18n.html:98
 msgid "Cherokee"
 msgstr ""
 
-#: weblate/templates/i18n.html:98
+#: weblate/templates/i18n.html:99
 msgid "Chhattisgarhi"
 msgstr "chhatisgarhi"
 
-#: weblate/templates/i18n.html:99
+#: weblate/templates/i18n.html:100
 msgid "Chiga"
 msgstr "kiga"
 
-#: weblate/templates/i18n.html:100
+#: weblate/templates/i18n.html:101
 msgid "Chinese"
 msgstr "xinès"
 
-#: weblate/templates/i18n.html:101
+#: weblate/templates/i18n.html:102
 msgid "Chinese (China)"
 msgstr "xinès (Xina)"
 
-#: weblate/templates/i18n.html:102
+#: weblate/templates/i18n.html:103
 msgid "Chinese (Hong Kong)"
 msgstr "xinès (Hong Kong)"
 
-#: weblate/templates/i18n.html:103
+#: weblate/templates/i18n.html:104
 #, fuzzy
 #| msgid "Chinese (China)"
 msgid "Chinese (Simplified)"
 msgstr "xinès (Xina)"
 
-#: weblate/templates/i18n.html:104
+#: weblate/templates/i18n.html:105
 msgid "Chinese (Taiwan)"
 msgstr "xinès (Taiwan)"
 
-#: weblate/templates/i18n.html:105
+#: weblate/templates/i18n.html:106
 #, fuzzy
 #| msgid "Chinese (Taiwan)"
 msgid "Chinese (Traditional)"
 msgstr "xinès (Taiwan)"
-
-#: weblate/templates/i18n.html:106
-msgid "Zhuang"
-msgstr ""
 
 #: weblate/templates/i18n.html:107
 msgid "Chuvash"
@@ -2887,891 +2905,913 @@ msgid "Cree"
 msgstr ""
 
 #: weblate/templates/i18n.html:112
+msgid "Crimean Tatar"
+msgstr ""
+
+#: weblate/templates/i18n.html:113
 msgid "Croatian"
 msgstr "croat"
 
-#: weblate/templates/i18n.html:113
+#: weblate/templates/i18n.html:114
 msgid "Czech"
 msgstr "txec"
 
-#: weblate/templates/i18n.html:114
+#: weblate/templates/i18n.html:115
 msgid "Danish"
 msgstr "danès"
 
-#: weblate/templates/i18n.html:115
+#: weblate/templates/i18n.html:116
 msgid "Dhivehi"
 msgstr ""
 
-#: weblate/templates/i18n.html:116
+#: weblate/templates/i18n.html:117
 msgid "Dogri"
 msgstr "dogri"
 
-#: weblate/templates/i18n.html:117
+#: weblate/templates/i18n.html:118
 msgid "Dutch"
 msgstr "neerlandès"
 
-#: weblate/templates/i18n.html:118
+#: weblate/templates/i18n.html:119
 msgid "Dutch (Belgium)"
 msgstr "neerlandès (Bèlgica)"
 
-#: weblate/templates/i18n.html:119
+#: weblate/templates/i18n.html:120
 msgid "Dzongkha"
 msgstr "dzongkha"
 
-#: weblate/templates/i18n.html:120
+#: weblate/templates/i18n.html:121
 msgid "English"
 msgstr "anglès"
 
-#: weblate/templates/i18n.html:121
+#: weblate/templates/i18n.html:122
 msgid "English (Australia)"
 msgstr "anglès (Austràlia)"
 
-#: weblate/templates/i18n.html:122
+#: weblate/templates/i18n.html:123
 msgid "English (Canada)"
 msgstr "anglès (Canadà)"
 
-#: weblate/templates/i18n.html:123
+#: weblate/templates/i18n.html:124
 #, fuzzy
 #| msgid "English (Canada)"
 msgid "English (Ireland)"
 msgstr "anglès (Canadà)"
 
-#: weblate/templates/i18n.html:124
+#: weblate/templates/i18n.html:125
 #, fuzzy
 #| msgid "English (Australia)"
 msgid "English (Philippines)"
 msgstr "anglès (Austràlia)"
 
-#: weblate/templates/i18n.html:125
+#: weblate/templates/i18n.html:126
 msgid "English (South Africa)"
 msgstr "anglès (Sud-àfrica)"
 
-#: weblate/templates/i18n.html:126
+#: weblate/templates/i18n.html:127
 msgid "English (United Kingdom)"
 msgstr "anglès (Regne Unit)"
 
-#: weblate/templates/i18n.html:127
+#: weblate/templates/i18n.html:128
 msgid "English (United States)"
 msgstr "anglès (Estats Units)"
 
-#: weblate/templates/i18n.html:128
+#: weblate/templates/i18n.html:129
 msgid "Esperanto"
 msgstr "esperanto"
 
-#: weblate/templates/i18n.html:129
+#: weblate/templates/i18n.html:130
 msgid "Estonian"
 msgstr "estonià"
 
-#: weblate/templates/i18n.html:130
+#: weblate/templates/i18n.html:131
 msgid "Ewe"
 msgstr ""
 
-#: weblate/templates/i18n.html:131
+#: weblate/templates/i18n.html:132
 msgid "Faroese"
 msgstr "feroès"
 
-#: weblate/templates/i18n.html:132
+#: weblate/templates/i18n.html:133
 msgid "Fijian"
 msgstr ""
 
-#: weblate/templates/i18n.html:133
+#: weblate/templates/i18n.html:134
 msgid "Filipino"
 msgstr "filipí"
 
-#: weblate/templates/i18n.html:134
+#: weblate/templates/i18n.html:135
 msgid "Finnish"
 msgstr "finès"
 
-#: weblate/templates/i18n.html:135
+#: weblate/templates/i18n.html:136
 msgid "Franco-Provençal"
 msgstr "arpità"
 
-#: weblate/templates/i18n.html:136
+#: weblate/templates/i18n.html:137
 msgid "French"
 msgstr "francès"
 
-#: weblate/templates/i18n.html:137
+#: weblate/templates/i18n.html:138
 #, fuzzy
 #| msgid "English (Canada)"
 msgid "French (Canada)"
 msgstr "anglès (Canadà)"
 
-#: weblate/templates/i18n.html:138
+#: weblate/templates/i18n.html:139
 msgid "Frisian"
 msgstr "frisó"
 
-#: weblate/templates/i18n.html:139
+#: weblate/templates/i18n.html:140
 msgid "Friulian"
 msgstr "friülà"
 
-#: weblate/templates/i18n.html:140
+#: weblate/templates/i18n.html:141
 msgid "Fulah"
 msgstr "ful"
 
-#: weblate/templates/i18n.html:141
+#: weblate/templates/i18n.html:142
 msgid "Gaelic"
 msgstr "gaèlic"
 
-#: weblate/templates/i18n.html:142
+#: weblate/templates/i18n.html:143
 msgid "Galician"
 msgstr "gallec"
 
-#: weblate/templates/i18n.html:143
+#: weblate/templates/i18n.html:144
 msgid "Ganda"
 msgstr ""
 
-#: weblate/templates/i18n.html:144
+#: weblate/templates/i18n.html:145
 msgid "Georgian"
 msgstr "georgià"
 
-#: weblate/templates/i18n.html:145
+#: weblate/templates/i18n.html:146
 msgid "German"
 msgstr "alemany"
 
-#: weblate/templates/i18n.html:146
+#: weblate/templates/i18n.html:147
 msgid "Gikuyu"
 msgstr ""
 
-#: weblate/templates/i18n.html:147
+#: weblate/templates/i18n.html:148
 msgid "Greek"
 msgstr "grec"
 
-#: weblate/templates/i18n.html:148
+#: weblate/templates/i18n.html:149
 msgid "Greenlandic"
 msgstr "grenlandès"
 
-#: weblate/templates/i18n.html:149
+#: weblate/templates/i18n.html:150
 msgid "Guarani"
 msgstr ""
 
-#: weblate/templates/i18n.html:150
+#: weblate/templates/i18n.html:151
 msgid "Gujarati"
 msgstr "gujarati"
 
-#: weblate/templates/i18n.html:151
+#: weblate/templates/i18n.html:152
 msgid "Gun"
 msgstr ""
 
-#: weblate/templates/i18n.html:152
+#: weblate/templates/i18n.html:153
 msgid "Haitian"
 msgstr "crioll haitià"
 
-#: weblate/templates/i18n.html:153
+#: weblate/templates/i18n.html:154
 msgid "Hausa"
 msgstr "haussa"
 
-#: weblate/templates/i18n.html:154
+#: weblate/templates/i18n.html:155
 msgid "Hawaiian"
 msgstr ""
 
-#: weblate/templates/i18n.html:155
+#: weblate/templates/i18n.html:156
 msgid "Hebrew"
 msgstr "hebreu"
 
-#: weblate/templates/i18n.html:156
+#: weblate/templates/i18n.html:157
 msgid "Herero"
 msgstr ""
 
-#: weblate/templates/i18n.html:157
+#: weblate/templates/i18n.html:158
 msgid "Hindi"
 msgstr "hindi"
 
-#: weblate/templates/i18n.html:158
+#: weblate/templates/i18n.html:159
 msgid "Hiri Motu"
 msgstr ""
 
-#: weblate/templates/i18n.html:159
+#: weblate/templates/i18n.html:160
 msgid "Hungarian"
 msgstr "hongarès"
 
-#: weblate/templates/i18n.html:160
+#: weblate/templates/i18n.html:161
 msgid "Icelandic"
 msgstr "islandès"
 
-#: weblate/templates/i18n.html:161
+#: weblate/templates/i18n.html:162
 msgid "Ido"
 msgstr ""
 
-#: weblate/templates/i18n.html:162
+#: weblate/templates/i18n.html:163
 msgid "Igbo"
 msgstr ""
 
-#: weblate/templates/i18n.html:163
+#: weblate/templates/i18n.html:164
 msgid "Indonesian"
 msgstr "indonesi"
 
-#: weblate/templates/i18n.html:164
+#: weblate/templates/i18n.html:165
 msgid "Interlingua"
 msgstr "interlingua"
 
-#: weblate/templates/i18n.html:165
+#: weblate/templates/i18n.html:166
 msgid "Inuktitut"
 msgstr ""
 
-#: weblate/templates/i18n.html:166
+#: weblate/templates/i18n.html:167
 msgid "Inupiaq"
 msgstr ""
 
-#: weblate/templates/i18n.html:167
+#: weblate/templates/i18n.html:168
 msgid "Irish"
 msgstr "irlandès"
 
-#: weblate/templates/i18n.html:168
+#: weblate/templates/i18n.html:169
 msgid "Italian"
 msgstr "italià"
 
-#: weblate/templates/i18n.html:169
+#: weblate/templates/i18n.html:170
 msgid "Japanese"
 msgstr "japonès"
 
-#: weblate/templates/i18n.html:170
+#: weblate/templates/i18n.html:171
 msgid "Javanese"
 msgstr "javanès"
 
-#: weblate/templates/i18n.html:171
+#: weblate/templates/i18n.html:172
 msgid "Kabyle"
 msgstr ""
 
-#: weblate/templates/i18n.html:172
+#: weblate/templates/i18n.html:173
 msgid "Kannada"
 msgstr "kanarès"
 
-#: weblate/templates/i18n.html:173
+#: weblate/templates/i18n.html:174
 msgid "Kanuri"
 msgstr ""
 
-#: weblate/templates/i18n.html:174
+#: weblate/templates/i18n.html:175
 msgid "Kashmiri"
 msgstr ""
 
-#: weblate/templates/i18n.html:175
+#: weblate/templates/i18n.html:176
 msgid "Kashubian"
 msgstr "caixubi"
 
-#: weblate/templates/i18n.html:176
+#: weblate/templates/i18n.html:177
 msgid "Kazakh"
 msgstr "kazakh"
 
-#: weblate/templates/i18n.html:177
+#: weblate/templates/i18n.html:178
 msgid "Kinyarwanda"
 msgstr "ruandès"
 
-#: weblate/templates/i18n.html:178
+#: weblate/templates/i18n.html:179
 msgid "Kirghiz"
 msgstr "kirguís"
 
-#: weblate/templates/i18n.html:179
+#: weblate/templates/i18n.html:180
 msgid "Klingon"
 msgstr "klíngon"
 
-#: weblate/templates/i18n.html:180
+#: weblate/templates/i18n.html:181
 msgid "Klingon (pIqaD)"
 msgstr "klíngon (pIqaD)"
 
-#: weblate/templates/i18n.html:181
+#: weblate/templates/i18n.html:182
 msgid "Komi"
 msgstr ""
 
-#: weblate/templates/i18n.html:182
+#: weblate/templates/i18n.html:183
 msgid "Kongo"
 msgstr ""
 
-#: weblate/templates/i18n.html:183
+#: weblate/templates/i18n.html:184
 msgid "Konkani"
 msgstr ""
 
-#: weblate/templates/i18n.html:184
+#: weblate/templates/i18n.html:185
 msgid "Korean"
 msgstr "coreà"
 
-#: weblate/templates/i18n.html:185
+#: weblate/templates/i18n.html:186
 msgid "Kurdish"
 msgstr "kurd"
 
-#: weblate/templates/i18n.html:186
+#: weblate/templates/i18n.html:187
 msgid "Kurmanji"
 msgstr ""
 
-#: weblate/templates/i18n.html:187
+#: weblate/templates/i18n.html:188
 msgid "Kwanyama"
 msgstr ""
 
-#: weblate/templates/i18n.html:188
+#: weblate/templates/i18n.html:189
 msgid "Kyrgyz"
 msgstr "kirguís"
 
-#: weblate/templates/i18n.html:189
+#: weblate/templates/i18n.html:190
 msgid "Lao"
 msgstr "laosià"
 
-#: weblate/templates/i18n.html:190
+#: weblate/templates/i18n.html:191
 msgid "Latin"
 msgstr ""
 
-#: weblate/templates/i18n.html:191
+#: weblate/templates/i18n.html:192
 msgid "Latvian"
 msgstr "letó"
 
-#: weblate/templates/i18n.html:192
+#: weblate/templates/i18n.html:193
 msgid "Limburgish"
 msgstr "limburguès"
 
-#: weblate/templates/i18n.html:193
+#: weblate/templates/i18n.html:194
 msgid "Lingala"
 msgstr "lingala"
 
-#: weblate/templates/i18n.html:194
+#: weblate/templates/i18n.html:195
 msgid "Lithuanian"
 msgstr "lituà"
 
-#: weblate/templates/i18n.html:195
+#: weblate/templates/i18n.html:196
 msgid "Lojban"
 msgstr "lojban"
 
-#: weblate/templates/i18n.html:196
+#: weblate/templates/i18n.html:197
 #, fuzzy
 #| msgid "German"
 msgid "Low German"
 msgstr "alemany"
 
-#: weblate/templates/i18n.html:197
+#: weblate/templates/i18n.html:198
 msgid "Luba-Katanga"
 msgstr ""
 
-#: weblate/templates/i18n.html:198
+#: weblate/templates/i18n.html:199
 msgid "Luxembourgish"
 msgstr "luxemburguès"
 
-#: weblate/templates/i18n.html:199
+#: weblate/templates/i18n.html:200
 msgid "Macedonian"
 msgstr "macedònic"
 
-#: weblate/templates/i18n.html:200
+#: weblate/templates/i18n.html:201
 msgid "Maithili"
 msgstr "maithili"
 
-#: weblate/templates/i18n.html:201
+#: weblate/templates/i18n.html:202
 msgid "Malagasy"
 msgstr "malgaix"
 
-#: weblate/templates/i18n.html:202
+#: weblate/templates/i18n.html:203
 msgid "Malay"
 msgstr "malai"
 
-#: weblate/templates/i18n.html:203
+#: weblate/templates/i18n.html:204
 msgid "Malayalam"
 msgstr "malaiàlam"
 
-#: weblate/templates/i18n.html:204
+#: weblate/templates/i18n.html:205
 msgid "Maltese"
 msgstr "maltès"
 
-#: weblate/templates/i18n.html:205
+#: weblate/templates/i18n.html:206
 msgid "Mandinka"
 msgstr "malinke"
 
-#: weblate/templates/i18n.html:206
+#: weblate/templates/i18n.html:207
 msgid "Manipuri"
 msgstr "manipuri"
 
-#: weblate/templates/i18n.html:207
+#: weblate/templates/i18n.html:208
 msgid "Manx"
 msgstr ""
 
-#: weblate/templates/i18n.html:208
+#: weblate/templates/i18n.html:209
 msgid "Maori"
 msgstr "maori"
 
-#: weblate/templates/i18n.html:209
+#: weblate/templates/i18n.html:210
 msgid "Mapudungun"
 msgstr "mapudungun"
 
-#: weblate/templates/i18n.html:210
+#: weblate/templates/i18n.html:211
 msgid "Marathi"
 msgstr "marathi"
 
-#: weblate/templates/i18n.html:211
-msgid "Marshallese"
-msgstr ""
-
 #: weblate/templates/i18n.html:212
-msgid "Moldovan"
+msgid "Mari"
 msgstr ""
 
 #: weblate/templates/i18n.html:213
-msgid "Mongolian"
-msgstr "mongol"
+msgid "Marshallese"
+msgstr ""
 
 #: weblate/templates/i18n.html:214
-msgid "Montenegrin"
+msgid "Moldovan"
 msgstr ""
 
 #: weblate/templates/i18n.html:215
+msgid "Mongolian"
+msgstr "mongol"
+
+#: weblate/templates/i18n.html:216
+msgid "Montenegrin"
+msgstr ""
+
+#: weblate/templates/i18n.html:217
 msgid "Morisyen"
 msgstr "crioll mauricià"
 
-#: weblate/templates/i18n.html:216
+#: weblate/templates/i18n.html:218
 msgid "N'Ko"
 msgstr "n'Ko"
 
-#: weblate/templates/i18n.html:217
+#: weblate/templates/i18n.html:219
 msgid "Nahuatl languages"
 msgstr "llengües nàhuatl"
 
-#: weblate/templates/i18n.html:218
+#: weblate/templates/i18n.html:220
 msgid "Nauru"
 msgstr ""
 
-#: weblate/templates/i18n.html:219
+#: weblate/templates/i18n.html:221
 msgid "Navaho"
 msgstr ""
 
-#: weblate/templates/i18n.html:220
+#: weblate/templates/i18n.html:222
 #, fuzzy
 #| msgid "Tsonga"
 msgid "Ndonga"
 msgstr "tsonga"
 
-#: weblate/templates/i18n.html:221
+#: weblate/templates/i18n.html:223
 msgid "Neapolitan"
 msgstr "napolità"
 
-#: weblate/templates/i18n.html:222
+#: weblate/templates/i18n.html:224
 msgid "Nepali"
 msgstr "nepalès"
 
-#: weblate/templates/i18n.html:223
+#: weblate/templates/i18n.html:225
 msgid "North Ndebele"
 msgstr ""
 
-#: weblate/templates/i18n.html:224
+#: weblate/templates/i18n.html:226
 msgid "Northern Sami"
 msgstr "sami septentrional"
 
-#: weblate/templates/i18n.html:225
+#: weblate/templates/i18n.html:227
 msgid "Norwegian (old code)"
 msgstr "noruec (codi antic)"
 
-#: weblate/templates/i18n.html:226
+#: weblate/templates/i18n.html:228
 msgid "Norwegian Bokmål"
 msgstr "noruec bokmål"
 
-#: weblate/templates/i18n.html:227
+#: weblate/templates/i18n.html:229
 msgid "Norwegian Nynorsk"
 msgstr "noruec nynorsk"
 
-#: weblate/templates/i18n.html:228
+#: weblate/templates/i18n.html:230
 msgid "Nuosu"
 msgstr ""
 
-#: weblate/templates/i18n.html:229
+#: weblate/templates/i18n.html:231
 msgid "Nyanja"
 msgstr ""
 
-#: weblate/templates/i18n.html:230
+#: weblate/templates/i18n.html:232
 #, fuzzy
 #| msgid "Occitan"
 msgid "Occidental"
 msgstr "occità"
 
-#: weblate/templates/i18n.html:231
+#: weblate/templates/i18n.html:233
 msgid "Occitan"
 msgstr "occità"
 
-#: weblate/templates/i18n.html:232
+#: weblate/templates/i18n.html:234
 msgid "Odia"
 msgstr ""
 
-#: weblate/templates/i18n.html:233
+#: weblate/templates/i18n.html:235
 msgid "Ojibwe"
 msgstr ""
 
-#: weblate/templates/i18n.html:234
+#: weblate/templates/i18n.html:236
 msgid "Oriya"
 msgstr "oriya"
 
-#: weblate/templates/i18n.html:235
+#: weblate/templates/i18n.html:237
 msgid "Old Church Slavonic"
 msgstr ""
 
-#: weblate/templates/i18n.html:236
+#: weblate/templates/i18n.html:238
 msgid "Oromo"
 msgstr ""
 
-#: weblate/templates/i18n.html:237
+#: weblate/templates/i18n.html:239
 msgid "Ossetian"
 msgstr "osseta"
 
-#: weblate/templates/i18n.html:238
+#: weblate/templates/i18n.html:240
 msgid "Pali"
 msgstr ""
 
-#: weblate/templates/i18n.html:239
+#: weblate/templates/i18n.html:241
 msgid "Papiamento"
 msgstr "papiament"
 
-#: weblate/templates/i18n.html:240
+#: weblate/templates/i18n.html:242
 msgid "Pedi"
 msgstr "pedi"
 
-#: weblate/templates/i18n.html:241
+#: weblate/templates/i18n.html:243
 msgid "Persian"
 msgstr "persa"
 
-#: weblate/templates/i18n.html:242
+#: weblate/templates/i18n.html:244
 msgid "Piemontese"
 msgstr "piemontès"
 
-#: weblate/templates/i18n.html:243
+#: weblate/templates/i18n.html:245
 msgid "Pirate"
 msgstr ""
 
-#: weblate/templates/i18n.html:244
+#: weblate/templates/i18n.html:246
 msgid "Polish"
 msgstr "polonès"
 
-#: weblate/templates/i18n.html:245
+#: weblate/templates/i18n.html:247
 msgid "Portuguese"
 msgstr "portuguès"
 
-#: weblate/templates/i18n.html:246
+#: weblate/templates/i18n.html:248
 msgid "Portuguese (Brazil)"
 msgstr "portuguès (Brasil)"
 
-#: weblate/templates/i18n.html:247
+#: weblate/templates/i18n.html:249
 msgid "Portuguese (Portugal)"
 msgstr "portuguès (Portugal)"
 
-#: weblate/templates/i18n.html:248
+#: weblate/templates/i18n.html:250
 msgid "Punjabi"
 msgstr "panjabi"
 
-#: weblate/templates/i18n.html:249
+#: weblate/templates/i18n.html:251
 msgid "Pushto"
 msgstr "paixtu"
 
-#: weblate/templates/i18n.html:250
+#: weblate/templates/i18n.html:252
 msgid "Quechua"
 msgstr ""
 
-#: weblate/templates/i18n.html:251
+#: weblate/templates/i18n.html:253
 msgid "Romanian"
 msgstr "romanès"
 
-#: weblate/templates/i18n.html:252
+#: weblate/templates/i18n.html:254
 msgid "Romansh"
 msgstr "romanx"
 
-#: weblate/templates/i18n.html:253
+#: weblate/templates/i18n.html:255
 msgid "Rundi"
 msgstr ""
 
-#: weblate/templates/i18n.html:254
+#: weblate/templates/i18n.html:256
 msgid "Russian"
 msgstr "rus"
 
-#: weblate/templates/i18n.html:255
+#: weblate/templates/i18n.html:257
 msgid "Rusyn"
 msgstr ""
 
-#: weblate/templates/i18n.html:256
+#: weblate/templates/i18n.html:258
 msgid "Samoan"
 msgstr ""
 
-#: weblate/templates/i18n.html:257
+#: weblate/templates/i18n.html:259
 msgid "Sango"
 msgstr ""
 
-#: weblate/templates/i18n.html:258
+#: weblate/templates/i18n.html:260
 msgid "Sanskrit"
 msgstr ""
 
-#: weblate/templates/i18n.html:259
+#: weblate/templates/i18n.html:261
 msgid "Santali"
 msgstr "santali"
 
-#: weblate/templates/i18n.html:260
+#: weblate/templates/i18n.html:262
 msgid "Sardinian"
 msgstr "sard"
 
-#: weblate/templates/i18n.html:261
+#: weblate/templates/i18n.html:263
 msgid "Scots"
 msgstr "escocès"
 
-#: weblate/templates/i18n.html:262
+#: weblate/templates/i18n.html:264
 msgid "Serbian"
 msgstr "serbi"
 
-#: weblate/templates/i18n.html:263
+#: weblate/templates/i18n.html:265
 msgid "Serbian (cyrillic)"
 msgstr "serbi (ciríl·lic)"
 
-#: weblate/templates/i18n.html:264
+#: weblate/templates/i18n.html:266
 msgid "Serbian (latin)"
 msgstr "serbi (llati)"
 
-#: weblate/templates/i18n.html:265
+#: weblate/templates/i18n.html:267
 msgid "Serbo-Croatian"
 msgstr "serbocroat"
 
-#: weblate/templates/i18n.html:266
+#: weblate/templates/i18n.html:268
+msgid "Shan"
+msgstr ""
+
+#: weblate/templates/i18n.html:269
 msgid "Shona"
 msgstr ""
 
-#: weblate/templates/i18n.html:267
+#: weblate/templates/i18n.html:270
 #, fuzzy
 #| msgid "Frisian"
 msgid "Silesian"
 msgstr "frisó"
 
-#: weblate/templates/i18n.html:268
+#: weblate/templates/i18n.html:271
 msgid "Sindhi"
 msgstr "sindhi"
 
-#: weblate/templates/i18n.html:269
+#: weblate/templates/i18n.html:272
 msgid "Sinhala"
 msgstr "singalès"
 
-#: weblate/templates/i18n.html:270
+#: weblate/templates/i18n.html:273
 msgid "Slovak"
 msgstr "eslovac"
 
-#: weblate/templates/i18n.html:271
+#: weblate/templates/i18n.html:274
 msgid "Slovenian"
 msgstr "eslovè"
 
-#: weblate/templates/i18n.html:272
+#: weblate/templates/i18n.html:275
 msgid "Somali"
 msgstr "somali"
 
-#: weblate/templates/i18n.html:273
+#: weblate/templates/i18n.html:276
 msgid "Songhai languages"
 msgstr "llengües songhai"
 
-#: weblate/templates/i18n.html:274
+#: weblate/templates/i18n.html:277
 #, fuzzy
 #| msgid "Kurdish Sorani"
 msgid "Sorani"
 msgstr "kurd sorani"
 
-#: weblate/templates/i18n.html:275
+#: weblate/templates/i18n.html:278
 msgid "Sotho"
 msgstr "sotho"
 
-#: weblate/templates/i18n.html:276
+#: weblate/templates/i18n.html:279
 msgid "South Ndebele"
 msgstr ""
 
-#: weblate/templates/i18n.html:277
+#: weblate/templates/i18n.html:280
 #, fuzzy
 #| msgid "Northern Sami"
 msgid "Southern Sami"
 msgstr "sami septentrional"
 
-#: weblate/templates/i18n.html:278
+#: weblate/templates/i18n.html:281
 msgid "Spanish"
 msgstr "espanyol"
 
-#: weblate/templates/i18n.html:279
+#: weblate/templates/i18n.html:282
 #, fuzzy
 #| msgid "English (South Africa)"
 msgid "Spanish (American)"
 msgstr "anglès (Sud-àfrica)"
 
-#: weblate/templates/i18n.html:280
+#: weblate/templates/i18n.html:283
 msgid "Spanish (Argentina)"
 msgstr ""
 
-#: weblate/templates/i18n.html:281
+#: weblate/templates/i18n.html:284
 #, fuzzy
 #| msgid "Spanish"
 msgid "Spanish (Chile)"
 msgstr "espanyol"
 
-#: weblate/templates/i18n.html:282
+#: weblate/templates/i18n.html:285
 #, fuzzy
 #| msgid "Spanish"
 msgid "Spanish (Mexico)"
 msgstr "espanyol"
 
-#: weblate/templates/i18n.html:283
+#: weblate/templates/i18n.html:286
 msgid "Spanish (Puerto Rico)"
 msgstr ""
 
-#: weblate/templates/i18n.html:284
+#: weblate/templates/i18n.html:287
 msgid "Sundanese"
 msgstr "sundanès"
 
-#: weblate/templates/i18n.html:285
+#: weblate/templates/i18n.html:288
 msgid "Swahili"
 msgstr "suahili"
 
-#: weblate/templates/i18n.html:286
+#: weblate/templates/i18n.html:289
 msgid "Swati"
 msgstr ""
 
-#: weblate/templates/i18n.html:287
+#: weblate/templates/i18n.html:290
 msgid "Swedish"
 msgstr "suec"
 
-#: weblate/templates/i18n.html:288
+#: weblate/templates/i18n.html:291
 msgid "Swiss High German"
 msgstr ""
 
-#: weblate/templates/i18n.html:289
+#: weblate/templates/i18n.html:292
 msgid "Tagalog"
 msgstr "tagal"
 
-#: weblate/templates/i18n.html:290
+#: weblate/templates/i18n.html:293
 #, fuzzy
 #| msgid "Haitian"
 msgid "Tahitian"
 msgstr "crioll haitià"
 
-#: weblate/templates/i18n.html:291
+#: weblate/templates/i18n.html:294
 msgid "Tajik"
 msgstr "tadjik"
 
-#: weblate/templates/i18n.html:292
+#: weblate/templates/i18n.html:295
 msgid "Tamil"
 msgstr "tàmil"
 
-#: weblate/templates/i18n.html:293
+#: weblate/templates/i18n.html:296
 msgid "Tatar"
 msgstr "tàtar"
 
-#: weblate/templates/i18n.html:294
+#: weblate/templates/i18n.html:297
 msgid "Telugu"
 msgstr "telugu"
 
-#: weblate/templates/i18n.html:295
+#: weblate/templates/i18n.html:298
 msgid "Thai"
 msgstr "tailandès"
 
-#: weblate/templates/i18n.html:296
+#: weblate/templates/i18n.html:299
 msgid "Tibetan"
 msgstr "tibetà"
 
-#: weblate/templates/i18n.html:297
+#: weblate/templates/i18n.html:300
 msgid "Tigrinya"
 msgstr "tigrinya"
 
-#: weblate/templates/i18n.html:298
+#: weblate/templates/i18n.html:301
 msgid "Tonga (Tonga Islands)"
 msgstr ""
 
-#: weblate/templates/i18n.html:299
+#: weblate/templates/i18n.html:302
 msgid "Tsonga"
 msgstr "tsonga"
 
-#: weblate/templates/i18n.html:300
+#: weblate/templates/i18n.html:303
 msgid "Tswana"
 msgstr ""
 
-#: weblate/templates/i18n.html:301
+#: weblate/templates/i18n.html:304
 msgid "Turkish"
 msgstr "turc"
 
-#: weblate/templates/i18n.html:302
+#: weblate/templates/i18n.html:305
 msgid "Turkmen"
 msgstr "turcman"
 
-#: weblate/templates/i18n.html:303
+#: weblate/templates/i18n.html:306
 #, fuzzy
 #| msgctxt "Plural form description"
 #| msgid "Two"
 msgid "Twi"
 msgstr "Dos"
 
-#: weblate/templates/i18n.html:304
+#: weblate/templates/i18n.html:307
 msgid "Uighur"
 msgstr "uigur"
 
-#: weblate/templates/i18n.html:305
+#: weblate/templates/i18n.html:308
 msgid "Ukrainian"
 msgstr "ucraïnès"
 
-#: weblate/templates/i18n.html:306
+#: weblate/templates/i18n.html:309
 #, fuzzy
 #| msgid "Serbian"
 msgid "Upper Sorbian"
 msgstr "serbi"
 
-#: weblate/templates/i18n.html:307
+#: weblate/templates/i18n.html:310
 msgid "Urdu"
 msgstr "urdú"
 
-#: weblate/templates/i18n.html:308
+#: weblate/templates/i18n.html:311
 msgid "Urdu (Pakistan)"
 msgstr ""
 
-#: weblate/templates/i18n.html:309
+#: weblate/templates/i18n.html:312
 msgid "Uzbek"
 msgstr "uzbek"
 
-#: weblate/templates/i18n.html:310
+#: weblate/templates/i18n.html:313
 msgid "Uzbek (latin)"
 msgstr "uzbek (llatí)"
 
-#: weblate/templates/i18n.html:311
+#: weblate/templates/i18n.html:314
 msgid "Valencian"
 msgstr "català (valencià)"
 
-#: weblate/templates/i18n.html:312
+#: weblate/templates/i18n.html:315
 msgid "Venda"
 msgstr "venda"
 
-#: weblate/templates/i18n.html:313
+#: weblate/templates/i18n.html:316
 #, fuzzy
 #| msgid "Ossetian"
 msgid "Venetian"
 msgstr "osseta"
 
-#: weblate/templates/i18n.html:314
+#: weblate/templates/i18n.html:317
 msgid "Vietnamese"
 msgstr "vietnamita"
 
-#: weblate/templates/i18n.html:315
+#: weblate/templates/i18n.html:318
 msgid "Volapük"
 msgstr ""
 
-#: weblate/templates/i18n.html:316
+#: weblate/templates/i18n.html:319
 msgid "Walloon"
 msgstr "való"
 
-#: weblate/templates/i18n.html:317
+#: weblate/templates/i18n.html:320
+#, fuzzy
+#| msgid "Asturian"
+msgid "Walser German"
+msgstr "asturià"
+
+#: weblate/templates/i18n.html:321
 msgid "Welsh"
 msgstr "gal·lès"
 
-#: weblate/templates/i18n.html:318
+#: weblate/templates/i18n.html:322
 msgid "West Flemish"
 msgstr "flamenc occidental"
 
-#: weblate/templates/i18n.html:319
+#: weblate/templates/i18n.html:323
 msgid "Wolof"
 msgstr "wòlof"
 
-#: weblate/templates/i18n.html:320
+#: weblate/templates/i18n.html:324
 msgid "Xhosa"
 msgstr ""
 
-#: weblate/templates/i18n.html:321
+#: weblate/templates/i18n.html:325
 msgid "Yakut"
 msgstr "iacut"
 
-#: weblate/templates/i18n.html:322
+#: weblate/templates/i18n.html:326
 msgid "Yiddish"
 msgstr ""
 
-#: weblate/templates/i18n.html:323
+#: weblate/templates/i18n.html:327
 msgid "Yoruba"
 msgstr "ioruba"
 
-#: weblate/templates/i18n.html:324
+#: weblate/templates/i18n.html:328
 msgid "Yue"
 msgstr ""
 
-#: weblate/templates/i18n.html:325
+#: weblate/templates/i18n.html:329
+msgid "Zhuang"
+msgstr ""
+
+#: weblate/templates/i18n.html:330
 msgid "Zulu"
 msgstr "zulu"
 
@@ -4270,8 +4310,22 @@ msgstr ""
 msgid "There has been a change in your account at %(site_title)s:"
 msgstr "hi ha cadenes noves a traduir sobre %(translation)s al %(site_title)s."
 
-#: weblate/templates/mail/account_activity.html:19
+#: weblate/templates/mail/account_activity.html:18
 #: weblate/templates/mail/account_activity.txt:7
+#, fuzzy
+#| msgid "Email addresses"
+msgid "IP address:"
+msgstr "Adreces de correu electrònic"
+
+#: weblate/templates/mail/account_activity.html:19
+#: weblate/templates/mail/account_activity.txt:8
+#, fuzzy
+#| msgid "User comments"
+msgid "User agent:"
+msgstr "Comentaris de l'usuari"
+
+#: weblate/templates/mail/account_activity.html:22
+#: weblate/templates/mail/account_activity.txt:10
 msgid ""
 "If you did not request this change, please notify us as soon as possible "
 "using following form:"
@@ -4789,7 +4843,7 @@ msgid "Status widgets"
 msgstr "Ginys d'estat"
 
 #: weblate/templates/project.html:104 weblate/templates/translate.html:283
-#: weblate/trans/models/subproject.py:517 weblate/trans/models/whiteboard.py:76
+#: weblate/trans/models/subproject.py:517 weblate/trans/models/whiteboard.py:77
 msgid "Component"
 msgstr ""
 
@@ -4822,7 +4876,7 @@ msgstr ""
 
 #: weblate/templates/project.html:210 weblate/templates/subproject.html:167
 #: weblate/templates/translate.html:321 weblate/templates/translate.html:325
-#: weblate/templates/translation.html:258 weblate/trans/forms.py:226
+#: weblate/templates/translation.html:258 weblate/trans/forms.py:227
 msgid "Loading…"
 msgstr "S'està carregant…"
 
@@ -4984,7 +5038,7 @@ msgstr "cadenes originals"
 msgid "review"
 msgstr ""
 
-#: weblate/templates/source-review.html:26 weblate/trans/forms.py:1065
+#: weblate/templates/source-review.html:26 weblate/trans/forms.py:1066
 #: weblate/trans/models/subproject.py:493
 msgid "Priority"
 msgstr ""
@@ -5083,16 +5137,16 @@ msgid ""
 "application to thank translators."
 msgstr ""
 
-#: weblate/templates/subproject.html:190 weblate/templates/subproject.html:211
+#: weblate/templates/subproject.html:189 weblate/templates/subproject.html:209
 #: weblate/wladmin/templates/admin/ssh.html:27
 msgid "Generate"
 msgstr "Genera"
 
-#: weblate/templates/subproject.html:202
+#: weblate/templates/subproject.html:201
 msgid "Contributor stats"
 msgstr "Estadístiques de contribuïdor"
 
-#: weblate/templates/subproject.html:206
+#: weblate/templates/subproject.html:205
 msgid "Reports number of strings and words translated by each translator."
 msgstr ""
 
@@ -5191,7 +5245,7 @@ msgstr "Reverteix vers aquesta traducció"
 
 #: weblate/templates/trans/suggestion_list.html:7
 #: weblate/templates/translate.html:200 weblate/templates/translate.html:391
-#: weblate/trans/forms.py:1182
+#: weblate/trans/forms.py:1246
 msgid "Suggestions"
 msgstr "Suggeriments"
 
@@ -5460,7 +5514,7 @@ msgstr[1] ""
 msgid "Service"
 msgstr ""
 
-#: weblate/templates/translate.html:363 weblate/trans/forms.py:974
+#: weblate/templates/translate.html:363 weblate/trans/forms.py:975
 msgid "New comment"
 msgstr "Comentari nou"
 
@@ -5563,7 +5617,7 @@ msgstr "Baixa la traducció compilada"
 msgid "Upload translation"
 msgstr "Envia la  traducció"
 
-#: weblate/templates/translation.html:44 weblate/trans/forms.py:1216
+#: weblate/templates/translation.html:44 weblate/trans/forms.py:1280
 msgid "Files"
 msgstr "Fitxers"
 
@@ -6154,224 +6208,224 @@ msgstr "Canvis recents en %s"
 msgid "All recent changes made using Weblate in %s."
 msgstr "Tots els canvis recents han estat fet amb Weblate en %s."
 
-#: weblate/trans/formats.py:814
+#: weblate/trans/formats.py:829
 msgid "Automatic detection"
 msgstr ""
 
-#: weblate/trans/formats.py:845
+#: weblate/trans/formats.py:860
 msgid "Gettext PO file"
 msgstr "Fitxer PO de Gettext"
 
-#: weblate/trans/formats.py:916
+#: weblate/trans/formats.py:922
 msgid "Gettext PO file (monolingual)"
 msgstr "Fitxer PO de Gettext (monolingüe)"
 
-#: weblate/trans/formats.py:923
+#: weblate/trans/formats.py:929
 msgid "Qt Linguist Translation File"
 msgstr "Fitxer de traducció de Qt Linguist"
 
-#: weblate/trans/formats.py:954
+#: weblate/trans/formats.py:947
 msgid "XLIFF Translation File"
 msgstr "Fitxer de traducció XLIFF"
 
-#: weblate/trans/formats.py:1009
+#: weblate/trans/formats.py:990
 #, fuzzy
 #| msgid "XLIFF Translation File"
 msgid "XLIFF Translation File with PO extensions"
 msgstr "Fitxer de traducció XLIFF"
 
-#: weblate/trans/formats.py:1017
+#: weblate/trans/formats.py:998
 msgid "OS X Strings"
 msgstr "Cadenes de l'OS X"
 
-#: weblate/trans/formats.py:1026
+#: weblate/trans/formats.py:1007
 msgid "OS X Strings (UTF-8)"
 msgstr "Cadenes de l'OS X (UTF-8)"
 
-#: weblate/trans/formats.py:1034
+#: weblate/trans/formats.py:1015
 msgid "Java Properties (UTF-8)"
 msgstr "Propietats de Java (UTF-8)"
 
-#: weblate/trans/formats.py:1043
+#: weblate/trans/formats.py:1024
 #, fuzzy
 #| msgid "Java Properties (UTF-8)"
 msgid "Java Properties (UTF-16)"
 msgstr "Propietats de Java (UTF-8)"
 
-#: weblate/trans/formats.py:1050
+#: weblate/trans/formats.py:1031
 #, fuzzy
 #| msgid "Java Properties (UTF-8)"
 msgid "Java Properties (ISO-8859-1)"
 msgstr "Propietats de Java (UTF-8)"
 
-#: weblate/trans/formats.py:1072
+#: weblate/trans/formats.py:1053
 #, fuzzy
 #| msgid "Language"
 msgid "Joomla Language File"
 msgstr "Llengua"
 
-#: weblate/trans/formats.py:1082
+#: weblate/trans/formats.py:1063
 msgid "PHP strings"
 msgstr "Cadenes de PHP"
 
-#: weblate/trans/formats.py:1123
+#: weblate/trans/formats.py:1104
 msgid ".Net resource file"
 msgstr ""
 
-#: weblate/trans/formats.py:1134
+#: weblate/trans/formats.py:1115
 msgid "Android String Resource"
 msgstr ""
 
-#: weblate/trans/formats.py:1164
+#: weblate/trans/formats.py:1145
 msgid "JSON file"
 msgstr ""
 
-#: weblate/trans/formats.py:1198
+#: weblate/trans/formats.py:1165
 msgid "JSON nested structure file"
 msgstr ""
 
-#: weblate/trans/formats.py:1205
+#: weblate/trans/formats.py:1172
 msgid "WebExtension JSON file"
 msgstr ""
 
-#: weblate/trans/formats.py:1214
+#: weblate/trans/formats.py:1181
 #, fuzzy
 #| msgid "Gettext PO file"
 msgid "i18next JSON file"
 msgstr "Fitxer PO de Gettext"
 
-#: weblate/trans/formats.py:1221
+#: weblate/trans/formats.py:1188
 msgid "CSV file"
 msgstr ""
 
-#: weblate/trans/formats.py:1292
+#: weblate/trans/formats.py:1259
 #, fuzzy
 #| msgid "Simplified Chinese"
 msgid "Simple CSV file"
 msgstr "xinès simplificat"
 
-#: weblate/trans/formats.py:1329
+#: weblate/trans/formats.py:1296
 #, fuzzy
 #| msgid "Java Properties (UTF-8)"
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Propietats de Java (UTF-8)"
 
-#: weblate/trans/formats.py:1336
+#: weblate/trans/formats.py:1303
 msgid "YAML file"
 msgstr ""
 
-#: weblate/trans/formats.py:1374
+#: weblate/trans/formats.py:1323
 msgid "Ruby YAML file"
 msgstr ""
 
-#: weblate/trans/forms.py:143
+#: weblate/trans/forms.py:144
 msgid "Invalid checksum specified!"
 msgstr ""
 
-#: weblate/trans/forms.py:153
+#: weblate/trans/forms.py:154
 msgid "No matching user found!"
 msgstr "No s'ha trobat cap usuari coincident!"
 
-#: weblate/trans/forms.py:155
+#: weblate/trans/forms.py:156
 msgid "More users matched!"
 msgstr ""
 
-#: weblate/trans/forms.py:192 weblate/trans/forms.py:200
+#: weblate/trans/forms.py:193 weblate/trans/forms.py:201
 msgid "Toggle text direction"
 msgstr "Canvia la direcció del text"
 
-#: weblate/trans/forms.py:235
+#: weblate/trans/forms.py:236
 msgid "Fill in with source string"
 msgstr ""
 
-#: weblate/trans/forms.py:321
+#: weblate/trans/forms.py:322
 msgid "Documentation for plurals."
 msgstr "Documentació pels plurals."
 
-#: weblate/trans/forms.py:324
+#: weblate/trans/forms.py:325
 msgid ""
 "This equation identifies which plural form will be used based on given count "
 "(n)."
 msgstr ""
 
-#: weblate/trans/forms.py:370
+#: weblate/trans/forms.py:371
 #, fuzzy
 #| msgid "Untranslated strings"
 msgid "Missing translated string!"
 msgstr "Cadenes sense traduir"
 
-#: weblate/trans/forms.py:400
+#: weblate/trans/forms.py:401
 msgid "Message you wanted to translate is no longer available!"
 msgstr ""
 
-#: weblate/trans/forms.py:412
+#: weblate/trans/forms.py:413
 #, fuzzy
 #| msgid "Overview"
 msgctxt "Checkbox for marking translation needing review"
 msgid "Needs review"
 msgstr "Resum"
 
-#: weblate/trans/forms.py:443
+#: weblate/trans/forms.py:444
 #, fuzzy
 #| msgid "Translation status"
 msgid "Translation text too long!"
 msgstr "Estat de la traducció"
 
-#: weblate/trans/forms.py:461 weblate/trans/forms.py:899
+#: weblate/trans/forms.py:462 weblate/trans/forms.py:900
 msgid "File"
 msgstr ""
 
-#: weblate/trans/forms.py:465 weblate/trans/forms.py:907
+#: weblate/trans/forms.py:466 weblate/trans/forms.py:908
 msgid "Merge method"
 msgstr ""
 
-#: weblate/trans/forms.py:467
+#: weblate/trans/forms.py:468
 msgid "Add as translation"
 msgstr "Afegeix com a traducció"
 
-#: weblate/trans/forms.py:468
+#: weblate/trans/forms.py:469
 msgid "Add as a suggestion"
 msgstr "Afegeix com a sugerència"
 
-#: weblate/trans/forms.py:469
+#: weblate/trans/forms.py:470
 #, fuzzy
 #| msgid "Add as translation"
 msgid "Add as translation needing review"
 msgstr "Afegeix com a traducció"
 
-#: weblate/trans/forms.py:473
+#: weblate/trans/forms.py:474
 #, fuzzy
 #| msgid "Source strings review"
 msgid "Processing of strings needing review"
 msgstr "Revisió de les cadenes originals"
 
-#: weblate/trans/forms.py:475
+#: weblate/trans/forms.py:476
 msgid "Do not import"
 msgstr ""
 
-#: weblate/trans/forms.py:476
+#: weblate/trans/forms.py:477
 #, fuzzy
 #| msgid "Source strings review"
 msgid "Import as string needing review"
 msgstr "Revisió de les cadenes originals"
 
-#: weblate/trans/forms.py:477
+#: weblate/trans/forms.py:478
 msgid "Import as translated"
 msgstr "Importa com a traduïdes"
 
-#: weblate/trans/forms.py:482
+#: weblate/trans/forms.py:483
 msgid "Merge file header"
 msgstr ""
 
-#: weblate/trans/forms.py:483
+#: weblate/trans/forms.py:484
 msgid "Merges content of file header into the translation."
 msgstr ""
 
-#: weblate/trans/forms.py:499
+#: weblate/trans/forms.py:500
 msgid "Overwrite existing translations"
 msgstr ""
 
-#: weblate/trans/forms.py:501
+#: weblate/trans/forms.py:502
 #, fuzzy
 #| msgid ""
 #| "The checks can help you identify problematic translations or source "
@@ -6383,203 +6437,203 @@ msgstr ""
 "Les verificacions automàtiques us poden ajudar a a identificar traduccions "
 "defectuoses o cadenes originals difícils de traduir."
 
-#: weblate/trans/forms.py:512
+#: weblate/trans/forms.py:513
 msgid "Author name"
 msgstr ""
 
-#: weblate/trans/forms.py:514 weblate/trans/forms.py:519
+#: weblate/trans/forms.py:515 weblate/trans/forms.py:520
 msgid "Keep empty for using currently logged in user."
 msgstr ""
 
-#: weblate/trans/forms.py:517
+#: weblate/trans/forms.py:518
 msgid "Author email"
 msgstr ""
 
-#: weblate/trans/forms.py:543
+#: weblate/trans/forms.py:544
 msgid "Search filter"
 msgstr "Filtre de cerca"
 
-#: weblate/trans/forms.py:546 weblate/trans/models/translation.py:876
-#: weblate/trans/models/translation.py:918
+#: weblate/trans/forms.py:547 weblate/trans/models/translation.py:877
+#: weblate/trans/models/translation.py:919
 msgid "All strings"
 msgstr "Totes les cadenes"
 
-#: weblate/trans/forms.py:547 weblate/trans/models/translation.py:945
+#: weblate/trans/forms.py:548 weblate/trans/models/translation.py:946
 #, fuzzy
 #| msgid "Untranslated strings"
 msgid "Not translated strings"
 msgstr "Cadenes sense traduir"
 
-#: weblate/trans/forms.py:548 weblate/trans/models/translation.py:936
+#: weblate/trans/forms.py:549 weblate/trans/models/translation.py:937
 #, fuzzy
 #| msgid "Strings with suggestions"
 msgid "Strings needing action"
 msgstr "Cadenes amb suggeriments"
 
-#: weblate/trans/forms.py:549 weblate/trans/models/translation.py:927
+#: weblate/trans/forms.py:550 weblate/trans/models/translation.py:928
 msgid "Translated strings"
 msgstr "Cadenes traduïdes"
 
-#: weblate/trans/forms.py:550 weblate/trans/models/translation.py:954
+#: weblate/trans/forms.py:551 weblate/trans/models/translation.py:955
 #, fuzzy
 #| msgid "Source strings review"
 msgid "Strings marked for review"
 msgstr "Revisió de les cadenes originals"
 
-#: weblate/trans/forms.py:551 weblate/trans/models/translation.py:963
+#: weblate/trans/forms.py:552 weblate/trans/models/translation.py:964
 msgid "Strings with suggestions"
 msgstr "Cadenes amb suggeriments"
 
-#: weblate/trans/forms.py:552 weblate/trans/models/translation.py:904
-#: weblate/trans/models/translation.py:991
+#: weblate/trans/forms.py:553 weblate/trans/models/translation.py:905
+#: weblate/trans/models/translation.py:992
 msgid "Strings with comments"
 msgstr "Cadenes amb comentaris"
 
-#: weblate/trans/forms.py:553 weblate/trans/models/translation.py:884
-#: weblate/trans/models/translation.py:971
+#: weblate/trans/forms.py:554 weblate/trans/models/translation.py:885
+#: weblate/trans/models/translation.py:972
 msgid "Strings with any failing checks"
 msgstr "Cadenes amb comprovacions fallides"
 
-#: weblate/trans/forms.py:554 weblate/trans/models/translation.py:1000
+#: weblate/trans/forms.py:555 weblate/trans/models/translation.py:1001
 #, fuzzy
 #| msgid "Source strings review"
 msgid "Random strings for review"
 msgstr "Revisió de les cadenes originals"
 
-#: weblate/trans/forms.py:560
+#: weblate/trans/forms.py:561
 msgid "Please select a valid filter type."
 msgstr ""
 
-#: weblate/trans/forms.py:634
+#: weblate/trans/forms.py:635
 msgid "Query"
 msgstr "Consulta"
 
-#: weblate/trans/forms.py:639
+#: weblate/trans/forms.py:640
 msgid "Search type"
 msgstr "Tipus de cerca"
 
-#: weblate/trans/forms.py:642
+#: weblate/trans/forms.py:643
 msgid "Substring"
 msgstr "Subcadena"
 
-#: weblate/trans/forms.py:643
+#: weblate/trans/forms.py:644
 msgid "Fulltext"
 msgstr "Text complet"
 
-#: weblate/trans/forms.py:644
+#: weblate/trans/forms.py:645
 msgid "Exact match"
 msgstr "Coincidència exacta"
 
-#: weblate/trans/forms.py:648
+#: weblate/trans/forms.py:649
 msgid "Please select a valid search type."
 msgstr ""
 
-#: weblate/trans/forms.py:652
+#: weblate/trans/forms.py:653
 msgid "Search in source strings"
 msgstr "Cerca en les cadenes originals"
 
-#: weblate/trans/forms.py:657
+#: weblate/trans/forms.py:658
 msgid "Search in target strings"
 msgstr "Cerca en les cadenes traduïdes"
 
-#: weblate/trans/forms.py:662
+#: weblate/trans/forms.py:663
 msgid "Search in context strings"
 msgstr "Cerca en les cadenes de context"
 
-#: weblate/trans/forms.py:667
+#: weblate/trans/forms.py:668
 msgid "Search in location strings"
 msgstr "Cerca entre les cadenes de context"
 
-#: weblate/trans/forms.py:672
+#: weblate/trans/forms.py:673
 msgid "Search in comment strings"
 msgstr "Cerca en les cadenes de comentari"
 
-#: weblate/trans/forms.py:679
+#: weblate/trans/forms.py:680
 msgid "Show ignored checks as well"
 msgstr "Mostra comprovacions ignorades"
 
-#: weblate/trans/forms.py:684
+#: weblate/trans/forms.py:685
 #, fuzzy
 #| msgid "Changes"
 msgid "Changed since"
 msgstr "Canvis"
 
-#: weblate/trans/forms.py:688
+#: weblate/trans/forms.py:689
 #, fuzzy
 #| msgid "Changes"
 msgid "Changed by user"
 msgstr "Canvis"
 
-#: weblate/trans/forms.py:692
+#: weblate/trans/forms.py:693
 #, fuzzy
 #| msgid "Changes"
 msgid "Exclude changes by user"
 msgstr "Canvis"
 
-#: weblate/trans/forms.py:708
+#: weblate/trans/forms.py:709
 msgid "The query string has to be longer!"
 msgstr ""
 
-#: weblate/trans/forms.py:730
+#: weblate/trans/forms.py:731
 #, python-format
 msgid "Fulltext search for \"%s\""
 msgstr ""
 
-#: weblate/trans/forms.py:732
+#: weblate/trans/forms.py:733
 #, python-format
 msgid "Search for exact string \"%s\""
 msgstr ""
 
-#: weblate/trans/forms.py:734
+#: weblate/trans/forms.py:735
 #, python-format
 msgid "Substring search for \"%s\""
 msgstr ""
 
-#: weblate/trans/forms.py:745
+#: weblate/trans/forms.py:746
 #, python-brace-format
 msgctxt "String to concatenate search and filter names"
 msgid "{filter_name}, {search_name}"
 msgstr ""
 
-#: weblate/trans/forms.py:764 weblate/trans/forms.py:983
+#: weblate/trans/forms.py:765 weblate/trans/forms.py:984
 #, fuzzy
 #| msgid "languages"
 msgid "All languages"
 msgstr "llengües"
 
-#: weblate/trans/forms.py:796 weblate/trans/forms.py:798
+#: weblate/trans/forms.py:797 weblate/trans/forms.py:799
 msgid "Merged unit not found!"
 msgstr ""
 
-#: weblate/trans/forms.py:817
+#: weblate/trans/forms.py:818
 #, fuzzy
 #| msgid "Recent changes in %s"
 msgid "Reverted change not found!"
 msgstr "Canvis recents en %s"
 
-#: weblate/trans/forms.py:824
+#: weblate/trans/forms.py:825
 msgid "Overwrite strings"
 msgstr "Sobreescriu les cadenes"
 
-#: weblate/trans/forms.py:829
+#: weblate/trans/forms.py:830
 msgid "Replace inconsistent"
 msgstr ""
 
-#: weblate/trans/forms.py:834
+#: weblate/trans/forms.py:835
 msgid "Component to use"
 msgstr ""
 
-#: weblate/trans/forms.py:860
+#: weblate/trans/forms.py:861
 msgid "All components in current project"
 msgstr ""
 
-#: weblate/trans/forms.py:873
+#: weblate/trans/forms.py:874
 #, fuzzy
 #| msgid "Songhai languages"
 msgid "Invalid integer list!"
 msgstr "llengües songhai"
 
-#: weblate/trans/forms.py:902
+#: weblate/trans/forms.py:903
 msgid ""
 "You can upload any format which is understood by Translate Toolkit "
 "(including TBX, CSV or Gettext PO files)."
@@ -6587,167 +6641,197 @@ msgstr ""
 "Podeu pujar qualsevol format acceptat per Translate Toolkit (incloent TBX, "
 "CSV o fitxers Gettext PO)."
 
-#: weblate/trans/forms.py:909
+#: weblate/trans/forms.py:910
 msgid "Keep current"
 msgstr ""
 
-#: weblate/trans/forms.py:910
+#: weblate/trans/forms.py:911
 msgid "Overwrite existing"
 msgstr ""
 
-#: weblate/trans/forms.py:911
+#: weblate/trans/forms.py:912
 msgid "Add as other translation"
 msgstr "Afegir com una altra traducció"
 
-#: weblate/trans/forms.py:920 weblate/trans/forms.py:1119
+#: weblate/trans/forms.py:921 weblate/trans/forms.py:1129
 msgid "Starting date"
 msgstr "Data inicial"
 
-#: weblate/trans/forms.py:937
+#: weblate/trans/forms.py:938
 msgctxt "Select starting letter in glossary"
 msgid "Any"
 msgstr ""
 
-#: weblate/trans/forms.py:939
+#: weblate/trans/forms.py:940
 msgid "Starting letter"
 msgstr ""
 
-#: weblate/trans/forms.py:955
+#: weblate/trans/forms.py:956
 msgid "Scope"
 msgstr ""
 
-#: weblate/trans/forms.py:957
+#: weblate/trans/forms.py:958
 msgid ""
 "Is your comment specific to this translation or generic for all of them?"
 msgstr ""
 
-#: weblate/trans/forms.py:963
+#: weblate/trans/forms.py:964
 msgid "Source string comment, suggestions to change this string"
 msgstr ""
 
-#: weblate/trans/forms.py:967
+#: weblate/trans/forms.py:968
 msgid "Translation comment, discussions with other translators"
 msgstr "Comentari de traducció, discussions amb altres traductors"
 
-#: weblate/trans/forms.py:987
+#: weblate/trans/forms.py:988
 #, fuzzy
 #| msgid "Components"
 msgid "All components"
 msgstr "Components"
 
-#: weblate/trans/forms.py:1027
+#: weblate/trans/forms.py:1028
 #, python-brace-format
 msgid "Similar translation already exists in the project ({0})!"
 msgstr ""
 
-#: weblate/trans/forms.py:1046
+#: weblate/trans/forms.py:1047
 msgid "Please select"
 msgstr ""
 
-#: weblate/trans/forms.py:1068
+#: weblate/trans/forms.py:1069
 msgid "Strings with higher priority are offered first to translators."
 msgstr "S'ofereixen primer les cadenes amb més prioritat."
 
-#: weblate/trans/forms.py:1075
+#: weblate/trans/forms.py:1076
 msgid "Check flags"
 msgstr "Indicadors de verificació"
 
-#: weblate/trans/forms.py:1082
+#: weblate/trans/forms.py:1083
 #, python-brace-format
 msgid ""
 "Please enter a comma separated list of check flags, see <a href="
 "\"{url}\">documentation</a> for more details."
 msgstr ""
 
-#: weblate/trans/forms.py:1100
+#: weblate/trans/forms.py:1101
 msgid "User to add"
 msgstr ""
 
-#: weblate/trans/forms.py:1102
+#: weblate/trans/forms.py:1103
 msgid ""
 "Please provide username or email. User needs to already have an active "
 "account in Weblate."
 msgstr ""
 
-#: weblate/trans/forms.py:1110
+#: weblate/trans/forms.py:1111
 #, fuzzy
 #| msgid "More information"
 msgid "Report format"
 msgstr "Més informació"
 
-#: weblate/trans/forms.py:1111
+#: weblate/trans/forms.py:1112
 msgid "Choose file format for the report"
 msgstr ""
 
-#: weblate/trans/forms.py:1113
+#: weblate/trans/forms.py:1114
 msgid "reStructuredText"
 msgstr ""
 
-#: weblate/trans/forms.py:1114
+#: weblate/trans/forms.py:1115
 msgid "JSON"
 msgstr ""
 
-#: weblate/trans/forms.py:1115
+#: weblate/trans/forms.py:1116
 #, fuzzy
 #| msgid "HTML code"
 msgid "HTML"
 msgstr "Codi HTML"
 
+#: weblate/trans/forms.py:1120
+#, fuzzy
+#| msgid "More information"
+msgid "Report period"
+msgstr "Més informació"
+
+#: weblate/trans/forms.py:1122
+#, fuzzy
+#| msgid "Last login"
+msgid "Last month"
+msgstr "Última entrada"
+
 #: weblate/trans/forms.py:1123
+#, fuzzy
+#| msgid "Last author"
+msgid "Last year"
+msgstr "Últim autor"
+
+#: weblate/trans/forms.py:1124
+msgid "As specified"
+msgstr ""
+
+#: weblate/trans/forms.py:1134
 #, fuzzy
 #| msgid "Starting date"
 msgid "Ending date"
 msgstr "Data inicial"
 
-#: weblate/trans/forms.py:1167
-msgid "Basic"
-msgstr ""
-
 #: weblate/trans/forms.py:1174
-msgid "Upstream links"
+msgid "Starting and ending dates have to be specified!"
 msgstr ""
 
 #: weblate/trans/forms.py:1188
+msgid "Starting date has to be before ending date!"
+msgstr ""
+
+#: weblate/trans/forms.py:1231
+msgid "Basic"
+msgstr ""
+
+#: weblate/trans/forms.py:1238
+msgid "Upstream links"
+msgstr ""
+
+#: weblate/trans/forms.py:1252
 #, fuzzy
 #| msgid "Translation status"
 msgid "Translation settings"
 msgstr "Estat de la traducció"
 
-#: weblate/trans/forms.py:1196
+#: weblate/trans/forms.py:1260
 msgid "Version control"
 msgstr "Control de versió"
 
-#: weblate/trans/forms.py:1198
+#: weblate/trans/forms.py:1262
 #, fuzzy
 #| msgid "Action"
 msgid "Locations"
 msgstr "Acció"
 
-#: weblate/trans/forms.py:1202
+#: weblate/trans/forms.py:1266
 #, fuzzy
 #| msgid "Search in context strings"
 msgid "Version control settings"
 msgstr "Cerca en les cadenes de context"
 
-#: weblate/trans/forms.py:1208
+#: weblate/trans/forms.py:1272
 #, fuzzy
 #| msgid "Commit message:"
 msgid "Commit messages"
 msgstr "Missatge de desat:"
 
-#: weblate/trans/forms.py:1218
+#: weblate/trans/forms.py:1282
 #, fuzzy
 #| msgid "Fuzzy strings processing"
 msgid "Languages processing"
 msgstr "S'estan processant les cadenes dubtoses"
 
-#: weblate/trans/forms.py:1270
+#: weblate/trans/forms.py:1334
 #, fuzzy
 #| msgid "Source strings"
 msgid "Search string"
 msgstr "Cadenes originals"
 
-#: weblate/trans/forms.py:1275
+#: weblate/trans/forms.py:1339
 #, fuzzy
 #| msgid "Search in comment strings"
 msgid "Replacement string"
@@ -7564,93 +7648,87 @@ msgstr ""
 msgid "Failed to parse %d matched files!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1223
-msgid ""
-"Chosen file format does not support adding new translations as chosen in "
-"project settings."
-msgstr ""
-
-#: weblate/trans/models/subproject.py:1231
+#: weblate/trans/models/subproject.py:1225
 msgid ""
 "You have configured Weblate to add new translation files, but did not "
 "provide base file to do that!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1235
+#: weblate/trans/models/subproject.py:1229
 msgid "Format of base file for new translations was not recognized!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1240
+#: weblate/trans/models/subproject.py:1234
 msgid ""
 "Base file for new translations is not used because of component settings. "
 "You probably want to enable automatic adding of new translations."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1251
+#: weblate/trans/models/subproject.py:1245
 msgid "You can not use base file with bilingual translation!"
 msgstr "No podeu utilitzar un fitxer base en una traducció bilingüe!"
 
-#: weblate/trans/models/subproject.py:1256
+#: weblate/trans/models/subproject.py:1250
 msgid "Using .pot file as base file is not supported!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1263
+#: weblate/trans/models/subproject.py:1257
 msgid "Template file not found!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1269
+#: weblate/trans/models/subproject.py:1263
 #, python-format
 msgid "Failed to parse translation base file: %s"
 msgstr "Ha fallat l'anàlisi del fitxer base de traduccions: %s"
 
-#: weblate/trans/models/subproject.py:1279
+#: weblate/trans/models/subproject.py:1273
 #, python-brace-format
 msgid "Template language ({0}) does not match project source language ({1})!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1286
+#: weblate/trans/models/subproject.py:1280
 msgid "You can not use monolingual translation without base file!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1297
+#: weblate/trans/models/subproject.py:1291
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1304
+#: weblate/trans/models/subproject.py:1298
 msgid "License URL can not be used without license summary."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1324
+#: weblate/trans/models/subproject.py:1318
 msgid "Changing version control system is not supported!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1329
+#: weblate/trans/models/subproject.py:1323
 #, python-brace-format
 msgid "Unsupported file format: {0}"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1336
+#: weblate/trans/models/subproject.py:1330
 #, python-format
 msgid "Failed to update repository: %s"
 msgstr "Ha fallat l'actualització del dipòsit: %s"
 
-#: weblate/trans/models/subproject.py:1356
+#: weblate/trans/models/subproject.py:1350
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1368
+#: weblate/trans/models/subproject.py:1362
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1550
+#: weblate/trans/models/subproject.py:1541
 #, fuzzy
 #| msgid "Failed to save translation!"
 msgid "Failed to add new translation file!"
 msgstr "Error en desar la traducció!"
 
-#: weblate/trans/models/subproject.py:1572
+#: weblate/trans/models/subproject.py:1563
 #, fuzzy
 #| msgid "Translation file"
 msgid "Translation file already exists!"
@@ -7679,45 +7757,45 @@ msgstr ""
 msgid "{translation}, translation unit {position}"
 msgstr "%(filename)s, unitat de traducció %(position)s"
 
-#: weblate/trans/models/whiteboard.py:88
+#: weblate/trans/models/whiteboard.py:89
 msgid "Category"
 msgstr ""
 
-#: weblate/trans/models/whiteboard.py:90
+#: weblate/trans/models/whiteboard.py:91
 msgid "Category defines color used for the message."
 msgstr ""
 
-#: weblate/trans/models/whiteboard.py:93
+#: weblate/trans/models/whiteboard.py:94
 msgid "Info (light blue)"
 msgstr ""
 
-#: weblate/trans/models/whiteboard.py:94
+#: weblate/trans/models/whiteboard.py:95
 msgid "Warning (yellow)"
 msgstr ""
 
-#: weblate/trans/models/whiteboard.py:95
+#: weblate/trans/models/whiteboard.py:96
 #, fuzzy
 #| msgid "Change word"
 msgid "Danger (red)"
 msgstr "Canvia la paraula"
 
-#: weblate/trans/models/whiteboard.py:96
+#: weblate/trans/models/whiteboard.py:97
 msgid "Success (green)"
 msgstr ""
 
-#: weblate/trans/models/whiteboard.py:97
+#: weblate/trans/models/whiteboard.py:98
 msgid "Primary (dark blue)"
 msgstr ""
 
-#: weblate/trans/models/whiteboard.py:106
+#: weblate/trans/models/whiteboard.py:107
 msgid "Whiteboard message"
 msgstr "Missatge de pissarra"
 
-#: weblate/trans/models/whiteboard.py:107
+#: weblate/trans/models/whiteboard.py:108
 msgid "Whiteboard messages"
 msgstr "Missatges de pissarra"
 
-#: weblate/trans/models/whiteboard.py:116
+#: weblate/trans/models/whiteboard.py:117
 msgid "Do not specify both component and project!"
 msgstr ""
 
@@ -7733,48 +7811,46 @@ msgstr "Insereix un salt de línia"
 msgid "Insert horizontal ellipsis"
 msgstr ""
 
-#: weblate/trans/specialchars.py:37
-msgid "Danda"
-msgstr ""
+#: weblate/trans/specialchars.py:455
+#, fuzzy, python-brace-format
+#| msgid "Insert character {0}"
+msgid "Insert {0}"
+msgstr "Inseriu caràcter {0}"
 
-#: weblate/trans/specialchars.py:38
-msgid "Double danda"
-msgstr ""
-
-#: weblate/trans/specialchars.py:450
+#: weblate/trans/specialchars.py:460 weblate/trans/specialchars.py:462
 #, python-brace-format
 msgid "Insert character {0}"
 msgstr "Inseriu caràcter {0}"
 
-#: weblate/trans/specialchars.py:464
+#: weblate/trans/specialchars.py:476
 msgid "Opening double quote"
 msgstr ""
 
-#: weblate/trans/specialchars.py:465
+#: weblate/trans/specialchars.py:477
 msgid "Closing double quote"
 msgstr ""
 
-#: weblate/trans/specialchars.py:466
+#: weblate/trans/specialchars.py:478
 msgid "Opening single quote"
 msgstr ""
 
-#: weblate/trans/specialchars.py:467
+#: weblate/trans/specialchars.py:479
 msgid "Closing single quote"
 msgstr "Tanqueu la cometa simple"
 
-#: weblate/trans/specialchars.py:470
+#: weblate/trans/specialchars.py:482
 msgid "Hyphen"
 msgstr ""
 
-#: weblate/trans/specialchars.py:473
+#: weblate/trans/specialchars.py:485
 msgid "En dash"
 msgstr ""
 
-#: weblate/trans/specialchars.py:476
+#: weblate/trans/specialchars.py:488
 msgid "Em dash"
 msgstr ""
 
-#: weblate/trans/specialchars.py:479
+#: weblate/trans/specialchars.py:491
 #, fuzzy
 #| msgid "Insert character {0}"
 msgid "User configured character: {}"
