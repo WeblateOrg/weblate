@@ -96,7 +96,7 @@ class LanguageQuerySet(models.QuerySet):
         return self.get(code='en')
 
     def try_get(self, *args, **kwargs):
-        """Trie to get language by code."""
+        """Try to get language by code."""
         try:
             return self.get(*args, **kwargs)
         except (Language.DoesNotExist, Language.MultipleObjectsReturned):
