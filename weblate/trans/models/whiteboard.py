@@ -43,7 +43,7 @@ class WhiteboardManager(models.Manager):
                 return base.filter(
                     Q(language=language) |
                     Q(subproject=subproject) |
-                    Q(project=subproject.project)
+                    (Q(project=subproject.project) & Q(subproject=None))
                 )
 
             return base.filter(
