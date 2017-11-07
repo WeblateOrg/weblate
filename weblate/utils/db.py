@@ -28,11 +28,11 @@ def re_escape(pattern):
 
     This is based on re.escape, but that one escapes too much.
     """
-    s = list(pattern)
-    for i, c in enumerate(pattern):
-        if c in ESCAPED:
-            if c == "\000":
-                s[i] = "\\000"
+    string = list(pattern)
+    for i, char in enumerate(pattern):
+        if char in ESCAPED:
+            if char == "\000":
+                string[i] = "\\000"
             else:
-                s[i] = "\\" + c
-    return "".join(s)
+                string[i] = "\\" + char
+    return "".join(string)
