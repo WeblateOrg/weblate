@@ -451,6 +451,16 @@ list_ignored_checks
 Lists most frequently ignored checks. This can be useful for tuning your setup,
 if users have to ignore too many of consistency checks.
 
+list_languages
+--------------
+
+.. django-admin:: list_languages <locale>
+
+Lists supported language in MediaWiki markup - language codes, English names
+and localized names.
+
+This is used to generate <http://wiki.l10n.cz/Jazyky>.
+
 list_translators
 ----------------
 

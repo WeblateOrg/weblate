@@ -22,10 +22,14 @@
 
 import os.path
 import gettext
+
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.core.management import call_command
 from django.utils.encoding import force_text
+
+from six import StringIO
+
 from weblate.lang.models import Language, get_plural_type
 from weblate.lang import data
 from weblate.trans.tests.test_models import BaseTestCase
@@ -320,6 +324,14 @@ class CommandTest(TestCase):
             'plurals.txt'
         )
         call_command('checklang', testfile)
+
+    def test_list_languages(self):
+        output = StringIO()
+        call_command(
+            'list_languages', 'cs',
+            stdout=output
+        )
+        self.assertIn('Czech', output.getvalue())
 
 
 class VerifyPluralsTest(TestCase):
