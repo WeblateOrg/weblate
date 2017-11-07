@@ -319,11 +319,13 @@ class CommandTest(TestCase):
         self.assertTrue(Language.objects.exists())
 
     def test_checklang(self):
+        output = StringIO()
         testfile = os.path.join(
             os.path.dirname(os.path.abspath(__file__)),
             'plurals.txt'
         )
-        call_command('checklang', testfile)
+        call_command('checklang', testfile, stderr=output)
+        self.assertIn('different plurals zh:', output.getvalue())
 
     def test_list_languages(self):
         output = StringIO()
