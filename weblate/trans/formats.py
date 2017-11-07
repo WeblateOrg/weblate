@@ -22,10 +22,11 @@
 from __future__ import unicode_literals
 
 from io import BytesIO
-import os.path
+import os
 import inspect
 import re
 import csv
+import tempfile
 import traceback
 import importlib
 
@@ -661,8 +662,16 @@ class FileFormat(object):
 
     def save(self):
         """Save underlaying store to disk."""
-        with open(self.storefile, 'wb') as handle:
-            self.store.serialize(handle)
+        dirname, basename = os.path.split(self.storefile)
+        temp = tempfile.NamedTemporaryFile(
+            prefix=basename, dir=dirname, delete=False
+        )
+        try:
+            self.store.serialize(temp)
+            temp.close()
+            os.rename(temp.name, self.storefile)
+        except Exception:
+            os.unlink(temp.name)
 
     def find_matching(self, template_unit):
         """Find matching store unit for template"""
