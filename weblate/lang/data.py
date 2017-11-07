@@ -880,6 +880,12 @@ EXTRALANGS = (
         2,
         'n != 1',
     ),
+    (
+        'mhr',
+        'Meadow Mari',
+        2,
+        'n != 1',
+    ),
 )
 
 NO_CODE_LANGUAGES = frozenset((
