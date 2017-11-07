@@ -36,6 +36,7 @@ from whoosh.lang import has_stemmer
 from weblate.lang.models import Language
 from weblate.trans.formats import AutoFormat
 from weblate.trans.models.project import Project
+from weblate.utils.db import re_escape
 from weblate.utils.errors import report_error
 
 
@@ -177,7 +178,7 @@ class DictionaryManager(models.Manager):
             # Can not use __in as we want case insensitive lookup
             dictionary = dictionary.filter(
                 source__iregex=r'^({0})$'.format(
-                    '|'.join([re.escape(word) for word in words])
+                    '|'.join([re_escape(word) for word in words])
                 )
             )
 
