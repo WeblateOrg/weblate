@@ -1225,6 +1225,8 @@ LOCALE_ALIASES = {
     'zh_hk': 'zh_Hant_HK',
     # ios translations
     'base': 'en',
+    # commonly used
+    'source': 'en',
     # Country codes used instead of language,
     # we can map only those which do not collide with existing language code
     'dk': 'da',
