@@ -850,6 +850,36 @@ EXTRALANGS = (
         2,
         'n != 1',
     ),
+    (
+        'bem',
+        'Bemba',
+        2,
+        'n != 1',
+    ),
+    (
+        'crh',
+        'Crimean Tatar',
+        1,
+        '0',
+    ),
+    (
+        'shn',
+        'Shan',
+        2,
+        'n != 1',
+    ),
+    (
+        'wae',
+        'Walser German',
+        2,
+        'n != 1',
+    ),
+    (
+        'chm',
+        'Mari',
+        2,
+        'n != 1',
+    ),
 )
 
 NO_CODE_LANGUAGES = frozenset((
