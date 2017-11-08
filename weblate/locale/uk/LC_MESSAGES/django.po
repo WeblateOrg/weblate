@@ -8,17 +8,17 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-11-07 11:23+0000\n"
-"PO-Revision-Date: 2017-10-16 15:13+0000\n"
+"PO-Revision-Date: 2017-11-08 07:11+0000\n"
 "Last-Translator: Андрій Бандура <andriykopanytsia@gmail.com>\n"
-"Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/master/"
-"uk/>\n"
+"Language-Team: Ukrainian "
+"<https://hosted.weblate.org/projects/weblate/master/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2.17\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 2.18-dev\n"
 
 #: weblate/accounts/admin.py:106 weblate/accounts/admin.py:111
 msgid "Personal info"
@@ -266,10 +266,11 @@ msgid "Successfully authenticated using {method} ({name})."
 msgstr "Успішно засвідчено справжність за допомогою {method} ({name})."
 
 #: weblate/accounts/models.py:73
-#, fuzzy, python-brace-format
-#| msgid "Successfully authenticated using {method} ({name})."
+#, python-brace-format
 msgid "Successfully authenticated using {method} ({name}) from new device."
-msgstr "Успішно засвідчено справжність за допомогою {method} ({name})."
+msgstr ""
+"Успішно засвідчено справжність за допомогою {method} ({name}) з нового "
+"пристрою."
 
 #: weblate/accounts/models.py:76
 msgid "Somebody has attempted to register with your email."
@@ -1797,10 +1798,8 @@ msgid "IP address"
 msgstr "ІР адреса"
 
 #: weblate/templates/accounts/profile.html:311
-#, fuzzy
-#| msgid "User comments"
 msgid "User agent"
-msgstr "Коментарі користувача"
+msgstr "Браузер"
 
 #: weblate/templates/accounts/profile.html:323
 #: weblate/templates/accounts/profile.html:324
@@ -2433,10 +2432,8 @@ msgid "Powered by <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
 msgstr "Створено на <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
 
 #: weblate/templates/footer.html:8
-#, fuzzy
-#| msgid "Service"
 msgid "Service status"
-msgstr "Служба"
+msgstr "Стан служби"
 
 #: weblate/templates/footer.html:9
 msgid "Contact us"
@@ -2511,10 +2508,8 @@ msgid "Avoid repeated words and characters."
 msgstr "Уникайте повторюваних слів чи символів."
 
 #: weblate/templates/i18n.html:28
-#, fuzzy
-#| msgid "Sequences like abc or 6543 are easy to guess."
 msgid "Sequences like \"abc\" or \"6543\" are easy to guess."
-msgstr "Послідовності на кшталт „abc“ або „6543“ легко вгадати."
+msgstr "Послідовності на кшталт \"abc\" або \"6543\" легко вгадати."
 
 #: weblate/templates/i18n.html:29
 msgid "Avoid sequences."
@@ -2690,7 +2685,7 @@ msgstr "білоруська (латинка)"
 
 #: weblate/templates/i18n.html:81
 msgid "Bemba"
-msgstr ""
+msgstr "Бемба"
 
 #: weblate/templates/i18n.html:82
 msgid "Bengali"
@@ -2814,7 +2809,7 @@ msgstr "крі"
 
 #: weblate/templates/i18n.html:112
 msgid "Crimean Tatar"
-msgstr ""
+msgstr "кримсько-татарська"
 
 #: weblate/templates/i18n.html:113
 msgid "Croatian"
@@ -3214,7 +3209,7 @@ msgstr "маратхі"
 
 #: weblate/templates/i18n.html:212
 msgid "Mari"
-msgstr ""
+msgstr "марійська"
 
 #: weblate/templates/i18n.html:213
 msgid "Marshallese"
@@ -3222,7 +3217,7 @@ msgstr "маршальська"
 
 #: weblate/templates/i18n.html:214
 msgid "Meadow Mari"
-msgstr ""
+msgstr "лужномарійська"
 
 #: weblate/templates/i18n.html:215
 msgid "Moldovan"
@@ -3442,7 +3437,7 @@ msgstr "сербсько-хорватьська"
 
 #: weblate/templates/i18n.html:269
 msgid "Shan"
-msgstr ""
+msgstr "шанська"
 
 #: weblate/templates/i18n.html:270
 msgid "Shona"
@@ -3649,10 +3644,8 @@ msgid "Walloon"
 msgstr "валлонська"
 
 #: weblate/templates/i18n.html:321
-#, fuzzy
-#| msgid "Austrian German"
 msgid "Walser German"
-msgstr "австрійська німецька"
+msgstr "вальзерська німецька"
 
 #: weblate/templates/i18n.html:322
 msgid "Welsh"
@@ -4167,17 +4160,13 @@ msgstr "Наявна зміна у вашому профілі на %(site_title
 
 #: weblate/templates/mail/account_activity.html:18
 #: weblate/templates/mail/account_activity.txt:7
-#, fuzzy
-#| msgid "IP address"
 msgid "IP address:"
-msgstr "ІР адреса"
+msgstr "ІР адреса:"
 
 #: weblate/templates/mail/account_activity.html:19
 #: weblate/templates/mail/account_activity.txt:8
-#, fuzzy
-#| msgid "User comments"
 msgid "User agent:"
-msgstr "Коментарі користувача"
+msgstr "Браузер:"
 
 #: weblate/templates/mail/account_activity.html:22
 #: weblate/templates/mail/account_activity.txt:10
@@ -6455,26 +6444,20 @@ msgid "HTML"
 msgstr "HTML"
 
 #: weblate/trans/forms.py:1120
-#, fuzzy
-#| msgid "Report format"
 msgid "Report period"
-msgstr "Формат звіту"
+msgstr "Період звіту"
 
 #: weblate/trans/forms.py:1122
-#, fuzzy
-#| msgid "Last login"
 msgid "Last month"
-msgstr "Останній вхід"
+msgstr "Останній місяць"
 
 #: weblate/trans/forms.py:1123
-#, fuzzy
-#| msgid "Last author"
 msgid "Last year"
-msgstr "Останній автор"
+msgstr "Останній рік"
 
 #: weblate/trans/forms.py:1124
 msgid "As specified"
-msgstr ""
+msgstr "Як вказано"
 
 #: weblate/trans/forms.py:1134
 msgid "Ending date"
@@ -6482,11 +6465,11 @@ msgstr "Дата закінчення"
 
 #: weblate/trans/forms.py:1174
 msgid "Starting and ending dates have to be specified!"
-msgstr ""
+msgstr "Дати початку та кінця повинні бути вказані!"
 
 #: weblate/trans/forms.py:1188
 msgid "Starting date has to be before ending date!"
-msgstr ""
+msgstr "Дата початку повинна передувати даті кінця!"
 
 #: weblate/trans/forms.py:1231
 msgid "Basic"
@@ -7505,10 +7488,9 @@ msgid "Insert horizontal ellipsis"
 msgstr "Вставити горизонтальну трикрапку"
 
 #: weblate/trans/specialchars.py:455
-#, fuzzy, python-brace-format
-#| msgid "Insert character {0}"
+#, python-brace-format
 msgid "Insert {0}"
-msgstr "Вставити символ {0}"
+msgstr "Вставити {0}"
 
 #: weblate/trans/specialchars.py:460 weblate/trans/specialchars.py:462
 #, python-brace-format
