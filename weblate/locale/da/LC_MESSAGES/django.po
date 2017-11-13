@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-11-13 14:31+0000\n"
-"PO-Revision-Date: 2017-11-13 16:38+0000\n"
+"PO-Revision-Date: 2017-11-13 20:16+0000\n"
 "Last-Translator: jan madsen <jsm@janz.dk>\n"
 "Language-Team: Danish "
 "<https://hosted.weblate.org/projects/weblate/master/da/>\n"
@@ -978,16 +978,12 @@ msgstr ""
 "enkelt oversættelse."
 
 #: weblate/legal/templates/legal/index.html:28
-#, fuzzy
-#| msgid ""
-#| "Your name and email is used in VCS commits, it will stay there forever."
 msgid ""
 "Your name and email address is used in VCS commits, it will stay there "
 "indefinitely."
-msgstr "Dit navn og e-mail bruges i VCS, der bliver de for evigt."
+msgstr "Navn og e-mail bruges i VCS, der bliver de for evigt."
 
 #: weblate/legal/templates/legal/index.html:29
-#, fuzzy
 msgid "We use cookies to deliver our services."
 msgstr "Vi bruger cookies til at levere vores tjenester."
 
@@ -1289,15 +1285,12 @@ msgstr "Weblate ville ikke eksistere uden disse projekter."
 
 #: weblate/templates/access_control_description.html:4
 #: weblate/trans/models/project.py:130
-#, fuzzy
-#| msgid "Public SSH key"
 msgid "Public"
 msgstr "Offentlig"
 
 #: weblate/templates/access_control_description.html:5
-#, fuzzy
 msgid "Publicly visible and translatable"
-msgstr "Offentligt synlige og oversætbare"
+msgstr "Offentligt synlig og oversættelig"
 
 #: weblate/templates/access_control_description.html:6
 #: weblate/trans/models/project.py:131
@@ -1305,9 +1298,8 @@ msgid "Protected"
 msgstr "Beskyttet"
 
 #: weblate/templates/access_control_description.html:7
-#, fuzzy
 msgid "Publicly visible but translatable only for selected users"
-msgstr "Offentligt synlige, men kun oversætbare for udvalgte brugere"
+msgstr "Offentligt synlig, men kun oversættelig for udvalgte brugere"
 
 #: weblate/templates/access_control_description.html:8
 #: weblate/trans/models/project.py:132
@@ -1315,9 +1307,8 @@ msgid "Private"
 msgstr "Private"
 
 #: weblate/templates/access_control_description.html:9
-#, fuzzy
 msgid "Visible and translatable only for selected users"
-msgstr "Synlige og oversætbare kun for udvalgte brugere"
+msgstr "Synlig og oversættelig kun for udvalgte brugere"
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -1333,7 +1324,7 @@ msgid "Confirm new association"
 msgstr "Bekræft ny tilknytning"
 
 #: weblate/templates/accounts/confirm.html:17
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "After confirming this, you will be able to authenticate to Weblate using "
 "%(backend_verbose)s (%(uid)s)."
@@ -1361,42 +1352,28 @@ msgid "Password reset almost complete"
 msgstr "Nulstilling af adgangskoden er næsten afsluttet"
 
 #: weblate/templates/accounts/email-sent.html:16
-#, fuzzy
-#| msgid "Password reset almost complete"
 msgid "Account removal almost complete"
-msgstr "Nulstilling af adgangskoden er næsten afsluttet"
+msgstr "Konto fjernelse næsten fuldført"
 
 #: weblate/templates/accounts/email-sent.html:18
 msgid "Registration almost complete"
 msgstr "Registrering næsten komplet"
 
 #: weblate/templates/accounts/email-sent.html:24
-#, fuzzy
-#| msgid ""
-#| "Thank you for registering. You will very soon receive an email with a "
-#| "confirmation link. Please follow this link in order to complete your "
-#| "registration."
 msgid ""
 "You will very soon receive an email with a confirmation link. Please follow "
 "this link in order to complete your password reset procedure."
 msgstr ""
-"Du vil snart modtage e-post med\n"
-"en henivsning til bekræftelse. Følg dette link for at fuldføre nulstilling "
-"af adgangskoden."
+"Du vil snart modtage en e-post med en henivsning til bekræftelse. Følg dette "
+"link for at fuldføre nulstilling af adgangskoden."
 
 #: weblate/templates/accounts/email-sent.html:26
-#, fuzzy
-#| msgid ""
-#| "Thank you for registering. You will very soon receive an email with a "
-#| "confirmation link. Please follow this link in order to complete your "
-#| "registration."
 msgid ""
 "You will very soon receive an email with a confirmation link. Please follow "
 "this link in order to complete your account removal procedure."
 msgstr ""
-"Du vil snart modtage e-post med\n"
-"en henivsning til bekræftelse. Følg dette link for at fuldføre nulstilling "
-"af adgangskoden."
+"Du vil snart modtage en e-post med en henivsning til bekræftelse. Følg dette "
+"link for at fuldføre fjernelse kontoen."
 
 #: weblate/templates/accounts/email-sent.html:28
 msgid ""
@@ -1417,19 +1394,15 @@ msgstr ""
 "så  registrer igen."
 
 #: weblate/templates/accounts/email-sent.html:35
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder or retry "
-#| "the registration. If the problem persists, please <a href="
-#| "\"%(contact_url)s?subject=Registration problems\">contact us</a>."
+#, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. If the problem persists, please <a href=\"%(contact_url)s?t=reg"
 "\">contact us</a>."
 msgstr ""
 "Hvis du ikke modtager den efter kort tid, så tjek spammappen eller prøv "
-"registrering igen. Hvis problemet fortsætter, så <a <a href="
-"\"%(contact_url)s?t=reg\">kontakt os</a>."
+"registrering igen. Hvis problemet fortsætter, så <a href=\"%(contact_url)s?t="
+"reg\">kontakt os</a>."
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:25
@@ -1531,8 +1504,7 @@ msgstr ""
 "dig</a>."
 
 #: weblate/templates/accounts/password-warning.html:3
-#, fuzzy, python-format
-#| msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
+#, python-format
 msgid ""
 "You have not enabled password authentication, please <a href=\"%(url)s\">set "
 "the password</a>."
@@ -1541,7 +1513,6 @@ msgstr ""
 "adgangskoden</a>."
 
 #: weblate/templates/accounts/password-warning.html:6
-#, fuzzy
 msgid "You will be still able to authenticate using third party services."
 msgstr ""
 "Du vil stadig være i stand til at foretage godkendelse ved hjælp "
@@ -1647,14 +1618,13 @@ msgid ""
 msgstr "De sekundære sprog vises ud for kildestrengen ved oversættelse."
 
 #: weblate/templates/accounts/profile.html:61
-#, fuzzy
 msgid ""
 "Only languages which are currently being translated are listed. If you want "
 "to translate to another language, please request it first on the project you "
 "want to translate."
 msgstr ""
 "Kun sprog, som er ved at blive oversat, er anført. Hvis du ønsker at "
-"oversætte til andre sprog, skal du anmode om det først på det projekt, du "
+"oversætte til andre sprog, skal du først anmode om det, på det projekt du "
 "vil oversætte."
 
 #: weblate/templates/accounts/profile.html:65
@@ -1781,13 +1751,12 @@ msgid "Your public appearance on this site."
 msgstr "Din offentlige udseende på webstedet."
 
 #: weblate/templates/accounts/profile.html:299
-#, fuzzy
 msgid ""
 "Audit log shows important changes on your account. In case you see something "
 "suspicious don't hesitate to contact us."
 msgstr ""
 "Revisionsloggen viser vigtige ændringer på din konto. Hvis du ser noget "
-"mistænkeligt, tøv ikke med at kontakte os."
+"mistænkeligt, så tøv ikke med at kontakte os."
 
 #: weblate/templates/accounts/profile.html:308
 #: weblate/templates/last-changes-content.html:8
@@ -1803,7 +1772,7 @@ msgstr "IP-adresse"
 #, fuzzy
 #| msgid "User comments"
 msgid "User agent"
-msgstr "Brugerkommentarer"
+msgstr "Brugeragent"
 
 #: weblate/templates/accounts/profile.html:323
 #: weblate/templates/accounts/profile.html:324
@@ -1958,13 +1927,12 @@ msgstr ""
 "bruge denne konto."
 
 #: weblate/templates/accounts/removal.html:22
-#, fuzzy
 msgid ""
 "You will have to confirm account removal by clicking link in email you will "
 "receive."
 msgstr ""
-"Du bliver nødt til at bekræfte fjernelse af konto  ved at klikke på linket i "
-"e-mail du vil modtage."
+"Du skak bekræfte fjernelse af konto  ved at klikke på linket i den e-mail du "
+"vil modtage."
 
 #: weblate/templates/accounts/removal.html:27
 msgid "Delete this account"
@@ -2443,7 +2411,7 @@ msgstr "Drevet af <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
 #, fuzzy
 #| msgid "Service"
 msgid "Service status"
-msgstr "Tjeneste"
+msgstr "Tjenestestatus"
 
 #: weblate/templates/footer.html:9
 msgid "Contact us"
@@ -2478,10 +2446,8 @@ msgstr ""
 "Hold \"Ctrl\", eller \"Command\" på en Mac, nede for at vælge mere end et."
 
 #: weblate/templates/i18n.html:18
-#, fuzzy
-#| msgid "Your password has been changed."
 msgid "Your password must be stronger."
-msgstr "Din adgangskode er ændret."
+msgstr "Adgangskoden skal være stærkere."
 
 #: weblate/templates/i18n.html:19
 msgid "Use a few words, avoid common phrases."
@@ -2518,10 +2484,8 @@ msgstr ""
 "Gentagelser som \"abcabcabc\" er kun lidt sværere at gætte end \"abc\"."
 
 #: weblate/templates/i18n.html:27
-#, fuzzy
-#| msgid "At least four characters long."
 msgid "Avoid repeated words and characters."
-msgstr "Mindste længde er fire tegn."
+msgstr "Undgå gentagne ord og tegn."
 
 #: weblate/templates/i18n.html:28
 msgid "Sequences like \"abc\" or \"6543\" are easy to guess."
@@ -2540,26 +2504,22 @@ msgid "Avoid recent years."
 msgstr "Undgå de seneste årstal."
 
 #: weblate/templates/i18n.html:32
-#, fuzzy
 msgid "Avoid years that are associated with you."
-msgstr "Undgå årstal som har forbindelse med dig."
+msgstr "Undgå årstal som har forbindelse til dig."
 
 #: weblate/templates/i18n.html:33
 msgid "Dates are often easy to guess."
 msgstr "Datoer er ofte lette at gætte."
 
 #: weblate/templates/i18n.html:34
-#, fuzzy
 msgid "Avoid dates and years that are associated with you."
-msgstr "Undgå datoer og årstal som har forbindelse med dig."
+msgstr "Undgå datoer og årstal som har forbindelse til dig."
 
 #: weblate/templates/i18n.html:35
-#, fuzzy
 msgid "This is a top-10 common password."
 msgstr "Top-10 mest almindelige adgangskoder."
 
 #: weblate/templates/i18n.html:36
-#, fuzzy
 msgid "This is a top-100 common password."
 msgstr "Top-100 mest almindelige adgangskoder."
 
@@ -3130,7 +3090,6 @@ msgid "Kurdish"
 msgstr "Kurdisk"
 
 #: weblate/templates/i18n.html:187
-#, fuzzy
 msgid "Kurmanji"
 msgstr "Nordkurdisk"
 
@@ -3175,10 +3134,8 @@ msgid "Low German"
 msgstr "Plattysk"
 
 #: weblate/templates/i18n.html:198
-#, fuzzy
-#| msgid "Upper Sorbian"
 msgid "Lower Sorbian"
-msgstr "Øvresorbisk"
+msgstr "Nedresorbisk"
 
 #: weblate/templates/i18n.html:199
 msgid "Luba-Katanga"
@@ -3237,7 +3194,6 @@ msgid "Marathi"
 msgstr "Marathi"
 
 #: weblate/templates/i18n.html:213
-#, fuzzy
 msgid "Mari"
 msgstr "Marisk"
 
@@ -3246,7 +3202,6 @@ msgid "Marshallese"
 msgstr "Marshallesisk"
 
 #: weblate/templates/i18n.html:215
-#, fuzzy
 msgid "Meadow Mari"
 msgstr "Østmarisk"
 
@@ -3463,7 +3418,6 @@ msgid "Serbo-Croatian"
 msgstr "Serbokroatisk"
 
 #: weblate/templates/i18n.html:269
-#, fuzzy
 msgid "Shan"
 msgstr "Shan"
 
@@ -3500,16 +3454,12 @@ msgid "Songhai languages"
 msgstr "Songhai-sprog"
 
 #: weblate/templates/i18n.html:278
-#, fuzzy
-#| msgid "Guarani"
 msgid "Sorani"
-msgstr "Guarani"
+msgstr "Sorani"
 
 #: weblate/templates/i18n.html:279
-#, fuzzy
-#| msgid "Serbian"
 msgid "Sorbian"
-msgstr "Serbisk"
+msgstr "Sorbisk"
 
 #: weblate/templates/i18n.html:280
 msgid "Sotho"
@@ -3536,10 +3486,8 @@ msgid "Spanish (Argentina)"
 msgstr "Spansk (Argentina)"
 
 #: weblate/templates/i18n.html:286
-#, fuzzy
-#| msgid "Spanish (Mexico)"
 msgid "Spanish (Chile)"
-msgstr "Spansk (Mexico)"
+msgstr "Spansk (Chile)"
 
 #: weblate/templates/i18n.html:287
 msgid "Spanish (Mexico)"
@@ -3602,17 +3550,14 @@ msgid "Tibetan"
 msgstr "Tibetansk"
 
 #: weblate/templates/i18n.html:302
-#, fuzzy
-#| msgid "Tigrinya"
 msgid "Tigre"
-msgstr "Tigrinja"
+msgstr "Tigre"
 
 #: weblate/templates/i18n.html:303
 msgid "Tigrinya"
 msgstr "Tigrinja"
 
 #: weblate/templates/i18n.html:304
-#, fuzzy
 msgid "Tonga (Tonga Islands)"
 msgstr "Tongansk (Tonga-øerne)"
 
@@ -3689,10 +3634,8 @@ msgid "Walloon"
 msgstr "Vallonsk"
 
 #: weblate/templates/i18n.html:323
-#, fuzzy
-#| msgid "Austrian German"
 msgid "Walser German"
-msgstr "Østrigsk tysk"
+msgstr "Walsertysk"
 
 #: weblate/templates/i18n.html:324
 msgid "Welsh"
@@ -4194,30 +4137,22 @@ msgstr "Hej,"
 
 #: weblate/templates/mail/account_activity.html:11
 #: weblate/templates/mail/account_activity.txt:3
-#, fuzzy, python-format
-#| msgid ""
-#| "There has been a change in translation on %(translation)s at "
-#| "%(site_title)s."
+#, python-format
 msgid "There has been a change in your account at %(site_title)s:"
-msgstr "Der er sket en ændring i din konto på %(site_title)s:"
+msgstr "Der er sket en ændring med din konto i %(site_title)s:"
 
 #: weblate/templates/mail/account_activity.html:18
 #: weblate/templates/mail/account_activity.txt:7
-#, fuzzy
-#| msgid "IP address"
 msgid "IP address:"
-msgstr "IP-adresse"
+msgstr "IP-adresse:"
 
 #: weblate/templates/mail/account_activity.html:19
 #: weblate/templates/mail/account_activity.txt:8
-#, fuzzy
-#| msgid "User comments"
 msgid "User agent:"
-msgstr "Brugerkommentarer"
+msgstr "Brugeragent:"
 
 #: weblate/templates/mail/account_activity.html:22
 #: weblate/templates/mail/account_activity.txt:10
-#, fuzzy
 msgid ""
 "If you did not request this change, please notify us as soon as possible "
 "using following form:"
@@ -4226,7 +4161,7 @@ msgstr ""
 "som muligt ved hjælp af nedenstående formular:"
 
 #: weblate/templates/mail/account_activity_subject.txt:4
-#, fuzzy, python-format
+#, python-format
 msgid "Activity on your account at %(site_title)s"
 msgstr "Aktivitet på din konto på %(site_title)s"
 
@@ -4530,19 +4465,14 @@ msgid "Parse error in %(subproject)s"
 msgstr "Fortolkningsfejl i %(subproject)s"
 
 #: weblate/templates/mail/remove.html:11 weblate/templates/mail/remove.txt:3
-#, fuzzy, python-format
-#| msgid ""
-#| "There was a request to reset your Weblate password at %(site_title)s."
+#, python-format
 msgid "There was a request to remove your Weblate account at %(site_title)s."
-msgstr ""
-"Der var en anmodning om at nulstille din adgangskode til Weblate på "
-"%(site_title)s."
+msgstr "Der var en anmodning om at fjerne din Weblate konto på %(site_title)s."
 
 #: weblate/templates/mail/remove_subject.txt:4
-#, fuzzy, python-format
-#| msgid "Your registration on %(site_title)s"
+#, python-format
 msgid "Account removal on %(site_title)s"
-msgstr "Din tilmelding på %(site_title)s"
+msgstr "Konto fjernelse på %(site_title)s"
 
 #: weblate/templates/mail/reset.html:11 weblate/templates/mail/reset.txt:3
 #, python-format
@@ -4587,22 +4517,16 @@ msgid "Add new user"
 msgstr "Tilføj ny bruger"
 
 #: weblate/templates/manage-access.html:84
-#, fuzzy
-#| msgid "Access control"
 msgid "Project access control"
-msgstr "Adgangskontrol"
+msgstr "Projektet adgangskontrol"
 
 #: weblate/templates/manage-access.html:91
-#, fuzzy
-#| msgid "changes"
 msgid "Change"
-msgstr "ændringer"
+msgstr "Ændring"
 
 #: weblate/templates/manage-access.html:93
-#, fuzzy
-#| msgid "You do not have privilege to accept suggestions!"
 msgid "You do not have permission to change project access control."
-msgstr "Du har ikke rettigheder til at godkende forslag!"
+msgstr "Du har ikke tilladelse til at ændre adgangskontrol for projektet."
 
 #: weblate/templates/matrix.html:8
 msgid "matrix"
@@ -5614,10 +5538,6 @@ msgid "Promoting specific translations"
 msgstr "Promovering af specifikke oversættelser"
 
 #: weblate/templates/widgets.html:20
-#, fuzzy
-#| msgid ""
-#| "Besides promoting whole translation project, you can also choose specific "
-#| "language to promote:"
 msgid ""
 "Besides promoting the whole translation project, you can also choose a "
 "specific language or component to promote:"
@@ -5630,11 +5550,6 @@ msgid "Image widgets"
 msgstr "Billed-skærmbrikker"
 
 #: weblate/templates/widgets.html:27
-#, fuzzy
-#| msgid ""
-#| "You can use following widgets to promote translation of your project. "
-#| "They can increase visibility of your translation projects and bring new "
-#| "contributors."
 msgid ""
 "You can use the following widgets to promote translation of your project. "
 "They can increase visibility of your translation projects and bring new "
@@ -6090,8 +6005,6 @@ msgid "WebExtension JSON file"
 msgstr "WebExtension JSON fil"
 
 #: weblate/trans/formats.py:1181
-#, fuzzy
-#| msgid "JSON file"
 msgid "i18next JSON file"
 msgstr "i18next JSON fil"
 
@@ -6511,22 +6424,16 @@ msgid "HTML"
 msgstr "HTML"
 
 #: weblate/trans/forms.py:1120
-#, fuzzy
-#| msgid "Report format"
 msgid "Report period"
-msgstr "Rapportformat"
+msgstr "Rapportperiode"
 
 #: weblate/trans/forms.py:1122
-#, fuzzy
-#| msgid "Last login"
 msgid "Last month"
-msgstr "Seneste log ind"
+msgstr "Sidste måned"
 
 #: weblate/trans/forms.py:1123
-#, fuzzy
-#| msgid "Last author"
 msgid "Last year"
-msgstr "Sidste forfatter"
+msgstr "Sidste år"
 
 #: weblate/trans/forms.py:1124
 msgid "As specified"
@@ -6768,16 +6675,12 @@ msgid "Suggestion removed"
 msgstr "Forslag fjernet"
 
 #: weblate/trans/models/change.py:230
-#, fuzzy
-#| msgid "Suggestion removed"
 msgid "Suggestion removed during cleanup"
-msgstr "Forslag fjernet"
+msgstr "Forslag fjernet under oprydning"
 
 #: weblate/trans/models/change.py:232
-#, fuzzy
-#| msgid "Source string age"
 msgid "Source string changed"
-msgstr "Kildestreng alder"
+msgstr "Kildestreng ændret"
 
 #: weblate/trans/models/change.py:307
 #, python-format
@@ -7268,7 +7171,6 @@ msgid "Whether the repository should be pushed upstream on every commit."
 msgstr "Om arkivet skal skubbes opstrøm ved hver indsendelse."
 
 #: weblate/trans/models/subproject.py:472
-#, fuzzy
 msgid "Age of changes to commit"
 msgstr "Alder på ændringer der vil blive sendt"
 
@@ -7572,10 +7474,9 @@ msgid "Insert horizontal ellipsis"
 msgstr "Indsæt vandret ellips"
 
 #: weblate/trans/specialchars.py:455
-#, fuzzy, python-brace-format
-#| msgid "Insert character {0}"
+#, python-brace-format
 msgid "Insert {0}"
-msgstr "Indsæt tegn {0}"
+msgstr "Indsæt {0}"
 
 #: weblate/trans/specialchars.py:460 weblate/trans/specialchars.py:462
 #, python-brace-format
@@ -7955,10 +7856,8 @@ msgid "User has been removed from this project."
 msgstr "Brugeren er blevet fjernet fra dette projekt."
 
 #: weblate/trans/views/acl.py:172
-#, fuzzy
-#| msgid "Password has been changed."
 msgid "Project access control has been changed."
-msgstr "Adgangskoden er ændret."
+msgstr "Projektet adgangskontrol er blevet ændret."
 
 #: weblate/trans/views/basic.py:160
 msgid ""
@@ -8116,10 +8015,8 @@ msgid "You don't have privileges to add suggestions!"
 msgstr "Du har ikke rettigheder til at tilføje forslag!"
 
 #: weblate/trans/views/edit.py:202
-#, fuzzy
-#| msgid "Your suggestion already exists!"
 msgid "Your suggestion has been identified as spam!"
-msgstr "Forslag findes  allerede!"
+msgstr "Dit forslag er blevet identificeret som spam!"
 
 #: weblate/trans/views/edit.py:218
 msgid ""
@@ -8416,18 +8313,16 @@ msgid "Image is too big, please scale it down or crop relevant part!"
 msgstr "Billedet er for stort, skaler ned eller beskær den relevante del!"
 
 #: weblate/utils/validators.py:160
-#, fuzzy
 msgid "The editor link lacks URL scheme!"
-msgstr "Editor link mangler URL-skema!"
+msgstr "Redigeringslink mangler URL-skema!"
 
 #: weblate/utils/validators.py:166
 msgid "Forbidden URL scheme!"
 msgstr "Forbudt URL-skema!"
 
 #: weblate/utils/validators.py:182
-#, fuzzy
 msgid "Please avoid using special chars in the full name."
-msgstr "Undgå at bruge specielle tegn i det fulde navn."
+msgstr "Undgå at bruge specielle tegn i det fuldstændige navn."
 
 #: weblate/utils/validators.py:191
 msgid "Unsupported file format."
