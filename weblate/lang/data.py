@@ -900,6 +900,18 @@ EXTRALANGS = (
         2,
         'n != 1',
     ),
+    (
+        'hil',
+        'Hiligaynon',
+        2,
+        'n != 1',
+    ),
+    (
+        'tig',
+        'Tigre',
+        2,
+        'n != 1',
+    ),
 )
 
 NO_CODE_LANGUAGES = frozenset((
