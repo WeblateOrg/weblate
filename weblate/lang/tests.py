@@ -19,7 +19,6 @@
 #
 
 """Test for language manipulations."""
-
 import os.path
 import gettext
 
@@ -341,7 +340,7 @@ class CommandTest(TestCase):
             'list_languages', 'cs', lower=True,
             stdout=output
         )
-        self.assertIn('čeština', output.getvalue())
+        self.assertIn('Czech', output.getvalue())
 
 
 class VerifyPluralsTest(TestCase):
