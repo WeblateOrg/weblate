@@ -30,6 +30,11 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
+            '--lower',
+            action='store_true',
+            help='Lowercase translated name',
+        )
+        parser.add_argument(
             'locale',
             help='Locale for printing',
         )
@@ -40,11 +45,14 @@ class Command(BaseCommand):
         """
         activate(options['locale'])
         for language in Language.objects.order_by('name'):
+            name = ugettext(language.name)
+            if options['lower']:
+                name = name[0].lower() + name[1:]
             self.stdout.write(
                 '| {0} || {1} || {2}'.format(
                     language.code,
                     language.name,
-                    ugettext(language.name),
+                    name,
                 )
             )
             self.stdout.write('|-')

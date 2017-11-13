@@ -335,6 +335,14 @@ class CommandTest(TestCase):
         )
         self.assertIn('Czech', output.getvalue())
 
+    def test_list_languages_lower(self):
+        output = StringIO()
+        call_command(
+            'list_languages', 'cs', lower=True,
+            stdout=output
+        )
+        self.assertIn('čeština', output.getvalue())
+
 
 class VerifyPluralsTest(TestCase):
     """In database plural form verification."""
