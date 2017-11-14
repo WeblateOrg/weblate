@@ -701,7 +701,7 @@ URL where tmserver is running.
 .. seealso::
 
    :ref:`tmserver`, :ref:`machine-translation-setup`, :ref:`machine-translation`,
-   `tmserver, a Translation Memory service <http://docs.translatehouse.org/projects/translate-toolkit/en/latest/commands/tmserver.html>`_
+   :doc:`tt:commands/tmserver`
 
 .. setting:: MT_YANDEX_KEY
 

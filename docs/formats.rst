@@ -9,7 +9,7 @@ formats that are not well tested.
 
 .. seealso:: 
    
-   `Supported formats in translate-toolkit`_
+    :doc:`tt:formats/index`
 
 .. note::
 
@@ -74,7 +74,7 @@ The bilingual gettext PO file typically looks like:
 .. seealso::
 
    `Gettext on Wikipedia <https://en.wikipedia.org/wiki/Gettext>`_,
-   `Gettext in translate-toolkit documentation <http://docs.translatehouse.org/projects/translate-toolkit/en/latest/formats/po.html>`_
+   :doc:`tt:formats/po`
 
 Monolingual Gettext
 +++++++++++++++++++
@@ -163,7 +163,7 @@ For example:
 .. seealso::
 
     `XLIFF on Wikipedia <https://en.wikipedia.org/wiki/XLIFF>`_,
-    `XLIFF in translate-toolkit documentation <http://docs.translatehouse.org/projects/translate-toolkit/en/latest/formats/xliff.html>`_
+    :doc:`tt:formats/xliff`
 
 Java properties
 ---------------
@@ -185,7 +185,7 @@ Weblate supports ISO-8859-1, UTF-8 and UTF-16 variants of this format.
 .. seealso::
 
     `Java properties on Wikipedia <https://en.wikipedia.org/wiki/.properties>`_,
-    `Java properties in translate-toolkit documentation <http://docs.translatehouse.org/projects/translate-toolkit/en/latest/formats/properties.html>`_
+    :doc:`tt:formats/properties`
 
 Joomla translations
 -------------------
@@ -210,7 +210,7 @@ be written to the newly created file. This should work fine since Joomla 3.0.
 .. seealso::
 
     `Specification of Joomla language files <https://docs.joomla.org/Specification_of_language_files>`_,
-    `Properties in translate-toolkit documentation <http://docs.translatehouse.org/projects/translate-toolkit/en/latest/formats/properties.html>`_
+    :doc:`tt:formats/properties`
 
 Qt Linguist .ts
 ---------------
@@ -226,7 +226,7 @@ Qt Linguist files are used as both bilingual and monolingual.
 .. seealso::
 
     `Qt Linguist manual <http://doc.qt.io/qt-5/qtlinguist-index.html>`_,
-    `Qt .ts in translate-toolkit documentation <http://docs.translatehouse.org/projects/translate-toolkit/en/latest/formats/ts.html>`_
+    :doc:`tt:formats/ts`
 
 .. _aresource:
 
@@ -246,7 +246,7 @@ location from the others :file:`res/values/strings.xml`.
 .. seealso::
 
     `Android string resources documentation <https://developer.android.com/guide/topics/resources/string-resource.html>`_,
-    `Android string resources in translate-toolkit documentation <http://docs.translatehouse.org/projects/translate-toolkit/en/latest/formats/android.html>`_
+    :doc:`tt:formats/android`
 
 .. note::
 
@@ -292,7 +292,7 @@ Apple OS X strings are usually used as bilingual.
 .. seealso::
 
     `Apple Strings Files documentation <https://developer.apple.com/library/mac/#documentation/MacOSX/Conceptual/BPInternational/Articles/StringsFiles.html>`_,
-    `Apple strings in translate-toolkit documentation <http://docs.translatehouse.org/projects/translate-toolkit/en/latest/formats/strings.html>`_
+    :doc:`tt:formats/strings`
 
 .. note::
 
@@ -329,7 +329,7 @@ Example file:
 
 .. seealso::
 
-    `PHP files in translate-toolkit documentation <http://docs.translatehouse.org/projects/translate-toolkit/en/latest/formats/php.html>`_
+    :doc:`tt:formats/php`
 
 JSON and nested structure JSON files
 ------------------------------------
@@ -369,7 +369,7 @@ Nested files are supported as well (see above for requirements), such file can l
 
 .. seealso::
 
-   `JSON in translate-toolkit documentation <http://docs.translatehouse.org/projects/translate-toolkit/en/latest/formats/json.html>`_
+    :doc:`tt:formats/json`
 
 WebExtension JSON
 -----------------
@@ -388,6 +388,7 @@ Example file:
 
 .. seealso::
 
+    :doc:`tt:formats/json`,
     `Google chrome.i18n <https://developer.chrome.com/extensions/i18n>`_,
     `Mozilla Extensions Internationalization <https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Internationalization>`_
 
@@ -406,6 +407,8 @@ Example file:
 .. note::
 
     You need translate-toolkit 1.13.0 or newer to include support for this format.
+
+.. seealso:: :doc:`tt:formats/resx`
 
 CSV files
 ---------
@@ -430,6 +433,8 @@ Example file:
 .. literalinclude:: ../weblate/trans/tests/data/cs.csv
     :language: text
     :encoding: utf-8
+
+.. seealso:: :doc:`tt:formats/csv`
 
 YAML files
 ----------
@@ -463,6 +468,8 @@ Example Ruby i18n YAML file:
     :language: yaml
     :encoding: utf-8
 
+.. seealso:: :doc:`tt:formats/yaml`
+
 DTD files
 ---------
 
@@ -487,6 +494,4 @@ did not (yet) receive deeper testing.
 
 .. seealso:: 
    
-   `Supported formats in translate-toolkit`_
-
-.. _Supported formats in translate-toolkit: http://docs.translatehouse.org/projects/translate-toolkit/en/latest/formats/index.html
+    :doc:`tt:formats/index`
