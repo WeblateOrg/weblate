@@ -570,16 +570,14 @@ class LoginForm(forms.Form):
                 password=password
             )
             if self.user_cache is None:
-                try:
+                for user in try_get_user(username, True):
                     notify_account_activity(
-                        try_get_user(username),
+                        user,
                         self.request,
                         'failed-auth',
                         method='Password',
                         name=username,
                     )
-                except User.DoesNotExist:
-                    pass
                 rotate_token(self.request)
                 raise forms.ValidationError(
                     self.error_messages['invalid_login'],
