@@ -463,6 +463,22 @@ Example Ruby i18n YAML file:
     :language: yaml
     :encoding: utf-8
 
+DTD files
+---------
+
+.. index::
+    pair: DTD; file format
+
+.. versionadded:: 2.18
+
+Example DTD file:
+
+.. literalinclude:: ../weblate/trans/tests/data/cs.dtd
+    :language: yaml
+    :encoding: utf-8
+
+.. seealso:: :doc:`tt:formats/dtd`
+
 Others
 ------
 

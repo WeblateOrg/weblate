@@ -371,6 +371,14 @@ class EditRubyYAMLTest(EditTest):
         return self.create_ruby_yaml()
 
 
+class EditDTDTest(EditTest):
+    has_plurals = False
+    monolingual = True
+
+    def create_subproject(self):
+        return self.create_dtd()
+
+
 class EditJSONMonoTest(EditTest):
     has_plurals = False
     monolingual = True

@@ -1326,6 +1326,33 @@ class RubyYAMLFormat(YAMLFormat):
     autoload = ('.ryml', '.yml', '.yaml')
 
 
+@register_fileformat
+class DTDFormat(FileFormat):
+    name = _('DTD file')
+    format_id = 'dtd'
+    loader = ('dtd', 'dtdfile')
+    autoload = ('.dtd',)
+    unit_class = MonolingualSimpleUnit
+    new_translation = '\n'
+
+    @property
+    def mimetype(self):
+        """Return most common mime type for format."""
+        return 'application/xml-dtd'
+
+    @property
+    def extension(self):
+        """Return most common file extension for format."""
+        return 'dtd'
+
+    @classmethod
+    def fixup(cls, store):
+        """Perform optional fixups on store."""
+        # Filter out null units (those IMHO should not be exposed by ttkit)
+        store.units = [u for u in store.units if not u.isnull()]
+        return store
+
+
 FILE_FORMAT_CHOICES = [
     (fmt, FILE_FORMATS[fmt].name) for fmt in sorted(FILE_FORMATS)
 ]

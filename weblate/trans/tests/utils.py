@@ -416,6 +416,13 @@ class RepoTestMixin(object):
             'ruby-yml/en.yml',
         )
 
+    def create_dtd(self):
+        return self._create_subproject(
+            'dtd',
+            'dtd/*.dtd',
+            'dtd/en.dtd',
+        )
+
     def create_link(self):
         parent = self.create_iphone()
         return SubProject.objects.create(

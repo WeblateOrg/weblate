@@ -35,7 +35,7 @@ from weblate.lang.models import Language
 from weblate.trans.formats import (
     AutoFormat, PoFormat, AndroidFormat, PropertiesFormat, JoomlaFormat,
     JSONFormat, JSONNestedFormat, RESXFormat, PhpFormat, XliffFormat, TSFormat,
-    YAMLFormat, RubyYAMLFormat, FILE_FORMATS, detect_filename,
+    YAMLFormat, RubyYAMLFormat, DTDFormat, FILE_FORMATS, detect_filename,
     WebExtensionJSONFormat,
 )
 from weblate.trans.tests.utils import get_test_file
@@ -56,6 +56,7 @@ TEST_RESX = get_test_file('cs.resx')
 TEST_TS = get_test_file('cs.ts')
 TEST_YAML = get_test_file('cs.pyml')
 TEST_RUBY_YAML = get_test_file('cs.ryml')
+TEST_DTD = get_test_file('cs.dtd')
 
 
 class AutoLoadTest(TestCase):
@@ -405,3 +406,17 @@ class TSFormatTest(XMLMixin, AutoFormatTest):
             testdata = testdata.encode('utf-8')
             newdata = newdata.encode('utf-8')
         super(TSFormatTest, self).assert_same(newdata, testdata)
+
+
+class DTDFormatTest(AutoFormatTest):
+    FORMAT = DTDFormat
+    FILE = TEST_DTD
+    BASE = TEST_DTD
+    MIME = 'application/xml-dtd'
+    EXT = 'dtd'
+    COUNT = 4
+    MASK = 'dtd/*.dtd'
+    EXPECTED_PATH = 'dtd/cs_CZ.dtd'
+    MATCH = '<!ENTITY'
+    FIND = 'hello'
+    FIND_MATCH = ''
