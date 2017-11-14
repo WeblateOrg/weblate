@@ -25,9 +25,9 @@ from django.dispatch.dispatcher import receiver
 from django.contrib.auth.backends import ModelBackend
 
 
-def try_get_user(username, all=False):
+def try_get_user(username, list_all=False):
     """Wrapper to get User object for authentication."""
-    if all:
+    if list_all:
         method = User.objects.filter
     else:
         method = User.objects.get
