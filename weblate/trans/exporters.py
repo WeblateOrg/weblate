@@ -36,7 +36,7 @@ from translate.storage.csvl10n import csvfile
 
 import weblate
 from weblate.trans.formats import FileFormat
-from weblate.trans.site import get_site_url
+from weblate.utils.site import get_site_url
 
 if six.PY2:
     _CHARMAP2 = string.maketrans('', '')[:32]

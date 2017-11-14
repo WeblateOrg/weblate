@@ -33,7 +33,7 @@ from django.template.loader import render_to_string
 from PIL import Image, ImageDraw
 
 from weblate.trans.fonts import is_base, get_font
-from weblate.trans.site import get_site_url
+from weblate.utils.site import get_site_url
 from weblate.trans.stats import get_per_language_stats
 
 

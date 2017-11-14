@@ -26,7 +26,7 @@ from django.conf import settings
 
 import weblate
 import weblate.screenshots.views
-from weblate.trans.site import get_site_url
+from weblate.utils.site import get_site_url
 from weblate.trans.models.project import Project
 
 URL_BASE = 'https://weblate.org/?utm_source=weblate&utm_term=%s'

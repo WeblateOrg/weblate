@@ -42,7 +42,7 @@ from weblate.utils import messages
 from weblate.trans.formats import FILE_FORMAT_CHOICES, FILE_FORMATS, ParseError
 from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
 from weblate.trans.fields import RegexField
-from weblate.trans.site import get_site_url
+from weblate.utils.site import get_site_url
 from weblate.utils.errors import report_error
 from weblate.trans.util import (
     is_repo_link, cleanup_repo_url, cleanup_path, path_separator,

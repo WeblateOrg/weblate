@@ -26,7 +26,7 @@ from weblate.trans.models import (
 from weblate.lang.models import Language
 from weblate.permissions.helpers import can_see_git_repository
 from weblate.screenshots.models import Screenshot
-from weblate.trans.site import get_site_url
+from weblate.utils.site import get_site_url
 from weblate.utils.validators import validate_bitmap
 
 

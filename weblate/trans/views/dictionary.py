@@ -37,7 +37,7 @@ from weblate.utils import messages
 from weblate.trans.exporters import get_exporter
 from weblate.trans.models import Translation, Dictionary, Change, Unit
 from weblate.lang.models import Language
-from weblate.trans.site import get_site_url
+from weblate.utils.site import get_site_url
 from weblate.utils.errors import report_error
 from weblate.trans.util import render, redirect_next, redirect_param
 from weblate.trans.forms import WordForm, DictUploadForm, LetterForm

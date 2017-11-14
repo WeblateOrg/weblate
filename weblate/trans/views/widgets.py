@@ -24,7 +24,7 @@ from django.core.urlresolvers import reverse
 from django.views.decorators.vary import vary_on_cookie
 from django.views.decorators.cache import cache_page
 
-from weblate.trans.site import get_site_url
+from weblate.utils.site import get_site_url
 from weblate.lang.models import Language
 from weblate.trans.forms import EngageForm
 from weblate.trans.models import SubProject

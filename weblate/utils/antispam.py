@@ -20,7 +20,7 @@
 
 from django.conf import settings
 
-from weblate.trans.site import get_site_url
+from weblate.utils.site import get_site_url
 from weblate.utils.request import get_ip_address
 
 

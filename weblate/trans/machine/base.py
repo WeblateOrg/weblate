@@ -34,7 +34,7 @@ from django.utils.http import urlencode
 from weblate import USER_AGENT
 from weblate.logger import LOGGER
 from weblate.utils.errors import report_error
-from weblate.trans.site import get_site_url
+from weblate.utils.site import get_site_url
 
 
 class MachineTranslationError(Exception):
