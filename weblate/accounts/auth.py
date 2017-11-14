@@ -25,12 +25,16 @@ from django.dispatch.dispatcher import receiver
 from django.contrib.auth.backends import ModelBackend
 
 
-def try_get_user(username):
+def try_get_user(username, all=False):
     """Wrapper to get User object for authentication."""
-    if '@' in username:
-        return User.objects.get(email=username)
+    if all:
+        method = User.objects.filter
     else:
-        return User.objects.get(username=username)
+        method = User.objects.get
+    if '@' in username:
+        return method(email=username)
+    else:
+        return method(username=username)
 
 
 class WeblateUserBackend(ModelBackend):
