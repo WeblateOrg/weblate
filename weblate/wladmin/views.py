@@ -23,7 +23,6 @@ from __future__ import unicode_literals
 import os.path
 
 from django.conf import settings
-from django.contrib.sites.models import Site
 from django.shortcuts import render
 from django.utils.translation import ugettext as _
 
@@ -39,6 +38,7 @@ from weblate.trans.ssh import (
     generate_ssh_key, get_key_data, add_host_key,
     get_host_keys, can_generate_key
 )
+from weblate.utils.site import get_site_url, get_site_domain
 import weblate
 
 
@@ -81,12 +81,11 @@ def performance(request, admin_site):
         settings.DEBUG,
     ))
     # Check for domain configuration
-    domain = Site.objects.get_current().domain
     checks.append((
         _('Site domain'),
-        check_domain(domain),
+        check_domain(get_site_domain()),
         'production-site',
-        domain,
+        get_site_url(),
     ))
     # Check database being used
     checks.append((
