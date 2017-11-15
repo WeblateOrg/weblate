@@ -58,4 +58,4 @@ def save_project(sender, instance, **kwargs):
             new_url = get_export_url(component)
             if component.git_export != new_url:
                 component.git_export = new_url
-                component.save()
+                component.save(update_fields=['git_export'])
