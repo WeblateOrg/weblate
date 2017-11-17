@@ -1154,6 +1154,7 @@ $(function () {
         $form.submit();
         return false;
     });
+    $('.link-auto').click();
     $document.on('click', '.thumbnail', function() {
         $('#imagepreview').attr('src', $(this).attr('href'));
         $('#myModalLabel').text($(this).attr('title'));

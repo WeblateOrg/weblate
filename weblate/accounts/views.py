@@ -532,6 +532,10 @@ def user_avatar(request, user, size):
     return response
 
 
+def redirect_single(request, backend):
+    """Redirect user to single authentication backend."""
+    return render(request, 'accounts/redirect.html', {'backend': backend})
+
 @never_cache
 def weblate_login(request):
     """Login handler, just wrapper around standard Django login."""
@@ -543,7 +547,7 @@ def weblate_login(request):
     # Redirect if there is only one backend
     auth_backends = list(load_backends(BACKENDS).keys())
     if len(auth_backends) == 1 and auth_backends[0] != 'email':
-        return redirect('social:begin', auth_backends[0])
+        return redirect_single(request, auth_backends[0])
 
     return auth_views.login(
         request,
@@ -610,7 +614,7 @@ def register(request):
 
     # Redirect if there is only one backend
     if len(backends) == 1 and 'email' not in backends:
-        return redirect('social:begin', backends.pop())
+        return redirect_single(request, backends.pop())
 
     return render(
         request,
