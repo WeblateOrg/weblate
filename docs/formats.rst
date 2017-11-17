@@ -175,11 +175,6 @@ Native Java format for translations.
 
 Java properties are usually used as monolingual.
 
-This format supports creating new languages. When a new language is created, a
-new empty file will be added to the repository. Only keys that are defined will
-be written to the newly created file. The Weblate maintainer needs to make sure
-that this is the expected behaviour with the framework in use.
-
 Weblate supports ISO-8859-1, UTF-8 and UTF-16 variants of this format.
 
 .. seealso::
@@ -198,10 +193,6 @@ Joomla translations
 Native Joomla format for translations.
 
 Joomla translations are usually used as monolingual.
-
-This format supports creating new languages. When a new language is created, a
-new empty file will be added to the repository. Only keys that are defined will
-be written to the newly created file. This should work fine since Joomla 3.0.
 
 .. note::
 
@@ -330,6 +321,8 @@ Example file:
 .. seealso::
 
     :doc:`tt:formats/php`
+
+.. _json:
 
 JSON and nested structure JSON files
 ------------------------------------
@@ -495,3 +488,28 @@ did not (yet) receive deeper testing.
 .. seealso:: 
    
     :doc:`tt:formats/index`
+
+Adding new translations
+-----------------------
+
+.. versionchanged:: 2.18
+
+    In versions prior to 2.18 the behaviour of adding new translations was file
+    format specific.
+
+Weblate can automatically start new translation for all of the the file
+formats.
+
+Some formats expect to start with empty file and only translated
+strings to be included (eg. :ref:`aresource`), while others expect to have all
+keys present (eg. :ref:`gettext`). In some situations this really doesn't depend
+on the format, but rather on framework you use to handle the translation (eg. with 
+:ref:`json`).
+
+When you specify :guilabel:`Base file for new translations` in
+:ref:`component`, Weblate will use this file to start new translations. Any
+exiting translations will be removed from the file when doing so.
+
+When :guilabel:`Base file for new translations` is empty and file format
+supports it, empty file is created where new units will be added once they are
+translated.
