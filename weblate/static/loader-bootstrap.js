@@ -1239,6 +1239,8 @@ $(function () {
                     form.find('tbody').html(data.results);
                     form.find('[name=words]').attr('value', data.words);
                 }
+                $('.translation-editor:first').focus();
+                form.trigger('reset');
             },
             error: function (xhr, textStatus, errorThrown) {
                 decreaseLoading('#glossary-add-loading');
