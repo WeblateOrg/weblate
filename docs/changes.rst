@@ -11,6 +11,7 @@ Released on ? 2017.
 * Added support for DTD file format.
 * Changed keyboard shortcuts to less likely collide with browser/system ones.
 * Improved support for approved flag in Xliff files.
+* Added support for not wrapping long strings in Gettext po files.
 
 weblate 2.17.1
 --------------

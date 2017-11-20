@@ -36,7 +36,7 @@ from weblate.trans.formats import (
     AutoFormat, PoFormat, AndroidFormat, PropertiesFormat, JoomlaFormat,
     JSONFormat, JSONNestedFormat, RESXFormat, PhpFormat, XliffFormat, TSFormat,
     YAMLFormat, RubyYAMLFormat, DTDFormat, FILE_FORMATS, detect_filename,
-    WebExtensionJSONFormat,
+    WebExtensionJSONFormat, UnwrappedPoFormat,
 )
 from weblate.trans.tests.utils import get_test_file
 
@@ -238,6 +238,10 @@ class PoFormatTest(AutoFormatTest):
         data = out.read().decode('utf-8')
         self.assertTrue('Michal Čihař' in data)
         out.close()
+
+
+class UnwrappedPoFormatTest(PoFormatTest):
+    FORMAT = UnwrappedPoFormat
 
 
 class PropertiesFormatTest(AutoFormatTest):
