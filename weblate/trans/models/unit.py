@@ -450,17 +450,22 @@ class Unit(models.Model, LoggerMixin):
         """Calculate translated and fuzzy status"""
         all_flags = self.translation.subproject.all_flags
 
-        if 'skip-review-flag' in all_flags:
-            return bool(target), False
-
         translated = unit.is_translated()
+        fuzzy = unit.is_fuzzy()
+        approved = unit.is_approved()
+
+        if 'skip-review-flag' in all_flags:
+            approved = False
+            fuzzy = False
+
         if translated and created:
             is_template = self.translation.is_template()
             if is_template and 'add-source-review' in all_flags:
-                return translated, True
+                fuzzy = True
             elif not is_template and 'add-review' in all_flags:
-                return translated, True
-        return translated, unit.is_fuzzy()
+                fuzzy = True
+
+        return translated, fuzzy, approved
 
     def update_from_unit(self, unit, pos, created):
         """Update Unit from ttkit unit."""
@@ -470,7 +475,7 @@ class Unit(models.Model, LoggerMixin):
         target = unit.get_target()
         source = unit.get_source()
         comment = unit.get_comments()
-        translated, fuzzy = self.get_unit_status(unit, target, created)
+        translated, fuzzy, approved = self.get_unit_status(unit, target, created)
         previous_source = unit.get_previous_source()
         content_hash = unit.get_content_hash()
 
@@ -501,6 +506,7 @@ class Unit(models.Model, LoggerMixin):
         )
         same_state = (
             fuzzy == self.fuzzy and
+            approved == self.approved and
             translated == self.translated and
             not created
         )
@@ -532,6 +538,7 @@ class Unit(models.Model, LoggerMixin):
         self.source = source
         self.target = target
         self.fuzzy = fuzzy
+        self.approved = approved
         self.translated = translated
         self.comment = comment
         self.content_hash = content_hash
@@ -602,6 +609,7 @@ class Unit(models.Model, LoggerMixin):
         for unit in allunits:
             unit.target = self.target
             unit.fuzzy = self.fuzzy
+            unit.approved = self.approved
             unit.save_backend(request, False, change_action=change_action)
 
     def update_lock(self, request, user, change_action):
@@ -633,6 +641,7 @@ class Unit(models.Model, LoggerMixin):
         # We have to explicitly check for fuzzy flag change on monolingual
         # files, where we handle it ourselves without storing to backend
         if (self.old_unit.fuzzy == self.fuzzy and
+                self.old_unit.approved == self.approved and
                 self.old_unit.target == self.target):
             # Propagate if we should
             if propagate:

@@ -304,8 +304,16 @@ class FileUnit(object):
         else:
             return self.unit.istranslated()
 
+    def is_approved(self, fallback=False):
+        """Check whether unit is appoved."""
+        if self.unit is None:
+            return fallback
+        if hasattr(self.unit, 'isapproved'):
+            return self.unit.isapproved()
+        return fallback
+
     def is_fuzzy(self):
-        """Check whether unit is translated."""
+        """Check whether unit needs edit."""
         if self.unit is None:
             return False
         return self.unit.isfuzzy()
@@ -332,6 +340,11 @@ class FileUnit(object):
     def mark_fuzzy(self, fuzzy):
         """Set fuzzy flag on translated unit."""
         self.unit.markfuzzy(fuzzy)
+
+    def mark_approved(self, value):
+        """Set approved flag on translated unit."""
+        if hasattr(self.unit, 'markapproved'):
+            self.unit.markapproved(value)
 
 
 class PoUnit(FileUnit):
@@ -383,6 +396,32 @@ class XliffUnit(FileUnit):
             return 'max-length:{0}'.format(maxwidth)
 
         return ''
+
+    def is_translated(self):
+        """Check whether unit is translated.
+
+        We replace translate-toolkit logic here as the isfuzzy
+        is pretty much wrong there, see is_fuzzy docs.
+        """
+        if self.unit is None:
+            return False
+        return bool(self.unit.target)
+
+    def is_fuzzy(self):
+        """Check whether unit needs edit.
+
+        The isfuzzy on Xliff is really messing up approved flag with fuzzy
+        and leading to various problems. That's why we completely ignore it.
+        """
+        if self.unit is None:
+            return False
+        return False
+
+    def mark_fuzzy(self, fuzzy):
+        """Set fuzzy flag on translated unit.
+
+        We ignore this for now."""
+        return
 
 
 class MonolingualIDUnit(FileUnit):
@@ -817,7 +856,11 @@ class FileFormat(object):
 
         for unit in store.units:
             if unit.istranslatable():
-                unit.markfuzzy(fuzzy)
+                if hasattr(unit, 'markapproved'):
+                    # Xliff only
+                    unit.markapproved(not fuzzy)
+                else:
+                    unit.markfuzzy(fuzzy)
                 if unit.hasplural():
                     unit.settarget([''] * language.nplurals)
                 else:

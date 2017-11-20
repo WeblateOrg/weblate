@@ -132,6 +132,12 @@ XLIFF is usually used as bilingual, but Weblate supports it as monolingual as we
 Translations marked for review
 ++++++++++++++++++++++++++++++
 
+.. versionchanged:: 2.18
+
+    Since version 2.18 Weblate differentiates approved and fuzzy states, so
+    it should work as expected with Xliff. You still might apply note below in
+    cases where you don't want to use review process in Weblate.
+
 If the translation unit doesn't have ``approved="yes"`` it will be imported into
 Weblate as needing review (which matches XLIFF specification).
 

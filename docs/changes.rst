@@ -10,6 +10,7 @@ Released on ? 2017.
 * Improved configuration of special chars virtual keyboard.
 * Added support for DTD file format.
 * Changed keyboard shortcuts to less likely collide with browser/system ones.
+* Improved support for approved flag in Xliff files.
 
 weblate 2.17.1
 --------------

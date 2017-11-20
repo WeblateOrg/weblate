@@ -795,6 +795,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             # Check for changes
             if ((not add or unit.target == '') and
                     unit.target == pounit.get_target() and
+                    unit.approved == pounit.is_approved(unit.approved) and
                     unit.fuzzy == pounit.is_fuzzy()):
                 unit.save(backend=True, update_fields=['pending'])
                 continue
@@ -813,8 +814,9 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             else:
                 pounit.set_target(unit.target)
 
-            # Update fuzzy flag
+            # Update fuzzy/approved flag
             pounit.mark_fuzzy(unit.fuzzy)
+            pounit.mark_approved(unit.approved)
 
             # Update comments as they might have been changed (eg, fuzzy flag
             # removed)
