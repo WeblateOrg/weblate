@@ -230,7 +230,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
                 _('Could not create project directory: %s') % str(exc)
             )
 
-    def _reverse_url_kwargs(self):
+    def get_reverse_url_kwargs(self):
         """Return kwargs for URL reversing."""
         return {
             'project': self.slug

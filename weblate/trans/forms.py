@@ -452,7 +452,7 @@ class ZenTranslationForm(TranslationForm):
             profile, translation, unit, *args, **kwargs
         )
         self.helper.form_action = reverse(
-            'save_zen', kwargs=translation._reverse_url_kwargs()
+            'save_zen', kwargs=translation.get_reverse_url_kwargs()
         )
 
 

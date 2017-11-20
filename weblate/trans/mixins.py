@@ -70,7 +70,7 @@ class URLMixin(object):
     """Mixin providing standard shortcut API for few standard URLs"""
     _reverse_url_name = None
 
-    def _reverse_url_kwargs(self):
+    def get_reverse_url_kwargs(self):
         """Return kwargs for URL reversing."""
         raise NotImplementedError()
 
@@ -85,7 +85,7 @@ class URLMixin(object):
             )
         return reverse(
             urlname,
-            kwargs=self._reverse_url_kwargs()
+            kwargs=self.get_reverse_url_kwargs()
         )
 
     def get_absolute_url(self):

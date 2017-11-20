@@ -536,7 +536,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     def log_prefix(self):
         return '/'.join((self.project.slug, self.slug))
 
-    def _reverse_url_kwargs(self):
+    def get_reverse_url_kwargs(self):
         """Return kwargs for URL reversing."""
         return {
             'project': self.project.slug,

@@ -336,7 +336,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
         return False
 
-    def _reverse_url_kwargs(self):
+    def get_reverse_url_kwargs(self):
         """Return kwargs for URL reversing."""
         return {
             'project': self.subproject.project.slug,
