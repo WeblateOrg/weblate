@@ -516,7 +516,7 @@ def get_state_badge(unit):
 
     if unit.fuzzy:
         flag = (
-            _('Needs review'),
+            _('Needs edit'),
             'text-danger'
         )
     elif not unit.translated:
@@ -543,7 +543,7 @@ def get_state_flags(unit):
 
     if unit.fuzzy:
         flags.append((
-            _('Message needs review'),
+            _('Message needs edit'),
             'question-circle text-danger'
         ))
     elif not unit.translated:
