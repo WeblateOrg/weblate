@@ -536,6 +536,7 @@ def redirect_single(request, backend):
     """Redirect user to single authentication backend."""
     return render(request, 'accounts/redirect.html', {'backend': backend})
 
+
 @never_cache
 def weblate_login(request):
     """Login handler, just wrapper around standard Django login."""

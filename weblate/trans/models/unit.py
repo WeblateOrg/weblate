@@ -475,7 +475,9 @@ class Unit(models.Model, LoggerMixin):
         target = unit.get_target()
         source = unit.get_source()
         comment = unit.get_comments()
-        translated, fuzzy, approved = self.get_unit_status(unit, target, created)
+        translated, fuzzy, approved = self.get_unit_status(
+            unit, target, created
+        )
         previous_source = unit.get_previous_source()
         content_hash = unit.get_content_hash()
 
