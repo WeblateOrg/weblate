@@ -99,6 +99,13 @@ class RequireLoginMiddleware(object):
         if request.user.is_authenticated:
             return None
 
+        # Let gitexporter handle authentication
+        # - it doesn't go through standard Django authentication
+        # - once HTTP_AUTHORIZATION is set, it enforces it
+        if (request.path.startswith('/git/')
+                and request.META.get('HTTP_AUTHORIZATION')):
+            return None
+
         # An exception match should immediately return None
         for url in self.exceptions:
             if url.match(request.path):
