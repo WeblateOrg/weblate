@@ -9,6 +9,7 @@ Released on ? 2017.
 * Extended contributor stats.
 * Improved configuration of special chars virtual keyboard.
 * Added support for DTD file format.
+* Changed keyboard shortcuts to less likely collide with browser/system ones.
 
 weblate 2.17.1
 --------------

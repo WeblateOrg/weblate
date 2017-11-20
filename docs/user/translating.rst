@@ -88,39 +88,44 @@ Consortium.
 Keyboard shortcuts
 ++++++++++++++++++
 
+.. versionchanged:: 2.18
+
+    The keyboard shortcuts have been changed in 2.18 to less likely collide
+    with browser or system ones.
+
 While translating you can use the following keyboard shortcuts:
 
-:kbd:`Alt+Home`
+:kbd:`Ctrl+Home` or :kbd:`⌘+Home`
     Navigates to first translation in current search.
-:kbd:`Alt+End`
+:kbd:`Ctrl+End` or :kbd:`⌘+End`
     Navigates to last translation in current search.
-:kbd:`Alt+PageUp`
+:kbd:`Ctrl+PageUp` or :kbd:`⌘+PageUp`
     Navigates to previous translation in current search.
-:kbd:`Alt+PageDown`
+:kbd:`Ctrl+PageDown` or :kbd:`⌘+PageDown`
     Navigates to next translation in current search.
-:kbd:`Alt+Enter` or :kbd:`Ctrl+Enter` or :kbd:`Command+Enter`
+:kbd:`Ctrl+Enter` or :kbd:`⌘+Enter` or :kbd:`Ctrl+Enter` or :kbd:`Command+Enter`
     Saves current translation.
 :kbd:`Ctrl+Shift+Enter` or :kbd:`Command+Shift+Enter`
     Unmarks translation as fuzzy and submits it.
-:kbd:`Alt+E`
+:kbd:`Ctrl+E` or :kbd:`⌘+E`
     Focus translation editor.
-:kbd:`Alt+C`
+:kbd:`Ctrl+T` or :kbd:`⌘+T`
     Focus comment editor.
-:kbd:`Alt+M`
+:kbd:`Ctrl+M` or :kbd:`⌘+M`
     Shows machine translation tab.
-:kbd:`Alt+<NUMBER>`
+:kbd:`Ctrl+<NUMBER>` or :kbd:`⌘+<NUMBER>`
     Copies placeable of given number from source string.
-:kbd:`Alt+M <NUMBER>`
+:kbd:`Ctrl+M <NUMBER>` or :kbd:`⌘+M <NUMBER>`
     Copy machine translation of given number to current translation.
-:kbd:`Alt+I <NUMBER>`
+:kbd:`Ctrl+I <NUMBER>` or :kbd:`⌘+I <NUMBER>`
     Ignore failing check of given number.
-:kbd:`Alt+N`
+:kbd:`Ctrl+N` or :kbd:`⌘+N`
     Shows nearby strings tab.
-:kbd:`Alt+S`
+:kbd:`Ctrl+S` or :kbd:`⌘+S`
     Shows search tab.
-:kbd:`Alt+V`
+:kbd:`Ctrl+V` or :kbd:`⌘+V`
     Copies source string
-:kbd:`Alt+F`
+:kbd:`Ctrl+F` or :kbd:`⌘+F`
     Toggles fuzzy flag.
 
 .. _visual-keyboard:
