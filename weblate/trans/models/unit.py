@@ -52,6 +52,8 @@ from weblate.utils.hash import calculate_hash, hash_to_checksum
 
 SIMPLE_FILTERS = {
     'fuzzy': {'fuzzy': True},
+    'approved': {'approved': True},
+    'review': {'approved': False},
     'untranslated': {'translated': False},
     'todo': {'translated': False},
     'nottranslated': {'translated': False, 'fuzzy': False},
@@ -391,6 +393,7 @@ class Unit(models.Model, LoggerMixin):
     previous_source = models.TextField(default='', blank=True)
     target = models.TextField(default='', blank=True)
     fuzzy = models.BooleanField(default=False, db_index=True)
+    approved = models.BooleanField(default=False, db_index=True)
     translated = models.BooleanField(default=False, db_index=True)
     position = models.IntegerField(db_index=True)
 
