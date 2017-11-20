@@ -1,6 +1,7 @@
 {% load translations %}
 {% load i18n %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% for item in unitdata %}
 <tbody class="zen-unit">
@@ -60,12 +61,7 @@
 <i id="status-{{ item.unit.checksum }}"></i>
 </td>
 <td colspan="2" class="translator">
-<form action="{% url 'save_zen' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post">
-{% csrf_token %}
-{{ item.form.checksum }}
-{{ item.form.target }}
-{{ item.form.fuzzy }} <label for="id_{{ item.unit.checksum }}_fuzzy">{% trans "Needs edit" %}</label>
-</form>
+{% crispy item.form %}
 </td>
 </tr>
 </tbody>

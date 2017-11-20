@@ -42,7 +42,7 @@ from weblate.trans.models import (
 )
 from weblate.trans.autofixes import fix_target
 from weblate.trans.forms import (
-    TranslationForm, SearchForm, InlineWordForm,
+    TranslationForm, ZenTranslationForm, SearchForm, InlineWordForm,
     MergeForm, AutoForm, AntispamForm, CommentForm, RevertForm,
 )
 from weblate.trans.views.helper import (
@@ -718,7 +718,7 @@ def get_zen_unitdata(translation, request):
                 request.user.profile.secondary_in_zen
                 else None
             ),
-            'form': TranslationForm(
+            'form': ZenTranslationForm(
                 request.user.profile,
                 translation,
                 unit,
