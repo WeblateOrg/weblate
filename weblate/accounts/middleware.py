@@ -102,9 +102,13 @@ class RequireLoginMiddleware(object):
         # Let gitexporter handle authentication
         # - it doesn't go through standard Django authentication
         # - once HTTP_AUTHORIZATION is set, it enforces it
-        if (request.path.startswith('/git/')
-                and request.META.get('HTTP_AUTHORIZATION')):
-            return None
+        if 'weblate.gitexport' in settings.INSTALLED_APPS:
+            # pylint: disable=C0413
+            import weblate.gitexport.views
+            if request.path.startswith('/git/'):
+                if request.META.get('HTTP_AUTHORIZATION'):
+                    return None
+                return weblate.gitexport.views.response_authenticate()
 
         # An exception match should immediately return None
         for url in self.exceptions:
