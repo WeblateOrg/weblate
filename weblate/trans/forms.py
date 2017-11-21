@@ -403,15 +403,23 @@ class ChecksumForm(forms.Form):
             )
 
 
+class FuzzyField(forms.BooleanField):
+    help_as_icon = True
+
+    def __init__(self, *args, **kwargs):
+        kwargs['label'] = _('Needs editing')
+        kwargs['help_text'] = _(
+            'String is usually marked as needing editing after source string '
+            'change or this can be done manually.'
+        )
+        super(FuzzyField, self).__init__(*args, **kwargs)
+        self.widget.attrs['class'] = 'fuzzy_checkbox'
+
+
 class TranslationForm(ChecksumForm):
     """Form used for translation of single string."""
-    target = PluralField(
-        required=False,
-    )
-    fuzzy = forms.BooleanField(
-        label=_('Needs editing'),
-        required=False
-    )
+    target = PluralField(required=False)
+    fuzzy = FuzzyField(required=False)
 
     def __init__(self, profile, translation, unit,
                  *args, **kwargs):
@@ -426,7 +434,6 @@ class TranslationForm(ChecksumForm):
         super(TranslationForm, self).__init__(
             translation, *args, **kwargs
         )
-        self.fields['fuzzy'].widget.attrs['class'] = 'fuzzy_checkbox'
         self.fields['target'].widget.attrs['tabindex'] = tabindex
         self.fields['target'].widget.profile = profile
         self.helper = FormHelper()

@@ -536,6 +536,7 @@ Follow generic upgrade instructions, there is no special change.
 Notable configuration or dependencies changes:
 
 * The :setting:`SPECIAL_CHARS` now lists actual chars now.
+* There is change in default value for :setting:`django:TEMPLATES` setting.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
