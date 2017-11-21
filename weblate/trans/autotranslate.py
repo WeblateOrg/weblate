@@ -23,6 +23,7 @@ from django.db import transaction
 
 from weblate.permissions.helpers import can_access_project
 from weblate.trans.models import Unit, Change, SubProject
+from weblate.trans.models.unit import STATE_TRANSLATED
 
 
 def auto_translate(user, translation, source, inconsistent, overwrite,
@@ -39,11 +40,13 @@ def auto_translate(user, translation, source, inconsistent, overwrite,
     elif overwrite:
         units = translation.unit_set.all()
     else:
-        units = translation.unit_set.filter(translated=False)
+        units = translation.unit_set.filter(
+            state__lt=STATE_TRANSLATED,
+        )
 
     sources = Unit.objects.filter(
         translation__language=translation.language,
-        translated=True
+        state__gte=STATE_TRANSLATED,
     )
     if source:
         subprj = SubProject.objects.get(id=source)
@@ -70,10 +73,10 @@ def auto_translate(user, translation, source, inconsistent, overwrite,
             # Get first matching entry
             update = sources.filter(source=unit.source)[0]
             # No save if translation is same
-            if unit.fuzzy == update.fuzzy and unit.target == update.target:
+            if unit.state == update.state and unit.target == update.target:
                 continue
             # Copy translation
-            unit.fuzzy = update.fuzzy
+            unit.state = update.state
             unit.target = update.target
             # Create signle change object for whole merge
             Change.objects.create(
