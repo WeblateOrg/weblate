@@ -461,7 +461,7 @@ class Unit(models.Model, LoggerMixin):
             self.translation.get_translate_url(), self.checksum
         )
 
-    def get_unit_status(self, unit, target, created):
+    def get_unit_state(self, unit, created):
         """Calculate translated and fuzzy status"""
         all_flags = self.translation.subproject.all_flags
 
@@ -496,7 +496,7 @@ class Unit(models.Model, LoggerMixin):
         target = unit.get_target()
         source = unit.get_source()
         comment = unit.get_comments()
-        state = self.get_unit_status(unit, target, created)
+        state = self.get_unit_state(unit, created)
         previous_source = unit.get_previous_source()
         content_hash = unit.get_content_hash()
 

@@ -830,7 +830,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
             # Update comments as they might have been changed (eg, fuzzy flag
             # removed)
-            state = unit.get_unit_status(pounit, unit.target, False)
+            state = unit.get_unit_state(pounit, False)
             flags = pounit.get_flags()
             if state != unit.state or flags != unit.flags:
                 unit.state = state
