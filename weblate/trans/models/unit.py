@@ -382,6 +382,11 @@ class UnitQuerySet(models.QuerySet):
 
 @python_2_unicode_compatible
 class Unit(models.Model, LoggerMixin):
+    STATE_EMPTY = 0
+    STATE_FUZZY = 10
+    STATE_TRANSLATED = 20
+    STATE_APPROVED = 30
+
     translation = models.ForeignKey('Translation')
     id_hash = models.BigIntegerField(db_index=True)
     content_hash = models.BigIntegerField(db_index=True)
@@ -394,6 +399,17 @@ class Unit(models.Model, LoggerMixin):
     target = models.TextField(default='', blank=True)
     fuzzy = models.BooleanField(default=False, db_index=True)
     approved = models.BooleanField(default=False, db_index=True)
+    state = models.IntegerField(
+        default=STATE_EMPTY,
+        db_index=True,
+        choices=(
+            (STATE_EMPTY, 'Empty'),
+            (STATE_FUZZY, 'Needs editing'),
+            (STATE_TRANSLATED, 'Translated'),
+            (STATE_APPROVED, 'Approved'),
+        )
+    )
+
     translated = models.BooleanField(default=False, db_index=True)
     position = models.IntegerField(db_index=True)
 
