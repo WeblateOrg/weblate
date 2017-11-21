@@ -46,7 +46,7 @@ from weblate.utils.site import get_site_url
 from weblate.trans.util import translation_percent, split_plural
 from weblate.accounts.avatar import get_user_display
 from weblate.trans.mixins import URLMixin, PercentMixin, LoggerMixin
-from weblate.trans.boolean_sum import do_boolean_sum
+from weblate.utils.query import conditional_sum
 from weblate.accounts.notifications import notify_new_string
 from weblate.accounts.models import get_author_name
 from weblate.trans.models.change import Change
@@ -555,14 +555,14 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         stats = self.unit_set.aggregate(
             Sum('num_words'),
             Count('id'),
-            fuzzy__sum=do_boolean_sum('fuzzy'),
-            translated__sum=do_boolean_sum('translated'),
-            has_failing_check__sum=do_boolean_sum('has_failing_check'),
-            has_suggestion__sum=do_boolean_sum('has_suggestion'),
-            has_comment__sum=do_boolean_sum('has_comment'),
-            translated_words__sum=do_boolean_sum('translated', 'num_words'),
-            fuzzy_words__sum=do_boolean_sum('fuzzy', 'num_words'),
-            check_words__sum=do_boolean_sum('has_failing_check', 'num_words'),
+            fuzzy__sum=conditional_sum('fuzzy'),
+            translated__sum=conditional_sum('translated'),
+            has_failing_check__sum=conditional_sum('has_failing_check'),
+            has_suggestion__sum=conditional_sum('has_suggestion'),
+            has_comment__sum=conditional_sum('has_comment'),
+            translated_words__sum=conditional_sum('translated', 'num_words'),
+            fuzzy_words__sum=conditional_sum('fuzzy', 'num_words'),
+            check_words__sum=conditional_sum('has_failing_check', 'num_words'),
         )
 
         # Check if we have any units

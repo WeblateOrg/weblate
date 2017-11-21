@@ -21,7 +21,7 @@
 from django.db.models import Sum, When, Case, IntegerField
 
 
-def do_boolean_sum(field, value=1):
+def conditional_sum(field, value=1):
     """Wrapper to generate SUM on boolean values"""
     cond = {field: True}
     return Sum(
