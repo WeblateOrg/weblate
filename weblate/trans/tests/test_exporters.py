@@ -28,6 +28,7 @@ from weblate.trans.exporters import (
 from weblate.trans.models import (
     Dictionary, Project, SubProject, Translation, Unit,
 )
+from weblate.trans.models.unit import STATE_TRANSLATED, STATE_EMPTY
 
 
 class PoExporterTest(TestCase):
@@ -101,7 +102,7 @@ class PoExporterTest(TestCase):
         result = self.check_unit(
             source='xxx\x1e\x1efff',
             target='yyy\x1e\x1efff\x1e\x1ewww',
-            translated=True,
+            state=STATE_TRANSLATED,
         )
         self.check_plurals(result)
 
@@ -110,7 +111,7 @@ class PoExporterTest(TestCase):
             nplurals=1,
             source='xxx\x1e\x1efff',
             target='yyy',
-            translated=True,
+            state=STATE_TRANSLATED,
         )
 
     def test_unit_not_translated(self):
@@ -118,7 +119,7 @@ class PoExporterTest(TestCase):
             nplurals=1,
             source='xxx\x1e\x1efff',
             target='yyy',
-            translated=False,
+            state=STATE_EMPTY,
         )
 
     def test_context(self):
@@ -126,7 +127,7 @@ class PoExporterTest(TestCase):
             source='foo',
             target='bar',
             context='context',
-            translated=True,
+            state=STATE_TRANSLATED,
         )
         if self._has_context:
             self.assertIn(b'context', result)
