@@ -111,6 +111,8 @@ Can change project [Managers]
     Can edit project settings.
 Can upload screenshot [Managers]
     Can upload source string screenshot context.
+Can review translation [Managers,Reviewers]
+    Can approved translation in review.
 
 .. _acl:
 

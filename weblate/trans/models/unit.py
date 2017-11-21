@@ -425,6 +425,7 @@ class Unit(models.Model, LoggerMixin):
         permissions = (
             ('save_translation', "Can save translation"),
             ('save_template', "Can save template"),
+            ('review_translation', 'Can review translation'),
         )
         ordering = ['priority', 'position']
         app_label = 'trans'

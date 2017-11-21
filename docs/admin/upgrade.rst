@@ -537,6 +537,11 @@ Notable configuration or dependencies changes:
 
 * The :setting:`SPECIAL_CHARS` now lists actual chars now.
 * There is change in default value for :setting:`django:TEMPLATES` setting.
+* There are several new permissions which should be assigned to default groups,
+  you should run ``./manage.py setupgroups`` to update them. Alternatively, you
+  might want to add the following permissions where applicable (see :ref:`extra-privs`
+  for their default setup):
+  * Can review translation
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

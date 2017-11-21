@@ -46,6 +46,7 @@ ADMIN_PERMS = {
     'lock_subproject',
     'reset_translation',
     'lock_translation',
+    'review_translation',
     'can_see_git_repository',
     'add_comment',
     'delete_comment',
@@ -99,6 +100,17 @@ DEFAULT_GROUPS = {
         'delete_translation',
         'access_vcs',
     },
+    'Reviewers': {
+        'review_translation',
+        'save_translation',
+        'save_template',
+        'accept_suggestion',
+        'delete_suggestion',
+        'vote_suggestion',
+        'add_comment',
+        'add_suggestion',
+        'access_project',
+    },
     'Managers': ADMIN_PERMS,
     '@Translate': {
         'access_project',
@@ -147,6 +159,17 @@ DEFAULT_GROUPS = {
         'delete_screenshot',
         'change_screenshot',
     },
+    '@Review': {
+        'access_project',
+        'review_translation',
+        'save_translation',
+        'save_template',
+        'accept_suggestion',
+        'delete_suggestion',
+        'vote_suggestion',
+        'add_comment',
+        'add_suggestion',
+    },
     '@VCS': {
         'access_project',
         'commit_translation',
@@ -175,3 +198,4 @@ def translate_groups():
     pgettext('Permissions group', 'Screenshots')
     pgettext('Permissions group', 'Translate')
     pgettext('Permissions group', 'VCS')
+    pgettext('Permissions group', 'Review')
