@@ -658,8 +658,8 @@ class SearchForm(BaseSearchForm):
         label=_('Search type'),
         required=False,
         choices=(
-            ('substring', _('Substring')),
             ('ftx', _('Fulltext')),
+            ('substring', _('Substring')),
             ('exact', _('Exact match')),
         ),
         initial='ftx',
