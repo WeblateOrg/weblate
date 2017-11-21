@@ -409,7 +409,7 @@ class TranslationForm(ChecksumForm):
         required=False,
     )
     fuzzy = forms.BooleanField(
-        label=_('Needs edit'),
+        label=_('Needs editing'),
         required=False
     )
 

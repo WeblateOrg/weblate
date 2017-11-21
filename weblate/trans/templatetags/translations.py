@@ -516,7 +516,7 @@ def get_state_badge(unit):
 
     if unit.fuzzy:
         flag = (
-            _('Needs edit'),
+            _('Needs editing'),
             'text-danger'
         )
     elif not unit.translated:
