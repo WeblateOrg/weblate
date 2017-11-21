@@ -304,7 +304,7 @@ class FileUnit(object):
         else:
             return self.unit.istranslated()
 
-    def is_approved(self, fallback=None):
+    def is_approved(self, fallback=False):
         """Check whether unit is appoved."""
         if self.unit is None:
             return fallback

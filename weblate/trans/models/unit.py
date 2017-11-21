@@ -476,7 +476,9 @@ class Unit(models.Model, LoggerMixin):
 
         translated = unit.is_translated()
         fuzzy = unit.is_fuzzy()
-        approved = unit.is_approved()
+        # We need to keep approved state for formats which do not
+        # support saving it
+        approved = unit.is_approved(self.approved)
 
         if 'skip-review-flag' in all_flags:
             approved = False
@@ -493,9 +495,7 @@ class Unit(models.Model, LoggerMixin):
             return STATE_FUZZY
         if not translated:
             return STATE_EMPTY
-        elif approved or (approved is None and self.state == STATE_APPROVED):
-            # We need to keep approved state for formats which do not
-            # support saving it
+        elif approved:
             return STATE_APPROVED
         return STATE_TRANSLATED
 
