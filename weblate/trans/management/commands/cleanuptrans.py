@@ -36,6 +36,7 @@ from weblate.trans.models import (
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
 from weblate.trans.search import get_target_index, clean_search_unit
+from weblate.trans.models.unit import STATE_TRANSLATED
 
 
 class Command(BaseCommand):
@@ -140,7 +141,7 @@ class Command(BaseCommand):
                     # units
                     translatedunits = Unit.objects.filter(
                         translation__language=lang,
-                        translated=True,
+                        state__gte=STATE_TRANSLATED,
                         translation__subproject__project__pk=pk
                     ).values('content_hash').distinct()
                     Check.objects.filter(
