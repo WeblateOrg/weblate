@@ -223,8 +223,9 @@ class VCSGitTest(TestCase, RepoTestMixin):
 
     def test_status(self):
         status = self.repo.status()
+        # Older git print up-to-date, newer up to date
         self.assertIn(
-            "Your branch is up-to-date with 'origin/master'.", status
+            "date with 'origin/master'.", status
         )
 
     def test_needs_commit(self):
