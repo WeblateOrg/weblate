@@ -475,9 +475,9 @@ class Unit(models.Model, LoggerMixin):
         all_flags = self.translation.subproject.all_flags
 
         translated = unit.is_translated()
-        fuzzy = unit.is_fuzzy()
-        # We need to keep approved state for formats which do not
+        # We need to keep approved/fuzzy state for formats which do not
         # support saving it
+        fuzzy = unit.is_fuzzy(self.fuzzy)
         approved = unit.is_approved(self.approved)
 
         if 'skip-review-flag' in all_flags:

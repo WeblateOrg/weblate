@@ -312,10 +312,10 @@ class FileUnit(object):
             return self.unit.isapproved()
         return fallback
 
-    def is_fuzzy(self):
+    def is_fuzzy(self, fallback=False):
         """Check whether unit needs edit."""
         if self.unit is None:
-            return False
+            return fallback
         return self.unit.isfuzzy()
 
     def is_obsolete(self):
@@ -407,15 +407,13 @@ class XliffUnit(FileUnit):
             return False
         return bool(self.unit.target)
 
-    def is_fuzzy(self):
+    def is_fuzzy(self, fallback=False):
         """Check whether unit needs edit.
 
         The isfuzzy on Xliff is really messing up approved flag with fuzzy
         and leading to various problems. That's why we completely ignore it.
         """
-        if self.unit is None:
-            return False
-        return False
+        return fallback
 
     def mark_fuzzy(self, fuzzy):
         """Set fuzzy flag on translated unit.
