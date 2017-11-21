@@ -86,12 +86,12 @@ EDITOR_TEMPLATE = '''
 </div>
 '''
 PLURALS_TEMPLATE = '''
-<p class="help-block pull-right flip">
+<p class="help-block">
+{2}
 <a href="{0}" title="{1}">
 <i class="fa fa-question-circle" aria-hidden="true"></i>
 </a>
 </p>
-<p class="help-block">{2}</p>
 '''
 COPY_TEMPLATE = '''
 data-loading-text="{0}" data-checksum="{1}" data-content="{2}"
