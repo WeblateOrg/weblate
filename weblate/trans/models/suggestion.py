@@ -139,12 +139,13 @@ class Suggestion(models.Model, UserDisplayMixin):
         )
 
     def accept(self, translation, request):
+        from weblate.trans.models.unit import STATE_TRANSLATED
         allunits = translation.unit_set.filter(
             content_hash=self.content_hash,
         )
         for unit in allunits:
             unit.target = self.target
-            unit.fuzzy = False
+            unit.state = STATE_TRANSLATED
             unit.save_backend(
                 request, change_action=Change.ACTION_ACCEPT, user=self.user
             )
