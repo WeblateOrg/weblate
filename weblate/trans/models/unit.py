@@ -396,8 +396,6 @@ class Unit(models.Model, LoggerMixin):
     source = models.TextField()
     previous_source = models.TextField(default='', blank=True)
     target = models.TextField(default='', blank=True)
-    fuzzy = models.BooleanField(default=False, db_index=True)
-    approved = models.BooleanField(default=False, db_index=True)
     state = models.IntegerField(
         default=STATE_EMPTY,
         db_index=True,
@@ -409,7 +407,6 @@ class Unit(models.Model, LoggerMixin):
         )
     )
 
-    translated = models.BooleanField(default=False, db_index=True)
     position = models.IntegerField(db_index=True)
 
     has_suggestion = models.BooleanField(default=False, db_index=True)
@@ -446,6 +443,18 @@ class Unit(models.Model, LoggerMixin):
             translation=self.translation,
             position=self.position,
         )
+
+    @property
+    def approved(self):
+        return self.state == STATE_APPROVED
+
+    @property
+    def translated(self):
+        return self.state >= STATE_TRANSLATED
+
+    @property
+    def fuzzy(self):
+        return self.state == STATE_FUZZY
 
     @property
     def log_prefix(self):
