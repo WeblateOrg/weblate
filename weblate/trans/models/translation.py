@@ -39,7 +39,9 @@ from django.core.urlresolvers import reverse
 from weblate.lang.models import Language
 from weblate.trans.formats import ParseError, try_load
 from weblate.trans.checks import CHECKS
-from weblate.trans.models.unit import Unit
+from weblate.trans.models.unit import (
+    Unit, STATE_TRANSLATED, STATE_FUZZY, STATE_APPROVED,
+)
 from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.signals import vcs_pre_commit, vcs_post_commit
 from weblate.utils.site import get_site_url
@@ -452,15 +454,17 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                 self, unit, pos
             )
 
-            # Check if unit is new and untranslated
+            # Check if unit is worth notification:
+            # - new and untranslated
+            # - newly not translated
+            # - newly fuzzy
             was_new = (
                 was_new or
-                (is_new and not newunit.translated) or
+                (is_new and newunit.state <= STATE_TRANSLATED) or
                 (
-                    not newunit.translated and
-                    newunit.translated != newunit.old_unit.translated
-                ) or
-                (newunit.fuzzy and newunit.fuzzy != newunit.old_unit.fuzzy)
+                    newunit.state < STATE_TRANSLATED and
+                    newunit.state != newunit.old_unit.state
+                )
             )
 
             # Update position
@@ -555,14 +559,20 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         stats = self.unit_set.aggregate(
             Sum('num_words'),
             Count('id'),
-            fuzzy__sum=conditional_sum(1, fuzzy=True),
-            translated__sum=conditional_sum(1, translated=True),
+            fuzzy__sum=conditional_sum(1, state=STATE_FUZZY),
+            translated__sum=conditional_sum(1, state__gte=STATE_TRANSLATED),
             has_failing_check__sum=conditional_sum(1, has_failing_check=True),
             has_suggestion__sum=conditional_sum(1, has_suggestion=True),
             has_comment__sum=conditional_sum(1, has_comment=True),
-            translated_words__sum=conditional_sum('num_words', translated=True),
-            fuzzy_words__sum=conditional_sum('num_words', fuzzy=True),
-            check_words__sum=conditional_sum('num_words', has_failing_check=True),
+            translated_words__sum=conditional_sum(
+                'num_words', state__gte=STATE_TRANSLATED
+            ),
+            fuzzy_words__sum=conditional_sum(
+                'num_words', state=STATE_FUZZY
+            ),
+            check_words__sum=conditional_sum(
+                'num_words', has_failing_check=True
+            ),
         )
 
         # Check if we have any units
@@ -815,19 +825,19 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                 pounit.set_target(unit.target)
 
             # Update fuzzy/approved flag
-            pounit.mark_fuzzy(unit.fuzzy)
-            pounit.mark_approved(unit.approved)
+            pounit.mark_fuzzy(unit.state == STATE_FUZZY)
+            pounit.mark_approved(unit.state == STATE_APPROVED)
 
             # Update comments as they might have been changed (eg, fuzzy flag
             # removed)
-            translated = pounit.is_translated()
+            state = unit.get_unit_status(pounit, unit.target, False)
             flags = pounit.get_flags()
-            if translated != unit.translated or flags != unit.flags:
-                unit.translated = translated
+            if state != unit.state or flags != unit.flags:
+                unit.state = state
                 unit.flags = flags
             unit.save(
                 backend=True,
-                update_fields=['translated', 'flags', 'pending']
+                update_fields=['state', 'flags', 'pending']
             )
 
         # Did we do any updates?
