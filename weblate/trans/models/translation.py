@@ -555,14 +555,14 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         stats = self.unit_set.aggregate(
             Sum('num_words'),
             Count('id'),
-            fuzzy__sum=conditional_sum('fuzzy'),
-            translated__sum=conditional_sum('translated'),
-            has_failing_check__sum=conditional_sum('has_failing_check'),
-            has_suggestion__sum=conditional_sum('has_suggestion'),
-            has_comment__sum=conditional_sum('has_comment'),
-            translated_words__sum=conditional_sum('translated', 'num_words'),
-            fuzzy_words__sum=conditional_sum('fuzzy', 'num_words'),
-            check_words__sum=conditional_sum('has_failing_check', 'num_words'),
+            fuzzy__sum=conditional_sum(1, fuzzy=True),
+            translated__sum=conditional_sum(1, translated=True),
+            has_failing_check__sum=conditional_sum(1, has_failing_check=True),
+            has_suggestion__sum=conditional_sum(1, has_suggestion=True),
+            has_comment__sum=conditional_sum(1, has_comment=True),
+            translated_words__sum=conditional_sum('num_words', translated=True),
+            fuzzy_words__sum=conditional_sum('num_words', fuzzy=True),
+            check_words__sum=conditional_sum('num_words', has_failing_check=True),
         )
 
         # Check if we have any units

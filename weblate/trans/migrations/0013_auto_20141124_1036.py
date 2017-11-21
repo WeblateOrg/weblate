@@ -13,7 +13,7 @@ def fill_in_have_comment(apps, schema_editor):
     for translation in Translation.objects.all():
         stats = translation.unit_set.aggregate(
             Sum('num_words'),
-            has_comment__sum=conditional_sum('has_comment'),
+            has_comment__sum=conditional_sum(1, has_comment=True),
         )
         if stats['num_words__sum'] is not None:
             translation.have_comment = int(stats['has_comment__sum'])
