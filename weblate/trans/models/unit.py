@@ -154,7 +154,7 @@ class UnitQuerySet(models.QuerySet):
         if rqtype in SIMPLE_FILTERS:
             return self.filter(**SIMPLE_FILTERS[rqtype])
         elif rqtype == 'random':
-            return self.filter(translated=True).order_by('?')
+            return self.filter(state__gte=STATE_TRANSLATED).order_by('?')
         elif rqtype == 'sourcecomments':
             coms = Comment.objects.filter(
                 language=None,
@@ -307,7 +307,7 @@ class UnitQuerySet(models.QuerySet):
         return self.filter(
             pk__in=pks,
             translation__language=unit.translation.language,
-            translated=True
+            state__gte=STATE_TRANSLATED,
         ).exclude(
             pk=unit.id
         )
@@ -343,7 +343,7 @@ class UnitQuerySet(models.QuerySet):
         return self.filter(
             pk__in=more_results - same_results,
             translation__language=unit.translation.language,
-            translated=True
+            state__gte=STATE_TRANSLATED,
         ).exclude(
             pk=unit.id
         )
@@ -480,7 +480,13 @@ class Unit(models.Model, LoggerMixin):
             elif not is_template and 'add-review' in all_flags:
                 fuzzy = True
 
-        return translated, fuzzy, approved
+        if fuzzy:
+            return STATE_FUZZY
+        if not translated:
+            return STATE_EMPTY
+        elif approved:
+            return STATE_APPROVED
+        return STATE_TRANSLATED
 
     def update_from_unit(self, unit, pos, created):
         """Update Unit from ttkit unit."""
@@ -490,43 +496,33 @@ class Unit(models.Model, LoggerMixin):
         target = unit.get_target()
         source = unit.get_source()
         comment = unit.get_comments()
-        translated, fuzzy, approved = self.get_unit_status(
-            unit, target, created
-        )
+        state = self.get_unit_status(unit, target, created)
         previous_source = unit.get_previous_source()
         content_hash = unit.get_content_hash()
 
         # Monolingual files handling (without target change)
         if unit.template is not None and target == self.target:
-            if source != self.source and translated:
+            if source != self.source and state == STATE_TRANSLATED:
                 if self.previous_source == self.source and self.fuzzy:
                     # Source change was reverted
                     previous_source = ''
-                    fuzzy = False
-                    translated = True
+                    state = STATE_TRANSLATED
                 else:
                     # Store previous source and fuzzy flag for monolingual
                     if previous_source == '':
                         previous_source = self.source
-                    fuzzy = True
-                    translated = False
+                    state = STATE_FUZZY
             else:
                 # We should keep calculated flags if translation was
                 # not changed outside
                 previous_source = self.previous_source
-                fuzzy = self.fuzzy
-                translated = self.translated
+                state = self.state
 
         # Update checks on fuzzy update or on content change
         same_content = (
             target == self.target and source == self.source
         )
-        same_state = (
-            fuzzy == self.fuzzy and
-            approved == self.approved and
-            translated == self.translated and
-            not created
-        )
+        same_state = (state == self.state and not created)
 
         # Check if we actually need to change anything
         # pylint: disable=R0916
@@ -534,7 +530,6 @@ class Unit(models.Model, LoggerMixin):
                 location == self.location and
                 flags == self.flags and
                 same_content and same_state and
-                translated == self.translated and
                 comment == self.comment and
                 pos == self.position and
                 content_hash == self.content_hash and
@@ -554,9 +549,7 @@ class Unit(models.Model, LoggerMixin):
         self.flags = flags
         self.source = source
         self.target = target
-        self.fuzzy = fuzzy
-        self.approved = approved
-        self.translated = translated
+        self.state = state
         self.comment = comment
         self.content_hash = content_hash
         self.previous_source = previous_source
@@ -625,8 +618,7 @@ class Unit(models.Model, LoggerMixin):
         )
         for unit in allunits:
             unit.target = self.target
-            unit.fuzzy = self.fuzzy
-            unit.approved = self.approved
+            unit.state = self.state
             unit.save_backend(request, False, change_action=change_action)
 
     def update_lock(self, request, user, change_action):
@@ -657,8 +649,7 @@ class Unit(models.Model, LoggerMixin):
         # Return if there was no change
         # We have to explicitly check for fuzzy flag change on monolingual
         # files, where we handle it ourselves without storing to backend
-        if (self.old_unit.fuzzy == self.fuzzy and
-                self.old_unit.approved == self.approved and
+        if (self.old_unit.state == self.state and
                 self.old_unit.target == self.target):
             # Propagate if we should
             if propagate:
@@ -676,11 +667,12 @@ class Unit(models.Model, LoggerMixin):
 
         # Unit is pending for write
         self.pending = True
-        # Update translated flag (not fuzzy and at least one transltion)
-        self.translated = (
-            not self.fuzzy
-            and bool(max(self.get_target_plurals()))
-        )
+        # Update translated flag (not fuzzy and at least one translation)
+        translation = bool(max(self.get_target_plurals()))
+        if self.state == STATE_TRANSLATED and not translation:
+            self.state = STATE_EMPTY
+        elif self.state == STATE_EMPTY and translation:
+            self.state = STATE_TRANSLATED
 
         # Save updated unit to database
         self.save(backend=True)
@@ -740,24 +732,21 @@ class Unit(models.Model, LoggerMixin):
         )
         # Find reverted units
         reverted = same_source.filter(
-            translated=False,
-            fuzzy=True,
+            state=STATE_FUZZY,
             previous_source=self.source
         )
         reverted_ids = set(reverted.values_list('id', flat=True))
         reverted.update(
-            translated=True,
-            fuzzy=False,
+            state=STATE_TRANSLATED,
             previous_source=''
         )
         # Set fuzzy on changed
         same_source.filter(
-            translated=True
+            state=STATE_TRANSLATED
         ).exclude(
             id__in=reverted_ids
         ).update(
-            translated=False,
-            fuzzy=True,
+            state=STATE_FUZZY,
             previous_source=previous_source,
         )
         # Update source index and stats
@@ -790,7 +779,7 @@ class Unit(models.Model, LoggerMixin):
         # Action type to store
         if change_action is not None:
             action = change_action
-        elif oldunit.translated:
+        elif self.old_unit.state >= STATE_TRANSLATED:
             action = Change.ACTION_CHANGE
         else:
             action = Change.ACTION_NEW
@@ -936,14 +925,14 @@ class Unit(models.Model, LoggerMixin):
         checks_to_run = CHECKS.data
         cleanup_checks = True
 
-        if (not same_state or is_new) and not self.translated:
+        if (not same_state or is_new) and self.state < STATE_TRANSLATED:
             # Check whether there is any message with same source
             project = self.translation.subproject.project
             same_source = Unit.objects.filter(
                 translation__language=self.translation.language,
                 translation__subproject__project=project,
                 content_hash=self.content_hash,
-                translated=True,
+                state__gte=STATE_TRANSLATED,
             ).exclude(
                 id=self.id,
                 translation__subproject__allow_translation_propagation=False,
@@ -1034,7 +1023,10 @@ class Unit(models.Model, LoggerMixin):
 
     def update_has_failing_check(self, recurse=False, update_stats=True):
         """Update flag counting failing checks."""
-        has_failing_check = self.translated and self.active_checks().exists()
+        has_failing_check = (
+            self.state >= STATE_TRANSLATED and
+            self.active_checks().exists()
+        )
 
         # Change attribute if it has changed
         if has_failing_check != self.has_failing_check:
@@ -1090,7 +1082,7 @@ class Unit(models.Model, LoggerMixin):
         """Store new translation of a unit."""
         # Update unit and save it
         self.target = join_plural(new_target)
-        self.fuzzy = new_fuzzy
+        self.state = STATE_FUZZY if new_fuzzy else STATE_TRANSLATED
         saved = self.save_backend(
             request,
             change_action=change_action,
@@ -1129,7 +1121,7 @@ class Unit(models.Model, LoggerMixin):
         return get_distinct_translations(
             Unit.objects.filter(
                 id_hash=self.id_hash,
-                translated=True,
+                state__gte=STATE_TRANSLATED,
                 translation__subproject=self.translation.subproject,
                 translation__language__in=secondary_langs,
             )

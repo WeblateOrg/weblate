@@ -40,6 +40,7 @@ from weblate.trans.models import (
     Unit, Change, Comment, Suggestion, Dictionary,
     get_related_units,
 )
+from weblate.trans.models.unit import STATE_TRANSLATED
 from weblate.trans.autofixes import fix_target
 from weblate.trans.forms import (
     TranslationForm, ZenTranslationForm, SearchForm, InlineWordForm,
@@ -74,7 +75,7 @@ def get_other_units(unit):
             unit.translation.subproject.project,
         'translation__language':
             unit.translation.language,
-        'translated': True,
+        'state__gte': STATE_TRANSLATED,
     }
 
     same = Unit.objects.same(unit, False)
@@ -360,7 +361,7 @@ def handle_merge(translation, request, next_unit_url):
 
     # Store unit
     unit.target = merged.target
-    unit.fuzzy = merged.fuzzy
+    unit.state = merged.state
     saved = unit.save_backend(request)
     # Update stats if there was change
     if saved:
