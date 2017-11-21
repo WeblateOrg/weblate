@@ -49,15 +49,18 @@ from weblate.trans.util import (
 )
 from weblate.utils.hash import calculate_hash, hash_to_checksum
 
+STATE_EMPTY = 0
+STATE_FUZZY = 10
+STATE_TRANSLATED = 20
+STATE_APPROVED = 30
 
 SIMPLE_FILTERS = {
-    'fuzzy': {'fuzzy': True},
-    'approved': {'approved': True},
-    'review': {'approved': False},
-    'untranslated': {'translated': False},
-    'todo': {'translated': False},
-    'nottranslated': {'translated': False, 'fuzzy': False},
-    'translated': {'translated': True},
+    'fuzzy': {'state': STATE_FUZZY},
+    'approved': {'approved': STATE_APPROVED},
+    'untranslated': {'state__lt': STATE_TRANSLATED},
+    'todo': {'state__lt': STATE_TRANSLATED},
+    'nottranslated': {'state': STATE_EMPTY},
+    'translated': {'state__gte': STATE_TRANSLATED},
     'suggestions': {'has_suggestion': True},
     'comments': {'has_comment': True},
 }
@@ -382,10 +385,6 @@ class UnitQuerySet(models.QuerySet):
 
 @python_2_unicode_compatible
 class Unit(models.Model, LoggerMixin):
-    STATE_EMPTY = 0
-    STATE_FUZZY = 10
-    STATE_TRANSLATED = 20
-    STATE_APPROVED = 30
 
     translation = models.ForeignKey('Translation')
     id_hash = models.BigIntegerField(db_index=True)
