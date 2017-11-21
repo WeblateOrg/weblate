@@ -692,7 +692,7 @@ class Unit(models.Model, LoggerMixin):
 
         # Generate Change object for this change
         if gen_change:
-            self.generate_change(request, user, self.old_unit, change_action)
+            self.generate_change(request, user, change_action)
 
         # Force commiting on completing translation
         if (old_translated < self.translation.translated and
@@ -766,7 +766,7 @@ class Unit(models.Model, LoggerMixin):
             )
             unit.translation.update_stats()
 
-    def generate_change(self, request, author, oldunit, change_action):
+    def generate_change(self, request, author, change_action):
         """Create Change entry for saving unit."""
         # Notify about new contributor
         user_changes = Change.objects.filter(
