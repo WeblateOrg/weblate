@@ -493,7 +493,9 @@ class Unit(models.Model, LoggerMixin):
             return STATE_FUZZY
         if not translated:
             return STATE_EMPTY
-        elif approved:
+        elif approved or (approved is None and self.state == STATE_APPROVED):
+            # We need to keep approved state for formats which do not
+            # support saving it
             return STATE_APPROVED
         return STATE_TRANSLATED
 
