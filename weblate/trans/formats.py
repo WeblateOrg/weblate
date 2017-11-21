@@ -982,7 +982,7 @@ class UnwrappedPoFormat(PoFormat):
     @classmethod
     def fixup(cls, store):
         """Set wrapper width."""
-        store.wrapper.width = 100000
+        store.wrapper.width = -1
         return store
 
 
