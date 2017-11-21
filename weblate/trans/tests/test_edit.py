@@ -27,6 +27,7 @@ from django.core.urlresolvers import reverse
 
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.models import Change
+from weblate.trans.models.unit import STATE_TRANSLATED, STATE_FUZZY
 
 
 class EditTest(ViewTestCase):
@@ -50,8 +51,7 @@ class EditTest(ViewTestCase):
         unit = self.get_unit()
         self.assertEqual(unit.target, 'Nazdar svete!\n')
         self.assertEqual(len(unit.checks()), 0)
-        self.assertTrue(unit.translated)
-        self.assertFalse(unit.fuzzy)
+        self.assertEqual(unit.state, STATE_TRANSLATED)
         self.assert_backend(1)
 
         # Test that second edit with no change does not break anything
@@ -64,8 +64,7 @@ class EditTest(ViewTestCase):
         unit = self.get_unit()
         self.assertEqual(unit.target, 'Nazdar svete!\n')
         self.assertEqual(len(unit.checks()), 0)
-        self.assertTrue(unit.translated)
-        self.assertFalse(unit.fuzzy)
+        self.assertEqual(unit.state, STATE_TRANSLATED)
         self.assert_backend(1)
 
         # Test that third edit still works
@@ -78,8 +77,7 @@ class EditTest(ViewTestCase):
         unit = self.get_unit()
         self.assertEqual(unit.target, 'Ahoj svete!\n')
         self.assertEqual(len(unit.checks()), 0)
-        self.assertTrue(unit.translated)
-        self.assertFalse(unit.fuzzy)
+        self.assertEqual(unit.state, STATE_TRANSLATED)
         self.assert_backend(1)
 
     def test_plurals(self):
@@ -115,14 +113,14 @@ class EditTest(ViewTestCase):
     def test_fuzzy(self):
         """Test for fuzzy flag handling."""
         unit = self.get_unit()
-        self.assertFalse(unit.fuzzy)
+        self.assertNotEqual(unit.state, STATE_FUZZY)
         self.edit_unit(
             'Hello, world!\n',
             'Nazdar svete!\n',
             fuzzy='yes'
         )
         unit = self.get_unit()
-        self.assertTrue(unit.fuzzy)
+        self.assertEqual(unit.state, STATE_FUZZY)
         self.assertEqual(unit.target, 'Nazdar svete!\n')
         self.assertFalse(unit.has_failing_check)
         self.edit_unit(
@@ -130,7 +128,7 @@ class EditTest(ViewTestCase):
             'Nazdar svete!\n',
         )
         unit = self.get_unit()
-        self.assertFalse(unit.fuzzy)
+        self.assertEqual(unit.state, STATE_TRANSLATED)
         self.assertEqual(unit.target, 'Nazdar svete!\n')
         self.assertFalse(unit.has_failing_check)
         self.edit_unit(
@@ -139,7 +137,7 @@ class EditTest(ViewTestCase):
             fuzzy='yes'
         )
         unit = self.get_unit()
-        self.assertTrue(unit.fuzzy)
+        self.assertEqual(unit.state, STATE_FUZZY)
         self.assertEqual(unit.target, 'Nazdar svete!\n')
         self.assertFalse(unit.has_failing_check)
 
@@ -148,7 +146,7 @@ class EditTest(ViewTestCase):
         if self.monolingual:
             return
         unit = self.get_unit()
-        self.assertFalse(unit.fuzzy)
+        self.assertNotEqual(unit.state, STATE_FUZZY)
         self.edit_unit(
             'Hello, world!\n',
             'Nazdar svete!\n',
@@ -156,20 +154,20 @@ class EditTest(ViewTestCase):
         )
         unit = self.get_unit()
         unit.translation.commit_pending(None)
-        self.assertTrue(unit.fuzzy)
+        self.assertEqual(unit.state, STATE_FUZZY)
         self.subproject.check_flags = 'skip-review-flag'
         self.subproject.save()
         self.subproject.create_translations(True)
         unit = self.get_unit()
-        self.assertFalse(unit.fuzzy)
+        self.assertNotEqual(unit.state, STATE_FUZZY)
         self.subproject.check_flags = ''
         self.subproject.save()
         self.subproject.create_translations(True)
         unit = self.get_unit()
         if self.supports_fuzzy:
-            self.assertTrue(unit.fuzzy)
+            self.assertEqual(unit.state, STATE_FUZZY)
         else:
-            self.assertFalse(unit.fuzzy)
+            self.assertEqual(unit.state, STATE_TRANSLATED)
 
 
 class EditValidationTest(ViewTestCase):
@@ -276,8 +274,7 @@ class EditResourceSourceTest(ViewTestCase):
         unit = self.get_unit('Nazdar svete!\n')
         self.assertEqual(unit.target, 'Nazdar svete!\n')
         self.assertEqual(len(unit.checks()), 0)
-        self.assertTrue(unit.translated)
-        self.assertFalse(unit.fuzzy)
+        self.assertEqual(unit.state, STATE_TRANSLATED)
         self.assert_backend(4)
 
     def test_edit_revert(self):
@@ -294,8 +291,7 @@ class EditResourceSourceTest(ViewTestCase):
         self._language_code = 'en'
 
         unit = translation.unit_set.get(context='hello')
-        self.assertTrue(unit.translated)
-        self.assertFalse(unit.fuzzy)
+        self.assertEqual(unit.state, STATE_TRANSLATED)
 
         # Edit source
         self.edit_unit(
@@ -304,8 +300,7 @@ class EditResourceSourceTest(ViewTestCase):
         )
 
         unit = translation.unit_set.get(context='hello')
-        self.assertFalse(unit.translated)
-        self.assertTrue(unit.fuzzy)
+        self.assertEqual(unit.state, STATE_FUZZY)
 
         # Revert source
         self.edit_unit(
@@ -314,8 +309,7 @@ class EditResourceSourceTest(ViewTestCase):
         )
 
         unit = translation.unit_set.get(context='hello')
-        self.assertTrue(unit.translated)
-        self.assertFalse(unit.fuzzy)
+        self.assertEqual(unit.state, STATE_TRANSLATED)
 
     def get_translation(self):
         return self.subproject.translation_set.get(
