@@ -570,8 +570,8 @@ class FilterField(forms.ChoiceField):
             ('suggestions', _('Strings with suggestions')),
             ('comments', _('Strings with comments')),
             ('allchecks', _('Strings with any failing checks')),
-            ('approved', _('Approved strings')),
-            ('unapproved', _('Strings waiting for approval')),
+            ('approved', _('Reviewed strings')),
+            ('unapproved', _('Strings waiting for review')),
         ] + [
             (CHECKS[check].url_id, CHECKS[check].description)
             for check in CHECKS if CHECKS[check].target

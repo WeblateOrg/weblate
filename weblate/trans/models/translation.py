@@ -946,7 +946,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
         result.add_if(
             'approved',
-            _('Approved strings'),
+            _('Reviewed strings'),
             self.approved,
             'success',
             self.approved_words,
@@ -964,7 +964,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         # To approve
         result.add_if(
             'unapproved',
-            _('Strings waiting for approval'),
+            _('Strings waiting for review'),
             self.translated - self.approved,
             'warning',
             self.translated_words - self.approved_words,
