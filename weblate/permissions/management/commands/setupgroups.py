@@ -21,6 +21,7 @@
 from django.core.management.base import BaseCommand
 
 from weblate.permissions.models import create_groups, move_users
+from weblate.trans.models import Project, setup_group_acl
 
 
 class Command(BaseCommand):
@@ -41,6 +42,13 @@ class Command(BaseCommand):
             default=True,
             help='Prevents updates of privileges of existing groups'
         )
+        parser.add_argument(
+            '--no-projects-update',
+            action='store_false',
+            dest='projects',
+            default=True,
+            help='Prevents updates of groups for existing projects'
+        )
 
     def handle(self, *args, **options):
         """Create default set of groups and optionally updates them and moves
@@ -49,3 +57,6 @@ class Command(BaseCommand):
         create_groups(options['update'])
         if options['move']:
             move_users()
+        if options['projects']:
+            for project in Project.objects.iterator():
+                setup_group_acl(Project, project)

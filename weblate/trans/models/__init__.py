@@ -259,7 +259,7 @@ def setup_group_acl(sender, instance, **kwargs):
         lookup = Q(name__startswith='@')
     else:
         permissions = PUBLIC_PERMS
-        lookup = Q(name='@Administration')
+        lookup = Q(name__in=('@Administration', '@Review'))
 
     group_acl.permissions.set(
         Permission.objects.filter(codename__in=permissions),
