@@ -56,7 +56,8 @@ STATE_APPROVED = 30
 
 SIMPLE_FILTERS = {
     'fuzzy': {'state': STATE_FUZZY},
-    'approved': {'approved': STATE_APPROVED},
+    'approved': {'state': STATE_APPROVED},
+    'unapproved': {'state': STATE_TRANSLATED},
     'untranslated': {'state__lt': STATE_TRANSLATED},
     'todo': {'state__lt': STATE_TRANSLATED},
     'nottranslated': {'state': STATE_EMPTY},

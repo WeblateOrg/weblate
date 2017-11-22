@@ -141,6 +141,8 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
     fuzzy_words = models.IntegerField(default=0)
     failing_checks_words = models.IntegerField(default=0)
     total_words = models.IntegerField(default=0)
+    approved = models.IntegerField(default=0)
+    approved_words = models.IntegerField(default=0)
     failing_checks = models.IntegerField(default=0, db_index=True)
     have_suggestion = models.IntegerField(default=0, db_index=True)
     have_comment = models.IntegerField(default=0, db_index=True)
@@ -561,11 +563,15 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             Count('id'),
             fuzzy__sum=conditional_sum(1, state=STATE_FUZZY),
             translated__sum=conditional_sum(1, state__gte=STATE_TRANSLATED),
+            approved__sum=conditional_sum(1, state__gte=STATE_APPROVED),
             has_failing_check__sum=conditional_sum(1, has_failing_check=True),
             has_suggestion__sum=conditional_sum(1, has_suggestion=True),
             has_comment__sum=conditional_sum(1, has_comment=True),
             translated_words__sum=conditional_sum(
                 'num_words', state__gte=STATE_TRANSLATED
+            ),
+            approved_words__sum=conditional_sum(
+                'num_words', state__gte=STATE_APPROVED
             ),
             fuzzy_words__sum=conditional_sum(
                 'num_words', state=STATE_FUZZY
@@ -587,6 +593,8 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             self.translated_words = 0
             self.fuzzy_words = 0
             self.failing_checks_words = 0
+            self.approved = 0
+            self.approved_words = 0
         else:
             self.total_words = stats['num_words__sum']
             self.total = stats['id__count']
@@ -598,6 +606,8 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             self.translated_words = int(stats['translated_words__sum'])
             self.fuzzy_words = int(stats['fuzzy_words__sum'])
             self.failing_checks_words = int(stats['check_words__sum'])
+            self.approved = int(stats['approved__sum'])
+            self.approved_words = int(stats['approved_words__sum'])
 
         self.save()
 
@@ -934,6 +944,14 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             self.total_words
         )
 
+        result.add_if(
+            'approved',
+            _('Approved strings'),
+            self.approved,
+            'success',
+            self.approved_words,
+        )
+
         # Count of translated strings
         result.add_if(
             'translated',
@@ -941,6 +959,15 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             self.translated,
             'success',
             self.translated_words,
+        )
+
+        # To approve
+        result.add_if(
+            'unapproved',
+            _('Strings waiting for approval'),
+            self.translated - self.approved,
+            'warning',
+            self.translated_words - self.approved_words,
         )
 
         # Untranslated strings
