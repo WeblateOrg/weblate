@@ -601,6 +601,11 @@ Configures default groups and optionally assigns all users to default group.
 
     Disables update of existing groups (only adds new ones).
 
+.. django-admin-option:: --no-projects-update
+
+    Prevents updates of groups for existing projects. This allows to add newly
+    added groups to existing projects, see :ref:`acl`.
+
 .. seealso:: 
    
    :ref:`privileges`
