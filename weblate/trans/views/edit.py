@@ -150,8 +150,6 @@ def search(translation, request):
         form.cleaned_data,
         translation=translation,
     )
-    if form.cleaned_data['type'] == 'random':
-        allunits = allunits[:25]
 
     search_query = form.get_search_query()
     name = form.get_name()

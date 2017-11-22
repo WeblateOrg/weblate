@@ -154,8 +154,6 @@ class UnitQuerySet(models.QuerySet):
         """Basic filtering based on unit state or failed checks."""
         if rqtype in SIMPLE_FILTERS:
             return self.filter(**SIMPLE_FILTERS[rqtype])
-        elif rqtype == 'random':
-            return self.filter(state__gte=STATE_TRANSLATED).order_by('?')
         elif rqtype == 'sourcecomments':
             coms = Comment.objects.filter(
                 language=None,
