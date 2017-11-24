@@ -481,7 +481,7 @@ class TranslationForm(ChecksumForm):
         elif self.cleaned_data['fuzzy']:
             self.cleaned_data['state'] = STATE_FUZZY
         else :
-            self.cleaned_data['state'] = STATE_TRANSLATE
+            self.cleaned_data['state'] = STATE_TRANSLATED
 
 
 class ZenTranslationForm(TranslationForm):
