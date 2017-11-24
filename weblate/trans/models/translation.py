@@ -1069,10 +1069,13 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             # - it brings locking issues as import is
             #   executed with lock held and linked repos
             #   can't obtain the lock
+            state = STATE_TRANSLATED
+            if add_fuzzy or set_fuzzy:
+                state = STATE_FUZZY
             unit.translate(
                 request,
                 split_plural(unit2.get_target()),
-                add_fuzzy or set_fuzzy,
+                state,
                 change_action=Change.ACTION_UPLOAD,
                 propagate=False
             )
