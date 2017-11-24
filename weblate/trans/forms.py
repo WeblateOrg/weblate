@@ -26,7 +26,7 @@ import json
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Field, Div
-from crispy_forms.bootstrap import TabHolder, Tab
+from crispy_forms.bootstrap import TabHolder, Tab, InlineRadios
 
 from django import forms
 from django.core.exceptions import PermissionDenied
@@ -48,10 +48,13 @@ from weblate.lang.data import LOCALE_ALIASES
 from weblate.lang.models import Language
 from weblate.trans.models import SubProject, Unit, Project, Change
 from weblate.trans.models.source import PRIORITY_CHOICES
+from weblate.trans.models.unit import (
+    STATE_TRANSLATED, STATE_FUZZY, STATE_APPROVED
+)
 from weblate.trans.checks import CHECKS
 from weblate.permissions.helpers import (
     can_author_translation, can_overwrite_translation, can_translate,
-    can_suggest, can_add_translation, can_mass_add_translation,
+    can_suggest, can_add_translation, can_mass_add_translation, can_review,
 )
 from weblate.trans.specialchars import get_special_chars, RTL_CHARS_DATA
 from weblate.trans.validators import validate_check_flags
@@ -420,24 +423,47 @@ class TranslationForm(ChecksumForm):
     """Form used for translation of single string."""
     target = PluralField(required=False)
     fuzzy = FuzzyField(required=False)
+    review = forms.ChoiceField(
+        label=_('Review state'),
+        choices=(
+            (STATE_FUZZY, _('Needs editing')),
+            (STATE_TRANSLATED, _('Waiting for review')),
+            (STATE_APPROVED, _('Approved')),
+        ),
+        widget=forms.RadioSelect
+    )
 
-    def __init__(self, profile, translation, unit,
-                 *args, **kwargs):
+    def __init__(self, user, translation, unit, *args, **kwargs):
         if unit is not None:
             kwargs['initial'] = {
                 'checksum': unit.checksum,
                 'target': unit,
                 'fuzzy': unit.fuzzy,
+                'review': unit.state,
             }
             kwargs['auto_id'] = 'id_{0}_%s'.format(unit.checksum)
         tabindex = kwargs.pop('tabindex', 100)
         super(TranslationForm, self).__init__(
             translation, *args, **kwargs
         )
+        self.user = user
         self.fields['target'].widget.attrs['tabindex'] = tabindex
-        self.fields['target'].widget.profile = profile
+        self.fields['target'].widget.profile = user.profile
+        self.fields['review'].widget.attrs['class'] = 'review_radio'
+        if unit:
+            self.fields['review'].widget.attrs['id'] = 'id_{0}_radio'.format(unit.checksum)
         self.helper = FormHelper()
         self.helper.form_method = 'post'
+        self.helper.layout = Layout(
+            Field('checksum'),
+            Field('target'),
+            Field('fuzzy'),
+            InlineRadios('review'),
+        )
+        if unit and can_review(user, unit.translation):
+            self.fields['fuzzy'].widget = forms.HiddenInput()
+        else:
+            self.fields['review'].widget = forms.HiddenInput()
 
     def clean(self):
         super(TranslationForm, self).clean()
@@ -450,13 +476,18 @@ class TranslationForm(ChecksumForm):
                 raise ValidationError(
                     _('Translation text too long!')
                 )
+        if can_review(self.user, self.cleaned_data['unit'].translation):
+            self.cleaned_data['state'] = self.cleaned_data['review']
+        elif self.cleaned_data['fuzzy']:
+            self.cleaned_data['state'] = STATE_FUZZY
+        else :
+            self.cleaned_data['state'] = STATE_TRANSLATE
 
 
 class ZenTranslationForm(TranslationForm):
-    def __init__(self, profile, translation, unit,
-                 *args, **kwargs):
+    def __init__(self, user, translation, unit, *args, **kwargs):
         super(ZenTranslationForm, self).__init__(
-            profile, translation, unit, *args, **kwargs
+            user, translation, unit, *args, **kwargs
         )
         self.helper.form_action = reverse(
             'save_zen', kwargs=translation.get_reverse_url_kwargs()
@@ -570,7 +601,7 @@ class FilterField(forms.ChoiceField):
             ('suggestions', _('Strings with suggestions')),
             ('comments', _('Strings with comments')),
             ('allchecks', _('Strings with any failing checks')),
-            ('approved', _('Reviewed strings')),
+            ('approved', _('Approved strings')),
             ('unapproved', _('Strings waiting for review')),
         ] + [
             (CHECKS[check].url_id, CHECKS[check].description)

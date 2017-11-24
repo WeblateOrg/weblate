@@ -45,6 +45,13 @@ def can_suggest(user, translation):
 
 
 @register.assignment_tag
+def can_review(user, translation):
+    return weblate.permissions.helpers.can_review(
+        user, translation
+    )
+
+
+@register.assignment_tag
 def can_accept_suggestion(user, translation):
     return weblate.permissions.helpers.can_accept_suggestion(
         user, translation

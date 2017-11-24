@@ -989,6 +989,7 @@ $(function () {
 
         $document.on('change', '.translation-editor', zenEditor);
         $document.on('change', '.fuzzy_checkbox', zenEditor);
+        $document.on('change', '.review_radio', zenEditor);
 
         Mousetrap.bindGlobal(['ctrl+end', 'command+end'], function(e) {
             $('.zen-unit:last').find('.translation-editor:first').focus();

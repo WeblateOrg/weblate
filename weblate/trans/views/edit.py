@@ -257,7 +257,7 @@ def perform_translation(unit, form, request):
     saved = unit.translate(
         request,
         new_target,
-        form.cleaned_data['fuzzy']
+        form.cleaned_data['state']
     )
 
     # Warn about applied fixups
@@ -305,7 +305,7 @@ def handle_translate(translation, request, user_locked,
     translation.check_sync()
 
     form = TranslationForm(
-        request.user.profile, translation, None, request.POST
+        request.user, translation, None, request.POST
     )
     if not form.is_valid():
         show_form_errors(request, form)
@@ -569,7 +569,7 @@ def translate(request, project, subproject, lang):
     antispam = AntispamForm()
 
     # Prepare form
-    form = TranslationForm(request.user.profile, translation, unit)
+    form = TranslationForm(request.user, translation, unit)
 
     return render(
         request,
@@ -718,7 +718,7 @@ def get_zen_unitdata(translation, request):
                 else None
             ),
             'form': ZenTranslationForm(
-                request.user.profile,
+                request.user,
                 translation,
                 unit,
                 tabindex=100 + (unit.position * 10),
@@ -789,7 +789,7 @@ def save_zen(request, project, subproject, lang):
     user_locked = translation.is_user_locked(request.user)
 
     form = TranslationForm(
-        request.user.profile, translation, None, request.POST
+        request.user, translation, None, request.POST
     )
     if not can_translate(request.user, translation):
         messages.error(

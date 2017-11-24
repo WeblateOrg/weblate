@@ -29,6 +29,7 @@ from weblate.trans.formats import ParseError
 from weblate.trans.models import (
     Project, SubProject, Unit, Suggestion,
 )
+from weblate.trans.models.unit import STATE_TRANSLATED
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import ViewTestCase
 
@@ -697,7 +698,7 @@ class SubProjectEditTest(ViewTestCase):
         request = self.get_request('/')
 
         self.assertTrue(
-            unit.translate(request, ['Empty'], False)
+            unit.translate(request, ['Empty'], STATE_TRANSLATED)
         )
 
 
@@ -723,5 +724,5 @@ class SubProjectEditMonoTest(SubProjectEditTest):
         request = self.get_request('/')
 
         self.assertTrue(
-            unit.translate(request, ['Empty'], False)
+            unit.translate(request, ['Empty'], STATE_TRANSLATED)
         )

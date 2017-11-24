@@ -946,7 +946,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
         result.add_if(
             'approved',
-            _('Reviewed strings'),
+            _('Approved strings'),
             self.approved,
             'success',
             self.approved_words,

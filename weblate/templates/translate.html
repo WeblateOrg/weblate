@@ -157,7 +157,7 @@
     {% endif %}
 
     <!-- edit form -->
-    {{ form|crispy }}
+    {% crispy form %}
   </div>
   <div class="panel-footer">
     {% if user_can_translate %}

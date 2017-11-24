@@ -169,6 +169,12 @@ def can_suggest(user, translation):
 
 
 @cache_permission
+def can_review(user, translation):
+    """Check whether user can review given translation."""
+    return can_edit(user, translation, 'trans.review_translation')
+
+
+@cache_permission
 def can_accept_suggestion(user, translation):
     """Check whether user can accept suggestions to given translation."""
     return can_edit(user, translation, 'trans.accept_suggestion')
