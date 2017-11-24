@@ -475,7 +475,7 @@ class TranslationForm(ChecksumForm):
                     _('Translation text too long!')
                 )
         if can_review(self.user, self.cleaned_data['unit'].translation):
-            self.cleaned_data['state'] = self.cleaned_data['review']
+            self.cleaned_data['state'] = int(self.cleaned_data['review'])
         elif self.cleaned_data['fuzzy']:
             self.cleaned_data['state'] = STATE_FUZZY
         else:
