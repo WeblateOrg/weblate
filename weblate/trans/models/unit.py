@@ -1088,12 +1088,15 @@ class Unit(models.Model, LoggerMixin):
             position__lte=self.position + settings.NEARBY_MESSAGES,
         )
 
-    def translate(self, request, new_target, new_fuzzy, change_action=None,
+    def translate(self, request, new_target, new_state, change_action=None,
                   propagate=True):
         """Store new translation of a unit."""
         # Update unit and save it
         self.target = join_plural(new_target)
-        self.state = STATE_FUZZY if new_fuzzy else STATE_TRANSLATED
+        if bool(max(new_target)):
+            self.state = new_state
+        else:
+            self.state = STATE_EMPTY
         saved = self.save_backend(
             request,
             change_action=change_action,

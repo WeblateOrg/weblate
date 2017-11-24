@@ -26,6 +26,7 @@ from unittest import SkipTest
 from django.utils import timezone
 
 from weblate.trans.models import SubProject
+from weblate.trans.models.unit import STATE_TRANSLATED
 from weblate.trans.tests.utils import REPOWEB_URL
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.vcs import HgRepository, SubversionRepository
@@ -104,7 +105,7 @@ class MultiRepoTest(ViewTestCase):
             self.subproject2.save()
 
         unit = self.get_unit()
-        unit.translate(self.request, [newtext], False)
+        unit.translate(self.request, [newtext], STATE_TRANSLATED)
         self.assertEqual(self.get_translation().translated, 1)
         self.subproject.do_push(self.request)
 
@@ -182,7 +183,7 @@ class MultiRepoTest(ViewTestCase):
             language_code='cs'
         )
         unit = translation.unit_set.get(source='Hello, world!\n')
-        unit.translate(self.request, ['Ahoj svete!\n'], False)
+        unit.translate(self.request, ['Ahoj svete!\n'], STATE_TRANSLATED)
 
         self.assertFalse(translation.do_update(self.request))
 

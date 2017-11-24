@@ -48,6 +48,7 @@ from weblate.lang.data import LOCALE_ALIASES
 from weblate.lang.models import Language
 from weblate.trans.models import SubProject, Unit, Project, Change
 from weblate.trans.models.source import PRIORITY_CHOICES
+from weblate.trans.models.unit import STATE_TRANSLATED, STATE_FUZZY
 from weblate.trans.checks import CHECKS
 from weblate.permissions.helpers import (
     can_author_translation, can_overwrite_translation, can_translate,
@@ -450,6 +451,7 @@ class TranslationForm(ChecksumForm):
                 raise ValidationError(
                     _('Translation text too long!')
                 )
+        self.cleaned_data['state'] = STATE_FUZZY if self.cleaned_data['fuzzy'] else STATE_TRANSLATED
 
 
 class ZenTranslationForm(TranslationForm):

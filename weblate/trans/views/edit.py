@@ -257,7 +257,7 @@ def perform_translation(unit, form, request):
     saved = unit.translate(
         request,
         new_target,
-        form.cleaned_data['fuzzy']
+        form.cleaned_data['state']
     )
 
     # Warn about applied fixups
