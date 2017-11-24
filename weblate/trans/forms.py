@@ -450,8 +450,6 @@ class TranslationForm(ChecksumForm):
         self.fields['target'].widget.attrs['tabindex'] = tabindex
         self.fields['target'].widget.profile = user.profile
         self.fields['review'].widget.attrs['class'] = 'review_radio'
-        if unit:
-            self.fields['review'].widget.attrs['id'] = 'id_{0}_radio'.format(unit.checksum)
         self.helper = FormHelper()
         self.helper.form_method = 'post'
         self.helper.layout = Layout(
@@ -480,7 +478,7 @@ class TranslationForm(ChecksumForm):
             self.cleaned_data['state'] = self.cleaned_data['review']
         elif self.cleaned_data['fuzzy']:
             self.cleaned_data['state'] = STATE_FUZZY
-        else :
+        else:
             self.cleaned_data['state'] = STATE_TRANSLATED
 
 
