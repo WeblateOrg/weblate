@@ -506,7 +506,8 @@ class ZenViewTest(ViewTestCase):
         unit = self.get_unit()
         params = {
             'checksum': unit.checksum,
-            'target_0': 'Zen translation'
+            'target_0': 'Zen translation',
+            'review': '20',
         }
         response = self.client.post(
             reverse('save_zen', kwargs=self.kw_translation),
@@ -524,7 +525,8 @@ class ZenViewTest(ViewTestCase):
         unit = self.get_unit()
         params = {
             'checksum': unit.checksum,
-            'target_0': 'Zen translation'
+            'target_0': 'Zen translation',
+            'review': '20',
         }
         response = self.client.post(
             reverse('save_zen', kwargs=self.kw_translation),
