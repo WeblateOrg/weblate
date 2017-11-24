@@ -117,7 +117,8 @@ class EditTest(ViewTestCase):
         self.edit_unit(
             'Hello, world!\n',
             'Nazdar svete!\n',
-            fuzzy='yes'
+            fuzzy='yes',
+            review='10',
         )
         unit = self.get_unit()
         self.assertEqual(unit.state, STATE_FUZZY)
