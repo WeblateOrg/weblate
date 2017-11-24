@@ -421,13 +421,13 @@ class TranslationForm(ChecksumForm):
     target = PluralField(required=False)
     fuzzy = FuzzyField(required=False)
 
-    def __init__(self, profile, translation, unit,
-                 *args, **kwargs):
+    def __init__(self, user, translation, unit, *args, **kwargs):
         if unit is not None:
             kwargs['initial'] = {
                 'checksum': unit.checksum,
                 'target': unit,
                 'fuzzy': unit.fuzzy,
+                'state': unit.state,
             }
             kwargs['auto_id'] = 'id_{0}_%s'.format(unit.checksum)
         tabindex = kwargs.pop('tabindex', 100)
@@ -435,7 +435,7 @@ class TranslationForm(ChecksumForm):
             translation, *args, **kwargs
         )
         self.fields['target'].widget.attrs['tabindex'] = tabindex
-        self.fields['target'].widget.profile = profile
+        self.fields['target'].widget.profile = user.profile
         self.helper = FormHelper()
         self.helper.form_method = 'post'
 
@@ -453,10 +453,9 @@ class TranslationForm(ChecksumForm):
 
 
 class ZenTranslationForm(TranslationForm):
-    def __init__(self, profile, translation, unit,
-                 *args, **kwargs):
+    def __init__(self, user, translation, unit, *args, **kwargs):
         super(ZenTranslationForm, self).__init__(
-            profile, translation, unit, *args, **kwargs
+            user, translation, unit, *args, **kwargs
         )
         self.helper.form_action = reverse(
             'save_zen', kwargs=translation.get_reverse_url_kwargs()
