@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-11-13 14:31+0000\n"
-"PO-Revision-Date: 2017-11-23 12:10+0000\n"
+"PO-Revision-Date: 2017-11-24 06:11+0000\n"
 "Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional) "
 "<https://hosted.weblate.org/projects/weblate/master/zh_Hant/>\n"
@@ -1158,7 +1158,7 @@ msgid ""
 "integration. It features simple and clean user interface, propagation of "
 "translations across components, quality checks and automatic linking to "
 "source files."
-msgstr "Weblate 是款緊密整合版本控制系統的網頁型翻譯工具。它具備簡潔的使用介面、跨元件翻譯利用、品質檢測，還能自動連結來源檔。"
+msgstr "Weblate 是款緊密整合版本控制系統的網頁型翻譯工具。它具備簡潔的使用介面、跨元件翻譯再用、品質檢測，還能自動連結來源檔。"
 
 #: weblate/templates/about.html:18 weblate/templates/accounts/contact.html:13
 #, python-format
@@ -4443,13 +4443,13 @@ msgstr "分享"
 #: weblate/templates/project.html:85 weblate/templates/share.html:9
 #: weblate/templates/subproject.html:93 weblate/templates/translation.html:87
 msgid "Share on Facebook!"
-msgstr "Facebook 分享！"
+msgstr "在 Facebook 分享！"
 
 #: weblate/templates/project.html:86 weblate/templates/share.html:10
 #: weblate/templates/subproject.html:94 weblate/templates/translation.html:88
 #, python-format
 msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
-msgstr "來用 %%23Weblate 翻譯 %(object)s！網址：%(share_url)s"
+msgstr "來用 %%23Weblate 翻譯 %(object)s，網址：%(share_url)s！"
 
 #: weblate/templates/project.html:86 weblate/templates/share.html:10
 #: weblate/templates/subproject.html:94 weblate/templates/translation.html:88
@@ -5972,7 +5972,7 @@ msgstr "全文"
 
 #: weblate/trans/forms.py:645
 msgid "Exact match"
-msgstr "準確比對"
+msgstr "完整單字比對"
 
 #: weblate/trans/forms.py:649
 msgid "Please select a valid search type."
@@ -6466,40 +6466,28 @@ msgid "Project regular expression"
 msgstr "專案正則表達式"
 
 #: weblate/trans/models/componentlist.py:69
-#, fuzzy
-#| msgid "Regular expression which is used to match user email."
 msgid "Regular expression which is used to match project slug."
-msgstr "此正規表達式用於檢查使用者的 Email 是否符合格式。"
+msgstr "用來比對專案 slug 的正則表達式。"
 
 #: weblate/trans/models/componentlist.py:73
-#, fuzzy
-#| msgid "Email regular expression"
 msgid "Component regular expression"
-msgstr "Email 正規表達式"
+msgstr "組件正則表達式"
 
 #: weblate/trans/models/componentlist.py:77
-#, fuzzy
-#| msgid "Regular expression which is used to match user email."
 msgid "Regular expression which is used to match component slug."
-msgstr "此正規表達式用於檢查使用者的 Email 是否符合格式。"
+msgstr "用來比對元件 slug 的正則表達式。"
 
 #: weblate/trans/models/componentlist.py:82
-#, fuzzy
-#| msgid "Component lists"
 msgid "Component list to assign"
-msgstr "元件列表"
+msgstr "要指派的元件列表"
 
 #: weblate/trans/models/componentlist.py:96
-#, fuzzy
-#| msgid "Automatic group assignment"
 msgid "Automatic component list assignment"
-msgstr "自動群組分配"
+msgstr "自動元件列表指派"
 
 #: weblate/trans/models/componentlist.py:97
-#, fuzzy
-#| msgid "Automatic group assignments"
 msgid "Automatic component list assignments"
-msgstr "自動群組分配"
+msgstr "自動元件列表指派"
 
 #: weblate/trans/models/project.py:104
 msgid "Main website of translated project."
@@ -6507,7 +6495,7 @@ msgstr "翻譯專案的主要網站。"
 
 #: weblate/trans/models/project.py:107
 msgid "Mailing list"
-msgstr "郵件列表"
+msgstr "郵遞清單"
 
 #: weblate/trans/models/project.py:110
 msgid "Mailing list for translators."
@@ -6519,16 +6507,16 @@ msgstr "翻譯指示"
 
 #: weblate/trans/models/project.py:115
 msgid "URL with instructions for translators."
-msgstr "翻譯者的指示網址。"
+msgstr "寫給翻譯者的指示 URL。"
 
 #: weblate/trans/models/project.py:119
 msgid "Set Translation-Team header"
-msgstr "設定翻譯成員頁眉"
+msgstr "設定翻譯團隊檔案標頭"
 
 #: weblate/trans/models/project.py:122
 msgid ""
 "Whether the Translation-Team in file headers should be updated by Weblate."
-msgstr "是否應由 Weblate 更新檔頭中的翻譯成員。"
+msgstr "是否應由 Weblate 更新檔案標頭中的翻譯團隊。"
 
 #: weblate/trans/models/project.py:134
 msgid "Access control"
@@ -6538,7 +6526,7 @@ msgstr "存取控制"
 msgid ""
 "How to restrict access to this project, please check documentation for more "
 "details."
-msgstr "是否限制存取此專案，在啟用之前請先查看文件檔。"
+msgstr "限制存取此專案的規則，請查看文件瞭解更多細節。"
 
 #: weblate/trans/models/project.py:141
 msgid "Enable hooks"
@@ -6546,7 +6534,7 @@ msgstr "啟用掛勾"
 
 #: weblate/trans/models/project.py:144
 msgid "Whether to allow updating this repository by remote hooks."
-msgstr "是否允許以遠端掛勾更新此儲存庫。"
+msgstr "是否允許接上遠端掛勾更新此儲存庫。"
 
 #: weblate/trans/models/project.py:149
 msgid "Source language"
@@ -6554,7 +6542,7 @@ msgstr "來源語言"
 
 #: weblate/trans/models/project.py:151
 msgid "Language used for source strings in all components"
-msgstr "此語言將作為所有元件的源字串"
+msgstr "此語言將作為所有元件的來源字串"
 
 #: weblate/trans/models/project.py:230
 #, python-format
@@ -6563,19 +6551,19 @@ msgstr "無法建立專案目錄：%s"
 
 #: weblate/trans/models/subproject.py:92
 msgid "Use contact form"
-msgstr "使用連絡表單"
+msgstr "使用聯絡表單"
 
 #: weblate/trans/models/subproject.py:93
 msgid "Point to translation instructions URL"
-msgstr "指向翻譯指示網址"
+msgstr "指向翻譯指示 URL"
 
 #: weblate/trans/models/subproject.py:94
 msgid "Automatically add language file"
-msgstr "自動新增語言檔案"
+msgstr "自動加入語言檔"
 
 #: weblate/trans/models/subproject.py:95
 msgid "No adding of language"
-msgstr "沒有增加語言"
+msgstr "不加入語言"
 
 #: weblate/trans/models/subproject.py:98
 msgid "Merge"
@@ -6583,7 +6571,7 @@ msgstr "合併"
 
 #: weblate/trans/models/subproject.py:134
 msgid "Component name"
-msgstr "組成元件名稱"
+msgstr "元件名稱"
 
 #: weblate/trans/models/subproject.py:149
 msgid "Version control system"
@@ -6592,13 +6580,13 @@ msgstr "版本控制系統"
 #: weblate/trans/models/subproject.py:152
 msgid ""
 "Version control system to use to access your repository with translations."
-msgstr "用來存取您的儲存庫翻譯的版本控制系統。"
+msgstr "用來存取您儲存庫中翻譯的版本控制系統。"
 
 #: weblate/trans/models/subproject.py:162
 msgid ""
 "URL of a repository, use weblate://project/component for sharing with other "
 "component."
-msgstr "儲存庫的網址，使用 weblate://project/component 分享給其它組成元件。"
+msgstr "儲存庫的 URL，請使用 weblate://project/component 和其他組件分享。"
 
 #: weblate/trans/models/subproject.py:167
 msgid "Repository push URL"
@@ -6606,18 +6594,18 @@ msgstr "儲存庫推送 URL"
 
 #: weblate/trans/models/subproject.py:170
 msgid "URL of a push repository, pushing is disabled if empty."
-msgstr "儲存庫推送網址，如果空白則停用推送。"
+msgstr "儲存庫的推送 URL，如果空白則停用推送。"
 
 #: weblate/trans/models/subproject.py:175
 msgid "Repository browser"
-msgstr "瀏覽儲存庫"
+msgstr "儲存庫瀏覽器"
 
 #: weblate/trans/models/subproject.py:177
 #, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
 "as filename and line placeholders."
-msgstr "連結到儲存庫瀏覽器，使用 %(branch)s 作為分支，%(file)s 和 %(line)s 為檔案名稱和預留行。"
+msgstr "儲存庫瀏覽器的連結，請使用 %(branch)s 作為分支、%(file)s 和 %(line)s 作為檔名和列數的佔位符。"
 
 #: weblate/trans/models/subproject.py:184
 msgid "Exported repository URL"
@@ -6625,33 +6613,29 @@ msgstr "已匯出儲存庫 URL"
 
 #: weblate/trans/models/subproject.py:187
 msgid "URL of a repository where users can fetch changes from Weblate"
-msgstr "儲存庫網址，使用者都可以從 Weblate 取得更動"
+msgstr "儲存庫的 URL，使用者可以從 Weblate 取得更動的地方"
 
 #: weblate/trans/models/subproject.py:192
 msgid "Source string bug report address"
-msgstr "用來回報源文字串錯誤的地址"
+msgstr "來源字串臭蟲回報位址"
 
 #: weblate/trans/models/subproject.py:194
 msgid ""
 "Email address where errors in source string will be reported, keep empty for "
 "no emails."
-msgstr "源文字串有誤時，用來回報的電子信箱位址，空白則不發送郵件。"
+msgstr "來源字串有錯誤時用來回報問題的電子信箱位址，若留白則不提供電子信箱。"
 
 #: weblate/trans/models/subproject.py:203
 msgid "Repository branch to translate"
-msgstr "以儲存庫分支來翻譯"
+msgstr "要翻譯的儲存庫分支"
 
 #: weblate/trans/models/subproject.py:212
-#, fuzzy
-#| msgid ""
-#| "Path of files to translate, use * instead of language code, for example: "
-#| "po/*.po or locale/*/LC_MESSAGES/django.po."
 msgid ""
 "Path of files to translate relative to repository root, use * instead of "
 "language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po."
 msgstr ""
-"翻譯檔案的路徑，使用 * 號而不是語言碼，例如：po/*.po 或者 locale/*/"
-"LC_MESSAGES/django.po。"
+"要翻譯的檔案路徑，路徑相對於儲存庫的根基，請使用 * 號取代語言碼，例如：po/*.po 或是 "
+"locale/*/LC_MESSAGES/django.po。"
 
 #: weblate/trans/models/subproject.py:218
 msgid "Monolingual base language file"
@@ -6661,9 +6645,7 @@ msgstr "單語的基底語言檔"
 msgid ""
 "Filename of translations base file, which contains all strings and their "
 "source; this is recommended to use for monolingual translation formats."
-msgstr ""
-"翻譯基底檔的檔名，翻譯基底檔包含所有的[待譯]字串及其出處；建議用於單一語言翻"
-"譯的格式。"
+msgstr "翻譯基底檔的檔名，基底檔包含所有的字串與其來源；建議使用單語格式。"
 
 #: weblate/trans/models/subproject.py:228
 msgid "Edit base file"
@@ -6672,17 +6654,17 @@ msgstr "編輯基底檔"
 #: weblate/trans/models/subproject.py:231
 msgid ""
 "Whether users will be able to edit base file for monolingual translations."
-msgstr "使用者是否可編輯單語的翻譯的基底檔。"
+msgstr "使用者是否可編輯單語的翻譯基底檔。"
 
 #: weblate/trans/models/subproject.py:236
 msgid "Base file for new translations"
-msgstr "眾新翻譯的基底檔"
+msgstr "新翻譯的基底檔"
 
 #: weblate/trans/models/subproject.py:240
 msgid ""
 "Filename of file which is used for creating new translations. For Gettext "
 "choose .pot file."
-msgstr "檔案的檔案名稱，用作建立新的翻譯。在 Gettext 選擇 .pot 檔案。"
+msgstr "用來建立新翻譯的檔名。如 Gettext 請選擇 .pot 檔。"
 
 #: weblate/trans/models/subproject.py:245
 msgid "File format"
@@ -6690,93 +6672,93 @@ msgstr "檔案格式"
 
 #: weblate/trans/models/subproject.py:250
 msgid "Automatic detection might fail for some formats and is slightly slower."
-msgstr "某些格式在自動偵測時可能會失敗，並會稍慢些。"
+msgstr "某些格式在自動偵測時可能會偵測失敗，並且速度稍慢。"
 
 #: weblate/trans/models/subproject.py:255
 msgid "Additional commit files"
-msgstr "附加提交的檔案"
+msgstr "附加性提交檔案"
 
 #: weblate/trans/models/subproject.py:260
 msgid ""
 "Additional files to include in commits, one per line; please check "
 "documentation for more details."
-msgstr "提交時附加檔案，每行一個檔；請看說明文件以得更詳細的資訊。"
+msgstr "提交時附加其他檔案，每列一個檔案；請閱讀文件瞭解更多細節。"
 
 #: weblate/trans/models/subproject.py:265
 msgid "Post-update script"
-msgstr "升級後執行腳本"
+msgstr "更新後指令稿"
 
 #: weblate/trans/models/subproject.py:271
 msgid ""
 "Script to be executed after receiving a repository update, please check "
 "documentation for more details."
-msgstr "當收到儲存庫更新後要執行的 Script，請閱讀說明文件以了解詳細資訊。"
+msgstr "在接收儲存庫更新後要執行的指令稿，請閱讀文件瞭解更多細節。"
 
 #: weblate/trans/models/subproject.py:276
 msgid "Pre-commit script"
-msgstr "提交至本地(commit)前的隨譯即行碼"
+msgstr "提交前指令稿"
 
 #: weblate/trans/models/subproject.py:282
 msgid ""
 "Script to be executed before committing translation, please check "
 "documentation for more details."
-msgstr "提交翻譯至本地之前要執行的隨譯即行碼，更詳細的資訊請看說明文件。"
+msgstr "提交翻譯前要執行的指令稿，請閱讀文件瞭解更多細節。"
 
 #: weblate/trans/models/subproject.py:287
 msgid "Post-commit script"
-msgstr "提交至本地後的隨譯即行碼"
+msgstr "提交後指令稿"
 
 #: weblate/trans/models/subproject.py:293
 msgid ""
 "Script to be executed after committing translation, please check "
 "documentation for more details."
-msgstr "提交翻譯至本地之後要執行的隨譯即行碼，更詳細的資訊請看說明文件。"
+msgstr "提交翻譯後要執行的指令稿，請閱讀文件瞭解更多細節。"
 
 #: weblate/trans/models/subproject.py:298
 msgid "Post-push script"
-msgstr "提交至遠端後的隨譯即行碼"
+msgstr "推送後指令稿"
 
 #: weblate/trans/models/subproject.py:304
 msgid ""
 "Script to be executed after pushing translation to remote, please check "
 "documentation for more details."
-msgstr "提交翻譯到遠端之後要執行的隨譯即行碼，更詳細的資訊請看說明文件。"
+msgstr "提交翻譯到遠端後要執行的指令稿，請閱讀文件瞭解更多細節。"
 
 #: weblate/trans/models/subproject.py:309
 msgid "Post-add script"
-msgstr "加入之後的隨譯即行碼"
+msgstr "加入後指令稿"
 
 #: weblate/trans/models/subproject.py:315
 msgid ""
 "Script to be executed after adding new translation, please check "
 "documentation for more details."
-msgstr "加入翻譯之後要執行的隨譯即行碼，更詳細的資訊請看說明文件。"
+msgstr "新增翻譯後要執行的指令稿，請閱讀文件瞭解更多細節。"
 
 #: weblate/trans/models/subproject.py:321
 msgid "Locked"
-msgstr "已鎖定"
+msgstr "鎖定"
 
 #: weblate/trans/models/subproject.py:324
 msgid "Whether component is locked for translation updates."
-msgstr "在翻譯更新的時候，是否鎖定組成元件。"
+msgstr "是否在翻譯更新時鎖定元件。"
 
 #: weblate/trans/models/subproject.py:328
 msgid "Allow translation propagation"
-msgstr "允許翻譯傳播"
+msgstr "允許翻譯再用"
 
 #: weblate/trans/models/subproject.py:332
 msgid ""
 "Whether translation updates in other components will cause automatic "
 "translation in this one"
-msgstr "於其它組成元件翻譯更新時，是否在這時自動翻譯"
+msgstr "是否在其他元件翻譯更新時觸發它的自動翻譯"
 
 #: weblate/trans/models/subproject.py:337
 msgid "Save translation history"
-msgstr "儲存翻譯履歷"
+msgstr "儲存翻譯歷史"
 
 #: weblate/trans/models/subproject.py:340
 msgid "Whether Weblate should keep history of translations"
-msgstr "Weblate 是否應該保留翻譯履歷"
+msgstr "Weblate 是否應該保留翻譯歷史"
 
 #: weblate/trans/models/subproject.py:344
 msgid "Enable suggestions"
@@ -6784,7 +6766,7 @@ msgstr "啟用建議"
 
 #: weblate/trans/models/subproject.py:347
 msgid "Whether to allow translation suggestions at all."
-msgstr "是否允許所有的翻譯建議。"
+msgstr "是否允許翻譯建議。"
 
 #: weblate/trans/models/subproject.py:351
 msgid "Suggestion voting"
@@ -6792,7 +6774,7 @@ msgstr "建議投票"
 
 #: weblate/trans/models/subproject.py:354
 msgid "Whether users can vote for suggestions."
-msgstr "使用者是否可對建議投票。"
+msgstr "使用者是否可對翻譯建議投票。"
 
 #: weblate/trans/models/subproject.py:358
 msgid "Autoaccept suggestions"
@@ -6801,55 +6783,55 @@ msgstr "自動接受建議"
 #: weblate/trans/models/subproject.py:361
 msgid ""
 "Automatically accept suggestions with this number of votes, use 0 to disable."
-msgstr "自動接受建議與此投票數，設為 0 則停用。"
+msgstr "自動接受翻譯的門檻投票數，設為 0 則停用。"
 
 #: weblate/trans/models/subproject.py:367
 msgid "Quality checks flags"
-msgstr "品質查核標記"
+msgstr "品質查核旗標"
 
 #: weblate/trans/models/subproject.py:370
 msgid ""
 "Additional comma-separated flags to influence quality checks, check "
 "documentation for possible values."
-msgstr "增加逗號分隔標記來改變品質查核，檢查文件的可能值。"
+msgstr "額外以逗號分隔的旗標影響品質查核，請查看文件瞭解可使用的值。"
 
 #: weblate/trans/models/subproject.py:384
 msgid "Optional short summary of license used for translations."
-msgstr "使用翻譯的授權簡短摘要選項。"
+msgstr "選擇性使用的翻譯授權條款簡短摘要。"
 
 #: weblate/trans/models/subproject.py:388
 msgid "License URL"
-msgstr "授權網址"
+msgstr "授權條款 URL"
 
 #: weblate/trans/models/subproject.py:391
 msgid "Optional URL with license details."
-msgstr "網址選項與授權詳細資訊。"
+msgstr "授權條款細節的選填 URL。"
 
 #: weblate/trans/models/subproject.py:394
 msgid "Contributor agreement"
-msgstr "貢獻人員協議"
+msgstr "貢獻者協議書"
 
 #: weblate/trans/models/subproject.py:398
 msgid ""
 "Agreement which needs to be approved before user can translate this "
 "component."
-msgstr "必須先同意協議才可讓使用者翻譯此元件。"
+msgstr "使用者必須先同意協議才能翻譯此元件。"
 
 #: weblate/trans/models/subproject.py:410
 msgid ""
 "How to handle requests for creating new translations. Please note that "
 "availability of choices depends on the file format."
-msgstr "如何處理建立新翻譯的請求。 請注意可用的選項會隨檔案格式而不同。"
+msgstr "處理新翻譯建立請求的方式。請注意，可用選項會隨檔案格式而有不同。"
 
 #: weblate/trans/models/subproject.py:418
 msgid "Merge style"
-msgstr "合併樣式"
+msgstr "合併風格"
 
 #: weblate/trans/models/subproject.py:423
 msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it."
-msgstr "是否要讓 Weblate 合併 Upstream 的 Repository，或 Rebase 修改。"
+msgstr "定義是 Weblate 是否應該與上游儲存庫合併，或是將更動衍合進去。"
 
 #: weblate/trans/models/subproject.py:428
 msgid "Commit message when translating"
@@ -6861,7 +6843,7 @@ msgstr "翻譯時的提交訊息"
 msgid ""
 "You can use format strings for various information, please check "
 "documentation for more details."
-msgstr "您可使用格式字串給各種資訊，請查看更多詳細資訊的文件檔。"
+msgstr "您可以使用各種資訊的格式字串，請查看文件瞭解更多細節。"
 
 #: weblate/trans/models/subproject.py:437
 msgid "Commit message when adding translation"
@@ -6877,24 +6859,24 @@ msgstr "提交者名稱"
 
 #: weblate/trans/models/subproject.py:460
 msgid "Committer email"
-msgstr "提交者 email"
+msgstr "提交者電子信箱"
 
 #: weblate/trans/models/subproject.py:465
 msgid "Push on commit"
-msgstr "提交時推送"
+msgstr "提交時一併推送"
 
 #: weblate/trans/models/subproject.py:468
 msgid "Whether the repository should be pushed upstream on every commit."
-msgstr "是否每次提交時，儲存庫都要推送向上游。"
+msgstr "是否在每次提交到儲存庫時都推送到上游。"
 
 #: weblate/trans/models/subproject.py:472
 msgid "Age of changes to commit"
-msgstr ""
+msgstr "更動後提交的經過時間"
 
 #: weblate/trans/models/subproject.py:475
 msgid ""
 "Time in hours after which any pending changes will be committed to the VCS."
-msgstr ""
+msgstr "任何未決的更動提交到 VCS 後的時間，以小時計。"
 
 #: weblate/trans/models/subproject.py:481
 msgid "Language filter"
@@ -6904,13 +6886,11 @@ msgstr "語言篩選"
 msgid ""
 "Regular expression which is used to filter translation when scanning for "
 "file mask."
-msgstr "掃描檔案遮罩時用來篩選過濾翻譯檔之正則表達式。"
+msgstr "掃描檔案遮罩時用來篩選過濾翻譯的正則表達式。"
 
 #: weblate/trans/models/subproject.py:495
-#, fuzzy
-#| msgid "Strings with higher priority are offered first to translators."
 msgid "Components with higher priority are offered first to translators."
-msgstr "較高優先性的字串，先提供給翻譯人員。"
+msgstr "較高優先度的元件會優先提供給翻譯者。"
 
 #: weblate/trans/models/subproject.py:681
 msgid ""
@@ -6921,7 +6901,7 @@ msgstr "SSH 主機金鑰驗證失敗，請在管理介面中將它們加入 SSH 
 #: weblate/trans/models/subproject.py:685
 #, python-format
 msgid "Failed to fetch repository: %s"
-msgstr "取得儲存庫失敗：%s"
+msgstr "無法擷取儲存庫：%s"
 
 #: weblate/trans/models/subproject.py:775
 #, python-format
@@ -6931,33 +6911,30 @@ msgstr "%s 已停用推送。"
 #: weblate/trans/models/subproject.py:827
 #, python-format
 msgid "Failed to push to remote branch on %s."
-msgstr "將 %s 推送上遠端分支失敗。"
+msgstr "推送到 %s 上的遠端分支時失敗。"
 
 #: weblate/trans/models/subproject.py:857
 #, python-format
 msgid "Failed to reset to remote branch on %s."
-msgstr "將 %s 上的遠端分支重置失敗。"
+msgstr "重設 %s 上的遠端分支時失敗。"
 
 #: weblate/trans/models/subproject.py:931
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
-msgstr "無法 rebase 我們的分支到遠端分支 %s。"
+msgstr "無法將我們的分支衍合到遠端分支 %s。"
 
 #: weblate/trans/models/subproject.py:936
 #, python-format
 msgid "Failed to merge remote branch into %s."
-msgstr "將遠端分支合併到 %s 失敗。"
+msgstr "無法將遠端分支合併到 %s。"
 
 #: weblate/trans/models/subproject.py:1121
 msgid "Invalid link to a Weblate project, can not link to linked repository!"
-msgstr "無效的 Weblate 專案連接，不能連結到儲存庫！"
+msgstr "無效的 Weblate 專案連結，無法連到連結的儲存庫！"
 
 #: weblate/trans/models/subproject.py:1128
-#, fuzzy
-#| msgid ""
-#| "Invalid link to a Weblate project, can not link to linked repository!"
 msgid "Invalid link to a Weblate project, can not link to self!"
-msgstr "無效的 Weblate 專案連接，不能連結到資源庫！"
+msgstr "無效的 Weblate 專案連結，無法連到自身！"
 
 #: weblate/trans/models/subproject.py:1135
 msgid "Invalid link to a Weblate project, use weblate://project/component."
@@ -6965,33 +6942,32 @@ msgstr "無效的 Weblate 專案連結，請使用 weblate://project/component�
 
 #: weblate/trans/models/subproject.py:1141
 msgid "Push URL is not used when repository is linked!"
-msgstr "在儲存庫已連結下，不使用 URL 推送！"
+msgstr "當儲存庫連結時不使用推送 URL！"
 
 #: weblate/trans/models/subproject.py:1147
 msgid "Export URL is not used when repository is linked!"
-msgstr "在儲存庫已連結下，不使用網址匯出！"
+msgstr "當儲存庫連結時不使用網址 URL！"
 
 #: weblate/trans/models/subproject.py:1155
-#, fuzzy
 msgid "The mask did not match any files!"
-msgstr "遮罩不相符任何檔案！"
+msgstr "遮罩比對不到任何檔案！"
 
 #: weblate/trans/models/subproject.py:1163
-#, fuzzy, python-format
+#, python-format
 msgid "Got empty language code for %s, please check filemask!"
-msgstr "%s之語言代碼是空的，請檢查檔案的 mask！"
+msgstr "抓到 %s 的語言碼是空白，請檢查檔案遮罩！"
 
 #: weblate/trans/models/subproject.py:1168
-#, fuzzy, python-format
+#, python-format
 msgid "Language code %s is too long, please check filemask!"
-msgstr "%s之語言代碼是空的，請檢查檔案的 mask！"
+msgstr "%s 的語言碼是太長，請檢查檔案遮罩！"
 
 #: weblate/trans/models/subproject.py:1172
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "There are more files for single language (%s), please adjust the mask and "
 "use components for translating different resources."
-msgstr "有單一語言的更多檔案，請調整遮罩和使用組成元件翻譯不同的資源。"
+msgstr "有單一語言的更多檔案 (%s)，請調整遮罩並使用元件翻譯不同的資源。"
 
 #: weblate/trans/models/subproject.py:1178
 #, python-format
@@ -7000,28 +6976,27 @@ msgid ""
 "disable SIMPLIFY_LANGUAGES to prevent Weblate mapping similar languages to "
 "one."
 msgstr ""
-"多個翻譯被映射到一個單一的語言程式碼 (%s)。您應該停用 SIMPLIFY_LANGUAGES 以防"
-"止 Weblate 映射相似的語言。"
+"有多個翻譯對映到單一個語言代碼中 (%s)。您應該停用 SIMPLIFY_LANGUAGES 以防止 Weblate 將名稱相似的語言對映到同一個語言。"
 
 #: weblate/trans/models/subproject.py:1197
 msgid "File does not seem to be valid!"
-msgstr "檔案似乎不是正確的！"
+msgstr "檔案似乎不正確！"
 
 #: weblate/trans/models/subproject.py:1205
 #, python-format
 msgid "Format of %d matched files could not be recognized."
-msgstr "無法識別符合 %d 格式的檔案。"
+msgstr "無法識別出比對到的 %d 格式檔案。"
 
 #: weblate/trans/models/subproject.py:1214
 #, python-format
 msgid "Failed to parse %d matched files!"
-msgstr "分析符合 %d 的檔案失敗！"
+msgstr "解析比對到的 %d 檔案失敗！"
 
 #: weblate/trans/models/subproject.py:1225
 msgid ""
 "You have configured Weblate to add new translation files, but did not "
 "provide base file to do that!"
-msgstr ""
+msgstr "您已設定 Weblate 要加入新翻譯檔，但是卻沒有提供基底檔！"
 
 #: weblate/trans/models/subproject.py:1229
 msgid "Format of base file for new translations was not recognized!"
@@ -7031,11 +7006,11 @@ msgstr "無法識別新翻譯的基底檔格式！"
 msgid ""
 "Base file for new translations is not used because of component settings. "
 "You probably want to enable automatic adding of new translations."
-msgstr "因為元件的設定，不使用新翻譯的基底檔。您可能會想啟用自動增加新翻譯。"
+msgstr "因為元件設定的緣故而不會使用基底檔新增翻譯。您可能會想啟用自動增加新翻譯。"
 
 #: weblate/trans/models/subproject.py:1245
 msgid "You can not use base file with bilingual translation!"
-msgstr "不可以將基底檔用在[源文譯文]雙語[對照]翻譯！"
+msgstr "您無法使用基底檔作雙語翻譯！"
 
 #: weblate/trans/models/subproject.py:1250
 msgid "Using .pot file as base file is not supported!"
@@ -7043,31 +7018,31 @@ msgstr "不支援使用 .pot 檔作為基底檔！"
 
 #: weblate/trans/models/subproject.py:1257
 msgid "Template file not found!"
-msgstr "找不到範本檔！"
+msgstr "找不到模板檔！"
 
 #: weblate/trans/models/subproject.py:1263
 #, python-format
 msgid "Failed to parse translation base file: %s"
-msgstr "無法解析翻譯的基底檔：%s"
+msgstr "無法解析翻譯基底檔：%s"
 
 #: weblate/trans/models/subproject.py:1273
 #, python-brace-format
 msgid "Template language ({0}) does not match project source language ({1})!"
-msgstr ""
+msgstr "模板語言 ({0}) 和專案來源語言 ({1}) 不符！"
 
 #: weblate/trans/models/subproject.py:1280
 msgid "You can not use monolingual translation without base file!"
-msgstr "沒有基底檔，就不能使用單一語言翻譯 ！"
+msgstr "您不用基底檔就不能作單語翻譯！"
 
 #: weblate/trans/models/subproject.py:1291
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
-msgstr "請填寫任何一個指示的網址或使用不同的選項增加新的語言。"
+msgstr "請填寫新增翻譯的步驟指示 URL 或使用其他方法。"
 
 #: weblate/trans/models/subproject.py:1298
 msgid "License URL can not be used without license summary."
-msgstr "授權 URL 不能使用無授權摘要。"
+msgstr "授權條款 URL 不能沒有授權條款摘要。"
 
 #: weblate/trans/models/subproject.py:1318
 msgid "Changing version control system is not supported!"
@@ -7076,86 +7051,78 @@ msgstr "不支援更動版本控制系統！"
 #: weblate/trans/models/subproject.py:1323
 #, python-brace-format
 msgid "Unsupported file format: {0}"
-msgstr "已不支援檔案格式：{0}"
+msgstr "未支援的檔案格式：{0}"
 
 #: weblate/trans/models/subproject.py:1330
 #, python-format
 msgid "Failed to update repository: %s"
-msgstr "更新儲存庫失敗：%s"
+msgstr "無法更新儲存庫：%s"
 
 #: weblate/trans/models/subproject.py:1350
 msgid "Can not validate file matches due to invalid regular expression."
-msgstr "無效的正則表達式，無法驗證檔案是否符合。"
+msgstr "因為正則表達式無效而無法驗證檔案是否相符。"
 
 #: weblate/trans/models/subproject.py:1362
 msgid "Automatically accepting suggestions can work only with voting enabled!"
-msgstr "自動接受建議，只能在啟用投票後工作！"
+msgstr "自動接受翻譯建議只有在啟用投票功能後才能作用！"
 
 #: weblate/trans/models/subproject.py:1541
-#, fuzzy
-#| msgid "Failed to save translation!"
 msgid "Failed to add new translation file!"
-msgstr "儲存翻譯失敗！"
+msgstr "無法新增翻譯檔！"
 
 #: weblate/trans/models/subproject.py:1563
-#, fuzzy
-#| msgid "Translation file"
 msgid "Translation file already exists!"
-msgstr "翻譯"
+msgstr "翻譯檔已經存在！"
 
 #: weblate/trans/models/translation.py:217
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
-msgstr ""
-"在資料庫中找不到 %s 的檔案名稱！若要加入新的翻譯，增加語言檔案到資料庫中。"
+msgstr "在儲存庫中找不到 %s 檔名！若要加入新翻譯，請將語言檔加到儲存庫中。"
 
 #: weblate/trans/models/translation.py:226
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
-msgstr "無法分析檔案 %(file)s：%(error)s"
+msgstr "無法解析 %(file)s 檔案：%(error)s"
 
 #: weblate/trans/models/translation.py:261
 #, python-format
 msgid "This translation is locked by %(user)s!"
-msgstr "這個翻譯已被 %(user)s 鎖定！"
+msgstr "這個翻譯已由 %(user)s 鎖定！"
 
 #: weblate/trans/models/unit.py:427
-#, fuzzy, python-brace-format
-#| msgid "%(filename)s, translation unit %(position)s"
+#, python-brace-format
 msgid "{translation}, translation unit {position}"
-msgstr "%(filename)s，翻譯單位 %(position)s"
+msgstr "{translation}，翻譯單位 {position}"
 
 #: weblate/trans/models/whiteboard.py:89
 msgid "Category"
-msgstr ""
+msgstr "類別"
 
 #: weblate/trans/models/whiteboard.py:91
 msgid "Category defines color used for the message."
-msgstr ""
+msgstr "類別定義訊息的顏色。"
 
 #: weblate/trans/models/whiteboard.py:94
 msgid "Info (light blue)"
-msgstr ""
+msgstr "資訊（亮藍色）"
 
 #: weblate/trans/models/whiteboard.py:95
 msgid "Warning (yellow)"
-msgstr ""
+msgstr "警告（黃色）"
 
 #: weblate/trans/models/whiteboard.py:96
-#, fuzzy
-#| msgid "Change word"
 msgid "Danger (red)"
-msgstr "變更單字"
+msgstr "危險（紅色）"
 
 #: weblate/trans/models/whiteboard.py:97
 msgid "Success (green)"
-msgstr ""
+msgstr "成功（綠色）"
 
 #: weblate/trans/models/whiteboard.py:98
 msgid "Primary (dark blue)"
-msgstr ""
+msgstr "主要（深藍色）"
 
 #: weblate/trans/models/whiteboard.py:107
 msgid "Whiteboard message"
@@ -7167,30 +7134,29 @@ msgstr "白板訊息"
 
 #: weblate/trans/models/whiteboard.py:117
 msgid "Do not specify both component and project!"
-msgstr "不可以同時選擇元件與專案！"
+msgstr "不可以同時指定元件與專案！"
 
 #: weblate/trans/specialchars.py:34
 msgid "Insert tab character"
-msgstr "插入定位字元"
+msgstr "插入跳格定位字元"
 
 #: weblate/trans/specialchars.py:35
 msgid "Insert new line"
-msgstr "插入新行"
+msgstr "插入換新列符"
 
 #: weblate/trans/specialchars.py:36
 msgid "Insert horizontal ellipsis"
-msgstr "插入水平省略號"
+msgstr "插入水平刪節號"
 
 #: weblate/trans/specialchars.py:455
-#, fuzzy, python-brace-format
-#| msgid "Insert character {0}"
+#, python-brace-format
 msgid "Insert {0}"
-msgstr "插入字元 {0}"
+msgstr "插入 {0}"
 
 #: weblate/trans/specialchars.py:460 weblate/trans/specialchars.py:462
 #, python-brace-format
 msgid "Insert character {0}"
-msgstr "插入字元 {0}"
+msgstr "插入 {0} 字元"
 
 #: weblate/trans/specialchars.py:476
 msgid "Opening double quote"
@@ -7210,7 +7176,7 @@ msgstr "結尾單引號"
 
 #: weblate/trans/specialchars.py:482
 msgid "Hyphen"
-msgstr "連字號"
+msgstr "連字符"
 
 #: weblate/trans/specialchars.py:485
 msgid "En dash"
@@ -7221,24 +7187,22 @@ msgid "Em dash"
 msgstr "長破折號"
 
 #: weblate/trans/specialchars.py:491
-#, fuzzy
-#| msgid "Insert character {0}"
 msgid "User configured character: {}"
-msgstr "插入字元 {0}"
+msgstr "使用者自訂字元：{}"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/trans/ssh.py:87
 msgid "[hostname hashed]"
-msgstr "[主機名稱雜湊]"
+msgstr "[主機名稱經雜湊處理]"
 
 #: weblate/trans/ssh.py:137
 msgid "Created new SSH key."
-msgstr "新建 SSH 金鑰。"
+msgstr "已新建 SSH 金鑰。"
 
 #: weblate/trans/ssh.py:141
 #, python-format
 msgid "Failed to generate key: %s"
-msgstr "產生金鑰失敗：%s"
+msgstr "金鑰生成失敗：%s"
 
 #: weblate/trans/ssh.py:151
 msgid "Invalid host name given!"
@@ -7249,18 +7213,16 @@ msgstr "無效的主機名稱！"
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), "
 "please verify that it is correct."
-msgstr ""
-"已增加主機金鑰 %(host)s 與特徵 %(fingerprint)s (%(keytype)s)，請驗證它的正確"
-"性。"
+msgstr "已新增 %(host)s 主機金鑰，指紋特徵 %(fingerprint)s (%(keytype)s)，請驗證是否正確。"
 
 #: weblate/trans/ssh.py:185
 msgid "Failed to fetch public key for a host!"
-msgstr "取得主機的公開金鑰失敗！"
+msgstr "無法擷取主機的公開金鑰！"
 
 #: weblate/trans/ssh.py:193 weblate/trans/ssh.py:198
 #, python-format
 msgid "Failed to get host key: %s"
-msgstr "獲取主機金鑰失敗：%s"
+msgstr "無法取得主機金鑰：%s"
 
 #: weblate/trans/templatetags/translations.py:65
 msgid "Good configuration"
@@ -7272,7 +7234,7 @@ msgstr "不良的組態"
 
 #: weblate/trans/templatetags/translations.py:67
 msgid "Possible configuration"
-msgstr "合適的組態"
+msgstr "可能的組態"
 
 #: weblate/trans/templatetags/translations.py:96
 msgid "Tab character"
@@ -7280,7 +7242,7 @@ msgstr "Tab 字元"
 
 #: weblate/trans/templatetags/translations.py:161
 msgid "New line"
-msgstr "換新行"
+msgstr "換新列"
 
 #: weblate/trans/templatetags/translations.py:320
 msgid "a year ago"
@@ -7306,11 +7268,11 @@ msgstr[0] "%(count)s 個月前"
 #, python-format
 msgid "%(count)s week ago"
 msgid_plural "%(count)s weeks ago"
-msgstr[0] "%(count)s 星期前"
+msgstr[0] "%(count)s 週前"
 
 #: weblate/trans/templatetags/translations.py:338
 msgid "a week ago"
-msgstr "1 星期前"
+msgstr "1 週前"
 
 #: weblate/trans/templatetags/translations.py:340
 msgid "yesterday"
@@ -7329,7 +7291,7 @@ msgstr "現在"
 
 #: weblate/trans/templatetags/translations.py:348
 msgid "a second ago"
-msgstr "1 秒鐘前"
+msgstr "1 秒前"
 
 #: weblate/trans/templatetags/translations.py:350
 #, python-format
@@ -7381,7 +7343,7 @@ msgstr[0] "現在起 %(count)s 個月後"
 #, python-format
 msgid "%(count)s week from now"
 msgid_plural "%(count)s weeks from now"
-msgstr[0] "現在起 %(count)s 星期後"
+msgstr[0] "現在起 %(count)s 週後"
 
 #: weblate/trans/templatetags/translations.py:397
 msgid "tomorrow"
@@ -7428,21 +7390,16 @@ msgid_plural "%(count)s hours from now"
 msgstr[0] "現在起 %(count)s 小時後"
 
 #: weblate/trans/templatetags/translations.py:519
-#, fuzzy
-#| msgctxt "Checkbox for marking translation needing review"
-#| msgid "Needs review"
 msgid "Needs review"
-msgstr "需複審"
+msgstr "需要檢閱"
 
 #: weblate/trans/templatetags/translations.py:524
-#, fuzzy
-#| msgid "translated"
 msgid "Not translated"
-msgstr "已翻譯"
+msgstr "尚未翻譯"
 
 #: weblate/trans/templatetags/translations.py:546
 msgid "Message needs review"
-msgstr "訊息需檢閱"
+msgstr "需要檢閱的訊息"
 
 #: weblate/trans/templatetags/translations.py:551
 msgid "Message is not translated"
@@ -7450,15 +7407,15 @@ msgstr "尚未翻譯的訊息"
 
 #: weblate/trans/templatetags/translations.py:556
 msgid "Message has failing checks"
-msgstr "缺點查核的訊息"
+msgstr "未通過查核的訊息"
 
 #: weblate/trans/templatetags/translations.py:561
 msgid "Message is translated"
-msgstr "已翻譯的訊息"
+msgstr "已翻譯好的訊息"
 
 #: weblate/trans/templatetags/translations.py:567
 msgid "Message has comments"
-msgstr "訊息有評註"
+msgstr "有評註內容的訊息"
 
 #: weblate/trans/templatetags/translations.py:587
 #, python-format
@@ -7467,7 +7424,7 @@ msgstr "單位 ID %s"
 
 #: weblate/trans/util.py:52
 msgid "Very high"
-msgstr "很高"
+msgstr "非常高"
 
 #: weblate/trans/util.py:53
 msgid "High"
@@ -7475,11 +7432,11 @@ msgstr "高"
 
 #: weblate/trans/util.py:54
 msgid "Medium"
-msgstr "中等"
+msgstr "中"
 
 #: weblate/trans/util.py:55
 msgid "Low"
-msgstr "ພາສາລາວ"
+msgstr "低"
 
 #: weblate/trans/util.py:56
 msgid "Very low"
@@ -7490,109 +7447,93 @@ msgstr "非常低"
 msgid ""
 "{0} is translated into {1} languages using Weblate. Join the translation or "
 "start translating your own project."
-msgstr ""
-"{0} 已透過 Weblate 翻譯成 {1} 種語言，加入翻譯的行列，或是開始翻譯您的專案"
-"吧。"
+msgstr "{0} 正透過 Weblate 翻譯成 {1} 種語言。請加入翻譯的行列，或是開始翻譯您的專案吧。"
 
 #: weblate/trans/validators.py:30
 msgid "RST text"
 msgstr "RST 文字"
 
 #: weblate/trans/validators.py:31
-#, fuzzy
-#| msgid "RST text"
 msgid "XML text"
-msgstr "RST 文字"
+msgstr "XML 文字"
 
 #: weblate/trans/validators.py:33
 msgid "Skip review flag when importing"
-msgstr ""
+msgstr "匯入時略過檢閱旗標"
 
 #: weblate/trans/validators.py:36
-#, fuzzy
-#| msgid "Search in source strings"
 msgid "Add review flag for new source strings"
-msgstr "在來源字串中搜尋"
+msgstr "為新來源字串加入檢閱旗標"
 
 #: weblate/trans/validators.py:39
-#, fuzzy
-#| msgid "Search in source strings"
 msgid "Add review flag for new translated strings"
-msgstr "在來源字串中搜尋"
+msgstr "為新翻譯的字串加入檢閱旗標"
 
 #: weblate/trans/validators.py:50 weblate/trans/validators.py:71
 #: weblate/utils/validators.py:146
 #, python-format
 msgid "Bad format string (%s)"
-msgstr "錯誤的格式字串 (%s)"
+msgstr "格式不良的字串 (%s)"
 
 #: weblate/trans/validators.py:78
-#, fuzzy
 msgid "File mask does not contain * as a language placeholder!"
-msgstr "檔案遮罩不包含 * 號作為語言的預留位置！"
+msgstr "檔案遮罩不包含作語言碼預留位置用的 * 號！"
 
 #: weblate/trans/validators.py:86
 msgid ""
 "Value of 1 is not allowed for autoaccept as every user gives vote to his "
 "suggestion."
-msgstr "設成 1 的值，不允許自動接受每個使用者將票投給他的建議。"
+msgstr "設成 1 的值不允許自動接受每位使用者把票投給他提的建議。"
 
 #: weblate/trans/validators.py:99
 #, python-format
 msgid "Invalid check flag: \"%s\""
-msgstr "無效的查核標記：\"%s\""
+msgstr "無效的查核標記：「%s」"
 
 #: weblate/trans/views/acl.py:82
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Invalid parameters!"
-msgstr "不正確的合併要求！"
+msgstr "無效的參數！"
 
 #: weblate/trans/views/acl.py:88 weblate/trans/views/acl.py:142
 msgid "You can not remove last owner!"
-msgstr "不能移除最後的擁有者！"
+msgstr "您不能移除最後一位擁有者！"
 
 #: weblate/trans/views/acl.py:119
 msgid "User has been added to this project."
-msgstr "使用者已加入此專案。"
+msgstr "使用者此專案。"
 
 #: weblate/trans/views/acl.py:123
-#, fuzzy
-#| msgid "Failed to find matching user!"
 msgid "Failed to find group to add a user!"
-msgstr "未能尋找到符合的使用者！"
+msgstr "未能找到要加入使用者的群組！"
 
 #: weblate/trans/views/acl.py:146
 msgid "User has been removed from this project."
-msgstr "使用者已從這個專案移除。"
+msgstr "使用者已從這個專案中移除。"
 
 #: weblate/trans/views/acl.py:172
-#, fuzzy
-#| msgid "Your password has been changed."
 msgid "Project access control has been changed."
-msgstr "您的密碼已變更。"
+msgstr "專案存取控制已更動。"
 
 #: weblate/trans/views/basic.py:160
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to login next time."
-msgstr "您已啟動您的帳戶，現在您應該設定密碼，以便能夠下次登錄。"
+msgstr "您已啟動您的帳戶，現在您應該設定密碼以便能夠下次登入。"
 
 #: weblate/trans/views/basic.py:172
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
-msgstr ""
+msgstr "您正在查看的專案已經移除；不過我們仍然歡迎您貢獻其他專案。"
 
 #: weblate/trans/views/basic.py:192
 msgid "Please set your full name in your profile."
-msgstr "請設定您的全名，在您個人資料上。"
+msgstr "請設定您個人檔案中顯示的全名。"
 
 #: weblate/trans/views/basic.py:283
-#, fuzzy, python-brace-format
-#| msgid "Get involved in %(project)s!"
+#, python-brace-format
 msgid "Get involved in {0}!"
-msgstr "參與 %(project)s！"
+msgstr "參與 {0}！"
 
 #: weblate/trans/views/basic.py:289
 #, python-format
@@ -7602,9 +7543,8 @@ msgid ""
 "\">being translated into %(languages)s languages</a>. Overall, these "
 "translations are %(percent)s%% complete."
 msgstr ""
-"<a href=\"%(url)s\">%(project)s 的翻譯專案</a> 目前有 %(total)s 條字串需要翻"
-"譯，<a href=\"%(lang_url)s\">正翻譯成 %(languages)s 種語言</a>。整體而言，翻"
-"譯進度約完成 %(percent)s%%。"
+"<a href=\"%(url)s\">%(project)s 的翻譯專案</a>目前有 %(total)s 條字串需要翻譯，<a href=\""
+"%(lang_url)s\">正翻譯成 %(languages)s 種語言</a>。整體而言，翻譯進度約完成 %(percent)s%%。"
 
 #. Translators: line of text in engagement widget, please use your
 #. language name instead of English
@@ -7620,59 +7560,54 @@ msgstr ""
 
 #: weblate/trans/views/basic.py:535
 msgid "Weblate statistics"
-msgstr "Weblate 統計"
+msgstr "Weblate 統計數據"
 
 #: weblate/trans/views/basic.py:618
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
-msgstr "增加新語言的要求，已向專案維護者發送。"
+msgstr "新增語言的要求已傳送給專案維護者。"
 
 #: weblate/trans/views/changes.py:73
-#, fuzzy, python-format
-#| msgid "Recent changes in %s"
+#, python-format
 msgctxt "Changes in translation"
 msgid "Changes in %s"
-msgstr "最近在 %s 的變更"
+msgstr "%s 的更動"
 
 #: weblate/trans/views/changes.py:85
-#, fuzzy, python-format
-#| msgid "Recent changes in %s"
+#, python-format
 msgctxt "Changes in component"
 msgid "Changes in %s"
-msgstr "最近在 %s 的變更"
+msgstr "%s 的更動"
 
 #: weblate/trans/views/changes.py:95
-#, fuzzy, python-format
-#| msgid "Recent changes in %s"
+#, python-format
 msgctxt "Changes in project"
 msgid "Changes in %s"
-msgstr "最近在 %s 的變更"
+msgstr "%s 的更動"
 
 #: weblate/trans/views/changes.py:108
-#, fuzzy, python-format
-#| msgid "Recent changes in %s"
+#, python-format
 msgctxt "Changes in language"
 msgid "Changes in %s"
-msgstr "最近在 %s 的變更"
+msgstr "%s 的更動"
 
 #: weblate/trans/views/changes.py:116
-#, fuzzy, python-format
-#| msgid "Changes"
+#, python-format
 msgctxt "Changes by user"
 msgid "Changes by %s"
-msgstr "變更"
+msgstr "%s 的更動"
 
 #: weblate/trans/views/changes.py:143
 msgid "Failed to find matching project!"
-msgstr "未能尋找到符合的專案！"
+msgstr "找不到符合的專案！"
 
 #: weblate/trans/views/changes.py:156
 msgid "Failed to find matching language!"
-msgstr "未能尋找到符合的語言！"
+msgstr "找不到符合的語言！"
 
 #: weblate/trans/views/changes.py:169
 msgid "Failed to find matching user!"
-msgstr "未能尋找到符合的使用者！"
+msgstr "找不到符合的使用者！"
 
 #: weblate/trans/views/charts.py:94
 #, python-brace-format
@@ -7689,7 +7624,7 @@ msgstr "{month}/{day}"
 #: weblate/trans/views/dictionary.py:54
 #, python-format
 msgid "%(language)s dictionary for %(project)s"
-msgstr "%(language)s 的字典用於 %(project)s"
+msgstr "%(project)s 的 %(language)s 的字典"
 
 #: weblate/trans/views/dictionary.py:71
 msgid "Dictionaries"
@@ -7697,7 +7632,7 @@ msgstr "字典"
 
 #: weblate/trans/views/dictionary.py:184
 msgid "No words to import found in file."
-msgstr "沒有在檔案中找到匯入的單字。"
+msgstr "檔案中沒有找到要匯入的單字。"
 
 #: weblate/trans/views/dictionary.py:186
 #, python-format
@@ -7717,51 +7652,45 @@ msgstr "處理表單失敗！"
 
 #: weblate/trans/views/edit.py:163 weblate/trans/views/edit.py:497
 msgid "No string matched your search!"
-msgstr "找不到符合的字串！"
+msgstr "找不到您搜尋的字串！"
 
 #: weblate/trans/views/edit.py:186
 msgid "Your suggestion is empty!"
-msgstr "您的建議是空的！"
+msgstr "您的建議留空白！"
 
 #: weblate/trans/views/edit.py:193
 msgid "You don't have privileges to add suggestions!"
-msgstr "您並不具備增加建議的權限！"
+msgstr "您沒有加入建議的權限！"
 
 #: weblate/trans/views/edit.py:202
-#, fuzzy
-#| msgid "Your suggestion is empty!"
 msgid "Your suggestion has been identified as spam!"
-msgstr "您的建議是空的！"
+msgstr "您的建議被判定為垃圾內容！"
 
 #: weblate/trans/views/edit.py:218
 msgid ""
 "There is currently no active translator for this translation, please "
 "consider becoming a translator as your suggestion might otherwise remain "
 "unreviewed."
-msgstr ""
-"目前沒有主動的翻譯者為此翻譯，請考慮成為一名翻譯者，否則您的建議可能維持著未"
-"檢討。"
+msgstr "此翻譯目前沒有活躍的翻譯者，請考慮擔任翻譯者，否則您的翻譯建議可能維持在等待檢閱狀態而沒人處理。"
 
 #: weblate/trans/views/edit.py:226
 msgid ""
 "See our documentation for more information on translating using Weblate."
-msgstr ""
+msgstr "請見我們的文件深入瞭解使用 Weblate 翻譯的相關資訊。"
 
 #: weblate/trans/views/edit.py:239
-#, fuzzy
-#| msgid "Your suggestion is empty!"
 msgid "Your suggestion already exists!"
-msgstr "您的建議是空的！"
+msgstr "您的建議內容已經存在！"
 
 #: weblate/trans/views/edit.py:268
 #, python-format
 msgid "Following fixups were applied to translation: %s"
-msgstr "接著的修正，應用到翻譯：%s"
+msgstr "下列修正已討用到翻譯中：%s"
 
 #: weblate/trans/views/edit.py:283
 #, python-brace-format
 msgid "Some checks have failed on your translation: {0}"
-msgstr "在您的翻譯有一些查核失敗：{0}"
+msgstr "您的翻譯有一些未通過查核之處：{0}"
 
 #: weblate/trans/views/edit.py:323 weblate/trans/views/edit.py:349
 #: weblate/trans/views/edit.py:377 weblate/trans/views/edit.py:798
@@ -7770,33 +7699,31 @@ msgstr "您沒有儲存翻譯的權限！"
 
 #: weblate/trans/views/edit.py:355
 msgid "Invalid merge request!"
-msgstr "不正確的合併要求！"
+msgstr "無效的合併請求！"
 
 #: weblate/trans/views/edit.py:383
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Invalid revert request!"
-msgstr "不正確的合併要求！"
+msgstr "無效的還原請求！"
 
 #: weblate/trans/views/edit.py:390
 msgid "Can not revert to empty translation!"
-msgstr "不能還原到空白的翻譯！"
+msgstr "無法還原成空白翻譯！"
 
 #: weblate/trans/views/edit.py:405
 msgid "You do not have privilege to accept suggestions!"
-msgstr "您並不具備接受建議的權限！"
+msgstr "您沒有接受建議的權限！"
 
 #: weblate/trans/views/edit.py:412
 msgid "You do not have privilege to delete suggestions!"
-msgstr "您並不具備刪除建議的權限！"
+msgstr "您沒有刪除建議的權限！"
 
 #: weblate/trans/views/edit.py:419
 msgid "You do not have privilege to vote for suggestions!"
-msgstr "您並不具備投建議票的權限！"
+msgstr "您沒有投票支持建議的權限！"
 
 #: weblate/trans/views/edit.py:447
 msgid "Invalid suggestion!"
-msgstr "無效的建議！"
+msgstr "無效的翻譯建議！"
 
 #: weblate/trans/views/edit.py:560
 msgid "Invalid search string!"
@@ -7804,21 +7731,21 @@ msgstr "無效的搜尋字串！"
 
 #: weblate/trans/views/edit.py:634
 msgid "Automatic translation completed, no strings were updated."
-msgstr "自動翻譯已完成，無任何字串被更新。"
+msgstr "自動翻譯已完成，未更新任何字串。"
 
 #: weblate/trans/views/edit.py:636
 #, python-format
 msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
-msgstr[0] "自動翻譯已完成，共有 %d 字串被更新。"
+msgstr[0] "自動翻譯已完成，已更新 %d 條字串。"
 
 #: weblate/trans/views/edit.py:667
 msgid "Posted new comment"
-msgstr "已發表新評註"
+msgstr "已發表新評註內容"
 
 #: weblate/trans/views/edit.py:669
 msgid "Failed to add comment!"
-msgstr "評註加入失敗！"
+msgstr "評註內容加入失敗！"
 
 #: weblate/trans/views/edit.py:691
 msgid "Translation comment has been deleted."
@@ -7826,7 +7753,7 @@ msgstr "已刪除翻譯評註。"
 
 #: weblate/trans/views/edit.py:801
 msgid "Failed to save translation!"
-msgstr "儲存翻譯失敗！"
+msgstr "翻譯儲存失敗！"
 
 #: weblate/trans/views/files.py:77
 msgid "Access denied."
@@ -7834,19 +7761,17 @@ msgstr "拒絕存取。"
 
 #: weblate/trans/views/files.py:119
 msgid "No strings were imported from the uploaded file."
-msgstr "無任何字串自上傳的檔案匯入。"
+msgstr "未從上傳的檔案中匯入任何字串。"
 
 #: weblate/trans/views/files.py:122
-#, fuzzy, python-brace-format
-#| msgid "Processed %d string from the uploaded files."
-#| msgid_plural "Processed %d strings from the uploaded files."
+#, python-brace-format
 msgid ""
 "Processed {0} string from the uploaded files (skipped: {1}, not found: {2}, "
 "updated: {3})."
 msgid_plural ""
 "Processed {0} strings from the uploaded files (skipped: {1}, not found: {2}, "
 "updated: {3})."
-msgstr[0] "已處理上傳檔案中的 %d 個單字。"
+msgstr[0] "已處理上傳檔案中的 {0} 條字串（略過：{1}，找不到：{2}，已更新：{3}）。"
 
 #: weblate/trans/views/files.py:134
 #, python-format
@@ -7855,74 +7780,70 @@ msgstr "檔案內容合併失敗：%s"
 
 #: weblate/trans/views/git.py:51
 msgid "Failed to lock the repository, another operation in progress."
-msgstr "鎖定儲存庫失敗，另一個操作正在進行。"
+msgstr "儲存庫鎖定失敗，有另一個操作進行中。"
 
 #: weblate/trans/views/git.py:65
 msgid "All pending translations were committed."
-msgstr "所有待決的的翻譯已提出。"
+msgstr "已提交所有未決的的翻譯。"
 
 #: weblate/trans/views/git.py:76
 msgid "All repositories were updated."
-msgstr "已更新了所有的儲存庫。"
+msgstr "已更新所有儲存庫。"
 
 #: weblate/trans/views/git.py:88
 msgid "All repositories were pushed."
-msgstr "已推送所有的儲存庫。"
+msgstr "已推送所有儲存庫。"
 
 #: weblate/trans/views/git.py:99
 msgid "All repositories have been reset."
-msgstr "所有的儲存庫已被重置。"
+msgstr "已重設所有儲存庫。"
 
 #: weblate/trans/views/git.py:248
 msgid "Translation has been removed."
-msgstr "翻譯已移除。"
+msgstr "翻譯已經移除。"
 
 #: weblate/trans/views/helper.py:164
 #, python-format
 msgid "Error in parameter %(field)s: %(error)s"
-msgstr "參數錯誤 %(field)s：%(error)s"
+msgstr "%(field)s 參數錯誤：%(error)s"
 
 #: weblate/trans/views/lock.py:49
 msgid "Failed to update lock, probably session has expired."
-msgstr "鎖定狀態更新失敗，工作階段可能已過期。"
+msgstr "無法更新鎖定狀態，可能作業階段已過期。"
 
 #: weblate/trans/views/lock.py:65
 msgid "Translation is now locked for you."
-msgstr "現在翻譯已為您鎖定。"
+msgstr "翻譯現在已由您鎖定。"
 
 #: weblate/trans/views/lock.py:82
 msgid "Translation is now open for translation updates."
-msgstr "現在翻譯開啟，更新翻譯。"
+msgstr "翻譯現在開放更新翻譯。"
 
 #: weblate/trans/views/lock.py:102
 msgid "Component is now locked for translation updates!"
-msgstr "因為翻譯更新，組成元件現在已鎖定！"
+msgstr "元件現在因翻譯更新而鎖定中！"
 
 #: weblate/trans/views/lock.py:120
 msgid "Component is now open for translation updates."
-msgstr "組成元件現在開放翻譯更新。"
+msgstr "元件現在開放更新翻譯。"
 
 #: weblate/trans/views/lock.py:141
 msgid "All components are now locked for translation updates!"
-msgstr "為了更新翻譯，所有元件已被鎖定！"
+msgstr "所有元件現在因翻譯更新而鎖定中！"
 
 #: weblate/trans/views/lock.py:160
 msgid "Project is now open for translation updates."
-msgstr "現在開放翻譯更新專案。"
+msgstr "專案現在開放翻譯更新。"
 
 #: weblate/trans/views/search.py:115
-#, fuzzy
-#| msgid "Automatic translation completed, no strings were updated."
 msgid "Search and replace completed, no strings were updated."
-msgstr "自動翻譯已完成，無任何字串被更新。"
+msgstr "搜尋和取代完成，未更新任何字串。"
 
 #: weblate/trans/views/search.py:117
-#, fuzzy, python-format
-#| msgid "Automatic translation completed, %d string was updated."
-#| msgid_plural "Automatic translation completed, %d strings were updated."
+#, python-format
 msgid "Search and replace completed, %d string was updated."
 msgid_plural "Search and replace completed, %d strings were updated."
-msgstr[0] "自動翻譯已完成，共有 %d 字串被更新。"
+msgstr[0] "搜尋和取代完成，已更新 %d 條字串。"
 
 #: weblate/trans/views/search.py:182
 #, python-format
@@ -7934,38 +7855,36 @@ msgid "Invalid search query!"
 msgstr "不正確搜尋查詢！"
 
 #: weblate/trans/views/settings.py:48 weblate/trans/views/settings.py:80
-#, fuzzy
-#| msgid "Starting spaces"
 msgid "Settings saved"
-msgstr "起始空格"
+msgstr "設定已儲存"
 
 #: weblate/trans/views/settings.py:53 weblate/trans/views/settings.py:87
 msgid "Invalid settings, please check the form for errors!"
-msgstr ""
+msgstr "無效的設定，請檢查表單看是否有錯誤！"
 
 #: weblate/trans/views/source.py:105
 #, python-format
 msgid "Review source strings in %s"
-msgstr "檢閱 %s 中的來源字串"
+msgstr "檢閱 %s 的來源字串"
 
 #: weblate/trans/views/source.py:121
 #, python-format
 msgid "Source strings in %s"
-msgstr "%s 中的源文字串"
+msgstr "%s 的來源字串"
 
 #: weblate/trans/views/source.py:140
 msgid "Failed to change a priority!"
-msgstr "優先權更動失敗！"
+msgstr "優先度更動失敗！"
 
 #: weblate/trans/views/source.py:158
 msgid "Failed to change check flags!"
-msgstr "更動檢查標記失敗！"
+msgstr "更動查核標記失敗！"
 
 #: weblate/trans/widgets.py:107
 #, python-brace-format
 msgctxt "Translated percents in widget"
 msgid "{0}%"
-msgstr ""
+msgstr "{0}%"
 
 #. Translators: please keep the text short to fit into widget
 #: weblate/trans/widgets.py:311
@@ -7974,8 +7893,8 @@ msgid ""
 "translating %(count)d strings into %(languages)d languages\n"
 "%(percent)d%% complete, help us improve!"
 msgstr ""
-"翻譯了 %(count)d 字串成 %(languages)d 語言 \n"
-"完成 %(percent)d%%，幫助我們改進！"
+"需要翻譯 %(count)d 條字串成 %(languages)d 語言 \n"
+"完成 %(percent)d%%，幫助我們邁進！"
 
 #. Translators: please use your language name instead of English
 #. and keep the text short to fit into widget
@@ -7995,8 +7914,8 @@ msgid ""
 "translation\n"
 "%(percent)d%% done"
 msgstr ""
-"翻譯了\n"
-"%(percent)d%%完成"
+"翻譯\n"
+"完成 %(percent)d%%"
 
 #. Translators: please use your language name instead of English
 #. and keep the text short to fit into widget
@@ -8006,8 +7925,8 @@ msgid ""
 "English translation\n"
 "%(percent)d%% done"
 msgstr ""
-"英文翻譯了\n"
-"%(percent)d%% 完成"
+"正體中文翻譯\n"
+"完成 %(percent)d%%"
 
 #: weblate/trans/widgets.py:366
 msgid "translated"
@@ -8016,7 +7935,7 @@ msgstr "已翻譯"
 #: weblate/utils/validators.py:76
 #, python-brace-format
 msgid "Failed to compile: {0}"
-msgstr "無法編譯：{0}"
+msgstr "編譯失敗：{0}"
 
 #: weblate/utils/validators.py:112
 msgid "Invalid image!"
