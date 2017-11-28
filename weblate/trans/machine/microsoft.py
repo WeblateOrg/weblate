@@ -28,6 +28,7 @@ from xml.etree import ElementTree as ET
 
 from django.conf import settings
 from django.utils import timezone
+from django.template.loader import get_template
 
 from weblate.trans.machine.base import (
     MachineTranslation, MachineTranslationError, MissingConfiguration
@@ -211,60 +212,35 @@ class MicrosoftTerminologyService(MachineTranslation):
             'Content-Type': 'text/xml; charset=utf-8'
         }
         if soap_action == 'GetLanguages':
-            payload = """
-                <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
-                  xmlns="{xmlns}">
-                  <soapenv:Header/>
-                  <soapenv:Body>
-                    <{soap_action}/>
-                  </soapenv:Body>
-                </soapenv:Envelope>
-            """.format(xmlns=self.MS_TM_SOAP_XMLNS, soap_action=soap_action)
+            payload = {'xmlns': self.MS_TM_SOAP_XMLNS,
+                       'soap_action': soap_action}
+            template = get_template('trans/machine/microsoft_terminology_get_langs.jinja')
         elif soap_action == 'GetTranslations':
             source = kwargs.get('source', '')
             language = kwargs.get('language', '')
             text = kwargs.get('text', '')
-            max_result = 5
             if soap_action and source and language and text:
-                payload = """
-                    <soap-env:Envelope xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/">
-                        <soap-env:Header>
-                            <wsa:Action xmlns:wsa="http://www.w3.org/2005/08/addressing">{action}</wsa:Action>
-                            <wsa:MessageID xmlns:wsa="http://www.w3.org/2005/08/addressing">urn:uuid:{uuid}</wsa:MessageID>
-                            <wsa:To xmlns:wsa="http://www.w3.org/2005/08/addressing">{url}</wsa:To>
-                        </soap-env:Header>
-                        <soap-env:Body>
-                            <ns0:GetTranslations xmlns:ns0="{xmlns}">
-                                <ns0:text>{text}</ns0:text>
-                                <ns0:from>{from_lang}</ns0:from>
-                                <ns0:to>{to_lang}</ns0:to>
-                                <ns0:sources>
-                                    <ns0:TranslationSource>Terms</ns0:TranslationSource>
-                                    <ns0:TranslationSource>UiStrings</ns0:TranslationSource>
-                                </ns0:sources>
-                                <ns0:maxTranslations>{max_result}</ns0:maxTranslations>
-                            </ns0:GetTranslations>
-                        </soap-env:Body>
-                    </soap-env:Envelope>
-                """.format(action=action,
-                           url=url,
-                           xmlns=self.MS_TM_SOAP_XMLNS,
-                           uuid=uuid4(),
-                           text=text,
-                           from_lang=source,
-                           to_lang=language,
-                           max_result=max_result)
+                payload = {'action': action,
+                           'url': url,
+                           'xmlns': self.MS_TM_SOAP_XMLNS,
+                           'uuid': uuid4(),
+                           'text': text,
+                           'from_lang': 'en-US',
+                           'to_lang': 'es-MX',
+                           'max_result': 5}
+                template = get_template('trans/machine/microsoft_terminology_translate.jinja')
         else:
-            raise MachineTranslationError('Wrong SOAP request: "{soap_action}."').format(soap_action=soap_action)
+            raise MachineTranslationError(
+                'Wrong SOAP request: "{soap_action}."').format(
+                soap_action=soap_action)
         try:
+            payload = template.render(payload)
             request = Request(url)
             request.timeout = 0.5
-            for h, v in headers.iteritems():
-                request.add_header(h, v)
+            for header, value in headers.iteritems():
+                request.add_header(header, value)
             request.add_data(payload)
             handle = urlopen(request)
-            if settings.DEBUG:
-                print('Request: ', request, 'handle: ', handle)
         except Exception as e:
             raise MachineTranslationError('{err}'.format(err=e))
         return handle
