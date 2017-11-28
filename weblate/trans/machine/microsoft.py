@@ -249,7 +249,8 @@ class MicrosoftTerminologyService(MachineTranslation):
                  **kwargs):
         """Adapter to soap_req"""
 
-        response = self.soap_req(url, http_post=False, skip_auth=True, raw=True, **kwargs)
+        response = self.soap_req(
+            url, http_post=False, skip_auth=True, raw=True, **kwargs)
 
         return response
 
@@ -258,23 +259,22 @@ class MicrosoftTerminologyService(MachineTranslation):
         # Perform request
         response = self.soap_req(url, http_post, skip_auth, **kwargs)
 
-        # Check response status
         if response.code != 200:
             raise MachineTranslationError(response.msg)
 
-        # Return data
         return response
 
     def json_status_req(self, url, http_post=False, skip_auth=False, **kwargs):
         """Perform SOAP request with checking response status."""
         # Perform request
-        response = self.soap_status_req(url, http_post, skip_auth=True, **kwargs)
+        response = self.soap_status_req(url,
+                                        http_post,
+                                        skip_auth=True,
+                                        **kwargs)
 
-        # Check response status
         if response.code != 200:
             raise MachineTranslationError(response.msg)
 
-        # Return data
         return response
 
     def download_languages(self):
@@ -326,4 +326,5 @@ class MicrosoftTerminologyService(MachineTranslation):
             for lang in supported_langs:
                 if lang.split('-')[0] == language:
                     return lang
-        raise MachineTranslationError('Language: {lang} not supported by remote service: {service}'.format(lang=language, service=self.name))
+        raise MachineTranslationError("Language: {lang} not supported by \
+        remoteservice: {service}".format(lang=language, service=self.name))
