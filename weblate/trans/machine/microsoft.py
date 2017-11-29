@@ -33,6 +33,7 @@ from django.template.loader import get_template
 from weblate.trans.machine.base import (
     MachineTranslation, MachineTranslationError, MissingConfiguration
 )
+from weblate.lang.data import DEFAULT_LANGS
 
 COGNITIVE_BASE_URL = 'https://api.cognitive.microsoft.com/sts/v1.0'
 COGNITIVE_TOKEN = COGNITIVE_BASE_URL + '/issueToken?Subscription-Key={0}'
@@ -219,15 +220,16 @@ class MicrosoftTerminologyService(MachineTranslation):
             source = kwargs.get('source', '')
             language = kwargs.get('language', '')
             text = kwargs.get('text', '')
+            max_result = 5
             if soap_action and source and language and text:
                 payload = {'action': action,
                            'url': url,
                            'xmlns': self.MS_TM_SOAP_XMLNS,
                            'uuid': uuid4(),
                            'text': text,
-                           'from_lang': 'en-US',
-                           'to_lang': 'es-MX',
-                           'max_result': 5}
+                           'from_lang': source,
+                           'to_lang': language,
+                           'max_result': max_result}
                 template = get_template('trans/machine/microsoft_terminology_translate.jinja')
         else:
             raise MachineTranslationError(
@@ -241,8 +243,8 @@ class MicrosoftTerminologyService(MachineTranslation):
                 request.add_header(header, value)
             request.add_data(payload)
             handle = urlopen(request)
-        except Exception as e:
-            raise MachineTranslationError('{err}'.format(err=e))
+        except Exception as error:
+            raise MachineTranslationError('{err}'.format(err=error))
         return handle
 
     def json_req(self, url, http_post=False, skip_auth=False, raw=False,
@@ -319,12 +321,50 @@ class MicrosoftTerminologyService(MachineTranslation):
                 ]))
         return translations
 
-    def convert_language(self, language):
-        """Convert language to service specific code."""
-        if len(language.split('-')) < 2:
-            supported_langs = self.download_languages()
-            for lang in supported_langs:
-                if lang.split('-')[0] == language:
-                    return lang
-        raise MachineTranslationError("Language: {lang} not supported by \
-        remoteservice: {service}".format(lang=language, service=self.name))
+    def translate(self, language, text, unit, user):
+        """Return list of machine translations."""
+        if text == '':
+            return []
+
+        language = self.convert_language(language)
+        source = self.convert_language(
+            unit.translation.subproject.project.source_language.code
+        )
+        if not self.is_supported(source, language):
+            # Try adding country code from DEFAULT_LANGS
+            if '-' not in language or '_' not in language:
+                for lang in DEFAULT_LANGS:
+                    if lang.split('_')[0] == language:
+                        language = lang.replace('_', '-').lower()
+                        break
+            if '-' not in source or '_' not in source:
+                for lang in DEFAULT_LANGS:
+                    if lang.split('_')[0] == source:
+                        source = lang.replace('_', '-').lower()
+                        break
+            if source == language:
+                return []
+            if not self.is_supported(source, language):
+                return []
+        try:
+            translations = self.download_translations(
+                source, language, text, unit, user
+            )
+            return [
+                {
+                    'text': trans[0],
+                    'quality': trans[1],
+                    'service': trans[2],
+                    'source': trans[3]
+                }
+                for trans in translations
+            ]
+        except Exception as exc:
+            self.report_error(
+                exc,
+                'Failed to fetch translations from %s',
+            )
+            raise MachineTranslationError('{0}: {1}'.format(
+                exc.__class__.__name__,
+                str(exc)
+            ))
