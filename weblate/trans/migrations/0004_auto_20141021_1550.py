@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+from django.conf import settings
 import weblate.trans.validators
 
 
@@ -21,13 +22,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='subproject',
             name='committer_email',
-            field=models.EmailField(default=b'noreply@weblate.org', max_length=75, verbose_name='Committer email'),
+            field=models.EmailField(default=settings.DEFAULT_COMMITER_EMAIL, max_length=75, verbose_name='Committer email'),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='subproject',
             name='committer_name',
-            field=models.CharField(default=b'Weblate', max_length=200, verbose_name='Committer name'),
+            field=models.CharField(default=settings.DEFAULT_COMMITER_NAME, max_length=200, verbose_name='Committer name'),
             preserve_default=True,
         ),
         migrations.AddField(
