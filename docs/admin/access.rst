@@ -317,3 +317,7 @@ Weblate comes with predefined set of groups where you can assign users.
 .. describe:: VCS
 
     Can manage VCS and access exported repository.
+
+.. describe:: Review
+
+    Can approve translations during review.

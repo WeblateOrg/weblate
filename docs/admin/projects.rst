@@ -256,6 +256,8 @@ Additional commit files
     ``path/to/addditinal/%(language)s_file.example``
 Save translation history
     Whether to store a history of translation changes in database.
+Enable suggestions
+    Whether translation suggestions are accepted for this component.
 Suggestion voting
     Enable voting for suggestions, see :ref:`voting`.
 Autoaccept suggestions
