@@ -600,6 +600,10 @@ class FilterField(forms.ChoiceField):
             ('comments', _('Strings with comments')),
             ('allchecks', _('Strings with any failing checks')),
             ('approved', _('Approved strings')),
+            (
+                'approved_suggestions',
+                _('Approved strings with suggestions')
+            ),
             ('unapproved', _('Strings waiting for review')),
         ] + [
             (CHECKS[check].url_id, CHECKS[check].description)

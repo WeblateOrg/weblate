@@ -143,6 +143,8 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
     total_words = models.IntegerField(default=0)
     approved = models.IntegerField(default=0)
     approved_words = models.IntegerField(default=0)
+    approved_suggestions = models.IntegerField(default=0)
+    approved_suggestions_words = models.IntegerField(default=0)
     failing_checks = models.IntegerField(default=0, db_index=True)
     have_suggestion = models.IntegerField(default=0, db_index=True)
     have_comment = models.IntegerField(default=0, db_index=True)
@@ -579,6 +581,12 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             check_words__sum=conditional_sum(
                 'num_words', has_failing_check=True
             ),
+            approved_suggestions__sum=conditional_sum(
+                1, state__gte=STATE_APPROVED, has_suggestion=True
+            ),
+            approved_suggestions_words__sum=conditional_sum(
+                'num_words', state__gte=STATE_APPROVED, has_suggestion=True
+            ),
         )
 
         # Check if we have any units
@@ -595,6 +603,8 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             self.failing_checks_words = 0
             self.approved = 0
             self.approved_words = 0
+            self.approved_suggestions = 0
+            self.approved_suggestions_words = 0
         else:
             self.total_words = stats['num_words__sum']
             self.total = stats['id__count']
@@ -608,6 +618,12 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             self.failing_checks_words = int(stats['check_words__sum'])
             self.approved = int(stats['approved__sum'])
             self.approved_words = int(stats['approved_words__sum'])
+            self.approved_suggestions = int(
+                stats['approved_suggestions__sum']
+            )
+            self.approved_suggestions_words = int(
+                stats['approved_suggestions_words__sum']
+            )
 
         self.save()
 
@@ -968,6 +984,15 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             self.translated - self.approved,
             'warning',
             self.translated_words - self.approved_words,
+        )
+
+        # Approved with suggestions
+        result.add_if(
+            'approved_suggestions',
+            _('Approved strings with suggestions'),
+            self.approved_suggestions,
+            'danger',
+            self.approved_suggestions_words,
         )
 
         # Untranslated strings
