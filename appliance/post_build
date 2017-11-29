@@ -1,5 +1,0 @@
-# Edit Weblate settings
-sed -i "s/ALLOWED_HOSTS.*/ALLOWED_HOSTS = ['*']/" /etc/weblate/settings.py
-sed -i "s/DEBUG =.*/DEBUG = False/" /etc/weblate/settings.py
-sed -i "s/'ENGINE': '.*/'ENGINE': 'django.db.backends.postgresql_psycopg2',/" /etc/weblate/settings.py
-sed -i "s/'NAME': 'weblate.db',/'NAME': 'weblate',/" /etc/weblate/settings.py

@@ -34,15 +34,6 @@ Installing from sources
 #. Configure webserver to serve Weblate, see :ref:`server`.
 
 
-Using prebuilt appliance
-------------------------
-
-#. Download the appliance and start it. You need to choose the appliance format depending on
-   your target environment.
-
-#. Everything should be set up immediately after boot, though you will want
-   to adjust some settings to improve security, see :ref:`appliance`.
-
 Installing using Docker
 -----------------------
 

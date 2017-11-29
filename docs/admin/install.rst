@@ -127,7 +127,6 @@ First choices include complete setup without relying on your system libraries:
 * :ref:`virtualenv`
 * :ref:`docker`
 * :ref:`openshift`
-* :ref:`appliance`
 
 You can also install Weblate directly on your system either fully using
 distribution packages (currently available for openSUSE only) or mixed setup.
