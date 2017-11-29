@@ -200,6 +200,19 @@ BACKGROUND_HOOKS
 Whether to run hooks in background. This is generally recommended unless you
 are debugging.
 
+.. setting:: BASE_DIR
+
+BASE_DIR
+--------
+
+Base directory where Weblate sources are located. This is used to derive
+several other paths by defalt:
+
+- :setting:`DATA_DIR`
+- :setting:`TTF_PATH`
+
+Default value: Toplevel directory of Weblate sources.
+
 .. setting:: CHECK_LIST
 
 CHECK_LIST
@@ -303,6 +316,10 @@ The following subdirectories usually exist:
     Fulltext search index using Whoosh engine.
 
 Defaults to ``$BASE_DIR/data``.
+
+.. seealso::
+
+    :setting:`BASE_DIR`
 
 .. setting:: DEFAULT_COMMITER_EMAIL
 
@@ -965,6 +982,10 @@ TTF_PATH
 Path to Droid fonts used for widgets and charts.
 
 Defaults to ``$BASE_DIR/weblate/ttf``.
+
+.. seealso::
+
+    :setting:`BASE_DIR`
 
 .. setting:: URL_PREFIX
 
