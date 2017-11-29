@@ -278,7 +278,7 @@ class MicrosoftTerminologyService(MachineTranslation):
         return response
 
     def download_languages(self):
-        """List of supported languages."""
+        """Get list of supported languages."""
         soap_action = 'GetLanguages'
         soap_target = 'GetLanguagesResult'
         soap_target_envelop = 'Code'
@@ -294,7 +294,7 @@ class MicrosoftTerminologyService(MachineTranslation):
         return languages
 
     def download_translations(self, source, language, text, unit, user):
-        """Download list of possible translations from a service."""
+        """Download list of possible translations from the service."""
         soap_action = 'GetTranslations'
         soap_target = 'GetTranslationsResult'
         soap_target_translated = 'TranslatedText'
