@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+from django.conf import settings
 
 
 class Migration(migrations.Migration):
@@ -14,6 +15,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='subproject',
             name='allow_translation_propagation',
-            field=models.BooleanField(default=True, help_text='Whether translation updates in other components will cause automatic translation in this one', db_index=True, verbose_name='Allow translation propagation'),
+            field=models.BooleanField(default=settings.DEFAULT_TRANSLATION_PROPAGATION, help_text='Whether translation updates in other components will cause automatic translation in this one', db_index=True, verbose_name='Allow translation propagation'),
         ),
     ]

@@ -3,6 +3,7 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
+from django.conf import settings
 
 
 class Migration(migrations.Migration):
@@ -15,7 +16,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='subproject',
             name='commit_pending_age',
-            field=models.IntegerField(default=24, help_text='Time in hours after which any pending changes will be committed to the VCS.', verbose_name='Age of changes to commit'),
+            field=models.IntegerField(default=settings.COMMIT_PENDING_HOURS, help_text='Time in hours after which any pending changes will be committed to the VCS.', verbose_name='Age of changes to commit'),
         ),
         migrations.AddField(
             model_name='subproject',
