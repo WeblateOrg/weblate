@@ -519,7 +519,7 @@ Follow generic upgrade instructions, there is no special change.
 
 Notable configuration or dependencies changes:
 
-* There is new validator included in defailt ``AUTH_PASSWORD_VALIDATORS`` setting.
+* There is new validator included in default ``AUTH_PASSWORD_VALIDATORS`` setting.
 * The ``siphashc3`` dependency has been replaced by ``siphashc``.
 * The default value for ``BASE_DIR`` setting has been changed to match Django
   default value. You might have to adjust some paths in the configuration as
