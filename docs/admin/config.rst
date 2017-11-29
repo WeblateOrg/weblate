@@ -962,6 +962,8 @@ TTF_PATH
 
 Path to Droid fonts used for widgets and charts.
 
+Defaults to ``$BASE_DIR/weblate/ttf``.
+
 .. setting:: URL_PREFIX
 
 URL_PREFIX
