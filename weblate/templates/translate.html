@@ -388,7 +388,7 @@
   <div class="panel-heading"><h4 class="panel-title">{% trans "Things to check" %}</h4></div>
   <div class="panel-body">
   {% if unit.suggestions %}
-  <div class="alert alert-warning check"><a href="#suggestions" data-toggle="tab" class="alert-link">{% trans "Suggestions" %}</a> <span class="badge pull-right flip">{{ unit.suggestions.count }}</span></div>
+  <div class="alert alert-{% if unit.approved %}danger{% else %}warning{% endif %} check"><a href="#suggestions" data-toggle="tab" class="alert-link">{% trans "Suggestions" %}</a> <span class="badge pull-right flip">{{ unit.suggestions.count }}</span></div>
   {% endif %}
   {% if others.count %}
   <div class="alert alert-warning check"><a href="#others" data-toggle="tab" class="alert-link">{% trans "Other translations" %}</a> <span class="badge pull-right flip">{{ others.count }}</span></div>
