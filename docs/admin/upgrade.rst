@@ -523,7 +523,8 @@ Notable configuration or dependencies changes:
 * The ``siphashc3`` dependency has been replaced by ``siphashc``.
 * The default value for ``BASE_DIR`` setting has been changed to match Django
   default value. You might have to adjust some paths in the configuration as
-  several default values are based on this (eg. :setting:`DATA_DIR`).
+  several default values are based on this (eg. :setting:`DATA_DIR` or
+  :setting:`TTF_PATH`).
 * There is change in ``SOCIAL_AUTH_PIPELINE`` default settings.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
