@@ -302,6 +302,8 @@ The following subdirectories usually exist:
 :file:`whoosh`
     Fulltext search index using Whoosh engine.
 
+Defaults to ``$BASE_DIR/data``.
+
 .. setting:: DEFAULT_COMMITER_EMAIL
 
 DEFAULT_COMMITER_EMAIL
