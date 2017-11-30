@@ -524,10 +524,15 @@ def get_state_badge(unit):
             _('Not translated'),
             'text-danger'
         )
+    elif unit.approved:
+        flag = (
+            _('Approved'),
+            'text-success'
+        )
     elif unit.translated:
         flag = (
             _('Translated'),
-            'text-success'
+            'text-primary'
         )
 
     if flag is None:
@@ -556,10 +561,15 @@ def get_state_flags(unit):
             _('Message has failing checks'),
             'exclamation-circle text-warning'
         ))
+    elif unit.approved:
+        flags.append((
+            _('Message is approved'),
+            'check-circle text-success'
+        ))
     elif unit.translated:
         flags.append((
             _('Message is translated'),
-            'check-circle text-success'
+            'check-circle text-primary'
         ))
 
     if unit.has_comment:
