@@ -430,6 +430,7 @@ class TranslationForm(ChecksumForm):
             (STATE_TRANSLATED, _('Waiting for review')),
             (STATE_APPROVED, _('Approved')),
         ),
+        required=False,
         widget=forms.RadioSelect
     )
 
@@ -474,7 +475,8 @@ class TranslationForm(ChecksumForm):
                 raise ValidationError(
                     _('Translation text too long!')
                 )
-        if can_review(self.user, self.cleaned_data['unit'].translation):
+        if (can_review(self.user, self.cleaned_data['unit'].translation)
+                and self.cleaned_data.get('review')):
             self.cleaned_data['state'] = int(self.cleaned_data['review'])
         elif self.cleaned_data['fuzzy']:
             self.cleaned_data['state'] = STATE_FUZZY
