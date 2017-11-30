@@ -495,6 +495,8 @@ did not (yet) receive deeper testing.
    
     :doc:`tt:formats/index`
 
+.. _new-translations:
+
 Adding new translations
 -----------------------
 
