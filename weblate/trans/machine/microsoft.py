@@ -98,9 +98,9 @@ class MicrosoftTranslation(MachineTranslation):
     def convert_language(self, language):
         """Convert language to service specific code."""
         language = language.replace('_', '-').lower()
-        if language == 'zh-tw':
+        if language in ('zh-tw', 'zh-hant'):
             return 'zh-CHT'
-        if language == 'zh-cn':
+        if language in ('zh-cn', 'zh-hans'):
             return 'zh-CHS'
         if language in ('nb', 'nb-no'):
             return 'no'
