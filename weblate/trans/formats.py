@@ -37,6 +37,7 @@ import six
 
 from translate.convert import po2php
 from translate.misc import quote
+from translate.misc.multistring import multistring
 from translate.storage.lisa import LISAfile
 from translate.storage.php import phpunit, phpfile
 from translate.storage.po import pounit, pofile
@@ -332,6 +333,8 @@ class FileUnit(object):
 
     def set_target(self, target):
         """Set translation unit target."""
+        if isinstance(target, list):
+            target = multistring(target)
         self.unit.settarget(target)
         # Propagate to value so that is_translated works correctly
         if self.is_unit_key_value():
