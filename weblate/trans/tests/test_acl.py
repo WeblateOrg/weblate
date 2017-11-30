@@ -77,7 +77,9 @@ class ACLViewTest(FixtureTestCase):
         response = self.client.get(self.access_url)
         self.assertEqual(response.status_code, 403)
         response = self.client.get(self.translate_url)
-        self.assertNotContains(response, 'type="submit" name="save"')
+        self.assertContains(
+            response, 'You don\'t have permission to save translation'
+        )
 
     def test_acl(self):
         """Regular user should not have access to user management.
