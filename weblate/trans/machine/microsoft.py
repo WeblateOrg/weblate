@@ -102,7 +102,7 @@ class MicrosoftTranslation(MachineTranslation):
             return 'zh-CHT'
         if language == 'zh-cn':
             return 'zh-CHS'
-        if language == 'nb':
+        if language in ('nb', 'nb-no'):
             return 'no'
         if language == 'pt-br':
             return 'pt'
