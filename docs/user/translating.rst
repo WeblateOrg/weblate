@@ -109,7 +109,7 @@ While translating you can use the following keyboard shortcuts:
     Unmarks translation as fuzzy and submits it.
 :kbd:`Ctrl+E` or :kbd:`⌘+E`
     Focus translation editor.
-:kbd:`Ctrl+T` or :kbd:`⌘+T`
+:kbd:`Ctrl+U` or :kbd:`⌘+U`
     Focus comment editor.
 :kbd:`Ctrl+M` or :kbd:`⌘+M`
     Shows machine translation tab.
@@ -123,10 +123,10 @@ While translating you can use the following keyboard shortcuts:
     Shows nearby strings tab.
 :kbd:`Ctrl+S` or :kbd:`⌘+S`
     Shows search tab.
-:kbd:`Ctrl+V` or :kbd:`⌘+V`
+:kbd:`Ctrl+O` or :kbd:`⌘+O`
     Copies source string
-:kbd:`Ctrl+F` or :kbd:`⌘+F`
-    Toggles fuzzy flag.
+:kbd:`Ctrl+T` or :kbd:`⌘+T`
+    Toggles edit needed flag.
 
 .. _visual-keyboard:
 

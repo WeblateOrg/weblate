@@ -756,8 +756,8 @@ $(function () {
             Mousetrap.bindGlobal(['ctrl+pagedown', 'command+pagedown'], function(e) {window.location = $('#button-next').attr('href'); return false;});
             Mousetrap.bindGlobal(['ctrl+pageup', 'command+pageup'], function(e) {window.location = $('#button-prev').attr('href'); return false;});
             Mousetrap.bindGlobal(['ctrl+home', 'command+home'], function(e) {window.location = $('#button-first').attr('href'); return false;});
-            Mousetrap.bindGlobal(['ctrl+v', 'command+v'], function(e) {$('.translation-item .copy-text').click(); return false;});
-            Mousetrap.bindGlobal(['ctrl+f', 'command+f'], function(e) {$('input[name="fuzzy"]').click(); return false;});
+            Mousetrap.bindGlobal(['ctrl+o', 'command+o'], function(e) {$('.translation-item .copy-text').click(); return false;});
+            Mousetrap.bindGlobal(['ctrl+t', 'command+t'], function(e) {$('input[name="fuzzy"]').click(); return false;});
             Mousetrap.bindGlobal(
                 ['ctrl+shift+enter', 'command+shift+enter'],
                 function(e) {$('input[name="fuzzy"]').prop('checked', false); return submitForm(e);}
@@ -778,7 +778,7 @@ $(function () {
                 }
             );
             Mousetrap.bindGlobal(
-                ['ctrl+t', 'command+t'],
+                ['ctrl+u', 'command+u'],
                 function(e) {
                     $('.nav [href="#comments"]').click();
                     $('textarea[name="comment"]').focus();
