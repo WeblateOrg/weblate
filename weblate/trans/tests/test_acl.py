@@ -78,7 +78,7 @@ class ACLViewTest(FixtureTestCase):
         self.assertEqual(response.status_code, 403)
         response = self.client.get(self.translate_url)
         self.assertContains(
-            response, 'You don\'t have permission to save translation'
+            response, 'You don\'t have privileges to save translations!'
         )
 
     def test_acl(self):
