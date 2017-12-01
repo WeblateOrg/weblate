@@ -26,7 +26,7 @@ from weblate.lang.models import Language
 
 
 class Command(BaseCommand):
-    help = 'Checks language definitions against rst/csv file'
+    help = 'List language definitions'
 
     def add_arguments(self, parser):
         parser.add_argument(
