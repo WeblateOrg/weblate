@@ -629,6 +629,7 @@ $(function () {
         selector: '.html-tooltip',
         html: true
     });
+    $('.text-tooltip').tooltip();
 
     /* Hiding spam protection field */
     $('#s_content').hide();
@@ -1296,4 +1297,16 @@ $(function () {
             window.localStorage[$this.data('persist')] = JSON.stringify(data);
         });
     }
+
+    /* Copy to clipboard */
+    var clipboard = new Clipboard('[data-clipboard-text]');
+    clipboard.on('success', function(e) {
+        var $trigger = $(e.trigger);
+        // Backup current text
+        var backup = $trigger.attr('data-original-title');
+        // Change text to copied
+        $trigger.attr('data-original-title', gettext('Copied!')).tooltip('show');
+        // Restore original
+        $trigger.attr('data-original-title', backup);
+    });
 });

@@ -12,6 +12,7 @@ Released on ? 2017.
 * Changed keyboard shortcuts to less likely collide with browser/system ones.
 * Improved support for approved flag in Xliff files.
 * Added support for not wrapping long strings in Gettext po files.
+* Added button to copy permalink for current translation.
 
 weblate 2.17.1
 --------------

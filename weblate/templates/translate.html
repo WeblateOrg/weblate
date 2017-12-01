@@ -73,6 +73,8 @@
 <div class="panel {% if unit.approved %}panel-success{% elif unit.translation.is_template %}panel-warning{% else %}panel-primary{% endif %}">
 
   <div class="panel-heading"><span class="pull-right flip">
+  <i class="fa fa-link text-tooltip" data-toggle="tooltip" data-placement="bottom" data-clipboard-text="{{ site_url }}{{ unit.get_absolute_url }}" title="{% trans "Copy permalink" %}"></i>
+  &nbsp;
   <i class="fa fa-keyboard-o html-tooltip" data-toggle="tooltip" data-placement="bottom"
     data-title="{% trans "Keyboard shortcuts available:"%}<br />
     {% trans "Ctrl+Enter - Save" %}<br />
