@@ -342,16 +342,16 @@ def handle_translate(translation, request, user_locked,
 
 def handle_merge(translation, request, next_unit_url):
     """Handle unit merging."""
+    mergeform = MergeForm(translation, request.GET)
+    if not mergeform.is_valid():
+        messages.error(request, _('Invalid merge request!'))
+        return
+
     if not can_translate(request.user, translation):
         messages.error(
             request,
             _('You don\'t have privileges to save translations!')
         )
-        return
-
-    mergeform = MergeForm(translation, request.GET)
-    if not mergeform.is_valid():
-        messages.error(request, _('Invalid merge request!'))
         return
 
     unit = mergeform.cleaned_data['unit']
@@ -370,16 +370,16 @@ def handle_merge(translation, request, next_unit_url):
 
 
 def handle_revert(translation, request, next_unit_url):
+    revertform = RevertForm(translation, request.GET)
+    if not revertform.is_valid():
+        messages.error(request, _('Invalid revert request!'))
+        return
+
     if not can_translate(request.user, translation):
         messages.error(
             request,
             _('You don\'t have privileges to save translations!')
         )
-        return
-
-    revertform = RevertForm(translation, request.GET)
-    if not revertform.is_valid():
-        messages.error(request, _('Invalid revert request!'))
         return
 
     unit = revertform.cleaned_data['unit']
@@ -791,13 +791,13 @@ def save_zen(request, project, subproject, lang):
     form = TranslationForm(
         request.user, translation, None, request.POST
     )
-    if not can_translate(request.user, translation):
+    if not form.is_valid():
+        messages.error(request, _('Failed to save translation!'))
+    elif not can_translate(request.user, translation):
         messages.error(
             request,
             _('You don\'t have privileges to save translations!')
         )
-    elif not form.is_valid():
-        messages.error(request, _('Failed to save translation!'))
     elif not user_locked:
         unit = form.cleaned_data['unit']
 
