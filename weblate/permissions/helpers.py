@@ -156,6 +156,8 @@ def can_translate(user, unit=None, translation=None, project=None):
         return has_group_perm(user, 'trans.save_translation', project=project)
     if unit is not None:
         translation = unit.translation
+        if unit.approved and not can_review(user, translation):
+            return False
     return can_edit(user, translation, 'trans.save_translation')
 
 
@@ -182,6 +184,8 @@ def can_accept_suggestion(user, unit=None, translation=None):
     """Check whether user can accept suggestions to given translation."""
     if unit is not None:
         translation = unit.translation
+        if unit.approved and not can_review(user, translation):
+            return False
     return can_edit(user, translation, 'trans.accept_suggestion')
 
 
@@ -203,6 +207,8 @@ def can_vote_suggestion(user, unit=None, translation=None):
     """Check whether user can vote suggestions on given translation."""
     if unit is not None:
         translation = unit.translation
+        if unit.approved and not can_review(user, translation):
+            return False
     if not translation.subproject.suggestion_voting:
         return False
     if translation.subproject.locked:
