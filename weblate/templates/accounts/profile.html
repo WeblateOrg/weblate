@@ -316,7 +316,7 @@
 <tr>
 <td>{{ log.timestamp|naturaltime }}</td>
 <td>{{ log.get_message }}</td>
-{% if not demo_server or user.username != 'demo' %}
+{% if not demo_server or user.username in demo_accounts %}
 <td>{{ log.address }}</td>
 <td>{{ log.user_agent }}</td>
 {% else %}
