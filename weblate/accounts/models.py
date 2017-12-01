@@ -49,6 +49,7 @@ from weblate.trans.signals import user_pre_delete
 from weblate.utils.validators import validate_editor
 from weblate.utils.decorators import disable_for_loaddata
 
+DEMO_ACCOUNTS = ('demo', 'review')
 
 ACCOUNT_ACTIVITY = {
     'password': _(
