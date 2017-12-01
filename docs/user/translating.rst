@@ -15,7 +15,7 @@ There are also some options for translation project visibility:
 * It can be publicly visible and anybody can contribute
 * It can be visible only to certain group of translators
 
-Plase see :doc:`workflows` for more information about translation workflow.
+Plase see :ref:`workflows` for more information about translation workflow.
 
 .. _strings-to-check:
 

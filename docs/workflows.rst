@@ -1,3 +1,5 @@
+.. _workflows:
+
 Translation workflows
 =====================
 
