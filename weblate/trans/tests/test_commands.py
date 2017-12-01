@@ -27,14 +27,13 @@ from six import StringIO
 from django.test import TestCase
 from django.core.management import call_command
 from django.core.management.base import CommandError
-from django.contrib.auth.models import User
 
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.models import (
     Translation, SubProject, Suggestion, IndexUpdate
 )
 from weblate.runner import main
-from weblate.trans.tests.utils import get_test_file
+from weblate.trans.tests.utils import get_test_file, create_test_user
 from weblate.trans.vcs import HgRepository
 from weblate.accounts.models import Profile
 
@@ -624,11 +623,7 @@ class SuggestionCommandTest(RepoTestCase):
         self.subproject = self.create_subproject()
 
     def test_add_suggestions(self):
-        user = User.objects.create_user(
-            'testuser',
-            'weblate@example.org',
-            'testpassword'
-        )
+        user = create_test_user()
         call_command(
             'add_suggestions', 'test', 'test', 'cs', TEST_PO,
             author=user.email

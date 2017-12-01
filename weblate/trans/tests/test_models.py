@@ -39,7 +39,9 @@ from weblate.trans.models import (
 import weblate.trans.models.subproject
 from weblate.lang.models import Language
 from weblate.permissions.helpers import can_access_project
-from weblate.trans.tests.utils import get_test_file, RepoTestMixin
+from weblate.trans.tests.utils import (
+    get_test_file, RepoTestMixin, create_test_user,
+)
 
 
 def fixup_languages_seq():
@@ -120,11 +122,7 @@ class ProjectTest(RepoTestCase):
     def test_acl(self):
         """Test for ACL handling."""
         # Create user to verify ACL
-        user = User.objects.create_user(
-            'testuser',
-            'noreply@example.com',
-            'testpassword'
-        )
+        user = create_test_user()
 
         # Create project
         project = self.create_project()

@@ -25,6 +25,7 @@ from tarfile import TarFile
 from unittest import SkipTest
 
 from django.conf import settings
+from django.contrib.auth.models import User
 
 from weblate.trans.formats import FILE_FORMATS
 from weblate.trans.models import Project, SubProject
@@ -50,6 +51,15 @@ def remove_readonly(func, path, _):
     "Clear the readonly bit and reattempt the removal"
     os.chmod(path, stat.S_IWRITE)
     func(path)
+
+
+def create_test_user():
+    return User.objects.create_user(
+        'testuser',
+        'noreply@weblate.org',
+        'testpassword',
+        first_name='Weblate Test',
+    )
 
 
 class RepoTestMixin(object):

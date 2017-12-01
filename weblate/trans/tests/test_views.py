@@ -28,7 +28,7 @@ from six.moves.urllib.parse import urlsplit
 from PIL import Image
 
 from django.test.client import RequestFactory
-from django.contrib.auth.models import Group, User, Permission
+from django.contrib.auth.models import Group, Permission
 from django.core.urlresolvers import reverse
 from django.contrib.messages.storage.fallback import FallbackStorage
 from django.core.management import call_command
@@ -39,6 +39,7 @@ from weblate.trans.models import (
     ComponentList, WhiteboardMessage, Project, setup_group_acl,
 )
 from weblate.trans.tests.test_models import RepoTestCase
+from weblate.trans.tests.utils import create_test_user
 from weblate.accounts.models import Profile
 
 
@@ -70,12 +71,7 @@ class ViewTestCase(RepoTestCase):
         # Many tests needs access to the request factory.
         self.factory = RequestFactory()
         # Create user
-        self.user = User.objects.create_user(
-            'testuser',
-            'noreply@weblate.org',
-            'testpassword',
-            first_name='Weblate Test',
-        )
+        self.user = create_test_user()
         group = Group.objects.get(name='Users')
         self.user.groups.add(group)
         # Create project to have some test base

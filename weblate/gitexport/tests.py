@@ -23,7 +23,6 @@ import shutil
 import subprocess
 import tempfile
 
-from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http.request import HttpRequest
 
@@ -32,7 +31,7 @@ from weblate.gitexport.models import get_export_url
 from weblate.trans.models import Project
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.trans.tests.utils import RepoTestMixin
+from weblate.trans.tests.utils import RepoTestMixin, create_test_user
 
 
 class GitExportTest(ViewTestCase):
@@ -156,12 +155,7 @@ class GitCloneTest(BaseLiveServerTestCase, RepoTestMixin):
         self.subproject = self.create_subproject()
         self.subproject.project.access_control = Project.ACCESS_PRIVATE
         self.subproject.project.save()
-        self.user = User.objects.create_user(
-            'testuser',
-            'noreply@weblate.org',
-            'testpassword',
-            first_name='Weblate Test',
-        )
+        self.user = create_test_user()
 
     def test_clone(self):
         testdir = tempfile.mkdtemp()
