@@ -64,6 +64,11 @@ This is also default setup in Weblate.
 | Reviewers group        | N/A        | not used                            |
 +------------------------+------------+-------------------------------------+
 
+.. warning::
+
+    As a project admin, you still can approve translations. In this case none
+    of the users will be able to edit it later.
+
 Peer review
 -----------
 
@@ -88,6 +93,11 @@ from additional member before it is accepted as a translation.
 +------------------------+------------+-------------------------------------+
 | Reviewers group        | N/A        | not used, all translators review    |
 +------------------------+------------+-------------------------------------+
+
+.. warning::
+
+    As a project admin, you still can approve translations. In this case none
+    of the users will be able to edit it later.
 
 Dedicated reviewers
 -------------------
