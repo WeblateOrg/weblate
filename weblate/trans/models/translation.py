@@ -1083,8 +1083,6 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                 not_found += 1
                 continue
 
-                continue
-
             if ((unit.translated and not overwrite)
                     or (not can_translate(request.user, unit))):
                 skipped += 1
