@@ -24,11 +24,16 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Count
 from django.utils.encoding import python_2_unicode_compatible
+from django.utils.translation import ugettext as _
 
 from weblate.accounts.notifications import notify_new_suggestion
 from weblate.lang.models import Language
+from weblate.permissions.helpers import (
+    can_accept_suggestion, can_vote_suggestion
+)
 from weblate.trans.models.change import Change
 from weblate.trans.mixins import UserDisplayMixin
+from weblate.utils import messages
 
 
 class SuggestionManager(models.Manager):
@@ -138,19 +143,26 @@ class Suggestion(models.Model, UserDisplayMixin):
             self.user.username if self.user else 'unknown',
         )
 
-    def accept(self, translation, request):
+    def accept(self, translation, request, check=can_accept_suggestion):
         from weblate.trans.models.unit import STATE_TRANSLATED
         allunits = translation.unit_set.filter(
             content_hash=self.content_hash,
         )
+        failure = False
         for unit in allunits:
+            if not check(request.user, unit):
+                failure = True
+                messages.error(request, _('Failed to accept suggestion!'))
+                continue
+
             unit.target = self.target
             unit.state = STATE_TRANSLATED
             unit.save_backend(
                 request, change_action=Change.ACTION_ACCEPT, user=self.user
             )
 
-        self.delete()
+        if not failure:
+            self.delete()
 
     def delete_log(self, user, change=Change.ACTION_SUGGESTION_DELETE):
         """Delete with logging change"""
@@ -191,7 +203,7 @@ class Suggestion(models.Model, UserDisplayMixin):
         # Automatic accepting
         required_votes = translation.subproject.suggestion_autoaccept
         if required_votes and self.get_num_votes() >= required_votes:
-            self.accept(translation, request)
+            self.accept(translation, request, can_vote_suggestion)
 
 
 @python_2_unicode_compatible

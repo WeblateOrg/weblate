@@ -178,8 +178,10 @@ def can_review(user, translation):
 
 
 @cache_permission
-def can_accept_suggestion(user, translation):
+def can_accept_suggestion(user, unit=None, translation=None):
     """Check whether user can accept suggestions to given translation."""
+    if unit is not None:
+        translation = unit.translation
     return can_edit(user, translation, 'trans.accept_suggestion')
 
 
@@ -197,8 +199,10 @@ def can_delete_suggestion(user, translation, suggestion):
 
 
 @cache_permission
-def can_vote_suggestion(user, translation):
+def can_vote_suggestion(user, unit=None, translation=None):
     """Check whether user can vote suggestions on given translation."""
+    if unit is not None:
+        translation = unit.translation
     if not translation.subproject.suggestion_voting:
         return False
     if translation.subproject.locked:

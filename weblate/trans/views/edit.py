@@ -232,7 +232,7 @@ def perform_suggestion(unit, form, request):
         unit,
         join_plural(form.cleaned_data['target']),
         request,
-        can_vote_suggestion(request.user, unit.translation)
+        can_vote_suggestion(request.user, unit)
     )
     if not result:
         messages.error(request, _('Your suggestion already exists!'))
@@ -398,7 +398,7 @@ def handle_revert(translation, request, next_unit_url):
 def check_suggest_permissions(request, mode, translation, suggestion):
     """Check permission for suggestion handling."""
     if mode in ('accept', 'accept_edit'):
-        if not can_accept_suggestion(request.user, translation):
+        if not can_accept_suggestion(request.user, translation=translation):
             messages.error(
                 request,
                 _('You do not have privilege to accept suggestions!')
@@ -412,7 +412,7 @@ def check_suggest_permissions(request, mode, translation, suggestion):
             )
             return False
     elif mode in ('upvote', 'downvote'):
-        if not can_vote_suggestion(request.user, translation):
+        if not can_vote_suggestion(request.user, translation=translation):
             messages.error(
                 request,
                 _('You do not have privilege to vote for suggestions!')

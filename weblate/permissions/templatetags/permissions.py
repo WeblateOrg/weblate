@@ -52,9 +52,9 @@ def can_review(user, translation):
 
 
 @register.assignment_tag
-def can_accept_suggestion(user, translation):
+def can_accept_suggestion(user, unit):
     return weblate.permissions.helpers.can_accept_suggestion(
-        user, translation
+        user, unit
     )
 
 
@@ -66,9 +66,9 @@ def can_delete_suggestion(user, translation, suggestion):
 
 
 @register.assignment_tag
-def can_vote_suggestion(user, translation):
+def can_vote_suggestion(user, unit):
     return weblate.permissions.helpers.can_vote_suggestion(
-        user, translation
+        user, unit
     )
 
 
