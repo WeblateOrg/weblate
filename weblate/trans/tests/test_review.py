@@ -22,11 +22,6 @@
 Tests for review workflow.
 """
 
-
-from django.conf import settings
-from django.core.urlresolvers import reverse
-
-from weblate.trans.models import Suggestion
 from weblate.trans.models.unit import STATE_APPROVED
 from weblate.trans.tests.test_views import ViewTestCase
 
