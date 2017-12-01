@@ -144,7 +144,8 @@ def can_upload_translation(user, translation):
     actually store the uploaded translations.
     """
     return can_edit(user, translation, 'trans.upload_translation') and (
-        can_translate(user, translation=translation) or can_suggest(user, translation)
+        can_translate(user, translation=translation)
+        or can_suggest(user, translation)
     )
 
 
@@ -217,7 +218,10 @@ def can_use_mt(user, translation):
         return False
     if not has_group_perm(user, 'trans.use_mt', translation):
         return False
-    return can_translate(user, translation=translation) or can_suggest(user, translation)
+    return (
+        can_translate(user, translation=translation)
+        or can_suggest(user, translation)
+    )
 
 
 @cache_permission

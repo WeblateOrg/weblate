@@ -520,17 +520,18 @@ def translate(request, project, subproject, lang):
     elif (request.method == 'POST' and
           (not project_locked or 'delete' in request.POST)):
 
-        # Handle accepting/deleting suggestions
         if ('accept' not in request.POST and
                 'accept_edit' not in request.POST and
                 'delete' not in request.POST and
                 'upvote' not in request.POST and
                 'downvote' not in request.POST):
+            # Handle translation
             response = handle_translate(
                 translation, request, user_locked,
                 this_unit_url, next_unit_url
             )
         elif not locked or 'delete' in request.POST:
+            # Handle accepting/deleting suggestions
             response = handle_suggestions(
                 translation, request, this_unit_url, next_unit_url,
             )

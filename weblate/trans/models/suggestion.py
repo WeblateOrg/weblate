@@ -152,7 +152,7 @@ class Suggestion(models.Model, UserDisplayMixin):
 
         self.delete()
 
-    def delete_log(self, user, change=Change.ACTION_SUGGESTION_DELETE,):
+    def delete_log(self, user, change=Change.ACTION_SUGGESTION_DELETE):
         """Delete with logging change"""
         from weblate.trans.models import get_related_units
         allunits = get_related_units(self)

@@ -107,6 +107,8 @@ def search_replace(request, project, subproject=None, lang=None):
         updated = matching.count()
 
         for unit in matching.iterator():
+            if not can_translate(request.user, unit):
+                continue
             unit.target = unit.target.replace(search_text, replacement)
             unit.save_backend(request, change_action=Change.ACTION_REPLACE)
 

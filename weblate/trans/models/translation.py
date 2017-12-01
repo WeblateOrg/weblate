@@ -37,6 +37,7 @@ from django.utils import timezone
 from django.core.urlresolvers import reverse
 
 from weblate.lang.models import Language
+from weblate.permissions.helpers import can_translate
 from weblate.trans.formats import ParseError, try_load
 from weblate.trans.checks import CHECKS
 from weblate.trans.models.unit import (
@@ -1082,7 +1083,10 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                 not_found += 1
                 continue
 
-            if unit.translated and not overwrite:
+                continue
+
+            if ((unit.translated and not overwrite)
+                    or (not can_translate(request.user, unit))):
                 skipped += 1
                 continue
 
