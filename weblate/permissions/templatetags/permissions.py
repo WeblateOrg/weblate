@@ -31,9 +31,9 @@ def can_upload_translation(user, translation):
 
 
 @register.assignment_tag
-def can_translate(user, translation):
+def can_translate(user, unit=None, translation=None):
     return weblate.permissions.helpers.can_translate(
-        user, translation
+        user, unit, translation
     )
 
 

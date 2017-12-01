@@ -580,7 +580,7 @@ def get_upload_form(user, translation, *args):
     else:
         form = SimpleUploadForm
     result = form(*args)
-    if not can_translate(user, translation):
+    if not can_translate(user, translation=translation):
         result.remove_translation_choice('translate')
         result.remove_translation_choice('fuzzy')
     if not can_suggest(user, translation):

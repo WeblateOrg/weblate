@@ -444,7 +444,7 @@ def show_translation(request, project, subproject, lang):
         )
 
     replace_form = None
-    if can_translate(request.user, obj):
+    if can_translate(request.user, translation=obj):
         replace_form = ReplaceForm()
 
     return render(

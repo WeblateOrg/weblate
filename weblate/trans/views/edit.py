@@ -316,7 +316,7 @@ def handle_translate(translation, request, user_locked,
 
     if 'suggest' in request.POST:
         go_next = perform_suggestion(unit, form, request)
-    elif not can_translate(request.user, unit.translation):
+    elif not can_translate(request.user, unit):
         messages.error(
             request,
             _('You don\'t have privileges to save translations!')
@@ -347,15 +347,15 @@ def handle_merge(translation, request, next_unit_url):
         messages.error(request, _('Invalid merge request!'))
         return
 
-    if not can_translate(request.user, translation):
+    unit = mergeform.cleaned_data['unit']
+    merged = mergeform.cleaned_data['merge_unit']
+
+    if not can_translate(request.user, unit):
         messages.error(
             request,
             _('You don\'t have privileges to save translations!')
         )
         return
-
-    unit = mergeform.cleaned_data['unit']
-    merged = mergeform.cleaned_data['merge_unit']
 
     # Store unit
     unit.target = merged.target
@@ -375,15 +375,15 @@ def handle_revert(translation, request, next_unit_url):
         messages.error(request, _('Invalid revert request!'))
         return
 
-    if not can_translate(request.user, translation):
+    unit = revertform.cleaned_data['unit']
+    change = revertform.cleaned_data['revert_change']
+
+    if not can_translate(request.user, unit):
         messages.error(
             request,
             _('You don\'t have privileges to save translations!')
         )
         return
-
-    unit = revertform.cleaned_data['unit']
-    change = revertform.cleaned_data['revert_change']
 
     if change.target == "":
         messages.error(request, _('Can not revert to empty translation!'))
@@ -793,7 +793,7 @@ def save_zen(request, project, subproject, lang):
     )
     if not form.is_valid():
         messages.error(request, _('Failed to save translation!'))
-    elif not can_translate(request.user, translation):
+    elif not can_translate(request.user, form.cleaned_data['unit']):
         messages.error(
             request,
             _('You don\'t have privileges to save translations!')
