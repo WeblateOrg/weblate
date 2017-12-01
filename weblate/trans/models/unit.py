@@ -33,6 +33,7 @@ from django.utils.translation import ugettext as _
 from django.core.cache import cache
 
 from weblate.accounts.models import get_author_name
+from weblate.permissions.helpers import can_translate
 from weblate.trans.checks import CHECKS
 from weblate.trans.models.source import Source
 from weblate.trans.models.check import Check
@@ -639,6 +640,8 @@ class Unit(models.Model, LoggerMixin):
             translation__subproject__allow_translation_propagation=True
         )
         for unit in allunits:
+            if not can_translate(request.user, unit):
+                continue
             unit.target = self.target
             unit.state = self.state
             unit.save_backend(request, False, change_action=change_action)
