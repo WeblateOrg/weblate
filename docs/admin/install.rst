@@ -68,7 +68,7 @@ django_compressor (>= 2.1.1)
     https://github.com/django-compressor/django-compressor
 django-crispy-forms (>= 1.6.1)
     https://django-crispy-forms.readthedocs.io/
-Django REST Framework (>=3.4)
+Django REST Framework (>=3.7)
     http://www.django-rest-framework.org/
 libravatar (optional for federated avatar support)
     You need to additionally install pydns (on Python 2) or py3dns (on Python 3)

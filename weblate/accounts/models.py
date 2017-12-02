@@ -35,7 +35,6 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.utils.crypto import get_random_string
-from django.utils.deprecation import CallableFalse, CallableTrue
 from django.utils.translation import LANGUAGE_SESSION_KEY
 
 from rest_framework.authtoken.models import Token
@@ -107,22 +106,18 @@ NOTIFY_ACTIVITY = frozenset((
 
 
 class WeblateAnonymousUser(User):
-    """Proxy model to customize User behavior.
-
-    TODO: Remove Callable* return values and replace them with booleans once
-    djangp-rest-framework supports this (changed in Django 1.10).
-    """
+    """Proxy model to customize User behavior."""
 
     class Meta:
         proxy = True
 
     @property
     def is_authenticated(self):
-        return CallableFalse
+        return False
 
     @property
     def is_anonymous(self):
-        return CallableTrue
+        return True
 
 
 def get_anonymous():
