@@ -34,7 +34,7 @@ from django.utils.translation import ugettext as _, ugettext_lazy
 from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.core.mail import mail_admins
 from django.core.exceptions import ValidationError
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.core.cache import cache
 from django.utils import timezone
 

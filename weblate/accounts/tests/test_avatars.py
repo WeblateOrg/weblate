@@ -25,7 +25,7 @@ Tests for user handling.
 from io import BytesIO
 from unittest import SkipTest
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.contrib.auth.models import User
 
 import httpretty

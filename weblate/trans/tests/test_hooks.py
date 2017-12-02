@@ -20,7 +20,7 @@
 
 """Test for notification hooks."""
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.test.utils import override_settings
 
 from weblate.trans.tests.test_views import ViewTestCase

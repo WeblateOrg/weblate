@@ -23,7 +23,7 @@ import shutil
 import subprocess
 import tempfile
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.http.request import HttpRequest
 
 from weblate.gitexport.views import authenticate

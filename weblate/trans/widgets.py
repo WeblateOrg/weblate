@@ -26,7 +26,7 @@ try:
 except ImportError:
     from django.utils.encoding import force_text as get_display
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils.translation import ugettext as _, pgettext, get_language
 from django.template.loader import render_to_string
 

@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from weblate.screenshots.models import Screenshot
 from weblate.trans.tests.test_views import FixtureTestCase

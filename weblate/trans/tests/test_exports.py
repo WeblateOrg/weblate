@@ -24,7 +24,7 @@ Tests for data exports.
 
 import json
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from weblate.trans.tests.test_views import FixtureTestCase
 

@@ -22,7 +22,7 @@ from django.conf import settings
 from django.contrib.syndication.views import Feed
 from django.utils.translation import ugettext as _
 from django.shortcuts import get_object_or_404
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from weblate.trans.models import Change
 from weblate.lang.models import Language

@@ -34,7 +34,7 @@ from django.core.cache import caches, InvalidCacheBackendError
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.utils.translation import pgettext
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 try:
     import libravatar  # pylint: disable=import-error

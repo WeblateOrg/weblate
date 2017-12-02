@@ -24,7 +24,7 @@ from django.views.generic.list import ListView
 from django.http import Http404, HttpResponse
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _, activate, pgettext
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db.models import Q
 from django.core.exceptions import PermissionDenied
 from django.utils.http import urlencode

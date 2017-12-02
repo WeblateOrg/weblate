@@ -29,7 +29,7 @@ import os.path
 from unittest import TestCase
 from whoosh.filedb.filestore import FileStorage
 from whoosh.fields import Schema, ID, TEXT
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.test.utils import override_settings
 from django.http import QueryDict
 

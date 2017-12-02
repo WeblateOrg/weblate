@@ -24,7 +24,7 @@ from django.test import TestCase
 from django.test.utils import override_settings
 
 from django.core.exceptions import ImproperlyConfigured
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from weblate.trans.models import Translation
 from weblate.trans.tests.test_views import FixtureTestCase

@@ -20,7 +20,7 @@
 
 """Test for settings management."""
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from weblate.trans.models import Project, SubProject
 from weblate.trans.tests.test_views import ViewTestCase

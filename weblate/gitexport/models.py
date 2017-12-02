@@ -18,7 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.dispatch import receiver
 from django.db.models.signals import post_save, pre_save
 

@@ -22,7 +22,7 @@
 Tests for changes browsing.
 """
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from weblate.trans.tests.test_views import ViewTestCase
 

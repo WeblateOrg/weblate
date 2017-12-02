@@ -27,7 +27,7 @@ from base64 import b64encode
 from six.moves.http_client import HTTPConnection
 import django
 from django.test.utils import override_settings
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.core import mail
 try:
     from selenium import webdriver

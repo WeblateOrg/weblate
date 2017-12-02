@@ -20,7 +20,7 @@
 
 """Test for automatic translation"""
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.core.management import call_command
 from django.core.management.base import CommandError
 

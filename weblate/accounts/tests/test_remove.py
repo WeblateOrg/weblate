@@ -21,7 +21,7 @@
 """Test for account removal."""
 
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from weblate.trans.tests.test_views import ViewTestCase, RegistrationTestMixin
 

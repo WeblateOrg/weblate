@@ -20,7 +20,7 @@
 
 from django.http import HttpResponse, Http404
 from django.shortcuts import redirect
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.views.decorators.vary import vary_on_cookie
 from django.views.decorators.cache import cache_page
 

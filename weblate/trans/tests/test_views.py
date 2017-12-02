@@ -29,7 +29,7 @@ from PIL import Image
 
 from django.test.client import RequestFactory
 from django.contrib.auth.models import Group, Permission
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.contrib.messages.storage.fallback import FallbackStorage
 from django.core.management import call_command
 from django.core import mail

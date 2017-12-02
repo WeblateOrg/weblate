@@ -20,7 +20,7 @@
 
 """Test for locking."""
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.models.subproject import SubProject

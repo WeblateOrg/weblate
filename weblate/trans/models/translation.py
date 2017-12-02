@@ -34,7 +34,7 @@ from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.core.exceptions import ValidationError
 from django.core.cache import cache
 from django.utils import timezone
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from weblate.lang.models import Language
 from weblate.permissions.helpers import can_translate

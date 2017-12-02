@@ -23,7 +23,7 @@
 from __future__ import unicode_literals
 import time
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.models import Change

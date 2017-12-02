@@ -33,7 +33,7 @@ from django.core.exceptions import PermissionDenied
 from django.utils.translation import (
     ugettext_lazy as _, ugettext, pgettext_lazy, pgettext
 )
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.forms.utils import from_current_timezone
 from django.utils import timezone
 from django.utils.safestring import mark_safe

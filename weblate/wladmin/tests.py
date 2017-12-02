@@ -21,7 +21,7 @@
 import os
 
 from django.conf import settings
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.util import add_configuration_error

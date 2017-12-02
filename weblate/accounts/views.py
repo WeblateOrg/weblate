@@ -39,7 +39,7 @@ from django.views.generic import TemplateView, ListView
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils.http import urlencode
 from django.template.loader import render_to_string
 

@@ -20,7 +20,7 @@
 
 from django.contrib.auth.models import User, Group
 from django.core.files import File
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from rest_framework.test import APITestCase
 

@@ -23,7 +23,7 @@
 from __future__ import unicode_literals
 
 from django.contrib.messages import ERROR
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file

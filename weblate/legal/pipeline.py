@@ -19,7 +19,7 @@
 #
 from __future__ import unicode_literals
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.shortcuts import redirect
 from django.utils.http import urlencode
 

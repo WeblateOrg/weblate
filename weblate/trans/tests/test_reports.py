@@ -23,7 +23,7 @@ from __future__ import unicode_literals
 from datetime import timedelta
 import json
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils import timezone
 
 from weblate.trans.tests.test_views import ViewTestCase

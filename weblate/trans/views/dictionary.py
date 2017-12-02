@@ -27,7 +27,7 @@ from django.utils.translation import ugettext as _, ungettext
 from django.http import JsonResponse
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator, EmptyPage
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.template.loader import render_to_string
 from django.utils.http import urlencode
 from django.views.decorators.cache import never_cache
