@@ -20,6 +20,7 @@
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
+from django.urls import reverse
 from django.utils.encoding import python_2_unicode_compatible
 
 from weblate.trans.validators import validate_check_flags
@@ -90,9 +91,8 @@ class Source(models.Model):
             translation__subproject=self.subproject
         )
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('review_source', (), {
+        return reverse('review_source', kwargs={
             'project': self.subproject.project.slug,
             'subproject': self.subproject.slug,
         })

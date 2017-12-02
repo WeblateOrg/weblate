@@ -28,6 +28,7 @@ from django.conf import settings
 from django.db import models, transaction
 from django.db.models import Q
 from django.db.utils import OperationalError
+from django.urls import reverse
 from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.utils.translation import (
     ugettext as _, ugettext_lazy, pgettext_lazy,
@@ -505,11 +506,8 @@ class Language(models.Model, PercentMixin):
             )
         )
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('show_language', (), {
-            'lang': self.code
-        })
+        return reverse('show_language', kwargs={'lang': self.code })
 
     def _get_percents(self, lang=None):
         """Return percentages of translation status."""

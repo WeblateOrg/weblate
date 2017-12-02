@@ -377,9 +377,8 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             )
         )
 
-    @models.permalink
     def get_translate_url(self):
-        return ('translate', (), {
+        return reverse('translate', kwargs={
             'project': self.subproject.project.slug,
             'subproject': self.subproject.slug,
             'lang': self.language.code

@@ -21,6 +21,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.urls import reverse
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
@@ -54,6 +55,5 @@ class Screenshot(models.Model):
     def __str__(self):
         return self.name
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('screenshot', (), {'pk': self.pk})
+        return reverse('screenshot', kwargs={'pk': self.pk})

@@ -33,6 +33,7 @@ from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
 from django.contrib.auth.models import User
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.crypto import get_random_string
 from django.utils.translation import LANGUAGE_SESSION_KEY
@@ -467,11 +468,8 @@ class Profile(models.Model):
     def get_user_name(self):
         return get_user_display(self.user, False)
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('user_page', (), {
-            'user': self.user.username
-        })
+        return reverse('user_page', kwargs={'user': self.user.username})
 
     @property
     def last_change(self):

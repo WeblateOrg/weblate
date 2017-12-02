@@ -209,12 +209,10 @@ class Dictionary(models.Model):
             self.target
         )
 
-    @models.permalink
     def get_absolute_url(self):
-        return (
+        return reverse(
             'edit_dictionary',
-            (),
-            {
+            kwargs={
                 'project': self.project.slug,
                 'lang': self.language.code,
                 'pk': self.id,
