@@ -268,7 +268,7 @@ def documentation(page, anchor=''):
     return weblate.get_doc_url(page, anchor)
 
 
-@register.assignment_tag
+@register.simple_tag
 def doc_url(page, anchor=''):
     """Return link to Weblate documentation."""
     return weblate.get_doc_url(page, anchor)
@@ -663,7 +663,7 @@ def active_link(context, slug):
     return ''
 
 
-@register.assignment_tag
+@register.simple_tag
 def matching_cotentsum(item):
     """Find matching objects to suggestion, comment or check"""
     return Unit.objects.prefetch().filter(
