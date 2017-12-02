@@ -56,7 +56,7 @@ def remove_readonly(func, path, _):
 def create_test_user():
     return User.objects.create_user(
         'testuser',
-        'noreply@weblate.org',
+        'weblate@example.org',
         'testpassword',
         first_name='Weblate Test',
     )
