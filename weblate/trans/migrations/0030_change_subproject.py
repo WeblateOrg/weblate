@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='change',
             name='subproject',
-            field=models.ForeignKey(to='trans.SubProject', null=True),
+            field=models.ForeignKey(to='trans.SubProject', null=True, on_delete=models.deletion.CASCADE),
         ),
     ]

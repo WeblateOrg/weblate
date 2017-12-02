@@ -63,9 +63,15 @@ class CommentManager(models.Manager):
 class Comment(models.Model, UserDisplayMixin):
     content_hash = models.BigIntegerField(db_index=True)
     comment = models.TextField()
-    user = models.ForeignKey(User, null=True, blank=True)
-    project = models.ForeignKey('Project')
-    language = models.ForeignKey(Language, null=True, blank=True)
+    user = models.ForeignKey(
+        User, null=True, blank=True, on_delete=models.deletion.CASCADE
+    )
+    project = models.ForeignKey(
+        'Project', on_delete=models.deletion.CASCADE
+    )
+    language = models.ForeignKey(
+        Language, null=True, blank=True, on_delete=models.deletion.CASCADE
+    )
     timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
 
     objects = CommentManager()

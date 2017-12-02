@@ -80,6 +80,7 @@ class AutoComponentList(models.Model):
     componentlist = models.ForeignKey(
         ComponentList,
         verbose_name=_('Component list to assign'),
+        on_delete=models.deletion.CASCADE,
     )
 
     def __str__(self):

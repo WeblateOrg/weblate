@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='indexupdate',
             name='unit',
-            field=models.OneToOneField(to='trans.Unit'),
+            field=models.OneToOneField(to='trans.Unit', on_delete=models.deletion.CASCADE),
             preserve_default=True,
         ),
     ]

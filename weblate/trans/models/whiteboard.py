@@ -71,18 +71,21 @@ class WhiteboardMessage(models.Model):
         verbose_name=ugettext_lazy('Project'),
         null=True,
         blank=True,
+        on_delete=models.deletion.CASCADE,
     )
     subproject = models.ForeignKey(
         'SubProject',
         verbose_name=ugettext_lazy('Component'),
         null=True,
-        blank=True
+        blank=True,
+        on_delete=models.deletion.CASCADE,
     )
     language = models.ForeignKey(
         Language,
         verbose_name=ugettext_lazy('Language'),
         null=True,
-        blank=True
+        blank=True,
+        on_delete=models.deletion.CASCADE,
     )
     category = models.CharField(
         max_length=25,

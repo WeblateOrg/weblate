@@ -17,9 +17,9 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('groups', models.ManyToManyField(to='auth.Group')),
-                ('language', models.ForeignKey(blank=True, to='lang.Language', null=True)),
-                ('project', models.ForeignKey(blank=True, to='trans.Project', null=True)),
-                ('subproject', models.ForeignKey(blank=True, to='trans.SubProject', null=True)),
+                ('language', models.ForeignKey(blank=True, to='lang.Language', null=True, on_delete=models.deletion.CASCADE)),
+                ('project', models.ForeignKey(blank=True, to='trans.Project', null=True, on_delete=models.deletion.CASCADE)),
+                ('subproject', models.ForeignKey(blank=True, to='trans.SubProject', null=True, on_delete=models.deletion.CASCADE)),
             ],
             options={
                 'verbose_name': 'Group ACL',

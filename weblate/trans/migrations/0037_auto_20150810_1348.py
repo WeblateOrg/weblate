@@ -21,6 +21,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='project',
             name='owner',
-            field=models.ForeignKey(related_name='old_owned_projects', blank=True, to=settings.AUTH_USER_MODEL, help_text='Owner of the project.', null=True, verbose_name='Owner'),
+            field=models.ForeignKey(related_name='old_owned_projects', blank=True, to=settings.AUTH_USER_MODEL, help_text='Owner of the project.', null=True, verbose_name='Owner', on_delete=models.deletion.CASCADE),
         ),
     ]

@@ -45,9 +45,24 @@ class GroupACL(models.Model):
     groups = models.ManyToManyField(Group)
 
     # avoid importing Project and SubProject because of circular dependency
-    project = models.ForeignKey('trans.Project', null=True, blank=True)
-    subproject = models.ForeignKey('trans.SubProject', null=True, blank=True)
-    language = models.ForeignKey(Language, null=True, blank=True)
+    project = models.ForeignKey(
+        'trans.Project',
+        null=True,
+        blank=True,
+        on_delete=models.deletion.CASCADE,
+    )
+    subproject = models.ForeignKey(
+        'trans.SubProject',
+        null=True,
+        blank=True,
+        on_delete=models.deletion.CASCADE,
+    )
+    language = models.ForeignKey(
+        Language,
+        null=True,
+        blank=True,
+        on_delete=models.deletion.CASCADE,
+    )
     permissions = models.ManyToManyField(
         Permission,
         verbose_name=_('Filtered permissions'),
@@ -108,6 +123,7 @@ class AutoGroup(models.Model):
     group = models.ForeignKey(
         Group,
         verbose_name=_('Group to assign'),
+        on_delete=models.deletion.CASCADE,
     )
 
     class Meta(object):

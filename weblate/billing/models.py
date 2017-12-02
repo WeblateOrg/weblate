@@ -62,8 +62,13 @@ class Billing(models.Model):
     STATE_TRIAL = 1
     STATE_EXPIRED = 2
 
-    plan = models.ForeignKey(Plan)
-    user = models.OneToOneField(User)
+    plan = models.ForeignKey(
+        Plan,
+        on_delete=models.deletion.CASCADE
+    )
+    user = models.OneToOneField(
+        User, on_delete=models.deletion.CASCADE
+    )
     projects = models.ManyToManyField(Project, blank=True)
     state = models.IntegerField(
         choices=(
@@ -226,7 +231,10 @@ class Invoice(models.Model):
     CURRENCY_USD = 2
     CURRENCY_CZK = 3
 
-    billing = models.ForeignKey(Billing)
+    billing = models.ForeignKey(
+        Billing,
+        on_delete=models.deletion.CASCADE
+    )
     start = models.DateField()
     end = models.DateField()
     payment = models.FloatField()

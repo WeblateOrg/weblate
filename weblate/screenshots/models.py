@@ -41,7 +41,8 @@ class Screenshot(models.Model):
         upload_to='screenshots/',
     )
     component = models.ForeignKey(
-        SubProject
+        SubProject,
+        on_delete=models.deletion.CASCADE,
     )
     sources = models.ManyToManyField(
         Source,

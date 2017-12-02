@@ -40,7 +40,7 @@ class Migration(migrations.Migration):
                 ('timestamp', models.DateTimeField(auto_now_add=True, db_index=True)),
                 ('action', models.IntegerField(default=2, choices=[(0, 'Resource update'), (1, 'Translation completed'), (2, 'Translation changed'), (5, 'New translation'), (3, 'Comment added'), (4, 'Suggestion added'), (6, 'Automatic translation'), (7, 'Suggestion accepted'), (8, 'Translation reverted'), (9, 'Translation uploaded'), (10, 'Glossary added'), (11, 'Glossary updated'), (12, 'Glossary uploaded'), (13, 'New source string')])),
                 ('target', models.TextField(default=b'', blank=True)),
-                ('author', models.ForeignKey(related_name=b'author_set', to=settings.AUTH_USER_MODEL, null=True)),
+                ('author', models.ForeignKey(related_name=b'author_set', to=settings.AUTH_USER_MODEL, null=True, on_delete=models.deletion.CASCADE)),
             ],
             options={
                 'ordering': ['-timestamp'],
@@ -54,7 +54,7 @@ class Migration(migrations.Migration):
                 ('contentsum', models.CharField(max_length=40, db_index=True)),
                 ('check', models.CharField(max_length=20, choices=[(b'end_space', 'Trailing space'), (b'inconsistent', 'Inconsistent'), (b'begin_newline', 'Starting newline'), (b'zero-width-space', 'Zero-width space'), (b'escaped_newline', 'Mismatched \\n'), (b'same', 'Not translated'), (b'end_question', 'Trailing question'), (b'end_ellipsis', 'Trailing ellipsis'), (b'ellipsis', 'Ellipsis'), (b'python_brace_format', 'Python brace format'), (b'end_newline', 'Trailing newline'), (b'c_format', 'C format'), (b'optional_plural', 'Optional plural'), (b'end_exclamation', 'Trailing exclamation'), (b'end_colon', 'Trailing colon'), (b'xml-tags', 'XML tags mismatch'), (b'python_format', 'Python format'), (b'plurals', 'Missing plurals'), (b'begin_space', 'Starting spaces'), (b'bbcode', 'Mismatched BBcode'), (b'multiple_failures', 'Multiple failing checks'), (b'php_format', 'PHP format'), (b'end_stop', 'Trailing stop')])),
                 ('ignore', models.BooleanField(default=False, db_index=True)),
-                ('language', models.ForeignKey(blank=True, to='lang.Language', null=True)),
+                ('language', models.ForeignKey(blank=True, to='lang.Language', null=True, on_delete=models.deletion.CASCADE)),
             ],
             options={
                 'permissions': (('ignore_check', 'Can ignore check results'),),
@@ -68,7 +68,7 @@ class Migration(migrations.Migration):
                 ('contentsum', models.CharField(max_length=40, db_index=True)),
                 ('comment', models.TextField()),
                 ('timestamp', models.DateTimeField(auto_now_add=True, db_index=True)),
-                ('language', models.ForeignKey(blank=True, to='lang.Language', null=True)),
+                ('language', models.ForeignKey(blank=True, to='lang.Language', null=True, on_delete=models.deletion.CASCADE)),
             ],
             options={
                 'ordering': ['timestamp'],
@@ -81,7 +81,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('source', models.CharField(max_length=100, db_index=True)),
                 ('target', models.CharField(max_length=100)),
-                ('language', models.ForeignKey(to='lang.Language')),
+                ('language', models.ForeignKey(to='lang.Language', on_delete=models.deletion.CASCADE)),
             ],
             options={
                 'ordering': ['source'],
@@ -162,7 +162,7 @@ class Migration(migrations.Migration):
                 ('suggestion_voting', models.BooleanField(default=False, help_text='Whether users can vote for suggestions.', verbose_name='Suggestion voting')),
                 ('suggestion_autoaccept', models.PositiveSmallIntegerField(default=0, help_text='Automatically accept suggestions with this number of votes, use 0 to disable.', verbose_name='Autoaccept suggestions', validators=[weblate.trans.validators.validate_autoaccept])),
                 ('check_flags', models.TextField(default=b'', help_text='Additional comma-separated flags to influence quality checks, check documentation for possible values.', blank=True, verbose_name='Quality checks flags', validators=[weblate.trans.validators.validate_check_flags])),
-                ('project', models.ForeignKey(verbose_name='Project', to='trans.Project')),
+                ('project', models.ForeignKey(verbose_name='Project', to='trans.Project', on_delete=models.deletion.CASCADE)),
             ],
             options={
                 'ordering': ['project__name', 'name'],
@@ -176,9 +176,9 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('contentsum', models.CharField(max_length=40, db_index=True)),
                 ('target', models.TextField()),
-                ('language', models.ForeignKey(to='lang.Language')),
-                ('project', models.ForeignKey(to='trans.Project')),
-                ('user', models.ForeignKey(blank=True, to=settings.AUTH_USER_MODEL, null=True)),
+                ('language', models.ForeignKey(to='lang.Language', on_delete=models.deletion.CASCADE)),
+                ('project', models.ForeignKey(to='trans.Project', on_delete=models.deletion.CASCADE)),
+                ('user', models.ForeignKey(blank=True, to=settings.AUTH_USER_MODEL, null=True, on_delete=models.deletion.CASCADE)),
             ],
             options={
                 'permissions': (('accept_suggestion', 'Can accept suggestion'), ('override_suggestion', 'Can override suggestion state'), ('vote_suggestion', 'Can vote for suggestion')),
@@ -204,9 +204,9 @@ class Migration(migrations.Migration):
                 ('language_code', models.CharField(default=b'', max_length=20)),
                 ('lock_time', models.DateTimeField(default=django.utils.timezone.now)),
                 ('commit_message', models.TextField(default=b'', blank=True)),
-                ('language', models.ForeignKey(to='lang.Language')),
-                ('lock_user', models.ForeignKey(default=None, blank=True, to=settings.AUTH_USER_MODEL, null=True)),
-                ('subproject', models.ForeignKey(to='trans.SubProject')),
+                ('language', models.ForeignKey(to='lang.Language', on_delete=models.deletion.CASCADE)),
+                ('lock_user', models.ForeignKey(default=None, blank=True, to=settings.AUTH_USER_MODEL, null=True, on_delete=models.deletion.CASCADE)),
+                ('subproject', models.ForeignKey(to='trans.SubProject', on_delete=models.deletion.CASCADE)),
             ],
             options={
                 'ordering': ['language__name'],
@@ -235,7 +235,7 @@ class Migration(migrations.Migration):
                 ('has_failing_check', models.BooleanField(default=False, db_index=True)),
                 ('num_words', models.IntegerField(default=0)),
                 ('priority', models.IntegerField(default=100, db_index=True)),
-                ('translation', models.ForeignKey(to='trans.Translation')),
+                ('translation', models.ForeignKey(to='trans.Translation', on_delete=models.deletion.CASCADE)),
             ],
             options={
                 'ordering': ['priority', 'position'],
@@ -248,8 +248,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('positive', models.BooleanField(default=True)),
-                ('suggestion', models.ForeignKey(to='trans.Suggestion')),
-                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('suggestion', models.ForeignKey(to='trans.Suggestion', on_delete=models.deletion.CASCADE)),
+                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.deletion.CASCADE)),
             ],
             options={
             },
@@ -282,7 +282,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='source',
             name='subproject',
-            field=models.ForeignKey(to='trans.SubProject'),
+            field=models.ForeignKey(to='trans.SubProject', on_delete=models.deletion.CASCADE),
             preserve_default=True,
         ),
         migrations.AlterUniqueTogether(
@@ -292,31 +292,31 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='indexupdate',
             name='unit',
-            field=models.ForeignKey(to='trans.Unit', unique=True),
+            field=models.ForeignKey(to='trans.Unit', unique=True, on_delete=models.deletion.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='dictionary',
             name='project',
-            field=models.ForeignKey(to='trans.Project'),
+            field=models.ForeignKey(to='trans.Project', on_delete=models.deletion.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='comment',
             name='project',
-            field=models.ForeignKey(to='trans.Project'),
+            field=models.ForeignKey(to='trans.Project', on_delete=models.deletion.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='comment',
             name='user',
-            field=models.ForeignKey(blank=True, to=settings.AUTH_USER_MODEL, null=True),
+            field=models.ForeignKey(blank=True, to=settings.AUTH_USER_MODEL, null=True, on_delete=models.deletion.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='check',
             name='project',
-            field=models.ForeignKey(to='trans.Project'),
+            field=models.ForeignKey(to='trans.Project', on_delete=models.deletion.CASCADE),
             preserve_default=True,
         ),
         migrations.AlterUniqueTogether(
@@ -326,25 +326,25 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='change',
             name='dictionary',
-            field=models.ForeignKey(to='trans.Dictionary', null=True),
+            field=models.ForeignKey(to='trans.Dictionary', null=True, on_delete=models.deletion.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='change',
             name='translation',
-            field=models.ForeignKey(to='trans.Translation', null=True),
+            field=models.ForeignKey(to='trans.Translation', null=True, on_delete=models.deletion.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='change',
             name='unit',
-            field=models.ForeignKey(to='trans.Unit', null=True),
+            field=models.ForeignKey(to='trans.Unit', null=True, on_delete=models.deletion.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='change',
             name='user',
-            field=models.ForeignKey(to=settings.AUTH_USER_MODEL, null=True),
+            field=models.ForeignKey(to=settings.AUTH_USER_MODEL, null=True, on_delete=models.deletion.CASCADE),
             preserve_default=True,
         ),
         migrations.AlterIndexTogether(

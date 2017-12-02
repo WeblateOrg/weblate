@@ -389,7 +389,9 @@ class UnitQuerySet(models.QuerySet):
 @python_2_unicode_compatible
 class Unit(models.Model, LoggerMixin):
 
-    translation = models.ForeignKey('Translation')
+    translation = models.ForeignKey(
+        'Translation', on_delete=models.deletion.CASCADE
+    )
     id_hash = models.BigIntegerField(db_index=True)
     content_hash = models.BigIntegerField(db_index=True)
     location = models.TextField(default='', blank=True)

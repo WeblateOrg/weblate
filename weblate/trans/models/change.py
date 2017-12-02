@@ -280,12 +280,24 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_FAILED_PUSH,
     ))
 
-    unit = models.ForeignKey('Unit', null=True)
-    subproject = models.ForeignKey('SubProject', null=True)
-    translation = models.ForeignKey('Translation', null=True)
-    dictionary = models.ForeignKey('Dictionary', null=True)
-    user = models.ForeignKey(User, null=True)
-    author = models.ForeignKey(User, null=True, related_name='author_set')
+    unit = models.ForeignKey(
+        'Unit', null=True, on_delete=models.deletion.CASCADE
+    )
+    subproject = models.ForeignKey(
+        'SubProject', null=True, on_delete=models.deletion.CASCADE
+    )
+    translation = models.ForeignKey(
+        'Translation', null=True, on_delete=models.deletion.CASCADE
+    )
+    dictionary = models.ForeignKey(
+        'Dictionary', null=True, on_delete=models.deletion.CASCADE
+    )
+    user = models.ForeignKey(
+        User, null=True, on_delete=models.deletion.CASCADE
+    )
+    author = models.ForeignKey(
+        User, null=True, related_name='author_set', on_delete=models.deletion.CASCADE
+    )
     timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
     action = models.IntegerField(
         choices=ACTION_CHOICES,

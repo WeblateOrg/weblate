@@ -187,8 +187,8 @@ class DictionaryManager(models.Manager):
 
 @python_2_unicode_compatible
 class Dictionary(models.Model):
-    project = models.ForeignKey(Project)
-    language = models.ForeignKey(Language)
+    project = models.ForeignKey(Project, on_delete=models.deletion.CASCADE)
+    language = models.ForeignKey(Language, on_delete=models.deletion.CASCADE)
     source = models.CharField(max_length=190, db_index=True)
     target = models.CharField(max_length=190)
 

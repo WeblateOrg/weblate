@@ -16,6 +16,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='project',
             name='source_language',
-            field=models.ForeignKey(default=weblate.lang.models.get_english_lang, verbose_name='Source language', to='lang.Language', help_text='Language used for source strings in all components'),
+            field=models.ForeignKey(default=weblate.lang.models.get_english_lang, verbose_name='Source language', to='lang.Language', help_text='Language used for source strings in all components', on_delete=models.deletion.CASCADE),
         ),
     ]

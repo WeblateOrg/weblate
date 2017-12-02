@@ -32,8 +32,12 @@ CHECK_CHOICES = [(x, CHECKS[x].name) for x in CHECKS]
 @python_2_unicode_compatible
 class Check(models.Model):
     content_hash = models.BigIntegerField(db_index=True)
-    project = models.ForeignKey('Project')
-    language = models.ForeignKey(Language, null=True, blank=True)
+    project = models.ForeignKey(
+        'Project', on_delete=models.deletion.CASCADE
+    )
+    language = models.ForeignKey(
+        Language, null=True, blank=True, on_delete=models.deletion.CASCADE
+    )
     check = models.CharField(max_length=50, choices=CHECK_CHOICES)
     ignore = models.BooleanField(db_index=True, default=False)
 

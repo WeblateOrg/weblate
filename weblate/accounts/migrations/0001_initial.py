@@ -32,7 +32,7 @@ class Migration(migrations.Migration):
                 ('languages', models.ManyToManyField(to='lang.Language', verbose_name='Languages', blank=True)),
                 ('secondary_languages', models.ManyToManyField(related_name=b'secondary_profile_set', verbose_name='Secondary languages', to='lang.Language', blank=True)),
                 ('subscriptions', models.ManyToManyField(to='trans.Project', verbose_name='Subscribed projects')),
-                ('user', models.OneToOneField(editable=False, to=settings.AUTH_USER_MODEL)),
+                ('user', models.OneToOneField(editable=False, to=settings.AUTH_USER_MODEL, on_delete=models.deletion.CASCADE)),
             ],
             options={
             },
@@ -43,7 +43,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('email', models.EmailField(max_length=75)),
-                ('social', models.ForeignKey(to='social_django.UserSocialAuth')),
+
+                ('social', models.ForeignKey(to='social_django.UserSocialAuth', on_delete=models.deletion.CASCADE)),
             ],
             options={
             },

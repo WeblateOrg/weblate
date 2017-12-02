@@ -144,6 +144,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     project = models.ForeignKey(
         'Project',
         verbose_name=ugettext_lazy('Project'),
+        on_delete=models.deletion.CASCADE,
     )
     vcs = models.CharField(
         verbose_name=ugettext_lazy('Version control system'),

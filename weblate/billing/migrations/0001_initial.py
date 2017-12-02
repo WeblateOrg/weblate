@@ -37,7 +37,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='billing',
             name='plan',
-            field=models.ForeignKey(to='billing.Plan'),
+            field=models.ForeignKey(to='billing.Plan', on_delete=models.deletion.CASCADE),
         ),
         migrations.AddField(
             model_name='billing',
@@ -47,6 +47,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='billing',
             name='user',
-            field=models.OneToOneField(to=settings.AUTH_USER_MODEL),
+            field=models.OneToOneField(to=settings.AUTH_USER_MODEL, on_delete=models.deletion.CASCADE),
         ),
     ]

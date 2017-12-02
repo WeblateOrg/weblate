@@ -189,7 +189,10 @@ class AuditLogQuerySet(models.QuerySet):
 class AuditLog(models.Model):
     """User audit log storage."""
 
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(
+        User,
+        on_delete=models.deletion.CASCADE,
+    )
     activity = models.CharField(
         max_length=20,
         choices=[(a, a) for a in sorted(ACCOUNT_ACTIVITY.keys())],
@@ -229,7 +232,10 @@ class AuditLog(models.Model):
 class VerifiedEmail(models.Model):
     """Storage for verified emails from auth backends."""
 
-    social = models.ForeignKey(UserSocialAuth)
+    social = models.ForeignKey(
+        UserSocialAuth,
+        on_delete=models.deletion.CASCADE,
+    )
     email = models.EmailField(max_length=254)
 
     def __str__(self):
@@ -307,7 +313,9 @@ class ProfileManager(models.Manager):
 class Profile(models.Model):
     """User profiles storage."""
 
-    user = models.OneToOneField(User, unique=True, editable=False)
+    user = models.OneToOneField(
+        User, unique=True, editable=False, on_delete=models.deletion.CASCADE
+    )
     language = models.CharField(
         verbose_name=_('Interface Language'),
         max_length=10,
@@ -401,6 +409,7 @@ class Profile(models.Model):
     dashboard_component_list = models.ForeignKey(
         'trans.ComponentList',
         verbose_name=_('Default component list'),
+        on_delete=models.deletion.CASCADE,
         blank=True,
         null=True,
     )

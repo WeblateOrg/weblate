@@ -115,9 +115,15 @@ class SuggestionManager(models.Manager):
 class Suggestion(models.Model, UserDisplayMixin):
     content_hash = models.BigIntegerField(db_index=True)
     target = models.TextField()
-    user = models.ForeignKey(User, null=True, blank=True)
-    project = models.ForeignKey('Project')
-    language = models.ForeignKey(Language)
+    user = models.ForeignKey(
+        User, null=True, blank=True, on_delete=models.deletion.CASCADE
+    )
+    project = models.ForeignKey(
+        'Project', on_delete=models.deletion.CASCADE
+    )
+    language = models.ForeignKey(
+        Language, on_delete=models.deletion.CASCADE
+    )
     timestamp = models.DateTimeField(auto_now_add=True)
 
     votes = models.ManyToManyField(
@@ -209,8 +215,12 @@ class Suggestion(models.Model, UserDisplayMixin):
 @python_2_unicode_compatible
 class Vote(models.Model):
     """Suggestion voting."""
-    suggestion = models.ForeignKey(Suggestion)
-    user = models.ForeignKey(User)
+    suggestion = models.ForeignKey(
+        Suggestion, on_delete=models.deletion.CASCADE
+    )
+    user = models.ForeignKey(
+        User, on_delete=models.deletion.CASCADE
+    )
     positive = models.BooleanField(default=True)
 
     class Meta(object):

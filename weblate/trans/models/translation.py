@@ -130,8 +130,12 @@ class TranslationQuerySet(models.QuerySet):
 
 @python_2_unicode_compatible
 class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
-    subproject = models.ForeignKey('SubProject')
-    language = models.ForeignKey(Language)
+    subproject = models.ForeignKey(
+        'SubProject', on_delete=models.deletion.CASCADE
+    )
+    language = models.ForeignKey(
+        Language, on_delete=models.deletion.CASCADE
+    )
     revision = models.CharField(max_length=100, default='', blank=True)
     filename = models.CharField(max_length=200)
 
@@ -154,7 +158,10 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
     language_code = models.CharField(max_length=20, default='', blank=True)
 
-    lock_user = models.ForeignKey(User, null=True, blank=True, default=None)
+    lock_user = models.ForeignKey(
+        User, null=True, blank=True, default=None,
+        on_delete=models.deletion.CASCADE,
+    )
     lock_time = models.DateTimeField(default=timezone.now)
 
     commit_message = models.TextField(default='', blank=True)

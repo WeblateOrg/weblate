@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='project',
             name='owner',
-            field=models.ForeignKey(blank=True, to=settings.AUTH_USER_MODEL, help_text='Owner of the project.', null=True),
+            field=models.ForeignKey(blank=True, to=settings.AUTH_USER_MODEL, help_text='Owner of the project.', null=True, on_delete=models.deletion.CASCADE),
             preserve_default=True,
         ),
     ]

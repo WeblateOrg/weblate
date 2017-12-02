@@ -30,7 +30,9 @@ from weblate.trans.util import PRIORITY_CHOICES
 @python_2_unicode_compatible
 class Source(models.Model):
     id_hash = models.BigIntegerField(db_index=True)
-    subproject = models.ForeignKey('SubProject')
+    subproject = models.ForeignKey(
+        'SubProject', on_delete=models.deletion.CASCADE
+    )
     timestamp = models.DateTimeField(auto_now_add=True)
     priority = models.IntegerField(
         default=100,

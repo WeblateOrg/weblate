@@ -151,6 +151,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
             'Language used for source strings in all components'
         ),
         default=get_english_lang,
+        on_delete=models.deletion.CASCADE,
     )
 
     objects = ProjectManager()
