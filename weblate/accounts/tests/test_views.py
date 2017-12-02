@@ -360,7 +360,7 @@ class ProfileTest(FixtureTestCase):
                 'languages': Language.objects.get(code='cs').id,
                 'secondary_languages': Language.objects.get(code='cs').id,
                 'first_name': 'First Last',
-                'email': 'noreply@weblate.org',
+                'email': 'weblate@example.org',
                 'username': 'testik',
                 'dashboard_view': Profile.DASHBOARD_WATCHED,
             }
