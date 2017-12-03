@@ -25,6 +25,7 @@ import sys
 # For some reasons, this fails in PyLint sometimes...
 # pylint: disable=E0611,F0401
 from distutils.version import LooseVersion
+from django.core.exceptions import ImproperlyConfigured
 from weblate.trans.vcs import (
     GitRepository, HgRepository, SubversionRepository, GitWithGerritRepository,
     GithubRepository,
@@ -41,7 +42,7 @@ def get_version_module(module, name, url, optional=False):
     except ImportError:
         if optional:
             return None
-        raise Exception(
+        raise ImproperlyConfigured(
             'Failed to import {0}, please install {1} from {2}'.format(
                 module.replace('.__version__', ''),
                 name,
@@ -222,7 +223,7 @@ def get_versions():
             '1.6',
         ))
     except OSError:
-        raise Exception('Failed to run git, please install it.')
+        raise ImproperlyConfigured('Failed to run git, please install it.')
 
     result.append(get_single(
         'Pillow (PIL)',
@@ -291,7 +292,7 @@ def check_requirements():
         failure |= check_version(*version)
 
     if failure:
-        raise Exception(
+        raise ImproperlyConfigured(
             'Some of required modules are missing or too old! '
             'Check above output for details.'
         )
