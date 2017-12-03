@@ -778,13 +778,19 @@ urlpatterns = [
 
     # Admin interface
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-    url(r'^admin/', include(weblate.wladmin.sites.SITE.urls)),
+    url(
+        r'^admin/',
+        include(
+            (weblate.wladmin.sites.SITE.urls, 'weblate.wladmin'),
+            namespace='admin'
+        )
+    ),
 
     # Auth
     url(r'^accounts/', include(weblate.accounts.urls)),
 
     # Auth
-    url(r'^api/', include(weblate.api.urls, namespace='api')),
+    url(r'^api/', include((weblate.api.urls, 'weblate.api'), namespace='api')),
 
     # Static pages
     url(r'^contact/', weblate.accounts.views.contact, name='contact'),
@@ -1032,7 +1038,10 @@ if 'weblate.legal' in settings.INSTALLED_APPS:
     # pylint: disable=C0413
     import weblate.legal.views
     urlpatterns += [
-        url(r'^legal/', include('weblate.legal.urls', namespace='legal')),
+        url(
+            r'^legal/',
+            include(('weblate.legal.urls', 'weblate.legal'), namespace='legal')
+        ),
     ]
 
 if settings.DEBUG:
