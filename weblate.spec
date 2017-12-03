@@ -17,7 +17,7 @@ BuildRequires:  graphviz
 BuildRequires:  graphviz-gd
 BuildRequires:  mercurial
 BuildRequires:  python-Babel
-BuildRequires:  python-Django >= 1.10
+BuildRequires:  python-Django >= 1.11
 BuildRequires:  python-Pillow
 BuildRequires:  python-Sphinx
 BuildRequires:  python-dateutil
@@ -40,7 +40,7 @@ Requires:       cron
 Requires:       git
 Requires:       python-Babel
 Requires:       python-defusedxml
-Requires:       python-Django >= 1.10
+Requires:       python-Django >= 1.11
 Requires:       python-django_compressor >= 2.1.1
 Requires:       python-djangorestframework >= 3.3
 Requires:       python-Pillow
