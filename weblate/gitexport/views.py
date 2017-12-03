@@ -122,7 +122,7 @@ def git_export(request, project, subproject, path):
     try:
         obj = get_subproject(request, project, subproject)
     except Http404:
-        if not request.user.is_authenticated():
+        if not request.user.is_authenticated:
             return response_authenticate()
         raise
     if not can_access_vcs(request.user, obj.project):

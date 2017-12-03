@@ -88,5 +88,5 @@ urlpatterns = [
     url(r'^login/$', weblate.accounts.views.weblate_login, name='login'),
     url(r'^register/$', weblate.accounts.views.register, name='register'),
     url(r'^email/$', weblate.accounts.views.email_login, name='email_login'),
-    url(r'', include(social_urls, namespace='social')),
+    url(r'', include((social_urls, 'social_auth'), namespace='social')),
 ]
