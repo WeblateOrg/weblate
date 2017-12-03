@@ -87,7 +87,7 @@ class WeblateUserBackend(ModelBackend):
         user_groups = user_obj.groups.filter(groupacl=None)
         return Permission.objects.filter(group__in=user_groups)
 
-    def authenticate(self, username=None, password=None, **kwargs):
+    def authenticate(self, request, username=None, password=None, **kwargs):
         """Prohibit login for anonymous user and allows to login by email."""
         if username == settings.ANONYMOUS_USER_NAME or username is None:
             return None
