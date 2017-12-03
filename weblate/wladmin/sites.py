@@ -183,6 +183,10 @@ class WeblateAdminSite(AdminSite):
         ]
         return urls
 
+    @property
+    def urls(self):
+        return self.get_urls()
+
 
 SITE = WeblateAdminSite()
 SITE.discover()

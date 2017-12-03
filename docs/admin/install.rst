@@ -36,7 +36,7 @@ Weblate is written in `Python <https://www.python.org/>`_ and supports Python
 2.7, 3.4 or newer. The following dependencies can be installed using pip or your
 distribution packages:
     
-Django (>= 1.10)
+Django (>= 1.11)
     https://www.djangoproject.com/
 siphashc (>= 0.8)
     https://github.com/WeblateOrg/siphashc
