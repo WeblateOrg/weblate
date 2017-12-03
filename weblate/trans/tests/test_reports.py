@@ -38,7 +38,7 @@ COUNTS_DATA = [{
     'words': 2,
     'words_edit': 0,
     'words_new': 2,
-    'email': 'noreply@weblate.org'
+    'email': 'weblate@example.org'
 }]
 
 
@@ -71,7 +71,7 @@ class ReportsTest(ViewTestCase):
         )
         self.assertEqual(
             data,
-            [{'Czech': [('noreply@weblate.org', 'Weblate Test')]}]
+            [{'Czech': [('weblate@example.org', 'Weblate Test')]}]
         )
 
     def test_credits_more(self):
@@ -98,14 +98,14 @@ class ReportsTest(ViewTestCase):
         data = json.loads(response.content.decode('utf-8'))
         self.assertEqual(
             data,
-            [{'Czech': [['noreply@weblate.org', 'Weblate Test']]}]
+            [{'Czech': [['weblate@example.org', 'Weblate Test']]}]
         )
 
     def test_credits_view_rst(self):
         response = self.get_credits('rst')
         self.assertEqual(
             response.content.decode('utf-8'),
-            '\n\n* Czech\n\n    * Weblate Test <noreply@weblate.org>\n\n'
+            '\n\n* Czech\n\n    * Weblate Test <weblate@example.org>\n\n'
         )
 
     def test_credits_view_html(self):
@@ -114,7 +114,7 @@ class ReportsTest(ViewTestCase):
             response.content.decode('utf-8'),
             '<table>\n'
             '<tr>\n<th>Czech</th>\n'
-            '<td><ul><li><a href="mailto:noreply@weblate.org">'
+            '<td><ul><li><a href="mailto:weblate@example.org">'
             'Weblate Test</a></li></ul></td>\n</tr>\n'
             '</table>'
         )
@@ -159,7 +159,7 @@ class ReportsTest(ViewTestCase):
 
     def test_counts_view_rst(self):
         response = self.get_counts('rst')
-        self.assertContains(response, 'noreply@weblate.org')
+        self.assertContains(response, 'weblate@example.org')
 
     def test_counts_view_html(self):
         response = self.get_counts('html')
@@ -173,7 +173,7 @@ class ReportsTest(ViewTestCase):
             '</tr>'
             '\n'
             '<tr>\n<td>Weblate Test</td>\n'
-            '<td>noreply@weblate.org</td>\n'
+            '<td>weblate@example.org</td>\n'
             '<td>2</td>\n<td>1</td>\n'
             '<td>2</td>\n<td>1</td>\n'
             '<td>0</td>\n<td>0</td>\n'
