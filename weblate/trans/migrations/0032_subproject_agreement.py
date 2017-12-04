@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='subproject',
             name='agreement',
-            field=models.TextField(default=b'', help_text='Agreement which needs to be approved before user can translate this component.', verbose_name='Contributor agreement', blank=True),
+            field=models.TextField(default='', help_text='Agreement which needs to be approved before user can translate this component.', verbose_name='Contributor agreement', blank=True),
         ),
     ]

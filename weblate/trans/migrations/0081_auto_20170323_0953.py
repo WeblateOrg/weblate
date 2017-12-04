@@ -16,11 +16,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='autocomponentlist',
             name='component_match',
-            field=weblate.trans.fields.RegexField(default=b'^$', help_text='Regular expression which is used to match component slug.', max_length=200, verbose_name='Component regular expression'),
+            field=weblate.trans.fields.RegexField(default='^$', help_text='Regular expression which is used to match component slug.', max_length=200, verbose_name='Component regular expression'),
         ),
         migrations.AlterField(
             model_name='autocomponentlist',
             name='project_match',
-            field=weblate.trans.fields.RegexField(default=b'^$', help_text='Regular expression which is used to match project slug.', max_length=200, verbose_name='Project regular expression'),
+            field=weblate.trans.fields.RegexField(default='^$', help_text='Regular expression which is used to match project slug.', max_length=200, verbose_name='Project regular expression'),
         ),
     ]

@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='source',
             name='check_flags',
-            field=models.TextField(default=b'', help_text='Additional comma-separated flags to influence quality checks, check documentation for possible values.', blank=True, verbose_name='Quality checks flags', validators=[weblate.trans.validators.validate_check_flags]),
+            field=models.TextField(default='', help_text='Additional comma-separated flags to influence quality checks, check documentation for possible values.', blank=True, verbose_name='Quality checks flags', validators=[weblate.trans.validators.validate_check_flags]),
             preserve_default=True,
         ),
     ]

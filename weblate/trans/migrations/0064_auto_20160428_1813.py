@@ -31,6 +31,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='whiteboardmessage',
             name='category',
-            field=models.CharField(choices=[(b'info', 'Info (light blue)'), (b'warning', 'Warning (yellow)'), (b'danger', 'Danger (red)'), (b'success', 'Success (green)'), (b'primary', 'Primary (dark blue)')], default=b'info', help_text='Category defines color used for the message.', max_length=25, verbose_name='Category'),
+            field=models.CharField(choices=[('info', 'Info (light blue)'), ('warning', 'Warning (yellow)'), ('danger', 'Danger (red)'), ('success', 'Success (green)'), ('primary', 'Primary (dark blue)')], default='info', help_text='Category defines color used for the message.', max_length=25, verbose_name='Category'),
         ),
     ]

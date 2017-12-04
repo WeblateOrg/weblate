@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='subproject',
             name='post_add_script',
-            field=models.CharField(default=b'', choices=[(b'', b'')], max_length=200, blank=True, help_text='Script to be executed after adding new translation, please check documentation for more details.', verbose_name='Post-add script'),
+            field=models.CharField(default='', choices=[('', '')], max_length=200, blank=True, help_text='Script to be executed after adding new translation, please check documentation for more details.', verbose_name='Post-add script'),
         ),
     ]

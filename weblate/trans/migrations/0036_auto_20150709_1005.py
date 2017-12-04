@@ -14,13 +14,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='subproject',
             name='post_commit_script',
-            field=models.CharField(default=b'', choices=[(b'', b'')], max_length=200, blank=True, help_text='Script to be executed after committing translation, please check documentation for more details.', verbose_name='Post-commit script'),
+            field=models.CharField(default='', choices=[('', '')], max_length=200, blank=True, help_text='Script to be executed after committing translation, please check documentation for more details.', verbose_name='Post-commit script'),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='subproject',
             name='post_push_script',
-            field=models.CharField(default=b'', choices=[(b'', b'')], max_length=200, blank=True, help_text='Script to be executed after pushing translation to remote, please check documentation for more details.', verbose_name='Post-push script'),
+            field=models.CharField(default='', choices=[('', '')], max_length=200, blank=True, help_text='Script to be executed after pushing translation to remote, please check documentation for more details.', verbose_name='Post-push script'),
             preserve_default=True,
         ),
     ]

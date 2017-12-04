@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='check',
             name='check',
-            field=models.CharField(max_length=20, choices=[(b'end_space', 'Trailing space'), (b'begin_space', 'Starting spaces'), (b'python_brace_format', 'Python brace format'), (b'plurals', 'Missing plurals'), (b'escaped_newline', 'Mismatched \\n'), (b'end_exclamation', 'Trailing exclamation'), (b'php_format', 'PHP format'), (b'same', 'Unchanged translation'), (b'xml-tags', 'XML tags mismatch'), (b'bbcode', 'Mismatched BBcode'), (b'zero-width-space', 'Zero-width space'), (b'c_format', 'C format'), (b'end_colon', 'Trailing colon'), (b'end_question', 'Trailing question'), (b'end_ellipsis', 'Trailing ellipsis'), (b'end_stop', 'Trailing stop'), (b'begin_newline', 'Starting newline'), (b'inconsistent', 'Inconsistent'), (b'end_newline', 'Trailing newline'), (b'python_format', 'Python format')]),
+            field=models.CharField(max_length=20, choices=[('end_space', 'Trailing space'), ('begin_space', 'Starting spaces'), ('python_brace_format', 'Python brace format'), ('plurals', 'Missing plurals'), ('escaped_newline', 'Mismatched \\n'), ('end_exclamation', 'Trailing exclamation'), ('php_format', 'PHP format'), ('same', 'Unchanged translation'), ('xml-tags', 'XML tags mismatch'), ('bbcode', 'Mismatched BBcode'), ('zero-width-space', 'Zero-width space'), ('c_format', 'C format'), ('end_colon', 'Trailing colon'), ('end_question', 'Trailing question'), ('end_ellipsis', 'Trailing ellipsis'), ('end_stop', 'Trailing stop'), ('begin_newline', 'Starting newline'), ('inconsistent', 'Inconsistent'), ('end_newline', 'Trailing newline'), ('python_format', 'Python format')]),
             preserve_default=True,
         ),
         migrations.AlterField(
@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='subproject',
             name='committer_email',
-            field=models.EmailField(default=b'noreply@weblate.org', max_length=254, verbose_name='Committer email'),
+            field=models.EmailField(default='noreply@weblate.org', max_length=254, verbose_name='Committer email'),
             preserve_default=True,
         ),
         migrations.AlterField(

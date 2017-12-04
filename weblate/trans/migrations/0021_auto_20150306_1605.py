@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='subproject',
             name='branch',
-            field=models.CharField(default=b'', help_text='Repository branch to translate', max_length=50, verbose_name='Repository branch', blank=True),
+            field=models.CharField(default='', help_text='Repository branch to translate', max_length=50, verbose_name='Repository branch', blank=True),
             preserve_default=True,
         ),
     ]
