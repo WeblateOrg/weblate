@@ -57,7 +57,7 @@ class AuthenticationMiddleware(object):
 class RequireLoginMiddleware(object):
     """
     Middleware component that wraps the login_required decorator around
-    matching URL patterns. To use, add the class to MIDDLEWARE_CLASSES and
+    matching URL patterns. To use, add the class to MIDDLEWARE and
     define LOGIN_REQUIRED_URLS and LOGIN_REQUIRED_URLS_EXCEPTIONS in your
     settings.py. For example:
     ------

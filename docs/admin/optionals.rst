@@ -125,9 +125,9 @@ To install, simply add ``weblate.legal`` to installed applications in
     )
 
     # Middleware to enforce TOS confirmation of logged in users
-    MIDDLEWARE_CLASSES += (
+    MIDDLEWARE += [
         'weblate.legal.middleware.RequireTOSMiddleware',
-    )
+    ]
 
 This module includes additional database structures, to have them installed you
 should run the database migration:

@@ -1256,10 +1256,10 @@ In short, you need to adjust :file:`settings.py`:
 .. code-block:: python
 
     # Add rollbar as last middleware:
-    MIDDLEWARE_CLASSES = (
+    MIDDLEWARE = [
         # ... other middleware classes ...
         'rollbar.contrib.django.middleware.RollbarNotifierMiddleware',
-    )
+    ]
 
     # Configure client access
     ROLLBAR = {
