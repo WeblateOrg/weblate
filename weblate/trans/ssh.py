@@ -37,9 +37,7 @@ from weblate.trans.data import data_dir
 KNOWN_HOSTS = 'known_hosts'
 RSA_KEY = 'id_rsa'
 RSA_KEY_PUB = 'id_rsa.pub'
-SSH_WRAPPER = 'ssh-weblate-wrapper-1'
 
-# Always increase version in SSH_WRAPPER if template changes!
 SSH_WRAPPER_TEMPLATE = r'''#!/bin/sh
 exec ssh \
     -o "UserKnownHostsFile={known_hosts}" \
@@ -48,6 +46,18 @@ exec ssh \
     -o HashKnownHosts=no \
     "$@"
 '''
+
+
+def get_wrapper_filename():
+    """Calculates unique wrapper filename.
+
+    It is based on template and DATA_DIR settings.
+    """
+    md5 = hashlib.md5(SSH_WRAPPER_TEMPLATE)
+    md5.update(data_dir('ssh'))
+    return ssh_file('ssh-weblate-wrapper-{0}'.format(
+        md5.hexdigest()
+    ))
 
 
 def ssh_file(filename):
@@ -206,7 +216,7 @@ def can_generate_key():
 
 def create_ssh_wrapper():
     """Create wrapper for SSH to pass custom known hosts and key."""
-    ssh_wrapper = ssh_file(SSH_WRAPPER)
+    ssh_wrapper = get_wrapper_filename()
 
     if os.path.exists(ssh_wrapper):
         return

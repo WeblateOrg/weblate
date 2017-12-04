@@ -42,7 +42,7 @@ from weblate.trans.util import (
     get_clean_env, add_configuration_error, path_separator
 )
 from weblate.trans.filelock import FileLock
-from weblate.trans.ssh import ssh_file, SSH_WRAPPER, create_ssh_wrapper
+from weblate.trans.ssh import get_wrapper_filename, create_ssh_wrapper
 
 LOGGER = logging.getLogger('weblate-vcs')
 
@@ -152,7 +152,7 @@ class Repository(object):
     @staticmethod
     def _getenv():
         """Generate environment for process execution."""
-        return get_clean_env({'GIT_SSH': ssh_file(SSH_WRAPPER)})
+        return get_clean_env({'GIT_SSH': get_wrapper_filename()})
 
     @classmethod
     def _popen(cls, args, cwd=None, err=False):
@@ -778,7 +778,7 @@ class GithubRepository(GitRepository):
     @staticmethod
     def _getenv():
         """Generate environment for process execution."""
-        env = {'GIT_SSH': ssh_file(SSH_WRAPPER)}
+        env = {'GIT_SSH': get_wrapper_filename()}
 
         # Add path to config if it exists
         userconfig = os.path.expanduser('~/.config/hub')
@@ -865,7 +865,7 @@ class HgRepository(Repository):
     def check_config(self):
         """Check VCS configuration."""
         # We directly set config as it takes same time as reading it
-        self.set_config('ui.ssh', ssh_file(SSH_WRAPPER))
+        self.set_config('ui.ssh', get_wrapper_filename())
 
     @classmethod
     def _clone(cls, source, target, branch=None):
