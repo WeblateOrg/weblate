@@ -472,7 +472,7 @@ def show_translation(request, project, subproject, lang):
     )
 
 
-def not_found(request):
+def not_found(request, exception=None):
     """Error handler showing list of available projects."""
     return render(
         request,
@@ -485,7 +485,7 @@ def not_found(request):
     )
 
 
-def denied(request):
+def denied(request, exception=None):
     """Error handler showing list of available projects."""
     return render(
         request,
