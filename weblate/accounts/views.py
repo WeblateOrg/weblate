@@ -32,9 +32,10 @@ from django.core.mail.message import EmailMultiAlternatives
 from django.utils import translation
 from django.utils.cache import patch_response_headers
 from django.utils.crypto import get_random_string
+from django.utils.decorators import method_decorator
 from django.utils.translation import get_language
 from django.contrib.auth.models import User
-from django.contrib.auth import views as auth_views
+from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic import TemplateView, ListView
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
@@ -539,44 +540,45 @@ def redirect_single(request, backend):
     return render(request, 'accounts/redirect.html', {'backend': backend})
 
 
-@never_cache
-def weblate_login(request):
+class WeblateLoginView(LoginView):
     """Login handler, just wrapper around standard Django login."""
+    form_class = LoginForm
+    template_name = 'accounts/login.html'
+    redirect_authenticated_user = True
 
-    # Redirect logged in users to profile
-    if request.user.is_authenticated:
-        return redirect_profile()
+    def get_context_data(self, **kwargs):
+        context = super(WeblateLoginView, self).get_context_data(**kwargs)
+        auth_backends = list(load_backends(BACKENDS).keys())
+        context['login_backends'] = [x for x in auth_backends if x != 'email']
+        context['can_reset'] = 'email' in auth_backends
+        context['title'] = _('Login')
+        return context
 
-    # Redirect if there is only one backend
-    auth_backends = list(load_backends(BACKENDS).keys())
-    if len(auth_backends) == 1 and auth_backends[0] != 'email':
-        return redirect_single(request, auth_backends[0])
+    @method_decorator(never_cache)
+    def dispatch(self, request, *args, **kwargs):
+        # Redirect logged in users to profile
+        if request.user.is_authenticated:
+            return redirect_profile()
 
-    return auth_views.login(
-        request,
-        template_name='accounts/login.html',
-        authentication_form=LoginForm,
-        extra_context={
-            'login_backends': [
-                x for x in auth_backends if x != 'email'
-            ],
-            'can_reset': 'email' in auth_backends,
-            'title': _('Login'),
-        }
-    )
+        # Redirect if there is only one backend
+        auth_backends = list(load_backends(BACKENDS).keys())
+        if len(auth_backends) == 1 and auth_backends[0] != 'email':
+            return redirect_single(request, auth_backends[0])
+
+        return super(WeblateLoginView, self).dispatch(request, *args, **kwargs)
 
 
-@require_POST
-@login_required
-@never_cache
-def weblate_logout(request):
+class WeblateLogoutView(LogoutView):
     """Logout handler, just wrapper around standard Django logout."""
-    messages.info(request, _('Thanks for using Weblate!'))
+    @method_decorator(require_POST)
+    @method_decorator(login_required)
+    @method_decorator(never_cache)
+    def dispatch(self, request, *args, **kwargs):
+        return super(WeblateLogoutView, self).dispatch(request, *args, **kwargs)
 
-    return auth_views.logout(
-        request,
-        next_page=reverse('home'),
-    )
+    def get_next_page(self):
+        messages.info(self.request, _('Thanks for using Weblate!'))
+        return reverse('home')
 
 
 def fake_email_sent(request, reset=False):
