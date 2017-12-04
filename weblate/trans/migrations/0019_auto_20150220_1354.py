@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='subproject',
             name='vcs',
-            field=models.CharField(default=b'git', help_text='Version control system to use to access your repository with translations.', max_length=20, verbose_name='Version control system', choices=[(b'git', b'Git'), (b'gerrit', b'Gerrit'), (b'mercurial', b'Mercurial')]),
+            field=models.CharField(default='git', help_text='Version control system to use to access your repository with translations.', max_length=20, verbose_name='Version control system', choices=[('git', 'Git'), ('gerrit', 'Gerrit'), ('mercurial', 'Mercurial')]),
             preserve_default=True,
         ),
     ]

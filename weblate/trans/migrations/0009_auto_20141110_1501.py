@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='check',
             name='check',
-            field=models.CharField(max_length=20, choices=[(b'end_space', 'Trailing space'), (b'inconsistent', 'Inconsistent'), (b'begin_newline', 'Starting newline'), (b'zero-width-space', 'Zero-width space'), (b'escaped_newline', 'Mismatched \\n'), (b'same', 'Unchanged translation'), (b'end_question', 'Trailing question'), (b'end_ellipsis', 'Trailing ellipsis'), (b'ellipsis', 'Ellipsis'), (b'python_brace_format', 'Python brace format'), (b'end_newline', 'Trailing newline'), (b'c_format', 'C format'), (b'optional_plural', 'Optional plural'), (b'end_exclamation', 'Trailing exclamation'), (b'end_colon', 'Trailing colon'), (b'xml-tags', 'XML tags mismatch'), (b'python_format', 'Python format'), (b'plurals', 'Missing plurals'), (b'begin_space', 'Starting spaces'), (b'bbcode', 'Mismatched BBcode'), (b'multiple_failures', 'Multiple failing checks'), (b'php_format', 'PHP format'), (b'end_stop', 'Trailing stop')]),
+            field=models.CharField(max_length=20, choices=[('end_space', 'Trailing space'), ('inconsistent', 'Inconsistent'), ('begin_newline', 'Starting newline'), ('zero-width-space', 'Zero-width space'), ('escaped_newline', 'Mismatched \\n'), ('same', 'Unchanged translation'), ('end_question', 'Trailing question'), ('end_ellipsis', 'Trailing ellipsis'), ('ellipsis', 'Ellipsis'), ('python_brace_format', 'Python brace format'), ('end_newline', 'Trailing newline'), ('c_format', 'C format'), ('optional_plural', 'Optional plural'), ('end_exclamation', 'Trailing exclamation'), ('end_colon', 'Trailing colon'), ('xml-tags', 'XML tags mismatch'), ('python_format', 'Python format'), ('plurals', 'Missing plurals'), ('begin_space', 'Starting spaces'), ('bbcode', 'Mismatched BBcode'), ('multiple_failures', 'Multiple failing checks'), ('php_format', 'PHP format'), ('end_stop', 'Trailing stop')]),
             preserve_default=True,
         ),
         migrations.AlterField(
@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='subproject',
             name='branch',
-            field=models.CharField(default=b'master', help_text='Repository branch to translate', max_length=50, verbose_name='Repository branch'),
+            field=models.CharField(default='master', help_text='Repository branch to translate', max_length=50, verbose_name='Repository branch'),
             preserve_default=True,
         ),
         migrations.AlterField(

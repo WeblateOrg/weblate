@@ -36,6 +36,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='subproject',
             name='new_lang',
-            field=models.CharField(default=b'contact', help_text='How to handle requests for creating new languages. Please note that availability of choices depends on the file format.', max_length=10, verbose_name='New language', choices=[(b'contact', 'Use contact form'), (b'url', 'Point to translation instructions URL'), (b'add', 'Automatically add language file'), (b'none', 'No adding of language')]),
+            field=models.CharField(default='contact', help_text='How to handle requests for creating new languages. Please note that availability of choices depends on the file format.', max_length=10, verbose_name='New language', choices=[('contact', 'Use contact form'), ('url', 'Point to translation instructions URL'), ('add', 'Automatically add language file'), ('none', 'No adding of language')]),
         ),
     ]

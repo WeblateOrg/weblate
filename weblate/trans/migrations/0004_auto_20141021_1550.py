@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='subproject',
             name='commit_message',
-            field=models.TextField(default=b'Translated using Weblate (%(language_name)s)\n\nCurrently translated at %(translated_percent)s%% (%(translated)s of %(total)s strings)', help_text='You can use format strings for various information, please check documentation for more details.', verbose_name='Commit message', validators=[weblate.trans.validators.validate_commit_message]),
+            field=models.TextField(default='Translated using Weblate (%(language_name)s)\n\nCurrently translated at %(translated_percent)s%% (%(translated)s of %(total)s strings)', help_text='You can use format strings for various information, please check documentation for more details.', verbose_name='Commit message', validators=[weblate.trans.validators.validate_commit_message]),
             preserve_default=True,
         ),
         migrations.AddField(
@@ -34,25 +34,25 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='subproject',
             name='license',
-            field=models.CharField(default=b'', help_text='Optional short summary of license used for translations.', max_length=150, verbose_name='Translation license', blank=True),
+            field=models.CharField(default='', help_text='Optional short summary of license used for translations.', max_length=150, verbose_name='Translation license', blank=True),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='subproject',
             name='license_url',
-            field=models.URLField(default=b'', help_text='Optional URL with license details.', verbose_name='License URL', blank=True),
+            field=models.URLField(default='', help_text='Optional URL with license details.', verbose_name='License URL', blank=True),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='subproject',
             name='merge_style',
-            field=models.CharField(default=b'merge', help_text='Define whether Weblate should merge upstream repository or rebase changes onto it.', max_length=10, verbose_name='Merge style', choices=[(b'merge', 'Merge'), (b'rebase', 'Rebase')]),
+            field=models.CharField(default='merge', help_text='Define whether Weblate should merge upstream repository or rebase changes onto it.', max_length=10, verbose_name='Merge style', choices=[('merge', 'Merge'), ('rebase', 'Rebase')]),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='subproject',
             name='new_lang',
-            field=models.CharField(default=b'contact', help_text='How to handle requests for creating new languages.', max_length=10, verbose_name='New language', choices=[(b'contact', 'Use contact form'), (b'url', 'Point to translation instructions URL'), (b'add', 'Automatically add language file'), (b'none', 'No adding of language')]),
+            field=models.CharField(default='contact', help_text='How to handle requests for creating new languages.', max_length=10, verbose_name='New language', choices=[('contact', 'Use contact form'), ('url', 'Point to translation instructions URL'), ('add', 'Automatically add language file'), ('none', 'No adding of language')]),
             preserve_default=True,
         ),
     ]
