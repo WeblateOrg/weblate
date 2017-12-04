@@ -721,8 +721,7 @@ urlpatterns = [
     ),
     url(
         r'^js/i18n/$',
-        django.views.i18n.JavaScriptCatalog.as_view(),
-        {'packages': ('weblate',)},
+        django.views.i18n.JavaScriptCatalog.as_view(packages=['weblate']),
         name='js-catalog'
     ),
     url(
