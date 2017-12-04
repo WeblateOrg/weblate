@@ -74,6 +74,7 @@ class Command(BaseCommand):
         Also ptionally updates them and moves users around to default group.
         """
         userdata = json.load(options['json-file'])
+        options['json-file'].close()
 
         for userprofile in userdata:
             try:

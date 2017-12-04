@@ -48,6 +48,7 @@ class Command(BaseCommand):
         """
 
         data = json.load(options['json-file'])
+        options['json-file'].close()
 
         for line in data:
             if 'fields' in line:

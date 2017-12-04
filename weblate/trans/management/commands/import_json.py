@@ -99,6 +99,8 @@ class Command(BaseCommand):
             data = json.load(options['json-file'])
         except ValueError:
             raise CommandError('Failed to parse JSON file!')
+        finally:
+            options['json-file'].close()
 
         for item in data:
             if ('filemask' not in item or

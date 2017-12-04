@@ -76,3 +76,4 @@ class Command(BaseCommand):
             data.append(item)
 
         json.dump(data, options['json-file'], indent=2)
+        options['json-file'].close()

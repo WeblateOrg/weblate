@@ -71,3 +71,5 @@ class Command(WeblateTranslationCommand):
             )
         except IOError:
             raise CommandError('Failed to import translation file!')
+        finally:
+            options['file'].close()
