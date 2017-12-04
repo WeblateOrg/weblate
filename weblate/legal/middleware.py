@@ -33,7 +33,8 @@ class RequireTOSMiddleware(object):
     """
     Middleware to enforce TOS confirmation on certain requests.
     """
-    def __init__(self):
+    def __init__(self, get_response=None):
+        self.get_response = get_response
         # Ignored paths regexp, mostly covers API and legal pages
         self.matcher = re.compile(
             r'^/(legal|about|contact|api|static|widgets|data|hooks)/'
@@ -68,3 +69,6 @@ class RequireTOSMiddleware(object):
 
         # Explicitly return None for all non-matching requests
         return None
+
+    def __call__(self, request):
+        return self.get_response(request)

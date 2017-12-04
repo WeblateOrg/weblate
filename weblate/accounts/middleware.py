@@ -46,8 +46,12 @@ def get_user(request):
 
 class AuthenticationMiddleware(object):
     """Copy of django.contrib.auth.middleware.AuthenticationMiddleware"""
-    def process_request(self, request):
+    def __init__(self, get_response=None):
+        self.get_response = get_response
+
+    def __call__(self, request):
         request.user = SimpleLazyObject(lambda: get_user(request))
+        return self.get_response(request)
 
 
 class RequireLoginMiddleware(object):
@@ -71,7 +75,8 @@ class RequireLoginMiddleware(object):
     LOGIN_REQUIRED_URLS_EXCEPTIONS is, conversely, where you explicitly
     define any exceptions (like login and logout URLs).
     """
-    def __init__(self):
+    def __init__(self, get_response=None):
+        self.get_response = get_response
         self.required = self.get_setting_re(
             'LOGIN_REQUIRED_URLS',
             []
@@ -127,3 +132,6 @@ class RequireLoginMiddleware(object):
 
         # Explicitly return None for all non-matching requests
         return None
+
+    def __call__(self, request):
+        return self.get_response(request)

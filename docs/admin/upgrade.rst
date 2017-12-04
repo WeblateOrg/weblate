@@ -536,6 +536,8 @@ Follow generic upgrade instructions, there is no special change.
 
 Notable configuration or dependencies changes:
 
+* Django 1.11 is now required.
+* The `MIDDLEWARE_CLASSES` is now :setting:`django:MIDDLEWARE` with several changes.
 * The :setting:`SPECIAL_CHARS` now lists actual chars now.
 * There is change in default value for :setting:`django:TEMPLATES` setting.
 * There are several new permissions which should be assigned to default groups,
