@@ -426,13 +426,14 @@ class TranslationAPITest(APIBaseTest):
 
     def test_upload(self):
         self.authenticate()
-        response = self.client.put(
-            reverse(
-                'api:translation-file',
-                kwargs=self.translation_kwargs
-            ),
-            {'file': open(TEST_PO, 'rb')},
-        )
+        with open(TEST_PO, 'rb') as handle:
+            response = self.client.put(
+                reverse(
+                    'api:translation-file',
+                    kwargs=self.translation_kwargs
+                ),
+                {'file': handle},
+            )
         self.assertEqual(
             response.data,
             {
@@ -582,10 +583,8 @@ class ScreenshotAPITest(APIBaseTest):
             name='Obrazek',
             component=self.subproject
         )
-        shot.image.save(
-            'screenshot.png',
-            File(open(TEST_SCREENSHOT, 'rb'))
-        )
+        with open(TEST_SCREENSHOT, 'rb') as handle:
+            shot.image.save('screenshot.png', File(handle))
 
     def test_list_screenshots(self):
         response = self.client.get(
