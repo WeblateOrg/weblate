@@ -53,8 +53,8 @@ def get_wrapper_filename():
 
     It is based on template and DATA_DIR settings.
     """
-    md5 = hashlib.md5(SSH_WRAPPER_TEMPLATE)
-    md5.update(data_dir('ssh'))
+    md5 = hashlib.md5(SSH_WRAPPER_TEMPLATE.encode('utf-8'))
+    md5.update(data_dir('ssh').encode('utf-8'))
     return ssh_file('ssh-weblate-wrapper-{0}'.format(
         md5.hexdigest()
     ))
