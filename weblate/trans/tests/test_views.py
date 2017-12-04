@@ -229,7 +229,6 @@ class FixtureTestCase(ViewTestCase):
             call_command(
                 'loaddata', 'simple-project.json',
                 verbosity=0,
-                commit=False,
                 database=db_name
             )
         super(FixtureTestCase, cls).setUpTestData()
