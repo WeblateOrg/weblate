@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-12-02 19:48+0000\n"
-"PO-Revision-Date: 2017-12-03 18:56+0000\n"
+"PO-Revision-Date: 2017-12-04 06:59+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@abv.bg>\n"
 "Language-Team: Bulgarian "
 "<https://hosted.weblate.org/projects/weblate/master/bg/>\n"
@@ -6014,10 +6014,8 @@ msgid "Gettext PO file"
 msgstr "Файл на „Gettext PO“"
 
 #: weblate/trans/formats.py:970
-#, fuzzy
-#| msgid "Gettext PO file (monolingual)"
 msgid "Gettext PO file (unwrapped)"
-msgstr "Файл във формат „Gettext PO“ (един език)"
+msgstr "Файл във формат „Gettext PO“ (без пренасяне)"
 
 #: weblate/trans/formats.py:992
 msgid "Gettext PO file (monolingual)"
@@ -6108,10 +6106,8 @@ msgid "Ruby YAML file"
 msgstr "Файл YAML за Ruby"
 
 #: weblate/trans/formats.py:1401
-#, fuzzy
-#| msgid "CSV file"
 msgid "DTD file"
-msgstr "Файл CSV"
+msgstr "Файл DTD"
 
 #: weblate/trans/forms.py:148
 msgid "Invalid checksum specified!"
@@ -6155,32 +6151,28 @@ msgstr "Съобщението, което искахте да преведет�
 
 #: weblate/trans/forms.py:413 weblate/trans/forms.py:429
 #: weblate/trans/templatetags/translations.py:519
-#, fuzzy
-#| msgid "Needs review"
 msgid "Needs editing"
-msgstr "Нуждае се от одобрение"
+msgstr "Нуждае се от редактиране"
 
 #: weblate/trans/forms.py:415
 msgid ""
 "String is usually marked as needing editing after source string change or "
 "this can be done manually."
 msgstr ""
+"Обикновено преводът бива отбелязан като нуждаещ се от редактиране след като "
+"има промяна в оригиналния текст, но това може да бъде направено и ръчно."
 
 #: weblate/trans/forms.py:427
-#, fuzzy
-#| msgid "Service status"
 msgid "Review state"
-msgstr "Състояние на услугата"
+msgstr "Състояние на преглед"
 
 #: weblate/trans/forms.py:430
-#, fuzzy
-#| msgid "Random strings for review"
 msgid "Waiting for review"
-msgstr "Преглед на случайни текстове"
+msgstr "Чакащ за преглед"
 
 #: weblate/trans/forms.py:431 weblate/trans/templatetags/translations.py:529
 msgid "Approved"
-msgstr ""
+msgstr "Одобрено"
 
 #: weblate/trans/forms.py:476
 msgid "Translation text too long!"
@@ -6203,26 +6195,20 @@ msgid "Add as a suggestion"
 msgstr "Добавяне като предложение"
 
 #: weblate/trans/forms.py:519
-#, fuzzy
-#| msgid "Add as translation needing review"
 msgid "Add as translation needing edit"
-msgstr "Добавяне като превод, нуждаещ се от одобрение"
+msgstr "Добавяне като превод, нуждаещ се от редактиране"
 
 #: weblate/trans/forms.py:523
-#, fuzzy
-#| msgid "Processing of strings needing review"
 msgid "Processing of strings needing edit"
-msgstr "Обработка на текстовете, нуждаещи се от одобрение"
+msgstr "Обработка на текстовете, нуждаещи се от редактиране"
 
 #: weblate/trans/forms.py:525
 msgid "Do not import"
 msgstr "Да не се внасят"
 
 #: weblate/trans/forms.py:526
-#, fuzzy
-#| msgid "Import as string needing review"
 msgid "Import as string needing edit"
-msgstr "Внасяне като текстове, нуждаещи се от одобрение"
+msgstr "Внасяне като текстове, нуждаещи се от редактиране"
 
 #: weblate/trans/forms.py:527
 msgid "Import as translated"
@@ -6284,10 +6270,8 @@ msgid "Translated strings"
 msgstr "Преведени текстове"
 
 #: weblate/trans/forms.py:600
-#, fuzzy
-#| msgid "Strings marked for review"
 msgid "Strings marked for edit"
-msgstr "Текстове, отбелязани за одобрение"
+msgstr "Текстове, отбелязани за редактиране"
 
 #: weblate/trans/forms.py:601 weblate/trans/models/translation.py:1029
 msgid "Strings with suggestions"
@@ -6304,22 +6288,16 @@ msgid "Strings with any failing checks"
 msgstr "Текстове с различни неуспешни проверки"
 
 #: weblate/trans/forms.py:604 weblate/trans/models/translation.py:966
-#, fuzzy
-#| msgid "Source strings"
 msgid "Approved strings"
-msgstr "Оригинални текстове"
+msgstr "Одобрени текстове"
 
 #: weblate/trans/forms.py:607 weblate/trans/models/translation.py:993
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgid "Approved strings with suggestions"
-msgstr "Текстове с предложени за превод"
+msgstr "Одобрени текстове с предложения за превод"
 
 #: weblate/trans/forms.py:609 weblate/trans/models/translation.py:984
-#, fuzzy
-#| msgid "Strings marked for review"
 msgid "Strings waiting for review"
-msgstr "Текстове, отбелязани за одобрение"
+msgstr "Текстове, чакащи за преглед"
 
 #: weblate/trans/forms.py:615
 msgid "Please select a valid filter type."
@@ -7542,10 +7520,8 @@ msgid "Translation file already exists!"
 msgstr "Вече съществува такъв файл за превод!"
 
 #: weblate/trans/models/suggestion.py:155
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Failed to accept suggestion!"
-msgstr "Автоматично приемане на предложенията"
+msgstr "Предложението не бе прието!"
 
 #: weblate/trans/models/translation.py:224
 #, python-format
@@ -7567,10 +7543,8 @@ msgid "This translation is locked by %(user)s!"
 msgstr "Този превод е заключен от %(user)s!"
 
 #: weblate/trans/models/translation.py:1020
-#, fuzzy
-#| msgid "Strings marked for review"
 msgid "Strings marked as needing edit"
-msgstr "Текстове, отбелязани за одобрение"
+msgstr "Текстове, отбелязани за редактиране"
 
 #: weblate/trans/models/unit.py:454
 #, python-brace-format
@@ -7891,10 +7865,8 @@ msgid "Not translated"
 msgstr "Непреведени"
 
 #: weblate/trans/templatetags/translations.py:551
-#, fuzzy
-#| msgid "Message needs review"
 msgid "Message needs edit"
-msgstr "Съобщението се нуждае от одобрение"
+msgstr "Съобщението се нуждае от редактиране"
 
 #: weblate/trans/templatetags/translations.py:556
 msgid "Message is not translated"
@@ -7905,10 +7877,8 @@ msgid "Message has failing checks"
 msgstr "Съобщението има неуспешни проверки"
 
 #: weblate/trans/templatetags/translations.py:566
-#, fuzzy
-#| msgid "Message is translated"
 msgid "Message is approved"
-msgstr "Съобщението е преведено"
+msgstr "Съобщението е одобрено"
 
 #: weblate/trans/templatetags/translations.py:571
 msgid "Message is translated"
@@ -8551,10 +8521,8 @@ msgid "Status of repositories"
 msgstr "Състояние на хранилищата"
 
 #: weblate/wladmin/templates/admin/report.html:18
-#, fuzzy
-#| msgid "Push URL is not used when repository is linked!"
 msgid "This repository is linked to:"
-msgstr "Адресът за изпращане не се използва, когато има свързано хранилище!"
+msgstr "Това хранилище е свързано с:"
 
 #: weblate/wladmin/templates/admin/ssh.html:4
 #: weblate/wladmin/templates/admin/ssh.html:8
