@@ -92,7 +92,7 @@ class GitNoChangeTranslationTest(GitNoChangeProjectTest):
 class GitChangeProjectTest(GitNoChangeProjectTest):
     """Testing of project git manipulations with not committed change."""
 
-    STATUS_CHECK = 'There are some not committed changes!'
+    STATUS_CHECK = 'There are some uncommitted changes!'
 
     def setUp(self):
         super(GitChangeProjectTest, self).setUp()
@@ -112,7 +112,7 @@ class GitChangeTranslationTest(GitChangeProjectTest):
 class GitCommittedChangeProjectTest(GitNoChangeProjectTest):
     """Testing of project git manipulations with committed change in repo."""
 
-    STATUS_CHECK = 'There are some new commits in the local repository!'
+    STATUS_CHECK = 'There are some new commits in the local repository.'
 
     def setUp(self):
         super(GitCommittedChangeProjectTest, self).setUp()
