@@ -38,7 +38,11 @@ class SecurityMiddleware(object):
     - Content-Security-Policy
     - X-XSS-Protection
     """
-    def process_response(self, request, response):
+    def __init__(self, get_response=None):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        response = self.get_response(request)
         # No CSP for debug mode (to allow djdt or error pages)
         if settings.DEBUG:
             return response
