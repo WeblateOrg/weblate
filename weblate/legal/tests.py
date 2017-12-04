@@ -93,7 +93,7 @@ class LegalTest(TestCase, RegistrationTestMixin):
         )
         self.assertContains(response, 'Your profile')
 
-    @modify_settings(MIDDLEWARE_CLASSES={
+    @modify_settings(MIDDLEWARE={
         'append': 'weblate.legal.middleware.RequireTOSMiddleware',
     })
     def test_middleware(self):
