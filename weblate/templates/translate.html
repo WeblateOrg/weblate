@@ -44,7 +44,8 @@
 <li><a id="button-first" href="{{ first_unit_url }}" title="{% trans "First" %}"><i class="fa fa-step-backward"></i></a></li>
 <li><a id="button-prev" href="{{ prev_unit_url }}" title="{% trans "Previous" %}"><i class="fa fa-backward"></i></a></li>
 <li>
-<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+<a class="dropdown-toggle" data-toggle="dropdown" href="#" title="{% trans "Edit search parameters" %}">
+<i class="fa fa-search" aria-hidden="true"></i>
 {% blocktrans %}{{ filter_name }} ({{ filter_pos }} / {{ filter_count }}){% endblocktrans %}
 <span class="caret"></span>
 </a>
