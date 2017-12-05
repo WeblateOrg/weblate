@@ -648,14 +648,6 @@ class Unit(models.Model, LoggerMixin):
             unit.state = self.state
             unit.save_backend(request, False, change_action=change_action)
 
-    def update_lock(self, request, user, change_action):
-        """Lock updating wrapper"""
-        if change_action != Change.ACTION_UPLOAD:
-            if request is not None:
-                self.translation.update_lock(request.user)
-            else:
-                self.translation.update_lock(user)
-
     def save_backend(self, request, propagate=True, gen_change=True,
                      change_action=None, user=None):
         """
@@ -666,9 +658,6 @@ class Unit(models.Model, LoggerMixin):
         # For case when authorship specified, use user from request
         if user is None or user.is_anonymous:
             user = request.user
-
-        # Update lock timestamp
-        self.update_lock(request, user, change_action)
 
         # Commit possible previous changes by other author
         self.translation.commit_pending(request, get_author_name(user))

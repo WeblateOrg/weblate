@@ -920,37 +920,6 @@ $(function () {
         }
     }
 
-    /* Lock updates */
-    if ($('#js-lock').length > 0) {
-        if ($('#js-lock').data('autostart') == '1') {
-            jsLockUpdate = window.setInterval(updateLock, 19000);
-        }
-
-        var idleInterval = setInterval(
-            function () {
-                idleTime = idleTime + 1;
-            },
-            10000 // 10 seconds
-        );
-
-        // Zero the idle timer on mouse movement.
-        $(document).click(function (e) {
-            idleTime = 0;
-        });
-        $(document).mousemove(function (e) {
-            idleTime = 0;
-        });
-        $(document).keypress(function (e) {
-            idleTime = 0;
-        });
-
-        window.setInterval(function () {
-            if (jsLockUpdate != null) {
-                window.clearInterval(jsLockUpdate);
-            }
-        }, 3600000);
-    };
-
     /* Matrix mode handling */
     if ($('.matrix').length > 0) {
         load_matrix();

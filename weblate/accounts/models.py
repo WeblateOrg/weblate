@@ -611,13 +611,6 @@ def post_login_handler(sender, request, user, **kwargs):
         )
 
 
-@receiver(user_logged_out)
-def post_logout_handler(sender, request, user, **kwargs):
-    # Unlock translations on logout
-    for translation in user.translation_set.all():
-        translation.create_lock(None)
-
-
 @receiver(post_save, sender=User)
 @disable_for_loaddata
 def create_profile_callback(sender, instance, created=False, **kwargs):

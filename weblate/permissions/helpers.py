@@ -268,12 +268,6 @@ def can_reset_translation(user, project):
 
 
 @cache_permission
-def can_lock_translation(user, project):
-    """Check whether user can lock translation."""
-    return has_group_perm(user, 'trans.lock_translation', project=project)
-
-
-@cache_permission
 def can_lock_subproject(user, project):
     """Check whether user can lock translation subproject."""
     return has_group_perm(user, 'trans.lock_subproject', project=project)

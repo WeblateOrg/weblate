@@ -468,16 +468,6 @@ urlpatterns = [
         weblate.trans.views.lock.unlock_subproject,
         name='unlock_subproject',
     ),
-    url(
-        r'^lock/' + TRANSLATION + '$',
-        weblate.trans.views.lock.lock_translation,
-        name='lock_translation',
-    ),
-    url(
-        r'^unlock/' + TRANSLATION + '$',
-        weblate.trans.views.lock.unlock_translation,
-        name='unlock_translation',
-    ),
 
     # Screenshots
     url(
@@ -709,11 +699,6 @@ urlpatterns = [
     ),
 
     # AJAX/JS backends
-    url(
-        r'^js/lock/' + TRANSLATION + '$',
-        weblate.trans.views.lock.update_lock,
-        name='js-lock',
-    ),
     url(
         r'^js/ignore-check/(?P<check_id>[0-9]+)/$',
         weblate.trans.views.js.ignore_check,

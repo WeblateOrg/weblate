@@ -420,9 +420,6 @@ def show_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
     last_changes = Change.objects.for_translation(obj)[:10]
 
-    # Check locks
-    obj.is_locked(request.user)
-
     # Get form
     form = get_upload_form(request.user, obj)
 

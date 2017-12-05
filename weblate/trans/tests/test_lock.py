@@ -101,24 +101,3 @@ class LockTest(FixtureTestCase):
         )
         self.assertRedirects(response, redirect_url)
         self.assert_component_not_locked()
-
-    def test_translation(self):
-        response = self.client.post(
-            reverse('lock_translation', kwargs=self.kw_translation)
-        )
-        redirect_url = '{}#locking'.format(
-            reverse('translation', kwargs=self.kw_translation)
-        )
-        self.assertRedirects(response, redirect_url)
-        self.assertTrue(self.get_translation().is_user_locked())
-
-        response = self.client.post(
-            reverse('unlock_translation', kwargs=self.kw_translation)
-        )
-        self.assertRedirects(response, redirect_url)
-        self.assertFalse(self.get_translation().is_user_locked())
-
-        response = self.client.post(
-            reverse('js-lock', kwargs=self.kw_translation)
-        )
-        self.assertTrue(self.get_translation().is_user_locked())

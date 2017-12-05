@@ -73,7 +73,7 @@ def upload_translation(request, project, subproject, lang):
         raise PermissionDenied()
 
     # Check method and lock
-    if obj.is_locked(request.user):
+    if obj.subproject.locked:
         messages.error(request, _('Access denied.'))
         return redirect(obj)
 

@@ -435,7 +435,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
             return download_translation_file(obj, fmt)
 
         if (not can_upload_translation(request.user, obj) or
-                obj.is_locked(request.user)):
+                obj.subproject.locked):
             raise PermissionDenied()
 
         if 'file' not in request.data:

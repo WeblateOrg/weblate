@@ -587,11 +587,6 @@ LAZY_COMMITS = True
 # Offload indexing
 OFFLOAD_INDEXING = False
 
-# Translation locking
-AUTO_LOCK = True
-AUTO_LOCK_TIME = 60
-LOCK_TIME = 15 * 60
-
 # Use simple language codes for default language/country combinations
 SIMPLIFY_LANGUAGES = True
 

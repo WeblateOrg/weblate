@@ -14,6 +14,7 @@ Released on ? 2017.
 * Added support for not wrapping long strings in Gettext po files.
 * Added button to copy permalink for current translation.
 * Dropped support for Django 1.10.
+* Removed locking of translations while translating.
 
 weblate 2.17.1
 --------------

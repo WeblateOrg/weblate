@@ -158,12 +158,6 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
     language_code = models.CharField(max_length=20, default='', blank=True)
 
-    lock_user = models.ForeignKey(
-        User, null=True, blank=True, default=None,
-        on_delete=models.deletion.CASCADE,
-    )
-    lock_time = models.DateTimeField(default=timezone.now)
-
     commit_message = models.TextField(default='', blank=True)
 
     objects = TranslationManager.from_queryset(TranslationQuerySet)()
@@ -186,7 +180,6 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             ),
             ('mass_add_translation', 'Can mass add translation'),
             ('automatic_translation', "Can do automatic translation"),
-            ('lock_translation', "Can lock whole translation project"),
             ('use_mt', "Can use machine translation"),
         )
         app_label = 'trans'
@@ -265,90 +258,6 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
     @property
     def untranslated(self):
         return self.total - self.translated
-
-    def get_lock_user_display(self):
-        """Return formatted lock user."""
-        return get_user_display(self.lock_user)
-
-    def get_lock_display(self):
-        return mark_safe(
-            _('This translation is locked by %(user)s!') % {
-                'user': self.get_lock_user_display(),
-            }
-        )
-
-    def is_locked(self, user=None):
-        """Check whether the translation is locked
-
-        Possibly emits messages if request object is provided.
-        """
-        return (
-            self.is_user_locked(user) or
-            self.subproject.locked
-        )
-
-    def is_user_locked(self, user=None):
-        """Check whether there is valid user lock on this translation."""
-        # Any user?
-        if self.lock_user is None:
-            return False
-        # Is lock still valid?
-        elif self.lock_time < timezone.now():
-            # Clear the lock
-            self.create_lock(None)
-
-            return False
-
-        # Is current user the one who has locked?
-        elif user is not None and self.lock_user == user:
-            return False
-
-        else:
-            return True
-
-    def create_lock(self, user, explicit=False):
-        """Create lock on translation."""
-        is_new = self.lock_user is None
-        self.lock_user = user
-
-        # Clean timestamp on unlock
-        if user is None:
-            self.lock_time = timezone.now()
-            self.save(update_fields=['lock_time', 'lock_user'])
-        else:
-            self.update_lock_time(explicit, is_new)
-
-    def update_lock_time(self, explicit=False, is_new=True):
-        """Set lock timestamp."""
-        if explicit:
-            seconds = settings.LOCK_TIME
-        else:
-            seconds = settings.AUTO_LOCK_TIME
-
-        new_lock_time = timezone.now() + timedelta(seconds=seconds)
-
-        if is_new or new_lock_time > self.lock_time:
-            self.lock_time = new_lock_time
-
-        self.save(update_fields=['lock_time', 'lock_user'])
-
-    def update_lock(self, user):
-        """Update lock timestamp."""
-        # Check if we can lock
-        if self.is_user_locked(user):
-            return False
-
-        # Update timestamp
-        if self.lock_user == user:
-            self.update_lock_time()
-            return True
-
-        # Auto lock if we should
-        if settings.AUTO_LOCK:
-            self.create_lock(user)
-            return True
-
-        return False
 
     def get_reverse_url_kwargs(self):
         """Return kwargs for URL reversing."""

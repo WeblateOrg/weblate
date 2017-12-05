@@ -292,8 +292,7 @@ def perform_translation(unit, form, request):
     return True
 
 
-def handle_translate(translation, request, user_locked,
-                     this_unit_url, next_unit_url):
+def handle_translate(translation, request, this_unit_url, next_unit_url):
     """Save translation or suggestion to database and backend."""
     # Antispam protection
     antispam = AntispamForm(request.POST)
@@ -321,7 +320,7 @@ def handle_translate(translation, request, user_locked,
             request,
             _('You don\'t have privileges to save translations!')
         )
-    elif not user_locked:
+    else:
         # Custom commit message
         message = request.POST.get('commit_message')
         if message is not None and message != unit.translation.commit_message:
@@ -470,9 +469,7 @@ def translate(request, project, subproject, lang):
     translation = get_translation(request, project, subproject, lang)
 
     # Check locks
-    user_locked = translation.is_user_locked(request.user)
-    project_locked = translation.subproject.locked
-    locked = project_locked or user_locked
+    locked = translation.subproject.locked
 
     # Search results
     search_result = search(translation, request)
@@ -518,7 +515,7 @@ def translate(request, project, subproject, lang):
     if 'skip' in request.POST:
         return redirect(next_unit_url)
     elif (request.method == 'POST' and
-          (not project_locked or 'delete' in request.POST)):
+          (not locked or 'delete' in request.POST)):
 
         if ('accept' not in request.POST and
                 'accept_edit' not in request.POST and
@@ -527,7 +524,7 @@ def translate(request, project, subproject, lang):
                 'downvote' not in request.POST):
             # Handle translation
             response = handle_translate(
-                translation, request, user_locked,
+                translation, request,
                 this_unit_url, next_unit_url
             )
         elif not locked or 'delete' in request.POST:
@@ -596,11 +593,8 @@ def translate(request, project, subproject, lang):
             'antispam': antispam,
             'comment_form': CommentForm(),
             'search_form': search_result['form'].reset_offset(),
-            'update_lock': translation.lock_user == request.user,
             'secondary': secondary,
             'locked': locked,
-            'user_locked': user_locked,
-            'project_locked': project_locked,
             'glossary': Dictionary.objects.get_words(unit),
             'addword_form': InlineWordForm(),
         }
@@ -755,7 +749,6 @@ def zen(request, project, subproject, lang):
             'search_url': search_result['url'],
             'offset': search_result['offset'],
             'search_form': search_result['form'].reset_offset(),
-            'update_lock': translation.lock_user == request.user,
         }
     )
 
@@ -787,7 +780,6 @@ def load_zen(request, project, subproject, lang):
 def save_zen(request, project, subproject, lang):
     """Save handler for zen mode."""
     translation = get_translation(request, project, subproject, lang)
-    user_locked = translation.is_user_locked(request.user)
 
     form = TranslationForm(
         request.user, translation, None, request.POST
@@ -799,7 +791,7 @@ def save_zen(request, project, subproject, lang):
             request,
             _('You don\'t have privileges to save translations!')
         )
-    elif not user_locked:
+    else:
         unit = form.cleaned_data['unit']
 
         perform_translation(unit, form, request)

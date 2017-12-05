@@ -105,11 +105,6 @@ class WeblateConf(AppConf):
     # Offload indexing
     OFFLOAD_INDEXING = False
 
-    # Translation locking
-    AUTO_LOCK = True
-    AUTO_LOCK_TIME = 60
-    LOCK_TIME = 15 * 60
-
     # List of quality checks
     CHECK_LIST = (
         'weblate.trans.checks.same.SameCheck',

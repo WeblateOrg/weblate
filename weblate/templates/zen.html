@@ -47,7 +47,6 @@
 <tr><td colspan="3" class="loading-icon">
 <i id="loading-next" class="fa fa-spinner fa-spin" style="display: none"></i>
 <a href="{% url 'load_zen' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}?{{ search_url }}" class="hidden" id="zen-load" data-offset="{{ offset }}"></a>
-<a href="{% url 'js-lock' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" class="hidden" id="js-lock" {% if update_lock %}data-autostart="1"{% endif %}></a>
 </td></tr>
 </tfoot>
 </table>

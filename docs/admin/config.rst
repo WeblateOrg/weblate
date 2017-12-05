@@ -140,6 +140,8 @@ Defaults to 180 days.
 AUTO_LOCK
 ---------
 
+.. deprecated:: 2.18
+
 Enables automatic locking of translation when somebody is working on it.
 
 .. seealso::
@@ -150,6 +152,8 @@ Enables automatic locking of translation when somebody is working on it.
 
 AUTO_LOCK_TIME
 --------------
+
+.. deprecated:: 2.18
 
 Time in seconds for how long the automatic lock for translation will be active.
 Defaults to 60 seconds.
@@ -528,6 +532,8 @@ able to merge some changes as they are not yet committed.
 
 LOCK_TIME
 ---------
+
+.. deprecated:: 2.18
 
 Time in seconds for how long the translation will be locked for single
 translator when locked manually.
