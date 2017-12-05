@@ -673,6 +673,9 @@ class Unit(models.Model, LoggerMixin):
         # Commit possible previous changes by other author
         self.translation.commit_pending(request, get_author_name(user))
 
+        # Fetch current copy from database and lock it for update
+        self.old_unit = Unit.objects.select_for_update().get(pk=self.pk)
+
         # Return if there was no change
         # We have to explicitly check for fuzzy flag change on monolingual
         # files, where we handle it ourselves without storing to backend

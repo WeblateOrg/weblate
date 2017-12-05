@@ -457,6 +457,9 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         # Position of current unit
         pos = 1
 
+        # Select all current units for update
+        self.unit_set.select_for_update()
+
         for unit in self.store.all_units():
             if not unit.is_translatable():
                 continue
