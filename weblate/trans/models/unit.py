@@ -1181,3 +1181,6 @@ class Unit(models.Model, LoggerMixin):
                     continue
         # Fallback to reasonably big value
         return 10000
+
+    def get_target_hash(self):
+        return calculate_hash(None, self.target)

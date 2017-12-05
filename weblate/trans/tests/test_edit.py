@@ -28,6 +28,7 @@ from django.urls import reverse
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.models import Change
 from weblate.trans.models.unit import STATE_TRANSLATED, STATE_FUZZY
+from weblate.utils.hash import hash_to_checksum
 
 
 class EditTest(ViewTestCase):
@@ -506,6 +507,8 @@ class ZenViewTest(ViewTestCase):
         unit = self.get_unit()
         params = {
             'checksum': unit.checksum,
+            'contentsum': hash_to_checksum(unit.content_hash),
+            'translationsum': hash_to_checksum(unit.get_target_hash()),
             'target_0': 'Zen translation',
             'review': '20',
         }
@@ -525,6 +528,8 @@ class ZenViewTest(ViewTestCase):
         unit = self.get_unit()
         params = {
             'checksum': unit.checksum,
+            'contentsum': hash_to_checksum(unit.content_hash),
+            'translationsum': hash_to_checksum(unit.get_target_hash()),
             'target_0': 'Zen translation',
             'review': '20',
         }
@@ -732,5 +737,33 @@ class EditComplexTest(ViewTestCase):
         self.assertContains(
             response,
             'This translation is currently locked for updates!'
+        )
+        self.assert_backend(0)
+
+    def test_edit_changed_source(self):
+        # We use invalid contentsum here
+        response = self.edit_unit(
+            'Hello, world!\n',
+            'Nazdar svete!\n',
+            contentsum='aaa',
+        )
+        # We should get an error message
+        self.assertContains(
+            response,
+            'Source of the message has been changed meanwhile'
+        )
+        self.assert_backend(0)
+
+    def test_edit_changed_translation(self):
+        # We use invalid translationsum here
+        response = self.edit_unit(
+            'Hello, world!\n',
+            'Nazdar svete!\n',
+            translationsum='aaa',
+        )
+        # We should get an error message
+        self.assertContains(
+            response,
+            'Translation of the message has been changed meanwhile'
         )
         self.assert_backend(0)

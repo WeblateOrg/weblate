@@ -59,7 +59,7 @@ from weblate.permissions.helpers import (
 from weblate.trans.specialchars import get_special_chars, RTL_CHARS_DATA
 from weblate.trans.validators import validate_check_flags
 from weblate.trans.util import sort_choices
-from weblate.utils.hash import checksum_to_hash
+from weblate.utils.hash import checksum_to_hash, hash_to_checksum
 from weblate.utils.validators import validate_file_extension
 from weblate.logger import LOGGER
 from weblate import get_doc_url
@@ -421,6 +421,8 @@ class FuzzyField(forms.BooleanField):
 
 class TranslationForm(ChecksumForm):
     """Form used for translation of single string."""
+    contentsum = ChecksumField(required=True)
+    translationsum = ChecksumField(required=True)
     target = PluralField(required=False)
     fuzzy = FuzzyField(required=False)
     review = forms.ChoiceField(
@@ -438,6 +440,8 @@ class TranslationForm(ChecksumForm):
         if unit is not None:
             kwargs['initial'] = {
                 'checksum': unit.checksum,
+                'contentsum': hash_to_checksum(unit.content_hash),
+                'translationsum': hash_to_checksum(unit.get_target_hash()),
                 'target': unit,
                 'fuzzy': unit.fuzzy,
                 'review': unit.state,
@@ -466,16 +470,37 @@ class TranslationForm(ChecksumForm):
 
     def clean(self):
         super(TranslationForm, self).clean()
-        if ('unit' not in self.cleaned_data or
-                'target' not in self.cleaned_data):
+
+        # Check required fields
+        required = set(('unit', 'target', 'contentsum', 'translationsum'))
+        if not required.issubset(self.cleaned_data):
             return
-        max_length = self.cleaned_data['unit'].get_max_length()
+
+        unit = self.cleaned_data['unit']
+
+        if self.cleaned_data['contentsum'] != unit.content_hash:
+            raise ValidationError(
+                _(
+                    'Source of the message has been changed meanwhile. '
+                    'Please check your changes.'
+                )
+            )
+
+        if self.cleaned_data['translationsum'] != unit.get_target_hash():
+            raise ValidationError(
+                _(
+                    'Translation of the message has been changed meanwhile. '
+                    'Please check your changes.'
+                )
+            )
+
+        max_length = unit.get_max_length()
         for text in self.cleaned_data['target']:
             if len(text) > max_length:
                 raise ValidationError(
                     _('Translation text too long!')
                 )
-        if (can_review(self.user, self.cleaned_data['unit'].translation)
+        if (can_review(self.user, unit.translation)
                 and self.cleaned_data.get('review')):
             self.cleaned_data['state'] = int(self.cleaned_data['review'])
         elif self.cleaned_data['fuzzy']:

@@ -40,6 +40,7 @@ from weblate.trans.models import (
 )
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.utils import create_test_user
+from weblate.utils.hash import hash_to_checksum
 from weblate.accounts.models import Profile
 
 
@@ -139,6 +140,8 @@ class ViewTestCase(RepoTestCase):
         unit = self.get_unit(source)
         params = {
             'checksum': unit.checksum,
+            'contentsum': hash_to_checksum(unit.content_hash),
+            'translationsum': hash_to_checksum(unit.get_target_hash()),
             'target_0': target,
             'review': '20',
         }
