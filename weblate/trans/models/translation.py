@@ -79,10 +79,6 @@ class TranslationQuerySet(models.QuerySet):
             'subproject', 'subproject__project', 'language'
         )
 
-    def enabled(self):
-        """Filter enabled translations."""
-        return self.prefetch().filter(enabled=True)
-
     def get_percents(self, project=None, subproject=None, language=None):
         """Return tuple consting of status percents:
 
@@ -149,8 +145,6 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
     failing_checks = models.IntegerField(default=0, db_index=True)
     have_suggestion = models.IntegerField(default=0, db_index=True)
     have_comment = models.IntegerField(default=0, db_index=True)
-
-    enabled = models.BooleanField(default=True, db_index=True)
 
     language_code = models.CharField(max_length=20, default='', blank=True)
 

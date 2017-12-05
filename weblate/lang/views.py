@@ -101,7 +101,7 @@ def show_project(request, lang, project):
         translation__language=obj,
         subproject__project=pobj
     )[:10]
-    translations = obj.translation_set.enabled().filter(
+    translations = obj.translation_set.prefetch().filter(
         subproject__project=pobj
     ).order_by(
         'subproject__project__slug', 'subproject__slug'

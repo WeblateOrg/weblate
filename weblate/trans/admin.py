@@ -136,33 +136,12 @@ class SubProjectAdmin(WeblateModelAdmin):
 class TranslationAdmin(WeblateModelAdmin):
     list_display = [
         'subproject', 'language', 'translated', 'total',
-        'fuzzy', 'revision', 'filename', 'enabled'
+        'fuzzy', 'revision', 'filename'
     ]
     search_fields = [
         'subproject__slug', 'language__code', 'revision', 'filename'
     ]
-    list_filter = ['enabled', 'subproject__project', 'subproject', 'language']
-    actions = ['enable_translation', 'disable_translation']
-
-    def enable_translation(self, request, queryset):
-        """
-        Mass enabling of translations.
-        """
-        queryset.update(enabled=True)
-        self.message_user(
-            request,
-            "Enabled {0:d} translations.".format(queryset.count())
-        )
-
-    def disable_translation(self, request, queryset):
-        """
-        Mass disabling of translations.
-        """
-        queryset.update(enabled=False)
-        self.message_user(
-            request,
-            "Disabled {0:d} translations.".format(queryset.count())
-        )
+    list_filter = ['subproject__project', 'subproject', 'language']
 
 
 class UnitAdmin(WeblateModelAdmin):

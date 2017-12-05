@@ -393,7 +393,7 @@ def show_subproject(request, project, subproject):
             'allow_index': True,
             'object': obj,
             'project': obj.project,
-            'translations': sort_objects(obj.translation_set.enabled()),
+            'translations': sort_objects(obj.translation_set.all()),
             'show_language': 1,
             'reports_form': ReportsForm(),
             'last_changes': last_changes,

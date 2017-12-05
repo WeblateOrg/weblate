@@ -36,8 +36,7 @@ def get_translation(request, project, subproject, lang, skip_acl=False):
         Translation.objects.prefetch(),
         language__code=lang,
         subproject__slug=subproject,
-        subproject__project__slug=project,
-        enabled=True
+        subproject__project__slug=project
     )
     if not skip_acl:
         check_access(request, translation.subproject.project)
