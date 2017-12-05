@@ -330,8 +330,8 @@ Example file:
 
 .. _json:
 
-JSON and nested structure JSON files
-------------------------------------
+JSON files
+----------
 
 .. index::
     pair: JSON; file format
@@ -350,6 +350,12 @@ JSON and nested structure JSON files
 
 JSON format is used mostly for translating applications implemented in
 Javascript.
+
+Weblate currently supports several variants of JSON translations:
+
+* Simple key / value files.
+* Files with nested keys.
+* The i18next files with support for plurals.
 
 JSON translations are usually monolingual, so it is recommended to specify base
 file with English strings.
