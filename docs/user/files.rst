@@ -16,9 +16,9 @@ You can download a translatable file using the :guilabel:`Download source file`
 action in the :guilabel:`Files` menu. This will give you the file as it is stored
 in upstream version control system.
 
-For some formats you can also download a compiled file to use within an application
-(for example ``.mo`` files for GNU Gettext) using the 
-:guilabel:`Download compiled translation`.
+You can also download files in several other formats, including a compiled file
+to use within an application (for example ``.mo`` files for GNU Gettext) using
+the :guilabel:`Files`.
 
 Uploading translations
 ----------------------

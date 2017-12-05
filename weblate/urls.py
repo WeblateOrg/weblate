@@ -206,11 +206,6 @@ urlpatterns = [
         name='download_translation_format',
     ),
     url(
-        r'^language-pack/' + TRANSLATION + '$',
-        weblate.trans.views.files.download_language_pack,
-        name='download_language_pack',
-    ),
-    url(
         r'^upload/' + TRANSLATION + '$',
         weblate.trans.views.files.upload_translation,
         name='upload_translation',
@@ -836,14 +831,6 @@ urlpatterns = [
         r'^projects/' + TRANSLATION + 'download/$',
         RedirectView.as_view(
             url='/download/%(project)s/%(subproject)s/%(lang)s/',
-            permanent=True,
-            query_string=True
-        )
-    ),
-    url(
-        r'^projects/' + TRANSLATION + 'language_pack/$',
-        RedirectView.as_view(
-            url='/language-pack/%(project)s/%(subproject)s/%(lang)s/',
             permanent=True,
             query_string=True
         )

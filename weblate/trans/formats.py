@@ -537,7 +537,6 @@ class FileFormat(object):
     unit_class = FileUnit
     new_translation = None
     autoload = ()
-    language_pack = None
 
     @staticmethod
     def serialize(store):
@@ -906,7 +905,6 @@ class PoFormat(FileFormat):
     loader = pofile
     monolingual = False
     autoload = ('.po', '.pot')
-    language_pack = 'mo'
     unit_class = PoUnit
 
     @classmethod

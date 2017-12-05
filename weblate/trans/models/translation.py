@@ -318,10 +318,6 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             language_code=self.language_code
         )
 
-    def supports_language_pack(self):
-        """Check whether we support language pack download."""
-        return self.subproject.file_format_cls.language_pack is not None
-
     @property
     def store(self):
         """Return translate-toolkit storage object for a translation."""

@@ -52,18 +52,6 @@ def download_translation(request, project, subproject, lang):
     return download_translation_file(obj)
 
 
-def download_language_pack(request, project, subproject, lang):
-    obj = get_translation(request, project, subproject, lang)
-
-    if not obj.supports_language_pack():
-        raise Http404('Language pack download not supported')
-
-    return download_translation_file(
-        obj,
-        obj.subproject.file_format_cls.language_pack
-    )
-
-
 @require_POST
 def upload_translation(request, project, subproject, lang):
     """Handling of translation uploads."""
