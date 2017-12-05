@@ -13,7 +13,7 @@ Released on ? 2017.
 * Improved support for approved flag in Xliff files.
 * Added support for not wrapping long strings in Gettext po files.
 * Added button to copy permalink for current translation.
-* Dropped support for Django 1.10.
+* Dropped support for Django 1.10 and added support for Django 2.0.
 * Removed locking of translations while translating.
 
 weblate 2.17.1
