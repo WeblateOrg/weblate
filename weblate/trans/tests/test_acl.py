@@ -28,9 +28,9 @@ from weblate.trans.models import Project
 from weblate.trans.tests.test_views import FixtureTestCase
 
 
-class ACLViewTest(FixtureTestCase):
+class ACLTest(FixtureTestCase):
     def setUp(self):
-        super(ACLViewTest, self).setUp()
+        super(ACLTest, self).setUp()
         self.project.access_control = Project.ACCESS_PRIVATE
         self.project.save()
         self.access_url = reverse('manage-access', kwargs=self.kw_project)
@@ -256,3 +256,27 @@ class ACLViewTest(FixtureTestCase):
         # Verify change has been done
         project = Project.objects.get(pk=self.project.pk)
         self.assertEqual(project.access_control, Project.ACCESS_PROTECTED)
+
+    def test_acl_groups(self):
+        """Test handling of ACL groups.
+        """
+        match = '{}@'.format(self.project.name)
+        self.project.access_control = Project.ACCESS_PUBLIC
+        self.project.save()
+        self.assertEqual(
+            1, Group.objects.filter(name__startswith=match).count()
+        )
+        self.project.access_control = Project.ACCESS_PROTECTED
+        self.project.save()
+        self.assertEqual(
+            8, Group.objects.filter(name__startswith=match).count()
+        )
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save()
+        self.assertEqual(
+            8, Group.objects.filter(name__startswith=match).count()
+        )
+        self.project.delete()
+        self.assertEqual(
+            0, Group.objects.filter(name__startswith=match).count()
+        )

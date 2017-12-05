@@ -23,7 +23,9 @@ import shutil
 
 from django.contrib.auth.models import Group, Permission
 from django.db.models import Q
-from django.db.models.signals import post_delete, post_save, m2m_changed
+from django.db.models.signals import (
+    post_delete, post_save, m2m_changed, pre_delete,
+)
 from django.dispatch import receiver
 
 from weblate.accounts.models import Profile
@@ -288,3 +290,12 @@ def setup_group_acl(sender, instance, **kwargs):
     ).exclude(
         pk__in=handled
     ).delete()
+
+
+@receiver(pre_delete, sender=Project)
+def cleanup_group_acl(sender, instance, **kwargs):
+    group_acl = GroupACL.objects.get_or_create(
+        project=instance, subproject=None, language=None
+    )[0]
+    # Remove stale groups
+    group_acl.groups.filter(name__contains='@').delete()
