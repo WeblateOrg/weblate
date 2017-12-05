@@ -19,17 +19,15 @@
 #
 
 from django.utils.translation import ugettext as _
-from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.views.decorators.http import require_POST
 
 from weblate.utils import messages
 from weblate.trans.util import redirect_param
-from weblate.trans.views.helper import (
-    get_project, get_subproject, get_translation
-)
+from weblate.trans.views.helper import get_project, get_subproject
 from weblate.permissions.helpers import can_lock_subproject
+
 
 @require_POST
 @login_required

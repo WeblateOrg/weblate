@@ -25,7 +25,6 @@ from django.core.exceptions import PermissionDenied
 from django.utils.translation import ugettext as _, ungettext
 from django.utils.encoding import force_text
 from django.shortcuts import redirect
-from django.http import Http404
 from django.views.decorators.http import require_POST
 
 from weblate.utils import messages

@@ -574,7 +574,9 @@ class WeblateLogoutView(LogoutView):
     @method_decorator(login_required)
     @method_decorator(never_cache)
     def dispatch(self, request, *args, **kwargs):
-        return super(WeblateLogoutView, self).dispatch(request, *args, **kwargs)
+        return super(WeblateLogoutView, self).dispatch(
+            request, *args, **kwargs
+        )
 
     def get_next_page(self):
         messages.info(self.request, _('Thanks for using Weblate!'))

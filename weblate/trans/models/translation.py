@@ -22,14 +22,11 @@ from __future__ import unicode_literals
 
 import os
 import codecs
-from datetime import timedelta
 
 from django.conf import settings
 from django.db import models
-from django.contrib.auth.models import User
 from django.db.models import Sum, Count
 from django.utils.translation import ugettext as _
-from django.utils.safestring import mark_safe
 from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.core.exceptions import ValidationError
 from django.core.cache import cache
@@ -47,7 +44,6 @@ from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.signals import vcs_pre_commit, vcs_post_commit
 from weblate.utils.site import get_site_url
 from weblate.trans.util import translation_percent, split_plural
-from weblate.accounts.avatar import get_user_display
 from weblate.trans.mixins import URLMixin, PercentMixin, LoggerMixin
 from weblate.utils.query import conditional_sum
 from weblate.accounts.notifications import notify_new_string

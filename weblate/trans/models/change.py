@@ -296,7 +296,8 @@ class Change(models.Model, UserDisplayMixin):
         User, null=True, on_delete=models.deletion.CASCADE
     )
     author = models.ForeignKey(
-        User, null=True, related_name='author_set', on_delete=models.deletion.CASCADE
+        User, null=True, related_name='author_set',
+        on_delete=models.deletion.CASCADE
     )
     timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
     action = models.IntegerField(

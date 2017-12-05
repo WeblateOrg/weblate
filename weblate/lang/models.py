@@ -507,7 +507,7 @@ class Language(models.Model, PercentMixin):
         )
 
     def get_absolute_url(self):
-        return reverse('show_language', kwargs={'lang': self.code })
+        return reverse('show_language', kwargs={'lang': self.code})
 
     def _get_percents(self, lang=None):
         """Return percentages of translation status."""
