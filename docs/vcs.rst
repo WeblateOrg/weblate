@@ -194,11 +194,6 @@ There is no need to use this to access Git repositories, ordinary
 handled. With :ref:`vcs-git` changes are pushed directly to the repository, while 
 :ref:`vcs-github` creates pull requests.
 
-.. note::
-
-    This feature is currently not available on Hosted Weblate due to technical
-    limitations. See :ref:`hosted-push` for available options.
-
 .. _github-push:
 
 Pushing changes to GitHub as pull request
