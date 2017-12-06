@@ -866,6 +866,19 @@ class FileFormat(object):
                 else:
                     unit.settarget('')
 
+    def create_unit(self, key, source):
+        unit = self.store.UnitClass(source)
+        unit.setid(key)
+        unit.source = key
+        unit.target = source
+        return unit
+
+    def new_unit(self, key, source):
+        """Add new unit to monolingual store."""
+        unit = self.create_unit(key, source)
+        self.store.addunit(unit)
+        self.save()
+
 
 @register_fileformat
 class AutoFormat(FileFormat):
