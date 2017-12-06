@@ -194,6 +194,7 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_FAILED_PUSH = 28
     ACTION_SUGGESTION_CLEANUP = 29
     ACTION_SOURCE_CHANGE = 30
+    ACTION_NEW_UNIT = 31
 
     ACTION_CHOICES = (
         (ACTION_UPDATE, ugettext_lazy('Resource update')),
@@ -230,6 +231,7 @@ class Change(models.Model, UserDisplayMixin):
             ugettext_lazy('Suggestion removed during cleanup')
         ),
         (ACTION_SOURCE_CHANGE, ugettext_lazy('Source string changed')),
+        (ACTION_NEW_UNIT, ugettext_lazy('New unit added')),
     )
 
     ACTIONS_SUBPROJECT = set((
@@ -262,6 +264,7 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_REVERT,
         ACTION_UPLOAD,
         ACTION_REPLACE,
+        ACTION_NEW_UNIT,
     ))
 
     ACTIONS_REPOSITORY = set((
@@ -373,6 +376,7 @@ class Change(models.Model, UserDisplayMixin):
             self.ACTION_SUGGESTION,
             self.ACTION_SUGGESTION_DELETE,
             self.ACTION_SUGGESTION_CLEANUP,
+            self.ACTION_NEW_UNIT,
         )
 
     def save(self, *args, **kwargs):

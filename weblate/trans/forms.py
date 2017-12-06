@@ -1451,3 +1451,21 @@ class MatrixLanguageForm(forms.Form):
             (l.code, '{0} ({1})'.format(force_text(l), l.code))
             for l in languages
         ])
+
+
+class NewUnitForm(forms.Form):
+    key = forms.CharField(
+        label=_('Translation key'),
+        help_text=_(
+            'Key is used to identify unit in translation file. '
+            'File format specific rules might apply.'
+        ),
+        required=True,
+    )
+    value = forms.CharField(
+        label=_('Source language text'),
+        help_text=_(
+            'You can later edit this as any other string in source language.'
+        ),
+        required=True,
+    )

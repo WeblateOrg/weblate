@@ -15,6 +15,7 @@ Released on ? 2017.
 * Added button to copy permalink for current translation.
 * Dropped support for Django 1.10 and added support for Django 2.0.
 * Removed locking of translations while translating.
+* Added support for adding new units to monolingual translations.
 
 weblate 2.17.1
 --------------

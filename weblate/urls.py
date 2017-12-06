@@ -211,6 +211,11 @@ urlpatterns = [
         name='upload_translation',
     ),
     url(
+        r'^new-unit/' + TRANSLATION + '$',
+        weblate.trans.views.edit.new_unit,
+        name='new-unit',
+    ),
+    url(
         r'^auto-translate/' + TRANSLATION + '$',
         weblate.trans.views.edit.auto_translation,
         name='auto_translation',

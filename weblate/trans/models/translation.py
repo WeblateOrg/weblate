@@ -1176,3 +1176,15 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             user=user,
             author=user
         )
+
+    def new_unit(self, request, key, value):
+        self.commit_pending(request)
+        Change.objects.create(
+            translation=self,
+            action=Change.ACTION_NEW_UNIT,
+            target=value,
+            user=request.user,
+            author=request.user
+        )
+        self.store.new_unit(key, value)
+        self.subproject.create_translations(request=request)

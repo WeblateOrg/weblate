@@ -338,6 +338,36 @@ class EditPoMonoTest(EditTest):
     def create_subproject(self):
         return self.create_po_mono()
 
+    def test_new_unit(self):
+        def add(key):
+            return self.client.post(
+                reverse(
+                    'new-unit',
+                    kwargs={
+                        'project': 'test',
+                        'subproject': 'test',
+                        'lang': 'en',
+                    }
+                ),
+                {'key': key, 'value': 'Source string'},
+                follow=True,
+            )
+        response = add('key')
+        self.assertEqual(response.status_code, 403)
+        self.make_manager()
+        response = add('key')
+        self.assertContains(
+            response, 'New translation unit has been added'
+        )
+        response = add('key')
+        self.assertContains(
+            response, 'Translation with this key seem to already exist'
+        )
+        response = add('')
+        self.assertContains(
+            response, 'Error in parameter key'
+        )
+
 
 class EditIphoneTest(EditTest):
     has_plurals = False

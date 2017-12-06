@@ -44,7 +44,7 @@ from weblate.lang.models import Language
 from weblate.trans.forms import (
     get_upload_form, SearchForm, SiteSearchForm,
     AutoForm, ReviewForm, get_new_language_form,
-    ReportsForm, ReplaceForm,
+    ReportsForm, ReplaceForm, NewUnitForm,
 )
 from weblate.permissions.helpers import (
     can_automatic_translation, can_translate,
@@ -456,6 +456,7 @@ def show_translation(request, project, subproject, lang):
             'search_form': search_form,
             'review_form': review_form,
             'replace_form': replace_form,
+            'new_unit_form': NewUnitForm(),
             'last_changes': last_changes,
             'last_changes_url': urlencode(obj.get_kwargs()),
             'show_only_component': True,

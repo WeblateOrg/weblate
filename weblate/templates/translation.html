@@ -21,6 +21,7 @@
 {% can_commit_translation user object.subproject.project as user_can_commit_translation %}
 {% can_overwrite_translation user object.subproject.project as user_can_overwrite_translation %}
 {% can_upload_translation user object as user_can_upload_translation %}
+{% can_add_unit user object as user_can_add_unit %}
 
 {% include "show-lock.html" %}
 
@@ -57,6 +58,9 @@
       {% endif %}
       {% if replace_form %}
       <li><a href="#replace" data-toggle="tab">{% trans "Search and replace" %}</a></li>
+      {% endif %}
+      {% if object.is_template and user_can_add_unit %}
+      <li><a href="#new" data-toggle="tab">{% trans "Add new translation unit" %}</a></li>
       {% endif %}
     </ul>
   </li>
@@ -219,6 +223,24 @@
 <p>{% trans "You can replace string in all units at once. The search is simple substring case sensitive search." %}</p>
 {% csrf_token %}
 {{ replace_form|crispy }}
+</div>
+<div class="panel-footer">
+<input type="submit" value="{% trans "Process" %}" class="btn btn-default" />
+</div>
+</div>
+</form>
+</div>
+{% endif %}
+
+{% if object.is_template and user_can_add_unit %}
+<div class="tab-pane" id="new">
+<form action="{% url 'new-unit' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post">
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Add new translation unit" %}</h4></div>
+<div class="panel-body">
+<p>{% trans "You can add new transaltion unit here. It will automatically appear in all translations." %}</p>
+{% csrf_token %}
+{{ new_unit_form|crispy }}
 </div>
 <div class="panel-footer">
 <input type="submit" value="{% trans "Process" %}" class="btn btn-default" />
