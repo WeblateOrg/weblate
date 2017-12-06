@@ -371,9 +371,17 @@ class YAMLFormatTest(AutoFormatTest):
     COUNT = 4
     MASK = 'yaml/*.yml'
     EXPECTED_PATH = 'yaml/cs_CZ.yml'
-    FIND = 'weblate / hello'
+    FIND = 'weblate->hello'
     FIND_MATCH = ''
     MATCH = 'weblate:'
+
+    def setUp(self):
+        super(YAMLFormatTest, self).setUp()
+        # Compatibility code with transalte-toolkit <= 2.4.5
+        instance = self.FORMAT.get_class()()
+        instance.parse(b'en:\n  weblate:\n    hello: ""')
+        if ' / ' in instance.units[0].getid():
+            self.FIND = self.FIND.replace('->', ' / ')
 
     def assert_same(self, newdata, testdata):
         # Fixup quotes as different translate toolkit versions behave
