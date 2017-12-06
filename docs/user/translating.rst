@@ -121,7 +121,7 @@ While translating you can use the following keyboard shortcuts:
     Copy machine translation of given number to current translation.
 :kbd:`Ctrl+I <NUMBER>` or :kbd:`⌘+I <NUMBER>`
     Ignore failing check of given number.
-:kbd:`Ctrl+N` or :kbd:`⌘+N`
+:kbd:`Ctrl+J` or :kbd:`⌘+J`
     Shows nearby strings tab.
 :kbd:`Ctrl+S` or :kbd:`⌘+S`
     Shows search tab.

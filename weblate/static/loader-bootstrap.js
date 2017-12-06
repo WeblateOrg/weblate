@@ -787,7 +787,7 @@ $(function () {
                 }
             );
             Mousetrap.bindGlobal(
-                ['ctrl+n', 'command+n'],
+                ['ctrl+j', 'command+j'],
                 function(e) {
                     $('.nav [href="#nearby"]').click();
                     return false;
