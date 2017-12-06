@@ -52,6 +52,13 @@ def can_review(user, translation):
 
 
 @register.simple_tag
+def can_add_unit(user, translation):
+    return weblate.permissions.helpers.can_add_unit(
+        user, translation
+    )
+
+
+@register.simple_tag
 def can_accept_suggestion(user, unit):
     return weblate.permissions.helpers.can_accept_suggestion(
         user, unit

@@ -180,6 +180,14 @@ def can_review(user, translation):
 
 
 @cache_permission
+def can_add_unit(user, translation):
+    """Check whether user can add new unit for given translation."""
+    if not translation.is_template():
+        return False
+    return can_edit(user, translation, 'trans.add_unit')
+
+
+@cache_permission
 def can_accept_suggestion(user, unit=None, translation=None):
     """Check whether user can accept suggestions to given translation."""
     if unit is not None:

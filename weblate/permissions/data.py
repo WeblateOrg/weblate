@@ -66,6 +66,7 @@ ADMIN_PERMS = {
     'change_screenshot',
     'access_vcs',
     'access_project',
+    'add_unit',
 }
 
 
