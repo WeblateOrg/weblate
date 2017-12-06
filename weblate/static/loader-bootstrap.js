@@ -773,7 +773,7 @@ $(function () {
             Mousetrap.bindGlobal(
                 ['ctrl+s', 'command+s'],
                 function(e) {
-                    $('.nav [href="#search"]').click();
+                    $('#search-dropdown').click();
                     $('input[name="q"]').focus();
                     return false;
                 }
