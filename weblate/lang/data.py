@@ -918,6 +918,18 @@ EXTRALANGS = (
         2,
         'n != 1',
     ),
+    (
+        'byn',
+        'Bilin',
+        2,
+        'n != 1',
+    ),
+    (
+        'gez',
+        'Geez',
+        2,
+        'n != 1',
+    ),
 )
 
 NO_CODE_LANGUAGES = frozenset((
