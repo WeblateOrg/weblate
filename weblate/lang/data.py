@@ -930,6 +930,12 @@ EXTRALANGS = (
         2,
         'n != 1',
     ),
+    (
+        'wal',
+        'Walamo',
+        2,
+        'n != 1',
+    ),
 )
 
 NO_CODE_LANGUAGES = frozenset((

@@ -1108,6 +1108,7 @@ SAME_BLACKLIST = frozenset((
     'venetian',
     'vietnamese',
     'volapük',
+    'walamo',
     'walloon',
     'walser',
     'welsh',
