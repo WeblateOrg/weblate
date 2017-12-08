@@ -932,7 +932,7 @@ EXTRALANGS = (
     ),
     (
         'wal',
-        'Walamo',
+        'Wolaytta',
         2,
         'n != 1',
     ),
