@@ -920,7 +920,7 @@ EXTRALANGS = (
     ),
     (
         'byn',
-        'Bilin',
+        'Blin',
         2,
         'n != 1',
     ),

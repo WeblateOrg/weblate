@@ -864,7 +864,7 @@ SAME_BLACKLIST = frozenset((
     'bemba',
     'bengali',
     'bihari',
-    'bilin',
+    'blin',
     'bislama',
     'bodo',
     'bokmål',
