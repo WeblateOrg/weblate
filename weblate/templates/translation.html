@@ -86,7 +86,7 @@
     </a>
     <ul class="dropdown-menu">
 {% with object.get_share_url as share_url and object.get_widgets_url as widgets_url %}
-      <li><a href="https://www.facebook.com/sharer.php?u={{ share_url }}">{% trans "Share on Facebook!" %}</a></li>
+      <li><a href="https://www.facebook.com/sharer.php?u={{ share_url }}">{% trans "Share on Facebook" %}</a></li>
       <li><a href="https://twitter.com/share?text={% blocktrans %}Translate {{ object }} using %23Weblate at {{ share_url }}!{% endblocktrans %}">{% trans "Tweet this translation!" %}</a></li>
       <li><a href="{% url 'engage' project=object.subproject.project.slug %}">{% trans "Engage page" %}</a></li>
       <li><a href="{{ widgets_url }}">{% trans "Status widgets" %}</a></li>
@@ -220,7 +220,7 @@
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Search and replace" %}</h4></div>
 <div class="panel-body">
-<p>{% trans "You can replace string in all units at once. The search is simple substring case sensitive search." %}</p>
+<p>{% trans "You can replace a string in all units at once. The search is a simple substring case sensitive search." %}</p>
 {% csrf_token %}
 {{ replace_form|crispy }}
 </div>
@@ -238,7 +238,7 @@
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Add new translation unit" %}</h4></div>
 <div class="panel-body">
-<p>{% trans "You can add new translation unit here. It will automatically appear in all translations." %}</p>
+<p>{% trans "You can add new translation unit here, it will automatically appear in all translations." %}</p>
 {% csrf_token %}
 {{ new_unit_form|crispy }}
 </div>
@@ -257,9 +257,9 @@
 <div class="panel-heading"><h4 class="panel-title">{% trans "Upload" %}</h4></div>
 <div class="panel-body">
 {% if user_can_overwrite_translation %}
-<p>{% trans "Uploaded file will be merged with current translation. In case you want to overwrite already translated strings, don't forget to enable it." %}</p>
+<p>{% trans "The uploaded file will be merged with the current translation. In case you want to overwrite already translated strings, don't forget to enable it." %}</p>
 {% else %}
-<p>{% trans "Uploaded file will be merged with current translation." %}</p>
+<p>{% trans "The uploaded file will be merged with the current translation." %}</p>
 {% endif %}
 {% csrf_token %}
 {{ form|crispy }}
