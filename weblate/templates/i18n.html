@@ -11,6 +11,9 @@ Additional password validation by django-zxcvbn-password
 
 It supports internationalization, but there are no translations
 shipped with it.
+
+See:
+https://github.com/dwolfhub/zxcvbn-python/blob/master/zxcvbn/feedback.py
 -->
 
 {% blocktrans %}Your password must be stronger.{% endblocktrans %}
@@ -48,6 +51,12 @@ Language names, generated using:
 from weblate.lang.models import Language
 for l in Language.objects.exclude(name__contains='generated').values_list('name', flat=True).distinct():
     print '{%% trans "%s" %%}' % l
+
+The language names come from Translate-toolkit and Weblate.
+
+See
+https://github.com/translate/translate/blob/master/translate/lang/data.py
+https://github.com/WeblateOrg/weblate/blob/master/weblate/lang/data.py
 
 -->
 {% trans "Abkhazian" %}
