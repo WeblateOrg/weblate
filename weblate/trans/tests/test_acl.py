@@ -262,16 +262,19 @@ class ACLTest(FixtureTestCase):
         """
         match = '{}@'.format(self.project.name)
         self.project.access_control = Project.ACCESS_PUBLIC
+        self.project.enable_review = False
         self.project.save()
         self.assertEqual(
             1, Group.objects.filter(name__startswith=match).count()
         )
         self.project.access_control = Project.ACCESS_PROTECTED
+        self.project.enable_review = True
         self.project.save()
         self.assertEqual(
             8, Group.objects.filter(name__startswith=match).count()
         )
         self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.enable_review = True
         self.project.save()
         self.assertEqual(
             8, Group.objects.filter(name__startswith=match).count()
