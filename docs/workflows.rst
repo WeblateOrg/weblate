@@ -5,7 +5,7 @@ Translation workflows
 
 Weblate can be configured to support several translation workflows. This
 document is not a complete listing of ways to configure Weblate, there are
-certainly more options. However you can base another workflows based on
+certainly more options. You can base another workflows on the most usual
 examples listed here.
 
 Translation access
