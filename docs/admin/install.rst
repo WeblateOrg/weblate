@@ -1061,16 +1061,35 @@ Template loading
 
 It is recommended to use cached template loader for Django. It caches parsed
 templates and avoids the need to do the parsing with every single request. You can
-configure it using the following snippet:
+configure it using the following snippet (the ``loaders`` setting is important here):
 
 .. code-block:: python
 
-    TEMPLATE_LOADERS = (
-        ('django.template.loaders.cached.Loader', (
-            'django.template.loaders.filesystem.Loader',
-            'django.template.loaders.app_directories.Loader',
-        )),
-    )
+    TEMPLATES = [
+        {
+            'BACKEND': 'django.template.backends.django.DjangoTemplates',
+            'DIRS': [
+                os.path.join(BASE_DIR, 'templates'),
+            ],
+            'OPTIONS': {
+                'context_processors': [
+                    'django.contrib.auth.context_processors.auth',
+                    'django.template.context_processors.debug',
+                    'django.template.context_processors.i18n',
+                    'django.template.context_processors.request',
+                    'django.template.context_processors.csrf',
+                    'django.contrib.messages.context_processors.messages',
+                    'weblate.trans.context_processors.weblate_context',
+                ],
+                'loaders': [
+                    ('django.template.loaders.cached.Loader', [
+                        'django.template.loaders.filesystem.Loader',
+                        'django.template.loaders.app_directories.Loader',
+                    ]),
+                ],
+            },
+        },
+    ]
 
 .. seealso::
 
