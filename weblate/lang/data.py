@@ -926,7 +926,7 @@ EXTRALANGS = (
     ),
     (
         'gez',
-        'Geez',
+        'Ge\'ez',
         2,
         'n != 1',
     ),
