@@ -137,6 +137,14 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
             'documentation for more details.'
         )
     )
+    enable_review = models.BooleanField(
+        verbose_name=ugettext_lazy('Enable reviews'),
+        default=False,
+        help_text=ugettext_lazy(
+            'Enable this if you intend to use deditated reviewers to '
+            'approve translations.'
+        )
+    )
     enable_hooks = models.BooleanField(
         verbose_name=ugettext_lazy('Enable hooks'),
         default=True,

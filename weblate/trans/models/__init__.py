@@ -261,7 +261,10 @@ def setup_group_acl(sender, instance, **kwargs):
         lookup = Q(name__startswith='@')
     else:
         permissions = PUBLIC_PERMS
-        lookup = Q(name__in=('@Administration',))
+        lookup = Q(name__in=('@Administration', '@Review'))
+
+    if not instance.enable_review:
+        lookup = lookup & ~Q(name='@Review')
 
     group_acl.permissions.set(
         Permission.objects.filter(codename__in=permissions),

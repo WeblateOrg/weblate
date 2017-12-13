@@ -1391,6 +1391,7 @@ class ProjectAccessForm(forms.ModelForm):
         model = Project
         fields = (
             'access_control',
+            'enable_review',
         )
 
     def __init__(self, *args, **kwargs):
@@ -1399,6 +1400,7 @@ class ProjectAccessForm(forms.ModelForm):
         self.helper.layout = Layout(
             Field('access_control'),
             Div(template='access_control_description.html'),
+            Field('enable_review'),
         )
 
 

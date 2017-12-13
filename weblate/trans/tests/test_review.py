@@ -27,6 +27,11 @@ from weblate.trans.tests.test_views import ViewTestCase
 
 
 class ReviewTest(ViewTestCase):
+    def setUp(self):
+        super(ReviewTest, self).setUp()
+        self.project.enable_review = True
+        self.project.save()
+
     def approve(self):
         unit = self.get_unit()
         unit.target = 'Ahoj svete!\n'
