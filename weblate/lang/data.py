@@ -920,13 +920,19 @@ EXTRALANGS = (
     ),
     (
         'byn',
-        'Bilin',
+        'Blin',
         2,
         'n != 1',
     ),
     (
         'gez',
-        'Geez',
+        'Ge\'ez',
+        2,
+        'n != 1',
+    ),
+    (
+        'wal',
+        'Wolaytta',
         2,
         'n != 1',
     ),

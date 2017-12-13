@@ -509,7 +509,7 @@ class Unit(models.Model, LoggerMixin):
             return STATE_FUZZY
         if not translated:
             return STATE_EMPTY
-        elif approved:
+        elif approved and self.translation.subproject.project.enable_review:
             return STATE_APPROVED
         return STATE_TRANSLATED
 

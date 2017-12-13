@@ -54,6 +54,8 @@ This is also default setup in Weblate.
 +------------------------+------------+-------------------------------------+
 | Setting                |   Value    |   Note                              |
 +========================+============+=====================================+
+| Enable reviews         | disabled   | configured at project level         |
++------------------------+------------+-------------------------------------+
 | Enable suggestions     | enabled    | it is useful for users to be able   |
 |                        |            | suggest when they are not sure      |
 +------------------------+------------+-------------------------------------+
@@ -84,6 +86,8 @@ from additional member before it is accepted as a translation.
 +------------------------+------------+-------------------------------------+
 | Setting                |   Value    |   Note                              |
 +========================+============+=====================================+
+| Enable reviews         | disabled   | configured at project level         |
++------------------------+------------+-------------------------------------+
 | Enable suggestions     | enabled    |                                     |
 +------------------------+------------+-------------------------------------+
 | Suggestion voting      | enabled    |                                     |
@@ -120,6 +124,8 @@ translations are consistent and in a good quality.
 +------------------------+------------+-------------------------------------+
 | Setting                |   Value    |   Note                              |
 +========================+============+=====================================+
+| Enable reviews         | enabled    | configured at project level         |
++------------------------+------------+-------------------------------------+
 | Enable suggestions     | enabled    | it is useful for users to be able   |
 |                        |            | suggest when they are not sure      |
 +------------------------+------------+-------------------------------------+
