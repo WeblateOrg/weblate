@@ -155,6 +155,8 @@ Protected
 Private
     Visible and translatable only for selected users
 
+.. image:: ../images/project-access.png
+
 To allow access to this project, you have to add the privilege to do so either
 directly to the given user or group of users in Django admin interface, or by using
 user management on the project page as described in :ref:`manage-acl`.

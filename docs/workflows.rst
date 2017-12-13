@@ -127,3 +127,17 @@ translations are consistent and in a good quality.
 +------------------------+------------+-------------------------------------+
 | Reviewers group        | Reviewers  | or Review with access control       |
 +------------------------+------------+-------------------------------------+
+
+Enabling reviews
+----------------
+
+The reviews can be enabled on project configuration, you can find the setting
+on bottom of :guilabel:`Manage users` page (to be found in the :guilabel:`Manage` menu):
+
+.. image:: images/project-access.png
+
+.. note::
+
+    Depending on Weblate configuration, the setting might not be available to
+    you. For example on Hosted Weblate this is not available for projects hosted
+    for free.
