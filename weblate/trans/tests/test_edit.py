@@ -797,3 +797,17 @@ class EditComplexTest(ViewTestCase):
             'Translation of the message has been changed meanwhile'
         )
         self.assert_backend(0)
+
+    def test_edit_view(self):
+        url = self.get_unit('Hello, world!\n').get_absolute_url()
+        response = self.client.get(url)
+        form = response.context['form']
+        params = {}
+        for field in form.fields.keys():
+            params[field] = form[field].value()
+        params['target_0'] = 'Nazdar svete!\n'
+        response = self.client.post(url, params)
+        unit = self.get_unit()
+        self.assertEqual(unit.target, 'Nazdar svete!\n')
+        self.assertEqual(unit.state, STATE_TRANSLATED)
+        self.assert_backend(1)
