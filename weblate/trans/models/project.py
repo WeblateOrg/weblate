@@ -141,7 +141,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         verbose_name=ugettext_lazy('Enable reviews'),
         default=False,
         help_text=ugettext_lazy(
-            'Enable this if you intend to use deditated reviewers to '
+            'Enable this if you intend to use dedicated reviewers to '
             'approve translations.'
         )
     )

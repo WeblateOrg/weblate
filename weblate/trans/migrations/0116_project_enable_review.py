@@ -15,6 +15,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='project',
             name='enable_review',
-            field=models.BooleanField(default=False, help_text='Enable this if you intend to use deditated reviewers to approve translations.', verbose_name='Enable reviews'),
+            field=models.BooleanField(default=False, help_text='Enable this if you intend to use dedicated reviewers to approve translations.', verbose_name='Enable reviews'),
         ),
     ]
