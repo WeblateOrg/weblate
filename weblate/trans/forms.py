@@ -461,6 +461,8 @@ class TranslationForm(ChecksumForm):
             Field('checksum'),
             Field('target'),
             Field('fuzzy'),
+            Field('contentsum'),
+            Field('translationsum'),
             InlineRadios('review'),
         )
         if unit and can_review(user, unit.translation):
