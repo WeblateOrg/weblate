@@ -21,18 +21,18 @@
   <div class="panel-body">
 
 {% if is_reset %}
-<p>{% blocktrans %}You will very soon receive an email with a confirmation link. Please follow this link in order to complete your password reset procedure.{% endblocktrans %}</p>
+<p>{% blocktrans %}Shortly you should receive an e-mail containing a confirmation link. Click it to reset your password.{% endblocktrans %}</p>
 {% elif is_remove %}
-<p>{% blocktrans %}You will very soon receive an email with a confirmation link. Please follow this link in order to complete your account removal procedure.{% endblocktrans %}</p>
+<p>{% blocktrans %}Shortly you should receive an e-mail containing a confirmation link. Click it to remove your account.{% endblocktrans %}</p>
 {% else %}
-<p>{% blocktrans %}Thank you for registering. You will very soon receive an email with a confirmation link. Please follow this link in order to complete your registration.{% endblocktrans %}</p>
+<p>{% blocktrans %}Thank you for registering. Click the confirmation link you receive by e-mail to complete the registration.{% endblocktrans %}</p>
 {% endif %}
 
-<p>{% blocktrans %}Please note that the confirmation link has limited validity. In case it does not work, please register again.{% endblocktrans %}</p>
+<p>{% blocktrans %}If the confirmation link expires before you get to use it, register again.{% endblocktrans %}</p>
 
 <p>
 {% url 'contact' as contact_url %}
-{% blocktrans %}If you don't receive it shortly, please check your spam folder or retry the registration. If the problem persists, please <a href="{{ contact_url }}?t=reg">contact us</a>.{% endblocktrans %}
+{% blocktrans %}If you don't receive it shortly, please check your spam folder or retry the registration. Should the problem persist, please <a href="{{ contact_url }}?t=reg">contact us</a>.{% endblocktrans %}
 </p>
 
 </div>
