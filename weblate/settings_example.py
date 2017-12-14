@@ -54,6 +54,8 @@ DATABASES = {
             # Uncomment for MySQL older than 5.7:
             # 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
         },
+        # Wrap each view in a transaction on this database
+        'ATOMIC_REQUESTS': True,
     }
 }
 

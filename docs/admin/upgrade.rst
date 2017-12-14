@@ -545,6 +545,7 @@ Notable configuration or dependencies changes:
   might want to add the following permissions where applicable (see :ref:`extra-privs`
   for their default setup):
   * Can review translation
+* Weblate now needs database to be configured with :setting:`ATOMIC_REQUESTS <django:DATABASE-ATOMIC_REQUESTS>` enabled.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
