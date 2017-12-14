@@ -49,7 +49,7 @@ from weblate.lang.models import Language
 from weblate.trans.models import SubProject, Unit, Project, Change
 from weblate.trans.models.source import PRIORITY_CHOICES
 from weblate.trans.models.unit import (
-    STATE_TRANSLATED, STATE_FUZZY, STATE_APPROVED
+    STATE_TRANSLATED, STATE_FUZZY, STATE_APPROVED, STATE_EMPTY,
 )
 from weblate.trans.checks import CHECKS
 from weblate.permissions.helpers import (
@@ -427,11 +427,11 @@ class TranslationForm(ChecksumForm):
     fuzzy = FuzzyField(required=False)
     review = forms.ChoiceField(
         label=_('Review state'),
-        choices=(
+        choices=[
             (STATE_FUZZY, _('Needs editing')),
             (STATE_TRANSLATED, _('Waiting for review')),
             (STATE_APPROVED, _('Approved')),
-        ),
+        ],
         required=False,
         widget=forms.RadioSelect
     )
@@ -455,6 +455,9 @@ class TranslationForm(ChecksumForm):
         self.fields['target'].widget.attrs['tabindex'] = tabindex
         self.fields['target'].widget.profile = user.profile
         self.fields['review'].widget.attrs['class'] = 'review_radio'
+        # Avoid failing validation on not translated string
+        if args:
+            self.fields['review'].choices.append((STATE_EMPTY, ''))
         self.helper = FormHelper()
         self.helper.form_method = 'post'
         self.helper.layout = Layout(
