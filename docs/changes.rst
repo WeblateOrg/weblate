@@ -16,6 +16,7 @@ Released on December 15th 2017.
 * Dropped support for Django 1.10 and added support for Django 2.0.
 * Removed locking of translations while translating.
 * Added support for adding new units to monolingual translations.
+* Added support for translation workflows with dedicated reviewers.
 
 weblate 2.17.1
 --------------
