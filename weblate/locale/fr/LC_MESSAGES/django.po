@@ -4,8 +4,8 @@ msgstr ""
 "Project-Id-Version: French (Weblate)\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-12-13 09:42+0000\n"
-"PO-Revision-Date: 2017-12-15 08:04+0000\n"
-"Last-Translator: French Coordinator OTF/LocLab <french.coordinator@rbox.me>\n"
+"PO-Revision-Date: 2017-12-16 10:07+0000\n"
+"Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French "
 "<https://hosted.weblate.org/projects/weblate/master/fr/>\n"
 "Language: fr\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2.18-dev\n"
+"X-Generator: Weblate 2.18\n"
 
 #: weblate/accounts/admin.py:106 weblate/accounts/admin.py:111
 msgid "Personal info"
@@ -1744,8 +1744,7 @@ msgstr "Paramètres d’abonnement"
 
 #: weblate/templates/accounts/profile.html:166
 msgid "Your name and email will appear as author on the commits."
-msgstr ""
-"Vos nom et adresse courriel apparaîtront en tant qu’auteur dans les commits."
+msgstr "Vos nom et courriel apparaîtront en tant qu’auteur dans les archivages."
 
 #: weblate/templates/accounts/profile.html:179
 msgid "Current user identities"
@@ -3954,7 +3953,7 @@ msgstr "Le dépôt local est à jour."
 
 #: weblate/templates/js/git-status.html:45
 msgid "Last remote commit:"
-msgstr "Dernier commit à distance : "
+msgstr "Dernier archivage distant :"
 
 #: weblate/templates/js/git-status.html:52
 msgid "Repository containing Weblate translations:"
@@ -3979,7 +3978,7 @@ msgstr "Enregistrer"
 
 #: weblate/templates/js/git-status.html:116
 msgid "Commit pending changes to the local repository"
-msgstr "Archiver dans le dépôt local les changements en attente"
+msgstr "Archiver dans le dépôt local les modifications en attente"
 
 #: weblate/templates/js/git-status.html:126
 msgid "Pull"
@@ -4345,7 +4344,7 @@ msgstr "Changement dans la traduction : "
 #: weblate/templates/mail/new_translation.html:38
 #: weblate/templates/mail/new_translation.txt:15
 msgid "You can edit this string at:"
-msgstr "Vous pouvez éditer cette chaîne sur : "
+msgstr "Vous pouvez modifier cette chaîne sur :"
 
 #: weblate/templates/mail/changed_translation.txt:13
 msgid "Previous translation:"
@@ -5239,7 +5238,7 @@ msgstr "Ctrl + O - Copier depuis la chaîne source"
 
 #: weblate/templates/translate.html:90
 msgid "Ctrl+T - Toggle edit needed flag"
-msgstr "Ctrl  + T - Bascule l’option à modifier"
+msgstr "Ctrl  + T - Bascule l’option A vérifier"
 
 #: weblate/templates/translate.html:92
 msgid "Editing source string"
@@ -5301,7 +5300,7 @@ msgstr "Ignorer"
 
 #: weblate/templates/translate.html:195
 msgid "Commit message:"
-msgstr "Message de commit :"
+msgstr "Message d'archivage :"
 
 #: weblate/templates/translate.html:198
 msgid "Additional text to include"
@@ -5312,8 +5311,8 @@ msgid ""
 "You can leave this empty in most cases as Weblate generates basic commit "
 "messages automatically."
 msgstr ""
-"Vous pouvez laisser ceci vide dans la plupart des cas puisque Weblate génère "
-"automatiquement des messages de commit de base."
+"Vous pouvez ne pas le renseigner car souvent Weblate génère automatiquement "
+"des messages d'archivage basiques."
 
 #: weblate/templates/translate.html:210
 msgid "Messages placed around this one"
@@ -5765,7 +5764,7 @@ msgstr "Mettre à jour les vérifications de qualité"
 
 #: weblate/trans/admin.py:80 weblate/trans/admin.py:133
 msgid "Commit pending changes"
-msgstr "Enregistrer les changements en attente"
+msgstr "Enregistrer les modifications en attente"
 
 #: weblate/trans/apps.py:34
 msgid "Weblate translations"
@@ -6224,14 +6223,14 @@ msgstr "Le message que vous vouliez traduire n’est plus disponible !"
 #: weblate/trans/forms.py:413 weblate/trans/forms.py:431
 #: weblate/trans/templatetags/translations.py:519
 msgid "Needs editing"
-msgstr "À modifier"
+msgstr "À vérifier"
 
 #: weblate/trans/forms.py:415
 msgid ""
 "String is usually marked as needing editing after source string change or "
 "this can be done manually."
 msgstr ""
-"Une chaîne est habituellement marquée comme à modifier suite à une "
+"Une chaîne est habituellement marquée comme A vérifier suite à une "
 "modification dans la chaîne source."
 
 #: weblate/trans/forms.py:429
@@ -6283,11 +6282,11 @@ msgstr "Ajouter comme suggestion"
 
 #: weblate/trans/forms.py:544
 msgid "Add as translation needing edit"
-msgstr "Ajouter comme traduction à modifier"
+msgstr "Ajouter comme traduction A vérifier"
 
 #: weblate/trans/forms.py:548
 msgid "Processing of strings needing edit"
-msgstr "Traitement des chaînes devant être modifiées"
+msgstr "Traitement des chaînes A vérifier"
 
 #: weblate/trans/forms.py:550
 msgid "Do not import"
@@ -6295,7 +6294,7 @@ msgstr "Ne pas importer"
 
 #: weblate/trans/forms.py:551
 msgid "Import as string needing edit"
-msgstr "Importer comme chaîne à modifier"
+msgstr "Importer comme chaîne A vérifier"
 
 #: weblate/trans/forms.py:552
 msgid "Import as translated"
@@ -6355,7 +6354,7 @@ msgstr "Chaînes traduites"
 
 #: weblate/trans/forms.py:625
 msgid "Strings marked for edit"
-msgstr "Chaînes marquées comme à modifier"
+msgstr "Chaînes marquées comme A vérifier"
 
 #: weblate/trans/forms.py:626 weblate/trans/models/translation.py:933
 msgid "Strings with suggestions"
@@ -6677,7 +6676,7 @@ msgstr "Paramètres du Système de contrôle de versions"
 
 #: weblate/trans/forms.py:1351
 msgid "Commit messages"
-msgstr "Messages de commit"
+msgstr "Messages d'archivage"
 
 #: weblate/trans/forms.py:1361
 msgid "Languages processing"
@@ -6710,8 +6709,8 @@ msgstr "Texte de la langue source"
 #: weblate/trans/forms.py:1470
 msgid "You can later edit this as any other string in source language."
 msgstr ""
-"Vous pourrez l’éditer ultérieurement comme toute autre chaîne de la langue "
-"source."
+"Vous pourrez la modifier ultérieurement comme toute autre chaîne de la "
+"langue source."
 
 #: weblate/trans/models/advertisement.py:41
 #, python-brace-format
@@ -7185,15 +7184,15 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:256
 msgid "Additional commit files"
-msgstr "Fichiers de commit supplémentaires"
+msgstr "Fichiers d'archivage supplémentaires"
 
 #: weblate/trans/models/subproject.py:261
 msgid ""
 "Additional files to include in commits, one per line; please check "
 "documentation for more details."
 msgstr ""
-"Fichiers supplémentaires à inclure dans les commits, un par ligne; veuillez "
-"consulter la documentation pour plus de détails."
+"Fichiers supplémentaires à inclure dans les archivages, un par ligne; "
+"veuillez consulter la documentation pour plus de détails."
 
 #: weblate/trans/models/subproject.py:266
 msgid "Post-update script"
@@ -7209,27 +7208,27 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:277
 msgid "Pre-commit script"
-msgstr "Script de pré-commit"
+msgstr "Script de pré-archivage"
 
 #: weblate/trans/models/subproject.py:283
 msgid ""
 "Script to be executed before committing translation, please check "
 "documentation for more details."
 msgstr ""
-"Script à exécuter avant d’effectuer le commit de la traduction, veuillez "
+"Script à exécuter avant d’effectuer l’archivage de la traduction, veuillez "
 "consulter la documentation pour plus de détails."
 
 #: weblate/trans/models/subproject.py:288
 msgid "Post-commit script"
-msgstr "Script post-commit"
+msgstr "Script post-archivage"
 
 #: weblate/trans/models/subproject.py:294
 msgid ""
 "Script to be executed after committing translation, please check "
 "documentation for more details."
 msgstr ""
-"Script à exécuter après avoir effectué le commit de la traduction, veuillez "
-"consulter la documentation pour plus de détails."
+"Script à exécuter après avoir effectué l’archivage de la traduction, "
+"veuillez consulter la documentation pour plus de détails."
 
 #: weblate/trans/models/subproject.py:299
 msgid "Post-push script"
@@ -7369,7 +7368,7 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:429
 msgid "Commit message when translating"
-msgstr "Commiter le message en cas de modification de traduction"
+msgstr "Message d'archivage en cas de modification de traduction"
 
 #: weblate/trans/models/subproject.py:431
 #: weblate/trans/models/subproject.py:440
@@ -7383,27 +7382,27 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:438
 msgid "Commit message when adding translation"
-msgstr "Commiter le message en cas de création de traduction"
+msgstr "Message d'archivage en cas d'ajout de traduction"
 
 #: weblate/trans/models/subproject.py:447
 msgid "Commit message when removing translation"
-msgstr "Commiter le message en cas de suppression de traduction"
+msgstr "Message d'archivage en cas de suppression de traduction"
 
 #: weblate/trans/models/subproject.py:456
 msgid "Committer name"
-msgstr "Nom du committeur"
+msgstr "Nom du contributeur"
 
 #: weblate/trans/models/subproject.py:461
 msgid "Committer email"
-msgstr "Adresse courriel du committeur"
+msgstr "Courriel du contributeur"
 
 #: weblate/trans/models/subproject.py:466
 msgid "Push on commit"
-msgstr "Pousser lors du commit"
+msgstr "Pousser lors de l'archivage"
 
 #: weblate/trans/models/subproject.py:469
 msgid "Whether the repository should be pushed upstream on every commit."
-msgstr "Le dépôt doit être poussé en amont à chaque commit."
+msgstr "Le dépôt doit être poussé en amont à chaque archivage."
 
 #: weblate/trans/models/subproject.py:473
 msgid "Age of changes to commit"
@@ -7666,7 +7665,7 @@ msgstr "Échec de l’analyse du fichier %(file)s : %(error)s"
 
 #: weblate/trans/models/translation.py:924
 msgid "Strings marked as needing edit"
-msgstr "Chaînes marquées comme à modifier"
+msgstr "Chaînes marquées comme A vérifier"
 
 #: weblate/trans/models/unit.py:456
 #, python-brace-format
@@ -7989,7 +7988,7 @@ msgstr "Non traduit"
 
 #: weblate/trans/templatetags/translations.py:551
 msgid "Message needs edit"
-msgstr "Message à modifier"
+msgstr "Message A vérifier"
 
 #: weblate/trans/templatetags/translations.py:556
 msgid "Message is not translated"
@@ -8411,7 +8410,7 @@ msgstr ""
 
 #: weblate/trans/views/git.py:65
 msgid "All pending translations were committed."
-msgstr "Toutes les traductions en attente ont été enregistrées."
+msgstr "Toutes les traductions en attente ont été archivées."
 
 #: weblate/trans/views/git.py:76
 msgid "All repositories were updated."
