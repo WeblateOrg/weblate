@@ -298,6 +298,12 @@ class RepoTestMixin(object):
             'po-mono/*.po',
             'po-mono/en.po',
         )
+    def create_po_mono_unwrapped(self):
+        return self._create_subproject(
+            'po-mono-unwrapped',
+            'po-mono/*.po',
+            'po-mono/en.po',
+        )
 
     def create_ts(self, suffix=''):
         return self._create_subproject(

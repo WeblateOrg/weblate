@@ -1006,6 +1006,13 @@ class PoMonoFormat(PoFormat):
 
 
 @register_fileformat
+class UnwrappedPoMonoFormat(UnwrappedPoFormat):
+    name = _('Gettext PO file (monolingual, unwrapped)')
+    format_id = 'po-mono-unwrapped'
+    monolingual = True
+
+
+@register_fileformat
 class TSFormat(FileFormat):
     name = _('Qt Linguist Translation File')
     format_id = 'ts'
