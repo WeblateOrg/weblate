@@ -288,8 +288,12 @@ class ImportJoomlaTest(ImportTest):
     def create_subproject(self):
         return self.create_joomla()
 
+    def test_import_fuzzy(self):
+        # Does not make sense here
+        pass
 
-class ImportJoomlaTest(ImportTest):
+
+class ImportPHPMonoTest(ImportTest):
     def create_subproject(self):
         return self.create_php_mono()
 
