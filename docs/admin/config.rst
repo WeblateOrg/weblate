@@ -479,8 +479,8 @@ Defaults to False.
 
 .. setting:: IP_PROXY_HEADER
 
-IP_BEHIND_REVERSE_PROXY
------------------------
+IP_PROXY_HEADER
+---------------
 
 .. versionadded:: 2.14
 

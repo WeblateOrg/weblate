@@ -290,6 +290,21 @@ Generic settings
 
         :ref:`production-site`
 
+.. envvar:: WEBLATE_IP_PROXY_HEADER
+
+    Enables Weblate fetching IP address from given HTTP header. Use this when using
+    reverse proxy in front of Weblate container.
+
+    Enables :setting:`IP_BEHIND_REVERSE_PROXY` and sets :setting:`IP_PROXY_HEADER`.
+
+    **Example:**
+
+    .. code-block:: yaml
+
+        environment:
+          - WEBLATE_IP_PROXY_HEADER=HTTP_X_FORWARDED_FOR
+
+
 .. envvar:: WEBLATE_REQUIRE_LOGIN
 
     Configures login required for whole Weblate using :setting:`LOGIN_REQUIRED_URLS`.
