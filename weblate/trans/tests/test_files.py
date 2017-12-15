@@ -196,6 +196,13 @@ class ImportTest(ImportBaseTest):
             1
         )
 
+    def test_import_xliff(self):
+        response = self.do_import(test_file=TEST_XLIFF, follow=True)
+        self.assertContains(response, 'updated: 1')
+        # Verify stats
+        translation = self.get_translation()
+        self.assertEqual(translation.translated, 1)
+
 
 class ImportErrorTest(ImportBaseTest):
     """Testing import of broken files."""
@@ -275,6 +282,20 @@ class ImportMoPoTest(ImportTest):
 
     def create_subproject(self):
         return self.create_po()
+
+
+class ImportJoomlaTest(ImportTest):
+    def create_subproject(self):
+        return self.create_joomla()
+
+
+class ImportJoomlaTest(ImportTest):
+    def create_subproject(self):
+        return self.create_php_mono()
+
+    def test_import_fuzzy(self):
+        # Does not make sense here
+        pass
 
 
 class StringsImportTest(ImportTest):

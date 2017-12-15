@@ -197,21 +197,21 @@ class FileUnit(object):
 
         return comment
 
-    def is_unit_key_value(self):
+    def is_unit_key_value(self, unit):
         """Check whether unit is key = value based rather than translation.
 
         These are some files like PHP or properties, which for some
         reason do not correctly set source/target attributes.
         """
         return (
-            hasattr(self.mainunit, 'name') and
-            hasattr(self.mainunit, 'value') and
-            hasattr(self.mainunit, 'translation')
+            hasattr(unit, 'name') and
+            hasattr(unit, 'value') and
+            hasattr(unit, 'translation')
         )
 
     def get_source(self):
         """Return source string from a ttkit unit."""
-        if self.is_unit_key_value():
+        if self.is_unit_key_value(self.mainunit):
             # Need to decode property encoded string
             if isinstance(self.mainunit, propunit):
                 if self.template is not None:
@@ -232,7 +232,7 @@ class FileUnit(object):
         """Return target string from a ttkit unit."""
         if self.unit is None:
             return ''
-        if self.is_unit_key_value():
+        if self.is_unit_key_value(self.unit):
             # Need to decode property encoded string
             if isinstance(self.unit, propunit):
                 # This is basically stolen from
@@ -255,7 +255,7 @@ class FileUnit(object):
             return self.template.getid()
         else:
             context = self.mainunit.getcontext()
-        if self.is_unit_key_value() and context == '':
+        if self.is_unit_key_value(self.mainunit) and context == '':
             return self.mainunit.getid()
         return context
 
@@ -300,7 +300,7 @@ class FileUnit(object):
             return False
         # The hasattr check here is needed for merged storages
         # where template is different kind than translations
-        if self.is_unit_key_value() and hasattr(self.unit, 'value'):
+        if self.is_unit_key_value(self.unit) and hasattr(self.unit, 'value'):
             return not self.unit.isfuzzy() and self.unit.value != ''
         else:
             return self.unit.istranslated()
@@ -337,7 +337,7 @@ class FileUnit(object):
             target = multistring(target)
         self.unit.settarget(target)
         # Propagate to value so that is_translated works correctly
-        if self.is_unit_key_value():
+        if self.is_unit_key_value(self.unit):
             self.unit.value = self.unit.translation
 
     def mark_fuzzy(self, fuzzy):
