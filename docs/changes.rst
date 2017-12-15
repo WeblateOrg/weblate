@@ -6,6 +6,8 @@ weblate 2.19
 
 Released on ? 2018.
 
+* Fixed imports across some file formats.
+
 weblate 2.18
 ------------
 
