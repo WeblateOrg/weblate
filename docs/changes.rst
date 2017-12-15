@@ -4,7 +4,7 @@ Changes
 weblate 2.18
 ------------
 
-Released on ? 2017.
+Released on December 15th 2017.
 
 * Extended contributor stats.
 * Improved configuration of special chars virtual keyboard.
