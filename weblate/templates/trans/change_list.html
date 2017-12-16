@@ -18,7 +18,7 @@
 <li><a href="{% url 'languages' %}">{% trans "Languages" %}</a></li>
 <li><a href="{{ language.get_absolute_url }}">{{ language }}</a></li>
 {% endif %}
-<li><a href="{% url 'changes' %}?{{ query_string }}">Changes</a></li>
+<li><a href="{% url 'changes' %}?{{ query_string }}">{% trans "Changes" %}</a></li>
 {% endblock %}
 
 {% block content %}
