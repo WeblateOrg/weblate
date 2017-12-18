@@ -765,7 +765,7 @@ class EditComplexTest(ViewTestCase):
         # We should get to second message
         self.assertContains(
             response,
-            'This translation is currently locked for updates!'
+            'This translation is currently locked for updates.'
         )
         self.assert_backend(0)
 

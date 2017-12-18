@@ -45,7 +45,7 @@ class LockTest(FixtureTestCase):
         )
         self.assertContains(
             response,
-            'This translation is currently locked for updates!'
+            'This translation is currently locked for updates.'
         )
 
     def assert_component_not_locked(self):
@@ -59,7 +59,7 @@ class LockTest(FixtureTestCase):
         )
         self.assertNotContains(
             response,
-            'This translation is currently locked for updates!'
+            'This translation is currently locked for updates.'
         )
 
     def test_subproject(self):
@@ -93,7 +93,7 @@ class LockTest(FixtureTestCase):
         )
         self.assertContains(
             response,
-            'This translation is currently locked for updates!'
+            'This translation is currently locked for updates.'
         )
 
         response = self.client.post(
