@@ -12,7 +12,7 @@
 {% else %}
 {% blocktrans %}This site runs <a href="{{ weblate_url }}">Weblate</a> for translating the software projects listed below.{% endblocktrans %}
 {% endif %}
-{% trans "You need to be logged in for translating, otherwise you can only make suggestions." %}
+{% trans "You need to be logged in to translate, otherwise you can only make suggestions." %}
 </p>
 {% endif %}
 
@@ -44,7 +44,7 @@
   </a>
   <ul class="dropdown-menu">
     <li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
-    <li><a href="{% url 'languages' %}">{% trans "Languages summary" %}</a></li>
+    <li><a href="{% url 'languages' %}">{% trans "Summary of languages" %}</a></li>
     <li><a href="{% url 'projects' %}">{% trans "All projects" %}</a></li>
     <li><a href="{% url 'checks' %}">{% trans "Checks overview" %}</a></li>
     <li><a href="{% url 'data_root' %}">{% trans "Data export" %}</a></li>
@@ -68,7 +68,7 @@
         {% endwith %}
     {% endif %}
 {% else %}
-    <p class="help-block">{% trans "Choose your languages in preferences and you will get an overview here of available translations for those languages in your watched projects." %}</p>
+    <p class="help-block">{% trans "Choose what languages you want in the preferences, to see overview of available translations for those languages in your watched projects." %}</p>
 {% endif %}
 <p>
     <a class="btn btn-default" href="{% url 'profile' %}#languages">{% trans "Manage your languages" %}</a>
@@ -83,7 +83,7 @@
 {% endwith %}
 <p>{% include "legend.html" %}</p>
 {% else %}
-<p class="help-block">{% trans "Choose your languages in preferences and you will get an overview here of available translations for those languages in all projects." %}</p>
+<p class="help-block">{% trans "Choose languages you speak in the preferences, to see an overview of all projects that feature those languages here." %}</p>
 {% endif %} {# userlanguages #}
 <p><a class="btn btn-default" href="{% url 'profile' %}#languages">{% trans "Manage your languages" %}</a></p>
 </div>
@@ -97,7 +97,7 @@
 {% endwith %}
 <p>{% include "legend.html" %}</p>
 {% else %}
-<p class="help-block">{% trans "Could not find any suggestions for you, please choose your languages in preferences to get more suggestions." %}</p>
+<p class="help-block">{% trans "Could not find any suggestions for you, please choose your languages in the preferences to get some." %}</p>
 {% endif %}
 {% if user.is_authenticated %}
 <p><a class="btn btn-default" href="{% url 'profile' %}#languages">{% trans "Manage your languages" %}</a></p>
