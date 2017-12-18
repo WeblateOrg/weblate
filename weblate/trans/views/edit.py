@@ -318,7 +318,7 @@ def handle_translate(translation, request, this_unit_url, next_unit_url):
     elif not can_translate(request.user, unit):
         messages.error(
             request,
-            _('You don\'t have privileges to save translations!')
+            _('Insufficient privileges for saving translations.')
         )
     else:
         # Custom commit message
@@ -352,7 +352,7 @@ def handle_merge(translation, request, next_unit_url):
     if not can_translate(request.user, unit):
         messages.error(
             request,
-            _('You don\'t have privileges to save translations!')
+            _('Insufficient privileges for saving translations.')
         )
         return
 
@@ -380,7 +380,7 @@ def handle_revert(translation, request, next_unit_url):
     if not can_translate(request.user, unit):
         messages.error(
             request,
-            _('You don\'t have privileges to save translations!')
+            _('Insufficient privileges for saving translations.')
         )
         return
 
@@ -788,8 +788,7 @@ def save_zen(request, project, subproject, lang):
         messages.error(request, _('Failed to save translation!'))
     elif not can_translate(request.user, form.cleaned_data['unit']):
         messages.error(
-            request,
-            _('You don\'t have privileges to save translations!')
+            request, _('Insufficient privileges for saving translations.')
         )
     else:
         unit = form.cleaned_data['unit']

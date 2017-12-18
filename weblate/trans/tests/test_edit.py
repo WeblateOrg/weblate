@@ -568,8 +568,7 @@ class ZenViewTest(ViewTestCase):
             params
         )
         self.assertContains(
-            response,
-            'You don&#39;t have privileges to save translations!',
+            response, 'Insufficient privileges for saving translations.'
         )
 
 
