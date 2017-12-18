@@ -1165,19 +1165,28 @@ class PhpFormat(FileFormat):
         """Return most common file extension for format."""
         return 'php'
 
+    @property
+    def using_phplexer(self):
+        try:
+            # New phply based storage handles save just fine
+            # see https://github.com/translate/translate/pull/3697
+            # pylint: disable=W0612
+            from translate.storage.php import PHPLexer  # noqa
+            return True
+        except ImportError:
+            return False
+
     def save(self):
         """Save underlaying store to disk.
 
         This is workaround for .save() not working as intended in
         translate-toolkit.
         """
-        try:
+        if self.using_phplexer:
             # New phply based storage handles save just fine
             # see https://github.com/translate/translate/pull/3697
-            # pylint: disable=W0612
-            from translate.storage.php import PHPLexer  # noqa
             super(PhpFormat, self).save()
-        except ImportError:
+        else:
             with open(self.store.filename, 'rb') as handle:
                 convertor = po2php.rephp(handle, self.store)
 

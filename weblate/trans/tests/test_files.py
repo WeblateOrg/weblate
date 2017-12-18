@@ -22,6 +22,8 @@
 
 from __future__ import unicode_literals
 
+from unittest import SkipTest
+
 from django.contrib.messages import ERROR
 from django.urls import reverse
 
@@ -300,6 +302,11 @@ class ImportPHPMonoTest(ImportTest):
     def test_import_fuzzy(self):
         # Does not make sense here
         pass
+
+    def test_import_xliff(self):
+        if not self.get_translation().store.using_phplexer:
+            raise SkipTest('Not supported on this translate-toolkit version')
+        super(ImportPHPMonoTest, self).test_import_xliff()
 
 
 class StringsImportTest(ImportTest):
