@@ -228,7 +228,7 @@ class ACLTest(FixtureTestCase):
             {'user': 'nonexisting'},
             follow=True
         )
-        self.assertContains(response, 'No matching user found!')
+        self.assertContains(response, 'No matching user found.')
 
     def test_change_access(self):
         self.add_acl()
