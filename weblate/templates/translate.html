@@ -169,7 +169,7 @@
     {% if not user.is_authenticated %}
     title="{% trans "Please log in for saving translations." %}"
     {% elif unit.approved %}
-    title="{% trans "Only reviewers can change approved string, please add suggestion if you think the string should be changed." %}"
+    title="{% trans "Only reviewers can change approved strings, please add a suggestion if you think the string should be changed." %}"
     {% else %}
     title="{% trans "You don't have privileges to save translations!" %}"
     {% endif %}
@@ -198,7 +198,7 @@
         placeholder="{% trans "Additional text to include" %}"
         tabindex="152"
         value="{{ unit.translation.commit_message }}"
-        title="{% trans "You can leave this empty in most cases as Weblate generates basic commit messages automatically." %}"
+        title="{% trans "You can leave this empty in most cases, as Weblate generates basic commit messages automatically." %}"
     />
     </div>
     {% endif %}
