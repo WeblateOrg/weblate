@@ -75,6 +75,12 @@ class XMLValidityCheckTest(CheckTestCase):
             ('<emphasis>2nd</emphasis>', '<emphasis>not< /emphasis>', '')
         )
 
+    def test_html(self):
+        self.do_test(
+            False,
+            ('This is<br>valid HTML', 'Toto je<br>platne HTML', '')
+        )
+
 
 class XMLTagsCheckTest(CheckTestCase):
     check = XMLTagsCheck()
