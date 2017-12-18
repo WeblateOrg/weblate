@@ -114,7 +114,7 @@ class SearchViewTest(ViewTestCase):
         )
         self.assertContains(
             response,
-            'No matching strings found!'
+            'No matching strings found.'
         )
         response = self.client.get(
             reverse('search'),
@@ -122,7 +122,7 @@ class SearchViewTest(ViewTestCase):
         )
         self.assertContains(
             response,
-            'No matching strings found!'
+            'No matching strings found.'
         )
         response = self.client.get(
             reverse('search'),
