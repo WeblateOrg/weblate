@@ -8,6 +8,6 @@
   <div class="progress-bar progress-bar-warning progress-checks" role="progressbar" aria-valuenow="{{ checks }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ checks }}%;" title="{% trans "Failing checks" %}"></div>
   {% endif %}
   {% if fuzzy %}
-  <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{ fuzzy }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ fuzzy }}%;" title="{% trans "Fuzzy" %}"></div>
+  <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{ fuzzy }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ fuzzy }}%;" title="{% trans "Needs editing" %}"></div>
   {% endif %}
 </div>
