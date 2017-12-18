@@ -97,7 +97,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         verbose_name=ugettext_lazy('URL slug'),
         db_index=True, unique=True,
         max_length=60,
-        help_text=ugettext_lazy('Name used in URLs and file names.')
+        help_text=ugettext_lazy('Name used in URLs and filenames.')
     )
     web = models.URLField(
         verbose_name=ugettext_lazy('Project website'),
@@ -134,14 +134,14 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         verbose_name=_('Access control'),
         help_text=ugettext_lazy(
             'How to restrict access to this project, please check '
-            'documentation for more details.'
+            'the documentation for more details.'
         )
     )
     enable_review = models.BooleanField(
         verbose_name=ugettext_lazy('Enable reviews'),
         default=False,
         help_text=ugettext_lazy(
-            'Enable this if you intend to use dedicated reviewers to '
+            'Enable this if you intend for dedicated reviewers to '
             'approve translations.'
         )
     )
@@ -201,7 +201,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         ]
 
     def add_user(self, user, group=None):
-        """Add user based on username of email."""
+        """Add user based on username of e-mail."""
         if group is None:
             if self.access_control != self.ACCESS_PUBLIC:
                 group = '@Translate'
@@ -221,7 +221,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         profile.subscriptions.add(self)
 
     def remove_user(self, user, group=None):
-        """Add user based on username of email."""
+        """Add user based on username of e-mail."""
         if group is None:
             groups = Group.objects.filter(
                 name__startswith='{0}@'.format(self.name)
@@ -347,7 +347,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
     get_language_count.short_description = _('Languages')
 
     def repo_needs_commit(self):
-        """Check whether there are some not committed changes."""
+        """Check whether there are any uncommitted changes."""
         for component in self.subproject_set.all():
             if component.repo_needs_commit():
                 return True
