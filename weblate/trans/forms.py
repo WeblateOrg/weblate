@@ -155,9 +155,9 @@ class UserField(forms.CharField):
         try:
             return User.objects.get(Q(username=value) | Q(email=value))
         except User.DoesNotExist:
-            raise ValidationError(_('No matching user found!'))
+            raise ValidationError(_('No matching user found.'))
         except User.MultipleObjectsReturned:
-            raise ValidationError(_('More users matched!'))
+            raise ValidationError(_('More users matched.'))
 
 
 class PluralTextarea(forms.Textarea):
@@ -378,7 +378,7 @@ class PluralField(forms.CharField):
 
 
 class ChecksumForm(forms.Form):
-    """Form for handling checksum ids for translation."""
+    """Form for handling checksum IDs for translation."""
     checksum = ChecksumField(required=True)
 
     def __init__(self, translation, *args, **kwargs):
@@ -402,7 +402,7 @@ class ChecksumForm(forms.Form):
                 self.cleaned_data['checksum']
             )
             raise ValidationError(
-                _('Message you wanted to translate is no longer available!')
+                _('The message you wanted to translate is no longer available!')
             )
 
 
@@ -412,8 +412,8 @@ class FuzzyField(forms.BooleanField):
     def __init__(self, *args, **kwargs):
         kwargs['label'] = _('Needs editing')
         kwargs['help_text'] = _(
-            'String is usually marked as needing editing after source string '
-            'change or this can be done manually.'
+            'Strings are usually marked as \"Needs editing\" after the source string '
+            'is updated, or when marked as such manually.'
         )
         super(FuzzyField, self).__init__(*args, **kwargs)
         self.widget.attrs['class'] = 'fuzzy_checkbox'
@@ -1045,7 +1045,7 @@ class CommentForm(forms.Form):
         choices=(
             (
                 'global',
-                _('Source string comment, suggestions to change this string')
+                _('Source string comment, suggestions for changes to this string')
             ),
             (
                 'translation',
@@ -1184,7 +1184,7 @@ class UserManageForm(forms.Form):
     user = UserField(
         label=_('User to add'),
         help_text=_(
-            'Please provide username or email. '
+            'Please provide username or e-mail. '
             'User needs to already have an active account in Weblate.'
         ),
     )
@@ -1464,7 +1464,7 @@ class NewUnitForm(forms.Form):
     key = forms.CharField(
         label=_('Translation key'),
         help_text=_(
-            'Key is used to identify unit in translation file. '
+            'Key used to identify unit in translation file. '
             'File format specific rules might apply.'
         ),
         required=True,
@@ -1472,7 +1472,7 @@ class NewUnitForm(forms.Form):
     value = forms.CharField(
         label=_('Source language text'),
         help_text=_(
-            'You can later edit this as any other string in source language.'
+            'You can edit this later, as with any other string in the source language.'
         ),
         required=True,
     )
