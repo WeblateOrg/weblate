@@ -68,7 +68,7 @@
         {% endwith %}
     {% endif %}
 {% else %}
-    <p class="help-block">{% trans "Choose your what languages you want in the preferences, to see overview of available translations for those languages in your watched projects." %}</p>
+    <p class="help-block">{% trans "Choose what languages you want in the preferences, to see overview of available translations for those languages in your watched projects." %}</p>
 {% endif %}
 <p>
     <a class="btn btn-default" href="{% url 'profile' %}#languages">{% trans "Manage your languages" %}</a>
@@ -83,7 +83,7 @@
 {% endwith %}
 <p>{% include "legend.html" %}</p>
 {% else %}
-<p class="help-block">{% trans "Choose your languages in the preferences, to see an overview of all projects that feature those languages here." %}</p>
+<p class="help-block">{% trans "Choose languages you speak in the preferences, to see an overview of all projects that feature those languages here." %}</p>
 {% endif %} {# userlanguages #}
 <p><a class="btn btn-default" href="{% url 'profile' %}#languages">{% trans "Manage your languages" %}</a></p>
 </div>
