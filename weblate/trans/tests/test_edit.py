@@ -483,7 +483,7 @@ class ZenViewTest(ViewTestCase):
         )
         self.assertContains(
             response,
-            'You have reached end of translating.'
+            'The translation has come to an end.'
         )
 
     def test_zen_invalid(self):
@@ -508,7 +508,7 @@ class ZenViewTest(ViewTestCase):
         )
         self.assertContains(
             response,
-            'You have reached end of translating.'
+            'The translation has come to an end.'
         )
 
     def test_load_zen_offset(self):
