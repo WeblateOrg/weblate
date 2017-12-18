@@ -11,13 +11,13 @@
 {% trans "You don't have privileges to display this page." %}
 
 {% if not user.is_authenticated %}
-<a href="{% url 'login' %}" class="btn btn-default">{% trans "Login to Weblate" %}</a>
+<a href="{% url 'login' %}" class="btn btn-default">{% trans "Log in" %}</a>
 {% endif %}
 
 </p>
 
 {% if acl_projects %}
-<p>{% trans "However the following translation projects are available on this server:" %}</p>
+<p>{% trans "However, the following translation projects are available on this server:" %}</p>
 
 <ul>
 {% for p in acl_projects %}
