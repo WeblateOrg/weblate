@@ -40,7 +40,7 @@ Django (>= 1.11)
     https://www.djangoproject.com/
 siphashc (>= 0.8)
     https://github.com/WeblateOrg/siphashc
-Translate-toolkit (>= 2.0.0)
+Translate-toolkit (>= 2.2.0)
     http://toolkit.translatehouse.org/
 Six (>= 1.7.0)
     https://pypi.python.org/pypi/six
