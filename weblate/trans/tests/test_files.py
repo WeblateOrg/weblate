@@ -292,7 +292,7 @@ class ImportJoomlaTest(ImportTest):
 
     def test_import_fuzzy(self):
         # Does not make sense here
-        pass
+        raise SkipTest('Fuzzy flag not supported on Joomla format')
 
 
 class ImportPHPMonoTest(ImportTest):
@@ -301,7 +301,7 @@ class ImportPHPMonoTest(ImportTest):
 
     def test_import_fuzzy(self):
         # Does not make sense here
-        pass
+        raise SkipTest('Fuzzy flag not supported on PHP format')
 
     def test_import_xliff(self):
         if not self.get_translation().store.using_phplexer:
@@ -318,7 +318,7 @@ class StringsImportTest(ImportTest):
 
     def test_import_fuzzy(self):
         # Does not make sense here
-        pass
+        raise SkipTest('Fuzzy flag not supported on Strings format')
 
 
 class AndroidImportTest(ViewTestCase):
