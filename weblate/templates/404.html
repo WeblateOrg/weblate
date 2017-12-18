@@ -9,6 +9,10 @@
 
 <p>
 {% trans "The page you are looking for was not found." %}
+
+{% if not user.is_authenticated %}
+<a href="{% url 'login' %}" class="btn btn-default">{% trans "Log in" %}</a>
+{% endif %}
 </p>
 
 <p>
@@ -16,7 +20,7 @@
 </p>
 
 {% if acl_projects %}
-<p>{% trans "However the following translation projects are available on this server:" %}</p>
+<p>{% trans "However, the following translation projects are available on this server:" %}</p>
 
 <ul>
 {% for p in acl_projects %}
