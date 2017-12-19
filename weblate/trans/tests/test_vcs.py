@@ -101,7 +101,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
 
     def clone_repo(self, path):
         return self._class.clone(
-            'file://' + self.fixup_repo_path(
+            self.format_local_path(
                 getattr(self, '{0}_repo_path'.format(self._vcs))
             ),
             path,

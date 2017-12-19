@@ -180,10 +180,11 @@ class RepoTestMixin(object):
         self.addCleanup(shutil.rmtree, project.get_path(), True)
         return project
 
-    def fixup_repo_path(self, path):
+    def format_local_path(self, path):
+        """Format path for local access to the repository"""
         if sys.platform != 'win32':
-            return path
-        return path.replace('\\', '/')
+            return 'file://{}'.format(path)
+        return 'file:///{}'.format(path.replace('\\', '/'))
 
     def _create_subproject(self, file_format, mask, template='',
                            new_base='', vcs='git', branch=None, **kwargs):
@@ -195,22 +196,19 @@ class RepoTestMixin(object):
         if 'project' not in kwargs:
             kwargs['project'] = self.create_project()
 
+        repo = push = self.format_local_path(
+            getattr(self, '{0}_repo_path'.format(vcs))
+        )
         if vcs == 'mercurial':
             d_branch = 'default'
-            repo = self.fixup_repo_path(self.hg_repo_path)
-            push = self.fixup_repo_path(self.hg_repo_path)
             if not HgRepository.is_supported():
                 raise SkipTest('Mercurial not available!')
         elif vcs == 'subversion':
             d_branch = 'master'
-            repo = 'file://' + self.fixup_repo_path(self.svn_repo_path)
-            push = 'file://' + self.fixup_repo_path(self.svn_repo_path)
             if not SubversionRepository.is_supported():
                 raise SkipTest('Subversion not available!')
         else:
             d_branch = 'master'
-            repo = self.git_repo_path
-            push = self.git_repo_path
 
         if 'new_lang' not in kwargs:
             kwargs['new_lang'] = 'contact'
