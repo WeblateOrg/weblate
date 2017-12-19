@@ -395,7 +395,8 @@ class ChecksumForm(forms.Form):
         try:
             self.cleaned_data['unit'] = unit_set.filter(
                 id_hash=self.cleaned_data['checksum']
-            )[0] except (Unit.DoesNotExist, IndexError):
+            )[0]
+        except (Unit.DoesNotExist, IndexError):
             LOGGER.error(
                 'message %s disappeared!',
                 self.cleaned_data['checksum']
