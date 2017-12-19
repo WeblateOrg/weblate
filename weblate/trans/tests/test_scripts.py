@@ -19,39 +19,36 @@
 #
 """Tests for hook scripts """
 
-import tempfile
 import os
 import stat
 
 from weblate.trans.tests.test_models import RepoTestCase
+from weblate.trans.tests.utils import TempDirMixin
 from weblate.trans.scripts import run_hook
 
 
-class ScriptTest(RepoTestCase):
+class ScriptTest(RepoTestCase, TempDirMixin):
     output = None
     script = None
 
     def setUp(self):
         super(ScriptTest, self).setUp()
-        self.output = tempfile.NamedTemporaryFile(delete=False)
-        self.script = tempfile.NamedTemporaryFile(delete=False, mode='wb+')
-        self.output.close()
-        self.script.write(b'#!/bin/sh\n')
-        self.script.write(b'echo "$WL_PATH" >> ')
-        self.script.write(self.output.name.encode('utf-8'))
-        self.script.write(b'\n')
-        self.script.close()
-        file_stat = os.stat(self.script.name)
-        os.chmod(self.script.name, file_stat.st_mode | stat.S_IEXEC)
+        self.create_temp()
+        self.output = os.path.join(self.tempdir, 'output.log')
+        self.script = os.path.join(self.tempdir, 'wrapper.sh')
+        with open(self.script, 'wb') as handle:
+            handle.write(b'#!/bin/sh\n')
+            handle.write(b'echo "$WL_PATH" >> ')
+            handle.write(self.output.encode('utf-8'))
+            handle.write(b'\n')
+        file_stat = os.stat(self.script)
+        os.chmod(self.script, file_stat.st_mode | stat.S_IEXEC)
 
     def tearDown(self):
         super(ScriptTest, self).tearDown()
-        if self.output is not None:
-            os.unlink(self.output.name)
-            self.output = None
-        if self.script is not None:
-            os.unlink(self.script.name)
-            self.script = None
+        self.remove_temp()
+        self.output = None
+        self.script = None
 
     def test_run_hook(self):
         subproject = self.create_subproject()
@@ -64,18 +61,18 @@ class ScriptTest(RepoTestCase):
 
     def assert_content(self, subproject):
         """Check file content and cleans it."""
-        with open(self.output.name, 'r') as handle:
+        with open(self.output, 'r') as handle:
             data = handle.read()
             self.assertIn(subproject.get_path(), data)
 
-        with open(self.output.name, 'w') as handle:
+        with open(self.output, 'w') as handle:
             handle.write('')
 
     def test_post_update(self):
         subproject = self._create_subproject(
             'po',
             'po/*.po',
-            post_update_script=self.script.name
+            post_update_script=self.script
         )
         # Hook should fire on creation
         self.assert_content(subproject)

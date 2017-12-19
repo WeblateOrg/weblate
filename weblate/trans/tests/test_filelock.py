@@ -19,21 +19,20 @@
 #
 
 from unittest import TestCase
-import shutil
 import sys
-import tempfile
 import os.path
 from multiprocessing import Process
 from weblate.trans.filelock import FileLock, FileLockException
+from weblate.trans.tests.utils import TempDirMixin
 
 
-class LockTest(TestCase):
+class LockTest(TestCase, TempDirMixin):
     def setUp(self):
-        self.testdir = tempfile.mkdtemp()
-        self.testfile = os.path.join(self.testdir, 'lock-test')
+        self.create_temp()
+        self.testfile = os.path.join(self.tempdir, 'lock-test')
 
     def tearDown(self):
-        shutil.rmtree(self.testdir)
+        self.remove_temp()
 
     def test_lock(self):
         """Basic locking test."""
@@ -58,7 +57,7 @@ class LockTest(TestCase):
 
     def test_lock_invalid(self):
         """Basic locking test."""
-        lock = FileLock(os.path.join(self.testdir, 'invalid', 'lock', 'path'))
+        lock = FileLock(os.path.join(self.tempdir, 'invalid', 'lock', 'path'))
         self.assertRaises(OSError, lock.acquire)
 
     def test_context(self):

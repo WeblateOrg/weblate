@@ -20,7 +20,8 @@
 
 """Test for user handling."""
 
-import tempfile
+import os.path
+
 from django.test import TestCase
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
@@ -28,11 +29,11 @@ from django.core.management import call_command
 from django.core.management.base import CommandError
 
 from weblate.lang.models import Language
-from weblate.trans.tests.utils import get_test_file
+from weblate.trans.tests.utils import get_test_file, TempDirMixin
 from weblate.accounts.models import Profile
 
 
-class CommandTest(TestCase):
+class CommandTest(TestCase, TempDirMixin):
     """Test for management commands."""
     def test_createadmin(self):
         call_command('createadmin')
@@ -111,13 +112,17 @@ class CommandTest(TestCase):
         user.profile.secondary_languages.add(language)
         user.profile.save()
 
-        with tempfile.NamedTemporaryFile() as output:
-            call_command('dumpuserdata', output.name)
+        try:
+            self.create_temp()
+            output = os.path.join(self.tempdir, 'users.json')
+            call_command('dumpuserdata', output)
 
             user.profile.languages.clear()
             user.profile.secondary_languages.clear()
 
-            call_command('importuserdata', output.name)
+            call_command('importuserdata', output)
+        finally:
+            self.remove_temp()
 
         profile = Profile.objects.get(user__username='testuser')
         self.assertEqual(profile.translated, 2000)

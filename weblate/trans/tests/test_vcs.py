@@ -31,7 +31,9 @@ from weblate.trans.tests.utils import RepoTestMixin
 from weblate.trans.vcs import GitRepository, HgRepository, \
     RepositoryException, GitWithGerritRepository, GithubRepository, \
     SubversionRepository
-from weblate.trans.tests.utils import get_test_file
+from weblate.trans.tests.utils import (
+    get_test_file, remove_readonly, TempDirMixin,
+)
 
 
 class GithubFakeRepository(GithubRepository):
@@ -81,8 +83,7 @@ class RepositoryTest(TestCase):
         self.assertTrue(GitTestRepository.is_supported())
 
 
-class VCSGitTest(TestCase, RepoTestMixin):
-    _tempdir = None
+class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
     _class = GitRepository
     _vcs = 'git'
     _can_push = True
@@ -95,8 +96,8 @@ class VCSGitTest(TestCase, RepoTestMixin):
 
         self.clone_test_repos()
 
-        self._tempdir = tempfile.mkdtemp()
-        self.repo = self.clone_repo(self._tempdir)
+        self.create_temp()
+        self.repo = self.clone_repo(self.tempdir)
 
     def clone_repo(self, path):
         return self._class.clone(
@@ -105,8 +106,7 @@ class VCSGitTest(TestCase, RepoTestMixin):
         )
 
     def tearDown(self):
-        if self._tempdir is not None:
-            shutil.rmtree(self._tempdir)
+        self.remove_temp()
 
     def add_remote_commit(self, conflict=False):
         tempdir = tempfile.mkdtemp()
@@ -133,11 +133,11 @@ class VCSGitTest(TestCase, RepoTestMixin):
                 # Push it
                 repo.push()
         finally:
-            shutil.rmtree(tempdir)
+            shutil.rmtree(tempdir, onerror=remove_readonly)
 
     def test_clone(self):
         self.assertTrue(os.path.exists(
-            os.path.join(self._tempdir, '.{0}'.format(self._vcs))
+            os.path.join(self.tempdir, '.{0}'.format(self._vcs))
         ))
 
     def test_revision(self):
@@ -230,7 +230,7 @@ class VCSGitTest(TestCase, RepoTestMixin):
 
     def test_needs_commit(self):
         self.assertFalse(self.repo.needs_commit())
-        with open(os.path.join(self._tempdir, 'README.md'), 'a') as handle:
+        with open(os.path.join(self.tempdir, 'README.md'), 'a') as handle:
             handle.write('CHANGE')
         self.assertTrue(self.repo.needs_commit())
         self.assertTrue(self.repo.needs_commit('README.md'))
@@ -283,7 +283,7 @@ class VCSGitTest(TestCase, RepoTestMixin):
     def test_commit(self):
         self.repo.set_committer('Foo Bar', 'foo@example.net')
         # Create test file
-        with open(os.path.join(self._tempdir, 'testfile'), 'wb') as handle:
+        with open(os.path.join(self.tempdir, 'testfile'), 'wb') as handle:
             handle.write(b'TEST FILE\n')
 
         oldrev = self.repo.last_revision
@@ -324,12 +324,12 @@ class VCSGitTest(TestCase, RepoTestMixin):
     def test_remove(self):
         self.repo.set_committer('Foo Bar', 'foo@example.net')
         self.assertTrue(
-            os.path.exists(os.path.join(self._tempdir, 'po/cs.po'))
+            os.path.exists(os.path.join(self.tempdir, 'po/cs.po'))
         )
         with self.repo.lock:
             self.repo.remove(['po/cs.po'], 'Remove Czech translation')
         self.assertFalse(
-            os.path.exists(os.path.join(self._tempdir, 'po/cs.po'))
+            os.path.exists(os.path.join(self.tempdir, 'po/cs.po'))
         )
 
     def test_object_hash(self):
@@ -403,7 +403,7 @@ class VCSSubversionTest(VCSGitTest):
 
     def test_clone(self):
         self.assertTrue(os.path.exists(
-            os.path.join(self._tempdir, '.git', 'svn')
+            os.path.join(self.tempdir, '.git', 'svn')
         ))
 
     def test_revision_info(self):

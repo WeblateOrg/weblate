@@ -21,7 +21,7 @@
 from __future__ import unicode_literals
 
 from io import BytesIO
-import tempfile
+import os.path
 from unittest import TestCase, SkipTest
 
 from django.test import SimpleTestCase
@@ -39,7 +39,7 @@ from weblate.trans.formats import (
     YAMLFormat, RubyYAMLFormat, DTDFormat, FILE_FORMATS, detect_filename,
     WebExtensionJSONFormat, UnwrappedPoFormat,
 )
-from weblate.trans.tests.utils import get_test_file
+from weblate.trans.tests.utils import get_test_file, TempDirMixin
 
 
 TEST_PO = get_test_file('cs.po')
@@ -119,7 +119,7 @@ class AutoLoadTest(TestCase):
         self.assertIsInstance(store.store, pofile)
 
 
-class AutoFormatTest(SimpleTestCase):
+class AutoFormatTest(SimpleTestCase, TempDirMixin):
     FORMAT = AutoFormat
     FILE = TEST_PO
     BASE = TEST_POT
@@ -135,12 +135,17 @@ class AutoFormatTest(SimpleTestCase):
 
     def setUp(self):
         super(AutoFormatTest, self).setUp()
+        self.create_temp()
         if self.FORMAT.format_id not in FILE_FORMATS:
             raise SkipTest(
                 'File format {0} is not supported!'.format(
                     self.FORMAT.format_id
                 )
             )
+
+    def tearDown(self):
+        super(AutoFormatTest, self).tearDown()
+        self.remove_temp()
 
     def test_parse(self):
         storage = self.FORMAT(self.FILE)
@@ -154,32 +159,27 @@ class AutoFormatTest(SimpleTestCase):
             testdata = handle.read()
 
         # Create test file
-        testfile = tempfile.NamedTemporaryFile(
-            suffix='.{0}'.format(self.EXT),
-            mode='wb+'
+        testfile = os.path.join(self.tempdir, 'test.{0}'.format(self.EXT))
+
+        # Write test data to file
+        with open(testfile, 'wb') as handle:
+            handle.write(testdata)
+
+        # Parse test file
+        storage = self.FORMAT(testfile)
+
+        # Save test file
+        storage.save()
+
+        # Read new content
+        with open(testfile, 'rb') as handle:
+            newdata = handle.read()
+
+        # Check if content matches
+        self.assert_same(
+            force_text(newdata),
+            force_text(testdata)
         )
-        try:
-            # Write test data to file
-            testfile.write(testdata)
-            testfile.flush()
-
-            # Parse test file
-            storage = self.FORMAT(testfile.name)
-
-            # Save test file
-            storage.save()
-
-            # Read new content
-            with open(testfile.name, 'rb') as handle:
-                newdata = handle.read()
-
-            # Check if content matches
-            self.assert_same(
-                force_text(newdata),
-                force_text(testdata)
-            )
-        finally:
-            testfile.close()
 
     def assert_same(self, newdata, testdata):
         """Content aware comparison.
@@ -200,18 +200,15 @@ class AutoFormatTest(SimpleTestCase):
 
     def test_add(self):
         self.assertTrue(self.FORMAT.is_valid_base_for_new(self.BASE))
-        out = tempfile.NamedTemporaryFile(
-            suffix='.{0}'.format(self.EXT),
-            mode='w+'
-        )
+        out = os.path.join(self.tempdir, 'test.{0}'.format(self.EXT))
         self.FORMAT.add_language(
-            out.name,
+            out,
             Language(code='cs', nplurals=2),
             self.BASE
         )
-        data = out.read()
+        with open(out, 'rb') as handle:
+            data = handle.read()
         self.assertTrue(self.MATCH in data)
-        out.close()
 
     def test_get_language_filename(self):
         self.assertEqual(
@@ -227,29 +224,24 @@ class AutoFormatTest(SimpleTestCase):
             testdata = handle.read()
 
         # Create test file
-        testfile = tempfile.NamedTemporaryFile(
-            suffix='.{0}'.format(self.EXT),
-            mode='wb+'
-        )
-        try:
-            # Write test data to file
-            testfile.write(testdata)
-            testfile.flush()
+        testfile = os.path.join(self.tempdir, 'test.{0}'.format(self.EXT))
 
-            # Parse test file
-            storage = self.FORMAT(testfile.name)
+        # Write test data to file
+        with open(testfile, 'wb') as handle:
+            handle.write(testdata)
 
-            # Add new unit
-            storage.new_unit('key', 'Source string')
+        # Parse test file
+        storage = self.FORMAT(testfile)
 
-            # Read new content
-            with open(testfile.name, 'rb') as handle:
-                newdata = handle.read()
+        # Add new unit
+        storage.new_unit('key', 'Source string')
 
-            # Check if content matches
-            self.assertIn(self.NEW_UNIT_MATCH, newdata)
-        finally:
-            testfile.close()
+        # Read new content
+        with open(testfile, 'rb') as handle:
+            newdata = handle.read()
+
+        # Check if content matches
+        self.assertIn(self.NEW_UNIT_MATCH, newdata)
 
 
 class XMLMixin(object):
@@ -261,15 +253,15 @@ class PoFormatTest(AutoFormatTest):
     FORMAT = PoFormat
 
     def test_add_encoding(self):
-        out = tempfile.NamedTemporaryFile()
+        out = os.path.join(self.tempdir, 'test.po')
         self.FORMAT.add_language(
-            out.name,
+            out,
             Language(code='cs', nplurals=2),
             TEST_POT_UNICODE
         )
-        data = out.read().decode('utf-8')
+        with open(out, 'rb') as handle:
+            data = handle.read().decode('utf-8')
         self.assertTrue('Michal Čihař' in data)
-        out.close()
 
 
 class UnwrappedPoFormatTest(PoFormatTest):

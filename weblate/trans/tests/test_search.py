@@ -37,6 +37,7 @@ from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.search import update_index_unit, fulltext_search
 import weblate.trans.search
 from weblate.trans.models import IndexUpdate
+from weblate.trans.tests.utils import TempDirMixin
 
 
 class SearchViewTest(ViewTestCase):
@@ -397,18 +398,17 @@ class SearchBackendTest(ViewTestCase):
         self.assertTrue(update.source, True)
 
 
-class SearchMigrationTest(TestCase):
+class SearchMigrationTest(TestCase, TempDirMixin):
     """Search index migration testing"""
     def setUp(self):
-        self.path = tempfile.mkdtemp()
+        self.create_temp()
         self.backup = weblate.trans.search.STORAGE
-        self.storage = FileStorage(self.path)
+        self.storage = FileStorage(self.tempdir)
         weblate.trans.search.STORAGE = self.storage
         self.storage.create()
 
     def tearDown(self):
-        if os.path.exists(self.path):
-            shutil.rmtree(self.path)
+        self.remove_temp()
         weblate.trans.search.STORAGE = self.backup
 
     def do_test(self, source, target):
@@ -446,7 +446,8 @@ class SearchMigrationTest(TestCase):
         self.do_test(None, None)
 
     def test_nonexisting_dir(self):
-        shutil.rmtree(self.path)
+        shutil.rmtree(self.tempdir)
+        self.tempdir = None
         self.do_test(None, None)
 
     def test_current(self):

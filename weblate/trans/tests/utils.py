@@ -22,6 +22,7 @@ import os.path
 import shutil
 import stat
 from tarfile import TarFile
+from tempfile import mkdtemp
 from unittest import SkipTest
 
 from django.conf import settings
@@ -451,3 +452,15 @@ class RepoTestMixin(object):
             filemask='po/*.po',
             new_lang='contact',
         )
+
+
+class TempDirMixin(object):
+    tempdir = None
+
+    def create_temp(self):
+        self.tempdir = mkdtemp(suffix='weblate')
+
+    def remove_temp(self):
+        if self.tempdir:
+            shutil.rmtree(self.tempdir, onerror=remove_readonly)
+            self.tempdir = None
