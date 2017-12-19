@@ -109,7 +109,7 @@ class ProjectTest(RepoTestCase):
     def test_wrong_path(self):
         project = self.create_project()
 
-        with override_settings(DATA_DIR='/weblate-nonexisting-path'):
+        with override_settings(DATA_DIR='/weblate-nonexisting:path'):
             # Invalidate cache, pylint: disable=W0212
             project._dir_path = None
 
