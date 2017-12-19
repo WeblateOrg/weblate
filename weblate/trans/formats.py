@@ -21,14 +21,15 @@
 
 from __future__ import unicode_literals
 
+import csv
+import importlib
+import inspect
 from io import BytesIO
 import os
-import inspect
 import re
-import csv
+import sys
 import tempfile
 import traceback
-import importlib
 
 
 from django.utils.translation import ugettext_lazy as _
@@ -60,6 +61,25 @@ FILE_FORMATS = {}
 FILE_DETECT = []
 FLAGS_RE = re.compile(r'\b[-\w:]+\b')
 LOCATIONS_RE = re.compile(r'^([+-]|.*, [+-]|.*:[+-])')
+
+
+def move_atomic(source, target):
+    """Tries to perform atomic move.
+
+    This is tricky on Windows as until Python 3.3 there is no
+    function for that. And even on Python 3.3 the MoveFileEx
+    is not guarateed to be atomic, so it might fail in some cases.
+    Anyway we try to choose best available method.
+    """
+    # Use os.replace if available
+    if sys.version_info >= (3, 3):
+        os.replace(source, target)
+    else:
+        # Remove target on Windows if exists
+        if sys.platform == 'win32' and os.path.exists(target):
+            os.unlink(target)
+        # Use os.rename
+        os.rename(source, target)
 
 
 class ParseError(Exception):
@@ -708,7 +728,7 @@ class FileFormat(object):
         try:
             self.store.serialize(temp)
             temp.close()
-            os.rename(temp.name, self.storefile)
+            move_atomic(temp.name, self.storefile)
         finally:
             if os.path.exists(temp.name):
                 os.unlink(temp.name)
