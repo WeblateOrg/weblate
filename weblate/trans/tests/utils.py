@@ -180,14 +180,14 @@ class RepoTestMixin(object):
         self.addCleanup(shutil.rmtree, project.get_path(), True)
         return project
 
+    def fixup_repo_path(self, path):
+        if sys.platform != 'win32':
+            return path
+        return path.replace('\\', '/')
+
     def _create_subproject(self, file_format, mask, template='',
                            new_base='', vcs='git', branch=None, **kwargs):
         """Create real test subproject."""
-        def fixup_path(path):
-            if sys.platform != 'win32':
-                return path
-            return path.replace('\\', '/')
-
         if file_format not in FILE_FORMATS:
             raise SkipTest(
                 'File format {0} is not supported!'.format(file_format)
@@ -197,14 +197,14 @@ class RepoTestMixin(object):
 
         if vcs == 'mercurial':
             d_branch = 'default'
-            repo = fixup_path(self.hg_repo_path)
-            push = fixup_path(self.hg_repo_path)
+            repo = self.fixup_repo_path(self.hg_repo_path)
+            push = self.fixup_repo_path(self.hg_repo_path)
             if not HgRepository.is_supported():
                 raise SkipTest('Mercurial not available!')
         elif vcs == 'subversion':
             d_branch = 'master'
-            repo = 'file://' + fixup_path(self.svn_repo_path)
-            push = 'file://' + fixup_path(self.svn_repo_path)
+            repo = 'file://' + self.fixup_repo_path(self.svn_repo_path)
+            push = 'file://' + self.fixup_repo_path(self.svn_repo_path)
             if not SubversionRepository.is_supported():
                 raise SkipTest('Subversion not available!')
         else:
