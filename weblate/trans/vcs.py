@@ -1080,7 +1080,7 @@ class HgRepository(Repository):
     def commit(self, message, author=None, timestamp=None, files=None):
         """Create new revision."""
         # Build the commit command
-        cmd = ['commit', '--message', message ]
+        cmd = ['commit', '--message', message]
         if author is not None:
             cmd.extend(['--user', author])
         if timestamp is not None:

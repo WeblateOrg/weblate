@@ -395,15 +395,14 @@ class ChecksumForm(forms.Form):
         try:
             self.cleaned_data['unit'] = unit_set.filter(
                 id_hash=self.cleaned_data['checksum']
-            )[0]
-        except (Unit.DoesNotExist, IndexError):
+            )[0] except (Unit.DoesNotExist, IndexError):
             LOGGER.error(
                 'message %s disappeared!',
                 self.cleaned_data['checksum']
             )
-            raise ValidationError(
-                _('The message you wanted to translate is no longer available!')
-            )
+            raise ValidationError(_(
+                'The message you wanted to translate is no longer available!'
+            ))
 
 
 class FuzzyField(forms.BooleanField):
@@ -412,8 +411,8 @@ class FuzzyField(forms.BooleanField):
     def __init__(self, *args, **kwargs):
         kwargs['label'] = _('Needs editing')
         kwargs['help_text'] = _(
-            'Strings are usually marked as \"Needs editing\" after the source string '
-            'is updated, or when marked as such manually.'
+            'Strings are usually marked as \"Needs editing\" after the source '
+            'string is updated, or when marked as such manually.'
         )
         super(FuzzyField, self).__init__(*args, **kwargs)
         self.widget.attrs['class'] = 'fuzzy_checkbox'
@@ -1045,7 +1044,10 @@ class CommentForm(forms.Form):
         choices=(
             (
                 'global',
-                _('Source string comment, suggestions for changes to this string')
+                _(
+                    'Source string comment, suggestions for '
+                    'changes to this string'
+                )
             ),
             (
                 'translation',
@@ -1472,7 +1474,8 @@ class NewUnitForm(forms.Form):
     value = forms.CharField(
         label=_('Source language text'),
         help_text=_(
-            'You can edit this later, as with any other string in the source language.'
+            'You can edit this later, as with any other string in '
+            'the source language.'
         ),
         required=True,
     )
