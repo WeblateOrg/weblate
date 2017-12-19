@@ -27,6 +27,7 @@ import hashlib
 import os
 import os.path
 import re
+import sys
 import subprocess
 import logging
 
@@ -190,6 +191,9 @@ class Repository(object):
         """Execute command and caches its output."""
         if needs_lock and not self.lock.is_locked:
             raise RuntimeWarning('Repository operation without lock held!')
+        # On Windows we pass Unicode object, on others UTF-8 encoded bytes
+        if sys.platform != "win32":
+            args = [arg.encode('utf-8') for arg in args]
         self.last_output = self._popen(args, self.path)
         return self.last_output
 
@@ -417,7 +421,7 @@ class GitRepository(Repository):
     def set_config(self, path, value):
         """Set entry in local configuration."""
         self.execute(
-            ['config', path, value.encode('utf-8')],
+            ['config', path, value],
             needs_lock=False
         )
 
@@ -537,12 +541,9 @@ class GitRepository(Repository):
             self.execute(['add', '--force', '--'] + files)
 
         # Build the commit command
-        cmd = [
-            'commit',
-            '--message', message.encode('utf-8'),
-        ]
+        cmd = ['commit', '--message', message]
         if author is not None:
-            cmd.extend(['--author', author.encode('utf-8')])
+            cmd.extend(['--author', author])
         if timestamp is not None:
             cmd.extend(['--date', timestamp.isoformat()])
         # Execute it
@@ -796,7 +797,7 @@ class GithubRepository(GitRepository):
             '-f',
             '-h', '{0}:{1}'.format(self._hub_user, fork_branch),
             '-b', origin_branch,
-            '-m', 'Update from Weblate.'.encode('utf-8'),
+            '-m', 'Update from Weblate.',
         ]
         self.execute(cmd)
 
@@ -1079,12 +1080,9 @@ class HgRepository(Repository):
     def commit(self, message, author=None, timestamp=None, files=None):
         """Create new revision."""
         # Build the commit command
-        cmd = [
-            'commit',
-            '--message', message.encode('utf-8'),
-        ]
+        cmd = ['commit', '--message', message ]
         if author is not None:
-            cmd.extend(['--user', author.encode('utf-8')])
+            cmd.extend(['--user', author])
         if timestamp is not None:
             cmd.extend([
                 '--date',
