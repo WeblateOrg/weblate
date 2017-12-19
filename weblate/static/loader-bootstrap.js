@@ -753,10 +753,10 @@ $(function () {
         initEditor();
         translationEditor.get(0).focus();
         if ($('#button-first').length > 0) {
-            Mousetrap.bindGlobal(['ctrl+end', 'command+end'], function(e) {window.location = $('#button-end').attr('href'); return false;});
-            Mousetrap.bindGlobal(['ctrl+pagedown', 'command+pagedown'], function(e) {window.location = $('#button-next').attr('href'); return false;});
-            Mousetrap.bindGlobal(['ctrl+pageup', 'command+pageup'], function(e) {window.location = $('#button-prev').attr('href'); return false;});
-            Mousetrap.bindGlobal(['ctrl+home', 'command+home'], function(e) {window.location = $('#button-first').attr('href'); return false;});
+            Mousetrap.bindGlobal('alt+end', function(e) {window.location = $('#button-end').attr('href'); return false;});
+            Mousetrap.bindGlobal('alt+pagedown', function(e) {window.location = $('#button-next').attr('href'); return false;});
+            Mousetrap.bindGlobal('alt+pageup', function(e) {window.location = $('#button-prev').attr('href'); return false;});
+            Mousetrap.bindGlobal('alt+home', function(e) {window.location = $('#button-first').attr('href'); return false;});
             Mousetrap.bindGlobal(['ctrl+o', 'command+o'], function(e) {$('.translation-item .copy-text').click(); return false;});
             Mousetrap.bindGlobal(['ctrl+t', 'command+t'], function(e) {$('input[name="fuzzy"]').click(); return false;});
             Mousetrap.bindGlobal(

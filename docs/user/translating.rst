@@ -97,17 +97,17 @@ Keyboard shortcuts
 
 While translating you can use the following keyboard shortcuts:
 
-:kbd:`Ctrl+Home` or :kbd:`⌘+Home`
+:kbd:`Alt+Home`
     Navigates to first translation in current search.
-:kbd:`Ctrl+End` or :kbd:`⌘+End`
+:kbd:`Alt+End`
     Navigates to last translation in current search.
-:kbd:`Ctrl+PageUp` or :kbd:`⌘+PageUp`
+:kbd:`Alt+PageUp`
     Navigates to previous translation in current search.
-:kbd:`Ctrl+PageDown` or :kbd:`⌘+PageDown`
+:kbd:`Alt+PageDown`
     Navigates to next translation in current search.
-:kbd:`Ctrl+Enter` or :kbd:`⌘+Enter` or :kbd:`Ctrl+Enter` or :kbd:`Command+Enter`
+:kbd:`Ctrl+Enter` or :kbd:`⌘+Enter` or :kbd:`Ctrl+Enter` or :kbd:`⌘+Enter`
     Saves current translation.
-:kbd:`Ctrl+Shift+Enter` or :kbd:`Command+Shift+Enter`
+:kbd:`Ctrl+Shift+Enter` or :kbd:`⌘+Shift+Enter`
     Unmarks translation as fuzzy and submits it.
 :kbd:`Ctrl+E` or :kbd:`⌘+E`
     Focus translation editor.
