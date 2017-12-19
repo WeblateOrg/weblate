@@ -137,6 +137,8 @@ def get_single(name, url, module, required, getter='__version__'):
         current = version_getter()
     else:
         current = version_getter
+    if isinstance(current, tuple):
+        current = '.'.join([str(x) for x in current])
     return (
         name,
         url,
@@ -266,6 +268,14 @@ def get_versions():
         'http://www.django-rest-framework.org/',
         'rest_framework',
         '3.7',
+    ))
+
+    result.append(get_single(
+        'user-agents',
+        'https://github.com/selwin/python-user-agents',
+        'user_agents',
+        '1.1.0',
+        'VERSION',
     ))
 
     return result
