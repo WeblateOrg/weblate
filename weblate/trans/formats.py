@@ -709,8 +709,9 @@ class FileFormat(object):
             self.store.serialize(temp)
             temp.close()
             os.rename(temp.name, self.storefile)
-        except Exception:
-            os.unlink(temp.name)
+        finally:
+            if os.path.exists(temp.name):
+                os.unlink(temp.name)
 
     def find_matching(self, template_unit):
         """Find matching store unit for template"""
