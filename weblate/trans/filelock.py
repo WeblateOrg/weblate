@@ -96,6 +96,8 @@ class FileLockBase(object):
                 return
             except IOError as error:
                 if error.errno not in [errno.EACCES, errno.EAGAIN]:
+                    os.close(self.handle)
+                    self.handle = None
                     raise
 
             if (time.time() - start_time) >= self.timeout:
