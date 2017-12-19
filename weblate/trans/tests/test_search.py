@@ -24,8 +24,6 @@ from __future__ import unicode_literals
 
 import re
 import shutil
-import tempfile
-import os.path
 from unittest import TestCase
 from whoosh.filedb.filestore import FileStorage
 from whoosh.fields import Schema, ID, TEXT
