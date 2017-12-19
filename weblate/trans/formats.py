@@ -766,7 +766,7 @@ class FileFormat(object):
         if store is None:
             return False
 
-        if cls.monolingual is False and cls.serialize(store) == b'':
+        if cls.monolingual is False and len(store.units) == 0:
             return False
 
         return True
