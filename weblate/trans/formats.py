@@ -679,9 +679,9 @@ class FileFormat(object):
         """Add new unit to underlaying store."""
         if isinstance(self.store, LISAfile):
             # LISA based stores need to know this
-            self.store.addunit(ttkit_unit.unit, new=True)
+            self.store.addunit(ttkit_unit, new=True)
         else:
-            self.store.addunit(ttkit_unit.unit)
+            self.store.addunit(ttkit_unit)
 
     def update_header(self, **kwargs):
         """Update store header if available."""
@@ -876,7 +876,7 @@ class FileFormat(object):
     def new_unit(self, key, source):
         """Add new unit to monolingual store."""
         unit = self.create_unit(key, source)
-        self.store.addunit(unit)
+        self.add_unit(unit)
         self.save()
 
 

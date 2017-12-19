@@ -747,7 +747,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             # This has be done prior setting tatget as some formats
             # generate content based on target language.
             if add:
-                self.store.add_unit(pounit)
+                self.store.add_unit(pounit.unit)
 
             # Store translations
             if unit.is_plural():
