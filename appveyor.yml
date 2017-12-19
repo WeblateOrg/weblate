@@ -21,6 +21,7 @@ install:
   - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
   # We need wheel installed to build wheels
   - "python.exe -m pip install wheel"
+  - "python.exe -m pip install unittest-xml-reporting"
   - "python.exe -m pip install -r requirements-optional.txt"
   - "python.exe -m pip install -r ci/requirements-travis.txt"
 
@@ -30,6 +31,9 @@ test_script:
   - "python.exe manage.py collectstatic --settings weblate.settings_test --noinput"
   - "python.exe manage.py check --settings weblate.settings_test"
   - "coverage run ./manage.py test --settings weblate.settings_test -v2"
+  - ps: >-
+    $wc = New-Object 'System.Net.WebClient';
+    $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\junit.xml));
 
 after_test:
   - "coverage combine"
