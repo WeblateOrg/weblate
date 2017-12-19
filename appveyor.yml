@@ -32,8 +32,8 @@ test_script:
   - "python.exe manage.py check --settings weblate.settings_test"
   - "coverage run ./manage.py test --settings weblate.settings_test -v2"
   - ps: >-
-    $wc = New-Object 'System.Net.WebClient';
-    $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\junit.xml));
+        $wc = New-Object 'System.Net.WebClient';
+        $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\junit.xml));
 
 after_test:
   - "coverage combine"
