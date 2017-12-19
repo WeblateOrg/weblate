@@ -206,7 +206,7 @@ class AutoFormatTest(SimpleTestCase, TempDirMixin):
             Language(code='cs', nplurals=2),
             self.BASE
         )
-        with open(out, 'rb') as handle:
+        with open(out, 'r') as handle:
             data = handle.read()
         self.assertTrue(self.MATCH in data)
 
