@@ -283,8 +283,8 @@ class VCSGitTest(TestCase, RepoTestMixin):
     def test_commit(self):
         self.repo.set_committer('Foo Bar', 'foo@example.net')
         # Create test file
-        with open(os.path.join(self._tempdir, 'testfile'), 'w') as handle:
-            handle.write('TEST FILE\n')
+        with open(os.path.join(self._tempdir, 'testfile'), 'wb') as handle:
+            handle.write(b'TEST FILE\n')
 
         oldrev = self.repo.last_revision
         # Commit it
