@@ -137,9 +137,9 @@ def send_validation(strategy, backend, code, partial_token):
     strategy.request.session['registration-email-sent'] = True
 
     template = 'activation'
-    if strategy.request.session['password_reset']:
+    if strategy.request.session.get('password_reset'):
         template = 'reset'
-    elif strategy.request.session['account_remove']:
+    elif strategy.request.session.get('account_remove'):
         template = 'remove'
 
     url = '{0}?verification_code={1}&partial_token={2}'.format(
