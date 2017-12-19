@@ -11,7 +11,8 @@ environment:
     # The list here is complete (excluding Python 2.6, which
     # isn't covered by this document) at the time of writing.
 
-    - PYTHON: "C:\\Python27"
+    - PYTHON: "C:\\Python36"
+#    - PYTHON: "C:\\Python27"
 #    - PYTHON: "C:\\Python34"
 #    - PYTHON: "C:\\Python35"
 #    - PYTHON: "C:\\Python35-x64"
@@ -20,8 +21,6 @@ install:
   - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
   # We need wheel installed to build wheels
   - "python.exe -m pip install wheel"
-  # lxml 3.6.0 has binaries built for Windows
-  - "python.exe -m pip install lxml==3.6.0"
   - "python.exe -m pip install -r requirements-optional.txt"
   - "python.exe -m pip install -r ci/requirements-travis.txt"
 
