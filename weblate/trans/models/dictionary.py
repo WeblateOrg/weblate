@@ -72,7 +72,7 @@ class DictionaryManager(models.Manager):
                         'target': target,
                     },
                 )
-            except self.MultipleObjectsReturned:
+            except Dictionary.MultipleObjectsReturned:
                 word = self.filter(
                     project=project,
                     language=language,
