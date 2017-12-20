@@ -32,7 +32,7 @@ from django.contrib.auth.models import User
 from weblate.trans.formats import FILE_FORMATS
 from weblate.trans.models import Project, SubProject
 from weblate.trans.search import clean_indexes
-from weblate.trans.vcs import HgRepository, SubversionRepository, VCS_REGISTRY
+from weblate.trans.vcs import VCS_REGISTRY
 
 # Directory holding test data
 TEST_DATA = os.path.join(
@@ -65,6 +65,14 @@ def create_test_user():
 
 
 class RepoTestMixin(object):
+    """Mixin for testing with test repositories."""
+    git_base_repo_path = None
+    git_repo_path = None
+    mercurial_base_repo_path = None
+    mercurial_repo_path = None
+    subversion_base_repo_path = None
+    subversion_repo_path = None
+
     @staticmethod
     def optional_extract(output, tarname):
         """Extract test repository data if needed
