@@ -3,7 +3,7 @@ version: "{build}"
 clone_depth: 100
 
 environment:
-
+  SystemRoot: "C:\\WINDOWS"
   matrix:
 
     # For Python versions available on Appveyor, see
@@ -17,8 +17,6 @@ environment:
 #    - PYTHON: "C:\\Python35"
 #    - PYTHON: "C:\\Python35-x64"
 
-  global:
-    - SystemRoot: "C:\\WINDOWS"
 
 install:
   - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
