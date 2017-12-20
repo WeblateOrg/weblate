@@ -32,7 +32,7 @@ from django.contrib.auth.models import User
 from weblate.trans.formats import FILE_FORMATS
 from weblate.trans.models import Project, SubProject
 from weblate.trans.search import clean_indexes
-from weblate.trans.vcs import HgRepository, SubversionRepository
+from weblate.trans.vcs import HgRepository, SubversionRepository, VCS_REGISTRY
 
 # Directory holding test data
 TEST_DATA = os.path.join(
@@ -102,23 +102,23 @@ class RepoTestMixin(object):
         )
 
         # Path where to clone remote repo for tests
-        self.hg_base_repo_path = os.path.join(
+        self.mercurial_base_repo_path = os.path.join(
             settings.DATA_DIR,
             'test-base-repo.hg'
         )
         # Repository on which tests will be performed
-        self.hg_repo_path = os.path.join(
+        self.mercurial_repo_path = os.path.join(
             settings.DATA_DIR,
             'test-repo.hg'
         )
 
         # Path where to clone remote repo for tests
-        self.svn_base_repo_path = os.path.join(
+        self.subversion_base_repo_path = os.path.join(
             settings.DATA_DIR,
             'test-base-repo.svn'
         )
         # Repository on which tests will be performed
-        self.svn_repo_path = os.path.join(
+        self.subversion_repo_path = os.path.join(
             settings.DATA_DIR,
             'test-repo.svn'
         )
@@ -138,29 +138,34 @@ class RepoTestMixin(object):
 
         # Extract repo for testing
         self.optional_extract(
-            self.hg_base_repo_path,
+            self.mercurial_base_repo_path,
             'test-base-repo.hg.tar'
         )
 
         # Remove possibly existing directory
-        if os.path.exists(self.hg_repo_path):
-            shutil.rmtree(self.hg_repo_path, onerror=remove_readonly)
+        if os.path.exists(self.mercurial_repo_path):
+            shutil.rmtree(self.mercurial_repo_path, onerror=remove_readonly)
 
         # Create repository copy for the test
-        shutil.copytree(self.hg_base_repo_path, self.hg_repo_path)
+        shutil.copytree(
+            self.mercurial_base_repo_path, self.mercurial_repo_path
+        )
 
         # Extract repo for testing
         self.optional_extract(
-            self.svn_base_repo_path,
+            self.subversion_base_repo_path,
             'test-base-repo.svn.tar'
         )
 
         # Remove possibly existing directory
-        if os.path.exists(self.svn_repo_path):
-            shutil.rmtree(self.svn_repo_path, onerror=remove_readonly)
+        if os.path.exists(self.subversion_repo_path):
+            shutil.rmtree(self.subversion_repo_path, onerror=remove_readonly)
 
         # Create repository copy for the test
-        shutil.copytree(self.svn_base_repo_path, self.svn_repo_path)
+        shutil.copytree(
+            self.subversion_base_repo_path,
+            self.subversion_repo_path
+        )
 
         # Remove possibly existing project directory
         test_repo_path = os.path.join(settings.DATA_DIR, 'vcs', 'test')
@@ -199,16 +204,8 @@ class RepoTestMixin(object):
         repo = push = self.format_local_path(
             getattr(self, '{0}_repo_path'.format(vcs))
         )
-        if vcs == 'mercurial':
-            d_branch = 'default'
-            if not HgRepository.is_supported():
-                raise SkipTest('Mercurial not available!')
-        elif vcs == 'subversion':
-            d_branch = 'master'
-            if not SubversionRepository.is_supported():
-                raise SkipTest('Subversion not available!')
-        else:
-            d_branch = 'master'
+        if vcs not in VCS_REGISTRY:
+            raise SkipTest('VCS {0} not available!'.format(vcs))
 
         if 'new_lang' not in kwargs:
             kwargs['new_lang'] = 'contact'
@@ -217,7 +214,7 @@ class RepoTestMixin(object):
             kwargs['push_on_commit'] = False
 
         if branch is None:
-            branch = d_branch
+            branch = VCS_REGISTRY[vcs].default_branch
 
         return SubProject.objects.create(
             name='Test',
