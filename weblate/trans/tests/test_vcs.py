@@ -138,9 +138,12 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
             shutil.rmtree(tempdir, onerror=remove_readonly)
 
     def test_clone(self):
-        self.assertTrue(os.path.exists(
-            os.path.join(self.tempdir, '.{0}'.format(self._vcs))
-        ))
+        # Verify that VCS directory exists
+        if self._vcs == 'mercurial':
+            dirname = '.hg'
+        else:
+            dirname = '.{}'.format(self._vcs)
+        self.assertTrue(os.path.exists(os.path.join(self.tempdir, dirname)))
 
     def test_revision(self):
         self.assertEqual(
@@ -401,7 +404,7 @@ class VCSGithubTest(VCSGitTest):
 
 class VCSSubversionTest(VCSGitTest):
     _class = SubversionRepository
-    _vcs = 'svn'
+    _vcs = 'subversion'
 
     def test_clone(self):
         self.assertTrue(os.path.exists(
@@ -437,7 +440,7 @@ class VCSHgTest(VCSGitTest):
     Mercurial repository testing.
     """
     _class = HgRepository
-    _vcs = 'hg'
+    _vcs = 'mercurial'
 
     def test_configure_remote(self):
         self.repo.configure_remote('/pullurl', '/pushurl', 'branch')
