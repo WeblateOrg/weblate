@@ -317,7 +317,7 @@ class ImportProjectTest(RepoTestCase):
         call_command(
             'import_project',
             'test',
-            self.hg_repo_path,
+            self.mercurial_repo_path,
             'default',
             '**/*.po',
             vcs='mercurial'
@@ -335,7 +335,7 @@ class ImportProjectTest(RepoTestCase):
             call_command,
             'import_project',
             'test',
-            self.hg_repo_path,
+            self.mercurial_repo_path,
             'default',
             '*/**.po',
             vcs='mercurial'

@@ -29,7 +29,7 @@ from weblate.trans.models import SubProject
 from weblate.trans.models.unit import STATE_TRANSLATED
 from weblate.trans.tests.utils import REPOWEB_URL
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.trans.vcs import HgRepository, SubversionRepository
+from weblate.trans.vcs import VCS_REGISTRY
 
 EXTRA_PO = '''
 #: accounts/models.py:319 trans/views/basic.py:104 weblate/html/index.html:21
@@ -68,19 +68,11 @@ class MultiRepoTest(ViewTestCase):
 
     def setUp(self):
         super(MultiRepoTest, self).setUp()
-        if self._vcs == 'git':
-            repo = self.git_repo_path
-            push = self.git_repo_path
-        elif self._vcs == 'subversion':
-            if not SubversionRepository.is_supported():
-                raise SkipTest('Subversion not available!')
-            repo = 'file://' + self.svn_repo_path
-            push = 'file://' + self.svn_repo_path
-        else:
-            if not HgRepository.is_supported():
-                raise SkipTest('Mercurial not available!')
-            repo = self.hg_repo_path
-            push = self.hg_repo_path
+        if self._vcs not in VCS_REGISTRY:
+            raise SkipTest('VCS {0} not available!'.format(self._vcs))
+        repo = push = self.format_local_path(
+            getattr(self, '{0}_repo_path'.format(self._vcs))
+        )
         self.subproject2 = SubProject.objects.create(
             name='Test 2',
             slug='test-2',
@@ -141,10 +133,10 @@ class MultiRepoTest(ViewTestCase):
         """Test failed remote update."""
         if os.path.exists(self.git_repo_path):
             shutil.rmtree(self.git_repo_path)
-        if os.path.exists(self.hg_repo_path):
-            shutil.rmtree(self.hg_repo_path)
-        if os.path.exists(self.svn_repo_path):
-            shutil.rmtree(self.svn_repo_path)
+        if os.path.exists(self.mercurial_repo_path):
+            shutil.rmtree(self.mercurial_repo_path)
+        if os.path.exists(self.subversion_repo_path):
+            shutil.rmtree(self.subversion_repo_path)
         translation = self.subproject.translation_set.get(
             language_code='cs'
         )
