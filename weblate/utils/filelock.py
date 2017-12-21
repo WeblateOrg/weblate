@@ -101,6 +101,8 @@ class FileLockBase(object):
                     raise
 
             if (time.time() - start_time) >= self.timeout:
+                os.close(self.handle)
+                self.handle = None
                 raise FileLockException("Timeout occured.")
 
             time.sleep(self.delay)
@@ -116,6 +118,8 @@ class FileLockBase(object):
             if error.errno not in [errno.EACCES, errno.EAGAIN]:
                 raise
             return True
+        finally:
+            os.close(handle)
 
     def release(self):
         """Release the lock and delete underlaying file."""

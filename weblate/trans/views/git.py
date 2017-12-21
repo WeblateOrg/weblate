@@ -29,7 +29,7 @@ from weblate.utils import messages
 from weblate.trans.views.helper import (
     get_project, get_subproject, get_translation
 )
-from weblate.trans.filelock import FileLockException
+from weblate.utils.filelock import FileLockException
 from weblate.trans.util import redirect_param
 from weblate.permissions.helpers import (
     can_commit_translation, can_update_translation, can_reset_translation,

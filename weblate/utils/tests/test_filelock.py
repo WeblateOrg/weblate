@@ -22,7 +22,7 @@ from unittest import TestCase
 import sys
 import os.path
 from multiprocessing import Process
-from weblate.trans.filelock import FileLock, FileLockException
+from weblate.utils.filelock import FileLock, FileLockException
 from weblate.trans.tests.utils import TempDirMixin
 
 
