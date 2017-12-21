@@ -362,7 +362,7 @@ SAME_BLACKLIST = frozenset((
     'links',
     'linux',
     'list',
-    'lithium',
+    'litecoin',
     'lithium',
     'lock',
     'local',

@@ -9,6 +9,7 @@
 <li><a href="{% url 'download_translation_format' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code fmt='po'%}" title="{% trans "Download for an offline translation." %}">{% trans "Download translation as Gettext PO" %}</a></li>
 <li><a href="{% url 'download_translation_format' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code fmt='mo'%}" title="{% trans "Download for an offline translation." %}">{% trans "Download translation as Gettext MO" %}</a></li>
 <li><a href="{% url 'download_translation_format' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code fmt='csv'%}" title="{% trans "Download for an offline translation." %}">{% trans "Download translation as CSV" %}</a></li>
+<li><a href="{% url 'download_translation_format' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code fmt='tmx'%}" title="{% trans "Download for an offline translation." %}">{% trans "Download translation as TMX" %}</a></li>
 {% if user_can_upload_translation %}
 <li role="separator" class="divider"></li>
 <li><a href="#upload" data-toggle="tab">{% trans "Upload translation" %}</a></li>

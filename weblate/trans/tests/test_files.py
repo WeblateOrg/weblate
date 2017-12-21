@@ -417,6 +417,12 @@ class ExportTest(ViewTestCase):
             response, '/projects/test/test/cs/'
         )
 
+    def test_export_tmx(self):
+        response = self.export_format('tmx')
+        self.assertContains(
+            response, 'Orangutan has %d banana'
+        )
+
     def test_export_xliff(self):
         response = self.export_format('xliff')
         self.assertContains(
