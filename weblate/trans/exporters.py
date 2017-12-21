@@ -32,6 +32,7 @@ from translate.storage.mo import mofile, mounit
 from translate.storage.poxliff import PoXliffFile
 from translate.storage.xliff import xlifffile
 from translate.storage.tbx import tbxfile
+from translate.storage.tmx import tmxfile
 from translate.storage.csvl10n import csvfile
 
 import weblate
@@ -113,7 +114,12 @@ class BaseExporter(object):
         output = self.storage.UnitClass(
             self.handle_plurals(unit.get_source_plurals())
         )
-        output.target = self.handle_plurals(unit.get_target_plurals())
+        if self.has_lang:
+            output.settarget(
+                self.handle_plurals(unit.get_target_plurals()), self.language.code
+            )
+        else:
+            output.target = self.handle_plurals(unit.get_target_plurals())
         context = self.string_filter(unit.context)
         if context:
             output.setcontext(context)
@@ -232,6 +238,17 @@ class TBXExporter(XMLExporter):
 
     def get_storage(self):
         return tbxfile()
+
+
+@register_exporter
+class TMXExporter(XMLExporter):
+    name = 'tmx'
+    content_type = 'application/x-tmx'
+    extension = 'tmx'
+    has_lang = True
+
+    def get_storage(self):
+        return tmxfile()
 
 
 @register_exporter
