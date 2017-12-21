@@ -9,6 +9,7 @@ Released on ? 2018.
 * Fixed imports across some file formats.
 * Display human friendly browser information in audit log.
 * Added TMX exporter for files.
+* Various performance improvements for loading translation files.
 
 weblate 2.18
 ------------
