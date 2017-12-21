@@ -116,6 +116,8 @@ class FileLockBase(object):
             if error.errno not in [errno.EACCES, errno.EAGAIN]:
                 raise
             return True
+        finally:
+            os.close(handle)
 
     def release(self):
         """Release the lock and delete underlaying file."""
