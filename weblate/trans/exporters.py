@@ -116,7 +116,8 @@ class BaseExporter(object):
         )
         if self.has_lang:
             output.settarget(
-                self.handle_plurals(unit.get_target_plurals()), self.language.code
+                self.handle_plurals(unit.get_target_plurals()),
+                self.language.code
             )
         else:
             output.target = self.handle_plurals(unit.get_target_plurals())
