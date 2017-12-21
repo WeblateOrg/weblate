@@ -1057,7 +1057,8 @@ class Unit(models.Model, LoggerMixin):
         # Invalidate checks cache if there was any change
         # (above code cares only about whether there is failing check
         # while here we care about any changed in checks)
-        self.translation.invalidate_cache()
+        if update_stats:
+            self.translation.invalidate_cache()
 
         if recurse:
             for unit in Unit.objects.same(self):
