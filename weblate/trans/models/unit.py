@@ -843,7 +843,9 @@ class Unit(models.Model, LoggerMixin):
 
         # Update checks if content or fuzzy flag has changed
         if not same_content or not same_state:
-            self.run_checks(same_state, same_content, force_insert, update_stats)
+            self.run_checks(
+                same_state, same_content, force_insert, update_stats
+            )
 
         # Update fulltext index if content has changed or this is a new unit
         if force_insert or not same_content:
