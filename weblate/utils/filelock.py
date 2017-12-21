@@ -101,6 +101,8 @@ class FileLockBase(object):
                     raise
 
             if (time.time() - start_time) >= self.timeout:
+                os.close(self.handle)
+                self.handle = None
                 raise FileLockException("Timeout occured.")
 
             time.sleep(self.delay)
