@@ -1045,7 +1045,10 @@ class Unit(models.Model, LoggerMixin):
         # Change attribute if it has changed
         if has_failing_check != self.has_failing_check:
             self.has_failing_check = has_failing_check
-            self.save(backend=True, same_content=True, same_state=True)
+            self.save(
+                backend=True, same_content=True, same_state=True,
+                update_fields=['has_failing_check']
+            )
 
             # Update translation stats
             if update_stats:
@@ -1066,7 +1069,10 @@ class Unit(models.Model, LoggerMixin):
         has_suggestion = len(self.suggestions()) > 0
         if has_suggestion != self.has_suggestion:
             self.has_suggestion = has_suggestion
-            self.save(backend=True, same_content=True, same_state=True)
+            self.save(
+                backend=True, same_content=True, same_state=True,
+                update_fields=['has_suggestion']
+            )
 
             # Update translation stats
             if update_stats:
@@ -1077,7 +1083,10 @@ class Unit(models.Model, LoggerMixin):
         has_comment = len(self.get_comments()) > 0
         if has_comment != self.has_comment:
             self.has_comment = has_comment
-            self.save(backend=True, same_content=True, same_state=True)
+            self.save(
+                backend=True, same_content=True, same_state=True,
+                update_fields=['has_comment']
+            )
 
             # Update translation stats
             if update_stats:
