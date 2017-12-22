@@ -62,13 +62,13 @@ class RequestTest(TestCase):
         request.META['HTTP_USER_AGENT'] = 'agent'
         self.assertEqual(
             get_user_agent(request),
-            'agent'
+            'Other / Other / Other'
         )
 
     def test_agent_long(self):
         request = HttpRequest()
         request.META['HTTP_USER_AGENT'] = 'agent ' * 200
-        self.assertEqual(
+        self.assertLess(
             len(get_user_agent(request)),
             200
         )
