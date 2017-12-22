@@ -85,12 +85,11 @@ class FileLockBase(object):
         # Timer for timeout
         start_time = time.time()
 
-        # Open file
-        self.handle = self.open_file()
-
         # Try to acquire lock
         while True:
             try:
+                if self.handle is None:
+                    self.handle = self.open_file()
                 self.try_lock(self.handle)
                 self.is_locked = True
                 return
