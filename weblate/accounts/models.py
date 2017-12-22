@@ -31,7 +31,7 @@ from django.contrib.auth.signals import user_logged_in
 from django.core.exceptions import ValidationError
 from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _
-from django.utils.encoding import python_2_unicode_compatible, force_text
+from django.utils.encoding import python_2_unicode_compatible
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils import timezone
@@ -41,8 +41,6 @@ from django.utils.translation import LANGUAGE_SESSION_KEY
 from rest_framework.authtoken.models import Token
 
 from social_django.models import UserSocialAuth, Code
-
-import user_agents
 
 from weblate.lang.models import Language
 from weblate.utils import messages
@@ -150,12 +148,11 @@ def get_author_name(user, email=True):
 
 class AuditLogManager(models.Manager):
     def create(self, user, activity, address, user_agent, **params):
-        uaobj = user_agents.parse(user_agent)
         return super(AuditLogManager, self).create(
             user=user,
             activity=activity,
             address=address,
-            user_agent=force_text(uaobj),
+            user_agent=user_agent,
             params=json.dumps(params)
         )
 

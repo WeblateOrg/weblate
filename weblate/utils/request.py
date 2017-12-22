@@ -23,6 +23,8 @@ from __future__ import unicode_literals
 from django.conf import settings
 from django.utils.encoding import force_text
 
+import user_agents
+
 
 def get_ip_address(request):
     """Return IP address for request."""
@@ -39,8 +41,10 @@ def get_ip_address(request):
 
 def get_user_agent(request, max_length=200):
     """Return user agent for request."""
-    result = force_text(
-        request.META.get('HTTP_USER_AGENT', ''),
-        errors='replace'
+    uaobj = user_agents.parse(
+        force_text(
+            request.META.get('HTTP_USER_AGENT', ''),
+            errors='replace'
+        )
     )
-    return result[:max_length]
+    return force_text(uaobj)[:max_length]
