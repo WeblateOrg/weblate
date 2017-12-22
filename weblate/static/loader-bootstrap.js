@@ -467,9 +467,6 @@ function zenEditor(e) {
                 });
             };
             $row.removeClass('translation-modified').addClass('translation-saved');
-
-            // Start locking
-            jsLockUpdate = window.setInterval(updateLock, 19000);
         }
     );
 }
@@ -499,29 +496,6 @@ function insertEditor(text, element)
 
     editor.insertAtCaret($.trim(text));
     autosize.update(editor);
-}
-
-function updateLock() {
-    /* No locking for idle users */
-    if (idleTime >= 120) {
-        return;
-    }
-    $.ajax({
-        type: 'POST',
-        url: $('#js-lock').attr('href'),
-        data: {
-            csrfmiddlewaretoken: $('#link-post').find('input').val()
-        },
-        success: function(data) {
-            if (! data.status) {
-                $('.lock-error').remove();
-                var message = $('<div class="alert lock-error alert-danger"></div>');
-                message.text(data.message);
-                $('.content').prepend(message);
-            }
-        },
-        dataType: 'json'
-    });
 }
 
 /* Thin wrappers for django to avoid problems when i18n js can not be loaded */
