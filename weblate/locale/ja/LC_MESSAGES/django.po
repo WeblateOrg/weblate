@@ -6,11 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: weblate-website-ja\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-12-23 07:00+0000\n"
+"POT-Creation-Date: 2017-12-23 12:48+0000\n"
 "PO-Revision-Date: 2017-12-23 08:26+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
-"Language-Team: Japanese "
-"<https://hosted.weblate.org/projects/weblate/master/ja/>\n"
+"Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
+"ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1180,7 +1180,9 @@ msgid "Permission Denied"
 msgstr "アクセスが拒否されました"
 
 #: weblate/templates/403.html:11
-msgid "You don't have privileges to display this page."
+#, fuzzy
+#| msgid "You don't have privileges to display this page."
+msgid "Insufficient privileges to display this page."
 msgstr "このページを表示する権限がありません。"
 
 #: weblate/templates/403.html:14 weblate/templates/404.html:14
@@ -1218,7 +1220,8 @@ msgid ""
 "The server had serious problems serving your request. Trained monkeys are en-"
 "route fixing the issue."
 msgstr ""
-"リクエストの処理中に、サーバ上で深刻な問題がありました。この間抜けな問題を解決するために、熟練のおサルさん (開発者) を派遣しました (笑)。"
+"リクエストの処理中に、サーバ上で深刻な問題がありました。この間抜けな問題を解"
+"決するために、熟練のおサルさん (開発者) を派遣しました (笑)。"
 
 #: weblate/templates/about.html:5 weblate/templates/about.html:13
 #: weblate/templates/footer.html:6 weblate/trans/views/basic.py:521
@@ -1232,19 +1235,25 @@ msgid ""
 "translations across components, quality checks and automatic linking to "
 "source files."
 msgstr ""
-"Weblate はバージョンコントロールシステムと密接に統合できるウェブベースの翻訳ツールです。シンプルで明瞭なユーザインターフェイスのほか、コンポーネン"
-"トを超えた翻訳連携、品質チェック、ソースファイルへの自動リンクなどの機能を備えています。"
+"Weblate はバージョンコントロールシステムと密接に統合できるウェブベースの翻訳"
+"ツールです。シンプルで明瞭なユーザインターフェイスのほか、コンポーネントを超"
+"えた翻訳連携、品質チェック、ソースファイルへの自動リンクなどの機能を備えてい"
+"ます。"
 
 #: weblate/templates/about.html:18
 #, python-format
 msgid ""
 "More information about Weblate can be found on <a href=\"%(weblate_url)s"
 "\">weblate.org</a>."
-msgstr "Weblate に関する詳細情報は <a href=\"%(weblate_url)s\">weblate.org</a> にあります。"
+msgstr ""
+"Weblate に関する詳細情報は <a href=\"%(weblate_url)s\">weblate.org</a> にあり"
+"ます。"
 
 #: weblate/templates/about.html:20
 msgid "Weblate is libre software created by volunteers, and accepts donations."
-msgstr "Weblate はボランティアによって作成された無料のソフトウェアですが、寄付も受け付けております。"
+msgstr ""
+"Weblate はボランティアによって作成された無料のソフトウェアですが、寄付も受け"
+"付けております。"
 
 #: weblate/templates/about.html:24
 msgid "Fund Weblate"
@@ -1262,17 +1271,23 @@ msgstr "翻訳のホスティング"
 #: weblate/templates/about.html:35
 msgid ""
 "This Weblate instance hosts translations for various libre software projects."
-msgstr "この Weblate インスタンスでは、様々なフリーソフトウェアプロジェクトの翻訳文をホストしています。"
+msgstr ""
+"この Weblate インスタンスでは、様々なフリーソフトウェアプロジェクトの翻訳文を"
+"ホストしています。"
 
 #: weblate/templates/about.html:36
 msgid "Weblate can host your project as well, please get in touch."
-msgstr "Weblate では、あなたのプロジェクトをホストすることもできます。詳しくはご連絡ください。"
+msgstr ""
+"Weblate では、あなたのプロジェクトをホストすることもできます。詳しくはご連絡"
+"ください。"
 
 #: weblate/templates/about.html:39
 msgid ""
 "Commercial hosting is also available, pricing starts at 19 EUR per month, "
 "please get in touch for more details."
-msgstr "このほか、商用ホスティングも提供させていただいております。価格は 1 ヶ月あたり 19 ユーロからとなります。詳しくはお尋ねください。"
+msgstr ""
+"このほか、商用ホスティングも提供させていただいております。価格は 1 ヶ月あた"
+"り 19 ユーロからとなります。詳しくはお尋ねください。"
 
 #: weblate/templates/about.html:43 weblate/templates/accounts/hosting.html:20
 #: weblate/templates/projects.html:13
@@ -1384,24 +1399,32 @@ msgstr "登録完了まであと少しです"
 msgid ""
 "Shortly you should receive an e-mail containing a confirmation link. Click "
 "it to reset your password."
-msgstr "確認用のリンクを記載したメールをお送りします。リンク先にアクセスすることで、パスワードリセットが完了します。"
+msgstr ""
+"確認用のリンクを記載したメールをお送りします。リンク先にアクセスすることで、"
+"パスワードリセットが完了します。"
 
 #: weblate/templates/accounts/email-sent.html:26
 msgid ""
 "Shortly you should receive an e-mail containing a confirmation link. Click "
 "it to remove your account."
-msgstr "確認用のリンクを記載したメールをお送りします。リンク先にアクセスすることで、アカウント削除が完了します。"
+msgstr ""
+"確認用のリンクを記載したメールをお送りします。リンク先にアクセスすることで、"
+"アカウント削除が完了します。"
 
 #: weblate/templates/accounts/email-sent.html:28
 msgid ""
 "Thank you for registering. Click the confirmation link you receive by e-mail "
 "to complete the registration."
-msgstr "ユーザ登録いただき、ありがとうございます。確認用のリンクを記載したメールをお送りします。リンク先にアクセスすることで、ユーザ登録が完了します。"
+msgstr ""
+"ユーザ登録いただき、ありがとうございます。確認用のリンクを記載したメールをお"
+"送りします。リンク先にアクセスすることで、ユーザ登録が完了します。"
 
 #: weblate/templates/accounts/email-sent.html:31
 msgid ""
 "If the confirmation link expires before you get to use it, register again."
-msgstr "確認用のリンクには有効期限が設定されています。リンク先にアクセスする前に期限が切れてしまった場合は、再度登録をお願いいたします。"
+msgstr ""
+"確認用のリンクには有効期限が設定されています。リンク先にアクセスする前に期限"
+"が切れてしまった場合は、再度登録をお願いいたします。"
 
 #: weblate/templates/accounts/email-sent.html:35
 #, python-format
@@ -1410,7 +1433,8 @@ msgid ""
 "registration. Should the problem persist, please <a href=\"%(contact_url)s?"
 "t=reg\">contact us</a>."
 msgstr ""
-"メールはすぐに届くはずですが、届かない場合は迷惑メールフォルダを確認するか登録を再試行してください。どうしても問題が解決しない場合は、 <a href="
+"メールはすぐに届くはずですが、届かない場合は迷惑メールフォルダを確認するか登"
+"録を再試行してください。どうしても問題が解決しない場合は、 <a href="
 "\"%(contact_url)s?t=reg\">ご連絡ください</a> 。"
 
 #: weblate/templates/accounts/email.html:10
@@ -2107,7 +2131,8 @@ msgstr "統計情報"
 msgid ""
 "Customizable quality checks will help you improve the quality of "
 "translations."
-msgstr "品質チェックのカスタマイズにより、翻訳の質をさらに向上させることができます。"
+msgstr ""
+"品質チェックのカスタマイズにより、翻訳の質をさらに向上させることができます。"
 
 #: weblate/templates/checks.html:31
 msgid ""
@@ -2134,14 +2159,18 @@ msgstr "RSS フィード"
 msgid ""
 "To follow translation progress you can use RSS feeds, detailing all "
 "important translation changes."
-msgstr "翻訳作業を追いかけるには RSS フィードをお使いください。ここには、翻訳における重要な変更がすべて表示されます。"
+msgstr ""
+"翻訳作業を追いかけるには RSS フィードをお使いください。ここには、翻訳における"
+"重要な変更がすべて表示されます。"
 
 #: weblate/templates/data-root.html:18 weblate/templates/data.html:20
 #, python-format
 msgid ""
 "More information about exported RSS feeds available in <a href=\"%(rss_docs)s"
 "\">the documentation</a>."
-msgstr "出力された RSS フィードについての詳細は、<a href=\"%(rss_docs)s\">ドキュメント</a>に記載されています。"
+msgstr ""
+"出力された RSS フィードについての詳細は、<a href=\"%(rss_docs)s\">ドキュメン"
+"ト</a>に記載されています。"
 
 #: weblate/templates/data-root.html:24 weblate/templates/data.html:27
 #: weblate/templates/data.html:58 weblate/templates/data.html:96
@@ -2167,7 +2196,9 @@ msgstr "プロジェクト毎のデータ"
 msgid ""
 "There is more data exported per project, please check the following links "
 "for more information."
-msgstr "プロジェクトごとにエクスポートするデータがさらにあります。詳しくは下記のリンクをご確認ください。"
+msgstr ""
+"プロジェクトごとにエクスポートするデータがさらにあります。詳しくは下記のリン"
+"クをご確認ください。"
 
 #: weblate/templates/data-root.html:48 weblate/templates/data.html:85
 msgid "Notification hooks"
@@ -2180,8 +2211,9 @@ msgid ""
 "your developers, and allows continuous translation. More information "
 "available in <a href=\"%(hooks_docs)s\">the documentation</a>."
 msgstr ""
-"通知フックを利用することで、 Weblate は開発者が実施した変更を自動的に取り込み、途切れることなく翻訳を実施できるようになります。詳しい情報は <"
-"a href=\"%(hooks_docs)s\">ドキュメンテーション</a> をお読みください。"
+"通知フックを利用することで、 Weblate は開発者が実施した変更を自動的に取り込"
+"み、途切れることなく翻訳を実施できるようになります。詳しい情報は <a href="
+"\"%(hooks_docs)s\">ドキュメンテーション</a> をお読みください。"
 
 #: weblate/templates/data.html:7
 msgid "data exports"
@@ -2191,7 +2223,9 @@ msgstr "データのエクスポート"
 msgid ""
 "Per language RSS feeds are also available, you can construct them by "
 "appending a language code to the above URLs."
-msgstr "言語ごとの RSS フィードも提供されています。上記の URL に言語コードを追加してアクセスしてください。"
+msgstr ""
+"言語ごとの RSS フィードも提供されています。上記の URL に言語コードを追加して"
+"アクセスしてください。"
 
 #: weblate/templates/data.html:48 weblate/templates/index.html:38
 #: weblate/templates/stats.html:5 weblate/templates/stats.html:62
@@ -2206,8 +2240,9 @@ msgid ""
 "use the data in other websites or tools. The data format is described in <a "
 "href=\"%(api_docs)s\">the documentation</a>."
 msgstr ""
-"各コンポーネントに対する翻訳の統計情報は JSON 形式で提供され、他のウェブサイトやツールなどで利用できるようになっています。データの書式は <a "
-"href=\"%(api_docs)s\">ドキュメンテーション</a> 内で説明しています。"
+"各コンポーネントに対する翻訳の統計情報は JSON 形式で提供され、他のウェブサイ"
+"トやツールなどで利用できるようになっています。データの書式は <a href="
+"\"%(api_docs)s\">ドキュメンテーション</a> 内で説明しています。"
 
 #: weblate/templates/data.html:66
 #: weblate/templates/screenshots/screenshot_sources_body.html:13
@@ -2218,7 +2253,9 @@ msgstr "ビュー"
 msgid ""
 "As an example, fetching stats for all translations in one component can be "
 "done thusly:"
-msgstr "たとえば 1 つのコンポーネント内での全ての翻訳に関する統計情報を取得するには、下記のように実行します:"
+msgstr ""
+"たとえば 1 つのコンポーネント内での全ての翻訳に関する統計情報を取得するには、"
+"下記のように実行します:"
 
 #: weblate/templates/data.html:103 weblate/templates/data.html:109
 msgid "Hook"
@@ -2228,12 +2265,16 @@ msgstr "フック"
 msgid ""
 "As an example, telling Weblate to pull from a remote repository can be done "
 "thusly:"
-msgstr "たとえば Weblate に対してリモートのリポジトリから取得するように設定するには、下記のように実行します:"
+msgstr ""
+"たとえば Weblate に対してリモートのリポジトリから取得するように設定するには、"
+"下記のように実行します:"
 
 #: weblate/templates/data.html:124
 msgid ""
 "Weblate also supports direct notifications from several code hosting sites:"
-msgstr "Weblate では、いくつかのコードホスティングサイトからの直接通知にも対応しています:"
+msgstr ""
+"Weblate では、いくつかのコードホスティングサイトからの直接通知にも対応してい"
+"ます:"
 
 #: weblate/templates/data.html:129
 msgid "Hosting site"
@@ -2391,14 +2432,18 @@ msgstr ""
 msgid ""
 "This translation is open only to a limited group of translators, if you want "
 "to contribute please get in touch with the project maintainers."
-msgstr "この翻訳は、翻訳者のうち限られたグループにのみ公開されています。この翻訳に参加したい場合は、プロジェクトのメンテナにご連絡ください。"
+msgstr ""
+"この翻訳は、翻訳者のうち限られたグループにのみ公開されています。この翻訳に参"
+"加したい場合は、プロジェクトのメンテナにご連絡ください。"
 
 #: weblate/templates/engage.html:39
 #, python-format
 msgid ""
 "Once you have activated your account, proceed to the <a href=\"%(url)s"
 "\">translation section</a>."
-msgstr "アカウントを有効化したあとは、 <a href=\"%(url)s\">翻訳セクション</a> に進んでください。"
+msgstr ""
+"アカウントを有効化したあとは、 <a href=\"%(url)s\">翻訳セクション</a> に進ん"
+"でください。"
 
 #: weblate/templates/footer.html:5
 #, python-format
@@ -3712,7 +3757,9 @@ msgstr ""
 msgid ""
 "You need to be logged in to translate, otherwise you can only make "
 "suggestions."
-msgstr "翻訳を行なうにはログインする必要があります。ログインしない場合は、提案のみを行なうことができます。"
+msgstr ""
+"翻訳を行なうにはログインする必要があります。ログインしない場合は、提案のみを"
+"行なうことができます。"
 
 #: weblate/templates/index.html:33 weblate/templates/project.html:31
 #: weblate/templates/subproject.html:34 weblate/templates/translation.html:34
@@ -3765,7 +3812,9 @@ msgstr "ウイジェット"
 msgid ""
 "Choose what languages you want in the preferences, to see overview of "
 "available translations for those languages in your watched projects."
-msgstr "環境設定で言語を選択すると、監視対象のプロジェクト内で選択した言語に対する翻訳の概要が表示されます。"
+msgstr ""
+"環境設定で言語を選択すると、監視対象のプロジェクト内で選択した言語に対する翻"
+"訳の概要が表示されます。"
 
 #: weblate/templates/index.html:74 weblate/templates/index.html:88
 #: weblate/templates/index.html:103 weblate/templates/index.html:116
@@ -3776,13 +3825,17 @@ msgstr "お使いの言語の管理"
 msgid ""
 "Choose languages you speak in the preferences, to see an overview of all "
 "projects that feature those languages here."
-msgstr "環境設定内で言語を選択すると、ここにはその言語に対応する全てのプロジェクトの概要が表示されます。"
+msgstr ""
+"環境設定内で言語を選択すると、ここにはその言語に対応する全てのプロジェクトの"
+"概要が表示されます。"
 
 #: weblate/templates/index.html:100
 msgid ""
 "Could not find any suggestions for you, please choose your languages in the "
 "preferences to get some."
-msgstr "提案できる内容が見つかりませんでした。提案項目を増やすには、環境設定で言語を選択してください。"
+msgstr ""
+"提案できる内容が見つかりませんでした。提案項目を増やすには、環境設定で言語を"
+"選択してください。"
 
 #: weblate/templates/index.html:105
 msgid "Register to manage your languages"
@@ -4519,7 +4572,9 @@ msgstr "削除"
 msgid ""
 "The user will be removed from the project once all user permissions are "
 "removed."
-msgstr "すべてのユーザパーミッションを削除すると、プロジェクトからもユーザが削除されます。"
+msgstr ""
+"すべてのユーザパーミッションを削除すると、プロジェクトからもユーザが削除され"
+"ます。"
 
 #: weblate/templates/manage-access.html:65
 msgid "Add new user"
@@ -4560,7 +4615,9 @@ msgstr "新しい翻訳を開始する"
 msgid ""
 "Should your language be missing, please follow <a href=\"%(url)s\">the "
 "translator instructions</a>."
-msgstr "お使いの言語がない場合は、 <a href=\"%(url)s\">翻訳者手順</a> に従ってください。"
+msgstr ""
+"お使いの言語がない場合は、 <a href=\"%(url)s\">翻訳者手順</a> に従ってくださ"
+"い。"
 
 #: weblate/templates/new-language.html:27
 msgid "Please choose the language you want to translate to."
@@ -4570,7 +4627,9 @@ msgstr "翻訳したい言語を選択してください。"
 msgid ""
 "Project maintainers are notified of this request, which prompts them to add "
 "the language manually."
-msgstr "プロジェクトのメンテナは、このリクエストに対して通知を受け取ることができますので、これによって言語を手動で追加することができます。"
+msgstr ""
+"プロジェクトのメンテナは、このリクエストに対して通知を受け取ることができます"
+"ので、これによって言語を手動で追加することができます。"
 
 #: weblate/templates/new-language.html:32
 msgid "Can't find your language in the list above?"
@@ -4673,7 +4732,9 @@ msgstr "すべてのプロジェクトの変更を参照する"
 msgid ""
 "You can replace a string in all units at once. The search is a simple "
 "substring case sensitive search."
-msgstr "すべての翻訳単位を一括で文字列置換することができます。また、検索はシンプルな部分文字列検索で、大文字と小文字の区別もありません。"
+msgstr ""
+"すべての翻訳単位を一括で文字列置換することができます。また、検索はシンプルな"
+"部分文字列検索で、大文字と小文字の区別もありません。"
 
 #: weblate/templates/project.html:201 weblate/templates/replace.html:45
 #: weblate/templates/subproject.html:151 weblate/templates/translation.html:210
@@ -4799,7 +4860,9 @@ msgstr "あなたの翻訳を共有"
 msgid ""
 "You can also promote this translation project using various <a href="
 "\"%(widgets_url)s\">other means</a>."
-msgstr "様々な <a href=\"%(widgets_url)s\">方法</a> で翻訳プロジェクトを宣伝することができます。"
+msgstr ""
+"様々な <a href=\"%(widgets_url)s\">方法</a> で翻訳プロジェクトを宣伝すること"
+"ができます。"
 
 #: weblate/templates/share.html:32
 #, python-format
@@ -5163,7 +5226,9 @@ msgstr "翻訳を保存するには、ログインしてください。"
 msgid ""
 "Only reviewers can change approved strings, please add a suggestion if you "
 "think the string should be changed."
-msgstr "査読者だけが承認済み文字列を変更することができます。この文字列を変更する必要があるとお考えの場合は、提案を追加してください。"
+msgstr ""
+"査読者だけが承認済み文字列を変更することができます。この文字列を変更する必要"
+"があるとお考えの場合は、提案を追加してください。"
 
 #: weblate/templates/translate.html:174 weblate/trans/views/edit.py:321
 #: weblate/trans/views/edit.py:355 weblate/trans/views/edit.py:383
@@ -5199,7 +5264,9 @@ msgstr "追加のテキスト"
 msgid ""
 "You can leave this empty in most cases, as Weblate generates basic commit "
 "messages automatically."
-msgstr "ここで何も指定しない場合は、 Weblate が基本的なコミットメッセージを自動的に生成します。"
+msgstr ""
+"ここで何も指定しない場合は、 Weblate が基本的なコミットメッセージを自動的に生"
+"成します。"
 
 #: weblate/templates/translate.html:210
 msgid "Messages placed around this one"
@@ -5305,7 +5372,9 @@ msgstr "新しいコメント"
 
 #: weblate/templates/translate.html:377
 msgid "Comment on this string for fellow translators and developers to read."
-msgstr "仲間の翻訳者や開発者に読んでもらうことを目的として、この文字列にコメントを追加することができます。"
+msgstr ""
+"仲間の翻訳者や開発者に読んでもらうことを目的として、この文字列にコメントを追"
+"加することができます。"
 
 #: weblate/templates/translate.html:400
 msgid "Things to check"
@@ -5440,13 +5509,17 @@ msgstr ""
 msgid ""
 "You can add new translation unit here, it will automatically appear in all "
 "translations."
-msgstr "ここでは新しい翻訳単位を追加することができます。これは自動的に全ての翻訳に対して表示されます。"
+msgstr ""
+"ここでは新しい翻訳単位を追加することができます。これは自動的に全ての翻訳に対"
+"して表示されます。"
 
 #: weblate/templates/translation.html:260
 msgid ""
 "The uploaded file will be merged with the current translation. In case you "
 "want to overwrite already translated strings, don't forget to enable it."
-msgstr "アップロードされたファイルは現在の翻訳にマージされます。既に存在している翻訳を上書きしたい場合は、忘れずに上書きを有効にしてください。"
+msgstr ""
+"アップロードされたファイルは現在の翻訳にマージされます。既に存在している翻訳"
+"を上書きしたい場合は、忘れずに上書きを有効にしてください。"
 
 #: weblate/templates/translation.html:262
 msgid "The uploaded file will be merged with the current translation."
@@ -5569,8 +5642,9 @@ msgid ""
 "They can increase the visibility of your translation projects and bring in "
 "new contributors."
 msgstr ""
-"下記のウィジェットを利用することで、ご利用のプロジェクトの翻訳を宣伝することができます。これによって翻訳プロジェクトを可視化することができ、新しい貢献者を"
-"集めることができるようになります。"
+"下記のウィジェットを利用することで、ご利用のプロジェクトの翻訳を宣伝すること"
+"ができます。これによって翻訳プロジェクトを可視化することができ、新しい貢献者"
+"を集めることができるようになります。"
 
 #: weblate/templates/widgets.html:31
 #, python-format
@@ -6093,7 +6167,9 @@ msgstr "翻訳しようとしている文字列は利用できなくなりまし
 msgid ""
 "Strings are usually marked as \"Needs editing\" after the source string is "
 "updated, or when marked as such manually."
-msgstr "原文が変更されると、対応する文字列に要編集フラグが設定されるほか、必要に応じて手作業で設定される場合もあります。"
+msgstr ""
+"原文が変更されると、対応する文字列に要編集フラグが設定されるほか、必要に応じ"
+"て手作業で設定される場合もあります。"
 
 #: weblate/trans/forms.py:429
 msgid "Review state"
@@ -6449,7 +6525,9 @@ msgstr "追加するユーザ"
 msgid ""
 "Please provide username or e-mail. User needs to already have an active "
 "account in Weblate."
-msgstr "ユーザ名または電子メールアドレスを入力してください。ユーザは Weblate 内で有効なアカウントを持っている必要があります。"
+msgstr ""
+"ユーザ名または電子メールアドレスを入力してください。ユーザは Weblate 内で有効"
+"なアカウントを持っている必要があります。"
 
 #: weblate/trans/forms.py:1198
 msgid "Report format"
@@ -6547,7 +6625,9 @@ msgstr "翻訳キー"
 msgid ""
 "Key used to identify unit in translation file. File format specific rules "
 "might apply."
-msgstr "キーは翻訳ファイル内での翻訳単位の識別に利用します。ファイル固有のルールが適用される場合があります。"
+msgstr ""
+"キーは翻訳ファイル内での翻訳単位の識別に利用します。ファイル固有のルールが適"
+"用される場合があります。"
 
 #: weblate/trans/forms.py:1476
 msgid "Source language text"
@@ -6844,7 +6924,9 @@ msgstr "アクセス制御"
 msgid ""
 "How to restrict access to this project, please check the documentation for "
 "more details."
-msgstr "このプロジェクトに対するアクセス制限の設定。詳しくはドキュメンテーションをお読みください。"
+msgstr ""
+"このプロジェクトに対するアクセス制限の設定。詳しくはドキュメンテーションをお"
+"読みください。"
 
 #: weblate/trans/models/project.py:141
 msgid "Enable reviews"
