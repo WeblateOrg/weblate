@@ -8,7 +8,7 @@
 {% block content %}
 
 <p>
-{% trans "You don't have privileges to display this page." %}
+{% trans "Insufficient privileges to display this page." %}
 
 {% if not user.is_authenticated %}
 <a href="{% url 'login' %}" class="btn btn-default">{% trans "Log in" %}</a>
