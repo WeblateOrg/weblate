@@ -942,6 +942,12 @@ EXTRALANGS = (
         2,
         'n != 1',
     ),
+    (
+        'ace',
+        'Acehnese',
+        1,
+        '0',
+    ),
 )
 
 NO_CODE_LANGUAGES = frozenset((
