@@ -831,6 +831,7 @@ SAME_BLACKLIST = frozenset((
 
     # Language names
     'abkhazian',
+    'acehnese',
     'acholi',
     'afar',
     'africa',
