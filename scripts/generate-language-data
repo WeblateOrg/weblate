@@ -30,7 +30,7 @@ for code in sys.argv[1:]:
 
     print("""    (
         '{0}',
-        '{1}',
+        _('{1}'),
         {2},
         '{3}',
     ),""".format(code, names[code].split(';')[-1].strip(), nplurals, plurals))
