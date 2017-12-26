@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-12-23 12:48+0000\n"
-"PO-Revision-Date: 2017-08-31 12:00+0000\n"
-"Last-Translator: Michal Čihař <michal@cihar.com>\n"
-"Language-Team: Greek <https://hosted.weblate.org/projects/weblate/master/el/"
-">\n"
+"PO-Revision-Date: 2017-12-26 10:23+0000\n"
+"Last-Translator: Vangelis Skarmoutsos <skarmoutsosv@gmail.com>\n"
+"Language-Team: Greek <https://hosted.weblate.org/projects/weblate/master/el/>"
+"\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.17-dev\n"
+"X-Generator: Weblate 2.19-dev\n"
 
 #: weblate/accounts/admin.py:106 weblate/accounts/admin.py:111
 msgid "Personal info"
@@ -51,10 +51,8 @@ msgid "Enter a valid email address."
 msgstr "Εισάγετε μια έγκυρη ηλεκτρονική διεύθυνση."
 
 #: weblate/accounts/forms.py:109
-#, fuzzy
-#| msgid "User with this email address was not found."
 msgid "This email address is not allowed."
-msgstr "Ο χρήστης με αυτή την ηλεκτρονική διεύθυνση δεν βρέθηκε."
+msgstr "Αυτή η διεύθυνση email δεν επιτρέπεται."
 
 #: weblate/accounts/forms.py:115
 msgid ""
@@ -71,7 +69,7 @@ msgstr "Όνομα χρήστη"
 
 #: weblate/accounts/forms.py:136
 msgid "Username can not start with full stop."
-msgstr ""
+msgstr "Το παρωνύμιο δεν μπορεί να αρχίζει με τελεία."
 
 #: weblate/accounts/forms.py:143
 msgid "This username is already taken. Please choose another."
@@ -143,12 +141,8 @@ msgid "Activation email will be sent here."
 msgstr "Η ηλεκτρονική επιστολή ενεργοποίησης θα σταλεί εδώ."
 
 #: weblate/accounts/forms.py:405
-#, fuzzy
-#| msgid "Can not reset password, email authentication is disabled!"
 msgid "Too many registration attempts!"
-msgstr ""
-"Αδύνατη η επαναφορά του κωδικού πρόσβασης, η πιστοποίηση ηλεκτρονικής "
-"αλληλογραφίας είναι απενεργοποιημένη!"
+msgstr "Πάρα πολλές προσπάθειες εγγραφής!"
 
 #: weblate/accounts/forms.py:412
 msgid "New password"
@@ -170,10 +164,8 @@ msgid "What is %s?"
 msgstr "Τι είναι το %s;"
 
 #: weblate/accounts/forms.py:482
-#, fuzzy
-#| msgid "Please check your math and try again."
 msgid "Please check your math and try again with new expression."
-msgstr "Ελέγξτε τα μαθηματικά σας και δοκιμαστε ξανά."
+msgstr "Ελέγξτε τα μαθηματικά σας και δοκιμαστε ξανά με νέα έκφραση."
 
 #: weblate/accounts/forms.py:506
 msgid "Current password"
@@ -181,7 +173,7 @@ msgstr "Τρέχων κωδικός"
 
 #: weblate/accounts/forms.py:508
 msgid "Keep the field empty if you have not yet set your password."
-msgstr ""
+msgstr "Αφήστε το πεδίο κενό αν δεν έχετε ορίσει το συνθηματικό σας"
 
 #: weblate/accounts/forms.py:522
 msgid "You have entered an invalid password."
@@ -200,20 +192,16 @@ msgid ""
 "Please enter a correct username and password. Note that both fields may be "
 "case-sensitive."
 msgstr ""
-"Εισάγετε ένα σωστό όνομα χρήστη και κωδικό πρόσβασης. Σημειώστε ότι και τα "
-"δύο πεδία ίσως απαιτούν συμφωνια πεζών-κεφαλαίων."
+"Εισάγετε ένα σωστό παρωνύμιο και συνθηματικό. Σημειώστε ότι και τα δύο πεδία "
+"ίσως απαιτούν συμφωνία πεζών-κεφαλαίων."
 
 #: weblate/accounts/forms.py:547
 msgid "This account is inactive."
 msgstr "Αυτός ο λογαριασμός είναι απενεργοποιημένος."
 
 #: weblate/accounts/forms.py:566
-#, fuzzy
-#| msgid "Can not reset password, email authentication is disabled!"
 msgid "Too many authentication attempts!"
-msgstr ""
-"Αδύνατη η επαναφορά του κωδικού πρόσβασης, η πιστοποίηση ηλεκτρονικής "
-"αλληλογραφίας είναι απενεργοποιημένη!"
+msgstr "Πάρα πολλές προσπάθειες πιστοποίησης!"
 
 #: weblate/accounts/forms.py:623 weblate/trans/models/project.py:91
 msgid "Project name"
@@ -250,74 +238,67 @@ msgid "Additional message"
 msgstr "Πρόσθετο μήνυμα"
 
 #: weblate/accounts/models.py:56
-#, fuzzy
-#| msgid "Your password has been changed."
 msgid "Password has been changed."
-msgstr "Ο κωδικός σας έχει αλλαχτεί."
+msgstr "Το συνθηματικό έχει αλλαχτεί."
 
 #: weblate/accounts/models.py:59
-#, fuzzy
-#| msgid "Your password has been changed."
 msgid "Password reset has been requested."
-msgstr "Ο κωδικός σας έχει αλλαχτεί."
+msgstr "Έχει γίνει αίτηση επαναφοράς συνθηματικού."
 
 #: weblate/accounts/models.py:62
-#, fuzzy
-#| msgid "Your password has been changed."
 msgid "Password reset has been confirmed and password has been reset."
-msgstr "Ο κωδικός σας έχει αλλαχτεί."
+msgstr ""
+"Η επαναφορά συνθηματικού έχει επιβεβαιωθεί και το συνθηματικό έχει αλλαχτεί."
 
 #: weblate/accounts/models.py:65
 #, python-brace-format
 msgid "Authentication using {method} ({name}) has been added."
-msgstr ""
+msgstr "Προστέθηκε πιστοποίηση με χρήση {method} ({name})."
 
 #: weblate/accounts/models.py:68
 #, python-brace-format
 msgid "Authentication using {method} ({name}) has been removed."
-msgstr ""
+msgstr "Αφαιρέθηκε πιστοποίηση με χρήση {method} ({name})."
 
 #: weblate/accounts/models.py:71
 #, python-brace-format
 msgid "Successfully authenticated using {method} ({name})."
-msgstr ""
+msgstr "Επιτυχημένη πιστοποίηση με χρήση {method} ({name})."
 
 #: weblate/accounts/models.py:74
 #, python-brace-format
 msgid "Successfully authenticated using {method} ({name}) from new device."
-msgstr ""
+msgstr "Επιτυχημένη πιστοποίηση με χρήση {method} ({name}) από νέα συσκευή."
 
 #: weblate/accounts/models.py:77
 msgid "Somebody has attempted to register with your email."
-msgstr ""
+msgstr "Κάποιος προσπάθησε να καταχωρηθεί με το email σας."
 
 #: weblate/accounts/models.py:80
 msgid "Somebody has attempted to add your email to existing account."
-msgstr ""
+msgstr "Κάποθος προσπάθησε να προσθέσει το email σας σε υπάρχοντα λογαριασμό."
 
 #: weblate/accounts/models.py:83
 #, python-brace-format
 msgid "Failed authentication attempt using {method} ({name})."
-msgstr ""
+msgstr "Αποτυχημένη προσπάθεια πιστοποίησης με χρήση   {method} ({name})."
 
 #: weblate/accounts/models.py:86
 msgid "Account locked due to excessive failed authentication attempts."
-msgstr ""
+msgstr "Ο λογαριασμός κλειδώθηκε λόγω πολλών αποτυχημένων πιστοποιήσεων."
 
 #: weblate/accounts/models.py:89
 msgid "Account and all private data have been removed."
-msgstr ""
+msgstr "Ο λογαριασμός και όλα τα προσωπικά δεδομένα έχουν διαγραφεί."
 
 #: weblate/accounts/models.py:92
 #, python-brace-format
 msgid "Agreement with Terms of Service {date}."
-msgstr ""
+msgstr "Συμφωνητικό με τους Όρους Χρήσης {date}."
 
 #: weblate/accounts/models.py:215 weblate/templates/accounts/profile.html:309
-#, fuzzy
-#| msgid "Account activation"
 msgid "Account activity"
-msgstr "Ενεργοποιήση λογαριασμού"
+msgstr "Δραστηριότητα λογαριασμού"
 
 #: weblate/accounts/models.py:320
 msgid "Interface Language"
@@ -477,43 +458,48 @@ msgstr ""
 
 #: weblate/accounts/password_validation.py:46
 msgid "This password consists of single character."
-msgstr ""
+msgstr "Αυτό το συνθηματικό αποτελείται από ένα μόνο χαρακτήρα."
 
 #: weblate/accounts/password_validation.py:52
 msgid "Your password can't consist of single character or whitespace only."
 msgstr ""
+"Το συνθηματικό σας δεν μπορεί να αποτελείται από ένα μόνο χαρακτήρα ή μόνο "
+"από κενά."
 
 #: weblate/accounts/password_validation.py:75
 msgid "Can not use previously used password!"
-msgstr ""
+msgstr "Δεν μπορείτε να χρησιμοποιήσετε συνθηματικό προηγούμενης χρήσης!"
 
 #: weblate/accounts/password_validation.py:81
 msgid "Your password can't match password you have used in the past."
 msgstr ""
+"Το συνθηματικό σας δεν μπορεί να ταιριάζει σε συνθηματικό που είχατε "
+"χρησιμοποιήσει στο παρελθόν."
 
 #: weblate/accounts/pipeline.py:299
 msgid "You can not complete password reset while logged in!"
 msgstr ""
+"Δεν μπορείτε να ολοκληρώσετε την επαναφορά συνθηματικού καθώς είστε "
+"συνδεμένος!"
 
 #: weblate/accounts/pipeline.py:303 weblate/accounts/pipeline.py:327
-#, fuzzy
-#| msgid "Translation comment has been deleted."
 msgid "The registration link has been invalidated."
-msgstr "Το σχόλιο της μετάφρασης έχει διαγραφεί."
+msgstr "Ο σύνδεσμος εγγραφής έχει ακυρωθεί."
 
 #: weblate/accounts/pipeline.py:318
 msgid "You can not complete registration while logged in!"
-msgstr ""
+msgstr "Δεν μπορείτε να ολοκληρώσετε την εγγραφή καθώς είστε συνδεμένος!"
 
 #: weblate/accounts/pipeline.py:323
 msgid "You can confirm your registration only while logged in!"
-msgstr ""
+msgstr "Μπορείτε να επιβεβαιώσετε την εγγραφή σας μόνο καθώς είστε συνδεμένος!"
 
 #: weblate/accounts/pipeline.py:459
 #, python-brace-format
 msgid ""
 "Your email no longer belongs to verified account, it has been changed to {0}."
 msgstr ""
+"Το email σας δεν ανήκει πια σε επιβεβαιωμένο λογαριασμό, έχει αλλάξει σε {0}."
 
 #: weblate/accounts/views.py:117 weblate/accounts/views.py:743
 #: weblate/accounts/views.py:792 weblate/templates/accounts/reset.html:7
@@ -522,10 +508,8 @@ msgid "Password reset"
 msgstr "Επαναφορά κωδικού"
 
 #: weblate/accounts/views.py:120
-#, fuzzy
-#| msgid "Remove my account"
 msgid "Remove account"
-msgstr "Απομάκρυνση του λογαριασμού μου"
+msgstr "Απομάκρυνση λογαριασμού"
 
 #: weblate/accounts/views.py:123 weblate/accounts/views.py:632
 msgid "User registration"
@@ -547,7 +531,7 @@ msgstr ""
 
 #: weblate/accounts/views.py:208
 msgid "Too many attempts, you have been logged out!"
-msgstr ""
+msgstr "Πάρα πολλές προσπάθειες, έχετε αποσυνδεθεί!"
 
 #: weblate/accounts/views.py:270
 msgid "Your profile has been updated."
@@ -563,7 +547,7 @@ msgstr "Ο λογαριασμός σας απομακρύνθηκε."
 
 #: weblate/accounts/views.py:420
 msgid "Too many messages sent, please try again later!"
-msgstr ""
+msgstr "Πάρα πολλά απεσταλμένα μηνύματα, παρακαλώ δοκιμάστε αργότερα!"
 
 #: weblate/accounts/views.py:446 weblate/templates/accounts/contact.html:6
 #: weblate/templates/accounts/contact.html:21 weblate/templates/footer.html:9
@@ -594,10 +578,8 @@ msgid "Change password"
 msgstr "Αλλαγή κωδικού"
 
 #: weblate/accounts/views.py:728
-#, fuzzy
-#| msgid "Your password has been changed."
 msgid "Password reset has been already completed!"
-msgstr "Ο κωδικός σας έχει αλλαχτεί."
+msgstr "Η αλλαγή συνθηματικού έχει ήδη ολοκληρωθεί!"
 
 #: weblate/accounts/views.py:759
 msgid "Can not reset password, email authentication is disabled!"
@@ -615,15 +597,11 @@ msgstr ""
 
 #: weblate/accounts/views.py:901
 msgid "Authentication failed due to invalid session state."
-msgstr ""
+msgstr "Η πιστοποίηση απέτυχε λόγω μη έγκυρης κατάστασης συνεδρίας."
 
 #: weblate/accounts/views.py:915
-#, fuzzy
-#| msgid "Can not reset password, email authentication is disabled!"
 msgid "Can not change authentication for demo!"
-msgstr ""
-"Αδύνατη η επαναφορά του κωδικού πρόσβασης, η πιστοποίηση ηλεκτρονικής "
-"αλληλογραφίας είναι απενεργοποιημένη!"
+msgstr "Δεν μπορεί να αλλάξει η πιστοποίηση στην επίδειξη!"
 
 #: weblate/accounts/views.py:919
 msgid "New registrations are disabled!"
@@ -633,18 +611,19 @@ msgstr "Οι νέες εγγραφές έχουν απενεργοποιηθεί
 msgid ""
 "Authentication has failed, probably due to expired token or connection error."
 msgstr ""
+"Η πιστοποίηση απέτυχε, πιθανά λόγω εκπνοής τεκμηρίου ή σφάλματος σύνδεσης."
 
 #: weblate/accounts/views.py:930
-#, fuzzy
-#| msgid "Translation has been removed."
 msgid "Authentication has been cancelled."
-msgstr "Η μετάφραση έχει απομακρυνθεί."
+msgstr "Η πιστοποίηση έχει ακυρωθεί."
 
 #: weblate/accounts/views.py:933
 msgid ""
 "Failed to complete your registration! This authentication, email or username "
 "are already associated with another account!"
 msgstr ""
+"Αποτυχία πιστοποίησης της εγγραφής σας! Αυτή η πιστοποίηση, το email ή το "
+"παρωνύμιο, είναι ήδη συσχετισμένα με διαφορετικό λογαριασμό!"
 
 #: weblate/billing/admin.py:52 weblate/billing/models.py:128
 #: weblate/templates/accounts/user.html:38
@@ -899,20 +878,21 @@ msgstr "Μορφή πληθυντικού %d"
 
 #. Translators: Label for plurals with example counts
 #: weblate/lang/models.py:504
-#, fuzzy, python-brace-format
-#| msgid "Failed to compile: {0}"
+#, python-brace-format
 msgid "For example: {0}"
-msgstr "Απέτυχε η κατάρτηση: {0}"
+msgstr "Για παράδειγμα: {0}"
 
 #: weblate/legal/forms.py:29
 msgid "I agree with the Terms of Service document"
-msgstr ""
+msgstr "Συμφωνώ με το έγγραφο Όροι Χρήσης"
 
 #: weblate/legal/middleware.py:59
 msgid ""
 "We have new version of the Terms of Service document, please read it and "
 "confirm that you agree with it."
 msgstr ""
+"Έχουμε νέα έκδοση του εγγράφου Όροι Χρήσης, παρακαλώ διαβάστε το και "
+"επιβεβαιώστε ότι συμφωνείται με αυτό."
 
 #: weblate/legal/templates/legal/confirm.html:6
 #: weblate/legal/templates/legal/cookies.html:5
@@ -920,15 +900,15 @@ msgstr ""
 #: weblate/legal/templates/legal/security.html:6
 #: weblate/legal/templates/legal/terms.html:5 weblate/templates/footer.html:7
 msgid "Legal"
-msgstr ""
+msgstr "Νομικά"
 
 #: weblate/legal/templates/legal/confirm.html:13
 msgid "You have to agree to the Terms of Service"
-msgstr ""
+msgstr "Πρέπει να συμφωνήσετε με τους Όρους Χρήσης"
 
 #: weblate/legal/templates/legal/confirm.html:15
 msgid "Please read following Terms of Service document:"
-msgstr ""
+msgstr "Παρακαλώ διαβάστε το ακόλουθο έγγραφο Όροι Χρήσης:"
 
 #: weblate/legal/templates/legal/confirm.html:23
 #: weblate/wladmin/templates/admin/ssh.html:64
@@ -937,11 +917,11 @@ msgstr "Υποβολή"
 
 #: weblate/legal/templates/legal/cookies.html:6 weblate/legal/views.py:47
 msgid "Cookies"
-msgstr ""
+msgstr "Cookies"
 
 #: weblate/legal/templates/legal/cookies.html:16
 msgid "Cookies Policy"
-msgstr ""
+msgstr "Πολιτική cookies"
 
 #: weblate/legal/templates/legal/cookies.html:21
 #: weblate/legal/templates/legal/index.html:20
@@ -950,83 +930,99 @@ msgid ""
 "This page is based on the <a href=\"%(terms_url)s\">Terms of Service</a>, "
 "you should still read the original document to fully understand them."
 msgstr ""
+"Αυτή η σελίδα βασίζεται στο <a href=\"%(terms_url)s\">Όροι Χρήσης</a>, "
+"μπορείτε ακόμη να διαβάσετε το πρωτότυπο έγγραφο για να τους καταλάβετε "
+"πλήρως."
 
 #: weblate/legal/templates/legal/cookies.html:25
 msgid "We use cookies for following:"
-msgstr ""
+msgstr "Χρησιμοποιούμε cookies για τα ακόλουθα:"
 
 #: weblate/legal/templates/legal/cookies.html:29
 msgid ""
 "Authentication cookies which are required for recognizing authenticated "
 "users."
 msgstr ""
+"Τα cookies πιστοποίησης απαιτούνται για αναγνώριση των πιστοποιημένων "
+"χρηστών."
 
 #: weblate/legal/templates/legal/cookies.html:30
 msgid "Preferences cookie to store user preferences in certain situations."
 msgstr ""
+"Cookie προτιμήσεων για αποθήκευση προτιμήσεων του χρήστη σε συγκεκριμένες "
+"καταστάσεις."
 
 #: weblate/legal/templates/legal/cookies.html:31
 msgid ""
 "We use Piwik to analyze traffic on our website. Piwik honours Do Not Track "
 "settings in your browser."
 msgstr ""
+"Χρησιμοποιούμε το Piwik για να αναλύσουμε την κίνηση του ιστοτόπου μας. Το "
+"Piwik τιμάει τις ρυθμίσεις Χωρίς Ιχνηλάτηση του περιηγητή σας."
 
 #: weblate/legal/templates/legal/cookies.html:35
-#, fuzzy
-#| msgid ""
-#| "You can find more information about setting up SSH keys in <a href="
-#| "\"%(ssh_docs)s\">the Weblate manual</a>."
 msgid ""
 "You can find more information about cookies in the <a href=\"https://en."
 "wikipedia.org/wiki/HTTP_cookie\">Wikipedia article</a>."
 msgstr ""
-"Μπορείτε να βρείτε περισσότερες πληροφορίες σχετικά με τη ρύθμιση κλειδιών "
-"SSH στο <a href=\"%(ssh_docs)s\">εγχειρίδιο του Weblate</a>."
+"Μπορείτε να βρείτε περισσότερες πληροφορίες σχετικά με τα cookies στο <a "
+"href=\"https://en.wikipedia.org/wiki/HTTP_cookie\">άρθρο της "
+"Βικιπαίδειας</a>."
 
 #: weblate/legal/templates/legal/index.html:15
 msgid "Legal Terms Overview"
-msgstr ""
+msgstr "Περίληψη νομικών όρων"
 
 #: weblate/legal/templates/legal/index.html:24
 msgid ""
 "The services are provided “as is”, at your own risk, without any warranty."
 msgstr ""
+"Οι υπηρεσίες παρέχονται \"ως έχουν\", με δικό σας ρίσκο, χωρίς καμία εγγύηση."
 
 #: weblate/legal/templates/legal/index.html:25
 msgid ""
 "Additional guarantees might apply to commercial customers, those are "
 "expressed in corresponding contracts."
 msgstr ""
+"Πρόσθετες εγγυήσεις μπορεί να εφαρμόζονται σε εμπορικούς πελάτες, αυτές "
+"εκφράζονται στις αντίστοιχες επαφές."
 
 #: weblate/legal/templates/legal/index.html:26
 msgid ""
 "We process private data (such as your email address), those will be "
 "discarded from our database as soon as you remove your account."
 msgstr ""
+"Επεξεργαζόμαστε ιδιωτικά δεδομένα (όπως οι διευθύνσεις σας email), αυτά θα "
+"απορριφθούν από την βάση δεδομένων μας αμέσως μόλις αφαιρέσετε τον "
+"λογαριασμό σας."
 
 #: weblate/legal/templates/legal/index.html:27
 msgid ""
 "Your translations are made under license which is specified by each "
 "translation."
 msgstr ""
+"Οι μεταφράσεις σας γίνονται κάτω από άδεια που καθορίζεται από κάθε "
+"μετάφραση."
 
 #: weblate/legal/templates/legal/index.html:28
 msgid ""
 "Your name and email address is used in VCS commits, it will stay there "
 "indefinitely."
 msgstr ""
+"Το όνομα και η διεύθυνση email σας, χρησιμοποιούνται σε VCS commits, θα "
+"παραμείνουν εκεί επ' αόριστο."
 
 #: weblate/legal/templates/legal/index.html:29
 msgid "We use cookies to deliver our services."
-msgstr ""
+msgstr "Χρησιμοποιούμε cookies για να παραδώσουμε τις υπηρεσίες μας."
 
 #: weblate/legal/templates/legal/security.html:7 weblate/legal/views.py:52
 msgid "Security"
-msgstr ""
+msgstr "Ασφάλεια"
 
 #: weblate/legal/templates/legal/security.html:17
 msgid "Security Policy"
-msgstr ""
+msgstr "Πολιτική ασφάλειας"
 
 #: weblate/legal/templates/legal/security.html:22
 msgid ""
@@ -1437,10 +1433,8 @@ msgid "Registration"
 msgstr "Εγγραφή"
 
 #: weblate/templates/accounts/email-sent.html:14
-#, fuzzy
-#| msgid "Your password has been changed."
 msgid "Password reset almost complete"
-msgstr "Ο κωδικός σας έχει αλλαχτεί."
+msgstr "Η επαναφορά του συνθηματικού σας έχει σχεδόν ολοκληρωθεί"
 
 #: weblate/templates/accounts/email-sent.html:16
 #, fuzzy
@@ -1626,13 +1620,13 @@ msgstr ""
 "\">εγγραφείτε</a>."
 
 #: weblate/templates/accounts/password-warning.html:3
-#, fuzzy, python-format
-#| msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
+#, python-format
 msgid ""
 "You have not enabled password authentication, please <a href=\"%(url)s\">set "
 "the password</a>."
 msgstr ""
-"Μπορείτε να αλλάξετε κωδικό σε <a href=\"%(pw_url)s\">διαφορετική σελίδα</a>."
+"Δεν έχετε ενεργοποιήσει την πιστοποίηση συνθηματικού, παρακαλώ <a href=\""
+"%(url)s\">καθορίστε το συνθηματικό</a>."
 
 #: weblate/templates/accounts/password-warning.html:6
 msgid "You will be still able to authenticate using third party services."
@@ -1641,6 +1635,8 @@ msgstr ""
 #: weblate/templates/accounts/password-warning.html:7
 msgid "The password is used to verify important changes on your account."
 msgstr ""
+"Το συνθηματικό χρησιμοποιείται για να επιβεβαιώσει σημαντικές αλλαγές στον "
+"λογαριασμό σας."
 
 #: weblate/templates/accounts/password.html:16
 msgid ""
@@ -2081,13 +2077,8 @@ msgid "Delete this account"
 msgstr "Διαγραφή αυτού του λογαριασμού"
 
 #: weblate/templates/accounts/reset.html:13
-#, fuzzy
-#| msgid ""
-#| "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
 msgid "Forgotten your password? You can now set new one."
-msgstr ""
-"Ξεχάσατε τον κωδικό σας; Μπορείτε να <a href=\"%(reset_url)s\">τον "
-"επαναφέρετε</a>."
+msgstr "Ξεχάσατε το συνθηματικό σας; Τώρα μπορείτε να ορίσετε ένα νέο."
 
 #: weblate/templates/accounts/reset.html:15
 msgid ""
@@ -2098,10 +2089,8 @@ msgstr ""
 "θα σας αποστείλεουμε ηλεκτρονικά οδηγίες για τον ορισμό νέου."
 
 #: weblate/templates/accounts/reset.html:33
-#, fuzzy
-#| msgid "Set password"
 msgid "Set my password"
-msgstr "Ορισμός κωδικού"
+msgstr "Ορισμός του συνθηματικού μου"
 
 #: weblate/templates/accounts/reset.html:33
 msgid "Reset my password"
@@ -2648,10 +2637,8 @@ msgid "No related strings found in the glossary."
 msgstr "Δεν βρέθηκαν σχετικά κείμενα στο γλωσσάρι."
 
 #: weblate/templates/i18n.html:19
-#, fuzzy
-#| msgid "Your password has been changed."
 msgid "Your password must be stronger."
-msgstr "Το συνθηματικό σας έχει αλλάξει."
+msgstr "Το συνθηματικό σας πρέπει να είναι ισχυρότερο."
 
 #: weblate/templates/i18n.html:20
 msgid "Use a few words, avoid common phrases."
@@ -2722,19 +2709,19 @@ msgstr ""
 
 #: weblate/templates/i18n.html:36
 msgid "This is a top-10 common password."
-msgstr ""
+msgstr "Αυτό είναι στα 10 κορυφαία συνηθισμένα συνθηματικά."
 
 #: weblate/templates/i18n.html:37
 msgid "This is a top-100 common password."
-msgstr ""
+msgstr "Αυτό είναι στα 100 κορυφαία συνηθισμένα συνθηματικά."
 
 #: weblate/templates/i18n.html:38
 msgid "This is a very common password."
-msgstr ""
+msgstr "Αυτό είναι ένα πολύ συνηθισμένο συνθηματικό."
 
 #: weblate/templates/i18n.html:39
 msgid "This is similar to a commonly used password."
-msgstr ""
+msgstr "Αυτό είναι παρόμοιο σε ένα συχνά χρησιμοποιούμενο συνθηματικό."
 
 #: weblate/templates/i18n.html:40
 msgid "A word by itself is easy to guess."
@@ -7390,10 +7377,8 @@ msgstr ""
 "το Weblate."
 
 #: weblate/trans/models/project.py:134
-#, fuzzy
-#| msgid "Version control"
 msgid "Access control"
-msgstr "Έλεγχος έκδοσης"
+msgstr "Έλεγχος πρόσβασης"
 
 #: weblate/trans/models/project.py:136
 #, fuzzy
