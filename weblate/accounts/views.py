@@ -50,6 +50,7 @@ from social_core.backends.utils import load_backends
 from social_core.exceptions import (
     AuthMissingParameter, InvalidEmail, AuthFailed, AuthCanceled,
     AuthStateMissing, AuthStateForbidden, AuthAlreadyAssociated,
+    AuthForbidden,
 )
 from social_django.utils import BACKENDS
 from social_django.views import complete, auth
@@ -928,6 +929,8 @@ def social_complete(request, backend):
         ))
     except AuthCanceled:
         return fail(_('Authentication has been cancelled.'))
+    except AuthForbidden:
+        return fail(_('Authentication has been forbidden by server.))
     except AuthAlreadyAssociated:
         return fail(_(
             'Failed to complete your registration! This authentication, '
