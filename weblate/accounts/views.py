@@ -930,7 +930,7 @@ def social_complete(request, backend):
     except AuthCanceled:
         return fail(_('Authentication has been cancelled.'))
     except AuthForbidden:
-        return fail(_('Authentication has been forbidden by server.))
+        return fail(_('Authentication has been forbidden by server.'))
     except AuthAlreadyAssociated:
         return fail(_(
             'Failed to complete your registration! This authentication, '
