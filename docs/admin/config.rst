@@ -601,6 +601,7 @@ List of enabled machine translation services to use.
         'weblate.trans.machine.tmserver.TMServerTranslation',
         'weblate.trans.machine.weblatetm.WeblateSimilarTranslation',
         'weblate.trans.machine.weblatetm.WeblateTranslation',
+        'weblate.trans.machine.saptranslationhub.SAPTranslationHub'
     )
 
 .. seealso::
@@ -738,6 +739,57 @@ API key for Yandex Translate API, you can register at https://tech.yandex.com/tr
 .. seealso::
 
    :ref:`yandex-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`
+
+.. setting:: MT_SAP_TRANSLATION_HUB_BASE_URL
+
+MT_SAP_TRANSLATION_HUB_BASE_URL
+-------------------------------
+
+API URL to the SAP Translation Hub service.
+
+.. seealso::
+    :ref:`saptranslationhub`, :ref:`machine-translation-setup`, :ref:`machine-translation`
+
+.. setting:: MT_SAP_TRANSLATION_HUB_SANDBOX_APIKEY
+
+MT_SAP_TRANSLATION_HUB_SANDBOX_APIKEY
+-------------------------------
+
+API key for sandbox API usage
+
+.. seealso::
+    :ref:`saptranslationhub`, :ref:`machine-translation-setup`, :ref:`machine-translation` 
+
+.. setting:: MT_SAP_TRANSLATION_HUB_USERNAME
+
+MT_SAP_TRANSLATION_HUB_USERNAME
+-------------------------------
+
+Your SAP username
+
+.. seealso::
+    :ref:`saptranslationhub`, :ref:`machine-translation-setup`, :ref:`machine-translation`   
+
+.. setting:: MT_SAP_TRANSLATION_HUB_PASSWORD
+
+MT_SAP_TRANSLATION_HUB_PASSWORD
+-------------------------------
+
+Your SAP password
+
+.. seealso::
+    :ref:`saptranslationhub`, :ref:`machine-translation-setup`, :ref:`machine-translation`        
+
+.. setting:: MT_SAP_TRANSLATION_HUB_USE_MT
+
+MT_SAP_TRANSLATION_HUB_USE_MT
+-------------------------------
+
+Should the machine translation service also be used? (in addition to the term database).
+Possible values: True / False
+
+.. seealso::
+    :ref:`saptranslationhub`, :ref:`machine-translation-setup`, :ref:`machine-translation`        
 
 .. setting:: NEARBY_MESSAGES
 

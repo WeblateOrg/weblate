@@ -225,6 +225,34 @@ string matching) to :setting:`MACHINE_TRANSLATION_SERVICES`.
     For similarity matching, it is recommended to have Whoosh 2.5.2 or later;
     earlier versions can cause infinite looks under some conditions.
 
+SAP Translation Hub
+-------------------
+
+Machine translation service provided by SAP.
+
+You need to have a SAP account (and enabled the SAP Translation Hub in the SAP Cloud 
+Platform) to use this service.
+
+To enable this service, add ``weblate.trans.machine.saptranslationhub.SAPTranslationHub`` to
+:setting:`MACHINE_TRANSLATION_SERVICES`.
+
+... note::
+
+    To access the Sandbox API, you need to set :setting:`MT_SAP_TRANSLATION_HUB_BASE_URL` 
+    and :setting:`MT_SAP_TRANSLATION_HUB_SANDBOX_APIKEY`.
+    
+    To access the productive API, you need to set :setting:`MT_SAP_TRANSLATION_HUB_BASE_URL`,
+    :setting:`MT_SAP_TRANSLATION_HUB_USERNAME` and :setting:`MT_SAP_TRANSLATION_HUB_PASSWORD`.
+
+.. seealso::
+
+    :setting:`MT_SAP_TRANSLATION_HUB_BASE_URL`,
+    :setting:`MT_SAP_TRANSLATION_HUB_SANDBOX_APIKEY`,
+    :setting:`MT_SAP_TRANSLATION_HUB_USERNAME`,
+    :setting:`MT_SAP_TRANSLATION_HUB_PASSWORD`,
+    :setting:`MT_SAP_TRANSLATION_HUB_USE_MT`
+    `SAP Translation Hub API <https://api.sap.com/shell/discover/contentpackage/SAPTranslationHub/api/translationhub>`_
+
 Custom machine translation
 --------------------------
 
