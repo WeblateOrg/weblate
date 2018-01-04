@@ -154,6 +154,8 @@ Protected
     Publicly visible but translatable only for selected users
 Private
     Visible and translatable only for selected users
+Custom
+    Weblate does not manage users, see :ref:`custom-acl`.
 
 .. image:: ../images/project-access.png
 
@@ -222,7 +224,8 @@ is as follows:
 2. Define permissions you want to limit by this *group ACL*.
 3. Use the ``+`` (plus sign) button to the right of :guilabel:`Groups` field
    to create a new group. In the pop-up window, fill out the group name and
-   assign permissions.
+   assign permissions. Please avoid using `@` in the group name to avoid
+   possible conflicts with :ref:`acl`.
 4. Save the newly created group ACL.
 5. In the :guilabel:`Users` section of the admin interface, assign users to the
    newly created group.
@@ -325,3 +328,15 @@ Weblate comes with predefined set of groups where you can assign users.
 .. describe:: Review
 
     Can approve translations during review.
+
+
+.. _custom-acl:
+
+Custom access control
+---------------------
+
+By choosing :guilabel:`Custom` as :guilabel:`Access control`, Weblate will stop
+managing access for given project and you can setup custom rules in Django
+admin interface. This can be used for definining more complex access control or
+having shared access policy for all projects in single Weblate instance. See
+:ref:`groupacl` for information on creating custom access levels.

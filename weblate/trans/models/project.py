@@ -86,6 +86,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
     ACCESS_PUBLIC = 0
     ACCESS_PROTECTED = 1
     ACCESS_PRIVATE = 100
+    ACCESS_CUSTOM = 200
 
     name = models.CharField(
         verbose_name=ugettext_lazy('Project name'),
@@ -130,6 +131,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
             (ACCESS_PUBLIC, ugettext_lazy('Public')),
             (ACCESS_PROTECTED, ugettext_lazy('Protected')),
             (ACCESS_PRIVATE, ugettext_lazy('Private')),
+            (ACCESS_CUSTOM, ugettext_lazy('Custom')),
         ),
         verbose_name=_('Access control'),
         help_text=ugettext_lazy(
@@ -180,6 +182,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
     def __init__(self, *args, **kwargs):
         super(Project, self).__init__(*args, **kwargs)
         self._totals_cache = None
+        self.old_access_control = self.access_control
 
     def get_full_slug(self):
         return self.slug

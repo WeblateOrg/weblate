@@ -45,7 +45,8 @@ def check_user_form(request, project, verbose=False):
     """
     obj = get_project(request, project)
 
-    if not can_manage_acl(request.user, obj):
+    if (not can_manage_acl(request.user, obj) or
+            obj.access_control == obj.ACCESS_CUSTOM):
         raise PermissionDenied()
 
     form = UserManageForm(request.POST)

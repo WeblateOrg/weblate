@@ -10,6 +10,7 @@ Released on ? 2018.
 * Display human friendly browser information in audit log.
 * Added TMX exporter for files.
 * Various performance improvements for loading translation files.
+* Added option to disable access management in Weblate in favor of Django one.
 
 weblate 2.18
 ------------

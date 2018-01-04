@@ -11,6 +11,7 @@
 
 {% block content %}
 
+{% if object.access_control != object.ACCESS_CUSTOM %}
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">
     {% doc_url 'admin/access' 'groups' as groups_doc_url %}
@@ -72,6 +73,18 @@
   </div>
 </div>
 </form>
+{% else %}
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">
+    {% doc_url 'admin/access' 'groups' as groups_doc_url %}
+    <a class="pull-right flip" href="{{ groups_doc_url }}"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+  {% trans "Users" %}
+  </h4></div>
+  <div class="panel-body">
+  <p class="helptext">{% trans "The user management in Weblate is disabled, you can change permissions in the Django admin interface." %}</p>
+  </div>
+</div>
+{% endif %}
 
 {% can_edit_access_control user object as user_can_edit_access_control %}
 

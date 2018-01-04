@@ -279,6 +279,21 @@ class ACLTest(FixtureTestCase):
         self.assertEqual(
             8, Group.objects.filter(name__startswith=match).count()
         )
+        self.project.access_control = Project.ACCESS_CUSTOM
+        self.project.save()
+        self.assertEqual(
+            0, Group.objects.filter(name__startswith=match).count()
+        )
+        self.project.access_control = Project.ACCESS_CUSTOM
+        self.project.save()
+        self.assertEqual(
+            0, Group.objects.filter(name__startswith=match).count()
+        )
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save()
+        self.assertEqual(
+            8, Group.objects.filter(name__startswith=match).count()
+        )
         self.project.delete()
         self.assertEqual(
             0, Group.objects.filter(name__startswith=match).count()

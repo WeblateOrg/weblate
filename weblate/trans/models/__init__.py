@@ -252,6 +252,25 @@ def auto_component_list(sender, instance, **kwargs):
 @disable_for_loaddata
 def setup_group_acl(sender, instance, **kwargs):
     """Setup Group and GroupACL objects on project save."""
+    old_access_control = instance.old_access_control
+    instance.old_access_control = instance.access_control
+
+    if instance.access_control == Project.ACCESS_CUSTOM:
+        if old_access_control == Project.ACCESS_CUSTOM:
+            return
+        # Do cleanup of previous setup
+        try:
+            group_acl = GroupACL.objects.get(
+                project=instance, subproject=None, language=None
+            )
+            Group.objects.filter(
+                groupacl=group_acl, name__contains='@'
+            ).delete()
+            group_acl.delete()
+            return
+        except GroupACL.DoesNotExist:
+            return
+
     group_acl = GroupACL.objects.get_or_create(
         project=instance, subproject=None, language=None
     )[0]
@@ -290,7 +309,8 @@ def setup_group_acl(sender, instance, **kwargs):
         handled.add(group.pk)
 
     # Remove stale groups
-    group_acl.groups.filter(
+    Group.objects.filter(
+        groupacl=group_acl,
         name__contains='@'
     ).exclude(
         pk__in=handled
