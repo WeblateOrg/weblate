@@ -340,3 +340,9 @@ managing access for given project and you can setup custom rules in Django
 admin interface. This can be used for definining more complex access control or
 having shared access policy for all projects in single Weblate instance. See
 :ref:`groupacl` for information on creating custom access levels.
+
+.. warning::
+
+    By enabling this, Weblate will remove all :ref:`groupacl` it has created
+    for this project. If you are doing this without global admin permission,
+    you will instantly loose access to manage the project.
