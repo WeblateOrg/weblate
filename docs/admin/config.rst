@@ -758,7 +758,7 @@ MT_SAP_TRANSLATION_HUB_SANDBOX_APIKEY
 API key for sandbox API usage
 
 .. seealso::
-    :ref:`saptranslationhub`, :ref:`machine-translation-setup`, :ref:`machine-translation` 
+    :ref:`saptranslationhub`, :ref:`machine-translation-setup`, :ref:`machine-translation`
 
 .. setting:: MT_SAP_TRANSLATION_HUB_USERNAME
 
@@ -768,7 +768,7 @@ MT_SAP_TRANSLATION_HUB_USERNAME
 Your SAP username
 
 .. seealso::
-    :ref:`saptranslationhub`, :ref:`machine-translation-setup`, :ref:`machine-translation`   
+    :ref:`saptranslationhub`, :ref:`machine-translation-setup`, :ref:`machine-translation`
 
 .. setting:: MT_SAP_TRANSLATION_HUB_PASSWORD
 
@@ -778,7 +778,7 @@ MT_SAP_TRANSLATION_HUB_PASSWORD
 Your SAP password
 
 .. seealso::
-    :ref:`saptranslationhub`, :ref:`machine-translation-setup`, :ref:`machine-translation`        
+    :ref:`saptranslationhub`, :ref:`machine-translation-setup`, :ref:`machine-translation`
 
 .. setting:: MT_SAP_TRANSLATION_HUB_USE_MT
 
@@ -789,7 +789,7 @@ Should the machine translation service also be used? (in addition to the term da
 Possible values: True / False
 
 .. seealso::
-    :ref:`saptranslationhub`, :ref:`machine-translation-setup`, :ref:`machine-translation`        
+    :ref:`saptranslationhub`, :ref:`machine-translation-setup`, :ref:`machine-translation`
 
 .. setting:: NEARBY_MESSAGES
 

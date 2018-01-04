@@ -20,15 +20,13 @@
 
 from django.conf import settings
 from six.moves.urllib.request import Request, urlopen
-from six.moves.urllib.parse import quote
 import json
 from weblate import USER_AGENT
-from weblate.logger import LOGGER
 from weblate.utils.site import get_site_url
 import base64
 
 from weblate.trans.machine.base import (
-    MachineTranslation, MachineTranslationError, MissingConfiguration
+    MachineTranslation, MissingConfiguration
 )
 
 class SAPTranslationHub(MachineTranslation):
@@ -44,7 +42,7 @@ class SAPTranslationHub(MachineTranslation):
             )
 
     def sth_supported(self):
-        """Check whether service is supported."""       
+        """Check whether service is supported."""
         return (
             settings.MT_SAP_TRANSLATION_HUB_BASE_URL is not None
         )
@@ -54,24 +52,25 @@ class SAPTranslationHub(MachineTranslation):
         # to access the sandbox
         if settings.MT_SAP_TRANSLATION_HUB_SANDBOX_APIKEY is not None:
             request.add_header(
-                str('APIKey'),
+                'APIKey',
                 settings.MT_SAP_TRANSLATION_HUB_SANDBOX_APIKEY.encode('utf-8')
             )
-            
+
         # to access the productive API
-        if settings.MT_SAP_TRANSLATION_HUB_USERNAME is not None and settings.MT_SAP_TRANSLATION_HUB_PASSWORD is not None:          
+        if settings.MT_SAP_TRANSLATION_HUB_USERNAME is not None \
+           and settings.MT_SAP_TRANSLATION_HUB_PASSWORD is not None:
             credentials = settings.MT_SAP_TRANSLATION_HUB_USERNAME + ':' + settings.MT_SAP_TRANSLATION_HUB_PASSWORD
             request.add_header(
-                str('Authorization'),
-                base64.b64encode(credentials.encode('utf-8'))
+                'Authorization',
+                'Basic ' + base64.b64encode(credentials.encode('utf-8'))
             )
 
     def download_languages(self):
         """Get all available languages from SAP Translation Hub"""
 
         # get all available languages
-        languagesUrl = settings.MT_SAP_TRANSLATION_HUB_BASE_URL + 'languages'
-        response = self.json_req(languagesUrl.encode('utf-8'))
+        languages_url = settings.MT_SAP_TRANSLATION_HUB_BASE_URL + 'languages'
+        response = self.json_req(languages_url.encode('utf-8'))
 
         lang = [d['id'] for d in response['languages']]
         return lang
@@ -80,29 +79,32 @@ class SAPTranslationHub(MachineTranslation):
         """Download list of possible translations from a service."""
 
         # should the machine translation service be used? (rather than only the term database)
-        enableMT = False
+        enable_mt = False
         if isinstance(settings.MT_SAP_TRANSLATION_HUB_USE_MT, bool):
-            enableMT = settings.MT_SAP_TRANSLATION_HUB_USE_MT
+            enable_mt = settings.MT_SAP_TRANSLATION_HUB_USE_MT
         
         # build the json body
-        requestData = json.dumps({'targetLanguages': [language], 'enableMT': enableMT, 'enableTranslationQualityEstimation': enableMT, 'units': [ { 'value': text } ] }, ensure_ascii=False)
-        requestDataAsBytes = requestData.encode('utf-8')
+        request_data_as_bytes = json.dumps({'targetLanguages': [language], \
+                                            'enableMT': enable_mt, \
+                                            'enableTranslationQualityEstimation': enable_mt, \
+                                            'units': [ { \
+                                            'value': text }
+                                            ] }, \
+                                            ensure_ascii=False).encode('utf-8')
 
         # create the request
         translationUrl = settings.MT_SAP_TRANSLATION_HUB_BASE_URL + 'translate'
         request = Request(translationUrl.encode("utf-8"))
         request.timeout = 0.5
-        request.add_header(str('User-Agent'), USER_AGENT.encode('utf-8'))
-        request.add_header(str('Referer'), get_site_url().encode('utf-8'))
-        request.add_header(str('Content-Type'), str('application/json; charset=utf-8'))
-        request.add_header(str('Content-Length'), len(requestDataAsBytes))
-        request.add_header(str('Accept'), str('application/json; charset=utf-8'))
+        request.add_header('User-Agent', USER_AGENT.encode('utf-8'))
+        request.add_header('Referer', get_site_url().encode('utf-8'))
+        request.add_header('Content-Type', 'application/json; charset=utf-8')
+        request.add_header('Content-Length', len(request_data_as_bytes))
+        request.add_header('Accept', 'application/json; charset=utf-8')
         self.authenticate(request)
 
-        handle = urlopen(request, requestDataAsBytes)
-
         # Read and possibly convert response
-        content = handle.read().decode('utf-8')
+        content = urlopen(request, request_data_as_bytes).read().decode('utf-8')
         # Replace literal \t
         content = content.strip().replace(
             '\t', '\\t'

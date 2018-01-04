@@ -225,6 +225,8 @@ string matching) to :setting:`MACHINE_TRANSLATION_SERVICES`.
     For similarity matching, it is recommended to have Whoosh 2.5.2 or later;
     earlier versions can cause infinite looks under some conditions.
 
+.. _saptranslationhub:
+
 SAP Translation Hub
 -------------------
 
