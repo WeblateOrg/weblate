@@ -304,6 +304,13 @@ class CFormatCheckTest(CheckTestCase):
             False
         ))
 
+    def test_ld_format(self):
+        self.assertFalse(self.check.check_format(
+            '%ld bytes (free %ld bytes, used %ld bytes)',
+            '%l octets (%l octets libres, %l octets utilisés)',
+            True
+        ))
+
 
 class PerlFormatCheckTest(CFormatCheckTest):
     check = PerlFormatCheck()
