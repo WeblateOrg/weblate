@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-01-05 15:48+0000\n"
-"PO-Revision-Date: 2018-01-06 10:36+0000\n"
-"Last-Translator: Nathan Follens <nathan@email.is>\n"
+"PO-Revision-Date: 2018-01-06 10:40+0000\n"
+"Last-Translator: anonymous <>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/master/nl/>"
 "\n"
 "Language: nl\n"
@@ -73,7 +73,7 @@ msgstr "Gebruikersnaam mag niet met een punt beginnen."
 
 #: weblate/accounts/forms.py:143
 msgid "This username is already taken. Please choose another."
-msgstr "Deze gebruikersnaam bestaat reeds. Gelieve een andere te kiezen."
+msgstr "Deze gebruikersnaam bestaat al. Kies een andere."
 
 #: weblate/accounts/forms.py:158 weblate/templates/manage-access.html:25
 msgid "Full name"
@@ -1716,7 +1716,7 @@ msgstr "Schermafbeeldingen"
 #: weblate/permissions/data.py:198
 msgctxt "Permissions group"
 msgid "Translate"
-msgstr "Vertaal"
+msgstr "Vertalen"
 
 #: weblate/permissions/data.py:199
 msgctxt "Permissions group"
@@ -1788,23 +1788,20 @@ msgstr "Upload een JPEG of PNG tot maximaal 2000x2000 pixels."
 #: weblate/screenshots/views.py:106
 msgid "Screenshot has been uploaded, you can now assign it to source strings."
 msgstr ""
-"Een schermafbeelding werd opgeladen, deze kan nu toegewezen worden aan "
-"brontekenreeksen."
+"Schermafbeelding is geüpload; u kunt deze nu aan brontekenreeksen toewijzen."
 
 #: weblate/screenshots/views.py:114
 msgid "Failed to upload screenshot, please fix errors below."
-msgstr ""
-"Het opladen van de schermafbeelding is mislukt, gelieve onderstaande fouten "
-"op te lossen."
+msgstr "Uploaden van schermafbeelding mislukt; los de onderstaande fouten op."
 
 #: weblate/screenshots/views.py:166
 #, python-format
 msgid "Screenshot %s has been deleted."
-msgstr "Schermafbeelding %s werd verwijderd."
+msgstr "Schermafbeelding %s is verwijderd."
 
 #: weblate/screenshots/views.py:186
 msgid "Source has been removed."
-msgstr "De bron werd verwijderd."
+msgstr "Bron is verwijderd."
 
 #: weblate/templates/403.html:5 weblate/templates/403_csrf.html:5
 #: weblate/trans/views/basic.py:493
@@ -1812,10 +1809,8 @@ msgid "Permission Denied"
 msgstr "Toegang geweigerd"
 
 #: weblate/templates/403.html:11
-#, fuzzy
-#| msgid "You don't have privileges to display this page."
 msgid "Insufficient privileges to display this page."
-msgstr "U heeft niet voldoende rechten om deze pagina weer te geven."
+msgstr "Onvoldoende rechten om deze pagina weer te geven."
 
 #: weblate/templates/403.html:14 weblate/templates/404.html:14
 msgid "Log in"
@@ -1913,7 +1908,7 @@ msgstr "Weblate financieren!"
 #: weblate/templates/about.html:25 weblate/templates/footer.html:11
 #: weblate/trans/models/advertisement.py:47
 msgid "Donate to Weblate"
-msgstr "Doe een donatie aan Weblate"
+msgstr "Doneren aan Weblate"
 
 #: weblate/templates/about.html:32
 msgid "Hosting translations"
@@ -2051,8 +2046,8 @@ msgid ""
 "If you are looking for support for Weblate or want to file bug reports check "
 "its website at <a href=\"%(weblate_url)s\">weblate.org</a>."
 msgstr ""
-"Als u ondersteuning wenst voor Weblate, of als u een bug wil melden, bekijk "
-"dan de website op <a href=\"%(weblate_url)s\">weblate.org</a>."
+"Als u ondersteuning voor Weblate zoekt of bugs wilt melden, bekijk dan de "
+"website op <a href=\"%(weblate_url)s\">weblate.org</a>."
 
 #: weblate/templates/accounts/contact.html:30
 #: weblate/templates/accounts/hosting.html:25
@@ -2078,16 +2073,12 @@ msgid "Registration almost complete"
 msgstr "Registratie bijna afgewerkt"
 
 #: weblate/templates/accounts/email-sent.html:24
-#, fuzzy
-#| msgid ""
-#| "You will very soon receive an email with a confirmation link. Please "
-#| "follow this link in order to complete your password reset procedure."
 msgid ""
 "Shortly you should receive an e-mail containing a confirmation link. Click "
 "it to reset your password."
 msgstr ""
-"Binnenkort ontvangt u een bericht met een bevestigingskoppeling. Gelieve op "
-"deze koppeling te klikken om uw registratie te voltooien."
+"Binnenkort ontvangt u een bericht met een bevestigingskoppeling. Klik hierop "
+"om uw wachtwoord opnieuw in te stellen."
 
 #: weblate/templates/accounts/email-sent.html:26
 #, fuzzy
@@ -2119,6 +2110,8 @@ msgstr ""
 msgid ""
 "If the confirmation link expires before you get to use it, register again."
 msgstr ""
+"Als de bevestigingskoppeling verloopt voordat u deze kunt gebruiken, "
+"registreer dan opnieuw."
 
 #: weblate/templates/accounts/email-sent.html:35
 #, fuzzy, python-format
@@ -2161,8 +2154,8 @@ msgid ""
 "Please check in advance whether your project is eligible for project hosting "
 "on this site."
 msgstr ""
-"Gelieve op voorhand na te kijken of je project in aanmerking komt om gehost "
-"te worden op deze site."
+"Controleer van tevoren of uw project in aanmerking komt om op deze website "
+"te worden gehost."
 
 #: weblate/templates/accounts/hosting.html:33
 msgid "Conditions for free hosting"
@@ -2523,23 +2516,23 @@ msgstr ""
 
 #: weblate/templates/accounts/profile.html:348
 msgid "Your personal API key:"
-msgstr "Je persoonlijke API sleutel :"
+msgstr "Uw persoonlijke API-sleutel:"
 
 #: weblate/templates/accounts/profile.html:355
 msgid "Regenerate API key"
-msgstr "Genereer API sleutel opnieuw"
+msgstr "API-sleutel opnieuw genereren"
 
 #: weblate/templates/accounts/profile.html:359
 msgid "API root URL:"
-msgstr "API basis URL :"
+msgstr "API-basis-URL:"
 
 #: weblate/templates/accounts/profile.html:363
 msgid "API usage example:"
-msgstr "API gebruiksvoorbeeld :"
+msgstr "API-gebruiksvoorbeeld:"
 
 #: weblate/templates/accounts/profile.html:375
 msgid "CLI usage example:"
-msgstr "CLI gebruiksvoorbeeld :"
+msgstr "CLI-gebruiksvoorbeeld:"
 
 #: weblate/templates/accounts/profile.html:397
 #, python-format
@@ -2547,8 +2540,8 @@ msgid ""
 "You can control Weblate using HTTP REST API. Please check <a href="
 "\"%(api_doc)s\">API documentation</a> for more details."
 msgstr ""
-"Weblate kan bestuurd worden via de HTTP REST API. Gelieve de <a href="
-"\"%(api_doc)s\">API documentatie</a> te bekijken voor meer details."
+"U kunt Weblate besturen via de HTTP REST-API. Bekijk de <a href=\"%(api_doc)"
+"s\">API-documentatie</a> voor meer details."
 
 #: weblate/templates/accounts/profile.html:399
 #, python-format
@@ -2556,9 +2549,9 @@ msgid ""
 "The API key is also used to access exported Git repositories, please check "
 "<a href=\"%(git_doc)s\">documentation</a> for more details."
 msgstr ""
-"De API-sleutel wordt ook gebruikt om toegang te krijgen tot geëxporteerde "
-"Git repositories. Gelieve de <a href=\"%(git_doc)s\">documentatie</a> te "
-"bekijken voor meer details."
+"De API-sleutel wordt ook gebruikt om toegang tot geëxporteerde Git-"
+"repository's te verkrijgen. Bekijk de <a href=\"%(git_doc)s\""
+">documentatie</a> voor meer details."
 
 #: weblate/templates/accounts/profile.html:418
 msgid ""
@@ -2566,7 +2559,7 @@ msgid ""
 "copyright conditions:"
 msgstr ""
 "De volgende vertalingen hebben expliciet hun voorwaarden voor licenties en "
-"auteursrecht gespecifieerd:"
+"auteursrecht gespecificeerd:"
 
 #: weblate/templates/accounts/profile.html:421 weblate/templates/data.html:26
 #: weblate/templates/data.html:57 weblate/templates/data.html:95
@@ -4153,18 +4146,16 @@ msgid "Unlock"
 msgstr "Ontgrendel"
 
 #: weblate/templates/js/git-status.html:188
-#, fuzzy
-#| msgid "Allow changes in the local repository"
 msgid "Allow changes to the local repository"
-msgstr "Wijzigingen toelaten in het lokaal repository"
+msgstr "Wijzigingen aan de lokale repository toestaan"
 
 #: weblate/templates/js/git-status.html:196
 msgid "Lock"
-msgstr "Vergrendel"
+msgstr "Vergrendelen"
 
 #: weblate/templates/js/git-status.html:200
 msgid "Prevent any changes in the local repository"
-msgstr "Elke wijziging aan het lokaal repository tegenhouden"
+msgstr "Wijzigingen in de lokale repository voorkomen"
 
 #: weblate/templates/js/git-status.html:215
 msgid "Removes current translation from the repository."
@@ -4181,7 +4172,7 @@ msgstr "Onderdelen"
 #: weblate/templates/source-review.html:27 weblate/templates/translate.html:522
 #: weblate/trans/views/checks.py:76
 msgid "Failing checks"
-msgstr "Gefaalde controles"
+msgstr "Mislukte controles"
 
 #: weblate/templates/language-project.html:26
 #: weblate/templates/language.html:26 weblate/templates/project.html:51
@@ -4333,7 +4324,7 @@ msgstr[1] "Er zijn %(count)s niet vertaalde tekenreeksen."
 #: weblate/templates/list-translations.html:71
 #: weblate/templates/translate.html:92 weblate/templates/translation.html:121
 msgid "Translate"
-msgstr "Vertaal"
+msgstr "Vertalen"
 
 #: weblate/templates/list-translations.html:71
 #, python-format
