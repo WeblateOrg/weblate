@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-01-05 15:48+0000\n"
-"PO-Revision-Date: 2018-01-08 14:43+0000\n"
-"Last-Translator: ButterflyOfFire <ButterflyOfFire@protonmail.com>\n"
+"PO-Revision-Date: 2018-01-08 18:48+0000\n"
+"Last-Translator: mohammadA <mohammadAbdulhadi1@gmail.com>\n"
 "Language-Team: Arabic "
 "<https://hosted.weblate.org/projects/weblate/master/ar/>\n"
 "Language: ar\n"
@@ -3968,7 +3968,7 @@ msgstr ""
 
 #: weblate/templates/language.html:19 weblate/templates/project.html:28
 msgid "Glossaries"
-msgstr ""
+msgstr "المعاجم"
 
 #: weblate/templates/language.html:38 weblate/templates/languages.html:15
 #: weblate/templates/list-projects.html:9
@@ -3981,7 +3981,7 @@ msgstr ""
 
 #: weblate/templates/language.html:98
 msgid "There are no glossaries defined for this language."
-msgstr ""
+msgstr "لا معاجم معرفة لهذه اللغة."
 
 #: weblate/templates/last-changes-content.html:9
 #: weblate/templates/stats.html:19 weblate/templates/stats.html:41
@@ -4002,13 +4002,13 @@ msgstr "لا نشاطات مشابة تم إيجادها."
 
 #: weblate/templates/legend.html:5 weblate/templates/progress.html:5
 msgid "Good"
-msgstr ""
+msgstr "جيد"
 
 #: weblate/templates/legend.html:11 weblate/templates/progress.html:11
 #: weblate/trans/forms.py:413 weblate/trans/forms.py:431
 #: weblate/trans/templatetags/translations.py:519
 msgid "Needs editing"
-msgstr ""
+msgstr "يحتاج تعديلًا"
 
 #: weblate/templates/list-comments.html:12
 msgid "Translation comment"
@@ -4017,7 +4017,7 @@ msgstr ""
 #: weblate/templates/list-comments.html:14 weblate/templates/translate.html:134
 #: weblate/templates/zen-units.html:27
 msgid "Source string comment"
-msgstr ""
+msgstr "تعليق النص المصدر"
 
 #: weblate/templates/list-translations.html:9
 #: weblate/templates/list-translations.html:20
@@ -4029,7 +4029,7 @@ msgstr "غير مترجمة"
 #: weblate/templates/list-translations.html:21
 msgctxt "Number of translated words"
 msgid "Words"
-msgstr ""
+msgstr "الكلمات"
 
 #: weblate/templates/list-translations.html:11
 #: weblate/templates/list-translations.html:22
@@ -4047,7 +4047,7 @@ msgstr ""
 #: weblate/templates/list-translations.html:24
 msgctxt "Number of suggestions"
 msgid "Suggestions"
-msgstr ""
+msgstr "الاقتراحات"
 
 #: weblate/templates/list-translations.html:16
 msgid "Configure columns"
@@ -4091,8 +4091,12 @@ msgstr[1] ""
 #, python-format
 msgid "There is %(count)s suggestion."
 msgid_plural "There are %(count)s suggestions."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "لا يوجد%(count).0s اقتراح."
+msgstr[1] "يوجد%(count).0s اقتراح."
+msgstr[2] "يوجد%(count).0s اقتراحان."
+msgstr[3] "يوجد %(count)s اقتراحات."
+msgstr[4] "يوجد %(count)s اقتراحًا."
+msgstr[5] "يوجد %(count)s اقتراح."
 
 #: weblate/templates/list-translations.html:69
 #, python-format
@@ -4150,12 +4154,12 @@ msgstr ""
 #: weblate/templates/mail/account_activity.txt:3
 #, python-format
 msgid "There has been a change in your account at %(site_title)s:"
-msgstr ""
+msgstr "يوجد تغيير في حسابك في %(site_title)s:"
 
 #: weblate/templates/mail/account_activity.html:18
 #: weblate/templates/mail/account_activity.txt:7
 msgid "IP address:"
-msgstr ""
+msgstr "عنوان IP:"
 
 #: weblate/templates/mail/account_activity.html:19
 #: weblate/templates/mail/account_activity.txt:8
@@ -4168,11 +4172,12 @@ msgid ""
 "If you did not request this change, please notify us as soon as possible "
 "using following form:"
 msgstr ""
+"إذا لم تطلب هذا التغيير، فأبلغنا رجاءً في أقرب فرصة باستعمال النموذج الآتي:"
 
 #: weblate/templates/mail/account_activity_subject.txt:4
 #, python-format
 msgid "Activity on your account at %(site_title)s"
-msgstr ""
+msgstr "نشاط في حسابك في %(site_title)s"
 
 #: weblate/templates/mail/activation.html:11
 #: weblate/templates/mail/activation.txt:3
@@ -4180,7 +4185,7 @@ msgstr ""
 msgid ""
 "This is an automatic email to help you complete your registration with "
 "%(site_title)s."
-msgstr ""
+msgstr "هذه رسالة تلقائية لمساعدتك على إكمال تسجيلك في %(site_title)s."
 
 #: weblate/templates/mail/activation.html:15
 #: weblate/templates/mail/activation.txt:5
@@ -4196,20 +4201,20 @@ msgstr ""
 #: weblate/templates/mail/remove.html:23 weblate/templates/mail/remove.txt:9
 #: weblate/templates/mail/reset.html:23 weblate/templates/mail/reset.txt:9
 msgid "If there is a problem with your registration, please contact us:"
-msgstr ""
+msgstr "إذا كانت هناك مشكلة في التسجيل، فأخبرنا رجاءً:"
 
 #: weblate/templates/mail/activation_subject.txt:4
 #, python-format
 msgid "Your registration on %(site_title)s"
-msgstr ""
+msgstr "تسجيلك في %(site_title)s"
 
 #: weblate/templates/mail/base.html:30 weblate/templates/mail/signature.txt:2
 msgid "Sent by Weblate translation system"
-msgstr ""
+msgstr "أرسلها نظام الترجمة وِبليت"
 
 #: weblate/templates/mail/base.html:32
 msgid "Change subscription settings"
-msgstr ""
+msgstr "غيّر إعدادات الاشتراك"
 
 #: weblate/templates/mail/changed_translation.html:11
 #: weblate/templates/mail/changed_translation.txt:3
@@ -4234,7 +4239,7 @@ msgstr ""
 #: weblate/templates/mail/new_translation.html:28
 #: weblate/templates/mail/new_translation.txt:9
 msgid "Translation:"
-msgstr ""
+msgstr "الترجمة:"
 
 #: weblate/templates/mail/changed_translation.html:38
 #: weblate/templates/mail/new_suggestion.html:39
@@ -4252,7 +4257,7 @@ msgstr ""
 
 #: weblate/templates/mail/changed_translation.txt:13
 msgid "Previous translation:"
-msgstr ""
+msgstr "الترجمة السابقة:"
 
 #: weblate/templates/mail/changed_translation_subject.txt:3
 #, python-format
@@ -4299,7 +4304,7 @@ msgstr ""
 #: weblate/templates/mail/merge_failure.html:15
 #: weblate/templates/mail/parse_error.html:15
 msgid "Error message"
-msgstr ""
+msgstr "رسالة خطأ"
 
 #: weblate/templates/mail/merge_failure.html:30
 #: weblate/templates/mail/merge_failure.txt:13
@@ -4318,7 +4323,7 @@ msgstr ""
 
 #: weblate/templates/mail/merge_failure.txt:9
 msgid "Repository status:"
-msgstr ""
+msgstr "حالة المستودع:"
 
 #: weblate/templates/mail/merge_failure_subject.txt:3
 #, python-format
@@ -4379,12 +4384,12 @@ msgstr ""
 #: weblate/templates/mail/new_language.html:27
 #: weblate/templates/mail/new_language.txt:9
 msgid "Requested language:"
-msgstr ""
+msgstr "اللغة المطلوبة:"
 
 #: weblate/templates/mail/new_language.html:38
 #: weblate/templates/mail/new_language.txt:13
 msgid "Requesting user:"
-msgstr ""
+msgstr "المستخدم الطالب:"
 
 #: weblate/templates/mail/new_language.txt:7
 msgid ""
@@ -4419,7 +4424,7 @@ msgstr ""
 #: weblate/templates/mail/new_suggestion.html:28
 #: weblate/templates/mail/new_suggestion.txt:9
 msgid "Suggestion:"
-msgstr ""
+msgstr "الاقتراح:"
 
 #: weblate/templates/mail/new_suggestion.html:50
 #: weblate/templates/mail/new_suggestion.txt:13
