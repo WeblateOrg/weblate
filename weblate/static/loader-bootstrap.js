@@ -1037,16 +1037,11 @@ $(function () {
     };
 
     /* Override all multiple selects, use font awesome for exchange icon */
-    $('select[multiple]').each(function () {
-        $(this).multiSelect({
-            afterInit: function (target) {
-                this.$selectableContainer.prepend(gettext('Available:'));
-                this.$selectionContainer.prepend(gettext('Selected:'));
-                $(target.children()[0]).after(
-                    '<div class="fa-multiselect"><i class="fa fa-exchange"></i></div>'
-                );
-            }
-        });
+    $('select[multiple]').multi({
+        'enable_search': true,
+        'search_placeholder': gettext('Search...'),
+        'non_selected_header': gettext('Available:'),
+        'selected_header': gettext('Selected:')
     });
 
     /* Check dismiss shortcuts */
