@@ -438,13 +438,13 @@ class PluralsCompareTest(TestCase):
 
     def test_formula(self):
         language = Language.objects.get(code='pt')
-        self.assertTrue(
+        self.assertFalse(
             language.same_plural('nplurals=2; plural=(n != 1);')
         )
 
     def test_different_formula(self):
         language = Language.objects.get(code='pt')
-        self.assertFalse(
+        self.assertTrue(
             language.same_plural('nplurals=2; plural=(n > 1);')
         )
 
