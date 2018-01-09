@@ -137,7 +137,7 @@ class DictionaryManager(models.Manager):
         # Extract words from all plurals and from context
         flags = unit.all_flags
         for text in unit.get_source_plurals() + [unit.context]:
-            text = strip_string(text, flags)
+            text = strip_string(text, flags).lower()
             for analyzer, combine in analyzers:
                 # Some Whoosh analyzers break on unicode
                 new_words = []
