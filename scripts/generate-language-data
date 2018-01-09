@@ -1,36 +1,95 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
+#
+# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+#
+# This file is part of Weblate <https://weblate.org/>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+# Helper script to generate Python code from language-data repository
+# see https://github.com/WeblateOrg/language-data
 
-from __future__ import unicode_literals, print_function
+import csv
 
-import json
-import sys
+HEADER = '''# -*- coding: utf-8 -*-
+#
+# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+#
+# This file is part of Weblate <https://weblate.org/>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
 
-from babel import Locale, UnknownLocaleError
+############################################################################
+# This is automatically generated file, see scripts/generate-language-data #
+############################################################################
 
-names = {}
+from __future__ import unicode_literals
+from django.utils.translation import ugettext_noop as _
 
-with open('/usr/share/iso-codes/json/iso_639-2.json', 'r') as handle:
-    for item in json.load(handle)['639-2']:
-        for value in ('alpha_2', 'alpha_3'):
-            if value in item:
-                names[item[value]] = item['name']
 
-for code in sys.argv[1:]:
-    try:
-        plurals = Locale(code).plural_form.tags
-        if len(plurals) <= 1:
-            plurals = 'n != 1'
-            nplurals = 2
-        else:
-            nplurals = len(plurals)
+# Generated list of languages, see scripts/generate-language-data
+'''
 
-    except UnknownLocaleError:
-        plurals = 'n != 1'
-        nplurals = 2
+TEMPLATE = '''    (
+        '{}',
+        _('{}'),
+        {},
+        '{}',
+    ),
+'''
 
-    print("""    (
-        '{0}',
-        _('{1}'),
-        {2},
-        '{3}',
-    ),""".format(code, names[code].split(';')[-1].strip(), nplurals, plurals))
+# Read languages
+with open('scripts/language-data/languages.csv', 'r') as csvfile:
+    reader = csv.reader(csvfile, delimiter=';')
+    LANGUAGES = list(reader)
+
+# Write language definitions
+with open('weblate/lang/languages.py', 'w') as output:
+    output.write(HEADER)
+    output.write('LANGUAGES = (\n')
+    for row in LANGUAGES:
+        output.write(TEMPLATE.format(
+            row[0],
+            row[1].replace("'", "\\'"),
+            row[2],
+            row[3],
+        ))
+    output.write(')\n')
+
+# Write same checks blacklist
+with open('weblate/trans/checks/languages.py', 'w') as output:
+    output.write(HEADER)
+    output.write('LANGUAGES = frozenset((\n')
+    words = set()
+    for row in LANGUAGES:
+        words.update(
+            row[1].replace('(', ' ').replace(')', ' ').lower().split()
+        )
+    for word in sorted(words):
+        output.write('    \'{}\',\n'.format(
+            word.replace("'", "\\'")
+        ))
+    output.write('))\n')

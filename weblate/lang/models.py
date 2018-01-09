@@ -37,9 +37,7 @@ from django.utils.safestring import mark_safe
 from django.dispatch import receiver
 from django.db.models.signals import post_migrate
 
-from translate.lang.data import languages
-
-from weblate.lang import data
+from weblate.lang import data, languages
 from weblate.trans.mixins import PercentMixin
 from weblate.logger import LOGGER
 
@@ -249,54 +247,22 @@ class LanguageQuerySet(models.QuerySet):
         return lang
 
     def setup(self, update):
-        """Create basic set of languages based on languages defined in ttkit
-        and on our list of extra languages.
+        """Create basic set of languages based on languages defined in the
+        languages-data repo.
         """
-
-        # Languages from ttkit
-        for code, props in languages.items():
-            if code in data.SKIP_TRANSLATE_TOOLKIT:
-                continue
+        # Create Weblate extra languages
+        for code, name, nplurals, pluraleq in languages.LANGUAGES:
             lang, created = self.get_or_create(code=code)
 
             # Should we update existing?
             if not update and not created:
                 continue
 
-            # Set language name
-            lang.name = props[0].split(';')[0]
-            lang.fixup_name()
+            lang.name = name
+            lang.nplurals = nplurals
+            lang.pluralequation = pluraleq
 
-            # Set number of plurals and equation
-            lang.nplurals = props[1]
-            lang.pluralequation = props[2].strip(';')
-            lang.fixup_plurals()
-
-            # Set language direction
-            lang.set_direction()
-
-            # Get plural type
-            lang.plural_type = get_plural_type(
-                lang.code,
-                lang.pluralequation
-            )
-
-            # Save language
-            lang.save()
-
-        # Create Weblate extra languages
-        for props in data.EXTRALANGS:
-            lang, created = self.get_or_create(code=props[0])
-
-            # Should we update existing?
-            if not update and not created:
-                continue
-
-            lang.name = props[1]
-            lang.nplurals = props[2]
-            lang.pluralequation = props[3]
-
-            if props[0] in data.RTL_LANGS:
+            if code in data.RTL_LANGS:
                 lang.direction = 'rtl'
             else:
                 lang.direction = 'ltr'
@@ -521,58 +487,12 @@ class Language(models.Model, PercentMixin):
             'lang="{0}" dir="{1}"'.format(self.code, self.direction)
         )
 
-    def fixup_name(self):
-        """Fix name, in most cases when wrong one is provided by ttkit."""
-        if self.code in data.LANGUAGE_NAME_FIXUPS:
-            self.name = data.LANGUAGE_NAME_FIXUPS[self.code]
-
     def set_direction(self):
         """Set default direction for language."""
         if self.code in data.RTL_LANGS:
             self.direction = 'rtl'
         else:
             self.direction = 'ltr'
-
-    def fixup_plurals(self):
-        """Fix plurals to be in consistent form and to
-        correct some mistakes in ttkit.
-        """
-
-        # Split out plural equation when it is as whole
-        if 'nplurals=' in self.pluralequation:
-            parts = self.pluralequation.split(';')
-            self.nplurals = int(parts[0][9:])
-            self.pluralequation = parts[1][8:]
-
-        # Strip not needed parenthesis
-        if self.pluralequation[0] == '(' and self.pluralequation[-1] == ')':
-            self.pluralequation = self.pluralequation[1:-1]
-
-        # Fixes for broken plurals
-        if self.code in ['kk', 'ky']:
-            # These languages should have plurals, ttkit says it does
-            # not have
-            self.nplurals = 2
-            self.pluralequation = 'n != 1'
-        elif self.code in ('fa', 'pt_BR'):
-            # These languages should have plurals, ttkit says it does
-            # not have
-            self.nplurals = 2
-            self.pluralequation = 'n > 1'
-        elif self.code == 'sl':
-            # This is currently changing, we need to find way to migrate data:
-            # https://answers.launchpad.net/launchpad/+question/18324
-            self.pluralequation = (
-                'n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3'
-            )
-        elif self.code == 'lt':
-            # Lithuanian should use 4 plurals
-            # see https://github.com/WeblateOrg/weblate/issues/901
-            self.nplurals = 4
-            self.pluralequation = (
-                'n==1 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : '
-                'n%10==0 || (n%100>10 && n%100<20) ? 2 : 3'
-            )
 
     def base_code(self):
         return self.code.replace('_', '-').split('-')[0]

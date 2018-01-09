@@ -31,6 +31,7 @@ from weblate.trans.checks.format import (
     PYTHON_BRACE_MATCH,
 )
 from weblate.trans.checks.data import SAME_BLACKLIST
+from weblate.trans.checks.languages import LANGUAGES
 
 # Email address to ignore
 EMAIL_RE = re.compile(
@@ -129,7 +130,7 @@ def strip_string(msg, flags):
 
 def test_word(word):
     """Test whether word should be ignored."""
-    return len(word) <= 2 or word in SAME_BLACKLIST
+    return len(word) <= 2 or word in SAME_BLACKLIST or word in LANGUAGES
 
 
 class SameCheck(TargetCheck):
