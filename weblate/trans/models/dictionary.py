@@ -158,28 +158,22 @@ class DictionaryManager(models.Manager):
                         ]
                     )
 
-        # Grab all words in the dictionary
-        dictionary = self.filter(
-            project=unit.translation.subproject.project,
-            language=unit.translation.language
-        )
-
         if '' in words:
             words.remove('')
 
         if len(words) == 0:
             # No extracted words, no dictionary
-            dictionary = dictionary.none()
-        else:
-            # Build the query for fetching the words
-            # Can not use __in as we want case insensitive lookup
-            dictionary = dictionary.filter(
-                source__iregex=r'^({0})$'.format(
-                    '|'.join([re_escape(word) for word in words])
-                )
-            )
+            return self.none()
 
-        return dictionary
+        # Build the query for fetching the words
+        # We want case insensitive lookup
+        return self.filter(
+            project=unit.translation.subproject.project,
+            language=unit.translation.language,
+            source__iregex=r'^({0})$'.format(
+                '|'.join([re_escape(word) for word in words])
+            )
+        )
 
 
 @python_2_unicode_compatible
