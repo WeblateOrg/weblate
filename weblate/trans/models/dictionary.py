@@ -27,10 +27,7 @@ from django.urls import reverse
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 
-from whoosh.analysis import (
-    LanguageAnalyzer, StandardAnalyzer, StemmingAnalyzer, NgramAnalyzer,
-    SimpleAnalyzer,
-)
+from whoosh.analysis import LanguageAnalyzer, NgramAnalyzer, SimpleAnalyzer
 
 from weblate.lang.models import Language
 from weblate.trans.checks.same import strip_string
@@ -126,19 +123,19 @@ class DictionaryManager(models.Manager):
         # - simple analyzer just splits words based on regexp
         # - language analyzer if available (it is for English)
         analyzers = [
-            (SimpleAnalyzer(expression=SPLIT_RE, gaps=True), True),
-            (LanguageAnalyzer(source_language.base_code()), False),
+            SimpleAnalyzer(expression=SPLIT_RE, gaps=True),
+            LanguageAnalyzer(source_language.base_code()),
         ]
 
         # Add ngram analyzer for languages like Chinese or Japanese
         if source_language.uses_ngram():
-            analyzers.append((NgramAnalyzer(4), False))
+            analyzers.append(NgramAnalyzer(4))
 
         # Extract words from all plurals and from context
         flags = unit.all_flags
         for text in unit.get_source_plurals() + [unit.context]:
             text = strip_string(text, flags).lower()
-            for analyzer, combine in analyzers:
+            for analyzer in analyzers:
                 # Some Whoosh analyzers break on unicode
                 new_words = []
                 try:
@@ -146,17 +143,6 @@ class DictionaryManager(models.Manager):
                 except (UnicodeDecodeError, IndexError) as error:
                     report_error(error, sys.exc_info())
                 words.update(new_words)
-                # Add combined string to allow match against multiple word
-                # entries allowing to combine up to 5 words
-                if combine:
-                    words.update(
-                        [
-                            ' '.join(new_words[x:y])
-                            for x in range(len(new_words))
-                            for y in range(1, min(x + 6, len(new_words) + 1))
-                            if x != y
-                        ]
-                    )
 
         if '' in words:
             words.remove('')
@@ -170,7 +156,7 @@ class DictionaryManager(models.Manager):
         return self.filter(
             project=unit.translation.subproject.project,
             language=unit.translation.language,
-            source__iregex=r'^({0})$'.format(
+            source__iregex=r'{0}'.format(
                 '|'.join([re_escape(word) for word in words])
             )
         )
