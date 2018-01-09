@@ -27,13 +27,10 @@ from django.urls import reverse
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 
-from whoosh.analysis import (
-    LanguageAnalyzer, StandardAnalyzer, StemmingAnalyzer, NgramAnalyzer,
-    SimpleAnalyzer,
-)
-from whoosh.lang import has_stemmer
+from whoosh.analysis import LanguageAnalyzer, NgramAnalyzer, SimpleAnalyzer
 
 from weblate.lang.models import Language
+from weblate.trans.checks.same import strip_string
 from weblate.trans.formats import AutoFormat
 from weblate.trans.models.project import Project
 from weblate.utils.db import re_escape
@@ -120,28 +117,25 @@ class DictionaryManager(models.Manager):
     def get_words(self, unit):
         """Return list of word pairs for an unit."""
         words = set()
+        source_language = unit.translation.subproject.project.source_language
 
         # Prepare analyzers
-        # - standard analyzer simply splits words
-        # - stemming extracts stems, to catch things like plurals
+        # - simple analyzer just splits words based on regexp
+        # - language analyzer if available (it is for English)
         analyzers = [
-            (SimpleAnalyzer(), True),
-            (SimpleAnalyzer(expression=SPLIT_RE, gaps=True), True),
-            (StandardAnalyzer(), False),
-            (StemmingAnalyzer(), False),
+            SimpleAnalyzer(expression=SPLIT_RE, gaps=True),
+            LanguageAnalyzer(source_language.base_code()),
         ]
-        source_language = unit.translation.subproject.project.source_language
-        lang_code = source_language.base_code()
-        # Add per language analyzer if Whoosh has it
-        if has_stemmer(lang_code):
-            analyzers.append((LanguageAnalyzer(lang_code), False))
+
         # Add ngram analyzer for languages like Chinese or Japanese
         if source_language.uses_ngram():
-            analyzers.append((NgramAnalyzer(4), False))
+            analyzers.append(NgramAnalyzer(4))
 
         # Extract words from all plurals and from context
+        flags = unit.all_flags
         for text in unit.get_source_plurals() + [unit.context]:
-            for analyzer, combine in analyzers:
+            text = strip_string(text, flags).lower()
+            for analyzer in analyzers:
                 # Some Whoosh analyzers break on unicode
                 new_words = []
                 try:
@@ -149,40 +143,23 @@ class DictionaryManager(models.Manager):
                 except (UnicodeDecodeError, IndexError) as error:
                     report_error(error, sys.exc_info())
                 words.update(new_words)
-                # Add combined string to allow match against multiple word
-                # entries allowing to combine up to 5 words
-                if combine:
-                    words.update(
-                        [
-                            ' '.join(new_words[x:y])
-                            for x in range(len(new_words))
-                            for y in range(1, min(x + 6, len(new_words) + 1))
-                            if x != y
-                        ]
-                    )
-
-        # Grab all words in the dictionary
-        dictionary = self.filter(
-            project=unit.translation.subproject.project,
-            language=unit.translation.language
-        )
 
         if '' in words:
             words.remove('')
 
         if len(words) == 0:
             # No extracted words, no dictionary
-            dictionary = dictionary.none()
-        else:
-            # Build the query for fetching the words
-            # Can not use __in as we want case insensitive lookup
-            dictionary = dictionary.filter(
-                source__iregex=r'^({0})$'.format(
-                    '|'.join([re_escape(word) for word in words])
-                )
-            )
+            return self.none()
 
-        return dictionary
+        # Build the query for fetching the words
+        # We want case insensitive lookup
+        return self.filter(
+            project=unit.translation.subproject.project,
+            language=unit.translation.language,
+            source__iregex=r'{0}'.format(
+                '|'.join([re_escape(word) for word in words])
+            )
+        )
 
 
 @python_2_unicode_compatible

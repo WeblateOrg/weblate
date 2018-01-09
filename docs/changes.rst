@@ -11,6 +11,7 @@ Released on ? 2018.
 * Added TMX exporter for files.
 * Various performance improvements for loading translation files.
 * Added option to disable access management in Weblate in favor of Django one.
+* Improved glossary lookup speed for large strings.
 
 weblate 2.18
 ------------
