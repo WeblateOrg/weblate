@@ -34,6 +34,7 @@ from whoosh.analysis import (
 from whoosh.lang import has_stemmer
 
 from weblate.lang.models import Language
+from weblate.trans.checks.same import strip_string
 from weblate.trans.formats import AutoFormat
 from weblate.trans.models.project import Project
 from weblate.utils.db import re_escape
@@ -140,7 +141,9 @@ class DictionaryManager(models.Manager):
             analyzers.append((NgramAnalyzer(4), False))
 
         # Extract words from all plurals and from context
+        flags = unit.all_flags
         for text in unit.get_source_plurals() + [unit.context]:
+            text = strip_string(text, flags)
             for analyzer, combine in analyzers:
                 # Some Whoosh analyzers break on unicode
                 new_words = []
