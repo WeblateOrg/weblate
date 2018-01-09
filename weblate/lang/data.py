@@ -365,8 +365,10 @@ LOCALE_ALIASES = {
     'ua': 'uk',
     # Old locale codes
     'iw': 'he',
+    'jw': 'jv',
     'ji': 'yi',
     'in': 'id',
+    'no': 'nb',
     'sr_cs': 'sr',
     # Strip not needed country
     'sr_latn_rs': 'sr_Latn',
