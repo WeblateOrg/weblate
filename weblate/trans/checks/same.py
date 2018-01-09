@@ -22,6 +22,7 @@ from __future__ import unicode_literals
 
 import re
 
+from django.utils.html import strip_tags
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.trans.checks.base import TargetCheck
@@ -98,8 +99,11 @@ def strip_format(msg, flags):
 
 def strip_string(msg, flags):
     """Strip (usually) not translated parts from the string."""
+    # Strip HTML markup
+    stripped = strip_tags(msg)
+
     # Strip format strings
-    stripped = strip_format(msg, flags)
+    stripped = strip_format(stripped, flags)
 
     # Remove email addresses
     stripped = EMAIL_RE.sub('', stripped)
