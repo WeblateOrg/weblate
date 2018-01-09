@@ -126,7 +126,6 @@ class DictionaryManager(models.Manager):
         # - standard analyzer simply splits words
         # - stemming extracts stems, to catch things like plurals
         analyzers = [
-            (SimpleAnalyzer(), True),
             (SimpleAnalyzer(expression=SPLIT_RE, gaps=True), True),
             (StandardAnalyzer(), False),
             (StemmingAnalyzer(), False),
