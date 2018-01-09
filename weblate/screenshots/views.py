@@ -221,6 +221,7 @@ def search_source(request, pk):
             'q': request.POST.get('q', ''),
             'type': 'all',
             'source': True,
+            'context': True,
         },
         translation=translation,
     )
