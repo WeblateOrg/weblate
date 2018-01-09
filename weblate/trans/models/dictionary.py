@@ -31,7 +31,6 @@ from whoosh.analysis import (
     LanguageAnalyzer, StandardAnalyzer, StemmingAnalyzer, NgramAnalyzer,
     SimpleAnalyzer,
 )
-from whoosh.lang import has_stemmer
 
 from weblate.lang.models import Language
 from weblate.trans.checks.same import strip_string
@@ -121,20 +120,16 @@ class DictionaryManager(models.Manager):
     def get_words(self, unit):
         """Return list of word pairs for an unit."""
         words = set()
+        source_language = unit.translation.subproject.project.source_language
 
         # Prepare analyzers
-        # - standard analyzer simply splits words
-        # - stemming extracts stems, to catch things like plurals
+        # - simple analyzer just splits words based on regexp
+        # - language analyzer if available (it is for English)
         analyzers = [
             (SimpleAnalyzer(expression=SPLIT_RE, gaps=True), True),
-            (StandardAnalyzer(), False),
-            (StemmingAnalyzer(), False),
+            (LanguageAnalyzer(source_language.base_code()), False),
         ]
-        source_language = unit.translation.subproject.project.source_language
-        lang_code = source_language.base_code()
-        # Add per language analyzer if Whoosh has it
-        if has_stemmer(lang_code):
-            analyzers.append((LanguageAnalyzer(lang_code), False))
+
         # Add ngram analyzer for languages like Chinese or Japanese
         if source_language.uses_ngram():
             analyzers.append((NgramAnalyzer(4), False))
