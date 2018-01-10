@@ -37,7 +37,7 @@ import django.views.defaults
 
 from weblate.utils import messages
 from weblate.trans.models import (
-    Project, Translation, Check, ComponentList, Change, Unit,
+    Project, Translation, Check, ComponentList, Change, Unit, IndexUpdate,
 )
 from weblate.requirements import get_versions, get_optional_versions
 from weblate.lang.models import Language
@@ -460,6 +460,11 @@ def show_translation(request, project, subproject, lang):
             'last_changes': last_changes,
             'last_changes_url': urlencode(obj.get_kwargs()),
             'show_only_component': True,
+            'pending_fulltext': obj.unit_set.filter(
+                id__in=IndexUpdate.objects.filter(
+                    to_delete=False
+                ).values('unitid')
+            ).exists(),
             'other_translations': Translation.objects.prefetch().filter(
                 subproject__project=obj.subproject.project,
                 language=obj.language,
