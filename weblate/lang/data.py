@@ -352,7 +352,7 @@ LOCALE_ALIASES = {
     'portuguese_br': 'pt_BR',
     'portuguese_portugal': 'pt_PT',
     'russian': 'ru',
-    'serbo-croatian': 'sh',
+    'serbo-croatian': 'sr_Latn',
     'serbian': 'sr',
     'indonesian': 'id',
     'norwegian': 'nb',
@@ -373,13 +373,16 @@ LOCALE_ALIASES = {
     'ca_ps': 'ca',
     'by': 'be',
     'ua': 'uk',
-    # Old locale codes
-    'iw': 'he',
-    'jw': 'jv',
-    'ji': 'yi',
-    'in': 'id',
-    'no': 'nb',
-    'sr_cs': 'sr',
+    # Old locale iso codes
+    'in': 'id',  # Indonesian
+    'iw': 'he',  # Hebrew
+    'ji': 'yi',  # Yiddish
+    'jw': 'jv',  # Javanese
+    'mo': 'ro_MD',  # Moldovan
+    'scc': 'sr',  # Serbian
+    'scr': 'hr',  # Croatian
+    'sh': 'sr_Latn',  # Serbo-Croatian
+    'no': 'nb',  # Norwegian
     # Strip not needed country
     'sr_latn_rs': 'sr_Latn',
     'bs_latn_ba': 'bs_Latn',
