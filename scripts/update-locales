@@ -20,7 +20,17 @@ git pull
 ./manage.py makemessages --keep-pot -a -i 'data/*' -i 'docs/*' -i 'examples/*' -i 'build/*' -d djangojs --settings=weblate.settings_test
 
 # Fix Report-Msgid-Bugs-To as it gets removed
-sed -i 's/"Report-Msgid-Bugs-To:.*/"Report-Msgid-Bugs-To: weblate@lists.cihar.com\\n"/' weblate/locale/*/*/*.po
+sed -i 's/"Report-Msgid-Bugs-To:.*/"Report-Msgid-Bugs-To: weblate@lists.cihar.com\\n"/' weblate/locale/*/*/*.po weblate/locale/django.pot
+
+# Include language names from CLDR
+for locale in weblate/locale/*/LC_MESSAGES/django.po ; do
+    code=${locale#weblate/locale/}
+    code=${code%/LC_MESSAGES/django.po}
+    file=scripts/language-data/languages-po/$code.po
+    if [ -f $file ] ; then
+        msgmerge --previous -C $file -U $locale weblate/locale/django.pot
+    fi
+done
 
 # Commit changes
 git add weblate/locale/*/*/*.po
