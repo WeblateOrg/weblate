@@ -33,6 +33,20 @@ var multi = (function() {
         select.wrapper.selected.innerHTML = '';
         select.wrapper.non_selected.innerHTML = '';
 
+        // Add headers to columns
+        if ( settings['non_selected_header'] && settings['selected_header'] ) {
+            var non_selected_header = document.createElement( 'div' );
+            var selected_header     = document.createElement( 'div' );
+
+            non_selected_header.className = selected_header.className = 'header';
+
+            non_selected_header.innerText = settings['non_selected_header'];
+            selected_header.innerText     = settings['selected_header'];
+
+            select.wrapper.non_selected.appendChild( non_selected_header );
+            select.wrapper.selected.appendChild( selected_header );
+        }
+
         // Get search value
         if ( select.wrapper.search ) {
             var query = select.wrapper.search.value;
@@ -91,6 +105,8 @@ var multi = (function() {
 
         settings['enable_search'] = typeof settings['enable_search'] !== 'undefined' ? settings['enable_search'] : true;
         settings['search_placeholder'] = typeof settings['search_placeholder'] !== 'undefined' ? settings['search_placeholder'] : 'Search...';
+        settings['non_selected_header'] = typeof settings['non_selected_header'] !== 'undefined' ? settings['non_selected_header'] : null;
+        settings['selected_header'] = typeof settings['selected_header'] !== 'undefined' ? settings['selected_header'] : null;
 
 
         // Check if already initalized
