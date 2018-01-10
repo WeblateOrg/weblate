@@ -58,23 +58,35 @@
 <table class="table">
 <tr>
 <th>{% trans "Number of plurals" %}</th>
-<td>{{ object.nplurals }}</td>
+<td colspan="2">{{ object.nplurals }}</td>
 </tr>
 <tr>
 <th>{% trans "Plural type" %}</th>
-<td>{{ object.get_plural_type_display }}</td>
+<td colspan="2">{{ object.get_plural_type_display }}</td>
 </tr>
 <tr>
+<th rowspan="{{ object.nplurals }}">{% trans "Plurals" %}</th>
+{% if object.nplurals > 1 %}
+{% for item in object.list_plurals %}
+{% if item.index > 1 %}
+<tr>
+{% endif %}
+<td>{{ item.name }}</td>
+<td>{{ item.examples }}</td>
+</tr>
+{% endfor %}
+{% endif %}
+<tr>
 <th>{% trans "Plural equation" %}</th>
-<td><code>{{ object.pluralequation }}</code></td>
+<td colspan="2"><code>{{ object.pluralequation }}</code></td>
 </tr>
 <tr>
 <th>{% trans "Text direction" %}</th>
-<td>{{ object.get_direction_display }}</td>
+<td colspan="2">{{ object.get_direction_display }}</td>
 </tr>
 <tr>
 <th>{% trans "Language code" %}</th>
-<td>{{ object.code }}</td>
+<td colspan="2">{{ object.code }}</td>
 </tr>
 </table>
 

@@ -452,8 +452,16 @@ class Language(models.Model, PercentMixin):
                 return _('Plural')
             return _('Plural form %d') % idx
 
-    def get_plural_label(self, idx):
-        """Return label for plural form."""
+    def list_plurals(self):
+        self.fill_in_examples()
+        for i in range(self.nplurals):
+            yield {
+                'index': i,
+                'name': self.get_plural_name(i),
+                'examples': ', '.join(self._plural_examples[i])
+            }
+
+    def fill_in_examples(self):
         if len(self._plural_examples) == 0:
             func = gettext.c2py(self.pluralequation)
             for i in range(0, 1000):
@@ -463,6 +471,10 @@ class Language(models.Model, PercentMixin):
                 if len(self._plural_examples[ret]) >= 10:
                     continue
                 self._plural_examples[ret].append(str(i))
+
+    def get_plural_label(self, idx):
+        """Return label for plural form."""
+        self.fill_in_examples()
 
         return PLURAL_TITLE.format(
             name=self.get_plural_name(idx),
