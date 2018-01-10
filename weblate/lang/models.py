@@ -387,7 +387,7 @@ class Language(models.Model, PercentMixin):
         verbose_name=ugettext_lazy('Number of plurals'),
     )
     pluralequation = models.CharField(
-        max_length=255,
+        max_length=400,
         blank=True,
         verbose_name=ugettext_lazy('Plural equation'),
     )
