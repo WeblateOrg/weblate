@@ -281,7 +281,6 @@ LANGUAGES = frozenset((
     'sena',
     'senni',
     'serbian',
-    'serbo-croatian',
     'shambala',
     'shan',
     'shona',
