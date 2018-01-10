@@ -137,7 +137,7 @@ class SameCheck(TargetCheck):
     """Check for not translated entries."""
     check_id = 'same'
     name = _('Unchanged translation')
-    description = _('Source and translated strings are same')
+    description = _('Source and translation are identical')
     severity = 'warning'
 
     def should_ignore(self, source, unit):

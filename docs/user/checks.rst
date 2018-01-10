@@ -39,10 +39,10 @@ good quality of translations.
 Unchanged translation
 ~~~~~~~~~~~~~~~~~~~~~
 
-The source and translated strings are the same at least in one of the plural forms.
-This check ignores some strings which are quite usually the same in all languages
-and strips various markup, which can occur in the string, to reduce the number of
-false positives.
+The source and translated strings are identical at least in one of the plural
+forms. This check ignores some strings which are quite usually the same in all
+languages and strips various markup, which can occur in the string, to reduce
+the number of false positives.
 
 This check can help finding strings which were mistakenly not translated.
 
