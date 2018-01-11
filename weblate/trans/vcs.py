@@ -190,7 +190,7 @@ class Repository(object):
     def execute(self, args, needs_lock=True):
         """Execute command and caches its output."""
         if needs_lock and not self.lock.is_locked:
-            raise RuntimeWarning('Repository operation without lock held!')
+            raise RuntimeError('Repository operation without lock held!')
         # On Windows we pass Unicode object, on others UTF-8 encoded bytes
         if sys.platform != "win32":
             args = [arg.encode('utf-8') for arg in args]
