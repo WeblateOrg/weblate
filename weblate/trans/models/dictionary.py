@@ -156,7 +156,7 @@ class DictionaryManager(models.Manager):
         return self.filter(
             project=unit.translation.subproject.project,
             language=unit.translation.language,
-            source__iregex=r'(^|\s)({0})($|\s)'.format(
+            source__iregex=r'(^|[ \t\n\r\f\v])({0})($|[ \t\n\r\f\v])'.format(
                 '|'.join([re_escape(word) for word in words])
             )
         )
