@@ -22,15 +22,17 @@ from __future__ import unicode_literals
 
 import time
 
+from django.contrib.messages import get_messages
 from django.shortcuts import get_object_or_404, redirect
 from django.views.decorators.http import require_POST
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _, ungettext
 from django.utils.encoding import force_text
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.template.loader import render_to_string
 
 from weblate import get_doc_url
 from weblate.utils import messages
@@ -779,6 +781,12 @@ def load_zen(request, project, subproject, lang):
 @require_POST
 def save_zen(request, project, subproject, lang):
     """Save handler for zen mode."""
+    def render_mesage(message):
+        return render_to_string(
+            'message.html',
+            {'tags': message.tags, 'message': m.message}
+        )
+
     translation = get_translation(request, project, subproject, lang)
 
     form = TranslationForm(
@@ -795,11 +803,23 @@ def save_zen(request, project, subproject, lang):
 
         perform_translation(unit, form, request)
 
-    return render(
-        request,
-        'zen-response.html',
-        {},
-    )
+    response = {
+        'messages': '',
+        'state': 'success',
+    }
+
+    storage = get_messages(request)
+    if storage:
+        response['messages'] = '\n'.join([render_mesage(m) for m in storage])
+        tags = set([m.tags for m in storage])
+        if 'error' in tags:
+            response['state'] = 'danger'
+        elif 'warning' in tags:
+            response['state'] = 'warning'
+        elif 'info' in tags:
+            response['state'] = 'info'
+
+    return JsonResponse(data=response)
 
 
 @require_POST

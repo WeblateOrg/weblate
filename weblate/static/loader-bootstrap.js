@@ -445,32 +445,34 @@ function zenEditor(e) {
     var form = $row.find('form');
     var statusdiv = $('#status-' + checksum).hide();
     var loadingdiv = $('#loading-' + checksum).show();
-    $.post(
-        form.attr('action'),
-        form.serialize(),
-        function (data) {
-            var messages = $('<div>' + data + '</div>');
+    $.ajax({
+        type: 'POST',
+        url: form.attr('action'),
+        data: form.serialize(),
+        dataType: 'json',
+        error: screenshotFailure,
+        success: function (data) {
             loadingdiv.hide();
             statusdiv.show();
-            if (messages.find('.alert-danger').length > 0) {
+            if (data.state == 'danger') {
                 statusdiv.attr('class', 'fa-times-circle text-danger');
-            } else if (messages.find('.alert-warning').length > 0) {
+            } else if (data.state == 'warning') {
                 statusdiv.attr('class', 'fa-exclamation-circle text-warning');
-            } else if (messages.find('.alert-info').length > 0) {
+            } else if (data.state == 'info') {
                 statusdiv.attr('class', 'fa-check-circle text-warning');
             } else {
                 statusdiv.attr('class', 'fa-check-circle text-success');
             }
             statusdiv.addClass('fa').tooltip('destroy');
-            if (data.trim() !== '') {
+            if (data.messages !== '') {
                 statusdiv.tooltip({
                     'html': true,
-                    'title': data
+                    'title': data.messages
                 });
             };
             $row.removeClass('translation-modified').addClass('translation-saved');
         }
-    );
+    });
 }
 
 
