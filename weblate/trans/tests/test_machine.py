@@ -41,6 +41,7 @@ from weblate.trans.machine.microsoft import (
 )
 from weblate.trans.machine.google import GoogleTranslation, GOOGLE_API_ROOT
 from weblate.trans.machine.yandex import YandexTranslation
+from weblate.trans.machine.saptranslationhub import SAPTranslationHub
 from weblate.trans.machine.weblatetm import (
     WeblateSimilarTranslation, WeblateTranslation
 )
@@ -96,7 +97,26 @@ MYMEMORY_JSON = '''
 AMAGAMA_JSON = '''
 [{"source": "World", "quality": 80.0, "target": "Svět", "rank": 100.0}]
 '''.encode('utf-8')
-
+SAPTRANSLATIONHUB_JSON = '''
+{
+    "units": [
+        {
+            "textType": "XFLD",
+            "domain": "BC",
+            "key": "LOGIN_USERNAME_FIELD",
+            "value": "User Name",
+            "translations": [
+                {
+                    "language": "es",
+                    "value": "Usuario",
+                    "translationProvider": 0,
+                    "qualityIndex": 100
+                }
+            ]
+        }
+    ]
+}
+'''.encode('utf-8')
 
 class MachineTranslationTest(TestCase):
     """Testing of machine translation core."""
@@ -364,6 +384,60 @@ class MachineTranslationTest(TestCase):
         self.assertEqual(machine.supported_languages, [])
         self.assert_translate(machine, empty=True)
 
+    @override_settings(MT_SAP_TRANSLATION_HUB_BASE_URL='http://sth.example.com/')
+    @httpretty.activate
+    def test_saptranslationhub(self):
+        cache.delete('{0}-languages'.format(SAPTranslationHub().mtid))
+        httpretty.register_uri(
+            httpretty.GET,
+            'http://sth.example.com/languages',
+            body=json.dumps(
+                {
+                    'languages': [
+                        {
+                            'id': 'en',
+                            'name': 'English',
+                            'bcp-47-code': 'en'
+                        },
+                        {
+                            'id': 'cs',
+                            'name': 'Czech',
+                            'bcp-47-code': 'cs'
+                        }
+                    ]
+                }
+            ),
+            status=200,
+        )
+        httpretty.register_uri(
+            httpretty.POST,
+            'http://sth.example.com/translate',
+            body=SAPTRANSLATIONHUB_JSON,
+            status=200,
+            content_type='text/json'
+        )
+        machine = SAPTranslationHub()
+        self.assert_translate(machine)
+
+    @override_settings(MT_SAP_TRANSLATION_HUB_BASE_URL='http://sth.example.com/')
+    @httpretty.activate
+    def test_saptranslationhub_invalid(self):
+        cache.delete('{0}-languages'.format(SAPTranslationHub().mtid))
+        httpretty.register_uri(
+            httpretty.GET,
+            'http://sth.example.com/languages',
+            body='',
+            status=500
+        )
+        httpretty.register_uri(
+            httpretty.POST,
+            'http://sth.example.com/translate',
+            body='',
+            status=500
+        )
+        machine = SAPTranslationHub()
+        self.assertEqual(machine.supported_languages, [])
+        self.assert_translate(machine, empty=True)
 
 class WeblateTranslationTest(FixtureTestCase):
     def test_same(self):

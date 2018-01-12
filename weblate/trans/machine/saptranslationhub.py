@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright ©  2018 Manuel Laggner <manuel.laggner@egger.com>
-# 
+#
 # This file is part of Weblate <https://weblate.org/>
 #
 # This program is free software: you can redistribute it and/or modify
@@ -36,16 +36,10 @@ class SAPTranslationHub(MachineTranslation):
     def __init__(self):
         """Check configuration."""
         super(SAPTranslationHub, self).__init__()
-        if not self.sth_supported():
+        if settings.MT_SAP_TRANSLATION_HUB_BASE_URL is None:
             raise MissingConfiguration(
                 'missing SAP Translation Hub configuration'
             )
-
-    def sth_supported(self):
-        """Check whether service is supported."""
-        return (
-            settings.MT_SAP_TRANSLATION_HUB_BASE_URL is not None
-        )
 
     def authenticate(self, request):
         """Hook for backends to allow add authentication headers to request."""
@@ -82,7 +76,7 @@ class SAPTranslationHub(MachineTranslation):
         enable_mt = False
         if isinstance(settings.MT_SAP_TRANSLATION_HUB_USE_MT, bool):
             enable_mt = settings.MT_SAP_TRANSLATION_HUB_USE_MT
-        
+
         # build the json body
         request_data_as_bytes = json.dumps({'targetLanguages': [language], \
                                             'enableMT': enable_mt, \
@@ -93,8 +87,8 @@ class SAPTranslationHub(MachineTranslation):
                                             ensure_ascii=False).encode('utf-8')
 
         # create the request
-        translationUrl = settings.MT_SAP_TRANSLATION_HUB_BASE_URL + 'translate'
-        request = Request(translationUrl.encode("utf-8"))
+        translation_url = settings.MT_SAP_TRANSLATION_HUB_BASE_URL + 'translate'
+        request = Request(translation_url.encode("utf-8"))
         request.timeout = 0.5
         request.add_header('User-Agent', USER_AGENT.encode('utf-8'))
         request.add_header('Referer', get_site_url().encode('utf-8'))
