@@ -785,7 +785,7 @@ def save_zen(request, project, subproject, lang):
     def render_mesage(message):
         return render_to_string(
             'message.html',
-            {'tags': message.tags, 'message': m.message}
+            {'tags': message.tags, 'message': message.message}
         )
 
     translation = get_translation(request, project, subproject, lang)
