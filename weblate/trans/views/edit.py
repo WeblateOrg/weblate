@@ -59,6 +59,7 @@ from weblate.permissions.helpers import (
     can_vote_suggestion, can_delete_comment, can_automatic_translation,
     can_add_comment, can_add_unit,
 )
+from weblate.utils.hash import hash_to_checksum
 
 
 def get_other_units(unit):
@@ -792,6 +793,7 @@ def save_zen(request, project, subproject, lang):
     form = TranslationForm(
         request.user, translation, None, request.POST
     )
+    translationsum = ''
     if not form.is_valid():
         show_form_errors(request, form)
     elif not can_translate(request.user, form.cleaned_data['unit']):
@@ -803,9 +805,12 @@ def save_zen(request, project, subproject, lang):
 
         perform_translation(unit, form, request)
 
+        translationsum = hash_to_checksum(unit.get_target_hash())
+
     response = {
         'messages': '',
         'state': 'success',
+        'translationsum': translationsum,
     }
 
     storage = get_messages(request)

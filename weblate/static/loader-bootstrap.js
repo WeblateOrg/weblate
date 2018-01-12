@@ -471,6 +471,9 @@ function zenEditor(e) {
                 });
             };
             $row.removeClass('translation-modified').addClass('translation-saved');
+            if (data.translationsum !== '') {
+                $row.find('input[name=translationsum]').val(data.translationsum);
+            }
         }
     });
 }
