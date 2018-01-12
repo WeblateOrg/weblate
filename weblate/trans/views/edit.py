@@ -785,7 +785,7 @@ def save_zen(request, project, subproject, lang):
         request.user, translation, None, request.POST
     )
     if not form.is_valid():
-        messages.error(request, _('Failed to save translation!'))
+        show_form_errors(request, form)
     elif not can_translate(request.user, form.cleaned_data['unit']):
         messages.error(
             request, _('Insufficient privileges for saving translations.')
