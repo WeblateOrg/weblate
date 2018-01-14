@@ -464,7 +464,7 @@ class Language(models.Model, PercentMixin):
     def fill_in_examples(self):
         if len(self._plural_examples) == 0:
             func = gettext.c2py(self.pluralequation)
-            for i in range(0, 1000):
+            for i in range(0, 10001) + range(1000, 2000001, 1000):
                 ret = func(i)
                 if ret not in self._plural_examples:
                     self._plural_examples[ret] = []
