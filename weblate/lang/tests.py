@@ -400,6 +400,15 @@ class LanguagesViewTest(FixtureTestCase):
         self.assertContains(response, 'Czech')
         self.assertContains(response, 'Test/Test')
 
+    def test_language_br(self):
+        response = self.client.get(reverse(
+            'show_language',
+            kwargs={'lang': 'br'}
+        ))
+        self.assertContains(response, 'Breton')
+        # Example is listed
+        self.assertContains(response, '1000000')
+
     def test_project_language(self):
         response = self.client.get(reverse(
             'project-language',
