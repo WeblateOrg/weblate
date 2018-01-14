@@ -458,7 +458,7 @@ class Language(models.Model, PercentMixin):
             yield {
                 'index': i,
                 'name': self.get_plural_name(i),
-                'examples': ', '.join(self._plural_examples[i])
+                'examples': ', '.join(self._plural_examples.get(i, []))
             }
 
     def fill_in_examples(self):
@@ -480,7 +480,7 @@ class Language(models.Model, PercentMixin):
             name=self.get_plural_name(idx),
             # Translators: Label for plurals with example counts
             examples=_('For example: {0}').format(
-                ', '.join(self._plural_examples[idx])
+                ', '.join(self._plural_examples.get(idx, []))
             )
         )
 
