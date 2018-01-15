@@ -110,7 +110,7 @@ class WeblateSimilarTranslation(WeblateBase):
         matching_units = Unit.objects.more_like_this(unit)
 
         return list(set([
-            self.format_unit_match(munit)
+            self.format_unit_match(munit, text)
             for munit in matching_units
             if can_access_project(user, munit.translation.subproject.project)
         ]))
