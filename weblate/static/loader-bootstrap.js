@@ -254,6 +254,17 @@ function processMachineTranslation(data) {
             newRow.append($('<td/>').attr('class', 'target').attr('lang', data.lang).attr('dir', data.dir).text(el.text));
             newRow.append($('<td/>').text(el.source));
             newRow.append($('<td/>').text(el.service));
+            /* Quality score as bar with the text */
+            newRow.append($(
+                '<td>' + 
+                '<div class="progress">' +
+                '<div class="progress-bar ' + 
+                ( el.quality >= 70 ? 'progress-bar-success' : el.quality >= 50 ? 'progress-bar-warning' : 'progress-bar-danger' ) + '"' +
+                ' role="progressbar" aria-valuenow="' + el.quality + '"' +
+                ' aria-valuemin="0" aria-valuemax="100" style="width: ' + el.quality + '%;" title="' + el.quality + '%"></div>' +
+                '</div>' +
+                '</td>'
+            ));            
             /* Translators: Verb for copy operation */
             newRow.append($(
                 '<td>' +
