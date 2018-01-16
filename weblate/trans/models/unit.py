@@ -1176,7 +1176,7 @@ class Unit(models.Model, LoggerMixin):
                 except ValueError:
                     continue
         # Fallback to reasonably big value
-        return len(self.get_source_plurals()[0]) * 3
+        return len(self.get_source_plurals()[0]) * 10
 
     def get_target_hash(self):
         return calculate_hash(None, self.target)
