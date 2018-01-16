@@ -275,6 +275,8 @@ function processMachineTranslation(data) {
                 gettext('Copy') +
                 '<span class="mt-number text-info"></span>' +
                 '</a>' +
+                '</td>' +
+                '<td>' +
                 '<a class="copymt-save btn btn-xs btn-success">' +
                 '<i class="fa fa-save"></i> ' +
                 gettext('Copy and save') +
