@@ -301,14 +301,11 @@ class UnitQuerySet(models.QuerySet):
 
     def same_source(self, unit):
         """Find units with same source."""
-        pks = fulltext_search(
-            unit.get_source_plurals()[0],
-            [unit.translation.language.code],
-            {'source': True}
-        )
+        source = unit.get_source_plurals()[0]
 
         return self.filter(
-            pk__in=pks,
+            Q(source__iexact=source) |
+            Q(source__istartswith=join_plural([source, ''])),
             translation__language=unit.translation.language,
             state__gte=STATE_TRANSLATED,
         ).exclude(
@@ -317,6 +314,7 @@ class UnitQuerySet(models.QuerySet):
 
     def more_like_this(self, unit, top=5):
         """Find closely similar units."""
+        source = unit.get_source_plurals()[0]
         if settings.MT_WEBLATE_LIMIT >= 0:
             queue = multiprocessing.Queue()
             proc = multiprocessing.Process(
@@ -337,18 +335,15 @@ class UnitQuerySet(models.QuerySet):
         else:
             more_results = more_like(unit.pk, unit.source, top)
 
-        same_results = fulltext_search(
-            unit.get_source_plurals()[0],
-            [unit.translation.language.code],
-            {'source': True}
-        )
-
         return self.filter(
-            pk__in=more_results - same_results,
+            pk__in=more_results,
             translation__language=unit.translation.language,
             state__gte=STATE_TRANSLATED,
         ).exclude(
-            pk=unit.id
+            # These are covered by same_result
+            Q(source__iexact=source) |
+            Q(source__istartswith=join_plural([source, ''])) |
+            Q(pk=unit.id)
         )
 
     def same(self, unit, exclude=True):
