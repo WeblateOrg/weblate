@@ -67,7 +67,7 @@ class MyMemoryTranslation(MachineTranslation):
 
         return (
             match['translation'],
-            quality * match['match'],
+            int(quality * match['match']),
             source,
             match['segment'],
         )
