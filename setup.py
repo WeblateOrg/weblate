@@ -27,7 +27,7 @@ from setuptools import setup
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
-with io.open(os.path.join(os.path.dirname(__file__), 'README.rst'), encoding='utf-8') as readme:
+with io.open('README.rst', encoding='utf-8') as readme:
     README = readme.read()
 
 with open('requirements.txt') as requirements:
