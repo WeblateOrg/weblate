@@ -42,7 +42,6 @@ from weblate.trans.models import (
     Unit, Change, Comment, Suggestion, Dictionary,
     get_related_units,
 )
-from weblate.trans.models.unit import STATE_TRANSLATED
 from weblate.trans.autofixes import fix_target
 from weblate.trans.forms import (
     TranslationForm, ZenTranslationForm, SearchForm, InlineWordForm,
