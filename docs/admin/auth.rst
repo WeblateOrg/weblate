@@ -296,7 +296,7 @@ Once you have the package installed, you can hook it to Django authentication:
 
 .. seealso::
 
-    `Django Authentication Using LDAP <https://pythonhosted.org/django-auth-ldap/>`_
+    :doc:`ldap:index`
 
 
 CAS authentication
