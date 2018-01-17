@@ -323,7 +323,7 @@ search will not work. To rebuild it, execute:
 Upgrade from 2.5 to 2.6
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Follow generic upgrade instructions, there is no special change.
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 Notable configuration or dependencies changes:
 
@@ -342,7 +342,7 @@ Notable configuration or dependencies changes:
 Upgrade from 2.6 to 2.7
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Follow generic upgrade instructions, there is no special change.
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 Notable configuration or dependencies changes:
 
@@ -354,7 +354,7 @@ Notable configuration or dependencies changes:
 Upgrade from 2.7 to 2.8
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Follow generic upgrade instructions, there is no special change.
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 Notable configuration or dependencies changes:
 
@@ -366,15 +366,18 @@ Notable configuration or dependencies changes:
 Upgrade from 2.8 to 2.9
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Please follow generic upgrade instructions, the only notable 
-change is addition of media storage to :setting:`DATA_DIR`.
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+Notable configuration or dependencies changes:
+
+* The addition of media storage to :setting:`DATA_DIR`.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
 Upgrade from 2.9 to 2.10
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Follow generic upgrade instructions, there is no special change.
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 Notable configuration or dependencies changes:
 
@@ -424,7 +427,7 @@ Notable configuration or dependencies changes:
 Upgrade from 2.11 to 2.12
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Follow generic upgrade instructions, there is no special change.
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 Notable configuration or dependencies changes:
 
@@ -442,7 +445,7 @@ Notable configuration or dependencies changes:
 Upgrade from 2.12 to 2.13
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Follow generic upgrade instructions, there is no special change.
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 Notable configuration or dependencies changes:
 
@@ -470,7 +473,7 @@ Notable configuration or dependencies changes:
 Upgrade from 2.13 to 2.14
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Follow generic upgrade instructions, there is no special change.
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 Notable configuration or dependencies changes:
 
@@ -490,7 +493,7 @@ Notable configuration or dependencies changes:
 Upgrade from 2.14 to 2.15
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Follow generic upgrade instructions, there is no special change.
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 Notable configuration or dependencies changes:
 
@@ -503,7 +506,7 @@ Notable configuration or dependencies changes:
 Upgrade from 2.15 to 2.16
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Follow generic upgrade instructions, there is no special change.
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 Notable configuration or dependencies changes:
 
@@ -515,7 +518,7 @@ Notable configuration or dependencies changes:
 Upgrade from 2.16 to 2.17
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Follow generic upgrade instructions, there is no special change.
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 Notable configuration or dependencies changes:
 
@@ -532,7 +535,7 @@ Notable configuration or dependencies changes:
 Upgrade from 2.17 to 2.18
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Follow generic upgrade instructions, there is no special change.
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 Notable configuration or dependencies changes:
 
@@ -552,7 +555,7 @@ Notable configuration or dependencies changes:
 Upgrade from 2.18 to 2.19
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Follow generic upgrade instructions, there is no special change.
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 Notable configuration or dependencies changes:
 
