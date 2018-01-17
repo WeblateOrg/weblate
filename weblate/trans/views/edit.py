@@ -78,7 +78,6 @@ def get_other_units(unit):
             unit.translation.subproject.project,
         'translation__language':
             unit.translation.language,
-        'state__gte': STATE_TRANSLATED,
     }
 
     same = Unit.objects.same(unit, False)
