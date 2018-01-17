@@ -167,8 +167,7 @@ class FileUnit(object):
         """Return comma separated list of locations."""
         # JSON, XLIFF and PHP are special in ttkit - it uses locations for what
         # is context in other formats
-        if (isinstance(self.mainunit, propunit) or
-                isinstance(self.mainunit, phpunit)):
+        if isinstance(self.mainunit, (propunit, phpunit)):
             return ''
         result = ', '.join(
             [x for x in self.mainunit.getlocations() if x is not None]
