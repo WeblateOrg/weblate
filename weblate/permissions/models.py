@@ -229,15 +229,3 @@ def change_acl_groups(sender, instance, action, reverse, model, pk_set,
         # Update their permissions
         for update in related:
             update.permissions.set(perms)
-
-
-# Special hook for LDAP as it does create user without email and updates it
-# later. This can lead to group assignment on every login with
-# AUTH_LDAP_ALWAYS_UPDATE_USER enabled.
-if 'django_auth_ldap.backend.LDAPBackend' in settings.AUTHENTICATION_BACKENDS:
-    # pylint: disable=C0413,E0401
-    from django_auth_ldap.backend import populate_user, LDAPBackend
-
-    @receiver(populate_user, sender=LDAPBackend)
-    def auto_groups_upon_ldap(sender, user, **kwargs):
-        auto_assign_group(user)
