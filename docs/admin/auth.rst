@@ -252,10 +252,15 @@ can install it by usual means:
 .. code-block:: sh
 
     # Using PyPI
-    pip install django-auth-ldap
+    pip install django-auth-ldap==1.2.16
 
     # Using apt-get
     apt-get install python-django-auth-ldap
+
+.. warning::
+
+    The django-auth-ldap 1.3.0 is currently incompatible with Weblate due to
+    undocumented API change.
 
 Once you have the package installed, you can hook it to Django authentication:
 
