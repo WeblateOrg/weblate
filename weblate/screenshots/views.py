@@ -108,12 +108,11 @@ class ScreenshotList(ListView):
                 )
             )
             return redirect(obj)
-        else:
-            messages.error(
-                request,
-                _('Failed to upload screenshot, please fix errors below.')
-            )
-            return self.get(request, **kwargs)
+        messages.error(
+            request,
+            _('Failed to upload screenshot, please fix errors below.')
+        )
+        return self.get(request, **kwargs)
 
 
 class ScreenshotDetail(DetailView):

@@ -35,8 +35,7 @@ def get_ip_address(request):
     if proxy:
         # X_FORWARDED_FOR returns client1, proxy1, proxy2,...
         return proxy.split(', ')[settings.IP_PROXY_OFFSET]
-    else:
-        return request.META.get('REMOTE_ADDR', '')
+    return request.META.get('REMOTE_ADDR', '')
 
 
 def get_user_agent(request, max_length=200):

@@ -222,12 +222,11 @@ def sort_unicode(choices, key):
             choices,
             key=lambda tup: remove_accents(key(tup)).lower()
         )
-    else:
-        collator = pyuca.Collator()
-        return sorted(
-            choices,
-            key=lambda tup: collator.sort_key(force_text(key(tup)))
-        )
+    collator = pyuca.Collator()
+    return sorted(
+        choices,
+        key=lambda tup: collator.sort_key(force_text(key(tup)))
+    )
 
 
 def remove_accents(input_str):

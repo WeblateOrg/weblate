@@ -757,8 +757,7 @@ class SubversionRepository(GitRepository):
         """
         if self.branch == 'master':
             return 'origin/trunk'
-        else:
-            return 'origin/{0}'.format(self.branch)
+        return 'origin/{0}'.format(self.branch)
 
 
 @register_vcs

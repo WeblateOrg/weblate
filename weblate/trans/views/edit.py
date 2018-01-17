@@ -336,8 +336,7 @@ def handle_translate(translation, request, this_unit_url, next_unit_url):
     # Redirect to next entry
     if go_next:
         return HttpResponseRedirect(next_unit_url)
-    else:
-        return HttpResponseRedirect(this_unit_url)
+    return HttpResponseRedirect(this_unit_url)
 
 
 def handle_merge(translation, request, next_unit_url):

@@ -198,8 +198,7 @@ class FileUnit(object):
             return self.reformat_flags(self.unit.typecomments)
         elif hasattr(self.template, 'typecomments'):
             return self.reformat_flags(self.template.typecomments)
-        else:
-            return ''
+        return ''
 
     def get_comments(self):
         """Return comments (notes) from units."""
@@ -235,17 +234,14 @@ class FileUnit(object):
             if isinstance(self.mainunit, propunit):
                 if self.template is not None:
                     return quote.propertiesdecode(self.template.value)
-                else:
-                    return quote.propertiesdecode(self.unit.name)
+                return quote.propertiesdecode(self.unit.name)
             if self.template is not None:
                 return self.template.value
-            else:
-                return self.unit.name
+            return self.unit.name
         else:
             if self.template is not None:
                 return get_string(self.template.target)
-            else:
-                return get_string(self.unit.source)
+            return get_string(self.unit.source)
 
     def get_target(self):
         """Return target string from a ttkit unit."""
@@ -261,8 +257,7 @@ class FileUnit(object):
                 value = re.sub('\\\\ ', ' ', value)
                 return value
             return self.unit.value
-        else:
-            return get_string(self.unit.target)
+        return get_string(self.unit.target)
 
     def get_context(self):
         """Return context of message.
@@ -321,8 +316,7 @@ class FileUnit(object):
         # where template is different kind than translations
         if self.is_unit_key_value(self.unit) and hasattr(self.unit, 'value'):
             return not self.unit.isfuzzy() and self.unit.value != ''
-        else:
-            return self.unit.istranslated()
+        return self.unit.istranslated()
 
     def is_approved(self, fallback=False):
         """Check whether unit is appoved."""
@@ -448,8 +442,7 @@ class MonolingualIDUnit(FileUnit):
     def get_context(self):
         if self.template is not None:
             return self.template.getid()
-        else:
-            return self.mainunit.getcontext()
+        return self.mainunit.getcontext()
 
 
 class TSUnit(MonolingualIDUnit):
@@ -504,8 +497,7 @@ class CSVUnit(MonolingualSimpleUnit):
             elif self.template.context:
                 return self.template.context
             return self.template.getid()
-        else:
-            return self.mainunit.getcontext()
+        return self.mainunit.getcontext()
 
     def get_source(self):
         # Needed to avoid translate-toolkit construct ID
@@ -522,8 +514,7 @@ class RESXUnit(FileUnit):
     def get_context(self):
         if self.template is not None:
             return self.template.getid()
-        else:
-            return self.unit.getid()
+        return self.unit.getid()
 
     def get_source(self):
         if self.template is None:
@@ -670,7 +661,7 @@ class FileFormat(object):
         # Find all units with same source
         found_units = self.store.findunits(source)
         # Find is broken for propfile, ignore results
-        if len(found_units) > 0 and not isinstance(self.store, propfile):
+        if found_units and not isinstance(self.store, propfile):
             for ttkit_unit in found_units:
                 # Does context match?
                 if ttkit_unit.getcontext() == context:
@@ -691,8 +682,7 @@ class FileFormat(object):
         """
         if self.has_template:
             return self._find_unit_template(context)
-        else:
-            return self._find_unit_bilingual(context, source)
+        return self._find_unit_bilingual(context, source)
 
     def add_unit(self, ttkit_unit):
         """Add new unit to underlaying store."""
@@ -756,8 +746,7 @@ class FileFormat(object):
         """Return count of units."""
         if not self.has_template:
             return len(self.store.units)
-        else:
-            return len(self.template_store.store.units)
+        return len(self.template_store.store.units)
 
     @property
     def mimetype(self):
@@ -765,16 +754,14 @@ class FileFormat(object):
         if self.store.Mimetypes is None:
             # Properties files do not expose mimetype
             return 'text/plain'
-        else:
-            return self.store.Mimetypes[0]
+        return self.store.Mimetypes[0]
 
     @property
     def extension(self):
         """Return most common file extension for format."""
         if self.store.Extensions is None:
             return 'txt'
-        else:
-            return self.store.Extensions[0]
+        return self.store.Extensions[0]
 
     @classmethod
     def is_valid(cls, store):

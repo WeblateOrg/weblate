@@ -128,8 +128,7 @@ def parse_hook_payload(request):
     if request.META['CONTENT_TYPE'] == 'application/json':
         return json.loads(request.body.decode('utf-8'))
     # Bitbucket and GitHub sends json as x-www-form-data
-    else:
-        return json.loads(request.POST['payload'])
+    return json.loads(request.POST['payload'])
 
 
 @require_POST

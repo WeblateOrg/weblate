@@ -33,8 +33,7 @@ def try_get_user(username, list_all=False):
         method = User.objects.get
     if '@' in username:
         return method(email=username)
-    else:
-        return method(username=username)
+    return method(username=username)
 
 
 class WeblateUserBackend(ModelBackend):

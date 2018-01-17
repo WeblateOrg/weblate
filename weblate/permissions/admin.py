@@ -36,8 +36,7 @@ class GroupACLAdmin(WeblateModelAdmin):
     def project_subproject(self, obj):
         if obj.subproject:
             return obj.subproject
-        else:
-            return obj.project
+        return obj.project
     project_subproject.short_description = _('Project / Component')
 
 

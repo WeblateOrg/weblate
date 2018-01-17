@@ -192,5 +192,4 @@ def get_user_display(user, icon=True, link=False):
             name=full_name,
             link=reverse('user_page', kwargs={'user': user.username}),
         ))
-    else:
-        return mark_safe(full_name)
+    return mark_safe(full_name)

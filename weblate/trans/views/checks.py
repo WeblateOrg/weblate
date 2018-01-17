@@ -42,8 +42,7 @@ def acl_checks(user):
 def encode_optional(params):
     if params:
         return '?{0}'.format(urlencode(params))
-    else:
-        return ''
+    return ''
 
 
 def show_checks(request):

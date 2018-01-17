@@ -834,8 +834,7 @@ class SearchForm(BaseSearchForm):
             )
         elif search_name:
             return search_name
-        else:
-            return filter_name
+        return filter_name
 
     def get_search_query(self):
         return self.cleaned_data['q']

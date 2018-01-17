@@ -89,10 +89,9 @@ class BaseExporter(object):
     def handle_plurals(self, plurals):
         if len(plurals) == 1:
             return self.string_filter(plurals[0])
-        else:
-            return multistring(
-                [self.string_filter(plural) for plural in plurals]
-            )
+        return multistring(
+            [self.string_filter(plural) for plural in plurals]
+        )
 
     def get_storage(self):
         raise NotImplementedError()
@@ -199,8 +198,7 @@ class XMLExporter(BaseExporter):
     def string_filter(self, text):
         if six.PY2 and not isinstance(text, six.text_type):
             return text.translate(None, _CHARMAP2)
-        else:
-            return text.translate(_CHARMAP)
+        return text.translate(_CHARMAP)
 
     def get_storage(self):
         raise NotImplementedError()
