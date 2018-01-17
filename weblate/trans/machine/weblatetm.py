@@ -71,9 +71,9 @@ class WeblateSimilarTranslation(WeblateBase):
         """Download list of possible translations from a service."""
         matching_units = Unit.objects.prefetch().filter(
             translation__subproject__project__in=Project.objects.all_acl(user)
-        ).more_like_this(unit)
+        ).more_like_this(unit, 1000)
 
         return [
-            self.format_unit_match(munit, 50)
+            self.format_unit_match(munit, munit.score)
             for munit in matching_units
         ]

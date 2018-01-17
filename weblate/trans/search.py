@@ -25,6 +25,7 @@ import shutil
 
 from whoosh.fields import SchemaClass, TEXT, NUMERIC
 from whoosh.filedb.filestore import FileStorage
+from whoosh.query import Or, Term
 from whoosh.writing import AsyncWriter, BufferedWriter
 from whoosh import qparser
 
@@ -268,13 +269,30 @@ def more_like(pk, source, top=5):
     """Find similar units."""
     index = get_source_index()
     with index.searcher() as searcher:
-        docnum = searcher.document_number(pk=pk)
-        if docnum is None:
-            return set()
+        # Extract key terms
+        kts = searcher.key_terms_from_text(
+            'source', source,
+            numterms=10,
+            normalize=False
+        )
+        # Create an Or query from the key terms
+        q = Or([Term('source', word, boost=weight) for word, weight in kts])
 
-        results = searcher.more_like(docnum, 'source', source, top)
+        results = set()
+        scores = {}
+        max_score = 1
+        for hit in searcher.search(q, limit=top):
+            current = hit['pk']
+            if current == pk:
+                max_score = hit.score
+            else:
+                results.add(current)
+                scores[current] = hit.score
 
-        return {result['pk'] for result in results}
+        return (
+            results,
+            {k: int(v * 100 / max_score) for k, v in scores.items()}
+        )
 
 
 def clean_search_unit(pk, lang):

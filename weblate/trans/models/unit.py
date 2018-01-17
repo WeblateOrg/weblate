@@ -331,11 +331,11 @@ class UnitQuerySet(models.QuerySet):
                     'Request for more like {0} timed out.'.format(unit.pk)
                 )
 
-            more_results = queue.get()
+            more_results, scores = queue.get()
         else:
-            more_results = more_like(unit.pk, unit.source, top)
+            more_results, scores = more_like(unit.pk, unit.source, top)
 
-        return self.filter(
+        result = self.filter(
             pk__in=more_results,
             translation__language=unit.translation.language,
             state__gte=STATE_TRANSLATED,
@@ -345,6 +345,9 @@ class UnitQuerySet(models.QuerySet):
             Q(source__istartswith=join_plural([source, ''])) |
             Q(pk=unit.id)
         )
+        for item in result:
+            item.score = scores[item.pk]
+        return result
 
     def same(self, unit, exclude=True):
         """Unit with same source within same project."""
