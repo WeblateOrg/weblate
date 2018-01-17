@@ -646,7 +646,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         For linked repositories, it is possible to override linked
         repository path here.
         """
-        if len(self.repoweb) == 0:
+        if not self.repoweb:
             if self.is_repo_link:
                 return self.linked_subproject.get_repoweb_link(filename, line)
             return None
@@ -1151,7 +1151,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
     def clean_lang_codes(self, matches):
         """Validate that there are no double language codes"""
-        if len(matches) == 0 and not self.can_add_new_language():
+        if not matches and not self.can_add_new_language():
             raise ValidationError(
                 {'filemask': _('The mask did not match any files!')}
             )
@@ -1201,7 +1201,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 notrecognized.append(match)
             except Exception as error:
                 errors.append('{0}: {1}'.format(match, str(error)))
-        if len(notrecognized) > 0:
+        if notrecognized:
             msg = (
                 _('Format of %d matched files could not be recognized.') %
                 len(notrecognized)
@@ -1210,7 +1210,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 msg,
                 '\n'.join(notrecognized)
             ))
-        if len(errors) > 0:
+        if errors:
             raise ValidationError('{0}\n{1}'.format(
                 (_('Failed to parse %d matched files!') % len(errors)),
                 '\n'.join(errors)
@@ -1475,7 +1475,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         monolingual = self.file_format_cls.monolingual
         return (
             (monolingual or monolingual is None) and
-            len(self.template) > 0 and
+            self.template and
             not self.template.endswith('.pot')
         )
 

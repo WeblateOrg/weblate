@@ -589,7 +589,7 @@ def get_location_links(profile, unit):
     ret = []
 
     # Do we have any locations?
-    if len(unit.location) == 0:
+    if not unit.location:
         return ''
 
     # Is it just an ID?

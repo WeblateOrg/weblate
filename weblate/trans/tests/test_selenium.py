@@ -233,7 +233,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
 
         # Wait for registration email
         loops = 0
-        while len(mail.outbox) == 0:
+        while mail.outbox:
             time.sleep(1)
             loops += 1
             if loops > 20:

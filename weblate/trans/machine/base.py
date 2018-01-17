@@ -67,7 +67,7 @@ class MachineTranslation(object):
                  **kwargs):
         """Perform JSON request."""
         # Encode params
-        if len(kwargs) > 0:
+        if kwargs:
             params = urlencode(kwargs)
         else:
             params = ''
@@ -77,7 +77,7 @@ class MachineTranslation(object):
         self.request_params = params
 
         # Append parameters
-        if len(params) > 0 and not http_post:
+        if params and not http_post:
             url = '?'.join((url, params))
 
         # Create request object with custom headers

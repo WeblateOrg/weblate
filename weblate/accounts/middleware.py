@@ -97,7 +97,7 @@ class RequireLoginMiddleware(object):
         on defined parameters.
         """
         # No need to process URLs if not configured
-        if len(self.required) == 0:
+        if self.required:
             return None
 
         # No need to process URLs if user already logged in

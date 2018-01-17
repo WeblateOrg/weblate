@@ -55,7 +55,7 @@ class BBCodeCheck(TargetCheck):
         # Parse source
         src_match = BBCODE_MATCH.findall(source)
         # Any BBCode in source?
-        if len(src_match) == 0:
+        if not src_match:
             return False
         # Parse target
         tgt_match = BBCODE_MATCH.findall(target)

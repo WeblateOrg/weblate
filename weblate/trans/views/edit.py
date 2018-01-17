@@ -159,7 +159,7 @@ def search(translation, request):
     unit_ids = list(allunits.values_list('id', flat=True))
 
     # Check empty search results
-    if len(unit_ids) == 0:
+    if not unit_ids:
         messages.warning(request, _('No string matched your search!'))
         return redirect(translation)
 
@@ -262,7 +262,7 @@ def perform_translation(unit, form, request):
     )
 
     # Warn about applied fixups
-    if len(fixups) > 0:
+    if fixups:
         messages.info(
             request,
             _('Following fixups were applied to translation: %s') %

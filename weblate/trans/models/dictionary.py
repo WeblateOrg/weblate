@@ -147,7 +147,7 @@ class DictionaryManager(models.Manager):
         if '' in words:
             words.remove('')
 
-        if len(words) == 0:
+        if not words:
             # No extracted words, no dictionary
             return self.none()
 

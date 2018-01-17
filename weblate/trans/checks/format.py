@@ -152,7 +152,7 @@ class BaseFormatCheck(TargetCheck):
 
     def check_format(self, source, target, ignore_missing):
         """Generic checker for format strings."""
-        if len(target) == 0 or len(source) == 0:
+        if not target or not source:
             return False
 
         uses_position = True

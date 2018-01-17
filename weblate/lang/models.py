@@ -127,7 +127,7 @@ class LanguageQuerySet(models.QuerySet):
         if code.startswith('b+'):
             code = code[2:]
         code = code.replace(' ', '').replace('(', '').replace(')', '')
-        while len(code) and code[-1].isdigit():
+        while code and code[-1].isdigit():
             code = code[:-1]
         return code
 
@@ -463,7 +463,7 @@ class Language(models.Model, PercentMixin):
             }
 
     def fill_in_examples(self):
-        if len(self._plural_examples) == 0:
+        if not self._plural_examples:
             func = gettext.c2py(self.pluralequation)
             for i in chain(range(0, 10001), range(1000, 2000001, 1000)):
                 ret = func(i)

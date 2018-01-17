@@ -49,7 +49,7 @@ class AngularJSInterpolationCheck(TargetCheck):
         src_match = ANGULARJS_INTERPOLATION_MATCH.findall(source)
 
         # Any interpolation strings in source?
-        if len(src_match) == 0:
+        if not src_match:
             return False
 
         tgt_match = ANGULARJS_INTERPOLATION_MATCH.findall(target)

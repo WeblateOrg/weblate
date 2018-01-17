@@ -69,7 +69,7 @@ class BeginSpaceCheck(TargetCheck):
         stripped_source = source.lstrip(' ')
 
         # String translated to spaces only
-        if len(stripped_target) == 0:
+        if not stripped_target:
             return False
 
         # Count space chars in source and target
@@ -101,7 +101,7 @@ class EndSpaceCheck(TargetCheck):
         stripped_source = source.rstrip(' ')
 
         # String translated to spaces only
-        if len(stripped_target) == 0:
+        if not stripped_target:
             return False
 
         # Count space chars in source and target
@@ -358,7 +358,7 @@ class MaxLengthCheck(TargetCheckWithFlag):
 
     def check_target_unit_with_flag(self, sources, targets, unit):
         check_pair = set(self.FLAGS_PAIR_RE.findall('\n'.join(unit.all_flags)))
-        if len(check_pair) > 0:
+        if check_pair:
             check_value = max(
                 {(x) for x in check_pair if x[0] == self.check_id},
                 key=lambda v: int(v[1])

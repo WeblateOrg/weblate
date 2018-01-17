@@ -193,6 +193,6 @@ class CountingCheck(TargetCheck):
     string = None
 
     def check_single(self, source, target, unit):
-        if len(target) == 0 or len(source) == 0:
+        if not target or not source:
             return False
         return source.count(self.string) != target.count(self.string)

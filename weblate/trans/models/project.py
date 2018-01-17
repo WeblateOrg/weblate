@@ -263,7 +263,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
     @property
     def locked(self):
         subprojects = self.subproject_set.all()
-        if len(subprojects) == 0:
+        if not subprojects:
             return False
         return max([subproject.locked for subproject in subprojects])
 

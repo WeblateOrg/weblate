@@ -157,7 +157,7 @@ def add_host_key(request):
     """Add host key for a host."""
     host = request.POST.get('host', '')
     port = request.POST.get('port', '')
-    if len(host) == 0:
+    if not host:
         messages.error(request, _('Invalid host name given!'))
     else:
         cmdline = ['ssh-keyscan']
@@ -189,7 +189,7 @@ def add_host_key(request):
                         'keytype': keytype,
                     }
                 )
-            if len(keys) == 0:
+            if not keys:
                 messages.error(
                     request,
                     _('Failed to fetch public key for a host!')

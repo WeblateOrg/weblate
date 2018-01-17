@@ -201,7 +201,7 @@ class Command(BaseCommand):
         matches = self.get_matching_files(repo)
         self.logger.info('Found %d matching files', len(matches))
 
-        if len(matches) == 0:
+        if not matches:
             raise CommandError('Your mask did not match any files!')
 
         # Parse subproject names out of them

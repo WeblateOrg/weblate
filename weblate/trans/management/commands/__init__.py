@@ -115,7 +115,7 @@ class WeblateComponentCommand(WeblateCommand):
         if options['all']:
             # all components
             result = SubProject.objects.all()
-        elif len(options['component']) == 0:
+        elif not options['component']:
             # no argumets to filter projects
             self.stderr.write(
                 'Please specify either --all '

@@ -787,7 +787,7 @@ class FileFormat(object):
         if store is None:
             return False
 
-        if cls.monolingual is False and len(store.units) == 0:
+        if cls.monolingual is False and not store.units:
             return False
 
         return True

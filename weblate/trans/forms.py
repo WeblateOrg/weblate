@@ -370,7 +370,7 @@ class PluralField(forms.CharField):
 
     def clean(self, value):
         value = super(PluralField, self).clean(value)
-        if len(value) == 0:
+        if not value:
             raise ValidationError(
                 _('Missing translated string!')
             )

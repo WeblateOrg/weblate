@@ -60,7 +60,7 @@ class TMServerTranslation(MachineTranslation):
 
     def is_supported(self, source, language):
         """Check whether given language combination is supported."""
-        if len(self.supported_languages) == 0:
+        if not self.supported_languages:
             # Fallback for old tmserver which does not export list of
             # supported languages
             return True

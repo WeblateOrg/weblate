@@ -862,7 +862,7 @@ class Unit(models.Model, LoggerMixin):
     def cleanup_checks(self, source, target):
         """Cleanup listed source and target checks."""
         # Short circuit if there is nothing to cleanup
-        if len(source) == 0 and len(target) == 0:
+        if not source and not target:
             return False
         todelete = Check.objects.filter(
             content_hash=self.content_hash,

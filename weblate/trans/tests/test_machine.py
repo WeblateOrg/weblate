@@ -144,7 +144,7 @@ class MachineTranslationTest(TestCase):
         translation = machine.translate(lang, word, MockUnit(), None)
         self.assertIsInstance(translation, list)
         if not empty:
-            self.assertTrue(len(translation) > 0)
+            self.assertTrue(translation)
 
     @httpretty.activate
     def test_glosbe(self):
