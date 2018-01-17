@@ -276,12 +276,14 @@ def more_like(pk, source, top=5):
             normalize=False
         )
         # Create an Or query from the key terms
-        q = Or([Term('source', word, boost=weight) for word, weight in kts])
+        query = Or(
+            [Term('source', word, boost=weight) for word, weight in kts]
+        )
 
         results = set()
         scores = {}
         max_score = 1
-        for hit in searcher.search(q, limit=top):
+        for hit in searcher.search(query, limit=top):
             current = hit['pk']
             if current == pk:
                 max_score = hit.score
