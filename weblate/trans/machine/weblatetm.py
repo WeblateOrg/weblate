@@ -54,7 +54,7 @@ class WeblateTranslation(WeblateBase):
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
         matching_units = Unit.objects.prefetch().filter(
-            translation__subproject__project=Project.objects.all_acl(user)
+            translation__subproject__project__in=Project.objects.all_acl(user)
         ).same_source(unit)
 
         return [
@@ -70,7 +70,7 @@ class WeblateSimilarTranslation(WeblateBase):
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
         matching_units = Unit.objects.prefetch().filter(
-            translation__subproject__project=Project.objects.all_acl(user)
+            translation__subproject__project__in=Project.objects.all_acl(user)
         ).more_like_this(unit)
 
         return [
