@@ -29,6 +29,7 @@ import weblate.screenshots.views
 from weblate.accounts.models import DEMO_ACCOUNTS
 from weblate.utils.site import get_site_url
 from weblate.trans.models.project import Project
+from weblate.wladmin.models import ConfigurationError
 
 URL_BASE = 'https://weblate.org/?utm_source=weblate&utm_term=%s'
 URL_DONATE = 'https://weblate.org/donate/?utm_source=weblate&utm_term=%s'
@@ -104,4 +105,5 @@ def weblate_context(request):
         'allow_index': False,
         'legal': 'weblate.legal' in settings.INSTALLED_APPS,
         'status_url': settings.STATUS_URL,
+        'configuration_errors': ConfigurationError.objects.all(),
     }
