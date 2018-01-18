@@ -283,12 +283,12 @@ class MicrosoftTerminologyService(MachineTranslation):
         results = root.find(xpath + soap_target)
         if results is not None:
             for translation in results:
-                translations.append(tuple([
-                    translation.find(xpath + soap_target_translated).text,
-                    int(translation.find(xpath + soap_target_confidence).text),
-                    self.name,
-                    translation.find(xpath + soap_target_original).text
-                ]))
+                translations.append({
+                    'text': translation.find(xpath + soap_target_translated).text,
+                    'quality': int(translation.find(xpath + soap_target_confidence).text),
+                    'service': self.name,
+                    'source': translation.find(xpath + soap_target_original).text,
+                })
         return translations
 
     def translate(self, language, text, unit, user):
@@ -317,18 +317,9 @@ class MicrosoftTerminologyService(MachineTranslation):
             if not self.is_supported(source, language):
                 return []
         try:
-            translations = self.download_translations(
+            return self.download_translations(
                 source, language, text, unit, user
             )
-            return [
-                {
-                    'text': trans[0],
-                    'quality': trans[1],
-                    'service': trans[2],
-                    'source': trans[3]
-                }
-                for trans in translations
-            ]
         except Exception as exc:
             self.report_error(
                 exc,
