@@ -17,6 +17,7 @@ Released on ? 2018.
 * Honor ignore flags in whitespace autofixer.
 * Improved compatibility with some Subversion setups.
 * Improved built in machine translation service.
+* Added support for SAP Translation Hub service.
 
 weblate 2.18
 ------------
