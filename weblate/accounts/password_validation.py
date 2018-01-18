@@ -49,7 +49,7 @@ class CharsPasswordValidator(object):
 
     def get_help_text(self):
         return _(
-            "Your password can't consist of a"
+            "Your password can't consist of a "
             "single character or only whitespace."
         )
 
