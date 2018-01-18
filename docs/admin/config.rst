@@ -740,50 +740,50 @@ API key for Yandex Translate API, you can register at https://tech.yandex.com/tr
 
    :ref:`yandex-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`
 
-.. setting:: MT_SAP_TRANSLATION_HUB_BASE_URL
+.. setting:: MT_SAP_BASE_URL
 
-MT_SAP_TRANSLATION_HUB_BASE_URL
--------------------------------
+MT_SAP_BASE_URL
+---------------
 
 API URL to the SAP Translation Hub service.
 
 .. seealso::
     :ref:`saptranslationhub`, :ref:`machine-translation-setup`, :ref:`machine-translation`
 
-.. setting:: MT_SAP_TRANSLATION_HUB_SANDBOX_APIKEY
+.. setting:: MT_SAP_SANDBOX_APIKEY
 
-MT_SAP_TRANSLATION_HUB_SANDBOX_APIKEY
--------------------------------
+MT_SAP_SANDBOX_APIKEY
+---------------------
 
 API key for sandbox API usage
 
 .. seealso::
     :ref:`saptranslationhub`, :ref:`machine-translation-setup`, :ref:`machine-translation`
 
-.. setting:: MT_SAP_TRANSLATION_HUB_USERNAME
+.. setting:: MT_SAP_USERNAME
 
-MT_SAP_TRANSLATION_HUB_USERNAME
--------------------------------
+MT_SAP_USERNAME
+---------------
 
 Your SAP username
 
 .. seealso::
     :ref:`saptranslationhub`, :ref:`machine-translation-setup`, :ref:`machine-translation`
 
-.. setting:: MT_SAP_TRANSLATION_HUB_PASSWORD
+.. setting:: MT_SAP_PASSWORD
 
-MT_SAP_TRANSLATION_HUB_PASSWORD
--------------------------------
+MT_SAP_PASSWORD
+---------------
 
 Your SAP password
 
 .. seealso::
     :ref:`saptranslationhub`, :ref:`machine-translation-setup`, :ref:`machine-translation`
 
-.. setting:: MT_SAP_TRANSLATION_HUB_USE_MT
+.. setting:: MT_SAP_USE_MT
 
-MT_SAP_TRANSLATION_HUB_USE_MT
--------------------------------
+MT_SAP_USE_MT
+-------------
 
 Should the machine translation service also be used? (in addition to the term database).
 Possible values: True / False

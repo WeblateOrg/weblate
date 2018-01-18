@@ -384,7 +384,7 @@ class MachineTranslationTest(TestCase):
         self.assertEqual(machine.supported_languages, [])
         self.assert_translate(machine, empty=True)
 
-    @override_settings(MT_SAP_TRANSLATION_HUB_BASE_URL='http://sth.example.com/')
+    @override_settings(MT_SAP_BASE_URL='http://sth.example.com/')
     @httpretty.activate
     def test_saptranslationhub(self):
         cache.delete('{0}-languages'.format(SAPTranslationHub().mtid))
@@ -419,7 +419,7 @@ class MachineTranslationTest(TestCase):
         machine = SAPTranslationHub()
         self.assert_translate(machine)
 
-    @override_settings(MT_SAP_TRANSLATION_HUB_BASE_URL='http://sth.example.com/')
+    @override_settings(MT_SAP_BASE_URL='http://sth.example.com/')
     @httpretty.activate
     def test_saptranslationhub_invalid(self):
         cache.delete('{0}-languages'.format(SAPTranslationHub().mtid))

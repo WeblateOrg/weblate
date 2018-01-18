@@ -36,7 +36,7 @@ class SAPTranslationHub(MachineTranslation):
     def __init__(self):
         """Check configuration."""
         super(SAPTranslationHub, self).__init__()
-        if settings.MT_SAP_TRANSLATION_HUB_BASE_URL is None:
+        if settings.MT_SAP_BASE_URL is None:
             raise MissingConfiguration(
                 'missing SAP Translation Hub configuration'
             )
@@ -44,16 +44,16 @@ class SAPTranslationHub(MachineTranslation):
     def authenticate(self, request):
         """Hook for backends to allow add authentication headers to request."""
         # to access the sandbox
-        if settings.MT_SAP_TRANSLATION_HUB_SANDBOX_APIKEY is not None:
+        if settings.MT_SAP_SANDBOX_APIKEY is not None:
             request.add_header(
                 'APIKey',
-                settings.MT_SAP_TRANSLATION_HUB_SANDBOX_APIKEY.encode('utf-8')
+                settings.MT_SAP_SANDBOX_APIKEY.encode('utf-8')
             )
 
         # to access the productive API
-        if settings.MT_SAP_TRANSLATION_HUB_USERNAME is not None \
-           and settings.MT_SAP_TRANSLATION_HUB_PASSWORD is not None:
-            credentials = settings.MT_SAP_TRANSLATION_HUB_USERNAME + ':' + settings.MT_SAP_TRANSLATION_HUB_PASSWORD
+        if settings.MT_SAP_USERNAME is not None \
+           and settings.MT_SAP_PASSWORD is not None:
+            credentials = settings.MT_SAP_USERNAME + ':' + settings.MT_SAP_TRANSLATION_HUB_PASSWORD
             request.add_header(
                 'Authorization',
                 'Basic ' + base64.b64encode(credentials.encode('utf-8'))
@@ -63,7 +63,7 @@ class SAPTranslationHub(MachineTranslation):
         """Get all available languages from SAP Translation Hub"""
 
         # get all available languages
-        languages_url = settings.MT_SAP_TRANSLATION_HUB_BASE_URL + 'languages'
+        languages_url = settings.MT_SAP_BASE_URL + 'languages'
         response = self.json_req(languages_url.encode('utf-8'))
 
         lang = [d['id'] for d in response['languages']]
@@ -74,8 +74,8 @@ class SAPTranslationHub(MachineTranslation):
 
         # should the machine translation service be used? (rather than only the term database)
         enable_mt = False
-        if isinstance(settings.MT_SAP_TRANSLATION_HUB_USE_MT, bool):
-            enable_mt = settings.MT_SAP_TRANSLATION_HUB_USE_MT
+        if isinstance(settings.MT_SAP_USE_MT, bool):
+            enable_mt = settings.MT_SAP_USE_MT
 
         # build the json body
         request_data_as_bytes = json.dumps({'targetLanguages': [language], \
@@ -87,7 +87,7 @@ class SAPTranslationHub(MachineTranslation):
                                             ensure_ascii=False).encode('utf-8')
 
         # create the request
-        translation_url = settings.MT_SAP_TRANSLATION_HUB_BASE_URL + 'translate'
+        translation_url = settings.MT_SAP_BASE_URL + 'translate'
         request = Request(translation_url.encode("utf-8"))
         request.timeout = 0.5
         request.add_header('User-Agent', USER_AGENT.encode('utf-8'))

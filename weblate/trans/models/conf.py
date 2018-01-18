@@ -69,11 +69,11 @@ class WeblateConf(AppConf):
     MT_TMSERVER = None
 
     # SAP Translation Hub
-    MT_SAP_TRANSLATION_HUB_BASE_URL = None
-    MT_SAP_TRANSLATION_HUB_SANDBOX_APIKEY = None
-    MT_SAP_TRANSLATION_HUB_USERNAME = None
-    MT_SAP_TRANSLATION_HUB_PASSWORD = None
-    MT_SAP_TRANSLATION_HUB_USE_MT = True
+    MT_SAP_BASE_URL = None
+    MT_SAP_SANDBOX_APIKEY = None
+    MT_SAP_USERNAME = None
+    MT_SAP_PASSWORD = None
+    MT_SAP_USE_MT = True
 
     # Limit (in seconds) for Weblate machine translation
     MT_WEBLATE_LIMIT = 15

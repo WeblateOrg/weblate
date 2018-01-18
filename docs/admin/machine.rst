@@ -240,19 +240,19 @@ To enable this service, add ``weblate.trans.machine.saptranslationhub.SAPTransla
 
 ... note::
 
-    To access the Sandbox API, you need to set :setting:`MT_SAP_TRANSLATION_HUB_BASE_URL` 
-    and :setting:`MT_SAP_TRANSLATION_HUB_SANDBOX_APIKEY`.
+    To access the Sandbox API, you need to set :setting:`MT_SAP_BASE_URL`
+    and :setting:`MT_SAP_SANDBOX_APIKEY`.
     
-    To access the productive API, you need to set :setting:`MT_SAP_TRANSLATION_HUB_BASE_URL`,
-    :setting:`MT_SAP_TRANSLATION_HUB_USERNAME` and :setting:`MT_SAP_TRANSLATION_HUB_PASSWORD`.
+    To access the productive API, you need to set :setting:`MT_SAP_BASE_URL`,
+    :setting:`MT_SAP_USERNAME` and :setting:`MT_SAP_TRANSLATION_HUB_PASSWORD`.
 
 .. seealso::
 
-    :setting:`MT_SAP_TRANSLATION_HUB_BASE_URL`,
-    :setting:`MT_SAP_TRANSLATION_HUB_SANDBOX_APIKEY`,
-    :setting:`MT_SAP_TRANSLATION_HUB_USERNAME`,
-    :setting:`MT_SAP_TRANSLATION_HUB_PASSWORD`,
-    :setting:`MT_SAP_TRANSLATION_HUB_USE_MT`
+    :setting:`MT_SAP_BASE_URL`,
+    :setting:`MT_SAP_SANDBOX_APIKEY`,
+    :setting:`MT_SAP_USERNAME`,
+    :setting:`MT_SAP_PASSWORD`,
+    :setting:`MT_SAP_USE_MT`
     `SAP Translation Hub API <https://api.sap.com/shell/discover/contentpackage/SAPTranslationHub/api/translationhub>`_
 
 Custom machine translation
