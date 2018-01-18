@@ -46,6 +46,7 @@
     <th>{% trans "Last occurence" %}</th>
     <th>{% trans "Name" %}</th>
     <th>{% trans "Message" %}</th>
+    <th></th>
   </tr>
   </thead>
   <tbody>
@@ -54,6 +55,13 @@
       <td>{{ error.timestamp }}</td>
       <td>{{ error.name }}</td>
       <td><pre>{{ error.message }}</pre></td>
+      <td>
+      <form method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="dismiss" value="{{ error.pk }}"/>
+      <input type="submit" value="{% trans "Dismiss" %}" />
+      </form>
+      </td>
   </tr>
   {% endfor %}
   </tbody>

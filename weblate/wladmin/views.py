@@ -23,7 +23,7 @@ from __future__ import unicode_literals
 import os.path
 
 from django.conf import settings
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.utils.translation import ugettext as _
 
 import six
@@ -36,6 +36,7 @@ from weblate.trans.ssh import (
     generate_ssh_key, get_key_data, add_host_key,
     get_host_keys, can_generate_key
 )
+from weblate.utils import messages
 from weblate.utils.site import get_site_url, get_site_domain
 from weblate.wladmin.models import ConfigurationError
 import weblate
@@ -69,8 +70,21 @@ def get_first_loader():
     return loaders[0][0]
 
 
+def handle_dismiss(request):
+    try:
+        error = ConfigurationError.objects.get(
+            pk=int(request.POST['dismiss'])
+        )
+        error.delete()
+    except (ValueError, KeyError, ConfigurationError.DoesNotExist):
+        messages.error(request, _('Failed to dismiss configuration error!'))
+    return redirect('admin:performance')
+
+
 def performance(request, admin_site):
     """Show performance tuning tips."""
+    if request.method == 'POST':
+        return handle_dismiss(request)
     checks = []
     # Check for debug mode
     checks.append((
