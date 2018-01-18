@@ -16,6 +16,7 @@ Released on ? 2018.
 * Configuration errors are now stored and reported persistently.
 * Honor ignore flags in whitespace autofixer.
 * Improved compatibility with some Subversion setups.
+* Improved built in machine translation service.
 
 weblate 2.18
 ------------
