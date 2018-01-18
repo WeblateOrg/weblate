@@ -277,49 +277,22 @@ class MicrosoftTerminologyService(MachineTranslation):
         results = root.find(self.MS_TM_XPATH + 'GetTranslationsResult')
         if results is not None:
             for translation in results:
-                translations.append({
-                    'text': translation.find(xp_translated).text,
-                    'quality': int(translation.find(xp_confidence).text),
-                    'service': self.name,
-                    'source': translation.find(xp_original).text,
-                })
+                translations.append((
+                    translation.find(xp_translated).text,
+                    int(translation.find(xp_confidence).text),
+                    self.name,
+                    translation.find(xp_original).text,
+                ))
         return translations
 
-    def translate(self, language, text, unit, user):
-        """Return list of machine translations."""
-        if text == '':
-            return []
+    def convert_language(self, language):
+        """Convert language to service specific code.
 
-        language = self.convert_language(language)
-        source = self.convert_language(
-            unit.translation.subproject.project.source_language.code
-        )
-        if not self.is_supported(source, language):
-            # Try adding country code from DEFAULT_LANGS
-            if '-' not in language or '_' not in language:
-                for lang in DEFAULT_LANGS:
-                    if lang.split('_')[0] == language:
-                        language = lang.replace('_', '-').lower()
-                        break
-            if '-' not in source or '_' not in source:
-                for lang in DEFAULT_LANGS:
-                    if lang.split('_')[0] == source:
-                        source = lang.replace('_', '-').lower()
-                        break
-            if source == language:
-                return []
-            if not self.is_supported(source, language):
-                return []
-        try:
-            return self.download_translations(
-                source, language, text, unit, user
-            )
-        except Exception as exc:
-            self.report_error(
-                exc,
-                'Failed to fetch translations from %s',
-            )
-            raise MachineTranslationError('{0}: {1}'.format(
-                exc.__class__.__name__,
-                str(exc)
-            ))
+        Add country part of locale if missing.
+        """
+        language = language.replace('_', '-').lower()
+        if '-' not in language:
+            for lang in DEFAULT_LANGS:
+                if lang.split('_')[0] == language:
+                    return lang.replace('_', '-').lower()
+        return language
