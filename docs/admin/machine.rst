@@ -128,6 +128,24 @@ To enable this service, add ``weblate.trans.machine.microsoft.MicrosoftCognitive
     `Cognitive Services - Text Translation API <http://docs.microsofttranslator.com/text-translate.html>`_,
     `Microsoft Azure Portal <https://portal.azure.com/>`_
 
+.. _ms-terminology:
+
+Microsoft Terminology Service
+-----------------------------
+
+.. versionadded:: 2.19
+
+The Microsoft Terminology Service API allows you to programmatically access the
+terminology, definitions and user interface (UI) strings available on the
+Language Portal through a web service.
+
+To enable this service, add ``weblate.trans.machine.microsoft.MicrosoftTerminologyService`` to
+:setting:`MACHINE_TRANSLATION_SERVICES`.
+
+.. seealso::
+
+    `Microsoft Terminology Service API <https://www.microsoft.com/en-us/language/Microsoft-Terminology-API>`_
+
 .. _mymemory:
 
 MyMemory
