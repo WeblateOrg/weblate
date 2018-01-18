@@ -62,5 +62,8 @@ class ConfigurationError(models.Model):
 
     objects = ConfigurationErrorManager()
 
+    class Meta(object):
+        ordering = ['-timestamp']
+
     def __str__(self):
         return self.name
