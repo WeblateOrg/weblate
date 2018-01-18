@@ -251,43 +251,37 @@ class MicrosoftTerminologyService(MachineTranslation):
 
     def download_languages(self):
         """Get list of supported languages."""
-        soap_action = 'GetLanguages'
-        soap_target = 'GetLanguagesResult'
-        soap_target_envelop = 'Code'
+        xp_code = self.MS_TM_XPATH + 'Code'
         languages = []
-        xpath = self.MS_TM_XPATH
         resp = self.soap_status_req(self.MS_TM_API_URL,
-                                    soap_action=soap_action)
+                                    soap_action='GetLanguages')
         root = ET.fromstring(resp.read())
-        results = root.find(xpath + soap_target)
+        results = root.find(self.MS_TM_XPATH + 'GetLanguagesResult')
         if results is not None:
             for lang in results:
-                languages.append(lang.find(xpath + soap_target_envelop).text)
+                languages.append(lang.find(xp_code).text)
         return languages
 
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from the service."""
-        soap_action = 'GetTranslations'
-        soap_target = 'GetTranslationsResult'
-        soap_target_translated = 'TranslatedText'
-        soap_target_confidence = 'ConfidenceLevel'
-        soap_target_original = 'OriginalText'
         translations = []
-        xpath = self.MS_TM_XPATH
+        xp_translated = self.MS_TM_XPATH + 'TranslatedText'
+        xp_confidence = self.MS_TM_XPATH + 'ConfidenceLevel'
+        xp_original = self.MS_TM_XPATH + 'OriginalText'
         resp = self.soap_status_req(self.MS_TM_API_URL,
-                                    soap_action=soap_action,
+                                    soap_action='GetTranslations',
                                     source=source,
                                     language=language,
                                     text=text)
         root = ET.fromstring(resp.read())
-        results = root.find(xpath + soap_target)
+        results = root.find(self.MS_TM_XPATH + 'GetTranslationsResult')
         if results is not None:
             for translation in results:
                 translations.append({
-                    'text': translation.find(xpath + soap_target_translated).text,
-                    'quality': int(translation.find(xpath + soap_target_confidence).text),
+                    'text': translation.find(xp_translated).text,
+                    'quality': int(translation.find(xp_confidence).text),
                     'service': self.name,
-                    'source': translation.find(xpath + soap_target_original).text,
+                    'source': translation.find(xp_original).text,
                 })
         return translations
 
