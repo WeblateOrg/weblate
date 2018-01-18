@@ -11,31 +11,6 @@
 
 {% block content %}
 <div id="content-main">
-  <h1>{% trans "Performance report" %}</h1>
-  <div id="changelist" class="module filtered">
-    <div class="results">
-  <table id="result_list" class="orderable-initalized">
-  <thead>
-  <tr>
-    <th>{% trans "Check" %}</th>
-    <th>{% trans "Status" %}</th>
-    <th>{% trans "Result" %}</th>
-    <th>{% trans "Documentation" %}</th>
-  </tr>
-  </thead>
-  <tbody>
-  {% for check in checks %}
-  <tr class="row{% cycle '1' '2' %}">
-      <td>{{ check.0 }}</td>
-      <td>{{ check.3 }}</td>
-      <td>{% admin_boolean_icon check.1 %}</td>
-      <td><a href="{% documentation "admin/install" check.2 %}">{% trans "Documentation" %}</a></td>
-  </tr>
-  {% endfor %}
-  </tbody>
-  </table>
-    </div>
-  </div>
   {% if errors %}
   <h1>{% trans "Configuration errors" %}</h1>
   <div id="changelist" class="module filtered">
@@ -69,6 +44,32 @@
     </div>
   </div>
   {% endif %}
+
+  <h1>{% trans "Performance report" %}</h1>
+  <div id="changelist" class="module filtered">
+    <div class="results">
+  <table id="result_list" class="orderable-initalized">
+  <thead>
+  <tr>
+    <th>{% trans "Check" %}</th>
+    <th>{% trans "Status" %}</th>
+    <th>{% trans "Result" %}</th>
+    <th>{% trans "Documentation" %}</th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for check in checks %}
+  <tr class="row{% cycle '1' '2' %}">
+      <td>{{ check.0 }}</td>
+      <td>{{ check.3 }}</td>
+      <td>{% admin_boolean_icon check.1 %}</td>
+      <td><a href="{% documentation "admin/install" check.2 %}">{% trans "Documentation" %}</a></td>
+  </tr>
+  {% endfor %}
+  </tbody>
+  </table>
+    </div>
+  </div>
 </div>
 {% endblock %}
 
