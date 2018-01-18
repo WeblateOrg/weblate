@@ -686,16 +686,16 @@ class SubversionRepository(GitRepository):
         return cls._popen(['svn', '--version']).split()[2]
 
     def configure_remote(self, pull_url, push_url, branch):
-        """Initialize the git-svn repository."""
-        try:
-            oldurl = self.get_config('svn-remote.svn.url')
-        except RepositoryException:
-            oldurl = pull_url
-            self.execute(
-                ['svn', 'init', '-s', '--prefix=origin/', pull_url, self.path]
-            )
-        if oldurl != pull_url:
-            self.set_config('svn-remote.svn.url', pull_url)
+        """Initialize the git-svn repository.
+
+        This does not support switching remote as it's quite complex:
+        https://git.wiki.kernel.org/index.php/GitSvnSwitch
+
+        The git svn init errors in case the URL is not matching.
+        """
+        self.execute(
+            ['svn', 'init', '-s', '--prefix=origin/', pull_url, self.path]
+        )
 
     @classmethod
     def _clone(cls, source, target, branch=None):

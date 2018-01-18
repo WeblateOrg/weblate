@@ -15,6 +15,7 @@ Released on ? 2018.
 * Compatibility with django_auth_ldap 1.3.0.
 * Configuration errors are now stored and reported persistently.
 * Honor ignore flags in whitespace autofixer.
+* Improved compatibility with some Subversion setups.
 
 weblate 2.18
 ------------

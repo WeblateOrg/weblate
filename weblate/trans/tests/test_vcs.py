@@ -421,17 +421,26 @@ class VCSSubversionTest(VCSGitTest):
         self.assertIn('nothing to commit', status)
 
     def test_configure_remote(self):
-        self.repo.configure_remote('pullurl', 'pushurl', 'branch')
+        with self.repo.lock:
+            with self.assertRaises(RepositoryException):
+                self.repo.configure_remote('pullurl', 'pushurl', 'branch')
         self.verify_pull_url()
 
     def test_configure_remote_no_push(self):
-        self.repo.configure_remote('pullurl', '', 'branch')
+        with self.repo.lock:
+            self.repo.configure_remote(
+                self.format_local_path(self.subversion_repo_path),
+                self.format_local_path(self.subversion_repo_path),
+                'trunk'
+            )
+            with self.assertRaises(RepositoryException):
+                self.repo.configure_remote('pullurl', '', 'branch')
         self.verify_pull_url()
 
     def verify_pull_url(self):
         self.assertEqual(
             self.repo.get_config('svn-remote.svn.url'),
-            'pullurl',
+            self.format_local_path(self.subversion_repo_path),
         )
 
 
