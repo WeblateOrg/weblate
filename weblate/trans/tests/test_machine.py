@@ -120,6 +120,111 @@ SAPTRANSLATIONHUB_JSON = '''
 }
 '''.encode('utf-8')
 
+TERMINOLOGY_LANGUAGES = '''
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+  <s:Body>
+    <GetLanguagesResponse xmlns="http://api.terminology.microsoft.com/terminology">
+      <GetLanguagesResult xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+        <Language>
+          <Code>af-za</Code>
+        </Language>
+        <Language>
+          <Code>am-et</Code>
+        </Language>
+        <Language>
+          <Code>ar-dz</Code>
+        </Language>
+        <Language>
+          <Code>ar-eg</Code>
+        </Language>
+        <Language>
+          <Code>ar-sa</Code>
+        </Language>
+        <Language>
+          <Code>as-in</Code>
+        </Language>
+        <Language>
+          <Code>az-latn-az</Code>
+        </Language>
+        <Language>
+          <Code>be-by</Code>
+        </Language>
+        <Language>
+          <Code>bg-bg</Code>
+        </Language>
+        <Language>
+          <Code>bn-bd</Code>
+        </Language>
+        <Language>
+          <Code>bn-in</Code>
+        </Language>
+        <Language>
+          <Code>bs-cyrl-ba</Code>
+        </Language>
+        <Language>
+          <Code>bs-latn-ba</Code>
+        </Language>
+        <Language>
+          <Code>ca-es</Code>
+        </Language>
+        <Language>
+          <Code>ca-es-valencia</Code>
+        </Language>
+        <Language>
+          <Code>chr-cher-us</Code>
+        </Language>
+        <Language>
+          <Code>cs-cz</Code>
+        </Language>
+        <Language>
+          <Code>en-us</Code>
+        </Language>
+      </GetLanguagesResult>
+    </GetLanguagesResponse>
+  </s:Body>
+</s:Envelope>
+'''.encode('utf-8')
+TERMINOLOGY_TRANSLATE = '''
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+  <s:Body>
+    <GetTranslationsResponse xmlns="http://api.terminology.microsoft.com/terminology">
+      <GetTranslationsResult xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+        <Match>
+          <ConfidenceLevel>100</ConfidenceLevel>
+          <Count>8</Count>
+          <Definition i:nil="true"/>
+          <OriginalText>Hello World</OriginalText>
+          <Product i:nil="true"/>
+          <ProductVersion i:nil="true"/>
+          <Source i:nil="true"/>
+          <Translations>
+            <Translation>
+              <Language>cs-cz</Language>
+              <TranslatedText>Hello World</TranslatedText>
+            </Translation>
+          </Translations>
+        </Match>
+        <Match>
+          <ConfidenceLevel>100</ConfidenceLevel>
+          <Count>1</Count>
+          <Definition i:nil="true"/>
+          <OriginalText>Hello world.</OriginalText>
+          <Product i:nil="true"/>
+          <ProductVersion i:nil="true"/>
+          <Source i:nil="true"/>
+          <Translations>
+            <Translation>
+              <Language>cs-cz</Language>
+              <TranslatedText>Ahoj sv&#x11B;te.</TranslatedText>
+            </Translation>
+          </Translations>
+        </Match>
+      </GetTranslationsResult>
+    </GetTranslationsResponse>
+  </s:Body>
+</s:Envelope>
+'''.encode('utf-8')
+
 class MachineTranslationTest(TestCase):
     """Testing of machine translation core."""
     def test_support(self):
@@ -273,50 +378,33 @@ class MachineTranslationTest(TestCase):
 
     @httpretty.activate
     def test_microsoft_terminology(self):
+        def request_callback(request, uri, headers):
+            if b'GetLanguages' in request.body:
+                return (200, headers, TERMINOLOGY_LANGUAGES)
+            return (200, headers, TERMINOLOGY_TRANSLATE)
+
         httpretty.register_uri(
             httpretty.POST,
             'http://api.terminology.microsoft.com/Terminology.svc',
-            body="""
-                <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
-                  xmlns="http://api.terminology.microsoft.com/terminology">
-                  <soapenv:Header/>
-                  <soapenv:Body>
-                    <GetLanguages/>
-                  </soapenv:Body>
-                </soapenv:Envelope>
-            """,
+            body=request_callback,
             content_type='text/xml',
-            adding_headers={'SOAPAction': ('"http://api.terminology.microsoft.com/terminology/Terminology/GetLanguages"')}
-        )
-        httpretty.register_uri(
-            httpretty.POST,
-            'http://api.terminology.microsoft.com/Terminology.svc',
-            body="""
-                    <soap-env:Envelope xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/">
-                        <soap-env:Header>
-                            <wsa:Action xmlns:wsa="http://www.w3.org/2005/08/addressing">http://api.terminology.microsoft.com/terminology/Terminology/GetTranslations</wsa:Action>
-                            <wsa:MessageID xmlns:wsa="http://www.w3.org/2005/08/addressing">urn:uuid:15534598-4744-485b-a901-e1dcf8b3ff67</wsa:MessageID>
-                            <wsa:To xmlns:wsa="http://www.w3.org/2005/08/addressing">http://api.terminology.microsoft.com/Terminology.svc</wsa:To>
-                        </soap-env:Header>
-                        <soap-env:Body>
-                            <ns0:GetTranslations xmlns:ns0="http://api.terminology.microsoft.com/terminology">
-                                <ns0:text>world</ns0:text>
-                                <ns0:from>en-US</ns0:from>
-                                <ns0:to>es-MX</ns0:to>
-                                <ns0:sources>
-                                    <ns0:TranslationSource>Terms</ns0:TranslationSource>
-                                    <ns0:TranslationSource>UiStrings</ns0:TranslationSource>
-                                </ns0:sources>
-                                <ns0:maxTranslations>5</ns0:maxTranslations>
-                            </ns0:GetTranslations>
-                        </soap-env:Body>
-                    </soap-env:Envelope>""",
-            content_type='text/xml',
-            adding_headers={'SOAPAction': ('"http://api.terminology.microsoft.com/terminology/Terminology/GetTranslations"')}
         )
         machine = MicrosoftTerminologyService()
         self.assert_translate(machine)
-        self.assert_translate(machine, lang='es-MX')
+        self.assert_translate(machine, lang='cs_CZ')
+
+    @httpretty.activate
+    def test_microsoft_terminology_error(self):
+        httpretty.register_uri(
+            httpretty.POST,
+            'http://api.terminology.microsoft.com/Terminology.svc',
+            body='',
+            content_type='text/xml',
+            status=500,
+        )
+        machine = MicrosoftTerminologyService()
+        self.assertEqual(machine.supported_languages, [])
+        self.assert_translate(machine, empty=True)
 
     @override_settings(MT_GOOGLE_KEY='KEY')
     @httpretty.activate
