@@ -333,6 +333,7 @@ MIDDLEWARE = [
     'social_django.middleware.SocialAuthExceptionMiddleware',
     'weblate.accounts.middleware.RequireLoginMiddleware',
     'weblate.middleware.SecurityMiddleware',
+    'weblate.wladmin.middleware.ConfigurationErrorsMiddleware',
 ]
 
 ROOT_URLCONF = 'weblate.urls'

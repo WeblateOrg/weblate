@@ -140,11 +140,6 @@ def add_configuration_error(name, message):
     cache.set('configuration-errors', errors)
 
 
-def get_configuration_errors():
-    """Return all configuration errors."""
-    return cache.get('configuration-errors', [])
-
-
 def get_clean_env(extra=None):
     """Return cleaned up environment for subprocess execution."""
     environ = {

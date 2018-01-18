@@ -31,14 +31,13 @@ import six
 from weblate.trans.models import SubProject, IndexUpdate
 from weblate import settings_example
 from weblate.accounts.avatar import HAS_LIBRAVATAR
-from weblate.trans.util import (
-    get_configuration_errors, HAS_PYUCA, check_domain
-)
+from weblate.trans.util import HAS_PYUCA, check_domain
 from weblate.trans.ssh import (
     generate_ssh_key, get_key_data, add_host_key,
     get_host_keys, can_generate_key
 )
 from weblate.utils.site import get_site_url, get_site_domain
+from weblate.wladmin.models import ConfigurationError
 import weblate
 
 
@@ -216,7 +215,7 @@ def performance(request, admin_site):
 
     context = admin_site.each_context(request)
     context['checks'] = checks
-    context['errors'] = get_configuration_errors()
+    context['errors'] = ConfigurationError.objects.all()
 
     return render(
         request,

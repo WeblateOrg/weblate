@@ -35,14 +35,22 @@ class WeblateModelAdmin(ModelAdmin):
 
 
 class ConfigurationErrorManager(models.Manager):
-    def add(self, name, message):
+    def add(self, name, message, timestamp=None):
+        if timestamp is None:
+            timestamp = timezone.now()
         obj, created = self.get_or_create(
             name=name,
-            defaults={'message': message}
+            defaults={
+                'message': message,
+                'timestamp': timestamp,
+            }
         )
-        if not created and obj.message != message:
+        if created:
+            return obj
+        if obj.message != message or obj.timestamp != timestamp:
             obj.message = message
-            obj.save(update_fields=['message'])
+            obj.timestamp = timestamp
+            obj.save(update_fields=['message', 'timestamp'])
         return obj
 
 
