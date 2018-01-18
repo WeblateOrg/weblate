@@ -25,6 +25,7 @@ from weblate.wladmin.models import WeblateModelAdmin
 
 class GroupACLAdmin(WeblateModelAdmin):
     list_display = ['language', 'project_subproject', 'group_list']
+    filter_horizontal = ('permissions', 'groups')
 
     def group_list(self, obj):
         groups = obj.groups.values_list('name', flat=True)
