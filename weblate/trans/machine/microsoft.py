@@ -213,8 +213,7 @@ class MicrosoftTerminologyService(MachineTranslation):
             'Content-Type': 'text/xml; charset=utf-8'
         }
         if soap_action == 'GetLanguages':
-            payload = {'xmlns': self.MS_TM_SOAP_XMLNS,
-                       'soap_action': soap_action}
+            payload = {'soap_action': soap_action}
             template = get_template('trans/machine/microsoft_terminology_get_langs.jinja')
         elif soap_action == 'GetTranslations':
             source = kwargs.get('source', '')
@@ -224,7 +223,6 @@ class MicrosoftTerminologyService(MachineTranslation):
             if soap_action and source and language and text:
                 payload = {'action': action,
                            'url': url,
-                           'xmlns': self.MS_TM_SOAP_XMLNS,
                            'uuid': uuid4(),
                            'text': text,
                            'from_lang': source,
