@@ -13,6 +13,7 @@ Released on ? 2018.
 * Added option to disable access management in Weblate in favor of Django one.
 * Improved glossary lookup speed for large strings.
 * Compatibility with django_auth_ldap 1.3.0.
+* Configuration errors are now stored and reported persistently.
 
 weblate 2.18
 ------------

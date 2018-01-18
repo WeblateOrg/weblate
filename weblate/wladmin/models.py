@@ -19,6 +19,9 @@
 #
 
 from django.contrib.admin import ModelAdmin
+from django.db import models
+from django.utils import timezone
+from django.utils.encoding import python_2_unicode_compatible
 
 
 class WeblateModelAdmin(ModelAdmin):
@@ -28,3 +31,28 @@ class WeblateModelAdmin(ModelAdmin):
         'wladmin/delete_confirmation.html'
     delete_selected_confirmation_template = \
         'wladmin/delete_selected_confirmation.html'
+
+
+
+class ConfigurationErrorManager(models.Manager):
+    def add(self, name, message):
+        obj, created = self.get_or_create(
+            name=name,
+            defaults={'message': message}
+        )
+        if not created and obj.message != message:
+            obj.message = message
+            obj.save(update_fields=['message'])
+        return obj
+
+
+@python_2_unicode_compatible
+class ConfigurationError(models.Model):
+    name = models.CharField(unique=True, max_length=150)
+    message = models.TextField()
+    timestamp = models.DateTimeField(default=timezone.now, db_index=True)
+
+    objects = ConfigurationErrorManager()
+
+    def __str__(self):
+        return self.name

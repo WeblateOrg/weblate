@@ -24,9 +24,12 @@ import os
 import sys
 import unicodedata
 
+from django.apps import apps
 from django.core.cache import cache
+from django.db.utils import OperationalError
 from django.http import HttpResponseRedirect
 from django.shortcuts import resolve_url, render as django_render, redirect
+from django.utils import timezone
 from django.utils.encoding import force_text
 from django.utils.http import is_safe_url
 from django.utils.translation import ugettext as _, ugettext_lazy
@@ -116,11 +119,23 @@ def translation_percent(translated, total):
 
 
 def add_configuration_error(name, message):
-    """Log configuration error."""
+    """Log configuration error.
+
+    Uses cache in case database is not yet ready."""
+    if apps.models_ready:
+        from weblate.wladmin.models import ConfigurationError
+        try:
+            ConfigurationError.objects.add(name, message)
+            return
+        except OperationalError:
+            # The table does not have to be created yet (eg. migration
+            # is about to be executed)
+            pass
     errors = cache.get('configuration-errors', [])
     errors.append({
         'name': name,
         'message': message,
+        'timestamp': timezone.now(),
     })
     cache.set('configuration-errors', errors)
 
