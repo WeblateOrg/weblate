@@ -57,10 +57,10 @@ class WeblateTranslation(WeblateBase):
             translation__subproject__project__in=Project.objects.all_acl(user)
         ).same_source(unit)
 
-        return [
+        return list(set((
             self.format_unit_match(munit, 100)
             for munit in matching_units
-        ]
+        )))
 
 
 class WeblateSimilarTranslation(WeblateBase):
@@ -73,7 +73,7 @@ class WeblateSimilarTranslation(WeblateBase):
             translation__subproject__project__in=Project.objects.all_acl(user)
         ).more_like_this(unit, 1000)
 
-        return [
+        return list(set((
             self.format_unit_match(munit, munit.score)
             for munit in matching_units
-        ]
+        )))
