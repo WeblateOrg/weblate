@@ -87,6 +87,19 @@ class AutoFixTest(TestCase):
             (['Bar'], True)
         )
 
+    def test_whitespace_flags(self):
+        fix = SameBookendingWhitespace()
+        unit = MockUnit(source='str', flags='ignore-start-space')
+        self.assertEqual(
+            fix.fix_target(['  str'], unit),
+            (['  str'], False)
+        )
+        unit = MockUnit(source='str', flags='ignore-end-space')
+        self.assertEqual(
+            fix.fix_target(['  str  '], unit),
+            (['str  '], True)
+        )
+
     def test_zerospace(self):
         unit = MockUnit(source='Foo\u200b')
         fix = RemoveZeroSpace()

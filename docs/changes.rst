@@ -14,6 +14,7 @@ Released on ? 2018.
 * Improved glossary lookup speed for large strings.
 * Compatibility with django_auth_ldap 1.3.0.
 * Configuration errors are now stored and reported persistently.
+* Honor ignore flags in whitespace autofixer.
 
 weblate 2.18
 ------------
