@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<soap-env:Envelope xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap-env:Header>
+        <wsa:MessageID xmlns:wsa="http://www.w3.org/2005/08/addressing">urn:uuid:{{uuid}}</wsa:MessageID>
+    </soap-env:Header>
+    <soap-env:Body>
+        <ns0:GetTranslations xmlns:ns0="http://api.terminology.microsoft.com/terminology">
+            <ns0:text>{{text}}</ns0:text>
+            <ns0:from>{{from_lang}}</ns0:from>
+            <ns0:to>{{to_lang}}</ns0:to>
+            <ns0:sources>
+                <ns0:TranslationSource>Terms</ns0:TranslationSource>
+                <ns0:TranslationSource>UiStrings</ns0:TranslationSource>
+            </ns0:sources>
+            <ns0:maxTranslations>{{max_result}}</ns0:maxTranslations>
+            <ns0:operator>AnyWord</ns0:operator>
+        </ns0:GetTranslations>
+    </soap-env:Body>
+</soap-env:Envelope>

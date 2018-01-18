@@ -18,6 +18,7 @@ Released on ? 2018.
 * Improved compatibility with some Subversion setups.
 * Improved built in machine translation service.
 * Added support for SAP Translation Hub service.
+* Added support for Microsoft Terminology service.
 
 weblate 2.18
 ------------
