@@ -202,7 +202,7 @@ class MicrosoftTerminologyService(MachineTranslation):
     MS_TM_SOAP_HEADER = '{xmlns}/Terminology/'.format(xmlns=MS_TM_SOAP_XMLNS)
     MS_TM_XPATH = './/{{{xmlns}}}'.format(xmlns=MS_TM_SOAP_XMLNS)
 
-    def soap_req(self, url, http_post=False, skip_auth=False, **kwargs):
+    def soap_status_req(self, url, **kwargs):
         soap_action = kwargs.get('soap_action', '')
         url = self.MS_TM_API_URL
         action = self.MS_TM_SOAP_HEADER + soap_action
@@ -245,39 +245,11 @@ class MicrosoftTerminologyService(MachineTranslation):
             handle = urlopen(request)
         except Exception as error:
             raise MachineTranslationError('{err}'.format(err=error))
+
+        if handle.code != 200:
+            raise MachineTranslationError(response.msg)
+
         return handle
-
-    def json_req(self, url, http_post=False, skip_auth=False, raw=False,
-                 **kwargs):
-        """Adapter to soap_req"""
-
-        response = self.soap_req(
-            url, http_post=False, skip_auth=True, raw=True, **kwargs)
-
-        return response
-
-    def soap_status_req(self, url, http_post=False, skip_auth=False, **kwargs):
-        """Perform SOAP request with checking response status."""
-        # Perform request
-        response = self.soap_req(url, http_post, skip_auth, **kwargs)
-
-        if response.code != 200:
-            raise MachineTranslationError(response.msg)
-
-        return response
-
-    def json_status_req(self, url, http_post=False, skip_auth=False, **kwargs):
-        """Perform SOAP request with checking response status."""
-        # Perform request
-        response = self.soap_status_req(url,
-                                        http_post,
-                                        skip_auth=True,
-                                        **kwargs)
-
-        if response.code != 200:
-            raise MachineTranslationError(response.msg)
-
-        return response
 
     def download_languages(self):
         """Get list of supported languages."""
