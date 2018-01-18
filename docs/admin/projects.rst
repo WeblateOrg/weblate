@@ -149,6 +149,8 @@ Component is real component for translating. You enter VCS repository location
 and file mask for which files to translate and Weblate automatically fetches from the VCS
 and finds all matching translatable files.
 
+You can find some examples of typical configurations in the :ref:`formats`.
+
 .. note::
 
     It is recommended to have translation components of reasonable size - split

@@ -71,6 +71,18 @@ The bilingual gettext PO file typically looks like:
     msgid "None"
     msgstr "Žádný"
 
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| File mask                      | ``po/*.po``                      |
++--------------------------------+----------------------------------+
+| Monolingual base language file | `Empty`                          |
++--------------------------------+----------------------------------+
+| Base file for new translations | ``po/messages.pot``              |
++--------------------------------+----------------------------------+
+| File format                    | `Gettext PO file`                |
++--------------------------------+----------------------------------+
+
 .. seealso::
 
    `Gettext on Wikipedia <https://en.wikipedia.org/wiki/Gettext>`_,
@@ -115,6 +127,18 @@ While the base language file will be:
     #: weblate/accounts/avatar.py:163
     msgid "none-user"
     msgstr "None"
+
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| File mask                      | ``po/*.po``                      |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``po/en.po``                     |
++--------------------------------+----------------------------------+
+| Base file for new translations | ``po/messages.pot``              |
++--------------------------------+----------------------------------+
+| File format                    | `Gettext PO file (monolingual)`  |
++--------------------------------+----------------------------------+
 
 .. _xliff:
 
@@ -166,6 +190,18 @@ For example:
     </target>
         </trans-unit>
 
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| File mask                      | ``localizations/*.xliff``        |
++--------------------------------+----------------------------------+
+| Monolingual base language file | `Empty`                          |
++--------------------------------+----------------------------------+
+| Base file for new translations | ``localizations/en-US.xliff``    |
++--------------------------------+----------------------------------+
+| File format                    | `XLIFF Translation File`         |
++--------------------------------+----------------------------------+
+
 .. seealso::
 
     `XLIFF on Wikipedia <https://en.wikipedia.org/wiki/XLIFF>`_,
@@ -183,6 +219,18 @@ Java properties are usually used as monolingual.
 
 Weblate supports ISO-8859-1, UTF-8 and UTF-16 variants of this format.
 
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| File mask                      | ``src/app/Bundle_*.properties``  |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``src/app/Bundle.properties``    |
++--------------------------------+----------------------------------+
+| Base file for new translations | `Empty`                          |
++--------------------------------+----------------------------------+
+| File format                    | `Java Properties (ISO-8859-1)`   |
++--------------------------------+----------------------------------+
+
 .. seealso::
 
     `Java properties on Wikipedia <https://en.wikipedia.org/wiki/.properties>`_,
@@ -199,6 +247,18 @@ Joomla translations
 Native Joomla format for translations.
 
 Joomla translations are usually used as monolingual.
+
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| File mask                      | ``language/*/com_foobar.ini``    |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``language/en-GB/com_foobar.ini``|
++--------------------------------+----------------------------------+
+| Base file for new translations | `Empty`                          |
++--------------------------------+----------------------------------+
+| File format                    | `Joomla Language File`           |
++--------------------------------+----------------------------------+
 
 .. note::
 
@@ -220,6 +280,18 @@ Translation format used in Qt based applications.
 
 Qt Linguist files are used as both bilingual and monolingual.
 
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| File mask                      | ``i18n/app.*.ts``                |
++--------------------------------+----------------------------------+
+| Monolingual base language file | `Empty`                          |
++--------------------------------+----------------------------------+
+| Base file for new translations | ``i18n/app.de.ts``               |
++--------------------------------+----------------------------------+
+| File format                    | `Qt Linguist Translation File`   |
++--------------------------------+----------------------------------+
+
 .. seealso::
 
     `Qt Linguist manual <http://doc.qt.io/qt-5/qtlinguist-index.html>`_,
@@ -239,6 +311,18 @@ Android specific file format for translating applications.
 Android string resources are monolingual, the
 :guilabel:`Monolingual base language file` file is stored in a different
 location from the others :file:`res/values/strings.xml`.
+
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| File mask                      | ``res/values-*/strings.xml``     |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``res/values/strings.xml``       |
++--------------------------------+----------------------------------+
+| Base file for new translations | `Empty`                          |
++--------------------------------+----------------------------------+
+| File format                    | `Android String Resource`        |
++--------------------------------+----------------------------------+
 
 .. seealso::
 
@@ -286,6 +370,18 @@ and :index:`iPhone <pair: iPhone; translation>`/:index:`iPad <pair: iPad; transl
 
 Apple OS X strings are usually used as bilingual.
 
++---------------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                          |
++================================+==========================================+
+| File mask                      |``Resources/*.lproj/Localizable.strings`` |
++--------------------------------+------------------------------------------+
+| Monolingual base language file |``Resources/en.lproj/Localizable.strings``|
++--------------------------------+------------------------------------------+
+| Base file for new translations | `Empty`                                  |
++--------------------------------+------------------------------------------+
+| File format                    | `OS X Strings (UTF-8)`                   |
++--------------------------------+------------------------------------------+
+
 .. seealso::
 
     `Apple Strings Files documentation <https://developer.apple.com/library/mac/#documentation/MacOSX/Conceptual/BPInternational/Articles/StringsFiles.html>`_,
@@ -311,6 +407,18 @@ Example file:
 .. literalinclude:: ../weblate/trans/tests/data/cs.php
     :language: php
     :encoding: utf-8
+
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| File mask                      | ``lang/*/texts.php``             |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``lang/en/texts.php``            |
++--------------------------------+----------------------------------+
+| Base file for new translations | ``lang/en/texts.php``            |
++--------------------------------+----------------------------------+
+| File format                    | `PHP strings`                    |
++--------------------------------+----------------------------------+
 
 .. note::
 
@@ -372,6 +480,18 @@ Nested files are supported as well (see above for requirements), such file can l
     :language: json
     :encoding: utf-8
 
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| File mask                      | ``langs/translation-*.json``     |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``langs/translation-en.json``    |
++--------------------------------+----------------------------------+
+| Base file for new translations | `Empty`                          |
++--------------------------------+----------------------------------+
+| File format                    | `JSON nested structure file`     |
++--------------------------------+----------------------------------+
+
 .. seealso::
 
     :doc:`tt:formats/json`
@@ -391,6 +511,18 @@ Example file:
     :language: json
     :encoding: utf-8
 
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| File mask                      | ``_locales/*/messages.json``     |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``_locales/en/messages.json``    |
++--------------------------------+----------------------------------+
+| Base file for new translations | `Empty`                          |
++--------------------------------+----------------------------------+
+| File format                    | `WebExtension JSON file`         |
++--------------------------------+----------------------------------+
+
 .. seealso::
 
     :doc:`tt:formats/json`,
@@ -408,6 +540,18 @@ Example file:
 
 .Net Resource (.resx) file is a monolingual XML file format used in Microsoft
 .Net Applications.
+
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| File mask                      | ``Resources/Language.*.resx``    |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``Resources/Language.resx``      |
++--------------------------------+----------------------------------+
+| Base file for new translations | `Empty`                          |
++--------------------------------+----------------------------------+
+| File format                    | `.Net resource file`             |
++--------------------------------+----------------------------------+
 
 .. note::
 
@@ -438,6 +582,18 @@ Example file:
 .. literalinclude:: ../weblate/trans/tests/data/cs.csv
     :language: text
     :encoding: utf-8
+
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| File mask                      | ``locale/*.csv``                 |
++--------------------------------+----------------------------------+
+| Monolingual base language file | `Empty`                          |
++--------------------------------+----------------------------------+
+| Base file for new translations | ``locale/en.csv``                |
++--------------------------------+----------------------------------+
+| File format                    | `CSV file`                       |
++--------------------------------+----------------------------------+
 
 .. seealso:: :doc:`tt:formats/csv`
 
@@ -473,6 +629,18 @@ Example Ruby i18n YAML file:
     :language: yaml
     :encoding: utf-8
 
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| File mask                      | ``translations/messages.*.yml``  |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``translations/messages.en.yml`` |
++--------------------------------+----------------------------------+
+| Base file for new translations | `Empty`                          |
++--------------------------------+----------------------------------+
+| File format                    | `YAML file`                      |
++--------------------------------+----------------------------------+
+
 .. seealso:: :doc:`tt:formats/yaml`
 
 DTD files
@@ -488,6 +656,18 @@ Example DTD file:
 .. literalinclude:: ../weblate/trans/tests/data/cs.dtd
     :language: yaml
     :encoding: utf-8
+
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| File mask                      | ``locale/*.dtd``                 |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``locale/en.dtd``                |
++--------------------------------+----------------------------------+
+| Base file for new translations | `Empty`                          |
++--------------------------------+----------------------------------+
+| File format                    | `DTD file`                       |
++--------------------------------+----------------------------------+
 
 .. seealso:: :doc:`tt:formats/dtd`
 
