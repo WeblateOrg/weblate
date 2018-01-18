@@ -284,6 +284,8 @@ def more_like(pk, source, top=5):
         results = [
             (h['pk'], h.score) for h in searcher.search(query, limit=top)
         ]
+        if not results:
+            return [], {}
         # Normalize scores to 0-100
         max_score = max([h[1] for h in results])
         scores = {h[0]:  h[1] * 100 / max_score for h in results}
