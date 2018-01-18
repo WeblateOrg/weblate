@@ -383,6 +383,9 @@ class MachineTranslationTest(TestCase):
                 return (200, headers, TERMINOLOGY_LANGUAGES)
             return (200, headers, TERMINOLOGY_TRANSLATE)
 
+        cache.delete(
+            '{0}-languages'.format(MicrosoftTerminologyService().mtid)
+        )
         httpretty.register_uri(
             httpretty.POST,
             'http://api.terminology.microsoft.com/Terminology.svc',
@@ -395,6 +398,9 @@ class MachineTranslationTest(TestCase):
 
     @httpretty.activate
     def test_microsoft_terminology_error(self):
+        cache.delete(
+            '{0}-languages'.format(MicrosoftTerminologyService().mtid)
+        )
         httpretty.register_uri(
             httpretty.POST,
             'http://api.terminology.microsoft.com/Terminology.svc',

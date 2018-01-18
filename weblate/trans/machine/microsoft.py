@@ -202,59 +202,26 @@ class MicrosoftTerminologyService(MachineTranslation):
     MS_TM_SOAP_HEADER = '{xmlns}/Terminology/'.format(xmlns=MS_TM_SOAP_XMLNS)
     MS_TM_XPATH = './/{{{xmlns}}}'.format(xmlns=MS_TM_SOAP_XMLNS)
 
-    def soap_status_req(self, url, **kwargs):
-        soap_action = kwargs.get('soap_action', '')
-        url = self.MS_TM_API_URL
-        action = self.MS_TM_SOAP_HEADER + soap_action
-        headers = {
-            'SOAPAction': (
-                '"{action}"'
-            ).format(action=action),
-            'Content-Type': 'text/xml; charset=utf-8'
-        }
-        if soap_action == 'GetLanguages':
-            payload = {'soap_action': soap_action}
-            template = get_template('trans/machine/microsoft_terminology_get_langs.jinja')
-        elif soap_action == 'GetTranslations':
-            source = kwargs.get('source', '')
-            language = kwargs.get('language', '')
-            text = kwargs.get('text', '')
-            max_result = 5
-            if soap_action and source and language and text:
-                payload = {'action': action,
-                           'url': url,
-                           'uuid': uuid4(),
-                           'text': text,
-                           'from_lang': source,
-                           'to_lang': language,
-                           'max_result': max_result}
-                template = get_template('trans/machine/microsoft_terminology_translate.jinja')
-        else:
-            raise MachineTranslationError(
-                'Wrong SOAP request: "{soap_action}."').format(
-                soap_action=soap_action)
-        try:
-            payload = template.render(payload)
-            request = Request(url)
-            request.timeout = 0.5
-            for header, value in headers.iteritems():
-                request.add_header(header, value)
-            request.add_data(payload)
-            handle = urlopen(request)
-        except Exception as error:
-            raise MachineTranslationError('{err}'.format(err=error))
+    def soap_req(self, action, **kwargs):
+        template = get_template(
+            'machine/microsoft_terminology_{}.xml'.format(action.lower())
+        )
+        payload = template.render(kwargs)
 
-        if handle.code != 200:
-            raise MachineTranslationError(response.msg)
-
-        return handle
+        request = Request(self.MS_TM_API_URL)
+        request.timeout = 0.5
+        request.add_header(
+            'SOAPAction', '"{}"'.format(self.MS_TM_SOAP_HEADER + action)
+        )
+        request.add_header('Content-Type', 'text/xml; charset=utf-8')
+        request.add_data(payload)
+        return urlopen(request)
 
     def download_languages(self):
         """Get list of supported languages."""
         xp_code = self.MS_TM_XPATH + 'Code'
         languages = []
-        resp = self.soap_status_req(self.MS_TM_API_URL,
-                                    soap_action='GetLanguages')
+        resp = self.soap_req('GetLanguages')
         root = ET.fromstring(resp.read())
         results = root.find(self.MS_TM_XPATH + 'GetLanguagesResult')
         if results is not None:
@@ -268,11 +235,14 @@ class MicrosoftTerminologyService(MachineTranslation):
         xp_translated = self.MS_TM_XPATH + 'TranslatedText'
         xp_confidence = self.MS_TM_XPATH + 'ConfidenceLevel'
         xp_original = self.MS_TM_XPATH + 'OriginalText'
-        resp = self.soap_status_req(self.MS_TM_API_URL,
-                                    soap_action='GetTranslations',
-                                    source=source,
-                                    language=language,
-                                    text=text)
+        resp = self.soap_req(
+            'GetTranslations',
+            uuid=uuid4(),
+            text=text,
+            from_lang=source,
+            to_lang=language,
+            max_result=20,
+        )
         root = ET.fromstring(resp.read())
         results = root.find(self.MS_TM_XPATH + 'GetTranslationsResult')
         if results is not None:
