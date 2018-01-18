@@ -208,13 +208,12 @@ class MicrosoftTerminologyService(MachineTranslation):
         )
         payload = template.render(kwargs)
 
-        request = Request(self.MS_TM_API_URL)
+        request = Request(self.MS_TM_API_URL, payload.encode('utf-8'))
         request.timeout = 0.5
         request.add_header(
             'SOAPAction', '"{}"'.format(self.MS_TM_SOAP_HEADER + action)
         )
         request.add_header('Content-Type', 'text/xml; charset=utf-8')
-        request.add_data(payload)
         return urlopen(request)
 
     def download_languages(self):
