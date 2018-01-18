@@ -20,9 +20,11 @@
 
 from __future__ import unicode_literals
 
+from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import MiddlewareNotUsed
 
+from weblate.trans.models import IndexUpdate
 from weblate.wladmin.models import ConfigurationError
 
 
@@ -41,5 +43,11 @@ class ConfigurationErrorsMiddleware(object):
                 error['name'],
                 error['message'],
                 error['timestamp'],
+            )
+        if settings.OFFLOAD_INDEXING and IndexUpdate.objects.count() > 5000:
+            ConfigurationError.objects.add(
+                'Offloaded index',
+                'The processing seems to be slow, '
+                'there are more than 5000 entries to process.'
             )
         raise MiddlewareNotUsed()
