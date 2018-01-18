@@ -280,20 +280,18 @@ def more_like(pk, source, top=5):
             [Term('source', word, boost=weight) for word, weight in kts]
         )
 
-        results = set()
-        scores = {}
-        max_score = 1
-        for hit in searcher.search(query, limit=top):
-            current = hit['pk']
-            if current == pk:
-                max_score = hit.score
-            else:
-                results.add(current)
-                scores[current] = hit.score
+        # Grab fulltext results
+        results = [
+            (h['pk'], h.score) for h in searcher.search(query, limit=top)
+        ]
+        # Normalize scores to 0-100
+        max_score = max([h[1] for h in results])
+        scores = {h[0]:  h[1] * 100 / max_score for h in results}
 
+        # Filter results with score above 30 and not current unit
         return (
-            results,
-            {k: int(v * 100 / max_score) for k, v in scores.items()}
+            [h[0] for h in results if scores[h[0]] > 30 and h[0] != pk],
+            scores,
         )
 
 
