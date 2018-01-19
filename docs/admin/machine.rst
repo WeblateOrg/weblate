@@ -262,7 +262,7 @@ To enable this service, add ``weblate.trans.machine.saptranslationhub.SAPTransla
     and :setting:`MT_SAP_SANDBOX_APIKEY`.
     
     To access the productive API, you need to set :setting:`MT_SAP_BASE_URL`,
-    :setting:`MT_SAP_USERNAME` and :setting:`MT_SAP_TRANSLATION_HUB_PASSWORD`.
+    :setting:`MT_SAP_USERNAME` and :setting:`MT_SAP_PASSWORD`.
 
 .. seealso::
 

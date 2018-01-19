@@ -53,7 +53,7 @@ class SAPTranslationHub(MachineTranslation):
         # to access the productive API
         if settings.MT_SAP_USERNAME is not None \
            and settings.MT_SAP_PASSWORD is not None:
-            credentials = settings.MT_SAP_USERNAME + ':' + settings.MT_SAP_TRANSLATION_HUB_PASSWORD
+            credentials = settings.MT_SAP_USERNAME + ':' + settings.MT_SAP_PASSWORD
             request.add_header(
                 'Authorization',
                 'Basic ' + base64.b64encode(credentials.encode('utf-8'))
