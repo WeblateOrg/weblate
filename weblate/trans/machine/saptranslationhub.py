@@ -25,9 +25,7 @@ from weblate import USER_AGENT
 from weblate.utils.site import get_site_url
 import base64
 
-from weblate.trans.machine.base import (
-    MachineTranslation, MissingConfiguration
-)
+from weblate.trans.machine.base import MachineTranslation, MissingConfiguration
 
 class SAPTranslationHub(MachineTranslation):
     # https://api.sap.com/shell/discover/contentpackage/SAPTranslationHub/api/translationhub
@@ -75,19 +73,22 @@ class SAPTranslationHub(MachineTranslation):
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
 
-        # should the machine translation service be used? (rather than only the term database)
+        # should the machine translation service be used?
+        # (rather than only the term database)
         enable_mt = False
         if isinstance(settings.MT_SAP_USE_MT, bool):
             enable_mt = settings.MT_SAP_USE_MT
 
         # build the json body
-        request_data_as_bytes = json.dumps({'targetLanguages': [language], \
-                                            'enableMT': enable_mt, \
-                                            'enableTranslationQualityEstimation': enable_mt, \
-                                            'units': [ { \
-                                            'value': text }
-                                            ] }, \
-                                            ensure_ascii=False).encode('utf-8')
+        request_data_as_bytes = json.dumps(
+            {
+                'targetLanguages': [language],
+                'enableMT': enable_mt,
+                'enableTranslationQualityEstimation': enable_mt,
+                'units': [{'value': text}]
+            },
+            ensure_ascii=False
+        ).encode('utf-8')
 
         # create the request
         translation_url = settings.MT_SAP_BASE_URL + 'translate'
@@ -101,7 +102,9 @@ class SAPTranslationHub(MachineTranslation):
         self.authenticate(request)
 
         # Read and possibly convert response
-        content = urlopen(request, request_data_as_bytes).read().decode('utf-8')
+        content = urlopen(
+            request, request_data_as_bytes
+        ).read().decode('utf-8')
         # Replace literal \t
         content = content.strip().replace(
             '\t', '\\t'
@@ -116,6 +119,11 @@ class SAPTranslationHub(MachineTranslation):
         # prepare the translations for weblate
         for unit in response['units']:
             for translation in unit['translations']:
-                translations.append((translation['value'], translation.get('qualityIndex', 100), self.name, text))
+                translations.append((
+                    translation['value'],
+                    translation.get('qualityIndex', 100),
+                    self.name,
+                    text
+                ))
 
         return translations
