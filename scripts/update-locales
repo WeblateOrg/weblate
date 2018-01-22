@@ -10,9 +10,10 @@ version=`DJANGO_SETTINGS_MODULE=weblate.settings_example python -c 'import webla
 # Lock Weblate
 wlc lock weblate/master
 wlc lock weblate/javascript
+wlc lock weblate/languages
 
 # Push changes from Weblate to GitHub
-wlc commit
+wlc commit weblate
 
 # Pull changes from GitHub
 git pull
@@ -54,3 +55,4 @@ git push
 # Unlock Weblate
 wlc unlock weblate/master
 wlc unlock weblate/javascript
+wlc unlock weblate/languages
