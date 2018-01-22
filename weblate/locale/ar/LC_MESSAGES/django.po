@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-01-18 15:20+0000\n"
-"PO-Revision-Date: 2018-01-22 13:57+0000\n"
-"Last-Translator: omar anwar aglan <omar.aglan91@yahoo.com>\n"
+"PO-Revision-Date: 2018-01-22 18:16+0000\n"
+"Last-Translator: ButterflyOfFire <ButterflyOfFire@protonmail.com>\n"
 "Language-Team: Arabic "
 "<https://hosted.weblate.org/projects/weblate/master/ar/>\n"
 "Language: ar\n"
@@ -300,7 +300,7 @@ msgstr "لغة الواجهة"
 
 #: weblate/accounts/models.py:327
 msgid "Translated languages"
-msgstr "اللغات المترجمة"
+msgstr "اللغات المترجَمة"
 
 #: weblate/accounts/models.py:329
 msgid "Choose languages to which you can translate."
@@ -648,7 +648,7 @@ msgstr "سلاسل المصدر"
 
 #: weblate/billing/models.py:151 weblate/trans/models/project.py:339
 msgid "Source words"
-msgstr "كلمات المصدر"
+msgstr "مصدر الكلمات"
 
 #: weblate/billing/models.py:163 weblate/lang/models.py:415
 #: weblate/lang/views.py:43 weblate/templates/accounts/profile.html:22
@@ -1281,7 +1281,7 @@ msgstr "الجورجية"
 
 #: weblate/lang/languages.py:861
 msgid "Kabyle"
-msgstr "الزواوية"
+msgstr "القبائلية"
 
 #: weblate/lang/languages.py:867
 msgid "Jju"
@@ -2733,8 +2733,8 @@ msgid ""
 "Translated content has to be released under <a href=\"http://en.wikipedia."
 "org/wiki/Free_software_license\">free license</a>."
 msgstr ""
-"المحتويات المُترجمة يجب أن تصدر تحت <a href=\"http://en.wikipedia.org/wiki/"
-"Free_software_license\"> رخصة مجانية </a>."
+"المحتويات المُترجَمة يجب أن تصدر تحت <a href=\"http://en.wikipedia.org/wiki/"
+"Free_software_license\">رخصة حرة</a>."
 
 #: weblate/templates/accounts/hosting.html:37
 msgid ""
@@ -3727,7 +3727,7 @@ msgstr "لا حاجة إلى العلامات، ولا الأرقام، ولا �
 
 #: weblate/templates/i18n.html:22
 msgid "Add another word or two. Uncommon words are better."
-msgstr "أضف كلمة واحدة أو أثنين. الكلمات غير المعتادة أفضل."
+msgstr "أضف كلمة واحدة أو إثنتين. الكلمات غير المعتادة أفضل."
 
 #: weblate/templates/i18n.html:23
 msgid "Straight rows of keys are easy to guess."
@@ -4212,7 +4212,11 @@ msgstr "المصدر"
 msgid "%(words)s word to translate!"
 msgid_plural "%(words)s words to translate!"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "%(words)s كلمة متبقية لترجمتها !"
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] "%(words)s كلمات متبقية لترجمتها !"
 
 #: weblate/templates/list-translations.html:42
 #, python-format
@@ -4257,16 +4261,15 @@ msgid "Translate"
 msgstr "ترجم"
 
 #: weblate/templates/list-translations.html:71
-#, fuzzy, python-format
-#| msgid "Translate"
+#, python-format
 msgid "There is %(count)s translated string."
 msgid_plural "There are %(count)s translated strings."
-msgstr[0] "ترجم"
-msgstr[1] "ترجم"
-msgstr[2] "ترجم"
-msgstr[3] "ترجم"
-msgstr[4] "ترجم"
-msgstr[5] "ترجم"
+msgstr[0] ""
+msgstr[1] "هناك %(count)s سلسلة مترجَمة."
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] "هناك %(count)s سلاسل مترجَمة."
 
 #: weblate/templates/mail/account_activity.html:7
 #: weblate/templates/mail/account_activity.txt:1
@@ -5503,7 +5506,7 @@ msgstr "إدارة القاموس"
 
 #: weblate/templates/translate.html:427
 msgid "Glossary"
-msgstr "مفردات"
+msgstr "المفردات"
 
 #: weblate/templates/translate.html:447
 msgid "Add word to glossary"
@@ -5991,7 +5994,7 @@ msgstr "قد تم ترجمتها"
 
 #: weblate/trans/checks/consistency.py:103
 msgid "This string has been translated in the past"
-msgstr ""
+msgstr "لقد تم ترجمة هذه السلسة من قبلُ"
 
 #: weblate/trans/checks/format.py:213
 msgid "Python format"
@@ -6117,11 +6120,11 @@ msgstr ""
 
 #: weblate/trans/formats.py:892
 msgid "Automatic detection"
-msgstr ""
+msgstr "الإكتشاف التلقائي"
 
 #: weblate/trans/formats.py:923
 msgid "Gettext PO file"
-msgstr ""
+msgstr "ملف Gettext PO"
 
 #: weblate/trans/formats.py:988
 msgid "Gettext PO file (unwrapped)"
@@ -6213,7 +6216,7 @@ msgstr "ملف CSV بسيط (ISO-8859-1)"
 
 #: weblate/trans/formats.py:1407
 msgid "YAML file"
-msgstr ""
+msgstr "ملف YAML"
 
 #: weblate/trans/formats.py:1427
 msgid "Ruby YAML file"
@@ -6275,11 +6278,11 @@ msgstr "حالة المراجعة"
 
 #: weblate/trans/forms.py:432
 msgid "Waiting for review"
-msgstr ""
+msgstr "تنتظر إعادة النظر فيها"
 
 #: weblate/trans/forms.py:433 weblate/trans/templatetags/translations.py:529
 msgid "Approved"
-msgstr ""
+msgstr "تم الموافقة عليها"
 
 #: weblate/trans/forms.py:489
 msgid ""
@@ -6310,7 +6313,7 @@ msgstr ""
 
 #: weblate/trans/forms.py:548
 msgid "Add as a suggestion"
-msgstr ""
+msgstr "إضافة كاقتراح"
 
 #: weblate/trans/forms.py:549
 msgid "Add as translation needing edit"
@@ -6364,7 +6367,7 @@ msgstr "بريد المؤلف الإلكتروني"
 
 #: weblate/trans/forms.py:623
 msgid "Search filter"
-msgstr ""
+msgstr "تصفية البحث"
 
 #: weblate/trans/forms.py:626 weblate/trans/models/translation.py:820
 #: weblate/trans/models/translation.py:862
@@ -6373,11 +6376,11 @@ msgstr "كل السلاسل"
 
 #: weblate/trans/forms.py:627 weblate/trans/models/translation.py:916
 msgid "Not translated strings"
-msgstr "ترجمات غير مترجمة"
+msgstr "سلاسل غير مترجَمة"
 
 #: weblate/trans/forms.py:628 weblate/trans/models/translation.py:907
 msgid "Strings needing action"
-msgstr ""
+msgstr "سلاسل تتطلب اتخاذ إجراء"
 
 #: weblate/trans/forms.py:629 weblate/trans/models/translation.py:879
 msgid "Translated strings"
@@ -6394,7 +6397,7 @@ msgstr "سلاسل لها اقتراحات"
 #: weblate/trans/forms.py:632 weblate/trans/models/translation.py:848
 #: weblate/trans/models/translation.py:962
 msgid "Strings with comments"
-msgstr "سلاسل لها تعليقات"
+msgstr "سلاسل تحتوي على تعليقات"
 
 #: weblate/trans/forms.py:633 weblate/trans/models/translation.py:828
 #: weblate/trans/models/translation.py:942
@@ -6431,11 +6434,11 @@ msgstr "النص كاملا"
 
 #: weblate/trans/forms.py:728
 msgid "Substring"
-msgstr ""
+msgstr "سلسلة فرعية"
 
 #: weblate/trans/forms.py:729
 msgid "Exact match"
-msgstr ""
+msgstr "مطابقة تامة"
 
 #: weblate/trans/forms.py:733
 msgid "Please select a valid search type."
@@ -6500,7 +6503,7 @@ msgstr ""
 #, python-brace-format
 msgctxt "String to concatenate search and filter names"
 msgid "{filter_name}, {search_name}"
-msgstr ""
+msgstr "{filter_name}، {search_name}"
 
 #: weblate/trans/forms.py:848 weblate/trans/forms.py:1070
 msgid "All languages"
@@ -6516,7 +6519,7 @@ msgstr ""
 
 #: weblate/trans/forms.py:908
 msgid "Overwrite strings"
-msgstr ""
+msgstr "إستبدال السلاسل"
 
 #: weblate/trans/forms.py:913
 msgid "Replace inconsistent"
@@ -6528,7 +6531,7 @@ msgstr ""
 
 #: weblate/trans/forms.py:944
 msgid "All components in current project"
-msgstr ""
+msgstr "كافة العناصر في المشروع الحالي"
 
 #: weblate/trans/forms.py:957
 msgid "Invalid integer list!"
@@ -6550,24 +6553,24 @@ msgstr ""
 
 #: weblate/trans/forms.py:995
 msgid "Add as other translation"
-msgstr ""
+msgstr "إضافة كترجمة بديلة"
 
 #: weblate/trans/forms.py:1004 weblate/trans/forms.py:1215
 msgid "Starting date"
-msgstr ""
+msgstr "بداية من تاريخ يوم"
 
 #: weblate/trans/forms.py:1021
 msgctxt "Select starting letter in glossary"
 msgid "Any"
-msgstr ""
+msgstr "الكل"
 
 #: weblate/trans/forms.py:1023
 msgid "Starting letter"
-msgstr ""
+msgstr "الحرف الأول في الكلمة"
 
 #: weblate/trans/forms.py:1039
 msgid "Scope"
-msgstr ""
+msgstr "النطاق"
 
 #: weblate/trans/forms.py:1041
 msgid ""
@@ -6584,7 +6587,7 @@ msgstr ""
 
 #: weblate/trans/forms.py:1074
 msgid "All components"
-msgstr ""
+msgstr "كافة العناصر"
 
 #: weblate/trans/forms.py:1114
 #, python-brace-format
@@ -6593,7 +6596,7 @@ msgstr ""
 
 #: weblate/trans/forms.py:1133
 msgid "Please select"
-msgstr ""
+msgstr "الرجاء الإختيار"
 
 #: weblate/trans/forms.py:1155
 msgid "Strings with higher priority are offered first to translators."
@@ -6634,11 +6637,11 @@ msgstr ""
 
 #: weblate/trans/forms.py:1201
 msgid "JSON"
-msgstr ""
+msgstr "JSON"
 
 #: weblate/trans/forms.py:1202
 msgid "HTML"
-msgstr ""
+msgstr "HTML"
 
 #: weblate/trans/forms.py:1206
 msgid "Report period"
@@ -6646,11 +6649,11 @@ msgstr ""
 
 #: weblate/trans/forms.py:1208
 msgid "Last month"
-msgstr ""
+msgstr "الشهر الماضي"
 
 #: weblate/trans/forms.py:1209
 msgid "Last year"
-msgstr ""
+msgstr "في العام الماضي"
 
 #: weblate/trans/forms.py:1210
 msgid "As specified"
@@ -6658,7 +6661,7 @@ msgstr ""
 
 #: weblate/trans/forms.py:1220
 msgid "Ending date"
-msgstr ""
+msgstr "تاريخ الانتهاء"
 
 #: weblate/trans/forms.py:1260
 msgid "Starting and ending dates have to be specified!"
@@ -6706,7 +6709,7 @@ msgstr "إبحث عن ترجمة"
 
 #: weblate/trans/forms.py:1427
 msgid "Replacement string"
-msgstr ""
+msgstr "السلسلة البديلة"
 
 #: weblate/trans/forms.py:1467
 msgid "Translation key"
@@ -6730,30 +6733,30 @@ msgstr ""
 #: weblate/trans/models/advertisement.py:41
 #, python-brace-format
 msgid "Donate to Weblate at {0}"
-msgstr ""
+msgstr "تبرع إلى Weblate على {0}"
 
 #: weblate/trans/models/advertisement.py:42
 #: weblate/trans/models/advertisement.py:43
 #, python-brace-format
 msgid "Support Weblate at {0}"
-msgstr ""
+msgstr "قم بدعم Weblate على {0}"
 
 #: weblate/trans/models/advertisement.py:44
 #, python-brace-format
 msgid "More information about Weblate can be found at {0}"
-msgstr ""
+msgstr "يمكنكم الإطلاع على المزيد من المعلومات عن Weblate على {0}"
 
 #: weblate/trans/models/advertisement.py:48
 msgid "Support Weblate on Liberapay"
-msgstr ""
+msgstr "قم بدعم Weblate عبر منصة Liberapay"
 
 #: weblate/trans/models/advertisement.py:49
 msgid "Support Weblate on Bountysource"
-msgstr ""
+msgstr "قم بدعم Weblate على Bountysource"
 
 #: weblate/trans/models/advertisement.py:50
 msgid "More information about Weblate"
-msgstr ""
+msgstr "للمزيد من المعلومات عن Weblate"
 
 #: weblate/trans/models/advertisement.py:99
 msgid "Mail footer (text)"
@@ -7900,7 +7903,7 @@ msgstr[1] ""
 
 #: weblate/trans/templatetags/translations.py:524
 msgid "Not translated"
-msgstr "ليست مترجمة"
+msgstr "ليست مترجَمة"
 
 #: weblate/trans/templatetags/translations.py:551
 msgid "Message needs edit"
