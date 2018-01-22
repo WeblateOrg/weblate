@@ -718,7 +718,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
     def update_units(self, author):
         """Update backend file and unit."""
         updated = False
-        for unit in self.unit_set.filter(pending=True):
+        for unit in self.unit_set.filter(pending=True).select_for_update():
 
             src = unit.get_source_plurals()[0]
             add = False
