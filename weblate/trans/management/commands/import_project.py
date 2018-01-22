@@ -301,7 +301,7 @@ class Command(BaseCommand):
             project = Project.objects.get(slug=options['project'])
         except Project.DoesNotExist:
             raise CommandError(
-                'Project {0} not found, you have to create it first!'.format(
+                'Project "{0}" not found, please create it first!'.format(
                     options['project']
                 )
             )
