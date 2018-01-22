@@ -597,6 +597,8 @@ Example file:
 
 .. seealso:: :doc:`tt:formats/csv`
 
+.. _yaml:
+
 YAML files
 ----------
 
