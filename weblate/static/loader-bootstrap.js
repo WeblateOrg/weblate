@@ -1057,7 +1057,7 @@ $(function () {
     /* Override all multiple selects, use font awesome for exchange icon */
     $('select[multiple]').multi({
         'enable_search': true,
-        'search_placeholder': gettext('Search...'),
+        'search_placeholder': gettext('Search…'),
         'non_selected_header': gettext('Available:'),
         'selected_header': gettext('Selected:')
     });
@@ -1263,7 +1263,7 @@ $(function () {
         // Backup current text
         var backup = $trigger.attr('data-original-title');
         // Change text to copied
-        $trigger.attr('data-original-title', gettext('Copied!')).tooltip('show');
+        $trigger.attr('data-original-title', gettext('Copied')).tooltip('show');
         // Restore original
         $trigger.attr('data-original-title', backup);
     });
