@@ -30,12 +30,12 @@ sed \
     weblate/locale/*/*/*.po weblate/locale/*.pot
 
 # Include language names from CLDR
-for locale in weblate/locale/*/LC_MESSAGES/django.po ; do
+for locale in weblate/langdata/locale/*/LC_MESSAGES/django.po ; do
     code=${locale#weblate/locale/}
     code=${code%/LC_MESSAGES/django.po}
     file=scripts/language-data/languages-po/$code.po
     if [ -f $file ] ; then
-        msgmerge --previous -C $file -U $locale weblate/locale/django.pot
+        msgmerge --previous -C $file -U $locale weblate/langdata/locale/django.pot
     fi
 done
 
