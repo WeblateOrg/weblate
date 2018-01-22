@@ -19,6 +19,5 @@ Administrators guide
     sample
     management
     whiteboard
-    advertisement
     componentlists
     optionals

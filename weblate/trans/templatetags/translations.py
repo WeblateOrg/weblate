@@ -38,7 +38,7 @@ from weblate.trans.simplediff import html_diff
 from weblate.trans.util import split_plural
 from weblate.lang.models import Language
 from weblate.trans.models import (
-    Project, SubProject, Dictionary, Advertisement, WhiteboardMessage, Unit,
+    Project, SubProject, Dictionary, WhiteboardMessage, Unit,
 )
 from weblate.trans.checks import CHECKS, highlight_string
 
@@ -453,28 +453,6 @@ def naturaltime(value, now=None):
             escape(text)
         )
     )
-
-
-@register.simple_tag
-def get_advertisement_text_mail():
-    """Return advertisement text."""
-    advertisement = Advertisement.objects.get_advertisement(
-        Advertisement.PLACEMENT_MAIL_TEXT
-    )
-    if advertisement is None:
-        return ''
-    return advertisement.text
-
-
-@register.simple_tag
-def get_advertisement_html_mail():
-    """Return advertisement text."""
-    advertisement = Advertisement.objects.get_advertisement(
-        Advertisement.PLACEMENT_MAIL_HTML
-    )
-    if advertisement is None:
-        return ''
-    return mark_safe(advertisement.text)
 
 
 def translation_progress_data(translated, fuzzy, checks):

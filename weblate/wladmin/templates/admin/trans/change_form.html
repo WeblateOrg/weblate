@@ -3,10 +3,7 @@
 {% load translations %}
 
 {% block form_top %}
-{% if opts.model_name == 'project' or opts.model_name == 'subproject' or opts.model_name == 'advertisement' or opts.model_name == 'whiteboardmessage' or opts.model_name == 'groupacl' or opts.model_name == 'componentlist' or opts.model_name == 'autocomponentlist' %}
-{% if opts.model_name == 'advertisement' %}
-{% doc_url 'admin/advertisement' as url %}
-{% else %}
+{% if opts.model_name == 'project' or opts.model_name == 'subproject' opts.model_name == 'whiteboardmessage' or opts.model_name == 'groupacl' or opts.model_name == 'componentlist' or opts.model_name == 'autocomponentlist' %}
 {% if opts.model_name == 'whiteboardmessage' %}
 {% doc_url 'admin/whiteboard' as url %}
 {% else %}
@@ -14,7 +11,6 @@
 {% doc_url 'admin/componentlists' as url %}
 {% else %}
 {% doc_url 'admin/projects' opts.model_name as url %}
-{% endif %}
 {% endif %}
 {% endif %}
 <p>{% blocktrans %}Required fields are marked as bold, you can find more information in the <a href="{{ url }}">documentation</a>.{% endblocktrans %}</p>

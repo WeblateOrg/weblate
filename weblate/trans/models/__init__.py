@@ -47,7 +47,6 @@ from weblate.trans.models.search import IndexUpdate
 from weblate.trans.models.change import Change
 from weblate.trans.models.dictionary import Dictionary
 from weblate.trans.models.source import Source
-from weblate.trans.models.advertisement import Advertisement
 from weblate.trans.models.whiteboard import WhiteboardMessage
 from weblate.trans.models.componentlist import (
     ComponentList, AutoComponentList,

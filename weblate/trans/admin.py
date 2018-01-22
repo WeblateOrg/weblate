@@ -211,12 +211,6 @@ class ComponentListAdmin(WeblateModelAdmin):
     inlines = [AutoComponentListAdmin]
 
 
-class AdvertisementAdmin(WeblateModelAdmin):
-    list_display = ['placement', 'date_start', 'date_end', 'text']
-    search_fields = ['text', 'note']
-    date_hierarchy = 'date_end'
-
-
 class SourceAdmin(WeblateModelAdmin):
     list_display = ['id_hash', 'priority', 'timestamp']
     date_hierarchy = 'timestamp'

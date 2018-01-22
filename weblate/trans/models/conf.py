@@ -196,9 +196,6 @@ class WeblateConf(AppConf):
     # URL with status monitoring
     STATUS_URL = None
 
-    # Self advertisement
-    SELF_ADVERTISEMENT = False
-
     # Use simple language codes for default language/country combinations
     SIMPLIFY_LANGUAGES = True
 
