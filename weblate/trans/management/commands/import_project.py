@@ -318,8 +318,8 @@ class Command(BaseCommand):
                 sub_project = SubProject.objects.get_linked(repo)
             except SubProject.DoesNotExist:
                 raise CommandError(
-                    'SubProject {0} not found, '
-                    'you need to create it first!'.format(
+                    'Component "{0}" not found, '
+                    'please create it first!'.format(
                         repo
                     )
                 )
