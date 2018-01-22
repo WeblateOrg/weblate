@@ -38,7 +38,8 @@ from django.utils.safestring import mark_safe
 from django.dispatch import receiver
 from django.db.models.signals import post_migrate
 
-from weblate.lang import data, languages
+from weblate.lang import data
+from weblate.langdata import languages
 from weblate.trans.mixins import PercentMixin
 from weblate.logger import LOGGER
 

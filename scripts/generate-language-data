@@ -67,7 +67,7 @@ with open('scripts/language-data/languages.csv', 'r') as csvfile:
     LANGUAGES = list(reader)
 
 # Write language definitions
-with open('weblate/lang/languages.py', 'w') as output:
+with open('weblate/langdata/languages.py', 'w') as output:
     output.write(HEADER)
     output.write('LANGUAGES = (\n')
     for row in LANGUAGES:

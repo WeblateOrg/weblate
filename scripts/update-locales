@@ -5,6 +5,8 @@
 # Exit on failure
 set -e
 
+version=`DJANGO_SETTINGS_MODULE=weblate.settings_example python -c 'import weblate; print weblate.VERSION_BASE'`
+
 # Lock Weblate
 wlc lock weblate/master
 wlc lock weblate/javascript
@@ -20,7 +22,11 @@ git pull
 ./manage.py makemessages --keep-pot -a -i 'data/*' -i 'docs/*' -i 'examples/*' -i 'build/*' -d djangojs --settings=weblate.settings_test
 
 # Fix Report-Msgid-Bugs-To as it gets removed
-sed -i 's/"Report-Msgid-Bugs-To:.*/"Report-Msgid-Bugs-To: weblate@lists.cihar.com\\n"/' weblate/locale/*/*/*.po weblate/locale/django.pot
+sed \
+    -i \
+    -e 's/"Report-Msgid-Bugs-To:.*/"Report-Msgid-Bugs-To: weblate@lists.cihar.com\\n"/' \
+    -e 's/"Project-Id-Version:.*/"Project-Id-Version: Weblate '$version'\\n"/' \
+    weblate/locale/*/*/*.po weblate/locale/*.pot
 
 # Include language names from CLDR
 for locale in weblate/locale/*/LC_MESSAGES/django.po ; do
@@ -34,7 +40,9 @@ done
 
 # Commit changes
 git add weblate/locale/*/*/*.po
-git add weblate/locale/django.pot weblate/locale/djangojs.pot
+git add weblate/locale/*.pot
+git add weblate/langdata/locale/*/*/*.po
+git add weblate/langdata/locale/*.pot
 
 git commit -s -m "Update po files
 

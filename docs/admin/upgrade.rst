@@ -561,6 +561,7 @@ Notable configuration or dependencies changes:
 
 * There is new dependency on the `user_agents` module.
 * There is change in the :setting:`django:MIDDLEWARE` setting (added `weblate.wladmin.middleware.ConfigurationErrorsMiddleware`).
+* There is change in the :setting:`django:INSTALLED_APPS` setting (added `weblate.langdata`).
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
