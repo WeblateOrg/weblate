@@ -346,6 +346,7 @@ LOCALE_ALIASES = {
     'schinese': 'zh_Hans',
     'chinese_zh': 'zh_Hant',
     'tchinese': 'zh_Hant',
+    'korean': 'ko_KR',
     'dutch_be': 'nl_BE',
     'english': 'en',
     'english-uk': 'en_GB',
