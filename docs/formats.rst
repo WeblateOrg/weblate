@@ -612,11 +612,6 @@ currently supports following:
 * Plain YAML files with string keys and values
 * Ruby i18n YAML files with language as root node
 
-.. note::
-
-    You currently need a patched version of translate-toolkit to support YAML.
-    Check `translate-toolkit issue tracker <https://github.com/translate/translate/issues/3248>`_ for more details.
-
 Example YAML file:
 
 .. literalinclude:: ../weblate/trans/tests/data/cs.pyml
