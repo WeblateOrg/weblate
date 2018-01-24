@@ -45,7 +45,6 @@ from weblate.trans.signals import vcs_pre_commit, vcs_post_commit
 from weblate.utils.site import get_site_url
 from weblate.trans.util import translation_percent, split_plural
 from weblate.trans.mixins import URLMixin, PercentMixin, LoggerMixin
-from weblate.utils.query import conditional_sum
 from weblate.accounts.notifications import notify_new_string
 from weblate.accounts.models import get_author_name
 from weblate.trans.models.change import Change

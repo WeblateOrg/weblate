@@ -24,6 +24,15 @@ from django.core.cache import cache
 from django.db.models import Sum, Count
 
 from weblate.trans.filter import get_filter_choice
+from weblate.trans.models.unit import (
+    Unit, STATE_TRANSLATED, STATE_FUZZY, STATE_APPROVED,
+)
+from weblate.utils.query import conditional_sum
+
+BASICS = frozenset((
+    'all', 'fuzzy', 'translated', 'approved',
+    'allchecks', 'suggestions', 'comments', 'approved_suggestions'
+))
 
 
 class TranslationStats(object):
@@ -44,10 +53,51 @@ class TranslationStats(object):
         self._data = {}
         cache.delete(self._key)
 
+    def prefetch_basic(self):
+        stats = self._translation.unit_set.aggregate(
+            all=Count('id'),
+            all_words=Sum('num_words'),
+            fuzzy=conditional_sum(1, state=STATE_FUZZY),
+            fuzzy_words=conditional_sum(
+                'num_words', state=STATE_FUZZY
+            ),
+            translated=conditional_sum(1, state__gte=STATE_TRANSLATED),
+            translated_words=conditional_sum(
+                'num_words', state__gte=STATE_TRANSLATED
+            ),
+            approved=conditional_sum(1, state__gte=STATE_APPROVED),
+            approved_words=conditional_sum(
+                'num_words', state__gte=STATE_APPROVED
+            ),
+            allchecks=conditional_sum(1, has_failing_check=True),
+            allchecks_words=conditional_sum(
+                'num_words', has_failing_check=True
+            ),
+            suggestions=conditional_sum(1, has_suggestion=True),
+            suggestions_words=conditional_sum(
+                1, has_suggestion=True
+            ),
+            comments=conditional_sum(1, has_comment=True),
+            comments_words=conditional_sum(
+                'num_words', has_comment=True,
+            ),
+            approved_suggestions=conditional_sum(
+                1, state__gte=STATE_APPROVED, has_suggestion=True
+            ),
+            approved_suggestions_words=conditional_sum(
+                'num_words', state__gte=STATE_APPROVED, has_suggestion=True
+            ),
+        )
+        for key, value in stats.items():
+            self._data[key] = value
+
     def calculate_stats(self, item):
         """Calculate stats for translation."""
         if item.endswith('_words'):
             item = item[:-6]
+        if item in BASICS:
+            self.prefetch_basic()
+            return
         translation = self._translation
         stats = translation.unit_set.filter_type(
             item,
@@ -64,6 +114,10 @@ class TranslationStats(object):
 
     def ensure_all(self):
         """Ensure we have complete set."""
+        # Prefetch basic stats at once
+        if 'all' not in self._data:
+            self.prefetch_basic()
+        # Fetch remaining ones
         for item, dummy in get_filter_choice():
             if item not in self._data:
                 self.calculate_stats(item)
