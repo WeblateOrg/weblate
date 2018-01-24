@@ -151,21 +151,6 @@ def notify_new_language(subproject, language, user):
             )
         )
 
-    # Notify admins
-    mails.append(
-        get_notification_email(
-            'en',
-            'ADMINS',
-            'new_language',
-            subproject,
-            {
-                'language': language,
-                'user': user,
-            },
-            user=user,
-        )
-    )
-
     send_mails(mails)
 
 
