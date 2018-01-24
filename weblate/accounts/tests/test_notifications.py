@@ -172,8 +172,8 @@ class NotificationTest(FixtureTestCase):
             second_user,
         )
 
-        # Check mail (second one is for admin)
-        self.assertEqual(len(mail.outbox), 5)
+        # Check mail
+        self.assertEqual(len(mail.outbox), 3)
 
     def test_notify_new_contributor(self):
         unit = self.get_unit()
