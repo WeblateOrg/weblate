@@ -482,7 +482,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             'url': get_site_url(self.get_absolute_url()),
             'total': self.stats.all,
             'fuzzy': self.stats.fuzzy,
-            'fuzzy_percent': self.stat.fuzzy_percent,
+            'fuzzy_percent': self.stats.fuzzy_percent,
             'translated': self.stats.translated,
             'translated_percent': self.stats.translated_percent,
         }
