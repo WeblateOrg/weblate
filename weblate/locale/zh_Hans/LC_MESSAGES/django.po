@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-01-22 18:45+0000\n"
-"PO-Revision-Date: 2018-01-24 11:44+0000\n"
+"PO-Revision-Date: 2018-01-24 14:11+0000\n"
 "Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
 "Language-Team: Chinese (Simplified) "
 "<https://hosted.weblate.org/projects/weblate/master/zh_Hans/>\n"
@@ -1126,19 +1126,14 @@ msgid "Permission Denied"
 msgstr "权限被拒绝"
 
 #: weblate/templates/403.html:11
-#, fuzzy
-#| msgid "You don't have privileges to display this page."
 msgid "Insufficient privileges to display this page."
-msgstr "您没有显示此页的权限。"
+msgstr "没有足够的权限以显示此页。"
 
 #: weblate/templates/403.html:14 weblate/templates/404.html:14
 msgid "Log in"
 msgstr "登录"
 
 #: weblate/templates/403.html:20 weblate/templates/404.html:23
-#, fuzzy
-#| msgid ""
-#| "However the following translation projects are available on this server:"
 msgid ""
 "However, the following translation projects are available on this server:"
 msgstr "此服务器上还有以下翻译项目："
@@ -1165,15 +1160,10 @@ msgid "Server Error"
 msgstr "服务器错误"
 
 #: weblate/templates/500.html:12
-#, fuzzy
-#| msgid ""
-#| "The server had serious problems while serving your request. We've just "
-#| "sent our trained monkeys to fix the issue."
 msgid ""
 "The server had serious problems serving your request. Trained monkeys are en-"
 "route fixing the issue."
-msgstr ""
-"服务器在处理您的请求时遇到严重问题。我们已通知我们的程序猿去修复该问题。"
+msgstr "服务器在处理您的请求时遇到严重问题。我们的程序猿将会修复该问题。"
 
 #: weblate/templates/about.html:5 weblate/templates/about.html:13
 #: weblate/templates/footer.html:6 weblate/trans/views/basic.py:526
@@ -1181,42 +1171,29 @@ msgid "About Weblate"
 msgstr "关于 Weblate"
 
 #: weblate/templates/about.html:16
-#, fuzzy
-#| msgid ""
-#| "Weblate is a web based translation tool with tight version control "
-#| "integration. It features simple and clean user interface, propagation of "
-#| "translations across components, quality checks and automatic linking to "
-#| "source files."
 msgid ""
 "Weblate is a web based translation tool with tight version control "
 "integration. It features a simple and clean user interface, propagation of "
 "translations across components, quality checks and automatic linking to "
 "source files."
 msgstr ""
-"Weblate 是一个以 Web 为基础的、紧密集成代码控制软件的翻译工具。它具有简洁清爽"
-"的用户界面，子项目间翻译同步、质量检查以及自动链接到源文件等功能。"
+"Weblate 是一个以 Web "
+"为基础的、紧密集成代码控制软件的翻译工具。它具有简洁清爽的用户界面，子项目间翻译同步、质量检查以及自动链接到源文件等功能。"
 
 #: weblate/templates/about.html:18
-#, fuzzy, python-format
-#| msgid "More information about Weblate can be found at {0}"
+#, python-format
 msgid ""
 "More information about Weblate can be found on <a href=\"%(weblate_url)s"
 "\">weblate.org</a>."
-msgstr "关于 Weblate 的更多信息可以在 {0} 找到"
+msgstr "关于 Weblate 的更多信息可以在 <a href=\"%(weblate_url)s\">weblate.org</a> 找到。"
 
 #: weblate/templates/about.html:20
-#, fuzzy
-#| msgid ""
-#| "Weblate is free software created by volunteers, but you can still support "
-#| "them financially."
 msgid "Weblate is libre software created by volunteers, and accepts donations."
-msgstr "Weblate 是由志愿者创建的自由软件，您也可以从经济上支援它。"
+msgstr "Weblate 是由志愿者创建的自由软件，它同时接受捐赠。"
 
 #: weblate/templates/about.html:24
-#, fuzzy
-#| msgid "Fund Weblate!"
 msgid "Fund Weblate"
-msgstr "资助 Weblate！"
+msgstr "资助 Weblate"
 
 #: weblate/templates/about.html:25 weblate/templates/footer.html:11
 #: weblate/trans/templatetags/advertisement.py:42
@@ -1228,27 +1205,15 @@ msgid "Hosting translations"
 msgstr "托管翻译项目"
 
 #: weblate/templates/about.html:35
-#, fuzzy
-#| msgid ""
-#| "This Weblate instance hosts translations for various free software "
-#| "projects."
 msgid ""
 "This Weblate instance hosts translations for various libre software projects."
 msgstr "此 Weblate 网站托管了许多自由软件项目的翻译。"
 
 #: weblate/templates/about.html:36
-#, fuzzy
-#| msgid ""
-#| "We can host your project as well, if you are interested, please contact "
-#| "us."
 msgid "Weblate can host your project as well, please get in touch."
-msgstr "我们也能为您的项目提供托管，若您有兴趣，请联系我们。"
+msgstr "Weblate 也能为您的项目提供托管，若您有兴趣，请与我们取得联系。"
 
 #: weblate/templates/about.html:39
-#, fuzzy
-#| msgid ""
-#| "Commercial hosting is possible as well, our price starts at 19 EUR per "
-#| "month, please get in touch with us for more details."
 msgid ""
 "Commercial hosting is also available, pricing starts at 19 EUR per month, "
 "please get in touch for more details."
@@ -1272,10 +1237,8 @@ msgid "Versions"
 msgstr "版本"
 
 #: weblate/templates/about.html:68
-#, fuzzy
-#| msgid "Weblate would not exist without these projects."
 msgid "Weblate owes its existence to these projects."
-msgstr "没有这些项目，Weblate 不可能存在。"
+msgstr "Weblate 的诞生与这些项目分不开。"
 
 #: weblate/templates/access_control_description.html:4
 #: weblate/trans/models/project.py:131
@@ -1292,10 +1255,8 @@ msgid "Protected"
 msgstr "受保护的"
 
 #: weblate/templates/access_control_description.html:7
-#, fuzzy
-#| msgid "Publicly visible but translatable only for selected users"
 msgid "Publicly visible, only translatable for selected users"
-msgstr "公开可见但仅可被选定的用户翻译"
+msgstr "公开可见，仅可被选定的用户翻译"
 
 #: weblate/templates/access_control_description.html:8
 #: weblate/trans/models/project.py:133
