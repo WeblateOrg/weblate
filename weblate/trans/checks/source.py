@@ -24,8 +24,8 @@ import re
 
 from django.utils.translation import ugettext_lazy as _
 
+from weblate.lang.models import Language
 from weblate.trans.checks.base import SourceCheck
-from weblate.trans.models.check import Check
 
 # Matches (s) not followed by alphanumeric chars or at the end
 PLURAL_MATCH = re.compile(r'\(s\)(\W|\Z)')
@@ -70,12 +70,8 @@ class MultipleFailingCheck(SourceCheck):
     severity = 'warning'
 
     def check_source(self, source, unit):
-        related = Check.objects.filter(
-            content_hash=unit.content_hash,
-            project=unit.translation.subproject.project
-        ).exclude(
-            language__isnull=True
-        ).values(
-            'language'
+        related = Language.objects.filter(
+            check__content_hash=unit.content_hash,
+            check__project=unit.translation.subproject.project
         ).distinct()
         return related.count() >= 2

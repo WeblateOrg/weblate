@@ -715,13 +715,14 @@ class Unit(models.Model, LoggerMixin):
         # Force commiting on completing translation
         if (old_translated < self.translation.translated and
                 self.translation.translated == self.translation.total):
-            self.translation.commit_pending(request)
             Change.objects.create(
                 translation=self.translation,
                 action=Change.ACTION_COMPLETE,
                 user=user,
                 author=user
             )
+            self.translation.invalidate_cache()
+            self.translation.commit_pending(request)
 
         # Update related source strings if working on a template
         if self.translation.is_template():
