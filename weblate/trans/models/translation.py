@@ -1100,6 +1100,9 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
     def invalidate_cache(self, cache_type=None):
         """Invalidate any cached stats."""
+        # Invalidate last change cache
+        self._last_change_obj_valid = False
+
         # Get parts of key cache
         slug = self.subproject.get_full_slug()
         code = self.language.code

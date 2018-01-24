@@ -721,6 +721,7 @@ class Unit(models.Model, LoggerMixin):
                 user=user,
                 author=user
             )
+            self.translation.invalidate_cache()
             self.translation.commit_pending(request)
 
         # Update related source strings if working on a template
