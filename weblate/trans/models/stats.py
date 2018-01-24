@@ -35,11 +35,14 @@ BASICS = frozenset((
 ))
 
 
-class TranslationStats(object):
+class BaseStats(object):
     """Caching statistics calculator."""
-    def __init__(self, translation):
-        self._translation = translation
-        self._key = 'stats-{}'.format(translation.pk)
+    def __init__(self, obj):
+        self._object = obj
+        self._key = 'stats-{}-{}'.format(
+            obj.__class__.__name__,
+            obj.pk
+        )
         self._data = cache.get(self._key, {})
 
     def __getattr__(self, name):
@@ -48,13 +51,30 @@ class TranslationStats(object):
             self.save()
         return self._data[name]
 
+    def save(self):
+        """Save stats to cache."""
+        cache.set(self._key, self._data)
+
     def invalidate(self):
         """Invalidate local and cache data."""
         self._data = {}
         cache.delete(self._key)
 
+    def store(self, key, value):
+        if value is None:
+            self._data[key] = 0
+        else:
+            self._data[key] = value
+
+    def calculate_stats(self, item):
+        """Calculate stats for translation."""
+        raise NotImplementedError()
+
+
+class TranslationStats(BaseStats):
+    """Per translation stats."""
     def prefetch_basic(self):
-        stats = self._translation.unit_set.aggregate(
+        stats = self._object.unit_set.aggregate(
             all=Count('id'),
             all_words=Sum('num_words'),
             fuzzy=conditional_sum(1, state=STATE_FUZZY),
@@ -91,12 +111,6 @@ class TranslationStats(object):
         for key, value in stats.items():
             self.store(key, value)
 
-    def store(self, key, value):
-        if value is None:
-            self._data[key] = 0
-        else:
-            self._data[key] = value
-
     def calculate_stats(self, item):
         """Calculate stats for translation."""
         if item.endswith('_words'):
@@ -104,7 +118,7 @@ class TranslationStats(object):
         if item in BASICS:
             self.prefetch_basic()
             return
-        translation = self._translation
+        translation = self._object
         stats = translation.unit_set.filter_type(
             item,
             translation.subproject.project,
@@ -124,7 +138,3 @@ class TranslationStats(object):
             if item not in self._data:
                 self.calculate_stats(item)
         self.save()
-
-    def save(self):
-        """Save stats to cache."""
-        cache.set(self._key, self._data)
