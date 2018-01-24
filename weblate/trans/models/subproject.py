@@ -599,7 +599,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             self._repository = VCS_REGISTRY[self.vcs](
                 self.get_path(), self.branch, self
             )
-            cache_key = '{0}-config-check'.format(self.get_full_slug())
+            cache_key = 'sp-config-check-{}'.format(self.pk)
             if cache.get(cache_key) is None:
                 self._repository.check_config()
                 cache.set(cache_key, True)
@@ -613,7 +613,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
     def get_last_remote_commit(self):
         """Return latest remote commit we know."""
-        cache_key = '{0}-last-commit'.format(self.get_full_slug())
+        cache_key = 'sp-last-commit-{}'.format(self.pk)
 
         result = cache.get(cache_key)
 
