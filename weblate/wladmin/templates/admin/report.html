@@ -12,10 +12,10 @@
 <div id="content-main">
   <h1>{% trans "Status of repositories" %}</h1>
   {% for sp in subprojects %}
-    <h3 id="{{ sp.get_full_slug }}"><a href="{{ sp.get_absolute_url }}">{{ sp }}</a></h3>
+    <h3 id="component-{{ sp.pk }}"><a href="{{ sp.get_absolute_url }}">{{ sp }}</a></h3>
 {% if sp.is_repo_link %}
 <p>
-{% trans "This repository is linked to:" %} <a href="#{{ sp.linked_subproject.get_full_slug }}">{{ sp.repo }}</a>
+{% trans "This repository is linked to:" %} <a href="#component-{{ sp.linked_subproject.pk }}">{{ sp.repo }}</a>
 </p>
 {% else %}
     <pre>
