@@ -25,9 +25,10 @@ from django.db.models import Sum, Count
 
 from weblate.trans.filter import get_filter_choice
 from weblate.trans.models.unit import (
-    STATE_TRANSLATED, STATE_FUZZY, STATE_APPROVED,
+    STATE_TRANSLATED, STATE_FUZZY, STATE_APPROVED, STATE_EMPTY,
 )
 from weblate.utils.query import conditional_sum
+from weblate.trans.util import translation_percent
 
 BASICS = frozenset((
     'all', 'fuzzy', 'translated', 'approved',
@@ -47,7 +48,10 @@ class BaseStats(object):
 
     def __getattr__(self, name):
         if name not in self._data:
-            self.calculate_stats(name)
+            if name.endswith('_percent'):
+                self.calculate_percents(name)
+            else:
+                self.calculate_stats(name)
             self.save()
         return self._data[name]
 
@@ -70,6 +74,15 @@ class BaseStats(object):
         """Calculate stats for translation."""
         raise NotImplementedError()
 
+    def calculate_percents(self, item):
+        """Calculate percent value for given item."""
+        base = item[:-8]
+        if base.endswith('_words'):
+            total = self.all_words
+        else:
+            total = self.all
+        self.store(item, translation_percent(getattr(self, base), total))
+
 
 class TranslationStats(BaseStats):
     """Per translation stats."""
@@ -84,6 +97,10 @@ class TranslationStats(BaseStats):
             translated=conditional_sum(1, state__gte=STATE_TRANSLATED),
             translated_words=conditional_sum(
                 'num_words', state__gte=STATE_TRANSLATED
+            ),
+            nottranslated=conditional_sum(1, state=STATE_EMPTY),
+            nottranslated_words=conditional_sum(
+                'num_words', state=STATE_EMPTY
             ),
             approved=conditional_sum(1, state__gte=STATE_APPROVED),
             approved_words=conditional_sum(
@@ -110,6 +127,17 @@ class TranslationStats(BaseStats):
         )
         for key, value in stats.items():
             self.store(key, value)
+
+        # Calculate some values
+        self.store('untranslated', stats['all'] - stats['translated'])
+        self.store('untranslated_words', stats['all_words'] - stats['translated_words'])
+
+        # Calculate percents
+        self.calculate_percents('translated_percent')
+        self.calculate_percents('all_words_percent')
+        self.calculate_percents('untranslated_percent')
+        self.calculate_percents('fuzzy_percent')
+        self.calculate_percents('allchecks_percent')
 
     def calculate_stats(self, item):
         """Calculate stats for translation."""

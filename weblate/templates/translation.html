@@ -116,7 +116,7 @@
 <tr>
 <th>{% trans "Strings" %}<span class="badge pull-right flip">{{ object.stats.all }}</span></th>
 <td class="progress-cell">{% translation_progress object %}</td>
-<td class="percent">{{ object.get_translated_percent }}%</td>
+<td class="percent">{{ object.stats.translated_percent }}%</td>
 <td rowspan="2">
 <a href="{{ object.get_translate_url }}?type={% if object.stats.nottranslated > 0 %}untranslated{% else %}all{% endif %}" class="pull-right flip btn btn-default"><i class="fa fa-pencil"></i> {% trans "Translate" %}</a>
 </td>
@@ -125,7 +125,7 @@
 <tr>
 <th>{% trans "Words" %}<span class="badge pull-right flip">{{ object.stats.all_words }}</span></th>
 <td class="progress-cell">{% words_progress object %}</td>
-<td class="percent">{{ object.get_words_percent }}%</td>
+<td class="percent">{{ object.stats.all_words_percent }}%</td>
 </tr>
 </table>
 
@@ -348,19 +348,19 @@
 </tr>
 <tr>
 <th>{% trans "Translated" %}</th>
-<td class="percent">{{ object.get_translated_percent }}%</td>
+<td class="percent">{{ object.stats.translated_percent }}%</td>
 <td class="number">{{ object.stats.translated }}</td>
 <td class="number">{{ object.stats.translated_words }}</td>
 </tr>
 <tr>
 <th>{% trans "Review" %}</th>
-<td class="percent">{{ object.get_fuzzy_percent }}%</td>
+<td class="percent">{{ object.stats.fuzzy_percent }}%</td>
 <td class="number">{{ object.stats.fuzzy }}</td>
 <td class="number"></td>
 </tr>
 <tr>
 <th>{% trans "Failing check" %}</th>
-<td class="percent">{{ object.get_failing_checks_percent }}%</td>
+<td class="percent">{{ object.stats.allchecks_percent }}%</td>
 <td class="number">{{ object.stats.allchecks }}</td>
 <td class="number"></td>
 </tr>
