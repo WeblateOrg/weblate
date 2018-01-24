@@ -91,7 +91,12 @@ class PermissionsTest(TestCase):
 
     def test_cache(self):
         comment = Comment(project=self.project)
-        key = ('_can_delete_comment', self.project.get_full_slug())
+        key = (
+            '_can_delete_comment',
+            '{}-{}'.format(
+                self.project.__class__.__name__, self.project.pk
+            )
+        )
         self.assertTrue(not hasattr(self.user, 'acl_permissions_cache'))
         self.assertFalse(can_delete_comment(self.user, comment))
         self.assertFalse(self.user.acl_permissions_cache[key])

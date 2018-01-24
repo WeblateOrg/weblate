@@ -103,7 +103,9 @@ def cache_permission(func):
         if target_object is None:
             obj_key = None
         else:
-            obj_key = target_object.get_full_slug()
+            obj_key = '{}-{}'.format(
+                target_object.__class__.__name__, target_object.pk
+            )
 
         if not hasattr(user, 'acl_permissions_cache'):
             user.acl_permissions_cache = {}
