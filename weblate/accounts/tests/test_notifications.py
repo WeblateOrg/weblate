@@ -157,8 +157,8 @@ class NotificationTest(FixtureTestCase):
             second_user
         )
 
-        # Check mail (second one is for admin)
-        self.assertEqual(len(mail.outbox), 2)
+        # Check mail
+        self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(
             mail.outbox[0].subject,
             '[Weblate] New language request in Test/Test'

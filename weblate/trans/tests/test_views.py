@@ -355,6 +355,8 @@ class NewLangTest(ViewTestCase):
         self.assertContains(response, 'http://example.com/instructions')
 
     def test_contact(self):
+        # Add manager to receive notifications
+        self.make_manager()
         self.subproject.new_lang = 'contact'
         self.subproject.save()
 
