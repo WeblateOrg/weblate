@@ -49,27 +49,18 @@ def get_per_language_stats(project, lang=None):
         language.pk: language for language in language_objects
     }
     if isinstance(project, Project):
-        base = Translation.objects.filter(
+        translations = Translation.objects.filter(
             language__pk__in=languages.keys(),
             subproject__project=project
         )
     else:
-        base = Translation.objects.filter(
+        translations = Translation.objects.filter(
             language__pk__in=languages.keys(),
             subproject=project
         )
-    # Translated strings in language
-    data = base.values(
-        'language'
-    ).annotate(
-        Sum('translated'),
-        Sum('translated_words'),
-        Sum('total'),
-        Sum('total_words'),
-    ).order_by()
-    for item in data:
-        translated = item['translated__sum']
-        total = item['total__sum']
+    for translation in translations.order_by():
+        translated = translation.stats.translated
+        total = translation.stats.all
         if total == 0:
             percent = 0
         else:
@@ -83,11 +74,11 @@ def get_per_language_stats(project, lang=None):
                 break
 
         value = (
-            languages[item['language']],
+            languages[translation.language_id],
             translated,
             total,
-            item['translated_words__sum'],
-            item['total_words__sum'],
+            translation.stats.translated_words,
+            translation.stats.all_words,
             percent,
         )
         if pos is not None:

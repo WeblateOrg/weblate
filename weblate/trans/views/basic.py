@@ -64,24 +64,13 @@ import weblate
 
 def get_suggestions(request, user, base):
     """Return suggested translations for user"""
-
-    # Grab all untranslated translations
-    result = base.exclude(
-        total=F('translated'),
-    ).order_by(
-        '-translated'
-    )
-
     if user.is_authenticated and user.profile.languages.exists():
         # Remove user subscriptions
-        result = result.exclude(
+        result = base.exclude(
             subproject__project__in=user.profile.subscriptions.all()
-        )
-
-    result = result[:10]
-
-    if result:
-        return result
+        )[:10]
+        if result:
+            return result
     return base.order_by('?')[:10]
 
 
@@ -375,8 +364,8 @@ def show_subproject(request, project, subproject):
 
     try:
         sample = obj.translation_set.all()[0]
-        source_words = sample.total_words
-        total_strings = sample.total
+        source_words = sample.stats.all_words
+        total_strings = sample.stats.all
     except IndexError:
         source_words = 0
         total_strings = 0
@@ -553,7 +542,7 @@ def stats(request):
     context['total_units'] = Unit.objects.count()
     context['total_words'] = sum(total_words)
     context['total_languages'] = Language.objects.filter(
-        translation__total__gt=0
+        translation__pk__gt=0
     ).distinct().count()
     context['total_checks'] = Check.objects.count()
     context['ignored_checks'] = Check.objects.filter(ignore=True).count()

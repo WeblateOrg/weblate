@@ -34,8 +34,7 @@ class CommentViewTest(FixtureTestCase):
         self.translation = self.subproject.translation_set.get(
             language_code='cs'
         )
-        self.translation.invalidate_cache('comments')
-        self.translation.invalidate_cache('sourcecomments')
+        self.translation.invalidate_cache()
 
     def test_add_target_comment(self):
         unit = self.get_unit()
@@ -62,11 +61,11 @@ class CommentViewTest(FixtureTestCase):
         # Check number of comments
         self.assertTrue(unit.has_comment)
         self.assertEqual(
-            translation.have_comment,
+            translation.stats.comments,
             1
         )
         self.assertEqual(
-            translation.unit_set.count_type('sourcecomments', translation),
+            translation.stats.sourcecomments,
             0
         )
 
@@ -95,11 +94,11 @@ class CommentViewTest(FixtureTestCase):
         # Check number of comments
         self.assertTrue(unit.has_comment)
         self.assertEqual(
-            translation.have_comment,
+            translation.stats.comments,
             1
         )
         self.assertEqual(
-            translation.unit_set.count_type('sourcecomments', translation),
+            translation.stats.sourcecomments,
             1
         )
 

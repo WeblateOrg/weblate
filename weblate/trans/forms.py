@@ -46,12 +46,12 @@ from django.contrib.auth.models import User
 
 from weblate.lang.data import LOCALE_ALIASES
 from weblate.lang.models import Language
+from weblate.trans.filter import get_filter_choice
 from weblate.trans.models import SubProject, Unit, Project, Change
 from weblate.trans.models.source import PRIORITY_CHOICES
 from weblate.trans.models.unit import (
     STATE_TRANSLATED, STATE_FUZZY, STATE_APPROVED, STATE_EMPTY,
 )
-from weblate.trans.checks import CHECKS
 from weblate.permissions.helpers import (
     can_author_translation, can_overwrite_translation, can_translate,
     can_suggest, can_add_translation, can_mass_add_translation, can_review,
@@ -622,25 +622,7 @@ class FilterField(forms.ChoiceField):
     def __init__(self, *args, **kwargs):
         kwargs['label'] = _('Search filter')
         kwargs['required'] = False
-        kwargs['choices'] = [
-            ('all', _('All strings')),
-            ('nottranslated', _('Not translated strings')),
-            ('todo', _('Strings needing action')),
-            ('translated', _('Translated strings')),
-            ('fuzzy', _('Strings marked for edit')),
-            ('suggestions', _('Strings with suggestions')),
-            ('comments', _('Strings with comments')),
-            ('allchecks', _('Strings with any failing checks')),
-            ('approved', _('Approved strings')),
-            (
-                'approved_suggestions',
-                _('Approved strings with suggestions')
-            ),
-            ('unapproved', _('Strings waiting for review')),
-        ] + [
-            (CHECKS[check].url_id, CHECKS[check].description)
-            for check in CHECKS if CHECKS[check].target
-        ]
+        kwargs['choices'] = get_filter_choice()
         kwargs['error_messages'] = {
             'invalid_choice': _('Please select a valid filter type.'),
         }

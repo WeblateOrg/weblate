@@ -71,7 +71,7 @@ class SuggestionsTest(ViewTestCase):
             language_code='cs'
         )
         # Check number of suggestions
-        self.assertEqual(translation.have_suggestion, 1)
+        self.assertEqual(translation.stats.suggestions, 1)
         self.assert_backend(0)
 
         # Unit should not be translated
@@ -98,7 +98,7 @@ class SuggestionsTest(ViewTestCase):
         )
 
         # Check number of suggestions
-        self.assertEqual(translation.have_suggestion, 1)
+        self.assertEqual(translation.stats.suggestions, 1)
         self.assert_backend(0)
 
         # Unit should not be translated
@@ -173,7 +173,7 @@ class SuggestionsTest(ViewTestCase):
             language_code='cs'
         )
         # Check number of suggestions
-        self.assertEqual(translation.have_suggestion, 1)
+        self.assertEqual(translation.stats.suggestions, 1)
 
         # Unit should be translated
         self.assertEqual(len(unit.checks()), 0)
@@ -214,7 +214,7 @@ class SuggestionsTest(ViewTestCase):
             language_code='cs'
         )
         # Check number of suggestions
-        self.assertEqual(translation.have_suggestion, 0)
+        self.assertEqual(translation.stats.suggestions, 0)
 
         # Unit should be translated
         self.assertEqual(unit.target, 'Nazdar svete!\n')
@@ -278,7 +278,7 @@ class SuggestionsTest(ViewTestCase):
             language_code='cs'
         )
         # Check number of suggestions
-        self.assertEqual(translation.have_suggestion, 0)
+        self.assertEqual(translation.stats.suggestions, 0)
 
         # Unit should be translated
         self.assertEqual(len(unit.checks()), 0)

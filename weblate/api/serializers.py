@@ -208,14 +208,44 @@ class TranslationSerializer(RemovableSerializer):
     is_template = serializers.BooleanField(
         read_only=True
     )
+    total = serializers.IntegerField(
+        source='stats.all', read_only=True,
+    )
+    total_words = serializers.IntegerField(
+        source='stats.all_words', read_only=True,
+    )
+    translated = serializers.IntegerField(
+        source='stats.translated', read_only=True,
+    )
+    translated_words = serializers.IntegerField(
+        source='stats.translated_words', read_only=True,
+    )
     translated_percent = serializers.FloatField(
         source='get_translated_percent', read_only=True,
+    )
+    fuzzy = serializers.IntegerField(
+        source='stats.fuzzy', read_only=True,
+    )
+    fuzzy_words = serializers.IntegerField(
+        source='stats.fuzzy_words', read_only=True,
     )
     fuzzy_percent = serializers.FloatField(
         source='get_fuzzy_percent', read_only=True,
     )
+    failing_checks = serializers.IntegerField(
+        source='stats.allchecks', read_only=True,
+    )
+    failing_checks_words = serializers.IntegerField(
+        source='stats.allchecks_words', read_only=True,
+    )
     failing_checks_percent = serializers.FloatField(
         source='get_failing_checks_percent', read_only=True,
+    )
+    have_suggestion = serializers.IntegerField(
+        source='stats.suggestions', read_only=True,
+    )
+    have_comment = serializers.IntegerField(
+        source='stats.comments', read_only=True,
     )
     last_author = serializers.CharField(
         source='get_last_author', read_only=True,
@@ -266,16 +296,15 @@ class TranslationSerializer(RemovableSerializer):
     class Meta(object):
         model = Translation
         fields = (
-            'language', 'component', 'translated', 'fuzzy', 'total',
-            'translated_words', 'fuzzy_words', 'failing_checks_words',
-            'total_words', 'failing_checks', 'have_suggestion', 'have_comment',
+            'language', 'component',
             'language_code', 'filename', 'revision',
             'web_url', 'share_url', 'translate_url', 'url',
             'is_template',
             'total', 'total_words',
             'translated', 'translated_words', 'translated_percent',
-            'fuzzy', 'fuzzy_percent',
-            'failing_checks_percent',
+            'fuzzy', 'fuzzy_words', 'fuzzy_percent',
+            'failing_checks', 'failing_checks_words', 'failing_checks_percent',
+            'have_suggestion', 'have_comment',
             'last_change', 'last_author',
             'repository_url', 'file_url', 'statistics_url', 'changes_list_url',
             'units_list_url',

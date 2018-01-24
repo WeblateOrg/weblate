@@ -29,7 +29,6 @@ from django.db.models import Sum, Count
 from django.utils.translation import ugettext as _
 from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.core.exceptions import ValidationError
-from django.core.cache import cache
 from django.utils import timezone
 from django.urls import reverse
 
@@ -40,6 +39,7 @@ from weblate.trans.checks import CHECKS
 from weblate.trans.models.unit import (
     Unit, STATE_TRANSLATED, STATE_FUZZY, STATE_APPROVED,
 )
+from weblate.trans.models.stats import TranslationStats
 from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.signals import vcs_pre_commit, vcs_post_commit
 from weblate.utils.site import get_site_url
@@ -94,29 +94,21 @@ class TranslationQuerySet(models.QuerySet):
             translations = translations.filter(language=language)
 
         # Aggregate
-        translations = translations.aggregate(
-            Sum('translated'),
-            Sum('fuzzy'),
-            Sum('failing_checks'),
-            Sum('total'),
-            Sum('translated_words'),
-            Sum('total_words'),
-        )
+        translated = fuzzy = failing = total = words = translated_words = 0
+        for translation in translations:
+            translated += translation.stats.translated
+            total += translation.stats.all
+            words += translation.stats.all_words
+            translated_words += translation.stats.translated_words
+            failing += translation.stats.allchecks
+            fuzzy += translation.stats.fuzzy
 
-        total = translations['total__sum']
-        words = translations['total_words__sum']
-        translated_words = translations['translated_words__sum']
-
-        # Fetch values
-        result = [
-            translations['translated__sum'],
-            translations['fuzzy__sum'],
-            translations['failing_checks__sum'],
-        ]
         # Calculate percent
-        return tuple(
-            [translation_percent(value, total) for value in result] +
-            [translation_percent(translated_words, words)]
+        return (
+            translation_percent(translated, total),
+            translation_percent(fuzzy, total),
+            translation_percent(failing, total),
+            translation_percent(translated_words, words),
         )
 
 
@@ -130,21 +122,6 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
     )
     revision = models.CharField(max_length=100, default='', blank=True)
     filename = models.CharField(max_length=200)
-
-    translated = models.IntegerField(default=0, db_index=True)
-    fuzzy = models.IntegerField(default=0, db_index=True)
-    total = models.IntegerField(default=0, db_index=True)
-    translated_words = models.IntegerField(default=0)
-    fuzzy_words = models.IntegerField(default=0)
-    failing_checks_words = models.IntegerField(default=0)
-    total_words = models.IntegerField(default=0)
-    approved = models.IntegerField(default=0)
-    approved_words = models.IntegerField(default=0)
-    approved_suggestions = models.IntegerField(default=0)
-    approved_suggestions_words = models.IntegerField(default=0)
-    failing_checks = models.IntegerField(default=0, db_index=True)
-    have_suggestion = models.IntegerField(default=0, db_index=True)
-    have_comment = models.IntegerField(default=0, db_index=True)
 
     language_code = models.CharField(max_length=20, default='', blank=True)
 
@@ -181,6 +158,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         self._store = None
         self._last_change_obj = None
         self._last_change_obj_valid = False
+        self.stats = TranslationStats(self)
 
     @property
     def log_prefix(self):
@@ -229,25 +207,17 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
     def _get_percents(self, lang=None):
         """Return percentages of translation status."""
         return (
-            translation_percent(self.translated, self.total),
-            translation_percent(self.fuzzy, self.total),
-            translation_percent(self.failing_checks, self.total),
-            translation_percent(self.translated_words, self.total_words),
+            translation_percent(self.stats.translated, self.stats.all),
+            translation_percent(self.stats.fuzzy, self.stats.all),
+            translation_percent(self.stats.allchecks, self.stats.all),
+            translation_percent(self.stats.translated_words, self.stats.all_words),
         )
 
     def get_fuzzy_words_percent(self):
-        return translation_percent(self.fuzzy_words, self.total_words)
+        return translation_percent(self.stats.fuzzy_words, self.stats.all_words)
 
     def get_failing_checks_words_percent(self):
-        return translation_percent(self.failing_checks_words, self.total_words)
-
-    @property
-    def untranslated_words(self):
-        return self.total_words - self.translated_words
-
-    @property
-    def untranslated(self):
-        return self.total - self.translated
+        return translation_percent(self.stats.allchecks_words, self.stats.all_words)
 
     def get_reverse_url_kwargs(self):
         """Return kwargs for URL reversing."""
@@ -414,12 +384,8 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         units_to_delete.delete()
 
         # Update revision and stats
-        self.update_stats()
+        self.invalidate_cache()
         self.store_hash()
-
-        # Cleanup checks cache if there were some deleted units
-        if deleted_units:
-            self.invalidate_cache()
 
         # Store change entry
         Change.objects.create(
@@ -461,76 +427,6 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                 self.subproject.template
             )
         ])
-
-    def update_stats(self):
-        """Update translation statistics."""
-        # Grab stats
-        stats = self.unit_set.aggregate(
-            Sum('num_words'),
-            Count('id'),
-            fuzzy__sum=conditional_sum(1, state=STATE_FUZZY),
-            translated__sum=conditional_sum(1, state__gte=STATE_TRANSLATED),
-            approved__sum=conditional_sum(1, state__gte=STATE_APPROVED),
-            has_failing_check__sum=conditional_sum(1, has_failing_check=True),
-            has_suggestion__sum=conditional_sum(1, has_suggestion=True),
-            has_comment__sum=conditional_sum(1, has_comment=True),
-            translated_words__sum=conditional_sum(
-                'num_words', state__gte=STATE_TRANSLATED
-            ),
-            approved_words__sum=conditional_sum(
-                'num_words', state__gte=STATE_APPROVED
-            ),
-            fuzzy_words__sum=conditional_sum(
-                'num_words', state=STATE_FUZZY
-            ),
-            check_words__sum=conditional_sum(
-                'num_words', has_failing_check=True
-            ),
-            approved_suggestions__sum=conditional_sum(
-                1, state__gte=STATE_APPROVED, has_suggestion=True
-            ),
-            approved_suggestions_words__sum=conditional_sum(
-                'num_words', state__gte=STATE_APPROVED, has_suggestion=True
-            ),
-        )
-
-        # Check if we have any units
-        if stats['num_words__sum'] is None:
-            self.total_words = 0
-            self.total = 0
-            self.fuzzy = 0
-            self.translated = 0
-            self.failing_checks = 0
-            self.have_suggestion = 0
-            self.have_comment = 0
-            self.translated_words = 0
-            self.fuzzy_words = 0
-            self.failing_checks_words = 0
-            self.approved = 0
-            self.approved_words = 0
-            self.approved_suggestions = 0
-            self.approved_suggestions_words = 0
-        else:
-            self.total_words = stats['num_words__sum']
-            self.total = stats['id__count']
-            self.fuzzy = int(stats['fuzzy__sum'])
-            self.translated = int(stats['translated__sum'])
-            self.failing_checks = int(stats['has_failing_check__sum'])
-            self.have_suggestion = int(stats['has_suggestion__sum'])
-            self.have_comment = int(stats['has_comment__sum'])
-            self.translated_words = int(stats['translated_words__sum'])
-            self.fuzzy_words = int(stats['fuzzy_words__sum'])
-            self.failing_checks_words = int(stats['check_words__sum'])
-            self.approved = int(stats['approved__sum'])
-            self.approved_words = int(stats['approved_words__sum'])
-            self.approved_suggestions = int(
-                stats['approved_suggestions__sum']
-            )
-            self.approved_suggestions_words = int(
-                stats['approved_suggestions_words__sum']
-            )
-
-        self.save()
 
     def store_hash(self):
         """Store current hash in database."""
@@ -603,10 +499,10 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             'component': self.subproject.name,
             'project': self.subproject.project.name,
             'url': get_site_url(self.get_absolute_url()),
-            'total': self.total,
-            'fuzzy': self.fuzzy,
+            'total': self.stats.all,
+            'fuzzy': self.stats.fuzzy,
             'fuzzy_percent': self.get_fuzzy_percent(),
-            'translated': self.translated,
+            'translated': self.stats.translated,
             'translated_percent': self.get_translated_percent(),
         }
         if self.commit_message:
@@ -810,23 +706,24 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         self.store.save()
 
         # Update stats (the translated flag might have changed)
-        self.update_stats()
+        self.invalidate_cache()
 
     def get_source_checks(self):
         """Return list of failing source checks on current subproject."""
+        self.stats.ensure_all()
         result = TranslationChecklist()
         result.add(
+            self.stats,
             'all',
             _('All strings'),
-            self.total,
             'success',
         )
 
         # All checks
         result.add_if(
+            self.stats,
             'sourcechecks',
             _('Strings with any failing checks'),
-            self.unit_set.count_type('sourcechecks', self),
             'danger',
         )
 
@@ -836,17 +733,17 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             if not check_obj.source:
                 continue
             result.add_if(
+                self.stats,
                 check_obj.url_id,
                 check_obj.description,
-                self.unit_set.count_type(check_obj.url_id, self),
                 check_obj.severity,
             )
 
         # Grab comments
         result.add_if(
+            self.stats,
             'sourcecomments',
             _('Strings with comments'),
-            self.unit_set.count_type('sourcecomments', self),
             'info',
         )
 
@@ -854,93 +751,86 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
     def get_translation_checks(self):
         """Return list of failing checks on current translation."""
+        self.stats.ensure_all()
         result = TranslationChecklist()
 
         # All strings
         result.add(
+            self.stats,
             'all',
             _('All strings'),
-            self.total,
             'success',
-            self.total_words
         )
 
         result.add_if(
+            self.stats,
             'approved',
             _('Approved strings'),
-            self.approved,
             'success',
-            self.approved_words,
         )
 
         # Count of translated strings
         result.add_if(
+            self.stats,
             'translated',
             _('Translated strings'),
-            self.translated,
             'success',
-            self.translated_words,
         )
 
         # To approve
         if self.subproject.project.enable_review:
             result.add_if(
+                self.stats,
                 'unapproved',
                 _('Strings waiting for review'),
-                self.translated - self.approved,
                 'warning',
-                self.translated_words - self.approved_words,
             )
 
         # Approved with suggestions
         result.add_if(
+            self.stats,
             'approved_suggestions',
             _('Approved strings with suggestions'),
-            self.approved_suggestions,
             'danger',
-            self.approved_suggestions_words,
         )
 
         # Untranslated strings
         result.add_if(
+            self.stats,
             'todo',
             _('Strings needing action'),
-            self.total - self.translated,
             'danger',
-            self.total_words - self.translated_words,
         )
 
         # Not translated strings
         result.add_if(
+            self.stats,
             'nottranslated',
             _('Not translated strings'),
-            self.total - self.translated - self.fuzzy,
             'danger',
-            self.total_words - self.translated_words - self.fuzzy_words,
         )
 
         # Fuzzy strings
         result.add_if(
+            self.stats,
             'fuzzy',
             _('Strings marked as needing edit'),
-            self.fuzzy,
             'danger',
-            self.fuzzy_words,
         )
 
         # Translations with suggestions
         result.add_if(
+            self.stats,
             'suggestions',
             _('Strings with suggestions'),
-            self.have_suggestion,
             'info',
         )
 
         # All checks
         result.add_if(
+            self.stats,
             'allchecks',
             _('Strings with any failing checks'),
-            self.failing_checks,
             'danger',
         )
 
@@ -950,17 +840,17 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             if not check_obj.target:
                 continue
             result.add_if(
+                self.stats,
                 check_obj.url_id,
                 check_obj.description,
-                self.unit_set.count_type(check_obj.url_id, self),
                 check_obj.severity,
             )
 
         # Grab comments
         result.add_if(
+            self.stats,
             'comments',
             _('Strings with comments'),
-            self.have_comment,
             'info',
         )
 
@@ -1013,7 +903,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             )
 
         if accepted > 0:
-            self.update_stats()
+            self.invalidate_cache()
 
             if merge_header:
                 self.store.merge_header(store2)
@@ -1050,7 +940,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
         # Update suggestion count
         if accepted > 0:
-            self.update_stats()
+            self.invalidate_cache()
 
         return (not_found, skipped, accepted, store.count_units())
 
@@ -1098,26 +988,13 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         # Add as sugestions
         return self.merge_suggestions(request, store, fuzzy)
 
-    def invalidate_cache(self, cache_type=None):
+    def invalidate_cache(self):
         """Invalidate any cached stats."""
         # Invalidate last change cache
         self._last_change_obj_valid = False
 
-        # Get parts of key cache
-        slug = self.subproject.get_full_slug()
-        code = self.language.code
-
-        # Are we asked for specific cache key?
-        if cache_type is None:
-            keys = ['check:{0}'.format(c) for c in CHECKS]
-        else:
-            keys = [cache_type]
-
-        # Actually delete the cache
-        cache.delete_many([
-            'counts-{0}-{1}-{2}'.format(slug, code, rqtype)
-            for rqtype in keys
-        ])
+        # Invalidate summary stats
+        self.stats.invalidate()
 
     def get_kwargs(self):
         return {
@@ -1135,16 +1012,16 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         return {
             'code': self.language.code,
             'name': self.language.name,
-            'total': self.total,
-            'total_words': self.total_words,
+            'total': self.stats.all,
+            'total_words': self.stats.all_words,
             'last_change': self.last_change,
             'last_author': self.get_last_author(),
-            'translated': self.translated,
-            'translated_words': self.translated_words,
+            'translated': self.stats.translated,
+            'translated_words': self.stats.translated_words,
             'translated_percent': self.get_translated_percent(),
-            'fuzzy': self.fuzzy,
+            'fuzzy': self.stats.fuzzy,
             'fuzzy_percent': self.get_fuzzy_percent(),
-            'failing': self.failing_checks,
+            'failing': self.stats.allchecks,
             'failing_percent': self.get_failing_checks_percent(),
             'url': self.get_share_url(),
             'url_translate': get_site_url(self.get_absolute_url()),

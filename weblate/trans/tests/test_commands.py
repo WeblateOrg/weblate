@@ -629,7 +629,7 @@ class SuggestionCommandTest(RepoTestCase):
             author=user.email
         )
         translation = self.subproject.translation_set.get(language_code='cs')
-        self.assertEqual(translation.have_suggestion, 1)
+        self.assertEqual(translation.stats.suggestions, 1)
         profile = Profile.objects.get(user__email=user.email)
         self.assertEqual(profile.suggested, 1)
 

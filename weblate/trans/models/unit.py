@@ -30,7 +30,6 @@ from django.db import models
 from django.db.models import Q
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext as _
-from django.core.cache import cache
 
 from weblate.accounts.models import get_author_name
 from weblate.permissions.helpers import can_translate
@@ -124,7 +123,7 @@ class UnitManager(models.Manager):
 
 
 class UnitQuerySet(models.QuerySet):
-    def filter_checks(self, rqtype, project, language, ignored=False):
+    def filter_checks(self, rqtype, project, language, ignored=False, strict=False):
         """Filtering for checks."""
 
         # Filter checks for current project
@@ -143,6 +142,8 @@ class UnitQuerySet(models.QuerySet):
         elif rqtype.startswith('check:'):
             check_id = rqtype[6:]
             if check_id not in CHECKS:
+                if strict:
+                    raise ValueError('Unknown check: {}'.format(check_id))
                 return self.all()
             if CHECKS[check_id].source:
                 checks = checks.filter(language=None)
@@ -154,7 +155,7 @@ class UnitQuerySet(models.QuerySet):
         checks = checks.values_list('content_hash', flat=True)
         return self.filter(content_hash__in=checks)
 
-    def filter_type(self, rqtype, project, language, ignored=False):
+    def filter_type(self, rqtype, project, language, ignored=False, strict=False):
         """Basic filtering based on unit state or failed checks."""
         if rqtype in SIMPLE_FILTERS:
             return self.filter(**SIMPLE_FILTERS[rqtype])
@@ -172,34 +173,16 @@ class UnitQuerySet(models.QuerySet):
                 rqtype,
                 project,
                 language,
-                ignored
+                ignored,
+                strict=strict
             )
-        else:
-            # Catch anything not matching including 'all'
+        elif rqtype == 'all':
             return self.all()
-
-    def count_type(self, rqtype, translation):
-        """Cached counting of failing checks (and other stats)."""
-        # Try to get value from cache
-        cache_key = 'counts-{0}-{1}-{2}'.format(
-            translation.subproject.get_full_slug(),
-            translation.language.code,
-            rqtype
-        )
-        ret = cache.get(cache_key)
-        if ret is not None:
-            return ret
-
-        # Actually count units
-        ret = self.filter_type(
-            rqtype,
-            translation.subproject.project,
-            translation.language,
-        ).count()
-
-        # Update cache
-        cache.set(cache_key, ret)
-        return ret
+        elif strict:
+            raise ValueError('Unknown filter: {}'.format(rqtype))
+        else:
+            # Catch anything not matching
+            return self.all()
 
     def review(self, date, exclude_user, only_user,
                project=None, subproject=None, language=None, translation=None):
@@ -696,9 +679,9 @@ class Unit(models.Model, LoggerMixin):
         self.save(backend=True)
 
         # Update translation stats
-        old_translated = self.translation.translated
+        old_translated = self.translation.stats.translated
         if change_action != Change.ACTION_UPLOAD:
-            self.translation.update_stats()
+            self.translation.invalidate_cache()
             self.translation.store_hash()
 
         # Notify subscribed users about new translation
@@ -713,8 +696,8 @@ class Unit(models.Model, LoggerMixin):
             self.generate_change(request, user, change_action)
 
         # Force commiting on completing translation
-        if (old_translated < self.translation.translated and
-                self.translation.translated == self.translation.total):
+        if (old_translated < self.translation.stats.translated and
+                self.translation.stats.translated == self.translation.stats.all):
             Change.objects.create(
                 translation=self.translation,
                 action=Change.ACTION_COMPLETE,
@@ -783,7 +766,7 @@ class Unit(models.Model, LoggerMixin):
                 old=previous_source,
                 target=self.source,
             )
-            unit.translation.update_stats()
+            unit.translation.invalidate_cache()
 
     def generate_change(self, request, author, change_action):
         """Create Change entry for saving unit."""
@@ -1051,13 +1034,7 @@ class Unit(models.Model, LoggerMixin):
                 update_fields=['has_failing_check']
             )
 
-            # Update translation stats
-            if update_stats:
-                self.translation.update_stats()
-
         # Invalidate checks cache if there was any change
-        # (above code cares only about whether there is failing check
-        # while here we care about any changed in checks)
         if update_stats:
             self.translation.invalidate_cache()
 
@@ -1078,7 +1055,7 @@ class Unit(models.Model, LoggerMixin):
 
             # Update translation stats
             if update_stats:
-                self.translation.update_stats()
+                self.translation.invalidate_cache()
 
     def update_has_comment(self, update_stats=True):
         """Update flag counting comments."""
@@ -1092,7 +1069,7 @@ class Unit(models.Model, LoggerMixin):
 
             # Update translation stats
             if update_stats:
-                self.translation.update_stats()
+                self.translation.invalidate_cache()
 
     def nearby(self):
         """Return list of nearby messages based on location."""

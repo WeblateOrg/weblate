@@ -37,4 +37,4 @@ class Command(WeblateLangCommand):
                 unit.save(backend=True, same_content=True)
 
         for translation in self.get_translations(**options):
-            translation.update_stats()
+            translation.invalidate_cache()

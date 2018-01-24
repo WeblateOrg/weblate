@@ -54,6 +54,7 @@ class ImportBaseTest(ViewTestCase):
         # We need extra privileges for overwriting
         self.user.is_superuser = True
         self.user.save()
+        self.get_translation().invalidate_cache()
 
     def do_import(self, test_file=None, follow=False, **kwargs):
         """Helper to perform file import."""
@@ -84,9 +85,9 @@ class ImportTest(ImportBaseTest):
 
         # Verify stats
         translation = self.get_translation()
-        self.assertEqual(translation.translated, 1)
-        self.assertEqual(translation.fuzzy, 0)
-        self.assertEqual(translation.total, 4)
+        self.assertEqual(translation.stats.translated, 1)
+        self.assertEqual(translation.stats.fuzzy, 0)
+        self.assertEqual(translation.stats.all, 4)
 
         # Verify unit
         unit = self.get_unit()
@@ -101,9 +102,9 @@ class ImportTest(ImportBaseTest):
 
         # Verify stats
         translation = self.get_translation()
-        self.assertEqual(translation.translated, 1)
-        self.assertEqual(translation.fuzzy, 0)
-        self.assertEqual(translation.total, 4)
+        self.assertEqual(translation.stats.translated, 1)
+        self.assertEqual(translation.stats.fuzzy, 0)
+        self.assertEqual(translation.stats.all, 4)
 
         # Verify unit
         unit = self.get_unit()
@@ -131,9 +132,9 @@ class ImportTest(ImportBaseTest):
 
         # Verify stats
         translation = self.get_translation()
-        self.assertEqual(translation.translated, 1)
-        self.assertEqual(translation.fuzzy, 0)
-        self.assertEqual(translation.total, 4)
+        self.assertEqual(translation.stats.translated, 1)
+        self.assertEqual(translation.stats.fuzzy, 0)
+        self.assertEqual(translation.stats.all, 4)
 
         # Verify unit
         unit = self.get_unit()
@@ -175,9 +176,9 @@ class ImportTest(ImportBaseTest):
 
         # Verify stats
         translation = self.get_translation()
-        self.assertEqual(translation.translated, 0)
-        self.assertEqual(translation.fuzzy, 1)
-        self.assertEqual(translation.total, 4)
+        self.assertEqual(translation.stats.translated, 0)
+        self.assertEqual(translation.stats.fuzzy, 1)
+        self.assertEqual(translation.stats.all, 4)
 
     def test_import_suggest(self):
         """Test importing as suggestion."""
@@ -190,11 +191,11 @@ class ImportTest(ImportBaseTest):
 
         # Verify stats
         translation = self.get_translation()
-        self.assertEqual(translation.translated, 0)
-        self.assertEqual(translation.fuzzy, 0)
-        self.assertEqual(translation.total, 4)
+        self.assertEqual(translation.stats.translated, 0)
+        self.assertEqual(translation.stats.fuzzy, 0)
+        self.assertEqual(translation.stats.all, 4)
         self.assertEqual(
-            translation.have_suggestion,
+            translation.stats.suggestions,
             1
         )
 
@@ -203,7 +204,7 @@ class ImportTest(ImportBaseTest):
         self.assertContains(response, 'updated: 1')
         # Verify stats
         translation = self.get_translation()
-        self.assertEqual(translation.translated, 1)
+        self.assertEqual(translation.stats.translated, 1)
 
 
 class ImportErrorTest(ImportBaseTest):
@@ -242,9 +243,9 @@ class ImportFuzzyTest(ImportBaseTest):
 
         # Verify stats
         translation = self.get_translation()
-        self.assertEqual(translation.translated, 0)
-        self.assertEqual(translation.fuzzy, 0)
-        self.assertEqual(translation.total, 4)
+        self.assertEqual(translation.stats.translated, 0)
+        self.assertEqual(translation.stats.fuzzy, 0)
+        self.assertEqual(translation.stats.all, 4)
 
     def test_import_process(self):
         """Test importing normally."""
@@ -255,9 +256,9 @@ class ImportFuzzyTest(ImportBaseTest):
 
         # Verify stats
         translation = self.get_translation()
-        self.assertEqual(translation.translated, 0)
-        self.assertEqual(translation.fuzzy, 1)
-        self.assertEqual(translation.total, 4)
+        self.assertEqual(translation.stats.translated, 0)
+        self.assertEqual(translation.stats.fuzzy, 1)
+        self.assertEqual(translation.stats.all, 4)
 
     def test_import_approve(self):
         """Test importing normally."""
@@ -268,9 +269,9 @@ class ImportFuzzyTest(ImportBaseTest):
 
         # Verify stats
         translation = self.get_translation()
-        self.assertEqual(translation.translated, 1)
-        self.assertEqual(translation.fuzzy, 0)
-        self.assertEqual(translation.total, 4)
+        self.assertEqual(translation.stats.translated, 1)
+        self.assertEqual(translation.stats.fuzzy, 0)
+        self.assertEqual(translation.stats.all, 4)
 
 
 class ImportMoTest(ImportTest):
@@ -336,9 +337,9 @@ class AndroidImportTest(ViewTestCase):
             )
         # Verify stats
         translation = self.get_translation()
-        self.assertEqual(translation.translated, 2)
-        self.assertEqual(translation.fuzzy, 0)
-        self.assertEqual(translation.total, 4)
+        self.assertEqual(translation.stats.translated, 2)
+        self.assertEqual(translation.stats.fuzzy, 0)
+        self.assertEqual(translation.stats.all, 4)
 
 
 class CSVImportTest(ViewTestCase):
@@ -346,8 +347,9 @@ class CSVImportTest(ViewTestCase):
 
     def test_import(self):
         translation = self.get_translation()
-        self.assertEqual(translation.translated, 0)
-        self.assertEqual(translation.fuzzy, 0)
+        translation.invalidate_cache()
+        self.assertEqual(translation.stats.translated, 0)
+        self.assertEqual(translation.stats.fuzzy, 0)
         with open(self.test_file, 'rb') as handle:
             self.client.post(
                 reverse(
@@ -358,8 +360,8 @@ class CSVImportTest(ViewTestCase):
             )
         # Verify stats
         translation = self.get_translation()
-        self.assertEqual(translation.translated, 1)
-        self.assertEqual(translation.fuzzy, 0)
+        self.assertEqual(translation.stats.translated, 1)
+        self.assertEqual(translation.stats.fuzzy, 0)
 
 
 class CSVQuotesImportTest(CSVImportTest):

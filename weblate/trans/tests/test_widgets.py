@@ -136,7 +136,10 @@ class WidgetsRenderTest(FixtureTestCase):
 class WidgetsPercentRenderTest(WidgetsRenderTest):
     def perform_test(self, widget, color):
         for translated in (0, 3, 4):
-            Translation.objects.update(translated=translated)
+            # Fake translated stats
+            for translation in Translation.objects.all():
+                translation.stats._data['translated'] = translated
+                translation.stats.save()
             response = self.client.get(
                 reverse(
                     'widget-image',

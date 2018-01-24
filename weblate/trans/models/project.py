@@ -300,11 +300,9 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
             words = []
             for component in self.subproject_set.all():
                 try:
-                    data = component.translation_set.values_list(
-                        'total', 'total_words'
-                    )[0]
-                    totals.append(data[0])
-                    words.append(data[1])
+                    translation = component.translation_set.all()[0]
+                    totals.append(translation.stats.all)
+                    words.append(translation.stats.all_words)
                 except IndexError:
                     pass
             self._totals_cache = (sum(totals), sum(words))
@@ -322,11 +320,9 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
     def get_total_words(self):
         totals = []
         for component in self.subproject_set.all():
-            result = component.translation_set.aggregate(
-                Sum('total_words')
-            )['total_words__sum']
-            if result is not None:
-                totals.append(result)
+            totals.append(sum((
+                t.stats.all_words for t in component.translation_set.all()
+            )))
         return sum(totals)
 
     def get_source_words(self):

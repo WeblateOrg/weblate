@@ -278,7 +278,7 @@ class LanguageQuerySet(models.QuerySet):
 
     def have_translation(self):
         """Return list of languages which have at least one translation."""
-        return self.filter(translation__total__gt=0).distinct()
+        return self.filter(translation__pk__gt=0).distinct()
 
     def check_definitions(self, filename):
         """Check database language definitions with supplied ones."""

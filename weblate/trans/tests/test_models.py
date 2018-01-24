@@ -149,9 +149,10 @@ class TranslationTest(RepoTestCase):
     def test_basic(self):
         project = self.create_subproject()
         translation = project.translation_set.get(language_code='cs')
-        self.assertEqual(translation.translated, 0)
-        self.assertEqual(translation.total, 4)
-        self.assertEqual(translation.fuzzy, 0)
+        translation.invalidate_cache()
+        self.assertEqual(translation.stats.translated, 0)
+        self.assertEqual(translation.stats.all, 4)
+        self.assertEqual(translation.stats.fuzzy, 0)
 
     def test_extra_file(self):
         """Test extra commit file handling."""
@@ -193,9 +194,13 @@ class TranslationTest(RepoTestCase):
         """Check update stats with no units."""
         project = self.create_subproject()
         translation = project.translation_set.get(language_code='cs')
-        translation.update_stats()
+        translation.invalidate_cache()
+        self.assertEqual(translation.stats.all, 4)
+        self.assertEqual(translation.stats.all_words, 15)
         translation.unit_set.all().delete()
-        translation.update_stats()
+        translation.invalidate_cache()
+        self.assertEqual(translation.stats.all, 0)
+        self.assertEqual(translation.stats.all_words, 0)
 
 
 class ComponentListTest(RepoTestCase):
