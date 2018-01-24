@@ -1609,11 +1609,5 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             return None
         return self.translation_set.get(filename=self.template)
 
-    def get_total_words(self):
-        return sum((t.stats.all_words for t in self.translation_set.all()))
-
-    def get_total(self):
-        return sum((t.stats.all for t in self.translation_set.all()))
-
     def get_language_count(self):
         return self.translation_set.count()

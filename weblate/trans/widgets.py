@@ -127,7 +127,7 @@ class BitmapWidget(ContentWidget):
         """Create Widget object."""
         super(BitmapWidget, self).__init__(obj, color, lang)
         # Get object and related params
-        self.total = obj.get_total()
+        self.total = obj.stats.source_strings
         self.languages = obj.get_language_count()
         self.params = self.get_text_params()
 

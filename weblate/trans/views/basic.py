@@ -264,7 +264,7 @@ def show_engage(request, project, lang=None):
         'object': obj,
         'project': obj,
         'languages': languages,
-        'total': obj.get_total(),
+        'total': obj.stats.source_strings,
         'percent': obj.get_translated_percent(language),
         'url': obj.get_absolute_url(),
         'lang_url': obj.get_absolute_url() + '#languages',
@@ -344,12 +344,12 @@ def show_project(request, project):
             'unit_count': Unit.objects.filter(
                 translation__subproject__project=obj
             ).count(),
-            'words_count': obj.get_total_words(),
+            'words_count': obj.stats.all_words,
             'language_count': Language.objects.filter(
                 translation__subproject__project=obj
             ).distinct().count(),
-            'strings_count': obj.get_total(),
-            'source_words_count': obj.get_source_words(),
+            'strings_count': obj.stats.souce_strings,
+            'source_words_count': obj.stats.source_words,
             'search_form': SearchForm(),
             'replace_form': replace_form,
         }
@@ -392,7 +392,7 @@ def show_subproject(request, project, subproject):
             'unit_count': Unit.objects.filter(
                 translation__subproject=obj
             ).count(),
-            'words_count': obj.get_total_words(),
+            'words_count': obj.stats.all_words,
             'language_count': Language.objects.filter(
                 translation__subproject=obj
             ).distinct().count(),
@@ -532,8 +532,8 @@ def stats(request):
     total_strings = []
     total_words = []
     for project in Project.objects.iterator():
-        total_strings.append(project.get_total())
-        total_words.append(project.get_source_words())
+        total_strings.append(project.stats.source_strings)
+        total_words.append(project.stats.source_words)
 
     context['total_translations'] = totals['translated__sum']
     context['total_suggestions'] = totals['suggested__sum']

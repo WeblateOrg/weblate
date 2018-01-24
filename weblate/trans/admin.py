@@ -42,6 +42,14 @@ class ProjectAdmin(WeblateModelAdmin):
         )
     list_admins.short_description = _('Administrators')
 
+    def get_total(self, obj):
+        return obj.stats.source_strings
+    get_total.short_description = _('Source strings')
+
+    def get_source_words(self, obj):
+        return obj.stats.source_words
+    get_source_words.short_description = _('Source words')
+
     def num_vcs(self, obj):
         return obj.subproject_set.exclude(repo__startswith='weblate:/').count()
     num_vcs.short_description = _('VCS repositories')

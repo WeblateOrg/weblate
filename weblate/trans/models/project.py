@@ -291,47 +291,6 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         # Get percents:
         return Translation.objects.get_percents(project=self, language=lang)
 
-    def _get_totals(self):
-        """Backend for calculating totals"""
-        if self._totals_cache is None:
-            totals = []
-            words = []
-            for component in self.subproject_set.all():
-                try:
-                    translation = component.translation_set.all()[0]
-                    totals.append(translation.stats.all)
-                    words.append(translation.stats.all_words)
-                except IndexError:
-                    pass
-            self._totals_cache = (sum(totals), sum(words))
-        return self._totals_cache
-
-    def get_total(self):
-        """Calculate total number of strings to translate.
-
-        This is done based on assumption that all languages have same number
-        of strings.
-        """
-        return self._get_totals()[0]
-    get_total.short_description = _('Source strings')
-
-    def get_total_words(self):
-        totals = []
-        for component in self.subproject_set.all():
-            totals.append(sum((
-                t.stats.all_words for t in component.translation_set.all()
-            )))
-        return sum(totals)
-
-    def get_source_words(self):
-        """Calculate total number of words to translate.
-
-        This is done based on assumption that all languages have same number
-        of strings.
-        """
-        return self._get_totals()[1]
-    get_source_words.short_description = _('Source words')
-
     def get_languages(self):
         """Return list of all languages used in project."""
         return Language.objects.filter(

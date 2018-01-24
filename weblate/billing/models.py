@@ -129,7 +129,7 @@ class Billing(models.Model):
 
     def count_strings(self):
         return sum(
-            [p.get_total() for p in self.projects.all()]
+            (p.stats.source_strings for p in self.projects.all())
         )
 
     def display_strings(self):
@@ -141,7 +141,7 @@ class Billing(models.Model):
 
     def count_words(self):
         return sum(
-            [p.get_source_words() for p in self.projects.all()]
+            (p.stats.source_words for p in self.projects.all())
         )
 
     def display_words(self):

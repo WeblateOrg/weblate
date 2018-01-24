@@ -226,6 +226,18 @@ class ComponentStats(LanguageStats):
         super(ComponentStats, self).invalidate()
         self._object.project.stats.invalidate()
 
+    def calculate_item(self, item):
+        if item not in ('source_strings', 'source_words'):
+            super(ComponentStats, self).calculate_item(item)
+        else:
+            result = 0
+            for translation in self._object.translation_set.all()[:1]:
+                if item == 'source_words':
+                    result = translation.stats.all_words
+                else:
+                    result = translation.stats.all
+            self.store(item, result)
+
 
 class ProjectStats(BaseStats):
     def prefetch_basic(self):
