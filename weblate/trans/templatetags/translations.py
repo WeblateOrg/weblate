@@ -455,9 +455,10 @@ def naturaltime(value, now=None):
     )
 
 
-def translation_progress_data(translated, fuzzy, checks):
+def translation_progress_data(approved, translated, fuzzy, checks):
     return {
-        'good': '{0:.1f}'.format(translated - checks),
+        'approved': '{0:.1f}'.format(approved),
+        'good': '{0:.1f}'.format(translated - checks - approved),
         'checks': '{0:.1f}'.format(checks),
         'fuzzy': '{0:.1f}'.format(fuzzy),
         'percent': '{0:.1f}'.format(translated),
@@ -466,12 +467,13 @@ def translation_progress_data(translated, fuzzy, checks):
 
 @register.inclusion_tag('progress.html')
 def generic_progress(translated):
-    return translation_progress_data(translated, 0, 0)
+    return translation_progress_data(0, translated, 0, 0)
 
 
 @register.inclusion_tag('progress.html')
 def translation_progress(translation):
     return translation_progress_data(
+        translation.stats.approved_percent,
         translation.stats.translated_percent,
         translation.stats.fuzzy_percent,
         translation.stats.allchecks_percent,
@@ -481,6 +483,7 @@ def translation_progress(translation):
 @register.inclusion_tag('progress.html')
 def words_progress(translation):
     return translation_progress_data(
+        translation.stats.approved_words_percent,
         translation.stats.translated_words_percent,
         translation.stats.fuzzy_words_percent,
         translation.stats.allchecks_words_percent,

@@ -105,6 +105,7 @@ class BaseStats(object):
         self.calculate_percents('translated_percent')
         self.calculate_percents('approved_percent')
         self.calculate_percents('translated_words_percent')
+        self.calculate_percents('approved_words_percent')
         self.calculate_percents('untranslated_percent')
         self.calculate_percents('fuzzy_percent')
         self.calculate_percents('allchecks_percent')

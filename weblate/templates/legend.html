@@ -1,6 +1,9 @@
 {% load i18n %}
 
 <div class="legend">
+{% with approved=100 %}
+{% include "progress.html" %} - {% trans "Approved" %}
+{% endwith %}
 {% with good=100 %}
 {% include "progress.html" %} - {% trans "Good" %}
 {% endwith %}
