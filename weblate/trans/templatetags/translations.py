@@ -471,20 +471,20 @@ def generic_progress(translated):
 
 @register.inclusion_tag('progress.html')
 def translation_progress(translation):
-    translated = translation.get_translated_percent()
-    fuzzy = translation.get_fuzzy_percent()
-    checks = translation.get_failing_checks_percent()
-
-    return translation_progress_data(translated, fuzzy, checks)
+    return translation_progress_data(
+        translation.stats.translated_percent,
+        translation.stats.fuzzy_percent,
+        translation.stats.allchecks_percent,
+    )
 
 
 @register.inclusion_tag('progress.html')
 def words_progress(translation):
-    translated = translation.get_words_percent()
-    fuzzy = translation.get_fuzzy_words_percent()
-    checks = translation.get_failing_checks_words_percent()
-
-    return translation_progress_data(translated, fuzzy, checks)
+    return translation_progress_data(
+        translation.stats.translated_words_percent,
+        translation.stats.fuzzy_words_percent,
+        translation.stats.allchecks_words_percent,
+    )
 
 
 @register.simple_tag

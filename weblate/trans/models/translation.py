@@ -213,16 +213,6 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             ),
         )
 
-    def get_fuzzy_words_percent(self):
-        return translation_percent(
-            self.stats.fuzzy_words, self.stats.all_words
-        )
-
-    def get_failing_checks_words_percent(self):
-        return translation_percent(
-            self.stats.allchecks_words, self.stats.all_words
-        )
-
     def get_reverse_url_kwargs(self):
         """Return kwargs for URL reversing."""
         return {
