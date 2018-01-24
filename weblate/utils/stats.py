@@ -114,7 +114,7 @@ class BaseStats(object):
 class TranslationStats(BaseStats):
     """Per translation stats."""
     def invalidate(self):
-        super(self, TranslationStats).invalidate()
+        super(TranslationStats, self).invalidate()
         self._object.subproject.stats.invalidate()
         self._object.language.stats.invalidate()
 
@@ -217,7 +217,7 @@ class LanguageStats(BaseStats):
 
 class ComponentStats(LanguageStats):
     def invalidate(self):
-        super(self, ComponentStats).invalidate()
+        super(ComponentStats, self).invalidate()
         self._object.project.stats.invalidate()
 
 
