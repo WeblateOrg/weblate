@@ -20,8 +20,9 @@
 
 from __future__ import unicode_literals
 
-from weblate.trans.checks import CHECKS
 from django.utils.translation import ugettext_lazy as _
+
+from weblate.trans.checks import CHECKS
 
 
 def get_filter_choice(include_source=False):

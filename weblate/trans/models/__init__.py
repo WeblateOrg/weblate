@@ -64,7 +64,7 @@ from weblate.utils.decorators import disable_for_loaddata
 __all__ = [
     'Project', 'SubProject', 'Translation', 'Unit', 'Check', 'Suggestion',
     'Comment', 'Vote', 'IndexUpdate', 'Change', 'Dictionary', 'Source',
-    'Advertisement', 'WhiteboardMessage', 'ComponentList',
+    'WhiteboardMessage', 'ComponentList',
     'WeblateConf',
 ]
 

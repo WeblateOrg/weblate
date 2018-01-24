@@ -21,8 +21,9 @@
 from uuid import uuid4
 from datetime import timedelta
 
-from six.moves.urllib.request import Request, urlopen
 from xml.etree import ElementTree as ET
+
+from six.moves.urllib.request import Request, urlopen
 
 from django.conf import settings
 from django.utils import timezone

@@ -18,14 +18,17 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from django.conf import settings
-from six.moves.urllib.request import Request, urlopen
+import base64
 import json
+
+from django.conf import settings
+
+from six.moves.urllib.request import Request, urlopen
+
 from weblate import USER_AGENT
 from weblate.utils.site import get_site_url
-import base64
-
 from weblate.trans.machine.base import MachineTranslation, MissingConfiguration
+
 
 class SAPTranslationHub(MachineTranslation):
     # https://api.sap.com/shell/discover/contentpackage/SAPTranslationHub/api/translationhub
@@ -117,8 +120,8 @@ class SAPTranslationHub(MachineTranslation):
         translations = []
 
         # prepare the translations for weblate
-        for unit in response['units']:
-            for translation in unit['translations']:
+        for item in response['units']:
+            for translation in item['translations']:
                 translations.append((
                     translation['value'],
                     translation.get('qualityIndex', 100),

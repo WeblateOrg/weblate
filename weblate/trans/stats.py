@@ -20,7 +20,6 @@
 
 from __future__ import unicode_literals
 
-from django.db.models import Sum
 from django.utils.encoding import force_text
 
 from weblate.lang.models import Language

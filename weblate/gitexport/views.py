@@ -60,6 +60,7 @@ def find_git_http_backend():
         if os.path.exists(name):
             find_git_http_backend.result = name
             return name
+    return None
 
 
 def response_authenticate():

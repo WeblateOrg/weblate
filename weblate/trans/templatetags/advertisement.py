@@ -45,6 +45,7 @@ HTML_CHOICES = (
     (_('More information about Weblate'), WEBLATE),
 )
 
+
 @register.simple_tag
 def get_advertisement_text_mail():
     """Return advertisement text."""

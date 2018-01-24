@@ -25,7 +25,6 @@ import codecs
 
 from django.conf import settings
 from django.db import models
-from django.db.models import Sum, Count
 from django.utils.translation import ugettext as _
 from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.core.exceptions import ValidationError
@@ -209,14 +208,20 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             translation_percent(self.stats.translated, self.stats.all),
             translation_percent(self.stats.fuzzy, self.stats.all),
             translation_percent(self.stats.allchecks, self.stats.all),
-            translation_percent(self.stats.translated_words, self.stats.all_words),
+            translation_percent(
+                self.stats.translated_words, self.stats.all_words
+            ),
         )
 
     def get_fuzzy_words_percent(self):
-        return translation_percent(self.stats.fuzzy_words, self.stats.all_words)
+        return translation_percent(
+            self.stats.fuzzy_words, self.stats.all_words
+        )
 
     def get_failing_checks_words_percent(self):
-        return translation_percent(self.stats.allchecks_words, self.stats.all_words)
+        return translation_percent(
+            self.stats.allchecks_words, self.stats.all_words
+        )
 
     def get_reverse_url_kwargs(self):
         """Return kwargs for URL reversing."""
@@ -371,16 +376,10 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
         # We should also do cleanup on source strings tracking objects
 
-        # Get lists of stale units to delete
-        units_to_delete = self.unit_set.exclude(
+        # Delete stale units
+        self.unit_set.exclude(
             id__in=created_units
-        )
-        # We need to resolve this now as otherwise list will become empty after
-        # delete
-        deleted_units = units_to_delete.count()
-
-        # Actually delete units
-        units_to_delete.delete()
+        ).delete()
 
         # Update revision and stats
         self.invalidate_cache()

@@ -109,7 +109,7 @@ NOTIFY_ACTIVITY = frozenset((
 class WeblateAnonymousUser(User):
     """Proxy model to customize User behavior."""
 
-    class Meta:
+    class Meta(object):
         proxy = True
 
     @property

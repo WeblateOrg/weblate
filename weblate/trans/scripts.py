@@ -58,39 +58,40 @@ def run_post_add_script(component, translation, filename):
 
 def run_hook(component, translation, script, env=None, *args):
     """Generic script hook executor."""
-    if script:
-        command = [script]
-        if args:
-            command.extend(args)
-        if component.is_repo_link:
-            target = component.linked_subproject
-        else:
-            target = component
-        environment = {
-            'WL_VCS': target.vcs,
-            'WL_REPO': target.repo,
-            'WL_PATH': target.get_path(),
-            'WL_FILEMASK': component.filemask,
-            'WL_TEMPLATE': component.template,
-            'WL_NEW_BASE': component.new_base,
-            'WL_FILE_FORMAT': component.file_format,
-            'WL_BRANCH': component.branch,
-        }
-        if translation:
-            environment['WL_LANGUAGE'] = translation.language_code
-        if env is not None:
-            environment.update(env)
-        try:
-            subprocess.check_call(
-                command,
-                env=get_clean_env(environment),
-                cwd=component.get_path(),
-            )
-            return True
-        except (OSError, subprocess.CalledProcessError) as err:
-            component.log_error(
-                'failed to run hook script %s: %s',
-                script,
-                err
-            )
-            return False
+    if not script:
+        return True
+    command = [script]
+    if args:
+        command.extend(args)
+    if component.is_repo_link:
+        target = component.linked_subproject
+    else:
+        target = component
+    environment = {
+        'WL_VCS': target.vcs,
+        'WL_REPO': target.repo,
+        'WL_PATH': target.get_path(),
+        'WL_FILEMASK': component.filemask,
+        'WL_TEMPLATE': component.template,
+        'WL_NEW_BASE': component.new_base,
+        'WL_FILE_FORMAT': component.file_format,
+        'WL_BRANCH': component.branch,
+    }
+    if translation:
+        environment['WL_LANGUAGE'] = translation.language_code
+    if env is not None:
+        environment.update(env)
+    try:
+        subprocess.check_call(
+            command,
+            env=get_clean_env(environment),
+            cwd=component.get_path(),
+        )
+        return True
+    except (OSError, subprocess.CalledProcessError) as err:
+        component.log_error(
+            'failed to run hook script %s: %s',
+            script,
+            err
+        )
+        return False

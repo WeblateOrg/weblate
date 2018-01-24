@@ -123,7 +123,8 @@ class UnitManager(models.Manager):
 
 
 class UnitQuerySet(models.QuerySet):
-    def filter_checks(self, rqtype, project, language, ignored=False, strict=False):
+    def filter_checks(self, rqtype, project, language, ignored=False,
+                      strict=False):
         """Filtering for checks."""
 
         # Filter checks for current project
@@ -155,7 +156,8 @@ class UnitQuerySet(models.QuerySet):
         checks = checks.values_list('content_hash', flat=True)
         return self.filter(content_hash__in=checks)
 
-    def filter_type(self, rqtype, project, language, ignored=False, strict=False):
+    def filter_type(self, rqtype, project, language, ignored=False,
+                    strict=False):
         """Basic filtering based on unit state or failed checks."""
         if rqtype in SIMPLE_FILTERS:
             return self.filter(**SIMPLE_FILTERS[rqtype])
@@ -695,8 +697,9 @@ class Unit(models.Model, LoggerMixin):
             self.generate_change(request, user, change_action)
 
         # Force commiting on completing translation
-        if (old_translated < self.translation.stats.translated and
-                self.translation.stats.translated == self.translation.stats.all):
+        translated = self.translation.stats.translated
+        if (old_translated < translated and
+                translated == self.translation.stats.all):
             Change.objects.create(
                 translation=self.translation,
                 action=Change.ACTION_COMPLETE,

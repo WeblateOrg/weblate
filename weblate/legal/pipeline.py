@@ -46,3 +46,4 @@ def tos_confirm(strategy, backend, user, current_partial, **kwargs):
             )
         )
     strategy.request.session.pop('tos_user', None)
+    return None

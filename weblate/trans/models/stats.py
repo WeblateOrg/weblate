@@ -25,7 +25,7 @@ from django.db.models import Sum, Count
 
 from weblate.trans.filter import get_filter_choice
 from weblate.trans.models.unit import (
-    Unit, STATE_TRANSLATED, STATE_FUZZY, STATE_APPROVED,
+    STATE_TRANSLATED, STATE_FUZZY, STATE_APPROVED,
 )
 from weblate.utils.query import conditional_sum
 

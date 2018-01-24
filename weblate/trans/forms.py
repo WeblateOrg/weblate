@@ -141,7 +141,7 @@ class ChecksumField(forms.CharField):
     def clean(self, value):
         super(ChecksumField, self).clean(value)
         if not value:
-            return
+            return None
         try:
             return checksum_to_hash(value)
         except ValueError:
@@ -151,7 +151,7 @@ class ChecksumField(forms.CharField):
 class UserField(forms.CharField):
     def clean(self, value):
         if not value:
-            return
+            return None
         try:
             return User.objects.get(Q(username=value) | Q(email=value))
         except User.DoesNotExist:
@@ -356,10 +356,9 @@ class PluralField(forms.CharField):
     The only difference from CharField is that it does not force value to
     be string.
     """
-    def __init__(self, max_length=None, min_length=None, *args, **kwargs):
+    def __init__(self, max_length=None, min_length=None, **kwargs):
         kwargs['label'] = ''
         super(PluralField, self).__init__(
-            *args,
             widget=PluralTextarea,
             **kwargs
         )
@@ -847,7 +846,7 @@ class MergeForm(ChecksumForm):
     def clean(self):
         super(MergeForm, self).clean()
         if 'unit' not in self.cleaned_data or 'merge' not in self.cleaned_data:
-            return
+            return None
         try:
             project = self.translation.subproject.project
             self.cleaned_data['merge_unit'] = merge_unit = Unit.objects.get(
@@ -873,7 +872,7 @@ class RevertForm(ChecksumForm):
         super(RevertForm, self).clean()
         if ('unit' not in self.cleaned_data or
                 'revert' not in self.cleaned_data):
-            return
+            return None
         try:
             self.cleaned_data['revert_change'] = Change.objects.get(
                 pk=self.cleaned_data['revert'],

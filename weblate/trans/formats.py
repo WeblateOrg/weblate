@@ -636,6 +636,8 @@ class FileFormat(object):
             if search_unit.getid() == context:
                 return search_unit
 
+        return None
+
     def _find_unit_template(self, context):
         # Need to create new unit based on template
         template_ttkit_unit = self._find_unit_mono(
@@ -1078,6 +1080,7 @@ class XliffFormat(FileFormat):
             loc = search_unit.source
             if loc == context:
                 return search_unit
+        return None
 
 
 @register_fileformat

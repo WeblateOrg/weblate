@@ -33,7 +33,6 @@ class WeblateModelAdmin(ModelAdmin):
         'wladmin/delete_selected_confirmation.html'
 
 
-
 class ConfigurationErrorManager(models.Manager):
     def add(self, name, message, timestamp=None):
         if timestamp is None:
