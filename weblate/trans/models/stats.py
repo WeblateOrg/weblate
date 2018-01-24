@@ -89,6 +89,12 @@ class TranslationStats(object):
             ),
         )
         for key, value in stats.items():
+            self.store(key, value)
+
+    def store(self, key, value):
+        if value is None:
+            self._data[key] = 0
+        else:
             self._data[key] = value
 
     def calculate_stats(self, item):
@@ -105,12 +111,8 @@ class TranslationStats(object):
             translation.language,
             strict=True
         ).aggregate(Count('pk'), Sum('num_words'))
-        self._data[item] = stats['pk__count']
-        key = '{}_words'.format(item)
-        if stats['num_words__sum'] is None:
-            self._data[key] = 0
-        else:
-            self._data[key] = stats['num_words__sum']
+        self.store(item, stats['pk__count'])
+        self.store('{}_words'.format(item), stats['num_words__sum'])
 
     def ensure_all(self):
         """Ensure we have complete set."""

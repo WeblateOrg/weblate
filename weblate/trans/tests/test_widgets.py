@@ -138,8 +138,7 @@ class WidgetsPercentRenderTest(WidgetsRenderTest):
         for translated in (0, 3, 4):
             # Fake translated stats
             for translation in Translation.objects.all():
-                # pylint:disable=protected-access
-                translation.stats._data['translated'] = translated
+                translation.stats.store('translated', translated)
                 translation.stats.save()
             response = self.client.get(
                 reverse(
