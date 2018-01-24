@@ -38,7 +38,7 @@ from weblate.trans.checks import CHECKS
 from weblate.trans.models.unit import (
     Unit, STATE_TRANSLATED, STATE_FUZZY, STATE_APPROVED,
 )
-from weblate.trans.models.stats import TranslationStats
+from weblate.utils.stats import TranslationStats
 from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.signals import vcs_pre_commit, vcs_post_commit
 from weblate.utils.site import get_site_url

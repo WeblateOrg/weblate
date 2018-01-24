@@ -24,10 +24,10 @@ from django.core.cache import cache
 from django.db.models import Sum, Count
 
 from weblate.trans.filter import get_filter_choice
-from weblate.trans.models.state import (
+from weblate.utils.query import conditional_sum
+from weblate.utils.state import (
     STATE_TRANSLATED, STATE_FUZZY, STATE_APPROVED, STATE_EMPTY,
 )
-from weblate.utils.query import conditional_sum
 from weblate.trans.util import translation_percent
 
 BASICS = frozenset((
@@ -115,6 +115,7 @@ class TranslationStats(BaseStats):
     def invalidate(self):
         super(self, TranslationStats).invalidate()
         self._object.subproject.stats.invalidate()
+        self._object.language.stats.invalidate()
 
     def prefetch_basic(self):
         stats = self._object.unit_set.aggregate(
@@ -190,11 +191,7 @@ class TranslationStats(BaseStats):
         self.save()
 
 
-class ComponentStats(BaseStats):
-    def invalidate(self):
-        super(self, ComponentStats).invalidate()
-        self._object.project.stats.invalidate()
-
+class LanguageStats(BaseStats):
     def prefetch_basic(self):
         stats = {item: 0 for item in BASIC_KEYS}
         for translation in self._object.translation_set.all():
@@ -215,6 +212,12 @@ class ComponentStats(BaseStats):
         for translation in self._object.translation_set.all():
             result += getattr(translation.stats, item)
         self.store(item, result)
+
+
+class ComponentStats(LanguageStats):
+    def invalidate(self):
+        super(self, ComponentStats).invalidate()
+        self._object.project.stats.invalidate()
 
 
 class ProjectStats(BaseStats):

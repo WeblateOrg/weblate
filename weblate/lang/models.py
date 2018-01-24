@@ -40,8 +40,8 @@ from django.db.models.signals import post_migrate
 
 from weblate.lang import data
 from weblate.langdata import languages
-from weblate.trans.mixins import PercentMixin
 from weblate.logger import LOGGER
+from weblate.utils.stats import LanguageStats
 
 PLURAL_RE = re.compile(
     r'\s*nplurals\s*=\s*([0-9]+)\s*;\s*plural\s*=\s*([()n0-9!=|&<>+*/%\s?:-]+)'
@@ -321,7 +321,7 @@ def setup_lang(sender, **kwargs):
 
 
 @python_2_unicode_compatible
-class Language(models.Model, PercentMixin):
+class Language(models.Model):
     PLURAL_CHOICES = (
         (
             data.PLURAL_NONE,
@@ -419,6 +419,7 @@ class Language(models.Model, PercentMixin):
         """Constructor to initialize some cache properties."""
         super(Language, self).__init__(*args, **kwargs)
         self._plural_examples = {}
+        self.stats = LanguageStats(self)
 
     def __str__(self):
         if self.show_language_code:
@@ -488,10 +489,6 @@ class Language(models.Model, PercentMixin):
 
     def get_absolute_url(self):
         return reverse('show_language', kwargs={'lang': self.code})
-
-    def _get_percents(self, lang=None):
-        """Return percentages of translation status."""
-        return self.translation_set.get_percents()
 
     def get_html(self):
         """Return html attributes for markup in this language, includes
