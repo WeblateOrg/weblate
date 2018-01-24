@@ -112,6 +112,10 @@ class BaseStats(object):
 
 class TranslationStats(BaseStats):
     """Per translation stats."""
+    def invalidate(self):
+        super(self, TranslationStats).invalidate()
+        self._object.subproject.stats.invalidate()
+
     def prefetch_basic(self):
         stats = self._object.unit_set.aggregate(
             all=Count('id'),
@@ -187,6 +191,10 @@ class TranslationStats(BaseStats):
 
 
 class ComponentStats(BaseStats):
+    def invalidate(self):
+        super(self, ComponentStats).invalidate()
+        self._object.project.stats.invalidate()
+
     def prefetch_basic(self):
         stats = {item: 0 for item in BASIC_KEYS}
         for translation in self._object.translation_set.all():
