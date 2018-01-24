@@ -22,6 +22,7 @@ from __future__ import unicode_literals
 
 from datetime import timedelta
 
+from django.db import transaction
 from django.utils import timezone
 
 from weblate.trans.management.commands import WeblateLangCommand
@@ -65,4 +66,5 @@ class Command(WeblateLangCommand):
 
             if int(options['verbosity']) >= 1:
                 self.stdout.write('Committing {0}'.format(translation))
-            translation.commit_pending(None)
+            with transaction.atomic():
+                translation.commit_pending(None)
