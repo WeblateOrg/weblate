@@ -31,7 +31,7 @@ from weblate.utils.query import conditional_sum
 from weblate.trans.util import translation_percent
 
 BASICS = frozenset((
-    'all', 'fuzzy', 'translated', 'approved',
+    'all', 'fuzzy', 'translated', 'approved', 'untranslated',
     'allchecks', 'suggestions', 'comments', 'approved_suggestions'
 ))
 
@@ -156,11 +156,16 @@ class TranslationStats(BaseStats):
         self.store(item, stats['pk__count'])
         self.store('{}_words'.format(item), stats['num_words__sum'])
 
-    def ensure_all(self):
-        """Ensure we have complete set."""
+    def ensure_basic(self):
+        """Ensure we have basic stats."""
         # Prefetch basic stats at once
         if 'all' not in self._data:
             self.prefetch_basic()
+
+    def ensure_all(self):
+        """Ensure we have complete set."""
+        # Prefetch basic stats at once
+        self.ensure_basic()
         # Fetch remaining ones
         for item, dummy in get_filter_choice():
             if item not in self._data:
