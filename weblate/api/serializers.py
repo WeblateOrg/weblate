@@ -239,7 +239,7 @@ class TranslationSerializer(RemovableSerializer):
         source='stats.allchecks_words', read_only=True,
     )
     failing_checks_percent = serializers.FloatField(
-        source='stats.failing_checks_percent', read_only=True,
+        source='stats.allchecks_percent', read_only=True,
     )
     have_suggestion = serializers.IntegerField(
         source='stats.suggestions', read_only=True,
