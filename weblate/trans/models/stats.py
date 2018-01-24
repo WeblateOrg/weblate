@@ -24,7 +24,7 @@ from django.core.cache import cache
 from django.db.models import Sum, Count
 
 from weblate.trans.filter import get_filter_choice
-from weblate.trans.models.unit import (
+from weblate.trans.models.state import (
     STATE_TRANSLATED, STATE_FUZZY, STATE_APPROVED, STATE_EMPTY,
 )
 from weblate.utils.query import conditional_sum
@@ -34,6 +34,7 @@ BASICS = frozenset((
     'all', 'fuzzy', 'translated', 'approved', 'untranslated',
     'allchecks', 'suggestions', 'comments', 'approved_suggestions'
 ))
+BASIC_KEYS = frozenset(['{}_words'.format(i) for i in BASICS] + list(BASICS))
 
 
 class BaseStats(object):
@@ -51,7 +52,7 @@ class BaseStats(object):
             if name.endswith('_percent'):
                 self.calculate_percents(name)
             else:
-                self.calculate_stats(name)
+                self.fetch_stats(name)
             self.save()
         return self._data[name]
 
@@ -70,8 +71,24 @@ class BaseStats(object):
         else:
             self._data[key] = value
 
-    def calculate_stats(self, item):
+    def fetch_stats(self, item):
         """Calculate stats for translation."""
+        if item in BASIC_KEYS:
+            self.prefetch_basic()
+            return
+        self.calculate_item(item)
+
+    def calculate_item(self, item):
+        """Calculate stats for translation."""
+        raise NotImplementedError()
+
+    def ensure_basic(self):
+        """Ensure we have basic stats."""
+        # Prefetch basic stats at once
+        if 'all' not in self._data:
+            self.prefetch_basic()
+
+    def prefetch_basic(self):
         raise NotImplementedError()
 
     def calculate_percents(self, item):
@@ -82,6 +99,15 @@ class BaseStats(object):
         else:
             total = self.all
         self.store(item, translation_percent(getattr(self, base), total))
+
+    def calculate_basic_percents(self):
+        """Calculate basic percents."""
+        self.calculate_percents('translated_percent')
+        self.calculate_percents('approved_percent')
+        self.calculate_percents('all_words_percent')
+        self.calculate_percents('untranslated_percent')
+        self.calculate_percents('fuzzy_percent')
+        self.calculate_percents('allchecks_percent')
 
 
 class TranslationStats(BaseStats):
@@ -133,19 +159,12 @@ class TranslationStats(BaseStats):
         self.store('untranslated_words', stats['all_words'] - stats['translated_words'])
 
         # Calculate percents
-        self.calculate_percents('translated_percent')
-        self.calculate_percents('all_words_percent')
-        self.calculate_percents('untranslated_percent')
-        self.calculate_percents('fuzzy_percent')
-        self.calculate_percents('allchecks_percent')
+        self.calculate_basic_percents()
 
-    def calculate_stats(self, item):
+    def calculate_item(self, item):
         """Calculate stats for translation."""
         if item.endswith('_words'):
             item = item[:-6]
-        if item in BASICS:
-            self.prefetch_basic()
-            return
         translation = self._object
         stats = translation.unit_set.filter_type(
             item,
@@ -156,12 +175,6 @@ class TranslationStats(BaseStats):
         self.store(item, stats['pk__count'])
         self.store('{}_words'.format(item), stats['num_words__sum'])
 
-    def ensure_basic(self):
-        """Ensure we have basic stats."""
-        # Prefetch basic stats at once
-        if 'all' not in self._data:
-            self.prefetch_basic()
-
     def ensure_all(self):
         """Ensure we have complete set."""
         # Prefetch basic stats at once
@@ -169,5 +182,51 @@ class TranslationStats(BaseStats):
         # Fetch remaining ones
         for item, dummy in get_filter_choice():
             if item not in self._data:
-                self.calculate_stats(item)
+                self.calculate_item(item)
         self.save()
+
+
+class ComponentStats(BaseStats):
+    def prefetch_basic(self):
+        stats = {item: 0 for item in BASIC_KEYS}
+        for translation in self._object.translation_set.all():
+            stats_obj = translation.stats
+            stats_obj.ensure_basic()
+            for item in BASIC_KEYS:
+                stats[item] += getattr(stats_obj, item)
+
+        for key, value in stats.items():
+            self.store(key, value)
+
+        # Calculate percents
+        self.calculate_basic_percents()
+
+    def calculate_item(self, item):
+        """Calculate stats for translation."""
+        result = 0
+        for translation in self._object.translation_set.all():
+            result += getattr(translation.stats, item)
+        self.store(item, result)
+
+
+class ProjectStats(BaseStats):
+    def prefetch_basic(self):
+        stats = {item: 0 for item in BASIC_KEYS}
+        for component in self._object.subproject_set.all():
+            stats_obj = component.stats
+            stats_obj.ensure_basic()
+            for item in BASIC_KEYS:
+                stats[item] += getattr(stats_obj, item)
+
+        for key, value in stats.items():
+            self.store(key, value)
+
+        # Calculate percents
+        self.calculate_basic_percents()
+
+    def calculate_item(self, item):
+        """Calculate stats for translation."""
+        result = 0
+        for component in self._object.subproject_set.all():
+            result += getattr(component.stats, item)
+        self.store(item, result)

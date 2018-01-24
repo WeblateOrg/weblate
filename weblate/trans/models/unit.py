@@ -37,6 +37,9 @@ from weblate.trans.checks import CHECKS
 from weblate.trans.models.source import Source
 from weblate.trans.models.check import Check
 from weblate.trans.models.comment import Comment
+from weblate.trans.models.state import (
+    STATE_TRANSLATED, STATE_FUZZY, STATE_APPROVED, STATE_EMPTY,
+)
 from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.models.change import Change
 from weblate.trans.search import update_index_unit, fulltext_search, more_like
@@ -48,11 +51,6 @@ from weblate.trans.util import (
     is_plural, split_plural, join_plural, get_distinct_translations,
 )
 from weblate.utils.hash import calculate_hash, hash_to_checksum
-
-STATE_EMPTY = 0
-STATE_FUZZY = 10
-STATE_TRANSLATED = 20
-STATE_APPROVED = 30
 
 SIMPLE_FILTERS = {
     'fuzzy': {'state': STATE_FUZZY},

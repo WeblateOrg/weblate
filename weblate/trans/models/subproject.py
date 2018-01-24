@@ -51,6 +51,7 @@ from weblate.trans.signals import (
     vcs_post_push, vcs_post_update, translation_post_add
 )
 from weblate.trans.vcs import RepositoryException, VCS_REGISTRY, VCS_CHOICES
+from weblate.trans.models.stats import ComponentStats
 from weblate.trans.models.translation import Translation
 from weblate.trans.validators import (
     validate_filemask, validate_extra_file,
@@ -525,6 +526,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         self._all_flags = None
         self._linked_subproject = None
         self._repository = None
+        self.stats = ComponentStats(self)
 
     @property
     def filemask_re(self):
