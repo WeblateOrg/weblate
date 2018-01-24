@@ -348,7 +348,7 @@ def show_project(request, project):
             'language_count': Language.objects.filter(
                 translation__subproject__project=obj
             ).distinct().count(),
-            'strings_count': obj.stats.souce_strings,
+            'strings_count': obj.stats.source_strings,
             'source_words_count': obj.stats.source_words,
             'search_form': SearchForm(),
             'replace_form': replace_form,
