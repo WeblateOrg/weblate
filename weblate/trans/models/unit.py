@@ -571,7 +571,6 @@ class Unit(models.Model, LoggerMixin):
             backend=True,
             same_content=same_content,
             same_state=same_state,
-            update_stats=False,
         )
 
         # Create change object for new source string
@@ -582,9 +581,9 @@ class Unit(models.Model, LoggerMixin):
                 unit=self,
             )
         if contentsum_changed:
-            self.update_has_failing_check(recurse=False, update_stats=False)
-            self.update_has_comment(update_stats=False)
-            self.update_has_suggestion(update_stats=False)
+            self.update_has_failing_check(recurse=False)
+            self.update_has_comment()
+            self.update_has_suggestion()
 
     def is_plural(self):
         """Check whether message is plural."""
@@ -753,8 +752,8 @@ class Unit(models.Model, LoggerMixin):
         )
         # Update source index and stats
         for unit in same_source.iterator():
-            unit.update_has_comment(update_stats=False)
-            unit.update_has_suggestion(update_stats=False)
+            unit.update_has_comment()
+            unit.update_has_suggestion()
             unit.run_checks(False, False)
             update_index_unit(unit)
             Change.objects.create(
@@ -804,7 +803,7 @@ class Unit(models.Model, LoggerMixin):
         )
 
     def save(self, same_content=False, same_state=False, force_insert=False,
-             backend=False, update_stats=True, **kwargs):
+             backend=False, **kwargs):
         """
         Wrapper around save to warn when save did not come from
         git backend (eg. commit or by parsing file).
@@ -825,9 +824,7 @@ class Unit(models.Model, LoggerMixin):
 
         # Update checks if content or fuzzy flag has changed
         if not same_content or not same_state:
-            self.run_checks(
-                same_state, same_content, force_insert, update_stats
-            )
+            self.run_checks(same_state, same_content, force_insert)
 
         # Update fulltext index if content has changed or this is a new unit
         if force_insert or not same_content:
@@ -957,8 +954,7 @@ class Unit(models.Model, LoggerMixin):
 
         return checks_to_run, cleanup_checks
 
-    def run_checks(self, same_state=True, same_content=True, is_new=False,
-                   update_stats=True):
+    def run_checks(self, same_state=True, same_content=True, is_new=False):
         """Update checks for this unit."""
         was_change = False
 
@@ -1017,9 +1013,9 @@ class Unit(models.Model, LoggerMixin):
 
         # Update failing checks flag
         if was_change or is_new or not same_content:
-            self.update_has_failing_check(was_change, update_stats)
+            self.update_has_failing_check(was_change)
 
-    def update_has_failing_check(self, recurse=False, update_stats=True):
+    def update_has_failing_check(self, recurse=False):
         """Update flag counting failing checks."""
         has_failing_check = (
             self.state >= STATE_TRANSLATED and
@@ -1034,15 +1030,11 @@ class Unit(models.Model, LoggerMixin):
                 update_fields=['has_failing_check']
             )
 
-        # Invalidate checks cache if there was any change
-        if update_stats:
-            self.translation.invalidate_cache()
-
         if recurse:
             for unit in Unit.objects.same(self):
                 unit.update_has_failing_check(False)
 
-    def update_has_suggestion(self, update_stats=True):
+    def update_has_suggestion(self):
         """Update flag counting suggestions."""
         self._suggestions = None
         has_suggestion = len(self.suggestions()) > 0
@@ -1053,11 +1045,7 @@ class Unit(models.Model, LoggerMixin):
                 update_fields=['has_suggestion']
             )
 
-            # Update translation stats
-            if update_stats:
-                self.translation.invalidate_cache()
-
-    def update_has_comment(self, update_stats=True):
+    def update_has_comment(self):
         """Update flag counting comments."""
         has_comment = len(self.get_comments()) > 0
         if has_comment != self.has_comment:
@@ -1066,10 +1054,6 @@ class Unit(models.Model, LoggerMixin):
                 backend=True, same_content=True, same_state=True,
                 update_fields=['has_comment']
             )
-
-            # Update translation stats
-            if update_stats:
-                self.translation.invalidate_cache()
 
     def nearby(self):
         """Return list of nearby messages based on location."""

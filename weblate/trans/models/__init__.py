@@ -101,6 +101,7 @@ def update_source(sender, instance, **kwargs):
     if instance.check_flags_modified:
         for unit in related_units:
             unit.run_checks()
+            unit.translation.invalidate_cache()
 
 
 def get_related_units(unitdata):
@@ -131,6 +132,7 @@ def update_failed_check_flag(sender, instance, **kwargs):
         related = related.exclude(pk=instance.for_unit)
     for unit in related:
         unit.update_has_failing_check(False)
+        unit.translation.invalidate_cache()
 
 
 @receiver(post_delete, sender=Comment)
@@ -141,10 +143,7 @@ def update_comment_flag(sender, instance, **kwargs):
     for unit in get_related_units(instance):
         # Update unit stats
         unit.update_has_comment()
-
-        # Invalidate counts cache
-        if instance.language is None:
-            unit.translation.invalidate_cache()
+        unit.translation.invalidate_cache()
 
 
 @receiver(post_delete, sender=Suggestion)
@@ -155,6 +154,7 @@ def update_suggestion_flag(sender, instance, **kwargs):
     for unit in get_related_units(instance):
         # Update unit stats
         unit.update_has_suggestion()
+        unit.translation.invalidate_cache()
 
 
 @receiver(vcs_post_push)

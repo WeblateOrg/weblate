@@ -63,6 +63,7 @@ class ProjectAdmin(WeblateModelAdmin):
         )
         for unit in units.iterator():
             unit.run_checks()
+            unit.translation.invalidate_cache()
             cnt += 1
         self.message_user(
             request, "Updated checks for {0:d} units.".format(cnt)
@@ -115,6 +116,7 @@ class SubProjectAdmin(WeblateModelAdmin):
         )
         for unit in units.iterator():
             unit.run_checks()
+            unit.translation.invalidate_cache()
             cnt += 1
         self.message_user(
             request,
