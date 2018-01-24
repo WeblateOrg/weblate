@@ -231,11 +231,11 @@ class ComponentStats(LanguageStats):
             super(ComponentStats, self).calculate_item(item)
         else:
             result = 0
-            for translation in self._object.translation_set.all()[:1]:
+            for translation in self._object.translation_set.all():
                 if item == 'source_words':
-                    result = translation.stats.all_words
+                    result = max(translation.stats.all_words, result)
                 else:
-                    result = translation.stats.all
+                    result = max(translation.stats.all, result)
             self.store(item, result)
 
 
