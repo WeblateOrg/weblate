@@ -185,9 +185,6 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         self.old_access_control = self.access_control
         self.stats = ProjectStats(self)
 
-    def get_full_slug(self):
-        return self.slug
-
     def all_users(self, group=None):
         """Return all users having ACL on this project."""
         groups = Group.objects.filter(groupacl__project=self)

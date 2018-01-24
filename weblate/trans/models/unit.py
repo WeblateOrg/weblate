@@ -425,14 +425,6 @@ class Unit(models.Model, LoggerMixin):
         self._suggestions = None
         self.old_unit = copy(self)
 
-    def get_full_slug(self):
-        return '__'.join((
-            self.translation.subproject.project.slug,
-            self.translation.subproject.slug,
-            self.translation.language.code,
-            self.checksum,
-        ))
-
     def __str__(self):
         return _('{translation}, translation unit {position}').format(
             translation=self.translation,

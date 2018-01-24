@@ -563,9 +563,6 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     def __str__(self):
         return '/'.join((force_text(self.project), self.name))
 
-    def get_full_slug(self):
-        return '__'.join((self.project.slug, self.slug))
-
     @perform_on_link
     def _get_path(self):
         """Return full path to subproject VCS repository."""

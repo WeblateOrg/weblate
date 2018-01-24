@@ -166,13 +166,6 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             self.language.code,
         ))
 
-    def get_full_slug(self):
-        return '__'.join((
-            self.subproject.project.slug,
-            self.subproject.slug,
-            self.language.code,
-        ))
-
     def is_template(self):
         """Check whether this is template translation
 
