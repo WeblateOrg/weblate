@@ -161,8 +161,14 @@ class TranslationStats(BaseStats):
             self.store(key, value)
 
         # Calculate some values
-        self.store('untranslated', stats['all'] - stats['translated'])
-        self.store('untranslated_words', stats['all_words'] - stats['translated_words'])
+        self.store(
+            'untranslated',
+            self._data['all'] - self._data['translated']
+        )
+        self.store(
+            'untranslated_words',
+            self._data['all_words'] - self._data['translated_words']
+        )
 
         # Calculate percents
         self.calculate_basic_percents()
