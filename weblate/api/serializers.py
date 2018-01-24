@@ -221,7 +221,7 @@ class TranslationSerializer(RemovableSerializer):
         source='stats.translated_words', read_only=True,
     )
     translated_percent = serializers.FloatField(
-        source='get_translated_percent', read_only=True,
+        source='stats.translated_percent', read_only=True,
     )
     fuzzy = serializers.IntegerField(
         source='stats.fuzzy', read_only=True,
@@ -230,7 +230,7 @@ class TranslationSerializer(RemovableSerializer):
         source='stats.fuzzy_words', read_only=True,
     )
     fuzzy_percent = serializers.FloatField(
-        source='get_fuzzy_percent', read_only=True,
+        source='stats.fuzzy_percent', read_only=True,
     )
     failing_checks = serializers.IntegerField(
         source='stats.allchecks', read_only=True,
@@ -239,7 +239,7 @@ class TranslationSerializer(RemovableSerializer):
         source='stats.allchecks_words', read_only=True,
     )
     failing_checks_percent = serializers.FloatField(
-        source='get_failing_checks_percent', read_only=True,
+        source='stats.failing_checks_percent', read_only=True,
     )
     have_suggestion = serializers.IntegerField(
         source='stats.suggestions', read_only=True,

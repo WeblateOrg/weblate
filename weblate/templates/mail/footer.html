@@ -7,13 +7,13 @@
 <th>{% trans "Total strings:" %}</th><td>{{ translation.stats.all }}</td>
 </tr>
 <tr>
-<td>{% trans "Translated strings:" %}</th><td>{{ translation.stats.translated }} ({{ translation.get_translated_percent }}%)</td>
+<td>{% trans "Translated strings:" %}</th><td>{{ translation.stats.translated }} ({{ translation.stats.translated_percent }}%)</td>
 </tr>
 <tr>
-<td>{% trans "Untranslated strings:" %}</th><td>{{ translation.stats.nottranslated }} ({{ translation.get_untranslated_percent }}%)</td>
+<td>{% trans "Untranslated strings:" %}</th><td>{{ translation.stats.untranslated }} ({{ translation.stats.untranslated_percent }}%)</td>
 </tr>
 <tr>
-<td>{% trans "Strings marked for review:" %}</th><td>{{ translation.stats.fuzzy }} ({{ translation.get_fuzzy_percent }}%)</td>
+<td>{% trans "Strings marked for review:" %}</th><td>{{ translation.stats.fuzzy }} ({{ translation.stats.fuzzy_percent }}%)</td>
 </tr>
 </table>
 

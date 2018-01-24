@@ -489,9 +489,9 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             'url': get_site_url(self.get_absolute_url()),
             'total': self.stats.all,
             'fuzzy': self.stats.fuzzy,
-            'fuzzy_percent': self.get_fuzzy_percent(),
+            'fuzzy_percent': self.stat.fuzzy_percent,
             'translated': self.stats.translated,
-            'translated_percent': self.get_translated_percent(),
+            'translated_percent': self.stats.translated_percent,
         }
         if self.commit_message:
             msg = '{0}\n\n{1}'.format(msg, self.commit_message)
@@ -1006,11 +1006,11 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             'last_author': self.get_last_author(),
             'translated': self.stats.translated,
             'translated_words': self.stats.translated_words,
-            'translated_percent': self.get_translated_percent(),
+            'translated_percent': self.stats.translated_percent,
             'fuzzy': self.stats.fuzzy,
-            'fuzzy_percent': self.get_fuzzy_percent(),
+            'fuzzy_percent': self.stats.fuzzy_percent,
             'failing': self.stats.allchecks,
-            'failing_percent': self.get_failing_checks_percent(),
+            'failing_percent': self.stats.allchecks_percent,
             'url': self.get_share_url(),
             'url_translate': get_site_url(self.get_absolute_url()),
         }
