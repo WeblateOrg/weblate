@@ -43,7 +43,7 @@ class BaseStats(object):
     def __init__(self, obj):
         self._object = obj
         self._key = self.cache_key()
-        self._data = self.load()
+        self._data = None
 
     def cache_key(self):
         return 'stats-{}-{}'.format(
@@ -52,6 +52,8 @@ class BaseStats(object):
         )
 
     def __getattr__(self, name):
+        if self._data is None:
+            self._data = self.load()
         if name not in self._data:
             if name.endswith('_percent'):
                 self.calculate_percents(name)
@@ -92,6 +94,8 @@ class BaseStats(object):
     def ensure_basic(self):
         """Ensure we have basic stats."""
         # Prefetch basic stats at once
+        if self._data is None:
+            self._data = self.load()
         if 'all' not in self._data:
             self.prefetch_basic()
 
