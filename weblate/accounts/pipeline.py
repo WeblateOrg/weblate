@@ -82,9 +82,9 @@ def reauthenticate(strategy, backend, user, social, uid, weblate_action,
                    **kwargs):
     """Force authentication when adding new association."""
     if strategy.request.session.pop('reauthenticate_done', False):
-        return
+        return None
     if weblate_action != 'activation':
-        return
+        return None
     if user and not social and user.has_usable_password():
         strategy.request.session['reauthenticate'] = {
             'backend': backend.name,
@@ -123,10 +123,11 @@ def require_email(backend, details, weblate_action, user=None, is_new=False,
         if backend.name == 'email':
             return {'is_new': True}
 
-        return
+        return None
 
     elif is_new and not details.get('email'):
         return redirect('register')
+    return None
 
 
 def send_validation(strategy, backend, code, partial_token):
@@ -228,6 +229,7 @@ def cleanup_next(strategy, **kwargs):
         strategy.session_set('next', None)
     if 'next' in kwargs and not is_safe_url(kwargs['next']):
         return {'next': None}
+    return None
 
 
 def store_params(strategy, user, **kwargs):
@@ -260,9 +262,10 @@ def verify_username(strategy, backend, details, user=None, **kwargs):
     taken the username meanwhile.
     """
     if user or 'username' not in details:
-        return
+        return None
     if User.objects.filter(username__iexact=details['username']).exists():
         raise AuthAlreadyAssociated(backend, 'Username exists')
+    return None
 
 
 def revoke_mail_code(strategy, details, **kwargs):

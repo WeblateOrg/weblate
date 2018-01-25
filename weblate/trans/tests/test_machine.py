@@ -225,6 +225,7 @@ TERMINOLOGY_TRANSLATE = '''
 </s:Envelope>
 '''.encode('utf-8')
 
+
 class MachineTranslationTest(TestCase):
     """Testing of machine translation core."""
     def test_support(self):
@@ -581,6 +582,7 @@ class MachineTranslationTest(TestCase):
         machine = SAPTranslationHub()
         self.assertEqual(machine.supported_languages, [])
         self.assert_translate(machine, empty=True)
+
 
 class WeblateTranslationTest(FixtureTestCase):
     def test_same(self):

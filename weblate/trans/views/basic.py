@@ -326,7 +326,7 @@ def show_project(request, project):
     last_changes = Change.objects.for_project(obj)[:10]
 
     language_stats = sort_unicode(
-        obj.stats.get_language_stats(), lambda tup: force_text(tup.language.name)
+        obj.stats.get_language_stats(), lambda x: force_text(x.language.name)
     )
 
     if can_translate(request.user, project=obj):

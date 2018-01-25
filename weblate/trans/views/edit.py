@@ -309,7 +309,7 @@ def handle_translate(translation, request, this_unit_url, next_unit_url):
     )
     if not form.is_valid():
         show_form_errors(request, form)
-        return
+        return None
 
     unit = form.cleaned_data['unit']
     go_next = True
@@ -344,7 +344,7 @@ def handle_merge(translation, request, next_unit_url):
     mergeform = MergeForm(translation, request.GET)
     if not mergeform.is_valid():
         messages.error(request, _('Invalid merge request!'))
-        return
+        return None
 
     unit = mergeform.cleaned_data['unit']
     merged = mergeform.cleaned_data['merge_unit']
@@ -354,7 +354,7 @@ def handle_merge(translation, request, next_unit_url):
             request,
             _('Insufficient privileges for saving translations.')
         )
-        return
+        return None
 
     # Store unit
     unit.target = merged.target
@@ -372,7 +372,7 @@ def handle_revert(translation, request, next_unit_url):
     revertform = RevertForm(translation, request.GET)
     if not revertform.is_valid():
         messages.error(request, _('Invalid revert request!'))
-        return
+        return None
 
     unit = revertform.cleaned_data['unit']
     change = revertform.cleaned_data['revert_change']
@@ -382,16 +382,16 @@ def handle_revert(translation, request, next_unit_url):
             request,
             _('Insufficient privileges for saving translations.')
         )
-        return
+        return None
 
     if change.target == "":
         messages.error(request, _('Can not revert to empty translation!'))
-    else:
-        # Store unit
-        unit.target = change.target
-        unit.save_backend(request, change_action=Change.ACTION_REVERT)
-        # Redirect to next entry
-        return HttpResponseRedirect(next_unit_url)
+        return None
+    # Store unit
+    unit.target = change.target
+    unit.save_backend(request, change_action=Change.ACTION_REVERT)
+    # Redirect to next entry
+    return HttpResponseRedirect(next_unit_url)
 
 
 def check_suggest_permissions(request, mode, translation, suggestion):
