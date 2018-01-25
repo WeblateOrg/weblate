@@ -17,6 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+# pylint: disable=line-too-long
 
 from __future__ import unicode_literals
 from django.utils.translation import pgettext_lazy
