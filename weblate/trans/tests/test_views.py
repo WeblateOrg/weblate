@@ -78,6 +78,9 @@ class ViewTestCase(RepoTestCase):
         # Create project to have some test base
         self.subproject = self.create_subproject()
         self.project = self.subproject.project
+        # Invalidate caches
+        for translation in self.subproject.translation_set.all():
+            translation.invalidate_cache()
         # Login
         self.client.login(username='testuser', password='testpassword')
         # Prepopulate kwargs

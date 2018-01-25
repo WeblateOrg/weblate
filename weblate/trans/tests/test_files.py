@@ -54,7 +54,6 @@ class ImportBaseTest(ViewTestCase):
         # We need extra privileges for overwriting
         self.user.is_superuser = True
         self.user.save()
-        self.get_translation().invalidate_cache()
 
     def do_import(self, test_file=None, follow=False, **kwargs):
         """Helper to perform file import."""
@@ -347,7 +346,6 @@ class CSVImportTest(ViewTestCase):
 
     def test_import(self):
         translation = self.get_translation()
-        translation.invalidate_cache()
         self.assertEqual(translation.stats.translated, 0)
         self.assertEqual(translation.stats.fuzzy, 0)
         with open(self.test_file, 'rb') as handle:

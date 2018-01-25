@@ -34,7 +34,6 @@ class CommentViewTest(FixtureTestCase):
         self.translation = self.subproject.translation_set.get(
             language_code='cs'
         )
-        self.translation.invalidate_cache()
 
     def test_add_target_comment(self):
         unit = self.get_unit()
