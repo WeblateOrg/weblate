@@ -20,6 +20,7 @@ Released on ? 2018.
 * Added support for SAP Translation Hub service.
 * Added support for Microsoft Terminology service.
 * Removed support for advertisement in notification mails.
+* Improved translation progress reporting at language level.
 
 weblate 2.18
 ------------

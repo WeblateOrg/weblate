@@ -41,6 +41,7 @@ from weblate.trans.models import (
     Project, SubProject, Dictionary, WhiteboardMessage, Unit,
 )
 from weblate.trans.checks import CHECKS, highlight_string
+from weblate.utils.stats import BaseStats
 
 register = template.Library()
 
@@ -465,28 +466,31 @@ def translation_progress_data(approved, translated, fuzzy, checks):
     }
 
 
-@register.inclusion_tag('progress.html')
-def generic_progress(translated):
-    return translation_progress_data(0, translated, 0, 0)
+def get_stats(obj):
+    if isinstance(obj, BaseStats):
+        return obj
+    return obj.stats
 
 
 @register.inclusion_tag('progress.html')
-def translation_progress(translation):
+def translation_progress(obj):
+    stats = get_stats(obj)
     return translation_progress_data(
-        translation.stats.approved_percent,
-        translation.stats.translated_percent,
-        translation.stats.fuzzy_percent,
-        translation.stats.allchecks_percent,
+        stats.approved_percent,
+        stats.translated_percent,
+        stats.fuzzy_percent,
+        stats.allchecks_percent,
     )
 
 
 @register.inclusion_tag('progress.html')
-def words_progress(translation):
+def words_progress(obj):
+    stats = get_stats(obj)
     return translation_progress_data(
-        translation.stats.approved_words_percent,
-        translation.stats.translated_words_percent,
-        translation.stats.fuzzy_words_percent,
-        translation.stats.allchecks_words_percent,
+        stats.approved_words_percent,
+        stats.translated_words_percent,
+        stats.fuzzy_words_percent,
+        stats.allchecks_words_percent,
     )
 
 
