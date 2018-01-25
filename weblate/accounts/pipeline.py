@@ -93,6 +93,7 @@ def reauthenticate(strategy, backend, user, social, uid, weblate_action,
             'user_pk': user.pk,
         }
         return redirect('confirm')
+    return None
 
 
 @partial
@@ -185,6 +186,7 @@ def password_reset(strategy, backend, user, social, details, weblate_action,
         strategy.request.session.set_expiry(90)
         # Redirect to form to change password
         return redirect('password_reset')
+    return None
 
 
 @partial
@@ -201,6 +203,7 @@ def remove_account(strategy, backend, user, social, details, weblate_action,
         strategy.request.session['remove_confirm'] = True
         # Redirect to form to change password
         return redirect('remove')
+    return None
 
 
 def verify_open(strategy, backend, user, weblate_action, **kwargs):

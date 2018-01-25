@@ -429,6 +429,7 @@ def send_user(profile, notification, subproject, display_obj,
             headers,
             user=user
         )
+    return None
 
 
 def send_any_translation(profile, unit, oldunit):
