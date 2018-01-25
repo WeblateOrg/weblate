@@ -22,7 +22,7 @@ from __future__ import unicode_literals
 
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from django.db.models import Sum, Count, F
+from django.db.models import Sum, Count
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.utils import translation
@@ -51,14 +51,11 @@ from weblate.permissions.helpers import (
 )
 from weblate.accounts.models import Profile
 from weblate.accounts.notifications import notify_new_language
-from weblate.trans.stats import get_per_language_stats
 from weblate.trans.views.helper import (
     get_project, get_subproject, get_translation,
     try_set_language,
 )
-from weblate.trans.util import (
-    render, sort_objects, sort_unicode, translation_percent,
-)
+from weblate.trans.util import render, sort_objects, sort_unicode
 import weblate
 
 
@@ -325,17 +322,8 @@ def show_project(request, project):
     last_changes = Change.objects.for_project(obj)[:10]
 
     language_stats = sort_unicode(
-        get_per_language_stats(obj), lambda tup: force_text(tup[0])
+        obj.stats.get_language_stats(), lambda tup: force_text(tup.language.name)
     )
-
-    language_stats = [
-        (
-            tup[0],
-            translation_percent(tup[1], tup[2]),
-            translation_percent(tup[3], tup[4])
-        )
-        for tup in language_stats
-    ]
 
     if can_translate(request.user, project=obj):
         replace_form = ReplaceForm()

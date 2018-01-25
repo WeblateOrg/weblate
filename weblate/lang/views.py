@@ -26,8 +26,7 @@ from django.utils.http import urlencode
 from weblate.lang.models import Language
 from weblate.trans.forms import SiteSearchForm
 from weblate.trans.models import Project, Change
-from weblate.trans.stats import get_per_language_stats
-from weblate.trans.util import sort_objects, translation_percent
+from weblate.trans.util import sort_objects
 from weblate.trans.views.helper import get_project
 
 
@@ -66,11 +65,7 @@ def show_language(request, lang):
     ).distinct()
 
     for project in projects:
-        stats = get_per_language_stats(project, obj)
-        project.language_stats = (
-            translation_percent(stats[0][1], stats[0][2]),
-            translation_percent(stats[0][3], stats[0][4])
-        )
+        project.language_stats = project.stats.get_single_language_stats(obj)
 
     return render(
         request,

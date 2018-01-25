@@ -141,13 +141,13 @@
 </tr>
 </thead>
 <tbody>
-{% for language in language_stats %}
+{% for stats in language_stats %}
 <tr>
-<th><a href="{% url 'project-language' lang=language.0.code project=object.slug %}">{{ language.0 }}</a></th>
-<td class="progress-cell">{% generic_progress language.1 %}</td>
-<td class="percent">{{ language.1 }}%</td>
-<td class="progress-cell">{% generic_progress language.2 %}</td>
-<td class="percent">{{ language.2 }}%</td>
+<th><a href="{% url 'project-language' lang=stats.language.code project=object.slug %}">{{ stats.language.name }}</a></th>
+<td class="progress-cell">{% generic_progress stats.translated_percent %}</td>
+<td class="percent">{{ stats.translated_percent }}%</td>
+<td class="progress-cell">{% generic_progress stats.translated_words_percent %}</td>
+<td class="percent">{{ stats.translated_words_percent }}%</td>
 </tr>
 {% endfor %}
 </tbody>

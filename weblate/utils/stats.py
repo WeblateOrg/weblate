@@ -121,6 +121,10 @@ class TranslationStats(BaseStats):
         self._object.subproject.stats.invalidate()
         self._object.language.stats.invalidate()
 
+    @property
+    def language(self):
+        return self._object.language
+
     def prefetch_basic(self):
         stats = self._object.unit_set.aggregate(
             all=Count('id'),
@@ -202,9 +206,12 @@ class TranslationStats(BaseStats):
 
 
 class LanguageStats(BaseStats):
+    def translation_set(self):
+        return self._object.translation_set.all()
+
     def prefetch_basic(self):
         stats = {item: 0 for item in BASIC_KEYS}
-        for translation in self._object.translation_set.all():
+        for translation in self.translation_set():
             stats_obj = translation.stats
             stats_obj.ensure_basic()
             for item in BASIC_KEYS:
@@ -219,7 +226,7 @@ class LanguageStats(BaseStats):
     def calculate_item(self, item):
         """Calculate stats for translation."""
         result = 0
-        for translation in self._object.translation_set.all():
+        for translation in self.translation_set():
             result += getattr(translation.stats, item)
         self.store(item, result)
 
@@ -229,12 +236,16 @@ class ComponentStats(LanguageStats):
         super(ComponentStats, self).invalidate()
         self._object.project.stats.invalidate()
 
+    def get_language_stats(self):
+        for translation in self.translation_set():
+            yield TranslationStats(translation)
+
     def calculate_item(self, item):
         if item not in ('source_strings', 'source_words'):
             super(ComponentStats, self).calculate_item(item)
         else:
             result = 0
-            for translation in self._object.translation_set.all():
+            for translation in self.translation_set():
                 if item == 'source_words':
                     result = max(translation.stats.all_words, result)
                 else:
@@ -242,7 +253,43 @@ class ComponentStats(LanguageStats):
             self.store(item, result)
 
 
+class ProjectLanguageStats(LanguageStats):
+    def __init__(self, obj, lang):
+        self.language = lang
+        self._translations = None
+        super(ProjectLanguageStats, self).__init__(obj)
+
+    def cache_key(self):
+        return '{}-{}'.format(
+            super(ProjectLanguageStats, self).cache_key(),
+            self.language.pk
+        )
+
+    def translation_set(self):
+        if self._translations is None:
+            self._translations = []
+            for component in self._object.subproject_set.all():
+                self._translations.extend(
+                    component.translation_set.filter(
+                        language_id=self.language.pk
+                    )
+                )
+        return self._translations
+
+
 class ProjectStats(BaseStats):
+    def invalidate(self):
+        super(ProjectStats, self).invalidate()
+        for language in self._object.get_languages():
+            self.get_single_language_stats(language).invalidate()
+
+    def get_single_language_stats(self, language):
+        return ProjectLanguageStats(self._object, language)
+
+    def get_language_stats(self):
+        for language in self._object.get_languages():
+            yield self.get_single_language_stats(language)
+
     def prefetch_basic(self):
         stats = {item: 0 for item in BASIC_KEYS}
         for component in self._object.subproject_set.all():

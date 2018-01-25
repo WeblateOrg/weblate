@@ -22,84 +22,19 @@ from __future__ import unicode_literals
 
 from django.utils.encoding import force_text
 
-from weblate.lang.models import Language
-from weblate.trans.models import Translation, Project
-from weblate.trans.util import translation_percent
-
-
-def get_per_language_stats(project, lang=None):
-    """Calculate per language stats for project"""
-    result = []
-
-    if isinstance(project, Project):
-        language_objects = Language.objects.filter(
-            translation__subproject__project=project
-        )
-    else:
-        language_objects = Language.objects.filter(
-            translation__subproject=project
-        )
-
-    if lang:
-        language_objects = language_objects.filter(pk=lang.pk)
-
-    # List languages
-    languages = {
-        language.pk: language for language in language_objects
-    }
-    if isinstance(project, Project):
-        translations = Translation.objects.filter(
-            language__pk__in=languages.keys(),
-            subproject__project=project
-        )
-    else:
-        translations = Translation.objects.filter(
-            language__pk__in=languages.keys(),
-            subproject=project
-        )
-    for translation in translations.order_by():
-        translated = translation.stats.translated
-        total = translation.stats.all
-        if total == 0:
-            percent = 0
-        else:
-            percent = int(100 * translated / total)
-
-        # Insert sort
-        pos = None
-        for i, data in enumerate(result):
-            if percent >= data[5]:
-                pos = i
-                break
-
-        value = (
-            languages[translation.language_id],
-            translated,
-            total,
-            translation.stats.translated_words,
-            translation.stats.all_words,
-            percent,
-        )
-        if pos is not None:
-            result.insert(pos, value)
-        else:
-            result.append(value)
-
-    return result
-
 
 def get_project_stats(project):
     """Return stats for project"""
     return [
         {
-            'language': force_text(tup[0]),
-            'code': tup[0].code,
-            'total': tup[2],
-            'translated': tup[1],
-            'translated_percent': translation_percent(tup[1], tup[2]),
-            'total_words': tup[4],
-            'translated_words': tup[3],
-            'words_percent': translation_percent(tup[3], tup[4])
+            'language': force_text(tup.language.name),
+            'code': tup.language.code,
+            'total': tup.all,
+            'translated': tup.translated,
+            'translated_percent': tup.translated_percent,
+            'total_words': tup.all_words,
+            'translated_words': tup.translated_words,
+            'words_percent': tup.translated_words_percent,
         }
-        for tup in get_per_language_stats(project)
+        for tup in project.stats.get_language_stats()
     ]

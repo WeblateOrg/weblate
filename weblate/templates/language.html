@@ -42,10 +42,10 @@
 {% for prj in projects %}
 <tr>
 <th><a href="{% url 'project-language' lang=object.code project=prj.slug %}">{{ prj }}</a></th>
-<td class="progress-cell">{% generic_progress prj.language_stats.0 %}</td>
-<td class="percent">{{ prj.language_stats.0 }}%</td>
-<td class="progress-cell">{% generic_progress prj.language_stats.1 %}</td>
-<td class="percent">{{ prj.language_stats.1 }}%</td>
+<td class="progress-cell">{% generic_progress prj.language_stats.translated_percent %}</td>
+<td class="percent">{{ prj.language_stats.translated_percent }}%</td>
+<td class="progress-cell">{% generic_progress prj.language_stats.translated_words_percent %}</td>
+<td class="percent">{{ prj.language_stats.translated_words_percent }}%</td>
 </tr>
 {% endfor %}
 </tbody>
