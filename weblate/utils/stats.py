@@ -78,6 +78,8 @@ class BaseStats(object):
         cache.delete(self._key)
 
     def store(self, key, value):
+        if self._data is None:
+            self._data = self.load()
         if value is None:
             self._data[key] = 0
         else:
