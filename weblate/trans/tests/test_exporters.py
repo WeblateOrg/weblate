@@ -28,7 +28,7 @@ from weblate.trans.exporters import (
 from weblate.trans.models import (
     Dictionary, Project, SubProject, Translation, Unit,
 )
-from weblate.trans.models.unit import STATE_TRANSLATED, STATE_EMPTY
+from weblate.utils.state import STATE_TRANSLATED, STATE_EMPTY
 
 
 class PoExporterTest(TestCase):

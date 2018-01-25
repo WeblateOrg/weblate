@@ -34,6 +34,7 @@ from weblate.permissions.helpers import (
 from weblate.trans.models.change import Change
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.utils import messages
+from weblate.utils.state import STATE_TRANSLATED
 
 
 class SuggestionManager(models.Manager):
@@ -150,7 +151,6 @@ class Suggestion(models.Model, UserDisplayMixin):
         )
 
     def accept(self, translation, request, check=can_accept_suggestion):
-        from weblate.trans.models.unit import STATE_TRANSLATED
         allunits = translation.unit_set.filter(
             content_hash=self.content_hash,
         )

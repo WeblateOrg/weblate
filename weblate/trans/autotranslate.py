@@ -23,7 +23,7 @@ from django.db import transaction
 
 from weblate.permissions.helpers import can_access_project
 from weblate.trans.models import Unit, Change, SubProject
-from weblate.trans.models.unit import STATE_TRANSLATED
+from weblate.utils.state import STATE_TRANSLATED
 
 
 def auto_translate(user, translation, source, inconsistent, overwrite,

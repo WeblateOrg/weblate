@@ -29,9 +29,9 @@ from weblate.trans.formats import ParseError
 from weblate.trans.models import (
     Project, SubProject, Unit, Suggestion,
 )
-from weblate.trans.models.unit import STATE_TRANSLATED
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.utils.state import STATE_TRANSLATED
 
 
 class SubProjectTest(RepoTestCase):

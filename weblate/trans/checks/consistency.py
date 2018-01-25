@@ -20,6 +20,7 @@
 
 from django.utils.translation import ugettext_lazy as _
 from weblate.trans.checks.base import TargetCheck
+from weblate.utils.state import STATE_TRANSLATED
 
 
 class PluralsCheck(TargetCheck):
@@ -75,7 +76,6 @@ class ConsistencyCheck(TargetCheck):
     severity = 'warning'
 
     def check_target_unit(self, sources, targets, unit):
-        from weblate.trans.models.unit import STATE_TRANSLATED
         # Do not check consistency if user asked not to have it
         if not unit.translation.subproject.allow_translation_propagation:
             return False

@@ -36,7 +36,7 @@ from weblate.trans.models import (
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
 from weblate.trans.search import get_target_index, clean_search_unit
-from weblate.trans.models.unit import STATE_TRANSLATED
+from weblate.utils.state import STATE_TRANSLATED
 
 
 class Command(BaseCommand):

@@ -22,8 +22,8 @@
 Tests for review workflow.
 """
 
-from weblate.trans.models.unit import STATE_APPROVED
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.utils.state import STATE_APPROVED
 
 
 class ReviewTest(ViewTestCase):
