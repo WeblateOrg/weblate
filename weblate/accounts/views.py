@@ -885,6 +885,7 @@ def social_complete(request, backend):
     - blocks access for demo user
     - gracefuly handle backend errors
     """
+    # pylint: disable=too-many-branches,too-many-return-statements
     def fail(message):
         messages.error(request, message)
         return redirect(reverse('login'))

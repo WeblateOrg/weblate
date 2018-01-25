@@ -308,7 +308,7 @@ class Command(BaseCommand):
 
         # We need to limit slug length to avoid problems with MySQL
         # silent truncation
-        # pylint: disable=W0212
+        # pylint: disable=protected-access
         slug_len = SubProject._meta.get_field('slug').max_length
         name_len = SubProject._meta.get_field('name').max_length
 

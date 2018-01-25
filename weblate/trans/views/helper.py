@@ -94,7 +94,7 @@ def try_set_language(lang):
     try:
         django.utils.translation.activate(lang)
         # workaround for https://code.djangoproject.com/ticket/26050
-        # pylint: disable=W0212
+        # pylint: disable=protected-access
         if trans_real.catalog()._catalog is None:
             raise Exception('Invalid language!')
     except Exception:

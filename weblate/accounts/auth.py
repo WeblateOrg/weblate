@@ -45,7 +45,7 @@ class WeblateUserBackend(ModelBackend):
         if ((not user_obj.is_active and not user_obj.is_anonymous)
                 or obj is not None):
             return set()
-        # pylint: disable=W0212
+        # pylint: disable=protected-access
         if not hasattr(user_obj, '_perm_cache'):
             user_obj._perm_cache = self.get_user_permissions(user_obj)
             user_obj._perm_cache.update(self.get_group_permissions(user_obj))

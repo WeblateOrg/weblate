@@ -113,7 +113,7 @@ def perform_on_link(func):
 
 
 class SubProjectQuerySet(models.QuerySet):
-    # pylint: disable=W0232
+    # pylint: disable=no-init
 
     def prefetch(self):
         return self.select_related(

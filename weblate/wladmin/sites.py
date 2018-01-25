@@ -112,7 +112,7 @@ class WeblateAdminSite(AdminSite):
 
         # Billing
         if 'weblate.billing' in settings.INSTALLED_APPS:
-            # pylint: disable=C0413
+            # pylint: disable=wrong-import-position
             from weblate.billing.admin import (
                 PlanAdmin, BillingAdmin, InvoiceAdmin,
             )
@@ -123,7 +123,7 @@ class WeblateAdminSite(AdminSite):
 
         # Legal
         if 'weblate.legal' in settings.INSTALLED_APPS:
-            # pylint: disable=C0413
+            # pylint: disable=wrong-import-position
             from weblate.legal.admin import AgreementAdmin
             from weblate.legal.models import Agreement
             self.register(Agreement, AgreementAdmin)

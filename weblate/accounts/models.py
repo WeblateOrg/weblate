@@ -245,7 +245,7 @@ class VerifiedEmail(models.Model):
 
 class ProfileManager(models.Manager):
     """Manager providing shortcuts for subscription queries."""
-    # pylint: disable=W0232
+    # pylint: disable=no-init
 
     def subscribed_any_translation(self, project, language, user):
         return self.filter(

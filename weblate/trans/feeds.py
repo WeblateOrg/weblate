@@ -67,7 +67,7 @@ class TranslationChangesFeed(ChangesFeed):
     """RSS feed for changes in translation."""
 
     # Arguments number differs from overridden method
-    # pylint: disable=W0221
+    # pylint: disable=arguments-differ
 
     def get_object(self, request, project, subproject, lang):
         return get_translation(request, project, subproject, lang)
@@ -91,7 +91,7 @@ class SubProjectChangesFeed(TranslationChangesFeed):
     """RSS feed for changes in subproject."""
 
     # Arguments number differs from overridden method
-    # pylint: disable=W0221
+    # pylint: disable=arguments-differ
 
     def get_object(self, request, project, subproject):
         return get_subproject(request, project, subproject)
@@ -106,7 +106,7 @@ class ProjectChangesFeed(TranslationChangesFeed):
     """RSS feed for changes in project."""
 
     # Arguments number differs from overridden method
-    # pylint: disable=W0221
+    # pylint: disable=arguments-differ
 
     def get_object(self, request, project):
         return get_project(request, project)
@@ -121,7 +121,7 @@ class LanguageChangesFeed(TranslationChangesFeed):
     """RSS feed for changes in language."""
 
     # Arguments number differs from overridden method
-    # pylint: disable=W0221
+    # pylint: disable=arguments-differ
 
     def get_object(self, request, lang):
         return get_object_or_404(Language, code=lang)

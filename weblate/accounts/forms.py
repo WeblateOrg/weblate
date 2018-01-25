@@ -417,7 +417,7 @@ class SetPasswordForm(DjangoSetPasswordForm):
         label=_("New password confirmation"),
     )
 
-    # pylint: disable=W0221,W0222
+    # pylint: disable=arguments-differ,signature-differs
     def save(self, request, delete_session=False):
         notify_account_activity(
             self.user,

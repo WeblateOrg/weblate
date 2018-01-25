@@ -362,7 +362,7 @@ class PhpFormatTest(AutoFormatTest):
         try:
             # New phply based storage handles save just fine
             # see https://github.com/translate/translate/pull/3697
-            # pylint: disable=W0612
+            # pylint: disable=unused-import,unused-variable
             from translate.storage.php import PHPLexer  # noqa
             super(PhpFormatTest, self).test_new_unit()
         except ImportError:

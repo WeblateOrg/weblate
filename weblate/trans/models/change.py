@@ -33,7 +33,7 @@ from weblate.trans.models.project import Project
 
 
 class ChangeQuerySet(models.QuerySet):
-    # pylint: disable=W0232
+    # pylint: disable=no-init
 
     def content(self, prefetch=False):
         """Return queryset with content changes."""

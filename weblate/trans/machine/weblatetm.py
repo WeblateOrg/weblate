@@ -27,8 +27,8 @@ from weblate.trans.models import Unit, Project
 
 
 class WeblateBase(MachineTranslation):
-    """Base class for Weblate based MT"""
-    # pylint: disable=W0223
+    """Base abstract class for Weblate based MT"""
+    # pylint: disable=abstract-method
 
     def is_supported(self, source, language):
         """Any language is supported."""

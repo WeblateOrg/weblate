@@ -90,7 +90,7 @@ def get_english_lang():
 
 
 class LanguageQuerySet(models.QuerySet):
-    # pylint: disable=W0232
+    # pylint: disable=no-init
 
     def get_default(self):
         """Return default source language object."""

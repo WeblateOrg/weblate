@@ -529,7 +529,7 @@ class SubProjectValidationTest(RepoTestCase):
         self.component.file_format = 'po'
         self.component.save()
 
-        # Clean class cache, pylint: disable=W0212
+        # Clean class cache, pylint: disable=protected-access
         self.component._file_format = None
 
         # With correct format it should validate
@@ -624,7 +624,7 @@ class SubProjectErrorTest(RepoTestCase):
 
     def test_invalid_templatename(self):
         self.component.template = 'foo.bar'
-        # Clean class cache, pylint: disable=W0212
+        # Clean class cache, pylint: disable=protected-access
         self.component._template_store = None
 
         self.assertRaises(
@@ -667,7 +667,7 @@ class SubProjectErrorTest(RepoTestCase):
         with open(testfile, 'a') as handle:
             handle.write('CHANGE')
 
-        # Clean class cache, pylint: disable=W0212
+        # Clean class cache, pylint: disable=protected-access
         self.component._template_store = None
 
         self.assertRaises(
@@ -694,7 +694,7 @@ class SubProjectEditTest(ViewTestCase):
             self.remove_units(self.subproject.template_store.store)
         self.remove_units(translation.store.store)
 
-        # Clean class cache, pylint: disable=W0212
+        # Clean class cache, pylint: disable=protected-access
         self.subproject._template_store = None
         translation._store = None
 
@@ -721,7 +721,7 @@ class SubProjectEditMonoTest(SubProjectEditTest):
 
         self.remove_units(translation.store.store)
 
-        # Clean class cache, pylint: disable=W0212
+        # Clean class cache, pylint: disable=protected-access
         translation._store = None
 
         unit = translation.unit_set.all()[0]

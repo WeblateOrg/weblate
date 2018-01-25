@@ -956,7 +956,7 @@ urlpatterns = [
 ]
 
 if 'weblate.billing' in settings.INSTALLED_APPS:
-    # pylint: disable=C0413
+    # pylint: disable=wrong-import-position
     import weblate.billing.views
     urlpatterns += [
         url(
@@ -972,7 +972,7 @@ if 'weblate.billing' in settings.INSTALLED_APPS:
     ]
 
 if 'weblate.gitexport' in settings.INSTALLED_APPS:
-    # pylint: disable=C0413
+    # pylint: disable=wrong-import-position
     import weblate.gitexport.views
     urlpatterns += [
         # Redirect clone from the Weblate project URL
@@ -1011,7 +1011,7 @@ if 'weblate.gitexport' in settings.INSTALLED_APPS:
     ]
 
 if 'weblate.legal' in settings.INSTALLED_APPS:
-    # pylint: disable=C0413
+    # pylint: disable=wrong-import-position
     import weblate.legal.views
     urlpatterns += [
         url(
@@ -1030,7 +1030,7 @@ if settings.DEBUG:
     ]
 
 if settings.DEBUG and 'debug_toolbar' in settings.INSTALLED_APPS:
-    # pylint: disable=C0413
+    # pylint: disable=wrong-import-position
     import debug_toolbar
     urlpatterns += [
         url(r'^__debug__/', include(debug_toolbar.urls)),

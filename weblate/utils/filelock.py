@@ -27,7 +27,6 @@ try:
     import fcntl
     HAS_FCNTL = True
 except ImportError:
-    # pylint: disable=F0401
     import msvcrt
     HAS_FCNTL = False
 

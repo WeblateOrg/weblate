@@ -39,7 +39,7 @@ from weblate.utils.state import STATE_TRANSLATED
 
 
 class SuggestionManager(models.Manager):
-    # pylint: disable=W0232
+    # pylint: disable=no-init
 
     def add(self, unit, target, request, vote=False):
         """Create new suggestion for this unit."""

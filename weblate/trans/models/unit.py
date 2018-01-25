@@ -523,7 +523,7 @@ class Unit(models.Model, LoggerMixin):
         same_state = (state == self.state and not created)
 
         # Check if we actually need to change anything
-        # pylint: disable=R0916
+        # pylint: disable=too-many-boolean-expressions
         if (not created and
                 location == self.location and
                 flags == self.flags and

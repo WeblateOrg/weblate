@@ -181,7 +181,6 @@ def add_index_update(unit_id, to_delete, language_code):
                 to_delete=to_delete,
                 language_code=language_code,
             )
-    # pylint: disable=E0712
     except IntegrityError:
         try:
             update = IndexUpdate.objects.get(unitid=unit_id)

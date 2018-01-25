@@ -39,7 +39,7 @@ from weblate.accounts.ratelimit import reset_rate_limit
 from weblate.trans.tests.test_views import RegistrationTestMixin
 
 # Workaround for httpretty breakage with pyopenssl
-# pylint: disable=W0612
+# pylint: disable=unused-import
 import weblate.trans.tests.mypretty  # noqa
 
 REGISTRATION_DATA = {

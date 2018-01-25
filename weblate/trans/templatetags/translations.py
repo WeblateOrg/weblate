@@ -311,7 +311,7 @@ def naturaltime_past(value, now):
     """Handling of past dates for naturaltime."""
 
     # this function is huge
-    # pylint: disable=R0911,R0912
+    # pylint: disable=too-many-branches,too-many-return-statements
 
     delta = now - value
 
@@ -370,7 +370,7 @@ def naturaltime_future(value, now):
     """Handling of future dates for naturaltime."""
 
     # this function is huge
-    # pylint: disable=R0911,R0912
+    # pylint: disable=too-many-branches,too-many-return-statements
 
     delta = value - now
 

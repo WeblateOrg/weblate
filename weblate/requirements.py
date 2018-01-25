@@ -22,8 +22,6 @@ from __future__ import print_function, unicode_literals
 
 import importlib
 import sys
-# For some reasons, this fails in PyLint sometimes...
-# pylint: disable=E0611,F0401
 from distutils.version import LooseVersion
 from django.core.exceptions import ImproperlyConfigured
 from weblate.trans.vcs import (

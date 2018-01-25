@@ -110,7 +110,7 @@ class ProjectTest(RepoTestCase):
         project = self.create_project()
 
         with override_settings(DATA_DIR='/weblate-nonexisting:path'):
-            # Invalidate cache, pylint: disable=W0212
+            # Invalidate cache, pylint: disable=protected-access
             project._dir_path = None
 
             self.assertRaisesMessage(

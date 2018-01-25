@@ -41,7 +41,7 @@ SPLIT_RE = re.compile(r'[\s,.:!?]+', re.UNICODE)
 
 
 class DictionaryManager(models.Manager):
-    # pylint: disable=W0232
+    # pylint: disable=no-init
 
     def upload(self, request, project, language, fileobj, method):
         """Handle dictionary upload."""

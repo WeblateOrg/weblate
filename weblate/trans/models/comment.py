@@ -31,7 +31,7 @@ from weblate.accounts.notifications import notify_new_comment
 
 
 class CommentManager(models.Manager):
-    # pylint: disable=W0232
+    # pylint: disable=no-init
 
     def add(self, unit, user, lang, text):
         """Add comment to this unit."""

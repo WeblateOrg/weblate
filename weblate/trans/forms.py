@@ -696,7 +696,7 @@ class BaseSearchForm(forms.Form):
 
 class SearchForm(BaseSearchForm):
     """Text searching form."""
-    # pylint: disable=C0103
+    # pylint: disable=invalid-name
     q = forms.CharField(
         label=_('Query'),
         min_length=1,

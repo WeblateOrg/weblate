@@ -19,8 +19,6 @@
 #
 """Minimal distributed version control system abstraction for Weblate needs."""
 from __future__ import unicode_literals
-# For some reasons, this fails in PyLint sometimes...
-# pylint: disable=E0611,F0401
 from distutils.version import LooseVersion
 import email.utils
 import hashlib

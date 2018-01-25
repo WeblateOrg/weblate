@@ -39,7 +39,7 @@ from weblate.trans.data import data_dir
 
 
 class ProjectManager(models.Manager):
-    # pylint: disable=W0232
+    # pylint: disable=no-init
 
     def get_acl_ids(self, user):
         """Return list of project IDs and status
