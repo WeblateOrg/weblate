@@ -21,6 +21,7 @@
 from __future__ import unicode_literals
 
 from django.core.cache import cache
+from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Sum, Count
 
 from weblate.trans.filter import get_filter_choice
@@ -112,6 +113,25 @@ class BaseStats(object):
         self.calculate_percents('untranslated_percent')
         self.calculate_percents('fuzzy_percent')
         self.calculate_percents('allchecks_percent')
+
+
+class DummyTranslationStats(BaseStats):
+    """Dummy stats to report 0 in all cases.
+
+    Used when given language does not exist in a component.
+    """
+    def __init__(self, obj):
+        self.language = obj
+        self._data = {}
+
+    def save(self):
+        return
+
+    def calculate_item(self, item):
+        return 0
+
+    def prefetch_basic(self):
+        self._data = {item: 0 for item in BASIC_KEYS}
 
 
 class TranslationStats(BaseStats):
@@ -239,6 +259,14 @@ class ComponentStats(LanguageStats):
     def get_language_stats(self):
         for translation in self.translation_set():
             yield TranslationStats(translation)
+
+    def get_single_language_stats(self, language):
+        try:
+            return TranslationStats(
+                self.translation_set().get(language=language)
+            )
+        except ObjectDoesNotExist:
+            return DummyTranslationStats(language)
 
     def calculate_item(self, item):
         if item not in ('source_strings', 'source_words'):
