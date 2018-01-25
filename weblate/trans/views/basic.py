@@ -209,7 +209,7 @@ def home(request):
             subproject__project__in=subscribed_projects
         )
 
-        if user.profile.hide_completed:
+        if user.profile.hide_completed and False:
             usersubscriptions = usersubscriptions.exclude(
                 total=F('translated')
             )
