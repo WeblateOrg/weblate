@@ -62,16 +62,30 @@ from weblate.trans.util import (
 import weblate
 
 
+def get_untranslated(base, limit=None):
+    """Filter untranslated."""
+    result = []
+    for item in base:
+        if item.stats.translated != item.stats.all:
+            result.append(item)
+            if limit and len(result) >= limit:
+                return result
+    return result
+
+
 def get_suggestions(request, user, base):
     """Return suggested translations for user"""
     if user.is_authenticated and user.profile.languages.exists():
         # Remove user subscriptions
-        result = base.exclude(
-            subproject__project__in=user.profile.subscriptions.all()
-        )[:10]
+        result = get_untranslated(
+            base.exclude(
+                subproject__project__in=user.profile.subscriptions.all()
+            ),
+            10
+        )
         if result:
             return result
-    return base.order_by('?')[:10]
+    return get_untranslated(base.order_by('?'), 10)
 
 
 def guess_user_language(request, translations):
@@ -209,13 +223,13 @@ def home(request):
             subproject__project__in=subscribed_projects
         )
 
-        if user.profile.hide_completed and False:
-            usersubscriptions = usersubscriptions.exclude(
-                total=F('translated')
-            )
-            user_translations = user_translations.exclude(
-                total=F('translated')
-            )
+        if user.profile.hide_completed:
+            usersubscriptions = get_untranslated(usersubscriptions)
+            user_translations = get_untranslated(user_translations)
+            for componentlist in componentlists:
+                componentlist.translations = get_untranslated(
+                    componentlist.translations
+                )
 
     return render(
         request,

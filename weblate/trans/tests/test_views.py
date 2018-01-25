@@ -628,6 +628,13 @@ class HomeViewTest(ViewTestCase):
         response = self.client.get(reverse('home'))
         self.assertEqual(len(response.context['usersubscriptions']), 1)
 
+    def test_user_hide_completed(self):
+        self.user.profile.hide_completed = True
+        self.user.profile.save()
+
+        response = self.client.get(reverse('home'))
+        self.assertContains(response, 'Test/Test')
+
 
 class SourceStringsTest(ViewTestCase):
     def test_edit_priority(self):
