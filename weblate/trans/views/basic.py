@@ -263,10 +263,15 @@ def show_engage(request, project, lang=None):
     obj = get_project(request, project, skip_acl=True)
 
     # Handle language parameter
-    language = None
     if lang is not None:
         try_set_language(lang)
         language = Language.objects.try_get(code=lang)
+        stats = obj.stats.get_single_language_stats(language)
+        percent = stats.translated_percent
+    else:
+        language = None
+        stats = obj.stats
+    percent = stats.translated_percent
 
     languages = obj.get_language_count()
 
@@ -276,7 +281,7 @@ def show_engage(request, project, lang=None):
         'project': obj,
         'languages': languages,
         'total': obj.stats.source_strings,
-        'percent': obj.get_translated_percent(language),
+        'percent': percent,
         'url': obj.get_absolute_url(),
         'lang_url': obj.get_absolute_url() + '#languages',
         'language': language,

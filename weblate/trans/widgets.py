@@ -98,7 +98,11 @@ class ContentWidget(Widget):
         """Create Widget object."""
         super(ContentWidget, self).__init__(obj, color, lang)
         # Get translation status
-        self.percent = obj.get_translated_percent(lang)
+        if lang:
+            stats = obj.stats.get_single_language_stats(lang)
+        else:
+            stats = obj.stats
+        self.percent = stats.translated_percent
         # Set rendering variables
         self.image = None
 
