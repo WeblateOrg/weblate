@@ -264,11 +264,13 @@ def show_engage(request, project, lang=None):
 
     # Handle language parameter
     if lang is not None:
-        try_set_language(lang)
         language = Language.objects.try_get(code=lang)
-        stats_obj = obj.stats.get_single_language_stats(language)
     else:
         language = None
+    if language:
+        try_set_language(lang)
+        stats_obj = obj.stats.get_single_language_stats(language)
+    else:
         stats_obj = obj.stats
     percent = stats_obj.translated_percent
 
