@@ -40,7 +40,8 @@ from django.middleware.csrf import rotate_token
 from django.utils.encoding import force_text
 
 from weblate.accounts.auth import try_get_user
-from weblate.accounts.models import Profile, get_all_user_mails
+from weblate.accounts.models import Profile
+from weblate.accounts.utils import get_all_user_mails
 from weblate.accounts.captcha import MathCaptcha
 from weblate.accounts.notifications import notify_account_activity
 from weblate.accounts.pipeline import USERNAME_RE

@@ -63,9 +63,8 @@ from weblate.accounts.forms import (
 from weblate.accounts.ratelimit import check_rate_limit
 from weblate.logger import LOGGER
 from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
-from weblate.accounts.models import (
-    set_lang, remove_user, Profile, DEMO_ACCOUNTS
-)
+from weblate.accounts.models import set_lang, Profile, DEMO_ACCOUNTS
+from weblate.accounts.utils import remove_user
 from weblate.utils import messages
 from weblate.trans.models import Change, Project, SubProject, Suggestion
 from weblate.trans.views.helper import get_project

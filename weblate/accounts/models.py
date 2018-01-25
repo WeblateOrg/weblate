@@ -19,9 +19,8 @@
 #
 
 from __future__ import unicode_literals
+
 import json
-import os
-import binascii
 import datetime
 
 from django.db import models
@@ -40,12 +39,11 @@ from django.utils.translation import LANGUAGE_SESSION_KEY
 
 from rest_framework.authtoken.models import Token
 
-from social_django.models import UserSocialAuth, Code
+from social_django.models import UserSocialAuth
 
 from weblate.lang.models import Language
 from weblate.utils import messages
 from weblate.accounts.avatar import get_user_display
-from weblate.trans.signals import user_pre_delete
 from weblate.utils.validators import validate_editor
 from weblate.utils.decorators import disable_for_loaddata
 
@@ -517,57 +515,6 @@ def set_lang(request, profile):
     """Set session language based on user preferences."""
     if profile.language:
         request.session[LANGUAGE_SESSION_KEY] = profile.language
-
-
-def get_all_user_mails(user):
-    """Return all verified mails for user."""
-    emails = set(
-        VerifiedEmail.objects.filter(
-            social__user=user
-        ).values_list(
-            'email', flat=True
-        )
-    )
-    emails.add(user.email)
-    return emails
-
-
-def remove_user(user, request):
-    """Remove user account."""
-    from weblate.accounts.notifications import notify_account_activity
-
-    # Send signal (to commit any pending changes)
-    user_pre_delete.send(instance=user, sender=user.__class__)
-
-    # Store activity log and notify
-    notify_account_activity(user, request, 'removed')
-
-    # Remove any email validation codes
-    Code.objects.filter(email__in=get_all_user_mails(user)).delete()
-
-    # Change username
-    user.username = 'deleted-{0}'.format(user.pk)
-    while User.objects.filter(username=user.username).exists():
-        user.username = 'deleted-{0}-{1}'.format(
-            user.pk,
-            binascii.b2a_hex(os.urandom(5))
-        )
-
-    # Remove user information
-    user.first_name = 'Deleted User'
-    user.last_name = ''
-    user.email = 'noreply@weblate.org'
-
-    # Disable the user
-    user.is_active = False
-    user.set_unusable_password()
-    user.save()
-
-    # Remove all social auth associations
-    user.social_auth.all().delete()
-
-    # Remove user from all groups
-    user.groups.clear()
 
 
 @receiver(user_logged_in)
