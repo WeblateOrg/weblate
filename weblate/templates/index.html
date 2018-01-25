@@ -58,14 +58,10 @@
 <div {% active_tab "your-subscriptions" %}>
 {% if subscribed_projects %}
     {% if usersubscriptions %}
-        {% with usersubscriptions as translations and 2 as show_language %}
-        {% include "list-translations.html" %}
-        {% endwith %}
+        {% include "list-translations.html" with translations=usersubscriptions show_language=2 hide_completed=user.profile.hide_completed %}
         <p>{% include "legend.html" %}</p>
     {% else %}
-        {% with subscribed_projects as projects %}
-        {% include "list-projects.html" %}
-        {% endwith %}
+        {% include "list-projects.html" with projects=subscribed_projects %}
     {% endif %}
 {% else %}
     <p class="help-block">{% trans "Choose what languages you want in the preferences, to see overview of available translations for those languages in your watched projects." %}</p>
@@ -78,9 +74,7 @@
 
 <div {% active_tab "your-languages" %}>
 {% if userlanguages %}
-{% with userlanguages as translations and 2 as show_language %}
-{% include "list-translations.html" %}
-{% endwith %}
+{% include "list-translations.html" with translations=userlanguages show_language=2 %}
 <p>{% include "legend.html" %}</p>
 {% else %}
 <p class="help-block">{% trans "Choose languages you speak in the preferences, to see an overview of all projects that feature those languages here." %}</p>
@@ -92,9 +86,7 @@
 {# Suggested translations #}
 <div {% active_tab "suggestions" %}>
 {% if suggestions %}
-{% with suggestions as translations and 2 as show_language and user.profile.hide_completed as hide_completed %}
-{% include "list-translations.html" %}
-{% endwith %}
+{% include "list-translations.html" with translations=suggestions show_language=2 %}
 <p>{% include "legend.html" %}</p>
 {% else %}
 <p class="help-block">{% trans "Could not find any suggestions for you, please choose your languages in the preferences to get some." %}</p>
@@ -109,10 +101,8 @@
 
 {% for componentlist in componentlists %}
     <div {% active_tab componentlist.tab_slug %}>
-    {% with componentlist.translations as translations and 2 as show_language and user.profile.hide_completed as hide_completed %}
-    {% include "list-translations.html" %}
+    {% include "list-translations.html" with translations=componentlist.translations show_language=2 %}
     <p>{% include "legend.html" %}</p>
-    {% endwith %}
     <p><a class="btn btn-default" href="{% url 'profile' %}#languages">{% trans "Manage your languages" %}</a></p>
 </div>{% endfor %}
 
