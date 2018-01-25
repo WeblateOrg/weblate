@@ -21,6 +21,7 @@
 ############################################################################
 # This is automatically generated file, see scripts/generate-language-data #
 ############################################################################
+# pylint: disable=line-too-long,too-many-lines
 
 from __future__ import unicode_literals
 from django.utils.translation import ugettext_noop as _
