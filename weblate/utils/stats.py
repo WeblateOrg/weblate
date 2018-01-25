@@ -43,7 +43,7 @@ class BaseStats(object):
     def __init__(self, obj):
         self._object = obj
         self._key = self.cache_key()
-        self._data = cache.get(self._key, {})
+        self._data = self.load()
 
     def cache_key(self):
         return 'stats-{}-{}'.format(
@@ -59,6 +59,9 @@ class BaseStats(object):
                 self.fetch_stats(name)
             self.save()
         return self._data[name]
+
+    def load(self):
+        return cache.get(self._key, {})
 
     def save(self):
         """Save stats to cache."""
@@ -121,11 +124,17 @@ class DummyTranslationStats(BaseStats):
     Used when given language does not exist in a component.
     """
     def __init__(self, obj):
+        super(DummyTranslationStats, self).__init__(obj)
         self.language = obj
-        self._data = {}
+
+    def cache_key(self):
+        return None
 
     def save(self):
         return
+
+    def load(self):
+        return {}
 
     def calculate_item(self, item):
         return 0
