@@ -36,10 +36,13 @@ BASICS = frozenset((
     'allchecks', 'suggestions', 'comments', 'approved_suggestions'
 ))
 BASIC_KEYS = frozenset(['{}_words'.format(i) for i in BASICS] + list(BASICS))
+SOURCE_KEYS = frozenset(list(BASIC_KEYS) + ['source_strings', 'source_words'])
 
 
 class BaseStats(object):
     """Caching statistics calculator."""
+    basic_keys = BASIC_KEYS
+
     def __init__(self, obj):
         self._object = obj
         self._key = self.cache_key()
@@ -82,7 +85,7 @@ class BaseStats(object):
 
     def fetch_stats(self, item):
         """Calculate stats for translation."""
-        if item in BASIC_KEYS:
+        if item in self.basic_keys:
             self.prefetch_basic()
             return
         self.calculate_item(item)
@@ -239,16 +242,28 @@ class TranslationStats(BaseStats):
 
 
 class LanguageStats(BaseStats):
+    basic_keys = SOURCE_KEYS
+
     def translation_set(self):
         return self._object.translation_set.all()
 
     def prefetch_basic(self):
         stats = {item: 0 for item in BASIC_KEYS}
+        # This is meaningless for language stats, but we share code
+        # with the ComponentStats
+        stats['source_strings'] = 0
+        stats['source_words'] = 0
         for translation in self.translation_set():
             stats_obj = translation.stats
             stats_obj.ensure_basic()
             for item in BASIC_KEYS:
                 stats[item] += getattr(stats_obj, item)
+            stats['source_words'] = max(
+                stats_obj.all_words, stats['source_words']
+            )
+            stats['source_strings'] = max(
+                stats_obj.all, stats['source_strings']
+            )
 
         for key, value in stats.items():
             self.store(key, value)
@@ -281,18 +296,6 @@ class ComponentStats(LanguageStats):
         except ObjectDoesNotExist:
             return DummyTranslationStats(language)
 
-    def calculate_item(self, item):
-        if item not in ('source_strings', 'source_words'):
-            super(ComponentStats, self).calculate_item(item)
-        else:
-            result = 0
-            for translation in self.translation_set():
-                if item == 'source_words':
-                    result = max(translation.stats.all_words, result)
-                else:
-                    result = max(translation.stats.all, result)
-            self.store(item, result)
-
 
 class ProjectLanguageStats(LanguageStats):
     def __init__(self, obj, lang):
@@ -319,6 +322,7 @@ class ProjectLanguageStats(LanguageStats):
 
 
 class ProjectStats(BaseStats):
+    basic_keys = SOURCE_KEYS
     def invalidate(self):
         super(ProjectStats, self).invalidate()
         for language in self._object.get_languages():
@@ -332,11 +336,11 @@ class ProjectStats(BaseStats):
             yield self.get_single_language_stats(language)
 
     def prefetch_basic(self):
-        stats = {item: 0 for item in BASIC_KEYS}
+        stats = {item: 0 for item in self.basic_keys}
         for component in self._object.subproject_set.all():
             stats_obj = component.stats
             stats_obj.ensure_basic()
-            for item in BASIC_KEYS:
+            for item in self.basic_keys:
                 stats[item] += getattr(stats_obj, item)
 
         for key, value in stats.items():
