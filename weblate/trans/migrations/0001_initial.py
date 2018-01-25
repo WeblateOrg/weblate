@@ -122,7 +122,7 @@ class Migration(migrations.Migration):
             options={
                 'ordering': ['name'],
             },
-            bases=(models.Model, weblate.trans.mixins.PercentMixin, weblate.trans.mixins.URLMixin, weblate.trans.mixins.PathMixin),
+            bases=(models.Model, weblate.trans.mixins.URLMixin, weblate.trans.mixins.PathMixin),
         ),
         migrations.CreateModel(
             name='Source',
@@ -168,7 +168,7 @@ class Migration(migrations.Migration):
                 'ordering': ['project__name', 'name'],
                 'permissions': (('lock_subproject', 'Can lock translation for translating'), ('can_see_git_repository', 'Can see git repository URL')),
             },
-            bases=(models.Model, weblate.trans.mixins.PercentMixin, weblate.trans.mixins.URLMixin, weblate.trans.mixins.PathMixin),
+            bases=(models.Model, weblate.trans.mixins.URLMixin, weblate.trans.mixins.PathMixin),
         ),
         migrations.CreateModel(
             name='Suggestion',
@@ -212,7 +212,7 @@ class Migration(migrations.Migration):
                 'ordering': ['language__name'],
                 'permissions': (('upload_translation', 'Can upload translation'), ('overwrite_translation', 'Can overwrite with translation upload'), ('author_translation', 'Can define author of translation upload'), ('commit_translation', 'Can force commiting of translation'), ('update_translation', 'Can update translation from'), ('push_translation', 'Can push translations to remote'), ('reset_translation', 'Can reset translations to match remote'), ('automatic_translation', 'Can do automatic translation'), ('lock_translation', 'Can lock whole translation project'), ('use_mt', 'Can use machine translation')),
             },
-            bases=(models.Model, weblate.trans.mixins.URLMixin, weblate.trans.mixins.PercentMixin),
+            bases=(models.Model, weblate.trans.mixins.URLMixin),
         ),
         migrations.CreateModel(
             name='Unit',

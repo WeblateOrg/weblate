@@ -42,8 +42,8 @@ from weblate.utils.stats import TranslationStats
 from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.signals import vcs_pre_commit, vcs_post_commit
 from weblate.utils.site import get_site_url
-from weblate.trans.util import translation_percent, split_plural
-from weblate.trans.mixins import URLMixin, PercentMixin, LoggerMixin
+from weblate.trans.util import split_plural
+from weblate.trans.mixins import URLMixin, LoggerMixin
 from weblate.accounts.notifications import notify_new_string
 from weblate.accounts.models import get_author_name
 from weblate.trans.models.change import Change
@@ -77,41 +77,9 @@ class TranslationQuerySet(models.QuerySet):
             'subproject', 'subproject__project', 'language'
         )
 
-    def get_percents(self, project=None, subproject=None, language=None):
-        """Return tuple consting of status percents:
-
-        (translated, fuzzy, failing checks)
-        """
-        # Filter translations
-        translations = self
-        if project is not None:
-            translations = translations.filter(subproject__project=project)
-        if subproject is not None:
-            translations = translations.filter(subproject=subproject)
-        if language is not None:
-            translations = translations.filter(language=language)
-
-        # Aggregate
-        translated = fuzzy = failing = total = words = translated_words = 0
-        for translation in translations:
-            translated += translation.stats.translated
-            total += translation.stats.all
-            words += translation.stats.all_words
-            translated_words += translation.stats.translated_words
-            failing += translation.stats.allchecks
-            fuzzy += translation.stats.fuzzy
-
-        # Calculate percent
-        return (
-            translation_percent(translated, total),
-            translation_percent(fuzzy, total),
-            translation_percent(failing, total),
-            translation_percent(translated_words, words),
-        )
-
 
 @python_2_unicode_compatible
-class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
+class Translation(models.Model, URLMixin, LoggerMixin):
     subproject = models.ForeignKey(
         'SubProject', on_delete=models.deletion.CASCADE
     )
@@ -194,17 +162,6 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                     'error': str(error)
                 }
             )
-
-    def _get_percents(self, lang=None):
-        """Return percentages of translation status."""
-        return (
-            translation_percent(self.stats.translated, self.stats.all),
-            translation_percent(self.stats.fuzzy, self.stats.all),
-            translation_percent(self.stats.allchecks, self.stats.all),
-            translation_percent(
-                self.stats.translated_words, self.stats.all_words
-            ),
-        )
 
     def get_reverse_url_kwargs(self):
         """Return kwargs for URL reversing."""

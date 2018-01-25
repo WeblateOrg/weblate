@@ -2,7 +2,6 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-import weblate.trans.mixins
 
 
 class Migration(migrations.Migration):
@@ -25,6 +24,6 @@ class Migration(migrations.Migration):
             options={
                 'ordering': ['name'],
             },
-            bases=(models.Model, weblate.trans.mixins.PercentMixin),
+            bases=(models.Model,),
         ),
     ]

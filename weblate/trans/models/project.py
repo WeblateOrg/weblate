@@ -32,7 +32,7 @@ from django.contrib.auth.models import Permission, User, Group
 
 from weblate.accounts.models import Profile
 from weblate.lang.models import Language, get_english_lang
-from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
+from weblate.trans.mixins import URLMixin, PathMixin
 from weblate.utils.stats import ProjectStats
 from weblate.utils.site import get_site_url
 from weblate.trans.data import data_dir
@@ -82,7 +82,7 @@ class ProjectManager(models.Manager):
 
 
 @python_2_unicode_compatible
-class Project(models.Model, PercentMixin, URLMixin, PathMixin):
+class Project(models.Model, URLMixin, PathMixin):
     ACCESS_PUBLIC = 0
     ACCESS_PROTECTED = 1
     ACCESS_PRIVATE = 100
@@ -282,14 +282,6 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         self.create_path()
 
         super(Project, self).save(*args, **kwargs)
-
-    def _get_percents(self, lang=None):
-        """Return percentages of translation status."""
-        # Import translations
-        from weblate.trans.models.translation import Translation
-
-        # Get percents:
-        return Translation.objects.get_percents(project=self, language=lang)
 
     def get_languages(self):
         """Return list of all languages used in project."""

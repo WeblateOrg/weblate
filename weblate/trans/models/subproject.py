@@ -39,7 +39,7 @@ from django.utils import timezone
 
 from weblate.utils import messages
 from weblate.trans.formats import FILE_FORMAT_CHOICES, FILE_FORMATS, ParseError
-from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
+from weblate.trans.mixins import URLMixin, PathMixin
 from weblate.trans.fields import RegexField
 from weblate.utils.site import get_site_url
 from weblate.utils.errors import report_error
@@ -129,7 +129,7 @@ class SubProjectQuerySet(models.QuerySet):
 
 
 @python_2_unicode_compatible
-class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
+class SubProject(models.Model, URLMixin, PathMixin):
     name = models.CharField(
         verbose_name=ugettext_lazy('Component name'),
         max_length=100,
@@ -1436,10 +1436,6 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         # Copy suggestions to new project
         if changed_project:
             old.project.suggestion_set.copy(self.project)
-
-    def _get_percents(self, lang=None):
-        """Return percentages of translation status"""
-        return self.translation_set.get_percents(language=lang)
 
     def repo_needs_commit(self):
         """Check whether there are some not committed changes"""
