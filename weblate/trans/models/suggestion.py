@@ -65,7 +65,7 @@ class SuggestionManager(models.Manager):
         )
 
         # Record in change
-        for aunit in self.related_units:
+        for aunit in suggestion.related_units:
             Change.objects.create(
                 unit=aunit,
                 action=Change.ACTION_SUGGESTION,
