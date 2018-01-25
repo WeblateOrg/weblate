@@ -137,9 +137,12 @@ def get_user_translations(request, user, project_ids):
         )
     else:
         # Filter based on session language
-        result = result.filter(
+        tmp = result.filter(
             language=guess_user_language(request, result)
         )
+        if tmp:
+            result = tmp
+
     return result.order_by(
         'subproject__priority',
         'subproject__project__name',
