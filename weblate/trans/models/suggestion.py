@@ -32,6 +32,7 @@ from weblate.permissions.helpers import (
     can_accept_suggestion, can_vote_suggestion
 )
 from weblate.trans.models.change import Change
+from weblate.trans.models.unitdata import UnitData
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.utils import messages
 from weblate.utils.state import STATE_TRANSLATED
@@ -64,9 +65,7 @@ class SuggestionManager(models.Manager):
         )
 
         # Record in change
-        from weblate.trans.models import get_related_units
-        allunits = get_related_units(suggestion)
-        for aunit in allunits:
+        for aunit in self.related_units:
             Change.objects.create(
                 unit=aunit,
                 action=Change.ACTION_SUGGESTION,
@@ -113,14 +112,10 @@ class SuggestionManager(models.Manager):
 
 
 @python_2_unicode_compatible
-class Suggestion(models.Model, UserDisplayMixin):
-    content_hash = models.BigIntegerField(db_index=True)
+class Suggestion(UnitData, UserDisplayMixin):
     target = models.TextField()
     user = models.ForeignKey(
         User, null=True, blank=True, on_delete=models.deletion.CASCADE
-    )
-    project = models.ForeignKey(
-        'Project', on_delete=models.deletion.CASCADE
     )
     language = models.ForeignKey(
         Language, on_delete=models.deletion.CASCADE
@@ -172,9 +167,7 @@ class Suggestion(models.Model, UserDisplayMixin):
 
     def delete_log(self, user, change=Change.ACTION_SUGGESTION_DELETE):
         """Delete with logging change"""
-        from weblate.trans.models import get_related_units
-        allunits = get_related_units(self)
-        for unit in allunits:
+        for unit in self.related_units:
             Change.objects.create(
                 unit=unit,
                 action=change,

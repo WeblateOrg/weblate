@@ -34,7 +34,7 @@ from django.core.exceptions import ValidationError
 
 from weblate.trans.models import (
     Project, Source, Unit, WhiteboardMessage, Check, ComponentList,
-    AutoComponentList, get_related_units,
+    AutoComponentList,
 )
 import weblate.trans.models.subproject
 from weblate.lang.models import Language
@@ -289,7 +289,7 @@ class SourceTest(ModelTestCase):
         """Setting of Source check_flags changes checks for related units."""
         self.assertEqual(Check.objects.count(), 3)
         check = Check.objects.all()[0]
-        unit = get_related_units(check)[0]
+        unit = check.related_units[0]
         source = unit.source_info
         source.check_flags = 'ignore-{0}'.format(check.check)
         source.save()

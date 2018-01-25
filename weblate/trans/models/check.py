@@ -22,22 +22,15 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
-from weblate.lang.models import Language
 from weblate.trans.checks import CHECKS
+from weblate.trans.models.unitdata import UnitData
 
 
 CHECK_CHOICES = [(x, CHECKS[x].name) for x in CHECKS]
 
 
 @python_2_unicode_compatible
-class Check(models.Model):
-    content_hash = models.BigIntegerField(db_index=True)
-    project = models.ForeignKey(
-        'Project', on_delete=models.deletion.CASCADE
-    )
-    language = models.ForeignKey(
-        Language, null=True, blank=True, on_delete=models.deletion.CASCADE
-    )
+class Check(UnitData):
     check = models.CharField(max_length=50, choices=CHECK_CHOICES)
     ignore = models.BooleanField(db_index=True, default=False)
 

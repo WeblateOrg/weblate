@@ -21,7 +21,7 @@
 from __future__ import unicode_literals
 from django.core.management.base import BaseCommand
 from django.db.models import Count
-from weblate.trans.models import Check, get_related_units
+from weblate.trans.models import Check
 
 
 class Command(BaseCommand):
@@ -46,7 +46,7 @@ class Command(BaseCommand):
                 content_hash=item['content_hash']
             )[0]
 
-            units = get_related_units(check)
+            units = check.related_units
             if not units.exists():
                 continue
 

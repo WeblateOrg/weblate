@@ -38,10 +38,7 @@ from weblate import get_doc_url
 from weblate.utils import messages
 from weblate.utils.antispam import is_spam
 from weblate.permissions.helpers import check_access
-from weblate.trans.models import (
-    Unit, Change, Comment, Suggestion, Dictionary,
-    get_related_units,
-)
+from weblate.trans.models import Unit, Change, Comment, Suggestion, Dictionary
 from weblate.trans.autofixes import fix_target
 from weblate.trans.forms import (
     TranslationForm, ZenTranslationForm, SearchForm, InlineWordForm,
@@ -675,7 +672,7 @@ def delete_comment(request, pk):
     if not can_delete_comment(request.user, comment_obj):
         raise PermissionDenied()
 
-    units = get_related_units(comment_obj)
+    units = comment_obj.related_units
     if units.exists():
         fallback_url = units[0].get_absolute_url()
     else:

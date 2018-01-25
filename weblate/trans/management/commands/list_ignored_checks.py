@@ -20,7 +20,7 @@
 
 from django.core.management.base import BaseCommand
 
-from weblate.trans.models import Check, get_related_units
+from weblate.trans.models import Check
 
 
 class Command(BaseCommand):
@@ -51,7 +51,7 @@ class Command(BaseCommand):
             checks = Check.objects.filter(ignore=True)
         for check in checks:
             name = '{0}-{1}'.format(check.check, check.content_hash)
-            units = get_related_units(check)
+            units = check.related_units
             if not units.exists():
                 continue
             if name in results:

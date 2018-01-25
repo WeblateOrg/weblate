@@ -24,9 +24,9 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 
-from weblate.lang.models import Language
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.change import Change
+from weblate.trans.models.unitdata import UnitData
 from weblate.accounts.notifications import notify_new_comment
 
 
@@ -60,17 +60,10 @@ class CommentManager(models.Manager):
 
 
 @python_2_unicode_compatible
-class Comment(models.Model, UserDisplayMixin):
-    content_hash = models.BigIntegerField(db_index=True)
+class Comment(UnitData, UserDisplayMixin):
     comment = models.TextField()
     user = models.ForeignKey(
         User, null=True, blank=True, on_delete=models.deletion.CASCADE
-    )
-    project = models.ForeignKey(
-        'Project', on_delete=models.deletion.CASCADE
-    )
-    language = models.ForeignKey(
-        Language, null=True, blank=True, on_delete=models.deletion.CASCADE
     )
     timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
 

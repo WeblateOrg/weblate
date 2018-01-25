@@ -104,30 +104,13 @@ def update_source(sender, instance, **kwargs):
             unit.translation.invalidate_cache()
 
 
-def get_related_units(unitdata):
-    """Return queryset with related units."""
-    related_units = Unit.objects.filter(
-        content_hash=unitdata.content_hash,
-        translation__subproject__project=unitdata.project,
-    )
-    if unitdata.language is not None:
-        related_units = related_units.filter(
-            translation__language=unitdata.language
-        )
-
-    return related_units.select_related(
-        'translation__subproject__project',
-        'translation__language'
-    )
-
-
 @receiver(post_save, sender=Check)
 @disable_for_loaddata
 def update_failed_check_flag(sender, instance, **kwargs):
     """Update related unit failed check flag."""
     if instance.language is None:
         return
-    related = get_related_units(instance)
+    related = instance.related_units
     if instance.for_unit is not None:
         related = related.exclude(pk=instance.for_unit)
     for unit in related:
@@ -140,7 +123,7 @@ def update_failed_check_flag(sender, instance, **kwargs):
 @disable_for_loaddata
 def update_comment_flag(sender, instance, **kwargs):
     """Update related unit comment flags"""
-    for unit in get_related_units(instance):
+    for unit in instance.related_units:
         # Update unit stats
         unit.update_has_comment()
         unit.translation.invalidate_cache()
@@ -151,7 +134,7 @@ def update_comment_flag(sender, instance, **kwargs):
 @disable_for_loaddata
 def update_suggestion_flag(sender, instance, **kwargs):
     """Update related unit suggestion flags"""
-    for unit in get_related_units(instance):
+    for unit in instance.related_units:
         # Update unit stats
         unit.update_has_suggestion()
         unit.translation.invalidate_cache()
