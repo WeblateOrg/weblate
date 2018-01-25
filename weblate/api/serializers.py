@@ -350,8 +350,8 @@ class RepoRequestSerializer(ReadOnlySerializer):
 
 
 class StatisticsSerializer(ReadOnlySerializer):
-    def to_representation(self, obj):
-        return obj.get_stats()
+    def to_representation(self, instance):
+        return instance.get_stats()
 
 
 class UnitSerializer(RemovableSerializer):

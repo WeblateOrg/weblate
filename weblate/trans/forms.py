@@ -269,7 +269,7 @@ class PluralTextarea(forms.Textarea):
 
         return result
 
-    def render(self, name, value, attrs=None, **kwargs):
+    def render(self, name, value, attrs=None, renderer=None, **kwargs):
         """Render all textareas with correct plural labels."""
         unit = value
         values = unit.get_target_plurals()
@@ -299,6 +299,7 @@ class PluralTextarea(forms.Textarea):
                 fieldname,
                 val,
                 attrs,
+                renderer,
                 **kwargs
             )
             # Label for plural

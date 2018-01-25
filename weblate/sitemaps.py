@@ -30,8 +30,8 @@ class PagesSitemap(Sitemap):
             ('/about/', 0.8, 'daily'),
         )
 
-    def location(self, item):
-        return item[0]
+    def location(self, obj):
+        return obj[0]
 
     def lastmod(self, item):
         return Change.objects.values_list('timestamp', flat=True)[0]
@@ -104,10 +104,10 @@ class EngageLangSitemap(Sitemap):
                 ret.append((project, lang))
         return ret
 
-    def location(self, item):
+    def location(self, obj):
         return reverse(
             'engage',
-            kwargs={'project': item[0].slug, 'lang': item[1].code}
+            kwargs={'project': obj[0].slug, 'lang': obj[1].code}
         )
 
 

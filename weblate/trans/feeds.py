@@ -33,7 +33,7 @@ from weblate.trans.views.helper import (
 
 class ChangesFeed(Feed):
     """Generic RSS feed for Weblate changes."""
-    def get_object(self, request):
+    def get_object(self, request, *args, **kwargs):
         return request.user
 
     def title(self):

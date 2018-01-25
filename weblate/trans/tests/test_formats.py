@@ -437,6 +437,7 @@ class YAMLFormatTest(AutoFormatTest):
         instance = self.FORMAT.get_class()()
         instance.parse(b'en:\n  weblate:\n    hello: ""')
         if ' / ' in instance.units[0].getid():
+            # pylint: disable=invalid-name
             self.FIND = self.FIND.replace('->', ' / ')
 
     def assert_same(self, newdata, testdata):
