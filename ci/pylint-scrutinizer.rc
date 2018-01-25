@@ -9,7 +9,7 @@
 
 # Add files or directories to the blacklist. They should be base names, not
 # paths.
-ignore=migrations,settings.py,settings_openshift.py,settings_test.py,settings_test_mysql.py,settings_test_postgresql.py,settings_test_sqlite.py,.git,test-repos,repos,settings_test_nose.py
+ignore=migrations,settings.py,settings_openshift.py,settings_test.py,settings_test_mysql.py,settings_test_postgresql.py,settings_test_sqlite.py,.git,test-repos,repos,settings_test_nose.py,build
 
 # Pickle collected data for later comparisons.
 persistent=yes
@@ -35,17 +35,7 @@ persistent=yes
 # --enable=similarities". If you want to run only the classes checker, but have
 # no Warning level messages displayed, use"--disable=all --enable=classes
 # --disable=W"
-# C0111 Missing docstring 
-# I0011 Warning locally suppressed using disable-msg
-# W0142 Used * or * magic* Used when a function or method is called using *args or **kwargs to dispatch arguments.
-# W0613 Unused argument %r Used when a function or method argument is not used.
-# R0201 Method could be a function
-# E1103 does not work with WSGIRequest or file objects
-# W0703 Catching too general exception Exception
-# R0921,R0922 Is raised when abstract classes are used in different module
-# R0401(cyclic-import) we have too many of them
-# W0122(exec-used) exec is used in openshift
-disable=C0111,I0011,W0142,W0613,W0703,R0201,E1103,R0401,R0921,R0922,W0122
+disable=missing-docstring,unused-argument,no-self-use,no-member,broad-except
 
 
 [REPORTS]
@@ -285,13 +275,13 @@ max-locals=20
 max-returns=8
 
 # Maximum number of branch for function / method body
-max-branches=12
+max-branches=14
 
 # Maximum number of statements in function / method body
 max-statements=50
 
 # Maximum number of parents for a class (see R0901).
-max-parents=12
+max-parents=14
 
 # Maximum number of attributes for a class (see R0902).
 max-attributes=25

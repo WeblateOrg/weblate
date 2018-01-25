@@ -26,6 +26,7 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'weblate.settings_test'
 TEST_DIR = os.path.dirname(__file__)
 sys.path.insert(0, TEST_DIR)
 
+# pylint: disable=wrong-import-position
 from django.core.management import execute_from_command_line  # noqa
 
 
