@@ -41,11 +41,14 @@ class BaseStats(object):
     """Caching statistics calculator."""
     def __init__(self, obj):
         self._object = obj
-        self._key = 'stats-{}-{}'.format(
-            obj.__class__.__name__,
-            obj.pk
-        )
+        self._key = self.cache_key()
         self._data = cache.get(self._key, {})
+
+    def cache_key(self):
+        return 'stats-{}-{}'.format(
+            self._object.__class__.__name__,
+            self._object.pk
+        )
 
     def __getattr__(self, name):
         if name not in self._data:
