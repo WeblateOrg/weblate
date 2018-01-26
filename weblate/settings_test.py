@@ -36,6 +36,7 @@ if 'CI_DATABASE' in os.environ:
         DATABASES['default']['OPTIONS'] = {
             'init_command': 'SET NAMES utf8, wait_timeout=28800, sql_mode="STRICT_TRANS_TABLES"',
             'charset': 'utf8',
+            'isolation_level': 'read committed',
         }
     elif os.environ['CI_DATABASE'] == 'postgresql':
         DATABASES['default']['ENGINE'] = \
