@@ -584,9 +584,11 @@ class SubProject(models.Model, URLMixin, PathMixin):
         """Return subproject for linked repo."""
         return SubProject.objects.get_linked(self.repo)
 
-    @perform_on_link
-    def _get_repository(self):
+    @cached_property
+    def repository(self):
         """Get VCS repository object."""
+        if self.is_repo_link:
+            return self.linked_subproject.repository
         repository = VCS_REGISTRY[self.vcs](
             self.get_path(), self.branch, self
         )
@@ -596,11 +598,6 @@ class SubProject(models.Model, URLMixin, PathMixin):
             cache.set(cache_key, True)
 
         return repository
-
-    @cached_property
-    def repository(self):
-        """VCS repository object."""
-        return self._get_repository()
 
     def get_last_remote_commit(self):
         """Return latest remote commit we know."""
