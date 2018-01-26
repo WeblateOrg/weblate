@@ -95,6 +95,8 @@ from additional member before it is accepted as a translation.
 | Reviewers group        | N/A        | not used, all translators review    |
 +------------------------+------------+-------------------------------------+
 
+.. _reviews:
+
 Dedicated reviewers
 -------------------
 
