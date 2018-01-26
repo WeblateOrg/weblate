@@ -22,6 +22,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
+from django.utils.functional import cached_property
 from weblate.trans.checks import CHECKS
 from weblate.trans.models.unitdata import UnitData
 
@@ -35,22 +36,17 @@ class Check(UnitData):
     ignore = models.BooleanField(db_index=True, default=False)
 
     _for_unit = None
-    _check_obj = None
-    _check_obj_valid = False
 
     @property
     def for_unit(self):
         return self._for_unit
 
-    @property
+    @cached_property
     def check_obj(self):
-        if not self._check_obj_valid:
-            try:
-                self._check_obj = CHECKS[self.check]
-            except KeyError:
-                self._check_obj = None
-            self._check_obj_valid = True
-        return self._check_obj
+        try:
+            return CHECKS[self.check]
+        except KeyError:
+            return None
 
     @for_unit.setter
     def for_unit(self, value):

@@ -27,6 +27,7 @@ from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext as _
 from django.utils.encoding import python_2_unicode_compatible, force_text
+from django.utils.functional import cached_property
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django.urls import reverse
@@ -121,9 +122,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
     def __init__(self, *args, **kwargs):
         """Constructor to initialize some cache properties."""
         super(Translation, self).__init__(*args, **kwargs)
-        self._store = None
-        self._last_change_obj = None
-        self._last_change_obj_valid = False
         self.stats = TranslationStats(self)
 
     @property
@@ -222,17 +220,15 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             language_code=self.language_code
         )
 
-    @property
+    @cached_property
     def store(self):
         """Return translate-toolkit storage object for a translation."""
-        if self._store is None:
-            try:
-                self._store = self.load_store()
-            except ParseError:
-                raise
-            except Exception as exc:
-                self.subproject.handle_parse_error(exc, self)
-        return self._store
+        try:
+            return self.load_store()
+        except ParseError:
+            raise
+        except Exception as exc:
+            self.subproject.handle_parse_error(exc, self)
 
     def check_sync(self, force=False, request=None, change=None):
         """Check whether database is in sync with git and possibly updates"""
@@ -380,20 +376,19 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             email
         )
 
+    def invalidate_last_change(self):
+        """Invalidate last change cache."""
+        if 'last_change_obj' in self.__dict__:
+            del self.__dict__['last_change_obj']
+
     @property
     def last_change_obj(self):
         """Cached getter for last content change."""
-        if not self._last_change_obj_valid:
-            changes = self.change_set.content()
-
-            if changes.exists():
-                self._last_change_obj = changes.select_related('author')[0]
-            else:
-                self._last_change_obj = None
-
-            self._last_change_obj_valid = True
-
-        return self._last_change_obj
+        changes = self.change_set.content()
+        try:
+            return changes.select_related('author')[0]
+        except IndexError:
+            return None
 
     @property
     def last_change(self):
@@ -544,8 +539,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             # Push if we should
             if not skip_push:
                 self.subproject.push_if_needed(request)
-
-        self._last_change_obj_valid = False
 
         return True
 
@@ -928,8 +921,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
     def invalidate_cache(self):
         """Invalidate any cached stats."""
-        # Invalidate last change cache
-        self._last_change_obj_valid = False
 
         # Invalidate summary stats
         self.stats.invalidate()

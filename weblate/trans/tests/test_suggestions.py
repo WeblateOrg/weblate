@@ -78,7 +78,7 @@ class SuggestionsTest(ViewTestCase):
         self.assertEqual(len(unit.checks()), 0)
         self.assertFalse(unit.translated)
         self.assertFalse(unit.fuzzy)
-        self.assertEqual(len(self.get_unit().suggestions()), 2)
+        self.assertEqual(len(self.get_unit().suggestions), 2)
 
     def test_add_same(self):
         translate_url = reverse('translate', kwargs=self.kw_translation)
@@ -105,7 +105,7 @@ class SuggestionsTest(ViewTestCase):
         self.assertEqual(len(unit.checks()), 0)
         self.assertFalse(unit.translated)
         self.assertFalse(unit.fuzzy)
-        self.assertEqual(len(self.get_unit().suggestions()), 1)
+        self.assertEqual(len(self.get_unit().suggestions), 1)
 
     def test_delete(self):
         translate_url = reverse('translate', kwargs=self.kw_translation)
@@ -114,7 +114,7 @@ class SuggestionsTest(ViewTestCase):
         self.add_suggestion_2()
 
         # Get ids of created suggestions
-        suggestions = self.get_unit().suggestions().values_list(
+        suggestions = self.get_unit().suggestions.values_list(
             'pk', flat=True
         )
         self.assertEqual(len(suggestions), 2)
@@ -128,7 +128,7 @@ class SuggestionsTest(ViewTestCase):
         self.assert_redirects_offset(response, translate_url, 0)
 
         # Ensure we have just one
-        suggestions = self.get_unit().suggestions().values_list(
+        suggestions = self.get_unit().suggestions.values_list(
             'pk', flat=True
         )
         self.assertEqual(len(suggestions), 1)
@@ -139,7 +139,7 @@ class SuggestionsTest(ViewTestCase):
         self.add_suggestion_1()
 
         # Get ids of created suggestions
-        suggestion = self.get_unit().suggestions()[0].pk
+        suggestion = self.get_unit().suggestions[0].pk
 
         # Accept one of suggestions
         response = self.edit_unit(
@@ -156,7 +156,7 @@ class SuggestionsTest(ViewTestCase):
         self.add_suggestion_2()
 
         # Get ids of created suggestions
-        suggestions = self.get_unit().suggestions()
+        suggestions = self.get_unit().suggestions
         self.assertEqual(suggestions.count(), 2)
 
         # Accept one of suggestions
@@ -181,7 +181,7 @@ class SuggestionsTest(ViewTestCase):
         self.assertFalse(unit.fuzzy)
         self.assertEqual(unit.target, 'Ahoj svete!\n')
         self.assert_backend(1)
-        self.assertEqual(len(self.get_unit().suggestions()), 1)
+        self.assertEqual(len(self.get_unit().suggestions), 1)
 
     def test_accept_anonymous(self):
         translate_url = reverse('translate', kwargs=self.kw_translation)
@@ -192,7 +192,7 @@ class SuggestionsTest(ViewTestCase):
         self.client.login(username='testuser', password='testpassword')
 
         # Get ids of created suggestion
-        suggestions = list(self.get_unit().suggestions())
+        suggestions = list(self.get_unit().suggestions)
         self.assertEqual(len(suggestions), 1)
 
         self.assertEqual(
@@ -227,7 +227,7 @@ class SuggestionsTest(ViewTestCase):
 
         self.add_suggestion_1()
 
-        suggestion_id = self.get_unit().suggestions()[0].pk
+        suggestion_id = self.get_unit().suggestions[0].pk
 
         response = self.edit_unit(
             'Hello, world!\n',
@@ -263,7 +263,7 @@ class SuggestionsTest(ViewTestCase):
         self.subproject.suggestion_autoaccept = 1
         self.subproject.save()
 
-        suggestion_id = self.get_unit().suggestions()[0].pk
+        suggestion_id = self.get_unit().suggestions[0].pk
 
         response = self.edit_unit(
             'Hello, world!\n',

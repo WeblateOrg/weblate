@@ -31,6 +31,7 @@ from django.conf import settings
 from django.db import models, transaction
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.utils.encoding import python_2_unicode_compatible, force_text
+from django.utils.functional import cached_property
 from django.core.mail import mail_admins
 from django.core.exceptions import ValidationError
 from django.urls import reverse
@@ -522,10 +523,6 @@ class SubProject(models.Model, URLMixin, PathMixin):
         """Constructor to initialize some cache properties."""
         super(SubProject, self).__init__(*args, **kwargs)
         self._file_format = None
-        self._template_store = None
-        self._all_flags = None
-        self._linked_subproject = None
-        self._repository = None
         self.stats = ComponentStats(self)
 
     @property
@@ -582,28 +579,25 @@ class SubProject(models.Model, URLMixin, PathMixin):
         """Return true if new languages can be added."""
         return self.new_lang != 'none'
 
-    @property
+    @cached_property
     def linked_subproject(self):
         """Return subproject for linked repo."""
-        if self._linked_subproject is None:
-            self._linked_subproject = SubProject.objects.get_linked(self.repo)
-        return self._linked_subproject
+        return SubProject.objects.get_linked(self.repo)
 
     @perform_on_link
     def _get_repository(self):
         """Get VCS repository object."""
-        if self._repository is None:
-            self._repository = VCS_REGISTRY[self.vcs](
-                self.get_path(), self.branch, self
-            )
-            cache_key = 'sp-config-check-{}'.format(self.pk)
-            if cache.get(cache_key) is None:
-                self._repository.check_config()
-                cache.set(cache_key, True)
+        repository = VCS_REGISTRY[self.vcs](
+            self.get_path(), self.branch, self
+        )
+        cache_key = 'sp-config-check-{}'.format(self.pk)
+        if cache.get(cache_key) is None:
+            repository.check_config()
+            cache.set(cache_key, True)
 
-        return self._repository
+        return repository
 
-    @property
+    @cached_property
     def repository(self):
         """VCS repository object."""
         return self._get_repository()
@@ -868,7 +862,7 @@ class SubProject(models.Model, URLMixin, PathMixin):
 
     def set_linked_cache(self, linked):
         """Store linked component cache"""
-        self._linked_subproject = linked
+        self.__dict__['linked_subproject'] = linked
 
     def get_linked_childs(self):
         """Return list of subprojects which link repository to us."""
@@ -1479,20 +1473,17 @@ class SubProject(models.Model, URLMixin, PathMixin):
             self.get_template_filename(),
         )
 
-    @property
+    @cached_property
     def template_store(self):
         """Get translate-toolkit store for template."""
         # Do we need template?
         if not self.has_template():
             return None
 
-        if self._template_store is None:
-            try:
-                self._template_store = self.load_template_store()
-            except Exception as exc:
-                self.handle_parse_error(exc)
-
-        return self._template_store
+        try:
+            return self.load_template_store()
+        except Exception as exc:
+            self.handle_parse_error(exc)
 
     @property
     def last_change(self):
@@ -1506,15 +1497,13 @@ class SubProject(models.Model, URLMixin, PathMixin):
         except IndexError:
             return None
 
-    @property
+    @cached_property
     def all_flags(self):
         """Return parsed list of flags."""
-        if self._all_flags is None:
-            self._all_flags = (
-                self.check_flags.split(',') +
-                list(self.file_format_cls.check_flags)
-            )
-        return self._all_flags
+        return (
+            self.check_flags.split(',') +
+            list(self.file_format_cls.check_flags)
+        )
 
     def can_add_new_language(self):
         """Wrapper to check if we can add new language."""

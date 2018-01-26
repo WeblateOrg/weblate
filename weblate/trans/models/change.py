@@ -384,4 +384,5 @@ class Change(models.Model, UserDisplayMixin):
             self.translation = self.unit.translation
         if self.translation:
             self.subproject = self.translation.subproject
+            self.translation.invalidate_last_change()
         super(Change, self).save(*args, **kwargs)

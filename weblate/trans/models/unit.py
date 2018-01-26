@@ -29,6 +29,7 @@ from django.conf import settings
 from django.db import models
 from django.db.models import Q
 from django.utils.encoding import python_2_unicode_compatible
+from django.utils.functional import cached_property
 from django.utils.translation import ugettext as _
 
 from weblate.accounts.models import get_author_name
@@ -420,9 +421,6 @@ class Unit(models.Model, LoggerMixin):
     def __init__(self, *args, **kwargs):
         """Constructor to initialize some cache properties."""
         super(Unit, self).__init__(*args, **kwargs)
-        self._all_flags = None
-        self._source_info = None
-        self._suggestions = None
         self.old_unit = copy(self)
 
     def __str__(self):
@@ -822,15 +820,14 @@ class Unit(models.Model, LoggerMixin):
         if force_insert or not same_content:
             update_index_unit(self)
 
+    @cached_property
     def suggestions(self):
         """Return all suggestions for this unit."""
-        if self._suggestions is None:
-            self._suggestions = Suggestion.objects.filter(
-                content_hash=self.content_hash,
-                project=self.translation.subproject.project,
-                language=self.translation.language
-            )
-        return self._suggestions
+        return Suggestion.objects.filter(
+            content_hash=self.content_hash,
+            project=self.translation.subproject.project,
+            language=self.translation.language
+        )
 
     def cleanup_checks(self, source, target):
         """Cleanup listed source and target checks."""
@@ -1028,8 +1025,9 @@ class Unit(models.Model, LoggerMixin):
 
     def update_has_suggestion(self):
         """Update flag counting suggestions."""
-        self._suggestions = None
-        has_suggestion = len(self.suggestions()) > 0
+        if 'suggestions' in self.__dict__:
+            del self.__dict__['suggestions']
+        has_suggestion = len(self.suggestions) > 0
         if has_suggestion != self.has_suggestion:
             self.has_suggestion = has_suggestion
             self.save(
@@ -1072,27 +1070,24 @@ class Unit(models.Model, LoggerMixin):
 
         return saved
 
-    @property
+    @cached_property
     def all_flags(self):
         """Return union of own and subproject flags."""
-        if self._all_flags is None:
-            self._all_flags = set(
-                self.flags.split(',') +
-                self.source_info.check_flags.split(',') +
-                self.translation.subproject.all_flags
-            )
-            self._all_flags.discard('')
-        return self._all_flags
+        flags = set(
+            self.flags.split(',') +
+            self.source_info.check_flags.split(',') +
+            self.translation.subproject.all_flags
+        )
+        flags.discard('')
+        return flags
 
     @property
     def source_info(self):
         """Return related source string object."""
-        if self._source_info is None:
-            self._source_info = Source.objects.get(
-                id_hash=self.id_hash,
-                subproject=self.translation.subproject
-            )
-        return self._source_info
+        return Source.objects.get(
+            id_hash=self.id_hash,
+            subproject=self.translation.subproject
+        )
 
     def get_secondary_units(self, user):
         """Return list of secondary units."""
