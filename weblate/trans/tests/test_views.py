@@ -33,6 +33,7 @@ from django.urls import reverse
 from django.contrib.messages.storage.fallback import FallbackStorage
 from django.core.management import call_command
 from django.core import mail
+from django.core.cache import cache
 
 from weblate.lang.models import Language
 from weblate.trans.models import (
@@ -79,8 +80,7 @@ class ViewTestCase(RepoTestCase):
         self.subproject = self.create_subproject()
         self.project = self.subproject.project
         # Invalidate caches
-        for translation in self.subproject.translation_set.all():
-            translation.invalidate_cache()
+        cache.clear()
         # Login
         self.client.login(username='testuser', password='testpassword')
         # Prepopulate kwargs
