@@ -35,7 +35,16 @@ BASICS = frozenset((
     'all', 'fuzzy', 'translated', 'approved', 'untranslated',
     'allchecks', 'suggestions', 'comments', 'approved_suggestions'
 ))
-BASIC_KEYS = frozenset(['{}_words'.format(i) for i in BASICS] + list(BASICS))
+BASIC_KEYS = frozenset(
+    ['{}_words'.format(i) for i in BASICS] +
+    [
+        'translated_percent', 'approved_percent', 'untranslated_percent',
+        'fuzzy_percent', 'allchecks_percent', 'translated_words_percent',
+        'approved_words_percent', 'untranslated_words_percent',
+        'fuzzy_words_percent', 'allchecks_words_percent',
+    ] +
+    list(BASICS)
+)
 SOURCE_KEYS = frozenset(list(BASIC_KEYS) + ['source_strings', 'source_words'])
 
 
@@ -47,6 +56,7 @@ class BaseStats(object):
         self._object = obj
         self._key = self.cache_key()
         self._data = None
+        self._pending_save = False
 
     def cache_key(self):
         return 'stats-{}-{}'.format(
@@ -58,11 +68,15 @@ class BaseStats(object):
         if self._data is None:
             self._data = self.load()
         if name not in self._data:
+            was_pending = self._pending_save
+            self._pending_save = True
             if name.endswith('_percent'):
                 self.calculate_percents(name)
             else:
                 self.fetch_stats(name)
-            self.save()
+            if not was_pending:
+                self.save()
+                self._pending_save = False
         return self._data[name]
 
     def load(self):
