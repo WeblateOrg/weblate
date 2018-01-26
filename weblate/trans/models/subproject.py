@@ -570,7 +570,7 @@ class SubProject(models.Model, URLMixin, PathMixin):
         """Return true if push is possible for this subproject."""
         return self.push != '' and self.push is not None
 
-    @cached_property
+    @property
     def is_repo_link(self):
         """Check whether repository is just a link for other one."""
         return is_repo_link(self.repo)
