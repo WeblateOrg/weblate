@@ -34,7 +34,11 @@ if 'CI_DATABASE' in os.environ:
         DATABASES['default']['USER'] = 'root'
         DATABASES['default']['PASSWORD'] = ''
         DATABASES['default']['OPTIONS'] = {
-            'init_command': 'SET NAMES utf8, wait_timeout=28800, sql_mode="STRICT_TRANS_TABLES"',
+            'init_command': (
+                'SET NAMES utf8, '
+                'wait_timeout=28800, '
+                'default_storage_engine=INNODB, '
+                'sql_mode="STRICT_TRANS_TABLES"',
             'charset': 'utf8',
             'isolation_level': 'read committed',
         }
