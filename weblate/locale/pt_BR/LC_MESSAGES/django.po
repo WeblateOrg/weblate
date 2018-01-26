@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-01-22 18:45+0000\n"
-"PO-Revision-Date: 2017-12-13 18:45+0000\n"
+"PO-Revision-Date: 2018-01-27 09:50+0000\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
-"Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
-"weblate/master/pt_BR/>\n"
+"Language-Team: Portuguese (Brazil) "
+"<https://hosted.weblate.org/projects/weblate/master/pt_BR/>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2.18-dev\n"
+"X-Generator: Weblate 2.19-dev\n"
 
 #: weblate/accounts/admin.py:106 weblate/accounts/admin.py:111
 msgid "Personal info"
@@ -449,35 +449,25 @@ msgstr ""
 "associado."
 
 #: weblate/accounts/password_validation.py:41
-#, fuzzy
-#| msgid "This password consists of whitespace only."
 msgid "This password consists of only whitespace."
 msgstr "Esta senha consiste apenas de espaços em branco."
 
 #: weblate/accounts/password_validation.py:46
-#, fuzzy
-#| msgid "This password consists of single character."
 msgid "This password is only a single character."
-msgstr "Esta senha consiste apenas de um caractere."
+msgstr "Esta senha é de apenas um caractere."
 
 #: weblate/accounts/password_validation.py:52
-#, fuzzy
-#| msgid "Your password can't consist of single character or whitespace only."
 msgid "Your password can't consist of a single character or only whitespace."
 msgstr ""
-"Sua senha não pode consistir apenas de um caractere ou espaços em branco."
+"Sua senha não pode consistir em um caractere ou apenas espaços em branco."
 
 #: weblate/accounts/password_validation.py:75
-#, fuzzy
-#| msgid "Can not use previously used password!"
 msgid "Can not reuse previously used password!"
-msgstr "Não é possível usar a senha usada anteriormente!"
+msgstr "Não é possível reutilizar a senha usada anteriormente!"
 
 #: weblate/accounts/password_validation.py:81
-#, fuzzy
-#| msgid "Your password can't match password you have used in the past."
 msgid "Your password can't match a password you have used in the past."
-msgstr "Sua senha não pode corresponder com a senha usada no passado."
+msgstr "Sua senha não pode corresponder com uma senha usada no passado."
 
 #: weblate/accounts/pipeline.py:299
 msgid "You can not complete password reset while logged in!"
@@ -618,10 +608,8 @@ msgid "Authentication has been cancelled."
 msgstr "A autenticação foi cancelada."
 
 #: weblate/accounts/views.py:933
-#, fuzzy
-#| msgid "Authentication has been cancelled."
 msgid "Authentication has been forbidden by server."
-msgstr "A autenticação foi cancelada."
+msgstr "A autenticação foi proibida pelo servidor."
 
 #: weblate/accounts/views.py:936
 msgid ""
@@ -1187,19 +1175,14 @@ msgid "Permission Denied"
 msgstr "Permissão negada"
 
 #: weblate/templates/403.html:11
-#, fuzzy
-#| msgid "You don't have privileges to display this page."
 msgid "Insufficient privileges to display this page."
-msgstr "Você não tem permissão para visualizar esta página."
+msgstr "Privilégios insuficientes para visualizar esta página."
 
 #: weblate/templates/403.html:14 weblate/templates/404.html:14
 msgid "Log in"
 msgstr "Entrar"
 
 #: weblate/templates/403.html:20 weblate/templates/404.html:23
-#, fuzzy
-#| msgid ""
-#| "However the following translation projects are available on this server:"
 msgid ""
 "However, the following translation projects are available on this server:"
 msgstr ""
@@ -1230,16 +1213,12 @@ msgid "Server Error"
 msgstr "Erro do servidor"
 
 #: weblate/templates/500.html:12
-#, fuzzy
-#| msgid ""
-#| "The server had serious problems while serving your request. We've just "
-#| "sent our trained monkeys to fix the issue."
 msgid ""
 "The server had serious problems serving your request. Trained monkeys are en-"
 "route fixing the issue."
 msgstr ""
-"O servidor teve sérios problemas com suas requisições. Nós já enviamos "
-"nossos macaquinhos amestrados para consertar este problema."
+"O servidor teve sérios problemas com sua requisição. Macaquinhos amestrados "
+"foram enviados para consertar este problema."
 
 #: weblate/templates/about.html:5 weblate/templates/about.html:13
 #: weblate/templates/footer.html:6 weblate/trans/views/basic.py:526
@@ -1247,12 +1226,6 @@ msgid "About Weblate"
 msgstr "Sobre o Weblate"
 
 #: weblate/templates/about.html:16
-#, fuzzy
-#| msgid ""
-#| "Weblate is a web based translation tool with tight version control "
-#| "integration. It features simple and clean user interface, propagation of "
-#| "translations across components, quality checks and automatic linking to "
-#| "source files."
 msgid ""
 "Weblate is a web based translation tool with tight version control "
 "integration. It features a simple and clean user interface, propagation of "
@@ -1265,28 +1238,21 @@ msgstr ""
 "automática aos arquivos fontes."
 
 #: weblate/templates/about.html:18
-#, fuzzy, python-format
-#| msgid "More information about Weblate can be found at {0}"
+#, python-format
 msgid ""
 "More information about Weblate can be found on <a href=\"%(weblate_url)s"
 "\">weblate.org</a>."
-msgstr "Mais informações sobre o Weblate podem ser encontradas em {0}"
+msgstr ""
+"Mais informações sobre o Weblate podem ser encontradas em <a href=\""
+"%(weblate_url)s\">weblate.org</a>."
 
 #: weblate/templates/about.html:20
-#, fuzzy
-#| msgid ""
-#| "Weblate is free software created by volunteers, but you can still support "
-#| "them financially."
 msgid "Weblate is libre software created by volunteers, and accepts donations."
-msgstr ""
-"O Weblate é um software livre criado por voluntários, mas você pode "
-"colaborar financeiramente também."
+msgstr "O Weblate é um software livre criado por voluntários e aceita doações."
 
 #: weblate/templates/about.html:24
-#, fuzzy
-#| msgid "Fund Weblate!"
 msgid "Fund Weblate"
-msgstr "Banque o Weblate!"
+msgstr "Banque o Weblate"
 
 #: weblate/templates/about.html:25 weblate/templates/footer.html:11
 #: weblate/trans/templatetags/advertisement.py:42
@@ -1298,10 +1264,6 @@ msgid "Hosting translations"
 msgstr "Hospedando traduções"
 
 #: weblate/templates/about.html:35
-#, fuzzy
-#| msgid ""
-#| "This Weblate instance hosts translations for various free software "
-#| "projects."
 msgid ""
 "This Weblate instance hosts translations for various libre software projects."
 msgstr ""
@@ -1309,26 +1271,16 @@ msgstr ""
 "livre."
 
 #: weblate/templates/about.html:36
-#, fuzzy
-#| msgid ""
-#| "We can host your project as well, if you are interested, please contact "
-#| "us."
 msgid "Weblate can host your project as well, please get in touch."
-msgstr ""
-"Podemos hospedar seu projeto também, se você está interessado, por favor nos "
-"contate."
+msgstr "O Weblate também pode hospedar seu projeto, entre em contato."
 
 #: weblate/templates/about.html:39
-#, fuzzy
-#| msgid ""
-#| "Commercial hosting is possible as well, our price starts at 19 EUR per "
-#| "month, please get in touch with us for more details."
 msgid ""
 "Commercial hosting is also available, pricing starts at 19 EUR per month, "
 "please get in touch for more details."
 msgstr ""
-"Também existe a hospedagem comercial, nosso preço começa em 19 EUR por mês, "
-"entre em contato conosco para maiores detalhes."
+"Existe também a hospedagem comercial, o preço começa em 19 EUR por mês, "
+"entre em contato para maiores detalhes."
 
 #: weblate/templates/about.html:43 weblate/templates/accounts/hosting.html:20
 #: weblate/templates/projects.html:13
@@ -1348,10 +1300,8 @@ msgid "Versions"
 msgstr "Versões"
 
 #: weblate/templates/about.html:68
-#, fuzzy
-#| msgid "Weblate would not exist without these projects."
 msgid "Weblate owes its existence to these projects."
-msgstr "O Weblate não existiria sem estes projetos."
+msgstr "O Weblate deve sua existência a estes projetos."
 
 #: weblate/templates/access_control_description.html:4
 #: weblate/trans/models/project.py:131
@@ -1368,10 +1318,8 @@ msgid "Protected"
 msgstr "Protegido"
 
 #: weblate/templates/access_control_description.html:7
-#, fuzzy
-#| msgid "Publicly visible but translatable only for selected users"
 msgid "Publicly visible, only translatable for selected users"
-msgstr "Publicamente visível, mas traduzível apenas para usuários escolhidos"
+msgstr "Publicamente visível, traduzível apenas por usuários selecionados"
 
 #: weblate/templates/access_control_description.html:8
 #: weblate/trans/models/project.py:133
@@ -1385,19 +1333,19 @@ msgstr "Visível e traduzível apenas para usuários escolhidos"
 #: weblate/templates/access_control_description.html:10
 #: weblate/trans/models/project.py:134
 msgid "Custom"
-msgstr ""
+msgstr "Personalizado"
 
 #: weblate/templates/access_control_description.html:11
 msgid ""
 "Only use this if you know what you are doing, enabling it might revoke your "
 "access to this project."
 msgstr ""
+"Use isto apenas se souber o que está fazendo, habilitá-lo poderá revogar seu "
+"acesso a este projeto."
 
 #: weblate/templates/access_control_description.html:11
-#, fuzzy
-#| msgid "List of recent changes done in Weblate"
 msgid "Permissions are not managed in Weblate."
-msgstr "Lista das alterações recentes feitas no Weblate"
+msgstr "As permissões não são gerenciadas no Weblate."
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -1458,61 +1406,46 @@ msgid "Registration almost complete"
 msgstr "Registro quase completo"
 
 #: weblate/templates/accounts/email-sent.html:24
-#, fuzzy
-#| msgid ""
-#| "You will very soon receive an email with a confirmation link. Please "
-#| "follow this link in order to complete your password reset procedure."
 msgid ""
 "Shortly you should receive an e-mail containing a confirmation link. Click "
 "it to reset your password."
 msgstr ""
-"Você receberá em breve um e-mail com um link de confirmação. Acesse este "
-"link para completar o processo de redefinição de senha."
+"Em breve você deverá receber um e-mail contendo um link de confirmação. "
+"Acesse este link para redefinir sua senha."
 
 #: weblate/templates/accounts/email-sent.html:26
-#, fuzzy
-#| msgid ""
-#| "You will very soon receive an email with a confirmation link. Please "
-#| "follow this link in order to complete your account removal procedure."
 msgid ""
 "Shortly you should receive an e-mail containing a confirmation link. Click "
 "it to remove your account."
 msgstr ""
-"Você receberá em breve um e-mail com um link de confirmação. Acesse este "
-"link para completar o processo de remoção de conta."
+"Em breve você deverá receber um e-mail contendo um link de confirmação. "
+"Acesse este link para remover sua conta."
 
 #: weblate/templates/accounts/email-sent.html:28
-#, fuzzy
-#| msgid ""
-#| "Thank you for registering. You will very soon receive an email with a "
-#| "confirmation link. Please follow this link in order to complete your "
-#| "registration."
 msgid ""
 "Thank you for registering. Click the confirmation link you receive by e-mail "
 "to complete the registration."
 msgstr ""
-"Obrigado por se registrar. Você receberá um e-mail com um link de "
-"confirmação. Acesse este link para completar seu registro."
+"Obrigado por se registrar. Acesse o link de confirmação que você recebeu por "
+"e-mail para completar o registro."
 
 #: weblate/templates/accounts/email-sent.html:31
 msgid ""
 "If the confirmation link expires before you get to use it, register again."
 msgstr ""
+"Se o link de confirmação expirar antes de você utilizá-lo, registre-se "
+"novamente."
 
 #: weblate/templates/accounts/email-sent.html:35
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder or retry "
-#| "the registration. If the problem persists, please <a href="
-#| "\"%(contact_url)s?t=reg\">contact us</a>."
+#, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. Should the problem persist, please <a href=\"%(contact_url)s?"
 "t=reg\">contact us</a>."
 msgstr ""
 "Caso você não tenha recebido o e-mail, verifique a pasta de spam ou tente o "
-"registro novamente. Se o problema persistir <a href=\"%(contact_url)s?t=reg"
-"\">entre em contato</a>."
+"registro novamente. Se o problema persistir, <a href=\"%(contact_url)s?t="
+"reg\">entre em contato</a>."
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:25
@@ -2210,10 +2143,6 @@ msgid "Information"
 msgstr "Informação"
 
 #: weblate/templates/checks.html:30
-#, fuzzy
-#| msgid ""
-#| "Customizable quality checks will help you in improving quality of "
-#| "translations."
 msgid ""
 "Customizable quality checks will help you improve the quality of "
 "translations."
@@ -2244,22 +2173,15 @@ msgid "RSS feeds"
 msgstr "Feeds RSS"
 
 #: weblate/templates/data-root.html:17 weblate/templates/data.html:19
-#, fuzzy
-#| msgid ""
-#| "To follow translation progress you can use RSS feeds which include all "
-#| "important changes in translation."
 msgid ""
 "To follow translation progress you can use RSS feeds, detailing all "
 "important translation changes."
 msgstr ""
-"Para acompanhar o progresso da tradução você pode usar feeds RSS os quais "
-"incluem todas as alterações importantes na tradução."
+"Para acompanhar o progresso da tradução você pode usar feeds RSS que "
+"detalham todas as alterações importantes na tradução."
 
 #: weblate/templates/data-root.html:18 weblate/templates/data.html:20
-#, fuzzy, python-format
-#| msgid ""
-#| "More information about exported RSS feeds is available in <a href="
-#| "\"%(rss_docs)s\">the documentation</a>."
+#, python-format
 msgid ""
 "More information about exported RSS feeds available in <a href=\"%(rss_docs)s"
 "\">the documentation</a>."
@@ -2288,10 +2210,6 @@ msgid "Per project data"
 msgstr "Dados por projeto"
 
 #: weblate/templates/data-root.html:38
-#, fuzzy
-#| msgid ""
-#| "There is more data exported per project, please check following links for "
-#| "more information."
 msgid ""
 "There is more data exported per project, please check the following links "
 "for more information."
@@ -2304,12 +2222,7 @@ msgid "Notification hooks"
 msgstr "Ganchos de notificação"
 
 #: weblate/templates/data-root.html:51 weblate/templates/data.html:88
-#, fuzzy, python-format
-#| msgid ""
-#| "With notification hooks, Weblate will automatically import changes done "
-#| "by your developers and will allow continuous translation. More "
-#| "information is available in <a href=\"%(hooks_docs)s\">the documentation</"
-#| "a>."
+#, python-format
 msgid ""
 "With notification hooks, Weblate will automatically import changes made by "
 "your developers, and allows continuous translation. More information "
@@ -2317,24 +2230,20 @@ msgid ""
 msgstr ""
 "Com os ganchos de notificação, o Weblate irá importar automaticamente as "
 "alterações feitas pelos seus desenvolvedores e irá permitir uma tradução "
-"contínua. Mais informações estão disponíveis na <a href=\"%(hooks_docs)s"
-"\">documentação</a>."
+"contínua. Mais informações estão disponíveis na <a href=\"%(hooks_docs)s\""
+">documentação</a>."
 
 #: weblate/templates/data.html:7
 msgid "data exports"
 msgstr "exportações de dados"
 
 #: weblate/templates/data.html:46
-#, fuzzy
-#| msgid ""
-#| "There are also per language RSS feeds available, you can construct them "
-#| "by appending a language code to the above URLs."
 msgid ""
 "Per language RSS feeds are also available, you can construct them by "
 "appending a language code to the above URLs."
 msgstr ""
-"Existem também feeds RSS disponíveis por idioma, você pode construí-los  e "
-"adicionar um prefixo de idioma nas URLs acima."
+"Feeds RSS por idioma também estão disponíveis, você pode construí-los "
+"adicionando um prefixo de idioma nas URLs acima."
 
 #: weblate/templates/data.html:48 weblate/templates/index.html:38
 #: weblate/templates/stats.html:5 weblate/templates/stats.html:62
