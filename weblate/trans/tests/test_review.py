@@ -78,7 +78,7 @@ class ReviewTest(ViewTestCase):
         )
 
         # Get ids of created suggestions
-        suggestion = self.get_unit().suggestions()[0].pk
+        suggestion = self.get_unit().suggestions[0].pk
 
         # Accept one of suggestions
         self.edit_unit(
