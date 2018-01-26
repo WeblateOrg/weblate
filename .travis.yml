@@ -40,6 +40,8 @@ install:
   - if [ "$CI_MODE" = selenium -a -n "$SAUCE_USERNAME" -a -n "$SAUCE_ACCESS_KEY" ] ; then ./ci/install-sauce ; fi
 # create databases
 before_script:
+  - mysql -e 'SET GLOBAL character_set_server=utf8' -uroot
+  - mysql -e 'SET GLOBAL collation_server=utf8_general_ci' -uroot
   - mysql -e 'DROP DATABASE IF EXISTS weblate;' -uroot
   - mysql -e 'CREATE DATABASE weblate CHARACTER SET utf8 COLLATE utf8_general_ci;' -uroot
   - psql -c 'DROP DATABASE IF EXISTS weblate;' -U postgres
