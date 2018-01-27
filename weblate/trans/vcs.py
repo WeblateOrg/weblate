@@ -33,6 +33,7 @@ from dateutil import parser
 
 from django.conf import settings
 from django.utils.encoding import force_text
+from django.utils.functional import cached_property
 
 import six
 from six.moves.configparser import RawConfigParser
@@ -83,8 +84,6 @@ class RepositoryException(Exception):
 
 class Repository(object):
     """Basic repository object."""
-    _last_revision = None
-    _last_remote_revision = None
     _cmd = 'false'
     _cmd_last_revision = None
     _cmd_last_remote_revision = None
@@ -195,25 +194,24 @@ class Repository(object):
         self.last_output = self._popen(args, self.path)
         return self.last_output
 
-    @property
+    def clean_revision_cache(self):
+        if 'last_revision' in self.__dict__:
+            del self.__dict__['last_revision']
+        if 'last_remote_revision' in self.__dict__:
+            del self.__dict__['last_remote_revision']
+
+    @cached_property
     def last_revision(self):
         """Return last local revision."""
-        if self._last_revision is None:
-            self._last_revision = self.execute(
-                self._cmd_last_revision,
-                needs_lock=False
-            )
-        return self._last_revision
+        return self.execute(self._cmd_last_revision, needs_lock=False)
 
-    @property
+    @cached_property
     def last_remote_revision(self):
         """Return last remote revision."""
-        if self._last_remote_revision is None:
-            self._last_remote_revision = self.execute(
-                self._cmd_last_remote_revision,
-                needs_lock=False
-            )
-        return self._last_remote_revision
+        return self.execute(
+            self._cmd_last_remote_revision,
+            needs_lock=False
+        )
 
     @classmethod
     def _clone(cls, source, target, branch=None):
@@ -229,7 +227,7 @@ class Repository(object):
     def update_remote(self):
         """Update remote repository."""
         self.execute(self._cmd_update_remote)
-        self._last_remote_revision = None
+        self.clean_revision_cache()
 
     def status(self):
         """Return status of the repository."""
@@ -431,7 +429,7 @@ class GitRepository(Repository):
     def reset(self):
         """Reset working copy to match remote branch."""
         self.execute(['reset', '--hard', 'origin/{0}'.format(self.branch)])
-        self._last_revision = None
+        self.clean_revision_cache()
 
     def rebase(self, abort=False):
         """Rebase working copy on top of remote branch."""
@@ -547,7 +545,7 @@ class GitRepository(Repository):
         # Execute it
         self.execute(cmd)
         # Clean cache
-        self._last_revision = None
+        self.clean_revision_cache()
 
     def remove(self, files, message, author=None):
         """Remove files and creates new revision."""
@@ -734,20 +732,18 @@ class SubversionRepository(GitRepository):
     def reset(self):
         """Reset working copy to match remote branch."""
         self.execute(['reset', '--hard', self.get_remote_branch_name()])
-        self._last_revision = None
+        self.clean_revision_cache()
 
-    @property
+    @cached_property
     def last_remote_revision(self):
         """Return last remote revision."""
-        if self._last_remote_revision is None:
-            self._last_remote_revision = self.execute(
-                [
-                    'log', '-n', '1', '--format=format:%H',
-                    self.get_remote_branch_name()
-                ],
-                needs_lock=False
-            )
-        return self._last_remote_revision
+        return self.execute(
+            [
+                'log', '-n', '1', '--format=format:%H',
+                self.get_remote_branch_name()
+            ],
+            needs_lock=False
+        )
 
     def get_remote_branch_name(self):
         """Return the remote branch name: trunk if local branch is master,
@@ -915,7 +911,7 @@ class HgRepository(Repository):
         self.execute(['update', '--clean', 'remote(.)'])
         if self.needs_push():
             self.execute(['strip', 'roots(outgoing())'])
-        self._last_revision = None
+        self.clean_revision_cache()
 
     def configure_merge(self):
         """Select the correct merge tool"""
@@ -1094,7 +1090,7 @@ class HgRepository(Repository):
         # Execute it
         self.execute(cmd)
         # Clean cache
-        self._last_revision = None
+        self.clean_revision_cache()
 
     def remove(self, files, message, author=None):
         """Remove files and creates new revision."""

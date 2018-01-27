@@ -52,7 +52,9 @@ DATABASES = {
         # Customizations for databases
         'OPTIONS': {
             # Uncomment for MySQL older than 5.7:
-            # 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+            # 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            # Set emoji capable charset for MySQL:
+            # 'charset': 'utf8mb4',
         },
         # Wrap each view in a transaction on this database
         'ATOMIC_REQUESTS': True,

@@ -181,7 +181,6 @@ class Project(models.Model, URLMixin, PathMixin):
 
     def __init__(self, *args, **kwargs):
         super(Project, self).__init__(*args, **kwargs)
-        self._totals_cache = None
         self.old_access_control = self.access_control
         self.stats = ProjectStats(self)
 

@@ -530,7 +530,7 @@ class SubProjectValidationTest(RepoTestCase):
         self.component.save()
 
         # Clean class cache, pylint: disable=protected-access
-        self.component._file_format = None
+        del self.component.__dict__['file_format']
 
         # With correct format it should validate
         self.component.full_clean()
@@ -625,7 +625,7 @@ class SubProjectErrorTest(RepoTestCase):
     def test_invalid_templatename(self):
         self.component.template = 'foo.bar'
         # Clean class cache, pylint: disable=protected-access
-        self.component._template_store = None
+        del self.component.__dict__['template_store']
 
         self.assertRaises(
             ParseError,
@@ -668,7 +668,7 @@ class SubProjectErrorTest(RepoTestCase):
             handle.write('CHANGE')
 
         # Clean class cache, pylint: disable=protected-access
-        self.component._template_store = None
+        del self.component.__dict__['template_store']
 
         self.assertRaises(
             ParseError,
@@ -695,8 +695,8 @@ class SubProjectEditTest(ViewTestCase):
         self.remove_units(translation.store.store)
 
         # Clean class cache, pylint: disable=protected-access
-        self.subproject._template_store = None
-        translation._store = None
+        del self.subproject.__dict__['template_store']
+        del translation.__dict__['store']
 
         unit = translation.unit_set.all()[0]
         request = self.get_request('/')
@@ -722,7 +722,7 @@ class SubProjectEditMonoTest(SubProjectEditTest):
         self.remove_units(translation.store.store)
 
         # Clean class cache, pylint: disable=protected-access
-        translation._store = None
+        del translation.__dict__['store']
 
         unit = translation.unit_set.all()[0]
         request = self.get_request('/')
