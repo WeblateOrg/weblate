@@ -70,10 +70,12 @@ class BaseStats(object):
         if name not in self._data:
             was_pending = self._pending_save
             self._pending_save = True
-            if name.endswith('_percent'):
+            if name in self.basic_keys:
+                self.prefetch_basic()
+            elif name.endswith('_percent'):
                 self.calculate_percents(name)
             else:
-                self.fetch_stats(name)
+                self.calculate_item(name)
             if not was_pending:
                 self.save()
                 self._pending_save = False
@@ -98,13 +100,6 @@ class BaseStats(object):
             self._data[key] = 0
         else:
             self._data[key] = value
-
-    def fetch_stats(self, item):
-        """Calculate stats for translation."""
-        if item in self.basic_keys:
-            self.prefetch_basic()
-            return
-        self.calculate_item(item)
 
     def calculate_item(self, item):
         """Calculate stats for translation."""
