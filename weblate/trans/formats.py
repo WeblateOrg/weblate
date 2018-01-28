@@ -44,7 +44,7 @@ from translate.storage.php import phpunit, phpfile
 from translate.storage.po import pounit, pofile
 from translate.storage.poheader import default_header
 from translate.storage.properties import propunit, propfile
-from translate.storage.ts2 import tsfile
+from translate.storage.ts2 import tsfile, tsunit
 from translate.storage.xliff import xlifffile, ID_SEPARATOR
 from translate.storage.poxliff import PoXliffFile
 from translate.storage.resx import RESXFile
