@@ -466,8 +466,10 @@ class Unit(models.Model, LoggerMixin):
         approved = unit.is_approved(self.approved)
 
         if 'skip-review-flag' in all_flags:
-            approved = False
-            fuzzy = False
+            if not self.approved:
+                approved = False
+            if not self.fuzzy:
+                fuzzy = False
 
         if translated and created:
             is_template = self.translation.is_template()
