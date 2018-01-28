@@ -61,6 +61,7 @@ FILE_FORMATS = {}
 FILE_DETECT = []
 FLAGS_RE = re.compile(r'\b[-\w:]+\b')
 LOCATIONS_RE = re.compile(r'^([+-]|.*, [+-]|.*:[+-])')
+SUPPORTS_FUZZY = (pounit, tsunit)
 
 
 def move_atomic(source, target):
@@ -330,7 +331,11 @@ class FileUnit(object):
         """Check whether unit needs edit."""
         if self.unit is None:
             return fallback
-        return self.unit.isfuzzy()
+        # Most of the formats do not support this, but they
+        # happily return False
+        if isinstance(self.unit, SUPPORTS_FUZZY):
+            return self.unit.isfuzzy()
+        return fallback
 
     def is_obsolete(self):
         """Check whether unit is marked as obsolete in backend."""
