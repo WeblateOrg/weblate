@@ -19,7 +19,6 @@
 #
 
 """Test for language manipulations."""
-import os.path
 import gettext
 
 from django.test import TestCase
@@ -317,15 +316,6 @@ class CommandTest(TestCase):
     def test_setuplang_noupdate(self):
         call_command('setuplang', update=False)
         self.assertTrue(Language.objects.exists())
-
-    def test_checklang(self):
-        output = StringIO()
-        testfile = os.path.join(
-            os.path.dirname(os.path.abspath(__file__)),
-            'plurals.txt'
-        )
-        call_command('checklang', testfile, stderr=output)
-        self.assertIn('different plurals zh:', output.getvalue())
 
     def test_list_languages(self):
         output = StringIO()

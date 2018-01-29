@@ -333,37 +333,6 @@ class LanguageQuerySet(models.QuerySet):
         """Return list of languages which have at least one translation."""
         return self.filter(translation__pk__gt=0).distinct()
 
-    def check_definitions(self, filename):
-        """Check database language definitions with supplied ones."""
-        errors = []
-        with io.open(filename, 'r', encoding='utf-8') as handle:
-            for line in handle:
-                line = line.strip()
-                parts = [part.strip() for part in line.split(',')]
-                if len(parts) != 3:
-                    continue
-                lang, name, plurals = parts
-                try:
-                    language = self.get(code=lang)
-                except Language.DoesNotExist:
-                    errors.append(
-                        'missing language {0}: {1} ({2})'.format(
-                            lang, name, plurals
-                        )
-                    )
-                    continue
-                if not language.same_plural(plurals):
-                    errors.append(
-                        'different plurals {0}: {1} ({2})'.format(
-                            lang, name, plurals
-                        )
-                    )
-                    errors.append(
-                        'have {0}'.format(language.get_plural_form())
-                    )
-
-        return errors
-
 
 @receiver(post_migrate)
 def setup_lang(sender, **kwargs):
