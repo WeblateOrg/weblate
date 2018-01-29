@@ -29,7 +29,7 @@ from django.utils.encoding import force_text
 
 from six import StringIO
 
-from weblate.lang.models import Language, get_plural_type
+from weblate.lang.models import Language, Plural, get_plural_type
 from weblate.lang import data
 from weblate.trans.tests.test_models import BaseTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
@@ -470,4 +470,13 @@ class PluralsCompareTest(TestCase):
         language = Language.objects.get(code='lt')
         self.assertFalse(
             language.same_plural('bogus')
+        )
+
+
+class PluralTest(TestCase):
+    def test_examples(self):
+        plural = Plural(number=2, equation='n!=1')
+        self.assertEqual(
+            plural.examples,
+            {0: ['1'], 1: ['0', '2', '3', '4', '5', '6', '7', '8', '9', '10']}
         )
