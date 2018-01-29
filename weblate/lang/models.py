@@ -241,7 +241,7 @@ class LanguageQuerySet(models.QuerySet):
             lang.name = baselang.name
             lang.direction = baselang.direction
             lang.save()
-            baseplural = baselang.plural_set.get(source=Plural.SOURCE_DEFAULT)
+            baseplural = baselang.plural
             lang.plural_set.create(
                 source=Plural.SOURCE_DEFAULT,
                 number=baseplural.number,
@@ -408,6 +408,10 @@ class Language(models.Model):
     def uses_ngram(self):
         code = self.base_code()
         return code in ('ja', 'zh', 'ko')
+
+    @cached_method
+    def plural(self):
+        return self.plural_set.get(source=Plural.SOURCE_DEFAULT)
 
 
 @python_2_unicode_compatible

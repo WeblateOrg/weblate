@@ -61,7 +61,7 @@ class TranslationManager(models.Manager):
             defaults={
                 'filename': path,
                 'language_code': code,
-                'plural': lang.plural_set.get(source=Plural.SOURCE_DEFAULT),
+                'plural': lang.plural
             },
         )
         if translation.filename != path or translation.language_code != code:

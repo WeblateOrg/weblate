@@ -625,7 +625,7 @@ class FileFormat(object):
 
     def get_plural(self, language):
         """Return matching plural object."""
-        return language.plural_set.get(source=Plural.SOURCE_DEFAULT)
+        return language.plural
 
     @property
     def has_template(self):
@@ -873,7 +873,7 @@ class FileFormat(object):
     def untranslate_store(cls, store, language, fuzzy=False):
         """Remove translations from ttkit store"""
         store.settargetlanguage(language.code)
-        plural = language.plural_set.get(source=Plural.SOURCE_DEFAULT)
+        plural = language.plural
 
         for unit in store.units:
             if unit.istranslatable():
@@ -975,7 +975,7 @@ class PoFormat(FileFormat):
     def untranslate_store(cls, store, language, fuzzy=False):
         """Remove translations from ttkit store"""
         super(PoFormat, cls).untranslate_store(store, language, fuzzy)
-        plural = language.plural_set.get(source=Plural.SOURCE_DEFAULT)
+        plural = language.plural
 
         store.updateheader(
             last_translator='Automatically generated',
