@@ -651,7 +651,7 @@ class Plural(models.Model):
     )
     equation = models.CharField(
         max_length=400,
-        blank=True,
+        default='n != 1',
         verbose_name=ugettext_lazy('Plural equation'),
     )
     type = models.IntegerField(
@@ -661,6 +661,11 @@ class Plural(models.Model):
         editable=False,
     )
     language = models.ForeignKey(Language, on_delete=models.deletion.CASCADE)
+
+    class Meta(object):
+        ordering = ['source']
+        verbose_name = ugettext_lazy('Plural form')
+        verbose_name_plural = ugettext_lazy('Plural forms')
 
     def __str__(self):
         return self.get_type_display()
