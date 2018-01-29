@@ -1554,6 +1554,7 @@ class SubProject(models.Model, URLMixin, PathMixin):
         translation = Translation.objects.create(
             subproject=self,
             language=language,
+            plural=language.plural,
             filename=filename,
             language_code=language.code,
             commit_message='__add__'
