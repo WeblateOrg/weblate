@@ -61,6 +61,7 @@ class TranslationManager(models.Manager):
             defaults={
                 'filename': path,
                 'language_code': code,
+                'plural': lang.plural_set.get(source=Plural.SOURCE_DEFAULT),
             },
         )
         if translation.filename != path or translation.language_code != code:
@@ -255,6 +256,9 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         # List of created units (used for cleanup and duplicates detection)
         created_units = set()
+
+        # Store plural
+        self.plural = self.store.get_plural(self.language)
 
         # Was there change?
         was_new = False
