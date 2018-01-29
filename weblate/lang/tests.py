@@ -20,6 +20,7 @@
 
 """Test for language manipulations."""
 import gettext
+from itertools import chain
 
 from django.test import TestCase
 from django.urls import reverse
@@ -30,6 +31,7 @@ from six import StringIO
 
 from weblate.lang.models import Language, Plural, get_plural_type
 from weblate.lang import data
+from weblate.langdata import languages
 from weblate.trans.tests.test_models import BaseTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
 
@@ -336,19 +338,18 @@ class CommandTest(TestCase):
 
 class VerifyPluralsTest(TestCase):
     """In database plural form verification."""
+    @staticmethod
+    def all_data():
+        return chain(languages.LANGUAGES, languages.EXTRAPLURALS)
 
     def test_valid(self):
         """Validate that we can name all plural equations"""
-        for language in Language.objects.all():
+        for code, name, nplurals, pluraleq in self.all_data():
             self.assertNotEqual(
-                get_plural_type(
-                    language.code,
-                    language.pluralequation
-                ),
+                get_plural_type(code, pluraleq),
                 data.PLURAL_UNKNOWN,
                 'Can not guess plural type for {0} ({1})'.format(
-                    language.code,
-                    language.pluralequation
+                    code, pluraleq
                 )
             )
 
@@ -360,20 +361,20 @@ class VerifyPluralsTest(TestCase):
             gettext.c2py,
             'n==0 ? 1 2'
         )
-        for language in Language.objects.all():
+        for code, name, nplurals, pluraleq in self.all_data():
             # Validate plurals can be parsed
-            plural = gettext.c2py(language.pluralequation)
+            plural = gettext.c2py(pluraleq)
             # Get maximal plural
-            nplurals = max([plural(x) for x in range(200)]) + 1
+            calculated = max([plural(x) for x in range(200)]) + 1
             # Check it matches ours
             self.assertEqual(
+                calculated,
                 nplurals,
-                language.nplurals,
                 'Invalid nplurals for {0}: {1} ({2}, {3})'.format(
-                    language.code,
+                    code,
+                    calculated,
                     nplurals,
-                    language.nplurals,
-                    language.pluralequation
+                    pluraleq,
                 )
             )
 
