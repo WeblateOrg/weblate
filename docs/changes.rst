@@ -21,6 +21,7 @@ Released on ? 2018.
 * Added support for Microsoft Terminology service.
 * Removed support for advertisement in notification mails.
 * Improved translation progress reporting at language level.
+* Improved support for different plural formulas.
 
 weblate 2.18
 ------------
