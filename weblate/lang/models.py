@@ -646,18 +646,22 @@ class Plural(models.Model):
             result[ret].append(str(i))
         return result
 
-    def same_plural(self, plurals):
-        """Compare whether given plurals formula matches"""
+    @staticmethod
+    def parse_formula(plurals):
         matches = PLURAL_RE.match(plurals)
         if matches is None:
-            return False
+            raise ValueError('Failed to parse formula')
 
-        if int(matches.group(1)) != self.nplurals:
+        return int(matches.group(1)), matches.group(2)
+
+    def same_plural(self, number, equation):
+        """Compare whether given plurals formula matches"""
+        if number != self.number:
             return False
 
         # Convert formulas to functions
         ours = self.plural_function
-        theirs = gettext.c2py(matches.group(2))
+        theirs = gettext.c2py(equation)
 
         # Compare equation results
         # It would be better to compare formulas,
