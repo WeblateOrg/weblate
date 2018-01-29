@@ -663,12 +663,12 @@ class Plural(models.Model):
     language = models.ForeignKey(Language, on_delete=models.deletion.CASCADE)
 
     def __str__(self):
-        return self.plural_form
+        return self.get_type_display()
 
     @cached_property
     def plural_form(self):
         return 'nplurals={0:d}; plural={1};'.format(
-            self.nplurals, self.equation
+            self.number, self.equation
         )
 
     @cached_property
@@ -737,9 +737,14 @@ class Plural(models.Model):
             return _('Plural form %d') % idx
 
     def list_plurals(self):
-        for i in range(self.nplurals):
+        for i in range(self.number):
             yield {
                 'index': i,
                 'name': self.get_plural_name(i),
                 'examples': ', '.join(self.examples.get(i, []))
             }
+
+    def save(self, *args, **kwargs):
+        if self.type is None:
+            self.type = get_plural_type(self.equation)
+        super(Plural, self).save(*args, **kwargs)
