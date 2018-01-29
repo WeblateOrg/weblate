@@ -275,39 +275,6 @@ class LanguagesTest(BaseTestCase):
             # Check name
             self.assertEqual(force_text(lang), name)
 
-    def test_plurals(self):
-        """Test whether plural form is correctly calculated."""
-        lang = Language.objects.get(code='cs')
-        self.assertEqual(
-            lang.get_plural_form(),
-            'nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;'
-        )
-
-    def test_plural_names(self):
-        lang = Language.objects.get(code='cs')
-        self.assertEqual(lang.get_plural_name(0), 'One')
-        self.assertEqual(lang.get_plural_name(1), 'Few')
-        self.assertEqual(lang.get_plural_name(2), 'Other')
-
-    def test_plural_names_invalid(self):
-        lang = Language.objects.get(code='cs')
-        lang.plural_type = -1
-        self.assertEqual(lang.get_plural_name(0), 'Singular')
-        self.assertEqual(lang.get_plural_name(1), 'Plural')
-        self.assertEqual(lang.get_plural_name(2), 'Plural form 2')
-
-    def test_plural_labels(self):
-        lang = Language.objects.get(code='cs')
-        label = lang.get_plural_label(0)
-        self.assertIn('One', label)
-        self.assertIn('1', label)
-        label = lang.get_plural_label(1)
-        self.assertIn('Few', label)
-        self.assertIn('2, 3, 4', label)
-        label = lang.get_plural_label(2)
-        self.assertIn('Other', label)
-        self.assertIn('5, 6, 7', label)
-
 
 class CommandTest(TestCase):
     """Test for management commands."""
@@ -482,3 +449,36 @@ class PluralTest(TestCase):
             plural.examples,
             {0: ['1'], 1: ['0', '2', '3', '4', '5', '6', '7', '8', '9', '10']}
         )
+
+    def test_plurals(self):
+        """Test whether plural form is correctly calculated."""
+        plural = Plural.objects.get(language__code='cs')
+        self.assertEqual(
+            plural.plural_form,
+            'nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;'
+        )
+
+    def test_plural_names(self):
+        plural = Plural.objects.get(language__code='cs')
+        self.assertEqual(plural.get_plural_name(0), 'One')
+        self.assertEqual(plural.get_plural_name(1), 'Few')
+        self.assertEqual(plural.get_plural_name(2), 'Other')
+
+    def test_plural_names_invalid(self):
+        plural = Plural.objects.get(language__code='cs')
+        plural.type = -1
+        self.assertEqual(plural.get_plural_name(0), 'Singular')
+        self.assertEqual(plural.get_plural_name(1), 'Plural')
+        self.assertEqual(plural.get_plural_name(2), 'Plural form 2')
+
+    def test_plural_labels(self):
+        plural = Plural.objects.get(language__code='cs')
+        label = plural.get_plural_label(0)
+        self.assertIn('One', label)
+        self.assertIn('1', label)
+        label = plural.get_plural_label(1)
+        self.assertIn('Few', label)
+        self.assertIn('2, 3, 4', label)
+        label = plural.get_plural_label(2)
+        self.assertIn('Other', label)
+        self.assertIn('5, 6, 7', label)
