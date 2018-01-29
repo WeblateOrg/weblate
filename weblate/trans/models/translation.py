@@ -32,7 +32,7 @@ from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django.urls import reverse
 
-from weblate.lang.models import Language
+from weblate.lang.models import Language, Plural
 from weblate.permissions.helpers import can_translate
 from weblate.trans.formats import ParseError, try_load
 from weblate.trans.checks import CHECKS
@@ -84,9 +84,8 @@ class Translation(models.Model, URLMixin, LoggerMixin):
     subproject = models.ForeignKey(
         'SubProject', on_delete=models.deletion.CASCADE
     )
-    language = models.ForeignKey(
-        Language, on_delete=models.deletion.CASCADE
-    )
+    language = models.ForeignKey(Language, on_delete=models.deletion.CASCADE)
+    plural = models.ForeignKey(Plural, on_delete=models.deletion.CASCADE, null=True, default=None)
     revision = models.CharField(max_length=100, default='', blank=True)
     filename = models.CharField(max_length=200)
 
