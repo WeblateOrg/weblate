@@ -86,7 +86,7 @@ class BaseStats(object):
 
     def save(self):
         """Save stats to cache."""
-        cache.set(self._key, self._data, 86400)
+        cache.set(self._key, self._data, 30 * 86400)
 
     def invalidate(self):
         """Invalidate local and cache data."""

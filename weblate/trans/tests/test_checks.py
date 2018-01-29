@@ -25,11 +25,17 @@ import random
 
 from django.test import TestCase
 
+from weblate.lang.models import Plural, Language
 
-class MockLanguage(object):
+
+class MockLanguage(Language):
     """Mock language object."""
+    class Meta(object):
+        proxy = True
+
     def __init__(self, code='cs'):
-        self.code = code
+        super(MockLanguage, self).__init__(code=code)
+        self.plural = Plural(language=self)
 
 
 class MockProject(object):
