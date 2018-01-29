@@ -132,6 +132,7 @@ class AutoFormatTest(SimpleTestCase, TempDirMixin):
     FIND = 'Hello, world!\n'
     FIND_MATCH = 'Ahoj světe!\n'
     NEW_UNIT_MATCH = b'\nmsgid "key"\nmsgstr "Source string"\n'
+    allow_database_queries = True
 
     def setUp(self):
         super(AutoFormatTest, self).setUp()
@@ -203,7 +204,7 @@ class AutoFormatTest(SimpleTestCase, TempDirMixin):
         out = os.path.join(self.tempdir, 'test.{0}'.format(self.EXT))
         self.FORMAT.add_language(
             out,
-            Language(code='cs', nplurals=2),
+            Language.objects.get(code='cs'),
             self.BASE
         )
         with open(out, 'r') as handle:
@@ -256,7 +257,7 @@ class PoFormatTest(AutoFormatTest):
         out = os.path.join(self.tempdir, 'test.po')
         self.FORMAT.add_language(
             out,
-            Language(code='cs', nplurals=2),
+            Language.objects.get(code='cs'),
             TEST_POT_UNICODE
         )
         with open(out, 'rb') as handle:

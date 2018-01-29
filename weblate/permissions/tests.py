@@ -133,7 +133,9 @@ class GroupACLTest(ModelTestCase):
         self.subproject.translation_set.all().delete()
         self.language = Language.objects.get_default()
         self.trans = Translation.objects.create(
-            subproject=self.subproject, language=self.language,
+            subproject=self.subproject,
+            language=self.language,
+            plural=self.language.plural,
             filename="this/is/not/a.template"
         )
 
@@ -243,10 +245,12 @@ class GroupACLTest(ModelTestCase):
         lang_de = Language.objects.get(code='de')
         trans_cs = Translation.objects.create(
             subproject=self.subproject, language=lang_cs,
+            plural=lang_cs.plural,
             filename="this/is/not/a.template"
         )
         trans_de = Translation.objects.create(
             subproject=self.subproject, language=lang_de,
+            plural=lang_de.plural,
             filename="this/is/not/a.template"
         )
 
@@ -269,10 +273,12 @@ class GroupACLTest(ModelTestCase):
         lang_de = Language.objects.get(code='de')
         trans_cs = Translation.objects.create(
             subproject=self.subproject, language=lang_cs,
+            plural=lang_cs.plural,
             filename="this/is/not/a.template"
         )
         trans_de = Translation.objects.create(
             subproject=self.subproject, language=lang_de,
+            plural=lang_de.plural,
             filename="this/is/not/a.template"
         )
 
@@ -323,10 +329,12 @@ class GroupACLTest(ModelTestCase):
         lang_de = Language.objects.get(code='de')
         trans_cs = Translation.objects.create(
             subproject=self.subproject, language=lang_cs,
+            plural=lang_cs.plural,
             filename="this/is/not/a.template"
         )
         trans_de = Translation.objects.create(
             subproject=self.subproject, language=lang_de,
+            plural=lang_de.plural,
             filename="this/is/not/a.template"
         )
         perm_name = 'trans.author_translation'
