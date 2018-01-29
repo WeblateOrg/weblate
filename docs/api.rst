@@ -146,6 +146,17 @@ form submission (:mimetype:`application/x-www-form-urlencoded`) or as JSON
         -H "Authorization: Token TOKEN" \
         http://example.com/api/components/hello/weblate/repository/
 
+Rate limiting
+~~~~~~~~~~~~~
+
+The API requests are rate limited, the default configuration limits it to 100
+requests per day for anonymous user and 1000 requests per day for authenticated
+users.
+
+Rate limiting can be adjusted in the :file:`settings.py`, see 
+`Throttling in Django REST framework documentation <http://www.django-rest-framework.org/api-guide/throttling/>`_
+for more details how to configure it.
+
 API Entry Point
 +++++++++++++++
 
