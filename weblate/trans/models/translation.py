@@ -86,7 +86,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         'SubProject', on_delete=models.deletion.CASCADE
     )
     language = models.ForeignKey(Language, on_delete=models.deletion.CASCADE)
-    plural = models.ForeignKey(Plural, on_delete=models.deletion.CASCADE, null=True, default=None)
+    plural = models.ForeignKey(Plural, on_delete=models.deletion.CASCADE)
     revision = models.CharField(max_length=100, default='', blank=True)
     filename = models.CharField(max_length=200)
 
