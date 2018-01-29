@@ -253,29 +253,71 @@ class LanguageQuerySet(models.QuerySet):
         """Create basic set of languages based on languages defined in the
         languages-data repo.
         """
-        # Create Weblate extra languages
+        # Create Weblate languages
         for code, name, nplurals, pluraleq in languages.LANGUAGES:
             lang, created = self.get_or_create(code=code)
 
+            # Get plural type
+            plural_type = get_plural_type(code, pluraleq)
+
             # Should we update existing?
-            if not update and not created:
-                continue
+            if update or created:
 
-            lang.name = name
-            lang.nplurals = nplurals
-            lang.pluralequation = pluraleq
+                lang.name = name
+                lang.nplurals = nplurals
+                lang.pluralequation = pluraleq
 
-            if code in data.RTL_LANGS:
-                lang.direction = 'rtl'
-            else:
-                lang.direction = 'ltr'
+                if code in data.RTL_LANGS:
+                    lang.direction = 'rtl'
+                else:
+                    lang.direction = 'ltr'
+                lang.plural_type = plural_type
+                lang.save()
+
+            plural_data = {
+                'type': plural_type,
+                'number': nplurals,
+                'equation': pluraleq,
+            }
+            plural, created = lang.plural_set.get_or_create(
+                source=Plural.SOURCE_DEFAULT,
+                language=lang,
+                defaults=plural_data,
+            )
+            if not created:
+                modified = False
+                for item in plural_data:
+                    if getattr(plural, item) != plural_data[item]:
+                        modified = True
+                        setattr(plural, item, plural_data[item])
+                if modified:
+                    plural.save()
+
+        # Create addditiona plurals
+        for code, dummy, nplurals, pluraleq in languages.EXTRAPLURALS:
+            lang = self.get(code=code)
 
             # Get plural type
-            lang.plural_type = get_plural_type(
-                lang.code,
-                lang.pluralequation
+            plural_type = get_plural_type(code, pluraleq)
+
+            plural_data = {
+                'type': plural_type,
+            }
+            plural, created = lang.plural_set.get_or_create(
+                source=Plural.SOURCE_GETTEXT,
+                language=lang,
+                number=nplurals,
+                equation=pluraleq,
+                defaults=plural_data,
             )
-            lang.save()
+            if not created:
+                modified = False
+                for item in plural_data:
+                    if getattr(plural, item) != plural_data[item]:
+                        modified = True
+                        setattr(plural, item, plural_data[item])
+                if modified:
+                    plural.save()
 
     def have_translation(self):
         """Return list of languages which have at least one translation."""
