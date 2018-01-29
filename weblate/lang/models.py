@@ -240,8 +240,6 @@ class LanguageQuerySet(models.QuerySet):
 
         if baselang is not None:
             lang.name = baselang.name
-            lang.nplurals = baselang.nplurals
-            lang.pluralequation = baselang.pluralequation
             lang.direction = baselang.direction
             lang.save()
             baseplural = baselang.plural_set.get(source=Plural.SOURCE_DEFAULT)
@@ -272,16 +270,11 @@ class LanguageQuerySet(models.QuerySet):
 
             # Should we update existing?
             if update or created:
-
                 lang.name = name
-                lang.nplurals = nplurals
-                lang.pluralequation = pluraleq
-
                 if code in data.RTL_LANGS:
                     lang.direction = 'rtl'
                 else:
                     lang.direction = 'ltr'
-                lang.plural_type = plural_type
                 lang.save()
 
             plural_data = {
@@ -344,60 +337,6 @@ def setup_lang(sender, **kwargs):
 
 @python_2_unicode_compatible
 class Language(models.Model):
-    PLURAL_CHOICES = (
-        (
-            data.PLURAL_NONE,
-            pgettext_lazy('Plural type', 'None')
-        ),
-        (
-            data.PLURAL_ONE_OTHER,
-            pgettext_lazy('Plural type', 'One/other (classic plural)')
-        ),
-        (
-            data.PLURAL_ONE_FEW_OTHER,
-            pgettext_lazy('Plural type', 'One/few/other (Slavic languages)')
-        ),
-        (
-            data.PLURAL_ARABIC,
-            pgettext_lazy('Plural type', 'Arabic languages')
-        ),
-        (
-            data.PLURAL_ZERO_ONE_OTHER,
-            pgettext_lazy('Plural type', 'Zero/one/other')
-        ),
-        (
-            data.PLURAL_ONE_TWO_OTHER,
-            pgettext_lazy('Plural type', 'One/two/other')
-        ),
-        (
-            data.PLURAL_ONE_TWO_FEW_OTHER,
-            pgettext_lazy('Plural type', 'One/two/few/other')
-        ),
-        (
-            data.PLURAL_ONE_TWO_THREE_OTHER,
-            pgettext_lazy('Plural type', 'One/two/three/other')
-        ),
-        (
-            data.PLURAL_ONE_OTHER_ZERO,
-            pgettext_lazy('Plural type', 'One/other/zero')
-        ),
-        (
-            data.PLURAL_ONE_FEW_MANY_OTHER,
-            pgettext_lazy('Plural type', 'One/few/many/other')
-        ),
-        (
-            data.PLURAL_TWO_OTHER,
-            pgettext_lazy('Plural type', 'Two/other')
-        ),
-        (
-            data.PLURAL_ONE_TWO_FEW_MANY_OTHER,
-            pgettext_lazy('Plural type', 'One/two/few/many/other')
-        ),
-        (
-            data.PLURAL_UNKNOWN,
-            pgettext_lazy('Plural type', 'Unknown')
-        ),
-    )
     code = models.SlugField(
         unique=True,
         verbose_name=ugettext_lazy('Language code'),
@@ -405,15 +344,6 @@ class Language(models.Model):
     name = models.CharField(
         max_length=100,
         verbose_name=ugettext_lazy('Language name'),
-    )
-    nplurals = models.SmallIntegerField(
-        default=2,
-        verbose_name=ugettext_lazy('Number of plurals'),
-    )
-    pluralequation = models.CharField(
-        max_length=400,
-        blank=True,
-        verbose_name=ugettext_lazy('Plural equation'),
     )
     direction = models.CharField(
         verbose_name=ugettext_lazy('Text direction'),
@@ -423,11 +353,6 @@ class Language(models.Model):
             ('ltr', ugettext_lazy('Left to right')),
             ('rtl', ugettext_lazy('Right to left'))
         ),
-    )
-    plural_type = models.IntegerField(
-        choices=PLURAL_CHOICES,
-        default=data.PLURAL_ONE_OTHER,
-        verbose_name=ugettext_lazy('Plural type'),
     )
 
     objects = LanguageQuerySet.as_manager()
@@ -459,55 +384,6 @@ class Language(models.Model):
             return False
 
         return '_' in self.code or '-' in self.code
-
-    def get_plural_form(self):
-        """Return plural form like gettext understands it."""
-        return 'nplurals={0:d}; plural={1};'.format(
-            self.nplurals, self.pluralequation
-        )
-
-    def get_plural_name(self, idx):
-        """Return name for plural form."""
-        try:
-            return force_text(data.PLURAL_NAMES[self.plural_type][idx])
-        except (IndexError, KeyError):
-            if idx == 0:
-                return _('Singular')
-            elif idx == 1:
-                return _('Plural')
-            return _('Plural form %d') % idx
-
-    def list_plurals(self):
-        self.fill_in_examples()
-        for i in range(self.nplurals):
-            yield {
-                'index': i,
-                'name': self.get_plural_name(i),
-                'examples': ', '.join(self._plural_examples.get(i, []))
-            }
-
-    def fill_in_examples(self):
-        if not self._plural_examples:
-            func = gettext.c2py(self.pluralequation)
-            for i in chain(range(0, 10001), range(1000, 2000001, 1000)):
-                ret = func(i)
-                if ret not in self._plural_examples:
-                    self._plural_examples[ret] = []
-                if len(self._plural_examples[ret]) >= 10:
-                    continue
-                self._plural_examples[ret].append(str(i))
-
-    def get_plural_label(self, idx):
-        """Return label for plural form."""
-        self.fill_in_examples()
-
-        return PLURAL_TITLE.format(
-            name=self.get_plural_name(idx),
-            # Translators: Label for plurals with example counts
-            examples=_('For example: {0}').format(
-                ', '.join(self._plural_examples.get(idx, []))
-            )
-        )
 
     def get_absolute_url(self):
         return reverse('show_language', kwargs={'lang': self.code})
