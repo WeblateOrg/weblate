@@ -224,8 +224,6 @@ class LanguageQuerySet(models.QuerySet):
         lang = self.create(
             code=code,
             name='{0} (generated)'.format(code),
-            nplurals=2,
-            pluralequation='n != 1',
         )
 
         baselang = None
@@ -246,6 +244,18 @@ class LanguageQuerySet(models.QuerySet):
             lang.pluralequation = baselang.pluralequation
             lang.direction = baselang.direction
             lang.save()
+            baseplural = baselang.plural_set.get(source=Plural.SOURCE_DEFAULT)
+            lang.plural_set.create(
+                source=Plural.SOURCE_DEFAULT,
+                number=baseplural.number,
+                equation=baseplural.equation,
+            )
+        else:
+            lang.plural_set.create(
+                source=Plural.SOURCE_DEFAULT,
+                number=2,
+                equation='n != 1',
+            )
 
         return lang
 

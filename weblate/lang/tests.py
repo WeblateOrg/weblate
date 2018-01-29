@@ -260,11 +260,12 @@ class LanguagesTest(BaseTestCase):
                 'Invalid direction for {0}'.format(original)
             )
             # Check plurals
+            plural_obj = lang.plural_set.get(source=Plural.SOURCE_DEFAULT)
             self.assertEqual(
-                lang.pluralequation,
+                plural_obj.equation,
                 plural,
                 'Invalid plural for {0} (expected {1}, got {2})'.format(
-                    original, plural, lang.pluralequation,
+                    original, plural, plural_obj.equation,
                 )
             )
             # Check whether html contains both language code and direction
