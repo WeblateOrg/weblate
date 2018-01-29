@@ -903,9 +903,13 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         # Check valid plural forms
         if hasattr(store.store, 'parseheader'):
             header = store.store.parseheader()
-            if 'Plural-Forms' in header and \
-                    not self.language.same_plural(header['Plural-Forms']):
-                raise Exception('Plural forms do not match the language.')
+            try:
+                number, equation = Plural.parse_formula(header['Plural-Forms'])
+                if not self.plural.same_plural(number, equation):
+                    raise Exception('Plural forms do not match the language.')
+            except (ValueError, KeyError):
+                # Formula wrong or missing
+                pass
 
         if method in ('translate', 'fuzzy'):
             # Merge on units level

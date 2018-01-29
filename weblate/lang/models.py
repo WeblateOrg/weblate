@@ -534,29 +534,6 @@ class Language(models.Model):
         code = self.base_code()
         return code in ('ja', 'zh', 'ko')
 
-    def same_plural(self, plurals):
-        """Compare whether given plurals formula matches"""
-        matches = PLURAL_RE.match(plurals)
-        if matches is None:
-            return False
-
-        if int(matches.group(1)) != self.nplurals:
-            return False
-
-        # Convert formulas to functions
-        ours = gettext.c2py(self.pluralequation)
-        theirs = gettext.c2py(matches.group(2))
-
-        # Compare equation results
-        # It would be better to compare formulas,
-        # but this was easier to implement and the performance
-        # is still okay.
-        for i in range(-10, 200):
-            if ours(i) != theirs(i):
-                return False
-
-        return True
-
 
 @python_2_unicode_compatible
 class Plural(models.Model):

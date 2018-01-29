@@ -431,36 +431,46 @@ class LanguagesViewTest(FixtureTestCase):
 
 class PluralsCompareTest(TestCase):
     def test_match(self):
-        language = Language.objects.get(code='cs')
+        plural = Plural.objects.get(
+            language__code='cs', source=Plural.SOURCE_DEFAULT
+        )
         self.assertTrue(
-            language.same_plural(language.get_plural_form())
+            plural.same_plural(plural.number, plural.equation)
         )
 
     def test_formula(self):
-        language = Language.objects.get(code='pt')
+        plural = Plural.objects.get(
+            language__code='pt', source=Plural.SOURCE_DEFAULT
+        )
         self.assertFalse(
-            language.same_plural('nplurals=2; plural=(n != 1);')
+            plural.same_plural(2, '(n != 1)')
         )
 
     def test_different_formula(self):
-        language = Language.objects.get(code='pt')
+        plural = Plural.objects.get(
+            language__code='pt', source=Plural.SOURCE_DEFAULT
+        )
         self.assertTrue(
-            language.same_plural('nplurals=2; plural=(n > 1);')
+            plural.same_plural(2, '(n > 1)')
         )
 
     def test_different_count(self):
-        language = Language.objects.get(code='lt')
+        plural = Plural.objects.get(
+            language__code='lt', source=Plural.SOURCE_DEFAULT
+        )
         self.assertFalse(
-            language.same_plural(
-                'nplurals=4; plural=(n%10==1 ? 0 : n%10==1 && n%100!=11 ?'
-                ' 1 : n %10>=2 && (n%100<10 || n%100>=20) ? 2 : 3);'
+            plural.same_plural(
+                4, '(n%10==1 ? 0 : n%10==1 && n%100!=11 ?'
+                ' 1 : n %10>=2 && (n%100<10 || n%100>=20) ? 2 : 3)'
             )
         )
 
     def test_invalid(self):
-        language = Language.objects.get(code='lt')
+        plural = Plural.objects.get(
+            language__code='lt', source=Plural.SOURCE_DEFAULT
+        )
         self.assertFalse(
-            language.same_plural('bogus')
+            plural.same_plural(1, 'bogus')
         )
 
 
