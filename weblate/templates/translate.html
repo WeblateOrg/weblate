@@ -104,7 +104,7 @@
     <a title="{% trans "Edit string" %}"href="{{ secondary_unit.get_absolute_url }}"><i class="fa fa-pencil"></i></a>
     {% endif %}
     {% if user.profile.hide_source_secondary %}
-    {% format_translation secondary_unit.target secondary_unit.translation.language search_match=search_query num_plurals=unit.translation.language.nplurals unit=unit %}
+    {% format_translation secondary_unit.target secondary_unit.translation.language search_match=search_query num_plurals=unit.translation.plural.number unit=unit %}
     {% else %}
     {% format_translation secondary_unit.target secondary_unit.translation.language %}
     {% endif %}
@@ -116,7 +116,7 @@
     {% if unit.previous_source and unit.fuzzy %}
     <div class="form-group">
     <label>{% trans "Source change" %}</label>
-    {% format_translation unit.source unit.translation.subproject.project.source_language diff=unit.previous_source num_plurals=unit.translation.language.nplurals %}
+    {% format_translation unit.source unit.translation.subproject.project.source_language diff=unit.previous_source num_plurals=unit.translation.plural.number %}
     </div>
     {% endif %}
 
@@ -124,7 +124,7 @@
     <!-- editing template -->
     <div class="form-group">
     <label>{% trans "Context" %}</label>
-    {% format_translation unit.context unit.translation.subproject.project.source_language search_match=search_query num_plurals=unit.translation.language.nplurals %}
+    {% format_translation unit.context unit.translation.subproject.project.source_language search_match=search_query num_plurals=unit.translation.plural.number %}
     </div>
     {% else %}
 
@@ -154,7 +154,7 @@
     {% endif %}
     {% endif %}
     {% endwith %}
-    {% format_translation unit.source unit.translation.subproject.project.source_language search_match=search_query num_plurals=unit.translation.language.nplurals unit=unit %}
+    {% format_translation unit.source unit.translation.subproject.project.source_language search_match=search_query num_plurals=unit.translation.plural.number unit=unit %}
     </div>
     {% endif %}
     {% endif %}

@@ -873,6 +873,7 @@ class FileFormat(object):
     def untranslate_store(cls, store, language, fuzzy=False):
         """Remove translations from ttkit store"""
         store.settargetlanguage(language.code)
+        plural = language.plural_set.get(source=Plural.SOURCE_DEFAULT)
 
         for unit in store.units:
             if unit.istranslatable():
@@ -882,7 +883,7 @@ class FileFormat(object):
                 else:
                     unit.markfuzzy(fuzzy)
                 if unit.hasplural():
-                    unit.settarget([''] * language.nplurals)
+                    unit.settarget([''] * plural.number)
                 else:
                     unit.settarget('')
 
