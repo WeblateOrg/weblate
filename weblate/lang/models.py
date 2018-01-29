@@ -567,6 +567,10 @@ class Plural(models.Model):
             pgettext_lazy('Plural type', 'One/two/few/other')
         ),
         (
+            data.PLURAL_OTHER_ONE_TWO_FEW,
+            pgettext_lazy('Plural type', 'Other/one/two/few')
+        ),
+        (
             data.PLURAL_ONE_TWO_THREE_OTHER,
             pgettext_lazy('Plural type', 'One/two/three/other')
         ),
