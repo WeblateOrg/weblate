@@ -67,11 +67,25 @@ with open('scripts/language-data/languages.csv', 'r') as csvfile:
     reader = csv.reader(csvfile, delimiter=';')
     LANGUAGES = list(reader)
 
+# Read extra plurals
+with open('scripts/language-data/extraplurals.csv', 'r') as csvfile:
+    reader = csv.reader(csvfile, delimiter=';')
+    EXTRAPLURALS = list(reader)
+
 # Write language definitions
 with open('weblate/langdata/languages.py', 'w') as output:
     output.write(HEADER)
     output.write('LANGUAGES = (\n')
     for row in LANGUAGES:
+        output.write(TEMPLATE.format(
+            row[0],
+            row[1].replace("'", "\\'"),
+            row[2],
+            row[3],
+        ))
+    output.write(')\n\n')
+    output.write('EXTRAPLURALS = (\n')
+    for row in EXTRAPLURALS:
         output.write(TEMPLATE.format(
             row[0],
             row[1].replace("'", "\\'"),
