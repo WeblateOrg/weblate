@@ -148,11 +148,14 @@ def fmt_search(value, search_match, match):
 
 
 @register.inclusion_tag('format-translation.html')
-def format_translation(value, language, diff=None, search_match=None,
+def format_translation(value, language, plural=None, diff=None, search_match=None,
                        simple=False, num_plurals=2, unit=None, match='search'):
     """Nicely formats translation text possibly handling plurals or diff."""
     # Split plurals to separate strings
     plurals = split_plural(value)
+
+    if plural is None:
+        plural = language.plural
 
     # Show plurals?
     if int(num_plurals) <= 1:
@@ -196,7 +199,7 @@ def format_translation(value, language, diff=None, search_match=None,
         # Show label for plural (if there are any)
         title = ''
         if len(plurals) > 1:
-            title = language.get_plural_name(idx)
+            title = plural.get_plural_name(idx)
 
         # Join paragraphs
         content = mark_safe(newline.join(paras))

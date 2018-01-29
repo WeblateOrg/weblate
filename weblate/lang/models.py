@@ -409,7 +409,7 @@ class Language(models.Model):
         code = self.base_code()
         return code in ('ja', 'zh', 'ko')
 
-    @cached_method
+    @cached_property
     def plural(self):
         return self.plural_set.get(source=Plural.SOURCE_DEFAULT)
 

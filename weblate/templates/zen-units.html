@@ -48,7 +48,7 @@
 {% for unit in item.secondary %}
 <div class="form-group">
 <label>{{ unit.translation.language }}</label>
-{% format_translation unit.target unit.translation.language %}
+{% format_translation unit.target unit.translation.language unit.translation.plural %}
 </div>
 {% endfor %}
 {% endif %}

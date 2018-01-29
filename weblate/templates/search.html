@@ -31,7 +31,7 @@
 </tr>
 <tr>
 <th class="source">{{ unit.translation.language }}</th>
-<td><a href="{{ unit.get_absolute_url }}">{% format_translation unit.target unit.translation.language search_match=search_query %}</a></td>
+<td><a href="{{ unit.get_absolute_url }}">{% format_translation unit.target unit.translation.language unit.translation.plural search_match=search_query %}</a></td>
 </tr>
 {% endfor %}
 </tbody>

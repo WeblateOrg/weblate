@@ -104,9 +104,9 @@
     <a title="{% trans "Edit string" %}"href="{{ secondary_unit.get_absolute_url }}"><i class="fa fa-pencil"></i></a>
     {% endif %}
     {% if user.profile.hide_source_secondary %}
-    {% format_translation secondary_unit.target secondary_unit.translation.language search_match=search_query num_plurals=unit.translation.plural.number unit=unit %}
+    {% format_translation secondary_unit.target secondary_unit.translation.language secondary_unit.translation.plural search_match=search_query num_plurals=unit.translation.plural.number unit=unit %}
     {% else %}
-    {% format_translation secondary_unit.target secondary_unit.translation.language %}
+    {% format_translation secondary_unit.target secondary_unit.translation.language secondary_unit.translation.plural %}
     {% endif %}
     </div>
     {% endfor %}
@@ -236,7 +236,7 @@
 <tr {% if unit.position == item.position %}class="current_translation"{% endif %}>
 <td class="number"><a href="{{ item.get_absolute_url }}">{{ item.position }}</a></td>
 <td><a href="{{ item.get_absolute_url }}">{% format_translation item.source unit.translation.subproject.project.source_language %}</a></td>
-<td><a href="{{ item.get_absolute_url }}">{% format_translation item.target unit.translation.language %}</a></td>
+<td><a href="{{ item.get_absolute_url }}">{% format_translation item.target unit.translation.language unit.translation.plural %}</a></td>
 <td>{% get_state_flags item %}</td>
 </tr>
 {% endfor %}
@@ -260,9 +260,9 @@
 {% trans "Anonymous user has suggested" %}
 {% endif %}
 </strong></h5>
-{% format_translation suggestion.target unit.translation.language %}
+{% format_translation suggestion.target unit.translation.language unit.translation.plural %}
 <p class="help-block">{% trans "Suggested change:" %}</p>
-{% format_translation suggestion.target unit.translation.language unit.target %}
+{% format_translation suggestion.target unit.translation.language unit.translation.plural unit.target %}
 {% if user_can_vote_suggestion %}
 <p class="help-block">
 {% blocktrans count count=suggestion.get_num_votes %}{{ count }} vote{% plural %}{{ count }} votes{% endblocktrans %}

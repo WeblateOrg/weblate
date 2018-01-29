@@ -23,9 +23,9 @@
 {% if c.can_revert %}
 <tr class="{{ rowcolors }}">
 {% if c.old %}
-<td colspan="4">{% format_translation c.target c.unit.translation.language diff=c.old %}</td>
+<td colspan="4">{% format_translation c.target c.unit.translation.language c.unit.translation.plural diff=c.old %}</td>
 {% else %}
-<td colspan="4">{% format_translation c.target c.unit.translation.language %}</td>
+<td colspan="4">{% format_translation c.target c.unit.translation.language c.unit.translation.plural %}</td>
 {% endif %}
 <td>
 {% can_translate request.user c.unit as user_can_translate %}
@@ -36,7 +36,7 @@
 </tr>
 {% elif c.show_content %}
 <tr class="{{ rowcolors }}">
-<td colspan="4">{% format_translation c.target c.unit.translation.language %}</td>
+<td colspan="4">{% format_translation c.target c.unit.translation.language c.unit.translation.plural %}</td>
 <td></td>
 </tr>
 {% elif c.show_source %}

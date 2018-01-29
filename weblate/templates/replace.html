@@ -35,10 +35,10 @@
 </td>
 </tr>
 <tr>
-<td>{% format_translation unit.target unit.translation.language search_match=search_query match='replaced'%}</td>
+<td>{% format_translation unit.target unit.translation.language unit.translation.plural search_match=search_query match='replaced'%}</td>
 </tr>
 <tr>
-<td>{% format_translation unit.replacement unit.translation.language search_match=replacement match='replacement' %}</td>
+<td>{% format_translation unit.replacement unit.translation.language unit.translation.plural search_match=replacement match='replacement' %}</td>
 </tr>
 {% endfor %}
 </table>
