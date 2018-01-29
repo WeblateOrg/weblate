@@ -166,8 +166,9 @@ RTL_LANGS = set((
 ONE_OTHER_PLURALS = (
     'n==1 || n%10==1 ? 0 : 1',
     'n != 1',
+    '(n != 1)',
     'n > 1',
-    'n > 1',
+    '(n > 1)',
     'n >= 2 && (n < 11 || n > 99)',
     'n % 10 != 1 || n % 100 == 11',
     'n != 1 && n != 2 && n != 3 && (n % 10 == 4 || n % 10 == 6 || n % 10 == 9)',
@@ -186,6 +187,8 @@ ONE_FEW_OTHER_PLURALS = (
     'n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2',
     '(n == 1) ? 0 : ((n == 0 || n != 1 && n % 100 >= 1 && n % 100 <= 19) ? 1 : 2)',
     '(n == 0 || n == 1) ? 0 : ((n >= 2 && n <= 10) ? 1 : 2)',
+    '(n % 10 == 1 && (n % 100 < 11 || n % 100 > 19)) ? 0 : ((n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 11 || n % 100 > 19)) ? 1 : 2)',
+    '(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2)',
 )
 
 ZERO_ONE_OTHER_PLURALS = (
@@ -208,6 +211,13 @@ ONE_TWO_FEW_OTHER_PLURALS = (
     'n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3',
     '(n % 10 == 1) ? 0 : ((n % 10 == 2) ? 1 : ((n % 100 == 0 || n % 100 == 20'
     ' || n % 100 == 40 || n % 100 == 60 || n % 100 == 80) ? 2 : 3))',
+    '(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3))',
+    '(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && n % 10 == 0) ? 2 : 3))',
+    '(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3',
+)
+
+OTHER_ONE_TWO_FEW_PLURALS = (
+    '(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0)',
 )
 
 ONE_TWO_FEW_MANY_OTHER_PLURALS = (
@@ -246,6 +256,7 @@ PLURAL_TWO_OTHER = 9
 PLURAL_ONE_TWO_FEW_MANY_OTHER = 10
 PLURAL_ZERO_ONE_OTHER = 11
 PLURAL_ZERO_ONE_TWO_THREE_SIX_OTHER = 12
+PLURAL_OTHER_ONE_TWO_FEW = 13
 PLURAL_UNKNOWN = 666
 
 # Plural equation - type mappings
@@ -255,6 +266,7 @@ PLURAL_MAPPINGS = (
     (ONE_TWO_OTHER_PLURALS, PLURAL_ONE_TWO_OTHER),
     (ZERO_ONE_OTHER_PLURALS, PLURAL_ZERO_ONE_OTHER),
     (ONE_TWO_FEW_OTHER_PLURALS, PLURAL_ONE_TWO_FEW_OTHER),
+    (OTHER_ONE_TWO_FEW_PLURALS, PLURAL_OTHER_ONE_TWO_FEW),
     (ONE_TWO_THREE_OTHER_PLURALS, PLURAL_ONE_TWO_THREE_OTHER),
     (ONE_OTHER_ZERO_PLURALS, PLURAL_ONE_OTHER_ZERO),
     (ONE_FEW_MANY_OTHER_PLURALS, PLURAL_ONE_FEW_MANY_OTHER),
@@ -304,6 +316,12 @@ PLURAL_NAMES = {
         pgettext_lazy('Plural form description', 'Two'),
         pgettext_lazy('Plural form description', 'Few'),
         pgettext_lazy('Plural form description', 'Other'),
+    ),
+    PLURAL_OTHER_ONE_TWO_FEW: (
+        pgettext_lazy('Plural form description', 'Other'),
+        pgettext_lazy('Plural form description', 'One'),
+        pgettext_lazy('Plural form description', 'Two'),
+        pgettext_lazy('Plural form description', 'Few'),
     ),
     PLURAL_ONE_OTHER_ZERO: (
         pgettext_lazy('Plural form description', 'One'),

@@ -32,7 +32,7 @@ from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django.urls import reverse
 
-from weblate.lang.models import Language
+from weblate.lang.models import Language, Plural
 from weblate.permissions.helpers import can_translate
 from weblate.trans.formats import ParseError, try_load
 from weblate.trans.checks import CHECKS
@@ -61,6 +61,7 @@ class TranslationManager(models.Manager):
             defaults={
                 'filename': path,
                 'language_code': code,
+                'plural': lang.plural_set.get(source=Plural.SOURCE_DEFAULT),
             },
         )
         if translation.filename != path or translation.language_code != code:
@@ -84,9 +85,8 @@ class Translation(models.Model, URLMixin, LoggerMixin):
     subproject = models.ForeignKey(
         'SubProject', on_delete=models.deletion.CASCADE
     )
-    language = models.ForeignKey(
-        Language, on_delete=models.deletion.CASCADE
-    )
+    language = models.ForeignKey(Language, on_delete=models.deletion.CASCADE)
+    plural = models.ForeignKey(Plural, on_delete=models.deletion.CASCADE)
     revision = models.CharField(max_length=100, default='', blank=True)
     filename = models.CharField(max_length=200)
 
@@ -256,6 +256,9 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         # List of created units (used for cleanup and duplicates detection)
         created_units = set()
+
+        # Store plural
+        self.plural = self.store.get_plural(self.language)
 
         # Was there change?
         was_new = False
@@ -611,7 +614,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         headers = {
             'add': True,
             'last_translator': author,
-            'plural_forms': self.language.get_plural_form(),
+            'plural_forms': self.plural.plural_form,
             'language': self.language_code,
             'PO_Revision_Date': now.strftime('%Y-%m-%d %H:%M%z'),
         }
@@ -900,9 +903,13 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         # Check valid plural forms
         if hasattr(store.store, 'parseheader'):
             header = store.store.parseheader()
-            if 'Plural-Forms' in header and \
-                    not self.language.same_plural(header['Plural-Forms']):
-                raise Exception('Plural forms do not match the language.')
+            try:
+                number, equation = Plural.parse_formula(header['Plural-Forms'])
+                if not self.plural.same_plural(number, equation):
+                    raise Exception('Plural forms do not match the language.')
+            except (ValueError, KeyError):
+                # Formula wrong or missing
+                pass
 
         if method in ('translate', 'fuzzy'):
             # Merge on units level

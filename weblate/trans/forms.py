@@ -274,6 +274,7 @@ class PluralTextarea(forms.Textarea):
         unit = value
         values = unit.get_target_plurals()
         lang = unit.translation.language
+        plural = unit.translation.plural
         tabindex = self.attrs['tabindex']
 
         # Need to add extra class
@@ -309,7 +310,7 @@ class PluralTextarea(forms.Textarea):
                 else:
                     label = ugettext('Translation')
             else:
-                label = lang.get_plural_label(idx)
+                label = plural.get_plural_label(idx)
             ret.append(
                 EDITOR_TEMPLATE.format(
                     self.get_toolbar(lang, fieldid, unit, idx),
@@ -331,7 +332,7 @@ class PluralTextarea(forms.Textarea):
                             'will be used based on given count (n).'
                         ),
                         ugettext('Plural equation'),
-                        lang.pluralequation
+                        plural.equation
                     )
                 )
             )

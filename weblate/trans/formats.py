@@ -50,6 +50,8 @@ from translate.storage.poxliff import PoXliffFile
 from translate.storage.resx import RESXFile
 from translate.storage import factory
 
+from weblate.lang.models import Plural
+
 from weblate.trans.util import get_string, join_plural, add_configuration_error
 
 from weblate.utils.hash import calculate_hash
@@ -621,6 +623,10 @@ class FileFormat(object):
                 self.store.gettargetlanguage() is None):
             self.store.settargetlanguage(language_code)
 
+    def get_plural(self, language):
+        """Return matching plural object."""
+        return language.plural_set.get(source=Plural.SOURCE_DEFAULT)
+
     @property
     def has_template(self):
         """Check whether class is using template."""
@@ -867,6 +873,7 @@ class FileFormat(object):
     def untranslate_store(cls, store, language, fuzzy=False):
         """Remove translations from ttkit store"""
         store.settargetlanguage(language.code)
+        plural = language.plural_set.get(source=Plural.SOURCE_DEFAULT)
 
         for unit in store.units:
             if unit.istranslatable():
@@ -876,7 +883,7 @@ class FileFormat(object):
                 else:
                     unit.markfuzzy(fuzzy)
                 if unit.hasplural():
-                    unit.settarget([''] * language.nplurals)
+                    unit.settarget([''] * plural.number)
                 else:
                     unit.settarget('')
 
@@ -943,14 +950,36 @@ class PoFormat(FileFormat):
         except Exception:
             return False
 
+    def get_plural(self, language):
+        """Return matching plural object."""
+        header = self.store.parseheader()
+        try:
+            number, equation = Plural.parse_formula(header['Plural-Forms'])
+        except (ValueError, KeyError):
+            return super(PoFormat, self).get_plural(language)
+
+        # Find matching one
+        for plural in language.plural_set.all():
+            if plural.same_plural(number, equation):
+                return plural
+
+        # Create new one
+        return Plural.objects.create(
+            language=language,
+            source=Plural.SOURCE_GETTEXT,
+            number=number,
+            equation=equation,
+        )
+
     @classmethod
     def untranslate_store(cls, store, language, fuzzy=False):
         """Remove translations from ttkit store"""
         super(PoFormat, cls).untranslate_store(store, language, fuzzy)
+        plural = language.plural_set.get(source=Plural.SOURCE_DEFAULT)
 
         store.updateheader(
             last_translator='Automatically generated',
-            plural_forms=language.get_plural_form(),
+            plural_forms=plural.plural_form,
             language_team='none',
         )
 

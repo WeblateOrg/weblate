@@ -20,7 +20,7 @@
 
 from django.test import TestCase
 
-from weblate.lang.models import Language
+from weblate.lang.models import Language, Plural
 from weblate.trans.exporters import (
     PoExporter, PoXliffExporter, XliffExporter, TBXExporter, MoExporter,
     CSVExporter,
@@ -37,7 +37,9 @@ class PoExporterTest(TestCase):
 
     def get_exporter(self, lang=None):
         if lang is None:
-            lang = Language(code='xx')
+            lang, created = Language.objects.get_or_create(code='xx')
+            if created:
+                Plural.objects.create(language=lang)
         return self._class(
             language=lang,
             project=Project(slug='test', name='TEST'),
@@ -71,10 +73,13 @@ class PoExporterTest(TestCase):
             equation = 'n==0 ? 0 : n==1 ? 1 : 2'
         else:
             equation = '0'
-        lang = Language(
+        lang = Language.objects.create(
             code='zz',
-            nplurals=nplurals,
-            pluralequation=equation
+        )
+        plural = Plural.objects.create(
+            language=lang,
+            number=nplurals,
+            equation=equation
         )
         project = Project(
             slug='test',
@@ -84,7 +89,8 @@ class PoExporterTest(TestCase):
         unit = Unit(
             translation=Translation(
                 language=lang,
-                subproject=subproject
+                subproject=subproject,
+                plural=plural,
             ),
             **kwargs
         )

@@ -563,6 +563,19 @@ Notable configuration or dependencies changes:
 * There is change in the :setting:`django:MIDDLEWARE` setting (added `weblate.wladmin.middleware.ConfigurationErrorsMiddleware`).
 * There is change in the :setting:`django:INSTALLED_APPS` setting (added `weblate.langdata`).
 
+There has been change in default plural rules for some languages to closer
+follow CLDR specification. You might want to reimort those to avoid possible
+consistency problems:
+
+.. code-block:: sh
+
+    ./manage.py loadpo --all --lang dsb
+    ./manage.py loadpo --all --lang he
+    ./manage.py loadpo --all --lang hsb
+    ./manage.py loadpo --all --lang kw
+    ./manage.py loadpo --all --lang lt
+    ./manage.py loadpo --all --lang lv
+
 .. seealso:: :ref:`generic-upgrade-instructions`
 
 .. _django-17:

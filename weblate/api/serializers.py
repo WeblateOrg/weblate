@@ -88,7 +88,7 @@ class LanguageSerializer(serializers.ModelSerializer):
     class Meta(object):
         model = Language
         fields = (
-            'code', 'name', 'nplurals', 'pluralequation', 'direction',
+            'code', 'name', 'direction',
             'web_url', 'url',
         )
         extra_kwargs = {

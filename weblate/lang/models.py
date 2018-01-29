@@ -29,6 +29,7 @@ from django.conf import settings
 from django.db import models, transaction
 from django.db.models import Q
 from django.db.utils import OperationalError
+from django.utils.functional import cached_property
 from django.urls import reverse
 from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.utils.translation import (
@@ -223,8 +224,6 @@ class LanguageQuerySet(models.QuerySet):
         lang = self.create(
             code=code,
             name='{0} (generated)'.format(code),
-            nplurals=2,
-            pluralequation='n != 1',
         )
 
         baselang = None
@@ -241,10 +240,20 @@ class LanguageQuerySet(models.QuerySet):
 
         if baselang is not None:
             lang.name = baselang.name
-            lang.nplurals = baselang.nplurals
-            lang.pluralequation = baselang.pluralequation
             lang.direction = baselang.direction
             lang.save()
+            baseplural = baselang.plural_set.get(source=Plural.SOURCE_DEFAULT)
+            lang.plural_set.create(
+                source=Plural.SOURCE_DEFAULT,
+                number=baseplural.number,
+                equation=baseplural.equation,
+            )
+        else:
+            lang.plural_set.create(
+                source=Plural.SOURCE_DEFAULT,
+                number=2,
+                equation='n != 1',
+            )
 
         return lang
 
@@ -252,64 +261,70 @@ class LanguageQuerySet(models.QuerySet):
         """Create basic set of languages based on languages defined in the
         languages-data repo.
         """
-        # Create Weblate extra languages
+        # Create Weblate languages
         for code, name, nplurals, pluraleq in languages.LANGUAGES:
             lang, created = self.get_or_create(code=code)
 
+            # Get plural type
+            plural_type = get_plural_type(code, pluraleq)
+
             # Should we update existing?
-            if not update and not created:
-                continue
+            if update or created:
+                lang.name = name
+                if code in data.RTL_LANGS:
+                    lang.direction = 'rtl'
+                else:
+                    lang.direction = 'ltr'
+                lang.save()
 
-            lang.name = name
-            lang.nplurals = nplurals
-            lang.pluralequation = pluraleq
+            plural_data = {
+                'type': plural_type,
+                'number': nplurals,
+                'equation': pluraleq,
+            }
+            plural, created = lang.plural_set.get_or_create(
+                source=Plural.SOURCE_DEFAULT,
+                language=lang,
+                defaults=plural_data,
+            )
+            if not created:
+                modified = False
+                for item in plural_data:
+                    if getattr(plural, item) != plural_data[item]:
+                        modified = True
+                        setattr(plural, item, plural_data[item])
+                if modified:
+                    plural.save()
 
-            if code in data.RTL_LANGS:
-                lang.direction = 'rtl'
-            else:
-                lang.direction = 'ltr'
+        # Create addditiona plurals
+        for code, dummy, nplurals, pluraleq in languages.EXTRAPLURALS:
+            lang = self.get(code=code)
 
             # Get plural type
-            lang.plural_type = get_plural_type(
-                lang.code,
-                lang.pluralequation
+            plural_type = get_plural_type(code, pluraleq)
+
+            plural_data = {
+                'type': plural_type,
+            }
+            plural, created = lang.plural_set.get_or_create(
+                source=Plural.SOURCE_GETTEXT,
+                language=lang,
+                number=nplurals,
+                equation=pluraleq,
+                defaults=plural_data,
             )
-            lang.save()
+            if not created:
+                modified = False
+                for item in plural_data:
+                    if getattr(plural, item) != plural_data[item]:
+                        modified = True
+                        setattr(plural, item, plural_data[item])
+                if modified:
+                    plural.save()
 
     def have_translation(self):
         """Return list of languages which have at least one translation."""
         return self.filter(translation__pk__gt=0).distinct()
-
-    def check_definitions(self, filename):
-        """Check database language definitions with supplied ones."""
-        errors = []
-        with io.open(filename, 'r', encoding='utf-8') as handle:
-            for line in handle:
-                line = line.strip()
-                parts = [part.strip() for part in line.split(',')]
-                if len(parts) != 3:
-                    continue
-                lang, name, plurals = parts
-                try:
-                    language = self.get(code=lang)
-                except Language.DoesNotExist:
-                    errors.append(
-                        'missing language {0}: {1} ({2})'.format(
-                            lang, name, plurals
-                        )
-                    )
-                    continue
-                if not language.same_plural(plurals):
-                    errors.append(
-                        'different plurals {0}: {1} ({2})'.format(
-                            lang, name, plurals
-                        )
-                    )
-                    errors.append(
-                        'have {0}'.format(language.get_plural_form())
-                    )
-
-        return errors
 
 
 @receiver(post_migrate)
@@ -322,60 +337,6 @@ def setup_lang(sender, **kwargs):
 
 @python_2_unicode_compatible
 class Language(models.Model):
-    PLURAL_CHOICES = (
-        (
-            data.PLURAL_NONE,
-            pgettext_lazy('Plural type', 'None')
-        ),
-        (
-            data.PLURAL_ONE_OTHER,
-            pgettext_lazy('Plural type', 'One/other (classic plural)')
-        ),
-        (
-            data.PLURAL_ONE_FEW_OTHER,
-            pgettext_lazy('Plural type', 'One/few/other (Slavic languages)')
-        ),
-        (
-            data.PLURAL_ARABIC,
-            pgettext_lazy('Plural type', 'Arabic languages')
-        ),
-        (
-            data.PLURAL_ZERO_ONE_OTHER,
-            pgettext_lazy('Plural type', 'Zero/one/other')
-        ),
-        (
-            data.PLURAL_ONE_TWO_OTHER,
-            pgettext_lazy('Plural type', 'One/two/other')
-        ),
-        (
-            data.PLURAL_ONE_TWO_FEW_OTHER,
-            pgettext_lazy('Plural type', 'One/two/few/other')
-        ),
-        (
-            data.PLURAL_ONE_TWO_THREE_OTHER,
-            pgettext_lazy('Plural type', 'One/two/three/other')
-        ),
-        (
-            data.PLURAL_ONE_OTHER_ZERO,
-            pgettext_lazy('Plural type', 'One/other/zero')
-        ),
-        (
-            data.PLURAL_ONE_FEW_MANY_OTHER,
-            pgettext_lazy('Plural type', 'One/few/many/other')
-        ),
-        (
-            data.PLURAL_TWO_OTHER,
-            pgettext_lazy('Plural type', 'Two/other')
-        ),
-        (
-            data.PLURAL_ONE_TWO_FEW_MANY_OTHER,
-            pgettext_lazy('Plural type', 'One/two/few/many/other')
-        ),
-        (
-            data.PLURAL_UNKNOWN,
-            pgettext_lazy('Plural type', 'Unknown')
-        ),
-    )
     code = models.SlugField(
         unique=True,
         verbose_name=ugettext_lazy('Language code'),
@@ -383,15 +344,6 @@ class Language(models.Model):
     name = models.CharField(
         max_length=100,
         verbose_name=ugettext_lazy('Language name'),
-    )
-    nplurals = models.SmallIntegerField(
-        default=2,
-        verbose_name=ugettext_lazy('Number of plurals'),
-    )
-    pluralequation = models.CharField(
-        max_length=400,
-        blank=True,
-        verbose_name=ugettext_lazy('Plural equation'),
     )
     direction = models.CharField(
         verbose_name=ugettext_lazy('Text direction'),
@@ -401,11 +353,6 @@ class Language(models.Model):
             ('ltr', ugettext_lazy('Left to right')),
             ('rtl', ugettext_lazy('Right to left'))
         ),
-    )
-    plural_type = models.IntegerField(
-        choices=PLURAL_CHOICES,
-        default=data.PLURAL_ONE_OTHER,
-        verbose_name=ugettext_lazy('Plural type'),
     )
 
     objects = LanguageQuerySet.as_manager()
@@ -438,55 +385,6 @@ class Language(models.Model):
 
         return '_' in self.code or '-' in self.code
 
-    def get_plural_form(self):
-        """Return plural form like gettext understands it."""
-        return 'nplurals={0:d}; plural={1};'.format(
-            self.nplurals, self.pluralequation
-        )
-
-    def get_plural_name(self, idx):
-        """Return name for plural form."""
-        try:
-            return force_text(data.PLURAL_NAMES[self.plural_type][idx])
-        except (IndexError, KeyError):
-            if idx == 0:
-                return _('Singular')
-            elif idx == 1:
-                return _('Plural')
-            return _('Plural form %d') % idx
-
-    def list_plurals(self):
-        self.fill_in_examples()
-        for i in range(self.nplurals):
-            yield {
-                'index': i,
-                'name': self.get_plural_name(i),
-                'examples': ', '.join(self._plural_examples.get(i, []))
-            }
-
-    def fill_in_examples(self):
-        if not self._plural_examples:
-            func = gettext.c2py(self.pluralequation)
-            for i in chain(range(0, 10001), range(1000, 2000001, 1000)):
-                ret = func(i)
-                if ret not in self._plural_examples:
-                    self._plural_examples[ret] = []
-                if len(self._plural_examples[ret]) >= 10:
-                    continue
-                self._plural_examples[ret].append(str(i))
-
-    def get_plural_label(self, idx):
-        """Return label for plural form."""
-        self.fill_in_examples()
-
-        return PLURAL_TITLE.format(
-            name=self.get_plural_name(idx),
-            # Translators: Label for plurals with example counts
-            examples=_('For example: {0}').format(
-                ', '.join(self._plural_examples.get(idx, []))
-            )
-        )
-
     def get_absolute_url(self):
         return reverse('show_language', kwargs={'lang': self.code})
 
@@ -512,18 +410,141 @@ class Language(models.Model):
         code = self.base_code()
         return code in ('ja', 'zh', 'ko')
 
-    def same_plural(self, plurals):
-        """Compare whether given plurals formula matches"""
+
+@python_2_unicode_compatible
+class Plural(models.Model):
+    PLURAL_CHOICES = (
+        (
+            data.PLURAL_NONE,
+            pgettext_lazy('Plural type', 'None')
+        ),
+        (
+            data.PLURAL_ONE_OTHER,
+            pgettext_lazy('Plural type', 'One/other (classic plural)')
+        ),
+        (
+            data.PLURAL_ONE_FEW_OTHER,
+            pgettext_lazy('Plural type', 'One/few/other (Slavic languages)')
+        ),
+        (
+            data.PLURAL_ARABIC,
+            pgettext_lazy('Plural type', 'Arabic languages')
+        ),
+        (
+            data.PLURAL_ZERO_ONE_OTHER,
+            pgettext_lazy('Plural type', 'Zero/one/other')
+        ),
+        (
+            data.PLURAL_ONE_TWO_OTHER,
+            pgettext_lazy('Plural type', 'One/two/other')
+        ),
+        (
+            data.PLURAL_ONE_TWO_FEW_OTHER,
+            pgettext_lazy('Plural type', 'One/two/few/other')
+        ),
+        (
+            data.PLURAL_OTHER_ONE_TWO_FEW,
+            pgettext_lazy('Plural type', 'Other/one/two/few')
+        ),
+        (
+            data.PLURAL_ONE_TWO_THREE_OTHER,
+            pgettext_lazy('Plural type', 'One/two/three/other')
+        ),
+        (
+            data.PLURAL_ONE_OTHER_ZERO,
+            pgettext_lazy('Plural type', 'One/other/zero')
+        ),
+        (
+            data.PLURAL_ONE_FEW_MANY_OTHER,
+            pgettext_lazy('Plural type', 'One/few/many/other')
+        ),
+        (
+            data.PLURAL_TWO_OTHER,
+            pgettext_lazy('Plural type', 'Two/other')
+        ),
+        (
+            data.PLURAL_ONE_TWO_FEW_MANY_OTHER,
+            pgettext_lazy('Plural type', 'One/two/few/many/other')
+        ),
+        (
+            data.PLURAL_UNKNOWN,
+            pgettext_lazy('Plural type', 'Unknown')
+        ),
+    )
+    SOURCE_DEFAULT = 0
+    SOURCE_GETTEXT = 1
+    source = models.SmallIntegerField(
+        default=SOURCE_DEFAULT,
+        verbose_name=ugettext_lazy('Plural definition source'),
+        choices=(
+            (SOURCE_DEFAULT, ugettext_lazy('Default plural')),
+            (SOURCE_GETTEXT, ugettext_lazy('Gettext plural formula')),
+        ),
+    )
+    number = models.SmallIntegerField(
+        default=2,
+        verbose_name=ugettext_lazy('Number of plurals'),
+    )
+    equation = models.CharField(
+        max_length=400,
+        default='n != 1',
+        verbose_name=ugettext_lazy('Plural equation'),
+    )
+    type = models.IntegerField(
+        choices=PLURAL_CHOICES,
+        default=data.PLURAL_ONE_OTHER,
+        verbose_name=ugettext_lazy('Plural type'),
+        editable=False,
+    )
+    language = models.ForeignKey(Language, on_delete=models.deletion.CASCADE)
+
+    class Meta(object):
+        ordering = ['source']
+        verbose_name = ugettext_lazy('Plural form')
+        verbose_name_plural = ugettext_lazy('Plural forms')
+
+    def __str__(self):
+        return self.get_type_display()
+
+    @cached_property
+    def plural_form(self):
+        return 'nplurals={0:d}; plural={1};'.format(
+            self.number, self.equation
+        )
+
+    @cached_property
+    def plural_function(self):
+        return gettext.c2py(self.equation)
+
+    @cached_property
+    def examples(self):
+        result = {}
+        func = self.plural_function
+        for i in chain(range(0, 10000), range(10000, 2000001, 1000)):
+            ret = func(i)
+            if ret not in result:
+                result[ret] = []
+            if len(result[ret]) >= 10:
+                continue
+            result[ret].append(str(i))
+        return result
+
+    @staticmethod
+    def parse_formula(plurals):
         matches = PLURAL_RE.match(plurals)
         if matches is None:
-            return False
+            raise ValueError('Failed to parse formula')
 
-        if int(matches.group(1)) != self.nplurals:
+        return int(matches.group(1)), matches.group(2)
+
+    def same_plural(self, number, equation):
+        """Compare whether given plurals formula matches"""
+        if number != self.number:
             return False
 
         # Convert formulas to functions
-        ours = gettext.c2py(self.pluralequation)
-        theirs = gettext.c2py(matches.group(2))
+        ours = self.plural_function
+        theirs = gettext.c2py(equation)
 
         # Compare equation results
         # It would be better to compare formulas,
@@ -534,3 +555,37 @@ class Language(models.Model):
                 return False
 
         return True
+
+    def get_plural_label(self, idx):
+        """Return label for plural form."""
+        return PLURAL_TITLE.format(
+            name=self.get_plural_name(idx),
+            # Translators: Label for plurals with example counts
+            examples=_('For example: {0}').format(
+                ', '.join(self.examples.get(idx, []))
+            )
+        )
+
+    def get_plural_name(self, idx):
+        """Return name for plural form."""
+        try:
+            return force_text(data.PLURAL_NAMES[self.type][idx])
+        except (IndexError, KeyError):
+            if idx == 0:
+                return _('Singular')
+            elif idx == 1:
+                return _('Plural')
+            return _('Plural form %d') % idx
+
+    def list_plurals(self):
+        for i in range(self.number):
+            yield {
+                'index': i,
+                'name': self.get_plural_name(i),
+                'examples': ', '.join(self.examples.get(i, []))
+            }
+
+    def save(self, *args, **kwargs):
+        if self.type is None:
+            self.type = get_plural_type(self.equation)
+        super(Plural, self).save(*args, **kwargs)

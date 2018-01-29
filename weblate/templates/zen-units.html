@@ -36,12 +36,12 @@
 {% if item.unit.previous_source and item.unit.fuzzy %}
 <div class="form-group">
 <label>{% trans "Source change" %}</label>
-{% format_translation item.unit.source item.unit.translation.subproject.project.source_language diff=item.unit.previous_source num_plurals=item.unit.translation.language.nplurals %}
+{% format_translation item.unit.source item.unit.translation.subproject.project.source_language diff=item.unit.previous_source num_plurals=item.unit.translation.plural.number %}
 </div>
 {% endif %}
 
 {% if not user.profile.hide_source_secondary or not item.secondary %}
-{% format_translation item.unit.source item.unit.translation.subproject.project.source_language search_match=search_query num_plurals=item.unit.translation.language.nplurals unit=item.unit %}
+{% format_translation item.unit.source item.unit.translation.subproject.project.source_language search_match=search_query num_plurals=item.unit.translation.plural.number unit=item.unit %}
 {% endif %}
 
 {% if item.secondary %}

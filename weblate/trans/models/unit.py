@@ -212,6 +212,7 @@ class UnitQuerySet(models.QuerySet):
         return self.prefetch_related(
             'translation',
             'translation__language',
+            'translation__plural',
             'translation__subproject',
             'translation__subproject__project',
             'translation__subproject__project__source_language',
@@ -595,7 +596,7 @@ class Unit(models.Model, LoggerMixin):
         ret = split_plural(self.target)
 
         # Check if we have expected number of them
-        plurals = self.translation.language.nplurals
+        plurals = self.translation.plural.number
         if len(ret) == plurals:
             return ret
 

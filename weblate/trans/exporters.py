@@ -36,6 +36,7 @@ from translate.storage.tmx import tmxfile
 from translate.storage.csvl10n import csvfile
 
 import weblate
+from weblate.lang.models import Plural
 from weblate.trans.formats import FileFormat
 from weblate.utils.site import get_site_url
 
@@ -174,6 +175,7 @@ class PoExporter(BaseExporter):
 
     def get_storage(self):
         store = pofile()
+        plural = self.language.plural_set.get(source=Plural.SOURCE_DEFAULT)
 
         # Set po file header
         store.updateheader(
@@ -183,7 +185,7 @@ class PoExporter(BaseExporter):
             project_id_version='{0} ({1})'.format(
                 self.language.name, self.project.name
             ),
-            plural_forms=self.language.get_plural_form(),
+            plural_forms=plural.plural_form,
             language_team='{0} <{1}>'.format(
                 self.language.name,
                 self.url
@@ -259,6 +261,7 @@ class MoExporter(BaseExporter):
 
     def get_storage(self):
         store = mofile()
+        plural = self.language.plural_set.get(source=Plural.SOURCE_DEFAULT)
 
         # Set po file header
         store.updateheader(
@@ -268,7 +271,7 @@ class MoExporter(BaseExporter):
             project_id_version='{0} ({1})'.format(
                 self.language.name, self.project.name
             ),
-            plural_forms=self.language.get_plural_form(),
+            plural_forms=plural.plural_form,
             language_team='{0} <{1}>'.format(
                 self.language.name,
                 self.url
