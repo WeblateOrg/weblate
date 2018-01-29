@@ -614,7 +614,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         headers = {
             'add': True,
             'last_translator': author,
-            'plural_forms': self.language.get_plural_form(),
+            'plural_forms': self.plural.plural_form,
             'language': self.language_code,
             'PO_Revision_Date': now.strftime('%Y-%m-%d %H:%M%z'),
         }

@@ -30,7 +30,7 @@ class PluralAdmin(admin.TabularInline):
 
 
 class LanguageAdmin(WeblateModelAdmin):
-    list_display = ['name', 'code', 'get_plural_form', 'direction']
+    list_display = ['name', 'code', 'direction']
     search_fields = ['name', 'code']
-    list_filter = ('direction', 'plural_type')
+    list_filter = ('direction',)
     inlines = [PluralAdmin]

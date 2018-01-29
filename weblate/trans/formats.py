@@ -975,10 +975,11 @@ class PoFormat(FileFormat):
     def untranslate_store(cls, store, language, fuzzy=False):
         """Remove translations from ttkit store"""
         super(PoFormat, cls).untranslate_store(store, language, fuzzy)
+        plural = language.plural_set.get(source=Plural.SOURCE_DEFAULT)
 
         store.updateheader(
             last_translator='Automatically generated',
-            plural_forms=language.get_plural_form(),
+            plural_forms=plural.plural_form,
             language_team='none',
         )
 
