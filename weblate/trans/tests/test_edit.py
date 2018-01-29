@@ -35,7 +35,6 @@ class EditTest(ViewTestCase):
     """Test for manipulating translation."""
     has_plurals = True
     monolingual = False
-    supports_fuzzy = True
 
     def setUp(self):
         super(EditTest, self).setUp()
@@ -161,15 +160,12 @@ class EditTest(ViewTestCase):
         self.subproject.save()
         self.subproject.create_translations(True)
         unit = self.get_unit()
-        self.assertNotEqual(unit.state, STATE_FUZZY)
+        self.assertEqual(unit.state, STATE_FUZZY)
         self.subproject.check_flags = ''
         self.subproject.save()
         self.subproject.create_translations(True)
         unit = self.get_unit()
-        if self.supports_fuzzy:
-            self.assertEqual(unit.state, STATE_FUZZY)
-        else:
-            self.assertEqual(unit.state, STATE_TRANSLATED)
+        self.assertEqual(unit.state, STATE_FUZZY)
 
 
 class EditValidationTest(ViewTestCase):
@@ -427,7 +423,6 @@ class EditJavaTest(EditTest):
 
 class EditXliffComplexTest(EditTest):
     has_plurals = False
-    supports_fuzzy = False
 
     def create_subproject(self):
         return self.create_xliff('complex')
@@ -435,7 +430,6 @@ class EditXliffComplexTest(EditTest):
 
 class EditXliffTest(EditTest):
     has_plurals = False
-    supports_fuzzy = False
 
     def create_subproject(self):
         return self.create_xliff()
@@ -444,7 +438,6 @@ class EditXliffTest(EditTest):
 class EditXliffMonoTest(EditTest):
     has_plurals = False
     monolingual = True
-    supports_fuzzy = False
 
     def create_subproject(self):
         return self.create_xliff_mono()
