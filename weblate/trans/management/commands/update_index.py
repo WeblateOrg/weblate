@@ -37,7 +37,7 @@ class Command(BaseCommand):
             action='store',
             type=int,
             dest='limit',
-            default=1000,
+            default=10000,
             help='number of updates to process in one run'
         )
 

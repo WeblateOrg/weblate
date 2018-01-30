@@ -702,7 +702,10 @@ class SubversionRepository(GitRepository):
 
         The git svn init errors in case the URL is not matching.
         """
-        existing = self.get_config('svn-remote.svn.url')
+        try:
+            existing = self.get_config('svn-remote.svn.url')
+        except RepositoryException:
+            existing = None
         if existing:
             # The URL is root of the repository, while we get full path
             if not pull_url.startswith(existing):

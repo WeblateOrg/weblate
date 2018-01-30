@@ -177,14 +177,9 @@ class FileUnit(object):
         # is context in other formats
         if isinstance(self.mainunit, (propunit, phpunit)):
             return ''
-        result = ', '.join(
+        return ', '.join(
             [x for x in self.mainunit.getlocations() if x is not None]
         )
-        # Do not try to handle relative locations in Qt TS, see
-        # http://qt-project.org/doc/qt-4.8/linguist-ts-file-format.html
-        if LOCATIONS_RE.match(result):
-            return ''
-        return result
 
     def reformat_flags(self, typecomments):
         """Processe flags from PO file to nicer form."""
@@ -459,6 +454,15 @@ class TSUnit(MonolingualIDUnit):
                 source.replace('(s)', 's'),
             ])
         return super(TSUnit, self).get_source()
+
+    def get_locations(self):
+        """Return comma separated list of locations."""
+        result = super(TSUnit, self).get_locations()
+        # Do not try to handle relative locations in Qt TS, see
+        # http://doc.qt.io/qt-5/linguist-ts-file-format.html
+        if LOCATIONS_RE.match(result):
+            return ''
+        return result
 
     def get_target(self):
         """Return target string from a ttkit unit."""

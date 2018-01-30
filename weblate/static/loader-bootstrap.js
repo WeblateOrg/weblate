@@ -420,16 +420,12 @@ function loadTableSorting() {
                 // Click handler
                 th.click(function () {
 
-                    tbody.find('td,th').filter(function () {
-                        return $(this).index() === myIndex;
-                    }).sortElements(function (a, b) {
-                        return inverse * compareCells($.text([a]), $.text([b]));
-                    }, function () {
-
-                        // parentNode is the element we want to move
-                        return this.parentNode;
-
-                    });
+                    tbody.find('tr').sort(function(a, b) {
+                        return inverse * compareCells(
+                            $.text($(a).find('td,th')[myIndex]),
+                            $.text($(b).find('td,th')[myIndex])
+                        );
+                    }).appendTo(tbody);
                     thead.find('i.sort-button').removeClass('fa-chevron-down fa-chevron-up').addClass('fa-chevron-down sort-none');
                     if (inverse === 1) {
                         $(this).find('i.sort-button').addClass('fa-chevron-down').removeClass('fa-chevron-up sort-none');
