@@ -58,7 +58,10 @@ TEST_TS = get_test_file('cs.ts')
 TEST_YAML = get_test_file('cs.pyml')
 TEST_RUBY_YAML = get_test_file('cs.ryml')
 TEST_DTD = get_test_file('cs.dtd')
-
+TEST_HE_CLDR = get_test_file('he-cldr.po')
+TEST_HE_CUSTOM = get_test_file('he-custom.po')
+TEST_HE_SIMPLE = get_test_file('he-simple.po')
+TEST_HE_THREE = get_test_file('he-three.po')
 
 class AutoLoadTest(TestCase):
     def single_test(self, filename, fileclass):
@@ -263,6 +266,29 @@ class PoFormatTest(AutoFormatTest):
         with open(out, 'rb') as handle:
             data = handle.read().decode('utf-8')
         self.assertTrue('Michal Čihař' in data)
+
+    def load_plural(self, filename):
+        with open(filename, 'rb') as handle:
+            store = self.FORMAT(handle)
+            return store.get_plural(Language.objects.get(code='he'))
+
+    def test_plurals(self):
+        self.assertEqual(
+            self.load_plural(TEST_HE_CLDR).equation,
+            '(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && n % 10 == 0) ? 2 : 3))'
+        )
+        self.assertEqual(
+            self.load_plural(TEST_HE_CUSTOM).equation,
+            '(n == 1) ? 0 : ((n == 2) ? 1 : ((n == 10) ? 2 : 3))'
+        )
+        self.assertEqual(
+            self.load_plural(TEST_HE_SIMPLE).equation,
+            '(n != 1)'
+        )
+        self.assertEqual(
+            self.load_plural(TEST_HE_THREE).equation,
+            'n==1 ? 0 : n==2 ? 2 : 1'
+        )
 
 
 class UnwrappedPoFormatTest(PoFormatTest):

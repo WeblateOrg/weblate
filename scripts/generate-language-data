@@ -104,7 +104,7 @@ with open('weblate/trans/checks/languages.py', 'w') as output:
     words = set()
     for row in LANGUAGES:
         words.update(
-            row[1].replace('(', ' ').replace(')', ' ').lower().split()
+            row[1].replace('(', ' ').replace(')', ' ').replace('-', ' ').lower().split()
         )
     for word in sorted(words):
         output.write('    \'{}\',\n'.format(
