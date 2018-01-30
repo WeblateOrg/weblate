@@ -134,10 +134,15 @@ def try_load(filename, content, original_format, template_store):
     for file_format in formats:
         if file_format.monolingual in (True, None) and template_store:
             try:
-                return file_format.parse(
+                result = file_format.parse(
                     StringIOMode(filename, content),
                     template_store
                 )
+                # Skip if there is not translated unit
+                # this can easily happen when importing bilingual
+                # storage which can be monolingual as well
+                if list(result.iterate_merge(False)):
+                    return result
             except Exception as error:
                 failure = error
         if file_format.monolingual in (False, None):
