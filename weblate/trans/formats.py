@@ -1084,6 +1084,12 @@ class XliffFormat(FileFormat):
             context.replace('///', ID_SEPARATOR), source
         )
 
+    def _find_unit_bilingual(self, context, source):
+        return (
+            self.unit_class(self._find_unit_mono(context, self.store)),
+            False
+        )
+
     @classmethod
     def is_valid_base_for_new(cls, base):
         """Check whether base is valid."""
