@@ -399,6 +399,12 @@ def user_full_name(strategy, details, user=None, **kwargs):
             else:
                 full_name = last_name
 
+        if not full_name and 'username' in details:
+            full_name = details['username']
+
+        if not full_name and user.username:
+            full_name = user.username
+
         full_name = clean_fullname(full_name)
 
         # The Django User model limit is 30 chars, this should
@@ -406,7 +412,7 @@ def user_full_name(strategy, details, user=None, **kwargs):
         if len(full_name) > 30:
             full_name = full_name[:30]
 
-        if full_name and full_name != user.first_name:
+        if full_name:
             user.first_name = full_name
             strategy.storage.user.changed(user)
 
