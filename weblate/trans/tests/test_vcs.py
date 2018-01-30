@@ -114,7 +114,8 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         tempdir = tempfile.mkdtemp()
         try:
             repo = self.clone_repo(tempdir)
-            repo.set_committer('Second Bar', 'second@example.net')
+            with repo.lock:
+                repo.set_committer('Second Bar', 'second@example.net')
             if conflict:
                 filename = 'testfile'
             else:
@@ -277,7 +278,8 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         self.assertNotEqual(self._class.get_version(), '')
 
     def test_set_committer(self):
-        self.repo.set_committer('Foo Bar Žač', 'foo@example.net')
+        with repo.lock:
+            self.repo.set_committer('Foo Bar Žač', 'foo@example.net')
         self.assertEqual(
             self.repo.get_config('user.name'), 'Foo Bar Žač'
         )
@@ -286,7 +288,8 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         )
 
     def test_commit(self):
-        self.repo.set_committer('Foo Bar', 'foo@example.net')
+        with repo.lock:
+            self.repo.set_committer('Foo Bar', 'foo@example.net')
         # Create test file
         with open(os.path.join(self.tempdir, 'testfile'), 'wb') as handle:
             handle.write(b'TEST FILE\n')
@@ -327,7 +330,8 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
             )
 
     def test_remove(self):
-        self.repo.set_committer('Foo Bar', 'foo@example.net')
+        with repo.lock:
+            self.repo.set_committer('Foo Bar', 'foo@example.net')
         self.assertTrue(
             os.path.exists(os.path.join(self.tempdir, 'po/cs.po'))
         )
@@ -488,7 +492,8 @@ class VCSHgTest(VCSGitTest):
         self.check_valid_info(info)
 
     def test_set_committer(self):
-        self.repo.set_committer('Foo Bar Žač', 'foo@example.net')
+        with repo.lock:
+            self.repo.set_committer('Foo Bar Žač', 'foo@example.net')
         self.assertEqual(
             self.repo.get_config('ui.username'),
             'Foo Bar Žač <foo@example.net>'
