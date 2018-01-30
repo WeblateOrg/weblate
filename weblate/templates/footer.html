@@ -13,7 +13,7 @@
 </footer>
 
 {% if piwik_site_id and piwik_url %}
-<!-- Piwik -->
+<!-- Matomo -->
 <script type="text/javascript">
   var _paq = _paq || [];
   _paq.push(['setCustomVariable', 1, 'Language', '{{ LANGUAGE_CODE }}', 'page']);
@@ -31,7 +31,7 @@
   })();
 </script>
 <noscript><p><img src="//{{ piwik_url }}/piwik.php?idsite={{ piwik_site_id }}" style="border:0;" alt="" /></p></noscript>
-<!-- End Piwik Code -->
+<!-- End Matomo Code -->
 {% endif %}
 
 {% if google_analytics_id %}

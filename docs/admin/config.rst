@@ -821,7 +821,7 @@ This is the recommended setup for production use.
 PIWIK_SITE_ID
 -------------
 
-ID of a site in Piwik you want to track.
+ID of a site in Matomo you want to track.
 
 .. seealso::
 
@@ -832,8 +832,8 @@ ID of a site in Piwik you want to track.
 PIWIK_URL
 ---------
 
-URL of a Piwik installation you want to use to track Weblate users. For more
-information about Piwik see <https://piwik.org/>.
+URL of a Matomo installation you want to use to track Weblate users. For more
+information about Matomo see <https://matomo.org/>.
 
 .. seealso::
 

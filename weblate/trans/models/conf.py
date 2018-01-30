@@ -186,7 +186,7 @@ class WeblateConf(AppConf):
     # Captcha for registrations
     REGISTRATION_CAPTCHA = True
 
-    # Piwik
+    # Matomo
     PIWIK_SITE_ID = None
     PIWIK_URL = None
 
