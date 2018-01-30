@@ -202,6 +202,10 @@ ONE_TWO_OTHER_PLURALS = (
     '(n == 1) ? 0 : ((n == 2) ? 1 : 2)',
 )
 
+ONE_OTHER_TWO_PLURALS = (
+    'n==1 ? 0 : n==2 ? 2 : 1',
+)
+
 ONE_TWO_THREE_OTHER_PLURALS = (
     '(n==1) ? 0 : (n==2) ? 1 : (n == 3) ? 2 : 3',
 )
@@ -257,6 +261,7 @@ PLURAL_ONE_TWO_FEW_MANY_OTHER = 10
 PLURAL_ZERO_ONE_OTHER = 11
 PLURAL_ZERO_ONE_TWO_THREE_SIX_OTHER = 12
 PLURAL_OTHER_ONE_TWO_FEW = 13
+PLURAL_ONE_OTHER_TWO = 14
 PLURAL_UNKNOWN = 666
 
 # Plural equation - type mappings
@@ -264,6 +269,7 @@ PLURAL_MAPPINGS = (
     (ONE_OTHER_PLURALS, PLURAL_ONE_OTHER),
     (ONE_FEW_OTHER_PLURALS, PLURAL_ONE_FEW_OTHER),
     (ONE_TWO_OTHER_PLURALS, PLURAL_ONE_TWO_OTHER),
+    (ONE_OTHER_TWO_PLURALS, PLURAL_ONE_OTHER_TWO),
     (ZERO_ONE_OTHER_PLURALS, PLURAL_ZERO_ONE_OTHER),
     (ONE_TWO_FEW_OTHER_PLURALS, PLURAL_ONE_TWO_FEW_OTHER),
     (OTHER_ONE_TWO_FEW_PLURALS, PLURAL_OTHER_ONE_TWO_FEW),
@@ -304,6 +310,11 @@ PLURAL_NAMES = {
         pgettext_lazy('Plural form description', 'One'),
         pgettext_lazy('Plural form description', 'Two'),
         pgettext_lazy('Plural form description', 'Other'),
+    ),
+    PLURAL_ONE_OTHER_TWO: (
+        pgettext_lazy('Plural form description', 'One'),
+        pgettext_lazy('Plural form description', 'Other'),
+        pgettext_lazy('Plural form description', 'Two'),
     ),
     PLURAL_ONE_TWO_THREE_OTHER: (
         pgettext_lazy('Plural form description', 'One'),
