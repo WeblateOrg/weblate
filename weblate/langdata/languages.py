@@ -2019,6 +2019,12 @@ EXTRAPLURALS = (
         '(n != 1)',
     ),
     (
+        'he',
+        _('Hebrew'),
+        3,
+        'n==1 ? 0 : n==2 ? 2 : 1',
+    ),
+    (
         'hsb',
         _('Upper Sorbian'),
         3,
