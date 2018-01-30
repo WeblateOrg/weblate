@@ -16,7 +16,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n==2 ? 2 : 1;\n"
 "X-Generator: Weblate 2.19-dev\n"
 
 #: weblate/accounts/admin.py:106 weblate/accounts/admin.py:111
@@ -2908,6 +2908,7 @@ msgid "%(words)s word to translate!"
 msgid_plural "%(words)s words to translate!"
 msgstr[0] "מילה אחת לתרגום!"
 msgstr[1] "%(words)s מילים לתרגום!"
+msgstr[2] "%(words)s מילים לתרגום!"
 
 #: weblate/templates/list-translations.html:42
 #, python-format
@@ -2915,6 +2916,7 @@ msgid "There is %(count)s string needing review."
 msgid_plural "There are %(count)s strings needing review."
 msgstr[0] "ישנה מחרוזת אחת שדורשת סקירה."
 msgstr[1] "ישנן %(count)s מחרוזות שדורשות סקירה."
+msgstr[2] "ישנן %(count)s מחרוזות שדורשות סקירה."
 
 #: weblate/templates/list-translations.html:51
 #, python-format
@@ -2922,6 +2924,7 @@ msgid "There is %(count)s failing check."
 msgid_plural "There are %(count)s failing checks."
 msgstr[0] "אחת הבדיקות נכשלה."
 msgstr[1] "%(count)s מהבדיקות נכשלו."
+msgstr[2] "%(count)s מהבדיקות נכשלו."
 
 #: weblate/templates/list-translations.html:60
 #, python-format
@@ -2929,6 +2932,7 @@ msgid "There is %(count)s suggestion."
 msgid_plural "There are %(count)s suggestions."
 msgstr[0] "יש הצעה אחת."
 msgstr[1] "יש %(count)s הצעות."
+msgstr[2] "יש %(count)s הצעות."
 
 #: weblate/templates/list-translations.html:69
 #, python-format
@@ -2936,6 +2940,7 @@ msgid "There is %(count)s not translated string."
 msgid_plural "There are %(count)s not translated strings."
 msgstr[0] "יש מחרוזת אחת שטרם תורגמה."
 msgstr[1] "יש %(count)s מחרוזות שטרם תורגמו."
+msgstr[2] "יש %(count)s מחרוזות שטרם תורגמו."
 
 #: weblate/templates/list-translations.html:69
 #: weblate/templates/list-translations.html:71
@@ -2949,6 +2954,7 @@ msgid "There is %(count)s translated string."
 msgid_plural "There are %(count)s translated strings."
 msgstr[0] "מחרוזת אחת תורגמה."
 msgstr[1] "%(count)s מחרוזות תורגמו."
+msgstr[2] "%(count)s מחרוזות תורגמו."
 
 #: weblate/templates/mail/account_activity.html:7
 #: weblate/templates/mail/account_activity.txt:1
@@ -3808,6 +3814,7 @@ msgid_plural ""
 "%(count)s votes."
 msgstr[0] "הצעות מתקבלות אוטומטית כתרגומים לאחר קבלת קול אחד."
 msgstr[1] "הצעות מתקבלות אוטומטית כתרגומים לאחר קבלת %(count)s קולות."
+msgstr[2] "הצעות מתקבלות אוטומטית כתרגומים לאחר קבלת %(count)s קולות."
 
 #: weblate/templates/subproject_info.html:18
 msgid "Translations can be made directly."
@@ -4104,6 +4111,7 @@ msgid "%(count)s vote"
 msgid_plural "%(count)s votes"
 msgstr[0] "קול אחד"
 msgstr[1] "%(count)s קולות"
+msgstr[2] "%(count)s קולות"
 
 #: weblate/templates/translate.html:273
 msgid "Vote for"
@@ -4126,18 +4134,21 @@ msgid "Following string has same context and same source."
 msgid_plural "Following strings have same context and same source."
 msgstr[0] "למחרוזת הזו יש הקשר זהה ומקור זהה."
 msgstr[1] "למחרוזות האלו יש הקשר זהה ומקור זהה."
+msgstr[2] "למחרוזות האלו יש הקשר זהה ומקור זהה."
 
 #: weblate/templates/translate.html:313
 msgid "Following string has different context but same source."
 msgid_plural "Following strings have different contexts but same source."
 msgstr[0] "למחרוזת הזו יש הקשר שונה אך מקור זהה."
 msgstr[1] "למחרוזות אלו יש הקשר שונה אך מקור זהה."
+msgstr[2] "למחרוזות אלו יש הקשר שונה אך מקור זהה."
 
 #: weblate/templates/translate.html:321
 msgid "Following string has different source but same context."
 msgid_plural "Following strings have different sources but same context."
 msgstr[0] "למחרוזת הזו יש מקור שונה אך אך הקשר זהה."
 msgstr[1] "למחרוזות אלו יש מקור שונה אך אך הקשר זהה."
+msgstr[2] "למחרוזות אלו יש מקור שונה אך אך הקשר זהה."
 
 #: weblate/templates/translate.html:347
 msgid "Service"
@@ -4255,6 +4266,7 @@ msgid "%(count)s word"
 msgid_plural "%(count)s words"
 msgstr[0] "מילה אחת"
 msgstr[1] "%(count)s מילים"
+msgstr[2] "%(count)s מילים"
 
 #: weblate/templates/translation.html:155
 msgid "Other components"
@@ -6424,6 +6436,7 @@ msgid "%(count)s year ago"
 msgid_plural "%(count)s years ago"
 msgstr[0] "לפני שנה"
 msgstr[1] "לפני %(count)s שנים"
+msgstr[2] "לפני %(count)s שנים"
 
 #: weblate/trans/templatetags/translations.py:327
 msgid "a month ago"
@@ -6435,6 +6448,7 @@ msgid "%(count)s month ago"
 msgid_plural "%(count)s months ago"
 msgstr[0] "לפני חודש"
 msgstr[1] "לפני %(count)s חודשים"
+msgstr[2] "לפני %(count)s חודשים"
 
 #: weblate/trans/templatetags/translations.py:334
 #, python-format
@@ -6442,6 +6456,7 @@ msgid "%(count)s week ago"
 msgid_plural "%(count)s weeks ago"
 msgstr[0] "לפני שבוע"
 msgstr[1] "לפני %(count)s שבועות"
+msgstr[2] "לפני %(count)s שבועות"
 
 #: weblate/trans/templatetags/translations.py:338
 msgid "a week ago"
@@ -6457,6 +6472,7 @@ msgid "%(count)s day ago"
 msgid_plural "%(count)s days ago"
 msgstr[0] "אתמול"
 msgstr[1] "לפני %(count)s ימים"
+msgstr[2] "לפני %(count)s ימים"
 
 #: weblate/trans/templatetags/translations.py:345
 #: weblate/trans/templatetags/translations.py:404
@@ -6473,6 +6489,7 @@ msgid "%(count)s second ago"
 msgid_plural "%(count)s seconds ago"
 msgstr[0] "לפני שנייה"
 msgstr[1] "לפני %(count)s שניות"
+msgstr[2] "לפני %(count)s שניות"
 
 #: weblate/trans/templatetags/translations.py:355
 msgid "a minute ago"
@@ -6484,6 +6501,7 @@ msgid "%(count)s minute ago"
 msgid_plural "%(count)s minutes ago"
 msgstr[0] "לפני דקה"
 msgstr[1] "לפני %(count)s דקות"
+msgstr[2] "לפני %(count)s דקות"
 
 #: weblate/trans/templatetags/translations.py:362
 msgid "an hour ago"
@@ -6495,6 +6513,7 @@ msgid "%(count)s hour ago"
 msgid_plural "%(count)s hours ago"
 msgstr[0] "לפני שעה"
 msgstr[1] "לפני %(count)s שעות"
+msgstr[2] "לפני %(count)s שעות"
 
 #: weblate/trans/templatetags/translations.py:379
 msgid "a year from now"
@@ -6506,6 +6525,7 @@ msgid "%(count)s year from now"
 msgid_plural "%(count)s years from now"
 msgstr[0] "בעוד שנה מעכשיו"
 msgstr[1] "בעוד %(count)s שנים מעכשיו"
+msgstr[2] "בעוד %(count)s שנים מעכשיו"
 
 #: weblate/trans/templatetags/translations.py:386
 msgid "a month from now"
@@ -6517,6 +6537,7 @@ msgid "%(count)s month from now"
 msgid_plural "%(count)s months from now"
 msgstr[0] "בעוד חודש מעכשיו"
 msgstr[1] "בעוד %(count)s חודשים מעכשיו"
+msgstr[2] "בעוד %(count)s חודשים מעכשיו"
 
 #: weblate/trans/templatetags/translations.py:393
 #, python-format
@@ -6524,6 +6545,7 @@ msgid "%(count)s week from now"
 msgid_plural "%(count)s weeks from now"
 msgstr[0] "בעוד שבוע מעכשיו"
 msgstr[1] "בעוד %(count)s שבועות מעכשיו"
+msgstr[2] "בעוד %(count)s שבועות מעכשיו"
 
 #: weblate/trans/templatetags/translations.py:397
 msgid "tomorrow"
@@ -6539,6 +6561,7 @@ msgid "%(count)s day from now"
 msgid_plural "%(count)s days from now"
 msgstr[0] "בעוד יום מעכשיו"
 msgstr[1] "בעוד %(count)s ימים מעכשיו"
+msgstr[2] "בעוד %(count)s ימים מעכשיו"
 
 #: weblate/trans/templatetags/translations.py:407
 msgid "a second from now"
@@ -6550,6 +6573,7 @@ msgid "%(count)s second from now"
 msgid_plural "%(count)s seconds from now"
 msgstr[0] "בעוד שנייה מעכשיו"
 msgstr[1] "בעוד %(count)s שניות מעכשיו"
+msgstr[2] "בעוד %(count)s שניות מעכשיו"
 
 #: weblate/trans/templatetags/translations.py:416
 msgid "a minute from now"
@@ -6561,6 +6585,7 @@ msgid "%(count)s minute from now"
 msgid_plural "%(count)s minutes from now"
 msgstr[0] "בעוד דקה מעכשיו"
 msgstr[1] "בעוד %(count)s דקות מעכשיו"
+msgstr[2] "בעוד %(count)s דקות מעכשיו"
 
 #: weblate/trans/templatetags/translations.py:425
 msgid "an hour from now"
@@ -6572,6 +6597,7 @@ msgid "%(count)s hour from now"
 msgid_plural "%(count)s hours from now"
 msgstr[0] "בעוד שעה מעכשיו"
 msgstr[1] "בעוד %(count)s שעות מעכשיו"
+msgstr[2] "בעוד %(count)s שעות מעכשיו"
 
 #: weblate/trans/templatetags/translations.py:502
 msgid "Not translated"
@@ -6827,6 +6853,7 @@ msgid "Imported %d word from the uploaded file."
 msgid_plural "Imported %d words from the uploaded file."
 msgstr[0] "יובאה %d מילה אחת מהקובץ שהועלה."
 msgstr[1] "יובאו %d מילים מהקובץ שהועלה."
+msgstr[2] "יובאו %d מילים מהקובץ שהועלה."
 
 #: weblate/trans/views/dictionary.py:194
 #, python-format
@@ -6924,6 +6951,7 @@ msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
 msgstr[0] "התרגום האוטומטי הושלם, %d מחרוזת אחת עודכנה."
 msgstr[1] "התרגום האוטומטי הושלם, %d מחרוזות עודכנו."
+msgstr[2] "התרגום האוטומטי הושלם, %d מחרוזות עודכנו."
 
 #: weblate/trans/views/edit.py:661
 msgid "Posted new comment"
@@ -6964,6 +6992,9 @@ msgid_plural ""
 msgstr[0] ""
 "מחרוזת אחת מהקבצים שהועלו עברה עיבוד (דולגו: {1}, לא נמצאו: {2}, עודכנו {3})."
 msgstr[1] ""
+"{0} מחרוזות מהקבצים שהועלו עברו עיבוד (דולגו: {1}, לא נמצאו: {2}, עודכנו "
+"{3})."
+msgstr[2] ""
 "{0} מחרוזות מהקבצים שהועלו עברו עיבוד (דולגו: {1}, לא נמצאו: {2}, עודכנו "
 "{3})."
 
@@ -7027,6 +7058,7 @@ msgid "Search and replace completed, %d string was updated."
 msgid_plural "Search and replace completed, %d strings were updated."
 msgstr[0] "החיפוש וההחלפה הושלמו, %d מחרוזת אחת עודכנה."
 msgstr[1] "החיפוש וההחלפה הושלמו, %d מחרוזות עודכנו."
+msgstr[2] "החיפוש וההחלפה הושלמו, %d מחרוזות עודכנו."
 
 #: weblate/trans/views/search.py:184
 #, python-format
