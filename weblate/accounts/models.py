@@ -551,6 +551,14 @@ def post_login_handler(sender, request, user, **kwargs):
     # Set language for session based on preferences
     set_lang(request, profile)
 
+    # Fixup accounts with empty name
+    if not user.first_name:
+        if user.last_name:
+            user.first_name = user.last_name
+        else:
+            user.first_name = user.username
+        user.save(update_fields=['first_name'])
+
     # Warn about not set email
     if not user.email:
         messages.error(

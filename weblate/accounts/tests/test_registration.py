@@ -735,6 +735,12 @@ class RegistrationTest(BaseRegistrationTest):
         """Adding GitHub association to existing account."""
         User.objects.create_user('weblate', 'noreply-weblate@example.org', 'x')
         self.client.login(username='weblate', password='x')
+        user = User.objects.get(username='weblate')
+        # Name should now contain username (as that is only info we have)
+        self.assertEqual(user.first_name, 'weblate')
+        # Reset name
+        user.first_name = ''
+        user.save(update_fields=['first_name'])
         self.test_github(confirm='x')
 
     def test_github_add_other(self):

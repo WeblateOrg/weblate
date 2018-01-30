@@ -570,7 +570,7 @@ class SimpleUploadForm(forms.Form):
         """Remove add as translation choice."""
         choices = self.fields['method'].choices
         self.fields['method'].choices = [
-            choice for choice in choices if choice[0] == value
+            choice for choice in choices if choice[0] != value
         ]
 
 
