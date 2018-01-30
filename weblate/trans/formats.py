@@ -392,12 +392,7 @@ class XliffUnit(FileUnit):
         return unit.getid().replace(ID_SEPARATOR, '///')
 
     def get_context(self):
-        """Return context of message.
-
-        In some cases we have to use ID here to make all backends consistent.
-        """
-        if self.template is not None:
-            return self.template.source
+        """Return context of message."""
         return self.get_unit_context(self.mainunit)
 
     def get_locations(self):
