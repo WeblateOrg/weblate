@@ -21,7 +21,7 @@
 from uuid import uuid4
 from datetime import timedelta
 
-from xml.etree import ElementTree as ET
+from defusedxml import ElementTree
 
 from six.moves.urllib.request import Request, urlopen
 
@@ -220,7 +220,7 @@ class MicrosoftTerminologyService(MachineTranslation):
         xp_code = self.MS_TM_XPATH + 'Code'
         languages = []
         resp = self.soap_req('GetLanguages')
-        root = ET.fromstring(resp.read())
+        root = ElementTree.fromstring(resp.read())
         results = root.find(self.MS_TM_XPATH + 'GetLanguagesResult')
         if results is not None:
             for lang in results:
@@ -241,7 +241,7 @@ class MicrosoftTerminologyService(MachineTranslation):
             to_lang=language,
             max_result=20,
         )
-        root = ET.fromstring(resp.read())
+        root = ElementTree.fromstring(resp.read())
         results = root.find(self.MS_TM_XPATH + 'GetTranslationsResult')
         if results is not None:
             for translation in results:
