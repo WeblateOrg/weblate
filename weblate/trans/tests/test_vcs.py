@@ -464,7 +464,8 @@ class VCSHgTest(VCSGitTest):
     _vcs = 'mercurial'
 
     def test_configure_remote(self):
-        self.repo.configure_remote('/pullurl', '/pushurl', 'branch')
+        with self.repo.lock:
+            self.repo.configure_remote('/pullurl', '/pushurl', 'branch')
         self.assertEqual(
             self.repo.get_config('paths.default'),
             '/pullurl',
@@ -475,12 +476,14 @@ class VCSHgTest(VCSGitTest):
         )
 
     def test_configure_remote_no_push(self):
-        self.repo.configure_remote('/pullurl', '', 'branch')
+        with self.repo.lock:
+            self.repo.configure_remote('/pullurl', '', 'branch')
         self.assertEqual(
             self.repo.get_config('paths.default-push'),
             '',
         )
-        self.repo.configure_remote('/pullurl', '/push', 'branch')
+        with self.repo.lock:
+            self.repo.configure_remote('/pullurl', '/push', 'branch')
         self.assertEqual(
             self.repo.get_config('paths.default-push'),
             '/push',
