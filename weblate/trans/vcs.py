@@ -153,11 +153,12 @@ class Repository(object):
         return get_clean_env({'GIT_SSH': get_wrapper_filename()})
 
     @classmethod
-    def _popen(cls, args, cwd=None, err=False):
+    def _popen(cls, args, cwd=None, err=False, fullcmd=False):
         """Execute the command using popen."""
         if args is None:
             raise RepositoryException(0, 'Not supported functionality', '')
-        args = [cls._cmd] + args
+        if not fullcmd:
+            args = [cls._cmd] + args
         process = subprocess.Popen(
             args,
             cwd=cwd,
@@ -184,14 +185,14 @@ class Repository(object):
             return output_err.decode('utf-8')
         return output.decode('utf-8')
 
-    def execute(self, args, needs_lock=True):
+    def execute(self, args, needs_lock=True, fullcmd=False):
         """Execute command and caches its output."""
         if needs_lock and not self.lock.is_locked:
             raise RuntimeError('Repository operation without lock held!')
         # On Windows we pass Unicode object, on others UTF-8 encoded bytes
         if sys.platform != "win32":
             args = [arg.encode('utf-8') for arg in args]
-        self.last_output = self._popen(args, self.path)
+        self.last_output = self._popen(args, self.path, fullcmd=fullcmd)
         return self.last_output
 
     def clean_revision_cache(self):
@@ -681,6 +682,18 @@ class SubversionRepository(GitRepository):
         """Return VCS program version."""
         return cls._popen(['svn', '--version']).split()[2]
 
+    @classmethod
+    def is_stdlayout(cls, url):
+        output = cls._popen(['svn', 'ls', url], fullcmd=True).splitlines()
+        return 'trunk/' in output
+
+    @classmethod
+    def get_remote_args(cls, source, target):
+        result = ['--prefix=origin/', source, target]
+        if cls.is_stdlayout(source):
+            result.insert(0, '--stdlayout')
+        return result
+
     def configure_remote(self, pull_url, push_url, branch):
         """Initialize the git-svn repository.
 
@@ -689,16 +702,24 @@ class SubversionRepository(GitRepository):
 
         The git svn init errors in case the URL is not matching.
         """
+        existing = self.get_config('svn-remote.svn.url')
+        if existing:
+            # The URL is root of the repository, while we get full path
+            if not pull_url.startswith(existing):
+                raise RepositoryException(
+                    -1, 'Can not switch subversion URL', ''
+                )
+            return
         self.execute(
-            ['svn', 'init', '-s', '--prefix=origin/', pull_url, self.path]
+            ['svn', 'init'] + self.get_remote_args(pull_url, self.path)
         )
 
     @classmethod
     def _clone(cls, source, target, branch=None):
         """Clone svn repository with git-svn."""
-        cls._popen([
-            'svn', 'clone', '-s', '--prefix=origin/', source, target
-        ])
+        cls._popen(
+            ['svn', 'clone'] + cls.get_remote_args(source, target)
+        )
 
     def merge(self, abort=False):
         """Rebases. Git-svn does not support merge."""
@@ -750,7 +771,11 @@ class SubversionRepository(GitRepository):
         local branch otherwise.
         """
         if self.branch == 'master':
-            return 'origin/trunk'
+            fetch = self.get_config('svn-remote.svn.fetch')
+            if 'origin/trunk' in fetch:
+                return 'origin/trunk'
+            if 'origin/git-svn' in fetch:
+                return 'origin/git-svn'
         return 'origin/{0}'.format(self.branch)
 
 

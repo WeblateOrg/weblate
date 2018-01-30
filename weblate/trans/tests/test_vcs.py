@@ -431,7 +431,7 @@ class VCSSubversionTest(VCSGitTest):
             self.repo.configure_remote(
                 self.format_local_path(self.subversion_repo_path),
                 self.format_local_path(self.subversion_repo_path),
-                'trunk'
+                'master'
             )
             with self.assertRaises(RepositoryException):
                 self.repo.configure_remote('pullurl', '', 'branch')
@@ -442,6 +442,14 @@ class VCSSubversionTest(VCSGitTest):
             self.repo.get_config('svn-remote.svn.url'),
             self.format_local_path(self.subversion_repo_path),
         )
+
+
+class VCSSubversionBranchTest(VCSSubversionTest):
+    """Cloning subversion branch directly."""
+    def clone_test_repos(self):
+        super(VCSSubversionBranchTest, self).clone_test_repos()
+        self.subversion_repo_path += '/trunk'
+
 
 
 class VCSHgTest(VCSGitTest):

@@ -22,6 +22,7 @@ Released on ? 2018.
 * Removed support for advertisement in notification mails.
 * Improved translation progress reporting at language level.
 * Improved support for different plural formulas.
+* Added support for Subversion repositories not using stdlayout.
 
 weblate 2.18
 ------------
