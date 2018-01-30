@@ -387,13 +387,9 @@ class XliffUnit(FileUnit):
     is context in other formats.
     """
 
-    @staticmethod
-    def get_unit_context(unit):
-        return unit.getid().replace(ID_SEPARATOR, '///')
-
     def get_context(self):
         """Return context of message."""
-        return self.get_unit_context(self.mainunit)
+        return self.mainunit.getid().replace(ID_SEPARATOR, '///')
 
     def get_locations(self):
         """Return comma separated list of locations."""
@@ -1083,16 +1079,10 @@ class XliffFormat(FileFormat):
             self.store
         )
 
-    def _find_unit_bilingual(self, context, source):
-        # Find all units with same source
-        found_units = self.store.findunits(source)
-        # Find is broken for propfile, ignore results
-        for ttkit_unit in found_units:
-            # Does context match?
-            found_context = XliffUnit.get_unit_context(ttkit_unit)
-            if found_context == context:
-                return (self.unit_class(ttkit_unit), False)
-        return (None, False)
+    def find_unit(self, context, source):
+        return super(XliffFormat, self).find_unit(
+            context.replace('///', ID_SEPARATOR), source
+        )
 
     @classmethod
     def is_valid_base_for_new(cls, base):
@@ -1102,14 +1092,6 @@ class XliffFormat(FileFormat):
             return True
         except Exception:
             return False
-
-    def _find_unit_mono(self, context, store):
-        # Do not use findid as it does not work for empty translations
-        for search_unit in store.units:
-            loc = search_unit.source
-            if loc == context:
-                return search_unit
-        return None
 
 
 @register_fileformat
