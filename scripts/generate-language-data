@@ -48,10 +48,6 @@ HEADER = '''# -*- coding: utf-8 -*-
 # pylint: disable=line-too-long,too-many-lines
 
 from __future__ import unicode_literals
-from django.utils.translation import ugettext_noop as _
-
-
-# Generated list of languages, see scripts/generate-language-data
 '''
 
 TEMPLATE = '''    (
@@ -75,6 +71,10 @@ with open('scripts/language-data/extraplurals.csv', 'r') as csvfile:
 # Write language definitions
 with open('weblate/langdata/languages.py', 'w') as output:
     output.write(HEADER)
+    output.write(
+        'from django.utils.translation import ugettext_noop as _\n\n'
+    )
+    output.write('# Language definitions\n')
     output.write('LANGUAGES = (\n')
     for row in LANGUAGES:
         output.write(TEMPLATE.format(
@@ -84,6 +84,7 @@ with open('weblate/langdata/languages.py', 'w') as output:
             row[3],
         ))
     output.write(')\n\n')
+    output.write('# Additional plural rules definitions\n')
     output.write('EXTRAPLURALS = (\n')
     for row in EXTRAPLURALS:
         output.write(TEMPLATE.format(
@@ -97,6 +98,8 @@ with open('weblate/langdata/languages.py', 'w') as output:
 # Write same checks blacklist
 with open('weblate/trans/checks/languages.py', 'w') as output:
     output.write(HEADER)
+    output.write('\n\n')
+    output.write('# Language names to ignore in same check\n')
     output.write('LANGUAGES = frozenset((\n')
     words = set()
     for row in LANGUAGES:
