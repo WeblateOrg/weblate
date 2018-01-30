@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-01-30 13:08+0000\n"
-"PO-Revision-Date: 2018-01-18 20:12+0000\n"
+"PO-Revision-Date: 2018-01-30 14:29+0000\n"
 "Last-Translator: Андрій Бандура <andriykopanytsia@gmail.com>\n"
-"Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/master/"
-"uk/>\n"
+"Language-Team: Ukrainian "
+"<https://hosted.weblate.org/projects/weblate/master/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.19-dev\n"
 
 #: weblate/accounts/admin.py:106 weblate/accounts/admin.py:111
@@ -811,12 +811,9 @@ msgid "One/two/other"
 msgstr "Один/два/інше"
 
 #: weblate/lang/models.py:446
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/other/zero"
 msgctxt "Plural type"
 msgid "One/other/two"
-msgstr "Один/інше/нуль"
+msgstr "Один/інше/два"
 
 #: weblate/lang/models.py:450
 msgctxt "Plural type"
@@ -824,12 +821,9 @@ msgid "One/two/few/other"
 msgstr "Один/два/декілька/інше"
 
 #: weblate/lang/models.py:454
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/two/few/other"
 msgctxt "Plural type"
 msgid "Other/one/two/few"
-msgstr "Один/два/декілька/інше"
+msgstr "Інше/один/два/декілька"
 
 #: weblate/lang/models.py:458
 msgctxt "Plural type"
@@ -862,20 +856,16 @@ msgid "Unknown"
 msgstr "Невідомо"
 
 #: weblate/lang/models.py:485
-#, fuzzy
-#| msgid "Plural equation"
 msgid "Plural definition source"
-msgstr "Множинне рівняння"
+msgstr "Джерело для визначення множини"
 
 #: weblate/lang/models.py:487
-#, fuzzy
-#| msgid "Optional plural"
 msgid "Default plural"
-msgstr "Можлива множина"
+msgstr "Типова форма множини"
 
 #: weblate/lang/models.py:488
 msgid "Gettext plural formula"
-msgstr ""
+msgstr "Форма множини gettext"
 
 #: weblate/lang/models.py:493 weblate/templates/language.html:73
 msgid "Number of plurals"
@@ -891,16 +881,12 @@ msgid "Plural type"
 msgstr "Вид множини"
 
 #: weblate/lang/models.py:510
-#, fuzzy
-#| msgid "Plural form %d"
 msgid "Plural form"
-msgstr "Форма множини %d"
+msgstr "Форма множини"
 
 #: weblate/lang/models.py:511
-#, fuzzy
-#| msgid "Plural form %d"
 msgid "Plural forms"
-msgstr "Форма множини %d"
+msgstr "Форми множини"
 
 #. Translators: Label for plurals with example counts
 #: weblate/lang/models.py:571
@@ -2955,10 +2941,9 @@ msgid "Translated"
 msgstr "Перекладено"
 
 #: weblate/templates/language.html:70
-#, fuzzy, python-format
-#| msgid "Your subscriptions"
+#, python-format
 msgid "Plural: %(source_description)s"
-msgstr "Ваші підписки"
+msgstr "Множина: %(source_description)s"
 
 #: weblate/templates/language.html:81
 msgid "Plurals"
@@ -3337,14 +3322,11 @@ msgstr "Новий коментар у %(subproject)s"
 #: weblate/templates/mail/new_contributor.html:7
 #: weblate/templates/mail/new_contributor.txt:1
 msgid "Good news,"
-msgstr ""
+msgstr "Чудові новини,"
 
 #: weblate/templates/mail/new_contributor.html:11
 #: weblate/templates/mail/new_contributor.txt:3
-#, fuzzy, python-format
-#| msgid ""
-#| "User %(username)s has just made a first contribution on %(translation)s "
-#| "at %(site_title)s."
+#, python-format
 msgid ""
 "The user %(username)s has just made a first contribution to %(translation)s "
 "at %(site_title)s."
@@ -5044,16 +5026,12 @@ msgid "Strings waiting for review"
 msgstr "Рядки, які очікують перевірку"
 
 #: weblate/trans/filter.py:52
-#, fuzzy
-#| msgid "Strings with any failing checks"
 msgid "Strings with any failing source checks"
-msgstr "Рядки з будь-яких невдалих перевірок"
+msgstr "Рядки з будь-якою невдалою перевіркою джерела"
 
 #: weblate/trans/filter.py:53
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with source comments"
-msgstr "Рядки з коментарями"
+msgstr "Рядки з коментарями у джерелі"
 
 #: weblate/trans/formats.py:902
 msgid "Automatic detection"
