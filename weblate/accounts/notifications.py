@@ -355,7 +355,7 @@ def is_new_login(user, address):
 
     This is currently based purely in IP address.
     """
-    logins = AuditLog.objects.filter(user=user, activity='login')
+    logins = AuditLog.objects.filter(user=user, activity='login-new')
 
     # First login
     if not logins.exists():
