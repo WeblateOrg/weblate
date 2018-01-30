@@ -25,8 +25,10 @@ from __future__ import unicode_literals
 from unittest import SkipTest
 
 from django.contrib.messages import ERROR
+from django.test import SimpleTestCase
 from django.urls import reverse
 
+from weblate.trans.forms import SimpleUploadForm
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 
@@ -441,3 +443,13 @@ class ExportTest(ViewTestCase):
     def test_export_invalid(self):
         response = self.export_format('invalid')
         self.assertEqual(response.status_code, 404)
+
+
+class FormTest(SimpleTestCase):
+    def test_remove(self):
+        form = SimpleUploadForm()
+        form.remove_translation_choice('suggest')
+        self.assertEqual(
+            [x[0] for x in form.fields['method'].choices],
+            ['translate', 'fuzzy']
+        )
