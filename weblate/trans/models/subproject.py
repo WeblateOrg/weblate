@@ -594,7 +594,8 @@ class SubProject(models.Model, URLMixin, PathMixin):
         )
         cache_key = 'sp-config-check-{}'.format(self.pk)
         if cache.get(cache_key) is None:
-            repository.check_config()
+            with repository.lock:
+                repository.check_config()
             cache.set(cache_key, True)
 
         return repository

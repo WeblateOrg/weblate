@@ -418,8 +418,7 @@ class GitRepository(Repository):
     def set_config(self, path, value):
         """Set entry in local configuration."""
         self.execute(
-            ['config', path, value],
-            needs_lock=False
+            ['config', path, value]
         )
 
     def set_committer(self, name, mail):
@@ -909,6 +908,8 @@ class HgRepository(Repository):
 
     def set_config(self, path, value):
         """Set entry in local configuration."""
+        if not self.lock.is_locked:
+            raise RuntimeError('Repository operation without lock held!')
         section, option = path.split('.', 1)
         filename = os.path.join(self.path, '.hg', 'hgrc')
         if six.PY2:
