@@ -21,8 +21,6 @@
 from django.http import HttpResponse, Http404
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.views.decorators.vary import vary_on_cookie
-from django.views.decorators.cache import cache_page
 
 from weblate.utils.site import get_site_url
 from weblate.lang.models import Language
@@ -115,8 +113,6 @@ def widgets(request, project):
     )
 
 
-@cache_page(3600)
-@vary_on_cookie
 def render_widget(request, project, widget='287x66', color=None, lang=None,
                   subproject=None, extension='png'):
     # We intentionally skip ACL here to allow widget sharing
