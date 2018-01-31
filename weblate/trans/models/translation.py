@@ -258,7 +258,10 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         created_units = set()
 
         # Store plural
-        self.plural = self.store.get_plural(self.language)
+        plural = self.store.get_plural(self.language)
+        if plural != self.plural:
+            self.plural = plural
+            self.save(update_fields=['plural'])
 
         # Was there change?
         was_new = False
