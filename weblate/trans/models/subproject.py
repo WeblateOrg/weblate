@@ -596,7 +596,7 @@ class SubProject(models.Model, URLMixin, PathMixin):
         if cache.get(cache_key) is None:
             with repository.lock:
                 repository.check_config()
-            cache.set(cache_key, True)
+            cache.set(cache_key, True, 86400)
 
         return repository
 
