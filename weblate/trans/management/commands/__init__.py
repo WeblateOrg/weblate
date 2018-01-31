@@ -106,7 +106,7 @@ class WeblateComponentCommand(WeblateCommand):
 
     def get_translations(self, **options):
         """Return list of translations matching parameters."""
-        return Translation.objects.filter(
+        return Translation.objects.prefetch().filter(
             subproject__in=self.get_subprojects(**options)
         )
 
