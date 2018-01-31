@@ -109,7 +109,7 @@
 <td>
 <form method="POST" action="{{ object.get_commit_url }}">
 {% csrf_token %}
-<input type="submit" class="btn btn-default{% if not needs_commit %} disabled{% endif %}" value="{% trans "Commit" %}" />
+<input type="submit" class="btn btn-default" {% if not needs_commit %}disabled="disabled"{% endif %} value="{% trans "Commit" %}" />
 </form>
 </td>
 <td>
@@ -137,7 +137,7 @@
 <td>
 <form method="POST" action="{{ object.get_push_url }}">
 {% csrf_token %}
-<input type="submit" class="btn btn-default{% if not object.can_push %} disabled{% endif %}" value="{% trans "Push" %}" />
+<input type="submit" class="btn btn-default" {% if not object.can_push %}disabled="disabled"{% endif %} value="{% trans "Push" %}" />
 </form>
 </td>
 <td>
