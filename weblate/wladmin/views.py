@@ -41,6 +41,10 @@ from weblate.utils.site import get_site_url, get_site_domain
 from weblate.wladmin.models import ConfigurationError
 import weblate
 
+GOOD_CACHE = frozenset((
+    'MemcachedCache', 'PyLibMCCache', 'DatabaseCache', 'RedisCache'
+))
+
 
 def report(request, admin_site):
     """Provide report about git status of all repos."""
@@ -140,7 +144,7 @@ def performance(request, admin_site):
         ))
     # Check for sane caching
     caches = settings.CACHES['default']['BACKEND'].split('.')[-1]
-    if caches in ['MemcachedCache', 'PyLibMCCache', 'DatabaseCache']:
+    if caches in GOOD_CACHE:
         # We consider these good
         caches = True
     elif caches in ['DummyCache']:
