@@ -169,7 +169,9 @@ class TranslationStats(BaseStats):
     """Per translation stats."""
     def invalidate(self):
         super(TranslationStats, self).invalidate()
-        self._object.subproject.stats.invalidate()
+        self._object.subproject.stats.invalidate(
+            language=self._object.language
+        )
         self._object.language.stats.invalidate()
 
     @property
@@ -295,9 +297,9 @@ class LanguageStats(BaseStats):
 
 
 class ComponentStats(LanguageStats):
-    def invalidate(self):
+    def invalidate(self, language=None):
         super(ComponentStats, self).invalidate()
-        self._object.project.stats.invalidate()
+        self._object.project.stats.invalidate(language=language)
 
     def get_language_stats(self):
         for translation in self.translation_set():
@@ -338,10 +340,13 @@ class ProjectLanguageStats(LanguageStats):
 
 class ProjectStats(BaseStats):
     basic_keys = SOURCE_KEYS
-    def invalidate(self):
+    def invalidate(self, language=None):
         super(ProjectStats, self).invalidate()
-        for language in self._object.get_languages():
+        if language:
             self.get_single_language_stats(language).invalidate()
+        else:
+            for language in self._object.get_languages():
+                self.get_single_language_stats(language).invalidate()
 
     def get_single_language_stats(self, language):
         return ProjectLanguageStats(self._object, language)
