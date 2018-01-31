@@ -130,7 +130,12 @@ def get_user_translations(request, user, project_ids):
     """
     result = Translation.objects.prefetch().filter(
         subproject__project_id__in=project_ids
+    ).order_by(
+        'subproject__priority',
+        'subproject__project__name',
+        'subproject__name'
     )
+
     if user.is_authenticated and user.profile.languages.exists():
         result = result.filter(
             language__in=user.profile.languages.all(),
@@ -141,14 +146,9 @@ def get_user_translations(request, user, project_ids):
             language=guess_user_language(request, result)
         )
         if tmp:
-            result = tmp
+            return tmp
 
-    return result.order_by(
-        'subproject__priority',
-        'subproject__project__name',
-        'subproject__name'
-    )
-
+    return result
 
 @never_cache
 def home(request):
