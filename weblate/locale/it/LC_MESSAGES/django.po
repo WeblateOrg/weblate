@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-01-30 21:29+0000\n"
-"PO-Revision-Date: 2018-01-29 19:30+0000\n"
-"Last-Translator: ROBERTO <roberto.boriotti@canon-europe.com>\n"
-"Language-Team: Italian <https://hosted.weblate.org/projects/weblate/master/"
-"it/>\n"
+"PO-Revision-Date: 2018-01-31 14:20+0000\n"
+"Last-Translator: Marco Scarpetta <marcoscarpetta02@gmail.com>\n"
+"Language-Team: Italian "
+"<https://hosted.weblate.org/projects/weblate/master/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -453,6 +453,7 @@ msgid ""
 "You can not submit translations as you do not have assigned any email "
 "address."
 msgstr ""
+"Non puoi inserire traduzioni poiché non hai nessun indirizzo email assegnato."
 
 #: weblate/accounts/password_validation.py:41
 msgid "This password consists of only whitespace."
@@ -525,7 +526,7 @@ msgstr "Non puoi modificare l'utente demo nel server demo."
 
 #: weblate/accounts/views.py:208
 msgid "Too many attempts, you have been logged out!"
-msgstr ""
+msgstr "Troppi tentativi, sei stato disconnesso!"
 
 #: weblate/accounts/views.py:270
 msgid "Your profile has been updated."
@@ -541,7 +542,7 @@ msgstr "Il tuo utente è stato rimosso."
 
 #: weblate/accounts/views.py:420
 msgid "Too many messages sent, please try again later!"
-msgstr ""
+msgstr "Troppi messaggi inviati, per piacere prova di nuovo più tardi!"
 
 #: weblate/accounts/views.py:446 weblate/templates/accounts/contact.html:6
 #: weblate/templates/accounts/contact.html:21 weblate/templates/footer.html:9
@@ -606,6 +607,8 @@ msgstr "Le nuove registrazioni sono disabilitate!"
 msgid ""
 "Authentication has failed, probably due to expired token or connection error."
 msgstr ""
+"L'autenticazione è fallita, probabilmente a causa di un token scaduto o di "
+"un errore di connessione."
 
 #: weblate/accounts/views.py:931
 msgid "Authentication has been cancelled."
@@ -620,6 +623,8 @@ msgid ""
 "Failed to complete your registration! This authentication, email or username "
 "are already associated with another account!"
 msgstr ""
+"Il completamento della tua registrazione è fallito! Questa autenticazione, "
+"email o username sono già associati ad un altro account!"
 
 #: weblate/billing/admin.py:52 weblate/billing/models.py:128
 #: weblate/templates/accounts/user.html:38
@@ -809,12 +814,9 @@ msgid "One/two/other"
 msgstr "Uno/due/altro"
 
 #: weblate/lang/models.py:446
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/other/zero"
 msgctxt "Plural type"
 msgid "One/other/two"
-msgstr "Uno/altro7zero"
+msgstr "Uno/altro/due"
 
 #: weblate/lang/models.py:450
 msgctxt "Plural type"
@@ -822,12 +824,9 @@ msgid "One/two/few/other"
 msgstr "Uno/due/pochi/altro"
 
 #: weblate/lang/models.py:454
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/two/few/other"
 msgctxt "Plural type"
 msgid "Other/one/two/few"
-msgstr "Uno/due/pochi/altro"
+msgstr "Altro/uno/due/pochi"
 
 #: weblate/lang/models.py:458
 msgctxt "Plural type"
@@ -889,16 +888,12 @@ msgid "Plural type"
 msgstr "Tipo plurale"
 
 #: weblate/lang/models.py:510
-#, fuzzy
-#| msgid "Plural form %d"
 msgid "Plural form"
-msgstr "Forma plurale %d"
+msgstr "Forma plurale"
 
 #: weblate/lang/models.py:511
-#, fuzzy
-#| msgid "Plural form %d"
 msgid "Plural forms"
-msgstr "Forma plurale %d"
+msgstr "Forme plurali"
 
 #. Translators: Label for plurals with example counts
 #: weblate/lang/models.py:571
@@ -1154,7 +1149,7 @@ msgstr ""
 
 #: weblate/permissions/models.py:76
 msgid "Project, component or language must be specified"
-msgstr ""
+msgstr "Progetto, componente o lingua deve essere specificato"
 
 #: weblate/permissions/models.py:109
 msgid "Group ACL"
@@ -1197,7 +1192,7 @@ msgstr "Immagine"
 
 #: weblate/screenshots/models.py:40
 msgid "Upload JPEG or PNG images up to 2000x2000 pixels."
-msgstr ""
+msgstr "Carica immagini JPEG o PNG fino a 2000x2000 pixel."
 
 #: weblate/screenshots/views.py:106
 msgid "Screenshot has been uploaded, you can now assign it to source strings."
@@ -1227,7 +1222,7 @@ msgstr "Permessi insufficienti per visualizzare questa pagina."
 
 #: weblate/templates/403.html:14 weblate/templates/404.html:14
 msgid "Log in"
-msgstr ""
+msgstr "Accedi"
 
 #: weblate/templates/403.html:20 weblate/templates/404.html:23
 msgid ""
@@ -1347,7 +1342,7 @@ msgstr "Versioni"
 
 #: weblate/templates/about.html:68
 msgid "Weblate owes its existence to these projects."
-msgstr ""
+msgstr "Weblate deve la sua esistenza a questi progetti."
 
 #: weblate/templates/access_control_description.html:4
 #: weblate/trans/models/project.py:131
@@ -1356,7 +1351,7 @@ msgstr "Pubblica"
 
 #: weblate/templates/access_control_description.html:5
 msgid "Publicly visible and translatable"
-msgstr ""
+msgstr "Visibile e traducibile pubblicamente"
 
 #: weblate/templates/access_control_description.html:6
 #: weblate/trans/models/project.py:132
@@ -1365,7 +1360,7 @@ msgstr "Protetta"
 
 #: weblate/templates/access_control_description.html:7
 msgid "Publicly visible, only translatable for selected users"
-msgstr ""
+msgstr "Visibile pubblicamente, traducibile solo per gli utenti selezionati"
 
 #: weblate/templates/access_control_description.html:8
 #: weblate/trans/models/project.py:133
@@ -1374,7 +1369,7 @@ msgstr "Privata"
 
 #: weblate/templates/access_control_description.html:9
 msgid "Visible and translatable only for selected users"
-msgstr ""
+msgstr "Visibile e traducibile solo per gli utenti selezionati"
 
 #: weblate/templates/access_control_description.html:10
 #: weblate/trans/models/project.py:134
@@ -1386,6 +1381,8 @@ msgid ""
 "Only use this if you know what you are doing, enabling it might revoke your "
 "access to this project."
 msgstr ""
+"Usa questo solo se sai quello che stai facendo, abilitarlo potrebbe revocare "
+"il tuo accesso a questo progetto."
 
 #: weblate/templates/access_control_description.html:11
 msgid "Permissions are not managed in Weblate."
@@ -1474,7 +1471,7 @@ msgstr ""
 #: weblate/templates/accounts/email-sent.html:31
 msgid ""
 "If the confirmation link expires before you get to use it, register again."
-msgstr ""
+msgstr "Se il link di conferma scade prima che tu lo usi, registrati di nuovo."
 
 #: weblate/templates/accounts/email-sent.html:35
 #, python-format
@@ -1783,7 +1780,7 @@ msgstr "Azione"
 
 #: weblate/templates/accounts/profile.html:192
 msgid "Set password"
-msgstr "Imposta apssword"
+msgstr "Imposta password"
 
 #: weblate/templates/accounts/profile.html:201
 msgid "Disconnect"
@@ -7385,7 +7382,7 @@ msgstr "Porta:"
 
 #: weblate/wladmin/templates/admin/ssh.html:67
 msgid "More information"
-msgstr ""
+msgstr "Più informazioni"
 
 #: weblate/wladmin/templates/admin/ssh.html:69
 #, python-format
