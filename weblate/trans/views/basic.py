@@ -233,6 +233,7 @@ def home(request):
                 componentlist.translations = get_untranslated(
                     componentlist.translations
                 )
+        usersubscriptions = prefetch_stats(usersubscriptions)
 
     return render(
         request,
@@ -241,7 +242,7 @@ def home(request):
             'allow_index': True,
             'suggestions': suggestions,
             'search_form': SiteSearchForm(),
-            'usersubscriptions': prefetch_stats(usersubscriptions),
+            'usersubscriptions': usersubscriptions,
             'userlanguages': prefetch_stats(user_translations),
             'componentlists': componentlists,
             'active_tab_slug': active_tab_slug,
