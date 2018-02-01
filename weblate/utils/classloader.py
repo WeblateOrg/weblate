@@ -55,8 +55,9 @@ def load_class(name, setting):
 
 class ClassLoader(object):
     """Dict like object to lazy load list of classes."""
-    def __init__(self, name):
+    def __init__(self, name, construct=True):
         self.name = name
+        self.construct = construct
         self._data = None
 
     @property
@@ -64,7 +65,9 @@ class ClassLoader(object):
         if self._data is None:
             self._data = {}
             for path in getattr(settings, self.name):
-                obj = load_class(path, self.name)()
+                obj = load_class(path, self.name)
+                if self.construct:
+                    obj = obj()
                 self._data[obj.get_identifier()] = obj
         return self._data
 

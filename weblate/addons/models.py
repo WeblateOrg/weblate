@@ -23,10 +23,15 @@ from __future__ import unicode_literals
 from appconf import AppConf
 
 from django.db import models
+from django.utils.functional import cached_property
 
 from weblate.addons.events import EVENT_CHOICES
 from weblate.trans.models import SubProject
+from weblate.utils.classloader import ClassLoader
 from weblate.utils.fields import JSONField
+
+# Initialize addons registry
+ADDONS = ClassLoader('WEBLATE_ADDONS', False)
 
 
 class Addon(models.Model):
@@ -42,6 +47,10 @@ class Addon(models.Model):
         for event in events:
             Event.objects.get_or_create(addon=self, event=event)
         self.event_set.exclude(event__in=events).delete()
+
+    @cached_property
+    def addon(self):
+        return ADDONS[self.name](self)
 
 
 class Event(models.Model):

@@ -57,3 +57,9 @@ class AddonTest(ViewTestCase):
         self.assertTrue(
             os.path.exists(translation.addon_commit_files[0])
         )
+
+    def test_registry(self):
+        translation = self.get_translation()
+        GenerateMoAddon.create(translation.subproject)
+        addon = self.subproject.addon_set.all()[0]
+        self.assertIsInstance(addon.addon, GenerateMoAddon)
