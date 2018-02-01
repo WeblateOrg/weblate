@@ -142,8 +142,10 @@ class BaseStats(object):
             self._data = self.load()
         if 'all' not in self._data:
             self.prefetch_basic()
-        if save:
-            self.save()
+            if save:
+                self.save()
+            return True
+        return False
 
     def prefetch_basic(self):
         raise NotImplementedError()
@@ -282,12 +284,14 @@ class TranslationStats(BaseStats):
     def ensure_all(self):
         """Ensure we have complete set."""
         # Prefetch basic stats at once
-        self.ensure_basic(save=False)
+        save = self.ensure_basic(save=False)
         # Fetch remaining ones
         for item, dummy in get_filter_choice():
             if item not in self._data:
                 self.calculate_item(item)
-        self.save()
+                save = True
+        if save:
+            self.save()
 
 
 class LanguageStats(BaseStats):
