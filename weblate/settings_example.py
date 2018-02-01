@@ -356,6 +356,7 @@ INSTALLED_APPS = (
     'compressor',
     'rest_framework',
     'rest_framework.authtoken',
+    'weblate.addons',
     'weblate.trans',
     'weblate.lang',
     'weblate.langdata',

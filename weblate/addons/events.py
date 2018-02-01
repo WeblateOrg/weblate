@@ -20,26 +20,14 @@
 
 from __future__ import unicode_literals
 
-from django.db import models
+EVENT_POST_PUSH = 1
+EVENT_POST_UPDATE = 2
+EVENT_PRE_COMMIT = 3
+EVENT_POST_COMMIT = 4
 
-from weblate.addons.events import EVENT_CHOICES
-from weblate.trans.models import SubProject
-from weblate.utils.fields import JSONField
-
-
-class Addon(models.Model):
-    component = models.ForeignKey(SubProject)
-    name = models.CharField(max_length=100)
-    configuration = JSONField()
-    state = JSONField()
-
-    class Meta(object):
-        unique_together = ('component', 'name')
-
-
-class Event(models.Model):
-    addon = models.ForeignKey(Addon)
-    event = models.IntegerField(choices=EVENT_CHOICES)
-
-    class Meta(object):
-        unique_together = ('addon', 'event')
+EVENT_CHOICES = (
+    (EVENT_POST_PUSH, 'post push'),
+    (EVENT_POST_UPDATE, 'post update'),
+    (EVENT_PRE_COMMIT, 'pre commit'),
+    (EVENT_POST_COMMIT, 'post commit'),
+)
