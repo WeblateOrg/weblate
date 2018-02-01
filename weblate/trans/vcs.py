@@ -465,6 +465,13 @@ class GitRepository(Repository):
         status = self.execute(cmd, needs_lock=False)
         return status != ''
 
+    def show(self, revision):
+        """Helper method to get content of revision.
+
+        Used in tests.
+        """
+        return self.execute(['show', '--stat', revision], needs_lock=False)
+
     def _get_revision_info(self, revision):
         """Return dictionary with detailed revision information."""
         text = self.execute(

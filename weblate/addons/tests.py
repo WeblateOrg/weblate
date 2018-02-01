@@ -48,6 +48,24 @@ class AddonBaseTest(FixtureTestCase):
         self.assertEqual(addon.name, 'weblate.base.test')
 
 
+class IntegrationTest(ViewTestCase):
+    def test_registry(self):
+        GenerateMoAddon.create(self.subproject)
+        addon = self.subproject.addon_set.all()[0]
+        self.assertIsInstance(addon.addon, GenerateMoAddon)
+
+    def test_commit(self):
+        GenerateMoAddon.create(self.subproject)
+        rev = self.subproject.repository.last_revision
+        self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
+        self.get_translation().commit_pending(None)
+        self.assertNotEqual(rev, self.subproject.repository.last_revision)
+        commit = self.subproject.repository.show(
+            self.subproject.repository.last_revision
+        )
+        self.assertIn('po/cs.mo', commit)
+
+
 class AddonTest(ViewTestCase):
     def test_gettext_mo(self):
         translation = self.get_translation()
@@ -57,9 +75,3 @@ class AddonTest(ViewTestCase):
         self.assertTrue(
             os.path.exists(translation.addon_commit_files[0])
         )
-
-    def test_registry(self):
-        translation = self.get_translation()
-        GenerateMoAddon.create(translation.subproject)
-        addon = self.subproject.addon_set.all()[0]
-        self.assertIsInstance(addon.addon, GenerateMoAddon)

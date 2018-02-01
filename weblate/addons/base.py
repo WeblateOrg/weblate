@@ -79,6 +79,18 @@ class BaseAddon(object):
                 return False
         return True
 
+    def post_push(self, component):
+        return
+
+    def post_update(self, component, previous_head):
+        return
+
+    def post_commit(self, translation):
+        return
+
+    def pre_commit(self, translation):
+        return
+
 
 class TestAddon(BaseAddon):
     """Testing addong doing nothing."""

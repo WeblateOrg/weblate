@@ -23,15 +23,30 @@ from __future__ import unicode_literals
 from appconf import AppConf
 
 from django.db import models
+from django.dispatch import receiver
 from django.utils.functional import cached_property
 
-from weblate.addons.events import EVENT_CHOICES
+from weblate.addons.events import (
+    EVENT_CHOICES, EVENT_POST_PUSH, EVENT_POST_UPDATE, EVENT_PRE_COMMIT,
+    EVENT_POST_COMMIT,
+)
+
 from weblate.trans.models import SubProject
+from weblate.trans.signals import (
+    vcs_post_push, vcs_post_update, vcs_pre_commit, vcs_post_commit,
+)
 from weblate.utils.classloader import ClassLoader
 from weblate.utils.fields import JSONField
 
 # Initialize addons registry
 ADDONS = ClassLoader('WEBLATE_ADDONS', False)
+
+class AddonQuerySet(models.QuerySet):
+    def filter_event(self, component, event):
+        return self.filter(
+            component=component,
+            event__event=event
+        )
 
 
 class Addon(models.Model):
@@ -39,6 +54,8 @@ class Addon(models.Model):
     name = models.CharField(max_length=100)
     configuration = JSONField()
     state = JSONField()
+
+    objects = AddonQuerySet.as_manager()
 
     class Meta(object):
         unique_together = ('component', 'name')
@@ -68,3 +85,27 @@ class AddonsConf(AppConf):
 
     class Meta(object):
         prefix = 'WEBLATE'
+
+
+@receiver(vcs_post_push)
+def post_push(sender, component, **kwargs):
+    for addon in Addon.objects.filter_event(component, EVENT_POST_PUSH):
+        addon.addon.post_push(component)
+
+
+@receiver(vcs_post_update)
+def post_update(sender, component, previous_head, **kwargs):
+    for addon in Addon.objects.filter_event(component, EVENT_POST_UPDATE):
+        addon.addon.post_update(component, previous_head)
+
+
+@receiver(vcs_pre_commit)
+def pre_commit(sender, translation, **kwargs):
+    for addon in Addon.objects.filter_event(translation.subproject, EVENT_PRE_COMMIT):
+        addon.addon.pre_commit(translation)
+
+
+@receiver(vcs_post_commit)
+def post_commit(sender, translation, **kwargs):
+    for addon in Addon.objects.filter_event(translation.subproject, EVENT_POST_COMMIT):
+        addon.addon.post_commit(translation)
