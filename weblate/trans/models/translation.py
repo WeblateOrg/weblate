@@ -123,6 +123,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         """Constructor to initialize some cache properties."""
         super(Translation, self).__init__(*args, **kwargs)
         self.stats = TranslationStats(self)
+        self.addon_commit_files = []
 
     @property
     def log_prefix(self):
@@ -476,8 +477,9 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         # Do actual commit
         self.subproject.repository.commit(
-            msg, author, timestamp, files
+            msg, author, timestamp, files + self.addon_commit_files
         )
+        self.addon_commit_files = []
 
         # Post commit hook
         vcs_post_commit.send(sender=self.__class__, translation=self)

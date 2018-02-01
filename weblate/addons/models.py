@@ -20,6 +20,8 @@
 
 from __future__ import unicode_literals
 
+from appconf import AppConf
+
 from django.db import models
 
 from weblate.addons.events import EVENT_CHOICES
@@ -46,5 +48,14 @@ class Event(models.Model):
     addon = models.ForeignKey(Addon)
     event = models.IntegerField(choices=EVENT_CHOICES)
 
-    class Meta(object):
+     class Meta(object):
         unique_together = ('addon', 'event')
+
+
+class AddonsConf(AppConf):
+    ADDONS = (
+        'weblate.addons.gettext.GenerateMoAddon',
+    )
+
+    class Meta(object):
+        prefix = 'WEBLATE'

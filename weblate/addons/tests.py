@@ -20,14 +20,22 @@
 
 from __future__ import unicode_literals
 
-from weblate.trans.tests.test_views import FixtureTestCase
+import os
+
+from weblate.trans.tests.test_views import ViewTestCase, FixtureTestCase
 
 from weblate.addons.base import TestAddon
+from weblate.addons.gettext import GenerateMoAddon
 from weblate.addons.models import Addon
 
 
-class AddonTest(FixtureTestCase):
-    def test_add(self):
+class AddonBaseTest(FixtureTestCase):
+    def test_create(self):
+        addon = TestAddon.create(self.subproject)
+        self.assertEqual(addon.name, 'weblate.base.test')
+        self.assertEqual(self.subproject.addon_set.count(), 1)
+
+    def test_add_form(self):
         form = TestAddon.get_add_form(self.subproject, {})
         self.assertTrue(form.is_valid())
         form.save()
@@ -35,3 +43,13 @@ class AddonTest(FixtureTestCase):
 
         addon = self.subproject.addon_set.all()[0]
         self.assertEqual(addon.name, 'weblate.base.test')
+
+
+class AddonTest(ViewTestCase):
+    def test_gettext_mo(self):
+        translation = self.get_translation()
+        addon = GenerateMoAddon.create(translation.subproject)
+        addon.pre_commit(translation)
+        self.assertTrue(
+            os.path.exists(translation.addon_commit_files[0])
+        )
