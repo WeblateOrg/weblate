@@ -68,7 +68,6 @@ class ClassLoader(object):
             if self.construct:
                 obj = obj()
             result[obj.get_identifier()] = obj
-        print result
         return result
 
     def __getitem__(self, key):
