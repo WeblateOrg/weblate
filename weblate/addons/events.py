@@ -18,28 +18,16 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from weblate.trans.views.helper import get_subproject
+from __future__ import unicode_literals
 
+EVENT_POST_PUSH = 1
+EVENT_POST_UPDATE = 2
+EVENT_PRE_COMMIT = 3
+EVENT_POST_COMMIT = 4
 
-def get_page_limit(request, default):
-    """Return page and limit as integers."""
-    try:
-        limit = int(request.GET.get('limit', default))
-    except ValueError:
-        limit = default
-    limit = min(max(default, limit), 200)
-    try:
-        page = int(request.GET.get('page', 1))
-    except ValueError:
-        page = 1
-    page = max(1, page)
-    return page, limit
-
-
-class ComponentViewMixin(object):
-    def get_component(self):
-        return get_subproject(
-            self.request,
-            self.kwargs['project'],
-            self.kwargs['subproject']
-        )
+EVENT_CHOICES = (
+    (EVENT_POST_PUSH, 'post push'),
+    (EVENT_POST_UPDATE, 'post update'),
+    (EVENT_PRE_COMMIT, 'pre commit'),
+    (EVENT_POST_COMMIT, 'post commit'),
+)

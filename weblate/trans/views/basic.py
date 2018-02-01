@@ -36,6 +36,7 @@ from django.utils.translation.trans_real import parse_accept_lang_header
 import django.views.defaults
 
 from weblate.utils import messages
+from weblate.utils.stats import prefetch_stats
 from weblate.trans.models import (
     Project, Translation, Check, ComponentList, Change, Unit, IndexUpdate,
 )
@@ -62,7 +63,7 @@ import weblate
 def get_untranslated(base, limit=None):
     """Filter untranslated."""
     result = []
-    for item in base:
+    for item in prefetch_stats(base):
         if item.stats.translated != item.stats.all:
             result.append(item)
             if limit and len(result) >= limit:
@@ -130,7 +131,12 @@ def get_user_translations(request, user, project_ids):
     """
     result = Translation.objects.prefetch().filter(
         subproject__project_id__in=project_ids
+    ).order_by(
+        'subproject__priority',
+        'subproject__project__name',
+        'subproject__name'
     )
+
     if user.is_authenticated and user.profile.languages.exists():
         result = result.filter(
             language__in=user.profile.languages.all(),
@@ -141,13 +147,9 @@ def get_user_translations(request, user, project_ids):
             language=guess_user_language(request, result)
         )
         if tmp:
-            result = tmp
+            return tmp
 
-    return result.order_by(
-        'subproject__priority',
-        'subproject__project__name',
-        'subproject__name'
-    )
+    return result
 
 
 @never_cache
@@ -200,8 +202,10 @@ def home(request):
 
     componentlists = list(ComponentList.objects.all())
     for componentlist in componentlists:
-        componentlist.translations = user_translations.filter(
-            subproject__in=componentlist.components.all()
+        componentlist.translations = prefetch_stats(
+            user_translations.filter(
+                subproject__in=componentlist.components.all()
+            )
         )
     # Filter out component lists with translations
     # This will remove the ones where user doesn't have access to anything
@@ -230,6 +234,7 @@ def home(request):
                 componentlist.translations = get_untranslated(
                     componentlist.translations
                 )
+        usersubscriptions = prefetch_stats(usersubscriptions)
 
     return render(
         request,
@@ -239,7 +244,7 @@ def home(request):
             'suggestions': suggestions,
             'search_form': SiteSearchForm(),
             'usersubscriptions': usersubscriptions,
-            'userlanguages': user_translations,
+            'userlanguages': prefetch_stats(user_translations),
             'componentlists': componentlists,
             'active_tab_slug': active_tab_slug,
         }
@@ -255,7 +260,7 @@ def list_projects(request):
         'projects.html',
         {
             'allow_index': True,
-            'projects': Project.objects.all_acl(request.user),
+            'projects': prefetch_stats(Project.objects.all_acl(request.user)),
             'title': _('Projects'),
         }
     )
@@ -363,6 +368,7 @@ def show_project(request, project):
             'source_words_count': obj.stats.source_words,
             'search_form': SearchForm(),
             'replace_form': replace_form,
+            'components': prefetch_stats(obj.subproject_set.select_related()),
         }
     )
 
@@ -372,14 +378,6 @@ def show_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
 
     last_changes = Change.objects.for_component(obj)[:10]
-
-    try:
-        sample = obj.translation_set.all()[0]
-        source_words = sample.stats.all_words
-        total_strings = sample.stats.all
-    except IndexError:
-        source_words = 0
-        total_strings = 0
 
     if can_translate(request.user, project=obj.project):
         replace_form = ReplaceForm()
@@ -393,7 +391,9 @@ def show_subproject(request, project, subproject):
             'allow_index': True,
             'object': obj,
             'project': obj.project,
-            'translations': sort_objects(obj.translation_set.all()),
+            'translations': sort_objects(
+                prefetch_stats(obj.translation_set.all())
+            ),
             'show_language': 1,
             'reports_form': ReportsForm(),
             'last_changes': last_changes,
@@ -407,8 +407,8 @@ def show_subproject(request, project, subproject):
             'language_count': Language.objects.filter(
                 translation__subproject=obj
             ).distinct().count(),
-            'strings_count': total_strings,
-            'source_words_count': source_words,
+            'strings_count': obj.stats.source_strings,
+            'source_words_count': obj.stats.source_words,
             'replace_form': replace_form,
             'search_form': SearchForm(),
         }
@@ -418,6 +418,7 @@ def show_subproject(request, project, subproject):
 @never_cache
 def show_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
+    obj.stats.ensure_all()
     last_changes = Change.objects.for_translation(obj)[:10]
 
     # Get form
@@ -465,11 +466,13 @@ def show_translation(request, project, subproject, lang):
                     to_delete=False
                 ).values('unitid')
             ).exists(),
-            'other_translations': Translation.objects.prefetch().filter(
-                subproject__project=obj.subproject.project,
-                language=obj.language,
-            ).exclude(
-                pk=obj.pk
+            'other_translations': prefetch_stats(
+                Translation.objects.prefetch().filter(
+                    subproject__project=obj.subproject.project,
+                    language=obj.language,
+                ).exclude(
+                    pk=obj.pk
+                )
             ),
         }
     )
@@ -542,7 +545,7 @@ def stats(request):
     )
     total_strings = []
     total_words = []
-    for project in Project.objects.iterator():
+    for project in prefetch_stats(Project.objects.all()):
         total_strings.append(project.stats.source_strings)
         total_words.append(project.stats.source_words)
 

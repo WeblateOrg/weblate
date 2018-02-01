@@ -596,22 +596,15 @@ class SubProject(models.Model, URLMixin, PathMixin):
         if cache.get(cache_key) is None:
             with repository.lock:
                 repository.check_config()
-            cache.set(cache_key, True)
+            cache.set(cache_key, True, 86400)
 
         return repository
 
     def get_last_remote_commit(self):
         """Return latest remote commit we know."""
-        cache_key = 'sp-last-commit-{}'.format(self.pk)
-
-        result = cache.get(cache_key)
-
-        if result is None:
-            result = self.repository.get_revision_info(
-                self.repository.last_remote_revision
-            )
-            cache.set(cache_key, result)
-        return result
+        return self.repository.get_revision_info(
+            self.repository.last_remote_revision
+        )
 
     @perform_on_link
     def get_repo_url(self):

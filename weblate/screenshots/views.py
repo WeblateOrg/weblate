@@ -45,6 +45,7 @@ from weblate.permissions.helpers import (
     can_delete_screenshot, can_add_screenshot, can_change_screenshot,
 )
 from weblate.utils import messages
+from weblate.utils.views import ComponentViewMixin
 
 
 def try_add_source(request, obj):
@@ -62,20 +63,13 @@ def try_add_source(request, obj):
         return False
 
 
-class ScreenshotList(ListView):
+class ScreenshotList(ListView, ComponentViewMixin):
     paginate_by = 25
     model = Screenshot
     _add_form = None
 
-    def get_component(self, kwargs):
-        return get_subproject(
-            self.request,
-            kwargs['project'],
-            kwargs['subproject']
-        )
-
     def get_queryset(self):
-        self.kwargs['component'] = self.get_component(self.kwargs)
+        self.kwargs['component'] = self.get_component()
         return Screenshot.objects.filter(component=self.kwargs['component'])
 
     def get_context_data(self):

@@ -8,6 +8,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
+        ('permissions', '0007_auto_20170510_1036'),
         ('trans', '0098_migrate_acl'),
     ]
 

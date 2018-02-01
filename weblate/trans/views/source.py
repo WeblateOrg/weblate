@@ -110,6 +110,7 @@ def review_source(request, project, subproject):
 def show_source(request, project, subproject):
     """Show source strings summary and checks."""
     obj, source = get_source(request, project, subproject)
+    source.stats.ensure_all()
 
     return render(
         request,

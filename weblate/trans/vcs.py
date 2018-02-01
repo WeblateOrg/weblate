@@ -32,6 +32,7 @@ import logging
 from dateutil import parser
 
 from django.conf import settings
+from django.core.cache import cache
 from django.utils.encoding import force_text
 from django.utils.functional import cached_property
 
@@ -269,9 +270,19 @@ class Repository(object):
         """
         raise NotImplementedError()
 
-    def get_revision_info(self, revision):
+    def _get_revision_info(self, revision):
         """Return dictionary with detailed revision information."""
         raise NotImplementedError()
+
+    def get_revision_info(self, revision):
+        """Return dictionary with detailed revision information."""
+        key = 'rev-info-{}'.format(revision)
+        result = cache.get(key)
+        if not result:
+            result = self._get_revision_info(revision)
+            # Keep the cache for one day
+            cache.set(key, result, 86400)
+        return result
 
     @classmethod
     def is_supported(cls):
@@ -454,7 +465,14 @@ class GitRepository(Repository):
         status = self.execute(cmd, needs_lock=False)
         return status != ''
 
-    def get_revision_info(self, revision):
+    def show(self, revision):
+        """Helper method to get content of revision.
+
+        Used in tests.
+        """
+        return self.execute(['show', '--stat', revision], needs_lock=False)
+
+    def _get_revision_info(self, revision):
         """Return dictionary with detailed revision information."""
         text = self.execute(
             [
@@ -1008,7 +1026,7 @@ class HgRepository(Repository):
         status = self.execute(cmd, needs_lock=False)
         return status != ''
 
-    def get_revision_info(self, revision):
+    def _get_revision_info(self, revision):
         """Return dictionary with detailed revision information."""
         template = '''
         author_name: {person(author)}

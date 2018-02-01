@@ -23,6 +23,7 @@ from __future__ import unicode_literals
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Sum, Count
+from django.utils.functional import cached_property
 
 from weblate.trans.filter import get_filter_choice
 from weblate.utils.query import conditional_sum
@@ -48,16 +49,45 @@ BASIC_KEYS = frozenset(
 SOURCE_KEYS = frozenset(list(BASIC_KEYS) + ['source_strings', 'source_words'])
 
 
+def prefetch_stats(queryset):
+    objects = list(queryset)
+    if not objects:
+        return queryset
+    obj = objects[0]
+    if isinstance(obj, BaseStats):
+        obj.prefetch_many(objects)
+    else:
+        obj.stats.prefetch_many([i.stats for i in objects])
+    return queryset
+
+
 class BaseStats(object):
     """Caching statistics calculator."""
     basic_keys = BASIC_KEYS
 
     def __init__(self, obj):
         self._object = obj
-        self._key = self.cache_key()
         self._data = None
         self._pending_save = False
 
+    @property
+    def is_loaded(self):
+        return self._data is not None
+
+    def set_data(self, data):
+        self._data = data
+
+    def prefetch_many(self, stats):
+        lookup = {i.cache_key: i for i in stats if not i.is_loaded}
+        if not lookup:
+            return
+        data = cache.get_many(lookup.keys())
+        for item, value in data.items():
+            lookup[item].set_data(value)
+        for item in set(lookup.keys()) - set(data.keys()):
+            lookup[item].set_data({})
+
+    @cached_property
     def cache_key(self):
         return 'stats-{}-{}'.format(
             self._object.__class__.__name__,
@@ -82,16 +112,16 @@ class BaseStats(object):
         return self._data[name]
 
     def load(self):
-        return cache.get(self._key, {})
+        return cache.get(self.cache_key, {})
 
     def save(self):
         """Save stats to cache."""
-        cache.set(self._key, self._data, 30 * 86400)
+        cache.set(self.cache_key, self._data, 30 * 86400)
 
     def invalidate(self):
         """Invalidate local and cache data."""
         self._data = {}
-        cache.delete(self._key)
+        cache.delete(self.cache_key)
 
     def store(self, key, value):
         if self._data is None:
@@ -105,13 +135,17 @@ class BaseStats(object):
         """Calculate stats for translation."""
         raise NotImplementedError()
 
-    def ensure_basic(self):
+    def ensure_basic(self, save=True):
         """Ensure we have basic stats."""
         # Prefetch basic stats at once
         if self._data is None:
             self._data = self.load()
         if 'all' not in self._data:
             self.prefetch_basic()
+            if save:
+                self.save()
+            return True
+        return False
 
     def prefetch_basic(self):
         raise NotImplementedError()
@@ -169,7 +203,9 @@ class TranslationStats(BaseStats):
     """Per translation stats."""
     def invalidate(self):
         super(TranslationStats, self).invalidate()
-        self._object.subproject.stats.invalidate()
+        self._object.subproject.stats.invalidate(
+            language=self._object.language
+        )
         self._object.language.stats.invalidate()
 
     @property
@@ -248,19 +284,22 @@ class TranslationStats(BaseStats):
     def ensure_all(self):
         """Ensure we have complete set."""
         # Prefetch basic stats at once
-        self.ensure_basic()
+        save = self.ensure_basic(save=False)
         # Fetch remaining ones
         for item, dummy in get_filter_choice():
             if item not in self._data:
                 self.calculate_item(item)
-        self.save()
+                save = True
+        if save:
+            self.save()
 
 
 class LanguageStats(BaseStats):
     basic_keys = SOURCE_KEYS
 
+    @cached_property
     def translation_set(self):
-        return self._object.translation_set.all()
+        return prefetch_stats(self._object.translation_set.all())
 
     def prefetch_basic(self):
         stats = {item: 0 for item in BASIC_KEYS}
@@ -268,7 +307,7 @@ class LanguageStats(BaseStats):
         # with the ComponentStats
         stats['source_strings'] = 0
         stats['source_words'] = 0
-        for translation in self.translation_set():
+        for translation in self.translation_set:
             stats_obj = translation.stats
             stats_obj.ensure_basic()
             for item in BASIC_KEYS:
@@ -289,24 +328,24 @@ class LanguageStats(BaseStats):
     def calculate_item(self, item):
         """Calculate stats for translation."""
         result = 0
-        for translation in self.translation_set():
+        for translation in self.translation_set:
             result += getattr(translation.stats, item)
         self.store(item, result)
 
 
 class ComponentStats(LanguageStats):
-    def invalidate(self):
+    def invalidate(self, language=None):
         super(ComponentStats, self).invalidate()
-        self._object.project.stats.invalidate()
+        self._object.project.stats.invalidate(language=language)
 
     def get_language_stats(self):
-        for translation in self.translation_set():
+        for translation in self.translation_set:
             yield TranslationStats(translation)
 
     def get_single_language_stats(self, language):
         try:
             return TranslationStats(
-                self.translation_set().get(language=language)
+                self._object.translation_set.get(language=language)
             )
         except ObjectDoesNotExist:
             return DummyTranslationStats(language)
@@ -315,44 +354,54 @@ class ComponentStats(LanguageStats):
 class ProjectLanguageStats(LanguageStats):
     def __init__(self, obj, lang):
         self.language = lang
-        self._translations = None
         super(ProjectLanguageStats, self).__init__(obj)
 
+    @cached_property
     def cache_key(self):
         return '{}-{}'.format(
-            super(ProjectLanguageStats, self).cache_key(),
+            super(ProjectLanguageStats, self).cache_key,
             self.language.pk
         )
 
+    @cached_property
     def translation_set(self):
-        if self._translations is None:
-            self._translations = []
-            for component in self._object.subproject_set.all():
-                self._translations.extend(
-                    component.translation_set.filter(
-                        language_id=self.language.pk
-                    )
+        result = []
+        for component in self._object.subproject_set.all():
+            result.extend(
+                component.translation_set.filter(
+                    language_id=self.language.pk
                 )
-        return self._translations
+            )
+        return prefetch_stats(result)
 
 
 class ProjectStats(BaseStats):
     basic_keys = SOURCE_KEYS
-    def invalidate(self):
+
+    def invalidate(self, language=None):
         super(ProjectStats, self).invalidate()
-        for language in self._object.get_languages():
+        if language:
             self.get_single_language_stats(language).invalidate()
+        else:
+            for language in self._object.get_languages():
+                self.get_single_language_stats(language).invalidate()
+
+    @cached_property
+    def subproject_set(self):
+        return prefetch_stats(self._object.subproject_set.all())
 
     def get_single_language_stats(self, language):
         return ProjectLanguageStats(self._object, language)
 
     def get_language_stats(self):
+        result = []
         for language in self._object.get_languages():
-            yield self.get_single_language_stats(language)
+            result.append(self.get_single_language_stats(language))
+        return prefetch_stats(result)
 
     def prefetch_basic(self):
         stats = {item: 0 for item in self.basic_keys}
-        for component in self._object.subproject_set.all():
+        for component in self.subproject_set:
             stats_obj = component.stats
             stats_obj.ensure_basic()
             for item in self.basic_keys:
@@ -367,6 +416,6 @@ class ProjectStats(BaseStats):
     def calculate_item(self, item):
         """Calculate stats for translation."""
         result = 0
-        for component in self._object.subproject_set.all():
+        for component in self.subproject_set:
             result += getattr(component.stats, item)
         self.store(item, result)

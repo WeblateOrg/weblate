@@ -28,6 +28,7 @@ from weblate.trans.forms import SiteSearchForm
 from weblate.trans.models import Project, Change
 from weblate.trans.util import sort_objects
 from weblate.trans.views.helper import get_project
+from weblate.utils.stats import prefetch_stats
 
 
 def show_languages(request):
@@ -36,8 +37,10 @@ def show_languages(request):
         'languages.html',
         {
             'allow_index': True,
-            'languages': sort_objects(
-                Language.objects.have_translation()
+            'languages': prefetch_stats(
+                sort_objects(
+                    Language.objects.have_translation()
+                )
             ),
             'title': _('Languages'),
         }

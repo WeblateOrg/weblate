@@ -18,28 +18,15 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from weblate.trans.views.helper import get_subproject
+from __future__ import unicode_literals
+
+from django import forms
 
 
-def get_page_limit(request, default):
-    """Return page and limit as integers."""
-    try:
-        limit = int(request.GET.get('limit', default))
-    except ValueError:
-        limit = default
-    limit = min(max(default, limit), 200)
-    try:
-        page = int(request.GET.get('page', 1))
-    except ValueError:
-        page = 1
-    page = max(1, page)
-    return page, limit
+class BaseAddonForm(forms.Form):
+    def __init__(self, addon, *args, **kwargs):
+        self._addon = addon
+        super(BaseAddonForm, self).__init__(*args, **kwargs)
 
-
-class ComponentViewMixin(object):
-    def get_component(self):
-        return get_subproject(
-            self.request,
-            self.kwargs['project'],
-            self.kwargs['subproject']
-        )
+    def save(self):
+        self._addon.configure(self.cleaned_data)
