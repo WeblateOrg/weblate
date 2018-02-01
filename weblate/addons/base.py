@@ -30,6 +30,7 @@ class BaseAddon(object):
     events = ()
     settings_form = None
     name = None
+    compat = {}
 
     """Base class for Weblate addons."""
     def __init__(self, storage):
@@ -69,6 +70,14 @@ class BaseAddon(object):
     def save_state(self):
         """Saves addon state information."""
         self._storage.save(update_fields=['state'])
+
+    @classmethod
+    def is_compatible(cls, component):
+        """Check whether addon is compatible with given component."""
+        for key, values in cls.compat.items():
+            if getattr(component, key) not in values:
+                return False
+        return True
 
 
 class TestAddon(BaseAddon):

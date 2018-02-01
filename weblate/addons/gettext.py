@@ -28,6 +28,11 @@ from weblate.trans.exporters import MoExporter
 class GenerateMoAddon(BaseAddon):
     events = (EVENT_PRE_COMMIT,)
     name = 'weblate.gettext.mo'
+    compat = {
+        'file_format': frozenset((
+            'auto', 'po', 'po-unwrapped', 'po-mono', 'po-mono-unwrapped'
+        )),
+    }
 
     def pre_commit(self, translation):
         exporter = MoExporter(translation=translation)
@@ -36,3 +41,9 @@ class GenerateMoAddon(BaseAddon):
         with open(output, 'wb') as handle:
             handle.write(exporter.serialize())
         translation.addon_commit_files.append(output)
+
+    @classmethod
+    def is_compatible(cls, component):
+        if not component.filemask.endswith('.po'):
+            return False
+        return super(GenerateMoAddon, cls).is_compatible(component)

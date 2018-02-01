@@ -30,6 +30,9 @@ from weblate.addons.models import Addon
 
 
 class AddonBaseTest(FixtureTestCase):
+    def test_is_compatible(self):
+        self.assertTrue(TestAddon.is_compatible(self.subproject))
+
     def test_create(self):
         addon = TestAddon.create(self.subproject)
         self.assertEqual(addon.name, 'weblate.base.test')
@@ -48,6 +51,7 @@ class AddonBaseTest(FixtureTestCase):
 class AddonTest(ViewTestCase):
     def test_gettext_mo(self):
         translation = self.get_translation()
+        self.assertTrue(GenerateMoAddon.is_compatible(translation.subproject))
         addon = GenerateMoAddon.create(translation.subproject)
         addon.pre_commit(translation)
         self.assertTrue(
