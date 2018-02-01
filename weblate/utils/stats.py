@@ -79,6 +79,8 @@ class BaseStats(object):
 
     def prefetch_many(self, stats):
         lookup = {i.cache_key: i for i in stats if not i.is_loaded}
+        if not lookup:
+            return
         data = cache.get_many(lookup.keys())
         for item, value in data.items():
             lookup[item].set_data(value)
