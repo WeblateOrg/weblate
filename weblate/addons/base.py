@@ -31,6 +31,8 @@ class BaseAddon(object):
     settings_form = None
     name = None
     compat = {}
+    verbose = 'Base addon'
+    description = 'Base addon'
 
     """Base class for Weblate addons."""
     def __init__(self, storage):
@@ -96,3 +98,5 @@ class TestAddon(BaseAddon):
     """Testing addong doing nothing."""
     settings_form = BaseAddonForm
     name = 'weblate.base.test'
+    verbose = 'Test addon'
+    description = 'Test addon'

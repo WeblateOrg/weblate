@@ -20,6 +20,8 @@
 
 from __future__ import unicode_literals
 
+from django.utils.translation import ugettext_lazy as _
+
 from weblate.addons.base import BaseAddon
 from weblate.addons.events import EVENT_PRE_COMMIT
 from weblate.trans.exporters import MoExporter
@@ -33,6 +35,10 @@ class GenerateMoAddon(BaseAddon):
             'auto', 'po', 'po-unwrapped', 'po-mono', 'po-mono-unwrapped'
         )),
     }
+    verbose = _('Generate mo files')
+    description = _(
+        'Automatically generates mo file for every changed po file.'
+    )
 
     def pre_commit(self, translation):
         exporter = MoExporter(translation=translation)
