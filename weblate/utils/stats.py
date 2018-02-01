@@ -377,6 +377,7 @@ class ProjectLanguageStats(LanguageStats):
 
 class ProjectStats(BaseStats):
     basic_keys = SOURCE_KEYS
+
     def invalidate(self, language=None):
         super(ProjectStats, self).invalidate()
         if language:

@@ -21,7 +21,6 @@
 from __future__ import unicode_literals
 
 from django.apps import apps
-from django.utils.functional import cached_property
 
 from weblate.addons.forms import BaseAddonForm
 

@@ -63,6 +63,7 @@ TEST_HE_CUSTOM = get_test_file('he-custom.po')
 TEST_HE_SIMPLE = get_test_file('he-simple.po')
 TEST_HE_THREE = get_test_file('he-three.po')
 
+
 class AutoLoadTest(TestCase):
     def single_test(self, filename, fileclass):
         with open(filename, 'rb') as handle:

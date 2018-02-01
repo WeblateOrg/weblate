@@ -151,6 +151,7 @@ def get_user_translations(request, user, project_ids):
 
     return result
 
+
 @never_cache
 def home(request):
     """Home page of Weblate showing list of projects, stats

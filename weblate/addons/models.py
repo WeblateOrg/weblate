@@ -41,6 +41,7 @@ from weblate.utils.fields import JSONField
 # Initialize addons registry
 ADDONS = ClassLoader('WEBLATE_ADDONS', False)
 
+
 class AddonQuerySet(models.QuerySet):
     def filter_event(self, component, event):
         return self.filter(
@@ -74,7 +75,7 @@ class Event(models.Model):
     addon = models.ForeignKey(Addon)
     event = models.IntegerField(choices=EVENT_CHOICES)
 
-     class Meta(object):
+    class Meta(object):
         unique_together = ('addon', 'event')
 
 
@@ -101,11 +102,17 @@ def post_update(sender, component, previous_head, **kwargs):
 
 @receiver(vcs_pre_commit)
 def pre_commit(sender, translation, **kwargs):
-    for addon in Addon.objects.filter_event(translation.subproject, EVENT_PRE_COMMIT):
+    addons = Addon.objects.filter_event(
+        translation.subproject, EVENT_PRE_COMMIT
+    )
+    for addon in addons:
         addon.addon.pre_commit(translation)
 
 
 @receiver(vcs_post_commit)
 def post_commit(sender, translation, **kwargs):
-    for addon in Addon.objects.filter_event(translation.subproject, EVENT_POST_COMMIT):
+    addos = Addon.objects.filter_event(
+        translation.subproject, EVENT_POST_COMMIT
+    )
+    for addon in addons:
         addon.addon.post_commit(translation)
