@@ -32,6 +32,7 @@ class BaseAddon(object):
     compat = {}
     verbose = 'Base addon'
     description = 'Base addon'
+    icon = 'cog'
 
     """Base class for Weblate addons."""
     def __init__(self, storage):

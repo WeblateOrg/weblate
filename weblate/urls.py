@@ -31,6 +31,7 @@ from weblate.trans.feeds import (
 )
 from weblate.trans.views.changes import ChangesView, ChangesCSVView
 import weblate.accounts.views
+import weblate.addons.views
 import weblate.lang.views
 import weblate.screenshots.views
 import weblate.trans.views.acl
@@ -249,6 +250,16 @@ urlpatterns = [
         r'^new-lang/' + SUBPROJECT + '$',
         weblate.trans.views.basic.new_language,
         name='new-language',
+    ),
+    url(
+        r'^addons/' + SUBPROJECT + '$',
+        weblate.addons.views.AddonList.as_view(),
+        name='addons',
+    ),
+    url(
+        r'^addons/' + SUBPROJECT + '(?P<pk>[0-9]+)/$',
+        weblate.addons.views.AddonDetail.as_view(),
+        name='addon-detail',
     ),
     url(
         r'^access/' + PROJECT + '$',

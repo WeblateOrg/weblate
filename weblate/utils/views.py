@@ -18,6 +18,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from weblate.trans.views.helper import get_subproject
+
 
 def get_page_limit(request, default):
     """Return page and limit as integers."""
@@ -32,3 +34,12 @@ def get_page_limit(request, default):
         page = 1
     page = max(1, page)
     return page, limit
+
+
+class ComponentViewMixin(object):
+    def get_component(self):
+        return get_subproject(
+            self.request,
+            self.kwargs['project'],
+            self.kwargs['subproject']
+        )
