@@ -63,7 +63,7 @@ import weblate
 def get_untranslated(base, limit=None):
     """Filter untranslated."""
     result = []
-    for item in base:
+    for item in prefetch_stats(base):
         if item.stats.translated != item.stats.all:
             result.append(item)
             if limit and len(result) >= limit:
@@ -201,8 +201,10 @@ def home(request):
 
     componentlists = list(ComponentList.objects.all())
     for componentlist in componentlists:
-        componentlist.translations = user_translations.filter(
-            subproject__in=componentlist.components.all()
+        componentlist.translations = prefetch_stats(
+            user_translations.filter(
+                subproject__in=componentlist.components.all()
+            )
         )
     # Filter out component lists with translations
     # This will remove the ones where user doesn't have access to anything
@@ -239,8 +241,8 @@ def home(request):
             'allow_index': True,
             'suggestions': suggestions,
             'search_form': SiteSearchForm(),
-            'usersubscriptions': usersubscriptions,
-            'userlanguages': user_translations,
+            'usersubscriptions': prefetch_stats(usersubscriptions),
+            'userlanguages': prefetch_stats(user_translations),
             'componentlists': componentlists,
             'active_tab_slug': active_tab_slug,
         }
@@ -541,7 +543,7 @@ def stats(request):
     )
     total_strings = []
     total_words = []
-    for project in Project.objects.iterator():
+    for project in prefetch_stats(Project.objects.all()):
         total_strings.append(project.stats.source_strings)
         total_words.append(project.stats.source_words)
 
