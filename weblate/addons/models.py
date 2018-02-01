@@ -111,7 +111,7 @@ def pre_commit(sender, translation, **kwargs):
 
 @receiver(vcs_post_commit)
 def post_commit(sender, translation, **kwargs):
-    addos = Addon.objects.filter_event(
+    addons = Addon.objects.filter_event(
         translation.subproject, EVENT_POST_COMMIT
     )
     for addon in addons:
