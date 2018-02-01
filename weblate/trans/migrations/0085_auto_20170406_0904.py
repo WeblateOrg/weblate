@@ -33,6 +33,7 @@ class Migration(migrations.Migration):
     dependencies = [
         ('trans', '0084_auto_20170406_0858'),
         ('permissions', '0006_auto_20170404_1637'),
+        ('lang', '0010_auto_20180129_1443'),
     ]
 
     operations = [
