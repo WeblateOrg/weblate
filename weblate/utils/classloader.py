@@ -22,6 +22,7 @@ from importlib import import_module
 
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
+from django.utils.functional import cached_property
 
 
 def load_class(name, setting):
@@ -58,18 +59,17 @@ class ClassLoader(object):
     def __init__(self, name, construct=True):
         self.name = name
         self.construct = construct
-        self._data = None
 
-    @property
+    @cached_property
     def data(self):
-        if self._data is None:
-            self._data = {}
-            for path in getattr(settings, self.name):
-                obj = load_class(path, self.name)
-                if self.construct:
-                    obj = obj()
-                self._data[obj.get_identifier()] = obj
-        return self._data
+        result = {}
+        for path in getattr(settings, self.name):
+            obj = load_class(path, self.name)
+            if self.construct:
+                obj = obj()
+            result[obj.get_identifier()] = obj
+        print result
+        return result
 
     def __getitem__(self, key):
         return self.data.__getitem__(key)
@@ -77,11 +77,17 @@ class ClassLoader(object):
     def __setitem__(self, key, value):
         self.data.__setitem__(key, value)
 
+    def get(self, key):
+        return self.data.get(key)
+
     def items(self):
         return self.data.items()
 
     def keys(self):
         return self.data.keys()
+
+    def values(self):
+        return self.data.values()
 
     def __iter__(self):
         return self.data.__iter__()
