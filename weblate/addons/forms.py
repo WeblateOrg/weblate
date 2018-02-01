@@ -20,31 +20,13 @@
 
 from __future__ import unicode_literals
 
-from django.db import models
-
-from weblate.addons.events import EVENT_CHOICES
-from weblate.trans.models import SubProject
-from weblate.utils.fields import JSONField
+from django import forms
 
 
-class Addon(models.Model):
-    component = models.ForeignKey(SubProject)
-    name = models.CharField(max_length=100)
-    configuration = JSONField()
-    state = JSONField()
+class BaseAddonForm(forms.Form):
+    def __init__(self, addon, *args, **kwargs):
+        self._addon = addon
+        super(BaseAddonForm, self).__init__(*args, **kwargs)
 
-    class Meta(object):
-        unique_together = ('component', 'name')
-
-    def configure_events(self, events):
-        for event in events:
-            Event.objects.get_or_create(addon=self, event=event)
-        self.event_set.exclude(event__in=events).delete()
-
-
-class Event(models.Model):
-    addon = models.ForeignKey(Addon)
-    event = models.IntegerField(choices=EVENT_CHOICES)
-
-    class Meta(object):
-        unique_together = ('addon', 'event')
+    def save(self):
+        self._addon.configure(self.cleaned_data)
