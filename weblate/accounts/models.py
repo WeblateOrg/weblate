@@ -20,7 +20,6 @@
 
 from __future__ import unicode_literals
 
-import json
 import datetime
 
 from django.db import models
@@ -46,6 +45,7 @@ from weblate.utils import messages
 from weblate.accounts.avatar import get_user_display
 from weblate.utils.validators import validate_editor
 from weblate.utils.decorators import disable_for_loaddata
+from weblate.utils.fields import JSONField
 
 DEMO_ACCOUNTS = ('demo', 'review')
 
@@ -151,7 +151,7 @@ class AuditLogManager(models.Manager):
             activity=activity,
             address=address,
             user_agent=user_agent,
-            params=json.dumps(params)
+            params=params
         )
 
 
@@ -196,7 +196,7 @@ class AuditLog(models.Model):
         choices=[(a, a) for a in sorted(ACCOUNT_ACTIVITY.keys())],
         db_index=True,
     )
-    params = models.TextField()
+    params = JSONField()
     address = models.GenericIPAddressField()
     user_agent = models.CharField(max_length=200, default='')
     timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
@@ -208,12 +208,9 @@ class AuditLog(models.Model):
 
     def get_message(self):
         return ACCOUNT_ACTIVITY[self.activity].format(
-            **self.get_params()
+            **self.params
         )
     get_message.short_description = _('Account activity')
-
-    def get_params(self):
-        return json.loads(self.params)
 
     def should_notify(self):
         return self.activity in NOTIFY_ACTIVITY
