@@ -647,7 +647,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
     def get_source_checks(self):
         """Return list of failing source checks on current subproject."""
-        self.stats.ensure_all()
         result = TranslationChecklist()
         result.add(
             self.stats,
@@ -688,7 +687,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
     def get_translation_checks(self):
         """Return list of failing checks on current translation."""
-        self.stats.ensure_all()
         result = TranslationChecklist()
 
         # All strings
