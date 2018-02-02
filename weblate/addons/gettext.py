@@ -123,7 +123,7 @@ class UpdateConfigureAddon(BaseAddon):
     verbose = _('Update ALL_LINGUAS variable in the configure file')
     description = _(
         'Updates the ALL_LINGUAS variable in configure, '
-        'configure.in or configure.ac files.'
+        'configure.in or configure.ac files when adding new translation.'
     )
 
     @staticmethod
