@@ -289,11 +289,12 @@ class RepoTestMixin(object):
             vcs='subversion'
         )
 
-    def create_po_new_base(self):
+    def create_po_new_base(self, **kwargs):
         return self._create_subproject(
             'po',
             'po/*.po',
-            new_base='po/hello.pot'
+            new_base='po/hello.pot',
+            **kwargs
         )
 
     def create_po_link(self):
@@ -335,11 +336,12 @@ class RepoTestMixin(object):
             'iphone/*.lproj/Localizable.strings',
         )
 
-    def create_android(self):
+    def create_android(self, **kwargs):
         return self._create_subproject(
             'aresource',
             'android/values-*/strings.xml',
             'android/values/strings.xml',
+            **kwargs
         )
 
     def create_json(self):

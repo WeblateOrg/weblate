@@ -93,6 +93,9 @@ class BaseAddon(object):
     def pre_commit(self, translation):
         return
 
+    def post_add(self, translation):
+        return
+
 
 class TestAddon(BaseAddon):
     """Testing addong doing nothing."""

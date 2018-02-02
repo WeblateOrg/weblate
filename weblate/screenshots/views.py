@@ -84,7 +84,7 @@ class ScreenshotList(ListView, ComponentViewMixin):
         return result
 
     def post(self, request, **kwargs):
-        component = self.get_component(kwargs)
+        component = self.get_component()
         if not can_add_screenshot(request.user, component.project):
             raise PermissionDenied()
         self._add_form = ScreenshotForm(request.POST, request.FILES)

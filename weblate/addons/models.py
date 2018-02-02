@@ -28,12 +28,13 @@ from django.utils.functional import cached_property
 
 from weblate.addons.events import (
     EVENT_CHOICES, EVENT_POST_PUSH, EVENT_POST_UPDATE, EVENT_PRE_COMMIT,
-    EVENT_POST_COMMIT,
+    EVENT_POST_COMMIT, EVENT_POST_ADD,
 )
 
 from weblate.trans.models import SubProject
 from weblate.trans.signals import (
     vcs_post_push, vcs_post_update, vcs_pre_commit, vcs_post_commit,
+    translation_post_add,
 )
 from weblate.utils.classloader import ClassLoader
 from weblate.utils.fields import JSONField
@@ -82,6 +83,8 @@ class Event(models.Model):
 class AddonsConf(AppConf):
     ADDONS = (
         'weblate.addons.gettext.GenerateMoAddon',
+        'weblate.addons.gettext.UpdateLinguasAddon',
+        'weblate.addons.gettext.UpdateConfigureAddon',
     )
 
     class Meta(object):
@@ -116,3 +119,12 @@ def post_commit(sender, translation, **kwargs):
     )
     for addon in addons:
         addon.addon.post_commit(translation)
+
+
+@receiver(translation_post_add)
+def post_add(sender, translation, **kwargs):
+    addons = Addon.objects.filter_event(
+        translation.subproject, EVENT_POST_ADD
+    )
+    for addon in addons:
+        addon.addon.post_add(translation)
