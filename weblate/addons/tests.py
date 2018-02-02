@@ -25,8 +25,9 @@ import os
 from weblate.trans.tests.test_views import ViewTestCase, FixtureTestCase
 
 from weblate.addons.base import TestAddon
-from weblate.addons.gettext import GenerateMoAddon
+from weblate.addons.gettext import GenerateMoAddon, UpdateLinguasAddon
 from weblate.addons.models import Addon
+from weblate.lang.models import Language
 
 
 class AddonBaseTest(FixtureTestCase):
@@ -49,6 +50,9 @@ class AddonBaseTest(FixtureTestCase):
 
 
 class IntegrationTest(ViewTestCase):
+    def create_subproject(self):
+        return self.create_po_new_base(new_lang='add')
+
     def test_registry(self):
         GenerateMoAddon.create(self.subproject)
         addon = self.subproject.addon_set.all()[0]
@@ -65,13 +69,37 @@ class IntegrationTest(ViewTestCase):
         )
         self.assertIn('po/cs.mo', commit)
 
+    def test_add(self):
+        UpdateLinguasAddon.create(self.subproject)
+        rev = self.subproject.repository.last_revision
+        self.subproject.add_new_language(
+            Language.objects.get(code='sk'), None
+        )
+        self.assertNotEqual(rev, self.subproject.repository.last_revision)
+        commit = self.subproject.repository.show(
+            self.subproject.repository.last_revision
+        )
+        self.assertIn('po/LINGUAS', commit)
+
 
 class AddonTest(ViewTestCase):
+    def create_subproject(self):
+        return self.create_po_new_base(new_lang='add')
+
     def test_gettext_mo(self):
         translation = self.get_translation()
         self.assertTrue(GenerateMoAddon.is_compatible(translation.subproject))
         addon = GenerateMoAddon.create(translation.subproject)
         addon.pre_commit(translation)
+        self.assertTrue(
+            os.path.exists(translation.addon_commit_files[0])
+        )
+
+    def test_update_linguas(self):
+        translation = self.get_translation()
+        self.assertTrue(UpdateLinguasAddon.is_compatible(translation.subproject))
+        addon = UpdateLinguasAddon.create(translation.subproject)
+        addon.post_add(translation)
         self.assertTrue(
             os.path.exists(translation.addon_commit_files[0])
         )

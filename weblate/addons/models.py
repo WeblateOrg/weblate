@@ -83,6 +83,7 @@ class Event(models.Model):
 class AddonsConf(AppConf):
     ADDONS = (
         'weblate.addons.gettext.GenerateMoAddon',
+        'weblate.addons.gettext.UpdateLinguasAddon',
     )
 
     class Meta(object):

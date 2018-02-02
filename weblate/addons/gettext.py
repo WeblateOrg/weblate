@@ -20,21 +20,26 @@
 
 from __future__ import unicode_literals
 
+import os
+
+from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.addons.base import BaseAddon
-from weblate.addons.events import EVENT_PRE_COMMIT
+from weblate.addons.events import EVENT_PRE_COMMIT, EVENT_POST_ADD
 from weblate.trans.exporters import MoExporter
+
+GETTEXT_COMPAT = {
+    'file_format': frozenset((
+        'auto', 'po', 'po-unwrapped', 'po-mono', 'po-mono-unwrapped'
+    )),
+}
 
 
 class GenerateMoAddon(BaseAddon):
     events = (EVENT_PRE_COMMIT,)
     name = 'weblate.gettext.mo'
-    compat = {
-        'file_format': frozenset((
-            'auto', 'po', 'po-unwrapped', 'po-mono', 'po-mono-unwrapped'
-        )),
-    }
+    compat = GETTEXT_COMPAT
     verbose = _('Generate mo files')
     description = _(
         'Automatically generates mo file for every changed po file.'
@@ -53,3 +58,59 @@ class GenerateMoAddon(BaseAddon):
         if not component.filemask.endswith('.po'):
             return False
         return super(GenerateMoAddon, cls).is_compatible(component)
+
+
+class UpdateLinguasAddon(BaseAddon):
+    events = (EVENT_POST_ADD,)
+    name = 'weblate.gettext.linguas'
+    compat = GETTEXT_COMPAT
+    verbose = _('Update LINGUAS file')
+    description = _(
+        'Updates the LINGUAS file when adding new translation.'
+    )
+
+    @staticmethod
+    def get_linguas_path(component):
+        base = component.get_new_base_filename()
+        if not base:
+            return None
+        return os.path.join(os.path.dirname(base), 'LINGUAS')
+
+    @classmethod
+    def is_compatible(cls, component):
+        if not component.can_add_new_language():
+            return False
+        path = cls.get_linguas_path(component)
+        if not path or not os.path.exists(path):
+            return False
+        return super(UpdateLinguasAddon, cls).is_compatible(component)
+
+    def post_add(self, translation):
+        path = self.get_linguas_path(translation.subproject)
+        with open(path, 'r') as handle:
+            lines = handle.readlines()
+
+        add = True
+        for i, line in enumerate(lines):
+            stripped = line.strip()
+            # Comment
+            if stripped.startswith('#'):
+                continue
+            # Langauges in one line
+            if ' ' in stripped:
+                lines[i] = '{} {}\n'.format(
+                    stripped, translation.language_code
+                )
+                add = False
+                break
+            # Language is already there
+            if stripped == translation:
+                add = False
+                break
+        if add:
+            lines.append('{}\n'.format(translation.language_code))
+
+        with open(path, 'w') as handle:
+            handle.writelines(lines)
+
+        translation.addon_commit_files.append(path)
