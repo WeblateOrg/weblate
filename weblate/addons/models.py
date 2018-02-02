@@ -52,7 +52,9 @@ class AddonQuerySet(models.QuerySet):
 
 
 class Addon(models.Model):
-    component = models.ForeignKey(SubProject)
+    component = models.ForeignKey(
+        SubProject, on_delete=models.deletion.CASCADE
+    )
     name = models.CharField(max_length=100)
     configuration = JSONField()
     state = JSONField()
@@ -73,7 +75,7 @@ class Addon(models.Model):
 
 
 class Event(models.Model):
-    addon = models.ForeignKey(Addon)
+    addon = models.ForeignKey(Addon, on_delete=models.deletion.CASCADE)
     event = models.IntegerField(choices=EVENT_CHOICES)
 
     class Meta(object):
