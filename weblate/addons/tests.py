@@ -25,7 +25,9 @@ import os
 from weblate.trans.tests.test_views import ViewTestCase, FixtureTestCase
 
 from weblate.addons.base import TestAddon
-from weblate.addons.gettext import GenerateMoAddon, UpdateLinguasAddon
+from weblate.addons.gettext import (
+    GenerateMoAddon, UpdateLinguasAddon, UpdateConfigureAddon
+)
 from weblate.addons.models import Addon
 from weblate.lang.models import Language
 
@@ -71,6 +73,7 @@ class IntegrationTest(ViewTestCase):
 
     def test_add(self):
         UpdateLinguasAddon.create(self.subproject)
+        UpdateConfigureAddon.create(self.subproject)
         rev = self.subproject.repository.last_revision
         self.subproject.add_new_language(
             Language.objects.get(code='sk'), None
@@ -80,6 +83,7 @@ class IntegrationTest(ViewTestCase):
             self.subproject.repository.last_revision
         )
         self.assertIn('po/LINGUAS', commit)
+        self.assertIn('configure', commit)
 
 
 class AddonTest(ViewTestCase):
@@ -99,6 +103,15 @@ class AddonTest(ViewTestCase):
         translation = self.get_translation()
         self.assertTrue(UpdateLinguasAddon.is_compatible(translation.subproject))
         addon = UpdateLinguasAddon.create(translation.subproject)
+        addon.post_add(translation)
+        self.assertTrue(
+            os.path.exists(translation.addon_commit_files[0])
+        )
+
+    def test_update_configure(self):
+        translation = self.get_translation()
+        self.assertTrue(UpdateConfigureAddon.is_compatible(translation.subproject))
+        addon = UpdateConfigureAddon.create(translation.subproject)
         addon.post_add(translation)
         self.assertTrue(
             os.path.exists(translation.addon_commit_files[0])

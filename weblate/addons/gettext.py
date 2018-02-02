@@ -114,3 +114,62 @@ class UpdateLinguasAddon(BaseAddon):
             handle.writelines(lines)
 
         translation.addon_commit_files.append(path)
+
+
+class UpdateConfigureAddon(BaseAddon):
+    events = (EVENT_POST_ADD,)
+    name = 'weblate.gettext.configure'
+    compat = GETTEXT_COMPAT
+    verbose = _('Update ALL_LINGUAS variable in the configure file')
+    description = _(
+        'Updates the ALL_LINGUAS variable in configure, '
+        'configure.in or configure.ac files.'
+    )
+
+    @staticmethod
+    def get_configure_paths(component):
+        base = component.get_path()
+        return [
+            os.path.join(base, 'configure'),
+            os.path.join(base, 'configure.in'),
+            os.path.join(base, 'configure.ac'),
+        ]
+
+    @classmethod
+    def is_compatible(cls, component):
+        if not component.can_add_new_language():
+            return False
+        if not super(UpdateConfigureAddon, cls).is_compatible(component):
+            return False
+        for name in cls.get_configure_paths(component):
+            if not os.path.exists(name):
+                continue
+            with open(name) as handle:
+                if 'ALL_LINGUAS="' in handle.read():
+                    return True
+        return False
+
+    def post_add(self, translation):
+        for path in self.get_configure_paths(translation.subproject):
+            if not os.path.exists(path):
+                continue
+            with open(path, 'r') as handle:
+                lines = handle.readlines()
+
+            for i, line in enumerate(lines):
+                stripped = line.strip()
+                # Comment
+                if stripped.startswith('#'):
+                    continue
+                if not stripped.startswith('ALL_LINGUAS="'):
+                    continue
+                lines[i] = '{}{} {}\n'.format(
+                    stripped[:13],
+                    translation.language_code,
+                    stripped[13:],
+                )
+
+            with open(path, 'w') as handle:
+                handle.writelines(lines)
+
+            translation.addon_commit_files.append(path)

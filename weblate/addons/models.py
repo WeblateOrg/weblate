@@ -84,6 +84,7 @@ class AddonsConf(AppConf):
     ADDONS = (
         'weblate.addons.gettext.GenerateMoAddon',
         'weblate.addons.gettext.UpdateLinguasAddon',
+        'weblate.addons.gettext.UpdateConfigureAddon',
     )
 
     class Meta(object):
