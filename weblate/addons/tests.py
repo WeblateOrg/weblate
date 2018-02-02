@@ -62,6 +62,7 @@ class IntegrationTest(ViewTestCase):
 
     def test_commit(self):
         GenerateMoAddon.create(self.subproject)
+        TestAddon.create(self.subproject)
         rev = self.subproject.repository.last_revision
         self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
         self.get_translation().commit_pending(None)
@@ -74,6 +75,7 @@ class IntegrationTest(ViewTestCase):
     def test_add(self):
         UpdateLinguasAddon.create(self.subproject)
         UpdateConfigureAddon.create(self.subproject)
+        TestAddon.create(self.subproject)
         rev = self.subproject.repository.last_revision
         self.subproject.add_new_language(
             Language.objects.get(code='sk'), None
@@ -87,6 +89,7 @@ class IntegrationTest(ViewTestCase):
 
     def test_update(self):
         MsgmergeAddon.create(self.subproject)
+        TestAddon.create(self.subproject)
         rev = self.subproject.repository.last_revision
         self.subproject.update_branch()
         self.assertNotEqual(rev, self.subproject.repository.last_revision)
