@@ -40,7 +40,6 @@ from weblate.screenshots.forms import ScreenshotForm
 from weblate.screenshots.models import Screenshot
 from weblate.permissions.helpers import check_access
 from weblate.trans.models import Source
-from weblate.trans.views.helper import get_subproject
 from weblate.permissions.helpers import (
     can_delete_screenshot, can_add_screenshot, can_change_screenshot,
 )
