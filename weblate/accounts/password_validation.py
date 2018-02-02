@@ -66,7 +66,7 @@ class PastPasswordsValidator(object):
 
             for log in AuditLog.objects.get_password(user=user):
                 if 'password' in log.params:
-                    passwords.append(params['password'])
+                    passwords.append(log.params['password'])
 
             for old in passwords:
                 if check_password(password, old):
