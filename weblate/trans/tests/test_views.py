@@ -304,13 +304,8 @@ class TranslationManipulationTest(ViewTestCase):
 
 
 class NewLangTest(ViewTestCase):
-    def setUp(self):
-        super(NewLangTest, self).setUp()
-        self.subproject.new_lang = 'add'
-        self.subproject.save()
-
     def create_subproject(self):
-        return self.create_po_new_base()
+        return self.create_po_new_base(new_lang='add')
 
     def test_no_permission(self):
         # Remove permission to add translations
