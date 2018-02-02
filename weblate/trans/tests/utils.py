@@ -336,11 +336,12 @@ class RepoTestMixin(object):
             'iphone/*.lproj/Localizable.strings',
         )
 
-    def create_android(self):
+    def create_android(self, **kwargs):
         return self._create_subproject(
             'aresource',
             'android/values-*/strings.xml',
             'android/values/strings.xml',
+            **kwargs
         )
 
     def create_json(self):

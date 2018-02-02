@@ -480,7 +480,7 @@ class NewLangTest(ViewTestCase):
 
 class AndroidNewLangTest(NewLangTest):
     def create_subproject(self):
-        return self.create_android()
+        return self.create_android(new_lang='add')
 
 
 class BasicViewTest(ViewTestCase):
