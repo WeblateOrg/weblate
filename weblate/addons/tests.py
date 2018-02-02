@@ -86,7 +86,7 @@ class IntegrationTest(ViewTestCase):
         self.assertIn('configure', commit)
 
 
-class AddonTest(ViewTestCase):
+class GettextAddonTest(ViewTestCase):
     def create_subproject(self):
         return self.create_po_new_base(new_lang='add')
 
