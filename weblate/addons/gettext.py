@@ -29,17 +29,25 @@ from weblate.addons.base import BaseAddon
 from weblate.addons.events import EVENT_PRE_COMMIT, EVENT_POST_ADD
 from weblate.trans.exporters import MoExporter
 
-GETTEXT_COMPAT = {
-    'file_format': frozenset((
-        'auto', 'po', 'po-unwrapped', 'po-mono', 'po-mono-unwrapped'
-    )),
-}
+
+class GettextBaseAddon(BaseAddon):
+    compat = {
+        'file_format': frozenset((
+            'auto', 'po', 'po-unwrapped', 'po-mono', 'po-mono-unwrapped'
+        )),
+    }
+
+    @classmethod
+    def is_compatible(cls, component):
+        # Check extension to cover the auto format
+        if not component.filemask.endswith('.po'):
+            return False
+        return super(GettextBaseAddon, cls).is_compatible(component)
 
 
-class GenerateMoAddon(BaseAddon):
+class GenerateMoAddon(GettextBaseAddon):
     events = (EVENT_PRE_COMMIT,)
     name = 'weblate.gettext.mo'
-    compat = GETTEXT_COMPAT
     verbose = _('Generate mo files')
     description = _(
         'Automatically generates mo file for every changed po file.'
@@ -53,17 +61,10 @@ class GenerateMoAddon(BaseAddon):
             handle.write(exporter.serialize())
         translation.addon_commit_files.append(output)
 
-    @classmethod
-    def is_compatible(cls, component):
-        if not component.filemask.endswith('.po'):
-            return False
-        return super(GenerateMoAddon, cls).is_compatible(component)
 
-
-class UpdateLinguasAddon(BaseAddon):
+class UpdateLinguasAddon(GettextBaseAddon):
     events = (EVENT_POST_ADD,)
     name = 'weblate.gettext.linguas'
-    compat = GETTEXT_COMPAT
     verbose = _('Update LINGUAS file')
     description = _(
         'Updates the LINGUAS file when adding new translation.'
@@ -78,12 +79,12 @@ class UpdateLinguasAddon(BaseAddon):
 
     @classmethod
     def is_compatible(cls, component):
+        if not super(UpdateLinguasAddon, cls).is_compatible(component):
+            return False
         if not component.can_add_new_language():
             return False
         path = cls.get_linguas_path(component)
-        if not path or not os.path.exists(path):
-            return False
-        return super(UpdateLinguasAddon, cls).is_compatible(component)
+        return path and os.path.exists(path)
 
     def post_add(self, translation):
         path = self.get_linguas_path(translation.subproject)
@@ -116,10 +117,9 @@ class UpdateLinguasAddon(BaseAddon):
         translation.addon_commit_files.append(path)
 
 
-class UpdateConfigureAddon(BaseAddon):
+class UpdateConfigureAddon(GettextBaseAddon):
     events = (EVENT_POST_ADD,)
     name = 'weblate.gettext.configure'
-    compat = GETTEXT_COMPAT
     verbose = _('Update ALL_LINGUAS variable in the configure file')
     description = _(
         'Updates the ALL_LINGUAS variable in configure, '
@@ -137,9 +137,9 @@ class UpdateConfigureAddon(BaseAddon):
 
     @classmethod
     def is_compatible(cls, component):
-        if not component.can_add_new_language():
-            return False
         if not super(UpdateConfigureAddon, cls).is_compatible(component):
+            return False
+        if not component.can_add_new_language():
             return False
         for name in cls.get_configure_paths(component):
             if not os.path.exists(name):
