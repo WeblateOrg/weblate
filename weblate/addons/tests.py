@@ -26,7 +26,7 @@ from weblate.trans.tests.test_views import ViewTestCase, FixtureTestCase
 
 from weblate.addons.base import TestAddon
 from weblate.addons.gettext import (
-    GenerateMoAddon, UpdateLinguasAddon, UpdateConfigureAddon
+    GenerateMoAddon, UpdateLinguasAddon, UpdateConfigureAddon, MsgmergeAddon,
 )
 from weblate.addons.models import Addon
 from weblate.lang.models import Language
@@ -116,3 +116,14 @@ class GettextAddonTest(ViewTestCase):
         self.assertTrue(
             os.path.exists(translation.addon_commit_files[0])
         )
+
+    def test_msgmerge(self):
+        self.assertTrue(MsgmergeAddon.is_compatible(self.subproject))
+        addon = MsgmergeAddon.create(self.subproject)
+        rev = self.subproject.repository.last_revision
+        addon.post_update(self.subproject, '')
+        self.assertNotEqual(rev, self.subproject.repository.last_revision)
+        commit = self.subproject.repository.show(
+            self.subproject.repository.last_revision
+        )
+        self.assertIn('po/cs.po', commit)

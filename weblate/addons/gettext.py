@@ -22,10 +22,11 @@ from __future__ import unicode_literals
 
 import os
 
+from django.core.management.utils import find_command, popen_wrapper
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
-from weblate.addons.base import BaseAddon
+from weblate.addons.base import BaseAddon, UpdateBaseAddon
 from weblate.addons.events import EVENT_PRE_COMMIT, EVENT_POST_ADD
 from weblate.trans.exporters import MoExporter
 
@@ -173,3 +174,28 @@ class UpdateConfigureAddon(GettextBaseAddon):
                 handle.writelines(lines)
 
             translation.addon_commit_files.append(path)
+
+
+class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
+    name = 'weblate.gettext.msgmerge'
+    verbose = _('Update po files to match pot (msgmerge)')
+    description = _(
+        'Update all po files to match the pot file using msgmerge. This is '
+        'triggered whenever new changes are pulled from upstream repository.'
+    )
+
+    @classmethod
+    def is_compatible(cls, component):
+        if not component.new_base.endswith('.pot'):
+            return False
+        if find_command('msgmerge') is None:
+            return False
+        return super(MsgmergeAddon, cls).is_compatible(component)
+
+    def update_translations(self, component, previous_head):
+        cmd = [
+            'msgmerge', '--update', 'FILE', component.get_new_base_filename()
+        ]
+        for translation in component.translation_set.all():
+            cmd[2] = translation.get_filename()
+            popen_wrapper(cmd, OSError)

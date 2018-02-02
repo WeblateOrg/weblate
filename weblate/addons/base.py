@@ -22,6 +22,7 @@ from __future__ import unicode_literals
 
 from django.apps import apps
 
+from weblate.addons.events import EVENT_POST_UPDATE
 from weblate.addons.forms import BaseAddonForm
 
 
@@ -103,3 +104,33 @@ class TestAddon(BaseAddon):
     name = 'weblate.base.test'
     verbose = 'Test addon'
     description = 'Test addon'
+
+
+class UpdateBaseAddon(BaseAddon):
+    """Base class for addons updating translation files.
+
+    It hooks to post update and commits all changed translations.
+    """
+    events = (EVENT_POST_UPDATE, )
+    message = '''Update translation files
+
+Updated by {name} hook in Weblate.'''
+
+    def update_translations(self, component, previous_head):
+        raise NotImplementedError()
+
+    def commit_and_push(self, component):
+        repository = component.repository
+        with repository.lock:
+            if repository.needs_commit():
+                files = [t.filename for t in component.translation_set.all()]
+                repository.commit(
+                    self.message.format(name=self.verbose),
+                    files=files
+                )
+                if component.push_on_commit:
+                    repository.push()
+
+    def post_update(self, component, previous_head):
+        self.update_translations(component, previous_head)
+        self.commit_and_push(component)
