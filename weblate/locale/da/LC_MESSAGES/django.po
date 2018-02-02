@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-02-01 21:25+0000\n"
-"PO-Revision-Date: 2018-02-02 00:25+0000\n"
+"PO-Revision-Date: 2018-02-02 00:30+0000\n"
 "Last-Translator: Jesper Hertel <jesper.hertel@gmail.com>\n"
 "Language-Team: Danish "
 "<https://hosted.weblate.org/projects/weblate/master/da/>\n"
@@ -454,22 +454,16 @@ msgid "This password is only a single character."
 msgstr "Adgangskoden består kun af et enkelt tegn."
 
 #: weblate/accounts/password_validation.py:52
-#, fuzzy
-#| msgid "Your password can't consist of single character or whitespace only."
 msgid "Your password can't consist of a single character or only whitespace."
-msgstr "Adgangskoden kan ikke bestå kun af et enkelt tegn eller mellemrum."
+msgstr "Adgangskoden kan ikke bestå af kun et enkelt tegn eller kun blanktegn."
 
 #: weblate/accounts/password_validation.py:75
-#, fuzzy
-#| msgid "Can not use previously used password!"
 msgid "Can not reuse previously used password!"
-msgstr "Kan ikke bruge tidligere anvendt adgangskode!"
+msgstr "Kan ikke genbruge tidligere anvendt adgangskode!"
 
 #: weblate/accounts/password_validation.py:81
-#, fuzzy
-#| msgid "Your password can't match password you have used in the past."
 msgid "Your password can't match a password you have used in the past."
-msgstr "Adgangskoden kan ikke matche en adgangskode, der er brugt tidligere."
+msgstr "Adgangskoden kan ikke være en adgangskode, du har brugt tidligere."
 
 #: weblate/accounts/pipeline.py:305
 msgid "You can not complete password reset while logged in!"
@@ -621,22 +615,20 @@ msgstr ""
 "anden konto!"
 
 #: weblate/addons/gettext.py:38
-#, fuzzy
-#| msgid "Generate SSH key"
 msgid "Generate mo files"
-msgstr "Opret SSH nøgle"
+msgstr "Generer mo-filer"
 
 #: weblate/addons/gettext.py:40
 msgid "Automatically generates mo file for every changed po file."
-msgstr ""
+msgstr "Generér automatisk en mo-fil for hver ændret po-fil."
 
 #: weblate/addons/views.py:80
 msgid "Attempt to install invalid addon!"
-msgstr ""
+msgstr "Forsøg på at installere en ugyldig tilføjelse!"
 
 #: weblate/addons/views.py:83
 msgid "Addon is already installed!"
-msgstr ""
+msgstr "Tilføjelsen er allerede installeret!"
 
 #: weblate/billing/admin.py:52 weblate/billing/models.py:128
 #: weblate/templates/accounts/user.html:38
@@ -826,12 +818,9 @@ msgid "One/two/other"
 msgstr "En/to/andre"
 
 #: weblate/lang/models.py:446
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/other/zero"
 msgctxt "Plural type"
 msgid "One/other/two"
-msgstr "En/andre/ingen"
+msgstr "En/andre/to"
 
 #: weblate/lang/models.py:450
 msgctxt "Plural type"
@@ -839,12 +828,9 @@ msgid "One/two/few/other"
 msgstr "En/to/nogle/andre"
 
 #: weblate/lang/models.py:454
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/two/few/other"
 msgctxt "Plural type"
 msgid "Other/one/two/few"
-msgstr "En/to/nogle/andre"
+msgstr "Andre/en/to/få"
 
 #: weblate/lang/models.py:458
 msgctxt "Plural type"
@@ -877,21 +863,16 @@ msgid "Unknown"
 msgstr "Ukendt"
 
 #: weblate/lang/models.py:485
-#, fuzzy
-#| msgid "Plural equation"
 msgid "Plural definition source"
-msgstr "Flertalsligning"
+msgstr "Flertalsdefinitionskilde"
 
 #: weblate/lang/models.py:487
-#, fuzzy
-#| msgid "Optional plural"
 msgid "Default plural"
-msgstr "Valgfri flertalsform"
+msgstr "Standardflertalsform"
 
 #: weblate/lang/models.py:488
-#, fuzzy
 msgid "Gettext plural formula"
-msgstr "Gettext plural formel"
+msgstr "Gettext-flertalsformel"
 
 #: weblate/lang/models.py:493 weblate/templates/language.html:73
 msgid "Number of plurals"
@@ -907,16 +888,12 @@ msgid "Plural type"
 msgstr "Flertalsform"
 
 #: weblate/lang/models.py:510
-#, fuzzy
-#| msgid "Plural form %d"
 msgid "Plural form"
-msgstr "Flertalsform %d"
+msgstr "Flertalsform"
 
 #: weblate/lang/models.py:511
-#, fuzzy
-#| msgid "Plural form %d"
 msgid "Plural forms"
-msgstr "Flertalsform %d"
+msgstr "Flertalsformer"
 
 #. Translators: Label for plurals with example counts
 #: weblate/lang/models.py:571
@@ -929,7 +906,6 @@ msgid "Singular"
 msgstr "Ental"
 
 #: weblate/lang/models.py:584
-#, fuzzy
 msgid "Plural"
 msgstr "Flertal"
 
