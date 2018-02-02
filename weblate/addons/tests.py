@@ -85,6 +85,16 @@ class IntegrationTest(ViewTestCase):
         self.assertIn('po/LINGUAS', commit)
         self.assertIn('configure', commit)
 
+    def test_update(self):
+        MsgmergeAddon.create(self.subproject)
+        rev = self.subproject.repository.last_revision
+        self.subproject.update_branch()
+        self.assertNotEqual(rev, self.subproject.repository.last_revision)
+        commit = self.subproject.repository.show(
+            self.subproject.repository.last_revision
+        )
+        self.assertIn('po/cs.po', commit)
+
 
 class GettextAddonTest(ViewTestCase):
     def create_subproject(self):
