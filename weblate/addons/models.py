@@ -91,6 +91,8 @@ class AddonsConf(AppConf):
         'weblate.addons.gettext.UpdateConfigureAddon',
         'weblate.addons.gettext.MsgmergeAddon',
         'weblate.addons.cleanup.CleanupAddon',
+        'weblate.addons.flags.SourceEditAddon',
+        'weblate.addons.flags.TargetEditAddon',
     )
 
     class Meta(object):

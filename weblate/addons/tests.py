@@ -26,11 +26,14 @@ from weblate.trans.tests.test_views import ViewTestCase, FixtureTestCase
 
 from weblate.addons.base import TestAddon
 from weblate.addons.cleanup import CleanupAddon
+from weblate.addons.flags import SourceEditAddon, TargetEditAddon
 from weblate.addons.gettext import (
     GenerateMoAddon, UpdateLinguasAddon, UpdateConfigureAddon, MsgmergeAddon,
 )
 from weblate.addons.models import Addon
 from weblate.lang.models import Language
+from weblate.trans.models import Unit
+from weblate.utils.state import STATE_FUZZY, STATE_EMPTY
 
 
 class AddonBaseTest(FixtureTestCase):
@@ -189,3 +192,16 @@ class JsonAddonTest(ViewTestCase):
             self.subproject.repository.last_revision
         )
         self.assertIn('json-mono-sync/cs.json', commit)
+
+    def test_unit(self):
+        self.assertTrue(SourceEditAddon.is_compatible(self.subproject))
+        self.assertTrue(TargetEditAddon.is_compatible(self.subproject))
+        SourceEditAddon.create(self.subproject)
+        TargetEditAddon.create(self.subproject)
+        Unit.objects.all().delete()
+        self.subproject.create_translations()
+        self.assertFalse(
+            Unit.objects.exclude(
+                state__in=(STATE_FUZZY, STATE_EMPTY)
+            ).exists()
+        )
