@@ -39,7 +39,7 @@ class CleanupAddon(UpdateBaseAddon):
 
     @cached_property
     def template_store(self):
-        return self._storage.component.template_store.store
+        return self.instance.component.template_store.store
 
     @classmethod
     def is_compatible(cls, component):
