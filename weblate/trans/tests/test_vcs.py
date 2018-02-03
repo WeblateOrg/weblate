@@ -393,6 +393,12 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
                 'branch'
             )
 
+    def test_get_file(self):
+        self.assertIn(
+            'msgid',
+            self.repo.get_file('po/cs.po', self.repo.last_revision)
+        )
+
 
 class VCSGerritTest(VCSGitTest):
     _class = GitWithGerritRepository

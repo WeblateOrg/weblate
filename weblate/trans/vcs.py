@@ -360,6 +360,10 @@ class Repository(object):
         """Verbosely describes current revision."""
         raise NotImplementedError()
 
+    def get_file(self, path, revision):
+        """Return content of file at given revision."""
+        raise NotImplementedError()
+
     @staticmethod
     def get_merge_driver(file_format):
         merge_driver = None
@@ -658,6 +662,13 @@ class GitRepository(Repository):
                 'merge.weblate-merge-gettext-po.driver',
                 '{0} %O %A %B'.format(merge_driver),
             ])
+
+    def get_file(self, path, revision):
+        """Return content of file at given revision."""
+        return self.execute(
+            ['show', '{0}:{1}'.format(revision, path)],
+            needs_lock=False
+        )
 
 
 @register_vcs
@@ -1189,3 +1200,10 @@ class HgRepository(Repository):
                 # No changes found
                 return
             raise
+
+    def get_file(self, path, revision):
+        """Return content of file at given revision."""
+        return self.execute(
+            ['cat', '--rev', revision, path],
+            needs_lock=False
+        )
