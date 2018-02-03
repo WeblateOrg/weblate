@@ -24,6 +24,7 @@ from appconf import AppConf
 
 from django.db import models
 from django.dispatch import receiver
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.functional import cached_property
 
 from weblate.addons.events import (
@@ -53,6 +54,7 @@ class AddonQuerySet(models.QuerySet):
         return component.addons_cache[event]
 
 
+@python_2_unicode_compatible
 class Addon(models.Model):
     component = models.ForeignKey(
         SubProject, on_delete=models.deletion.CASCADE
@@ -66,6 +68,9 @@ class Addon(models.Model):
     class Meta(object):
         unique_together = ('component', 'name')
 
+    def __str__(self):
+        return '{}: {}'.format(self.addon.verbose, self.component)
+
     def configure_events(self, events):
         for event in events:
             Event.objects.get_or_create(addon=self, event=event)
@@ -76,12 +81,16 @@ class Addon(models.Model):
         return ADDONS[self.name](self)
 
 
+@python_2_unicode_compatible
 class Event(models.Model):
     addon = models.ForeignKey(Addon, on_delete=models.deletion.CASCADE)
     event = models.IntegerField(choices=EVENT_CHOICES)
 
     class Meta(object):
         unique_together = ('addon', 'event')
+
+    def __str__(self):
+        return '{}: {}'.format(self.addon, self.get_event_display())
 
 
 class AddonsConf(AppConf):

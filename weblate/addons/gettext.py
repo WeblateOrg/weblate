@@ -23,7 +23,6 @@ from __future__ import unicode_literals
 import os
 
 from django.core.management.utils import find_command, popen_wrapper
-from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.addons.base import BaseAddon, UpdateBaseAddon

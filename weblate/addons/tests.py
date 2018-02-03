@@ -31,7 +31,6 @@ from weblate.addons.flags import SourceEditAddon, TargetEditAddon
 from weblate.addons.gettext import (
     GenerateMoAddon, UpdateLinguasAddon, UpdateConfigureAddon, MsgmergeAddon,
 )
-from weblate.addons.models import Addon
 from weblate.lang.models import Language
 from weblate.trans.models import Unit
 from weblate.utils.state import STATE_FUZZY, STATE_EMPTY
@@ -124,7 +123,9 @@ class GettextAddonTest(ViewTestCase):
 
     def test_update_linguas(self):
         translation = self.get_translation()
-        self.assertTrue(UpdateLinguasAddon.is_compatible(translation.subproject))
+        self.assertTrue(
+            UpdateLinguasAddon.is_compatible(translation.subproject)
+        )
         addon = UpdateLinguasAddon.create(translation.subproject)
         addon.post_add(translation)
         self.assertTrue(
@@ -133,7 +134,9 @@ class GettextAddonTest(ViewTestCase):
 
     def test_update_configure(self):
         translation = self.get_translation()
-        self.assertTrue(UpdateConfigureAddon.is_compatible(translation.subproject))
+        self.assertTrue(
+            UpdateConfigureAddon.is_compatible(translation.subproject)
+        )
         addon = UpdateConfigureAddon.create(translation.subproject)
         addon.post_add(translation)
         self.assertTrue(
@@ -176,7 +179,9 @@ class ResxAddonTest(ViewTestCase):
         self.assertTrue(CleanupAddon.is_compatible(self.subproject))
         addon = CleanupAddon.create(self.subproject)
         rev = self.subproject.repository.last_revision
-        addon.post_update(self.subproject, 'da07dc0dc7052dc44eadfa8f3a2f2609ec634303')
+        addon.post_update(
+            self.subproject, 'da07dc0dc7052dc44eadfa8f3a2f2609ec634303'
+        )
         self.assertNotEqual(rev, self.subproject.repository.last_revision)
         commit = self.subproject.repository.show(
             self.subproject.repository.last_revision

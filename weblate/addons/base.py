@@ -54,6 +54,8 @@ class BaseAddon(object):
     @classmethod
     def get_add_form(cls, component, *args):
         """Return configuration form for adding new addon."""
+        if cls.settings_form is None:
+            return None
         storage = apps.get_model('addons', 'Addon')(
             component=component, name=cls.name
         )
@@ -62,6 +64,8 @@ class BaseAddon(object):
 
     def get_settings_form(self, *args):
         """Return configuration for for this addon."""
+        if cls.settings_form is None:
+            return None
         return self.settings_form(self, *args)
 
     def configure(self, settings):

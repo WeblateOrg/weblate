@@ -20,7 +20,6 @@
 
 from __future__ import unicode_literals
 
-from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.addons.base import BaseAddon
@@ -35,6 +34,7 @@ SUPPORT_FUZZY = frozenset((
 
 class FlagBase(BaseAddon):
     events = (EVENT_UNIT_PRE_CREATE,)
+
     @classmethod
     def is_compatible(cls, component):
         if not component.has_template():
