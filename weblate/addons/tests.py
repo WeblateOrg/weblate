@@ -34,6 +34,7 @@ from weblate.addons.generate import GenerateFileAddon
 from weblate.addons.gettext import (
     GenerateMoAddon, UpdateLinguasAddon, UpdateConfigureAddon, MsgmergeAddon,
 )
+from weblate.addons.properties import PropertiesSortAddon
 from weblate.lang.models import Language
 from weblate.trans.models import Unit
 from weblate.utils.state import STATE_FUZZY, STATE_EMPTY
@@ -294,3 +295,18 @@ class ViewTests(ViewTestCase):
             follow=True,
         )
         self.assertContains(response, 'no addons currently installed')
+
+
+class PropertiesAddonTest(ViewTestCase):
+    def create_subproject(self):
+        return self.create_java()
+
+    def test_sort(self):
+        self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
+        self.assertTrue(PropertiesSortAddon.is_compatible(self.subproject))
+        addon = PropertiesSortAddon.create(self.subproject)
+        self.get_translation().commit_pending(None)
+        commit = self.subproject.repository.show(
+            self.subproject.repository.last_revision
+        )
+        self.assertIn('java/swing_messages_cs.properties', commit)
