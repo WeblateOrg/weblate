@@ -22,6 +22,7 @@ from __future__ import unicode_literals
 
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
+from django.urls import reverse
 from django.utils.translation import ugettext as _
 from django.views.generic import ListView, UpdateView
 
@@ -39,35 +40,33 @@ class AddonViewMixin(ComponentViewMixin):
         self.kwargs['component'] = component
         return Addon.objects.filter(component=component)
 
+    def get_success_url(self):
+        component = self.get_component()
+        return reverse(
+            'addons',
+            kwargs={
+                'project': component.project.slug,
+                'subproject': component.slug,
+            }
+        )
+
     def redirect_list(self, message=None):
         if message:
             messages.error(self.request, message)
-        component = self.get_component()
-        return redirect(
-            'addons',
-            project=component.project.slug,
-            subproject=component.slug
-        )
+        return redirect(self.get_success_url())
 
 
 class AddonList(AddonViewMixin, ListView):
     paginate_by = None
     model = Addon
-    _add_form = None
 
-    def get_context_data(self):
-        result = super(AddonList, self).get_context_data()
+    def get_context_data(self, **kwargs):
+        result = super(AddonList, self).get_context_data(**kwargs)
         component = self.kwargs['component']
         result['object'] = component
         installed = set([x.addon.name for x in result['object_list']])
         result['available'] = [
-            {
-                'verbose': x.verbose,
-                'description': x.description,
-                'name': x.name,
-                'icon': x.icon,
-            }
-            for x in ADDONS.values()
+            x for x in ADDONS.values()
             if x.is_compatible(component) and x.name not in installed
         ]
         return result
@@ -83,43 +82,46 @@ class AddonList(AddonViewMixin, ListView):
             return self.redirect_list(_('Addon is already installed!'))
 
         form = None
-        if not addon.settings_form:
+        if addon.settings_form is None:
             addon.create(component)
             return self.redirect_list()
         elif 'form' in request.POST:
-            form = addon.get_add_form(component, request.POST)
+            form = addon.get_add_form(component, data=request.POST)
             if form.is_valid():
                 form.save()
                 return self.redirect_list()
         else:
             form = addon.get_add_form(component)
-        return RENDER(form)
+        return self.response_class(
+            request=self.request,
+            template=['addons/addon_detail.html'],
+            context={
+                'addon': addon,
+                'form': form,
+                'object': self.kwargs['component'],
+            },
+        )
 
 
 class AddonDetail(AddonViewMixin, UpdateView):
     model = Addon
+    template_name_suffix = '_detail'
+
+    def get_form(self, form_class=None):
+        return self.object.addon.get_settings_form(
+            **self.get_form_kwargs()
+        )
 
     def get_context_data(self, **kwargs):
         result = super(AddonDetail, self).get_context_data(**kwargs)
-        component = result['object'].component
-        if can_change_screenshot(self.request.user, component.project):
-            if self._edit_form is not None:
-                result['edit_form'] = self._edit_form
-            else:
-                result['edit_form'] = ScreenshotForm(instance=result['object'])
+        result['object'] = self.object.component
+        result['instance'] = self.object
+        result['addon'] = self.object.addon
         return result
 
-    def post(self, request, **kwargs):
+    def post(self, request, *args, **kwargs):
         obj = self.get_object()
         if 'delete' in request.POST:
             obj.delete()
             return self.redirect_list()
-        if can_change_screenshot(request.user, obj.component.project):
-            self._edit_form = ScreenshotForm(
-                request.POST, request.FILES, instance=obj
-            )
-            if self._edit_form.is_valid():
-                self._edit_form.save()
-            else:
-                return self.get(request, **kwargs)
-        return redirect(obj)
+        return super(AddonDetail, self).post(request, *args, **kwargs)

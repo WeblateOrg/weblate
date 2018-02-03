@@ -24,9 +24,10 @@ from django import forms
 
 
 class BaseAddonForm(forms.Form):
-    def __init__(self, addon, *args, **kwargs):
+    def __init__(self, addon, instance=None, *args, **kwargs):
         self._addon = addon
         super(BaseAddonForm, self).__init__(*args, **kwargs)
 
     def save(self):
         self._addon.configure(self.cleaned_data)
+        return self._addon.instance

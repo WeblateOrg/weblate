@@ -26,11 +26,11 @@
   {% include 'addons/addon_head.html' with addon=addon.addon %}
   </td>
   <td class="bottom-button">
-    <form method="POST" action="{% url 'addon-detail' pk=addon.pk project=object.project.slug subproject=object.slug %}">{% csrf_token %}<input type="hidden" name="delete" value="{{ addon.name }}" /><button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> {% trans "Uninstall" %}</button></form>
+    <form method="POST" action="{{ addon.get_absolute_url }}">{% csrf_token %}<input type="hidden" name="delete" value="{{ addon.name }}" /><button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> {% trans "Uninstall" %}</button></form>
   </td>
   <td class="bottom-button">
-  {% if addons.addon.settings_form %}
-  <a class="btn btn-default" href="{% url 'addon-detail' pk=addon.pk project=object.project.slug subproject=object.slug %}"><i class="fa fa-edit"></i> {% trans "Configure" %}</a>
+  {% if addon.addon.has_settings %}
+  <a class="btn btn-default" href="{{ addon.get_absolute_url }}"><i class="fa fa-edit"></i> {% trans "Configure" %}</a>
   {% endif %}
   </td>
   </tr>

@@ -21,6 +21,7 @@
 from __future__ import unicode_literals
 
 from django.apps import apps
+from django.utils.functional import cached_property
 
 from weblate.addons.events import EVENT_POST_UPDATE
 from weblate.addons.forms import BaseAddonForm
@@ -36,8 +37,12 @@ class BaseAddon(object):
     icon = 'cog'
 
     """Base class for Weblate addons."""
-    def __init__(self, storage):
-        self._storage = storage
+    def __init__(self, storage=None):
+        self.instance = storage
+
+    @cached_property
+    def has_settings(self):
+        return self.settings_form is not None
 
     @classmethod
     def get_identifier(cls):
@@ -52,7 +57,7 @@ class BaseAddon(object):
         return cls(storage)
 
     @classmethod
-    def get_add_form(cls, component, *args):
+    def get_add_form(cls, component, **kwargs):
         """Return configuration form for adding new addon."""
         if cls.settings_form is None:
             return None
@@ -60,23 +65,23 @@ class BaseAddon(object):
             component=component, name=cls.name
         )
         instance = cls(storage)
-        return cls.settings_form(instance, *args)
+        return cls.settings_form(instance, **kwargs)
 
-    def get_settings_form(self, *args):
+    def get_settings_form(self, **kwargs):
         """Return configuration for for this addon."""
-        if cls.settings_form is None:
+        if self.settings_form is None:
             return None
-        return self.settings_form(self, *args)
+        return self.settings_form(self, **kwargs)
 
     def configure(self, settings):
         """Saves configuration."""
-        self._storage.configuration = settings
-        self._storage.save()
-        self._storage.configure_events(self.events)
+        self.instance.configuration = settings
+        self.instance.save()
+        self.instance.configure_events(self.events)
 
     def save_state(self):
         """Saves addon state information."""
-        self._storage.save(update_fields=['state'])
+        self.instance.save(update_fields=['state'])
 
     @classmethod
     def is_compatible(cls, component):

@@ -24,6 +24,7 @@ from appconf import AppConf
 
 from django.db import models
 from django.dispatch import receiver
+from django.urls import reverse
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.functional import cached_property
 
@@ -79,6 +80,16 @@ class Addon(models.Model):
     @cached_property
     def addon(self):
         return ADDONS[self.name](self)
+
+    def get_absolute_url(self):
+        return reverse(
+            'addon-detail',
+            kwargs={
+                'project': self.component.project.slug,
+                'subproject': self.component.slug,
+                'pk': self.pk,
+            }
+        )
 
 
 @python_2_unicode_compatible
