@@ -103,14 +103,14 @@ MERGE_CHOICES = (
 
 def perform_on_link(func):
     """Decorator to handle repository link"""
-    def wrapper(self, *args, **kwargs):
+    def on_link_wrapper(self, *args, **kwargs):
         if self.is_repo_link:
             # Call same method on linked component
             return getattr(self.linked_subproject, func.__name__)(
                 *args, **kwargs
             )
         return func(self, *args, **kwargs)
-    return wrapper
+    return on_link_wrapper
 
 
 class SubProjectQuerySet(models.QuerySet):
