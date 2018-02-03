@@ -15,6 +15,7 @@ Administrators guide
     translating
     checks
     machine
+    addons
     config
     sample
     management

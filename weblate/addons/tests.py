@@ -26,6 +26,7 @@ from weblate.trans.tests.test_views import ViewTestCase, FixtureTestCase
 
 from weblate.addons.base import TestAddon
 from weblate.addons.cleanup import CleanupAddon
+from weblate.addons.example import ExampleAddon
 from weblate.addons.flags import SourceEditAddon, TargetEditAddon
 from weblate.addons.gettext import (
     GenerateMoAddon, UpdateLinguasAddon, UpdateConfigureAddon, MsgmergeAddon,
@@ -39,6 +40,11 @@ from weblate.utils.state import STATE_FUZZY, STATE_EMPTY
 class AddonBaseTest(FixtureTestCase):
     def test_is_compatible(self):
         self.assertTrue(TestAddon.is_compatible(self.subproject))
+
+    def test_example(self):
+        self.assertTrue(ExampleAddon.is_compatible(self.subproject))
+        addon = ExampleAddon.create(self.subproject)
+        addon.pre_commit(None)
 
     def test_create(self):
         addon = TestAddon.create(self.subproject)

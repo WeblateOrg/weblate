@@ -1049,6 +1049,18 @@ achieved by setting ``WSGIScriptAlias``.
     This setting does not work with Django's builtin server, you would have to
     adjust :file:`urls.py` to contain this prefix.
 
+.. setting:: WEBLATE_ADDONS
+
+WEBLATE_ADDONS
+--------------
+
+List of addons available for use. To use them, they have to be enabled for
+given translation component.
+
+.. seealso::
+
+    :ref:`addons`
+
 .. setting:: WHOOSH_INDEX
 
 WHOOSH_INDEX

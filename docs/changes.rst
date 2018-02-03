@@ -23,6 +23,7 @@ Released on ? 2018.
 * Improved translation progress reporting at language level.
 * Improved support for different plural formulas.
 * Added support for Subversion repositories not using stdlayout.
+* Added addons to customize translation workflows.
 
 weblate 2.18
 ------------

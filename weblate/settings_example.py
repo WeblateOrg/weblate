@@ -651,6 +651,18 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 #     'weblate.trans.autofixes.chars.RemoveControlChars',
 # )
 
+# List of enabled addons
+# WEBLATE_ADDONS = (
+#     'weblate.addons.gettext.GenerateMoAddon',
+#     'weblate.addons.gettext.UpdateLinguasAddon',
+#     'weblate.addons.gettext.UpdateConfigureAddon',
+#     'weblate.addons.gettext.MsgmergeAddon',
+#     'weblate.addons.cleanup.CleanupAddon',
+#     'weblate.addons.flags.SourceEditAddon',
+#     'weblate.addons.flags.TargetEditAddon',
+# )
+
+
 # List of scripts to use in custom processing
 # POST_UPDATE_SCRIPTS = (
 # )
