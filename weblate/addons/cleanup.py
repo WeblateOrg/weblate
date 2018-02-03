@@ -119,7 +119,7 @@ class CleanupAddon(UpdateBaseAddon):
     @staticmethod
     def iterate_translations(component):
         for translation in component.translation_set.all():
-            if translation.is_template():
+            if translation.is_template:
                 continue
             yield translation
 

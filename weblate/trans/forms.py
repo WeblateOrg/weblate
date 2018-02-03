@@ -305,7 +305,7 @@ class PluralTextarea(forms.Textarea):
             )
             # Label for plural
             if len(values) == 1:
-                if unit.translation.is_template():
+                if unit.translation.is_template:
                     label = ugettext('Source')
                 else:
                     label = ugettext('Translation')

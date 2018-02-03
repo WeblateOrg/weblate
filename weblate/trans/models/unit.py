@@ -473,7 +473,7 @@ class Unit(models.Model, LoggerMixin):
                 fuzzy = False
 
         if translated and created:
-            is_template = self.translation.is_template()
+            is_template = self.translation.is_template
             if is_template and 'add-source-review' in all_flags:
                 fuzzy = True
             elif not is_template and 'add-review' in all_flags:
@@ -654,7 +654,7 @@ class Unit(models.Model, LoggerMixin):
         if propagate:
             self.propagate(request, change_action)
 
-        if self.translation.is_template():
+        if self.translation.is_template:
             self.source = self.target
             self.content_hash = calculate_hash(self.source, self.context)
 
@@ -700,7 +700,7 @@ class Unit(models.Model, LoggerMixin):
             self.translation.commit_pending(request)
 
         # Update related source strings if working on a template
-        if self.translation.is_template():
+        if self.translation.is_template:
             self.update_source_units(self.old_unit.source, user)
 
         return True
@@ -905,7 +905,7 @@ class Unit(models.Model, LoggerMixin):
         Returns tuple of checks to run and whether to do cleanup.
         """
         # Run only source checks on template
-        if self.translation.is_template():
+        if self.translation.is_template:
             return {x: y for x, y in CHECKS.data.items() if y.source}, True
 
         checks_to_run = CHECKS.data

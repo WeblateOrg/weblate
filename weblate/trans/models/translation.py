@@ -133,6 +133,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             self.language.code,
         ))
 
+    @cached_property
     def is_template(self):
         """Check whether this is template translation
 

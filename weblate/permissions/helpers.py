@@ -128,7 +128,7 @@ def can_edit(user, translation, permission):
         return False
     if not has_group_perm(user, permission, translation):
         return False
-    if translation.is_template() \
+    if translation.is_template \
             and not has_group_perm(user, 'trans.save_template', translation):
         return False
     if (not has_group_perm(user, 'trans.override_suggestion', translation) and
@@ -186,7 +186,7 @@ def can_review(user, translation):
 @cache_permission
 def can_add_unit(user, translation):
     """Check whether user can add new unit for given translation."""
-    if not translation.is_template():
+    if not translation.is_template:
         return False
     return can_edit(user, translation, 'trans.add_unit')
 
@@ -227,7 +227,7 @@ def can_vote_suggestion(user, unit=None, translation=None):
         return False
     if not has_group_perm(user, 'trans.vote_suggestion', translation):
         return False
-    if translation.is_template() \
+    if translation.is_template \
             and not has_group_perm(user, 'trans.save_template', translation):
         return False
     return True

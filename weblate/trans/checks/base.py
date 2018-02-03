@@ -54,7 +54,7 @@ class Check(object):
             return True
 
         # Ignore target checks on templates
-        if unit.translation.is_template():
+        if unit.translation.is_template:
             return True
 
         return False
