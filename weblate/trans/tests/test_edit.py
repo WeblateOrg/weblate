@@ -142,31 +142,6 @@ class EditTest(ViewTestCase):
         self.assertEqual(unit.target, 'Nazdar svete!\n')
         self.assertFalse(unit.has_failing_check)
 
-    def test_skip_fuzzy(self):
-        """Test for fuzzy flag handling."""
-        if self.monolingual:
-            return
-        unit = self.get_unit()
-        self.assertNotEqual(unit.state, STATE_FUZZY)
-        self.edit_unit(
-            'Hello, world!\n',
-            'Nazdar svete!\n',
-            fuzzy='yes'
-        )
-        unit = self.get_unit()
-        unit.translation.commit_pending(None)
-        self.assertEqual(unit.state, STATE_FUZZY)
-        self.subproject.check_flags = 'skip-review-flag'
-        self.subproject.save()
-        self.subproject.create_translations(True)
-        unit = self.get_unit()
-        self.assertEqual(unit.state, STATE_FUZZY)
-        self.subproject.check_flags = ''
-        self.subproject.save()
-        self.subproject.create_translations(True)
-        unit = self.get_unit()
-        self.assertEqual(unit.state, STATE_FUZZY)
-
 
 class EditValidationTest(ViewTestCase):
     def edit(self, **kwargs):

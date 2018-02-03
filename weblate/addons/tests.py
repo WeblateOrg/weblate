@@ -22,6 +22,8 @@ from __future__ import unicode_literals
 
 import os
 
+from django.urls import reverse
+
 from weblate.trans.tests.test_views import ViewTestCase, FixtureTestCase
 
 from weblate.addons.base import TestAddon
@@ -32,6 +34,7 @@ from weblate.addons.generate import GenerateFileAddon
 from weblate.addons.gettext import (
     GenerateMoAddon, UpdateLinguasAddon, UpdateConfigureAddon, MsgmergeAddon,
 )
+from weblate.addons.properties import PropertiesSortAddon
 from weblate.lang.models import Language
 from weblate.trans.models import Unit
 from weblate.utils.state import STATE_FUZZY, STATE_EMPTY
@@ -236,3 +239,74 @@ class JsonAddonTest(ViewTestCase):
                 state__in=(STATE_FUZZY, STATE_EMPTY)
             ).exists()
         )
+
+
+class ViewTests(ViewTestCase):
+    def setUp(self):
+        super(ViewTests, self).setUp()
+        self.make_manager()
+
+    def test_list(self):
+        response = self.client.get(
+            reverse('addons', kwargs=self.kw_subproject)
+        )
+        self.assertContains(response, 'Generate mo files')
+
+    def test_add_simple(self):
+        response = self.client.post(
+            reverse('addons', kwargs=self.kw_subproject),
+            {'name': 'weblate.gettext.mo'},
+            follow=True
+        )
+        self.assertContains(response, '1 addon installed')
+
+    def test_add_invalid(self):
+        response = self.client.post(
+            reverse('addons', kwargs=self.kw_subproject),
+            {'name': 'invalid'},
+            follow=True
+        )
+        self.assertContains(response, 'Invalid addon name specified!')
+
+    def test_add_config(self):
+        response = self.client.post(
+            reverse('addons', kwargs=self.kw_subproject),
+            {'name': 'weblate.generate.generate'},
+            follow=True
+        )
+        self.assertContains(response, 'Configure addon')
+        response = self.client.post(
+            reverse('addons', kwargs=self.kw_subproject),
+            {
+                'name': 'weblate.generate.generate',
+                'form': '1',
+                'filename': 'stats/{{ translation.langugage.code }}.json',
+                'template': '{"code":"{{ translation.langugage.code }}"}',
+            },
+            follow=True
+        )
+        self.assertContains(response, '1 addon installed')
+
+    def test_delete(self):
+        addon = SourceEditAddon.create(self.subproject)
+        response = self.client.post(
+            addon.instance.get_absolute_url(),
+            {'delete': '1'},
+            follow=True,
+        )
+        self.assertContains(response, 'no addons currently installed')
+
+
+class PropertiesAddonTest(ViewTestCase):
+    def create_subproject(self):
+        return self.create_java()
+
+    def test_sort(self):
+        self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
+        self.assertTrue(PropertiesSortAddon.is_compatible(self.subproject))
+        addon = PropertiesSortAddon.create(self.subproject)
+        self.get_translation().commit_pending(None)
+        commit = self.subproject.repository.show(
+            self.subproject.repository.last_revision
+        )
+        self.assertIn('java/swing_messages_cs.properties', commit)

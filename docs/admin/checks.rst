@@ -33,16 +33,6 @@ You can fine tune checks for each source string (in source strings review, see
 :ref:`additional`) or in the :ref:`component` (:guilabel:`Quality checks
 flags`); here is a list of flags currently accepted:
 
-``skip-review-flag``
-    Ignore whether unit is marked for review when importing from VCS. This 
-    can be useful for :ref:`xliff`.
-``add-source-review``
-    Whether to mark all new strings in source language for review. This can
-    be useful if you want to proofread the source language. This flag has no
-    meaning for bilingual translations.
-``add-review``
-    Whether to mark all new strings for review. This can be useful if you want
-    to proofread the translations done by developers.
 ``rst-text``
     Treat text as RST document, effects :ref:`check-same`.
 ``max-length:N``

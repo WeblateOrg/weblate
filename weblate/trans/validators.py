@@ -29,15 +29,6 @@ EXTRA_FLAGS = {
 
 EXTRA_FLAGS['rst-text'] = ugettext_lazy('RST text')
 EXTRA_FLAGS['xml-text'] = ugettext_lazy('XML text')
-EXTRA_FLAGS['skip-review-flag'] = ugettext_lazy(
-    'Skip review flag when importing'
-)
-EXTRA_FLAGS['add-source-review'] = ugettext_lazy(
-    'Add review flag for new source strings'
-)
-EXTRA_FLAGS['add-review'] = ugettext_lazy(
-    'Add review flag for new translated strings'
-)
 
 IGNORE_CHECK_FLAGS = {CHECKS[x].ignore_string for x in CHECKS}
 

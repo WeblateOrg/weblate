@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
@@ -24,8 +23,14 @@ https://github.com/freeplane/freeplane/blob/1.4.x/freeplane_ant/
 src/main/java/org/freeplane/ant/FormatTranslation.java
 """
 
-import argparse
+from __future__ import unicode_literals
+
 import re
+
+from django.utils.translation import ugettext_lazy as _
+
+from weblate.addons.base import BaseAddon
+from weblate.addons.events import EVENT_PRE_COMMIT
 
 SPLITTER = re.compile(r'\s*=\s*')
 UNICODE = re.compile(r'\\[uU][0-9a-fA-F]{4}')
@@ -136,19 +141,16 @@ def format_file(filename):
             handle.writelines(result)
 
 
-def main():
-    """Command line interface."""
-    parser = argparse.ArgumentParser(
-        description='Formats Java properties translation'
+class PropertiesSortAddon(BaseAddon):
+    events = (EVENT_PRE_COMMIT,)
+    name = 'weblate.properties.sort'
+    verbose = _('Formats Java properties translation')
+    description = _(
+        'This addon does sort Java properties file.'
     )
-    parser.add_argument(
-        'files', metavar='FILE', type=str, nargs='+',
-        help='Files to process'
-    )
-    args = parser.parse_args()
-    for filename in args.files:
-        format_file(filename)
+    compat = {
+        'file_format': frozenset(('properties-utf8', 'properties')),
+    }
 
-
-if __name__ == '__main__':
-    main()
+    def pre_commit(self, translation):
+        format_file(translation.get_filename())

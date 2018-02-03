@@ -75,11 +75,12 @@ class AddonList(AddonViewMixin, ListView):
         component = self.get_component()
         name = request.POST.get('name')
         addon = ADDONS.get(name)
-        if not name or addon is None or not addon.is_compatible(component):
-            return self.redirect_list(_('Attempt to install invalid addon!'))
         installed = set([x.addon.name for x in self.get_queryset()])
-        if name in installed:
-            return self.redirect_list(_('Addon is already installed!'))
+        if (not name or
+                addon is None or
+                not addon.is_compatible(component) or
+                name in installed):
+            return self.redirect_list(_('Invalid addon name specified!'))
 
         form = None
         if addon.settings_form is None:

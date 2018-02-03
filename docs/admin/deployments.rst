@@ -408,7 +408,7 @@ scripts, for example:
 
 .. code-block:: sh
 
-    WEBLATE_POST_UPDATE_SCRIPTS=/usr/local/share/weblate/examples/hook-cleanup-android
+    WEBLATE_POST_UPDATE_SCRIPTS=/usr/local/share/weblate/examples/hook-unwrap-po
 
 .. seealso::
 
@@ -713,7 +713,7 @@ With the exception of environment variables which can be referenced using ``${EN
 
 .. code-block:: sh
 
-    rhc -aweblate env set WEBLATE_PRE_COMMIT_SCRIPTS='("${OPENSHIFT_DATA_DIR}/examples/hook-generate-mo",)'
+    rhc -aweblate env set WEBLATE_PRE_COMMIT_SCRIPTS='("${OPENSHIFT_DATA_DIR}/examples/hook-unwrap-po",)'
 
 You can check the effective settings Weblate is using by running:
 
