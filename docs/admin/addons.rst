@@ -3,6 +3,8 @@
 Addons
 ======
 
+.. versionadded:: 2.19
+
 Addons provide ways to customize translation workflow. You can install addons
 to your translation component and they will work behind the scenes.
 
