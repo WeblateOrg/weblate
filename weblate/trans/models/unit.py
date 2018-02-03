@@ -41,6 +41,7 @@ from weblate.trans.models.comment import Comment
 from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.models.change import Change
 from weblate.trans.search import update_index_unit, fulltext_search, more_like
+from weblate.trans.signals import unit_pre_create
 from weblate.accounts.notifications import (
     notify_new_contributor, notify_new_translation
 )
@@ -557,6 +558,9 @@ class Unit(models.Model, LoggerMixin):
         # Sanitize number of plurals
         if self.is_plural():
             self.target = join_plural(self.get_target_plurals())
+
+        if created:
+            unit_pre_create.send(sender=self.__class__, unit=self)
 
         # Save into database
         self.save(

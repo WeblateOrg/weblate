@@ -28,13 +28,13 @@ from django.utils.functional import cached_property
 
 from weblate.addons.events import (
     EVENT_CHOICES, EVENT_POST_PUSH, EVENT_POST_UPDATE, EVENT_PRE_COMMIT,
-    EVENT_POST_COMMIT, EVENT_POST_ADD,
+    EVENT_POST_COMMIT, EVENT_POST_ADD, EVENT_UNIT_PRE_CREATE,
 )
 
 from weblate.trans.models import SubProject
 from weblate.trans.signals import (
     vcs_post_push, vcs_post_update, vcs_pre_commit, vcs_post_commit,
-    translation_post_add,
+    translation_post_add, unit_pre_create,
 )
 from weblate.utils.classloader import ClassLoader
 from weblate.utils.fields import JSONField
@@ -134,3 +134,12 @@ def post_add(sender, translation, **kwargs):
     )
     for addon in addons:
         addon.addon.post_add(translation)
+
+
+@receiver(unit_pre_create)
+def unit_pre_create_handler(sender, unit, **kwargs):
+    addons = Addon.objects.filter_event(
+        unit.translation.subproject, EVENT_UNIT_PRE_CREATE
+    )
+    for addon in addons:
+        addon.addon.unit_pre_create(unit)

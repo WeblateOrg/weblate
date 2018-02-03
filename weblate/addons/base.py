@@ -97,6 +97,9 @@ class BaseAddon(object):
     def post_add(self, translation):
         return
 
+    def unit_pre_create(self, unit):
+        return
+
 
 class TestAddon(BaseAddon):
     """Testing addong doing nothing."""
