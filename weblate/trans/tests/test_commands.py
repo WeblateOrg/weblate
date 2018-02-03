@@ -217,7 +217,7 @@ class ImportProjectTest(RepoTestCase):
             base_file_template='android/values/strings.xml',
         )
         # We should have loaded one subproject
-        self.assertEqual(project.subproject_set.count(), 1)
+        self.assertEqual(project.subproject_set.count(), 2)
 
     def test_import_aresource_format(self):
         project = self.create_project()
@@ -231,7 +231,7 @@ class ImportProjectTest(RepoTestCase):
             base_file_template='%s/values/strings.xml',
         )
         # We should have loaded one subproject
-        self.assertEqual(project.subproject_set.count(), 1)
+        self.assertEqual(project.subproject_set.count(), 2)
 
     def test_re_import(self):
         project = self.create_project()
