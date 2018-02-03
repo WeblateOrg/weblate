@@ -34,6 +34,7 @@ SUPPORT_FUZZY = frozenset((
 
 class FlagBase(BaseAddon):
     events = (EVENT_UNIT_PRE_CREATE,)
+    icon = 'flag'
 
     @classmethod
     def is_compatible(cls, component):

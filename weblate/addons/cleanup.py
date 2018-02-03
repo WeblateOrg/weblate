@@ -36,6 +36,7 @@ class CleanupAddon(UpdateBaseAddon):
         'Update all translation files to match the monolingual base file. '
         'In most file formats this means removing stale translation keys.'
     )
+    icon = 'eraser'
 
     @cached_property
     def template_store(self):
