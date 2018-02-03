@@ -224,7 +224,7 @@ class RepoTestMixin(object):
         if branch is None:
             branch = VCS_REGISTRY[vcs].default_branch
 
-        return SubProject.objects.create(
+        result = SubProject.objects.create(
             name='Test',
             slug='test',
             repo=repo,
@@ -239,6 +239,8 @@ class RepoTestMixin(object):
             vcs=vcs,
             **kwargs
         )
+        result.addons_cache = {}
+        return result
 
     def create_subproject(self):
         """Wrapper method for providing test subproject."""

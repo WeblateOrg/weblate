@@ -524,6 +524,7 @@ class SubProject(models.Model, URLMixin, PathMixin):
         super(SubProject, self).__init__(*args, **kwargs)
         self._file_format = None
         self.stats = ComponentStats(self)
+        self.addons_cache = {}
 
     @property
     def filemask_re(self):

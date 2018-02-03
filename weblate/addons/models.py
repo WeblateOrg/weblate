@@ -45,10 +45,12 @@ ADDONS = ClassLoader('WEBLATE_ADDONS', False)
 
 class AddonQuerySet(models.QuerySet):
     def filter_event(self, component, event):
-        return self.filter(
-            component=component,
-            event__event=event
-        )
+        if event not in component.addons_cache:
+            component.addons_cache[event] = self.filter(
+                component=component,
+                event__event=event
+            )
+        return component.addons_cache[event]
 
 
 class Addon(models.Model):
