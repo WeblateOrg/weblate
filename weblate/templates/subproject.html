@@ -79,6 +79,7 @@
       <li><a href="{% url 'manage-access' project=object.project.slug %}">{% trans "Manage users" %}</a></li>
       {% endif %}
       {% if user_can_edit_subproject %}
+      <li><a href="{% url 'addons' project=object.project.slug subproject=object.slug %}">{% trans "Addons" %}</a></li>
       <li><a href="{% url 'settings' project=object.project.slug subproject=object.slug %}">{% trans "Settings" %}</a></li>
       {% endif %}
     </ul>
