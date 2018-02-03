@@ -849,11 +849,6 @@ POST_ADD_SCRIPTS
 List of scripts which are allowed as post add scripts. The script needs to be
 later enabled in the :ref:`component`.
 
-Weblate comes with few example hook scripts which you might find useful:
-
-:file:`examples/hook-update-linguas`
-    Updates LINGUAS file or ALL_LINGUAS in confiugure script.
-
 .. seealso::
 
    :ref:`processing`
@@ -867,15 +862,6 @@ POST_UPDATE_SCRIPTS
 
 List of scripts which are allowed as post update scripts. The script needs to be
 later enabled in the :ref:`component`.
-
-Weblate comes with few example hook scripts which you might find useful:
-
-:file:`examples/hook-update-resx`
-    Updates resx file to match template by adding new translations and removing
-    obsolete ones.
-
-:file:`examples/hook-cleanup-android`
-    Removes obsolete units from Android resource strings.
 
 .. seealso::
 
@@ -896,17 +882,6 @@ For example you can allow script which does some cleanup:
     PRE_COMMIT_SCRIPTS = (
         '/usr/local/bin/cleanup-translation',
     )
-
-Weblate comes with few example hook scripts which you might find useful:
-
-:file:`examples/hook-generate-mo`
-    Generates MO file from a PO file
-:file:`examples/hook-unwrap-po`
-    Unwraps lines in a PO file.
-:file:`examples/hook-sort-properties`
-    Sort and cleanups Java properties file.
-:file:`examples/hook-replace-single-quotes`
-    Replaces single quotes in a file.
 
 .. seealso::
 
