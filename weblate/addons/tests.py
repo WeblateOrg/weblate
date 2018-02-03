@@ -25,6 +25,7 @@ import os
 from weblate.trans.tests.test_views import ViewTestCase, FixtureTestCase
 
 from weblate.addons.base import TestAddon
+from weblate.addons.cleanup import CleanupAddon
 from weblate.addons.gettext import (
     GenerateMoAddon, UpdateLinguasAddon, UpdateConfigureAddon, MsgmergeAddon,
 )
@@ -140,3 +141,51 @@ class GettextAddonTest(ViewTestCase):
             self.subproject.repository.last_revision
         )
         self.assertIn('po/cs.po', commit)
+
+
+class AndroidAddonTest(ViewTestCase):
+    def create_subproject(self):
+        return self.create_android(suffix='-not-synced', new_lang='add')
+
+    def test_cleanup(self):
+        self.assertTrue(CleanupAddon.is_compatible(self.subproject))
+        addon = CleanupAddon.create(self.subproject)
+        rev = self.subproject.repository.last_revision
+        addon.post_update(self.subproject, '')
+        self.assertNotEqual(rev, self.subproject.repository.last_revision)
+        commit = self.subproject.repository.show(
+            self.subproject.repository.last_revision
+        )
+        self.assertIn('android-not-synced/values-cs/strings.xml', commit)
+
+
+class ResxAddonTest(ViewTestCase):
+    def create_subproject(self):
+        return self.create_resx()
+
+    def test_cleanup(self):
+        self.assertTrue(CleanupAddon.is_compatible(self.subproject))
+        addon = CleanupAddon.create(self.subproject)
+        rev = self.subproject.repository.last_revision
+        addon.post_update(self.subproject, 'da07dc0dc7052dc44eadfa8f3a2f2609ec634303')
+        self.assertNotEqual(rev, self.subproject.repository.last_revision)
+        commit = self.subproject.repository.show(
+            self.subproject.repository.last_revision
+        )
+        self.assertIn('resx/cs.resx', commit)
+
+
+class JsonAddonTest(ViewTestCase):
+    def create_subproject(self):
+        return self.create_json_mono(suffix='mono-sync')
+
+    def test_cleanup(self):
+        self.assertTrue(CleanupAddon.is_compatible(self.subproject))
+        addon = CleanupAddon.create(self.subproject)
+        rev = self.subproject.repository.last_revision
+        addon.post_update(self.subproject, '')
+        self.assertNotEqual(rev, self.subproject.repository.last_revision)
+        commit = self.subproject.repository.show(
+            self.subproject.repository.last_revision
+        )
+        self.assertIn('json-mono-sync/cs.json', commit)

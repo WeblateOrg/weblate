@@ -336,11 +336,11 @@ class RepoTestMixin(object):
             'iphone/*.lproj/Localizable.strings',
         )
 
-    def create_android(self, **kwargs):
+    def create_android(self, suffix='', **kwargs):
         return self._create_subproject(
             'aresource',
-            'android/values-*/strings.xml',
-            'android/values/strings.xml',
+            'android{}/values-*/strings.xml'.format(suffix),
+            'android{}/values/strings.xml'.format(suffix),
             **kwargs
         )
 
@@ -350,18 +350,12 @@ class RepoTestMixin(object):
             'json/*.json',
         )
 
-    def create_json_mono(self):
+    def create_json_mono(self, suffix='mono', **kwargs):
         return self._create_subproject(
             'json',
-            'json-mono/*.json',
-            'json-mono/en.json',
-        )
-
-    def create_json_nested(self):
-        return self._create_subproject(
-            'json',
-            'json-nested/*.json',
-            'json-nested/en.json',
+            'json-{}/*.json'.format(suffix),
+            'json-{}/en.json'.format(suffix),
+            **kwargs
         )
 
     def create_json_webextension(self):

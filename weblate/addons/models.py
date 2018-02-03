@@ -88,6 +88,7 @@ class AddonsConf(AppConf):
         'weblate.addons.gettext.UpdateLinguasAddon',
         'weblate.addons.gettext.UpdateConfigureAddon',
         'weblate.addons.gettext.MsgmergeAddon',
+        'weblate.addons.cleanup.CleanupAddon',
     )
 
     class Meta(object):

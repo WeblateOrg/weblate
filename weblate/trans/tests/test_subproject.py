@@ -176,7 +176,7 @@ class SubProjectTest(RepoTestCase):
         self.verify_subproject(project, 2, 'cs', 4)
 
     def test_create_json_nested(self):
-        project = self.create_json_nested()
+        project = self.create_json_mono(suffix='nested')
         self.verify_subproject(project, 2, 'cs', 4)
 
     def test_create_json_webextension(self):
