@@ -33,9 +33,6 @@ class CleanupAddon(UpdateBaseAddon):
     name = 'weblate.cleanup.generic'
     verbose = _('Cleanup translation files')
     description = _(
-        'Automatically generates mo file for every changed po file.'
-    )
-    description = _(
         'Update all translation files to match the monolingual base file. '
         'In most file formats this means removing stale translation keys.'
     )
