@@ -459,26 +459,11 @@ class Unit(models.Model, LoggerMixin):
 
     def get_unit_state(self, unit, created):
         """Calculate translated and fuzzy status"""
-        all_flags = self.translation.subproject.all_flags
-
         translated = unit.is_translated()
         # We need to keep approved/fuzzy state for formats which do not
         # support saving it
         fuzzy = unit.is_fuzzy(self.fuzzy)
         approved = unit.is_approved(self.approved)
-
-        if 'skip-review-flag' in all_flags:
-            if not self.approved:
-                approved = False
-            if not self.fuzzy:
-                fuzzy = False
-
-        if translated and created:
-            is_template = self.translation.is_template
-            if is_template and 'add-source-review' in all_flags:
-                fuzzy = True
-            elif not is_template and 'add-review' in all_flags:
-                fuzzy = True
 
         if fuzzy:
             return STATE_FUZZY
