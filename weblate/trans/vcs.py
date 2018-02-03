@@ -474,7 +474,7 @@ class GitRepository(Repository):
 
         Used in tests.
         """
-        return self.execute(['show', '--stat', revision], needs_lock=False)
+        return self.execute(['show', revision], needs_lock=False)
 
     def _get_revision_info(self, revision):
         """Return dictionary with detailed revision information."""

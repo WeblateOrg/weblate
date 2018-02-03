@@ -28,6 +28,7 @@ from weblate.addons.base import TestAddon
 from weblate.addons.cleanup import CleanupAddon
 from weblate.addons.example import ExampleAddon
 from weblate.addons.flags import SourceEditAddon, TargetEditAddon
+from weblate.addons.generate import GenerateFileAddon
 from weblate.addons.gettext import (
     GenerateMoAddon, UpdateLinguasAddon, UpdateConfigureAddon, MsgmergeAddon,
 )
@@ -153,6 +154,25 @@ class GettextAddonTest(ViewTestCase):
             self.subproject.repository.last_revision
         )
         self.assertIn('po/cs.po', commit)
+
+    def test_generate(self):
+        self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
+        self.assertTrue(GenerateFileAddon.is_compatible(self.subproject))
+        addon = GenerateFileAddon.create(
+            self.subproject,
+            configuration={
+                'filename': 'stats/{{ translation.language_code }}.json',
+                'template': '''{
+    "translated": {{ translation.stats.translated_percent }}
+}''',
+            }
+        )
+        self.get_translation().commit_pending(None)
+        commit = self.subproject.repository.show(
+            self.subproject.repository.last_revision
+        )
+        self.assertIn('stats/cs.json', commit)
+        self.assertIn('"translated": 25', commit)
 
 
 class AndroidAddonTest(ViewTestCase):

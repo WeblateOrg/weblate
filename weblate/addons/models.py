@@ -113,6 +113,7 @@ class AddonsConf(AppConf):
         'weblate.addons.cleanup.CleanupAddon',
         'weblate.addons.flags.SourceEditAddon',
         'weblate.addons.flags.TargetEditAddon',
+        'weblate.addons.generate.GenerateFileAddon',
     )
 
     class Meta(object):

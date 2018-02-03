@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-GenerateFileAddon',
 #
 # Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
@@ -660,6 +660,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 #     'weblate.addons.cleanup.CleanupAddon',
 #     'weblate.addons.flags.SourceEditAddon',
 #     'weblate.addons.flags.TargetEditAddon',
+#     'weblate.addons.generate.GenerateFileAddon',
 # )
 
 

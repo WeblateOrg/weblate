@@ -49,9 +49,9 @@ class BaseAddon(object):
         return cls.name
 
     @classmethod
-    def create(cls, component):
+    def create(cls, component, **kwargs):
         storage = apps.get_model('addons', 'Addon').objects.create(
-            component=component, name=cls.name
+            component=component, name=cls.name, **kwargs
         )
         storage.configure_events(cls.events)
         return cls(storage)
@@ -71,6 +71,8 @@ class BaseAddon(object):
         """Return configuration for for this addon."""
         if self.settings_form is None:
             return None
+        if 'data' not in kwargs:
+            kwargs['data'] = self.instance.configuration
         return self.settings_form(self, **kwargs)
 
     def configure(self, settings):

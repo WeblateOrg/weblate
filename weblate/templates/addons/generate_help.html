@@ -1,0 +1,16 @@
+{% load i18n %}
+
+<p>{% trans "You can use Django templates markup in both filename and content, for example:" %}</p>
+
+<dl>
+<dt><code>{% verbatim %}{{ translation.language }}{% endverbatim %}</code></dt>
+<dd>{% trans "Language name" %}</dd>
+<dt><code>{% verbatim %}{{ translation.language.code }}{% endverbatim %}</code></dt>
+<dd>{% trans "Language code" %}</dd>
+<dt><code>{% verbatim %}{{ translation.stats.translated_percent }}{% endverbatim %}</code></dt>
+<dd>{% trans "Percents translated" %}</dd>
+<dt><code>{% verbatim %}{{ translation.stats.all }}{% endverbatim %}</code></dt>
+<dd>{% trans "Number of strings" %}</dd>
+<dt><code>{% verbatim %}{{ translation.stats.translated }}{% endverbatim %}</code></dt>
+<dd>{% trans "Number of transalted strings" %}</dd>
+</dl>

@@ -20,7 +20,13 @@
 
 from __future__ import unicode_literals
 
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Field, Div
+
 from django import forms
+from django.utils.translation import ugettext_lazy as _
+
+from weblate.addons.utils import render_template
 
 
 class BaseAddonForm(forms.Form):
@@ -31,3 +37,41 @@ class BaseAddonForm(forms.Form):
     def save(self):
         self._addon.configure(self.cleaned_data)
         return self._addon.instance
+
+
+class GenerateForm(BaseAddonForm):
+    filename = forms.CharField(
+        label=_('Name of generated file'),
+        required=True,
+    )
+    template = forms.CharField(
+        widget=forms.Textarea(),
+        label=_('Content of generated file'),
+        required=True,
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(GenerateForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Field('filename'),
+            Field('template'),
+            Div(template='addons/generate_help.html'),
+        )
+
+    def test_render(self, value):
+        translation = self._addon.instance.component.translation_set.all()[0]
+        try:
+            render_template(value, {'translation': translation})
+        except Exception as err:
+            raise ValidationError(
+                _('Failed to render template: {}').format(err)
+            )
+
+    def clean_filename(self):
+        self.test_render(self.cleaned_data['filename'])
+        return self.cleaned_data['filename']
+
+    def clean_template(self):
+        self.test_render(self.cleaned_data['template'])
+        return self.cleaned_data['template']
