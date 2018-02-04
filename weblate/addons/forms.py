@@ -62,9 +62,9 @@ class GenerateForm(BaseAddonForm):
     def test_render(self, value):
         translation = self._addon.instance.component.translation_set.all()[0]
         try:
-            render_template(value, {'translation': translation})
+            render_template(value, translation=translation)
         except Exception as err:
-            raise ValidationError(
+            raise forms.ValidationError(
                 _('Failed to render template: {}').format(err)
             )
 
