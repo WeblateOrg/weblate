@@ -304,7 +304,7 @@ class PropertiesAddonTest(ViewTestCase):
     def test_sort(self):
         self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
         self.assertTrue(PropertiesSortAddon.is_compatible(self.subproject))
-        addon = PropertiesSortAddon.create(self.subproject)
+        PropertiesSortAddon.create(self.subproject)
         self.get_translation().commit_pending(None)
         commit = self.subproject.repository.show(
             self.subproject.repository.last_revision

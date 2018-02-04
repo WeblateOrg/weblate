@@ -49,19 +49,19 @@ def unicode_format(match):
 
 def fix_newlines(lines):
     """Convert newlines to unix."""
-    for i in range(len(lines)):
-        if lines[i].endswith('\r\n'):
-            lines[i] = lines[i][:-2] + '\n'
-        elif lines[i].endswith('\r'):
-            lines[i] = lines[i][:-1] + '\n'
+    for i, line in enumerate(lines):
+        if line.endswith('\r\n'):
+            lines[i] = line[:-2] + '\n'
+        elif line.endswith('\r'):
+            lines[i] = line[:-1] + '\n'
 
 
 def format_unicode(lines):
     """Standard formatting for unicode chars."""
-    for i in range(len(lines)):
-        if UNICODE.findall(lines[i]) is None:
+    for i, line in enumerate(lines):
+        if UNICODE.findall(line) is None:
             continue
-        lines[i] = UNICODE.sub(unicode_format, lines[i])
+        lines[i] = UNICODE.sub(unicode_format, line)
 
 
 def value_quality(value):

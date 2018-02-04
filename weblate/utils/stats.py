@@ -37,7 +37,7 @@ BASICS = frozenset((
     'allchecks', 'suggestions', 'comments', 'approved_suggestions'
 ))
 BASIC_KEYS = frozenset(
-    ['{}_words'.format(i) for i in BASICS] +
+    ['{}_words'.format(x) for x in BASICS] +
     [
         'translated_percent', 'approved_percent', 'untranslated_percent',
         'fuzzy_percent', 'allchecks_percent', 'translated_words_percent',
@@ -118,7 +118,7 @@ class BaseStats(object):
         """Save stats to cache."""
         cache.set(self.cache_key, self._data, 30 * 86400)
 
-    def invalidate(self):
+    def invalidate(self, language=None):
         """Invalidate local and cache data."""
         self._data = {}
         cache.delete(self.cache_key)
@@ -201,7 +201,7 @@ class DummyTranslationStats(BaseStats):
 
 class TranslationStats(BaseStats):
     """Per translation stats."""
-    def invalidate(self):
+    def invalidate(self, language=None):
         super(TranslationStats, self).invalidate()
         self._object.subproject.stats.invalidate(
             language=self._object.language
@@ -383,8 +383,8 @@ class ProjectStats(BaseStats):
         if language:
             self.get_single_language_stats(language).invalidate()
         else:
-            for language in self._object.get_languages():
-                self.get_single_language_stats(language).invalidate()
+            for lang in self._object.get_languages():
+                self.get_single_language_stats(lang).invalidate()
 
     @cached_property
     def subproject_set(self):
