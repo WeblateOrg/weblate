@@ -121,10 +121,7 @@ class BaseRegistrationTest(TestCase, RegistrationTestMixin):
         self.assertRedirects(response, reverse('profile'))
         # Password change notification
         notification = mail.outbox.pop()
-        self.assertEqual(
-            notification.subject,
-            '[Weblate] Activity on your account at Weblate'
-        )
+        self.assert_notify_mailbox(notification)
 
         # Check we can access home (was redirected to password change)
         response = self.client.get(reverse('home'))
@@ -347,10 +344,7 @@ class RegistrationTest(BaseRegistrationTest):
         sent_mail = mail.outbox.pop()
         sent_mail = mail.outbox.pop()
         self.assertEqual(['test@example.com'], sent_mail.to)
-        self.assertEqual(
-            sent_mail.subject,
-            '[Weblate] Activity on your account at Weblate'
-        )
+        self.assert_notify_mailbox(sent_mail)
         # Pop password change
         sent_mail = mail.outbox.pop()
 
@@ -507,10 +501,7 @@ class RegistrationTest(BaseRegistrationTest):
 
         if fails:
             self.assertEqual(len(mail.outbox), 1)
-            self.assertEqual(
-                mail.outbox[0].subject,
-                '[Weblate] Activity on your account at Weblate'
-            )
+            self.assert_notify_mailbox(mail.outbox[0])
             return
 
         # Verify confirmation mail
@@ -548,10 +539,7 @@ class RegistrationTest(BaseRegistrationTest):
 
         # Check notification
         notification = mail.outbox.pop()
-        self.assertEqual(
-            notification.subject,
-            '[Weblate] Activity on your account at Weblate'
-        )
+        self.assert_notify_mailbox(notification)
 
     @override_settings(REGISTRATION_CAPTCHA=False)
     def test_add_existing(self):
@@ -583,10 +571,7 @@ class RegistrationTest(BaseRegistrationTest):
             'Your email no longer belongs to verified account'
         )
         notification = mail.outbox.pop()
-        self.assertEqual(
-            notification.subject,
-            '[Weblate] Activity on your account at Weblate'
-        )
+        self.assert_notify_mailbox(notification)
 
     @override_settings(REGISTRATION_CAPTCHA=False)
     def test_pipeline_redirect(self):
@@ -755,10 +740,7 @@ class RegistrationTest(BaseRegistrationTest):
         self.test_github(fail=True)
         # User should get an notification
         self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(
-            mail.outbox[0].subject,
-            '[Weblate] Activity on your account at Weblate'
-        )
+        self.assert_notify_mailbox(mail.outbox[0])
         self.assertEqual(
             mail.outbox[0].to,
             ['noreply-weblate@example.org']

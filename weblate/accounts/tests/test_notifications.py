@@ -37,12 +37,14 @@ from weblate.accounts.notifications import (
     notify_new_language,
     notify_account_activity,
 )
-from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.trans.tests.test_views import (
+    FixtureTestCase, RegistrationTestMixin,
+)
 from weblate.trans.models import Suggestion, Comment
 from weblate.lang.models import Language
 
 
-class NotificationTest(FixtureTestCase):
+class NotificationTest(FixtureTestCase, RegistrationTestMixin):
     def setUp(self):
         super(NotificationTest, self).setUp()
         self.user.email = 'noreply@weblate.org'
@@ -259,7 +261,4 @@ class NotificationTest(FixtureTestCase):
         request = self.get_request('/')
         notify_account_activity(request.user, request, 'password')
         self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(
-            mail.outbox[0].subject,
-            '[Weblate] Activity on your account at Weblate'
-        )
+        self.assert_notify_mailbox(mail.outbox[0])

@@ -66,6 +66,12 @@ class RegistrationTestMixin(object):
         # Return confirmation URL
         return line[18:]
 
+    def assert_notify_mailbox(self, sent_mail):
+        self.assertEqual(
+            sent_mail.subject,
+            '[Weblate] Activity on your account at Weblate'
+        )
+
 
 class ViewTestCase(RepoTestCase):
     def setUp(self):
