@@ -161,12 +161,12 @@ class GettextAddonTest(ViewTestCase):
     def test_generate(self):
         self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
         self.assertTrue(GenerateFileAddon.is_compatible(self.subproject))
-        addon = GenerateFileAddon.create(
+        GenerateFileAddon.create(
             self.subproject,
             configuration={
-                'filename': 'stats/{{ translation.language_code }}.json',
+                'filename': 'stats/{{ language_code }}.json',
                 'template': '''{
-    "translated": {{ translation.stats.translated_percent }}
+    "translated": {{ stats.translated_percent }}
 }''',
             }
         )
@@ -280,8 +280,8 @@ class ViewTests(ViewTestCase):
             {
                 'name': 'weblate.generate.generate',
                 'form': '1',
-                'filename': 'stats/{{ translation.langugage.code }}.json',
-                'template': '{"code":"{{ translation.langugage.code }}"}',
+                'filename': 'stats/{{ langugage_code }}.json',
+                'template': '{"code":"{{ langugage_code }}"}',
             },
             follow=True
         )

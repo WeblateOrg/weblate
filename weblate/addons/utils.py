@@ -20,11 +20,31 @@
 
 from __future__ import unicode_literals
 
-from django.template import Template, Context
+from django.template import Template, Context, Engine
+from django.utils.encoding import force_text
 
 
-def render_template(template, context):
+class RestrictedEngine(Engine):
+    default_builtins = [
+        'django.template.defaultfilters',
+    ]
+
+
+def render_template(template, translation=None):
     """Helper class to render string template with context."""
-    return Template(template).render(
-        Context(context)
+    context = {}
+    if translation is not None:
+        translation.stats.ensure_basic()
+        context['project_name'] = translation.subproject.project.name
+        context['project_slug'] = translation.subproject.project.slug
+        context['component_name'] = translation.subproject.name
+        context['component_slug'] = translation.subproject.slug
+        context['language_code'] = translation.language_code
+        context['language_name'] = force_text(translation.language)
+        context['stats'] = translation.stats.get_data()
+    return Template(
+        template,
+        engine=RestrictedEngine(autoescape=False),
+    ).render(
+        Context(context),
     )

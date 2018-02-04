@@ -47,15 +47,16 @@ class GenerateFileAddon(BaseAddon):
         return super(GenerateFileAddon, cls).is_compatible(component)
 
     def pre_commit(self, translation):
-        context = {'translation': translation}
         filename = os.path.join(
             self.instance.component.get_path(),
             render_template(
-                self.instance.configuration['filename'], context
+                self.instance.configuration['filename'],
+                translation=translation
             )
         )
         content = render_template(
-            self.instance.configuration['template'], context
+            self.instance.configuration['template'],
+            translation=translation
         )
         dirname = os.path.dirname(filename)
         if not os.path.exists(dirname):

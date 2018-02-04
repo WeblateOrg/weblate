@@ -20,6 +20,8 @@
 
 from __future__ import unicode_literals
 
+from copy import copy
+
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Sum, Count
@@ -76,6 +78,9 @@ class BaseStats(object):
 
     def set_data(self, data):
         self._data = data
+
+    def get_data(self):
+        return copy(self._data)
 
     def prefetch_many(self, stats):
         lookup = {i.cache_key: i for i in stats if not i.is_loaded}
