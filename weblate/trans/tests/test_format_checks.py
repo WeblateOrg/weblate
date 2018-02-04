@@ -210,7 +210,7 @@ class PHPFormatCheckTest(CheckTestCase):
     def test_wrong_percent_format(self):
         self.assertTrue(self.check.check_format(
             '%s%% (0.1%%)',
-            '%s%% (0.1%)',
+            '%s%% (0.1%x)',
             False
         ))
 
@@ -310,6 +310,11 @@ class CFormatCheckTest(CheckTestCase):
             '%l octets (%l octets libres, %l octets utilisés)',
             True
         ))
+
+    def test_parenthesis(self):
+        self.assertFalse(
+            self.check.check_format('(%.0lf%%)', '(%%%.0lf)', False)
+        )
 
 
 class PerlFormatCheckTest(CFormatCheckTest):
