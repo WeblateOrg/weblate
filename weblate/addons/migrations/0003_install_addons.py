@@ -33,6 +33,19 @@ HOOKS = (
 
 MESSAGE = '{}/{}: Keeping {} hook, file format {} not supported!'
 
+
+def single_addon(Addon, Event, component, name):
+    addon = Addon.objects.get_or_create(
+        component=component,
+        name=name,
+    )[0]
+    for event in ADDONS[name].events:
+        Event.objects.get_or_create(
+            addon=addon,
+            event=event,
+        )
+
+
 def install_addons(apps, schema_editor):
     """Install addons as replacement for hooks or flags."""
     SubProject = apps.get_model('trans', 'SubProject')
@@ -46,10 +59,7 @@ def install_addons(apps, schema_editor):
             for match, replacement in HOOKS_REPLACE.items():
                 if hook.endswith(match):
                     setattr(component, name, '')
-                    Addon.objects.get_or_create(
-                        component=component,
-                        name=replacement,
-                    )
+                    single_addon(Addon, Event, component, replacement)
                     changed = True
             for match, replacement in HOOKS_FORMATS.items():
                 if hook.endswith(match):
@@ -66,15 +76,7 @@ def install_addons(apps, schema_editor):
                 component.check_flags.replace(
                     match, ''
                 ).replace(' ', '').replace(',,', ',')
-                addon = Addon.objects.get_or_create(
-                    component=component,
-                    name=replacement,
-                )[0]
-                for event in ADDONS[replacement].events:
-                    Event.objects.get_or_create(
-                        addon=addon,
-                        event=event,
-                    )
+                single_addon(Addon, Event, component, replacement)
                 changed = True
 
         if changed:
