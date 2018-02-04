@@ -287,6 +287,15 @@ class ViewTests(ViewTestCase):
         )
         self.assertContains(response, '1 addon installed')
 
+    def test_edit_config(self):
+        self.test_add_config()
+        addon = self.subproject.addon_set.all()[0]
+        response = self.client.get(addon.get_absolute_url())
+        self.assertContains(response, 'Configure addon')
+        response = self.client.post(addon.get_absolute_url())
+        self.assertContains(response, 'Configure addon')
+        self.assertContains(response, 'This field is required')
+
     def test_delete(self):
         addon = SourceEditAddon.create(self.subproject)
         response = self.client.post(
