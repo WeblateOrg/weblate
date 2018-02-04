@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-02-03 22:49+0000\n"
+"POT-Creation-Date: 2018-02-04 07:27+0000\n"
 "PO-Revision-Date: 2017-12-13 09:39+0000\n"
 "Last-Translator: Pedro Albuquerque <palbuquerque73@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
@@ -206,7 +206,8 @@ msgstr "Esta conta está inactiva."
 msgid "Too many authentication attempts!"
 msgstr "Muitas tentativas de autenticação!"
 
-#: weblate/accounts/forms.py:624 weblate/trans/models/project.py:92
+#: weblate/accounts/forms.py:624 weblate/templates/addons/generate_help.html:21
+#: weblate/trans/models/project.py:92
 msgid "Project name"
 msgstr "Nome do projecto"
 
@@ -2350,6 +2351,23 @@ msgstr "Foi traduzido"
 #| msgid "Not translated strings"
 msgid "Number of transalted strings"
 msgstr "Cadeias não traduzidas"
+
+#: weblate/templates/addons/generate_help.html:17
+#: weblate/trans/models/subproject.py:135
+msgid "Component name"
+msgstr "Nome do componente"
+
+#: weblate/templates/addons/generate_help.html:19
+#, fuzzy
+#| msgid "Components"
+msgid "Component URL slug"
+msgstr "Componentes"
+
+#: weblate/templates/addons/generate_help.html:23
+#, fuzzy
+#| msgid "URL slug"
+msgid "Project URL slug"
+msgstr "URL amigável"
 
 #: weblate/templates/base.html:97
 msgid "Toggle navigation"
@@ -6340,10 +6358,6 @@ msgstr "Sem adição de idiomas"
 #: weblate/trans/models/subproject.py:99
 msgid "Merge"
 msgstr "Unir"
-
-#: weblate/trans/models/subproject.py:135
-msgid "Component name"
-msgstr "Nome do componente"
 
 #: weblate/trans/models/subproject.py:151
 msgid "Version control system"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-02-03 22:49+0000\n"
+"POT-Creation-Date: 2018-02-04 07:27+0000\n"
 "PO-Revision-Date: 2018-02-02 23:12+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
@@ -206,7 +206,8 @@ msgstr ""
 msgid "Too many authentication attempts!"
 msgstr "認証を試行しすぎています！"
 
-#: weblate/accounts/forms.py:624 weblate/trans/models/project.py:92
+#: weblate/accounts/forms.py:624 weblate/templates/addons/generate_help.html:21
+#: weblate/trans/models/project.py:92
 msgid "Project name"
 msgstr "プロジェクト名"
 
@@ -2270,6 +2271,23 @@ msgstr "翻訳済み"
 #| msgid "Not translated strings"
 msgid "Number of transalted strings"
 msgstr "未翻訳の文字列"
+
+#: weblate/templates/addons/generate_help.html:17
+#: weblate/trans/models/subproject.py:135
+msgid "Component name"
+msgstr "コンポーネント名"
+
+#: weblate/templates/addons/generate_help.html:19
+#, fuzzy
+#| msgid "Components"
+msgid "Component URL slug"
+msgstr "コンポーネント"
+
+#: weblate/templates/addons/generate_help.html:23
+#, fuzzy
+#| msgid "URL slug"
+msgid "Project URL slug"
+msgstr "URL スラッグ"
 
 #: weblate/templates/base.html:97
 msgid "Toggle navigation"
@@ -6074,10 +6092,6 @@ msgstr "言語を追加しない"
 #: weblate/trans/models/subproject.py:99
 msgid "Merge"
 msgstr "マージ"
-
-#: weblate/trans/models/subproject.py:135
-msgid "Component name"
-msgstr "コンポーネント名"
 
 #: weblate/trans/models/subproject.py:151
 msgid "Version control system"

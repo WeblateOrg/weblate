@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-02-03 22:49+0000\n"
+"POT-Creation-Date: 2018-02-04 07:27+0000\n"
 "PO-Revision-Date: 2018-01-31 14:20+0000\n"
 "Last-Translator: Joan Montané <joan@montane.cat>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/master/"
@@ -201,7 +201,8 @@ msgstr "Aquest compte no és actiu."
 msgid "Too many authentication attempts!"
 msgstr "Masses intents d'autenticació!"
 
-#: weblate/accounts/forms.py:624 weblate/trans/models/project.py:92
+#: weblate/accounts/forms.py:624 weblate/templates/addons/generate_help.html:21
+#: weblate/trans/models/project.py:92
 msgid "Project name"
 msgstr "Nom del projecte"
 
@@ -2280,6 +2281,23 @@ msgstr "traduït"
 #| msgid "Untranslated strings"
 msgid "Number of transalted strings"
 msgstr "Cadenes sense traduir"
+
+#: weblate/templates/addons/generate_help.html:17
+#: weblate/trans/models/subproject.py:135
+msgid "Component name"
+msgstr "Nom del component"
+
+#: weblate/templates/addons/generate_help.html:19
+#, fuzzy
+#| msgid "Components"
+msgid "Component URL slug"
+msgstr "Components"
+
+#: weblate/templates/addons/generate_help.html:23
+#, fuzzy
+#| msgid "Projects"
+msgid "Project URL slug"
+msgstr "Projectes"
 
 #: weblate/templates/base.html:97
 msgid "Toggle navigation"
@@ -6464,10 +6482,6 @@ msgstr "No es pot afegir cap llengua"
 #: weblate/trans/models/subproject.py:99
 msgid "Merge"
 msgstr ""
-
-#: weblate/trans/models/subproject.py:135
-msgid "Component name"
-msgstr "Nom del component"
 
 #: weblate/trans/models/subproject.py:151
 msgid "Version control system"

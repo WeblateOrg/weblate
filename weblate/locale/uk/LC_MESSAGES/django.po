@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-02-03 22:49+0000\n"
+"POT-Creation-Date: 2018-02-04 07:27+0000\n"
 "PO-Revision-Date: 2018-02-02 15:47+0000\n"
 "Last-Translator: Андрій Бандура <andriykopanytsia@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/master/"
@@ -205,7 +205,8 @@ msgstr "Цей обліковий запис не активний."
 msgid "Too many authentication attempts!"
 msgstr "Надто багато спроб автентифікації!"
 
-#: weblate/accounts/forms.py:624 weblate/trans/models/project.py:92
+#: weblate/accounts/forms.py:624 weblate/templates/addons/generate_help.html:21
+#: weblate/trans/models/project.py:92
 msgid "Project name"
 msgstr "Назва проекту"
 
@@ -2278,6 +2279,23 @@ msgstr "Вже перекладено"
 #| msgid "Not translated strings"
 msgid "Number of transalted strings"
 msgstr "Неперекладені рядки"
+
+#: weblate/templates/addons/generate_help.html:17
+#: weblate/trans/models/subproject.py:135
+msgid "Component name"
+msgstr "Назва компоненту"
+
+#: weblate/templates/addons/generate_help.html:19
+#, fuzzy
+#| msgid "Components"
+msgid "Component URL slug"
+msgstr "Компоненти"
+
+#: weblate/templates/addons/generate_help.html:23
+#, fuzzy
+#| msgid "URL slug"
+msgid "Project URL slug"
+msgstr "Службове поле URL"
 
 #: weblate/templates/base.html:97
 msgid "Toggle navigation"
@@ -6088,10 +6106,6 @@ msgstr "Мову не додано"
 #: weblate/trans/models/subproject.py:99
 msgid "Merge"
 msgstr "Злити"
-
-#: weblate/trans/models/subproject.py:135
-msgid "Component name"
-msgstr "Назва компоненту"
 
 #: weblate/trans/models/subproject.py:151
 msgid "Version control system"

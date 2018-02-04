@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-02-03 22:49+0000\n"
+"POT-Creation-Date: 2018-02-04 07:27+0000\n"
 "PO-Revision-Date: 2018-01-30 18:47+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Azerbaijani <https://hosted.weblate.org/projects/weblate/"
@@ -224,7 +224,8 @@ msgid "Too many authentication attempts!"
 msgstr ""
 "Email təsdiqlənməsi deaktiv edilmişdir, parolunuzu sıfırlaya bilməzsiniz!"
 
-#: weblate/accounts/forms.py:624 weblate/trans/models/project.py:92
+#: weblate/accounts/forms.py:624 weblate/templates/addons/generate_help.html:21
+#: weblate/trans/models/project.py:92
 msgid "Project name"
 msgstr "Layihə adı"
 
@@ -2421,6 +2422,25 @@ msgstr "tərcümə edildi"
 #| msgid "Untranslated strings"
 msgid "Number of transalted strings"
 msgstr "Tərcümə edilməmiş sətirlər"
+
+#: weblate/templates/addons/generate_help.html:17
+#: weblate/trans/models/subproject.py:135
+#, fuzzy
+#| msgid "Comment added"
+msgid "Component name"
+msgstr "Şərh əlavə olundu"
+
+#: weblate/templates/addons/generate_help.html:19
+#, fuzzy
+#| msgid "Comments"
+msgid "Component URL slug"
+msgstr "Şərhlər"
+
+#: weblate/templates/addons/generate_help.html:23
+#, fuzzy
+#| msgid "URL slug"
+msgid "Project URL slug"
+msgstr "URL qısaltması"
 
 #: weblate/templates/base.html:97
 msgid "Toggle navigation"
@@ -6791,12 +6811,6 @@ msgstr "Dilin əlavəsi yoxdur"
 #: weblate/trans/models/subproject.py:99
 msgid "Merge"
 msgstr "Birləşdir"
-
-#: weblate/trans/models/subproject.py:135
-#, fuzzy
-#| msgid "Comment added"
-msgid "Component name"
-msgstr "Şərh əlavə olundu"
 
 #: weblate/trans/models/subproject.py:151
 msgid "Version control system"

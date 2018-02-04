@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-02-03 22:49+0000\n"
+"POT-Creation-Date: 2018-02-04 07:27+0000\n"
 "PO-Revision-Date: 2017-08-07 16:00+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Lithuanian <https://hosted.weblate.org/projects/weblate/"
@@ -196,7 +196,8 @@ msgstr "Ši paskyra neaktyvi."
 msgid "Too many authentication attempts!"
 msgstr "Pernelyg dažnai bandėte prisijungti!"
 
-#: weblate/accounts/forms.py:624 weblate/trans/models/project.py:92
+#: weblate/accounts/forms.py:624 weblate/templates/addons/generate_help.html:21
+#: weblate/trans/models/project.py:92
 msgid "Project name"
 msgstr "Projekto pavadinimas"
 
@@ -2138,6 +2139,23 @@ msgstr "išversta"
 #| msgid "Translated languages"
 msgid "Number of transalted strings"
 msgstr "Kalbos, į kurias verčiate"
+
+#: weblate/templates/addons/generate_help.html:17
+#: weblate/trans/models/subproject.py:135
+msgid "Component name"
+msgstr ""
+
+#: weblate/templates/addons/generate_help.html:19
+#, fuzzy
+#| msgid "Component list"
+msgid "Component URL slug"
+msgstr "Komponentų sąrašas"
+
+#: weblate/templates/addons/generate_help.html:23
+#, fuzzy
+#| msgid "Projects"
+msgid "Project URL slug"
+msgstr "Projektai"
 
 #: weblate/templates/base.html:97
 msgid "Toggle navigation"
@@ -5878,10 +5896,6 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:99
 msgid "Merge"
-msgstr ""
-
-#: weblate/trans/models/subproject.py:135
-msgid "Component name"
 msgstr ""
 
 #: weblate/trans/models/subproject.py:151

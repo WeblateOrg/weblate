@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-02-03 22:49+0000\n"
+"POT-Creation-Date: 2018-02-04 07:27+0000\n"
 "PO-Revision-Date: 2018-01-30 13:06+0000\n"
 "Last-Translator: ButterflyOfFire <ButterflyOfFire@protonmail.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/weblate/master/ar/"
@@ -198,7 +198,8 @@ msgstr "هذا الحساب غير فعال."
 msgid "Too many authentication attempts!"
 msgstr "محاولات مصادقة كثيرة!"
 
-#: weblate/accounts/forms.py:624 weblate/trans/models/project.py:92
+#: weblate/accounts/forms.py:624 weblate/templates/addons/generate_help.html:21
+#: weblate/trans/models/project.py:92
 msgid "Project name"
 msgstr "اسم المشروع"
 
@@ -2232,6 +2233,23 @@ msgstr "قد تم ترجمتها"
 #| msgid "Not translated strings"
 msgid "Number of transalted strings"
 msgstr "سلاسل غير مترجَمة"
+
+#: weblate/templates/addons/generate_help.html:17
+#: weblate/trans/models/subproject.py:135
+msgid "Component name"
+msgstr ""
+
+#: weblate/templates/addons/generate_help.html:19
+#, fuzzy
+#| msgid "Components"
+msgid "Component URL slug"
+msgstr "المكونات"
+
+#: weblate/templates/addons/generate_help.html:23
+#, fuzzy
+#| msgid "Projects"
+msgid "Project URL slug"
+msgstr "المشاريع"
 
 #: weblate/templates/base.html:97
 msgid "Toggle navigation"
@@ -5992,10 +6010,6 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:99
 msgid "Merge"
-msgstr ""
-
-#: weblate/trans/models/subproject.py:135
-msgid "Component name"
 msgstr ""
 
 #: weblate/trans/models/subproject.py:151
