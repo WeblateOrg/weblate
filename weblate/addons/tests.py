@@ -233,7 +233,7 @@ class JsonAddonTest(ViewTestCase):
         SourceEditAddon.create(self.subproject)
         TargetEditAddon.create(self.subproject)
         Unit.objects.all().delete()
-        self.subproject.create_translations()
+        self.subproject.create_translations(force=True)
         self.assertFalse(
             Unit.objects.exclude(
                 state__in=(STATE_FUZZY, STATE_EMPTY)
