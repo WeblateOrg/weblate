@@ -5,6 +5,7 @@ from __future__ import print_function, unicode_literals
 from django.db import migrations
 
 from weblate.trans.formats import FILE_FORMATS
+from weblate.addons.models import ADDONS
 
 HOOKS_REPLACE = {
     '/hook-update-resx': 'weblate.cleanup.generic',
@@ -36,6 +37,7 @@ def install_addons(apps, schema_editor):
     """Install addons as replacement for hooks or flags."""
     SubProject = apps.get_model('trans', 'SubProject')
     Addon = apps.get_model('addons', 'Addon')
+    Event = apps.get_model('addons', 'Event')
 
     for component in SubProject.objects.all():
         changed = False
@@ -64,10 +66,15 @@ def install_addons(apps, schema_editor):
                 component.check_flags.replace(
                     match, ''
                 ).replace(' ', '').replace(',,', ',')
-                Addon.objects.get_or_create(
+                addon = Addon.objects.get_or_create(
                     component=component,
                     name=replacement,
-                )
+                )[0]
+                for event in ADDONS[replacement].events:
+                    Event.objects.get_or_create(
+                        addon=addon,
+                        event=event,
+                    )
                 changed = True
 
         if changed:
