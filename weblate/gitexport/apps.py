@@ -23,5 +23,7 @@ from __future__ import unicode_literals
 from django.apps import AppConfig
 
 
-class GitexportConfig(AppConfig):
-    name = 'gitexport'
+class GitExportConfig(AppConfig):
+    name = 'weblate.gitexport'
+    label = 'gitexport'
+    verbose_name = 'Git Exporter'

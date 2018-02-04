@@ -24,4 +24,6 @@ from django.apps import AppConfig
 
 
 class AddonsConfig(AppConfig):
-    name = 'addons'
+    name = 'weblate.addons'
+    label = 'addons'
+    verbose_name = 'Addons'

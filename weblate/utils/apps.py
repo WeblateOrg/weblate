@@ -23,4 +23,6 @@ from django.apps import AppConfig
 
 
 class UtilsConfig(AppConfig):
-    name = 'utils'
+    name = 'weblate.utils'
+    label = 'utils'
+    verbose_name = 'Uutils'

@@ -22,5 +22,7 @@ from __future__ import unicode_literals
 from django.apps import AppConfig
 
 
-class WladminConfig(AppConfig):
-    name = 'wladmin'
+class WLAdminConfig(AppConfig):
+    name = 'weblate.wladmin'
+    label = 'wladmin'
+    verbose_name = 'Weblate Admin Extensions'

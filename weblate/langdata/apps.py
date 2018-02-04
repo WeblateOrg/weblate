@@ -23,5 +23,7 @@ from __future__ import unicode_literals
 from django.apps import AppConfig
 
 
-class LangdataConfig(AppConfig):
-    name = 'langdata'
+class LangDataConfig(AppConfig):
+    name = 'weblate.langdata'
+    label = 'langdata'
+    verbose_name = 'Language data'
