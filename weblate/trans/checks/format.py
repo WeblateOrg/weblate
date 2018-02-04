@@ -33,7 +33,7 @@ PYTHON_PRINTF_MATCH = re.compile(
         (?:\d+)?                # width
         (?:\.\d+)?              # precision
         (hh|h|l|ll)?         # length formatting
-        (?P<type>[a-zA-Z]))        # type (%s, %d, etc.)
+        (?P<type>[a-zA-Z%]))        # type (%s, %d, etc.)
     )''',
     re.VERBOSE
 )
@@ -48,7 +48,7 @@ PHP_PRINTF_MATCH = re.compile(
         (?:\d+)?                # width
         (?:\.\d+)?              # precision
         (hh|h|l|ll)?         # length formatting
-        (?P<type>[a-zA-Z]))        # type (%s, %d, etc.)
+        (?P<type>[a-zA-Z%]))        # type (%s, %d, etc.)
     )''',
     re.VERBOSE
 )
@@ -59,11 +59,11 @@ C_PRINTF_MATCH = re.compile(
     %(                          # initial %
           (?:(?P<ord>\d+)\$)?   # variable order, like %1$s
     (?P<fullvar>
-        [+#-']*                 # flags
+        [+#'-]*                 # flags
         (?:\d+)?                # width
         (?:\.\d+)?              # precision
         (hh|h|l|ll)?         # length formatting
-        (?P<type>[a-zA-Z]))        # type (%s, %d, etc.)
+        (?P<type>[a-zA-Z%]))        # type (%s, %d, etc.)
     )''',
     re.VERBOSE
 )
