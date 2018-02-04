@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-02-04 08:44+0000\n"
-"PO-Revision-Date: 2018-02-02 23:12+0000\n"
+"PO-Revision-Date: 2018-02-04 22:48+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
-"Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
-"ja/>\n"
+"Language-Team: Japanese "
+"<https://hosted.weblate.org/projects/weblate/master/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -626,32 +626,26 @@ msgstr ""
 "ザ名) が既に他のアカウントと関連づけられています！"
 
 #: weblate/addons/cleanup.py:34
-#, fuzzy
-#| msgid "Translation file"
 msgid "Cleanup translation files"
-msgstr "翻訳ファイル"
+msgstr "翻訳ファイルのクリーンアップ"
 
 #: weblate/addons/cleanup.py:36
 msgid ""
 "Update all translation files to match the monolingual base file. In most "
 "file formats this means removing stale translation keys."
-msgstr ""
+msgstr "単一言語のベースファイルに合わせて全ての翻訳ファイルを更新します。ほとんどのファイル形式に対して、この処理は行方不明の翻訳キーを削除します。"
 
 #: weblate/addons/example.py:42
-#, fuzzy
-#| msgid "Available addons"
 msgid "Example addon"
-msgstr "利用可能なアドオン"
+msgstr "アドオンの例"
 
 #: weblate/addons/example.py:44
 msgid "This addon does nothing it is just an example"
-msgstr ""
+msgstr "このアドオンは何もしません。単なる例として用意されているものです"
 
 #: weblate/addons/flags.py:50
-#, fuzzy
-#| msgid "Review source strings in %s"
 msgid "Flag new source strings to need edit"
-msgstr "原文のレビュー：%s"
+msgstr "新しい原文文字列に対して、要編集フラグを付ける"
 
 #: weblate/addons/flags.py:52
 msgid ""
@@ -659,12 +653,12 @@ msgid ""
 "needing editing in Weblate. This way you can enforce editing source strings "
 "from developers."
 msgstr ""
+"新しい原文文字列が VCS からインポートされると、 Weblate "
+"内では常に要編集フラグを設定します。この方式により、開発者から提供される原文を常に編集できるようになります。"
 
 #: weblate/addons/flags.py:64
-#, fuzzy
-#| msgid "Add as translation needing edit"
 msgid "Flag new translations to need edit"
-msgstr "翻訳を要編集として追加"
+msgstr "新しい翻訳を要編集としてフラグを設定する"
 
 #: weblate/addons/flags.py:66
 msgid ""
@@ -672,36 +666,30 @@ msgid ""
 "needing editing in Weblate. This way you can enforce editing source strings "
 "from developers."
 msgstr ""
+"新しい翻訳単位が VCS からインポートされると、 Weblate "
+"内では常に要編集フラグを設定します。この方式により、開発者から提供される原文を常に編集できるようになります。"
 
 #: weblate/addons/forms.py:44
-#, fuzzy
-#| msgid "Failed to generate key: %s"
 msgid "Name of generated file"
-msgstr "鍵の生成に失敗しました： %s"
+msgstr "生成されたファイルの名前"
 
 #: weblate/addons/forms.py:49
 msgid "Content of generated file"
-msgstr ""
+msgstr "生成されたファイルの内容"
 
 #: weblate/addons/forms.py:68
-#, fuzzy
-#| msgid "Failed to compile: {0}"
 msgid "Failed to render template: {}"
-msgstr "コンパイルに失敗しました: {0}"
+msgstr "テンプレートの描画に失敗しました: {}"
 
 #: weblate/addons/generate.py:36
-#, fuzzy
-#| msgid "Statistics"
 msgid "Statistics generator"
-msgstr "統計情報"
+msgstr "統計生成"
 
 #: weblate/addons/generate.py:38
-#, fuzzy
-#| msgid "Merges content of file header into the translation."
 msgid ""
 "This addon does generate file with detailed information about the "
 "translation."
-msgstr "ファイルのヘッダ部分を翻訳にマージする。"
+msgstr "このアドオンは、翻訳に対する詳細情報ファイルを生成します。"
 
 #: weblate/addons/gettext.py:51
 msgid "Generate mo files"
@@ -714,49 +702,47 @@ msgstr ""
 
 #: weblate/addons/gettext.py:68
 msgid "Update LINGUAS file"
-msgstr ""
+msgstr "LINGUAS ファイルの更新"
 
 #: weblate/addons/gettext.py:70
-#, fuzzy
-#| msgid "Merges content of file header into the translation."
 msgid "Updates the LINGUAS file when adding new translation."
-msgstr "ファイルのヘッダ部分を翻訳にマージする。"
+msgstr "新しい翻訳を追加する際に LINGUAS ファイルを更新します。"
 
 #: weblate/addons/gettext.py:123
 msgid "Update ALL_LINGUAS variable in the configure file"
-msgstr ""
+msgstr "configure ファイル内の ALL_LINGUAS 変数の更新"
 
 #: weblate/addons/gettext.py:125
 msgid ""
 "Updates the ALL_LINGUAS variable in configure, configure.in or configure.ac "
 "files when adding new translation."
 msgstr ""
+"新しい翻訳を追加する際に、 configure, configure.in, configure.ac ファイル内の ALL_LINGUAS "
+"変数を更新します。"
 
 #: weblate/addons/gettext.py:180
 msgid "Update po files to match pot (msgmerge)"
-msgstr ""
+msgstr "pot に合わせて po ファイルを更新 (msgmerge)"
 
 #: weblate/addons/gettext.py:182
 msgid ""
 "Update all po files to match the pot file using msgmerge. This is triggered "
 "whenever new changes are pulled from upstream repository."
 msgstr ""
+"msgmerge を利用して、 pot ファイルに合わせて全ての po "
+"ファイルを更新します。アップストリームのリポジトリから新しい変更点を受信すると、常にこれが起動されます。"
 
 #: weblate/addons/properties.py:147
-#, fuzzy
-#| msgid "Revert to this translation"
 msgid "Formats Java properties translation"
-msgstr "この翻訳に戻す"
+msgstr "Java properties 翻訳ファイルの整形"
 
 #: weblate/addons/properties.py:149
 msgid "This addon does sort Java properties file."
-msgstr ""
+msgstr "このアドオンは、 Java properties ファイルを並べ替えます。"
 
 #: weblate/addons/views.py:83
-#, fuzzy
-#| msgid "Invalid checksum specified!"
 msgid "Invalid addon name specified!"
-msgstr "指定したチェックサムが正しくありません！"
+msgstr "アドオン名が正しくありません！"
 
 #: weblate/billing/admin.py:52 weblate/billing/models.py:128
 #: weblate/templates/accounts/user.html:38
@@ -2210,10 +2196,8 @@ msgid "Addons"
 msgstr "アドオン"
 
 #: weblate/templates/addons/addon_detail.html:27
-#, fuzzy
-#| msgid "Configure columns"
 msgid "Configure addon"
-msgstr "列の設定"
+msgstr "アドオンの設定"
 
 #: weblate/templates/addons/addon_list.html:19
 msgid "Installed addons"
@@ -2258,19 +2242,15 @@ msgstr ""
 msgid ""
 "You can use Django templates markup in both filename and content, for "
 "example:"
-msgstr ""
+msgstr "ファイル名と内容の両方で、 Django テンプレートのマークアップを使用することができます。例:"
 
 #: weblate/templates/addons/generate_help.html:11
-#, fuzzy
-#| msgid "Has been translated"
 msgid "Percents translated"
-msgstr "翻訳済み"
+msgstr "翻訳済み割合 (パーセント)"
 
 #: weblate/templates/addons/generate_help.html:15
-#, fuzzy
-#| msgid "Not translated strings"
 msgid "Number of translated strings"
-msgstr "未翻訳の文字列"
+msgstr "翻訳済み文字列の数"
 
 #: weblate/templates/addons/generate_help.html:17
 #: weblate/trans/models/subproject.py:135
@@ -2278,16 +2258,12 @@ msgid "Component name"
 msgstr "コンポーネント名"
 
 #: weblate/templates/addons/generate_help.html:19
-#, fuzzy
-#| msgid "Components"
 msgid "Component URL slug"
-msgstr "コンポーネント"
+msgstr "コンポーネント URL スラッグ"
 
 #: weblate/templates/addons/generate_help.html:23
-#, fuzzy
-#| msgid "URL slug"
 msgid "Project URL slug"
-msgstr "URL スラッグ"
+msgstr "プロジェクト URL スラッグ"
 
 #: weblate/templates/base.html:97
 msgid "Toggle navigation"
@@ -4215,8 +4191,6 @@ msgid "Only selected users can contribute."
 msgstr "選ばれたユーザのみが貢献できます。"
 
 #: weblate/templates/subproject_info.html:28
-#, fuzzy
-#| msgid "Any authenticated users can contribute."
 msgid "Any authenticated user can contribute."
 msgstr "認証済みの任意のユーザが貢献できます。"
 
