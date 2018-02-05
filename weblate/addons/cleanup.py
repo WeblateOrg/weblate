@@ -34,7 +34,8 @@ class CleanupAddon(UpdateBaseAddon):
     verbose = _('Cleanup translation files')
     description = _(
         'Update all translation files to match the monolingual base file. '
-        'In most file formats this means removing stale translation keys.'
+        'In most file formats this means removing stale translation keys '
+        'which are no longer present in the base file.'
     )
     icon = 'eraser'
 
