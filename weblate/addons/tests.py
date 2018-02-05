@@ -22,7 +22,11 @@ from __future__ import unicode_literals
 
 import os
 
+from django.core.management import call_command
+from django.test import TestCase
 from django.urls import reverse
+
+from six import StringIO
 
 from weblate.trans.tests.test_views import ViewTestCase, FixtureTestCase
 
@@ -319,3 +323,11 @@ class PropertiesAddonTest(ViewTestCase):
             self.subproject.repository.last_revision
         )
         self.assertIn('java/swing_messages_cs.properties', commit)
+
+
+class CommandTest(TestCase):
+    """Test for management commands."""
+    def test_list_languages(self):
+        output = StringIO()
+        call_command('list_addons', stdout=output)
+        self.assertIn('msgmerge', output.getvalue())
