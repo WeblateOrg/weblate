@@ -22,9 +22,6 @@ install:
   # We need wheel installed to build wheels
   - "python.exe -m pip install wheel"
   - "python.exe -m pip install unittest-xml-reporting"
-  # Use patched translate-toolkit for Windows, see
-  # https://github.com/translate/translate/pull/3760
-  - "python.exe -m pip install https://github.com/nijel/translate/archive/poparse.zip"
   - "python.exe -m pip install -r requirements-optional.txt"
   - "python.exe -m pip install -r ci/requirements-travis.txt"
 
