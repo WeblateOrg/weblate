@@ -6,11 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-02-04 08:44+0000\n"
+"POT-Creation-Date: 2018-02-05 18:04+0000\n"
 "PO-Revision-Date: 2018-02-05 15:35+0000\n"
 "Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
-"Language-Team: Danish "
-"<https://hosted.weblate.org/projects/weblate/master/da/>\n"
+"Language-Team: Danish <https://hosted.weblate.org/projects/weblate/master/da/"
+">\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -620,9 +620,14 @@ msgid "Cleanup translation files"
 msgstr "Ryd op i oversættelsesfiler"
 
 #: weblate/addons/cleanup.py:36
+#, fuzzy
+#| msgid ""
+#| "Update all translation files to match the monolingual base file. In most "
+#| "file formats this means removing stale translation keys."
 msgid ""
 "Update all translation files to match the monolingual base file. In most "
-"file formats this means removing stale translation keys."
+"file formats this means removing stale translation keys which are no longer "
+"present in the base file."
 msgstr ""
 "Opdater alle oversættelsesfiler til at stemme overens med den enkeltsproget "
 "basisfil. I de fleste filformater vil dette betyde, at alle ubrugte "
@@ -641,10 +646,15 @@ msgid "Flag new source strings to need edit"
 msgstr "Markér nye kildestrenge som \"behøver redigering\""
 
 #: weblate/addons/flags.py:52
+#, fuzzy
+#| msgid ""
+#| "Whenever a new source string is imported from the VCS, it is flagged as "
+#| "needing editing in Weblate. This way you can enforce editing source "
+#| "strings from developers."
 msgid ""
 "Whenever a new source string is imported from the VCS, it is flagged as "
-"needing editing in Weblate. This way you can enforce editing source strings "
-"from developers."
+"needing editing in Weblate. This way you can easily filter and edit source "
+"strings written the developers."
 msgstr ""
 "Når nye kildestrenge bliver importeret fra versionskontrolsystemet, bliver "
 "de markeret som behøvende redigering i Weblate. På denne måde kan du "
@@ -655,10 +665,15 @@ msgid "Flag new translations to need edit"
 msgstr "Markér nye oversættelser som behøvende redigering"
 
 #: weblate/addons/flags.py:66
+#, fuzzy
+#| msgid ""
+#| "Whenever a new translation unit is imported from the VCS, it is flagged "
+#| "as needing editing in Weblate. This way you can enforce editing source "
+#| "strings from developers."
 msgid ""
 "Whenever a new translation unit is imported from the VCS, it is flagged as "
-"needing editing in Weblate. This way you can enforce editing source strings "
-"from developers."
+"needing editing in Weblate. This way you can easily filter and edit "
+"translations created by the developers."
 msgstr ""
 "Når en ny oversættelsesenhed bliver importeret fra versionskontrolsystemet, "
 "bliver den markeret som behøvende redigering i Weblate. På denne måde kan du "
@@ -682,8 +697,7 @@ msgstr "Statistikgenerator"
 
 #: weblate/addons/generate.py:38
 msgid ""
-"This addon generates file with detailed information about the "
-"translation."
+"This addon generates file with detailed information about the translation."
 msgstr ""
 "Denne udvidelse genererer en fil med detaljeret information om oversættelsen."
 
@@ -729,11 +743,15 @@ msgstr ""
 "kildekodearkivet."
 
 #: weblate/addons/properties.py:147
-msgid "Formats Java properties translation"
+#, fuzzy
+#| msgid "Formats Java properties translation"
+msgid "Formats the Java properties translation"
 msgstr "Formaterer Java-properties-oversættelse"
 
 #: weblate/addons/properties.py:149
-msgid "This addon does sort Java properties file."
+#, fuzzy
+#| msgid "This addon does sort Java properties file."
+msgid "This addon sorts the Java properties file."
 msgstr "Denne tilføjelse sorterer Java-properties-filen."
 
 #: weblate/addons/views.py:83
@@ -2455,8 +2473,8 @@ msgid ""
 msgstr ""
 "Med notifikationshægter vil Weblate automatisk importere ændringer udført af "
 "dine udviklere og vil give mulighed for kontinuerlig oversættelse. "
-"Yderligere oplysninger findes i <a href=\"%(hooks_docs)s\""
-">dokumentationen</a>."
+"Yderligere oplysninger findes i <a href=\"%(hooks_docs)s\">dokumentationen</"
+"a>."
 
 #: weblate/templates/data.html:7
 msgid "data exports"
@@ -2685,8 +2703,8 @@ msgid ""
 "Once you have activated your account, proceed to the <a href=\"%(url)s"
 "\">translation section</a>."
 msgstr ""
-"Når du har aktiveret din konto, kan du fortsætte til <a href=\"%(url)s\""
-">oversættelsessektionen</a>."
+"Når du har aktiveret din konto, kan du fortsætte til <a href=\"%(url)s"
+"\">oversættelsessektionen</a>."
 
 #: weblate/templates/footer.html:5
 #, python-format
@@ -3987,8 +4005,8 @@ msgid ""
 "You can also promote this translation project using various <a href="
 "\"%(widgets_url)s\">other means</a>."
 msgstr ""
-"Du kan også promovere oversættelsesprojektet på diverse <a href=\""
-"%(widgets_url)s\">andre måder</a>."
+"Du kan også promovere oversættelsesprojektet på diverse <a href="
+"\"%(widgets_url)s\">andre måder</a>."
 
 #: weblate/templates/share.html:32
 #, python-format
@@ -6467,7 +6485,8 @@ msgstr "Ugyldigt link til et Weblate-projekt, kan ikke linke til sig selv!"
 
 #: weblate/trans/models/subproject.py:1120
 msgid "Invalid link to a Weblate project, use weblate://project/component."
-msgstr "Ugyldigt link til et Weblate-projekt, brug weblate://projekt/komponent."
+msgstr ""
+"Ugyldigt link til et Weblate-projekt, brug weblate://projekt/komponent."
 
 #: weblate/trans/models/subproject.py:1126
 msgid "Push URL is not used when repository is linked!"
@@ -7707,8 +7726,8 @@ msgid ""
 "Importing a new translation can take some time, please check <a href="
 "\"%(url)s\">our documentation</a> for information on how to improve this."
 msgstr ""
-"Import af en ny oversættelse kan tage nogen tid. Se <a href=\"%(url)s\""
-">dokumentationen</a> for oplysninger om hvordan dette kan forbedres."
+"Import af en ny oversættelse kan tage nogen tid. Se <a href=\"%(url)s"
+"\">dokumentationen</a> for oplysninger om hvordan dette kan forbedres."
 
 #: weblate/wladmin/templates/admin/weblate-index.html:11
 msgid "Reports"

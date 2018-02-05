@@ -6,11 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-02-04 08:44+0000\n"
+"POT-Creation-Date: 2018-02-05 18:04+0000\n"
 "PO-Revision-Date: 2018-02-04 22:48+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
-"Language-Team: Japanese "
-"<https://hosted.weblate.org/projects/weblate/master/ja/>\n"
+"Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
+"ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -630,10 +630,17 @@ msgid "Cleanup translation files"
 msgstr "翻訳ファイルのクリーンアップ"
 
 #: weblate/addons/cleanup.py:36
+#, fuzzy
+#| msgid ""
+#| "Update all translation files to match the monolingual base file. In most "
+#| "file formats this means removing stale translation keys."
 msgid ""
 "Update all translation files to match the monolingual base file. In most "
-"file formats this means removing stale translation keys."
-msgstr "単一言語のベースファイルに合わせて全ての翻訳ファイルを更新します。ほとんどのファイル形式に対して、この処理は行方不明の翻訳キーを削除します。"
+"file formats this means removing stale translation keys which are no longer "
+"present in the base file."
+msgstr ""
+"単一言語のベースファイルに合わせて全ての翻訳ファイルを更新します。ほとんどの"
+"ファイル形式に対して、この処理は行方不明の翻訳キーを削除します。"
 
 #: weblate/addons/example.py:42
 msgid "Example addon"
@@ -648,26 +655,38 @@ msgid "Flag new source strings to need edit"
 msgstr "新しい原文文字列に対して、要編集フラグを付ける"
 
 #: weblate/addons/flags.py:52
+#, fuzzy
+#| msgid ""
+#| "Whenever a new source string is imported from the VCS, it is flagged as "
+#| "needing editing in Weblate. This way you can enforce editing source "
+#| "strings from developers."
 msgid ""
 "Whenever a new source string is imported from the VCS, it is flagged as "
-"needing editing in Weblate. This way you can enforce editing source strings "
-"from developers."
+"needing editing in Weblate. This way you can easily filter and edit source "
+"strings written the developers."
 msgstr ""
-"新しい原文文字列が VCS からインポートされると、 Weblate "
-"内では常に要編集フラグを設定します。この方式により、開発者から提供される原文を常に編集できるようになります。"
+"新しい原文文字列が VCS からインポートされると、 Weblate 内では常に要編集フラ"
+"グを設定します。この方式により、開発者から提供される原文を常に編集できるよう"
+"になります。"
 
 #: weblate/addons/flags.py:64
 msgid "Flag new translations to need edit"
 msgstr "新しい翻訳を要編集としてフラグを設定する"
 
 #: weblate/addons/flags.py:66
+#, fuzzy
+#| msgid ""
+#| "Whenever a new translation unit is imported from the VCS, it is flagged "
+#| "as needing editing in Weblate. This way you can enforce editing source "
+#| "strings from developers."
 msgid ""
 "Whenever a new translation unit is imported from the VCS, it is flagged as "
-"needing editing in Weblate. This way you can enforce editing source strings "
-"from developers."
+"needing editing in Weblate. This way you can easily filter and edit "
+"translations created by the developers."
 msgstr ""
-"新しい翻訳単位が VCS からインポートされると、 Weblate "
-"内では常に要編集フラグを設定します。この方式により、開発者から提供される原文を常に編集できるようになります。"
+"新しい翻訳単位が VCS からインポートされると、 Weblate 内では常に要編集フラグ"
+"を設定します。この方式により、開発者から提供される原文を常に編集できるように"
+"なります。"
 
 #: weblate/addons/forms.py:44
 msgid "Name of generated file"
@@ -687,8 +706,7 @@ msgstr "統計生成"
 
 #: weblate/addons/generate.py:38
 msgid ""
-"This addon generates file with detailed information about the "
-"translation."
+"This addon generates file with detailed information about the translation."
 msgstr "このアドオンは、翻訳に対する詳細情報ファイルを生成します。"
 
 #: weblate/addons/gettext.py:51
@@ -717,8 +735,8 @@ msgid ""
 "Updates the ALL_LINGUAS variable in configure, configure.in or configure.ac "
 "files when adding new translation."
 msgstr ""
-"新しい翻訳を追加する際に、 configure, configure.in, configure.ac ファイル内の ALL_LINGUAS "
-"変数を更新します。"
+"新しい翻訳を追加する際に、 configure, configure.in, configure.ac ファイル内"
+"の ALL_LINGUAS 変数を更新します。"
 
 #: weblate/addons/gettext.py:180
 msgid "Update po files to match pot (msgmerge)"
@@ -729,15 +747,20 @@ msgid ""
 "Update all po files to match the pot file using msgmerge. This is triggered "
 "whenever new changes are pulled from upstream repository."
 msgstr ""
-"msgmerge を利用して、 pot ファイルに合わせて全ての po "
-"ファイルを更新します。アップストリームのリポジトリから新しい変更点を受信すると、常にこれが起動されます。"
+"msgmerge を利用して、 pot ファイルに合わせて全ての po ファイルを更新します。"
+"アップストリームのリポジトリから新しい変更点を受信すると、常にこれが起動され"
+"ます。"
 
 #: weblate/addons/properties.py:147
-msgid "Formats Java properties translation"
+#, fuzzy
+#| msgid "Formats Java properties translation"
+msgid "Formats the Java properties translation"
 msgstr "Java properties 翻訳ファイルの整形"
 
 #: weblate/addons/properties.py:149
-msgid "This addon does sort Java properties file."
+#, fuzzy
+#| msgid "This addon does sort Java properties file."
+msgid "This addon sorts the Java properties file."
 msgstr "このアドオンは、 Java properties ファイルを並べ替えます。"
 
 #: weblate/addons/views.py:83
@@ -2242,7 +2265,9 @@ msgstr ""
 msgid ""
 "You can use Django templates markup in both filename and content, for "
 "example:"
-msgstr "ファイル名と内容の両方で、 Django テンプレートのマークアップを使用することができます。例:"
+msgstr ""
+"ファイル名と内容の両方で、 Django テンプレートのマークアップを使用することが"
+"できます。例:"
 
 #: weblate/templates/addons/generate_help.html:11
 msgid "Percents translated"
