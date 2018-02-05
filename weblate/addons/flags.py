@@ -50,8 +50,8 @@ class SourceEditAddon(FlagBase):
     verbose = _('Flag new source strings to need edit')
     description = _(
         'Whenever a new source string is imported from the VCS, it is '
-        'flagged as needing editing in Weblate. This way you can enforce '
-        'editing source strings from developers.'
+        'flagged as needing editing in Weblate. This way you can easily '
+        'filter and edit source strings written the developers.'
     )
 
     def unit_pre_create(self, unit):
@@ -64,8 +64,8 @@ class TargetEditAddon(FlagBase):
     verbose = _('Flag new translations to need edit')
     description = _(
         'Whenever a new translation unit is imported from the VCS, it is '
-        'flagged as needing editing in Weblate. This way you can enforce '
-        'editing source strings from developers.'
+        'flagged as needing editing in Weblate. This way you can easily '
+        'filter and edit translations created by the developers.'
     )
 
     def unit_pre_create(self, unit):
