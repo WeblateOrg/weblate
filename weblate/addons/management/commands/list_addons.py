@@ -20,7 +20,6 @@
 from __future__ import unicode_literals
 
 from django.core.management.base import BaseCommand
-from django.utils.translation import activate, ugettext
 
 from weblate.addons.models import ADDONS
 
@@ -32,7 +31,7 @@ class Command(BaseCommand):
         """Create default set of languages, optionally updating them
         to match current shipped definitions.
         """
-        for key, obj in sorted(ADDONS.items()):
+        for dummy, obj in sorted(ADDONS.items()):
             self.stdout.write(obj.verbose)
             self.stdout.write('-' * len(obj.verbose))
             self.stdout.write('\n')
