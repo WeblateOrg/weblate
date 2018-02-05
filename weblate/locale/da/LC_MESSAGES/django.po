@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-02-04 08:44+0000\n"
-"PO-Revision-Date: 2018-02-05 01:12+0000\n"
-"Last-Translator: Jesper Hertel <jesper.hertel@gmail.com>\n"
+"PO-Revision-Date: 2018-02-05 03:37+0000\n"
+"Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
 "Language-Team: Danish "
 "<https://hosted.weblate.org/projects/weblate/master/da/>\n"
 "Language: da\n"
@@ -3691,13 +3691,12 @@ msgid "Remove"
 msgstr "Fjern"
 
 #: weblate/templates/manage-access.html:54
-#, fuzzy
 msgid ""
 "The user will be removed from the project once all user permissions are "
 "removed."
 msgstr ""
-"Brugeren bliver fjernet fra projektet, når den sidste brugertilladelse "
-"fjernes."
+"Brugeren bliver fjernet fra projektet, når alle brugertilladelser er blevet "
+"fjernet."
 
 #: weblate/templates/manage-access.html:66
 msgid "Add new user"
@@ -4302,7 +4301,6 @@ msgid "Ctrl+Shift+Enter - Unmark review needed flag and save"
 msgstr "Ctrl+Skift+Enter - fravælg revision nødvendigt flag og gem"
 
 #: weblate/templates/translate.html:83
-#, fuzzy
 msgid "Alt+PageUp/PageDown/Home/End - Translation units navigation"
 msgstr "Alt+PageUp/PageDown/Home/End - navigation mellem oversættelsesenheder"
 
@@ -4360,13 +4358,12 @@ msgid "Please log in to save translations."
 msgstr "Log ind for at gemme oversættelser."
 
 #: weblate/templates/translate.html:172
-#, fuzzy
 msgid ""
 "Only reviewers can change approved strings, please add a suggestion if you "
 "think the string should be changed."
 msgstr ""
-"Kun korrekturlæsere kan ændre en godkendt streng, tilføj et forslag hvis du "
-"tror, at strengen skal ændres."
+"Kun korrekturlæsere kan ændre godkendte strenge, tilføj et forslag hvis du "
+"mener, at strengen skal ændres."
 
 #: weblate/templates/translate.html:174 weblate/trans/views/edit.py:319
 #: weblate/trans/views/edit.py:352 weblate/trans/views/edit.py:380
@@ -4669,9 +4666,8 @@ msgstr ""
 "det til."
 
 #: weblate/templates/translation.html:262
-#, fuzzy
 msgid "The uploaded file will be merged with the current translation."
-msgstr "Overført fil vil blive flettet sammen med nuværende oversættelse."
+msgstr "Den overførte fil vil blive flettet med den nuværende oversættelse."
 
 #: weblate/templates/translation.html:288
 msgid ""
@@ -5220,10 +5216,8 @@ msgid "Strings waiting for review"
 msgstr "Strenge der er markeret for revision"
 
 #: weblate/trans/filter.py:52
-#, fuzzy
-#| msgid "Strings with any failing checks"
 msgid "Strings with any failing source checks"
-msgstr "Strenge med fejlslagen kontrol"
+msgstr "Strenge med fejlslagen kildekontrol"
 
 #: weblate/trans/filter.py:53
 msgid "Strings with source comments"
@@ -5238,18 +5232,16 @@ msgid "Gettext PO file"
 msgstr "Gettext PO-fil"
 
 #: weblate/trans/formats.py:1024
-#, fuzzy
 msgid "Gettext PO file (unwrapped)"
-msgstr "Gettext PO-fil (enkeltsproget)"
+msgstr "Gettext PO-fil (ikke ombrudt)"
 
 #: weblate/trans/formats.py:1046
 msgid "Gettext PO file (monolingual)"
 msgstr "Gettext PO-fil (enkeltsproget)"
 
 #: weblate/trans/formats.py:1053
-#, fuzzy
 msgid "Gettext PO file (monolingual, unwrapped)"
-msgstr "Gettext PO-fil (enkeltsproget)"
+msgstr "Gettext PO-fil (enkeltsproget, ikke ombrudt)"
 
 #: weblate/trans/formats.py:1060
 msgid "Qt Linguist Translation File"
@@ -5389,14 +5381,12 @@ msgstr ""
 "er blevet opdateret eller når det gøres manuelt."
 
 #: weblate/trans/forms.py:430
-#, fuzzy
 msgid "Review state"
-msgstr "Tjenestestatus"
+msgstr "Gennemgangstilstand"
 
 #: weblate/trans/forms.py:433
-#, fuzzy
 msgid "Waiting for review"
-msgstr "Tilfældige strenge til gennemsyn"
+msgstr "Venter på gennemgang"
 
 #: weblate/trans/forms.py:490
 msgid ""
@@ -5694,7 +5684,6 @@ msgid "User to add"
 msgstr "Bruger kan tilføjes"
 
 #: weblate/trans/forms.py:1172
-#, fuzzy
 msgid ""
 "Please provide username or e-mail. User needs to already have an active "
 "account in Weblate."
@@ -5755,9 +5744,8 @@ msgid "Basic"
 msgstr "Grundlæggende"
 
 #: weblate/trans/forms.py:1307
-#, fuzzy
 msgid "Upstream links"
-msgstr "Upstream links"
+msgstr "Upstream-links"
 
 #: weblate/trans/forms.py:1321
 msgid "Translation settings"
@@ -5792,9 +5780,8 @@ msgid "Replacement string"
 msgstr "Erstatningsstreng"
 
 #: weblate/trans/forms.py:1450
-#, fuzzy
 msgid "Translation key"
-msgstr "Oversættelse"
+msgstr "Oversættelsens nøgle"
 
 #: weblate/trans/forms.py:1452
 #, fuzzy
@@ -5907,9 +5894,8 @@ msgid "Failed rebase on repository"
 msgstr "Kunne ikke flytte arkiv"
 
 #: weblate/trans/models/change.py:224
-#, fuzzy
 msgid "Failed push on repository"
-msgstr "Kunne ikke flytte arkiv"
+msgstr "Kunne ikke skubbe (push) til arkiv"
 
 #: weblate/trans/models/change.py:225
 msgid "Parse error"
@@ -5964,24 +5950,20 @@ msgid "Component lists"
 msgstr "Komponentlister"
 
 #: weblate/trans/models/componentlist.py:65
-#, fuzzy
 msgid "Project regular expression"
-msgstr "Projekt regulært udtryk"
+msgstr "Projektets regulære udtryk"
 
 #: weblate/trans/models/componentlist.py:69
-#, fuzzy
 msgid "Regular expression which is used to match project slug."
-msgstr "Regulært udtryk, som bruges til at matche projekt slug."
+msgstr "Regulært udtryk, som bruges til at matche projektets slug."
 
 #: weblate/trans/models/componentlist.py:73
-#, fuzzy
 msgid "Component regular expression"
-msgstr "Komponent regulært udtryk"
+msgstr "Komponentens regulære udtryk"
 
 #: weblate/trans/models/componentlist.py:77
-#, fuzzy
 msgid "Regular expression which is used to match component slug."
-msgstr "Regulære udtryk, der bruges til at matche en komponent slug."
+msgstr "Regulære udtryk, der bruges til at matche komponentens slug."
 
 #: weblate/trans/models/componentlist.py:82
 msgid "Component list to assign"
@@ -6041,9 +6023,8 @@ msgstr ""
 "detaljer."
 
 #: weblate/trans/models/project.py:143
-#, fuzzy
 msgid "Enable reviews"
-msgstr "Aktiver forslag"
+msgstr "Aktivér gennemgange"
 
 #: weblate/trans/models/project.py:146
 #, fuzzy
@@ -6159,13 +6140,12 @@ msgid "Repository branch to translate"
 msgstr "Arkiv-forgrening som skal oversættes"
 
 #: weblate/trans/models/subproject.py:214
-#, fuzzy
 msgid ""
 "Path of files to translate relative to repository root, use * instead of "
 "language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po."
 msgstr ""
-"Sti for filer som skal oversættes i forhold til arkiv rod. Anvend * i stedet "
-"for sprogkode, eksempelvis: po/*.po eller locale/*/LC_MESSAGES/django.po."
+"Sti for filer som skal oversættes i forhold til arkivets rod. Anvend * i "
+"stedet for sprogkode, f.eks.: po/*.po eller locale/*/LC_MESSAGES/django.po."
 
 #: weblate/trans/models/subproject.py:220
 msgid "Monolingual base language file"
@@ -6657,9 +6637,8 @@ msgid "Translation file already exists!"
 msgstr "Oversættelses-fil findes allerede!"
 
 #: weblate/trans/models/suggestion.py:156
-#, fuzzy
 msgid "Failed to accept suggestion!"
-msgstr "Kunne ikke accepterer forslaget!"
+msgstr "Kunne ikke acceptere forslaget!"
 
 #: weblate/trans/models/translation.py:151
 #, python-format
@@ -7038,7 +7017,6 @@ msgid "Message has failing checks"
 msgstr "Beskeden har fejlende kontroller"
 
 #: weblate/trans/templatetags/translations.py:555
-#, fuzzy
 msgid "Message is approved"
 msgstr "Meddelelsen er godkendt"
 
@@ -7383,12 +7361,10 @@ msgid "Translation comment has been deleted."
 msgstr "Oversættelseskommentar er blevet slettet."
 
 #: weblate/trans/views/edit.py:840
-#, fuzzy
 msgid "Translation with this key seem to already exist!"
-msgstr "Oversættelses-fil findes allerede!"
+msgstr "Oversættelse med denne nøgle ser allerede ud til at findes!"
 
 #: weblate/trans/views/edit.py:845
-#, fuzzy
 msgid "New translation unit has been added."
 msgstr "Ny oversættelsesenhed er blevet tilføjet."
 
@@ -7640,8 +7616,6 @@ msgid "Performance"
 msgstr "Ydeevne"
 
 #: weblate/wladmin/templates/admin/performance.html:21
-#, fuzzy
-#| msgid "Last change"
 msgid "Last occurrence"
 msgstr "Sidste forekomst"
 
