@@ -35,7 +35,7 @@ class GenerateFileAddon(BaseAddon):
     name = 'weblate.generate.generate'
     verbose = _('Statistics generator')
     description = _(
-        'This addon does generate file with detailed information '
+        'This addon generates file with detailed information '
         'about the translation.'
     )
     settings_form = GenerateForm

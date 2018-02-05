@@ -22,7 +22,7 @@ whenever new changes are pulled from upstream repository.
 Flag new translations to need edit
 ----------------------------------
 
-Whenever new translation unit is imported from the VCS, it is flagged as
+Whenever a new translation unit is imported from the VCS, it is flagged as
 needing editing in Weblate. This way you can enforce editing source strings
 from developers.
 
@@ -40,7 +40,7 @@ Updates the LINGUAS file when adding new translation.
 Flag new source strings to need edit
 ------------------------------------
 
-Whenever new source string is imported from the VCS, it is flagged as needing
+Whenever a new source string is imported from the VCS, it is flagged as needing
 editing in Weblate. This way you can enforce editing source strings from
 developers.
 
