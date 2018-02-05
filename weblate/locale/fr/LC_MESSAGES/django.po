@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-02-05 18:04+0000\n"
-"PO-Revision-Date: 2018-02-05 18:44+0000\n"
+"PO-Revision-Date: 2018-02-05 20:30+0000\n"
 "Last-Translator: French Coordinator OTF/LocLab <french.coordinator@rbox.me>\n"
 "Language-Team: French "
 "<https://hosted.weblate.org/projects/weblate/master/fr/>\n"
@@ -639,7 +639,7 @@ msgstr ""
 
 #: weblate/addons/cleanup.py:34
 msgid "Cleanup translation files"
-msgstr "Nettoyer le fichiers de traduction"
+msgstr "Nettoyer les fichiers de traduction"
 
 #: weblate/addons/cleanup.py:36
 #, fuzzy
@@ -657,7 +657,7 @@ msgstr ""
 
 #: weblate/addons/example.py:42
 msgid "Example addon"
-msgstr "Greffon exemple"
+msgstr "Greffon d'exemple"
 
 #: weblate/addons/example.py:44
 msgid "This addon does nothing it is just an example"
@@ -668,30 +668,30 @@ msgid "Flag new source strings to need edit"
 msgstr "Marquer les nouvelles chaînes sources comme À modifier"
 
 #: weblate/addons/flags.py:52
-#, fuzzy
 msgid ""
 "Whenever a new source string is imported from the VCS, it is flagged as "
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written the developers."
 msgstr ""
-"Quand une nouvelle source est importée du système de contrôle de versions, "
-"elle est marquée dans Weblate comme devant être modifiée. Vous pouvez ainsi "
-"appliquer la modification des chaînes source des développeurs."
+"Quand une nouvelle chaîne source est importée du système de contrôle de "
+"versions, elle est marquée dans Weblate comme devant être modifiée. Vous "
+"pouvez ainsi filtrer et modifier facilement les chaînes source rédigées par "
+"les développeurs."
 
 #: weblate/addons/flags.py:64
 msgid "Flag new translations to need edit"
 msgstr "Marquer les nouvelles traductions comme À modifier"
 
 #: weblate/addons/flags.py:66
-#, fuzzy
 msgid ""
 "Whenever a new translation unit is imported from the VCS, it is flagged as "
 "needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
-"Quand une nouvelle unité à traduite est importée du système de contrôle de "
+"Quand une nouvelle unité à traduire est importée du système de contrôle de "
 "versions, elle est marquée dans Weblate comme devant être modifiée. Vous "
-"pouvez ainsi appliquer la modification des chaînes source des développeurs."
+"pouvez ainsi filtrer et modifier facilement les traductions créées par les "
+"développeurs."
 
 #: weblate/addons/forms.py:44
 msgid "Name of generated file"
@@ -748,7 +748,7 @@ msgstr ""
 #: weblate/addons/gettext.py:180
 msgid "Update po files to match pot (msgmerge)"
 msgstr ""
-"Mettre les fichiers po à jour pour qu’ils correspondent aux fichiers po "
+"Mettre les fichiers po à jour pour qu’ils correspondent au fichier pot "
 "(msgmerge)"
 
 #: weblate/addons/gettext.py:182
@@ -761,16 +761,12 @@ msgstr ""
 "changements sont extraits du dépôt en amont."
 
 #: weblate/addons/properties.py:147
-#, fuzzy
-#| msgid "Revert to this translation"
 msgid "Formats the Java properties translation"
-msgstr "Rétablir cette traduction"
+msgstr "Formate la traduction des propriétés Java"
 
 #: weblate/addons/properties.py:149
-#, fuzzy
-#| msgid "This addon does sort Java properties file."
 msgid "This addon sorts the Java properties file."
-msgstr "Ce greffon trie le fichier de propriétés Java."
+msgstr "Ce greffon trie le fichier des propriétés Java."
 
 #: weblate/addons/views.py:83
 msgid "Invalid addon name specified!"
@@ -1011,8 +1007,6 @@ msgid "Unknown"
 msgstr "Inconnu"
 
 #: weblate/lang/models.py:485
-#, fuzzy
-#| msgid "Plural equation"
 msgid "Plural definition source"
 msgstr "Source de définition du pluriel"
 
@@ -2254,7 +2248,7 @@ msgstr "Activité de l’année dernière"
 #: weblate/templates/addons/addon_list.html:10
 #: weblate/templates/subproject.html:82
 msgid "Addons"
-msgstr ""
+msgstr "Greffons"
 
 #: weblate/templates/addons/addon_detail.html:27
 msgid "Configure addon"
@@ -2262,7 +2256,7 @@ msgstr "Configurer le greffon"
 
 #: weblate/templates/addons/addon_list.html:19
 msgid "Installed addons"
-msgstr ""
+msgstr "Greffons installés"
 
 #: weblate/templates/addons/addon_list.html:29
 msgid "Uninstall"
@@ -2273,10 +2267,8 @@ msgid "Configure"
 msgstr "Paramétrer"
 
 #: weblate/templates/addons/addon_list.html:42
-#, fuzzy
-#| msgid "Translation is currently not locked."
 msgid "There are no addons currently installed."
-msgstr "Cette traduction n’est pas verrouillée."
+msgstr "Aucun greffon n’est installé actuellement."
 
 #: weblate/templates/addons/addon_list.html:44
 #, python-format
@@ -2287,7 +2279,7 @@ msgstr[1] "%(count)s greffons sont installés actuellement."
 
 #: weblate/templates/addons/addon_list.html:53
 msgid "Available addons"
-msgstr ""
+msgstr "Greffons proposés"
 
 #: weblate/templates/addons/addon_list.html:63
 msgid "Install"
@@ -2296,16 +2288,23 @@ msgstr "Installer"
 #: weblate/templates/addons/addon_list.html:71
 msgid "Could not find any additional addons compatible with this translation."
 msgstr ""
+"Impossible de trouver des greffons supplémentaires compatibles avec cette "
+"traduction."
 
 #: weblate/templates/addons/addon_list.html:73
 msgid "Some addons will ask for additional configuration during installation."
 msgstr ""
+"Certains greffons demanderont une configuration supplémentaire lors de "
+"l’installation."
 
 #: weblate/templates/addons/generate_help.html:3
+#, fuzzy
 msgid ""
 "You can use Django templates markup in both filename and content, for "
 "example:"
 msgstr ""
+"Vous pouvez utiliser le balisage des modèles Django à la fois dans le nom de "
+"fichier et dans le contenu, par exemple :"
 
 #: weblate/templates/addons/generate_help.html:11
 msgid "Percents translated"
@@ -5994,7 +5993,7 @@ msgstr "Dépôt fusionné"
 
 #: weblate/trans/models/change.py:221
 msgid "Rebased repository"
-msgstr "Dépôt réinitialisé"
+msgstr "Dépôt rebasé"
 
 #: weblate/trans/models/change.py:222
 msgid "Failed merge on repository"
