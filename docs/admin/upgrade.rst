@@ -559,9 +559,9 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 Notable configuration or dependencies changes:
 
-* There is new dependency on the `user_agents` module.
-* There is change in the :setting:`django:MIDDLEWARE` setting (added `weblate.wladmin.middleware.ConfigurationErrorsMiddleware`).
-* There is change in the :setting:`django:INSTALLED_APPS` setting (added `weblate.langdata` and `weblate.addons`).
+* There is new dependency on the ``user_agents`` module.
+* There is change in the :setting:`django:MIDDLEWARE` setting (added ``weblate.wladmin.middleware.ConfigurationErrorsMiddleware``).
+* There is change in the :setting:`django:INSTALLED_APPS` setting (added ``weblate.langdata`` and ``weblate.addons``).
 * Several shipped hook scripts are replaced by addons. The migration will happen automatically.
 
 There has been change in default plural rules for some languages to closer
