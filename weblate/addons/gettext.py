@@ -20,6 +20,7 @@
 
 from __future__ import unicode_literals
 
+import io
 import os
 
 from django.core.management.utils import find_command, popen_wrapper
@@ -88,7 +89,7 @@ class UpdateLinguasAddon(GettextBaseAddon):
 
     def post_add(self, translation):
         path = self.get_linguas_path(translation.subproject)
-        with open(path, 'r') as handle:
+        with io.open(path, 'r', encoding='utf-8') as handle:
             lines = handle.readlines()
 
         add = True
@@ -111,7 +112,7 @@ class UpdateLinguasAddon(GettextBaseAddon):
         if add:
             lines.append('{}\n'.format(translation.language_code))
 
-        with open(path, 'w') as handle:
+        with io.open(path, 'w', encoding='utf-8') as handle:
             handle.writelines(lines)
 
         translation.addon_commit_files.append(path)
@@ -144,16 +145,19 @@ class UpdateConfigureAddon(GettextBaseAddon):
         for name in cls.get_configure_paths(component):
             if not os.path.exists(name):
                 continue
-            with open(name) as handle:
-                if 'ALL_LINGUAS="' in handle.read():
-                    return True
+            try:
+                with io.open(name, encoding='utf-8') as handle:
+                    if 'ALL_LINGUAS="' in handle.read():
+                        return True
+            except UnicodeDecodeError:
+                continue
         return False
 
     def post_add(self, translation):
         for path in self.get_configure_paths(translation.subproject):
             if not os.path.exists(path):
                 continue
-            with open(path, 'r') as handle:
+            with io.open(path, 'r', encoding='utf-8') as handle:
                 lines = handle.readlines()
 
             for i, line in enumerate(lines):
@@ -169,7 +173,7 @@ class UpdateConfigureAddon(GettextBaseAddon):
                     stripped[13:],
                 )
 
-            with open(path, 'w') as handle:
+            with io.open(path, 'w', encoding='utf-8') as handle:
                 handle.writelines(lines)
 
             translation.addon_commit_files.append(path)
