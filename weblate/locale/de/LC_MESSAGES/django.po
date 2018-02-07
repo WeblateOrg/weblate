@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-02-05 18:04+0000\n"
-"PO-Revision-Date: 2018-02-07 21:17+0000\n"
-"Last-Translator: anonymous <>\n"
+"PO-Revision-Date: 2018-02-08 10:08+0000\n"
+"Last-Translator: Andreas Kleinert <Andy.Kleinert@gmail.com>\n"
 "Language-Team: German "
 "<https://hosted.weblate.org/projects/weblate/master/de/>\n"
 "Language: de\n"
@@ -658,14 +658,18 @@ msgid ""
 "file formats this means removing stale translation keys which are no longer "
 "present in the base file."
 msgstr ""
+"Aktualisieren Sie alle Übersetzungsdateien so, dass sie mit der "
+"einsprachigen Basisdatei übereinstimmen. In den meisten Dateiformaten "
+"bedeutet dies, veraltete Übersetzungsschlüssel, die in der Basisdatei nicht "
+"mehr vorhanden sind, zu entfernen."
 
 #: weblate/addons/example.py:42
 msgid "Example addon"
-msgstr ""
+msgstr "Beispiel-Erweiterung"
 
 #: weblate/addons/example.py:44
 msgid "This addon does nothing it is just an example"
-msgstr ""
+msgstr "Diese Erweiterung enthält keine Funktion, sie dient nur als Beispiel."
 
 #: weblate/addons/flags.py:50
 msgid "Flag new source strings to need edit"
@@ -677,6 +681,10 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written the developers."
 msgstr ""
+"Jedes Mal, wenn ein neuer Quelltext aus dem VCS importiert wird, wird er in "
+"Weblate als bearbeitungsbedürftig gekennzeichnet. Auf diese Weise können Sie "
+"Quelltexte, die von den Entwicklern geschrieben wurden, einfach filtern und "
+"bearbeiten."
 
 #: weblate/addons/flags.py:64
 msgid "Flag new translations to need edit"
@@ -688,6 +696,10 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
+"Jedes Mal, wenn eine neue Übersetzungseinheit aus dem VCS importiert wird, "
+"wird sie in Weblate als bearbeitungsbedürftig gekennzeichnet. Auf diese "
+"Weise können Sie Übersetzungen, die von den Entwicklern erstellt wurden, "
+"einfach filtern und bearbeiten."
 
 #: weblate/addons/forms.py:44
 msgid "Name of generated file"
@@ -695,7 +707,7 @@ msgstr "Name der erzeugten Datei"
 
 #: weblate/addons/forms.py:49
 msgid "Content of generated file"
-msgstr ""
+msgstr "Inhalt der erzeugten Datei"
 
 #: weblate/addons/forms.py:68
 msgid "Failed to render template: {}"
@@ -718,11 +730,11 @@ msgstr "Mo-Dateien erzeugen"
 
 #: weblate/addons/gettext.py:53
 msgid "Automatically generates mo file for every changed po file."
-msgstr ""
+msgstr "Erzeugt automatisch eine MO-Datei für jede geänderte PO-Datei."
 
 #: weblate/addons/gettext.py:68
 msgid "Update LINGUAS file"
-msgstr ""
+msgstr "LINGUAS-Datei aktualisieren"
 
 #: weblate/addons/gettext.py:70
 msgid "Updates the LINGUAS file when adding new translation."
@@ -730,23 +742,29 @@ msgstr "Aktualisiert die LINGUAS-Datei beim Hinzufügen einer neuen Übersetzung
 
 #: weblate/addons/gettext.py:123
 msgid "Update ALL_LINGUAS variable in the configure file"
-msgstr ""
+msgstr "Aktualisieren Sie die Variable ALL_LINGUAS in der configure-Datei."
 
 #: weblate/addons/gettext.py:125
 msgid ""
 "Updates the ALL_LINGUAS variable in configure, configure.in or configure.ac "
 "files when adding new translation."
 msgstr ""
+"Aktualisiert die Variable ALL_LINGUAS in configure-, configure.in- oder "
+"configure.ac-Dateien, wenn neue Übersetzungen hinzugefügt werden."
 
 #: weblate/addons/gettext.py:180
+#, fuzzy
 msgid "Update po files to match pot (msgmerge)"
-msgstr ""
+msgstr "Aktualisieren von PO-Dateien zur Anpassung an POT (msgmerge)"
 
 #: weblate/addons/gettext.py:182
 msgid ""
 "Update all po files to match the pot file using msgmerge. This is triggered "
 "whenever new changes are pulled from upstream repository."
 msgstr ""
+"Aktualisieren Sie alle PO-Dateien mit msgmerge so, dass sie mit der POT-"
+"Datei übereinstimmen. Dies wird immer dann ausgelöst, wenn neue Änderungen "
+"aus dem übergeordneten Paketquellen übernommen werden."
 
 #: weblate/addons/properties.py:147
 msgid "Formats the Java properties translation"
@@ -754,7 +772,7 @@ msgstr "Formatiert die Übersetzung der Java-Eigenschaften"
 
 #: weblate/addons/properties.py:149
 msgid "This addon sorts the Java properties file."
-msgstr ""
+msgstr "Diese Erweiterung sortiert die Java-Properties-Datei."
 
 #: weblate/addons/views.py:83
 msgid "Invalid addon name specified!"
@@ -1004,7 +1022,7 @@ msgstr "Standard-Plural"
 
 #: weblate/lang/models.py:488
 msgid "Gettext plural formula"
-msgstr ""
+msgstr "Gettext-Pluralformel"
 
 #: weblate/lang/models.py:493 weblate/templates/language.html:73
 msgid "Number of plurals"
@@ -1526,13 +1544,15 @@ msgstr "Nur für ausgewählte Benutzer sichtbar und übersetzbar"
 #: weblate/templates/access_control_description.html:10
 #: weblate/trans/models/project.py:134
 msgid "Custom"
-msgstr ""
+msgstr "Benutzerdefiniert"
 
 #: weblate/templates/access_control_description.html:11
 msgid ""
 "Only use this if you know what you are doing, enabling it might revoke your "
 "access to this project."
 msgstr ""
+"Verwenden Sie diese Option nur, wenn Sie wissen, was Sie tun, damit Sie "
+"Ihren Zugang zu diesem Projekt sperren können."
 
 #: weblate/templates/access_control_description.html:11
 msgid "Permissions are not managed in Weblate."
@@ -2256,7 +2276,7 @@ msgstr "Aktivität in den letzten 12 Monaten"
 #: weblate/templates/addons/addon_list.html:10
 #: weblate/templates/subproject.html:82
 msgid "Addons"
-msgstr ""
+msgstr "Erweiterungen"
 
 #: weblate/templates/addons/addon_detail.html:27
 msgid "Configure addon"
@@ -2264,11 +2284,11 @@ msgstr "Erweiterung konfigurieren"
 
 #: weblate/templates/addons/addon_list.html:19
 msgid "Installed addons"
-msgstr ""
+msgstr "Installierte Erweiterungen"
 
 #: weblate/templates/addons/addon_list.html:29
 msgid "Uninstall"
-msgstr ""
+msgstr "Deinstallieren"
 
 #: weblate/templates/addons/addon_list.html:33
 msgid "Configure"
@@ -2287,25 +2307,31 @@ msgstr[1] "Derzeit sind %(count)s Erweiterungen installiert."
 
 #: weblate/templates/addons/addon_list.html:53
 msgid "Available addons"
-msgstr ""
+msgstr "Verfügbare Erweiterungen"
 
 #: weblate/templates/addons/addon_list.html:63
 msgid "Install"
-msgstr ""
+msgstr "Installieren"
 
 #: weblate/templates/addons/addon_list.html:71
 msgid "Could not find any additional addons compatible with this translation."
 msgstr ""
+"Es konnten keine zusätzlichen Erweiterungen gefunden werden, die mit dieser "
+"Übersetzung kompatibel sind."
 
 #: weblate/templates/addons/addon_list.html:73
 msgid "Some addons will ask for additional configuration during installation."
 msgstr ""
+"Einige Erweiterungen werden während der Installation nach zusätzlicher "
+"Konfiguration fordern."
 
 #: weblate/templates/addons/generate_help.html:3
 msgid ""
 "You can use Django templates markup in both filename and content, for "
 "example:"
 msgstr ""
+"Sie können z.B. Django-Templates-Markup sowohl im Dateinamen als auch im "
+"Inhalt verwenden:"
 
 #: weblate/templates/addons/generate_help.html:11
 msgid "Percents translated"
@@ -3695,7 +3721,7 @@ msgstr "Neuer Kommentar zu %(subproject)s"
 #: weblate/templates/mail/new_contributor.html:7
 #: weblate/templates/mail/new_contributor.txt:1
 msgid "Good news,"
-msgstr ""
+msgstr "Gute Neuigkeiten,"
 
 #: weblate/templates/mail/new_contributor.html:11
 #: weblate/templates/mail/new_contributor.txt:3
@@ -3902,6 +3928,8 @@ msgid ""
 "The user management in Weblate is disabled, you can change permissions in "
 "the Django admin interface."
 msgstr ""
+"Die Benutzerverwaltung in Weblate ist deaktiviert, Sie können die "
+"Berechtigungen in der Django-Admin-Oberfläche ändern."
 
 #: weblate/templates/manage-access.html:97
 msgid "Project access control"
@@ -4780,7 +4808,7 @@ msgstr "Dienst"
 
 #: weblate/templates/translate.html:348
 msgid "Quality"
-msgstr ""
+msgstr "Qualität"
 
 #: weblate/templates/translate.html:376 weblate/trans/forms.py:1044
 msgid "New comment"
@@ -4964,6 +4992,8 @@ msgid ""
 "The fulltext search might not work properly as the fulltext index for this "
 "translation is not yet up to date."
 msgstr ""
+"Die Volltextsuche funktioniert möglicherweise nicht richtig, da der "
+"Volltextindex für diese Übersetzung noch nicht auf dem neuesten Stand ist."
 
 #: weblate/templates/translation.html:309
 #: weblate/templates/translation.html:356
