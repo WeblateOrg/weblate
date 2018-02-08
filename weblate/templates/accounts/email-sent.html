@@ -32,8 +32,10 @@
 
 <p>
 {% url 'contact' as contact_url %}
-{% blocktrans %}If you don't receive it shortly, please check your spam folder or retry the registration. Should the problem persist, please <a href="{{ contact_url }}?t=reg">contact us</a>.{% endblocktrans %}
+{% blocktrans %}If you don't receive it shortly, please check your spam folder or retry the registration. Should the problem persist, please contact us.{% endblocktrans %}
 </p>
+
+<p><a href="{{ contact_url }}?t=reg" class="btn btn-default">{% trans "Report an issue with registration" %}</a></p>
 
 </div>
 </div>
