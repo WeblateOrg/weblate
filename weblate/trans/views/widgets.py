@@ -21,6 +21,8 @@
 from django.http import HttpResponse, Http404
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.utils.html import escape
+from django.utils.safestring import mark_safe
 
 from weblate.utils.site import get_site_url
 from weblate.lang.models import Language
@@ -67,6 +69,9 @@ def widgets(request, project):
         kwargs['lang'] = lang
     engage_url = get_site_url(reverse('engage', kwargs=kwargs))
     engage_url_track = '{0}?utm_source=widget'.format(engage_url)
+    engage_link = mark_safe(
+        '<a href="{0}">{0}</a>'.format(escape(engage_url))
+    )
     widget_base_url = get_site_url(
         reverse('widgets', kwargs={'project': obj.slug})
     )
@@ -102,6 +107,7 @@ def widgets(request, project):
         'widgets.html',
         {
             'engage_url': engage_url,
+            'engage_link': engage_link,
             'engage_url_track': engage_url_track,
             'widget_list': widget_list,
             'widget_base_url': widget_base_url,
