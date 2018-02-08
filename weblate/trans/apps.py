@@ -43,7 +43,6 @@ class TransConfig(AppConfig):
             try:
                 GitRepository.global_setup()
             except RepositoryException as error:
-                print error
                 add_configuration_error(
                     'Git global setup',
                     'Failed to do git setup: {0}'.format(error)
