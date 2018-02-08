@@ -4,10 +4,10 @@ msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-02-08 14:49+0000\n"
-"PO-Revision-Date: 2018-02-08 14:46+0000\n"
-"Last-Translator: ALSUNARD SJP <weblate.vwc15.64@9ox.net>\n"
-"Language-Team: French <https://hosted.weblate.org/projects/weblate/master/fr/"
-">\n"
+"PO-Revision-Date: 2018-02-08 17:51+0000\n"
+"Last-Translator: French Coordinator OTF/LocLab <french.coordinator@rbox.me>\n"
+"Language-Team: French "
+"<https://hosted.weblate.org/projects/weblate/master/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -142,7 +142,7 @@ msgstr "Le courriel de confirmation vous sera envoyé ici."
 
 #: weblate/accounts/forms.py:406
 msgid "Too many registration attempts!"
-msgstr "Trop de tentatives d’enregistrement !"
+msgstr "Trop de tentatives d’inscription !"
 
 #: weblate/accounts/forms.py:413
 msgid "New password"
@@ -492,15 +492,15 @@ msgstr ""
 
 #: weblate/accounts/pipeline.py:309 weblate/accounts/pipeline.py:333
 msgid "The registration link has been invalidated."
-msgstr "Le lien d'inscription n'est plus valide."
+msgstr "Le lien d’inscription n’est plus valide."
 
 #: weblate/accounts/pipeline.py:324
 msgid "You can not complete registration while logged in!"
-msgstr "Vous ne pouvez pas vous inscrire en étant connecté !"
+msgstr "Vous ne pouvez pas terminer l’inscription en étant connecté !"
 
 #: weblate/accounts/pipeline.py:329
 msgid "You can confirm your registration only while logged in!"
-msgstr "Vous ne pouvez pas confirmer votre inscription en étant connecté !"
+msgstr "Vous ne pouvez confirmer votre inscription qu’en en étant connecté !"
 
 #: weblate/accounts/pipeline.py:471
 #, python-brace-format
@@ -574,14 +574,12 @@ msgid "Login"
 msgstr "Connexion"
 
 #: weblate/accounts/views.py:556
-#, fuzzy
-#| msgid "Manage users"
 msgid "Standard user"
-msgstr "Gérer les utilisateurs"
+msgstr "Utilisateur normal"
 
 #: weblate/accounts/views.py:557
 msgid "User with reviewer permissions"
-msgstr "Utilisateur avec des autorisations de réviseur"
+msgstr "Utilisateur avec des droits de réviseur"
 
 #: weblate/accounts/views.py:586 weblate/wladmin/sites.py:145
 msgid "Thanks for using Weblate!"
@@ -646,8 +644,9 @@ msgid ""
 "Failed to complete your registration! This authentication, email or username "
 "are already associated with another account!"
 msgstr ""
-"Impossible de terminer votre inscription ! Un compte utilise déjà cette "
-"authentification, cette adresse mail ou ce nom d'utilisateur !"
+"Impossible de terminer votre inscription ! Cette authentification, cette "
+"adresse courriel ou ce nom d’utilisateur sont déjà associés à un autre "
+"compte !"
 
 #: weblate/addons/cleanup.py:34
 msgid "Cleanup translation files"
@@ -1575,8 +1574,8 @@ msgid ""
 "If you are looking for support for Weblate or want to file bug reports check "
 "its website at %(weblate_link)s."
 msgstr ""
-"Si vous recherchez un support pour Weblate ou si vous souhaitez déposer des "
-"rapports de bogues, consultez son site Web à% (lien_weblate)s."
+"Si vous souhaitez obtenir de l’assistance sur Weblate ou déposer des "
+"rapports de bogues, consultez son site Web sur %(weblate_link)s."
 
 #: weblate/templates/accounts/contact.html:30
 #: weblate/templates/accounts/hosting.html:25
@@ -1622,26 +1621,28 @@ msgid ""
 "Thank you for registering. Click the confirmation link you receive by e-mail "
 "to complete the registration."
 msgstr ""
-"Merci pour votre inscription. Suivez le lien reçu par mail pour terminer "
-"votre inscription."
+"Nous vous remercions de votre inscription. Cliquez sur le lien de "
+"confirmation reçu par courriel pour terminer l’inscription."
 
 #: weblate/templates/accounts/email-sent.html:31
 msgid ""
 "If the confirmation link expires before you get to use it, register again."
-msgstr "Si le lien de confirmation a expiré, merci de vous inscrire à nouveau."
+msgstr ""
+"Si le lien de confirmation arrive à expiration avant que vous ne l’"
+"utilisiez, veuillez vous inscrire de nouveau."
 
 #: weblate/templates/accounts/email-sent.html:35
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. Should the problem persist, please contact us."
 msgstr ""
-"Si vous ne le recevez pas rapidement, merci de vérifiez votre dossier "
-"pourriel ou essayez à nouveau de vous inscrire. Si le problème persiste, "
-"veuillez nous contacter."
+"Si vous ne le recevez pas rapidement, veuillez vérifier votre dossier des "
+"pourriels ou ressayer de vous inscrire. Si le problème persiste, veuillez "
+"nous contacter."
 
 #: weblate/templates/accounts/email-sent.html:38
 msgid "Report an issue with registration"
-msgstr "Signaler un problème avec l'inscription"
+msgstr "Signaler un problème d’inscription"
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:25
@@ -1685,8 +1686,8 @@ msgstr "Le contenu traduit doit être publié sous licence de logiciel libre."
 msgid ""
 "Source code has to be publicly available in supported version control system."
 msgstr ""
-"Le code source doit être disponible publiquement dans un système de contrôle "
-"de versions pris en charge."
+"Le code source doit être mis publiquement à disposition dans le système de "
+"contrôle de versions pris en charge."
 
 #: weblate/templates/accounts/hosting.html:38
 msgid "There is no guarantee for service availability or quality."
@@ -1698,8 +1699,8 @@ msgid ""
 "The hosting requests are usually processed once in a month, so please be "
 "patient after submitting it."
 msgstr ""
-"Les demandes d'hébergement sont habituellement examinées une fois par mois. "
-"Merci pour votre compréhension."
+"Les demandes d’hébergement sont habituellement examinées une fois par mois, "
+"vous demandons donc d’être patient."
 
 #: weblate/templates/accounts/hosting.html:45
 msgid "Commercial hosting"
@@ -1744,7 +1745,7 @@ msgstr "Connexion par mot de passe"
 
 #: weblate/templates/accounts/login.html:57
 msgid "Forgot your password?"
-msgstr "Mot de passe oublié ?"
+msgstr "Mot de passe oublié ?"
 
 #: weblate/templates/accounts/login.html:58
 msgid "You can reset it."
@@ -1760,7 +1761,7 @@ msgstr "Vous n'avez pas encore de compte ?"
 
 #: weblate/templates/accounts/login.html:97
 msgid "You can register."
-msgstr "Vous pouvez vous enregistrer."
+msgstr "Vous pouvez vous inscrire."
 
 #: weblate/templates/accounts/password-warning.html:3
 msgid "Please enable the password authentication to secure your account."
@@ -2052,7 +2053,7 @@ msgstr "Votre clef personnelle API :"
 
 #: weblate/templates/accounts/profile.html:355
 msgid "Regenerate API key"
-msgstr "Régénérer la clef d'API"
+msgstr "Régénérer la clé de l’API"
 
 #: weblate/templates/accounts/profile.html:359
 msgid "API root URL:"
@@ -2067,16 +2068,12 @@ msgid "CLI usage example:"
 msgstr "Exemple d’utilisation CLI :"
 
 #: weblate/templates/accounts/profile.html:396
-#, fuzzy
-#| msgid ""
-#| "You can control Weblate using HTTP REST API. Please check <a href="
-#| "\"%(api_doc)s\">API documentation</a> for more details."
 msgid ""
 "You can control Weblate using HTTP REST API and API key is used to "
 "authenticate to it."
 msgstr ""
-"Il est possible de contrôler Weblate via une API HTTP REST. Consultez la <a "
-"href=\"%(api_doc)s\">documentation de l’API</a> pour plus de détails."
+"Vous pouvez contrôler Weblate avec l’API HTTP REST et une clé d’API est "
+"utilisée pour s’y authentifier."
 
 #: weblate/templates/accounts/profile.html:397
 msgid ""
@@ -2087,16 +2084,12 @@ msgstr ""
 "référentiels Git exportés automatiquement."
 
 #: weblate/templates/accounts/profile.html:400
-#, fuzzy
-#| msgid "Documentation"
 msgid "API documentation"
-msgstr "Documentation"
+msgstr "Documentation de l’API"
 
 #: weblate/templates/accounts/profile.html:401
-#, fuzzy
-#| msgid "Documentation"
 msgid "Git export documentation"
-msgstr "Documentation"
+msgstr "Documentation de l’exportation de Git"
 
 #: weblate/templates/accounts/profile.html:420
 msgid ""
@@ -2158,7 +2151,7 @@ msgstr "Redirection en cours vers le fournisseur d'authentification."
 #: weblate/templates/accounts/register.html:18
 msgid "Please read our Terms of Service prior to registration."
 msgstr ""
-"Veuillez lire nos conditions générales d'utilisation avant de vous inscrire."
+"Veuillez lire nos conditions générales d’utilisation avant de vous inscrire."
 
 #: weblate/templates/accounts/register.html:21
 msgid ""
@@ -2179,14 +2172,12 @@ msgid "Third party registration"
 msgstr "Enregistrement de tiers"
 
 #: weblate/templates/accounts/register.html:73
-#, fuzzy
-#| msgid "New registrations are disabled!"
 msgid "Sorry, but registrations on this site are disabled."
-msgstr "Les nouveaux enregistrements sont désactivés !"
+msgstr "Désolé, mais les inscriptions sont désactivées pour ce site."
 
 #: weblate/templates/accounts/register.html:74
 msgid "You can contact us for more details."
-msgstr "Vous pouvez nous contacter pour plus de détails."
+msgstr "Vous pouvez nous contacter pour plus de renseignements."
 
 #: weblate/templates/accounts/removal.html:16
 msgid "Account removal"
@@ -2362,18 +2353,13 @@ msgid "Logout"
 msgstr "Déconnexion"
 
 #: weblate/templates/base.html:156
-#, fuzzy
-#| msgid ""
-#| "Weblate does not support Microsoft Internet Explorer 8 and older, please "
-#| "use some more recent browser like <a href=\"https://www.mozilla.org/"
-#| "firefox/\">Firefox</a>."
 msgid ""
 "Weblate does not support Microsoft Internet Explorer 8 and older, please use "
 "some more recent browser like Firefox, Chrome or Edge."
 msgstr ""
-"Weblate ne prend pas en charge Microsoft Internet Explorer 8 et versions "
-"antérieures. Veuillez utiliser un navigateur plus récent comme <a href="
-"\"https://www.mozilla.org/firefox/\">Firefox</a>."
+"Weblate ne prend pas en charge Internet Explorer 8 de Microsoft et versions "
+"antérieures. Veuillez utiliser un navigateur plus récent comme <a href=\""
+"https://www.mozilla.org/firefox/\">Firefox</a>."
 
 #: weblate/templates/base.html:179 weblate/templates/base.html:186
 msgid "Close"
@@ -2524,19 +2510,13 @@ msgid "Notification hooks"
 msgstr "Déclencheurs de notification"
 
 #: weblate/templates/data-root.html:57 weblate/templates/data.html:96
-#, fuzzy
-#| msgid ""
-#| "With notification hooks, Weblate will automatically import changes made "
-#| "by your developers, and allows continuous translation. More information "
-#| "available in <a href=\"%(hooks_docs)s\">the documentation</a>."
 msgid ""
 "With notification hooks, Weblate will automatically import changes made by "
 "your developers, and allows continuous translation."
 msgstr ""
 "Grâce aux déclencheurs de notification, Weblate importera automatiquement "
 "les modifications effectuées par vos développeurs et permettra une "
-"traduction en continu. Vous trouverez plus de détails dans <a href="
-"\"%(hooks_docs)s\">la documentation</a>."
+"traduction en continu."
 
 #: weblate/templates/data.html:7
 msgid "data exports"
@@ -2557,19 +2537,12 @@ msgid "Statistics"
 msgstr "Statistiques"
 
 #: weblate/templates/data.html:56
-#, fuzzy
-#| msgid ""
-#| "Translation statistics for every component in the JSON format allows you "
-#| "to use the data in other websites or tools. The data format is described "
-#| "in <a href=\"%(api_docs)s\">the documentation</a>."
 msgid ""
 "Translation statistics for every component in the JSON format allows you to "
 "use the data in other websites or tools."
 msgstr ""
 "Les statistiques de traduction pour chaque composant au format JSON vous "
-"permettent d’utiliser ces données sur d’autres sites web ou d’autres outils. "
-"Le format des données est décrit dans <a href=\"%(api_docs)s\">la "
-"documentation</a>."
+"permettent d’utiliser les données sur d’autres sites Web ou outils."
 
 #: weblate/templates/data.html:71
 #: weblate/templates/screenshots/screenshot_sources_body.html:13
@@ -2734,7 +2707,7 @@ msgstr "Contribuez à %(project)s."
 
 #: weblate/templates/engage.html:21
 msgid "Hi, and thank you for your interest."
-msgstr "Bonjour, et merci pour votre intérêt."
+msgstr "Bonjour et merci de votre intérêt."
 
 #: weblate/templates/engage.html:24
 #, python-format
@@ -2742,7 +2715,7 @@ msgid ""
 "%(project)s is being translated using %(weblate_name_link)s, a web tool "
 "designed to ease translating for both developers and translators."
 msgstr ""
-"%(project)s est traduit au moyen de %(weblate_name_link)s, un outil web "
+"%(project)s est traduit au moyen de %(weblate_name_link)s, un outil Web "
 "conçu pour faciliter la traduction, autant pour les développeurs que pour "
 "les traducteurs."
 
@@ -3444,7 +3417,7 @@ msgstr ""
 msgid "If there is a problem with your registration, please contact us:"
 msgstr ""
 "Si vous rencontrez un problème lors de votre inscription, veuillez nous "
-"contacter :"
+"contacter :"
 
 #: weblate/templates/mail/activation_subject.txt:4
 #, python-format
@@ -3625,15 +3598,11 @@ msgstr ""
 "Weblate le découvrira automatiquement lors de la prochaine mise à jour."
 
 #: weblate/templates/mail/new_language.html:20
-#, fuzzy
-#| msgid ""
-#| "More information on adding new language files is available in the "
-#| "documentation:"
 msgid ""
 "Read more information on adding new language files is in the documentation."
 msgstr ""
-"Plus d’informations sur l’ajout de fichiers de langue sont disponibles dans "
-"la documentation :"
+"Pour plus d’informations sur l’ajout de nouveaux fichiers de langue, "
+"consulter la documentation."
 
 #: weblate/templates/mail/new_language.html:28
 #: weblate/templates/mail/new_language.txt:9
@@ -3699,7 +3668,7 @@ msgstr "Nouvelle suggestion pour %(translation)s"
 #, python-format
 msgid "There has been a new translation on %(translation)s at %(site_title)s."
 msgstr ""
-"Une nouvelle traduction de %(translation)s est disponible sur %(site_title)s."
+"Une nouvelle traduction de %(translation)s est proposée sur %(site_title)s."
 
 #: weblate/templates/mail/new_translation.txt:13
 msgid "Previously not translated"
@@ -3804,8 +3773,7 @@ msgstr "Modification"
 
 #: weblate/templates/manage-access.html:103
 msgid "You do not have permission to change project access control."
-msgstr ""
-"Vous n’avez pas l’autorisation de modifier le contrôle d'accès au projet."
+msgstr "Vous n’avez pas le droit de modifier le contrôle d’accès au projet."
 
 #: weblate/templates/matrix.html:8
 msgid "matrix"
@@ -5889,7 +5857,7 @@ msgstr "Remplacer par"
 
 #: weblate/trans/forms.py:1450
 msgid "Translation key"
-msgstr "Clef de traduction"
+msgstr "Clé de traduction"
 
 #: weblate/trans/forms.py:1452
 msgid ""
@@ -6096,7 +6064,7 @@ msgstr "Nom utilisé dans les URL et noms de fichiers."
 
 #: weblate/trans/models/project.py:105
 msgid "Main website of translated project."
-msgstr "Site web du projet traduit."
+msgstr "Site Web principal du projet traduit."
 
 #: weblate/trans/models/project.py:108
 msgid "Mailing list"
@@ -6923,7 +6891,7 @@ msgstr ""
 
 #: weblate/trans/ssh.py:193
 msgid "Failed to fetch public key for a host!"
-msgstr "Impossible d’obtenir la clef publique de l’hôte !"
+msgstr "Impossible de récupérer la clé publique d’un hôte !"
 
 #: weblate/trans/ssh.py:201 weblate/trans/ssh.py:206
 #, python-format
@@ -7426,9 +7394,9 @@ msgid ""
 "consider becoming a translator as your suggestion might otherwise remain "
 "unreviewed."
 msgstr ""
-"Il n’y a présentement aucun traducteur actif sur cette traduction; veuillez "
-"vous impliquer en tant que traducteur, sinon votre suggestion pourrait "
-"demeurer non évaluée."
+"Il n’y a actuellement aucun traducteur actif pour cette traduction. Veuillez "
+"envisager de devenir traducteur, car votre suggestion pourrait autrement ne "
+"pas être acceptée."
 
 #: weblate/trans/views/edit.py:223
 msgid ""
@@ -7508,7 +7476,7 @@ msgstr "Le commentaire de traduction a été supprimé."
 
 #: weblate/trans/views/edit.py:840
 msgid "Translation with this key seem to already exist!"
-msgstr "Il semble qu'il existe déjà une traduction avec cette clef !"
+msgstr "Il semble qu’il existe déjà une traduction avec cette clé !"
 
 #: weblate/trans/views/edit.py:845
 msgid "New translation unit has been added."
@@ -7804,7 +7772,7 @@ msgstr "Clés SSH"
 
 #: weblate/wladmin/templates/admin/ssh.html:14
 msgid "SSH keys management"
-msgstr ""
+msgstr "Gestion des clés SSH"
 
 #: weblate/wladmin/templates/admin/ssh.html:23
 msgid "Public SSH key"
@@ -7864,14 +7832,12 @@ msgid "Port:"
 msgstr "Port :"
 
 #: weblate/wladmin/templates/admin/trans/change_form.html:9
-#, fuzzy
-#| msgid "Documentation"
 msgid "Import speed documentation"
-msgstr "Documentation"
+msgstr "Documentation sur la vitesse d’importation"
 
 #: weblate/wladmin/templates/admin/trans/change_form.html:37
 msgid "Required fields are marked as bold."
-msgstr ""
+msgstr "Les champs exigés apparaissent en gras."
 
 #: weblate/wladmin/templates/admin/trans/change_form.html:39
 msgid "Do not change this object here, please use Weblate interface instead."
