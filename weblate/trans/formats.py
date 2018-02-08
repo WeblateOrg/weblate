@@ -376,7 +376,8 @@ class PoUnit(FileUnit):
         """Set fuzzy flag on translated unit."""
         super(PoUnit, self).mark_fuzzy(fuzzy)
         if not fuzzy:
-            self.unit.prev_source = ''
+            self.unit.prev_msgid = []
+            self.unit.prev_msgid_plural = []
             self.unit.prev_msgctxt = []
 
 
