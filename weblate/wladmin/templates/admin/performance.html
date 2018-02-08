@@ -11,8 +11,14 @@
 
 {% block content %}
 <div id="content-main">
+  <h1>{% trans "Performance overview" %}</h1>
+  <ul class="object-tools">
+    <li>
+        <a href="{% doc_url 'admin/install' 'production' %}" class="doclink">{% trans "Documentation" %}</a>
+    </li>
+  </ul>
   {% if errors %}
-  <h1>{% trans "Configuration errors" %}</h1>
+  <h2>{% trans "Configuration errors" %}</h2>
   <div id="changelist" class="module filtered">
     <div class="results">
   <table id="result_list" class="orderable-initalized">
@@ -45,7 +51,7 @@
   </div>
   {% endif %}
 
-  <h1>{% trans "Performance report" %}</h1>
+  <h2>{% trans "Performance report" %}</h2>
   <div id="changelist" class="module filtered">
     <div class="results">
   <table id="result_list" class="orderable-initalized">
