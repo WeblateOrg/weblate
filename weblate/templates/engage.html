@@ -27,7 +27,6 @@
 {{ status_text }}
 </p>
 <p>
-{% url 'register' as reg_url %}
 {% blocktrans %}If you would like to contribute to translation of {{ project }}, you need to register on this server.{% endblocktrans %}
 </p>
 {% if object.access_control %}
@@ -40,7 +39,7 @@
 </p>
 
 <p>
-<a href="{{ reg_url }}" class="btn btn-success btn-lg">{% trans "Register" %}</a>
+<a href="{% url 'register' %}" class="btn btn-success btn-lg">{% trans "Register" %}</a>
 <a href="{{ url }}" class="btn btn-success btn-lg">{% trans "Translate" %}</a>
 </p>
 
