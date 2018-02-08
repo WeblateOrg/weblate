@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-02-08 17:52+0000\n"
+"POT-Creation-Date: 2018-02-08 18:36+0000\n"
 "PO-Revision-Date: 2018-01-30 13:06+0000\n"
 "Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -530,8 +530,7 @@ msgstr "联系"
 msgid "Hosting"
 msgstr "托管"
 
-#: weblate/accounts/views.py:554 weblate/templates/accounts/login.html:8
-#: weblate/templates/accounts/login.html:66
+#: weblate/accounts/views.py:554 weblate/templates/accounts/login.html:66
 #: weblate/templates/accounts/redirect.html:8 weblate/templates/base.html:137
 msgid "Login"
 msgstr "登录"
@@ -1314,6 +1313,7 @@ msgid "Insufficient privileges to display this page."
 msgstr "没有足够的权限以显示此页。"
 
 #: weblate/templates/403.html:14 weblate/templates/404.html:14
+#: weblate/templates/accounts/login.html:8
 msgid "Log in"
 msgstr "登录"
 
@@ -1648,7 +1648,8 @@ msgid "This username/password combination was not found. Please try again."
 msgstr "未找到相应的用户名/密码组合。请重试。"
 
 #: weblate/templates/accounts/login.html:20
-msgid "To test Weblate on this demo server, you can login as following users:"
+msgid ""
+"To test Weblate on this demo server, you can log in as the following users:"
 msgstr ""
 
 #: weblate/templates/accounts/login.html:27
@@ -3545,10 +3546,13 @@ msgid ""
 msgstr "%(site_title)s 上的 %(translation)s 有新语言申请。"
 
 #: weblate/templates/mail/new_language.html:15
-#: weblate/templates/mail/new_language.txt:5
+#, fuzzy
+#| msgid ""
+#| "Please add the language file to VCS, Weblate will automatically discover "
+#| "it on next update."
 msgid ""
 "Please add the language file to VCS, Weblate will automatically discover it "
-"on next update."
+"upon next update."
 msgstr "请添加语言文件到 VCS，网站在下次更新时将自动发现它。"
 
 #: weblate/templates/mail/new_language.html:20
@@ -3557,7 +3561,8 @@ msgstr "请添加语言文件到 VCS，网站在下次更新时将自动发现�
 #| "More information on adding new language files is available in the "
 #| "documentation:"
 msgid ""
-"Read more information on adding new language files is in the documentation."
+"More information on adding new language files is to be found in the "
+"documentation."
 msgstr "添加新语言文件的更多信息请看文档："
 
 #: weblate/templates/mail/new_language.html:28
@@ -3566,15 +3571,26 @@ msgid "Requested language:"
 msgstr "申请语言："
 
 #: weblate/templates/mail/new_language.html:39
-#: weblate/templates/mail/new_language.txt:13
-msgid "Requesting user:"
-msgstr "申请的用户："
+#, fuzzy
+#| msgid "Requested language:"
+msgid "Requested by:"
+msgstr "申请语言："
+
+#: weblate/templates/mail/new_language.txt:5
+msgid ""
+"Please add the language file to VCS, Weblate will automatically discover it "
+"on next update."
+msgstr "请添加语言文件到 VCS，网站在下次更新时将自动发现它。"
 
 #: weblate/templates/mail/new_language.txt:7
 msgid ""
 "More information on adding new language files is available in the "
 "documentation:"
 msgstr "添加新语言文件的更多信息请看文档："
+
+#: weblate/templates/mail/new_language.txt:13
+msgid "Requesting user:"
+msgstr "申请的用户："
 
 #: weblate/templates/mail/new_language_subject.txt:3
 #, python-format
@@ -5227,115 +5243,115 @@ msgstr "任何未通过检查的字符串"
 msgid "Strings with source comments"
 msgstr "带有注释的字符串"
 
-#: weblate/trans/formats.py:906
+#: weblate/trans/formats.py:907
 msgid "Automatic detection"
 msgstr "自动检测"
 
-#: weblate/trans/formats.py:937
+#: weblate/trans/formats.py:938
 msgid "Gettext PO file"
 msgstr "Gettext PO 文件"
 
-#: weblate/trans/formats.py:1024
+#: weblate/trans/formats.py:1025
 #, fuzzy
 #| msgid "Gettext PO file (monolingual)"
 msgid "Gettext PO file (unwrapped)"
 msgstr "Gettext PO 文件（单语）"
 
-#: weblate/trans/formats.py:1046
+#: weblate/trans/formats.py:1047
 msgid "Gettext PO file (monolingual)"
 msgstr "Gettext PO 文件（单语）"
 
-#: weblate/trans/formats.py:1053
+#: weblate/trans/formats.py:1054
 #, fuzzy
 #| msgid "Gettext PO file (monolingual)"
 msgid "Gettext PO file (monolingual, unwrapped)"
 msgstr "Gettext PO 文件（单语）"
 
-#: weblate/trans/formats.py:1060
+#: weblate/trans/formats.py:1061
 msgid "Qt Linguist Translation File"
 msgstr "Qt Linguist 翻译文件"
 
-#: weblate/trans/formats.py:1078
+#: weblate/trans/formats.py:1079
 msgid "XLIFF Translation File"
 msgstr "XLIFF 翻译文件"
 
-#: weblate/trans/formats.py:1114
+#: weblate/trans/formats.py:1115
 msgid "XLIFF Translation File with PO extensions"
 msgstr "XLIFF 翻译文件（PO 扩展名）"
 
-#: weblate/trans/formats.py:1122
+#: weblate/trans/formats.py:1123
 msgid "OS X Strings"
 msgstr "OS X 字符串"
 
-#: weblate/trans/formats.py:1131
+#: weblate/trans/formats.py:1132
 msgid "OS X Strings (UTF-8)"
 msgstr "OS X 字符串 (UTF-8)"
 
-#: weblate/trans/formats.py:1139
+#: weblate/trans/formats.py:1140
 msgid "Java Properties (UTF-8)"
 msgstr "Java 属性 (UTF-8)"
 
-#: weblate/trans/formats.py:1148
+#: weblate/trans/formats.py:1149
 msgid "Java Properties (UTF-16)"
 msgstr "Java 属性 (UTF-16)"
 
-#: weblate/trans/formats.py:1155
+#: weblate/trans/formats.py:1156
 msgid "Java Properties (ISO-8859-1)"
 msgstr "Java 属性 (ISO-8859-1)"
 
-#: weblate/trans/formats.py:1177
+#: weblate/trans/formats.py:1178
 msgid "Joomla Language File"
 msgstr "Joomla 语言文件"
 
-#: weblate/trans/formats.py:1187
+#: weblate/trans/formats.py:1188
 msgid "PHP strings"
 msgstr "PHP 字符串"
 
-#: weblate/trans/formats.py:1237
+#: weblate/trans/formats.py:1238
 msgid ".Net resource file"
 msgstr ".Net 资源文件"
 
-#: weblate/trans/formats.py:1248
+#: weblate/trans/formats.py:1249
 msgid "Android String Resource"
 msgstr "Android 字符串资源"
 
-#: weblate/trans/formats.py:1278
+#: weblate/trans/formats.py:1279
 msgid "JSON file"
 msgstr "JSON文件"
 
-#: weblate/trans/formats.py:1298
+#: weblate/trans/formats.py:1299
 msgid "JSON nested structure file"
 msgstr "JSON 嵌套结构文件"
 
-#: weblate/trans/formats.py:1305
+#: weblate/trans/formats.py:1306
 msgid "WebExtension JSON file"
 msgstr "WebExtension JSON 文件"
 
-#: weblate/trans/formats.py:1314
+#: weblate/trans/formats.py:1315
 msgid "i18next JSON file"
 msgstr "i18next JSON 文件"
 
-#: weblate/trans/formats.py:1321
+#: weblate/trans/formats.py:1322
 msgid "CSV file"
 msgstr "CSV 文件"
 
-#: weblate/trans/formats.py:1392
+#: weblate/trans/formats.py:1393
 msgid "Simple CSV file"
 msgstr "简单 CSV 文件"
 
-#: weblate/trans/formats.py:1429
+#: weblate/trans/formats.py:1430
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "简单 CSV 文件 (ISO-8859-1)"
 
-#: weblate/trans/formats.py:1436
+#: weblate/trans/formats.py:1437
 msgid "YAML file"
 msgstr "YAML 文件"
 
-#: weblate/trans/formats.py:1456
+#: weblate/trans/formats.py:1457
 msgid "Ruby YAML file"
 msgstr "Ruby YAML 文件"
 
-#: weblate/trans/formats.py:1464
+#: weblate/trans/formats.py:1465
 #, fuzzy
 #| msgid "CSV file"
 msgid "DTD file"
@@ -7716,6 +7732,15 @@ msgstr "缓存模板加载器"
 #: weblate/wladmin/views.py:225
 msgid "Admin static files"
 msgstr "Admin静态文件"
+
+#, fuzzy
+#~| msgid ""
+#~| "More information on adding new language files is available in the "
+#~| "documentation:"
+#~ msgid ""
+#~ "Read more information on adding new language files is in the "
+#~ "documentation."
+#~ msgstr "添加新语言文件的更多信息请看文档："
 
 #, fuzzy
 #~| msgid ""

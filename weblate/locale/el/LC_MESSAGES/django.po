@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-02-08 17:52+0000\n"
+"POT-Creation-Date: 2018-02-08 18:36+0000\n"
 "PO-Revision-Date: 2018-02-06 19:36+0000\n"
 "Last-Translator: Vangelis Skarmoutsos <skarmoutsosv@gmail.com>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/weblate/master/el/"
@@ -561,8 +561,7 @@ msgstr "Επικοινωνία"
 msgid "Hosting"
 msgstr "Φιλοξενία"
 
-#: weblate/accounts/views.py:554 weblate/templates/accounts/login.html:8
-#: weblate/templates/accounts/login.html:66
+#: weblate/accounts/views.py:554 weblate/templates/accounts/login.html:66
 #: weblate/templates/accounts/redirect.html:8 weblate/templates/base.html:137
 msgid "Login"
 msgstr "Σύνδεση"
@@ -1351,6 +1350,7 @@ msgid "Insufficient privileges to display this page."
 msgstr "Μη επαρκή δικαιώματα για προβολή αυτής της σελίδας."
 
 #: weblate/templates/403.html:14 weblate/templates/404.html:14
+#: weblate/templates/accounts/login.html:8
 msgid "Log in"
 msgstr "Σύνδεση"
 
@@ -1702,7 +1702,8 @@ msgstr ""
 "Αυτός ο συνδυασμός ονόματος χρήστη/κωδικού δεν βρέθηκε. Δοκιμάστε ξανά."
 
 #: weblate/templates/accounts/login.html:20
-msgid "To test Weblate on this demo server, you can login as following users:"
+msgid ""
+"To test Weblate on this demo server, you can log in as the following users:"
 msgstr ""
 
 #: weblate/templates/accounts/login.html:27
@@ -3601,10 +3602,13 @@ msgstr ""
 "Υπήρξε ένα αίτημα για νέα γλώσσα στη %(translation)s στο %(site_title)s."
 
 #: weblate/templates/mail/new_language.html:15
-#: weblate/templates/mail/new_language.txt:5
+#, fuzzy
+#| msgid ""
+#| "Please add the language file to VCS, Weblate will automatically discover "
+#| "it on next update."
 msgid ""
 "Please add the language file to VCS, Weblate will automatically discover it "
-"on next update."
+"upon next update."
 msgstr ""
 "Προσθήκη του αρχείου γλώσσας στο VCS, το Weblate θα το βρει αυτόματα στην "
 "επόμενη ανανέωση."
@@ -3615,7 +3619,8 @@ msgstr ""
 #| "More information on adding new language files is available in the "
 #| "documentation:"
 msgid ""
-"Read more information on adding new language files is in the documentation."
+"More information on adding new language files is to be found in the "
+"documentation."
 msgstr ""
 "Περισσότερες πληροφορίες για την προσθήκη νέων αρχείων γλώσσας είναι "
 "διαθέσιμες στην τεκμηρίωση:"
@@ -3626,9 +3631,18 @@ msgid "Requested language:"
 msgstr "Αιτούμενες γλώσσες:"
 
 #: weblate/templates/mail/new_language.html:39
-#: weblate/templates/mail/new_language.txt:13
-msgid "Requesting user:"
-msgstr "Αιτούμενος χρήστης:"
+#, fuzzy
+#| msgid "Requested language:"
+msgid "Requested by:"
+msgstr "Αιτούμενες γλώσσες:"
+
+#: weblate/templates/mail/new_language.txt:5
+msgid ""
+"Please add the language file to VCS, Weblate will automatically discover it "
+"on next update."
+msgstr ""
+"Προσθήκη του αρχείου γλώσσας στο VCS, το Weblate θα το βρει αυτόματα στην "
+"επόμενη ανανέωση."
 
 #: weblate/templates/mail/new_language.txt:7
 msgid ""
@@ -3637,6 +3651,10 @@ msgid ""
 msgstr ""
 "Περισσότερες πληροφορίες για την προσθήκη νέων αρχείων γλώσσας είναι "
 "διαθέσιμες στην τεκμηρίωση:"
+
+#: weblate/templates/mail/new_language.txt:13
+msgid "Requesting user:"
+msgstr "Αιτούμενος χρήστης:"
 
 #: weblate/templates/mail/new_language_subject.txt:3
 #, python-format
@@ -5327,117 +5345,117 @@ msgstr "Κείμενα με οποιαδήποτε αποτυχία ελέγχω
 msgid "Strings with source comments"
 msgstr "Κείμενα με σχόλια"
 
-#: weblate/trans/formats.py:906
+#: weblate/trans/formats.py:907
 msgid "Automatic detection"
 msgstr "Αυτόματη ανίχνευση"
 
-#: weblate/trans/formats.py:937
+#: weblate/trans/formats.py:938
 msgid "Gettext PO file"
 msgstr "Αρχείο Gettext PO"
 
-#: weblate/trans/formats.py:1024
+#: weblate/trans/formats.py:1025
 #, fuzzy
 #| msgid "Gettext PO file (monolingual)"
 msgid "Gettext PO file (unwrapped)"
 msgstr "Αρχείο Gettext PO (μονόγλωσσο)"
 
-#: weblate/trans/formats.py:1046
+#: weblate/trans/formats.py:1047
 msgid "Gettext PO file (monolingual)"
 msgstr "Αρχείο Gettext PO (μονόγλωσσο)"
 
-#: weblate/trans/formats.py:1053
+#: weblate/trans/formats.py:1054
 #, fuzzy
 #| msgid "Gettext PO file (monolingual)"
 msgid "Gettext PO file (monolingual, unwrapped)"
 msgstr "Αρχείο Gettext PO (μονόγλωσσο)"
 
-#: weblate/trans/formats.py:1060
+#: weblate/trans/formats.py:1061
 msgid "Qt Linguist Translation File"
 msgstr "Αρχείο Μετάφρασης Qt Linguist"
 
-#: weblate/trans/formats.py:1078
+#: weblate/trans/formats.py:1079
 msgid "XLIFF Translation File"
 msgstr "Αρχείο Μετάφρασης XLIFF"
 
-#: weblate/trans/formats.py:1114
+#: weblate/trans/formats.py:1115
 msgid "XLIFF Translation File with PO extensions"
 msgstr "Αρχείο Μετάφρασης XLIFF με επεκτάσεις PO"
 
-#: weblate/trans/formats.py:1122
+#: weblate/trans/formats.py:1123
 msgid "OS X Strings"
 msgstr "Κείμενα OS X"
 
-#: weblate/trans/formats.py:1131
+#: weblate/trans/formats.py:1132
 msgid "OS X Strings (UTF-8)"
 msgstr "Κείμενα OS X (UTF-8)"
 
-#: weblate/trans/formats.py:1139
+#: weblate/trans/formats.py:1140
 msgid "Java Properties (UTF-8)"
 msgstr "Ιδιότητες Java (UTF-8)"
 
-#: weblate/trans/formats.py:1148
+#: weblate/trans/formats.py:1149
 msgid "Java Properties (UTF-16)"
 msgstr "Ιδιότητες Java (UTF-16)"
 
-#: weblate/trans/formats.py:1155
+#: weblate/trans/formats.py:1156
 msgid "Java Properties (ISO-8859-1)"
 msgstr "Ιδιότητες Java (ISO-8859-1)"
 
-#: weblate/trans/formats.py:1177
+#: weblate/trans/formats.py:1178
 msgid "Joomla Language File"
 msgstr "Αρχείο γλώσσας Joomla"
 
-#: weblate/trans/formats.py:1187
+#: weblate/trans/formats.py:1188
 msgid "PHP strings"
 msgstr "Κείμενα PHP"
 
-#: weblate/trans/formats.py:1237
+#: weblate/trans/formats.py:1238
 msgid ".Net resource file"
 msgstr "Αρχείο προέλευσης .Net"
 
-#: weblate/trans/formats.py:1248
+#: weblate/trans/formats.py:1249
 msgid "Android String Resource"
 msgstr "Προέλευση Κειμένου Android"
 
-#: weblate/trans/formats.py:1278
+#: weblate/trans/formats.py:1279
 msgid "JSON file"
 msgstr "Αρχείο JSON"
 
-#: weblate/trans/formats.py:1298
+#: weblate/trans/formats.py:1299
 msgid "JSON nested structure file"
 msgstr ""
 
-#: weblate/trans/formats.py:1305
+#: weblate/trans/formats.py:1306
 msgid "WebExtension JSON file"
 msgstr ""
 
-#: weblate/trans/formats.py:1314
+#: weblate/trans/formats.py:1315
 #, fuzzy
 #| msgid "JSON file"
 msgid "i18next JSON file"
 msgstr "Αρχείο JSON"
 
-#: weblate/trans/formats.py:1321
+#: weblate/trans/formats.py:1322
 msgid "CSV file"
 msgstr "Αρχείο CSV"
 
-#: weblate/trans/formats.py:1392
+#: weblate/trans/formats.py:1393
 msgid "Simple CSV file"
 msgstr "Απλό αρχείο CSV"
 
-#: weblate/trans/formats.py:1429
+#: weblate/trans/formats.py:1430
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Απλό αρχείο CSV (ISO-8859-1)"
 
-#: weblate/trans/formats.py:1436
+#: weblate/trans/formats.py:1437
 msgid "YAML file"
 msgstr "Αρχείο YAML"
 
-#: weblate/trans/formats.py:1456
+#: weblate/trans/formats.py:1457
 msgid "Ruby YAML file"
 msgstr "Αρχείο Ruby YAML"
 
-#: weblate/trans/formats.py:1464
+#: weblate/trans/formats.py:1465
 #, fuzzy
 #| msgid "CSV file"
 msgid "DTD file"
@@ -8022,6 +8040,17 @@ msgstr "Πρόγραμμα φόρτωσης προτύπου λανθάνουσ�
 #: weblate/wladmin/views.py:225
 msgid "Admin static files"
 msgstr "Στατικά αρχεία διαχειριστή"
+
+#, fuzzy
+#~| msgid ""
+#~| "More information on adding new language files is available in the "
+#~| "documentation:"
+#~ msgid ""
+#~ "Read more information on adding new language files is in the "
+#~ "documentation."
+#~ msgstr ""
+#~ "Περισσότερες πληροφορίες για την προσθήκη νέων αρχείων γλώσσας είναι "
+#~ "διαθέσιμες στην τεκμηρίωση:"
 
 #~ msgid ""
 #~ "Should your language be missing, please follow <a href=\"%(url)s\">the "

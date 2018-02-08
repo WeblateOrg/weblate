@@ -7,17 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-02-08 17:52+0000\n"
+"POT-Creation-Date: 2018-02-08 18:36+0000\n"
 "PO-Revision-Date: 2018-02-08 18:19+0000\n"
 "Last-Translator: Андрій Бандура <andriykopanytsia@gmail.com>\n"
-"Language-Team: Ukrainian "
-"<https://hosted.weblate.org/projects/weblate/master/uk/>\n"
+"Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/master/"
+"uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
-"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.19-dev\n"
 
 #: weblate/accounts/admin.py:106 weblate/accounts/admin.py:111
@@ -555,8 +555,7 @@ msgstr "Контакти"
 msgid "Hosting"
 msgstr "Хостинг"
 
-#: weblate/accounts/views.py:554 weblate/templates/accounts/login.html:8
-#: weblate/templates/accounts/login.html:66
+#: weblate/accounts/views.py:554 weblate/templates/accounts/login.html:66
 #: weblate/templates/accounts/redirect.html:8 weblate/templates/base.html:137
 msgid "Login"
 msgstr "Вхід"
@@ -1347,6 +1346,7 @@ msgid "Insufficient privileges to display this page."
 msgstr "Недостатні права для відображення цієї сторінки."
 
 #: weblate/templates/403.html:14 weblate/templates/404.html:14
+#: weblate/templates/accounts/login.html:8
 msgid "Log in"
 msgstr "Увійти"
 
@@ -1687,7 +1687,11 @@ msgstr ""
 "ще раз."
 
 #: weblate/templates/accounts/login.html:20
-msgid "To test Weblate on this demo server, you can login as following users:"
+#, fuzzy
+#| msgid ""
+#| "To test Weblate on this demo server, you can login as following users:"
+msgid ""
+"To test Weblate on this demo server, you can log in as the following users:"
 msgstr ""
 "Щоби тестувати Weblate на цьому демосервері, вам потрібно увійти як такі "
 "користувачі:"
@@ -3526,6 +3530,40 @@ msgid ""
 msgstr "Наявний запит на нову мову у %(translation)s на %(site_title)s."
 
 #: weblate/templates/mail/new_language.html:15
+#, fuzzy
+#| msgid ""
+#| "Please add the language file to VCS, Weblate will automatically discover "
+#| "it on next update."
+msgid ""
+"Please add the language file to VCS, Weblate will automatically discover it "
+"upon next update."
+msgstr ""
+"Будь ласка, додайте мовний файл до VCS. Weblate буде автоматично знаходити "
+"його при наступному оновленні."
+
+#: weblate/templates/mail/new_language.html:20
+#, fuzzy
+#| msgid ""
+#| "More information on adding new language files is available in the "
+#| "documentation:"
+msgid ""
+"More information on adding new language files is to be found in the "
+"documentation."
+msgstr ""
+"Додаткову інформацію про додавання нових мовних файлів можна почерпнути із "
+"документації:"
+
+#: weblate/templates/mail/new_language.html:28
+#: weblate/templates/mail/new_language.txt:9
+msgid "Requested language:"
+msgstr "Запитана мова:"
+
+#: weblate/templates/mail/new_language.html:39
+#, fuzzy
+#| msgid "Requested language:"
+msgid "Requested by:"
+msgstr "Запитана мова:"
+
 #: weblate/templates/mail/new_language.txt:5
 msgid ""
 "Please add the language file to VCS, Weblate will automatically discover it "
@@ -3534,23 +3572,6 @@ msgstr ""
 "Будь ласка, додайте мовний файл до VCS. Weblate буде автоматично знаходити "
 "його при наступному оновленні."
 
-#: weblate/templates/mail/new_language.html:20
-msgid ""
-"Read more information on adding new language files is in the documentation."
-msgstr ""
-"Додаткову інформацію про додавання нових мовних файлів можна почерпнути із "
-"документації."
-
-#: weblate/templates/mail/new_language.html:28
-#: weblate/templates/mail/new_language.txt:9
-msgid "Requested language:"
-msgstr "Запитана мова:"
-
-#: weblate/templates/mail/new_language.html:39
-#: weblate/templates/mail/new_language.txt:13
-msgid "Requesting user:"
-msgstr "Запит користувача:"
-
 #: weblate/templates/mail/new_language.txt:7
 msgid ""
 "More information on adding new language files is available in the "
@@ -3558,6 +3579,10 @@ msgid ""
 msgstr ""
 "Додаткову інформацію про додавання нових мовних файлів можна почерпнути із "
 "документації:"
+
+#: weblate/templates/mail/new_language.txt:13
+msgid "Requesting user:"
+msgstr "Запит користувача:"
 
 #: weblate/templates/mail/new_language_subject.txt:3
 #, python-format
@@ -5179,111 +5204,111 @@ msgstr "Рядки з будь-якою невдалою перевіркою д
 msgid "Strings with source comments"
 msgstr "Рядки з коментарями у джерелі"
 
-#: weblate/trans/formats.py:906
+#: weblate/trans/formats.py:907
 msgid "Automatic detection"
 msgstr "Автоматичне виявлення"
 
-#: weblate/trans/formats.py:937
+#: weblate/trans/formats.py:938
 msgid "Gettext PO file"
 msgstr "Gettext PO файл"
 
-#: weblate/trans/formats.py:1024
+#: weblate/trans/formats.py:1025
 msgid "Gettext PO file (unwrapped)"
 msgstr "Gettext PO файл (розгорнутий)"
 
-#: weblate/trans/formats.py:1046
+#: weblate/trans/formats.py:1047
 msgid "Gettext PO file (monolingual)"
 msgstr "Gettext PO файл (одномовний)"
 
-#: weblate/trans/formats.py:1053
+#: weblate/trans/formats.py:1054
 msgid "Gettext PO file (monolingual, unwrapped)"
 msgstr "Gettext PO файл (одномовний, нерозгорнутий)"
 
-#: weblate/trans/formats.py:1060
+#: weblate/trans/formats.py:1061
 msgid "Qt Linguist Translation File"
 msgstr "файл перекладу Qt Linguist"
 
-#: weblate/trans/formats.py:1078
+#: weblate/trans/formats.py:1079
 msgid "XLIFF Translation File"
 msgstr "Файл перекладу XLIFF"
 
-#: weblate/trans/formats.py:1114
+#: weblate/trans/formats.py:1115
 msgid "XLIFF Translation File with PO extensions"
 msgstr "Файл перекладу XLIFF із розширенням PO"
 
-#: weblate/trans/formats.py:1122
+#: weblate/trans/formats.py:1123
 msgid "OS X Strings"
 msgstr "Рядки OS X"
 
-#: weblate/trans/formats.py:1131
+#: weblate/trans/formats.py:1132
 msgid "OS X Strings (UTF-8)"
 msgstr "Рядки OS X (UTF-8)"
 
-#: weblate/trans/formats.py:1139
+#: weblate/trans/formats.py:1140
 msgid "Java Properties (UTF-8)"
 msgstr "Властивості Java (UTF-8)"
 
-#: weblate/trans/formats.py:1148
+#: weblate/trans/formats.py:1149
 msgid "Java Properties (UTF-16)"
 msgstr "Властивості Java (UTF-16)"
 
-#: weblate/trans/formats.py:1155
+#: weblate/trans/formats.py:1156
 msgid "Java Properties (ISO-8859-1)"
 msgstr "Властивості Java (ISO-8859-1)"
 
-#: weblate/trans/formats.py:1177
+#: weblate/trans/formats.py:1178
 msgid "Joomla Language File"
 msgstr "Мовний файл Joomla"
 
-#: weblate/trans/formats.py:1187
+#: weblate/trans/formats.py:1188
 msgid "PHP strings"
 msgstr "Рядки PHP"
 
-#: weblate/trans/formats.py:1237
+#: weblate/trans/formats.py:1238
 msgid ".Net resource file"
 msgstr "Файл ресурсу .Net"
 
-#: weblate/trans/formats.py:1248
+#: weblate/trans/formats.py:1249
 msgid "Android String Resource"
 msgstr "Рядки ресурсів Android"
 
-#: weblate/trans/formats.py:1278
+#: weblate/trans/formats.py:1279
 msgid "JSON file"
 msgstr "Файл JSON"
 
-#: weblate/trans/formats.py:1298
+#: weblate/trans/formats.py:1299
 msgid "JSON nested structure file"
 msgstr "Файл JSON із вкладеною структурою"
 
-#: weblate/trans/formats.py:1305
+#: weblate/trans/formats.py:1306
 msgid "WebExtension JSON file"
 msgstr "Файл JSON для WebExtension"
 
-#: weblate/trans/formats.py:1314
+#: weblate/trans/formats.py:1315
 msgid "i18next JSON file"
 msgstr "Файл i18next JSON"
 
-#: weblate/trans/formats.py:1321
+#: weblate/trans/formats.py:1322
 msgid "CSV file"
 msgstr "Файл CSV"
 
-#: weblate/trans/formats.py:1392
+#: weblate/trans/formats.py:1393
 msgid "Simple CSV file"
 msgstr "Простий файл CSV"
 
-#: weblate/trans/formats.py:1429
+#: weblate/trans/formats.py:1430
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Простий файл CSV (ISO-8859-1)"
 
-#: weblate/trans/formats.py:1436
+#: weblate/trans/formats.py:1437
 msgid "YAML file"
 msgstr "Файл YAML"
 
-#: weblate/trans/formats.py:1456
+#: weblate/trans/formats.py:1457
 msgid "Ruby YAML file"
 msgstr "Файл Ruby YAML"
 
-#: weblate/trans/formats.py:1464
+#: weblate/trans/formats.py:1465
 msgid "DTD file"
 msgstr "Файл DTD"
 
@@ -7767,6 +7792,13 @@ msgstr "Завантажувач шаблону кешу"
 #: weblate/wladmin/views.py:225
 msgid "Admin static files"
 msgstr "Статичні файли адміністратора"
+
+#~ msgid ""
+#~ "Read more information on adding new language files is in the "
+#~ "documentation."
+#~ msgstr ""
+#~ "Додаткову інформацію про додавання нових мовних файлів можна почерпнути "
+#~ "із документації."
 
 #~ msgid ""
 #~ "Should your language be missing, please follow <a href=\"%(url)s\">the "

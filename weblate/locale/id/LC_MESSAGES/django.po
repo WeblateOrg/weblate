@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-02-08 17:52+0000\n"
+"POT-Creation-Date: 2018-02-08 18:36+0000\n"
 "PO-Revision-Date: 2017-11-12 13:00+0000\n"
 "Last-Translator: Arif Budiman <arifpedia@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
@@ -565,8 +565,7 @@ msgstr "Kontak"
 msgid "Hosting"
 msgstr "Hosting"
 
-#: weblate/accounts/views.py:554 weblate/templates/accounts/login.html:8
-#: weblate/templates/accounts/login.html:66
+#: weblate/accounts/views.py:554 weblate/templates/accounts/login.html:66
 #: weblate/templates/accounts/redirect.html:8 weblate/templates/base.html:137
 msgid "Login"
 msgstr "Masuk"
@@ -1381,6 +1380,7 @@ msgid "Insufficient privileges to display this page."
 msgstr "Anda tidak memiliki kewenangan untuk menampilkan halaman ini."
 
 #: weblate/templates/403.html:14 weblate/templates/404.html:14
+#: weblate/templates/accounts/login.html:8
 msgid "Log in"
 msgstr "Log masuk"
 
@@ -1782,7 +1782,8 @@ msgstr ""
 "Kombinasi nama pengguna/kata sandi ini tidak ditemukan. Silakan coba lagi."
 
 #: weblate/templates/accounts/login.html:20
-msgid "To test Weblate on this demo server, you can login as following users:"
+msgid ""
+"To test Weblate on this demo server, you can log in as the following users:"
 msgstr ""
 
 #: weblate/templates/accounts/login.html:27
@@ -3756,10 +3757,13 @@ msgstr ""
 "%(site_title)s."
 
 #: weblate/templates/mail/new_language.html:15
-#: weblate/templates/mail/new_language.txt:5
+#, fuzzy
+#| msgid ""
+#| "Please add the language file to VCS, Weblate will automatically discover "
+#| "it on next update."
 msgid ""
 "Please add the language file to VCS, Weblate will automatically discover it "
-"on next update."
+"upon next update."
 msgstr ""
 "Silakan tambah berkas bahasa ke VCS, Weblate akan menemukan secara otomatis "
 "pada pembaruan berikutnya."
@@ -3770,7 +3774,8 @@ msgstr ""
 #| "More information on adding new language files is available in the "
 #| "documentation:"
 msgid ""
-"Read more information on adding new language files is in the documentation."
+"More information on adding new language files is to be found in the "
+"documentation."
 msgstr ""
 "Informasi lebih lanjut tentang penambahan berkas bahasa baru tersedia di "
 "dokumentasi:"
@@ -3781,9 +3786,18 @@ msgid "Requested language:"
 msgstr "Bahasa yang diminta:"
 
 #: weblate/templates/mail/new_language.html:39
-#: weblate/templates/mail/new_language.txt:13
-msgid "Requesting user:"
-msgstr "Pemintaan pengguna:"
+#, fuzzy
+#| msgid "Requested language:"
+msgid "Requested by:"
+msgstr "Bahasa yang diminta:"
+
+#: weblate/templates/mail/new_language.txt:5
+msgid ""
+"Please add the language file to VCS, Weblate will automatically discover it "
+"on next update."
+msgstr ""
+"Silakan tambah berkas bahasa ke VCS, Weblate akan menemukan secara otomatis "
+"pada pembaruan berikutnya."
 
 #: weblate/templates/mail/new_language.txt:7
 msgid ""
@@ -3792,6 +3806,10 @@ msgid ""
 msgstr ""
 "Informasi lebih lanjut tentang penambahan berkas bahasa baru tersedia di "
 "dokumentasi:"
+
+#: weblate/templates/mail/new_language.txt:13
+msgid "Requesting user:"
+msgstr "Pemintaan pengguna:"
 
 #: weblate/templates/mail/new_language_subject.txt:3
 #, python-format
@@ -5495,115 +5513,115 @@ msgstr "String dengan pemeriksaan gagal"
 msgid "Strings with source comments"
 msgstr "String dengan komentar"
 
-#: weblate/trans/formats.py:906
+#: weblate/trans/formats.py:907
 msgid "Automatic detection"
 msgstr "Deteksi otomatis"
 
-#: weblate/trans/formats.py:937
+#: weblate/trans/formats.py:938
 msgid "Gettext PO file"
 msgstr "Berkas gettext PO"
 
-#: weblate/trans/formats.py:1024
+#: weblate/trans/formats.py:1025
 #, fuzzy
 #| msgid "Gettext PO file (monolingual)"
 msgid "Gettext PO file (unwrapped)"
 msgstr "Berkas gettext PO (ekabahasa)"
 
-#: weblate/trans/formats.py:1046
+#: weblate/trans/formats.py:1047
 msgid "Gettext PO file (monolingual)"
 msgstr "Berkas gettext PO (ekabahasa)"
 
-#: weblate/trans/formats.py:1053
+#: weblate/trans/formats.py:1054
 #, fuzzy
 #| msgid "Gettext PO file (monolingual)"
 msgid "Gettext PO file (monolingual, unwrapped)"
 msgstr "Berkas gettext PO (ekabahasa)"
 
-#: weblate/trans/formats.py:1060
+#: weblate/trans/formats.py:1061
 msgid "Qt Linguist Translation File"
 msgstr "Berkas penerjemahan Qt Linguist"
 
-#: weblate/trans/formats.py:1078
+#: weblate/trans/formats.py:1079
 msgid "XLIFF Translation File"
 msgstr "Berkas penerjemahan XLIFF"
 
-#: weblate/trans/formats.py:1114
+#: weblate/trans/formats.py:1115
 msgid "XLIFF Translation File with PO extensions"
 msgstr "Berkas penerjemahan XLIFF dengan ekstensi PO"
 
-#: weblate/trans/formats.py:1122
+#: weblate/trans/formats.py:1123
 msgid "OS X Strings"
 msgstr "String OS X"
 
-#: weblate/trans/formats.py:1131
+#: weblate/trans/formats.py:1132
 msgid "OS X Strings (UTF-8)"
 msgstr "String OS X (UTF-8)"
 
-#: weblate/trans/formats.py:1139
+#: weblate/trans/formats.py:1140
 msgid "Java Properties (UTF-8)"
 msgstr "Properti Java (UTF-8)"
 
-#: weblate/trans/formats.py:1148
+#: weblate/trans/formats.py:1149
 msgid "Java Properties (UTF-16)"
 msgstr "Properti Java (UTF-16)"
 
-#: weblate/trans/formats.py:1155
+#: weblate/trans/formats.py:1156
 msgid "Java Properties (ISO-8859-1)"
 msgstr "Properti Java (ISO-8859-1)"
 
-#: weblate/trans/formats.py:1177
+#: weblate/trans/formats.py:1178
 msgid "Joomla Language File"
 msgstr "Berkas Bahasa Joomla"
 
-#: weblate/trans/formats.py:1187
+#: weblate/trans/formats.py:1188
 msgid "PHP strings"
 msgstr "String PHP"
 
-#: weblate/trans/formats.py:1237
+#: weblate/trans/formats.py:1238
 msgid ".Net resource file"
 msgstr "Berkas sumber daya .Net"
 
-#: weblate/trans/formats.py:1248
+#: weblate/trans/formats.py:1249
 msgid "Android String Resource"
 msgstr "String Sumber Daya Android"
 
-#: weblate/trans/formats.py:1278
+#: weblate/trans/formats.py:1279
 msgid "JSON file"
 msgstr "Berkas JSON"
 
-#: weblate/trans/formats.py:1298
+#: weblate/trans/formats.py:1299
 msgid "JSON nested structure file"
 msgstr "Berkas struktur bersarang JSON"
 
-#: weblate/trans/formats.py:1305
+#: weblate/trans/formats.py:1306
 msgid "WebExtension JSON file"
 msgstr "Berkas JSON WebExtension"
 
-#: weblate/trans/formats.py:1314
+#: weblate/trans/formats.py:1315
 msgid "i18next JSON file"
 msgstr "Berkas JSON i18next"
 
-#: weblate/trans/formats.py:1321
+#: weblate/trans/formats.py:1322
 msgid "CSV file"
 msgstr "Berkas CSV"
 
-#: weblate/trans/formats.py:1392
+#: weblate/trans/formats.py:1393
 msgid "Simple CSV file"
 msgstr "Berkas CSV Sederhana"
 
-#: weblate/trans/formats.py:1429
+#: weblate/trans/formats.py:1430
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Berkas CSV Sederhana (ISO-8859-1)"
 
-#: weblate/trans/formats.py:1436
+#: weblate/trans/formats.py:1437
 msgid "YAML file"
 msgstr "Berkas YAML"
 
-#: weblate/trans/formats.py:1456
+#: weblate/trans/formats.py:1457
 msgid "Ruby YAML file"
 msgstr "Berkas YAML Ruby"
 
-#: weblate/trans/formats.py:1464
+#: weblate/trans/formats.py:1465
 #, fuzzy
 #| msgid "CSV file"
 msgid "DTD file"
@@ -8107,6 +8125,17 @@ msgstr "Pemuat templat singgahan"
 #: weblate/wladmin/views.py:225
 msgid "Admin static files"
 msgstr "Berkas statis admin"
+
+#, fuzzy
+#~| msgid ""
+#~| "More information on adding new language files is available in the "
+#~| "documentation:"
+#~ msgid ""
+#~ "Read more information on adding new language files is in the "
+#~ "documentation."
+#~ msgstr ""
+#~ "Informasi lebih lanjut tentang penambahan berkas bahasa baru tersedia di "
+#~ "dokumentasi:"
 
 #, fuzzy
 #~| msgid ""

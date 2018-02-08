@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-02-08 17:52+0000\n"
+"POT-Creation-Date: 2018-02-08 18:36+0000\n"
 "PO-Revision-Date: 2018-02-08 17:52+0000\n"
 "Last-Translator: monolifed <monolifed@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
@@ -547,8 +547,7 @@ msgstr "İletişim"
 msgid "Hosting"
 msgstr "Barındırma"
 
-#: weblate/accounts/views.py:554 weblate/templates/accounts/login.html:8
-#: weblate/templates/accounts/login.html:66
+#: weblate/accounts/views.py:554 weblate/templates/accounts/login.html:66
 #: weblate/templates/accounts/redirect.html:8 weblate/templates/base.html:137
 msgid "Login"
 msgstr "Oturum aç"
@@ -1329,6 +1328,7 @@ msgid "Insufficient privileges to display this page."
 msgstr "Yetkiler bu sayfayı görüntülemek için yetersiz."
 
 #: weblate/templates/403.html:14 weblate/templates/404.html:14
+#: weblate/templates/accounts/login.html:8
 msgid "Log in"
 msgstr "Oturum aç"
 
@@ -1662,7 +1662,11 @@ msgid "This username/password combination was not found. Please try again."
 msgstr "Bu kullanıcı adı/parola birleşimi bulunamadı. Lütfen yeniden deneyin."
 
 #: weblate/templates/accounts/login.html:20
-msgid "To test Weblate on this demo server, you can login as following users:"
+#, fuzzy
+#| msgid ""
+#| "To test Weblate on this demo server, you can login as following users:"
+msgid ""
+"To test Weblate on this demo server, you can log in as the following users:"
 msgstr ""
 "Weblate'i bu tanıtım sunucusunda denemek için, şu kullanıcılar olarak giriş "
 "yapabilirsiniz:"
@@ -3495,6 +3499,39 @@ msgstr ""
 "oldu."
 
 #: weblate/templates/mail/new_language.html:15
+#, fuzzy
+#| msgid ""
+#| "Please add the language file to VCS, Weblate will automatically discover "
+#| "it on next update."
+msgid ""
+"Please add the language file to VCS, Weblate will automatically discover it "
+"upon next update."
+msgstr ""
+"Lütfen VCS'ye dil dosyasını ekleyin, Weblate bir sonraki güncellemede onu "
+"kendiliğinden keşfedecek."
+
+#: weblate/templates/mail/new_language.html:20
+#, fuzzy
+#| msgid ""
+#| "More information on adding new language files is available in the "
+#| "documentation:"
+msgid ""
+"More information on adding new language files is to be found in the "
+"documentation."
+msgstr ""
+"Yeni dil dosyaları ekleme üzerine daha çok bilgi belgelerde bulunabilir:"
+
+#: weblate/templates/mail/new_language.html:28
+#: weblate/templates/mail/new_language.txt:9
+msgid "Requested language:"
+msgstr "İstenen dil:"
+
+#: weblate/templates/mail/new_language.html:39
+#, fuzzy
+#| msgid "Requested language:"
+msgid "Requested by:"
+msgstr "İstenen dil:"
+
 #: weblate/templates/mail/new_language.txt:5
 msgid ""
 "Please add the language file to VCS, Weblate will automatically discover it "
@@ -3503,28 +3540,16 @@ msgstr ""
 "Lütfen VCS'ye dil dosyasını ekleyin, Weblate bir sonraki güncellemede onu "
 "kendiliğinden keşfedecek."
 
-#: weblate/templates/mail/new_language.html:20
-msgid ""
-"Read more information on adding new language files is in the documentation."
-msgstr ""
-"Yeni dil dosyaları eklemekle ilgili daha çok bilgiyi belgelerde okuyun."
-
-#: weblate/templates/mail/new_language.html:28
-#: weblate/templates/mail/new_language.txt:9
-msgid "Requested language:"
-msgstr "İstenen dil:"
-
-#: weblate/templates/mail/new_language.html:39
-#: weblate/templates/mail/new_language.txt:13
-msgid "Requesting user:"
-msgstr "İsteyen kullanıcı:"
-
 #: weblate/templates/mail/new_language.txt:7
 msgid ""
 "More information on adding new language files is available in the "
 "documentation:"
 msgstr ""
 "Yeni dil dosyaları ekleme üzerine daha çok bilgi belgelerde bulunabilir:"
+
+#: weblate/templates/mail/new_language.txt:13
+msgid "Requesting user:"
+msgstr "İsteyen kullanıcı:"
 
 #: weblate/templates/mail/new_language_subject.txt:3
 #, python-format
@@ -5143,111 +5168,111 @@ msgstr "Herhangi bir başarısız kaynak denetimi olan satırlar"
 msgid "Strings with source comments"
 msgstr "Kaynak yorumları olan satırlar"
 
-#: weblate/trans/formats.py:906
+#: weblate/trans/formats.py:907
 msgid "Automatic detection"
 msgstr "Kendiliğinden algılama"
 
-#: weblate/trans/formats.py:937
+#: weblate/trans/formats.py:938
 msgid "Gettext PO file"
 msgstr "Gettext PO dosyası"
 
-#: weblate/trans/formats.py:1024
+#: weblate/trans/formats.py:1025
 msgid "Gettext PO file (unwrapped)"
 msgstr "Gettext PO dosyası (satır kaydırmasız)"
 
-#: weblate/trans/formats.py:1046
+#: weblate/trans/formats.py:1047
 msgid "Gettext PO file (monolingual)"
 msgstr "Gettext PO dosyası (tek dilli)"
 
-#: weblate/trans/formats.py:1053
+#: weblate/trans/formats.py:1054
 msgid "Gettext PO file (monolingual, unwrapped)"
 msgstr "Gettext PO dosyası (tek dilli, satır kaydırmasız)"
 
-#: weblate/trans/formats.py:1060
+#: weblate/trans/formats.py:1061
 msgid "Qt Linguist Translation File"
 msgstr "Qt Linguist Çeviri Dosyası"
 
-#: weblate/trans/formats.py:1078
+#: weblate/trans/formats.py:1079
 msgid "XLIFF Translation File"
 msgstr "XLIFF Çeviri Dosyası"
 
-#: weblate/trans/formats.py:1114
+#: weblate/trans/formats.py:1115
 msgid "XLIFF Translation File with PO extensions"
 msgstr "PO uzantıları olan XLIFF Çeviri Dosyası"
 
-#: weblate/trans/formats.py:1122
+#: weblate/trans/formats.py:1123
 msgid "OS X Strings"
 msgstr "OS X Satırları"
 
-#: weblate/trans/formats.py:1131
+#: weblate/trans/formats.py:1132
 msgid "OS X Strings (UTF-8)"
 msgstr "OS X Satırları (UTF-8)"
 
-#: weblate/trans/formats.py:1139
+#: weblate/trans/formats.py:1140
 msgid "Java Properties (UTF-8)"
 msgstr "Java Özellikleri (UTF-8)"
 
-#: weblate/trans/formats.py:1148
+#: weblate/trans/formats.py:1149
 msgid "Java Properties (UTF-16)"
 msgstr "Java Özellikleri (UTF-16)"
 
-#: weblate/trans/formats.py:1155
+#: weblate/trans/formats.py:1156
 msgid "Java Properties (ISO-8859-1)"
 msgstr "Java Özellikleri (ISO-8859-1)"
 
-#: weblate/trans/formats.py:1177
+#: weblate/trans/formats.py:1178
 msgid "Joomla Language File"
 msgstr "Joomla Dil Dosyası"
 
-#: weblate/trans/formats.py:1187
+#: weblate/trans/formats.py:1188
 msgid "PHP strings"
 msgstr "PHP satırlar"
 
-#: weblate/trans/formats.py:1237
+#: weblate/trans/formats.py:1238
 msgid ".Net resource file"
 msgstr ".Net kaynak dosyası"
 
-#: weblate/trans/formats.py:1248
+#: weblate/trans/formats.py:1249
 msgid "Android String Resource"
 msgstr "Android Satır Kaynağı"
 
-#: weblate/trans/formats.py:1278
+#: weblate/trans/formats.py:1279
 msgid "JSON file"
 msgstr "JSON dosyası"
 
-#: weblate/trans/formats.py:1298
+#: weblate/trans/formats.py:1299
 msgid "JSON nested structure file"
 msgstr "JSON iç içe geçmiş yapı dosyası"
 
-#: weblate/trans/formats.py:1305
+#: weblate/trans/formats.py:1306
 msgid "WebExtension JSON file"
 msgstr "WebExtension JSON dosyası"
 
-#: weblate/trans/formats.py:1314
+#: weblate/trans/formats.py:1315
 msgid "i18next JSON file"
 msgstr "i18next JSON dosyası"
 
-#: weblate/trans/formats.py:1321
+#: weblate/trans/formats.py:1322
 msgid "CSV file"
 msgstr "CSV dosyası"
 
-#: weblate/trans/formats.py:1392
+#: weblate/trans/formats.py:1393
 msgid "Simple CSV file"
 msgstr "Basit CSV dosyası"
 
-#: weblate/trans/formats.py:1429
+#: weblate/trans/formats.py:1430
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Basit CSV dosyası (ISO-8859-1)"
 
-#: weblate/trans/formats.py:1436
+#: weblate/trans/formats.py:1437
 msgid "YAML file"
 msgstr "YAML dosyası"
 
-#: weblate/trans/formats.py:1456
+#: weblate/trans/formats.py:1457
 msgid "Ruby YAML file"
 msgstr "Ruby YAML dosyası"
 
-#: weblate/trans/formats.py:1464
+#: weblate/trans/formats.py:1465
 msgid "DTD file"
 msgstr "DTD dosyası"
 
@@ -7707,6 +7732,12 @@ msgstr "Önbelleklenmiş şablon yükleyici"
 #: weblate/wladmin/views.py:225
 msgid "Admin static files"
 msgstr "Yönetici sabit dosyaları"
+
+#~ msgid ""
+#~ "Read more information on adding new language files is in the "
+#~ "documentation."
+#~ msgstr ""
+#~ "Yeni dil dosyaları eklemekle ilgili daha çok bilgiyi belgelerde okuyun."
 
 #~ msgid ""
 #~ "Should your language be missing, please follow <a href=\"%(url)s\">the "

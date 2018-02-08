@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-02-08 17:52+0000\n"
+"POT-Creation-Date: 2018-02-08 18:36+0000\n"
 "PO-Revision-Date: 2018-02-08 10:08+0000\n"
 "Last-Translator: Andreas Kleinert <Andy.Kleinert@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/master/de/"
@@ -576,8 +576,7 @@ msgstr "Kontakt"
 msgid "Hosting"
 msgstr "Hosting"
 
-#: weblate/accounts/views.py:554 weblate/templates/accounts/login.html:8
-#: weblate/templates/accounts/login.html:66
+#: weblate/accounts/views.py:554 weblate/templates/accounts/login.html:66
 #: weblate/templates/accounts/redirect.html:8 weblate/templates/base.html:137
 msgid "Login"
 msgstr "Anmelden"
@@ -1394,6 +1393,7 @@ msgid "Insufficient privileges to display this page."
 msgstr "Ungenügende Berechtigungen, um diese Seite anzuzeigen."
 
 #: weblate/templates/403.html:14 weblate/templates/404.html:14
+#: weblate/templates/accounts/login.html:8
 msgid "Log in"
 msgstr "Anmelden"
 
@@ -1757,7 +1757,8 @@ msgstr ""
 "erneut versuchen."
 
 #: weblate/templates/accounts/login.html:20
-msgid "To test Weblate on this demo server, you can login as following users:"
+msgid ""
+"To test Weblate on this demo server, you can log in as the following users:"
 msgstr ""
 
 #: weblate/templates/accounts/login.html:27
@@ -3757,10 +3758,13 @@ msgstr ""
 "%(site_title)s."
 
 #: weblate/templates/mail/new_language.html:15
-#: weblate/templates/mail/new_language.txt:5
+#, fuzzy
+#| msgid ""
+#| "Please add the language file to VCS, Weblate will automatically discover "
+#| "it on next update."
 msgid ""
 "Please add the language file to VCS, Weblate will automatically discover it "
-"on next update."
+"upon next update."
 msgstr ""
 "Bitte fügen Sie die Sprachdatei zur Versionsverwaltung hinzu, Weblate wird "
 "sie bei der nächsten Aktualisierung automatisch entdecken."
@@ -3771,7 +3775,8 @@ msgstr ""
 #| "More information on adding new language files is available in the "
 #| "documentation:"
 msgid ""
-"Read more information on adding new language files is in the documentation."
+"More information on adding new language files is to be found in the "
+"documentation."
 msgstr ""
 "Weitere Informationen zum Hinzufügen neuer Sprachdateien finden Sie in der "
 "Dokumentation:"
@@ -3782,9 +3787,18 @@ msgid "Requested language:"
 msgstr "gewünschte Sprache:"
 
 #: weblate/templates/mail/new_language.html:39
-#: weblate/templates/mail/new_language.txt:13
-msgid "Requesting user:"
-msgstr "gewünschter Benutzer:"
+#, fuzzy
+#| msgid "Requested language:"
+msgid "Requested by:"
+msgstr "gewünschte Sprache:"
+
+#: weblate/templates/mail/new_language.txt:5
+msgid ""
+"Please add the language file to VCS, Weblate will automatically discover it "
+"on next update."
+msgstr ""
+"Bitte fügen Sie die Sprachdatei zur Versionsverwaltung hinzu, Weblate wird "
+"sie bei der nächsten Aktualisierung automatisch entdecken."
 
 #: weblate/templates/mail/new_language.txt:7
 msgid ""
@@ -3793,6 +3807,10 @@ msgid ""
 msgstr ""
 "Weitere Informationen zum Hinzufügen neuer Sprachdateien finden Sie in der "
 "Dokumentation:"
+
+#: weblate/templates/mail/new_language.txt:13
+msgid "Requesting user:"
+msgstr "gewünschter Benutzer:"
 
 #: weblate/templates/mail/new_language_subject.txt:3
 #, python-format
@@ -5552,115 +5570,115 @@ msgstr "Zeichenketten mit fehlgeschlagenen Qualitätsprüfungen"
 msgid "Strings with source comments"
 msgstr "Zeichenketten mit Kommentaren"
 
-#: weblate/trans/formats.py:906
+#: weblate/trans/formats.py:907
 msgid "Automatic detection"
 msgstr "Automatische Detektion"
 
-#: weblate/trans/formats.py:937
+#: weblate/trans/formats.py:938
 msgid "Gettext PO file"
 msgstr "Gettext PO Datei"
 
-#: weblate/trans/formats.py:1024
+#: weblate/trans/formats.py:1025
 #, fuzzy
 #| msgid "Gettext PO file (monolingual)"
 msgid "Gettext PO file (unwrapped)"
 msgstr "Gettext PO Datei (monolingual)"
 
-#: weblate/trans/formats.py:1046
+#: weblate/trans/formats.py:1047
 msgid "Gettext PO file (monolingual)"
 msgstr "Gettext PO Datei (monolingual)"
 
-#: weblate/trans/formats.py:1053
+#: weblate/trans/formats.py:1054
 #, fuzzy
 #| msgid "Gettext PO file (monolingual)"
 msgid "Gettext PO file (monolingual, unwrapped)"
 msgstr "Gettext PO Datei (monolingual)"
 
-#: weblate/trans/formats.py:1060
+#: weblate/trans/formats.py:1061
 msgid "Qt Linguist Translation File"
 msgstr "Qt Linguist Übersetzungsdatei"
 
-#: weblate/trans/formats.py:1078
+#: weblate/trans/formats.py:1079
 msgid "XLIFF Translation File"
 msgstr "XLIFF-Übersetzungsdatei"
 
-#: weblate/trans/formats.py:1114
+#: weblate/trans/formats.py:1115
 msgid "XLIFF Translation File with PO extensions"
 msgstr "XLIFF-Übersetzungsdatei mit PO-Erweiterungen"
 
-#: weblate/trans/formats.py:1122
+#: weblate/trans/formats.py:1123
 msgid "OS X Strings"
 msgstr "OS-X-Zeichenketten"
 
-#: weblate/trans/formats.py:1131
+#: weblate/trans/formats.py:1132
 msgid "OS X Strings (UTF-8)"
 msgstr "OS-X-Zeichenketten (UTF-8)"
 
-#: weblate/trans/formats.py:1139
+#: weblate/trans/formats.py:1140
 msgid "Java Properties (UTF-8)"
 msgstr "Java Properties (UTF-8)"
 
-#: weblate/trans/formats.py:1148
+#: weblate/trans/formats.py:1149
 msgid "Java Properties (UTF-16)"
 msgstr "Java Properties (UTF-16)"
 
-#: weblate/trans/formats.py:1155
+#: weblate/trans/formats.py:1156
 msgid "Java Properties (ISO-8859-1)"
 msgstr "Java Properties (ISO-8859-1)"
 
-#: weblate/trans/formats.py:1177
+#: weblate/trans/formats.py:1178
 msgid "Joomla Language File"
 msgstr "Joomla-Sprachdatei"
 
-#: weblate/trans/formats.py:1187
+#: weblate/trans/formats.py:1188
 msgid "PHP strings"
 msgstr "PHP-Zeichenketten"
 
-#: weblate/trans/formats.py:1237
+#: weblate/trans/formats.py:1238
 msgid ".Net resource file"
 msgstr ".Net-Ressourcendatei"
 
-#: weblate/trans/formats.py:1248
+#: weblate/trans/formats.py:1249
 msgid "Android String Resource"
 msgstr "Android String-Ressource"
 
-#: weblate/trans/formats.py:1278
+#: weblate/trans/formats.py:1279
 msgid "JSON file"
 msgstr "JSON-Datei"
 
-#: weblate/trans/formats.py:1298
+#: weblate/trans/formats.py:1299
 msgid "JSON nested structure file"
 msgstr "JSON-Nested-Structure-Datei"
 
-#: weblate/trans/formats.py:1305
+#: weblate/trans/formats.py:1306
 msgid "WebExtension JSON file"
 msgstr "WebExtension-JSON-Datei"
 
-#: weblate/trans/formats.py:1314
+#: weblate/trans/formats.py:1315
 msgid "i18next JSON file"
 msgstr "i18next-JSON-Datei"
 
-#: weblate/trans/formats.py:1321
+#: weblate/trans/formats.py:1322
 msgid "CSV file"
 msgstr "CSV-Datei"
 
-#: weblate/trans/formats.py:1392
+#: weblate/trans/formats.py:1393
 msgid "Simple CSV file"
 msgstr "Einfache CSV-Datei"
 
-#: weblate/trans/formats.py:1429
+#: weblate/trans/formats.py:1430
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Einfache CSV-Datei (ISO-8859-1)"
 
-#: weblate/trans/formats.py:1436
+#: weblate/trans/formats.py:1437
 msgid "YAML file"
 msgstr "YAML-Datei"
 
-#: weblate/trans/formats.py:1456
+#: weblate/trans/formats.py:1457
 msgid "Ruby YAML file"
 msgstr "Ruby YAML-Datei"
 
-#: weblate/trans/formats.py:1464
+#: weblate/trans/formats.py:1465
 #, fuzzy
 #| msgid "CSV file"
 msgid "DTD file"
@@ -8224,6 +8242,17 @@ msgstr "Zwischengespeichertes Vorlagenladeprogramm"
 #: weblate/wladmin/views.py:225
 msgid "Admin static files"
 msgstr "Statische Admin-Dateien"
+
+#, fuzzy
+#~| msgid ""
+#~| "More information on adding new language files is available in the "
+#~| "documentation:"
+#~ msgid ""
+#~ "Read more information on adding new language files is in the "
+#~ "documentation."
+#~ msgstr ""
+#~ "Weitere Informationen zum Hinzufügen neuer Sprachdateien finden Sie in "
+#~ "der Dokumentation:"
 
 #, fuzzy
 #~| msgid ""

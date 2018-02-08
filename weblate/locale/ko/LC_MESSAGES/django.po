@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-02-08 17:52+0000\n"
+"POT-Creation-Date: 2018-02-08 18:36+0000\n"
 "PO-Revision-Date: 2018-01-30 18:47+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
@@ -548,8 +548,7 @@ msgstr "연락"
 msgid "Hosting"
 msgstr "호스팅"
 
-#: weblate/accounts/views.py:554 weblate/templates/accounts/login.html:8
-#: weblate/templates/accounts/login.html:66
+#: weblate/accounts/views.py:554 weblate/templates/accounts/login.html:66
 #: weblate/templates/accounts/redirect.html:8 weblate/templates/base.html:137
 msgid "Login"
 msgstr "로그인"
@@ -1352,6 +1351,7 @@ msgid "Insufficient privileges to display this page."
 msgstr "이 페이지를 표시할 권한이 없습니다."
 
 #: weblate/templates/403.html:14 weblate/templates/404.html:14
+#: weblate/templates/accounts/login.html:8
 msgid "Log in"
 msgstr ""
 
@@ -1750,7 +1750,8 @@ msgid "This username/password combination was not found. Please try again."
 msgstr "이 사용자 이름/암호 조합을 찾을 수 없습니다. 다시 시도하십시오."
 
 #: weblate/templates/accounts/login.html:20
-msgid "To test Weblate on this demo server, you can login as following users:"
+msgid ""
+"To test Weblate on this demo server, you can log in as the following users:"
 msgstr ""
 
 #: weblate/templates/accounts/login.html:27
@@ -3752,10 +3753,9 @@ msgid ""
 msgstr "%(site_title)s에서 %(translation)s 의 새로운 언어를 요청하였습니다."
 
 #: weblate/templates/mail/new_language.html:15
-#: weblate/templates/mail/new_language.txt:5
 msgid ""
 "Please add the language file to VCS, Weblate will automatically discover it "
-"on next update."
+"upon next update."
 msgstr ""
 
 #: weblate/templates/mail/new_language.html:20
@@ -3764,7 +3764,8 @@ msgstr ""
 #| "More information about this check is available in the <a href=\"%(link)s"
 #| "\">documentation</a>."
 msgid ""
-"Read more information on adding new language files is in the documentation."
+"More information on adding new language files is to be found in the "
+"documentation."
 msgstr ""
 "이 검사에 대한 세부 정보는 <a href=\"%(link)s\">문서</a>에서 찾을수 있습니다."
 
@@ -3774,9 +3775,16 @@ msgid "Requested language:"
 msgstr "요청된 언어:"
 
 #: weblate/templates/mail/new_language.html:39
-#: weblate/templates/mail/new_language.txt:13
-msgid "Requesting user:"
-msgstr "요청하는 사용자:"
+#, fuzzy
+#| msgid "Requested language:"
+msgid "Requested by:"
+msgstr "요청된 언어:"
+
+#: weblate/templates/mail/new_language.txt:5
+msgid ""
+"Please add the language file to VCS, Weblate will automatically discover it "
+"on next update."
+msgstr ""
 
 #: weblate/templates/mail/new_language.txt:7
 #, fuzzy
@@ -3788,6 +3796,10 @@ msgid ""
 "documentation:"
 msgstr ""
 "이 검사에 대한 세부 정보는 <a href=\"%(link)s\">문서</a>에서 찾을수 있습니다."
+
+#: weblate/templates/mail/new_language.txt:13
+msgid "Requesting user:"
+msgstr "요청하는 사용자:"
 
 #: weblate/templates/mail/new_language_subject.txt:3
 #, python-format
@@ -5627,125 +5639,125 @@ msgstr "실패 검사에 걸린 문자열"
 msgid "Strings with source comments"
 msgstr "주석이 있는 문자열"
 
-#: weblate/trans/formats.py:906
+#: weblate/trans/formats.py:907
 msgid "Automatic detection"
 msgstr "자동 감지"
 
-#: weblate/trans/formats.py:937
+#: weblate/trans/formats.py:938
 msgid "Gettext PO file"
 msgstr "Gettext PO 파일"
 
-#: weblate/trans/formats.py:1024
+#: weblate/trans/formats.py:1025
 #, fuzzy
 #| msgid "Gettext PO file (monolingual)"
 msgid "Gettext PO file (unwrapped)"
 msgstr "Gettext PO 파일 (단일 단어)"
 
-#: weblate/trans/formats.py:1046
+#: weblate/trans/formats.py:1047
 msgid "Gettext PO file (monolingual)"
 msgstr "Gettext PO 파일 (단일 단어)"
 
-#: weblate/trans/formats.py:1053
+#: weblate/trans/formats.py:1054
 #, fuzzy
 #| msgid "Gettext PO file (monolingual)"
 msgid "Gettext PO file (monolingual, unwrapped)"
 msgstr "Gettext PO 파일 (단일 단어)"
 
-#: weblate/trans/formats.py:1060
+#: weblate/trans/formats.py:1061
 msgid "Qt Linguist Translation File"
 msgstr "Qt Linguist 번역 파일"
 
-#: weblate/trans/formats.py:1078
+#: weblate/trans/formats.py:1079
 msgid "XLIFF Translation File"
 msgstr "XLIFF 번역 파일"
 
-#: weblate/trans/formats.py:1114
+#: weblate/trans/formats.py:1115
 #, fuzzy
 #| msgid "XLIFF Translation File"
 msgid "XLIFF Translation File with PO extensions"
 msgstr "XLIFF 번역 파일"
 
-#: weblate/trans/formats.py:1122
+#: weblate/trans/formats.py:1123
 msgid "OS X Strings"
 msgstr "OS X 문자열"
 
-#: weblate/trans/formats.py:1131
+#: weblate/trans/formats.py:1132
 msgid "OS X Strings (UTF-8)"
 msgstr "OS X 문자열 (UTF-8)"
 
-#: weblate/trans/formats.py:1139
+#: weblate/trans/formats.py:1140
 msgid "Java Properties (UTF-8)"
 msgstr "자바 환경 설정 (UTF-8)"
 
-#: weblate/trans/formats.py:1148
+#: weblate/trans/formats.py:1149
 msgid "Java Properties (UTF-16)"
 msgstr "자바 환경 설정 (UTF-16)"
 
-#: weblate/trans/formats.py:1155
+#: weblate/trans/formats.py:1156
 msgid "Java Properties (ISO-8859-1)"
 msgstr "자바 환경 설정 (ISO-8859-1)"
 
-#: weblate/trans/formats.py:1177
+#: weblate/trans/formats.py:1178
 #, fuzzy
 #| msgid "Language filter"
 msgid "Joomla Language File"
 msgstr "언어 필터"
 
-#: weblate/trans/formats.py:1187
+#: weblate/trans/formats.py:1188
 msgid "PHP strings"
 msgstr "PHP 문자열"
 
-#: weblate/trans/formats.py:1237
+#: weblate/trans/formats.py:1238
 msgid ".Net resource file"
 msgstr ".Net 리소스 파일"
 
-#: weblate/trans/formats.py:1248
+#: weblate/trans/formats.py:1249
 msgid "Android String Resource"
 msgstr "안드로이드 문자열 리소스"
 
-#: weblate/trans/formats.py:1278
+#: weblate/trans/formats.py:1279
 msgid "JSON file"
 msgstr "JSON 파일"
 
-#: weblate/trans/formats.py:1298
+#: weblate/trans/formats.py:1299
 msgid "JSON nested structure file"
 msgstr ""
 
-#: weblate/trans/formats.py:1305
+#: weblate/trans/formats.py:1306
 msgid "WebExtension JSON file"
 msgstr ""
 
-#: weblate/trans/formats.py:1314
+#: weblate/trans/formats.py:1315
 #, fuzzy
 #| msgid "JSON file"
 msgid "i18next JSON file"
 msgstr "JSON 파일"
 
-#: weblate/trans/formats.py:1321
+#: weblate/trans/formats.py:1322
 msgid "CSV file"
 msgstr "CSV 파일"
 
-#: weblate/trans/formats.py:1392
+#: weblate/trans/formats.py:1393
 #, fuzzy
 #| msgid "JSON file"
 msgid "Simple CSV file"
 msgstr "JSON 파일"
 
-#: weblate/trans/formats.py:1429
+#: weblate/trans/formats.py:1430
 #, fuzzy
 #| msgid "Java Properties (UTF-8)"
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "자바 환경 설정 (UTF-8)"
 
-#: weblate/trans/formats.py:1436
+#: weblate/trans/formats.py:1437
 msgid "YAML file"
 msgstr ""
 
-#: weblate/trans/formats.py:1456
+#: weblate/trans/formats.py:1457
 msgid "Ruby YAML file"
 msgstr ""
 
-#: weblate/trans/formats.py:1464
+#: weblate/trans/formats.py:1465
 #, fuzzy
 #| msgid "CSV file"
 msgid "DTD file"
@@ -8394,6 +8406,17 @@ msgstr "캐쉬된 템플릿 로더"
 #: weblate/wladmin/views.py:225
 msgid "Admin static files"
 msgstr "관리자 정적 파일"
+
+#, fuzzy
+#~| msgid ""
+#~| "More information about this check is available in the <a href=\"%(link)s"
+#~| "\">documentation</a>."
+#~ msgid ""
+#~ "Read more information on adding new language files is in the "
+#~ "documentation."
+#~ msgstr ""
+#~ "이 검사에 대한 세부 정보는 <a href=\"%(link)s\">문서</a>에서 찾을수 있습니"
+#~ "다."
 
 #, fuzzy
 #~| msgid ""
