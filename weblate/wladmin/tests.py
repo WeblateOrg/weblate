@@ -103,9 +103,7 @@ class AdminTest(FixtureTestCase):
 
     def test_create_subproject(self):
         response = self.client.get(reverse('admin:trans_subproject_add'))
-        self.assertContains(
-            response, 'Importing a new translation can take some time'
-        )
+        self.assertContains(response, 'Import speed documentation')
 
     def test_subproject(self):
         """Test for custom subproject actions."""
