@@ -5,7 +5,7 @@
 {% load crispy_forms_tags %}
 
 {% block breadcrumbs %}
-<li><a href="{% url 'login' %}">{% trans "Login" %}</a></li>
+<li><a href="{% url 'login' %}">{% trans "Log in" %}</a></li>
 {% endblock %}
 
 {% block content %}
@@ -17,7 +17,7 @@
 {% if demo_server %}
 <div class="alert alert-info">
 <p>
-{% trans "To test Weblate on this demo server, you can login as following users:" %}
+{% trans "To test Weblate on this demo server, you can log in as the following users:" %}
 </p>
 <table class="table table-condensed">
 <thead>
