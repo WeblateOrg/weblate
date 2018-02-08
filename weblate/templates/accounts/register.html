@@ -15,7 +15,7 @@
 {% if legal %}
 <div class="alert alert-info">
 {% url 'legal:terms' as legal_url %}
-{% blocktrans %}Please read our <a href="{{ legal_url }}">Terms of Service</a> prior to registration.{% endblocktrans %}
+<a href="{{ legal_url }}">{% blocktrans %}Please read our Terms of Service prior to registration.{% endblocktrans %}</a>
 </div>
 {% else %}
 {% show_message "info" _("By registering you agree to use your name and email in version control system commits and provide your contribution under license defined by each translated project.") %}
