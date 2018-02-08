@@ -1,0 +1,25 @@
+#!/usr/bin/env python3
+
+from glob import glob
+import sys
+
+from translate.storage.pypo import pofile
+
+if len(sys.argv) != 3:
+    print('Usage: ./scripts/locales-fixup match replacement')
+    sys.exit(1)
+
+match = sys.argv[1]
+replacement = sys.argv[2]
+
+for filename in glob('weblate/locale/*/LC_MESSAGES/*.po'):
+    print(filename)
+    storage = pofile.parsefile(filename)
+    modified = False
+    for unit in storage.units:
+        if match in unit.source:
+            modified = True
+            unit.source = unit.source.replace(match, replacement)
+            unit.target = unit.target.replace(match, replacement)
+    if modified:
+        storage.save()
