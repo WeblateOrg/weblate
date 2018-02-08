@@ -16,7 +16,7 @@ wlc lock weblate/languages
 wlc commit weblate
 
 # Pull changes from GitHub
-git pull
+git pull --rebase
 
 # Update po files itself
 ./manage.py makemessages --keep-pot -a -i 'data/*' -i 'docs/*' -i 'examples/*' -i 'build/*' --settings=weblate.settings_test
