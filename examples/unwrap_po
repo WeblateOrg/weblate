@@ -1,0 +1,16 @@
+#!/usr/bin/env python3
+# Remove wrapping from the po files
+# Depends on latest translate-toolit
+
+import sys
+
+from translate.storage.pypo import pofile
+
+storage = pofile.parsefile(sys.argv[1])
+storage.wrapper.width = -1
+for unit in storage.units:
+    if not unit.istranslatable():
+        continue
+    if unit.target:
+        unit.target = unit.target
+storage.save()
