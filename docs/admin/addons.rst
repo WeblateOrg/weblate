@@ -25,7 +25,7 @@ Flag new source strings to need edit
 
 Whenever a new source string is imported from the VCS, it is flagged as needing
 editing in Weblate. This way you can easily filter and edit source strings
-written the developers.
+written by the developers.
 
 Flag new translations to need edit
 ----------------------------------

@@ -51,7 +51,7 @@ class SourceEditAddon(FlagBase):
     description = _(
         'Whenever a new source string is imported from the VCS, it is '
         'flagged as needing editing in Weblate. This way you can easily '
-        'filter and edit source strings written the developers.'
+        'filter and edit source strings written by the developers.'
     )
 
     def unit_pre_create(self, unit):
