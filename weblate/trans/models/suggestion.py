@@ -156,6 +156,10 @@ class Suggestion(UnitData, UserDisplayMixin):
                 messages.error(request, _('Failed to accept suggestion!'))
                 continue
 
+            # Skip if there is no change
+            if unit.target == self.target and unit.state >= STATE_TRANSLATED:
+                continue
+
             unit.target = self.target
             unit.state = STATE_TRANSLATED
             unit.save_backend(
