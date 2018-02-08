@@ -86,6 +86,7 @@ class SAPTranslationHub(MachineTranslation):
         request_data_as_bytes = json.dumps(
             {
                 'targetLanguages': [language],
+                'sourceLanguage': source,
                 'enableMT': enable_mt,
                 'enableTranslationQualityEstimation': enable_mt,
                 'units': [{'value': text}]
