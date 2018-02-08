@@ -20,8 +20,10 @@
 
 from datetime import datetime
 
+from django.utils.html import escape
 from django.utils.http import is_safe_url
 from django.utils.translation import ugettext as _
+from django.utils.safestring import mark_safe
 from django.conf import settings
 
 import weblate
@@ -67,11 +69,16 @@ def weblate_context(request):
         rollbar_token = None
         rollbar_environment = None
 
+    weblate_url = URL_BASE % weblate.VERSION
+
     return {
         'version': weblate.VERSION,
         'description': description,
 
-        'weblate_url': URL_BASE % weblate.VERSION,
+        'weblate_url': weblate_url,
+        'weblate_link': mark_safe(
+            '<a href="{}">weblate.org</a>'.format(escape(weblate_url))
+        ),
         'donate_url': URL_DONATE % weblate.VERSION,
 
         'site_title': settings.SITE_TITLE,
