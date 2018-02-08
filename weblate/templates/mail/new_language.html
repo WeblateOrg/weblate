@@ -16,8 +16,9 @@
 </p>
 
 <p>
-{% documentation 'devel/translations' 'adding-translation' as doc_url %}
-{% blocktrans %}More information on adding new language files is available in <a href="{{ doc_url }}">the documentation</a>.{% endblocktrans %}
+<a href="{% documentation 'devel/translations' 'adding-translation' %}"> 
+{% trans "Read more information on adding new language files is in the documentation." %}
+</a>
 </p>
 
 <table>
