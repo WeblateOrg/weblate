@@ -201,7 +201,7 @@ class Project(models.Model, URLMixin, PathMixin):
         ]
 
     def add_user(self, user, group=None):
-        """Add user based on username of e-mail."""
+        """Add user based on username of email."""
         if group is None:
             if self.access_control != self.ACCESS_PUBLIC:
                 group = '@Translate'
@@ -221,7 +221,7 @@ class Project(models.Model, URLMixin, PathMixin):
         profile.subscriptions.add(self)
 
     def remove_user(self, user, group=None):
-        """Add user based on username of e-mail."""
+        """Add user based on username of email."""
         if group is None:
             groups = Group.objects.filter(
                 name__startswith='{0}@'.format(self.name)
