@@ -2,7 +2,7 @@
 {% load i18n %}
 <footer class="flip pull-left">
  <ul>
-  <li>{% blocktrans %}Powered by <a href="{{ weblate_url }}">Weblate {{ version }}</a>{% endblocktrans %}</li>
+  <li>{% blocktrans %}Powered by {{ weblate_version_link }}{% endblocktrans %}</li>
   <li><a href="{% url 'about' %}">{% blocktrans %}About Weblate{% endblocktrans %}</a></li>
   {% if legal %}<li><a href="{% url 'legal:index' %}">{% trans "Legal" %}</a></li>{% endif %}
   {% if status_url %}<li><a href="{{ status_url }}">{% trans "Service status" %}</a></li>{% endif %}
