@@ -5,12 +5,15 @@ import sys
 
 from translate.storage.pypo import pofile
 
-if len(sys.argv) != 3:
-    print('Usage: ./scripts/locales-fixup match replacement')
+if len(sys.argv) < 3 or len(sys.argv) % 2 != 1:
+    print('Usage: ./scripts/locales-fixup match replacement [match replacement]...')
     sys.exit(1)
 
 match = sys.argv[1]
 replacement = sys.argv[2]
+additionals = [
+    (sys.argv[3 + 2 * i], sys.argv[4 + 2 * i]) for i in range(int((len(sys.argv) - 3) / 2))
+]
 
 for filename in glob('weblate/locale/*/LC_MESSAGES/*.po'):
     print(filename)
@@ -21,5 +24,8 @@ for filename in glob('weblate/locale/*/LC_MESSAGES/*.po'):
             modified = True
             unit.source = unit.source.replace(match, replacement)
             unit.target = unit.target.replace(match, replacement)
+            for m, r in additionals:
+                unit.source = unit.source.replace(m, r)
+                unit.target = unit.target.replace(m, r)
     if modified:
         storage.save()
