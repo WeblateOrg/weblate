@@ -22,7 +22,7 @@
   <div class="panel-heading"><h4 class="panel-title">{% trans "Start new translation" %}</h4></div>
   <div class="panel-body">
 {% if object.new_lang == 'url' %}
-<p>{% blocktrans with object.project.instructions as url %}Should your language be missing, please follow <a href="{{ url }}">the translator instructions</a>.{% endblocktrans %}</p>
+<p><a href="{{ object.project.instructions }}">{% trans "Please see translator instructions for information how to start translation into another language." %}</a></p>
 {% else %}
 <p>{% trans "Please choose the language you want to translate to." %}</p>
 {% if object.new_lang == 'contact' %}
