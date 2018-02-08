@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-02-08 18:36+0000\n"
-"PO-Revision-Date: 2018-02-08 18:45+0000\n"
-"Last-Translator: Bamstam <am-em-am@posteo.de>\n"
+"PO-Revision-Date: 2018-02-08 19:09+0000\n"
+"Last-Translator: Andreas Kleinert <Andy.Kleinert@gmail.com>\n"
 "Language-Team: German "
 "<https://hosted.weblate.org/projects/weblate/master/de/>\n"
 "Language: de\n"
@@ -582,16 +582,12 @@ msgid "Login"
 msgstr "Anmelden"
 
 #: weblate/accounts/views.py:556
-#, fuzzy
-#| msgid "Manage users"
 msgid "Standard user"
-msgstr "Benutzer verwalten"
+msgstr "Standardnutzer"
 
 #: weblate/accounts/views.py:557
-#, fuzzy
-#| msgid "Filtered permissions"
 msgid "User with reviewer permissions"
-msgstr "Gefilterte Berechtigungen"
+msgstr "Benutzer mit Prüfberechtigung"
 
 #: weblate/accounts/views.py:586 weblate/wladmin/sites.py:145
 msgid "Thanks for using Weblate!"
@@ -1666,10 +1662,8 @@ msgstr ""
 "Sollte das Problem weiterhin bestehen, nehmen Sie bitte Kontakt mit uns auf."
 
 #: weblate/templates/accounts/email-sent.html:38
-#, fuzzy
-#| msgid "User registration"
 msgid "Report an issue with registration"
-msgstr "Benutzerregistrierung"
+msgstr "Ein Problem mit der Registrierung melden"
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:25
@@ -1781,16 +1775,12 @@ msgid "Password login"
 msgstr "Anmeldung mit Passwort"
 
 #: weblate/templates/accounts/login.html:57
-#, fuzzy
-#| msgid "Set my password"
 msgid "Forgot your password?"
-msgstr "Kennwort setzen"
+msgstr "Passwort eingeben"
 
 #: weblate/templates/accounts/login.html:58
-#, fuzzy
-#| msgid "You can review it at:"
 msgid "You can reset it."
-msgstr "Hier können Sie den Vorschlag begutachten:"
+msgstr "Sie können es zurücksetzen."
 
 #: weblate/templates/accounts/login.html:78
 msgid "Third party login"
@@ -1801,10 +1791,8 @@ msgid "Do not have an account yet?"
 msgstr "Sie haben noch kein Konto?"
 
 #: weblate/templates/accounts/login.html:97
-#, fuzzy
-#| msgid "You can review it at:"
 msgid "You can register."
-msgstr "Hier können Sie den Vorschlag begutachten:"
+msgstr "Sie können sich registrieren."
 
 #: weblate/templates/accounts/password-warning.html:3
 msgid "Please enable the password authentication to secure your account."
@@ -1824,10 +1812,8 @@ msgstr ""
 "bestätigen."
 
 #: weblate/templates/accounts/password-warning.html:14
-#, fuzzy
-#| msgid "Current password"
 msgid "Configure the password"
-msgstr "Aktuelles Kennwort"
+msgstr "Passwort festlegen"
 
 #: weblate/templates/accounts/password.html:16
 msgid ""
@@ -2137,16 +2123,12 @@ msgstr ""
 "Git-Repositories zu authentifizieren."
 
 #: weblate/templates/accounts/profile.html:400
-#, fuzzy
-#| msgid "Documentation"
 msgid "API documentation"
-msgstr "Dokumentation"
+msgstr "API-Dokumentation"
 
 #: weblate/templates/accounts/profile.html:401
-#, fuzzy
-#| msgid "Documentation"
 msgid "Git export documentation"
-msgstr "Dokumentation"
+msgstr "Git-Export-Dokumentation"
 
 #: weblate/templates/accounts/profile.html:420
 msgid ""
@@ -2232,10 +2214,8 @@ msgid "Third party registration"
 msgstr "Registrierung über Drittanbieter"
 
 #: weblate/templates/accounts/register.html:73
-#, fuzzy
-#| msgid "New registrations are disabled!"
 msgid "Sorry, but registrations on this site are disabled."
-msgstr "Die Registrierung neuer Benutzer ist deaktiviert!"
+msgstr "Leider sind die Registrierungen auf dieser Seite deaktiviert."
 
 #: weblate/templates/accounts/register.html:74
 msgid "You can contact us for more details."
@@ -2581,37 +2561,25 @@ msgid "Notification hooks"
 msgstr "Benachrichtigungs-Hooks"
 
 #: weblate/templates/data-root.html:57 weblate/templates/data.html:96
-#, fuzzy
-#| msgid ""
-#| "With notification hooks, Weblate will automatically import changes done "
-#| "by your developers and will allow continuous translation. More "
-#| "information is available in <a href=\"%(hooks_docs)s\">the documentation</"
-#| "a>."
 msgid ""
 "With notification hooks, Weblate will automatically import changes made by "
 "your developers, and allows continuous translation."
 msgstr ""
-"Mit einem Benachrichtigungs-Hook importiert Weblate Änderungen von "
-"Entwicklern automatisch und ermöglicht damit kontinuierliche Übersetzungen. "
-"Mehr Informationen finden Sie in <a href=\"%(hooks_docs)s\">der "
-"Dokumentation</a>."
+"Mit Hilfe von Benachrichtigungs-Hooks importiert Weblate automatisch "
+"Änderungen, die von Ihren Entwicklern vorgenommen wurden, und ermöglicht "
+"eine kontinuierliche Übersetzung."
 
 #: weblate/templates/data.html:7
 msgid "data exports"
 msgstr "Daten exportieren"
 
 #: weblate/templates/data.html:48
-#, fuzzy
-#| msgid ""
-#| "There are also per language RSS feeds available, you can construct them "
-#| "by appending a language code to the above URLs."
 msgid ""
 "Per language RSS feeds are also available, you can construct them by "
 "appending a language code to the above URLs."
 msgstr ""
-"Ferner gibt es für jede Sprache eigenständige RSS-Feeds. Diese können Sie "
-"manuell erstellen, indem Sie einen Sprachen-Code an die oben genannten URLs "
-"anhängen."
+"Für jede Sprache stehen auch RSS-Feeds zur Verfügung. Sie können sie "
+"erstellen, indem Sie einen Sprachcode an die oben genannten URLs anhängen."
 
 #: weblate/templates/data.html:51 weblate/templates/index.html:38
 #: weblate/templates/stats.html:5 weblate/templates/stats.html:62
@@ -2620,18 +2588,12 @@ msgid "Statistics"
 msgstr "Statistik"
 
 #: weblate/templates/data.html:56
-#, fuzzy
-#| msgid ""
-#| "Translation statistics for every component in the JSON format allow you "
-#| "to use these data in other websites or tools. Format of the data is "
-#| "described in <a href=\"%(api_docs)s\">the documentation</a>."
 msgid ""
 "Translation statistics for every component in the JSON format allows you to "
 "use the data in other websites or tools."
 msgstr ""
-"Die Übersetzungs-Statistik im JSON-Format für jede Komponente ermöglicht es "
-"diese Daten in anderen Webseiten oder Tools zu benutzen. Das Format dieser "
-"Daten ist in <a href=\"%(api_docs)s\">der Dokumentation</a> beschrieben."
+"Übersetzungsstatistiken für jede Komponente im JSON-Format ermöglichen es "
+"Ihnen, die Daten in anderen Websites oder Tools zu verwenden."
 
 #: weblate/templates/data.html:71
 #: weblate/templates/screenshots/screenshot_sources_body.html:13
@@ -2639,16 +2601,12 @@ msgid "View"
 msgstr "Anzeigen"
 
 #: weblate/templates/data.html:79
-#, fuzzy
-#| msgid ""
-#| "For example getting stats for all translations in one component can be "
-#| "done by:"
 msgid ""
 "As an example, fetching stats for all translations in one component can be "
 "done thusly:"
 msgstr ""
-"Um zum Beispiel Statistiken für alle Übersetzungen in einer Komponente zu "
-"erhalten:"
+"Beispielsweise kann das Abrufen von Statistiken für alle Übersetzungen in "
+"einer Komponente auf diese Weise durchgeführt werden:"
 
 #: weblate/templates/data.html:111 weblate/templates/data.html:117
 msgid "Hook"
