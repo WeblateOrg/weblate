@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-02-08 13:40+0000\n"
+"POT-Creation-Date: 2018-02-08 13:42+0000\n"
 "PO-Revision-Date: 2018-02-08 10:08+0000\n"
 "Last-Translator: Andreas Kleinert <Andy.Kleinert@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/master/de/"
@@ -2852,12 +2852,9 @@ msgstr ""
 "\"%(url)s\">zum Übersetzen</a>."
 
 #: weblate/templates/footer.html:5
-#, fuzzy, python-format
-#| msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
-msgid "Powered by <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
-msgstr ""
-"Mit freundlicher Unterstützung von <a href=\"http://weblate.org\">Weblate "
-"%(version)s</a>"
+#, python-format
+msgid "Powered by %(weblate_version_link)s"
+msgstr "Betrieben mit %(weblate_version_link)s"
 
 #: weblate/templates/footer.html:8
 msgid "Service status"
@@ -8267,6 +8264,13 @@ msgstr "Zwischengespeichertes Vorlagenladeprogramm"
 msgid "Admin static files"
 msgstr "Statische Admin-Dateien"
 
+#, fuzzy
+#~| msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
+#~ msgid "Powered by <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
+#~ msgstr ""
+#~ "Mit freundlicher Unterstützung von <a href=\"http://weblate.org\">Weblate "
+#~ "%(version)s</a>"
+
 #~ msgid ""
 #~ "To test Weblate, you can login as <code>demo</code> user with password "
 #~ "<code>demo</code>."
@@ -8318,9 +8322,6 @@ msgstr "Statische Admin-Dateien"
 #~ msgid ""
 #~ "More information about exported RSS feeds available in the documentation."
 #~ msgstr "Weitere Informationen über RSS sind in der Dokumentation verfügbar."
-
-#~ msgid "Powered by %(weblate_version_link)s"
-#~ msgstr "Betrieben mit %(weblate_version_link)s"
 
 #~ msgid ""
 #~ "You can translate at <a href=\"%(translation_url)s\">%(translation_url)s</"

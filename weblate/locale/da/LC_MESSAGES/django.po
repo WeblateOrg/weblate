@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-02-08 13:40+0000\n"
+"POT-Creation-Date: 2018-02-08 13:42+0000\n"
 "PO-Revision-Date: 2018-02-08 10:08+0000\n"
 "Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/master/da/"
@@ -2717,10 +2717,9 @@ msgstr ""
 "\">oversættelsessektionen</a>."
 
 #: weblate/templates/footer.html:5
-#, fuzzy, python-format
-#| msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
-msgid "Powered by <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
-msgstr "Drevet af <a href=http://weblate.org\">Weblate %(version)s</a>"
+#, python-format
+msgid "Powered by %(weblate_version_link)s"
+msgstr "Drevet af %(weblate_version_link)s"
 
 #: weblate/templates/footer.html:8
 msgid "Service status"
@@ -7790,6 +7789,11 @@ msgstr "Cachet skabelonindlæser"
 msgid "Admin static files"
 msgstr "Admin. statiske filer"
 
+#, fuzzy
+#~| msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
+#~ msgid "Powered by <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
+#~ msgstr "Drevet af <a href=http://weblate.org\">Weblate %(version)s</a>"
+
 #~ msgid ""
 #~ "To test Weblate, you can login as <code>demo</code> user with password "
 #~ "<code>demo</code>."
@@ -7836,9 +7840,6 @@ msgstr "Admin. statiske filer"
 #~ msgstr ""
 #~ "Mere information om eksporterede RSS-nyhedskilder er tilgængelige via "
 #~ "dokumentationen."
-
-#~ msgid "Powered by %(weblate_version_link)s"
-#~ msgstr "Drevet af %(weblate_version_link)s"
 
 #~ msgid ""
 #~ "You can translate at <a href=\"%(translation_url)s\">%(translation_url)s</"

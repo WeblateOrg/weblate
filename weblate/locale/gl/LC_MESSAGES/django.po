@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-02-08 13:40+0000\n"
+"POT-Creation-Date: 2018-02-08 13:42+0000\n"
 "PO-Revision-Date: 2017-10-07 13:44+0000\n"
 "Last-Translator: Isaac <isalgueiro@gmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/weblate/master/"
@@ -2862,10 +2862,9 @@ msgstr ""
 "tradución</a>."
 
 #: weblate/templates/footer.html:5
-#, fuzzy, python-format
-#| msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
-msgid "Powered by <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
-msgstr "Feito con <a href=\"http://weblate.org\">Weblate %(version)s</a>"
+#, python-format
+msgid "Powered by %(weblate_version_link)s"
+msgstr "Feito con %(weblate_version_link)s"
 
 #: weblate/templates/footer.html:8
 #, fuzzy
@@ -8727,6 +8726,11 @@ msgstr ""
 msgid "Admin static files"
 msgstr ""
 
+#, fuzzy
+#~| msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
+#~ msgid "Powered by <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
+#~ msgstr "Feito con <a href=\"http://weblate.org\">Weblate %(version)s</a>"
+
 #~ msgid ""
 #~ "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
 #~ msgstr ""
@@ -8762,9 +8766,6 @@ msgstr ""
 #~ msgstr ""
 #~ "Hai máis información dispoñíbel sobre esta proba na <a href=\"%(link)s"
 #~ "\">documentación."
-
-#~ msgid "Powered by %(weblate_version_link)s"
-#~ msgstr "Feito con %(weblate_version_link)s"
 
 #, fuzzy
 #~| msgid "You can translate at %(translation_url)s"

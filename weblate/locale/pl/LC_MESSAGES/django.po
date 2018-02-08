@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-02-08 13:40+0000\n"
+"POT-Creation-Date: 2018-02-08 13:42+0000\n"
 "PO-Revision-Date: 2017-12-29 06:42+0000\n"
 "Last-Translator: pskosinski <email@pskosinski.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/master/pl/"
@@ -2830,10 +2830,9 @@ msgstr ""
 "tłumaczenia</a>."
 
 #: weblate/templates/footer.html:5
-#, fuzzy, python-format
-#| msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
-msgid "Powered by <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
-msgstr "Napędzane przez <a href=\"http://weblate.org\">Weblate %(version)s</a>"
+#, python-format
+msgid "Powered by %(weblate_version_link)s"
+msgstr "Napędzane przez %(weblate_version_link)s"
 
 #: weblate/templates/footer.html:8
 msgid "Service status"
@@ -8136,6 +8135,12 @@ msgstr "Buforowany program wczytujący szablon"
 msgid "Admin static files"
 msgstr "Pliki statyczne administratora"
 
+#, fuzzy
+#~| msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
+#~ msgid "Powered by <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
+#~ msgstr ""
+#~ "Napędzane przez <a href=\"http://weblate.org\">Weblate %(version)s</a>"
+
 #~ msgid ""
 #~ "To test Weblate, you can login as <code>demo</code> user with password "
 #~ "<code>demo</code>."
@@ -8184,9 +8189,6 @@ msgstr "Pliki statyczne administratora"
 #~ msgstr ""
 #~ "Więcej informacji na temat eksportowanych kanałów RSS znajdziesz w "
 #~ "dokumentacji."
-
-#~ msgid "Powered by %(weblate_version_link)s"
-#~ msgstr "Napędzane przez %(weblate_version_link)s"
 
 #~ msgid ""
 #~ "You can translate at <a href=\"%(translation_url)s\">%(translation_url)s</"
