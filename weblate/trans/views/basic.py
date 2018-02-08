@@ -576,15 +576,7 @@ def stats(request):
 
 @never_cache
 def data_root(request):
-    return render(
-        request,
-        'data-root.html',
-        {
-            'hooks_docs': weblate.get_doc_url('api', 'hooks'),
-            'api_docs': weblate.get_doc_url('api'),
-            'rss_docs': weblate.get_doc_url('api', 'rss'),
-        }
-    )
+    return render(request, 'data-root.html')
 
 
 @never_cache
@@ -596,9 +588,6 @@ def data_project(request, project):
         {
             'object': obj,
             'project': obj,
-            'hooks_docs': weblate.get_doc_url('api', 'hooks'),
-            'api_docs': weblate.get_doc_url('api'),
-            'rss_docs': weblate.get_doc_url('api', 'rss'),
         }
     )
 

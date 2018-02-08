@@ -13,11 +13,13 @@
 {% trans "You can retrieve various data from Weblate in machine readable format." %}
 </p>
 
-<h3>{% trans "RSS feeds" %}</h3>
+<h3>
+{% trans "RSS feeds" %}
+{% documentation_icon 'api' 'rss' %}
+</h3>
 
 <p>
 {% trans "To follow translation progress you can use RSS feeds, detailing all important translation changes." %}
-<a href="{{ rss_docs }}">{% trans "More information about exported RSS feeds available in the documentation." %}</a>
 </p>
 
 <table class="table">
@@ -45,10 +47,13 @@
 
 <p>{% trans "Per language RSS feeds are also available, you can construct them by appending a language code to the above URLs." %}</p>
 
-<h3>{% trans "Statistics" %}</h3>
+<h3>
+{% trans "Statistics" %}
+{% documentation_icon 'api' %}
+</h3>
 
 <p>
-{% blocktrans %}Translation statistics for every component in the JSON format allows you to use the data in other websites or tools. The data format is described in <a href="{{ api_docs }}">the documentation</a>.{% endblocktrans %}
+{% blocktrans %}Translation statistics for every component in the JSON format allows you to use the data in other websites or tools.{% endblocktrans %}
 </p>
 
 <table class="table">
@@ -82,10 +87,13 @@ curl \
 {% endwith %}
 
 {% if hooks_enabled and project.enable_hooks %}
-<h3>{% trans "Notification hooks" %}</h3>
+<h3>
+{% trans "Notification hooks" %}
+{% documentation_icon 'api' 'hooks' %}
+</h3>
 
 <p>
-{% blocktrans %}With notification hooks, Weblate will automatically import changes made by your developers, and allows continuous translation. More information available in <a href="{{ hooks_docs }}">the documentation</a>.{% endblocktrans %}
+{% blocktrans %}With notification hooks, Weblate will automatically import changes made by your developers, and allows continuous translation.{% endblocktrans %}
 </p>
 {% endif %}
 
