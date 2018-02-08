@@ -393,10 +393,12 @@ wlc \
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Description" %}</h4></div>
   <div class="panel-body">
-    {% doc_url 'api' as api_doc %}
-    <p>{% blocktrans %}You can control Weblate using HTTP REST API. Please check <a href="{{ api_doc }}">API documentation</a> for more details.{% endblocktrans %}</p>
-    {% doc_url 'admin/optionals' 'git-exporter' as git_doc %}
-    <p>{% blocktrans %}The API key is also used to access exported Git repositories, please check <a href="{{ git_doc }}">documentation</a> for more details.{% endblocktrans %}</p>
+    <p>{% blocktrans %}You can control Weblate using HTTP REST API and API key is used to authenticate to it.{% endblocktrans %}</p>
+    <p>{% blocktrans %}The API key is also used to authenticate to automatically exported Git repositories.{% endblocktrans %}</p>
+  </div>
+  <div class="panel-footer">
+  <a class="btn btn-default" href="{% documentation 'api' %}">{% trans "API documentation" %}</a>
+  <a class="btn btn-default" href="{% documentation 'admin/optionals' 'git-exporter' %}">{% trans "Git export documentation" %}</a>
   </div>
 </div>
 </div>
