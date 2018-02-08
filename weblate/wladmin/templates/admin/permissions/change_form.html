@@ -5,7 +5,7 @@
 {% block object-tools-items %}
 {% if opts.model_name == 'autogroup' %}
 <li>
-<a href="{% doc_url 'admin/access' 'autogroup' %}" class="doclink">{% trans "Documentation" %}</a>
+<a href="{% documentation 'admin/access' 'autogroup' %}" class="doclink">{% trans "Documentation" %}</a>
 </li>
 {% endif %}
 {{ block.super }}

@@ -273,12 +273,6 @@ def documentation(page, anchor=''):
     return weblate.get_doc_url(page, anchor)
 
 
-@register.simple_tag
-def doc_url(page, anchor=''):
-    """Return link to Weblate documentation."""
-    return weblate.get_doc_url(page, anchor)
-
-
 @register.inclusion_tag('documentation-icon.html')
 def documentation_icon(page, anchor='', right=False):
     extra = 'class="pull-right flip"' if right else ''

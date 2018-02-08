@@ -6,7 +6,7 @@
 {% if add and opts.model_name == 'subproject' %}
   <ul class="object-tools">
 <li>
-<a href="{% doc_url 'admin/projects' 'import-speed' %}" class="doclink">{% trans "Import speed documentation" %}</a>
+<a href="{% documentation 'admin/projects' 'import-speed' %}" class="doclink">{% trans "Import speed documentation" %}</a>
 </li>
   </ul>
 {% endif %}
@@ -16,16 +16,16 @@
 {% block object-tools-items %}
 {% if opts.model_name == 'whiteboardmessage' %}
 <li>
-<a href="{% doc_url 'admin/whiteboard' %}" class="doclink">{% trans "Documentation" %}</a>
+<a href="{% documentation 'admin/whiteboard' %}" class="doclink">{% trans "Documentation" %}</a>
 </li>
 {% else %}
 {% if opts.model_name == 'componentlist' %}
 <li>
-<a href="{% doc_url 'admin/componentlists' %}" class="doclink">{% trans "Documentation" %}</a>
+<a href="{% documentation 'admin/componentlists' %}" class="doclink">{% trans "Documentation" %}</a>
 </li>
 {% else %}
 <li>
-<a href="{% doc_url 'admin/projects' opts.model_name %}" class="doclink">{% trans "Documentation" %}</a>
+<a href="{% documentation 'admin/projects' opts.model_name %}" class="doclink">{% trans "Documentation" %}</a>
 </li>
 {% endif %}
 {% endif %}
