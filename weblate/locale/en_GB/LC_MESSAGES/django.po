@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-02-05 18:04+0000\n"
+"POT-Creation-Date: 2018-02-08 11:15+0000\n"
 "PO-Revision-Date: 2018-02-03 08:47+0000\n"
 "Last-Translator: monolifed <monolifed@gmail.com>\n"
 "Language-Team: English (United Kingdom) <https://hosted.weblate.org/projects/"
@@ -124,7 +124,7 @@ msgid "Your email"
 msgstr "Your email"
 
 #: weblate/accounts/forms.py:343 weblate/trans/models/whiteboard.py:66
-#: weblate/wladmin/templates/admin/performance.html:23
+#: weblate/wladmin/templates/admin/performance.html:29
 msgid "Message"
 msgstr "Message"
 
@@ -693,39 +693,39 @@ msgid ""
 "This addon generates file with detailed information about the translation."
 msgstr "Merges content of file header into the translation."
 
-#: weblate/addons/gettext.py:51
+#: weblate/addons/gettext.py:52
 msgid "Generate mo files"
 msgstr "Generate mo files"
 
-#: weblate/addons/gettext.py:53
+#: weblate/addons/gettext.py:54
 msgid "Automatically generates mo file for every changed po file."
 msgstr "Automatically generates mo file for every changed po file."
 
-#: weblate/addons/gettext.py:68
+#: weblate/addons/gettext.py:69
 msgid "Update LINGUAS file"
 msgstr ""
 
-#: weblate/addons/gettext.py:70
+#: weblate/addons/gettext.py:71
 #, fuzzy
 #| msgid "Merges content of file header into the translation."
 msgid "Updates the LINGUAS file when adding new translation."
 msgstr "Merges content of file header into the translation."
 
-#: weblate/addons/gettext.py:123
+#: weblate/addons/gettext.py:124
 msgid "Update ALL_LINGUAS variable in the configure file"
 msgstr ""
 
-#: weblate/addons/gettext.py:125
+#: weblate/addons/gettext.py:126
 msgid ""
 "Updates the ALL_LINGUAS variable in configure, configure.in or configure.ac "
 "files when adding new translation."
 msgstr ""
 
-#: weblate/addons/gettext.py:180
+#: weblate/addons/gettext.py:184
 msgid "Update po files to match pot (msgmerge)"
 msgstr ""
 
-#: weblate/addons/gettext.py:182
+#: weblate/addons/gettext.py:186
 msgid ""
 "Update all po files to match the pot file using msgmerge. This is triggered "
 "whenever new changes are pulled from upstream repository."
@@ -1062,7 +1062,7 @@ msgid "Please read following Terms of Service document:"
 msgstr "Please read following Terms of Service document:"
 
 #: weblate/legal/templates/legal/confirm.html:23
-#: weblate/wladmin/templates/admin/ssh.html:64
+#: weblate/wladmin/templates/admin/ssh.html:73
 msgid "Submit"
 msgstr "Submit"
 
@@ -1834,8 +1834,14 @@ msgstr ""
 #: weblate/templates/check.html:42 weblate/templates/check_project.html:43
 #: weblate/templates/check_subproject.html:44 weblate/templates/checks.html:34
 #: weblate/templates/footer.html:10
-#: weblate/wladmin/templates/admin/performance.html:57
-#: weblate/wladmin/templates/admin/performance.html:66
+#: weblate/wladmin/templates/admin/performance.html:17
+#: weblate/wladmin/templates/admin/performance.html:63
+#: weblate/wladmin/templates/admin/performance.html:72
+#: weblate/wladmin/templates/admin/permissions/change_form.html:8
+#: weblate/wladmin/templates/admin/ssh.html:17
+#: weblate/wladmin/templates/admin/trans/change_form.html:19
+#: weblate/wladmin/templates/admin/trans/change_form.html:24
+#: weblate/wladmin/templates/admin/trans/change_form.html:28
 msgid "Documentation"
 msgstr "Documentation"
 
@@ -2159,7 +2165,7 @@ msgid "Reset my password"
 msgstr "Reset my password"
 
 #: weblate/templates/accounts/user.html:26
-#: weblate/wladmin/templates/admin/performance.html:22
+#: weblate/wladmin/templates/admin/performance.html:28
 msgid "Name"
 msgstr "Name"
 
@@ -2282,7 +2288,7 @@ msgid "Administration"
 msgstr "Administration"
 
 #: weblate/templates/base.html:129
-#: weblate/wladmin/templates/admin/performance.html:15
+#: weblate/wladmin/templates/admin/performance.html:21
 msgid "Configuration errors"
 msgstr "Configuration errors"
 
@@ -2949,7 +2955,7 @@ msgid "Browse all component changes"
 msgstr "Browse all component changes"
 
 #: weblate/templates/js/detail.html:17 weblate/templates/js/translations.html:8
-#: weblate/wladmin/templates/admin/performance.html:55
+#: weblate/wladmin/templates/admin/performance.html:61
 #: weblate/wladmin/templates/admin/report.html:8
 msgid "Status"
 msgstr "Status"
@@ -4129,7 +4135,7 @@ msgstr ""
 "application to thank translators."
 
 #: weblate/templates/subproject.html:190 weblate/templates/subproject.html:210
-#: weblate/wladmin/templates/admin/ssh.html:27
+#: weblate/wladmin/templates/admin/ssh.html:36
 msgid "Generate"
 msgstr "Generate"
 
@@ -5137,11 +5143,11 @@ msgstr "Multiple failing checks"
 msgid "The translations in several languages have failing checks"
 msgstr "The translations in several languages have failing checks"
 
-#: weblate/trans/context_processors.py:54
+#: weblate/trans/context_processors.py:56
 msgid "Hosted Weblate, the place to translate your software project."
 msgstr "Hosted Weblate, the place to translate your software project."
 
-#: weblate/trans/context_processors.py:58
+#: weblate/trans/context_processors.py:60
 msgid "This site runs Weblate for translating various software projects."
 msgstr "This site runs Weblate for translating various software projects."
 
@@ -7563,16 +7569,6 @@ msgstr "Weblate administration"
 msgid "Object listing disabled"
 msgstr "Object listing disabled"
 
-#: weblate/wladmin/templates/admin/accounts/change_form.html:8
-#: weblate/wladmin/templates/admin/trans/change_form.html:16
-#, python-format
-msgid ""
-"Required fields are marked as bold, you can find more information in the <a "
-"href=\"%(url)s\">documentation</a>."
-msgstr ""
-"Required fields are marked as bold, you can find more information in the <a "
-"href=\"%(url)s\">documentation</a>."
-
 #: weblate/wladmin/templates/admin/logout-confirm.html:23
 msgid "Please confirm your logout."
 msgstr "Please confirm your logout."
@@ -7582,14 +7578,14 @@ msgid "I confirm logout"
 msgstr "I confirm logout"
 
 #: weblate/wladmin/templates/admin/performance.html:5
-#: weblate/wladmin/templates/admin/performance.html:48
+#: weblate/wladmin/templates/admin/performance.html:54
 #: weblate/wladmin/templates/admin/weblate-index.html:30
 msgid "Performance report"
 msgstr "Performance report"
 
 #: weblate/wladmin/templates/admin/performance.html:9
 #: weblate/wladmin/templates/admin/report.html:8
-#: weblate/wladmin/templates/admin/ssh.html:8
+#: weblate/wladmin/templates/admin/ssh.html:9
 msgid "Home"
 msgstr "Home"
 
@@ -7597,19 +7593,25 @@ msgstr "Home"
 msgid "Performance"
 msgstr "Performance"
 
-#: weblate/wladmin/templates/admin/performance.html:21
+#: weblate/wladmin/templates/admin/performance.html:14
+#, fuzzy
+#| msgid "Performance report"
+msgid "Performance overview"
+msgstr "Performance report"
+
+#: weblate/wladmin/templates/admin/performance.html:27
 msgid "Last occurrence"
 msgstr "Last occurrence"
 
-#: weblate/wladmin/templates/admin/performance.html:37
+#: weblate/wladmin/templates/admin/performance.html:43
 msgid "Dismiss"
 msgstr "Dismiss"
 
-#: weblate/wladmin/templates/admin/performance.html:54
+#: weblate/wladmin/templates/admin/performance.html:60
 msgid "Check"
 msgstr "Check"
 
-#: weblate/wladmin/templates/admin/performance.html:56
+#: weblate/wladmin/templates/admin/performance.html:62
 msgid "Result"
 msgstr "Result"
 
@@ -7623,25 +7625,29 @@ msgstr "Status of repositories"
 msgid "This repository is linked to:"
 msgstr "This repository is linked to:"
 
-#: weblate/wladmin/templates/admin/ssh.html:4
-#: weblate/wladmin/templates/admin/ssh.html:8
+#: weblate/wladmin/templates/admin/ssh.html:5
+#: weblate/wladmin/templates/admin/ssh.html:9
 #: weblate/wladmin/templates/admin/weblate-index.html:20
 msgid "SSH keys"
 msgstr "SSH keys"
 
 #: weblate/wladmin/templates/admin/ssh.html:14
+msgid "SSH keys management"
+msgstr ""
+
+#: weblate/wladmin/templates/admin/ssh.html:23
 msgid "Public SSH key"
 msgstr "Public SSH key"
 
-#: weblate/wladmin/templates/admin/ssh.html:15
+#: weblate/wladmin/templates/admin/ssh.html:24
 msgid "Weblate currently uses following SSH key:"
 msgstr "Weblate currently uses following SSH key:"
 
-#: weblate/wladmin/templates/admin/ssh.html:22
+#: weblate/wladmin/templates/admin/ssh.html:31
 msgid "Generate SSH key"
 msgstr "Generate SSH key"
 
-#: weblate/wladmin/templates/admin/ssh.html:23
+#: weblate/wladmin/templates/admin/ssh.html:32
 msgid ""
 "You don't seem to have existing SSH key, by pressing button below Weblate "
 "will generate it for you."
@@ -7649,27 +7655,27 @@ msgstr ""
 "You do not seem to have existing SSH key, by pressing button below Weblate "
 "will generate it for you."
 
-#: weblate/wladmin/templates/admin/ssh.html:33
+#: weblate/wladmin/templates/admin/ssh.html:42
 msgid "Known host keys"
 msgstr "Known host keys"
 
-#: weblate/wladmin/templates/admin/ssh.html:40
+#: weblate/wladmin/templates/admin/ssh.html:49
 msgid "Hostname"
 msgstr "Hostname"
 
-#: weblate/wladmin/templates/admin/ssh.html:41
+#: weblate/wladmin/templates/admin/ssh.html:50
 msgid "Key type"
 msgstr "Key type"
 
-#: weblate/wladmin/templates/admin/ssh.html:42
+#: weblate/wladmin/templates/admin/ssh.html:51
 msgid "Fingerprint"
 msgstr "Fingerprint"
 
-#: weblate/wladmin/templates/admin/ssh.html:55
+#: weblate/wladmin/templates/admin/ssh.html:64
 msgid "Add host key"
 msgstr "Add host key"
 
-#: weblate/wladmin/templates/admin/ssh.html:56
+#: weblate/wladmin/templates/admin/ssh.html:65
 msgid ""
 "To access SSH hosts, its host key needs to be verified. You can get the host "
 "key by entering a domain name or IP for the host in the form below."
@@ -7677,109 +7683,121 @@ msgstr ""
 "To access SSH hosts, its host key needs to be verified. You can get the host "
 "key by entering a domain name or IP for the host in the form below."
 
-#: weblate/wladmin/templates/admin/ssh.html:60
+#: weblate/wladmin/templates/admin/ssh.html:69
 msgid "Host:"
 msgstr "Host:"
 
-#: weblate/wladmin/templates/admin/ssh.html:62
+#: weblate/wladmin/templates/admin/ssh.html:71
 msgid "Port:"
 msgstr "Port:"
 
-#: weblate/wladmin/templates/admin/ssh.html:67
-msgid "More information"
-msgstr "More information"
+#: weblate/wladmin/templates/admin/trans/change_form.html:9
+#, fuzzy
+#| msgid "Documentation"
+msgid "Import speed documentation"
+msgstr "Documentation"
 
-#: weblate/wladmin/templates/admin/ssh.html:69
-#, python-format
-msgid ""
-"You can find more information about setting up SSH keys in <a href="
-"\"%(ssh_docs)s\">the Weblate manual</a>."
+#: weblate/wladmin/templates/admin/trans/change_form.html:37
+msgid "Required fields are marked as bold."
 msgstr ""
-"You can find more information about setting up SSH keys in <a href="
-"\"%(ssh_docs)s\">the Weblate manual</a>."
 
-#: weblate/wladmin/templates/admin/trans/change_form.html:18
+#: weblate/wladmin/templates/admin/trans/change_form.html:39
 msgid "Do not change this object here, please use Weblate interface instead."
 msgstr "Do not change this object here, please use Weblate interface instead."
-
-#: weblate/wladmin/templates/admin/trans/change_form.html:22
-#, python-format
-msgid ""
-"Importing a new translation can take some time, please check <a href="
-"\"%(url)s\">our documentation</a> for information on how to improve this."
-msgstr ""
-"Importing a new translation can take some time, please check <a href="
-"\"%(url)s\">our documentation</a> for information on how to improve this."
 
 #: weblate/wladmin/templates/admin/weblate-index.html:11
 msgid "Reports"
 msgstr "Reports"
 
-#: weblate/wladmin/views.py:84
+#: weblate/wladmin/views.py:83
 msgid "Failed to dismiss configuration error!"
 msgstr "Failed to dismiss configuration error!"
 
-#: weblate/wladmin/views.py:95
+#: weblate/wladmin/views.py:94
 msgid "Debug mode"
 msgstr "Debug mode"
 
-#: weblate/wladmin/views.py:102
+#: weblate/wladmin/views.py:101
 msgid "Site domain"
 msgstr "Site domain"
 
-#: weblate/wladmin/views.py:109
+#: weblate/wladmin/views.py:108
 msgid "Database backend"
 msgstr "Database backend"
 
-#: weblate/wladmin/views.py:116
+#: weblate/wladmin/views.py:115
 msgid "Site administrator"
 msgstr "Site administrator"
 
 #. Translators: Indexing is postponed to cron job
-#: weblate/wladmin/views.py:125
+#: weblate/wladmin/views.py:124
 msgid "Indexing offloading"
 msgstr "Indexing offloading"
 
 #. Translators: Indexing is postponed to cron job
-#: weblate/wladmin/views.py:140
+#: weblate/wladmin/views.py:139
 msgid "Indexing offloading processing"
 msgstr "Indexing offloading processing"
 
-#: weblate/wladmin/views.py:157
+#: weblate/wladmin/views.py:156
 msgid "Django caching"
 msgstr "Django caching"
 
-#: weblate/wladmin/views.py:164
+#: weblate/wladmin/views.py:163
 msgid "Avatar caching"
 msgstr "Avatar caching"
 
-#: weblate/wladmin/views.py:178
+#: weblate/wladmin/views.py:177
 msgid "Email addresses"
 msgstr "Email addresses"
 
-#: weblate/wladmin/views.py:188
+#: weblate/wladmin/views.py:187
 msgid "Federated avatar support"
 msgstr "Federated avatar support"
 
-#: weblate/wladmin/views.py:195
+#: weblate/wladmin/views.py:194
 msgid "pyuca library"
 msgstr "pyuca library"
 
-#: weblate/wladmin/views.py:202
+#: weblate/wladmin/views.py:201
 msgid "Secret key"
 msgstr "Secret key"
 
-#: weblate/wladmin/views.py:209
+#: weblate/wladmin/views.py:208
 msgid "Allowed hosts"
 msgstr "Allowed hosts"
 
-#: weblate/wladmin/views.py:218
+#: weblate/wladmin/views.py:217
 msgid "Cached template loader"
 msgstr "Cached template loader"
 
-#: weblate/wladmin/views.py:226
+#: weblate/wladmin/views.py:225
 msgid "Admin static files"
 msgstr "Admin static files"
+
+#~ msgid ""
+#~ "Required fields are marked as bold, you can find more information in the "
+#~ "<a href=\"%(url)s\">documentation</a>."
+#~ msgstr ""
+#~ "Required fields are marked as bold, you can find more information in the "
+#~ "<a href=\"%(url)s\">documentation</a>."
+
+#~ msgid "More information"
+#~ msgstr "More information"
+
+#~ msgid ""
+#~ "You can find more information about setting up SSH keys in <a href="
+#~ "\"%(ssh_docs)s\">the Weblate manual</a>."
+#~ msgstr ""
+#~ "You can find more information about setting up SSH keys in <a href="
+#~ "\"%(ssh_docs)s\">the Weblate manual</a>."
+
+#~ msgid ""
+#~ "Importing a new translation can take some time, please check <a href="
+#~ "\"%(url)s\">our documentation</a> for information on how to improve this."
+#~ msgstr ""
+#~ "Importing a new translation can take some time, please check <a href="
+#~ "\"%(url)s\">our documentation</a> for information on how to improve this."
 
 #~ msgid "Attempt to install invalid addon!"
 #~ msgstr "Attempt to install invalid addon!"

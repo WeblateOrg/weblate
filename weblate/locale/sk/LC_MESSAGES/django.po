@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-02-05 18:04+0000\n"
+"POT-Creation-Date: 2018-02-08 11:15+0000\n"
 "PO-Revision-Date: 2017-12-26 10:23+0000\n"
 "Last-Translator: Martin DroiDsk <martin@droid.sk>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/master/sk/"
@@ -134,7 +134,7 @@ msgid "Your email"
 msgstr "Váš e-mail"
 
 #: weblate/accounts/forms.py:343 weblate/trans/models/whiteboard.py:66
-#: weblate/wladmin/templates/admin/performance.html:23
+#: weblate/wladmin/templates/admin/performance.html:29
 msgid "Message"
 msgstr "Správa"
 
@@ -724,41 +724,41 @@ msgid ""
 "This addon generates file with detailed information about the translation."
 msgstr "Zlúčiť obsah hlavičky súboru do prekladu."
 
-#: weblate/addons/gettext.py:51
+#: weblate/addons/gettext.py:52
 #, fuzzy
 #| msgid "Generate SSH key"
 msgid "Generate mo files"
 msgstr "Vytvoriť SSH kľúč"
 
-#: weblate/addons/gettext.py:53
+#: weblate/addons/gettext.py:54
 msgid "Automatically generates mo file for every changed po file."
 msgstr ""
 
-#: weblate/addons/gettext.py:68
+#: weblate/addons/gettext.py:69
 msgid "Update LINGUAS file"
 msgstr ""
 
-#: weblate/addons/gettext.py:70
+#: weblate/addons/gettext.py:71
 #, fuzzy
 #| msgid "Merges content of file header into the translation."
 msgid "Updates the LINGUAS file when adding new translation."
 msgstr "Zlúčiť obsah hlavičky súboru do prekladu."
 
-#: weblate/addons/gettext.py:123
+#: weblate/addons/gettext.py:124
 msgid "Update ALL_LINGUAS variable in the configure file"
 msgstr ""
 
-#: weblate/addons/gettext.py:125
+#: weblate/addons/gettext.py:126
 msgid ""
 "Updates the ALL_LINGUAS variable in configure, configure.in or configure.ac "
 "files when adding new translation."
 msgstr ""
 
-#: weblate/addons/gettext.py:180
+#: weblate/addons/gettext.py:184
 msgid "Update po files to match pot (msgmerge)"
 msgstr ""
 
-#: weblate/addons/gettext.py:182
+#: weblate/addons/gettext.py:186
 msgid ""
 "Update all po files to match the pot file using msgmerge. This is triggered "
 "whenever new changes are pulled from upstream repository."
@@ -1108,7 +1108,7 @@ msgid "Please read following Terms of Service document:"
 msgstr ""
 
 #: weblate/legal/templates/legal/confirm.html:23
-#: weblate/wladmin/templates/admin/ssh.html:64
+#: weblate/wladmin/templates/admin/ssh.html:73
 msgid "Submit"
 msgstr "Odoslať"
 
@@ -1941,8 +1941,14 @@ msgstr ""
 #: weblate/templates/check.html:42 weblate/templates/check_project.html:43
 #: weblate/templates/check_subproject.html:44 weblate/templates/checks.html:34
 #: weblate/templates/footer.html:10
-#: weblate/wladmin/templates/admin/performance.html:57
-#: weblate/wladmin/templates/admin/performance.html:66
+#: weblate/wladmin/templates/admin/performance.html:17
+#: weblate/wladmin/templates/admin/performance.html:63
+#: weblate/wladmin/templates/admin/performance.html:72
+#: weblate/wladmin/templates/admin/permissions/change_form.html:8
+#: weblate/wladmin/templates/admin/ssh.html:17
+#: weblate/wladmin/templates/admin/trans/change_form.html:19
+#: weblate/wladmin/templates/admin/trans/change_form.html:24
+#: weblate/wladmin/templates/admin/trans/change_form.html:28
 msgid "Documentation"
 msgstr "Dokumentácia"
 
@@ -2278,7 +2284,7 @@ msgid "Reset my password"
 msgstr "Obnoviť heslo"
 
 #: weblate/templates/accounts/user.html:26
-#: weblate/wladmin/templates/admin/performance.html:22
+#: weblate/wladmin/templates/admin/performance.html:28
 msgid "Name"
 msgstr "Názov"
 
@@ -2409,7 +2415,7 @@ msgid "Administration"
 msgstr "Administrácia"
 
 #: weblate/templates/base.html:129
-#: weblate/wladmin/templates/admin/performance.html:15
+#: weblate/wladmin/templates/admin/performance.html:21
 msgid "Configuration errors"
 msgstr "Chyby v nastavení"
 
@@ -3145,7 +3151,7 @@ msgid "Browse all component changes"
 msgstr "Prechádzať všetky zmeny komponent"
 
 #: weblate/templates/js/detail.html:17 weblate/templates/js/translations.html:8
-#: weblate/wladmin/templates/admin/performance.html:55
+#: weblate/wladmin/templates/admin/performance.html:61
 #: weblate/wladmin/templates/admin/report.html:8
 msgid "Status"
 msgstr "Stav"
@@ -4411,7 +4417,7 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/subproject.html:190 weblate/templates/subproject.html:210
-#: weblate/wladmin/templates/admin/ssh.html:27
+#: weblate/wladmin/templates/admin/ssh.html:36
 msgid "Generate"
 msgstr "Vytvoriť"
 
@@ -5518,12 +5524,12 @@ msgstr "Viacero nevyhovujúcich kontrol"
 msgid "The translations in several languages have failing checks"
 msgstr "Preklad do viacerých jazykov obsahuje nevyhovujúce kontroly"
 
-#: weblate/trans/context_processors.py:54
+#: weblate/trans/context_processors.py:56
 msgid "Hosted Weblate, the place to translate your software project."
 msgstr ""
 "Hostované na Weblate, miesto pre prekladanie vášho softvérového projektu."
 
-#: weblate/trans/context_processors.py:58
+#: weblate/trans/context_processors.py:60
 msgid "This site runs Weblate for translating various software projects."
 msgstr ""
 "Táto stránka používa Weblate na prekladanie rôznych softvérových projektov."
@@ -8100,16 +8106,6 @@ msgstr "Weblate preklady"
 msgid "Object listing disabled"
 msgstr ""
 
-#: weblate/wladmin/templates/admin/accounts/change_form.html:8
-#: weblate/wladmin/templates/admin/trans/change_form.html:16
-#, python-format
-msgid ""
-"Required fields are marked as bold, you can find more information in the <a "
-"href=\"%(url)s\">documentation</a>."
-msgstr ""
-"Povinné položky sú vyznačené tučne, viac informácií je k dispozícii v <a "
-"href=\"%(url)s\">dokumentácii</a>."
-
 #: weblate/wladmin/templates/admin/logout-confirm.html:23
 msgid "Please confirm your logout."
 msgstr ""
@@ -8119,14 +8115,14 @@ msgid "I confirm logout"
 msgstr ""
 
 #: weblate/wladmin/templates/admin/performance.html:5
-#: weblate/wladmin/templates/admin/performance.html:48
+#: weblate/wladmin/templates/admin/performance.html:54
 #: weblate/wladmin/templates/admin/weblate-index.html:30
 msgid "Performance report"
 msgstr "Informácie o výkonosti"
 
 #: weblate/wladmin/templates/admin/performance.html:9
 #: weblate/wladmin/templates/admin/report.html:8
-#: weblate/wladmin/templates/admin/ssh.html:8
+#: weblate/wladmin/templates/admin/ssh.html:9
 msgid "Home"
 msgstr "Domov"
 
@@ -8134,21 +8130,27 @@ msgstr "Domov"
 msgid "Performance"
 msgstr "Výkonosť"
 
-#: weblate/wladmin/templates/admin/performance.html:21
+#: weblate/wladmin/templates/admin/performance.html:14
+#, fuzzy
+#| msgid "Performance report"
+msgid "Performance overview"
+msgstr "Informácie o výkonosti"
+
+#: weblate/wladmin/templates/admin/performance.html:27
 #, fuzzy
 #| msgid "Last change"
 msgid "Last occurrence"
 msgstr "Posledná zmena"
 
-#: weblate/wladmin/templates/admin/performance.html:37
+#: weblate/wladmin/templates/admin/performance.html:43
 msgid "Dismiss"
 msgstr ""
 
-#: weblate/wladmin/templates/admin/performance.html:54
+#: weblate/wladmin/templates/admin/performance.html:60
 msgid "Check"
 msgstr "Kontrola"
 
-#: weblate/wladmin/templates/admin/performance.html:56
+#: weblate/wladmin/templates/admin/performance.html:62
 msgid "Result"
 msgstr "Výsledok"
 
@@ -8164,25 +8166,29 @@ msgstr "Stav Git repozitára"
 msgid "This repository is linked to:"
 msgstr "URL pre odosielanie sa nepoužije pre odkazované repozitáre!"
 
-#: weblate/wladmin/templates/admin/ssh.html:4
-#: weblate/wladmin/templates/admin/ssh.html:8
+#: weblate/wladmin/templates/admin/ssh.html:5
+#: weblate/wladmin/templates/admin/ssh.html:9
 #: weblate/wladmin/templates/admin/weblate-index.html:20
 msgid "SSH keys"
 msgstr "SSH kľúče"
 
 #: weblate/wladmin/templates/admin/ssh.html:14
+msgid "SSH keys management"
+msgstr ""
+
+#: weblate/wladmin/templates/admin/ssh.html:23
 msgid "Public SSH key"
 msgstr "Verejný SSH kľúč"
 
-#: weblate/wladmin/templates/admin/ssh.html:15
+#: weblate/wladmin/templates/admin/ssh.html:24
 msgid "Weblate currently uses following SSH key:"
 msgstr "Weblate v súčasnej dobe používa tento SSH kľúč:"
 
-#: weblate/wladmin/templates/admin/ssh.html:22
+#: weblate/wladmin/templates/admin/ssh.html:31
 msgid "Generate SSH key"
 msgstr "Vytvoriť SSH kľúč"
 
-#: weblate/wladmin/templates/admin/ssh.html:23
+#: weblate/wladmin/templates/admin/ssh.html:32
 msgid ""
 "You don't seem to have existing SSH key, by pressing button below Weblate "
 "will generate it for you."
@@ -8190,27 +8196,27 @@ msgstr ""
 "Zdá sa, že nemáte SSH kľúč, Weblate ho pre Vás môže vytvoriť po stlačení "
 "nasledujúceho tlačidla."
 
-#: weblate/wladmin/templates/admin/ssh.html:33
+#: weblate/wladmin/templates/admin/ssh.html:42
 msgid "Known host keys"
 msgstr "Známe kľúče hostiteľov"
 
-#: weblate/wladmin/templates/admin/ssh.html:40
+#: weblate/wladmin/templates/admin/ssh.html:49
 msgid "Hostname"
 msgstr "Meno hostiteľa"
 
-#: weblate/wladmin/templates/admin/ssh.html:41
+#: weblate/wladmin/templates/admin/ssh.html:50
 msgid "Key type"
 msgstr "Typ kľúča"
 
-#: weblate/wladmin/templates/admin/ssh.html:42
+#: weblate/wladmin/templates/admin/ssh.html:51
 msgid "Fingerprint"
 msgstr "Odtlačok"
 
-#: weblate/wladmin/templates/admin/ssh.html:55
+#: weblate/wladmin/templates/admin/ssh.html:64
 msgid "Add host key"
 msgstr "Pridať kľúč hostiteľa"
 
-#: weblate/wladmin/templates/admin/ssh.html:56
+#: weblate/wladmin/templates/admin/ssh.html:65
 msgid ""
 "To access SSH hosts, its host key needs to be verified. You can get the host "
 "key by entering a domain name or IP for the host in the form below."
@@ -8219,111 +8225,123 @@ msgstr ""
 "certifikát môžete získať zadaním doménového mena alebo IP adresy servera vo "
 "formulári nižšie na stránke."
 
-#: weblate/wladmin/templates/admin/ssh.html:60
+#: weblate/wladmin/templates/admin/ssh.html:69
 msgid "Host:"
 msgstr "Server:"
 
-#: weblate/wladmin/templates/admin/ssh.html:62
+#: weblate/wladmin/templates/admin/ssh.html:71
 msgid "Port:"
 msgstr "Port:"
 
-#: weblate/wladmin/templates/admin/ssh.html:67
-msgid "More information"
-msgstr "Viac informácií"
+#: weblate/wladmin/templates/admin/trans/change_form.html:9
+#, fuzzy
+#| msgid "Documentation"
+msgid "Import speed documentation"
+msgstr "Dokumentácia"
 
-#: weblate/wladmin/templates/admin/ssh.html:69
-#, python-format
-msgid ""
-"You can find more information about setting up SSH keys in <a href="
-"\"%(ssh_docs)s\">the Weblate manual</a>."
+#: weblate/wladmin/templates/admin/trans/change_form.html:37
+msgid "Required fields are marked as bold."
 msgstr ""
-"Ďalšie informácie o používaní SSH kľúčov nájdete v <a href=\"%(ssh_docs)s"
-"\">príručke Weblate</a>."
 
-#: weblate/wladmin/templates/admin/trans/change_form.html:18
+#: weblate/wladmin/templates/admin/trans/change_form.html:39
 msgid "Do not change this object here, please use Weblate interface instead."
 msgstr "Nemeňte tu tento objekt, prosím použite rozhranie Weblate."
-
-#: weblate/wladmin/templates/admin/trans/change_form.html:22
-#, python-format
-msgid ""
-"Importing a new translation can take some time, please check <a href="
-"\"%(url)s\">our documentation</a> for information on how to improve this."
-msgstr ""
-"Nahrávanie nových prekladov môže trvať pomerne dlho, v <a href=\"%(url)s"
-"\">našej dokumentácii</a> nájdete niekoľko tipov, ako ho urýchliť."
 
 #: weblate/wladmin/templates/admin/weblate-index.html:11
 msgid "Reports"
 msgstr "Správy"
 
-#: weblate/wladmin/views.py:84
+#: weblate/wladmin/views.py:83
 #, fuzzy
 #| msgid "Configuration errors"
 msgid "Failed to dismiss configuration error!"
 msgstr "Chyby v nastavení"
 
-#: weblate/wladmin/views.py:95
+#: weblate/wladmin/views.py:94
 msgid "Debug mode"
 msgstr "Ladiaci režim"
 
-#: weblate/wladmin/views.py:102
+#: weblate/wladmin/views.py:101
 msgid "Site domain"
 msgstr "Doména stránok"
 
-#: weblate/wladmin/views.py:109
+#: weblate/wladmin/views.py:108
 msgid "Database backend"
 msgstr "Použitá databáza"
 
-#: weblate/wladmin/views.py:116
+#: weblate/wladmin/views.py:115
 msgid "Site administrator"
 msgstr "Správca stránok"
 
 #. Translators: Indexing is postponed to cron job
-#: weblate/wladmin/views.py:125
+#: weblate/wladmin/views.py:124
 msgid "Indexing offloading"
 msgstr "Odloženie indexovania"
 
 #. Translators: Indexing is postponed to cron job
-#: weblate/wladmin/views.py:140
+#: weblate/wladmin/views.py:139
 msgid "Indexing offloading processing"
 msgstr "Spracovanie odloženého indexovania"
 
-#: weblate/wladmin/views.py:157
+#: weblate/wladmin/views.py:156
 msgid "Django caching"
 msgstr "Vyrovnávacia pamäť Djanga"
 
-#: weblate/wladmin/views.py:164
+#: weblate/wladmin/views.py:163
 msgid "Avatar caching"
 msgstr "Vyrovnávacia pamäť pre avatary"
 
-#: weblate/wladmin/views.py:178
+#: weblate/wladmin/views.py:177
 msgid "Email addresses"
 msgstr "E-mailové adresy"
 
-#: weblate/wladmin/views.py:188
+#: weblate/wladmin/views.py:187
 msgid "Federated avatar support"
 msgstr "Podpora distribuovaných avatarov"
 
-#: weblate/wladmin/views.py:195
+#: weblate/wladmin/views.py:194
 msgid "pyuca library"
 msgstr "Knižnica pyuca"
 
-#: weblate/wladmin/views.py:202
+#: weblate/wladmin/views.py:201
 msgid "Secret key"
 msgstr "Tajný kľúč"
 
-#: weblate/wladmin/views.py:209
+#: weblate/wladmin/views.py:208
 msgid "Allowed hosts"
 msgstr "Povolené servery"
 
-#: weblate/wladmin/views.py:218
+#: weblate/wladmin/views.py:217
 msgid "Cached template loader"
 msgstr "Načítanie templatu z vyrovnávacej pamäte"
 
-#: weblate/wladmin/views.py:226
+#: weblate/wladmin/views.py:225
 msgid "Admin static files"
 msgstr "Statické súbory administrácie"
+
+#~ msgid ""
+#~ "Required fields are marked as bold, you can find more information in the "
+#~ "<a href=\"%(url)s\">documentation</a>."
+#~ msgstr ""
+#~ "Povinné položky sú vyznačené tučne, viac informácií je k dispozícii v <a "
+#~ "href=\"%(url)s\">dokumentácii</a>."
+
+#~ msgid "More information"
+#~ msgstr "Viac informácií"
+
+#~ msgid ""
+#~ "You can find more information about setting up SSH keys in <a href="
+#~ "\"%(ssh_docs)s\">the Weblate manual</a>."
+#~ msgstr ""
+#~ "Ďalšie informácie o používaní SSH kľúčov nájdete v <a href=\"%(ssh_docs)s"
+#~ "\">príručke Weblate</a>."
+
+#~ msgid ""
+#~ "Importing a new translation can take some time, please check <a href="
+#~ "\"%(url)s\">our documentation</a> for information on how to improve this."
+#~ msgstr ""
+#~ "Nahrávanie nových prekladov môže trvať pomerne dlho, v <a href=\"%(url)s"
+#~ "\">našej dokumentácii</a> nájdete niekoľko tipov, ako ho urýchliť."
 
 #~ msgid "Add review flag for new source strings"
 #~ msgstr "Označiť nové zdrojové reťazce na kontrolu"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-02-05 18:04+0000\n"
+"POT-Creation-Date: 2018-02-08 11:15+0000\n"
 "PO-Revision-Date: 2018-01-30 18:47+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
@@ -120,7 +120,7 @@ msgid "Your email"
 msgstr "이메일"
 
 #: weblate/accounts/forms.py:343 weblate/trans/models/whiteboard.py:66
-#: weblate/wladmin/templates/admin/performance.html:23
+#: weblate/wladmin/templates/admin/performance.html:29
 msgid "Message"
 msgstr "메세지"
 
@@ -692,41 +692,41 @@ msgid ""
 "This addon generates file with detailed information about the translation."
 msgstr "번역으로 파일 헤더의 내용을 병합하십시오."
 
-#: weblate/addons/gettext.py:51
+#: weblate/addons/gettext.py:52
 #, fuzzy
 #| msgid "Generate SSH key"
 msgid "Generate mo files"
 msgstr "SSH 키 생성"
 
-#: weblate/addons/gettext.py:53
+#: weblate/addons/gettext.py:54
 msgid "Automatically generates mo file for every changed po file."
 msgstr ""
 
-#: weblate/addons/gettext.py:68
+#: weblate/addons/gettext.py:69
 msgid "Update LINGUAS file"
 msgstr ""
 
-#: weblate/addons/gettext.py:70
+#: weblate/addons/gettext.py:71
 #, fuzzy
 #| msgid "Merges content of file header into the translation."
 msgid "Updates the LINGUAS file when adding new translation."
 msgstr "번역으로 파일 헤더의 내용을 병합하십시오."
 
-#: weblate/addons/gettext.py:123
+#: weblate/addons/gettext.py:124
 msgid "Update ALL_LINGUAS variable in the configure file"
 msgstr ""
 
-#: weblate/addons/gettext.py:125
+#: weblate/addons/gettext.py:126
 msgid ""
 "Updates the ALL_LINGUAS variable in configure, configure.in or configure.ac "
 "files when adding new translation."
 msgstr ""
 
-#: weblate/addons/gettext.py:180
+#: weblate/addons/gettext.py:184
 msgid "Update po files to match pot (msgmerge)"
 msgstr ""
 
-#: weblate/addons/gettext.py:182
+#: weblate/addons/gettext.py:186
 msgid ""
 "Update all po files to match the pot file using msgmerge. This is triggered "
 "whenever new changes are pulled from upstream repository."
@@ -1075,7 +1075,7 @@ msgid "Please read following Terms of Service document:"
 msgstr ""
 
 #: weblate/legal/templates/legal/confirm.html:23
-#: weblate/wladmin/templates/admin/ssh.html:64
+#: weblate/wladmin/templates/admin/ssh.html:73
 msgid "Submit"
 msgstr "전송"
 
@@ -1593,7 +1593,8 @@ msgid ""
 "If you are looking for support for Weblate or want to file bug reports check "
 "its website at %(weblate_link)s."
 msgstr ""
-"귀하가 Weblate에 대한 지원을 원하거나 오류 보고 사항을 작성하려면 우리의 %(weblate_link)s 사이트를 확인해보세요."
+"귀하가 Weblate에 대한 지원을 원하거나 오류 보고 사항을 작성하려면 우리의 "
+"%(weblate_link)s 사이트를 확인해보세요."
 
 #: weblate/templates/accounts/contact.html:30
 #: weblate/templates/accounts/hosting.html:25
@@ -1910,8 +1911,14 @@ msgstr ""
 #: weblate/templates/check.html:42 weblate/templates/check_project.html:43
 #: weblate/templates/check_subproject.html:44 weblate/templates/checks.html:34
 #: weblate/templates/footer.html:10
-#: weblate/wladmin/templates/admin/performance.html:57
-#: weblate/wladmin/templates/admin/performance.html:66
+#: weblate/wladmin/templates/admin/performance.html:17
+#: weblate/wladmin/templates/admin/performance.html:63
+#: weblate/wladmin/templates/admin/performance.html:72
+#: weblate/wladmin/templates/admin/permissions/change_form.html:8
+#: weblate/wladmin/templates/admin/ssh.html:17
+#: weblate/wladmin/templates/admin/trans/change_form.html:19
+#: weblate/wladmin/templates/admin/trans/change_form.html:24
+#: weblate/wladmin/templates/admin/trans/change_form.html:28
 msgid "Documentation"
 msgstr "문서"
 
@@ -2253,7 +2260,7 @@ msgid "Reset my password"
 msgstr "내 암호 재설정"
 
 #: weblate/templates/accounts/user.html:26
-#: weblate/wladmin/templates/admin/performance.html:22
+#: weblate/wladmin/templates/admin/performance.html:28
 msgid "Name"
 msgstr "이름"
 
@@ -2385,7 +2392,7 @@ msgid "Administration"
 msgstr "관리"
 
 #: weblate/templates/base.html:129
-#: weblate/wladmin/templates/admin/performance.html:15
+#: weblate/wladmin/templates/admin/performance.html:21
 msgid "Configuration errors"
 msgstr "구성 오류"
 
@@ -3129,7 +3136,7 @@ msgid "Browse all component changes"
 msgstr "변경 사항 찾아보기"
 
 #: weblate/templates/js/detail.html:17 weblate/templates/js/translations.html:8
-#: weblate/wladmin/templates/admin/performance.html:55
+#: weblate/wladmin/templates/admin/performance.html:61
 #: weblate/wladmin/templates/admin/report.html:8
 msgid "Status"
 msgstr "상태"
@@ -4437,7 +4444,7 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/subproject.html:190 weblate/templates/subproject.html:210
-#: weblate/wladmin/templates/admin/ssh.html:27
+#: weblate/wladmin/templates/admin/ssh.html:36
 msgid "Generate"
 msgstr "생성하기"
 
@@ -5583,7 +5590,7 @@ msgstr "여러 실패 검사"
 msgid "The translations in several languages have failing checks"
 msgstr "이 번역은 몇몇 언어에서 검사 실패했습니다"
 
-#: weblate/trans/context_processors.py:54
+#: weblate/trans/context_processors.py:56
 #, fuzzy
 #| msgid ""
 #| "This Weblate instance hosts translations for various free software "
@@ -5593,7 +5600,7 @@ msgstr ""
 "이 Weblate 인스턴스는 다양한 자유 소프트웨어 프로젝트에 대한 번역을 관리합니"
 "다."
 
-#: weblate/trans/context_processors.py:58
+#: weblate/trans/context_processors.py:60
 #, fuzzy
 #| msgid ""
 #| "This Weblate instance hosts translations for various free software "
@@ -8239,16 +8246,6 @@ msgstr "다른 번역"
 msgid "Object listing disabled"
 msgstr ""
 
-#: weblate/wladmin/templates/admin/accounts/change_form.html:8
-#: weblate/wladmin/templates/admin/trans/change_form.html:16
-#, python-format
-msgid ""
-"Required fields are marked as bold, you can find more information in the <a "
-"href=\"%(url)s\">documentation</a>."
-msgstr ""
-"필수 입력 사항은 굵게 표시되어 있습니다, 추가 정보는 <a href=\"%(url)s\">문서"
-"</a>를 참고하세요."
-
 #: weblate/wladmin/templates/admin/logout-confirm.html:23
 msgid "Please confirm your logout."
 msgstr ""
@@ -8258,14 +8255,14 @@ msgid "I confirm logout"
 msgstr ""
 
 #: weblate/wladmin/templates/admin/performance.html:5
-#: weblate/wladmin/templates/admin/performance.html:48
+#: weblate/wladmin/templates/admin/performance.html:54
 #: weblate/wladmin/templates/admin/weblate-index.html:30
 msgid "Performance report"
 msgstr "성능 보고"
 
 #: weblate/wladmin/templates/admin/performance.html:9
 #: weblate/wladmin/templates/admin/report.html:8
-#: weblate/wladmin/templates/admin/ssh.html:8
+#: weblate/wladmin/templates/admin/ssh.html:9
 msgid "Home"
 msgstr "홈"
 
@@ -8273,21 +8270,27 @@ msgstr "홈"
 msgid "Performance"
 msgstr "성능"
 
-#: weblate/wladmin/templates/admin/performance.html:21
+#: weblate/wladmin/templates/admin/performance.html:14
+#, fuzzy
+#| msgid "Performance report"
+msgid "Performance overview"
+msgstr "성능 보고"
+
+#: weblate/wladmin/templates/admin/performance.html:27
 #, fuzzy
 #| msgid "Last change"
 msgid "Last occurrence"
 msgstr "최종 변경 사항"
 
-#: weblate/wladmin/templates/admin/performance.html:37
+#: weblate/wladmin/templates/admin/performance.html:43
 msgid "Dismiss"
 msgstr ""
 
-#: weblate/wladmin/templates/admin/performance.html:54
+#: weblate/wladmin/templates/admin/performance.html:60
 msgid "Check"
 msgstr "검사"
 
-#: weblate/wladmin/templates/admin/performance.html:56
+#: weblate/wladmin/templates/admin/performance.html:62
 msgid "Result"
 msgstr "결과"
 
@@ -8303,25 +8306,29 @@ msgstr "저장소 상태"
 msgid "This repository is linked to:"
 msgstr "저장소가 연결될때 URL 밀기는 사용될수 없습니다!"
 
-#: weblate/wladmin/templates/admin/ssh.html:4
-#: weblate/wladmin/templates/admin/ssh.html:8
+#: weblate/wladmin/templates/admin/ssh.html:5
+#: weblate/wladmin/templates/admin/ssh.html:9
 #: weblate/wladmin/templates/admin/weblate-index.html:20
 msgid "SSH keys"
 msgstr "SSH 키"
 
 #: weblate/wladmin/templates/admin/ssh.html:14
+msgid "SSH keys management"
+msgstr ""
+
+#: weblate/wladmin/templates/admin/ssh.html:23
 msgid "Public SSH key"
 msgstr "공개 SSH 키"
 
-#: weblate/wladmin/templates/admin/ssh.html:15
+#: weblate/wladmin/templates/admin/ssh.html:24
 msgid "Weblate currently uses following SSH key:"
 msgstr "Weblate는 현재 다음 SSH 키를 사용:"
 
-#: weblate/wladmin/templates/admin/ssh.html:22
+#: weblate/wladmin/templates/admin/ssh.html:31
 msgid "Generate SSH key"
 msgstr "SSH 키 생성"
 
-#: weblate/wladmin/templates/admin/ssh.html:23
+#: weblate/wladmin/templates/admin/ssh.html:32
 msgid ""
 "You don't seem to have existing SSH key, by pressing button below Weblate "
 "will generate it for you."
@@ -8329,27 +8336,27 @@ msgstr ""
 "기존의 SSH키를 가지고 있지 않은 것 같습니다. 아래 버튼을 누름으로서 Weblate"
 "가 SSH키를 생성합니다."
 
-#: weblate/wladmin/templates/admin/ssh.html:33
+#: weblate/wladmin/templates/admin/ssh.html:42
 msgid "Known host keys"
 msgstr "알려진 호스트 키"
 
-#: weblate/wladmin/templates/admin/ssh.html:40
+#: weblate/wladmin/templates/admin/ssh.html:49
 msgid "Hostname"
 msgstr "호스트 이름"
 
-#: weblate/wladmin/templates/admin/ssh.html:41
+#: weblate/wladmin/templates/admin/ssh.html:50
 msgid "Key type"
 msgstr "키 유형"
 
-#: weblate/wladmin/templates/admin/ssh.html:42
+#: weblate/wladmin/templates/admin/ssh.html:51
 msgid "Fingerprint"
 msgstr "지문"
 
-#: weblate/wladmin/templates/admin/ssh.html:55
+#: weblate/wladmin/templates/admin/ssh.html:64
 msgid "Add host key"
 msgstr "호스트 키 추가"
 
-#: weblate/wladmin/templates/admin/ssh.html:56
+#: weblate/wladmin/templates/admin/ssh.html:65
 msgid ""
 "To access SSH hosts, its host key needs to be verified. You can get the host "
 "key by entering a domain name or IP for the host in the form below."
@@ -8357,112 +8364,124 @@ msgstr ""
 "SSH 호스트를 접근하기 위해서, 호스트 키를 확인해야 합니다. 아래의 양식에 도메"
 "인 이름 혹은 IP 주소를 입력하여 호스트 키를 얻을 수 있습니다."
 
-#: weblate/wladmin/templates/admin/ssh.html:60
+#: weblate/wladmin/templates/admin/ssh.html:69
 msgid "Host:"
 msgstr "호스트:"
 
-#: weblate/wladmin/templates/admin/ssh.html:62
+#: weblate/wladmin/templates/admin/ssh.html:71
 msgid "Port:"
 msgstr "포트 번호:"
 
-#: weblate/wladmin/templates/admin/ssh.html:67
-msgid "More information"
-msgstr "자세한 정보"
+#: weblate/wladmin/templates/admin/trans/change_form.html:9
+#, fuzzy
+#| msgid "Documentation"
+msgid "Import speed documentation"
+msgstr "문서"
 
-#: weblate/wladmin/templates/admin/ssh.html:69
-#, python-format
-msgid ""
-"You can find more information about setting up SSH keys in <a href="
-"\"%(ssh_docs)s\">the Weblate manual</a>."
+#: weblate/wladmin/templates/admin/trans/change_form.html:37
+msgid "Required fields are marked as bold."
 msgstr ""
-"<a href=\"%(ssh_docs)s\">Weblate 설명서</a>에서 SSH 키를 설정하는 방법에 대"
-"한 자세한 정보를 찾을 수 있습니다."
 
-#: weblate/wladmin/templates/admin/trans/change_form.html:18
+#: weblate/wladmin/templates/admin/trans/change_form.html:39
 msgid "Do not change this object here, please use Weblate interface instead."
 msgstr ""
 "여기에 이 객체를 변경하지 마십시오 대신, Weblate의 인터페이스를 사용하십시오."
-
-#: weblate/wladmin/templates/admin/trans/change_form.html:22
-#, python-format
-msgid ""
-"Importing a new translation can take some time, please check <a href="
-"\"%(url)s\">our documentation</a> for information on how to improve this."
-msgstr ""
-"새로운 번역을 향상하는 것은 약간의 시간이 소요되므로, 이것을 향상하는 방법에 "
-"관한 정보에 대해  <a href=\"%(url)s\">우리의 문서</a>를 확인하세요."
 
 #: weblate/wladmin/templates/admin/weblate-index.html:11
 msgid "Reports"
 msgstr "보고"
 
-#: weblate/wladmin/views.py:84
+#: weblate/wladmin/views.py:83
 #, fuzzy
 #| msgid "Configuration errors"
 msgid "Failed to dismiss configuration error!"
 msgstr "구성 오류"
 
-#: weblate/wladmin/views.py:95
+#: weblate/wladmin/views.py:94
 msgid "Debug mode"
 msgstr "디버그 모드"
 
-#: weblate/wladmin/views.py:102
+#: weblate/wladmin/views.py:101
 msgid "Site domain"
 msgstr "사이트 도메인"
 
-#: weblate/wladmin/views.py:109
+#: weblate/wladmin/views.py:108
 msgid "Database backend"
 msgstr "데이터베이스 백엔드"
 
-#: weblate/wladmin/views.py:116
+#: weblate/wladmin/views.py:115
 msgid "Site administrator"
 msgstr "사이트 관리자"
 
 #. Translators: Indexing is postponed to cron job
-#: weblate/wladmin/views.py:125
+#: weblate/wladmin/views.py:124
 msgid "Indexing offloading"
 msgstr "인덱싱 오프로딩"
 
 #. Translators: Indexing is postponed to cron job
-#: weblate/wladmin/views.py:140
+#: weblate/wladmin/views.py:139
 msgid "Indexing offloading processing"
 msgstr "색인 오프로딩 처리 중"
 
-#: weblate/wladmin/views.py:157
+#: weblate/wladmin/views.py:156
 msgid "Django caching"
 msgstr "장고 캐싱"
 
-#: weblate/wladmin/views.py:164
+#: weblate/wladmin/views.py:163
 msgid "Avatar caching"
 msgstr "아바타 캐싱"
 
-#: weblate/wladmin/views.py:178
+#: weblate/wladmin/views.py:177
 msgid "Email addresses"
 msgstr "이메일 주소"
 
-#: weblate/wladmin/views.py:188
+#: weblate/wladmin/views.py:187
 msgid "Federated avatar support"
 msgstr "연합된 아바타 지원"
 
-#: weblate/wladmin/views.py:195
+#: weblate/wladmin/views.py:194
 msgid "pyuca library"
 msgstr "pyuca 라이브러리"
 
-#: weblate/wladmin/views.py:202
+#: weblate/wladmin/views.py:201
 msgid "Secret key"
 msgstr "보안 키"
 
-#: weblate/wladmin/views.py:209
+#: weblate/wladmin/views.py:208
 msgid "Allowed hosts"
 msgstr "허용된 호스트"
 
-#: weblate/wladmin/views.py:218
+#: weblate/wladmin/views.py:217
 msgid "Cached template loader"
 msgstr "캐쉬된 템플릿 로더"
 
-#: weblate/wladmin/views.py:226
+#: weblate/wladmin/views.py:225
 msgid "Admin static files"
 msgstr "관리자 정적 파일"
+
+#~ msgid ""
+#~ "Required fields are marked as bold, you can find more information in the "
+#~ "<a href=\"%(url)s\">documentation</a>."
+#~ msgstr ""
+#~ "필수 입력 사항은 굵게 표시되어 있습니다, 추가 정보는 <a href=\"%(url)s\">"
+#~ "문서</a>를 참고하세요."
+
+#~ msgid "More information"
+#~ msgstr "자세한 정보"
+
+#~ msgid ""
+#~ "You can find more information about setting up SSH keys in <a href="
+#~ "\"%(ssh_docs)s\">the Weblate manual</a>."
+#~ msgstr ""
+#~ "<a href=\"%(ssh_docs)s\">Weblate 설명서</a>에서 SSH 키를 설정하는 방법에 "
+#~ "대한 자세한 정보를 찾을 수 있습니다."
+
+#~ msgid ""
+#~ "Importing a new translation can take some time, please check <a href="
+#~ "\"%(url)s\">our documentation</a> for information on how to improve this."
+#~ msgstr ""
+#~ "새로운 번역을 향상하는 것은 약간의 시간이 소요되므로, 이것을 향상하는 방법"
+#~ "에 관한 정보에 대해  <a href=\"%(url)s\">우리의 문서</a>를 확인하세요."
 
 #, fuzzy
 #~| msgid "Search in source strings"
