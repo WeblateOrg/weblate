@@ -307,7 +307,7 @@ def show_engage(request, project, lang=None):
             'complete.'
         )
     else:
-        # Translators: line of text in engagement widget, please use your
+        # Translators: line of text in engagement page, please use your
         # language name instead of English
         status_text = _('<a href="%(url)s">Translation project for '
                         '%(project)s</a> into English currently contains '
