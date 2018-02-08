@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-02-08 13:42+0000\n"
+"POT-Creation-Date: 2018-02-08 14:36+0000\n"
 "PO-Revision-Date: 2018-02-04 14:53+0000\n"
 "Last-Translator: Nathan Follens <nathan@email.is>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/master/nl/"
@@ -752,7 +752,7 @@ msgstr ""
 #: weblate/addons/properties.py:147
 #, fuzzy
 #| msgid "Revert to this translation"
-msgid "Formats the Java properties translation"
+msgid "Formats the Java properties file"
 msgstr "Terugkeren naar deze vertaling"
 
 #: weblate/addons/properties.py:149
@@ -1099,7 +1099,6 @@ msgstr "Cookie-beleid"
 
 #: weblate/legal/templates/legal/cookies.html:21
 #: weblate/legal/templates/legal/index.html:20
-#, python-format
 msgid ""
 "This page is based on the Terms of Service, you should still read the "
 "original document to fully understand them."
@@ -1132,14 +1131,6 @@ msgstr ""
 "We gebruiken Matomo om het verkeer naar onze website te analyseren. Matomo "
 "houdt zich aan de 'Volg me niet' (DNT; eng 'Do not track') instellingen van "
 "uw browser."
-
-#: weblate/legal/templates/legal/cookies.html:35
-msgid ""
-"You can find more information about cookies in the <a href=\"https://en."
-"wikipedia.org/wiki/HTTP_cookie\">Wikipedia article</a>."
-msgstr ""
-"U vindt meer informatie over het instellen van SSH-sleutels in <a href="
-"\"%(ssh_docs)s\">de Weblate-handleiding</a>."
 
 #: weblate/legal/templates/legal/index.html:15
 msgid "Legal Terms Overview"
@@ -1214,7 +1205,6 @@ msgstr ""
 "Foundation Core Infrastructure Initiative Best Practices\"."
 
 #: weblate/legal/templates/legal/security.html:32
-#, python-format
 msgid ""
 "Please see our documentation for instructions how to report security "
 "weaknesses in our platform."
@@ -1623,7 +1613,6 @@ msgstr ""
 "registreer dan opnieuw."
 
 #: weblate/templates/accounts/email-sent.html:35
-#, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. Should the problem persist, please contact us."
@@ -1631,6 +1620,12 @@ msgstr ""
 "Als u het niet onmiddellijk ontvangt, controleer dan uw spam-map of probeer "
 "opnieuw te registreren. Als het probleem zich blijft voordoen, neem dan "
 "contact met ons op."
+
+#: weblate/templates/accounts/email-sent.html:38
+#, fuzzy
+#| msgid "User registration"
+msgid "Report an issue with registration"
+msgstr "Gebruikersregistratie"
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:25
@@ -1650,6 +1645,7 @@ msgstr ""
 
 #: weblate/templates/accounts/email.html:29
 #: weblate/templates/accounts/register.html:45 weblate/templates/base.html:135
+#: weblate/templates/engage.html:42
 msgid "Register"
 msgstr "Registreren"
 
@@ -1666,9 +1662,11 @@ msgid "Conditions for free hosting"
 msgstr "Voorwaarden voor gratis hosting"
 
 #: weblate/templates/accounts/hosting.html:36
-msgid ""
-"Translated content has to be released under <a href=\"http://en.wikipedia."
-"org/wiki/Free_software_license\">free license</a>."
+#, fuzzy
+#| msgid ""
+#| "Translated content has to be released under <a href=\"http://en.wikipedia."
+#| "org/wiki/Free_software_license\">free license</a>."
+msgid "Translated content has to be released under free software license."
 msgstr ""
 "Vertaalde inhoud moet worden vrijgegeven onder een <a href=\"http://en."
 "wikipedia.org/wiki/Free_software_license\">vrije licentie</a>."
@@ -2725,7 +2723,7 @@ msgstr ""
 "webgebaseerde tool om vertalen eenvoudig te maken voor zowel ontwikkelaars "
 "als vertalers."
 
-#: weblate/templates/engage.html:31
+#: weblate/templates/engage.html:30
 #, python-format
 msgid ""
 "If you would like to contribute to translation of %(project)s, you need to "
@@ -2734,7 +2732,7 @@ msgstr ""
 "Om te helpen bij vertaling van %(project)s, dient u zich te registreren op "
 "deze server."
 
-#: weblate/templates/engage.html:35
+#: weblate/templates/engage.html:34
 msgid ""
 "This translation is open only to a limited group of translators, if you want "
 "to contribute please get in touch with the project maintainers."
@@ -2743,11 +2741,20 @@ msgstr ""
 "Als u een bijdrage wilt leveren, neem dan contact op met de "
 "projectbeheerders."
 
-#: weblate/templates/engage.html:39
-#, python-format
+#: weblate/templates/engage.html:38
+#, fuzzy, python-format
+#| msgid ""
+#| "Once you have activated your account, proceed to the translation section."
 msgid ""
-"Once you have activated your account, proceed to the translation section."
+"Once you have activated your account, proceed to the <a href=\"%(url)s"
+"\">translation section</a>."
 msgstr "Eens uw account geactiveerd is kunt u naar het vertaalonderdeel gaan."
+
+#: weblate/templates/engage.html:43 weblate/templates/list-translations.html:69
+#: weblate/templates/list-translations.html:71
+#: weblate/templates/translate.html:92 weblate/templates/translation.html:121
+msgid "Translate"
+msgstr "Vertalen"
 
 #: weblate/templates/footer.html:5
 #, python-format
@@ -3324,12 +3331,6 @@ msgid "There is %(count)s not translated string."
 msgid_plural "There are %(count)s not translated strings."
 msgstr[0] "Er is %(count)s niet vertaalde tekenreeks."
 msgstr[1] "Er zijn %(count)s niet vertaalde tekenreeksen."
-
-#: weblate/templates/list-translations.html:69
-#: weblate/templates/list-translations.html:71
-#: weblate/templates/translate.html:92 weblate/templates/translation.html:121
-msgid "Translate"
-msgstr "Vertalen"
 
 #: weblate/templates/list-translations.html:71
 #, python-format
@@ -7244,7 +7245,7 @@ msgstr ""
 "vertaald in %(languages)s talen</a>. Alles samen zijn de vertalingen "
 "%(percent)s%% volledig."
 
-#. Translators: line of text in engagement widget, please use your
+#. Translators: line of text in engagement page, please use your
 #. language name instead of English
 #: weblate/trans/views/basic.py:312
 #, python-format
@@ -7883,6 +7884,13 @@ msgstr "Lader van gecachte sjablonen"
 #: weblate/wladmin/views.py:225
 msgid "Admin static files"
 msgstr "Statische adminbestanden"
+
+#~ msgid ""
+#~ "You can find more information about cookies in the <a href=\"https://en."
+#~ "wikipedia.org/wiki/HTTP_cookie\">Wikipedia article</a>."
+#~ msgstr ""
+#~ "U vindt meer informatie over het instellen van SSH-sleutels in <a href="
+#~ "\"%(ssh_docs)s\">de Weblate-handleiding</a>."
 
 #, fuzzy
 #~| msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"

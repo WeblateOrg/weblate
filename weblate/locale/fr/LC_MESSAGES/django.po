@@ -3,11 +3,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-02-08 13:42+0000\n"
+"POT-Creation-Date: 2018-02-08 14:36+0000\n"
 "PO-Revision-Date: 2018-02-08 14:35+0000\n"
 "Last-Translator: ALSUNARD SJP <weblate.vwc15.64@9ox.net>\n"
-"Language-Team: French "
-"<https://hosted.weblate.org/projects/weblate/master/fr/>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/weblate/master/fr/"
+">\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -771,7 +771,9 @@ msgstr ""
 "modifications sont tirées du dépôt amont."
 
 #: weblate/addons/properties.py:147
-msgid "Formats the Java properties translation"
+#, fuzzy
+#| msgid "Formats the Java properties translation"
+msgid "Formats the Java properties file"
 msgstr "Formate la traduction au format properties Java"
 
 #: weblate/addons/properties.py:149
@@ -1111,7 +1113,6 @@ msgstr "Politique de Cookies"
 
 #: weblate/legal/templates/legal/cookies.html:21
 #: weblate/legal/templates/legal/index.html:20
-#, python-format
 msgid ""
 "This page is based on the Terms of Service, you should still read the "
 "original document to fully understand them."
@@ -1145,14 +1146,6 @@ msgid ""
 msgstr ""
 "Nous utilisons Matomo pour analyser le trafic sur notre site. Matomo "
 "respecte l'option 'Ne pas me pister' de votre navigateur."
-
-#: weblate/legal/templates/legal/cookies.html:35
-msgid ""
-"You can find more information about cookies in the <a href=\"https://en."
-"wikipedia.org/wiki/HTTP_cookie\">Wikipedia article</a>."
-msgstr ""
-"Vous pouvez trouver plus d’informations concernant les cookies sur l'<a href="
-"\"https://en.wikipedia.org/wiki/HTTP_cookie\">article Wikipedia</a>."
 
 #: weblate/legal/templates/legal/index.html:15
 msgid "Legal Terms Overview"
@@ -1227,7 +1220,6 @@ msgstr ""
 "Linux « Core Infrastructure Initiative »."
 
 #: weblate/legal/templates/legal/security.html:32
-#, python-format
 msgid ""
 "Please see our documentation for instructions how to report security "
 "weaknesses in our platform."
@@ -1644,7 +1636,6 @@ msgid ""
 msgstr "Si le lien de confirmation a expiré, merci de vous inscrire à nouveau."
 
 #: weblate/templates/accounts/email-sent.html:35
-#, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. Should the problem persist, please contact us."
@@ -1652,6 +1643,12 @@ msgstr ""
 "Si vous ne le recevez pas rapidement, merci de vérifiez votre dossier "
 "pourriel ou essayez à nouveau de vous inscrire. Si le problème persiste, "
 "veuillez nous contacter."
+
+#: weblate/templates/accounts/email-sent.html:38
+#, fuzzy
+#| msgid "User registration"
+msgid "Report an issue with registration"
+msgstr "Enregistrement utilisateur"
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:25
@@ -1671,6 +1668,7 @@ msgstr ""
 
 #: weblate/templates/accounts/email.html:29
 #: weblate/templates/accounts/register.html:45 weblate/templates/base.html:135
+#: weblate/templates/engage.html:42
 msgid "Register"
 msgstr "Enregistrement"
 
@@ -1687,9 +1685,11 @@ msgid "Conditions for free hosting"
 msgstr "Conditions pour un hébergement gratuit"
 
 #: weblate/templates/accounts/hosting.html:36
-msgid ""
-"Translated content has to be released under <a href=\"http://en.wikipedia."
-"org/wiki/Free_software_license\">free license</a>."
+#, fuzzy
+#| msgid ""
+#| "Translated content has to be released under <a href=\"http://en.wikipedia."
+#| "org/wiki/Free_software_license\">free license</a>."
+msgid "Translated content has to be released under free software license."
 msgstr ""
 "Le contenu traduit doit être publié sous une <a href=\"http://en.wikipedia."
 "org/wiki/Free_software_license\">licence libre</a> ."
@@ -2767,7 +2767,7 @@ msgstr ""
 "conçu pour faciliter la traduction, autant pour les développeurs que pour "
 "les traducteurs."
 
-#: weblate/templates/engage.html:31
+#: weblate/templates/engage.html:30
 #, python-format
 msgid ""
 "If you would like to contribute to translation of %(project)s, you need to "
@@ -2776,7 +2776,7 @@ msgstr ""
 "Si vous voulez contribuer à la traduction de %(project)s, vous devez vous "
 "enregistrer sur ce serveur."
 
-#: weblate/templates/engage.html:35
+#: weblate/templates/engage.html:34
 msgid ""
 "This translation is open only to a limited group of translators, if you want "
 "to contribute please get in touch with the project maintainers."
@@ -2784,11 +2784,20 @@ msgstr ""
 "Cette traduction n’est ouverte qu’à un nombre limité de traducteurs, si vous "
 "souhaitez y contribuer, veuillez contacter les responsables du projet."
 
-#: weblate/templates/engage.html:39
-#, python-format
+#: weblate/templates/engage.html:38
+#, fuzzy, python-format
+#| msgid ""
+#| "Once you have activated your account, proceed to the translation section."
 msgid ""
-"Once you have activated your account, proceed to the translation section."
+"Once you have activated your account, proceed to the <a href=\"%(url)s"
+"\">translation section</a>."
 msgstr "Après avoir activé votre compte, rendez vous à la section traduction."
+
+#: weblate/templates/engage.html:43 weblate/templates/list-translations.html:69
+#: weblate/templates/list-translations.html:71
+#: weblate/templates/translate.html:92 weblate/templates/translation.html:121
+msgid "Translate"
+msgstr "Traduire"
 
 #: weblate/templates/footer.html:5
 #, python-format
@@ -3366,12 +3375,6 @@ msgid "There is %(count)s not translated string."
 msgid_plural "There are %(count)s not translated strings."
 msgstr[0] "Il y a %(count)s chaîne non traduite."
 msgstr[1] "Il y a %(count)s chaînes non traduites."
-
-#: weblate/templates/list-translations.html:69
-#: weblate/templates/list-translations.html:71
-#: weblate/templates/translate.html:92 weblate/templates/translation.html:121
-msgid "Translate"
-msgstr "Traduire"
 
 #: weblate/templates/list-translations.html:71
 #, python-format
@@ -7318,7 +7321,7 @@ msgstr ""
 
 # Translators: line of text in engagement widget, please use your
 # language name instead of English
-#. Translators: line of text in engagement widget, please use your
+#. Translators: line of text in engagement page, please use your
 #. language name instead of English
 #: weblate/trans/views/basic.py:312
 #, python-format
@@ -7971,6 +7974,13 @@ msgstr "Chargeur du modèle mis en cache"
 #: weblate/wladmin/views.py:225
 msgid "Admin static files"
 msgstr "Fichiers statiques d’administration"
+
+#~ msgid ""
+#~ "You can find more information about cookies in the <a href=\"https://en."
+#~ "wikipedia.org/wiki/HTTP_cookie\">Wikipedia article</a>."
+#~ msgstr ""
+#~ "Vous pouvez trouver plus d’informations concernant les cookies sur l'<a "
+#~ "href=\"https://en.wikipedia.org/wiki/HTTP_cookie\">article Wikipedia</a>."
 
 #, fuzzy
 #~| msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"

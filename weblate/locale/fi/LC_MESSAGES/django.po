@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-02-08 13:42+0000\n"
+"POT-Creation-Date: 2018-02-08 14:36+0000\n"
 "PO-Revision-Date: 2018-02-04 10:31+0000\n"
 "Last-Translator: Tuomas Harju <tuomas@rtj-group.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
@@ -774,7 +774,7 @@ msgstr ""
 #: weblate/addons/properties.py:147
 #, fuzzy
 #| msgid "Formats Java properties translation"
-msgid "Formats the Java properties translation"
+msgid "Formats the Java properties file"
 msgstr "Muotoilee Java -ominaisuustiedoston (Java properties) käännökset"
 
 #: weblate/addons/properties.py:149
@@ -1116,7 +1116,6 @@ msgstr "Evästeitä koskeva käytäntö"
 
 #: weblate/legal/templates/legal/cookies.html:21
 #: weblate/legal/templates/legal/index.html:20
-#, python-format
 msgid ""
 "This page is based on the Terms of Service, you should still read the "
 "original document to fully understand them."
@@ -1148,14 +1147,6 @@ msgid ""
 msgstr ""
 "Käytämme Matomo -palvelua analysoimaan sivustomme liikennettä. Matomo "
 "kunnioittaa selaimesi \"Älä seuraa\" / \"Do Not Track\" -asetusta."
-
-#: weblate/legal/templates/legal/cookies.html:35
-msgid ""
-"You can find more information about cookies in the <a href=\"https://en."
-"wikipedia.org/wiki/HTTP_cookie\">Wikipedia article</a>."
-msgstr ""
-"Löydät lisätietoja evästeistä esimerkiksi <a href=\"https://fi.wikipedia.org/"
-"wiki/Eväste\">Wikipediasta</a>."
 
 #: weblate/legal/templates/legal/index.html:15
 msgid "Legal Terms Overview"
@@ -1230,7 +1221,6 @@ msgstr ""
 "Infrastructure Initiative:n Best Practices määritelmiä."
 
 #: weblate/legal/templates/legal/security.html:32
-#, python-format
 msgid ""
 "Please see our documentation for instructions how to report security "
 "weaknesses in our platform."
@@ -1636,13 +1626,18 @@ msgstr ""
 "rekisteröidy uudelleen."
 
 #: weblate/templates/accounts/email-sent.html:35
-#, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. Should the problem persist, please contact us."
 msgstr ""
 "Jos et saa sitä pian, tarkista roskapostikansiosi tai rekisteröidy "
 "uudelleen. Jos ongelma vain toistuu, ota meihin yhteyttä."
+
+#: weblate/templates/accounts/email-sent.html:38
+#, fuzzy
+#| msgid "User registration"
+msgid "Report an issue with registration"
+msgstr "Käyttäjän rekisteröinti"
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:25
@@ -1662,6 +1657,7 @@ msgstr ""
 
 #: weblate/templates/accounts/email.html:29
 #: weblate/templates/accounts/register.html:45 weblate/templates/base.html:135
+#: weblate/templates/engage.html:42
 msgid "Register"
 msgstr "Rekisteröidy"
 
@@ -1678,9 +1674,11 @@ msgid "Conditions for free hosting"
 msgstr "Edellytykset ilmaiseen hostaukseen"
 
 #: weblate/templates/accounts/hosting.html:36
-msgid ""
-"Translated content has to be released under <a href=\"http://en.wikipedia."
-"org/wiki/Free_software_license\">free license</a>."
+#, fuzzy
+#| msgid ""
+#| "Translated content has to be released under <a href=\"http://en.wikipedia."
+#| "org/wiki/Free_software_license\">free license</a>."
+msgid "Translated content has to be released under free software license."
 msgstr ""
 "Käännettyä sisältöä pitää julkaista seuraavan lisenssin alaisuudessa <a href="
 "\"http://en.wikipedia.org/wiki/Free_software_license\"> ilmainen lisenssi</"
@@ -2745,7 +2743,7 @@ msgstr ""
 "%(project)s on käännetty käyttäen %(weblate_name_link)s, web-työkalu on "
 "suunniteltu helpottamaan kääntämistä kehittäjille ja kääntäjille."
 
-#: weblate/templates/engage.html:31
+#: weblate/templates/engage.html:30
 #, python-format
 msgid ""
 "If you would like to contribute to translation of %(project)s, you need to "
@@ -2754,7 +2752,7 @@ msgstr ""
 "Jos haluat edistää käännös %(project)s, sinun täytyy rekisteröityä tässä "
 "palvelimessa."
 
-#: weblate/templates/engage.html:35
+#: weblate/templates/engage.html:34
 msgid ""
 "This translation is open only to a limited group of translators, if you want "
 "to contribute please get in touch with the project maintainers."
@@ -2762,11 +2760,20 @@ msgstr ""
 "Tämä käännös on avoin vain rajatulle ryhmälle kääntäjiä, jos haluat "
 "osallistua, ole hyvä ja ota yhteyttä projektin ylläpitäjiin."
 
-#: weblate/templates/engage.html:39
-#, python-format
+#: weblate/templates/engage.html:38
+#, fuzzy, python-format
+#| msgid ""
+#| "Once you have activated your account, proceed to the translation section."
 msgid ""
-"Once you have activated your account, proceed to the translation section."
+"Once you have activated your account, proceed to the <a href=\"%(url)s"
+"\">translation section</a>."
 msgstr "Kun olet aktivoinut käyttäjätilisi, siirry käännökset osioon."
+
+#: weblate/templates/engage.html:43 weblate/templates/list-translations.html:69
+#: weblate/templates/list-translations.html:71
+#: weblate/templates/translate.html:92 weblate/templates/translation.html:121
+msgid "Translate"
+msgstr "Käännä"
 
 #: weblate/templates/footer.html:5
 #, python-format
@@ -3343,12 +3350,6 @@ msgid "There is %(count)s not translated string."
 msgid_plural "There are %(count)s not translated strings."
 msgstr[0] "%(count)s kääntämätön teksti."
 msgstr[1] "%(count)s kääntämätöntä tekstiä."
-
-#: weblate/templates/list-translations.html:69
-#: weblate/templates/list-translations.html:71
-#: weblate/templates/translate.html:92 weblate/templates/translation.html:121
-msgid "Translate"
-msgstr "Käännä"
 
 #: weblate/templates/list-translations.html:71
 #, python-format
@@ -7236,7 +7237,7 @@ msgstr ""
 "%(languages)s kielille</a>. Kaiken kaikkiaan nämä käännökset ovat %(percent)s"
 "%% valmiita."
 
-#. Translators: line of text in engagement widget, please use your
+#. Translators: line of text in engagement page, please use your
 #. language name instead of English
 #: weblate/trans/views/basic.py:312
 #, python-format
@@ -7875,6 +7876,13 @@ msgstr "Välimuistimallineiden lataaja"
 #: weblate/wladmin/views.py:225
 msgid "Admin static files"
 msgstr "Ylläpitäjän staattiset tiedostot"
+
+#~ msgid ""
+#~ "You can find more information about cookies in the <a href=\"https://en."
+#~ "wikipedia.org/wiki/HTTP_cookie\">Wikipedia article</a>."
+#~ msgstr ""
+#~ "Löydät lisätietoja evästeistä esimerkiksi <a href=\"https://fi.wikipedia."
+#~ "org/wiki/Eväste\">Wikipediasta</a>."
 
 #, fuzzy
 #~| msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"

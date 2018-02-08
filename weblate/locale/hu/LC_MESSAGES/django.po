@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-02-08 13:42+0000\n"
+"POT-Creation-Date: 2018-02-08 14:36+0000\n"
 "PO-Revision-Date: 2018-01-11 12:42+0000\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/master/"
@@ -752,7 +752,7 @@ msgstr ""
 #: weblate/addons/properties.py:147
 #, fuzzy
 #| msgid "Revert to this translation"
-msgid "Formats the Java properties translation"
+msgid "Formats the Java properties file"
 msgstr "Visszaállás erre a fordításra"
 
 #: weblate/addons/properties.py:149
@@ -1122,7 +1122,6 @@ msgstr ""
 
 #: weblate/legal/templates/legal/cookies.html:21
 #: weblate/legal/templates/legal/index.html:20
-#, python-format
 msgid ""
 "This page is based on the Terms of Service, you should still read the "
 "original document to fully understand them."
@@ -1147,18 +1146,6 @@ msgid ""
 "We use Matomo to analyze traffic on our website. Matomo honours Do Not Track "
 "settings in your browser."
 msgstr ""
-
-#: weblate/legal/templates/legal/cookies.html:35
-#, fuzzy
-#| msgid ""
-#| "You can find more information about setting up SSH keys in <a href="
-#| "\"%(ssh_docs)s\">the Weblate manual</a>."
-msgid ""
-"You can find more information about cookies in the <a href=\"https://en."
-"wikipedia.org/wiki/HTTP_cookie\">Wikipedia article</a>."
-msgstr ""
-"Az SSH kulcsok beállításáról a <a href=\"%(ssh_docs)s\">the Weblate "
-"kézikönyvben</a> talál további információt."
 
 #: weblate/legal/templates/legal/index.html:15
 msgid "Legal Terms Overview"
@@ -1218,7 +1205,6 @@ msgid ""
 msgstr ""
 
 #: weblate/legal/templates/legal/security.html:32
-#, python-format
 msgid ""
 "Please see our documentation for instructions how to report security "
 "weaknesses in our platform."
@@ -1705,13 +1691,18 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/accounts/email-sent.html:35
-#, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. Should the problem persist, please contact us."
 msgstr ""
 "Ha nem kapja meg pár percen belül, akkor ellenőrizze a Levélszemét/Spam "
 "mappáját. Ha nincs ott, akkor kérjük lépjen kapcsolatba velünk."
+
+#: weblate/templates/accounts/email-sent.html:38
+#, fuzzy
+#| msgid "User registration"
+msgid "Report an issue with registration"
+msgstr "Regisztráció"
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:25
@@ -1731,6 +1722,7 @@ msgstr ""
 
 #: weblate/templates/accounts/email.html:29
 #: weblate/templates/accounts/register.html:45 weblate/templates/base.html:135
+#: weblate/templates/engage.html:42
 msgid "Register"
 msgstr "Regisztráció"
 
@@ -1747,9 +1739,11 @@ msgid "Conditions for free hosting"
 msgstr "Az ingyenes elhelyezés feltételei"
 
 #: weblate/templates/accounts/hosting.html:36
-msgid ""
-"Translated content has to be released under <a href=\"http://en.wikipedia."
-"org/wiki/Free_software_license\">free license</a>."
+#, fuzzy
+#| msgid ""
+#| "Translated content has to be released under <a href=\"http://en.wikipedia."
+#| "org/wiki/Free_software_license\">free license</a>."
+msgid "Translated content has to be released under free software license."
 msgstr ""
 "A lefordított tartalmat a <a href=\"http://en.wikipedia.org/wiki/"
 "Free_software_license\">szabad licenc</a> alatt kell kiadni."
@@ -2869,7 +2863,7 @@ msgstr ""
 "melyet arra terveztek, hogy a fordítás minél könnyebb legyen fordítók és "
 "fejlesztők számára egyaránt."
 
-#: weblate/templates/engage.html:31
+#: weblate/templates/engage.html:30
 #, python-format
 msgid ""
 "If you would like to contribute to translation of %(project)s, you need to "
@@ -2878,7 +2872,7 @@ msgstr ""
 "Ha szeretne részt venni a(z) %(project)s fordításában, regisztráljon ezen a "
 "szerveren."
 
-#: weblate/templates/engage.html:35
+#: weblate/templates/engage.html:34
 #, fuzzy
 #| msgid ""
 #| "This translation is open only to limited group of translators, if you "
@@ -2890,14 +2884,21 @@ msgstr ""
 "Ezt a fordítást csak egy zártkörű fordítócsoport érheti el. Ha munkájával "
 "segíteni kívánja a projektet, lépjen kapcsolatba a karbantartóval."
 
-#: weblate/templates/engage.html:39
+#: weblate/templates/engage.html:38
 #, fuzzy, python-format
 #| msgid ""
 #| "Once you have activated your account just proceed to the <a href=\"%(url)s"
 #| "\">translation section</a>."
 msgid ""
-"Once you have activated your account, proceed to the translation section."
+"Once you have activated your account, proceed to the <a href=\"%(url)s"
+"\">translation section</a>."
 msgstr "Ha aktiválta a fiókját, már fel is keresheti a fordítási oldalt."
+
+#: weblate/templates/engage.html:43 weblate/templates/list-translations.html:69
+#: weblate/templates/list-translations.html:71
+#: weblate/templates/translate.html:92 weblate/templates/translation.html:121
+msgid "Translate"
+msgstr "Fordítás"
 
 #: weblate/templates/footer.html:5
 #, fuzzy, python-format
@@ -3520,12 +3521,6 @@ msgid "There is %(count)s not translated string."
 msgid_plural "There are %(count)s not translated strings."
 msgstr[0] "%(count)s lefordítatlan üzenet."
 msgstr[1] "%(count)s lefordítatlan üzenet."
-
-#: weblate/templates/list-translations.html:69
-#: weblate/templates/list-translations.html:71
-#: weblate/templates/translate.html:92 weblate/templates/translation.html:121
-msgid "Translate"
-msgstr "Fordítás"
 
 #: weblate/templates/list-translations.html:71
 #, fuzzy, python-format
@@ -7752,7 +7747,7 @@ msgstr ""
 "nyelvre van lefordítva</a>. Ezen fordítások készültségi foka összesen "
 "%(percent)s%%."
 
-#. Translators: line of text in engagement widget, please use your
+#. Translators: line of text in engagement page, please use your
 #. language name instead of English
 #: weblate/trans/views/basic.py:312
 #, python-format
@@ -8405,6 +8400,17 @@ msgstr "Gyorstárban található sablonbetöltők"
 #: weblate/wladmin/views.py:225
 msgid "Admin static files"
 msgstr "Admin statikus fájlok"
+
+#, fuzzy
+#~| msgid ""
+#~| "You can find more information about setting up SSH keys in <a href="
+#~| "\"%(ssh_docs)s\">the Weblate manual</a>."
+#~ msgid ""
+#~ "You can find more information about cookies in the <a href=\"https://en."
+#~ "wikipedia.org/wiki/HTTP_cookie\">Wikipedia article</a>."
+#~ msgstr ""
+#~ "Az SSH kulcsok beállításáról a <a href=\"%(ssh_docs)s\">the Weblate "
+#~ "kézikönyvben</a> talál további információt."
 
 #~ msgid ""
 #~ "To test Weblate, you can login as <code>demo</code> user with password "

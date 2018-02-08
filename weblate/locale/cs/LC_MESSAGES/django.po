@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-02-08 13:42+0000\n"
+"POT-Creation-Date: 2018-02-08 14:36+0000\n"
 "PO-Revision-Date: 2018-02-08 12:00+0000\n"
 "Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/"
@@ -742,7 +742,9 @@ msgstr ""
 "změny."
 
 #: weblate/addons/properties.py:147
-msgid "Formats the Java properties translation"
+#, fuzzy
+#| msgid "Formats the Java properties translation"
+msgid "Formats the Java properties file"
 msgstr "Formátuje překlad Java vlastností"
 
 #: weblate/addons/properties.py:149
@@ -1082,7 +1084,6 @@ msgstr "Politika ohledně cookie"
 
 #: weblate/legal/templates/legal/cookies.html:21
 #: weblate/legal/templates/legal/index.html:20
-#, python-format
 msgid ""
 "This page is based on the Terms of Service, you should still read the "
 "original document to fully understand them."
@@ -1111,14 +1112,6 @@ msgid ""
 msgstr ""
 "Použiváme Matomo pro analýzu provozu na našich stránkách. Matomo ctí vaše "
 "nastavení Do Not Track."
-
-#: weblate/legal/templates/legal/cookies.html:35
-msgid ""
-"You can find more information about cookies in the <a href=\"https://en."
-"wikipedia.org/wiki/HTTP_cookie\">Wikipedia article</a>."
-msgstr ""
-"Více informací o cookies naleznete v <a href=\"https://cs.wikipedia.org/wiki/"
-"HTTP_cookie\">článku na Wikipedii</a>."
 
 #: weblate/legal/templates/legal/index.html:15
 msgid "Legal Terms Overview"
@@ -1192,7 +1185,6 @@ msgstr ""
 "Initiative od Linux Foundation."
 
 #: weblate/legal/templates/legal/security.html:32
-#, python-format
 msgid ""
 "Please see our documentation for instructions how to report security "
 "weaknesses in our platform."
@@ -1596,7 +1588,6 @@ msgstr ""
 "znovu."
 
 #: weblate/templates/accounts/email-sent.html:35
-#, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. Should the problem persist, please contact us."
@@ -1604,6 +1595,12 @@ msgstr ""
 "Pokud vám e-mail během chvíle nedorazí, podívejte se do složky s nevyžádanou "
 "poštou nebo zkuste registraci znovu. Pokud problém přetrvá, prosím napište "
 "nám."
+
+#: weblate/templates/accounts/email-sent.html:38
+#, fuzzy
+#| msgid "User registration"
+msgid "Report an issue with registration"
+msgstr "Registrace uživatele"
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:25
@@ -1622,6 +1619,7 @@ msgstr ""
 
 #: weblate/templates/accounts/email.html:29
 #: weblate/templates/accounts/register.html:45 weblate/templates/base.html:135
+#: weblate/templates/engage.html:42
 msgid "Register"
 msgstr "Registrace"
 
@@ -1638,9 +1636,11 @@ msgid "Conditions for free hosting"
 msgstr "Podmínky pro bezplatné hostování"
 
 #: weblate/templates/accounts/hosting.html:36
-msgid ""
-"Translated content has to be released under <a href=\"http://en.wikipedia."
-"org/wiki/Free_software_license\">free license</a>."
+#, fuzzy
+#| msgid ""
+#| "Translated content has to be released under <a href=\"http://en.wikipedia."
+#| "org/wiki/Free_software_license\">free license</a>."
+msgid "Translated content has to be released under free software license."
 msgstr ""
 "Překládaný obsah musí být vydán pod <a href=\"http://cs.wikipedia.org/wiki/"
 "Svobodn%C3%BD_software\">svobodnou licencí</a>."
@@ -2685,7 +2685,7 @@ msgstr ""
 "Projekt %(project)s je překládán pomocí %(weblate_name_link)s, webového "
 "nástroje, který usnadní překládání jak pro vývojáře tak i pro překladatele."
 
-#: weblate/templates/engage.html:31
+#: weblate/templates/engage.html:30
 #, python-format
 msgid ""
 "If you would like to contribute to translation of %(project)s, you need to "
@@ -2694,7 +2694,7 @@ msgstr ""
 "Pokud chcete přispět do překladu projektu %(project)s, musíte se na tomto "
 "serveru zaregistrovat."
 
-#: weblate/templates/engage.html:35
+#: weblate/templates/engage.html:34
 msgid ""
 "This translation is open only to a limited group of translators, if you want "
 "to contribute please get in touch with the project maintainers."
@@ -2702,11 +2702,20 @@ msgstr ""
 "Tento překlad je přístupný jen pro omezenou skupinu překladatelů. Pokud se "
 "chcete přidat, prosím napiště správcům projektu."
 
-#: weblate/templates/engage.html:39
-#, python-format
+#: weblate/templates/engage.html:38
+#, fuzzy, python-format
+#| msgid ""
+#| "Once you have activated your account, proceed to the translation section."
 msgid ""
-"Once you have activated your account, proceed to the translation section."
+"Once you have activated your account, proceed to the <a href=\"%(url)s"
+"\">translation section</a>."
 msgstr "Jakmile budete mít aktivovaný účet, můžete pokračovat k překladům."
+
+#: weblate/templates/engage.html:43 weblate/templates/list-translations.html:69
+#: weblate/templates/list-translations.html:71
+#: weblate/templates/translate.html:92 weblate/templates/translation.html:121
+msgid "Translate"
+msgstr "Překlad"
 
 #: weblate/templates/footer.html:5
 #, python-format
@@ -3283,12 +3292,6 @@ msgid_plural "There are %(count)s not translated strings."
 msgstr[0] "V překladu je %(count)s nepřeložený řetězec."
 msgstr[1] "V překladu jsou %(count)s nepřeložené řetězce."
 msgstr[2] "V překladu je %(count)s nepřeložených řetězců."
-
-#: weblate/templates/list-translations.html:69
-#: weblate/templates/list-translations.html:71
-#: weblate/templates/translate.html:92 weblate/templates/translation.html:121
-msgid "Translate"
-msgstr "Překlad"
 
 #: weblate/templates/list-translations.html:71
 #, python-format
@@ -7161,7 +7164,7 @@ msgstr ""
 "\">překládán do %(languages)s jazyků</a>. Celkově je tento překlad hotový z "
 "%(percent)s %%."
 
-#. Translators: line of text in engagement widget, please use your
+#. Translators: line of text in engagement page, please use your
 #. language name instead of English
 #: weblate/trans/views/basic.py:312
 #, python-format
@@ -7799,6 +7802,13 @@ msgstr "Načítání šablon s mezipamětí"
 #: weblate/wladmin/views.py:225
 msgid "Admin static files"
 msgstr "Statické soubory správy"
+
+#~ msgid ""
+#~ "You can find more information about cookies in the <a href=\"https://en."
+#~ "wikipedia.org/wiki/HTTP_cookie\">Wikipedia article</a>."
+#~ msgstr ""
+#~ "Více informací o cookies naleznete v <a href=\"https://cs.wikipedia.org/"
+#~ "wiki/HTTP_cookie\">článku na Wikipedii</a>."
 
 #, fuzzy
 #~| msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"

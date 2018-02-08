@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-02-08 13:42+0000\n"
+"POT-Creation-Date: 2018-02-08 14:36+0000\n"
 "PO-Revision-Date: 2017-11-12 13:00+0000\n"
 "Last-Translator: Arif Budiman <arifpedia@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
@@ -771,7 +771,7 @@ msgstr ""
 #: weblate/addons/properties.py:147
 #, fuzzy
 #| msgid "Revert to this translation"
-msgid "Formats the Java properties translation"
+msgid "Formats the Java properties file"
 msgstr "Kembalikan ke penerjemahan ini"
 
 #: weblate/addons/properties.py:149
@@ -1127,7 +1127,6 @@ msgstr "Kebijakan Kuki"
 
 #: weblate/legal/templates/legal/cookies.html:21
 #: weblate/legal/templates/legal/index.html:20
-#, python-format
 msgid ""
 "This page is based on the Terms of Service, you should still read the "
 "original document to fully understand them."
@@ -1157,14 +1156,6 @@ msgid ""
 msgstr ""
 "Kami menggunakan Matomo untuk menganalisa lalu lintas di situs kami. Matomo "
 "menghormati pengaturan Jangan Lacak di peramban web Anda."
-
-#: weblate/legal/templates/legal/cookies.html:35
-msgid ""
-"You can find more information about cookies in the <a href=\"https://en."
-"wikipedia.org/wiki/HTTP_cookie\">Wikipedia article</a>."
-msgstr ""
-"Anda dapat menemukan informasi lebih lanjut tentang kuki di <a href="
-"\"https://en.wikipedia.org/wiki/HTTP_cookie\">artikel Wikipedia</a>."
 
 #: weblate/legal/templates/legal/index.html:15
 msgid "Legal Terms Overview"
@@ -1236,7 +1227,6 @@ msgstr ""
 "Infrastructure Initiative."
 
 #: weblate/legal/templates/legal/security.html:32
-#, python-format
 msgid ""
 "Please see our documentation for instructions how to report security "
 "weaknesses in our platform."
@@ -1696,7 +1686,7 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/accounts/email-sent.html:35
-#, fuzzy, python-format
+#, fuzzy
 #| msgid ""
 #| "If you don't receive it shortly, please check your spam folder or retry "
 #| "the registration. If the problem persists, please <a href="
@@ -1707,6 +1697,12 @@ msgid ""
 msgstr ""
 "Jika Anda tidak segera menerimanya, silakan periksa folder surel spam atau "
 "ulangi pendaftaran. Jika masalah masih berlanjut, silakan hubungi kami."
+
+#: weblate/templates/accounts/email-sent.html:38
+#, fuzzy
+#| msgid "User registration"
+msgid "Report an issue with registration"
+msgstr "Pendaftaran pengguna"
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:25
@@ -1726,6 +1722,7 @@ msgstr ""
 
 #: weblate/templates/accounts/email.html:29
 #: weblate/templates/accounts/register.html:45 weblate/templates/base.html:135
+#: weblate/templates/engage.html:42
 msgid "Register"
 msgstr "Daftar"
 
@@ -1742,9 +1739,11 @@ msgid "Conditions for free hosting"
 msgstr "Ketentuan untuk hosting gratis"
 
 #: weblate/templates/accounts/hosting.html:36
-msgid ""
-"Translated content has to be released under <a href=\"http://en.wikipedia."
-"org/wiki/Free_software_license\">free license</a>."
+#, fuzzy
+#| msgid ""
+#| "Translated content has to be released under <a href=\"http://en.wikipedia."
+#| "org/wiki/Free_software_license\">free license</a>."
+msgid "Translated content has to be released under free software license."
 msgstr ""
 "Konten yang diterjemahkan dirilis dibawah <a href=\"https://id.wikipedia.org/"
 "wiki/Lisensi_perangkat_lunak_bebas\">lisensi bebas</a>."
@@ -2849,7 +2848,7 @@ msgstr ""
 "web ini dirancang untuk memudahkan dalam menerjemahkan untuk para pengembang "
 "dan penerjemah."
 
-#: weblate/templates/engage.html:31
+#: weblate/templates/engage.html:30
 #, python-format
 msgid ""
 "If you would like to contribute to translation of %(project)s, you need to "
@@ -2858,7 +2857,7 @@ msgstr ""
 "Jika Anda ingin berkontribusi untuk penerjemahan %(project)s ini, Anda harus "
 "mendaftar di server ini."
 
-#: weblate/templates/engage.html:35
+#: weblate/templates/engage.html:34
 #, fuzzy
 #| msgid ""
 #| "This translation is open only to limited group of translators, if you "
@@ -2870,16 +2869,23 @@ msgstr ""
 "Penerjemahan ini terbuka hanya untuk kelompok penerjemah yang terbatas, jika "
 "Anda ingin berkontribusi silakan hubungi dengan pengelola proyek."
 
-#: weblate/templates/engage.html:39
+#: weblate/templates/engage.html:38
 #, fuzzy, python-format
 #| msgid ""
 #| "Once you have activated your account just proceed to the <a href=\"%(url)s"
 #| "\">translation section</a>."
 msgid ""
-"Once you have activated your account, proceed to the translation section."
+"Once you have activated your account, proceed to the <a href=\"%(url)s"
+"\">translation section</a>."
 msgstr ""
 "Setelah Anda mengaktifkan akun Anda, Silakan melanjutkan ke bagian "
 "penerjemahan."
+
+#: weblate/templates/engage.html:43 weblate/templates/list-translations.html:69
+#: weblate/templates/list-translations.html:71
+#: weblate/templates/translate.html:92 weblate/templates/translation.html:121
+msgid "Translate"
+msgstr "Menerjemahkan"
 
 #: weblate/templates/footer.html:5
 #, python-format
@@ -3492,12 +3498,6 @@ msgstr[0] "Terdapat %(count)s saran."
 msgid "There is %(count)s not translated string."
 msgid_plural "There are %(count)s not translated strings."
 msgstr[0] "Terdapat %(count)s string yang belum diterjemahkan."
-
-#: weblate/templates/list-translations.html:69
-#: weblate/templates/list-translations.html:71
-#: weblate/templates/translate.html:92 weblate/templates/translation.html:121
-msgid "Translate"
-msgstr "Menerjemahkan"
 
 #: weblate/templates/list-translations.html:71
 #, python-format
@@ -7504,7 +7504,7 @@ msgstr ""
 "diterjemahkan ke dalam %(languages)s bahasa</a>. Secara keseluruhan, "
 "terjemahan ini %(percent)s%% lengkap."
 
-#. Translators: line of text in engagement widget, please use your
+#. Translators: line of text in engagement page, please use your
 #. language name instead of English
 #: weblate/trans/views/basic.py:312
 #, python-format
@@ -8147,6 +8147,13 @@ msgstr "Pemuat templat singgahan"
 #: weblate/wladmin/views.py:225
 msgid "Admin static files"
 msgstr "Berkas statis admin"
+
+#~ msgid ""
+#~ "You can find more information about cookies in the <a href=\"https://en."
+#~ "wikipedia.org/wiki/HTTP_cookie\">Wikipedia article</a>."
+#~ msgstr ""
+#~ "Anda dapat menemukan informasi lebih lanjut tentang kuki di <a href="
+#~ "\"https://en.wikipedia.org/wiki/HTTP_cookie\">artikel Wikipedia</a>."
 
 #, fuzzy
 #~| msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"

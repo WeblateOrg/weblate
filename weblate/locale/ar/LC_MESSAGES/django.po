@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-02-08 13:42+0000\n"
+"POT-Creation-Date: 2018-02-08 14:36+0000\n"
 "PO-Revision-Date: 2018-01-30 13:06+0000\n"
 "Last-Translator: ButterflyOfFire <ButterflyOfFire@protonmail.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/weblate/master/ar/"
@@ -738,7 +738,7 @@ msgstr ""
 #: weblate/addons/properties.py:147
 #, fuzzy
 #| msgid "Revert to this translation"
-msgid "Formats the Java properties translation"
+msgid "Formats the Java properties file"
 msgstr "الرجوع لهذه الترجمة"
 
 #: weblate/addons/properties.py:149
@@ -1091,7 +1091,6 @@ msgstr "سياسات ملفات تعريف الإرتباط"
 
 #: weblate/legal/templates/legal/cookies.html:21
 #: weblate/legal/templates/legal/index.html:20
-#, python-format
 msgid ""
 "This page is based on the Terms of Service, you should still read the "
 "original document to fully understand them."
@@ -1123,14 +1122,6 @@ msgid ""
 msgstr ""
 "نحن نستخدم Matomo لتحليل النشاط علي موقعنا. Matomo لا يتتبع الإعدادات في "
 "متصفحك."
-
-#: weblate/legal/templates/legal/cookies.html:35
-msgid ""
-"You can find more information about cookies in the <a href=\"https://en."
-"wikipedia.org/wiki/HTTP_cookie\">Wikipedia article</a>."
-msgstr ""
-"يمكن إيجاد المزيد من المعلومات حول ملفات تعريف الإرتباط في <a href=\"https://"
-"en.wikipedia.org/wiki/HTTP_cookie\"> مقال ويكبيديا </a>."
 
 #: weblate/legal/templates/legal/index.html:15
 msgid "Legal Terms Overview"
@@ -1198,7 +1189,6 @@ msgstr ""
 "تطوير وِبليت يتبع أفضل الممارسات الأساسية لمبادرة البنية التحتية لمؤسسة لينكس."
 
 #: weblate/legal/templates/legal/security.html:32
-#, python-format
 msgid ""
 "Please see our documentation for instructions how to report security "
 "weaknesses in our platform."
@@ -1593,13 +1583,18 @@ msgid ""
 msgstr "إذا انتهت صلاحية رابط التأكيد قبل أن تستخدمه، فسجّل مجدداً."
 
 #: weblate/templates/accounts/email-sent.html:35
-#, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. Should the problem persist, please contact us."
 msgstr ""
 "إذا لم يصل إليك بعد برهة، من فضلك تحقق من مجلد البريد المزعج أو أعد التسجيل. "
 "إذا إستمرت المشكلة، من فضلك  تواصل معنا."
+
+#: weblate/templates/accounts/email-sent.html:38
+#, fuzzy
+#| msgid "User registration"
+msgid "Report an issue with registration"
+msgstr "تسجيل المستخدم"
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:25
@@ -1618,6 +1613,7 @@ msgstr ""
 
 #: weblate/templates/accounts/email.html:29
 #: weblate/templates/accounts/register.html:45 weblate/templates/base.html:135
+#: weblate/templates/engage.html:42
 msgid "Register"
 msgstr "سجّل"
 
@@ -1632,9 +1628,11 @@ msgid "Conditions for free hosting"
 msgstr "شروط الاستضافة المجانية"
 
 #: weblate/templates/accounts/hosting.html:36
-msgid ""
-"Translated content has to be released under <a href=\"http://en.wikipedia."
-"org/wiki/Free_software_license\">free license</a>."
+#, fuzzy
+#| msgid ""
+#| "Translated content has to be released under <a href=\"http://en.wikipedia."
+#| "org/wiki/Free_software_license\">free license</a>."
+msgid "Translated content has to be released under free software license."
 msgstr ""
 "المحتويات المُترجَمة يجب أن تصدر تحت <a href=\"http://en.wikipedia.org/wiki/"
 "Free_software_license\">رخصة حرة</a>."
@@ -2679,7 +2677,7 @@ msgstr ""
 "يُترجم %(project)s باستخدام %(weblate_name_link)s، وهي أداة وِب مصممة لتسهيل "
 "الترجمة للمطور والمترجم."
 
-#: weblate/templates/engage.html:31
+#: weblate/templates/engage.html:30
 #, python-format
 msgid ""
 "If you would like to contribute to translation of %(project)s, you need to "
@@ -2687,7 +2685,7 @@ msgid ""
 msgstr ""
 "إذا أردت أن تشارك في ترجمة %(project)s، فيجب عليك  التسجيل في هذا الخادوم ."
 
-#: weblate/templates/engage.html:35
+#: weblate/templates/engage.html:34
 msgid ""
 "This translation is open only to a limited group of translators, if you want "
 "to contribute please get in touch with the project maintainers."
@@ -2695,11 +2693,20 @@ msgstr ""
 "هذه الترجمة مفتوحة لعدد محدود من المترجمين، إذا أردت أن تساهم فمن فضلك تواصل "
 "مع مديري المشروع."
 
-#: weblate/templates/engage.html:39
-#, python-format
+#: weblate/templates/engage.html:38
+#, fuzzy, python-format
+#| msgid ""
+#| "Once you have activated your account, proceed to the translation section."
 msgid ""
-"Once you have activated your account, proceed to the translation section."
+"Once you have activated your account, proceed to the <a href=\"%(url)s"
+"\">translation section</a>."
 msgstr "حالما تفعل حسابك، تقدّم إلى  قسم الترجمة."
+
+#: weblate/templates/engage.html:43 weblate/templates/list-translations.html:69
+#: weblate/templates/list-translations.html:71
+#: weblate/templates/translate.html:92 weblate/templates/translation.html:121
+msgid "Translate"
+msgstr "ترجم"
 
 #: weblate/templates/footer.html:5
 #, fuzzy, python-format
@@ -3283,12 +3290,6 @@ msgid "There is %(count)s not translated string."
 msgid_plural "There are %(count)s not translated strings."
 msgstr[0] ""
 msgstr[1] ""
-
-#: weblate/templates/list-translations.html:69
-#: weblate/templates/list-translations.html:71
-#: weblate/templates/translate.html:92 weblate/templates/translation.html:121
-msgid "Translate"
-msgstr "ترجم"
 
 #: weblate/templates/list-translations.html:71
 #, python-format
@@ -7037,7 +7038,7 @@ msgid ""
 "translations are %(percent)s%% complete."
 msgstr ""
 
-#. Translators: line of text in engagement widget, please use your
+#. Translators: line of text in engagement page, please use your
 #. language name instead of English
 #: weblate/trans/views/basic.py:312
 #, python-format
@@ -7663,6 +7664,13 @@ msgstr ""
 #: weblate/wladmin/views.py:225
 msgid "Admin static files"
 msgstr ""
+
+#~ msgid ""
+#~ "You can find more information about cookies in the <a href=\"https://en."
+#~ "wikipedia.org/wiki/HTTP_cookie\">Wikipedia article</a>."
+#~ msgstr ""
+#~ "يمكن إيجاد المزيد من المعلومات حول ملفات تعريف الإرتباط في <a href="
+#~ "\"https://en.wikipedia.org/wiki/HTTP_cookie\"> مقال ويكبيديا </a>."
 
 #~ msgid ""
 #~ "To test Weblate, you can login as <code>demo</code> user with password "

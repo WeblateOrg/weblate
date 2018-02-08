@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-02-08 13:42+0000\n"
+"POT-Creation-Date: 2018-02-08 14:36+0000\n"
 "PO-Revision-Date: 2018-01-30 18:47+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Azerbaijani <https://hosted.weblate.org/projects/weblate/"
@@ -786,7 +786,7 @@ msgstr ""
 #: weblate/addons/properties.py:147
 #, fuzzy
 #| msgid "Revert to this translation"
-msgid "Formats the Java properties translation"
+msgid "Formats the Java properties file"
 msgstr "Bu tərcüməni geri qaytar"
 
 #: weblate/addons/properties.py:149
@@ -1162,7 +1162,6 @@ msgstr ""
 
 #: weblate/legal/templates/legal/cookies.html:21
 #: weblate/legal/templates/legal/index.html:20
-#, python-format
 msgid ""
 "This page is based on the Terms of Service, you should still read the "
 "original document to fully understand them."
@@ -1187,18 +1186,6 @@ msgid ""
 "We use Matomo to analyze traffic on our website. Matomo honours Do Not Track "
 "settings in your browser."
 msgstr ""
-
-#: weblate/legal/templates/legal/cookies.html:35
-#, fuzzy
-#| msgid ""
-#| "You can find more information about setting up SSH keys in <a href="
-#| "\"%(ssh_docs)s\">the Weblate manual</a>."
-msgid ""
-"You can find more information about cookies in the <a href=\"https://en."
-"wikipedia.org/wiki/HTTP_cookie\">Wikipedia article</a>."
-msgstr ""
-"<a href=\"%(ssh_docs)s\">Weblate təlimatları</a> içərisində SSH açarlarının "
-"tənzimlənməsi haqqında geniş məlumat vardır."
 
 #: weblate/legal/templates/legal/index.html:15
 msgid "Legal Terms Overview"
@@ -1258,7 +1245,6 @@ msgid ""
 msgstr ""
 
 #: weblate/legal/templates/legal/security.html:32
-#, python-format
 msgid ""
 "Please see our documentation for instructions how to report security "
 "weaknesses in our platform."
@@ -1747,13 +1733,19 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/accounts/email-sent.html:35
-#, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. Should the problem persist, please contact us."
 msgstr ""
 "Əgər qısa vaxt ərzində mail almasanız, spam qovluğuna nəzər yetirin və ya "
-"yenidən qeydiyyatdan keçməyi sınayın.Probleminiz davam edərsə bizimlə əlaqə saxlayın."
+"yenidən qeydiyyatdan keçməyi sınayın.Probleminiz davam edərsə bizimlə əlaqə "
+"saxlayın."
+
+#: weblate/templates/accounts/email-sent.html:38
+#, fuzzy
+#| msgid "User registration"
+msgid "Report an issue with registration"
+msgstr "İstifadəçi qeydiyyatı"
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:25
@@ -1773,6 +1765,7 @@ msgstr ""
 
 #: weblate/templates/accounts/email.html:29
 #: weblate/templates/accounts/register.html:45 weblate/templates/base.html:135
+#: weblate/templates/engage.html:42
 msgid "Register"
 msgstr "Qeydiyyatdan keç"
 
@@ -1789,9 +1782,11 @@ msgid "Conditions for free hosting"
 msgstr "Pulsuz hostinq şərtləri"
 
 #: weblate/templates/accounts/hosting.html:36
-msgid ""
-"Translated content has to be released under <a href=\"http://en.wikipedia."
-"org/wiki/Free_software_license\">free license</a>."
+#, fuzzy
+#| msgid ""
+#| "Translated content has to be released under <a href=\"http://en.wikipedia."
+#| "org/wiki/Free_software_license\">free license</a>."
+msgid "Translated content has to be released under free software license."
 msgstr ""
 "Çevrilmiş content <a href=\"http://en.wikipedia.org/wiki/"
 "Free_software_license\">pulsuz lisans</a> altında yayınlanmaq "
@@ -2876,7 +2871,7 @@ msgstr ""
 "%(project)s, %(weblate_name_link)s istifadə etməkdə olub, həm developerlər, "
 "həm də tərcüməçilərin rahat tərcümə etməsi üçün dizayn edilmiş servisdir."
 
-#: weblate/templates/engage.html:31
+#: weblate/templates/engage.html:30
 #, python-format
 msgid ""
 "If you would like to contribute to translation of %(project)s, you need to "
@@ -2885,20 +2880,27 @@ msgstr ""
 "%(project)s tərcüməsinə dəstək olmaq istəyirsinizsə, bu serverdə "
 "qeydiyyaytdan keçməlisiniz."
 
-#: weblate/templates/engage.html:35
+#: weblate/templates/engage.html:34
 msgid ""
 "This translation is open only to a limited group of translators, if you want "
 "to contribute please get in touch with the project maintainers."
 msgstr ""
 
-#: weblate/templates/engage.html:39
+#: weblate/templates/engage.html:38
 #, fuzzy, python-format
 #| msgid ""
 #| "Once you have activated your account just proceed to the <a href=\"%(url)s"
 #| "\">translation section</a>."
 msgid ""
-"Once you have activated your account, proceed to the translation section."
+"Once you have activated your account, proceed to the <a href=\"%(url)s"
+"\">translation section</a>."
 msgstr "Hesabınızı aktivləşdirdiyiniz anda tərcümə bölməsinə keçin."
+
+#: weblate/templates/engage.html:43 weblate/templates/list-translations.html:69
+#: weblate/templates/list-translations.html:71
+#: weblate/templates/translate.html:92 weblate/templates/translation.html:121
+msgid "Translate"
+msgstr "Tərcümə et"
 
 #: weblate/templates/footer.html:5
 #, fuzzy, python-format
@@ -3536,12 +3538,6 @@ msgid "There is %(count)s not translated string."
 msgid_plural "There are %(count)s not translated strings."
 msgstr[0] "%(count)s dənə çevrilməmiş sətir var."
 msgstr[1] "%(count)s dənə çevrilməmiş sətir var."
-
-#: weblate/templates/list-translations.html:69
-#: weblate/templates/list-translations.html:71
-#: weblate/templates/translate.html:92 weblate/templates/translation.html:121
-msgid "Translate"
-msgstr "Tərcümə et"
 
 #: weblate/templates/list-translations.html:71
 #, fuzzy, python-format
@@ -7980,7 +7976,7 @@ msgstr ""
 "%(languages)s dilə çevrilməkdədir</a>. Bu tərcümələrdən cəmi %(percent)s%% "
 "tamamlandı."
 
-#. Translators: line of text in engagement widget, please use your
+#. Translators: line of text in engagement page, please use your
 #. language name instead of English
 #: weblate/trans/views/basic.py:312
 #, python-format
@@ -8668,6 +8664,17 @@ msgstr ""
 #: weblate/wladmin/views.py:225
 msgid "Admin static files"
 msgstr "Admin statik faylları"
+
+#, fuzzy
+#~| msgid ""
+#~| "You can find more information about setting up SSH keys in <a href="
+#~| "\"%(ssh_docs)s\">the Weblate manual</a>."
+#~ msgid ""
+#~ "You can find more information about cookies in the <a href=\"https://en."
+#~ "wikipedia.org/wiki/HTTP_cookie\">Wikipedia article</a>."
+#~ msgstr ""
+#~ "<a href=\"%(ssh_docs)s\">Weblate təlimatları</a> içərisində SSH "
+#~ "açarlarının tənzimlənməsi haqqında geniş məlumat vardır."
 
 #~ msgid ""
 #~ "To test Weblate, you can login as <code>demo</code> user with password "

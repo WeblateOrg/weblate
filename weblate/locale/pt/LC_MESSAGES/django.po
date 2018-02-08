@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-02-08 13:42+0000\n"
+"POT-Creation-Date: 2018-02-08 14:36+0000\n"
 "PO-Revision-Date: 2018-02-07 06:10+0000\n"
 "Last-Translator: Pedro Albuquerque <palbuquerque73@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
@@ -750,7 +750,9 @@ msgstr ""
 "repositório principal."
 
 #: weblate/addons/properties.py:147
-msgid "Formats the Java properties translation"
+#, fuzzy
+#| msgid "Formats the Java properties translation"
+msgid "Formats the Java properties file"
 msgstr "Formata a tradução para Java properties"
 
 #: weblate/addons/properties.py:149
@@ -1090,7 +1092,6 @@ msgstr "Política de cookies"
 
 #: weblate/legal/templates/legal/cookies.html:21
 #: weblate/legal/templates/legal/index.html:20
-#, python-format
 msgid ""
 "This page is based on the Terms of Service, you should still read the "
 "original document to fully understand them."
@@ -1121,14 +1122,6 @@ msgid ""
 msgstr ""
 "Usamos Matomo para analizar o tráfego na nossa página. O Matomo respeita as "
 "sua preferências de não ser seguido."
-
-#: weblate/legal/templates/legal/cookies.html:35
-msgid ""
-"You can find more information about cookies in the <a href=\"https://en."
-"wikipedia.org/wiki/HTTP_cookie\">Wikipedia article</a>."
-msgstr ""
-"Pode encontrar mais informação sobre cookies neste <a href=\"https://en."
-"wikipedia.org/wiki/HTTP_cookie\">artigo da Wikipedia</a>."
 
 #: weblate/legal/templates/legal/index.html:15
 msgid "Legal Terms Overview"
@@ -1201,7 +1194,6 @@ msgstr ""
 "Infrastructure Initiative Best Practices."
 
 #: weblate/legal/templates/legal/security.html:32
-#, python-format
 msgid ""
 "Please see our documentation for instructions how to report security "
 "weaknesses in our platform."
@@ -1605,13 +1597,18 @@ msgstr ""
 "Se a ligação de confirmação expirar antes de a usar, registe-se de novo."
 
 #: weblate/templates/accounts/email-sent.html:35
-#, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. Should the problem persist, please contact us."
 msgstr ""
 "Se não a receber em breve, por favor, verifique a sua pasta de spam ou tente "
 "registar-se novamente. Se o problema persistir, por favor,  contacte-nos."
+
+#: weblate/templates/accounts/email-sent.html:38
+#, fuzzy
+#| msgid "User registration"
+msgid "Report an issue with registration"
+msgstr "Registo de utilizador"
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:25
@@ -1631,6 +1628,7 @@ msgstr ""
 
 #: weblate/templates/accounts/email.html:29
 #: weblate/templates/accounts/register.html:45 weblate/templates/base.html:135
+#: weblate/templates/engage.html:42
 msgid "Register"
 msgstr "Registar"
 
@@ -1647,9 +1645,11 @@ msgid "Conditions for free hosting"
 msgstr "Condições para alojamento gratuito"
 
 #: weblate/templates/accounts/hosting.html:36
-msgid ""
-"Translated content has to be released under <a href=\"http://en.wikipedia."
-"org/wiki/Free_software_license\">free license</a>."
+#, fuzzy
+#| msgid ""
+#| "Translated content has to be released under <a href=\"http://en.wikipedia."
+#| "org/wiki/Free_software_license\">free license</a>."
+msgid "Translated content has to be released under free software license."
 msgstr ""
 "O conteúdo traduzido tem que ser disponibilizado nos termos de uma <a href="
 "\"http://en.wikipedia.org/wiki/Free_software_license\">licença de software "
@@ -2704,7 +2704,7 @@ msgstr ""
 "ferramenta da Web criada para faciltar a tradução, tanto a programadores "
 "como a tradutores."
 
-#: weblate/templates/engage.html:31
+#: weblate/templates/engage.html:30
 #, python-format
 msgid ""
 "If you would like to contribute to translation of %(project)s, you need to "
@@ -2713,7 +2713,7 @@ msgstr ""
 "Se pretender contribuir para a tradução de %(project)s, tem de se registar "
 "neste servidor."
 
-#: weblate/templates/engage.html:35
+#: weblate/templates/engage.html:34
 msgid ""
 "This translation is open only to a limited group of translators, if you want "
 "to contribute please get in touch with the project maintainers."
@@ -2721,11 +2721,20 @@ msgstr ""
 "Esta tradução está aberta só a um grupo limitado de tradutores. Se quiser "
 "contribuir, por favor contacte os gestores do projecto."
 
-#: weblate/templates/engage.html:39
-#, python-format
+#: weblate/templates/engage.html:38
+#, fuzzy, python-format
+#| msgid ""
+#| "Once you have activated your account, proceed to the translation section."
 msgid ""
-"Once you have activated your account, proceed to the translation section."
+"Once you have activated your account, proceed to the <a href=\"%(url)s"
+"\">translation section</a>."
 msgstr "Assim que activar a sua conta, prossiga para a secção de tradução."
+
+#: weblate/templates/engage.html:43 weblate/templates/list-translations.html:69
+#: weblate/templates/list-translations.html:71
+#: weblate/templates/translate.html:92 weblate/templates/translation.html:121
+msgid "Translate"
+msgstr "Traduzir"
 
 #: weblate/templates/footer.html:5
 #, fuzzy, python-format
@@ -3296,12 +3305,6 @@ msgid "There is %(count)s not translated string."
 msgid_plural "There are %(count)s not translated strings."
 msgstr[0] "Há %(count)s cadeia por traduzir."
 msgstr[1] "Há %(count)s cadeias por traduzir."
-
-#: weblate/templates/list-translations.html:69
-#: weblate/templates/list-translations.html:71
-#: weblate/templates/translate.html:92 weblate/templates/translation.html:121
-msgid "Translate"
-msgstr "Traduzir"
 
 #: weblate/templates/list-translations.html:71
 #, python-format
@@ -7168,7 +7171,7 @@ msgstr ""
 "\">a ser traduzido em %(languages)s idiomas</a>. No total, estas traduções "
 "estão %(percent)s%% concluídas."
 
-#. Translators: line of text in engagement widget, please use your
+#. Translators: line of text in engagement page, please use your
 #. language name instead of English
 #: weblate/trans/views/basic.py:312
 #, python-format
@@ -7802,6 +7805,13 @@ msgstr "Carregador de modelos em memória"
 #: weblate/wladmin/views.py:225
 msgid "Admin static files"
 msgstr "Ficheiros estáticos do administrador"
+
+#~ msgid ""
+#~ "You can find more information about cookies in the <a href=\"https://en."
+#~ "wikipedia.org/wiki/HTTP_cookie\">Wikipedia article</a>."
+#~ msgstr ""
+#~ "Pode encontrar mais informação sobre cookies neste <a href=\"https://en."
+#~ "wikipedia.org/wiki/HTTP_cookie\">artigo da Wikipedia</a>."
 
 #~ msgid ""
 #~ "To test Weblate, you can login as <code>demo</code> user with password "

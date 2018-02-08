@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-02-08 13:42+0000\n"
+"POT-Creation-Date: 2018-02-08 14:36+0000\n"
 "PO-Revision-Date: 2018-01-30 18:47+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Serbian <https://hosted.weblate.org/projects/weblate/master/"
@@ -760,7 +760,7 @@ msgstr ""
 #: weblate/addons/properties.py:147
 #, fuzzy
 #| msgid "Revert to this translation"
-msgid "Formats the Java properties translation"
+msgid "Formats the Java properties file"
 msgstr "Врати на овај превод"
 
 #: weblate/addons/properties.py:149
@@ -1113,7 +1113,6 @@ msgstr ""
 
 #: weblate/legal/templates/legal/cookies.html:21
 #: weblate/legal/templates/legal/index.html:20
-#, python-format
 msgid ""
 "This page is based on the Terms of Service, you should still read the "
 "original document to fully understand them."
@@ -1138,14 +1137,6 @@ msgid ""
 "We use Matomo to analyze traffic on our website. Matomo honours Do Not Track "
 "settings in your browser."
 msgstr ""
-
-#: weblate/legal/templates/legal/cookies.html:35
-msgid ""
-"You can find more information about cookies in the <a href=\"https://en."
-"wikipedia.org/wiki/HTTP_cookie\">Wikipedia article</a>."
-msgstr ""
-"Више информација о колачићима можете наћи у <a href=\"https://en.wikipedia."
-"org/wiki/HTTP_cookie\">Википедија чланку</a>."
 
 #: weblate/legal/templates/legal/index.html:15
 msgid "Legal Terms Overview"
@@ -1205,7 +1196,6 @@ msgid ""
 msgstr ""
 
 #: weblate/legal/templates/legal/security.html:32
-#, python-format
 msgid ""
 "Please see our documentation for instructions how to report security "
 "weaknesses in our platform."
@@ -1663,7 +1653,7 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/accounts/email-sent.html:35
-#, fuzzy, python-format
+#, fuzzy
 #| msgid ""
 #| "If you don't receive it shortly, please check your spam folder or retry "
 #| "the registration. If the problem persists, please <a href="
@@ -1674,6 +1664,12 @@ msgid ""
 msgstr ""
 "Ако је не примите ускоро, проверите фасциклу за нежељену пошту или се "
 "региструјте поново. Ако се проблеми наставе, молимо вас да нас контактирате."
+
+#: weblate/templates/accounts/email-sent.html:38
+#, fuzzy
+#| msgid "User registration"
+msgid "Report an issue with registration"
+msgstr "Регистрација корисника"
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:25
@@ -1692,6 +1688,7 @@ msgstr ""
 
 #: weblate/templates/accounts/email.html:29
 #: weblate/templates/accounts/register.html:45 weblate/templates/base.html:135
+#: weblate/templates/engage.html:42
 msgid "Register"
 msgstr "Регистрација"
 
@@ -1707,9 +1704,11 @@ msgid "Conditions for free hosting"
 msgstr "Услови за бесплатан хостинг"
 
 #: weblate/templates/accounts/hosting.html:36
-msgid ""
-"Translated content has to be released under <a href=\"http://en.wikipedia."
-"org/wiki/Free_software_license\">free license</a>."
+#, fuzzy
+#| msgid ""
+#| "Translated content has to be released under <a href=\"http://en.wikipedia."
+#| "org/wiki/Free_software_license\">free license</a>."
+msgid "Translated content has to be released under free software license."
 msgstr ""
 "Преведени садржај мора бити издат под <a href=\"http://en.wikipedia.org/wiki/"
 "Free_software_license\">слободном лиценцом</a>."
@@ -2765,7 +2764,7 @@ msgstr ""
 "%(project)s се преводи помоћу %(weblate_name_link)s, веб алата направљеног "
 "да олакша превођење и програмерима и преводиоцима."
 
-#: weblate/templates/engage.html:31
+#: weblate/templates/engage.html:30
 #, python-format
 msgid ""
 "If you would like to contribute to translation of %(project)s, you need to "
@@ -2774,7 +2773,7 @@ msgstr ""
 "Ако желите да допринесете преводима за %(project)s, морате се регистровати "
 "на серверу."
 
-#: weblate/templates/engage.html:35
+#: weblate/templates/engage.html:34
 #, fuzzy
 #| msgid ""
 #| "This translation is open only to limited group of translators, if you "
@@ -2786,14 +2785,21 @@ msgstr ""
 "Овај превод је отворен за ограничену групу преводилаца. Ако желите да "
 "допринесете, контактирајте одржаваоце пројекта."
 
-#: weblate/templates/engage.html:39
+#: weblate/templates/engage.html:38
 #, fuzzy, python-format
 #| msgid ""
 #| "Once you have activated your account just proceed to the <a href=\"%(url)s"
 #| "\">translation section</a>."
 msgid ""
-"Once you have activated your account, proceed to the translation section."
+"Once you have activated your account, proceed to the <a href=\"%(url)s"
+"\">translation section</a>."
 msgstr "Када активирате свој налог, наставите до одељка са преводима."
+
+#: weblate/templates/engage.html:43 weblate/templates/list-translations.html:69
+#: weblate/templates/list-translations.html:71
+#: weblate/templates/translate.html:92 weblate/templates/translation.html:121
+msgid "Translate"
+msgstr "Преведи"
 
 #: weblate/templates/footer.html:5
 #, fuzzy, python-format
@@ -3394,12 +3400,6 @@ msgid_plural "There are %(count)s not translated strings."
 msgstr[0] "Има %(count)s непреведена ниска."
 msgstr[1] "Има %(count)s непреведене ниске."
 msgstr[2] "Има %(count)s непреведених ниски."
-
-#: weblate/templates/list-translations.html:69
-#: weblate/templates/list-translations.html:71
-#: weblate/templates/translate.html:92 weblate/templates/translation.html:121
-msgid "Translate"
-msgstr "Преведи"
 
 #: weblate/templates/list-translations.html:71
 #, python-format
@@ -7296,7 +7296,7 @@ msgstr ""
 "за превођење и <a href=\"%(lang_url)s\">преводи се на %(languages)s језика</"
 "a>. Укупно гледано, преводи су %(percent)s%% завршени."
 
-#. Translators: line of text in engagement widget, please use your
+#. Translators: line of text in engagement page, please use your
 #. language name instead of English
 #: weblate/trans/views/basic.py:312
 #, python-format
@@ -7944,6 +7944,13 @@ msgstr ""
 #: weblate/wladmin/views.py:225
 msgid "Admin static files"
 msgstr ""
+
+#~ msgid ""
+#~ "You can find more information about cookies in the <a href=\"https://en."
+#~ "wikipedia.org/wiki/HTTP_cookie\">Wikipedia article</a>."
+#~ msgstr ""
+#~ "Више информација о колачићима можете наћи у <a href=\"https://en."
+#~ "wikipedia.org/wiki/HTTP_cookie\">Википедија чланку</a>."
 
 #~ msgid ""
 #~ "To test Weblate, you can login as <code>demo</code> user with password "

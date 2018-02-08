@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-02-08 13:42+0000\n"
+"POT-Creation-Date: 2018-02-08 14:36+0000\n"
 "PO-Revision-Date: 2018-02-08 10:08+0000\n"
 "Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/master/da/"
@@ -743,7 +743,9 @@ msgstr ""
 "kildekodearkivet."
 
 #: weblate/addons/properties.py:147
-msgid "Formats the Java properties translation"
+#, fuzzy
+#| msgid "Formats the Java properties translation"
+msgid "Formats the Java properties file"
 msgstr "Formaterer Java-properties-oversættelsen"
 
 #: weblate/addons/properties.py:149
@@ -1081,7 +1083,6 @@ msgstr "Cookiepolitik"
 
 #: weblate/legal/templates/legal/cookies.html:21
 #: weblate/legal/templates/legal/index.html:20
-#, python-format
 msgid ""
 "This page is based on the Terms of Service, you should still read the "
 "original document to fully understand them."
@@ -1111,14 +1112,6 @@ msgid ""
 msgstr ""
 "Matomo bruges til at analysere trafikken på vores websted. Matomo "
 "respekterer Do Not Track-indstillinger i browseren."
-
-#: weblate/legal/templates/legal/cookies.html:35
-msgid ""
-"You can find more information about cookies in the <a href=\"https://en."
-"wikipedia.org/wiki/HTTP_cookie\">Wikipedia article</a>."
-msgstr ""
-"Find flere oplysninger om cookies i <a href=\"https://en.wikipedia.org/wiki/"
-"HTTP_cookie\">Wikipedia-artikel</a>."
 
 #: weblate/legal/templates/legal/index.html:15
 msgid "Legal Terms Overview"
@@ -1190,7 +1183,6 @@ msgstr ""
 "Best Practices."
 
 #: weblate/legal/templates/legal/security.html:32
-#, python-format
 msgid ""
 "Please see our documentation for instructions how to report security "
 "weaknesses in our platform."
@@ -1587,13 +1579,18 @@ msgid ""
 msgstr "Hvis bekræftelseslinket udløber, registrer igen."
 
 #: weblate/templates/accounts/email-sent.html:35
-#, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. Should the problem persist, please contact us."
 msgstr ""
 "Hvis du ikke modtager den efter kort tid, så tjek spammappen eller gennemfør "
 "registreringen igen. Hvis problemet fortsætter, så kontakt os."
+
+#: weblate/templates/accounts/email-sent.html:38
+#, fuzzy
+#| msgid "User registration"
+msgid "Report an issue with registration"
+msgstr "Brugerregistrering"
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:25
@@ -1613,6 +1610,7 @@ msgstr ""
 
 #: weblate/templates/accounts/email.html:29
 #: weblate/templates/accounts/register.html:45 weblate/templates/base.html:135
+#: weblate/templates/engage.html:42
 msgid "Register"
 msgstr "Registrering"
 
@@ -1629,9 +1627,11 @@ msgid "Conditions for free hosting"
 msgstr "Betingelser for gratis hosting"
 
 #: weblate/templates/accounts/hosting.html:36
-msgid ""
-"Translated content has to be released under <a href=\"http://en.wikipedia."
-"org/wiki/Free_software_license\">free license</a>."
+#, fuzzy
+#| msgid ""
+#| "Translated content has to be released under <a href=\"http://en.wikipedia."
+#| "org/wiki/Free_software_license\">free license</a>."
+msgid "Translated content has to be released under free software license."
 msgstr ""
 "Oversat indhold skal udgives under en <a href=\"http://en.wikipedia.org/wiki/"
 "Free_software_license\">fri licens</a>."
@@ -2687,7 +2687,7 @@ msgstr ""
 "er udviklet til at gøre oversættelse lettere, både for udviklere og "
 "oversættere."
 
-#: weblate/templates/engage.html:31
+#: weblate/templates/engage.html:30
 #, python-format
 msgid ""
 "If you would like to contribute to translation of %(project)s, you need to "
@@ -2696,7 +2696,7 @@ msgstr ""
 "Hvis du vil bidrage til oversættelsen af %(project)s, så skal du tilmelde "
 "dig på denne server."
 
-#: weblate/templates/engage.html:35
+#: weblate/templates/engage.html:34
 msgid ""
 "This translation is open only to a limited group of translators, if you want "
 "to contribute please get in touch with the project maintainers."
@@ -2704,12 +2704,21 @@ msgstr ""
 "Oversættelsen er kun åben for en begrænset gruppe af oversættere, hvis du "
 "ønsker at bidrage kontakt projektets udviklere."
 
-#: weblate/templates/engage.html:39
-#, python-format
+#: weblate/templates/engage.html:38
+#, fuzzy, python-format
+#| msgid ""
+#| "Once you have activated your account, proceed to the translation section."
 msgid ""
-"Once you have activated your account, proceed to the translation section."
+"Once you have activated your account, proceed to the <a href=\"%(url)s"
+"\">translation section</a>."
 msgstr ""
 "Når du har aktiveret din konto, kan du fortsætte til oversættelsessektionen."
+
+#: weblate/templates/engage.html:43 weblate/templates/list-translations.html:69
+#: weblate/templates/list-translations.html:71
+#: weblate/templates/translate.html:92 weblate/templates/translation.html:121
+msgid "Translate"
+msgstr "Oversæt"
 
 #: weblate/templates/footer.html:5
 #, python-format
@@ -3282,12 +3291,6 @@ msgid "There is %(count)s not translated string."
 msgid_plural "There are %(count)s not translated strings."
 msgstr[0] "Der er %(count)s streng, der ikke er oversat."
 msgstr[1] "Der er %(count)s strenge, der ikke er oversat."
-
-#: weblate/templates/list-translations.html:69
-#: weblate/templates/list-translations.html:71
-#: weblate/templates/translate.html:92 weblate/templates/translation.html:121
-msgid "Translate"
-msgstr "Oversæt"
 
 #: weblate/templates/list-translations.html:71
 #, python-format
@@ -7151,7 +7154,7 @@ msgstr ""
 "\">bliver oversat til %(languages)s sprog</a>. I gennemsnit er %(percent)s%% "
 "af oversættelserne færdige."
 
-#. Translators: line of text in engagement widget, please use your
+#. Translators: line of text in engagement page, please use your
 #. language name instead of English
 #: weblate/trans/views/basic.py:312
 #, python-format
@@ -7783,6 +7786,13 @@ msgstr "Cachet skabelonindlæser"
 #: weblate/wladmin/views.py:225
 msgid "Admin static files"
 msgstr "Admin. statiske filer"
+
+#~ msgid ""
+#~ "You can find more information about cookies in the <a href=\"https://en."
+#~ "wikipedia.org/wiki/HTTP_cookie\">Wikipedia article</a>."
+#~ msgstr ""
+#~ "Find flere oplysninger om cookies i <a href=\"https://en.wikipedia.org/"
+#~ "wiki/HTTP_cookie\">Wikipedia-artikel</a>."
 
 #, fuzzy
 #~| msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
