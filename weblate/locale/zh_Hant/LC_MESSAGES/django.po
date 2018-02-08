@@ -6,11 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-02-08 14:49+0000\n"
+"POT-Creation-Date: 2018-02-08 17:52+0000\n"
 "PO-Revision-Date: 2018-02-08 16:26+0000\n"
 "Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
-"Language-Team: Chinese (Traditional) "
-"<https://hosted.weblate.org/projects/weblate/master/zh_Hant/>\n"
+"Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
+"weblate/master/zh_Hant/>\n"
 "Language: zh_Hant\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2189,8 +2189,8 @@ msgid ""
 "Weblate does not support Microsoft Internet Explorer 8 and older, please use "
 "some more recent browser like Firefox, Chrome or Edge."
 msgstr ""
-"Weblate 不支援 Microsoft Internet Explorer 8 及之前的版本，請使用最近的瀏覽器如 Firefox、Chrome 或 "
-"Edge。"
+"Weblate 不支援 Microsoft Internet Explorer 8 及之前的版本，請使用最近的瀏覽器"
+"如 Firefox、Chrome 或 Edge。"
 
 #: weblate/templates/base.html:179 weblate/templates/base.html:186
 msgid "Close"
@@ -2282,7 +2282,6 @@ msgid ""
 msgstr "查核可以幫助您辨認出有問題的翻譯，或很難翻譯的來源字串。"
 
 #: weblate/templates/data-root.html:6 weblate/templates/index.html:50
-#: weblate/templates/share.html:29
 msgid "Data export"
 msgstr "資料匯出"
 
@@ -2335,7 +2334,9 @@ msgstr "通知掛勾"
 msgid ""
 "With notification hooks, Weblate will automatically import changes made by "
 "your developers, and allows continuous translation."
-msgstr "在接上通知掛勾後，Weblate 會自動匯入您開發者所做的更動，如此打造出接連不斷的持續翻譯流程。"
+msgstr ""
+"在接上通知掛勾後，Weblate 會自動匯入您開發者所做的更動，如此打造出接連不斷的"
+"持續翻譯流程。"
 
 #: weblate/templates/data.html:7
 msgid "data exports"
@@ -2358,7 +2359,8 @@ msgstr "統計數據"
 msgid ""
 "Translation statistics for every component in the JSON format allows you to "
 "use the data in other websites or tools."
-msgstr "各個組件的翻譯統計數據，採 JSON 格式記錄，可讓您在其他網站或工具使這些資料。"
+msgstr ""
+"各個組件的翻譯統計數據，採 JSON 格式記錄，可讓您在其他網站或工具使這些資料。"
 
 #: weblate/templates/data.html:71
 #: weblate/templates/screenshots/screenshot_sources_body.html:13
@@ -2756,8 +2758,8 @@ msgstr "所有專案"
 msgid "Checks overview"
 msgstr "查核概覽"
 
-#: weblate/templates/index.html:51 weblate/templates/share.html:13
-#: weblate/templates/widgets-root.html:5 weblate/templates/widgets.html:6
+#: weblate/templates/index.html:51 weblate/templates/widgets-root.html:5
+#: weblate/templates/widgets.html:6
 msgid "Widgets"
 msgstr "小元件"
 
@@ -3546,11 +3548,10 @@ msgid "Start new translation"
 msgstr "開始新翻譯"
 
 #: weblate/templates/new-language.html:25
-#, python-format
 msgid ""
-"Should your language be missing, please follow <a href=\"%(url)s\">the "
-"translator instructions</a>."
-msgstr "看來應該是遺漏了您的語言，請遵循<a href=\"%(url)s\">翻譯者指示</a>。"
+"Please see translator instructions for information how to start translation "
+"into another language."
+msgstr ""
 
 #: weblate/templates/new-language.html:27
 msgid "Please choose the language you want to translate to."
@@ -3617,13 +3618,12 @@ msgstr "儲存庫維護"
 msgid "Share"
 msgstr "分享"
 
-#: weblate/templates/project.html:85 weblate/templates/share.html:9
-#: weblate/templates/translation.html:89
+#: weblate/templates/project.html:85 weblate/templates/translation.html:89
 msgid "Share on Facebook"
 msgstr "在 Facebook 分享"
 
-#: weblate/templates/project.html:86 weblate/templates/share.html:10
-#: weblate/templates/subproject.html:95 weblate/templates/translation.html:90
+#: weblate/templates/project.html:86 weblate/templates/subproject.html:95
+#: weblate/templates/translation.html:90
 #, python-format
 msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
 msgstr "來用 %%23Weblate 翻譯 %(object)s，網址：%(share_url)s！"
@@ -3780,25 +3780,6 @@ msgstr "目前沒有指派的來源字串！"
 #: weblate/templates/search.html:42
 msgid "No matching strings found."
 msgstr "找不到符合的字串。"
-
-#: weblate/templates/share.html:6
-msgid "Share your translation"
-msgstr "分享您的翻譯"
-
-#: weblate/templates/share.html:26
-#, python-format
-msgid ""
-"You can also promote this translation project using various <a href="
-"\"%(widgets_url)s\">other means</a>."
-msgstr ""
-"您也可以利用<a href=\"%(widgets_url)s\">其他方法</a>來推展這個翻譯專案。"
-
-#: weblate/templates/share.html:32
-#, python-format
-msgid ""
-"Various <a href=\"%(data_url)s\">data exports</a> are available in machine "
-"readable formats."
-msgstr "可以使用各種機讀格式<a href=\"%(data_url)s\">匯出資料</a>。"
 
 #: weblate/templates/show-lock.html:3
 msgid "This translation is currently locked for updates."
@@ -7422,6 +7403,26 @@ msgstr "快取的模板載入器"
 #: weblate/wladmin/views.py:225
 msgid "Admin static files"
 msgstr "管理靜態檔案"
+
+#~ msgid ""
+#~ "Should your language be missing, please follow <a href=\"%(url)s\">the "
+#~ "translator instructions</a>."
+#~ msgstr ""
+#~ "看來應該是遺漏了您的語言，請遵循<a href=\"%(url)s\">翻譯者指示</a>。"
+
+#~ msgid "Share your translation"
+#~ msgstr "分享您的翻譯"
+
+#~ msgid ""
+#~ "You can also promote this translation project using various <a href="
+#~ "\"%(widgets_url)s\">other means</a>."
+#~ msgstr ""
+#~ "您也可以利用<a href=\"%(widgets_url)s\">其他方法</a>來推展這個翻譯專案。"
+
+#~ msgid ""
+#~ "Various <a href=\"%(data_url)s\">data exports</a> are available in "
+#~ "machine readable formats."
+#~ msgstr "可以使用各種機讀格式<a href=\"%(data_url)s\">匯出資料</a>。"
 
 #~ msgid ""
 #~ "You can find more information about cookies in the <a href=\"https://en."

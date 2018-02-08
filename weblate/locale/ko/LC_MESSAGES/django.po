@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-02-08 14:49+0000\n"
+"POT-Creation-Date: 2018-02-08 17:52+0000\n"
 "PO-Revision-Date: 2018-01-30 18:47+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
@@ -2530,7 +2530,6 @@ msgstr ""
 "수 있습니다."
 
 #: weblate/templates/data-root.html:6 weblate/templates/index.html:50
-#: weblate/templates/share.html:29
 msgid "Data export"
 msgstr "자료 내보내기"
 
@@ -3075,8 +3074,8 @@ msgstr "모든 프로젝트"
 msgid "Checks overview"
 msgstr "검사(교정) 현황"
 
-#: weblate/templates/index.html:51 weblate/templates/share.html:13
-#: weblate/templates/widgets-root.html:5 weblate/templates/widgets.html:6
+#: weblate/templates/index.html:51 weblate/templates/widgets-root.html:5
+#: weblate/templates/widgets.html:6
 msgid "Widgets"
 msgstr "위젯"
 
@@ -3972,15 +3971,10 @@ msgid "Start new translation"
 msgstr "새로운 번역 시작하기"
 
 #: weblate/templates/new-language.html:25
-#, fuzzy, python-format
-#| msgid ""
-#| "Should your language be missing, please follow <a href=\"%(url)s"
-#| "\">translator instructions</a>."
 msgid ""
-"Should your language be missing, please follow <a href=\"%(url)s\">the "
-"translator instructions</a>."
+"Please see translator instructions for information how to start translation "
+"into another language."
 msgstr ""
-"귀하의 언어가 없을 경우, <a href=\"%(url)s\">번역자 지침</a>을 따르십시오."
 
 #: weblate/templates/new-language.html:27
 #, fuzzy
@@ -4057,15 +4051,14 @@ msgstr "저장소 유지 보수"
 msgid "Share"
 msgstr "공유"
 
-#: weblate/templates/project.html:85 weblate/templates/share.html:9
-#: weblate/templates/translation.html:89
+#: weblate/templates/project.html:85 weblate/templates/translation.html:89
 #, fuzzy
 #| msgid "Share on Facebook!"
 msgid "Share on Facebook"
 msgstr "페이스북에서 공유하기!"
 
-#: weblate/templates/project.html:86 weblate/templates/share.html:10
-#: weblate/templates/subproject.html:95 weblate/templates/translation.html:90
+#: weblate/templates/project.html:86 weblate/templates/subproject.html:95
+#: weblate/templates/translation.html:90
 #, python-format
 msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
 msgstr "%(share_url)s의 %%23Weblate를 이용해 %(object)s 를 번역하세요!"
@@ -4260,31 +4253,6 @@ msgstr "현재 관련됨:"
 #| msgid "No matching strings found!"
 msgid "No matching strings found."
 msgstr "일치하는 문자열이 없습니다!"
-
-#: weblate/templates/share.html:6
-msgid "Share your translation"
-msgstr "내 번역 공유"
-
-#: weblate/templates/share.html:26
-#, fuzzy, python-format
-#| msgid ""
-#| "You can also promote this translation project using various <a href="
-#| "\"%(widgets_url)s\">other possibilities</a>."
-msgid ""
-"You can also promote this translation project using various <a href="
-"\"%(widgets_url)s\">other means</a>."
-msgstr ""
-"또한 여러 가지 <a href=\"%(widgets_url)s\">다른 가능성</a>을 사용하여 이 번"
-"역 프로젝트를 홍보할 수 있습니다."
-
-#: weblate/templates/share.html:32
-#, python-format
-msgid ""
-"Various <a href=\"%(data_url)s\">data exports</a> are available in machine "
-"readable formats."
-msgstr ""
-"다양한 <a href=\"%(data_url)s\">데이터 내보내기</a>는 기계 판독 형식으로 사용"
-"할 수 있습니다."
 
 #: weblate/templates/show-lock.html:3
 #, fuzzy
@@ -8430,6 +8398,37 @@ msgstr "캐쉬된 템플릿 로더"
 #: weblate/wladmin/views.py:225
 msgid "Admin static files"
 msgstr "관리자 정적 파일"
+
+#, fuzzy
+#~| msgid ""
+#~| "Should your language be missing, please follow <a href=\"%(url)s"
+#~| "\">translator instructions</a>."
+#~ msgid ""
+#~ "Should your language be missing, please follow <a href=\"%(url)s\">the "
+#~ "translator instructions</a>."
+#~ msgstr ""
+#~ "귀하의 언어가 없을 경우, <a href=\"%(url)s\">번역자 지침</a>을 따르십시오."
+
+#~ msgid "Share your translation"
+#~ msgstr "내 번역 공유"
+
+#, fuzzy
+#~| msgid ""
+#~| "You can also promote this translation project using various <a href="
+#~| "\"%(widgets_url)s\">other possibilities</a>."
+#~ msgid ""
+#~ "You can also promote this translation project using various <a href="
+#~ "\"%(widgets_url)s\">other means</a>."
+#~ msgstr ""
+#~ "또한 여러 가지 <a href=\"%(widgets_url)s\">다른 가능성</a>을 사용하여 이 "
+#~ "번역 프로젝트를 홍보할 수 있습니다."
+
+#~ msgid ""
+#~ "Various <a href=\"%(data_url)s\">data exports</a> are available in "
+#~ "machine readable formats."
+#~ msgstr ""
+#~ "다양한 <a href=\"%(data_url)s\">데이터 내보내기</a>는 기계 판독 형식으로 "
+#~ "사용할 수 있습니다."
 
 #, fuzzy
 #~| msgid ""
