@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-02-08 11:15+0000\n"
-"PO-Revision-Date: 2018-02-03 09:03+0000\n"
+"PO-Revision-Date: 2018-02-08 13:39+0000\n"
 "Last-Translator: monolifed <monolifed@gmail.com>\n"
-"Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
-"tr/>\n"
+"Language-Team: Turkish "
+"<https://hosted.weblate.org/projects/weblate/master/tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -408,7 +408,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:423
 msgid "Notification on any translation"
-msgstr "Herhangi bir çeviride bildirim"
+msgstr "Her çeviride bildirim"
 
 #: weblate/accounts/models.py:427
 msgid "Notification on new string to translate"
@@ -616,10 +616,8 @@ msgstr ""
 "başka bir hesapla bağdaştırılmış!"
 
 #: weblate/addons/cleanup.py:34
-#, fuzzy
-#| msgid "Translation file"
 msgid "Cleanup translation files"
-msgstr "Çeviri dosyası"
+msgstr "Çeviri dosyaslarını temizle"
 
 #: weblate/addons/cleanup.py:36
 msgid ""
@@ -627,22 +625,21 @@ msgid ""
 "file formats this means removing stale translation keys which are no longer "
 "present in the base file."
 msgstr ""
+"Tüm çeviri dosyalarını tek dilli taban dosyayla eşleşmesi için güncelle. "
+"Çoğu dosya biçiminde bu, taban dosyada artık bulunmayan eski çeviri "
+"anahtarlarını kaldırmak anlamına gelir."
 
 #: weblate/addons/example.py:42
-#, fuzzy
-#| msgid "Example:"
 msgid "Example addon"
-msgstr "Örnek:"
+msgstr "Örnek eklenti"
 
 #: weblate/addons/example.py:44
 msgid "This addon does nothing it is just an example"
-msgstr ""
+msgstr "Bu eklenti yalnızca bir örnek, hiçbir şey yapmaz"
 
 #: weblate/addons/flags.py:50
-#, fuzzy
-#| msgid "Review source strings in %s"
 msgid "Flag new source strings to need edit"
-msgstr "%s içindeki kaynak satırları gözden geçir"
+msgstr "Yeni kaynak satırlara düzenlenmesi gerekli bayrağı ekle"
 
 #: weblate/addons/flags.py:52
 msgid ""
@@ -650,12 +647,13 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written the developers."
 msgstr ""
+"Yeni bir kaynak satır VCS'den içeri her aktarıldığında, Weblate'de düzenleme "
+"gerekli olarak işaretlenir. Bu yolla geliştiricilerin yazdığı kaynak "
+"satırları kolayca süzer ve düzenleyebilirsiniz."
 
 #: weblate/addons/flags.py:64
-#, fuzzy
-#| msgid "Add as translation needing edit"
 msgid "Flag new translations to need edit"
-msgstr "Düzenlenmesi gereken çeviri olarak ekle"
+msgstr "Yeni çevirilere düzenlenmesi gerekli bayrağı ekle"
 
 #: weblate/addons/flags.py:66
 msgid ""
@@ -663,35 +661,31 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
+"Yeni bir çeviri birimi VCS'den içeri her aktarıldığında, Weblate'de "
+"düzenleme gerekli olarak işaretlenir. Bu yolla geliştiricilerin oluşturduğu "
+"çevirileri kolayca süzer ve düzenleyebilirsiniz."
 
 #: weblate/addons/forms.py:44
-#, fuzzy
-#| msgid "Failed to generate key: %s"
 msgid "Name of generated file"
-msgstr "Anahtar üretilemedi: %s"
+msgstr "Oluşturulan dosyanın adı"
 
 #: weblate/addons/forms.py:49
 msgid "Content of generated file"
-msgstr ""
+msgstr "Oluşturulan dosyanın içeriği"
 
 #: weblate/addons/forms.py:68
-#, fuzzy
-#| msgid "Failed to compile: {0}"
 msgid "Failed to render template: {}"
-msgstr "Derleme başarısız: {0}"
+msgstr "Şablon oluşturma başarısız: {}"
 
 #: weblate/addons/generate.py:36
-#, fuzzy
-#| msgid "Statistics"
 msgid "Statistics generator"
-msgstr "İstatistikler"
+msgstr "İstatistik oluşturucu"
 
 #: weblate/addons/generate.py:38
-#, fuzzy
-#| msgid "Merges content of file header into the translation."
 msgid ""
 "This addon generates file with detailed information about the translation."
-msgstr "Dosya başlığının içeriğini çeviri içine birleştirir."
+msgstr ""
+"Bu eklenti çeviri hakkında ayrıntılı bilgiler içeren bir dosya oluşturur."
 
 #: weblate/addons/gettext.py:52
 msgid "Generate mo files"
@@ -703,49 +697,49 @@ msgstr "Her değiştirilen po dosyası için kendiliğinden mo dosyası üretir.
 
 #: weblate/addons/gettext.py:69
 msgid "Update LINGUAS file"
-msgstr ""
+msgstr "LINGUAS dosyasını güncelle"
 
 #: weblate/addons/gettext.py:71
-#, fuzzy
-#| msgid "Merges content of file header into the translation."
 msgid "Updates the LINGUAS file when adding new translation."
-msgstr "Dosya başlığının içeriğini çeviri içine birleştirir."
+msgstr "Yeni çeviri eklerken LINGUAS dosyasını günceller."
 
 #: weblate/addons/gettext.py:124
 msgid "Update ALL_LINGUAS variable in the configure file"
-msgstr ""
+msgstr "Yapılandırma dosyasındaki ALL_LINGUAS değişkenini güncelle"
 
 #: weblate/addons/gettext.py:126
 msgid ""
 "Updates the ALL_LINGUAS variable in configure, configure.in or configure.ac "
 "files when adding new translation."
 msgstr ""
+"Yeni çeviri eklerken, configure, configure.in veya configure.ac dosyasındaki "
+"ALL_LINGUAS değişkenini günceller."
 
 #: weblate/addons/gettext.py:184
 msgid "Update po files to match pot (msgmerge)"
-msgstr ""
+msgstr "Pot ile eşleşmesi için po dosyalarını güncelle (msgmerge)"
 
 #: weblate/addons/gettext.py:186
 msgid ""
 "Update all po files to match the pot file using msgmerge. This is triggered "
 "whenever new changes are pulled from upstream repository."
 msgstr ""
+"Pot dosyası ile eşleşmesi için tüm po dosyalarını msgmerge kullanarak "
+"güncelle. Yukarı akımdan yeni değişiklikler her çekildiğinde bu tetiklenir."
 
 #: weblate/addons/properties.py:147
 #, fuzzy
 #| msgid "Revert to this translation"
 msgid "Formats the Java properties translation"
-msgstr "Bu çeviriye geri al"
+msgstr "Java özellikleri dosyasını biçimlendirir"
 
 #: weblate/addons/properties.py:149
 msgid "This addon sorts the Java properties file."
-msgstr ""
+msgstr "Bu eklenti Java özellikleri dosyası sıralar."
 
 #: weblate/addons/views.py:83
-#, fuzzy
-#| msgid "Invalid checksum specified!"
 msgid "Invalid addon name specified!"
-msgstr "Geçersiz sağlama belirtildi!"
+msgstr "Geçersiz eklenti adı belirtildi!"
 
 #: weblate/billing/admin.py:52 weblate/billing/models.py:128
 #: weblate/templates/accounts/user.html:38
@@ -2186,10 +2180,8 @@ msgid "Addons"
 msgstr "Eklentiler"
 
 #: weblate/templates/addons/addon_detail.html:27
-#, fuzzy
-#| msgid "Configure columns"
 msgid "Configure addon"
-msgstr "Sütunları yapılandır"
+msgstr "Eklentiyi yapılandır"
 
 #: weblate/templates/addons/addon_list.html:19
 msgid "Installed addons"
@@ -2224,7 +2216,7 @@ msgstr "Kur"
 
 #: weblate/templates/addons/addon_list.html:71
 msgid "Could not find any additional addons compatible with this translation."
-msgstr "Bu çeviri ile uyumlu ek eklentiler bulunamadı."
+msgstr "Bu çeviri ile uyumlu hiçbir ek eklenti bulunamadı."
 
 #: weblate/templates/addons/addon_list.html:73
 msgid "Some addons will ask for additional configuration during installation."
@@ -2235,18 +2227,16 @@ msgid ""
 "You can use Django templates markup in both filename and content, for "
 "example:"
 msgstr ""
+"Dosya adında ve içeriğinde Django şablonlar biçimlendirmesi "
+"kullanabilirsiniz, örneğin:"
 
 #: weblate/templates/addons/generate_help.html:11
-#, fuzzy
-#| msgid "Has been translated"
 msgid "Percents translated"
-msgstr "Çevrilmiş"
+msgstr "Çevrilen yüzde"
 
 #: weblate/templates/addons/generate_help.html:15
-#, fuzzy
-#| msgid "Not translated strings"
 msgid "Number of translated strings"
-msgstr "Çevrilmemiş satır"
+msgstr "Çevrilen satır sayısı"
 
 #: weblate/templates/addons/generate_help.html:17
 #: weblate/trans/models/subproject.py:135
@@ -2254,16 +2244,12 @@ msgid "Component name"
 msgstr "Bileşen adı"
 
 #: weblate/templates/addons/generate_help.html:19
-#, fuzzy
-#| msgid "Components"
 msgid "Component URL slug"
-msgstr "Bileşenler"
+msgstr "URL kısaltması bileşeni"
 
 #: weblate/templates/addons/generate_help.html:23
-#, fuzzy
-#| msgid "URL slug"
 msgid "Project URL slug"
-msgstr "URL kısaltması"
+msgstr "Proje URL kısaltması"
 
 #: weblate/templates/base.html:97
 msgid "Toggle navigation"
@@ -3097,7 +3083,7 @@ msgstr "Kilitle"
 
 #: weblate/templates/js/git-status.html:200
 msgid "Prevent any changes in the local repository"
-msgstr "Yerel havuzdaki tüm değişikleri önle"
+msgstr "Yerel havuzdaki her değişikliği önle"
 
 #: weblate/templates/js/git-status.html:215
 msgid "Removes current translation from the repository."
@@ -4195,8 +4181,6 @@ msgid "Only selected users can contribute."
 msgstr "Yalnızca seçili kullanıcılar katkıda bulunabilir."
 
 #: weblate/templates/subproject_info.html:28
-#, fuzzy
-#| msgid "Any authenticated users can contribute."
 msgid "Any authenticated user can contribute."
 msgstr "Kimlik doğrulamış her kullanıcı katkıda bulunabilir."
 
@@ -5609,12 +5593,12 @@ msgid ""
 "You can upload any format which is understood by Translate Toolkit "
 "(including TBX, CSV or Gettext PO files)."
 msgstr ""
-"Translate Toolkit tarafından anlaşılabilecek herhangi bir biçimi "
-"gönderebilirsiniz (TBX, CSV veya Gettext PO dosyaları dahil)."
+"Translate Toolkit tarafından anlaşılabilecek her biçimi gönderebilirsiniz ("
+"TBX, CSV veya Gettext PO dosyaları dahil)."
 
 #: weblate/trans/forms.py:976
 msgid "Keep current"
-msgstr "Şimdikini tut"
+msgstr "Şimdikini koru"
 
 #: weblate/trans/forms.py:977
 msgid "Overwrite existing"
@@ -5804,7 +5788,7 @@ msgstr "Kaynak dil metni"
 msgid ""
 "You can edit this later, as with any other string in the source language."
 msgstr ""
-"Kaynak dildeki herhangi başka bir satırda olduğu gibi bunu daha sonra "
+"Kaynak dildeki başka bir satırda olduğu gibi bunu daha sonra "
 "düzenleyebilirsiniz."
 
 #: weblate/trans/models/change.py:200
@@ -6428,8 +6412,7 @@ msgstr "İşlenecek değişikliklerin yaşı"
 msgid ""
 "Time in hours after which any pending changes will be committed to the VCS."
 msgstr ""
-"Sonrasında bekleyen tüm değişikliklerin VCS'ye işleneceği saat cinsinden "
-"süre."
+"Sonrasında, bekleyen her değişikliğin VCS'ye işleneceği saat cinsinden süre."
 
 #: weblate/trans/models/subproject.py:483
 msgid "Language filter"
@@ -7615,10 +7598,8 @@ msgid "Performance"
 msgstr "Performans"
 
 #: weblate/wladmin/templates/admin/performance.html:14
-#, fuzzy
-#| msgid "Performance report"
 msgid "Performance overview"
-msgstr "Performans bildirimi"
+msgstr "Performansa genel bakış"
 
 #: weblate/wladmin/templates/admin/performance.html:27
 msgid "Last occurrence"
@@ -7654,7 +7635,7 @@ msgstr "SSH anahtarları"
 
 #: weblate/wladmin/templates/admin/ssh.html:14
 msgid "SSH keys management"
-msgstr ""
+msgstr "SSH anahtar yönetimi"
 
 #: weblate/wladmin/templates/admin/ssh.html:23
 msgid "Public SSH key"
@@ -7717,11 +7698,11 @@ msgstr "B.Noktası:"
 #, fuzzy
 #| msgid "Documentation"
 msgid "Import speed documentation"
-msgstr "Belgeler"
+msgstr "İçe aktarma hızı belgesi"
 
 #: weblate/wladmin/templates/admin/trans/change_form.html:37
 msgid "Required fields are marked as bold."
-msgstr ""
+msgstr "Gerekli alanlar kalın olarak işaretlidir."
 
 #: weblate/wladmin/templates/admin/trans/change_form.html:39
 msgid "Do not change this object here, please use Weblate interface instead."
