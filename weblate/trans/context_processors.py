@@ -75,9 +75,16 @@ def weblate_context(request):
         'version': weblate.VERSION,
         'description': description,
 
-        'weblate_url': weblate_url,
         'weblate_link': mark_safe(
             '<a href="{}">weblate.org</a>'.format(escape(weblate_url))
+        ),
+        'weblate_name_link': mark_safe(
+            '<a href="{}">Weblate</a>'.format(escape(weblate_url))
+        ),
+        'weblate_version_link': mark_safe(
+            '<a href="{}">Weblate {}</a>'.format(
+                escape(weblate_url), weblate.VERSION
+            )
         ),
         'donate_url': URL_DONATE % weblate.VERSION,
 
