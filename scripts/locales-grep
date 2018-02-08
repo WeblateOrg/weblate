@@ -13,5 +13,5 @@ for filename in glob('weblate/locale/*/LC_MESSAGES/*.po'):
             continue
         if sys.argv[1] in unit.source:
             print(unit.source)
-        if sys.argv[1] in unit.target:
+        if unit.istranslated() and sys.argv[1] in unit.target:
             print(unit.target)
