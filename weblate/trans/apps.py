@@ -26,6 +26,7 @@ from django.utils.translation import ugettext_lazy as _
 from weblate.trans.data import data_dir
 from weblate.trans.vcs import GitRepository, RepositoryException
 from weblate.trans.util import add_configuration_error
+from weblate.utils.filelock import FileLock
 
 
 class TransConfig(AppConfig):
@@ -35,13 +36,18 @@ class TransConfig(AppConfig):
 
     def ready(self):
         # Configure merge driver for Gettext PO
-        try:
-            GitRepository.global_setup()
-        except RepositoryException as error:
-            add_configuration_error(
-                'Git global setup',
-                'Failed to do git setup: {0}'.format(error)
-            )
+        # We need to do this behind lock to avoid errors when servers
+        # start in parallel
+        lockfile = FileLock(os.path.join(data_dir('home'), 'gitlock'))
+        with lockfile:
+            try:
+                GitRepository.global_setup()
+            except RepositoryException as error:
+                print error
+                add_configuration_error(
+                    'Git global setup',
+                    'Failed to do git setup: {0}'.format(error)
+                )
 
         # Use it for *.po by default
         configdir = os.path.join(data_dir('home'), '.config', 'git')
