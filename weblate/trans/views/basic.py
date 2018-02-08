@@ -44,7 +44,7 @@ from weblate.requirements import get_versions, get_optional_versions
 from weblate.lang.models import Language
 from weblate.trans.forms import (
     get_upload_form, SearchForm, SiteSearchForm,
-    AutoForm, ReviewForm, get_new_language_form,
+    AutoForm, AutoMtForm, ReviewForm, get_new_language_form,
     ReportsForm, ReplaceForm, NewUnitForm,
 )
 from weblate.permissions.helpers import (
@@ -427,8 +427,10 @@ def show_translation(request, project, subproject, lang):
     # Is user allowed to do automatic translation?
     if can_automatic_translation(request.user, obj.subproject.project):
         autoform = AutoForm(obj, request.user)
+        automtform = AutoMtForm(obj, request.user)
     else:
         autoform = None
+        automtform = None
 
     # Search form for everybody
     search_form = SearchForm()
@@ -454,6 +456,7 @@ def show_translation(request, project, subproject, lang):
             'project': obj.subproject.project,
             'form': form,
             'autoform': autoform,
+            'automtform': automtform,
             'search_form': search_form,
             'review_form': review_form,
             'replace_form': replace_form,
