@@ -144,7 +144,7 @@ def format_file(filename):
 class PropertiesSortAddon(BaseAddon):
     events = (EVENT_PRE_COMMIT,)
     name = 'weblate.properties.sort'
-    verbose = _('Formats the Java properties translation')
+    verbose = _('Formats the Java properties file')
     description = _(
         'This addon sorts the Java properties file.'
     )
