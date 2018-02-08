@@ -39,6 +39,7 @@ class GenerateFileAddon(BaseAddon):
         'about the translation.'
     )
     settings_form = GenerateForm
+    icon = 'bar-chart'
 
     @classmethod
     def is_compatible(cls, component):
