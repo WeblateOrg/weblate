@@ -20,6 +20,8 @@ for filename in glob('weblate/locale/*/LC_MESSAGES/*.po'):
     storage = pofile.parsefile(filename)
     modified = False
     for unit in storage.units:
+        if not unit.istranslatable():
+            continue
         if match in unit.source:
             modified = True
             unit.source = unit.source.replace(match, replacement)
