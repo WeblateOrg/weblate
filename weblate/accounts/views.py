@@ -552,6 +552,10 @@ class WeblateLoginView(LoginView):
         context['login_backends'] = [x for x in auth_backends if x != 'email']
         context['can_reset'] = 'email' in auth_backends
         context['title'] = _('Login')
+        context['demo_users'] = (
+            ('demo', 'demo', _('Standard user')),
+            ('review', 'review', _('User with reviewer permissions')),
+        )
         return context
 
     @method_decorator(never_cache)
