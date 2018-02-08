@@ -54,7 +54,8 @@
 <p class="helptext">
 {% if can_reset %}
 {% url 'password_reset' as reset_url %}
-{% blocktrans %}Forgot your password? You can <a href="{{ reset_url }}">reset it</a>.{% endblocktrans %}
+{% trans "Forgot your password?" %}
+<a href="{{ reset_url }}">{% trans "You can reset it." %}</a>
 {% endif %}
 </p>
 
@@ -92,7 +93,8 @@
 
 <p>
 {% url 'register' as register_url %}
-{% blocktrans %}Do not have an account yet? You can <a href="{{ register_url }}">register</a>.{% endblocktrans %}
+{% trans "Do not have an account yet?" %}
+<a href="{{ register_url }}">{% trans "You can register." %}</a>
 </p>
 
 </div>
