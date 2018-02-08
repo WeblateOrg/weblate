@@ -22,8 +22,7 @@
 <form method="post">
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">
-    {% doc_url 'admin/addons' as addons_doc_url %}
-    <a class="pull-right flip" href="{{ addons_doc_url }}"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+    {% documentation_icon 'admin/addons' right=True %}
   {% trans "Configure addon" %}
   </h4></div>
   <div class="panel-body">

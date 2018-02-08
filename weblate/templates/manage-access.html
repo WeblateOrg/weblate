@@ -14,8 +14,7 @@
 {% if object.access_control != object.ACCESS_CUSTOM %}
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">
-    {% doc_url 'admin/access' 'groups' as groups_doc_url %}
-    <a class="pull-right flip" href="{{ groups_doc_url }}"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+    {% documentation_icon 'admin/access' 'groups' right=True %}
   {% trans "Users" %}
   </h4></div>
   <table class="table table-striped">
@@ -76,8 +75,7 @@
 {% else %}
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">
-    {% doc_url 'admin/access' 'groups' as groups_doc_url %}
-    <a class="pull-right flip" href="{{ groups_doc_url }}"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+    {% documentation_icon 'admin/access' 'groups' right=True %}
   {% trans "Users" %}
   </h4></div>
   <div class="panel-body">
@@ -92,8 +90,7 @@
 {% csrf_token %}
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">
-    {% doc_url 'admin/access' 'acl' as acl_doc_url %}
-    <a class="pull-right flip" href="{{ acl_doc_url }}"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+    {% documentation_icon 'admin/access' 'acl' right=True %}
   {% trans "Project access control" %}
   </h4></div>
   <div class="panel-body">

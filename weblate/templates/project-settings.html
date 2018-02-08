@@ -13,9 +13,8 @@
 {% csrf_token %}
 <div class="panel panel-primary">
 <div class="panel-heading">
-{% doc_url 'admin/projects' 'project' as settings_doc_url %}
 <h4 class="panel-title">
-<a class="pull-right flip" href="{{ settings_doc_url }}"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+{% documentation_icon 'admin/projects' 'project' right=True %}
 {% trans "Settings" %}
 </h4>
 </div>

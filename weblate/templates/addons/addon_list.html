@@ -14,8 +14,7 @@
 
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">
-    {% doc_url 'admin/addons' as addons_doc_url %}
-    <a class="pull-right flip" href="{{ addons_doc_url }}"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+    {% documentation_icon 'admin/addons' right=True %}
   {% trans "Installed addons" %}
   </h4></div>
   <table class="table table-striped">
@@ -48,8 +47,7 @@
 
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">
-    {% doc_url 'admin/addons' as addons_doc_url %}
-    <a class="pull-right flip" href="{{ addons_doc_url }}"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+    {% documentation_icon 'admin/addons' right=True %}
   {% trans "Available addons" %}
   </h4></div>
   <table class="table table-striped">
