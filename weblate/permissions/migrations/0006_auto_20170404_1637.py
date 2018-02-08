@@ -16,7 +16,7 @@ def migrate_acl(apps, schema_editor):
 
     # Workaround to ensure the permission added in 0083_auto_20170404_1633
     # is actually created, see https://code.djangoproject.com/ticket/23422
-    emit_post_migrate_signal(0, False, schema_editor.connection.alias)
+    emit_post_migrate_signal(0, False, schema_editor.connection.alias, intermediate=True)
 
     groups = {}
     all_perms = Permission.objects.filter(codename__in=ADMIN_PERMS)

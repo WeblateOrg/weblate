@@ -174,8 +174,10 @@ def move_users():
 
 
 @receiver(post_migrate)
-def sync_create_groups(sender, **kwargs):
+def sync_create_groups(sender, intermediate=False, **kwargs):
     """Create groups on syncdb."""
+    if intermediate:
+        return
     # Figure out last app in signals
     for app_config in apps.get_app_configs():
         if app_config.models_module is None:

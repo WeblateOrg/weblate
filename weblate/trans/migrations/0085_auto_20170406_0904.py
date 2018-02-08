@@ -9,7 +9,7 @@ from django.db import migrations
 def add_perm(apps, schema_editor):
     # Workaround to ensure the permission added in 0084_auto_20170406_0858
     # is actually created, see https://code.djangoproject.com/ticket/23422
-    emit_post_migrate_signal(0, False, schema_editor.connection.alias)
+    emit_post_migrate_signal(0, False, schema_editor.connection.alias, intermediate=True)
 
     GroupACL = apps.get_model('permissions', 'GroupACL')
     Group = apps.get_model('auth', 'Group')
