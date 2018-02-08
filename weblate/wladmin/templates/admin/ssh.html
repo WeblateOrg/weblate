@@ -1,5 +1,6 @@
 {% extends "admin/base_site.html" %}
 {% load i18n %}
+{% load translations %}
 
 {% block title %}{% trans "SSH keys" %}{% endblock %}
 
@@ -10,8 +11,16 @@
 
 {% block content %}
 <div id="content-main">
+  <h1>{% trans "SSH keys management" %}</h1>
+  <ul class="object-tools">
+    <li>
+        <a href="{% doc_url 'admin/projects' 'private' %}" class="doclink">{% trans "Documentation" %}</a>
+    </li>
+  </ul>
+  <div class="module">
+
     {% if public_key %}
-    <h1>{% trans "Public SSH key" %}</h1>
+    <h2>{% trans "Public SSH key" %}</h2>
     <p>{% trans "Weblate currently uses following SSH key:" %}</p>
     <form>
     <textarea style="width:100%" readonly="readonly">{{ public_key.key }}</textarea>
@@ -19,7 +28,7 @@
 
 
     {% elif can_generate %}
-    <h1>{% trans "Generate SSH key" %}</h1>
+    <h2>{% trans "Generate SSH key" %}</h2>
     <p>{% trans "You don't seem to have existing SSH key, by pressing button below Weblate will generate it for you." %}</p>
     <form method="post">
     {% csrf_token %}
@@ -30,7 +39,7 @@
     {% endif %}
 
     {% if host_keys %}
-    <h1>{% trans "Known host keys" %}</h1>
+    <h2>{% trans "Known host keys" %}</h2>
 
   <div id="changelist" class="module filtered">
     <div class="results">
@@ -52,7 +61,7 @@
 </div>
     {% endif %}
 
-    <h1>{% trans "Add host key" %}</h1>
+    <h2>{% trans "Add host key" %}</h2>
     <p>{% trans "To access SSH hosts, its host key needs to be verified. You can get the host key by entering a domain name or IP for the host in the form below." %}</p>
     <form method="post">
     {% csrf_token %}
@@ -64,9 +73,6 @@
     <input type="submit" value="{% trans "Submit" %}" />
     </form>
 
-    <h1>{% trans "More information" %}</h1>
-
-    <p>{% blocktrans %}You can find more information about setting up SSH keys in <a href="{{ ssh_docs }}">the Weblate manual</a>.{% endblocktrans %}</p>
-
+  </div>
 </div>
 {% endblock %}

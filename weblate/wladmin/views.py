@@ -39,7 +39,6 @@ from weblate.trans.ssh import (
 from weblate.utils import messages
 from weblate.utils.site import get_site_url, get_site_domain
 from weblate.wladmin.models import ConfigurationError
-import weblate
 
 GOOD_CACHE = frozenset((
     'MemcachedCache', 'PyLibMCCache', 'DatabaseCache', 'RedisCache'
@@ -265,7 +264,6 @@ def ssh(request, admin_site):
     context['public_key'] = key
     context['can_generate'] = can_generate
     context['host_keys'] = get_host_keys()
-    context['ssh_docs'] = weblate.get_doc_url('admin/projects', 'private')
 
     return render(
         request,
