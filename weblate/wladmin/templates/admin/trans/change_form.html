@@ -2,6 +2,17 @@
 {% load i18n %}
 {% load translations %}
 
+{% block object-tools %}
+{% if add and opts.model_name == 'subproject' %}
+  <ul class="object-tools">
+<li>
+<a href="{% doc_url 'admin/projects' 'import-speed' %}" class="doclink">{% trans "Import speed documentation" %}</a>
+</li>
+  </ul>
+{% endif %}
+{{ block.super }}
+{% endblock %}
+
 {% block object-tools-items %}
 {% if opts.model_name == 'whiteboardmessage' %}
 <li>
@@ -26,9 +37,5 @@
 <p>{% blocktrans %}Required fields are marked as bold.{% endblocktrans %}</p>
 {% else %}
 <p class="errornote">{% blocktrans %}Do not change this object here, please use Weblate interface instead.{% endblocktrans %}</p>
-{% endif %}
-{% if add and opts.model_name == 'subproject' %}
-{% doc_url 'admin/projects' 'import-speed' as url %}
-<p>{% blocktrans %}Importing a new translation can take some time, please check <a href="{{ url }}">our documentation</a> for information on how to improve this.{% endblocktrans %}</p>
 {% endif %}
 {% endblock %}
