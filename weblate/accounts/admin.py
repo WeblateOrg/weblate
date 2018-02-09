@@ -98,7 +98,10 @@ class WeblateUserAdmin(UserAdmin):
 
     Used to add listing of group membership and whether user is active.
     """
-    list_display = UserAdmin.list_display + ('is_active', 'user_groups', 'id')
+    list_display = (
+        'username', 'email', 'full_name', 'user_groups', 'is_active',
+        'is_staff',
+    )
     form = WeblateUserChangeForm
     add_form = WeblateUserCreationForm
     add_fieldsets = (
@@ -119,6 +122,11 @@ class WeblateUserAdmin(UserAdmin):
     def user_groups(self, obj):
         """Display comma separated list of user groups."""
         return ','.join([g.name for g in obj.groups.all()])
+
+    def full_name(self, obj):
+        return obj.first_name
+
+    full_name.short_description = _('Full name')
 
 
 class WeblateGroupAdmin(GroupAdmin):
