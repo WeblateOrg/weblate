@@ -286,6 +286,10 @@ Once you have the package installed, you can hook it to Django authentication:
     # Weblate stores full user name in the first_name attribute
     AUTH_LDAP_USER_ATTR_MAP = {
         'first_name': 'name',
+        # Use following if your LDAP server does not have full name
+        # Weblate will merge them later
+        # 'first_name': 'givenName',
+        # 'last_name': 'sn',
         'email': 'mail',
     }
 
