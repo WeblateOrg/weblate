@@ -125,6 +125,33 @@ process_iso('3166-1')
 process_iso('3166-2')
 process_iso('4217')
 
+SKIP = (
+    'administered',
+    'administrative',
+    'and',
+    'are',
+    'association',
+    'autonomous'
+    'bay',
+    'auxiliary',
+    'bassin',
+    'bath',
+    'country',
+    'county',
+    'language',
+    'languages',
+    'long',
+    'region',
+    'see',
+    'state',
+    'states',
+    'testing',
+    'use',
+)
+
+for word in SKIP:
+    words.discard(word)
+
 # Write same check blacklist
 with open('weblate/trans/checks/languages.py', 'w') as output:
     output.write(HEADER)
