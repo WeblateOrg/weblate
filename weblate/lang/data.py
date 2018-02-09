@@ -395,7 +395,7 @@ LOCALE_ALIASES = {
     'be-rby': 'be_Latn',
     # Misc invalid codes
     'val_es': 'ca@valencia',
-    'no_nb': 'no',
+    'no_nb': 'nb',
     'ru_r': 'ru',
     'ru_rr': 'ru',
     'ar_ar': 'ar',
