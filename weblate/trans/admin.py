@@ -69,10 +69,15 @@ class ProjectAdmin(WeblateModelAdmin):
         units = Unit.objects.filter(
             translation__subproject__project__in=queryset
         )
+        translations = {}
         for unit in units.iterator():
             unit.run_checks()
-            unit.translation.invalidate_cache()
+            if unit.translation.id not in translations:
+                translations[unit.translation.id] = unit.translation
             cnt += 1
+
+        for translation in translations.values():
+            translation.invalidate_cache()
         self.message_user(
             request, "Updated checks for {0:d} units.".format(cnt)
         )
