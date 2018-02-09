@@ -234,7 +234,7 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_NEW_UNIT, ugettext_lazy('New unit added')),
     )
 
-    ACTIONS_SUBPROJECT = set((
+    ACTIONS_SUBPROJECT = frozenset((
         ACTION_LOCK,
         ACTION_UNLOCK,
         ACTION_DUPLICATE_STRING,
@@ -247,7 +247,7 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_FAILED_PUSH,
     ))
 
-    ACTIONS_REVERTABLE = set((
+    ACTIONS_REVERTABLE = frozenset((
         ACTION_ACCEPT,
         ACTION_REVERT,
         ACTION_CHANGE,
@@ -256,7 +256,7 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_REPLACE,
     ))
 
-    ACTIONS_CONTENT = set((
+    ACTIONS_CONTENT = frozenset((
         ACTION_CHANGE,
         ACTION_NEW,
         ACTION_AUTO,
@@ -267,7 +267,7 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_NEW_UNIT,
     ))
 
-    ACTIONS_REPOSITORY = set((
+    ACTIONS_REPOSITORY = frozenset((
         ACTION_PUSH,
         ACTION_RESET,
         ACTION_MERGE,
@@ -279,7 +279,7 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_UNLOCK,
     ))
 
-    ACTIONS_MERGE_FAILURE = set((
+    ACTIONS_MERGE_FAILURE = frozenset((
         ACTION_FAILED_MERGE,
         ACTION_FAILED_REBASE,
         ACTION_FAILED_PUSH,
