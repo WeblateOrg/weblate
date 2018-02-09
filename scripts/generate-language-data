@@ -21,6 +21,12 @@
 # see https://github.com/WeblateOrg/language-data
 
 import csv
+import re
+
+SPLIT_RE = re.compile(
+    r'(?:\&(?:nbsp|rsaquo|lt|gt|amp|ldquo|rdquo|times|quot);|' +
+    r'[() ,.^`"\'\\/_<>!?;:|{}*^@%#&~=+\r\n✓—…\[\]0-9-])+'
+)
 
 HEADER = '''# -*- coding: utf-8 -*-
 #
@@ -97,10 +103,15 @@ with open('weblate/langdata/languages.py', 'w') as output:
 
 # Generate same check blacklist
 words = set()
+def add_word(word):
+    words.update(SPLIT_RE.split(word.lower()))
+
+# Our languages data
 for row in LANGUAGES:
-    words.update(
-        row[1].replace('(', ' ').replace(')', ' ').replace('-', ' ').lower().split()
-    )
+    add_word(row[1])
+
+words.discard('')
+
 
 # Write same check blacklist
 with open('weblate/trans/checks/languages.py', 'w') as output:
