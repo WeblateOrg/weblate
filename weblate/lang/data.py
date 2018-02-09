@@ -404,6 +404,7 @@ LOCALE_ALIASES = {
     'ca_ps': 'ca',
     'by': 'be',
     'ua': 'uk',
+    'en_en': 'en',
     # Old locale iso codes
     'in': 'id',  # Indonesian
     'iw': 'he',  # Hebrew
