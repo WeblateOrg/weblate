@@ -329,6 +329,12 @@ LANGUAGES = (
         'n != 1',
     ),
     (
+        'cmn',
+        _('Chinese (Mandarin)'),
+        1,
+        '0',
+    ),
+    (
         'co',
         _('Corsican'),
         2,
