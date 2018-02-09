@@ -99,7 +99,7 @@ class AdminTest(FixtureTestCase):
 
     def test_create_project(self):
         response = self.client.get(reverse('admin:trans_project_add'))
-        self.assertContains(response, 'Required fields are marked as bold')
+        self.assertContains(response, 'Required fields are marked in bold')
 
     def test_create_subproject(self):
         response = self.client.get(reverse('admin:trans_subproject_add'))
