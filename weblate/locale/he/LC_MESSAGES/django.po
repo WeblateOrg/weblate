@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-02-09 06:33+0000\n"
-"PO-Revision-Date: 2018-02-04 09:40+0000\n"
+"PO-Revision-Date: 2018-02-09 09:15+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
-"Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/master/he/"
-">\n"
+"Language-Team: Hebrew "
+"<https://hosted.weblate.org/projects/weblate/master/he/>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -543,16 +543,12 @@ msgid "Login"
 msgstr "כניסה"
 
 #: weblate/accounts/views.py:556
-#, fuzzy
-#| msgid "Manage users"
 msgid "Standard user"
-msgstr "ניהול משתמשים"
+msgstr "משתמש רגיל"
 
 #: weblate/accounts/views.py:557
-#, fuzzy
-#| msgid "Filtered permissions"
 msgid "User with reviewer permissions"
-msgstr "הרשאות מסוננות"
+msgstr "משתמש עם הרשאות פיקוח"
 
 #: weblate/accounts/views.py:586 weblate/wladmin/sites.py:145
 msgid "Thanks for using Weblate!"
@@ -619,17 +615,13 @@ msgid "Cleanup translation files"
 msgstr "ניקוי קובצי תרגום"
 
 #: weblate/addons/cleanup.py:36
-#, fuzzy
-#| msgid ""
-#| "Update all translation files to match the monolingual base file. In most "
-#| "file formats this means removing stale translation keys."
 msgid ""
 "Update all translation files to match the monolingual base file. For most "
 "file formats, this means removing stale translation keys no longer present "
 "in the base file."
 msgstr ""
 "עדכון כל קובצי התרגום כדי שיתאימו לקובץ הבסיס החד־לשוני. ברוב תבניות הקבצים "
-"משמעות הדבר היא הסרת מפתחות של תרגומים שהוסרו."
+"משמעות הדבר היא הסרת מפתחות של תרגומים שאינם קיימים עוד בקובץ הבסיס."
 
 #: weblate/addons/example.py:42
 msgid "Example addon"
@@ -644,36 +636,26 @@ msgid "Flag new source strings to need edit"
 msgstr "סימון מחרוזות מקור חדשות שטעונות שיפור"
 
 #: weblate/addons/flags.py:52
-#, fuzzy
-#| msgid ""
-#| "Whenever a new source string is imported from the VCS, it is flagged as "
-#| "needing editing in Weblate. This way you can enforce editing source "
-#| "strings from developers."
 msgid ""
 "Whenever a new source string is imported from the VCS, it is flagged as "
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
-"כשמחרוזת מקור חדשה מיובאת ממערכת ניהול הקוד, היא מסומנת כטעונת שיפור ב־"
-"Weblate. באופן הזה ניתן לאכוף עריכת מחרוזות מקור על ידי מפתחים."
+"כשמחרוזת מקור חדשה לתרגום מיובאת ממערכת ניהול הקוד, היא מסומנת כטעונת שיפור "
+"ב־Weblate. באופן הזה ניתן לסנן ולערוך מחרוזות מקור שנכתבו על ידי המפתחים."
 
 #: weblate/addons/flags.py:64
 msgid "Flag new translations to need edit"
 msgstr "סימון תרגומים חדשים כטעוני שיפור"
 
 #: weblate/addons/flags.py:66
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translation unit is imported from the VCS, it is flagged "
-#| "as needing editing in Weblate. This way you can enforce editing source "
-#| "strings from developers."
 msgid ""
 "Whenever a new translation unit is imported from the VCS, it is flagged as "
 "needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
-"כשיחידת מקור חדשה מיובאת ממערכת ניהול הקוד, היא מסומנת כטעונת שיפור ב־"
-"Weblate. באופן הזה ניתן לאכוף עריכת מחרוזות מקור על ידי מפתחים."
+"כשיחידת מקור תרגום חדשה מיובאת ממערכת ניהול הקוד, היא מסומנת כטעונת שיפור ב־"
+"Weblate. באופן הזה ניתן לסנן ולערוך מחרוזות מקור שנכתבו על ידי המפתחים."
 
 #: weblate/addons/forms.py:44
 msgid "Name of generated file"
@@ -737,16 +719,12 @@ msgstr ""
 "להתרחש עם קבלת שינויים חדשים ממאגר המקור."
 
 #: weblate/addons/properties.py:147
-#, fuzzy
-#| msgid "Formats Java properties translation"
 msgid "Formats the Java properties file"
-msgstr "סידור תרגום בקובץ properties של Java"
+msgstr "סידור קובץ properties של Java"
 
 #: weblate/addons/properties.py:149
-#, fuzzy
-#| msgid "This addon does sort Java properties file."
 msgid "This addon sorts the Java properties file."
-msgstr "תוסף זה לא מסדר קובץ properties של Java."
+msgstr "תוסף זה מסדר קובץ properties של Java."
 
 #: weblate/addons/views.py:83
 msgid "Invalid addon name specified!"
@@ -1578,10 +1556,8 @@ msgstr ""
 "אם הבעיה נמשכת, אנא ליצור אתנו קשר."
 
 #: weblate/templates/accounts/email-sent.html:38
-#, fuzzy
-#| msgid "User registration"
 msgid "Report an issue with registration"
-msgstr "רישום משתמש"
+msgstr "דיווח על בעיות עם ההרשמה"
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:25
@@ -1615,14 +1591,8 @@ msgid "Conditions for free hosting"
 msgstr "תנאים לצורך אירוח חינמי"
 
 #: weblate/templates/accounts/hosting.html:36
-#, fuzzy
-#| msgid ""
-#| "Translated content has to be released under <a href=\"http://en.wikipedia."
-#| "org/wiki/Free_software_license\">free license</a>."
 msgid "Translated content has to be released under free software license."
-msgstr ""
-"על התוכן המתורגם חייב לחול <a href=\"http://en.wikipedia.org/wiki/"
-"Free_software_license\">רשיון חופשי</a>."
+msgstr "על התוכן המתורגם חייב לחול רשיון תכנה חופשית."
 
 #: weblate/templates/accounts/hosting.html:37
 msgid ""
@@ -1658,7 +1628,7 @@ msgstr "צירוף שם משתמש/ססמה זה לא נמצא. נא לנסות 
 #: weblate/templates/accounts/login.html:20
 msgid ""
 "To test Weblate on this demo server, you can log in as the following users:"
-msgstr ""
+msgstr "כדי לבדוק את Weblate בשרת הדגמה זה, ניתן להיכנס בתור המשתמשים הבאים:"
 
 #: weblate/templates/accounts/login.html:27
 #: weblate/templates/accounts/profile.html:52
@@ -1678,16 +1648,12 @@ msgid "Password login"
 msgstr "כניסה עם ססמה"
 
 #: weblate/templates/accounts/login.html:57
-#, fuzzy
-#| msgid "Set my password"
 msgid "Forgot your password?"
-msgstr "הגדרת הססמה שלי"
+msgstr "שכחת את הססמה שלך?"
 
 #: weblate/templates/accounts/login.html:58
-#, fuzzy
-#| msgid "You can review it at:"
 msgid "You can reset it."
-msgstr "ניתן לסקור אותה בכתובת:"
+msgstr "ניתן לאפס אותה."
 
 #: weblate/templates/accounts/login.html:78
 msgid "Third party login"
@@ -1695,17 +1661,15 @@ msgstr "כניסה צד שלישי"
 
 #: weblate/templates/accounts/login.html:96
 msgid "Do not have an account yet?"
-msgstr ""
+msgstr "אין לך חשבון עדיין?"
 
 #: weblate/templates/accounts/login.html:97
-#, fuzzy
-#| msgid "You can review it at:"
 msgid "You can register."
-msgstr "ניתן לסקור אותה בכתובת:"
+msgstr "ניתן להירשם."
 
 #: weblate/templates/accounts/password-warning.html:3
 msgid "Please enable the password authentication to secure your account."
-msgstr ""
+msgstr "נא להפעיל אימות באמצעות ססמה כדי לאבטח את החשבון שלך."
 
 #: weblate/templates/accounts/password-warning.html:8
 msgid "You will be still able to authenticate using third party services."
@@ -1716,10 +1680,8 @@ msgid "The password is used to verify important changes on your account."
 msgstr "הססמה משמשת לאמת שינויים משמעותיים בחשבון שלך."
 
 #: weblate/templates/accounts/password-warning.html:14
-#, fuzzy
-#| msgid "Current password"
 msgid "Configure the password"
-msgstr "ססמה נוכחית"
+msgstr "הגדרת הססמה"
 
 #: weblate/templates/accounts/password.html:16
 msgid ""
@@ -1992,34 +1954,26 @@ msgid "CLI usage example:"
 msgstr "דוגמה לשימוש בשורת הפקודה:"
 
 #: weblate/templates/accounts/profile.html:396
-#, fuzzy
-#| msgid ""
-#| "You can control Weblate using HTTP REST API. Please check <a href="
-#| "\"%(api_doc)s\">API documentation</a> for more details."
 msgid ""
 "You can control Weblate using HTTP REST API and API key is used to "
 "authenticate to it."
 msgstr ""
-"ניתן לשלוט ב־Weblate באמצעות HTTP REST API. נא לעיין ב<a href=\"%(api_doc)s"
-"\">תיעוד ה־API</a> לקבלת מידע נוסף."
+"ניתן לשלוט ב־Weblate באמצעות HTTP REST API ולהשתמש במפתחות API לצורך אימות "
+"מולו."
 
 #: weblate/templates/accounts/profile.html:397
 msgid ""
 "The API key is also used to authenticate to automatically exported Git "
 "repositories."
-msgstr ""
+msgstr "מפתח ה־API משמש גם לצורך אימות מול מאגרי Git שיוצאו באופן אוטומטי."
 
 #: weblate/templates/accounts/profile.html:400
-#, fuzzy
-#| msgid "Documentation"
 msgid "API documentation"
-msgstr "תיעוד"
+msgstr "תיעוד API"
 
 #: weblate/templates/accounts/profile.html:401
-#, fuzzy
-#| msgid "Documentation"
 msgid "Git export documentation"
-msgstr "תיעוד"
+msgstr "תיעוד ייצוא Git"
 
 #: weblate/templates/accounts/profile.html:420
 msgid ""
@@ -2098,14 +2052,12 @@ msgid "Third party registration"
 msgstr "רישום צד שלישי"
 
 #: weblate/templates/accounts/register.html:73
-#, fuzzy
-#| msgid "New registrations are disabled!"
 msgid "Sorry, but registrations on this site are disabled."
-msgstr "הרשמות חדשות מושבתות!"
+msgstr "הרשמות חדשות לאתר הזה מושבתות, עמך הסליחה."
 
 #: weblate/templates/accounts/register.html:74
 msgid "You can contact us for more details."
-msgstr ""
+msgstr "ניתן ליצור אתנו קשר לפרטים נוספים."
 
 #: weblate/templates/accounts/removal.html:16
 msgid "Account removal"
@@ -2273,18 +2225,12 @@ msgid "Logout"
 msgstr "יציאה"
 
 #: weblate/templates/base.html:156
-#, fuzzy
-#| msgid ""
-#| "Weblate does not support Microsoft Internet Explorer 8 and older, please "
-#| "use some more recent browser like <a href=\"https://www.mozilla.org/"
-#| "firefox/\">Firefox</a>."
 msgid ""
 "Weblate does not support Microsoft Internet Explorer 8 and older, please use "
 "some more recent browser like Firefox, Chrome or Edge."
 msgstr ""
 "ב־Weblate אין תמיכה ב־Microsoft Internet Explorer 8 ומטה, נא להשתמש בדפדפן "
-"יותר מודרני כמו <a href=\"https://www.mozilla.org/firefox/\">Firefox</a> "
-"למשל."
+"יותר מודרני כמו Firefox,‏ Chrome או Edge למשל."
 
 #: weblate/templates/base.html:179 weblate/templates/base.html:186
 msgid "Close"
@@ -2428,18 +2374,12 @@ msgid "Notification hooks"
 msgstr "דיווחי התליות"
 
 #: weblate/templates/data-root.html:57 weblate/templates/data.html:96
-#, fuzzy
-#| msgid ""
-#| "With notification hooks, Weblate will automatically import changes made "
-#| "by your developers, and allows continuous translation. More information "
-#| "available in <a href=\"%(hooks_docs)s\">the documentation</a>."
 msgid ""
 "With notification hooks, Weblate will automatically import changes made by "
 "your developers, and allows continuous translation."
 msgstr ""
 "עם דיווחי התליות, Weblate ייבא באופן אוטומטי שינויים שבוצעו ע״י המפתחים שלך, "
-"כדי לאפשר תרגום רציף.\n"
-"מידע נוסף זמין ב<a href=\"%(hooks_docs)s\">תיעוד</a>."
+"כדי לאפשר תרגום רציף."
 
 #: weblate/templates/data.html:7
 msgid "data exports"
@@ -2460,17 +2400,12 @@ msgid "Statistics"
 msgstr "סטטיסטיקות"
 
 #: weblate/templates/data.html:56
-#, fuzzy
-#| msgid ""
-#| "Translation statistics for every component in the JSON format allows you "
-#| "to use the data in other websites or tools. The data format is described "
-#| "in <a href=\"%(api_docs)s\">the documentation</a>."
 msgid ""
 "Translation statistics for every component in the JSON format allows you to "
 "use the data in other websites or tools."
 msgstr ""
 "סטטיסטיקות תרגום עבור כל רכיב בתבנית JSON מאפשרת לך להשתמש בנתונים באתרים או "
-"בכלים שונים. מבנה הנתונים מתואר ב<a href=\"%(api_docs)s\">תיעוד</a>."
+"בכלים שונים."
 
 #: weblate/templates/data.html:71
 #: weblate/templates/screenshots/screenshot_sources_body.html:13
@@ -3498,10 +3433,6 @@ msgid ""
 msgstr "התקבלה בקשה לשפה חדשה במיזם %(translation)s באתר %(site_title)s."
 
 #: weblate/templates/mail/new_language.html:15
-#, fuzzy
-#| msgid ""
-#| "Please add the language file to VCS, Weblate will automatically discover "
-#| "it on next update."
 msgid ""
 "Please add the language file to VCS, Weblate will automatically discover it "
 "upon next update."
@@ -3510,14 +3441,10 @@ msgstr ""
 "Weblate בעדכון הבא."
 
 #: weblate/templates/mail/new_language.html:20
-#, fuzzy
-#| msgid ""
-#| "More information on adding new language files is available in the "
-#| "documentation:"
 msgid ""
 "More information on adding new language files is to be found in the "
 "documentation."
-msgstr "מידע נוסף על הוספת קובצי שפה חדשים ניתן למצוא בתיעוד:"
+msgstr "ניתן למצוא מידע נוסף על הוספת קובצי שפה חדשים בתיעוד."
 
 #: weblate/templates/mail/new_language.html:28
 #: weblate/templates/mail/new_language.txt:9
@@ -3525,10 +3452,8 @@ msgid "Requested language:"
 msgstr "שפה שהתבקשה:"
 
 #: weblate/templates/mail/new_language.html:39
-#, fuzzy
-#| msgid "Requested language:"
 msgid "Requested by:"
-msgstr "שפה שהתבקשה:"
+msgstr "הבקשה הוגשה על ידי:"
 
 #: weblate/templates/mail/new_language.txt:5
 msgid ""
@@ -3708,14 +3633,10 @@ msgid "Start new translation"
 msgstr "התחלת תרגום חדש"
 
 #: weblate/templates/new-language.html:25
-#, fuzzy
-#| msgid ""
-#| "More information on adding new language files is available in the "
-#| "documentation:"
 msgid ""
 "Information on how to start translating into another language is to be found "
 "in the translator instructions."
-msgstr "מידע נוסף על הוספת קובצי שפה חדשים ניתן למצוא בתיעוד:"
+msgstr "ניתן למצוא מידע נוסף בנוגע להתחלת תרגום לשפה נוספת בהנחיות למתרגמים."
 
 #: weblate/templates/new-language.html:27
 msgid "Please choose the language you want to translate to."
@@ -7512,10 +7433,8 @@ msgid "Performance"
 msgstr "ביצועים"
 
 #: weblate/wladmin/templates/admin/performance.html:14
-#, fuzzy
-#| msgid "Performance report"
 msgid "Performance overview"
-msgstr "דיווח ביצועים"
+msgstr "סקירת ביצועים"
 
 #: weblate/wladmin/templates/admin/performance.html:27
 msgid "Last occurrence"
@@ -7551,7 +7470,7 @@ msgstr "מפתחות SSH"
 
 #: weblate/wladmin/templates/admin/ssh.html:14
 msgid "SSH keys management"
-msgstr ""
+msgstr "ניהול מפתחות SSH"
 
 #: weblate/wladmin/templates/admin/ssh.html:23
 msgid "Public SSH key"
@@ -7610,22 +7529,17 @@ msgid "Port:"
 msgstr "פתחה:"
 
 #: weblate/wladmin/templates/admin/trans/change_form.html:9
-#, fuzzy
-#| msgid "Documentation"
 msgid "Import speed documentation"
-msgstr "תיעוד"
+msgstr "תיעוד על מהירות הייבוא"
 
 #: weblate/wladmin/templates/admin/trans/change_form.html:37
 msgid "Required fields are marked in bold."
-msgstr ""
+msgstr "השדות המבוקשים מסומנים בהדגשה."
 
 #: weblate/wladmin/templates/admin/trans/change_form.html:39
-#, fuzzy
-#| msgid ""
-#| "Do not change this object here, please use Weblate interface instead."
 msgid ""
 "Do not change the object here, please use the Weblate interface instead."
-msgstr "אין לשנות את הפריט הזה כאן, נא להשתמש במנשק של Weblate במקום."
+msgstr "אין לשנות את הפריט כאן, נא להשתמש במנשק של Weblate במקום."
 
 #: weblate/wladmin/templates/admin/weblate-index.html:11
 msgid "Reports"
