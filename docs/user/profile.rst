@@ -88,6 +88,10 @@ dashboard views will be displayed by default. If you pick :guilabel:`Component
 list`, you have to select which component list will be displayed from the
 :guilabel:`Default component list` drop-down.
 
+.. seealso::
+
+    :ref:`componentlists`
+
 .. _subscriptions:
 
 Subscriptions
