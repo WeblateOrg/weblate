@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-02-09 06:33+0000\n"
+"POT-Creation-Date: 2018-02-09 16:06+0000\n"
 "PO-Revision-Date: 2018-01-30 18:47+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Breton <https://hosted.weblate.org/projects/weblate/master/br/"
@@ -23,27 +23,32 @@ msgstr ""
 "< 90 || n % 100 > 99)) ? 2 : ((n != 0 && n % 1000000 == 0) ? 3 : 4)));\n"
 "X-Generator: Weblate 2.19-dev\n"
 
-#: weblate/accounts/admin.py:106 weblate/accounts/admin.py:111
+#: weblate/accounts/admin.py:109 weblate/accounts/admin.py:114
 #, fuzzy
 #| msgid "Persian"
 msgid "Personal info"
 msgstr "Perseg"
 
-#: weblate/accounts/admin.py:107 weblate/templates/accounts/profile.html:26
+#: weblate/accounts/admin.py:110 weblate/templates/accounts/profile.html:27
 msgid "Authentication"
 msgstr "Dilesadur"
 
-#: weblate/accounts/admin.py:112 weblate/permissions/apps.py:30
+#: weblate/accounts/admin.py:115 weblate/permissions/apps.py:30
 #, fuzzy
 #| msgid "Versions"
 msgid "Permissions"
 msgstr "Stummoù"
 
-#: weblate/accounts/admin.py:116
+#: weblate/accounts/admin.py:119
 #, fuzzy
 #| msgid "Words to translate"
 msgid "Important dates"
 msgstr "Gerioù da dreiñ"
+
+#: weblate/accounts/admin.py:129 weblate/accounts/forms.py:159
+#: weblate/templates/manage-access.html:24
+msgid "Full name"
+msgstr "Hoc'h anv klok"
 
 #: weblate/accounts/avatar.py:164
 msgctxt "No known user"
@@ -78,7 +83,7 @@ msgstr ""
 "N'hall bezañ en talvoud-mañ nemet lizherennoù, niverennoù hag an arouezennoù "
 "da-heul : @ . + - _"
 
-#: weblate/accounts/forms.py:122 weblate/templates/accounts/login.html:25
+#: weblate/accounts/forms.py:122 weblate/templates/accounts/login.html:26
 #: weblate/templates/accounts/user.html:22
 #: weblate/templates/manage-access.html:23
 msgid "Username"
@@ -91,10 +96,6 @@ msgstr ""
 #: weblate/accounts/forms.py:144
 msgid "This username is already taken. Please choose another."
 msgstr "Tapet eo an anv implijer-mañ c'hoazh. Dibabit unan all mar plij."
-
-#: weblate/accounts/forms.py:159 weblate/templates/manage-access.html:24
-msgid "Full name"
-msgstr "Hoc'h anv klok"
 
 #: weblate/accounts/forms.py:247
 #, fuzzy
@@ -219,8 +220,8 @@ msgstr "Fall eo ar ger-tremen merket ganeoc'h."
 msgid "Username or email"
 msgstr "Anv-implijer pe chomlec'h postel"
 
-#: weblate/accounts/forms.py:542 weblate/templates/accounts/login.html:26
-#: weblate/templates/accounts/profile.html:189
+#: weblate/accounts/forms.py:542 weblate/templates/accounts/login.html:27
+#: weblate/templates/accounts/profile.html:190
 msgid "Password"
 msgstr "Ger-tremen"
 
@@ -338,7 +339,7 @@ msgstr ""
 msgid "Agreement with Terms of Service {date}."
 msgstr ""
 
-#: weblate/accounts/models.py:213 weblate/templates/accounts/profile.html:309
+#: weblate/accounts/models.py:213 weblate/templates/accounts/profile.html:310
 #, fuzzy
 #| msgid "Activity"
 msgid "Account activity"
@@ -446,7 +447,7 @@ msgstr ""
 msgid "Default component list"
 msgstr "Evezhiadennoù"
 
-#: weblate/accounts/models.py:414 weblate/templates/accounts/profile.html:117
+#: weblate/accounts/models.py:414 weblate/templates/accounts/profile.html:118
 #: weblate/templates/base.html:111
 #, fuzzy
 #| msgid "Hosting site"
@@ -552,7 +553,7 @@ msgstr ""
 
 #: weblate/accounts/views.py:117 weblate/accounts/views.py:747
 #: weblate/accounts/views.py:796 weblate/templates/accounts/reset.html:7
-#: weblate/templates/accounts/reset.html:24
+#: weblate/templates/accounts/reset.html:27
 msgid "Password reset"
 msgstr "Ger-tremen adderaouekaet"
 
@@ -609,7 +610,7 @@ msgstr "Darempred"
 msgid "Hosting"
 msgstr "Herberc'hiañ"
 
-#: weblate/accounts/views.py:554 weblate/templates/accounts/login.html:66
+#: weblate/accounts/views.py:554 weblate/templates/accounts/login.html:67
 #: weblate/templates/accounts/redirect.html:8 weblate/templates/base.html:137
 msgid "Login"
 msgstr "Kevreañ"
@@ -630,12 +631,12 @@ msgstr "Stummoù"
 msgid "Thanks for using Weblate!"
 msgstr "Ho trugarekaat evit ober gant Weblate !"
 
-#: weblate/accounts/views.py:674 weblate/templates/accounts/email.html:16
+#: weblate/accounts/views.py:674 weblate/templates/accounts/email.html:17
 msgid "Register email"
 msgstr "Enrolladur chomlec'h postel"
 
 #: weblate/accounts/views.py:717 weblate/templates/accounts/password.html:13
-#: weblate/templates/accounts/profile.html:192
+#: weblate/templates/accounts/profile.html:193
 msgid "Change password"
 msgstr "Cheñch ger-tremen"
 
@@ -873,8 +874,8 @@ msgid "Source words"
 msgstr "Mammenn"
 
 #: weblate/billing/models.py:163 weblate/lang/models.py:362
-#: weblate/lang/views.py:45 weblate/templates/accounts/profile.html:22
-#: weblate/templates/accounts/profile.html:41 weblate/templates/language.html:6
+#: weblate/lang/views.py:45 weblate/templates/accounts/profile.html:23
+#: weblate/templates/accounts/profile.html:42 weblate/templates/language.html:6
 #: weblate/templates/languages.html:6 weblate/templates/project.html:26
 #: weblate/templates/trans/change_list.html:18 weblate/trans/forms.py:1074
 #: weblate/trans/forms.py:1435 weblate/trans/models/project.py:294
@@ -1565,7 +1566,7 @@ msgid ""
 "please get in touch for more details."
 msgstr ""
 
-#: weblate/templates/about.html:43 weblate/templates/accounts/hosting.html:20
+#: weblate/templates/about.html:43 weblate/templates/accounts/hosting.html:21
 #: weblate/templates/projects.html:13
 msgid "Ask for project hosting"
 msgstr ""
@@ -1574,7 +1575,7 @@ msgstr ""
 msgid "View hosting plans"
 msgstr ""
 
-#: weblate/templates/about.html:45 weblate/templates/accounts/hosting.html:54
+#: weblate/templates/about.html:45 weblate/templates/accounts/hosting.html:55
 #, fuzzy
 #| msgid "Commercial hosting"
 msgid "Contact us for commercial hosting"
@@ -1670,12 +1671,12 @@ msgstr ""
 "zivout un draen bennak, kit da welet war al lec'hienn %(weblate_link)s."
 
 #: weblate/templates/accounts/contact.html:30
-#: weblate/templates/accounts/hosting.html:25
+#: weblate/templates/accounts/hosting.html:26
 msgid "Send"
 msgstr "Kas"
 
 #: weblate/templates/accounts/email-sent.html:5
-#: weblate/templates/accounts/login.html:91
+#: weblate/templates/accounts/login.html:92
 #: weblate/templates/accounts/register.html:8
 msgid "Registration"
 msgstr "Enrollañ"
@@ -1758,15 +1759,15 @@ msgid "Report an issue with registration"
 msgstr "Enrolladur implijer"
 
 #: weblate/templates/accounts/email.html:10
-#: weblate/templates/accounts/register.html:25
-#: weblate/templates/accounts/reset.html:19
+#: weblate/templates/accounts/register.html:26
+#: weblate/templates/accounts/reset.html:21
 #, fuzzy
 #| msgid "Please fix errors in registration form."
 msgid "Please fix errors in the registration form."
 msgstr "Reizhit ar fazioù er furmskrid enrollañ."
 
-#: weblate/templates/accounts/email.html:25
-#: weblate/templates/accounts/profile.html:416
+#: weblate/templates/accounts/email.html:26
+#: weblate/templates/accounts/profile.html:417
 #, fuzzy
 #| msgid ""
 #| "By registering you agree to use your name and email in Git commits and "
@@ -1780,8 +1781,8 @@ msgstr ""
 "postel e-touez enrolladennoù Git hag e vefe ho tegasadennoù diouzh aotre-"
 "implijout pep raktres treiñ."
 
-#: weblate/templates/accounts/email.html:29
-#: weblate/templates/accounts/register.html:45 weblate/templates/base.html:135
+#: weblate/templates/accounts/email.html:30
+#: weblate/templates/accounts/register.html:47 weblate/templates/base.html:135
 #: weblate/templates/engage.html:42
 msgid "Register"
 msgstr "En em enrollañ"
@@ -1794,11 +1795,11 @@ msgstr ""
 "Gwiriit mat a-raok ha gallout a ra ho raktres bezañ degemeret war al "
 "lec'hienn-mañ pe get."
 
-#: weblate/templates/accounts/hosting.html:33
+#: weblate/templates/accounts/hosting.html:34
 msgid "Conditions for free hosting"
 msgstr "Traoù rekis evit bezañ herberc'hiet digoust"
 
-#: weblate/templates/accounts/hosting.html:36
+#: weblate/templates/accounts/hosting.html:37
 #, fuzzy
 #| msgid ""
 #| "Translated content has to be released under <a href=\"http://en.wikipedia."
@@ -1808,30 +1809,30 @@ msgstr ""
 "Embannet e rank bezañ an troidigezhioù dindan un <a href=\"http://en."
 "wikipedia.org/wiki/Free_software_license\">Aotre-implijout frank</a>."
 
-#: weblate/templates/accounts/hosting.html:37
+#: weblate/templates/accounts/hosting.html:38
 msgid ""
 "Source code has to be publicly available in supported version control system."
 msgstr ""
 "Rankout a ra ar c'hod tarzh bezañ hegerz d'an holl en ur reizhiad kontroliñ "
 "stummoù skoret."
 
-#: weblate/templates/accounts/hosting.html:38
+#: weblate/templates/accounts/hosting.html:39
 msgid "There is no guarantee for service availability or quality."
 msgstr ""
 "N'eus tamm gwarant ebet war kalite ar servij pourchaset na war hag-eñ ez eus "
 "ur servij da vat."
 
-#: weblate/templates/accounts/hosting.html:39
+#: weblate/templates/accounts/hosting.html:40
 msgid ""
 "The hosting requests are usually processed once in a month, so please be "
 "patient after submitting it."
 msgstr ""
 
-#: weblate/templates/accounts/hosting.html:45
+#: weblate/templates/accounts/hosting.html:46
 msgid "Commercial hosting"
 msgstr "Herberc'hiañ kenwerzhel"
 
-#: weblate/templates/accounts/hosting.html:49
+#: weblate/templates/accounts/hosting.html:50
 msgid ""
 "Commercial hosting is possible as well, our price starts at 19 EUR per "
 "month, please get in touch with us for more details."
@@ -1842,47 +1843,47 @@ msgid "This username/password combination was not found. Please try again."
 msgstr ""
 "N'eo ket bet kavet ar c'henglot anv implijer/ger-tremen-mañ. Klaskit en-dro."
 
-#: weblate/templates/accounts/login.html:20
+#: weblate/templates/accounts/login.html:21
 msgid ""
 "To test Weblate on this demo server, you can log in as the following users:"
 msgstr ""
 
-#: weblate/templates/accounts/login.html:27
-#: weblate/templates/accounts/profile.html:52
-#: weblate/templates/accounts/profile.html:87
-#: weblate/templates/accounts/profile.html:128
-#: weblate/templates/accounts/profile.html:164
-#: weblate/templates/accounts/profile.html:237
-#: weblate/templates/accounts/profile.html:281
-#: weblate/templates/accounts/profile.html:297
-#: weblate/templates/accounts/profile.html:394
-#: weblate/templates/accounts/profile.html:448
+#: weblate/templates/accounts/login.html:28
+#: weblate/templates/accounts/profile.html:53
+#: weblate/templates/accounts/profile.html:88
+#: weblate/templates/accounts/profile.html:129
+#: weblate/templates/accounts/profile.html:165
+#: weblate/templates/accounts/profile.html:238
+#: weblate/templates/accounts/profile.html:282
+#: weblate/templates/accounts/profile.html:298
+#: weblate/templates/accounts/profile.html:395
+#: weblate/templates/accounts/profile.html:449
 msgid "Description"
 msgstr "Deskrivadur"
 
-#: weblate/templates/accounts/login.html:49
+#: weblate/templates/accounts/login.html:50
 msgid "Password login"
 msgstr "Kevreañ gant ur ger-tremen"
 
-#: weblate/templates/accounts/login.html:57
+#: weblate/templates/accounts/login.html:58
 #, fuzzy
 #| msgid "Set password"
 msgid "Forgot your password?"
 msgstr "Termeniñ ar ger-termen"
 
-#: weblate/templates/accounts/login.html:58
+#: weblate/templates/accounts/login.html:59
 msgid "You can reset it."
 msgstr ""
 
-#: weblate/templates/accounts/login.html:78
+#: weblate/templates/accounts/login.html:79
 msgid "Third party login"
 msgstr "Kevreañ dre dredeoù"
 
-#: weblate/templates/accounts/login.html:96
+#: weblate/templates/accounts/login.html:97
 msgid "Do not have an account yet?"
 msgstr ""
 
-#: weblate/templates/accounts/login.html:97
+#: weblate/templates/accounts/login.html:98
 msgid "You can register."
 msgstr ""
 
@@ -1921,51 +1922,51 @@ msgstr "Cheñch ger-tremen"
 msgid "Please fix errors in the form."
 msgstr "Reizhit ar fazioù zo er furmskrid."
 
-#: weblate/templates/accounts/profile.html:23
-#: weblate/templates/accounts/profile.html:75
+#: weblate/templates/accounts/profile.html:24
+#: weblate/templates/accounts/profile.html:76
 msgid "Preferences"
 msgstr "Penndibaboù"
 
-#: weblate/templates/accounts/profile.html:24
+#: weblate/templates/accounts/profile.html:25
 msgid "Subscriptions"
 msgstr "Koumanantoù"
 
-#: weblate/templates/accounts/profile.html:25
-#: weblate/templates/accounts/profile.html:153
+#: weblate/templates/accounts/profile.html:26
+#: weblate/templates/accounts/profile.html:154
 msgid "Account"
 msgstr "Kont"
 
-#: weblate/templates/accounts/profile.html:27
+#: weblate/templates/accounts/profile.html:28
 #, fuzzy
 #| msgid "User profile"
 msgid "Profile"
 msgstr "Profil implijer"
 
-#: weblate/templates/accounts/profile.html:28
-#: weblate/templates/accounts/profile.html:413
+#: weblate/templates/accounts/profile.html:29
+#: weblate/templates/accounts/profile.html:414
 msgid "Licenses"
 msgstr "Aotreoù-implijout"
 
-#: weblate/templates/accounts/profile.html:29
-#: weblate/templates/accounts/profile.html:304
+#: weblate/templates/accounts/profile.html:30
+#: weblate/templates/accounts/profile.html:305
 msgid "Audit log"
 msgstr ""
 
-#: weblate/templates/accounts/profile.html:30
-#: weblate/templates/accounts/profile.html:345
+#: weblate/templates/accounts/profile.html:31
+#: weblate/templates/accounts/profile.html:346
 msgid "API access"
 msgstr ""
 
-#: weblate/templates/accounts/profile.html:32
+#: weblate/templates/accounts/profile.html:33
 #: weblate/templates/billing/overview.html:6
 msgid "Billing"
 msgstr ""
 
-#: weblate/templates/accounts/profile.html:46
-#: weblate/templates/accounts/profile.html:81
-#: weblate/templates/accounts/profile.html:122
-#: weblate/templates/accounts/profile.html:143
-#: weblate/templates/accounts/profile.html:158
+#: weblate/templates/accounts/profile.html:47
+#: weblate/templates/accounts/profile.html:82
+#: weblate/templates/accounts/profile.html:123
+#: weblate/templates/accounts/profile.html:144
+#: weblate/templates/accounts/profile.html:159
 #: weblate/templates/addons/addon_detail.html:34
 #: weblate/templates/edit_dictionary.html:26
 #: weblate/templates/js/detail.html:59 weblate/templates/js/detail.html:71
@@ -1976,32 +1977,32 @@ msgstr ""
 msgid "Save"
 msgstr "Enrollañ"
 
-#: weblate/templates/accounts/profile.html:55
+#: weblate/templates/accounts/profile.html:56
 msgid ""
 "Choose which languages you prefer to translate. These will be offered to you "
 "on the dashboard to have easier access to chosen translations."
 msgstr ""
 
-#: weblate/templates/accounts/profile.html:58
+#: weblate/templates/accounts/profile.html:59
 msgid ""
 "The secondary languages are shown next to the source string when translating."
 msgstr ""
 
-#: weblate/templates/accounts/profile.html:61
+#: weblate/templates/accounts/profile.html:62
 msgid ""
 "Only languages which are currently being translated are listed. If you want "
 "to translate to another language, please request it first on the project you "
 "want to translate."
 msgstr ""
 
-#: weblate/templates/accounts/profile.html:65
-#: weblate/templates/accounts/profile.html:94
-#: weblate/templates/accounts/profile.html:134
-#: weblate/templates/accounts/profile.html:169
-#: weblate/templates/accounts/profile.html:243
-#: weblate/templates/accounts/profile.html:286 weblate/templates/base.html:121
-#: weblate/templates/check.html:42 weblate/templates/check_project.html:43
-#: weblate/templates/check_subproject.html:44 weblate/templates/checks.html:34
+#: weblate/templates/accounts/profile.html:66
+#: weblate/templates/accounts/profile.html:95
+#: weblate/templates/accounts/profile.html:135
+#: weblate/templates/accounts/profile.html:170
+#: weblate/templates/accounts/profile.html:244
+#: weblate/templates/accounts/profile.html:287 weblate/templates/base.html:121
+#: weblate/templates/check.html:43 weblate/templates/check_project.html:44
+#: weblate/templates/check_subproject.html:45 weblate/templates/checks.html:34
 #: weblate/templates/documentation-icon.html:2 weblate/templates/footer.html:10
 #: weblate/wladmin/templates/admin/performance.html:17
 #: weblate/wladmin/templates/admin/performance.html:63
@@ -2014,93 +2015,93 @@ msgstr ""
 msgid "Documentation"
 msgstr "Teuliadur"
 
-#: weblate/templates/accounts/profile.html:90
+#: weblate/templates/accounts/profile.html:91
 msgid "Customize Weblate behavior to match your personal preferences."
 msgstr ""
 
-#: weblate/templates/accounts/profile.html:105
+#: weblate/templates/accounts/profile.html:106
 #, fuzzy
 #| msgid "Hosting site"
 msgid "Managed projects"
 msgstr "Lec'hienn herberc'hiañ"
 
-#: weblate/templates/accounts/profile.html:112
+#: weblate/templates/accounts/profile.html:113
 msgid ""
 "You will automatically receive important notifications on managed projects."
 msgstr ""
 
-#: weblate/templates/accounts/profile.html:130
+#: weblate/templates/accounts/profile.html:131
 msgid "You will receive chosen notifications via email for all your languages."
 msgstr ""
 "Resev a reot dre bostel ar c'hemennoù bet dibabet ganeoc'h, evit ho holl "
 "yezhoù."
 
-#: weblate/templates/accounts/profile.html:131
+#: weblate/templates/accounts/profile.html:132
 msgid ""
 "Watched projects are also shown on dashboard, so choose all projects you "
 "want to translate."
 msgstr ""
 
-#: weblate/templates/accounts/profile.html:138
+#: weblate/templates/accounts/profile.html:139
 #, fuzzy
 #| msgid "Subscriptions"
 msgid "Subscription settings"
 msgstr "Koumanantoù"
 
-#: weblate/templates/accounts/profile.html:166
+#: weblate/templates/accounts/profile.html:167
 #, fuzzy
 #| msgid "Your name and email will appear as author on Git commits."
 msgid "Your name and email will appear as author on the commits."
 msgstr ""
 "Dont a raio hoc'h anv hag ho chomlec'h postel war wel evel aozer e Git."
 
-#: weblate/templates/accounts/profile.html:179
+#: weblate/templates/accounts/profile.html:180
 #, fuzzy
 #| msgid "User comments"
 msgid "Current user identities"
 msgstr "Evezhiadennoù an implijer"
 
-#: weblate/templates/accounts/profile.html:183
+#: weblate/templates/accounts/profile.html:184
 msgid "Identity"
 msgstr "Identelezh"
 
-#: weblate/templates/accounts/profile.html:184
+#: weblate/templates/accounts/profile.html:185
 msgid "User ID"
 msgstr "Anaouder an implijer"
 
-#: weblate/templates/accounts/profile.html:185
+#: weblate/templates/accounts/profile.html:186
 #: weblate/templates/last-changes-content.html:10
 msgid "Action"
 msgstr "Ober"
 
-#: weblate/templates/accounts/profile.html:192
+#: weblate/templates/accounts/profile.html:193
 msgid "Set password"
 msgstr "Termeniñ ar ger-termen"
 
-#: weblate/templates/accounts/profile.html:201
+#: weblate/templates/accounts/profile.html:202
 msgid "Disconnect"
 msgstr "Digevreañ"
 
-#: weblate/templates/accounts/profile.html:213
+#: weblate/templates/accounts/profile.html:214
 #, fuzzy
 #| msgid "Add new association:"
 msgid "Add new association"
 msgstr "Ouzhpennañ ur stagadenn nevez :"
 
-#: weblate/templates/accounts/profile.html:224
+#: weblate/templates/accounts/profile.html:225
 msgid "Removal"
 msgstr "Dilemel"
 
-#: weblate/templates/accounts/profile.html:227
+#: weblate/templates/accounts/profile.html:228
 #: weblate/templates/accounts/removal.html:12
 msgid "Removal of the account deletes all your private data."
 msgstr "Dilemel ho kont a ziverko ho holl roadennoù prevez."
 
-#: weblate/templates/accounts/profile.html:230
+#: weblate/templates/accounts/profile.html:231
 msgid "Remove my account"
 msgstr "Dilemel ma c'hont"
 
-#: weblate/templates/accounts/profile.html:239
+#: weblate/templates/accounts/profile.html:240
 #, fuzzy
 #| msgid ""
 #| "You can manage third party identities which are associated to this "
@@ -2110,122 +2111,122 @@ msgid ""
 "be used to log in."
 msgstr "Gallout a rit merañ identelezhioù an tredeoù zo stag ouzh ar gont-mañ."
 
-#: weblate/templates/accounts/profile.html:240
+#: weblate/templates/accounts/profile.html:241
 msgid "You can configure how you will log in on this site."
 msgstr ""
 
-#: weblate/templates/accounts/profile.html:254
+#: weblate/templates/accounts/profile.html:255
 #, fuzzy
 #| msgid "Your email"
 msgid "Your summary"
 msgstr "Ho postel"
 
-#: weblate/templates/accounts/profile.html:261
+#: weblate/templates/accounts/profile.html:262
 #, fuzzy
 #| msgid "Your public profile:"
 msgid "Your public profile"
 msgstr "Ho profil foran :"
 
-#: weblate/templates/accounts/profile.html:269
+#: weblate/templates/accounts/profile.html:270
 #, fuzzy
 #| msgid "Your name"
 msgid "Your avatar"
 msgstr "Hoc'h anv"
 
-#: weblate/templates/accounts/profile.html:272
+#: weblate/templates/accounts/profile.html:273
 msgid "Avatars are provided using libravatar."
 msgstr "Pourchaset eo an avataroù dre libravatar."
 
-#: weblate/templates/accounts/profile.html:283
+#: weblate/templates/accounts/profile.html:284
 #, fuzzy
 #| msgid "Your public profile:"
 msgid "Your public appearance on this site."
 msgstr "Ho profil foran :"
 
-#: weblate/templates/accounts/profile.html:299
+#: weblate/templates/accounts/profile.html:300
 msgid ""
 "Audit log shows important changes on your account. In case you see something "
 "suspicious don't hesitate to contact us."
 msgstr ""
 
-#: weblate/templates/accounts/profile.html:308
+#: weblate/templates/accounts/profile.html:309
 #: weblate/templates/last-changes-content.html:8
 #: weblate/templates/trans/suggestion_list.html:16
 msgid "When"
 msgstr "Pegoulz"
 
-#: weblate/templates/accounts/profile.html:310
+#: weblate/templates/accounts/profile.html:311
 msgid "IP address"
 msgstr ""
 
-#: weblate/templates/accounts/profile.html:311
+#: weblate/templates/accounts/profile.html:312
 #, fuzzy
 #| msgid "User comments"
 msgid "User agent"
 msgstr "Evezhiadennoù an implijer"
 
-#: weblate/templates/accounts/profile.html:323
 #: weblate/templates/accounts/profile.html:324
+#: weblate/templates/accounts/profile.html:325
 msgid "Hidden"
 msgstr ""
 
-#: weblate/templates/accounts/profile.html:330
+#: weblate/templates/accounts/profile.html:331
 #, fuzzy
 #| msgid "No recent activity has been recorded."
 msgid "No recent activity found!"
 msgstr "N'eus ket bet enrollet tamm oberiantiz ebet nevez zo."
 
-#: weblate/templates/accounts/profile.html:335
+#: weblate/templates/accounts/profile.html:336
 msgid "Report suspicious activity"
 msgstr ""
 
-#: weblate/templates/accounts/profile.html:348
+#: weblate/templates/accounts/profile.html:349
 msgid "Your personal API key:"
 msgstr ""
 
-#: weblate/templates/accounts/profile.html:355
+#: weblate/templates/accounts/profile.html:356
 #, fuzzy
 #| msgid "Generate"
 msgid "Regenerate API key"
 msgstr "Genel"
 
-#: weblate/templates/accounts/profile.html:359
+#: weblate/templates/accounts/profile.html:360
 msgid "API root URL:"
 msgstr ""
 
-#: weblate/templates/accounts/profile.html:363
+#: weblate/templates/accounts/profile.html:364
 msgid "API usage example:"
 msgstr ""
 
-#: weblate/templates/accounts/profile.html:375
+#: weblate/templates/accounts/profile.html:376
 msgid "CLI usage example:"
 msgstr ""
 
-#: weblate/templates/accounts/profile.html:396
+#: weblate/templates/accounts/profile.html:397
 msgid ""
 "You can control Weblate using HTTP REST API and API key is used to "
 "authenticate to it."
 msgstr ""
 
-#: weblate/templates/accounts/profile.html:397
+#: weblate/templates/accounts/profile.html:398
 msgid ""
 "The API key is also used to authenticate to automatically exported Git "
 "repositories."
 msgstr ""
 
-#: weblate/templates/accounts/profile.html:400
+#: weblate/templates/accounts/profile.html:401
 #, fuzzy
 #| msgid "Documentation"
 msgid "API documentation"
 msgstr "Teuliadur"
 
-#: weblate/templates/accounts/profile.html:401
+#: weblate/templates/accounts/profile.html:402
 #, fuzzy
 #| msgid "Documentation"
 msgid "Git export documentation"
 msgstr "Teuliadur"
 
-#: weblate/templates/accounts/profile.html:420
+#: weblate/templates/accounts/profile.html:421
 #, fuzzy
 #| msgid ""
 #| "Following projects have explicitly specified their licensing and "
@@ -2237,7 +2238,7 @@ msgstr ""
 "Termenet-pizh eo bet an aotreoù implijout hag ar gwirioù aozer gant ar "
 "raktresoù-mañ :"
 
-#: weblate/templates/accounts/profile.html:423 weblate/templates/data.html:28
+#: weblate/templates/accounts/profile.html:424 weblate/templates/data.html:28
 #: weblate/templates/data.html:62 weblate/templates/data.html:103
 #: weblate/templates/language.html:37 weblate/templates/list-projects.html:8
 #: weblate/templates/list-translations.html:7
@@ -2246,41 +2247,41 @@ msgstr ""
 msgid "Project"
 msgstr "Raktres"
 
-#: weblate/templates/accounts/profile.html:423 weblate/trans/forms.py:1302
+#: weblate/templates/accounts/profile.html:424 weblate/trans/forms.py:1302
 #, fuzzy
 #| msgid "Licenses"
 msgid "License"
 msgstr "Aotreoù-implijout"
 
-#: weblate/templates/accounts/profile.html:450
+#: weblate/templates/accounts/profile.html:451
 msgid ""
 "Please pay attention to the licensing information as these specify how "
 "others are allowed to use your translations."
 msgstr ""
 
-#: weblate/templates/accounts/profile.html:471
+#: weblate/templates/accounts/profile.html:472
 msgid "Invoices"
 msgstr ""
 
-#: weblate/templates/accounts/profile.html:475
+#: weblate/templates/accounts/profile.html:476
 msgid "Invoice period"
 msgstr ""
 
-#: weblate/templates/accounts/profile.html:476
+#: weblate/templates/accounts/profile.html:477
 msgid "Invoice amount"
 msgstr ""
 
-#: weblate/templates/accounts/profile.html:477
+#: weblate/templates/accounts/profile.html:478
 #, fuzzy
 #| msgid "Download"
 msgid "Download invoice"
 msgstr "Pellgargañ"
 
-#: weblate/templates/accounts/profile.html:489
+#: weblate/templates/accounts/profile.html:490
 msgid "Not available"
 msgstr ""
 
-#: weblate/templates/accounts/profile.html:494
+#: weblate/templates/accounts/profile.html:495
 #, fuzzy
 #| msgid "No words found!"
 msgid "No invoices found!"
@@ -2309,44 +2310,44 @@ msgstr ""
 "postel e-touez enrolladennoù Git hag e vefe ho tegasadennoù diouzh aotre-"
 "implijout pep raktres treiñ."
 
-#: weblate/templates/accounts/register.html:35
+#: weblate/templates/accounts/register.html:37
 msgid "Register using email"
 msgstr "En em enskrivañ dre bostel"
 
-#: weblate/templates/accounts/register.html:57
+#: weblate/templates/accounts/register.html:59
 msgid "Third party registration"
 msgstr "Enrollañ tredeoù"
 
-#: weblate/templates/accounts/register.html:73
+#: weblate/templates/accounts/register.html:75
 #, fuzzy
 #| msgid "Registration date"
 msgid "Sorry, but registrations on this site are disabled."
 msgstr "Deiziad enrollañ"
 
-#: weblate/templates/accounts/register.html:74
+#: weblate/templates/accounts/register.html:76
 msgid "You can contact us for more details."
 msgstr ""
 
-#: weblate/templates/accounts/removal.html:16
+#: weblate/templates/accounts/removal.html:17
 #, fuzzy
 #| msgid "Account"
 msgid "Account removal"
 msgstr "Kont"
 
-#: weblate/templates/accounts/removal.html:20
+#: weblate/templates/accounts/removal.html:21
 msgid ""
 "By pressing following button, your will no longer be able to use this "
 "account."
 msgstr ""
 "Mar pouezit war ar bouton war-lerc'h, n'hallot ket ober gant ar gont-mañ ken."
 
-#: weblate/templates/accounts/removal.html:22
+#: weblate/templates/accounts/removal.html:23
 msgid ""
 "You will have to confirm account removal by clicking link in email you will "
 "receive."
 msgstr ""
 
-#: weblate/templates/accounts/removal.html:27
+#: weblate/templates/accounts/removal.html:28
 msgid "Delete this account"
 msgstr "Diverkañ ar bann-mañ"
 
@@ -2359,19 +2360,19 @@ msgstr ""
 "Lonket ho ker-tremen ganeoc'h ? Gallout a rit <a href=\"%(reset_url)s"
 "\">adsevel unan</a>."
 
-#: weblate/templates/accounts/reset.html:15
+#: weblate/templates/accounts/reset.html:16
 msgid ""
 "Forgotten your password? Enter your email address below, and we'll email "
 "instructions for setting a new one."
 msgstr ""
 
-#: weblate/templates/accounts/reset.html:33
+#: weblate/templates/accounts/reset.html:36
 #, fuzzy
 #| msgid "Set password"
 msgid "Set my password"
 msgstr "Termeniñ ar ger-termen"
 
-#: weblate/templates/accounts/reset.html:33
+#: weblate/templates/accounts/reset.html:36
 msgid "Reset my password"
 msgstr "Adtermeniñ ma ger-tremen"
 
@@ -2527,7 +2528,7 @@ msgid ""
 "some more recent browser like Firefox, Chrome or Edge."
 msgstr ""
 
-#: weblate/templates/base.html:179 weblate/templates/base.html:186
+#: weblate/templates/base.html:180 weblate/templates/base.html:187
 msgid "Close"
 msgstr ""
 
@@ -2609,8 +2610,8 @@ msgstr "Gwiriadennoù"
 msgid "No matching checks found!"
 msgstr "N'eus bet kavet neudennad ebet o kenglotañ !"
 
-#: weblate/templates/check.html:35 weblate/templates/check_project.html:36
-#: weblate/templates/check_subproject.html:37
+#: weblate/templates/check.html:36 weblate/templates/check_project.html:37
+#: weblate/templates/check_subproject.html:38
 #, fuzzy
 #| msgid "Checks"
 msgid "Check details"
@@ -2738,7 +2739,7 @@ msgstr ""
 
 #: weblate/templates/data.html:51 weblate/templates/index.html:38
 #: weblate/templates/stats.html:5 weblate/templates/stats.html:62
-#: weblate/templates/translation.html:39 weblate/templates/translation.html:331
+#: weblate/templates/translation.html:39 weblate/templates/translation.html:333
 msgid "Statistics"
 msgstr "Stadegoù"
 
@@ -2809,8 +2810,8 @@ msgstr "geriaouegi"
 #: weblate/templates/dictionaries.html:15 weblate/templates/language.html:39
 #: weblate/templates/languages.html:16 weblate/templates/list-projects.html:10
 #: weblate/templates/project.html:106 weblate/templates/project.html:140
-#: weblate/templates/translation.html:126
-#: weblate/templates/translation.html:338
+#: weblate/templates/translation.html:127
+#: weblate/templates/translation.html:340
 msgid "Words"
 msgstr "Gerioù"
 
@@ -2876,7 +2877,7 @@ msgstr "Troidigezh"
 #: weblate/templates/dictionary.html:67 weblate/templates/js/detail.html:19
 #: weblate/templates/js/detail.html:28
 #: weblate/templates/js/translations.html:10
-#: weblate/templates/js/translations.html:19 weblate/templates/replace.html:33
+#: weblate/templates/js/translations.html:19 weblate/templates/replace.html:34
 #: weblate/templates/screenshots/screenshot_list.html:36
 #: weblate/templates/zen-units.html:20
 msgid "Edit"
@@ -2962,7 +2963,7 @@ msgstr "Pa vo bet gweredekaet ho kont, kit da welet ar rann dreiñ."
 
 #: weblate/templates/engage.html:43 weblate/templates/list-translations.html:69
 #: weblate/templates/list-translations.html:71
-#: weblate/templates/translate.html:92 weblate/templates/translation.html:121
+#: weblate/templates/translate.html:92 weblate/templates/translation.html:122
 msgid "Translate"
 msgstr "Treiñ"
 
@@ -3171,8 +3172,8 @@ msgstr "Ostilhoù"
 #: weblate/templates/search-form.html:6 weblate/templates/search-form.html:11
 #: weblate/templates/search.html:15 weblate/templates/subproject.html:51
 #: weblate/templates/subproject.html:136 weblate/templates/translate.html:57
-#: weblate/templates/translation.html:31 weblate/templates/translation.html:292
-#: weblate/templates/translation.html:297 weblate/templates/zen.html:36
+#: weblate/templates/translation.html:31 weblate/templates/translation.html:294
+#: weblate/templates/translation.html:299 weblate/templates/zen.html:36
 msgid "Search"
 msgstr "Klask"
 
@@ -3270,8 +3271,8 @@ msgstr "Ouzhpennañ ur ger nevez"
 
 #: weblate/templates/js/detail.html:103
 #: weblate/templates/screenshots/screenshot_list.html:63
-#: weblate/templates/translation.html:256
-#: weblate/templates/translation.html:267
+#: weblate/templates/translation.html:257
+#: weblate/templates/translation.html:268
 msgid "Upload"
 msgstr "Enporzhiañ"
 
@@ -3434,7 +3435,7 @@ msgstr "Geriaouegi"
 #: weblate/templates/list-projects.html:9
 #: weblate/templates/list-translations.html:8
 #: weblate/templates/project.html:105 weblate/templates/project.html:139
-#: weblate/templates/stats.html:20 weblate/templates/translation.html:349
+#: weblate/templates/stats.html:20 weblate/templates/translation.html:351
 #: weblate/trans/templatetags/translations.py:526
 msgid "Translated"
 msgstr "Troet"
@@ -4130,7 +4131,7 @@ msgstr ""
 #: weblate/templates/project.html:47 weblate/templates/project.html:194
 #: weblate/templates/replace.html:13 weblate/templates/subproject.html:53
 #: weblate/templates/subproject.html:145 weblate/templates/translation.html:60
-#: weblate/templates/translation.html:220 weblate/trans/models/change.py:228
+#: weblate/templates/translation.html:221 weblate/trans/models/change.py:228
 msgid "Search and replace"
 msgstr ""
 
@@ -4209,22 +4210,22 @@ msgstr "Merañ an holl c'heriaouegi"
 msgid "Browse all project changes"
 msgstr "Furchal er c'hemmoù"
 
-#: weblate/templates/project.html:196 weblate/templates/translation.html:222
+#: weblate/templates/project.html:196 weblate/templates/translation.html:223
 msgid ""
 "You can replace a string in all units at once. The search is a simple "
 "substring case sensitive search."
 msgstr ""
 
-#: weblate/templates/project.html:201 weblate/templates/replace.html:45
-#: weblate/templates/subproject.html:152 weblate/templates/translation.html:209
-#: weblate/templates/translation.html:227
-#: weblate/templates/translation.html:245
+#: weblate/templates/project.html:201 weblate/templates/replace.html:46
+#: weblate/templates/subproject.html:152 weblate/templates/translation.html:210
+#: weblate/templates/translation.html:228
+#: weblate/templates/translation.html:246
 msgid "Process"
 msgstr "Argerzh"
 
 #: weblate/templates/project.html:210 weblate/templates/subproject.html:168
 #: weblate/templates/translate.html:333 weblate/templates/translate.html:337
-#: weblate/templates/translation.html:277 weblate/trans/forms.py:231
+#: weblate/templates/translation.html:278 weblate/trans/forms.py:231
 msgid "Loading…"
 msgstr "O kargañ…"
 
@@ -4348,8 +4349,8 @@ msgid "Deleting screenshot will remove it from all associated source strings."
 msgstr ""
 
 #: weblate/templates/screenshots/screenshot_list.html:22
-#: weblate/templates/translation.html:117
-#: weblate/templates/translation.html:337
+#: weblate/templates/translation.html:118
+#: weblate/templates/translation.html:339
 msgid "Strings"
 msgstr "Neudennadoù"
 
@@ -4396,11 +4397,11 @@ msgstr "Evezhiadenn"
 msgid "No matching source strings found."
 msgstr "N'eus bet kavet kemennadenn ebet o klotañ !"
 
-#: weblate/templates/source.html:19 weblate/templates/translation.html:142
+#: weblate/templates/source.html:19 weblate/templates/translation.html:143
 msgid "Strings to check"
 msgstr "Neudennadoù da wiriañ"
 
-#: weblate/templates/source.html:34 weblate/templates/translation.html:166
+#: weblate/templates/source.html:34 weblate/templates/translation.html:167
 msgid "Project Information"
 msgstr "Titouroù diwar-benn ar raktres"
 
@@ -5055,12 +5056,12 @@ msgstr "Ho troidigezhioù"
 msgid "Files"
 msgstr "Restroù"
 
-#: weblate/templates/translation.html:57 weblate/templates/translation.html:202
+#: weblate/templates/translation.html:57 weblate/templates/translation.html:203
 #: weblate/trans/models/change.py:206
 msgid "Automatic translation"
 msgstr "Treiñ emgefre"
 
-#: weblate/templates/translation.html:63 weblate/templates/translation.html:238
+#: weblate/templates/translation.html:63 weblate/templates/translation.html:239
 #, fuzzy
 #| msgid "Automatic translation"
 msgid "Add new translation unit"
@@ -5072,7 +5073,7 @@ msgstr "Treiñ emgefre"
 msgid "Translation status"
 msgstr "Stad an treiñ"
 
-#: weblate/templates/translation.html:147
+#: weblate/templates/translation.html:148
 #, fuzzy, python-format
 #| msgid ", %(count)s vote"
 #| msgid_plural ", %(count)s votes"
@@ -5081,30 +5082,30 @@ msgid_plural "%(count)s words"
 msgstr[0] ", %(count)s vot"
 msgstr[1] ", %(count)s vot"
 
-#: weblate/templates/translation.html:154
+#: weblate/templates/translation.html:155
 #, fuzzy
 #| msgid "Comments"
 msgid "Other components"
 msgstr "Evezhiadennoù"
 
-#: weblate/templates/translation.html:173
+#: weblate/templates/translation.html:174
 #: weblate/templates/unit-details.html:26
 #, fuzzy
 #| msgid "Translation"
 msgid "Translation file"
 msgstr "Troidigezh"
 
-#: weblate/templates/translation.html:177
+#: weblate/templates/translation.html:178
 msgid "Download"
 msgstr "Pellgargañ"
 
-#: weblate/templates/translation.html:194
+#: weblate/templates/translation.html:195
 #, fuzzy
 #| msgid "Browse changes"
 msgid "Browse all translation changes"
 msgstr "Furchal er c'hemmoù"
 
-#: weblate/templates/translation.html:204
+#: weblate/templates/translation.html:205
 #, fuzzy
 #| msgid ""
 #| "Automatic translation takes existing translations in this project and "
@@ -5123,13 +5124,13 @@ msgstr ""
 "reizhañ troidigezhioù dizunvan, pe evit treiñ israktresoù nevez en ur ober "
 "gant ar memor treiñ."
 
-#: weblate/templates/translation.html:240
+#: weblate/templates/translation.html:241
 msgid ""
 "You can add new translation unit here, it will automatically appear in all "
 "translations."
 msgstr ""
 
-#: weblate/templates/translation.html:259
+#: weblate/templates/translation.html:260
 #, fuzzy
 #| msgid ""
 #| "Uploaded file will be merged with current translation. In case you want "
@@ -5142,54 +5143,54 @@ msgstr ""
 "deoc'h frikañ an neudennadoù bet troet c'hoazh arabat deoc'h disoñjal "
 "gweredekaat an dibarzh-mañ."
 
-#: weblate/templates/translation.html:261
+#: weblate/templates/translation.html:262
 #, fuzzy
 #| msgid "Uploaded file will be merged with current translation."
 msgid "The uploaded file will be merged with the current translation."
 msgstr "Kendeuzet e vo ar restr enporzhiet gant an droidigezh zo c'hoazh."
 
-#: weblate/templates/translation.html:287
+#: weblate/templates/translation.html:288
 msgid ""
 "The fulltext search might not work properly as the fulltext index for this "
 "translation is not yet up to date."
 msgstr ""
 
-#: weblate/templates/translation.html:308
-#: weblate/templates/translation.html:355
+#: weblate/templates/translation.html:310
+#: weblate/templates/translation.html:357
 msgid "Review"
 msgstr "Adwelet"
 
-#: weblate/templates/translation.html:310
+#: weblate/templates/translation.html:312
 msgid "Review translations touched by other users."
 msgstr "Adwelet an troidigezhioù kinniget gant tud all."
 
-#: weblate/templates/translation.html:314
+#: weblate/templates/translation.html:316
 msgid "Start review"
 msgstr "Stagañ gant an adwelet"
 
-#: weblate/templates/translation.html:336
+#: weblate/templates/translation.html:338
 msgid "Percent"
 msgstr "Dregantad"
 
-#: weblate/templates/translation.html:343
+#: weblate/templates/translation.html:345
 msgid "Total"
 msgstr "Hollad"
 
-#: weblate/templates/translation.html:361
+#: weblate/templates/translation.html:363
 msgid "Failing check"
 msgstr "C'hwitet ar gwiriañ"
 
-#: weblate/templates/translation.html:376
+#: weblate/templates/translation.html:378
 #, fuzzy
 #| msgid "Activity"
 msgid "Last activity"
 msgstr "Obererezh"
 
-#: weblate/templates/translation.html:380
+#: weblate/templates/translation.html:382
 msgid "Last change"
 msgstr "Kemm diwezhañ"
 
-#: weblate/templates/translation.html:384
+#: weblate/templates/translation.html:386
 msgid "Last author"
 msgstr "Aozer diwezhañ"
 
@@ -5362,17 +5363,17 @@ msgstr "Sil red : %(filter_name)s (%(filter_count)s)"
 msgid "Administrators"
 msgstr "Enrollañ"
 
-#: weblate/trans/admin.py:64 weblate/trans/admin.py:117
+#: weblate/trans/admin.py:64 weblate/trans/admin.py:122
 #, fuzzy
 #| msgid "Git repository"
 msgid "Update VCS repository"
 msgstr "Kavlec'h Git"
 
-#: weblate/trans/admin.py:79 weblate/trans/admin.py:133
+#: weblate/trans/admin.py:84 weblate/trans/admin.py:138
 msgid "Update quality checks"
 msgstr ""
 
-#: weblate/trans/admin.py:89 weblate/trans/admin.py:143
+#: weblate/trans/admin.py:94 weblate/trans/admin.py:148
 #, fuzzy
 #| msgid "Browse changes"
 msgid "Commit pending changes"
@@ -6553,7 +6554,7 @@ msgstr "Selladenn ouzh mammennoù an neudennadoù"
 msgid "New unit added"
 msgstr ""
 
-#: weblate/trans/models/change.py:323
+#: weblate/trans/models/change.py:325
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr ""

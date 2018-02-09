@@ -6,11 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-02-09 06:33+0000\n"
+"POT-Creation-Date: 2018-02-09 16:06+0000\n"
 "PO-Revision-Date: 2018-02-09 08:34+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
-"Language-Team: Japanese "
-"<https://hosted.weblate.org/projects/weblate/master/ja/>\n"
+"Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
+"ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,21 +18,26 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 2.19-dev\n"
 
-#: weblate/accounts/admin.py:106 weblate/accounts/admin.py:111
+#: weblate/accounts/admin.py:109 weblate/accounts/admin.py:114
 msgid "Personal info"
 msgstr "個人情報"
 
-#: weblate/accounts/admin.py:107 weblate/templates/accounts/profile.html:26
+#: weblate/accounts/admin.py:110 weblate/templates/accounts/profile.html:27
 msgid "Authentication"
 msgstr "認証"
 
-#: weblate/accounts/admin.py:112 weblate/permissions/apps.py:30
+#: weblate/accounts/admin.py:115 weblate/permissions/apps.py:30
 msgid "Permissions"
 msgstr "パーミッション"
 
-#: weblate/accounts/admin.py:116
+#: weblate/accounts/admin.py:119
 msgid "Important dates"
 msgstr "重要な日時情報"
+
+#: weblate/accounts/admin.py:129 weblate/accounts/forms.py:159
+#: weblate/templates/manage-access.html:24
+msgid "Full name"
+msgstr "フルネーム"
 
 #: weblate/accounts/avatar.py:164
 msgctxt "No known user"
@@ -62,7 +67,7 @@ msgstr ""
 "ユーザ名には ASCII 文字のほか、数字と以下の文字を使うことができます：@ . + - "
 "_ (アットマーク、ピリオド、プラス、マイナス、アンダーバーの半角文字)"
 
-#: weblate/accounts/forms.py:122 weblate/templates/accounts/login.html:25
+#: weblate/accounts/forms.py:122 weblate/templates/accounts/login.html:26
 #: weblate/templates/accounts/user.html:22
 #: weblate/templates/manage-access.html:23
 msgid "Username"
@@ -75,10 +80,6 @@ msgstr "ユーザ名を終止符で始めることはできません。"
 #: weblate/accounts/forms.py:144
 msgid "This username is already taken. Please choose another."
 msgstr "このユーザ名は既に使用されています。別の名前にしてください。"
-
-#: weblate/accounts/forms.py:159 weblate/templates/manage-access.html:24
-msgid "Full name"
-msgstr "フルネーム"
 
 #: weblate/accounts/forms.py:247
 msgid "Component wide notifications"
@@ -185,8 +186,8 @@ msgstr "入力したパスワードが無効です。"
 msgid "Username or email"
 msgstr "ユーザ名もしくはメールアドレス"
 
-#: weblate/accounts/forms.py:542 weblate/templates/accounts/login.html:26
-#: weblate/templates/accounts/profile.html:189
+#: weblate/accounts/forms.py:542 weblate/templates/accounts/login.html:27
+#: weblate/templates/accounts/profile.html:190
 msgid "Password"
 msgstr "パスワード"
 
@@ -302,7 +303,7 @@ msgstr "アカウントと全てのプライベートデータを削除しまし
 msgid "Agreement with Terms of Service {date}."
 msgstr "{date} 時点でのサービス利用規約の内容に合意しました。"
 
-#: weblate/accounts/models.py:213 weblate/templates/accounts/profile.html:309
+#: weblate/accounts/models.py:213 weblate/templates/accounts/profile.html:310
 msgid "Account activity"
 msgstr "アカウントの利用状況"
 
@@ -396,7 +397,7 @@ msgstr "デフォルトのダッシュボードビュー"
 msgid "Default component list"
 msgstr "デフォルトのコンポーネントリスト"
 
-#: weblate/accounts/models.py:414 weblate/templates/accounts/profile.html:117
+#: weblate/accounts/models.py:414 weblate/templates/accounts/profile.html:118
 #: weblate/templates/base.html:111
 msgid "Watched projects"
 msgstr "プロジェクトの監視"
@@ -504,7 +505,7 @@ msgstr ""
 
 #: weblate/accounts/views.py:117 weblate/accounts/views.py:747
 #: weblate/accounts/views.py:796 weblate/templates/accounts/reset.html:7
-#: weblate/templates/accounts/reset.html:24
+#: weblate/templates/accounts/reset.html:27
 msgid "Password reset"
 msgstr "パスワードのリセット"
 
@@ -557,7 +558,7 @@ msgstr "連絡"
 msgid "Hosting"
 msgstr "ホスティング"
 
-#: weblate/accounts/views.py:554 weblate/templates/accounts/login.html:66
+#: weblate/accounts/views.py:554 weblate/templates/accounts/login.html:67
 #: weblate/templates/accounts/redirect.html:8 weblate/templates/base.html:137
 msgid "Login"
 msgstr "ログイン"
@@ -574,12 +575,12 @@ msgstr "査読者権限のあるユーザ"
 msgid "Thanks for using Weblate!"
 msgstr "Weblate のご利用ありがとうございました！"
 
-#: weblate/accounts/views.py:674 weblate/templates/accounts/email.html:16
+#: weblate/accounts/views.py:674 weblate/templates/accounts/email.html:17
 msgid "Register email"
 msgstr "メールアドレスの登録"
 
 #: weblate/accounts/views.py:717 weblate/templates/accounts/password.html:13
-#: weblate/templates/accounts/profile.html:192
+#: weblate/templates/accounts/profile.html:193
 msgid "Change password"
 msgstr "パスワードを変更する"
 
@@ -644,8 +645,9 @@ msgid ""
 "file formats, this means removing stale translation keys no longer present "
 "in the base file."
 msgstr ""
-"単一言語のベースファイルに合わせて全ての翻訳ファイルを更新します。ほとんどのファイル形式において、この処理はベースファイル内に存在しない、行方不明の翻訳キ"
-"ーを削除します。"
+"単一言語のベースファイルに合わせて全ての翻訳ファイルを更新します。ほとんどの"
+"ファイル形式において、この処理はベースファイル内に存在しない、行方不明の翻訳"
+"キーを削除します。"
 
 #: weblate/addons/example.py:42
 msgid "Example addon"
@@ -803,8 +805,8 @@ msgid "Source words"
 msgstr "原文の単語数"
 
 #: weblate/billing/models.py:163 weblate/lang/models.py:362
-#: weblate/lang/views.py:45 weblate/templates/accounts/profile.html:22
-#: weblate/templates/accounts/profile.html:41 weblate/templates/language.html:6
+#: weblate/lang/views.py:45 weblate/templates/accounts/profile.html:23
+#: weblate/templates/accounts/profile.html:42 weblate/templates/language.html:6
 #: weblate/templates/languages.html:6 weblate/templates/project.html:26
 #: weblate/templates/trans/change_list.html:18 weblate/trans/forms.py:1074
 #: weblate/trans/forms.py:1435 weblate/trans/models/project.py:294
@@ -1441,7 +1443,7 @@ msgstr ""
 "このほか、商用ホスティングも提供させていただいております。価格は 1 ヶ月あた"
 "り 19 ユーロからとなります。詳しくはお尋ねください。"
 
-#: weblate/templates/about.html:43 weblate/templates/accounts/hosting.html:20
+#: weblate/templates/about.html:43 weblate/templates/accounts/hosting.html:21
 #: weblate/templates/projects.html:13
 msgid "Ask for project hosting"
 msgstr "プロジェクトのホスティングを求める"
@@ -1450,7 +1452,7 @@ msgstr "プロジェクトのホスティングを求める"
 msgid "View hosting plans"
 msgstr "ホスティングプランの表示"
 
-#: weblate/templates/about.html:45 weblate/templates/accounts/hosting.html:54
+#: weblate/templates/about.html:45 weblate/templates/accounts/hosting.html:55
 msgid "Contact us for commercial hosting"
 msgstr "商用ホスティングに関する連絡先"
 
@@ -1542,12 +1544,12 @@ msgstr ""
 "%(weblate_link)s をご覧ください。"
 
 #: weblate/templates/accounts/contact.html:30
-#: weblate/templates/accounts/hosting.html:25
+#: weblate/templates/accounts/hosting.html:26
 msgid "Send"
 msgstr "送信"
 
 #: weblate/templates/accounts/email-sent.html:5
-#: weblate/templates/accounts/login.html:91
+#: weblate/templates/accounts/login.html:92
 #: weblate/templates/accounts/register.html:8
 msgid "Registration"
 msgstr "登録"
@@ -1608,13 +1610,13 @@ msgid "Report an issue with registration"
 msgstr "登録に関する問題の報告"
 
 #: weblate/templates/accounts/email.html:10
-#: weblate/templates/accounts/register.html:25
-#: weblate/templates/accounts/reset.html:19
+#: weblate/templates/accounts/register.html:26
+#: weblate/templates/accounts/reset.html:21
 msgid "Please fix errors in the registration form."
 msgstr "登録フォーム内のエラーを修正してください。"
 
-#: weblate/templates/accounts/email.html:25
-#: weblate/templates/accounts/profile.html:416
+#: weblate/templates/accounts/email.html:26
+#: weblate/templates/accounts/profile.html:417
 msgid ""
 "By registering you agree to use your name and email in the commits and "
 "provide your contribution under license defined by each translated project."
@@ -1623,8 +1625,8 @@ msgstr ""
 "ほか、翻訳結果を各翻訳プロジェクトで規定されているライセンスで提供することに"
 "なります。"
 
-#: weblate/templates/accounts/email.html:29
-#: weblate/templates/accounts/register.html:45 weblate/templates/base.html:135
+#: weblate/templates/accounts/email.html:30
+#: weblate/templates/accounts/register.html:47 weblate/templates/base.html:135
 #: weblate/templates/engage.html:42
 msgid "Register"
 msgstr "登録"
@@ -1637,28 +1639,28 @@ msgstr ""
 "プロジェクトがこのサイトにホスティング プロジェクトの対象かどうかを事前に確認"
 "してください。"
 
-#: weblate/templates/accounts/hosting.html:33
+#: weblate/templates/accounts/hosting.html:34
 msgid "Conditions for free hosting"
 msgstr "無料ホスティングの条件"
 
-#: weblate/templates/accounts/hosting.html:36
+#: weblate/templates/accounts/hosting.html:37
 msgid "Translated content has to be released under free software license."
 msgstr ""
 "翻訳された内容は、フリーソフトウェアのライセンスでリリースされなければなりま"
 "せん。"
 
-#: weblate/templates/accounts/hosting.html:37
+#: weblate/templates/accounts/hosting.html:38
 msgid ""
 "Source code has to be publicly available in supported version control system."
 msgstr ""
 "ソースコードは、サポートされているバージョン管理システムで公開されている必要"
 "があります。"
 
-#: weblate/templates/accounts/hosting.html:38
+#: weblate/templates/accounts/hosting.html:39
 msgid "There is no guarantee for service availability or quality."
 msgstr "サービスの可用性と品質に保証はありません。"
 
-#: weblate/templates/accounts/hosting.html:39
+#: weblate/templates/accounts/hosting.html:40
 msgid ""
 "The hosting requests are usually processed once in a month, so please be "
 "patient after submitting it."
@@ -1666,11 +1668,11 @@ msgstr ""
 "ホスティング要求は、通常 1 ヶ月に 1 回程度の処理となっております。申し訳あり"
 "ませんが、送信後しばらくのお時間をいただきます。"
 
-#: weblate/templates/accounts/hosting.html:45
+#: weblate/templates/accounts/hosting.html:46
 msgid "Commercial hosting"
 msgstr "商用ホスティング"
 
-#: weblate/templates/accounts/hosting.html:49
+#: weblate/templates/accounts/hosting.html:50
 msgid ""
 "Commercial hosting is possible as well, our price starts at 19 EUR per "
 "month, please get in touch with us for more details."
@@ -1684,47 +1686,47 @@ msgstr ""
 "指定されたユーザ名とパスワードの組み合わせが見つかりません。確認のうえ再度お"
 "願いします。"
 
-#: weblate/templates/accounts/login.html:20
+#: weblate/templates/accounts/login.html:21
 msgid ""
 "To test Weblate on this demo server, you can log in as the following users:"
 msgstr ""
 "Weblate をデモサーバでテストするにあたっては、下記のユーザでログインすること"
 "ができます:"
 
-#: weblate/templates/accounts/login.html:27
-#: weblate/templates/accounts/profile.html:52
-#: weblate/templates/accounts/profile.html:87
-#: weblate/templates/accounts/profile.html:128
-#: weblate/templates/accounts/profile.html:164
-#: weblate/templates/accounts/profile.html:237
-#: weblate/templates/accounts/profile.html:281
-#: weblate/templates/accounts/profile.html:297
-#: weblate/templates/accounts/profile.html:394
-#: weblate/templates/accounts/profile.html:448
+#: weblate/templates/accounts/login.html:28
+#: weblate/templates/accounts/profile.html:53
+#: weblate/templates/accounts/profile.html:88
+#: weblate/templates/accounts/profile.html:129
+#: weblate/templates/accounts/profile.html:165
+#: weblate/templates/accounts/profile.html:238
+#: weblate/templates/accounts/profile.html:282
+#: weblate/templates/accounts/profile.html:298
+#: weblate/templates/accounts/profile.html:395
+#: weblate/templates/accounts/profile.html:449
 msgid "Description"
 msgstr "解説"
 
-#: weblate/templates/accounts/login.html:49
+#: weblate/templates/accounts/login.html:50
 msgid "Password login"
 msgstr "パスワード (再入力)"
 
-#: weblate/templates/accounts/login.html:57
+#: weblate/templates/accounts/login.html:58
 msgid "Forgot your password?"
 msgstr "パスワードをお忘れですか？"
 
-#: weblate/templates/accounts/login.html:58
+#: weblate/templates/accounts/login.html:59
 msgid "You can reset it."
 msgstr "リセットすることができます。"
 
-#: weblate/templates/accounts/login.html:78
+#: weblate/templates/accounts/login.html:79
 msgid "Third party login"
 msgstr "サードパーティのログイン"
 
-#: weblate/templates/accounts/login.html:96
+#: weblate/templates/accounts/login.html:97
 msgid "Do not have an account yet?"
 msgstr "まだアカウントをお持ちではありませんか？"
 
-#: weblate/templates/accounts/login.html:97
+#: weblate/templates/accounts/login.html:98
 msgid "You can register."
 msgstr "登録を行なうことができます。"
 
@@ -1765,49 +1767,49 @@ msgstr "パスワードを変更する"
 msgid "Please fix errors in the form."
 msgstr "フォームのエラー箇所を修正してください。"
 
-#: weblate/templates/accounts/profile.html:23
-#: weblate/templates/accounts/profile.html:75
+#: weblate/templates/accounts/profile.html:24
+#: weblate/templates/accounts/profile.html:76
 msgid "Preferences"
 msgstr "環境設定"
 
-#: weblate/templates/accounts/profile.html:24
+#: weblate/templates/accounts/profile.html:25
 msgid "Subscriptions"
 msgstr "通知設定"
 
-#: weblate/templates/accounts/profile.html:25
-#: weblate/templates/accounts/profile.html:153
+#: weblate/templates/accounts/profile.html:26
+#: weblate/templates/accounts/profile.html:154
 msgid "Account"
 msgstr "アカウント"
 
-#: weblate/templates/accounts/profile.html:27
+#: weblate/templates/accounts/profile.html:28
 msgid "Profile"
 msgstr "個人情報"
 
-#: weblate/templates/accounts/profile.html:28
-#: weblate/templates/accounts/profile.html:413
+#: weblate/templates/accounts/profile.html:29
+#: weblate/templates/accounts/profile.html:414
 msgid "Licenses"
 msgstr "バージョン情報、ライセンス、プロジェクトメンバー"
 
-#: weblate/templates/accounts/profile.html:29
-#: weblate/templates/accounts/profile.html:304
+#: weblate/templates/accounts/profile.html:30
+#: weblate/templates/accounts/profile.html:305
 msgid "Audit log"
 msgstr "監査ログ"
 
-#: weblate/templates/accounts/profile.html:30
-#: weblate/templates/accounts/profile.html:345
+#: weblate/templates/accounts/profile.html:31
+#: weblate/templates/accounts/profile.html:346
 msgid "API access"
 msgstr "API アクセス"
 
-#: weblate/templates/accounts/profile.html:32
+#: weblate/templates/accounts/profile.html:33
 #: weblate/templates/billing/overview.html:6
 msgid "Billing"
 msgstr "課金"
 
-#: weblate/templates/accounts/profile.html:46
-#: weblate/templates/accounts/profile.html:81
-#: weblate/templates/accounts/profile.html:122
-#: weblate/templates/accounts/profile.html:143
-#: weblate/templates/accounts/profile.html:158
+#: weblate/templates/accounts/profile.html:47
+#: weblate/templates/accounts/profile.html:82
+#: weblate/templates/accounts/profile.html:123
+#: weblate/templates/accounts/profile.html:144
+#: weblate/templates/accounts/profile.html:159
 #: weblate/templates/addons/addon_detail.html:34
 #: weblate/templates/edit_dictionary.html:26
 #: weblate/templates/js/detail.html:59 weblate/templates/js/detail.html:71
@@ -1818,7 +1820,7 @@ msgstr "課金"
 msgid "Save"
 msgstr "保存"
 
-#: weblate/templates/accounts/profile.html:55
+#: weblate/templates/accounts/profile.html:56
 msgid ""
 "Choose which languages you prefer to translate. These will be offered to you "
 "on the dashboard to have easier access to chosen translations."
@@ -1826,12 +1828,12 @@ msgstr ""
 "あなたが翻訳したい言語を選択してください。ここで選択した言語はダッシュボード"
 "に表示され、翻訳にすぐアクセスできるようになります。"
 
-#: weblate/templates/accounts/profile.html:58
+#: weblate/templates/accounts/profile.html:59
 msgid ""
 "The secondary languages are shown next to the source string when translating."
 msgstr "第 2 言語は、翻訳するとき原文の横に表示されます。"
 
-#: weblate/templates/accounts/profile.html:61
+#: weblate/templates/accounts/profile.html:62
 msgid ""
 "Only languages which are currently being translated are listed. If you want "
 "to translate to another language, please request it first on the project you "
@@ -1840,14 +1842,14 @@ msgstr ""
 "現時点で翻訳が存在する言語のみを表示しています。表示されていない言語に翻訳し"
 "たい場合は、プロジェクトに対して翻訳したい言語をリクエストしてください。"
 
-#: weblate/templates/accounts/profile.html:65
-#: weblate/templates/accounts/profile.html:94
-#: weblate/templates/accounts/profile.html:134
-#: weblate/templates/accounts/profile.html:169
-#: weblate/templates/accounts/profile.html:243
-#: weblate/templates/accounts/profile.html:286 weblate/templates/base.html:121
-#: weblate/templates/check.html:42 weblate/templates/check_project.html:43
-#: weblate/templates/check_subproject.html:44 weblate/templates/checks.html:34
+#: weblate/templates/accounts/profile.html:66
+#: weblate/templates/accounts/profile.html:95
+#: weblate/templates/accounts/profile.html:135
+#: weblate/templates/accounts/profile.html:170
+#: weblate/templates/accounts/profile.html:244
+#: weblate/templates/accounts/profile.html:287 weblate/templates/base.html:121
+#: weblate/templates/check.html:43 weblate/templates/check_project.html:44
+#: weblate/templates/check_subproject.html:45 weblate/templates/checks.html:34
 #: weblate/templates/documentation-icon.html:2 weblate/templates/footer.html:10
 #: weblate/wladmin/templates/admin/performance.html:17
 #: weblate/wladmin/templates/admin/performance.html:63
@@ -1860,25 +1862,25 @@ msgstr ""
 msgid "Documentation"
 msgstr "ドキュメント"
 
-#: weblate/templates/accounts/profile.html:90
+#: weblate/templates/accounts/profile.html:91
 msgid "Customize Weblate behavior to match your personal preferences."
 msgstr ""
 "個人的な嗜好に合わせて Weblate の動作をカスタマイズすることができます。"
 
-#: weblate/templates/accounts/profile.html:105
+#: weblate/templates/accounts/profile.html:106
 msgid "Managed projects"
 msgstr "管理しているプロジェクト"
 
-#: weblate/templates/accounts/profile.html:112
+#: weblate/templates/accounts/profile.html:113
 msgid ""
 "You will automatically receive important notifications on managed projects."
 msgstr "管理しているプロジェクトに対しては、重要な通知を自動的に受信します。"
 
-#: weblate/templates/accounts/profile.html:130
+#: weblate/templates/accounts/profile.html:131
 msgid "You will receive chosen notifications via email for all your languages."
 msgstr "すべての言語に対して、電子メール経由で選択した通知を受信します。"
 
-#: weblate/templates/accounts/profile.html:131
+#: weblate/templates/accounts/profile.html:132
 msgid ""
 "Watched projects are also shown on dashboard, so choose all projects you "
 "want to translate."
@@ -1886,57 +1888,57 @@ msgstr ""
 "監視しているプロジェクトはダッシュボードにも表示されます。そのため、ここでは"
 "翻訳に参加したいプロジェクトを選択してください。"
 
-#: weblate/templates/accounts/profile.html:138
+#: weblate/templates/accounts/profile.html:139
 msgid "Subscription settings"
 msgstr "通知設定"
 
-#: weblate/templates/accounts/profile.html:166
+#: weblate/templates/accounts/profile.html:167
 msgid "Your name and email will appear as author on the commits."
 msgstr "名前とメールアドレスは、コミットの作者表記として使われます。"
 
-#: weblate/templates/accounts/profile.html:179
+#: weblate/templates/accounts/profile.html:180
 msgid "Current user identities"
 msgstr "現在のユーザ ID 識別情報"
 
-#: weblate/templates/accounts/profile.html:183
+#: weblate/templates/accounts/profile.html:184
 msgid "Identity"
 msgstr "認証方法"
 
-#: weblate/templates/accounts/profile.html:184
+#: weblate/templates/accounts/profile.html:185
 msgid "User ID"
 msgstr "ユーザ ID"
 
-#: weblate/templates/accounts/profile.html:185
+#: weblate/templates/accounts/profile.html:186
 #: weblate/templates/last-changes-content.html:10
 msgid "Action"
 msgstr "処理"
 
-#: weblate/templates/accounts/profile.html:192
+#: weblate/templates/accounts/profile.html:193
 msgid "Set password"
 msgstr "パスワードの設定"
 
-#: weblate/templates/accounts/profile.html:201
+#: weblate/templates/accounts/profile.html:202
 msgid "Disconnect"
 msgstr "切断"
 
-#: weblate/templates/accounts/profile.html:213
+#: weblate/templates/accounts/profile.html:214
 msgid "Add new association"
 msgstr "新しい関連付けの追加"
 
-#: weblate/templates/accounts/profile.html:224
+#: weblate/templates/accounts/profile.html:225
 msgid "Removal"
 msgstr "除去"
 
-#: weblate/templates/accounts/profile.html:227
+#: weblate/templates/accounts/profile.html:228
 #: weblate/templates/accounts/removal.html:12
 msgid "Removal of the account deletes all your private data."
 msgstr "アカウントの削除は、すべてのプライベートデータを削除します。"
 
-#: weblate/templates/accounts/profile.html:230
+#: weblate/templates/accounts/profile.html:231
 msgid "Remove my account"
 msgstr "私のアカウントを削除します"
 
-#: weblate/templates/accounts/profile.html:239
+#: weblate/templates/accounts/profile.html:240
 msgid ""
 "You can manage identities which are associated to this account and which can "
 "be used to log in."
@@ -1944,31 +1946,31 @@ msgstr ""
 "このアカウントに紐付けられ、ログイン時にも利用することのできる識別情報を管理"
 "することができます。"
 
-#: weblate/templates/accounts/profile.html:240
+#: weblate/templates/accounts/profile.html:241
 msgid "You can configure how you will log in on this site."
 msgstr "このサイトへのログイン方法を設定することができます。"
 
-#: weblate/templates/accounts/profile.html:254
+#: weblate/templates/accounts/profile.html:255
 msgid "Your summary"
 msgstr "あなたの概要"
 
-#: weblate/templates/accounts/profile.html:261
+#: weblate/templates/accounts/profile.html:262
 msgid "Your public profile"
 msgstr "あなたの公開プロファイル"
 
-#: weblate/templates/accounts/profile.html:269
+#: weblate/templates/accounts/profile.html:270
 msgid "Your avatar"
 msgstr "アバター"
 
-#: weblate/templates/accounts/profile.html:272
+#: weblate/templates/accounts/profile.html:273
 msgid "Avatars are provided using libravatar."
 msgstr "アバターは、libravatar を使用して提供しています。"
 
-#: weblate/templates/accounts/profile.html:283
+#: weblate/templates/accounts/profile.html:284
 msgid "Your public appearance on this site."
 msgstr "このサイトにおける、あなた自身の情報です。"
 
-#: weblate/templates/accounts/profile.html:299
+#: weblate/templates/accounts/profile.html:300
 msgid ""
 "Audit log shows important changes on your account. In case you see something "
 "suspicious don't hesitate to contact us."
@@ -1976,54 +1978,54 @@ msgstr ""
 "監査ログには、お使いのアカウントに対する重要な変更が記録されています。何らか"
 "の疑わしい活動にお気づきの際は、遠慮無くご連絡ください。"
 
-#: weblate/templates/accounts/profile.html:308
+#: weblate/templates/accounts/profile.html:309
 #: weblate/templates/last-changes-content.html:8
 #: weblate/templates/trans/suggestion_list.html:16
 msgid "When"
 msgstr "いつ"
 
-#: weblate/templates/accounts/profile.html:310
+#: weblate/templates/accounts/profile.html:311
 msgid "IP address"
 msgstr "IP アドレス"
 
-#: weblate/templates/accounts/profile.html:311
+#: weblate/templates/accounts/profile.html:312
 msgid "User agent"
 msgstr "ユーザエージェント"
 
-#: weblate/templates/accounts/profile.html:323
 #: weblate/templates/accounts/profile.html:324
+#: weblate/templates/accounts/profile.html:325
 msgid "Hidden"
 msgstr "非表示"
 
-#: weblate/templates/accounts/profile.html:330
+#: weblate/templates/accounts/profile.html:331
 msgid "No recent activity found!"
 msgstr "最近の活動が見つかりませんでした！"
 
-#: weblate/templates/accounts/profile.html:335
+#: weblate/templates/accounts/profile.html:336
 msgid "Report suspicious activity"
 msgstr "疑わしい活動の報告"
 
-#: weblate/templates/accounts/profile.html:348
+#: weblate/templates/accounts/profile.html:349
 msgid "Your personal API key:"
 msgstr "あなたの個人用 API キー:"
 
-#: weblate/templates/accounts/profile.html:355
+#: weblate/templates/accounts/profile.html:356
 msgid "Regenerate API key"
 msgstr "API キーの再生成"
 
-#: weblate/templates/accounts/profile.html:359
+#: weblate/templates/accounts/profile.html:360
 msgid "API root URL:"
 msgstr "API ルート URL:"
 
-#: weblate/templates/accounts/profile.html:363
+#: weblate/templates/accounts/profile.html:364
 msgid "API usage example:"
 msgstr "API 使用例:"
 
-#: weblate/templates/accounts/profile.html:375
+#: weblate/templates/accounts/profile.html:376
 msgid "CLI usage example:"
 msgstr "CLI の利用例:"
 
-#: weblate/templates/accounts/profile.html:396
+#: weblate/templates/accounts/profile.html:397
 msgid ""
 "You can control Weblate using HTTP REST API and API key is used to "
 "authenticate to it."
@@ -2031,7 +2033,7 @@ msgstr ""
 "Weblate は HTTP REST API を利用して制御することができます。この場合は、 API "
 "キーを利用して認証を行ないます。"
 
-#: weblate/templates/accounts/profile.html:397
+#: weblate/templates/accounts/profile.html:398
 msgid ""
 "The API key is also used to authenticate to automatically exported Git "
 "repositories."
@@ -2039,21 +2041,21 @@ msgstr ""
 "API キーは、自動的に公開された git リポジトリに対して認証を行なう際にも使用し"
 "ます。"
 
-#: weblate/templates/accounts/profile.html:400
+#: weblate/templates/accounts/profile.html:401
 msgid "API documentation"
 msgstr "API ドキュメンテーション"
 
-#: weblate/templates/accounts/profile.html:401
+#: weblate/templates/accounts/profile.html:402
 msgid "Git export documentation"
 msgstr "git 公開のドキュメンテーション"
 
-#: weblate/templates/accounts/profile.html:420
+#: weblate/templates/accounts/profile.html:421
 msgid ""
 "Following translations have explicitly specified their licensing and "
 "copyright conditions:"
 msgstr "下記の翻訳には、ライセンスと著作権に関する条件が明記されています:"
 
-#: weblate/templates/accounts/profile.html:423 weblate/templates/data.html:28
+#: weblate/templates/accounts/profile.html:424 weblate/templates/data.html:28
 #: weblate/templates/data.html:62 weblate/templates/data.html:103
 #: weblate/templates/language.html:37 weblate/templates/list-projects.html:8
 #: weblate/templates/list-translations.html:7
@@ -2062,11 +2064,11 @@ msgstr "下記の翻訳には、ライセンスと著作権に関する条件が
 msgid "Project"
 msgstr "プロジェクト"
 
-#: weblate/templates/accounts/profile.html:423 weblate/trans/forms.py:1302
+#: weblate/templates/accounts/profile.html:424 weblate/trans/forms.py:1302
 msgid "License"
 msgstr "ライセンス"
 
-#: weblate/templates/accounts/profile.html:450
+#: weblate/templates/accounts/profile.html:451
 msgid ""
 "Please pay attention to the licensing information as these specify how "
 "others are allowed to use your translations."
@@ -2074,27 +2076,27 @@ msgstr ""
 "ライセンス情報には、他のユーザが翻訳を使用できるかどうかが書かれていますの"
 "で、注意してお読みください。"
 
-#: weblate/templates/accounts/profile.html:471
+#: weblate/templates/accounts/profile.html:472
 msgid "Invoices"
 msgstr "インボイス"
 
-#: weblate/templates/accounts/profile.html:475
+#: weblate/templates/accounts/profile.html:476
 msgid "Invoice period"
 msgstr "インボイスの期間"
 
-#: weblate/templates/accounts/profile.html:476
+#: weblate/templates/accounts/profile.html:477
 msgid "Invoice amount"
 msgstr "インボイスの金額"
 
-#: weblate/templates/accounts/profile.html:477
+#: weblate/templates/accounts/profile.html:478
 msgid "Download invoice"
 msgstr "インボイスのダウンロード"
 
-#: weblate/templates/accounts/profile.html:489
+#: weblate/templates/accounts/profile.html:490
 msgid "Not available"
 msgstr "ご利用いただけません"
 
-#: weblate/templates/accounts/profile.html:494
+#: weblate/templates/accounts/profile.html:495
 msgid "No invoices found!"
 msgstr "インボイスが見つかりません！"
 
@@ -2116,33 +2118,33 @@ msgstr ""
 "アドレスが書き込まれるようになるほか、翻訳結果を各翻訳プロジェクトで規定され"
 "ているライセンスで提供することになります。"
 
-#: weblate/templates/accounts/register.html:35
+#: weblate/templates/accounts/register.html:37
 msgid "Register using email"
 msgstr "電子メールを使用して登録します"
 
-#: weblate/templates/accounts/register.html:57
+#: weblate/templates/accounts/register.html:59
 msgid "Third party registration"
 msgstr "サード パーティの登録"
 
-#: weblate/templates/accounts/register.html:73
+#: weblate/templates/accounts/register.html:75
 msgid "Sorry, but registrations on this site are disabled."
 msgstr "申し訳ありませんが、このサイトでの登録は停止させていただいております。"
 
-#: weblate/templates/accounts/register.html:74
+#: weblate/templates/accounts/register.html:76
 msgid "You can contact us for more details."
 msgstr "詳しくはご連絡ください。"
 
-#: weblate/templates/accounts/removal.html:16
+#: weblate/templates/accounts/removal.html:17
 msgid "Account removal"
 msgstr "アカウント削除"
 
-#: weblate/templates/accounts/removal.html:20
+#: weblate/templates/accounts/removal.html:21
 msgid ""
 "By pressing following button, your will no longer be able to use this "
 "account."
 msgstr "下記のボタンを押すと、このアカウントを使用することができなくなります。"
 
-#: weblate/templates/accounts/removal.html:22
+#: weblate/templates/accounts/removal.html:23
 msgid ""
 "You will have to confirm account removal by clicking link in email you will "
 "receive."
@@ -2150,7 +2152,7 @@ msgstr ""
 "お送りした電子メール内にあるリンクを開いて、アカウントの削除を確認しなければ"
 "なりません。"
 
-#: weblate/templates/accounts/removal.html:27
+#: weblate/templates/accounts/removal.html:28
 msgid "Delete this account"
 msgstr "このアカウントを削除"
 
@@ -2159,7 +2161,7 @@ msgid "Forgotten your password? You can now set new one."
 msgstr ""
 "パスワードをお忘れですか？ ここから新しいパスワードを設定することができます。"
 
-#: weblate/templates/accounts/reset.html:15
+#: weblate/templates/accounts/reset.html:16
 msgid ""
 "Forgotten your password? Enter your email address below, and we'll email "
 "instructions for setting a new one."
@@ -2167,11 +2169,11 @@ msgstr ""
 "パスワードをお忘れですか？メールアドレスを入力してください。パスワードのリ"
 "セット方法をメールでお知らせします。"
 
-#: weblate/templates/accounts/reset.html:33
+#: weblate/templates/accounts/reset.html:36
 msgid "Set my password"
 msgstr "パスワードの設定"
 
-#: weblate/templates/accounts/reset.html:33
+#: weblate/templates/accounts/reset.html:36
 msgid "Reset my password"
 msgstr "パスワードをリセットする"
 
@@ -2307,7 +2309,7 @@ msgstr ""
 "Weblate は Microsoft Internet Explorer 8 もしくはそれ以前のバージョンには対応"
 "していません。  Firefox, Chome, Edge などの新しいブラウザをお使いください。"
 
-#: weblate/templates/base.html:179 weblate/templates/base.html:186
+#: weblate/templates/base.html:180 weblate/templates/base.html:187
 msgid "Close"
 msgstr "閉じる"
 
@@ -2373,8 +2375,8 @@ msgstr "チェック一覧"
 msgid "No matching checks found!"
 msgstr "該当するチェックは見つかりませんでした！"
 
-#: weblate/templates/check.html:35 weblate/templates/check_project.html:36
-#: weblate/templates/check_subproject.html:37
+#: weblate/templates/check.html:36 weblate/templates/check_project.html:37
+#: weblate/templates/check_subproject.html:38
 msgid "Check details"
 msgstr "チェック詳細"
 
@@ -2473,7 +2475,7 @@ msgstr ""
 
 #: weblate/templates/data.html:51 weblate/templates/index.html:38
 #: weblate/templates/stats.html:5 weblate/templates/stats.html:62
-#: weblate/templates/translation.html:39 weblate/templates/translation.html:331
+#: weblate/templates/translation.html:39 weblate/templates/translation.html:333
 msgid "Statistics"
 msgstr "統計情報"
 
@@ -2538,8 +2540,8 @@ msgstr "用語集"
 #: weblate/templates/dictionaries.html:15 weblate/templates/language.html:39
 #: weblate/templates/languages.html:16 weblate/templates/list-projects.html:10
 #: weblate/templates/project.html:106 weblate/templates/project.html:140
-#: weblate/templates/translation.html:126
-#: weblate/templates/translation.html:338
+#: weblate/templates/translation.html:127
+#: weblate/templates/translation.html:340
 msgid "Words"
 msgstr "単語"
 
@@ -2605,7 +2607,7 @@ msgstr "翻訳"
 #: weblate/templates/dictionary.html:67 weblate/templates/js/detail.html:19
 #: weblate/templates/js/detail.html:28
 #: weblate/templates/js/translations.html:10
-#: weblate/templates/js/translations.html:19 weblate/templates/replace.html:33
+#: weblate/templates/js/translations.html:19 weblate/templates/replace.html:34
 #: weblate/templates/screenshots/screenshot_list.html:36
 #: weblate/templates/zen-units.html:20
 msgid "Edit"
@@ -2682,7 +2684,7 @@ msgstr "アカウントを有効化したあとは、 翻訳セクション に�
 
 #: weblate/templates/engage.html:43 weblate/templates/list-translations.html:69
 #: weblate/templates/list-translations.html:71
-#: weblate/templates/translate.html:92 weblate/templates/translation.html:121
+#: weblate/templates/translate.html:92 weblate/templates/translation.html:122
 msgid "Translate"
 msgstr "翻訳"
 
@@ -2889,8 +2891,8 @@ msgstr "ツール"
 #: weblate/templates/search-form.html:6 weblate/templates/search-form.html:11
 #: weblate/templates/search.html:15 weblate/templates/subproject.html:51
 #: weblate/templates/subproject.html:136 weblate/templates/translate.html:57
-#: weblate/templates/translation.html:31 weblate/templates/translation.html:292
-#: weblate/templates/translation.html:297 weblate/templates/zen.html:36
+#: weblate/templates/translation.html:31 weblate/templates/translation.html:294
+#: weblate/templates/translation.html:299 weblate/templates/zen.html:36
 msgid "Search"
 msgstr "検索"
 
@@ -2978,8 +2980,8 @@ msgstr "新しいスクリーンショットの追加"
 
 #: weblate/templates/js/detail.html:103
 #: weblate/templates/screenshots/screenshot_list.html:63
-#: weblate/templates/translation.html:256
-#: weblate/templates/translation.html:267
+#: weblate/templates/translation.html:257
+#: weblate/templates/translation.html:268
 msgid "Upload"
 msgstr "アップロード"
 
@@ -3130,7 +3132,7 @@ msgstr "用語集"
 #: weblate/templates/list-projects.html:9
 #: weblate/templates/list-translations.html:8
 #: weblate/templates/project.html:105 weblate/templates/project.html:139
-#: weblate/templates/stats.html:20 weblate/templates/translation.html:349
+#: weblate/templates/stats.html:20 weblate/templates/translation.html:351
 #: weblate/trans/templatetags/translations.py:526
 msgid "Translated"
 msgstr "翻訳数"
@@ -3787,7 +3789,7 @@ msgstr "統計情報をダウンロードする(JSON)"
 #: weblate/templates/project.html:47 weblate/templates/project.html:194
 #: weblate/templates/replace.html:13 weblate/templates/subproject.html:53
 #: weblate/templates/subproject.html:145 weblate/templates/translation.html:60
-#: weblate/templates/translation.html:220 weblate/trans/models/change.py:228
+#: weblate/templates/translation.html:221 weblate/trans/models/change.py:228
 msgid "Search and replace"
 msgstr "検索と置換"
 
@@ -3852,7 +3854,7 @@ msgstr "全用語集の管理"
 msgid "Browse all project changes"
 msgstr "すべてのプロジェクトの変更を参照する"
 
-#: weblate/templates/project.html:196 weblate/templates/translation.html:222
+#: weblate/templates/project.html:196 weblate/templates/translation.html:223
 msgid ""
 "You can replace a string in all units at once. The search is a simple "
 "substring case sensitive search."
@@ -3860,16 +3862,16 @@ msgstr ""
 "すべての翻訳単位を一括で文字列置換することができます。また、検索はシンプルな"
 "部分文字列検索で、大文字と小文字の区別もありません。"
 
-#: weblate/templates/project.html:201 weblate/templates/replace.html:45
-#: weblate/templates/subproject.html:152 weblate/templates/translation.html:209
-#: weblate/templates/translation.html:227
-#: weblate/templates/translation.html:245
+#: weblate/templates/project.html:201 weblate/templates/replace.html:46
+#: weblate/templates/subproject.html:152 weblate/templates/translation.html:210
+#: weblate/templates/translation.html:228
+#: weblate/templates/translation.html:246
 msgid "Process"
 msgstr "プロセス"
 
 #: weblate/templates/project.html:210 weblate/templates/subproject.html:168
 #: weblate/templates/translate.html:333 weblate/templates/translate.html:337
-#: weblate/templates/translation.html:277 weblate/trans/forms.py:231
+#: weblate/templates/translation.html:278 weblate/trans/forms.py:231
 msgid "Loading…"
 msgstr "読み込み中…"
 
@@ -3967,8 +3969,8 @@ msgstr ""
 "す。"
 
 #: weblate/templates/screenshots/screenshot_list.html:22
-#: weblate/templates/translation.html:117
-#: weblate/templates/translation.html:337
+#: weblate/templates/translation.html:118
+#: weblate/templates/translation.html:339
 msgid "Strings"
 msgstr "文字列"
 
@@ -4005,11 +4007,11 @@ msgstr "コメント"
 msgid "No matching source strings found."
 msgstr "該当する原文が見つかりませんでした。"
 
-#: weblate/templates/source.html:19 weblate/templates/translation.html:142
+#: weblate/templates/source.html:19 weblate/templates/translation.html:143
 msgid "Strings to check"
 msgstr "検討対象"
 
-#: weblate/templates/source.html:34 weblate/templates/translation.html:166
+#: weblate/templates/source.html:34 weblate/templates/translation.html:167
 msgid "Project Information"
 msgstr "プロジェクト情報"
 
@@ -4562,12 +4564,12 @@ msgstr "翻訳のアップロード"
 msgid "Files"
 msgstr "ファイル"
 
-#: weblate/templates/translation.html:57 weblate/templates/translation.html:202
+#: weblate/templates/translation.html:57 weblate/templates/translation.html:203
 #: weblate/trans/models/change.py:206
 msgid "Automatic translation"
 msgstr "自動翻訳"
 
-#: weblate/templates/translation.html:63 weblate/templates/translation.html:238
+#: weblate/templates/translation.html:63 weblate/templates/translation.html:239
 msgid "Add new translation unit"
 msgstr "新しい翻訳単位として追加"
 
@@ -4577,30 +4579,30 @@ msgstr "新しい翻訳単位として追加"
 msgid "Translation status"
 msgstr "翻訳状況"
 
-#: weblate/templates/translation.html:147
+#: weblate/templates/translation.html:148
 #, python-format
 msgid "%(count)s word"
 msgid_plural "%(count)s words"
 msgstr[0] "%(count)s 個の単語"
 
-#: weblate/templates/translation.html:154
+#: weblate/templates/translation.html:155
 msgid "Other components"
 msgstr "その他のコンポーネント"
 
-#: weblate/templates/translation.html:173
+#: weblate/templates/translation.html:174
 #: weblate/templates/unit-details.html:26
 msgid "Translation file"
 msgstr "翻訳ファイル"
 
-#: weblate/templates/translation.html:177
+#: weblate/templates/translation.html:178
 msgid "Download"
 msgstr "ダウンロード"
 
-#: weblate/templates/translation.html:194
+#: weblate/templates/translation.html:195
 msgid "Browse all translation changes"
 msgstr "すべての翻訳の変更を参照する"
 
-#: weblate/templates/translation.html:204
+#: weblate/templates/translation.html:205
 msgid ""
 "Automatic translation takes existing translations in this project and "
 "applies them to the current component. It can be used to push translations "
@@ -4612,7 +4614,7 @@ msgstr ""
 "のほか、一貫性のない翻訳の修正や、翻訳メモリを使用した新しいコンポーネントの"
 "翻訳にも使用することができます。"
 
-#: weblate/templates/translation.html:240
+#: weblate/templates/translation.html:241
 msgid ""
 "You can add new translation unit here, it will automatically appear in all "
 "translations."
@@ -4620,7 +4622,7 @@ msgstr ""
 "ここでは新しい翻訳単位を追加することができます。これは自動的に全ての翻訳に対"
 "して表示されます。"
 
-#: weblate/templates/translation.html:259
+#: weblate/templates/translation.html:260
 msgid ""
 "The uploaded file will be merged with the current translation. In case you "
 "want to overwrite already translated strings, don't forget to enable it."
@@ -4628,11 +4630,11 @@ msgstr ""
 "アップロードされたファイルは現在の翻訳にマージされます。既に存在している翻訳"
 "を上書きしたい場合は、忘れずに上書きを有効にしてください。"
 
-#: weblate/templates/translation.html:261
+#: weblate/templates/translation.html:262
 msgid "The uploaded file will be merged with the current translation."
 msgstr "アップロードされたファイルは現在の翻訳にマージされます。"
 
-#: weblate/templates/translation.html:287
+#: weblate/templates/translation.html:288
 msgid ""
 "The fulltext search might not work properly as the fulltext index for this "
 "translation is not yet up to date."
@@ -4640,40 +4642,40 @@ msgstr ""
 "この翻訳に対する索引が最新の状態になっていないため、全文検索は正しく動作しな"
 "いかもしれません。"
 
-#: weblate/templates/translation.html:308
-#: weblate/templates/translation.html:355
+#: weblate/templates/translation.html:310
+#: weblate/templates/translation.html:357
 msgid "Review"
 msgstr "査読"
 
-#: weblate/templates/translation.html:310
+#: weblate/templates/translation.html:312
 msgid "Review translations touched by other users."
 msgstr "他のユーザによる翻訳に対して査読を行います。"
 
-#: weblate/templates/translation.html:314
+#: weblate/templates/translation.html:316
 msgid "Start review"
 msgstr "査読を開始する"
 
-#: weblate/templates/translation.html:336
+#: weblate/templates/translation.html:338
 msgid "Percent"
 msgstr "パーセント"
 
-#: weblate/templates/translation.html:343
+#: weblate/templates/translation.html:345
 msgid "Total"
 msgstr "合計"
 
-#: weblate/templates/translation.html:361
+#: weblate/templates/translation.html:363
 msgid "Failing check"
 msgstr "チェック失敗"
 
-#: weblate/templates/translation.html:376
+#: weblate/templates/translation.html:378
 msgid "Last activity"
 msgstr "直前の作業"
 
-#: weblate/templates/translation.html:380
+#: weblate/templates/translation.html:382
 msgid "Last change"
 msgstr "直前の変更"
 
-#: weblate/templates/translation.html:384
+#: weblate/templates/translation.html:386
 msgid "Last author"
 msgstr "直前の作者"
 
@@ -4820,15 +4822,15 @@ msgstr "%(filter_name)s (%(filter_count)s)"
 msgid "Administrators"
 msgstr "管理者"
 
-#: weblate/trans/admin.py:64 weblate/trans/admin.py:117
+#: weblate/trans/admin.py:64 weblate/trans/admin.py:122
 msgid "Update VCS repository"
 msgstr "VCS リポジトリの更新"
 
-#: weblate/trans/admin.py:79 weblate/trans/admin.py:133
+#: weblate/trans/admin.py:84 weblate/trans/admin.py:138
 msgid "Update quality checks"
 msgstr "品質チェックの更新"
 
-#: weblate/trans/admin.py:89 weblate/trans/admin.py:143
+#: weblate/trans/admin.py:94 weblate/trans/admin.py:148
 msgid "Commit pending changes"
 msgstr "保留中の変更をコミットする"
 
@@ -5874,7 +5876,7 @@ msgstr "原文文字列の変更"
 msgid "New unit added"
 msgstr "新しい単位の追加"
 
-#: weblate/trans/models/change.py:323
+#: weblate/trans/models/change.py:325
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(time)s に %(user)s が実施した、 %(translation)s に対する %(action)s"
@@ -7652,7 +7654,9 @@ msgstr "必須項目は太字で示されています。"
 #: weblate/wladmin/templates/admin/trans/change_form.html:39
 msgid ""
 "Do not change the object here, please use the Weblate interface instead."
-msgstr "ここではオブジェクトを変更せず、 Weblate のインターフェイスを利用して変更してください。"
+msgstr ""
+"ここではオブジェクトを変更せず、 Weblate のインターフェイスを利用して変更して"
+"ください。"
 
 #: weblate/wladmin/templates/admin/weblate-index.html:11
 msgid "Reports"
