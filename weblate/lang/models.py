@@ -594,4 +594,13 @@ class Plural(models.Model):
 
     def save(self, *args, **kwargs):
         self.type = get_plural_type(self.language.code, self.equation)
+        # Try to calculate based on equation
+        if self.type == data.PLURAL_UNKNOWN:
+            for equations, plural in data.PLURAL_MAPPINGS:
+                for equation in equations:
+                    if self.same_plural(self.number, equation):
+                        self.type = plural
+                        break
+                if self.type != data.PLURAL_UNKNOWN:
+                    break
         super(Plural, self).save(*args, **kwargs)

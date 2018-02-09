@@ -482,3 +482,16 @@ class PluralTest(TestCase):
         label = plural.get_plural_label(2)
         self.assertIn('Other', label)
         self.assertIn('5, 6, 7', label)
+
+    def test_plural_type(self):
+        language = Language.objects.get(code='cs')
+        plural = Plural.objects.create(
+            language=language,
+            number=3,
+            equation=(
+                '(n%10==1 && n%100!=11 ? 0 : '
+                'n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)'
+            ),
+            source=Plural.SOURCE_GETTEXT,
+        )
+        self.assertEqual(plural.type, data.PLURAL_ONE_FEW_OTHER)
