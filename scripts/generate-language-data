@@ -110,9 +110,6 @@ def add_word(word):
 for row in LANGUAGES:
     add_word(row[1])
 
-words.discard('')
-
-
 # Write same check blacklist
 with open('weblate/trans/checks/languages.py', 'w') as output:
     output.write(HEADER)
@@ -120,6 +117,8 @@ with open('weblate/trans/checks/languages.py', 'w') as output:
     output.write('# Language names to ignore in same check\n')
     output.write('LANGUAGES = frozenset((\n')
     for word in sorted(words):
+        if len(word) <= 2:
+            continue
         output.write('    \'{}\',\n'.format(
             word.replace("'", "\\'")
         ))
