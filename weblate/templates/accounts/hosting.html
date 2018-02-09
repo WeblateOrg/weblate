@@ -9,7 +9,8 @@
 
 {% block content %}
 
-{% show_message 'info' _("Please check in advance whether your project is eligible for project hosting on this site.") %}
+{% trans "Please check in advance whether your project is eligible for project hosting on this site." as msg %}
+{% show_message 'info' msg %}
 
 <div class="row">
 

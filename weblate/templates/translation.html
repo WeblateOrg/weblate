@@ -108,7 +108,8 @@
 
 {% if object.is_template %}
   <div class="panel-body">
-{% show_message "warning" _("This translation is being used as source strings within this component.") %}
+{% trans "This translation is being used as source strings within this component." as msg %}
+{% show_message "warning" msg %}
   </div>
 {% endif %}
 
@@ -284,7 +285,8 @@
 <div class="col-lg-6">
 
 {% if pending_fulltext %}
-{% show_message "warning" _("The fulltext search might not work properly as the fulltext index for this translation is not yet up to date.") %}
+{% trans "The fulltext search might not work properly as the fulltext index for this translation is not yet up to date." as msg %}
+{% show_message "warning" msg %}
 {% endif %}
 
 <form action="{{ object.get_translate_url }}" method="GET" data-persist="search-translation">

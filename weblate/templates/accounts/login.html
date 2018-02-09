@@ -11,7 +11,8 @@
 {% block content %}
 
 {% if form.errors %}
-{% show_message "error" _("This username/password combination was not found. Please try again.") %}
+{% trans "This username/password combination was not found. Please try again." as msg %}
+{% show_message "error" msg %}
 {% endif %}
 
 {% if demo_server %}

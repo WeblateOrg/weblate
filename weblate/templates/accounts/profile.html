@@ -11,7 +11,8 @@
 {% block content %}
 
 {% if form.errors or userform.errors or subscriptionform.errors %}
-{% show_message "error" _("Please fix errors in the form.") %}
+{% trans "Please fix errors in the form." as msg %}
+{% show_message "error" msg %}
 {% endif %}
 
 <form method="post" action="{% url 'profile' %}">
