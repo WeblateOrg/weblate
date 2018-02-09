@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-02-09 06:33+0000\n"
-"PO-Revision-Date: 2018-02-09 13:38+0000\n"
+"PO-Revision-Date: 2018-02-09 15:56+0000\n"
 "Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
 "Language-Team: Danish "
 "<https://hosted.weblate.org/projects/weblate/master/da/>\n"
@@ -107,7 +107,7 @@ msgstr "E-mail"
 
 #: weblate/accounts/forms.py:299
 msgid "You can add another email address on the Authentication tab."
-msgstr "Du kan tilføje endnu en e-mailadresse under godkendelse-fanebladet."
+msgstr "Du kan tilføje endnu en e-mailadresse i godkendelse-fanebladet."
 
 #: weblate/accounts/forms.py:329
 msgid "Subject"
@@ -734,9 +734,8 @@ msgid ""
 "Update all po files to match the pot file using msgmerge. This is triggered "
 "whenever new changes are pulled from upstream repository."
 msgstr ""
-"Opdaterer alle po-filerne, så de matcher deres tilsvarende pot-filer, ved "
-"brug af msgmerge. Dette vil ske hver gang nye ændringer trækkes fra opstrøm-"
-"kildekodearkivet."
+"Opdater alle po-filerne med msgmerge, så de matcher pot-filen. Dette sker "
+"hver gang nye ændringer trækkes fra opstrøm-kildekodearkivet."
 
 #: weblate/addons/properties.py:147
 msgid "Formats the Java properties file"
@@ -764,7 +763,7 @@ msgstr "Aktiv"
 
 #: weblate/billing/models.py:76
 msgid "Trial"
-msgstr "Prøve"
+msgstr "Prøveperiode"
 
 #: weblate/billing/models.py:77
 msgid "Expired"
@@ -1809,9 +1808,8 @@ msgid ""
 "to translate to another language, please request it first on the project you "
 "want to translate."
 msgstr ""
-"Kun sprog, som er ved at blive oversat, er anført. Hvis du ønsker at "
-"oversætte til andre sprog, skal du først anmode om det, på det projekt du "
-"vil oversætte."
+"Der vises kun sprog som er ved at blive oversat. Hvis du vil oversætte til "
+"et andet sprog, skal du først anmode om det, på det projekt du vil oversætte."
 
 #: weblate/templates/accounts/profile.html:65
 #: weblate/templates/accounts/profile.html:94
@@ -2255,7 +2253,7 @@ msgstr "Projektets URL-slug"
 
 #: weblate/templates/base.html:97
 msgid "Toggle navigation"
-msgstr "Slå navigation til eller fra"
+msgstr "Navigation til/fra"
 
 #: weblate/templates/base.html:108 weblate/templates/base.html:147
 msgid "Dashboard"
@@ -2350,12 +2348,12 @@ msgstr "Kontrollister"
 #: weblate/templates/check.html:26 weblate/templates/check_project.html:27
 #: weblate/templates/check_subproject.html:28
 msgid "No matching checks found!"
-msgstr "Ingen tilsvarende kontrol fundet!"
+msgstr "Ingen matchende tjek fundet!"
 
 #: weblate/templates/check.html:35 weblate/templates/check_project.html:36
 #: weblate/templates/check_subproject.html:37
 msgid "Check details"
-msgstr "Kontrol detaljer"
+msgstr "Tjekdetaljer"
 
 #: weblate/templates/checks.html:28 weblate/templates/language.html:16
 #: weblate/templates/project.html:27 weblate/templates/subproject.html:31
@@ -2376,8 +2374,8 @@ msgid ""
 "The checks can help you identify problematic translations or source strings "
 "which are hard to translate."
 msgstr ""
-"Kontrollen kan hjælpe dig med at identificere problematiske oversættelser "
-"eller kildestrenge, som er svære at oversætte."
+"Tjek kan hjælpe dig med at identificere problematiske oversættelser eller "
+"kildestrenge, som er svære at oversætte."
 
 #: weblate/templates/data-root.html:6 weblate/templates/index.html:50
 msgid "Data export"
@@ -2677,7 +2675,7 @@ msgstr "Drevet af %(weblate_version_link)s"
 
 #: weblate/templates/footer.html:8
 msgid "Service status"
-msgstr "Tjenestestatus"
+msgstr "Status for tjeneste"
 
 #: weblate/templates/git-commit-info.html:3
 #, python-format
@@ -2828,8 +2826,8 @@ msgid ""
 "This site runs %(weblate_name_link)s for translating the software projects "
 "listed below."
 msgstr ""
-"Dette sted bruger %(weblate_name_link)s til oversættelse af "
-"softwareprojekterne som vises nedenfor."
+"Dette sted bruger %(weblate_name_link)s til oversættelse af de nedenfor "
+"viste softwareprojekter."
 
 #: weblate/templates/index.html:15
 msgid ""
@@ -3090,7 +3088,7 @@ msgstr "Fejlslagne tjek"
 #: weblate/templates/language.html:26 weblate/templates/project.html:51
 #: weblate/templates/stats.html:98
 msgid "Ignored checks"
-msgstr "Ignoreret kontrol"
+msgstr "Ignoreret tjek"
 
 #: weblate/templates/language-project.html:40
 #: weblate/templates/language.html:103
@@ -3400,7 +3398,7 @@ msgstr "Oversættelsessammendrag:"
 
 #: weblate/templates/mail/footer.html:7 weblate/templates/mail/footer.txt:3
 msgid "Total strings:"
-msgstr "Total antal strenge:"
+msgstr "Samlet antal strenge:"
 
 #: weblate/templates/mail/footer.html:10 weblate/templates/mail/footer.txt:4
 msgid "Translated strings:"
@@ -3720,7 +3718,7 @@ msgstr ""
 
 #: weblate/templates/new-language.html:27
 msgid "Please choose the language you want to translate to."
-msgstr "Vælg det sprog, som du ønsker at oversætte til."
+msgstr "Vælg det sprog, som du vil oversætte til."
 
 #: weblate/templates/new-language.html:29
 msgid ""
@@ -3732,7 +3730,7 @@ msgstr ""
 
 #: weblate/templates/new-language.html:32
 msgid "Can't find your language in the list above?"
-msgstr "Kan ikke finde dit sprog i ovenstående liste?"
+msgstr "Kan du ikke finde dit sprog i ovenstående liste?"
 
 #: weblate/templates/new-language.html:36
 msgid "Request new translation"
@@ -3898,7 +3896,7 @@ msgstr "Handlinger"
 msgid ""
 "Screenshot is shown to add visual context for all listed source strings."
 msgstr ""
-"Skærmbilledet er vist for at tilføje visuel kontekst til alle anførte "
+"Skærmbilledet vises for at tilføje visuel kontekst til alle viste "
 "kildestrenge."
 
 #: weblate/templates/screenshots/screenshot_detail.html:47
@@ -4239,11 +4237,11 @@ msgstr "Tilgængelige tastaturgenveje:"
 
 #: weblate/templates/translate.html:81
 msgid "Ctrl+Enter - Save"
-msgstr "CTRL + Enter - Gem"
+msgstr "Ctrl+Enter - gem"
 
 #: weblate/templates/translate.html:82
 msgid "Ctrl+Shift+Enter - Unmark review needed flag and save"
-msgstr "Ctrl+Skift+Enter - fravælg behøver gennemgang-flaget og gem"
+msgstr "Ctrl+Skift+Enter - fjern behøver gennemgang-flaget og gem"
 
 #: weblate/templates/translate.html:83
 msgid "Alt+PageUp/PageDown/Home/End - Translation units navigation"
@@ -4251,11 +4249,11 @@ msgstr "Alt+PageUp/PageDown/Home/End - navigation mellem oversættelsesenheder"
 
 #: weblate/templates/translate.html:84
 msgid "Ctrl+E - Focus translation editor"
-msgstr "Ctrl+E - fokus oversættelseseditor"
+msgstr "Ctrl+E - fokus på oversættelseseditor"
 
 #: weblate/templates/translate.html:85
 msgid "Ctrl+Q - Focus comment editor"
-msgstr "Ctrl+Q - fokus kommentareditor"
+msgstr "Ctrl+Q - fokus på kommentareditor"
 
 #: weblate/templates/translate.html:86
 msgid "Ctrl+M - Shows machine translation tab"
@@ -4333,7 +4331,7 @@ msgstr "Spring over"
 
 #: weblate/templates/translate.html:195
 msgid "Commit message:"
-msgstr "Indsendelsesbesked:"
+msgstr "Indsendelsesmeddelelse:"
 
 #: weblate/templates/translate.html:198
 msgid "Additional text to include"
@@ -4345,7 +4343,7 @@ msgid ""
 "messages automatically."
 msgstr ""
 "I de fleste tilfælde kan du lade den være tom, eftersom Weblate automatisk "
-"genererer grundlæggende commit-meddelelser."
+"genererer grundlæggende indsendelsesmeddelelser."
 
 #: weblate/templates/translate.html:210
 msgid "Messages placed around this one"
@@ -4550,7 +4548,7 @@ msgstr "Tilføj ny oversættelsesenhed"
 #: weblate/templates/widgets.html:64 weblate/templates/widgets.html:71
 #: weblate/templates/widgets.html:79
 msgid "Translation status"
-msgstr "Status på oversættelse"
+msgstr "Status for oversættelse"
 
 #: weblate/templates/translation.html:147
 #, python-format
@@ -4602,7 +4600,7 @@ msgid ""
 "want to overwrite already translated strings, don't forget to enable it."
 msgstr ""
 "Den overførte fil vil blive flettet med den nuværende oversættelse. Hvis du "
-"vil overskrive strenge som allerede er oversatte, så husk aktivere det."
+"vil overskrive strenge som allerede er oversatte, så husk at aktivere det."
 
 #: weblate/templates/translation.html:261
 msgid "The uploaded file will be merged with the current translation."
@@ -4623,7 +4621,7 @@ msgstr "Gennemgang"
 
 #: weblate/templates/translation.html:310
 msgid "Review translations touched by other users."
-msgstr "Gennemgå oversættelser som andre brugere har lavet."
+msgstr "Gennemgå oversættelser som andre brugere har foretaget."
 
 #: weblate/templates/translation.html:314
 msgid "Start review"
@@ -4635,11 +4633,11 @@ msgstr "Procent"
 
 #: weblate/templates/translation.html:343
 msgid "Total"
-msgstr "Total"
+msgstr "Samlet"
 
 #: weblate/templates/translation.html:361
 msgid "Failing check"
-msgstr "Fejlslagne kontrol"
+msgstr "Fejlslagne tjek"
 
 #: weblate/templates/translation.html:376
 msgid "Last activity"
@@ -5132,7 +5130,7 @@ msgstr "Strenge med kommentarer"
 #: weblate/trans/filter.py:38 weblate/trans/models/translation.py:665
 #: weblate/trans/models/translation.py:771
 msgid "Strings with any failing checks"
-msgstr "Strenge med fejlslagen kontrol"
+msgstr "Strenge med fejlslagne tjek"
 
 #: weblate/trans/filter.py:39 weblate/trans/models/translation.py:706
 msgid "Approved strings"
@@ -5148,7 +5146,7 @@ msgstr "Strenge der venter på gennemgang"
 
 #: weblate/trans/filter.py:52
 msgid "Strings with any failing source checks"
-msgstr "Strenge med fejlslagen kildetjek"
+msgstr "Strenge med fejlslagne kildetjek"
 
 #: weblate/trans/filter.py:53
 msgid "Strings with source comments"
@@ -5379,7 +5377,7 @@ msgstr "Flet filheaderen"
 
 #: weblate/trans/forms.py:564
 msgid "Merges content of file header into the translation."
-msgstr "Fletter filindholdet ind i oversættelsen."
+msgstr "Fletter indholdet af filheaderen ind i oversættelsen."
 
 #: weblate/trans/forms.py:580
 msgid "Overwrite existing translations"
@@ -5460,7 +5458,7 @@ msgstr "Søg i kommentarstrenge"
 
 #: weblate/trans/forms.py:747
 msgid "Show ignored checks as well"
-msgstr "Vis også ignoreret kontrol"
+msgstr "Vis også ignoreret tjek"
 
 #: weblate/trans/forms.py:752
 msgid "Changed since"
@@ -5491,7 +5489,7 @@ msgstr "Søg efter den eksakte streng \"%s\""
 #: weblate/trans/forms.py:802
 #, python-format
 msgid "Substring search for \"%s\""
-msgstr "Delstrengsøgning efter \"%s\""
+msgstr "Delstrengssøgning efter \"%s\""
 
 #: weblate/trans/forms.py:813
 #, python-brace-format
@@ -5694,11 +5692,11 @@ msgstr "Placeringer"
 
 #: weblate/trans/forms.py:1335
 msgid "Version control settings"
-msgstr "Version kontrol indstillinger"
+msgstr "Versionsstyringsindstillinger"
 
 #: weblate/trans/forms.py:1341
 msgid "Commit messages"
-msgstr "Indsend beskeder"
+msgstr "Indsendelsesmeddelelser"
 
 #: weblate/trans/forms.py:1351
 msgid "Languages processing"
@@ -5935,12 +5933,12 @@ msgstr "URL med vejledning for oversættere."
 
 #: weblate/trans/models/project.py:120
 msgid "Set Translation-Team header"
-msgstr "Angiv overskrift for oversættelseshold"
+msgstr "Angiv Translation-Team-header"
 
 #: weblate/trans/models/project.py:123
 msgid ""
 "Whether the Translation-Team in file headers should be updated by Weblate."
-msgstr "Om oversættelseshold i filhoveder bør opdateres af Weblate."
+msgstr "Om Translation-Team i filheaderen skal opdateres af Weblate."
 
 #: weblate/trans/models/project.py:136
 msgid "Access control"
@@ -6014,7 +6012,7 @@ msgstr "Versionsstyringssystem"
 msgid ""
 "Version control system to use to access your repository with translations."
 msgstr ""
-"Version kontrolsystem kan bruge til at få adgang til dit arkiv med "
+"Versionsstyringssystem som skal bruges til at få adgang til dit arkiv med "
 "oversættelser."
 
 #: weblate/trans/models/subproject.py:164
@@ -6305,7 +6303,7 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:430
 msgid "Commit message when translating"
-msgstr "Indsend besked ved oversættelse"
+msgstr "Indsendelsesmeddelelse ved oversættelse"
 
 #: weblate/trans/models/subproject.py:432
 #: weblate/trans/models/subproject.py:441
@@ -6319,11 +6317,11 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:439
 msgid "Commit message when adding translation"
-msgstr "Indsend besked, når der tilføjes en oversættelse"
+msgstr "Indsendelsesmeddelelse når der tilføjes en oversættelse"
 
 #: weblate/trans/models/subproject.py:448
 msgid "Commit message when removing translation"
-msgstr "Indsend besked, når der fjernes en oversættelse"
+msgstr "Indsendelsesmeddelelse når der fjernes en oversættelse"
 
 #: weblate/trans/models/subproject.py:457
 msgid "Committer name"
@@ -7047,7 +7045,7 @@ msgstr "Brugeren er blevet fjernet fra dette projekt."
 
 #: weblate/trans/views/acl.py:173
 msgid "Project access control has been changed."
-msgstr "Projektet adgangskontrol er blevet ændret."
+msgstr "Projektetets adgangskontrol er blevet ændret."
 
 #: weblate/trans/views/basic.py:165
 msgid ""
