@@ -593,6 +593,5 @@ class Plural(models.Model):
             }
 
     def save(self, *args, **kwargs):
-        if self.type is None:
-            self.type = get_plural_type(self.language.code, self.equation)
+        self.type = get_plural_type(self.language.code, self.equation)
         super(Plural, self).save(*args, **kwargs)
