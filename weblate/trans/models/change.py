@@ -275,6 +275,8 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_FAILED_MERGE,
         ACTION_FAILED_REBASE,
         ACTION_FAILED_PUSH,
+        ACTION_LOCK,
+        ACTION_UNLOCK,
     ))
 
     ACTIONS_MERGE_FAILURE = set((
