@@ -21,6 +21,13 @@
 # see https://github.com/WeblateOrg/language-data
 
 import csv
+import json
+import re
+
+SPLIT_RE = re.compile(
+    r'(?:\&(?:nbsp|rsaquo|lt|gt|amp|ldquo|rdquo|times|quot);|' +
+    r'[() ,.^`"\'\\/_<>!?;:|{}*^@%#&~=+\r\n✓—…\[\]0-9-])+'
+)
 
 HEADER = '''# -*- coding: utf-8 -*-
 #
@@ -95,18 +102,38 @@ with open('weblate/langdata/languages.py', 'w') as output:
         ))
     output.write(')\n')
 
-# Write same checks blacklist
+# Generate same check blacklist
+words = set()
+def add_word(word):
+    words.update(SPLIT_RE.split(word.lower()))
+
+def process_iso(name):
+    with open('/usr/share/iso-codes/json/iso_{}.json'.format(name), 'r') as handle:
+        for item in json.load(handle)[name]:
+            add_word(item['name'])
+
+
+# Our languages data
+for row in LANGUAGES:
+    add_word(row[1])
+
+# iso-codes
+process_iso('639-2')
+process_iso('639-3')
+process_iso('15924')
+process_iso('3166-1')
+process_iso('3166-2')
+process_iso('4217')
+
+# Write same check blacklist
 with open('weblate/trans/checks/languages.py', 'w') as output:
     output.write(HEADER)
     output.write('\n\n')
     output.write('# Language names to ignore in same check\n')
     output.write('LANGUAGES = frozenset((\n')
-    words = set()
-    for row in LANGUAGES:
-        words.update(
-            row[1].replace('(', ' ').replace(')', ' ').replace('-', ' ').lower().split()
-        )
     for word in sorted(words):
+        if len(word) <= 2:
+            continue
         output.write('    \'{}\',\n'.format(
             word.replace("'", "\\'")
         ))
