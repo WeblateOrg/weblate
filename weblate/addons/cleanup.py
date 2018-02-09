@@ -34,8 +34,8 @@ class CleanupAddon(UpdateBaseAddon):
     verbose = _('Cleanup translation files')
     description = _(
         'Update all translation files to match the monolingual base file. '
-        'In most file formats this means removing stale translation keys '
-        'which are no longer present in the base file.'
+        'For most file formats, this means removing stale translation keys '
+        'no longer present in the base file.'
     )
     icon = 'eraser'
 
@@ -74,7 +74,7 @@ class CleanupAddon(UpdateBaseAddon):
     def update_lisa(self, index, translation, storage):
         """Filter obsolete units in LISA based storage.
 
-        This does remove the corresponding XML element.
+        This removes the corresponding XML element.
         """
         changed = False
 
@@ -90,8 +90,8 @@ class CleanupAddon(UpdateBaseAddon):
     def update_resx(self, index, translation, storage, changes):
         """Filter obsolete units in RESX storage.
 
-        This does remove the corresponding XML element and
-        also adds newly added units and changes changed ones.
+        This removes the corresponding XML element and
+        also adds newly added units and changed ones.
         """
         sindex = self.build_index(storage)
         changed = False
