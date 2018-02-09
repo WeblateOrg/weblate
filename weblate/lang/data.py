@@ -238,7 +238,7 @@ ONE_FEW_MANY_OTHER_PLURALS = (
 )
 
 ONE_OTHER_ZERO_PLURALS = (
-    'n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2'
+    'n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2',
 )
 
 ZERO_ONE_TWO_THREE_SIX_OTHER = (
