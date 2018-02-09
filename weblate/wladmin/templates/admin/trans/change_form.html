@@ -34,8 +34,8 @@
 
 {% block form_top %}
 {% if opts.model_name == 'project' or opts.model_name == 'subproject' or opts.model_name == 'whiteboardmessage' or opts.model_name == 'groupacl' or opts.model_name == 'componentlist' or opts.model_name == 'autocomponentlist' %}
-<p>{% blocktrans %}Required fields are marked as bold.{% endblocktrans %}</p>
+<p>{% blocktrans %}Required fields are marked in bold.{% endblocktrans %}</p>
 {% else %}
-<p class="errornote">{% blocktrans %}Do not change this object here, please use Weblate interface instead.{% endblocktrans %}</p>
+<p class="errornote">{% blocktrans %}Do not change the object here, please use the Weblate interface instead.{% endblocktrans %}</p>
 {% endif %}
 {% endblock %}
