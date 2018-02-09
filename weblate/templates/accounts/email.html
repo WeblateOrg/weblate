@@ -7,7 +7,8 @@
 
 
 {% if form.errors %}
-{% show_message "error" _("Please fix errors in the registration form.") %}
+{% trans "Please fix errors in the registration form." as msg %}
+{% show_message "error" msg %}
 {% endif %}
 
 <form action="{% url 'email_login' %}" method="post" accept-charset="utf-8">

@@ -113,7 +113,8 @@
 {% endfor %}
 </div>
 {% else %}
-{% show_message "info" _("There are no glossaries defined for this language.") %}
+{% trans "There are no glossaries defined for this language." as msg %}
+{% show_message "info" msg %}
 {% endif %}
 </div>
 

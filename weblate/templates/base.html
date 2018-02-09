@@ -153,7 +153,8 @@ var _rollbarConfig = {
 
 <div class="content">
 <!--[if lte IE 8]>
-{% show_message "error" _('Weblate does not support Microsoft Internet Explorer 8 and older, please use some more recent browser like Firefox, Chrome or Edge.') %}
+{% trans 'Weblate does not support Microsoft Internet Explorer 8 and older, please use some more recent browser like Firefox, Chrome or Edge.' as msg %}
+{% show_message "error" msg %}
 <![endif]-->
 {% if messages %}
 {% for message in messages %}

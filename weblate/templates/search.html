@@ -39,7 +39,8 @@
 
 {% include "paginator.html" %}
 {% else %}
-{% show_message "info" _("No matching strings found.") %}
+{% trans "No matching strings found." as msg %}
+{% show_message "info" msg %}
 {% endif %}
 
 {% include "search-form.html" %}

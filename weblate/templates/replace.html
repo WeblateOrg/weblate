@@ -15,7 +15,8 @@
 
 {% block content %}
 
-{% show_message "info" _("Please review and confirm the search and replace results.") %}
+{% trans "Please review and confirm the search and replace results." as msg %}
+{% show_message "info" msg %}
 
 <form method="POST">
 {% csrf_token %}

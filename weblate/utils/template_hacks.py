@@ -20,11 +20,26 @@
 import django.templatetags.i18n
 import django.template.base
 
+from django.utils.functional import lazy
 from django.utils.html import escape
 from django.utils.translation import (
     pgettext, gettext, ngettext, npgettext, ugettext,
+    ugettext_lazy, pgettext_lazy,
 )
 import django.utils.translation
+
+import six
+
+def safe_ugettext(message):
+    return escape(ugettext(message))
+
+
+def safe_pgettext(context, message):
+    return escape(pgettext(context, message))
+
+
+safe_pgettext_lazy = lazy(safe_pgettext, six.text_type)
+safe_ugettext_lazy = lazy(safe_ugettext, six.text_type)
 
 
 class EscapeTranslate(object):
@@ -40,7 +55,11 @@ class EscapeTranslate(object):
 
     @staticmethod
     def ugettext(message):
-        return escape(ugettext(message))
+        return safe_ugettext(message)
+
+    @staticmethod
+    def ugettext_lazy(message):
+        return safe_ugettext_lazy(message)
 
     @staticmethod
     def gettext(message):
@@ -52,7 +71,11 @@ class EscapeTranslate(object):
 
     @staticmethod
     def pgettext(context, message):
-        return escape(pgettext(context, message))
+        return safe_pgettext(context, message)
+
+    @staticmethod
+    def pgettext_lazy(context, message):
+        return safe_pgettext_lazy(context, message)
 
     def __getattr__(self, name):
         return getattr(django.utils.translation, name)
@@ -61,5 +84,5 @@ class EscapeTranslate(object):
 def monkey_patch_translate():
     """Mokey patch translate tags to emmit escaped strings."""
     django.templatetags.i18n.translation = EscapeTranslate()
-    django.template.base.ugettext_lazy = EscapeTranslate.ugettext
-    django.template.base.pgettext_lazy = EscapeTranslate.pgettext
+    django.template.base.ugettext_lazy = safe_ugettext_lazy
+    django.template.base.pgettext_lazy = safe_pgettext_lazy

@@ -9,7 +9,8 @@
 
 {% block content %}
 
-{% show_message 'danger' _('Removal of the account deletes all your private data.') %}
+{% trans 'Removal of the account deletes all your private data.' as msg %}
+{% show_message 'danger' msg %}
 
 <form method="post" action="{% url 'remove' %}">
 <div class="panel panel-primary">

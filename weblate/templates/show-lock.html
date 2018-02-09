@@ -1,4 +1,5 @@
 {% load translations %}
 {% if object.subproject.locked or object.locked %}
-{% show_message "warning" _("This translation is currently locked for updates.") %}
+{% trans "This translation is currently locked for updates." as msg %}
+{% show_message "warning" msg %}
 {% endif %}
