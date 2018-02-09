@@ -53,6 +53,12 @@ LANGUAGES = (
         'n > 1',
     ),
     (
+        'ady',
+        _('Adyghe'),
+        2,
+        'n > 1',
+    ),
+    (
         'ae',
         _('Avestan'),
         2,
