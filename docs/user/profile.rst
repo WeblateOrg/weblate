@@ -122,3 +122,20 @@ Avatar
 Weblate can be configured to show avatar for each user (depending on
 :setting:`ENABLE_AVATARS`). These images are obtained using libravatar protocol
 (see https://www.libravatar.org/) or using https://gravatar.com/.
+
+Editor link
++++++++++++
+
+By default Weblate does display source code in web browser configured in the
+:ref:`component`. By setting :guilabel:`Editor link` you can override this to
+use your local editor to open the source code where translated strings is being
+used.
+
+You can use ``%(branch)s`` for branch, ``%(file)s`` and ``%(line)s`` as
+filename and line placeholders.  Usually something like
+``editor://open/?file=%(file)s&line=%(line)s`` is good option.
+
+.. seealso::
+
+    You can find more information on registering custom URL protocols for editor in
+    `nette documentation <https://pla.nette.org/en/how-open-files-in-ide-from-debugger>`_.
