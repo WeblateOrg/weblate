@@ -66,7 +66,7 @@ RST_MATCH = re.compile(r'(?::(ref|config:option|file):`[^`]+`|``[^`]+``)')
 
 SPLIT_RE = re.compile(
     r'(?:\&(?:nbsp|rsaquo|lt|gt|amp|ldquo|rdquo|times|quot);|' +
-    r'[() ,.^`"\'\\/_<>!?;:|{}*^@%#&~=+\r\n✓—…\[\]0-9-])+'
+    r'[() ,.^`"\'\\/_<>!?;:|{}*^@%#&~=+\r\n✓—‑…\[\]0-9-])+'
 )
 
 # Docbook tags to ignore
