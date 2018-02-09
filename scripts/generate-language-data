@@ -95,17 +95,19 @@ with open('weblate/langdata/languages.py', 'w') as output:
         ))
     output.write(')\n')
 
-# Write same checks blacklist
+# Generate same check blacklist
+words = set()
+for row in LANGUAGES:
+    words.update(
+        row[1].replace('(', ' ').replace(')', ' ').replace('-', ' ').lower().split()
+    )
+
+# Write same check blacklist
 with open('weblate/trans/checks/languages.py', 'w') as output:
     output.write(HEADER)
     output.write('\n\n')
     output.write('# Language names to ignore in same check\n')
     output.write('LANGUAGES = frozenset((\n')
-    words = set()
-    for row in LANGUAGES:
-        words.update(
-            row[1].replace('(', ' ').replace(')', ' ').replace('-', ' ').lower().split()
-        )
     for word in sorted(words):
         output.write('    \'{}\',\n'.format(
             word.replace("'", "\\'")
