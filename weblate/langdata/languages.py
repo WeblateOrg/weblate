@@ -53,6 +53,12 @@ LANGUAGES = (
         'n > 1',
     ),
     (
+        'ady',
+        _('Adyghe'),
+        2,
+        'n > 1',
+    ),
+    (
         'ae',
         _('Avestan'),
         2,
@@ -321,6 +327,12 @@ LANGUAGES = (
         _('Sorani'),
         2,
         'n != 1',
+    ),
+    (
+        'cmn',
+        _('Chinese (Mandarin)'),
+        1,
+        '0',
     ),
     (
         'co',

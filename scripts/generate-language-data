@@ -111,6 +111,8 @@ def process_iso(name):
     with open('/usr/share/iso-codes/json/iso_{}.json'.format(name), 'r') as handle:
         for item in json.load(handle)[name]:
             add_word(item['name'])
+            if 'common_name' in item:
+                add_word(item['common_name'])
 
 
 # Our languages data
