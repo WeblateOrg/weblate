@@ -57,7 +57,6 @@ from weblate.trans.views.helper import (
     try_set_language,
 )
 from weblate.trans.util import render, sort_objects, sort_unicode
-import weblate
 
 
 def get_untranslated(base, limit=None):

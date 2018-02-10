@@ -461,7 +461,6 @@ class VCSSubversionBranchTest(VCSSubversionTest):
         self.subversion_repo_path += '/trunk'
 
 
-
 class VCSHgTest(VCSGitTest):
     """
     Mercurial repository testing.

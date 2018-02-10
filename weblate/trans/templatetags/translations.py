@@ -275,7 +275,6 @@ def documentation(page, anchor=''):
 
 @register.inclusion_tag('documentation-icon.html')
 def documentation_icon(page, anchor='', right=False):
-    extra = 'class="pull-right flip"' if right else ''
     return {
         'right': right,
         'doc_url': weblate.get_doc_url(page, anchor),

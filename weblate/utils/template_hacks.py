@@ -24,11 +24,11 @@ from django.utils.functional import lazy
 from django.utils.html import escape
 from django.utils.translation import (
     pgettext, gettext, ngettext, npgettext, ugettext,
-    ugettext_lazy, pgettext_lazy,
 )
 import django.utils.translation
 
 import six
+
 
 def safe_ugettext(message):
     return escape(ugettext(message))
