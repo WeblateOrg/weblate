@@ -3,7 +3,7 @@
 Supported formats
 =================
 
-Weblate supports any translation format understood by Translate-toolkit,
+Weblate supports most translation format understood by the translate-toolkit,
 however each format being slightly different, there might be some issues with
 formats that are not well tested.
 
@@ -667,8 +667,10 @@ Example DTD file:
 Others
 ------
 
-As already mentioned, all Translate-toolkit formats are supported, but they
-did not (yet) receive deeper testing.
+Most formats supported by translate-toolkit which support serializing can be
+easily supported, but they did not (yet) receive any testing. In most cases
+some thin layer is needed in Weblate to hide differences in behavior of
+different translate-toolkit storages.
 
 .. seealso:: 
    
