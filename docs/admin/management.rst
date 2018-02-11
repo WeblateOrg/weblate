@@ -507,6 +507,12 @@ repository).
 You can either define which project or component to update (eg.
 ``weblate/master``) or use ``--all`` to update all existing components.
 
+.. note::
+
+    You seldom need to invoke this, Weblate will automatically load changed
+    files on VCS update. This is needed in case you manually change underlying
+    Weblate VCS repository or in some special cases after upgrade.
+
 lock_translation
 ----------------
 
@@ -535,6 +541,11 @@ Pushes committed changes to upstream VCS repository.
 
 You can either define which project or component to update (eg.
 ``weblate/master``) or use ``--all`` to update all existing components.
+
+.. note::
+
+    Weblate does push changes automatically if :guilabel:`Push on commit` in
+    :ref:`component` is enabled, what is default.
 
 rebuild_index
 -------------
