@@ -44,7 +44,7 @@ class ConfigurationErrorsMiddleware(object):
                 error['message'],
                 error['timestamp'],
             )
-        if settings.OFFLOAD_INDEXING and IndexUpdate.objects.count() > 5000:
+        if settings.OFFLOAD_INDEXING and IndexUpdate.objects.count() > 20000:
             ConfigurationError.objects.add(
                 'Offloaded index',
                 'The processing seems to be slow, '
