@@ -38,11 +38,12 @@ from django.urls import reverse
 from django.core.cache import cache
 from django.utils import timezone
 
-from weblate.utils import messages
 from weblate.trans.formats import FILE_FORMAT_CHOICES, FILE_FORMATS, ParseError
 from weblate.trans.mixins import URLMixin, PathMixin
 from weblate.trans.fields import RegexField
+from weblate.utils import messages
 from weblate.utils.site import get_site_url
+from weblate.utils.state import STATE_TRANSLATED, STATE_FUZZY
 from weblate.utils.errors import report_error
 from weblate.trans.util import (
     is_repo_link, cleanup_repo_url, cleanup_path, path_separator,
@@ -1039,7 +1040,11 @@ class SubProject(models.Model, URLMixin, PathMixin):
                 languages.add(lang.code)
                 # Remove fuzzy flag on template name change
                 if changed_template:
-                    translation.unit_set.update(fuzzy=False)
+                    translation.unit_set.filter(
+                        state=STATE_FUZZY
+                    ).update(
+                        state=STATE_TRANSLATED
+                    )
 
         # Delete possibly no longer existing translations
         if langs is None:
