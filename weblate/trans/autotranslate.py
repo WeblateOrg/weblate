@@ -26,6 +26,7 @@ from weblate.trans.models import Unit, Change, SubProject
 from weblate.utils.state import STATE_TRANSLATED
 
 
+@transaction.atomic
 def auto_translate(user, translation, source, inconsistent, overwrite,
                    check_acl=True):
     """Perform automatic translation based on other components."""
@@ -68,25 +69,24 @@ def auto_translate(user, translation, source, inconsistent, overwrite,
 
     translation.commit_pending(None)
 
-    for unit in units.iterator():
-        with transaction.atomic():
-            # Get first matching entry
-            update = sources.filter(source=unit.source)[0]
-            # No save if translation is same
-            if unit.state == update.state and unit.target == update.target:
-                continue
-            # Copy translation
-            unit.state = update.state
-            unit.target = update.target
-            # Create signle change object for whole merge
-            Change.objects.create(
-                action=Change.ACTION_AUTO,
-                unit=unit,
-                user=user,
-                author=user
-            )
-            # Save unit to backend
-            unit.save_backend(None, False, False, user=user)
-            updated += 1
+    for unit in units.select_for_update().iterator():
+        # Get first matching entry
+        update = sources.filter(source=unit.source)[0]
+        # No save if translation is same
+        if unit.state == update.state and unit.target == update.target:
+            continue
+        # Copy translation
+        unit.state = update.state
+        unit.target = update.target
+        # Create signle change object for whole merge
+        Change.objects.create(
+            action=Change.ACTION_AUTO,
+            unit=unit,
+            user=user,
+            author=user
+        )
+        # Save unit to backend
+        unit.save_backend(None, False, False, user=user)
+        updated += 1
 
     return updated

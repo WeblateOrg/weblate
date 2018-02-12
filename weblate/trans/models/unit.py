@@ -26,11 +26,13 @@ import traceback
 import multiprocessing
 
 from django.conf import settings
-from django.db import models
+from django.db import models, transaction
 from django.db.models import Q
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext as _
+
+import six
 
 from weblate.accounts.models import get_author_name
 from weblate.permissions.helpers import can_translate
@@ -617,6 +619,9 @@ class Unit(models.Model, LoggerMixin):
         Stores unit to backend.
 
         Optional user parameters defines authorship of a change.
+
+        This should be always called in a trasaction with updated unit
+        locked for update.
         """
         # For case when authorship specified, use user from request
         if user is None or user.is_anonymous:
@@ -624,9 +629,6 @@ class Unit(models.Model, LoggerMixin):
 
         # Commit possible previous changes by other author
         self.translation.commit_pending(request, get_author_name(user))
-
-        # Fetch current copy from database and lock it for update
-        self.old_unit = Unit.objects.select_for_update().get(pk=self.pk)
 
         # Return if there was no change
         # We have to explicitly check for fuzzy flag change on monolingual
@@ -1045,11 +1047,18 @@ class Unit(models.Model, LoggerMixin):
             position__lte=self.position + settings.NEARBY_MESSAGES,
         )
 
+    @transaction.atomic
     def translate(self, request, new_target, new_state, change_action=None,
                   propagate=True):
         """Store new translation of a unit."""
+        # Fetch current copy from database and lock it for update
+        self.old_unit = Unit.objects.select_for_update().get(pk=self.pk)
+
         # Update unit and save it
-        self.target = join_plural(new_target)
+        if isinstance(new_target, six.string_types):
+            self.target = new_target
+        else:
+            self.target = join_plural(new_target)
         if bool(max(new_target)):
             self.state = new_state
         else:

@@ -56,8 +56,6 @@ DATABASES = {
             # Set emoji capable charset for MySQL:
             # 'charset': 'utf8mb4',
         },
-        # Wrap each view in a transaction on this database
-        'ATOMIC_REQUESTS': True,
     }
 }
 

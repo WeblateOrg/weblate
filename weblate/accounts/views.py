@@ -232,7 +232,7 @@ def user_profile(request):
 
     if not profile.language:
         profile.language = get_language()
-        profile.save()
+        profile.save(update_fields=['language'])
 
     form_classes = [
         ProfileForm,
