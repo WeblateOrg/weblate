@@ -92,7 +92,7 @@ def auto_translate(user, translation, source, inconsistent, overwrite,
 
     return updated
 
-def auto_translate_mt(user, translation, engines, threshold, inconsistent, 
+def auto_translate_mt(user, translation, engines, threshold, inconsistent,
                       overwrite):
     """Perform automatic translation based on machine translation."""
     updated = 0
