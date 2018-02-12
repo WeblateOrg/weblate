@@ -21,7 +21,7 @@
 from __future__ import unicode_literals
 
 from django.contrib.auth.models import User
-from django.db import models
+from django.db import models, transaction
 from django.db.models import Count
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext as _
@@ -145,8 +145,9 @@ class Suggestion(UnitData, UserDisplayMixin):
             self.user.username if self.user else 'unknown',
         )
 
+    @transaction.atomic
     def accept(self, translation, request, check=can_accept_suggestion):
-        allunits = translation.unit_set.filter(
+        allunits = translation.unit_set.select_for_update().filter(
             content_hash=self.content_hash,
         )
         failure = False

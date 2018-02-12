@@ -24,7 +24,7 @@ import os
 import codecs
 
 from django.conf import settings
-from django.db import models
+from django.db import models, transaction
 from django.utils.translation import ugettext as _
 from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.utils.functional import cached_property
@@ -551,6 +551,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         return True
 
+    @transaction.atomic
     def update_units(self, author):
         """Update backend file and unit."""
         updated = False

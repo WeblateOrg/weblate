@@ -354,9 +354,7 @@ def handle_merge(translation, request, next_unit_url):
         return None
 
     # Store unit
-    unit.target = merged.target
-    unit.state = merged.state
-    saved = unit.save_backend(request)
+    saved = unit.translate(request, merged.target, merged.state)
     # Update stats if there was change
     if saved:
         request.user.profile.translated += 1
@@ -385,8 +383,10 @@ def handle_revert(translation, request, next_unit_url):
         messages.error(request, _('Can not revert to empty translation!'))
         return None
     # Store unit
-    unit.target = change.target
-    unit.save_backend(request, change_action=Change.ACTION_REVERT)
+    unit.translate(
+        request, change.target, unit.state,
+        change_action=Change.ACTION_REVERT
+    )
     # Redirect to next entry
     return HttpResponseRedirect(next_unit_url)
 

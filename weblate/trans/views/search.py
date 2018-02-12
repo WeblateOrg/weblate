@@ -23,6 +23,7 @@ from __future__ import unicode_literals
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator, EmptyPage
+from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.translation import ugettext as _, ungettext
 from django.views.decorators.cache import never_cache
@@ -79,10 +80,8 @@ def search_replace(request, project, subproject=None, lang=None):
 
     matching = unit_set.filter(target__contains=search_text)
 
-    if matching.count() == 0:
-        updated = 0
-
-    else:
+    updated = 0
+    if matching.exists():
         confirm = ReplaceConfirmForm(matching, request.POST)
 
         if not confirm.is_valid():
@@ -104,13 +103,16 @@ def search_replace(request, project, subproject=None, lang=None):
             )
 
         matching = confirm.cleaned_data['units']
-        updated = matching.count()
 
-        for unit in matching.iterator():
-            if not can_translate(request.user, unit):
-                continue
-            unit.target = unit.target.replace(search_text, replacement)
-            unit.save_backend(request, change_action=Change.ACTION_REPLACE)
+        with transaction.atomic():
+            for unit in matching.select_for_update():
+                if not can_translate(request.user, unit):
+                    continue
+                unit.translate(
+                    request, unit.target.replace(search_text, replacement), unit.state,
+                    change_action=Change.ACTION_REPLACE
+                )
+                updated += 1
 
     import_message(
         request, updated,
