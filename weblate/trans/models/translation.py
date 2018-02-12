@@ -936,6 +936,15 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         # Invalidate summary stats
         self.stats.invalidate()
+        if self.subproject.allow_translation_propagation:
+            related = Translation.objects.filter(
+                subproject__allow_translation_propagation=True,
+                language=self.language,
+            ).exclude(
+                pk=self.pk
+            )
+            for component in related:
+                component.invalidate_cache()
 
     def get_kwargs(self):
         return {
