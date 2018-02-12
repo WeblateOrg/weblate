@@ -931,20 +931,21 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         # Add as sugestions
         return self.merge_suggestions(request, store, fuzzy)
 
-    def invalidate_cache(self):
+    def invalidate_cache(self, recurse=True):
         """Invalidate any cached stats."""
 
         # Invalidate summary stats
         self.stats.invalidate()
-        if self.subproject.allow_translation_propagation:
+        if recurse and self.subproject.allow_translation_propagation:
             related = Translation.objects.filter(
+                subproject__project=self.subproject.project,
                 subproject__allow_translation_propagation=True,
                 language=self.language,
             ).exclude(
                 pk=self.pk
             )
             for component in related:
-                component.invalidate_cache()
+                component.invalidate_cache(False)
 
     def get_kwargs(self):
         return {
