@@ -109,7 +109,9 @@ def search_replace(request, project, subproject=None, lang=None):
                 if not can_translate(request.user, unit):
                     continue
                 unit.translate(
-                    request, unit.target.replace(search_text, replacement), unit.state,
+                    request,
+                    unit.target.replace(search_text, replacement),
+                    unit.state,
                     change_action=Change.ACTION_REPLACE
                 )
                 updated += 1
