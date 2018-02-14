@@ -221,7 +221,8 @@ To enable this service, add ``weblate.trans.machine.yandex.YandexTranslation`` t
 .. seealso::
 
     :setting:`MT_YANDEX_KEY`,
-    `Yandex Translate API <https://tech.yandex.com/translate/>`_
+    `Yandex Translate API <https://tech.yandex.com/translate/>`_,
+    `Powered by Yandex.Translate <http://translate.yandex.com/>`_
 
 Weblate
 -------
