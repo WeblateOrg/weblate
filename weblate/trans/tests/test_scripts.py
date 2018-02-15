@@ -63,7 +63,7 @@ class ScriptTest(RepoTestCase, TempDirMixin):
         """Check file content and cleans it."""
         with open(self.output, 'r') as handle:
             data = handle.read()
-            self.assertIn(subproject.get_path(), data)
+            self.assertIn(subproject.full_path, data)
 
         with open(self.output, 'w') as handle:
             handle.write('')

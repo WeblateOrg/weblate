@@ -129,7 +129,7 @@ class UpdateConfigureAddon(GettextBaseAddon):
 
     @staticmethod
     def get_configure_paths(component):
-        base = component.get_path()
+        base = component.full_path
         return [
             os.path.join(base, 'configure'),
             os.path.join(base, 'configure.in'),

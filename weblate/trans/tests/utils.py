@@ -190,7 +190,7 @@ class RepoTestMixin(object):
             slug='test',
             web='https://weblate.org/'
         )
-        self.addCleanup(shutil.rmtree, project.get_path(), True)
+        self.addCleanup(shutil.rmtree, project.full_path, True)
         return project
 
     def format_local_path(self, path):

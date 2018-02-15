@@ -80,38 +80,38 @@ class ProjectTest(RepoTestCase):
 
     def test_create(self):
         project = self.create_project()
-        self.assertTrue(os.path.exists(project.get_path()))
-        self.assertTrue(project.slug in project.get_path())
+        self.assertTrue(os.path.exists(project.full_path))
+        self.assertTrue(project.slug in project.full_path)
 
     def test_rename(self):
         project = self.create_project()
-        old_path = project.get_path()
+        old_path = project.full_path
         self.assertTrue(os.path.exists(old_path))
         project.slug = 'changed'
         project.save()
-        new_path = project.get_path()
+        new_path = project.full_path
         self.addCleanup(shutil.rmtree, new_path, True)
         self.assertFalse(os.path.exists(old_path))
         self.assertTrue(os.path.exists(new_path))
 
     def test_delete(self):
         project = self.create_project()
-        self.assertTrue(os.path.exists(project.get_path()))
+        self.assertTrue(os.path.exists(project.full_path))
         project.delete()
-        self.assertFalse(os.path.exists(project.get_path()))
+        self.assertFalse(os.path.exists(project.full_path))
 
     def test_delete_all(self):
         project = self.create_project()
-        self.assertTrue(os.path.exists(project.get_path()))
+        self.assertTrue(os.path.exists(project.full_path))
         Project.objects.all().delete()
-        self.assertFalse(os.path.exists(project.get_path()))
+        self.assertFalse(os.path.exists(project.full_path))
 
     def test_wrong_path(self):
         project = self.create_project()
 
         with override_settings(DATA_DIR='/weblate-nonexisting:path'):
-            # Invalidate cache, pylint: disable=protected-access
-            project._dir_path = None
+            # Invalidate cache
+            project.invalidate_path_cache()
 
             self.assertRaisesMessage(
                 ValidationError,
@@ -177,7 +177,7 @@ class TranslationTest(RepoTestCase):
             force_commit=True
         )
         self.assertFalse(translation.repo_needs_commit())
-        linguas = os.path.join(subproject.get_path(), 'po', 'LINGUAS')
+        linguas = os.path.join(subproject.full_path, 'po', 'LINGUAS')
         with open(linguas, 'r') as handle:
             data = handle.read()
             self.assertIn('\ncs\n', data)

@@ -565,7 +565,7 @@ class SubProject(models.Model, URLMixin, PathMixin):
     @perform_on_link
     def _get_path(self):
         """Return full path to subproject VCS repository."""
-        return os.path.join(self.project.get_path(), self.slug)
+        return os.path.join(self.project.full_path, self.slug)
 
     @perform_on_link
     def can_push(self):
@@ -592,7 +592,7 @@ class SubProject(models.Model, URLMixin, PathMixin):
         if self.is_repo_link:
             return self.linked_subproject.repository
         repository = VCS_REGISTRY[self.vcs](
-            self.get_path(), self.branch, self
+            self.full_path, self.branch, self
         )
         cache_key = 'sp-config-check-{}'.format(self.pk)
         if cache.get(cache_key) is None:
@@ -984,9 +984,9 @@ class SubProject(models.Model, URLMixin, PathMixin):
 
     def get_mask_matches(self):
         """Return files matching current mask."""
-        prefix = path_separator(os.path.join(self.get_path(), ''))
+        prefix = path_separator(os.path.join(self.full_path, ''))
         matches = set()
-        for filename in glob(os.path.join(self.get_path(), self.filemask)):
+        for filename in glob(os.path.join(self.full_path, self.filemask)):
             path = path_separator(filename).replace(prefix, '')
             code = self.get_lang_code(path)
             if re.match(self.language_regex, code):
@@ -1176,7 +1176,7 @@ class SubProject(models.Model, URLMixin, PathMixin):
         """Validate whether we can parse translation files."""
         notrecognized = []
         errors = []
-        dir_path = self.get_path()
+        dir_path = self.full_path
         for match in matches:
             try:
                 parsed = self.file_format_cls.parse(
@@ -1242,7 +1242,7 @@ class SubProject(models.Model, URLMixin, PathMixin):
 
         # Validate template loading
         if self.has_template():
-            full_path = os.path.join(self.get_path(), self.template)
+            full_path = os.path.join(self.full_path, self.template)
             if not os.path.exists(full_path):
                 msg = _('Template file not found!')
                 raise ValidationError({'template': msg})
@@ -1358,13 +1358,13 @@ class SubProject(models.Model, URLMixin, PathMixin):
 
     def get_template_filename(self):
         """Create absolute filename for template."""
-        return os.path.join(self.get_path(), self.template)
+        return os.path.join(self.full_path, self.template)
 
     def get_new_base_filename(self):
         """Create absolute filename for base file for new translations."""
         if not self.new_base:
             return None
-        return os.path.join(self.get_path(), self.new_base)
+        return os.path.join(self.full_path, self.new_base)
 
     def save(self, *args, **kwargs):
         """Save wrapper
@@ -1529,7 +1529,7 @@ class SubProject(models.Model, URLMixin, PathMixin):
             self.filemask,
             language.code
         )
-        fullname = os.path.join(self.get_path(), filename)
+        fullname = os.path.join(self.full_path, filename)
 
         # Ignore request if file exists (possibly race condition as
         # the processing of new language can take some time and user

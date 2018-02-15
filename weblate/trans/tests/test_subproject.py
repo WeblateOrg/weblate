@@ -47,7 +47,7 @@ class SubProjectTest(RepoTestCase):
         else:
             project.full_clean()
         # Correct path
-        self.assertTrue(os.path.exists(project.get_path()))
+        self.assertTrue(os.path.exists(project.full_path))
         # Count translations
         self.assertEqual(
             project.translation_set.count(), translations
@@ -63,7 +63,7 @@ class SubProjectTest(RepoTestCase):
     def test_create(self):
         project = self.create_subproject()
         self.verify_subproject(project, 3, 'cs', 4)
-        self.assertTrue(os.path.exists(project.get_path()))
+        self.assertTrue(os.path.exists(project.full_path))
 
     def test_create_dot(self):
         project = self._create_subproject(
@@ -71,7 +71,7 @@ class SubProjectTest(RepoTestCase):
             './po/*.po',
         )
         self.verify_subproject(project, 3, 'cs', 4)
-        self.assertTrue(os.path.exists(project.get_path()))
+        self.assertTrue(os.path.exists(project.full_path))
         self.assertEqual('po/*.po', project.filemask)
 
     def test_create_iphone(self):
@@ -322,35 +322,35 @@ class SubProjectDeleteTest(RepoTestCase):
     """SubProject object deleting testing."""
     def test_delete(self):
         project = self.create_subproject()
-        self.assertTrue(os.path.exists(project.get_path()))
+        self.assertTrue(os.path.exists(project.full_path))
         project.delete()
-        self.assertFalse(os.path.exists(project.get_path()))
+        self.assertFalse(os.path.exists(project.full_path))
         self.assertEqual(0, SubProject.objects.count())
 
     def test_delete_link(self):
         project = self.create_link()
         main_project = SubProject.objects.get(slug='test')
-        self.assertTrue(os.path.exists(main_project.get_path()))
+        self.assertTrue(os.path.exists(main_project.full_path))
         project.delete()
-        self.assertTrue(os.path.exists(main_project.get_path()))
+        self.assertTrue(os.path.exists(main_project.full_path))
 
     def test_delete_all(self):
         project = self.create_subproject()
-        self.assertTrue(os.path.exists(project.get_path()))
+        self.assertTrue(os.path.exists(project.full_path))
         SubProject.objects.all().delete()
-        self.assertFalse(os.path.exists(project.get_path()))
+        self.assertFalse(os.path.exists(project.full_path))
 
 
 class SubProjectChangeTest(RepoTestCase):
     """SubProject object change testing."""
     def test_rename(self):
         subproject = self.create_subproject()
-        old_path = subproject.get_path()
+        old_path = subproject.full_path
         self.assertTrue(os.path.exists(old_path))
         subproject.slug = 'changed'
         subproject.save()
         self.assertFalse(os.path.exists(old_path))
-        self.assertTrue(os.path.exists(subproject.get_path()))
+        self.assertTrue(os.path.exists(subproject.full_path))
 
     def test_change_project(self):
         subproject = self.create_subproject()
@@ -364,7 +364,7 @@ class SubProjectChangeTest(RepoTestCase):
         self.assertEqual(subproject.project.suggestion_set.count(), 1)
 
         # Check current path exists
-        old_path = subproject.get_path()
+        old_path = subproject.full_path
         self.assertTrue(os.path.exists(old_path))
 
         # Crete target project
@@ -379,7 +379,7 @@ class SubProjectChangeTest(RepoTestCase):
         subproject.save()
 
         # Check new path exists
-        new_path = subproject.get_path()
+        new_path = subproject.full_path
         self.assertTrue(os.path.exists(new_path))
 
         # Check paths differ
@@ -604,7 +604,7 @@ class SubProjectErrorTest(RepoTestCase):
         )
 
     def test_failed_push(self):
-        testfile = os.path.join(self.component.get_path(), 'README.md')
+        testfile = os.path.join(self.component.full_path, 'README.md')
         with open(testfile, 'a') as handle:
             handle.write('CHANGE')
         with self.component.repository.lock:
@@ -616,7 +616,7 @@ class SubProjectErrorTest(RepoTestCase):
     def test_failed_reset(self):
         # Corrupt Git database so that reset fails
         shutil.rmtree(
-            os.path.join(self.component.get_path(), '.git', 'objects', 'pack')
+            os.path.join(self.component.full_path, '.git', 'objects', 'pack')
         )
         self.assertFalse(
             self.component.do_reset(None)
@@ -649,7 +649,7 @@ class SubProjectErrorTest(RepoTestCase):
         )
 
     def test_invalid_storage(self):
-        testfile = os.path.join(self.component.get_path(), 'ts-mono', 'cs.ts')
+        testfile = os.path.join(self.component.full_path, 'ts-mono', 'cs.ts')
         with open(testfile, 'a') as handle:
             handle.write('CHANGE')
         translation = self.component.translation_set.get(language_code='cs')
@@ -663,7 +663,7 @@ class SubProjectErrorTest(RepoTestCase):
         )
 
     def test_invalid_template_storage(self):
-        testfile = os.path.join(self.component.get_path(), 'ts-mono', 'en.ts')
+        testfile = os.path.join(self.component.full_path, 'ts-mono', 'en.ts')
         with open(testfile, 'a') as handle:
             handle.write('CHANGE')
 

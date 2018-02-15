@@ -72,7 +72,7 @@ def run_hook(component, translation, script, env=None, args=None):
     environment = {
         'WL_VCS': target.vcs,
         'WL_REPO': target.repo,
-        'WL_PATH': target.get_path(),
+        'WL_PATH': target.full_path,
         'WL_FILEMASK': component.filemask,
         'WL_TEMPLATE': component.template,
         'WL_NEW_BASE': component.new_base,
@@ -87,7 +87,7 @@ def run_hook(component, translation, script, env=None, args=None):
         subprocess.check_call(
             command,
             env=get_clean_env(environment),
-            cwd=component.get_path(),
+            cwd=component.full_path,
         )
         return True
     except (OSError, subprocess.CalledProcessError) as err:

@@ -49,7 +49,7 @@ class GenerateFileAddon(BaseAddon):
 
     def pre_commit(self, translation):
         filename = os.path.join(
-            self.instance.component.get_path(),
+            self.instance.component.full_path,
             render_template(
                 self.instance.configuration['filename'],
                 translation=translation

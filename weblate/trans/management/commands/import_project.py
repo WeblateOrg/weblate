@@ -175,7 +175,7 @@ class Command(BaseCommand):
     def checkout_tmp(self, project, repo, branch):
         """Checkout project to temporary location."""
         # Create temporary working dir
-        workdir = tempfile.mkdtemp(dir=project.get_path())
+        workdir = tempfile.mkdtemp(dir=project.full_path)
         # Make the temporary directory readable by others
         os.chmod(workdir, 0o755)
 
@@ -324,7 +324,7 @@ class Command(BaseCommand):
                     )
                 )
             matches = self.get_matching_subprojects(
-                sub_project.get_path(),
+                sub_project.full_path,
             )
         else:
             matches, sharedrepo = self.import_initial(
@@ -415,7 +415,7 @@ class Command(BaseCommand):
         # Rename gitrepository to new name
         os.rename(
             workdir,
-            os.path.join(project.get_path(), slug)
+            os.path.join(project.full_path, slug)
         )
 
         SubProject.objects.create(

@@ -212,7 +212,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
     def get_filename(self):
         """Return absolute filename."""
-        return os.path.join(self.subproject.get_path(), self.filename)
+        return os.path.join(self.subproject.full_path, self.filename)
 
     def load_store(self):
         """Load translate-toolkit storage from disk."""
@@ -470,7 +470,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             }
             for extra_file in extra_files.split('\n'):
                 full_path_extra = os.path.join(
-                    self.subproject.get_path(),
+                    self.subproject.full_path,
                     extra_file
                 )
                 if os.path.exists(full_path_extra):

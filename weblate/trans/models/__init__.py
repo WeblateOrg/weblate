@@ -77,7 +77,7 @@ def delete_object_dir(sender, instance, **kwargs):
     if hasattr(instance, 'is_repo_link') and instance.is_repo_link:
         return
 
-    project_path = instance.get_path()
+    project_path = instance.full_path
 
     # Remove path if it exists
     if os.path.exists(project_path):

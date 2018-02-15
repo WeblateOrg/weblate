@@ -144,7 +144,7 @@ def run_git_http(request, obj, path):
         [git_http_backend],
         env={
             'REQUEST_METHOD': request.method,
-            'PATH_TRANSLATED': os.path.join(obj.get_path(), path),
+            'PATH_TRANSLATED': os.path.join(obj.full_path, path),
             'GIT_HTTP_EXPORT_ALL': '1',
             'CONTENT_TYPE': request.META.get('CONTENT_TYPE', ''),
             'QUERY_STRING': request.META.get('QUERY_STRING', ''),

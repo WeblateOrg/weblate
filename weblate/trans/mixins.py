@@ -108,16 +108,13 @@ class PathMixin(LoggerMixin):
         """Actual calculation of path."""
         raise NotImplementedError()
 
-    def get_path(self):
-        """Return path to directory.
+    @cached_property
+    def full_path(self):
+        return self._get_path()
 
-        Caching is really necessary for linked project, otherwise
-        we end up fetching linked subproject again and again.
-        """
-        if self._dir_path is None:
-            self._dir_path = self._get_path()
-
-        return self._dir_path
+    def invalidate_path_cache(self):
+        if 'full_path' in self.__dict__:
+            del self.__dict__['full_path']
 
     def check_rename(self, old):
         """Detect slug changes and possibly renames underlaying directory."""
@@ -126,10 +123,10 @@ class PathMixin(LoggerMixin):
                 getattr(old, 'is_repo_link', False)):
             return
 
-        old_path = old.get_path()
+        old_path = old.full_path
         # Invalidate path cache (otherwise we would still get old path)
-        self._dir_path = None
-        new_path = self.get_path()
+        self.invalidate_path_cache()
+        new_path = self.full_path
 
         if old_path != new_path:
             self.log_info(
@@ -147,7 +144,7 @@ class PathMixin(LoggerMixin):
 
     def create_path(self):
         """Create filesystem directory for storing data"""
-        path = self.get_path()
+        path = self.full_path
         if not os.path.exists(path):
             os.makedirs(path)
 
