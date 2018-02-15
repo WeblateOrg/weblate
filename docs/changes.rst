@@ -4,7 +4,7 @@ Changes
 weblate 2.19
 ------------
 
-Released on ? 2018.
+Released on February 15th 2018.
 
 * Fixed imports across some file formats.
 * Display human friendly browser information in audit log.
