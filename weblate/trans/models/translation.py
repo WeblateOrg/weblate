@@ -125,7 +125,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         self.stats = TranslationStats(self)
         self.addon_commit_files = []
 
-    @property
+    @cached_property
     def log_prefix(self):
         return '/'.join((
             self.subproject.project.slug,

@@ -445,7 +445,7 @@ class Unit(models.Model, LoggerMixin):
     def fuzzy(self):
         return self.state == STATE_FUZZY
 
-    @property
+    @cached_property
     def log_prefix(self):
         return '/'.join((
             self.translation.subproject.project.slug,

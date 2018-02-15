@@ -533,7 +533,7 @@ class SubProject(models.Model, URLMixin, PathMixin):
             fnmatch.translate(self.filemask).replace('.*', '(.*)')
         )
 
-    @property
+    @cached_property
     def log_prefix(self):
         return '/'.join((self.project.slug, self.slug))
 
