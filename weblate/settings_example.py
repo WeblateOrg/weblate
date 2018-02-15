@@ -422,6 +422,10 @@ LOGGING = {
         'logfile': {
             'format': '%(asctime)s %(levelname)s %(message)s'
         },
+        'django.server': {
+            '()': 'django.utils.log.ServerFormatter',
+            'format': '[%(server_time)s] %(message)s',
+        }
     },
     'handlers': {
         'mail_admins': {
