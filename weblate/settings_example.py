@@ -406,7 +406,7 @@ else:
 # more details on how to customize your logging configuration.
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': False,
+    'disable_existing_loggers': True,
     'filters': {
         'require_debug_false': {
             '()': 'django.utils.log.RequireDebugFalse'
@@ -435,6 +435,11 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'simple'
         },
+        'django.server': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'django.server',
+        },
         'syslog': {
             'level': 'DEBUG',
             'class': 'logging.handlers.SysLogHandler',
@@ -457,6 +462,11 @@ LOGGING = {
             'handlers': ['mail_admins', DEFAULT_LOG],
             'level': 'ERROR',
             'propagate': True,
+        },
+        'django.server': {
+            'handlers': ['django.server'],
+            'level': 'INFO',
+            'propagate': False,
         },
         # Logging database queries
         # 'django.db.backends': {
