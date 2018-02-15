@@ -66,5 +66,4 @@ class Command(WeblateLangCommand):
 
             if int(options['verbosity']) >= 1:
                 self.stdout.write('Committing {0}'.format(translation))
-            with transaction.atomic():
-                translation.commit_pending(None)
+            translation.commit_pending(None)
