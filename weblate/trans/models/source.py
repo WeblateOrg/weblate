@@ -31,7 +31,7 @@ from weblate.trans.util import PRIORITY_CHOICES
 
 @python_2_unicode_compatible
 class Source(models.Model):
-    id_hash = models.BigIntegerField(db_index=True)
+    id_hash = models.BigIntegerField()
     subproject = models.ForeignKey(
         'SubProject', on_delete=models.deletion.CASCADE
     )

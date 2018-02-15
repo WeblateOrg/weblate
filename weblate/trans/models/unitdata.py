@@ -28,7 +28,7 @@ from weblate.lang.models import Language
 
 
 class UnitData(models.Model):
-    content_hash = models.BigIntegerField(db_index=True)
+    content_hash = models.BigIntegerField()
     project = models.ForeignKey(
         'Project', on_delete=models.deletion.CASCADE
     )
@@ -38,6 +38,9 @@ class UnitData(models.Model):
 
     class Meta(object):
         abstract = True
+        index_together = [
+            ('project', 'language', 'content_hash'),
+        ]
 
     @cached_property
     def units_model(self):

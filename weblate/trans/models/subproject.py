@@ -139,7 +139,6 @@ class SubProject(models.Model, URLMixin, PathMixin):
     )
     slug = models.SlugField(
         verbose_name=ugettext_lazy('URL slug'),
-        db_index=True,
         max_length=100,
         help_text=ugettext_lazy('Name used in URLs and file names.')
     )

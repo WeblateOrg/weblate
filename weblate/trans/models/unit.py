@@ -378,7 +378,7 @@ class Unit(models.Model, LoggerMixin):
     translation = models.ForeignKey(
         'Translation', on_delete=models.deletion.CASCADE
     )
-    id_hash = models.BigIntegerField(db_index=True)
+    id_hash = models.BigIntegerField()
     content_hash = models.BigIntegerField(db_index=True)
     location = models.TextField(default='', blank=True)
     context = models.TextField(default='', blank=True)
@@ -398,7 +398,7 @@ class Unit(models.Model, LoggerMixin):
         )
     )
 
-    position = models.IntegerField(db_index=True)
+    position = models.IntegerField()
 
     has_suggestion = models.BooleanField(default=False, db_index=True)
     has_comment = models.BooleanField(default=False, db_index=True)
@@ -406,9 +406,9 @@ class Unit(models.Model, LoggerMixin):
 
     num_words = models.IntegerField(default=0)
 
-    priority = models.IntegerField(default=100, db_index=True)
+    priority = models.IntegerField(default=100)
 
-    pending = models.BooleanField(default=False, db_index=True)
+    pending = models.BooleanField(default=False)
 
     objects = UnitManager.from_queryset(UnitQuerySet)()
 
@@ -421,6 +421,10 @@ class Unit(models.Model, LoggerMixin):
         ordering = ['priority', 'position']
         app_label = 'trans'
         unique_together = ('translation', 'id_hash')
+        index_together = [
+            ('translation', 'pending'),
+            ('priority', 'position'),
+        ]
 
     def __init__(self, *args, **kwargs):
         """Constructor to initialize some cache properties."""
