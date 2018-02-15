@@ -38,9 +38,6 @@ class UnitData(models.Model):
 
     class Meta(object):
         abstract = True
-        index_together = [
-            ('project', 'language', 'content_hash'),
-        ]
 
     @cached_property
     def units_model(self):

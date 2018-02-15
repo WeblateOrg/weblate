@@ -72,6 +72,9 @@ class Comment(UnitData, UserDisplayMixin):
     class Meta(object):
         ordering = ['timestamp']
         app_label = 'trans'
+        index_together = [
+            ('project', 'language', 'content_hash'),
+        ]
 
     def __str__(self):
         return 'comment for {0} by {1}'.format(

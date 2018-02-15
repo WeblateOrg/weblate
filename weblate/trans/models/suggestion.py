@@ -138,6 +138,9 @@ class Suggestion(UnitData, UserDisplayMixin):
         )
         app_label = 'trans'
         ordering = ['-timestamp']
+        index_together = [
+            ('project', 'language', 'content_hash'),
+        ]
 
     def __str__(self):
         return 'suggestion for {0} by {1}'.format(

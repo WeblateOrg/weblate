@@ -58,6 +58,9 @@ class Check(UnitData):
         )
         app_label = 'trans'
         unique_together = ('content_hash', 'project', 'language', 'check')
+        index_together = [
+            ('project', 'language', 'content_hash'),
+        ]
 
     def __str__(self):
         return '{0}/{1}: {2}'.format(
