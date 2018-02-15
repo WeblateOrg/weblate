@@ -653,3 +653,8 @@ Fetches remote VCS repositories and updates internal cache.
 
 You can either define which project or component to update (eg.
 ``weblate/master``) or use ``--all`` to update all existing components.
+
+.. note::
+
+    Usually it is better to configure hooks in the repository to trigger
+    :ref:`hooks` instead of regular polling by :djadmin:`updategit`.
