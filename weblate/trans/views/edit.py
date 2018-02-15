@@ -298,9 +298,6 @@ def handle_translate(translation, request, this_unit_url, next_unit_url):
         # Silently redirect to next entry
         return HttpResponseRedirect(next_unit_url)
 
-    # Check whether translation is not outdated
-    translation.check_sync()
-
     form = TranslationForm(
         request.user, translation, None, request.POST
     )
