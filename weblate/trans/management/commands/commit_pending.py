@@ -22,7 +22,6 @@ from __future__ import unicode_literals
 
 from datetime import timedelta
 
-from django.db import transaction
 from django.utils import timezone
 
 from weblate.trans.management.commands import WeblateLangCommand
