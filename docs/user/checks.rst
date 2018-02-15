@@ -354,7 +354,7 @@ translations have been reverted in VCS or otherwise lost.
 Mismatched \\n
 ~~~~~~~~~~~~~~
 
-Number of \\n in translation does not match source.
+Number of ``\\n`` literals in translation does not match source.
 
 Usually escaped newlines are important for formatting program output, so this
 should match to source.
