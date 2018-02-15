@@ -67,7 +67,10 @@
 
 {% for plural in object.plural_set.all %}
 <tr class="info">
-<th colspan="3">{% blocktrans with source_description=plural.get_source_display %}Plural: {{ source_description }}{% endblocktrans %}</th>
+<th colspan="3">
+<span class="badge pull-right flip">{{ plural.translation_set.count }}</span>
+{% blocktrans with source_description=plural.get_source_display %}Plural: {{ source_description }}{% endblocktrans %}
+</th>
 </tr>
 <tr>
 <th>{% trans "Number of plurals" %}</th>
