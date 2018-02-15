@@ -39,8 +39,9 @@
       <td>
       <form method="POST">
       {% csrf_token %}
-      <input type="hidden" name="dismiss" value="{{ error.pk }}"/>
-      <input type="submit" value="{% trans "Dismiss" %}" />
+      <input type="hidden" name="pk" value="{{ error.pk }}"/>
+      <input type="submit" name="dismiss" value="{% trans "Dismiss" %}" />
+      <input type="submit" name="ignore" value="{% trans "Ignore permanently" %}" />
       </form>
       </td>
   </tr>

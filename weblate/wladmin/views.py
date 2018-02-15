@@ -76,9 +76,13 @@ def get_first_loader():
 def handle_dismiss(request):
     try:
         error = ConfigurationError.objects.get(
-            pk=int(request.POST['dismiss'])
+            pk=int(request.POST['pk'])
         )
-        error.delete()
+        if 'ignore' in request.POST:
+            error.ignored = True
+            error.save(update_fields=['ignored'])
+        else:
+            error.delete()
     except (ValueError, KeyError, ConfigurationError.DoesNotExist):
         messages.error(request, _('Failed to dismiss configuration error!'))
     return redirect('admin:performance')
@@ -232,7 +236,7 @@ def performance(request, admin_site):
 
     context = admin_site.each_context(request)
     context['checks'] = checks
-    context['errors'] = ConfigurationError.objects.all()
+    context['errors'] = ConfigurationError.objects.filter(ignored=False)
 
     return render(
         request,
