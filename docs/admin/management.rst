@@ -177,8 +177,8 @@ You can either define which project or component to update (eg.
 
 .. django-admin-option:: --age HOURS
 
-    Age in hours for committing. If not specified value configured
-    in :ref:`component` is used.
+    Age in hours for committing. If not specified (or if specified as ``0``)
+    value configured in :ref:`component` is used.
 
 This is most useful if executed periodically from cron or similar tool:
 
