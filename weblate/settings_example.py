@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-GenerateFileAddon',
+# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
