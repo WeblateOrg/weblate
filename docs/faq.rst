@@ -52,9 +52,9 @@ actions.
 .. code-block:: sh
 
     # Add weblate as remote
-    git remote add weblate https://hosted.weblate.org/git/weblate/master/
+    git remote add weblate https://hosted.weblate.org/git/weblate/website/
     # You might need to include credentials in some cases:
-    git remote add weblate https://username:APIKEY@hosted.weblate.org/git/weblate/master/
+    git remote add weblate https://username:APIKEY@hosted.weblate.org/git/weblate/website/
 
     # Update weblate remote
     git remote update weblate
