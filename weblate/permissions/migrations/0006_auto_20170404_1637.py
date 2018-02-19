@@ -85,7 +85,6 @@ class Migration(migrations.Migration):
         ('contenttypes', '0001_initial'),
         ('auth', '0001_initial'),
         ('sites', '0001_initial'),
-        ('lang', '0009_auto_20180129_1434'),
     ]
 
     operations = [
