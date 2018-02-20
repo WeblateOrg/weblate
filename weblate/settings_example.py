@@ -748,6 +748,7 @@ REST_FRAMEWORK = {
 #    r'/data/(.*)$',     # Allowing public access to data exports
 #    r'/hooks/(.*)$',    # Allowing public access to notification hooks
 #    r'/api/(.*)$',      # Allowing access to API
+#    r'/js/i18n/$',      # Javascript localization
 # )
 
 # Force sane test runner

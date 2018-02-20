@@ -576,6 +576,7 @@ Some of exceptions you might want to include:
         r'/data/(.*)$',     # Allowing public access to data exports
         r'/hooks/(.*)$',    # Allowing public access to notification hooks
         r'/api/(.*)$',      # Allowing access to API
+        r'/js/i18n/$',      # Javascript localization
     )
 
 .. setting:: MACHINE_TRANSLATION_SERVICES
