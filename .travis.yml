@@ -9,16 +9,17 @@
 dist: trusty
 language: python
 python:
-  - "2.7"
+  - "3.6"
 # build matrix configuration
 env:
   matrix:
-    - CI_DEPS="Django>=1.11,<1.12" CI_DATABASE=sqlite
-    - CI_DEPS="Django>=1.11,<1.12" CI_DATABASE=mysql
-    - CI_DEPS="Django>=1.11,<1.12" CI_DATABASE=postgresql
-    - CI_DEPS="Django>=1.11,<1.12" CI_DATABASE=postgresql CI_MODE=selenium
-    - CI_DEPS="Django>=1.11,<1.12" CI_DATABASE=postgresql CI_MODE=setup
-    - CI_DEPS="Django>=1.11,<1.12" CI_DATABASE=sqlite CI_MODE=migrate
+    - CI_DEPS="Django>=2.0,<2.1" CI_DATABASE=sqlite
+    - CI_DEPS="Django>=2.0,<2.1" CI_DATABASE=mysql
+    - CI_DEPS="Django>=2.0,<2.1" CI_DATABASE=postgresql
+    - CI_DEPS="Django>=2.0,<2.1" CI_DATABASE=postgresql CI_MODE=selenium
+    - CI_DEPS="Django>=2.0,<2.1" CI_DATABASE=postgresql CI_MODE=setup
+    - CI_DEPS="Django>=2.0,<2.1" CI_DATABASE=sqlite CI_MODE=migrate
+    - CI_DEPS="sphinxcontrib-httpdomain" CI_MODE=docs
   global:
     - DJANGO_SETTINGS_MODULE=weblate.settings_test
     - CI_MODE=test
@@ -66,12 +67,8 @@ after_script:
 sudo: false
 matrix:
   include:
-    - python: "3.6"
+    - python: "2.7"
       env: CI_DEPS="Django>=1.11,<1.12" CI_DATABASE=postgresql
-    - python: "3.6"
-      env: CI_DEPS="Django>=2.0,<2.1" CI_DATABASE=postgresql
-    - python: "3.6"
-      env: CI_DEPS="sphinxcontrib-httpdomain" CI_MODE=docs
 addons:
   apt:
     packages:
