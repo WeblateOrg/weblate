@@ -83,6 +83,10 @@ PERM_TEMPLATE = '''
 </td>
 '''
 
+SOURCE_LINK = '''
+<a href="{0}" target="_blank">{1} <i class="fa fa-external-link"></i></a>
+'''
+
 
 def fmt_whitespace(value):
     """Format whitespace so that it is more visible."""
@@ -610,9 +614,7 @@ def get_location_links(profile, unit):
         if link is None:
             ret.append(escape(location))
         else:
-            ret.append(
-                '<a href="{0}">{1}</a>'.format(escape(link), escape(location))
-            )
+            ret.append(SOURCE_LINK.format(escape(link), escape(location)))
     return mark_safe('\n'.join(ret))
 
 
