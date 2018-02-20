@@ -27,7 +27,8 @@ sed \
     -i \
     -e 's/"Report-Msgid-Bugs-To:.*/"Report-Msgid-Bugs-To: weblate@lists.cihar.com\\n"/' \
     -e 's/"Project-Id-Version:.*/"Project-Id-Version: Weblate '$version'\\n"/' \
-    weblate/locale/*/*/*.po weblate/locale/*.pot
+    weblate/locale/*/*/*.po weblate/locale/*.pot \
+    weblate/langdata/locale/*/*/*.po weblate/langdata/locale/*.pot
 
 # Include language names from CLDR
 for locale in weblate/langdata/locale/*/LC_MESSAGES/django.po ; do
