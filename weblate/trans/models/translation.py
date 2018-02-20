@@ -635,7 +635,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         # Optionally store email for reporting bugs in source
         report_source_bugs = self.subproject.report_source_bugs
-        if report_source_bugs != '':
+        if report_source_bugs:
             headers['report_msgid_bugs_to'] = report_source_bugs
 
         # Update genric headers
