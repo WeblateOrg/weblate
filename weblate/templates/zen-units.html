@@ -40,10 +40,6 @@
 </div>
 {% endif %}
 
-{% if not user.profile.hide_source_secondary or not item.secondary %}
-{% format_translation item.unit.source item.unit.translation.subproject.project.source_language search_match=search_query num_plurals=item.unit.translation.plural.number unit=item.unit %}
-{% endif %}
-
 {% if item.secondary %}
 {% for unit in item.secondary %}
 <div class="form-group">
@@ -51,6 +47,10 @@
 {% format_translation unit.target unit.translation.language unit.translation.plural %}
 </div>
 {% endfor %}
+{% endif %}
+
+{% if not user.profile.hide_source_secondary or not item.secondary %}
+{% format_translation item.unit.source item.unit.translation.subproject.project.source_language search_match=search_query num_plurals=item.unit.translation.plural.number unit=item.unit %}
 {% endif %}
 
 </td>
