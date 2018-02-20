@@ -26,7 +26,7 @@ from crispy_forms.layout import Layout, Field, Div
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from weblate.utils.render import render_template
+from weblate.utils.validators import validate_render
 
 
 class BaseAddonForm(forms.Form):
@@ -61,12 +61,7 @@ class GenerateForm(BaseAddonForm):
 
     def test_render(self, value):
         translation = self._addon.instance.component.translation_set.all()[0]
-        try:
-            render_template(value, translation=translation)
-        except Exception as err:
-            raise forms.ValidationError(
-                _('Failed to render template: {}').format(err)
-            )
+        validate_render(value, translation=translation)
 
     def clean_filename(self):
         self.test_render(self.cleaned_data['filename'])
