@@ -1,6 +1,11 @@
 Changes
 =======
 
+weblate 2.19.1
+--------------
+
+Released on ? 2018.
+
 weblate 2.19
 ------------
 
