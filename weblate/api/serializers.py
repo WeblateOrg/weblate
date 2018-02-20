@@ -341,6 +341,7 @@ class LockRequestSerializer(ReadOnlySerializer):
 
 class UploadRequestSerializer(ReadOnlySerializer):
     overwrite = serializers.BooleanField()
+    file = serializers.FileField()
 
 
 class RepoRequestSerializer(ReadOnlySerializer):

@@ -450,7 +450,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
 
         not_found, skipped, accepted, total = obj.merge_upload(
             request,
-            request.data['file'],
+            serializer.validated_data['file'],
             serializer.validated_data['overwrite'],
         )
 
