@@ -6,6 +6,8 @@ weblate 2.19.1
 
 Released on ? 2018.
 
+* Fixed migration issue on upgrade from 2.18.
+
 weblate 2.19
 ------------
 
