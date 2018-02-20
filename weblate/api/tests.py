@@ -446,6 +446,19 @@ class TranslationAPITest(APIBaseTest):
             }
         )
 
+    def test_upload_content(self):
+        self.authenticate()
+        with open(TEST_PO, 'rb') as handle:
+            response = self.client.put(
+                reverse(
+                    'api:translation-file',
+                    kwargs=self.translation_kwargs
+                ),
+                {'file': handle.read()},
+            )
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('file', response.data)
+
     def test_upload_overwrite(self):
         self.test_upload()
         response = self.client.put(
