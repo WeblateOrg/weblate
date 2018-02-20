@@ -653,7 +653,7 @@ class SubProject(models.Model, URLMixin, PathMixin):
                 start = time.time()
                 self.repository.update_remote()
                 timediff = time.time() - start
-                self.log_info('update took %.2f seconds:', timediff)
+                self.log_info('update took %.2f seconds', timediff)
                 for line in self.repository.last_output.splitlines():
                     self.log_debug('update: %s', line)
             return True
