@@ -764,6 +764,12 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             _('Strings with suggestions'),
             'info',
         )
+        result.add_if(
+            self.stats,
+            'nosuggestions',
+            _('Strings without suggestions'),
+            'info',
+        )
 
         # All checks
         result.add_if(

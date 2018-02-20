@@ -68,6 +68,7 @@ SIMPLE_FILTERS = {
     'nottranslated': {'state': STATE_EMPTY},
     'translated': {'state__gte': STATE_TRANSLATED},
     'suggestions': {'has_suggestion': True},
+    'nosuggestions': {'has_suggestion': False},
     'comments': {'has_comment': True},
 }
 
