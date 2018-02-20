@@ -31,6 +31,8 @@ import logging
 
 from dateutil import parser
 
+from defusedxml import ElementTree
+
 from django.conf import settings
 from django.core.cache import cache
 from django.utils.encoding import force_text
@@ -705,6 +707,8 @@ class SubversionRepository(GitRepository):
     _is_supported = None
     _version = None
 
+    _fetch_revision = None
+
     @classmethod
     def _get_version(cls):
         """Return VCS program version."""
@@ -716,11 +720,29 @@ class SubversionRepository(GitRepository):
         return 'trunk/' in output
 
     @classmethod
+    def get_last_repo_revision(cls, url):
+        output = cls._popen(
+            ['svn', 'log', url, '--limit=1', '--xml'],
+            fullcmd=True
+        )
+        tree = ElementTree.fromstring(output)
+        entry = tree.find('logentry')
+        if entry is not None:
+            return entry.get('revision')
+        return None
+
+    @classmethod
     def get_remote_args(cls, source, target):
         result = ['--prefix=origin/', source, target]
         if cls.is_stdlayout(source):
             result.insert(0, '--stdlayout')
-        return result
+            revision = cls.get_last_repo_revision(source + '/trunk/')
+        else:
+            revision = cls.get_last_repo_revision(source)
+        if revision:
+            revision = '--revision={}:HEAD'.format(revision)
+
+        return result, revision
 
     def configure_remote(self, pull_url, push_url, branch):
         """Initialize the git-svn repository.
@@ -741,16 +763,25 @@ class SubversionRepository(GitRepository):
                     -1, 'Can not switch subversion URL', ''
                 )
             return
-        self.execute(
-            ['svn', 'init'] + self.get_remote_args(pull_url, self.path)
-        )
+        args, self._fetch_revision = self.get_remote_args(pull_url, self.path)
+        self.execute(['svn', 'init'] + args)
+
+    def update_remote(self):
+        """Update remote repository."""
+        if self._fetch_revision:
+            self.execute(self._cmd_update_remote + [self._fetch_revision])
+            self._fetch_revision = None
+        else:
+            self.execute(self._cmd_update_remote + ['--parent'])
+        self.clean_revision_cache()
 
     @classmethod
     def _clone(cls, source, target, branch=None):
         """Clone svn repository with git-svn."""
-        cls._popen(
-            ['svn', 'clone'] + cls.get_remote_args(source, target)
-        )
+        args, revision = cls.get_remote_args(source, target)
+        if revision:
+            args.insert(0, revision)
+        cls._popen(['svn', 'clone'] + args)
 
     def merge(self, abort=False):
         """Rebases. Git-svn does not support merge."""
