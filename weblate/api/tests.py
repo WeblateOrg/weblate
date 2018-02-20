@@ -457,7 +457,6 @@ class TranslationAPITest(APIBaseTest):
                 {'file': handle.read()},
             )
         self.assertEqual(response.status_code, 400)
-        self.assertIn('file', response.data)
 
     def test_upload_overwrite(self):
         self.test_upload()
