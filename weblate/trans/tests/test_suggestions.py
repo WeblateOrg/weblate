@@ -234,7 +234,7 @@ class SuggestionsTest(ViewTestCase):
             '',
             upvote=suggestion_id,
         )
-        self.assert_redirects_offset(response, translate_url, 0)
+        self.assert_redirects_offset(response, translate_url, 1)
 
         suggestion = Suggestion.objects.get(pk=suggestion_id)
         self.assertEqual(
@@ -270,7 +270,7 @@ class SuggestionsTest(ViewTestCase):
             '',
             upvote=suggestion_id,
         )
-        self.assert_redirects_offset(response, translate_url, 0)
+        self.assert_redirects_offset(response, translate_url, 1)
 
         # Reload from database
         unit = self.get_unit()
