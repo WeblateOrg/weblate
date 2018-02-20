@@ -27,7 +27,7 @@ from django.utils.translation import ugettext_lazy as _
 from weblate.addons.base import BaseAddon
 from weblate.addons.events import EVENT_PRE_COMMIT
 from weblate.addons.forms import GenerateForm
-from weblate.addons.utils import render_template
+from weblate.utils.render import render_template
 
 
 class GenerateFileAddon(BaseAddon):

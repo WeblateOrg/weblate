@@ -26,7 +26,7 @@ from crispy_forms.layout import Layout, Field, Div
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from weblate.addons.utils import render_template
+from weblate.utils.render import render_template
 
 
 class BaseAddonForm(forms.Form):
