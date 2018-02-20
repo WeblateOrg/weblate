@@ -23,6 +23,7 @@ import datetime
 from unittest import TestCase
 
 from django.utils import timezone
+from django.test import SimpleTestCase
 
 from weblate.accounts.models import Profile
 from weblate.trans.models import Unit, SubProject, Translation
@@ -82,7 +83,7 @@ class NaturalTimeTest(TestCase):
             )
 
 
-class LocationLinksTest(TestCase):
+class LocationLinksTest(SimpleTestCase):
     def setUp(self):
         self.unit = Unit(
             translation=Translation(
@@ -123,10 +124,18 @@ class LocationLinksTest(TestCase):
             'http://example.net/%(file)s#L%(line)s'
         )
         self.unit.location = 'foo.bar:123,bar.foo:321'
-        self.assertEqual(
+        self.assertHTMLEqual(
             get_location_links(self.profile, self.unit),
-            '<a href="http://example.net/foo.bar#L123">foo.bar:123</a>\n'
-            '<a href="http://example.net/bar.foo#L321">bar.foo:321</a>'
+            '''
+            <a href="http://example.net/foo.bar#L123" target="_blank">
+            foo.bar:123
+            <i class="fa fa-external-link"></i>
+            </a>
+            <a href="http://example.net/bar.foo#L321" target="_blank">
+            bar.foo:321
+            <i class="fa fa-external-link"></i>
+            </a>
+            '''
         )
 
     def test_repoweb(self):
@@ -134,9 +143,14 @@ class LocationLinksTest(TestCase):
             'http://example.net/%(file)s#L%(line)s'
         )
         self.unit.location = 'foo.bar:123'
-        self.assertEqual(
+        self.assertHTMLEqual(
             get_location_links(self.profile, self.unit),
-            '<a href="http://example.net/foo.bar#L123">foo.bar:123</a>'
+            '''
+            <a href="http://example.net/foo.bar#L123" target="_blank">
+            foo.bar:123
+            <i class="fa fa-external-link"></i>
+            </a>
+            '''
         )
 
     def test_user_url(self):
@@ -145,8 +159,12 @@ class LocationLinksTest(TestCase):
         )
         self.profile.editor_link = 'editor://open/?file=%(file)s&line=%(line)s'
         self.unit.location = 'foo.bar:123'
-        self.assertEqual(
+        self.assertHTMLEqual(
             get_location_links(self.profile, self.unit),
-            '<a href="editor://open/?file=foo.bar&amp;line=123">'
-            'foo.bar:123</a>'
+            '''
+            <a href="editor://open/?file=foo.bar&amp;line=123" target="_blank">
+            foo.bar:123
+            <i class="fa fa-external-link"></i>
+            </a>
+            '''
         )
