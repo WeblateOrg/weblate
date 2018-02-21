@@ -72,6 +72,7 @@ def weblate_context(request):
     weblate_url = URL_BASE % weblate.VERSION
 
     return {
+        'cache_param': '?v={}'.format(weblate.GIT_VERSION),
         'version': weblate.VERSION,
         'description': description,
 

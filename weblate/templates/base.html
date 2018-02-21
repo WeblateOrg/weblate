@@ -18,17 +18,17 @@
   <meta name="description" content="{{ description }}" />
 
 {% compress css %}
-  <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.css' %}{{ cache_param }}" />
 {% if LANGUAGE_BIDI %}
-  <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap-rtl.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap-rtl.css' %}{{ cache_param }}" />
 {% endif %}
-  <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap-theme.css' %}" />
-  <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap-datepicker3.css' %}" />
-  <link rel="stylesheet" type="text/css" href="{% static 'font-awesome/css/font-awesome.css' %}" />
-  <link rel="stylesheet" type="text/css" href="{% static 'font-linux/font-linux.css' %}" />
-  <link rel="stylesheet" type="text/css" href="{% static 'chartist.css' %}" />
-  <link rel="stylesheet" type="text/css" href="{% static 'multi.css' %}" />
-  <link rel="stylesheet" type="text/css" href="{% static 'style-bootstrap.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap-theme.css' %}{{ cache_param }}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap-datepicker3.css' %}{{ cache_param }}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'font-awesome/css/font-awesome.css' %}{{ cache_param }}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'font-linux/font-linux.css' %}{{ cache_param }}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'chartist.css' %}{{ cache_param }}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'multi.css' %}{{ cache_param }}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'style-bootstrap.css' %}{{ cache_param }}" />
 {% endcompress %}
   <script src="{% url 'js-catalog' %}" type="text/javascript"></script>
 {% compress js %}
@@ -56,17 +56,17 @@ var _rollbarConfig = {
 // End Rollbar Snippet
 </script>
 {% endif %}
-  <script data-cfasync="false" src="{% static 'js/jquery.js' %}" type="text/javascript"></script>
-  <script data-cfasync="false" src="{% static 'js/js.cookie.js' %}" type="text/javascript"></script>
-  <script data-cfasync="false" src="{% static 'js/autosize.js' %}" type="text/javascript"></script>
-  <script data-cfasync="false" src="{% static 'js/multi.js' %}" type="text/javascript"></script>
-  <script data-cfasync="false" src="{% static 'js/mousetrap.js' %}" type="text/javascript"></script>
-  <script data-cfasync="false" src="{% static 'js/mousetrap-global-bind.js' %}" type="text/javascript"></script>
-  <script data-cfasync="false" src="{% static 'js/chartist.js' %}" type="text/javascript"></script>
-  <script data-cfasync="false" src="{% static 'js/clipboard.js' %}" type="text/javascript"></script>
-  <script data-cfasync="false" src="{% static 'bootstrap/js/bootstrap.js' %}" type="text/javascript"></script>
-  <script data-cfasync="false" src="{% static 'bootstrap/js/bootstrap-datepicker.js' %}" type="text/javascript"></script>
-  <script data-cfasync="false" src="{% static 'loader-bootstrap.js' %}" type="text/javascript"></script>
+  <script data-cfasync="false" src="{% static 'js/jquery.js' %}{{ cache_param }}" type="text/javascript"></script>
+  <script data-cfasync="false" src="{% static 'js/js.cookie.js' %}{{ cache_param }}" type="text/javascript"></script>
+  <script data-cfasync="false" src="{% static 'js/autosize.js' %}{{ cache_param }}" type="text/javascript"></script>
+  <script data-cfasync="false" src="{% static 'js/multi.js' %}{{ cache_param }}" type="text/javascript"></script>
+  <script data-cfasync="false" src="{% static 'js/mousetrap.js' %}{{ cache_param }}" type="text/javascript"></script>
+  <script data-cfasync="false" src="{% static 'js/mousetrap-global-bind.js' %}{{ cache_param }}" type="text/javascript"></script>
+  <script data-cfasync="false" src="{% static 'js/chartist.js' %}{{ cache_param }}" type="text/javascript"></script>
+  <script data-cfasync="false" src="{% static 'js/clipboard.js' %}{{ cache_param }}" type="text/javascript"></script>
+  <script data-cfasync="false" src="{% static 'bootstrap/js/bootstrap.js' %}{{ cache_param }}" type="text/javascript"></script>
+  <script data-cfasync="false" src="{% static 'bootstrap/js/bootstrap-datepicker.js' %}{{ cache_param }}" type="text/javascript"></script>
+  <script data-cfasync="false" src="{% static 'loader-bootstrap.js' %}{{ cache_param }}" type="text/javascript"></script>
 {% endcompress %}
   <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon" />
 
