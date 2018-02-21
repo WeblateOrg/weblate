@@ -31,6 +31,7 @@ install:
   - export LD_LIBRARY_PATH=$TESSERACT_INSTALL/lib:$LD_LIBRARY_PATH
   - export PKG_CONFIG_PATH=$TESSERACT_PKG:$PKG_CONFIG_PATH
   - export TESSDATA_PREFIX=/usr/share/tesseract-ocr/tessdata/
+  - export SAUCE_ACCESS_KEY=`echo MTBlOGE0MzItZmI0Mi00MmZhLTk5NjgtMTE4N2E3YjhlYTAy | base64 --decode`
   - wget --no-check-certificate -O - https://dl.cihar.com/ci/tesseract.tar.xz | tar xJ
   - if [ ! -f $TESSERACT_PKG/tesseract.pc -o ! -f $TESSERACT_PKG/lept.pc ] ; then ./ci/install-tesseract ; fi
   # Get newer pip and whell for binary caching support
@@ -76,8 +77,6 @@ addons:
     - graphviz
     - tesseract-ocr
     - g++
-  jwt:
-    secure: AuFIS22evw30Mummenq+F2l5sHVI4UxmXjBWws0jWpBmz1Yc/quP4Bxf751S0QSFqQioG8fWlSCWp9KMJ7gPONhPQiDx51BXAxdtAXudw/wP1goWLOt1MVHkN/L+GHmI0Tuoz8E1Dv11YZKvqY2w5l7cw9vXQq6423d6zc5sKIY=
 services:
   - postgresql
   - mysql
