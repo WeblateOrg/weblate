@@ -299,6 +299,12 @@ LANGUAGES = (
         'n != 1',
     ),
     (
+        'ceb',
+        _('Cebuano'),
+        2,
+        'n != 1',
+    ),
+    (
         'cgg',
         _('Chiga'),
         2,
