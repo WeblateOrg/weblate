@@ -23,10 +23,11 @@ import os
 from django.apps import AppConfig
 from django.utils.translation import ugettext_lazy as _
 
+from filelock import FileLock
+
 from weblate.trans.data import data_dir
 from weblate.trans.vcs import GitRepository, RepositoryException
 from weblate.trans.util import add_configuration_error
-from weblate.utils.filelock import FileLock
 
 
 class TransConfig(AppConfig):
