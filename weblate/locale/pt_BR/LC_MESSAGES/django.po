@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 2.19\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-02-19 13:24+0000\n"
-"PO-Revision-Date: 2018-02-20 06:12+0000\n"
+"PO-Revision-Date: 2018-02-22 19:42+0000\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese (Brazil) "
 "<https://hosted.weblate.org/projects/weblate/master/pt_BR/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2.19\n"
+"X-Generator: Weblate 2.20-dev\n"
 
 #: weblate/accounts/admin.py:109 weblate/accounts/admin.py:114
 msgid "Personal info"
@@ -555,7 +555,7 @@ msgstr "Hospedagem"
 #: weblate/accounts/views.py:554 weblate/templates/accounts/login.html:67
 #: weblate/templates/accounts/redirect.html:8 weblate/templates/base.html:137
 msgid "Login"
-msgstr "Login"
+msgstr "Entrar"
 
 #: weblate/accounts/views.py:556
 msgid "Standard user"
@@ -640,20 +640,21 @@ msgid ""
 "file formats, this means removing stale translation keys no longer present "
 "in the base file."
 msgstr ""
+"Atualiza todos os arquivos de tradução para corresponder ao arquivo base "
+"monolíngue. Para a maioria dos formatos isto significa remover chaves de "
+"tradução obsoletas que não estão mais presentes no arquivo base."
 
 #: weblate/addons/example.py:42
 msgid "Example addon"
-msgstr ""
+msgstr "Exemplo de complemento"
 
 #: weblate/addons/example.py:44
 msgid "This addon does nothing it is just an example"
-msgstr ""
+msgstr "Este complemento não faz nada, é apenas um exemplo"
 
 #: weblate/addons/flags.py:50
-#, fuzzy
-#| msgid "Review source strings in %s"
 msgid "Flag new source strings to need edit"
-msgstr "Revisar texto fonte em %s"
+msgstr "Marcar novos textos fonte como necessita edição"
 
 #: weblate/addons/flags.py:52
 msgid ""
@@ -661,12 +662,13 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
+"Sempre que um novo texto fonte for importado do VCS, ele é marcado como "
+"necessita edição no Weblate. Desta forma você pode filtrar facilmente e "
+"editar os textos fontes escritos pelos desenvolvedores."
 
 #: weblate/addons/flags.py:64
-#, fuzzy
-#| msgid "Add as translation needing edit"
 msgid "Flag new translations to need edit"
-msgstr "Adicionar como tradução que necessita edição"
+msgstr "Marcar novas traduções como necessita edição"
 
 #: weblate/addons/flags.py:66
 msgid ""
@@ -674,91 +676,84 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
+"Sempre que uma nova unidade de tradução for importada do VCS, ela é marcada "
+"como necessita edição no Weblate. Desta forma você pode filtrar facilmente e "
+"editar as traduções criadas pelos desenvolvedores."
 
 #: weblate/addons/forms.py:44
-#, fuzzy
-#| msgid "Failed to generate key: %s"
 msgid "Name of generated file"
-msgstr "Falha ao gerar chave: %s"
+msgstr "Nome do arquivo gerado"
 
 #: weblate/addons/forms.py:49
 msgid "Content of generated file"
-msgstr ""
+msgstr "Conteúdo do arquivo gerado"
 
 #: weblate/addons/forms.py:68
-#, fuzzy
-#| msgid "Failed to compile: {0}"
 msgid "Failed to render template: {}"
-msgstr "Falha ao compilar: {0}"
+msgstr "Falha ao renderizar o modelo: {}"
 
 #: weblate/addons/generate.py:36
-#, fuzzy
-#| msgid "Statistics"
 msgid "Statistics generator"
-msgstr "Estatísticas"
+msgstr "Gerador de estatísticas"
 
 #: weblate/addons/generate.py:38
-#, fuzzy
-#| msgid "Merges content of file header into the translation."
 msgid ""
 "This addon generates file with detailed information about the translation."
-msgstr "Mescla o conteúdo do cabeçalho do arquivo na tradução."
+msgstr ""
+"Este complemento gera um arquivo com informações detalhadas sobre a tradução."
 
 #: weblate/addons/gettext.py:52
-#, fuzzy
-#| msgid "Generate SSH key"
 msgid "Generate mo files"
-msgstr "Gerar chave SSH"
+msgstr "Gerar arquivos MO"
 
 #: weblate/addons/gettext.py:54
 msgid "Automatically generates mo file for every changed po file."
-msgstr ""
+msgstr "Gera automaticamente o arquivo MO para cada arquivo PO alterado."
 
 #: weblate/addons/gettext.py:69
 msgid "Update LINGUAS file"
-msgstr ""
+msgstr "Atualizar arquivo LINGUAS"
 
 #: weblate/addons/gettext.py:71
-#, fuzzy
-#| msgid "Merges content of file header into the translation."
 msgid "Updates the LINGUAS file when adding new translation."
-msgstr "Mescla o conteúdo do cabeçalho do arquivo na tradução."
+msgstr "Atualiza o arquivo LINGUAS ao adicionar uma nova tradução."
 
 #: weblate/addons/gettext.py:124
 msgid "Update ALL_LINGUAS variable in the configure file"
-msgstr ""
+msgstr "Atualizar variável ALL_LINGUAS no arquivo de configuração"
 
 #: weblate/addons/gettext.py:126
 msgid ""
 "Updates the ALL_LINGUAS variable in configure, configure.in or configure.ac "
 "files when adding new translation."
 msgstr ""
+"Atualiza a variável ALL_LINGUAS variable nos arquivos configure, "
+"configure.in ou configure.ac ao adicionar uma nova tradução."
 
 #: weblate/addons/gettext.py:184
 msgid "Update po files to match pot (msgmerge)"
-msgstr ""
+msgstr "Atualizar arquivos PO para corresponder ao modelo POT (msgmerge)"
 
 #: weblate/addons/gettext.py:186
 msgid ""
 "Update all po files to match the pot file using msgmerge. This is triggered "
 "whenever new changes are pulled from upstream repository."
 msgstr ""
+"Atualiza todos os arquivos PO para corresponderem ao modelo POT usando o "
+"msgmerge. Isto é ativado sempre que novas alterações forem trazidas do "
+"repositório \"upstream\"."
 
 #: weblate/addons/properties.py:147
-#, fuzzy
-#| msgid "Revert to this translation"
 msgid "Formats the Java properties file"
-msgstr "Reverter para esta tradução"
+msgstr "Formatar o arquivo de propriedades Java"
 
 #: weblate/addons/properties.py:149
 msgid "This addon sorts the Java properties file."
-msgstr ""
+msgstr "Este complemento ordena o arquivo de propriedades Java."
 
 #: weblate/addons/views.py:83
-#, fuzzy
-#| msgid "Invalid checksum specified!"
 msgid "Invalid addon name specified!"
-msgstr "Soma de verificação especificada inválida!"
+msgstr "Nome de complemento especificado inválido!"
 
 #: weblate/billing/admin.py:52 weblate/billing/models.py:128
 #: weblate/templates/accounts/user.html:38
@@ -1609,10 +1604,8 @@ msgstr ""
 "registro novamente. Se o problema persistir, entre em contato."
 
 #: weblate/templates/accounts/email-sent.html:38
-#, fuzzy
-#| msgid "User registration"
 msgid "Report an issue with registration"
-msgstr "Registro de usuário"
+msgstr "Relatar um problema com o registro"
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:26
@@ -1647,14 +1640,9 @@ msgid "Conditions for free hosting"
 msgstr "Condições para hospedagem grátis"
 
 #: weblate/templates/accounts/hosting.html:37
-#, fuzzy
-#| msgid ""
-#| "Translated content has to be released under <a href=\"http://en.wikipedia."
-#| "org/wiki/Free_software_license\">free license</a>."
 msgid "Translated content has to be released under free software license."
 msgstr ""
-"O conteúdo traduzido tem que ser liberado sob uma <a href=\"http://pt."
-"wikipedia.org/wiki/Licença_de_software_livre\">licença de software livre</a>."
+"O conteúdo traduzido tem que ser liberado sob uma licença de software livre."
 
 #: weblate/templates/accounts/hosting.html:38
 msgid ""
@@ -1696,6 +1684,8 @@ msgstr ""
 msgid ""
 "To test Weblate on this demo server, you can log in as the following users:"
 msgstr ""
+"Para testar o Weblate neste servidor de demonstração, você pode entrar como "
+"os seguintes usuários:"
 
 #: weblate/templates/accounts/login.html:28
 #: weblate/templates/accounts/profile.html:53
@@ -1712,23 +1702,19 @@ msgstr "Descrição"
 
 #: weblate/templates/accounts/login.html:50
 msgid "Password login"
-msgstr "Senha de login"
+msgstr "Senha de entrada"
 
 #: weblate/templates/accounts/login.html:58
-#, fuzzy
-#| msgid "Set my password"
 msgid "Forgot your password?"
-msgstr "Definir minha senha"
+msgstr "Esqueceu sua senha?"
 
 #: weblate/templates/accounts/login.html:59
-#, fuzzy
-#| msgid "You can review it at:"
 msgid "You can reset it."
-msgstr "Você pode revisá-la em:"
+msgstr "Você pode redefini-la."
 
 #: weblate/templates/accounts/login.html:79
 msgid "Third party login"
-msgstr "Login de terceiros"
+msgstr "Entrada via terceiros"
 
 #: weblate/templates/accounts/login.html:97
 msgid "Do not have an account yet?"
@@ -1960,11 +1946,11 @@ msgid ""
 "be used to log in."
 msgstr ""
 "Você pode gerenciar identidades que estão associadas a esta conta e que "
-"podem ser utilizadas para fazer o login."
+"podem ser utilizadas para entrar."
 
 #: weblate/templates/accounts/profile.html:241
 msgid "You can configure how you will log in on this site."
-msgstr "Você pode configurar como você irá fazer o login neste site."
+msgstr "Você pode configurar como você irá entrar neste site."
 
 #: weblate/templates/accounts/profile.html:255
 msgid "Your summary"
@@ -2569,7 +2555,7 @@ msgid ""
 "As an example, telling Weblate to pull from a remote repository can be done "
 "thusly:"
 msgstr ""
-"Como exemplo, para dizer ao Weblate baixar de repositório remoto pode ser "
+"Como exemplo, dizer ao Weblate para trazer de um repositório remoto pode ser "
 "feito assim:"
 
 #: weblate/templates/data.html:132
@@ -3110,11 +3096,11 @@ msgstr "Trazer as alterações do repositório remoto"
 
 #: weblate/templates/js/git-status.html:140
 msgid "Push"
-msgstr "Atualizar"
+msgstr "Levar"
 
 #: weblate/templates/js/git-status.html:144
 msgid "Push changes to the remote repository"
-msgstr "Atualizar as alterações no repositório remoto"
+msgstr "Levar as alterações para o repositório remoto"
 
 #: weblate/templates/js/git-status.html:154
 #: weblate/trans/models/subproject.py:101
@@ -4395,7 +4381,7 @@ msgstr "Editar texto fonte"
 
 #: weblate/templates/translate.html:170
 msgid "Please log in to save translations."
-msgstr "Faça login para salvar as traduções."
+msgstr "Entre para salvar as traduções."
 
 #: weblate/templates/translate.html:172
 msgid ""
@@ -4682,9 +4668,9 @@ msgid ""
 "new component using translation memory."
 msgstr ""
 "A tradução automática utiliza as traduções existentes neste projeto e as "
-"aplica ao componente atual. Isso pode ser usado para atualizar as traduções "
-"em um ramo diferente, para corrigir traduções inconsistentes ou para "
-"traduzir um novo componente usando a memória de traduções."
+"aplica ao componente atual. Isso pode ser usado para levar as traduções para "
+"um ramo diferente, para corrigir traduções inconsistentes ou para traduzir "
+"um novo componente usando a memória de traduções."
 
 #: weblate/templates/translation.html:241
 msgid ""
@@ -4774,7 +4760,7 @@ msgstr "Visualizar pendentes"
 
 #: weblate/templates/user-activity.html:20
 msgid "Last login"
-msgstr "Último login"
+msgstr "Última entrada"
 
 #: weblate/templates/user-activity.html:24
 msgid "Registration date"
@@ -5777,7 +5763,7 @@ msgstr "Básico"
 
 #: weblate/trans/forms.py:1307
 msgid "Upstream links"
-msgstr "Links upstream"
+msgstr "Links \"upstream\""
 
 #: weblate/trans/forms.py:1321
 msgid "Translation settings"
@@ -5904,7 +5890,7 @@ msgstr "Alterações enviadas"
 
 #: weblate/trans/models/change.py:218
 msgid "Pushed changes"
-msgstr "Alterações atualizadas"
+msgstr "Alterações levadas"
 
 #: weblate/trans/models/change.py:219
 msgid "Reset repository"
@@ -5928,7 +5914,7 @@ msgstr "Falha ao realocar no repositório"
 
 #: weblate/trans/models/change.py:224
 msgid "Failed push on repository"
-msgstr "Falha ao enviar no repositório"
+msgstr "Falha ao levar ao repositório"
 
 #: weblate/trans/models/change.py:225
 msgid "Parse error"
@@ -6130,11 +6116,11 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:169
 msgid "Repository push URL"
-msgstr "URL de atualização do repositório"
+msgstr "URL para levar ao repositório"
 
 #: weblate/trans/models/subproject.py:172
 msgid "URL of a push repository, pushing is disabled if empty."
-msgstr "URL de um repositório de atualização, é desabilitado se estiver vazio."
+msgstr "URL para levar a um repositório, é desabilitado se estiver vazio."
 
 #: weblate/trans/models/subproject.py:177
 msgid "Repository browser"
@@ -6276,15 +6262,15 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:300
 msgid "Post-push script"
-msgstr "Script pós atualização"
+msgstr "Script após levar"
 
 #: weblate/trans/models/subproject.py:306
 msgid ""
 "Script to be executed after pushing translation to remote, please check "
 "documentation for more details."
 msgstr ""
-"Script a ser executado após a atualização da tradução para o repositório "
-"remoto, verifique a documentação para mais detalhes."
+"Script a ser executado após levar a tradução para o repositório remoto, "
+"verifique a documentação para mais detalhes."
 
 #: weblate/trans/models/subproject.py:311
 msgid "Post-add script"
@@ -6406,8 +6392,8 @@ msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it."
 msgstr ""
-"Define se o Weblate deve mesclar a atualização de repositório ou realocar as "
-"alterações nele."
+"Define se o Weblate deve mesclar o repositório \"upstream\" ou reajustar as "
+"alterações dele."
 
 #: weblate/trans/models/subproject.py:430
 msgid "Commit message when translating"
@@ -6441,11 +6427,11 @@ msgstr "E-mail do colaborador"
 
 #: weblate/trans/models/subproject.py:467
 msgid "Push on commit"
-msgstr "Atualizar ao enviar"
+msgstr "Levar ao enviar"
 
 #: weblate/trans/models/subproject.py:470
 msgid "Whether the repository should be pushed upstream on every commit."
-msgstr "Define se o repositório deve ser atualizado a cada envio."
+msgstr "Define se o repositório deve ser levado ao \"upstream\" a cada envio."
 
 #: weblate/trans/models/subproject.py:474
 msgid "Age of changes to commit"
@@ -6491,12 +6477,12 @@ msgstr "Falhou ao buscar o repositório: %s"
 #: weblate/trans/models/subproject.py:760
 #, python-format
 msgid "Push is disabled for %s."
-msgstr "A atualização está desativada para %s."
+msgstr "Levar está desativado para %s."
 
 #: weblate/trans/models/subproject.py:812
 #, python-format
 msgid "Failed to push to remote branch on %s."
-msgstr "Falha ao atualizar para o ramo remoto em %s."
+msgstr "Falha ao levar para o ramo remoto em %s."
 
 #: weblate/trans/models/subproject.py:842
 #, python-format
@@ -7164,8 +7150,8 @@ msgid ""
 "You have activated your account, now you should set the password to be able "
 "to login next time."
 msgstr ""
-"Você ativou sua conta, agora você deve definir a senha para poder fazer o "
-"login da próxima vez."
+"Você ativou sua conta, agora você deve definir a senha para poder entarr da "
+"próxima vez."
 
 #: weblate/trans/views/basic.py:176
 msgid ""
