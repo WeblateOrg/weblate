@@ -43,6 +43,8 @@ this.
               - WEBLATE_EMAIL_HOST=smtp.example.com
               - WEBLATE_EMAIL_HOST_USER=user
               - WEBLATE_EMAIL_HOST_PASSWORD=pass
+              - WEBLATE_SERVER_EMAIL=weblate@example.com
+              - WEBLATE_DEFAULT_FROM_EMAIL=weblate@example.com
               - WEBLATE_ALLOWED_HOSTS=weblate.example.com
               - WEBLATE_ADMIN_PASSWORD=password for admin user
 

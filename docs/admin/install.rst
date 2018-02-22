@@ -44,6 +44,8 @@ Translate-toolkit (>= 2.2.0)
     http://toolkit.translatehouse.org/
 Six (>= 1.7.0)
     https://pypi.python.org/pypi/six
+filelock (>= 3.0.1)
+    https://github.com/benediktschmitt/py-filelock
 Mercurial (>= 2.8) (optional for Mercurial repositories support)
     https://www.mercurial-scm.org/
 social-auth-core (>= 1.3.0)

@@ -38,13 +38,14 @@ from django.core.cache import cache
 from django.utils.encoding import force_text
 from django.utils.functional import cached_property
 
+from filelock import FileLock
+
 import six
 from six.moves.configparser import RawConfigParser
 
 from weblate.trans.util import (
     get_clean_env, add_configuration_error, path_separator
 )
-from weblate.utils.filelock import FileLock
 from weblate.trans.ssh import get_wrapper_filename, create_ssh_wrapper
 
 LOGGER = logging.getLogger('weblate-vcs')
