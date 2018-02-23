@@ -18,10 +18,22 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import os.path
+
 from django.conf import settings
 from django.core.management.commands.compilemessages import (
     Command as BaseCommand
 )
+
+DEFAULT_DATA_DIR = os.path.join(settings.BASE_DIR, 'data')
+DEFAULT_TEST_DIR = os.path.join(settings.BASE_DIR, 'data-test')
+
+def should_skip(location):
+    return (
+        location.startswith(settings.DATA_DIR) or
+        location.startswith(DEFAULT_DATA_DIR) or
+        location.startswith(DEFAULT_TEST_DIR)
+    )
 
 
 class Command(BaseCommand):
@@ -31,9 +43,7 @@ class Command(BaseCommand):
 
     def compile_messages(self, locations):
         # Avoid compiling po files in DATA_DIR
-        locations = [
-            l for l in locations if not l[0].startswith(settings.DATA_DIR)
-        ]
+        locations = [l for l in locations if not should_skip(l[0])]
         if not locations:
             return
         super(Command, self).compile_messages(locations)
