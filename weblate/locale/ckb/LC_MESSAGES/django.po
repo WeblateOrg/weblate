@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Weblate 2.19\n"
+"Project-Id-Version: Weblate 2.20\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-02-19 13:24+0000\n"
+"POT-Creation-Date: 2018-02-23 10:36+0000\n"
 "PO-Revision-Date: 2017-08-22 09:50+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Kurdish Sorani <https://hosted.weblate.org/projects/weblate/"
@@ -689,10 +689,6 @@ msgstr "بەدیهێنان"
 
 #: weblate/addons/forms.py:49
 msgid "Content of generated file"
-msgstr ""
-
-#: weblate/addons/forms.py:68
-msgid "Failed to render template: {}"
 msgstr ""
 
 #: weblate/addons/generate.py:36
@@ -1801,8 +1797,8 @@ msgstr ""
 #: weblate/templates/check_subproject.html:45 weblate/templates/checks.html:34
 #: weblate/templates/documentation-icon.html:2 weblate/templates/footer.html:10
 #: weblate/wladmin/templates/admin/performance.html:17
-#: weblate/wladmin/templates/admin/performance.html:64
-#: weblate/wladmin/templates/admin/performance.html:73
+#: weblate/wladmin/templates/admin/performance.html:67
+#: weblate/wladmin/templates/admin/performance.html:76
 #: weblate/wladmin/templates/admin/permissions/change_form.html:8
 #: weblate/wladmin/templates/admin/ssh.html:17
 #: weblate/wladmin/templates/admin/trans/change_form.html:19
@@ -2865,7 +2861,7 @@ msgid "Browse all component changes"
 msgstr ""
 
 #: weblate/templates/js/detail.html:17 weblate/templates/js/translations.html:8
-#: weblate/wladmin/templates/admin/performance.html:62
+#: weblate/wladmin/templates/admin/performance.html:65
 #: weblate/wladmin/templates/admin/report.html:8
 msgid "Status"
 msgstr "دۆخ"
@@ -3051,7 +3047,7 @@ msgstr ""
 #: weblate/templates/list-translations.html:8
 #: weblate/templates/project.html:105 weblate/templates/project.html:139
 #: weblate/templates/stats.html:20 weblate/templates/translation.html:351
-#: weblate/trans/templatetags/translations.py:525
+#: weblate/trans/templatetags/translations.py:529
 msgid "Translated"
 msgstr ""
 
@@ -3088,7 +3084,7 @@ msgid "No matching activity found."
 msgstr "وەرگێڕانە پێشنیارکراوەکان"
 
 #: weblate/templates/legend.html:5 weblate/templates/progress.html:5
-#: weblate/trans/forms.py:434 weblate/trans/templatetags/translations.py:520
+#: weblate/trans/forms.py:434 weblate/trans/templatetags/translations.py:524
 msgid "Approved"
 msgstr ""
 
@@ -3098,7 +3094,7 @@ msgstr ""
 
 #: weblate/templates/legend.html:14 weblate/templates/progress.html:14
 #: weblate/trans/forms.py:414 weblate/trans/forms.py:432
-#: weblate/trans/templatetags/translations.py:510
+#: weblate/trans/templatetags/translations.py:514
 msgid "Needs editing"
 msgstr ""
 
@@ -4272,7 +4268,7 @@ msgstr ""
 
 #: weblate/templates/translate.html:174 weblate/trans/views/edit.py:316
 #: weblate/trans/views/edit.py:349 weblate/trans/views/edit.py:375
-#: weblate/trans/views/edit.py:792
+#: weblate/trans/views/edit.py:793
 #, fuzzy
 #| msgid "Project is now open for translation updates."
 msgid "Insufficient privileges for saving translations."
@@ -4732,7 +4728,7 @@ msgstr ""
 msgid "Open in full editor"
 msgstr ""
 
-#: weblate/templates/zen-units.html:73 weblate/trans/views/edit.py:492
+#: weblate/templates/zen-units.html:73 weblate/trans/views/edit.py:493
 #, fuzzy
 #| msgid "Translation is now locked for you."
 msgid "The translation has come to an end."
@@ -4773,7 +4769,7 @@ msgstr ""
 msgid "Commit pending changes"
 msgstr ""
 
-#: weblate/trans/apps.py:35
+#: weblate/trans/apps.py:36
 msgid "Weblate translations"
 msgstr ""
 
@@ -5086,37 +5082,43 @@ msgstr ""
 msgid "Strings with suggestions"
 msgstr ""
 
-#: weblate/trans/filter.py:37 weblate/trans/models/translation.py:686
-#: weblate/trans/models/translation.py:792
+#: weblate/trans/filter.py:37 weblate/trans/models/translation.py:770
+#, fuzzy
+#| msgid "Enable suggestions"
+msgid "Strings without suggestions"
+msgstr "چالاکردنی پێشنیار"
+
+#: weblate/trans/filter.py:38 weblate/trans/models/translation.py:686
+#: weblate/trans/models/translation.py:798
 msgid "Strings with comments"
 msgstr ""
 
-#: weblate/trans/filter.py:38 weblate/trans/models/translation.py:666
-#: weblate/trans/models/translation.py:772
+#: weblate/trans/filter.py:39 weblate/trans/models/translation.py:666
+#: weblate/trans/models/translation.py:778
 msgid "Strings with any failing checks"
 msgstr ""
 
-#: weblate/trans/filter.py:39 weblate/trans/models/translation.py:707
+#: weblate/trans/filter.py:40 weblate/trans/models/translation.py:707
 #, fuzzy
 #| msgid "Source words"
 msgid "Approved strings"
 msgstr "وشەکانی سەرچاوە"
 
-#: weblate/trans/filter.py:42 weblate/trans/models/translation.py:732
+#: weblate/trans/filter.py:43 weblate/trans/models/translation.py:732
 #, fuzzy
 #| msgid "Enable suggestions"
 msgid "Approved strings with suggestions"
 msgstr "چالاکردنی پێشنیار"
 
-#: weblate/trans/filter.py:44 weblate/trans/models/translation.py:724
+#: weblate/trans/filter.py:45 weblate/trans/models/translation.py:724
 msgid "Strings waiting for review"
 msgstr ""
 
-#: weblate/trans/filter.py:52
+#: weblate/trans/filter.py:53
 msgid "Strings with any failing source checks"
 msgstr ""
 
-#: weblate/trans/filter.py:53
+#: weblate/trans/filter.py:54
 msgid "Strings with source comments"
 msgstr ""
 
@@ -6514,7 +6516,7 @@ msgstr ""
 msgid "Strings marked as needing edit"
 msgstr ""
 
-#: weblate/trans/models/unit.py:435
+#: weblate/trans/models/unit.py:436
 #, python-brace-format
 msgid "{translation}, translation unit {position}"
 msgstr ""
@@ -6687,204 +6689,204 @@ msgstr ""
 msgid "Possible configuration"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:97
+#: weblate/trans/templatetags/translations.py:101
 msgid "Tab character"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:166
+#: weblate/trans/templatetags/translations.py:170
 msgid "New line"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:327
+#: weblate/trans/templatetags/translations.py:331
 msgid "a year ago"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:329
+#: weblate/trans/templatetags/translations.py:333
 #, python-format
 msgid "%(count)s year ago"
 msgid_plural "%(count)s years ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/trans/templatetags/translations.py:334
+#: weblate/trans/templatetags/translations.py:338
 msgid "a month ago"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:336
+#: weblate/trans/templatetags/translations.py:340
 #, python-format
 msgid "%(count)s month ago"
 msgid_plural "%(count)s months ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/trans/templatetags/translations.py:341
+#: weblate/trans/templatetags/translations.py:345
 #, python-format
 msgid "%(count)s week ago"
 msgid_plural "%(count)s weeks ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/trans/templatetags/translations.py:345
+#: weblate/trans/templatetags/translations.py:349
 msgid "a week ago"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:347
+#: weblate/trans/templatetags/translations.py:351
 msgid "yesterday"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:349
+#: weblate/trans/templatetags/translations.py:353
 #, python-format
 msgid "%(count)s day ago"
 msgid_plural "%(count)s days ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/trans/templatetags/translations.py:352
-#: weblate/trans/templatetags/translations.py:411
+#: weblate/trans/templatetags/translations.py:356
+#: weblate/trans/templatetags/translations.py:415
 msgid "now"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:355
+#: weblate/trans/templatetags/translations.py:359
 msgid "a second ago"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:357
+#: weblate/trans/templatetags/translations.py:361
 #, python-format
 msgid "%(count)s second ago"
 msgid_plural "%(count)s seconds ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/trans/templatetags/translations.py:362
+#: weblate/trans/templatetags/translations.py:366
 msgid "a minute ago"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:364
+#: weblate/trans/templatetags/translations.py:368
 #, python-format
 msgid "%(count)s minute ago"
 msgid_plural "%(count)s minutes ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/trans/templatetags/translations.py:369
+#: weblate/trans/templatetags/translations.py:373
 msgid "an hour ago"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:371
+#: weblate/trans/templatetags/translations.py:375
 #, python-format
 msgid "%(count)s hour ago"
 msgid_plural "%(count)s hours ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/trans/templatetags/translations.py:386
+#: weblate/trans/templatetags/translations.py:390
 msgid "a year from now"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:388
+#: weblate/trans/templatetags/translations.py:392
 #, python-format
 msgid "%(count)s year from now"
 msgid_plural "%(count)s years from now"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/trans/templatetags/translations.py:393
+#: weblate/trans/templatetags/translations.py:397
 msgid "a month from now"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:395
+#: weblate/trans/templatetags/translations.py:399
 #, python-format
 msgid "%(count)s month from now"
 msgid_plural "%(count)s months from now"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/trans/templatetags/translations.py:400
+#: weblate/trans/templatetags/translations.py:404
 #, python-format
 msgid "%(count)s week from now"
 msgid_plural "%(count)s weeks from now"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/trans/templatetags/translations.py:404
+#: weblate/trans/templatetags/translations.py:408
 msgid "tomorrow"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:406
+#: weblate/trans/templatetags/translations.py:410
 msgid "a week from now"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:408
+#: weblate/trans/templatetags/translations.py:412
 #, python-format
 msgid "%(count)s day from now"
 msgid_plural "%(count)s days from now"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/trans/templatetags/translations.py:414
+#: weblate/trans/templatetags/translations.py:418
 msgid "a second from now"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:416
+#: weblate/trans/templatetags/translations.py:420
 #, python-format
 msgid "%(count)s second from now"
 msgid_plural "%(count)s seconds from now"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/trans/templatetags/translations.py:423
+#: weblate/trans/templatetags/translations.py:427
 msgid "a minute from now"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:425
+#: weblate/trans/templatetags/translations.py:429
 #, python-format
 msgid "%(count)s minute from now"
 msgid_plural "%(count)s minutes from now"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/trans/templatetags/translations.py:432
+#: weblate/trans/templatetags/translations.py:436
 msgid "an hour from now"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:434
+#: weblate/trans/templatetags/translations.py:438
 #, python-format
 msgid "%(count)s hour from now"
 msgid_plural "%(count)s hours from now"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/trans/templatetags/translations.py:515
+#: weblate/trans/templatetags/translations.py:519
 #, fuzzy
 #| msgid "translated"
 msgid "Not translated"
 msgstr "وەرگێڕدراو"
 
-#: weblate/trans/templatetags/translations.py:542
+#: weblate/trans/templatetags/translations.py:546
 msgid "Message needs edit"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:547
+#: weblate/trans/templatetags/translations.py:551
 msgid "Message is not translated"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:552
+#: weblate/trans/templatetags/translations.py:556
 msgid "Message has failing checks"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:557
+#: weblate/trans/templatetags/translations.py:561
 msgid "Message is approved"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:562
+#: weblate/trans/templatetags/translations.py:566
 msgid "Message is translated"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:568
+#: weblate/trans/templatetags/translations.py:572
 msgid "Message has comments"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:588
+#: weblate/trans/templatetags/translations.py:592
 #, python-format
 msgid "unit ID %s"
 msgstr ""
@@ -6925,7 +6927,7 @@ msgid "XML text"
 msgstr ""
 
 #: weblate/trans/validators.py:41 weblate/trans/validators.py:62
-#: weblate/utils/validators.py:146
+#: weblate/utils/validators.py:148
 #, python-format
 msgid "Bad format string (%s)"
 msgstr ""
@@ -7099,12 +7101,12 @@ msgstr[1] ""
 msgid "File upload has failed: %s"
 msgstr ""
 
-#: weblate/trans/views/dictionary.py:197 weblate/trans/views/edit.py:609
+#: weblate/trans/views/dictionary.py:197 weblate/trans/views/edit.py:610
 #: weblate/trans/views/search.py:75
 msgid "Failed to process form!"
 msgstr ""
 
-#: weblate/trans/views/edit.py:160 weblate/trans/views/edit.py:487
+#: weblate/trans/views/edit.py:160 weblate/trans/views/edit.py:488
 msgid "No string matched your search!"
 msgstr ""
 
@@ -7174,38 +7176,38 @@ msgstr ""
 msgid "Invalid suggestion!"
 msgstr ""
 
-#: weblate/trans/views/edit.py:551
+#: weblate/trans/views/edit.py:552
 msgid "Invalid search string!"
 msgstr ""
 
-#: weblate/trans/views/edit.py:622
+#: weblate/trans/views/edit.py:623
 msgid "Automatic translation completed, no strings were updated."
 msgstr ""
 
-#: weblate/trans/views/edit.py:624
+#: weblate/trans/views/edit.py:625
 #, python-format
 msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/trans/views/edit.py:655
+#: weblate/trans/views/edit.py:656
 msgid "Posted new comment"
 msgstr ""
 
-#: weblate/trans/views/edit.py:657
+#: weblate/trans/views/edit.py:658
 msgid "Failed to add comment!"
 msgstr ""
 
-#: weblate/trans/views/edit.py:679
+#: weblate/trans/views/edit.py:680
 msgid "Translation comment has been deleted."
 msgstr ""
 
-#: weblate/trans/views/edit.py:837
+#: weblate/trans/views/edit.py:838
 msgid "Translation with this key seem to already exist!"
 msgstr ""
 
-#: weblate/trans/views/edit.py:842
+#: weblate/trans/views/edit.py:843
 #, fuzzy
 #| msgid "Translation is now locked for you."
 msgid "New translation unit has been added."
@@ -7235,27 +7237,27 @@ msgstr[1] ""
 msgid "File content merge failed: %s"
 msgstr ""
 
-#: weblate/trans/views/git.py:51
+#: weblate/trans/views/git.py:52
 msgid "Failed to lock the repository, another operation in progress."
 msgstr ""
 
-#: weblate/trans/views/git.py:65
+#: weblate/trans/views/git.py:66
 msgid "All pending translations were committed."
 msgstr ""
 
-#: weblate/trans/views/git.py:76
+#: weblate/trans/views/git.py:77
 msgid "All repositories were updated."
 msgstr ""
 
-#: weblate/trans/views/git.py:88
+#: weblate/trans/views/git.py:89
 msgid "All repositories were pushed."
 msgstr ""
 
-#: weblate/trans/views/git.py:99
+#: weblate/trans/views/git.py:100
 msgid "All repositories have been reset."
 msgstr ""
 
-#: weblate/trans/views/git.py:248
+#: weblate/trans/views/git.py:249
 msgid "Translation has been removed."
 msgstr ""
 
@@ -7374,38 +7376,42 @@ msgstr ""
 msgid "translated"
 msgstr "وەرگێڕدراو"
 
-#: weblate/utils/validators.py:76
+#: weblate/utils/validators.py:78
 #, python-brace-format
 msgid "Failed to compile: {0}"
 msgstr ""
 
-#: weblate/utils/validators.py:112
+#: weblate/utils/validators.py:114
 msgid "Invalid image!"
 msgstr ""
 
-#: weblate/utils/validators.py:121
+#: weblate/utils/validators.py:123
 #, python-format
 msgid "Not supported image type: %s"
 msgstr ""
 
-#: weblate/utils/validators.py:128
+#: weblate/utils/validators.py:130
 msgid "Image is too big, please scale it down or crop relevant part!"
 msgstr ""
 
-#: weblate/utils/validators.py:160
+#: weblate/utils/validators.py:162
 msgid "The editor link lacks URL scheme!"
 msgstr ""
 
-#: weblate/utils/validators.py:166
+#: weblate/utils/validators.py:168
 msgid "Forbidden URL scheme!"
 msgstr ""
 
-#: weblate/utils/validators.py:182
+#: weblate/utils/validators.py:184
 msgid "Please avoid using special chars in the full name."
 msgstr ""
 
-#: weblate/utils/validators.py:191
+#: weblate/utils/validators.py:193
 msgid "Unsupported file format."
+msgstr ""
+
+#: weblate/utils/validators.py:203
+msgid "Failed to render template: {}"
 msgstr ""
 
 #: weblate/wladmin/sites.py:73 weblate/wladmin/sites.py:74
@@ -7427,7 +7433,7 @@ msgid "I confirm logout"
 msgstr ""
 
 #: weblate/wladmin/templates/admin/performance.html:5
-#: weblate/wladmin/templates/admin/performance.html:55
+#: weblate/wladmin/templates/admin/performance.html:58
 #: weblate/wladmin/templates/admin/weblate-index.html:30
 msgid "Performance report"
 msgstr ""
@@ -7460,11 +7466,17 @@ msgstr ""
 msgid "Ignore permanently"
 msgstr ""
 
-#: weblate/wladmin/templates/admin/performance.html:61
+#: weblate/wladmin/templates/admin/performance.html:52
+msgid ""
+"You can safely permanently ignore errors for file formats you do not intend "
+"to use. These are usually caused by missing or outdated dependencies."
+msgstr ""
+
+#: weblate/wladmin/templates/admin/performance.html:64
 msgid "Check"
 msgstr "پشکنین"
 
-#: weblate/wladmin/templates/admin/performance.html:63
+#: weblate/wladmin/templates/admin/performance.html:66
 msgid "Result"
 msgstr "ئەنجام"
 
