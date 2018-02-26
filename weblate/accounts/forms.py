@@ -567,6 +567,7 @@ class LoginForm(forms.Form):
                     _('Too many authentication attempts!')
                 )
             self.user_cache = authenticate(
+                self.request,
                 username=username,
                 password=password
             )
