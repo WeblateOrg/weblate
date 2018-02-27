@@ -283,6 +283,7 @@ class MachineTranslationTest(TestCase):
         )
         machine = GlosbeTranslation()
         self.assert_translate(machine)
+        self.assert_translate(machine, word='Zkouška')
 
     @override_settings(MT_MYMEMORY_EMAIL='test@weblate.org')
     @httpretty.activate
@@ -294,6 +295,7 @@ class MachineTranslationTest(TestCase):
         )
         machine = MyMemoryTranslation()
         self.assert_translate(machine)
+        self.assert_translate(machine, word='Zkouška')
 
     @httpretty.activate
     def test_apertium(self):
@@ -311,6 +313,7 @@ class MachineTranslationTest(TestCase):
         )
         machine = ApertiumTranslation()
         self.assert_translate(machine, 'es')
+        self.assert_translate(machine, 'es', word='Zkouška')
 
     @override_settings(MT_APERTIUM_APY='http://apertium.example.com/')
     @httpretty.activate
@@ -329,6 +332,7 @@ class MachineTranslationTest(TestCase):
         )
         machine = ApertiumAPYTranslation()
         self.assert_translate(machine, 'es')
+        self.assert_translate(machine, 'es', word='Zkouška')
 
     @override_settings(MT_MICROSOFT_ID='ID', MT_MICROSOFT_SECRET='SECRET')
     @httpretty.activate
@@ -352,6 +356,7 @@ class MachineTranslationTest(TestCase):
 
         machine = MicrosoftTranslation()
         self.assert_translate(machine)
+        self.assert_translate(machine, word='Zkouška')
 
     @override_settings(MT_MICROSOFT_COGNITIVE_KEY='KEY')
     @httpretty.activate
@@ -376,6 +381,7 @@ class MachineTranslationTest(TestCase):
 
         machine = MicrosoftCognitiveTranslation()
         self.assert_translate(machine)
+        self.assert_translate(machine, word='Zkouška')
 
     @httpretty.activate
     def test_microsoft_terminology(self):
@@ -440,6 +446,7 @@ class MachineTranslationTest(TestCase):
         machine = GoogleTranslation()
         self.assert_translate(machine)
         self.assert_translate(machine, lang='he')
+        self.assert_translate(machine, word='Zkouška')
 
     @override_settings(MT_GOOGLE_KEY='KEY')
     @httpretty.activate
@@ -475,8 +482,14 @@ class MachineTranslationTest(TestCase):
             'https://amagama-live.translatehouse.org/api/v1/en/cs/unit/world',
             body=AMAGAMA_JSON
         )
+        httpretty.register_uri(
+            httpretty.GET,
+            'https://amagama-live.translatehouse.org/api/v1/en/cs/unit/Zkou%C5%A1ka',
+            body=AMAGAMA_JSON
+        )
         machine = AmagamaTranslation()
         self.assert_translate(machine)
+        self.assert_translate(machine, word='Zkouška')
 
     @httpretty.activate
     def test_amagama(self):
@@ -490,8 +503,14 @@ class MachineTranslationTest(TestCase):
             'https://amagama-live.translatehouse.org/api/v1/en/cs/unit/world',
             body=AMAGAMA_JSON
         )
+        httpretty.register_uri(
+            httpretty.GET,
+            'https://amagama-live.translatehouse.org/api/v1/en/cs/unit/Zkou%C5%A1ka',
+            body=AMAGAMA_JSON
+        )
         machine = AmagamaTranslation()
         self.assert_translate(machine)
+        self.assert_translate(machine, word='Zkouška')
 
     @override_settings(MT_YANDEX_KEY='KEY')
     @httpretty.activate
@@ -509,6 +528,7 @@ class MachineTranslationTest(TestCase):
         )
         machine = YandexTranslation()
         self.assert_translate(machine)
+        self.assert_translate(machine, word='Zkouška')
 
     @override_settings(MT_YANDEX_KEY='KEY')
     @httpretty.activate
@@ -562,6 +582,7 @@ class MachineTranslationTest(TestCase):
         )
         machine = SAPTranslationHub()
         self.assert_translate(machine)
+        self.assert_translate(machine, word='Zkouška')
 
     @override_settings(MT_SAP_BASE_URL='http://sth.example.com/')
     @httpretty.activate
