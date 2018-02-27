@@ -226,6 +226,7 @@ class Repository(object):
     @classmethod
     def clone(cls, source, target, branch=None):
         """Clone repository and return object for cloned repository."""
+        create_ssh_wrapper()
         cls._clone(source, target, branch)
         return cls(target, branch)
 
