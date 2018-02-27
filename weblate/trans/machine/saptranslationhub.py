@@ -96,7 +96,7 @@ class SAPTranslationHub(MachineTranslation):
 
         # create the request
         translation_url = settings.MT_SAP_BASE_URL + 'translate'
-        request = Request(translation_url)
+        request = Request(translation_url.encode("utf-8"))
         request.timeout = 0.5
         request.add_header('User-Agent', USER_AGENT.encode('utf-8'))
         request.add_header('Referer', get_site_url().encode('utf-8'))
