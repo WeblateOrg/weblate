@@ -534,6 +534,7 @@ def post_login_handler(sender, request, user, **kwargs):
     profile = Profile.objects.get_or_create(user=user)[0]
 
     # Migrate django-registration based verification to python-social-auth
+    # and handle external authentication such as LDAP
     if (is_email_auth and user.has_usable_password() and user.email and
             not user.social_auth.filter(provider='email').exists()):
         social = user.social_auth.create(
