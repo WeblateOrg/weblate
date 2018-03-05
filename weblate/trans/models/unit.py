@@ -290,7 +290,6 @@ class UnitQuerySet(models.QuerySet):
 
     def more_like_this(self, unit, top=5):
         """Find closely similar units."""
-        source = unit.get_source_plurals()[0]
         if settings.MT_WEBLATE_LIMIT >= 0:
             queue = multiprocessing.Queue()
             proc = multiprocessing.Process(
