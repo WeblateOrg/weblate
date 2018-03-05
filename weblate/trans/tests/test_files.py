@@ -400,18 +400,28 @@ class ExportTest(ViewTestCase):
             'attachment; filename=test-test-cs.po'
         )
 
-    def export_format(self, fmt):
+    def export_format(self, fmt, **extra):
         kwargs = {'fmt': fmt}
         kwargs.update(self.kw_translation)
         return self.client.get(
             reverse(
                 'download_translation_format',
                 kwargs=kwargs
-            )
+            ),
+            **extra
         )
 
     def test_export_po(self):
         response = self.export_format('po')
+        self.assertContains(
+            response, 'Orangutan has %d bananas'
+        )
+        self.assertContains(
+            response, '/projects/test/test/cs/'
+        )
+
+    def test_export_po_todo(self):
+        response = self.export_format('po', type='todo')
         self.assertContains(
             response, 'Orangutan has %d bananas'
         )

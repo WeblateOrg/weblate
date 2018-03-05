@@ -109,13 +109,15 @@ def import_message(request, count, message_none, message_ok):
         messages.success(request, message_ok % count)
 
 
-def download_translation_file(translation, fmt=None):
+def download_translation_file(translation, fmt=None, units=None):
     if fmt is not None:
         try:
             exporter = get_exporter(fmt)(translation=translation)
         except KeyError:
             raise Http404('File format not supported')
-        exporter.add_units(translation.unit_set.all())
+        if units is None:
+            units = translation.unit_set.all()
+        exporter.add_units(units)
         return exporter.get_response(
             '{{project}}-{0}-{{language}}.{{extension}}'.format(
                 translation.subproject.slug

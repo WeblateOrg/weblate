@@ -29,7 +29,7 @@ from django.views.decorators.http import require_POST
 
 from weblate.utils import messages
 from weblate.utils.errors import report_error
-from weblate.trans.forms import get_upload_form
+from weblate.trans.forms import get_upload_form, SearchForm
 from weblate.trans.views.helper import (
     get_translation, download_translation_file, show_form_errors,
 )
@@ -42,7 +42,16 @@ from weblate.permissions.helpers import (
 def download_translation_format(request, project, subproject, lang, fmt):
     obj = get_translation(request, project, subproject, lang)
 
-    return download_translation_file(obj, fmt)
+    form = SearchForm(request.GET)
+    if form.is_valid():
+        units = obj.unit_set.search(
+            form.cleaned_data,
+            translation=obj,
+        )
+    else:
+        units = obj.unit_set.all()
+
+    return download_translation_file(obj, fmt, units)
 
 
 def download_translation(request, project, subproject, lang):

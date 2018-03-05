@@ -7,6 +7,7 @@ weblate 2.20
 Released on ? 2018.
 
 * Improved speed of cloning subversion repositories.
+* Added support for downloading only strings needing action.
 
 weblate 2.19.1
 --------------
