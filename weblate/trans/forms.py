@@ -680,6 +680,9 @@ class BaseSearchForm(forms.Form):
             elif isinstance(value, datetime):
                 # Convert date to string
                 items.append((param, value.date().isoformat()))
+            elif isinstance(value, list):
+                for val in value:
+                    items.append((param, val))
             else:
                 # It should be string here
                 if value:
