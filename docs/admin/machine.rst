@@ -227,22 +227,12 @@ To enable this service, add ``weblate.trans.machine.yandex.YandexTranslation`` t
 Weblate
 -------
 
-Weblate can be source of machine translation as well. There are two services to
-provide you results - one does exact search for string, the other one finds all
-similar strings.
-
-The first one is useful for full string translations, the second one for finding
-individual phrases or words to keep the translation consistent.
+Weblate can be source of machine translation as well. It is based on the fulltext
+engine Whoosh and provides both exact and inexact matches.
 
 To enable these services, add
-``weblate.trans.machine.weblatetm.WeblateSimilarTranslation`` (for similar string
-matching) and/or ``weblate.trans.machine.weblatetm.WeblateTranslation`` (for exact
-string matching) to :setting:`MACHINE_TRANSLATION_SERVICES`.
-
-.. note::
-
-    For similarity matching, it is recommended to have Whoosh 2.5.2 or later;
-    earlier versions can cause infinite looks under some conditions.
+``weblate.trans.machine.weblatetm.WeblateTranslation`` to
+:setting:`MACHINE_TRANSLATION_SERVICES`.
 
 .. _saptranslationhub:
 

@@ -26,9 +26,9 @@ from weblate.trans.machine.base import MachineTranslation
 from weblate.trans.models import Unit, Project
 
 
-class WeblateBase(MachineTranslation):
-    """Base abstract class for Weblate based MT"""
-    # pylint: disable=abstract-method
+class WeblateTranslation(MachineTranslation):
+    """Translation service using strings already translated in Weblate."""
+    name = 'Weblate similarity'
 
     def is_supported(self, source, language):
         """Any language is supported."""
@@ -45,27 +45,6 @@ class WeblateBase(MachineTranslation):
             ),
             unit.get_source_plurals()[0],
         )
-
-
-class WeblateTranslation(WeblateBase):
-    """Translation service using strings already translated in Weblate."""
-    name = 'Weblate'
-
-    def download_translations(self, source, language, text, unit, user):
-        """Download list of possible translations from a service."""
-        matching_units = Unit.objects.prefetch().filter(
-            translation__subproject__project__in=Project.objects.all_acl(user)
-        ).same_source(unit)
-
-        return list(set((
-            self.format_unit_match(munit, 100)
-            for munit in matching_units
-        )))
-
-
-class WeblateSimilarTranslation(WeblateBase):
-    """Translation service using strings already translated in Weblate."""
-    name = 'Weblate similarity'
 
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""

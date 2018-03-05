@@ -579,6 +579,19 @@ consistency problems:
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
+Upgrade from 2.19 to 2.20
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+Notable configuration or dependencies changes:
+
+* The two internal machine translation services are now merged, please adjust
+  :setting:`MACHINE_TRANSLATION_SERVICES` to no longer include
+  ``weblate.trans.machine.weblatetm.WeblateSimilarTranslation``.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
 .. _django-17:
 
 Upgrading to Django 1.7

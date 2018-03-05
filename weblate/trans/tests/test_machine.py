@@ -44,9 +44,7 @@ from weblate.trans.machine.microsoft import (
 from weblate.trans.machine.google import GoogleTranslation, GOOGLE_API_ROOT
 from weblate.trans.machine.yandex import YandexTranslation
 from weblate.trans.machine.saptranslationhub import SAPTranslationHub
-from weblate.trans.machine.weblatetm import (
-    WeblateSimilarTranslation, WeblateTranslation
-)
+from weblate.trans.machine.weblatetm import WeblateTranslation
 from weblate.trans.tests.test_checks import MockUnit
 
 GLOSBE_JSON = '''
@@ -608,17 +606,6 @@ class MachineTranslationTest(TestCase):
 class WeblateTranslationTest(FixtureTestCase):
     def test_same(self):
         machine = WeblateTranslation()
-        unit = Unit.objects.all()[0]
-        results = machine.translate(
-            unit.translation.language.code,
-            unit.get_source_plurals()[0],
-            unit,
-            self.user
-        )
-        self.assertEqual(results, [])
-
-    def test_similar(self):
-        machine = WeblateSimilarTranslation()
         unit = Unit.objects.all()[0]
         results = machine.translate(
             unit.translation.language.code,

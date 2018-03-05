@@ -600,7 +600,6 @@ List of enabled machine translation services to use.
         'weblate.trans.machine.microsoft.MicrosoftTranslation',
         'weblate.trans.machine.mymemory.MyMemoryTranslation',
         'weblate.trans.machine.tmserver.TMServerTranslation',
-        'weblate.trans.machine.weblatetm.WeblateSimilarTranslation',
         'weblate.trans.machine.weblatetm.WeblateTranslation',
         'weblate.trans.machine.saptranslationhub.SAPTranslationHub'
     )

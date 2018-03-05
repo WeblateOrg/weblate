@@ -513,7 +513,6 @@ if not HAVE_SYSLOG:
 #     'weblate.trans.machine.tmserver.AmagamaTranslation',
 #     'weblate.trans.machine.tmserver.TMServerTranslation',
 #     'weblate.trans.machine.yandex.YandexTranslation',
-#     'weblate.trans.machine.weblatetm.WeblateSimilarTranslation',
 #     'weblate.trans.machine.weblatetm.WeblateTranslation',
 #     'weblate.trans.machine.saptranslationhub.SAPTranslationHub',
 # )

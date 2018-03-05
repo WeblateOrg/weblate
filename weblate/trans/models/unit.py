@@ -288,19 +288,6 @@ class UnitQuerySet(models.QuerySet):
             )
         return result
 
-    def same_source(self, unit):
-        """Find units with same source."""
-        source = unit.get_source_plurals()[0]
-
-        return self.filter(
-            Q(source__iexact=source) |
-            Q(source__istartswith=join_plural([source, ''])),
-            translation__language=unit.translation.language,
-            state__gte=STATE_TRANSLATED,
-        ).exclude(
-            pk=unit.id
-        )
-
     def more_like_this(self, unit, top=5):
         """Find closely similar units."""
         source = unit.get_source_plurals()[0]
@@ -328,11 +315,6 @@ class UnitQuerySet(models.QuerySet):
             pk__in=more_results,
             translation__language=unit.translation.language,
             state__gte=STATE_TRANSLATED,
-        ).exclude(
-            # These are covered by same_result
-            Q(source__iexact=source) |
-            Q(source__istartswith=join_plural([source, ''])) |
-            Q(pk=unit.id)
         )
         for item in result:
             item.score = scores[item.pk]
