@@ -589,7 +589,7 @@ def get_location_links(profile, unit):
 
     # Is it just an ID?
     if unit.location.isdigit():
-        return _('unit ID %s') % unit.location
+        return _('string ID %s') % unit.location
 
     # Go through all locations separated by comma
     for location in unit.location.split(','):

@@ -399,11 +399,10 @@ class ChecksumForm(forms.Form):
             )[0]
         except (Unit.DoesNotExist, IndexError):
             LOGGER.error(
-                'message %s disappeared!',
-                self.cleaned_data['checksum']
+                'string %s disappeared!', self.cleaned_data['checksum']
             )
             raise ValidationError(_(
-                'The message you wanted to translate is no longer available!'
+                'The string you wanted to translate is no longer available!'
             ))
 
 
@@ -487,7 +486,7 @@ class TranslationForm(ChecksumForm):
         if self.cleaned_data['contentsum'] != unit.content_hash:
             raise ValidationError(
                 _(
-                    'Source of the message has been changed meanwhile. '
+                    'Source string has been changed meanwhile. '
                     'Please check your changes.'
                 )
             )
@@ -495,7 +494,7 @@ class TranslationForm(ChecksumForm):
         if self.cleaned_data['translationsum'] != unit.get_target_hash():
             raise ValidationError(
                 _(
-                    'Translation of the message has been changed meanwhile. '
+                    'Translation of the string has been changed meanwhile. '
                     'Please check your changes.'
                 )
             )
@@ -862,9 +861,9 @@ class MergeForm(ChecksumForm):
             if (unit.id_hash != merge_unit.id_hash and
                     unit.content_hash != merge_unit.content_hash and
                     unit.source != merge_unit.source):
-                raise ValidationError(_('Merged unit not found!'))
+                raise ValidationError(_('Merged string not found!'))
         except Unit.DoesNotExist:
-            raise ValidationError(_('Merged unit not found!'))
+            raise ValidationError(_('Merged string not found!'))
         return self.cleaned_data
 
 
@@ -1451,7 +1450,7 @@ class NewUnitForm(forms.Form):
     key = forms.CharField(
         label=_('Translation key'),
         help_text=_(
-            'Key used to identify unit in translation file. '
+            'Key used to identify string in translation file. '
             'File format specific rules might apply.'
         ),
         required=True,

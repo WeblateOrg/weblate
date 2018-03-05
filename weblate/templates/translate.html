@@ -80,7 +80,7 @@
     data-title="{% trans "Keyboard shortcuts available:"%}<br />
     {% trans "Ctrl+Enter - Save" %}<br />
     {% trans "Ctrl+Shift+Enter - Unmark review needed flag and save" %}<br />
-    {% trans "Alt+PageUp/PageDown/Home/End - Translation units navigation"%}<br />
+    {% trans "Alt+PageUp/PageDown/Home/End - Strings navigation"%}<br />
     {% trans "Ctrl+E - Focus translation editor"%}<br />
     {% trans "Ctrl+Q - Focus comment editor"%}<br />
     {% trans "Ctrl+M - Shows machine translation tab"%}<br />
@@ -207,7 +207,7 @@
 </form>
 
 <ul class="nav nav-pills translation-tabs">
-<li class="active"><a href="#nearby" data-toggle="tab" title="{% trans "Messages placed around this one" %}">{% trans "Nearby messages" %} <span class="badge">{{ nearby|length }}</span></a></li>
+<li class="active"><a href="#nearby" data-toggle="tab" title="{% trans "Messages placed around this one" %}">{% trans "Nearby strings" %} <span class="badge">{{ nearby|length }}</span></a></li>
 {% if unit.suggestions %}
 <li><a href="#suggestions" data-toggle="tab">{% trans "Suggestions" %} <span class="badge">{{ unit.suggestions.count }}</span></a></li>
 {% endif %}
@@ -220,7 +220,7 @@
 {% if user_can_use_mt %}
 <li><a href="#machine" data-toggle="tab" data-load="mt" title="{% trans "Machine translation suggestions" %}">{% trans "Machine translation" %}</a></li>
 {% endif %}
-<li><a href="#translations" data-toggle="tab" data-href="{% url 'js-unit-translations' unit_id=unit.id %}" title="{% trans "Translations of this unit to other languages" %}">{% trans "Other languages" %}</a></li>
+<li><a href="#translations" data-toggle="tab" data-href="{% url 'js-unit-translations' unit_id=unit.id %}" title="{% trans "Translations of this string in the other languages" %}">{% trans "Other languages" %}</a></li>
 <li><a href="#history" data-toggle="tab" data-href="{% url 'js-unit-changes' unit_id=unit.id %}" title="{% trans "List of recent changes done in Weblate" %}">{% trans "History" %}</a></li>
 </ul>
 

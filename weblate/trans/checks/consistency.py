@@ -70,7 +70,7 @@ class ConsistencyCheck(TargetCheck):
     check_id = 'inconsistent'
     name = _('Inconsistent')
     description = _(
-        'This message has more than one translation in this project'
+        'This string has more than one translation in this project'
     )
     ignore_untranslated = False
     severity = 'warning'

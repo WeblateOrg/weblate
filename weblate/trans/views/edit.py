@@ -840,7 +840,7 @@ def new_unit(request, project, subproject, lang):
         else:
             translation.new_unit(request, key, value)
             messages.success(
-                request, _('New translation unit has been added.')
+                request, _('New string has been added.')
             )
 
     return redirect(translation)

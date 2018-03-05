@@ -411,7 +411,7 @@ class Unit(models.Model, LoggerMixin):
         self.old_unit = copy(self)
 
     def __str__(self):
-        return _('{translation}, translation unit {position}').format(
+        return _('{translation}, string {position}').format(
             translation=self.translation,
             position=self.position,
         )

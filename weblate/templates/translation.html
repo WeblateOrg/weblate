@@ -60,7 +60,7 @@
       <li><a href="#replace" data-toggle="tab">{% trans "Search and replace" %}</a></li>
       {% endif %}
       {% if object.is_template and user_can_add_unit %}
-      <li><a href="#new" data-toggle="tab">{% trans "Add new translation unit" %}</a></li>
+      <li><a href="#new" data-toggle="tab">{% trans "Add new translation string" %}</a></li>
       {% endif %}
     </ul>
   </li>
@@ -220,7 +220,7 @@
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Search and replace" %}</h4></div>
 <div class="panel-body">
-<p>{% trans "You can replace a string in all units at once. The search is a simple substring case sensitive search." %}</p>
+<p>{% trans "You can replace a string in all strings at once. The search is a simple substring case sensitive search." %}</p>
 {% csrf_token %}
 {{ replace_form|crispy }}
 </div>
@@ -236,9 +236,9 @@
 <div class="tab-pane" id="new">
 <form action="{% url 'new-unit' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post">
 <div class="panel panel-primary">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Add new translation unit" %}</h4></div>
+<div class="panel-heading"><h4 class="panel-title">{% trans "Add new translation string" %}</h4></div>
 <div class="panel-body">
-<p>{% trans "You can add new translation unit here, it will automatically appear in all translations." %}</p>
+<p>{% trans "You can add new translation string here, it will automatically appear in all translations." %}</p>
 {% csrf_token %}
 {{ new_unit_form|crispy }}
 </div>

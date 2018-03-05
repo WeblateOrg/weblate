@@ -231,7 +231,7 @@ class Change(models.Model, UserDisplayMixin):
             ugettext_lazy('Suggestion removed during cleanup')
         ),
         (ACTION_SOURCE_CHANGE, ugettext_lazy('Source string changed')),
-        (ACTION_NEW_UNIT, ugettext_lazy('New unit added')),
+        (ACTION_NEW_UNIT, ugettext_lazy('New string added')),
     )
 
     ACTIONS_SUBPROJECT = frozenset((

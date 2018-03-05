@@ -18,7 +18,7 @@
 
 {% include "show-lock.html" %}
 
-<a href="{% url 'translate' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}?{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Edit in single unit mode" %}" class="btn btn-default pull-right flip"><i class="fa fa-edit"></i> {% trans "Exit Zen" %}</a>
+<a href="{% url 'translate' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}?{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Edit in single string mode" %}" class="btn btn-default pull-right flip"><i class="fa fa-edit"></i> {% trans "Exit Zen" %}</a>
 
 <div class="btn-group">
 <ul class="pagination unit-navi">
