@@ -586,6 +586,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 Notable configuration or dependencies changes:
 
+* There is new dependency on the ``filelock`` module.
 * The two internal machine translation services are now merged, please adjust
   :setting:`MACHINE_TRANSLATION_SERVICES` to no longer include
   ``weblate.trans.machine.weblatetm.WeblateSimilarTranslation``.
