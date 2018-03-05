@@ -20,6 +20,8 @@
 
 from __future__ import unicode_literals
 
+import difflib
+
 from django.utils.encoding import force_text
 
 from weblate.trans.machine.base import MachineTranslation
@@ -38,7 +40,7 @@ class WeblateTranslation(MachineTranslation):
         """Format unit to translation service result."""
         return (
             unit.get_target_plurals()[0],
-            quality,
+            int(100 * quality),
             '{0} ({1})'.format(
                 self.name,
                 force_text(unit.translation.subproject)
@@ -53,6 +55,11 @@ class WeblateTranslation(MachineTranslation):
         ).more_like_this(unit, 1000)
 
         return list(set((
-            self.format_unit_match(munit, munit.score)
+            self.format_unit_match(
+                munit,
+                difflib.SequenceMatcher(
+                    None, text, munit.get_source_plurals()[0]
+                ).ratio(),
+            )
             for munit in matching_units
         )))
