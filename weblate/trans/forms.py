@@ -825,10 +825,9 @@ class SearchForm(BaseSearchForm):
 
 class SiteSearchForm(SearchForm):
     """Site wide search form"""
-    lang = forms.ChoiceField(
-        label=_('Language'),
+    lang = forms.MultipleChoiceField(
+        label=_('Languages'),
         required=False,
-        choices=[('', _('All languages'))],
     )
 
     def __init__(self, *args, **kwargs):

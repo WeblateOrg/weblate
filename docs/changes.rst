@@ -8,6 +8,7 @@ Released on ? 2018.
 
 * Improved speed of cloning subversion repositories.
 * Added support for downloading only strings needing action.
+* Added support for searching in several languages at once.
 
 weblate 2.19.1
 --------------

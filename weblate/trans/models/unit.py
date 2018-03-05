@@ -251,7 +251,7 @@ class UnitQuerySet(models.QuerySet):
             )
 
         if 'lang' in params and params['lang']:
-            base = base.filter(translation__language__code=params['lang'])
+            base = base.filter(translation__language__code__in=params['lang'])
 
         if not params['q']:
             result = base
