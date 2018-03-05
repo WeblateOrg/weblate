@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Weblate 2.20\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-02-23 10:36+0000\n"
-"PO-Revision-Date: 2018-02-26 18:31+0000\n"
-"Last-Translator: pskosinski <email@pskosinski.pl>\n"
+"PO-Revision-Date: 2018-03-05 12:08+0000\n"
+"Last-Translator: Stanisław Krukowski <pet209a1@riseup.net>\n"
 "Language-Team: Polish "
 "<https://hosted.weblate.org/projects/weblate/master/pl/>\n"
 "Language: pl\n"
@@ -21,11 +21,11 @@ msgstr ""
 
 #: weblate/accounts/admin.py:109 weblate/accounts/admin.py:114
 msgid "Personal info"
-msgstr "Informacje osobiste"
+msgstr "Informacje osobowe"
 
 #: weblate/accounts/admin.py:110 weblate/templates/accounts/profile.html:27
 msgid "Authentication"
-msgstr "Uwierzytelnianie"
+msgstr "Uwierzytelnienie"
 
 #: weblate/accounts/admin.py:115 weblate/permissions/apps.py:30
 msgid "Permissions"
@@ -58,15 +58,15 @@ msgstr "Wprowadź aktualny adres e-mail."
 
 #: weblate/accounts/forms.py:110
 msgid "This email address is not allowed."
-msgstr "Wprowadzony adres e-mail jest niedozwolony."
+msgstr "Ten adres e-mail jest niedozwolony."
 
 #: weblate/accounts/forms.py:116
 msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
 "+ - _"
 msgstr ""
-"Nazwa użytkownika może zawierać tylko litery, cyfry lub następujące znaki: "
-"@ . + - _"
+"Nazwa użytkownika może zawierać tylko litery, liczby lub następujące znaki: @"
+" . + - _"
 
 #: weblate/accounts/forms.py:122 weblate/templates/accounts/login.html:26
 #: weblate/templates/accounts/user.html:22
@@ -84,14 +84,14 @@ msgstr "Ta nazwa użytkownika jest zajęta. Proszę wybrać inną."
 
 #: weblate/accounts/forms.py:247
 msgid "Component wide notifications"
-msgstr "Powiadomienia dotyczące komponentów"
+msgstr "Powiadomienia o całym składniku"
 
 #: weblate/accounts/forms.py:249
 msgid ""
 "You will receive notification on every such event in your watched projects."
 msgstr ""
-"Będziesz otrzymywać powiadomienia o wszystkich wybranych zdarzeniach, "
-"dotyczących obserwowanych projektów."
+"Będziesz otrzymywać powiadomienia o każdym takim zdarzeniu w twoich "
+"obserwowanych projektach."
 
 #: weblate/accounts/forms.py:256
 msgid "Translation notifications"
@@ -112,7 +112,7 @@ msgstr "E-mail"
 
 #: weblate/accounts/forms.py:299
 msgid "You can add another email address on the Authentication tab."
-msgstr "Można dodać inne adresy e-mail w karcie Uwierzytelnianie."
+msgstr "Można dodać inne adresy e-mail w zakładce Uwierzytelnienie."
 
 #: weblate/accounts/forms.py:329
 msgid "Subject"
@@ -328,8 +328,8 @@ msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
 msgstr ""
-"Wybierz języki, które rozumiesz. Teksty w tych językach pojawią się "
-"dodatkowo, oprócz tekstu źródłowego."
+"Wybierz języki, które rozumiesz. Ciagi tekstowe w tych językach pojawią się "
+"dodatkowo, oprócz ciagu źródłowego."
 
 #: weblate/accounts/models.py:340
 msgid "Hide completed translations on dashboard"
@@ -455,34 +455,24 @@ msgstr ""
 "Nie możesz przesłać tłumaczeń, ponieważ nie masz przypisanego adresu e-mail."
 
 #: weblate/accounts/password_validation.py:41
-#, fuzzy
-#| msgid "This password consists of whitespace only."
 msgid "This password consists of only whitespace."
-msgstr "To hasło składa się tylko ze znaku /znaków spacji."
+msgstr "To hasło składa się tylko ze spacji (białych znaków)."
 
 #: weblate/accounts/password_validation.py:46
-#, fuzzy
-#| msgid "This password consists of single character."
 msgid "This password is only a single character."
-msgstr "To hasło składa się tylko z pojedynczego znaku."
+msgstr "To hasło jest tylko pojedynczym znakiem."
 
 #: weblate/accounts/password_validation.py:52
-#, fuzzy
-#| msgid "Your password can't consist of single character or whitespace only."
 msgid "Your password can't consist of a single character or only whitespace."
 msgstr ""
 "Twoje hasło nie może składać się jedynie z pojedynczego znaku lub "
 "pojedynczej spacji."
 
 #: weblate/accounts/password_validation.py:74
-#, fuzzy
-#| msgid "Can not use previously used password!"
 msgid "Can not reuse previously used password!"
-msgstr "Nie można użyć wcześniej używanego hasła!"
+msgstr "Nie można ponownie stosować wcześniej używanego hasła!"
 
 #: weblate/accounts/password_validation.py:80
-#, fuzzy
-#| msgid "Your password can't match password you have used in the past."
 msgid "Your password can't match a password you have used in the past."
 msgstr "Twoje hasło nie może odpowiadać hasłu, którego używałeś w przeszłości."
 
@@ -574,16 +564,12 @@ msgid "Login"
 msgstr "Zaloguj"
 
 #: weblate/accounts/views.py:556
-#, fuzzy
-#| msgid "Manage users"
 msgid "Standard user"
-msgstr "Zarządzaj użytkownikami"
+msgstr "Użytkownik standardowy"
 
 #: weblate/accounts/views.py:557
-#, fuzzy
-#| msgid "Filtered permissions"
 msgid "User with reviewer permissions"
-msgstr "Uprawnienia przefiltrowane"
+msgstr "Użytkownik z uprawnieniami recenzenta"
 
 #: weblate/accounts/views.py:586 weblate/wladmin/sites.py:145
 msgid "Thanks for using Weblate!"
@@ -640,10 +626,8 @@ msgid "Authentication has been cancelled."
 msgstr "Uwierzytelnienie zostało anulowane."
 
 #: weblate/accounts/views.py:937
-#, fuzzy
-#| msgid "Authentication has been cancelled."
 msgid "Authentication has been forbidden by server."
-msgstr "Uwierzytelnienie zostało anulowane."
+msgstr "Uwierzytelnienie zostało zabronine przez serwer."
 
 #: weblate/accounts/views.py:940
 msgid ""
@@ -654,10 +638,8 @@ msgstr ""
 "lub nazwa użytkownika są już przypisane do innego konta!"
 
 #: weblate/addons/cleanup.py:34
-#, fuzzy
-#| msgid "Translation file"
 msgid "Cleanup translation files"
-msgstr "Plik tłumaczenia"
+msgstr "Wyczyść pliki tłumaczenia"
 
 #: weblate/addons/cleanup.py:36
 msgid ""
@@ -665,22 +647,21 @@ msgid ""
 "file formats, this means removing stale translation keys no longer present "
 "in the base file."
 msgstr ""
+"Zaktualizuj wszystkie pliki tłumaczeń tak, aby odpowiadały jednojęzykowemu "
+"plikowi podstawowemu. W przypadku większości formatów plików oznacza to "
+"usunięcie starych kluczy tłumaczeń, których nie ma już w pliku podstawowym."
 
 #: weblate/addons/example.py:42
-#, fuzzy
-#| msgid "Example:"
 msgid "Example addon"
-msgstr "Przykład:"
+msgstr "Przykładowy dodatek"
 
 #: weblate/addons/example.py:44
 msgid "This addon does nothing it is just an example"
-msgstr ""
+msgstr "Ten dodatek nic nie robi. Jest po prostu przykładem"
 
 #: weblate/addons/flags.py:50
-#, fuzzy
-#| msgid "Review source strings in %s"
 msgid "Flag new source strings to need edit"
-msgstr "Przegląd ciągów źródłowych w %s"
+msgstr "Oznacz nowe ciągi źródłowe wymagające edycji"
 
 #: weblate/addons/flags.py:52
 msgid ""
@@ -688,6 +669,9 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
+"Za każdym razem, gdy nowy ciąg źródłowy jest importowany z VCS, jest on "
+"oznaczony jako wymagający edycji w Weblate. W ten sposób można łatwo "
+"filtrować i edytować ciągi źródłowe napisane przez twórców oprogramowania."
 
 #: weblate/addons/flags.py:64
 #, fuzzy
@@ -819,7 +803,7 @@ msgstr "Repozytoria VCS"
 
 #: weblate/billing/models.py:140 weblate/trans/admin.py:47
 msgid "Source strings"
-msgstr "Teksty źródłowe"
+msgstr "Ciągi źródłowe"
 
 #: weblate/billing/models.py:151 weblate/trans/admin.py:51
 msgid "Source words"
@@ -842,7 +826,7 @@ msgstr "W granicach"
 #: weblate/billing/models.py:192 weblate/templates/addons/generate_help.html:13
 #: weblate/templates/project_stats.html:4
 msgid "Number of strings"
-msgstr "Liczba tekstów"
+msgstr "Liczba ciągów źródłowych"
 
 #: weblate/billing/models.py:199
 msgid "N/A"
@@ -1357,7 +1341,7 @@ msgstr "Wgraj obrazy JPEG lub PNG do max. rozmiaru 2000x2000 pikseli."
 #: weblate/screenshots/views.py:99
 msgid "Screenshot has been uploaded, you can now assign it to source strings."
 msgstr ""
-"Zrzut ekranu został wgrany, możesz teraz przypisać go do tekstów źródłowych."
+"Wczytany został zrzut ekranu. Można go teraz przypisać do ciągów źródłowych."
 
 #: weblate/screenshots/views.py:106
 msgid "Failed to upload screenshot, please fix errors below."
@@ -2341,10 +2325,8 @@ msgid "Percents translated"
 msgstr "Zostało przetłumaczone"
 
 #: weblate/templates/addons/generate_help.html:15
-#, fuzzy
-#| msgid "Not translated strings"
 msgid "Number of translated strings"
-msgstr "Nieprzetłumaczone teksty"
+msgstr "Liczba przetłumaczonych ciągów tekstowych"
 
 #: weblate/templates/addons/generate_help.html:17
 #: weblate/trans/models/subproject.py:136
@@ -2428,7 +2410,7 @@ msgstr "Cena roczna"
 
 #: weblate/templates/billing/detail.html:11
 msgid "Strings limit"
-msgstr "Limit tekstów"
+msgstr "Limit ciągów tekstowych"
 
 #: weblate/templates/billing/detail.html:16
 msgid "Languages limit"
@@ -2490,8 +2472,8 @@ msgid ""
 "The checks can help you identify problematic translations or source strings "
 "which are hard to translate."
 msgstr ""
-"Sprawdzenia mogą pomóc w identyfikacji problematycznych tłumaczeń lub "
-"tekstów źródłowych trudnych do przetłumaczenia."
+"Sprawdzenia mogą pomóc w identyfikacji problematycznych tłumaczeń lub ciągów "
+"źródłowych, które są trudne do przetłumaczenia."
 
 #: weblate/templates/data-root.html:6 weblate/templates/index.html:50
 msgid "Data export"
@@ -2851,10 +2833,8 @@ msgid "Copy"
 msgstr "Skopiuj"
 
 #: weblate/templates/glossary-embed.html:21
-#, fuzzy
-#| msgid "No related strings were found in the glossary."
 msgid "No related strings found in the glossary."
-msgstr "Nie odnaleziono powiązanych tekstów w słowniku."
+msgstr "Nie odnaleziono w słowniku powiązanych ciągów źródłowych."
 
 #: weblate/templates/i18n.html:19
 msgid "Your password must be stronger."
@@ -3378,7 +3358,8 @@ msgstr "Konfiguruj kolumny"
 #: weblate/templates/translation.html:111
 msgid "This translation is being used as source strings within this component."
 msgstr ""
-"To tłumaczenie jest używane jako źródło tekstów wewnątrz tego komponentu."
+"To tłumaczenie jest używane jako ciągi źródłowe tekstów wewnątrz tego "
+"składnika."
 
 #: weblate/templates/list-translations.html:34
 msgid "source"
@@ -3396,9 +3377,9 @@ msgstr[2] "%(words)s słów do tłumaczenia!"
 #, python-format
 msgid "There is %(count)s string needing review."
 msgid_plural "There are %(count)s strings needing review."
-msgstr[0] "%(count)s tekst wymaga kontroli."
-msgstr[1] "%(count)s teksty wymagają kontroli."
-msgstr[2] "%(count)s tekstów wymaga kontroli."
+msgstr[0] "Jest %(count)s ciąg tekstowy wymagający przeglądu."
+msgstr[1] "Są %(count)s ciągi tekstowe wymagające przeglądu."
+msgstr[2] "Jest %(count)s ciągów źródłowych wymagających przeglądu."
 
 #: weblate/templates/list-translations.html:51
 #, python-format
@@ -5429,16 +5410,12 @@ msgid "Strings waiting for review"
 msgstr "Teksty wymagające kontroli"
 
 #: weblate/trans/filter.py:53
-#, fuzzy
-#| msgid "Strings with any failing checks"
 msgid "Strings with any failing source checks"
-msgstr "Teksty, które nie przeszły jakiegokolwiek testu"
+msgstr "Ciągi z dowolnie błędnymi sprawdzeniami źródłowymi"
 
 #: weblate/trans/filter.py:54
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with source comments"
-msgstr "Teksty z komentarzami"
+msgstr "Ciągi z komentarzami źródłowymi"
 
 #: weblate/trans/formats.py:907
 msgid "Automatic detection"
@@ -5597,16 +5574,12 @@ msgid "The message you wanted to translate is no longer available!"
 msgstr "Tekst, który chciałeś przetłumaczyć, nie jest już dostępny!"
 
 #: weblate/trans/forms.py:416
-#, fuzzy
-#| msgid ""
-#| "String is usually marked as needing editing after source string change or "
-#| "this can be done manually."
 msgid ""
 "Strings are usually marked as \"Needs editing\" after the source string is "
 "updated, or when marked as such manually."
 msgstr ""
-"Tekst zazwyczaj jest oznaczany jako wymagający modyfikacji, gdy tekst "
-"źródłowy zostanie zmieniony. Można także zrobić to ręcznie."
+"Ciągi tekstowe są oznaczane zwykle jako \"Wymagające modyfikacji\" wtedy, "
+"gdy zaktualizowano tekst źródłowy lub gdy wykonano takie zaznaczenie ręcznie."
 
 #: weblate/trans/forms.py:430
 msgid "Review state"
