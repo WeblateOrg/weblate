@@ -168,7 +168,7 @@ class EditValidationTest(ViewTestCase):
     def test_edit_spam(self):
         """Editing with spam trap."""
         response = self.edit(content='1')
-        self.assertContains(response, 'po/cs.po, translation unit 2')
+        self.assertContains(response, 'po/cs.po, string 2')
 
     def test_merge(self):
         """Merging with invalid parameter."""
@@ -328,7 +328,7 @@ class EditPoMonoTest(EditTest):
         self.make_manager()
         response = add('key')
         self.assertContains(
-            response, 'New translation unit has been added'
+            response, 'New string has been added'
         )
         response = add('key')
         self.assertContains(
@@ -747,7 +747,7 @@ class EditComplexTest(ViewTestCase):
         # We should get an error message
         self.assertContains(
             response,
-            'Source of the message has been changed meanwhile'
+            'Source string has been changed meanwhile'
         )
         self.assert_backend(0)
 
@@ -761,7 +761,7 @@ class EditComplexTest(ViewTestCase):
         # We should get an error message
         self.assertContains(
             response,
-            'Translation of the message has been changed meanwhile'
+            'Translation of the string has been changed meanwhile'
         )
         self.assert_backend(0)
 

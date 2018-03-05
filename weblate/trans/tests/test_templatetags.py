@@ -102,7 +102,7 @@ class LocationLinksTest(SimpleTestCase):
         self.unit.location = '123'
         self.assertEqual(
             get_location_links(self.profile, self.unit),
-            'unit ID 123'
+            'string ID 123'
         )
 
     def test_filename(self):
