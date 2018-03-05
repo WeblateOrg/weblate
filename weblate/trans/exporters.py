@@ -105,8 +105,8 @@ class BaseExporter(object):
             unit.target = self.string_filter(word.target)
         self.storage.addunit(unit)
 
-    def add_units(self, translation):
-        for unit in translation.unit_set.iterator():
+    def add_units(self, units):
+        for unit in units.iterator():
             self.add_unit(unit)
 
     def add_unit(self, unit):

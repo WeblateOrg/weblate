@@ -56,7 +56,7 @@ class GenerateMoAddon(GettextBaseAddon):
 
     def pre_commit(self, translation):
         exporter = MoExporter(translation=translation)
-        exporter.add_units(translation)
+        exporter.add_units(translation.unit_set.all())
         output = translation.get_filename()[:-2] + 'mo'
         with open(output, 'wb') as handle:
             handle.write(exporter.serialize())

@@ -115,7 +115,7 @@ def download_translation_file(translation, fmt=None):
             exporter = get_exporter(fmt)(translation=translation)
         except KeyError:
             raise Http404('File format not supported')
-        exporter.add_units(translation)
+        exporter.add_units(translation.unit_set.all())
         return exporter.get_response(
             '{{project}}-{0}-{{language}}.{{extension}}'.format(
                 translation.subproject.slug
