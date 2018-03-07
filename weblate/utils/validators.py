@@ -61,7 +61,7 @@ FORBIDDEN_EXTENSIONS = frozenset((
     '.rtf',
     '.xls',
     '.docx',
-    '.xlsx',
+    #'.xlsx',   #allowed due to xlsx translation upload
     '.html',
     '.py',
     '.js',

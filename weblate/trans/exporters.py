@@ -36,6 +36,7 @@ from translate.storage.tmx import tmxfile
 from translate.storage.csvl10n import csvfile
 
 import weblate
+from weblate.trans.external_formats import XlsxFormat
 from weblate.trans.formats import FileFormat
 from weblate.utils.site import get_site_url
 
@@ -306,3 +307,47 @@ class CSVExporter(BaseExporter):
         if text and text[0] in ('=', '+', '-', '@', '|', '%'):
             return "'{0}'".format(text.replace('|', '\\|'))
         return text
+
+
+@register_exporter
+class XLSXExporter(BaseExporter):
+    name = 'xlsx'
+    content_type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    extension = 'xlsx'
+
+    has_lang = False
+
+    # redefine __init__ problems since we have no storage here
+    def __init__(self, project=None, language=None, url=None,
+                 translation=None, fieldnames=None):
+        if translation is not None:
+            self.project = translation.subproject.project
+            self.language = translation.language
+            self.url = get_site_url(translation.get_absolute_url())
+        else:
+            self.project = project
+            self.language = language
+            self.url = url
+        self.fieldnames = fieldnames
+        self.xlsx = XlsxFormat()
+
+    def add_units(self, translation):
+        self.xlsx.add_units(self.language, self.project, translation)
+
+    def get_response(self, filetemplate='{project}-{language}.{extension}'):
+        filename = filetemplate.format(
+            project=self.project.slug,
+            language=self.language.code,
+            extension=self.extension
+        )
+
+        response = HttpResponse(
+            content_type='{0}; charset=utf-8'.format(self.content_type)
+        )
+        response['Content-Disposition'] = 'attachment; filename={0}'.format(
+            filename
+        )
+
+        # create response
+        response.write(self.xlsx.create_xlsx())
+        return response
