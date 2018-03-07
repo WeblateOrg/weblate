@@ -424,6 +424,7 @@ class GitRepository(Repository):
         cls._popen([
             'clone',
             '--depth', '1',
+            '--no-single-branch',
             source, target
         ])
 
