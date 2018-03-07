@@ -27,6 +27,7 @@ from django.http import HttpResponse
 import six
 
 from translate.misc.multistring import multistring
+from translate.storage.base import TranslationStore
 from translate.storage.po import pofile
 from translate.storage.mo import mofile, mounit
 from translate.storage.poxliff import PoXliffFile
@@ -310,7 +311,7 @@ class CSVExporter(BaseExporter):
 
 
 @register_exporter
-class XLSXExporter(BaseExporter):
+class XlsxExporter(BaseExporter):
     name = 'xlsx'
     content_type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     extension = 'xlsx'
@@ -320,19 +321,25 @@ class XLSXExporter(BaseExporter):
     # redefine __init__ problems since we have no storage here
     def __init__(self, project=None, language=None, url=None,
                  translation=None, fieldnames=None):
+        super(XlsxExporter, self).__init__(
+            project=project,
+            language=language,
+            url=url,
+            translation=translation,
+            fieldnames=fieldnames
+        )
+
         if translation is not None:
-            self.project = translation.subproject.project
-            self.language = translation.language
-            self.url = get_site_url(translation.get_absolute_url())
-        else:
-            self.project = project
-            self.language = language
-            self.url = url
-        self.fieldnames = fieldnames
+            self.subproject = translation.subproject
+
         self.xlsx = XlsxFormat()
 
-    def add_units(self, translation):
-        self.xlsx.add_units(self.language, self.project, translation)
+    def get_storage(self):
+        """just return a generic store to let the __init__ pass"""
+        return TranslationStore()
+
+    def add_units(self, units):
+        self.xlsx.add_units(self.language, self.subproject, units)
 
     def get_response(self, filetemplate='{project}-{language}.{extension}'):
         filename = filetemplate.format(

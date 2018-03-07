@@ -66,14 +66,14 @@ class ExternalFileFormat(object):
     format_id = ''
     autoload = ()
 
-    def add_units(self, translation):
+    def add_units(self, language, subproject, units):
         """add units to this translation file"""
-        return
+        raise NotImplementedError()
 
     @staticmethod
-    def convert_to_internal(content):
+    def convert_to_internal(filename, content):
         """convert the given content to an internal format"""
-        return None
+        raise NotImplementedError()
 
 
 @register_external_fileformat
@@ -83,13 +83,19 @@ class XlsxFormat(ExternalFileFormat):
     autoload = ('.xlsx')
     workbook = Workbook()
 
-    def add_units(self, language, project, translation):
+    def add_units(self, language, subproject, units):
         worksheet = self.workbook.active
-        worksheet.title = "{0}-{1}-{2}".format(
-            project.slug,
-            translation.subproject.slug,
-            language.code
-        )
+
+        if subproject is not None:
+            worksheet.title = "{0}-{1}-{2}".format(
+                subproject.project.slug,
+                subproject.slug,
+                language.code
+            )
+        else:
+            worksheet.title = "{0}".format(
+                language.code
+            )
 
         # write headers
         worksheet.cell(
@@ -110,7 +116,7 @@ class XlsxFormat(ExternalFileFormat):
 
         row = 2
 
-        for unit in translation.unit_set.all().iterator():
+        for unit in units.iterator():
             # Write the translation data to the worksheet.
             # To suppress openpyxl to export values as formulas, we
             # set the cell value explicitly via .set_explicit_value.
