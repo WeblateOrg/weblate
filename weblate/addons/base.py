@@ -113,6 +113,9 @@ class BaseAddon(object):
     def unit_pre_create(self, unit):
         return
 
+    def store_post_load(self, translation, store):
+        return
+
 
 class TestAddon(BaseAddon):
     """Testing addong doing nothing."""

@@ -41,7 +41,9 @@ from weblate.trans.models.unit import (
 )
 from weblate.utils.stats import TranslationStats
 from weblate.trans.models.suggestion import Suggestion
-from weblate.trans.signals import vcs_pre_commit, vcs_post_commit
+from weblate.trans.signals import (
+    vcs_pre_commit, vcs_post_commit, store_post_load
+)
 from weblate.utils.site import get_site_url
 from weblate.trans.util import split_plural
 from weblate.trans.mixins import URLMixin, LoggerMixin
@@ -216,11 +218,17 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
     def load_store(self):
         """Load translate-toolkit storage from disk."""
-        return self.subproject.file_format_cls.parse(
+        store = self.subproject.file_format_cls.parse(
             self.get_filename(),
             self.subproject.template_store,
             language_code=self.language_code
         )
+        store_post_load.send(
+            sender=self.__class__,
+            translation=self,
+            store=store
+        )
+        return store
 
     @cached_property
     def store(self):
