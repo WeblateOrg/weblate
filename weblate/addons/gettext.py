@@ -28,7 +28,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from translate.storage.po import pofile
 
-from weblate.addons.base import BaseAddon, UpdateBaseAddon,StoreBaseAddon
+from weblate.addons.base import BaseAddon, UpdateBaseAddon, StoreBaseAddon
 from weblate.addons.events import EVENT_PRE_COMMIT, EVENT_POST_ADD
 from weblate.addons.forms import GettextCustomizeForm
 from weblate.trans.exporters import MoExporter
@@ -218,7 +218,7 @@ class GettextCustomizeAddon(StoreBaseAddon):
 
     @staticmethod
     def is_store_compatible(store):
-        """Nees pofile and recent translate-toolkit."""
+        """Needs pofile and recent translate-toolkit."""
         return isinstance(store, pofile) and hasattr(store, 'wrapper')
 
     def store_post_load(self, translation, store):
