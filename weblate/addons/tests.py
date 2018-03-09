@@ -284,7 +284,6 @@ class JsonAddonTest(ViewTestCase):
         commit = self.subproject.repository.show(
             self.subproject.repository.last_revision
         )
-        print commit
         self.assertIn(
             '        "try"',
             commit
