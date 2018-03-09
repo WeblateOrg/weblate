@@ -111,6 +111,7 @@ class AddonsConf(AppConf):
         'weblate.addons.gettext.UpdateLinguasAddon',
         'weblate.addons.gettext.UpdateConfigureAddon',
         'weblate.addons.gettext.MsgmergeAddon',
+        'weblate.addons.gettext.GettextCustomizeAddon',
         'weblate.addons.cleanup.CleanupAddon',
         'weblate.addons.flags.SourceEditAddon',
         'weblate.addons.flags.TargetEditAddon',

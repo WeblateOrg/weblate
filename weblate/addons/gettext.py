@@ -26,15 +26,18 @@ import os
 from django.core.management.utils import find_command, popen_wrapper
 from django.utils.translation import ugettext_lazy as _
 
-from weblate.addons.base import BaseAddon, UpdateBaseAddon
+from translate.storage.po import pofile
+
+from weblate.addons.base import BaseAddon, UpdateBaseAddon,StoreBaseAddon
 from weblate.addons.events import EVENT_PRE_COMMIT, EVENT_POST_ADD
+from weblate.addons.forms import GettextCustomizeForm
 from weblate.trans.exporters import MoExporter
 
 
 class GettextBaseAddon(BaseAddon):
     compat = {
         'file_format': frozenset((
-            'auto', 'po', 'po-unwrapped', 'po-mono', 'po-mono-unwrapped'
+            'auto', 'po', 'po-mono',
         )),
     }
 
@@ -202,3 +205,23 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
         for translation in component.translation_set.all():
             cmd[2] = translation.get_filename()
             popen_wrapper(cmd, OSError)
+
+
+class GettextCustomizeAddon(StoreBaseAddon):
+    name = 'weblate.gettext.customize'
+    verbose = _('Customize Gettext output')
+    description = _(
+        'Allows to customize Gettext output behavior, for example '
+        'line wrapping.'
+    )
+    settings_form = GettextCustomizeForm
+
+    @staticmethod
+    def is_store_compatible(store):
+        """Nees pofile and recent translate-toolkit."""
+        return isinstance(store, pofile) and hasattr(store, 'wrapper')
+
+    def store_post_load(self, translation, store):
+        store.store.wrapper.width = int(
+            self.instance.configuration.get('width', 77)
+        )

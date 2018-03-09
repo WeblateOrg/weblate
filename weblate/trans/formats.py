@@ -1017,42 +1017,9 @@ class PoFormat(FileFormat):
 
 
 @register_fileformat
-class UnwrappedPoFormat(PoFormat):
-    """Gettext po without line wrapping.
-
-    Depends on https://github.com/translate/translate/pull/3702.
-    """
-    name = _('Gettext PO file (unwrapped)')
-    format_id = 'po-unwrapped'
-
-    @classmethod
-    def get_class(cls):
-        # We need to figure out if wrapper arg is supported
-        instance = cls.loader()
-        if not hasattr(instance, 'wrapper'):
-            raise ImportError(
-                'translate-toolkit does not support configuring wrapper for po'
-            )
-        return cls.loader
-
-    @classmethod
-    def fixup(cls, store):
-        """Set wrapper width."""
-        store.wrapper.width = -1
-        return store
-
-
-@register_fileformat
 class PoMonoFormat(PoFormat):
     name = _('Gettext PO file (monolingual)')
     format_id = 'po-mono'
-    monolingual = True
-
-
-@register_fileformat
-class UnwrappedPoMonoFormat(UnwrappedPoFormat):
-    name = _('Gettext PO file (monolingual, unwrapped)')
-    format_id = 'po-mono-unwrapped'
     monolingual = True
 
 

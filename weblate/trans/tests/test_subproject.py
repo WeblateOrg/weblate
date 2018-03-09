@@ -159,10 +159,6 @@ class SubProjectTest(RepoTestCase):
         project = self.create_po_mono()
         self.verify_subproject(project, 4, 'cs', 4)
 
-    def test_create_po_mono_unwrapped(self):
-        project = self.create_po_mono_unwrapped()
-        self.verify_subproject(project, 4, 'cs', 4)
-
     def test_create_android(self):
         project = self.create_android()
         self.verify_subproject(project, 2, 'cs', 4)
