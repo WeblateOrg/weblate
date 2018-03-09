@@ -37,7 +37,7 @@ from weblate.trans.formats import (
     AutoFormat, PoFormat, AndroidFormat, PropertiesFormat, JoomlaFormat,
     JSONFormat, JSONNestedFormat, RESXFormat, PhpFormat, XliffFormat, TSFormat,
     YAMLFormat, RubyYAMLFormat, DTDFormat, FILE_FORMATS, detect_filename,
-    WebExtensionJSONFormat, UnwrappedPoFormat,
+    WebExtensionJSONFormat,
 )
 from weblate.trans.tests.utils import get_test_file, TempDirMixin
 
@@ -290,10 +290,6 @@ class PoFormatTest(AutoFormatTest):
             self.load_plural(TEST_HE_THREE).equation,
             'n==1 ? 0 : n==2 ? 2 : 1'
         )
-
-
-class UnwrappedPoFormatTest(PoFormatTest):
-    FORMAT = UnwrappedPoFormat
 
 
 class PropertiesFormatTest(AutoFormatTest):
