@@ -28,7 +28,7 @@ from weblate.utils.state import STATE_TRANSLATED, STATE_FUZZY
 
 
 SUPPORT_FUZZY = frozenset((
-    'ts', 'po', 'po-mono', 'po-unwrapped', 'po-mono-unwrapped'
+    'ts', 'po', 'po-mono',
 ))
 
 

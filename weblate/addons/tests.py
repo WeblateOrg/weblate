@@ -20,6 +20,7 @@
 
 from __future__ import unicode_literals
 
+from unittest import SkipTest
 import os
 
 from django.core.management import call_command
@@ -37,6 +38,7 @@ from weblate.addons.flags import SourceEditAddon, TargetEditAddon
 from weblate.addons.generate import GenerateFileAddon
 from weblate.addons.gettext import (
     GenerateMoAddon, UpdateLinguasAddon, UpdateConfigureAddon, MsgmergeAddon,
+    GettextCustomizeAddon,
 )
 from weblate.addons.properties import PropertiesSortAddon
 from weblate.lang.models import Language
@@ -114,6 +116,27 @@ class IntegrationTest(ViewTestCase):
             self.subproject.repository.last_revision
         )
         self.assertIn('po/cs.po', commit)
+
+    def test_store(self):
+        if not GettextCustomizeAddon.is_compatible(self.subproject):
+            raise SkipTest('po wrap configuration not supported')
+        GettextCustomizeAddon.create(
+            self.subproject,
+            configuration={'width': -1}
+        )
+        # Empty addons cache
+        self.subproject.addons_cache = {}
+        rev = self.subproject.repository.last_revision
+        self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
+        self.get_translation().commit_pending(None)
+        self.assertNotEqual(rev, self.subproject.repository.last_revision)
+        commit = self.subproject.repository.show(
+            self.subproject.repository.last_revision
+        )
+        self.assertIn(
+            'Last-Translator: Weblate Test <weblate@example.org>\\nLanguage',
+            commit
+        )
 
 
 class GettextAddonTest(ViewTestCase):

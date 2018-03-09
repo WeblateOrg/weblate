@@ -70,3 +70,16 @@ class GenerateForm(BaseAddonForm):
     def clean_template(self):
         self.test_render(self.cleaned_data['template'])
         return self.cleaned_data['template']
+
+
+class GettextCustomizeForm(BaseAddonForm):
+    width = forms.ChoiceField(
+        label=_('Long lines wrapping'),
+        choices=[
+            (77, _('Wrap lines at 77 chars and at newlines (default Gettext behavior)')),
+            (65535, _('Wrap lines at newlines only (Gettext behavior with --no-wrap)')),
+            (-1, _('No line wrapping at all')),
+        ],
+        required=True,
+        initial=77,
+    )

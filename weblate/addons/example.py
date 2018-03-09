@@ -31,7 +31,7 @@ class ExampleAddon(BaseAddon):
     # matched against property of component
     compat = {
         'file_format': frozenset((
-            'po', 'po-unwrapped', 'po-mono', 'po-mono-unwrapped'
+            'po', 'po-mono',
         )),
     }
     # List of events addon should receive
