@@ -672,6 +672,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 #     'weblate.addons.cleanup.CleanupAddon',
 #     'weblate.addons.flags.SourceEditAddon',
 #     'weblate.addons.flags.TargetEditAddon',
+#     'weblate.addons.json.JSONCustomizeAddon',
 #     'weblate.addons.generate.GenerateFileAddon',
 #     'weblate.addons.properties.PropertiesSortAddon',
 # )

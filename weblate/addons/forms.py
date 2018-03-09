@@ -83,3 +83,16 @@ class GettextCustomizeForm(BaseAddonForm):
         required=True,
         initial=77,
     )
+
+
+class JSONCustomizeForm(BaseAddonForm):
+    sort_keys = forms.BooleanField(
+        label=_('Sort JSON keys'),
+        required=False
+    )
+    indent = forms.IntegerField(
+        label=_('JSON indentation'),
+        min_value=0,
+        initial=4,
+        required=True,
+    )

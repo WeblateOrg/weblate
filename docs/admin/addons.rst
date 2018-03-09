@@ -66,6 +66,11 @@ Update po files to match pot (msgmerge)
 Update all po files to match the pot file using msgmerge. This is triggered
 whenever new changes are pulled from upstream repository.
 
+Customize JSON output
+---------------------
+
+Allows to customize JSON output behavior, for example indentation or sorting.
+
 Formats the Java properties file
 --------------------------------
 

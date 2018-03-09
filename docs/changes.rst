@@ -11,6 +11,7 @@ Released on ? 2018.
 * Added support for downloading only strings needing action.
 * Added support for searching in several languages at once.
 * New addon to configure Gettext output wrapping.
+* New addon to configure JSON formatting.
 
 weblate 2.19.1
 --------------

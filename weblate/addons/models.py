@@ -116,6 +116,7 @@ class AddonsConf(AppConf):
         'weblate.addons.flags.SourceEditAddon',
         'weblate.addons.flags.TargetEditAddon',
         'weblate.addons.generate.GenerateFileAddon',
+        'weblate.addons.json.JSONCustomizeAddon',
         'weblate.addons.properties.PropertiesSortAddon',
     )
 

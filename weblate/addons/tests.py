@@ -40,6 +40,7 @@ from weblate.addons.gettext import (
     GenerateMoAddon, UpdateLinguasAddon, UpdateConfigureAddon, MsgmergeAddon,
     GettextCustomizeAddon,
 )
+from weblate.addons.json import JSONCustomizeAddon
 from weblate.addons.properties import PropertiesSortAddon
 from weblate.lang.models import Language
 from weblate.trans.models import Unit
@@ -265,6 +266,28 @@ class JsonAddonTest(ViewTestCase):
             Unit.objects.exclude(
                 state__in=(STATE_FUZZY, STATE_EMPTY)
             ).exists()
+        )
+
+    def test_customize(self):
+        if not JSONCustomizeAddon.is_compatible(self.subproject):
+            raise SkipTest('json dump configuration not supported')
+        JSONCustomizeAddon.create(
+            self.subproject,
+            configuration={'indent': 8, 'sort': 1}
+        )
+        # Empty addons cache
+        self.subproject.addons_cache = {}
+        rev = self.subproject.repository.last_revision
+        self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
+        self.get_translation().commit_pending(None)
+        self.assertNotEqual(rev, self.subproject.repository.last_revision)
+        commit = self.subproject.repository.show(
+            self.subproject.repository.last_revision
+        )
+        print commit
+        self.assertIn(
+            '        "try"',
+            commit
         )
 
 
