@@ -215,6 +215,11 @@ class GettextCustomizeAddon(StoreBaseAddon):
         'line wrapping.'
     )
     settings_form = GettextCustomizeForm
+    compat = {
+        'file_format': frozenset((
+            'auto', 'po', 'po-mono',
+        )),
+    }
 
     @staticmethod
     def is_store_compatible(store):

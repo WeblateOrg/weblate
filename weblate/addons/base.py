@@ -166,9 +166,8 @@ class StoreBaseAddon(BaseAddon):
 
     @classmethod
     def is_compatible(cls, component):
-        if not component.translation_set.exists():
+        if (not super(StoreBaseAddon, cls).is_compatible(component) or
+                not component.translation_set.exists()):
             return False
         translation = component.translation_set.all()[0]
-        if not cls.is_store_compatible(translation.store.store):
-            return False
-        return super(StoreBaseAddon, cls).is_compatible(component)
+        return cls.is_store_compatible(translation.store.store)
