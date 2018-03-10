@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: Weblate 2.20\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-03-07 08:24+0000\n"
-"PO-Revision-Date: 2018-03-05 12:08+0000\n"
+"PO-Revision-Date: 2018-03-11 15:38+0000\n"
 "Last-Translator: Stanisław Krukowski <pet209a1@riseup.net>\n"
-"Language-Team: Polish <https://hosted.weblate.org/projects/weblate/master/pl/"
-">\n"
+"Language-Team: Polish "
+"<https://hosted.weblate.org/projects/weblate/master/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -328,8 +328,8 @@ msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
 msgstr ""
-"Wybierz języki, które rozumiesz. Ciagi tekstowe w tych językach pojawią się "
-"dodatkowo, oprócz ciagu źródłowego."
+"Wybierz języki, które rozumiesz. Ciągi znaków w tych językach pojawią się "
+"dodatkowo, oprócz źródłowego ciągu znaków."
 
 #: weblate/accounts/models.py:340
 msgid "Hide completed translations on dashboard"
@@ -417,7 +417,7 @@ msgstr "Powiadomienie o jakimkolwiek tłumaczeniu"
 
 #: weblate/accounts/models.py:427
 msgid "Notification on new string to translate"
-msgstr "Powiadomienie o nowym tekście do przetłumaczenia"
+msgstr "Powiadomienie o nowym ciągu znaków do przetłumaczenia"
 
 #: weblate/accounts/models.py:431
 msgid "Notification on new suggestion"
@@ -669,8 +669,8 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
-"Za każdym razem, gdy nowy ciąg źródłowy jest importowany z VCS, jest on "
-"oznaczony jako wymagający edycji w Weblate. W ten sposób można łatwo "
+"Za każdym razem, gdy nowy źródłowy ciąg znaków jest importowany z VCS, jest "
+"on oznaczony jako wymagający edycji w Weblate. W ten sposób można łatwo "
 "filtrować i edytować ciągi źródłowe napisane przez twórców oprogramowania."
 
 #: weblate/addons/flags.py:64
@@ -680,19 +680,15 @@ msgid "Flag new translations to need edit"
 msgstr "Dodaj jako tłumaczenie wymagające modyfikacji"
 
 #: weblate/addons/flags.py:66
-#, fuzzy
-#| msgid ""
-#| "Whenever a new source string is imported from the VCS, it is flagged as "
-#| "needing editing in Weblate. This way you can easily filter and edit "
-#| "source strings written by the developers."
 msgid ""
 "Whenever a new translation string is imported from the VCS, it is flagged as "
 "needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
-"Za każdym razem, gdy nowy ciąg źródłowy jest importowany z VCS, jest on "
-"oznaczony jako wymagający edycji w Weblate. W ten sposób można łatwo "
-"filtrować i edytować ciągi źródłowe napisane przez twórców oprogramowania."
+"Za każdym razem, gdy nowy, źródłowy ciąg znaków, przeznaczony do "
+"tłumaczenia, jest importowany z VCS — jest on oznaczany jako wymagający "
+"edycji w Weblate. W ten sposób można łatwo filtrować i edytować ciągi "
+"stworzone przez twórców oprogramowania."
 
 #: weblate/addons/forms.py:44
 #, fuzzy
@@ -1878,7 +1874,8 @@ msgstr ""
 msgid ""
 "The secondary languages are shown next to the source string when translating."
 msgstr ""
-"Języki dodatkowe są wyświetlane podczas tłumaczenia obok tekstu źródłowego."
+"Języki dodatkowe są wyświetlane ponad źródłowym ciągiem znaków podczas "
+"tłumaczenia."
 
 #: weblate/templates/accounts/profile.html:62
 msgid ""
@@ -3328,7 +3325,7 @@ msgstr "Komentarz do tłumaczenia"
 #: weblate/templates/list-comments.html:14 weblate/templates/translate.html:134
 #: weblate/templates/zen-units.html:27
 msgid "Source string comment"
-msgstr "Komentarz do tekstu źródłowego"
+msgstr "Komentarz do źródłowego ciągu znaków"
 
 #: weblate/templates/list-translations.html:9
 #: weblate/templates/list-translations.html:20
@@ -3387,9 +3384,9 @@ msgstr[2] "%(words)s słów do tłumaczenia!"
 #, python-format
 msgid "There is %(count)s string needing review."
 msgid_plural "There are %(count)s strings needing review."
-msgstr[0] "Jest %(count)s ciąg tekstowy wymagający przeglądu."
-msgstr[1] "Są %(count)s ciągi tekstowe wymagające przeglądu."
-msgstr[2] "Jest %(count)s ciągów źródłowych wymagających przeglądu."
+msgstr[0] "Jest %(count)s ciąg znaków wymagający przeglądu."
+msgstr[1] "Są %(count)s ciągi znaków wymagające przeglądu."
+msgstr[2] "Jest %(count)s ciągów znaków wymagających przeglądu."
 
 #: weblate/templates/list-translations.html:51
 #, python-format
@@ -3411,17 +3408,17 @@ msgstr[2] "Jest %(count)s sugestii."
 #, python-format
 msgid "There is %(count)s not translated string."
 msgid_plural "There are %(count)s not translated strings."
-msgstr[0] "Istnieje %(count)s nieprzetłumaczony tekst."
-msgstr[1] "Istnieją %(count)s nieprzetłumaczone teksty."
-msgstr[2] "Istnieje %(count)s nieprzetłumaczonych tekstów."
+msgstr[0] "Istnieje %(count)s nieprzetłumaczony ciąg znaków."
+msgstr[1] "Istnieją %(count)s nieprzetłumaczone ciągi znaków."
+msgstr[2] "Istnieje %(count)s nieprzetłumaczonych ciągów znaków."
 
 #: weblate/templates/list-translations.html:71
 #, python-format
 msgid "There is %(count)s translated string."
 msgid_plural "There are %(count)s translated strings."
-msgstr[0] "Istnieje %(count)s przetłumaczony tekst."
-msgstr[1] "Istnieją %(count)s przetłumaczone teksty."
-msgstr[2] "Istnieje %(count)s przetłumaczonych tekstów."
+msgstr[0] "Istnieje %(count)s przetłumaczony ciąg znaków."
+msgstr[1] "Istnieją %(count)s przetłumaczone ciągi znaków."
+msgstr[2] "Istnieje %(count)s przetłumaczonych ciągów znaków."
 
 #: weblate/templates/mail/account_activity.html:7
 #: weblate/templates/mail/account_activity.txt:1
@@ -3537,7 +3534,7 @@ msgstr ""
 #: weblate/templates/mail/new_translation.html:18
 #: weblate/templates/mail/new_translation.txt:5
 msgid "Source string:"
-msgstr "Tekst źródłowy:"
+msgstr "Źródłowy ciąg znaków:"
 
 #: weblate/templates/mail/changed_translation.html:28
 #: weblate/templates/mail/changed_translation.txt:9
@@ -3558,7 +3555,7 @@ msgstr "Zmiana tłumaczenia:"
 #: weblate/templates/mail/new_translation.html:38
 #: weblate/templates/mail/new_translation.txt:15
 msgid "You can edit this string at:"
-msgstr "Możesz zmodyfikować ten tekst na:"
+msgstr "Możesz edytować ten ciąg znaków na:"
 
 #: weblate/templates/mail/changed_translation.txt:13
 msgid "Previous translation:"
@@ -3751,7 +3748,7 @@ msgstr ""
 #: weblate/templates/mail/new_string_subject.txt:3
 #, python-format
 msgid "New string to translate in %(translation)s"
-msgstr "Nowy tekst do przetłumaczenia w projekcie %(translation)s"
+msgstr "Nowy ciąg znaków do przetłumaczenia w projekcie %(translation)s"
 
 #: weblate/templates/mail/new_suggestion.html:11
 #: weblate/templates/mail/new_suggestion.txt:3
@@ -4036,17 +4033,13 @@ msgstr "Przeglądaj wszystkie zmiany projektu"
 
 #: weblate/templates/project.html:196 weblate/templates/subproject.html:147
 #: weblate/templates/translation.html:223
-#, fuzzy
-#| msgid ""
-#| "You can replace string in all units at once. The search is simple "
-#| "substring case sensitive search."
 msgid ""
 "You can replace a string in all strings at once. The search is a simple "
 "substring case sensitive search."
 msgstr ""
-"Możesz zmienić teksty we wszystkich jednostkach za jednym razem. Dzięki "
-"wyszukiwarce możesz odnaleźć fragmenty tekstów, nie zważając na wielkość "
-"liter."
+"Możesz zamienić ciąg znaków we wszystkich ciągach znaków za jednym razem. "
+"Wyszukiwanie polega na odnajdowaniu fragmentów ciągów znaków, bez "
+"rozróżniania małych i dużych liter."
 
 #: weblate/templates/project.html:201 weblate/templates/replace.html:46
 #: weblate/templates/subproject.html:152 weblate/templates/translation.html:210
@@ -4101,7 +4094,7 @@ msgstr "Przypisane teksty źródłowe"
 #: weblate/templates/screenshots/screenshot_detail.html:25
 #: weblate/templates/screenshots/screenshot_detail.html:52
 msgid "Source string"
-msgstr "Tekst źródłowy"
+msgstr "Źródłowy ciąg znaków"
 
 #: weblate/templates/screenshots/screenshot_detail.html:26
 #: weblate/templates/screenshots/screenshot_detail.html:54
@@ -4139,7 +4132,7 @@ msgstr "Rozpoznaj automatycznie"
 
 #: weblate/templates/screenshots/screenshot_detail.html:76
 msgid "Source string search"
-msgstr "Wyszukiwanie tekstów źródłowych"
+msgstr "Wyszukiwanie źródłowych ciągów znaków"
 
 #: weblate/templates/screenshots/screenshot_detail.html:98
 msgid "Edit screenshot"
@@ -4488,7 +4481,7 @@ msgstr "Ctrl+S - Przełączenie karty wyszukiwania"
 
 #: weblate/templates/translate.html:89
 msgid "Ctrl+O - Copies source string"
-msgstr "Ctrl+O - Skopiowanie tekstu źródłowego"
+msgstr "Ctrl+O - Kopiuje źródłowy ciąg znaków"
 
 #: weblate/templates/translate.html:90
 msgid "Ctrl+T - Toggle edit needed flag"
@@ -4496,11 +4489,11 @@ msgstr "Ctrl+T - Przełączenie flagi wymagania modyfikacji"
 
 #: weblate/templates/translate.html:92
 msgid "Editing source string"
-msgstr "Modyfikowanie tekstu źródłowego"
+msgstr "Edytowanie źródłowego ciągu znaków"
 
 #: weblate/templates/translate.html:104
 msgid "Edit string"
-msgstr "Modyfikuj tekst"
+msgstr "Edytuj ciąg znaków"
 
 #: weblate/templates/translate.html:118 weblate/templates/zen-units.html:38
 msgid "Source change"
@@ -4512,7 +4505,7 @@ msgstr "Kontekst:"
 
 #: weblate/templates/translate.html:153
 msgid "Edit source string"
-msgstr "Modyfikuj tekst źródłowy"
+msgstr "Edytuj źródłowy ciąg znaków"
 
 #: weblate/templates/translate.html:170
 #, fuzzy
@@ -4521,16 +4514,12 @@ msgid "Please log in to save translations."
 msgstr "Zaloguj się by zapisywać tłumaczenia."
 
 #: weblate/templates/translate.html:172
-#, fuzzy
-#| msgid ""
-#| "Only reviewers can change approved string, please add suggestion if you "
-#| "think the string should be changed."
 msgid ""
 "Only reviewers can change approved strings, please add a suggestion if you "
 "think the string should be changed."
 msgstr ""
-"Tylko inspektorzy mogą zmienić zaakceptowany tekst. Jeśli sądzisz, że tekst "
-"powinien zostać zmieniony, dodaj swoją sugestię."
+"Tylko recenzenci mogą zmienić zaakceptowane ciągi znaków. Jeśli sądzisz, że "
+"ciąg znaków powinien zostać zmieniony, dodaj proszę swoją sugestię."
 
 #: weblate/templates/translate.html:174 weblate/trans/views/edit.py:316
 #: weblate/trans/views/edit.py:349 weblate/trans/views/edit.py:375
@@ -4604,10 +4593,8 @@ msgid "Machine translation"
 msgstr "Tłumaczenie maszynowe"
 
 #: weblate/templates/translate.html:223
-#, fuzzy
-#| msgid "Translations of this unit to other languages"
 msgid "Translations of this string in the other languages"
-msgstr "Tłumaczenie tej jednostki na inne języki"
+msgstr "Tłumaczenie tego ciągu znaków na inne języki"
 
 #: weblate/templates/translate.html:223
 msgid "Other languages"
@@ -4661,9 +4648,9 @@ msgstr "Akceptuj i modyfikuj"
 #: weblate/templates/translate.html:305
 msgid "Following string has same context and same source."
 msgid_plural "Following strings have same context and same source."
-msgstr[0] "Następujący tekst ma ten sam kontekst i źródło."
-msgstr[1] "Następujące teksty mają ten sam kontekst i źródło."
-msgstr[2] "Następujące teksty mają ten sam kontekst i źródło."
+msgstr[0] "Następujący ciąg znaków ma ten sam kontekst i źródło."
+msgstr[1] "Następujące ciągi znaków mają ten sam kontekst i źródło."
+msgstr[2] "Następujące ciągi znaków mają ten sam kontekst i źródło."
 
 #: weblate/templates/translate.html:313
 msgid "Following string has different context but same source."
