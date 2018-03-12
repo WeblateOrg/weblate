@@ -25,7 +25,7 @@ from django.contrib.auth.models import User
 
 from weblate.accounts.models import Profile
 from weblate.trans.models import SubProject
-from weblate.trans.autotranslate import auto_translate
+from weblate.trans.autotranslate import AutoTranslate
 from weblate.trans.management.commands import WeblateTranslationCommand
 
 
@@ -102,9 +102,8 @@ class Command(WeblateTranslationCommand):
         else:
             source = ''
 
-        result = auto_translate(
-            user, translation, source,
-            options['inconsistent'], options['overwrite'],
-            check_acl=False
+        auto = AutoTranslate(
+            user, translation, options['inconsistent'], options['overwrite']
         )
-        self.stdout.write('Updated {0} units'.format(result))
+        auto.process_others(source, check_acl=False)
+        self.stdout.write('Updated {0} units'.format(auto.updated))

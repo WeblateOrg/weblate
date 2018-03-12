@@ -42,14 +42,14 @@ from weblate.trans.models import Unit, Change, Comment, Suggestion, Dictionary
 from weblate.trans.autofixes import fix_target
 from weblate.trans.forms import (
     TranslationForm, ZenTranslationForm, SearchForm, InlineWordForm,
-    MergeForm, AutoForm, AutoMtForm, AntispamForm, CommentForm, RevertForm, NewUnitForm,
+    MergeForm, AutoForm, AntispamForm, CommentForm, RevertForm, NewUnitForm,
 )
 from weblate.trans.views.helper import (
     get_translation, import_message, show_form_errors,
 )
 from weblate.trans.checks import CHECKS
 from weblate.trans.util import join_plural, render, redirect_next
-from weblate.trans.autotranslate import auto_translate, auto_translate_mt
+from weblate.trans.autotranslate import AutoTranslate
 from weblate.permissions.helpers import (
     can_translate, can_suggest, can_accept_suggestion, can_delete_suggestion,
     can_vote_suggestion, can_delete_comment, can_automatic_translation,
@@ -608,59 +608,33 @@ def auto_translation(request, project, subproject, lang):
 
     if translation.subproject.locked or not autoform.is_valid():
         messages.error(request, _('Failed to process form!'))
+        show_form_errors(request, autoform)
         return redirect(translation)
 
-    updated = auto_translate(
+    auto = AutoTranslate(
         request.user,
         translation,
-        autoform.cleaned_data['subproject'],
         autoform.cleaned_data['inconsistent'],
         autoform.cleaned_data['overwrite']
     )
 
-    import_message(
-        request, updated,
-        _('Automatic translation completed, no strings were updated.'),
-        ungettext(
-            'Automatic translation completed, %d string was updated.',
-            'Automatic translation completed, %d strings were updated.',
-            updated
+    if autoform.cleaned_data['auto_source'] == 'mt':
+        auto.process_mt(
+            autoform.cleaned_data['engines'],
+            autoform.cleaned_data['threshold'],
         )
-    )
-
-    return redirect(translation)
-
-
-@require_POST
-@login_required
-def auto_translation_mt(request, project, subproject, lang):
-    translation = get_translation(request, project, subproject, lang)
-    project = translation.subproject.project
-    if not can_automatic_translation(request.user, project):
-        raise PermissionDenied()
-
-    automtform = AutoMtForm(translation, request.user, request.POST)
-
-    if translation.subproject.locked or not automtform.is_valid():
-        messages.error(request, _('Failed to process form!'))
-        return redirect(translation)
-
-    updated = auto_translate_mt(
-        request.user,
-        translation,
-        automtform.cleaned_data['engines'],
-        automtform.cleaned_data['threshold'],
-        automtform.cleaned_data['inconsistent'],
-        automtform.cleaned_data['overwrite']
-    )
+    else:
+        auto.process_others(
+            autoform.cleaned_data['subproject'],
+        )
 
     import_message(
-        request, updated,
+        request, auto.updated,
         _('Automatic translation completed, no strings were updated.'),
         ungettext(
             'Automatic translation completed, %d string was updated.',
             'Automatic translation completed, %d strings were updated.',
-            updated
+            auto.updated
         )
     )
 

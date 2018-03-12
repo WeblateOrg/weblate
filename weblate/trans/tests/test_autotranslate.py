@@ -66,6 +66,8 @@ class AutoTranslationTest(ViewTestCase):
         self.make_different()
         params = {'project': 'test', 'lang': 'cs', 'subproject': 'test-2'}
         url = reverse('auto_translation', kwargs=params)
+        kwargs['auto_source'] = 'others'
+        kwargs['threshold'] = '100'
         response = self.client.post(url, kwargs, follow=True)
         if expected == 1:
             self.assertContains(
@@ -202,7 +204,7 @@ class AutoTranslationMtTest(ViewTestCase):
 
     def test_none(self):
         """Test for automatic translation with no content."""
-        url = reverse('auto_translation_mt', kwargs=self.kw_translation)
+        url = reverse('auto_translation', kwargs=self.kw_translation)
         response = self.client.post(
             url
         )
@@ -217,7 +219,8 @@ class AutoTranslationMtTest(ViewTestCase):
     def perform_auto(self, expected=1, **kwargs):
         self.make_different()
         params = {'project': 'test', 'lang': 'cs', 'subproject': 'test-3'}
-        url = reverse('auto_translation_mt', kwargs=params)
+        url = reverse('auto_translation', kwargs=params)
+        kwargs['auto_source'] = 'mt'
         response = self.client.post(url, kwargs, follow=True)
         if expected == 1:
             self.assertContains(

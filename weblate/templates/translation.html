@@ -198,43 +198,19 @@
 
 {% if autoform %}
 <div class="tab-pane" id="auto">
-<div class="container-fluid">
-<div class="row">
-
-<div class="col-lg-6">
 <form action="{% url 'auto_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post" enctype="multipart/form-data" data-persist="auto-translation">
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Automatic translation" %}</h4></div>
 <div class="panel-body">
 <p>{% trans "Automatic translation takes existing translations in this project and applies them to the current component. It can be used to push translations to a different branch, to fix inconsistent translations or to translate a new component using translation memory." %}</p>
-{% csrf_token %}
-{{ autoform|crispy }}
-</div>
-<div class="panel-footer">
-<input type="submit" value="{% trans "Process" %}" class="btn btn-default" />
-</div>
-</div>
-</form>
-</div>
-
-<div class="col-lg-6">
-<form action="{% url 'auto_translation_mt' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post" enctype="multipart/form-data" data-persist="auto-translation-mt">
-<div class="panel panel-primary">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Automatic translation via machine translation" %}</h4></div>
-<div class="panel-body">
 <p>{% trans "Automatic translation via machine translation uses active machine translation engines to get the best possible translations and applies them in this project." %}</p>
-{% csrf_token %}
-{{ automtform|crispy }}
+{% crispy autoform %}
 </div>
 <div class="panel-footer">
 <input type="submit" value="{% trans "Process" %}" class="btn btn-default" />
 </div>
 </div>
 </form>
-</div>
-
-</div>
-</div>
 </div>
 {% endif %}
 

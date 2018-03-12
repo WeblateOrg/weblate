@@ -1263,4 +1263,19 @@ $(function () {
         // Restore original
         $trigger.attr('data-original-title', backup);
     });
+
+    /* Auto translate source select */
+    var select_auto_source = $('input[name="auto_source"]');
+    if (select_auto_source.length > 0) {
+        select_auto_source.on('change', function() {
+            if ($('input[name="auto_source"]:checked').val() == 'others') {
+                $('#auto_source_others').show();
+                $('#auto_source_mt').hide();
+            } else {
+                $('#auto_source_others').hide();
+                $('#auto_source_mt').show();
+            }
+        });
+        select_auto_source.trigger('change');
+    }
 });

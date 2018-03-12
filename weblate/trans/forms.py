@@ -900,10 +900,29 @@ class AutoForm(forms.Form):
         required=False,
         initial=False
     )
+    auto_source = forms.ChoiceField(
+        label=_('Automatic translation source'),
+        choices=[
+            ('others', _('Other translation components')),
+            ('mt', _('Machine translation')),
+        ],
+        initial='others',
+    )
     subproject = forms.ChoiceField(
         label=_('Component to use'),
         required=False,
         initial=''
+    )
+    engines = forms.MultipleChoiceField(
+        label=_('Machine translation engines to use'),
+        choices=[],
+        required=False,
+    )
+    threshold = forms.IntegerField(
+        label=_("Score threshold"),
+        initial=80,
+        min_value=1,
+        max_value=100,
     )
 
     def __init__(self, obj, user, *args, **kwargs):
@@ -928,35 +947,27 @@ class AutoForm(forms.Form):
 
         self.fields['subproject'].choices = \
             [('', _('All components in current project'))] + choices
+        self.fields['engines'].choices = [
+            (key, mt.name) for key, mt in MACHINE_TRANSLATION_SERVICES.items()
+        ]
+        if 'weblate' in MACHINE_TRANSLATION_SERVICES.keys():
+            self.fields['engines'].initial = 'weblate'
 
-
-class AutoMtForm(forms.Form):
-    """Automatic translation (machine translation) form."""
-    overwrite = forms.BooleanField(
-        label=_('Overwrite strings'),
-        required=False,
-        initial=False
-    )
-    inconsistent = forms.BooleanField(
-        label=_('Replace inconsistent'),
-        required=False,
-        initial=False
-    )
-    engines = forms.MultipleChoiceField(
-        label=_('Machine translation engines to use'),
-        choices=[]
-    )
-    threshold = forms.IntegerField(
-        label=_("Score threshold"),
-        initial=80,
-        min_value=1,
-        max_value=100
-    )
-
-    def __init__(self, obj, user, *args, **kwargs):
-        super(AutoMtForm, self).__init__(*args, **kwargs)
-        self.fields['engines'].choices = \
-            [(s, MACHINE_TRANSLATION_SERVICES[s].name) for s in list(MACHINE_TRANSLATION_SERVICES.keys())]
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Field('overwrite'),
+            Field('inconsistent'),
+            InlineRadios('auto_source', id='select_auto_source'),
+            Div(
+                'subproject',
+                css_id='auto_source_others'
+            ),
+            Div(
+                'engines',
+                'threshold',
+                css_id='auto_source_mt'
+            ),
+        )
 
 
 class CommaSeparatedIntegerField(forms.Field):
