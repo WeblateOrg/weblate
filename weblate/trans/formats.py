@@ -36,11 +36,9 @@ from django.utils.translation import ugettext_lazy as _
 
 import six
 
-from translate.convert import po2php
 from translate.misc import quote
 from translate.misc.multistring import multistring
 from translate.storage.lisa import LISAfile
-from translate.storage.php import phpunit, phpfile
 from translate.storage.po import pounit, pofile
 from translate.storage.poheader import default_header
 from translate.storage.properties import propunit, propfile
@@ -175,7 +173,7 @@ class FileUnit(object):
         """Return comma separated list of locations."""
         # JSON, XLIFF and PHP are special in ttkit - it uses locations for what
         # is context in other formats
-        if isinstance(self.mainunit, (propunit, phpunit)):
+        if isinstance(self.mainunit, propunit):
             return ''
         return ', '.join(
             [x for x in self.mainunit.getlocations() if x is not None]
@@ -1154,7 +1152,7 @@ class JoomlaFormat(FileFormat):
 class PhpFormat(FileFormat):
     name = _('PHP strings')
     format_id = 'php'
-    loader = phpfile
+    loader = ('php', 'phpfile')
     new_translation = '<?php\n'
     autoload = ('.php',)
     unit_class = PHPUnit
@@ -1192,6 +1190,7 @@ class PhpFormat(FileFormat):
             super(PhpFormat, self).save()
         else:
             with open(self.store.filename, 'rb') as handle:
+                from translate.convert import po2php
                 convertor = po2php.rephp(handle, self.store)
 
                 outputphplines = convertor.convertstore(False)
