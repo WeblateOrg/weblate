@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: Weblate 2.20\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-03-07 08:24+0000\n"
-"PO-Revision-Date: 2018-03-11 15:38+0000\n"
+"PO-Revision-Date: 2018-03-12 14:44+0000\n"
 "Last-Translator: Stanisław Krukowski <pet209a1@riseup.net>\n"
-"Language-Team: Polish "
-"<https://hosted.weblate.org/projects/weblate/master/pl/>\n"
+"Language-Team: Polish <https://hosted.weblate.org/projects/weblate/master/pl/"
+">\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -234,7 +234,7 @@ msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
 msgstr ""
-"Ścieżka do plików do tłumaczenia, użyj * zamiast kodu języka, np: po/*.po "
+"Ścieżka do plików do tłumaczenia. Użyj * zamiast kodu języka, np: po/*.po "
 "lub locale/*/LC_MESSAGES/django.po."
 
 #: weblate/accounts/forms.py:653
@@ -317,7 +317,7 @@ msgstr "Tłumaczone języki"
 
 #: weblate/accounts/models.py:324
 msgid "Choose languages to which you can translate."
-msgstr "Proszę wybrać języki, na które będzie się odbywać tłumaczenie."
+msgstr "Proszę wybrać języki, na które będziesz tłumaczyć."
 
 #: weblate/accounts/models.py:328
 msgid "Secondary languages"
@@ -333,15 +333,15 @@ msgstr ""
 
 #: weblate/accounts/models.py:340
 msgid "Hide completed translations on dashboard"
-msgstr "Ukrycie zakończonych tłumaczeń w kokpicie"
+msgstr "Ukryj na kokpicie zakończone tłumaczenia"
 
 #: weblate/accounts/models.py:344
 msgid "Show secondary translations in zen mode"
-msgstr "Dodatkowe tłumaczenia w trybie zen"
+msgstr "Pokaż dodatkowe tłumaczenia w trybie zen"
 
 #: weblate/accounts/models.py:348
 msgid "Hide source if there is secondary language"
-msgstr "Ukryj tekst źródłowy, jeśli jest dostępny w języku dodatkowym"
+msgstr "Ukryj źródło, jeśli jest dostępny język dodatkowy"
 
 #: weblate/accounts/models.py:354
 msgid "Editor link"
@@ -356,8 +356,9 @@ msgid ""
 "%(line)s is good option."
 msgstr ""
 "Wprowadź własny URL, który będzie służył do otworzenia kodu źródłowego. Dla "
-"gałęzi możesz użyć %(branch)s, dla nazwy pliku %(file)s, a dla linii "
-"%(line)s. Zazwyczaj używa się: editor://open/?file=%(file)s&line=%(line)s"
+"gałęzi możesz użyć %(branch)s, dla nazwy pliku %(file)s, a dla linii %(line)"
+"s. Zwykle, używa się czegoś w tym rodzaju: editor://open/"
+"?file=%(file)s&line=%(line)s"
 
 #: weblate/accounts/models.py:367
 msgid "Special characters"
@@ -370,8 +371,8 @@ msgid ""
 "but are hard to type on your keyboard."
 msgstr ""
 "Możesz wybrać dodatkowe znaki specjalne, które mają być widoczne na "
-"klawiaturze ekranowej podczas tłumaczenia. Może być to użyteczne, jeśli "
-"często używasz znaków które trudno jest wpisać na Twojej klawiaturze."
+"klawiaturze ekranowej podczas tłumaczenia. Może to być użyteczne, jeśli "
+"często używasz znaków, które trudno jest wpisać na twojej klawiaturze."
 
 #: weblate/accounts/models.py:381 weblate/templates/index.html:24
 msgid "Watched translations"
@@ -379,11 +380,11 @@ msgstr "Obserwowane tłumaczenia"
 
 #: weblate/accounts/models.py:382 weblate/templates/index.html:25
 msgid "Your languages"
-msgstr "Języki"
+msgstr "Twoje języki"
 
 #: weblate/accounts/models.py:383 weblate/trans/models/componentlist.py:58
 msgid "Component list"
-msgstr "Lista komponentów"
+msgstr "Lista składników"
 
 #: weblate/accounts/models.py:384 weblate/templates/index.html:27
 msgid "Suggested translations"
@@ -395,12 +396,12 @@ msgstr "Domyślny widok kokpitu"
 
 #: weblate/accounts/models.py:406
 msgid "Default component list"
-msgstr "Domyślna lista komponentów"
+msgstr "Domyślna lista składników"
 
 #: weblate/accounts/models.py:414 weblate/templates/accounts/profile.html:118
 #: weblate/templates/base.html:111
 msgid "Watched projects"
-msgstr "Obserwowane projekty"
+msgstr "Projekty obserwowane"
 
 #: weblate/accounts/models.py:416 weblate/templates/watch-dropdown.html:5
 #: weblate/templates/watch-dropdown.html:9
@@ -408,8 +409,9 @@ msgid ""
 "You can receive notifications for watched projects and they are shown on "
 "dashboard by default."
 msgstr ""
-"Możesz otrzymywać powiadomienia o obserwowanych projektach – domyślnie "
-"pojawią się one w kokpicie."
+"Możesz otrzymywać powiadomienia o obserwowanych projektach — domyślnie "
+"pojawią się one\n"
+"na kokpicie."
 
 #: weblate/accounts/models.py:423
 msgid "Notification on any translation"
@@ -441,11 +443,11 @@ msgstr "Powiadomienie o żądaniu nowego języka"
 
 #: weblate/accounts/models.py:501
 msgid "Component list must be selected when used as default."
-msgstr "Lista komponentów musi być wybrana, gdy jest użyta jako domyślna."
+msgstr "Lista składników musi być wybrana, gdy jest użyta jako domyślna."
 
 #: weblate/accounts/models.py:507
 msgid "Component list must not be selected when not used."
-msgstr "Lista komponentów nie może być wybrana, gdy nie jest użyta."
+msgstr "Lista składników nie może być wybrana, gdy nie jest używana."
 
 #: weblate/accounts/models.py:565
 msgid ""
@@ -479,8 +481,8 @@ msgstr "Twoje hasło nie może odpowiadać hasłu, którego używałeś w przesz
 #: weblate/accounts/pipeline.py:305
 msgid "You can not complete password reset while logged in!"
 msgstr ""
-"Nie można dokończyć resetowania hasła będąc jednocześnie zalogowanym /"
-"zalogowaną!"
+"Nie można dokończyć resetowania hasła, będąc jednocześnie zalogowanym "
+"/zalogowaną!"
 
 #: weblate/accounts/pipeline.py:309 weblate/accounts/pipeline.py:333
 msgid "The registration link has been invalidated."
@@ -489,7 +491,7 @@ msgstr "Odsyłacz rejestracyjny utracił ważność."
 #: weblate/accounts/pipeline.py:324
 msgid "You can not complete registration while logged in!"
 msgstr ""
-"Nie można dokończyć rejestracji będąc jednocześnie zalogowanym /zalogowaną!"
+"Nie można dokończyć rejestracji, będąc jednocześnie zalogowanym /zalogowaną!"
 
 #: weblate/accounts/pipeline.py:329
 msgid "You can confirm your registration only while logged in!"
@@ -634,7 +636,7 @@ msgid ""
 "Failed to complete your registration! This authentication, email or username "
 "are already associated with another account!"
 msgstr ""
-"Nie udało się sfinalizować Twojej rejestracji! To uwierzytelnienie, e-mail "
+"Nie udało się sfinalizować twojej rejestracji! To uwierzytelnienie, e-mail "
 "lub nazwa użytkownika są już przypisane do innego konta!"
 
 #: weblate/addons/cleanup.py:34
@@ -649,7 +651,8 @@ msgid ""
 msgstr ""
 "Zaktualizuj wszystkie pliki tłumaczeń tak, aby odpowiadały jednojęzykowemu "
 "plikowi podstawowemu. W przypadku większości formatów plików oznacza to "
-"usunięcie starych kluczy tłumaczeń, których nie ma już w pliku podstawowym."
+"usunięcie nieaktualnych kluczy tłumaczeń, których nie ma już w pliku "
+"podstawowym."
 
 #: weblate/addons/example.py:42
 msgid "Example addon"
@@ -657,11 +660,11 @@ msgstr "Przykładowy dodatek"
 
 #: weblate/addons/example.py:44
 msgid "This addon does nothing it is just an example"
-msgstr "Ten dodatek nic nie robi. Jest po prostu przykładem"
+msgstr "Ten dodatek nic nie robi. Jest po prostu przykładem."
 
 #: weblate/addons/flags.py:50
 msgid "Flag new source strings to need edit"
-msgstr "Oznacz nowe ciągi źródłowe wymagające edycji"
+msgstr "Oznacz nowe źródłowe ciągi znaków wymagające edycji"
 
 #: weblate/addons/flags.py:52
 msgid ""
@@ -670,14 +673,12 @@ msgid ""
 "strings written by the developers."
 msgstr ""
 "Za każdym razem, gdy nowy źródłowy ciąg znaków jest importowany z VCS, jest "
-"on oznaczony jako wymagający edycji w Weblate. W ten sposób można łatwo "
+"oznaczany jako wymagający edycji w Weblate. W ten sposób można łatwo "
 "filtrować i edytować ciągi źródłowe napisane przez twórców oprogramowania."
 
 #: weblate/addons/flags.py:64
-#, fuzzy
-#| msgid "Add as translation needing edit"
 msgid "Flag new translations to need edit"
-msgstr "Dodaj jako tłumaczenie wymagające modyfikacji"
+msgstr "Oznacz nowe tłumaczenia, wymagajace edycji"
 
 #: weblate/addons/flags.py:66
 msgid ""
@@ -685,79 +686,73 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
-"Za każdym razem, gdy nowy, źródłowy ciąg znaków, przeznaczony do "
-"tłumaczenia, jest importowany z VCS — jest on oznaczany jako wymagający "
-"edycji w Weblate. W ten sposób można łatwo filtrować i edytować ciągi "
-"stworzone przez twórców oprogramowania."
+"Za każdym razem, gdy nowy źródłowy ciąg znaków, przeznaczony do tłumaczenia, "
+"importowany jest\n"
+"z VCS — oznacza się go jako wymagający edycji w Weblate. W ten sposób można "
+"łatwo filtrować\n"
+"i edytować tłumaczenia, stworzone przez twórców oprogramowania."
 
 #: weblate/addons/forms.py:44
-#, fuzzy
-#| msgid "Failed to generate key: %s"
 msgid "Name of generated file"
-msgstr "Nie udało się wygenerować klucza: %s"
+msgstr "Nazwa wygenerowanego pliku"
 
 #: weblate/addons/forms.py:49
 msgid "Content of generated file"
-msgstr ""
+msgstr "Zawartość wygenerowanego pliku"
 
 #: weblate/addons/generate.py:36
-#, fuzzy
-#| msgid "Statistics"
 msgid "Statistics generator"
-msgstr "Statystyki"
+msgstr "Generator statystyk"
 
 #: weblate/addons/generate.py:38
-#, fuzzy
-#| msgid "Merges content of file header into the translation."
 msgid ""
 "This addon generates file with detailed information about the translation."
-msgstr "Łączy zawartość nagłówka pliku z tłumaczeniem."
+msgstr "Ten dodatek generuje plik ze szczegółowymi informacjami o tłumaczeniu."
 
 #: weblate/addons/gettext.py:52
-#, fuzzy
-#| msgid "Generate SSH key"
 msgid "Generate mo files"
-msgstr "Generuj klucz SSH"
+msgstr "Generuj pliki mo"
 
 #: weblate/addons/gettext.py:54
 msgid "Automatically generates mo file for every changed po file."
-msgstr ""
+msgstr "Automatycznie generuje plik mo dla każdego zmienionego pliku mo."
 
 #: weblate/addons/gettext.py:69
 msgid "Update LINGUAS file"
-msgstr ""
+msgstr "Aktualizuj plik LINGUAS"
 
 #: weblate/addons/gettext.py:71
-#, fuzzy
-#| msgid "Merges content of file header into the translation."
 msgid "Updates the LINGUAS file when adding new translation."
-msgstr "Łączy zawartość nagłówka pliku z tłumaczeniem."
+msgstr "Aktualizuje plik LINGUAS podczas dodawania nowego tłumaczenia."
 
 #: weblate/addons/gettext.py:124
 msgid "Update ALL_LINGUAS variable in the configure file"
-msgstr ""
+msgstr "Aktualizuj zmienną ALL_LINGUAS w pliku konfiguracyjnym"
 
 #: weblate/addons/gettext.py:126
 msgid ""
 "Updates the ALL_LINGUAS variable in configure, configure.in or configure.ac "
 "files when adding new translation."
 msgstr ""
+"Aktualizuje zmienną ALL_LINGUAS w plikach configure, configure.in lub "
+"configure.ac podczas dodawania nowego tłumaczenia."
 
 #: weblate/addons/gettext.py:184
 msgid "Update po files to match pot (msgmerge)"
-msgstr ""
+msgstr "Aktualizuj pliki po, aby dopasować pot (msgmerge)"
 
 #: weblate/addons/gettext.py:186
 msgid ""
 "Update all po files to match the pot file using msgmerge. This is triggered "
 "whenever new changes are pulled from upstream repository."
 msgstr ""
+"Aktualizuj wszystkie pliki po, aby dopasować plik pot, stosujac msgmerge. "
+"Jest to wyzwalane zawsze wtedy, gdy nowe zmiany są ściągane z repozytorium "
+"upstream."
 
 #: weblate/addons/properties.py:147
-#, fuzzy
-#| msgid "Revert to this translation"
 msgid "Formats the Java properties file"
-msgstr "Wycofaj do tego tłumaczenia"
+msgstr "Formaty właściwości pliku Java"
 
 #: weblate/addons/properties.py:149
 msgid "This addon sorts the Java properties file."
