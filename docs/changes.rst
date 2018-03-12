@@ -12,6 +12,7 @@ Released on ? 2018.
 * Added support for searching in several languages at once.
 * New addon to configure Gettext output wrapping.
 * New addon to configure JSON formatting.
+* Added support for authentication in API using RFC 6750 compatible Bearer authentication.
 
 weblate 2.19.1
 --------------

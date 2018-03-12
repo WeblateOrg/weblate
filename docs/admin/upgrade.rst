@@ -590,6 +590,8 @@ Notable configuration or dependencies changes:
 * The two internal machine translation services are now merged, please adjust
   :setting:`MACHINE_TRANSLATION_SERVICES` to no longer include
   ``weblate.trans.machine.weblatetm.WeblateSimilarTranslation``.
+* There is a change in ``REST_FRAMEWORK`` setting to support ``Bearer``
+  authentication.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
