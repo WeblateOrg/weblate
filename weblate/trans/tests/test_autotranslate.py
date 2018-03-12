@@ -244,7 +244,9 @@ class AutoTranslationMtTest(ViewTestCase):
         self.perform_auto(engines=['weblate'], threshold=80)
 
     def test_inconsistent(self):
-        self.perform_auto(0, inconsistent='1', engines=['weblate'], threshold=80)
+        self.perform_auto(
+            0, inconsistent='1', engines=['weblate'], threshold=80
+        )
 
     def test_overwrite(self):
         self.perform_auto(overwrite='1', engines=['weblate'], threshold=80)

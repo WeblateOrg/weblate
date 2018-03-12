@@ -73,12 +73,13 @@ class AutoTranslate(object):
         if source:
             subprj = SubProject.objects.get(id=source)
 
-            if check_acl and not can_access_project(user, subprj.project):
+            if check_acl and not can_access_project(self.user, subprj.project):
                 raise PermissionDenied()
             sources = sources.filter(translation__subproject=subprj)
         else:
+            project = self.translation.subproject.project
             sources = sources.filter(
-                translation__subproject__project=self.translation.subproject.project
+                translation__subproject__project=project
             ).exclude(
                 translation=self.translation
             )
@@ -120,7 +121,9 @@ class AutoTranslate(object):
                 )
 
                 for item in result:
-                    results.append((item['quality'], item['text'], item['service']))
+                    results.append(
+                        (item['quality'], item['text'], item['service'])
+                    )
 
             # use the other machine translation services if weblate did not
             # find anything or has not been chosen
@@ -139,7 +142,9 @@ class AutoTranslate(object):
                     )
 
                     for item in result:
-                        results.append((item['quality'], item['text'], item['service']))
+                        results.append(
+                            (item['quality'], item['text'], item['service'])
+                        )
 
             if not results:
                 continue
