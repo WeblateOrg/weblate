@@ -23,70 +23,133 @@ from django.db import transaction
 
 from weblate.permissions.helpers import can_access_project
 from weblate.trans.models import Unit, Change, SubProject
+from weblate.trans.machine import MACHINE_TRANSLATION_SERVICES
 from weblate.utils.state import STATE_TRANSLATED
 
 
-@transaction.atomic
-def auto_translate(user, translation, source, inconsistent, overwrite,
-                   check_acl=True):
-    """Perform automatic translation based on other components."""
-    updated = 0
+class AutoTranslate(object):
+    def __init__(self, user, translation, inconsistent, overwrite):
+        self.user = user
+        self.translation = translation
+        self.inconsistent = inconsistent
+        self.overwrite = overwrite
+        self.updated = 0
 
-    if inconsistent:
-        units = translation.unit_set.filter_type(
-            'check:inconsistent',
-            translation.subproject.project,
-            translation.language,
-        )
-    elif overwrite:
-        units = translation.unit_set.all()
-    else:
-        units = translation.unit_set.filter(
+    def get_units(self):
+        if self.inconsistent:
+            return self.translation.unit_set.filter_type(
+                'check:inconsistent',
+                self.translation.subproject.project,
+                self.translation.language,
+            )
+        elif self.overwrite:
+            return self.translation.unit_set.all()
+        return self.translation.unit_set.filter(
             state__lt=STATE_TRANSLATED,
         )
 
-    sources = Unit.objects.filter(
-        translation__language=translation.language,
-        state__gte=STATE_TRANSLATED,
-    )
-    if source:
-        subprj = SubProject.objects.get(id=source)
-
-        if check_acl and not can_access_project(user, subprj.project):
-            raise PermissionDenied()
-        sources = sources.filter(translation__subproject=subprj)
-    else:
-        sources = sources.filter(
-            translation__subproject__project=translation.subproject.project
-        ).exclude(
-            translation=translation
-        )
-
-    # Filter by strings
-    units = units.filter(
-        source__in=sources.values('source')
-    )
-
-    translation.commit_pending(None)
-
-    for unit in units.select_for_update().iterator():
-        # Get first matching entry
-        update = sources.filter(source=unit.source)[0]
-        # No save if translation is same
-        if unit.state == update.state and unit.target == update.target:
-            continue
-        # Copy translation
-        unit.state = update.state
-        unit.target = update.target
+    def update(self, unit, state, target):
+        unit.state = state
+        unit.target = target
         # Create signle change object for whole merge
         Change.objects.create(
             action=Change.ACTION_AUTO,
             unit=unit,
-            user=user,
-            author=user
+            user=self.user,
+            author=self.user
         )
         # Save unit to backend
-        unit.save_backend(None, False, False, user=user)
-        updated += 1
+        unit.save_backend(None, False, False, user=self.user)
+        self.updated += 1
 
-    return updated
+    @transaction.atomic
+    def process_others(self, source, check_acl=True):
+        """Perform automatic translation based on other components."""
+        sources = Unit.objects.filter(
+            translation__language=self.translation.language,
+            state__gte=STATE_TRANSLATED,
+        )
+        if source:
+            subprj = SubProject.objects.get(id=source)
+
+            if check_acl and not can_access_project(user, subprj.project):
+                raise PermissionDenied()
+            sources = sources.filter(translation__subproject=subprj)
+        else:
+            sources = sources.filter(
+                translation__subproject__project=self.translation.subproject.project
+            ).exclude(
+                translation=self.translation
+            )
+
+        # Filter by strings
+        units = self.get_units().filter(
+            source__in=sources.values('source')
+        )
+
+        self.translation.commit_pending(None)
+
+        for unit in units.select_for_update().iterator():
+            # Get first matching entry
+            update = sources.filter(source=unit.source)[0]
+            # No save if translation is same
+            if unit.state == update.state and unit.target == update.target:
+                continue
+            # Copy translation
+            self.update(unit, update.state, update.target)
+
+    @transaction.atomic
+    def process_mt(self, engines, threshold):
+        """Perform automatic translation based on machine translation."""
+        self.translation.commit_pending(None)
+
+        # get the translations (optimized: first WeblateMT, then others)
+        for unit in self.get_units().iterator():
+            # a list to store all found translations
+            results = []
+
+            # check if weblate is in the chosen engines
+            if 'weblate' in engines:
+                translation_service = MACHINE_TRANSLATION_SERVICES['weblate']
+                result = translation_service.translate(
+                    self.translation.language.code,
+                    unit.get_source_plurals()[0],
+                    unit,
+                    self.user
+                )
+
+                for item in result:
+                    results.append((item['quality'], item['text'], item['service']))
+
+            # use the other machine translation services if weblate did not
+            # find anything or has not been chosen
+            if 'weblate' not in engines or not results:
+                for engine in engines:
+                    # skip weblate
+                    if 'weblate' == engine:
+                        continue
+
+                    translation_service = MACHINE_TRANSLATION_SERVICES[engine]
+                    result = translation_service.translate(
+                        self.translation.language.code,
+                        unit.get_source_plurals()[0],
+                        unit,
+                        self.user
+                    )
+
+                    for item in result:
+                        results.append((item['quality'], item['text'], item['service']))
+
+            if not results:
+                continue
+
+            # sort the list descending - the best result will be on top
+            results.sort(key=lambda tup: tup[0], reverse=True)
+
+            # take the "best" result and check the quality score
+            result = results[0]
+            if result[0] < threshold:
+                continue
+
+            # Copy translation
+            self.update(unit, STATE_TRANSLATED, result[1])

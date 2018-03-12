@@ -13,6 +13,7 @@ Released on ? 2018.
 * New addon to configure Gettext output wrapping.
 * New addon to configure JSON formatting.
 * Added support for authentication in API using RFC 6750 compatible Bearer authentication.
+* Added support for automatic translation using machine translation services.
 
 weblate 2.19.1
 --------------

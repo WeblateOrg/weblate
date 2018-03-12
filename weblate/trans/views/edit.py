@@ -49,7 +49,7 @@ from weblate.trans.views.helper import (
 )
 from weblate.trans.checks import CHECKS
 from weblate.trans.util import join_plural, render, redirect_next
-from weblate.trans.autotranslate import auto_translate
+from weblate.trans.autotranslate import AutoTranslate
 from weblate.permissions.helpers import (
     can_translate, can_suggest, can_accept_suggestion, can_delete_suggestion,
     can_vote_suggestion, can_delete_comment, can_automatic_translation,
@@ -608,23 +608,33 @@ def auto_translation(request, project, subproject, lang):
 
     if translation.subproject.locked or not autoform.is_valid():
         messages.error(request, _('Failed to process form!'))
+        show_form_errors(request, autoform)
         return redirect(translation)
 
-    updated = auto_translate(
+    auto = AutoTranslate(
         request.user,
         translation,
-        autoform.cleaned_data['subproject'],
         autoform.cleaned_data['inconsistent'],
         autoform.cleaned_data['overwrite']
     )
 
+    if autoform.cleaned_data['auto_source'] == 'mt':
+        auto.process_mt(
+            autoform.cleaned_data['engines'],
+            autoform.cleaned_data['threshold'],
+        )
+    else:
+        auto.process_others(
+            autoform.cleaned_data['subproject'],
+        )
+
     import_message(
-        request, updated,
+        request, auto.updated,
         _('Automatic translation completed, no strings were updated.'),
         ungettext(
             'Automatic translation completed, %d string was updated.',
             'Automatic translation completed, %d strings were updated.',
-            updated
+            auto.updated
         )
     )
 
