@@ -752,6 +752,8 @@ REST_FRAMEWORK = {
 #    r'/hooks/(.*)$',    # Allowing public access to notification hooks
 #    r'/api/(.*)$',      # Allowing access to API
 #    r'/js/i18n/$',      # Javascript localization
+#    r'/contact/$',      # Optional for contact form
+#    r'/legal/(.*)$',    # Optional for legal app
 # )
 
 # Force sane test runner
