@@ -1038,7 +1038,7 @@ LANGUAGES = (
     ),
     (
         'lg',
-        _('Ganda'),
+        _('Luganda'),
         2,
         'n != 1',
     ),

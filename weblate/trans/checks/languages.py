@@ -6601,6 +6601,7 @@ LANGUAGES = frozenset((
     'ludzas',
     'lue',
     'lufu',
+    'luganda',
     'lugbara',
     'lugger',
     'lugo',
