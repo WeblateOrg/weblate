@@ -628,14 +628,17 @@ def whiteboard_messages(project=None, subproject=None, language=None):
     )
 
     for whiteboard in whiteboards:
+        if whiteboard.message_html:
+            content = mark_safe(whiteboard.message)
+        else:
+            content = mark_safe(urlize(whiteboard.message, autoescape=True))
+
         ret.append(
             render_to_string(
                 'message.html',
                 {
                     'tags': ' '.join((whiteboard.category, 'whiteboard')),
-                    'message': mark_safe(
-                        urlize(whiteboard.message, autoescape=True)
-                    )
+                    'message':  content,
                 }
             )
         )

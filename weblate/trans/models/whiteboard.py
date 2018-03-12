@@ -65,6 +65,15 @@ class WhiteboardMessage(models.Model):
     message = models.TextField(
         verbose_name=ugettext_lazy('Message'),
     )
+    message_html = models.BooleanField(
+        verbose_name=ugettext_lazy('Render as HTML'),
+        help_text=ugettext_lazy(
+            'When disabled, URLs will be converted to links and '
+            'any markup will be escaped.'
+        ),
+        blank=True,
+        default=False,
+    )
 
     project = models.ForeignKey(
         'Project',
