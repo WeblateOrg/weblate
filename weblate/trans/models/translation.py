@@ -424,7 +424,8 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         # Commit changes
         self.git_commit(
-            request, last, self.last_change, True, True, skip_push
+            request, last, self.last_change, force_commit=True,
+            skip_push=skip_push
         )
         return True
 
@@ -461,7 +462,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         return msg
 
-    def __git_commit(self, author, timestamp, sync=False):
+    def __git_commit(self, author, timestamp):
         """Commit translation to git."""
 
         # Format commit message
@@ -493,9 +494,8 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         # Post commit hook
         vcs_post_commit.send(sender=self.__class__, translation=self)
 
-        # Optionally store updated hash
-        if sync:
-            self.store_hash()
+        # Store updated hash
+        self.store_hash()
 
     def repo_needs_commit(self):
         """Check whether there are some not committed changes."""
@@ -511,7 +511,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         return self.subproject.repo_needs_push()
 
     def git_commit(self, request, author, timestamp, force_commit=False,
-                   sync=False, skip_push=False, force_new=False):
+                   skip_push=False, force_new=False):
         """Wrapper for commiting translation to git.
 
         force_commit forces commit with lazy commits enabled
@@ -551,7 +551,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 translation=self,
                 user=request.user if request else None,
             )
-            self.__git_commit(author, timestamp, sync)
+            self.__git_commit(author, timestamp)
 
             # Push if we should
             if not skip_push:
@@ -863,8 +863,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 self.store.save()
 
             self.git_commit(
-                request, author, timezone.now(),
-                force_commit=True, sync=True
+                request, author, timezone.now(), force_commit=True
             )
 
         return (not_found, skipped, accepted, store2.count_units())
