@@ -22,6 +22,7 @@ install:
   # We need wheel installed to build wheels
   - "python.exe -m pip install wheel"
   - "python.exe -m pip install unittest-xml-reporting"
+  - "python.exe -m pip install git+https://github.com/translate/translate.git@9d67198e10012ef4dada5f969739fd6bf579068b"
   - "python.exe -m pip install -r requirements-optional.txt"
   - "python.exe -m pip install -r ci/requirements-travis.txt"
 
