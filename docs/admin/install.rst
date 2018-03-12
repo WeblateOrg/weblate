@@ -81,8 +81,10 @@ libravatar (optional for federated avatar support)
     https://pypi.python.org/pypi/pyLibravatar
 pyuca (>= 1.1) (optional for proper sorting of strings)
     https://github.com/jtauber/pyuca
-babel (optional for Android resources support)
+Babel (optional for Android resources support)
     http://babel.pocoo.org/
+phply (optional for PHP support)
+    https://github.com/viraptor/phply
 Database backend
     Any database supported in Django will work, see :ref:`database-setup` and
     backends documentation for more details.
