@@ -115,6 +115,8 @@ Can review translation [Managers,Reviewers]
     Can approved translation in review.
 Can add unit [Managers]
     Can add new unit to monolingual translations.
+Can ignore check results [Users, Managers]
+    Can cancel fired quality check
 
 .. _acl:
 
