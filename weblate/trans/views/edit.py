@@ -615,7 +615,8 @@ def auto_translation(request, project, subproject, lang):
         request.user,
         translation,
         autoform.cleaned_data['inconsistent'],
-        autoform.cleaned_data['overwrite']
+        autoform.cleaned_data['overwrite'],
+        request=request
     )
 
     if autoform.cleaned_data['auto_source'] == 'mt':

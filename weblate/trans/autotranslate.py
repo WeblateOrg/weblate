@@ -28,8 +28,9 @@ from weblate.utils.state import STATE_TRANSLATED
 
 
 class AutoTranslate(object):
-    def __init__(self, user, translation, inconsistent, overwrite):
+    def __init__(self, user, translation, inconsistent, overwrite, request=None):
         self.user = user
+        self.request = request
         self.translation = translation
         self.inconsistent = inconsistent
         self.overwrite = overwrite
@@ -59,7 +60,7 @@ class AutoTranslate(object):
             author=self.user
         )
         # Save unit to backend
-        unit.save_backend(None, False, False, user=self.user)
+        unit.save_backend(self.request, False, False, user=self.user)
         self.updated += 1
 
     @transaction.atomic
