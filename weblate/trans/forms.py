@@ -30,6 +30,7 @@ from crispy_forms.bootstrap import TabHolder, Tab, InlineRadios
 
 from django import forms
 from django.core.exceptions import PermissionDenied
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.translation import (
     ugettext_lazy as _, ugettext, pgettext_lazy, pgettext
 )
@@ -52,6 +53,7 @@ from weblate.trans.models.source import PRIORITY_CHOICES
 from weblate.trans.models.unit import (
     STATE_TRANSLATED, STATE_FUZZY, STATE_APPROVED, STATE_EMPTY,
 )
+from weblate.trans.machine import MACHINE_TRANSLATION_SERVICES
 from weblate.permissions.helpers import (
     can_author_translation, can_overwrite_translation, can_translate,
     can_suggest, can_add_translation, can_mass_add_translation, can_review,
@@ -926,6 +928,35 @@ class AutoForm(forms.Form):
 
         self.fields['subproject'].choices = \
             [('', _('All components in current project'))] + choices
+
+
+class AutoMtForm(forms.Form):
+    """Automatic translation (machine translation) form."""
+    overwrite = forms.BooleanField(
+        label=_('Overwrite strings'),
+        required=False,
+        initial=False
+    )
+    inconsistent = forms.BooleanField(
+        label=_('Replace inconsistent'),
+        required=False,
+        initial=False
+    )
+    engines = forms.MultipleChoiceField(
+        label=_('Machine translation engines to use'),
+        choices=[]
+    )
+    threshold = forms.IntegerField(
+        label=_("Score threshold"),
+        initial=80,
+        min_value=1,
+        max_value=100
+    )
+
+    def __init__(self, obj, user, *args, **kwargs):
+        super(AutoMtForm, self).__init__(*args, **kwargs)
+        self.fields['engines'].choices = \
+            [(s, MACHINE_TRANSLATION_SERVICES[s].name) for s in list(MACHINE_TRANSLATION_SERVICES.keys())]
 
 
 class CommaSeparatedIntegerField(forms.Field):

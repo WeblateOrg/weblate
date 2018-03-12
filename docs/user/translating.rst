@@ -242,3 +242,20 @@ This feature can be useful in several situations like consolidating translation
 between different components (eg. website and application) or when
 bootstrapping translation for new component using existing translations
 (translation memory).
+
+.. _auto-translation-mt:
+
+Automatic translation via machine translation
+---------------------------------------------
+
+Weblate can also be used to automatically fetch translations from activated
+machine translation services. This tool is called :guilabel:`Automatic translation` 
+and is accessible in the :guilabel:`Tools` menu.
+
+You can choose which machine translations engines you want to use as source and how to handle
+conflicts.
+
+This feature can be useful in several situations like consolidating translation
+between different components (eg. website and application) or when
+bootstrapping translation for new component using existing translations
+(translation memory).

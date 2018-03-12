@@ -23,6 +23,7 @@ from django.db import transaction
 
 from weblate.permissions.helpers import can_access_project
 from weblate.trans.models import Unit, Change, SubProject
+from weblate.trans.machine import MACHINE_TRANSLATION_SERVICES
 from weblate.utils.state import STATE_TRANSLATED
 
 
@@ -88,5 +89,89 @@ def auto_translate(user, translation, source, inconsistent, overwrite,
         # Save unit to backend
         unit.save_backend(None, False, False, user=user)
         updated += 1
+
+    return updated
+
+
+def auto_translate_mt(user, translation, engines, threshold, inconsistent,
+                      overwrite):
+    """Perform automatic translation based on machine translation."""
+    updated = 0
+
+    if inconsistent:
+        units = translation.unit_set.filter_type(
+            'check:inconsistent',
+            translation.subproject.project,
+            translation.language,
+        )
+    elif overwrite:
+        units = translation.unit_set.all()
+    else:
+        units = translation.unit_set.filter(
+            state__lt=STATE_TRANSLATED,
+        )
+
+    # get the translations (optimized: first WeblateMT, then others)
+    for unit in units.iterator():
+        # a list to store all found translations
+        results = []
+
+        # check if weblate is in the chosen engines
+        if 'weblate' in engines:
+            translation_service = MACHINE_TRANSLATION_SERVICES['weblate']
+            result = translation_service.translate(
+                unit.translation.language.code,
+                unit.get_source_plurals()[0],
+                unit,
+                user
+            )
+
+            for item in result:
+                results.append((item['quality'], item['text'], item['service']))
+
+        # use the other machine translation services if weblate did not
+        # find anything or has not been chosen
+        if 'weblate' not in engines or not results:
+            for engine in engines:
+                # skip weblate
+                if 'weblate' == engine:
+                    continue
+
+                translation_service = MACHINE_TRANSLATION_SERVICES[engine]
+                result = translation_service.translate(
+                    unit.translation.language.code,
+                    unit.get_source_plurals()[0],
+                    unit,
+                    user
+                )
+
+                for item in result:
+                    results.append((item['quality'], item['text'], item['service']))
+
+        if not results:
+            continue
+
+        # sort the list descending - the best result will be on top
+        results.sort(key=lambda tup: tup[0], reverse=True)
+
+        # take the "best" result and check the quality score
+        result = results[0]
+        if result[0] < threshold:
+            continue
+
+        with transaction.atomic():
+            # Copy translation
+            unit.state = STATE_TRANSLATED
+            unit.target = result[1]
+            # Create single change object for whole merge
+            Change.objects.create(
+                action=Change.ACTION_AUTO,
+                unit=unit,
+                user=user,
+                author=user
+            )
+            # Save unit to backend
+            unit.save_backend(None, False, False, user=user)
+            updated += 1
 
     return updated
