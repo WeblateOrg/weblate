@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 2.20\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-03-07 08:24+0000\n"
-"PO-Revision-Date: 2018-03-02 10:10+0000\n"
+"PO-Revision-Date: 2018-03-12 14:44+0000\n"
 "Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hans/>\n"
@@ -630,7 +630,7 @@ msgid ""
 "Whenever a new source string is imported from the VCS, it is flagged as "
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
-msgstr ""
+msgstr "每当一个新的源字符串从版本控制系统中导入时，它将在 Weblate 中被标记为需要编辑。这样您可以简单地过滤并编辑开发者编写的源字符串。"
 
 #: weblate/addons/flags.py:64
 msgid "Flag new translations to need edit"
@@ -2645,8 +2645,6 @@ msgid "Copy"
 msgstr "复制"
 
 #: weblate/templates/glossary-embed.html:21
-#, fuzzy
-#| msgid "No related strings were found in the glossary."
 msgid "No related strings found in the glossary."
 msgstr "在词汇表中未找到相关的字符串。"
 
@@ -3774,10 +3772,8 @@ msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
 msgstr "在 %(share_url)s 使用 %%23Weblate 翻译 %(object)s !"
 
 #: weblate/templates/project.html:86
-#, fuzzy
-#| msgid "Tweet this translation!"
 msgid "Tweet this translation"
-msgstr "将此翻译发到推特！"
+msgstr "将此翻译发到推特"
 
 #: weblate/templates/project.html:87 weblate/templates/subproject.html:96
 #: weblate/templates/translation.html:91
@@ -4243,10 +4239,8 @@ msgid "Ctrl+M - Shows machine translation tab"
 msgstr "Alt+M - 显示机器翻译选项卡"
 
 #: weblate/templates/translate.html:87
-#, fuzzy
-#| msgid "Alt+N - Shows nearby strings tab"
 msgid "Ctrl+J - Shows nearby strings tab"
-msgstr "Alt+N - 附近字符串"
+msgstr "Ctrl+J - 显示附近字符串选项卡"
 
 #: weblate/templates/translate.html:88
 #, fuzzy
@@ -4351,10 +4345,8 @@ msgid "Messages placed around this one"
 msgstr "此项附近的字符串"
 
 #: weblate/templates/translate.html:210
-#, fuzzy
-#| msgid "Search string"
 msgid "Nearby strings"
-msgstr "搜索字符串"
+msgstr "附近字符串"
 
 #: weblate/templates/translate.html:215 weblate/templates/translate.html:407
 msgid "Other translations"
@@ -4535,40 +4527,28 @@ msgid "Download translation as TMX"
 msgstr "下载译文为 TMX"
 
 #: weblate/templates/translation-download.html:14
-#, fuzzy
-#| msgid "Download translation as XLIFF with Gettext extensions"
 msgid "Download strings needing action as XLIFF with Gettext extensions"
-msgstr "以带有 Gettext 扩展的 XLIFF 格式下载翻译"
+msgstr "以带有 Gettext 扩展的 XLIFF 格式下载需要处理的字符串"
 
 #: weblate/templates/translation-download.html:15
-#, fuzzy
-#| msgid "Download translation as XLIFF 1.2"
 msgid "Download strings needing action as XLIFF 1.2"
-msgstr "下载译文为 XLIFF 1.2"
+msgstr "以 XLIFF 1.2 格式下载需要处理的字符串"
 
 #: weblate/templates/translation-download.html:16
-#, fuzzy
-#| msgid "Download translation as Gettext PO"
 msgid "Download strings needing action as Gettext PO"
-msgstr "下载译文为 Gettext PO"
+msgstr "以 Gettext PO 格式下载需要处理的字符串"
 
 #: weblate/templates/translation-download.html:17
-#, fuzzy
-#| msgid "Download translation as Gettext MO"
 msgid "Download strings needing action as Gettext MO"
-msgstr "下载译文为 Gettext MO"
+msgstr "以 Gettext MO 格式下载需要处理的字符串"
 
 #: weblate/templates/translation-download.html:18
-#, fuzzy
-#| msgid "Download translation as CSV"
 msgid "Download strings needing action as CSV"
-msgstr "下载译文为 CSV"
+msgstr "以 CSV 格式下载需要处理的字符串"
 
 #: weblate/templates/translation-download.html:19
-#, fuzzy
-#| msgid "Download translation as TMX"
 msgid "Download strings needing action as TMX"
-msgstr "下载译文为 TMX"
+msgstr "以 TMX 格式下载需要处理的字符串"
 
 #: weblate/templates/translation-download.html:22
 msgid "Upload translation"
@@ -5159,10 +5139,8 @@ msgid "Translated strings"
 msgstr "已翻译的字符串"
 
 #: weblate/trans/filter.py:35
-#, fuzzy
-#| msgid "Strings marked for review"
 msgid "Strings marked for edit"
-msgstr "已标记复查的字符串"
+msgstr "已标记需编辑的字符串"
 
 #: weblate/trans/filter.py:36 weblate/trans/models/translation.py:764
 msgid "Strings with suggestions"
@@ -5183,34 +5161,24 @@ msgid "Strings with any failing checks"
 msgstr "任何未通过检查的字符串"
 
 #: weblate/trans/filter.py:40 weblate/trans/models/translation.py:707
-#, fuzzy
-#| msgid "Source strings"
 msgid "Approved strings"
-msgstr "源字符串"
+msgstr "复核批准的字符串"
 
 #: weblate/trans/filter.py:43 weblate/trans/models/translation.py:732
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgid "Approved strings with suggestions"
-msgstr "有建议的字符串"
+msgstr "带建议，已复核批准的字符串"
 
 #: weblate/trans/filter.py:45 weblate/trans/models/translation.py:724
-#, fuzzy
-#| msgid "Strings marked for review"
 msgid "Strings waiting for review"
-msgstr "已标记复查的字符串"
+msgstr "等待复查的字符串"
 
 #: weblate/trans/filter.py:53
-#, fuzzy
-#| msgid "Strings with any failing checks"
 msgid "Strings with any failing source checks"
-msgstr "任何未通过检查的字符串"
+msgstr "任何未通过源文件检查的字符串"
 
 #: weblate/trans/filter.py:54
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with source comments"
-msgstr "带有注释的字符串"
+msgstr "带有源文件注释的字符串"
 
 #: weblate/trans/formats.py:907
 msgid "Automatic detection"
@@ -7672,10 +7640,8 @@ msgid "Reports"
 msgstr "报告"
 
 #: weblate/wladmin/views.py:87
-#, fuzzy
-#| msgid "Configuration errors"
 msgid "Failed to dismiss configuration error!"
-msgstr "配置错误"
+msgstr "排除配置错误时失败！"
 
 #: weblate/wladmin/views.py:98
 msgid "Debug mode"
