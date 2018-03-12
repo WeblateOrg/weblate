@@ -648,7 +648,6 @@ class Unit(models.Model, LoggerMixin):
         old_translated = self.translation.stats.translated
         if change_action != Change.ACTION_UPLOAD:
             self.translation.invalidate_cache()
-            self.translation.store_hash()
 
         # Notify subscribed users about new translation
         notify_new_translation(self, self.old_unit, user)
