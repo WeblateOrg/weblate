@@ -23,10 +23,12 @@ from __future__ import unicode_literals
 import csv
 import os
 import traceback
+import re
 from io import BytesIO
 
 import six
 from django.utils.translation import ugettext_lazy as _
+
 from openpyxl import Workbook, load_workbook
 
 from weblate.trans.util import add_configuration_error
@@ -116,6 +118,10 @@ class XlsxFormat(ExternalFileFormat):
 
         row = 2
 
+        # use the same relugar expression as in openpyxl.cell
+        # to remove illegal characters
+        illegal_characters_re = re.compile(r'[\000-\010]|[\013-\014]|[\016-\037]')
+
         for unit in units.iterator():
             # Write the translation data to the worksheet.
             # To suppress openpyxl to export values as formulas, we
@@ -126,7 +132,7 @@ class XlsxFormat(ExternalFileFormat):
                 column=1,
                 row=row,
             ).set_explicit_value(
-                "{0}".format(unit.source),
+                "{0}".format(illegal_characters_re.sub(r'', unit.source)),
                 data_type="s"
             )
 
@@ -135,7 +141,7 @@ class XlsxFormat(ExternalFileFormat):
                 column=2,
                 row=row,
             ).set_explicit_value(
-                "{0}".format(unit.target),
+                "{0}".format(illegal_characters_re.sub(r'',unit.target)),
                 data_type="s"
             )
 
@@ -144,7 +150,7 @@ class XlsxFormat(ExternalFileFormat):
                 column=3,
                 row=row,
             ).set_explicit_value(
-                "{0}".format(unit.context),
+                "{0}".format(illegal_characters_re.sub(r'',unit.context)),
                 data_type="s"
             )
 
