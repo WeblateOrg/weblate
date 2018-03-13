@@ -18,7 +18,18 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
+
+from django.utils.translation import ugettext_lazy as _
+
 STATE_EMPTY = 0
 STATE_FUZZY = 10
 STATE_TRANSLATED = 20
 STATE_APPROVED = 30
+
+STATE_CHOICES = (
+    (STATE_EMPTY, _('Empty')),
+    (STATE_FUZZY, _('Needs editing')),
+    (STATE_TRANSLATED, _('Translated')),
+    (STATE_APPROVED, _('Approved')),
+)
