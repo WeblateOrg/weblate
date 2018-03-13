@@ -697,7 +697,8 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         return result
 
-    def get_translation_checks(self):
+    @cached_property
+    def list_translation_checks(self):
         """Return list of failing checks on current translation."""
         result = TranslationChecklist()
 
