@@ -54,6 +54,7 @@ from weblate.trans.util import (
 from weblate.utils.hash import calculate_hash, hash_to_checksum
 from weblate.utils.state import (
     STATE_TRANSLATED, STATE_FUZZY, STATE_APPROVED, STATE_EMPTY,
+    STATE_CHOICES
 )
 
 SIMPLE_FILTERS = {
@@ -369,12 +370,7 @@ class Unit(models.Model, LoggerMixin):
     state = models.IntegerField(
         default=STATE_EMPTY,
         db_index=True,
-        choices=(
-            (STATE_EMPTY, 'Empty'),
-            (STATE_FUZZY, 'Needs editing'),
-            (STATE_TRANSLATED, 'Translated'),
-            (STATE_APPROVED, 'Approved'),
-        )
+        choices=STATE_CHOICES,
     )
 
     position = models.IntegerField()
