@@ -15,6 +15,7 @@ Released on ? 2018.
 * Added support for authentication in API using RFC 6750 compatible Bearer authentication.
 * Added support for automatic translation using machine translation services.
 * Added support for HTML markup in whiteboard messages.
+* Added support for mass changing state of strings.
 
 weblate 2.19.1
 --------------

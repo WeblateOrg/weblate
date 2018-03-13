@@ -48,20 +48,24 @@ from django.contrib.auth.models import User
 from weblate.lang.data import LOCALE_ALIASES
 from weblate.lang.models import Language
 from weblate.trans.filter import get_filter_choice
-from weblate.trans.models import SubProject, Unit, Project, Change
-from weblate.trans.models.source import PRIORITY_CHOICES
-from weblate.trans.models.unit import (
-    STATE_TRANSLATED, STATE_FUZZY, STATE_APPROVED, STATE_EMPTY,
+from weblate.trans.models import (
+    Translation, SubProject, Unit, Project, Change
 )
+from weblate.trans.models.source import PRIORITY_CHOICES
 from weblate.trans.machine import MACHINE_TRANSLATION_SERVICES
 from weblate.permissions.helpers import (
     can_author_translation, can_overwrite_translation, can_translate,
     can_suggest, can_add_translation, can_mass_add_translation, can_review,
+    can_review_project,
 )
 from weblate.trans.specialchars import get_special_chars, RTL_CHARS_DATA
 from weblate.trans.validators import validate_check_flags
 from weblate.trans.util import sort_choices
 from weblate.utils.hash import checksum_to_hash, hash_to_checksum
+from weblate.utils.state import (
+    STATE_TRANSLATED, STATE_FUZZY, STATE_APPROVED, STATE_EMPTY,
+    STATE_CHOICES
+)
 from weblate.utils.validators import validate_file_extension
 from weblate.logger import LOGGER
 from weblate import get_doc_url
@@ -623,7 +627,8 @@ def get_upload_form(user, translation, *args):
 class FilterField(forms.ChoiceField):
     def __init__(self, *args, **kwargs):
         kwargs['label'] = _('Search filter')
-        kwargs['required'] = False
+        if 'required' not in kwargs:
+            kwargs['required'] = False
         kwargs['choices'] = get_filter_choice()
         kwargs['error_messages'] = {
             'invalid_choice': _('Please select a valid filter type.'),
@@ -1505,3 +1510,41 @@ class NewUnitForm(forms.Form):
         ),
         required=True,
     )
+
+
+class MassStateForm(forms.Form):
+    type = FilterField(
+        required=True,
+        initial='all',
+        widget=forms.RadioSelect
+    )
+    state = forms.ChoiceField(
+        label=_('State to set'),
+        choices=STATE_CHOICES,
+    )
+
+    def __init__(self, user, obj, *args, **kwargs):
+        super(MassStateForm, self).__init__(*args, **kwargs)
+        excluded = {STATE_EMPTY}
+        translation = None
+        if isinstance(obj, Translation):
+            project = obj.subproject.project
+            translation = obj
+        elif isinstance(obj, SubProject):
+            project = obj.project
+        else:
+            project = obj
+
+        # Filter offered states
+        if not can_review_project(user, project):
+            excluded.add(STATE_APPROVED)
+        self.fields['state'].choices = [
+            x for x in self.fields['state'].choices
+            if x[0] not in excluded
+        ]
+
+        # Filter checks
+        if translation:
+            self.fields['type'].choices = [
+                (x[0], x[1]) for x in translation.list_translation_checks
+            ]

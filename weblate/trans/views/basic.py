@@ -45,7 +45,7 @@ from weblate.lang.models import Language
 from weblate.trans.forms import (
     get_upload_form, SearchForm, SiteSearchForm,
     AutoForm, ReviewForm, get_new_language_form,
-    ReportsForm, ReplaceForm, NewUnitForm,
+    ReportsForm, ReplaceForm, NewUnitForm, MassStateForm,
 )
 from weblate.permissions.helpers import (
     can_automatic_translation, can_translate,
@@ -340,8 +340,10 @@ def show_project(request, project):
 
     if can_translate(request.user, project=obj):
         replace_form = ReplaceForm()
+        mass_state_form = MassStateForm(request.user, obj)
     else:
         replace_form = None
+        mass_state_form = None
 
     return render(
         request,
@@ -367,6 +369,7 @@ def show_project(request, project):
             'source_words_count': obj.stats.source_words,
             'search_form': SearchForm(),
             'replace_form': replace_form,
+            'mass_state_form': mass_state_form,
             'components': prefetch_stats(obj.subproject_set.select_related()),
         }
     )
@@ -380,8 +383,10 @@ def show_subproject(request, project, subproject):
 
     if can_translate(request.user, project=obj.project):
         replace_form = ReplaceForm()
+        mass_state_form = MassStateForm(request.user, obj)
     else:
         replace_form = None
+        mass_state_form = None
 
     return render(
         request,
@@ -409,6 +414,7 @@ def show_subproject(request, project, subproject):
             'strings_count': obj.stats.source_strings,
             'source_words_count': obj.stats.source_words,
             'replace_form': replace_form,
+            'mass_state_form': mass_state_form,
             'search_form': SearchForm(),
         }
     )
@@ -440,9 +446,12 @@ def show_translation(request, project, subproject, lang):
             initial={'exclude_user': request.user.username}
         )
 
-    replace_form = None
     if can_translate(request.user, translation=obj):
         replace_form = ReplaceForm()
+        mass_state_form = MassStateForm(request.user, obj)
+    else:
+        replace_form = None
+        mass_state_form = None
 
     return render(
         request,
@@ -456,6 +465,7 @@ def show_translation(request, project, subproject, lang):
             'search_form': search_form,
             'review_form': review_form,
             'replace_form': replace_form,
+            'mass_state_form': mass_state_form,
             'new_unit_form': NewUnitForm(),
             'last_changes': last_changes,
             'last_changes_url': urlencode(obj.get_kwargs()),

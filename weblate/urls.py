@@ -237,6 +237,21 @@ urlpatterns = [
         name='replace',
     ),
     url(
+        r'^state-change/' + PROJECT + '$',
+        weblate.trans.views.search.state_change,
+        name='state-change',
+    ),
+    url(
+        r'^state-change/' + SUBPROJECT + '$',
+        weblate.trans.views.search.state_change,
+        name='state-change',
+    ),
+    url(
+        r'^state-change/' + TRANSLATION + '$',
+        weblate.trans.views.search.state_change,
+        name='state-change',
+    ),
+    url(
         r'^credits/' + SUBPROJECT + '$',
         weblate.trans.views.reports.get_credits,
         name='credits',

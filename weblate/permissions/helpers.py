@@ -184,6 +184,14 @@ def can_review(user, translation):
 
 
 @cache_permission
+def can_review_project(user, project):
+    return (
+        project.enable_review and
+        has_group_perm(user, 'trans.review_translation', project=project)
+    )
+
+
+@cache_permission
 def can_add_unit(user, translation):
     """Check whether user can add new unit for given translation."""
     if not translation.is_template:

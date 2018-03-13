@@ -153,6 +153,20 @@
 </div>
 </div>
 </form>
+
+<form action="{% url 'state-change' project=object.project.slug subproject=object.slug %}" method="post" enctype="multipart/form-data">
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Mass state change" %}</h4></div>
+<div class="panel-body">
+<p>{% trans "You can change state of all strings matching given type at once." %}</p>
+{% csrf_token %}
+{{ mass_state_form|crispy }}
+</div>
+<div class="panel-footer">
+<input type="submit" value="{% trans "Process" %}" class="btn btn-default" />
+</div>
+</div>
+</form>
 </div>
 {% endif %}
 

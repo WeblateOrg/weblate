@@ -195,6 +195,7 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_SUGGESTION_CLEANUP = 29
     ACTION_SOURCE_CHANGE = 30
     ACTION_NEW_UNIT = 31
+    ACTION_MASS_STATE = 32
 
     ACTION_CHOICES = (
         (ACTION_UPDATE, ugettext_lazy('Resource update')),
@@ -232,6 +233,7 @@ class Change(models.Model, UserDisplayMixin):
         ),
         (ACTION_SOURCE_CHANGE, ugettext_lazy('Source string changed')),
         (ACTION_NEW_UNIT, ugettext_lazy('New string added')),
+        (ACTION_MASS_STATE, ugettext_lazy('Mass state change')),
     )
 
     ACTIONS_SUBPROJECT = frozenset((
@@ -265,6 +267,7 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_UPLOAD,
         ACTION_REPLACE,
         ACTION_NEW_UNIT,
+        ACTION_MASS_STATE,
     ))
 
     ACTIONS_REPOSITORY = frozenset((
