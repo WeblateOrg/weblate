@@ -141,7 +141,7 @@ class XlsxFormat(ExternalFileFormat):
                 column=2,
                 row=row,
             ).set_explicit_value(
-                "{0}".format(illegal_characters_re.sub(r'',unit.target)),
+                "{0}".format(illegal_characters_re.sub(r'', unit.target)),
                 data_type="s"
             )
 
@@ -150,7 +150,7 @@ class XlsxFormat(ExternalFileFormat):
                 column=3,
                 row=row,
             ).set_explicit_value(
-                "{0}".format(illegal_characters_re.sub(r'',unit.context)),
+                "{0}".format(illegal_characters_re.sub(r'', unit.context)),
                 data_type="s"
             )
 
