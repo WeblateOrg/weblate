@@ -22,6 +22,7 @@ from __future__ import unicode_literals
 
 import os
 import codecs
+import sys
 
 from django.conf import settings
 from django.db import models, transaction
@@ -50,7 +51,7 @@ from weblate.accounts.notifications import notify_new_string
 from weblate.accounts.models import get_author_name
 from weblate.trans.models.change import Change
 from weblate.trans.checklists import TranslationChecklist
-
+from weblate.utils.errors import report_error
 
 class TranslationManager(models.Manager):
     def check_sync(self, subproject, lang, code, path, force=False,
@@ -910,8 +911,8 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 if name is not None and content is not None:
                     fileobj.name = name
                     filecopy = content
-            except Exception:
-                pass
+            except Exception as error:
+                report_error(error, sys.exc_info())
 
         # Load backend file
         store = try_load(
