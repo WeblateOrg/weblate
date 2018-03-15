@@ -237,7 +237,7 @@ def state_change(request, project, subproject=None, lang=None):
             unit.translate(
                 request,
                 unit.target,
-                form.cleaned_data['state'],
+                int(form.cleaned_data['state']),
                 change_action=Change.ACTION_MASS_STATE,
             )
             updated += 1
