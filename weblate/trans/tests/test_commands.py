@@ -63,6 +63,18 @@ class ImportProjectTest(RepoTestCase):
         # We should have loaded four subprojects
         self.assertEqual(project.subproject_set.count(), 4)
 
+    def test_import_deep(self):
+        project = self.create_project()
+        call_command(
+            'import_project',
+            'test',
+            self.git_repo_path,
+            'master',
+            'deep/*/locales/*/LC_MESSAGES/**.po',
+        )
+        # We should have loaded four subprojects
+        self.assertEqual(project.subproject_set.count(), 1)
+
     def test_import_ignore(self):
         project = self.create_project()
         self.do_import()
