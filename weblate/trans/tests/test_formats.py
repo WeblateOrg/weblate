@@ -85,14 +85,17 @@ class AutoLoadTest(TestCase):
         self.single_test(TEST_JSON, JSONFormat)
 
     def test_php(self):
+        if 'php' not in FILE_FORMATS:
+            raise SkipTest('PHP not supported')
         self.single_test(TEST_PHP, PhpFormat)
 
     def test_properties(self):
         self.single_test(TEST_PROPERTIES, PropertiesFormat)
 
     def test_joomla(self):
-        if 'joomla' in FILE_FORMATS:
-            self.single_test(TEST_JOOMLA, JoomlaFormat)
+        if 'joomla' not in FILE_FORMATS:
+            raise SkipTest('Joomla not supported')
+        self.single_test(TEST_JOOMLA, JoomlaFormat)
 
     def test_android(self):
         self.single_test(TEST_ANDROID, AndroidFormat)
@@ -101,16 +104,19 @@ class AutoLoadTest(TestCase):
         self.single_test(TEST_XLIFF, XliffFormat)
 
     def test_resx(self):
-        if 'resx' in FILE_FORMATS:
-            self.single_test(TEST_RESX, RESXFormat)
+        if 'resx' not in FILE_FORMATS:
+            raise SkipTest('RESX not supported')
+        self.single_test(TEST_RESX, RESXFormat)
 
     def test_yaml(self):
-        if 'yaml' in FILE_FORMATS:
-            self.single_test(TEST_YAML, YAMLFormat)
+        if 'yaml' not in FILE_FORMATS:
+            raise SkipTest('YAML not supported')
+        self.single_test(TEST_YAML, YAMLFormat)
 
     def test_ruby_yaml(self):
-        if 'tuby_yaml' in FILE_FORMATS:
-            self.single_test(TEST_RUBY_YAML, RubyYAMLFormat)
+        if 'ruby-yaml' not in FILE_FORMATS:
+            raise SkipTest('YAML not supported')
+        self.single_test(TEST_RUBY_YAML, RubyYAMLFormat)
 
     def test_content(self):
         """Test content based guess from ttkit"""
