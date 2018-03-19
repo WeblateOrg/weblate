@@ -111,6 +111,13 @@ class Command(BaseCommand):
             help='Set push URL for the project',
         )
         parser.add_argument(
+            '--disable-push-on-commit',
+            action='store_false',
+            default=True,
+            dest='push_on_commit',
+            help='Disable push on commit for created components',
+        )
+        parser.add_argument(
             '--main-component',
             default=None,
             help=(
@@ -149,6 +156,7 @@ class Command(BaseCommand):
         self.vcs = None
         self.push_url = None
         self.logger = LOGGER
+        self.push_on_commit = True
         self._mask_regexp = None
 
     def format_string(self, template, match):
@@ -257,6 +265,7 @@ class Command(BaseCommand):
         self.name_template = options['name_template']
         self.license = options['license']
         self.license_url = options['license_url']
+        self.push_on_commit = options['push_on_commit']
         self.base_file_template = options['base_file_template']
         if options['component_regexp']:
             try:
@@ -376,7 +385,7 @@ class Command(BaseCommand):
         result = {
             'file_format': self.file_format,
             'vcs': self.vcs,
-
+            'push_on_commit': self.push_on_commit,
         }
         optionals = (
             'license',
