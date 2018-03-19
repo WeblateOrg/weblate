@@ -166,9 +166,10 @@ class Command(BaseCommand):
             return self.component_re
         if self._mask_regexp is None:
             match = fnmatch.translate(self.filemask)
-            match = match.replace('.*.*', '[[NAME_WILDCARD]]')
-            match = match.replace('.*', '(?P<language>.*)')
-            match = match.replace('[[NAME_WILDCARD]]', '(?P<name>.*)')
+            match = match.replace('.*.*', '(?P<name>[[WILDCARD]])')
+            match = match.replace('.*', '(?P<language>[[WILDCARD]])', 1)
+            match = match.replace('.*', '(?P=language)')
+            match = match.replace('[[WILDCARD]]', '.*')
             self._mask_regexp = re.compile(match)
         return self._mask_regexp
 
