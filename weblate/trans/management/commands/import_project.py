@@ -106,6 +106,11 @@ class Command(BaseCommand):
             help='Version control system to use',
         )
         parser.add_argument(
+            '--push-url',
+            default='',
+            help='Set push URL for the project',
+        )
+        parser.add_argument(
             '--main-component',
             default=None,
             help=(
@@ -142,6 +147,7 @@ class Command(BaseCommand):
         self.name_template = None
         self.base_file_template = None
         self.vcs = None
+        self.push_url = None
         self.logger = LOGGER
         self._mask_regexp = None
 
@@ -244,6 +250,7 @@ class Command(BaseCommand):
         """Parse parameters"""
         self.filemask = options['filemask']
         self.vcs = options['vcs']
+        self.push_url = options['push_url']
         self.file_format = options['file_format']
         self.language_regex = options['language_regex']
         self.main_component = options['main_component']
@@ -423,6 +430,7 @@ class Command(BaseCommand):
             name=name,
             slug=slug,
             project=project,
+            push=self.push_url,
             repo=repo,
             branch=branch,
             template=template,
