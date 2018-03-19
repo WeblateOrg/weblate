@@ -382,16 +382,6 @@ class PhpFormatTest(AutoFormatTest):
     BASE = ''
     NEW_UNIT_MATCH = b'\nkey = \'Source string\';\n'
 
-    def test_new_unit(self):
-        try:
-            # New phply based storage handles save just fine
-            # see https://github.com/translate/translate/pull/3697
-            # pylint: disable=unused-import,unused-variable
-            from translate.storage.php import PHPLexer  # noqa
-            super(PhpFormatTest, self).test_new_unit()
-        except ImportError:
-            raise SkipTest('Broken PHP support in translate-toolkit')
-
 
 class AndroidFormatTest(XMLMixin, AutoFormatTest):
     FORMAT = AndroidFormat
@@ -454,15 +444,6 @@ class YAMLFormatTest(AutoFormatTest):
     FIND_MATCH = ''
     MATCH = 'weblate:'
     NEW_UNIT_MATCH = b'\nkey: Source string\n'
-
-    def setUp(self):
-        super(YAMLFormatTest, self).setUp()
-        # Compatibility code with transalte-toolkit <= 2.4.5
-        instance = self.FORMAT.get_class()()
-        instance.parse(b'en:\n  weblate:\n    hello: ""')
-        if ' / ' in instance.units[0].getid():
-            # pylint: disable=invalid-name
-            self.FIND = self.FIND.replace('->', ' / ')
 
     def assert_same(self, newdata, testdata):
         # Fixup quotes as different translate toolkit versions behave

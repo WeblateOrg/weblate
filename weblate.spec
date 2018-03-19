@@ -34,7 +34,7 @@ BuildRequires:  python-Whoosh >= 2.7.0
 BuildRequires:  git-review
 BuildRequires:  git-svn
 BuildRequires:  python-PyYAML
-BuildRequires:  translate-toolkit >= 2.0.0
+BuildRequires:  translate-toolkit >= 2.3.0
 Requires:       apache2-mod_wsgi
 Requires:       cron
 Requires:       git
@@ -49,7 +49,7 @@ Requires:       python-django-crispy-forms >= 1.6.1
 Requires:       python-social-auth-app-django >= 1.2.0
 Requires:       python-social-auth-core >= 1.3.0
 Requires:       python-Whoosh >= 2.7.0
-Requires:       translate-toolkit >= 2.0.0
+Requires:       translate-toolkit >= 2.3.0
 Recommends:     git-review
 Recommends:     git-svn
 Recommends:     mercurial

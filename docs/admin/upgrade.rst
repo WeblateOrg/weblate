@@ -592,6 +592,7 @@ Notable configuration or dependencies changes:
   ``weblate.trans.machine.weblatetm.WeblateSimilarTranslation``.
 * There is a change in ``REST_FRAMEWORK`` setting to support ``Bearer``
   authentication.
+* The translate-toolkit 2.3.0 is now required.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
