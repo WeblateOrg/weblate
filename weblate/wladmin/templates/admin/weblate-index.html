@@ -24,7 +24,7 @@
 
         <tr>
             <th scope="row"><a href="{% url 'admin:performance' %}">
-            {% if configuration_errors %}
+            {% if configuration_errors.exists %}
             <img src="{% static 'admin/img/icon-alert.svg' %}" />
             {% endif %}
             {% trans "Performance report" %}

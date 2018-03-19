@@ -153,7 +153,9 @@ class WeblateAdminSite(AdminSite):
         empty = [_('Object listing disabled')]
         result['empty_selectable_objects_list'] = [empty]
         result['empty_objects_list'] = empty
-        result['configuration_errors'] = ConfigurationError.objects.all()
+        result['configuration_errors'] = ConfigurationError.objects.filter(
+            ignored=False
+        )
         return result
 
     def get_urls(self):
