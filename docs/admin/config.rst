@@ -597,11 +597,14 @@ List of enabled machine translation services to use.
         'weblate.trans.machine.apertium.ApertiumAPYTranslation',
         'weblate.trans.machine.glosbe.GlosbeTranslation',
         'weblate.trans.machine.google.GoogleTranslation',
-        'weblate.trans.machine.microsoft.MicrosoftTranslation',
+        'weblate.trans.machine.microsoft.MicrosoftCognitiveTranslation',
         'weblate.trans.machine.mymemory.MyMemoryTranslation',
+        'weblate.trans.machine.tmserver.AmagamaTranslation',
         'weblate.trans.machine.tmserver.TMServerTranslation',
+        'weblate.trans.machine.yandex.YandexTranslation',
         'weblate.trans.machine.weblatetm.WeblateTranslation',
-        'weblate.trans.machine.saptranslationhub.SAPTranslationHub'
+        'weblate.trans.machine.saptranslationhub.SAPTranslationHub',
+        'weblate.memory.machine.WeblateMemory',
     )
 
 .. seealso::

@@ -17,6 +17,7 @@ Released on ? 2018.
 * Added support for HTML markup in whiteboard messages.
 * Added support for mass changing state of strings.
 * Translate-toolkit 2.3.0 is now required.
+* Added built in translation memory.
 
 weblate 2.19.1
 --------------

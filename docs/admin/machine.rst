@@ -231,6 +231,17 @@ To enable these services, add
 ``weblate.trans.machine.weblatetm.WeblateTranslation`` to
 :setting:`MACHINE_TRANSLATION_SERVICES`.
 
+.. _weblate-translation-memory:
+
+Weblate Translation Memory
+--------------------------
+
+The :ref:`translation-memory` can use used as source for machine translation
+suggestions as well.
+
+To enable these services, add ``weblate.memory.machine.WeblateMemory`` to
+the :setting:`MACHINE_TRANSLATION_SERVICES`.
+
 .. _saptranslationhub:
 
 SAP Translation Hub

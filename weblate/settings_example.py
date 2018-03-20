@@ -516,6 +516,7 @@ if not HAVE_SYSLOG:
 #     'weblate.trans.machine.yandex.YandexTranslation',
 #     'weblate.trans.machine.weblatetm.WeblateTranslation',
 #     'weblate.trans.machine.saptranslationhub.SAPTranslationHub',
+#     'weblate.memory.machine.WeblateMemory',
 # )
 
 # Machine translation API keys

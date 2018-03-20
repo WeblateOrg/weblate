@@ -158,6 +158,7 @@ class WeblateConf(AppConf):
     # List of machine translations
     MACHINE_TRANSLATION_SERVICES = (
         'weblate.trans.machine.weblatetm.WeblateTranslation',
+        'weblate.memory.machine.WeblateMemory',
     )
 
     # Whether machine translations are enabled

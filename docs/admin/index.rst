@@ -16,6 +16,7 @@ Administrators guide
     checks
     machine
     addons
+    memory
     config
     sample
     management

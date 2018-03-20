@@ -593,6 +593,10 @@ Notable configuration or dependencies changes:
 * There is a change in ``REST_FRAMEWORK`` setting to support ``Bearer``
   authentication.
 * The translate-toolkit 2.3.0 is now required.
+* There is change in the :setting:`django:INSTALLED_APPS` setting (added ``weblate.memory``).
+* There is new built in translation memory machine translation, the
+  :setting:`MACHINE_TRANSLATION_SERVICES` should now include
+  ``weblate.memory.machine.WeblateMemory``.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
