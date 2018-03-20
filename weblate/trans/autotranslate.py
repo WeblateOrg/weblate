@@ -64,6 +64,9 @@ class AutoTranslate(object):
         unit.save_backend(self.request, False, False, user=self.user)
         self.updated += 1
 
+    def pre_process(self):
+        self.translation.commit_pending(None)
+
     @transaction.atomic
     def process_others(self, source, check_acl=True):
         """Perform automatic translation based on other components."""
@@ -90,7 +93,7 @@ class AutoTranslate(object):
             source__in=sources.values('source')
         )
 
-        self.translation.commit_pending(None)
+        self.pre_process()
 
         for unit in units.select_for_update().iterator():
             # Get first matching entry
@@ -104,7 +107,7 @@ class AutoTranslate(object):
     @transaction.atomic
     def process_mt(self, engines, threshold):
         """Perform automatic translation based on machine translation."""
-        self.translation.commit_pending(None)
+        self.pre_process()
 
         # get the translations (optimized: first WeblateMT, then others)
         for unit in self.get_units().iterator():
