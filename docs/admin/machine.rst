@@ -33,9 +33,6 @@ a limited set of languages.
 
 The recommended way to use Apertium is to run your own Apertium APy server.
 
-Alternatively you can use https://www.apertium.org/apy if you don't expect 
-to make too many requests.
-
 To enable this service, add ``weblate.trans.machine.apertium.ApertiumAPYTranslation`` to
 :setting:`MACHINE_TRANSLATION_SERVICES`.
 
