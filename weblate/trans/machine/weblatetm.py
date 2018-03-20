@@ -38,7 +38,7 @@ class WeblateTranslation(MachineTranslation):
 
     def format_unit_match(self, unit, quality):
         """Format unit to translation service result."""
-        if quality < 0.4:
+        if quality < 0.5:
             return None
         return (
             unit.get_target_plurals()[0],

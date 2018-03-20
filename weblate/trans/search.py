@@ -289,8 +289,8 @@ def more_like(pk, source, top=5):
         max_score = max([h[1] for h in results])
         scores = {h[0]:  h[1] * 100 / max_score for h in results}
 
-        # Filter results with score above 30 and not current unit
-        return [h[0] for h in results if scores[h[0]] > 30 and h[0] != pk]
+        # Filter results with score above 50 and not current unit
+        return [h[0] for h in results if scores[h[0]] > 50 and h[0] != pk]
 
 
 def clean_search_unit(pk, lang):
