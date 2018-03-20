@@ -255,7 +255,7 @@ Platform) to use this service.
 To enable this service, add ``weblate.trans.machine.saptranslationhub.SAPTranslationHub`` to
 :setting:`MACHINE_TRANSLATION_SERVICES`.
 
-... note::
+.. note::
 
     To access the Sandbox API, you need to set :setting:`MT_SAP_BASE_URL`
     and :setting:`MT_SAP_SANDBOX_APIKEY`.
