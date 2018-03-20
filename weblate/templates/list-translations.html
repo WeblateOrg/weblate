@@ -4,7 +4,7 @@
 <table class="sort table">
 <thead>
 <tr>
-<th>{% if show_language == 1 %}{% trans "Language" %}{% elif show_language == 4 %}{% trans "Component" %}{% elif show_language == 3 %}{% trans "Component list" %}{% else %}{% trans "Project" %}{% endif %}</th>
+<th>{% if show_language == 1 %}{% trans "Language" %}{% elif show_language == 4 or show_language == 2 %}{% trans "Component" %}{% elif show_language == 3 %}{% trans "Component list" %}{% else %}{% trans "Project" %}{% endif %}</th>
 <th colspan="2">{% trans "Translated" %}</th>
 <th class="col-untranslated" style="display: none">{% trans "Untranslated" context "Number of untranslated strings" %}</th>
 <th class="col-words">{% trans "Words" context "Number of translated words" %}</th>
