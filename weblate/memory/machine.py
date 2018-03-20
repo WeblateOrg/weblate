@@ -54,9 +54,7 @@ class WeblateMemory(MachineTranslation):
 
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
-        matches = Memory.objects.filter(
-            source=text,
-            source_language=source,
-            target_language=language,
-        )
-        return [self.format_unit_match(memory, text) for memory in matches]
+        return [
+            self.format_unit_match(memory, text)
+            for memory in Memory.objects.lookup(source, language, text)
+        ]

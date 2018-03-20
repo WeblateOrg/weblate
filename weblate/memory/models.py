@@ -29,6 +29,7 @@ from translate.misc.xml_helpers import getXMLlang, getXMLspace
 from translate.storage.tmx import tmxfile
 
 from weblate.lang.models import Language
+from weblate.utils.hash import calculate_hash
 
 
 def get_node_data(unit, node):
@@ -80,6 +81,13 @@ class MemoryManager(models.Manager):
                     origin=origin,
                 )
 
+    def lookup(self, source_language, target_language, text):
+        return self.filter(
+            source_language=source_language,
+            target_language=target_language,
+            source_hash=calculate_hash(None, text)
+        )
+
 
 @python_2_unicode_compatible
 class Memory(models.Model):
@@ -92,6 +100,7 @@ class Memory(models.Model):
         related_name='memory_target',
     )
     source = models.TextField()
+    source_hash = models.BigIntegerField(editable=False)
     target = models.TextField()
     origin = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -101,7 +110,7 @@ class Memory(models.Model):
     class Meta(object):
         ordering = ['source']
         index_together = [
-            ('source_language', 'source'),
+            ('source_language', 'target_language', 'source_hash'),
         ]
 
     def __str__(self):
@@ -111,3 +120,7 @@ class Memory(models.Model):
             self.target,
             self.target_language,
         )
+
+    def save(self, *args, **kwargs):
+        self.source_hash = calculate_hash(None, self.source)
+        super(Memory, self).save(*args, **kwargs)
