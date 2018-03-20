@@ -38,6 +38,8 @@ class WeblateTranslation(MachineTranslation):
 
     def format_unit_match(self, unit, quality):
         """Format unit to translation service result."""
+        if quality < 0.4:
+            return None
         return (
             unit.get_target_plurals()[0],
             int(100 * quality),
@@ -54,7 +56,7 @@ class WeblateTranslation(MachineTranslation):
             translation__subproject__project__in=Project.objects.all_acl(user)
         ).more_like_this(unit, 1000)
 
-        return list(set((
+        result = set((
             self.format_unit_match(
                 munit,
                 difflib.SequenceMatcher(
@@ -62,4 +64,7 @@ class WeblateTranslation(MachineTranslation):
                 ).ratio(),
             )
             for munit in matching_units
-        )))
+        ))
+        if None in result:
+            result.remove(None)
+        return result
