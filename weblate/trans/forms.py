@@ -1502,7 +1502,7 @@ class NewUnitForm(forms.Form):
         ),
         required=True,
     )
-    value = forms.CharField(
+    value = PluralField(
         label=_('Source language text'),
         help_text=_(
             'You can edit this later, as with any other string in '
@@ -1510,6 +1510,11 @@ class NewUnitForm(forms.Form):
         ),
         required=True,
     )
+
+    def __init__(self, user, *args, **kwargs):
+        super(NewUnitForm, self).__init__(*args, **kwargs)
+        self.fields['value'].widget.attrs['tabindex'] = kwargs.pop('tabindex', 100)
+        self.fields['value'].widget.profile = user.profile
 
 
 class MassStateForm(forms.Form):

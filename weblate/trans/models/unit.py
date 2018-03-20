@@ -1096,6 +1096,8 @@ class Unit(models.Model, LoggerMixin):
 
     def get_max_length(self):
         """Returns maximal translation length."""
+        if not self.pk:
+            return 10000
         for flag in self.all_flags:
             if flag.startswith('max-length:'):
                 try:

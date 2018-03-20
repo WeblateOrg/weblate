@@ -837,12 +837,12 @@ def new_unit(request, project, subproject, lang):
     if not can_add_unit(request.user, translation):
         raise PermissionDenied()
 
-    form = NewUnitForm(request.POST)
+    form = NewUnitForm(request.user, request.POST)
     if not form.is_valid():
         show_form_errors(request, form)
     else:
         key = form.cleaned_data['key']
-        value = form.cleaned_data['value']
+        value = form.cleaned_data['value'][0]
 
         if translation.unit_set.filter(context=key).exists():
             messages.error(

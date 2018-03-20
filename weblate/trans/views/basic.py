@@ -467,7 +467,12 @@ def show_translation(request, project, subproject, lang):
             'review_form': review_form,
             'replace_form': replace_form,
             'mass_state_form': mass_state_form,
-            'new_unit_form': NewUnitForm(),
+            'new_unit_form': NewUnitForm(
+                request.user,
+                initial={
+                    'value': Unit(translation=obj, id_hash=-1),
+                },
+            ),
             'last_changes': last_changes,
             'last_changes_url': urlencode(obj.get_kwargs()),
             'show_only_component': True,
