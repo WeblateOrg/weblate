@@ -53,6 +53,7 @@ class ComponentList(models.Model):
     class Meta(object):
         verbose_name = _('Component list')
         verbose_name_plural = _('Component lists')
+        ordering = ['name']
 
     def tab_slug(self):
         return "list-" + self.slug
