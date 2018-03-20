@@ -358,6 +358,7 @@ INSTALLED_APPS = (
     'weblate.trans',
     'weblate.lang',
     'weblate.langdata',
+    'weblate.memory',
     'weblate.permissions',
     'weblate.screenshots',
     'weblate.accounts',
