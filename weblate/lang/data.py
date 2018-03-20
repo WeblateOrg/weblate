@@ -441,6 +441,8 @@ LOCALE_ALIASES = {
     'zh_cn': 'zh_Hans',
     'zh_tw': 'zh_Hant',
     'zh_hk': 'zh_Hant_HK',
+    'zh-cmn-Hans': 'zh_Hans',
+    'zh-cmn-Hant': 'zh_Hant',
     # ios translations
     'base': 'en',
     # commonly used
