@@ -236,6 +236,8 @@ To enable these services, add
 Weblate Translation Memory
 --------------------------
 
+.. versionadded:: 2.20
+
 The :ref:`translation-memory` can use used as source for machine translation
 suggestions as well.
 

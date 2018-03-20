@@ -3,6 +3,8 @@
 Translation Memory
 ==================
 
+.. versionadded:: 2.20
+
 Weblate comes with simple translation memory. Currently it is not updated by
 Weblate itself, but you can use it to import your existing TMX files and let
 Weblate provide these as a machine translations.

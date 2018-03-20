@@ -291,8 +291,9 @@ import_memory
 
 .. django-admin:: import_memory <tmx-file>
 
-Imports TMX file into Weblate Translation Memory.
+.. versionadded:: 2.20
 
+Imports TMX file into Weblate Translation Memory.
 
 import_project
 --------------
