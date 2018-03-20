@@ -199,7 +199,8 @@ class LanguageQuerySet(models.QuerySet):
             return ret
 
         # Try canonical variant
-        if settings.SIMPLIFY_LANGUAGES and newcode in data.DEFAULT_LANGS:
+        if (settings.SIMPLIFY_LANGUAGES and
+                newcode.lower() in data.DEFAULT_LANGS):
             ret = self.try_get(code=lang.lower())
             if ret is not None:
                 return ret
