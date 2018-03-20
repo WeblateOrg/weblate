@@ -409,6 +409,7 @@ LOCALE_ALIASES = {
     # Misc invalid codes
     'val_es': 'ca@valencia',
     'no_nb': 'nb',
+    'es_eu': 'eu',
     'ru_r': 'ru',
     'ru_rr': 'ru',
     'ar_ar': 'ar',
