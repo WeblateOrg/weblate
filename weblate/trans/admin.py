@@ -220,7 +220,8 @@ class AutoComponentListAdmin(admin.TabularInline):
 
 
 class ComponentListAdmin(WeblateModelAdmin):
-    list_display = ['name']
+    list_display = ['name', 'show_dashboard']
+    list_filter = ['show_dashboard']
     prepopulated_fields = {'slug': ('name',)}
     filter_horizontal = ('components', )
     inlines = [AutoComponentListAdmin]

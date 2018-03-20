@@ -199,7 +199,7 @@ def home(request):
 
     usersubscriptions = None
 
-    componentlists = list(ComponentList.objects.all())
+    componentlists = list(ComponentList.objects.filter(show_dashboard=True))
     for componentlist in componentlists:
         componentlist.translations = prefetch_stats(
             user_translations.filter(

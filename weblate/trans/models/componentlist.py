@@ -47,6 +47,15 @@ class ComponentList(models.Model):
         max_length=100,
         help_text=_('Name used in URLs and file names.')
     )
+    show_dashboard = models.BooleanField(
+        verbose_name=_('Show on dashboard'),
+        default=True,
+        db_index=True,
+        help_text=_(
+            'When enabled this component list will be shown as a tab on '
+            'the dashboard'
+        )
+    )
 
     components = models.ManyToManyField('SubProject', blank=True)
 
