@@ -94,10 +94,12 @@ class Memory(models.Model):
     source_language = models.ForeignKey(
         Language,
         related_name='memory_source',
+        on_delete=models.deletion.CASCADE,
     )
     target_language = models.ForeignKey(
         Language,
         related_name='memory_target',
+        on_delete=models.deletion.CASCADE,
     )
     source = models.TextField()
     source_hash = models.BigIntegerField(editable=False)
