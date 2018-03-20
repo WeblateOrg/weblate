@@ -524,11 +524,6 @@ if not HAVE_SYSLOG:
 # URL of the Apertium APy server
 MT_APERTIUM_APY = None
 
-# Microsoft Translator service, register at
-# https://datamarket.azure.com/developer/applications/
-MT_MICROSOFT_ID = None
-MT_MICROSOFT_SECRET = None
-
 # Microsoft Cognitive Services Translator API, register at
 # https://portal.azure.com/
 MT_MICROSOFT_COGNITIVE_KEY = None
