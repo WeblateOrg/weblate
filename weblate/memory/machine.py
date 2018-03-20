@@ -31,7 +31,7 @@ from weblate.trans.machine.base import MachineTranslation
 
 class WeblateMemory(MachineTranslation):
     """Translation service using strings already translated in Weblate."""
-    name = 'Weblate'
+    name = 'Weblate Translation Memory'
 
     def convert_language(self, language):
         return Language.objects.get(code=language)
