@@ -858,6 +858,9 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         if accepted > 0:
             self.invalidate_cache()
+            request.user.profile.refresh_from_db()
+            request.user.profile.translated += accepted
+            request.user.profile.save(update_fields=['translated'])
 
             if merge_header:
                 self.store.merge_header(store2)

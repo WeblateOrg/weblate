@@ -640,17 +640,18 @@ class Unit(models.Model, LoggerMixin):
         # Save updated unit to database
         self.save(backend=True)
 
-        # Update translation stats
         old_translated = self.translation.stats.translated
-        if change_action != Change.ACTION_UPLOAD:
+
+        if change_action not in (Change.ACTION_UPLOAD, Change.ACTION_AUTO):
+            # Update translation stats
             self.translation.invalidate_cache()
+
+            # Update user stats
+            user.profile.translated += 1
+            user.profile.save()
 
         # Notify subscribed users about new translation
         notify_new_translation(self, self.old_unit, user)
-
-        # Update user stats
-        user.profile.translated += 1
-        user.profile.save()
 
         # Generate Change object for this change
         if gen_change:

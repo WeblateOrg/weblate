@@ -67,6 +67,13 @@ class AutoTranslate(object):
     def pre_process(self):
         self.translation.commit_pending(None)
 
+    def post_process(self):
+        if self.updated > 0:
+            self.translation.invalidate_cache()
+            self.user.profile.refresh_from_db()
+            self.user.profile.translated += self.updated
+            self.user.profile.save(update_fields=['translated'])
+
     @transaction.atomic
     def process_others(self, source, check_acl=True):
         """Perform automatic translation based on other components."""
@@ -103,6 +110,8 @@ class AutoTranslate(object):
                 continue
             # Copy translation
             self.update(unit, update.state, update.target)
+
+        self.post_process()
 
     @transaction.atomic
     def process_mt(self, engines, threshold):
@@ -163,3 +172,5 @@ class AutoTranslate(object):
 
             # Copy translation
             self.update(unit, STATE_TRANSLATED, result[1])
+
+        self.post_process()
