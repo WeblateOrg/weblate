@@ -51,7 +51,7 @@ class MemoryTest(TestCase):
             [
                 {
                     'quality': 100,
-                    'service': 'Weblate (test)',
+                    'service': 'Weblate Translation Memory (test)',
                     'source': 'Hello',
                     'text': 'Ahoj'
                 },
