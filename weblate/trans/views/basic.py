@@ -24,7 +24,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum, Count
 from django.http import HttpResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.utils import translation
 from django.views.decorators.cache import never_cache
 from django.utils.encoding import force_text
@@ -245,6 +245,7 @@ def home(request):
             'usersubscriptions': usersubscriptions,
             'userlanguages': prefetch_stats(user_translations),
             'componentlists': componentlists,
+            'all_componentlists': ComponentList.objects.all(),
             'active_tab_slug': active_tab_slug,
         }
     )
@@ -649,3 +650,16 @@ def new_language(request, project, subproject):
 def healthz(request):
     """Simple health check endpoint"""
     return HttpResponse('ok')
+
+
+@never_cache
+def show_component_list(request, name):
+    obj = get_object_or_404(ComponentList, slug=name)
+
+    return render(
+        request,
+        'component-list.html',
+        {
+            'object': obj,
+        }
+    )

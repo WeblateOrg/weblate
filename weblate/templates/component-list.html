@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+{% load crispy_forms_tags %}
+
+{% block breadcrumbs %}
+<li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
+{% endblock %}
+
+{% block content %}
+
+<ul class="nav nav-pills">
+  <li class="active"><a href="#overview" data-toggle="tab">{% trans "Components" %}</a></li>
+</ul>
+
+<div class="tab-content">
+
+<div class="tab-pane active" id="overview">
+{% include "list-translations.html" with translations=object.components.all show_language=4 %}
+<p>{% include "legend.html" %}</p>
+</div>
+
+</div>
+
+{% endblock %}

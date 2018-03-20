@@ -187,6 +187,11 @@ urlpatterns = [
         name='translation',
     ),
     url(
+        r'^component-list/(?P<name>[^/]*)/$',
+        weblate.trans.views.basic.show_component_list,
+        name='component-list',
+    ),
+    url(
         r'^translate/' + TRANSLATION + '$',
         weblate.trans.views.edit.translate,
         name='translate',

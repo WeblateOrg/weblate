@@ -18,6 +18,7 @@ Released on ? 2018.
 * Added support for mass changing state of strings.
 * Translate-toolkit 2.3.0 is now required.
 * Added built in translation memory.
+* Added componentlists overview to dashboard and per component list overview pages.
 
 weblate 2.19.1
 --------------

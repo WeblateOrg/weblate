@@ -515,6 +515,15 @@ class BasicViewTest(ViewTestCase):
         )
         self.assertContains(response, 'Hello, world!')
 
+    def test_view_component_list(self):
+        clist = ComponentList.objects.create(name="TestCL", slug="testcl")
+        clist.components.add(self.subproject)
+        response = self.client.get(
+            reverse('component-list', kwargs={'name': 'testcl'})
+        )
+        self.assertContains(response, 'TestCL')
+        self.assertContains(response, self.subproject.name)
+
 
 class BasicResourceViewTest(BasicViewTest):
     def create_subproject(self):
@@ -584,12 +593,12 @@ class HomeViewTest(ViewTestCase):
         self.assertNotContains(response, 'whiteboard')
 
     def test_component_list(self):
-        clist = ComponentList(name="TestCL", slug="testcl")
-        clist.save()
+        clist = ComponentList.objects.create(name="TestCL", slug="testcl")
         clist.components.add(self.subproject)
 
         response = self.client.get(reverse('home'))
         self.assertContains(response, 'TestCL')
+        self.assertContains(response, reverse('component-list', kwargs={'name': 'testcl'}))
         self.assertEqual(len(response.context['componentlists']), 1)
 
     def test_user_component_list(self):
