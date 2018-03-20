@@ -94,6 +94,7 @@ class Memory(models.Model):
     source = models.TextField()
     target = models.TextField()
     origin = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
 
     objects = MemoryManager()
 
@@ -101,13 +102,6 @@ class Memory(models.Model):
         ordering = ['source']
         index_together = [
             ('source_language', 'source'),
-        ]
-        unique_together = [
-            (
-                'source_language', 'target_language',
-                'source', 'target',
-                'origin',
-            ),
         ]
 
     def __str__(self):
