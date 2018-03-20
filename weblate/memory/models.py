@@ -36,9 +36,7 @@ def get_node_data(unit, node):
     """Generic implementation of LISAUnit.gettarget."""
     return (
         getXMLlang(node),
-        unit.getNodeText(
-            node, getXMLspace(unit.xmlelement, unit._default_xml_space)
-        )
+        unit.getNodeText(node, getXMLspace(unit.xmlelement, 'preserve'))
     )
 
 
@@ -47,7 +45,9 @@ class MemoryManager(models.Manager):
         origin = os.path.basename(fileobj.name)
         storage = tmxfile.parsefile(fileobj)
         header = next(
-            storage.document.getroot().iterchildren(storage.namespaced("header"))
+            storage.document.getroot().iterchildren(
+                storage.namespaced("header")
+            )
         )
         source_language_code = header.get('srclang')
         source_language = Language.objects.auto_get_or_create(

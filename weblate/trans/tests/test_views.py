@@ -598,7 +598,9 @@ class HomeViewTest(ViewTestCase):
 
         response = self.client.get(reverse('home'))
         self.assertContains(response, 'TestCL')
-        self.assertContains(response, reverse('component-list', kwargs={'name': 'testcl'}))
+        self.assertContains(
+            response, reverse('component-list', kwargs={'name': 'testcl'})
+        )
         self.assertEqual(len(response.context['componentlists']), 1)
 
     def test_user_component_list(self):
