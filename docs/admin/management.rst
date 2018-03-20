@@ -286,6 +286,13 @@ Example of JSON file:
 
     :djadmin:`import_project`
 
+import_memory
+-------------
+
+.. django-admin:: import_memory <tmx-file>
+
+Imports TMX file into Weblate Translation Memory.
+
 
 import_project
 --------------

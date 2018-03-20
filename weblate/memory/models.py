@@ -20,10 +20,65 @@
 
 from __future__ import unicode_literals
 
+import os.path
+
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 
+from translate.misc.xml_helpers import getXMLlang, getXMLspace
+from translate.storage.tmx import tmxfile
+
 from weblate.lang.models import Language
+
+
+def get_node_data(unit, node):
+    """Generic implementation of LISAUnit.gettarget."""
+    return (
+        getXMLlang(node),
+        unit.getNodeText(
+            node, getXMLspace(unit.xmlelement, unit._default_xml_space)
+        )
+    )
+
+
+class MemoryManager(models.Manager):
+    def import_tmx(self, fileobj):
+        origin = os.path.basename(fileobj.name)
+        storage = tmxfile.parsefile(fileobj)
+        header = next(
+            storage.document.getroot().iterchildren(storage.namespaced("header"))
+        )
+        source_language_code = header.get('srclang')
+        source_language = Language.objects.auto_get_or_create(
+            source_language_code
+        )
+
+        languages = {}
+
+        for unit in storage.units:
+            # Parse translations (translate-toolkit does not care about
+            # languages here, it just picks first and second XML elements)
+            translations = {}
+            for node in unit.getlanguageNodes():
+                lang, text = get_node_data(unit, node)
+                translations[lang] = text
+                if lang not in languages:
+                    languages[lang] = Language.objects.auto_get_or_create(lang)
+
+            try:
+                source = translations.pop(source_language_code)
+            except KeyError:
+                # Skip if source language is not present
+                continue
+
+            for lang, text in translations.items():
+                self.get_or_create(
+                    source_language=source_language,
+                    target_language=languages[lang],
+                    source=source,
+                    target=text,
+                    origin=origin,
+                )
 
 
 @python_2_unicode_compatible
@@ -39,6 +94,8 @@ class Memory(models.Model):
     source = models.TextField()
     target = models.TextField()
     origin = models.TextField()
+
+    objects = MemoryManager()
 
     class Meta(object):
         ordering = ['source']

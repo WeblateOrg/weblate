@@ -17,19 +17,30 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+
 from __future__ import unicode_literals
 
-from django.test import TestCase
-from django.core.management import call_command
+import argparse
+
+from django.core.management.base import BaseCommand
 
 from weblate.memory.models import Memory
-from weblate.trans.tests.utils import get_test_file
 
 
-class MemoryTest(TestCase):
-    def test_import(self):
-        call_command(
-            'import_memory',
-            get_test_file('memory.tmx')
+class Command(BaseCommand):
+    """
+    Command for importing translation memory from TMX.
+    """
+    help = 'imports translation memory for TMX'
+
+    def add_arguments(self, parser):
+        super(Command, self).add_arguments(parser)
+        parser.add_argument(
+            'tmx-file',
+            type=argparse.FileType('r'),
+            help='TMX file to import',
         )
-        self.assertEqual(Memory.objects.count(), 2)
+
+    def handle(self, *args, **options):
+        """TMX memory import."""
+        Memory.objects.import_tmx(options['tmx-file'])
