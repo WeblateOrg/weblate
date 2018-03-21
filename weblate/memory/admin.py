@@ -17,17 +17,3 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-from weblate.wladmin.models import WeblateModelAdmin
-
-
-class MemoryAdmin(WeblateModelAdmin):
-    list_display = [
-        'source_language', 'target_language',
-        'source', 'target',
-        'origin',
-    ]
-    search_fields = ['source', 'target', 'origin']
-    list_filter = [
-        'source_language', 'target_language',
-        'origin',
-    ]
