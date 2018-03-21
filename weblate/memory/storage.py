@@ -96,7 +96,15 @@ class TranslationMemory(object):
         finally:
             writer.commit()
 
-    def import_tmx(self, fileobj):
+    def get_language_code(self, code, langmap):
+        language = Language.objects.auto_get_or_create(code)
+        if langmap and language.code in langmap:
+            language = Language.objects.auto_get_or_create(
+                langmap[language.code]
+            )
+        return language.code
+
+    def import_tmx(self, fileobj, langmap=None):
         origin = os.path.basename(fileobj.name)
         storage = tmxfile.parsefile(fileobj)
         header = next(
@@ -105,9 +113,7 @@ class TranslationMemory(object):
             )
         )
         source_language_code = header.get('srclang')
-        source_language = Language.objects.auto_get_or_create(
-            source_language_code
-        ).code
+        source_language = self.get_language_code(source_language_code, langmap)
 
         languages = {}
         with self.writer() as writer:
@@ -119,7 +125,7 @@ class TranslationMemory(object):
                     lang, text = get_node_data(unit, node)
                     translations[lang] = text
                     if lang not in languages:
-                        languages[lang] = Language.objects.auto_get_or_create(lang).code
+                        languages[lang] = self.get_language_code(lang, langmap)
 
                 try:
                     source = translations.pop(source_language_code)

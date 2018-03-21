@@ -24,16 +24,27 @@ from django.core.management import call_command
 
 from weblate.lang.models import Language
 from weblate.memory.machine import WeblateMemory
-from weblate.memory.storage import TranslationMemory
+from weblate.memory.storage import TranslationMemory, setup_index
 from weblate.trans.tests.utils import get_test_file
 from weblate.trans.tests.test_checks import MockUnit
 
 
 class MemoryTest(TestCase):
+    def setUp(self):
+        setup_index()
+
     def test_import(self):
         call_command(
             'import_memory',
             get_test_file('memory.tmx')
+        )
+        self.assertEqual(TranslationMemory().doc_count(), 2)
+
+    def test_import_map(self):
+        call_command(
+            'import_memory',
+            get_test_file('memory.tmx'),
+            language_map='en_US:en',
         )
         self.assertEqual(TranslationMemory().doc_count(), 2)
 

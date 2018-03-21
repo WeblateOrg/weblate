@@ -295,6 +295,17 @@ import_memory
 
 Imports TMX file into Weblate Translation Memory.
 
+.. django-admin-option:: --language-map LANGMAP
+
+    Allows to map languages in the TMX to Weblate one. The language codes are
+    mapped after normalization usually done by Weblate.
+
+    For example ``--language-map en_US:en`` will import all ``en_US`` strings
+    as ``en`` ones.
+
+    This can be useful in case your TMX file locales does not match what you
+    use in Weblate.
+
 import_project
 --------------
 
