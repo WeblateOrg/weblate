@@ -25,7 +25,7 @@ import difflib
 from django.utils.encoding import force_text
 
 from weblate.lang.models import Language
-from weblate.memory.models import Memory
+from weblate.memory.storage import TranslationMemory
 from weblate.trans.machine.base import MachineTranslation
 
 
@@ -41,21 +41,22 @@ class WeblateMemory(MachineTranslation):
         """Any language is supported."""
         return True
 
-    def format_unit_match(self, memory, text):
+    def format_unit_match(self, text, target, similarity, origin):
         """Format match to translation service result."""
         return (
-            memory.target,
-            100,
+            target,
+            similarity,
             '{0} ({1})'.format(
                 self.name,
-                memory.origin,
+                origin,
             ),
             text,
         )
 
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
+        memory = TranslationMemory()
         return [
-            self.format_unit_match(memory, text)
-            for memory in Memory.objects.lookup(source, language, text)
+            self.format_unit_match(text, *memory)
+            for memory in memory.lookup(source.code, language.code, text)
         ]

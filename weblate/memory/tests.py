@@ -24,7 +24,7 @@ from django.core.management import call_command
 
 from weblate.lang.models import Language
 from weblate.memory.machine import WeblateMemory
-from weblate.memory.models import Memory
+from weblate.memory.storage import TranslationMemory
 from weblate.trans.tests.utils import get_test_file
 from weblate.trans.tests.test_checks import MockUnit
 
@@ -35,16 +35,18 @@ class MemoryTest(TestCase):
             'import_memory',
             get_test_file('memory.tmx')
         )
-        self.assertEqual(Memory.objects.count(), 2)
+        self.assertEqual(TranslationMemory().doc_count(), 2)
 
     def test_machine(self):
-        Memory.objects.create(
-            source_language=Language.objects.get(code='en'),
-            target_language=Language.objects.get(code='cs'),
-            source='Hello',
-            target='Ahoj',
-            origin='test'
-        )
+        memory = TranslationMemory()
+        with memory.writer() as writer:
+            writer.add_document(
+                source_language='en',
+                target_language='cs',
+                source='Hello',
+                target='Ahoj',
+                origin='test'
+            )
         machine_translation = WeblateMemory()
         self.assertEqual(
             machine_translation.translate('cs', 'Hello', MockUnit(), None),

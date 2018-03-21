@@ -50,7 +50,6 @@ from weblate.accounts.models import Profile, VerifiedEmail, AuditLog
 from weblate.lang.admin import LanguageAdmin
 from weblate.lang.models import Language
 from weblate.memory.admin import MemoryAdmin
-from weblate.memory.models import Memory
 from weblate.permissions.admin import AutoGroupAdmin, GroupACLAdmin
 from weblate.permissions.models import AutoGroup, GroupACL
 from weblate.screenshots.admin import ScreenshotAdmin
@@ -94,9 +93,6 @@ class WeblateAdminSite(AdminSite):
 
         # Screenshots
         self.register(Screenshot, ScreenshotAdmin)
-
-        # Translation Memory
-        self.register(Memory, MemoryAdmin)
 
         # Transaltions
         self.register(Project, ProjectAdmin)

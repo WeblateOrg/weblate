@@ -24,7 +24,7 @@ import argparse
 
 from django.core.management.base import BaseCommand
 
-from weblate.memory.models import Memory
+from weblate.memory.storage import TranslationMemory
 
 
 class Command(BaseCommand):
@@ -43,4 +43,4 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         """TMX memory import."""
-        Memory.objects.import_tmx(options['tmx-file'])
+        TranslationMemory().import_tmx(options['tmx-file'])
