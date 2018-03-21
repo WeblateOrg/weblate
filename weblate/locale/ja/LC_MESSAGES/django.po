@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 2.20\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-03-21 06:11+0000\n"
-"PO-Revision-Date: 2018-03-21 09:37+0000\n"
+"PO-Revision-Date: 2018-03-21 09:46+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
@@ -4339,22 +4339,16 @@ msgid "Shows nearby strings tab"
 msgstr "近くにある文字列タブを表示する"
 
 #: weblate/templates/translate.html:89
-#, fuzzy
-#| msgid "Ctrl+S - Shows search tab"
 msgid "Shows search tab"
-msgstr "Ctrl+S - 検索タブを表示する"
+msgstr "検索タブを表示する"
 
 #: weblate/templates/translate.html:90
-#, fuzzy
-#| msgid "Ctrl+O - Copies source string"
 msgid "Copies source string"
-msgstr "Ctrl+O - 原文をコピー"
+msgstr "原文をコピーする"
 
 #: weblate/templates/translate.html:91
-#, fuzzy
-#| msgid "Ctrl+T - Toggle edit needed flag"
 msgid "Toggle edit needed flag"
-msgstr "Ctrl+T - 要編集フラグを切り替え"
+msgstr "要編集フラグを切り替え"
 
 #: weblate/templates/translate.html:95
 msgid "Editing source string"
@@ -4702,7 +4696,7 @@ msgid ""
 "Automatic translation via machine translation uses active machine "
 "translation engines to get the best possible translations and applies them "
 "in this project."
-msgstr ""
+msgstr "機械翻訳を利用した自動翻訳は、様々な機械翻訳エンジンを利用して翻訳を行ない、その中から最適なものを採用してプロジェクトに適用します。"
 
 #: weblate/templates/translation.html:257
 msgid ""
@@ -5624,30 +5618,24 @@ msgid "Replace inconsistent"
 msgstr "異なる翻訳を置換する"
 
 #: weblate/trans/forms.py:909
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Automatic translation source"
-msgstr "自動翻訳"
+msgstr "自動翻訳元"
 
 #: weblate/trans/forms.py:911
-#, fuzzy
-#| msgid "Merge translation comments"
 msgid "Other translation components"
-msgstr "翻訳コメントのマージ"
+msgstr "その他の翻訳コンポーネント"
 
 #: weblate/trans/forms.py:917
 msgid "Component to use"
 msgstr "使用するコンポーネント"
 
 #: weblate/trans/forms.py:922
-#, fuzzy
-#| msgid "Machine translation suggestions"
 msgid "Machine translation engines to use"
-msgstr "機械翻訳による提案"
+msgstr "使用する機械翻訳エンジン"
 
 #: weblate/trans/forms.py:927
 msgid "Score threshold"
-msgstr ""
+msgstr "スコアしきい値"
 
 #: weblate/trans/forms.py:954
 msgid "All components in current project"
@@ -5864,10 +5852,8 @@ msgid ""
 msgstr "ソース言語内の他の文字列と同様に、後から変更することもできます。"
 
 #: weblate/trans/forms.py:1527
-#, fuzzy
-#| msgid "Donate to Weblate"
 msgid "State to set"
-msgstr "Weblate に寄付する"
+msgstr "設定する状態"
 
 #: weblate/trans/models/change.py:201
 msgid "Resource update"
@@ -6014,15 +6000,13 @@ msgid "Name used in URLs and file names."
 msgstr "URL とファイル名で使用する名前。"
 
 #: weblate/trans/models/componentlist.py:51
-#, fuzzy
-#| msgid "Dashboard"
 msgid "Show on dashboard"
-msgstr "ダッシュボード"
+msgstr "ダッシュボードに表示"
 
 #: weblate/trans/models/componentlist.py:55
 msgid ""
 "When enabled this component list will be shown as a tab on the dashboard"
-msgstr ""
+msgstr "選択すると、このコンポーネントがダッシュボード内にタブとして表示されるようになります"
 
 #: weblate/trans/models/componentlist.py:84
 msgid "Project regular expression"
@@ -6743,13 +6727,13 @@ msgstr "{translation}, 文字列 {position}"
 
 #: weblate/trans/models/whiteboard.py:69
 msgid "Render as HTML"
-msgstr ""
+msgstr "HTML として表示"
 
 #: weblate/trans/models/whiteboard.py:71
 msgid ""
 "When disabled, URLs will be converted to links and any markup will be "
 "escaped."
-msgstr ""
+msgstr "選択を外すと、 URL はリンクに変換され、マークアップ文字がエスケープ処理されるようになります。"
 
 #: weblate/trans/models/whiteboard.py:101
 msgid "Category"
@@ -7531,18 +7515,14 @@ msgid "Invalid search query!"
 msgstr "検索文字列が無効です！"
 
 #: weblate/trans/views/search.py:247
-#, fuzzy
-#| msgid "Search and replace completed, no strings were updated."
 msgid "Mass state change completed, no strings were updated."
-msgstr "検索と置換が完了しました。文字列は更新されていません。"
+msgstr "状態の一括変更が完了しました。文字列は更新されていません。"
 
 #: weblate/trans/views/search.py:249
-#, fuzzy, python-format
-#| msgid "Search and replace completed, %d string was updated."
-#| msgid_plural "Search and replace completed, %d strings were updated."
+#, python-format
 msgid "Mass state change completed, %d string was updated."
 msgid_plural "Mass state change completed, %d strings were updated."
-msgstr[0] "検索と置換が完了しました。 %d 個の文字列を更新しました。"
+msgstr[0] "状態の一括変更が完了しました。 %d 個の文字列を更新しました。"
 
 #: weblate/trans/views/settings.py:48 weblate/trans/views/settings.py:80
 msgid "Settings saved"
@@ -7626,7 +7606,7 @@ msgstr "翻訳済"
 
 #: weblate/utils/state.py:31
 msgid "Empty"
-msgstr ""
+msgstr "無し"
 
 #: weblate/utils/validators.py:78
 #, python-brace-format
