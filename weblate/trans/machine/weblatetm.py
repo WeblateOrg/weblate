@@ -31,6 +31,7 @@ from weblate.trans.models import Unit, Project
 class WeblateTranslation(MachineTranslation):
     """Translation service using strings already translated in Weblate."""
     name = 'Weblate'
+    rank_boost = 1
 
     def is_supported(self, source, language):
         """Any language is supported."""

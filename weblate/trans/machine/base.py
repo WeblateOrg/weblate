@@ -49,7 +49,12 @@ class MachineTranslation(object):
     """Generic object for machine translation services."""
     name = 'MT'
     max_score = 100
+    rank_boost = 0
     default_languages = []
+
+    @classmethod
+    def get_rank(cls):
+        return cls.max_score + cls.rank_boost
 
     def __init__(self):
         """Create new machine translation object."""

@@ -125,7 +125,7 @@ class AutoTranslate(object):
             # Run engines with higher maximal score first
             engines = sorted(
                 engines,
-                key=lambda x: MACHINE_TRANSLATION_SERVICES[x].max_score,
+                key=lambda x: MACHINE_TRANSLATION_SERVICES[x].get_rank(),
                 reverse=True
             )
             for engine in engines:
