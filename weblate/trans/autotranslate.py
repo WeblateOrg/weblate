@@ -122,6 +122,12 @@ class AutoTranslate(object):
             max_quality = threshold
             translation = None
 
+            # Run engines with higher maximal score first
+            engines = sorted(
+                engines,
+                key=lambda x: MACHINE_TRANSLATION_SERVICES[x].max_score,
+                reverse=True
+            )
             for engine in engines:
                 translation_service = MACHINE_TRANSLATION_SERVICES[engine]
 
