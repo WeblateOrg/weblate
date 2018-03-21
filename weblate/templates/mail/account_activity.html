@@ -15,6 +15,12 @@
 {{ message }}
 </p>
 
+{% if extra_message %}
+<p>
+{{ extra_message }}
+</p>
+{% endif %}
+
 <p>{% trans "IP address:" %} {{ address }}</p>
 <p>{% trans "User agent:" %} {{ user_agent }}</p>
 

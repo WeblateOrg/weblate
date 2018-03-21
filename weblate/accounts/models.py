@@ -91,6 +91,12 @@ ACCOUNT_ACTIVITY = {
     ),
 }
 
+EXTRA_MESSAGES = {
+    'locked': _(
+        'To restore access to your account, please perform password reset.'
+    ),
+}
+
 NOTIFY_ACTIVITY = frozenset((
     'password',
     'reset',
@@ -211,6 +217,13 @@ class AuditLog(models.Model):
             **self.params
         )
     get_message.short_description = _('Account activity')
+
+    def get_extra_message(self):
+        if self.activity in EXTRA_MESSAGES:
+            return EXTRA_MESSAGES[self.activity].format(
+                **self.params
+            )
+        return None
 
     def should_notify(self):
         return self.activity in NOTIFY_ACTIVITY
