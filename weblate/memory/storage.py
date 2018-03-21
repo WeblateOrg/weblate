@@ -155,6 +155,6 @@ class TranslationMemory(object):
 
         for match in matches:
             similarity = self.comparer.similarity(text, match['source'])
-            if similarity < 50:
+            if similarity < 30:
                 continue
-            yield (match['target'], similarity, match['origin'])
+            yield (match['source'], match['target'], similarity, match['origin'])
