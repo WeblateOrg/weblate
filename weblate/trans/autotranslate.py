@@ -124,6 +124,13 @@ class AutoTranslate(object):
 
             for engine in engines:
                 translation_service = MACHINE_TRANSLATION_SERVICES[engine]
+
+                # Skip service if it can not provide better results.
+                # Typically we skip machine translation when we have
+                # a terminology match.
+                if max_quality >= translation_service.max_score:
+                    continue
+
                 result = translation_service.translate(
                     self.translation.language.code,
                     unit.get_source_plurals()[0],

@@ -48,6 +48,7 @@ class MissingConfiguration(ImproperlyConfigured):
 class MachineTranslation(object):
     """Generic object for machine translation services."""
     name = 'MT'
+    max_score = 100
     default_languages = []
 
     def __init__(self):
