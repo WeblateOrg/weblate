@@ -85,4 +85,4 @@ class GoogleTranslation(MachineTranslation):
 
         translation = response['data']['translations'][0]['translatedText']
 
-        return [(translation, 100, self.name, text)]
+        return [(translation, 90, self.name, text)]
