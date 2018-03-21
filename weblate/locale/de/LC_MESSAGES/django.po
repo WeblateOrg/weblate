@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 2.20\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-03-21 06:11+0000\n"
-"PO-Revision-Date: 2018-03-14 22:37+0000\n"
-"Last-Translator: Claus Rüdinger <Mail-an-CR@web.de>\n"
+"PO-Revision-Date: 2018-03-21 12:23+0000\n"
+"Last-Translator: anonymous <>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/master/de/"
 ">\n"
 "Language: de\n"
@@ -4944,10 +4944,9 @@ msgid "Source string age"
 msgstr "Alter der Ausgangszeichenkette"
 
 #: weblate/templates/unit-details.html:30
-#, fuzzy, python-format
-#| msgid "%(filename)s, translation unit %(position)s"
+#, python-format
 msgid "%(filename)s, string %(position)s"
-msgstr "%(filename)s, Übersetzungseinheit %(position)s"
+msgstr "%(filename)s, Zeichenkette %(position)s"
 
 #: weblate/templates/user-activity.html:13
 msgid "Pending suggestions"
@@ -5449,22 +5448,16 @@ msgid "Strings with any failing checks"
 msgstr "Zeichenketten mit fehlgeschlagenen Qualitätsprüfungen"
 
 #: weblate/trans/filter.py:40 weblate/trans/models/translation.py:716
-#, fuzzy
-#| msgid "Source strings"
 msgid "Approved strings"
-msgstr "Ausgangszeichenketten"
+msgstr "Freigegebene Zeichenketten"
 
 #: weblate/trans/filter.py:43 weblate/trans/models/translation.py:741
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgid "Approved strings with suggestions"
-msgstr "Zeichenketten mit Übersetzungsvorschlägen"
+msgstr "Anerkannte Zeichenketten mit Vorschlägen"
 
 #: weblate/trans/filter.py:45 weblate/trans/models/translation.py:733
-#, fuzzy
-#| msgid "Strings marked for review"
 msgid "Strings waiting for review"
-msgstr "Zeichenketten, die eine Begutachtung erfordern"
+msgstr "Zeichenketten zur Begutachtung"
 
 #: weblate/trans/filter.py:53
 #, fuzzy
@@ -5473,10 +5466,8 @@ msgid "Strings with any failing source checks"
 msgstr "Zeichenketten mit fehlgeschlagenen Qualitätsprüfungen"
 
 #: weblate/trans/filter.py:54
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with source comments"
-msgstr "Zeichenketten mit Kommentaren"
+msgstr "Zeichenketten mit Kommentaren zur Ausgangszeichenkette"
 
 #: weblate/trans/formats.py:905
 msgid "Automatic detection"
@@ -5920,11 +5911,10 @@ msgstr ""
 "alle Übersetzungen?"
 
 #: weblate/trans/forms.py:1079
-#, fuzzy
-#| msgid "Source string comment, suggestions to change this string"
 msgid "Source string comment, suggestions for changes to this string"
 msgstr ""
-"Kommentar zur Ausgangszeichenkette, Vorschläge zum Ändern dieser Zeichenkette"
+"Kommentar zur Ausgangszeichenkette, Änderungsvorschläge zu dieser "
+"Zeichenkette"
 
 #: weblate/trans/forms.py:1085
 msgid "Translation comment, discussions with other translators"
@@ -6076,16 +6066,12 @@ msgid "Translation key"
 msgstr "Übersetzung"
 
 #: weblate/trans/forms.py:1500
-#, fuzzy
-#| msgid ""
-#| "Key used to identify unit in translation file. File format specific rules "
-#| "might apply."
 msgid ""
 "Key used to identify string in translation file. File format specific rules "
 "might apply."
 msgstr ""
-"Schlüssel zur Identifizierung der Einheit in der Übersetzungsdatei. Es "
-"können bestimmte Regeln für das Dateiformat gelten."
+"Schlüssel zur Identifizierung der Zeichenkette in der Übersetzungsdatei. "
+"Eventuell gelten dafür dateiformatspezifische Regeln."
 
 #: weblate/trans/forms.py:1506
 #, fuzzy
@@ -6223,10 +6209,8 @@ msgid "Source string changed"
 msgstr "Änderung der Ausgangszeichenkette"
 
 #: weblate/trans/models/change.py:235
-#, fuzzy
-#| msgid "Comment added"
 msgid "New string added"
-msgstr "Neuer Kommentar"
+msgstr "Neue Zeichenkette hinzugefügt"
 
 #: weblate/trans/models/change.py:328
 #, python-format
@@ -6348,10 +6332,8 @@ msgstr ""
 "Informationen finden Sie in der Dokumentation."
 
 #: weblate/trans/models/project.py:143
-#, fuzzy
-#| msgid "Enable suggestions"
 msgid "Enable reviews"
-msgstr "Vorschläge aktivieren"
+msgstr "Begutachtung aktivieren"
 
 #: weblate/trans/models/project.py:146
 msgid ""
@@ -6982,10 +6964,8 @@ msgid "Translation file already exists!"
 msgstr "Übersetzungsdatei existiert bereits!"
 
 #: weblate/trans/models/suggestion.py:160
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Failed to accept suggestion!"
-msgstr "Vorschläge automatisch annehmen"
+msgstr "Vorschlag wurde nicht angenommen!"
 
 #: weblate/trans/models/translation.py:153
 #, python-format
@@ -7006,10 +6986,9 @@ msgid "Strings marked as needing edit"
 msgstr "Als bearbeitungsbedürftig markierte Zeichenketten"
 
 #: weblate/trans/models/unit.py:410
-#, fuzzy, python-brace-format
-#| msgid "{translation}, translation unit {position}"
+#, python-brace-format
 msgid "{translation}, string {position}"
-msgstr "{translation}, Übersetzungseinheit {position}"
+msgstr "{translation}, Zeichenkette {position}"
 
 #: weblate/trans/models/whiteboard.py:69
 msgid "Render as HTML"
