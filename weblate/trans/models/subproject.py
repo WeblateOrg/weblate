@@ -1522,6 +1522,17 @@ class SubProject(models.Model, URLMixin, PathMixin):
                 )
             return False
 
+        format_lang_code = self.file_format_cls.get_language_code(
+            language.code
+        )
+        if re.match(self.language_regex, format_lang_code) is None:
+            if request:
+                messages.error(
+                    request,
+                    _('Given language is filtered by the language filter!')
+                )
+            return False
+
         base_filename = self.get_new_base_filename()
 
         filename = self.file_format_cls.get_language_filename(
