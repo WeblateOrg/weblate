@@ -57,6 +57,6 @@ class WeblateMemory(MachineTranslation):
         """Download list of possible translations from a service."""
         memory = TranslationMemory()
         return [
-            self.format_unit_match(*memory)
-            for memory in memory.lookup(source.code, language.code, text)
+            self.format_unit_match(*result)
+            for result in memory.lookup(source.code, language.code, text)
         ]
