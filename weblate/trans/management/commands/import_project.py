@@ -25,6 +25,7 @@ import re
 import shutil
 import fnmatch
 
+from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 from django.utils.encoding import force_text
 from django.db.models import Q
@@ -102,7 +103,7 @@ class Command(BaseCommand):
         )
         parser.add_argument(
             '--vcs',
-            default='git',
+            default=settings.DEFAULT_VCS,
             help='Version control system to use',
         )
         parser.add_argument(
@@ -119,9 +120,16 @@ class Command(BaseCommand):
         parser.add_argument(
             '--disable-push-on-commit',
             action='store_false',
-            default=True,
+            default=settings.DEFAULT_PUSH_ON_COMMIT,
             dest='push_on_commit',
             help='Disable push on commit for created components',
+        )
+        parser.add_argument(
+            '--push-on-commit',
+            action='store_true',
+            default=settings.DEFAULT_PUSH_ON_COMMIT,
+            dest='push_on_commit',
+            help='Enable push on commit for created components',
         )
         parser.add_argument(
             '--main-component',
