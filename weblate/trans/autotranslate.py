@@ -113,19 +113,17 @@ class AutoTranslate(object):
 
         self.post_process()
 
-    @transaction.atomic
-    def process_mt(self, engines, threshold):
-        """Perform automatic translation based on machine translation."""
-        self.pre_process()
+    def fetch_mt(self, engines, threshold):
+        """Get the translations"""
+        translations = {}
 
-        # get the translations (optimized: first WeblateMT, then others)
         for unit in self.get_units().iterator():
             # a list to store all found translations
-            results = []
+            max_quality = threshold
+            translation = None
 
-            # check if weblate is in the chosen engines
-            if 'weblate' in engines:
-                translation_service = MACHINE_TRANSLATION_SERVICES['weblate']
+            for engine in engines:
+                translation_service = MACHINE_TRANSLATION_SERVICES[engine]
                 result = translation_service.translate(
                     self.translation.language.code,
                     unit.get_source_plurals()[0],
@@ -134,43 +132,31 @@ class AutoTranslate(object):
                 )
 
                 for item in result:
-                    results.append(
-                        (item['quality'], item['text'], item['service'])
-                    )
+                    if item['quality'] > max_quality:
+                        max_quality = item['quality']
+                        translation = item['text']
 
-            # use the other machine translation services if weblate did not
-            # find anything or has not been chosen
-            if 'weblate' not in engines or not results:
-                for engine in engines:
-                    # skip weblate
-                    if 'weblate' == engine:
-                        continue
-
-                    translation_service = MACHINE_TRANSLATION_SERVICES[engine]
-                    result = translation_service.translate(
-                        self.translation.language.code,
-                        unit.get_source_plurals()[0],
-                        unit,
-                        self.user
-                    )
-
-                    for item in result:
-                        results.append(
-                            (item['quality'], item['text'], item['service'])
-                        )
-
-            if not results:
+            if translation is None:
                 continue
 
-            # sort the list descending - the best result will be on top
-            results.sort(key=lambda tup: tup[0], reverse=True)
+            translations[unit.pk] = translation
 
-            # take the "best" result and check the quality score
-            result = results[0]
-            if result[0] < threshold:
-                continue
+        return translations
 
-            # Copy translation
-            self.update(unit, STATE_TRANSLATED, result[1])
+    def process_mt(self, engines, threshold):
+        """Perform automatic translation based on machine translation."""
+        translations = self.fetch_mt(engines, threshold)
 
-        self.post_process()
+        with transaction.atomic():
+            self.pre_process()
+
+            # Perform the translation
+            for unit in self.get_units().select_for_update().iterator():
+                # Copy translation
+                try:
+                    self.update(unit, STATE_TRANSLATED, translations[unit.pk])
+                except KeyError:
+                    # Probably new unit, ignore it for now
+                    continue
+
+            self.post_process()

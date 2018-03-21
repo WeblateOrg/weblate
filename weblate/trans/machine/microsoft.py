@@ -136,7 +136,7 @@ class MicrosoftTranslation(MachineTranslation):
             'category': 'general',
         }
         response = self.json_req(TRANSLATE_URL, **args)
-        return [(response, 100, self.name, text)]
+        return [(response, 90, self.name, text)]
 
 
 class MicrosoftCognitiveTranslation(MicrosoftTranslation):
