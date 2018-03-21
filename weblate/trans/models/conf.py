@@ -224,6 +224,9 @@ class WeblateConf(AppConf):
 
     DEFAULT_TRANSLATION_PROPAGATION = True
 
+    DEFAULT_PUSH_ON_COMMIT = True
+    DEFAULT_VCS = 'git'
+
     # Billing
     INVOICE_PATH = ''
 

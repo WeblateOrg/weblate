@@ -155,7 +155,7 @@ class SubProject(models.Model, URLMixin, PathMixin):
             'repository with translations.'
         ),
         choices=VCS_CHOICES,
-        default='git',
+        default=settings.DEFAULT_VCS,
     )
     repo = models.CharField(
         verbose_name=ugettext_lazy('Source code repository'),
@@ -465,7 +465,7 @@ class SubProject(models.Model, URLMixin, PathMixin):
     )
     push_on_commit = models.BooleanField(
         verbose_name=ugettext_lazy('Push on commit'),
-        default=True,
+        default=settings.DEFAULT_PUSH_ON_COMMIT,
         help_text=ugettext_lazy(
             'Whether the repository should be pushed upstream on every commit.'
         ),

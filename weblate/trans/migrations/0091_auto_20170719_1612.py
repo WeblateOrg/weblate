@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='subproject',
             name='push_on_commit',
-            field=models.BooleanField(default=True, help_text='Whether the repository should be pushed upstream on every commit.', verbose_name='Push on commit'),
+            field=models.BooleanField(default=settings.DEFAULT_PUSH_ON_COMMIT, help_text='Whether the repository should be pushed upstream on every commit.', verbose_name='Push on commit'),
         ),
         migrations.AlterField(
             model_name='subproject',
