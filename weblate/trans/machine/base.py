@@ -25,6 +25,7 @@ import sys
 import json
 
 from six.moves.urllib.request import Request, urlopen
+from six.moves.urllib.error import HTTPError
 
 from django.core.cache import cache
 from django.conf import settings
@@ -59,8 +60,13 @@ class MachineTranslation(object):
     def __init__(self):
         """Create new machine translation object."""
         self.mtid = self.name.lower().replace(' ', '-')
+        self.rate_limit_cache = '{}-rate-limit'.format(self.mtid)
+        self.languages_cache = '{}-languages'.format(self.mtid)
         self.request_url = None
         self.request_params = None
+
+    def delete_cache(self):
+        cache.delete_many([self.rate_limit_cache, self.languages_cache])
 
     def get_identifier(self):
         return self.mtid
@@ -178,12 +184,14 @@ class MachineTranslation(object):
     @property
     def supported_languages(self):
         """Return list of supported languages."""
-        cache_key = '{0}-languages'.format(self.mtid)
 
         # Try using list from cache
-        languages = cache.get(cache_key)
+        languages = cache.get(self.languages_cache)
         if languages is not None:
             return languages
+
+        if self.is_rate_limited():
+            return []
 
         # Download
         try:
@@ -198,7 +206,7 @@ class MachineTranslation(object):
             return self.default_languages
 
         # Update cache
-        cache.set(cache_key, languages, 3600 * 48)
+        cache.set(self.languages_cache, languages, 3600 * 48)
 
         return languages
 
@@ -210,9 +218,18 @@ class MachineTranslation(object):
             source != language
         )
 
+    def is_rate_limited(self):
+        return cache.get(self.rate_limit_cache, False)
+
+    def set_rate_limit(self):
+        return cache.set(self.rate_limit_cache, True, 1800)
+
     def translate(self, language, text, unit, user):
         """Return list of machine translations."""
         if text == '':
+            return []
+
+        if self.is_rate_limited():
             return []
 
         language = self.convert_language(language)
@@ -245,6 +262,9 @@ class MachineTranslation(object):
                 for trans in translations
             ]
         except Exception as exc:
+            if isinstance(exc, HTTPError) and exc.code == 429:
+                self.set_rate_limit()
+
             self.report_error(
                 exc,
                 'Failed to fetch translations from %s',
