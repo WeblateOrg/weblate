@@ -149,6 +149,10 @@ class AutoTranslate(object):
                         max_quality = item['quality']
                         translation = item['text']
 
+                # Break if we can't get better match
+                if max_quality == 100:
+                    break
+
             if translation is None:
                 continue
 
