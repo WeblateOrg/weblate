@@ -119,7 +119,7 @@ class AutoTranslate(object):
 
         for unit in self.get_units().iterator():
             # a list to store all found translations
-            max_quality = threshold
+            max_quality = threshold - 1
             translation = None
 
             # Run engines with higher maximal score first
