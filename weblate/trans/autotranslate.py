@@ -114,7 +114,7 @@ class AutoTranslate(object):
         self.post_process()
 
     def fetch_mt(self, engines, threshold):
-        """Get the translations (optimized: first WeblateMT, then others)"""
+        """Get the translations"""
         translations = {}
 
         for unit in self.get_units().iterator():
@@ -122,9 +122,8 @@ class AutoTranslate(object):
             max_quality = threshold
             translation = None
 
-            # check if weblate is in the chosen engines
-            if 'weblate' in engines:
-                translation_service = MACHINE_TRANSLATION_SERVICES['weblate']
+            for engine in engines:
+                translation_service = MACHINE_TRANSLATION_SERVICES[engine]
                 result = translation_service.translate(
                     self.translation.language.code,
                     unit.get_source_plurals()[0],
@@ -136,27 +135,6 @@ class AutoTranslate(object):
                     if item['quality'] > max_quality:
                         max_quality = item['quality']
                         translation = item['text']
-
-            # use the other machine translation services if weblate did not
-            # find anything or has not been chosen
-            if 'weblate' not in engines or translation is None:
-                for engine in engines:
-                    # skip weblate
-                    if 'weblate' == engine:
-                        continue
-
-                    translation_service = MACHINE_TRANSLATION_SERVICES[engine]
-                    result = translation_service.translate(
-                        self.translation.language.code,
-                        unit.get_source_plurals()[0],
-                        unit,
-                        self.user
-                    )
-
-                    for item in result:
-                        if item['quality'] > max_quality:
-                            max_quality = item['quality']
-                            translation = item['text']
 
             if translation is None:
                 continue
