@@ -473,6 +473,21 @@ class NewLangTest(ViewTestCase):
             4
         )
 
+    def test_add_rejected(self):
+        self.subproject.project.add_user(self.user, '@Administration')
+        self.subproject.language_regex = '^cs$'
+        self.subproject.save()
+        # One chosen
+        response = self.client.post(
+            reverse('new-language', kwargs=self.kw_subproject),
+            {'lang': 'af'},
+            follow=True
+        )
+        self.assertContains(
+            response,
+            'Given language is filtered by the language filter!',
+        )
+
     def test_remove(self):
         self.test_add_owner()
         kwargs = {'lang': 'af'}
