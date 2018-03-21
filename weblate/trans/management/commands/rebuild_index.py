@@ -25,6 +25,7 @@ from weblate.trans.search import (
     clean_indexes,
 )
 from weblate.lang.models import Language
+from weblate.memory.storage import TranslationMemory
 
 
 class Command(WeblateComponentCommand):
@@ -49,6 +50,8 @@ class Command(WeblateComponentCommand):
 
     def optimize_index(self):
         """Optimize index structures"""
+        memory = TranslationMemory()
+        memory.index.optimize()
         index = get_source_index()
         index.optimize()
         languages = Language.objects.have_translation()
