@@ -20,12 +20,11 @@
 
 from __future__ import unicode_literals
 
-import difflib
-
 from django.utils.encoding import force_text
 
 from weblate.trans.machine.base import MachineTranslation
 from weblate.trans.models import Unit, Project
+from weblate.utils.search import Comparer
 
 
 class WeblateTranslation(MachineTranslation):
@@ -39,11 +38,11 @@ class WeblateTranslation(MachineTranslation):
 
     def format_unit_match(self, unit, quality):
         """Format unit to translation service result."""
-        if quality < 0.5:
+        if quality < 50:
             return None
         return (
             unit.get_target_plurals()[0],
-            int(100 * quality),
+            quality,
             '{0} ({1})'.format(
                 self.name,
                 force_text(unit.translation.subproject)
@@ -57,12 +56,12 @@ class WeblateTranslation(MachineTranslation):
             translation__subproject__project__in=Project.objects.all_acl(user)
         ).more_like_this(unit, 1000)
 
+        comparer = Comparer()
+
         result = set((
             self.format_unit_match(
                 munit,
-                difflib.SequenceMatcher(
-                    None, text, munit.get_source_plurals()[0]
-                ).ratio(),
+                comparer.similarity(text, munit.get_source_plurals()[0])
             )
             for munit in matching_units
         ))
