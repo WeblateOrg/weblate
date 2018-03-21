@@ -111,6 +111,12 @@ class Command(BaseCommand):
             help='Set push URL for the project',
         )
         parser.add_argument(
+            '--push-url-same',
+            action='store_true',
+            default=False,
+            help='Set push URL for the project to same as pull',
+        )
+        parser.add_argument(
             '--disable-push-on-commit',
             action='store_false',
             default=True,
@@ -254,11 +260,14 @@ class Command(BaseCommand):
             'Failed to find suitable name for {0}'.format(name)
         )
 
-    def parse_options(self, options):
+    def parse_options(self, repo, options):
         """Parse parameters"""
         self.filemask = options['filemask']
         self.vcs = options['vcs']
-        self.push_url = options['push_url']
+        if options['push_url_same']:
+            self.push_url = repo
+        else:
+            self.push_url = options['push_url']
         self.file_format = options['file_format']
         self.language_regex = options['language_regex']
         self.main_component = options['main_component']
@@ -311,7 +320,7 @@ class Command(BaseCommand):
         # Read params
         repo = options['repo']
         branch = options['branch']
-        self.parse_options(options)
+        self.parse_options(repo, options)
 
         # Try to get project
         try:
