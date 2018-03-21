@@ -113,12 +113,10 @@ class AutoTranslate(object):
 
         self.post_process()
 
-    @transaction.atomic
-    def process_mt(self, engines, threshold):
-        """Perform automatic translation based on machine translation."""
-        self.pre_process()
+    def fetch_mt(self, engines, threshold):
+        """Get the translations (optimized: first WeblateMT, then others)"""
+        translations = {}
 
-        # get the translations (optimized: first WeblateMT, then others)
         for unit in self.get_units().iterator():
             # a list to store all found translations
             results = []
@@ -170,7 +168,24 @@ class AutoTranslate(object):
             if result[0] < threshold:
                 continue
 
-            # Copy translation
-            self.update(unit, STATE_TRANSLATED, result[1])
+            translations[unit.pk] = result[1]
 
-        self.post_process()
+        return translations
+
+    def process_mt(self, engines, threshold):
+        """Perform automatic translation based on machine translation."""
+        translations = self.fetch_mt(engines, threshold)
+
+        with transaction.atomic():
+            self.pre_process()
+
+            # Perform the translation
+            for unit in self.get_units().select_for_update().iterator():
+                # Copy translation
+                try:
+                    self.update(unit, STATE_TRANSLATED, translations[unit.pk])
+                except KeyError:
+                    # Probably new unit, ignore it for now
+                    continue
+
+            self.post_process()
