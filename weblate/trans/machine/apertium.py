@@ -104,7 +104,7 @@ class ApertiumAPYTranslation(MachineTranslation):
 
         return [(
             response['responseData']['translatedText'],
-            100,
+            90,
             self.name,
             text
         )]

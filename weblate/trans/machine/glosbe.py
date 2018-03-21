@@ -51,6 +51,6 @@ class GlosbeTranslation(MachineTranslation):
         if 'tuc' not in response:
             return []
 
-        return [(match['phrase']['text'], 100, self.name, text)
+        return [(match['phrase']['text'], 90, self.name, text)
                 for match in response['tuc']
                 if 'phrase' in match and match['phrase'] is not None]
