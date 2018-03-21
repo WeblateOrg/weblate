@@ -144,11 +144,11 @@ class TranslationMemory(object):
         self.open_searcher()
         text_query = self.parser.parse(text)
         matches = self.searcher.search(
-            text_query, filter=langfilter, limit=5000
+            text_query, filter=langfilter, limit=20000
         )
 
         for match in matches:
             similarity = self.comparer.similarity(text, match['source'])
-            if similarity < 30:
+            if similarity < 50:
                 continue
             yield (match['target'], similarity, match['origin'])
