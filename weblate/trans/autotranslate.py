@@ -119,7 +119,8 @@ class AutoTranslate(object):
 
         for unit in self.get_units().iterator():
             # a list to store all found translations
-            results = []
+            max_quality = threshold
+            translation = None
 
             # check if weblate is in the chosen engines
             if 'weblate' in engines:
@@ -132,13 +133,13 @@ class AutoTranslate(object):
                 )
 
                 for item in result:
-                    results.append(
-                        (item['quality'], item['text'], item['service'])
-                    )
+                    if item['quality'] > max_quality:
+                        max_quality = item['quality']
+                        translation = item['text']
 
             # use the other machine translation services if weblate did not
             # find anything or has not been chosen
-            if 'weblate' not in engines or not results:
+            if 'weblate' not in engines or translation is None:
                 for engine in engines:
                     # skip weblate
                     if 'weblate' == engine:
@@ -153,22 +154,14 @@ class AutoTranslate(object):
                     )
 
                     for item in result:
-                        results.append(
-                            (item['quality'], item['text'], item['service'])
-                        )
+                        if item['quality'] > max_quality:
+                            max_quality = item['quality']
+                            translation = item['text']
 
-            if not results:
+            if translation is None:
                 continue
 
-            # sort the list descending - the best result will be on top
-            results.sort(key=lambda tup: tup[0], reverse=True)
-
-            # take the "best" result and check the quality score
-            result = results[0]
-            if result[0] < threshold:
-                continue
-
-            translations[unit.pk] = result[1]
+            translations[unit.pk] = translation
 
         return translations
 
