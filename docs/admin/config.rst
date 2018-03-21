@@ -595,6 +595,7 @@ List of enabled machine translation services to use.
 
     MACHINE_TRANSLATION_SERVICES = (
         'weblate.trans.machine.apertium.ApertiumAPYTranslation',
+        'weblate.trans.machine.deepl.DeepLTranslation',
         'weblate.trans.machine.glosbe.GlosbeTranslation',
         'weblate.trans.machine.google.GoogleTranslation',
         'weblate.trans.machine.microsoft.MicrosoftCognitiveTranslation',
@@ -636,6 +637,17 @@ Not needed at all when running your own Apertium APy server.
 .. seealso::
 
    :ref:`apertium`, :ref:`machine-translation-setup`, :ref:`machine-translation`
+
+.. setting:: MT_DEEPL_KEY
+
+MT_DEEPL_KEY
+------------
+
+API key for DeepL API, you can register at https://www.deepl.com/pro.html.
+
+.. seealso::
+
+   :ref:`deepl`, :ref:`machine-translation-setup`, :ref:`machine-translation`
 
 .. setting:: MT_GOOGLE_KEY
 

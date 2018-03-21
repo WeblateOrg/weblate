@@ -68,6 +68,9 @@ class WeblateConf(AppConf):
     # tmserver URL
     MT_TMSERVER = None
 
+    # API key for DeepL API
+    MT_DEEPL_KEY = None
+
     # SAP Translation Hub
     MT_SAP_BASE_URL = None
     MT_SAP_SANDBOX_APIKEY = None

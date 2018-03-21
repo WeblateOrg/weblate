@@ -41,6 +41,25 @@ To enable this service, add ``weblate.trans.machine.apertium.ApertiumAPYTranslat
     :setting:`MT_APERTIUM_KEY`, `Apertium website <https://www.apertium.org/>`_,
     `Apertium APy documentation <http://wiki.apertium.org/wiki/Apertium-apy>`_
 
+.. _deepl:
+
+DeepL
+-----
+
+.. versionadded:: 2.20
+
+DeepL is paid service providing good machine translation for few languages.
+According to some benchmark it's currently best available service.
+
+To enable this service, add ``weblate.trans.machine.deepl.DeepLTranslation`` to
+:setting:`MACHINE_TRANSLATION_SERVICES`.
+
+.. seealso::
+
+    :setting:`MT_DEEPL_KEY`, `DeepL website <https://www.deepl.com/>`_,
+    `DeepL API documentation <https://www.deepl.com/api.html>`_
+
+
 Glosbe
 ------
 

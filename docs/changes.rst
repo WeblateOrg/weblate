@@ -19,6 +19,7 @@ Released on ? 2018.
 * Translate-toolkit 2.3.0 is now required.
 * Added built in translation memory.
 * Added componentlists overview to dashboard and per component list overview pages.
+* Added support for DeepL machine translation service.
 
 weblate 2.19.1
 --------------

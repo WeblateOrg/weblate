@@ -30,6 +30,7 @@ import httpretty
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.models.unit import Unit
 from weblate.trans.machine.dummy import DummyTranslation
+from weblate.trans.machine.deepl import DeepLTranslation
 from weblate.trans.machine.glosbe import GlosbeTranslation
 from weblate.trans.machine.mymemory import MyMemoryTranslation
 from weblate.trans.machine.apertium import (
@@ -601,6 +602,18 @@ class MachineTranslationTest(TestCase):
         machine = SAPTranslationHub()
         self.assertEqual(machine.supported_languages, [])
         self.assert_translate(machine, empty=True)
+
+    @override_settings(MT_DEEPL_KEY='KEY')
+    @httpretty.activate
+    def test_deepl(self):
+        cache.delete('{0}-languages'.format(DeepLTranslation().mtid))
+        httpretty.register_uri(
+            httpretty.POST,
+            'https://api.deepl.com/v1/translate',
+            body=b'{ "translations": [ { "detected_source_language": "EN", "text": "Hallo" } ] }'
+        )
+        machine = DeepLTranslation()
+        self.assert_translate(machine, lang='de', word='Hello')
 
 
 class WeblateTranslationTest(FixtureTestCase):

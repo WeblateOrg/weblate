@@ -507,6 +507,7 @@ if not HAVE_SYSLOG:
 # List of machine translations
 # MACHINE_TRANSLATION_SERVICES = (
 #     'weblate.trans.machine.apertium.ApertiumAPYTranslation',
+#     'weblate.trans.machine.deepl.DeepLTranslation',
 #     'weblate.trans.machine.glosbe.GlosbeTranslation',
 #     'weblate.trans.machine.google.GoogleTranslation',
 #     'weblate.trans.machine.microsoft.MicrosoftCognitiveTranslation',
@@ -523,6 +524,9 @@ if not HAVE_SYSLOG:
 
 # URL of the Apertium APy server
 MT_APERTIUM_APY = None
+
+# DeepL API key
+MT_DEEPL_KEY = None
 
 # Microsoft Cognitive Services Translator API, register at
 # https://portal.azure.com/
