@@ -1581,7 +1581,6 @@ class SubProject(models.Model, URLMixin, PathMixin):
             get_author_name(request.user)
             if request else 'Weblate <noreply@weblate.org>',
             timezone.now(),
-            force_commit=True,
             force_new=True,
         )
         translation.check_sync(

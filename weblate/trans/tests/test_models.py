@@ -26,6 +26,7 @@ import os
 
 from django.core.management.color import no_style
 from django.db import connection
+from django.http.request import HttpRequest
 from django.test import TestCase, LiveServerTestCase
 from django.test.utils import override_settings
 from django.utils import timezone
@@ -42,6 +43,7 @@ from weblate.permissions.helpers import can_access_project
 from weblate.trans.tests.utils import (
     get_test_file, RepoTestMixin, create_test_user,
 )
+from weblate.utils.state import STATE_TRANSLATED
 
 
 def fixup_languages_seq():
@@ -174,7 +176,6 @@ class TranslationTest(RepoTestCase):
         # Test committing
         translation.git_commit(
             None, 'TEST <test@example.net>', timezone.now(),
-            force_commit=True
         )
         self.assertFalse(translation.repo_needs_commit())
         linguas = os.path.join(subproject.full_path, 'po', 'LINGUAS')
@@ -199,6 +200,20 @@ class TranslationTest(RepoTestCase):
         translation.invalidate_cache()
         self.assertEqual(translation.stats.all, 0)
         self.assertEqual(translation.stats.all_words, 0)
+
+    def test_commit_groupping(self):
+        project = self.create_subproject()
+        translation = project.translation_set.get(language_code='cs')
+        request = HttpRequest()
+        for unit in translation.unit_set.all():
+            request.user = User.objects.create(
+                first_name='User {}'.format(unit.pk),
+                username='user-{}'.format(unit.pk),
+                email='{}@example.com'.format(unit.pk)
+            )
+            unit.translate(request, 'test', STATE_TRANSLATED)
+
+        translation.commit_pending(None)
 
 
 class ComponentListTest(RepoTestCase):

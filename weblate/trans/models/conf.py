@@ -109,7 +109,6 @@ class WeblateConf(AppConf):
     SIMILAR_MESSAGES = 5
 
     # Enable lazy commits
-    LAZY_COMMITS = True
     COMMIT_PENDING_HOURS = 24
 
     # Offload indexing
