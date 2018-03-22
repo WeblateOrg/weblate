@@ -372,7 +372,7 @@
 {% endif %}
 
 {% if user_can_add_comment %}
-<form method="post" action="{% url 'comment' pk=unit.id %}">
+<form method="post" action="{% url 'comment' pk=unit.id %}" class="auto-save-translation">
 {% csrf_token %}
 <input type="hidden" name="next" value="{{ this_unit_url }}#comments" />
 <div class="panel panel-primary">

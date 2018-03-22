@@ -1244,6 +1244,19 @@ $(function () {
         });
     }
 
+    /* Translate forms persistence */
+    $forms = $('.translation-form');
+    if ($forms.length > 0 && window.localStorage && window.localStorage.translation_autosave) {
+        var translation_restore = JSON.parse(window.localStorage.translation_autosave);
+        $.each(translation_restore, function () {
+            var target = $('#' + this.id);
+            if (target.length > 0) {
+                target.val(this.value);
+            }
+        });
+        localStorage.removeItem('translation_autosave');
+    }
+
     /* Copy to clipboard */
     var clipboard = new Clipboard('[data-clipboard-text]');
     clipboard.on('success', function(e) {
@@ -1277,5 +1290,15 @@ $(function () {
         'search_placeholder': gettext('Search…'),
         'non_selected_header': gettext('Available:'),
         'selected_header': gettext('Selected:')
+    });
+
+    $('.auto-save-translation').on('submit', function () {
+        if (window.localStorage) {
+            var data = $('.translation-editor').map(function () {
+                var $this = $(this);
+                return {id: $this.attr('id'), value: $this.val()};
+            });
+            window.localStorage.translation_autosave = JSON.stringify(data.get());
+        }
     });
 });
