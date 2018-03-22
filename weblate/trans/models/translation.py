@@ -23,8 +23,8 @@ from __future__ import unicode_literals
 import os
 import codecs
 
-from django.conf import settings
 from django.db import models, transaction
+from django.db.models.aggregates import Max
 from django.utils.translation import ugettext as _
 from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.utils.functional import cached_property
@@ -413,20 +413,33 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             return None
         return self.last_change_obj.timestamp
 
-    def commit_pending(self, request, author=None, skip_push=False):
+    def commit_pending(self, request, skip_push=False):
         """Commit any pending changes."""
-        # Get author of last changes
-        last = self.get_last_author(True)
+        while True:
+            # Find oldest change break loop if there is none left
+            try:
+                unit = self.unit_set.filter(
+                    pending=True
+                ).annotate(
+                    Max('change__timestamp')
+                ).order_by(
+                    'change__timestamp__max'
+                )[0]
+            except IndexError:
+                break
+            change = unit.change_set.get(
+                timestamp=unit.change__timestamp__max
+            )
 
-        # If it is same as current one, we don't have to commit
-        if author == last or last is None:
-            return False
+            author_name = get_author_name(change.author)
 
-        # Commit changes
-        self.git_commit(
-            request, last, self.last_change, force_commit=True,
-            skip_push=skip_push
-        )
+            # Flush pending units for this author
+            self.update_units(author_name, change.author)
+
+            # Commit changes
+            self.git_commit(
+                request, author_name, change.timestamp, skip_push=skip_push
+            )
         return True
 
     def get_commit_message(self):
@@ -510,35 +523,14 @@ class Translation(models.Model, URLMixin, LoggerMixin):
     def repo_needs_push(self):
         return self.subproject.repo_needs_push()
 
-    def git_commit(self, request, author, timestamp, force_commit=False,
-                   skip_push=False, force_new=False):
-        """Wrapper for commiting translation to git.
-
-        force_commit forces commit with lazy commits enabled
-
-        sync updates git hash stored within the translation (otherwise
-        translation rescan will be needed)
-        """
-        with self.subproject.repository.lock:
+    def git_commit(self, request, author, timestamp, skip_push=False,
+                   force_new=False):
+        """Wrapper for commiting translation to git."""
+        repository = self.subproject.repository
+        with repository.lock:
             # Is there something for commit?
-            if not force_new and not self.repo_needs_commit():
+            if not force_new and not repository.needs_commit(self.filename):
                 return False
-
-            # Can we delay commit?
-            if not force_commit and settings.LAZY_COMMITS:
-                self.log_info(
-                    'delaying commiting %s as %s',
-                    self.filename,
-                    author
-                )
-                return False
-
-            if not force_new:
-                # Commit pending units
-                self.update_units(author)
-                # Bail out if no change was done
-                if not self.repo_needs_commit():
-                    return False
 
             # Do actual commit with git lock
             self.log_info(
@@ -560,10 +552,13 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         return True
 
     @transaction.atomic
-    def update_units(self, author):
+    def update_units(self, user, author):
         """Update backend file and unit."""
         updated = False
         for unit in self.unit_set.filter(pending=True).select_for_update():
+            # Skip changes by other authors
+            if unit.change_set.order_by('-timestamp')[0].author != author:
+                continue
 
             src = unit.get_source_plurals()[0]
             add = False
@@ -820,10 +815,8 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         skipped = 0
         accepted = 0
 
-        author = get_author_name(request.user)
-
         # Commit possible prior changes
-        self.commit_pending(request, author)
+        self.commit_pending(request)
 
         for set_fuzzy, unit2 in store2.iterate_merge(fuzzy):
             try:
@@ -866,9 +859,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 self.store.merge_header(store2)
                 self.store.save()
 
-            self.git_commit(
-                request, author, timezone.now(), force_commit=True
-            )
+            self.commit_pending(request)
 
         return (not_found, skipped, accepted, store2.count_units())
 

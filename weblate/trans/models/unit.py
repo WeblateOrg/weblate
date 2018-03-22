@@ -34,7 +34,6 @@ from django.utils.translation import ugettext as _
 
 import six
 
-from weblate.accounts.models import get_author_name
 from weblate.permissions.helpers import can_translate
 from weblate.trans.checks import CHECKS
 from weblate.trans.models.source import Source
@@ -606,8 +605,9 @@ class Unit(models.Model, LoggerMixin):
         if user is None or user.is_anonymous:
             user = request.user
 
-        # Commit possible previous changes by other author
-        self.translation.commit_pending(request, get_author_name(user))
+        # Commit possible previous changes on this unit
+        if self.pending:
+            self.translation.commit_pending(request)
 
         # Return if there was no change
         # We have to explicitly check for fuzzy flag change on monolingual

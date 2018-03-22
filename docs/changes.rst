@@ -21,6 +21,7 @@ Released on ? 2018.
 * Added componentlists overview to dashboard and per component list overview pages.
 * Added support for DeepL machine translation service.
 * Machine translation results are now cached inside Weblate.
+* Added support for reordering commited changes.
 
 weblate 2.19.1
 --------------

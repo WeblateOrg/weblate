@@ -245,7 +245,7 @@ def home(request):
             'usersubscriptions': usersubscriptions,
             'userlanguages': prefetch_stats(user_translations),
             'componentlists': componentlists,
-            'all_componentlists': ComponentList.objects.all(),
+            'all_componentlists': prefetch_stats(ComponentList.objects.all()),
             'active_tab_slug': active_tab_slug,
         }
     )

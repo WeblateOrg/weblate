@@ -609,9 +609,6 @@ BACKGROUND_HOOKS = True
 # Number of nearby messages to show in each direction
 NEARBY_MESSAGES = 5
 
-# Enable lazy commits
-LAZY_COMMITS = True
-
 # Offload indexing
 OFFLOAD_INDEXING = False
 
