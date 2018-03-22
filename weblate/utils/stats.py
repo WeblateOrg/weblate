@@ -342,6 +342,8 @@ class ComponentStats(LanguageStats):
     def invalidate(self, language=None):
         super(ComponentStats, self).invalidate()
         self._object.project.stats.invalidate(language=language)
+        for clist in self._object.componentlist_set.all():
+            clist.stats.invalidate()
 
     def get_language_stats(self):
         for translation in self.translation_set:
