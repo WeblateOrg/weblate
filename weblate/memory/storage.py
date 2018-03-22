@@ -24,6 +24,8 @@ import contextlib
 
 import os.path
 
+from django.utils.encoding import force_text
+
 from translate.misc.xml_helpers import getXMLlang, getXMLspace
 from translate.storage.tmx import tmxfile
 
@@ -109,7 +111,7 @@ class TranslationMemory(object):
         return language.code
 
     def import_tmx(self, fileobj, langmap=None):
-        origin = os.path.basename(fileobj.name)
+        origin = force_text(os.path.basename(fileobj.name))
         storage = tmxfile.parsefile(fileobj)
         header = next(
             storage.document.getroot().iterchildren(
