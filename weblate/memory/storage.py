@@ -175,4 +175,6 @@ class TranslationMemory(object):
 
     def get_origins(self):
         self.open_searcher()
-        return self.searcher.lexicon('origin')
+        return [
+            force_text(x) for x in self.searcher.lexicon('origin')
+        ]

@@ -109,4 +109,4 @@ class MemoryTest(TestCase):
         self.assertEqual(list(memory.get_origins()), [])
         self.add_document()
         memory = TranslationMemory()
-        self.assertEqual(list(memory.get_origins()), ['test'])
+        self.assertEqual(memory.get_origins(), ['test'])
