@@ -552,7 +552,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         return True
 
     @transaction.atomic
-    def update_units(self, user, author):
+    def update_units(self, author_name, author):
         """Update backend file and unit."""
         updated = False
         for unit in self.unit_set.filter(pending=True).select_for_update():
@@ -560,10 +560,10 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             if unit.change_set.order_by('-timestamp')[0].author != author:
                 continue
 
-            src = unit.get_source_plurals()[0]
-            add = False
-
-            pounit, add = self.store.find_unit(unit.context, src)
+            pounit, add = self.store.find_unit(
+                unit.context,
+                unit.get_source_plurals()[0]
+            )
 
             unit.pending = False
 
@@ -623,7 +623,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         # Prepare headers to update
         headers = {
             'add': True,
-            'last_translator': author,
+            'last_translator': author_name,
             'plural_forms': self.plural.plural_form,
             'language': self.language_code,
             'PO_Revision_Date': now.strftime('%Y-%m-%d %H:%M%z'),
