@@ -233,6 +233,23 @@ Creates ``admin`` account with random password unless it is specified.
 
     Added parameters ``--username``, ``--email``, ``--name`` and ``--update``.
 
+delete_memory
+-------------
+
+.. django-admin:: delete_memory
+
+.. versionadded:: 2.20
+
+Deletest entries in the Weblate Translation Memory.
+
+.. django-admin-option:: --origin ORIGIN
+   
+    Origin to delete, for imported files the origin is filename without path.
+
+.. seealso::
+
+    :ref:`translation-memory`
+
 dumpuserdata
 ------------
 
@@ -305,6 +322,10 @@ Imports TMX file into Weblate Translation Memory.
 
     This can be useful in case your TMX file locales does not match what you
     use in Weblate.
+
+.. seealso::
+
+    :ref:`translation-memory`
 
 import_project
 --------------
@@ -479,6 +500,23 @@ Lists supported language in MediaWiki markup - language codes, English names
 and localized names.
 
 This is used to generate <http://wiki.l10n.cz/Jazyky>.
+
+list_memory
+-----------
+
+.. django-admin:: list_memory
+
+.. versionadded:: 2.20
+
+Lists contents of the Weblate Translation Memory.
+
+.. django-admin-option:: --type {origin}
+   
+    Type of information to list, defaults to listing used origins.
+
+.. seealso::
+
+    :ref:`translation-memory`
 
 list_translators
 ----------------

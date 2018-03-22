@@ -57,7 +57,7 @@ class TMSchema(SchemaClass):
     target_language = ID(stored=True)
     source = TEXT(stored=True)
     target = STORED()
-    origin = STORED()
+    origin = ID(stored=True)
 
 
 class TranslationMemory(object):
@@ -160,3 +160,12 @@ class TranslationMemory(object):
             yield (
                 match['source'], match['target'], similarity, match['origin']
             )
+
+    def delete(self, origin):
+        """Delete entries by origin."""
+        with self.writer() as writer:
+            return writer.delete_by_term('origin', origin)
+
+    def get_origins(self):
+        self.open_searcher()
+        return self.searcher.lexicon('origin')

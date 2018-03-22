@@ -22,6 +22,8 @@ from __future__ import unicode_literals
 from django.test import TestCase
 from django.core.management import call_command
 
+from six import StringIO
+
 from weblate.lang.models import Language
 from weblate.memory.machine import WeblateMemory
 from weblate.memory.storage import TranslationMemory, setup_index
@@ -33,12 +35,28 @@ class MemoryTest(TestCase):
     def setUp(self):
         setup_index()
 
-    def test_import(self):
+    def test_import_command(self):
         call_command(
             'import_memory',
             get_test_file('memory.tmx')
         )
-        self.assertEqual(TranslationMemory().doc_count(), 2)
+        memory = TranslationMemory()
+        self.assertEqual(memory.doc_count(), 2)
+
+    def test_delete_command(self):
+        self.add_document()
+        call_command('delete_memory', '--origin', 'test')
+        memory = TranslationMemory()
+        self.assertEqual(memory.doc_count(), 0)
+
+    def test_list_command(self):
+        self.add_document()
+        output = StringIO()
+        call_command(
+            'list_memory',
+            stdout=output
+        )
+        self.assertIn('test', output.getvalue())
 
     def test_import_map(self):
         call_command(
@@ -48,7 +66,7 @@ class MemoryTest(TestCase):
         )
         self.assertEqual(TranslationMemory().doc_count(), 2)
 
-    def test_machine(self):
+    def add_document(self):
         memory = TranslationMemory()
         with memory.writer() as writer:
             writer.add_document(
@@ -58,6 +76,9 @@ class MemoryTest(TestCase):
                 target='Ahoj',
                 origin='test'
             )
+
+    def test_machine(self):
+        self.add_document()
         machine_translation = WeblateMemory()
         self.assertEqual(
             machine_translation.translate('cs', 'Hello', MockUnit(), None),
@@ -70,3 +91,19 @@ class MemoryTest(TestCase):
                 },
             ]
         )
+
+    def test_delete(self):
+        self.add_document()
+        memory = TranslationMemory()
+        self.assertEqual(memory.doc_count(), 1)
+        self.assertEqual(memory.delete('test'), 1)
+        self.assertEqual(memory.delete('missing'), 0)
+        memory = TranslationMemory()
+        self.assertEqual(memory.doc_count(), 0)
+
+    def test_list(self):
+        memory = TranslationMemory()
+        self.assertEqual(list(memory.get_origins()), [])
+        self.add_document()
+        memory = TranslationMemory()
+        self.assertEqual(list(memory.get_origins()), ['test'])
