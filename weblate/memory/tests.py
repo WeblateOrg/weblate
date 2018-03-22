@@ -26,7 +26,9 @@ from six import StringIO
 
 from weblate.lang.models import Language
 from weblate.memory.machine import WeblateMemory
-from weblate.memory.storage import TranslationMemory, setup_index
+from weblate.memory.storage import (
+    TranslationMemory, setup_index, CATEGORY_FILE
+)
 from weblate.trans.tests.utils import get_test_file
 from weblate.trans.tests.test_checks import MockUnit
 
@@ -74,7 +76,8 @@ class MemoryTest(TestCase):
                 target_language='cs',
                 source='Hello',
                 target='Ahoj',
-                origin='test'
+                origin='test',
+                category=CATEGORY_FILE,
             )
 
     def test_machine(self):

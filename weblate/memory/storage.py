@@ -27,7 +27,7 @@ import os.path
 from translate.misc.xml_helpers import getXMLlang, getXMLspace
 from translate.storage.tmx import tmxfile
 
-from whoosh.fields import SchemaClass, TEXT, ID, STORED
+from whoosh.fields import SchemaClass, TEXT, ID, STORED, NUMERIC
 from whoosh.filedb.filestore import FileStorage
 from whoosh import qparser
 from whoosh import query
@@ -51,6 +51,9 @@ def get_node_data(unit, node):
     )
 
 
+CATEGORY_FILE = 1
+
+
 class TMSchema(SchemaClass):
     """Fultext index schema for source and context strings."""
     source_language = ID(stored=True)
@@ -58,6 +61,7 @@ class TMSchema(SchemaClass):
     source = TEXT(stored=True)
     target = STORED()
     origin = ID(stored=True)
+    category = NUMERIC()
 
 
 class TranslationMemory(object):
@@ -140,6 +144,7 @@ class TranslationMemory(object):
                         source=source,
                         target=text,
                         origin=origin,
+                        category=CATEGORY_FILE,
                     )
 
     def lookup(self, source_language, target_language, text):
