@@ -1271,7 +1271,7 @@ $(function () {
         select_auto_source.trigger('change');
     }
 
-    /* Override all multiple selects, use font awesome for exchange icon */
+    /* Override all multiple selects */
     $('select[multiple]').multi({
         'enable_search': true,
         'search_placeholder': gettext('Search…'),
