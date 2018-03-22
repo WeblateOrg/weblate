@@ -15,11 +15,11 @@ function increaseLoading(sel) {
     if (loading === 0) {
         $(sel).show();
     }
-    loading = loading + 1;
+    loading += 1;
 }
 
 function decreaseLoading(sel) {
-    loading = loading - 1;
+    loading -= 1;
     if (loading === 0) {
         $(sel).hide();
     }
@@ -40,6 +40,7 @@ jQuery.fn.extend({
                 // For browsers like Internet Explorer
                 this.focus();
                 var sel = document.selection.createRange();
+
                 sel.text = myValue;
                 this.focus();
             } else if (this.selectionStart || this.selectionStart === 0) {
@@ -47,6 +48,7 @@ jQuery.fn.extend({
                 var startPos = this.selectionStart;
                 var endPos = this.selectionEnd;
                 var scrollTop = this.scrollTop;
+
                 this.value = this.value.substring(0, startPos) + myValue + this.value.substring(endPos, this.value.length);
                 this.focus();
                 this.selectionStart = startPos + myValue.length;
@@ -64,11 +66,13 @@ jQuery.fn.extend({
 function submitForm(evt) {
     var $target = $(evt.target);
     var $form = $target.parents('form');
+
     if ($form.length === 0) {
         $form = $('.translation-form');
     }
     if ($form.length > 0) {
-        var submits = $form.find('input[type="submit"]');
+        let submits = $form.find('input[type="submit"]');
+
         if (submits.length === 0) {
             submits = $form.find('button[type="submit"]');
         }
@@ -143,18 +147,20 @@ function screenshotFailure() {
 function screenshotAddString() {
     var pk = $(this).data('pk');
     var addLoadId = '#adding-' + pk;
+    var form = $('#screenshot-add-form');
+
     $('#add-source').val(pk);
     increaseLoading(addLoadId);
-    var form = $('#screenshot-add-form');
     $.ajax({
         type: 'POST',
         url: form.attr('action'),
         data: form.serialize(),
         dataType: 'json',
         success: function () {
+            var list = $('#sources-listing');
+
             decreaseLoading(addLoadId);
             $(addLoadId).parents('tr').fadeOut();
-            var list = $('#sources-listing');
             $.get(list.data('href'), function (data) {
                 list.html(data);
             });
@@ -181,6 +187,7 @@ function screenshotResultSet(results) {
             gettext('Add to screenshot') +
             '</a><i class="fa fa-spinner fa-spin"></i></tr>'
         );
+
         row.find('.text').text(value.text);
         row.find('.context').text(value.context);
         row.find('.add-string').data('pk', value.pk);
@@ -210,6 +217,7 @@ function initEditor() {
     /* Copy source text */
     $('.copy-text').click(function (e) {
         var $this = $(this);
+
         $this.button('loading');
         $this.parents('.translation-item').find('.translation-editor').val(
             $.parseJSON($this.data('content'))
@@ -223,6 +231,7 @@ function initEditor() {
     /* Direction toggling */
     $('.direction-toggle').change(function () {
         var $this = $(this);
+
         $this.parents('.translation-item').find('.translation-editor').attr(
             'dir',
             $this.find('input').val()
@@ -233,6 +242,7 @@ function initEditor() {
     $('.specialchar').click(function (e) {
         var $this = $(this);
         var text = $this.data('value');
+
         $this.parents('.translation-item').find('.translation-editor').insertAtCaret(text);
         autosize.update($('.translation-editor'));
         e.preventDefault();
@@ -253,6 +263,8 @@ function processMachineTranslation(data) {
         data.translations.forEach(function (el, idx) {
             var newRow = $('<tr/>').data('quality', el.quality);
             var done = false;
+            var $machineTranslations = $('#machine-translations');
+
             newRow.append($('<td/>').attr('class', 'target').attr('lang', data.lang).attr('dir', data.dir).text(el.text));
             newRow.append($('<td/>').text(el.source));
             newRow.append($('<td/>').text(el.service));
@@ -283,7 +295,6 @@ function processMachineTranslation(data) {
                 '</a>' +
                 '</td>'
             ));
-            var $machineTranslations = $('#machine-translations');
             $machineTranslations.children('tr').each(function (idx) {
                 if ($(this).data('quality') < el.quality && !done) {
                     $(this).before(newRow);
@@ -296,12 +307,14 @@ function processMachineTranslation(data) {
         });
         $('a.copymt').click(function () {
             var text = $(this).parent().parent().find('.target').text();
+
             $('.translation-editor').val(text);
             autosize.update($('.translation-editor'));
             $('#id_fuzzy').prop('checked', true);
         });
         $('a.copymt-save').click(function () {
             var text = $(this).parent().parent().find('.target').text();
+
             $('.translation-editor').val(text);
             autosize.update($('.translation-editor'));
             $('#id_fuzzy').prop('checked', false);
@@ -318,9 +331,11 @@ function processMachineTranslation(data) {
         }
 
         var $machineTranslations = $('#machine-translations');
+
         $machineTranslations.children('tr').each(function (idx) {
             if (idx < 10) {
                 var key = getNumericKey(idx);
+
                 $(this).find('.mt-number').html(
                     ' <span class="badge kbd-badge" title="' +
                     interpolate(gettext('Alt+M then %s'), [key]) +
@@ -345,6 +360,7 @@ function processMachineTranslation(data) {
             gettext('The request for machine translation using %s has failed:'),
             [data.service]
         );
+
         $('#mt-errors').append(
             $('<li>' + msg + ' ' + data.responseDetails + '</li>')
         );
@@ -401,11 +417,11 @@ function loadTableSorting() {
             tbody = table.find('tbody'),
             thead = table.find('thead'),
             thIndex = 0;
-        $(this).find('thead th')
-            .each(function () {
 
+        $(this).find('thead th').each(function () {
             var th = $(this),
                 inverse = 1;
+
             // handle colspan
             if (th.attr('colspan')) {
                 thIndex += parseInt(th.attr('colspan'), 10) - 1;
@@ -413,7 +429,7 @@ function loadTableSorting() {
             // skip empty cells and cells with icon (probably already processed)
             if (th.text() !== '' && ! th.hasClass('sort-cell') && ! th.hasClass('sort-skip')) {
                 // Store index copy
-                var myIndex = thIndex;
+                let myIndex = thIndex;
                 // Add icon, title and class
                 th.attr('title', gettext('Sort this column')).addClass('sort-cell').append('<i class="sort-button fa fa-chevron-down sort-none" />');
 
@@ -1098,6 +1114,7 @@ $(function () {
 
     $('.link-post').click(function () {
         var $form = $('#link-post');
+
         $form.attr('action', $(this).attr('href'));
         $form.submit();
         return false;
@@ -1111,8 +1128,9 @@ $(function () {
     });
     /* Screenshot management */
     $('#screenshots-search,#screenshots-auto').click(function () {
-        screenshotStart();
         var $this = $(this);
+
+        screenshotStart();
         $.ajax({
             type: 'POST',
             url: $this.data('href'),
@@ -1128,6 +1146,7 @@ $(function () {
     $('.set-group').tooltip({
         title: function() {
             var $this = $(this);
+
             if ($this.data('error')) {
                 return $this.data('error');
             }
@@ -1175,6 +1194,7 @@ $(function () {
     /* Inline dictionary adding */
     $('.add-dict-inline').submit(function () {
         var form = $(this);
+
         increaseLoading('#glossary-add-loading');
         $.ajax({
             type: 'POST',
@@ -1200,6 +1220,7 @@ $(function () {
     /* Avoid double submission of non AJAX forms */
     $('form:not(.double-submission)').on('submit', function(e){
         var $form = $(this);
+
         if ($form.data('submitted') === true) {
             // Previously submitted - don't submit again
             e.preventDefault();
@@ -1232,12 +1253,15 @@ $(function () {
         $forms.submit(function (e) {
             var data = {};
             var $this = $(this);
+
             $this.find(':checkbox').each(function () {
                 var $this = $(this);
+
                 data[$this.attr('name')] = $this.prop('checked');
             });
             $this.find('select').each(function () {
                 var $this = $(this);
+
                 data[$this.attr('name')] = $this.val();
             });
             window.localStorage[$this.data('persist')] = JSON.stringify(data);
@@ -1248,8 +1272,10 @@ $(function () {
     $forms = $('.translation-form');
     if ($forms.length > 0 && window.localStorage && window.localStorage.translation_autosave) {
         var translation_restore = JSON.parse(window.localStorage.translation_autosave);
+
         $.each(translation_restore, function () {
             var target = $('#' + this.id);
+
             if (target.length > 0) {
                 target.val(this.value);
             }
@@ -1263,6 +1289,7 @@ $(function () {
         var $trigger = $(e.trigger);
         // Backup current text
         var backup = $trigger.attr('data-original-title');
+
         // Change text to copied
         $trigger.attr('data-original-title', gettext('Copied')).tooltip('show');
         // Restore original
@@ -1294,10 +1321,12 @@ $(function () {
 
     $('.auto-save-translation').on('submit', function () {
         if (window.localStorage) {
-            var data = $('.translation-editor').map(function () {
+            let data = $('.translation-editor').map(function () {
                 var $this = $(this);
+
                 return {id: $this.attr('id'), value: $this.val()};
             });
+
             window.localStorage.translation_autosave = JSON.stringify(data.get());
         }
     });
