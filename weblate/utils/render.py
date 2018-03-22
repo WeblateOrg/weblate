@@ -29,9 +29,9 @@ class RestrictedEngine(Engine):
         'django.template.defaultfilters',
     ]
 
-    def __init__(self, args, **kwargs):
+    def __init__(self, *args, **kwargs):
         kwargs['autoescape'] = False
-        super(RestrictedEngine, self).__init__(kwargs)
+        super(RestrictedEngine, self).__init__(*args, **kwargs)
 
 
 def render_template(template, translation=None):
