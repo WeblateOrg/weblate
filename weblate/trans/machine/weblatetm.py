@@ -31,6 +31,7 @@ class WeblateTranslation(MachineTranslation):
     """Translation service using strings already translated in Weblate."""
     name = 'Weblate'
     rank_boost = 1
+    cache_translations = False
 
     def is_supported(self, source, language):
         """Any language is supported."""

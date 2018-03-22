@@ -35,6 +35,7 @@ from django.utils.http import urlencode
 from weblate import USER_AGENT
 from weblate.logger import LOGGER
 from weblate.utils.errors import report_error
+from weblate.utils.hash import calculate_hash, hash_to_checksum
 from weblate.utils.site import get_site_url
 
 
@@ -52,6 +53,7 @@ class MachineTranslation(object):
     max_score = 100
     rank_boost = 0
     default_languages = []
+    cache_translations = True
 
     @classmethod
     def get_rank(cls):
@@ -247,12 +249,23 @@ class MachineTranslation(object):
             else:
                 return []
 
+        cache_key = None
+        if self.cache_translations:
+            cache_key = 'mt:{}:{}:{}:{}'.format(
+                self.mtid,
+                source, language,
+                hash_to_checksum(calculate_hash(None, text)),
+            )
+            result = cache.get(cache_key)
+            if result is not None:
+                return result
+
         try:
             translations = self.download_translations(
                 source, language, text, unit, user
             )
 
-            return [
+            result = [
                 {
                     'text': trans[0],
                     'quality': trans[1],
@@ -261,6 +274,9 @@ class MachineTranslation(object):
                 }
                 for trans in translations
             ]
+            if cache_key:
+                cache.set(cache_key, result, 7 * 86400)
+            return result
         except Exception as exc:
             if isinstance(exc, HTTPError) and exc.code == 429:
                 self.set_rate_limit()
