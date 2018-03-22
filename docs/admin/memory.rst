@@ -11,4 +11,14 @@ Weblate provide these as a machine translations.
 
 For installation tips, see :ref:`weblate-translation-memory`.
 
-For importing TMX files, see :djadmin:`import_memory`.
+Managing translation memory
+---------------------------
+
+There are several management commands to manipulate with the translation memory content:
+
+:djadmin:`import_memory`
+    Importing TMX files to the memory
+:djadmin:`list_memory`
+    Listing memory content
+:djadmin:`delete_memory`
+    Deleting content from the memory
