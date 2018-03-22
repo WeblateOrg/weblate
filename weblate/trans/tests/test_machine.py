@@ -26,6 +26,7 @@ from django.test.utils import override_settings
 
 import httpretty
 
+import weblate.trans.tests.mypretty  # noqa
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.models.unit import Unit
 from weblate.trans.machine.base import MachineTranslationError
@@ -649,7 +650,6 @@ class MachineTranslationTest(TestCase):
         # Fetch from cache
         self.assert_translate(machine, lang='de', word='Hello')
         self.assertFalse(httpretty.has_request())
-
 
 
 class WeblateTranslationTest(FixtureTestCase):
