@@ -225,6 +225,12 @@ TERMINOLOGY_TRANSLATE = '''
 </s:Envelope>
 '''.encode('utf-8')
 
+DEEPL_RESPONSE = b'''{
+    "translations": [
+        { "detected_source_language": "EN", "text": "Hallo" }
+    ]
+}'''
+
 
 class MachineTranslationTest(TestCase):
     """Testing of machine translation core."""
@@ -629,7 +635,7 @@ class MachineTranslationTest(TestCase):
         httpretty.register_uri(
             httpretty.POST,
             'https://api.deepl.com/v1/translate',
-            body=b'{ "translations": [ { "detected_source_language": "EN", "text": "Hallo" } ] }'
+            body=DEEPL_RESPONSE,
         )
         self.assert_translate(machine, lang='de', word='Hello')
 
@@ -641,7 +647,7 @@ class MachineTranslationTest(TestCase):
         httpretty.register_uri(
             httpretty.POST,
             'https://api.deepl.com/v1/translate',
-            body=b'{ "translations": [ { "detected_source_language": "EN", "text": "Hallo" } ] }'
+            body=DEEPL_RESPONSE,
         )
         # Fetch from service
         self.assert_translate(machine, lang='de', word='Hello')
