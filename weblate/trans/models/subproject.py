@@ -867,11 +867,14 @@ class SubProject(models.Model, URLMixin, PathMixin):
 
     def commit_pending(self, request, from_link=False, skip_push=False):
         """Check whether there is any translation which needs commit."""
+
+        # If we're not recursing, call on parent
         if not from_link and self.is_repo_link:
             return self.linked_subproject.commit_pending(
                 request, True, skip_push=skip_push
             )
 
+        # Commit all translations
         for translation in self.translation_set.all():
             translation.commit_pending(request, skip_push=True)
 
