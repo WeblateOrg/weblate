@@ -50,9 +50,8 @@ class AutoTranslationTest(ViewTestCase):
 
     def test_none(self):
         """Test for automatic translation with no content."""
-        url = reverse('auto_translation', kwargs=self.kw_translation)
         response = self.client.post(
-            url
+            reverse('auto_translation', kwargs=self.kw_translation)
         )
         self.assertRedirects(response, self.translation_url)
 
@@ -68,6 +67,8 @@ class AutoTranslationTest(ViewTestCase):
         url = reverse('auto_translation', kwargs=params)
         kwargs['auto_source'] = 'others'
         kwargs['threshold'] = '100'
+        if 'type' not in kwargs:
+            kwargs['type'] = 'todo'
         response = self.client.post(url, kwargs, follow=True)
         if expected == 1:
             self.assertContains(
@@ -91,7 +92,7 @@ class AutoTranslationTest(ViewTestCase):
         self.perform_auto()
 
     def test_inconsistent(self):
-        self.perform_auto(0, inconsistent='1')
+        self.perform_auto(0, type='check:inconsistent')
 
     def test_overwrite(self):
         self.perform_auto(overwrite='1')
@@ -221,6 +222,8 @@ class AutoTranslationMtTest(ViewTestCase):
         params = {'project': 'test', 'lang': 'cs', 'subproject': 'test-3'}
         url = reverse('auto_translation', kwargs=params)
         kwargs['auto_source'] = 'mt'
+        if 'type' not in kwargs:
+            kwargs['type'] = 'todo'
         response = self.client.post(url, kwargs, follow=True)
         if expected == 1:
             self.assertContains(
@@ -245,7 +248,7 @@ class AutoTranslationMtTest(ViewTestCase):
 
     def test_inconsistent(self):
         self.perform_auto(
-            0, inconsistent='1', engines=['weblate'], threshold=80
+            0, type='check:inconsistent', engines=['weblate'], threshold=80
         )
 
     def test_overwrite(self):

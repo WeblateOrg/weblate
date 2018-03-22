@@ -102,8 +102,12 @@ class Command(WeblateTranslationCommand):
         else:
             source = ''
 
-        auto = AutoTranslate(
-            user, translation, options['inconsistent'], options['overwrite']
-        )
+        if options['inconsistent']:
+            filter_type = 'check:inconsistent'
+        elif options['overwrite']:
+            filter_type = 'all'
+        else:
+            filter_type = 'todo'
+        auto = AutoTranslate(user, translation, filter_type)
         auto.process_others(source, check_acl=False)
         self.stdout.write('Updated {0} units'.format(auto.updated))

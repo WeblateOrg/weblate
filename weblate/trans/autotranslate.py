@@ -28,26 +28,18 @@ from weblate.utils.state import STATE_TRANSLATED
 
 
 class AutoTranslate(object):
-    def __init__(self, user, translation, inconsistent, overwrite,
-                 request=None):
+    def __init__(self, user, translation, filter_type, request=None):
         self.user = user
         self.request = request
         self.translation = translation
-        self.inconsistent = inconsistent
-        self.overwrite = overwrite
+        self.filter_type = filter_type
         self.updated = 0
 
     def get_units(self):
-        if self.inconsistent:
-            return self.translation.unit_set.filter_type(
-                'check:inconsistent',
-                self.translation.subproject.project,
-                self.translation.language,
-            )
-        elif self.overwrite:
-            return self.translation.unit_set.all()
-        return self.translation.unit_set.filter(
-            state__lt=STATE_TRANSLATED,
+        return self.translation.unit_set.filter_type(
+            self.filter_type,
+            self.translation.subproject.project,
+            self.translation.language,
         )
 
     def update(self, unit, state, target):

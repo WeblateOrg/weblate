@@ -614,8 +614,7 @@ def auto_translation(request, project, subproject, lang):
     auto = AutoTranslate(
         request.user,
         translation,
-        autoform.cleaned_data['inconsistent'],
-        autoform.cleaned_data['overwrite'],
+        autoform.cleaned_data['type'],
         request=request
     )
 
