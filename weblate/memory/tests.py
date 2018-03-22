@@ -24,7 +24,6 @@ from django.core.management import call_command
 
 from six import StringIO
 
-from weblate.lang.models import Language
 from weblate.memory.machine import WeblateMemory
 from weblate.memory.storage import (
     TranslationMemory, setup_index, CATEGORY_FILE

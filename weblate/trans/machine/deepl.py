@@ -23,7 +23,7 @@ from __future__ import unicode_literals
 from django.conf import settings
 
 from weblate.trans.machine.base import (
-    MachineTranslation, MachineTranslationError, MissingConfiguration
+    MachineTranslation, MissingConfiguration
 )
 
 DEEPL_API = 'https://api.deepl.com/v1/translate'

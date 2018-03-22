@@ -20,10 +20,6 @@
 
 from __future__ import unicode_literals
 
-import difflib
-
-from django.utils.encoding import force_text
-
 from weblate.lang.models import Language
 from weblate.memory.storage import TranslationMemory
 from weblate.trans.machine.base import MachineTranslation

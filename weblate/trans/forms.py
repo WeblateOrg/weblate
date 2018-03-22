@@ -30,7 +30,6 @@ from crispy_forms.bootstrap import TabHolder, Tab, InlineRadios
 
 from django import forms
 from django.core.exceptions import PermissionDenied
-from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.translation import (
     ugettext_lazy as _, ugettext, pgettext_lazy, pgettext
 )
