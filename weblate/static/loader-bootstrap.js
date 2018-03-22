@@ -2,8 +2,6 @@ var loading = 0;
 var machineTranslationLoaded = false;
 var activityDataLoaded = false;
 var lastEditor = null;
-var jsLockUpdate = null;
-var idleTime = 0;
 
 // Remove some weird things from location hash
 if (window.location.hash && (window.location.hash.indexOf('"') > -1 || window.location.hash.indexOf('=') > -1)) {
@@ -27,6 +25,7 @@ function decreaseLoading(sel) {
 
 function getNumericKey(idx) {
     var ret = idx + 1;
+
     if (ret === 10) {
         return '0';
     }
@@ -39,15 +38,15 @@ jQuery.fn.extend({
             if (document.selection) {
                 // For browsers like Internet Explorer
                 this.focus();
-                var sel = document.selection.createRange();
+                let sel = document.selection.createRange();
 
                 sel.text = myValue;
                 this.focus();
             } else if (this.selectionStart || this.selectionStart === 0) {
                 //For browsers like Firefox and Webkit based
-                var startPos = this.selectionStart;
-                var endPos = this.selectionEnd;
-                var scrollTop = this.scrollTop;
+                let startPos = this.selectionStart;
+                let endPos = this.selectionEnd;
+                let scrollTop = this.scrollTop;
 
                 this.value = this.value.substring(0, startPos) + myValue + this.value.substring(endPos, this.value.length);
                 this.focus();
@@ -85,8 +84,8 @@ function submitForm(evt) {
 
 function configureChart($chart) {
     var $toolTip = $chart
-      .append('<div class="tooltip top" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>')
-      .find('.tooltip');
+        .append('<div class="tooltip top" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>')
+        .find('.tooltip');
 
     $chart.on('mouseenter', '.ct-bar', function() {
         var $bar = $(this),
@@ -94,8 +93,8 @@ function configureChart($chart) {
             pos = $bar.offset();
 
         $toolTip.find('.tooltip-inner').html(value);
-        pos.top = pos.top - $toolTip.outerHeight();
-        pos.left = pos.left - $toolTip.outerWidth() / 2 + 7.5 /* stroke-width / 2 */;
+        pos.top -= $toolTip.outerHeight();
+        pos.left -= $toolTip.outerWidth() / 2 + 7.5 /* stroke-width / 2 */;
         $toolTip.offset(pos);
         $toolTip.css('opacity', 1);
     });
@@ -193,14 +192,12 @@ function screenshotResultSet(results) {
         row.find('.add-string').data('pk', value.pk);
         row.find('.fa-spin').hide().attr('id', 'adding-' + value.pk);
         $('#search-results').append(row);
-        console.log(value);
     });
     $('#search-results').find('.add-string').click(screenshotAddString);
 }
 
 function screenshotLoaded(data) {
     decreaseLoading('#screenshots-loading');
-    console.log(data);
     if (data.responseCode !== 200) {
         screnshotResultError('danger', gettext('Error loading search results!'));
     } else if (data.results.length === 0) {
@@ -599,7 +596,6 @@ $(function () {
     if ($('#form-activetab').length > 0) {
         $document.on('show.bs.tab', '[data-toggle="tab"]', function (e) {
             var $target = $(e.target);
-            console.log($target.attr('href'));
             $('#form-activetab').attr('value', $target.attr('href'));
         });
     }
@@ -815,6 +811,7 @@ $(function () {
     /* Check ignoring */
     $('.check').on('close.bs.alert', function () {
         var $this = $(this);
+
         $.get($this.data('href'));
         $this.tooltip('destroy');
     });
@@ -822,6 +819,7 @@ $(function () {
     /* Check link clicking */
     $document.on('click', '.check [data-toggle="tab"]', function (e) {
         var href = $(this).attr('href');
+
         e.preventDefault();
         $('.nav [href="' + href + '"]').click();
         $window.scrollTop($(href).offset().top);
@@ -830,6 +828,7 @@ $(function () {
     /* Copy from dictionary */
     $('.copydict').click(function (e) {
         var text = $(this).parents('tr').find('.target').text();
+
         insertEditor(text);
         e.preventDefault();
     });
@@ -838,6 +837,7 @@ $(function () {
     /* Copy from source text highlight check */
     $('.hlcheck').click(function (e) {
         var text = $(this).clone();
+
         text.find('.highlight-number').remove();
         text=text.text();
         insertEditor(text, $(this));
@@ -855,8 +855,10 @@ $(function () {
     if ($('.hlcheck').length>0) {
         $('.hlcheck').each(function(idx){
             var $this = $(this);
+
             if (idx < 10) {
-                var key = getNumericKey(idx);
+                let key = getNumericKey(idx);
+
                 $(this).find('.highlight-number').html(
                     ' <span class="badge kbd-badge" title="' +
                     interpolate(gettext('Ctrl/Command+%s'), [key]) +
@@ -903,6 +905,7 @@ $(function () {
         });
         columnsMenu.find('input').on('click', function(e) {
             var $this = $(this);
+
             columnsPanel.find('.' + $this.attr('id').replace('toggle-', 'col-')).toggle($this.attr('checked'));
             e.stopPropagation();
         });
@@ -941,13 +944,14 @@ $(function () {
     if ($('.zen').length > 0) {
         $window.scroll(function(){
             var $loadingNext = $('#loading-next');
+            var loader = $('#zen-load');
+
             if ($window.scrollTop() >= $document.height() - (2 * $window.height())) {
                 if ($('#last-section').length > 0 || $loadingNext.css('display') !== 'none') {
                     return;
                 }
                 $loadingNext.show();
 
-                var loader = $('#zen-load');
                 loader.data('offset', 20 + parseInt(loader.data('offset'), 10));
 
                 $.get(
@@ -977,6 +981,7 @@ $(function () {
         });
         Mousetrap.bindGlobal(['ctrl+pagedown', 'command+pagedown'], function(e) {
             var focus = $(':focus');
+
             if (focus.length === 0) {
                 $('.zen-unit:first').find('.translation-editor:first').focus();
             } else {
@@ -986,6 +991,7 @@ $(function () {
         });
         Mousetrap.bindGlobal(['ctrl+pageup', 'command+pageup'], function(e) {
             var focus = $(':focus');
+
             if (focus.length === 0) {
                 $('.zen-unit:last').find('.translation-editor:first').focus();
             } else {
@@ -1011,6 +1017,7 @@ $(function () {
 
     /* Datepicker localization */
     var week_start = '1';
+
     if (typeof django !== 'undefined') {
         week_start = django.formats.FIRST_DAY_OF_WEEK;
     }
@@ -1080,8 +1087,10 @@ $(function () {
     if ($('.check').length > 0) {
         $($('.check')[0].parentNode).children('.check').each(function(idx){
             var $this = $(this);
+
             if (idx < 10) {
-                var key = getNumericKey(idx);
+                let key = getNumericKey(idx);
+
                 $(this).find('.check-number').html(
                     ' <span class="badge kbd-badge" title="' +
                     interpolate(gettext('Alt+I then %s'), [key]) +
