@@ -22,9 +22,7 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 
-from weblate.trans.machine.base import (
-    MachineTranslation, MissingConfiguration
-)
+from weblate.trans.machine.base import MachineTranslation, MissingConfiguration
 
 DEEPL_API = 'https://api.deepl.com/v1/translate'
 
@@ -35,6 +33,12 @@ class DeepLTranslation(MachineTranslation):
     # This seems to be currently best MT service, so score it a bit
     # better than other ones.
     max_score = 91
+
+    def __init__(self):
+        """Check configuration."""
+        super(DeepLTranslation, self).__init__()
+        if settings.MT_DEEPL_KEY is None:
+            raise MissingConfiguration('DeepL requires API key')
 
     def download_languages(self):
         """List of supported languages is currently hardcoded."""
