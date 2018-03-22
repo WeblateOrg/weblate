@@ -240,7 +240,7 @@ delete_memory
 
 .. versionadded:: 2.20
 
-Deletest entries in the Weblate Translation Memory.
+Deletes entries in the Weblate Translation Memory.
 
 .. django-admin-option:: --origin ORIGIN
    
@@ -310,7 +310,7 @@ import_memory
 
 .. versionadded:: 2.20
 
-Imports TMX file into Weblate Translation Memory.
+Imports a TMX file into the Weblate Translation Memory.
 
 .. django-admin-option:: --language-map LANGMAP
 
