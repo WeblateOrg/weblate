@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 2.20\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-03-23 13:26+0000\n"
-"PO-Revision-Date: 2018-03-22 15:04+0000\n"
+"PO-Revision-Date: 2018-03-23 20:18+0000\n"
 "Last-Translator: Viktar Vauchkevich <victorenator@gmail.com>\n"
 "Language-Team: Belarusian (latin) <https://hosted.weblate.org/projects/"
 "weblate/master/be_Latn/>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.20-dev\n"
 
 #: weblate/accounts/admin.py:109 weblate/accounts/admin.py:114
@@ -264,18 +264,14 @@ msgid "Authentication using {method} ({name}) has been removed."
 msgstr "Aŭtentyfikacyja vykarystoŭvajučy {method} ({name}) vydaliena."
 
 #: weblate/accounts/models.py:69
-#, fuzzy, python-brace-format
-#| msgid "Successfully authenticated using {method} ({name})."
+#, python-brace-format
 msgid "Authenticated using {method} ({name})."
-msgstr "Paspiachovaja aŭtentyfikacyja vykarystoŭvajučy {method} ({name})."
+msgstr "Aŭtentyfikavany praz {method} ({name})."
 
 #: weblate/accounts/models.py:72
-#, fuzzy, python-brace-format
-#| msgid "Successfully authenticated using {method} ({name}) from new device."
+#, python-brace-format
 msgid "Authenticated using {method} ({name}) from new device."
-msgstr ""
-"Paspiachovaja aŭtentyfikacyja vykarystoŭvajučy {method} ({name}) z novaj "
-"prylady."
+msgstr "Aŭtentyfikavany praz {method} ({name}) z novaj prylady."
 
 #: weblate/accounts/models.py:75
 msgid "Somebody has attempted to register with your email."
@@ -306,7 +302,7 @@ msgstr "Pahadniennie ab umovach absluhoŭvannia {date}."
 
 #: weblate/accounts/models.py:96
 msgid "To restore access to your account, please reset your password."
-msgstr ""
+msgstr "Kab adnavić dostup na vašaha kontu, kali laska, skińcie vaš paroĺ."
 
 #: weblate/accounts/models.py:219 weblate/templates/accounts/profile.html:310
 msgid "Account activity"
@@ -667,10 +663,8 @@ msgid "Example addon"
 msgstr "Pryklad dadatku"
 
 #: weblate/addons/example.py:44
-#, fuzzy
-#| msgid "This addon does nothing it is just an example"
 msgid "This addon does nothing it is just an example."
-msgstr "Hety dadatak ničroha nie robić, bo jon toĺki pryklad"
+msgstr "Hety dadatak ničroha nie robić, bo jon toĺki pryklad."
 
 #: weblate/addons/flags.py:50
 msgid "Flag new source strings to need edit"
@@ -714,26 +708,20 @@ msgid "Long lines wrapping"
 msgstr "Pieranos doŭhich radkoŭ"
 
 #: weblate/addons/forms.py:79
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines (default Gettext behavior)"
 msgid "Wrap lines at 77 chars and at newlines (default gettext behavior)"
 msgstr ""
-"Pieranos radkoŭ paslia 77 simvala ci simvala novaha radka (ahadanyja "
-"pavodziny Gettext)"
+"Pieranos radkoŭ paslia 77 simvalaŭ ci simvala novaha radka (ahadanyja "
+"pavodziny gettext)"
 
 #: weblate/addons/forms.py:80
-#, fuzzy
-#| msgid "Wrap lines at newlines only (Gettext behavior with --no-wrap)"
 msgid "Only wrap lines at newlines (gettext behavior with --no-wrap)"
 msgstr ""
-"Pieranos radkoŭ toĺki paslia simvala novaha radka (pavodziny Gettext z --no-"
+"Pieranos radkoŭ toĺki paslia simvala novaha radka (pavodziny gettext z --no-"
 "wrap)"
 
 #: weblate/addons/forms.py:81
-#, fuzzy
-#| msgid "Long lines wrapping"
 msgid "No line wrapping"
-msgstr "Pieranos doŭhich radkoŭ"
+msgstr "Biez pieranosu radkoŭ"
 
 #: weblate/addons/forms.py:90
 msgid "Sort JSON keys"
@@ -760,10 +748,8 @@ msgid "Generate mo files"
 msgstr "Zhienieravać mo-fajly"
 
 #: weblate/addons/gettext.py:57
-#, fuzzy
-#| msgid "Automatically generates mo file for every changed po file."
 msgid "Automatically generates MO file for every changed PO file."
-msgstr "Aŭtamatyčna hienieruje mo-fajl dlia kožnaha zmienienaha po-fajla."
+msgstr "Aŭtamatyčna hienieruje MO-fajl dlia kožnaha zmienienaha PO-fajla."
 
 #: weblate/addons/gettext.py:72
 msgid "Update LINGUAS file"
@@ -790,32 +776,22 @@ msgid "Update po files to match pot (msgmerge)"
 msgstr "Abnavić po-fajly ŭ adpaviednasci z pot (msgmerge)"
 
 #: weblate/addons/gettext.py:189
-#, fuzzy
-#| msgid ""
-#| "Update all po files to match the pot file using msgmerge. This is "
-#| "triggered whenever new changes are pulled from upstream repository."
 msgid ""
 "Update all PO files to match the POT file using msgmerge. This is triggered "
 "whenever new changes are pulled from the upstream repository."
 msgstr ""
-"Abnavić ŭsie po-fajly ŭ adpaviednasci z pot-fajlam z dapamohaj msgmerge. "
-"Heta spracoŭvaje kožny raz jak novyja zmieny vyciahvajucca z vyšejšaha "
-"schovišča."
+"Abnavić ŭsie PO-fajly ŭ adpaviednasci z PO-fajlam z dapamohaj msgmerge. Heta "
+"spracoŭvaje kožny raz jak novyja zmieny vyciahvajucca z vyšejšaha schovišča."
 
 #: weblate/addons/gettext.py:212
-#, fuzzy
-#| msgid "Customize Gettext output"
 msgid "Customize gettext output"
-msgstr "Nadadzić Gettext-vyvad"
+msgstr "Nadadzić gettext-vyvad"
 
 #: weblate/addons/gettext.py:214
-#, fuzzy
-#| msgid ""
-#| "Allows to customize Gettext output behavior, for example line wrapping."
 msgid ""
 "Allows customization of gettext output behavior, for example line wrapping."
 msgstr ""
-"Dazvaliaje naladzić pavodziny vyvadu Gettext, napryklad, pieranos radkoŭ."
+"Dazvaliaje naladzić pavodziny vyvadu gettext, napryklad, pieranos radkoŭ."
 
 #: weblate/addons/json.py:33
 msgid "Customize JSON output"
@@ -2510,10 +2486,8 @@ msgid "Components"
 msgstr "Kampanienty"
 
 #: weblate/templates/component-list.html:28
-#, fuzzy
-#| msgid "Documentation for plurals."
 msgid "Number of components"
-msgstr "Dakumientacyja dlia množnych formaŭ."
+msgstr "Koĺkasć kampanientaŭ"
 
 #: weblate/templates/component-list.html:34
 #: weblate/trans/models/componentlist.py:116
@@ -6785,10 +6759,8 @@ msgid "Failed to add new translation file!"
 msgstr "Nie ŭdalosia dadać novy fajl pierakladu!"
 
 #: weblate/trans/models/subproject.py:1535
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Given language is filtered by the language filter!"
-msgstr "Bazavy fajl dlia adnamoŭnaha pierakladu"
+msgstr "Zadanaja mova fiĺtrujecca moŭnym fiĺtram!"
 
 #: weblate/trans/models/subproject.py:1557
 msgid "Translation file already exists!"
