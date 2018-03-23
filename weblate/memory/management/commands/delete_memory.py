@@ -20,7 +20,7 @@
 
 from __future__ import unicode_literals
 
-from django.core.management.base import BaseCommand
+from django.core.management.base import BaseCommand, CommandError
 
 from weblate.memory.storage import TranslationMemory
 
@@ -36,9 +36,20 @@ class Command(BaseCommand):
         parser.add_argument(
             '--origin',
             help='Origin to remove',
-            required=True,
+        )
+        parser.add_argument(
+            '--all',
+            action='store_true',
+            help='Remove all entries',
+            default=False
         )
 
     def handle(self, *args, **options):
         """Translation memory cleanup."""
-        TranslationMemory().delete(options['origin'])
+        memory = TranslationMemory()
+        if options['all']:
+            memory.empty()
+        elif options['origin']:
+            memory.delete(options['origin'])
+        else:
+            raise CommandError('Please specify what you want to delete')

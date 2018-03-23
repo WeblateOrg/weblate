@@ -246,6 +246,10 @@ Deletes entries in the Weblate Translation Memory.
    
     Origin to delete, for imported files the origin is filename without path.
 
+.. django-admin-option:: --all
+   
+    Delete complete memory content and recreate the database.
+
 .. seealso::
 
     :ref:`translation-memory`

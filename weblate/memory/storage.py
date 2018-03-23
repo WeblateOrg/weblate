@@ -173,6 +173,11 @@ class TranslationMemory(object):
         with self.writer() as writer:
             return writer.delete_by_term('origin', origin)
 
+    def empty(self):
+        """Recreates translation memory."""
+        self.index = setup_index()
+        self.searcher = None
+
     def get_origins(self):
         self.open_searcher()
         return [

@@ -50,6 +50,12 @@ class MemoryTest(TestCase):
         memory = TranslationMemory()
         self.assertEqual(memory.doc_count(), 0)
 
+    def test_delete_all_command(self):
+        self.add_document()
+        call_command('delete_memory', '--all')
+        memory = TranslationMemory()
+        self.assertEqual(memory.doc_count(), 0)
+
     def test_list_command(self):
         self.add_document()
         output = StringIO()
