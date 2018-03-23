@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 2.20\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-03-23 13:26+0000\n"
-"PO-Revision-Date: 2018-03-21 18:39+0000\n"
+"PO-Revision-Date: 2018-03-23 14:10+0000\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/master/pt_BR/>\n"
@@ -262,17 +262,14 @@ msgid "Authentication using {method} ({name}) has been removed."
 msgstr "A autenticação usando {method} ({name}) foi removida."
 
 #: weblate/accounts/models.py:69
-#, fuzzy, python-brace-format
-#| msgid "Successfully authenticated using {method} ({name})."
+#, python-brace-format
 msgid "Authenticated using {method} ({name})."
-msgstr "Autenticação bem sucedida usando {method} ({name})."
+msgstr "Autenticado usando {method} ({name})."
 
 #: weblate/accounts/models.py:72
-#, fuzzy, python-brace-format
-#| msgid "Successfully authenticated using {method} ({name}) from new device."
+#, python-brace-format
 msgid "Authenticated using {method} ({name}) from new device."
-msgstr ""
-"Autenticação bem sucedida usando {method} ({name}) do novo dispositivo."
+msgstr "Autenticado usando {method} ({name}) do novo dispositivo."
 
 #: weblate/accounts/models.py:75
 msgid "Somebody has attempted to register with your email."
@@ -303,7 +300,7 @@ msgstr "Concordância com os Termos do serviço {date}."
 
 #: weblate/accounts/models.py:96
 msgid "To restore access to your account, please reset your password."
-msgstr ""
+msgstr "Para restaurar o acesso a sua conta, redefina sua senha."
 
 #: weblate/accounts/models.py:219 weblate/templates/accounts/profile.html:310
 msgid "Account activity"
@@ -661,10 +658,8 @@ msgid "Example addon"
 msgstr "Exemplo de complemento"
 
 #: weblate/addons/example.py:44
-#, fuzzy
-#| msgid "This addon does nothing it is just an example"
 msgid "This addon does nothing it is just an example."
-msgstr "Este complemento não faz nada, é apenas um exemplo"
+msgstr "Este complemento não faz nada, é apenas um exemplo."
 
 #: weblate/addons/flags.py:50
 msgid "Flag new source strings to need edit"
@@ -707,26 +702,20 @@ msgid "Long lines wrapping"
 msgstr "Quebra de linhas longas"
 
 #: weblate/addons/forms.py:79
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines (default Gettext behavior)"
 msgid "Wrap lines at 77 chars and at newlines (default gettext behavior)"
 msgstr ""
 "Quebrar linhas em 77 caracteres e em novas linhas (comportamento padrão do "
-"Gettext)"
+"gettext)"
 
 #: weblate/addons/forms.py:80
-#, fuzzy
-#| msgid "Wrap lines at newlines only (Gettext behavior with --no-wrap)"
 msgid "Only wrap lines at newlines (gettext behavior with --no-wrap)"
 msgstr ""
-"Quebrar linhas apenas em novas linhas (comportamento do Gettext com --no-"
+"Quebrar linhas apenas em novas linhas (comportamento do gettext com --no-"
 "wrap)"
 
 #: weblate/addons/forms.py:81
-#, fuzzy
-#| msgid "Long lines wrapping"
 msgid "No line wrapping"
-msgstr "Quebra de linhas longas"
+msgstr "Sem quebra de linhas"
 
 #: weblate/addons/forms.py:90
 msgid "Sort JSON keys"
@@ -753,8 +742,6 @@ msgid "Generate mo files"
 msgstr "Gerar arquivos MO"
 
 #: weblate/addons/gettext.py:57
-#, fuzzy
-#| msgid "Automatically generates mo file for every changed po file."
 msgid "Automatically generates MO file for every changed PO file."
 msgstr "Gera automaticamente o arquivo MO para cada arquivo PO alterado."
 
@@ -783,10 +770,6 @@ msgid "Update po files to match pot (msgmerge)"
 msgstr "Atualizar arquivos PO para corresponder ao modelo POT (msgmerge)"
 
 #: weblate/addons/gettext.py:189
-#, fuzzy
-#| msgid ""
-#| "Update all po files to match the pot file using msgmerge. This is "
-#| "triggered whenever new changes are pulled from upstream repository."
 msgid ""
 "Update all PO files to match the POT file using msgmerge. This is triggered "
 "whenever new changes are pulled from the upstream repository."
@@ -796,19 +779,14 @@ msgstr ""
 "repositório \"upstream\"."
 
 #: weblate/addons/gettext.py:212
-#, fuzzy
-#| msgid "Customize Gettext output"
 msgid "Customize gettext output"
-msgstr "Personalizar saída do Gettext"
+msgstr "Personalizar saída do gettext"
 
 #: weblate/addons/gettext.py:214
-#, fuzzy
-#| msgid ""
-#| "Allows to customize Gettext output behavior, for example line wrapping."
 msgid ""
 "Allows customization of gettext output behavior, for example line wrapping."
 msgstr ""
-"Permite personalizar o comportamento de saída do Gettext, por exemplo as "
+"Permite personalizar o comportamento de saída do gettext, por exemplo as "
 "quebra de linhas."
 
 #: weblate/addons/json.py:33
@@ -2494,10 +2472,8 @@ msgid "Components"
 msgstr "Componentes"
 
 #: weblate/templates/component-list.html:28
-#, fuzzy
-#| msgid "Number of plurals"
 msgid "Number of components"
-msgstr "Número de plurais"
+msgstr "Número de componentes"
 
 #: weblate/templates/component-list.html:34
 #: weblate/trans/models/componentlist.py:116
@@ -6751,10 +6727,8 @@ msgid "Failed to add new translation file!"
 msgstr "Falha ao adicionar novo arquivo de tradução!"
 
 #: weblate/trans/models/subproject.py:1535
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Given language is filtered by the language filter!"
-msgstr "Arquivo de idioma da base monolíngue"
+msgstr "O idioma fornecido é filtrado pelo filtro de idioma!"
 
 #: weblate/trans/models/subproject.py:1557
 msgid "Translation file already exists!"
