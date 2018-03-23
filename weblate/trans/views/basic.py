@@ -359,15 +359,9 @@ def show_project(request, project):
                 {'project': obj.slug}
             ),
             'language_stats': language_stats,
-            'unit_count': Unit.objects.filter(
-                translation__subproject__project=obj
-            ).count(),
-            'words_count': obj.stats.all_words,
             'language_count': Language.objects.filter(
                 translation__subproject__project=obj
             ).distinct().count(),
-            'strings_count': obj.stats.source_strings,
-            'source_words_count': obj.stats.source_words,
             'search_form': SearchForm(),
             'replace_form': replace_form,
             'mass_state_form': mass_state_form,
@@ -405,15 +399,9 @@ def show_subproject(request, project, subproject):
             'last_changes_url': urlencode(
                 {'subproject': obj.slug, 'project': obj.project.slug}
             ),
-            'unit_count': Unit.objects.filter(
-                translation__subproject=obj
-            ).count(),
-            'words_count': obj.stats.all_words,
             'language_count': Language.objects.filter(
                 translation__subproject=obj
             ).distinct().count(),
-            'strings_count': obj.stats.source_strings,
-            'source_words_count': obj.stats.source_words,
             'replace_form': replace_form,
             'mass_state_form': mass_state_form,
             'search_form': SearchForm(),
