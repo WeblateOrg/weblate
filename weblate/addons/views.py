@@ -67,7 +67,8 @@ class AddonList(AddonViewMixin, ListView):
         installed = set([x.addon.name for x in result['object_list']])
         result['available'] = [
             x for x in ADDONS.values()
-            if x.is_compatible(component) and x.name not in installed
+            if x.can_install(component, self.request.user)
+            and x.name not in installed
         ]
         return result
 
@@ -78,7 +79,7 @@ class AddonList(AddonViewMixin, ListView):
         installed = set([x.addon.name for x in self.get_queryset()])
         if (not name or
                 addon is None or
-                not addon.is_compatible(component) or
+                not addon.can_install(component, request.user) or
                 name in installed):
             return self.redirect_list(_('Invalid addon name specified!'))
 

@@ -37,12 +37,12 @@ class FlagBase(BaseAddon):
     icon = 'flag'
 
     @classmethod
-    def is_compatible(cls, component):
+    def can_install(cls, component, user):
         if not component.has_template():
             return False
         if component.template_store.format_id in SUPPORT_FUZZY:
             return False
-        return super(FlagBase, cls).is_compatible(component)
+        return super(FlagBase, cls).can_install(component, user)
 
 
 class SourceEditAddon(FlagBase):
