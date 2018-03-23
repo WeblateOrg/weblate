@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Weblate 2.20\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-03-23 13:26+0000\n"
-"PO-Revision-Date: 2018-03-23 18:29+0800\n"
-"Last-Translator: Cheng-Chia Tseng <pswo10680@gmail.com>\n"
+"PO-Revision-Date: 2018-03-23 16:00+0000\n"
+"Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Weblate 2.20-dev\n"
 
 #: weblate/accounts/admin.py:109 weblate/accounts/admin.py:114
 msgid "Personal info"
@@ -252,16 +252,14 @@ msgid "Authentication using {method} ({name}) has been removed."
 msgstr "已移除 {method} ({name}) 的身份核對方式。"
 
 #: weblate/accounts/models.py:69
-#, fuzzy, python-brace-format
-#| msgid "Successfully authenticated using {method} ({name})."
+#, python-brace-format
 msgid "Authenticated using {method} ({name})."
-msgstr "已成功核對 {method} ({name}) 身份。"
+msgstr "已通過 {method} ({name}) 的身份核對。"
 
 #: weblate/accounts/models.py:72
-#, fuzzy, python-brace-format
-#| msgid "Successfully authenticated using {method} ({name}) from new device."
+#, python-brace-format
 msgid "Authenticated using {method} ({name}) from new device."
-msgstr "已成功核對新裝置的 {method} ({name}) 身份。"
+msgstr "已從新裝置通過 {method} ({name}) 的身份核對。"
 
 #: weblate/accounts/models.py:75
 msgid "Somebody has attempted to register with your email."
@@ -290,10 +288,8 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "服務條款協議書 {date}。"
 
 #: weblate/accounts/models.py:96
-#, fuzzy
-#| msgid "To restore access to your account, please perform password reset."
 msgid "To restore access to your account, please reset your password."
-msgstr "若要還原您的帳號存取權，請執行密碼重設。"
+msgstr "若要還原您的帳號存取權，請重設您的密碼。"
 
 #: weblate/accounts/models.py:219 weblate/templates/accounts/profile.html:310
 msgid "Account activity"
@@ -676,22 +672,16 @@ msgid "Long lines wrapping"
 msgstr "長列換列"
 
 #: weblate/addons/forms.py:79
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines (default Gettext behavior)"
 msgid "Wrap lines at 77 chars and at newlines (default gettext behavior)"
-msgstr "77 個字元處與新列處換列（Gettext 預設行為）"
+msgstr "於 77 個字元處與新列處換列（gettext 預設行為）"
 
 #: weblate/addons/forms.py:80
-#, fuzzy
-#| msgid "Wrap lines at newlines only (Gettext behavior with --no-wrap)"
 msgid "Only wrap lines at newlines (gettext behavior with --no-wrap)"
-msgstr "僅新列處換列（Gettext 行為配上 --no-wrap 選項）"
+msgstr "僅在新列處換列（gettext 行為配上 --no-wrap 選項）"
 
 #: weblate/addons/forms.py:81
-#, fuzzy
-#| msgid "Long lines wrapping"
 msgid "No line wrapping"
-msgstr "長列換列"
+msgstr "不要換列"
 
 #: weblate/addons/forms.py:90
 msgid "Sort JSON keys"
@@ -716,10 +706,8 @@ msgid "Generate mo files"
 msgstr "生成 mo 檔"
 
 #: weblate/addons/gettext.py:57
-#, fuzzy
-#| msgid "Automatically generates mo file for every changed po file."
 msgid "Automatically generates MO file for every changed PO file."
-msgstr "每次 po 檔有變動時便自動生成 mo 檔。"
+msgstr "每次 PO 檔有變動時便自動生成 MO 檔。"
 
 #: weblate/addons/gettext.py:72
 msgid "Update LINGUAS file"
@@ -746,30 +734,19 @@ msgid "Update po files to match pot (msgmerge)"
 msgstr "更新 po 檔以符合 pot (msgmerge)"
 
 #: weblate/addons/gettext.py:189
-#, fuzzy
-#| msgid ""
-#| "Update all po files to match the pot file using msgmerge. This is "
-#| "triggered whenever new changes are pulled from upstream repository."
 msgid ""
 "Update all PO files to match the POT file using msgmerge. This is triggered "
 "whenever new changes are pulled from the upstream repository."
-msgstr ""
-"使用 msgmerge 更新所有 po 檔使其符合 pot 檔。每當從上游儲存庫拉入新更動時會觸"
-"發這個動作。"
+msgstr "使用 msgmerge 更新所有 PO 檔使其符合 POT 檔。每當從上游儲存庫拉入新更動時會觸發這個動作。"
 
 #: weblate/addons/gettext.py:212
-#, fuzzy
-#| msgid "Customize Gettext output"
 msgid "Customize gettext output"
-msgstr "自訂 Gettexxt 輸出"
+msgstr "自訂 gettext 輸出"
 
 #: weblate/addons/gettext.py:214
-#, fuzzy
-#| msgid ""
-#| "Allows to customize Gettext output behavior, for example line wrapping."
 msgid ""
 "Allows customization of gettext output behavior, for example line wrapping."
-msgstr "允許自訂 Gettext 輸出行為，例如換列。"
+msgstr "允許自訂 gettext 輸出行為，例如換列。"
 
 #: weblate/addons/json.py:33
 msgid "Customize JSON output"
@@ -2363,10 +2340,8 @@ msgid "Components"
 msgstr "組件"
 
 #: weblate/templates/component-list.html:28
-#, fuzzy
-#| msgid "Documentation for plurals."
 msgid "Number of components"
-msgstr "複數說明文件。"
+msgstr "組件數目"
 
 #: weblate/templates/component-list.html:34
 #: weblate/trans/models/componentlist.py:116
