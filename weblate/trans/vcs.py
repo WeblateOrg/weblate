@@ -157,7 +157,7 @@ class Repository(object):
         return get_clean_env({'GIT_SSH': get_wrapper_filename()})
 
     @classmethod
-    def _popen(cls, args, cwd=None, err=False, fullcmd=False):
+    def _popen(cls, args, cwd=None, err=False, fullcmd=False, raw=False):
         """Execute the command using popen."""
         if args is None:
             raise RepositoryException(0, 'Not supported functionality', '')
@@ -187,6 +187,8 @@ class Repository(object):
             )
         if not output and err:
             return output_err.decode('utf-8')
+        if raw:
+            return output
         return output.decode('utf-8')
 
     def execute(self, args, needs_lock=True, fullcmd=False):
@@ -726,7 +728,8 @@ class SubversionRepository(GitRepository):
     def get_last_repo_revision(cls, url):
         output = cls._popen(
             ['svn', 'log', url, '--limit=1', '--xml'],
-            fullcmd=True
+            fullcmd=True,
+            raw=True,
         )
         tree = ElementTree.fromstring(output)
         entry = tree.find('logentry')
