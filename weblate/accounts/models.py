@@ -66,10 +66,10 @@ ACCOUNT_ACTIVITY = {
         'Authentication using {method} ({name}) has been removed.'
     ),
     'login': _(
-        'Successfully authenticated using {method} ({name}).'
+        'Authenticated using {method} ({name}).'
     ),
     'login-new': _(
-        'Successfully authenticated using {method} ({name}) from new device.'
+        'Authenticated using {method} ({name}) from new device.'
     ),
     'register': _(
         'Somebody has attempted to register with your email.'
@@ -93,7 +93,7 @@ ACCOUNT_ACTIVITY = {
 
 EXTRA_MESSAGES = {
     'locked': _(
-        'To restore access to your account, please perform password reset.'
+        'To restore access to your account, please reset your password.'
     ),
 }
 
