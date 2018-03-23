@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 2.20\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-03-23 13:26+0000\n"
-"PO-Revision-Date: 2018-03-23 07:43+0000\n"
+"PO-Revision-Date: 2018-03-23 14:24+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@abv.bg>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/master/"
 "bg/>\n"
@@ -264,16 +264,14 @@ msgid "Authentication using {method} ({name}) has been removed."
 msgstr "Удостоверяването чрез {method} ({name}) беше премахнато."
 
 #: weblate/accounts/models.py:69
-#, fuzzy, python-brace-format
-#| msgid "Successfully authenticated using {method} ({name})."
+#, python-brace-format
 msgid "Authenticated using {method} ({name})."
-msgstr "Успешно удостоверяване чрез ({method}) ({name})."
+msgstr "Удостоверяване чрез ({method}) ({name})."
 
 #: weblate/accounts/models.py:72
-#, fuzzy, python-brace-format
-#| msgid "Successfully authenticated using {method} ({name}) from new device."
+#, python-brace-format
 msgid "Authenticated using {method} ({name}) from new device."
-msgstr "Успешно удостоверяване чрез ({method}) ({name}) от ново устройство."
+msgstr "Удостоверяване чрез ({method}) ({name}) от ново устройство."
 
 #: weblate/accounts/models.py:75
 msgid "Somebody has attempted to register with your email."
@@ -303,8 +301,6 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "Съгласие с документа за „Условията на услугата“ — {date}."
 
 #: weblate/accounts/models.py:96
-#, fuzzy
-#| msgid "To restore access to your account, please perform password reset."
 msgid "To restore access to your account, please reset your password."
 msgstr "Моля, подновете паролата си, за да възстановите достъпа до акаунта си."
 
@@ -716,26 +712,20 @@ msgid "Long lines wrapping"
 msgstr "Пренасяне на дългите редове"
 
 #: weblate/addons/forms.py:79
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines (default Gettext behavior)"
 msgid "Wrap lines at 77 chars and at newlines (default gettext behavior)"
 msgstr ""
-"Пренасяне на редовете при достигане на 77 знака и при знак за нов ред "
-"(нормалният режим на работа на Gettext)"
+"Пренасяне на редовете при достигане на 77 знака и при знак за нов ред ("
+"нормалният режим на работа на gettext)"
 
 #: weblate/addons/forms.py:80
-#, fuzzy
-#| msgid "Wrap lines at newlines only (Gettext behavior with --no-wrap)"
 msgid "Only wrap lines at newlines (gettext behavior with --no-wrap)"
 msgstr ""
-"Пренасяне на редовете само при знак за нов ред (режим на работа на Gettext с "
+"Пренасяне на редовете само при знак за нов ред (режим на работа на gettext с "
 "опцията --no-wrap)"
 
 #: weblate/addons/forms.py:81
-#, fuzzy
-#| msgid "Long lines wrapping"
 msgid "No line wrapping"
-msgstr "Пренасяне на дългите редове"
+msgstr "Без пренасяне на редовете"
 
 #: weblate/addons/forms.py:90
 msgid "Sort JSON keys"
@@ -761,8 +751,6 @@ msgid "Generate mo files"
 msgstr "Създаване на файлове MO"
 
 #: weblate/addons/gettext.py:57
-#, fuzzy
-#| msgid "Automatically generates mo file for every changed po file."
 msgid "Automatically generates MO file for every changed PO file."
 msgstr "Автоматично създава файл MO от всеки променен файл PO."
 
@@ -792,10 +780,6 @@ msgstr ""
 "Обновяване на файловете PO, така че да отговарят на файла POT (чрез msgmerge)"
 
 #: weblate/addons/gettext.py:189
-#, fuzzy
-#| msgid ""
-#| "Update all po files to match the pot file using msgmerge. This is "
-#| "triggered whenever new changes are pulled from upstream repository."
 msgid ""
 "Update all PO files to match the POT file using msgmerge. This is triggered "
 "whenever new changes are pulled from the upstream repository."
@@ -805,19 +789,14 @@ msgstr ""
 "промените от отдалеченото хранилище."
 
 #: weblate/addons/gettext.py:212
-#, fuzzy
-#| msgid "Customize Gettext output"
 msgid "Customize gettext output"
-msgstr "Персонализиране на изхода от Gettext"
+msgstr "Персонализиране на изхода от gettext"
 
 #: weblate/addons/gettext.py:214
-#, fuzzy
-#| msgid ""
-#| "Allows to customize Gettext output behavior, for example line wrapping."
 msgid ""
 "Allows customization of gettext output behavior, for example line wrapping."
 msgstr ""
-"Позволява да персонализирате изхода от Gettext, например пренасянето на "
+"Позволява да персонализирате изхода от gettext, например пренасянето на "
 "редовете."
 
 #: weblate/addons/json.py:33
@@ -2513,10 +2492,8 @@ msgid "Components"
 msgstr "Компоненти"
 
 #: weblate/templates/component-list.html:28
-#, fuzzy
-#| msgid "Number of plurals"
 msgid "Number of components"
-msgstr "Брой множествени числа"
+msgstr "Брой компоненти"
 
 #: weblate/templates/component-list.html:34
 #: weblate/trans/models/componentlist.py:116
