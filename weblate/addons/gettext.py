@@ -54,7 +54,7 @@ class GenerateMoAddon(GettextBaseAddon):
     name = 'weblate.gettext.mo'
     verbose = _('Generate mo files')
     description = _(
-        'Automatically generates mo file for every changed po file.'
+        'Automatically generates MO file for every changed PO file.'
     )
 
     def pre_commit(self, translation):
@@ -186,8 +186,8 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
     name = 'weblate.gettext.msgmerge'
     verbose = _('Update po files to match pot (msgmerge)')
     description = _(
-        'Update all po files to match the pot file using msgmerge. This is '
-        'triggered whenever new changes are pulled from upstream repository.'
+        'Update all PO files to match the POT file using msgmerge. This is '
+        'triggered whenever new changes are pulled from the upstream repository.'
     )
 
     @classmethod
@@ -209,9 +209,9 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
 
 class GettextCustomizeAddon(StoreBaseAddon):
     name = 'weblate.gettext.customize'
-    verbose = _('Customize Gettext output')
+    verbose = _('Customize gettext output')
     description = _(
-        'Allows to customize Gettext output behavior, for example '
+        'Allows customization of gettext output behavior, for example '
         'line wrapping.'
     )
     settings_form = GettextCustomizeForm
@@ -223,7 +223,7 @@ class GettextCustomizeAddon(StoreBaseAddon):
 
     @staticmethod
     def is_store_compatible(store):
-        """Needs pofile and recent translate-toolkit."""
+        """Needs PO file and recent Translate Toolkit."""
         return isinstance(store, pofile) and hasattr(store, 'wrapper')
 
     def store_post_load(self, translation, store):
