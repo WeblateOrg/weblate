@@ -284,11 +284,6 @@ EXTRA_PLATFORMS = {
         'browserName': 'chrome',
         'platform': 'Windows 10',
     },
-    'Android': {
-        'browserName': 'android',
-        'deviceName': 'Android Emulator',
-        'device-orientation': 'portrait',
-    },
 }
 
 
