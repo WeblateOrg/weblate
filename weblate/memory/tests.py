@@ -19,8 +19,11 @@
 #
 from __future__ import unicode_literals
 
+import json
+
 from django.test import TestCase
 from django.core.management import call_command
+from django.core.management.base import CommandError
 
 from six import StringIO
 
@@ -31,18 +34,46 @@ from weblate.memory.storage import (
 from weblate.trans.tests.utils import get_test_file
 from weblate.trans.tests.test_checks import MockUnit
 
+TEST_DOCUMENT = {
+    'source_language': 'en',
+    'target_language': 'cs',
+    'source': 'Hello',
+    'target': 'Ahoj',
+    'origin': 'test',
+    'category': CATEGORY_FILE,
+}
+
 
 class MemoryTest(TestCase):
     def setUp(self):
         setup_index()
 
-    def test_import_command(self):
+    def test_import_tmx_command(self):
         call_command(
             'import_memory',
             get_test_file('memory.tmx')
         )
         memory = TranslationMemory()
         self.assertEqual(memory.doc_count(), 2)
+
+    def test_import_json_command(self):
+        call_command(
+            'import_memory',
+            get_test_file('memory.json')
+        )
+        memory = TranslationMemory()
+        self.assertEqual(memory.doc_count(), 1)
+
+    def test_dump_command(self):
+        self.add_document()
+        output = StringIO()
+        call_command('dump_memory', stdout=output)
+        data = json.loads(output.getvalue())
+        self.assertEqual(data, [TEST_DOCUMENT])
+
+    def test_delete_command_error(self):
+        with self.assertRaises(CommandError):
+            call_command('delete_memory')
 
     def test_delete_command(self):
         self.add_document()
@@ -76,14 +107,7 @@ class MemoryTest(TestCase):
     def add_document(self):
         memory = TranslationMemory()
         with memory.writer() as writer:
-            writer.add_document(
-                source_language='en',
-                target_language='cs',
-                source='Hello',
-                target='Ahoj',
-                origin='test',
-                category=CATEGORY_FILE,
-            )
+            writer.add_document(**TEST_DOCUMENT)
 
     def test_machine(self):
         self.add_document()

@@ -16,8 +16,10 @@ Managing translation memory
 
 There are several management commands to manipulate with the translation memory content:
 
+:djadmin:`dump_memory`
+    Exporting the memory into JSON
 :djadmin:`import_memory`
-    Importing TMX files to the memory
+    Importing TMX or JSON files into the memory
 :djadmin:`list_memory`
     Listing memory content
 :djadmin:`delete_memory`

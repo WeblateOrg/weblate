@@ -63,7 +63,7 @@ class TMSchema(SchemaClass):
     source = TEXT(stored=True)
     target = STORED()
     origin = ID(stored=True)
-    category = NUMERIC()
+    category = NUMERIC(stored=True)
 
 
 class TranslationMemory(object):

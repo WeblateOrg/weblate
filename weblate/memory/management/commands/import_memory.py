@@ -21,17 +21,18 @@
 from __future__ import unicode_literals
 
 import argparse
+import json
 
-from django.core.management.base import BaseCommand
+from django.core.management.base import BaseCommand, CommandError
 
 from weblate.memory.storage import TranslationMemory
 
 
 class Command(BaseCommand):
     """
-    Command for importing translation memory from TMX.
+    Command for importing translation memory.
     """
-    help = 'imports translation memory for TMX'
+    help = 'imports translation memory'
 
     def add_arguments(self, parser):
         super(Command, self).add_arguments(parser)
@@ -40,13 +41,13 @@ class Command(BaseCommand):
             help='Map language codes in the TMX to Weblate, eg. en_US:en'
         )
         parser.add_argument(
-            'tmx-file',
+            'file',
             type=argparse.FileType('r'),
-            help='TMX file to import',
+            help='File to import (TMX or JSON)',
         )
 
     def handle(self, *args, **options):
-        """TMX memory import."""
+        """Translation memory import."""
         langmap = None
         if options['language_map']:
             langmap = {
@@ -54,4 +55,21 @@ class Command(BaseCommand):
                     z.split(':', 1) for z in options['language_map'].split(',')
                 )
             }
-        TranslationMemory().import_tmx(options['tmx-file'], langmap)
+
+        memory = TranslationMemory()
+        if options['file'].name.lower().endswith('.tmx'):
+            memory.import_tmx(options['file'], langmap)
+        elif options['file'].name.lower().endswith('.json'):
+            try:
+                data = json.load(options['file'])
+            except ValueError:
+                raise CommandError('Failed to parse JSON file!')
+            finally:
+                options['file'].close()
+            with memory.writer() as writer:
+                for entry in data:
+                    writer.add_document(**entry)
+        else:
+            raise CommandError(
+                'Unsupported file, needs .json or .tmx extension'
+            )

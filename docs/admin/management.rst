@@ -254,6 +254,19 @@ Deletes entries in the Weblate Translation Memory.
 
     :ref:`translation-memory`
 
+dump_memory
+-----------
+
+.. django-admin:: dump_memory
+
+.. versionadded:: 2.20
+
+Export a JSON file with the Weblate Translation Memory content.
+
+.. seealso::
+
+    :ref:`translation-memory`
+
 dumpuserdata
 ------------
 
@@ -310,11 +323,11 @@ Example of JSON file:
 import_memory
 -------------
 
-.. django-admin:: import_memory <tmx-file>
+.. django-admin:: import_memory <file>
 
 .. versionadded:: 2.20
 
-Imports a TMX file into the Weblate Translation Memory.
+Imports a TMX or JSON file into the Weblate Translation Memory.
 
 .. django-admin-option:: --language-map LANGMAP
 
