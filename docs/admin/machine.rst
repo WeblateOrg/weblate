@@ -261,7 +261,8 @@ The :ref:`translation-memory` can use used as source for machine translation
 suggestions as well.
 
 To enable these services, add ``weblate.memory.machine.WeblateMemory`` to
-the :setting:`MACHINE_TRANSLATION_SERVICES`.
+the :setting:`MACHINE_TRANSLATION_SERVICES`. This service is enabled by
+default.
 
 .. _saptranslationhub:
 
