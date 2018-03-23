@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 2.20\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-03-22 21:46+0000\n"
-"PO-Revision-Date: 2018-03-21 08:09+0000\n"
+"PO-Revision-Date: 2018-03-23 04:48+0000\n"
 "Last-Translator: Андрій Бандура <andriykopanytsia@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/master/"
 "uk/>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.20-dev\n"
 
 #: weblate/accounts/admin.py:109 weblate/accounts/admin.py:114
@@ -305,6 +305,8 @@ msgstr "Угода щодо умов надання послуг {date}."
 #: weblate/accounts/models.py:96
 msgid "To restore access to your account, please perform password reset."
 msgstr ""
+"Для відновлення доступу до вашого профілю, спершу здійсніть відновлення "
+"пароля."
 
 #: weblate/accounts/models.py:219 weblate/templates/accounts/profile.html:310
 msgid "Account activity"
@@ -663,10 +665,8 @@ msgid "Example addon"
 msgstr "Приклад доповнення"
 
 #: weblate/addons/example.py:44
-#, fuzzy
-#| msgid "This addon does nothing it is just an example"
 msgid "This addon does nothing it is just an example."
-msgstr "Це доповнення нічого не робить. Воно суто приклад"
+msgstr "Це доповнення нічого не робить. Воно суто приклад."
 
 #: weblate/addons/flags.py:50
 msgid "Flag new source strings to need edit"
@@ -712,14 +712,18 @@ msgstr "Обтікання довгих рядків"
 #: weblate/addons/forms.py:79
 msgid "Wrap lines at 77 chars and at newlines (default Gettext behavior)"
 msgstr ""
+"Перенесення рядків після 77 символів та символу нового рядка (усталена "
+"поведінка Gettext)"
 
 #: weblate/addons/forms.py:80
 msgid "Wrap lines at newlines only (Gettext behavior with --no-wrap)"
 msgstr ""
+"Перенесення рядків лише після символу нового рядку (поведінка Gettext з --no-"
+"wrap)"
 
 #: weblate/addons/forms.py:81
 msgid "No line wrapping at all"
-msgstr ""
+msgstr "Не переносити рядки зовсім"
 
 #: weblate/addons/forms.py:90
 msgid "Sort JSON keys"
@@ -781,20 +785,21 @@ msgstr ""
 
 #: weblate/addons/gettext.py:212
 msgid "Customize Gettext output"
-msgstr ""
+msgstr "Налаштувати виведення Gettext"
 
 #: weblate/addons/gettext.py:214
 msgid "Allows to customize Gettext output behavior, for example line wrapping."
-msgstr ""
+msgstr "Дозволяє налагодити виведення Getttext, наприклад, перенесення рядків."
 
 #: weblate/addons/json.py:33
 msgid "Customize JSON output"
-msgstr ""
+msgstr "Налагодити виведення JSON"
 
 #: weblate/addons/json.py:35
 msgid ""
 "Allows to customize JSON output behavior, for example indentation or sorting."
 msgstr ""
+"Дозволяє налагодити виведення JSON, наприклад відступи та упорядкування."
 
 #: weblate/addons/properties.py:147
 msgid "Formats the Java properties file"
@@ -3937,6 +3942,7 @@ msgstr "Масова зміна стану"
 #: weblate/templates/translation.html:243
 msgid "You can change state of all strings matching given type at once."
 msgstr ""
+"Ви можете відразу змінити стан усіх рядків, що відповідають заданому типу."
 
 #: weblate/templates/project.html:224 weblate/templates/subproject.html:182
 #: weblate/templates/translate.html:336 weblate/templates/translate.html:340
@@ -4716,6 +4722,9 @@ msgid ""
 "translation engines to get the best possible translations and applies them "
 "in this project."
 msgstr ""
+"Автоматичний переклад через комп'ютерний використовує активні рушії "
+"комп'ютерного перекладу, щоби отримати найкращі можливі переклади та "
+"застосовує їх у цьому проекті."
 
 #: weblate/templates/translation.html:262
 msgid ""
@@ -5626,30 +5635,24 @@ msgid "Reverted change not found!"
 msgstr "Відкликана зміна не знайдена!"
 
 #: weblate/trans/forms.py:902
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Automatic translation source"
-msgstr "Автоматичний переклад"
+msgstr "Джерело автоматичного перекладу"
 
 #: weblate/trans/forms.py:904
-#, fuzzy
-#| msgid "Merge translation comments"
 msgid "Other translation components"
-msgstr "Злити коментарі до перекладу"
+msgstr "Інші компоненти перекладу"
 
 #: weblate/trans/forms.py:910
 msgid "Component to use"
 msgstr "Компоненти, що використовуються"
 
 #: weblate/trans/forms.py:915
-#, fuzzy
-#| msgid "Machine translation suggestions"
 msgid "Machine translation engines to use"
-msgstr "Пропозиції машинного перекладу"
+msgstr "Рушії комп'ютерного перекладу"
 
 #: weblate/trans/forms.py:920
 msgid "Score threshold"
-msgstr ""
+msgstr "Поріг оцінки"
 
 #: weblate/trans/forms.py:947
 msgid "All components in current project"
@@ -5867,10 +5870,8 @@ msgstr ""
 "оригіналу."
 
 #: weblate/trans/forms.py:1527
-#, fuzzy
-#| msgid "Donate to Weblate"
 msgid "State to set"
-msgstr "Пожертвувати на Weblate"
+msgstr "Стан для встановлення"
 
 #: weblate/trans/models/change.py:201
 msgid "Resource update"
@@ -6017,15 +6018,14 @@ msgid "Name used in URLs and file names."
 msgstr "Ім'я, що використовується в URL-адресах та іменах файлів."
 
 #: weblate/trans/models/componentlist.py:51
-#, fuzzy
-#| msgid "Dashboard"
 msgid "Show on dashboard"
-msgstr "Домівка"
+msgstr "Показувати в домівці"
 
 #: weblate/trans/models/componentlist.py:55
 msgid ""
 "When enabled this component list will be shown as a tab on the dashboard"
 msgstr ""
+"Після увімкнення цей список компонентів буде показаний на вкладці у домівці"
 
 #: weblate/trans/models/componentlist.py:84
 msgid "Project regular expression"
@@ -6719,10 +6719,8 @@ msgid "Failed to add new translation file!"
 msgstr "Не вдалося додати новий файл перекладу!"
 
 #: weblate/trans/models/subproject.py:1535
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Given language is filtered by the language filter!"
-msgstr "Базовий файл для одномовного перекладу"
+msgstr "Задана мова фільтрується мовним фільтром!"
 
 #: weblate/trans/models/subproject.py:1557
 msgid "Translation file already exists!"
@@ -6757,13 +6755,15 @@ msgstr "{translation}, рядок {position}"
 
 #: weblate/trans/models/whiteboard.py:69
 msgid "Render as HTML"
-msgstr ""
+msgstr "Відтворити як HTML"
 
 #: weblate/trans/models/whiteboard.py:71
 msgid ""
 "When disabled, URLs will be converted to links and any markup will be "
 "escaped."
 msgstr ""
+"Після вимкнення URL-адреси будуть перетворені у посилання та дія довільних "
+"тегів буде припинена."
 
 #: weblate/trans/models/whiteboard.py:101
 msgid "Category"
