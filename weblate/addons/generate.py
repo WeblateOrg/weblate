@@ -42,10 +42,10 @@ class GenerateFileAddon(BaseAddon):
     icon = 'bar-chart'
 
     @classmethod
-    def is_compatible(cls, component):
+    def can_install(cls, component, user):
         if not component.translation_set.exists():
             return False
-        return super(GenerateFileAddon, cls).is_compatible(component)
+        return super(GenerateFileAddon, cls).can_install(component, user)
 
     def pre_commit(self, translation):
         filename = os.path.join(

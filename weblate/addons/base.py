@@ -88,7 +88,7 @@ class BaseAddon(object):
         self.instance.save(update_fields=['state'])
 
     @classmethod
-    def is_compatible(cls, component):
+    def can_install(cls, component, user):
         """Check whether addon is compatible with given component."""
         for key, values in cls.compat.items():
             if getattr(component, key) not in values:
@@ -165,8 +165,8 @@ class StoreBaseAddon(BaseAddon):
         return False
 
     @classmethod
-    def is_compatible(cls, component):
-        if (not super(StoreBaseAddon, cls).is_compatible(component) or
+    def can_install(cls, component, user):
+        if (not super(StoreBaseAddon, cls).can_install(component, user) or
                 not component.translation_set.exists()):
             return False
         translation = component.translation_set.all()[0]

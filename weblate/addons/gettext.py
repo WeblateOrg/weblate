@@ -42,11 +42,11 @@ class GettextBaseAddon(BaseAddon):
     }
 
     @classmethod
-    def is_compatible(cls, component):
+    def can_install(cls, component, user):
         # Check extension to cover the auto format
         if not component.filemask.endswith('.po'):
             return False
-        return super(GettextBaseAddon, cls).is_compatible(component)
+        return super(GettextBaseAddon, cls).can_install(component, user)
 
 
 class GenerateMoAddon(GettextBaseAddon):
@@ -82,8 +82,8 @@ class UpdateLinguasAddon(GettextBaseAddon):
         return os.path.join(os.path.dirname(base), 'LINGUAS')
 
     @classmethod
-    def is_compatible(cls, component):
-        if not super(UpdateLinguasAddon, cls).is_compatible(component):
+    def can_install(cls, component, user):
+        if not super(UpdateLinguasAddon, cls).can_install(component, user):
             return False
         if not component.can_add_new_language():
             return False
@@ -140,8 +140,8 @@ class UpdateConfigureAddon(GettextBaseAddon):
         ]
 
     @classmethod
-    def is_compatible(cls, component):
-        if not super(UpdateConfigureAddon, cls).is_compatible(component):
+    def can_install(cls, component, user):
+        if not super(UpdateConfigureAddon, cls).can_install(component, user):
             return False
         if not component.can_add_new_language():
             return False
@@ -187,16 +187,17 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
     verbose = _('Update po files to match pot (msgmerge)')
     description = _(
         'Update all PO files to match the POT file using msgmerge. This is '
-        'triggered whenever new changes are pulled from the upstream repository.'
+        'triggered whenever new changes are pulled from the upstream '
+        'repository.'
     )
 
     @classmethod
-    def is_compatible(cls, component):
+    def can_install(cls, component, user):
         if not component.new_base.endswith('.pot'):
             return False
         if find_command('msgmerge') is None:
             return False
-        return super(MsgmergeAddon, cls).is_compatible(component)
+        return super(MsgmergeAddon, cls).can_install(component, user)
 
     def update_translations(self, component, previous_head):
         cmd = [
