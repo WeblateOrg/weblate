@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 2.20\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-03-23 13:26+0000\n"
-"PO-Revision-Date: 2018-03-07 11:33+0000\n"
+"PO-Revision-Date: 2018-03-25 12:35+0000\n"
 "Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/master/da/"
 ">\n"
@@ -261,14 +261,12 @@ msgid "Authentication using {method} ({name}) has been removed."
 msgstr "Godkendelse med {method} ({name}) er blevet fjernet."
 
 #: weblate/accounts/models.py:69
-#, fuzzy, python-brace-format
-#| msgid "Successfully authenticated using {method} ({name})."
+#, python-brace-format
 msgid "Authenticated using {method} ({name})."
 msgstr "Godkendt med {method} ({name})."
 
 #: weblate/accounts/models.py:72
-#, fuzzy, python-brace-format
-#| msgid "Successfully authenticated using {method} ({name}) from new device."
+#, python-brace-format
 msgid "Authenticated using {method} ({name}) from new device."
 msgstr "Godkendt med {method} ({name}) fra ny enhed."
 
@@ -300,7 +298,7 @@ msgstr "Aftale med servicevilkår {date}."
 
 #: weblate/accounts/models.py:96
 msgid "To restore access to your account, please reset your password."
-msgstr ""
+msgstr "Nulstil venligst din adgangskode, for at gendanne adgang til din konto."
 
 #: weblate/accounts/models.py:219 weblate/templates/accounts/profile.html:310
 msgid "Account activity"
@@ -657,10 +655,8 @@ msgid "Example addon"
 msgstr "Eksempel på tilføjelse"
 
 #: weblate/addons/example.py:44
-#, fuzzy
-#| msgid "This addon does nothing it is just an example"
 msgid "This addon does nothing it is just an example."
-msgstr "Denne tilføjelse har ingen effekt; den er blot et eksempel"
+msgstr "Denne tilføjelse har ingen effekt; den er blot et eksempel."
 
 #: weblate/addons/flags.py:50
 msgid "Flag new source strings to need edit"
@@ -701,40 +697,33 @@ msgstr "Indhold af genereret fil"
 
 #: weblate/addons/forms.py:77
 msgid "Long lines wrapping"
-msgstr ""
+msgstr "Ombrydning af lange linjer"
 
 #: weblate/addons/forms.py:79
 msgid "Wrap lines at 77 chars and at newlines (default gettext behavior)"
-msgstr ""
+msgstr "Ombryd linjer ved 77 tegn og ved linjeskift (standard gettext-opførsel)"
 
 #: weblate/addons/forms.py:80
 msgid "Only wrap lines at newlines (gettext behavior with --no-wrap)"
-msgstr ""
+msgstr "Ombryd kun linjer ved linjeskift (gettext-opførsel med --no-wrap)"
 
 #: weblate/addons/forms.py:81
 msgid "No line wrapping"
-msgstr ""
+msgstr "Ingen linjeombrydning"
 
 #: weblate/addons/forms.py:90
-#, fuzzy
-#| msgid "SSH keys"
 msgid "Sort JSON keys"
-msgstr "SSH-nøgler"
+msgstr "Sortér JSON-nøgler"
 
 #: weblate/addons/forms.py:94
-#, fuzzy
-#| msgid "API documentation"
 msgid "JSON indentation"
-msgstr "API-dokumentation"
+msgstr "JSON-indrykning"
 
 #: weblate/addons/generate.py:36
 msgid "Statistics generator"
 msgstr "Statistikgenerator"
 
 #: weblate/addons/generate.py:38
-#, fuzzy
-#| msgid ""
-#| "This addon generates file with detailed information about the translation."
 msgid ""
 "This addon generates a file containing detailed information about the "
 "translation."
@@ -746,10 +735,8 @@ msgid "Generate mo files"
 msgstr "Generer mo-filer"
 
 #: weblate/addons/gettext.py:57
-#, fuzzy
-#| msgid "Automatically generates mo file for every changed po file."
 msgid "Automatically generates MO file for every changed PO file."
-msgstr "Genererer automatisk en mo-fil for hver ændret po-fil."
+msgstr "Genererer automatisk en MO-fil for hver ændret PO-fil."
 
 #: weblate/addons/gettext.py:72
 msgid "Update LINGUAS file"
@@ -776,20 +763,16 @@ msgid "Update po files to match pot (msgmerge)"
 msgstr "Opdater po-filerne til at matche pot (msgmerge)"
 
 #: weblate/addons/gettext.py:189
-#, fuzzy
-#| msgid ""
-#| "Update all po files to match the pot file using msgmerge. This is "
-#| "triggered whenever new changes are pulled from upstream repository."
 msgid ""
 "Update all PO files to match the POT file using msgmerge. This is triggered "
 "whenever new changes are pulled from the upstream repository."
 msgstr ""
-"Opdater alle po-filerne med msgmerge, så de matcher pot-filen. Dette sker "
+"Opdater alle PO-filerne med msgmerge, så de matcher POT-filen. Dette sker "
 "hver gang nye ændringer trækkes fra opstrøm-kildekodearkivet."
 
 #: weblate/addons/gettext.py:212
 msgid "Customize gettext output"
-msgstr ""
+msgstr "Tilpas gettext-output"
 
 #: weblate/addons/gettext.py:214
 msgid ""
@@ -798,7 +781,7 @@ msgstr ""
 
 #: weblate/addons/json.py:33
 msgid "Customize JSON output"
-msgstr ""
+msgstr "Tilpas JSON-output"
 
 #: weblate/addons/json.py:35
 msgid ""
@@ -1611,7 +1594,7 @@ msgstr "Fjernelse af konto er næsten fuldført"
 
 #: weblate/templates/accounts/email-sent.html:18
 msgid "Registration almost complete"
-msgstr "Registrering næsten komplet"
+msgstr "Registrering er næsten fuldført"
 
 #: weblate/templates/accounts/email-sent.html:24
 msgid ""
@@ -2455,10 +2438,8 @@ msgid "Components"
 msgstr "Komponenter"
 
 #: weblate/templates/component-list.html:28
-#, fuzzy
-#| msgid "Same plurals"
 msgid "Number of components"
-msgstr "Identiske flertalsformer"
+msgstr "Antal komponenter"
 
 #: weblate/templates/component-list.html:34
 #: weblate/trans/models/componentlist.py:116
@@ -3929,10 +3910,8 @@ msgstr "Gennemgå"
 
 #: weblate/templates/project.html:208 weblate/templates/subproject.html:159
 #: weblate/templates/translation.html:241 weblate/trans/models/change.py:236
-#, fuzzy
-#| msgid "Last change"
 msgid "Mass state change"
-msgstr "Sidste ændring"
+msgstr "Masse-tilstandsændring"
 
 #: weblate/templates/project.html:210 weblate/templates/subproject.html:161
 #: weblate/templates/translation.html:243
@@ -4324,58 +4303,40 @@ msgid "Keyboard shortcuts available:"
 msgstr "Tilgængelige tastaturgenveje:"
 
 #: weblate/templates/translate.html:83
-#, fuzzy
-#| msgid "Ctrl+Shift+Enter - Unmark review needed flag and save"
 msgid "Unmark review needed flag and save"
-msgstr "Ctrl+Skift+Enter - fjern behøver gennemgang-flaget og gem"
+msgstr "Fjern behøver gennemgang-flaget og gem"
 
 #: weblate/templates/translate.html:84
-#, fuzzy
-#| msgid "Strings needing action"
 msgid "Strings navigation"
-msgstr "Strenge der behøver handling"
+msgstr "Navigation af strenge"
 
 #: weblate/templates/translate.html:85
-#, fuzzy
-#| msgid "Ctrl+E - Focus translation editor"
 msgid "Focus translation editor"
-msgstr "Ctrl+E - fokus på oversættelseseditor"
+msgstr "Fokus på oversættelseseditor"
 
 #: weblate/templates/translate.html:86
-#, fuzzy
-#| msgid "Ctrl+Q - Focus comment editor"
 msgid "Focus comment editor"
-msgstr "Ctrl+Q - fokus på kommentareditor"
+msgstr "Fokus på kommentareditor"
 
 #: weblate/templates/translate.html:87
-#, fuzzy
-#| msgid "Ctrl+M - Shows machine translation tab"
 msgid "Shows machine translation tab"
-msgstr "Ctrl+M - viser maskinoversættelse-fanebladet"
+msgstr "Viser maskinoversættelse-fanebladet"
 
 #: weblate/templates/translate.html:88
-#, fuzzy
-#| msgid "Ctrl+J - Shows nearby strings tab"
 msgid "Shows nearby strings tab"
-msgstr "Ctrl+N - viser nærmeste strenge-fanebladet"
+msgstr "Viser nærmeste strenge-fanebladet"
 
 #: weblate/templates/translate.html:89
-#, fuzzy
-#| msgid "Ctrl+S - Shows search tab"
 msgid "Shows search tab"
-msgstr "Ctrl+S - viser søg-fanebladet"
+msgstr "Viser søg-fanebladet"
 
 #: weblate/templates/translate.html:90
-#, fuzzy
-#| msgid "Ctrl+O - Copies source string"
 msgid "Copies source string"
-msgstr "Ctrl+O - kopierer kildestrengen"
+msgstr "Kopierer kildestrengen"
 
 #: weblate/templates/translate.html:91
-#, fuzzy
-#| msgid "Ctrl+T - Toggle edit needed flag"
 msgid "Toggle edit needed flag"
-msgstr "Ctrl+T - skift behøver redigering-flaget"
+msgstr "Skift behøver redigering-flaget"
 
 #: weblate/templates/translate.html:95
 msgid "Editing source string"
@@ -5639,26 +5600,20 @@ msgid "Reverted change not found!"
 msgstr "Tilbageført ændring blev ikke fundet!"
 
 #: weblate/trans/forms.py:902
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Automatic translation source"
-msgstr "Automatisk oversættelse"
+msgstr "Automatisk oversættelseskilde"
 
 #: weblate/trans/forms.py:904
-#, fuzzy
-#| msgid "Merge translation comments"
 msgid "Other translation components"
-msgstr "Flet oversættelseskommentarer"
+msgstr "Andre oversættelseskomponenter"
 
 #: weblate/trans/forms.py:910
 msgid "Component to use"
 msgstr "Komponent som skal bruges"
 
 #: weblate/trans/forms.py:915
-#, fuzzy
-#| msgid "Machine translation suggestions"
 msgid "Machine translation engines to use"
-msgstr "Forslag fra maskinoversætter"
+msgstr "Maskinoversættelsesmotorer som skal bruges"
 
 #: weblate/trans/forms.py:920
 msgid "Score threshold"
@@ -5879,10 +5834,8 @@ msgid ""
 msgstr "Du kan redigere det senere som enhver anden streng i kildesproget."
 
 #: weblate/trans/forms.py:1529
-#, fuzzy
-#| msgid "Donate to Weblate"
 msgid "State to set"
-msgstr "Donér til Weblate"
+msgstr "Tilstand som skal sættes"
 
 #: weblate/trans/models/change.py:201
 msgid "Resource update"
@@ -5890,7 +5843,7 @@ msgstr "Ressourceopdatering"
 
 #: weblate/trans/models/change.py:202
 msgid "Translation completed"
-msgstr "Oversættelse er færdiggjort"
+msgstr "Oversættelse er fuldført"
 
 #: weblate/trans/models/change.py:203
 msgid "Translation changed"
@@ -6029,10 +5982,8 @@ msgid "Name used in URLs and file names."
 msgstr "Navn, der anvendes i webadresser og filnavne."
 
 #: weblate/trans/models/componentlist.py:51
-#, fuzzy
-#| msgid "Dashboard"
 msgid "Show on dashboard"
-msgstr "Betjeningspanel"
+msgstr "Vis på betjeningspanel"
 
 #: weblate/trans/models/componentlist.py:55
 msgid ""
@@ -6719,10 +6670,8 @@ msgid "Failed to add new translation file!"
 msgstr "Kunne ikke tilføje ny oversættelsesfil!"
 
 #: weblate/trans/models/subproject.py:1535
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Given language is filtered by the language filter!"
-msgstr "Enkeltsproget basissprogfil"
+msgstr "Givne sprog filtreres af sprogfilteret!"
 
 #: weblate/trans/models/subproject.py:1557
 msgid "Translation file already exists!"
@@ -6757,7 +6706,7 @@ msgstr "{translation}, streng {position}"
 
 #: weblate/trans/models/whiteboard.py:69
 msgid "Render as HTML"
-msgstr ""
+msgstr "Gengiv som HTML"
 
 #: weblate/trans/models/whiteboard.py:71
 msgid ""
@@ -7252,9 +7201,9 @@ msgid ""
 "translations are %(percent)s%% complete."
 msgstr ""
 "<a href=\"%(url)s\">Oversættelsesprojektet for %(project)s</a> indeholder i "
-"øjeblikket %(total)s strenge til oversættelse, og <a href=\"%(lang_url)s"
-"\">bliver oversat til %(languages)s sprog</a>. I gennemsnit er %(percent)s%% "
-"af oversættelserne færdige."
+"øjeblikket %(total)s strenge til oversættelse, og <a href=\"%(lang_url)s\">"
+"bliver oversat til %(languages)s sprog</a>. I alt er %(percent)s%% af "
+"oversættelserne fuldført."
 
 #. Translators: line of text in engagement page, please use your
 #. language name instead of English
@@ -7267,7 +7216,7 @@ msgid ""
 msgstr ""
 "<a href=\"%(url)s\">Projektet med at oversætte %(project)s</a> til dansk "
 "indeholder i øjeblikket %(total)s strenge til oversættelse, og er "
-"%(percent)s komplet."
+"%(percent)s%% fuldført."
 
 #: weblate/trans/views/basic.py:544
 msgid "Weblate statistics"
@@ -7440,14 +7389,14 @@ msgstr "Ugyldigt søgestreng!"
 
 #: weblate/trans/views/edit.py:633
 msgid "Automatic translation completed, no strings were updated."
-msgstr "Automatisk oversættelse afsluttet, ingen strenge blev opdateret."
+msgstr "Automatisk oversættelse fuldført, ingen strenge blev opdateret."
 
 #: weblate/trans/views/edit.py:635
 #, python-format
 msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
-msgstr[0] "Automatisk oversættelse afsluttet, %d streng blev opdateret."
-msgstr[1] "Automatisk oversættelse afsluttet, %d strenge blev opdateret."
+msgstr[0] "Automatisk oversættelse fuldført, %d streng blev opdateret."
+msgstr[1] "Automatisk oversættelse fuldført, %d strenge blev opdateret."
 
 #: weblate/trans/views/edit.py:666
 msgid "Posted new comment"
@@ -7544,14 +7493,14 @@ msgstr "Projektet er nu åbent for oversættelsesopdateringer."
 
 #: weblate/trans/views/search.py:129
 msgid "Search and replace completed, no strings were updated."
-msgstr "Søg og erstat afsluttet, ingen strenge blev opdateret."
+msgstr "Søg og erstat fuldført, ingen strenge blev opdateret."
 
 #: weblate/trans/views/search.py:131
 #, python-format
 msgid "Search and replace completed, %d string was updated."
 msgid_plural "Search and replace completed, %d strings were updated."
-msgstr[0] "Automatisk oversættelse afsluttet, %d streng blev opdateret."
-msgstr[1] "Automatisk oversættelse afsluttet, %d strenge blev opdateret."
+msgstr[0] "Automatisk oversættelse fuldført, %d streng blev opdateret."
+msgstr[1] "Automatisk oversættelse fuldført, %d strenge blev opdateret."
 
 #: weblate/trans/views/search.py:196
 #, python-format
@@ -7563,19 +7512,15 @@ msgid "Invalid search query!"
 msgstr "Ugyldig søgeforespørgsel!"
 
 #: weblate/trans/views/search.py:247
-#, fuzzy
-#| msgid "Search and replace completed, no strings were updated."
 msgid "Mass state change completed, no strings were updated."
-msgstr "Søg og erstat afsluttet, ingen strenge blev opdateret."
+msgstr "Masse-tilstandsændring fuldført, ingen strenge blev opdateret."
 
 #: weblate/trans/views/search.py:249
-#, fuzzy, python-format
-#| msgid "Search and replace completed, %d string was updated."
-#| msgid_plural "Search and replace completed, %d strings were updated."
+#, python-format
 msgid "Mass state change completed, %d string was updated."
 msgid_plural "Mass state change completed, %d strings were updated."
-msgstr[0] "Automatisk oversættelse afsluttet, %d streng blev opdateret."
-msgstr[1] "Automatisk oversættelse afsluttet, %d strenge blev opdateret."
+msgstr[0] "Masse-tilstandsændring fuldført, %d streng blev opdateret."
+msgstr[1] "Masse-tilstandsændring fuldført, %d strenge blev opdateret."
 
 #: weblate/trans/views/settings.py:48 weblate/trans/views/settings.py:80
 msgid "Settings saved"
@@ -7617,7 +7562,7 @@ msgid ""
 "%(percent)d%% complete, help us improve!"
 msgstr ""
 "oversætter %(count)d strenge til %(languages)d sprog\n"
-"%(percent)d%% komplet, hjælp os med forbedringer!"
+"%(percent)d%% fuldført, hjælp os med forbedringer!"
 
 #. Translators: please use your language name instead of English
 #. and keep the text short to fit into widget
@@ -7628,7 +7573,7 @@ msgid ""
 "%(percent)d%% complete, help us improve!"
 msgstr ""
 "oversætter %(count)d strenge til dansk\n"
-"%(percent)d%% komplet, hjælp os med forbedringer!"
+"%(percent)d%% fuldført, hjælp os med forbedringer!"
 
 #. Translators: please keep the text short to fit into widget
 #: weblate/trans/widgets.py:339
