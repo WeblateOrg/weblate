@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 2.20\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-03-23 13:26+0000\n"
-"PO-Revision-Date: 2018-03-09 16:08+0000\n"
+"PO-Revision-Date: 2018-03-24 01:53+0000\n"
 "Last-Translator: monolifed <monolifed@gmail.com>\n"
 "Language-Team: English (United Kingdom) <https://hosted.weblate.org/projects/"
 "weblate/master/en_GB/>\n"
@@ -263,16 +263,14 @@ msgid "Authentication using {method} ({name}) has been removed."
 msgstr "Authentication using {method} ({name}) has been removed."
 
 #: weblate/accounts/models.py:69
-#, fuzzy, python-brace-format
-#| msgid "Successfully authenticated using {method} ({name})."
+#, python-brace-format
 msgid "Authenticated using {method} ({name})."
-msgstr "Successfully authenticated using {method} ({name})."
+msgstr "Authenticated using {method} ({name})."
 
 #: weblate/accounts/models.py:72
-#, fuzzy, python-brace-format
-#| msgid "Successfully authenticated using {method} ({name}) from new device."
+#, python-brace-format
 msgid "Authenticated using {method} ({name}) from new device."
-msgstr "Successfully authenticated using {method} ({name}) from new device."
+msgstr "Authenticated using {method} ({name}) from new device."
 
 #: weblate/accounts/models.py:75
 msgid "Somebody has attempted to register with your email."
@@ -302,7 +300,7 @@ msgstr "Agreement with Terms of Service {date}."
 
 #: weblate/accounts/models.py:96
 msgid "To restore access to your account, please reset your password."
-msgstr ""
+msgstr "To restore access to your account, please reset your password."
 
 #: weblate/accounts/models.py:219 weblate/templates/accounts/profile.html:310
 msgid "Account activity"
@@ -656,10 +654,8 @@ msgid "Example addon"
 msgstr "Example addon"
 
 #: weblate/addons/example.py:44
-#, fuzzy
-#| msgid "This addon does nothing it is just an example"
 msgid "This addon does nothing it is just an example."
-msgstr "This addon does nothing it is just an example"
+msgstr "This add-on does nothing it is just an example."
 
 #: weblate/addons/flags.py:50
 msgid "Flag new source strings to need edit"
@@ -699,55 +695,47 @@ msgstr "Content of generated file"
 
 #: weblate/addons/forms.py:77
 msgid "Long lines wrapping"
-msgstr ""
+msgstr "Long lines wrapping"
 
 #: weblate/addons/forms.py:79
 msgid "Wrap lines at 77 chars and at newlines (default gettext behavior)"
-msgstr ""
+msgstr "Wrap lines at 77 chars and at newlines (default gettext behaviour)"
 
 #: weblate/addons/forms.py:80
 msgid "Only wrap lines at newlines (gettext behavior with --no-wrap)"
-msgstr ""
+msgstr "Only wrap lines at newlines (gettext behaviour with --no-wrap)"
 
 #: weblate/addons/forms.py:81
 msgid "No line wrapping"
-msgstr ""
+msgstr "No line wrapping"
 
 #: weblate/addons/forms.py:90
-#, fuzzy
-#| msgid "SSH keys"
 msgid "Sort JSON keys"
-msgstr "SSH keys"
+msgstr "Sort JSON keys"
 
 #: weblate/addons/forms.py:94
-#, fuzzy
-#| msgid "API documentation"
 msgid "JSON indentation"
-msgstr "API documentation"
+msgstr "JSON indentation"
 
 #: weblate/addons/generate.py:36
 msgid "Statistics generator"
 msgstr "Statistics generator"
 
 #: weblate/addons/generate.py:38
-#, fuzzy
-#| msgid ""
-#| "This addon generates file with detailed information about the translation."
 msgid ""
 "This addon generates a file containing detailed information about the "
 "translation."
 msgstr ""
-"This addon generates file with detailed information about the translation."
+"This add-on generates a file containing detailed information about the "
+"translation."
 
 #: weblate/addons/gettext.py:55
 msgid "Generate mo files"
 msgstr "Generate mo files"
 
 #: weblate/addons/gettext.py:57
-#, fuzzy
-#| msgid "Automatically generates mo file for every changed po file."
 msgid "Automatically generates MO file for every changed PO file."
-msgstr "Automatically generates mo file for every changed po file."
+msgstr "Automatically generates MO file for every changed PO file."
 
 #: weblate/addons/gettext.py:72
 msgid "Update LINGUAS file"
@@ -774,34 +762,33 @@ msgid "Update po files to match pot (msgmerge)"
 msgstr "Update po files to match pot (msgmerge)"
 
 #: weblate/addons/gettext.py:189
-#, fuzzy
-#| msgid ""
-#| "Update all po files to match the pot file using msgmerge. This is "
-#| "triggered whenever new changes are pulled from upstream repository."
 msgid ""
 "Update all PO files to match the POT file using msgmerge. This is triggered "
 "whenever new changes are pulled from the upstream repository."
 msgstr ""
-"Update all po files to match the pot file using msgmerge. This is triggered "
-"whenever new changes are pulled from upstream repository."
+"Update all PO files to match the POT file using msgmerge. This is triggered "
+"whenever new changes are pulled from the upstream repository."
 
 #: weblate/addons/gettext.py:212
 msgid "Customize gettext output"
-msgstr ""
+msgstr "Customize gettext output"
 
 #: weblate/addons/gettext.py:214
 msgid ""
 "Allows customization of gettext output behavior, for example line wrapping."
 msgstr ""
+"Allows customization of gettext output behaviour, for example line wrapping."
 
 #: weblate/addons/json.py:33
 msgid "Customize JSON output"
-msgstr ""
+msgstr "Customize JSON output"
 
 #: weblate/addons/json.py:35
 msgid ""
 "Allows to customize JSON output behavior, for example indentation or sorting."
 msgstr ""
+"Allows to customize JSON output behaviour, for example indentation or "
+"sorting."
 
 #: weblate/addons/properties.py:147
 msgid "Formats the Java properties file"
@@ -2456,10 +2443,8 @@ msgid "Components"
 msgstr "Components"
 
 #: weblate/templates/component-list.html:28
-#, fuzzy
-#| msgid "Documentation"
 msgid "Number of components"
-msgstr "Documentation"
+msgstr "Number of components"
 
 #: weblate/templates/component-list.html:34
 #: weblate/trans/models/componentlist.py:116
@@ -3926,15 +3911,13 @@ msgstr "Process"
 
 #: weblate/templates/project.html:208 weblate/templates/subproject.html:159
 #: weblate/templates/translation.html:241 weblate/trans/models/change.py:236
-#, fuzzy
-#| msgid "Last change"
 msgid "Mass state change"
-msgstr "Last change"
+msgstr "Mass state change"
 
 #: weblate/templates/project.html:210 weblate/templates/subproject.html:161
 #: weblate/templates/translation.html:243
 msgid "You can change state of all strings matching given type at once."
-msgstr ""
+msgstr "You can change state of all strings matching given type at once."
 
 #: weblate/templates/project.html:224 weblate/templates/subproject.html:182
 #: weblate/templates/translate.html:336 weblate/templates/translate.html:340
@@ -4320,58 +4303,40 @@ msgid "Keyboard shortcuts available:"
 msgstr "Keyboard shortcuts available:"
 
 #: weblate/templates/translate.html:83
-#, fuzzy
-#| msgid "Ctrl+Shift+Enter - Unmark review needed flag and save"
 msgid "Unmark review needed flag and save"
-msgstr "Ctrl+Shift+Enter - Unmark review needed flag and save"
+msgstr "Unmark review needed flag and save"
 
 #: weblate/templates/translate.html:84
-#, fuzzy
-#| msgid "Strings needing action"
 msgid "Strings navigation"
-msgstr "Strings needing action"
+msgstr "Strings navigation"
 
 #: weblate/templates/translate.html:85
-#, fuzzy
-#| msgid "Ctrl+E - Focus translation editor"
 msgid "Focus translation editor"
-msgstr "Ctrl+E - Focus translation editor"
+msgstr "Focus translation editor"
 
 #: weblate/templates/translate.html:86
-#, fuzzy
-#| msgid "Ctrl+Q - Focus comment editor"
 msgid "Focus comment editor"
-msgstr "Ctrl+Q - Focus comment editor"
+msgstr "Focus comment editor"
 
 #: weblate/templates/translate.html:87
-#, fuzzy
-#| msgid "Ctrl+M - Shows machine translation tab"
 msgid "Shows machine translation tab"
-msgstr "Ctrl+M - Shows machine translation tab"
+msgstr "Shows machine translation tab"
 
 #: weblate/templates/translate.html:88
-#, fuzzy
-#| msgid "Ctrl+J - Shows nearby strings tab"
 msgid "Shows nearby strings tab"
-msgstr "Ctrl+J - Shows nearby strings tab"
+msgstr "Shows nearby strings tab"
 
 #: weblate/templates/translate.html:89
-#, fuzzy
-#| msgid "Ctrl+S - Shows search tab"
 msgid "Shows search tab"
-msgstr "Ctrl+S - Shows search tab"
+msgstr "Shows search tab"
 
 #: weblate/templates/translate.html:90
-#, fuzzy
-#| msgid "Ctrl+O - Copies source string"
 msgid "Copies source string"
-msgstr "Ctrl+O - Copies source string"
+msgstr "Copies source string"
 
 #: weblate/templates/translate.html:91
-#, fuzzy
-#| msgid "Ctrl+T - Toggle edit needed flag"
 msgid "Toggle edit needed flag"
-msgstr "Ctrl+T - Toggle edit needed flag"
+msgstr "Toggle edit needed flag"
 
 #: weblate/templates/translate.html:95
 msgid "Editing source string"
@@ -4720,6 +4685,9 @@ msgid ""
 "translation engines to get the best possible translations and applies them "
 "in this project."
 msgstr ""
+"Automatic translation via machine translation uses active machine "
+"translation engines to get the best possible translations and applies them "
+"in this project."
 
 #: weblate/templates/translation.html:262
 msgid ""
@@ -5631,30 +5599,24 @@ msgid "Reverted change not found!"
 msgstr "Reverted change not found!"
 
 #: weblate/trans/forms.py:902
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Automatic translation source"
-msgstr "Automatic translation"
+msgstr "Automatic translation source"
 
 #: weblate/trans/forms.py:904
-#, fuzzy
-#| msgid "Translation comment"
 msgid "Other translation components"
-msgstr "Translation comment"
+msgstr "Other translation components"
 
 #: weblate/trans/forms.py:910
 msgid "Component to use"
 msgstr "Component to use"
 
 #: weblate/trans/forms.py:915
-#, fuzzy
-#| msgid "Machine translation suggestions"
 msgid "Machine translation engines to use"
-msgstr "Machine translation suggestions"
+msgstr "Machine translation engines to use"
 
 #: weblate/trans/forms.py:920
 msgid "Score threshold"
-msgstr ""
+msgstr "Score threshold"
 
 #: weblate/trans/forms.py:947
 msgid "All components in current project"
@@ -5872,10 +5834,8 @@ msgstr ""
 "You can edit this later, as with any other string in the source language."
 
 #: weblate/trans/forms.py:1529
-#, fuzzy
-#| msgid "Donate to Weblate"
 msgid "State to set"
-msgstr "Donate to Weblate"
+msgstr "State to set"
 
 #: weblate/trans/models/change.py:201
 msgid "Resource update"
@@ -6022,15 +5982,14 @@ msgid "Name used in URLs and file names."
 msgstr "Name used in URLs and file names."
 
 #: weblate/trans/models/componentlist.py:51
-#, fuzzy
-#| msgid "Dashboard"
 msgid "Show on dashboard"
-msgstr "Dashboard"
+msgstr "Show on dashboard"
 
 #: weblate/trans/models/componentlist.py:55
 msgid ""
 "When enabled this component list will be shown as a tab on the dashboard"
 msgstr ""
+"When enabled this component list will be shown as a tab on the dashboard"
 
 #: weblate/trans/models/componentlist.py:84
 msgid "Project regular expression"
@@ -6704,10 +6663,8 @@ msgid "Failed to add new translation file!"
 msgstr "Failed to add new translation file!"
 
 #: weblate/trans/models/subproject.py:1535
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Given language is filtered by the language filter!"
-msgstr "Monolingual base language file"
+msgstr "Given language is filtered by the language filter!"
 
 #: weblate/trans/models/subproject.py:1557
 msgid "Translation file already exists!"
@@ -6742,13 +6699,15 @@ msgstr "{translation}, string {position}"
 
 #: weblate/trans/models/whiteboard.py:69
 msgid "Render as HTML"
-msgstr ""
+msgstr "Render as HTML"
 
 #: weblate/trans/models/whiteboard.py:71
 msgid ""
 "When disabled, URLs will be converted to links and any markup will be "
 "escaped."
 msgstr ""
+"When disabled, URLs will be converted to links and any markup will be "
+"escaped."
 
 #: weblate/trans/models/whiteboard.py:101
 msgid "Category"
@@ -7552,19 +7511,15 @@ msgid "Invalid search query!"
 msgstr "Invalid search query!"
 
 #: weblate/trans/views/search.py:247
-#, fuzzy
-#| msgid "Search and replace completed, no strings were updated."
 msgid "Mass state change completed, no strings were updated."
-msgstr "Search and replace completed, no strings were updated."
+msgstr "Mass state change completed, no strings were updated."
 
 #: weblate/trans/views/search.py:249
-#, fuzzy, python-format
-#| msgid "Search and replace completed, %d string was updated."
-#| msgid_plural "Search and replace completed, %d strings were updated."
+#, python-format
 msgid "Mass state change completed, %d string was updated."
 msgid_plural "Mass state change completed, %d strings were updated."
-msgstr[0] "Search and replace completed, %d string was updated."
-msgstr[1] "Search and replace completed, %d strings were updated."
+msgstr[0] "Mass state change completed, one string was updated."
+msgstr[1] "Mass state change completed, %d strings were updated."
 
 #: weblate/trans/views/settings.py:48 weblate/trans/views/settings.py:80
 msgid "Settings saved"
@@ -7646,7 +7601,7 @@ msgstr "translated"
 
 #: weblate/utils/state.py:31
 msgid "Empty"
-msgstr ""
+msgstr "Empty"
 
 #: weblate/utils/validators.py:78
 #, python-brace-format
