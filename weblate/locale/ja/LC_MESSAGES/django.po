@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 2.20\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-03-23 13:26+0000\n"
-"PO-Revision-Date: 2018-03-22 22:29+0000\n"
+"PO-Revision-Date: 2018-03-24 00:01+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
@@ -266,16 +266,14 @@ msgid "Authentication using {method} ({name}) has been removed."
 msgstr "{method} ({name}) を使用する認証を削除しました。"
 
 #: weblate/accounts/models.py:69
-#, fuzzy, python-brace-format
-#| msgid "Successfully authenticated using {method} ({name})."
+#, python-brace-format
 msgid "Authenticated using {method} ({name})."
-msgstr "{method} ({name}) を利用した認証が成功しました。"
+msgstr "{method} ({name}) を利用して認証しました。"
 
 #: weblate/accounts/models.py:72
-#, fuzzy, python-brace-format
-#| msgid "Successfully authenticated using {method} ({name}) from new device."
+#, python-brace-format
 msgid "Authenticated using {method} ({name}) from new device."
-msgstr "新しいデバイスから、 {method} ({name}) を利用した認証が成功しました。"
+msgstr "新しいデバイスから、 {method} ({name}) を利用して認証しました。"
 
 #: weblate/accounts/models.py:75
 msgid "Somebody has attempted to register with your email."
@@ -306,12 +304,8 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "{date} 時点でのサービス利用規約の内容に合意しました。"
 
 #: weblate/accounts/models.py:96
-#, fuzzy
-#| msgid "To restore access to your account, please perform password reset."
 msgid "To restore access to your account, please reset your password."
-msgstr ""
-"アカウントに再度アクセスできるようにするには、パスワードをリセットする必要が"
-"あります。"
+msgstr "アカウントに再度アクセスできるようにするには、パスワードをリセットする必要があります。"
 
 #: weblate/accounts/models.py:219 weblate/templates/accounts/profile.html:310
 msgid "Account activity"
@@ -714,22 +708,16 @@ msgid "Long lines wrapping"
 msgstr "長い行の折り返し"
 
 #: weblate/addons/forms.py:79
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines (default Gettext behavior)"
 msgid "Wrap lines at 77 chars and at newlines (default gettext behavior)"
 msgstr "77 文字を超えた場合、もしくは改行で折り返す (gettext のデフォルト動作)"
 
 #: weblate/addons/forms.py:80
-#, fuzzy
-#| msgid "Wrap lines at newlines only (Gettext behavior with --no-wrap)"
 msgid "Only wrap lines at newlines (gettext behavior with --no-wrap)"
 msgstr "改行でのみ折り返す (gettext で --no-wrap オプションを付けた場合の動作)"
 
 #: weblate/addons/forms.py:81
-#, fuzzy
-#| msgid "Long lines wrapping"
 msgid "No line wrapping"
-msgstr "長い行の折り返し"
+msgstr "行を折り返さない"
 
 #: weblate/addons/forms.py:90
 msgid "Sort JSON keys"
@@ -754,11 +742,8 @@ msgid "Generate mo files"
 msgstr "mo ファイルの生成"
 
 #: weblate/addons/gettext.py:57
-#, fuzzy
-#| msgid "Automatically generates mo file for every changed po file."
 msgid "Automatically generates MO file for every changed PO file."
-msgstr ""
-"変更された po ファイルそれぞれに対して、自動的に mo ファイルを生成します。"
+msgstr "変更された PO ファイルそれぞれに対して、自動的に MO ファイルを生成します。"
 
 #: weblate/addons/gettext.py:72
 msgid "Update LINGUAS file"
@@ -785,32 +770,21 @@ msgid "Update po files to match pot (msgmerge)"
 msgstr "pot に合わせて po ファイルを更新 (msgmerge)"
 
 #: weblate/addons/gettext.py:189
-#, fuzzy
-#| msgid ""
-#| "Update all po files to match the pot file using msgmerge. This is "
-#| "triggered whenever new changes are pulled from upstream repository."
 msgid ""
 "Update all PO files to match the POT file using msgmerge. This is triggered "
 "whenever new changes are pulled from the upstream repository."
 msgstr ""
-"msgmerge を利用して、 pot ファイルに合わせて全ての po ファイルを更新します。"
-"アップストリームのリポジトリから新しい変更点を受信すると、常にこれが起動され"
-"ます。"
+"msgmerge を利用して、 POT ファイルに合わせて全ての PO "
+"ファイルを更新します。アップストリームのリポジトリから新しい変更点を受信すると、常にこれが起動されます。"
 
 #: weblate/addons/gettext.py:212
-#, fuzzy
-#| msgid "Customize Gettext output"
 msgid "Customize gettext output"
 msgstr "gettext 出力のカスタマイズ"
 
 #: weblate/addons/gettext.py:214
-#, fuzzy
-#| msgid ""
-#| "Allows to customize Gettext output behavior, for example line wrapping."
 msgid ""
 "Allows customization of gettext output behavior, for example line wrapping."
-msgstr ""
-"折り返し処理など、 gettext の出力動作をカスタマイズすることができます。"
+msgstr "折り返し処理など、 gettext の出力動作をカスタマイズすることができます。"
 
 #: weblate/addons/json.py:33
 msgid "Customize JSON output"
@@ -2485,10 +2459,8 @@ msgid "Components"
 msgstr "コンポーネント"
 
 #: weblate/templates/component-list.html:28
-#, fuzzy
-#| msgid "Number of plurals"
 msgid "Number of components"
-msgstr "複数形の数"
+msgstr "コンポーネントの数"
 
 #: weblate/templates/component-list.html:34
 #: weblate/trans/models/componentlist.py:116
