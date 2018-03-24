@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 2.20\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-03-23 13:26+0000\n"
-"PO-Revision-Date: 2018-03-09 21:16+0000\n"
+"PO-Revision-Date: 2018-03-25 02:42+0000\n"
 "Last-Translator: monolifed <monolifed@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
 "tr/>\n"
@@ -262,17 +262,14 @@ msgid "Authentication using {method} ({name}) has been removed."
 msgstr "{method} ({name}) kullanarak kimlik doğrulama kaldırıldı."
 
 #: weblate/accounts/models.py:69
-#, fuzzy, python-brace-format
-#| msgid "Successfully authenticated using {method} ({name})."
+#, python-brace-format
 msgid "Authenticated using {method} ({name})."
-msgstr "{method} ({name}) kullanarak kimlik başarıyla doğrulandı."
+msgstr "{method} ({name}) kullanılarak kimlik doğrulandı."
 
 #: weblate/accounts/models.py:72
-#, fuzzy, python-brace-format
-#| msgid "Successfully authenticated using {method} ({name}) from new device."
+#, python-brace-format
 msgid "Authenticated using {method} ({name}) from new device."
-msgstr ""
-"Yeni aygıttan {method} ({name}) kullanarak kimlik başarıyla doğrulandı."
+msgstr "{method} ({name}) kullanılarak yeni aygıttan kimlik doğrulandı."
 
 #: weblate/accounts/models.py:75
 msgid "Somebody has attempted to register with your email."
@@ -304,7 +301,7 @@ msgstr "Hizmet Şartlarının {date} Kabulü."
 
 #: weblate/accounts/models.py:96
 msgid "To restore access to your account, please reset your password."
-msgstr ""
+msgstr "Hesabınıza tekrar erişmek için, lütfen parolanızı sıfırlayın."
 
 #: weblate/accounts/models.py:219 weblate/templates/accounts/profile.html:310
 msgid "Account activity"
@@ -656,10 +653,8 @@ msgid "Example addon"
 msgstr "Örnek eklenti"
 
 #: weblate/addons/example.py:44
-#, fuzzy
-#| msgid "This addon does nothing it is just an example"
 msgid "This addon does nothing it is just an example."
-msgstr "Bu eklenti yalnızca bir örnek, hiçbir şey yapmaz"
+msgstr "Bu eklenti hiçbir şey yapmaz, yalnızca bir örnek."
 
 #: weblate/addons/flags.py:50
 msgid "Flag new source strings to need edit"
@@ -714,25 +709,18 @@ msgid "No line wrapping"
 msgstr ""
 
 #: weblate/addons/forms.py:90
-#, fuzzy
-#| msgid "SSH keys"
 msgid "Sort JSON keys"
-msgstr "SSH anahtarları"
+msgstr "JSON anahtarlarını sırala"
 
 #: weblate/addons/forms.py:94
-#, fuzzy
-#| msgid "API documentation"
 msgid "JSON indentation"
-msgstr "API belgeleri"
+msgstr "JSON girintisi"
 
 #: weblate/addons/generate.py:36
 msgid "Statistics generator"
 msgstr "İstatistik oluşturucu"
 
 #: weblate/addons/generate.py:38
-#, fuzzy
-#| msgid ""
-#| "This addon generates file with detailed information about the translation."
 msgid ""
 "This addon generates a file containing detailed information about the "
 "translation."
@@ -744,10 +732,8 @@ msgid "Generate mo files"
 msgstr "mo dosyası üret"
 
 #: weblate/addons/gettext.py:57
-#, fuzzy
-#| msgid "Automatically generates mo file for every changed po file."
 msgid "Automatically generates MO file for every changed PO file."
-msgstr "Her değiştirilen po dosyası için kendiliğinden mo dosyası üretir."
+msgstr "Her değiştirilen PO dosyası için kendiliğinden MO dosyası üretir."
 
 #: weblate/addons/gettext.py:72
 msgid "Update LINGUAS file"
@@ -774,20 +760,17 @@ msgid "Update po files to match pot (msgmerge)"
 msgstr "Pot ile eşleşmesi için po dosyalarını güncelle (msgmerge)"
 
 #: weblate/addons/gettext.py:189
-#, fuzzy
-#| msgid ""
-#| "Update all po files to match the pot file using msgmerge. This is "
-#| "triggered whenever new changes are pulled from upstream repository."
 msgid ""
 "Update all PO files to match the POT file using msgmerge. This is triggered "
 "whenever new changes are pulled from the upstream repository."
 msgstr ""
-"Pot dosyası ile eşleşmesi için tüm po dosyalarını msgmerge kullanarak "
-"güncelle. Yukarı akımdan yeni değişiklikler her çekildiğinde bu tetiklenir."
+"POT dosyası ile eşleşmesi için tüm PO dosyalarını msgmerge kullanarak "
+"güncelle. Yukarı akım havuzundan yeni değişiklikler her çekildiğinde bu "
+"tetiklenir."
 
 #: weblate/addons/gettext.py:212
 msgid "Customize gettext output"
-msgstr ""
+msgstr "Gettext çıktısını özelleştir"
 
 #: weblate/addons/gettext.py:214
 msgid ""
@@ -4323,10 +4306,8 @@ msgid "Keyboard shortcuts available:"
 msgstr "Kullanılabilir klavye kısayolları:"
 
 #: weblate/templates/translate.html:83
-#, fuzzy
-#| msgid "Ctrl+Shift+Enter - Unmark review needed flag and save"
 msgid "Unmark review needed flag and save"
-msgstr "Ctrl+Shift+Enter - Gözden geçirme gerekli bayrağını kaldır ve kaydet"
+msgstr "Gözden geçirme gerekli bayrağını kaldır ve kaydet"
 
 #: weblate/templates/translate.html:84
 #, fuzzy
@@ -4335,46 +4316,32 @@ msgid "Strings navigation"
 msgstr "Eylem gerektiren satır"
 
 #: weblate/templates/translate.html:85
-#, fuzzy
-#| msgid "Ctrl+E - Focus translation editor"
 msgid "Focus translation editor"
-msgstr "Ctrl+E - Çeviri düzenleyiciye odakla"
+msgstr "Çeviri düzenleyiciye odakla"
 
 #: weblate/templates/translate.html:86
-#, fuzzy
-#| msgid "Ctrl+Q - Focus comment editor"
 msgid "Focus comment editor"
-msgstr "Ctrl+Q - Yorum düzenleyiciye odakla"
+msgstr "Yorum düzenleyiciye odakla"
 
 #: weblate/templates/translate.html:87
-#, fuzzy
-#| msgid "Ctrl+M - Shows machine translation tab"
 msgid "Shows machine translation tab"
-msgstr "Ctrl+M  - Makine çevirisi sekmesini gösterir"
+msgstr "Makine çevirisi sekmesini gösterir"
 
 #: weblate/templates/translate.html:88
-#, fuzzy
-#| msgid "Ctrl+J - Shows nearby strings tab"
 msgid "Shows nearby strings tab"
-msgstr "Ctrl+J - Yakınındaki satırlar sekmesini gösterir"
+msgstr "Yakınındaki satırlar sekmesini gösterir"
 
 #: weblate/templates/translate.html:89
-#, fuzzy
-#| msgid "Ctrl+S - Shows search tab"
 msgid "Shows search tab"
-msgstr "Ctrl+S - Arama sekmesini gösterir"
+msgstr "Arama sekmesini gösterir"
 
 #: weblate/templates/translate.html:90
-#, fuzzy
-#| msgid "Ctrl+O - Copies source string"
 msgid "Copies source string"
-msgstr "Ctrl+O - Kaynak satırı kopyalar"
+msgstr "Kaynak satırı kopyalar"
 
 #: weblate/templates/translate.html:91
-#, fuzzy
-#| msgid "Ctrl+T - Toggle edit needed flag"
 msgid "Toggle edit needed flag"
-msgstr "Ctrl+T - Gözden geçirme gerekli bayrağını değiştir"
+msgstr "Gözden geçirme gerekli bayrağını değiştir"
 
 #: weblate/templates/translate.html:95
 msgid "Editing source string"
@@ -5642,10 +5609,8 @@ msgid "Reverted change not found!"
 msgstr "Geri alınan değişiklik bulunmadı!"
 
 #: weblate/trans/forms.py:902
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Automatic translation source"
-msgstr "Kendiliğinden Çeviri"
+msgstr "Kendiliğinden çeviri kaynağı"
 
 #: weblate/trans/forms.py:904
 #, fuzzy
@@ -5665,7 +5630,7 @@ msgstr "Makine çevirisi önerileri"
 
 #: weblate/trans/forms.py:920
 msgid "Score threshold"
-msgstr ""
+msgstr "Skor eşiği"
 
 #: weblate/trans/forms.py:947
 msgid "All components in current project"
@@ -6034,10 +5999,8 @@ msgid "Name used in URLs and file names."
 msgstr "URL'lerde ve dosya adlarında kullanılan isim."
 
 #: weblate/trans/models/componentlist.py:51
-#, fuzzy
-#| msgid "Dashboard"
 msgid "Show on dashboard"
-msgstr "Panel"
+msgstr "Panoda göster"
 
 #: weblate/trans/models/componentlist.py:55
 msgid ""
@@ -7664,7 +7627,7 @@ msgstr "çevrilen"
 
 #: weblate/utils/state.py:31
 msgid "Empty"
-msgstr ""
+msgstr "Boş"
 
 #: weblate/utils/validators.py:78
 #, python-brace-format
