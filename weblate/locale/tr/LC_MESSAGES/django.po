@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 2.20\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-03-23 13:26+0000\n"
-"PO-Revision-Date: 2018-03-25 02:42+0000\n"
+"PO-Revision-Date: 2018-03-26 20:44+0000\n"
 "Last-Translator: monolifed <monolifed@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
 "tr/>\n"
@@ -84,7 +84,7 @@ msgstr "Bu kullanıcı adı zaten alınmış. Lütfen başka bir tane seçin."
 
 #: weblate/accounts/forms.py:247
 msgid "Component wide notifications"
-msgstr "Kapsamlı bileşen bildirimleri"
+msgstr "Bileşen çapında bildirimler"
 
 #: weblate/accounts/forms.py:249
 msgid ""
@@ -333,7 +333,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:353
 msgid "Hide completed translations on dashboard"
-msgstr "Panelde tamamlanan çevirileri gizle"
+msgstr "Tamamlanan çevirileri panelde gizle"
 
 #: weblate/accounts/models.py:357
 msgid "Show secondary translations in zen mode"
@@ -390,7 +390,7 @@ msgstr "Bileşen listeleri"
 #: weblate/accounts/models.py:398 weblate/templates/list-translations.html:7
 #: weblate/trans/models/componentlist.py:63
 msgid "Component list"
-msgstr "Bileşen litesi"
+msgstr "Bileşen listesi"
 
 #: weblate/accounts/models.py:399 weblate/templates/index.html:30
 msgid "Suggested translations"
@@ -416,7 +416,7 @@ msgid ""
 "dashboard by default."
 msgstr ""
 "İzlenen projeler için bildirim alabilirsiniz ve bunlar öntanımlı olarak "
-"panelde gösterilirler."
+"panelde gösterilir."
 
 #: weblate/accounts/models.py:439
 msgid "Notification on any translation"
@@ -448,11 +448,11 @@ msgstr "Yeni dil isteğinde bildirim"
 
 #: weblate/accounts/models.py:517
 msgid "Component list must be selected when used as default."
-msgstr "Bileşen listesi öntanımlı olarak kullanıldığında seçilmek zorundadır."
+msgstr "Öntanımlı olarak kullanıldığında bileşen listesi seçilmek zorundadır."
 
 #: weblate/accounts/models.py:523
 msgid "Component list must not be selected when not used."
-msgstr "Bileşen listesi kullanılmadığında seçilmek zorunda değildir."
+msgstr "Kullanılmadığında bileşen listesi seçilmemelidir."
 
 #: weblate/accounts/models.py:581
 msgid ""
@@ -596,7 +596,7 @@ msgid ""
 "Failed to verify your registration! Probably the verification token has "
 "expired. Please try the registration again."
 msgstr ""
-"Kaydınız doğrulanamadı! Muhtemelen doğrulama belirtecinin süresi doldu. "
+"Kaydınız doğrulanamadı! Doğrulama belirtecinin süresi dolmuş olabilir. "
 "Lütfen kaydolmayı yeniden deneyin."
 
 #: weblate/accounts/views.py:906
@@ -615,8 +615,8 @@ msgstr "Yeni kayıtlar devre dışı!"
 msgid ""
 "Authentication has failed, probably due to expired token or connection error."
 msgstr ""
-"Kimlik doğrulama başarısız oldu, muhtemelen süresi geçmiş belirteç veya "
-"bağlantı hatası yüzünden."
+"Kimlik doğrulama başarısız oldu, Süresi geçmiş belirteç veya bağlantı hatası "
+"yüzünden olabilir."
 
 #: weblate/accounts/views.py:935
 msgid "Authentication has been cancelled."
@@ -694,19 +694,22 @@ msgstr "Oluşturulan dosyanın içeriği"
 
 #: weblate/addons/forms.py:77
 msgid "Long lines wrapping"
-msgstr ""
+msgstr "Uzun satırları kaydırma"
 
 #: weblate/addons/forms.py:79
 msgid "Wrap lines at 77 chars and at newlines (default gettext behavior)"
 msgstr ""
+"Satırları, 77 karakterde ve yeni satırlarda kaydır (öntanımlı gettext "
+"davranışı)"
 
 #: weblate/addons/forms.py:80
 msgid "Only wrap lines at newlines (gettext behavior with --no-wrap)"
 msgstr ""
+"Satırları yalnızca yeni satırlarda kaydır (--no-wrap ile gettext davranışı)"
 
 #: weblate/addons/forms.py:81
 msgid "No line wrapping"
-msgstr ""
+msgstr "Satır kaydırma yok"
 
 #: weblate/addons/forms.py:90
 msgid "Sort JSON keys"
@@ -776,15 +779,19 @@ msgstr "Gettext çıktısını özelleştir"
 msgid ""
 "Allows customization of gettext output behavior, for example line wrapping."
 msgstr ""
+"Gettext çıktısı davranışının özelleştirilmesine izin verir, örneğin satır "
+"kaydırma."
 
 #: weblate/addons/json.py:33
 msgid "Customize JSON output"
-msgstr ""
+msgstr "JSON çıktısını özelleştir"
 
 #: weblate/addons/json.py:35
 msgid ""
 "Allows to customize JSON output behavior, for example indentation or sorting."
 msgstr ""
+"JSON çıktısı davranışının özelleştirilmesine izin verir, örneğin girinti "
+"veya sıralama."
 
 #: weblate/addons/properties.py:147
 msgid "Formats the Java properties file"
@@ -1308,7 +1315,7 @@ msgstr "ACL Grubu yalnızca seçilen izinleri etkileyecek."
 
 #: weblate/permissions/models.py:76
 msgid "Project, component or language must be specified"
-msgstr "Proje, bileşen veya dil belirtilmek zorundadır"
+msgstr "Proje, bileşen veya dil belirtilmelidir"
 
 #: weblate/permissions/models.py:109
 msgid "Group ACL"
@@ -2296,7 +2303,7 @@ msgstr "Bileşen adı"
 
 #: weblate/templates/addons/generate_help.html:19
 msgid "Component URL slug"
-msgstr "URL kısaltması bileşeni"
+msgstr "Bileşen URL kısaltması"
 
 #: weblate/templates/addons/generate_help.html:23
 msgid "Project URL slug"
@@ -2435,10 +2442,8 @@ msgid "Components"
 msgstr "Bileşenler"
 
 #: weblate/templates/component-list.html:28
-#, fuzzy
-#| msgid "Number of plurals"
 msgid "Number of components"
-msgstr "Çoğul sayısı"
+msgstr "Bileşen sayısı"
 
 #: weblate/templates/component-list.html:34
 #: weblate/trans/models/componentlist.py:116
@@ -2528,7 +2533,7 @@ msgid ""
 "Translation statistics for every component in the JSON format allows you to "
 "use the data in other websites or tools."
 msgstr ""
-"Her bileşen için JSON biçimindeki çeviri istatistikleri veriyi diğer web "
+"Her bileşen için JSON biçimindeki çeviri istatistikleri, veriyi diğer web "
 "sitelerinde ya da araçlarda kullanmanıza izin verir."
 
 #: weblate/templates/data.html:71
@@ -3909,15 +3914,14 @@ msgstr "İşlem"
 
 #: weblate/templates/project.html:208 weblate/templates/subproject.html:159
 #: weblate/templates/translation.html:241 weblate/trans/models/change.py:236
-#, fuzzy
-#| msgid "Last change"
 msgid "Mass state change"
-msgstr "Son değiştirme"
+msgstr "Toplu durum değişikliği"
 
 #: weblate/templates/project.html:210 weblate/templates/subproject.html:161
 #: weblate/templates/translation.html:243
 msgid "You can change state of all strings matching given type at once."
 msgstr ""
+"Verilen türle eşleşen tüm satırların durumunu aynı anda değiştirebilirsiniz."
 
 #: weblate/templates/project.html:224 weblate/templates/subproject.html:182
 #: weblate/templates/translate.html:336 weblate/templates/translate.html:340
@@ -4310,10 +4314,8 @@ msgid "Unmark review needed flag and save"
 msgstr "Gözden geçirme gerekli bayrağını kaldır ve kaydet"
 
 #: weblate/templates/translate.html:84
-#, fuzzy
-#| msgid "Strings needing action"
 msgid "Strings navigation"
-msgstr "Eylem gerektiren satır"
+msgstr "Satır gezinme"
 
 #: weblate/templates/translate.html:85
 msgid "Focus translation editor"
@@ -4692,6 +4694,8 @@ msgid ""
 "translation engines to get the best possible translations and applies them "
 "in this project."
 msgstr ""
+"Makine çevirisi ile kendiliğinden çeviri, olası en iyi çeviriyi almak için "
+"etkin makine çeviri motorlarını kullanır ve onları bu projeye uygular."
 
 #: weblate/templates/translation.html:262
 msgid ""
@@ -5613,20 +5617,16 @@ msgid "Automatic translation source"
 msgstr "Kendiliğinden çeviri kaynağı"
 
 #: weblate/trans/forms.py:904
-#, fuzzy
-#| msgid "Merge translation comments"
 msgid "Other translation components"
-msgstr "Çeviri yorumlarını birleştir"
+msgstr "Diğer çeviri bileşenleri"
 
 #: weblate/trans/forms.py:910
 msgid "Component to use"
-msgstr "Kullanmak için bileşen"
+msgstr "Kullanılacak bileşen"
 
 #: weblate/trans/forms.py:915
-#, fuzzy
-#| msgid "Machine translation suggestions"
 msgid "Machine translation engines to use"
-msgstr "Makine çevirisi önerileri"
+msgstr "Kullanılacak makine çeviri motorları"
 
 #: weblate/trans/forms.py:920
 msgid "Score threshold"
@@ -5848,10 +5848,8 @@ msgstr ""
 "düzenleyebilirsiniz."
 
 #: weblate/trans/forms.py:1529
-#, fuzzy
-#| msgid "Donate to Weblate"
 msgid "State to set"
-msgstr "Weblate'e Bağış Yapın"
+msgstr "Ayarlanacak durum"
 
 #: weblate/trans/models/change.py:201
 msgid "Resource update"
@@ -6000,12 +5998,13 @@ msgstr "URL'lerde ve dosya adlarında kullanılan isim."
 
 #: weblate/trans/models/componentlist.py:51
 msgid "Show on dashboard"
-msgstr "Panoda göster"
+msgstr "Panelde göster"
 
 #: weblate/trans/models/componentlist.py:55
 msgid ""
 "When enabled this component list will be shown as a tab on the dashboard"
 msgstr ""
+"Etkinleştirildiğinde bu bileşen listesi panelde bir sekme olarak gösterilecek"
 
 #: weblate/trans/models/componentlist.py:84
 msgid "Project regular expression"
@@ -6021,11 +6020,11 @@ msgstr "Bileşen düzenli ifadesi"
 
 #: weblate/trans/models/componentlist.py:96
 msgid "Regular expression which is used to match component slug."
-msgstr "Bileşen kısaltması ile eşleşmesi için kullanılan düzenli ifade."
+msgstr "Bileşen kısaltmasını eşleştirmek için kullanılan düzenli ifade."
 
 #: weblate/trans/models/componentlist.py:101
 msgid "Component list to assign"
-msgstr "Atamak için bileşen listesi"
+msgstr "Atanacak bileşen listesi"
 
 #: weblate/trans/models/componentlist.py:117
 msgid "Automatic component list assignments"
@@ -6407,7 +6406,7 @@ msgid ""
 "Agreement which needs to be approved before user can translate this "
 "component."
 msgstr ""
-"Kullanıcı bu bileşeni çevirebilmeden önce, onaylanması gereken anlaşma."
+"Kullanıcının bu bileşeni çevirebilmesinden önce, onaylanması gereken anlaşma."
 
 #: weblate/trans/models/subproject.py:412
 msgid ""
@@ -6490,7 +6489,7 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:497
 msgid "Components with higher priority are offered first to translators."
-msgstr "Önce yüksek öncelikli bileşenler çevirmenlere sunulur."
+msgstr "Yüksek öncelikli bileşenler çevirmenlere ilk olarak sunulur."
 
 #: weblate/trans/models/subproject.py:666
 msgid ""
@@ -6619,8 +6618,8 @@ msgid ""
 "You probably want to enable automatic adding of new translations."
 msgstr ""
 "Yeni çeviriler için ana dosya, bileşen ayarlarından dolayı kullanılamıyor. "
-"Muhtemelen yeni çevirilerin kendiliğinden eklenmesini etkinleştirmek "
-"istiyorsunuz."
+"Yeni çevirilerin kendiliğinden eklenmesini etkinleştirmek istiyor "
+"olabilirsiniz."
 
 #: weblate/trans/models/subproject.py:1237
 msgid "You can not use base file with bilingual translation!"
@@ -6689,10 +6688,8 @@ msgid "Failed to add new translation file!"
 msgstr "Yeni çeviri dosyası eklenemedi!"
 
 #: weblate/trans/models/subproject.py:1535
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Given language is filtered by the language filter!"
-msgstr "Tek dil tabanlı dil dosyası"
+msgstr "Verilen dil, dil süzgeci tarafından süzülüyor!"
 
 #: weblate/trans/models/subproject.py:1557
 msgid "Translation file already exists!"
@@ -6727,13 +6724,15 @@ msgstr "{translation}, satır {position}"
 
 #: weblate/trans/models/whiteboard.py:69
 msgid "Render as HTML"
-msgstr ""
+msgstr "HTML olarak oluştur"
 
 #: weblate/trans/models/whiteboard.py:71
 msgid ""
 "When disabled, URLs will be converted to links and any markup will be "
 "escaped."
 msgstr ""
+"Devre dışı bırakıldığında, URL'ler bağlantılara dönüştürülür ve her "
+"biçimlendirme dönüştürülür."
 
 #: weblate/trans/models/whiteboard.py:101
 msgid "Category"
@@ -7498,15 +7497,15 @@ msgstr "%(field)s parametresinde hata: %(error)s"
 
 #: weblate/trans/views/lock.py:46
 msgid "Component is now locked for translation updates!"
-msgstr "Bileşen şu an çeviri güncellemeleri için kilitli!"
+msgstr "Bileşen şu anda çeviri güncellemelerine kilitli!"
 
 #: weblate/trans/views/lock.py:64
 msgid "Component is now open for translation updates."
-msgstr "Bileşen şu an çeviri güncellemeleri için açık."
+msgstr "Bileşen şu anda çeviri güncellemelerine açık."
 
 #: weblate/trans/views/lock.py:85
 msgid "All components are now locked for translation updates!"
-msgstr "Tüm bileşenler şu an çeviri güncellemeleri için kilitli!"
+msgstr "Tüm bileşenler şu anda çeviri güncellemelerine kilitli!"
 
 #: weblate/trans/views/lock.py:104
 msgid "Project is now open for translation updates."
@@ -7533,19 +7532,15 @@ msgid "Invalid search query!"
 msgstr "Geçersiz arama sorgusu!"
 
 #: weblate/trans/views/search.py:247
-#, fuzzy
-#| msgid "Search and replace completed, no strings were updated."
 msgid "Mass state change completed, no strings were updated."
-msgstr "Arama ve değiştirme tamamlandı, güncellenen satır olmadı."
+msgstr "Toplu durum değiştirme tamamlandı, güncellenen satır olmadı."
 
 #: weblate/trans/views/search.py:249
-#, fuzzy, python-format
-#| msgid "Search and replace completed, %d string was updated."
-#| msgid_plural "Search and replace completed, %d strings were updated."
+#, python-format
 msgid "Mass state change completed, %d string was updated."
 msgid_plural "Mass state change completed, %d strings were updated."
-msgstr[0] "Arama ve değiştirme tamamlandı, %d satır güncellendi."
-msgstr[1] "Arama ve değiştirme tamamlandı, %d satır güncellendi."
+msgstr[0] "Toplu durum değiştirme tamamlandı, %d satır güncellendi."
+msgstr[1] "Toplu durum değiştirme tamamlandı, %d satır güncellendi."
 
 #: weblate/trans/views/settings.py:48 weblate/trans/views/settings.py:80
 msgid "Settings saved"
