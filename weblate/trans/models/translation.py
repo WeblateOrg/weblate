@@ -70,6 +70,7 @@ class TranslationManager(models.Manager):
             force = True
             translation.filename = path
             translation.language_code = code
+            translation.save(update_fields=['filename', 'language_code'])
         translation.check_sync(force, request=request)
 
         return translation
