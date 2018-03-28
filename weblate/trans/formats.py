@@ -1095,12 +1095,6 @@ class StringsFormat(FileFormat):
     def get_language_code(code):
         """Do any possible formatting needed for language code."""
         return code.replace('_', '-')
-        # Android doesn't use Hans/Hant, but rather TW/CN variants
-        if code == 'zh_Hans':
-            return 'zh-rCN'
-        elif code == 'zh_Hant':
-            return 'zh-rTW'
-        return code.replace('_', '-r')
 
 
 @register_fileformat
