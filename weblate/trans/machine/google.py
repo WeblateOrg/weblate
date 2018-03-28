@@ -79,6 +79,7 @@ class GoogleTranslation(MachineTranslation):
             q=text,
             source=source,
             target=language,
+            format='text',
         )
 
         if 'error' in response:
