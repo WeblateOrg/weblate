@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 2.20\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-03-23 13:26+0000\n"
-"PO-Revision-Date: 2018-03-23 07:32+0000\n"
+"PO-Revision-Date: 2018-03-29 17:23+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/master/he/"
 ">\n"
@@ -258,16 +258,14 @@ msgid "Authentication using {method} ({name}) has been removed."
 msgstr "הוסר אימות באמצעות {method} ‏({name})."
 
 #: weblate/accounts/models.py:69
-#, fuzzy, python-brace-format
-#| msgid "Successfully authenticated using {method} ({name})."
+#, python-brace-format
 msgid "Authenticated using {method} ({name})."
-msgstr "האימות עבר בהצלחה באמצעות {method} ‏({name})."
+msgstr "האימות הצליח באמצעות {method} ‏({name})."
 
 #: weblate/accounts/models.py:72
-#, fuzzy, python-brace-format
-#| msgid "Successfully authenticated using {method} ({name}) from new device."
+#, python-brace-format
 msgid "Authenticated using {method} ({name}) from new device."
-msgstr "האימות עבר בהצלחה באמצעות {method} ‏({name}) מהתקן חדש."
+msgstr "האימות הצליח באמצעות {method} ‏({name}) מהתקן חדש."
 
 #: weblate/accounts/models.py:75
 msgid "Somebody has attempted to register with your email."
@@ -296,8 +294,6 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "הסכמה לתנאי השירות {date}."
 
 #: weblate/accounts/models.py:96
-#, fuzzy
-#| msgid "To restore access to your account, please perform password reset."
 msgid "To restore access to your account, please reset your password."
 msgstr "כדי לשחזר את גישתך לחשבונך, נא לאפס את הססמה."
 
@@ -685,22 +681,16 @@ msgid "Long lines wrapping"
 msgstr "גלישת שורות ארוכות"
 
 #: weblate/addons/forms.py:79
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines (default Gettext behavior)"
 msgid "Wrap lines at 77 chars and at newlines (default gettext behavior)"
 msgstr "גלישת השורה למטה לאחר 77 תווים ובתו שורה חדשה (בררת המחדל של Gettext)"
 
 #: weblate/addons/forms.py:80
-#, fuzzy
-#| msgid "Wrap lines at newlines only (Gettext behavior with --no-wrap)"
 msgid "Only wrap lines at newlines (gettext behavior with --no-wrap)"
 msgstr "גלישת שורות עם תווי שורה חדשה בלבד (ההתנהגות של Gettext עם ‎--no-wrap)"
 
 #: weblate/addons/forms.py:81
-#, fuzzy
-#| msgid "Long lines wrapping"
 msgid "No line wrapping"
-msgstr "גלישת שורות ארוכות"
+msgstr "ללא גלישת שורות"
 
 #: weblate/addons/forms.py:90
 msgid "Sort JSON keys"
@@ -725,10 +715,8 @@ msgid "Generate mo files"
 msgstr "יצירת קובצי mo"
 
 #: weblate/addons/gettext.py:57
-#, fuzzy
-#| msgid "Automatically generates mo file for every changed po file."
 msgid "Automatically generates MO file for every changed PO file."
-msgstr "יצירה אוטומטית של קובץ mo לכל קובץ po שנערך."
+msgstr "יצירה אוטומטית של קובץ MO לכל קובץ PO שנערך."
 
 #: weblate/addons/gettext.py:72
 msgid "Update LINGUAS file"
@@ -755,30 +743,21 @@ msgid "Update po files to match pot (msgmerge)"
 msgstr "עדכון קובצי po כדי שיתאימו ל־pot‏ (msgmerge)"
 
 #: weblate/addons/gettext.py:189
-#, fuzzy
-#| msgid ""
-#| "Update all po files to match the pot file using msgmerge. This is "
-#| "triggered whenever new changes are pulled from upstream repository."
 msgid ""
 "Update all PO files to match the POT file using msgmerge. This is triggered "
 "whenever new changes are pulled from the upstream repository."
 msgstr ""
-"עדכון כל קובצי ה־po כדי שתאימו לקובץ ה־pot עם msgmerge. פעולה זו מיועדת "
+"עדכון כל קובצי ה־PO כדי שתאימו לקובץ ה־POT עם msgmerge. פעולה זו מיועדת "
 "להתרחש עם קבלת שינויים חדשים ממאגר המקור."
 
 #: weblate/addons/gettext.py:212
-#, fuzzy
-#| msgid "Customize Gettext output"
 msgid "Customize gettext output"
 msgstr "התאמת הפלט של Gettext"
 
 #: weblate/addons/gettext.py:214
-#, fuzzy
-#| msgid ""
-#| "Allows to customize Gettext output behavior, for example line wrapping."
 msgid ""
 "Allows customization of gettext output behavior, for example line wrapping."
-msgstr "מאפשר להתאים את התנהות הפלט של Gettext, כמו גלישת שורות למשל."
+msgstr "מאפשר את התאמת התנהגות הפלט של Gettext, כמו גלישת שורות למשל."
 
 #: weblate/addons/json.py:33
 msgid "Customize JSON output"
@@ -2403,10 +2382,8 @@ msgid "Components"
 msgstr "רכיבים"
 
 #: weblate/templates/component-list.html:28
-#, fuzzy
-#| msgid "Number of plurals"
 msgid "Number of components"
-msgstr "מספר צורות הריבוי"
+msgstr "מספר הרכיבים"
 
 #: weblate/templates/component-list.html:34
 #: weblate/trans/models/componentlist.py:116
