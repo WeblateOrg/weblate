@@ -52,7 +52,7 @@ class GettextBaseAddon(BaseAddon):
 class GenerateMoAddon(GettextBaseAddon):
     events = (EVENT_PRE_COMMIT,)
     name = 'weblate.gettext.mo'
-    verbose = _('Generate mo files')
+    verbose = _('Generate MO files')
     description = _(
         'Automatically generates MO file for every changed PO file.'
     )
