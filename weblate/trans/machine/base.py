@@ -226,6 +226,17 @@ class MachineTranslation(object):
     def set_rate_limit(self):
         return cache.set(self.rate_limit_cache, True, 1800)
 
+    def is_rate_limit_error(self, exc):
+        if not isinstance(exc, HTTPError):
+            return False
+        # Standard HTTP 429 Too Many Requests
+        if exc.code == 429:
+            return True
+        # Forbidden with quota in string used eg. by Microsoft
+        if exc.code == 403 and 'quota' in exc.msg.lower():
+            return True
+        return False
+
     def translate(self, language, text, unit, user):
         """Return list of machine translations."""
         if text == '':
@@ -278,7 +289,7 @@ class MachineTranslation(object):
                 cache.set(cache_key, result, 7 * 86400)
             return result
         except Exception as exc:
-            if isinstance(exc, HTTPError) and exc.code == 429:
+            if self.is_rate_limit_error(exc):
                 self.set_rate_limit()
 
             self.report_error(
