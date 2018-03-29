@@ -519,6 +519,10 @@ class MachineTranslationTest(TestCase):
         self.assert_translate(machine)
         self.assert_translate(machine, word='Zkouška')
 
+    @override_settings(DEBUG=True)
+    def test_amagama_nolang_debug(self):
+        self.test_amagama_nolang()
+
     @httpretty.activate
     def test_amagama(self):
         machine = self.get_machine(AmagamaTranslation)
