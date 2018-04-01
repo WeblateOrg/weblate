@@ -428,9 +428,10 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 )[0]
             except IndexError:
                 break
-            change = unit.change_set.get(
+            # Can not use get as there can be more with same timestamp
+            change = unit.change_set.filter(
                 timestamp=unit.change__timestamp__max
-            )
+            )[0]
 
             author_name = get_author_name(change.author)
 
