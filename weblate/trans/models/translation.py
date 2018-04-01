@@ -435,7 +435,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             author_name = get_author_name(change.author)
 
             # Flush pending units for this author
-            self.update_units(author_name, change.author)
+            self.update_units(author_name, change.author.id)
 
             # Commit changes
             self.git_commit(
@@ -553,12 +553,12 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         return True
 
     @transaction.atomic
-    def update_units(self, author_name, author):
+    def update_units(self, author_name, author_id):
         """Update backend file and unit."""
         updated = False
         for unit in self.unit_set.filter(pending=True).select_for_update():
             # Skip changes by other authors
-            if unit.change_set.order_by('-timestamp')[0].author != author:
+            if unit.change_set.content().order_by('-timestamp')[0].author_id != author_id:
                 continue
 
             pounit, add = self.store.find_unit(
@@ -896,6 +896,9 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         """Top level handler for file uploads."""
         filecopy = fileobj.read()
         fileobj.close()
+
+        # Commit pending changes so far
+        self.commit_pending(request)
 
         # Strip possible UTF-8 BOM
         if filecopy[:3] == codecs.BOM_UTF8:

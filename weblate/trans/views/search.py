@@ -112,6 +112,8 @@ def search_replace(request, project, subproject=None, lang=None):
 
         matching = confirm.cleaned_data['units']
 
+        translation.commit_pending(request)
+
         with transaction.atomic():
             for unit in matching.select_for_update():
                 if not can_translate(request.user, unit):
@@ -228,6 +230,8 @@ def state_change(request, project, subproject=None, lang=None):
     ).exclude(
         state=STATE_EMPTY
     )
+
+    translation.commit_pending(request)
 
     updated = 0
     with transaction.atomic():
