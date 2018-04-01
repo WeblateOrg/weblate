@@ -205,6 +205,9 @@ class TranslationTest(RepoTestCase):
         project = self.create_subproject()
         translation = project.translation_set.get(language_code='cs')
         request = HttpRequest()
+        request.user = create_test_user()
+        for unit in translation.unit_set.all():
+            unit.translate(request, 'test2', STATE_TRANSLATED)
         for unit in translation.unit_set.all():
             request.user = User.objects.create(
                 first_name='User {}'.format(unit.pk),
