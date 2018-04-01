@@ -897,6 +897,9 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         filecopy = fileobj.read()
         fileobj.close()
 
+        # Commit pending changes so far
+        self.commit_pending(request)
+
         # Strip possible UTF-8 BOM
         if filecopy[:3] == codecs.BOM_UTF8:
             filecopy = filecopy[3:]
