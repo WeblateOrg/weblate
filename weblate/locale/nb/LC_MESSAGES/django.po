@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.20\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-03-23 13:26+0000\n"
+"POT-Creation-Date: 2018-04-01 19:22+0000\n"
 "PO-Revision-Date: 2018-03-31 18:39+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
@@ -738,7 +738,9 @@ msgstr ""
 "Dette tillegget genererer ei fil med detaljert informasjon om oversettelsen."
 
 #: weblate/addons/gettext.py:55
-msgid "Generate mo files"
+#, fuzzy
+#| msgid "Generate mo files"
+msgid "Generate MO files"
 msgstr "Generer MO-filer"
 
 #: weblate/addons/gettext.py:57
@@ -781,11 +783,11 @@ msgstr ""
 "Oppdater alle PO-filer for å samsvare POT-filen ved bruk av msgmerge. Dette "
 "utløses når nye endringer hentes fra oppstrømspakkelageret."
 
-#: weblate/addons/gettext.py:212
+#: weblate/addons/gettext.py:213
 msgid "Customize gettext output"
 msgstr "Tilpass gettext-utdata"
 
-#: weblate/addons/gettext.py:214
+#: weblate/addons/gettext.py:215
 msgid ""
 "Allows customization of gettext output behavior, for example line wrapping."
 msgstr ""
@@ -811,7 +813,7 @@ msgstr "Formaterer Java-egenskapsfila"
 msgid "This addon sorts the Java properties file."
 msgstr "Dette tillegget sorterer Java-egenskapsfila."
 
-#: weblate/addons/views.py:83
+#: weblate/addons/views.py:84
 msgid "Invalid addon name specified!"
 msgstr "Ugyldig tilleggsnavn angitt!"
 
@@ -4600,7 +4602,9 @@ msgid "Download original translation file (%(format)s)"
 msgstr "Last ned original oversettelsesfil (%(format)s)"
 
 #: weblate/templates/translation-download.html:7
-msgid "Download translation as XLIFF with Gettext extensions"
+#, fuzzy
+#| msgid "Download translation as XLIFF with Gettext extensions"
+msgid "Download translation as XLIFF with gettext extensions"
 msgstr "Last ned oversettelse som XLIFF med Gettext-utvidelser"
 
 #: weblate/templates/translation-download.html:8
@@ -4608,11 +4612,15 @@ msgid "Download translation as XLIFF 1.2"
 msgstr "Last ned oversettelse som XLIFF 1.2"
 
 #: weblate/templates/translation-download.html:9
-msgid "Download translation as Gettext PO"
+#, fuzzy
+#| msgid "Download translation as Gettext PO"
+msgid "Download translation as gettext PO"
 msgstr "Last ned oversettelse som Gettext PO"
 
 #: weblate/templates/translation-download.html:10
-msgid "Download translation as Gettext MO"
+#, fuzzy
+#| msgid "Download translation as Gettext MO"
+msgid "Download translation as gettext MO"
 msgstr "Last ned oversettelse som Gettext MO"
 
 #: weblate/templates/translation-download.html:11
@@ -4624,19 +4632,26 @@ msgid "Download translation as TMX"
 msgstr "Last ned oversettelse som TMX"
 
 #: weblate/templates/translation-download.html:15
-msgid "Download strings needing action as XLIFF with Gettext extensions"
-msgstr "Last ned strenger som trenger handling som XLIFF med gettext-utvidelser"
+#, fuzzy
+#| msgid "Download strings needing action as XLIFF with Gettext extensions"
+msgid "Download strings needing action as XLIFF with gettext extensions"
+msgstr ""
+"Last ned strenger som trenger handling som XLIFF med gettext-utvidelser"
 
 #: weblate/templates/translation-download.html:16
 msgid "Download strings needing action as XLIFF 1.2"
 msgstr "Last ned strenger som trenger handling som XLIFF 1.2"
 
 #: weblate/templates/translation-download.html:17
-msgid "Download strings needing action as Gettext PO"
+#, fuzzy
+#| msgid "Download strings needing action as Gettext PO"
+msgid "Download strings needing action as gettext PO"
 msgstr "Last ned strenger som trenger handling som Gettext PO"
 
 #: weblate/templates/translation-download.html:18
-msgid "Download strings needing action as Gettext MO"
+#, fuzzy
+#| msgid "Download strings needing action as Gettext MO"
+msgid "Download strings needing action as gettext MO"
 msgstr "Last ned strenger som trenger handling som Gettext MO"
 
 #: weblate/templates/translation-download.html:19
@@ -5228,20 +5243,20 @@ msgstr "Nylige forandringer i %s"
 msgid "All recent changes made using Weblate in %s."
 msgstr "Alle seneste endringer er laget med Weblate i %s."
 
-#: weblate/trans/filter.py:31 weblate/trans/models/translation.py:661
-#: weblate/trans/models/translation.py:704
+#: weblate/trans/filter.py:31 weblate/trans/models/translation.py:663
+#: weblate/trans/models/translation.py:706
 msgid "All strings"
 msgstr "Alle strenger"
 
-#: weblate/trans/filter.py:32 weblate/trans/models/translation.py:752
+#: weblate/trans/filter.py:32 weblate/trans/models/translation.py:754
 msgid "Not translated strings"
 msgstr "Ikke oversatte strenger"
 
-#: weblate/trans/filter.py:33 weblate/trans/models/translation.py:744
+#: weblate/trans/filter.py:33 weblate/trans/models/translation.py:746
 msgid "Strings needing action"
 msgstr "Strenger som trenger handling"
 
-#: weblate/trans/filter.py:34 weblate/trans/models/translation.py:719
+#: weblate/trans/filter.py:34 weblate/trans/models/translation.py:721
 msgid "Translated strings"
 msgstr "Oversatte strenger"
 
@@ -5249,33 +5264,33 @@ msgstr "Oversatte strenger"
 msgid "Strings marked for edit"
 msgstr "Strenger merket for redigering"
 
-#: weblate/trans/filter.py:36 weblate/trans/models/translation.py:768
+#: weblate/trans/filter.py:36 weblate/trans/models/translation.py:770
 msgid "Strings with suggestions"
 msgstr "Strenger med forslag"
 
-#: weblate/trans/filter.py:37 weblate/trans/models/translation.py:774
+#: weblate/trans/filter.py:37 weblate/trans/models/translation.py:776
 msgid "Strings without suggestions"
 msgstr "Strenger uten forslag"
 
-#: weblate/trans/filter.py:38 weblate/trans/models/translation.py:689
-#: weblate/trans/models/translation.py:802
+#: weblate/trans/filter.py:38 weblate/trans/models/translation.py:691
+#: weblate/trans/models/translation.py:804
 msgid "Strings with comments"
 msgstr "Strenger med kommentarer"
 
-#: weblate/trans/filter.py:39 weblate/trans/models/translation.py:669
-#: weblate/trans/models/translation.py:782
+#: weblate/trans/filter.py:39 weblate/trans/models/translation.py:671
+#: weblate/trans/models/translation.py:784
 msgid "Strings with any failing checks"
 msgstr "Strenger med kontroller som feiler"
 
-#: weblate/trans/filter.py:40 weblate/trans/models/translation.py:711
+#: weblate/trans/filter.py:40 weblate/trans/models/translation.py:713
 msgid "Approved strings"
 msgstr "Godkjente strenger"
 
-#: weblate/trans/filter.py:43 weblate/trans/models/translation.py:736
+#: weblate/trans/filter.py:43 weblate/trans/models/translation.py:738
 msgid "Approved strings with suggestions"
 msgstr "Godkjente strenger med forslag"
 
-#: weblate/trans/filter.py:45 weblate/trans/models/translation.py:728
+#: weblate/trans/filter.py:45 weblate/trans/models/translation.py:730
 msgid "Strings waiting for review"
 msgstr "Strenger merket til gjennomgang"
 
@@ -5315,75 +5330,75 @@ msgstr "XLIFF-oversettelsesfil med PO-forlengelser"
 msgid "OS X Strings"
 msgstr "OS X-strenger"
 
-#: weblate/trans/formats.py:1097
+#: weblate/trans/formats.py:1102
 msgid "OS X Strings (UTF-8)"
 msgstr "OS X-strenger (UTF-8)"
 
-#: weblate/trans/formats.py:1105
+#: weblate/trans/formats.py:1110
 msgid "Java Properties (UTF-8)"
 msgstr "Java Properties (UTF-8)"
 
-#: weblate/trans/formats.py:1114
+#: weblate/trans/formats.py:1119
 msgid "Java Properties (UTF-16)"
 msgstr "Java Properties (UTF-16)"
 
-#: weblate/trans/formats.py:1121
+#: weblate/trans/formats.py:1126
 msgid "Java Properties (ISO-8859-1)"
 msgstr "Java Properties (ISO-8859-1)"
 
-#: weblate/trans/formats.py:1143
+#: weblate/trans/formats.py:1148
 msgid "Joomla Language File"
 msgstr "Joomla språkfil"
 
-#: weblate/trans/formats.py:1153
+#: weblate/trans/formats.py:1158
 msgid "PHP strings"
 msgstr "PHP-strenger"
 
-#: weblate/trans/formats.py:1173
+#: weblate/trans/formats.py:1178
 msgid ".Net resource file"
 msgstr ".Net-ressursfil"
 
-#: weblate/trans/formats.py:1184
+#: weblate/trans/formats.py:1189
 msgid "Android String Resource"
 msgstr "Android String Resource"
 
-#: weblate/trans/formats.py:1214
+#: weblate/trans/formats.py:1219
 msgid "JSON file"
 msgstr "JSON-fil"
 
-#: weblate/trans/formats.py:1234
+#: weblate/trans/formats.py:1239
 msgid "JSON nested structure file"
 msgstr "Nøstet JSON-strukturfil"
 
-#: weblate/trans/formats.py:1241
+#: weblate/trans/formats.py:1246
 msgid "WebExtension JSON file"
 msgstr "WebExtension JSON-fil"
 
-#: weblate/trans/formats.py:1250
+#: weblate/trans/formats.py:1255
 msgid "i18next JSON file"
 msgstr "i18next- JSON-fil"
 
-#: weblate/trans/formats.py:1257
+#: weblate/trans/formats.py:1262
 msgid "CSV file"
 msgstr "CSV-fil"
 
-#: weblate/trans/formats.py:1328
+#: weblate/trans/formats.py:1333
 msgid "Simple CSV file"
 msgstr "Enkel CSV-fil"
 
-#: weblate/trans/formats.py:1365
+#: weblate/trans/formats.py:1370
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Enkel CSV-fil (ISO-8859-1)"
 
-#: weblate/trans/formats.py:1372
+#: weblate/trans/formats.py:1377
 msgid "YAML file"
 msgstr "YAML-fil"
 
-#: weblate/trans/formats.py:1392
+#: weblate/trans/formats.py:1397
 msgid "Ruby YAML file"
 msgstr "Ruby-YAML-fil"
 
-#: weblate/trans/formats.py:1400
+#: weblate/trans/formats.py:1405
 msgid "DTD file"
 msgstr "DTD-fil"
 
@@ -6715,7 +6730,7 @@ msgstr "Oversettelsesfil finnes allerede!"
 msgid "Failed to accept suggestion!"
 msgstr "Klarte ikke å godta forslag!"
 
-#: weblate/trans/models/translation.py:153
+#: weblate/trans/models/translation.py:154
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -6724,12 +6739,12 @@ msgstr ""
 "Filnavn %s finnes ikke i databasen! For å legge til ny oversettelse, legg "
 "språkfilen til kodelageret."
 
-#: weblate/trans/models/translation.py:162
+#: weblate/trans/models/translation.py:163
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Kunne inne analysere filen %(file)s: %(error)s"
 
-#: weblate/trans/models/translation.py:760
+#: weblate/trans/models/translation.py:762
 msgid "Strings marked as needing edit"
 msgstr "Strenger merket fordi de trenger redigering"
 
@@ -7345,7 +7360,7 @@ msgid "File upload has failed: %s"
 msgstr "Filopplasting gikk ikke bra: %s"
 
 #: weblate/trans/views/dictionary.py:197 weblate/trans/views/edit.py:610
-#: weblate/trans/views/search.py:82 weblate/trans/views/search.py:220
+#: weblate/trans/views/search.py:82 weblate/trans/views/search.py:222
 msgid "Failed to process form!"
 msgstr "Kunne ikke behandle skjemaet!"
 
@@ -7532,31 +7547,31 @@ msgstr "Alle komponenter er nå låst for oversettelsesoppdateringer!"
 msgid "Project is now open for translation updates."
 msgstr "Prosjektet er nå åpent for oversettelsesoppdateringer."
 
-#: weblate/trans/views/search.py:129
+#: weblate/trans/views/search.py:131
 msgid "Search and replace completed, no strings were updated."
 msgstr "Søk og erstatt fullført. Ingen strenger ble endret."
 
-#: weblate/trans/views/search.py:131
+#: weblate/trans/views/search.py:133
 #, python-format
 msgid "Search and replace completed, %d string was updated."
 msgid_plural "Search and replace completed, %d strings were updated."
 msgstr[0] "Søk og erstatt fullført, %d streng ble oppdatert."
 msgstr[1] "Søk og erstatt fullført, %d strenger ble oppdaterte."
 
-#: weblate/trans/views/search.py:196
+#: weblate/trans/views/search.py:198
 #, python-format
 msgid "Search for %s"
 msgstr "Søk etter %s"
 
-#: weblate/trans/views/search.py:202
+#: weblate/trans/views/search.py:204
 msgid "Invalid search query!"
 msgstr "Ugyldig søk!"
 
-#: weblate/trans/views/search.py:247
+#: weblate/trans/views/search.py:251
 msgid "Mass state change completed, no strings were updated."
 msgstr "Masse-søk og erstatt fullført. Ingen strenger ble endret."
 
-#: weblate/trans/views/search.py:249
+#: weblate/trans/views/search.py:253
 #, python-format
 msgid "Mass state change completed, %d string was updated."
 msgid_plural "Mass state change completed, %d strings were updated."

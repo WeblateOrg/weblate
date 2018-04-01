@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.20\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-03-23 13:26+0000\n"
+"POT-Creation-Date: 2018-04-01 19:22+0000\n"
 "PO-Revision-Date: 2018-03-13 07:33+0000\n"
 "Last-Translator: Andrey <andrey@mailbox.org>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
@@ -753,7 +753,9 @@ msgid ""
 msgstr "Сделать слияние содержимого заголовка файла в перевод."
 
 #: weblate/addons/gettext.py:55
-msgid "Generate mo files"
+#, fuzzy
+#| msgid "Generate mo files"
+msgid "Generate MO files"
 msgstr "Генерировать mo-файлы"
 
 #: weblate/addons/gettext.py:57
@@ -792,11 +794,11 @@ msgid ""
 "whenever new changes are pulled from the upstream repository."
 msgstr ""
 
-#: weblate/addons/gettext.py:212
+#: weblate/addons/gettext.py:213
 msgid "Customize gettext output"
 msgstr ""
 
-#: weblate/addons/gettext.py:214
+#: weblate/addons/gettext.py:215
 msgid ""
 "Allows customization of gettext output behavior, for example line wrapping."
 msgstr ""
@@ -820,7 +822,7 @@ msgstr "Откатить к этому переводу"
 msgid "This addon sorts the Java properties file."
 msgstr ""
 
-#: weblate/addons/views.py:83
+#: weblate/addons/views.py:84
 #, fuzzy
 #| msgid "Invalid checksum specified!"
 msgid "Invalid addon name specified!"
@@ -4712,7 +4714,9 @@ msgid "Download original translation file (%(format)s)"
 msgstr "Загрузить исходный файл перевода (%(format)s)"
 
 #: weblate/templates/translation-download.html:7
-msgid "Download translation as XLIFF with Gettext extensions"
+#, fuzzy
+#| msgid "Download translation as XLIFF with Gettext extensions"
+msgid "Download translation as XLIFF with gettext extensions"
 msgstr "Скачать перевод как XLIFF с расширениями Gettext"
 
 #: weblate/templates/translation-download.html:8
@@ -4720,11 +4724,15 @@ msgid "Download translation as XLIFF 1.2"
 msgstr "Загрузить перевод как XLIFF 1.2"
 
 #: weblate/templates/translation-download.html:9
-msgid "Download translation as Gettext PO"
+#, fuzzy
+#| msgid "Download translation as Gettext PO"
+msgid "Download translation as gettext PO"
 msgstr "Загрузить перевод как Gettext PO"
 
 #: weblate/templates/translation-download.html:10
-msgid "Download translation as Gettext MO"
+#, fuzzy
+#| msgid "Download translation as Gettext MO"
+msgid "Download translation as gettext MO"
 msgstr "Загрузить перевод как Gettext MO"
 
 #: weblate/templates/translation-download.html:11
@@ -4738,7 +4746,7 @@ msgstr "Загрузить перевод как TMX"
 #: weblate/templates/translation-download.html:15
 #, fuzzy
 #| msgid "Download translation as XLIFF with Gettext extensions"
-msgid "Download strings needing action as XLIFF with Gettext extensions"
+msgid "Download strings needing action as XLIFF with gettext extensions"
 msgstr "Скачать перевод как XLIFF с расширениями Gettext"
 
 #: weblate/templates/translation-download.html:16
@@ -4750,13 +4758,13 @@ msgstr "Загрузить перевод как XLIFF 1.2"
 #: weblate/templates/translation-download.html:17
 #, fuzzy
 #| msgid "Download translation as Gettext PO"
-msgid "Download strings needing action as Gettext PO"
+msgid "Download strings needing action as gettext PO"
 msgstr "Загрузить перевод как Gettext PO"
 
 #: weblate/templates/translation-download.html:18
 #, fuzzy
 #| msgid "Download translation as Gettext MO"
-msgid "Download strings needing action as Gettext MO"
+msgid "Download strings needing action as gettext MO"
 msgstr "Загрузить перевод как Gettext MO"
 
 #: weblate/templates/translation-download.html:19
@@ -5363,20 +5371,20 @@ msgstr "Недавние изменения в %s"
 msgid "All recent changes made using Weblate in %s."
 msgstr "Все недавние изменения, внесённые с помощью Weblate, в %s."
 
-#: weblate/trans/filter.py:31 weblate/trans/models/translation.py:661
-#: weblate/trans/models/translation.py:704
+#: weblate/trans/filter.py:31 weblate/trans/models/translation.py:663
+#: weblate/trans/models/translation.py:706
 msgid "All strings"
 msgstr "Все строки"
 
-#: weblate/trans/filter.py:32 weblate/trans/models/translation.py:752
+#: weblate/trans/filter.py:32 weblate/trans/models/translation.py:754
 msgid "Not translated strings"
 msgstr "Строки без перевода"
 
-#: weblate/trans/filter.py:33 weblate/trans/models/translation.py:744
+#: weblate/trans/filter.py:33 weblate/trans/models/translation.py:746
 msgid "Strings needing action"
 msgstr "Строки, требующие действий"
 
-#: weblate/trans/filter.py:34 weblate/trans/models/translation.py:719
+#: weblate/trans/filter.py:34 weblate/trans/models/translation.py:721
 msgid "Translated strings"
 msgstr "Переведённые строки"
 
@@ -5384,35 +5392,35 @@ msgstr "Переведённые строки"
 msgid "Strings marked for edit"
 msgstr "Строки, отмеченные для редактуры"
 
-#: weblate/trans/filter.py:36 weblate/trans/models/translation.py:768
+#: weblate/trans/filter.py:36 weblate/trans/models/translation.py:770
 msgid "Strings with suggestions"
 msgstr "Строки с предложениями перевода"
 
-#: weblate/trans/filter.py:37 weblate/trans/models/translation.py:774
+#: weblate/trans/filter.py:37 weblate/trans/models/translation.py:776
 #, fuzzy
 #| msgid "Strings with suggestions"
 msgid "Strings without suggestions"
 msgstr "Строки с предложениями перевода"
 
-#: weblate/trans/filter.py:38 weblate/trans/models/translation.py:689
-#: weblate/trans/models/translation.py:802
+#: weblate/trans/filter.py:38 weblate/trans/models/translation.py:691
+#: weblate/trans/models/translation.py:804
 msgid "Strings with comments"
 msgstr "Строки с комментариями"
 
-#: weblate/trans/filter.py:39 weblate/trans/models/translation.py:669
-#: weblate/trans/models/translation.py:782
+#: weblate/trans/filter.py:39 weblate/trans/models/translation.py:671
+#: weblate/trans/models/translation.py:784
 msgid "Strings with any failing checks"
 msgstr "Строки с непройденной проверкой"
 
-#: weblate/trans/filter.py:40 weblate/trans/models/translation.py:711
+#: weblate/trans/filter.py:40 weblate/trans/models/translation.py:713
 msgid "Approved strings"
 msgstr "Одобренные строки"
 
-#: weblate/trans/filter.py:43 weblate/trans/models/translation.py:736
+#: weblate/trans/filter.py:43 weblate/trans/models/translation.py:738
 msgid "Approved strings with suggestions"
 msgstr "Одобренные строки с предложениями перевода"
 
-#: weblate/trans/filter.py:45 weblate/trans/models/translation.py:728
+#: weblate/trans/filter.py:45 weblate/trans/models/translation.py:730
 msgid "Strings waiting for review"
 msgstr "Строки, ожидающие проверки"
 
@@ -5452,75 +5460,75 @@ msgstr "Файл XLIFF Translation с расширением PO"
 msgid "OS X Strings"
 msgstr "Строки OS X"
 
-#: weblate/trans/formats.py:1097
+#: weblate/trans/formats.py:1102
 msgid "OS X Strings (UTF-8)"
 msgstr "Строки OS X (UTF-8)"
 
-#: weblate/trans/formats.py:1105
+#: weblate/trans/formats.py:1110
 msgid "Java Properties (UTF-8)"
 msgstr "Свойства Java (UTF-8)"
 
-#: weblate/trans/formats.py:1114
+#: weblate/trans/formats.py:1119
 msgid "Java Properties (UTF-16)"
 msgstr "Свойства Java (UTF-16)"
 
-#: weblate/trans/formats.py:1121
+#: weblate/trans/formats.py:1126
 msgid "Java Properties (ISO-8859-1)"
 msgstr "Свойства Java (ISO-8859-1)"
 
-#: weblate/trans/formats.py:1143
+#: weblate/trans/formats.py:1148
 msgid "Joomla Language File"
 msgstr "Языковой файл Joomla"
 
-#: weblate/trans/formats.py:1153
+#: weblate/trans/formats.py:1158
 msgid "PHP strings"
 msgstr "PHP-строки"
 
-#: weblate/trans/formats.py:1173
+#: weblate/trans/formats.py:1178
 msgid ".Net resource file"
 msgstr "Файл ресурсов .Net"
 
-#: weblate/trans/formats.py:1184
+#: weblate/trans/formats.py:1189
 msgid "Android String Resource"
 msgstr "Строковый ресурс Android"
 
-#: weblate/trans/formats.py:1214
+#: weblate/trans/formats.py:1219
 msgid "JSON file"
 msgstr "Файл JSON"
 
-#: weblate/trans/formats.py:1234
+#: weblate/trans/formats.py:1239
 msgid "JSON nested structure file"
 msgstr "Файл JSON вложенной структуры"
 
-#: weblate/trans/formats.py:1241
+#: weblate/trans/formats.py:1246
 msgid "WebExtension JSON file"
 msgstr "Файл WebExtension JSON"
 
-#: weblate/trans/formats.py:1250
+#: weblate/trans/formats.py:1255
 msgid "i18next JSON file"
 msgstr "i18next файл JSON"
 
-#: weblate/trans/formats.py:1257
+#: weblate/trans/formats.py:1262
 msgid "CSV file"
 msgstr "Файл CSV"
 
-#: weblate/trans/formats.py:1328
+#: weblate/trans/formats.py:1333
 msgid "Simple CSV file"
 msgstr "Простой CSV файл"
 
-#: weblate/trans/formats.py:1365
+#: weblate/trans/formats.py:1370
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Простой CSV файл (ISO-8859-1)"
 
-#: weblate/trans/formats.py:1372
+#: weblate/trans/formats.py:1377
 msgid "YAML file"
 msgstr "Файл YAML"
 
-#: weblate/trans/formats.py:1392
+#: weblate/trans/formats.py:1397
 msgid "Ruby YAML file"
 msgstr "Файл Ruby YAML"
 
-#: weblate/trans/formats.py:1400
+#: weblate/trans/formats.py:1405
 msgid "DTD file"
 msgstr "Файл DTD"
 
@@ -6887,7 +6895,7 @@ msgstr "Файл перевода уже существует!"
 msgid "Failed to accept suggestion!"
 msgstr "Не удалось принять предложение!"
 
-#: weblate/trans/models/translation.py:153
+#: weblate/trans/models/translation.py:154
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -6896,12 +6904,12 @@ msgstr ""
 "Файл %s не найден в репозитории! Чтобы добавить новый перевод, добавьте "
 "языковой файл в репозиторий."
 
-#: weblate/trans/models/translation.py:162
+#: weblate/trans/models/translation.py:163
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Не удалось разобрать файл %(file)s: %(error)s"
 
-#: weblate/trans/models/translation.py:760
+#: weblate/trans/models/translation.py:762
 msgid "Strings marked as needing edit"
 msgstr "Строки, отмеченные для редактуры"
 
@@ -7529,7 +7537,7 @@ msgid "File upload has failed: %s"
 msgstr "Ошибка загрузки файла: %s"
 
 #: weblate/trans/views/dictionary.py:197 weblate/trans/views/edit.py:610
-#: weblate/trans/views/search.py:82 weblate/trans/views/search.py:220
+#: weblate/trans/views/search.py:82 weblate/trans/views/search.py:222
 msgid "Failed to process form!"
 msgstr "Ошибка при обработке формы!"
 
@@ -7722,11 +7730,11 @@ msgstr "Все компоненты заблокированы для обнов
 msgid "Project is now open for translation updates."
 msgstr "Теперь проект открыт для обновления перевода."
 
-#: weblate/trans/views/search.py:129
+#: weblate/trans/views/search.py:131
 msgid "Search and replace completed, no strings were updated."
 msgstr "Поиск и замена завершена, строки не были обновлены."
 
-#: weblate/trans/views/search.py:131
+#: weblate/trans/views/search.py:133
 #, python-format
 msgid "Search and replace completed, %d string was updated."
 msgid_plural "Search and replace completed, %d strings were updated."
@@ -7734,22 +7742,22 @@ msgstr[0] "Поиск и замена завершены, %d строка был
 msgstr[1] "Поиск и замена завершены, %d строки были обновлены."
 msgstr[2] "Поиск и замена завершены, %d строк были обновлены."
 
-#: weblate/trans/views/search.py:196
+#: weblate/trans/views/search.py:198
 #, python-format
 msgid "Search for %s"
 msgstr "Поиск %s"
 
-#: weblate/trans/views/search.py:202
+#: weblate/trans/views/search.py:204
 msgid "Invalid search query!"
 msgstr "Неверный поисковый запрос!"
 
-#: weblate/trans/views/search.py:247
+#: weblate/trans/views/search.py:251
 #, fuzzy
 #| msgid "Search and replace completed, no strings were updated."
 msgid "Mass state change completed, no strings were updated."
 msgstr "Поиск и замена завершена, строки не были обновлены."
 
-#: weblate/trans/views/search.py:249
+#: weblate/trans/views/search.py:253
 #, fuzzy, python-format
 #| msgid "Search and replace completed, %d string was updated."
 #| msgid_plural "Search and replace completed, %d strings were updated."

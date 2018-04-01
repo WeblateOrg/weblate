@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 2.20\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-03-23 13:26+0000\n"
+"POT-Creation-Date: 2018-04-01 19:22+0000\n"
 "PO-Revision-Date: 2018-03-23 16:00+0000\n"
 "Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
@@ -702,7 +702,9 @@ msgid ""
 msgstr "此附加元件會生成內含翻譯相關詳細資訊的檔案。"
 
 #: weblate/addons/gettext.py:55
-msgid "Generate mo files"
+#, fuzzy
+#| msgid "Generate mo files"
+msgid "Generate MO files"
 msgstr "生成 mo 檔"
 
 #: weblate/addons/gettext.py:57
@@ -737,13 +739,15 @@ msgstr "更新 po 檔以符合 pot (msgmerge)"
 msgid ""
 "Update all PO files to match the POT file using msgmerge. This is triggered "
 "whenever new changes are pulled from the upstream repository."
-msgstr "使用 msgmerge 更新所有 PO 檔使其符合 POT 檔。每當從上游儲存庫拉入新更動時會觸發這個動作。"
+msgstr ""
+"使用 msgmerge 更新所有 PO 檔使其符合 POT 檔。每當從上游儲存庫拉入新更動時會觸"
+"發這個動作。"
 
-#: weblate/addons/gettext.py:212
+#: weblate/addons/gettext.py:213
 msgid "Customize gettext output"
 msgstr "自訂 gettext 輸出"
 
-#: weblate/addons/gettext.py:214
+#: weblate/addons/gettext.py:215
 msgid ""
 "Allows customization of gettext output behavior, for example line wrapping."
 msgstr "允許自訂 gettext 輸出行為，例如換列。"
@@ -765,7 +769,7 @@ msgstr "格式化 Java properties 檔案"
 msgid "This addon sorts the Java properties file."
 msgstr "這個附加元件會排序 Java propterties 檔案。"
 
-#: weblate/addons/views.py:83
+#: weblate/addons/views.py:84
 msgid "Invalid addon name specified!"
 msgstr "指定的附加元件名稱無效！"
 
@@ -4399,7 +4403,9 @@ msgid "Download original translation file (%(format)s)"
 msgstr "下載原始翻譯檔 (%(format)s)"
 
 #: weblate/templates/translation-download.html:7
-msgid "Download translation as XLIFF with Gettext extensions"
+#, fuzzy
+#| msgid "Download translation as XLIFF with Gettext extensions"
+msgid "Download translation as XLIFF with gettext extensions"
 msgstr "下載翻譯，格式為 XLIFF 附 Gettext 擴展"
 
 #: weblate/templates/translation-download.html:8
@@ -4407,11 +4413,15 @@ msgid "Download translation as XLIFF 1.2"
 msgstr "下載翻譯，格式為 XLIFF 1.2"
 
 #: weblate/templates/translation-download.html:9
-msgid "Download translation as Gettext PO"
+#, fuzzy
+#| msgid "Download translation as Gettext PO"
+msgid "Download translation as gettext PO"
 msgstr "下載翻譯，格式為 Gettext PO"
 
 #: weblate/templates/translation-download.html:10
-msgid "Download translation as Gettext MO"
+#, fuzzy
+#| msgid "Download translation as Gettext MO"
+msgid "Download translation as gettext MO"
 msgstr "下載翻譯，格式為 Gettext MO"
 
 #: weblate/templates/translation-download.html:11
@@ -4423,7 +4433,9 @@ msgid "Download translation as TMX"
 msgstr "下載翻譯，格式為 TMX"
 
 #: weblate/templates/translation-download.html:15
-msgid "Download strings needing action as XLIFF with Gettext extensions"
+#, fuzzy
+#| msgid "Download strings needing action as XLIFF with Gettext extensions"
+msgid "Download strings needing action as XLIFF with gettext extensions"
 msgstr "下載需要動作的字串，格式為 XLIFF 附 Gettext 擴展"
 
 #: weblate/templates/translation-download.html:16
@@ -4431,11 +4443,15 @@ msgid "Download strings needing action as XLIFF 1.2"
 msgstr "下載需要動作的字串，格式為 XLIFF 1.2"
 
 #: weblate/templates/translation-download.html:17
-msgid "Download strings needing action as Gettext PO"
+#, fuzzy
+#| msgid "Download strings needing action as Gettext PO"
+msgid "Download strings needing action as gettext PO"
 msgstr "下載需要動作的字串，格式為 Gettext PO"
 
 #: weblate/templates/translation-download.html:18
-msgid "Download strings needing action as Gettext MO"
+#, fuzzy
+#| msgid "Download strings needing action as Gettext MO"
+msgid "Download strings needing action as gettext MO"
 msgstr "下載需要動作的字串，格式為 Gettext MO"
 
 #: weblate/templates/translation-download.html:19
@@ -5002,20 +5018,20 @@ msgstr "最近 %s 中的更動"
 msgid "All recent changes made using Weblate in %s."
 msgstr "最近 %s 中使用 Weblate 所作的所有更動。"
 
-#: weblate/trans/filter.py:31 weblate/trans/models/translation.py:661
-#: weblate/trans/models/translation.py:704
+#: weblate/trans/filter.py:31 weblate/trans/models/translation.py:663
+#: weblate/trans/models/translation.py:706
 msgid "All strings"
 msgstr "所有字串"
 
-#: weblate/trans/filter.py:32 weblate/trans/models/translation.py:752
+#: weblate/trans/filter.py:32 weblate/trans/models/translation.py:754
 msgid "Not translated strings"
 msgstr "尚未翻譯的字串"
 
-#: weblate/trans/filter.py:33 weblate/trans/models/translation.py:744
+#: weblate/trans/filter.py:33 weblate/trans/models/translation.py:746
 msgid "Strings needing action"
 msgstr "需要處理的字串"
 
-#: weblate/trans/filter.py:34 weblate/trans/models/translation.py:719
+#: weblate/trans/filter.py:34 weblate/trans/models/translation.py:721
 msgid "Translated strings"
 msgstr "已翻譯好的字串"
 
@@ -5023,33 +5039,33 @@ msgstr "已翻譯好的字串"
 msgid "Strings marked for edit"
 msgstr "有標需編輯的字串"
 
-#: weblate/trans/filter.py:36 weblate/trans/models/translation.py:768
+#: weblate/trans/filter.py:36 weblate/trans/models/translation.py:770
 msgid "Strings with suggestions"
 msgstr "有翻譯建議的字串"
 
-#: weblate/trans/filter.py:37 weblate/trans/models/translation.py:774
+#: weblate/trans/filter.py:37 weblate/trans/models/translation.py:776
 msgid "Strings without suggestions"
 msgstr "沒有翻譯建議的字串"
 
-#: weblate/trans/filter.py:38 weblate/trans/models/translation.py:689
-#: weblate/trans/models/translation.py:802
+#: weblate/trans/filter.py:38 weblate/trans/models/translation.py:691
+#: weblate/trans/models/translation.py:804
 msgid "Strings with comments"
 msgstr "有評註內容的字串"
 
-#: weblate/trans/filter.py:39 weblate/trans/models/translation.py:669
-#: weblate/trans/models/translation.py:782
+#: weblate/trans/filter.py:39 weblate/trans/models/translation.py:671
+#: weblate/trans/models/translation.py:784
 msgid "Strings with any failing checks"
 msgstr "任何未通過查核的字串"
 
-#: weblate/trans/filter.py:40 weblate/trans/models/translation.py:711
+#: weblate/trans/filter.py:40 weblate/trans/models/translation.py:713
 msgid "Approved strings"
 msgstr "核可字串數"
 
-#: weblate/trans/filter.py:43 weblate/trans/models/translation.py:736
+#: weblate/trans/filter.py:43 weblate/trans/models/translation.py:738
 msgid "Approved strings with suggestions"
 msgstr "有翻譯建議的核可後字串"
 
-#: weblate/trans/filter.py:45 weblate/trans/models/translation.py:728
+#: weblate/trans/filter.py:45 weblate/trans/models/translation.py:730
 msgid "Strings waiting for review"
 msgstr "等候檢閱的字串"
 
@@ -5089,75 +5105,75 @@ msgstr "XLIFF 翻譯檔，附 PO 擴展"
 msgid "OS X Strings"
 msgstr "OS X 字串"
 
-#: weblate/trans/formats.py:1097
+#: weblate/trans/formats.py:1102
 msgid "OS X Strings (UTF-8)"
 msgstr "OS X 字串 (UTF-8)"
 
-#: weblate/trans/formats.py:1105
+#: weblate/trans/formats.py:1110
 msgid "Java Properties (UTF-8)"
 msgstr "Java 屬性（UTF-8）"
 
-#: weblate/trans/formats.py:1114
+#: weblate/trans/formats.py:1119
 msgid "Java Properties (UTF-16)"
 msgstr "Java 屬性（UTF-16）"
 
-#: weblate/trans/formats.py:1121
+#: weblate/trans/formats.py:1126
 msgid "Java Properties (ISO-8859-1)"
 msgstr "Java 屬性（ISO-8859-1）"
 
-#: weblate/trans/formats.py:1143
+#: weblate/trans/formats.py:1148
 msgid "Joomla Language File"
 msgstr "Joomla 語言檔"
 
-#: weblate/trans/formats.py:1153
+#: weblate/trans/formats.py:1158
 msgid "PHP strings"
 msgstr "PHP 字串"
 
-#: weblate/trans/formats.py:1173
+#: weblate/trans/formats.py:1178
 msgid ".Net resource file"
 msgstr ".Net 資源檔"
 
-#: weblate/trans/formats.py:1184
+#: weblate/trans/formats.py:1189
 msgid "Android String Resource"
 msgstr "Android 字串資源"
 
-#: weblate/trans/formats.py:1214
+#: weblate/trans/formats.py:1219
 msgid "JSON file"
 msgstr "JSON 檔"
 
-#: weblate/trans/formats.py:1234
+#: weblate/trans/formats.py:1239
 msgid "JSON nested structure file"
 msgstr "JSON 巢狀結構檔"
 
-#: weblate/trans/formats.py:1241
+#: weblate/trans/formats.py:1246
 msgid "WebExtension JSON file"
 msgstr "WebExtension JSON 檔"
 
-#: weblate/trans/formats.py:1250
+#: weblate/trans/formats.py:1255
 msgid "i18next JSON file"
 msgstr "i18next JSON 檔案"
 
-#: weblate/trans/formats.py:1257
+#: weblate/trans/formats.py:1262
 msgid "CSV file"
 msgstr "CSV 檔"
 
-#: weblate/trans/formats.py:1328
+#: weblate/trans/formats.py:1333
 msgid "Simple CSV file"
 msgstr "簡單 CSV 檔"
 
-#: weblate/trans/formats.py:1365
+#: weblate/trans/formats.py:1370
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "簡單 CSV 檔（ISO-8859-1）"
 
-#: weblate/trans/formats.py:1372
+#: weblate/trans/formats.py:1377
 msgid "YAML file"
 msgstr "YAML 檔"
 
-#: weblate/trans/formats.py:1392
+#: weblate/trans/formats.py:1397
 msgid "Ruby YAML file"
 msgstr "Ruby YAML 檔"
 
-#: weblate/trans/formats.py:1400
+#: weblate/trans/formats.py:1405
 msgid "DTD file"
 msgstr "DTD 檔"
 
@@ -6413,19 +6429,19 @@ msgstr "翻譯檔已經存在！"
 msgid "Failed to accept suggestion!"
 msgstr "翻譯建議接受失敗！"
 
-#: weblate/trans/models/translation.py:153
+#: weblate/trans/models/translation.py:154
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr "在儲存庫中找不到 %s 檔名！若要加入新翻譯，請將語言檔加到儲存庫中。"
 
-#: weblate/trans/models/translation.py:162
+#: weblate/trans/models/translation.py:163
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "無法解析 %(file)s 檔案：%(error)s"
 
-#: weblate/trans/models/translation.py:760
+#: weblate/trans/models/translation.py:762
 msgid "Strings marked as needing edit"
 msgstr "有標需編輯的字串"
 
@@ -7015,7 +7031,7 @@ msgid "File upload has failed: %s"
 msgstr "檔案上傳失敗：%s"
 
 #: weblate/trans/views/dictionary.py:197 weblate/trans/views/edit.py:610
-#: weblate/trans/views/search.py:82 weblate/trans/views/search.py:220
+#: weblate/trans/views/search.py:82 weblate/trans/views/search.py:222
 msgid "Failed to process form!"
 msgstr "處理表單失敗！"
 
@@ -7194,30 +7210,30 @@ msgstr "所有組件現在因翻譯更新而鎖定中！"
 msgid "Project is now open for translation updates."
 msgstr "專案現在開放翻譯更新。"
 
-#: weblate/trans/views/search.py:129
+#: weblate/trans/views/search.py:131
 msgid "Search and replace completed, no strings were updated."
 msgstr "搜尋和取代完成，未更新任何字串。"
 
-#: weblate/trans/views/search.py:131
+#: weblate/trans/views/search.py:133
 #, python-format
 msgid "Search and replace completed, %d string was updated."
 msgid_plural "Search and replace completed, %d strings were updated."
 msgstr[0] "搜尋和取代完成，已更新 %d 條字串。"
 
-#: weblate/trans/views/search.py:196
+#: weblate/trans/views/search.py:198
 #, python-format
 msgid "Search for %s"
 msgstr "搜尋 %s"
 
-#: weblate/trans/views/search.py:202
+#: weblate/trans/views/search.py:204
 msgid "Invalid search query!"
 msgstr "不正確搜尋查詢！"
 
-#: weblate/trans/views/search.py:247
+#: weblate/trans/views/search.py:251
 msgid "Mass state change completed, no strings were updated."
 msgstr "大量狀態變更完成，未更新任何字串。"
 
-#: weblate/trans/views/search.py:249
+#: weblate/trans/views/search.py:253
 #, python-format
 msgid "Mass state change completed, %d string was updated."
 msgid_plural "Mass state change completed, %d strings were updated."
