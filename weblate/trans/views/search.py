@@ -112,7 +112,7 @@ def search_replace(request, project, subproject=None, lang=None):
 
         matching = confirm.cleaned_data['units']
 
-        translation.commit_pending(request)
+        obj.commit_pending(request)
 
         with transaction.atomic():
             for unit in matching.select_for_update():
