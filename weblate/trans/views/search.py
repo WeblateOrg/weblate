@@ -231,7 +231,7 @@ def state_change(request, project, subproject=None, lang=None):
         state=STATE_EMPTY
     )
 
-    translation.commit_pending(request)
+    obj.commit_pending(request)
 
     updated = 0
     with transaction.atomic():
