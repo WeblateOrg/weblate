@@ -301,7 +301,7 @@ class ViewTests(ViewTestCase):
         response = self.client.get(
             reverse('addons', kwargs=self.kw_subproject)
         )
-        self.assertContains(response, 'Generate mo files')
+        self.assertContains(response, 'Generate MO files')
 
     def test_add_simple(self):
         response = self.client.post(
