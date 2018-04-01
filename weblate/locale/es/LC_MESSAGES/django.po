@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 2.20\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-03-23 13:26+0000\n"
-"PO-Revision-Date: 2018-04-01 19:11+0000\n"
+"PO-Revision-Date: 2018-04-01 19:17+0000\n"
 "Last-Translator: Franco <francobenedetti.59+github1@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/master/"
 "es/>\n"
@@ -673,7 +673,7 @@ msgstr "Complemento de ejemplo"
 
 #: weblate/addons/example.py:44
 msgid "This addon does nothing it is just an example."
-msgstr "Este complemento no hace nada, es sólo un ejemplo"
+msgstr "Este complemento no hace nada, es sólo un ejemplo."
 
 #: weblate/addons/flags.py:50
 msgid "Flag new source strings to need edit"
@@ -694,17 +694,12 @@ msgid "Flag new translations to need edit"
 msgstr "Marcar nuevas traducciones a editar"
 
 #: weblate/addons/flags.py:66
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translation unit is imported from the VCS, it is flagged "
-#| "as needing editing in Weblate. This way you can easily filter and edit "
-#| "translations created by the developers."
 msgid ""
 "Whenever a new translation string is imported from the VCS, it is flagged as "
 "needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
-"Cuando se importe una nueva unidad de traducción desde el sistema VCS, se "
+"Cuando se importa una nueva cadena de traducción desde el sistema VCS, se "
 "marca como necesaria la edición en Weblate. De esta manera puede filtrar y "
 "editar fácilmente las traducciones creadas por los desarrolladores."
 
@@ -723,20 +718,22 @@ msgstr ""
 #: weblate/addons/forms.py:79
 msgid "Wrap lines at 77 chars and at newlines (default gettext behavior)"
 msgstr ""
+"Ajustar líneas en 77 caracteres y en líneas nuevas (comportamiento "
+"predefinido de gettext)"
 
 #: weblate/addons/forms.py:80
 msgid "Only wrap lines at newlines (gettext behavior with --no-wrap)"
 msgstr ""
+"Sólo ajustar líneas en líneas nuevas (comportamiento de gettext con --no-"
+"wrap)"
 
 #: weblate/addons/forms.py:81
 msgid "No line wrapping"
-msgstr ""
+msgstr "Sin ajuste de líneas"
 
 #: weblate/addons/forms.py:90
-#, fuzzy
-#| msgid "SSH keys"
 msgid "Sort JSON keys"
-msgstr "Claves SSH"
+msgstr "Ordenar claves de JSON"
 
 #: weblate/addons/forms.py:94
 #, fuzzy
@@ -809,21 +806,26 @@ msgstr ""
 
 #: weblate/addons/gettext.py:212
 msgid "Customize gettext output"
-msgstr ""
+msgstr "Personalizar la salida de gettext"
 
 #: weblate/addons/gettext.py:214
 msgid ""
 "Allows customization of gettext output behavior, for example line wrapping."
 msgstr ""
+"Permite la personalización del comportamiento de salida de gettext, por "
+"ejemplo, ajuste de líneas."
 
 #: weblate/addons/json.py:33
 msgid "Customize JSON output"
-msgstr ""
+msgstr "Personalizar la salida de JSON"
 
 #: weblate/addons/json.py:35
+#, fuzzy
 msgid ""
 "Allows to customize JSON output behavior, for example indentation or sorting."
 msgstr ""
+"Permite personalizar el comportamiento de salida de JSON, por ejemplo, "
+"indentación o clasificación."
 
 #: weblate/addons/properties.py:147
 msgid "Formats the Java properties file"
@@ -3997,6 +3999,8 @@ msgstr "Último cambio"
 #: weblate/templates/translation.html:243
 msgid "You can change state of all strings matching given type at once."
 msgstr ""
+"Puede cambiar a la vez el estado de todas las cadenas que coincidan con el "
+"tipo dado."
 
 #: weblate/templates/project.html:224 weblate/templates/subproject.html:182
 #: weblate/templates/translate.html:336 weblate/templates/translate.html:340
@@ -4416,10 +4420,8 @@ msgid "Shows machine translation tab"
 msgstr "Ctrl+M - Mostrar pestaña de traducción automática"
 
 #: weblate/templates/translate.html:88
-#, fuzzy
-#| msgid "Ctrl+J - Shows nearby strings tab"
 msgid "Shows nearby strings tab"
-msgstr "Ctrl+J - Mostrar pestaña de cadenas cercanas"
+msgstr "Mostrar la pestaña de cadenas cercanas"
 
 #: weblate/templates/translate.html:89
 #, fuzzy
@@ -4514,10 +4516,8 @@ msgid "Messages placed around this one"
 msgstr "Mensajes alrededor de este"
 
 #: weblate/templates/translate.html:213
-#, fuzzy
-#| msgid "Search string"
 msgid "Nearby strings"
-msgstr "Buscar cadena"
+msgstr "Cadenas cercanas"
 
 #: weblate/templates/translate.html:218 weblate/templates/translate.html:410
 msgid "Other translations"
@@ -4806,6 +4806,9 @@ msgid ""
 "translation engines to get the best possible translations and applies them "
 "in this project."
 msgstr ""
+"La traducción automática a través de la traducción automática utiliza "
+"motores activos de traducción automática para obtener las mejores "
+"traducciones posibles y las aplica en este proyecto."
 
 #: weblate/templates/translation.html:262
 #, fuzzy
@@ -5776,7 +5779,7 @@ msgstr "Sugerencias de traducción automática"
 
 #: weblate/trans/forms.py:920
 msgid "Score threshold"
-msgstr ""
+msgstr "Umbral de puntuación"
 
 #: weblate/trans/forms.py:947
 msgid "All components in current project"
@@ -6159,6 +6162,8 @@ msgstr "Panel"
 msgid ""
 "When enabled this component list will be shown as a tab on the dashboard"
 msgstr ""
+"Cuando se activa, esta lista de componentes se mostrará como una pestaña en "
+"el panel de control."
 
 #: weblate/trans/models/componentlist.py:84
 msgid "Project regular expression"
