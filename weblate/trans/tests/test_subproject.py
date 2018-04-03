@@ -313,6 +313,22 @@ class SubProjectTest(RepoTestCase):
             'en'
         )
 
+    def test_switch_branch(self):
+        project = self.create_po()
+        # Switch to translation branch
+        self.verify_subproject(project, 3, 'cs', 4)
+        project.branch = 'translations'
+        project.filemask = 'translations/*.po'
+        project.clean()
+        project.save()
+        self.verify_subproject(project, 3, 'cs', 4)
+        # Switch back to master branch
+        project.branch = 'master'
+        project.filemask = 'po/*.po'
+        project.clean()
+        project.save()
+        self.verify_subproject(project, 3, 'cs', 4)
+
 
 class SubProjectDeleteTest(RepoTestCase):
     """SubProject object deleting testing."""
