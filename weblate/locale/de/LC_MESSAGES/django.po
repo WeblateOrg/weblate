@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 2.20\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-04-01 19:22+0000\n"
-"PO-Revision-Date: 2018-04-01 06:27+0000\n"
+"PO-Revision-Date: 2018-04-04 15:03+0000\n"
 "Last-Translator: Claus Rüdinger <Mail-an-CR@web.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/master/de/"
 ">\n"
@@ -316,6 +316,8 @@ msgstr "Einverständniserklärung zu den Nutzungsbedingungen {date}."
 #: weblate/accounts/models.py:96
 msgid "To restore access to your account, please reset your password."
 msgstr ""
+"Um wieder Zugriff auf Ihr Konto zu erhalten, setzen Sie bitte Ihr Passwort "
+"zurück."
 
 #: weblate/accounts/models.py:219 weblate/templates/accounts/profile.html:310
 msgid "Account activity"
@@ -769,10 +771,8 @@ msgstr ""
 "die Übersetzung."
 
 #: weblate/addons/gettext.py:55
-#, fuzzy
-#| msgid "Generate mo files"
 msgid "Generate MO files"
-msgstr "Mo-Dateien erzeugen"
+msgstr "MO-Dateien erzeugen"
 
 #: weblate/addons/gettext.py:57
 msgid "Automatically generates MO file for every changed PO file."
@@ -1824,7 +1824,7 @@ msgstr "Anmeldung mit Passwort"
 
 #: weblate/templates/accounts/login.html:58
 msgid "Forgot your password?"
-msgstr "Passwort eingeben"
+msgstr "Passwort vergessen?"
 
 #: weblate/templates/accounts/login.html:59
 msgid "You can reset it."
@@ -3563,7 +3563,7 @@ msgstr "Benachrichtigungen ändern"
 msgid ""
 "There has been a change in translation on %(translation)s at %(site_title)s."
 msgstr ""
-"Die nachfolgende Übersetzung bei %(translation)s auf %(site_title)s wurde "
+"die nachfolgende Übersetzung bei %(translation)s auf %(site_title)s wurde "
 "geändert."
 
 #: weblate/templates/mail/changed_translation.html:18
@@ -4069,6 +4069,8 @@ msgstr "Letzte Änderung"
 #: weblate/templates/translation.html:243
 msgid "You can change state of all strings matching given type at once."
 msgstr ""
+"Sie können in einem Schritt den Status aller Zeichenketten entsprechend der "
+"gewählten Statusart ändern."
 
 #: weblate/templates/project.html:224 weblate/templates/subproject.html:182
 #: weblate/templates/translate.html:336 weblate/templates/translate.html:340
@@ -4743,8 +4745,6 @@ msgid "Download original translation file (%(format)s)"
 msgstr "Originaldatei der Übersetzung (%(format)s) herunterladen"
 
 #: weblate/templates/translation-download.html:7
-#, fuzzy
-#| msgid "Download translation as XLIFF with Gettext extensions"
 msgid "Download translation as XLIFF with gettext extensions"
 msgstr "Übersetzungen als XLIFF mit Gettext-Erweiterungen herunterladen"
 
@@ -4753,14 +4753,10 @@ msgid "Download translation as XLIFF 1.2"
 msgstr "Übersetzungen als XLIFF 1.2 herunterladen"
 
 #: weblate/templates/translation-download.html:9
-#, fuzzy
-#| msgid "Download translation as Gettext PO"
 msgid "Download translation as gettext PO"
 msgstr "Übersetzungen als Gettext PO herunterladen"
 
 #: weblate/templates/translation-download.html:10
-#, fuzzy
-#| msgid "Download translation as Gettext MO"
 msgid "Download translation as gettext MO"
 msgstr "Übersetzungen als Gettext MO herunterladen"
 
@@ -4773,8 +4769,6 @@ msgid "Download translation as TMX"
 msgstr "Übersetzungen als TMX herunterladen"
 
 #: weblate/templates/translation-download.html:15
-#, fuzzy
-#| msgid "Download strings needing action as XLIFF with Gettext extensions"
 msgid "Download strings needing action as XLIFF with gettext extensions"
 msgstr ""
 "Behandlungsbedürftige Zeichenketten als XLIFF mit Gettext-Erweiterungen "
@@ -4785,14 +4779,10 @@ msgid "Download strings needing action as XLIFF 1.2"
 msgstr "Behandlungsbedürftige Zeichenketten als XLIFF 1.2 herunterladen"
 
 #: weblate/templates/translation-download.html:17
-#, fuzzy
-#| msgid "Download strings needing action as Gettext PO"
 msgid "Download strings needing action as gettext PO"
 msgstr "Behandlungsbedürftige Zeichenketten als Gettext PO herunterladen"
 
 #: weblate/templates/translation-download.html:18
-#, fuzzy
-#| msgid "Download strings needing action as Gettext MO"
 msgid "Download strings needing action as gettext MO"
 msgstr "Behandlungsbedürftige Zeichenketten als Gettext MO herunterladen"
 
@@ -4870,6 +4860,9 @@ msgid ""
 "translation engines to get the best possible translations and applies them "
 "in this project."
 msgstr ""
+"Automatische Übersetzungen durch Übersetzungsautomaten nutzen aktive "
+"Maschinen zur automatisierten Übersetzung, um die bestmöglichen Ergebnisse "
+"zu erzielen und sie in diesem Projekt anzuwenden."
 
 #: weblate/templates/translation.html:262
 msgid ""
@@ -5573,7 +5566,7 @@ msgstr "Ungültige Prüfsumme angegeben!"
 
 #: weblate/trans/forms.py:163
 msgid "No matching user found."
-msgstr "Kein passender Nutzer gefunden!"
+msgstr "Kein passender Nutzer gefunden."
 
 #: weblate/trans/forms.py:165
 msgid "More users matched."
@@ -6208,6 +6201,8 @@ msgstr "Übersicht"
 msgid ""
 "When enabled this component list will be shown as a tab on the dashboard"
 msgstr ""
+"Bei Aktivierung wird diese Komponentenliste als ein Reiter auf der "
+"Übersichtsseite eingeblendet"
 
 #: weblate/trans/models/componentlist.py:84
 msgid "Project regular expression"
@@ -6955,6 +6950,8 @@ msgid ""
 "When disabled, URLs will be converted to links and any markup will be "
 "escaped."
 msgstr ""
+"Wenn deaktiviert, werden URLs zu Links umgewandelt und jedes 'Markup' "
+"übergangen."
 
 #: weblate/trans/models/whiteboard.py:101
 msgid "Category"
@@ -7960,6 +7957,9 @@ msgid ""
 "You can safely permanently ignore errors for file formats you do not intend "
 "to use. These are usually caused by missing or outdated dependencies."
 msgstr ""
+"Sie können ohne Bedenken Fehler zu Dateiformaten, die Sie nicht zu nutzen "
+"gedenken, dauerhaft ignorieren. Diese werden normalerweise durch fehlende "
+"oder veraltete Abhängigkeiten ausgelöst."
 
 #: weblate/wladmin/templates/admin/performance.html:64
 msgid "Check"
