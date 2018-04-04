@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 2.20\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-04-01 19:22+0000\n"
-"PO-Revision-Date: 2018-04-04 13:07+0000\n"
+"PO-Revision-Date: 2018-04-04 13:18+0000\n"
 "Last-Translator: Igor <f2404@yandex.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
 "ru/>\n"
@@ -784,47 +784,46 @@ msgstr ""
 
 #: weblate/addons/gettext.py:187
 msgid "Update po files to match pot (msgmerge)"
-msgstr "Обновлять файлы po до соответствия с pot (msgmerge)"
+msgstr "Обновлять файлы po до соответствия pot (msgmerge)"
 
 #: weblate/addons/gettext.py:189
 msgid ""
 "Update all PO files to match the POT file using msgmerge. This is triggered "
 "whenever new changes are pulled from the upstream repository."
 msgstr ""
+"Обновляет все файлы PO до соответствия файлу POT, используя msgmerge. Это "
+"случается, когда новые изменения получаются из upstream репозитория."
 
 #: weblate/addons/gettext.py:213
 msgid "Customize gettext output"
-msgstr ""
+msgstr "Настроить вывод gettext"
 
 #: weblate/addons/gettext.py:215
 msgid ""
 "Allows customization of gettext output behavior, for example line wrapping."
-msgstr ""
+msgstr "Позволяет настроить поведение вывода gettext, например, перенос строк."
 
 #: weblate/addons/json.py:33
 msgid "Customize JSON output"
-msgstr ""
+msgstr "Настроить вывод JSON"
 
 #: weblate/addons/json.py:35
 msgid ""
 "Allows to customize JSON output behavior, for example indentation or sorting."
 msgstr ""
+"Позволяет настроить поведение вывода JSON, например, отступы или сортировку."
 
 #: weblate/addons/properties.py:147
-#, fuzzy
-#| msgid "Revert to this translation"
 msgid "Formats the Java properties file"
-msgstr "Откатить к этому переводу"
+msgstr "Форматирует файл свойств Java"
 
 #: weblate/addons/properties.py:149
 msgid "This addon sorts the Java properties file."
-msgstr ""
+msgstr "Это дополнение сортирует файл свойств Java."
 
 #: weblate/addons/views.py:84
-#, fuzzy
-#| msgid "Invalid checksum specified!"
 msgid "Invalid addon name specified!"
-msgstr "Указана неверная контрольная сумма!"
+msgstr "Указано неверное имя дополнения!"
 
 #: weblate/billing/admin.py:52 weblate/billing/models.py:128
 #: weblate/templates/accounts/user.html:38
@@ -1761,6 +1760,8 @@ msgstr "Эта комбинация логин/пароль не найдена.
 msgid ""
 "To test Weblate on this demo server, you can log in as the following users:"
 msgstr ""
+"Чтобы попробовать Weblate на этом демо-сервере, вы можете зайти как один из "
+"следующих пользователей:"
 
 #: weblate/templates/accounts/login.html:28
 #: weblate/templates/accounts/profile.html:53
@@ -1780,16 +1781,12 @@ msgid "Password login"
 msgstr "Пароль для входа"
 
 #: weblate/templates/accounts/login.html:58
-#, fuzzy
-#| msgid "Set my password"
 msgid "Forgot your password?"
-msgstr "Задать мой пароль"
+msgstr "Забыли пароль?"
 
 #: weblate/templates/accounts/login.html:59
-#, fuzzy
-#| msgid "You can review it at:"
 msgid "You can reset it."
-msgstr "Вы можете посмотреть это на:"
+msgstr "Вы можете сбросить его."
 
 #: weblate/templates/accounts/login.html:79
 msgid "Third party login"
@@ -1797,17 +1794,17 @@ msgstr "Вход с помощью третьей стороны"
 
 #: weblate/templates/accounts/login.html:97
 msgid "Do not have an account yet?"
-msgstr ""
+msgstr "У вас ещё нет учётной записи?"
 
 #: weblate/templates/accounts/login.html:98
-#, fuzzy
-#| msgid "You can review it at:"
 msgid "You can register."
-msgstr "Вы можете посмотреть это на:"
+msgstr "Вы можете зарегистрироваться."
 
 #: weblate/templates/accounts/password-warning.html:3
 msgid "Please enable the password authentication to secure your account."
 msgstr ""
+"Пожалуйста, включите аутентификацию по паролю для защиты вашей учётной "
+"записи."
 
 #: weblate/templates/accounts/password-warning.html:8
 msgid "You will be still able to authenticate using third party services."
@@ -1820,10 +1817,8 @@ msgstr ""
 "Пароль используется для подтверждения важных изменений вашей учётной записи."
 
 #: weblate/templates/accounts/password-warning.html:14
-#, fuzzy
-#| msgid "Current password"
 msgid "Configure the password"
-msgstr "Текущий пароль"
+msgstr "Настроить пароль"
 
 #: weblate/templates/accounts/password.html:16
 msgid ""
@@ -2105,34 +2100,28 @@ msgid "CLI usage example:"
 msgstr "Пример использования CLI:"
 
 #: weblate/templates/accounts/profile.html:397
-#, fuzzy
-#| msgid ""
-#| "You can control Weblate using HTTP REST API. Please check <a href="
-#| "\"%(api_doc)s\">API documentation</a> for more details."
 msgid ""
 "You can control Weblate using HTTP REST API and API key is used to "
 "authenticate to it."
 msgstr ""
-"Вы можете использовать HTTP REST API для контроля Weblate. Для большей "
-"информации читайте <a href=\"%(api_doc)s\">документацию</a>."
+"Вы можете использовать HTTP REST API для контроля Weblate. Ключ API "
+"используется для аутентификации."
 
 #: weblate/templates/accounts/profile.html:398
 msgid ""
 "The API key is also used to authenticate to automatically exported Git "
 "repositories."
 msgstr ""
+"Этот ключ API также используется для аутентификации для автоматически "
+"экспортируемых репозиториев Git."
 
 #: weblate/templates/accounts/profile.html:401
-#, fuzzy
-#| msgid "Documentation"
 msgid "API documentation"
-msgstr "Документация"
+msgstr "Документация по API"
 
 #: weblate/templates/accounts/profile.html:402
-#, fuzzy
-#| msgid "Documentation"
 msgid "Git export documentation"
-msgstr "Документация"
+msgstr "Документация по экспорту Git"
 
 #: weblate/templates/accounts/profile.html:421
 msgid ""
