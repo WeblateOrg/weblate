@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 2.20\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-04-01 19:22+0000\n"
-"PO-Revision-Date: 2018-04-04 13:21+0000\n"
+"PO-Revision-Date: 2018-04-04 13:37+0000\n"
 "Last-Translator: Igor <f2404@yandex.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
 "ru/>\n"
@@ -2203,10 +2203,8 @@ msgid "Third party registration"
 msgstr "Регистрация третьей стороны"
 
 #: weblate/templates/accounts/register.html:75
-#, fuzzy
-#| msgid "New registrations are disabled!"
 msgid "Sorry, but registrations on this site are disabled."
-msgstr "Регистрация новых пользователей отключена!"
+msgstr "Извините, но регистрация на этом сайте отключена."
 
 #: weblate/templates/accounts/register.html:76
 msgid "You can contact us for more details."
@@ -2337,16 +2335,12 @@ msgstr ""
 "например:"
 
 #: weblate/templates/addons/generate_help.html:11
-#, fuzzy
-#| msgid "Has been translated"
 msgid "Percents translated"
-msgstr "Переведено"
+msgstr "Переведено, процентов"
 
 #: weblate/templates/addons/generate_help.html:15
-#, fuzzy
-#| msgid "Not translated strings"
 msgid "Number of translated strings"
-msgstr "Строки без перевода"
+msgstr "Количество переведённых строк"
 
 #: weblate/templates/addons/generate_help.html:17
 #: weblate/trans/models/subproject.py:136
@@ -2354,16 +2348,12 @@ msgid "Component name"
 msgstr "Название компонента"
 
 #: weblate/templates/addons/generate_help.html:19
-#, fuzzy
-#| msgid "Components"
 msgid "Component URL slug"
-msgstr "Компоненты"
+msgstr "Описательная часть URL компонента"
 
 #: weblate/templates/addons/generate_help.html:23
-#, fuzzy
-#| msgid "URL slug"
 msgid "Project URL slug"
-msgstr "Болванка URL"
+msgstr "Описательная часть URL проекта"
 
 #: weblate/templates/base.html:97
 msgid "Toggle navigation"
@@ -4819,10 +4809,10 @@ msgid ""
 "to a different branch, to fix inconsistent translations or to translate a "
 "new component using translation memory."
 msgstr ""
-"Автоматический перевод берет существующие переводы в этом проекте и "
-"применяет их к текущему компоненту. Это может использоваться для применения "
-"переводов в другой ветке, чтобы исправить несовместимые переводы или "
-"перевести новый компонент, используя память переводов."
+"Автоматический перевод берёт существующие переводы этого проекта и применяет "
+"их к текущему компоненту. Это может использоваться для отправки переводов в "
+"другую ветку, исправления несоответствующих переводов, или перевода нового "
+"компонента с использованием памяти переводов."
 
 #: weblate/templates/translation.html:211
 msgid ""
@@ -4830,17 +4820,16 @@ msgid ""
 "translation engines to get the best possible translations and applies them "
 "in this project."
 msgstr ""
+"Автоматический перевод с помощью машинного перевода использует активные "
+"движки машинного перевода для получения наилучших возможных переводов и "
+"применяет их в этом проекте."
 
 #: weblate/templates/translation.html:262
-#, fuzzy
-#| msgid ""
-#| "You can add new translation unit here, it will automatically appear in "
-#| "all translations."
 msgid ""
 "You can add new translation string here, it will automatically appear in all "
 "translations."
 msgstr ""
-"Здесь вы можете добавить новую единицу перевода. Она автоматически появится "
+"Здесь вы можете добавить новую строку перевода. Она автоматически появится "
 "во всех переводах."
 
 #: weblate/templates/translation.html:281
@@ -5760,40 +5749,32 @@ msgid "{filter_name}, {search_name}"
 msgstr "{filter_name}, {search_name}"
 
 #: weblate/trans/forms.py:870 weblate/trans/forms.py:872
-#, fuzzy
-#| msgid "Merged unit not found!"
 msgid "Merged string not found!"
-msgstr "Смёрженный элемент не найден!"
+msgstr "Смёрженная строка не найдена!"
 
 #: weblate/trans/forms.py:891
 msgid "Reverted change not found!"
 msgstr "Отменённое изменение не найдено!"
 
 #: weblate/trans/forms.py:902
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Automatic translation source"
-msgstr "Автоматический перевод"
+msgstr "Источник автоматического перевода"
 
 #: weblate/trans/forms.py:904
-#, fuzzy
-#| msgid "Merge translation comments"
 msgid "Other translation components"
-msgstr "Соединить комментарии к переводам"
+msgstr "Другие компоненты перевода"
 
 #: weblate/trans/forms.py:910
 msgid "Component to use"
 msgstr "Используемые компоненты"
 
 #: weblate/trans/forms.py:915
-#, fuzzy
-#| msgid "Machine translation suggestions"
 msgid "Machine translation engines to use"
-msgstr "Предложения машинного перевода"
+msgstr "Движки машинного перевода для использования"
 
 #: weblate/trans/forms.py:920
 msgid "Score threshold"
-msgstr ""
+msgstr "Пороговая величина оценки"
 
 #: weblate/trans/forms.py:947
 msgid "All components in current project"
@@ -6137,10 +6118,8 @@ msgid "Source string changed"
 msgstr "Строка-исходник изменилась"
 
 #: weblate/trans/models/change.py:235
-#, fuzzy
-#| msgid "New unit added"
 msgid "New string added"
-msgstr "Новая единица добавлена"
+msgstr "Новая строка добавлена"
 
 #: weblate/trans/models/change.py:328
 #, python-format
@@ -6156,12 +6135,12 @@ msgstr "Название списка компонентов"
 #: weblate/trans/models/componentlist.py:41 weblate/trans/models/project.py:95
 #: weblate/trans/models/subproject.py:138
 msgid "Name to display"
-msgstr "Отображать название"
+msgstr "Название для отображения"
 
 #: weblate/trans/models/componentlist.py:45 weblate/trans/models/project.py:98
 #: weblate/trans/models/subproject.py:141
 msgid "URL slug"
-msgstr "Болванка URL"
+msgstr "Описательная часть URL"
 
 #: weblate/trans/models/componentlist.py:48
 #: weblate/trans/models/subproject.py:143
@@ -6169,10 +6148,8 @@ msgid "Name used in URLs and file names."
 msgstr "Название, которое используется в URL-ах и именах файлов."
 
 #: weblate/trans/models/componentlist.py:51
-#, fuzzy
-#| msgid "Dashboard"
 msgid "Show on dashboard"
-msgstr "Доска объявлений"
+msgstr "Показывать на доске объявлений"
 
 #: weblate/trans/models/componentlist.py:55
 msgid ""
