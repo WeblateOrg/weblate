@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: Weblate 2.20\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-04-01 19:22+0000\n"
-"PO-Revision-Date: 2018-03-13 07:33+0000\n"
-"Last-Translator: Andrey <andrey@mailbox.org>\n"
+"PO-Revision-Date: 2018-04-04 13:07+0000\n"
+"Last-Translator: Igor <f2404@yandex.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
 "ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.20-dev\n"
 
 #: weblate/accounts/admin.py:109 weblate/accounts/admin.py:114
@@ -267,18 +267,15 @@ msgid "Authentication using {method} ({name}) has been removed."
 msgstr "Аутентификация с использованием {method}{name} удалена."
 
 #: weblate/accounts/models.py:69
-#, fuzzy, python-brace-format
-#| msgid "Successfully authenticated using {method} ({name})."
+#, python-brace-format
 msgid "Authenticated using {method} ({name})."
-msgstr "Успешно аутентифицировано с использованием {method} ({name})."
+msgstr "Аутентифицировано с использованием {method} ({name})."
 
 #: weblate/accounts/models.py:72
-#, fuzzy, python-brace-format
-#| msgid "Successfully authenticated using {method} ({name}) from new device."
+#, python-brace-format
 msgid "Authenticated using {method} ({name}) from new device."
 msgstr ""
-"Успешно аутентифицировано с нового устройства с использованием {method} "
-"({name})."
+"Аутентифицировано с нового устройства с использованием {method} ({name})."
 
 #: weblate/accounts/models.py:75
 msgid "Somebody has attempted to register with your email."
@@ -312,7 +309,7 @@ msgstr "Согласие с Условиями Использования {date}
 
 #: weblate/accounts/models.py:96
 msgid "To restore access to your account, please reset your password."
-msgstr ""
+msgstr "Чтобы восстановить доступ к вашей учётной записи, сбросьте пароль."
 
 #: weblate/accounts/models.py:219 weblate/templates/accounts/profile.html:310
 msgid "Account activity"
@@ -578,16 +575,12 @@ msgid "Login"
 msgstr "Логин"
 
 #: weblate/accounts/views.py:556
-#, fuzzy
-#| msgid "Manage users"
 msgid "Standard user"
-msgstr "Управление пользователями"
+msgstr "Обычный пользователь"
 
 #: weblate/accounts/views.py:557
-#, fuzzy
-#| msgid "Filtered permissions"
 msgid "User with reviewer permissions"
-msgstr "Отфильтрованные разрешения"
+msgstr "Пользователь, имеющий разрешение на редактуру"
 
 #: weblate/accounts/views.py:586 weblate/wladmin/sites.py:145
 msgid "Thanks for using Weblate!"
@@ -663,22 +656,21 @@ msgid ""
 "file formats, this means removing stale translation keys no longer present "
 "in the base file."
 msgstr ""
+"Обновить все файлы переводов до соответствия монолингвальному базовому "
+"файлу. Для большинства форматов файлов это означает удаление ключей "
+"переводов, которых больше нет в базовом файле."
 
 #: weblate/addons/example.py:42
-#, fuzzy
-#| msgid "Available addons"
 msgid "Example addon"
-msgstr "Доступные дополнения"
+msgstr "Дополнение-пример"
 
 #: weblate/addons/example.py:44
 msgid "This addon does nothing it is just an example."
-msgstr ""
+msgstr "Это дополнение ничего не делает, это просто пример."
 
 #: weblate/addons/flags.py:50
-#, fuzzy
-#| msgid "Review source strings in %s"
 msgid "Flag new source strings to need edit"
-msgstr "Обзор строк-исходников на %s"
+msgstr "Отмечать новые строки-исходники как требующие редактуры"
 
 #: weblate/addons/flags.py:52
 msgid ""
@@ -686,12 +678,13 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
+"Когда новая строка-исходник импортируется из VCS, она помечается как "
+"требующая редактуры в Weblate. Таким образом, вы можете легко находить и "
+"редактировать строки, добавленные разработчиками."
 
 #: weblate/addons/flags.py:64
-#, fuzzy
-#| msgid "Add as translation needing edit"
 msgid "Flag new translations to need edit"
-msgstr "Добавить перевод как требующий редактуры"
+msgstr "Отмечать новые переводы как требующие редактуры"
 
 #: weblate/addons/flags.py:66
 msgid ""
@@ -699,32 +692,35 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
+"Когда новая строка перевода импортируется из VCS, она помечается как "
+"требующая редактуры в Weblate. Таким образом, вы можете легко находить и "
+"редактировать строки перевода, добавленные разработчиками."
 
 #: weblate/addons/forms.py:44
-#, fuzzy
-#| msgid "Failed to generate key: %s"
 msgid "Name of generated file"
-msgstr "Не удалось создать ключ %s"
+msgstr "Имя сгенерированного файла"
 
 #: weblate/addons/forms.py:49
 msgid "Content of generated file"
-msgstr ""
+msgstr "Содержимое сгенерированного файла"
 
 #: weblate/addons/forms.py:77
 msgid "Long lines wrapping"
-msgstr ""
+msgstr "Перенос длинных строк"
 
 #: weblate/addons/forms.py:79
 msgid "Wrap lines at 77 chars and at newlines (default gettext behavior)"
 msgstr ""
+"Переносить строки после 77го символа и на новых строках (поведение gettext "
+"по умолчанию)"
 
 #: weblate/addons/forms.py:80
 msgid "Only wrap lines at newlines (gettext behavior with --no-wrap)"
-msgstr ""
+msgstr "Переносить только на новых строках (поведение gettext --no-wrap)"
 
 #: weblate/addons/forms.py:81
 msgid "No line wrapping"
-msgstr ""
+msgstr "Не переносить строки"
 
 #: weblate/addons/forms.py:90
 #, fuzzy
@@ -766,7 +762,7 @@ msgstr "Автоматически генерирует mo-файл для ка�
 
 #: weblate/addons/gettext.py:72
 msgid "Update LINGUAS file"
-msgstr ""
+msgstr "Обновлять файл LINGUAS"
 
 #: weblate/addons/gettext.py:74
 #, fuzzy
@@ -776,17 +772,19 @@ msgstr "Сделать слияние содержимого заголовка 
 
 #: weblate/addons/gettext.py:127
 msgid "Update ALL_LINGUAS variable in the configure file"
-msgstr ""
+msgstr "Обновлять переменную ALL_LINGUAS в файле configure"
 
 #: weblate/addons/gettext.py:129
 msgid ""
 "Updates the ALL_LINGUAS variable in configure, configure.in or configure.ac "
 "files when adding new translation."
 msgstr ""
+"Обновляет переменную ALL_LINGUAS в файлах configure, configure.in или "
+"configure.ac при добавлении нового перевода."
 
 #: weblate/addons/gettext.py:187
 msgid "Update po files to match pot (msgmerge)"
-msgstr ""
+msgstr "Обновлять файлы po до соответствия с pot (msgmerge)"
 
 #: weblate/addons/gettext.py:189
 msgid ""
