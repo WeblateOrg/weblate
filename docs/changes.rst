@@ -4,7 +4,7 @@ Changes
 weblate 2.20
 ------------
 
-Released on ? 2018.
+Released on April 4th 2018.
 
 * Improved speed of cloning subversion repositories.
 * Changed repository locking to use third party library.
