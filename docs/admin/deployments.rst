@@ -344,6 +344,10 @@ Generic settings
 Machine translation settings
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+.. envvar:: WEBLATE_MT_DEEPL_KEY
+
+    Enables DeepL machine translation and sets :setting:`MT_DEEPL_KEY`
+
 .. envvar:: WEBLATE_MT_GOOGLE_KEY
 
     Enables Google machine translation and sets :setting:`MT_GOOGLE_KEY`
