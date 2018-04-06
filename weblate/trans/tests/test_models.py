@@ -230,7 +230,9 @@ class TranslationTest(RepoTestCase):
             unit.translate(request, 'test', STATE_TRANSLATED)
             if i == 0:
                 # First edit should trigger commit
-                self.assertNotEqual(start_rev, project.repository.last_revision)
+                self.assertNotEqual(
+                    start_rev, project.repository.last_revision
+                )
                 start_rev = project.repository.last_revision
 
         # No further commit now

@@ -20,10 +20,9 @@
 
 from __future__ import unicode_literals
 
-import argparse
 import json
 
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 
 from weblate.memory.storage import TranslationMemory
 
