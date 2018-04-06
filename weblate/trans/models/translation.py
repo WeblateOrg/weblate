@@ -433,7 +433,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 except IndexError:
                     break
                 # Can not use get as there can be more with same timestamp
-                change = unit.change_set.filter(
+                change = unit.change_set.content().filter(
                     timestamp=unit.change__timestamp__max
                 )[0]
 

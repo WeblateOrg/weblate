@@ -206,17 +206,39 @@ class TranslationTest(RepoTestCase):
         translation = project.translation_set.get(language_code='cs')
         request = HttpRequest()
         request.user = create_test_user()
+        start_rev = project.repository.last_revision
+        # Initial translation
         for unit in translation.unit_set.all():
             unit.translate(request, 'test2', STATE_TRANSLATED)
+        # Translation completed, commit forced
+        self.assertNotEqual(start_rev, project.repository.last_revision)
+        start_rev = project.repository.last_revision
+        # Translation from same author should not trigger commit
         for unit in translation.unit_set.all():
+            unit.translate(request, 'test3', STATE_TRANSLATED)
+        for unit in translation.unit_set.all():
+            unit.translate(request, 'test4', STATE_TRANSLATED)
+        self.assertEqual(start_rev, project.repository.last_revision)
+        # Translation from other author should trigger commmit
+        for i, unit in enumerate(translation.unit_set.all()):
             request.user = User.objects.create(
                 first_name='User {}'.format(unit.pk),
                 username='user-{}'.format(unit.pk),
                 email='{}@example.com'.format(unit.pk)
             )
+            unit.refresh_from_db()
             unit.translate(request, 'test', STATE_TRANSLATED)
+            if i == 0:
+                # First edit should trigger commit
+                self.assertNotEqual(start_rev, project.repository.last_revision)
+                start_rev = project.repository.last_revision
 
+        # No further commit now
+        self.assertEqual(start_rev, project.repository.last_revision)
+
+        # Commit pending changes
         translation.commit_pending(None)
+        self.assertNotEqual(start_rev, project.repository.last_revision)
 
 
 class ComponentListTest(RepoTestCase):

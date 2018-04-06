@@ -607,7 +607,9 @@ class Unit(models.Model, LoggerMixin):
 
         # Commit possible previous changes on this unit
         if self.pending:
-            self.translation.commit_pending(request)
+            change = self.change_set.content().order_by('-timestamp')[0]
+            if change.author_id != request.user.id:
+                self.translation.commit_pending(request)
 
         # Return if there was no change
         # We have to explicitly check for fuzzy flag change on monolingual
