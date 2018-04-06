@@ -250,9 +250,11 @@ group, see :ref:`privileges`).
 The changes are in this mode committed once any of following conditions is
 fulfilled:
 
-* somebody else works on the translation
+* somebody else changes already changed string
 * a merge from upstream occurs
 * import of translation happens
+* mass state change is performed
+* search and replace is executed
 * translation for a language is completed
 * explicit commit is requested
 
