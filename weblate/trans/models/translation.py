@@ -416,32 +416,36 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
     def commit_pending(self, request, skip_push=False):
         """Commit any pending changes."""
-        while True:
-            # Find oldest change break loop if there is none left
-            try:
-                unit = self.unit_set.filter(
-                    pending=True
-                ).annotate(
-                    Max('change__timestamp')
-                ).order_by(
-                    'change__timestamp__max'
+        if not self.unit_set.filter(pending=True).exists():
+            return
+
+        with self.subproject.repository.lock:
+            while True:
+                # Find oldest change break loop if there is none left
+                try:
+                    unit = self.unit_set.filter(
+                        pending=True
+                    ).annotate(
+                        Max('change__timestamp')
+                    ).order_by(
+                        'change__timestamp__max'
+                    )[0]
+                except IndexError:
+                    break
+                # Can not use get as there can be more with same timestamp
+                change = unit.change_set.filter(
+                    timestamp=unit.change__timestamp__max
                 )[0]
-            except IndexError:
-                break
-            # Can not use get as there can be more with same timestamp
-            change = unit.change_set.filter(
-                timestamp=unit.change__timestamp__max
-            )[0]
 
-            author_name = get_author_name(change.author)
+                author_name = get_author_name(change.author)
 
-            # Flush pending units for this author
-            self.update_units(author_name, change.author.id)
+                # Flush pending units for this author
+                self.update_units(author_name, change.author.id)
 
-            # Commit changes
-            self.git_commit(
-                request, author_name, change.timestamp, skip_push=skip_push
-            )
+                # Commit changes
+                self.git_commit(
+                    request, author_name, change.timestamp, skip_push=skip_push
+                )
         return True
 
     def get_commit_message(self):
