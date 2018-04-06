@@ -321,6 +321,17 @@ The following subdirectories usually exist:
 :file:`whoosh`
     Fulltext search index using Whoosh engine.
 
+.. note::
+
+    This directory has to be writable by Weblate. If you are running Weblate as
+    uwsgi this means that it should be writable by the ``www-data`` user.
+
+    The easiest way to achieve is to make the user own the directory:
+
+    .. code-block:: sh
+
+        sudo chown www-data:www-data -R $DATA_DIR
+
 Defaults to ``$BASE_DIR/data``.
 
 .. seealso::
