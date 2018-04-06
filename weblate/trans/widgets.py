@@ -390,8 +390,8 @@ class SVGBadgeWidget(SVGWidget):
                 'percent_width': percent_width,
                 'width': translated_width + percent_width,
                 'color': color,
-                'translated_offset': translated_width / 2,
-                'percent_offset': translated_width + percent_width / 2,
+                'translated_offset': translated_width // 2,
+                'percent_offset': translated_width + percent_width // 2,
                 'lang': get_language(),
             }
         )
