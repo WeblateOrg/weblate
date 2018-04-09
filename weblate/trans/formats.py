@@ -534,13 +534,13 @@ class PHPUnit(FileUnit):
 
     def get_source(self):
         if self.template is not None:
-            return self.template.getsource()
+            return self.template.source
         return self.unit.getid()
 
     def get_target(self):
         if self.unit is None:
             return ''
-        return self.unit.getsource()
+        return self.unit.source
 
 
 class FileFormat(object):
