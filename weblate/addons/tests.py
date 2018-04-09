@@ -33,6 +33,7 @@ from weblate.trans.tests.test_views import ViewTestCase, FixtureTestCase
 
 from weblate.addons.base import TestAddon
 from weblate.addons.cleanup import CleanupAddon
+from weblate.addons.discovery import DiscoveryAddon
 from weblate.addons.example import ExampleAddon
 from weblate.addons.flags import SourceEditAddon, TargetEditAddon
 from weblate.addons.generate import GenerateFileAddon
@@ -378,3 +379,68 @@ class CommandTest(TestCase):
         output = StringIO()
         call_command('list_addons', stdout=output)
         self.assertIn('msgmerge', output.getvalue())
+
+
+class DiscoveryTest(ViewTestCase):
+    def test_creation(self):
+        addon = DiscoveryAddon.create(
+            self.subproject,
+            configuration={
+                'file_format': 'po',
+                'match': r'(?P<component>[^/]*)/(?P<language>[^/]*)\.po',
+                'name_template': '{{ component|title }}',
+                'language_regex': '^(?!xx).*$',
+                'base_file_template': '',
+                'remove': True,
+            },
+        )
+        self.assertEqual(self.subproject.get_linked_childs().count(), 0)
+        addon.perform()
+        self.assertEqual(self.subproject.get_linked_childs().count(), 2)
+
+    def test_form(self):
+        self.user.is_superuser = True
+        self.user.save()
+        # Missing params
+        response = self.client.post(
+            reverse('addons', kwargs=self.kw_subproject),
+            {
+                'name': 'weblate.discovery.discovery',
+                'form': '1',
+            },
+            follow=True
+        )
+        self.assertNotContains(response, 'Please review and confirm')
+        # Correct params for confirmation
+        response = self.client.post(
+            reverse('addons', kwargs=self.kw_subproject),
+            {
+                'name': 'weblate.discovery.discovery',
+                'form': '1',
+                'file_format': 'auto',
+                'match': r'(?P<component>[^/]*)/(?P<language>[^/]*)\.po',
+                'name_template': '{{ component|title }}',
+                'language_regex': '^(?!xx).*$',
+                'base_file_template': '',
+                'remove': True,
+            },
+            follow=True
+        )
+        self.assertContains(response, 'Please review and confirm')
+        # Confirmation
+        response = self.client.post(
+            reverse('addons', kwargs=self.kw_subproject),
+            {
+                'name': 'weblate.discovery.discovery',
+                'form': '1',
+                'match': r'(?P<component>[^/]*)/(?P<language>[^/]*)\.po',
+                'file_format': 'auto',
+                'name_template': '{{ component|title }}',
+                'language_regex': '^(?!xx).*$',
+                'base_file_template': '',
+                'remove': True,
+                'confirm': True,
+            },
+            follow=True
+        )
+        self.assertContains(response, '1 addon installed')

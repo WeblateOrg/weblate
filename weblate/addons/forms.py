@@ -22,11 +22,17 @@ from __future__ import unicode_literals
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, Div
+from crispy_forms.utils import TEMPLATE_PACK
 
 from django import forms
+from django.http import QueryDict
+from django.template.loader import render_to_string
+from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
-from weblate.utils.validators import validate_render
+from weblate.trans.discovery import ComponentDiscovery
+from weblate.trans.formats import FILE_FORMAT_CHOICES
+from weblate.utils.validators import validate_render, validate_re
 
 
 class BaseAddonForm(forms.Form):
@@ -96,3 +102,137 @@ class JSONCustomizeForm(BaseAddonForm):
         initial=4,
         required=True,
     )
+
+
+class ContextDiv(Div):
+    def __init__(self, *fields, **kwargs):
+        self.context = kwargs.pop('context', {})
+        super(ContextDiv, self).__init__(*fields, **kwargs)
+
+    def render(self, form, form_style, context, template_pack=TEMPLATE_PACK,
+               **kwargs):
+        template = self.get_template_name(template_pack)
+        return render_to_string(template, self.context)
+
+
+class DiscoveryForm(BaseAddonForm):
+    match = forms.CharField(
+        label=_('Regular expression to match translation files'),
+        required=True,
+    )
+    file_format = forms.ChoiceField(
+        label=_('File format'),
+        choices=FILE_FORMAT_CHOICES,
+        initial='auto',
+        required=True,
+        help_text=_(
+            'Automatic detection might fail for some formats '
+            'and is slightly slower.'
+        ),
+    )
+    name_template = forms.CharField(
+        label=_('Customise the component name'),
+        initial='{{ component }}',
+        required=True,
+    )
+    base_file_template = forms.CharField(
+        label=_('Define the monolingual base filename'),
+        initial='',
+        required=False,
+        help_text=_('Keep empty for bilingual translation files.'),
+    )
+    language_regex = forms.CharField(
+        label=_('Language filter'),
+        max_length=200,
+        initial='^[^.]+$',
+        validators=[validate_re],
+        help_text=_(
+            'Regular expression which is used to filter '
+            'translation when scanning for file mask.'
+        ),
+    )
+    remove = forms.BooleanField(
+        label=_('Remove components for non existing files'),
+        required=False
+    )
+    confirm = forms.BooleanField(
+        label=_('I confirm that the above matches look correct'),
+        required=False
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(DiscoveryForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Field('match'),
+            Field('file_format'),
+            Field('name_template'),
+            Field('base_file_template'),
+            Field('language_regex'),
+            Field('remove'),
+            Div(template='addons/discovery_help.html'),
+        )
+        if self.is_bound:
+            # Perform form validation
+            self.full_clean()
+            # Show preview if form was submitted
+            if self.cleaned_data['preview']:
+                self.helper.layout.insert(
+                    0,
+                    Field('confirm'),
+                )
+                created, matched, deleted = self.discovery.perform(
+                    preview=True,
+                    remove=self.cleaned_data['remove'],
+                )
+                self.helper.layout.insert(
+                    0,
+                    ContextDiv(
+                        template='addons/discovery_preview.html',
+                        context={
+                            'matches_created': created,
+                            'matches_matched': matched,
+                            'matches_deleted': deleted,
+                        }
+                    ),
+                )
+
+    @cached_property
+    def discovery(self):
+        return ComponentDiscovery(
+            self._addon.instance.component,
+            self.cleaned_data['match'],
+            self.cleaned_data['name_template'],
+            self.cleaned_data['language_regex'],
+            self.cleaned_data['base_file_template'],
+        )
+
+    def clean(self):
+        self.cleaned_data['preview'] = False
+
+        # There are some other errors or the form was loaded from db
+        if self.errors or not isinstance(self.data, QueryDict):
+            return
+
+        self.cleaned_data['preview'] = True
+        if not self.cleaned_data['confirm']:
+            raise forms.ValidationError(
+                _('Please review and confirm matched components.')
+            )
+
+    def clean_match(self):
+        match = self.cleaned_data['match']
+        validate_re(match, ('component', 'language'))
+        return match
+
+    @staticmethod
+    def test_render(value):
+        validate_render(value, component='test')
+
+    def clean_name_template(self):
+        self.test_render(self.cleaned_data['name_template'])
+        return self.cleaned_data['name_template']
+
+    def clean_base_file_template(self):
+        self.test_render(self.cleaned_data['base_file_template'])
+        return self.cleaned_data['base_file_template']
