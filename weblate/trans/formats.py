@@ -353,7 +353,7 @@ class FileUnit(object):
         """Set translation unit target."""
         if isinstance(target, list):
             target = multistring(target)
-        self.unit.settarget(target)
+        self.unit.target = target
         # Propagate to value so that is_translated works correctly
         if self.is_unit_key_value(self.unit):
             self.unit.value = self.unit.translation
@@ -882,9 +882,9 @@ class FileFormat(object):
                 else:
                     unit.markfuzzy(fuzzy)
                 if unit.hasplural():
-                    unit.settarget([''] * plural.number)
+                    unit.target = [''] * plural.number
                 else:
-                    unit.settarget('')
+                    unit.target = ''
 
     def create_unit(self, key, source):
         unit = self.store.UnitClass(source)
