@@ -102,8 +102,6 @@ class LoggerMixin(object):
 
 class PathMixin(LoggerMixin):
     """Mixin for path manipulations."""
-    _dir_path = None
-
     def _get_path(self):
         """Actual calculation of path."""
         raise NotImplementedError()
