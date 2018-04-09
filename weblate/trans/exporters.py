@@ -61,7 +61,6 @@ class BaseExporter(object):
     content_type = 'text/plain'
     extension = 'txt'
     name = ''
-    has_lang = False
     set_id = False
 
     def __init__(self, project=None, language=None, url=None,
@@ -96,13 +95,13 @@ class BaseExporter(object):
     def get_storage(self):
         raise NotImplementedError()
 
+    def add(self, unit, word):
+        unit.target = word
+
     def add_dictionary(self, word):
         """Add dictionary word"""
         unit = self.storage.UnitClass(self.string_filter(word.source))
-        if self.has_lang:
-            unit.settarget(self.string_filter(word.target), self.language.code)
-        else:
-            unit.target = self.string_filter(word.target)
+        self.add(unit, self.string_filter(word.target))
         self.storage.addunit(unit)
 
     def add_units(self, units):
@@ -113,13 +112,7 @@ class BaseExporter(object):
         output = self.storage.UnitClass(
             self.handle_plurals(unit.get_source_plurals())
         )
-        if self.has_lang:
-            output.settarget(
-                self.handle_plurals(unit.get_target_plurals()),
-                self.language.code
-            )
-        else:
-            output.target = self.handle_plurals(unit.get_target_plurals())
+        self.add(output, self.handle_plurals(unit.get_target_plurals()))
         context = self.string_filter(unit.context)
         if context:
             output.setcontext(context)
@@ -170,7 +163,6 @@ class PoExporter(BaseExporter):
     name = 'po'
     content_type = 'text/x-po'
     extension = 'po'
-    has_lang = False
 
     def get_storage(self):
         store = pofile()
@@ -204,13 +196,15 @@ class XMLExporter(BaseExporter):
     def get_storage(self):
         raise NotImplementedError()
 
+    def add(self, unit, word):
+        unit.settarget(word, self.language.code)
+
 
 @register_exporter
 class PoXliffExporter(XMLExporter):
     name = 'xliff'
     content_type = 'application/x-xliff+xml'
     extension = 'xlf'
-    has_lang = True
     set_id = True
 
     def get_storage(self):
@@ -222,7 +216,6 @@ class XliffExporter(XMLExporter):
     name = 'xliff11'
     content_type = 'application/x-xliff+xml'
     extension = 'xlf'
-    has_lang = True
     set_id = True
 
     def get_storage(self):
@@ -234,7 +227,6 @@ class TBXExporter(XMLExporter):
     name = 'tbx'
     content_type = 'application/x-tbx'
     extension = 'tbx'
-    has_lang = True
 
     def get_storage(self):
         return tbxfile()
@@ -245,7 +237,6 @@ class TMXExporter(XMLExporter):
     name = 'tmx'
     content_type = 'application/x-tmx'
     extension = 'tmx'
-    has_lang = True
 
     def get_storage(self):
         return tmxfile()
@@ -256,7 +247,6 @@ class MoExporter(BaseExporter):
     name = 'mo'
     content_type = 'application/x-gettext-catalog'
     extension = 'mo'
-    has_lang = False
 
     def get_storage(self):
         store = mofile()
@@ -289,7 +279,6 @@ class CSVExporter(BaseExporter):
     name = 'csv'
     content_type = 'text/csv'
     extension = 'csv'
-    has_lang = False
 
     def get_storage(self):
         return csvfile(fieldnames=self.fieldnames)
