@@ -20,6 +20,12 @@ Update all translation files to match the monolingual base file. For most file
 formats, this means removing stale translation keys no longer present in the
 base file.
 
+Component discovery
+-------------------
+
+This addon automatically adds or removes components to the project based on
+file changes in the version control system.
+
 Flag new source strings to need edit
 ------------------------------------
 
@@ -37,7 +43,8 @@ translations created by the developers.
 Statistics generator
 --------------------
 
-This addon generates file with detailed information about the translation.
+This addon generates a file containing detailed information about the
+translation.
 
 Update ALL_LINGUAS variable in the configure file
 -------------------------------------------------
@@ -45,26 +52,26 @@ Update ALL_LINGUAS variable in the configure file
 Updates the ALL_LINGUAS variable in configure, configure.in or configure.ac
 files when adding new translation.
 
-Customize Gettext output
+Customize gettext output
 ------------------------
 
-Allows to customize Gettext output behavior, for example line wrapping.
+Allows customization of gettext output behavior, for example line wrapping.
 
 Update LINGUAS file
 -------------------
 
 Updates the LINGUAS file when adding new translation.
 
-Generate mo files
+Generate MO files
 -----------------
 
-Automatically generates mo file for every changed po file.
+Automatically generates MO file for every changed PO file.
 
 Update po files to match pot (msgmerge)
 ---------------------------------------
 
-Update all po files to match the pot file using msgmerge. This is triggered
-whenever new changes are pulled from upstream repository.
+Update all PO files to match the POT file using msgmerge. This is triggered
+whenever new changes are pulled from the upstream repository.
 
 Customize JSON output
 ---------------------

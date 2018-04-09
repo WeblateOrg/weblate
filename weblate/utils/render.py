@@ -34,9 +34,10 @@ class RestrictedEngine(Engine):
         super(RestrictedEngine, self).__init__(*args, **kwargs)
 
 
-def render_template(template, translation=None):
+def render_template(template, translation=None, **kwargs):
     """Helper class to render string template with context."""
     context = {}
+    context.update(kwargs)
     if translation is not None:
         translation.stats.ensure_basic()
         context['project_name'] = translation.subproject.project.name

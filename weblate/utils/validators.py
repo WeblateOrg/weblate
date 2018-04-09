@@ -71,11 +71,24 @@ FORBIDDEN_EXTENSIONS = frozenset((
 ))
 
 
-def validate_re(value):
+def validate_re(value, groups=None):
     try:
-        re.compile(value)
+        compiled = re.compile(value)
     except re.error as error:
         raise ValidationError(_('Failed to compile: {0}').format(error))
+    if not groups:
+        return
+    for group in groups:
+        if group not in compiled.groupindex:
+            raise ValidationError(
+                _(
+                    'Regular expression is missing named group "{0}", '
+                    'the simplest way to define it is {1}.'
+                ).format(
+                    group,
+                    '(?P<{}>.*)'.format(group)
+                )
+            )
 
 
 def validate_bitmap(value):
