@@ -1,6 +1,11 @@
 Changes
 =======
 
+weblate 3.0
+------------
+
+Released on ? 2018.
+
 weblate 2.20
 ------------
 
