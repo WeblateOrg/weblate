@@ -860,7 +860,7 @@ $(function () {
                 let key = getNumericKey(idx);
 
                 $(this).find('.highlight-number').html(
-                    ' <span class="badge kbd-badge" title="' +
+                    '<span class="badge kbd-badge" title="' +
                     interpolate(gettext('Ctrl/Command+%s'), [key]) +
                     '">' +
                     key +
