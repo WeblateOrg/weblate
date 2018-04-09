@@ -96,6 +96,8 @@ akismet (>= 1.0) (optional for suggestion spam protection)
     https://github.com/ubernostrum/akismet
 PyYAML (>= 3.0) (optional for :ref:`yaml`)
     https://pyyaml.org/
+openpyxl (>=2.5.0) (for XLSX export/import)
+    https://openpyxl.readthedocs.io/en/stable/
 
 Other system requirements
 +++++++++++++++++++++++++
