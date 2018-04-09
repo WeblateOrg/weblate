@@ -24,8 +24,13 @@ import csv
 import os
 import traceback
 import re
-from io import BytesIO
-from zipfile import BadZipfile
+
+try:
+    # python 3 exception
+    from zipfile import BadZipFile
+except ImportError:
+    # python 2 exception
+    from zipfile import BadZipfile as BadZipFile
 
 import six
 from django.utils.translation import ugettext_lazy as _
@@ -158,7 +163,7 @@ class XlsxFormat(ExternalFileFormat):
             row += 1
 
     def create_xlsx(self):
-        output = BytesIO()
+        output = six.BytesIO()
         self.workbook.save(output)
         return output.getvalue()
 
@@ -167,12 +172,16 @@ class XlsxFormat(ExternalFileFormat):
         # try to load the given file via openpyxl
         # catch at least the BadZipFile exception if an unsupported file has been given
         try:
-            workbook = load_workbook(filename=BytesIO(content))
+            workbook = load_workbook(filename=six.BytesIO(content))
             worksheet = workbook.active
-        except BadZipfile:
+        except BadZipFile:
             return None, None
 
-        output = BytesIO()
+        if six.PY3:
+            output = six.StringIO()
+        else:
+            output = six.BytesIO()
+
         writer = csv.writer(output)
 
         for row in worksheet.rows:
@@ -181,7 +190,12 @@ class XlsxFormat(ExternalFileFormat):
         name = os.path.basename(filename) + ".csv"
 
         # return the new csv as bytes
-        return name, output.getvalue()
+        content = output.getvalue()
+
+        if six.PY3:
+            content = content.encode("utf-8")
+
+        return name, content
 
     @staticmethod
     def encode(value):
