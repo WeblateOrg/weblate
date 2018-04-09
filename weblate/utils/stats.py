@@ -342,6 +342,8 @@ class ComponentStats(LanguageStats):
     def invalidate(self, language=None):
         super(ComponentStats, self).invalidate()
         self._object.project.stats.invalidate(language=language)
+        for clist in self._object.componentlist_set.all():
+            clist.stats.invalidate()
 
     def get_language_stats(self):
         for translation in self.translation_set:
@@ -403,6 +405,35 @@ class ProjectStats(BaseStats):
         for language in self._object.get_languages():
             result.append(self.get_single_language_stats(language))
         return prefetch_stats(result)
+
+    def prefetch_basic(self):
+        stats = {item: 0 for item in self.basic_keys}
+        for component in self.subproject_set:
+            stats_obj = component.stats
+            stats_obj.ensure_basic()
+            for item in self.basic_keys:
+                stats[item] += getattr(stats_obj, item)
+
+        for key, value in stats.items():
+            self.store(key, value)
+
+        # Calculate percents
+        self.calculate_basic_percents()
+
+    def calculate_item(self, item):
+        """Calculate stats for translation."""
+        result = 0
+        for component in self.subproject_set:
+            result += getattr(component.stats, item)
+        self.store(item, result)
+
+
+class ComponentListStats(BaseStats):
+    basic_keys = SOURCE_KEYS
+
+    @cached_property
+    def subproject_set(self):
+        return prefetch_stats(self._object.components.all())
 
     def prefetch_basic(self):
         stats = {item: 0 for item in self.basic_keys}

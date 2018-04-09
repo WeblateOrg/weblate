@@ -46,6 +46,7 @@ TOKEN_EXPIRY = timedelta(minutes=9)
 class MicrosoftTranslation(MachineTranslation):
     """Microsoft Translator machine translation support."""
     name = 'Microsoft Translator'
+    max_score = 90
 
     def __init__(self):
         """Check configuration."""
@@ -136,7 +137,7 @@ class MicrosoftTranslation(MachineTranslation):
             'category': 'general',
         }
         response = self.json_req(TRANSLATE_URL, **args)
-        return [(response, 100, self.name, text)]
+        return [(response, self.max_score, self.name, text)]
 
 
 class MicrosoftCognitiveTranslation(MicrosoftTranslation):

@@ -49,7 +49,7 @@ from weblate.trans.views.helper import (
 )
 from weblate.trans.checks import CHECKS
 from weblate.trans.util import join_plural, render, redirect_next
-from weblate.trans.autotranslate import auto_translate
+from weblate.trans.autotranslate import AutoTranslate
 from weblate.permissions.helpers import (
     can_translate, can_suggest, can_accept_suggestion, can_delete_suggestion,
     can_vote_suggestion, can_delete_comment, can_automatic_translation,
@@ -320,7 +320,7 @@ def handle_translate(translation, request, this_unit_url, next_unit_url):
         message = request.POST.get('commit_message')
         if message is not None and message != unit.translation.commit_message:
             # Commit pending changes so that they don't get new message
-            unit.translation.commit_pending(request, request.user)
+            unit.translation.commit_pending(request)
             # Store new commit message
             unit.translation.commit_message = message
             unit.translation.save()
@@ -608,23 +608,33 @@ def auto_translation(request, project, subproject, lang):
 
     if translation.subproject.locked or not autoform.is_valid():
         messages.error(request, _('Failed to process form!'))
+        show_form_errors(request, autoform)
         return redirect(translation)
 
-    updated = auto_translate(
+    auto = AutoTranslate(
         request.user,
         translation,
-        autoform.cleaned_data['subproject'],
-        autoform.cleaned_data['inconsistent'],
-        autoform.cleaned_data['overwrite']
+        autoform.cleaned_data['type'],
+        request=request
     )
 
+    if autoform.cleaned_data['auto_source'] == 'mt':
+        auto.process_mt(
+            autoform.cleaned_data['engines'],
+            autoform.cleaned_data['threshold'],
+        )
+    else:
+        auto.process_others(
+            autoform.cleaned_data['subproject'],
+        )
+
     import_message(
-        request, updated,
+        request, auto.updated,
         _('Automatic translation completed, no strings were updated.'),
         ungettext(
             'Automatic translation completed, %d string was updated.',
             'Automatic translation completed, %d strings were updated.',
-            updated
+            auto.updated
         )
     )
 
@@ -826,12 +836,12 @@ def new_unit(request, project, subproject, lang):
     if not can_add_unit(request.user, translation):
         raise PermissionDenied()
 
-    form = NewUnitForm(request.POST)
+    form = NewUnitForm(request.user, request.POST)
     if not form.is_valid():
         show_form_errors(request, form)
     else:
         key = form.cleaned_data['key']
-        value = form.cleaned_data['value']
+        value = form.cleaned_data['value'][0]
 
         if translation.unit_set.filter(context=key).exists():
             messages.error(

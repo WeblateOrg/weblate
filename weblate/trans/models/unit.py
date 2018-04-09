@@ -34,7 +34,6 @@ from django.utils.translation import ugettext as _
 
 import six
 
-from weblate.accounts.models import get_author_name
 from weblate.permissions.helpers import can_translate
 from weblate.trans.checks import CHECKS
 from weblate.trans.models.source import Source
@@ -54,6 +53,7 @@ from weblate.trans.util import (
 from weblate.utils.hash import calculate_hash, hash_to_checksum
 from weblate.utils.state import (
     STATE_TRANSLATED, STATE_FUZZY, STATE_APPROVED, STATE_EMPTY,
+    STATE_CHOICES
 )
 
 SIMPLE_FILTERS = {
@@ -369,12 +369,7 @@ class Unit(models.Model, LoggerMixin):
     state = models.IntegerField(
         default=STATE_EMPTY,
         db_index=True,
-        choices=(
-            (STATE_EMPTY, 'Empty'),
-            (STATE_FUZZY, 'Needs editing'),
-            (STATE_TRANSLATED, 'Translated'),
-            (STATE_APPROVED, 'Approved'),
-        )
+        choices=STATE_CHOICES,
     )
 
     position = models.IntegerField()
@@ -610,8 +605,11 @@ class Unit(models.Model, LoggerMixin):
         if user is None or user.is_anonymous:
             user = request.user
 
-        # Commit possible previous changes by other author
-        self.translation.commit_pending(request, get_author_name(user))
+        # Commit possible previous changes on this unit
+        if self.pending:
+            change = self.change_set.content().order_by('-timestamp')[0]
+            if change.author_id != request.user.id:
+                self.translation.commit_pending(request)
 
         # Return if there was no change
         # We have to explicitly check for fuzzy flag change on monolingual
@@ -644,18 +642,18 @@ class Unit(models.Model, LoggerMixin):
         # Save updated unit to database
         self.save(backend=True)
 
-        # Update translation stats
         old_translated = self.translation.stats.translated
-        if change_action != Change.ACTION_UPLOAD:
+
+        if change_action not in (Change.ACTION_UPLOAD, Change.ACTION_AUTO):
+            # Update translation stats
             self.translation.invalidate_cache()
-            self.translation.store_hash()
+
+            # Update user stats
+            user.profile.translated += 1
+            user.profile.save()
 
         # Notify subscribed users about new translation
         notify_new_translation(self, self.old_unit, user)
-
-        # Update user stats
-        user.profile.translated += 1
-        user.profile.save()
 
         # Generate Change object for this change
         if gen_change:
@@ -1100,6 +1098,8 @@ class Unit(models.Model, LoggerMixin):
 
     def get_max_length(self):
         """Returns maximal translation length."""
+        if not self.pk:
+            return 10000
         for flag in self.all_flags:
             if flag.startswith('max-length:'):
                 try:

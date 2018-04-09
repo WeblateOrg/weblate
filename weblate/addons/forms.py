@@ -70,3 +70,29 @@ class GenerateForm(BaseAddonForm):
     def clean_template(self):
         self.test_render(self.cleaned_data['template'])
         return self.cleaned_data['template']
+
+
+class GettextCustomizeForm(BaseAddonForm):
+    width = forms.ChoiceField(
+        label=_('Long lines wrapping'),
+        choices=[
+            (77, _('Wrap lines at 77 chars and at newlines (default gettext behavior)')),
+            (65535, _('Only wrap lines at newlines (gettext behavior with --no-wrap)')),
+            (-1, _('No line wrapping')),
+        ],
+        required=True,
+        initial=77,
+    )
+
+
+class JSONCustomizeForm(BaseAddonForm):
+    sort_keys = forms.BooleanField(
+        label=_('Sort JSON keys'),
+        required=False
+    )
+    indent = forms.IntegerField(
+        label=_('JSON indentation'),
+        min_value=0,
+        initial=4,
+        required=True,
+    )

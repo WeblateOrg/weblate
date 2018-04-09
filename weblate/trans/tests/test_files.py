@@ -306,11 +306,6 @@ class ImportPHPMonoTest(ImportTest):
         # Does not make sense here
         raise SkipTest('Fuzzy flag not supported on PHP format')
 
-    def test_import_xliff(self):
-        if not self.get_translation().store.using_phplexer:
-            raise SkipTest('Not supported on this translate-toolkit version')
-        super(ImportPHPMonoTest, self).test_import_xliff()
-
 
 class StringsImportTest(ImportTest):
     """Testing of mo file imports."""

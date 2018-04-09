@@ -29,6 +29,10 @@ class RestrictedEngine(Engine):
         'django.template.defaultfilters',
     ]
 
+    def __init__(self, *args, **kwargs):
+        kwargs['autoescape'] = False
+        super(RestrictedEngine, self).__init__(*args, **kwargs)
+
 
 def render_template(template, translation=None):
     """Helper class to render string template with context."""
@@ -44,7 +48,7 @@ def render_template(template, translation=None):
         context['stats'] = translation.stats.get_data()
     return Template(
         template,
-        engine=RestrictedEngine(autoescape=False),
+        engine=RestrictedEngine(),
     ).render(
         Context(context),
     )

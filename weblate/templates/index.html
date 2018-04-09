@@ -24,6 +24,9 @@
 <li {% active_link "your-subscriptions" %}><a href="#your-subscriptions" data-toggle="tab">{% trans "Watched translations" %} <span class="badge">{{ usersubscriptions|length }}</span></a></li>
 <li {% active_link "your-languages" %}><a href="#your-languages" data-toggle="tab">{% trans "Your languages" %} <span class="badge">{{ userlanguages|length }}</span></a></li>
 {% endif %}
+{% if all_componentlists %}
+<li {% active_link "componentlists" %}><a href="#componentlists" data-toggle="tab">{% trans "Component lists" %} <span class="badge">{{ all_componentlists|length }}</span></a></li>
+{% endif %}
 <li {% active_link "suggestions" %}><a href="#suggestions" data-toggle="tab">{% trans "Suggested translations" %} <span class="badge">{{ suggestions|length }}</span></a></li>
 {% for componentlist in componentlists %}
 <li {% active_link componentlist.tab_slug %}><a href="#{{ componentlist.tab_slug }}" data-toggle="tab">{{ componentlist.name }} <span class="badge">{{ componentlist.translations|length }}</span></a></li>
@@ -82,6 +85,13 @@
 <p><a class="btn btn-default" href="{% url 'profile' %}#languages">{% trans "Manage your languages" %}</a></p>
 </div>
 {% endif %} {# user.is_authenticated #}
+
+{% if all_componentlists %}
+<div {% active_tab "componentlists" %}>
+{% include "list-translations.html" with translations=all_componentlists show_language=3 %}
+<p>{% include "legend.html" %}</p>
+</div>
+{% endif %}
 
 {# Suggested translations #}
 <div {% active_tab "suggestions" %}>

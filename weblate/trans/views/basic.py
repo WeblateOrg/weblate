@@ -24,7 +24,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum, Count
 from django.http import HttpResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.utils import translation
 from django.views.decorators.cache import never_cache
 from django.utils.encoding import force_text
@@ -45,7 +45,7 @@ from weblate.lang.models import Language
 from weblate.trans.forms import (
     get_upload_form, SearchForm, SiteSearchForm,
     AutoForm, ReviewForm, get_new_language_form,
-    ReportsForm, ReplaceForm, NewUnitForm,
+    ReportsForm, ReplaceForm, NewUnitForm, MassStateForm,
 )
 from weblate.permissions.helpers import (
     can_automatic_translation, can_translate,
@@ -199,7 +199,7 @@ def home(request):
 
     usersubscriptions = None
 
-    componentlists = list(ComponentList.objects.all())
+    componentlists = list(ComponentList.objects.filter(show_dashboard=True))
     for componentlist in componentlists:
         componentlist.translations = prefetch_stats(
             user_translations.filter(
@@ -245,6 +245,7 @@ def home(request):
             'usersubscriptions': usersubscriptions,
             'userlanguages': prefetch_stats(user_translations),
             'componentlists': componentlists,
+            'all_componentlists': prefetch_stats(ComponentList.objects.all()),
             'active_tab_slug': active_tab_slug,
         }
     )
@@ -340,8 +341,10 @@ def show_project(request, project):
 
     if can_translate(request.user, project=obj):
         replace_form = ReplaceForm()
+        mass_state_form = MassStateForm(request.user, obj)
     else:
         replace_form = None
+        mass_state_form = None
 
     return render(
         request,
@@ -356,17 +359,12 @@ def show_project(request, project):
                 {'project': obj.slug}
             ),
             'language_stats': language_stats,
-            'unit_count': Unit.objects.filter(
-                translation__subproject__project=obj
-            ).count(),
-            'words_count': obj.stats.all_words,
             'language_count': Language.objects.filter(
                 translation__subproject__project=obj
             ).distinct().count(),
-            'strings_count': obj.stats.source_strings,
-            'source_words_count': obj.stats.source_words,
             'search_form': SearchForm(),
             'replace_form': replace_form,
+            'mass_state_form': mass_state_form,
             'components': prefetch_stats(obj.subproject_set.select_related()),
         }
     )
@@ -380,8 +378,10 @@ def show_subproject(request, project, subproject):
 
     if can_translate(request.user, project=obj.project):
         replace_form = ReplaceForm()
+        mass_state_form = MassStateForm(request.user, obj)
     else:
         replace_form = None
+        mass_state_form = None
 
     return render(
         request,
@@ -399,16 +399,11 @@ def show_subproject(request, project, subproject):
             'last_changes_url': urlencode(
                 {'subproject': obj.slug, 'project': obj.project.slug}
             ),
-            'unit_count': Unit.objects.filter(
-                translation__subproject=obj
-            ).count(),
-            'words_count': obj.stats.all_words,
             'language_count': Language.objects.filter(
                 translation__subproject=obj
             ).distinct().count(),
-            'strings_count': obj.stats.source_strings,
-            'source_words_count': obj.stats.source_words,
             'replace_form': replace_form,
+            'mass_state_form': mass_state_form,
             'search_form': SearchForm(),
         }
     )
@@ -440,9 +435,12 @@ def show_translation(request, project, subproject, lang):
             initial={'exclude_user': request.user.username}
         )
 
-    replace_form = None
     if can_translate(request.user, translation=obj):
         replace_form = ReplaceForm()
+        mass_state_form = MassStateForm(request.user, obj)
+    else:
+        replace_form = None
+        mass_state_form = None
 
     return render(
         request,
@@ -456,7 +454,13 @@ def show_translation(request, project, subproject, lang):
             'search_form': search_form,
             'review_form': review_form,
             'replace_form': replace_form,
-            'new_unit_form': NewUnitForm(),
+            'mass_state_form': mass_state_form,
+            'new_unit_form': NewUnitForm(
+                request.user,
+                initial={
+                    'value': Unit(translation=obj, id_hash=-1),
+                },
+            ),
             'last_changes': last_changes,
             'last_changes_url': urlencode(obj.get_kwargs()),
             'show_only_component': True,
@@ -639,3 +643,16 @@ def new_language(request, project, subproject):
 def healthz(request):
     """Simple health check endpoint"""
     return HttpResponse('ok')
+
+
+@never_cache
+def show_component_list(request, name):
+    obj = get_object_or_404(ComponentList, slug=name)
+
+    return render(
+        request,
+        'component-list.html',
+        {
+            'object': obj,
+        }
+    )

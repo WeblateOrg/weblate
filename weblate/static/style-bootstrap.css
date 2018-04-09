@@ -50,7 +50,10 @@ footer a {
     vertical-align: bottom;
 }
 .tooltip-inner {
-    max-width: 600px;
+    max-width: 450px !important;
+}
+.tooltip-inner table {
+    width: 400px;
 }
 .helptext {
     font-size: smaller;
@@ -143,15 +146,14 @@ textarea#id_comment {
     white-space: pre;
     display: inline-block;
 }
-.space-tab {
-    width: 4em;
-    text-align: center;
-}
 .space-tab:before {
     content: "→";
 }
 .space-nl:before {
     content: "↵";
+}
+.space-space:before {
+    content: "·";
 }
 ins, span.replacement {
     background-color: lightgreen;

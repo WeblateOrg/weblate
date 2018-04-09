@@ -213,6 +213,9 @@ File mask
     each.
 
     For example ``po/*.po`` or ``locale/*/LC_MESSAGES/django.po``.
+
+    In case your filename contains special chars such as ``[``, ``]``, these need
+    to be escaped as ``[[]`` or ``[]]``.
 Monolingual base language file
     Base file containing strings definition for :ref:`monolingual`.
 Edit base file

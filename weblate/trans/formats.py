@@ -36,11 +36,9 @@ from django.utils.translation import ugettext_lazy as _
 
 import six
 
-from translate.convert import po2php
 from translate.misc import quote
 from translate.misc.multistring import multistring
 from translate.storage.lisa import LISAfile
-from translate.storage.php import phpunit, phpfile
 from translate.storage.po import pounit, pofile
 from translate.storage.poheader import default_header
 from translate.storage.properties import propunit, propfile
@@ -175,7 +173,7 @@ class FileUnit(object):
         """Return comma separated list of locations."""
         # JSON, XLIFF and PHP are special in ttkit - it uses locations for what
         # is context in other formats
-        if isinstance(self.mainunit, (propunit, phpunit)):
+        if isinstance(self.mainunit, propunit):
             return ''
         return ', '.join(
             [x for x in self.mainunit.getlocations() if x is not None]
@@ -805,7 +803,7 @@ class FileFormat(object):
 
     @staticmethod
     def get_language_code(code):
-        """Doe any possible formatting needed for language code."""
+        """Do any possible formatting needed for language code."""
         return code
 
     @classmethod
@@ -1017,42 +1015,9 @@ class PoFormat(FileFormat):
 
 
 @register_fileformat
-class UnwrappedPoFormat(PoFormat):
-    """Gettext po without line wrapping.
-
-    Depends on https://github.com/translate/translate/pull/3702.
-    """
-    name = _('Gettext PO file (unwrapped)')
-    format_id = 'po-unwrapped'
-
-    @classmethod
-    def get_class(cls):
-        # We need to figure out if wrapper arg is supported
-        instance = cls.loader()
-        if not hasattr(instance, 'wrapper'):
-            raise ImportError(
-                'translate-toolkit does not support configuring wrapper for po'
-            )
-        return cls.loader
-
-    @classmethod
-    def fixup(cls, store):
-        """Set wrapper width."""
-        store.wrapper.width = -1
-        return store
-
-
-@register_fileformat
 class PoMonoFormat(PoFormat):
     name = _('Gettext PO file (monolingual)')
     format_id = 'po-mono'
-    monolingual = True
-
-
-@register_fileformat
-class UnwrappedPoMonoFormat(UnwrappedPoFormat):
-    name = _('Gettext PO file (monolingual, unwrapped)')
-    format_id = 'po-mono-unwrapped'
     monolingual = True
 
 
@@ -1126,9 +1091,14 @@ class StringsFormat(FileFormat):
     new_translation = '\n'.encode('utf-16')
     autoload = ('.strings',)
 
+    @staticmethod
+    def get_language_code(code):
+        """Do any possible formatting needed for language code."""
+        return code.replace('_', '-')
+
 
 @register_fileformat
-class StringsUtf8Format(FileFormat):
+class StringsUtf8Format(StringsFormat):
     name = _('OS X Strings (UTF-8)')
     format_id = 'strings-utf8'
     loader = ('properties', 'stringsutf8file')
@@ -1187,7 +1157,7 @@ class JoomlaFormat(FileFormat):
 class PhpFormat(FileFormat):
     name = _('PHP strings')
     format_id = 'php'
-    loader = phpfile
+    loader = ('php', 'phpfile')
     new_translation = '<?php\n'
     autoload = ('.php',)
     unit_class = PHPUnit
@@ -1201,36 +1171,6 @@ class PhpFormat(FileFormat):
     def extension(self):
         """Return most common file extension for format."""
         return 'php'
-
-    @property
-    def using_phplexer(self):
-        try:
-            # New phply based storage handles save just fine
-            # see https://github.com/translate/translate/pull/3697
-            # pylint: disable=unused-import,unused-variable
-            from translate.storage.php import PHPLexer  # noqa
-            return True
-        except ImportError:
-            return False
-
-    def save(self):
-        """Save underlaying store to disk.
-
-        This is workaround for .save() not working as intended in
-        translate-toolkit.
-        """
-        if self.using_phplexer:
-            # New phply based storage handles save just fine
-            # see https://github.com/translate/translate/pull/3697
-            super(PhpFormat, self).save()
-        else:
-            with open(self.store.filename, 'rb') as handle:
-                convertor = po2php.rephp(handle, self.store)
-
-                outputphplines = convertor.convertstore(False)
-
-            with open(self.store.filename, 'wb') as handle:
-                handle.writelines(outputphplines)
 
 
 @register_fileformat
@@ -1265,8 +1205,8 @@ class AndroidFormat(FileFormat):
 
     @staticmethod
     def get_language_code(code):
-        """Doe any possible formatting needed for language code."""
-        # Android doesn't use Hans/Hant, but rahter TW/CN variants
+        """Do any possible formatting needed for language code."""
+        # Android doesn't use Hans/Hant, but rather TW/CN variants
         if code == 'zh_Hans':
             return 'zh-rCN'
         elif code == 'zh_Hant':

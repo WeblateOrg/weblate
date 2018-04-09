@@ -28,7 +28,7 @@ from weblate.utils.state import STATE_TRANSLATED, STATE_FUZZY
 
 
 SUPPORT_FUZZY = frozenset((
-    'ts', 'po', 'po-mono', 'po-unwrapped', 'po-mono-unwrapped'
+    'ts', 'po', 'po-mono',
 ))
 
 
@@ -37,12 +37,12 @@ class FlagBase(BaseAddon):
     icon = 'flag'
 
     @classmethod
-    def is_compatible(cls, component):
+    def can_install(cls, component, user):
         if not component.has_template():
             return False
         if component.template_store.format_id in SUPPORT_FUZZY:
             return False
-        return super(FlagBase, cls).is_compatible(component)
+        return super(FlagBase, cls).can_install(component, user)
 
 
 class SourceEditAddon(FlagBase):

@@ -2,8 +2,6 @@ var loading = 0;
 var machineTranslationLoaded = false;
 var activityDataLoaded = false;
 var lastEditor = null;
-var jsLockUpdate = null;
-var idleTime = 0;
 
 // Remove some weird things from location hash
 if (window.location.hash && (window.location.hash.indexOf('"') > -1 || window.location.hash.indexOf('=') > -1)) {
@@ -15,11 +13,11 @@ function increaseLoading(sel) {
     if (loading === 0) {
         $(sel).show();
     }
-    loading = loading + 1;
+    loading += 1;
 }
 
 function decreaseLoading(sel) {
-    loading = loading - 1;
+    loading -= 1;
     if (loading === 0) {
         $(sel).hide();
     }
@@ -27,6 +25,7 @@ function decreaseLoading(sel) {
 
 function getNumericKey(idx) {
     var ret = idx + 1;
+
     if (ret === 10) {
         return '0';
     }
@@ -39,14 +38,16 @@ jQuery.fn.extend({
             if (document.selection) {
                 // For browsers like Internet Explorer
                 this.focus();
-                var sel = document.selection.createRange();
+                let sel = document.selection.createRange();
+
                 sel.text = myValue;
                 this.focus();
             } else if (this.selectionStart || this.selectionStart === 0) {
                 //For browsers like Firefox and Webkit based
-                var startPos = this.selectionStart;
-                var endPos = this.selectionEnd;
-                var scrollTop = this.scrollTop;
+                let startPos = this.selectionStart;
+                let endPos = this.selectionEnd;
+                let scrollTop = this.scrollTop;
+
                 this.value = this.value.substring(0, startPos) + myValue + this.value.substring(endPos, this.value.length);
                 this.focus();
                 this.selectionStart = startPos + myValue.length;
@@ -64,11 +65,13 @@ jQuery.fn.extend({
 function submitForm(evt) {
     var $target = $(evt.target);
     var $form = $target.parents('form');
+
     if ($form.length === 0) {
         $form = $('.translation-form');
     }
     if ($form.length > 0) {
-        var submits = $form.find('input[type="submit"]');
+        let submits = $form.find('input[type="submit"]');
+
         if (submits.length === 0) {
             submits = $form.find('button[type="submit"]');
         }
@@ -81,8 +84,8 @@ function submitForm(evt) {
 
 function configureChart($chart) {
     var $toolTip = $chart
-      .append('<div class="tooltip top" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>')
-      .find('.tooltip');
+        .append('<div class="tooltip top" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>')
+        .find('.tooltip');
 
     $chart.on('mouseenter', '.ct-bar', function() {
         var $bar = $(this),
@@ -90,8 +93,8 @@ function configureChart($chart) {
             pos = $bar.offset();
 
         $toolTip.find('.tooltip-inner').html(value);
-        pos.top = pos.top - $toolTip.outerHeight();
-        pos.left = pos.left - $toolTip.outerWidth() / 2 + 7.5 /* stroke-width / 2 */;
+        pos.top -= $toolTip.outerHeight();
+        pos.left -= $toolTip.outerWidth() / 2 + 7.5 /* stroke-width / 2 */;
         $toolTip.offset(pos);
         $toolTip.css('opacity', 1);
     });
@@ -143,18 +146,20 @@ function screenshotFailure() {
 function screenshotAddString() {
     var pk = $(this).data('pk');
     var addLoadId = '#adding-' + pk;
+    var form = $('#screenshot-add-form');
+
     $('#add-source').val(pk);
     increaseLoading(addLoadId);
-    var form = $('#screenshot-add-form');
     $.ajax({
         type: 'POST',
         url: form.attr('action'),
         data: form.serialize(),
         dataType: 'json',
         success: function () {
+            var list = $('#sources-listing');
+
             decreaseLoading(addLoadId);
             $(addLoadId).parents('tr').fadeOut();
-            var list = $('#sources-listing');
             $.get(list.data('href'), function (data) {
                 list.html(data);
             });
@@ -181,19 +186,18 @@ function screenshotResultSet(results) {
             gettext('Add to screenshot') +
             '</a><i class="fa fa-spinner fa-spin"></i></tr>'
         );
+
         row.find('.text').text(value.text);
         row.find('.context').text(value.context);
         row.find('.add-string').data('pk', value.pk);
         row.find('.fa-spin').hide().attr('id', 'adding-' + value.pk);
         $('#search-results').append(row);
-        console.log(value);
     });
     $('#search-results').find('.add-string').click(screenshotAddString);
 }
 
 function screenshotLoaded(data) {
     decreaseLoading('#screenshots-loading');
-    console.log(data);
     if (data.responseCode !== 200) {
         screnshotResultError('danger', gettext('Error loading search results!'));
     } else if (data.results.length === 0) {
@@ -210,6 +214,7 @@ function initEditor() {
     /* Copy source text */
     $('.copy-text').click(function (e) {
         var $this = $(this);
+
         $this.button('loading');
         $this.parents('.translation-item').find('.translation-editor').val(
             $.parseJSON($this.data('content'))
@@ -223,6 +228,7 @@ function initEditor() {
     /* Direction toggling */
     $('.direction-toggle').change(function () {
         var $this = $(this);
+
         $this.parents('.translation-item').find('.translation-editor').attr(
             'dir',
             $this.find('input').val()
@@ -233,6 +239,7 @@ function initEditor() {
     $('.specialchar').click(function (e) {
         var $this = $(this);
         var text = $this.data('value');
+
         $this.parents('.translation-item').find('.translation-editor').insertAtCaret(text);
         autosize.update($('.translation-editor'));
         e.preventDefault();
@@ -253,6 +260,8 @@ function processMachineTranslation(data) {
         data.translations.forEach(function (el, idx) {
             var newRow = $('<tr/>').data('quality', el.quality);
             var done = false;
+            var $machineTranslations = $('#machine-translations');
+
             newRow.append($('<td/>').attr('class', 'target').attr('lang', data.lang).attr('dir', data.dir).text(el.text));
             newRow.append($('<td/>').text(el.source));
             newRow.append($('<td/>').text(el.service));
@@ -283,7 +292,6 @@ function processMachineTranslation(data) {
                 '</a>' +
                 '</td>'
             ));
-            var $machineTranslations = $('#machine-translations');
             $machineTranslations.children('tr').each(function (idx) {
                 if ($(this).data('quality') < el.quality && !done) {
                     $(this).before(newRow);
@@ -296,12 +304,14 @@ function processMachineTranslation(data) {
         });
         $('a.copymt').click(function () {
             var text = $(this).parent().parent().find('.target').text();
+
             $('.translation-editor').val(text);
             autosize.update($('.translation-editor'));
             $('#id_fuzzy').prop('checked', true);
         });
         $('a.copymt-save').click(function () {
             var text = $(this).parent().parent().find('.target').text();
+
             $('.translation-editor').val(text);
             autosize.update($('.translation-editor'));
             $('#id_fuzzy').prop('checked', false);
@@ -318,9 +328,11 @@ function processMachineTranslation(data) {
         }
 
         var $machineTranslations = $('#machine-translations');
+
         $machineTranslations.children('tr').each(function (idx) {
             if (idx < 10) {
                 var key = getNumericKey(idx);
+
                 $(this).find('.mt-number').html(
                     ' <span class="badge kbd-badge" title="' +
                     interpolate(gettext('Alt+M then %s'), [key]) +
@@ -345,6 +357,7 @@ function processMachineTranslation(data) {
             gettext('The request for machine translation using %s has failed:'),
             [data.service]
         );
+
         $('#mt-errors').append(
             $('<li>' + msg + ' ' + data.responseDetails + '</li>')
         );
@@ -401,11 +414,11 @@ function loadTableSorting() {
             tbody = table.find('tbody'),
             thead = table.find('thead'),
             thIndex = 0;
-        $(this).find('thead th')
-            .each(function () {
 
+        $(this).find('thead th').each(function () {
             var th = $(this),
                 inverse = 1;
+
             // handle colspan
             if (th.attr('colspan')) {
                 thIndex += parseInt(th.attr('colspan'), 10) - 1;
@@ -413,7 +426,7 @@ function loadTableSorting() {
             // skip empty cells and cells with icon (probably already processed)
             if (th.text() !== '' && ! th.hasClass('sort-cell') && ! th.hasClass('sort-skip')) {
                 // Store index copy
-                var myIndex = thIndex;
+                let myIndex = thIndex;
                 // Add icon, title and class
                 th.attr('title', gettext('Sort this column')).addClass('sort-cell').append('<i class="sort-button fa fa-chevron-down sort-none" />');
 
@@ -583,7 +596,6 @@ $(function () {
     if ($('#form-activetab').length > 0) {
         $document.on('show.bs.tab', '[data-toggle="tab"]', function (e) {
             var $target = $(e.target);
-            console.log($target.attr('href'));
             $('#form-activetab').attr('value', $target.attr('href'));
         });
     }
@@ -748,7 +760,7 @@ $(function () {
             Mousetrap.bindGlobal('alt+pageup', function(e) {window.location = $('#button-prev').attr('href'); return false;});
             Mousetrap.bindGlobal('alt+home', function(e) {window.location = $('#button-first').attr('href'); return false;});
             Mousetrap.bindGlobal(['ctrl+o', 'command+o'], function(e) {$('.translation-item .copy-text').click(); return false;});
-            Mousetrap.bindGlobal(['ctrl+t', 'command+t'], function(e) {$('input[name="fuzzy"]').click(); return false;});
+            Mousetrap.bindGlobal(['ctrl+y', 'command+y'], function(e) {$('input[name="fuzzy"]').click(); return false;});
             Mousetrap.bindGlobal(
                 ['ctrl+shift+enter', 'command+shift+enter'],
                 function(e) {$('input[name="fuzzy"]').prop('checked', false); return submitForm(e);}
@@ -799,6 +811,7 @@ $(function () {
     /* Check ignoring */
     $('.check').on('close.bs.alert', function () {
         var $this = $(this);
+
         $.get($this.data('href'));
         $this.tooltip('destroy');
     });
@@ -806,6 +819,7 @@ $(function () {
     /* Check link clicking */
     $document.on('click', '.check [data-toggle="tab"]', function (e) {
         var href = $(this).attr('href');
+
         e.preventDefault();
         $('.nav [href="' + href + '"]').click();
         $window.scrollTop($(href).offset().top);
@@ -814,6 +828,7 @@ $(function () {
     /* Copy from dictionary */
     $('.copydict').click(function (e) {
         var text = $(this).parents('tr').find('.target').text();
+
         insertEditor(text);
         e.preventDefault();
     });
@@ -822,6 +837,7 @@ $(function () {
     /* Copy from source text highlight check */
     $('.hlcheck').click(function (e) {
         var text = $(this).clone();
+
         text.find('.highlight-number').remove();
         text=text.text();
         insertEditor(text, $(this));
@@ -839,8 +855,10 @@ $(function () {
     if ($('.hlcheck').length>0) {
         $('.hlcheck').each(function(idx){
             var $this = $(this);
+
             if (idx < 10) {
-                var key = getNumericKey(idx);
+                let key = getNumericKey(idx);
+
                 $(this).find('.highlight-number').html(
                     ' <span class="badge kbd-badge" title="' +
                     interpolate(gettext('Ctrl/Command+%s'), [key]) +
@@ -887,6 +905,7 @@ $(function () {
         });
         columnsMenu.find('input').on('click', function(e) {
             var $this = $(this);
+
             columnsPanel.find('.' + $this.attr('id').replace('toggle-', 'col-')).toggle($this.attr('checked'));
             e.stopPropagation();
         });
@@ -925,13 +944,14 @@ $(function () {
     if ($('.zen').length > 0) {
         $window.scroll(function(){
             var $loadingNext = $('#loading-next');
+            var loader = $('#zen-load');
+
             if ($window.scrollTop() >= $document.height() - (2 * $window.height())) {
                 if ($('#last-section').length > 0 || $loadingNext.css('display') !== 'none') {
                     return;
                 }
                 $loadingNext.show();
 
-                var loader = $('#zen-load');
                 loader.data('offset', 20 + parseInt(loader.data('offset'), 10));
 
                 $.get(
@@ -961,6 +981,7 @@ $(function () {
         });
         Mousetrap.bindGlobal(['ctrl+pagedown', 'command+pagedown'], function(e) {
             var focus = $(':focus');
+
             if (focus.length === 0) {
                 $('.zen-unit:first').find('.translation-editor:first').focus();
             } else {
@@ -970,6 +991,7 @@ $(function () {
         });
         Mousetrap.bindGlobal(['ctrl+pageup', 'command+pageup'], function(e) {
             var focus = $(':focus');
+
             if (focus.length === 0) {
                 $('.zen-unit:last').find('.translation-editor:first').focus();
             } else {
@@ -995,6 +1017,7 @@ $(function () {
 
     /* Datepicker localization */
     var week_start = '1';
+
     if (typeof django !== 'undefined') {
         week_start = django.formats.FIRST_DAY_OF_WEEK;
     }
@@ -1050,14 +1073,6 @@ $(function () {
         titleFormat: 'MM yyyy'
     };
 
-    /* Override all multiple selects, use font awesome for exchange icon */
-    $('select[multiple]').multi({
-        'enable_search': true,
-        'search_placeholder': gettext('Search…'),
-        'non_selected_header': gettext('Available:'),
-        'selected_header': gettext('Selected:')
-    });
-
     /* Check dismiss shortcuts */
     Mousetrap.bindGlobal(['ctrl+i', 'command+i'], function(e) {});
     for (var i = 1; i < 10; i++) {
@@ -1072,8 +1087,10 @@ $(function () {
     if ($('.check').length > 0) {
         $($('.check')[0].parentNode).children('.check').each(function(idx){
             var $this = $(this);
+
             if (idx < 10) {
-                var key = getNumericKey(idx);
+                let key = getNumericKey(idx);
+
                 $(this).find('.check-number').html(
                     ' <span class="badge kbd-badge" title="' +
                     interpolate(gettext('Alt+I then %s'), [key]) +
@@ -1106,6 +1123,7 @@ $(function () {
 
     $('.link-post').click(function () {
         var $form = $('#link-post');
+
         $form.attr('action', $(this).attr('href'));
         $form.submit();
         return false;
@@ -1119,8 +1137,9 @@ $(function () {
     });
     /* Screenshot management */
     $('#screenshots-search,#screenshots-auto').click(function () {
-        screenshotStart();
         var $this = $(this);
+
+        screenshotStart();
         $.ajax({
             type: 'POST',
             url: $this.data('href'),
@@ -1136,6 +1155,7 @@ $(function () {
     $('.set-group').tooltip({
         title: function() {
             var $this = $(this);
+
             if ($this.data('error')) {
                 return $this.data('error');
             }
@@ -1183,6 +1203,7 @@ $(function () {
     /* Inline dictionary adding */
     $('.add-dict-inline').submit(function () {
         var form = $(this);
+
         increaseLoading('#glossary-add-loading');
         $.ajax({
             type: 'POST',
@@ -1208,6 +1229,7 @@ $(function () {
     /* Avoid double submission of non AJAX forms */
     $('form:not(.double-submission)').on('submit', function(e){
         var $form = $(this);
+
         if ($form.data('submitted') === true) {
             // Previously submitted - don't submit again
             e.preventDefault();
@@ -1240,16 +1262,34 @@ $(function () {
         $forms.submit(function (e) {
             var data = {};
             var $this = $(this);
+
             $this.find(':checkbox').each(function () {
                 var $this = $(this);
+
                 data[$this.attr('name')] = $this.prop('checked');
             });
             $this.find('select').each(function () {
                 var $this = $(this);
+
                 data[$this.attr('name')] = $this.val();
             });
             window.localStorage[$this.data('persist')] = JSON.stringify(data);
         });
+    }
+
+    /* Translate forms persistence */
+    $forms = $('.translation-form');
+    if ($forms.length > 0 && window.localStorage && window.localStorage.translation_autosave) {
+        var translation_restore = JSON.parse(window.localStorage.translation_autosave);
+
+        $.each(translation_restore, function () {
+            var target = $('#' + this.id);
+
+            if (target.length > 0) {
+                target.val(this.value);
+            }
+        });
+        localStorage.removeItem('translation_autosave');
     }
 
     /* Copy to clipboard */
@@ -1258,9 +1298,45 @@ $(function () {
         var $trigger = $(e.trigger);
         // Backup current text
         var backup = $trigger.attr('data-original-title');
+
         // Change text to copied
         $trigger.attr('data-original-title', gettext('Copied')).tooltip('show');
         // Restore original
         $trigger.attr('data-original-title', backup);
+    });
+
+    /* Auto translate source select */
+    var select_auto_source = $('input[name="auto_source"]');
+    if (select_auto_source.length > 0) {
+        select_auto_source.on('change', function() {
+            if ($('input[name="auto_source"]:checked').val() == 'others') {
+                $('#auto_source_others').show();
+                $('#auto_source_mt').hide();
+            } else {
+                $('#auto_source_others').hide();
+                $('#auto_source_mt').show();
+            }
+        });
+        select_auto_source.trigger('change');
+    }
+
+    /* Override all multiple selects */
+    $('select[multiple]').multi({
+        'enable_search': true,
+        'search_placeholder': gettext('Search…'),
+        'non_selected_header': gettext('Available:'),
+        'selected_header': gettext('Selected:')
+    });
+
+    $('.auto-save-translation').on('submit', function () {
+        if (window.localStorage) {
+            let data = $('.translation-editor').map(function () {
+                var $this = $(this);
+
+                return {id: $this.attr('id'), value: $this.val()};
+            });
+
+            window.localStorage.translation_autosave = JSON.stringify(data.get());
+        }
     });
 });

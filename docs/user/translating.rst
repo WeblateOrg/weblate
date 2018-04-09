@@ -229,16 +229,26 @@ All machine translations are available on single tab on translation page.
 Automatic translation
 ---------------------
 
-Weblate can be used for merging or copying translations from one component to
-another. This tool is called :guilabel:`Automatic translation` and is
+You can use automatic translation to bootstrap translation based on external
+sources. This tool is called :guilabel:`Automatic translation` and is
 accessible in the :guilabel:`Tools` menu:
 
 .. image:: ../images/automatic-translation.png
 
-You can choose which components you want to use as source and how to handle
-conflicts.
+This can operate in two modes:
+
+- Using other Weblate components as source for translations.
+- Using selected machine translation services with translations about certain
+  quality threshold.
+
+You can also choose which strings will be translated. 
+
+.. warning::
+   
+    Be careful that this will overwrite existing translations if you choose
+    wide filters such as :guilabel:`All strings`.
 
 This feature can be useful in several situations like consolidating translation
-between different components (eg. website and application) or when
+between different components (for example website and application) or when
 bootstrapping translation for new component using existing translations
 (translation memory).

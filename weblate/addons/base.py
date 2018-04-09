@@ -23,7 +23,7 @@ from __future__ import unicode_literals
 from django.apps import apps
 from django.utils.functional import cached_property
 
-from weblate.addons.events import EVENT_POST_UPDATE
+from weblate.addons.events import EVENT_POST_UPDATE, EVENT_STORE_POST_LOAD
 from weblate.addons.forms import BaseAddonForm
 
 
@@ -88,7 +88,7 @@ class BaseAddon(object):
         self.instance.save(update_fields=['state'])
 
     @classmethod
-    def is_compatible(cls, component):
+    def can_install(cls, component, user):
         """Check whether addon is compatible with given component."""
         for key, values in cls.compat.items():
             if getattr(component, key) not in values:
@@ -111,6 +111,9 @@ class BaseAddon(object):
         return
 
     def unit_pre_create(self, unit):
+        return
+
+    def store_post_load(self, translation, store):
         return
 
 
@@ -150,3 +153,21 @@ Updated by {name} hook in Weblate.'''
     def post_update(self, component, previous_head):
         self.update_translations(component, previous_head)
         self.commit_and_push(component)
+
+
+class StoreBaseAddon(BaseAddon):
+    """Base class for addons tweaking store."""
+    events = (EVENT_STORE_POST_LOAD,)
+    icon = 'wrench'
+
+    @staticmethod
+    def is_store_compatible(store):
+        return False
+
+    @classmethod
+    def can_install(cls, component, user):
+        if (not super(StoreBaseAddon, cls).can_install(component, user) or
+                not component.translation_set.exists()):
+            return False
+        translation = component.translation_set.all()[0]
+        return cls.is_store_compatible(translation.store.store)

@@ -43,4 +43,5 @@ httpretty.core.httpretty = MyHTTPretty
 # May need to set other module-level attributes here, e.g. enable, reset etc,
 # depending on your needs
 httpretty.httpretty = MyHTTPretty
-httpretty.register_uri = httpretty.register_uri
+httpretty.register_uri = MyHTTPretty.register_uri
+httpretty.reset = MyHTTPretty.reset

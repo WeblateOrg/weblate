@@ -66,10 +66,10 @@ ACCOUNT_ACTIVITY = {
         'Authentication using {method} ({name}) has been removed.'
     ),
     'login': _(
-        'Successfully authenticated using {method} ({name}).'
+        'Authenticated using {method} ({name}).'
     ),
     'login-new': _(
-        'Successfully authenticated using {method} ({name}) from new device.'
+        'Authenticated using {method} ({name}) from new device.'
     ),
     'register': _(
         'Somebody has attempted to register with your email.'
@@ -88,6 +88,12 @@ ACCOUNT_ACTIVITY = {
     ),
     'tos': _(
         'Agreement with Terms of Service {date}.'
+    ),
+}
+
+EXTRA_MESSAGES = {
+    'locked': _(
+        'To restore access to your account, please reset your password.'
     ),
 }
 
@@ -211,6 +217,13 @@ class AuditLog(models.Model):
             **self.params
         )
     get_message.short_description = _('Account activity')
+
+    def get_extra_message(self):
+        if self.activity in EXTRA_MESSAGES:
+            return EXTRA_MESSAGES[self.activity].format(
+                **self.params
+            )
+        return None
 
     def should_notify(self):
         return self.activity in NOTIFY_ACTIVITY
@@ -376,10 +389,12 @@ class Profile(models.Model):
     DASHBOARD_LANGUAGES = 2
     DASHBOARD_COMPONENT_LIST = 4
     DASHBOARD_SUGGESTIONS = 5
+    DASHBOARD_COMPONENT_LISTS = 6
 
     DASHBOARD_CHOICES = (
         (DASHBOARD_WATCHED, _('Watched translations')),
         (DASHBOARD_LANGUAGES, _('Your languages')),
+        (DASHBOARD_COMPONENT_LISTS, _('Component lists')),
         (DASHBOARD_COMPONENT_LIST, _('Component list')),
         (DASHBOARD_SUGGESTIONS, _('Suggested translations')),
     )
@@ -389,6 +404,7 @@ class Profile(models.Model):
         DASHBOARD_LANGUAGES: 'your-languages',
         DASHBOARD_COMPONENT_LIST: 'list',
         DASHBOARD_SUGGESTIONS: 'suggestions',
+        DASHBOARD_COMPONENT_LISTS: 'componentlists'
     }
 
     DASHBOARD_SLUGMAP = {

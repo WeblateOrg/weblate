@@ -256,10 +256,6 @@ Joomla translations are usually used as monolingual.
 | File format                    | `Joomla Language File`           |
 +--------------------------------+----------------------------------+
 
-.. note::
-
-    You need translate-toolkit 2.1.0 or newer for Joomla support.
-
 .. seealso::
 
     `Specification of Joomla language files <https://docs.joomla.org/Specification_of_language_files>`_,
@@ -382,11 +378,6 @@ Apple OS X strings are usually used as bilingual.
 
     `Apple Strings Files documentation <https://developer.apple.com/library/mac/#documentation/MacOSX/Conceptual/BPInternational/Articles/StringsFiles.html>`_,
     :doc:`tt:formats/strings`
-
-.. note::
-
-    You need translate-toolkit 1.12.0 or newer for proper support of Apple OS X
-    strings. Older versions might produce corrupted files.
 
 PHP strings
 -----------
@@ -548,10 +539,6 @@ Example file:
 +--------------------------------+----------------------------------+
 | File format                    | `.Net resource file`             |
 +--------------------------------+----------------------------------+
-
-.. note::
-
-    You need translate-toolkit 1.13.0 or newer to include support for this format.
 
 .. seealso:: :doc:`tt:formats/resx`
 

@@ -233,6 +233,40 @@ Creates ``admin`` account with random password unless it is specified.
 
     Added parameters ``--username``, ``--email``, ``--name`` and ``--update``.
 
+delete_memory
+-------------
+
+.. django-admin:: delete_memory
+
+.. versionadded:: 2.20
+
+Deletes entries in the Weblate Translation Memory.
+
+.. django-admin-option:: --origin ORIGIN
+   
+    Origin to delete, for imported files the origin is filename without path.
+
+.. django-admin-option:: --all
+   
+    Delete complete memory content and recreate the database.
+
+.. seealso::
+
+    :ref:`translation-memory`
+
+dump_memory
+-----------
+
+.. django-admin:: dump_memory
+
+.. versionadded:: 2.20
+
+Export a JSON file with the Weblate Translation Memory content.
+
+.. seealso::
+
+    :ref:`translation-memory`
+
 dumpuserdata
 ------------
 
@@ -286,6 +320,29 @@ Example of JSON file:
 
     :djadmin:`import_project`
 
+import_memory
+-------------
+
+.. django-admin:: import_memory <file>
+
+.. versionadded:: 2.20
+
+Imports a TMX or JSON file into the Weblate Translation Memory.
+
+.. django-admin-option:: --language-map LANGMAP
+
+    Allows to map languages in the TMX to Weblate one. The language codes are
+    mapped after normalization usually done by Weblate.
+
+    For example ``--language-map en_US:en`` will import all ``en_US`` strings
+    as ``en`` ones.
+
+    This can be useful in case your TMX file locales does not match what you
+    use in Weblate.
+
+.. seealso::
+
+    :ref:`translation-memory`
 
 import_project
 --------------
@@ -460,6 +517,23 @@ Lists supported language in MediaWiki markup - language codes, English names
 and localized names.
 
 This is used to generate <http://wiki.l10n.cz/Jazyky>.
+
+list_memory
+-----------
+
+.. django-admin:: list_memory
+
+.. versionadded:: 2.20
+
+Lists contents of the Weblate Translation Memory.
+
+.. django-admin-option:: --type {origin}
+   
+    Type of information to list, defaults to listing used origins.
+
+.. seealso::
+
+    :ref:`translation-memory`
 
 list_translators
 ----------------

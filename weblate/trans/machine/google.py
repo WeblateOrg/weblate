@@ -40,6 +40,7 @@ GOOGLE_API_ROOT = 'https://translation.googleapis.com/language/translate/v2/'
 class GoogleTranslation(MachineTranslation):
     """Google Translate API v2 machine translation support."""
     name = 'Google Translate'
+    max_score = 90
 
     def __init__(self):
         """Check configuration."""
@@ -78,6 +79,7 @@ class GoogleTranslation(MachineTranslation):
             q=text,
             source=source,
             target=language,
+            format='text',
         )
 
         if 'error' in response:
@@ -85,4 +87,4 @@ class GoogleTranslation(MachineTranslation):
 
         translation = response['data']['translations'][0]['translatedText']
 
-        return [(translation, 100, self.name, text)]
+        return [(translation, self.max_score, self.name, text)]

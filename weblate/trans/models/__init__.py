@@ -209,6 +209,11 @@ def add_user_subscription(sender, instance, action, reverse, model, pk_set,
             target.add_subscription(instance.user)
 
 
+@receiver(m2m_changed, sender=ComponentList.components.through)
+def change_componentlist(sender, instance, **kwargs):
+    instance.stats.invalidate()
+
+
 @receiver(post_save, sender=AutoComponentList)
 @disable_for_loaddata
 def auto_componentlist(sender, instance, **kwargs):

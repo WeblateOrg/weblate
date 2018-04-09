@@ -36,6 +36,7 @@ from weblate.trans.search import update_index_unit, fulltext_search
 import weblate.trans.search
 from weblate.trans.models import IndexUpdate
 from weblate.trans.tests.utils import TempDirMixin
+from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
 
 class SearchViewTest(ViewTestCase):
@@ -555,4 +556,64 @@ class ReplaceTest(ViewTestCase):
     def test_replace_component(self):
         self.do_replace_test(
             reverse('replace', kwargs=self.kw_subproject),
+        )
+
+
+class MassStateTest(ViewTestCase):
+    """Test for mass state change functionality."""
+
+    def setUp(self):
+        super(MassStateTest, self).setUp()
+        self.edit_unit(
+            'Hello, world!\n',
+            'Nazdar svete!\n',
+            fuzzy=True,
+        )
+        self.unit = self.get_unit()
+
+    def do_mass_state_test(self, url, confirm=True):
+        response = self.client.post(
+            url,
+            {
+                'type': 'fuzzy',
+                'state': STATE_TRANSLATED,
+            },
+            follow=True
+        )
+        unit = self.get_unit()
+        self.assertContains(
+            response,
+            'Mass state change completed, 1 string was updated.'
+        )
+        self.assertEqual(unit.state, STATE_TRANSLATED)
+
+    def test_no_match(self):
+        response = self.client.post(
+            reverse('state-change', kwargs=self.kw_project),
+            {
+                'type': 'approved',
+                'state': STATE_FUZZY,
+            },
+            follow=True
+        )
+        self.assertContains(
+            response,
+            'Mass state change completed, no strings were updated.'
+        )
+        unit = self.get_unit()
+        self.assertEqual(unit.state, STATE_FUZZY)
+
+    def test_mass_state(self):
+        self.do_mass_state_test(
+            reverse('state-change', kwargs=self.kw_translation),
+        )
+
+    def test_mass_state_project(self):
+        self.do_mass_state_test(
+            reverse('state-change', kwargs=self.kw_project),
+        )
+
+    def test_mass_state_component(self):
+        self.do_mass_state_test(
+            reverse('state-change', kwargs=self.kw_subproject),
         )

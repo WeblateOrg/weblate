@@ -25,6 +25,7 @@ import re
 import shutil
 import fnmatch
 
+from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 from django.utils.encoding import force_text
 from django.db.models import Q
@@ -102,8 +103,33 @@ class Command(BaseCommand):
         )
         parser.add_argument(
             '--vcs',
-            default='git',
+            default=settings.DEFAULT_VCS,
             help='Version control system to use',
+        )
+        parser.add_argument(
+            '--push-url',
+            default='',
+            help='Set push URL for the project',
+        )
+        parser.add_argument(
+            '--push-url-same',
+            action='store_true',
+            default=False,
+            help='Set push URL for the project to same as pull',
+        )
+        parser.add_argument(
+            '--disable-push-on-commit',
+            action='store_false',
+            default=settings.DEFAULT_PUSH_ON_COMMIT,
+            dest='push_on_commit',
+            help='Disable push on commit for created components',
+        )
+        parser.add_argument(
+            '--push-on-commit',
+            action='store_true',
+            default=settings.DEFAULT_PUSH_ON_COMMIT,
+            dest='push_on_commit',
+            help='Enable push on commit for created components',
         )
         parser.add_argument(
             '--main-component',
@@ -142,7 +168,9 @@ class Command(BaseCommand):
         self.name_template = None
         self.base_file_template = None
         self.vcs = None
+        self.push_url = None
         self.logger = LOGGER
+        self.push_on_commit = True
         self._mask_regexp = None
 
     def format_string(self, template, match):
@@ -166,9 +194,10 @@ class Command(BaseCommand):
             return self.component_re
         if self._mask_regexp is None:
             match = fnmatch.translate(self.filemask)
-            match = match.replace('.*.*', '[[NAME_WILDCARD]]')
-            match = match.replace('.*', '(?P<language>.*)')
-            match = match.replace('[[NAME_WILDCARD]]', '(?P<name>.*)')
+            match = match.replace('.*.*', '(?P<name>[[WILDCARD]])')
+            match = match.replace('.*', '(?P<language>[[WILDCARD]])', 1)
+            match = match.replace('.*', '(?P=language)')
+            match = match.replace('[[WILDCARD]]', '.*')
             self._mask_regexp = re.compile(match)
         return self._mask_regexp
 
@@ -239,16 +268,21 @@ class Command(BaseCommand):
             'Failed to find suitable name for {0}'.format(name)
         )
 
-    def parse_options(self, options):
+    def parse_options(self, repo, options):
         """Parse parameters"""
         self.filemask = options['filemask']
         self.vcs = options['vcs']
+        if options['push_url_same']:
+            self.push_url = repo
+        else:
+            self.push_url = options['push_url']
         self.file_format = options['file_format']
         self.language_regex = options['language_regex']
         self.main_component = options['main_component']
         self.name_template = options['name_template']
         self.license = options['license']
         self.license_url = options['license_url']
+        self.push_on_commit = options['push_on_commit']
         self.base_file_template = options['base_file_template']
         if options['component_regexp']:
             try:
@@ -294,7 +328,7 @@ class Command(BaseCommand):
         # Read params
         repo = options['repo']
         branch = options['branch']
-        self.parse_options(options)
+        self.parse_options(repo, options)
 
         # Try to get project
         try:
@@ -368,7 +402,7 @@ class Command(BaseCommand):
         result = {
             'file_format': self.file_format,
             'vcs': self.vcs,
-
+            'push_on_commit': self.push_on_commit,
         }
         optionals = (
             'license',
@@ -422,6 +456,7 @@ class Command(BaseCommand):
             name=name,
             slug=slug,
             project=project,
+            push=self.push_url,
             repo=repo,
             branch=branch,
             template=template,

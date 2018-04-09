@@ -249,10 +249,11 @@ class RepoTestMixin(object):
             'po/*.po',
         )
 
-    def create_po(self):
+    def create_po(self, **kwargs):
         return self._create_subproject(
             'po',
             'po/*.po',
+            **kwargs
         )
 
     def create_po_branch(self):
@@ -263,9 +264,7 @@ class RepoTestMixin(object):
         )
 
     def create_po_push(self):
-        return self._create_subproject(
-            'po',
-            'po/*.po',
+        return self.create_po(
             push_on_commit=True
         )
 
@@ -278,23 +277,17 @@ class RepoTestMixin(object):
         )
 
     def create_po_mercurial(self):
-        return self._create_subproject(
-            'po',
-            'po/*.po',
+        return self.create_po(
             vcs='mercurial'
         )
 
     def create_po_svn(self):
-        return self._create_subproject(
-            'po',
-            'po/*.po',
+        return self.create_po(
             vcs='subversion'
         )
 
     def create_po_new_base(self, **kwargs):
-        return self._create_subproject(
-            'po',
-            'po/*.po',
+        return self.create_po(
             new_base='po/hello.pot',
             **kwargs
         )
@@ -308,13 +301,6 @@ class RepoTestMixin(object):
     def create_po_mono(self):
         return self._create_subproject(
             'po-mono',
-            'po-mono/*.po',
-            'po-mono/en.po',
-        )
-
-    def create_po_mono_unwrapped(self):
-        return self._create_subproject(
-            'po-mono-unwrapped',
             'po-mono/*.po',
             'po-mono/en.po',
         )

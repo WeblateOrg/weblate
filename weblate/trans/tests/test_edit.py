@@ -320,7 +320,7 @@ class EditPoMonoTest(EditTest):
                         'lang': 'en',
                     }
                 ),
-                {'key': key, 'value': 'Source string'},
+                {'key': key, 'value_0': 'Source string'},
                 follow=True,
             )
         response = add('key')

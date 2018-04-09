@@ -50,9 +50,8 @@ class AutoTranslationTest(ViewTestCase):
 
     def test_none(self):
         """Test for automatic translation with no content."""
-        url = reverse('auto_translation', kwargs=self.kw_translation)
         response = self.client.post(
-            url
+            reverse('auto_translation', kwargs=self.kw_translation)
         )
         self.assertRedirects(response, self.translation_url)
 
@@ -66,6 +65,10 @@ class AutoTranslationTest(ViewTestCase):
         self.make_different()
         params = {'project': 'test', 'lang': 'cs', 'subproject': 'test-2'}
         url = reverse('auto_translation', kwargs=params)
+        kwargs['auto_source'] = 'others'
+        kwargs['threshold'] = '100'
+        if 'type' not in kwargs:
+            kwargs['type'] = 'todo'
         response = self.client.post(url, kwargs, follow=True)
         if expected == 1:
             self.assertContains(
@@ -89,7 +92,7 @@ class AutoTranslationTest(ViewTestCase):
         self.perform_auto()
 
     def test_inconsistent(self):
-        self.perform_auto(0, inconsistent='1')
+        self.perform_auto(0, type='check:inconsistent')
 
     def test_overwrite(self):
         self.perform_auto(overwrite='1')
@@ -178,3 +181,75 @@ class AutoTranslationTest(ViewTestCase):
             'test',
             'xxx',
         )
+
+
+class AutoTranslationMtTest(ViewTestCase):
+    def setUp(self):
+        super(AutoTranslationMtTest, self).setUp()
+        # Need extra power
+        self.user.is_superuser = True
+        self.user.save()
+        self.subproject3 = SubProject.objects.create(
+            name='Test 3',
+            slug='test-3',
+            project=self.project,
+            repo=self.git_repo_path,
+            push=self.git_repo_path,
+            vcs='git',
+            filemask='po/*.po',
+            template='',
+            file_format='po',
+            new_base='',
+            allow_translation_propagation=False,
+        )
+
+    def test_none(self):
+        """Test for automatic translation with no content."""
+        url = reverse('auto_translation', kwargs=self.kw_translation)
+        response = self.client.post(
+            url
+        )
+        self.assertRedirects(response, self.translation_url)
+
+    def make_different(self):
+        self.edit_unit(
+            'Hello, world!\n',
+            'Nazdar svete!\n'
+        )
+
+    def perform_auto(self, expected=1, **kwargs):
+        self.make_different()
+        params = {'project': 'test', 'lang': 'cs', 'subproject': 'test-3'}
+        url = reverse('auto_translation', kwargs=params)
+        kwargs['auto_source'] = 'mt'
+        if 'type' not in kwargs:
+            kwargs['type'] = 'todo'
+        response = self.client.post(url, kwargs, follow=True)
+        if expected == 1:
+            self.assertContains(
+                response,
+                'Automatic translation completed, 1 string was updated.',
+            )
+        else:
+            self.assertContains(
+                response,
+                'Automatic translation completed, no strings were updated.',
+            )
+
+        self.assertRedirects(response, reverse('translation', kwargs=params))
+        # Check we've translated something
+        translation = self.subproject3.translation_set.get(language_code='cs')
+        translation.invalidate_cache()
+        self.assertEqual(translation.stats.translated, expected)
+
+    def test_different(self):
+        """Test for automatic translation with different content."""
+        self.perform_auto(engines=['weblate'], threshold=80)
+
+    def test_inconsistent(self):
+        self.perform_auto(
+            0, type='check:inconsistent', engines=['weblate'], threshold=80
+        )
+
+    def test_overwrite(self):
+        self.perform_auto(overwrite='1', engines=['weblate'], threshold=80)

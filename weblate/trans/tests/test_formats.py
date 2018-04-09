@@ -37,7 +37,7 @@ from weblate.trans.formats import (
     AutoFormat, PoFormat, AndroidFormat, PropertiesFormat, JoomlaFormat,
     JSONFormat, JSONNestedFormat, RESXFormat, PhpFormat, XliffFormat, TSFormat,
     YAMLFormat, RubyYAMLFormat, DTDFormat, FILE_FORMATS, detect_filename,
-    WebExtensionJSONFormat, UnwrappedPoFormat,
+    WebExtensionJSONFormat,
 )
 from weblate.trans.tests.utils import get_test_file, TempDirMixin
 
@@ -85,14 +85,17 @@ class AutoLoadTest(TestCase):
         self.single_test(TEST_JSON, JSONFormat)
 
     def test_php(self):
+        if 'php' not in FILE_FORMATS:
+            raise SkipTest('PHP not supported')
         self.single_test(TEST_PHP, PhpFormat)
 
     def test_properties(self):
         self.single_test(TEST_PROPERTIES, PropertiesFormat)
 
     def test_joomla(self):
-        if 'joomla' in FILE_FORMATS:
-            self.single_test(TEST_JOOMLA, JoomlaFormat)
+        if 'joomla' not in FILE_FORMATS:
+            raise SkipTest('Joomla not supported')
+        self.single_test(TEST_JOOMLA, JoomlaFormat)
 
     def test_android(self):
         self.single_test(TEST_ANDROID, AndroidFormat)
@@ -101,16 +104,19 @@ class AutoLoadTest(TestCase):
         self.single_test(TEST_XLIFF, XliffFormat)
 
     def test_resx(self):
-        if 'resx' in FILE_FORMATS:
-            self.single_test(TEST_RESX, RESXFormat)
+        if 'resx' not in FILE_FORMATS:
+            raise SkipTest('RESX not supported')
+        self.single_test(TEST_RESX, RESXFormat)
 
     def test_yaml(self):
-        if 'yaml' in FILE_FORMATS:
-            self.single_test(TEST_YAML, YAMLFormat)
+        if 'yaml' not in FILE_FORMATS:
+            raise SkipTest('YAML not supported')
+        self.single_test(TEST_YAML, YAMLFormat)
 
     def test_ruby_yaml(self):
-        if 'tuby_yaml' in FILE_FORMATS:
-            self.single_test(TEST_RUBY_YAML, RubyYAMLFormat)
+        if 'ruby-yaml' not in FILE_FORMATS:
+            raise SkipTest('YAML not supported')
+        self.single_test(TEST_RUBY_YAML, RubyYAMLFormat)
 
     def test_content(self):
         """Test content based guess from ttkit"""
@@ -292,10 +298,6 @@ class PoFormatTest(AutoFormatTest):
         )
 
 
-class UnwrappedPoFormatTest(PoFormatTest):
-    FORMAT = UnwrappedPoFormat
-
-
 class PropertiesFormatTest(AutoFormatTest):
     FORMAT = PropertiesFormat
     FILE = TEST_PROPERTIES
@@ -386,16 +388,6 @@ class PhpFormatTest(AutoFormatTest):
     BASE = ''
     NEW_UNIT_MATCH = b'\nkey = \'Source string\';\n'
 
-    def test_new_unit(self):
-        try:
-            # New phply based storage handles save just fine
-            # see https://github.com/translate/translate/pull/3697
-            # pylint: disable=unused-import,unused-variable
-            from translate.storage.php import PHPLexer  # noqa
-            super(PhpFormatTest, self).test_new_unit()
-        except ImportError:
-            raise SkipTest('Broken PHP support in translate-toolkit')
-
 
 class AndroidFormatTest(XMLMixin, AutoFormatTest):
     FORMAT = AndroidFormat
@@ -458,15 +450,6 @@ class YAMLFormatTest(AutoFormatTest):
     FIND_MATCH = ''
     MATCH = 'weblate:'
     NEW_UNIT_MATCH = b'\nkey: Source string\n'
-
-    def setUp(self):
-        super(YAMLFormatTest, self).setUp()
-        # Compatibility code with transalte-toolkit <= 2.4.5
-        instance = self.FORMAT.get_class()()
-        instance.parse(b'en:\n  weblate:\n    hello: ""')
-        if ' / ' in instance.units[0].getid():
-            # pylint: disable=invalid-name
-            self.FIND = self.FIND.replace('->', ' / ')
 
     def assert_same(self, newdata, testdata):
         # Fixup quotes as different translate toolkit versions behave

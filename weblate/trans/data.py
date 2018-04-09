@@ -41,6 +41,7 @@ def check_data_writable():
     create_and_check_dir(data_dir('whoosh'))
     create_and_check_dir(data_dir('ssh'))
     create_and_check_dir(data_dir('vcs'))
+    create_and_check_dir(data_dir('memory'))
 
 
 def data_dir(component):

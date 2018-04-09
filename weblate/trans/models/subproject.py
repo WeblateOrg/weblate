@@ -155,7 +155,7 @@ class SubProject(models.Model, URLMixin, PathMixin):
             'repository with translations.'
         ),
         choices=VCS_CHOICES,
-        default='git',
+        default=settings.DEFAULT_VCS,
     )
     repo = models.CharField(
         verbose_name=ugettext_lazy('Source code repository'),
@@ -465,7 +465,7 @@ class SubProject(models.Model, URLMixin, PathMixin):
     )
     push_on_commit = models.BooleanField(
         verbose_name=ugettext_lazy('Push on commit'),
-        default=True,
+        default=settings.DEFAULT_PUSH_ON_COMMIT,
         help_text=ugettext_lazy(
             'Whether the repository should be pushed upstream on every commit.'
         ),
@@ -867,11 +867,14 @@ class SubProject(models.Model, URLMixin, PathMixin):
 
     def commit_pending(self, request, from_link=False, skip_push=False):
         """Check whether there is any translation which needs commit."""
+
+        # If we're not recursing, call on parent
         if not from_link and self.is_repo_link:
             return self.linked_subproject.commit_pending(
                 request, True, skip_push=skip_push
             )
 
+        # Commit all translations
         for translation in self.translation_set.all():
             translation.commit_pending(request, skip_push=True)
 
@@ -1522,6 +1525,17 @@ class SubProject(models.Model, URLMixin, PathMixin):
                 )
             return False
 
+        format_lang_code = self.file_format_cls.get_language_code(
+            language.code
+        )
+        if re.match(self.language_regex, format_lang_code) is None:
+            if request:
+                messages.error(
+                    request,
+                    _('Given language is filtered by the language filter!')
+                )
+            return False
+
         base_filename = self.get_new_base_filename()
 
         filename = self.file_format_cls.get_language_filename(
@@ -1567,7 +1581,6 @@ class SubProject(models.Model, URLMixin, PathMixin):
             get_author_name(request.user)
             if request else 'Weblate <noreply@weblate.org>',
             timezone.now(),
-            force_commit=True,
             force_new=True,
         )
         translation.check_sync(

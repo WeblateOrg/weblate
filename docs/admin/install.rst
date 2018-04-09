@@ -40,7 +40,7 @@ Django (>= 1.11)
     https://www.djangoproject.com/
 siphashc (>= 0.8)
     https://github.com/WeblateOrg/siphashc
-Translate-toolkit (>= 2.2.0)
+translate-toolkit (>= 2.3.0)
     http://toolkit.translatehouse.org/
 Six (>= 1.7.0)
     https://pypi.python.org/pypi/six
@@ -81,8 +81,10 @@ libravatar (optional for federated avatar support)
     https://pypi.python.org/pypi/pyLibravatar
 pyuca (>= 1.1) (optional for proper sorting of strings)
     https://github.com/jtauber/pyuca
-babel (optional for Android resources support)
+Babel (optional for Android resources support)
     http://babel.pocoo.org/
+phply (optional for PHP support)
+    https://github.com/viraptor/phply
 Database backend
     Any database supported in Django will work, see :ref:`database-setup` and
     backends documentation for more details.
@@ -96,6 +98,8 @@ akismet (>= 1.0) (optional for suggestion spam protection)
     https://github.com/ubernostrum/akismet
 PyYAML (>= 3.0) (optional for :ref:`yaml`)
     https://pyyaml.org/
+python-Levenshtein (recommended for performance)
+    https://github.com/ztane/python-Levenshtein/
 openpyxl (>=2.5.0) (for XLSX export/import)
     https://openpyxl.readthedocs.io/en/stable/
 

@@ -45,8 +45,15 @@ from weblate.utils.stats import BaseStats
 
 register = template.Library()
 
-SPACE_NL = '<span class="hlspace space-nl" title="{0}"></span><br />'
-SPACE_TAB = '<span class="hlspace space-tab" title="{0}"></span>'
+HIGHLIGTH_SPACE = '<span class="hlspace">{}</span>{}'
+SPACE_TEMPLATE = '<span class="{}"><span class="sr-only">{}</span></span>'
+SPACE_SPACE = SPACE_TEMPLATE.format('space-space', ' ')
+SPACE_NL = HIGHLIGTH_SPACE.format(
+    SPACE_TEMPLATE.format('space-nl', ''), '<br />'
+)
+SPACE_TAB = HIGHLIGTH_SPACE.format(
+    SPACE_TEMPLATE.format('space-tab', '\t'), ''
+)
 
 HL_CHECK = (
     '<span class="hlcheck">{0}'
@@ -88,18 +95,19 @@ SOURCE_LINK = '''
 '''
 
 
+def replace_whitespace(match):
+    spaces = match.group(1).replace(' ', SPACE_SPACE)
+    return HIGHLIGTH_SPACE.format(spaces, '')
+
+
 def fmt_whitespace(value):
     """Format whitespace so that it is more visible."""
     # Highlight exta whitespace
-    value = WHITESPACE_RE.sub(
-        '<span class="hlspace">\\1</span>',
-        value
-    )
+    value = WHITESPACE_RE.sub(replace_whitespace, value)
+
     # Highlight tabs
-    value = value.replace(
-        '\t',
-        SPACE_TAB.format(_('Tab character'))
-    )
+    value = value.replace('\t', SPACE_TAB.format(_('Tab character')))
+
     return value
 
 
@@ -628,14 +636,17 @@ def whiteboard_messages(project=None, subproject=None, language=None):
     )
 
     for whiteboard in whiteboards:
+        if whiteboard.message_html:
+            content = mark_safe(whiteboard.message)
+        else:
+            content = mark_safe(urlize(whiteboard.message, autoescape=True))
+
         ret.append(
             render_to_string(
                 'message.html',
                 {
                     'tags': ' '.join((whiteboard.category, 'whiteboard')),
-                    'message': mark_safe(
-                        urlize(whiteboard.message, autoescape=True)
-                    )
+                    'message':  content,
                 }
             )
         )

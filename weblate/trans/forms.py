@@ -47,19 +47,24 @@ from django.contrib.auth.models import User
 from weblate.lang.data import LOCALE_ALIASES
 from weblate.lang.models import Language
 from weblate.trans.filter import get_filter_choice
-from weblate.trans.models import SubProject, Unit, Project, Change
-from weblate.trans.models.source import PRIORITY_CHOICES
-from weblate.trans.models.unit import (
-    STATE_TRANSLATED, STATE_FUZZY, STATE_APPROVED, STATE_EMPTY,
+from weblate.trans.models import (
+    Translation, SubProject, Unit, Project, Change
 )
+from weblate.trans.models.source import PRIORITY_CHOICES
+from weblate.trans.machine import MACHINE_TRANSLATION_SERVICES
 from weblate.permissions.helpers import (
     can_author_translation, can_overwrite_translation, can_translate,
     can_suggest, can_add_translation, can_mass_add_translation, can_review,
+    can_review_project,
 )
 from weblate.trans.specialchars import get_special_chars, RTL_CHARS_DATA
 from weblate.trans.validators import validate_check_flags
 from weblate.trans.util import sort_choices
 from weblate.utils.hash import checksum_to_hash, hash_to_checksum
+from weblate.utils.state import (
+    STATE_TRANSLATED, STATE_FUZZY, STATE_APPROVED, STATE_EMPTY,
+    STATE_CHOICES
+)
 from weblate.utils.validators import validate_file_extension
 from weblate.logger import LOGGER
 from weblate import get_doc_url
@@ -621,7 +626,8 @@ def get_upload_form(user, translation, *args):
 class FilterField(forms.ChoiceField):
     def __init__(self, *args, **kwargs):
         kwargs['label'] = _('Search filter')
-        kwargs['required'] = False
+        if 'required' not in kwargs:
+            kwargs['required'] = False
         kwargs['choices'] = get_filter_choice()
         kwargs['error_messages'] = {
             'invalid_choice': _('Please select a valid filter type.'),
@@ -888,20 +894,33 @@ class RevertForm(ChecksumForm):
 
 class AutoForm(forms.Form):
     """Automatic translation form."""
-    overwrite = forms.BooleanField(
-        label=_('Overwrite strings'),
-        required=False,
-        initial=False
+    type = FilterField(
+        required=True,
+        initial='todo',
     )
-    inconsistent = forms.BooleanField(
-        label=_('Replace inconsistent'),
-        required=False,
-        initial=False
+    auto_source = forms.ChoiceField(
+        label=_('Automatic translation source'),
+        choices=[
+            ('others', _('Other translation components')),
+            ('mt', _('Machine translation')),
+        ],
+        initial='others',
     )
     subproject = forms.ChoiceField(
         label=_('Component to use'),
         required=False,
         initial=''
+    )
+    engines = forms.MultipleChoiceField(
+        label=_('Machine translation engines to use'),
+        choices=[],
+        required=False,
+    )
+    threshold = forms.IntegerField(
+        label=_("Score threshold"),
+        initial=80,
+        min_value=1,
+        max_value=100,
     )
 
     def __init__(self, obj, user, *args, **kwargs):
@@ -926,6 +945,34 @@ class AutoForm(forms.Form):
 
         self.fields['subproject'].choices = \
             [('', _('All components in current project'))] + choices
+        self.fields['engines'].choices = [
+            (key, mt.name) for key, mt in MACHINE_TRANSLATION_SERVICES.items()
+        ]
+        if 'weblate' in MACHINE_TRANSLATION_SERVICES.keys():
+            self.fields['engines'].initial = 'weblate'
+
+        use_types = {
+            'all', 'nottranslated', 'todo', 'fuzzy', 'check:inconsistent',
+        }
+
+        self.fields['type'].choices = [
+            x for x in self.fields['type'].choices if x[0] in use_types
+        ]
+
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Field('type'),
+            InlineRadios('auto_source', id='select_auto_source'),
+            Div(
+                'subproject',
+                css_id='auto_source_others'
+            ),
+            Div(
+                'engines',
+                'threshold',
+                css_id='auto_source_mt'
+            ),
+        )
 
 
 class CommaSeparatedIntegerField(forms.Field):
@@ -1455,7 +1502,7 @@ class NewUnitForm(forms.Form):
         ),
         required=True,
     )
-    value = forms.CharField(
+    value = PluralField(
         label=_('Source language text'),
         help_text=_(
             'You can edit this later, as with any other string in '
@@ -1463,3 +1510,48 @@ class NewUnitForm(forms.Form):
         ),
         required=True,
     )
+
+    def __init__(self, user, *args, **kwargs):
+        super(NewUnitForm, self).__init__(*args, **kwargs)
+        self.fields['value'].widget.attrs['tabindex'] = kwargs.pop(
+            'tabindex', 100
+        )
+        self.fields['value'].widget.profile = user.profile
+
+
+class MassStateForm(forms.Form):
+    type = FilterField(
+        required=True,
+        initial='all',
+        widget=forms.RadioSelect
+    )
+    state = forms.ChoiceField(
+        label=_('State to set'),
+        choices=STATE_CHOICES,
+    )
+
+    def __init__(self, user, obj, *args, **kwargs):
+        super(MassStateForm, self).__init__(*args, **kwargs)
+        excluded = {STATE_EMPTY}
+        translation = None
+        if isinstance(obj, Translation):
+            project = obj.subproject.project
+            translation = obj
+        elif isinstance(obj, SubProject):
+            project = obj.project
+        else:
+            project = obj
+
+        # Filter offered states
+        if not can_review_project(user, project):
+            excluded.add(STATE_APPROVED)
+        self.fields['state'].choices = [
+            x for x in self.fields['state'].choices
+            if x[0] not in excluded
+        ]
+
+        # Filter checks
+        if translation:
+            self.fields['type'].choices = [
+                (x[0], x[1]) for x in translation.list_translation_checks
+            ]

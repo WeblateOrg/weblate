@@ -31,12 +31,13 @@ from django.utils.functional import cached_property
 from weblate.addons.events import (
     EVENT_CHOICES, EVENT_POST_PUSH, EVENT_POST_UPDATE, EVENT_PRE_COMMIT,
     EVENT_POST_COMMIT, EVENT_POST_ADD, EVENT_UNIT_PRE_CREATE,
+    EVENT_STORE_POST_LOAD,
 )
 
 from weblate.trans.models import SubProject
 from weblate.trans.signals import (
     vcs_post_push, vcs_post_update, vcs_pre_commit, vcs_post_commit,
-    translation_post_add, unit_pre_create,
+    translation_post_add, unit_pre_create, store_post_load,
 )
 from weblate.utils.classloader import ClassLoader
 from weblate.utils.fields import JSONField
@@ -110,10 +111,12 @@ class AddonsConf(AppConf):
         'weblate.addons.gettext.UpdateLinguasAddon',
         'weblate.addons.gettext.UpdateConfigureAddon',
         'weblate.addons.gettext.MsgmergeAddon',
+        'weblate.addons.gettext.GettextCustomizeAddon',
         'weblate.addons.cleanup.CleanupAddon',
         'weblate.addons.flags.SourceEditAddon',
         'weblate.addons.flags.TargetEditAddon',
         'weblate.addons.generate.GenerateFileAddon',
+        'weblate.addons.json.JSONCustomizeAddon',
         'weblate.addons.properties.PropertiesSortAddon',
     )
 
@@ -167,3 +170,12 @@ def unit_pre_create_handler(sender, unit, **kwargs):
     )
     for addon in addons:
         addon.addon.unit_pre_create(unit)
+
+
+@receiver(store_post_load)
+def store_post_load_handler(sender, translation, store, **kwargs):
+    addons = Addon.objects.filter_event(
+        translation.subproject, EVENT_STORE_POST_LOAD
+    )
+    for addon in addons:
+        addon.addon.store_post_load(translation, store)

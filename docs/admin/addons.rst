@@ -16,9 +16,9 @@ Built in addons
 Cleanup translation files
 -------------------------
 
-Update all translation files to match the monolingual base file. In most file
-formats this means removing stale translation keys which are no longer present
-in the base file.
+Update all translation files to match the monolingual base file. For most file
+formats, this means removing stale translation keys no longer present in the
+base file.
 
 Flag new source strings to need edit
 ------------------------------------
@@ -30,7 +30,7 @@ written by the developers.
 Flag new translations to need edit
 ----------------------------------
 
-Whenever a new translation unit is imported from the VCS, it is flagged as
+Whenever a new translation string is imported from the VCS, it is flagged as
 needing editing in Weblate. This way you can easily filter and edit
 translations created by the developers.
 
@@ -44,6 +44,11 @@ Update ALL_LINGUAS variable in the configure file
 
 Updates the ALL_LINGUAS variable in configure, configure.in or configure.ac
 files when adding new translation.
+
+Customize Gettext output
+------------------------
+
+Allows to customize Gettext output behavior, for example line wrapping.
 
 Update LINGUAS file
 -------------------
@@ -61,10 +66,16 @@ Update po files to match pot (msgmerge)
 Update all po files to match the pot file using msgmerge. This is triggered
 whenever new changes are pulled from upstream repository.
 
-Formats the Java properties translation
----------------------------------------
+Customize JSON output
+---------------------
+
+Allows to customize JSON output behavior, for example indentation or sorting.
+
+Formats the Java properties file
+--------------------------------
 
 This addon sorts the Java properties file.
+
 
 Writing addon
 +++++++++++++

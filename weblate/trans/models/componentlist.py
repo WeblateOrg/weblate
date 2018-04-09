@@ -23,10 +23,12 @@
 import re
 
 from django.db import models
+from django.urls import reverse
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.trans.fields import RegexField
+from weblate.utils.stats import ComponentListStats
 
 
 @python_2_unicode_compatible
@@ -45,8 +47,22 @@ class ComponentList(models.Model):
         max_length=100,
         help_text=_('Name used in URLs and file names.')
     )
+    show_dashboard = models.BooleanField(
+        verbose_name=_('Show on dashboard'),
+        default=True,
+        db_index=True,
+        help_text=_(
+            'When enabled this component list will be shown as a tab on '
+            'the dashboard'
+        )
+    )
 
     components = models.ManyToManyField('SubProject', blank=True)
+
+    class Meta(object):
+        verbose_name = _('Component list')
+        verbose_name_plural = _('Component lists')
+        ordering = ['name']
 
     def tab_slug(self):
         return "list-" + self.slug
@@ -54,9 +70,12 @@ class ComponentList(models.Model):
     def __str__(self):
         return self.name
 
-    class Meta(object):
-        verbose_name = _('Component list')
-        verbose_name_plural = _('Component lists')
+    def __init__(self, *args, **kwargs):
+        super(ComponentList, self).__init__(*args, **kwargs)
+        self.stats = ComponentListStats(self)
+
+    def get_absolute_url(self):
+        return reverse('component-list', kwargs={'name': self.slug})
 
 
 @python_2_unicode_compatible

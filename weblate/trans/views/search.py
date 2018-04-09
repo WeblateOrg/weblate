@@ -32,20 +32,20 @@ from django.views.decorators.http import require_POST
 from weblate.lang.models import Language
 from weblate.permissions.helpers import can_translate
 from weblate.trans.forms import (
-    SiteSearchForm, ReplaceForm, ReplaceConfirmForm,
+    SiteSearchForm, ReplaceForm, ReplaceConfirmForm, MassStateForm,
 )
 from weblate.trans.models import Unit, Change, Project
 from weblate.trans.views.helper import (
     get_translation, get_subproject, get_project, import_message,
 )
 from weblate.trans.util import render
+from weblate.trans.views.helper import show_form_errors
 from weblate.utils import messages
+from weblate.utils.state import STATE_EMPTY
 from weblate.utils.views import get_page_limit
 
 
-@login_required
-@require_POST
-def search_replace(request, project, subproject=None, lang=None):
+def parse_url(request, project, subproject=None, lang=None):
     context = {}
     if subproject is None:
         obj = get_project(request, project)
@@ -69,10 +69,18 @@ def search_replace(request, project, subproject=None, lang=None):
     if not can_translate(request.user, **perms):
         raise PermissionDenied()
 
+    return obj, unit_set, context
+
+@login_required
+@require_POST
+def search_replace(request, project, subproject=None, lang=None):
+    obj, unit_set, context = parse_url(request, project, subproject, lang)
+
     form = ReplaceForm(request.POST)
 
     if not form.is_valid():
         messages.error(request, _('Failed to process form!'))
+        show_form_errors(request, form)
         return redirect(obj)
 
     search_text = form.cleaned_data['search']
@@ -103,6 +111,8 @@ def search_replace(request, project, subproject=None, lang=None):
             )
 
         matching = confirm.cleaned_data['units']
+
+        obj.commit_pending(request)
 
         with transaction.atomic():
             for unit in matching.select_for_update():
@@ -198,3 +208,52 @@ def search(request, project=None, subproject=None, lang=None):
         'search.html',
         context
     )
+
+
+@login_required
+@require_POST
+@never_cache
+def state_change(request, project, subproject=None, lang=None):
+    obj, unit_set, context = parse_url(request, project, subproject, lang)
+
+    form = MassStateForm(request.user, obj, request.POST)
+
+    if not form.is_valid():
+        messages.error(request, _('Failed to process form!'))
+        show_form_errors(request, form)
+        return redirect(obj)
+
+    matching = unit_set.filter_type(
+        form.cleaned_data['type'],
+        context['project'],
+        context['translation'].language if 'translation' in context else None,
+    ).exclude(
+        state=STATE_EMPTY
+    )
+
+    obj.commit_pending(request)
+
+    updated = 0
+    with transaction.atomic():
+        for unit in matching.select_for_update():
+            if not can_translate(request.user, unit):
+                continue
+            unit.translate(
+                request,
+                unit.target,
+                int(form.cleaned_data['state']),
+                change_action=Change.ACTION_MASS_STATE,
+            )
+            updated += 1
+
+    import_message(
+        request, updated,
+        _('Mass state change completed, no strings were updated.'),
+        ungettext(
+            'Mass state change completed, %d string was updated.',
+            'Mass state change completed, %d strings were updated.',
+            updated
+        )
+    )
+
+    return redirect(obj)

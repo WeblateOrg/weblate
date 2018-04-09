@@ -241,18 +241,20 @@ Weblate makes it easy to interact with others using its API.
 Lazy commits
 ------------
 
-The default behaviour (configured by :setting:`LAZY_COMMITS`) of Weblate is to group
-commits from the same author into one commit if possible. This greatly reduces the number of
-commits, however you might need to explicitly tell it to do the commits in case
-you want to get the VCS repository in sync, eg. for merge (this is by default
-allowed for Managers group, see :ref:`privileges`).
+The behaviour of Weblate is to group commits from the same author into one
+commit if possible. This greatly reduces the number of commits, however you
+might need to explicitly tell it to do the commits in case you want to get the
+VCS repository in sync, eg. for merge (this is by default allowed for Managers
+group, see :ref:`privileges`).
 
 The changes are in this mode committed once any of following conditions is
 fulfilled:
 
-* somebody else works on the translation
+* somebody else changes already changed string
 * a merge from upstream occurs
 * import of translation happens
+* mass state change is performed
+* search and replace is executed
 * translation for a language is completed
 * explicit commit is requested
 

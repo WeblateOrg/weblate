@@ -65,9 +65,9 @@ setup(
             'pyLibravatar',
             'pydns' if sys.version_info[0] == 2 else 'py3dns'
         ],
-        'Android': ['Babel'],
         'YAML': ['PyYAML>=3.0'],
         'OCR': ['tesserocr>=1.2'],
+        'PHP': ['phply>=1.2.3'],
     },
     classifiers=[
         'Environment :: Web Environment',

@@ -473,6 +473,21 @@ class NewLangTest(ViewTestCase):
             4
         )
 
+    def test_add_rejected(self):
+        self.subproject.project.add_user(self.user, '@Administration')
+        self.subproject.language_regex = '^cs$'
+        self.subproject.save()
+        # One chosen
+        response = self.client.post(
+            reverse('new-language', kwargs=self.kw_subproject),
+            {'lang': 'af'},
+            follow=True
+        )
+        self.assertContains(
+            response,
+            'Given language is filtered by the language filter!',
+        )
+
     def test_remove(self):
         self.test_add_owner()
         kwargs = {'lang': 'af'}
@@ -514,6 +529,15 @@ class BasicViewTest(ViewTestCase):
             unit.get_absolute_url()
         )
         self.assertContains(response, 'Hello, world!')
+
+    def test_view_component_list(self):
+        clist = ComponentList.objects.create(name="TestCL", slug="testcl")
+        clist.components.add(self.subproject)
+        response = self.client.get(
+            reverse('component-list', kwargs={'name': 'testcl'})
+        )
+        self.assertContains(response, 'TestCL')
+        self.assertContains(response, self.subproject.name)
 
 
 class BasicResourceViewTest(BasicViewTest):
@@ -584,12 +608,14 @@ class HomeViewTest(ViewTestCase):
         self.assertNotContains(response, 'whiteboard')
 
     def test_component_list(self):
-        clist = ComponentList(name="TestCL", slug="testcl")
-        clist.save()
+        clist = ComponentList.objects.create(name="TestCL", slug="testcl")
         clist.components.add(self.subproject)
 
         response = self.client.get(reverse('home'))
         self.assertContains(response, 'TestCL')
+        self.assertContains(
+            response, reverse('component-list', kwargs={'name': 'testcl'})
+        )
         self.assertEqual(len(response.context['componentlists']), 1)
 
     def test_user_component_list(self):

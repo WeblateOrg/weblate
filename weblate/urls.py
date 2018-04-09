@@ -187,6 +187,11 @@ urlpatterns = [
         name='translation',
     ),
     url(
+        r'^component-list/(?P<name>[^/]*)/$',
+        weblate.trans.views.basic.show_component_list,
+        name='component-list',
+    ),
+    url(
         r'^translate/' + TRANSLATION + '$',
         weblate.trans.views.edit.translate,
         name='translate',
@@ -235,6 +240,21 @@ urlpatterns = [
         r'^replace/' + TRANSLATION + '$',
         weblate.trans.views.search.search_replace,
         name='replace',
+    ),
+    url(
+        r'^state-change/' + PROJECT + '$',
+        weblate.trans.views.search.state_change,
+        name='state-change',
+    ),
+    url(
+        r'^state-change/' + SUBPROJECT + '$',
+        weblate.trans.views.search.state_change,
+        name='state-change',
+    ),
+    url(
+        r'^state-change/' + TRANSLATION + '$',
+        weblate.trans.views.search.state_change,
+        name='state-change',
     ),
     url(
         r'^credits/' + SUBPROJECT + '$',

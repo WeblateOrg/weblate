@@ -101,6 +101,7 @@ else:
 # List of machine translations
 MACHINE_TRANSLATION_SERVICES = (
     'weblate.trans.machine.weblatetm.WeblateTranslation',
+    'weblate.memory.machine.WeblateMemory',
 )
 
 if os.environ.get('OPENSHIFT_CLOUD_DOMAIN', False):

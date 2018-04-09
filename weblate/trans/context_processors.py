@@ -120,5 +120,7 @@ def weblate_context(request):
         'allow_index': False,
         'legal': 'weblate.legal' in settings.INSTALLED_APPS,
         'status_url': settings.STATUS_URL,
-        'configuration_errors': ConfigurationError.objects.all(),
+        'configuration_errors': ConfigurationError.objects.filter(
+            ignored=False
+        ),
     }

@@ -68,6 +68,9 @@ class WeblateConf(AppConf):
     # tmserver URL
     MT_TMSERVER = None
 
+    # API key for DeepL API
+    MT_DEEPL_KEY = None
+
     # SAP Translation Hub
     MT_SAP_BASE_URL = None
     MT_SAP_SANDBOX_APIKEY = None
@@ -106,7 +109,6 @@ class WeblateConf(AppConf):
     SIMILAR_MESSAGES = 5
 
     # Enable lazy commits
-    LAZY_COMMITS = True
     COMMIT_PENDING_HOURS = 24
 
     # Offload indexing
@@ -158,6 +160,7 @@ class WeblateConf(AppConf):
     # List of machine translations
     MACHINE_TRANSLATION_SERVICES = (
         'weblate.trans.machine.weblatetm.WeblateTranslation',
+        'weblate.memory.machine.WeblateMemory',
     )
 
     # Whether machine translations are enabled
@@ -222,6 +225,9 @@ class WeblateConf(AppConf):
     DEFAULT_COMMITER_NAME = 'Weblate'
 
     DEFAULT_TRANSLATION_PROPAGATION = True
+
+    DEFAULT_PUSH_ON_COMMIT = True
+    DEFAULT_VCS = 'git'
 
     # Billing
     INVOICE_PATH = ''

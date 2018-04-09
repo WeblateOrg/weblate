@@ -44,10 +44,10 @@ class CleanupAddon(UpdateBaseAddon):
         return self.instance.component.template_store.store
 
     @classmethod
-    def is_compatible(cls, component):
+    def can_install(cls, component, user):
         if not component.has_template():
             return False
-        return super(CleanupAddon, cls).is_compatible(component)
+        return super(CleanupAddon, cls).can_install(component, user)
 
     @staticmethod
     def build_index(storage):

@@ -199,7 +199,8 @@ class LanguageQuerySet(models.QuerySet):
             return ret
 
         # Try canonical variant
-        if settings.SIMPLIFY_LANGUAGES and newcode in data.DEFAULT_LANGS:
+        if (settings.SIMPLIFY_LANGUAGES and
+                newcode.lower() in data.DEFAULT_LANGS):
             ret = self.try_get(code=lang.lower())
             if ret is not None:
                 return ret
@@ -495,6 +496,7 @@ class Plural(models.Model):
     equation = models.CharField(
         max_length=400,
         default='n != 1',
+        blank=False,
         verbose_name=ugettext_lazy('Plural equation'),
     )
     type = models.IntegerField(
@@ -521,7 +523,9 @@ class Plural(models.Model):
 
     @cached_property
     def plural_function(self):
-        return gettext.c2py(self.equation)
+        return gettext.c2py(
+            self.equation if self.equation else '0'
+        )
 
     @cached_property
     def examples(self):
@@ -542,11 +546,16 @@ class Plural(models.Model):
         if matches is None:
             raise ValueError('Failed to parse formula')
 
-        return int(matches.group(1)), matches.group(2)
+        number = int(matches.group(1))
+        formula = matches.group(2)
+        if not formula:
+            formula = '0'
+
+        return number, formula
 
     def same_plural(self, number, equation):
         """Compare whether given plurals formula matches"""
-        if number != self.number:
+        if number != self.number or not equation:
             return False
 
         # Convert formulas to functions

@@ -2,25 +2,27 @@
 
 <tr>
 <th>{% trans "Number of strings" %}</th>
-<td colspan="2">{{ unit_count }}</td>
+<td colspan="2">{{ object.stats.all }}</td>
 </tr>
 
 <tr>
 <th>{% trans "Number of words" %}</th>
-<td colspan="2">{{ words_count }}</td>
+<td colspan="2">{{ object.stats.all_words }}</td>
 </tr>
 
+{% if language_count %}
 <tr>
 <th>{% trans "Number of languages" %}</th>
 <td colspan="2">{{ language_count }}</td>
 </tr>
+{% endif %}
 
 <tr>
 <th>{% trans "Number of source strings" %}</th>
-<td colspan="2">{{ strings_count }}</td>
+<td colspan="2">{{ object.stats.source_strings }}</td>
 </tr>
 
 <tr>
 <th>{% trans "Number of source words" %}</th>
-<td colspan="2">{{ source_words_count }}</td>
+<td colspan="2">{{ object.stats.source_words }}</td>
 </tr>

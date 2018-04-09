@@ -31,7 +31,7 @@ class ExampleAddon(BaseAddon):
     # matched against property of component
     compat = {
         'file_format': frozenset((
-            'po', 'po-unwrapped', 'po-mono', 'po-mono-unwrapped'
+            'po', 'po-mono',
         )),
     }
     # List of events addon should receive
@@ -41,7 +41,7 @@ class ExampleAddon(BaseAddon):
     # Verbose name shown in the user interface
     verbose = _('Example addon')
     # Detailed addon description
-    description = _('This addon does nothing it is just an example')
+    description = _('This addon does nothing it is just an example.')
 
     # Callback to implement custom behavior
     def pre_commit(self, translation):

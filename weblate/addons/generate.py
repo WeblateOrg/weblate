@@ -35,17 +35,17 @@ class GenerateFileAddon(BaseAddon):
     name = 'weblate.generate.generate'
     verbose = _('Statistics generator')
     description = _(
-        'This addon generates file with detailed information '
+        'This addon generates a file containing detailed information '
         'about the translation.'
     )
     settings_form = GenerateForm
     icon = 'bar-chart'
 
     @classmethod
-    def is_compatible(cls, component):
+    def can_install(cls, component, user):
         if not component.translation_set.exists():
             return False
-        return super(GenerateFileAddon, cls).is_compatible(component)
+        return super(GenerateFileAddon, cls).can_install(component, user)
 
     def pre_commit(self, translation):
         filename = os.path.join(

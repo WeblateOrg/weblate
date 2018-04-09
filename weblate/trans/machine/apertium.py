@@ -45,6 +45,7 @@ LANGUAGE_MAP = {
 class ApertiumAPYTranslation(MachineTranslation):
     """Apertium machine translation support."""
     name = 'Apertium APy'
+    max_score = 90
 
     def __init__(self):
         """Check configuration."""
@@ -104,7 +105,7 @@ class ApertiumAPYTranslation(MachineTranslation):
 
         return [(
             response['responseData']['translatedText'],
-            100,
+            self.max_score,
             self.name,
             text
         )]

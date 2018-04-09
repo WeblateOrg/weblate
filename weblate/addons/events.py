@@ -26,6 +26,7 @@ EVENT_PRE_COMMIT = 3
 EVENT_POST_COMMIT = 4
 EVENT_POST_ADD = 5
 EVENT_UNIT_PRE_CREATE = 6
+EVENT_STORE_POST_LOAD = 7
 
 EVENT_CHOICES = (
     (EVENT_POST_PUSH, 'post push'),
@@ -34,4 +35,5 @@ EVENT_CHOICES = (
     (EVENT_POST_COMMIT, 'post commit'),
     (EVENT_POST_ADD, 'post add'),
     (EVENT_UNIT_PRE_CREATE, 'unit post create'),
+    (EVENT_STORE_POST_LOAD, 'store post load'),
 )

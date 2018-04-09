@@ -20,6 +20,7 @@
 
 from __future__ import unicode_literals
 
+from unittest import SkipTest
 import os
 
 from django.core.management import call_command
@@ -37,7 +38,9 @@ from weblate.addons.flags import SourceEditAddon, TargetEditAddon
 from weblate.addons.generate import GenerateFileAddon
 from weblate.addons.gettext import (
     GenerateMoAddon, UpdateLinguasAddon, UpdateConfigureAddon, MsgmergeAddon,
+    GettextCustomizeAddon,
 )
+from weblate.addons.json import JSONCustomizeAddon
 from weblate.addons.properties import PropertiesSortAddon
 from weblate.lang.models import Language
 from weblate.trans.models import Unit
@@ -45,11 +48,11 @@ from weblate.utils.state import STATE_FUZZY, STATE_EMPTY
 
 
 class AddonBaseTest(FixtureTestCase):
-    def test_is_compatible(self):
-        self.assertTrue(TestAddon.is_compatible(self.subproject))
+    def test_can_install(self):
+        self.assertTrue(TestAddon.can_install(self.subproject, None))
 
     def test_example(self):
-        self.assertTrue(ExampleAddon.is_compatible(self.subproject))
+        self.assertTrue(ExampleAddon.can_install(self.subproject, None))
         addon = ExampleAddon.create(self.subproject)
         addon.pre_commit(None)
 
@@ -115,6 +118,27 @@ class IntegrationTest(ViewTestCase):
         )
         self.assertIn('po/cs.po', commit)
 
+    def test_store(self):
+        if not GettextCustomizeAddon.can_install(self.subproject, None):
+            raise SkipTest('po wrap configuration not supported')
+        GettextCustomizeAddon.create(
+            self.subproject,
+            configuration={'width': -1}
+        )
+        # Empty addons cache
+        self.subproject.addons_cache = {}
+        rev = self.subproject.repository.last_revision
+        self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
+        self.get_translation().commit_pending(None)
+        self.assertNotEqual(rev, self.subproject.repository.last_revision)
+        commit = self.subproject.repository.show(
+            self.subproject.repository.last_revision
+        )
+        self.assertIn(
+            'Last-Translator: Weblate Test <weblate@example.org>\\nLanguage',
+            commit
+        )
+
 
 class GettextAddonTest(ViewTestCase):
     def create_subproject(self):
@@ -122,7 +146,9 @@ class GettextAddonTest(ViewTestCase):
 
     def test_gettext_mo(self):
         translation = self.get_translation()
-        self.assertTrue(GenerateMoAddon.is_compatible(translation.subproject))
+        self.assertTrue(
+            GenerateMoAddon.can_install(translation.subproject, None)
+        )
         addon = GenerateMoAddon.create(translation.subproject)
         addon.pre_commit(translation)
         self.assertTrue(
@@ -132,7 +158,7 @@ class GettextAddonTest(ViewTestCase):
     def test_update_linguas(self):
         translation = self.get_translation()
         self.assertTrue(
-            UpdateLinguasAddon.is_compatible(translation.subproject)
+            UpdateLinguasAddon.can_install(translation.subproject, None)
         )
         addon = UpdateLinguasAddon.create(translation.subproject)
         addon.post_add(translation)
@@ -143,7 +169,7 @@ class GettextAddonTest(ViewTestCase):
     def test_update_configure(self):
         translation = self.get_translation()
         self.assertTrue(
-            UpdateConfigureAddon.is_compatible(translation.subproject)
+            UpdateConfigureAddon.can_install(translation.subproject, None)
         )
         addon = UpdateConfigureAddon.create(translation.subproject)
         addon.post_add(translation)
@@ -152,7 +178,7 @@ class GettextAddonTest(ViewTestCase):
         )
 
     def test_msgmerge(self):
-        self.assertTrue(MsgmergeAddon.is_compatible(self.subproject))
+        self.assertTrue(MsgmergeAddon.can_install(self.subproject, None))
         addon = MsgmergeAddon.create(self.subproject)
         rev = self.subproject.repository.last_revision
         addon.post_update(self.subproject, '')
@@ -164,7 +190,7 @@ class GettextAddonTest(ViewTestCase):
 
     def test_generate(self):
         self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
-        self.assertTrue(GenerateFileAddon.is_compatible(self.subproject))
+        self.assertTrue(GenerateFileAddon.can_install(self.subproject, None))
         GenerateFileAddon.create(
             self.subproject,
             configuration={
@@ -187,7 +213,7 @@ class AndroidAddonTest(ViewTestCase):
         return self.create_android(suffix='-not-synced', new_lang='add')
 
     def test_cleanup(self):
-        self.assertTrue(CleanupAddon.is_compatible(self.subproject))
+        self.assertTrue(CleanupAddon.can_install(self.subproject, None))
         addon = CleanupAddon.create(self.subproject)
         rev = self.subproject.repository.last_revision
         addon.post_update(self.subproject, '')
@@ -203,7 +229,7 @@ class ResxAddonTest(ViewTestCase):
         return self.create_resx()
 
     def test_cleanup(self):
-        self.assertTrue(CleanupAddon.is_compatible(self.subproject))
+        self.assertTrue(CleanupAddon.can_install(self.subproject, None))
         addon = CleanupAddon.create(self.subproject)
         rev = self.subproject.repository.last_revision
         addon.post_update(
@@ -221,7 +247,7 @@ class JsonAddonTest(ViewTestCase):
         return self.create_json_mono(suffix='mono-sync')
 
     def test_cleanup(self):
-        self.assertTrue(CleanupAddon.is_compatible(self.subproject))
+        self.assertTrue(CleanupAddon.can_install(self.subproject, None))
         addon = CleanupAddon.create(self.subproject)
         rev = self.subproject.repository.last_revision
         addon.post_update(self.subproject, '')
@@ -232,8 +258,8 @@ class JsonAddonTest(ViewTestCase):
         self.assertIn('json-mono-sync/cs.json', commit)
 
     def test_unit(self):
-        self.assertTrue(SourceEditAddon.is_compatible(self.subproject))
-        self.assertTrue(TargetEditAddon.is_compatible(self.subproject))
+        self.assertTrue(SourceEditAddon.can_install(self.subproject, None))
+        self.assertTrue(TargetEditAddon.can_install(self.subproject, None))
         SourceEditAddon.create(self.subproject)
         TargetEditAddon.create(self.subproject)
         Unit.objects.all().delete()
@@ -242,6 +268,27 @@ class JsonAddonTest(ViewTestCase):
             Unit.objects.exclude(
                 state__in=(STATE_FUZZY, STATE_EMPTY)
             ).exists()
+        )
+
+    def test_customize(self):
+        if not JSONCustomizeAddon.can_install(self.subproject, None):
+            raise SkipTest('json dump configuration not supported')
+        JSONCustomizeAddon.create(
+            self.subproject,
+            configuration={'indent': 8, 'sort': 1}
+        )
+        # Empty addons cache
+        self.subproject.addons_cache = {}
+        rev = self.subproject.repository.last_revision
+        self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
+        self.get_translation().commit_pending(None)
+        self.assertNotEqual(rev, self.subproject.repository.last_revision)
+        commit = self.subproject.repository.show(
+            self.subproject.repository.last_revision
+        )
+        self.assertIn(
+            '        "try"',
+            commit
         )
 
 
@@ -254,7 +301,7 @@ class ViewTests(ViewTestCase):
         response = self.client.get(
             reverse('addons', kwargs=self.kw_subproject)
         )
-        self.assertContains(response, 'Generate mo files')
+        self.assertContains(response, 'Generate MO files')
 
     def test_add_simple(self):
         response = self.client.post(
@@ -316,7 +363,7 @@ class PropertiesAddonTest(ViewTestCase):
 
     def test_sort(self):
         self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
-        self.assertTrue(PropertiesSortAddon.is_compatible(self.subproject))
+        self.assertTrue(PropertiesSortAddon.can_install(self.subproject, None))
         PropertiesSortAddon.create(self.subproject)
         self.get_translation().commit_pending(None)
         commit = self.subproject.repository.show(
