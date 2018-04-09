@@ -25,6 +25,7 @@ import os
 import traceback
 import re
 from io import BytesIO
+from zipfile import BadZipfile
 
 import six
 from django.utils.translation import ugettext_lazy as _
@@ -163,10 +164,15 @@ class XlsxFormat(ExternalFileFormat):
 
     @staticmethod
     def convert_to_internal(filename, content):
-        workbook = load_workbook(filename=BytesIO(content))
-        worksheet = workbook.active
+        # try to load the given file via openpyxl
+        # catch at least the BadZipFile exception if an unsupported file has been given
+        try:
+            workbook = load_workbook(filename=BytesIO(content))
+            worksheet = workbook.active
+        except BadZipfile:
+            return None, None
 
-        output = csv.StringIO()
+        output = BytesIO()
         writer = csv.writer(output)
 
         for row in worksheet.rows:
@@ -174,6 +180,7 @@ class XlsxFormat(ExternalFileFormat):
 
         name = os.path.basename(filename) + ".csv"
 
+        # return the new csv as bytes
         return name, output.getvalue()
 
     @staticmethod
