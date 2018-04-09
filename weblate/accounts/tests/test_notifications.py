@@ -49,6 +49,7 @@ class NotificationTest(FixtureTestCase, RegistrationTestMixin):
         super(NotificationTest, self).setUp()
         self.user.email = 'noreply@weblate.org'
         self.user.save()
+        czech = Language.objects.get(code='cs')
         profile = Profile.objects.get(user=self.user)
         profile.subscribe_any_translation = True
         profile.subscribe_new_string = True
@@ -58,9 +59,7 @@ class NotificationTest(FixtureTestCase, RegistrationTestMixin):
         profile.subscribe_new_language = True
         profile.subscribe_merge_failure = True
         profile.subscriptions.add(self.project)
-        profile.languages.add(
-            Language.objects.get(code='cs')
-        )
+        profile.languages.add(czech)
         profile.save()
 
     @staticmethod
@@ -262,3 +261,13 @@ class NotificationTest(FixtureTestCase, RegistrationTestMixin):
         notify_account_activity(request.user, request, 'password')
         self.assertEqual(len(mail.outbox), 1)
         self.assert_notify_mailbox(mail.outbox[0])
+
+    def test_notify_html_language(self):
+        profile = Profile.objects.get(user=self.user)
+        profile.language = 'cs'
+        profile.save()
+        request = self.get_request('/')
+        notify_account_activity(request.user, request, 'password')
+        self.assertEqual(len(mail.outbox), 1)
+        # There is just one (html) alternative
+        self.assertIn('lang="cs"', mail.outbox[0].alternatives[0][0])

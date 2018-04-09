@@ -279,6 +279,9 @@ def get_notification_email(language, email, notification,
         context['subject_template'] = 'mail/{0}_subject.txt'.format(
             notification
         )
+        context['LANGUAGE_CODE'] = django_translation.get_language()
+        context['LANGUAGE_BIDI'] = django_translation.get_language_bidi()
+
 
         # Adjust context
         context['current_site_url'] = get_site_url()
