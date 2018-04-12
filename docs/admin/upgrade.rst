@@ -22,32 +22,35 @@ work, but is not as well tested as single version upgrades.
     It is recommended to perform a full database backup prior to upgrade so that you
     can roll back the database in case upgrade fails.
 
-1. Upgrade database structure:
+1. Upgrade configuration file, refer to :file:`settings_example.py` or
+   :ref:`version-specific-instructions` for needed steps.
+
+2. Upgrade database structure:
 
    .. code-block:: sh
 
         ./manage.py migrate --noinput
 
-2. Collect updated static files (mostly javacript and CSS):
+3. Collect updated static files (mostly javacript and CSS):
 
    .. code-block:: sh
 
         ./manage.py collectstatic --noinput
 
-3. Update language definitions (this is not necessary, but heavily recommended):
+4. Update language definitions (this is not necessary, but heavily recommended):
 
    .. code-block:: sh
 
         ./manage.py setuplang
 
-4. Optionally upgrade default set of privileges definitions (you might want to
+5. Optionally upgrade default set of privileges definitions (you might want to
    add new permissions manually if you have heavily tweaked access control):
 
    .. code-block:: sh
 
         ./manage.py setupgroups
 
-5. If you are running version from Git, you should also regenerate locale files
+6. If you are running version from Git, you should also regenerate locale files
    every time you are upgrading. You can do this by invoking:
 
    .. code-block:: sh
