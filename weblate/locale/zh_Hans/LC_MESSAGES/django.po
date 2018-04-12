@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 2.20\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-04-01 19:22+0000\n"
-"PO-Revision-Date: 2018-03-20 09:46+0000\n"
+"PO-Revision-Date: 2018-04-13 06:23+0000\n"
 "Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hans/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2.20-dev\n"
+"X-Generator: Weblate 3.0-dev\n"
 
 #: weblate/accounts/admin.py:109 weblate/accounts/admin.py:114
 msgid "Personal info"
@@ -253,16 +253,14 @@ msgid "Authentication using {method} ({name}) has been removed."
 msgstr "使用 {method} ({name}) 身份验证已被删除。"
 
 #: weblate/accounts/models.py:69
-#, fuzzy, python-brace-format
-#| msgid "Successfully authenticated using {method} ({name})."
+#, python-brace-format
 msgid "Authenticated using {method} ({name})."
-msgstr "使用 {method} ({name}) 的身份验证已成功。"
+msgstr "已使用 {method} ({name}) 验证身份。"
 
 #: weblate/accounts/models.py:72
-#, fuzzy, python-brace-format
-#| msgid "Successfully authenticated using {method} ({name}) from new device."
+#, python-brace-format
 msgid "Authenticated using {method} ({name}) from new device."
-msgstr "成功从新设备使用 {method} ({name}) 进行身份验证。"
+msgstr "已使用 {method} ({name}) 从新设备验证身份。"
 
 #: weblate/accounts/models.py:75
 msgid "Somebody has attempted to register with your email."
@@ -292,7 +290,7 @@ msgstr "同意服务条款 {date}。"
 
 #: weblate/accounts/models.py:96
 msgid "To restore access to your account, please reset your password."
-msgstr ""
+msgstr "如需恢复对您账户的访问，请重置密码。"
 
 #: weblate/accounts/models.py:219 weblate/templates/accounts/profile.html:310
 msgid "Account activity"
@@ -5099,10 +5097,8 @@ msgid "Inconsistent"
 msgstr "不一致的"
 
 #: weblate/trans/checks/consistency.py:73
-#, fuzzy
-#| msgid "This message has more than one translation in this project"
 msgid "This string has more than one translation in this project"
-msgstr "此信息在项目中有不止一种翻译方式"
+msgstr "此字符串在项目中有不止一种翻译方式"
 
 #: weblate/trans/checks/consistency.py:101
 msgid "Has been translated"
