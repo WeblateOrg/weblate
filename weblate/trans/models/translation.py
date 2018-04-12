@@ -426,7 +426,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                     unit = self.unit_set.filter(
                         pending=True,
                         change__action__in=Change.ACTIONS_CONTENT,
-                        cahnge__user__isnull=False,
+                        change__user__isnull=False,
                     ).annotate(
                         Max('change__timestamp')
                     ).order_by(
