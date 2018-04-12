@@ -424,7 +424,9 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 # Find oldest change break loop if there is none left
                 try:
                     unit = self.unit_set.filter(
-                        pending=True
+                        pending=True,
+                        change__action__in=Change.ACTIONS_CONTENT,
+                        cahnge__user__isnull=False,
                     ).annotate(
                         Max('change__timestamp')
                     ).order_by(
