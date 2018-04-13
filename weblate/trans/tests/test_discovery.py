@@ -55,7 +55,7 @@ class ComponentDiscoveryTest(RepoTestCase):
         self.assertEquals(
             self.discovery.matched_components,
             {
-                'po': {
+                'po/*.po': {
                     'files': {'po/cs.po', 'po/de.po', 'po/it.po'},
                     'languages': {'cs', 'de', 'it'},
                     'mask': 'po/*.po',
@@ -63,7 +63,7 @@ class ComponentDiscoveryTest(RepoTestCase):
                     'slug': 'po',
                     'base_file': '',
                 },
-                'po-mono': {
+                'po-mono/*.po': {
                     'files': {
                         'po-mono/cs.po', 'po-mono/de.po',
                         'po-mono/it.po', 'po-mono/en.po'
@@ -74,7 +74,7 @@ class ComponentDiscoveryTest(RepoTestCase):
                     'slug': 'po-mono',
                     'base_file': '',
                 },
-                'second-po': {
+                'second-po/*.po': {
                     'files': {'second-po/cs.po', 'second-po/de.po'},
                     'languages': {'cs', 'de'},
                     'mask': 'second-po/*.po',
@@ -129,5 +129,18 @@ class ComponentDiscoveryTest(RepoTestCase):
         # Components should be now removed
         created, matched, deleted = discovery.perform(remove=True)
         self.assertEqual(len(created), 0)
+        self.assertEqual(len(matched), 0)
+        self.assertEqual(len(deleted), 0)
+
+    def test_duplicates(self):
+        # Create all components with desired name po
+        discovery = ComponentDiscovery(
+            self.component,
+            r'[^/]*(?P<component>po)[^/]*/(?P<language>[^/]*)\.po',
+            '{{ component|title }}',
+            '^(?!xx).*$',
+        )
+        created, matched, deleted = discovery.perform()
+        self.assertEqual(len(created), 2)
         self.assertEqual(len(matched), 0)
         self.assertEqual(len(deleted), 0)
