@@ -134,12 +134,12 @@ class SubProjectQuerySet(models.QuerySet):
 class SubProject(models.Model, URLMixin, PathMixin):
     name = models.CharField(
         verbose_name=ugettext_lazy('Component name'),
-        max_length=100,
+        max_length=settings.COMPONENT_NAME_LENGTH,
         help_text=ugettext_lazy('Name to display')
     )
     slug = models.SlugField(
         verbose_name=ugettext_lazy('URL slug'),
-        max_length=100,
+        max_length=settings.COMPONENT_NAME_LENGTH,
         help_text=ugettext_lazy('Name used in URLs and file names.')
     )
     project = models.ForeignKey(
