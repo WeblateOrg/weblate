@@ -349,6 +349,12 @@ import_project
 
 .. django-admin:: import_project <project> <gitrepo> <branch> <filemask>
 
+.. versionchanged:: 3.0
+
+    The import_project command is now based on the
+    :ref:`addon-weblate.discovery.discovery` addon and that has lead to some
+    changes in behavior and accepted parameters.
+
 Batch imports components into project based on file mask.
 
 `<project>` names an existing project, into which the components should
@@ -359,21 +365,29 @@ git branch.
 To import additional translation components, from an existing Weblate component,
 use a `weblate://<project>/<component>` URL for the `<gitrepo>`.
 
-The repository is searched for directories matching a double wildcard
-(`**`) in the `<filemask>`.
-Each of these is then added as a component, named after the matched
-directory.
-Existing components will be skipped.
+The `<filemask>` defines files discovery in the repository. It can be either
+simple using wildcards or it can use full power of regular expressions.
 
+The simple matching uses ``**`` for component name and ``*`` for language, for
+example: ``**/*.po``
+
+The regullar expression has to contain named groups `component` and `language`.
+For example: ``(?P<language>[^/]*)/(?P<component>[^-/]*)\.po``
+
+The import matches existing components based on files and adds the ones which
+do not exist. It does no changes to the already existing ones.
 
 .. django-admin-option:: --name-template TEMPLATE
 
-    Customise the component's name, its parameter is a python formatting
-    string, which will expect the match from `<filemask>`.
+    Customise the component's name, using Django template syntax.
+
+    For example: ``Documentation: {{ component }}``
 
 .. django-admin-option:: --base-file-template TEMPLATE
 
     Customise base file for monolingual translations.
+
+    For example: ``{{ component }}/res/values/string.xml``
 
 .. django-admin-option:: --file-format FORMAT
 
@@ -402,23 +416,6 @@ Existing components will be skipped.
 
     In case you need to specify version control system to use, you can do it
     here. The default version control is Git.
-
-.. django-admin-option:: --component-regexp REGEX
-
-    You can override parsing of component name from matched files here. This is
-    a regular expression which will be matched against file name (as matched by
-    `<filemask>`) and has to contain named groups `name` and `language`. This
-    can be also used for excluding files in case they do not match this
-    expression. For example: ``(?P<language>.*)/(?P<name>[^-]*)\.po``
-
-.. django-admin-option:: --no-skip-duplicates
-
-    By default the import does skip already existing projects. This is to allow
-    repeated importing of same repository. However if you want to force
-    importing additional components even if name or slug matches existing one,
-    you can do it by passing ``--no-skip-duplicates``. This is generally useful
-    for components with long names, which will get truncated on import and many
-    of them will get same name or slug.
 
 To give you some examples, let's try importing two projects.
 
@@ -454,10 +451,9 @@ language out of file name like
 .. code-block:: sh
 
     ./manage.py import_project \
-        --component-regexp 'wiki/src/security/(?P<name>.*)\.([^.]*)\.po$' \
         tails \
         git://git.tails.boum.org/tails master \
-        'wiki/src/security/**.*.po'
+        'wiki/src/security/(?P<component>.*)\.(?P<language>[^.]*)\.po$'
 
 Filtering only translations in chosen language:
 
