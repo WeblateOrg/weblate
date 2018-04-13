@@ -29,6 +29,7 @@ from django.utils.functional import cached_property
 from django.utils.text import slugify
 
 from weblate.trans.models import SubProject
+from weblate.logger import LOGGER
 from weblate.utils.render import render_template
 
 
@@ -47,6 +48,7 @@ class ComponentDiscovery(object):
         self.language_re = language_regex
         self.language_match = re.compile(language_regex)
         self.file_format = file_format
+        self.logger = LOGGER
 
     @cached_property
     def matches(self):
@@ -134,6 +136,7 @@ class ComponentDiscovery(object):
                     continue
                 break
 
+        self.logger.info('Creating component %s', name)
         return SubProject.objects.create(
             name=name,
             slug=slug,
