@@ -34,6 +34,8 @@ class Command(BaseCommand):
         to match current shipped definitions.
         """
         for dummy, obj in sorted(ADDONS.items()):
+            self.stdout.write('.. _addon-{}:'.format(obj.name))
+            self.stdout.write('\n')
             self.stdout.write(obj.verbose)
             self.stdout.write('-' * len(obj.verbose))
             self.stdout.write('\n')
