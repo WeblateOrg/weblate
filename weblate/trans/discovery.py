@@ -23,6 +23,8 @@ from __future__ import unicode_literals
 import os
 import re
 
+from django.conf import settings
+from django.db.models import Q
 from django.utils.functional import cached_property
 from django.utils.text import slugify
 
@@ -77,9 +79,9 @@ class ComponentDiscovery(object):
         """Return list of matched components."""
         result = {}
         for path, groups, mask in self.matches:
-            if groups['component'] not in result:
+            if mask not in result:
                 name = render_template(self.name_template, **groups)
-                result[groups['component']] = {
+                result[mask] = {
                     'files': {path},
                     'languages': {groups['language']},
                     'base_file': render_template(
@@ -90,16 +92,38 @@ class ComponentDiscovery(object):
                     'slug': slugify(name),
                 }
             else:
-                result[groups['component']]['files'].add(path)
-                result[groups['component']]['languages'].add(
-                    groups['language']
-                )
+                result[mask]['files'].add(path)
+                result[mask]['languages'].add(groups['language'])
         return result
 
     def create_component(self, main, match):
+        max_length = settings.COMPONENT_NAME_LENGTH
+
+        def get_val(key, extra=0):
+            result = match[key]
+            if len(result) > max_length - extra:
+                result = result[:max_length - extra]
+            return result
+
+        name = get_val('name')
+        slug = get_val('slug')
+        components = SubProject.objects.filter(project=main.project)
+
+        if components.filter(Q(slug=slug) | Q(name=name)).exists():
+            base_name = get_val('name', 4)
+            base_slug = get_val('slug', 4)
+
+            for i in range(1, 1000):
+                name = '{} {}'.format(base_name, i)
+                slug = '{}-{}'.format(base_name, i)
+
+                if components.filter(Q(slug=slug) | Q(name=name)).exists():
+                    continue
+                break
+
         return SubProject.objects.create(
-            name=match['name'],
-            slug=match['slug'],
+            name=name,
+            slug=slug,
             project=main.project,
             repo=main.get_repo_link_url(),
             branch=main.branch,
