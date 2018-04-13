@@ -5,7 +5,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-04-13 19:09+0000\n"
 "PO-Revision-Date: 2018-04-13 20:38+0000\n"
-"Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
+"Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/master/fr/"
 ">\n"
 "Language: fr\n"
@@ -675,16 +675,16 @@ msgstr ""
 "signifie supprimer les clés de traduction désuètes."
 
 #: weblate/addons/discovery.py:35
-#, fuzzy
-#| msgid "Component list"
 msgid "Component discovery"
-msgstr "Liste de composants"
+msgstr "Découverte de composant"
 
 #: weblate/addons/discovery.py:37
 msgid ""
 "This addon automatically adds or removes components to the project based on "
 "file changes in the version control system."
 msgstr ""
+"Ce greffon ajoute ou supprime automatiquement des composants au projet en se "
+"basant sur les modifications de fichier du système de contrôle de version."
 
 #: weblate/addons/example.py:42
 msgid "Example addon"
@@ -761,12 +761,8 @@ msgid "JSON indentation"
 msgstr "Indentation JSON"
 
 #: weblate/addons/forms.py:120
-#, fuzzy
-#| msgid "Regular expression which is used to match user email."
 msgid "Regular expression to match translation files"
-msgstr ""
-"Expression régulière qui est utilisée pour la correspondance du courriel "
-"utilisateur."
+msgstr "Expression régulière pour correspondre aux fichiers de traduction"
 
 #: weblate/addons/forms.py:124 weblate/trans/models/subproject.py:247
 msgid "File format"
@@ -783,16 +779,12 @@ msgid "Customise the component name"
 msgstr "Personnaliser le nom du composant"
 
 #: weblate/addons/forms.py:139
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Define the monolingual base filename"
-msgstr "Fichier de base unilingue"
+msgstr "Définit le nom de fichier unilingue de base"
 
 #: weblate/addons/forms.py:142
-#, fuzzy
-#| msgid "The request for machine translation has failed:"
 msgid "Keep empty for bilingual translation files."
-msgstr "La requête de traduction automatisée a échoué : "
+msgstr "Garder vide pour les fichiers de traduction bilingue."
 
 #: weblate/addons/forms.py:145 weblate/trans/models/subproject.py:483
 msgid "Language filter"
@@ -808,19 +800,15 @@ msgstr ""
 
 #: weblate/addons/forms.py:155
 msgid "Remove components for non existing files"
-msgstr ""
+msgstr "Supprimer les composants pour les fichiers n'existant pas"
 
 #: weblate/addons/forms.py:159
 msgid "I confirm that the above matches look correct"
-msgstr ""
+msgstr "Je confirme que les correspondances ci-dessus semblent correctes"
 
 #: weblate/addons/forms.py:220
-#, fuzzy
-#| msgid "Please review and confirm the search and replace results."
 msgid "Please review and confirm matched components."
-msgstr ""
-"Veuillez contrôler et confirmer les résultats de l'opération Rechercher et "
-"remplacer."
+msgstr "Veuillez revérifier et confirmer les composants correspondants."
 
 #: weblate/addons/generate.py:36
 msgid "Statistics generator"
@@ -2438,54 +2426,52 @@ msgid ""
 "The regular expression to match translation files has to contain two named "
 "groups to match component and language, some examples:"
 msgstr ""
+"L'expression régulière qui correspond aux fichiers de traduction doit "
+"contenir deux groupes nommés qui correspondent au composant et à la langue, "
+"des exemples :"
 
 #: weblate/templates/addons/discovery_help.html:8
 msgid "Regular expression"
 msgstr "Expression régulière"
 
 #: weblate/templates/addons/discovery_help.html:9
-#, fuzzy
-#| msgid "Failed to parse %d matched files!"
 msgid "Example matched files"
-msgstr "Échec d’analyse de %d fichiers correspondants !"
+msgstr "Exemple de fichiers correspondants"
 
 #: weblate/templates/addons/discovery_help.html:22
 msgid "One folder per language containing translation files for components."
 msgstr ""
+"Un dossier par langue contenant des fichiers de traduction pour les "
+"composants."
 
 #: weblate/templates/addons/discovery_help.html:32
 msgid "Usual structure for storing gettext po files."
-msgstr ""
+msgstr "Structure habituelle pour stocker les fichiers po de gettext."
 
 #: weblate/templates/addons/discovery_help.html:42
 msgid "Using both component and language name within filename."
 msgstr ""
+"Utilisation des noms du composant et du langage dans le même nom de fichier."
 
 #: weblate/templates/addons/discovery_help.html:52
 msgid "Using language in both path and filename."
 msgstr "Langue utilisée à la fois pour le chemin et le nom de fichier."
 
 #: weblate/templates/addons/discovery_help.html:57
-#, fuzzy
-#| msgid ""
-#| "You can use Django templates markup in both filename and content, for "
-#| "example:"
 msgid ""
 "You can use Django templates markup in both component name and monolingual "
 "base filename, for example:"
 msgstr ""
-"Vous pouvez utiliser le balisage des modèles Django à la fois dans le nom de "
-"fichier et dans le contenu, par exemple :"
+"Vous pouvez utiliser le balisage des modèles Django à la fois dans le nom du "
+"composant et le nom de fichier unilingue de base, par exemple :"
 
 #: weblate/templates/addons/discovery_help.html:61
-#, fuzzy
-#| msgid "Component name"
 msgid "Component filename match"
-msgstr "Nom du composant"
+msgstr "Nom de fichier du composant correspondant"
 
 #: weblate/templates/addons/discovery_help.html:63
 msgid "Component filename with upper case first letter"
-msgstr ""
+msgstr "Nom de fichier du composant avec la première lettre en majuscule"
 
 #: weblate/templates/addons/discovery_preview.html:5
 #: weblate/templates/list-translations.html:7
@@ -2508,11 +2494,11 @@ msgstr "Les composants suivants vont être créés"
 
 #: weblate/templates/addons/discovery_preview.html:28
 msgid "Following components matched existing ones"
-msgstr ""
+msgstr "Suivre les composants qui correspondent à ceux existants"
 
 #: weblate/templates/addons/discovery_preview.html:41
 msgid "No components were matched!"
-msgstr ""
+msgstr "Aucun composant ne correspond !"
 
 #: weblate/templates/addons/generate_help.html:3
 msgid ""
@@ -7939,6 +7925,8 @@ msgid ""
 "Regular expression is missing named group \"{0}\", the simplest way to "
 "define it is {1}."
 msgstr ""
+"Il manque le groupe nommé \"{0}\" dans l'expression régulière , le moyen le "
+"plus simple de le définir est {1}."
 
 #: weblate/utils/validators.py:127
 msgid "Invalid image!"
