@@ -67,7 +67,9 @@ class ComponentDiscoveryTest(RepoTestCase):
                     'base_file': '',
                 },
                 'po-link/*.po': {
-                    'files': {'po-link/cs.po', 'po-link/de.po', 'po-link/it.po'},
+                    'files': {
+                        'po-link/cs.po', 'po-link/de.po', 'po-link/it.po'
+                    },
                     'languages': {'cs', 'de', 'it'},
                     'mask': 'po-link/*.po',
                     'name': 'Po-Link',

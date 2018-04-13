@@ -228,8 +228,8 @@ class Command(BaseCommand):
             if ('component' not in compiled.groupindex or
                     'language' not in compiled.groupindex):
                 raise CommandError(
-                    'Component regular expression lacks named group "component"'
-                    ' and/or "language"'
+                    'Component regular expression lacks named group '
+                    '"component" and/or "language"'
                 )
 
     def handle(self, *args, **options):
@@ -351,7 +351,9 @@ class Command(BaseCommand):
             )
             shutil.rmtree(workdir)
         except SubProject.DoesNotExist:
-            self.logger.info('Creating component %s as main one', match['slug'])
+            self.logger.info(
+                'Creating component %s as main one', match['slug']
+            )
 
             # Rename gitrepository to new name
             os.rename(workdir, os.path.join(project.full_path, match['slug']))

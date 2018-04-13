@@ -124,7 +124,8 @@ class ComponentDiscovery(object):
         name = get_val('name')
         slug = get_val('slug')
         simple_keys = (
-            'project', 'branch', 'vcs', 'push_on_commit', 'license_url', 'license'
+            'project', 'branch', 'vcs', 'push_on_commit', 'license_url',
+            'license',
         )
         for key in simple_keys:
             if key not in params:
