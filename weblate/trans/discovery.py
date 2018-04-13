@@ -96,6 +96,23 @@ class ComponentDiscovery(object):
                 )
         return result
 
+    def create_component(self, main, match):
+        return SubProject.objects.create(
+            name=match['name'],
+            slug=match['slug'],
+            project=main.project,
+            repo=main.get_repo_link_url(),
+            branch=main.branch,
+            vcs=main.vcs,
+            push_on_commit=main.push_on_commit,
+            license=main.license,
+            license_url=main.license_url,
+            template=match['base_file'],
+            filemask=match['mask'],
+            file_format=self.file_format,
+            language_regex=self.language_re,
+        )
+
     def perform(self, preview=False, remove=False):
         created = []
         matched = []
@@ -121,21 +138,7 @@ class ComponentDiscovery(object):
                 if preview:
                     component = None
                 else:
-                    component = SubProject.objects.create(
-                        name=match['name'],
-                        slug=match['slug'],
-                        project=main.project,
-                        repo=main.get_repo_link_url(),
-                        branch=main.branch,
-                        vcs=main.vcs,
-                        push_on_commit=main.push_on_commit,
-                        license=main.license,
-                        license_url=main.license_url,
-                        template=match['base_file'],
-                        filemask=match['mask'],
-                        file_format=self.file_format,
-                        language_regex=self.language_re,
-                    )
+                    component = self.create_component(main, match)
                     processed.add(component.id)
                 created.append((match, component))
 
