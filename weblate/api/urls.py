@@ -25,6 +25,7 @@ from django.conf.urls import url, include
 from weblate.api.views import (
     ProjectViewSet, ComponentViewSet, TranslationViewSet, LanguageViewSet,
     UnitViewSet, ChangeViewSet, SourceViewSet, ScreenshotViewSet,
+    Metrics
 )
 from weblate.api.routers import WeblateRouter
 
@@ -68,6 +69,10 @@ router.register(
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
+    url(
+        r'^metrics/$',
+        Metrics.as_view(),
+    ),
     url(
         r'^',
         include(router.urls)

@@ -20,6 +20,7 @@
 
 import os.path
 
+from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
@@ -29,8 +30,10 @@ from django.utils.encoding import smart_text
 from rest_framework import parsers, viewsets
 from rest_framework.decorators import detail_route
 from rest_framework.exceptions import ParseError
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
+from rest_framework.views import APIView
 from rest_framework.utils import formatting
 
 from weblate.api.serializers import (
@@ -42,7 +45,7 @@ from weblate.api.serializers import (
 )
 from weblate.trans.exporters import EXPORTERS
 from weblate.trans.models import (
-    Project, SubProject, Translation, Change, Unit, Source,
+    Project, SubProject, Translation, Change, Unit, Source, Check, IndexUpdate,
 )
 from weblate.permissions.helpers import (
     can_upload_translation, can_lock_subproject, can_see_repository_status,
@@ -599,3 +602,22 @@ class ChangeViewSet(viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         return Change.objects.last_changes(self.request.user)
+
+
+class Metrics(APIView):
+    """Metrics view for monitoring"""
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, format=None):
+        """
+        Return a list of all users.
+        """
+        return Response({
+            'units': Unit.objects.count(),
+            'users': User.objects.count(),
+            'languages': Language.objects.filter(
+                translation__pk__gt=0
+            ).distinct().count(),
+            'checks': Check.objects.count(),
+            'index_updates': IndexUpdate.objects.count(),
+        })
