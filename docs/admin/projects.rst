@@ -398,16 +398,22 @@ Automatic creation of components
 --------------------------------
 
 In case you have project with dozen of translation files, you might want to
-import all at once. This can be achieved using :djadmin:`import_project` or
-:djadmin:`import_json`.
+import them automatically. This can be either achieved from command line using
+:djadmin:`import_project` or :djadmin:`import_json` or by installing
+:ref:`addon-weblate.discovery.discovery` addon.
 
-First, you need to create a project which will contain all components and then
-it's just a matter of running :djadmin:`import_project` or
+For using the addon, you need to first create component for one translation
+file (choose the one that is least likely to be renamed or removed in future)
+and install the addon on this component.
+
+For the management commans, you need to create a project which will contain all
+components and then it's just a matter of running :djadmin:`import_project` or
 :djadmin:`import_json`.
 
 .. seealso:: 
    
-   :ref:`manage`
+   :ref:`manage`,
+   :ref:`addon-weblate.discovery.discovery`
 
 .. _fulltext:
 
