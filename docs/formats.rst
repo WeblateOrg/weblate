@@ -273,13 +273,25 @@ Translation format used in Qt based applications.
 Qt Linguist files are used as both bilingual and monolingual.
 
 +-------------------------------------------------------------------+
-| Typical Weblate :ref:`component`                                  |
+| Typical Weblate :ref:`component` when using as bilingual          |
 +================================+==================================+
 | File mask                      | ``i18n/app.*.ts``                |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | `Empty`                          |
 +--------------------------------+----------------------------------+
 | Base file for new translations | ``i18n/app.de.ts``               |
++--------------------------------+----------------------------------+
+| File format                    | `Qt Linguist Translation File`   |
++--------------------------------+----------------------------------+
+
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component` when using as monolingual        |
++================================+==================================+
+| File mask                      | ``i18n/app.*.ts``                |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``i18n/app.en.ts``               |
++--------------------------------+----------------------------------+
+| Base file for new translations | ``i18n/app.en.ts``               |
 +--------------------------------+----------------------------------+
 | File format                    | `Qt Linguist Translation File`   |
 +--------------------------------+----------------------------------+
