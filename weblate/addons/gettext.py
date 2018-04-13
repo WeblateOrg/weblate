@@ -184,7 +184,7 @@ class UpdateConfigureAddon(GettextBaseAddon):
 
 class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
     name = 'weblate.gettext.msgmerge'
-    verbose = _('Update po files to match pot (msgmerge)')
+    verbose = _('Update PO files to match POT (msgmerge)')
     description = _(
         'Update all PO files to match the POT file using msgmerge. This is '
         'triggered whenever new changes are pulled from the upstream '
