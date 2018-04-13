@@ -71,7 +71,7 @@ class UpdateLinguasAddon(GettextBaseAddon):
     name = 'weblate.gettext.linguas'
     verbose = _('Update LINGUAS file')
     description = _(
-        'Updates the LINGUAS file when adding new translation.'
+        'Updates the LINGUAS file when a new translation is added.'
     )
 
     @staticmethod
@@ -127,7 +127,7 @@ class UpdateConfigureAddon(GettextBaseAddon):
     verbose = _('Update ALL_LINGUAS variable in the configure file')
     description = _(
         'Updates the ALL_LINGUAS variable in configure, '
-        'configure.in or configure.ac files when adding new translation.'
+        'configure.in or configure.ac files, when a new translation is added.'
     )
 
     @staticmethod
@@ -184,7 +184,7 @@ class UpdateConfigureAddon(GettextBaseAddon):
 
 class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
     name = 'weblate.gettext.msgmerge'
-    verbose = _('Update po files to match pot (msgmerge)')
+    verbose = _('Update PO files to match POT (msgmerge)')
     description = _(
         'Update all PO files to match the POT file using msgmerge. This is '
         'triggered whenever new changes are pulled from the upstream '
