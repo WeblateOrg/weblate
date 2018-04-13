@@ -60,7 +60,6 @@ class ImportProjectTest(RepoTestCase):
     def test_import(self):
         project = self.create_project()
         self.do_import()
-        # We should have loaded four subprojects
         self.assertEqual(project.subproject_set.count(), 4)
 
     def test_import_deep(self):
@@ -72,22 +71,19 @@ class ImportProjectTest(RepoTestCase):
             'master',
             'deep/*/locales/*/LC_MESSAGES/**.po',
         )
-        # We should have loaded four subprojects
         self.assertEqual(project.subproject_set.count(), 1)
 
     def test_import_ignore(self):
         project = self.create_project()
         self.do_import()
         self.do_import()
-        # We should have loaded four subprojects
         self.assertEqual(project.subproject_set.count(), 4)
 
     def test_import_duplicate(self):
         project = self.create_project()
         self.do_import()
-        self.do_import(path='weblate://test/po', duplicates=True)
-        # We should have loaded eight subprojects
-        self.assertEqual(project.subproject_set.count(), 8)
+        self.do_import(path='weblate://test/po')
+        self.assertEqual(project.subproject_set.count(), 4)
 
     def test_import_main_1(self, name='po-mono'):
         project = self.create_project()
@@ -99,7 +95,6 @@ class ImportProjectTest(RepoTestCase):
             '**/*.po',
             main_component=name
         )
-        # We should have loaded four subprojects
         non_linked = project.subproject_set.exclude(
             repo__startswith='weblate:/'
         )
@@ -132,7 +127,6 @@ class ImportProjectTest(RepoTestCase):
             '**/*.po',
             language_regex='cs'
         )
-        # We should have loaded four subprojects
         self.assertEqual(project.subproject_set.count(), 4)
         for component in project.subproject_set.all():
             self.assertEqual(component.translation_set.count(), 1)
@@ -144,8 +138,7 @@ class ImportProjectTest(RepoTestCase):
             'test',
             self.git_repo_path,
             'master',
-            '**/*.po',
-            component_regexp=r'(?P<name>[^/-]*)/(?P<language>.*)\.po'
+            r'(?P<component>[^/-]*)/(?P<language>[^/]*)\.po'
         )
         self.assertEqual(project.subproject_set.count(), 1)
 
@@ -156,8 +149,7 @@ class ImportProjectTest(RepoTestCase):
             'test',
             self.git_repo_path,
             'master',
-            '**/*.po',
-            component_regexp=r'(?P<name>[^/-]*)/(?P<language>.*)\.po',
+            r'(?P<component>[^/-]*)/(?P<language>[^/]*)\.po',
             name_template='Test name'
         )
         self.assertEqual(project.subproject_set.count(), 1)
@@ -173,8 +165,7 @@ class ImportProjectTest(RepoTestCase):
             'test',
             self.git_repo_path,
             'master',
-            '**/*.po',
-            component_regexp=r'(?P<xname>[^/-]*)/.*\.po'
+            r'(?P<name>[^/-]*)/.*\.po'
         )
 
     def test_import_re_wrong(self):
@@ -185,8 +176,7 @@ class ImportProjectTest(RepoTestCase):
             'test',
             self.git_repo_path,
             'master',
-            '**/*.po',
-            component_regexp=r'(?P<xname>[^/-]*'
+            r'(?P<name>[^/-]*'
         )
 
     def test_import_po(self):
@@ -199,7 +189,6 @@ class ImportProjectTest(RepoTestCase):
             '**/*.po',
             file_format='po'
         )
-        # We should have loaded four subprojects
         self.assertEqual(project.subproject_set.count(), 4)
 
     def test_import_invalid(self):
@@ -214,7 +203,6 @@ class ImportProjectTest(RepoTestCase):
             '**/*.po',
             file_format='INVALID'
         )
-        # We should have loaded none subprojects
         self.assertEqual(project.subproject_set.count(), 0)
 
     def test_import_aresource(self):
@@ -228,7 +216,6 @@ class ImportProjectTest(RepoTestCase):
             file_format='aresource',
             base_file_template='android/values/strings.xml',
         )
-        # We should have loaded one subproject
         self.assertEqual(project.subproject_set.count(), 2)
 
     def test_import_aresource_format(self):
@@ -242,7 +229,6 @@ class ImportProjectTest(RepoTestCase):
             file_format='aresource',
             base_file_template='%s/values/strings.xml',
         )
-        # We should have loaded one subproject
         self.assertEqual(project.subproject_set.count(), 2)
 
     def test_re_import(self):
@@ -254,7 +240,6 @@ class ImportProjectTest(RepoTestCase):
             'master',
             '**/*.po',
         )
-        # We should have loaded four subprojects
         self.assertEqual(project.subproject_set.count(), 4)
 
         call_command(
@@ -264,7 +249,6 @@ class ImportProjectTest(RepoTestCase):
             'master',
             '**/*.po',
         )
-        # We should load no more subprojects
         self.assertEqual(project.subproject_set.count(), 4)
 
     def test_import_against_existing(self):
@@ -279,7 +263,6 @@ class ImportProjectTest(RepoTestCase):
             'master',
             '**/*.po',
         )
-        # We should have loaded five subprojects
         self.assertEqual(project.subproject_set.count(), 5)
 
     def test_import_missing_project(self):
@@ -334,7 +317,6 @@ class ImportProjectTest(RepoTestCase):
             '**/*.po',
             vcs='mercurial'
         )
-        # We should have loaded four subprojects
         self.assertEqual(project.subproject_set.count(), 3)
 
     def test_import_mercurial_mixed(self):

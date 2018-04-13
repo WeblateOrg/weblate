@@ -7,6 +7,7 @@ weblate 3.0
 Released on ? 2018.
 
 * New addon for automatic component discovery.
+* The import_project management command has now slightly different parameters.
 
 weblate 2.20
 ------------
