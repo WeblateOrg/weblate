@@ -396,7 +396,7 @@ class DiscoveryTest(ViewTestCase):
         )
         self.assertEqual(self.subproject.get_linked_childs().count(), 0)
         addon.perform()
-        self.assertEqual(self.subproject.get_linked_childs().count(), 2)
+        self.assertEqual(self.subproject.get_linked_childs().count(), 3)
 
     def test_form(self):
         self.user.is_superuser = True

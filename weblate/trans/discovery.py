@@ -31,6 +31,7 @@ from django.utils.text import slugify
 from weblate.trans.models import SubProject
 from weblate.logger import LOGGER
 from weblate.utils.render import render_template
+from weblate.trans.util import path_separator
 
 
 class ComponentDiscovery(object):
@@ -54,18 +55,27 @@ class ComponentDiscovery(object):
     def matches(self):
         """Return matched files together with match groups and mask."""
         result = []
-        for root, dummy, filenames in os.walk(self.path):
+        base = os.path.realpath(self.path)
+        for root, dummy, filenames in os.walk(self.path, followlinks=True):
             for filename in filenames:
-                path = os.path.relpath(
-                    os.path.join(root, filename),
-                    self.path
-                )
+                fullname = os.path.join(root, filename)
+
+                # Skip files outside our root
+                if not os.path.realpath(fullname).startswith(base):
+                    continue
+
+                # Calculate relative path
+                path = path_separator(os.path.relpath(fullname, self.path))
+
+                # Check match against our regexp
                 matches = self.path_match.match(path)
                 if not matches:
                     continue
+
                 # Check langauge regexp
                 if not self.language_match.match(matches.group('language')):
                     continue
+
                 # Calculate file mask for match
                 mask = '{}*{}'.format(
                     path[:matches.start('language')],
