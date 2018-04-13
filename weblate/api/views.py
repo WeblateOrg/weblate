@@ -20,6 +20,7 @@
 
 import os.path
 
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.core.exceptions import PermissionDenied
@@ -615,9 +616,13 @@ class Metrics(APIView):
         return Response({
             'units': Unit.objects.count(),
             'users': User.objects.count(),
+            'projects': Project.objects.count(),
+            'components': SubProject.objects.count(),
+            'translations': Translation.objects.count(),
             'languages': Language.objects.filter(
                 translation__pk__gt=0
             ).distinct().count(),
             'checks': Check.objects.count(),
             'index_updates': IndexUpdate.objects.count(),
+            'name': settings.SITE_TITLE,
         })

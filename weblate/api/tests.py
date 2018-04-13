@@ -675,3 +675,14 @@ class ChangeAPITest(APIBaseTest):
             'translation',
             response.data,
         )
+
+
+class MetricsAPITest(APIBaseTest):
+    def test_metrics(self):
+        self.authenticate()
+        response = self.client.get(reverse('api:metrics'))
+        self.assertEqual(response.data['projects'], 1)
+
+    def test_forbidden(self):
+        response = self.client.get(reverse('api:metrics'))
+        self.assertEqual(response.data['detail'].code, 'not_authenticated')

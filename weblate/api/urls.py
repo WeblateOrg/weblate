@@ -72,6 +72,7 @@ urlpatterns = [
     url(
         r'^metrics/$',
         Metrics.as_view(),
+        name='metrics',
     ),
     url(
         r'^',
