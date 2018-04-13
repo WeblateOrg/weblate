@@ -39,6 +39,9 @@ class ComponentDiscoveryTest(RepoTestCase):
         self.assertEquals(
             sorted(self.discovery.matched_files),
             sorted([
+                'po-link/cs.po',
+                'po-link/de.po',
+                'po-link/it.po',
                 'po-mono/cs.po',
                 'po-mono/de.po',
                 'po-mono/en.po',
@@ -61,6 +64,14 @@ class ComponentDiscoveryTest(RepoTestCase):
                     'mask': 'po/*.po',
                     'name': 'Po',
                     'slug': 'po',
+                    'base_file': '',
+                },
+                'po-link/*.po': {
+                    'files': {'po-link/cs.po', 'po-link/de.po', 'po-link/it.po'},
+                    'languages': {'cs', 'de', 'it'},
+                    'mask': 'po-link/*.po',
+                    'name': 'Po-Link',
+                    'slug': 'po-link',
                     'base_file': '',
                 },
                 'po-mono/*.po': {
@@ -88,20 +99,20 @@ class ComponentDiscoveryTest(RepoTestCase):
     def test_perform(self):
         # Preview should not create anything
         created, matched, deleted = self.discovery.perform(preview=True)
-        self.assertEqual(len(created), 2)
+        self.assertEqual(len(created), 3)
         self.assertEqual(len(matched), 0)
         self.assertEqual(len(deleted), 0)
 
         # Create components
         created, matched, deleted = self.discovery.perform()
-        self.assertEqual(len(created), 2)
+        self.assertEqual(len(created), 3)
         self.assertEqual(len(matched), 0)
         self.assertEqual(len(deleted), 0)
 
         # Test second call does nothing
         created, matched, deleted = self.discovery.perform()
         self.assertEqual(len(created), 0)
-        self.assertEqual(len(matched), 2)
+        self.assertEqual(len(matched), 3)
         self.assertEqual(len(deleted), 0)
 
         # Second discovery with restricted component match
@@ -118,13 +129,13 @@ class ComponentDiscoveryTest(RepoTestCase):
         )
         self.assertEqual(len(created), 0)
         self.assertEqual(len(matched), 0)
-        self.assertEqual(len(deleted), 2)
+        self.assertEqual(len(deleted), 3)
 
         # Test component removal
         created, matched, deleted = discovery.perform(remove=True)
         self.assertEqual(len(created), 0)
         self.assertEqual(len(matched), 0)
-        self.assertEqual(len(deleted), 2)
+        self.assertEqual(len(deleted), 3)
 
         # Components should be now removed
         created, matched, deleted = discovery.perform(remove=True)
@@ -141,6 +152,6 @@ class ComponentDiscoveryTest(RepoTestCase):
             '^(?!xx).*$',
         )
         created, matched, deleted = discovery.perform()
-        self.assertEqual(len(created), 2)
+        self.assertEqual(len(created), 3)
         self.assertEqual(len(matched), 0)
         self.assertEqual(len(deleted), 0)
