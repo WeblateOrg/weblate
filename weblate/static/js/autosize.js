@@ -1,24 +1,24 @@
 /*!
-	Autosize 4.0.0
+	autosize 4.0.1
 	license: MIT
 	http://www.jacklmoore.com/autosize
 */
 (function (global, factory) {
-	if (typeof define === 'function' && define.amd) {
-		define(['exports', 'module'], factory);
-	} else if (typeof exports !== 'undefined' && typeof module !== 'undefined') {
-		factory(exports, module);
+	if (typeof define === "function" && define.amd) {
+		define(['module', 'exports'], factory);
+	} else if (typeof exports !== "undefined") {
+		factory(module, exports);
 	} else {
 		var mod = {
 			exports: {}
 		};
-		factory(mod.exports, mod);
+		factory(mod, mod.exports);
 		global.autosize = mod.exports;
 	}
-})(this, function (exports, module) {
+})(this, function (module, exports) {
 	'use strict';
 
-	var map = typeof Map === "function" ? new Map() : (function () {
+	var map = typeof Map === "function" ? new Map() : function () {
 		var keys = [];
 		var values = [];
 
@@ -35,7 +35,7 @@
 					values.push(value);
 				}
 			},
-			'delete': function _delete(key) {
+			delete: function _delete(key) {
 				var index = keys.indexOf(key);
 				if (index > -1) {
 					keys.splice(index, 1);
@@ -43,7 +43,7 @@
 				}
 			}
 		};
-	})();
+	}();
 
 	var createEvent = function createEvent(name) {
 		return new Event(name, { bubbles: true });
@@ -52,7 +52,7 @@
 		new Event('test');
 	} catch (e) {
 		// IE does not support `new Event()`
-		createEvent = function (name) {
+		createEvent = function createEvent(name) {
 			var evt = document.createEvent('Event');
 			evt.initEvent(name, true, false);
 			return evt;
@@ -63,7 +63,7 @@
 		if (!ta || !ta.nodeName || ta.nodeName !== 'TEXTAREA' || map.has(ta)) return;
 
 		var heightOffset = null;
-		var clientWidth = ta.clientWidth;
+		var clientWidth = null;
 		var cachedHeight = null;
 
 		function init() {
@@ -122,21 +122,16 @@
 		}
 
 		function resize() {
-			var originalHeight = ta.style.height;
+			if (ta.scrollHeight === 0) {
+				// If the scrollHeight is 0, then the element probably has display:none or is detached from the DOM.
+				return;
+			}
+
 			var overflows = getParentOverflows(ta);
 			var docTop = document.documentElement && document.documentElement.scrollTop; // Needed for Mobile IE (ticket #240)
 
 			ta.style.height = '';
-
-			var endHeight = ta.scrollHeight + heightOffset;
-
-			if (ta.scrollHeight === 0) {
-				// If the scrollHeight is 0, then the element probably has display:none or is detached from the DOM.
-				ta.style.height = originalHeight;
-				return;
-			}
-
-			ta.style.height = endHeight + 'px';
+			ta.style.height = ta.scrollHeight + heightOffset + 'px';
 
 			// used to check if an update is actually necessary on window.resize
 			clientWidth = ta.clientWidth;
@@ -160,7 +155,7 @@
 			// Using offsetHeight as a replacement for computed.height in IE, because IE does not account use of border-box
 			var actualHeight = computed.boxSizing === 'content-box' ? Math.round(parseFloat(computed.height)) : ta.offsetHeight;
 
-			// The actual height not matching the style height (set via the resize method) indicates that
+			// The actual height not matching the style height (set via the resize method) indicates that 
 			// the max-height has been exceeded, in which case the overflow should be allowed.
 			if (actualHeight !== styleHeight) {
 				if (computed.overflowY === 'hidden') {
@@ -195,7 +190,7 @@
 			}
 		};
 
-		var destroy = (function (style) {
+		var destroy = function (style) {
 			window.removeEventListener('resize', pageResize, false);
 			ta.removeEventListener('input', update, false);
 			ta.removeEventListener('keyup', update, false);
@@ -206,8 +201,8 @@
 				ta.style[key] = style[key];
 			});
 
-			map['delete'](ta);
-		}).bind(ta, {
+			map.delete(ta);
+		}.bind(ta, {
 			height: ta.style.height,
 			resize: ta.style.resize,
 			overflowY: ta.style.overflowY,
@@ -256,7 +251,7 @@
 
 	// Do nothing in Node.js environment and IE8 (or lower)
 	if (typeof window === 'undefined' || typeof window.getComputedStyle !== 'function') {
-		autosize = function (el) {
+		autosize = function autosize(el) {
 			return el;
 		};
 		autosize.destroy = function (el) {
@@ -266,7 +261,7 @@
 			return el;
 		};
 	} else {
-		autosize = function (el, options) {
+		autosize = function autosize(el, options) {
 			if (el) {
 				Array.prototype.forEach.call(el.length ? el : [el], function (x) {
 					return assign(x, options);
@@ -288,5 +283,6 @@
 		};
 	}
 
-	module.exports = autosize;
+	exports.default = autosize;
+	module.exports = exports['default'];
 });
