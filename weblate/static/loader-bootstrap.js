@@ -1287,6 +1287,7 @@ $(function () {
 
             if (target.length > 0) {
                 target.val(this.value);
+                autosize.update(target);
             }
         });
         localStorage.removeItem('translation_autosave');
