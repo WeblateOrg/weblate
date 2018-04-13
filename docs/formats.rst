@@ -19,6 +19,11 @@ formats that are not well tested.
     likely contribute to your project.
 
 
+.. _bimono:
+
+Bilingual and monolignual formats
+---------------------------------
+
 Weblate does support both :index:`monolingual <pair: translation; monolingual>`
 and :index:`bilingual <pair: translation; bilingual>` formats. Bilingual
 formats store two languages in single file - source and translation (typical
@@ -299,7 +304,8 @@ Qt Linguist files are used as both bilingual and monolingual.
 .. seealso::
 
     `Qt Linguist manual <http://doc.qt.io/qt-5/qtlinguist-index.html>`_,
-    :doc:`tt:formats/ts`
+    :doc:`tt:formats/ts`,
+    :ref:`bimono`
 
 .. _aresource:
 

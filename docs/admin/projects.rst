@@ -78,7 +78,8 @@ Once you have added a project, you can add translation components to it
 
 .. seealso:: 
    
-   :ref:`component`
+   :ref:`component`,
+   :ref:`bimono`
 
 .. _monolingual:
 
@@ -93,7 +94,8 @@ English) (see :ref:`component` for information on individual parameters):
 
 .. seealso:: 
    
-   :ref:`component`
+   :ref:`component`,
+   :ref:`bimono`
 
 .. _project:
 
