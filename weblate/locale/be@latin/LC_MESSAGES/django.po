@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Weblate 2.20\n"
+"Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-04-01 19:22+0000\n"
+"POT-Creation-Date: 2018-04-13 19:09+0000\n"
 "PO-Revision-Date: 2018-04-03 15:28+0000\n"
 "Last-Translator: Viktar Vauchkevich <victorenator@gmail.com>\n"
 "Language-Team: Belarusian (latin) <https://hosted.weblate.org/projects/"
@@ -16,8 +16,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
-"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.20-dev\n"
 
 #: weblate/accounts/admin.py:109 weblate/accounts/admin.py:114
@@ -658,6 +658,18 @@ msgstr ""
 "fajlu. Dlia boĺšasci farmataŭ heta abaznačaje vydaliennie ŭsich zastarelych "
 "kliučoŭ, jakija adsutničajuć u bazavym fajlie."
 
+#: weblate/addons/discovery.py:35
+#, fuzzy
+#| msgid "Component list"
+msgid "Component discovery"
+msgstr "Spis kampanientaŭ"
+
+#: weblate/addons/discovery.py:37
+msgid ""
+"This addon automatically adds or removes components to the project based on "
+"file changes in the version control system."
+msgstr ""
+
 #: weblate/addons/example.py:42
 msgid "Example addon"
 msgstr "Pryklad dadatku"
@@ -695,41 +707,103 @@ msgstr ""
 "jak radok, što patrabuje redahavannia ŭ Weblate. Takim čynam, vy možacie "
 "liohka adfiĺtravać i adredahavać zychodnyja radki ad raspracoŭnikaŭ."
 
-#: weblate/addons/forms.py:44
+#: weblate/addons/forms.py:50
 msgid "Name of generated file"
 msgstr "Nazva zhienieravanaha fajla"
 
-#: weblate/addons/forms.py:49
+#: weblate/addons/forms.py:55
 msgid "Content of generated file"
 msgstr "Zmiest zhienieravanaha fajla"
 
-#: weblate/addons/forms.py:77
+#: weblate/addons/forms.py:83
 msgid "Long lines wrapping"
 msgstr "Pieranos doŭhich radkoŭ"
 
-#: weblate/addons/forms.py:79
+#: weblate/addons/forms.py:85
 msgid "Wrap lines at 77 chars and at newlines (default gettext behavior)"
 msgstr ""
 "Pieranos radkoŭ paslia 77 simvalaŭ ci simvala novaha radka (ahadanyja "
 "pavodziny gettext)"
 
-#: weblate/addons/forms.py:80
+#: weblate/addons/forms.py:86
 msgid "Only wrap lines at newlines (gettext behavior with --no-wrap)"
 msgstr ""
 "Pieranos radkoŭ toĺki paslia simvala novaha radka (pavodziny gettext z --no-"
 "wrap)"
 
-#: weblate/addons/forms.py:81
+#: weblate/addons/forms.py:87
 msgid "No line wrapping"
 msgstr "Biez pieranosu radkoŭ"
 
-#: weblate/addons/forms.py:90
+#: weblate/addons/forms.py:96
 msgid "Sort JSON keys"
 msgstr "Sartavać JSON-kliučy"
 
-#: weblate/addons/forms.py:94
+#: weblate/addons/forms.py:100
 msgid "JSON indentation"
 msgstr "Vodstupy JSON"
+
+#: weblate/addons/forms.py:120
+#, fuzzy
+#| msgid "Regular expression which is used to match user email."
+msgid "Regular expression to match translation files"
+msgstr ""
+"Rehuliarny vyraz, jaki vykarystoŭvajecca dlia supastaŭliennia pošty "
+"karystaĺnika."
+
+#: weblate/addons/forms.py:124 weblate/trans/models/subproject.py:247
+msgid "File format"
+msgstr "Farmat fajla"
+
+#: weblate/addons/forms.py:129 weblate/trans/models/subproject.py:252
+msgid "Automatic detection might fail for some formats and is slightly slower."
+msgstr ""
+"Aŭtamatyčnaja іdentyfіkacyja moža vydavać pamylku dlia niekatorych farmataŭ "
+"і josć troškі marudniejšaj."
+
+#: weblate/addons/forms.py:134
+#, fuzzy
+#| msgid "Component name"
+msgid "Customise the component name"
+msgstr "Nazva kampanienta"
+
+#: weblate/addons/forms.py:139
+#, fuzzy
+#| msgid "Monolingual base language file"
+msgid "Define the monolingual base filename"
+msgstr "Bazavy fajl dlia adnamoŭnaha pierakladu"
+
+#: weblate/addons/forms.py:142
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Keep empty for bilingual translation files."
+msgstr "Ačyščennie fajlaŭ pierakladu"
+
+#: weblate/addons/forms.py:145 weblate/trans/models/subproject.py:483
+msgid "Language filter"
+msgstr "Fiĺtr movy"
+
+#: weblate/addons/forms.py:150 weblate/trans/models/subproject.py:487
+msgid ""
+"Regular expression which is used to filter translation when scanning for "
+"file mask."
+msgstr ""
+"Rehuliarny vyraz, jaki vykarystoŭvajecca dlia fiĺtracyi pierakladaŭ pry "
+"skanavanni maski fajla."
+
+#: weblate/addons/forms.py:155
+msgid "Remove components for non existing files"
+msgstr ""
+
+#: weblate/addons/forms.py:159
+msgid "I confirm that the above matches look correct"
+msgstr ""
+
+#: weblate/addons/forms.py:220
+#, fuzzy
+#| msgid "Please review and confirm the search and replace results."
+msgid "Please review and confirm matched components."
+msgstr "Kali laska, prahliadzicie i pacvierdzicie rezuĺtaty pošuku i zamieny."
 
 #: weblate/addons/generate.py:36
 msgid "Statistics generator"
@@ -756,7 +830,9 @@ msgid "Update LINGUAS file"
 msgstr "Abnavić LINGUAS-fajl"
 
 #: weblate/addons/gettext.py:74
-msgid "Updates the LINGUAS file when adding new translation."
+#, fuzzy
+#| msgid "Updates the LINGUAS file when adding new translation."
+msgid "Updates the LINGUAS file when a new translation is added."
 msgstr "Abnaŭliaje fajl LINGUAS, kali dadajecca novy pieraklad."
 
 #: weblate/addons/gettext.py:127
@@ -764,15 +840,21 @@ msgid "Update ALL_LINGUAS variable in the configure file"
 msgstr "Abnavić zmiennuju ALL_LINGUAS u fajlie kanfihuracyi"
 
 #: weblate/addons/gettext.py:129
+#, fuzzy
+#| msgid ""
+#| "Updates the ALL_LINGUAS variable in configure, configure.in or configure."
+#| "ac files when adding new translation."
 msgid ""
 "Updates the ALL_LINGUAS variable in configure, configure.in or configure.ac "
-"files when adding new translation."
+"files, when a new translation is added."
 msgstr ""
 "Abnaŭliaje zmiennuju ALL_LINGUAS u fajlach configure, configure.in ci "
 "configure.ac, kali dadajecca novy pieraklad."
 
 #: weblate/addons/gettext.py:187
-msgid "Update po files to match pot (msgmerge)"
+#, fuzzy
+#| msgid "Update po files to match pot (msgmerge)"
+msgid "Update PO files to match POT (msgmerge)"
 msgstr "Abnavić po-fajly ŭ adpaviednasci z pot (msgmerge)"
 
 #: weblate/addons/gettext.py:189
@@ -1767,6 +1849,7 @@ msgstr ""
 #: weblate/templates/accounts/profile.html:298
 #: weblate/templates/accounts/profile.html:395
 #: weblate/templates/accounts/profile.html:449
+#: weblate/templates/addons/discovery_help.html:10
 msgid "Description"
 msgstr "Apіsannie"
 
@@ -2324,6 +2407,91 @@ msgid "Some addons will ask for additional configuration during installation."
 msgstr ""
 "Niekatoryja dadatki zapatrabujuć dadakovuju kanfihuracyju padčas "
 "ustaliavannia."
+
+#: weblate/templates/addons/discovery_help.html:3
+msgid ""
+"The regular expression to match translation files has to contain two named "
+"groups to match component and language, some examples:"
+msgstr ""
+
+#: weblate/templates/addons/discovery_help.html:8
+#, fuzzy
+#| msgid "Email regular expression"
+msgid "Regular expression"
+msgstr "Rehuliarny vyraz el.pošty"
+
+#: weblate/templates/addons/discovery_help.html:9
+#, fuzzy
+#| msgid "Failed to parse %d matched files!"
+msgid "Example matched files"
+msgstr "Nie ŭdalosia pračytać %d trapnych fajlaŭ!"
+
+#: weblate/templates/addons/discovery_help.html:22
+msgid "One folder per language containing translation files for components."
+msgstr ""
+
+#: weblate/templates/addons/discovery_help.html:32
+msgid "Usual structure for storing gettext po files."
+msgstr ""
+
+#: weblate/templates/addons/discovery_help.html:42
+msgid "Using both component and language name within filename."
+msgstr ""
+
+#: weblate/templates/addons/discovery_help.html:52
+msgid "Using language in both path and filename."
+msgstr ""
+
+#: weblate/templates/addons/discovery_help.html:57
+#, fuzzy
+#| msgid ""
+#| "You can use Django templates markup in both filename and content, for "
+#| "example:"
+msgid ""
+"You can use Django templates markup in both component name and monolingual "
+"base filename, for example:"
+msgstr ""
+"Vy možacie vykarystoŭvać Django-šablony jak u nazvie fajla, tak i ŭ "
+"zmiescie, napryklad:"
+
+#: weblate/templates/addons/discovery_help.html:61
+#, fuzzy
+#| msgid "Component name"
+msgid "Component filename match"
+msgstr "Nazva kampanienta"
+
+#: weblate/templates/addons/discovery_help.html:63
+msgid "Component filename with upper case first letter"
+msgstr ""
+
+#: weblate/templates/addons/discovery_preview.html:5
+#: weblate/templates/list-translations.html:7
+#: weblate/templates/project.html:104 weblate/templates/translate.html:298
+#: weblate/trans/models/subproject.py:519 weblate/trans/models/whiteboard.py:87
+msgid "Component"
+msgstr "Kampanient"
+
+#: weblate/templates/addons/discovery_preview.html:5
+#, fuzzy
+#| msgid "Watched projects"
+msgid "Matched files"
+msgstr "Nazirajemyja prajekty"
+
+#: weblate/templates/addons/discovery_preview.html:9
+msgid "Following components would be deleted"
+msgstr ""
+
+#: weblate/templates/addons/discovery_preview.html:15
+msgid "Following components would be created"
+msgstr ""
+
+#: weblate/templates/addons/discovery_preview.html:28
+msgid "Following components matched existing ones"
+msgstr ""
+
+#: weblate/templates/addons/discovery_preview.html:41
+msgid "No components were matched!"
+msgstr ""
 
 #: weblate/templates/addons/generate_help.html:3
 msgid ""
@@ -3271,12 +3439,6 @@ msgstr "Kamientar da pierakladu"
 #: weblate/templates/zen-units.html:27
 msgid "Source string comment"
 msgstr "Kamientar da radka-zychodnіka"
-
-#: weblate/templates/list-translations.html:7
-#: weblate/templates/project.html:104 weblate/templates/translate.html:298
-#: weblate/trans/models/subproject.py:519 weblate/trans/models/whiteboard.py:87
-msgid "Component"
-msgstr "Kampanient"
 
 #: weblate/templates/list-translations.html:9
 #: weblate/templates/list-translations.html:20
@@ -5275,20 +5437,20 @@ msgstr "Niadaŭnіja zmieny ŭ %s"
 msgid "All recent changes made using Weblate in %s."
 msgstr "Usie niadaŭnіja zmieny, zroblienyja cieraz Weblate u %s."
 
-#: weblate/trans/filter.py:31 weblate/trans/models/translation.py:663
-#: weblate/trans/models/translation.py:706
+#: weblate/trans/filter.py:31 weblate/trans/models/translation.py:669
+#: weblate/trans/models/translation.py:712
 msgid "All strings"
 msgstr "Usie radkі"
 
-#: weblate/trans/filter.py:32 weblate/trans/models/translation.py:754
+#: weblate/trans/filter.py:32 weblate/trans/models/translation.py:760
 msgid "Not translated strings"
 msgstr "Niepierakladzienyja radki"
 
-#: weblate/trans/filter.py:33 weblate/trans/models/translation.py:746
+#: weblate/trans/filter.py:33 weblate/trans/models/translation.py:752
 msgid "Strings needing action"
 msgstr "Radki, jakija patrabujuć dziejanniaŭ"
 
-#: weblate/trans/filter.py:34 weblate/trans/models/translation.py:721
+#: weblate/trans/filter.py:34 weblate/trans/models/translation.py:727
 msgid "Translated strings"
 msgstr "Pierakladzienyja radkі"
 
@@ -5296,33 +5458,33 @@ msgstr "Pierakladzienyja radkі"
 msgid "Strings marked for edit"
 msgstr "Radki, jakija majuć patrebu ŭ redahavanni"
 
-#: weblate/trans/filter.py:36 weblate/trans/models/translation.py:770
+#: weblate/trans/filter.py:36 weblate/trans/models/translation.py:776
 msgid "Strings with suggestions"
 msgstr "Radkі z prapanovamі"
 
-#: weblate/trans/filter.py:37 weblate/trans/models/translation.py:776
+#: weblate/trans/filter.py:37 weblate/trans/models/translation.py:782
 msgid "Strings without suggestions"
 msgstr "Radki biez prapanoŭ"
 
-#: weblate/trans/filter.py:38 weblate/trans/models/translation.py:691
-#: weblate/trans/models/translation.py:804
+#: weblate/trans/filter.py:38 weblate/trans/models/translation.py:697
+#: weblate/trans/models/translation.py:810
 msgid "Strings with comments"
 msgstr "Radkі z kamientaramі"
 
-#: weblate/trans/filter.py:39 weblate/trans/models/translation.py:671
-#: weblate/trans/models/translation.py:784
+#: weblate/trans/filter.py:39 weblate/trans/models/translation.py:677
+#: weblate/trans/models/translation.py:790
 msgid "Strings with any failing checks"
 msgstr "Radkі ź niaprojdzienymі pravierkamі"
 
-#: weblate/trans/filter.py:40 weblate/trans/models/translation.py:713
+#: weblate/trans/filter.py:40 weblate/trans/models/translation.py:719
 msgid "Approved strings"
 msgstr "Uchvalienyja radki"
 
-#: weblate/trans/filter.py:43 weblate/trans/models/translation.py:738
+#: weblate/trans/filter.py:43 weblate/trans/models/translation.py:744
 msgid "Approved strings with suggestions"
 msgstr "Uchvalienyja radki z prapanovami"
 
-#: weblate/trans/filter.py:45 weblate/trans/models/translation.py:730
+#: weblate/trans/filter.py:45 weblate/trans/models/translation.py:736
 msgid "Strings waiting for review"
 msgstr "Radki, što čakajuć pierahliadu"
 
@@ -6300,16 +6462,6 @@ msgstr ""
 "Іmia fajla, što ŭžyvajecca dlia stvarennia novych pierakladaŭ. Dlia Gettext "
 "abiarycie .pot-fajl."
 
-#: weblate/trans/models/subproject.py:247
-msgid "File format"
-msgstr "Farmat fajla"
-
-#: weblate/trans/models/subproject.py:252
-msgid "Automatic detection might fail for some formats and is slightly slower."
-msgstr ""
-"Aŭtamatyčnaja іdentyfіkacyja moža vydavać pamylku dlia niekatorych farmataŭ "
-"і josć troškі marudniejšaj."
-
 #: weblate/trans/models/subproject.py:257
 msgid "Additional commit files"
 msgstr "Dadatkovyja fajly revizii"
@@ -6540,18 +6692,6 @@ msgid ""
 "Time in hours after which any pending changes will be committed to the VCS."
 msgstr ""
 "Čas u hadzinach, paslia jakoha niepravieranyja zmieny buduć zapisanyja ŭ VCS."
-
-#: weblate/trans/models/subproject.py:483
-msgid "Language filter"
-msgstr "Fiĺtr movy"
-
-#: weblate/trans/models/subproject.py:487
-msgid ""
-"Regular expression which is used to filter translation when scanning for "
-"file mask."
-msgstr ""
-"Rehuliarny vyraz, jaki vykarystoŭvajecca dlia fiĺtracyi pierakladaŭ pry "
-"skanavanni maski fajla."
 
 #: weblate/trans/models/subproject.py:497
 msgid "Components with higher priority are offered first to translators."
@@ -6784,7 +6924,7 @@ msgstr ""
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Nie ŭdalosia pračytać fajl %(file)s: %(error)s"
 
-#: weblate/trans/models/translation.py:762
+#: weblate/trans/models/translation.py:768
 msgid "Strings marked as needing edit"
 msgstr "Radki paznačanyja da redahavannia"
 
@@ -7227,7 +7367,7 @@ msgid "XML text"
 msgstr "XML-tekst"
 
 #: weblate/trans/validators.py:41 weblate/trans/validators.py:62
-#: weblate/utils/validators.py:148
+#: weblate/utils/validators.py:161
 #, python-format
 msgid "Bad format string (%s)"
 msgstr "Niaslušny farmat radka (%s)"
@@ -7725,38 +7865,45 @@ msgstr "Pusta"
 msgid "Failed to compile: {0}"
 msgstr "Nie ŭdalosia skampiliavać: {0}"
 
-#: weblate/utils/validators.py:114
+#: weblate/utils/validators.py:85
+#, python-brace-format
+msgid ""
+"Regular expression is missing named group \"{0}\", the simplest way to "
+"define it is {1}."
+msgstr ""
+
+#: weblate/utils/validators.py:127
 msgid "Invalid image!"
 msgstr "Chibnaja vyjava!"
 
-#: weblate/utils/validators.py:123
+#: weblate/utils/validators.py:136
 #, python-format
 msgid "Not supported image type: %s"
 msgstr "Typ vyjavy nie padtrymlivajecca: %s"
 
-#: weblate/utils/validators.py:130
+#: weblate/utils/validators.py:143
 msgid "Image is too big, please scale it down or crop relevant part!"
 msgstr ""
 "Vyjava zanadta vialikaja, kali laska, zmienšycie jaje ci vyražcie patrebnuju "
 "častku!"
 
-#: weblate/utils/validators.py:162
+#: weblate/utils/validators.py:175
 msgid "The editor link lacks URL scheme!"
 msgstr "Spasylcy redaktara nie chapaje URL-schiemy!"
 
-#: weblate/utils/validators.py:168
+#: weblate/utils/validators.py:181
 msgid "Forbidden URL scheme!"
 msgstr "Zabaronienaja URL-schiema!"
 
-#: weblate/utils/validators.py:184
+#: weblate/utils/validators.py:197
 msgid "Please avoid using special chars in the full name."
 msgstr "Kali laska, pazbiahajcie admyslovych simvalaŭ u poŭnym imieni."
 
-#: weblate/utils/validators.py:193
+#: weblate/utils/validators.py:206
 msgid "Unsupported file format."
 msgstr "Niepadtrymlivajemy farmat fajla."
 
-#: weblate/utils/validators.py:203
+#: weblate/utils/validators.py:216
 msgid "Failed to render template: {}"
 msgstr "Nie ŭdalosia prymianić šablon: {}"
 

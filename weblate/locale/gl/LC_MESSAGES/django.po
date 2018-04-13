@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Weblate 2.20\n"
+"Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-04-01 19:22+0000\n"
+"POT-Creation-Date: 2018-04-13 19:09+0000\n"
 "PO-Revision-Date: 2017-10-07 13:44+0000\n"
 "Last-Translator: Isaac <isalgueiro@gmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/weblate/master/"
@@ -687,6 +687,18 @@ msgid ""
 "in the base file."
 msgstr ""
 
+#: weblate/addons/discovery.py:35
+#, fuzzy
+#| msgid "Comments"
+msgid "Component discovery"
+msgstr "Comentarios"
+
+#: weblate/addons/discovery.py:37
+msgid ""
+"This addon automatically adds or removes components to the project based on "
+"file changes in the version control system."
+msgstr ""
+
 #: weblate/addons/example.py:42
 msgid "Example addon"
 msgstr ""
@@ -720,40 +732,95 @@ msgid ""
 "translations created by the developers."
 msgstr ""
 
-#: weblate/addons/forms.py:44
+#: weblate/addons/forms.py:50
 #, fuzzy
 msgid "Name of generated file"
 msgstr "Fallou o procesamento do formulario!"
 
-#: weblate/addons/forms.py:49
+#: weblate/addons/forms.py:55
 msgid "Content of generated file"
 msgstr ""
 
-#: weblate/addons/forms.py:77
+#: weblate/addons/forms.py:83
 msgid "Long lines wrapping"
 msgstr ""
 
-#: weblate/addons/forms.py:79
+#: weblate/addons/forms.py:85
 msgid "Wrap lines at 77 chars and at newlines (default gettext behavior)"
 msgstr ""
 
-#: weblate/addons/forms.py:80
+#: weblate/addons/forms.py:86
 msgid "Only wrap lines at newlines (gettext behavior with --no-wrap)"
 msgstr ""
 
-#: weblate/addons/forms.py:81
+#: weblate/addons/forms.py:87
 msgid "No line wrapping"
 msgstr ""
 
-#: weblate/addons/forms.py:90
+#: weblate/addons/forms.py:96
 msgid "Sort JSON keys"
 msgstr ""
 
-#: weblate/addons/forms.py:94
+#: weblate/addons/forms.py:100
 #, fuzzy
 #| msgid "Documentation"
 msgid "JSON indentation"
 msgstr "Documentación"
+
+#: weblate/addons/forms.py:120
+#, fuzzy
+#| msgid "The request for machine translation has failed."
+msgid "Regular expression to match translation files"
+msgstr "Fallou a solicitude á máquina de tradución automática."
+
+#: weblate/addons/forms.py:124 weblate/trans/models/subproject.py:247
+#, fuzzy
+#| msgid "C format"
+msgid "File format"
+msgstr "Formato C"
+
+#: weblate/addons/forms.py:129 weblate/trans/models/subproject.py:252
+msgid "Automatic detection might fail for some formats and is slightly slower."
+msgstr ""
+
+#: weblate/addons/forms.py:134
+#, fuzzy
+msgid "Customise the component name"
+msgstr "Comentarios"
+
+#: weblate/addons/forms.py:139
+msgid "Define the monolingual base filename"
+msgstr ""
+
+#: weblate/addons/forms.py:142
+#, fuzzy
+#| msgid "The request for machine translation has failed."
+msgid "Keep empty for bilingual translation files."
+msgstr "Fallou a solicitude á máquina de tradución automática."
+
+#: weblate/addons/forms.py:145 weblate/trans/models/subproject.py:483
+#, fuzzy
+#| msgid "Language"
+msgid "Language filter"
+msgstr "Idioma"
+
+#: weblate/addons/forms.py:150 weblate/trans/models/subproject.py:487
+msgid ""
+"Regular expression which is used to filter translation when scanning for "
+"file mask."
+msgstr ""
+
+#: weblate/addons/forms.py:155
+msgid "Remove components for non existing files"
+msgstr ""
+
+#: weblate/addons/forms.py:159
+msgid "I confirm that the above matches look correct"
+msgstr ""
+
+#: weblate/addons/forms.py:220
+msgid "Please review and confirm matched components."
+msgstr ""
 
 #: weblate/addons/generate.py:36
 #, fuzzy
@@ -786,7 +853,7 @@ msgstr ""
 #: weblate/addons/gettext.py:74
 #, fuzzy
 #| msgid "Merges content of file header into the translation."
-msgid "Updates the LINGUAS file when adding new translation."
+msgid "Updates the LINGUAS file when a new translation is added."
 msgstr "Fusionar o contido da cabeceira do ficheiro na tradución."
 
 #: weblate/addons/gettext.py:127
@@ -796,11 +863,11 @@ msgstr ""
 #: weblate/addons/gettext.py:129
 msgid ""
 "Updates the ALL_LINGUAS variable in configure, configure.in or configure.ac "
-"files when adding new translation."
+"files, when a new translation is added."
 msgstr ""
 
 #: weblate/addons/gettext.py:187
-msgid "Update po files to match pot (msgmerge)"
+msgid "Update PO files to match POT (msgmerge)"
 msgstr ""
 
 #: weblate/addons/gettext.py:189
@@ -1854,6 +1921,7 @@ msgstr ""
 #: weblate/templates/accounts/profile.html:298
 #: weblate/templates/accounts/profile.html:395
 #: weblate/templates/accounts/profile.html:449
+#: weblate/templates/addons/discovery_help.html:10
 msgid "Description"
 msgstr "Descrición"
 
@@ -2427,6 +2495,83 @@ msgstr ""
 
 #: weblate/templates/addons/addon_list.html:71
 msgid "Some addons will ask for additional configuration during installation."
+msgstr ""
+
+#: weblate/templates/addons/discovery_help.html:3
+msgid ""
+"The regular expression to match translation files has to contain two named "
+"groups to match component and language, some examples:"
+msgstr ""
+
+#: weblate/templates/addons/discovery_help.html:8
+#, fuzzy
+#| msgid "Comments"
+msgid "Regular expression"
+msgstr "Comentarios"
+
+#: weblate/templates/addons/discovery_help.html:9
+#, fuzzy
+#| msgid "Failed to parse %d matched files!"
+msgid "Example matched files"
+msgstr "Fallou ao procesar os %d ficheiros atopados!"
+
+#: weblate/templates/addons/discovery_help.html:22
+msgid "One folder per language containing translation files for components."
+msgstr ""
+
+#: weblate/templates/addons/discovery_help.html:32
+msgid "Usual structure for storing gettext po files."
+msgstr ""
+
+#: weblate/templates/addons/discovery_help.html:42
+msgid "Using both component and language name within filename."
+msgstr ""
+
+#: weblate/templates/addons/discovery_help.html:52
+msgid "Using language in both path and filename."
+msgstr ""
+
+#: weblate/templates/addons/discovery_help.html:57
+msgid ""
+"You can use Django templates markup in both component name and monolingual "
+"base filename, for example:"
+msgstr ""
+
+#: weblate/templates/addons/discovery_help.html:61
+#, fuzzy
+msgid "Component filename match"
+msgstr "Comentarios"
+
+#: weblate/templates/addons/discovery_help.html:63
+msgid "Component filename with upper case first letter"
+msgstr ""
+
+#: weblate/templates/addons/discovery_preview.html:5
+#: weblate/templates/list-translations.html:7
+#: weblate/templates/project.html:104 weblate/templates/translate.html:298
+#: weblate/trans/models/subproject.py:519 weblate/trans/models/whiteboard.py:87
+msgid "Component"
+msgstr ""
+
+#: weblate/templates/addons/discovery_preview.html:5
+#, fuzzy
+msgid "Matched files"
+msgstr "Todos os subproxectos"
+
+#: weblate/templates/addons/discovery_preview.html:9
+msgid "Following components would be deleted"
+msgstr ""
+
+#: weblate/templates/addons/discovery_preview.html:15
+msgid "Following components would be created"
+msgstr ""
+
+#: weblate/templates/addons/discovery_preview.html:28
+msgid "Following components matched existing ones"
+msgstr ""
+
+#: weblate/templates/addons/discovery_preview.html:41
+msgid "No components were matched!"
 msgstr ""
 
 #: weblate/templates/addons/generate_help.html:3
@@ -3480,12 +3625,6 @@ msgstr "Contexto da tradución"
 #| msgid "Source string:"
 msgid "Source string comment"
 msgstr "Cadea de orixe:"
-
-#: weblate/templates/list-translations.html:7
-#: weblate/templates/project.html:104 weblate/templates/translate.html:298
-#: weblate/trans/models/subproject.py:519 weblate/trans/models/whiteboard.py:87
-msgid "Component"
-msgstr ""
 
 #: weblate/templates/list-translations.html:9
 #: weblate/templates/list-translations.html:20
@@ -5877,24 +6016,24 @@ msgstr "Cambios recentes"
 msgid "All recent changes made using Weblate in %s."
 msgstr "Lista de cambios recentes feitos no Weblate"
 
-#: weblate/trans/filter.py:31 weblate/trans/models/translation.py:663
-#: weblate/trans/models/translation.py:706
+#: weblate/trans/filter.py:31 weblate/trans/models/translation.py:669
+#: weblate/trans/models/translation.py:712
 msgid "All strings"
 msgstr "Todas as cadeas"
 
-#: weblate/trans/filter.py:32 weblate/trans/models/translation.py:754
+#: weblate/trans/filter.py:32 weblate/trans/models/translation.py:760
 #, fuzzy
 #| msgid "Untranslated strings"
 msgid "Not translated strings"
 msgstr "Cadeas non traducidas"
 
-#: weblate/trans/filter.py:33 weblate/trans/models/translation.py:746
+#: weblate/trans/filter.py:33 weblate/trans/models/translation.py:752
 #, fuzzy
 #| msgid "Strings with suggestions"
 msgid "Strings needing action"
 msgstr "Cadeas con suxestións"
 
-#: weblate/trans/filter.py:34 weblate/trans/models/translation.py:721
+#: weblate/trans/filter.py:34 weblate/trans/models/translation.py:727
 #, fuzzy
 msgid "Translated strings"
 msgstr "Cadeas traducidas:"
@@ -5904,41 +6043,41 @@ msgstr "Cadeas traducidas:"
 msgid "Strings marked for edit"
 msgstr "Cadea de orixe:"
 
-#: weblate/trans/filter.py:36 weblate/trans/models/translation.py:770
+#: weblate/trans/filter.py:36 weblate/trans/models/translation.py:776
 msgid "Strings with suggestions"
 msgstr "Cadeas con suxestións"
 
-#: weblate/trans/filter.py:37 weblate/trans/models/translation.py:776
+#: weblate/trans/filter.py:37 weblate/trans/models/translation.py:782
 #, fuzzy
 #| msgid "Strings with suggestions"
 msgid "Strings without suggestions"
 msgstr "Cadeas con suxestións"
 
-#: weblate/trans/filter.py:38 weblate/trans/models/translation.py:691
-#: weblate/trans/models/translation.py:804
+#: weblate/trans/filter.py:38 weblate/trans/models/translation.py:697
+#: weblate/trans/models/translation.py:810
 #, fuzzy
 msgid "Strings with comments"
 msgstr "Cadeas con suxestións (%d)"
 
-#: weblate/trans/filter.py:39 weblate/trans/models/translation.py:671
-#: weblate/trans/models/translation.py:784
+#: weblate/trans/filter.py:39 weblate/trans/models/translation.py:677
+#: weblate/trans/models/translation.py:790
 #, fuzzy
 msgid "Strings with any failing checks"
 msgstr "Cadeas nas que as comprobacións detectaron fallos (%d)"
 
-#: weblate/trans/filter.py:40 weblate/trans/models/translation.py:713
+#: weblate/trans/filter.py:40 weblate/trans/models/translation.py:719
 #, fuzzy
 #| msgid "Source strings"
 msgid "Approved strings"
 msgstr "Cadeas de orixe"
 
-#: weblate/trans/filter.py:43 weblate/trans/models/translation.py:738
+#: weblate/trans/filter.py:43 weblate/trans/models/translation.py:744
 #, fuzzy
 #| msgid "Strings with suggestions"
 msgid "Approved strings with suggestions"
 msgstr "Cadeas con suxestións"
 
-#: weblate/trans/filter.py:45 weblate/trans/models/translation.py:730
+#: weblate/trans/filter.py:45 weblate/trans/models/translation.py:736
 #, fuzzy
 msgid "Strings waiting for review"
 msgstr "Cadea de orixe:"
@@ -7090,16 +7229,6 @@ msgid ""
 "choose .pot file."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:247
-#, fuzzy
-#| msgid "C format"
-msgid "File format"
-msgstr "Formato C"
-
-#: weblate/trans/models/subproject.py:252
-msgid "Automatic detection might fail for some formats and is slightly slower."
-msgstr ""
-
 #: weblate/trans/models/subproject.py:257
 #, fuzzy
 #| msgid "Additional message"
@@ -7330,18 +7459,6 @@ msgstr ""
 #: weblate/trans/models/subproject.py:477
 msgid ""
 "Time in hours after which any pending changes will be committed to the VCS."
-msgstr ""
-
-#: weblate/trans/models/subproject.py:483
-#, fuzzy
-#| msgid "Language"
-msgid "Language filter"
-msgstr "Idioma"
-
-#: weblate/trans/models/subproject.py:487
-msgid ""
-"Regular expression which is used to filter translation when scanning for "
-"file mask."
 msgstr ""
 
 #: weblate/trans/models/subproject.py:497
@@ -7577,7 +7694,7 @@ msgstr ""
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Produciuse un fallo ao procesar o ficheiro %(file)s: %(error)s"
 
-#: weblate/trans/models/translation.py:762
+#: weblate/trans/models/translation.py:768
 #, fuzzy
 msgid "Strings marked as needing edit"
 msgstr "Cadea de orixe:"
@@ -8056,7 +8173,7 @@ msgid "XML text"
 msgstr ""
 
 #: weblate/trans/validators.py:41 weblate/trans/validators.py:62
-#: weblate/utils/validators.py:148
+#: weblate/utils/validators.py:161
 #, python-format
 msgid "Bad format string (%s)"
 msgstr "Cadea de formato incorrecto (%s)"
@@ -8596,38 +8713,45 @@ msgstr ""
 msgid "Failed to compile: {0}"
 msgstr "Fallou o procesamento do formulario!"
 
-#: weblate/utils/validators.py:114
+#: weblate/utils/validators.py:85
+#, python-brace-format
+msgid ""
+"Regular expression is missing named group \"{0}\", the simplest way to "
+"define it is {1}."
+msgstr ""
+
+#: weblate/utils/validators.py:127
 #, fuzzy
 #| msgid "Invalid suggestion!"
 msgid "Invalid image!"
 msgstr "Suxestión incorrecta!"
 
-#: weblate/utils/validators.py:123
+#: weblate/utils/validators.py:136
 #, python-format
 msgid "Not supported image type: %s"
 msgstr ""
 
-#: weblate/utils/validators.py:130
+#: weblate/utils/validators.py:143
 msgid "Image is too big, please scale it down or crop relevant part!"
 msgstr ""
 
-#: weblate/utils/validators.py:162
+#: weblate/utils/validators.py:175
 msgid "The editor link lacks URL scheme!"
 msgstr ""
 
-#: weblate/utils/validators.py:168
+#: weblate/utils/validators.py:181
 msgid "Forbidden URL scheme!"
 msgstr ""
 
-#: weblate/utils/validators.py:184
+#: weblate/utils/validators.py:197
 msgid "Please avoid using special chars in the full name."
 msgstr ""
 
-#: weblate/utils/validators.py:193
+#: weblate/utils/validators.py:206
 msgid "Unsupported file format."
 msgstr ""
 
-#: weblate/utils/validators.py:203
+#: weblate/utils/validators.py:216
 #, fuzzy
 msgid "Failed to render template: {}"
 msgstr "Fallou o procesamento do formulario!"
@@ -10687,11 +10811,6 @@ msgstr ""
 
 #~ msgid "AJAX request to load this content has failed!"
 #~ msgstr "Fallou a solicitude AJAX ao cargar este contido!"
-
-#, fuzzy
-#~| msgid "The request for machine translation has failed."
-#~ msgid "The request for machine translation has failed:"
-#~ msgstr "Fallou a solicitude á máquina de tradución automática."
 
 #~ msgid "Confirm resetting repository"
 #~ msgstr "Confirmar o restabelecemento do repositorio"

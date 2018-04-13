@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Weblate 2.20\n"
+"Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-04-01 19:22+0000\n"
+"POT-Creation-Date: 2018-04-13 19:09+0000\n"
 "PO-Revision-Date: 2018-04-09 09:11+0000\n"
 "Last-Translator: Galina Anikina <merilaga@yandex.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
@@ -16,8 +16,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
-"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.20\n"
 
 #: weblate/accounts/admin.py:109 weblate/accounts/admin.py:114
@@ -660,6 +660,18 @@ msgstr ""
 "файлу. Для большинства форматов файлов это означает удаление ключей "
 "переводов, которых больше нет в базовом файле."
 
+#: weblate/addons/discovery.py:35
+#, fuzzy
+#| msgid "Component list"
+msgid "Component discovery"
+msgstr "Список компонентов"
+
+#: weblate/addons/discovery.py:37
+msgid ""
+"This addon automatically adds or removes components to the project based on "
+"file changes in the version control system."
+msgstr ""
+
 #: weblate/addons/example.py:42
 msgid "Example addon"
 msgstr "Дополнение-пример"
@@ -696,39 +708,101 @@ msgstr ""
 "требующая редактуры в Weblate. Таким образом, вы можете легко находить и "
 "редактировать строки перевода, добавленные разработчиками."
 
-#: weblate/addons/forms.py:44
+#: weblate/addons/forms.py:50
 msgid "Name of generated file"
 msgstr "Имя сгенерированного файла"
 
-#: weblate/addons/forms.py:49
+#: weblate/addons/forms.py:55
 msgid "Content of generated file"
 msgstr "Содержимое сгенерированного файла"
 
-#: weblate/addons/forms.py:77
+#: weblate/addons/forms.py:83
 msgid "Long lines wrapping"
 msgstr "Перенос длинных строк"
 
-#: weblate/addons/forms.py:79
+#: weblate/addons/forms.py:85
 msgid "Wrap lines at 77 chars and at newlines (default gettext behavior)"
 msgstr ""
 "Переносить строки после 77го символа и на новых строках (поведение gettext "
 "по умолчанию)"
 
-#: weblate/addons/forms.py:80
+#: weblate/addons/forms.py:86
 msgid "Only wrap lines at newlines (gettext behavior with --no-wrap)"
 msgstr "Переносить только на новых строках (поведение gettext --no-wrap)"
 
-#: weblate/addons/forms.py:81
+#: weblate/addons/forms.py:87
 msgid "No line wrapping"
 msgstr "Не переносить строки"
 
-#: weblate/addons/forms.py:90
+#: weblate/addons/forms.py:96
 msgid "Sort JSON keys"
 msgstr "Сотрировать ключи JSON"
 
-#: weblate/addons/forms.py:94
+#: weblate/addons/forms.py:100
 msgid "JSON indentation"
 msgstr "Отступы JSON"
+
+#: weblate/addons/forms.py:120
+#, fuzzy
+#| msgid "Regular expression which is used to match user email."
+msgid "Regular expression to match translation files"
+msgstr ""
+"Регулярное выражение, которое используется для сопоставления почты "
+"пользователя."
+
+#: weblate/addons/forms.py:124 weblate/trans/models/subproject.py:247
+msgid "File format"
+msgstr "Формат файла"
+
+#: weblate/addons/forms.py:129 weblate/trans/models/subproject.py:252
+msgid "Automatic detection might fail for some formats and is slightly slower."
+msgstr ""
+"Автоматическое определение может быть некорректно для некоторых форматов и "
+"медленнее."
+
+#: weblate/addons/forms.py:134
+#, fuzzy
+#| msgid "Component name"
+msgid "Customise the component name"
+msgstr "Название компонента"
+
+#: weblate/addons/forms.py:139
+#, fuzzy
+#| msgid "Monolingual base language file"
+msgid "Define the monolingual base filename"
+msgstr "Основной языковой монолингвальный файл"
+
+#: weblate/addons/forms.py:142
+#, fuzzy
+#| msgid "The request for machine translation has failed."
+msgid "Keep empty for bilingual translation files."
+msgstr "Запрос на машинный перевод не удался."
+
+#: weblate/addons/forms.py:145 weblate/trans/models/subproject.py:483
+msgid "Language filter"
+msgstr "Фильтр языка"
+
+#: weblate/addons/forms.py:150 weblate/trans/models/subproject.py:487
+msgid ""
+"Regular expression which is used to filter translation when scanning for "
+"file mask."
+msgstr ""
+"Регулярное выражение, используемое для фильтрации перевода при поиске по "
+"файловой маске."
+
+#: weblate/addons/forms.py:155
+msgid "Remove components for non existing files"
+msgstr ""
+
+#: weblate/addons/forms.py:159
+msgid "I confirm that the above matches look correct"
+msgstr ""
+
+#: weblate/addons/forms.py:220
+#, fuzzy
+#| msgid "Please review and confirm the search and replace results."
+msgid "Please review and confirm matched components."
+msgstr "Пожалуйста, проверьте и подтвердите результаты поиска и замены."
 
 #: weblate/addons/generate.py:36
 msgid "Statistics generator"
@@ -754,7 +828,9 @@ msgid "Update LINGUAS file"
 msgstr "Обновлять файл LINGUAS"
 
 #: weblate/addons/gettext.py:74
-msgid "Updates the LINGUAS file when adding new translation."
+#, fuzzy
+#| msgid "Updates the LINGUAS file when adding new translation."
+msgid "Updates the LINGUAS file when a new translation is added."
 msgstr "Обновляет файл LINGUAS при добавлении нового перевода."
 
 #: weblate/addons/gettext.py:127
@@ -762,15 +838,21 @@ msgid "Update ALL_LINGUAS variable in the configure file"
 msgstr "Обновлять переменную ALL_LINGUAS в файле configure"
 
 #: weblate/addons/gettext.py:129
+#, fuzzy
+#| msgid ""
+#| "Updates the ALL_LINGUAS variable in configure, configure.in or configure."
+#| "ac files when adding new translation."
 msgid ""
 "Updates the ALL_LINGUAS variable in configure, configure.in or configure.ac "
-"files when adding new translation."
+"files, when a new translation is added."
 msgstr ""
 "Обновляет переменную ALL_LINGUAS в файлах configure, configure.in или "
 "configure.ac при добавлении нового перевода."
 
 #: weblate/addons/gettext.py:187
-msgid "Update po files to match pot (msgmerge)"
+#, fuzzy
+#| msgid "Update po files to match pot (msgmerge)"
+msgid "Update PO files to match POT (msgmerge)"
 msgstr "Обновлять файлы po до соответствия pot (msgmerge)"
 
 #: weblate/addons/gettext.py:189
@@ -1752,6 +1834,7 @@ msgstr ""
 #: weblate/templates/accounts/profile.html:298
 #: weblate/templates/accounts/profile.html:395
 #: weblate/templates/accounts/profile.html:449
+#: weblate/templates/addons/discovery_help.html:10
 msgid "Description"
 msgstr "Описание"
 
@@ -2302,6 +2385,91 @@ msgstr "Не удалось найти больше дополнений, сов
 msgid "Some addons will ask for additional configuration during installation."
 msgstr ""
 "Некоторые дополнения потребуют дополнительной настройки в процессе установки."
+
+#: weblate/templates/addons/discovery_help.html:3
+msgid ""
+"The regular expression to match translation files has to contain two named "
+"groups to match component and language, some examples:"
+msgstr ""
+
+#: weblate/templates/addons/discovery_help.html:8
+#, fuzzy
+#| msgid "Email regular expression"
+msgid "Regular expression"
+msgstr "Регулярное выражение эл. почты"
+
+#: weblate/templates/addons/discovery_help.html:9
+#, fuzzy
+#| msgid "Failed to parse %d matched files!"
+msgid "Example matched files"
+msgstr "Не удалось распознать %d совпадающих файлов!"
+
+#: weblate/templates/addons/discovery_help.html:22
+msgid "One folder per language containing translation files for components."
+msgstr ""
+
+#: weblate/templates/addons/discovery_help.html:32
+msgid "Usual structure for storing gettext po files."
+msgstr ""
+
+#: weblate/templates/addons/discovery_help.html:42
+msgid "Using both component and language name within filename."
+msgstr ""
+
+#: weblate/templates/addons/discovery_help.html:52
+msgid "Using language in both path and filename."
+msgstr ""
+
+#: weblate/templates/addons/discovery_help.html:57
+#, fuzzy
+#| msgid ""
+#| "You can use Django templates markup in both filename and content, for "
+#| "example:"
+msgid ""
+"You can use Django templates markup in both component name and monolingual "
+"base filename, for example:"
+msgstr ""
+"Вы можете использовать разметку шаблонов Django в имени файла и содержании, "
+"например:"
+
+#: weblate/templates/addons/discovery_help.html:61
+#, fuzzy
+#| msgid "Component name"
+msgid "Component filename match"
+msgstr "Название компонента"
+
+#: weblate/templates/addons/discovery_help.html:63
+msgid "Component filename with upper case first letter"
+msgstr ""
+
+#: weblate/templates/addons/discovery_preview.html:5
+#: weblate/templates/list-translations.html:7
+#: weblate/templates/project.html:104 weblate/templates/translate.html:298
+#: weblate/trans/models/subproject.py:519 weblate/trans/models/whiteboard.py:87
+msgid "Component"
+msgstr "Компонент"
+
+#: weblate/templates/addons/discovery_preview.html:5
+#, fuzzy
+#| msgid "Watched projects"
+msgid "Matched files"
+msgstr "Наблюдаемые проекты"
+
+#: weblate/templates/addons/discovery_preview.html:9
+msgid "Following components would be deleted"
+msgstr ""
+
+#: weblate/templates/addons/discovery_preview.html:15
+msgid "Following components would be created"
+msgstr ""
+
+#: weblate/templates/addons/discovery_preview.html:28
+msgid "Following components matched existing ones"
+msgstr ""
+
+#: weblate/templates/addons/discovery_preview.html:41
+msgid "No components were matched!"
+msgstr ""
 
 #: weblate/templates/addons/generate_help.html:3
 msgid ""
@@ -3249,12 +3417,6 @@ msgstr "Комментарий к переводу"
 #: weblate/templates/zen-units.html:27
 msgid "Source string comment"
 msgstr "Комментарий к строке-исходнику"
-
-#: weblate/templates/list-translations.html:7
-#: weblate/templates/project.html:104 weblate/templates/translate.html:298
-#: weblate/trans/models/subproject.py:519 weblate/trans/models/whiteboard.py:87
-msgid "Component"
-msgstr "Компонент"
 
 #: weblate/templates/list-translations.html:9
 #: weblate/templates/list-translations.html:20
@@ -5238,20 +5400,20 @@ msgstr "Недавние изменения в %s"
 msgid "All recent changes made using Weblate in %s."
 msgstr "Все недавние изменения, внесённые с помощью Weblate, в %s."
 
-#: weblate/trans/filter.py:31 weblate/trans/models/translation.py:663
-#: weblate/trans/models/translation.py:706
+#: weblate/trans/filter.py:31 weblate/trans/models/translation.py:669
+#: weblate/trans/models/translation.py:712
 msgid "All strings"
 msgstr "Все строки"
 
-#: weblate/trans/filter.py:32 weblate/trans/models/translation.py:754
+#: weblate/trans/filter.py:32 weblate/trans/models/translation.py:760
 msgid "Not translated strings"
 msgstr "Строки без перевода"
 
-#: weblate/trans/filter.py:33 weblate/trans/models/translation.py:746
+#: weblate/trans/filter.py:33 weblate/trans/models/translation.py:752
 msgid "Strings needing action"
 msgstr "Строки, требующие действий"
 
-#: weblate/trans/filter.py:34 weblate/trans/models/translation.py:721
+#: weblate/trans/filter.py:34 weblate/trans/models/translation.py:727
 msgid "Translated strings"
 msgstr "Переведённые строки"
 
@@ -5259,33 +5421,33 @@ msgstr "Переведённые строки"
 msgid "Strings marked for edit"
 msgstr "Строки, отмеченные для редактуры"
 
-#: weblate/trans/filter.py:36 weblate/trans/models/translation.py:770
+#: weblate/trans/filter.py:36 weblate/trans/models/translation.py:776
 msgid "Strings with suggestions"
 msgstr "Строки с предложениями перевода"
 
-#: weblate/trans/filter.py:37 weblate/trans/models/translation.py:776
+#: weblate/trans/filter.py:37 weblate/trans/models/translation.py:782
 msgid "Strings without suggestions"
 msgstr "Строки без предложений перевода"
 
-#: weblate/trans/filter.py:38 weblate/trans/models/translation.py:691
-#: weblate/trans/models/translation.py:804
+#: weblate/trans/filter.py:38 weblate/trans/models/translation.py:697
+#: weblate/trans/models/translation.py:810
 msgid "Strings with comments"
 msgstr "Строки с комментариями"
 
-#: weblate/trans/filter.py:39 weblate/trans/models/translation.py:671
-#: weblate/trans/models/translation.py:784
+#: weblate/trans/filter.py:39 weblate/trans/models/translation.py:677
+#: weblate/trans/models/translation.py:790
 msgid "Strings with any failing checks"
 msgstr "Строки с непройденной проверкой"
 
-#: weblate/trans/filter.py:40 weblate/trans/models/translation.py:713
+#: weblate/trans/filter.py:40 weblate/trans/models/translation.py:719
 msgid "Approved strings"
 msgstr "Одобренные строки"
 
-#: weblate/trans/filter.py:43 weblate/trans/models/translation.py:738
+#: weblate/trans/filter.py:43 weblate/trans/models/translation.py:744
 msgid "Approved strings with suggestions"
 msgstr "Одобренные строки с предложениями перевода"
 
-#: weblate/trans/filter.py:45 weblate/trans/models/translation.py:730
+#: weblate/trans/filter.py:45 weblate/trans/models/translation.py:736
 msgid "Strings waiting for review"
 msgstr "Строки, ожидающие проверки"
 
@@ -6264,16 +6426,6 @@ msgstr ""
 "Имя файла, который используется для создания новых переводов. Для Gettext "
 "выберите .pot файл."
 
-#: weblate/trans/models/subproject.py:247
-msgid "File format"
-msgstr "Формат файла"
-
-#: weblate/trans/models/subproject.py:252
-msgid "Automatic detection might fail for some formats and is slightly slower."
-msgstr ""
-"Автоматическое определение может быть некорректно для некоторых форматов и "
-"медленнее."
-
 #: weblate/trans/models/subproject.py:257
 msgid "Additional commit files"
 msgstr "Дополнительно коммитить файлы"
@@ -6504,18 +6656,6 @@ msgid ""
 "Time in hours after which any pending changes will be committed to the VCS."
 msgstr "Время в часах, после которого изменения будут закоммичены в VCS."
 
-#: weblate/trans/models/subproject.py:483
-msgid "Language filter"
-msgstr "Фильтр языка"
-
-#: weblate/trans/models/subproject.py:487
-msgid ""
-"Regular expression which is used to filter translation when scanning for "
-"file mask."
-msgstr ""
-"Регулярное выражение, используемое для фильтрации перевода при поиске по "
-"файловой маске."
-
 #: weblate/trans/models/subproject.py:497
 msgid "Components with higher priority are offered first to translators."
 msgstr "Переводчикам вначале предлагаются компоненты с большим приоритетом."
@@ -6745,7 +6885,7 @@ msgstr ""
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Не удалось разобрать файл %(file)s: %(error)s"
 
-#: weblate/trans/models/translation.py:762
+#: weblate/trans/models/translation.py:768
 msgid "Strings marked as needing edit"
 msgstr "Строки, отмеченные для редактуры"
 
@@ -7188,7 +7328,7 @@ msgid "XML text"
 msgstr "XML текст"
 
 #: weblate/trans/validators.py:41 weblate/trans/validators.py:62
-#: weblate/utils/validators.py:148
+#: weblate/utils/validators.py:161
 #, python-format
 msgid "Bad format string (%s)"
 msgstr "Неверный формат строки (%s)"
@@ -7684,40 +7824,47 @@ msgstr "Пусто"
 msgid "Failed to compile: {0}"
 msgstr "Ошибка компиляции: {0}"
 
-#: weblate/utils/validators.py:114
+#: weblate/utils/validators.py:85
+#, python-brace-format
+msgid ""
+"Regular expression is missing named group \"{0}\", the simplest way to "
+"define it is {1}."
+msgstr ""
+
+#: weblate/utils/validators.py:127
 msgid "Invalid image!"
 msgstr "Неправильное изображение!"
 
-#: weblate/utils/validators.py:123
+#: weblate/utils/validators.py:136
 #, python-format
 msgid "Not supported image type: %s"
 msgstr "Неподдерживаемый тип изображения: %s"
 
-#: weblate/utils/validators.py:130
+#: weblate/utils/validators.py:143
 msgid "Image is too big, please scale it down or crop relevant part!"
 msgstr ""
 "Изображение слишком большое, пожалуйста, уменьшите его или вырежьте нужную "
 "часть!"
 
-#: weblate/utils/validators.py:162
+#: weblate/utils/validators.py:175
 msgid "The editor link lacks URL scheme!"
 msgstr "Ссылка редактора не содержит схемы URL!"
 
-#: weblate/utils/validators.py:168
+#: weblate/utils/validators.py:181
 msgid "Forbidden URL scheme!"
 msgstr "Запрещённая схема URL!"
 
-#: weblate/utils/validators.py:184
+#: weblate/utils/validators.py:197
 msgid "Please avoid using special chars in the full name."
 msgstr ""
 "Пожалуйста, воздержитесь от использования специальных символов в полном "
 "имени."
 
-#: weblate/utils/validators.py:193
+#: weblate/utils/validators.py:206
 msgid "Unsupported file format."
 msgstr "Неподдерживаемый формат файла."
 
-#: weblate/utils/validators.py:203
+#: weblate/utils/validators.py:216
 msgid "Failed to render template: {}"
 msgstr "Не удалось отобразить шаблон: {0}"
 
@@ -9627,11 +9774,6 @@ msgstr "Администрирование статических файлов"
 
 #~ msgid "AJAX request to load this content has failed!"
 #~ msgstr "AJAX запрос на загрузку этого контента не удался!"
-
-#, fuzzy
-#~| msgid "The request for machine translation has failed."
-#~ msgid "The request for machine translation has failed:"
-#~ msgstr "Запрос на машинный перевод не удался."
 
 #~ msgid "Confirm resetting repository"
 #~ msgstr "Подтвердите сброс репозитория"

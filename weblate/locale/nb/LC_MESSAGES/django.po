@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Weblate 2.20\n"
+"Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-04-01 19:22+0000\n"
+"POT-Creation-Date: 2018-04-13 19:09+0000\n"
 "PO-Revision-Date: 2018-04-13 11:26+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
@@ -651,6 +651,18 @@ msgstr ""
 "enkeltspråkelige basisfila. For de fleste filformater, betyr dette fjerning "
 "av ubrukte oversettelsesnøkler, som ikke lenger finnes i basisfila."
 
+#: weblate/addons/discovery.py:35
+#, fuzzy
+#| msgid "Component list"
+msgid "Component discovery"
+msgstr "Komponentliste"
+
+#: weblate/addons/discovery.py:37
+msgid ""
+"This addon automatically adds or removes components to the project based on "
+"file changes in the version control system."
+msgstr ""
+
 #: weblate/addons/example.py:42
 msgid "Example addon"
 msgstr "Eksempel-utvidelse"
@@ -687,37 +699,96 @@ msgstr ""
 "markeres den i Weblate med at den trenger endring.  På denne måten kan du "
 "enkelt filtrere og endre oversettelser laget av utviklerne."
 
-#: weblate/addons/forms.py:44
+#: weblate/addons/forms.py:50
 msgid "Name of generated file"
 msgstr "Navn på generert fil"
 
-#: weblate/addons/forms.py:49
+#: weblate/addons/forms.py:55
 msgid "Content of generated file"
 msgstr "Innhold i den genererte fila"
 
-#: weblate/addons/forms.py:77
+#: weblate/addons/forms.py:83
 msgid "Long lines wrapping"
 msgstr "Linjebrying av lange linjer"
 
-#: weblate/addons/forms.py:79
+#: weblate/addons/forms.py:85
 msgid "Wrap lines at 77 chars and at newlines (default gettext behavior)"
 msgstr "Linjebryt på 77 tegn og ved linjeskift (forvalgt gettext-oppførsel)"
 
-#: weblate/addons/forms.py:80
+#: weblate/addons/forms.py:86
 msgid "Only wrap lines at newlines (gettext behavior with --no-wrap)"
 msgstr "Linjebryt ved linjeskift (gettext-oppførsel med --no-wrap)"
 
-#: weblate/addons/forms.py:81
+#: weblate/addons/forms.py:87
 msgid "No line wrapping"
 msgstr "Ingen linjebryting"
 
-#: weblate/addons/forms.py:90
+#: weblate/addons/forms.py:96
 msgid "Sort JSON keys"
 msgstr "Sorter JSON-nøkler"
 
-#: weblate/addons/forms.py:94
+#: weblate/addons/forms.py:100
 msgid "JSON indentation"
 msgstr "JSON-innrykk"
+
+#: weblate/addons/forms.py:120
+#, fuzzy
+#| msgid "Regular expression which is used to match user email."
+msgid "Regular expression to match translation files"
+msgstr "Regulært uttrykk som brukes til å matche brukerens e-post."
+
+#: weblate/addons/forms.py:124 weblate/trans/models/subproject.py:247
+msgid "File format"
+msgstr "Filformat"
+
+#: weblate/addons/forms.py:129 weblate/trans/models/subproject.py:252
+msgid "Automatic detection might fail for some formats and is slightly slower."
+msgstr ""
+"Automatisk gjenkjenning kan mislykkes for noen formater, og er litt tregere."
+
+#: weblate/addons/forms.py:134
+#, fuzzy
+#| msgid "Component name"
+msgid "Customise the component name"
+msgstr "Komponentnavn"
+
+#: weblate/addons/forms.py:139
+#, fuzzy
+#| msgid "Monolingual base language file"
+msgid "Define the monolingual base filename"
+msgstr "Ettspråklig basis-språkfil"
+
+#: weblate/addons/forms.py:142
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Keep empty for bilingual translation files."
+msgstr "Rydd opp i oversettelsesfiler"
+
+#: weblate/addons/forms.py:145 weblate/trans/models/subproject.py:483
+msgid "Language filter"
+msgstr "Språkfilter"
+
+#: weblate/addons/forms.py:150 weblate/trans/models/subproject.py:487
+msgid ""
+"Regular expression which is used to filter translation when scanning for "
+"file mask."
+msgstr ""
+"Vanlige uttrykk som brukes til å filtrere oversettelse når du skanner for "
+"filnavnsmaske."
+
+#: weblate/addons/forms.py:155
+msgid "Remove components for non existing files"
+msgstr ""
+
+#: weblate/addons/forms.py:159
+msgid "I confirm that the above matches look correct"
+msgstr ""
+
+#: weblate/addons/forms.py:220
+#, fuzzy
+#| msgid "Please review and confirm the search and replace results."
+msgid "Please review and confirm matched components."
+msgstr "Se over og bekreft søket og erstatt resultater."
 
 #: weblate/addons/generate.py:36
 msgid "Statistics generator"
@@ -743,7 +814,9 @@ msgid "Update LINGUAS file"
 msgstr "Oppdater LINGUAS-fil"
 
 #: weblate/addons/gettext.py:74
-msgid "Updates the LINGUAS file when adding new translation."
+#, fuzzy
+#| msgid "Updates the LINGUAS file when adding new translation."
+msgid "Updates the LINGUAS file when a new translation is added."
 msgstr "Oppdater LINGUAS-filen når nye oversettelser tilføyes."
 
 #: weblate/addons/gettext.py:127
@@ -754,14 +827,14 @@ msgstr "Oppdater ALL_LINGUAS-variabel i oppsettsfilen"
 #, fuzzy
 msgid ""
 "Updates the ALL_LINGUAS variable in configure, configure.in or configure.ac "
-"files when adding new translation."
+"files, when a new translation is added."
 msgstr ""
 "Oppdater ALL_LINGUAS-variabel i oppsett, \"configure.in\" eller \"configure."
 "ac\"-filer når ny oversettelse legges til."
 
 #: weblate/addons/gettext.py:187
 #, fuzzy
-msgid "Update po files to match pot (msgmerge)"
+msgid "Update PO files to match POT (msgmerge)"
 msgstr "Oppdater PO-filer for å samsvare med POT (msgmerge)"
 
 #: weblate/addons/gettext.py:189
@@ -1744,6 +1817,7 @@ msgstr ""
 #: weblate/templates/accounts/profile.html:298
 #: weblate/templates/accounts/profile.html:395
 #: weblate/templates/accounts/profile.html:449
+#: weblate/templates/addons/discovery_help.html:10
 msgid "Description"
 msgstr "Beskrivelse"
 
@@ -2287,6 +2361,87 @@ msgstr "Fant ingen ytterligere tillegg kompatible med denne oversettelsen."
 #: weblate/templates/addons/addon_list.html:71
 msgid "Some addons will ask for additional configuration during installation."
 msgstr "Noen tillegg vil spørre om ytterligere oppsett under installasjon."
+
+#: weblate/templates/addons/discovery_help.html:3
+msgid ""
+"The regular expression to match translation files has to contain two named "
+"groups to match component and language, some examples:"
+msgstr ""
+
+#: weblate/templates/addons/discovery_help.html:8
+#, fuzzy
+#| msgid "Email regular expression"
+msgid "Regular expression"
+msgstr "Regulært uttrykk for e-post"
+
+#: weblate/templates/addons/discovery_help.html:9
+#, fuzzy
+#| msgid "Failed to parse %d matched files!"
+msgid "Example matched files"
+msgstr "Kan ikke analysere %d filsamsvar!"
+
+#: weblate/templates/addons/discovery_help.html:22
+msgid "One folder per language containing translation files for components."
+msgstr ""
+
+#: weblate/templates/addons/discovery_help.html:32
+msgid "Usual structure for storing gettext po files."
+msgstr ""
+
+#: weblate/templates/addons/discovery_help.html:42
+msgid "Using both component and language name within filename."
+msgstr ""
+
+#: weblate/templates/addons/discovery_help.html:52
+msgid "Using language in both path and filename."
+msgstr ""
+
+#: weblate/templates/addons/discovery_help.html:57
+#, fuzzy
+msgid ""
+"You can use Django templates markup in both component name and monolingual "
+"base filename, for example:"
+msgstr ""
+"Du kan bruke Django-malsoppmerking i både filnavn og innhold, for eksempel:"
+
+#: weblate/templates/addons/discovery_help.html:61
+#, fuzzy
+#| msgid "Component name"
+msgid "Component filename match"
+msgstr "Komponentnavn"
+
+#: weblate/templates/addons/discovery_help.html:63
+msgid "Component filename with upper case first letter"
+msgstr ""
+
+#: weblate/templates/addons/discovery_preview.html:5
+#: weblate/templates/list-translations.html:7
+#: weblate/templates/project.html:104 weblate/templates/translate.html:298
+#: weblate/trans/models/subproject.py:519 weblate/trans/models/whiteboard.py:87
+msgid "Component"
+msgstr "Komponent"
+
+#: weblate/templates/addons/discovery_preview.html:5
+#, fuzzy
+#| msgid "Watched projects"
+msgid "Matched files"
+msgstr "Fulgte prosjekter"
+
+#: weblate/templates/addons/discovery_preview.html:9
+msgid "Following components would be deleted"
+msgstr ""
+
+#: weblate/templates/addons/discovery_preview.html:15
+msgid "Following components would be created"
+msgstr ""
+
+#: weblate/templates/addons/discovery_preview.html:28
+msgid "Following components matched existing ones"
+msgstr ""
+
+#: weblate/templates/addons/discovery_preview.html:41
+msgid "No components were matched!"
+msgstr ""
 
 #: weblate/templates/addons/generate_help.html:3
 #, fuzzy
@@ -3237,12 +3392,6 @@ msgstr "Oversettelseskommentar"
 #: weblate/templates/zen-units.html:27
 msgid "Source string comment"
 msgstr "Kildestrengkommentar"
-
-#: weblate/templates/list-translations.html:7
-#: weblate/templates/project.html:104 weblate/templates/translate.html:298
-#: weblate/trans/models/subproject.py:519 weblate/trans/models/whiteboard.py:87
-msgid "Component"
-msgstr "Komponent"
 
 #: weblate/templates/list-translations.html:9
 #: weblate/templates/list-translations.html:20
@@ -4619,7 +4768,8 @@ msgstr "Last ned oversettelse som TMX"
 
 #: weblate/templates/translation-download.html:15
 msgid "Download strings needing action as XLIFF with gettext extensions"
-msgstr "Last ned strenger som trenger handling som XLIFF med Gettext-utvidelser"
+msgstr ""
+"Last ned strenger som trenger handling som XLIFF med Gettext-utvidelser"
 
 #: weblate/templates/translation-download.html:16
 msgid "Download strings needing action as XLIFF 1.2"
@@ -5222,20 +5372,20 @@ msgstr "Nylige forandringer i %s"
 msgid "All recent changes made using Weblate in %s."
 msgstr "Alle seneste endringer er laget med Weblate i %s."
 
-#: weblate/trans/filter.py:31 weblate/trans/models/translation.py:663
-#: weblate/trans/models/translation.py:706
+#: weblate/trans/filter.py:31 weblate/trans/models/translation.py:669
+#: weblate/trans/models/translation.py:712
 msgid "All strings"
 msgstr "Alle strenger"
 
-#: weblate/trans/filter.py:32 weblate/trans/models/translation.py:754
+#: weblate/trans/filter.py:32 weblate/trans/models/translation.py:760
 msgid "Not translated strings"
 msgstr "Ikke oversatte strenger"
 
-#: weblate/trans/filter.py:33 weblate/trans/models/translation.py:746
+#: weblate/trans/filter.py:33 weblate/trans/models/translation.py:752
 msgid "Strings needing action"
 msgstr "Strenger som trenger handling"
 
-#: weblate/trans/filter.py:34 weblate/trans/models/translation.py:721
+#: weblate/trans/filter.py:34 weblate/trans/models/translation.py:727
 msgid "Translated strings"
 msgstr "Oversatte strenger"
 
@@ -5243,33 +5393,33 @@ msgstr "Oversatte strenger"
 msgid "Strings marked for edit"
 msgstr "Strenger merket for redigering"
 
-#: weblate/trans/filter.py:36 weblate/trans/models/translation.py:770
+#: weblate/trans/filter.py:36 weblate/trans/models/translation.py:776
 msgid "Strings with suggestions"
 msgstr "Strenger med forslag"
 
-#: weblate/trans/filter.py:37 weblate/trans/models/translation.py:776
+#: weblate/trans/filter.py:37 weblate/trans/models/translation.py:782
 msgid "Strings without suggestions"
 msgstr "Strenger uten forslag"
 
-#: weblate/trans/filter.py:38 weblate/trans/models/translation.py:691
-#: weblate/trans/models/translation.py:804
+#: weblate/trans/filter.py:38 weblate/trans/models/translation.py:697
+#: weblate/trans/models/translation.py:810
 msgid "Strings with comments"
 msgstr "Strenger med kommentarer"
 
-#: weblate/trans/filter.py:39 weblate/trans/models/translation.py:671
-#: weblate/trans/models/translation.py:784
+#: weblate/trans/filter.py:39 weblate/trans/models/translation.py:677
+#: weblate/trans/models/translation.py:790
 msgid "Strings with any failing checks"
 msgstr "Strenger med kontroller som feiler"
 
-#: weblate/trans/filter.py:40 weblate/trans/models/translation.py:713
+#: weblate/trans/filter.py:40 weblate/trans/models/translation.py:719
 msgid "Approved strings"
 msgstr "Godkjente strenger"
 
-#: weblate/trans/filter.py:43 weblate/trans/models/translation.py:738
+#: weblate/trans/filter.py:43 weblate/trans/models/translation.py:744
 msgid "Approved strings with suggestions"
 msgstr "Godkjente strenger med forslag"
 
-#: weblate/trans/filter.py:45 weblate/trans/models/translation.py:730
+#: weblate/trans/filter.py:45 weblate/trans/models/translation.py:736
 msgid "Strings waiting for review"
 msgstr "Strenger merket til gjennomgang"
 
@@ -6248,15 +6398,6 @@ msgstr ""
 "Navnet på filen som brukes til å opprette nye oversettelser. For Gettext "
 "velg .pot fil."
 
-#: weblate/trans/models/subproject.py:247
-msgid "File format"
-msgstr "Filformat"
-
-#: weblate/trans/models/subproject.py:252
-msgid "Automatic detection might fail for some formats and is slightly slower."
-msgstr ""
-"Automatisk gjenkjenning kan mislykkes for noen formater, og er litt tregere."
-
 #: weblate/trans/models/subproject.py:257
 msgid "Additional commit files"
 msgstr "Ekstra innsendelsesfiler"
@@ -6486,18 +6627,6 @@ msgstr ""
 "Tidsperiode i timer før enhver gjenstående endring vil bli sjekket inn i VCS-"
 "en."
 
-#: weblate/trans/models/subproject.py:483
-msgid "Language filter"
-msgstr "Språkfilter"
-
-#: weblate/trans/models/subproject.py:487
-msgid ""
-"Regular expression which is used to filter translation when scanning for "
-"file mask."
-msgstr ""
-"Vanlige uttrykk som brukes til å filtrere oversettelse når du skanner for "
-"filnavnsmaske."
-
 #: weblate/trans/models/subproject.py:497
 msgid "Components with higher priority are offered first to translators."
 msgstr "Deler med høyere prioritet tilbys først til oversettere."
@@ -6723,7 +6852,7 @@ msgstr ""
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Kunne inne analysere filen %(file)s: %(error)s"
 
-#: weblate/trans/models/translation.py:762
+#: weblate/trans/models/translation.py:768
 msgid "Strings marked as needing edit"
 msgstr "Strenger merket fordi de trenger redigering"
 
@@ -7152,7 +7281,7 @@ msgid "XML text"
 msgstr "XML-tekst"
 
 #: weblate/trans/validators.py:41 weblate/trans/validators.py:62
-#: weblate/utils/validators.py:148
+#: weblate/utils/validators.py:161
 #, python-format
 msgid "Bad format string (%s)"
 msgstr "Ugyldig formatstreng (%s)"
@@ -7644,36 +7773,43 @@ msgstr "Tom"
 msgid "Failed to compile: {0}"
 msgstr "Kunne ikke kompilere: {0}"
 
-#: weblate/utils/validators.py:114
+#: weblate/utils/validators.py:85
+#, python-brace-format
+msgid ""
+"Regular expression is missing named group \"{0}\", the simplest way to "
+"define it is {1}."
+msgstr ""
+
+#: weblate/utils/validators.py:127
 msgid "Invalid image!"
 msgstr "Ugyldig bilde!"
 
-#: weblate/utils/validators.py:123
+#: weblate/utils/validators.py:136
 #, python-format
 msgid "Not supported image type: %s"
 msgstr "Ikke-støttet bildetype: %s"
 
-#: weblate/utils/validators.py:130
+#: weblate/utils/validators.py:143
 msgid "Image is too big, please scale it down or crop relevant part!"
 msgstr "Bildet er for stort.  Skaler det ned eller klipp ut relevant del!"
 
-#: weblate/utils/validators.py:162
+#: weblate/utils/validators.py:175
 msgid "The editor link lacks URL scheme!"
 msgstr "Redigeringslinken mangler URL-skjemaet!"
 
-#: weblate/utils/validators.py:168
+#: weblate/utils/validators.py:181
 msgid "Forbidden URL scheme!"
 msgstr "Forbudt URL-skjema!"
 
-#: weblate/utils/validators.py:184
+#: weblate/utils/validators.py:197
 msgid "Please avoid using special chars in the full name."
 msgstr "Vær så snill å unngå spesialtegn i fulle navnet."
 
-#: weblate/utils/validators.py:193
+#: weblate/utils/validators.py:206
 msgid "Unsupported file format."
 msgstr "Filformat som ikke støttes."
 
-#: weblate/utils/validators.py:203
+#: weblate/utils/validators.py:216
 msgid "Failed to render template: {}"
 msgstr "Klarte ikke å tegne opp mal: {0}"
 
