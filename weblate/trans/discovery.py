@@ -35,8 +35,12 @@ from weblate.utils.render import render_template
 class ComponentDiscovery(object):
     def __init__(self, component, match, name_template,
                  language_regex='^[^.]+$', base_file_template='',
-                 file_format='auto'):
+                 file_format='auto', path=None):
         self.component = component
+        if path is None:
+            self.path = self.component.full_path
+        else:
+            self.path = path
         self.path_match = re.compile('^' + match + '$')
         self.name_template = name_template
         self.base_file_template = base_file_template
@@ -48,11 +52,11 @@ class ComponentDiscovery(object):
     def matches(self):
         """Return matched files together with match groups and mask."""
         result = []
-        for root, dummy, filenames in os.walk(self.component.full_path):
+        for root, dummy, filenames in os.walk(self.path):
             for filename in filenames:
                 path = os.path.relpath(
                     os.path.join(root, filename),
-                    self.component.full_path
+                    self.path
                 )
                 matches = self.path_match.match(path)
                 if not matches:
@@ -96,7 +100,7 @@ class ComponentDiscovery(object):
                 result[mask]['languages'].add(groups['language'])
         return result
 
-    def create_component(self, main, match):
+    def create_component(self, main, match, **params):
         max_length = settings.COMPONENT_NAME_LENGTH
 
         def get_val(key, extra=0):
@@ -107,7 +111,16 @@ class ComponentDiscovery(object):
 
         name = get_val('name')
         slug = get_val('slug')
-        components = SubProject.objects.filter(project=main.project)
+        simple_keys = (
+            'project', 'branch', 'vcs', 'push_on_commit', 'license_url', 'license'
+        )
+        for key in simple_keys:
+            if key not in params:
+                params[key] = getattr(main, key)
+        if 'repo' not in params:
+            params['repo'] = main.get_repo_link_url()
+
+        components = SubProject.objects.filter(project=params['project'])
 
         if components.filter(Q(slug=slug) | Q(name=name)).exists():
             base_name = get_val('name', 4)
@@ -115,7 +128,7 @@ class ComponentDiscovery(object):
 
             for i in range(1, 1000):
                 name = '{} {}'.format(base_name, i)
-                slug = '{}-{}'.format(base_name, i)
+                slug = '{}-{}'.format(base_slug, i)
 
                 if components.filter(Q(slug=slug) | Q(name=name)).exists():
                     continue
@@ -124,17 +137,11 @@ class ComponentDiscovery(object):
         return SubProject.objects.create(
             name=name,
             slug=slug,
-            project=main.project,
-            repo=main.get_repo_link_url(),
-            branch=main.branch,
-            vcs=main.vcs,
-            push_on_commit=main.push_on_commit,
-            license=main.license,
-            license_url=main.license_url,
             template=match['base_file'],
             filemask=match['mask'],
             file_format=self.file_format,
             language_regex=self.language_re,
+            **params
         )
 
     def perform(self, preview=False, remove=False):
