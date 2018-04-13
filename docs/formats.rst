@@ -90,8 +90,13 @@ The bilingual gettext PO file typically looks like:
 
 .. seealso::
 
-   `Gettext on Wikipedia <https://en.wikipedia.org/wiki/Gettext>`_,
-   :doc:`tt:formats/po`
+    `Gettext on Wikipedia <https://en.wikipedia.org/wiki/Gettext>`_,
+    :doc:`tt:formats/po`,
+    :ref:`addon-weblate.gettext.configure`,
+    :ref:`addon-weblate.gettext.customize`,
+    :ref:`addon-weblate.gettext.linguas`,
+    :ref:`addon-weblate.gettext.mo`,
+    :ref:`addon-weblate.gettext.msgmerge`,
 
 Monolingual Gettext
 +++++++++++++++++++
@@ -235,7 +240,9 @@ Weblate supports ISO-8859-1, UTF-8 and UTF-16 variants of this format.
 .. seealso::
 
     `Java properties on Wikipedia <https://en.wikipedia.org/wiki/.properties>`_,
-    :doc:`tt:formats/properties`
+    :doc:`tt:formats/properties`,
+    :ref:`addon-weblate.properties.sort`,
+    :ref:`addon-weblate.cleanup.generic`,
 
 Joomla translations
 -------------------
@@ -500,6 +507,8 @@ Nested files are supported as well (see above for requirements), such file can l
 .. seealso::
 
     :doc:`tt:formats/json`
+    :ref:`addon-weblate.json.customize`,
+    :ref:`addon-weblate.cleanup.generic`,
 
 WebExtension JSON
 -----------------
@@ -558,7 +567,10 @@ Example file:
 | File format                    | `.Net resource file`             |
 +--------------------------------+----------------------------------+
 
-.. seealso:: :doc:`tt:formats/resx`
+.. seealso::
+
+    :doc:`tt:formats/resx`,
+    :ref:`addon-weblate.cleanup.generic`,
 
 CSV files
 ---------
