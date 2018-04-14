@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-04-13 19:09+0000\n"
-"PO-Revision-Date: 2018-04-01 22:28+0000\n"
+"PO-Revision-Date: 2018-04-14 08:09+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2.20-dev\n"
+"X-Generator: Weblate 3.0-dev\n"
 
 #: weblate/accounts/admin.py:109 weblate/accounts/admin.py:114
 msgid "Personal info"
@@ -662,16 +662,14 @@ msgstr ""
 "キーを削除します。"
 
 #: weblate/addons/discovery.py:35
-#, fuzzy
-#| msgid "Component list"
 msgid "Component discovery"
-msgstr "コンポーネントリスト"
+msgstr "コンポーネント検出"
 
 #: weblate/addons/discovery.py:37
 msgid ""
 "This addon automatically adds or removes components to the project based on "
 "file changes in the version control system."
-msgstr ""
+msgstr "このアドオンは、バージョンコントロールシステム内でのファイル変更に従い、プロジェクトに対して自動的にコンポーネントを追加または削除します。"
 
 #: weblate/addons/example.py:42
 msgid "Example addon"
@@ -742,10 +740,8 @@ msgid "JSON indentation"
 msgstr "JSON インデント処理"
 
 #: weblate/addons/forms.py:120
-#, fuzzy
-#| msgid "Regular expression which is used to match user email."
 msgid "Regular expression to match translation files"
-msgstr "ユーザの電子メールアドレスへのマッチングに使用する正規表現。"
+msgstr "翻訳ファイルへのマッチングに使用する正規表現"
 
 #: weblate/addons/forms.py:124 weblate/trans/models/subproject.py:247
 msgid "File format"
@@ -757,22 +753,16 @@ msgstr ""
 "形式によっては自動検出が失敗する場合があるほか、時間がかかる場合もあります。"
 
 #: weblate/addons/forms.py:134
-#, fuzzy
-#| msgid "Component name"
 msgid "Customise the component name"
-msgstr "コンポーネント名"
+msgstr "コンポーネント名のカスタマイズ"
 
 #: weblate/addons/forms.py:139
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Define the monolingual base filename"
-msgstr "単一言語のベース言語ファイル"
+msgstr "単一言語のベースファイル名の設定"
 
 #: weblate/addons/forms.py:142
-#, fuzzy
-#| msgid "The request for machine translation has failed:"
 msgid "Keep empty for bilingual translation files."
-msgstr "機械翻訳のリクエストに失敗しました:"
+msgstr "複数言語翻訳の場合は何も設定しないでください。"
 
 #: weblate/addons/forms.py:145 weblate/trans/models/subproject.py:483
 msgid "Language filter"
@@ -788,17 +778,15 @@ msgstr ""
 
 #: weblate/addons/forms.py:155
 msgid "Remove components for non existing files"
-msgstr ""
+msgstr "存在しないファイルに対するコンポーネントの削除"
 
 #: weblate/addons/forms.py:159
 msgid "I confirm that the above matches look correct"
-msgstr ""
+msgstr "上記のマッチングが正しいことを確認済み"
 
 #: weblate/addons/forms.py:220
-#, fuzzy
-#| msgid "Please review and confirm the search and replace results."
 msgid "Please review and confirm matched components."
-msgstr "検索および置換の結果をご確認ください。"
+msgstr "該当するコンポーネントをご確認ください。"
 
 #: weblate/addons/generate.py:36
 msgid "Statistics generator"
@@ -824,8 +812,6 @@ msgid "Update LINGUAS file"
 msgstr "LINGUAS ファイルの更新"
 
 #: weblate/addons/gettext.py:74
-#, fuzzy
-#| msgid "Updates the LINGUAS file when adding new translation."
 msgid "Updates the LINGUAS file when a new translation is added."
 msgstr "新しい翻訳を追加する際に LINGUAS ファイルを更新します。"
 
@@ -834,22 +820,16 @@ msgid "Update ALL_LINGUAS variable in the configure file"
 msgstr "configure ファイル内の ALL_LINGUAS 変数の更新"
 
 #: weblate/addons/gettext.py:129
-#, fuzzy
-#| msgid ""
-#| "Updates the ALL_LINGUAS variable in configure, configure.in or configure."
-#| "ac files when adding new translation."
 msgid ""
 "Updates the ALL_LINGUAS variable in configure, configure.in or configure.ac "
 "files, when a new translation is added."
 msgstr ""
-"新しい翻訳を追加する際に、 configure, configure.in, configure.ac ファイル内"
-"の ALL_LINGUAS 変数を更新します。"
+"新しい翻訳を追加する際に、 configure, configure.in, configure.ac ファイル内の ALL_LINGUAS "
+"変数を更新します。"
 
 #: weblate/addons/gettext.py:187
-#, fuzzy
-#| msgid "Update po files to match pot (msgmerge)"
 msgid "Update PO files to match POT (msgmerge)"
-msgstr "pot に合わせて po ファイルを更新 (msgmerge)"
+msgstr "POT に合わせて PO ファイルを更新 (msgmerge)"
 
 #: weblate/addons/gettext.py:189
 msgid ""
@@ -1786,9 +1766,7 @@ msgstr ""
 #: weblate/templates/accounts/hosting.html:38
 msgid ""
 "Source code has to be publicly available in supported version control system."
-msgstr ""
-"ソースコードは、サポートされているバージョン管理システムで公開されている必要"
-"があります。"
+msgstr "ソースコードは、サポートされているバージョンコントロールシステムで公開されている必要があります。"
 
 #: weblate/templates/accounts/hosting.html:39
 msgid "There is no guarantee for service availability or quality."
@@ -2388,56 +2366,46 @@ msgid ""
 "The regular expression to match translation files has to contain two named "
 "groups to match component and language, some examples:"
 msgstr ""
+"翻訳ファイルへのマッチングに使用する正規表現は、コンポーネントと言語にマッチングする 2 "
+"種類の名前グループを含まなければなりません。たとえば下記のようになります:"
 
 #: weblate/templates/addons/discovery_help.html:8
-#, fuzzy
-#| msgid "Email regular expression"
 msgid "Regular expression"
-msgstr "電子メールの正規表現"
+msgstr "正規表現"
 
 #: weblate/templates/addons/discovery_help.html:9
-#, fuzzy
-#| msgid "Failed to parse %d matched files!"
 msgid "Example matched files"
-msgstr "%d 個の該当ファイルの処理に失敗しました！"
+msgstr "マッチするファイルの例"
 
 #: weblate/templates/addons/discovery_help.html:22
 msgid "One folder per language containing translation files for components."
-msgstr ""
+msgstr "言語ごとに 1 つのフォルダがあり、その中に各コンポーネントの翻訳ファイルが含まれている場合。"
 
 #: weblate/templates/addons/discovery_help.html:32
 msgid "Usual structure for storing gettext po files."
-msgstr ""
+msgstr "gettext po ファイルを保存する一般的な構造の場合。"
 
 #: weblate/templates/addons/discovery_help.html:42
 msgid "Using both component and language name within filename."
-msgstr ""
+msgstr "コンポーネントと言語の両方がファイル名に入っている場合。"
 
 #: weblate/templates/addons/discovery_help.html:52
 msgid "Using language in both path and filename."
-msgstr ""
+msgstr "言語がパスにもファイル名にも入っている場合。"
 
 #: weblate/templates/addons/discovery_help.html:57
-#, fuzzy
-#| msgid ""
-#| "You can use Django templates markup in both filename and content, for "
-#| "example:"
 msgid ""
 "You can use Django templates markup in both component name and monolingual "
 "base filename, for example:"
-msgstr ""
-"ファイル名と内容の両方で、 Django テンプレートのマークアップを使用することが"
-"できます。例:"
+msgstr "コンポーネント名と単一言語のベースファイル名の両方で、 Django テンプレートのマークアップを使用することができます。例:"
 
 #: weblate/templates/addons/discovery_help.html:61
-#, fuzzy
-#| msgid "Component name"
 msgid "Component filename match"
-msgstr "コンポーネント名"
+msgstr "コンポーネントのファイル名マッチング"
 
 #: weblate/templates/addons/discovery_help.html:63
 msgid "Component filename with upper case first letter"
-msgstr ""
+msgstr "先頭が大文字になっているコンポーネントファイル名"
 
 #: weblate/templates/addons/discovery_preview.html:5
 #: weblate/templates/list-translations.html:7
@@ -2447,26 +2415,24 @@ msgid "Component"
 msgstr "コンポーネント"
 
 #: weblate/templates/addons/discovery_preview.html:5
-#, fuzzy
-#| msgid "Watched projects"
 msgid "Matched files"
-msgstr "プロジェクトの監視"
+msgstr "マッチしたファイル"
 
 #: weblate/templates/addons/discovery_preview.html:9
 msgid "Following components would be deleted"
-msgstr ""
+msgstr "下記のコンポーネントが削除されます"
 
 #: weblate/templates/addons/discovery_preview.html:15
 msgid "Following components would be created"
-msgstr ""
+msgstr "下記のコンポーネントが作成されます"
 
 #: weblate/templates/addons/discovery_preview.html:28
 msgid "Following components matched existing ones"
-msgstr ""
+msgstr "下記のコンポーネントが既存のものにマッチしています"
 
 #: weblate/templates/addons/discovery_preview.html:41
 msgid "No components were matched!"
-msgstr ""
+msgstr "コンポーネントには何もマッチしませんでした！"
 
 #: weblate/templates/addons/generate_help.html:3
 msgid ""
@@ -7773,7 +7739,7 @@ msgstr "コンパイルに失敗しました: {0}"
 msgid ""
 "Regular expression is missing named group \"{0}\", the simplest way to "
 "define it is {1}."
-msgstr ""
+msgstr "正規表現には名前グループ \"{0}\" がありません。最も簡単に設定するには、 {1} のようになります。"
 
 #: weblate/utils/validators.py:127
 msgid "Invalid image!"
