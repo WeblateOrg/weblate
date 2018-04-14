@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-04-13 19:09+0000\n"
-"PO-Revision-Date: 2018-02-25 10:36+0000\n"
+"PO-Revision-Date: 2018-04-15 06:47+0000\n"
 "Last-Translator: Nathan Follens <nathan@email.is>\n"
-"Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/master/nl/"
-">\n"
+"Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/master/nl/>"
+"\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.20-dev\n"
+"X-Generator: Weblate 3.0-dev\n"
 
 #: weblate/accounts/admin.py:109 weblate/accounts/admin.py:114
 msgid "Personal info"
@@ -263,18 +263,14 @@ msgid "Authentication using {method} ({name}) has been removed."
 msgstr "Verificatie met behulp van {method} ({name}) is verwijderd."
 
 #: weblate/accounts/models.py:69
-#, fuzzy, python-brace-format
-#| msgid "Successfully authenticated using {method} ({name})."
+#, python-brace-format
 msgid "Authenticated using {method} ({name})."
-msgstr "Met succes geverifieerd met behulp van {method} ({name})."
+msgstr "Geverifieerd met behulp van {method} ({name})."
 
 #: weblate/accounts/models.py:72
-#, fuzzy, python-brace-format
-#| msgid "Successfully authenticated using {method} ({name}) from new device."
+#, python-brace-format
 msgid "Authenticated using {method} ({name}) from new device."
-msgstr ""
-"Authenticatie succesvol verlopen met behulp van {method} ({name}) op een "
-"nieuw apparaat."
+msgstr "Geverifieerd met behulp van {method} ({name}) op een nieuw apparaat."
 
 #: weblate/accounts/models.py:75
 msgid "Somebody has attempted to register with your email."
@@ -308,6 +304,7 @@ msgstr "Akkoord met de algemene voorwaarden {date}."
 #: weblate/accounts/models.py:96
 msgid "To restore access to your account, please reset your password."
 msgstr ""
+"Stel uw wachtwoord opnieuw in om de toegang tot uw account te herstellen."
 
 #: weblate/accounts/models.py:219 weblate/templates/accounts/profile.html:310
 msgid "Account activity"
@@ -666,26 +663,24 @@ msgstr ""
 "worden."
 
 #: weblate/addons/discovery.py:35
-#, fuzzy
-#| msgid "Component list"
 msgid "Component discovery"
-msgstr "Onderdelenlijst"
+msgstr "Ontdekking van onderdelen"
 
 #: weblate/addons/discovery.py:37
 msgid ""
 "This addon automatically adds or removes components to the project based on "
 "file changes in the version control system."
 msgstr ""
+"Deze add-on werkt onderdelen automatisch bij of verwijdert ze uit het "
+"project, gebaseerd op bestandswijzigingen in het versiecontrolesysteem."
 
 #: weblate/addons/example.py:42
 msgid "Example addon"
 msgstr "Voorbeeldadd-on"
 
 #: weblate/addons/example.py:44
-#, fuzzy
-#| msgid "This addon does nothing it is just an example"
 msgid "This addon does nothing it is just an example."
-msgstr "Deze add-on doet niets, het is enkel een voorbeeld"
+msgstr "Deze add-on doet niets, het is enkel een voorbeeld."
 
 #: weblate/addons/flags.py:50
 msgid "Flag new source strings to need edit"
@@ -707,17 +702,12 @@ msgid "Flag new translations to need edit"
 msgstr "Nieuwe vertalingen markeren als wijziging nodig"
 
 #: weblate/addons/flags.py:66
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translation unit is imported from the VCS, it is flagged "
-#| "as needing editing in Weblate. This way you can easily filter and edit "
-#| "translations created by the developers."
 msgid ""
 "Whenever a new translation string is imported from the VCS, it is flagged as "
 "needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
-"Telkens een nieuwe vertaaleenheid geïmporteerd wordt uit het "
+"Telkens een nieuwe vertaaltekenreeks geïmporteerd wordt uit het "
 "versiecontrolesysteem, wordt deze door Weblate gemarkeerd als Wijziging "
 "nodig. Op deze manier kunt u eenvoudig vertalingen gemaakt door de "
 "ontwikkelaars filteren en bewerken."
@@ -903,12 +893,14 @@ msgstr ""
 
 #: weblate/addons/json.py:33
 msgid "Customize JSON output"
-msgstr ""
+msgstr "JSON-uitvoer aanpassen"
 
 #: weblate/addons/json.py:35
 msgid ""
 "Allows to customize JSON output behavior, for example indentation or sorting."
 msgstr ""
+"Biedt u de mogelijkheid het gedrag van JSON-uitvoer aan te passen, "
+"bijvoorbeeld indentatie of sorteren."
 
 #: weblate/addons/properties.py:147
 msgid "Formats the Java properties file"
@@ -2439,26 +2431,24 @@ msgid ""
 "The regular expression to match translation files has to contain two named "
 "groups to match component and language, some examples:"
 msgstr ""
+"De reguliere expressie om vertaalbestanden te vinden heeft twee genaamde "
+"groepen nodig voor onderdeel en taal, enkele voorbeelden:"
 
 #: weblate/templates/addons/discovery_help.html:8
-#, fuzzy
-#| msgid "Email regular expression"
 msgid "Regular expression"
-msgstr "Reguliere expressie (regex) voor e-mail"
+msgstr "Reguliere expressie"
 
 #: weblate/templates/addons/discovery_help.html:9
-#, fuzzy
-#| msgid "Failed to parse %d matched files!"
 msgid "Example matched files"
-msgstr "Verwerken van %d overeenkomende bestanden is mislukt!"
+msgstr "Voorbeeld van overeenkomende bestanden"
 
 #: weblate/templates/addons/discovery_help.html:22
 msgid "One folder per language containing translation files for components."
-msgstr ""
+msgstr "Een map per taal met vertaalbestanden voor onderdelen."
 
 #: weblate/templates/addons/discovery_help.html:32
 msgid "Usual structure for storing gettext po files."
-msgstr ""
+msgstr "Gebruikelijke structuur voor opslaan van gettext po-bestanden."
 
 #: weblate/templates/addons/discovery_help.html:42
 msgid "Using both component and language name within filename."
@@ -2517,7 +2507,7 @@ msgstr ""
 
 #: weblate/templates/addons/discovery_preview.html:41
 msgid "No components were matched!"
-msgstr ""
+msgstr "Geen overeenkomende onderdelen!"
 
 #: weblate/templates/addons/generate_help.html:3
 msgid ""
@@ -2681,10 +2671,8 @@ msgid "Components"
 msgstr "Onderdelen"
 
 #: weblate/templates/component-list.html:28
-#, fuzzy
-#| msgid "Same plurals"
 msgid "Number of components"
-msgstr "Identiek meervoud"
+msgstr "Aantal onderdelen"
 
 #: weblate/templates/component-list.html:34
 #: weblate/trans/models/componentlist.py:116
@@ -4146,16 +4134,12 @@ msgstr "Alle projectwijzigingen doorbladeren"
 
 #: weblate/templates/project.html:196 weblate/templates/subproject.html:147
 #: weblate/templates/translation.html:229
-#, fuzzy
-#| msgid ""
-#| "You can replace a string in all units at once. The search is a simple "
-#| "substring case sensitive search."
 msgid ""
 "You can replace a string in all strings at once. The search is a simple "
 "substring case sensitive search."
 msgstr ""
-"U kunt tekenreeksen in alle eenheden tegelijk vervangen. De zoekmethode is "
-"middels een eenvoudige hoofdlettergevoelige subtekenreeks."
+"U kunt tekenreeksen in alle tekenreeksen tegelijk vervangen. De zoekmethode "
+"is middels een eenvoudige hoofdlettergevoelige subtekenreeks."
 
 #: weblate/templates/project.html:201 weblate/templates/project.html:215
 #: weblate/templates/replace.html:46 weblate/templates/subproject.html:152
@@ -4168,15 +4152,15 @@ msgstr "Voortgang"
 
 #: weblate/templates/project.html:208 weblate/templates/subproject.html:159
 #: weblate/templates/translation.html:241 weblate/trans/models/change.py:236
-#, fuzzy
-#| msgid "Last change"
 msgid "Mass state change"
-msgstr "Laatste wijziging"
+msgstr "Massatoestandswijziging"
 
 #: weblate/templates/project.html:210 weblate/templates/subproject.html:161
 #: weblate/templates/translation.html:243
 msgid "You can change state of all strings matching given type at once."
 msgstr ""
+"U kunt de toestand van alle tekenreeksen overeenkomstig met een bepaald type "
+"tegelijk wijzigen."
 
 #: weblate/templates/project.html:224 weblate/templates/subproject.html:182
 #: weblate/templates/translate.html:336 weblate/templates/translate.html:340
@@ -4567,59 +4551,40 @@ msgid "Keyboard shortcuts available:"
 msgstr "Beschikbare sneltoetsen :"
 
 #: weblate/templates/translate.html:83
-#, fuzzy
-#| msgid "Ctrl+Shift+Enter - Unmark review needed flag and save"
 msgid "Unmark review needed flag and save"
-msgstr ""
-"Ctrl+Shift+Enter - markering 'beoordeling nodig' ongedaan maken en opslaan"
+msgstr "Markering ‘beoordeling nodig’ ongedaan maken en opslaan"
 
 #: weblate/templates/translate.html:84
-#, fuzzy
-#| msgid "Strings needing action"
 msgid "Strings navigation"
-msgstr "Te bekijken tekenreeksen"
+msgstr "Tekenreeksnavigatie"
 
 #: weblate/templates/translate.html:85
-#, fuzzy
-#| msgid "Ctrl+E - Focus translation editor"
 msgid "Focus translation editor"
-msgstr "Ctrl+E - Focus vertalingseditor"
+msgstr "Focus vertalingseditor"
 
 #: weblate/templates/translate.html:86
-#, fuzzy
-#| msgid "Ctrl+Q - Focus comment editor"
 msgid "Focus comment editor"
-msgstr "Ctrl+Q - Focus commentaareditor"
+msgstr "Focus commentaareditor"
 
 #: weblate/templates/translate.html:87
-#, fuzzy
-#| msgid "Ctrl+M - Shows machine translation tab"
 msgid "Shows machine translation tab"
-msgstr "Ctrl+M - Toont tabblad 'Machinevertaling'"
+msgstr "Toont tabblad ‘Machinevertaling’"
 
 #: weblate/templates/translate.html:88
-#, fuzzy
-#| msgid "Ctrl+J - Shows nearby strings tab"
 msgid "Shows nearby strings tab"
-msgstr "Ctrl+J - Toont tabblad 'Berichten in de buurt'"
+msgstr "Toont tabblad ‘Berichten in de buurt’"
 
 #: weblate/templates/translate.html:89
-#, fuzzy
-#| msgid "Ctrl+S - Shows search tab"
 msgid "Shows search tab"
-msgstr "Ctrl+S - Toont tabblad 'Zoeken'"
+msgstr "Toont tabblad ‘Zoeken’"
 
 #: weblate/templates/translate.html:90
-#, fuzzy
-#| msgid "Ctrl+O - Copies source string"
 msgid "Copies source string"
-msgstr "Ctrl+O - Kopieer brontekenreeks"
+msgstr "Kopieer brontekenreeks"
 
 #: weblate/templates/translate.html:91
-#, fuzzy
-#| msgid "Ctrl+T - Toggle edit needed flag"
 msgid "Toggle edit needed flag"
-msgstr "Ctrl+T - Markering 'beoordeling nodig' wisselen"
+msgstr "Markering ‘beoordeling nodig’ wisselen"
 
 #: weblate/templates/translate.html:95
 msgid "Editing source string"
@@ -4696,10 +4661,8 @@ msgid "Messages placed around this one"
 msgstr "Berichten die zich rond dit bericht bevinden"
 
 #: weblate/templates/translate.html:213
-#, fuzzy
-#| msgid "Search string"
 msgid "Nearby strings"
-msgstr "Zoek reeks"
+msgstr "Tekenreeksen in de buurt"
 
 #: weblate/templates/translate.html:218 weblate/templates/translate.html:410
 msgid "Other translations"
@@ -4719,10 +4682,8 @@ msgid "Machine translation"
 msgstr "Machinevertaling"
 
 #: weblate/templates/translate.html:226
-#, fuzzy
-#| msgid "Translations of this unit to other languages"
 msgid "Translations of this string in the other languages"
-msgstr "Vertaling is nu open voor vertaalupdates"
+msgstr "Vertalingen van deze tekenreeks in de andere talen"
 
 #: weblate/templates/translate.html:226
 msgid "Other languages"
@@ -4864,26 +4825,20 @@ msgid "Download original translation file (%(format)s)"
 msgstr "Download het originele vertaalbestand (%(format)s)"
 
 #: weblate/templates/translation-download.html:7
-#, fuzzy
-#| msgid "Download translation as XLIFF with Gettext extensions"
 msgid "Download translation as XLIFF with gettext extensions"
-msgstr "Vertaling als XLIFF met Gettext extensies downloaden"
+msgstr "Vertaling als XLIFF met gettext-extensies downloaden"
 
 #: weblate/templates/translation-download.html:8
 msgid "Download translation as XLIFF 1.2"
 msgstr "Downloaden van de vertaling als XLIFF 1.2"
 
 #: weblate/templates/translation-download.html:9
-#, fuzzy
-#| msgid "Download translation as Gettext PO"
 msgid "Download translation as gettext PO"
-msgstr "Downloaden van de vertaling als Gettext PO"
+msgstr "Downloaden van de vertaling als gettext PO"
 
 #: weblate/templates/translation-download.html:10
-#, fuzzy
-#| msgid "Download translation as Gettext MO"
 msgid "Download translation as gettext MO"
-msgstr "Download de vertaling als Gettext MO"
+msgstr "Download de vertaling als gettext MO"
 
 #: weblate/templates/translation-download.html:11
 msgid "Download translation as CSV"
@@ -5077,10 +5032,9 @@ msgid "Source string age"
 msgstr "Leeftijd van brontekenreeks"
 
 #: weblate/templates/unit-details.html:30
-#, fuzzy, python-format
-#| msgid "%(filename)s, translation unit %(position)s"
+#, python-format
 msgid "%(filename)s, string %(position)s"
-msgstr "%(filename)s, vertaalonderdeel %(position)s"
+msgstr "%(filename)s, tekenreeks %(position)s"
 
 #: weblate/templates/user-activity.html:13
 msgid "Pending suggestions"
@@ -5196,10 +5150,8 @@ msgid "zen"
 msgstr "zen"
 
 #: weblate/templates/zen.html:21
-#, fuzzy
-#| msgid "Edit in single unit mode"
 msgid "Edit in single string mode"
-msgstr "Bewerk in aparte eenheid modus"
+msgstr "Bewerk in apartetekenreeksmodus"
 
 #: weblate/templates/zen.html:21
 msgid "Exit Zen"
@@ -5385,10 +5337,8 @@ msgid "Inconsistent"
 msgstr "Inconsistent"
 
 #: weblate/trans/checks/consistency.py:73
-#, fuzzy
-#| msgid "This message has more than one translation in this project"
 msgid "This string has more than one translation in this project"
-msgstr "Dit bericht heeft meer dan één vertaling in dit project"
+msgstr "Deze tekenreeks heeft meer dan één vertaling in dit project"
 
 #: weblate/trans/checks/consistency.py:101
 msgid "Has been translated"
@@ -5721,10 +5671,8 @@ msgid "Missing translated string!"
 msgstr "Niet-vertaalde tekenreeksen!"
 
 #: weblate/trans/forms.py:410
-#, fuzzy
-#| msgid "The message you wanted to translate is no longer available!"
 msgid "The string you wanted to translate is no longer available!"
-msgstr "Het bericht dat u wilde vertalen is niet meer beschikbaar!"
+msgstr "De tekenreeks die u wilde vertalen is niet meer beschikbaar!"
 
 #: weblate/trans/forms.py:420
 msgid ""
@@ -5743,24 +5691,15 @@ msgid "Waiting for review"
 msgstr "Wachten op beoordeling"
 
 #: weblate/trans/forms.py:494
-#, fuzzy
-#| msgid ""
-#| "Source of the message has been changed meanwhile. Please check your "
-#| "changes."
 msgid "Source string has been changed meanwhile. Please check your changes."
-msgstr ""
-"Bron van het bericht is intussentijd gewijzigd. Controleer uw wijzigingen."
+msgstr "Brontekenreeks is intussentijd gewijzigd. Controleer uw wijzigingen."
 
 #: weblate/trans/forms.py:502
-#, fuzzy
-#| msgid ""
-#| "Translation of the message has been changed meanwhile. Please check your "
-#| "changes."
 msgid ""
 "Translation of the string has been changed meanwhile. Please check your "
 "changes."
 msgstr ""
-"Vertaling van het bericht is intussentijd gewijzigd. Controleer uw "
+"Vertaling van de tekenreeks is intussentijd gewijzigd. Controleer uw "
 "wijzigingen."
 
 #: weblate/trans/forms.py:511
@@ -5929,40 +5868,32 @@ msgid "{filter_name}, {search_name}"
 msgstr "{filter_name}, {search_name}"
 
 #: weblate/trans/forms.py:870 weblate/trans/forms.py:872
-#, fuzzy
-#| msgid "Merged unit not found!"
 msgid "Merged string not found!"
-msgstr "Samengevoegde eenheid niet gevonden!"
+msgstr "Samengevoegde tekenreeks niet gevonden!"
 
 #: weblate/trans/forms.py:891
 msgid "Reverted change not found!"
 msgstr "Ingetrokken wijziging niet gevonden!"
 
 #: weblate/trans/forms.py:902
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Automatic translation source"
-msgstr "Automatische vertaling"
+msgstr "Bron van automatische vertaling"
 
 #: weblate/trans/forms.py:904
-#, fuzzy
-#| msgid "Merge translation comments"
 msgid "Other translation components"
-msgstr "Opmerkingen bij vertalingen samenvoegen"
+msgstr "Overige vertaalonderdelen"
 
 #: weblate/trans/forms.py:910
 msgid "Component to use"
 msgstr "Te gebruiken onderdeel"
 
 #: weblate/trans/forms.py:915
-#, fuzzy
-#| msgid "Machine translation suggestions"
 msgid "Machine translation engines to use"
-msgstr "Suggesties door machinevertaling"
+msgstr "Te gebruiken machinevertalers"
 
 #: weblate/trans/forms.py:920
 msgid "Score threshold"
-msgstr ""
+msgstr "Drempelwaarde van score"
 
 #: weblate/trans/forms.py:947
 msgid "All components in current project"
@@ -6164,15 +6095,11 @@ msgid "Translation key"
 msgstr "Vertalingssleutel"
 
 #: weblate/trans/forms.py:1500
-#, fuzzy
-#| msgid ""
-#| "Key used to identify unit in translation file. File format specific rules "
-#| "might apply."
 msgid ""
 "Key used to identify string in translation file. File format specific rules "
 "might apply."
 msgstr ""
-"Sleutel gebruikt voor identificatie van eenheid in vertalingsbestand. "
+"Sleutel gebruikt voor identificatie van tekenreeks in vertalingsbestand. "
 "Bestandsformaatspecifieke regels zijn mogelijk van toepassing."
 
 #: weblate/trans/forms.py:1506
@@ -6186,10 +6113,8 @@ msgstr ""
 "U kunt dit later bewerken, zoals elke andere tekenreeks in de brontaal."
 
 #: weblate/trans/forms.py:1529
-#, fuzzy
-#| msgid "Donate to Weblate"
 msgid "State to set"
-msgstr "Doneren aan Weblate"
+msgstr "In te stellen toestand"
 
 #: weblate/trans/models/change.py:201
 msgid "Resource update"
@@ -6269,7 +6194,7 @@ msgstr "Repository opnieuw instellen"
 
 #: weblate/trans/models/change.py:221
 msgid "Merged repository"
-msgstr "Samengevoegd repository"
+msgstr "Bron samengevoegd"
 
 #: weblate/trans/models/change.py:222
 msgid "Rebased repository"
@@ -6308,10 +6233,8 @@ msgid "Source string changed"
 msgstr "Brontekenreeks gewijzigd"
 
 #: weblate/trans/models/change.py:235
-#, fuzzy
-#| msgid "New unit added"
 msgid "New string added"
-msgstr "Nieuwe eenheid toegevoegd"
+msgstr "Nieuwe tekenreeks toegevoegd"
 
 #: weblate/trans/models/change.py:328
 #, python-format
@@ -6338,15 +6261,15 @@ msgid "Name used in URLs and file names."
 msgstr "Naam gebruikt in URL's en bestandsnamen."
 
 #: weblate/trans/models/componentlist.py:51
-#, fuzzy
-#| msgid "Dashboard"
 msgid "Show on dashboard"
-msgstr "Dashboard"
+msgstr "Tonen op dashboard"
 
 #: weblate/trans/models/componentlist.py:55
 msgid ""
 "When enabled this component list will be shown as a tab on the dashboard"
 msgstr ""
+"Indien ingeschakeld wordt deze onderdelenlijst als tabblad op het dashboard "
+"getoond"
 
 #: weblate/trans/models/componentlist.py:84
 msgid "Project regular expression"
@@ -7025,10 +6948,8 @@ msgid "Failed to add new translation file!"
 msgstr "Toevoegen van nieuw vertalingsbestand mislukt!"
 
 #: weblate/trans/models/subproject.py:1535
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Given language is filtered by the language filter!"
-msgstr "Enkeltalig basistaalbestand"
+msgstr "De opgegeven taal wordt gefilterd door de taalfilter!"
 
 #: weblate/trans/models/subproject.py:1557
 msgid "Translation file already exists!"
@@ -7057,20 +6978,21 @@ msgid "Strings marked as needing edit"
 msgstr "Te beoordelen tekenreeksen"
 
 #: weblate/trans/models/unit.py:409
-#, fuzzy, python-brace-format
-#| msgid "{translation}, translation unit {position}"
+#, python-brace-format
 msgid "{translation}, string {position}"
-msgstr "{translation}% vertaaleenheid {position}"
+msgstr "{translation}%, tekenreeks {position}"
 
 #: weblate/trans/models/whiteboard.py:69
 msgid "Render as HTML"
-msgstr ""
+msgstr "Renderen als HTML"
 
 #: weblate/trans/models/whiteboard.py:71
 msgid ""
 "When disabled, URLs will be converted to links and any markup will be "
 "escaped."
 msgstr ""
+"Indien uitgeschakeld worden URL’s geconverteerd naar koppelingen, en wordt "
+"alle ‘markup’ ontsnapt."
 
 #: weblate/trans/models/whiteboard.py:101
 msgid "Category"
@@ -7438,10 +7360,9 @@ msgid "Message has comments"
 msgstr "Bericht heeft opmerkingen"
 
 #: weblate/trans/templatetags/translations.py:600
-#, fuzzy, python-format
-#| msgid "unit ID %s"
+#, python-format
 msgid "string ID %s"
-msgstr "eenheid-ID %s"
+msgstr "tekenreeks-ID %s"
 
 #: weblate/trans/util.py:55
 msgid "Very high"
@@ -7779,10 +7700,8 @@ msgid "Translation with this key seem to already exist!"
 msgstr "Vertaling met deze sleutel lijkt reeds te bestaan!"
 
 #: weblate/trans/views/edit.py:853
-#, fuzzy
-#| msgid "New translation unit has been added."
 msgid "New string has been added."
-msgstr "Nieuwe vertalingseenheid toegevoegd."
+msgstr "Nieuwe tekenreeks toegevoegd."
 
 #: weblate/trans/views/files.py:73
 msgid "Access denied."
@@ -7879,19 +7798,15 @@ msgid "Invalid search query!"
 msgstr "Ongeldige zoekopdracht!"
 
 #: weblate/trans/views/search.py:251
-#, fuzzy
-#| msgid "Search and replace completed, no strings were updated."
 msgid "Mass state change completed, no strings were updated."
-msgstr "Zoek en vervangen voltooid, geen reeksen geüpdatet."
+msgstr "Massatoestandswijziging voltooid, geen tekenreeksen bijgewerkt."
 
 #: weblate/trans/views/search.py:253
-#, fuzzy, python-format
-#| msgid "Search and replace completed, %d string was updated."
-#| msgid_plural "Search and replace completed, %d strings were updated."
+#, python-format
 msgid "Mass state change completed, %d string was updated."
 msgid_plural "Mass state change completed, %d strings were updated."
-msgstr[0] "Zoeken en vervangen voltooid, %d tekenreeks is bijgewerkt."
-msgstr[1] "Zoeken en vervangen voltooid, %d tekenreeksen zijn bijgewerkt."
+msgstr[0] "Massatoestandswijziging voltooid, %d tekenreeks is bijgewerkt."
+msgstr[1] "Massatoestandswijziging voltooid, %d tekenreeksen zijn bijgewerkt."
 
 #: weblate/trans/views/settings.py:48 weblate/trans/views/settings.py:80
 msgid "Settings saved"
@@ -7973,7 +7888,7 @@ msgstr "vertaald"
 
 #: weblate/utils/state.py:31
 msgid "Empty"
-msgstr ""
+msgstr "Leeg"
 
 #: weblate/utils/validators.py:78
 #, python-brace-format
