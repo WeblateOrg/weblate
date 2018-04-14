@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-04-13 19:09+0000\n"
-"PO-Revision-Date: 2018-04-02 06:31+0000\n"
+"PO-Revision-Date: 2018-04-14 10:31+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@abv.bg>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/master/"
 "bg/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.20-dev\n"
+"X-Generator: Weblate 3.0-dev\n"
 
 #: weblate/accounts/admin.py:109 weblate/accounts/admin.py:114
 msgid "Personal info"
@@ -663,16 +663,16 @@ msgstr ""
 "премахнати от основния файл."
 
 #: weblate/addons/discovery.py:35
-#, fuzzy
-#| msgid "Component list"
 msgid "Component discovery"
-msgstr "Списък с компоненти"
+msgstr "Откриване на компоненти"
 
 #: weblate/addons/discovery.py:37
 msgid ""
 "This addon automatically adds or removes components to the project based on "
 "file changes in the version control system."
 msgstr ""
+"Тази добавка автоматично добавя и премахва компоненти към проекта според "
+"промените във файловете в системата за контрол на версиите."
 
 #: weblate/addons/example.py:42
 msgid "Example addon"
@@ -748,11 +748,8 @@ msgid "JSON indentation"
 msgstr "Отстъп в JSON"
 
 #: weblate/addons/forms.py:120
-#, fuzzy
-#| msgid "Regular expression which is used to match user email."
 msgid "Regular expression to match translation files"
-msgstr ""
-"Регулярен израз, който се използва за проверка на потребителска е-поща."
+msgstr "Регулярен израз, който да проверява файловете за превод"
 
 #: weblate/addons/forms.py:124 weblate/trans/models/subproject.py:247
 msgid "File format"
@@ -765,22 +762,16 @@ msgstr ""
 "по-бавно."
 
 #: weblate/addons/forms.py:134
-#, fuzzy
-#| msgid "Component name"
 msgid "Customise the component name"
-msgstr "Име на компонента"
+msgstr "Персонализиране на името на компонента"
 
 #: weblate/addons/forms.py:139
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Define the monolingual base filename"
-msgstr "Едноезичен базов езиков файл"
+msgstr "Определяне на едноезичния базов езиков файл"
 
 #: weblate/addons/forms.py:142
-#, fuzzy
-#| msgid "Cleanup translation files"
 msgid "Keep empty for bilingual translation files."
-msgstr "Почистване на файловете за превод"
+msgstr "Да бъде празно за двуезичните файлове за превод."
 
 #: weblate/addons/forms.py:145 weblate/trans/models/subproject.py:483
 msgid "Language filter"
@@ -796,17 +787,15 @@ msgstr ""
 
 #: weblate/addons/forms.py:155
 msgid "Remove components for non existing files"
-msgstr ""
+msgstr "Премахване на компонентите за несъществуващи файлове"
 
 #: weblate/addons/forms.py:159
 msgid "I confirm that the above matches look correct"
-msgstr ""
+msgstr "Потвърждавам, че горните съвпадения изглеждат правилни"
 
 #: weblate/addons/forms.py:220
-#, fuzzy
-#| msgid "Please review and confirm the search and replace results."
 msgid "Please review and confirm matched components."
-msgstr "Моля, прегледайте и потвърдете резултатите от търсенето и замяната."
+msgstr "Моля, прегледайте и потвърдете съвпадащите компоненти."
 
 #: weblate/addons/generate.py:36
 msgid "Statistics generator"
@@ -832,8 +821,6 @@ msgid "Update LINGUAS file"
 msgstr "Обновяване на файла LINGUAS"
 
 #: weblate/addons/gettext.py:74
-#, fuzzy
-#| msgid "Updates the LINGUAS file when adding new translation."
 msgid "Updates the LINGUAS file when a new translation is added."
 msgstr "Обновява файла LINGUAS при добавяне на нов превод."
 
@@ -842,10 +829,6 @@ msgid "Update ALL_LINGUAS variable in the configure file"
 msgstr "Обновяване на променливата ALL_LINGUAS в конфигурационния файл"
 
 #: weblate/addons/gettext.py:129
-#, fuzzy
-#| msgid ""
-#| "Updates the ALL_LINGUAS variable in configure, configure.in or configure."
-#| "ac files when adding new translation."
 msgid ""
 "Updates the ALL_LINGUAS variable in configure, configure.in or configure.ac "
 "files, when a new translation is added."
@@ -854,8 +837,6 @@ msgstr ""
 "и „configure.ac“ при добавяне на нов превод."
 
 #: weblate/addons/gettext.py:187
-#, fuzzy
-#| msgid "Update po files to match pot (msgmerge)"
 msgid "Update PO files to match POT (msgmerge)"
 msgstr ""
 "Обновяване на файловете PO, така че да отговарят на файла POT (чрез msgmerge)"
@@ -2416,56 +2397,48 @@ msgid ""
 "The regular expression to match translation files has to contain two named "
 "groups to match component and language, some examples:"
 msgstr ""
+"Регулярният израз за търсене на файлове за превод трябва да съдържа две "
+"именувани групи, които да откриват компонента и езика. Ето няколко примера:"
 
 #: weblate/templates/addons/discovery_help.html:8
-#, fuzzy
-#| msgid "Email regular expression"
 msgid "Regular expression"
-msgstr "Регулярен израз за е-поща"
+msgstr "Регулярен израз"
 
 #: weblate/templates/addons/discovery_help.html:9
-#, fuzzy
-#| msgid "Failed to parse %d matched files!"
 msgid "Example matched files"
-msgstr "Неуспешен анализ на %d отговарящи файла!"
+msgstr "Примерни отговарящи файлове"
 
 #: weblate/templates/addons/discovery_help.html:22
 msgid "One folder per language containing translation files for components."
-msgstr ""
+msgstr "По една папка за език, съдържаща файловете за превод на компонентите."
 
 #: weblate/templates/addons/discovery_help.html:32
 msgid "Usual structure for storing gettext po files."
-msgstr ""
+msgstr "Обичайна структура за съхранение на файлове PO на gettext."
 
 #: weblate/templates/addons/discovery_help.html:42
 msgid "Using both component and language name within filename."
-msgstr ""
+msgstr "Използване на имената и на компонента и на езика във файловите имена."
 
 #: weblate/templates/addons/discovery_help.html:52
 msgid "Using language in both path and filename."
-msgstr ""
+msgstr "Използване на езика и в пътя и във файловото име."
 
 #: weblate/templates/addons/discovery_help.html:57
-#, fuzzy
-#| msgid ""
-#| "You can use Django templates markup in both filename and content, for "
-#| "example:"
 msgid ""
 "You can use Django templates markup in both component name and monolingual "
 "base filename, for example:"
 msgstr ""
-"Можете да използвате синтаксиса на шаблоните на Django, както във файловото "
-"име, така в съдържанието. Например:"
+"Можете да използвате синтаксиса на шаблоните на Django, както в името на "
+"компонента, така и в името на едноезичния основен файл. Например:"
 
 #: weblate/templates/addons/discovery_help.html:61
-#, fuzzy
-#| msgid "Component name"
 msgid "Component filename match"
-msgstr "Име на компонента"
+msgstr "Отговарящо файлово име на компонент"
 
 #: weblate/templates/addons/discovery_help.html:63
 msgid "Component filename with upper case first letter"
-msgstr ""
+msgstr "Файлово име на компонент с главна първа буква"
 
 #: weblate/templates/addons/discovery_preview.html:5
 #: weblate/templates/list-translations.html:7
@@ -2475,26 +2448,24 @@ msgid "Component"
 msgstr "Компонент"
 
 #: weblate/templates/addons/discovery_preview.html:5
-#, fuzzy
-#| msgid "Watched projects"
 msgid "Matched files"
-msgstr "Следени проекти"
+msgstr "Отговарящи файлове"
 
 #: weblate/templates/addons/discovery_preview.html:9
 msgid "Following components would be deleted"
-msgstr ""
+msgstr "Следните компоненти ще бъдат изтрити"
 
 #: weblate/templates/addons/discovery_preview.html:15
 msgid "Following components would be created"
-msgstr ""
+msgstr "Следните компоненти ще бъдат създадени"
 
 #: weblate/templates/addons/discovery_preview.html:28
 msgid "Following components matched existing ones"
-msgstr ""
+msgstr "Следните компоненти отговарят на текущи такива"
 
 #: weblate/templates/addons/discovery_preview.html:41
 msgid "No components were matched!"
-msgstr ""
+msgstr "Няма отговарящи компоненти!"
 
 #: weblate/templates/addons/generate_help.html:3
 msgid ""
@@ -7862,6 +7833,8 @@ msgid ""
 "Regular expression is missing named group \"{0}\", the simplest way to "
 "define it is {1}."
 msgstr ""
+"В регулярния израз липсва именувана група „{0}“. Най-лесният начин да я "
+"дефинирате е следният: {1}."
 
 #: weblate/utils/validators.py:127
 msgid "Invalid image!"
