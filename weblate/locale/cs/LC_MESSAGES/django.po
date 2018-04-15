@@ -9,16 +9,16 @@ msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-04-13 19:09+0000\n"
-"PO-Revision-Date: 2018-04-02 05:26+0000\n"
+"PO-Revision-Date: 2018-04-16 04:18+0000\n"
 "Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
-"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/"
-">\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/>"
+"\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 2.20-dev\n"
+"X-Generator: Weblate 3.0-dev\n"
 
 #: weblate/accounts/admin.py:109 weblate/accounts/admin.py:114
 msgid "Personal info"
@@ -650,16 +650,16 @@ msgstr ""
 "překladu, které se už nevyskytují v originálu."
 
 #: weblate/addons/discovery.py:35
-#, fuzzy
-#| msgid "Component list"
 msgid "Component discovery"
-msgstr "Seznam součástí"
+msgstr "Zjišťování součástí"
 
 #: weblate/addons/discovery.py:37
 msgid ""
 "This addon automatically adds or removes components to the project based on "
 "file changes in the version control system."
 msgstr ""
+"Tento doplněk automaticky přidá nebo odebere součásti do projektu v "
+"závislosti na změnách souboru v systému pro správu verzí."
 
 #: weblate/addons/example.py:42
 msgid "Example addon"
@@ -731,10 +731,8 @@ msgid "JSON indentation"
 msgstr "Odsazování JSON"
 
 #: weblate/addons/forms.py:120
-#, fuzzy
-#| msgid "Regular expression which is used to match user email."
 msgid "Regular expression to match translation files"
-msgstr "Regulární výraz, který se použije pro kontrolu uživatelova e-mailu."
+msgstr "Regulární výraz pro hledání shody s překladovými soubory"
 
 #: weblate/addons/forms.py:124 weblate/trans/models/subproject.py:247
 msgid "File format"
@@ -747,22 +745,16 @@ msgstr ""
 "pomalejší."
 
 #: weblate/addons/forms.py:134
-#, fuzzy
-#| msgid "Component name"
 msgid "Customise the component name"
-msgstr "Název součásti"
+msgstr "Přizpůsobit název součásti"
 
 #: weblate/addons/forms.py:139
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Define the monolingual base filename"
-msgstr "Základní soubor pro jednojazyčné překlady"
+msgstr "Určit soubor základu jednojazyčného překladu"
 
 #: weblate/addons/forms.py:142
-#, fuzzy
-#| msgid "The request for machine translation has failed:"
 msgid "Keep empty for bilingual translation files."
-msgstr "Požadavek na strojový překlad selhal:"
+msgstr "U dvojjazyčných překladových souborů nevyplňujte."
 
 #: weblate/addons/forms.py:145 weblate/trans/models/subproject.py:483
 msgid "Language filter"
@@ -777,17 +769,15 @@ msgstr ""
 
 #: weblate/addons/forms.py:155
 msgid "Remove components for non existing files"
-msgstr ""
+msgstr "Odebrat součásti pro neexistující soubory"
 
 #: weblate/addons/forms.py:159
 msgid "I confirm that the above matches look correct"
-msgstr ""
+msgstr "Potvrzuji, že výše uvedené shody se zdají být správné"
 
 #: weblate/addons/forms.py:220
-#, fuzzy
-#| msgid "Please review and confirm the search and replace results."
 msgid "Please review and confirm matched components."
-msgstr "Zkontrolujte a potvrďte výsledky vyhledání a nahrazení."
+msgstr "Zkontrolujte a potvrďte výsledky shodující se součásti."
 
 #: weblate/addons/generate.py:36
 msgid "Statistics generator"
@@ -812,8 +802,6 @@ msgid "Update LINGUAS file"
 msgstr "Aktualizovat LINGUAS soubor"
 
 #: weblate/addons/gettext.py:74
-#, fuzzy
-#| msgid "Updates the LINGUAS file when adding new translation."
 msgid "Updates the LINGUAS file when a new translation is added."
 msgstr "Při přidání nového překladu aktualizuje LINGUAS soubor."
 
@@ -822,10 +810,6 @@ msgid "Update ALL_LINGUAS variable in the configure file"
 msgstr "Aktualizovat proměnnou ALL_LINGUAS v souboru s nastaveními"
 
 #: weblate/addons/gettext.py:129
-#, fuzzy
-#| msgid ""
-#| "Updates the ALL_LINGUAS variable in configure, configure.in or configure."
-#| "ac files when adding new translation."
 msgid ""
 "Updates the ALL_LINGUAS variable in configure, configure.in or configure.ac "
 "files, when a new translation is added."
@@ -834,10 +818,8 @@ msgstr ""
 "configure, configure.in nebo configure.ac."
 
 #: weblate/addons/gettext.py:187
-#, fuzzy
-#| msgid "Update po files to match pot (msgmerge)"
 msgid "Update PO files to match POT (msgmerge)"
-msgstr "Aktualizovat po soubory aby odpovídaly těm pot (msgmerge)"
+msgstr "Aktualizovat PO soubory aby odpovídaly těm POT (msgmerge)"
 
 #: weblate/addons/gettext.py:189
 msgid ""
@@ -2364,56 +2346,48 @@ msgid ""
 "The regular expression to match translation files has to contain two named "
 "groups to match component and language, some examples:"
 msgstr ""
+"Regulární výraz pr ohledání shody s překladovými soubory které obsahují dvě "
+"pojmenované skupiny pro hledání shody se součástí a jazykem, několik příkadů:"
 
 #: weblate/templates/addons/discovery_help.html:8
-#, fuzzy
-#| msgid "Email regular expression"
 msgid "Regular expression"
-msgstr "Regulární výraz pro e-mail"
+msgstr "Regulární výraz"
 
 #: weblate/templates/addons/discovery_help.html:9
-#, fuzzy
-#| msgid "Failed to parse %d matched files!"
 msgid "Example matched files"
-msgstr "Nepodařilo ze zpracovat %d souborů!"
+msgstr "Příklad odpovídajících souborů"
 
 #: weblate/templates/addons/discovery_help.html:22
 msgid "One folder per language containing translation files for components."
-msgstr ""
+msgstr "Jedna složka na jazyk, obsahující překladové soubory pro součásti."
 
 #: weblate/templates/addons/discovery_help.html:32
 msgid "Usual structure for storing gettext po files."
-msgstr ""
+msgstr "Obvyklá struktura pro ukládání gettext po souborů."
 
 #: weblate/templates/addons/discovery_help.html:42
 msgid "Using both component and language name within filename."
-msgstr ""
+msgstr "S použitím jak názvu součásti, tak jazyka v názvu souboru."
 
 #: weblate/templates/addons/discovery_help.html:52
 msgid "Using language in both path and filename."
-msgstr ""
+msgstr "S použitím názvu jazyka jak v popisu umístění, tak názvu souboru."
 
 #: weblate/templates/addons/discovery_help.html:57
-#, fuzzy
-#| msgid ""
-#| "You can use Django templates markup in both filename and content, for "
-#| "example:"
 msgid ""
 "You can use Django templates markup in both component name and monolingual "
 "base filename, for example:"
 msgstr ""
-"Jak v názvu souboru, tak obsahu je možné použít značkovací jazyk Django "
-"šablon, například:"
+"Jak v názvu základu jednojazyčného souboru, tak součásti je možné použít "
+"značkovací jazyk Django šablon, například:"
 
 #: weblate/templates/addons/discovery_help.html:61
-#, fuzzy
-#| msgid "Component name"
 msgid "Component filename match"
-msgstr "Název součásti"
+msgstr "Shoda se souborem součásti"
 
 #: weblate/templates/addons/discovery_help.html:63
 msgid "Component filename with upper case first letter"
-msgstr ""
+msgstr "Soubor součásti s prvním písmenem velkým"
 
 #: weblate/templates/addons/discovery_preview.html:5
 #: weblate/templates/list-translations.html:7
@@ -2423,26 +2397,24 @@ msgid "Component"
 msgstr "Součást"
 
 #: weblate/templates/addons/discovery_preview.html:5
-#, fuzzy
-#| msgid "Watched projects"
 msgid "Matched files"
-msgstr "Sledované projekty"
+msgstr "Soubory u kterých je hledána shoda"
 
 #: weblate/templates/addons/discovery_preview.html:9
 msgid "Following components would be deleted"
-msgstr ""
+msgstr "Následující součásti by byly smazány"
 
 #: weblate/templates/addons/discovery_preview.html:15
 msgid "Following components would be created"
-msgstr ""
+msgstr "Následující součásti by byly vytvořeny"
 
 #: weblate/templates/addons/discovery_preview.html:28
 msgid "Following components matched existing ones"
-msgstr ""
+msgstr "Následující součásti se shodují s těmi stávajícími"
 
 #: weblate/templates/addons/discovery_preview.html:41
 msgid "No components were matched!"
-msgstr ""
+msgstr "Nebyla nalezena shoda s žádnými součástmi!"
 
 #: weblate/templates/addons/generate_help.html:3
 msgid ""
@@ -7781,6 +7753,8 @@ msgid ""
 "Regular expression is missing named group \"{0}\", the simplest way to "
 "define it is {1}."
 msgstr ""
+"V regulárním výrazu chybí pojmenovaná skupina „{0}“, nejjednodušší způsob, "
+"jak jí určit je {1}."
 
 #: weblate/utils/validators.py:127
 msgid "Invalid image!"
