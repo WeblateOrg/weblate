@@ -57,6 +57,7 @@ from weblate.trans.stats import get_project_stats
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
 from weblate.trans.views.helper import download_translation_file
+from weblate.utils.state import STATE_TRANSLATED
 from weblate import get_doc_url
 
 REPO_OPERATIONS = {
@@ -615,6 +616,9 @@ class Metrics(APIView):
         """
         return Response({
             'units': Unit.objects.count(),
+            'units_translated': Unit.objects.filter(
+                state=STATE_TRANSLATED
+            ).count(),
             'users': User.objects.count(),
             'projects': Project.objects.count(),
             'components': SubProject.objects.count(),
