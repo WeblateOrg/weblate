@@ -23,8 +23,8 @@ Tests for quality checks.
 """
 
 from __future__ import unicode_literals
-from weblate.trans.tests.test_checks import CheckTestCase
-from weblate.trans.checks.format import (
+from weblate.checks.tests.test_checks import CheckTestCase
+from weblate.checks.format import (
     PythonFormatCheck, PHPFormatCheck, CFormatCheck, PythonBraceFormatCheck,
     PerlFormatCheck,
 )

@@ -32,7 +32,7 @@ from weblate.permissions.helpers import (
     can_accept_suggestion, can_vote_suggestion
 )
 from weblate.trans.models.change import Change
-from weblate.trans.models.unitdata import UnitData
+from weblate.utils.unitdata import UnitData
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.utils import messages
 from weblate.utils.state import STATE_TRANSLATED

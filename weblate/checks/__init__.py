@@ -17,8 +17,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-
 from weblate.utils.classloader import ClassLoader
+
+default_app_config = 'weblate.checks.apps.ChecksConfig'
 
 
 def highlight_string(source, unit):

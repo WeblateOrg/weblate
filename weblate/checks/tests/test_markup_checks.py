@@ -23,12 +23,12 @@ Tests for quality checks.
 """
 
 from __future__ import unicode_literals
-from weblate.trans.checks.markup import (
+from weblate.checks.markup import (
     BBCodeCheck,
     XMLTagsCheck,
     XMLValidityCheck,
 )
-from weblate.trans.tests.test_checks import CheckTestCase
+from weblate.checks.tests.test_checks import CheckTestCase
 
 
 class BBCodeCheckTest(CheckTestCase):

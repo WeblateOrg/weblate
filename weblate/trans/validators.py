@@ -19,7 +19,7 @@
 #
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _, ugettext_lazy
-from weblate.trans.checks import CHECKS
+from weblate.checks import CHECKS
 
 EXTRA_FLAGS = {
     v.enable_string: v.name

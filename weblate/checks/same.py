@@ -25,13 +25,13 @@ import re
 from django.utils.html import strip_tags
 from django.utils.translation import ugettext_lazy as _
 
-from weblate.trans.checks.base import TargetCheck
-from weblate.trans.checks.format import (
+from weblate.checks.base import TargetCheck
+from weblate.checks.format import (
     PYTHON_PRINTF_MATCH, PHP_PRINTF_MATCH, C_PRINTF_MATCH,
     PYTHON_BRACE_MATCH,
 )
-from weblate.trans.checks.data import SAME_BLACKLIST
-from weblate.trans.checks.languages import LANGUAGES
+from weblate.checks.data import SAME_BLACKLIST
+from weblate.checks.languages import LANGUAGES
 
 # Email address to ignore
 EMAIL_RE = re.compile(

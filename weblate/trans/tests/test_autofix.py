@@ -25,7 +25,7 @@ Tests for automatix fixups.
 from __future__ import unicode_literals
 from django.test import TestCase
 from django.utils.encoding import force_text
-from weblate.trans.tests.test_checks import MockUnit
+from weblate.checks.tests.test_checks import MockUnit
 from weblate.trans.autofixes import fix_target
 from weblate.trans.autofixes.chars import (
     ReplaceTrailingDotsWithEllipsis, RemoveZeroSpace, RemoveControlChars,

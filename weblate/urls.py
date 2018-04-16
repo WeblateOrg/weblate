@@ -32,13 +32,13 @@ from weblate.trans.feeds import (
 from weblate.trans.views.changes import ChangesView, ChangesCSVView
 import weblate.accounts.views
 import weblate.addons.views
+import weblate.checks.views
 import weblate.lang.views
 import weblate.screenshots.views
 import weblate.trans.views.acl
 import weblate.trans.views.api
 import weblate.trans.views.basic
 import weblate.trans.views.charts
-import weblate.trans.views.checks
 import weblate.trans.views.dictionary
 import weblate.trans.views.edit
 import weblate.trans.views.files
@@ -562,22 +562,22 @@ urlpatterns = [
     # Checks browsing
     url(
         r'^checks/$',
-        weblate.trans.views.checks.show_checks,
+        weblate.checks.views.show_checks,
         name='checks',
     ),
     url(
         r'^checks/(?P<name>[^/]+)/$',
-        weblate.trans.views.checks.show_check,
+        weblate.checks.views.show_check,
         name='show_check',
     ),
     url(
         r'^checks/(?P<name>[^/]+)/' + PROJECT + '$',
-        weblate.trans.views.checks.show_check_project,
+        weblate.checks.views.show_check_project,
         name='show_check_project',
     ),
     url(
         r'^checks/(?P<name>[^/]+)/' + SUBPROJECT + '$',
-        weblate.trans.views.checks.show_check_subproject,
+        weblate.checks.views.show_check_subproject,
         name='show_check_subproject',
     ),
 

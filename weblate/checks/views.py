@@ -26,8 +26,9 @@ from django.utils.http import urlencode
 from django.http import Http404
 from django.db.models import Count
 
-from weblate.trans.models import Unit, Check, Project
-from weblate.trans.checks import CHECKS
+from weblate.checks.models import Check
+from weblate.checks import CHECKS
+from weblate.trans.models import Unit, Project
 from weblate.trans.views.helper import get_project, get_subproject
 from weblate.trans.util import redirect_param
 

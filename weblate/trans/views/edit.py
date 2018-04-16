@@ -47,7 +47,7 @@ from weblate.trans.forms import (
 from weblate.trans.views.helper import (
     get_translation, import_message, show_form_errors,
 )
-from weblate.trans.checks import CHECKS
+from weblate.checks import CHECKS
 from weblate.trans.util import join_plural, render, redirect_next
 from weblate.trans.autotranslate import AutoTranslate
 from weblate.permissions.helpers import (

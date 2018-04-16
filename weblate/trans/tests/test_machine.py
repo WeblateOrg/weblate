@@ -47,7 +47,7 @@ from weblate.trans.machine.google import GoogleTranslation, GOOGLE_API_ROOT
 from weblate.trans.machine.yandex import YandexTranslation
 from weblate.trans.machine.saptranslationhub import SAPTranslationHub
 from weblate.trans.machine.weblatetm import WeblateTranslation
-from weblate.trans.tests.test_checks import MockUnit
+from weblate.checks.tests.test_checks import MockUnit
 
 GLOSBE_JSON = '''
 {

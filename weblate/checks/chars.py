@@ -24,7 +24,7 @@ import re
 
 from django.utils.translation import ugettext_lazy as _
 
-from weblate.trans.checks.base import (
+from weblate.checks.base import (
     TargetCheck, TargetCheckWithFlag, CountingCheck
 )
 

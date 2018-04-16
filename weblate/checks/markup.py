@@ -28,7 +28,7 @@ from django.utils.translation import ugettext_lazy as _
 
 import six
 
-from weblate.trans.checks.base import TargetCheck
+from weblate.checks.base import TargetCheck
 
 BBCODE_MATCH = re.compile(
     r'(?P<start>\[(?P<tag>[^]]+)(@[^]]*)?\])(.*?)(?P<end>\[\/(?P=tag)\])',

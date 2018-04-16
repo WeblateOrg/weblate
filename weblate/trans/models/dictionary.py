@@ -30,7 +30,7 @@ from django.utils.encoding import python_2_unicode_compatible
 from whoosh.analysis import LanguageAnalyzer, NgramAnalyzer, SimpleAnalyzer
 
 from weblate.lang.models import Language
-from weblate.trans.checks.same import strip_string
+from weblate.checks.same import strip_string
 from weblate.trans.formats import AutoFormat
 from weblate.trans.models.project import Project
 from weblate.utils.db import re_escape

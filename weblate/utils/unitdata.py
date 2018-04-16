@@ -30,7 +30,7 @@ from weblate.lang.models import Language
 class UnitData(models.Model):
     content_hash = models.BigIntegerField()
     project = models.ForeignKey(
-        'Project', on_delete=models.deletion.CASCADE
+        'trans.Project', on_delete=models.deletion.CASCADE
     )
     language = models.ForeignKey(
         Language, null=True, blank=True, on_delete=models.deletion.CASCADE

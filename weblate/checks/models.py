@@ -21,10 +21,14 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.functional import cached_property
-from weblate.trans.checks import CHECKS
-from weblate.trans.models.unitdata import UnitData
+
+from weblate.checks import CHECKS
+from weblate.utils.decorators import disable_for_loaddata
+from weblate.utils.unitdata import UnitData
 
 
 CHECK_CHOICES = [(x, CHECKS[x].name) for x in CHECKS]
@@ -53,10 +57,6 @@ class Check(UnitData):
         self._for_unit = value
 
     class Meta(object):
-        permissions = (
-            ('ignore_check', "Can ignore check results"),
-        )
-        app_label = 'trans'
         unique_together = ('content_hash', 'project', 'language', 'check')
         index_together = [
             ('project', 'language', 'content_hash'),
@@ -88,3 +88,17 @@ class Check(UnitData):
         """Set ignore flag."""
         self.ignore = True
         self.save()
+
+
+@receiver(post_save, sender=Check)
+@disable_for_loaddata
+def update_failed_check_flag(sender, instance, **kwargs):
+    """Update related unit failed check flag."""
+    if instance.language is None:
+        return
+    related = instance.related_units
+    if instance.for_unit is not None:
+        related = related.exclude(pk=instance.for_unit)
+    for unit in related:
+        unit.update_has_failing_check(False)
+        unit.translation.invalidate_cache()

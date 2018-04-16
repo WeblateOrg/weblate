@@ -33,9 +33,9 @@ from django.utils import timezone
 from django.contrib.auth.models import User, Group
 from django.core.exceptions import ValidationError
 
+from weblate.checks.models import Check
 from weblate.trans.models import (
-    Project, Source, Unit, WhiteboardMessage, Check, ComponentList,
-    AutoComponentList,
+    Project, Source, Unit, WhiteboardMessage, ComponentList, AutoComponentList,
 )
 import weblate.trans.models.subproject
 from weblate.lang.models import Language

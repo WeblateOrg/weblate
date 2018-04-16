@@ -35,10 +35,11 @@ from django.utils.translation import ugettext as _
 from django.utils.translation.trans_real import parse_accept_lang_header
 import django.views.defaults
 
+from weblate.checks.models import Check
 from weblate.utils import messages
 from weblate.utils.stats import prefetch_stats
 from weblate.trans.models import (
-    Project, Translation, Check, ComponentList, Change, Unit, IndexUpdate,
+    Project, Translation, ComponentList, Change, Unit, IndexUpdate,
 )
 from weblate.requirements import get_versions, get_optional_versions
 from weblate.lang.models import Language

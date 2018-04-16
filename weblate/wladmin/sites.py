@@ -47,6 +47,8 @@ from weblate.accounts.admin import (
 )
 from weblate.accounts.forms import LoginForm
 from weblate.accounts.models import Profile, VerifiedEmail, AuditLog
+from weblate.checks.admin import CheckAdmin
+from weblate.checks.models import Check
 from weblate.lang.admin import LanguageAdmin
 from weblate.lang.models import Language
 from weblate.permissions.admin import AutoGroupAdmin, GroupACLAdmin
@@ -55,12 +57,12 @@ from weblate.screenshots.admin import ScreenshotAdmin
 from weblate.screenshots.models import Screenshot
 from weblate.trans.admin import (
     ProjectAdmin, SubProjectAdmin, TranslationAdmin,
-    UnitAdmin, SuggestionAdmin, CommentAdmin, CheckAdmin, DictionaryAdmin,
+    UnitAdmin, SuggestionAdmin, CommentAdmin, DictionaryAdmin,
     ChangeAdmin, SourceAdmin, WhiteboardMessageAdmin, ComponentListAdmin,
 )
 from weblate.trans.models import (
     Project, SubProject, Translation,
-    Unit, Suggestion, Comment, Check, Dictionary, Change,
+    Unit, Suggestion, Comment, Dictionary, Change,
     Source, WhiteboardMessage, ComponentList,
 )
 from weblate.utils import messages

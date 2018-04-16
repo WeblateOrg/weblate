@@ -26,16 +26,17 @@ from django.core.exceptions import PermissionDenied
 from django.utils.encoding import force_text
 from django.utils.http import urlencode
 
+from weblate.checks.models import Check
 from weblate.permissions.helpers import check_access
 from weblate.screenshots.forms import ScreenshotForm
-from weblate.trans.models import Unit, Check, Change
+from weblate.trans.models import Unit, Change
 from weblate.trans.machine import MACHINE_TRANSLATION_SERVICES
 from weblate.trans.views.helper import (
     get_project, get_subproject, get_translation
 )
 from weblate.trans.forms import PriorityForm, CheckFlagsForm
 from weblate.trans.validators import EXTRA_FLAGS
-from weblate.trans.checks import CHECKS
+from weblate.checks import CHECKS
 from weblate.permissions.helpers import (
     can_use_mt, can_see_repository_status, can_ignore_check,
 )

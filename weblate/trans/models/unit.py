@@ -35,9 +35,9 @@ from django.utils.translation import ugettext as _
 import six
 
 from weblate.permissions.helpers import can_translate
-from weblate.trans.checks import CHECKS
+from weblate.checks import CHECKS
+from weblate.checks.models import Check
 from weblate.trans.models.source import Source
-from weblate.trans.models.check import Check
 from weblate.trans.models.comment import Comment
 from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.models.change import Change
@@ -391,6 +391,8 @@ class Unit(models.Model, LoggerMixin):
             ('save_translation', "Can save translation"),
             ('save_template', "Can save template"),
             ('review_translation', 'Can review translation'),
+            # Temporary location after moving checks to separate app
+            ('ignore_check', 'Can ignore check results'),
         )
         ordering = ['priority', 'position']
         app_label = 'trans'

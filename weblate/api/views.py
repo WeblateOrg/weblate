@@ -44,9 +44,10 @@ from weblate.api.serializers import (
     ChangeSerializer, SourceSerializer, ScreenshotSerializer,
     UploadRequestSerializer, ScreenshotFileSerializer,
 )
+from weblate.checks.models import Check
 from weblate.trans.exporters import EXPORTERS
 from weblate.trans.models import (
-    Project, SubProject, Translation, Change, Unit, Source, Check,
+    Project, SubProject, Translation, Change, Unit, Source,
     IndexUpdate, Suggestion,
 )
 from weblate.permissions.helpers import (

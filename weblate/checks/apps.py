@@ -17,24 +17,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-"""Simple quality check example."""
 
-from weblate.checks.base import TargetCheck
-from django.utils.translation import ugettext_lazy as _
+from __future__ import unicode_literals
+
+from django.apps import AppConfig
 
 
-class FooCheck(TargetCheck):
-
-    # Used as identifier for check, should be unique
-    # Has to be shorter than 50 chars
-    check_id = 'foo'
-
-    # Short name used to display failing check
-    name = _('Foo check')
-
-    # Description for failing check
-    description = _('Your translation is foo')
-
-    # Real check code
-    def check_single(self, source, target, unit):
-        return 'foo' in target
+class ChecksConfig(AppConfig):
+    name = 'weblate.checks'
+    label = 'checks'
+    verbose_name = 'Checks'

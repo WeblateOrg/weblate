@@ -24,11 +24,11 @@ Tests for source checks.
 
 from __future__ import unicode_literals
 from django.test import TestCase
-from weblate.trans.checks.source import (
+from weblate.checks.source import (
     OptionalPluralCheck,
     EllipsisCheck,
 )
-from weblate.trans.tests.test_checks import MockUnit
+from weblate.checks.tests.test_checks import MockUnit
 
 
 class OptionalPluralCheckTest(TestCase):
