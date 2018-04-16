@@ -21,7 +21,7 @@
 from django.conf.urls import url
 
 from weblate.legal.views import (
-    LegalView, TermsView, CookiesView, SecurityView,
+    LegalView, TermsView, CookiesView, SecurityView, PrivacyView,
     tos_confirm,
 )
 
@@ -45,6 +45,11 @@ urlpatterns = [
         r'^security/$',
         SecurityView.as_view(),
         name='security',
+    ),
+    url(
+        r'^privacy/$',
+        PrivacyView.as_view(),
+        name='privacy',
     ),
     url(
         r'^confirm/$',

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+
+{% block breadcrumbs %}
+<li><a href="{% url 'legal:index' %}">{% trans "Legal" %}</a></li>
+<li><a href="{% url 'legal:privacy' %}">{% trans "Privacy" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+{% include 'legal/menu.html' %}
+
+<div class="container-fluid">
+
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Privacy Policy" %}</h4></div>
+<div class="panel-body">
+
+<p>
+{% blocktrans %}This page is based on the Terms of Service, you should still read the original document to fully understand them.{% endblocktrans %}
+</p>
+
+<p>
+{% trans "Weblate needs several personal information to ensure it's operation, this page describes how we store and use the information." %}
+</p>
+
+<dl>
+
+<dt>{% trans "Name and email" %}</dt>
+<dd>{% trans "These are used to identify you in the VCS commits" %}</dd>
+<dd>{% trans "Additionally email is used for notifications on watched events" %}</dd>
+
+<dt>{% trans "IP address and browser name" %}</dt>
+<dd>{% trans "These are logged in case of important changes to your account (eg. password change) to allow diagnosis in case of your account is stolen" %}</dd>
+
+</dl>
+
+<p>
+{% trans "All these information is removed once you delete your account in Weblate." %}
+</p>
+
+</div>
+</div>
+</div>
+</div>
+
+{% endblock %}
+

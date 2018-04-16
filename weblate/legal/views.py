@@ -51,6 +51,11 @@ MENU = (
         'legal:security',
         _('Security'),
     ),
+    (
+        'privacy',
+        'legal:privacy',
+        _('Privacy'),
+    ),
 )
 
 
@@ -79,6 +84,10 @@ class CookiesView(LegalView):
 
 class SecurityView(LegalView):
     page = 'security'
+
+
+class PrivacyView(LegalView):
+    page = 'privacy'
 
 
 @never_cache
