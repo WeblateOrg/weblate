@@ -22,9 +22,9 @@ from weblate.trans.management.commands import WeblateComponentCommand
 
 
 class Command(WeblateComponentCommand):
-    help = 'unlocks subproject for editing'
+    help = 'unlocks component for editing'
 
     def handle(self, *args, **options):
-        for subproject in self.get_subprojects(*args, **options):
-            if subproject.locked:
-                subproject.do_lock(None, False)
+        for component in self.get_components(*args, **options):
+            if component.locked:
+                component.do_lock(None, False)

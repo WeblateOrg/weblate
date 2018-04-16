@@ -660,7 +660,7 @@ SAME_BLACKLIST = frozenset((
     'structure',
     'style',
     'submit',
-    'subproject',
+    'component',
     'subquery',
     'substring',
     'suggestion',

@@ -26,10 +26,10 @@ from django.shortcuts import redirect
 from django.views.decorators.cache import never_cache
 from django.utils.translation import ugettext as _
 
-from weblate.permissions.helpers import can_edit_subproject, can_edit_project
-from weblate.trans.forms import SubprojectSettingsForm, ProjectSettingsForm
+from weblate.permissions.helpers import can_edit_component, can_edit_project
+from weblate.trans.forms import ComponentSettingsForm, ProjectSettingsForm
 from weblate.trans.util import render
-from weblate.trans.views.helper import get_project, get_subproject
+from weblate.trans.views.helper import get_project, get_component
 from weblate.utils import messages
 
 
@@ -67,19 +67,19 @@ def change_project(request, project):
 
 @never_cache
 @login_required
-def change_subproject(request, project, subproject):
-    obj = get_subproject(request, project, subproject)
+def change_component(request, project, component):
+    obj = get_component(request, project, component)
 
-    if not can_edit_subproject(request.user, obj.project):
+    if not can_edit_component(request.user, obj.project):
         raise Http404()
 
     if request.method == 'POST':
-        form = SubprojectSettingsForm(request.POST, instance=obj)
+        form = ComponentSettingsForm(request.POST, instance=obj)
         if form.is_valid():
             form.save()
             messages.success(request, _('Settings saved'))
             return redirect(
-                'settings', project=obj.project.slug, subproject=obj.slug
+                'settings', project=obj.project.slug, component=obj.slug
             )
         else:
             messages.error(
@@ -87,11 +87,11 @@ def change_subproject(request, project, subproject):
                 _('Invalid settings, please check the form for errors!')
             )
     else:
-        form = SubprojectSettingsForm(instance=obj)
+        form = ComponentSettingsForm(instance=obj)
 
     return render(
         request,
-        'subproject-settings.html',
+        'component-settings.html',
         {
             'project': obj.project,
             'object': obj,

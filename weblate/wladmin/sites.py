@@ -56,12 +56,12 @@ from weblate.permissions.models import AutoGroup, GroupACL
 from weblate.screenshots.admin import ScreenshotAdmin
 from weblate.screenshots.models import Screenshot
 from weblate.trans.admin import (
-    ProjectAdmin, SubProjectAdmin, TranslationAdmin,
+    ProjectAdmin, ComponentAdmin, TranslationAdmin,
     UnitAdmin, SuggestionAdmin, CommentAdmin, DictionaryAdmin,
     ChangeAdmin, SourceAdmin, WhiteboardMessageAdmin, ComponentListAdmin,
 )
 from weblate.trans.models import (
-    Project, SubProject, Translation,
+    Project, Component, Translation,
     Unit, Suggestion, Comment, Dictionary, Change,
     Source, WhiteboardMessage, ComponentList,
 )
@@ -97,7 +97,7 @@ class WeblateAdminSite(AdminSite):
 
         # Transaltions
         self.register(Project, ProjectAdmin)
-        self.register(SubProject, SubProjectAdmin)
+        self.register(Component, ComponentAdmin)
         self.register(WhiteboardMessage, WhiteboardMessageAdmin)
         self.register(ComponentList, ComponentListAdmin)
 

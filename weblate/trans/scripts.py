@@ -66,7 +66,7 @@ def run_hook(component, translation, script, env=None, args=None):
     if args:
         command.extend(args)
     if component.is_repo_link:
-        target = component.linked_subproject
+        target = component.linked_component
     else:
         target = component
     environment = {

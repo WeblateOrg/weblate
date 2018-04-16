@@ -28,7 +28,7 @@ from django.utils.translation import ugettext as _
 
 import six
 
-from weblate.trans.models import SubProject, IndexUpdate
+from weblate.trans.models import Component, IndexUpdate
 from weblate import settings_example
 from weblate.accounts.avatar import HAS_LIBRAVATAR
 from weblate.trans.util import HAS_PYUCA, check_domain
@@ -48,7 +48,7 @@ GOOD_CACHE = frozenset((
 def report(request, admin_site):
     """Provide report about git status of all repos."""
     context = admin_site.each_context(request)
-    context['subprojects'] = SubProject.objects.all()
+    context['components'] = Component.objects.all()
     return render(
         request,
         "admin/report.html",

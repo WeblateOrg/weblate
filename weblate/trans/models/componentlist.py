@@ -57,7 +57,7 @@ class ComponentList(models.Model):
         )
     )
 
-    components = models.ManyToManyField('SubProject', blank=True)
+    components = models.ManyToManyField('Component', blank=True)
 
     class Meta(object):
         verbose_name = _('Component list')

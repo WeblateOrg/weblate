@@ -35,8 +35,8 @@ from django.http import (
     JsonResponse,
 )
 
-from weblate.trans.models import SubProject
-from weblate.trans.views.helper import get_project, get_subproject
+from weblate.trans.models import Component
+from weblate.trans.views.helper import get_project, get_component
 from weblate.trans.stats import get_project_stats
 from weblate.utils.errors import report_error
 from weblate.logger import LOGGER
@@ -99,11 +99,11 @@ def perform_update(obj):
 
 
 @csrf_exempt
-def update_subproject(request, project, subproject):
+def update_component(request, project, component):
     """API hook for updating git repos."""
     if not settings.ENABLE_HOOKS:
         return HttpResponseNotAllowed([])
-    obj = get_subproject(request, project, subproject, True)
+    obj = get_component(request, project, component, True)
     if not obj.project.enable_hooks:
         return HttpResponseNotAllowed([])
     perform_update(obj)
@@ -179,23 +179,23 @@ def vcs_service_hook(request, service):
             Q(repo__endswith='@{0}'.format(repo[8:]))
         )
 
-    all_subprojects = SubProject.objects.filter(spfilter)
+    all_components = Component.objects.filter(spfilter)
 
     if branch is not None:
-        all_subprojects = all_subprojects.filter(branch=branch)
+        all_components = all_components.filter(branch=branch)
 
-    subprojects = all_subprojects.filter(project__enable_hooks=True)
+    components = all_components.filter(project__enable_hooks=True)
 
     LOGGER.info(
         'received %s notification on repository %s, branch %s,'
         '%d matching components, %d to process',
         service_long_name, repo_url, branch,
-        all_subprojects.count(), subprojects.count(),
+        all_components.count(), components.count(),
     )
 
     # Trigger updates
     updates = 0
-    for obj in subprojects:
+    for obj in components:
         updates += 1
         LOGGER.info(
             '%s notification will update %s',
@@ -339,9 +339,9 @@ def export_stats_project(request, project):
     )
 
 
-def export_stats(request, project, subproject):
+def export_stats(request, project, component):
     """Export stats in JSON format."""
-    subprj = get_subproject(request, project, subproject)
+    subprj = get_component(request, project, component)
 
     data = [
         trans.get_stats() for trans in subprj.translation_set.all()

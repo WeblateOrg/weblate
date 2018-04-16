@@ -29,33 +29,33 @@ from weblate.lang.models import Language
 from weblate.trans.views.helper import get_project_translation
 
 
-def get_json_stats(request, days, step, project=None, subproject=None,
+def get_json_stats(request, days, step, project=None, component=None,
                    lang=None, user=None):
     """Parse json stats URL params."""
     if project is None and lang is None and user is None:
         project = None
-        subproject = None
+        component = None
         translation = None
         language = None
         user = None
     elif user is not None:
         project = None
-        subproject = None
+        component = None
         translation = None
         language = None
         user = get_object_or_404(User, username=user)
     elif project is None:
         project = None
-        subproject = None
+        component = None
         translation = None
         language = get_object_or_404(Language, code=lang)
         user = None
     else:
         # Process parameters
-        project, subproject, translation = get_project_translation(
+        project, component, translation = get_project_translation(
             request,
             project,
-            subproject,
+            component,
             lang
         )
         language = None
@@ -66,19 +66,19 @@ def get_json_stats(request, days, step, project=None, subproject=None,
         days,
         step,
         project,
-        subproject,
+        component,
         translation,
         language,
         user
     )
 
 
-def yearly_activity(request, project=None, subproject=None, lang=None,
+def yearly_activity(request, project=None, component=None, lang=None,
                     user=None):
     """Return yearly activity for matching changes as json."""
     activity = get_json_stats(
         request, 364, 7,
-        project, subproject, lang, user,
+        project, component, lang, user,
     )
 
     # Format
@@ -106,12 +106,12 @@ def yearly_activity(request, project=None, subproject=None, lang=None,
     )
 
 
-def monthly_activity(request, project=None, subproject=None, lang=None,
+def monthly_activity(request, project=None, component=None, lang=None,
                      user=None):
     """Return monthly activity for matching changes as json."""
     activity = get_json_stats(
         request, 31, 1,
-        project, subproject, lang, user
+        project, component, lang, user
     )
 
     # Format

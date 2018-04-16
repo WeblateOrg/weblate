@@ -129,11 +129,11 @@ class GroupACLTest(ModelTestCase):
             "privileged", 'other@example.com', 'x'
         )
         self.group = Group.objects.create(name="testgroup")
-        self.project = self.subproject.project
-        self.subproject.translation_set.all().delete()
+        self.project = self.component.project
+        self.component.translation_set.all().delete()
         self.language = Language.objects.get_default()
         self.trans = Translation.objects.create(
-            subproject=self.subproject,
+            component=self.component,
             language=self.language,
             plural=self.language.plural,
             filename="this/is/not/a.template"
@@ -150,13 +150,13 @@ class GroupACLTest(ModelTestCase):
     def test_acl_lockout(self):
         """Basic sanity check.
 
-        Group ACL set on a subproject should only allow members of
+        Group ACL set on a component should only allow members of
         the marked group to edit it.
         """
         self.assertTrue(can_edit(self.user, self.trans, self.PERMISSION))
         self.assertTrue(can_edit(self.privileged, self.trans, self.PERMISSION))
 
-        acl = GroupACL.objects.create(subproject=self.subproject)
+        acl = GroupACL.objects.create(component=self.component)
         acl.groups.add(self.group)
         self.clear_permission_cache()
 
@@ -175,7 +175,7 @@ class GroupACLTest(ModelTestCase):
         self.assertTrue(
             can_edit(self.privileged, self.trans, self.PERMISSION))
 
-        acl_sub = GroupACL.objects.create(subproject=self.subproject)
+        acl_sub = GroupACL.objects.create(component=self.component)
         self.clear_permission_cache()
         self.assertFalse(
             can_edit(self.privileged, self.trans, self.PERMISSION))
@@ -194,11 +194,11 @@ class GroupACLTest(ModelTestCase):
         self.assertIn(
             'language=English', force_text(acl)
         )
-        acl.subproject = self.subproject
+        acl.component = self.component
         self.assertIn(
-            'subproject=Test/Test', force_text(acl)
+            'component=Test/Test', force_text(acl)
         )
-        acl.subproject = None
+        acl.component = None
         acl.project = self.project
         self.assertIn(
             'project=Test', force_text(acl)
@@ -211,7 +211,7 @@ class GroupACLTest(ModelTestCase):
             acl.clean
         )
         acl.project = self.project
-        acl.subproject = self.subproject
+        acl.component = self.component
         acl.save()
         self.assertIsNone(acl.project)
 
@@ -244,12 +244,12 @@ class GroupACLTest(ModelTestCase):
         lang_cs = Language.objects.get(code='cs')
         lang_de = Language.objects.get(code='de')
         trans_cs = Translation.objects.create(
-            subproject=self.subproject, language=lang_cs,
+            component=self.component, language=lang_cs,
             plural=lang_cs.plural,
             filename="this/is/not/a.template"
         )
         trans_de = Translation.objects.create(
-            subproject=self.subproject, language=lang_de,
+            component=self.component, language=lang_de,
             plural=lang_de.plural,
             filename="this/is/not/a.template"
         )
@@ -266,25 +266,25 @@ class GroupACLTest(ModelTestCase):
     def test_affects_partial_match(self):
         """Partial ACL match test.
 
-        If I set an ACL on two criteria, e.g., subproject and language,
+        If I set an ACL on two criteria, e.g., component and language,
         it should not affect objects that only match one of the criteria.
         """
         lang_cs = Language.objects.get(code='cs')
         lang_de = Language.objects.get(code='de')
         trans_cs = Translation.objects.create(
-            subproject=self.subproject, language=lang_cs,
+            component=self.component, language=lang_cs,
             plural=lang_cs.plural,
             filename="this/is/not/a.template"
         )
         trans_de = Translation.objects.create(
-            subproject=self.subproject, language=lang_de,
+            component=self.component, language=lang_de,
             plural=lang_de.plural,
             filename="this/is/not/a.template"
         )
 
         acl = GroupACL.objects.create(
             language=lang_cs,
-            subproject=self.subproject
+            component=self.component
         )
         acl.groups.add(self.group)
 
@@ -328,12 +328,12 @@ class GroupACLTest(ModelTestCase):
         lang_cs = Language.objects.get(code='cs')
         lang_de = Language.objects.get(code='de')
         trans_cs = Translation.objects.create(
-            subproject=self.subproject, language=lang_cs,
+            component=self.component, language=lang_cs,
             plural=lang_cs.plural,
             filename="this/is/not/a.template"
         )
         trans_de = Translation.objects.create(
-            subproject=self.subproject, language=lang_de,
+            component=self.component, language=lang_de,
             plural=lang_de.plural,
             filename="this/is/not/a.template"
         )
@@ -399,13 +399,13 @@ class GroupACLTest(ModelTestCase):
     def test_acl_not_filtered(self):
         """Basic sanity check.
 
-        Group ACL set on a subproject should only allow members of
+        Group ACL set on a component should only allow members of
         the marked group to edit it.
         """
         self.assertTrue(can_edit(self.user, self.trans, self.PERMISSION))
         self.assertTrue(can_edit(self.privileged, self.trans, self.PERMISSION))
 
-        acl = GroupACL.objects.create(subproject=self.subproject)
+        acl = GroupACL.objects.create(component=self.component)
         acl.groups.add(self.group)
         acl.permissions.remove(self.permission)
         self.clear_permission_cache()

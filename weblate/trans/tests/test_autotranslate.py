@@ -24,7 +24,7 @@ from django.urls import reverse
 from django.core.management import call_command
 from django.core.management.base import CommandError
 
-from weblate.trans.models import SubProject
+from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase
 
 
@@ -34,7 +34,7 @@ class AutoTranslationTest(ViewTestCase):
         # Need extra power
         self.user.is_superuser = True
         self.user.save()
-        self.subproject2 = SubProject.objects.create(
+        self.component2 = Component.objects.create(
             name='Test 2',
             slug='test-2',
             project=self.project,
@@ -63,7 +63,7 @@ class AutoTranslationTest(ViewTestCase):
 
     def perform_auto(self, expected=1, **kwargs):
         self.make_different()
-        params = {'project': 'test', 'lang': 'cs', 'subproject': 'test-2'}
+        params = {'project': 'test', 'lang': 'cs', 'component': 'test-2'}
         url = reverse('auto_translation', kwargs=params)
         kwargs['auto_source'] = 'others'
         kwargs['threshold'] = '100'
@@ -83,7 +83,7 @@ class AutoTranslationTest(ViewTestCase):
 
         self.assertRedirects(response, reverse('translation', kwargs=params))
         # Check we've translated something
-        translation = self.subproject2.translation_set.get(language_code='cs')
+        translation = self.component2.translation_set.get(language_code='cs')
         translation.invalidate_cache()
         self.assertEqual(translation.stats.translated, expected)
 
@@ -117,11 +117,11 @@ class AutoTranslationTest(ViewTestCase):
         )
 
     def test_command_add(self):
-        self.subproject.file_format = 'po'
-        self.subproject.new_lang = 'add'
-        self.subproject.new_base = 'po/cs.po'
-        self.subproject.clean()
-        self.subproject.save()
+        self.component.file_format = 'po'
+        self.component.new_lang = 'add'
+        self.component.new_base = 'po/cs.po'
+        self.component.clean()
+        self.component.save()
         call_command(
             'auto_translate',
             'test',
@@ -130,7 +130,7 @@ class AutoTranslationTest(ViewTestCase):
             add=True,
         )
         self.assertTrue(
-            self.subproject.translation_set.filter(
+            self.component.translation_set.filter(
                 language__code='ia'
             ).exists()
         )
@@ -189,7 +189,7 @@ class AutoTranslationMtTest(ViewTestCase):
         # Need extra power
         self.user.is_superuser = True
         self.user.save()
-        self.subproject3 = SubProject.objects.create(
+        self.component3 = Component.objects.create(
             name='Test 3',
             slug='test-3',
             project=self.project,
@@ -219,7 +219,7 @@ class AutoTranslationMtTest(ViewTestCase):
 
     def perform_auto(self, expected=1, **kwargs):
         self.make_different()
-        params = {'project': 'test', 'lang': 'cs', 'subproject': 'test-3'}
+        params = {'project': 'test', 'lang': 'cs', 'component': 'test-3'}
         url = reverse('auto_translation', kwargs=params)
         kwargs['auto_source'] = 'mt'
         if 'type' not in kwargs:
@@ -238,7 +238,7 @@ class AutoTranslationMtTest(ViewTestCase):
 
         self.assertRedirects(response, reverse('translation', kwargs=params))
         # Check we've translated something
-        translation = self.subproject3.translation_set.get(language_code='cs')
+        translation = self.component3.translation_set.get(language_code='cs')
         translation.invalidate_cache()
         self.assertEqual(translation.stats.translated, expected)
 

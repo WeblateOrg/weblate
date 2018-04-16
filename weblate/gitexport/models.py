@@ -22,7 +22,7 @@ from django.urls import reverse
 from django.dispatch import receiver
 from django.db.models.signals import post_save, pre_save
 
-from weblate.trans.models import SubProject, Project
+from weblate.trans.models import Component, Project
 from weblate.utils.site import get_site_url
 from weblate.utils.decorators import disable_for_loaddata
 
@@ -37,14 +37,14 @@ def get_export_url(component):
             'git-export',
             kwargs={
                 'project': component.project.slug,
-                'subproject': component.slug,
+                'component': component.slug,
                 'path': '',
             }
         )
     )
 
 
-@receiver(pre_save, sender=SubProject)
+@receiver(pre_save, sender=Component)
 def save_component(sender, instance, **kwargs):
     if not instance.is_repo_link and instance.vcs in SUPPORTED_VCS:
         instance.git_export = get_export_url(instance)
@@ -53,7 +53,7 @@ def save_component(sender, instance, **kwargs):
 @receiver(post_save, sender=Project)
 @disable_for_loaddata
 def save_project(sender, instance, **kwargs):
-    for component in instance.subproject_set.all():
+    for component in instance.component_set.all():
         if not component.is_repo_link and component.vcs in SUPPORTED_VCS:
             new_url = get_export_url(component)
             if component.git_export != new_url:

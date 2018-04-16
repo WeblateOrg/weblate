@@ -42,7 +42,7 @@ from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 class SearchViewTest(ViewTestCase):
     def setUp(self):
         super(SearchViewTest, self).setUp()
-        self.translation = self.subproject.translation_set.get(
+        self.translation = self.component.translation_set.get(
             language_code='cs'
         )
         self.translate_url = self.translation.get_translate_url()
@@ -174,7 +174,7 @@ class SearchViewTest(ViewTestCase):
 
     def test_component_search(self):
         """Searching within component."""
-        self.do_search_url(reverse('search', kwargs=self.kw_subproject))
+        self.do_search_url(reverse('search', kwargs=self.kw_component))
 
     def test_project_language_search(self):
         """Searching within project."""
@@ -555,7 +555,7 @@ class ReplaceTest(ViewTestCase):
 
     def test_replace_component(self):
         self.do_replace_test(
-            reverse('replace', kwargs=self.kw_subproject),
+            reverse('replace', kwargs=self.kw_component),
         )
 
 
@@ -615,5 +615,5 @@ class MassStateTest(ViewTestCase):
 
     def test_mass_state_component(self):
         self.do_mass_state_test(
-            reverse('state-change', kwargs=self.kw_subproject),
+            reverse('state-change', kwargs=self.kw_component),
         )

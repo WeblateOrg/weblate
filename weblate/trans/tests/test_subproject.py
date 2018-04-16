@@ -27,17 +27,17 @@ from django.core.exceptions import ValidationError
 
 from weblate.trans.formats import ParseError
 from weblate.trans.models import (
-    Project, SubProject, Unit, Suggestion,
+    Project, Component, Unit, Suggestion,
 )
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.state import STATE_TRANSLATED
 
 
-class SubProjectTest(RepoTestCase):
-    """SubProject object testing."""
-    def verify_subproject(self, project, translations, lang=None, units=0,
-                          unit='Hello, world!\n', fail=False):
+class ComponentTest(RepoTestCase):
+    """Component object testing."""
+    def verify_component(self, project, translations, lang=None, units=0,
+                         unit='Hello, world!\n', fail=False):
         # Validation
         if fail:
             self.assertRaises(
@@ -61,26 +61,26 @@ class SubProjectTest(RepoTestCase):
             self.assertTrue(translation.unit_set.filter(source=unit).exists())
 
     def test_create(self):
-        project = self.create_subproject()
-        self.verify_subproject(project, 3, 'cs', 4)
+        project = self.create_component()
+        self.verify_component(project, 3, 'cs', 4)
         self.assertTrue(os.path.exists(project.full_path))
 
     def test_create_dot(self):
-        project = self._create_subproject(
+        project = self._create_component(
             'auto',
             './po/*.po',
         )
-        self.verify_subproject(project, 3, 'cs', 4)
+        self.verify_component(project, 3, 'cs', 4)
         self.assertTrue(os.path.exists(project.full_path))
         self.assertEqual('po/*.po', project.filemask)
 
     def test_create_iphone(self):
         project = self.create_iphone()
-        self.verify_subproject(project, 1, 'cs', 4)
+        self.verify_component(project, 1, 'cs', 4)
 
     def test_create_ts(self):
         project = self.create_ts('-translated')
-        self.verify_subproject(project, 1, 'cs', 4)
+        self.verify_component(project, 1, 'cs', 4)
 
         unit = Unit.objects.get(source__startswith='Orangutan')
         self.assertTrue(unit.is_plural())
@@ -101,169 +101,169 @@ class SubProjectTest(RepoTestCase):
 
     def test_create_ts_mono(self):
         project = self.create_ts_mono()
-        self.verify_subproject(project, 2, 'cs', 4)
+        self.verify_component(project, 2, 'cs', 4)
 
     def test_create_po_pot(self):
-        project = self._create_subproject(
+        project = self._create_component(
             'po',
             'po/*.po',
             'po/project.pot'
         )
-        self.verify_subproject(project, 3, 'cs', 4, fail=True)
+        self.verify_component(project, 3, 'cs', 4, fail=True)
 
     def test_create_filtered(self):
-        project = self._create_subproject(
+        project = self._create_component(
             'po',
             'po/*.po',
             language_regex='^cs$',
         )
-        self.verify_subproject(project, 1, 'cs', 4)
+        self.verify_component(project, 1, 'cs', 4)
 
     def test_create_auto_pot(self):
-        project = self._create_subproject(
+        project = self._create_component(
             'auto',
             'po/*.po',
             'po/project.pot'
         )
-        self.verify_subproject(project, 3, 'cs', 4, fail=True)
+        self.verify_component(project, 3, 'cs', 4, fail=True)
 
     def test_create_po(self):
         project = self.create_po()
-        self.verify_subproject(project, 3, 'cs', 4)
+        self.verify_component(project, 3, 'cs', 4)
 
     def test_create_po_mercurial(self):
         project = self.create_po_mercurial()
-        self.verify_subproject(project, 3, 'cs', 4)
+        self.verify_component(project, 3, 'cs', 4)
 
     def test_create_po_branch(self):
         project = self.create_po_branch()
-        self.verify_subproject(project, 3, 'cs', 4)
+        self.verify_component(project, 3, 'cs', 4)
 
     def test_create_po_push(self):
         project = self.create_po_push()
-        self.verify_subproject(project, 3, 'cs', 4)
+        self.verify_component(project, 3, 'cs', 4)
 
     def test_create_po_svn(self):
         project = self.create_po_svn()
-        self.verify_subproject(project, 3, 'cs', 4)
+        self.verify_component(project, 3, 'cs', 4)
 
     def test_create_po_empty(self):
         project = self.create_po_empty()
-        self.verify_subproject(project, 0)
+        self.verify_component(project, 0)
 
     def test_create_po_link(self):
         project = self.create_po_link()
-        self.verify_subproject(project, 4, 'cs', 4)
+        self.verify_component(project, 4, 'cs', 4)
 
     def test_create_po_mono(self):
         project = self.create_po_mono()
-        self.verify_subproject(project, 4, 'cs', 4)
+        self.verify_component(project, 4, 'cs', 4)
 
     def test_create_android(self):
         project = self.create_android()
-        self.verify_subproject(project, 2, 'cs', 4)
+        self.verify_component(project, 2, 'cs', 4)
 
     def test_create_json(self):
         project = self.create_json()
-        self.verify_subproject(project, 1, 'cs', 4)
+        self.verify_component(project, 1, 'cs', 4)
 
     def test_create_json_mono(self):
         project = self.create_json_mono()
-        self.verify_subproject(project, 2, 'cs', 4)
+        self.verify_component(project, 2, 'cs', 4)
 
     def test_create_json_nested(self):
         project = self.create_json_mono(suffix='nested')
-        self.verify_subproject(project, 2, 'cs', 4)
+        self.verify_component(project, 2, 'cs', 4)
 
     def test_create_json_webextension(self):
         project = self.create_json_webextension()
-        self.verify_subproject(project, 2, 'cs', 4)
+        self.verify_component(project, 2, 'cs', 4)
 
     def test_create_joomla(self):
         project = self.create_joomla()
-        self.verify_subproject(project, 3, 'cs', 4)
+        self.verify_component(project, 3, 'cs', 4)
 
     def test_create_tsv_simple(self):
-        project = self._create_subproject(
+        project = self._create_component(
             'csv-simple',
             'tsv/*.txt',
         )
-        self.verify_subproject(project, 1, 'cs', 4, 'Hello, world!')
+        self.verify_component(project, 1, 'cs', 4, 'Hello, world!')
 
     def test_create_tsv_simple_iso(self):
-        project = self._create_subproject(
+        project = self._create_component(
             'csv-simple-iso',
             'tsv/*.txt',
         )
-        self.verify_subproject(project, 1, 'cs', 4, 'Hello, world!')
+        self.verify_component(project, 1, 'cs', 4, 'Hello, world!')
 
     def test_create_csv(self):
         project = self.create_csv()
-        self.verify_subproject(project, 1, 'cs', 4)
+        self.verify_component(project, 1, 'cs', 4)
 
     def test_create_csv_mono(self):
         project = self.create_csv_mono()
-        self.verify_subproject(project, 2, 'cs', 4)
+        self.verify_component(project, 2, 'cs', 4)
 
     def test_create_php_mono(self):
         project = self.create_php_mono()
-        self.verify_subproject(project, 2, 'cs', 4)
+        self.verify_component(project, 2, 'cs', 4)
 
     def test_create_tsv(self):
         project = self.create_tsv()
-        self.verify_subproject(project, 1, 'cs', 4, 'Hello, world!')
+        self.verify_component(project, 1, 'cs', 4, 'Hello, world!')
 
     def test_create_java(self):
         project = self.create_java()
-        self.verify_subproject(project, 3, 'cs', 4)
+        self.verify_component(project, 3, 'cs', 4)
 
     def test_create_xliff(self):
         project = self.create_xliff()
-        self.verify_subproject(project, 1, 'cs', 4)
+        self.verify_component(project, 1, 'cs', 4)
 
     def test_create_xliff_complex(self):
         project = self.create_xliff('complex')
-        self.verify_subproject(project, 1, 'cs', 4)
+        self.verify_component(project, 1, 'cs', 4)
 
     def test_create_xliff_mono(self):
         project = self.create_xliff_mono()
-        self.verify_subproject(project, 2, 'cs', 4)
+        self.verify_component(project, 2, 'cs', 4)
 
     def test_create_xliff_dph(self):
         project = self.create_xliff('DPH')
-        self.verify_subproject(project, 1, 'en', 9, 'DPH')
+        self.verify_component(project, 1, 'en', 9, 'DPH')
 
     def test_create_xliff_empty(self):
         project = self.create_xliff('EMPTY')
-        self.verify_subproject(project, 1, 'en', 6, 'DPH')
+        self.verify_component(project, 1, 'en', 6, 'DPH')
 
     def test_create_xliff_resname(self):
         project = self.create_xliff('Resname')
-        self.verify_subproject(project, 1, 'en', 2, 'Hi')
+        self.verify_component(project, 1, 'en', 2, 'Hi')
 
     def test_create_resx(self):
         project = self.create_resx()
-        self.verify_subproject(project, 2, 'cs', 4)
+        self.verify_component(project, 2, 'cs', 4)
 
     def test_create_yaml(self):
         project = self.create_yaml()
-        self.verify_subproject(project, 2, 'cs', 4)
+        self.verify_component(project, 2, 'cs', 4)
 
     def test_create_ruby_yaml(self):
         project = self.create_ruby_yaml()
-        self.verify_subproject(project, 2, 'cs', 4)
+        self.verify_component(project, 2, 'cs', 4)
 
     def test_create_dtd(self):
         project = self.create_dtd()
-        self.verify_subproject(project, 2, 'cs', 4)
+        self.verify_component(project, 2, 'cs', 4)
 
     def test_link(self):
         project = self.create_link()
-        self.verify_subproject(project, 3, 'cs', 4)
+        self.verify_component(project, 3, 'cs', 4)
 
     def test_extra_file(self):
         """Extra commit file validation."""
-        project = self.create_subproject()
+        project = self.create_component()
         project.full_clean()
 
         project.extra_commit_file = 'locale/list.txt'
@@ -281,7 +281,7 @@ class SubProjectTest(RepoTestCase):
 
     def test_check_flags(self):
         """Check flags validation."""
-        project = self.create_subproject()
+        project = self.create_component()
         project.full_clean()
 
         project.check_flags = 'ignore-inconsistent'
@@ -305,78 +305,78 @@ class SubProjectTest(RepoTestCase):
         )
 
     def test_lang_code_template(self):
-        subproject = SubProject(project=Project())
-        subproject.filemask = 'Solution/Project/Resources.*.resx'
-        subproject.template = 'Solution/Project/Resources.resx'
+        component = Component(project=Project())
+        component.filemask = 'Solution/Project/Resources.*.resx'
+        component.template = 'Solution/Project/Resources.resx'
         self.assertEqual(
-            subproject.get_lang_code('Solution/Project/Resources.resx'),
+            component.get_lang_code('Solution/Project/Resources.resx'),
             'en'
         )
 
     def test_switch_branch(self):
         project = self.create_po()
         # Switch to translation branch
-        self.verify_subproject(project, 3, 'cs', 4)
+        self.verify_component(project, 3, 'cs', 4)
         project.branch = 'translations'
         project.filemask = 'translations/*.po'
         project.clean()
         project.save()
-        self.verify_subproject(project, 3, 'cs', 4)
+        self.verify_component(project, 3, 'cs', 4)
         # Switch back to master branch
         project.branch = 'master'
         project.filemask = 'po/*.po'
         project.clean()
         project.save()
-        self.verify_subproject(project, 3, 'cs', 4)
+        self.verify_component(project, 3, 'cs', 4)
 
 
-class SubProjectDeleteTest(RepoTestCase):
-    """SubProject object deleting testing."""
+class ComponentDeleteTest(RepoTestCase):
+    """Component object deleting testing."""
     def test_delete(self):
-        project = self.create_subproject()
+        project = self.create_component()
         self.assertTrue(os.path.exists(project.full_path))
         project.delete()
         self.assertFalse(os.path.exists(project.full_path))
-        self.assertEqual(0, SubProject.objects.count())
+        self.assertEqual(0, Component.objects.count())
 
     def test_delete_link(self):
         project = self.create_link()
-        main_project = SubProject.objects.get(slug='test')
+        main_project = Component.objects.get(slug='test')
         self.assertTrue(os.path.exists(main_project.full_path))
         project.delete()
         self.assertTrue(os.path.exists(main_project.full_path))
 
     def test_delete_all(self):
-        project = self.create_subproject()
+        project = self.create_component()
         self.assertTrue(os.path.exists(project.full_path))
-        SubProject.objects.all().delete()
+        Component.objects.all().delete()
         self.assertFalse(os.path.exists(project.full_path))
 
 
-class SubProjectChangeTest(RepoTestCase):
-    """SubProject object change testing."""
+class ComponentChangeTest(RepoTestCase):
+    """Component object change testing."""
     def test_rename(self):
-        subproject = self.create_subproject()
-        old_path = subproject.full_path
+        component = self.create_component()
+        old_path = component.full_path
         self.assertTrue(os.path.exists(old_path))
-        subproject.slug = 'changed'
-        subproject.save()
+        component.slug = 'changed'
+        component.save()
         self.assertFalse(os.path.exists(old_path))
-        self.assertTrue(os.path.exists(subproject.full_path))
+        self.assertTrue(os.path.exists(component.full_path))
 
     def test_change_project(self):
-        subproject = self.create_subproject()
+        component = self.create_component()
 
         # Create and verify suggestion
         Suggestion.objects.create(
-            project=subproject.project,
+            project=component.project,
             content_hash=1,
-            language=subproject.translation_set.all()[0].language,
+            language=component.translation_set.all()[0].language,
         )
-        self.assertEqual(subproject.project.suggestion_set.count(), 1)
+        self.assertEqual(component.project.suggestion_set.count(), 1)
 
         # Check current path exists
-        old_path = subproject.full_path
+        old_path = component.full_path
         self.assertTrue(os.path.exists(old_path))
 
         # Crete target project
@@ -387,22 +387,22 @@ class SubProjectChangeTest(RepoTestCase):
         )
 
         # Move component
-        subproject.project = second
-        subproject.save()
+        component.project = second
+        component.save()
 
         # Check new path exists
-        new_path = subproject.full_path
+        new_path = component.full_path
         self.assertTrue(os.path.exists(new_path))
 
         # Check paths differ
         self.assertNotEqual(old_path, new_path)
 
         # Check suggestion has been copied
-        self.assertEqual(subproject.project.suggestion_set.count(), 1)
+        self.assertEqual(component.project.suggestion_set.count(), 1)
 
     def test_change_to_mono(self):
         """Test swtiching to monolingual format on the fly."""
-        component = self._create_subproject(
+        component = self._create_component(
             'po',
             'po-mono/*.po',
         )
@@ -413,11 +413,11 @@ class SubProjectChangeTest(RepoTestCase):
         self.assertEqual(component.translation_set.count(), 4)
 
 
-class SubProjectValidationTest(RepoTestCase):
-    """SubProject object validation testing."""
+class ComponentValidationTest(RepoTestCase):
+    """Component object validation testing."""
     def setUp(self):
-        super(SubProjectValidationTest, self).setUp()
-        self.component = self.create_subproject()
+        super(ComponentValidationTest, self).setUp()
+        self.component = self.create_component()
         # Ensure we have correct component
         self.component.full_clean()
 
@@ -548,21 +548,21 @@ class SubProjectValidationTest(RepoTestCase):
         self.component.full_clean()
 
     def test_lang_code(self):
-        subproject = SubProject()
-        subproject.filemask = 'Solution/Project/Resources.*.resx'
+        component = Component()
+        component.filemask = 'Solution/Project/Resources.*.resx'
         self.assertEqual(
-            subproject.get_lang_code('Solution/Project/Resources.es-mx.resx'),
+            component.get_lang_code('Solution/Project/Resources.es-mx.resx'),
             'es-mx'
         )
         self.assertEqual(
-            subproject.get_lang_code('Solution/Project/Resources.resx'),
+            component.get_lang_code('Solution/Project/Resources.resx'),
             ''
         )
         self.assertRaisesMessage(
             ValidationError,
             'Got empty language code for '
             'Solution/Project/Resources.resx, please check filemask!',
-            subproject.clean_lang_codes,
+            component.clean_lang_codes,
             [
                 'Solution/Project/Resources.resx',
                 'Solution/Project/Resources.de.resx',
@@ -574,27 +574,27 @@ class SubProjectValidationTest(RepoTestCase):
         )
 
     def test_lang_code_double(self):
-        subproject = SubProject()
-        subproject.filemask = 'path/*/resources/MessagesBundle_*.properties'
+        component = Component()
+        component.filemask = 'path/*/resources/MessagesBundle_*.properties'
         self.assertEqual(
-            subproject.get_lang_code(
+            component.get_lang_code(
                 'path/pt/resources/MessagesBundle_pt_BR.properties'
             ),
             'pt_BR'
         )
         self.assertEqual(
-            subproject.get_lang_code(
+            component.get_lang_code(
                 'path/el/resources/MessagesBundle_el.properties'
             ),
             'el'
         )
 
 
-class SubProjectErrorTest(RepoTestCase):
+class ComponentErrorTest(RepoTestCase):
     """Test for error handling"""
 
     def setUp(self):
-        super(SubProjectErrorTest, self).setUp()
+        super(ComponentErrorTest, self).setUp()
         self.component = self.create_ts_mono()
         # Change to invalid pull/push URL
         repository = self.component.repository
@@ -692,7 +692,7 @@ class SubProjectErrorTest(RepoTestCase):
         )
 
 
-class SubProjectEditTest(ViewTestCase):
+class ComponentEditTest(ViewTestCase):
     """Test for error handling"""
     @staticmethod
     def remove_units(store):
@@ -700,14 +700,14 @@ class SubProjectEditTest(ViewTestCase):
         store.save()
 
     def test_unit_disappear(self):
-        translation = self.subproject.translation_set.get(language_code='cs')
+        translation = self.component.translation_set.get(language_code='cs')
 
-        if self.subproject.has_template():
-            self.remove_units(self.subproject.template_store.store)
+        if self.component.has_template():
+            self.remove_units(self.component.template_store.store)
         self.remove_units(translation.store.store)
 
         # Clean class cache, pylint: disable=protected-access
-        del self.subproject.__dict__['template_store']
+        del self.component.__dict__['template_store']
         del translation.__dict__['store']
 
         unit = translation.unit_set.all()[0]
@@ -718,9 +718,9 @@ class SubProjectEditTest(ViewTestCase):
         )
 
 
-class SubProjectEditMonoTest(SubProjectEditTest):
+class ComponentEditMonoTest(ComponentEditTest):
     """Test for error handling"""
-    def create_subproject(self):
+    def create_component(self):
         return self.create_ts_mono()
 
     @staticmethod
@@ -729,7 +729,7 @@ class SubProjectEditMonoTest(SubProjectEditTest):
         store.save()
 
     def test_unit_add(self):
-        translation = self.subproject.translation_set.get(language_code='cs')
+        translation = self.component.translation_set.get(language_code='cs')
 
         self.remove_units(translation.store.store)
 

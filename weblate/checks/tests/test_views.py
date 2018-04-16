@@ -112,14 +112,14 @@ class ChecksViewTest(FixtureTestCase):
         )
         self.assertEqual(response.status_code, 404)
 
-    def test_subproject(self):
+    def test_component(self):
         response = self.client.get(
             reverse(
-                'show_check_subproject',
+                'show_check_component',
                 kwargs={
                     'name': 'same',
                     'project': self.project.slug,
-                    'subproject': self.subproject.slug,
+                    'component': self.component.slug,
                 }
             )
         )
@@ -127,11 +127,11 @@ class ChecksViewTest(FixtureTestCase):
 
         response = self.client.get(
             reverse(
-                'show_check_subproject',
+                'show_check_component',
                 kwargs={
                     'name': 'ellipsis',
                     'project': self.project.slug,
-                    'subproject': self.subproject.slug,
+                    'component': self.component.slug,
                 }
             )
         )
@@ -140,18 +140,18 @@ class ChecksViewTest(FixtureTestCase):
             '{0}?type=check%3Aellipsis'.format(
                 reverse('review_source', kwargs={
                     'project': self.project.slug,
-                    'subproject': self.subproject.slug,
+                    'component': self.component.slug,
                 })
             )
         )
 
         response = self.client.get(
             reverse(
-                'show_check_subproject',
+                'show_check_component',
                 kwargs={
                     'name': 'non-existing',
                     'project': self.project.slug,
-                    'subproject': self.subproject.slug,
+                    'component': self.component.slug,
                 }
             )
         )

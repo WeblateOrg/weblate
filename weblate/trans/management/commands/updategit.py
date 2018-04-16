@@ -25,5 +25,5 @@ class Command(WeblateComponentCommand):
     help = 'updates git repos'
 
     def handle(self, *args, **options):
-        for subproject in self.get_subprojects(*args, **options):
-            subproject.do_update()
+        for component in self.get_components(*args, **options):
+            component.do_update()

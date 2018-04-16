@@ -24,7 +24,7 @@ from django.core.management.base import CommandError
 from django.contrib.auth.models import User
 
 from weblate.accounts.models import Profile
-from weblate.trans.models import SubProject
+from weblate.trans.models import Component
 from weblate.trans.autotranslate import AutoTranslate
 from weblate.trans.management.commands import WeblateTranslationCommand
 
@@ -92,13 +92,13 @@ class Command(WeblateTranslationCommand):
             if len(parts) != 2:
                 raise CommandError('Invalid source component specified!')
             try:
-                subproject = SubProject.objects.get(
+                component = Component.objects.get(
                     project__slug=parts[0],
                     slug=parts[1],
                 )
-            except SubProject.DoesNotExist:
+            except Component.DoesNotExist:
                 raise CommandError('No matching source component found!')
-            source = subproject.id
+            source = component.id
         else:
             source = ''
 

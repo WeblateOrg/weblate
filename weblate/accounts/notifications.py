@@ -37,23 +37,23 @@ from weblate import VERSION
 from weblate.logger import LOGGER
 
 
-def notify_merge_failure(subproject, error, status):
+def notify_merge_failure(component, error, status):
     """Notification on merge failure."""
     subscriptions = Profile.objects.subscribed_merge_failure(
-        subproject.project,
+        component.project,
     )
     users = set()
     mails = []
     for subscription in subscriptions:
         mails.append(
-            send_merge_failure(subscription, subproject, error, status)
+            send_merge_failure(subscription, component, error, status)
         )
         users.add(subscription.user_id)
 
-    for owner in subproject.project.all_users('@Administration'):
+    for owner in component.project.all_users('@Administration'):
         mails.append(
             send_merge_failure(
-                owner.profile, subproject, error, status
+                owner.profile, component, error, status
             )
         )
 
@@ -63,9 +63,9 @@ def notify_merge_failure(subproject, error, status):
             'en',
             'ADMINS',
             'merge_failure',
-            subproject,
+            component,
             {
-                'subproject': subproject,
+                'component': component,
                 'status': status,
                 'error': error,
             }
@@ -74,10 +74,10 @@ def notify_merge_failure(subproject, error, status):
     send_mails(mails)
 
 
-def notify_parse_error(subproject, translation, error, filename):
+def notify_parse_error(component, translation, error, filename):
     """Notification on parse error."""
     subscriptions = Profile.objects.subscribed_merge_failure(
-        subproject.project,
+        component.project,
     )
     users = set()
     mails = []
@@ -85,16 +85,16 @@ def notify_parse_error(subproject, translation, error, filename):
         mails.append(
             send_parse_error(
                 subscription,
-                subproject, translation, error, filename
+                component, translation, error, filename
             )
         )
         users.add(subscription.user_id)
 
-    for owner in subproject.project.all_users('@Administration'):
+    for owner in component.project.all_users('@Administration'):
         mails.append(
             send_parse_error(
                 owner.profile,
-                subproject, translation, error, filename
+                component, translation, error, filename
             )
         )
 
@@ -104,9 +104,9 @@ def notify_parse_error(subproject, translation, error, filename):
             'en',
             'ADMINS',
             'parse_error',
-            translation if translation is not None else subproject,
+            translation if translation is not None else component,
             {
-                'subproject': subproject,
+                'component': component,
                 'translation': translation,
                 'error': error,
                 'filename': filename,
@@ -120,7 +120,7 @@ def notify_new_string(translation):
     """Notification on new string to translate."""
     mails = []
     subscriptions = Profile.objects.subscribed_new_string(
-        translation.subproject.project, translation.language
+        translation.component.project, translation.language
     )
     for subscription in subscriptions:
         mails.append(
@@ -130,24 +130,24 @@ def notify_new_string(translation):
     send_mails(mails)
 
 
-def notify_new_language(subproject, language, user):
+def notify_new_language(component, language, user):
     """Notify subscribed users about new language requests"""
     mails = []
     subscriptions = Profile.objects.subscribed_new_language(
-        subproject.project,
+        component.project,
         user
     )
     users = set()
     for subscription in subscriptions:
         mails.append(
-            send_new_language(subscription, subproject, language, user)
+            send_new_language(subscription, component, language, user)
         )
         users.add(subscription.user_id)
 
-    for owner in subproject.project.all_users('@Administration'):
+    for owner in component.project.all_users('@Administration'):
         mails.append(
             send_new_language(
-                owner.profile, subproject, language, user
+                owner.profile, component, language, user
             )
         )
 
@@ -158,7 +158,7 @@ def notify_new_translation(unit, oldunit, user):
     """Notify subscribed users about new translation"""
     mails = []
     subscriptions = Profile.objects.subscribed_any_translation(
-        unit.translation.subproject.project,
+        unit.translation.component.project,
         unit.translation.language,
         user
     )
@@ -174,7 +174,7 @@ def notify_new_contributor(unit, user):
     """Notify about new contributor."""
     mails = []
     subscriptions = Profile.objects.subscribed_new_contributor(
-        unit.translation.subproject.project,
+        unit.translation.component.project,
         unit.translation.language,
         user
     )
@@ -193,7 +193,7 @@ def notify_new_suggestion(unit, suggestion, user):
     """Notify about new suggestion."""
     mails = []
     subscriptions = Profile.objects.subscribed_new_suggestion(
-        unit.translation.subproject.project,
+        unit.translation.component.project,
         unit.translation.language,
         user
     )
@@ -214,7 +214,7 @@ def notify_new_comment(unit, comment, user, report_source_bugs):
     """Notify about new comment."""
     mails = []
     subscriptions = Profile.objects.subscribed_new_comment(
-        unit.translation.subproject.project,
+        unit.translation.component.project,
         comment.language,
         user
     )
@@ -233,7 +233,7 @@ def notify_new_comment(unit, comment, user, report_source_bugs):
             {
                 'unit': unit,
                 'comment': comment,
-                'subproject': unit.translation.subproject,
+                'component': unit.translation.component,
             },
             user=user,
         )
@@ -252,8 +252,8 @@ def get_notification_email(language, email, notification,
     if 'unit' in context:
         unit = context['unit']
         references = '{0}/{1}/{2}/{3}'.format(
-            unit.translation.subproject.project.slug,
-            unit.translation.subproject.slug,
+            unit.translation.component.project.slug,
+            unit.translation.component.slug,
             unit.translation.language.code,
             unit.id
         )
@@ -412,7 +412,7 @@ def notify_account_activity(user, request, activity, **kwargs):
     return False
 
 
-def send_user(profile, notification, subproject, display_obj,
+def send_user(profile, notification, component, display_obj,
               context=None, headers=None, user=None):
     """Wrapper for sending notifications to user."""
     if context is None:
@@ -421,7 +421,7 @@ def send_user(profile, notification, subproject, display_obj,
         headers = {}
 
     # Check whether user is still allowed to access this project
-    if can_access_project(profile.user, subproject.project):
+    if can_access_project(profile.user, component.project):
         # Generate notification
         return get_notification_email(
             profile.language,
@@ -444,7 +444,7 @@ def send_any_translation(profile, unit, oldunit):
     return send_user(
         profile,
         template,
-        unit.translation.subproject,
+        unit.translation.component,
         unit.translation,
         {
             'unit': unit,
@@ -453,13 +453,13 @@ def send_any_translation(profile, unit, oldunit):
     )
 
 
-def send_new_language(profile, subproject, language, user):
+def send_new_language(profile, component, language, user):
     """Send notification on new language request."""
     return send_user(
         profile,
         'new_language',
-        subproject,
-        subproject,
+        component,
+        component,
         {
             'language': language,
             'user': user,
@@ -473,7 +473,7 @@ def send_new_string(profile, translation):
     return send_user(
         profile,
         'new_string',
-        translation.subproject,
+        translation.component,
         translation,
     )
 
@@ -483,7 +483,7 @@ def send_new_suggestion(profile, translation, suggestion, unit):
     return send_user(
         profile,
         'new_suggestion',
-        translation.subproject,
+        translation.component,
         translation,
         {
             'suggestion': suggestion,
@@ -497,7 +497,7 @@ def send_new_contributor(profile, translation, user):
     return send_user(
         profile,
         'new_contributor',
-        translation.subproject,
+        translation.component,
         translation,
         {
             'user': user,
@@ -510,41 +510,41 @@ def send_new_comment(profile, unit, comment, user):
     return send_user(
         profile,
         'new_comment',
-        unit.translation.subproject,
+        unit.translation.component,
         unit.translation,
         {
             'unit': unit,
             'comment': comment,
-            'subproject': unit.translation.subproject,
+            'component': unit.translation.component,
         },
         user=user,
     )
 
 
-def send_merge_failure(profile, subproject, error, status):
+def send_merge_failure(profile, component, error, status):
     """Send notification on merge failure."""
     return send_user(
         profile,
         'merge_failure',
-        subproject,
-        subproject,
+        component,
+        component,
         {
-            'subproject': subproject,
+            'component': component,
             'error': error,
             'status': status,
         }
     )
 
 
-def send_parse_error(profile, subproject, translation, error, filename):
+def send_parse_error(profile, component, translation, error, filename):
     """Send notification on parse error."""
     return send_user(
         profile,
         'parse_error',
-        subproject,
-        translation if translation is not None else subproject,
+        component,
+        translation if translation is not None else component,
         {
-            'subproject': subproject,
+            'component': component,
             'translation': translation,
             'error': error,
             'filename': filename,

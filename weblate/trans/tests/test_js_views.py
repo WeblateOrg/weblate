@@ -48,8 +48,8 @@ class JSViewsTest(FixtureTestCase):
         response = self.client.get(
             reverse('js-detail', kwargs={
                 'checksum': unit.checksum,
-                'subproject': unit.translation.subproject.slug,
-                'project': unit.translation.subproject.project.slug,
+                'component': unit.translation.component.slug,
+                'project': unit.translation.component.project.slug,
             }),
         )
         self.assertContains(response, 'Czech')

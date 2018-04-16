@@ -39,14 +39,14 @@ def has_group_perm(user, permission, translation=None, project=None):
         key = ('t', translation.pk)
         groups = GroupACL.objects.filter(
             (Q(language=translation.language) | Q(language=None)) &
-            (Q(project=translation.subproject.project) | Q(project=None)) &
-            (Q(subproject=translation.subproject) | Q(subproject=None)) &
-            (~Q(language=None, project=None, subproject=None))
+            (Q(project=translation.component.project) | Q(project=None)) &
+            (Q(component=translation.component) | Q(component=None)) &
+            (~Q(language=None, project=None, component=None))
         )
     elif project is not None:
         key = ('p', project.pk)
         groups = GroupACL.objects.filter(
-            project=project, subproject=None, language=None
+            project=project, component=None, language=None
         )
     else:
         return user.has_perm(permission)
@@ -59,9 +59,9 @@ def has_group_perm(user, permission, translation=None, project=None):
         acls = list(groups)
         if acls:
             # more specific rules are more important:
-            # subproject > project > language
+            # component > project > language
             acls.sort(reverse=True, key=lambda a: (
-                a.subproject is not None,
+                a.component is not None,
                 a.project is not None,
                 a.language is not None))
             for acl in acls:
@@ -122,7 +122,7 @@ def cache_permission(func):
 
 def can_edit(user, translation, permission):
     """Generic checker for changing translation."""
-    if translation.subproject.locked:
+    if translation.component.locked:
         return False
     if user.is_authenticated and not user.email:
         return False
@@ -132,8 +132,8 @@ def can_edit(user, translation, permission):
             and not has_group_perm(user, 'trans.save_template', translation):
         return False
     if (not has_group_perm(user, 'trans.override_suggestion', translation) and
-            translation.subproject.suggestion_voting and
-            translation.subproject.suggestion_autoaccept > 0):
+            translation.component.suggestion_voting and
+            translation.component.suggestion_autoaccept > 0):
         return False
     return True
 
@@ -166,19 +166,19 @@ def can_translate(user, unit=None, translation=None, project=None):
 @cache_permission
 def can_suggest(user, translation):
     """Check whether user can add suggestions to given translation."""
-    if not translation.subproject.enable_suggestions:
+    if not translation.component.enable_suggestions:
         return False
     if has_group_perm(user, 'trans.add_suggestion', translation):
         return True
     return has_group_perm(
-        user, 'trans.add_suggestion', project=translation.subproject.project
+        user, 'trans.add_suggestion', project=translation.component.project
     )
 
 
 @cache_permission
 def can_review(user, translation):
     """Check whether user can review given translation."""
-    if not translation.subproject.project.enable_review:
+    if not translation.component.project.enable_review:
         return False
     return can_edit(user, translation, 'trans.review_translation')
 
@@ -229,9 +229,9 @@ def can_vote_suggestion(user, unit=None, translation=None):
         translation = unit.translation
         if unit.approved and not can_review(user, translation):
             return False
-    if not translation.subproject.suggestion_voting:
+    if not translation.component.suggestion_voting:
         return False
-    if translation.subproject.locked:
+    if translation.component.locked:
         return False
     if not has_group_perm(user, 'trans.vote_suggestion', translation):
         return False
@@ -288,9 +288,9 @@ def can_reset_translation(user, project):
 
 
 @cache_permission
-def can_lock_subproject(user, project):
-    """Check whether user can lock translation subproject."""
-    return has_group_perm(user, 'trans.lock_subproject', project=project)
+def can_lock_component(user, project):
+    """Check whether user can lock translation component."""
+    return has_group_perm(user, 'trans.lock_component', project=project)
 
 
 @cache_permission
@@ -379,8 +379,8 @@ def can_remove_translation(user, project):
 
 
 @cache_permission
-def can_edit_subproject(user, project):
-    """Check whether user can edit subprojects on given project."""
+def can_edit_component(user, project):
+    """Check whether user can edit components on given project."""
     return has_group_perm(user, 'trans.change_subproject', project=project)
 
 

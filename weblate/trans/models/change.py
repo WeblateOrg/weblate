@@ -71,7 +71,7 @@ class ChangeQuerySet(models.QuerySet):
         return result
 
     def base_stats(self, days, step,
-                   project=None, subproject=None, translation=None,
+                   project=None, component=None, translation=None,
                    language=None, user=None):
         """Core of daily/weekly/monthly stats calculation."""
 
@@ -84,10 +84,10 @@ class ChangeQuerySet(models.QuerySet):
         # Filter by translation/project
         if translation is not None:
             base = base.filter(translation=translation)
-        elif subproject is not None:
-            base = base.filter(translation__subproject=subproject)
+        elif component is not None:
+            base = base.filter(translation__component=component)
         elif project is not None:
-            base = base.filter(translation__subproject__project=project)
+            base = base.filter(translation__component__project=project)
 
         # Filter by language
         if language is not None:
@@ -104,25 +104,25 @@ class ChangeQuerySet(models.QuerySet):
         individually.
         """
         return self.prefetch_related(
-            'user', 'translation', 'subproject', 'unit', 'dictionary',
+            'user', 'translation', 'component', 'unit', 'dictionary',
             'translation__language',
-            'translation__subproject',
-            'translation__subproject__project',
+            'translation__component',
+            'translation__component__project',
             'unit__translation',
             'unit__translation__language',
-            'unit__translation__subproject',
-            'unit__translation__subproject__project',
-            'subproject__project'
+            'unit__translation__component',
+            'unit__translation__component__project',
+            'component__project'
         )
 
     def for_project(self, project):
         return self.prefetch().filter(
-            Q(subproject__project=project) |
+            Q(component__project=project) |
             Q(dictionary__project=project)
         )
 
     def for_component(self, component):
-        return self.prefetch().filter(subproject=component)
+        return self.prefetch().filter(component=component)
 
     def for_translation(self, translation):
         return self.prefetch().filter(
@@ -135,7 +135,7 @@ class ChangeQuerySet(models.QuerySet):
         """
         acl_projects = Project.objects.get_acl_ids(user)
         return self.prefetch().filter(
-            Q(subproject__project_id__in=acl_projects) |
+            Q(component__project_id__in=acl_projects) |
             Q(dictionary__project_id__in=acl_projects)
         )
 
@@ -236,7 +236,7 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_MASS_STATE, ugettext_lazy('Mass state change')),
     )
 
-    ACTIONS_SUBPROJECT = frozenset((
+    ACTIONS_COMPONENT = frozenset((
         ACTION_LOCK,
         ACTION_UNLOCK,
         ACTION_DUPLICATE_STRING,
@@ -291,8 +291,8 @@ class Change(models.Model, UserDisplayMixin):
     unit = models.ForeignKey(
         'Unit', null=True, on_delete=models.deletion.CASCADE
     )
-    subproject = models.ForeignKey(
-        'SubProject', null=True, on_delete=models.deletion.CASCADE
+    component = models.ForeignKey(
+        'Component', null=True, on_delete=models.deletion.CASCADE
     )
     translation = models.ForeignKey(
         'Translation', null=True, on_delete=models.deletion.CASCADE
@@ -345,8 +345,8 @@ class Change(models.Model, UserDisplayMixin):
         """Return URL for translation."""
         if self.translation is not None:
             return self.translation.get_absolute_url()
-        elif self.subproject is not None:
-            return self.subproject.get_absolute_url()
+        elif self.component is not None:
+            return self.component.get_absolute_url()
         elif self.dictionary is not None:
             return self.dictionary.get_parent_url()
         return None
@@ -355,8 +355,8 @@ class Change(models.Model, UserDisplayMixin):
         """Return display name for translation."""
         if self.translation is not None:
             return force_text(self.translation)
-        elif self.subproject is not None:
-            return force_text(self.subproject)
+        elif self.component is not None:
+            return force_text(self.component)
         elif self.dictionary is not None:
             return '{0}/{1}'.format(
                 self.dictionary.project,
@@ -388,6 +388,6 @@ class Change(models.Model, UserDisplayMixin):
         if self.unit:
             self.translation = self.unit.translation
         if self.translation:
-            self.subproject = self.translation.subproject
+            self.component = self.translation.component
             self.translation.invalidate_last_change()
         super(Change, self).save(*args, **kwargs)

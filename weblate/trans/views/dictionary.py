@@ -61,7 +61,7 @@ def dict_title(prj, lang):
 def show_dictionaries(request, project):
     obj = get_project(request, project)
     dicts = Translation.objects.filter(
-        subproject__project=obj
+        component__project=obj
     ).values_list('language', flat=True).distinct()
 
     return render(
@@ -243,9 +243,9 @@ def download_dictionary(request, project, lang):
 
 def add_dictionary(request, unit_id):
     unit = get_object_or_404(Unit, pk=int(unit_id))
-    check_access(request, unit.translation.subproject.project)
+    check_access(request, unit.translation.component.project)
 
-    prj = unit.translation.subproject.project
+    prj = unit.translation.component.project
     lang = unit.translation.language
 
     code = 403

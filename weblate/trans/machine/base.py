@@ -247,7 +247,7 @@ class MachineTranslation(object):
 
         language = self.convert_language(language)
         source = self.convert_language(
-            unit.translation.subproject.project.source_language.code
+            unit.translation.component.project.source_language.code
         )
         if not self.is_supported(source, language):
             # Try without country code

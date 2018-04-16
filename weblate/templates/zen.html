@@ -8,8 +8,8 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-<li><a href="{{ object.subproject.project.get_absolute_url }}">{{ object.subproject.project }}</a></li>
-<li><a href="{{ object.subproject.get_absolute_url }}">{{ object.subproject.name }}</a></li>
+<li><a href="{{ object.component.project.get_absolute_url }}">{{ object.component.project }}</a></li>
+<li><a href="{{ object.component.get_absolute_url }}">{{ object.component.name }}</a></li>
 <li><a href="{{ object.get_absolute_url }}">{{ object.language }}</a></li>
 <li><a href="{{ object.get_translate_url }}">{% trans "zen" %}</a></li>
 {% endblock %}
@@ -18,7 +18,7 @@
 
 {% include "show-lock.html" %}
 
-<a href="{% url 'translate' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}?{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Edit in single string mode" %}" class="btn btn-default pull-right flip"><i class="fa fa-edit"></i> {% trans "Exit Zen" %}</a>
+<a href="{% url 'translate' project=object.component.project.slug component=object.component.slug lang=object.language.code %}?{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Edit in single string mode" %}" class="btn btn-default pull-right flip"><i class="fa fa-edit"></i> {% trans "Exit Zen" %}</a>
 
 <div class="btn-group">
 <ul class="pagination unit-navi">
@@ -47,7 +47,7 @@
 <tfoot>
 <tr><td colspan="3" class="loading-icon">
 <i id="loading-next" class="fa fa-spinner fa-spin" style="display: none"></i>
-<a href="{% url 'load_zen' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}?{{ search_url }}" class="hidden" id="zen-load" data-offset="{{ offset }}"></a>
+<a href="{% url 'load_zen' project=object.component.project.slug component=object.component.slug lang=object.language.code %}?{{ search_url }}" class="hidden" id="zen-load" data-offset="{{ offset }}"></a>
 </td></tr>
 </tfoot>
 </table>

@@ -39,8 +39,8 @@ from weblate.permissions.helpers import (
 )
 
 
-def download_translation_format(request, project, subproject, lang, fmt):
-    obj = get_translation(request, project, subproject, lang)
+def download_translation_format(request, project, component, lang, fmt):
+    obj = get_translation(request, project, component, lang)
 
     form = SearchForm(request.GET)
     if form.is_valid():
@@ -54,22 +54,22 @@ def download_translation_format(request, project, subproject, lang, fmt):
     return download_translation_file(obj, fmt, units)
 
 
-def download_translation(request, project, subproject, lang):
-    obj = get_translation(request, project, subproject, lang)
+def download_translation(request, project, component, lang):
+    obj = get_translation(request, project, component, lang)
 
     return download_translation_file(obj)
 
 
 @require_POST
-def upload_translation(request, project, subproject, lang):
+def upload_translation(request, project, component, lang):
     """Handling of translation uploads."""
-    obj = get_translation(request, project, subproject, lang)
+    obj = get_translation(request, project, component, lang)
 
     if not can_upload_translation(request.user, obj):
         raise PermissionDenied()
 
     # Check method and lock
-    if obj.subproject.locked:
+    if obj.component.locked:
         messages.error(request, _('Access denied.'))
         return redirect(obj)
 
@@ -87,7 +87,7 @@ def upload_translation(request, project, subproject, lang):
 
     # Create author name
     author = None
-    if (can_author_translation(request.user, obj.subproject.project) and
+    if (can_author_translation(request.user, obj.component.project) and
             form.cleaned_data['author_name'] != '' and
             form.cleaned_data['author_email'] != ''):
         author = '{0} <{1}>'.format(
@@ -97,7 +97,7 @@ def upload_translation(request, project, subproject, lang):
 
     # Check for overwriting
     overwrite = False
-    if can_overwrite_translation(request.user, obj.subproject.project):
+    if can_overwrite_translation(request.user, obj.component.project):
         overwrite = form.cleaned_data['upload_overwrite']
 
     # Do actual import

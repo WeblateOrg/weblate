@@ -44,15 +44,15 @@ class GroupACL(models.Model):
 
     groups = models.ManyToManyField(Group)
 
-    # avoid importing Project and SubProject because of circular dependency
+    # avoid importing Project and Component because of circular dependency
     project = models.ForeignKey(
         'trans.Project',
         null=True,
         blank=True,
         on_delete=models.deletion.CASCADE,
     )
-    subproject = models.ForeignKey(
-        'trans.SubProject',
+    component = models.ForeignKey(
+        'trans.Component',
         null=True,
         blank=True,
         on_delete=models.deletion.CASCADE,
@@ -71,14 +71,14 @@ class GroupACL(models.Model):
     )
 
     def clean(self):
-        if not self.project and not self.subproject and not self.language:
+        if not self.project and not self.component and not self.language:
             raise ValidationError(
                 _('Project, component or language must be specified')
             )
 
     def save(self, *args, **kwargs):
-        # ignore project if subproject is set
-        if self.project and self.subproject:
+        # ignore project if component is set
+        if self.project and self.component:
             self.project = None
         super(GroupACL, self).save(*args, **kwargs)
         # Default to all permissions if none are chosen
@@ -91,9 +91,9 @@ class GroupACL(models.Model):
             params.append('='.join(
                 ('language', force_text(self.language))
             ))
-        if self.subproject:
+        if self.component:
             params.append('='.join(
-                ('subproject', force_text(self.subproject))
+                ('component', force_text(self.component))
             ))
         elif self.project:
             params.append('='.join(
@@ -105,7 +105,7 @@ class GroupACL(models.Model):
         return "<GroupACL({0}) for {1}>".format(self.pk, ", ".join(params))
 
     class Meta(object):
-        unique_together = ('project', 'subproject', 'language')
+        unique_together = ('project', 'component', 'language')
         verbose_name = _('Group ACL')
         verbose_name_plural = _('Group ACLs')
 

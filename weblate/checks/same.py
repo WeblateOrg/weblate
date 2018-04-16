@@ -178,7 +178,7 @@ class SameCheck(TargetCheck):
         if super(SameCheck, self).should_skip(unit):
             return True
 
-        source_language = unit.translation.subproject.project.\
+        source_language = unit.translation.component.project.\
             source_language.code.split('_')[0]
 
         # Ignore the check for source language

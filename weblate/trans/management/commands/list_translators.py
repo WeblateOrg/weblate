@@ -24,7 +24,7 @@ from weblate.trans.models.change import Change
 
 
 class Command(WeblateComponentCommand):
-    help = 'List translators for a subproject'
+    help = 'List translators for a component'
 
     def add_arguments(self, parser):
         super(Command, self).add_arguments(parser)
@@ -38,8 +38,8 @@ class Command(WeblateComponentCommand):
 
     def handle(self, *args, **options):
         data = []
-        for subproject in self.get_subprojects(*args, **options):
-            for translation in subproject.translation_set.all():
+        for component in self.get_components(*args, **options):
+            for translation in component.translation_set.all():
                 authors = Change.objects.authors_list(translation)
                 if not authors:
                     continue

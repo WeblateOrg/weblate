@@ -54,7 +54,7 @@ def try_add_source(request, obj):
     try:
         source = Source.objects.get(
             pk=request.POST['source'],
-            subproject=obj.component
+            component=obj.component
         )
         obj.sources.add(source)
         return True
@@ -150,7 +150,7 @@ def delete_screenshot(request, pk):
 
     kwargs = {
         'project': obj.component.project.slug,
-        'subproject': obj.component.slug,
+        'component': obj.component.slug,
     }
 
     obj.delete()

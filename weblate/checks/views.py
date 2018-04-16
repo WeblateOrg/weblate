@@ -29,7 +29,7 @@ from django.db.models import Count
 from weblate.checks.models import Check
 from weblate.checks import CHECKS
 from weblate.trans.models import Unit, Project
-from weblate.trans.views.helper import get_project, get_subproject
+from weblate.trans.views.helper import get_project, get_component
 from weblate.trans.util import redirect_param
 
 
@@ -159,10 +159,10 @@ def show_check_project(request, name, project):
             res = Unit.objects.filter(
                 content_hash__in=checks,
                 translation__language=lang,
-                translation__subproject__project=prj,
+                translation__component__project=prj,
             ).values(
-                'translation__subproject__slug',
-                'translation__subproject__project__slug'
+                'translation__component__slug',
+                'translation__component__project__slug'
             ).annotate(count=Count('id'))
             units |= res
     if check.source:
@@ -171,9 +171,9 @@ def show_check_project(request, name, project):
         ).values_list(
             'content_hash', flat=True
         )
-        for subproject in prj.subproject_set.all():
+        for component in prj.component_set.all():
             try:
-                lang_id = subproject.translation_set.values_list(
+                lang_id = component.translation_set.values_list(
                     'language_id', flat=True
                 )[0]
             except IndexError:
@@ -181,18 +181,18 @@ def show_check_project(request, name, project):
             res = Unit.objects.filter(
                 content_hash__in=checks,
                 translation__language_id=lang_id,
-                translation__subproject=subproject
+                translation__component=component
             ).values(
-                'translation__subproject__slug',
-                'translation__subproject__project__slug'
+                'translation__component__slug',
+                'translation__component__project__slug'
             ).annotate(count=Count('id'))
             units |= res
 
     counts = {}
     for unit in units:
         key = '/'.join((
-            unit['translation__subproject__project__slug'],
-            unit['translation__subproject__slug']
+            unit['translation__component__project__slug'],
+            unit['translation__component__slug']
         ))
         if key in counts:
             counts[key] += unit['count']
@@ -201,8 +201,8 @@ def show_check_project(request, name, project):
 
     units = [
         {
-            'translation__subproject__slug': item.split('/')[1],
-            'translation__subproject__project__slug': item.split('/')[0],
+            'translation__component__slug': item.split('/')[1],
+            'translation__component__project__slug': item.split('/')[0],
             'count': counts[item]
         } for item in counts
     ]
@@ -220,9 +220,9 @@ def show_check_project(request, name, project):
     )
 
 
-def show_check_subproject(request, name, project, subproject):
-    """Show checks failing in a subproject."""
-    subprj = get_subproject(request, project, subproject)
+def show_check_component(request, name, project, component):
+    """Show checks failing in a component."""
+    subprj = get_component(request, project, component)
     try:
         check = CHECKS[name]
     except KeyError:
@@ -246,7 +246,7 @@ def show_check_subproject(request, name, project, subproject):
             'review_source',
             encode_optional(url_params),
             project=subprj.project.slug,
-            subproject=subprj.slug,
+            component=subprj.slug,
         )
 
     if request.GET.get('language') and '/' not in request.GET['language']:
@@ -255,7 +255,7 @@ def show_check_subproject(request, name, project, subproject):
             'translate',
             encode_optional(url_params),
             project=subprj.project.slug,
-            subproject=subprj.slug,
+            component=subprj.slug,
             lang=request.GET['language'],
         )
 
@@ -270,7 +270,7 @@ def show_check_subproject(request, name, project, subproject):
                 language=lang,
             ).values_list('content_hash', flat=True)
             res = Unit.objects.filter(
-                translation__subproject=subprj,
+                translation__component=subprj,
                 content_hash__in=checks,
                 translation__language=lang,
             ).values(
@@ -295,12 +295,12 @@ def show_check_subproject(request, name, project, subproject):
 
     return render(
         request,
-        'check_subproject.html',
+        'check_component.html',
         {
             'checks': units,
             'title': '{0}/{1}'.format(force_text(subprj), check.name),
             'check': check,
-            'subproject': subprj,
+            'component': subprj,
             'url_params': encode_optional(url_params),
         }
     )

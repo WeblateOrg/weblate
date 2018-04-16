@@ -10,8 +10,8 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-<li><a href="{{ unit.translation.subproject.project.get_absolute_url }}">{{ unit.translation.subproject.project }}</a></li>
-<li><a href="{{ unit.translation.subproject.get_absolute_url }}">{{ unit.translation.subproject.name }}</a></li>
+<li><a href="{{ unit.translation.component.project.get_absolute_url }}">{{ unit.translation.component.project }}</a></li>
+<li><a href="{{ unit.translation.component.get_absolute_url }}">{{ unit.translation.component.name }}</a></li>
 <li><a href="{{ unit.translation.get_absolute_url }}">{{ unit.translation.language }}</a></li>
 <li><a href="{{ unit.translation.get_translate_url }}">{% trans "translate" %}</a></li>
 {% endblock %}
@@ -23,14 +23,14 @@
 {% can_accept_suggestion user unit as user_can_accept_suggestion %}
 {% can_vote_suggestion user unit as user_can_vote_suggestion %}
 {% can_use_mt user unit.translation as user_can_use_mt %}
-{% can_edit_flags user unit.translation.subproject.project as user_can_edit_flags %}
-{% can_edit_priority user unit.translation.subproject.project as user_can_edit_priority %}
+{% can_edit_flags user unit.translation.component.project as user_can_edit_flags %}
+{% can_edit_priority user unit.translation.component.project as user_can_edit_priority %}
 {% can_add_screenshot user project as user_can_add_screenshot %}
 {% can_add_comment user project as user_can_add_comment %}
 {% can_add_dictionary user project as user_can_add_dictionary %}
 
 {% if user_can_translate %}
-<a href="{% url 'zen' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug lang=unit.translation.language.code %}?{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Edit in Zen mode" %}" class="btn btn-default pull-right flip"><i class="fa fa-arrows-alt"></i> {% trans "Zen" %}</a>
+<a href="{% url 'zen' project=unit.translation.component.project.slug component=unit.translation.component.slug lang=unit.translation.language.code %}?{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Edit in Zen mode" %}" class="btn btn-default pull-right flip"><i class="fa fa-arrows-alt"></i> {% trans "Zen" %}</a>
 {% endif %}
 
 {% with unit.translation as object %}
@@ -119,7 +119,7 @@
     {% if unit.previous_source and unit.fuzzy %}
     <div class="form-group">
     <label>{% trans "Source change" %}</label>
-    {% format_translation unit.source unit.translation.subproject.project.source_language diff=unit.previous_source num_plurals=unit.translation.plural.number %}
+    {% format_translation unit.source unit.translation.component.project.source_language diff=unit.previous_source num_plurals=unit.translation.plural.number %}
     </div>
     {% endif %}
 
@@ -127,7 +127,7 @@
     <!-- editing template -->
     <div class="form-group">
     <label>{% trans "Context" %}</label>
-    {% format_translation unit.context unit.translation.subproject.project.source_language search_match=search_query num_plurals=unit.translation.plural.number %}
+    {% format_translation unit.context unit.translation.component.project.source_language search_match=search_query num_plurals=unit.translation.plural.number %}
     </div>
     {% else %}
 
@@ -135,7 +135,7 @@
     <!-- comment -->
     <div class="form-group help-block">
     <label>{% trans "Source string comment" %}</label>
-    {% format_translation unit.comment unit.translation.subproject.project.source_language %}
+    {% format_translation unit.comment unit.translation.component.project.source_language %}
     </div>
     {% endif %}
 
@@ -149,7 +149,7 @@
     </div>
     {% endif %}
     <label>{% trans "Source" %}</label>
-    {% with unit.translation.subproject.get_editable_template as edit_template %}
+    {% with unit.translation.component.get_editable_template as edit_template %}
     {% if edit_template %}
     {% can_translate user translation=edit_template as user_can_edit_template %}
     {% if user_can_edit_template %}
@@ -157,7 +157,7 @@
     {% endif %}
     {% endif %}
     {% endwith %}
-    {% format_translation unit.source unit.translation.subproject.project.source_language search_match=search_query num_plurals=unit.translation.plural.number unit=unit %}
+    {% format_translation unit.source unit.translation.component.project.source_language search_match=search_query num_plurals=unit.translation.plural.number unit=unit %}
     </div>
     {% endif %}
     {% endif %}
@@ -181,7 +181,7 @@
     {% endif %}
     ><i class="fa fa-check"></i> {% trans "Save" %}</button>
 
-    {% if unit.translation.subproject.enable_suggestions %}
+    {% if unit.translation.component.enable_suggestions %}
     <button class="btn btn-warning" type="submit" name="suggest" tabindex="151" 
     {% if project_locked or not user_can_suggest %}disabled="disabled"{% endif %}
     {% if not user_can_suggest %}
@@ -238,7 +238,7 @@
 {% for item in nearby %}
 <tr {% if unit.position == item.position %}class="current_translation"{% endif %}>
 <td class="number"><a href="{{ item.get_absolute_url }}">{{ item.position }}</a></td>
-<td><a href="{{ item.get_absolute_url }}">{% format_translation item.source unit.translation.subproject.project.source_language %}</a></td>
+<td><a href="{{ item.get_absolute_url }}">{% format_translation item.source unit.translation.component.project.source_language %}</a></td>
 <td><a href="{{ item.get_absolute_url }}">{% format_translation item.target unit.translation.language unit.translation.plural %}</a></td>
 <td>{% get_state_flags item %}</td>
 </tr>
@@ -409,7 +409,7 @@
   {% if others.count %}
   <div class="alert alert-warning check"><a href="#others" data-toggle="tab" class="alert-link">{% trans "Other translations" %}</a> <span class="badge pull-right flip">{{ others.count }}</span></div>
   {% endif %}
-  {% show_checks unit.translation.subproject.project checks user %}
+  {% show_checks unit.translation.component.project checks user %}
   {% if comments %}
   <div class="alert alert-info check"><a href="#comments" data-toggle="tab" class="alert-link">{% trans "Comments" %}</a> <span class="badge pull-right flip">{{ comments.count }}</span></div>
   {% endif %}
@@ -425,7 +425,7 @@
 <div class="panel panel-primary">
   <div class="panel-heading">
   <h4 class="panel-title">
-    <a class="pull-right flip" title="{% trans "Manage glossary" %}" href="{% url 'show_dictionary' project=unit.translation.subproject.project.slug lang=unit.translation.language.code %}"><i class="fa fa-pencil-square-o"></i></a>
+    <a class="pull-right flip" title="{% trans "Manage glossary" %}" href="{% url 'show_dictionary' project=unit.translation.component.project.slug lang=unit.translation.language.code %}"><i class="fa fa-pencil-square-o"></i></a>
     <i id="glossary-add-loading" class="fa fa-spinner fa-spin pull-right flip" style="display:none;"></i>
     {% trans "Glossary" %}
   </h4>
@@ -467,7 +467,7 @@
     {% if screenshots or user_can_add_screenshot %}
     <tr>
     <th>
-    {% if user_can_add_screenshot %} <a class="button smallbutton pull-right flip" href="{% url 'review_source' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug  %}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>{% endif %}
+    {% if user_can_add_screenshot %} <a class="button smallbutton pull-right flip" href="{% url 'review_source' project=unit.translation.component.project.slug component=unit.translation.component.slug  %}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>{% endif %}
     {% trans "Screenshot context" %}
     </th>
     </tr>
@@ -487,13 +487,13 @@
     <th>{% trans "Context" %}</th>
     </tr>
     <tr>
-    <td>{% format_translation unit.context unit.translation.subproject.project.source_language search_match=search_query simple=True %}</td>
+    <td>{% format_translation unit.context unit.translation.component.project.source_language search_match=search_query simple=True %}</td>
     </tr>
     {% endif %}
     {% if unit.all_flags or user_can_edit_flags %}
     <tr>
     <th>
-    {% if user_can_edit_flags %} <a class="button smallbutton pull-right flip" href="{% url 'review_source' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug  %}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>{% endif %}
+    {% if user_can_edit_flags %} <a class="button smallbutton pull-right flip" href="{% url 'review_source' project=unit.translation.component.project.slug component=unit.translation.component.slug  %}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>{% endif %}
     {% trans "Flags" %}
     </th>
     </tr>
@@ -510,7 +510,7 @@
     {% include "unit-details.html" %}
     <tr>
     <th>
-    {% if user_can_edit_priority %} <a class="button smallbutton pull-right flip" href="{% url 'review_source' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug  %}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>{% endif %}
+    {% if user_can_edit_priority %} <a class="button smallbutton pull-right flip" href="{% url 'review_source' project=unit.translation.component.project.slug component=unit.translation.component.slug  %}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>{% endif %}
     {% trans "String priority" %}
     </th>
     </tr>
@@ -525,7 +525,7 @@
     <th>{% trans "Failing checks" %}</th>
     </tr>
     <tr>
-    <td>{% show_checks unit.translation.subproject.project checks user %}</td>
+    <td>{% show_checks unit.translation.component.project checks user %}</td>
     </tr>
     {% endif %}
     {% endwith %}

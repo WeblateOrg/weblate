@@ -36,7 +36,7 @@ from weblate.trans.forms import (
 )
 from weblate.trans.models import Unit, Change, Project
 from weblate.trans.views.helper import (
-    get_translation, get_subproject, get_project, import_message,
+    get_translation, get_component, get_project, import_message,
 )
 from weblate.trans.util import render
 from weblate.trans.views.helper import show_form_errors
@@ -45,26 +45,26 @@ from weblate.utils.state import STATE_EMPTY
 from weblate.utils.views import get_page_limit
 
 
-def parse_url(request, project, subproject=None, lang=None):
+def parse_url(request, project, component=None, lang=None):
     context = {}
-    if subproject is None:
+    if component is None:
         obj = get_project(request, project)
         perms = {'project': obj}
-        unit_set = Unit.objects.filter(translation__subproject__project=obj)
+        unit_set = Unit.objects.filter(translation__component__project=obj)
         context['project'] = obj
     elif lang is None:
-        obj = get_subproject(request, project, subproject)
+        obj = get_component(request, project, component)
         perms = {'project': obj.project}
-        unit_set = Unit.objects.filter(translation__subproject=obj)
-        context['subproject'] = obj
+        unit_set = Unit.objects.filter(translation__component=obj)
+        context['component'] = obj
         context['project'] = obj.project
     else:
-        obj = get_translation(request, project, subproject, lang)
+        obj = get_translation(request, project, component, lang)
         perms = {'translation': obj}
         unit_set = obj.unit_set
         context['translation'] = obj
-        context['subproject'] = obj.subproject
-        context['project'] = obj.subproject.project
+        context['component'] = obj.component
+        context['project'] = obj.component.project
 
     if not can_translate(request.user, **perms):
         raise PermissionDenied()
@@ -74,8 +74,8 @@ def parse_url(request, project, subproject=None, lang=None):
 
 @login_required
 @require_POST
-def search_replace(request, project, subproject=None, lang=None):
-    obj, unit_set, context = parse_url(request, project, subproject, lang)
+def search_replace(request, project, component=None, lang=None):
+    obj, unit_set, context = parse_url(request, project, component, lang)
 
     form = ReplaceForm(request.POST)
 
@@ -141,18 +141,18 @@ def search_replace(request, project, subproject=None, lang=None):
 
 
 @never_cache
-def search(request, project=None, subproject=None, lang=None):
+def search(request, project=None, component=None, lang=None):
     """Perform site-wide search on units."""
     search_form = SiteSearchForm(request.GET)
     context = {
         'search_form': search_form,
     }
     search_kwargs = {}
-    if subproject:
-        obj = get_subproject(request, project, subproject)
-        context['subproject'] = obj
+    if component:
+        obj = get_component(request, project, component)
+        context['component'] = obj
         context['project'] = obj.project
-        search_kwargs = {'subproject': obj}
+        search_kwargs = {'component': obj}
     elif project:
         obj = get_project(request, project)
         context['project'] = obj
@@ -166,14 +166,14 @@ def search(request, project=None, subproject=None, lang=None):
 
     if search_form.is_valid():
         # Filter results by ACL
-        if subproject:
-            units = Unit.objects.filter(translation__subproject=obj)
+        if component:
+            units = Unit.objects.filter(translation__component=obj)
         elif project:
-            units = Unit.objects.filter(translation__subproject__project=obj)
+            units = Unit.objects.filter(translation__component__project=obj)
         else:
             projects = Project.objects.get_acl_ids(request.user)
             units = Unit.objects.filter(
-                translation__subproject__project_id__in=projects
+                translation__component__project_id__in=projects
             )
         units = units.search(
             search_form.cleaned_data,
@@ -214,8 +214,8 @@ def search(request, project=None, subproject=None, lang=None):
 @login_required
 @require_POST
 @never_cache
-def state_change(request, project, subproject=None, lang=None):
-    obj, unit_set, context = parse_url(request, project, subproject, lang)
+def state_change(request, project, component=None, lang=None):
+    obj, unit_set, context = parse_url(request, project, component, lang)
 
     form = MassStateForm(request.user, obj, request.POST)
 

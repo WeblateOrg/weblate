@@ -38,7 +38,7 @@ from weblate.trans.simplediff import html_diff
 from weblate.trans.util import split_plural
 from weblate.lang.models import Language
 from weblate.trans.models import (
-    Project, SubProject, Dictionary, WhiteboardMessage, Unit,
+    Project, Component, Dictionary, WhiteboardMessage, Unit,
 )
 from weblate.checks import CHECKS, highlight_string
 from weblate.utils.stats import BaseStats
@@ -260,10 +260,10 @@ def project_name(prj):
 
 
 @register.simple_tag
-def subproject_name(prj, subprj):
-    """Get subproject name based on slug."""
+def component_name(prj, subprj):
+    """Get component name based on slug."""
     return escape(
-        force_text(SubProject.objects.get(project__slug=prj, slug=subprj))
+        force_text(Component.objects.get(project__slug=prj, slug=subprj))
     )
 
 
@@ -614,10 +614,10 @@ def get_location_links(profile, unit):
             link = profile.editor_link % {
                 'file': filename,
                 'line': line,
-                'branch': unit.translation.subproject.branch
+                'branch': unit.translation.component.branch
             }
         else:
-            link = unit.translation.subproject.get_repoweb_link(filename, line)
+            link = unit.translation.component.get_repoweb_link(filename, line)
         location = location.replace('/', '/\u200B')
         if link is None:
             ret.append(escape(location))
@@ -627,12 +627,12 @@ def get_location_links(profile, unit):
 
 
 @register.simple_tag
-def whiteboard_messages(project=None, subproject=None, language=None):
+def whiteboard_messages(project=None, component=None, language=None):
     """Display whiteboard messages for given context"""
     ret = []
 
     whiteboards = WhiteboardMessage.objects.context_filter(
-        project, subproject, language
+        project, component, language
     )
 
     for whiteboard in whiteboards:
@@ -671,7 +671,7 @@ def active_link(context, slug):
 def matching_cotentsum(item):
     """Find matching objects to suggestion, comment or check"""
     return Unit.objects.prefetch().filter(
-        translation__subproject__project=item.project,
+        translation__component__project=item.project,
         translation__language=item.language,
         content_hash=item.content_hash,
     )

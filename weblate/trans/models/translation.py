@@ -54,12 +54,12 @@ from weblate.trans.checklists import TranslationChecklist
 
 
 class TranslationManager(models.Manager):
-    def check_sync(self, subproject, lang, code, path, force=False,
+    def check_sync(self, component, lang, code, path, force=False,
                    request=None):
         """Parse translation meta info and updates translation object"""
         translation, dummy = self.get_or_create(
             language=lang,
-            subproject=subproject,
+            component=component,
             defaults={
                 'filename': path,
                 'language_code': code,
@@ -79,14 +79,14 @@ class TranslationManager(models.Manager):
 class TranslationQuerySet(models.QuerySet):
     def prefetch(self):
         return self.select_related(
-            'subproject', 'subproject__project', 'language'
+            'component', 'component__project', 'language'
         )
 
 
 @python_2_unicode_compatible
 class Translation(models.Model, URLMixin, LoggerMixin):
-    subproject = models.ForeignKey(
-        'SubProject', on_delete=models.deletion.CASCADE
+    component = models.ForeignKey(
+        'Component', on_delete=models.deletion.CASCADE
     )
     language = models.ForeignKey(Language, on_delete=models.deletion.CASCADE)
     plural = models.ForeignKey(Plural, on_delete=models.deletion.CASCADE)
@@ -120,7 +120,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             ('use_mt', "Can use machine translation"),
         )
         app_label = 'trans'
-        unique_together = ('subproject', 'language')
+        unique_together = ('component', 'language')
 
     def __init__(self, *args, **kwargs):
         """Constructor to initialize some cache properties."""
@@ -131,8 +131,8 @@ class Translation(models.Model, URLMixin, LoggerMixin):
     @cached_property
     def log_prefix(self):
         return '/'.join((
-            self.subproject.project.slug,
-            self.subproject.slug,
+            self.component.project.slug,
+            self.component.slug,
             self.language.code,
         ))
 
@@ -142,7 +142,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         This means that translations should be propagated as sources to others.
         """
-        return self.filename == self.subproject.template
+        return self.filename == self.component.template
 
     def clean(self):
         """Validate that filename exists and can be opened using
@@ -169,8 +169,8 @@ class Translation(models.Model, URLMixin, LoggerMixin):
     def get_reverse_url_kwargs(self):
         """Return kwargs for URL reversing."""
         return {
-            'project': self.subproject.project.slug,
-            'subproject': self.subproject.slug,
+            'project': self.component.project.slug,
+            'component': self.component.slug,
             'lang': self.language.code
         }
 
@@ -180,11 +180,11 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             '{0}?lang={1}&component={2}'.format(
                 reverse(
                     'widgets', kwargs={
-                        'project': self.subproject.project.slug,
+                        'project': self.component.project.slug,
                     }
                 ),
                 self.language.code,
-                self.subproject.slug,
+                self.component.slug,
             )
         )
 
@@ -194,7 +194,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             reverse(
                 'engage',
                 kwargs={
-                    'project': self.subproject.project.slug,
+                    'project': self.component.project.slug,
                     'lang': self.language.code
                 }
             )
@@ -202,26 +202,26 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
     def get_translate_url(self):
         return reverse('translate', kwargs={
-            'project': self.subproject.project.slug,
-            'subproject': self.subproject.slug,
+            'project': self.component.project.slug,
+            'component': self.component.slug,
             'lang': self.language.code
         })
 
     def __str__(self):
         return '{0} - {1}'.format(
-            force_text(self.subproject),
+            force_text(self.component),
             force_text(self.language)
         )
 
     def get_filename(self):
         """Return absolute filename."""
-        return os.path.join(self.subproject.full_path, self.filename)
+        return os.path.join(self.component.full_path, self.filename)
 
     def load_store(self):
         """Load translate-toolkit storage from disk."""
-        store = self.subproject.file_format_cls.parse(
+        store = self.component.file_format_cls.parse(
             self.get_filename(),
-            self.subproject.template_store,
+            self.component.template_store,
             language_code=self.language_code
         )
         store_post_load.send(
@@ -239,7 +239,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         except ParseError:
             raise
         except Exception as exc:
-            self.subproject.handle_parse_error(exc, self)
+            self.component.handle_parse_error(exc, self)
 
     def check_sync(self, force=False, request=None, change=None):
         """Check whether database is in sync with git and possibly updates"""
@@ -351,31 +351,31 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             notify_new_string(self)
 
     def get_last_remote_commit(self):
-        return self.subproject.get_last_remote_commit()
+        return self.component.get_last_remote_commit()
 
     def do_update(self, request=None, method=None):
-        return self.subproject.do_update(request, method=method)
+        return self.component.do_update(request, method=method)
 
     def do_push(self, request=None):
-        return self.subproject.do_push(request)
+        return self.component.do_push(request)
 
     def do_reset(self, request=None):
-        return self.subproject.do_reset(request)
+        return self.component.do_reset(request)
 
     def can_push(self):
-        return self.subproject.can_push()
+        return self.component.can_push()
 
     def get_git_blob_hash(self):
         """Return current VCS blob hash for file."""
-        ret = self.subproject.repository.get_object_hash(self.get_filename())
+        ret = self.component.repository.get_object_hash(self.get_filename())
 
-        if not self.subproject.has_template():
+        if not self.component.has_template():
             return ret
 
         return ','.join([
             ret,
-            self.subproject.repository.get_object_hash(
-                self.subproject.template
+            self.component.repository.get_object_hash(
+                self.component.template
             )
         ])
 
@@ -419,7 +419,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         if not self.unit_set.filter(pending=True).exists():
             return
 
-        with self.subproject.repository.lock:
+        with self.component.repository.lock:
             while True:
                 # Find oldest change break loop if there is none left
                 try:
@@ -452,23 +452,23 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
     def get_commit_message(self):
         """Format commit message based on project configuration."""
-        template = self.subproject.commit_message
+        template = self.component.commit_message
         if self.commit_message == '__add__':
-            template = self.subproject.add_message
+            template = self.component.add_message
             self.commit_message = ''
             self.save()
         elif self.commit_message == '__delete__':
-            template = self.subproject.delete_message
+            template = self.component.delete_message
             self.commit_message = ''
             self.save()
 
         msg = template % {
             'language': self.language_code,
             'language_name': self.language.name,
-            'subproject': self.subproject.name,
-            'resource': self.subproject.name,
-            'component': self.subproject.name,
-            'project': self.subproject.project.name,
+            'subproject': self.component.name,
+            'resource': self.component.name,
+            'component': self.component.name,
+            'project': self.component.project.name,
             'url': get_site_url(self.get_absolute_url()),
             'total': self.stats.all,
             'fuzzy': self.stats.fuzzy,
@@ -494,20 +494,20 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         # Create list of files to commit
         files = [self.filename]
-        if self.subproject.extra_commit_file:
-            extra_files = self.subproject.extra_commit_file % {
+        if self.component.extra_commit_file:
+            extra_files = self.component.extra_commit_file % {
                 'language': self.language_code,
             }
             for extra_file in extra_files.split('\n'):
                 full_path_extra = os.path.join(
-                    self.subproject.full_path,
+                    self.component.full_path,
                     extra_file
                 )
                 if os.path.exists(full_path_extra):
                     files.append(extra_file)
 
         # Do actual commit
-        self.subproject.repository.commit(
+        self.component.repository.commit(
             msg, author, timestamp, files + self.addon_commit_files
         )
         self.addon_commit_files = []
@@ -522,19 +522,19 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         """Check whether there are some not committed changes."""
         return (
             self.unit_set.filter(pending=True).exists() or
-            self.subproject.repository.needs_commit(self.filename)
+            self.component.repository.needs_commit(self.filename)
         )
 
     def repo_needs_merge(self):
-        return self.subproject.repo_needs_merge()
+        return self.component.repo_needs_merge()
 
     def repo_needs_push(self):
-        return self.subproject.repo_needs_push()
+        return self.component.repo_needs_push()
 
     def git_commit(self, request, author, timestamp, skip_push=False,
                    force_new=False):
         """Wrapper for commiting translation to git."""
-        repository = self.subproject.repository
+        repository = self.component.repository
         with repository.lock:
             # Is there something for commit?
             if not force_new and not repository.needs_commit(self.filename):
@@ -555,7 +555,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
             # Push if we should
             if not skip_push:
-                self.subproject.push_if_needed(request)
+                self.component.push_if_needed(request)
 
         return True
 
@@ -639,14 +639,14 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         }
 
         # Optionally store language team with link to website
-        if self.subproject.project.set_translation_team:
+        if self.component.project.set_translation_team:
             headers['language_team'] = '{0} <{1}>'.format(
                 self.language.name,
                 get_site_url(self.get_absolute_url())
             )
 
         # Optionally store email for reporting bugs in source
-        report_source_bugs = self.subproject.report_source_bugs
+        report_source_bugs = self.component.report_source_bugs
         if report_source_bugs:
             headers['report_msgid_bugs_to'] = report_source_bugs
 
@@ -662,7 +662,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         self.invalidate_cache()
 
     def get_source_checks(self):
-        """Return list of failing source checks on current subproject."""
+        """Return list of failing source checks on current component."""
         result = TranslationChecklist()
         result.add(
             self.stats,
@@ -730,7 +730,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         )
 
         # To approve
-        if self.subproject.project.enable_review:
+        if self.component.project.enable_review:
             result.add_if(
                 self.stats,
                 'unapproved',
@@ -916,8 +916,8 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         store = try_load(
             fileobj.name,
             filecopy,
-            self.subproject.file_format_cls,
-            self.subproject.template_store
+            self.component.file_format_cls,
+            self.component.template_store
         )
 
         # Optionally set authorship
@@ -937,7 +937,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         if method in ('translate', 'fuzzy'):
             # Merge on units level
-            with self.subproject.repository.lock:
+            with self.component.repository.lock:
                 return self.merge_translations(
                     request,
                     store,
@@ -955,10 +955,10 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         # Invalidate summary stats
         self.stats.invalidate()
-        if recurse and self.subproject.allow_translation_propagation:
+        if recurse and self.component.allow_translation_propagation:
             related = Translation.objects.filter(
-                subproject__project=self.subproject.project,
-                subproject__allow_translation_propagation=True,
+                component__project=self.component.project,
+                component__allow_translation_propagation=True,
                 language=self.language,
             ).exclude(
                 pk=self.pk
@@ -969,13 +969,13 @@ class Translation(models.Model, URLMixin, LoggerMixin):
     def get_kwargs(self):
         return {
             'lang': self.language.code,
-            'subproject': self.subproject.slug,
-            'project': self.subproject.project.slug
+            'component': self.component.slug,
+            'project': self.component.project.slug
         }
 
     def get_export_url(self):
         """Return URL of exported git repository."""
-        return self.subproject.get_export_url()
+        return self.component.get_export_url()
 
     def get_stats(self):
         """Return stats dictionary"""
@@ -1009,8 +1009,8 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         # Remove file from VCS
         self.commit_message = '__delete__'
-        with self.subproject.repository.lock:
-            self.subproject.repository.remove(
+        with self.component.repository.lock:
+            self.component.repository.remove(
                 [self.filename],
                 self.get_commit_message(),
                 author,
@@ -1021,7 +1021,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         # Record change
         Change.objects.create(
-            subproject=self.subproject,
+            component=self.component,
             action=Change.ACTION_REMOVE,
             target=self.filename,
             user=user,
@@ -1038,4 +1038,4 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             author=request.user
         )
         self.store.new_unit(key, value)
-        self.subproject.create_translations(request=request)
+        self.component.create_translations(request=request)

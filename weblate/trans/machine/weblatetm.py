@@ -46,7 +46,7 @@ class WeblateTranslation(MachineTranslation):
             quality,
             '{0} ({1})'.format(
                 self.name,
-                force_text(unit.translation.subproject)
+                force_text(unit.translation.component)
             ),
             unit.get_source_plurals()[0],
         )
@@ -54,7 +54,7 @@ class WeblateTranslation(MachineTranslation):
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
         matching_units = Unit.objects.prefetch().filter(
-            translation__subproject__project__in=Project.objects.all_acl(user)
+            translation__component__project__in=Project.objects.all_acl(user)
         ).more_like_this(unit, 1000)
 
         comparer = Comparer()

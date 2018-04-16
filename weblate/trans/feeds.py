@@ -27,7 +27,7 @@ from django.urls import reverse
 from weblate.trans.models import Change
 from weblate.lang.models import Language
 from weblate.trans.views.helper import (
-    get_translation, get_subproject, get_project
+    get_translation, get_component, get_project
 )
 
 
@@ -69,8 +69,8 @@ class TranslationChangesFeed(ChangesFeed):
     # Arguments number differs from overridden method
     # pylint: disable=arguments-differ
 
-    def get_object(self, request, project, subproject, lang):
-        return get_translation(request, project, subproject, lang)
+    def get_object(self, request, project, component, lang):
+        return get_translation(request, project, component, lang)
 
     def title(self, obj):
         return _('Recent changes in %s') % obj
@@ -87,18 +87,18 @@ class TranslationChangesFeed(ChangesFeed):
         )[:10]
 
 
-class SubProjectChangesFeed(TranslationChangesFeed):
-    """RSS feed for changes in subproject."""
+class ComponentChangesFeed(TranslationChangesFeed):
+    """RSS feed for changes in component."""
 
     # Arguments number differs from overridden method
     # pylint: disable=arguments-differ
 
-    def get_object(self, request, project, subproject):
-        return get_subproject(request, project, subproject)
+    def get_object(self, request, project, component):
+        return get_component(request, project, component)
 
     def items(self, obj):
         return Change.objects.filter(
-            translation__subproject=obj
+            translation__component=obj
         )[:10]
 
 
@@ -113,7 +113,7 @@ class ProjectChangesFeed(TranslationChangesFeed):
 
     def items(self, obj):
         return Change.objects.filter(
-            translation__subproject__project=obj
+            translation__component__project=obj
         )[:10]
 
 

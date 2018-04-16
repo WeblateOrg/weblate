@@ -38,5 +38,5 @@ class Command(WeblateLangCommand):
         langs = None
         if options['lang'] is not None:
             langs = options['lang'].split(',')
-        for subproject in self.get_subprojects(**options):
-            subproject.create_translations(options['force'], langs)
+        for component in self.get_components(**options):
+            component.create_translations(options['force'], langs)

@@ -28,7 +28,7 @@ from django.core.exceptions import PermissionDenied
 from weblate.trans.models.change import Change
 from weblate.trans.forms import ReportsForm
 from weblate.trans.util import redirect_param
-from weblate.trans.views.helper import get_subproject, show_form_errors
+from weblate.trans.views.helper import get_component, show_form_errors
 from weblate.permissions.helpers import can_view_reports
 
 
@@ -65,9 +65,9 @@ def generate_credits(component, start_date, end_date):
 
 @login_required
 @require_POST
-def get_credits(request, project, subproject):
+def get_credits(request, project, component):
     """View for credits"""
-    obj = get_subproject(request, project, subproject)
+    obj = get_component(request, project, component)
 
     if not can_view_reports(request.user, obj.project):
         raise PermissionDenied()
@@ -175,9 +175,9 @@ def generate_counts(component, start_date, end_date):
 
 @login_required
 @require_POST
-def get_counts(request, project, subproject):
+def get_counts(request, project, component):
     """View for work counts"""
-    obj = get_subproject(request, project, subproject)
+    obj = get_component(request, project, component)
 
     if not can_view_reports(request.user, obj.project):
         raise PermissionDenied()

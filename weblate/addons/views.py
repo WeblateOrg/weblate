@@ -27,7 +27,7 @@ from django.utils.translation import ugettext as _
 from django.views.generic import ListView, UpdateView
 
 from weblate.addons.models import Addon, ADDONS
-from weblate.permissions.helpers import can_edit_subproject
+from weblate.permissions.helpers import can_edit_component
 from weblate.utils import messages
 from weblate.utils.views import ComponentViewMixin
 
@@ -35,9 +35,9 @@ from weblate.utils.views import ComponentViewMixin
 class AddonViewMixin(ComponentViewMixin):
     def get_queryset(self):
         component = self.get_component()
-        if not can_edit_subproject(self.request.user, component.project):
+        if not can_edit_component(self.request.user, component.project):
             raise PermissionDenied('Can not edit component')
-        self.kwargs['component'] = component
+        self.kwargs['component_obj'] = component
         return Addon.objects.filter(component=component)
 
     def get_success_url(self):
@@ -46,7 +46,7 @@ class AddonViewMixin(ComponentViewMixin):
             'addons',
             kwargs={
                 'project': component.project.slug,
-                'subproject': component.slug,
+                'component': component.slug,
             }
         )
 
@@ -62,7 +62,7 @@ class AddonList(AddonViewMixin, ListView):
 
     def get_context_data(self, **kwargs):
         result = super(AddonList, self).get_context_data(**kwargs)
-        component = self.kwargs['component']
+        component = self.kwargs['component_obj']
         result['object'] = component
         installed = set([x.addon.name for x in result['object_list']])
         result['available'] = [
@@ -100,7 +100,7 @@ class AddonList(AddonViewMixin, ListView):
             context={
                 'addon': addon,
                 'form': form,
-                'object': self.kwargs['component'],
+                'object': self.kwargs['component_obj'],
             },
         )
 

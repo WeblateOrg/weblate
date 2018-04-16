@@ -49,7 +49,7 @@ class ChartsTest(FixtureTestCase):
         self.assert_json_chart_data(response)
 
         response = self.client.get(
-            reverse('monthly_activity', kwargs=self.kw_subproject)
+            reverse('monthly_activity', kwargs=self.kw_component)
         )
         self.assert_json_chart_data(response)
 
@@ -84,7 +84,7 @@ class ChartsTest(FixtureTestCase):
         self.assert_json_chart_data(response)
 
         response = self.client.get(
-            reverse('yearly_activity', kwargs=self.kw_subproject)
+            reverse('yearly_activity', kwargs=self.kw_component)
         )
         self.assert_json_chart_data(response)
 

@@ -72,7 +72,7 @@ class NotificationTest(FixtureTestCase, RegistrationTestMixin):
 
     def test_notify_merge_failure(self):
         notify_merge_failure(
-            self.subproject,
+            self.component,
             'Failed merge',
             'Error\nstatus'
         )
@@ -85,9 +85,9 @@ class NotificationTest(FixtureTestCase, RegistrationTestMixin):
         )
 
         # Add project owner
-        self.subproject.project.add_user(self.second_user(), '@Administration')
+        self.component.project.add_user(self.second_user(), '@Administration')
         notify_merge_failure(
-            self.subproject,
+            self.component,
             'Failed merge',
             'Error\nstatus'
         )
@@ -97,7 +97,7 @@ class NotificationTest(FixtureTestCase, RegistrationTestMixin):
 
     def test_notify_parse_error(self):
         notify_parse_error(
-            self.subproject,
+            self.component,
             self.get_translation(),
             'Failed merge',
             'test/file.po',
@@ -111,9 +111,9 @@ class NotificationTest(FixtureTestCase, RegistrationTestMixin):
         )
 
         # Add project owner
-        self.subproject.project.add_user(self.second_user(), '@Administration')
+        self.component.project.add_user(self.second_user(), '@Administration')
         notify_parse_error(
-            self.subproject,
+            self.component,
             self.get_translation(),
             'Error\nstatus',
             'test/file.po',
@@ -153,7 +153,7 @@ class NotificationTest(FixtureTestCase, RegistrationTestMixin):
     def test_notify_new_language(self):
         second_user = self.second_user()
         notify_new_language(
-            self.subproject,
+            self.component,
             Language.objects.filter(code='de'),
             second_user
         )
@@ -166,9 +166,9 @@ class NotificationTest(FixtureTestCase, RegistrationTestMixin):
         )
 
         # Add project owner
-        self.subproject.project.add_user(second_user, '@Administration')
+        self.component.project.add_user(second_user, '@Administration')
         notify_new_language(
-            self.subproject,
+            self.component,
             Language.objects.filter(code='de'),
             second_user,
         )
@@ -196,7 +196,7 @@ class NotificationTest(FixtureTestCase, RegistrationTestMixin):
             unit,
             Suggestion.objects.create(
                 content_hash=unit.content_hash,
-                project=unit.translation.subproject.project,
+                project=unit.translation.component.project,
                 language=unit.translation.language,
                 target='Foo'
             ),
@@ -216,7 +216,7 @@ class NotificationTest(FixtureTestCase, RegistrationTestMixin):
             unit,
             Comment.objects.create(
                 content_hash=unit.content_hash,
-                project=unit.translation.subproject.project,
+                project=unit.translation.component.project,
                 language=unit.translation.language,
                 comment='Foo'
             ),
@@ -237,7 +237,7 @@ class NotificationTest(FixtureTestCase, RegistrationTestMixin):
             unit,
             Comment.objects.create(
                 content_hash=unit.content_hash,
-                project=unit.translation.subproject.project,
+                project=unit.translation.component.project,
                 language=None,
                 comment='Foo'
             ),

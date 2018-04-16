@@ -35,11 +35,11 @@ TEST_SCREENSHOT = get_test_file('screenshot.png')
 class APIBaseTest(APITestCase, RepoTestMixin):
     def setUp(self):
         self.clone_test_repos()
-        self.subproject = self.create_subproject()
+        self.component = self.create_component()
         self.translation_kwargs = {
             'language__code': 'cs',
-            'subproject__slug': 'test',
-            'subproject__project__slug': 'test'
+            'component__slug': 'test',
+            'component__project__slug': 'test'
         }
         self.component_kwargs = {
             'slug': 'test',
@@ -63,7 +63,7 @@ class APIBaseTest(APITestCase, RepoTestMixin):
             slug='acl',
             access_control=Project.ACCESS_PRIVATE,
         )
-        self._create_subproject(
+        self._create_component(
             'po-mono',
             'po-mono/*.po',
             'po-mono/en.po',
@@ -295,8 +295,8 @@ class ComponentAPITest(APIBaseTest):
         )
 
     def test_new_template(self):
-        self.subproject.new_base = 'po/cs.po'
-        self.subproject.save()
+        self.component.new_base = 'po/cs.po'
+        self.component.save()
         self.do_request(
             'api:component-new-template',
             self.component_kwargs,
@@ -310,10 +310,10 @@ class ComponentAPITest(APIBaseTest):
         )
 
     def test_monolingual(self):
-        self.subproject.format = 'po-mono'
-        self.subproject.filemask = 'po-mono/*.po'
-        self.subproject.template = 'po-mono/en.po'
-        self.subproject.save()
+        self.component.format = 'po-mono'
+        self.component.filemask = 'po-mono/*.po'
+        self.component.template = 'po-mono/en.po'
+        self.component.save()
         self.do_request(
             'api:component-monolingual-base',
             self.component_kwargs,
@@ -593,7 +593,7 @@ class ScreenshotAPITest(APIBaseTest):
         super(ScreenshotAPITest, self).setUp()
         shot = Screenshot.objects.create(
             name='Obrazek',
-            component=self.subproject
+            component=self.component
         )
         with open(TEST_SCREENSHOT, 'rb') as handle:
             shot.image.save('screenshot.png', File(handle))

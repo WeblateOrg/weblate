@@ -329,7 +329,7 @@ weblate 2.6
 
 Released on Apr 28th 2016.
 
-* Fixed validation of subprojects with language filter.
+* Fixed validation of components with language filter.
 * Improved support for XLIFF files.
 * Fixed machine translation for non English sources.
 * Added REST API.

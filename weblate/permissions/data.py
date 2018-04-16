@@ -43,7 +43,7 @@ ADMIN_PERMS = {
     'add_dictionary',
     'change_dictionary',
     'delete_dictionary',
-    'lock_subproject',
+    'lock_component',
     'reset_translation',
     'review_translation',
     'can_see_git_repository',

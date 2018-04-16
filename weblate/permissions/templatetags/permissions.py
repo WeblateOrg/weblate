@@ -110,8 +110,8 @@ def can_reset_translation(user, project):
 
 
 @register.simple_tag
-def can_lock_subproject(user, project):
-    return weblate.permissions.helpers.can_lock_subproject(user, project)
+def can_lock_component(user, project):
+    return weblate.permissions.helpers.can_lock_component(user, project)
 
 
 @register.simple_tag
@@ -160,8 +160,8 @@ def can_remove_translation(user, project):
 
 
 @register.simple_tag
-def can_edit_subproject(user, project):
-    return weblate.permissions.helpers.can_edit_subproject(user, project)
+def can_edit_component(user, project):
+    return weblate.permissions.helpers.can_edit_component(user, project)
 
 
 @register.simple_tag

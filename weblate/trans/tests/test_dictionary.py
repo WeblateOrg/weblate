@@ -92,7 +92,7 @@ class DictionaryTest(FixtureTestCase):
     def get_url(self, url, **kwargs):
         kwargs.update({
             'lang': 'cs',
-            'project': self.subproject.project.slug,
+            'project': self.component.project.slug,
         })
         return reverse(url, kwargs=kwargs)
 

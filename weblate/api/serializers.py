@@ -21,7 +21,7 @@
 from rest_framework import serializers
 
 from weblate.trans.models import (
-    Project, SubProject, Translation, Unit, Change, Source,
+    Project, Component, Translation, Unit, Change, Source,
 )
 from weblate.lang.models import Language
 from weblate.permissions.helpers import can_see_git_repository
@@ -162,7 +162,7 @@ class ComponentSerializer(RemovableSerializer):
     serializer_url_field = MultiFieldHyperlinkedIdentityField
 
     class Meta(object):
-        model = SubProject
+        model = Component
         fields = (
             'name', 'slug', 'project', 'vcs', 'repo', 'git_export',
             'branch', 'filemask', 'template', 'new_base', 'file_format',
@@ -200,7 +200,7 @@ class TranslationSerializer(RemovableSerializer):
         source='get_translate_url', read_only=True
     )
     component = ComponentSerializer(
-        read_only=True, source='subproject'
+        read_only=True,
     )
     language = LanguageSerializer(
         read_only=True
@@ -253,40 +253,40 @@ class TranslationSerializer(RemovableSerializer):
     repository_url = MultiFieldHyperlinkedIdentityField(
         view_name='api:translation-repository',
         lookup_field=(
-            'subproject__project__slug',
-            'subproject__slug',
+            'component__project__slug',
+            'component__slug',
             'language__code',
         ),
     )
     statistics_url = MultiFieldHyperlinkedIdentityField(
         view_name='api:translation-statistics',
         lookup_field=(
-            'subproject__project__slug',
-            'subproject__slug',
+            'component__project__slug',
+            'component__slug',
             'language__code',
         ),
     )
     file_url = MultiFieldHyperlinkedIdentityField(
         view_name='api:translation-file',
         lookup_field=(
-            'subproject__project__slug',
-            'subproject__slug',
+            'component__project__slug',
+            'component__slug',
             'language__code',
         ),
     )
     changes_list_url = MultiFieldHyperlinkedIdentityField(
         view_name='api:translation-changes',
         lookup_field=(
-            'subproject__project__slug',
-            'subproject__slug',
+            'component__project__slug',
+            'component__slug',
             'language__code',
         ),
     )
     units_list_url = MultiFieldHyperlinkedIdentityField(
         view_name='api:translation-units',
         lookup_field=(
-            'subproject__project__slug',
-            'subproject__slug',
+            'component__project__slug',
+            'component__slug',
             'language__code',
         ),
     )
@@ -313,8 +313,8 @@ class TranslationSerializer(RemovableSerializer):
             'url': {
                 'view_name': 'api:translation-detail',
                 'lookup_field': (
-                    'subproject__project__slug',
-                    'subproject__slug',
+                    'component__project__slug',
+                    'component__slug',
                     'language__code',
                 ),
             }
@@ -331,7 +331,7 @@ class ReadOnlySerializer(serializers.Serializer):
 
 class LockSerializer(serializers.ModelSerializer):
     class Meta(object):
-        model = SubProject
+        model = Component
         fields = ('locked', )
 
 
@@ -362,8 +362,8 @@ class UnitSerializer(RemovableSerializer):
     translation = MultiFieldHyperlinkedIdentityField(
         view_name='api:translation-detail',
         lookup_field=(
-            'translation__subproject__project__slug',
-            'translation__subproject__slug',
+            'translation__component__project__slug',
+            'translation__component__slug',
             'translation__language__code',
         ),
         strip_parts=1,
@@ -393,7 +393,7 @@ class UnitSerializer(RemovableSerializer):
 class SourceSerializer(RemovableSerializer):
     component = MultiFieldHyperlinkedIdentityField(
         view_name='api:component-detail',
-        lookup_field=('subproject__project__slug', 'subproject__slug'),
+        lookup_field=('component__project__slug', 'component__slug'),
         strip_parts=1,
     )
     units = serializers.HyperlinkedRelatedField(
@@ -472,14 +472,14 @@ class ChangeSerializer(RemovableSerializer):
     )
     component = MultiFieldHyperlinkedIdentityField(
         view_name='api:component-detail',
-        lookup_field=('subproject__project__slug', 'subproject__slug'),
+        lookup_field=('component__project__slug', 'component__slug'),
         strip_parts=1,
     )
     translation = MultiFieldHyperlinkedIdentityField(
         view_name='api:translation-detail',
         lookup_field=(
-            'translation__subproject__project__slug',
-            'translation__subproject__slug',
+            'translation__component__project__slug',
+            'translation__component__slug',
             'translation__language__code'
         ),
         strip_parts=1,

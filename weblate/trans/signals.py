@@ -21,8 +21,8 @@
 
 from django.dispatch import Signal
 
-vcs_post_push = Signal(providing_args=['subproject'])
-vcs_post_update = Signal(providing_args=['subproject', 'previous_head'])
+vcs_post_push = Signal(providing_args=['component'])
+vcs_post_update = Signal(providing_args=['component', 'previous_head'])
 vcs_pre_commit = Signal(providing_args=['translation'])
 vcs_post_commit = Signal(providing_args=['translation'])
 translation_post_add = Signal(providing_args=['translation'])

@@ -49,12 +49,12 @@ class UnitData(models.Model):
     def related_units(self):
         units = self.units_model.objects.filter(
             content_hash=self.content_hash,
-            translation__subproject__project=self.project,
+            translation__component__project=self.project,
         )
         if self.language is not None:
             units = units.filter(translation__language=self.language)
 
         return units.select_related(
-            'translation__subproject__project',
+            'translation__component__project',
             'translation__language'
         )

@@ -284,12 +284,12 @@ class ImportMoPoTest(ImportTest):
     """Testing of mo file imports."""
     test_file = TEST_MO
 
-    def create_subproject(self):
+    def create_component(self):
         return self.create_po()
 
 
 class ImportJoomlaTest(ImportTest):
-    def create_subproject(self):
+    def create_component(self):
         return self.create_joomla()
 
     def test_import_fuzzy(self):
@@ -298,7 +298,7 @@ class ImportJoomlaTest(ImportTest):
 
 
 class ImportPHPMonoTest(ImportTest):
-    def create_subproject(self):
+    def create_component(self):
         return self.create_php_mono()
 
     def test_import_fuzzy(self):
@@ -310,7 +310,7 @@ class StringsImportTest(ImportTest):
     """Testing of mo file imports."""
     test_file = TEST_PO
 
-    def create_subproject(self):
+    def create_component(self):
         return self.create_iphone()
 
     def test_import_fuzzy(self):
@@ -319,7 +319,7 @@ class StringsImportTest(ImportTest):
 
 
 class AndroidImportTest(ViewTestCase):
-    def create_subproject(self):
+    def create_component(self):
         return self.create_android()
 
     def test_import(self):
@@ -369,7 +369,7 @@ class CSVQuotesEscapedImportTest(CSVImportTest):
 
 class ExportTest(ViewTestCase):
     """Testing of file export."""
-    def create_subproject(self):
+    def create_component(self):
         # Needs to create PO file to have language pack option
         return self.create_po()
 

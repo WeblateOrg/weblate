@@ -25,7 +25,7 @@ from django.urls import reverse
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
-from weblate.trans.models import Source, SubProject
+from weblate.trans.models import Source, Component
 from weblate.screenshots.fields import ScreenshotField
 
 
@@ -41,7 +41,7 @@ class Screenshot(models.Model):
         upload_to='screenshots/',
     )
     component = models.ForeignKey(
-        SubProject,
+        Component,
         on_delete=models.deletion.CASCADE,
     )
     sources = models.ManyToManyField(

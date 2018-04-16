@@ -45,8 +45,8 @@ class MockProject(object):
         self.source_language = MockLanguage('en')
 
 
-class MockSubProject(object):
-    """Mock subproject object."""
+class MockComponent(object):
+    """Mock component object."""
     def __init__(self):
         self.id = 1
         self.project = MockProject()
@@ -56,7 +56,7 @@ class MockTranslation(object):
     """Mock translation object."""
     def __init__(self, code='cs'):
         self.language = MockLanguage(code)
-        self.subproject = MockSubProject()
+        self.component = MockComponent()
         self.is_template = False
 
 

@@ -37,7 +37,7 @@ from weblate.checks.models import Check
 from weblate.trans.models import (
     Project, Source, Unit, WhiteboardMessage, ComponentList, AutoComponentList,
 )
-import weblate.trans.models.subproject
+import weblate.trans.models.component
 from weblate.lang.models import Language
 from weblate.permissions.helpers import can_access_project
 from weblate.trans.tests.utils import (
@@ -149,7 +149,7 @@ class ProjectTest(RepoTestCase):
 class TranslationTest(RepoTestCase):
     """Translation testing."""
     def test_basic(self):
-        project = self.create_subproject()
+        project = self.create_component()
         translation = project.translation_set.get(language_code='cs')
         self.assertEqual(translation.stats.translated, 0)
         self.assertEqual(translation.stats.all, 4)
@@ -157,19 +157,19 @@ class TranslationTest(RepoTestCase):
 
     def test_extra_file(self):
         """Test extra commit file handling."""
-        subproject = self.create_subproject()
-        subproject.pre_commit_script = get_test_file('hook-generate-mo')
-        weblate.trans.models.subproject.PRE_COMMIT_SCRIPT_CHOICES.append(
-            (subproject.pre_commit_script, 'hook-generate-mo')
+        component = self.create_component()
+        component.pre_commit_script = get_test_file('hook-generate-mo')
+        weblate.trans.models.component.PRE_COMMIT_SCRIPT_CHOICES.append(
+            (component.pre_commit_script, 'hook-generate-mo')
         )
-        subproject.pre_commit_script = get_test_file('hook-update-linguas')
-        weblate.trans.models.subproject.PRE_COMMIT_SCRIPT_CHOICES.append(
-            (subproject.pre_commit_script, 'hook-update-linguas')
+        component.pre_commit_script = get_test_file('hook-update-linguas')
+        weblate.trans.models.component.PRE_COMMIT_SCRIPT_CHOICES.append(
+            (component.pre_commit_script, 'hook-update-linguas')
         )
-        subproject.extra_commit_file = 'po/%(language)s.mo\npo/LINGUAS'
-        subproject.save()
-        subproject.full_clean()
-        translation = subproject.translation_set.get(language_code='cs')
+        component.extra_commit_file = 'po/%(language)s.mo\npo/LINGUAS'
+        component.save()
+        component.full_clean()
+        translation = component.translation_set.get(language_code='cs')
         # change backend file
         with open(translation.get_filename(), 'a') as handle:
             handle.write(' ')
@@ -178,7 +178,7 @@ class TranslationTest(RepoTestCase):
             None, 'TEST <test@example.net>', timezone.now(),
         )
         self.assertFalse(translation.repo_needs_commit())
-        linguas = os.path.join(subproject.full_path, 'po', 'LINGUAS')
+        linguas = os.path.join(component.full_path, 'po', 'LINGUAS')
         with open(linguas, 'r') as handle:
             data = handle.read()
             self.assertIn('\ncs\n', data)
@@ -186,13 +186,13 @@ class TranslationTest(RepoTestCase):
 
     def test_validation(self):
         """Translation validation"""
-        project = self.create_subproject()
+        project = self.create_component()
         translation = project.translation_set.get(language_code='cs')
         translation.full_clean()
 
     def test_update_stats(self):
         """Check update stats with no units."""
-        project = self.create_subproject()
+        project = self.create_component()
         translation = project.translation_set.get(language_code='cs')
         self.assertEqual(translation.stats.all, 4)
         self.assertEqual(translation.stats.all_words, 15)
@@ -202,7 +202,7 @@ class TranslationTest(RepoTestCase):
         self.assertEqual(translation.stats.all_words, 0)
 
     def test_commit_groupping(self):
-        project = self.create_subproject()
+        project = self.create_component()
         translation = project.translation_set.get(language_code='cs')
         request = HttpRequest()
         request.user = create_test_user()
@@ -253,7 +253,7 @@ class ComponentListTest(RepoTestCase):
         self.assertEqual(clist.tab_slug(), 'list-slug')
 
     def test_auto(self):
-        self.create_subproject()
+        self.create_component()
         clist = ComponentList.objects.create(
             name='Name',
             slug='slug'
@@ -280,13 +280,13 @@ class ComponentListTest(RepoTestCase):
         self.assertEqual(
             clist.components.count(), 0
         )
-        self.create_subproject()
+        self.create_component()
         self.assertEqual(
             clist.components.count(), 1
         )
 
     def test_auto_nomatch(self):
-        self.create_subproject()
+        self.create_component()
         clist = ComponentList.objects.create(
             name='Name',
             slug='slug'
@@ -304,7 +304,7 @@ class ComponentListTest(RepoTestCase):
 class ModelTestCase(RepoTestCase):
     def setUp(self):
         super(ModelTestCase, self).setUp()
-        self.subproject = self.create_subproject()
+        self.component = self.create_component()
 
 
 class SourceTest(ModelTestCase):
@@ -371,13 +371,13 @@ class WhiteboardMessageTest(ModelTestCase):
             message='test de',
         )
         WhiteboardMessage.objects.create(
-            project=self.subproject.project,
+            project=self.component.project,
             message='test project',
         )
         WhiteboardMessage.objects.create(
-            subproject=self.subproject,
-            project=self.subproject.project,
-            message='test subproject',
+            component=self.component,
+            project=self.component.project,
+            message='test component',
         )
         WhiteboardMessage.objects.create(
             message='test global',
@@ -402,16 +402,16 @@ class WhiteboardMessageTest(ModelTestCase):
     def test_contextfilter_project(self):
         self.verify_filter(
             WhiteboardMessage.objects.context_filter(
-                project=self.subproject.project,
+                project=self.component.project,
             ),
             1,
             'test project'
         )
 
-    def test_contextfilter_subproject(self):
+    def test_contextfilter_component(self):
         self.verify_filter(
             WhiteboardMessage.objects.context_filter(
-                subproject=self.subproject,
+                component=self.component,
             ),
             2
         )
@@ -419,7 +419,7 @@ class WhiteboardMessageTest(ModelTestCase):
     def test_contextfilter_translation(self):
         self.verify_filter(
             WhiteboardMessage.objects.context_filter(
-                subproject=self.subproject,
+                component=self.component,
                 language=Language.objects.get(code='cs'),
             ),
             3,

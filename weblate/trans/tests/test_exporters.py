@@ -26,7 +26,7 @@ from weblate.trans.exporters import (
     CSVExporter,
 )
 from weblate.trans.models import (
-    Dictionary, Project, SubProject, Translation, Unit,
+    Dictionary, Project, Component, Translation, Unit,
 )
 from weblate.utils.state import STATE_TRANSLATED, STATE_EMPTY
 
@@ -85,11 +85,11 @@ class PoExporterTest(TestCase):
             slug='test',
             source_language=Language.objects.get(code='en'),
         )
-        subproject = SubProject(slug='comp', project=project)
+        component = Component(slug='comp', project=project)
         unit = Unit(
             translation=Translation(
                 language=lang,
-                subproject=subproject,
+                component=component,
                 plural=plural,
             ),
             **kwargs
