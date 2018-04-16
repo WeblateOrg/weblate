@@ -28,6 +28,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('legal', '0003_auto_20180416_1405'),
+        ('accounts', '0036_auto_20180201_1059'),
     ]
 
     operations = [
