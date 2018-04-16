@@ -66,7 +66,7 @@ class BaseExporter(object):
     def __init__(self, project=None, language=None, url=None,
                  translation=None, fieldnames=None):
         if translation is not None:
-            self.project = translation.subproject.project
+            self.project = translation.component.project
             self.language = translation.language
             self.url = get_site_url(translation.get_absolute_url())
         else:

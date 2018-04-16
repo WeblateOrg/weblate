@@ -51,32 +51,32 @@ class ScriptTest(RepoTestCase, TempDirMixin):
         self.script = None
 
     def test_run_hook(self):
-        subproject = self.create_subproject()
+        component = self.create_component()
         self.assertFalse(
-            run_hook(subproject, None, 'false')
+            run_hook(component, None, 'false')
         )
         self.assertTrue(
-            run_hook(subproject, None, 'true')
+            run_hook(component, None, 'true')
         )
 
-    def assert_content(self, subproject):
+    def assert_content(self, component):
         """Check file content and cleans it."""
         with open(self.output, 'r') as handle:
             data = handle.read()
-            self.assertIn(subproject.full_path, data)
+            self.assertIn(component.full_path, data)
 
         with open(self.output, 'w') as handle:
             handle.write('')
 
     def test_post_update(self):
-        subproject = self._create_subproject(
+        component = self._create_component(
             'po',
             'po/*.po',
             post_update_script=self.script
         )
         # Hook should fire on creation
-        self.assert_content(subproject)
+        self.assert_content(component)
 
-        subproject.update_branch()
+        component.update_branch()
         # Hook should fire on update
-        self.assert_content(subproject)
+        self.assert_content(component)

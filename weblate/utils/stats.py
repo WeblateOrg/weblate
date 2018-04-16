@@ -208,7 +208,7 @@ class TranslationStats(BaseStats):
     """Per translation stats."""
     def invalidate(self, language=None):
         super(TranslationStats, self).invalidate()
-        self._object.subproject.stats.invalidate(
+        self._object.component.stats.invalidate(
             language=self._object.language
         )
         self._object.language.stats.invalidate()
@@ -279,7 +279,7 @@ class TranslationStats(BaseStats):
         translation = self._object
         stats = translation.unit_set.filter_type(
             item,
-            translation.subproject.project,
+            translation.component.project,
             translation.language,
             strict=True
         ).aggregate(Count('pk'), Sum('num_words'))
@@ -373,7 +373,7 @@ class ProjectLanguageStats(LanguageStats):
     @cached_property
     def translation_set(self):
         result = []
-        for component in self._object.subproject_set.all():
+        for component in self._object.component_set.all():
             result.extend(
                 component.translation_set.filter(
                     language_id=self.language.pk
@@ -394,8 +394,8 @@ class ProjectStats(BaseStats):
                 self.get_single_language_stats(lang).invalidate()
 
     @cached_property
-    def subproject_set(self):
-        return prefetch_stats(self._object.subproject_set.all())
+    def component_set(self):
+        return prefetch_stats(self._object.component_set.all())
 
     def get_single_language_stats(self, language):
         return ProjectLanguageStats(self._object, language)
@@ -408,7 +408,7 @@ class ProjectStats(BaseStats):
 
     def prefetch_basic(self):
         stats = {item: 0 for item in self.basic_keys}
-        for component in self.subproject_set:
+        for component in self.component_set:
             stats_obj = component.stats
             stats_obj.ensure_basic()
             for item in self.basic_keys:
@@ -423,7 +423,7 @@ class ProjectStats(BaseStats):
     def calculate_item(self, item):
         """Calculate stats for translation."""
         result = 0
-        for component in self.subproject_set:
+        for component in self.component_set:
             result += getattr(component.stats, item)
         self.store(item, result)
 
@@ -432,12 +432,12 @@ class ComponentListStats(BaseStats):
     basic_keys = SOURCE_KEYS
 
     @cached_property
-    def subproject_set(self):
+    def component_set(self):
         return prefetch_stats(self._object.components.all())
 
     def prefetch_basic(self):
         stats = {item: 0 for item in self.basic_keys}
-        for component in self.subproject_set:
+        for component in self.component_set:
             stats_obj = component.stats
             stats_obj.ensure_basic()
             for item in self.basic_keys:
@@ -452,6 +452,6 @@ class ComponentListStats(BaseStats):
     def calculate_item(self, item):
         """Calculate stats for translation."""
         result = 0
-        for component in self.subproject_set:
+        for component in self.component_set:
             result += getattr(component.stats, item)
         self.store(item, result)

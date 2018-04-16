@@ -26,7 +26,7 @@ from django.utils import timezone
 from django.test import SimpleTestCase
 
 from weblate.accounts.models import Profile
-from weblate.trans.models import Unit, SubProject, Translation
+from weblate.trans.models import Unit, Component, Translation
 from weblate.trans.templatetags.translations import (
     naturaltime, get_location_links
 )
@@ -87,7 +87,7 @@ class LocationLinksTest(SimpleTestCase):
     def setUp(self):
         self.unit = Unit(
             translation=Translation(
-                subproject=SubProject()
+                component=Component()
             )
         )
         self.profile = Profile()
@@ -120,7 +120,7 @@ class LocationLinksTest(SimpleTestCase):
         )
 
     def test_repowebs(self):
-        self.unit.translation.subproject.repoweb = (
+        self.unit.translation.component.repoweb = (
             'http://example.net/%(file)s#L%(line)s'
         )
         self.unit.location = 'foo.bar:123,bar.foo:321'
@@ -139,7 +139,7 @@ class LocationLinksTest(SimpleTestCase):
         )
 
     def test_repoweb(self):
-        self.unit.translation.subproject.repoweb = (
+        self.unit.translation.component.repoweb = (
             'http://example.net/%(file)s#L%(line)s'
         )
         self.unit.location = 'foo.bar:123'
@@ -154,7 +154,7 @@ class LocationLinksTest(SimpleTestCase):
         )
 
     def test_user_url(self):
-        self.unit.translation.subproject.repoweb = (
+        self.unit.translation.component.repoweb = (
             'http://example.net/%(file)s#L%(line)s'
         )
         self.profile.editor_link = 'editor://open/?file=%(file)s&line=%(line)s'

@@ -32,7 +32,7 @@ from whoosh.index import EmptyIndexError
 from weblate.accounts.models import get_anonymous
 from weblate.checks.models import Check
 from weblate.trans.models import (
-    Suggestion, Comment, Unit, Project, Source, SubProject, Change,
+    Suggestion, Comment, Unit, Project, Source, Component, Change,
 )
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
@@ -65,15 +65,15 @@ class Command(BaseCommand):
 
     def cleanup_sources(self):
         with transaction.atomic():
-            components = list(SubProject.objects.values_list('id', flat=True))
+            components = list(Component.objects.values_list('id', flat=True))
         for pk in components:
             with transaction.atomic():
-                component = SubProject.objects.get(pk=pk)
+                component = Component.objects.get(pk=pk)
                 source_ids = Unit.objects.filter(
-                    translation__subproject=component
+                    translation__component=component
                 ).values('id_hash').distinct()
                 Source.objects.filter(
-                    subproject=component
+                    component=component
                 ).exclude(
                     id_hash__in=source_ids
                 ).delete()
@@ -117,7 +117,7 @@ class Command(BaseCommand):
             with transaction.atomic():
                 # List all current unit content_hashs
                 units = Unit.objects.filter(
-                    translation__subproject__project__pk=pk
+                    translation__component__project__pk=pk
                 ).values('content_hash').distinct()
 
                 # Remove source comments referring to deleted units
@@ -143,7 +143,7 @@ class Command(BaseCommand):
                     translatedunits = Unit.objects.filter(
                         translation__language=lang,
                         state__gte=STATE_TRANSLATED,
-                        translation__subproject__project__pk=pk
+                        translation__component__project__pk=pk
                     ).values('content_hash').distinct()
                     Check.objects.filter(
                         language=lang, project__pk=pk
@@ -154,7 +154,7 @@ class Command(BaseCommand):
                     # List current unit content_hashs
                     units = Unit.objects.filter(
                         translation__language=lang,
-                        translation__subproject__project__pk=pk
+                        translation__component__project__pk=pk
                     ).values('content_hash').distinct()
 
                     # Remove suggestions referring to deleted units
@@ -183,7 +183,7 @@ class Command(BaseCommand):
                         units = Unit.objects.filter(
                             content_hash=sug.content_hash,
                             translation__language=lang,
-                            translation__subproject__project__pk=pk,
+                            translation__component__project__pk=pk,
                         )
 
                         if not units.exclude(target=sug.target).exists():

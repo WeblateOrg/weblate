@@ -54,7 +54,7 @@ from weblate.permissions.helpers import (
 from weblate.accounts.models import Profile
 from weblate.accounts.notifications import notify_new_language
 from weblate.trans.views.helper import (
-    get_project, get_subproject, get_translation,
+    get_project, get_component, get_translation,
     try_set_language,
 )
 from weblate.trans.util import render, sort_objects, sort_unicode
@@ -77,7 +77,7 @@ def get_suggestions(request, user, base):
         # Remove user subscriptions
         result = get_untranslated(
             base.exclude(
-                subproject__project__in=user.profile.subscriptions.all()
+                component__project__in=user.profile.subscriptions.all()
             ),
             10
         )
@@ -130,11 +130,11 @@ def get_user_translations(request, user, project_ids):
     Works also for anonymous users based on current UI language.
     """
     result = Translation.objects.prefetch().filter(
-        subproject__project_id__in=project_ids
+        component__project_id__in=project_ids
     ).order_by(
-        'subproject__priority',
-        'subproject__project__name',
-        'subproject__name'
+        'component__priority',
+        'component__project__name',
+        'component__name'
     )
 
     if user.is_authenticated and user.profile.languages.exists():
@@ -204,7 +204,7 @@ def home(request):
     for componentlist in componentlists:
         componentlist.translations = prefetch_stats(
             user_translations.filter(
-                subproject__in=componentlist.components.all()
+                component__in=componentlist.components.all()
             )
         )
     # Filter out component lists with translations
@@ -224,7 +224,7 @@ def home(request):
         )
 
         usersubscriptions = user_translations.filter(
-            subproject__project__in=subscribed_projects
+            component__project__in=subscribed_projects
         )
 
         if user.profile.hide_completed:
@@ -361,19 +361,19 @@ def show_project(request, project):
             ),
             'language_stats': language_stats,
             'language_count': Language.objects.filter(
-                translation__subproject__project=obj
+                translation__component__project=obj
             ).distinct().count(),
             'search_form': SearchForm(),
             'replace_form': replace_form,
             'mass_state_form': mass_state_form,
-            'components': prefetch_stats(obj.subproject_set.select_related()),
+            'components': prefetch_stats(obj.component_set.select_related()),
         }
     )
 
 
 @never_cache
-def show_subproject(request, project, subproject):
-    obj = get_subproject(request, project, subproject)
+def show_component(request, project, component):
+    obj = get_component(request, project, component)
 
     last_changes = Change.objects.for_component(obj)[:10]
 
@@ -386,7 +386,7 @@ def show_subproject(request, project, subproject):
 
     return render(
         request,
-        'subproject.html',
+        'component.html',
         {
             'allow_index': True,
             'object': obj,
@@ -398,10 +398,10 @@ def show_subproject(request, project, subproject):
             'reports_form': ReportsForm(),
             'last_changes': last_changes,
             'last_changes_url': urlencode(
-                {'subproject': obj.slug, 'project': obj.project.slug}
+                {'component': obj.slug, 'project': obj.project.slug}
             ),
             'language_count': Language.objects.filter(
-                translation__subproject=obj
+                translation__component=obj
             ).distinct().count(),
             'replace_form': replace_form,
             'mass_state_form': mass_state_form,
@@ -411,8 +411,8 @@ def show_subproject(request, project, subproject):
 
 
 @never_cache
-def show_translation(request, project, subproject, lang):
-    obj = get_translation(request, project, subproject, lang)
+def show_translation(request, project, component, lang):
+    obj = get_translation(request, project, component, lang)
     obj.stats.ensure_all()
     last_changes = Change.objects.for_translation(obj)[:10]
 
@@ -420,7 +420,7 @@ def show_translation(request, project, subproject, lang):
     form = get_upload_form(request.user, obj)
 
     # Is user allowed to do automatic translation?
-    if can_automatic_translation(request.user, obj.subproject.project):
+    if can_automatic_translation(request.user, obj.component.project):
         autoform = AutoForm(obj, request.user)
     else:
         autoform = None
@@ -449,7 +449,7 @@ def show_translation(request, project, subproject, lang):
         {
             'allow_index': True,
             'object': obj,
-            'project': obj.subproject.project,
+            'project': obj.component.project,
             'form': form,
             'autoform': autoform,
             'search_form': search_form,
@@ -472,7 +472,7 @@ def show_translation(request, project, subproject, lang):
             ).exists(),
             'other_translations': prefetch_stats(
                 Translation.objects.prefetch().filter(
-                    subproject__project=obj.subproject.project,
+                    component__project=obj.component.project,
                     language=obj.language,
                 ).exclude(
                     pk=obj.pk
@@ -598,8 +598,8 @@ def data_project(request, project):
 
 @never_cache
 @login_required
-def new_language(request, project, subproject):
-    obj = get_subproject(request, project, subproject)
+def new_language(request, project, component):
+    obj = get_component(request, project, component)
 
     form_class = get_new_language_form(request, obj)
 

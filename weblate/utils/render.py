@@ -40,10 +40,10 @@ def render_template(template, translation=None, **kwargs):
     context.update(kwargs)
     if translation is not None:
         translation.stats.ensure_basic()
-        context['project_name'] = translation.subproject.project.name
-        context['project_slug'] = translation.subproject.project.slug
-        context['component_name'] = translation.subproject.name
-        context['component_slug'] = translation.subproject.slug
+        context['project_name'] = translation.component.project.name
+        context['project_slug'] = translation.component.project.slug
+        context['component_name'] = translation.component.name
+        context['component_slug'] = translation.component.slug
         context['language_code'] = translation.language_code
         context['language_name'] = force_text(translation.language)
         context['stats'] = translation.stats.get_data()

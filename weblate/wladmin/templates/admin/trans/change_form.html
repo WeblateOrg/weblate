@@ -3,7 +3,7 @@
 {% load translations %}
 
 {% block object-tools %}
-{% if add and opts.model_name == 'subproject' %}
+{% if add and opts.model_name == 'component' %}
   <ul class="object-tools">
 <li>
 <a href="{% documentation 'admin/projects' 'import-speed' %}" class="doclink">{% trans "Import speed documentation" %}</a>
@@ -33,7 +33,7 @@
 {% endblock %}
 
 {% block form_top %}
-{% if opts.model_name == 'project' or opts.model_name == 'subproject' or opts.model_name == 'whiteboardmessage' or opts.model_name == 'groupacl' or opts.model_name == 'componentlist' or opts.model_name == 'autocomponentlist' %}
+{% if opts.model_name == 'project' or opts.model_name == 'component' or opts.model_name == 'whiteboardmessage' or opts.model_name == 'groupacl' or opts.model_name == 'componentlist' or opts.model_name == 'autocomponentlist' %}
 <p>{% blocktrans %}Required fields are marked in bold.{% endblocktrans %}</p>
 {% else %}
 <p class="errornote">{% blocktrans %}Do not change the object here, please use the Weblate interface instead.{% endblocktrans %}</p>

@@ -64,7 +64,7 @@ def show_language(request, lang):
         dictionary__language=obj
     ).distinct()
     projects = projects.filter(
-        subproject__translation__language=obj
+        component__translation__language=obj
     ).distinct()
 
     for project in projects:
@@ -97,12 +97,12 @@ def show_project(request, lang, project):
 
     last_changes = Change.objects.last_changes(request.user).filter(
         translation__language=obj,
-        subproject__project=pobj
+        component__project=pobj
     )[:10]
     translations = obj.translation_set.prefetch().filter(
-        subproject__project=pobj
+        component__project=pobj
     ).order_by(
-        'subproject__project__slug', 'subproject__slug'
+        'component__project__slug', 'component__slug'
     )
 
     return render(

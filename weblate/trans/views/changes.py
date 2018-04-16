@@ -43,7 +43,7 @@ class ChangesView(ListView):
     def __init__(self, **kwargs):
         super(ChangesView, self).__init__(**kwargs)
         self.project = None
-        self.subproject = None
+        self.component = None
         self.translation = None
         self.language = None
         self.user = None
@@ -59,12 +59,12 @@ class ChangesView(ListView):
         url = {}
 
         if self.translation is not None:
-            context['project'] = self.translation.subproject.project
-            context['subproject'] = self.translation.subproject
+            context['project'] = self.translation.component.project
+            context['component'] = self.translation.component
             context['translation'] = self.translation
             url['lang'] = self.translation.language.code
-            url['subproject'] = self.translation.subproject.slug
-            url['project'] = self.translation.subproject.project.slug
+            url['component'] = self.translation.component.slug
+            url['project'] = self.translation.component.project.slug
             context['changes_rss'] = reverse(
                 'rss-translation',
                 kwargs=url,
@@ -72,18 +72,18 @@ class ChangesView(ListView):
             context['title'] = pgettext(
                 'Changes in translation', 'Changes in %s'
             ) % self.translation
-        elif self.subproject is not None:
-            context['project'] = self.subproject.project
-            context['subproject'] = self.subproject
-            url['subproject'] = self.subproject.slug
-            url['project'] = self.subproject.project.slug
+        elif self.component is not None:
+            context['project'] = self.component.project
+            context['component'] = self.component
+            url['component'] = self.component.slug
+            url['project'] = self.component.project.slug
             context['changes_rss'] = reverse(
-                'rss-subproject',
+                'rss-component',
                 kwargs=url,
             )
             context['title'] = pgettext(
                 'Changes in component', 'Changes in %s'
-            ) % self.subproject
+            ) % self.component
         elif self.project is not None:
             context['project'] = self.project
             url['project'] = self.project.slug
@@ -130,11 +130,11 @@ class ChangesView(ListView):
         """Filtering by translation/project."""
         if 'project' in self.request.GET:
             try:
-                self.project, self.subproject, self.translation = \
+                self.project, self.component, self.translation = \
                     get_project_translation(
                         self.request,
                         self.request.GET.get('project'),
-                        self.request.GET.get('subproject'),
+                        self.request.GET.get('component'),
                         self.request.GET.get('lang'),
                     )
             except Http404:
@@ -186,13 +186,13 @@ class ChangesView(ListView):
             result = result.filter(
                 translation=self.translation
             )
-        elif self.subproject is not None:
+        elif self.component is not None:
             result = result.filter(
-                translation__subproject=self.subproject
+                translation__component=self.component
             )
         elif self.project is not None:
             result = result.filter(
-                Q(translation__subproject__project=self.project) |
+                Q(translation__component__project=self.project) |
                 Q(dictionary__project=self.project)
             )
 

@@ -4,8 +4,8 @@
 
 {% block breadcrumbs %}
 <li><a href="{{ project.get_absolute_url }}">{{ project.name }}</a></li>
-{% if subproject %}
-<li><a href="{{ subproject.get_absolute_url }}">{{ subproject.name }}</a></li>
+{% if component %}
+<li><a href="{{ component.get_absolute_url }}">{{ component.name }}</a></li>
 {% if translation %}
 <li><a href="{{ translation.get_absolute_url }}">{{ translation.language }}</a></li>
 {% endif %}

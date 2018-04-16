@@ -35,11 +35,11 @@
 <td>{{ site_url }}{% url 'rss-project' project=object.slug %}</td>
 <td><a href="{{ site_url }}{% url 'rss-project' project=object.slug %}">{% trans "RSS" %}</a></td>
 </tr>
-{% for subproject in object.subproject_set.all %}
+{% for component in object.component_set.all %}
 <tr>
-<th>{{ subproject }}</th>
-<td>{{ site_url }}{% url 'rss-subproject' project=object.slug subproject=subproject.slug %}</td>
-<td><a href="{{ site_url }}{% url 'rss-subproject' project=object.slug subproject=subproject.slug %}">{% trans "RSS" %}</a></td>
+<th>{{ component }}</th>
+<td>{{ site_url }}{% url 'rss-component' project=object.slug component=component.slug %}</td>
+<td><a href="{{ site_url }}{% url 'rss-component' project=object.slug component=component.slug %}">{% trans "RSS" %}</a></td>
 </tr>
 {% endfor %}
 </tbody>
@@ -64,24 +64,24 @@
 <th>{% trans "Link" %}</th>
 </thead>
 <tbody>
-{% for subproject in object.subproject_set.all %}
+{% for component in object.component_set.all %}
 <tr>
-<th>{{ subproject }}</th>
-<td>{{ site_url }}{% url 'api:component-statistics' project__slug=object.slug slug=subproject.slug %}</td>
-<td><a href="{{ site_url }}{% url 'api:component-statistics' project__slug=object.slug slug=subproject.slug %}">{% trans "View" %}</a></td>
+<th>{{ component }}</th>
+<td>{{ site_url }}{% url 'api:component-statistics' project__slug=object.slug slug=component.slug %}</td>
+<td><a href="{{ site_url }}{% url 'api:component-statistics' project__slug=object.slug slug=component.slug %}">{% trans "View" %}</a></td>
 </tr>
 {% endfor %}
 </tbody>
 </table>
 
-{% with object.subproject_set.all.0 as subproject %}
-{% if subproject %}
+{% with object.component_set.all.0 as component %}
+{% if component %}
 <p>{% trans "As an example, fetching stats for all translations in one component can be done thusly:" %}</p>
 
 <pre>
 curl \
     -H "Authorization: Token {{ request.user.auth_token.key|default:"TOKEN" }}" \
-    {{ site_url }}{% url 'api:component-translations' project__slug=object.slug slug=subproject.slug %}
+    {{ site_url }}{% url 'api:component-translations' project__slug=object.slug slug=component.slug %}
 </pre>
 {% endif %}
 {% endwith %}
@@ -110,11 +110,11 @@ curl \
 <td>{{ site_url }}{% url 'api:project-repository' slug=object.slug %}</td>
 <td><a href="{{ site_url }}{% url 'api:project-repository' slug=object.slug %}">{% trans "Hook" %}</a></td>
 </tr>
-{% for subproject in object.subproject_set.all %}
+{% for component in object.component_set.all %}
 <tr>
-<th>{{ subproject }}</th>
-<td>{{ site_url }}{% url 'api:component-repository' project__slug=object.slug slug=subproject.slug %}</td>
-<td><a href="{{ site_url }}{% url 'api:component-repository' project__slug=object.slug slug=subproject.slug %}">{% trans "Hook" %}</a></td>
+<th>{{ component }}</th>
+<td>{{ site_url }}{% url 'api:component-repository' project__slug=object.slug slug=component.slug %}</td>
+<td><a href="{{ site_url }}{% url 'api:component-repository' project__slug=object.slug slug=component.slug %}">{% trans "Hook" %}</a></td>
 </tr>
 {% endfor %}
 </tbody>

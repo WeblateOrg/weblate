@@ -364,17 +364,17 @@ class HooksViewTest(ViewTestCase):
         self.assertContains(response, 'Update triggered')
 
     @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
-    def test_view_hook_subproject(self):
+    def test_view_hook_component(self):
         response = self.client.get(
-            reverse('hook-subproject', kwargs=self.kw_subproject)
+            reverse('hook-component', kwargs=self.kw_component)
         )
         self.assertContains(response, 'Update triggered')
 
     @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
     def test_view_hook_github_exists(self):
         # Adjust matching repo
-        self.subproject.repo = 'git://github.com/defunkt/github.git'
-        self.subproject.save()
+        self.component.repo = 'git://github.com/defunkt/github.git'
+        self.component.save()
         response = self.client.post(
             reverse('hook-github'),
             {'payload': GITHUB_PAYLOAD}
@@ -384,8 +384,8 @@ class HooksViewTest(ViewTestCase):
     @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
     def test_view_hook_github_auth(self):
         # Adjust matching repo
-        self.subproject.repo = 'https://user:pwd@github.com/defunkt/github.git'
-        self.subproject.save()
+        self.component.repo = 'https://user:pwd@github.com/defunkt/github.git'
+        self.component.save()
         response = self.client.post(
             reverse('hook-github'),
             {'payload': GITHUB_PAYLOAD}
@@ -395,8 +395,8 @@ class HooksViewTest(ViewTestCase):
     @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
     def test_view_hook_github_disabled(self):
         # Adjust matching repo
-        self.subproject.repo = 'git://github.com/defunkt/github.git'
-        self.subproject.save()
+        self.component.repo = 'git://github.com/defunkt/github.git'
+        self.component.save()
         self.project.enable_hooks = False
         self.project.save()
         response = self.client.post(
@@ -493,7 +493,7 @@ class HooksViewTest(ViewTestCase):
         )
         self.assertEqual(response.status_code, 405)
         response = self.client.get(
-            reverse('hook-subproject', kwargs=self.kw_subproject)
+            reverse('hook-component', kwargs=self.kw_component)
         )
         self.assertEqual(response.status_code, 405)
 

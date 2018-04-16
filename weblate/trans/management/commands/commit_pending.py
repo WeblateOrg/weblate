@@ -54,7 +54,7 @@ class Command(WeblateLangCommand):
 
             if hours is None:
                 age = timezone.now() - timedelta(
-                    hours=translation.subproject.commit_pending_age
+                    hours=translation.component.commit_pending_age
                 )
 
             last_change = translation.last_change

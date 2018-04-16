@@ -41,7 +41,7 @@
 </tr>
 {% elif c.show_source %}
 <tr class="{{ rowcolors }}">
-<td colspan="4">{% format_translation c.target c.subproject.project.source_language diff=c.old %}</td>
+<td colspan="4">{% format_translation c.target c.component.project.source_language diff=c.old %}</td>
 <td></td>
 </tr>
 {% elif c.target %}

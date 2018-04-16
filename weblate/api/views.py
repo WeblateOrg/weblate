@@ -47,11 +47,11 @@ from weblate.api.serializers import (
 from weblate.checks.models import Check
 from weblate.trans.exporters import EXPORTERS
 from weblate.trans.models import (
-    Project, SubProject, Translation, Change, Unit, Source,
+    Project, Component, Translation, Change, Unit, Source,
     IndexUpdate, Suggestion,
 )
 from weblate.permissions.helpers import (
-    can_upload_translation, can_lock_subproject, can_see_repository_status,
+    can_upload_translation, can_lock_component, can_see_repository_status,
     can_commit_translation, can_update_translation, can_reset_translation,
     can_push_translation, can_overwrite_translation, can_change_screenshot,
 )
@@ -170,8 +170,8 @@ class WeblateViewSet(DownloadViewSet):
         obj = self.get_object()
 
         if isinstance(obj, Translation):
-            project = obj.subproject.project
-        elif isinstance(obj, SubProject):
+            project = obj.component.project
+        elif isinstance(obj, Component):
             project = obj.project
         else:
             project = obj
@@ -212,20 +212,20 @@ class WeblateViewSet(DownloadViewSet):
             data['remote_commit'] = obj.get_last_remote_commit()
 
             if isinstance(obj, Translation):
-                subproject = obj.subproject
+                component = obj.component
                 data['url'] = reverse(
                     'api:translation-repository',
                     kwargs={
-                        'subproject__project__slug': subproject.project.slug,
-                        'subproject__slug': subproject.slug,
+                        'component__project__slug': component.project.slug,
+                        'component__slug': component.slug,
                         'language__code': obj.language.code,
                     },
                     request=request
                 )
-                data['status'] = obj.subproject.repository.status()
+                data['status'] = obj.component.repository.status()
                 changes = Change.objects.filter(
                     action__in=Change.ACTIONS_REPOSITORY,
-                    subproject=obj.subproject,
+                    component=obj.component,
                 )
             else:
                 data['url'] = reverse(
@@ -239,7 +239,7 @@ class WeblateViewSet(DownloadViewSet):
                 data['status'] = obj.repository.status()
                 changes = Change.objects.filter(
                     action__in=Change.ACTIONS_REPOSITORY,
-                    subproject=obj,
+                    component=obj,
                 )
 
             if changes.exists() and changes[0].is_merge_failure():
@@ -266,7 +266,7 @@ class ProjectViewSet(WeblateViewSet):
     def components(self, request, **kwargs):
         obj = self.get_object()
 
-        queryset = obj.subproject_set.all()
+        queryset = obj.component_set.all()
         page = self.paginate_queryset(queryset)
 
         serializer = ComponentSerializer(
@@ -303,12 +303,12 @@ class ProjectViewSet(WeblateViewSet):
 class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
     """Translation components API."""
 
-    queryset = SubProject.objects.none()
+    queryset = Component.objects.none()
     serializer_class = ComponentSerializer
     lookup_fields = ('project__slug', 'slug')
 
     def get_queryset(self):
-        return SubProject.objects.prefetch().filter(
+        return Component.objects.prefetch().filter(
             project_id__in=Project.objects.get_acl_ids(self.request.user)
         ).prefetch_related(
             'project__source_language'
@@ -322,7 +322,7 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
         obj = self.get_object()
 
         if request.method == 'POST':
-            if not can_lock_subproject(request.user, obj.project):
+            if not can_lock_component(request.user, obj.project):
                 raise PermissionDenied()
 
             serializer = LockRequestSerializer(data=request.data)
@@ -409,7 +409,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
     queryset = Translation.objects.none()
     serializer_class = TranslationSerializer
     lookup_fields = (
-        'subproject__project__slug', 'subproject__slug', 'language__code',
+        'component__project__slug', 'component__slug', 'language__code',
     )
     raw_urls = (
         'translation-file',
@@ -418,11 +418,11 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
 
     def get_queryset(self):
         return Translation.objects.prefetch().filter(
-            subproject__project_id__in=Project.objects.get_acl_ids(
+            component__project_id__in=Project.objects.get_acl_ids(
                 self.request.user
             )
         ).prefetch_related(
-            'subproject__project__source_language',
+            'component__project__source_language',
         )
 
     @detail_route(
@@ -436,13 +436,13 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
     )
     def file(self, request, **kwargs):
         obj = self.get_object()
-        project = obj.subproject.project
+        project = obj.component.project
         if request.method == 'GET':
             fmt = self.format_kwarg or request.query_params.get('format')
             return download_translation_file(obj, fmt)
 
         if (not can_upload_translation(request.user, obj) or
-                obj.subproject.locked):
+                obj.component.locked):
             raise PermissionDenied()
 
         if 'file' not in request.data:
@@ -533,7 +533,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet):
     def get_queryset(self):
         acl_projects = Project.objects.get_acl_ids(self.request.user)
         return Unit.objects.filter(
-            translation__subproject__project__in=acl_projects
+            translation__component__project__in=acl_projects
         )
 
 
@@ -546,7 +546,7 @@ class SourceViewSet(viewsets.ReadOnlyModelViewSet):
     def get_queryset(self):
         acl_projects = Project.objects.get_acl_ids(self.request.user)
         return Source.objects.filter(
-            subproject__project__in=acl_projects
+            component__project__in=acl_projects
         )
 
 
@@ -624,7 +624,7 @@ class Metrics(APIView):
             'users': User.objects.count(),
             'changes': Change.objects.count(),
             'projects': Project.objects.count(),
-            'components': SubProject.objects.count(),
+            'components': Component.objects.count(),
             'translations': Translation.objects.count(),
             'languages': Language.objects.filter(
                 translation__pk__gt=0

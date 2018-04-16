@@ -67,7 +67,7 @@ class SuggestionsTest(ViewTestCase):
 
         # Reload from database
         unit = self.get_unit()
-        translation = self.subproject.translation_set.get(
+        translation = self.component.translation_set.get(
             language_code='cs'
         )
         # Check number of suggestions
@@ -93,7 +93,7 @@ class SuggestionsTest(ViewTestCase):
 
         # Reload from database
         unit = self.get_unit()
-        translation = self.subproject.translation_set.get(
+        translation = self.component.translation_set.get(
             language_code='cs'
         )
 
@@ -169,7 +169,7 @@ class SuggestionsTest(ViewTestCase):
 
         # Reload from database
         unit = self.get_unit()
-        translation = self.subproject.translation_set.get(
+        translation = self.component.translation_set.get(
             language_code='cs'
         )
         # Check number of suggestions
@@ -210,7 +210,7 @@ class SuggestionsTest(ViewTestCase):
 
         # Reload from database
         unit = self.get_unit()
-        translation = self.subproject.translation_set.get(
+        translation = self.component.translation_set.get(
             language_code='cs'
         )
         # Check number of suggestions
@@ -221,9 +221,9 @@ class SuggestionsTest(ViewTestCase):
 
     def test_vote(self):
         translate_url = reverse('translate', kwargs=self.kw_translation)
-        self.subproject.suggestion_voting = True
-        self.subproject.suggestion_autoaccept = 0
-        self.subproject.save()
+        self.component.suggestion_voting = True
+        self.component.suggestion_autoaccept = 0
+        self.component.save()
 
         self.add_suggestion_1()
 
@@ -259,9 +259,9 @@ class SuggestionsTest(ViewTestCase):
         self.add_suggestion_1()
 
         translate_url = reverse('translate', kwargs=self.kw_translation)
-        self.subproject.suggestion_voting = True
-        self.subproject.suggestion_autoaccept = 1
-        self.subproject.save()
+        self.component.suggestion_voting = True
+        self.component.suggestion_autoaccept = 1
+        self.component.save()
 
         suggestion_id = self.get_unit().suggestions[0].pk
 
@@ -274,7 +274,7 @@ class SuggestionsTest(ViewTestCase):
 
         # Reload from database
         unit = self.get_unit()
-        translation = self.subproject.translation_set.get(
+        translation = self.component.translation_set.get(
             language_code='cs'
         )
         # Check number of suggestions

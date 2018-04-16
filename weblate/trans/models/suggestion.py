@@ -49,7 +49,7 @@ class SuggestionManager(models.Manager):
             target=target,
             content_hash=unit.content_hash,
             language=unit.translation.language,
-            project=unit.translation.subproject.project,
+            project=unit.translation.component.project,
         )
 
         if same.exists() or (unit.target == target and not unit.fuzzy):
@@ -60,7 +60,7 @@ class SuggestionManager(models.Manager):
             target=target,
             content_hash=unit.content_hash,
             language=unit.translation.language,
-            project=unit.translation.subproject.project,
+            project=unit.translation.component.project,
             user=user
         )
 
@@ -208,7 +208,7 @@ class Suggestion(UnitData, UserDisplayMixin):
             vote.save()
 
         # Automatic accepting
-        required_votes = translation.subproject.suggestion_autoaccept
+        required_votes = translation.component.suggestion_autoaccept
         if required_votes and self.get_num_votes() >= required_votes:
             self.accept(translation, request, can_vote_suggestion)
 

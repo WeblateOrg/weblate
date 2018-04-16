@@ -190,7 +190,7 @@ class UnitQuerySet(models.QuerySet):
             return self.all()
 
     def review(self, date, exclude_user, only_user,
-               project=None, subproject=None, language=None, translation=None):
+               project=None, component=None, language=None, translation=None):
         """Return units touched by other users since given time."""
         # Filter out changes we're interested in
         changes = Change.objects.content()
@@ -203,10 +203,10 @@ class UnitQuerySet(models.QuerySet):
         if translation:
             changes = changes.filter(translation=translation)
         else:
-            if subproject:
-                changes = changes.filter(subproject=subproject)
+            if component:
+                changes = changes.filter(component=component)
             elif project:
-                changes = changes.filter(subproject__project=project)
+                changes = changes.filter(component__project=project)
             if language:
                 changes = changes.filter(translation__language=language)
         # Filter units for these changes
@@ -217,19 +217,19 @@ class UnitQuerySet(models.QuerySet):
             'translation',
             'translation__language',
             'translation__plural',
-            'translation__subproject',
-            'translation__subproject__project',
-            'translation__subproject__project__source_language',
+            'translation__component',
+            'translation__component__project',
+            'translation__component__project__source_language',
         )
 
-    def search(self, params, project=None, subproject=None,
+    def search(self, params, project=None, component=None,
                language=None, translation=None):
         """High level wrapper for searching."""
         if translation is not None:
-            subproject = translation.subproject
+            component = translation.component
             language = translation.language
-        if subproject is not None:
-            project = subproject.project
+        if component is not None:
+            project = component.project
 
         base = self.prefetch()
         if params['type'] != 'all':
@@ -247,7 +247,7 @@ class UnitQuerySet(models.QuerySet):
                 params.get('date'),
                 params.get('exclude_user'),
                 params.get('only_user'),
-                project, subproject, language, translation
+                project, component, language, translation
             )
 
         if 'lang' in params and params['lang']:
@@ -318,10 +318,10 @@ class UnitQuerySet(models.QuerySet):
 
     def same(self, unit, exclude=True):
         """Unit with same source within same project."""
-        project = unit.translation.subproject.project
+        project = unit.translation.component.project
         result = self.prefetch().filter(
             content_hash=unit.content_hash,
-            translation__subproject__project=project,
+            translation__component__project=project,
             translation__language=unit.translation.language
         )
         if exclude:
@@ -428,8 +428,8 @@ class Unit(models.Model, LoggerMixin):
     @cached_property
     def log_prefix(self):
         return '/'.join((
-            self.translation.subproject.project.slug,
-            self.translation.subproject.slug,
+            self.translation.component.project.slug,
+            self.translation.component.slug,
             self.translation.language.code,
             str(self.pk)
         ))
@@ -451,7 +451,7 @@ class Unit(models.Model, LoggerMixin):
             return STATE_FUZZY
         if not translated:
             return STATE_EMPTY
-        elif approved and self.translation.subproject.project.enable_review:
+        elif approved and self.translation.component.project.enable_review:
             return STATE_APPROVED
         return STATE_TRANSLATED
 
@@ -506,7 +506,7 @@ class Unit(models.Model, LoggerMixin):
         # Ensure we track source string
         source_info, source_created = Source.objects.get_or_create(
             id_hash=self.id_hash,
-            subproject=self.translation.subproject
+            component=self.translation.component
         )
         contentsum_changed = self.content_hash != content_hash
 
@@ -584,7 +584,7 @@ class Unit(models.Model, LoggerMixin):
     def propagate(self, request, change_action=None):
         """Propagate current translation to all others."""
         allunits = Unit.objects.same(self).filter(
-            translation__subproject__allow_translation_propagation=True
+            translation__component__allow_translation_propagation=True
         )
         for unit in allunits:
             if not can_translate(request.user, unit):
@@ -687,7 +687,7 @@ class Unit(models.Model, LoggerMixin):
         """
         # Find relevant units
         same_source = Unit.objects.filter(
-            translation__subproject=self.translation.subproject,
+            translation__component=self.translation.component,
             context=self.context,
         ).exclude(
             id=self.id
@@ -755,7 +755,7 @@ class Unit(models.Model, LoggerMixin):
         kwargs = {}
 
         # Should we store history of edits?
-        if self.translation.subproject.save_history:
+        if self.translation.component.save_history:
             kwargs['target'] = self.target
             kwargs['old'] = self.old_unit.target
 
@@ -802,7 +802,7 @@ class Unit(models.Model, LoggerMixin):
         """Return all suggestions for this unit."""
         return Suggestion.objects.filter(
             content_hash=self.content_hash,
-            project=self.translation.subproject.project,
+            project=self.translation.component.project,
             language=self.translation.language
         )
 
@@ -813,7 +813,7 @@ class Unit(models.Model, LoggerMixin):
             return False
         todelete = Check.objects.filter(
             content_hash=self.content_hash,
-            project=self.translation.subproject.project
+            project=self.translation.component.project
         ).filter(
             (Q(language=self.translation.language) & Q(check__in=target)) |
             (Q(language=None) & Q(check__in=source))
@@ -825,7 +825,7 @@ class Unit(models.Model, LoggerMixin):
         """Return all checks for this unit (even ignored)."""
         return Check.objects.filter(
             content_hash=self.content_hash,
-            project=self.translation.subproject.project,
+            project=self.translation.component.project,
             language=self.translation.language
         )
 
@@ -833,7 +833,7 @@ class Unit(models.Model, LoggerMixin):
         """Return all source checks for this unit (even ignored)."""
         return Check.objects.filter(
             content_hash=self.content_hash,
-            project=self.translation.subproject.project,
+            project=self.translation.component.project,
             language=None
         )
 
@@ -841,7 +841,7 @@ class Unit(models.Model, LoggerMixin):
         """Return all active (not ignored) checks for this unit."""
         return Check.objects.filter(
             content_hash=self.content_hash,
-            project=self.translation.subproject.project,
+            project=self.translation.component.project,
             language=self.translation.language,
             ignore=False
         )
@@ -850,7 +850,7 @@ class Unit(models.Model, LoggerMixin):
         """Return all active (not ignored) source checks for this unit."""
         return Check.objects.filter(
             content_hash=self.content_hash,
-            project=self.translation.subproject.project,
+            project=self.translation.component.project,
             language=None,
             ignore=False
         )
@@ -859,7 +859,7 @@ class Unit(models.Model, LoggerMixin):
         """Return list of target comments."""
         return Comment.objects.filter(
             content_hash=self.content_hash,
-            project=self.translation.subproject.project,
+            project=self.translation.component.project,
         ).filter(
             Q(language=self.translation.language) | Q(language=None),
         )
@@ -868,7 +868,7 @@ class Unit(models.Model, LoggerMixin):
         """Return list of target comments."""
         return Comment.objects.filter(
             content_hash=self.content_hash,
-            project=self.translation.subproject.project,
+            project=self.translation.component.project,
             language=None,
         )
 
@@ -887,15 +887,15 @@ class Unit(models.Model, LoggerMixin):
 
         if (not same_state or is_new) and self.state < STATE_TRANSLATED:
             # Check whether there is any message with same source
-            project = self.translation.subproject.project
+            project = self.translation.component.project
             same_source = Unit.objects.filter(
                 translation__language=self.translation.language,
-                translation__subproject__project=project,
+                translation__component__project=project,
                 content_hash=self.content_hash,
                 state__gte=STATE_TRANSLATED,
             ).exclude(
                 id=self.id,
-                translation__subproject__allow_translation_propagation=False,
+                translation__component__allow_translation_propagation=False,
             )
 
             # We run only checks which span across more units
@@ -947,7 +947,7 @@ class Unit(models.Model, LoggerMixin):
                     # Create new check
                     Check.objects.create(
                         content_hash=self.content_hash,
-                        project=self.translation.subproject.project,
+                        project=self.translation.component.project,
                         language=self.translation.language,
                         ignore=False,
                         check=check,
@@ -964,7 +964,7 @@ class Unit(models.Model, LoggerMixin):
                     # Create new check
                     Check.objects.create(
                         content_hash=self.content_hash,
-                        project=self.translation.subproject.project,
+                        project=self.translation.component.project,
                         language=None,
                         ignore=False,
                         check=check
@@ -1056,11 +1056,11 @@ class Unit(models.Model, LoggerMixin):
 
     @cached_property
     def all_flags(self):
-        """Return union of own and subproject flags."""
+        """Return union of own and component flags."""
         flags = set(
             self.flags.split(',') +
             self.source_info.check_flags.split(',') +
-            self.translation.subproject.all_flags
+            self.translation.component.all_flags
         )
         flags.discard('')
         return flags
@@ -1070,7 +1070,7 @@ class Unit(models.Model, LoggerMixin):
         """Return related source string object."""
         return Source.objects.get(
             id_hash=self.id_hash,
-            subproject=self.translation.subproject
+            component=self.translation.component
         )
 
     def get_secondary_units(self, user):
@@ -1082,7 +1082,7 @@ class Unit(models.Model, LoggerMixin):
             Unit.objects.filter(
                 id_hash=self.id_hash,
                 state__gte=STATE_TRANSLATED,
-                translation__subproject=self.translation.subproject,
+                translation__component=self.translation.component,
                 translation__language__in=secondary_langs,
             )
         )

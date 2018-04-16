@@ -16,7 +16,7 @@
 
 <div class="tab-pane" id="newlang">
 
-<form action="{% url 'new-language' project=object.project.slug subproject=object.slug %}" method="post">
+<form action="{% url 'new-language' project=object.project.slug component=object.slug %}" method="post">
 {% csrf_token %}
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Start new translation" %}</h4></div>

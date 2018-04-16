@@ -66,7 +66,7 @@ from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
 from weblate.accounts.models import set_lang, Profile, DEMO_ACCOUNTS
 from weblate.accounts.utils import remove_user
 from weblate.utils import messages
-from weblate.trans.models import Change, Project, SubProject, Suggestion
+from weblate.trans.models import Change, Project, Component, Suggestion
 from weblate.trans.views.helper import get_project
 from weblate.accounts.forms import (
     ProfileForm, SubscriptionForm, UserForm, ContactForm,
@@ -286,7 +286,7 @@ def user_profile(request):
         x for x in all_backends
         if x == 'email' or x not in social_names
     ]
-    license_projects = SubProject.objects.filter(
+    license_projects = Component.objects.filter(
         project__in=Project.objects.all_acl(request.user)
     ).exclude(
         license=''
@@ -499,7 +499,7 @@ def user_page(request, user):
 
     # Filter where project is active
     user_projects_ids = set(all_changes.values_list(
-        'translation__subproject__project', flat=True
+        'translation__component__project', flat=True
     ))
     user_projects = Project.objects.filter(id__in=user_projects_ids)
 

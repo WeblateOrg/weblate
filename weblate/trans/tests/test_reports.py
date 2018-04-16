@@ -56,7 +56,7 @@ class ReportsTest(ViewTestCase):
 
     def test_credits_empty(self):
         data = generate_credits(
-            self.subproject,
+            self.component,
             timezone.now() - timedelta(days=1),
             timezone.now() + timedelta(days=1)
         )
@@ -65,7 +65,7 @@ class ReportsTest(ViewTestCase):
     def test_credits_one(self):
         self.add_change()
         data = generate_credits(
-            self.subproject,
+            self.component,
             timezone.now() - timedelta(days=1),
             timezone.now() + timedelta(days=1)
         )
@@ -84,7 +84,7 @@ class ReportsTest(ViewTestCase):
     def get_credits(self, style):
         self.add_change()
         return self.client.post(
-            reverse('credits', kwargs=self.kw_subproject),
+            reverse('credits', kwargs=self.kw_component),
             {
                 'period': '',
                 'style': style,
@@ -122,7 +122,7 @@ class ReportsTest(ViewTestCase):
     def test_counts_one(self):
         self.add_change()
         data = generate_counts(
-            self.subproject,
+            self.component,
             timezone.now() - timedelta(days=1),
             timezone.now() + timedelta(days=1)
         )
@@ -138,7 +138,7 @@ class ReportsTest(ViewTestCase):
         }
         params.update(kwargs)
         return self.client.post(
-            reverse('counts', kwargs=self.kw_subproject),
+            reverse('counts', kwargs=self.kw_component),
             params
         )
 

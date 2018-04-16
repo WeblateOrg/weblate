@@ -91,7 +91,7 @@ class UpdateLinguasAddon(GettextBaseAddon):
         return path and os.path.exists(path)
 
     def post_add(self, translation):
-        path = self.get_linguas_path(translation.subproject)
+        path = self.get_linguas_path(translation.component)
         with io.open(path, 'r', encoding='utf-8') as handle:
             lines = handle.readlines()
 
@@ -157,7 +157,7 @@ class UpdateConfigureAddon(GettextBaseAddon):
         return False
 
     def post_add(self, translation):
-        for path in self.get_configure_paths(translation.subproject):
+        for path in self.get_configure_paths(translation.component):
             if not os.path.exists(path):
                 continue
             with io.open(path, 'r', encoding='utf-8') as handle:

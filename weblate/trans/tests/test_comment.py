@@ -31,7 +31,7 @@ from weblate.trans.models import Comment
 class CommentViewTest(FixtureTestCase):
     def setUp(self):
         super(CommentViewTest, self).setUp()
-        self.translation = self.subproject.translation_set.get(
+        self.translation = self.component.translation_set.get(
             language_code='cs'
         )
 
@@ -54,7 +54,7 @@ class CommentViewTest(FixtureTestCase):
 
         # Reload from database
         unit = self.get_unit()
-        translation = self.subproject.translation_set.get(
+        translation = self.component.translation_set.get(
             language_code='cs'
         )
         # Check number of comments
@@ -87,7 +87,7 @@ class CommentViewTest(FixtureTestCase):
 
         # Reload from database
         unit = self.get_unit()
-        translation = self.subproject.translation_set.get(
+        translation = self.component.translation_set.get(
             language_code='cs'
         )
         # Check number of comments

@@ -183,7 +183,7 @@ class EditValidationTest(ViewTestCase):
     def test_merge_lang(self):
         """Merging across langauges."""
         unit = self.get_unit()
-        trans = self.subproject.translation_set.exclude(
+        trans = self.component.translation_set.exclude(
             language_code='cs'
         )[0]
         other = trans.unit_set.get(content_hash=unit.content_hash)
@@ -216,7 +216,7 @@ class EditResourceTest(EditTest):
     has_plurals = False
     monolingual = True
 
-    def create_subproject(self):
+    def create_component(self):
         return self.create_android()
 
 
@@ -233,7 +233,7 @@ class EditResourceSourceTest(ViewTestCase):
             'translate',
             kwargs={
                 'project': 'test',
-                'subproject': 'test',
+                'component': 'test',
                 'lang': 'en'
             }
         )
@@ -252,7 +252,7 @@ class EditResourceSourceTest(ViewTestCase):
 
     def test_edit_revert(self):
         self._language_code = 'cs'
-        translation = self.subproject.translation_set.get(
+        translation = self.component.translation_set.get(
             language_code='cs'
         )
         # Edit translation
@@ -285,28 +285,28 @@ class EditResourceSourceTest(ViewTestCase):
         self.assertEqual(unit.state, STATE_TRANSLATED)
 
     def get_translation(self):
-        return self.subproject.translation_set.get(
+        return self.component.translation_set.get(
             language_code=self._language_code
         )
 
-    def create_subproject(self):
+    def create_component(self):
         return self.create_android()
 
 
 class EditBranchTest(EditTest):
-    def create_subproject(self):
+    def create_component(self):
         return self.create_po_branch()
 
 
 class EditMercurialTest(EditTest):
-    def create_subproject(self):
+    def create_component(self):
         return self.create_po_mercurial()
 
 
 class EditPoMonoTest(EditTest):
     monolingual = True
 
-    def create_subproject(self):
+    def create_component(self):
         return self.create_po_mono()
 
     def test_new_unit(self):
@@ -316,7 +316,7 @@ class EditPoMonoTest(EditTest):
                     'new-unit',
                     kwargs={
                         'project': 'test',
-                        'subproject': 'test',
+                        'component': 'test',
                         'lang': 'en',
                     }
                 ),
@@ -344,7 +344,7 @@ class EditIphoneTest(EditTest):
     has_plurals = False
     monolingual = True
 
-    def create_subproject(self):
+    def create_component(self):
         return self.create_iphone()
 
 
@@ -352,7 +352,7 @@ class EditJSONTest(EditTest):
     has_plurals = False
     monolingual = True
 
-    def create_subproject(self):
+    def create_component(self):
         return self.create_json()
 
 
@@ -360,7 +360,7 @@ class EditJoomlaTest(EditTest):
     has_plurals = False
     monolingual = True
 
-    def create_subproject(self):
+    def create_component(self):
         return self.create_joomla()
 
 
@@ -368,7 +368,7 @@ class EditRubyYAMLTest(EditTest):
     has_plurals = False
     monolingual = True
 
-    def create_subproject(self):
+    def create_component(self):
         return self.create_ruby_yaml()
 
 
@@ -376,7 +376,7 @@ class EditDTDTest(EditTest):
     has_plurals = False
     monolingual = True
 
-    def create_subproject(self):
+    def create_component(self):
         return self.create_dtd()
 
 
@@ -384,7 +384,7 @@ class EditJSONMonoTest(EditTest):
     has_plurals = False
     monolingual = True
 
-    def create_subproject(self):
+    def create_component(self):
         return self.create_json_mono()
 
 
@@ -392,21 +392,21 @@ class EditJavaTest(EditTest):
     has_plurals = False
     monolingual = True
 
-    def create_subproject(self):
+    def create_component(self):
         return self.create_java()
 
 
 class EditXliffComplexTest(EditTest):
     has_plurals = False
 
-    def create_subproject(self):
+    def create_component(self):
         return self.create_xliff('complex')
 
 
 class EditXliffTest(EditTest):
     has_plurals = False
 
-    def create_subproject(self):
+    def create_component(self):
         return self.create_xliff()
 
 
@@ -414,17 +414,17 @@ class EditXliffMonoTest(EditTest):
     has_plurals = False
     monolingual = True
 
-    def create_subproject(self):
+    def create_component(self):
         return self.create_xliff_mono()
 
 
 class EditLinkTest(EditTest):
-    def create_subproject(self):
+    def create_component(self):
         return self.create_link()
 
 
 class EditTSTest(EditTest):
-    def create_subproject(self):
+    def create_component(self):
         return self.create_ts()
 
 
@@ -432,7 +432,7 @@ class EditTSMonoTest(EditTest):
     has_plurals = False
     monolingual = True
 
-    def create_subproject(self):
+    def create_component(self):
         return self.create_ts_mono()
 
 
@@ -521,8 +521,8 @@ class ZenViewTest(ViewTestCase):
         )
 
     def test_save_zen_lock(self):
-        self.subproject.locked = True
-        self.subproject.save()
+        self.component.locked = True
+        self.component.save()
         unit = self.get_unit()
         params = {
             'checksum': unit.checksum,
@@ -704,28 +704,28 @@ class EditComplexTest(ViewTestCase):
         # We should get to second message
         self.assert_redirects_offset(response, self.translate_url, 1)
         self.assertTrue(self.translation.repo_needs_commit())
-        self.assertTrue(self.subproject.repo_needs_commit())
-        self.assertTrue(self.subproject.project.repo_needs_commit())
+        self.assertTrue(self.component.repo_needs_commit())
+        self.assertTrue(self.component.project.repo_needs_commit())
 
         self.translation.commit_pending(self.get_request('/'))
 
         self.assertFalse(self.translation.repo_needs_commit())
-        self.assertFalse(self.subproject.repo_needs_commit())
-        self.assertFalse(self.subproject.project.repo_needs_commit())
+        self.assertFalse(self.component.repo_needs_commit())
+        self.assertFalse(self.component.project.repo_needs_commit())
 
         self.assertTrue(self.translation.repo_needs_push())
-        self.assertTrue(self.subproject.repo_needs_push())
-        self.assertTrue(self.subproject.project.repo_needs_push())
+        self.assertTrue(self.component.repo_needs_push())
+        self.assertTrue(self.component.project.repo_needs_push())
 
         self.translation.do_push(self.get_request('/'))
 
         self.assertFalse(self.translation.repo_needs_push())
-        self.assertFalse(self.subproject.repo_needs_push())
-        self.assertFalse(self.subproject.project.repo_needs_push())
+        self.assertFalse(self.component.repo_needs_push())
+        self.assertFalse(self.component.project.repo_needs_push())
 
     def test_edit_locked(self):
-        self.subproject.locked = True
-        self.subproject.save()
+        self.component.locked = True
+        self.component.save()
         response = self.edit_unit(
             'Hello, world!\n',
             'Nazdar svete!\n'

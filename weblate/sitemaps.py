@@ -20,7 +20,7 @@
 
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
-from weblate.trans.models import Project, SubProject, Translation, Change
+from weblate.trans.models import Project, Component, Translation, Change
 
 
 class PagesSitemap(Sitemap):
@@ -67,7 +67,7 @@ class ComponentSitemap(WeblateSitemap):
     priority = 0.6
 
     def items(self):
-        return SubProject.objects.prefetch().filter(
+        return Component.objects.prefetch().filter(
             project__access_control__lt=Project.ACCESS_PRIVATE
         )
 
@@ -77,7 +77,7 @@ class TranslationSitemap(WeblateSitemap):
 
     def items(self):
         return Translation.objects.prefetch().filter(
-            subproject__project__access_control__lt=Project.ACCESS_PRIVATE
+            component__project__access_control__lt=Project.ACCESS_PRIVATE
         )
 
 
@@ -115,7 +115,7 @@ SITEMAPS = {
     'project': ProjectSitemap(),
     'engage': EngageSitemap(),
     'engagelang': EngageLangSitemap(),
-    'subproject': ComponentSitemap(),
+    'component': ComponentSitemap(),
     'translation': TranslationSitemap(),
     'pages': PagesSitemap(),
 }

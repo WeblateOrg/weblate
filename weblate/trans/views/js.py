@@ -32,7 +32,7 @@ from weblate.screenshots.forms import ScreenshotForm
 from weblate.trans.models import Unit, Change
 from weblate.trans.machine import MACHINE_TRANSLATION_SERVICES
 from weblate.trans.views.helper import (
-    get_project, get_subproject, get_translation
+    get_project, get_component, get_translation
 )
 from weblate.trans.forms import PriorityForm, CheckFlagsForm
 from weblate.trans.validators import EXTRA_FLAGS
@@ -47,7 +47,7 @@ from weblate.trans.util import sort_objects
 def translate(request, unit_id):
     """AJAX handler for translating."""
     unit = get_object_or_404(Unit, pk=int(unit_id))
-    check_access(request, unit.translation.subproject.project)
+    check_access(request, unit.translation.component.project)
     if not can_use_mt(request.user, unit.translation):
         raise PermissionDenied()
 
@@ -90,7 +90,7 @@ def translate(request, unit_id):
 def get_unit_changes(request, unit_id):
     """Return unit's recent changes."""
     unit = get_object_or_404(Unit, pk=int(unit_id))
-    check_access(request, unit.translation.subproject.project)
+    check_access(request, unit.translation.component.project)
 
     return render(
         request,
@@ -105,7 +105,7 @@ def get_unit_changes(request, unit_id):
 def get_unit_translations(request, unit_id):
     """Return unit's other translations."""
     unit = get_object_or_404(Unit, pk=int(unit_id))
-    check_access(request, unit.translation.subproject.project)
+    check_access(request, unit.translation.component.project)
 
     return render(
         request,
@@ -114,7 +114,7 @@ def get_unit_translations(request, unit_id):
             'units': sort_objects(
                 Unit.objects.filter(
                     id_hash=unit.id_hash,
-                    translation__subproject=unit.translation.subproject,
+                    translation__component=unit.translation.component,
                 ).exclude(
                     pk=unit.pk
                 )
@@ -154,7 +154,7 @@ def git_status_project(request, project):
             'object': obj,
             'project': obj,
             'changes': Change.objects.filter(
-                subproject__project=obj,
+                component__project=obj,
                 action__in=Change.ACTIONS_REPOSITORY,
             )[:10],
             'statuses': statuses,
@@ -162,15 +162,15 @@ def git_status_project(request, project):
     )
 
 
-def git_status_subproject(request, project, subproject):
-    obj = get_subproject(request, project, subproject)
+def git_status_component(request, project, component):
+    obj = get_component(request, project, component)
 
     if not can_see_repository_status(request.user, obj.project):
         raise PermissionDenied()
 
     target = obj
     if target.is_repo_link:
-        target = target.linked_subproject
+        target = target.linked_component
 
     return render(
         request,
@@ -180,22 +180,22 @@ def git_status_subproject(request, project, subproject):
             'project': obj.project,
             'changes': Change.objects.filter(
                 action__in=Change.ACTIONS_REPOSITORY,
-                subproject=target,
+                component=target,
             )[:10],
             'statuses': [(None, obj.repository.status)],
         }
     )
 
 
-def git_status_translation(request, project, subproject, lang):
-    obj = get_translation(request, project, subproject, lang)
+def git_status_translation(request, project, component, lang):
+    obj = get_translation(request, project, component, lang)
 
-    if not can_see_repository_status(request.user, obj.subproject.project):
+    if not can_see_repository_status(request.user, obj.component.project):
         raise PermissionDenied()
 
-    target = obj.subproject
+    target = obj.component
     if target.is_repo_link:
-        target = target.linked_subproject
+        target = target.linked_component
 
     return render(
         request,
@@ -203,12 +203,12 @@ def git_status_translation(request, project, subproject, lang):
         {
             'object': obj,
             'translation': obj,
-            'project': obj.subproject.project,
+            'project': obj.component.project,
             'changes': Change.objects.filter(
                 action__in=Change.ACTIONS_REPOSITORY,
-                subproject=target,
+                component=target,
             )[:10],
-            'statuses': [(None, obj.subproject.repository.status)],
+            'statuses': [(None, obj.component.repository.status)],
         }
     )
 
@@ -224,13 +224,13 @@ def mt_services(request):
     )
 
 
-def get_detail(request, project, subproject, checksum):
+def get_detail(request, project, component, checksum):
     """Return source translation detail in all languages."""
-    subproject = get_subproject(request, project, subproject)
+    component = get_component(request, project, component)
     try:
         units = Unit.objects.filter(
             id_hash=checksum_to_hash(checksum),
-            translation__subproject=subproject
+            translation__component=component
         )
     except ValueError:
         raise Http404('Non existing unit!')
@@ -250,7 +250,7 @@ def get_detail(request, project, subproject, checksum):
         {
             'units': units,
             'source': source,
-            'project': subproject.project,
+            'project': component.project,
             'next': request.GET.get('next', ''),
             'priority_form': PriorityForm(
                 initial={'priority': source.priority}

@@ -25,16 +25,16 @@ from django.views.decorators.http import require_POST
 
 from weblate.utils import messages
 from weblate.trans.util import redirect_param
-from weblate.trans.views.helper import get_project, get_subproject
-from weblate.permissions.helpers import can_lock_subproject
+from weblate.trans.views.helper import get_project, get_component
+from weblate.permissions.helpers import can_lock_component
 
 
 @require_POST
 @login_required
-def lock_subproject(request, project, subproject):
-    obj = get_subproject(request, project, subproject)
+def lock_component(request, project, component):
+    obj = get_component(request, project, component)
 
-    if not can_lock_subproject(request.user, obj.project):
+    if not can_lock_component(request.user, obj.project):
         raise PermissionDenied()
 
     obj.commit_pending(request)
@@ -51,10 +51,10 @@ def lock_subproject(request, project, subproject):
 
 @require_POST
 @login_required
-def unlock_subproject(request, project, subproject):
-    obj = get_subproject(request, project, subproject)
+def unlock_component(request, project, component):
+    obj = get_component(request, project, component)
 
-    if not can_lock_subproject(request.user, obj.project):
+    if not can_lock_component(request.user, obj.project):
         raise PermissionDenied()
 
     obj.do_lock(request.user, False)
@@ -72,13 +72,13 @@ def unlock_subproject(request, project, subproject):
 def lock_project(request, project):
     obj = get_project(request, project)
 
-    if not can_lock_subproject(request.user, obj):
+    if not can_lock_component(request.user, obj):
         raise PermissionDenied()
 
     obj.commit_pending(request)
 
-    for subproject in obj.subproject_set.all():
-        subproject.do_lock(request.user)
+    for component in obj.component_set.all():
+        component.do_lock(request.user)
 
     messages.success(
         request,
@@ -93,11 +93,11 @@ def lock_project(request, project):
 def unlock_project(request, project):
     obj = get_project(request, project)
 
-    if not can_lock_subproject(request.user, obj):
+    if not can_lock_component(request.user, obj):
         raise PermissionDenied()
 
-    for subproject in obj.subproject_set.all():
-        subproject.do_lock(request.user, False)
+    for component in obj.component_set.all():
+        component.do_lock(request.user, False)
 
     messages.success(
         request,

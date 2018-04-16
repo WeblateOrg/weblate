@@ -48,7 +48,7 @@ def validate_commit_message(val):
             'language': 'cs',
             'language_name': 'Czech',
             'project': 'Weblate',
-            'subproject': 'master',
+            'component': 'master',
             'resource': 'master',
             'component': 'master',
             'url': 'https://example.com/projects/weblate/master',

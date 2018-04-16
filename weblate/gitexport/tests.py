@@ -87,7 +87,7 @@ class GitExportTest(ViewTestCase):
 
     def get_git_url(self, path):
         kwargs = {'path': path}
-        kwargs.update(self.kw_subproject)
+        kwargs.update(self.kw_component)
         return reverse('git-export', kwargs=kwargs)
 
     def test_git_root(self):
@@ -141,7 +141,7 @@ class GitExportTest(ViewTestCase):
     def test_get_export_url(self):
         self.assertEqual(
             'http://example.com/git/test/test/',
-            get_export_url(self.subproject)
+            get_export_url(self.component)
         )
 
 
@@ -152,17 +152,17 @@ class GitCloneTest(BaseLiveServerTestCase, RepoTestMixin):
     def setUp(self):
         super(GitCloneTest, self).setUp()
         self.clone_test_repos()
-        self.subproject = self.create_subproject()
-        self.subproject.project.access_control = Project.ACCESS_PRIVATE
-        self.subproject.project.save()
+        self.component = self.create_component()
+        self.component.project.access_control = Project.ACCESS_PRIVATE
+        self.component.project.save()
         self.user = create_test_user()
 
     def test_clone(self):
         testdir = tempfile.mkdtemp()
         if self.acl:
-            self.subproject.project.add_user(self.user, '@VCS')
+            self.component.project.add_user(self.user, '@VCS')
         try:
-            url = get_export_url(self.subproject).replace(
+            url = get_export_url(self.component).replace(
                 'http://example.com', self.live_server_url
             ).replace(
                 'http://', 'http://{0}:{1}@'.format(

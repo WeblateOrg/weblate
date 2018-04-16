@@ -17,7 +17,7 @@
 {% get_location_links user.profile item.unit %}
 </td>
 <td>
-<a href="{% url 'translate' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}?{{ search_url }}&amp;offset={{ item.offset }}" class="btn btn-xs btn-default pull-right flip" title="{% trans "Open in full editor" %}"><i class="fa fa-pencil"></i> {% trans "Edit" %}</a>
+<a href="{% url 'translate' project=object.component.project.slug component=object.component.slug lang=object.language.code %}?{{ search_url }}&amp;offset={{ item.offset }}" class="btn btn-xs btn-default pull-right flip" title="{% trans "Open in full editor" %}"><i class="fa fa-pencil"></i> {% trans "Edit" %}</a>
 </td>
 </tr>
 {% if item.unit.comment %}
@@ -25,7 +25,7 @@
 <td></td>
 <td colspan="2" class="translatetext">
     <label>{% trans "Source string comment" %}</label>
-    {% format_translation item.unit.comment item.unit.translation.subproject.project.source_language %}
+    {% format_translation item.unit.comment item.unit.translation.component.project.source_language %}
 </td>
 </tr>
 {% endif %}
@@ -36,7 +36,7 @@
 {% if item.unit.previous_source and item.unit.fuzzy %}
 <div class="form-group">
 <label>{% trans "Source change" %}</label>
-{% format_translation item.unit.source item.unit.translation.subproject.project.source_language diff=item.unit.previous_source num_plurals=item.unit.translation.plural.number %}
+{% format_translation item.unit.source item.unit.translation.component.project.source_language diff=item.unit.previous_source num_plurals=item.unit.translation.plural.number %}
 </div>
 {% endif %}
 
@@ -50,7 +50,7 @@
 {% endif %}
 
 {% if not user.profile.hide_source_secondary or not item.secondary %}
-{% format_translation item.unit.source item.unit.translation.subproject.project.source_language search_match=search_query num_plurals=item.unit.translation.plural.number unit=item.unit %}
+{% format_translation item.unit.source item.unit.translation.component.project.source_language search_match=search_query num_plurals=item.unit.translation.plural.number unit=item.unit %}
 {% endif %}
 
 </td>

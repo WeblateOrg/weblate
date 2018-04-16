@@ -7,7 +7,6 @@ import weblate.trans.mixins
 import weblate.utils.validators
 from weblate.utils.scripts import get_script_choices
 import weblate.trans.validators
-import weblate.trans.models.subproject
 from django.conf import settings
 
 PRE_COMMIT_SCRIPT_CHOICES = get_script_choices(settings.PRE_COMMIT_SCRIPTS)

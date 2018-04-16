@@ -31,7 +31,7 @@ from weblate.trans.tests.test_commands import CheckGitTest
 class PeriodicCommandTest(RepoTestCase):
     def setUp(self):
         super(PeriodicCommandTest, self).setUp()
-        self.subproject = self.create_subproject()
+        self.component = self.create_component()
 
     def test_list_checks(self):
         output = StringIO()

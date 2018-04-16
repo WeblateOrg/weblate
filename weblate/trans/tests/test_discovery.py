@@ -27,7 +27,7 @@ from weblate.trans.tests.test_models import RepoTestCase
 class ComponentDiscoveryTest(RepoTestCase):
     def setUp(self):
         super(ComponentDiscoveryTest, self).setUp()
-        self.component = self.create_subproject()
+        self.component = self.create_component()
         self.discovery = ComponentDiscovery(
             self.component,
             r'(?P<component>[^/]*)/(?P<language>[^/]*)\.po',

@@ -28,7 +28,7 @@ from django.db.models import Q
 from django.utils.functional import cached_property
 from django.utils.text import slugify
 
-from weblate.trans.models import SubProject
+from weblate.trans.models import Component
 from weblate.logger import LOGGER
 from weblate.utils.render import render_template
 from weblate.trans.util import path_separator
@@ -133,7 +133,7 @@ class ComponentDiscovery(object):
         if 'repo' not in params:
             params['repo'] = main.get_repo_link_url()
 
-        components = SubProject.objects.filter(project=params['project'])
+        components = Component.objects.filter(project=params['project'])
 
         if components.filter(Q(slug=slug) | Q(name=name)).exists():
             base_name = get_val('name', 4)
@@ -148,7 +148,7 @@ class ComponentDiscovery(object):
                 break
 
         self.logger.info('Creating component %s', name)
-        return SubProject.objects.create(
+        return Component.objects.create(
             name=name,
             slug=slug,
             template=match['base_file'],

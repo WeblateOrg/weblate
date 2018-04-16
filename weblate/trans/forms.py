@@ -48,7 +48,7 @@ from weblate.lang.data import LOCALE_ALIASES
 from weblate.lang.models import Language
 from weblate.trans.filter import get_filter_choice
 from weblate.trans.models import (
-    Translation, SubProject, Unit, Project, Change
+    Translation, Component, Unit, Project, Change
 )
 from weblate.trans.models.source import PRIORITY_CHOICES
 from weblate.trans.machine import MACHINE_TRANSLATION_SERVICES
@@ -607,7 +607,7 @@ class ExtraUploadForm(UploadForm):
 
 def get_upload_form(user, translation, *args):
     """Return correct upload form based on user permissions."""
-    project = translation.subproject.project
+    project = translation.component.project
     if can_author_translation(user, project):
         form = ExtraUploadForm
     elif can_overwrite_translation(user, project):
@@ -857,10 +857,10 @@ class MergeForm(ChecksumForm):
         if 'unit' not in self.cleaned_data or 'merge' not in self.cleaned_data:
             return None
         try:
-            project = self.translation.subproject.project
+            project = self.translation.component.project
             self.cleaned_data['merge_unit'] = merge_unit = Unit.objects.get(
                 pk=self.cleaned_data['merge'],
-                translation__subproject__project=project,
+                translation__component__project=project,
                 translation__language=self.translation.language,
             )
             unit = self.cleaned_data['unit']
@@ -906,7 +906,7 @@ class AutoForm(forms.Form):
         ],
         initial='others',
     )
-    subproject = forms.ChoiceField(
+    component = forms.ChoiceField(
         label=_('Component to use'),
         required=False,
         initial=''
@@ -924,17 +924,17 @@ class AutoForm(forms.Form):
     )
 
     def __init__(self, obj, user, *args, **kwargs):
-        """Generate choices for other subproject in same project."""
-        other_subprojects = obj.subproject.project.subproject_set.exclude(
-            id=obj.subproject.id
+        """Generate choices for other component in same project."""
+        other_components = obj.component.project.component_set.exclude(
+            id=obj.component.id
         )
-        choices = [(s.id, force_text(s)) for s in other_subprojects]
+        choices = [(s.id, force_text(s)) for s in other_components]
 
         # Add components from other owned projects
-        owned_components = SubProject.objects.filter(
+        owned_components = Component.objects.filter(
             project__groupacl__groups__name__endswith='@Administration'
         ).exclude(
-            project=obj.subproject.project
+            project=obj.component.project
         ).distinct()
         for component in owned_components:
             choices.append(
@@ -943,7 +943,7 @@ class AutoForm(forms.Form):
 
         super(AutoForm, self).__init__(*args, **kwargs)
 
-        self.fields['subproject'].choices = \
+        self.fields['component'].choices = \
             [('', _('All components in current project'))] + choices
         self.fields['engines'].choices = [
             (key, mt.name) for key, mt in MACHINE_TRANSLATION_SERVICES.items()
@@ -964,7 +964,7 @@ class AutoForm(forms.Form):
             Field('type'),
             InlineRadios('auto_source', id='select_auto_source'),
             Div(
-                'subproject',
+                'component',
                 css_id='auto_source_others'
             ),
             Div(
@@ -1108,7 +1108,7 @@ class EngageForm(forms.Form):
     def __init__(self, project, *args, **kwargs):
         """Dynamically generate choices for used languages in project."""
         choices = [(l.code, force_text(l)) for l in project.get_languages()]
-        components = [(c.slug, c.name) for c in project.subproject_set.all()]
+        components = [(c.slug, c.name) for c in project.component_set.all()]
 
         super(EngageForm, self).__init__(*args, **kwargs)
 
@@ -1125,7 +1125,7 @@ class NewLanguageOwnerForm(forms.Form):
 
     def __init__(self, component, *args, **kwargs):
         super(NewLanguageOwnerForm, self).__init__(*args, **kwargs)
-        languages = Language.objects.exclude(translation__subproject=component)
+        languages = Language.objects.exclude(translation__component=component)
         self.component = component
         self.fields['lang'].choices = sort_choices([
             (l.code, '{0} ({1})'.format(force_text(l), l.code))
@@ -1134,7 +1134,7 @@ class NewLanguageOwnerForm(forms.Form):
 
     def clean_lang(self):
         existing = Language.objects.filter(
-            translation__subproject=self.component
+            translation__component=self.component
         )
         for code in self.cleaned_data['lang']:
             if code not in LOCALE_ALIASES:
@@ -1306,10 +1306,10 @@ class ReportsForm(forms.Form):
             )
 
 
-class SubprojectSettingsForm(forms.ModelForm):
+class ComponentSettingsForm(forms.ModelForm):
     """Component settings form."""
     class Meta(object):
-        model = SubProject
+        model = Component
         fields = (
             'report_source_bugs',
             'license',
@@ -1339,7 +1339,7 @@ class SubprojectSettingsForm(forms.ModelForm):
         )
 
     def __init__(self, *args, **kwargs):
-        super(SubprojectSettingsForm, self).__init__(*args, **kwargs)
+        super(ComponentSettingsForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
         self.helper.layout = Layout(
@@ -1486,7 +1486,7 @@ class MatrixLanguageForm(forms.Form):
 
     def __init__(self, component, *args, **kwargs):
         super(MatrixLanguageForm, self).__init__(*args, **kwargs)
-        languages = Language.objects.filter(translation__subproject=component)
+        languages = Language.objects.filter(translation__component=component)
         self.fields['lang'].choices = sort_choices([
             (l.code, '{0} ({1})'.format(force_text(l), l.code))
             for l in languages
@@ -1535,9 +1535,9 @@ class MassStateForm(forms.Form):
         excluded = {STATE_EMPTY}
         translation = None
         if isinstance(obj, Translation):
-            project = obj.subproject.project
+            project = obj.component.project
             translation = obj
-        elif isinstance(obj, SubProject):
+        elif isinstance(obj, Component):
             project = obj.project
         else:
             project = obj

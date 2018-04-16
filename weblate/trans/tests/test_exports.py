@@ -42,9 +42,9 @@ class ExportsViewTest(FixtureTestCase):
         )
         self.assertContains(response, 'Test/Test')
 
-    def test_view_rss_subproject(self):
+    def test_view_rss_component(self):
         response = self.client.get(
-            reverse('rss-subproject', kwargs=self.kw_subproject)
+            reverse('rss-component', kwargs=self.kw_component)
         )
         self.assertContains(response, 'Test/Test')
 
@@ -56,14 +56,14 @@ class ExportsViewTest(FixtureTestCase):
 
     def test_export_stats(self):
         response = self.client.get(
-            reverse('export_stats', kwargs=self.kw_subproject)
+            reverse('export_stats', kwargs=self.kw_component)
         )
         parsed = json.loads(response.content.decode('utf-8'))
         self.assertEqual(parsed[0]['name'], 'Czech')
 
     def test_export_stats_csv(self):
         response = self.client.get(
-            reverse('export_stats', kwargs=self.kw_subproject),
+            reverse('export_stats', kwargs=self.kw_component),
             {'format': 'csv'}
         )
         self.assertContains(response, 'name,code')

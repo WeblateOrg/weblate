@@ -23,7 +23,7 @@
 from django.urls import reverse
 
 from weblate.trans.tests.test_views import FixtureTestCase
-from weblate.trans.models.subproject import SubProject
+from weblate.trans.models.component import Component
 
 
 class LockTest(FixtureTestCase):
@@ -35,13 +35,13 @@ class LockTest(FixtureTestCase):
         self.user.save()
 
     def assert_component_locked(self):
-        subproject = SubProject.objects.get(
-            slug=self.subproject.slug,
+        component = Component.objects.get(
+            slug=self.component.slug,
             project__slug=self.project.slug,
         )
-        self.assertTrue(subproject.locked)
+        self.assertTrue(component.locked)
         response = self.client.get(
-            reverse('subproject', kwargs=self.kw_subproject)
+            reverse('component', kwargs=self.kw_component)
         )
         self.assertContains(
             response,
@@ -49,31 +49,31 @@ class LockTest(FixtureTestCase):
         )
 
     def assert_component_not_locked(self):
-        subproject = SubProject.objects.get(
-            slug=self.subproject.slug,
+        component = Component.objects.get(
+            slug=self.component.slug,
             project__slug=self.project.slug,
         )
-        self.assertFalse(subproject.locked)
+        self.assertFalse(component.locked)
         response = self.client.get(
-            reverse('subproject', kwargs=self.kw_subproject)
+            reverse('component', kwargs=self.kw_component)
         )
         self.assertNotContains(
             response,
             'This translation is currently locked for updates.'
         )
 
-    def test_subproject(self):
+    def test_component(self):
         response = self.client.post(
-            reverse('lock_subproject', kwargs=self.kw_subproject)
+            reverse('lock_component', kwargs=self.kw_component)
         )
         redirect_url = '{}#repository'.format(
-            reverse('subproject', kwargs=self.kw_subproject)
+            reverse('component', kwargs=self.kw_component)
         )
         self.assertRedirects(response, redirect_url)
         self.assert_component_locked()
 
         response = self.client.post(
-            reverse('unlock_subproject', kwargs=self.kw_subproject)
+            reverse('unlock_component', kwargs=self.kw_component)
         )
         self.assertRedirects(response, redirect_url)
         self.assert_component_not_locked()
@@ -89,7 +89,7 @@ class LockTest(FixtureTestCase):
         self.assert_component_locked()
 
         response = self.client.get(
-            reverse('subproject', kwargs=self.kw_subproject)
+            reverse('component', kwargs=self.kw_component)
         )
         self.assertContains(
             response,

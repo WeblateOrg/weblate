@@ -35,5 +35,5 @@ class Command(WeblateComponentCommand):
         )
 
     def handle(self, *args, **options):
-        for subproject in self.get_subprojects(**options):
-            subproject.do_push(None, force_commit=options['force_commit'])
+        for component in self.get_components(**options):
+            component.do_push(None, force_commit=options['force_commit'])

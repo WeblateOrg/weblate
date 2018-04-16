@@ -25,7 +25,7 @@ from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 
 from weblate.lang.models import Language
-from weblate.trans.models import Unit, SubProject, Translation
+from weblate.trans.models import Unit, Component, Translation
 from weblate.logger import LOGGER
 
 
@@ -70,7 +70,7 @@ class WeblateComponentCommand(WeblateCommand):
         if options['all']:
             return Unit.objects.all()
         return Unit.objects.filter(
-            translation__subproject__in=self.get_subprojects(**options)
+            translation__component__in=self.get_components(**options)
         )
 
     def iterate_units(self, **options):
@@ -95,8 +95,8 @@ class WeblateComponentCommand(WeblateCommand):
                     pk__gt=current
                 )[:step].prefetch_related(
                     'translation__language',
-                    'translation__subproject',
-                    'translation__subproject__project',
+                    'translation__component',
+                    'translation__component__project',
                 )
                 for unit in step_units:
                     current = unit.pk
@@ -107,14 +107,14 @@ class WeblateComponentCommand(WeblateCommand):
     def get_translations(self, **options):
         """Return list of translations matching parameters."""
         return Translation.objects.prefetch().filter(
-            subproject__in=self.get_subprojects(**options)
+            component__in=self.get_components(**options)
         )
 
-    def get_subprojects(self, **options):
+    def get_components(self, **options):
         """Return list of components matching parameters."""
         if options['all']:
             # all components
-            result = SubProject.objects.all()
+            result = Component.objects.all()
         elif not options['component']:
             # no argumets to filter projects
             self.stderr.write(
@@ -124,7 +124,7 @@ class WeblateComponentCommand(WeblateCommand):
             raise CommandError('Nothing to process!')
         else:
             # start with none and add found
-            result = SubProject.objects.none()
+            result = Component.objects.none()
 
             # process arguments
             for arg in options['component']:
@@ -132,7 +132,7 @@ class WeblateComponentCommand(WeblateCommand):
                 parts = arg.split('/')
 
                 # filter by project
-                found = SubProject.objects.filter(project__slug=parts[0])
+                found = Component.objects.filter(project__slug=parts[0])
 
                 # filter by component if available
                 if len(parts) == 2:
@@ -224,15 +224,15 @@ class WeblateTranslationCommand(BaseCommand):
     def get_translation(self, **options):
         """Get translation object"""
         try:
-            component = SubProject.objects.get(
+            component = Component.objects.get(
                 project__slug=options['project'],
                 slug=options['component'],
             )
-        except SubProject.DoesNotExist:
+        except Component.DoesNotExist:
             raise CommandError('No matching translation component found!')
         try:
             return Translation.objects.get(
-                subproject=component,
+                component=component,
                 language__code=options['language'],
             )
         except Translation.DoesNotExist:
@@ -240,7 +240,7 @@ class WeblateTranslationCommand(BaseCommand):
                 language = Language.objects.fuzzy_get(options['language'])
                 if component.add_new_language(language, None):
                     return Translation.objects.get(
-                        subproject=component,
+                        component=component,
                         language=language,
                     )
             raise CommandError('No matching translation project found!')

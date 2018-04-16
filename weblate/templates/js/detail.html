@@ -24,7 +24,7 @@
 <tr>
 <th>{{ unit.translation.language }}</th>
 <td>{% get_state_flags unit %}</td>
-<td>{% show_checks unit.translation.subproject.project unit.checks user %}</td>
+<td>{% show_checks unit.translation.component.project unit.checks user %}</td>
 <td><a href="{{ unit.get_absolute_url }}" class="btn btn-info">{% trans "Edit" %}</a></td>
 </tr>
 {% endfor %}
@@ -84,14 +84,14 @@
 {% trans "No screenshot currently associated!" %}
 {% endfor %}
 {% if user_can_change_screenshot %}
-<a href="{% url 'screenshots' project=source.subproject.project.slug subproject=source.subproject.slug %}" class="btn btn-default"><i class="fa fa-picture-o"></i> {% trans "Manage screenshots" %}</a>
+<a href="{% url 'screenshots' project=source.component.project.slug component=source.component.slug %}" class="btn btn-default"><i class="fa fa-picture-o"></i> {% trans "Manage screenshots" %}</a>
 {% endif %}
 </td>
 </tr>
 {% if user_can_add_screenshot %}
 <tr>
 <td>
-<form action="{% url 'screenshots' project=source.subproject.project.slug subproject=source.subproject.slug %}" method="POST" enctype="multipart/form-data">
+<form action="{% url 'screenshots' project=source.component.project.slug component=source.component.slug %}" method="POST" enctype="multipart/form-data">
 {% csrf_token %}
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Add new screenshot" %}</h4></div>

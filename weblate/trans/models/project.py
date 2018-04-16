@@ -259,10 +259,10 @@ class Project(models.Model, URLMixin, PathMixin):
 
     @property
     def locked(self):
-        subprojects = self.subproject_set.all()
-        if not subprojects:
+        components = self.component_set.all()
+        if not components:
             return False
-        return max([subproject.locked for subproject in subprojects])
+        return max([component.locked for component in components])
 
     def _get_path(self):
         return os.path.join(data_dir('vcs'), self.slug)
@@ -285,7 +285,7 @@ class Project(models.Model, URLMixin, PathMixin):
     def get_languages(self):
         """Return list of all languages used in project."""
         return Language.objects.filter(
-            translation__subproject__project=self
+            translation__component__project=self
         ).distinct()
 
     def get_language_count(self):
@@ -295,13 +295,13 @@ class Project(models.Model, URLMixin, PathMixin):
 
     def repo_needs_commit(self):
         """Check whether there are any uncommitted changes."""
-        for component in self.subproject_set.all():
+        for component in self.component_set.all():
             if component.repo_needs_commit():
                 return True
         return False
 
     def repo_needs_merge(self):
-        for component in self.subproject_set.all():
+        for component in self.component_set.all():
             if component.repo_needs_merge():
                 return True
         return False
@@ -350,14 +350,14 @@ class Project(models.Model, URLMixin, PathMixin):
     def can_push(self):
         """Check whether any suprojects can push."""
         ret = False
-        for component in self.subproject_set.all():
+        for component in self.component_set.all():
             ret |= component.can_push()
         return ret
 
     @property
     def last_change(self):
         """Return date of last change done in Weblate."""
-        components = self.subproject_set.all()
+        components = self.component_set.all()
         changes = [component.last_change for component in components]
         changes = [c for c in changes if c is not None]
         if not changes:
@@ -367,11 +367,11 @@ class Project(models.Model, URLMixin, PathMixin):
     def all_repo_components(self):
         """Return list of all unique VCS components."""
         result = list(
-            self.subproject_set.exclude(repo__startswith='weblate://')
+            self.component_set.exclude(repo__startswith='weblate://')
         )
         included = {component.get_repo_link_url() for component in result}
 
-        linked = self.subproject_set.filter(repo__startswith='weblate://')
+        linked = self.component_set.filter(repo__startswith='weblate://')
         for other in linked:
             if other.repo in included:
                 continue

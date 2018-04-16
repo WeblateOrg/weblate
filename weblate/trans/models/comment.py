@@ -38,7 +38,7 @@ class CommentManager(models.Manager):
         new_comment = self.create(
             user=user,
             content_hash=unit.content_hash,
-            project=unit.translation.subproject.project,
+            project=unit.translation.component.project,
             comment=text,
             language=lang
         )
@@ -55,7 +55,7 @@ class CommentManager(models.Manager):
             unit,
             new_comment,
             user,
-            unit.translation.subproject.report_source_bugs
+            unit.translation.component.report_source_bugs
         )
 
 

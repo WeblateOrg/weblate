@@ -8,7 +8,7 @@
 {% with source.unit as unit %}
 {% if unit %}
 <tr>
-<td class="translatetext">{% format_translation unit.source unit.translation.subproject.project.source_language %}</td>
+<td class="translatetext">{% format_translation unit.source unit.translation.component.project.source_language %}</td>
 <td>
 <a href="{{ source.get_absolute_url }}?checksum={{ unit.checksum }}" class="btn btn-default"><i class="fa fa-search"></i> {% trans "View" %}</a>
 </td>

@@ -7,10 +7,10 @@
 {% block breadcrumbs %}
 <li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
 <li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></li>
-<li><a href="{% url 'addons' project=object.project.slug subproject=object.slug %}">{% trans "Addons" %}</a></li>
+<li><a href="{% url 'addons' project=object.project.slug component=object.slug %}">{% trans "Addons" %}</a></li>
 <li>
 {% if instance %}
-<a href="{% url 'addon-detail' project=object.project.slug subproject=object.slug pk=instance.pk %}">{{ addon.verbose }}</a>
+<a href="{% url 'addon-detail' project=object.project.slug component=object.slug pk=instance.pk %}">{{ addon.verbose }}</a>
 {% else %}
 {{ addon.verbose }}
 {% endif %}

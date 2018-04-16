@@ -136,9 +136,9 @@ class PathMixin(LoggerMixin):
                 )
                 os.rename(old_path, new_path)
 
-            # Clean subproject cache on rename
-            if 'linked_subproject' in self.__dict__:
-                del self.__dict__['linked_subproject']
+            # Clean component cache on rename
+            if 'linked_component' in self.__dict__:
+                del self.__dict__['linked_component']
 
     def create_path(self):
         """Create filesystem directory for storing data"""

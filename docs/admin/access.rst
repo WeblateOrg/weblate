@@ -221,7 +221,7 @@ This can be configured in the Django admin interface. The recommended workflow
 is as follows:
 
 1. Create a new *group ACL* in the :guilabel:`Group ACL` section. Pick a project,
-   subproject, language, or a combination, which will be locked to this group
+   component, language, or a combination, which will be locked to this group
    ACL.
 2. Define permissions you want to limit by this *group ACL*.
 3. Use the ``+`` (plus sign) button to the right of :guilabel:`Groups` field

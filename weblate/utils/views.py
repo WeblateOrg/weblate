@@ -18,7 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from weblate.trans.views.helper import get_subproject
+from weblate.trans.views.helper import get_component
 
 
 def get_page_limit(request, default):
@@ -38,8 +38,8 @@ def get_page_limit(request, default):
 
 class ComponentViewMixin(object):
     def get_component(self):
-        return get_subproject(
+        return get_component(
             self.request,
             self.kwargs['project'],
-            self.kwargs['subproject']
+            self.kwargs['component']
         )

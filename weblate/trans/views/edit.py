@@ -70,8 +70,8 @@ def get_other_units(unit):
     }
 
     kwargs = {
-        'translation__subproject__project':
-            unit.translation.subproject.project,
+        'translation__component__project':
+            unit.translation.component.project,
         'translation__language':
             unit.translation.language,
     }
@@ -203,8 +203,8 @@ def perform_suggestion(unit, form, request):
     # Invite user to become translator if there is nobody else
     # and the project is accepting translations
     translation = unit.translation
-    if (not translation.subproject.suggestion_voting
-            or not translation.subproject.suggestion_autoaccept):
+    if (not translation.component.suggestion_voting
+            or not translation.component.suggestion_autoaccept):
         recent_changes = Change.objects.content(True).filter(
             translation=translation,
         ).exclude(
@@ -432,7 +432,7 @@ def handle_suggestions(translation, request, this_unit_url, next_unit_url):
     try:
         suggestion = Suggestion.objects.get(
             pk=int(sugid),
-            project=translation.subproject.project,
+            project=translation.component.project,
             language=translation.language
         )
     except (Suggestion.DoesNotExist, ValueError):
@@ -459,12 +459,12 @@ def handle_suggestions(translation, request, this_unit_url, next_unit_url):
     return HttpResponseRedirect(redirect_url)
 
 
-def translate(request, project, subproject, lang):
+def translate(request, project, component, lang):
     """Generic entry point for translating, suggesting and searching."""
-    translation = get_translation(request, project, subproject, lang)
+    translation = get_translation(request, project, component, lang)
 
     # Check locks
-    locked = translation.subproject.locked
+    locked = translation.component.locked
 
     # Search results
     search_result = search(translation, request)
@@ -574,7 +574,7 @@ def translate(request, project, subproject, lang):
             'next_unit_url': next_unit_url,
             'prev_unit_url': base_unit_url + str(offset - 1),
             'object': translation,
-            'project': translation.subproject.project,
+            'project': translation.component.project,
             'unit': unit,
             'others': get_other_units(unit),
             'total': translation.unit_set.all().count(),
@@ -598,15 +598,15 @@ def translate(request, project, subproject, lang):
 
 @require_POST
 @login_required
-def auto_translation(request, project, subproject, lang):
-    translation = get_translation(request, project, subproject, lang)
-    project = translation.subproject.project
+def auto_translation(request, project, component, lang):
+    translation = get_translation(request, project, component, lang)
+    project = translation.component.project
     if not can_automatic_translation(request.user, project):
         raise PermissionDenied()
 
     autoform = AutoForm(translation, request.user, request.POST)
 
-    if translation.subproject.locked or not autoform.is_valid():
+    if translation.component.locked or not autoform.is_valid():
         messages.error(request, _('Failed to process form!'))
         show_form_errors(request, autoform)
         return redirect(translation)
@@ -625,7 +625,7 @@ def auto_translation(request, project, subproject, lang):
         )
     else:
         auto.process_others(
-            autoform.cleaned_data['subproject'],
+            autoform.cleaned_data['component'],
         )
 
     import_message(
@@ -645,9 +645,9 @@ def auto_translation(request, project, subproject, lang):
 def comment(request, pk):
     """Add new comment."""
     unit = get_object_or_404(Unit, pk=pk)
-    check_access(request, unit.translation.subproject.project)
+    check_access(request, unit.translation.component.project)
 
-    if not can_add_comment(request.user, unit.translation.subproject.project):
+    if not can_add_comment(request.user, unit.translation.component.project):
         raise PermissionDenied()
 
     form = CommentForm(request.POST)
@@ -731,9 +731,9 @@ def get_zen_unitdata(translation, request):
     return search_result, unitdata
 
 
-def zen(request, project, subproject, lang):
+def zen(request, project, component, lang):
     """Generic entry point for translating, suggesting and searching."""
-    translation = get_translation(request, project, subproject, lang)
+    translation = get_translation(request, project, component, lang)
     search_result, unitdata = get_zen_unitdata(translation, request)
 
     # Handle redirects
@@ -745,7 +745,7 @@ def zen(request, project, subproject, lang):
         'zen.html',
         {
             'object': translation,
-            'project': translation.subproject.project,
+            'project': translation.component.project,
             'unitdata': unitdata,
             'search_query': search_result['query'],
             'filter_name': search_result['name'],
@@ -758,9 +758,9 @@ def zen(request, project, subproject, lang):
     )
 
 
-def load_zen(request, project, subproject, lang):
+def load_zen(request, project, component, lang):
     """Load additional units for zen editor."""
-    translation = get_translation(request, project, subproject, lang)
+    translation = get_translation(request, project, component, lang)
     search_result, unitdata = get_zen_unitdata(translation, request)
 
     # Handle redirects
@@ -782,7 +782,7 @@ def load_zen(request, project, subproject, lang):
 
 @login_required
 @require_POST
-def save_zen(request, project, subproject, lang):
+def save_zen(request, project, component, lang):
     """Save handler for zen mode."""
     def render_mesage(message):
         return render_to_string(
@@ -790,7 +790,7 @@ def save_zen(request, project, subproject, lang):
             {'tags': message.tags, 'message': message.message}
         )
 
-    translation = get_translation(request, project, subproject, lang)
+    translation = get_translation(request, project, component, lang)
 
     form = TranslationForm(
         request.user, translation, None, request.POST
@@ -831,8 +831,8 @@ def save_zen(request, project, subproject, lang):
 
 @require_POST
 @login_required
-def new_unit(request, project, subproject, lang):
-    translation = get_translation(request, project, subproject, lang)
+def new_unit(request, project, component, lang):
+    translation = get_translation(request, project, component, lang)
     if not can_add_unit(request.user, translation):
         raise PermissionDenied()
 

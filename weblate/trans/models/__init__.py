@@ -37,7 +37,7 @@ from weblate.permissions.data import (
 from weblate.permissions.models import GroupACL
 from weblate.trans.models.conf import WeblateConf
 from weblate.trans.models.project import Project
-from weblate.trans.models.subproject import SubProject
+from weblate.trans.models.component import Component
 from weblate.trans.models.translation import Translation
 from weblate.trans.models.unit import Unit
 from weblate.trans.models.comment import Comment
@@ -61,7 +61,7 @@ from weblate.trans.scripts import (
 from weblate.utils.decorators import disable_for_loaddata
 
 __all__ = [
-    'Project', 'SubProject', 'Translation', 'Unit', 'Suggestion',
+    'Project', 'Component', 'Translation', 'Unit', 'Suggestion',
     'Comment', 'Vote', 'IndexUpdate', 'Change', 'Dictionary', 'Source',
     'WhiteboardMessage', 'ComponentList',
     'WeblateConf',
@@ -69,10 +69,10 @@ __all__ = [
 
 
 @receiver(post_delete, sender=Project)
-@receiver(post_delete, sender=SubProject)
+@receiver(post_delete, sender=Component)
 def delete_object_dir(sender, instance, **kwargs):
     """Handler to delete (sub)project directory on project deletion."""
-    # Do not delete linked subprojects
+    # Do not delete linked components
     if hasattr(instance, 'is_repo_link') and instance.is_repo_link:
         return
 
@@ -89,7 +89,7 @@ def update_source(sender, instance, **kwargs):
     """Update unit priority or checks based on source change."""
     related_units = Unit.objects.filter(
         id_hash=instance.id_hash,
-        translation__subproject=instance.subproject,
+        translation__component=instance.component,
     )
     if instance.priority_modified:
         units = related_units.exclude(
@@ -138,21 +138,21 @@ def post_update(sender, component, previous_head, **kwargs):
 @receiver(vcs_pre_commit)
 def pre_commit(sender, translation, **kwargs):
     run_pre_commit_script(
-        translation.subproject, translation, translation.get_filename()
+        translation.component, translation, translation.get_filename()
     )
 
 
 @receiver(vcs_post_commit)
 def post_commit(sender, translation, **kwargs):
     run_post_commit_script(
-        translation.subproject, translation, translation.get_filename()
+        translation.component, translation, translation.get_filename()
     )
 
 
 @receiver(translation_post_add)
 def post_add(sender, translation, **kwargs):
     run_post_add_script(
-        translation.subproject, translation, translation.get_filename()
+        translation.component, translation, translation.get_filename()
     )
 
 
@@ -202,18 +202,18 @@ def change_componentlist(sender, instance, **kwargs):
 @receiver(post_save, sender=AutoComponentList)
 @disable_for_loaddata
 def auto_componentlist(sender, instance, **kwargs):
-    for component in SubProject.objects.all():
+    for component in Component.objects.all():
         instance.check_match(component)
 
 
 @receiver(post_save, sender=Project)
 @disable_for_loaddata
 def auto_project_componentlist(sender, instance, **kwargs):
-    for component in instance.subproject_set.all():
+    for component in instance.component_set.all():
         auto_component_list(sender, component)
 
 
-@receiver(post_save, sender=SubProject)
+@receiver(post_save, sender=Component)
 @disable_for_loaddata
 def auto_component_list(sender, instance, **kwargs):
     for auto in AutoComponentList.objects.all():
@@ -233,7 +233,7 @@ def setup_group_acl(sender, instance, **kwargs):
         # Do cleanup of previous setup
         try:
             group_acl = GroupACL.objects.get(
-                project=instance, subproject=None, language=None
+                project=instance, component=None, language=None
             )
             Group.objects.filter(
                 groupacl=group_acl, name__contains='@'
@@ -244,7 +244,7 @@ def setup_group_acl(sender, instance, **kwargs):
             return
 
     group_acl = GroupACL.objects.get_or_create(
-        project=instance, subproject=None, language=None
+        project=instance, component=None, language=None
     )[0]
     if instance.access_control == Project.ACCESS_PRIVATE:
         permissions = PRIVATE_PERMS
@@ -292,7 +292,7 @@ def setup_group_acl(sender, instance, **kwargs):
 @receiver(pre_delete, sender=Project)
 def cleanup_group_acl(sender, instance, **kwargs):
     group_acl = GroupACL.objects.get_or_create(
-        project=instance, subproject=None, language=None
+        project=instance, component=None, language=None
     )[0]
     # Remove stale groups
     group_acl.groups.filter(name__contains='@').delete()

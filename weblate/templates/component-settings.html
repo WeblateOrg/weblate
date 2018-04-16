@@ -6,11 +6,11 @@
 {% block breadcrumbs %}
 <li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
 <li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></li>
-<li><a href="{% url 'settings' project=object.project.slug subproject=object.slug %}">{% trans "Settings" %}</a></li>
+<li><a href="{% url 'settings' project=object.project.slug component=object.slug %}">{% trans "Settings" %}</a></li>
 {% endblock %}
 
 {% block content %}
-<form action="{% url 'settings' project=object.project.slug subproject=object.slug %}" method="post" enctype="multipart/form-data">
+<form action="{% url 'settings' project=object.project.slug component=object.slug %}" method="post" enctype="multipart/form-data">
 {% csrf_token %}
 
 {% crispy form %}

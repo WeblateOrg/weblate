@@ -107,14 +107,14 @@ def perform_on_link(func):
     def on_link_wrapper(self, *args, **kwargs):
         if self.is_repo_link:
             # Call same method on linked component
-            return getattr(self.linked_subproject, func.__name__)(
+            return getattr(self.linked_component, func.__name__)(
                 *args, **kwargs
             )
         return func(self, *args, **kwargs)
     return on_link_wrapper
 
 
-class SubProjectQuerySet(models.QuerySet):
+class ComponentQuerySet(models.QuerySet):
     # pylint: disable=no-init
 
     def prefetch(self):
@@ -123,15 +123,15 @@ class SubProjectQuerySet(models.QuerySet):
         )
 
     def get_linked(self, val):
-        """Return subproject for linked repo."""
+        """Return component for linked repo."""
         if not is_repo_link(val):
             return None
-        project, subproject = val[10:].split('/', 1)
-        return self.get(slug=subproject, project__slug=project)
+        project, component = val[10:].split('/', 1)
+        return self.get(slug=component, project__slug=project)
 
 
 @python_2_unicode_compatible
-class SubProject(models.Model, URLMixin, PathMixin):
+class Component(models.Model, URLMixin, PathMixin):
     name = models.CharField(
         verbose_name=ugettext_lazy('Component name'),
         max_length=settings.COMPONENT_NAME_LENGTH,
@@ -498,10 +498,10 @@ class SubProject(models.Model, URLMixin, PathMixin):
         ),
     )
 
-    objects = SubProjectQuerySet.as_manager()
+    objects = ComponentQuerySet.as_manager()
 
     is_lockable = True
-    _reverse_url_name = 'subproject'
+    _reverse_url_name = 'component'
 
     class Meta(object):
         ordering = ['priority', 'project__name', 'name']
@@ -510,7 +510,8 @@ class SubProject(models.Model, URLMixin, PathMixin):
             ('project', 'slug'),
         )
         permissions = (
-            ('lock_subproject', "Can lock translation for translating"),
+            ('lock_component', "Can lock translation for translating"),
+            ('change_subproject', 'Can change component'),
             ('can_see_git_repository', "Can see VCS repository URL"),
             ('access_vcs', 'Can access VCS repository'),
             ('view_reports', "Can display reports"),
@@ -521,7 +522,7 @@ class SubProject(models.Model, URLMixin, PathMixin):
 
     def __init__(self, *args, **kwargs):
         """Constructor to initialize some cache properties."""
-        super(SubProject, self).__init__(*args, **kwargs)
+        super(Component, self).__init__(*args, **kwargs)
         self._file_format = None
         self.stats = ComponentStats(self)
         self.addons_cache = {}
@@ -540,7 +541,7 @@ class SubProject(models.Model, URLMixin, PathMixin):
         """Return kwargs for URL reversing."""
         return {
             'project': self.project.slug,
-            'subproject': self.slug
+            'component': self.slug
         }
 
     def get_widgets_url(self):
@@ -563,12 +564,12 @@ class SubProject(models.Model, URLMixin, PathMixin):
 
     @perform_on_link
     def _get_path(self):
-        """Return full path to subproject VCS repository."""
+        """Return full path to component VCS repository."""
         return os.path.join(self.project.full_path, self.slug)
 
     @perform_on_link
     def can_push(self):
-        """Return true if push is possible for this subproject."""
+        """Return true if push is possible for this component."""
         return self.push != '' and self.push is not None
 
     @property
@@ -581,15 +582,15 @@ class SubProject(models.Model, URLMixin, PathMixin):
         return self.new_lang != 'none'
 
     @cached_property
-    def linked_subproject(self):
-        """Return subproject for linked repo."""
-        return SubProject.objects.get_linked(self.repo)
+    def linked_component(self):
+        """Return component for linked repo."""
+        return Component.objects.get_linked(self.repo)
 
     @cached_property
     def repository(self):
         """Get VCS repository object."""
         if self.is_repo_link:
-            return self.linked_subproject.repository
+            return self.linked_component.repository
         repository = VCS_REGISTRY[self.vcs](
             self.full_path, self.branch, self
         )
@@ -632,7 +633,7 @@ class SubProject(models.Model, URLMixin, PathMixin):
         """
         if not self.repoweb:
             if self.is_repo_link:
-                return self.linked_subproject.get_repoweb_link(filename, line)
+                return self.linked_component.get_repoweb_link(filename, line)
             return None
 
         return self.repoweb % {
@@ -784,7 +785,7 @@ class SubProject(models.Model, URLMixin, PathMixin):
                 self.repository.push()
 
             Change.objects.create(
-                action=Change.ACTION_PUSH, subproject=self,
+                action=Change.ACTION_PUSH, component=self,
                 user=request.user if request else None,
             )
 
@@ -803,7 +804,7 @@ class SubProject(models.Model, URLMixin, PathMixin):
                 msg
             )
             Change.objects.create(
-                action=Change.ACTION_FAILED_PUSH, subproject=self,
+                action=Change.ACTION_FAILED_PUSH, component=self,
                 target=force_text(error),
                 user=request.user if request else None,
             )
@@ -827,7 +828,7 @@ class SubProject(models.Model, URLMixin, PathMixin):
                 self.repository.reset()
 
             Change.objects.create(
-                action=Change.ACTION_RESET, subproject=self,
+                action=Change.ACTION_RESET, component=self,
                 user=request.user if request else None,
             )
         except RepositoryException as error:
@@ -854,11 +855,11 @@ class SubProject(models.Model, URLMixin, PathMixin):
 
     def set_linked_cache(self, linked):
         """Store linked component cache"""
-        self.__dict__['linked_subproject'] = linked
+        self.__dict__['linked_component'] = linked
 
     def get_linked_childs(self):
-        """Return list of subprojects which link repository to us."""
-        result = SubProject.objects.prefetch().filter(
+        """Return list of components which link repository to us."""
+        result = Component.objects.prefetch().filter(
             repo=self.get_repo_link_url()
         )
         for child in result:
@@ -870,7 +871,7 @@ class SubProject(models.Model, URLMixin, PathMixin):
 
         # If we're not recursing, call on parent
         if not from_link and self.is_repo_link:
-            return self.linked_subproject.commit_pending(
+            return self.linked_component.commit_pending(
                 request, True, skip_push=skip_push
             )
 
@@ -879,8 +880,8 @@ class SubProject(models.Model, URLMixin, PathMixin):
             translation.commit_pending(request, skip_push=True)
 
         # Process linked projects
-        for subproject in self.get_linked_childs():
-            subproject.commit_pending(request, True, skip_push=True)
+        for component in self.get_linked_childs():
+            component.commit_pending(request, True, skip_push=True)
 
         if not from_link and not skip_push:
             self.push_if_needed(request)
@@ -902,7 +903,7 @@ class SubProject(models.Model, URLMixin, PathMixin):
         )
         if self.id:
             Change.objects.create(
-                subproject=self, translation=translation,
+                component=self, translation=translation,
                 action=Change.ACTION_PARSE_ERROR,
             )
         raise ParseError(str(error))
@@ -936,7 +937,7 @@ class SubProject(models.Model, URLMixin, PathMixin):
                 )
                 if self.id:
                     Change.objects.create(
-                        subproject=self, action=action,
+                        component=self, action=action,
                         user=request.user if request else None,
                     )
 
@@ -966,7 +967,7 @@ class SubProject(models.Model, URLMixin, PathMixin):
                 )
                 if self.id:
                     Change.objects.create(
-                        subproject=self, action=action_failed, target=error,
+                        component=self, action=action_failed, target=error,
                         user=request.user if request else None,
                     )
 
@@ -1060,12 +1061,12 @@ class SubProject(models.Model, URLMixin, PathMixin):
                     todelete.delete()
 
         # Process linked repos
-        for subproject in self.get_linked_childs():
+        for component in self.get_linked_childs():
             self.log_info(
                 'updating linked project %s',
-                subproject
+                component
             )
-            subproject.create_translations(force, langs, request=request)
+            component.create_translations(force, langs, request=request)
 
         self.log_info('updating completed')
 
@@ -1106,7 +1107,7 @@ class SubProject(models.Model, URLMixin, PathMixin):
     def clean_repo_link(self):
         """Validate repository link."""
         try:
-            repo = SubProject.objects.get_linked(self.repo)
+            repo = Component.objects.get_linked(self.repo)
             if repo is not None and repo.is_repo_link:
                 raise ValidationError(
                     {'repo': _(
@@ -1121,7 +1122,7 @@ class SubProject(models.Model, URLMixin, PathMixin):
                         'can not link to self!'
                     )}
                 )
-        except (SubProject.DoesNotExist, ValueError):
+        except (Component.DoesNotExist, ValueError):
             raise ValidationError(
                 {'repo': _(
                     'Invalid link to a Weblate project, '
@@ -1299,7 +1300,7 @@ class SubProject(models.Model, URLMixin, PathMixin):
 
         # Check if we should rename
         if self.id:
-            old = SubProject.objects.get(pk=self.id)
+            old = Component.objects.get(pk=self.id)
             self.check_rename(old)
 
             if old.vcs != self.vcs:
@@ -1381,7 +1382,7 @@ class SubProject(models.Model, URLMixin, PathMixin):
         changed_template = False
         changed_project = False
         if self.id:
-            old = SubProject.objects.get(pk=self.id)
+            old = Component.objects.get(pk=self.id)
             changed_git = (
                 (old.repo != self.repo) or
                 (old.branch != self.branch) or
@@ -1410,7 +1411,7 @@ class SubProject(models.Model, URLMixin, PathMixin):
         self.extra_commit_file = '\n'.join([x for x in extra_files if x])
 
         # Save/Create object
-        super(SubProject, self).save(*args, **kwargs)
+        super(Component, self).save(*args, **kwargs)
 
         # Configure git repo if there were changes
         if changed_git:
@@ -1458,7 +1459,7 @@ class SubProject(models.Model, URLMixin, PathMixin):
         return self._file_format
 
     def has_template(self):
-        """Return true if subproject is using template for translation"""
+        """Return true if component is using template for translation"""
         monolingual = self.file_format_cls.monolingual
         return (
             (monolingual or monolingual is None) and
@@ -1489,7 +1490,7 @@ class SubProject(models.Model, URLMixin, PathMixin):
         """Return date of last change done in Weblate."""
         try:
             return Change.objects.content().filter(
-                translation__subproject=self
+                translation__component=self
             ).values_list(
                 'timestamp', flat=True
             )[0]
@@ -1565,7 +1566,7 @@ class SubProject(models.Model, URLMixin, PathMixin):
         )
 
         translation = Translation.objects.create(
-            subproject=self,
+            component=self,
             language=language,
             plural=language.plural,
             filename=filename,
@@ -1594,7 +1595,7 @@ class SubProject(models.Model, URLMixin, PathMixin):
         self.locked = lock
         self.save(update_fields=['locked'])
         Change.objects.create(
-            subproject=self,
+            component=self,
             user=user,
             action=Change.ACTION_LOCK if lock else Change.ACTION_UNLOCK,
         )

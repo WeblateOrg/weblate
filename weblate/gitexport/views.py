@@ -32,7 +32,7 @@ from django.utils.encoding import force_text
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
 
-from weblate.trans.views.helper import get_subproject
+from weblate.trans.views.helper import get_component
 from weblate.permissions.helpers import can_access_vcs
 
 
@@ -98,7 +98,7 @@ def authenticate(request, auth):
 
 @never_cache
 @csrf_exempt
-def git_export(request, project, subproject, path):
+def git_export(request, project, component, path):
     """Git HTTP server view.
 
     Wrapper around git-http-backend to provide Git repositories export over
@@ -107,9 +107,9 @@ def git_export(request, project, subproject, path):
     # Probably browser access
     if path == '':
         return redirect(
-            'subproject',
+            'component',
             project=project,
-            subproject=subproject,
+            component=component,
             permanent=False
         )
 
@@ -121,7 +121,7 @@ def git_export(request, project, subproject, path):
 
     # Permissions
     try:
-        obj = get_subproject(request, project, subproject)
+        obj = get_component(request, project, component)
     except Http404:
         if not request.user.is_authenticated:
             return response_authenticate()

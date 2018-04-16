@@ -83,8 +83,8 @@ class ViewTestCase(RepoTestCase):
         group = Group.objects.get(name='Users')
         self.user.groups.add(group)
         # Create project to have some test base
-        self.subproject = self.create_subproject()
-        self.project = self.subproject.project
+        self.component = self.create_component()
+        self.project = self.component.project
         # Invalidate caches
         cache.clear()
         # Login
@@ -93,13 +93,13 @@ class ViewTestCase(RepoTestCase):
         self.kw_project = {
             'project': self.project.slug
         }
-        self.kw_subproject = {
+        self.kw_component = {
             'project': self.project.slug,
-            'subproject': self.subproject.slug,
+            'component': self.component.slug,
         }
         self.kw_translation = {
             'project': self.project.slug,
-            'subproject': self.subproject.slug,
+            'component': self.component.slug,
             'lang': 'cs',
         }
         self.kw_lang_project = {
@@ -110,7 +110,7 @@ class ViewTestCase(RepoTestCase):
         # Store URL for testing
         self.translation_url = self.get_translation().get_absolute_url()
         self.project_url = self.project.get_absolute_url()
-        self.subproject_url = self.subproject.get_absolute_url()
+        self.component_url = self.component.get_absolute_url()
 
     def make_manager(self):
         """Make user a Manager."""
@@ -131,7 +131,7 @@ class ViewTestCase(RepoTestCase):
         return request
 
     def get_translation(self):
-        return self.subproject.translation_set.get(
+        return self.component.translation_set.get(
             language_code='cs'
         )
 
@@ -199,7 +199,7 @@ class ViewTestCase(RepoTestCase):
         """Check that backend has correct data."""
         translation = self.get_translation()
         translation.commit_pending(None)
-        store = translation.subproject.file_format_cls(
+        store = translation.component.file_format_cls(
             translation.get_filename(),
             None
         )
@@ -253,64 +253,64 @@ class FixtureTestCase(ViewTestCase):
         setup_group_acl(self, project)
         return project
 
-    def create_subproject(self):
-        return self.create_project().subproject_set.all()[0]
+    def create_component(self):
+        return self.create_project().component_set.all()[0]
 
 
 class TranslationManipulationTest(ViewTestCase):
     def setUp(self):
         super(TranslationManipulationTest, self).setUp()
-        self.subproject.new_lang = 'add'
-        self.subproject.save()
+        self.component.new_lang = 'add'
+        self.component.save()
 
-    def create_subproject(self):
+    def create_component(self):
         return self.create_po_new_base()
 
     def test_model_add(self):
         self.assertTrue(
-            self.subproject.add_new_language(
+            self.component.add_new_language(
                 Language.objects.get(code='af'),
                 self.get_request('/')
             )
         )
         self.assertTrue(
-            self.subproject.translation_set.filter(
+            self.component.translation_set.filter(
                 language_code='af'
             ).exists()
         )
 
     def test_model_add_duplicate(self):
         self.assertFalse(
-            self.subproject.add_new_language(
+            self.component.add_new_language(
                 Language.objects.get(code='de'),
                 self.get_request('/')
             )
         )
 
     def test_model_add_disabled(self):
-        self.subproject.new_lang = 'contact'
-        self.subproject.save()
+        self.component.new_lang = 'contact'
+        self.component.save()
         self.assertFalse(
-            self.subproject.add_new_language(
+            self.component.add_new_language(
                 Language.objects.get(code='de'),
                 self.get_request('/')
             )
         )
 
     def test_remove(self):
-        translation = self.subproject.translation_set.get(language_code='de')
+        translation = self.component.translation_set.get(language_code='de')
         translation.remove(self.user)
         # Force scanning of the repository
-        self.subproject.create_translations()
+        self.component.create_translations()
         self.assertFalse(
-            self.subproject.translation_set.filter(
+            self.component.translation_set.filter(
                 language_code='de'
             ).exists()
         )
 
 
 class NewLangTest(ViewTestCase):
-    def create_subproject(self):
+    def create_component(self):
         return self.create_po_new_base(new_lang='add')
 
     def test_no_permission(self):
@@ -321,39 +321,39 @@ class NewLangTest(ViewTestCase):
 
         # Test there is no add form
         response = self.client.get(
-            reverse('subproject', kwargs=self.kw_subproject)
+            reverse('component', kwargs=self.kw_component)
         )
         self.assertNotContains(response, 'Start new translation')
 
         # Test adding fails
         response = self.client.post(
-            reverse('new-language', kwargs=self.kw_subproject),
+            reverse('new-language', kwargs=self.kw_component),
             {'lang': 'af'},
         )
         self.assertEqual(response.status_code, 403)
         self.assertFalse(
-            self.subproject.translation_set.filter(
+            self.component.translation_set.filter(
                 language__code='af'
             ).exists()
         )
 
     def test_none(self):
-        self.subproject.new_lang = 'none'
-        self.subproject.save()
+        self.component.new_lang = 'none'
+        self.component.save()
 
         response = self.client.get(
-            reverse('subproject', kwargs=self.kw_subproject)
+            reverse('component', kwargs=self.kw_component)
         )
         self.assertNotContains(response, 'Start new translation')
 
     def test_url(self):
-        self.subproject.new_lang = 'url'
-        self.subproject.save()
+        self.component.new_lang = 'url'
+        self.component.save()
         self.project.instructions = 'http://example.com/instructions'
         self.project.save()
 
         response = self.client.get(
-            reverse('subproject', kwargs=self.kw_subproject)
+            reverse('component', kwargs=self.kw_component)
         )
         self.assertContains(response, 'Start new translation')
         self.assertContains(response, 'http://example.com/instructions')
@@ -361,22 +361,22 @@ class NewLangTest(ViewTestCase):
     def test_contact(self):
         # Add manager to receive notifications
         self.make_manager()
-        self.subproject.new_lang = 'contact'
-        self.subproject.save()
+        self.component.new_lang = 'contact'
+        self.component.save()
 
         response = self.client.get(
-            reverse('subproject', kwargs=self.kw_subproject)
+            reverse('component', kwargs=self.kw_component)
         )
         self.assertContains(response, 'Start new translation')
         self.assertContains(response, '/new-lang/')
 
         response = self.client.post(
-            reverse('new-language', kwargs=self.kw_subproject),
+            reverse('new-language', kwargs=self.kw_component),
             {'lang': 'af'},
         )
         self.assertRedirects(
             response,
-            self.subproject.get_absolute_url()
+            self.component.get_absolute_url()
         )
 
         # Verify mail
@@ -388,34 +388,34 @@ class NewLangTest(ViewTestCase):
 
     def test_add(self):
         self.assertFalse(
-            self.subproject.translation_set.filter(
+            self.component.translation_set.filter(
                 language__code='af'
             ).exists()
         )
 
         response = self.client.get(
-            reverse('subproject', kwargs=self.kw_subproject)
+            reverse('component', kwargs=self.kw_component)
         )
         self.assertContains(response, 'Start new translation')
         self.assertContains(response, '/new-lang/')
 
         response = self.client.post(
-            reverse('new-language', kwargs=self.kw_subproject),
+            reverse('new-language', kwargs=self.kw_component),
             {'lang': 'af'},
         )
         self.assertRedirects(
             response,
-            self.subproject.get_absolute_url()
+            self.component.get_absolute_url()
         )
         self.assertTrue(
-            self.subproject.translation_set.filter(
+            self.component.translation_set.filter(
                 language__code='af'
             ).exists()
         )
 
         # Not selected language
         response = self.client.post(
-            reverse('new-language', kwargs=self.kw_subproject),
+            reverse('new-language', kwargs=self.kw_component),
             {'lang': ''},
             follow=True
         )
@@ -426,7 +426,7 @@ class NewLangTest(ViewTestCase):
 
         # Existing language
         response = self.client.post(
-            reverse('new-language', kwargs=self.kw_subproject),
+            reverse('new-language', kwargs=self.kw_component),
             {'lang': 'af'},
             follow=True
         )
@@ -436,10 +436,10 @@ class NewLangTest(ViewTestCase):
         )
 
     def test_add_owner(self):
-        self.subproject.project.add_user(self.user, '@Administration')
+        self.component.project.add_user(self.user, '@Administration')
         # None chosen
         response = self.client.post(
-            reverse('new-language', kwargs=self.kw_subproject),
+            reverse('new-language', kwargs=self.kw_component),
             follow=True
         )
         self.assertContains(
@@ -448,7 +448,7 @@ class NewLangTest(ViewTestCase):
         )
         # One chosen
         response = self.client.post(
-            reverse('new-language', kwargs=self.kw_subproject),
+            reverse('new-language', kwargs=self.kw_component),
             {'lang': 'af'},
             follow=True
         )
@@ -458,7 +458,7 @@ class NewLangTest(ViewTestCase):
         )
         # More chosen
         response = self.client.post(
-            reverse('new-language', kwargs=self.kw_subproject),
+            reverse('new-language', kwargs=self.kw_component),
             {'lang': ['nl', 'fr', 'uk']},
             follow=True
         )
@@ -467,19 +467,19 @@ class NewLangTest(ViewTestCase):
             'Please fix errors in the form'
         )
         self.assertEqual(
-            self.subproject.translation_set.filter(
+            self.component.translation_set.filter(
                 language__code__in=('af', 'nl', 'fr', 'uk')
             ).count(),
             4
         )
 
     def test_add_rejected(self):
-        self.subproject.project.add_user(self.user, '@Administration')
-        self.subproject.language_regex = '^cs$'
-        self.subproject.save()
+        self.component.project.add_user(self.user, '@Administration')
+        self.component.language_regex = '^cs$'
+        self.component.save()
         # One chosen
         response = self.client.post(
-            reverse('new-language', kwargs=self.kw_subproject),
+            reverse('new-language', kwargs=self.kw_component),
             {'lang': 'af'},
             follow=True
         )
@@ -491,7 +491,7 @@ class NewLangTest(ViewTestCase):
     def test_remove(self):
         self.test_add_owner()
         kwargs = {'lang': 'af'}
-        kwargs.update(self.kw_subproject)
+        kwargs.update(self.kw_component)
         response = self.client.post(
             reverse('remove_translation', kwargs=kwargs),
             follow=True
@@ -500,7 +500,7 @@ class NewLangTest(ViewTestCase):
 
 
 class AndroidNewLangTest(NewLangTest):
-    def create_subproject(self):
+    def create_component(self):
         return self.create_android(new_lang='add')
 
 
@@ -511,9 +511,9 @@ class BasicViewTest(ViewTestCase):
         )
         self.assertContains(response, 'Test/Test')
 
-    def test_view_subproject(self):
+    def test_view_component(self):
         response = self.client.get(
-            reverse('subproject', kwargs=self.kw_subproject)
+            reverse('component', kwargs=self.kw_component)
         )
         self.assertContains(response, 'Test/Test')
 
@@ -532,56 +532,56 @@ class BasicViewTest(ViewTestCase):
 
     def test_view_component_list(self):
         clist = ComponentList.objects.create(name="TestCL", slug="testcl")
-        clist.components.add(self.subproject)
+        clist.components.add(self.component)
         response = self.client.get(
             reverse('component-list', kwargs={'name': 'testcl'})
         )
         self.assertContains(response, 'TestCL')
-        self.assertContains(response, self.subproject.name)
+        self.assertContains(response, self.component.name)
 
 
 class BasicResourceViewTest(BasicViewTest):
-    def create_subproject(self):
+    def create_component(self):
         return self.create_android()
 
 
 class BasicBranchViewTest(BasicViewTest):
-    def create_subproject(self):
+    def create_component(self):
         return self.create_po_branch()
 
 
 class BasicMercurialViewTest(BasicViewTest):
-    def create_subproject(self):
+    def create_component(self):
         return self.create_po_mercurial()
 
 
 class BasicPoMonoViewTest(BasicViewTest):
-    def create_subproject(self):
+    def create_component(self):
         return self.create_po_mono()
 
 
 class BasicIphoneViewTest(BasicViewTest):
-    def create_subproject(self):
+    def create_component(self):
         return self.create_iphone()
 
 
 class BasicJSONViewTest(BasicViewTest):
-    def create_subproject(self):
+    def create_component(self):
         return self.create_json()
 
 
 class BasicJavaViewTest(BasicViewTest):
-    def create_subproject(self):
+    def create_component(self):
         return self.create_java()
 
 
 class BasicXliffViewTest(BasicViewTest):
-    def create_subproject(self):
+    def create_component(self):
         return self.create_xliff()
 
 
 class BasicLinkViewTest(BasicViewTest):
-    def create_subproject(self):
+    def create_component(self):
         return self.create_link()
 
 
@@ -609,7 +609,7 @@ class HomeViewTest(ViewTestCase):
 
     def test_component_list(self):
         clist = ComponentList.objects.create(name="TestCL", slug="testcl")
-        clist.components.add(self.subproject)
+        clist.components.add(self.component)
 
         response = self.client.get(reverse('home'))
         self.assertContains(response, 'TestCL')
@@ -620,7 +620,7 @@ class HomeViewTest(ViewTestCase):
 
     def test_user_component_list(self):
         clist = ComponentList.objects.create(name="TestCL", slug="testcl")
-        clist.components.add(self.subproject)
+        clist.components.add(self.component)
 
         self.user.profile.dashboard_view = Profile.DASHBOARD_COMPONENT_LIST
         self.user.profile.dashboard_component_list = clist
@@ -700,33 +700,33 @@ class SourceStringsTest(ViewTestCase):
 
     def test_review_source(self):
         response = self.client.get(
-            reverse('review_source', kwargs=self.kw_subproject)
+            reverse('review_source', kwargs=self.kw_component)
         )
         self.assertContains(response, 'Test/Test')
 
     def test_review_source_expand(self):
         unit = self.get_unit()
         response = self.client.get(
-            reverse('review_source', kwargs=self.kw_subproject),
+            reverse('review_source', kwargs=self.kw_component),
             {'checksum': unit.checksum}
         )
         self.assertContains(response, unit.checksum)
 
     def test_view_source(self):
         response = self.client.get(
-            reverse('show_source', kwargs=self.kw_subproject)
+            reverse('show_source', kwargs=self.kw_component)
         )
         self.assertContains(response, 'Test/Test')
 
     def test_matrix(self):
         response = self.client.get(
-            reverse('matrix', kwargs=self.kw_subproject)
+            reverse('matrix', kwargs=self.kw_component)
         )
         self.assertContains(response, 'Czech')
 
     def test_matrix_load(self):
         response = self.client.get(
-            reverse('matrix-load', kwargs=self.kw_subproject) +
+            reverse('matrix-load', kwargs=self.kw_component) +
             '?offset=0&lang=cs'
         )
         self.assertContains(response, 'lang="cs"')

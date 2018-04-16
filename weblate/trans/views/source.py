@@ -31,7 +31,7 @@ from django.views.decorators.http import require_POST
 
 from weblate.lang.models import Language
 from weblate.utils import messages
-from weblate.trans.views.helper import get_subproject
+from weblate.trans.views.helper import get_component
 from weblate.trans.models import Translation, Source, Unit
 from weblate.trans.forms import (
     PriorityForm, CheckFlagsForm, MatrixLanguageForm,
@@ -42,21 +42,21 @@ from weblate.utils.hash import checksum_to_hash
 from weblate.utils.views import get_page_limit
 
 
-def get_source(request, project, subproject):
+def get_source(request, project, component):
     """
-    Returns first translation in subproject
+    Returns first translation in component
     (this assumes all have same source strings).
     """
-    obj = get_subproject(request, project, subproject)
+    obj = get_component(request, project, component)
     try:
         return obj, obj.translation_set.all()[0]
     except (Translation.DoesNotExist, IndexError):
         raise Http404('No translation exists in this component.')
 
 
-def review_source(request, project, subproject):
+def review_source(request, project, component):
     """Listing of source strings to review."""
-    obj, source = get_source(request, project, subproject)
+    obj, source = get_source(request, project, component)
 
     # Grab search type and page number
     rqtype = request.GET.get('type', 'all')
@@ -78,7 +78,7 @@ def review_source(request, project, subproject):
     else:
         sources = source.unit_set.filter_type(
             rqtype,
-            source.subproject.project,
+            source.component.project,
             source.language,
             ignored
         )
@@ -107,9 +107,9 @@ def review_source(request, project, subproject):
     )
 
 
-def show_source(request, project, subproject):
+def show_source(request, project, component):
     """Show source strings summary and checks."""
-    obj, source = get_source(request, project, subproject)
+    obj, source = get_source(request, project, component)
     source.stats.ensure_all()
 
     return render(
@@ -130,7 +130,7 @@ def edit_priority(request, pk):
     """Change source string priority."""
     source = get_object_or_404(Source, pk=pk)
 
-    if not can_edit_priority(request.user, source.subproject.project):
+    if not can_edit_priority(request.user, source.component.project):
         raise PermissionDenied()
 
     form = PriorityForm(request.POST)
@@ -148,7 +148,7 @@ def edit_check_flags(request, pk):
     """Change source string check flags."""
     source = get_object_or_404(Source, pk=pk)
 
-    if not can_edit_flags(request.user, source.subproject.project):
+    if not can_edit_flags(request.user, source.component.project):
         raise PermissionDenied()
 
     form = CheckFlagsForm(request.POST)
@@ -161,9 +161,9 @@ def edit_check_flags(request, pk):
 
 
 @login_required
-def matrix(request, project, subproject):
+def matrix(request, project, component):
     """Matrix view of all strings"""
-    obj = get_subproject(request, project, subproject)
+    obj = get_component(request, project, component)
 
     show = False
     languages = None
@@ -195,9 +195,9 @@ def matrix(request, project, subproject):
 
 
 @login_required
-def matrix_load(request, project, subproject):
+def matrix_load(request, project, component):
     """Backend for matrix view of all strings"""
-    obj = get_subproject(request, project, subproject)
+    obj = get_component(request, project, component)
 
     try:
         offset = int(request.GET.get('offset', ''))

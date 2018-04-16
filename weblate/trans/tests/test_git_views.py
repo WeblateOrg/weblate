@@ -79,9 +79,9 @@ class GitNoChangeProjectTest(ViewTestCase):
         self.assertContains(response, self.STATUS_CHECK)
 
 
-class GitNoChangeSubProjectTest(GitNoChangeProjectTest):
-    """Testing of subproject git manipulations."""
-    TEST_TYPE = 'subproject'
+class GitNoChangeComponentTest(GitNoChangeProjectTest):
+    """Testing of component git manipulations."""
+    TEST_TYPE = 'component'
 
 
 class GitNoChangeTranslationTest(GitNoChangeProjectTest):
@@ -99,9 +99,9 @@ class GitChangeProjectTest(GitNoChangeProjectTest):
         self.change_unit('Ahoj světe!\n')
 
 
-class GitChangeSubProjectTest(GitChangeProjectTest):
-    """Testing of subproject git manipulations with not committed change."""
-    TEST_TYPE = 'subproject'
+class GitChangeComponentTest(GitChangeProjectTest):
+    """Testing of component git manipulations with not committed change."""
+    TEST_TYPE = 'component'
 
 
 class GitChangeTranslationTest(GitChangeProjectTest):
@@ -120,9 +120,9 @@ class GitCommittedChangeProjectTest(GitNoChangeProjectTest):
         self.project.commit_pending(self.get_request('/'))
 
 
-class GitCommittedChangeSubProjectTest(GitCommittedChangeProjectTest):
-    """Testing of subproject git manipulations with committed change."""
-    TEST_TYPE = 'subproject'
+class GitCommittedChangeComponentTest(GitCommittedChangeProjectTest):
+    """Testing of component git manipulations with committed change."""
+    TEST_TYPE = 'component'
 
 
 class GitCommittedChangeTranslationTest(GitCommittedChangeProjectTest):

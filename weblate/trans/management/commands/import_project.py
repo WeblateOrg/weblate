@@ -27,7 +27,7 @@ from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 
 from weblate.lang.models import Language
-from weblate.trans.models import SubProject, Project
+from weblate.trans.models import Component, Project
 from weblate.trans.discovery import ComponentDiscovery
 from weblate.trans.formats import FILE_FORMATS
 from weblate.trans.util import is_repo_link
@@ -252,11 +252,11 @@ class Command(BaseCommand):
         # Get or create main component
         if is_repo_link(repo):
             try:
-                component = SubProject.objects.get_linked(repo)
+                component = Component.objects.get_linked(repo)
                 # Avoid operating on link
                 if component.is_repo_link:
-                    component = component.linked_subproject
-            except SubProject.DoesNotExist:
+                    component = component.linked_component
+            except Component.DoesNotExist:
                 raise CommandError(
                     'Component "{0}" not found, '
                     'please create it first!'.format(
@@ -315,11 +315,11 @@ class Command(BaseCommand):
         # Create fake discovery without existing component
         discovery = self.get_discovery(None, workdir)
 
-        components = project.subproject_set.all()
+        components = project.component_set.all()
 
         component = None
 
-        # Create first subproject (this one will get full git repo)
+        # Create first component (this one will get full git repo)
         if self.main_component:
             for match in discovery.matched_components.values():
                 if match['slug'] == self.main_component:
@@ -335,7 +335,7 @@ class Command(BaseCommand):
                     component = components.get(
                         repo=repo, filemask=match['mask']
                     )
-                except SubProject.DoesNotExist:
+                except Component.DoesNotExist:
                     continue
             # Pick random
             if component is None:
@@ -350,7 +350,7 @@ class Command(BaseCommand):
                 match['slug']
             )
             shutil.rmtree(workdir)
-        except SubProject.DoesNotExist:
+        except Component.DoesNotExist:
             self.logger.info(
                 'Creating component %s as main one', match['slug']
             )

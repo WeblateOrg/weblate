@@ -77,12 +77,12 @@ class ConsistencyCheck(TargetCheck):
 
     def check_target_unit(self, sources, targets, unit):
         # Do not check consistency if user asked not to have it
-        if not unit.translation.subproject.allow_translation_propagation:
+        if not unit.translation.component.allow_translation_propagation:
             return False
         related = unit.same_units().exclude(
             target=unit.target
         ).filter(
-            translation__subproject__allow_translation_propagation=True
+            translation__component__allow_translation_propagation=True
         )
 
         if not unit.translated:
