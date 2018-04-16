@@ -46,7 +46,8 @@ from weblate.api.serializers import (
 )
 from weblate.trans.exporters import EXPORTERS
 from weblate.trans.models import (
-    Project, SubProject, Translation, Change, Unit, Source, Check, IndexUpdate,
+    Project, SubProject, Translation, Change, Unit, Source, Check,
+    IndexUpdate, Suggestion,
 )
 from weblate.permissions.helpers import (
     can_upload_translation, can_lock_subproject, can_see_repository_status,
@@ -620,6 +621,7 @@ class Metrics(APIView):
                 state=STATE_TRANSLATED
             ).count(),
             'users': User.objects.count(),
+            'changes': Change.objects.count(),
             'projects': Project.objects.count(),
             'components': SubProject.objects.count(),
             'translations': Translation.objects.count(),
@@ -627,6 +629,7 @@ class Metrics(APIView):
                 translation__pk__gt=0
             ).distinct().count(),
             'checks': Check.objects.count(),
+            'suggestions': Suggestion.objects.coun(),
             'index_updates': IndexUpdate.objects.count(),
             'name': settings.SITE_TITLE,
         })
