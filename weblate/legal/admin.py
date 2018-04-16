@@ -26,6 +26,8 @@ class AgreementAdmin(WeblateModelAdmin):
         'user',
         'tos',
         'timestamp',
+        'address',
+        'user_agent',
     ]
     search_fields = [
         'user__username',
