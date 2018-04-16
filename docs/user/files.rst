@@ -27,12 +27,21 @@ You can upload translated files using the :guilabel:`Upload translation` action
 in the :guilabel:`Files` menu.
 
 Weblate accepts any file format it understands on upload, but it is still
-recommeded to use the same file format as is used for translation, otherwise some
+recommended to use the same file format as is used for translation, otherwise some
 features might not be translated properly.
 
 .. seealso:: 
    
    :ref:`formats`
+
+In addition to the built in formats also Excel (2010+) xlsx files can be uploaded.
+When using xlsx files for translation upload, be aware that only the active
+worksheet is considered and there must be at least a column called ``source``
+(which contains the source string) and a column called ``target`` (which
+contains the translation). Additionally there should be the column ``context``
+(which contains the context path of the translation unit). If you use the
+xlsx download for exporting the translations into an Excel workbook, you
+already get a file with the correct file format.
 
 The uploaded file is merged to current the translation, overwriting existing
 entries by default (this can be changed in the upload dialog).

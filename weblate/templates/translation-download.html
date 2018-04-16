@@ -10,6 +10,7 @@
 <li><a href="{% url 'download_translation_format' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code fmt='mo'%}" title="{% trans "Download for an offline translation." %}">{% trans "Download translation as gettext MO" %}</a></li>
 <li><a href="{% url 'download_translation_format' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code fmt='csv'%}" title="{% trans "Download for an offline translation." %}">{% trans "Download translation as CSV" %}</a></li>
 <li><a href="{% url 'download_translation_format' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code fmt='tmx'%}" title="{% trans "Download for an offline translation." %}">{% trans "Download translation as TMX" %}</a></li>
+<li><a href="{% url 'download_translation_format' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code fmt='xlsx'%}" title="{% trans "Download for an offline translation." %}">{% trans "Download translation as Excel workbook" %}</a></li>
 {% if object.stats.todo %}
 <li role="separator" class="divider"></li>
 <li><a href="{% url 'download_translation_format' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code fmt='xliff'%}?type=todo" title="{% trans "Download for an offline translation." %}">{% trans "Download strings needing action as XLIFF with gettext extensions" %}</a></li>
@@ -18,6 +19,7 @@
 <li><a href="{% url 'download_translation_format' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code fmt='mo'%}?type=todo" title="{% trans "Download for an offline translation." %}">{% trans "Download strings needing action as gettext MO" %}</a></li>
 <li><a href="{% url 'download_translation_format' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code fmt='csv'%}?type=todo" title="{% trans "Download for an offline translation." %}">{% trans "Download strings needing action as CSV" %}</a></li>
 <li><a href="{% url 'download_translation_format' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code fmt='tmx'%}?type=todo" title="{% trans "Download for an offline translation." %}">{% trans "Download strings needing action as TMX" %}</a></li>
+<li><a href="{% url 'download_translation_format' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code fmt='xlsx'%}?type=todo" title="{% trans "Download for an offline translation." %}">{% trans "Download strings needing action as Excel workbook" %}</a></li>
 {% endif %}
 {% if user_can_upload_translation %}
 <li role="separator" class="divider"></li>

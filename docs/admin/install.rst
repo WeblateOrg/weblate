@@ -100,6 +100,8 @@ PyYAML (>= 3.0) (optional for :ref:`yaml`)
     https://pyyaml.org/
 python-Levenshtein (recommended for performance)
     https://github.com/ztane/python-Levenshtein/
+openpyxl (>=2.5.0) (for XLSX export/import)
+    https://openpyxl.readthedocs.io/en/stable/
 
 Other system requirements
 +++++++++++++++++++++++++
