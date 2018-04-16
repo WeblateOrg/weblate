@@ -203,7 +203,7 @@ class AuditLog(models.Model):
         db_index=True,
     )
     params = JSONField()
-    address = models.GenericIPAddressField()
+    address = models.GenericIPAddressField(null=True)
     user_agent = models.CharField(max_length=200, default='')
     timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
 
