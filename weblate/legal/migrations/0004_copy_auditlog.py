@@ -16,7 +16,6 @@ def copy_auditlog(apps, schema_editor):
                 '-timestamp'
             )[0]
         except IndexError:
-            print 'NONE'
             continue
 
         agreement.address = log.address
