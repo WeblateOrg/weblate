@@ -25,7 +25,7 @@ import re
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.lang.models import Language
-from weblate.trans.checks.base import SourceCheck
+from weblate.checks.base import SourceCheck
 
 # Matches (s) not followed by alphanumeric chars or at the end
 PLURAL_MATCH = re.compile(r'\(s\)(\W|\Z)')

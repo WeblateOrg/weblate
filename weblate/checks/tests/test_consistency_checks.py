@@ -23,10 +23,10 @@ Tests for quality checks.
 """
 
 from django.test import TestCase
-from weblate.trans.checks.consistency import (
+from weblate.checks.consistency import (
     PluralsCheck, SamePluralsCheck, TranslatedCheck,
 )
-from weblate.trans.tests.test_checks import MockUnit
+from weblate.checks.tests.test_checks import MockUnit
 from weblate.trans.tests.test_views import ViewTestCase
 
 

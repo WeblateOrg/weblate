@@ -23,10 +23,10 @@ Tests for quality checks.
 """
 
 from __future__ import unicode_literals
-from weblate.trans.checks.same import (
+from weblate.checks.same import (
     SameCheck,
 )
-from weblate.trans.tests.test_checks import MockUnit, CheckTestCase
+from weblate.checks.tests.test_checks import MockUnit, CheckTestCase
 
 
 class SameCheckTest(CheckTestCase):

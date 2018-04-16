@@ -26,7 +26,7 @@ from django.utils.encoding import python_2_unicode_compatible
 
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.change import Change
-from weblate.trans.models.unitdata import UnitData
+from weblate.utils.unitdata import UnitData
 from weblate.accounts.notifications import notify_new_comment
 
 

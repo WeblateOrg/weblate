@@ -42,7 +42,6 @@ from weblate.trans.models.translation import Translation
 from weblate.trans.models.unit import Unit
 from weblate.trans.models.comment import Comment
 from weblate.trans.models.suggestion import Suggestion, Vote
-from weblate.trans.models.check import Check
 from weblate.trans.models.search import IndexUpdate
 from weblate.trans.models.change import Change
 from weblate.trans.models.dictionary import Dictionary
@@ -62,7 +61,7 @@ from weblate.trans.scripts import (
 from weblate.utils.decorators import disable_for_loaddata
 
 __all__ = [
-    'Project', 'SubProject', 'Translation', 'Unit', 'Check', 'Suggestion',
+    'Project', 'SubProject', 'Translation', 'Unit', 'Suggestion',
     'Comment', 'Vote', 'IndexUpdate', 'Change', 'Dictionary', 'Source',
     'WhiteboardMessage', 'ComponentList',
     'WeblateConf',
@@ -102,20 +101,6 @@ def update_source(sender, instance, **kwargs):
         for unit in related_units:
             unit.run_checks()
             unit.translation.invalidate_cache()
-
-
-@receiver(post_save, sender=Check)
-@disable_for_loaddata
-def update_failed_check_flag(sender, instance, **kwargs):
-    """Update related unit failed check flag."""
-    if instance.language is None:
-        return
-    related = instance.related_units
-    if instance.for_unit is not None:
-        related = related.exclude(pk=instance.for_unit)
-    for unit in related:
-        unit.update_has_failing_check(False)
-        unit.translation.invalidate_cache()
 
 
 @receiver(post_delete, sender=Comment)

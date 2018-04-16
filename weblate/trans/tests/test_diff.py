@@ -22,7 +22,7 @@ from __future__ import unicode_literals
 from unittest import TestCase
 from weblate.trans.simplediff import html_diff
 from weblate.trans.templatetags.translations import format_translation
-from weblate.trans.tests.test_checks import MockUnit, MockLanguage
+from weblate.checks.tests.test_checks import MockUnit, MockLanguage
 
 
 class DiffTest(TestCase):

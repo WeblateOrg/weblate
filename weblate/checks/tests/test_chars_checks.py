@@ -24,7 +24,7 @@ Tests for quality checks.
 
 from __future__ import unicode_literals
 from unittest import TestCase
-from weblate.trans.checks.chars import (
+from weblate.checks.chars import (
     BeginNewlineCheck, EndNewlineCheck,
     BeginSpaceCheck, EndSpaceCheck,
     EndStopCheck, EndColonCheck,
@@ -34,7 +34,7 @@ from weblate.trans.checks.chars import (
     ZeroWidthSpaceCheck,
     MaxLengthCheck,
 )
-from weblate.trans.tests.test_checks import CheckTestCase, MockUnit
+from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
 
 
 class BeginNewlineCheckTest(CheckTestCase):

@@ -85,6 +85,12 @@ work, but is not as well tested as single version upgrades.
     case you are upgrading from such old version, please upgrade to 2.2 first
     and then continue in upgrading to current release.
 
+.. versionchanged:: 3.0
+
+    If you are upgrading from 2.x release, always first upgrade to 3.0 (see
+    :ref:`upgrade_3`) and the continue ugprading in the 3.x series. Upgrades
+    skipping this step are not supported.
+
 .. _version-specific-instructions:
 
 Version specific instructions
@@ -600,6 +606,23 @@ Notable configuration or dependencies changes:
 * There is new built in translation memory machine translation, the
   :setting:`MACHINE_TRANSLATION_SERVICES` should now include
   ``weblate.memory.machine.WeblateMemory``.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
+.. _upgrade_3:
+
+Upgrade from 2.20 to 3.0
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow carefully following instructions. It is extremely recommended to
+backup your database prior to this upgrade.
+
+Notable configuration or dependencies changes:
+
+* Several modules have been renamed and this lead to changes in many settings,
+  please consult :file:`settings_example.py` for current values.
+
+Upgrading steps
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

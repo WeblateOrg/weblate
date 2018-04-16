@@ -40,7 +40,7 @@ from weblate.lang.models import Language
 from weblate.trans.models import (
     Project, SubProject, Dictionary, WhiteboardMessage, Unit,
 )
-from weblate.trans.checks import CHECKS, highlight_string
+from weblate.checks import CHECKS, highlight_string
 from weblate.utils.stats import BaseStats
 
 register = template.Library()

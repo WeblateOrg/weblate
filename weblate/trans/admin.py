@@ -184,12 +184,6 @@ class CommentAdmin(WeblateModelAdmin):
     search_fields = ['content_hash', 'comment']
 
 
-class CheckAdmin(WeblateModelAdmin):
-    list_display = ['content_hash', 'check', 'project', 'language', 'ignore']
-    search_fields = ['content_hash', 'check']
-    list_filter = ['check', 'project', 'ignore']
-
-
 class DictionaryAdmin(WeblateModelAdmin):
     list_display = ['source', 'target', 'project', 'language']
     search_fields = ['source', 'target']

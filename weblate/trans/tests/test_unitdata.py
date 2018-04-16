@@ -25,8 +25,9 @@ Tests for unitdata models.
 from __future__ import unicode_literals
 from django.test import TestCase
 from django.utils.encoding import force_text
+from weblate.checks.models import Check
 from weblate.lang.models import Language
-from weblate.trans.models import Check, Project
+from weblate.trans.models import Project
 
 
 class UnitdataTestCase(TestCase):

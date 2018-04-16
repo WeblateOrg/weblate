@@ -19,7 +19,7 @@
 #
 """Quality check example for Czech plurals."""
 
-from weblate.trans.checks.base import TargetCheck
+from weblate.checks.base import TargetCheck
 from django.utils.translation import ugettext_lazy as _
 
 

@@ -24,8 +24,8 @@ Tests for AngularJS checks.
 """
 
 from unittest import TestCase
-from weblate.trans.checks.angularjs import AngularJSInterpolationCheck
-from weblate.trans.tests.test_checks import MockUnit
+from weblate.checks.angularjs import AngularJSInterpolationCheck
+from weblate.checks.tests.test_checks import MockUnit
 
 
 class AngularJSInterpolationCheckTest(TestCase):

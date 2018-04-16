@@ -32,7 +32,7 @@ from weblate.memory.storage import (
     TranslationMemory, setup_index, CATEGORY_FILE
 )
 from weblate.trans.tests.utils import get_test_file
-from weblate.trans.tests.test_checks import MockUnit
+from weblate.checks.tests.test_checks import MockUnit
 
 TEST_DOCUMENT = {
     'source_language': 'en',

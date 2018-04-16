@@ -22,7 +22,7 @@ import re
 
 from django.utils.translation import ugettext_lazy as _
 
-from weblate.trans.checks.base import TargetCheck
+from weblate.checks.base import TargetCheck
 
 PYTHON_PRINTF_MATCH = re.compile(
     r'''
