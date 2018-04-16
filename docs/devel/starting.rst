@@ -18,8 +18,17 @@ internationalization framework you end up using should support this.
 Last but not least, sometimes it might be necessary to add some context to the
 translated string. Imagine a translator would get string ``Sun`` to translate.
 Without context most people would translate that as our closest star, but it
-might be actually used as an abbreviation for Sunday..
+might be actually used as an abbreviation for Sunday.
 
+Choosing internationalization framework
+---------------------------------------
+
+Choose whatever is standard on your platform, try to avoid reinventing the
+wheel by creating your own framework to handle localizations. Weblate supports
+most of the widely used frameworks, see :ref:`formats` for more information.
+
+Following chapters describe two use cases - GNU Gettext and Sphinx, but many of
+the steps are quite generic and apply to the other frameworks as well.
 
 Translating software using GNU Gettext
 --------------------------------------
