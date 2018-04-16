@@ -102,7 +102,7 @@ and is used to provide required legal documents.
 
 .. note::
 
-    The module ships legal documents for Hosted Weblate service. You are
+    The module ships legal documents for the Hosted Weblate service. You are
     required to adjust the templates to match your use case.
 
 Installation
