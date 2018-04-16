@@ -629,7 +629,7 @@ class Metrics(APIView):
                 translation__pk__gt=0
             ).distinct().count(),
             'checks': Check.objects.count(),
-            'suggestions': Suggestion.objects.coun(),
+            'suggestions': Suggestion.objects.count(),
             'index_updates': IndexUpdate.objects.count(),
             'name': settings.SITE_TITLE,
         })
