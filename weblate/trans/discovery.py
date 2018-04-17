@@ -187,7 +187,6 @@ class ComponentDiscovery(object):
                     processed.add(component.id)
                 created.append((match, component))
 
-
         if remove:
             for found in main.get_linked_childs().exclude(pk__in=processed):
                 # Delete

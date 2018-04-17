@@ -565,7 +565,8 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         updated = False
         for unit in self.unit_set.filter(pending=True).select_for_update():
             # Skip changes by other authors
-            if unit.change_set.content().order_by('-timestamp')[0].author_id != author_id:
+            unit_change = unit.change_set.content().order_by('-timestamp')[0]
+            if unit_change.author_id != author_id:
                 continue
 
             pounit, add = self.store.find_unit(

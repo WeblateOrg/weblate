@@ -28,6 +28,7 @@ from django.core.management.commands.compilemessages import (
 DEFAULT_DATA_DIR = os.path.join(settings.BASE_DIR, 'data')
 DEFAULT_TEST_DIR = os.path.join(settings.BASE_DIR, 'data-test')
 
+
 def should_skip(location):
     return (
         location.startswith(settings.DATA_DIR) or

@@ -71,6 +71,7 @@ def parse_url(request, project, subproject=None, lang=None):
 
     return obj, unit_set, context
 
+
 @login_required
 @require_POST
 def search_replace(request, project, subproject=None, lang=None):
