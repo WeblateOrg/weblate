@@ -131,7 +131,7 @@ class DiscoveryForm(BaseAddonForm):
         ),
     )
     name_template = forms.CharField(
-        label=_('Customise the component name'),
+        label=_('Customize the component name'),
         initial='{{ component }}',
         required=True,
     )

@@ -379,13 +379,13 @@ do not exist. It does no changes to the already existing ones.
 
 .. django-admin-option:: --name-template TEMPLATE
 
-    Customise the component's name, using Django template syntax.
+    Customize the component's name, using Django template syntax.
 
     For example: ``Documentation: {{ component }}``
 
 .. django-admin-option:: --base-file-template TEMPLATE
 
-    Customise base file for monolingual translations.
+    Customize base file for monolingual translations.
 
     For example: ``{{ component }}/res/values/string.xml``
 
