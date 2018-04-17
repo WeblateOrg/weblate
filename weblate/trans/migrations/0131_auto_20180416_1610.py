@@ -6,6 +6,8 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
+    # This can not be done atomic on SQLite
+    atomic = False
 
     dependencies = [
         ('lang', '0011_auto_20180215_1158'),
