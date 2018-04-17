@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-04-13 19:09+0000\n"
-"PO-Revision-Date: 2018-04-02 17:22+0000\n"
+"PO-Revision-Date: 2018-04-17 07:58+0000\n"
 "Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hant/>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2.20-dev\n"
+"X-Generator: Weblate 3.0-dev\n"
 
 #: weblate/accounts/admin.py:109 weblate/accounts/admin.py:114
 msgid "Personal info"
@@ -626,16 +626,14 @@ msgstr ""
 "不再存在的失時效翻譯金鑰。"
 
 #: weblate/addons/discovery.py:35
-#, fuzzy
-#| msgid "Component list"
 msgid "Component discovery"
-msgstr "組件列表"
+msgstr "組件探索"
 
 #: weblate/addons/discovery.py:37
 msgid ""
 "This addon automatically adds or removes components to the project based on "
 "file changes in the version control system."
-msgstr ""
+msgstr "此附加元件會根據版本控制系統中的檔案更動自動加入組件至專案中或移除。"
 
 #: weblate/addons/example.py:42
 msgid "Example addon"
@@ -704,10 +702,8 @@ msgid "JSON indentation"
 msgstr "JSON 縮排"
 
 #: weblate/addons/forms.py:120
-#, fuzzy
-#| msgid "Regular expression which is used to match user email."
 msgid "Regular expression to match translation files"
-msgstr "用來比對使用者電子郵件的正則表達式。"
+msgstr "用來比對翻譯檔的正則表達式"
 
 #: weblate/addons/forms.py:124 weblate/trans/models/subproject.py:247
 msgid "File format"
@@ -718,22 +714,16 @@ msgid "Automatic detection might fail for some formats and is slightly slower."
 msgstr "某些格式在自動偵測時可能會偵測失敗，並且速度稍慢。"
 
 #: weblate/addons/forms.py:134
-#, fuzzy
-#| msgid "Component name"
 msgid "Customise the component name"
-msgstr "組件名稱"
+msgstr "自訂組件名稱"
 
 #: weblate/addons/forms.py:139
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Define the monolingual base filename"
-msgstr "單語的基底語言檔"
+msgstr "定義單語的基礎檔名"
 
 #: weblate/addons/forms.py:142
-#, fuzzy
-#| msgid "Cleanup translation files"
 msgid "Keep empty for bilingual translation files."
-msgstr "清理翻譯檔"
+msgstr "維持雙語翻譯檔空白。"
 
 #: weblate/addons/forms.py:145 weblate/trans/models/subproject.py:483
 msgid "Language filter"
@@ -747,17 +737,15 @@ msgstr "掃描檔案遮罩時用來篩選過濾翻譯的正則表達式。"
 
 #: weblate/addons/forms.py:155
 msgid "Remove components for non existing files"
-msgstr ""
+msgstr "為不存在的檔案移除組件"
 
 #: weblate/addons/forms.py:159
 msgid "I confirm that the above matches look correct"
-msgstr ""
+msgstr "我能確認上述符合項目看起來正確"
 
 #: weblate/addons/forms.py:220
-#, fuzzy
-#| msgid "Please review and confirm the search and replace results."
 msgid "Please review and confirm matched components."
-msgstr "請檢閱並確認搜尋和取代結果。"
+msgstr "請檢閱並確認符合的組件。"
 
 #: weblate/addons/generate.py:36
 msgid "Statistics generator"
@@ -782,8 +770,6 @@ msgid "Update LINGUAS file"
 msgstr "更新 LINGUAS 檔案"
 
 #: weblate/addons/gettext.py:74
-#, fuzzy
-#| msgid "Updates the LINGUAS file when adding new translation."
 msgid "Updates the LINGUAS file when a new translation is added."
 msgstr "當新增翻譯時更新 LINGUAS 檔。"
 
@@ -792,22 +778,14 @@ msgid "Update ALL_LINGUAS variable in the configure file"
 msgstr "更新組態檔中的 ALL_LINGUAS 變數"
 
 #: weblate/addons/gettext.py:129
-#, fuzzy
-#| msgid ""
-#| "Updates the ALL_LINGUAS variable in configure, configure.in or configure."
-#| "ac files when adding new translation."
 msgid ""
 "Updates the ALL_LINGUAS variable in configure, configure.in or configure.ac "
 "files, when a new translation is added."
-msgstr ""
-"每當新增翻譯時，更新組態、configure.in 或 configure.ac 檔案中的 ALL_LINGUAS "
-"變數。"
+msgstr "每當新增翻譯時，更新組態、configure.in 或 configure.ac 檔案中的 ALL_LINGUAS 變數。"
 
 #: weblate/addons/gettext.py:187
-#, fuzzy
-#| msgid "Update po files to match pot (msgmerge)"
 msgid "Update PO files to match POT (msgmerge)"
-msgstr "更新 po 檔以符合 pot (msgmerge)"
+msgstr "更新 PO 檔以符合 POT (msgmerge)"
 
 #: weblate/addons/gettext.py:189
 msgid ""
@@ -2267,55 +2245,45 @@ msgstr "有些附加元件在安裝時會要求額外設定組態。"
 msgid ""
 "The regular expression to match translation files has to contain two named "
 "groups to match component and language, some examples:"
-msgstr ""
+msgstr "比對翻譯檔用的正則表達式必須包含兩個命名群組才能比對組件和語言。範例："
 
 #: weblate/templates/addons/discovery_help.html:8
-#, fuzzy
-#| msgid "Email regular expression"
 msgid "Regular expression"
-msgstr "電子郵件正則表達式"
+msgstr "正則表達式"
 
 #: weblate/templates/addons/discovery_help.html:9
-#, fuzzy
-#| msgid "Failed to parse %d matched files!"
 msgid "Example matched files"
-msgstr "解析比對到的 %d 檔案失敗！"
+msgstr "範例符合檔案"
 
 #: weblate/templates/addons/discovery_help.html:22
 msgid "One folder per language containing translation files for components."
-msgstr ""
+msgstr "各語言各一個資料夾包含組件的翻譯檔。"
 
 #: weblate/templates/addons/discovery_help.html:32
 msgid "Usual structure for storing gettext po files."
-msgstr ""
+msgstr "儲存 gettext po 檔的常用結構。"
 
 #: weblate/templates/addons/discovery_help.html:42
 msgid "Using both component and language name within filename."
-msgstr ""
+msgstr "檔名同時使用組件名稱和語言名稱。"
 
 #: weblate/templates/addons/discovery_help.html:52
 msgid "Using language in both path and filename."
-msgstr ""
+msgstr "路徑和檔名中都使用語言名稱。"
 
 #: weblate/templates/addons/discovery_help.html:57
-#, fuzzy
-#| msgid ""
-#| "You can use Django templates markup in both filename and content, for "
-#| "example:"
 msgid ""
 "You can use Django templates markup in both component name and monolingual "
 "base filename, for example:"
-msgstr "您可以在檔名和內容中使用 Django 範本標記語法，例如："
+msgstr "您可以同時在組件檔名和單語基礎檔名中使用 Django 範本標記語法，例如："
 
 #: weblate/templates/addons/discovery_help.html:61
-#, fuzzy
-#| msgid "Component name"
 msgid "Component filename match"
-msgstr "組件名稱"
+msgstr "組件檔名比對"
 
 #: weblate/templates/addons/discovery_help.html:63
 msgid "Component filename with upper case first letter"
-msgstr ""
+msgstr "組件檔名首字母大寫"
 
 #: weblate/templates/addons/discovery_preview.html:5
 #: weblate/templates/list-translations.html:7
@@ -2325,26 +2293,24 @@ msgid "Component"
 msgstr "組件"
 
 #: weblate/templates/addons/discovery_preview.html:5
-#, fuzzy
-#| msgid "Watched projects"
 msgid "Matched files"
-msgstr "關注專案"
+msgstr "符合的檔案"
 
 #: weblate/templates/addons/discovery_preview.html:9
 msgid "Following components would be deleted"
-msgstr ""
+msgstr "會刪除下列組件"
 
 #: weblate/templates/addons/discovery_preview.html:15
 msgid "Following components would be created"
-msgstr ""
+msgstr "會建立下列組件"
 
 #: weblate/templates/addons/discovery_preview.html:28
 msgid "Following components matched existing ones"
-msgstr ""
+msgstr "下列組件和既有項目相符"
 
 #: weblate/templates/addons/discovery_preview.html:41
 msgid "No components were matched!"
-msgstr ""
+msgstr "沒有符合的組件！"
 
 #: weblate/templates/addons/generate_help.html:3
 msgid ""
@@ -7453,7 +7419,7 @@ msgstr "編譯失敗：{0}"
 msgid ""
 "Regular expression is missing named group \"{0}\", the simplest way to "
 "define it is {1}."
-msgstr ""
+msgstr "正則表達式缺少命名群組「{0}」，最簡單的方法是將之定義為 {1}。"
 
 #: weblate/utils/validators.py:127
 msgid "Invalid image!"
