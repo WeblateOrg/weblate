@@ -15,8 +15,9 @@ for tag in $TAGS ; do
     check
 done
 
-./manage makemigrations
-if [ `git status -s | wc -l` -gt 0 ] ; then
+./manage.py makemigrations
+check
+if [ `git status -s | grep -c /migrations/` -gt 0 ] ; then
     echo 'There are untracked files:'
     git status -s
     exit 1
