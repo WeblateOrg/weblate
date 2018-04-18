@@ -29,7 +29,7 @@ from django.http import Http404, HttpResponse
 from django.utils.encoding import smart_text
 
 from rest_framework import parsers, viewsets
-from rest_framework.decorators import detail_route
+from rest_framework.decorators import action
 from rest_framework.exceptions import ParseError
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -162,7 +162,8 @@ class WeblateViewSet(DownloadViewSet):
 
         return getattr(obj, method)(request)
 
-    @detail_route(
+    @action(
+        detail=True,
         methods=['get', 'post'],
         serializer_class=RepoRequestSerializer
     )
@@ -262,7 +263,7 @@ class ProjectViewSet(WeblateViewSet):
             'source_language'
         )
 
-    @detail_route(methods=['get'])
+    @action(detail=True, methods=['get'])
     def components(self, request, **kwargs):
         obj = self.get_object()
 
@@ -278,13 +279,13 @@ class ProjectViewSet(WeblateViewSet):
 
         return self.get_paginated_response(serializer.data)
 
-    @detail_route(methods=['get'])
+    @action(detail=True, methods=['get'])
     def statistics(self, request, **kwargs):
         obj = self.get_object()
 
         return Response(get_project_stats(obj))
 
-    @detail_route(methods=['get'])
+    @action(detail=True, methods=['get'])
     def changes(self, request, **kwargs):
         obj = self.get_object()
 
@@ -314,7 +315,8 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
             'project__source_language'
         )
 
-    @detail_route(
+    @action(
+        detail=True,
         methods=['get', 'post'],
         serializer_class=LockRequestSerializer
     )
@@ -332,7 +334,7 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
 
         return Response(data=LockSerializer(obj).data)
 
-    @detail_route(methods=['get'])
+    @action(detail=True, methods=['get'])
     def monolingual_base(self, request, **kwargs):
         obj = self.get_object()
 
@@ -344,7 +346,7 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
             obj.template_store.mimetype
         )
 
-    @detail_route(methods=['get'])
+    @action(detail=True, methods=['get'])
     def new_template(self, request, **kwargs):
         obj = self.get_object()
 
@@ -356,7 +358,7 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
             'application/binary',
         )
 
-    @detail_route(methods=['get'])
+    @action(detail=True, methods=['get'])
     def translations(self, request, **kwargs):
         obj = self.get_object()
 
@@ -372,7 +374,7 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
 
         return self.get_paginated_response(serializer.data)
 
-    @detail_route(methods=['get'])
+    @action(detail=True, methods=['get'])
     def statistics(self, request, **kwargs):
         obj = self.get_object()
 
@@ -387,7 +389,7 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
 
         return self.get_paginated_response(serializer.data)
 
-    @detail_route(methods=['get'])
+    @action(detail=True, methods=['get'])
     def changes(self, request, **kwargs):
         obj = self.get_object()
 
@@ -425,7 +427,8 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
             'component__project__source_language',
         )
 
-    @detail_route(
+    @action(
+        detail=True,
         methods=['get', 'put', 'post'],
         parser_classes=(
             parsers.MultiPartParser,
@@ -471,7 +474,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
             'count': total,
         })
 
-    @detail_route(methods=['get'])
+    @action(detail=True, methods=['get'])
     def statistics(self, request, **kwargs):
         obj = self.get_object()
 
@@ -482,7 +485,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
 
         return Response(serializer.data)
 
-    @detail_route(methods=['get'])
+    @action(detail=True, methods=['get'])
     def changes(self, request, **kwargs):
         obj = self.get_object()
 
@@ -497,7 +500,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
 
         return self.get_paginated_response(serializer.data)
 
-    @detail_route(methods=['get'])
+    @action(detail=True, methods=['get'])
     def units(self, request, **kwargs):
         obj = self.get_object()
 
@@ -565,7 +568,8 @@ class ScreenshotViewSet(DownloadViewSet):
             component__project__in=acl_projects
         )
 
-    @detail_route(
+    @action(
+        detail=True,
         methods=['get', 'put', 'post'],
         parser_classes=(
             parsers.MultiPartParser,
@@ -573,7 +577,7 @@ class ScreenshotViewSet(DownloadViewSet):
             parsers.FileUploadParser,
         ),
         serializer_class=ScreenshotFileSerializer,
-    )
+
     def file(self, request, **kwargs):
         obj = self.get_object()
         if request.method == 'GET':

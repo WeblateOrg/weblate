@@ -265,7 +265,7 @@ def get_versions():
         'djangorestframework',
         'http://www.django-rest-framework.org/',
         'rest_framework',
-        '3.7',
+        '3.8',
     ))
 
     result.append(get_single(

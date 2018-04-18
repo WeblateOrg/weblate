@@ -621,6 +621,7 @@ Notable configuration or dependencies changes:
 
 * Several modules have been renamed and this lead to changes in many settings,
   please consult :file:`settings_example.py` for current values.
+* Several dependencies have raised minimal version.
 
 Upgrading steps
 

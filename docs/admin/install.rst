@@ -70,7 +70,7 @@ django_compressor (>= 2.1.1)
     https://github.com/django-compressor/django-compressor
 django-crispy-forms (>= 1.6.1)
     https://django-crispy-forms.readthedocs.io/
-Django REST Framework (>=3.7)
+Django REST Framework (>=3.8)
     http://www.django-rest-framework.org/
 user-agents (>= 1.1.0)
     https://github.com/selwin/python-user-agents
