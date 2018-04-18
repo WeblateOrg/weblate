@@ -577,7 +577,7 @@ class ScreenshotViewSet(DownloadViewSet):
             parsers.FileUploadParser,
         ),
         serializer_class=ScreenshotFileSerializer,
-
+    )
     def file(self, request, **kwargs):
         obj = self.get_object()
         if request.method == 'GET':
