@@ -14,3 +14,10 @@ for tag in $TAGS ; do
     run_coverage ./manage.py migrate
     check
 done
+
+./manage makemigrations
+if [ `git status -s | wc -l` -gt 0 ] ; then
+    echo 'There are untracked files:'
+    git status -s
+    exit 1
+fi
