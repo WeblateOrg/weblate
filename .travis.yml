@@ -19,6 +19,8 @@ env:
     - CI_DEPS="Django>=2.0,<2.1" CI_DATABASE=postgresql CI_MODE=selenium
     - CI_DEPS="Django>=2.0,<2.1" CI_DATABASE=postgresql CI_MODE=setup
     - CI_DEPS="Django>=2.0,<2.1" CI_DATABASE=sqlite CI_MODE=migrate
+    - CI_DEPS="Django>=2.0,<2.1" CI_DATABASE=mysql CI_MODE=migrate
+    - CI_DEPS="Django>=2.0,<2.1" CI_DATABASE=postgresql CI_MODE=migrate
     - CI_DEPS="sphinxcontrib-httpdomain" CI_MODE=docs
   global:
     - DJANGO_SETTINGS_MODULE=weblate.settings_test
