@@ -85,7 +85,7 @@ def has_group_perm(user, permission, translation=None, project=None):
                 continue
 
             # Check if group has asked permission
-            return membership.filter(permissions__in=perm_obj).exists()
+            return membership.filter(permissions=perm_obj).exists()
 
     return user.has_perm(permission)
 
