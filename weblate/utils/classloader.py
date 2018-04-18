@@ -96,3 +96,6 @@ class ClassLoader(object):
 
     def __contains__(self, item):
         return self.data.__contains__(item)
+
+    def get_choices(self):
+        return [(x, self[x].name) for x in self]

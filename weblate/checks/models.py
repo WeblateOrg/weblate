@@ -31,12 +31,9 @@ from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.unitdata import UnitData
 
 
-CHECK_CHOICES = [(x, CHECKS[x].name) for x in CHECKS]
-
-
 @python_2_unicode_compatible
 class Check(UnitData):
-    check = models.CharField(max_length=50, choices=CHECK_CHOICES)
+    check = models.CharField(max_length=50, choices=CHECKS.get_choices())
     ignore = models.BooleanField(db_index=True, default=False)
 
     _for_unit = None
