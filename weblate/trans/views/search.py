@@ -30,7 +30,9 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 
 from weblate.lang.models import Language
-from weblate.permissions.helpers import can_translate
+from weblate.permissions.helpers import (
+    can_translate, can_automatic_translation,
+)
 from weblate.trans.forms import (
     SiteSearchForm, ReplaceForm, ReplaceConfirmForm, MassStateForm,
 )
@@ -216,6 +218,9 @@ def search(request, project=None, component=None, lang=None):
 @never_cache
 def state_change(request, project, component=None, lang=None):
     obj, unit_set, context = parse_url(request, project, component, lang)
+
+    if not can_automatic_translation(request.user, context['project']):
+        raise PermissionDenied()
 
     form = MassStateForm(request.user, obj, request.POST)
 

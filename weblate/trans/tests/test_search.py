@@ -570,6 +570,7 @@ class MassStateTest(ViewTestCase):
             fuzzy=True,
         )
         self.unit = self.get_unit()
+        self.make_manager()
 
     def do_mass_state_test(self, url, confirm=True):
         response = self.client.post(

@@ -236,6 +236,7 @@
 </div>
 </form>
 
+{% if mass_state_form %}
 <form action="{% url 'state-change' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" method="post" enctype="multipart/form-data">
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Mass state change" %}</h4></div>
@@ -249,6 +250,7 @@
 </div>
 </div>
 </form>
+{% endif %}
 
 </div>
 {% endif %}

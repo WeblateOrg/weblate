@@ -340,12 +340,16 @@ def show_project(request, project):
         obj.stats.get_language_stats(), lambda x: force_text(x.language.name)
     )
 
-    if can_translate(request.user, project=obj):
-        replace_form = ReplaceForm()
+    # Is user allowed to do automatic translation?
+    if can_automatic_translation(request.user, obj):
         mass_state_form = MassStateForm(request.user, obj)
     else:
-        replace_form = None
         mass_state_form = None
+
+    if can_translate(request.user, project=obj):
+        replace_form = ReplaceForm()
+    else:
+        replace_form = None
 
     return render(
         request,
@@ -377,12 +381,16 @@ def show_component(request, project, component):
 
     last_changes = Change.objects.for_component(obj)[:10]
 
-    if can_translate(request.user, project=obj.project):
-        replace_form = ReplaceForm()
+    # Is user allowed to do automatic translation?
+    if can_automatic_translation(request.user, obj.project):
         mass_state_form = MassStateForm(request.user, obj)
     else:
-        replace_form = None
         mass_state_form = None
+
+    if can_translate(request.user, project=obj.project):
+        replace_form = ReplaceForm()
+    else:
+        replace_form = None
 
     return render(
         request,
@@ -421,6 +429,12 @@ def show_translation(request, project, component, lang):
 
     # Is user allowed to do automatic translation?
     if can_automatic_translation(request.user, obj.component.project):
+        mass_state_form = MassStateForm(request.user, obj)
+    else:
+        mass_state_form = None
+
+    # Is user allowed to do automatic translation?
+    if can_automatic_translation(request.user, obj.component.project):
         autoform = AutoForm(obj, request.user)
     else:
         autoform = None
@@ -438,10 +452,8 @@ def show_translation(request, project, component, lang):
 
     if can_translate(request.user, translation=obj):
         replace_form = ReplaceForm()
-        mass_state_form = MassStateForm(request.user, obj)
     else:
         replace_form = None
-        mass_state_form = None
 
     return render(
         request,
