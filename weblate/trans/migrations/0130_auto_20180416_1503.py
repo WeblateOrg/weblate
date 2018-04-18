@@ -12,6 +12,14 @@ class Migration(migrations.Migration):
     ]
 
     database_operations = [
+        migrations.AlterUniqueTogether(
+            name='check',
+            unique_together=set([]),
+        ),
+        migrations.AlterIndexTogether(
+            name='check',
+            index_together=set([]),
+        ),
         migrations.AlterModelTable('Check', 'checks_check')
     ]
 
