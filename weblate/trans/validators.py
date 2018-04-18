@@ -50,7 +50,7 @@ def validate_commit_message(val):
             'project': 'Weblate',
             'component': 'master',
             'resource': 'master',
-            'component': 'master',
+            'subproject': 'master',
             'url': 'https://example.com/projects/weblate/master',
             'total': 200,
             'fuzzy': 20,
