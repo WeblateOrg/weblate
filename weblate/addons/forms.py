@@ -141,6 +141,15 @@ class DiscoveryForm(BaseAddonForm):
         required=False,
         help_text=_('Keep empty for bilingual translation files.'),
     )
+    new_base_template = forms.CharField(
+        label=_('Define the base file for new translations'),
+        initial='',
+        required=False,
+        help_text=_(
+            'Filename of file which is used for creating new translations. '
+            'For Gettext choose .pot file.'
+        )
+    )
     language_regex = forms.CharField(
         label=_('Language filter'),
         max_length=200,
@@ -168,6 +177,7 @@ class DiscoveryForm(BaseAddonForm):
             Field('file_format'),
             Field('name_template'),
             Field('base_file_template'),
+            Field('new_base_template'),
             Field('language_regex'),
             Field('remove'),
             Div(template='addons/discovery_help.html'),
@@ -205,6 +215,7 @@ class DiscoveryForm(BaseAddonForm):
             self.cleaned_data['name_template'],
             self.cleaned_data['language_regex'],
             self.cleaned_data['base_file_template'],
+            self.cleaned_data['new_base_template'],
         )
 
     def clean(self):
@@ -229,10 +240,15 @@ class DiscoveryForm(BaseAddonForm):
     def test_render(value):
         validate_render(value, component='test')
 
+    def template_clean(self, name):
+        self.test_render(self.cleaned_data[name])
+        return self.cleaned_data[name]
+
     def clean_name_template(self):
-        self.test_render(self.cleaned_data['name_template'])
-        return self.cleaned_data['name_template']
+        return self.template_clean('name_template')
 
     def clean_base_file_template(self):
-        self.test_render(self.cleaned_data['base_file_template'])
-        return self.cleaned_data['base_file_template']
+        return self.template_clean('base_file_template')
+
+    def clean_new_base_template(self):
+        return self.template_clean('new_base_template')

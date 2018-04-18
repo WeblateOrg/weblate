@@ -37,6 +37,7 @@ from weblate.trans.util import path_separator
 class ComponentDiscovery(object):
     def __init__(self, component, match, name_template,
                  language_regex='^[^.]+$', base_file_template='',
+                 new_base_template='',
                  file_format='auto', path=None):
         self.component = component
         if path is None:
@@ -46,6 +47,7 @@ class ComponentDiscovery(object):
         self.path_match = re.compile('^' + match + '$')
         self.name_template = name_template
         self.base_file_template = base_file_template
+        self.new_base_template = new_base_template
         self.language_re = language_regex
         self.language_match = re.compile(language_regex)
         self.file_format = file_format
@@ -102,6 +104,9 @@ class ComponentDiscovery(object):
                     'languages': {groups['language']},
                     'base_file': render_template(
                         self.base_file_template, **groups
+                    ),
+                    'new_base': render_template(
+                        self.new_base_template, **groups
                     ),
                     'mask': mask,
                     'name': name,

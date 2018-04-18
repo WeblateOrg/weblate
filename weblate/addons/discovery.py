@@ -67,11 +67,15 @@ class DiscoveryAddon(BaseAddon):
 
     @cached_property
     def discovery(self):
+        # Handle old settings which did not have this set
+        if 'new_base_template' not in self.instance.configuration:
+            self.instance.configuration['new_base_template'] = ''
         return ComponentDiscovery(
             self.instance.component,
             self.instance.configuration['match'],
             self.instance.configuration['name_template'],
             self.instance.configuration['language_regex'],
             self.instance.configuration['base_file_template'],
+            self.instance.configuration['new_base_template'],
             self.instance.configuration['file_format'],
         )
