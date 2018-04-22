@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-04-13 19:09+0000\n"
-"PO-Revision-Date: 2018-03-22 09:26+0000\n"
-"Last-Translator: Michal Čihař <michal@cihar.com>\n"
+"PO-Revision-Date: 2018-04-23 09:36+0000\n"
+"Last-Translator: Stanisław Krukowski <pet209a1@riseup.net>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/master/pl/"
 ">\n"
 "Language: pl\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2.20-dev\n"
+"X-Generator: Weblate 3.0-dev\n"
 
 #: weblate/accounts/admin.py:109 weblate/accounts/admin.py:114
 msgid "Personal info"
@@ -264,18 +264,14 @@ msgid "Authentication using {method} ({name}) has been removed."
 msgstr "Uwierzytelnienie za pomocą {method} ({name}) zostało usunięte."
 
 #: weblate/accounts/models.py:69
-#, fuzzy, python-brace-format
-#| msgid "Successfully authenticated using {method} ({name})."
+#, python-brace-format
 msgid "Authenticated using {method} ({name})."
-msgstr "Uwierzytelnienie za pomocą {method} ({name}) zakończone z powodzeniem."
+msgstr "Uwierzytelnione za pomocą {method} ({name})."
 
 #: weblate/accounts/models.py:72
-#, fuzzy, python-brace-format
-#| msgid "Successfully authenticated using {method} ({name}) from new device."
+#, python-brace-format
 msgid "Authenticated using {method} ({name}) from new device."
-msgstr ""
-"Uwierzytelnienie za pomocą {method} ({name}), za pomocą nowego urządzenia, "
-"zakończone z powodzeniem."
+msgstr "Uwierzytelnione za pomocą {method} ({name}) z nowego urządzenia."
 
 #: weblate/accounts/models.py:75
 msgid "Somebody has attempted to register with your email."
@@ -667,10 +663,8 @@ msgstr ""
 "podstawowym."
 
 #: weblate/addons/discovery.py:35
-#, fuzzy
-#| msgid "Component list"
 msgid "Component discovery"
-msgstr "Lista składników"
+msgstr "Wykrycie składników"
 
 #: weblate/addons/discovery.py:37
 msgid ""
@@ -683,8 +677,6 @@ msgid "Example addon"
 msgstr "Przykładowy dodatek"
 
 #: weblate/addons/example.py:44
-#, fuzzy
-#| msgid "This addon does nothing it is just an example"
 msgid "This addon does nothing it is just an example."
 msgstr "Ten dodatek nic nie robi. Jest po prostu przykładem."
 
@@ -743,24 +735,16 @@ msgid "No line wrapping"
 msgstr ""
 
 #: weblate/addons/forms.py:96
-#, fuzzy
-#| msgid "SSH keys"
 msgid "Sort JSON keys"
-msgstr "Klucze SSH"
+msgstr "Sortuj klucze JSON"
 
 #: weblate/addons/forms.py:100
-#, fuzzy
-#| msgid "Documentation"
 msgid "JSON indentation"
-msgstr "Dokumentacja"
+msgstr "Wcięcie JSON"
 
 #: weblate/addons/forms.py:120
-#, fuzzy
-#| msgid "Regular expression which is used to match user email."
 msgid "Regular expression to match translation files"
-msgstr ""
-"Wyrażenie regularne, które jest używane w celu dopasowania adresu e-mail "
-"użytkownika."
+msgstr "Wyrażenie regularne, stosowane w celu dopasowania plików tłumaczenia"
 
 #: weblate/addons/forms.py:124 weblate/trans/models/subproject.py:247
 msgid "File format"
@@ -773,22 +757,16 @@ msgstr ""
 "formatów i jest nieco wolniejsze."
 
 #: weblate/addons/forms.py:134
-#, fuzzy
-#| msgid "Component name"
 msgid "Customize the component name"
-msgstr "Nazwa komponentu"
+msgstr "Dostosuj nazwę składnika"
 
 #: weblate/addons/forms.py:139
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Define the monolingual base filename"
-msgstr "Jednojęzyczny bazowy plik języka"
+msgstr "Zdefiniuj jednojęzyczną bazową nazwę pliku"
 
 #: weblate/addons/forms.py:142
-#, fuzzy
-#| msgid "The request for machine translation has failed."
 msgid "Keep empty for bilingual translation files."
-msgstr "Żądanie automatycznego tłumaczenia nie powiodło się."
+msgstr "Utrzymaj otwarte dla dwujezycznych plików tłumaczenia."
 
 #: weblate/addons/forms.py:145 weblate/trans/models/subproject.py:483
 msgid "Language filter"
@@ -811,45 +789,35 @@ msgid "I confirm that the above matches look correct"
 msgstr ""
 
 #: weblate/addons/forms.py:220
-#, fuzzy
-#| msgid "Please review and confirm the search and replace results."
 msgid "Please review and confirm matched components."
-msgstr "Sprawdź i potwierdź wyniki podmiany wyszukiwania."
+msgstr "Proszę przejrzeć i potwierdzić pasujące składniki."
 
 #: weblate/addons/generate.py:36
 msgid "Statistics generator"
 msgstr "Generator statystyk"
 
 #: weblate/addons/generate.py:38
-#, fuzzy
-#| msgid ""
-#| "This addon generates file with detailed information about the translation."
 msgid ""
 "This addon generates a file containing detailed information about the "
 "translation."
-msgstr "Ten dodatek generuje plik ze szczegółowymi informacjami o tłumaczeniu."
+msgstr ""
+"Ten dodatek generuje plik zawierający szczegółowe informacje o tłumaczeniu."
 
 #: weblate/addons/gettext.py:55
-#, fuzzy
-#| msgid "Generate mo files"
 msgid "Generate MO files"
-msgstr "Generuj pliki mo"
+msgstr "Generuj pliki MO"
 
 #: weblate/addons/gettext.py:57
-#, fuzzy
-#| msgid "Automatically generates mo file for every changed po file."
 msgid "Automatically generates MO file for every changed PO file."
-msgstr "Automatycznie generuje plik mo dla każdego zmienionego pliku mo."
+msgstr "Generuje automatycznie plik MO dla każdego zmienionego pliku PO."
 
 #: weblate/addons/gettext.py:72
 msgid "Update LINGUAS file"
 msgstr "Aktualizuj plik LINGUAS"
 
 #: weblate/addons/gettext.py:74
-#, fuzzy
-#| msgid "Updates the LINGUAS file when adding new translation."
 msgid "Updates the LINGUAS file when a new translation is added."
-msgstr "Aktualizuje plik LINGUAS podczas dodawania nowego tłumaczenia."
+msgstr "Aktualizuje plik LINGUAS, gdy dodawane jest nowe tłumaczenie."
 
 #: weblate/addons/gettext.py:127
 msgid "Update ALL_LINGUAS variable in the configure file"
@@ -1633,7 +1601,7 @@ msgstr "Wersje"
 
 #: weblate/templates/about.html:68
 msgid "Weblate owes its existence to these projects."
-msgstr "Weblate zawdzięcza swoje istnienie następującym projektom:"
+msgstr "Weblate zawdzięcza swoje istnienie tym projektom."
 
 #: weblate/templates/access_control_description.html:4
 #: weblate/trans/models/project.py:131
@@ -3976,12 +3944,12 @@ msgstr "Nowy ciąg znaków do przetłumaczenia w projekcie %(translation)s"
 #, python-format
 msgid ""
 "There is a new suggestion to evaluate on %(translation)s at %(site_title)s."
-msgstr "Dodano nową propozycję tłumaczenia %(translation)s w %(site_title)s."
+msgstr "Dodano nową sugestię tłumaczenia %(translation)s w %(site_title)s."
 
 #: weblate/templates/mail/new_suggestion.html:28
 #: weblate/templates/mail/new_suggestion.txt:9
 msgid "Suggestion:"
-msgstr "Propozycja:"
+msgstr "Sugestia:"
 
 #: weblate/templates/mail/new_suggestion.html:50
 #: weblate/templates/mail/new_suggestion.txt:13
@@ -3991,7 +3959,7 @@ msgstr "Możesz skontrolować tutaj:"
 #: weblate/templates/mail/new_suggestion_subject.txt:3
 #, python-format
 msgid "New suggestion in %(translation)s"
-msgstr "Nowa propozycja w projekcie %(translation)s"
+msgstr "Nowa sugestia w projekcie %(translation)s"
 
 #: weblate/templates/mail/new_translation.html:11
 #: weblate/templates/mail/new_translation.txt:3
@@ -4624,7 +4592,7 @@ msgstr "Sugestie"
 
 #: weblate/templates/trans/suggestion_list.html:15
 msgid "Suggestion"
-msgstr "Propozycja"
+msgstr "Sugestia"
 
 #: weblate/templates/trans/suggestion_list.html:30
 msgid "No matching translations found!"
@@ -5677,10 +5645,8 @@ msgid "Strings with suggestions"
 msgstr "Teksty z propozycjami"
 
 #: weblate/trans/filter.py:37 weblate/trans/models/translation.py:782
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgid "Strings without suggestions"
-msgstr "Teksty z propozycjami"
+msgstr "Ciągi znaków bez sugestii"
 
 #: weblate/trans/filter.py:38 weblate/trans/models/translation.py:697
 #: weblate/trans/models/translation.py:810
@@ -5914,7 +5880,7 @@ msgstr "Dodanie jako tłumaczenie"
 
 #: weblate/trans/forms.py:553
 msgid "Add as a suggestion"
-msgstr "Dodanie jako sugestię"
+msgstr "Dodaj jako sugestię"
 
 #: weblate/trans/forms.py:554
 msgid "Add as translation needing edit"
@@ -7838,7 +7804,7 @@ msgstr "Nie odnaleziono pasującego ciągu!"
 
 #: weblate/trans/views/edit.py:183
 msgid "Your suggestion is empty!"
-msgstr "Propozycja jest pusta!"
+msgstr "Twoja sugestia jest pusta!"
 
 #: weblate/trans/views/edit.py:190
 msgid "You don't have privileges to add suggestions!"
@@ -7846,7 +7812,7 @@ msgstr "Brak uprawnień do sugerowania tłumaczeń!"
 
 #: weblate/trans/views/edit.py:199
 msgid "Your suggestion has been identified as spam!"
-msgstr "Propozycję zidentyfikowano jako spam!"
+msgstr "Sugestię zidentyfikowano jako spam!"
 
 #: weblate/trans/views/edit.py:215
 msgid ""
@@ -7854,11 +7820,9 @@ msgid ""
 "consider becoming a translator as your suggestion might otherwise remain "
 "unreviewed."
 msgstr ""
-"Obecnie nie istnieje aktywny tłumacz dla tego tłumaczenia, należy rozważyć "
-"stałego tłumacza jako sugestię mogłyby pozostać niesprawdzone.\n"
-"\n"
-"Obecnie nie ma osób aktywnie to tłumaczących. Rozważ zostanie tłumaczem, bo "
-"inaczej Twoje sugestie mogą pozostać nieprzejrzane."
+"Obecnie nie ma żadnego aktywnego tłumacza dla tego tłumaczenia. Weź proszę "
+"pod uwagę przejęcie na siebie roli tłumacza, ponieważ — w innym przypadku — "
+"twoja sugestia może nie zostać przejrzana."
 
 #: weblate/trans/views/edit.py:223
 msgid ""
@@ -7869,7 +7833,7 @@ msgstr ""
 
 #: weblate/trans/views/edit.py:236
 msgid "Your suggestion already exists!"
-msgstr "Propozycja tłumaczenia już istnieje!"
+msgstr "Twoja sugestia już istnieje!"
 
 #: weblate/trans/views/edit.py:265
 #, python-format
@@ -7907,7 +7871,7 @@ msgstr "Nie masz uprawnień do głosowania na sugestie!"
 
 #: weblate/trans/views/edit.py:439
 msgid "Invalid suggestion!"
-msgstr "Nieprawidłowa propozycja!"
+msgstr "Sugestia nieprawomocna!"
 
 #: weblate/trans/views/edit.py:552
 msgid "Invalid search string!"
