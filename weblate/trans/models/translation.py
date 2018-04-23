@@ -34,7 +34,7 @@ from django.urls import reverse
 
 from weblate.lang.models import Language, Plural
 from weblate.permissions.helpers import can_translate
-from weblate.trans.formats import ParseError, try_load
+from weblate.formats import ParseError, try_load
 from weblate.checks import CHECKS
 from weblate.trans.models.unit import (
     Unit, STATE_TRANSLATED, STATE_FUZZY, STATE_APPROVED,

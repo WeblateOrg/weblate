@@ -31,7 +31,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.trans.discovery import ComponentDiscovery
-from weblate.trans.formats import FILE_FORMAT_CHOICES
+from weblate.formats import FILE_FORMAT_CHOICES
 from weblate.utils.validators import validate_render, validate_re
 
 

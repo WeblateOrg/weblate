@@ -48,14 +48,13 @@ from translate.storage.poxliff import PoXliffFile
 from translate.storage.resx import RESXFile
 from translate.storage import factory
 
-from weblate.lang.models import Plural
-
 from weblate.trans.util import get_string, join_plural, add_configuration_error
 
 from weblate.utils.hash import calculate_hash
 
 import weblate
 
+default_app_config = 'weblate.formats.apps.FormatsConfig'
 
 FILE_FORMATS = {}
 FILE_DETECT = []
@@ -952,6 +951,7 @@ class PoFormat(FileFormat):
 
     def get_plural(self, language):
         """Return matching plural object."""
+        from weblate.lang.models import Plural
         header = self.store.parseheader()
         try:
             number, equation = Plural.parse_formula(header['Plural-Forms'])

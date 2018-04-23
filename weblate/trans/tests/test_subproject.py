@@ -25,7 +25,7 @@ import shutil
 
 from django.core.exceptions import ValidationError
 
-from weblate.trans.formats import ParseError
+from weblate.formats import ParseError
 from weblate.trans.models import (
     Project, Component, Unit, Suggestion,
 )
