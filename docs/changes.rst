@@ -9,6 +9,7 @@ Released on ? 2018.
 * Several code cleanups that lead to moved and renamed modules.
 * New addon for automatic component discovery.
 * The import_project management command has now slightly different parameters.
+* Added basic support for Windows RC files.
 
 weblate 2.20
 ------------

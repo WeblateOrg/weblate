@@ -681,6 +681,38 @@ Example DTD file:
 
 .. seealso:: :doc:`tt:formats/dtd`
 
+Windows RC files
+----------------
+
+.. versionadded:: 3.0
+
+    Experimental support has been added in Weblate 3.0.
+
+.. index::
+    pair: DTD; file format
+
+.. versionadded:: 2.18
+
+Example DTD file:
+
+.. literalinclude:: ../weblate/trans/tests/data/cs-CZ.rc
+    :language: text
+    :encoding: utf-8
+
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| File mask                      | ``lang/*.rc``                    |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``lang/en-US.rc``                |
++--------------------------------+----------------------------------+
+| Base file for new translations | ``lang/en-US.rc``                |
++--------------------------------+----------------------------------+
+| File format                    | `RC file`                        |
++--------------------------------+----------------------------------+
+
+.. seealso:: :doc:`tt:formats/rc`
+
 Others
 ------
 

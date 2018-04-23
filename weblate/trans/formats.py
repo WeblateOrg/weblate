@@ -513,6 +513,11 @@ class CSVUnit(MonolingualSimpleUnit):
         return super(CSVUnit, self).get_source()
 
 
+class WindowsRCUnit(MonolingualSimpleUnit):
+    def get_context(self):
+        return self.mainunit.name
+
+
 class RESXUnit(FileUnit):
     def get_locations(self):
         return ''
@@ -553,6 +558,7 @@ class FileFormat(object):
     unit_class = FileUnit
     new_translation = None
     autoload = ()
+    can_add_unit = True
 
     @staticmethod
     def serialize(store):
@@ -1425,6 +1431,31 @@ class DTDFormat(FileFormat):
         # Filter out null units (those IMHO should not be exposed by ttkit)
         store.units = [u for u in store.units if not u.isnull()]
         return store
+
+
+@register_fileformat
+class WindowsRCFormat(FileFormat):
+    name = _('RC file')
+    format_id = 'rc'
+    loader = ('rc', 'rcfile')
+    autoload = ('.rc',)
+    unit_class = WindowsRCUnit
+    can_add_unit = False
+
+    @property
+    def mimetype(self):
+        """Return most common mime type for format."""
+        return 'text/plain'
+
+    @property
+    def extension(self):
+        """Return most common file extension for format."""
+        return 'rc'
+
+    @staticmethod
+    def get_language_code(code):
+        """Do any possible formatting needed for language code."""
+        return code.replace('_', '-')
 
 
 FILE_FORMAT_CHOICES = [

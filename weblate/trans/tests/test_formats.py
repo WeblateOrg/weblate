@@ -36,8 +36,8 @@ from weblate.lang.models import Language
 from weblate.trans.formats import (
     AutoFormat, PoFormat, AndroidFormat, PropertiesFormat, JoomlaFormat,
     JSONFormat, JSONNestedFormat, RESXFormat, PhpFormat, XliffFormat, TSFormat,
-    YAMLFormat, RubyYAMLFormat, DTDFormat, FILE_FORMATS, detect_filename,
-    WebExtensionJSONFormat,
+    YAMLFormat, RubyYAMLFormat, DTDFormat, WindowsRCFormat, WebExtensionJSONFormat,
+    FILE_FORMATS, detect_filename,
 )
 from weblate.trans.tests.utils import get_test_file, TempDirMixin
 
@@ -58,6 +58,7 @@ TEST_TS = get_test_file('cs.ts')
 TEST_YAML = get_test_file('cs.pyml')
 TEST_RUBY_YAML = get_test_file('cs.ryml')
 TEST_DTD = get_test_file('cs.dtd')
+TEST_RC = get_test_file('cs-CZ.rc')
 TEST_HE_CLDR = get_test_file('he-cldr.po')
 TEST_HE_CUSTOM = get_test_file('he-custom.po')
 TEST_HE_SIMPLE = get_test_file('he-simple.po')
@@ -230,6 +231,8 @@ class AutoFormatTest(SimpleTestCase, TempDirMixin):
         )
 
     def test_new_unit(self):
+        if not self.FORMAT.can_add_unit:
+            raise SkipTest('Not supported')
         # Read test content
         with open(self.FILE, 'rb') as handle:
             testdata = handle.read()
@@ -506,3 +509,18 @@ class DTDFormatTest(AutoFormatTest):
     FIND = 'hello'
     FIND_MATCH = ''
     NEW_UNIT_MATCH = b'\n<!ENTITY key "Source string">\n'
+
+
+class WindowsRCFormatTest(AutoFormatTest):
+    FORMAT = WindowsRCFormat
+    FILE = TEST_RC
+    BASE = TEST_RC
+    MIME = 'text/plain'
+    EXT = 'rc'
+    COUNT = 4
+    MASK = 'rc/*.rc'
+    EXPECTED_PATH = 'rc/cs-CZ.rc'
+    MATCH = 'STRINGTABLE'
+    FIND = 'Hello, world!\n'
+    FIND_MATCH = 'Hello, world!\n'
+    NEW_UNIT_MATCH = None
