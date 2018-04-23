@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-04-23 19:40+0000\n"
-"PO-Revision-Date: 2018-04-14 08:09+0000\n"
+"PO-Revision-Date: 2018-04-23 23:25+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
@@ -143,10 +143,8 @@ msgid "Activation email will be sent here."
 msgstr "有効なメールアドレス。このアドレスに送信されます。"
 
 #: weblate/accounts/forms.py:406
-#, fuzzy
-#| msgid "Too many registration attempts!"
 msgid "Too many registration attempts from this location!"
-msgstr "登録を試行しすぎています！"
+msgstr "同じ場所から登録を試行しすぎています！"
 
 #: weblate/accounts/forms.py:413
 msgid "New password"
@@ -208,10 +206,8 @@ msgstr ""
 "<b>%(username)s</b> です。"
 
 #: weblate/accounts/forms.py:567
-#, fuzzy
-#| msgid "Too many authentication attempts!"
 msgid "Too many authentication attempts from this location!"
-msgstr "認証を試行しすぎています！"
+msgstr "同じ場所から認証を試行しすぎています！"
 
 #: weblate/accounts/forms.py:625 weblate/templates/addons/generate_help.html:21
 #: weblate/trans/models/project.py:92
@@ -771,10 +767,8 @@ msgid "Keep empty for bilingual translation files."
 msgstr "複数言語翻訳の場合は何も設定しないでください。"
 
 #: weblate/addons/forms.py:145
-#, fuzzy
-#| msgid "Base file for new translations"
 msgid "Define the base file for new translations"
-msgstr "新しい翻訳に対するベースファイル"
+msgstr "新しい翻訳に対するベースファイルの設定"
 
 #: weblate/addons/forms.py:149 weblate/trans/models/component.py:243
 msgid ""
@@ -1339,10 +1333,8 @@ msgid "DTD file"
 msgstr "DTD ファイル"
 
 #: weblate/formats/ttkit.py:734
-#, fuzzy
-#| msgid "CSV file"
 msgid "RC file"
-msgstr "CSV ファイル"
+msgstr "RC ファイル"
 
 #: weblate/lang/apps.py:28
 msgid "Weblate languages"
@@ -1674,51 +1666,49 @@ msgid "We use cookies to deliver our services."
 msgstr "サービスの提供を目的として、 Cookie を使用しています。"
 
 #: weblate/legal/templates/legal/privacy.html:7 weblate/legal/views.py:57
-#, fuzzy
-#| msgid "Private"
 msgid "Privacy"
-msgstr "プライベート"
+msgstr "プライバシー"
 
 #: weblate/legal/templates/legal/privacy.html:17
-#, fuzzy
-#| msgid "Security Policy"
 msgid "Privacy Policy"
-msgstr "セキュリティポリシー"
+msgstr "プライバシーポリシー"
 
 #: weblate/legal/templates/legal/privacy.html:25
 msgid ""
 "Weblate needs several personal information to ensure it's operation, this "
 "page describes how we store and use the information."
 msgstr ""
+"Weblate "
+"では、各種の操作を確認する目的で、いくつかの個人情報を必要としています。このページでは、それらの情報をどのように保存し、使用しているのかを説明しています。"
 
 #: weblate/legal/templates/legal/privacy.html:30
-#, fuzzy
-#| msgid "Username or email"
 msgid "Name and email"
-msgstr "ユーザ名もしくはメールアドレス"
+msgstr "名前と電子メールアドレス"
 
 #: weblate/legal/templates/legal/privacy.html:31
 msgid "These are used to identify you in the VCS commits"
-msgstr ""
+msgstr "これらは VCS (バージョン管理システム) のコミット内で、識別のために使用しています"
 
 #: weblate/legal/templates/legal/privacy.html:32
 msgid "Additionally email is used for notifications on watched events"
-msgstr ""
+msgstr "これに加えて電子メールアドレスは、監視対象として設定したイベントの通知にも使用しています"
 
 #: weblate/legal/templates/legal/privacy.html:34
 msgid "IP address and browser name"
-msgstr ""
+msgstr "IP アドレスとブラウザ名"
 
 #: weblate/legal/templates/legal/privacy.html:35
 msgid ""
 "These are logged in case of important changes to your account (eg. password "
 "change) to allow diagnosis in case of your account is stolen"
 msgstr ""
+"これらは、お使いのアカウントに対する重要な変更 (例: パスワード変更) "
+"の際に記録され、アカウントが不正利用された場合の解析情報として使用できるようになっています"
 
 #: weblate/legal/templates/legal/privacy.html:40
 msgid ""
 "All these information is removed once you delete your account in Weblate."
-msgstr ""
+msgstr "これら全ての情報は、 Weblate でアカウントを削除することで消去されます。"
 
 #: weblate/legal/templates/legal/security.html:7 weblate/legal/views.py:52
 msgid "Security"
@@ -2830,10 +2820,8 @@ msgstr ""
 "れている場合。"
 
 #: weblate/templates/addons/discovery_help.html:32
-#, fuzzy
-#| msgid "Usual structure for storing gettext po files."
 msgid "Usual structure for storing gettext PO files."
-msgstr "gettext po ファイルを保存する一般的な構造の場合。"
+msgstr "gettext PO ファイルを保存する一般的な構造の場合。"
 
 #: weblate/templates/addons/discovery_help.html:42
 msgid "Using both component and language name within filename."
@@ -4297,10 +4285,9 @@ msgstr "%(translation_url)s で翻訳できます"
 
 #: weblate/templates/mail/merge_failure.html:11
 #: weblate/templates/mail/merge_failure.txt:3
-#, fuzzy, python-format
-#| msgid "There has been a merge failure on %(subproject)s at %(site_title)s."
+#, python-format
 msgid "There has been a merge failure on %(component)s at %(site_title)s."
-msgstr "%(site_title)s の %(subproject)s において、マージが失敗しました。"
+msgstr "%(site_title)s の %(component)s において、マージが失敗しました。"
 
 #: weblate/templates/mail/merge_failure.html:15
 #: weblate/templates/mail/parse_error.html:15
@@ -4327,18 +4314,15 @@ msgid "Repository status:"
 msgstr "リポジトリの状態:"
 
 #: weblate/templates/mail/merge_failure_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Merge failure in %(subproject)s"
+#, python-format
 msgid "Merge failure in %(component)s"
-msgstr "%(subproject)s 内でマージに失敗"
+msgstr "%(component)s 内でマージに失敗"
 
 #: weblate/templates/mail/new_comment.html:11
 #: weblate/templates/mail/new_comment.txt:3
-#, fuzzy, python-format
-#| msgid "There has been a new comment on %(subproject)s at %(site_title)s."
+#, python-format
 msgid "There has been a new comment on %(component)s at %(site_title)s."
-msgstr ""
-"%(site_title)s の %(subproject)s において、新しいコメントが追加されました。"
+msgstr "%(site_title)s の %(component)s において、新しいコメントが追加されました。"
 
 #: weblate/templates/mail/new_comment.html:28
 #: weblate/templates/mail/new_comment.txt:9
@@ -4346,10 +4330,9 @@ msgid "Comment:"
 msgstr "コメント:"
 
 #: weblate/templates/mail/new_comment_subject.txt:3
-#, fuzzy, python-format
-#| msgid "New comment in %(subproject)s"
+#, python-format
 msgid "New comment in %(component)s"
-msgstr "%(subproject)s 内での新しいコメント"
+msgstr "%(component)s 内での新しいコメント"
 
 #: weblate/templates/mail/new_contributor.html:7
 #: weblate/templates/mail/new_contributor.txt:1
@@ -4487,11 +4470,9 @@ msgstr "%(translation)s 内での新しい翻訳"
 
 #: weblate/templates/mail/parse_error.html:11
 #: weblate/templates/mail/parse_error.txt:3
-#, fuzzy, python-format
-#| msgid "There has been a parse error on %(subproject)s at %(site_title)s."
+#, python-format
 msgid "There has been a parse error on %(component)s at %(site_title)s."
-msgstr ""
-"%(site_title)s の %(subproject)s において、処理エラーが発生しています。"
+msgstr "%(site_title)s の %(component)s において、処理エラーが発生しています。"
 
 #: weblate/templates/mail/parse_error.html:21
 msgid "Failing file"
@@ -4502,10 +4483,9 @@ msgid "Failing file:"
 msgstr "失敗したファイル:"
 
 #: weblate/templates/mail/parse_error_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Parse error in %(subproject)s"
+#, python-format
 msgid "Parse error in %(component)s"
-msgstr "%(subproject)s 内で処理に失敗"
+msgstr "%(component)s 内で処理に失敗"
 
 #: weblate/templates/mail/remove.html:11 weblate/templates/mail/remove.txt:3
 #, python-format
