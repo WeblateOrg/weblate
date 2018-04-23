@@ -20,12 +20,15 @@
 
 from __future__ import unicode_literals
 
+from io import BytesIO
 import os.path
+import traceback
 
 from appconf import AppConf
 
 from django.utils.functional import cached_property
 
+from weblate.formats.ttkit import AutoFormat
 from weblate.trans.util import add_configuration_error
 from weblate.utils.classloader import ClassLoader
 
@@ -59,6 +62,14 @@ class FileFormatLoader(ClassLoader):
 
 
 FILE_FORMATS = FileFormatLoader()
+
+
+class StringIOMode(BytesIO):
+    """StringIO with mode attribute to make ttkit happy."""
+    def __init__(self, filename, data):
+        super(StringIOMode, self).__init__(data)
+        self.mode = 'r'
+        self.name = filename
 
 
 def detect_filename(filename):
@@ -105,32 +116,32 @@ def try_load(filename, content, original_format, template_store):
 
 class FormatsConf(AppConf):
     FORMATS = (
-        'weblate.formats.AutoFormat',
-        'weblate.formats.PoFormat',
-        'weblate.formats.PoMonoFormat',
-        'weblate.formats.TSFormat',
-        'weblate.formats.XliffFormat',
-        'weblate.formats.PoXliffFormat',
-        'weblate.formats.StringsFormat',
-        'weblate.formats.StringsUtf8Format',
-        'weblate.formats.PropertiesUtf8Format',
-        'weblate.formats.PropertiesUtf16Format',
-        'weblate.formats.PropertiesFormat',
-        'weblate.formats.JoomlaFormat',
-        'weblate.formats.PhpFormat',
-        'weblate.formats.RESXFormat',
-        'weblate.formats.AndroidFormat',
-        'weblate.formats.JSONFormat',
-        'weblate.formats.JSONNestedFormat',
-        'weblate.formats.WebExtensionJSONFormat',
-        'weblate.formats.I18NextFormat',
-        'weblate.formats.CSVFormat',
-        'weblate.formats.CSVSimpleFormat',
-        'weblate.formats.CSVSimpleFormatISO',
-        'weblate.formats.YAMLFormat',
-        'weblate.formats.RubyYAMLFormat',
-        'weblate.formats.DTDFormat',
-        'weblate.formats.WindowsRCFormat',
+        'weblate.formats.ttkit.AutoFormat',
+        'weblate.formats.ttkit.PoFormat',
+        'weblate.formats.ttkit.PoMonoFormat',
+        'weblate.formats.ttkit.TSFormat',
+        'weblate.formats.ttkit.XliffFormat',
+        'weblate.formats.ttkit.PoXliffFormat',
+        'weblate.formats.ttkit.StringsFormat',
+        'weblate.formats.ttkit.StringsUtf8Format',
+        'weblate.formats.ttkit.PropertiesUtf8Format',
+        'weblate.formats.ttkit.PropertiesUtf16Format',
+        'weblate.formats.ttkit.PropertiesFormat',
+        'weblate.formats.ttkit.JoomlaFormat',
+        'weblate.formats.ttkit.PhpFormat',
+        'weblate.formats.ttkit.RESXFormat',
+        'weblate.formats.ttkit.AndroidFormat',
+        'weblate.formats.ttkit.JSONFormat',
+        'weblate.formats.ttkit.JSONNestedFormat',
+        'weblate.formats.ttkit.WebExtensionJSONFormat',
+        'weblate.formats.ttkit.I18NextFormat',
+        'weblate.formats.ttkit.CSVFormat',
+        'weblate.formats.ttkit.CSVSimpleFormat',
+        'weblate.formats.ttkit.CSVSimpleFormatISO',
+        'weblate.formats.ttkit.YAMLFormat',
+        'weblate.formats.ttkit.RubyYAMLFormat',
+        'weblate.formats.ttkit.DTDFormat',
+        'weblate.formats.ttkit.WindowsRCFormat',
     )
 
     class Meta(object):
