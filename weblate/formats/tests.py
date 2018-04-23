@@ -33,7 +33,7 @@ import translate.__version__
 from translate.storage.po import pofile
 
 from weblate.lang.models import Language
-from weblate.trans.formats import (
+from weblate.formats import (
     AutoFormat, PoFormat, AndroidFormat, PropertiesFormat, JoomlaFormat,
     JSONFormat, JSONNestedFormat, RESXFormat, PhpFormat, XliffFormat, TSFormat,
     YAMLFormat, RubyYAMLFormat, DTDFormat, WindowsRCFormat, WebExtensionJSONFormat,

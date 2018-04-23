@@ -4,7 +4,7 @@ from __future__ import print_function, unicode_literals
 
 from django.db import migrations
 
-from weblate.trans.formats import FILE_FORMATS
+from weblate.formats import FILE_FORMATS
 from weblate.addons.models import ADDONS
 
 HOOKS_REPLACE = {

@@ -36,7 +36,7 @@ from translate.storage.tmx import tmxfile
 from translate.storage.csvl10n import csvfile
 
 import weblate
-from weblate.trans.formats import FileFormat
+from weblate.formats import FileFormat
 from weblate.utils.site import get_site_url
 
 if six.PY2:
