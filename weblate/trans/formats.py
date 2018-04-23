@@ -1452,6 +1452,15 @@ class WindowsRCFormat(FileFormat):
         """Do any possible formatting needed for language code."""
         return code.replace('_', '-')
 
+    @classmethod
+    def get_class(cls):
+        """Return class for handling this module."""
+        if six.PY3:
+            raise ImportError('RC not supported on Python 3')
+        return importlib.import_module(
+            'translate.storage.rc'
+        ).rcfile
+
 
 FILE_FORMAT_CHOICES = [
     (fmt, FILE_FORMATS[fmt].name) for fmt in sorted(FILE_FORMATS)
