@@ -29,25 +29,26 @@ from django.utils.encoding import force_bytes
 from weblate.utils.request import get_ip_address
 
 
-def get_cache_key(request=None, address=None):
+def get_cache_key(scope, request=None, address=None):
     """Generate cache key for request."""
     if address is None:
         address = get_ip_address(request)
-    return 'ratelimit-{0}'.format(
+    return 'ratelimit-{0}-{1}'.format(
+        scope,
         md5(force_bytes(address)).hexdigest()
     )
 
 
-def reset_rate_limit(request=None, address=None):
+def reset_rate_limit(scope, request=None, address=None):
     """Resets rate limit."""
     cache.delete(
-        get_cache_key(request, address)
+        get_cache_key(scope, request, address)
     )
 
 
-def check_rate_limit(request):
+def check_rate_limit(scope, request):
     """Check authentication rate limit."""
-    key = get_cache_key(request)
+    key = get_cache_key(scope, request)
     attempts = cache.get(key) or 0
 
     if attempts >= settings.AUTH_MAX_ATTEMPTS:

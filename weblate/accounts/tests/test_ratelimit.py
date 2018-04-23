@@ -35,11 +35,11 @@ class RateLimitTest(TestCase):
 
     def setUp(self):
         # Ensure no rate limits are there
-        reset_rate_limit(address='1.2.3.4')
+        reset_rate_limit('test', address='1.2.3.4')
 
     def test_basic(self):
         self.assertTrue(
-            check_rate_limit(self.get_request())
+            check_rate_limit('test', self.get_request())
         )
 
     @override_settings(AUTH_MAX_ATTEMPTS=5, AUTH_CHECK_WINDOW=60)
@@ -47,11 +47,11 @@ class RateLimitTest(TestCase):
         request = self.get_request()
         for dummy in range(5):
             self.assertTrue(
-                check_rate_limit(request)
+                check_rate_limit('test', request)
             )
 
         self.assertFalse(
-            check_rate_limit(request)
+            check_rate_limit('test', request)
         )
 
     @override_settings(
@@ -62,15 +62,15 @@ class RateLimitTest(TestCase):
     def test_window(self):
         request = self.get_request()
         self.assertTrue(
-            check_rate_limit(request)
+            check_rate_limit('test', request)
         )
         sleep(1)
         self.assertFalse(
-            check_rate_limit(request)
+            check_rate_limit('test', request)
         )
         sleep(1)
         self.assertTrue(
-            check_rate_limit(request)
+            check_rate_limit('test', request)
         )
 
     @override_settings(
@@ -81,13 +81,13 @@ class RateLimitTest(TestCase):
     def test_lockout(self):
         request = self.get_request()
         self.assertTrue(
-            check_rate_limit(request)
+            check_rate_limit('test', request)
         )
         sleep(1)
         self.assertFalse(
-            check_rate_limit(request)
+            check_rate_limit('test', request)
         )
         sleep(1)
         self.assertFalse(
-            check_rate_limit(request)
+            check_rate_limit('test', request)
         )

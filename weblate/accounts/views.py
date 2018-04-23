@@ -414,7 +414,7 @@ def contact(request):
         form = ContactForm(request.POST)
         if show_captcha:
             captcha = CaptchaForm(request, form, request.POST)
-        if not check_rate_limit(request):
+        if not check_rate_limit('message', request):
             messages.error(
                 request,
                 _('Too many messages sent, please try again later!')

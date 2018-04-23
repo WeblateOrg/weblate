@@ -61,7 +61,8 @@ class BaseRegistrationTest(TestCase, RegistrationTestMixin):
 
     def setUp(self):
         super(BaseRegistrationTest, self).setUp()
-        reset_rate_limit(address='127.0.0.1')
+        reset_rate_limit('registration', address='127.0.0.1')
+        reset_rate_limit('login', address='127.0.0.1')
 
     def assert_registration(self, match=None, reset=False):
         if match is None and reset:
