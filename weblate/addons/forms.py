@@ -31,7 +31,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.trans.discovery import ComponentDiscovery
-from weblate.formats import FILE_FORMAT_CHOICES
+from weblate.formats.models import FILE_FORMATS
 from weblate.utils.validators import validate_render, validate_re
 
 
@@ -122,7 +122,7 @@ class DiscoveryForm(BaseAddonForm):
     )
     file_format = forms.ChoiceField(
         label=_('File format'),
-        choices=FILE_FORMAT_CHOICES,
+        choices=FILE_FORMATS.get_choices(),
         initial='auto',
         required=True,
         help_text=_(

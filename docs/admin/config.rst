@@ -1068,6 +1068,19 @@ given translation component.
 
     :ref:`addons`
 
+.. setting:: WEBLATE_FORMATS
+
+WEBLATE_FORMATS
+---------------
+
+.. versionadded:: 3.0
+
+List of file formats available for use, you can usually keep this on default value.
+
+.. seealso::
+
+    :ref:`formats`
+
 .. setting:: WHOOSH_INDEX
 
 WHOOSH_INDEX

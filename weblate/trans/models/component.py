@@ -38,7 +38,8 @@ from django.urls import reverse
 from django.core.cache import cache
 from django.utils import timezone
 
-from weblate.formats import FILE_FORMAT_CHOICES, FILE_FORMATS, ParseError
+from weblate.formats import ParseError
+from weblate.formats.models import FILE_FORMATS
 from weblate.trans.mixins import URLMixin, PathMixin
 from weblate.trans.fields import RegexField
 from weblate.utils import messages
@@ -247,7 +248,7 @@ class Component(models.Model, URLMixin, PathMixin):
         verbose_name=ugettext_lazy('File format'),
         max_length=50,
         default='auto',
-        choices=FILE_FORMAT_CHOICES,
+        choices=FILE_FORMATS.get_choices(),
         help_text=ugettext_lazy(
             'Automatic detection might fail for some formats '
             'and is slightly slower.'
