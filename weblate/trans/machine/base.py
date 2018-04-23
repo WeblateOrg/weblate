@@ -229,11 +229,10 @@ class MachineTranslation(object):
     def is_rate_limit_error(self, exc):
         if not isinstance(exc, HTTPError):
             return False
-        # Standard HTTP 429 Too Many Requests
-        if exc.code == 429:
-            return True
-        # Forbidden with quota in string used eg. by Microsoft
-        if exc.code == 403 and 'quota' in exc.msg.lower():
+        # Apply rate limiting for following status codes:
+        # HTTP 429 Too Many Requests
+        # HTTP 403 Forbidden
+        if exc.code in (429, 403):
             return True
         return False
 
