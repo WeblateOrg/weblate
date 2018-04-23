@@ -37,8 +37,8 @@ from weblate.formats import (
     AutoFormat, PoFormat, AndroidFormat, PropertiesFormat, JoomlaFormat,
     JSONFormat, JSONNestedFormat, RESXFormat, PhpFormat, XliffFormat, TSFormat,
     YAMLFormat, RubyYAMLFormat, DTDFormat, WindowsRCFormat, WebExtensionJSONFormat,
-    FILE_FORMATS, detect_filename,
 )
+from weblate.formats.models import FILE_FORMATS, detect_filename
 from weblate.trans.tests.utils import get_test_file, TempDirMixin
 
 

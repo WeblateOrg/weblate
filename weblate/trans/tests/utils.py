@@ -29,7 +29,7 @@ from unittest import SkipTest
 from django.conf import settings
 from django.contrib.auth.models import User
 
-from weblate.formats import FILE_FORMATS
+from weblate.formats.models import FILE_FORMATS
 from weblate.trans.models import Project, Component
 from weblate.trans.search import clean_indexes
 from weblate.trans.vcs import VCS_REGISTRY

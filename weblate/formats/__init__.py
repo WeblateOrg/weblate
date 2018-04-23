@@ -56,8 +56,6 @@ import weblate
 
 default_app_config = 'weblate.formats.apps.FormatsConfig'
 
-FILE_FORMATS = {}
-FILE_DETECT = []
 FLAGS_RE = re.compile(r'\b[-\w:]+\b')
 LOCATIONS_RE = re.compile(r'^([+-]|.*, [+-]|.*:[+-])')
 SUPPORTS_FUZZY = (pounit, tsunit)
@@ -92,63 +90,6 @@ class StringIOMode(BytesIO):
         super(StringIOMode, self).__init__(data)
         self.mode = 'r'
         self.name = filename
-
-
-def register_fileformat(fileformat):
-    """Register fileformat in dictionary."""
-    try:
-        fileformat.get_class()
-        FILE_FORMATS[fileformat.format_id] = fileformat
-        for autoload in fileformat.autoload:
-            FILE_DETECT.append((autoload, fileformat))
-    except (AttributeError, ImportError):
-        add_configuration_error(
-            'File format: {0}'.format(fileformat.format_id),
-            traceback.format_exc()
-        )
-    return fileformat
-
-
-def detect_filename(filename):
-    """Filename based format autodetection"""
-    name = os.path.basename(filename)
-    for autoload, storeclass in FILE_DETECT:
-        if not isinstance(autoload, tuple) and name.endswith(autoload):
-            return storeclass
-        elif (name.startswith(autoload[0]) and
-              name.endswith(autoload[1])):
-            return storeclass
-    return None
-
-
-def try_load(filename, content, original_format, template_store):
-    """Try to load file by guessing type"""
-    formats = [original_format, AutoFormat]
-    detected_format = detect_filename(filename)
-    if detected_format is not None:
-        formats.insert(0, detected_format)
-    failure = Exception('Bug!')
-    for file_format in formats:
-        if file_format.monolingual in (True, None) and template_store:
-            try:
-                result = file_format.parse(
-                    StringIOMode(filename, content),
-                    template_store
-                )
-                # Skip if there is not translated unit
-                # this can easily happen when importing bilingual
-                # storage which can be monolingual as well
-                if list(result.iterate_merge(False)):
-                    return result
-            except Exception as error:
-                failure = error
-        if file_format.monolingual in (False, None):
-            try:
-                return file_format.parse(StringIOMode(filename, content))
-            except Exception as error:
-                failure = error
-
-    raise failure
 
 
 class FileUnit(object):
@@ -554,6 +495,10 @@ class FileFormat(object):
     autoload = ()
     can_add_unit = True
 
+    @classmethod
+    def get_identifier(cls):
+        return cls.format_id
+
     @staticmethod
     def serialize(store):
         """Serialize given ttkit store"""
@@ -900,7 +845,6 @@ class FileFormat(object):
         self.save()
 
 
-@register_fileformat
 class AutoFormat(FileFormat):
     name = _('Automatic detection')
     format_id = 'auto'
@@ -916,6 +860,7 @@ class AutoFormat(FileFormat):
         else:
             filename = storefile
         if filename is not None:
+            from weblate.formats.models import detect_filename
             storeclass = detect_filename(filename)
             if storeclass is not None:
                 return storeclass(storefile, template_store, language_code)
@@ -931,7 +876,6 @@ class AutoFormat(FileFormat):
         return None
 
 
-@register_fileformat
 class PoFormat(FileFormat):
     name = _('Gettext PO file')
     format_id = 'po'
@@ -1015,14 +959,12 @@ class PoFormat(FileFormat):
         header.addnote(newheader.getnotes())
 
 
-@register_fileformat
 class PoMonoFormat(PoFormat):
     name = _('Gettext PO file (monolingual)')
     format_id = 'po-mono'
     monolingual = True
 
 
-@register_fileformat
 class TSFormat(FileFormat):
     name = _('Qt Linguist Translation File')
     format_id = 'ts'
@@ -1040,7 +982,6 @@ class TSFormat(FileFormat):
             return False
 
 
-@register_fileformat
 class XliffFormat(FileFormat):
     name = _('XLIFF Translation File')
     format_id = 'xliff'
@@ -1076,7 +1017,6 @@ class XliffFormat(FileFormat):
             return False
 
 
-@register_fileformat
 class PoXliffFormat(XliffFormat):
     name = _('XLIFF Translation File with PO extensions')
     format_id = 'poxliff'
@@ -1084,7 +1024,6 @@ class PoXliffFormat(XliffFormat):
     loader = PoXliffFile
 
 
-@register_fileformat
 class StringsFormat(FileFormat):
     name = _('OS X Strings')
     format_id = 'strings'
@@ -1098,7 +1037,6 @@ class StringsFormat(FileFormat):
         return code.replace('_', '-')
 
 
-@register_fileformat
 class StringsUtf8Format(StringsFormat):
     name = _('OS X Strings (UTF-8)')
     format_id = 'strings-utf8'
@@ -1106,7 +1044,6 @@ class StringsUtf8Format(StringsFormat):
     new_translation = '\n'
 
 
-@register_fileformat
 class PropertiesUtf8Format(FileFormat):
     name = _('Java Properties (UTF-8)')
     format_id = 'properties-utf8'
@@ -1115,14 +1052,12 @@ class PropertiesUtf8Format(FileFormat):
     new_translation = '\n'
 
 
-@register_fileformat
 class PropertiesUtf16Format(PropertiesUtf8Format):
     name = _('Java Properties (UTF-16)')
     format_id = 'properties-utf16'
     loader = ('properties', 'javafile')
 
 
-@register_fileformat
 class PropertiesFormat(PropertiesUtf8Format):
     name = _('Java Properties (ISO-8859-1)')
     format_id = 'properties'
@@ -1144,7 +1079,6 @@ class PropertiesFormat(PropertiesUtf8Format):
         return store
 
 
-@register_fileformat
 class JoomlaFormat(FileFormat):
     name = _('Joomla Language File')
     format_id = 'joomla'
@@ -1154,7 +1088,6 @@ class JoomlaFormat(FileFormat):
     autoload = ('.ini',)
 
 
-@register_fileformat
 class PhpFormat(FileFormat):
     name = _('PHP strings')
     format_id = 'php'
@@ -1174,7 +1107,6 @@ class PhpFormat(FileFormat):
         return 'php'
 
 
-@register_fileformat
 class RESXFormat(FileFormat):
     name = _('.Net resource file')
     format_id = 'resx'
@@ -1185,7 +1117,6 @@ class RESXFormat(FileFormat):
     autoload = ('.resx',)
 
 
-@register_fileformat
 class AndroidFormat(FileFormat):
     name = _('Android String Resource')
     format_id = 'aresource'
@@ -1215,7 +1146,6 @@ class AndroidFormat(FileFormat):
         return code.replace('_', '-r')
 
 
-@register_fileformat
 class JSONFormat(FileFormat):
     name = _('JSON file')
     format_id = 'json'
@@ -1235,14 +1165,12 @@ class JSONFormat(FileFormat):
         return 'json'
 
 
-@register_fileformat
 class JSONNestedFormat(JSONFormat):
     name = _('JSON nested structure file')
     format_id = 'json-nested'
     loader = ('jsonl10n', 'JsonNestedFile')
 
 
-@register_fileformat
 class WebExtensionJSONFormat(JSONFormat):
     name = _('WebExtension JSON file')
     format_id = 'webextension'
@@ -1251,14 +1179,12 @@ class WebExtensionJSONFormat(JSONFormat):
     autoload = (('messages', '.json'),)
 
 
-@register_fileformat
 class I18NextFormat(JSONFormat):
     name = _('i18next JSON file')
     format_id = 'i18next'
     loader = ('jsonl10n', 'I18NextFile')
 
 
-@register_fileformat
 class CSVFormat(FileFormat):
     name = _('CSV file')
     format_id = 'csv'
@@ -1329,7 +1255,6 @@ class CSVFormat(FileFormat):
         return result
 
 
-@register_fileformat
 class CSVSimpleFormat(CSVFormat):
     name = _('Simple CSV file')
     format_id = 'csv-simple'
@@ -1366,14 +1291,12 @@ class CSVSimpleFormat(CSVFormat):
         return result
 
 
-@register_fileformat
 class CSVSimpleFormatISO(CSVSimpleFormat):
     name = _('Simple CSV file (ISO-8859-1)')
     format_id = 'csv-simple-iso'
     encoding = 'iso-8859-1'
 
 
-@register_fileformat
 class YAMLFormat(FileFormat):
     name = _('YAML file')
     format_id = 'yaml'
@@ -1393,7 +1316,6 @@ class YAMLFormat(FileFormat):
         return 'yml'
 
 
-@register_fileformat
 class RubyYAMLFormat(YAMLFormat):
     name = _('Ruby YAML file')
     format_id = 'ruby-yaml'
@@ -1401,7 +1323,6 @@ class RubyYAMLFormat(YAMLFormat):
     autoload = ('.ryml', '.yml', '.yaml')
 
 
-@register_fileformat
 class DTDFormat(FileFormat):
     name = _('DTD file')
     format_id = 'dtd'
@@ -1428,7 +1349,6 @@ class DTDFormat(FileFormat):
         return store
 
 
-@register_fileformat
 class WindowsRCFormat(FileFormat):
     name = _('RC file')
     format_id = 'rc'
@@ -1460,8 +1380,3 @@ class WindowsRCFormat(FileFormat):
         return importlib.import_module(
             'translate.storage.rc'
         ).rcfile
-
-
-FILE_FORMAT_CHOICES = [
-    (fmt, FILE_FORMATS[fmt].name) for fmt in sorted(FILE_FORMATS)
-]
