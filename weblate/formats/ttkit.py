@@ -42,8 +42,6 @@ from weblate.formats.base import FileUnit, FileFormat
 from weblate.trans.util import get_string, join_plural
 
 
-default_app_config = 'weblate.formats.apps.FormatsConfig'
-
 FLAGS_RE = re.compile(r'\b[-\w:]+\b')
 LOCATIONS_RE = re.compile(r'^([+-]|.*, [+-]|.*:[+-])')
 SUPPORTS_FUZZY = (pounit, tsunit)
