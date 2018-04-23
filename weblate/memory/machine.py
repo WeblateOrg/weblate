@@ -29,6 +29,7 @@ class WeblateMemory(MachineTranslation):
     """Translation service using strings already translated in Weblate."""
     name = 'Weblate Translation Memory'
     rank_boost = 2
+    cache_translations = False
 
     def convert_language(self, language):
         return Language.objects.get(code=language)
