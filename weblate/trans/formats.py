@@ -513,11 +513,6 @@ class CSVUnit(MonolingualSimpleUnit):
         return super(CSVUnit, self).get_source()
 
 
-class WindowsRCUnit(MonolingualSimpleUnit):
-    def get_context(self):
-        return self.mainunit.name
-
-
 class RESXUnit(FileUnit):
     def get_locations(self):
         return ''
@@ -1439,7 +1434,7 @@ class WindowsRCFormat(FileFormat):
     format_id = 'rc'
     loader = ('rc', 'rcfile')
     autoload = ('.rc',)
-    unit_class = WindowsRCUnit
+    unit_class = MonolingualSimpleUnit
     can_add_unit = False
 
     @property
