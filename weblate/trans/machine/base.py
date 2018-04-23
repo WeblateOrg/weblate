@@ -261,9 +261,9 @@ class MachineTranslation(object):
 
         cache_key = None
         if self.cache_translations:
-            cache_key = 'mt:{}:{}:{}:{}'.format(
+            cache_key = 'mt:{}:{}:{}'.format(
                 self.mtid,
-                source, language,
+                calculate_hash(source, language),
                 hash_to_checksum(calculate_hash(None, text)),
             )
             result = cache.get(cache_key)
