@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-04-23 19:40+0000\n"
-"PO-Revision-Date: 2018-04-14 10:31+0000\n"
+"PO-Revision-Date: 2018-04-24 07:33+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@abv.bg>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/master/"
 "bg/>\n"
@@ -142,10 +142,8 @@ msgid "Activation email will be sent here."
 msgstr "Тук ще бъде изпратено е-писмото за активиране."
 
 #: weblate/accounts/forms.py:406
-#, fuzzy
-#| msgid "Too many registration attempts!"
 msgid "Too many registration attempts from this location!"
-msgstr "Твърде много опити за регистриране!"
+msgstr "Твърде много опити за регистриране от това местоположение!"
 
 #: weblate/accounts/forms.py:413
 msgid "New password"
@@ -206,10 +204,8 @@ msgid "This account is inactive."
 msgstr "Този акаунт е неактивен."
 
 #: weblate/accounts/forms.py:567
-#, fuzzy
-#| msgid "Too many authentication attempts!"
 msgid "Too many authentication attempts from this location!"
-msgstr "Твърде много опити за удостоверяване!"
+msgstr "Твърде много опити за удостоверяване от това местоположение!"
 
 #: weblate/accounts/forms.py:625 weblate/templates/addons/generate_help.html:21
 #: weblate/trans/models/project.py:92
@@ -778,10 +774,8 @@ msgid "Keep empty for bilingual translation files."
 msgstr "Да бъде празно за двуезичните файлове за превод."
 
 #: weblate/addons/forms.py:145
-#, fuzzy
-#| msgid "Base file for new translations"
 msgid "Define the base file for new translations"
-msgstr "Базов файл за новите преводи"
+msgstr "Определяне на базовия файл за новите преводи"
 
 #: weblate/addons/forms.py:149 weblate/trans/models/component.py:243
 msgid ""
@@ -1355,10 +1349,8 @@ msgid "DTD file"
 msgstr "Файл DTD"
 
 #: weblate/formats/ttkit.py:734
-#, fuzzy
-#| msgid "CSV file"
 msgid "RC file"
-msgstr "Файл CSV"
+msgstr "Файл RC"
 
 #: weblate/lang/apps.py:28
 msgid "Weblate languages"
@@ -1696,51 +1688,53 @@ msgid "We use cookies to deliver our services."
 msgstr "Ние използваме бисквитки, за да работят услугите ни."
 
 #: weblate/legal/templates/legal/privacy.html:7 weblate/legal/views.py:57
-#, fuzzy
-#| msgid "Private"
 msgid "Privacy"
-msgstr "Частен"
+msgstr "Поверителност"
 
 #: weblate/legal/templates/legal/privacy.html:17
-#, fuzzy
-#| msgid "Security Policy"
 msgid "Privacy Policy"
-msgstr "Политика на сигурност"
+msgstr "Политика на поверителност"
 
 #: weblate/legal/templates/legal/privacy.html:25
 msgid ""
 "Weblate needs several personal information to ensure it's operation, this "
 "page describes how we store and use the information."
 msgstr ""
+"Weblate се нуждае от малко лична информация за да работи правилно. Тази "
+"страница описва как се съхранява и използва тази информация."
 
 #: weblate/legal/templates/legal/privacy.html:30
-#, fuzzy
-#| msgid "Username or email"
 msgid "Name and email"
-msgstr "Потребителско име или е-поща"
+msgstr "Име и е-поща"
 
 #: weblate/legal/templates/legal/privacy.html:31
 msgid "These are used to identify you in the VCS commits"
 msgstr ""
+"Това е нужна, за да се виждат данните Ви в подаванията в системата за "
+"контрол на версиите"
 
 #: weblate/legal/templates/legal/privacy.html:32
 msgid "Additionally email is used for notifications on watched events"
-msgstr ""
+msgstr "Освен това, е-пощата се използва за известия за наблюдаваните събития"
 
 #: weblate/legal/templates/legal/privacy.html:34
 msgid "IP address and browser name"
-msgstr ""
+msgstr "IP адрес и име на браузъра"
 
 #: weblate/legal/templates/legal/privacy.html:35
 msgid ""
 "These are logged in case of important changes to your account (eg. password "
 "change) to allow diagnosis in case of your account is stolen"
 msgstr ""
+"Това се съхранява в случай, че има важни промени по акаунта Ви (напр. "
+"промяна на паролата), за да може да се направи анализ в случай, че акаунтът "
+"Ви бъде откраднат"
 
 #: weblate/legal/templates/legal/privacy.html:40
 msgid ""
 "All these information is removed once you delete your account in Weblate."
 msgstr ""
+"Цялата тази информация ще бъде изтрита, ако изтриете акаунта си в Weblate."
 
 #: weblate/legal/templates/legal/security.html:7 weblate/legal/views.py:52
 msgid "Security"
@@ -2860,8 +2854,6 @@ msgid "One folder per language containing translation files for components."
 msgstr "По една папка за език, съдържаща файловете за превод на компонентите."
 
 #: weblate/templates/addons/discovery_help.html:32
-#, fuzzy
-#| msgid "Usual structure for storing gettext po files."
 msgid "Usual structure for storing gettext PO files."
 msgstr "Обичайна структура за съхранение на файлове PO на gettext."
 
@@ -4338,10 +4330,9 @@ msgstr "Можете де превеждате тук: %(translation_url)s"
 
 #: weblate/templates/mail/merge_failure.html:11
 #: weblate/templates/mail/merge_failure.txt:3
-#, fuzzy, python-format
-#| msgid "There has been a merge failure on %(subproject)s at %(site_title)s."
+#, python-format
 msgid "There has been a merge failure on %(component)s at %(site_title)s."
-msgstr "Имаше проблем със сливането на %(subproject)s в %(site_title)s."
+msgstr "Имаше проблем със сливането на %(component)s в %(site_title)s."
 
 #: weblate/templates/mail/merge_failure.html:15
 #: weblate/templates/mail/parse_error.html:15
@@ -4369,17 +4360,15 @@ msgid "Repository status:"
 msgstr "Състояние на хранилището:"
 
 #: weblate/templates/mail/merge_failure_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Merge failure in %(subproject)s"
+#, python-format
 msgid "Merge failure in %(component)s"
-msgstr "Грешка при сливането на %(subproject)s"
+msgstr "Грешка при сливането на %(component)s"
 
 #: weblate/templates/mail/new_comment.html:11
 #: weblate/templates/mail/new_comment.txt:3
-#, fuzzy, python-format
-#| msgid "There has been a new comment on %(subproject)s at %(site_title)s."
+#, python-format
 msgid "There has been a new comment on %(component)s at %(site_title)s."
-msgstr "Има нов коментар в %(subproject)s в %(site_title)s."
+msgstr "Има нов коментар в %(component)s в %(site_title)s."
 
 #: weblate/templates/mail/new_comment.html:28
 #: weblate/templates/mail/new_comment.txt:9
@@ -4387,10 +4376,9 @@ msgid "Comment:"
 msgstr "Коментар:"
 
 #: weblate/templates/mail/new_comment_subject.txt:3
-#, fuzzy, python-format
-#| msgid "New comment in %(subproject)s"
+#, python-format
 msgid "New comment in %(component)s"
-msgstr "Нов коментар в %(subproject)s"
+msgstr "Нов коментар в %(component)s"
 
 #: weblate/templates/mail/new_contributor.html:7
 #: weblate/templates/mail/new_contributor.txt:1
@@ -4521,10 +4509,9 @@ msgstr "Нов превод в %(translation)s"
 
 #: weblate/templates/mail/parse_error.html:11
 #: weblate/templates/mail/parse_error.txt:3
-#, fuzzy, python-format
-#| msgid "There has been a parse error on %(subproject)s at %(site_title)s."
+#, python-format
 msgid "There has been a parse error on %(component)s at %(site_title)s."
-msgstr "Възникна грешка при анализа в %(subproject)s в %(site_title)s."
+msgstr "Възникна грешка при анализа в %(component)s в %(site_title)s."
 
 #: weblate/templates/mail/parse_error.html:21
 msgid "Failing file"
@@ -4535,10 +4522,9 @@ msgid "Failing file:"
 msgstr "Грешен файл:"
 
 #: weblate/templates/mail/parse_error_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Parse error in %(subproject)s"
+#, python-format
 msgid "Parse error in %(component)s"
-msgstr "Грешка при анализа в %(subproject)s"
+msgstr "Грешка при анализа в %(component)s"
 
 #: weblate/templates/mail/remove.html:11 weblate/templates/mail/remove.txt:3
 #, python-format
