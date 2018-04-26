@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-04-23 19:40+0000\n"
-"PO-Revision-Date: 2018-04-05 07:34+0000\n"
+"PO-Revision-Date: 2018-04-27 13:34+0000\n"
 "Last-Translator: Joan Montané <joan@montane.cat>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/master/"
 "ca/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.20-dev\n"
+"X-Generator: Weblate 3.0-dev\n"
 
 #: weblate/accounts/admin.py:109 weblate/accounts/admin.py:114
 msgid "Personal info"
@@ -141,10 +141,8 @@ msgid "Activation email will be sent here."
 msgstr "S'hi enviarà un correu d'activació."
 
 #: weblate/accounts/forms.py:406
-#, fuzzy
-#| msgid "Too many registration attempts!"
 msgid "Too many registration attempts from this location!"
-msgstr "Masses intents de registre!"
+msgstr "Masses intents de registre des d'aquesta ubicació!"
 
 #: weblate/accounts/forms.py:413
 msgid "New password"
@@ -203,10 +201,8 @@ msgid "This account is inactive."
 msgstr "Aquest compte no és actiu."
 
 #: weblate/accounts/forms.py:567
-#, fuzzy
-#| msgid "Too many authentication attempts!"
 msgid "Too many authentication attempts from this location!"
-msgstr "Masses intents d'autenticació!"
+msgstr "Massa intents d'autenticació des d'aquesta ubicació!"
 
 #: weblate/accounts/forms.py:625 weblate/templates/addons/generate_help.html:21
 #: weblate/trans/models/project.py:92
@@ -293,19 +289,21 @@ msgstr "L'intent d'autenticació amb {method} ({name}) ha fallat."
 #: weblate/accounts/models.py:84
 msgid "Account locked due to excessive failed authentication attempts."
 msgstr ""
+"S'ha blocat el compte perquè s'han fet molts intents d'autenticació fallits."
 
 #: weblate/accounts/models.py:87
 msgid "Account and all private data have been removed."
-msgstr ""
+msgstr "S'ha suprimit el compte i totes les dades privades."
 
 #: weblate/accounts/models.py:90
 #, python-brace-format
 msgid "Agreement with Terms of Service {date}."
-msgstr ""
+msgstr "Acord amb les condicions del servei {date}."
 
 #: weblate/accounts/models.py:96
 msgid "To restore access to your account, please reset your password."
 msgstr ""
+"Per a recuperar l'accés al vostre compte, reinicialitzeu la contrasenya."
 
 #: weblate/accounts/models.py:219 weblate/templates/accounts/profile.html:310
 msgid "Account activity"
@@ -470,7 +468,7 @@ msgstr ""
 
 #: weblate/accounts/password_validation.py:41
 msgid "This password consists of only whitespace."
-msgstr ""
+msgstr "Aquesta contrasenya només té un espai en blanc."
 
 #: weblate/accounts/password_validation.py:46
 msgid "This password is only a single character."
@@ -482,15 +480,18 @@ msgstr "La contrasenya no pot tenir només un caràcter o espai."
 
 #: weblate/accounts/password_validation.py:74
 msgid "Can not reuse previously used password!"
-msgstr ""
+msgstr "No podeu usar contrasenyes anteriors!"
 
 #: weblate/accounts/password_validation.py:80
 msgid "Your password can't match a password you have used in the past."
 msgstr ""
+"La contrasenya no pot coincidir amb una contrasenya que ja heu usat en el "
+"passat."
 
 #: weblate/accounts/pipeline.py:305
 msgid "You can not complete password reset while logged in!"
 msgstr ""
+"No podeu completar el canvi de contrasenya mentre teniu iniciada una sessió!"
 
 #: weblate/accounts/pipeline.py:309 weblate/accounts/pipeline.py:333
 msgid "The registration link has been invalidated."
@@ -498,17 +499,18 @@ msgstr "S'ha invalidat l'enllaç de registre."
 
 #: weblate/accounts/pipeline.py:324
 msgid "You can not complete registration while logged in!"
-msgstr ""
+msgstr "No podeu completar el registre mentre teniu iniciada una sessió!"
 
 #: weblate/accounts/pipeline.py:329
 msgid "You can confirm your registration only while logged in!"
-msgstr ""
+msgstr "Només podeu confirmar el registre si teniu iniciada la sessió!"
 
 #: weblate/accounts/pipeline.py:471
 #, python-brace-format
 msgid ""
 "Your email no longer belongs to verified account, it has been changed to {0}."
 msgstr ""
+"L'adreça electrònica no pertany a un compte verificat, ha canviat a {0}."
 
 #: weblate/accounts/views.py:117 weblate/accounts/views.py:747
 #: weblate/accounts/views.py:796 weblate/templates/accounts/reset.html:7
@@ -539,7 +541,7 @@ msgstr ""
 
 #: weblate/accounts/views.py:208
 msgid "Too many attempts, you have been logged out!"
-msgstr ""
+msgstr "Massa intents, s'ha tancat la sessió!"
 
 #: weblate/accounts/views.py:270
 msgid "Your profile has been updated."
@@ -555,7 +557,7 @@ msgstr "S'ha suprimit el vostre compte."
 
 #: weblate/accounts/views.py:420
 msgid "Too many messages sent, please try again later!"
-msgstr ""
+msgstr "S'han enviat massa missatges, torneu-ho a intentar més tard!"
 
 #: weblate/accounts/views.py:446 weblate/templates/accounts/contact.html:6
 #: weblate/templates/accounts/contact.html:21 weblate/templates/footer.html:9
@@ -653,10 +655,8 @@ msgid ""
 msgstr ""
 
 #: weblate/addons/discovery.py:35
-#, fuzzy
-#| msgid "Component list"
 msgid "Component discovery"
-msgstr "Llista dels components"
+msgstr "Descobriment de components"
 
 #: weblate/addons/discovery.py:37
 msgid ""
@@ -727,10 +727,8 @@ msgid "JSON indentation"
 msgstr "Sagnat JSON"
 
 #: weblate/addons/forms.py:120
-#, fuzzy
-#| msgid "The request for machine translation has failed."
 msgid "Regular expression to match translation files"
-msgstr "La petició de traducció automàtica ha fallat."
+msgstr "Expressió regular per a trobar fitxers de traducció"
 
 #: weblate/addons/forms.py:124 weblate/trans/models/component.py:248
 msgid "File format"
@@ -741,26 +739,20 @@ msgid "Automatic detection might fail for some formats and is slightly slower."
 msgstr ""
 
 #: weblate/addons/forms.py:134
-#, fuzzy
-#| msgid "Component name"
 msgid "Customize the component name"
-msgstr "Nom del component"
+msgstr "Personalitza el nom del component"
 
 #: weblate/addons/forms.py:139
 msgid "Define the monolingual base filename"
 msgstr ""
 
 #: weblate/addons/forms.py:142
-#, fuzzy
-#| msgid "The request for machine translation has failed."
 msgid "Keep empty for bilingual translation files."
-msgstr "La petició de traducció automàtica ha fallat."
+msgstr "Conserva buit per als fitxer de traducció bilingues."
 
 #: weblate/addons/forms.py:145
-#, fuzzy
-#| msgid "Base file for new translations"
 msgid "Define the base file for new translations"
-msgstr "Fitxer base per noves traduccions"
+msgstr "Defineix el fitxer base per noves traduccions"
 
 #: weblate/addons/forms.py:149 weblate/trans/models/component.py:243
 msgid ""
@@ -769,10 +761,8 @@ msgid ""
 msgstr ""
 
 #: weblate/addons/forms.py:154 weblate/trans/models/component.py:484
-#, fuzzy
-#| msgid "Language"
 msgid "Language filter"
-msgstr "Llengua"
+msgstr "Filtre de llengua"
 
 #: weblate/addons/forms.py:159 weblate/trans/models/component.py:488
 msgid ""
@@ -815,8 +805,6 @@ msgid "Update LINGUAS file"
 msgstr ""
 
 #: weblate/addons/gettext.py:74
-#, fuzzy
-#| msgid "Updates the LINGUAS file when adding new translation."
 msgid "Updates the LINGUAS file when a new translation is added."
 msgstr "Actualitza el fitxer LINGUAS en afegir una traducció nova."
 
@@ -949,16 +937,12 @@ msgid "In display limits"
 msgstr ""
 
 #: weblate/checks/angularjs.py:43
-#, fuzzy
-#| msgid "Search in location strings"
 msgid "AngularJS interpolation string"
-msgstr "Cerca entre les cadenes de context"
+msgstr "Cadena d'interpolació d'AngularJS"
 
 #: weblate/checks/angularjs.py:44
-#, fuzzy
-#| msgid "PHP format string"
 msgid "AngularJS interpolation strings do not match source"
-msgstr "Format de cadena de PHP"
+msgstr "La cadena d'interpolació d'AngularJS no es correspon amb l'original"
 
 #: weblate/checks/chars.py:35
 msgid "Starting newline"
@@ -1055,26 +1039,20 @@ msgid "Translation contains extra zero-width space character"
 msgstr ""
 
 #: weblate/checks/chars.py:352
-#, fuzzy
-#| msgid "Manage your translations"
 msgid "Maximum length of translation"
-msgstr "Gestioneu les vostres traduccions"
+msgstr "Longitud màxima de la traducció"
 
 #: weblate/checks/chars.py:353
 msgid "Translation should not exceed given length"
 msgstr ""
 
 #: weblate/checks/chars.py:373
-#, fuzzy
-#| msgid "Failing check"
 msgid "Trailing semicolon"
-msgstr "Comprovació fallida"
+msgstr "Punt i coma al final"
 
 #: weblate/checks/chars.py:374
-#, fuzzy
-#| msgid "Source and translated strings are same"
 msgid "Source and translation do not both end with a semicolon"
-msgstr "La cadena original i la traducció són iguals"
+msgstr "La cadena original o la traducció no acaben amb punt i coma"
 
 #: weblate/checks/consistency.py:29
 msgid "Missing plurals"
@@ -1089,27 +1067,20 @@ msgid "Same plurals"
 msgstr ""
 
 #: weblate/checks/consistency.py:52
-#, fuzzy
-#| msgid "Source and translated strings are same"
 msgid "Some plural forms are translated in the same way"
-msgstr "La cadena original i la traducció són iguals"
+msgstr "Alguna forma del plural s'ha traduït de forma idèntica"
 
 #: weblate/checks/consistency.py:71
 msgid "Inconsistent"
 msgstr ""
 
 #: weblate/checks/consistency.py:73
-#, fuzzy
-#| msgid "This site runs Weblate for translating various software projects."
 msgid "This string has more than one translation in this project"
-msgstr ""
-"Aquest lloc utilitza Weblate per traduir diversos projectes de programari."
+msgstr "Aquesta cadena té més d'una traducció en aquest projecte"
 
 #: weblate/checks/consistency.py:101
-#, fuzzy
-#| msgid "translated"
 msgid "Has been translated"
-msgstr "traduït"
+msgstr "S'ha traduït"
 
 #: weblate/checks/consistency.py:103
 msgid "This string has been translated in the past"
@@ -1128,10 +1099,8 @@ msgid "PHP format"
 msgstr ""
 
 #: weblate/checks/format.py:225
-#, fuzzy
-#| msgid "PHP format string"
 msgid "PHP format string does not match source"
-msgstr "Format de cadena de PHP"
+msgstr "Format de cadena de PHP no es correspon amb el codi font"
 
 #: weblate/checks/format.py:235
 msgid "C format"
