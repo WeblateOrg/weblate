@@ -34,6 +34,21 @@ It is similar to the :djadmin:`import_project` management command, but the
 major difference is that it is triggered on every VCS update. This way you can
 easily track multiple translation components within one VCS.
 
+To use component discovery, you first need to create one component which will
+act as master and others will use :ref:`internal-urls` to it as a VCS
+configuration. You should choose the one which is less likely to disappear in
+the future here.
+
+Once you have one component from the target VCS, you can configured the
+discovery addon to find all translation components in the VCS. The matching is
+done using regular expresion so it can be quite powerful, but it can be complex
+to configure. You can use examples in the addon help for some common use cases.
+
+Once you hit save, you will be presented with a preview of matched components,
+so you can check whether the configuration actually matches your needs:
+
+.. image:: ../images/addon-discovery.png
+
 .. _addon-weblate.flags.source_edit:
 
 Flag new source strings to need edit
