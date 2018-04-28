@@ -153,7 +153,7 @@ def download_avatar_image(user, size):
     handle = urlopen(request)
 
     # Read and possibly convert response
-    return handle.read()
+    return bytes(handle.read())
 
 
 def get_user_display(user, icon=True, link=False):
