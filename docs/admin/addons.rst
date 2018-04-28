@@ -30,6 +30,10 @@ Component discovery
 This addon automatically adds or removes components to the project based on
 file changes in the version control system.
 
+It is similar to the :djadmin:`import_project` management command, but the
+major difference is that it is triggered on every VCS update. This way you can
+easily track multiple translation components within one VCS.
+
 .. _addon-weblate.flags.source_edit:
 
 Flag new source strings to need edit
