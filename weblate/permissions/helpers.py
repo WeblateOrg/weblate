@@ -26,6 +26,7 @@ from django.db.models import Q
 from django.http import Http404
 
 from weblate.accounts.models import get_anonymous
+from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.permissions.models import GroupACL
 
 
@@ -245,7 +246,7 @@ def can_vote_suggestion(user, unit=None, translation=None):
 @cache_permission
 def can_use_mt(user, translation):
     """Check whether user can use machine translation."""
-    if not settings.MACHINE_TRANSLATION_ENABLED:
+    if not MACHINE_TRANSLATION_SERVICES.exists():
         return False
     if not has_group_perm(user, 'trans.use_mt', translation):
         return False

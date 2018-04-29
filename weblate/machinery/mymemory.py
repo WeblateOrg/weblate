@@ -22,7 +22,7 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 
-from weblate.trans.machine.base import MachineTranslation
+from weblate.machinery.base import MachineTranslation
 
 
 class MyMemoryTranslation(MachineTranslation):

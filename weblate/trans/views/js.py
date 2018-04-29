@@ -30,7 +30,7 @@ from weblate.checks.models import Check
 from weblate.permissions.helpers import check_access
 from weblate.screenshots.forms import ScreenshotForm
 from weblate.trans.models import Unit, Change
-from weblate.trans.machine import MACHINE_TRANSLATION_SERVICES
+from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.trans.views.helper import (
     get_project, get_component, get_translation
 )

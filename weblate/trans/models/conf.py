@@ -34,53 +34,6 @@ class WeblateConf(AppConf):
     # Data directory
     DATA_DIR = os.path.join(settings.BASE_DIR, 'data')
 
-    # Machine translation API keys
-
-    # Apertium Web Service, register at http://api.apertium.org/register.jsp
-    MT_APERTIUM_KEY = None
-
-    # URL of the Apertium APy server
-    MT_APERTIUM_APY = None
-
-    # Microsoft Translator service, register at
-    # https://datamarket.azure.com/developer/applications/
-    MT_MICROSOFT_ID = None
-    MT_MICROSOFT_SECRET = None
-
-    # Microsoft Conginite Services Translator, register at
-    # https://portal.azure.com/
-    MT_MICROSOFT_COGNITIVE_KEY = None
-
-    # MyMemory identification email, see
-    # https://mymemory.translated.net/doc/spec.php
-    MT_MYMEMORY_EMAIL = None
-
-    # Optional MyMemory credentials to access private translation memory
-    MT_MYMEMORY_USER = None
-    MT_MYMEMORY_KEY = None
-
-    # Google API key for Google Translate API
-    MT_GOOGLE_KEY = None
-
-    # API key for Yandex Translate API
-    MT_YANDEX_KEY = None
-
-    # tmserver URL
-    MT_TMSERVER = None
-
-    # API key for DeepL API
-    MT_DEEPL_KEY = None
-
-    # SAP Translation Hub
-    MT_SAP_BASE_URL = None
-    MT_SAP_SANDBOX_APIKEY = None
-    MT_SAP_USERNAME = None
-    MT_SAP_PASSWORD = None
-    MT_SAP_USE_MT = True
-
-    # Limit (in seconds) for Weblate machine translation
-    MT_WEBLATE_LIMIT = 15
-
     # Akismet API key
     AKISMET_API_KEY = None
 
@@ -156,15 +109,6 @@ class WeblateConf(AppConf):
         'weblate.trans.autofixes.chars.RemoveZeroSpace',
         'weblate.trans.autofixes.chars.RemoveControlChars',
     )
-
-    # List of machine translations
-    MACHINE_TRANSLATION_SERVICES = (
-        'weblate.trans.machine.weblatetm.WeblateTranslation',
-        'weblate.memory.machine.WeblateMemory',
-    )
-
-    # Whether machine translations are enabled
-    MACHINE_TRANSLATION_ENABLED = len(MACHINE_TRANSLATION_SERVICES) > 0
 
     # List of scripts to use in custom processing
     POST_UPDATE_SCRIPTS = ()

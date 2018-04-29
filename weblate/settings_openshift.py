@@ -100,7 +100,7 @@ else:
 
 # List of machine translations
 MACHINE_TRANSLATION_SERVICES = (
-    'weblate.trans.machine.weblatetm.WeblateTranslation',
+    'weblate.machinery.weblatetm.WeblateTranslation',
     'weblate.memory.machine.WeblateMemory',
 )
 
