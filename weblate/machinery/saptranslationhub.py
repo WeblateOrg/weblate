@@ -28,7 +28,7 @@ from six.moves.urllib.request import Request, urlopen
 
 from weblate import USER_AGENT
 from weblate.utils.site import get_site_url
-from weblate.trans.machine.base import MachineTranslation, MissingConfiguration
+from weblate.machinery.base import MachineTranslation, MissingConfiguration
 
 
 class SAPTranslationHub(MachineTranslation):

@@ -22,7 +22,7 @@ from __future__ import unicode_literals
 
 from weblate.lang.models import Language
 from weblate.memory.storage import TranslationMemory
-from weblate.trans.machine.base import MachineTranslation
+from weblate.machinery.base import MachineTranslation
 
 
 class WeblateMemory(MachineTranslation):

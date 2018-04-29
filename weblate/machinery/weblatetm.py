@@ -22,7 +22,7 @@ from __future__ import unicode_literals
 
 from django.utils.encoding import force_text
 
-from weblate.trans.machine.base import MachineTranslation
+from weblate.machinery.base import MachineTranslation
 from weblate.trans.models import Unit, Project
 from weblate.utils.search import Comparer
 

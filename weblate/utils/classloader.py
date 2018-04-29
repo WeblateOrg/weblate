@@ -100,5 +100,8 @@ class ClassLoader(object):
     def __contains__(self, item):
         return self.data.__contains__(item)
 
+    def exists(self):
+        return bool(self.data)
+
     def get_choices(self):
         return [(x, self[x].name) for x in sorted(self)]

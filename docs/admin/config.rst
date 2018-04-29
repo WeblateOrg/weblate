@@ -596,10 +596,16 @@ Some of exceptions you might want to include:
         r'/js/i18n/$',      # Javascript localization
     )
 
+.. setting:: MT_SERVICES
 .. setting:: MACHINE_TRANSLATION_SERVICES
 
-MACHINE_TRANSLATION_SERVICES
-----------------------------
+MT_SERVICES
+-----------
+
+.. versionchanged:: 3.0
+
+    The setting was renamed from ``MACHINE_TRANSLATION_SERVICES`` to
+    ``MT_SERVICES`` to be consistent with other machine translation settings.
 
 List of enabled machine translation services to use.
 
@@ -610,18 +616,18 @@ List of enabled machine translation services to use.
 
 .. code-block:: python
 
-    MACHINE_TRANSLATION_SERVICES = (
-        'weblate.trans.machine.apertium.ApertiumAPYTranslation',
-        'weblate.trans.machine.deepl.DeepLTranslation',
-        'weblate.trans.machine.glosbe.GlosbeTranslation',
-        'weblate.trans.machine.google.GoogleTranslation',
-        'weblate.trans.machine.microsoft.MicrosoftCognitiveTranslation',
-        'weblate.trans.machine.mymemory.MyMemoryTranslation',
-        'weblate.trans.machine.tmserver.AmagamaTranslation',
-        'weblate.trans.machine.tmserver.TMServerTranslation',
-        'weblate.trans.machine.yandex.YandexTranslation',
-        'weblate.trans.machine.weblatetm.WeblateTranslation',
-        'weblate.trans.machine.saptranslationhub.SAPTranslationHub',
+    MT_SERVICES = (
+        'weblate.machinery.apertium.ApertiumAPYTranslation',
+        'weblate.machinery.deepl.DeepLTranslation',
+        'weblate.machinery.glosbe.GlosbeTranslation',
+        'weblate.machinery.google.GoogleTranslation',
+        'weblate.machinery.microsoft.MicrosoftCognitiveTranslation',
+        'weblate.machinery.mymemory.MyMemoryTranslation',
+        'weblate.machinery.tmserver.AmagamaTranslation',
+        'weblate.machinery.tmserver.TMServerTranslation',
+        'weblate.machinery.yandex.YandexTranslation',
+        'weblate.machinery.weblatetm.WeblateTranslation',
+        'weblate.machinery.saptranslationhub.SAPTranslationHub',
         'weblate.memory.machine.WeblateMemory',
     )
 

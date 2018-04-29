@@ -357,6 +357,7 @@ INSTALLED_APPS = (
     'weblate.addons',
     'weblate.checks',
     'weblate.formats',
+    'weblate.machinery',
     'weblate.trans',
     'weblate.lang',
     'weblate.langdata',
@@ -507,18 +508,18 @@ if not HAVE_SYSLOG:
     del LOGGING['handlers']['syslog']
 
 # List of machine translations
-# MACHINE_TRANSLATION_SERVICES = (
-#     'weblate.trans.machine.apertium.ApertiumAPYTranslation',
-#     'weblate.trans.machine.deepl.DeepLTranslation',
-#     'weblate.trans.machine.glosbe.GlosbeTranslation',
-#     'weblate.trans.machine.google.GoogleTranslation',
-#     'weblate.trans.machine.microsoft.MicrosoftCognitiveTranslation',
-#     'weblate.trans.machine.mymemory.MyMemoryTranslation',
-#     'weblate.trans.machine.tmserver.AmagamaTranslation',
-#     'weblate.trans.machine.tmserver.TMServerTranslation',
-#     'weblate.trans.machine.yandex.YandexTranslation',
-#     'weblate.trans.machine.weblatetm.WeblateTranslation',
-#     'weblate.trans.machine.saptranslationhub.SAPTranslationHub',
+# MT_SERVICES = (
+#     'weblate.machinery.apertium.ApertiumAPYTranslation',
+#     'weblate.machinery.deepl.DeepLTranslation',
+#     'weblate.machinery.glosbe.GlosbeTranslation',
+#     'weblate.machinery.google.GoogleTranslation',
+#     'weblate.machinery.microsoft.MicrosoftCognitiveTranslation',
+#     'weblate.machinery.mymemory.MyMemoryTranslation',
+#     'weblate.machinery.tmserver.AmagamaTranslation',
+#     'weblate.machinery.tmserver.TMServerTranslation',
+#     'weblate.machinery.yandex.YandexTranslation',
+#     'weblate.machinery.weblatetm.WeblateTranslation',
+#     'weblate.machinery.saptranslationhub.SAPTranslationHub',
 #     'weblate.memory.machine.WeblateMemory',
 # )
 
