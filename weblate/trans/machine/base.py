@@ -232,7 +232,8 @@ class MachineTranslation(object):
         # Apply rate limiting for following status codes:
         # HTTP 429 Too Many Requests
         # HTTP 403 Forbidden
-        if exc.code in (429, 403):
+        # HTTP 503 Service Unavailable
+        if exc.code in (429, 403, 503):
             return True
         return False
 
