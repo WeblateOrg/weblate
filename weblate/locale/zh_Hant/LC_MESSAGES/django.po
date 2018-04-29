@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-04-23 19:40+0000\n"
-"PO-Revision-Date: 2018-04-17 07:58+0000\n"
+"PO-Revision-Date: 2018-04-29 16:59+0000\n"
 "Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hant/>\n"
@@ -134,10 +134,8 @@ msgid "Activation email will be sent here."
 msgstr "帳號啟用信將寄到這裡。"
 
 #: weblate/accounts/forms.py:406
-#, fuzzy
-#| msgid "Too many registration attempts!"
 msgid "Too many registration attempts from this location!"
-msgstr "嘗試太多次註冊！"
+msgstr "從同個位置發出過多次註冊嘗試！"
 
 #: weblate/accounts/forms.py:413
 msgid "New password"
@@ -194,10 +192,8 @@ msgid "This account is inactive."
 msgstr "此帳號已停用。"
 
 #: weblate/accounts/forms.py:567
-#, fuzzy
-#| msgid "Too many authentication attempts!"
 msgid "Too many authentication attempts from this location!"
-msgstr "過多次身份核對嘗試！"
+msgstr "從同個位置發出過多次身份核對嘗試！"
 
 #: weblate/accounts/forms.py:625 weblate/templates/addons/generate_help.html:21
 #: weblate/trans/models/project.py:92
@@ -730,10 +726,8 @@ msgid "Keep empty for bilingual translation files."
 msgstr "維持雙語翻譯檔空白。"
 
 #: weblate/addons/forms.py:145
-#, fuzzy
-#| msgid "Base file for new translations"
 msgid "Define the base file for new translations"
-msgstr "新翻譯的基底檔"
+msgstr "定義新翻譯的基底檔"
 
 #: weblate/addons/forms.py:149 weblate/trans/models/component.py:243
 msgid ""
@@ -1283,10 +1277,8 @@ msgid "DTD file"
 msgstr "DTD 檔"
 
 #: weblate/formats/ttkit.py:734
-#, fuzzy
-#| msgid "CSV file"
 msgid "RC file"
-msgstr "CSV 檔"
+msgstr "RC 檔"
 
 #: weblate/lang/apps.py:28
 msgid "Weblate languages"
@@ -1608,51 +1600,45 @@ msgid "We use cookies to deliver our services."
 msgstr "我們使用 Cookie 遞送我們的服務。"
 
 #: weblate/legal/templates/legal/privacy.html:7 weblate/legal/views.py:57
-#, fuzzy
-#| msgid "Private"
 msgid "Privacy"
-msgstr "私人"
+msgstr "隱私"
 
 #: weblate/legal/templates/legal/privacy.html:17
-#, fuzzy
-#| msgid "Security Policy"
 msgid "Privacy Policy"
-msgstr "安全政策"
+msgstr "隱私政策"
 
 #: weblate/legal/templates/legal/privacy.html:25
 msgid ""
 "Weblate needs several personal information to ensure it's operation, this "
 "page describes how we store and use the information."
-msgstr ""
+msgstr "Weblate 需要一些個人資訊以確保其作業，本頁描述了我們對資訊的儲存與利用方式。"
 
 #: weblate/legal/templates/legal/privacy.html:30
-#, fuzzy
-#| msgid "Username or email"
 msgid "Name and email"
-msgstr "使用者名稱或電子郵件"
+msgstr "名稱和電子郵件"
 
 #: weblate/legal/templates/legal/privacy.html:31
 msgid "These are used to identify you in the VCS commits"
-msgstr ""
+msgstr "這些是用來辨識您在 VCS 的提交"
 
 #: weblate/legal/templates/legal/privacy.html:32
 msgid "Additionally email is used for notifications on watched events"
-msgstr ""
+msgstr "另外，電子郵件則用於通知關注的事件"
 
 #: weblate/legal/templates/legal/privacy.html:34
 msgid "IP address and browser name"
-msgstr ""
+msgstr "IP 位址與瀏覽器名稱"
 
 #: weblate/legal/templates/legal/privacy.html:35
 msgid ""
 "These are logged in case of important changes to your account (eg. password "
 "change) to allow diagnosis in case of your account is stolen"
-msgstr ""
+msgstr "之所以記錄這些資訊，是為了知道您的帳號是否有重大變動（例如變更密碼），以此分析您的帳號是否被盜取"
 
 #: weblate/legal/templates/legal/privacy.html:40
 msgid ""
 "All these information is removed once you delete your account in Weblate."
-msgstr ""
+msgstr "所有這些資訊都會在您刪除 Weblate 帳號後一併移除。"
 
 #: weblate/legal/templates/legal/security.html:7 weblate/legal/views.py:52
 msgid "Security"
@@ -2694,10 +2680,8 @@ msgid "One folder per language containing translation files for components."
 msgstr "各語言各一個資料夾包含組件的翻譯檔。"
 
 #: weblate/templates/addons/discovery_help.html:32
-#, fuzzy
-#| msgid "Usual structure for storing gettext po files."
 msgid "Usual structure for storing gettext PO files."
-msgstr "儲存 gettext po 檔的常用結構。"
+msgstr "儲存 gettext PO 檔的常用結構。"
 
 #: weblate/templates/addons/discovery_help.html:42
 msgid "Using both component and language name within filename."
@@ -4114,10 +4098,9 @@ msgstr "您可以前往 %(translation_url)s 翻譯"
 
 #: weblate/templates/mail/merge_failure.html:11
 #: weblate/templates/mail/merge_failure.txt:3
-#, fuzzy, python-format
-#| msgid "There has been a merge failure on %(subproject)s at %(site_title)s."
+#, python-format
 msgid "There has been a merge failure on %(component)s at %(site_title)s."
-msgstr "%(site_title)s 上的 %(subproject)s 的合併失敗。"
+msgstr "%(site_title)s 上的 %(component)s 有個合併失敗。"
 
 #: weblate/templates/mail/merge_failure.html:15
 #: weblate/templates/mail/parse_error.html:15
@@ -4144,17 +4127,15 @@ msgid "Repository status:"
 msgstr "儲存庫狀態："
 
 #: weblate/templates/mail/merge_failure_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Merge failure in %(subproject)s"
+#, python-format
 msgid "Merge failure in %(component)s"
-msgstr "%(subproject)s 的合併失敗"
+msgstr "%(component)s 的合併失敗"
 
 #: weblate/templates/mail/new_comment.html:11
 #: weblate/templates/mail/new_comment.txt:3
-#, fuzzy, python-format
-#| msgid "There has been a new comment on %(subproject)s at %(site_title)s."
+#, python-format
 msgid "There has been a new comment on %(component)s at %(site_title)s."
-msgstr "%(site_title)s 上的 %(subproject)s 有新的評註。"
+msgstr "%(site_title)s 上的 %(component)s 有新的評註。"
 
 #: weblate/templates/mail/new_comment.html:28
 #: weblate/templates/mail/new_comment.txt:9
@@ -4162,10 +4143,9 @@ msgid "Comment:"
 msgstr "評註："
 
 #: weblate/templates/mail/new_comment_subject.txt:3
-#, fuzzy, python-format
-#| msgid "New comment in %(subproject)s"
+#, python-format
 msgid "New comment in %(component)s"
-msgstr "%(subproject)s 中有新評註"
+msgstr "%(component)s 中有新評註"
 
 #: weblate/templates/mail/new_contributor.html:7
 #: weblate/templates/mail/new_contributor.txt:1
@@ -4287,10 +4267,9 @@ msgstr "%(translation)s 上有新翻譯"
 
 #: weblate/templates/mail/parse_error.html:11
 #: weblate/templates/mail/parse_error.txt:3
-#, fuzzy, python-format
-#| msgid "There has been a parse error on %(subproject)s at %(site_title)s."
+#, python-format
 msgid "There has been a parse error on %(component)s at %(site_title)s."
-msgstr "%(site_title)s 上的 %(subproject)s 解析錯誤。"
+msgstr "%(site_title)s 上的 %(component)s 有個解析發生錯誤。"
 
 #: weblate/templates/mail/parse_error.html:21
 msgid "Failing file"
@@ -4301,10 +4280,9 @@ msgid "Failing file:"
 msgstr "失敗的檔案："
 
 #: weblate/templates/mail/parse_error_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Parse error in %(subproject)s"
+#, python-format
 msgid "Parse error in %(component)s"
-msgstr "%(subproject)s 發生解析錯誤"
+msgstr "%(component)s 發生解析錯誤"
 
 #: weblate/templates/mail/remove.html:11 weblate/templates/mail/remove.txt:3
 #, python-format
