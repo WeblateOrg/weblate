@@ -29,24 +29,24 @@ import httpretty
 import weblate.trans.tests.mypretty  # noqa
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.models.unit import Unit
-from weblate.trans.machine.base import MachineTranslationError
-from weblate.trans.machine.dummy import DummyTranslation
-from weblate.trans.machine.deepl import DeepLTranslation
-from weblate.trans.machine.glosbe import GlosbeTranslation
-from weblate.trans.machine.mymemory import MyMemoryTranslation
-from weblate.trans.machine.apertium import (
+from weblate.machinery.base import MachineTranslationError
+from weblate.machinery.dummy import DummyTranslation
+from weblate.machinery.deepl import DeepLTranslation
+from weblate.machinery.glosbe import GlosbeTranslation
+from weblate.machinery.mymemory import MyMemoryTranslation
+from weblate.machinery.apertium import (
     ApertiumTranslation, ApertiumAPYTranslation,
 )
-from weblate.trans.machine.tmserver import AmagamaTranslation
-from weblate.trans.machine.microsoft import (
+from weblate.machinery.tmserver import AmagamaTranslation
+from weblate.machinery.microsoft import (
     MicrosoftTranslation,
     MicrosoftCognitiveTranslation,
     MicrosoftTerminologyService
 )
-from weblate.trans.machine.google import GoogleTranslation, GOOGLE_API_ROOT
-from weblate.trans.machine.yandex import YandexTranslation
-from weblate.trans.machine.saptranslationhub import SAPTranslationHub
-from weblate.trans.machine.weblatetm import WeblateTranslation
+from weblate.machinery.google import GoogleTranslation, GOOGLE_API_ROOT
+from weblate.machinery.yandex import YandexTranslation
+from weblate.machinery.saptranslationhub import SAPTranslationHub
+from weblate.machinery.weblatetm import WeblateTranslation
 from weblate.checks.tests.test_checks import MockUnit
 
 GLOSBE_JSON = '''

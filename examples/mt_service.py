@@ -19,7 +19,7 @@
 #
 """Machine translation example."""
 
-from weblate.trans.machine.base import MachineTranslation
+from weblate.machinery.base import MachineTranslation
 import dictionary
 
 

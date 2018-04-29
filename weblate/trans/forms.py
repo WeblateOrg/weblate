@@ -51,7 +51,7 @@ from weblate.trans.models import (
     Translation, Component, Unit, Project, Change
 )
 from weblate.trans.models.source import PRIORITY_CHOICES
-from weblate.trans.machine import MACHINE_TRANSLATION_SERVICES
+from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.permissions.helpers import (
     can_author_translation, can_overwrite_translation, can_translate,
     can_suggest, can_add_translation, can_mass_add_translation, can_review,

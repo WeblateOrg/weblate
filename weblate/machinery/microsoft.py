@@ -29,7 +29,7 @@ from django.conf import settings
 from django.utils import timezone
 from django.template.loader import get_template
 
-from weblate.trans.machine.base import (
+from weblate.machinery.base import (
     MachineTranslation, MachineTranslationError, MissingConfiguration
 )
 from weblate.lang.data import DEFAULT_LANGS

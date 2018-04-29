@@ -23,7 +23,7 @@ from django.db import transaction
 
 from weblate.permissions.helpers import can_access_project
 from weblate.trans.models import Unit, Change, Component
-from weblate.trans.machine import MACHINE_TRANSLATION_SERVICES
+from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.utils.state import STATE_TRANSLATED
 
 

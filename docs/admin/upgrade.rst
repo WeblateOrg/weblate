@@ -598,7 +598,7 @@ Notable configuration or dependencies changes:
 * There is new dependency on the ``filelock`` module.
 * The two internal machine translation services are now merged, please adjust
   :setting:`MACHINE_TRANSLATION_SERVICES` to no longer include
-  ``weblate.trans.machine.weblatetm.WeblateSimilarTranslation``.
+  ``weblate.machinery.weblatetm.WeblateSimilarTranslation``.
 * There is a change in ``REST_FRAMEWORK`` setting to support ``Bearer``
   authentication.
 * The translate-toolkit 2.3.0 is now required.
@@ -622,6 +622,8 @@ Notable configuration or dependencies changes:
 * Several modules have been renamed and this lead to changes in many settings,
   please consult :file:`settings_example.py` for current values.
 * Several dependencies have raised minimal version.
+* The setting :setting:`MACHINE_TRANSLATION_SERVICES` was renamed to
+  :setting:`MT_SERVICES`.
 
 Upgrading steps
 

@@ -25,7 +25,7 @@ from django.conf import settings
 from six.moves.urllib.error import HTTPError
 from six.moves.urllib.parse import quote
 
-from weblate.trans.machine.base import MachineTranslation, MissingConfiguration
+from weblate.machinery.base import MachineTranslation, MissingConfiguration
 
 
 class TMServerTranslation(MachineTranslation):

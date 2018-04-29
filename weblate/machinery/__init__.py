@@ -21,4 +21,4 @@
 from weblate.utils.classloader import ClassLoader
 
 # Initialize checks list
-MACHINE_TRANSLATION_SERVICES = ClassLoader('MACHINE_TRANSLATION_SERVICES')
+MACHINE_TRANSLATION_SERVICES = ClassLoader('MT_SERVICES')

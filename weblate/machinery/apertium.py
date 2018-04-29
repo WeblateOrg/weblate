@@ -22,7 +22,7 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 
-from weblate.trans.machine.base import MachineTranslation, MissingConfiguration
+from weblate.machinery.base import MachineTranslation, MissingConfiguration
 
 
 LANGUAGE_MAP = {
