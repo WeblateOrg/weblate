@@ -154,6 +154,7 @@ def validate_repoweb(val):
             'file': 'file.po',
             '../file': 'file.po',
             '../../file': 'file.po',
+            '../../../file': 'file.po',
             'line': '9',
             'branch': 'master'
         }

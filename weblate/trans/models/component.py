@@ -641,6 +641,7 @@ class Component(models.Model, URLMixin, PathMixin):
             'file': filename,
             '../file': filename.split('/', 1)[-1],
             '../../file': filename.split('/', 2)[-1],
+            '../../../file': filename.split('/', 3)[-1],
             'line': line,
             'branch': self.branch
         }
