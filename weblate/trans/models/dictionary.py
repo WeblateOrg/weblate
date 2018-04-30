@@ -31,7 +31,7 @@ from whoosh.analysis import LanguageAnalyzer, NgramAnalyzer, SimpleAnalyzer
 
 from weblate.lang.models import Language
 from weblate.checks.same import strip_string
-from weblate.formats.ttkit import AutoFormat
+from weblate.formats.auto import AutoFormat
 from weblate.trans.models.project import Project
 from weblate.utils.db import re_escape
 from weblate.utils.errors import report_error

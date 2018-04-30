@@ -35,7 +35,6 @@ from translate.storage.ts2 import tsfile, tsunit
 from translate.storage.xliff import xlifffile, ID_SEPARATOR
 from translate.storage.poxliff import PoXliffFile
 from translate.storage.resx import RESXFile
-from translate.storage import factory
 
 from weblate.formats.base import FileUnit, FileFormat
 
@@ -224,37 +223,6 @@ class PHPUnit(FileUnit):
         if self.unit is None:
             return ''
         return self.unit.source
-
-
-class AutoFormat(FileFormat):
-    name = _('Automatic detection')
-    format_id = 'auto'
-
-    @classmethod
-    def parse(cls, storefile, template_store=None, language_code=None):
-        """Parse store and returns FileFormat instance.
-
-        First attempt own autodetection, then fallback to ttkit.
-        """
-        if hasattr(storefile, 'read'):
-            filename = getattr(storefile, 'name', None)
-        else:
-            filename = storefile
-        if filename is not None:
-            from weblate.formats.models import detect_filename
-            storeclass = detect_filename(filename)
-            if storeclass is not None:
-                return storeclass(storefile, template_store, language_code)
-        return cls(storefile, template_store, language_code)
-
-    @classmethod
-    def parse_store(cls, storefile):
-        """Directly loads using translate-toolkit."""
-        return factory.getobject(storefile)
-
-    @classmethod
-    def get_class(cls):
-        return None
 
 
 class PoFormat(FileFormat):

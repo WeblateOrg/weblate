@@ -20,15 +20,12 @@
 
 from __future__ import unicode_literals
 
-from io import BytesIO
-import os.path
 import traceback
 
 from appconf import AppConf
 
 from django.utils.functional import cached_property
 
-from weblate.formats.ttkit import AutoFormat
 from weblate.trans.util import add_configuration_error
 from weblate.utils.classloader import ClassLoader
 
@@ -64,59 +61,9 @@ class FileFormatLoader(ClassLoader):
 FILE_FORMATS = FileFormatLoader()
 
 
-class StringIOMode(BytesIO):
-    """StringIO with mode attribute to make ttkit happy."""
-    def __init__(self, filename, data):
-        super(StringIOMode, self).__init__(data)
-        self.mode = 'r'
-        self.name = filename
-
-
-def detect_filename(filename):
-    """Filename based format autodetection"""
-    name = os.path.basename(filename)
-    for autoload, storeclass in FILE_FORMATS.autoload:
-        if not isinstance(autoload, tuple) and name.endswith(autoload):
-            return storeclass
-        elif (name.startswith(autoload[0]) and
-              name.endswith(autoload[1])):
-            return storeclass
-    return None
-
-
-def try_load(filename, content, original_format, template_store):
-    """Try to load file by guessing type"""
-    formats = [original_format, AutoFormat]
-    detected_format = detect_filename(filename)
-    if detected_format is not None:
-        formats.insert(0, detected_format)
-    failure = Exception('Bug!')
-    for file_format in formats:
-        if file_format.monolingual in (True, None) and template_store:
-            try:
-                result = file_format.parse(
-                    StringIOMode(filename, content),
-                    template_store
-                )
-                # Skip if there is not translated unit
-                # this can easily happen when importing bilingual
-                # storage which can be monolingual as well
-                if list(result.iterate_merge(False)):
-                    return result
-            except Exception as error:
-                failure = error
-        if file_format.monolingual in (False, None):
-            try:
-                return file_format.parse(StringIOMode(filename, content))
-            except Exception as error:
-                failure = error
-
-    raise failure
-
-
 class FormatsConf(AppConf):
     FORMATS = (
-        'weblate.formats.ttkit.AutoFormat',
+        'weblate.formats.auto.AutoFormat',
         'weblate.formats.ttkit.PoFormat',
         'weblate.formats.ttkit.PoMonoFormat',
         'weblate.formats.ttkit.TSFormat',
