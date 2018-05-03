@@ -19,6 +19,8 @@
 #
 
 """Test for language manipulations."""
+from __future__ import unicode_literals
+
 import gettext
 from itertools import chain
 
@@ -27,7 +29,7 @@ from django.urls import reverse
 from django.core.management import call_command
 from django.utils.encoding import force_text
 
-from six import StringIO
+from six import StringIO, PY2
 
 from weblate.lang.models import Language, Plural, get_plural_type
 from weblate.lang import data
@@ -286,21 +288,23 @@ class CommandTest(TestCase):
         call_command('setuplang', update=False)
         self.assertTrue(Language.objects.exists())
 
-    def test_list_languages(self):
+    def check_list(self, **kwargs):
         output = StringIO()
         call_command(
             'list_languages', 'cs',
-            stdout=output
+            stdout=output,
+            **kwargs
         )
-        self.assertIn('Czech', output.getvalue())
+        if PY2:
+            self.assertIn(b'Czech', output.getvalue())
+        else:
+            self.assertIn('Czech', output.getvalue())
+
+    def test_list_languages(self):
+        self.check_list()
 
     def test_list_languages_lower(self):
-        output = StringIO()
-        call_command(
-            'list_languages', 'cs', lower=True,
-            stdout=output
-        )
-        self.assertIn('Czech', output.getvalue())
+        self.check_list(lower=True)
 
 
 class VerifyPluralsTest(TestCase):
