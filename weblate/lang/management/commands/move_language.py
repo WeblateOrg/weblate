@@ -65,5 +65,5 @@ class Command(BaseCommand):
                 )
                 plural.translation_set.update(plural=new_plural)
             except Plural.DoesNotExist:
-                plural.language = taget
+                plural.language = target
                 plural.save()

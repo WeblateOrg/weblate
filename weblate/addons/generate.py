@@ -47,7 +47,7 @@ class GenerateFileAddon(BaseAddon):
             return False
         return super(GenerateFileAddon, cls).can_install(component, user)
 
-    def pre_commit(self, translation, auhtor):
+    def pre_commit(self, translation, author):
         filename = os.path.join(
             self.instance.component.full_path,
             render_template(

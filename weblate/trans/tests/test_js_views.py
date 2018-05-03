@@ -25,7 +25,6 @@ from __future__ import unicode_literals
 import json
 
 from django.urls import reverse
-from django.test.utils import override_settings
 
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.utils.classloader import load_class

@@ -37,7 +37,10 @@ class Command(BaseCommand):
         super(Command, self).add_arguments(parser)
         parser.add_argument(
             '--indent', default=2, dest='indent', type=int,
-            help='Specifies the indent level to use when pretty-printing output.',
+            help=(
+                'Specifies the indent level to use when '
+                'pretty-printing output.'
+            ),
         )
 
     def handle(self, *args, **options):
