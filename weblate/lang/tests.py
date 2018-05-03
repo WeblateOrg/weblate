@@ -327,6 +327,10 @@ class CommandTest(TestCase):
     def test_list_languages_lower(self):
         self.check_list(lower=True)
 
+    def test_move_language(self):
+        Language.objects.auto_create('cs_CZ')
+        call_command('move_language', 'cs_CZ', 'cs')
+
 
 class VerifyPluralsTest(TestCase):
     """In database plural form verification."""
