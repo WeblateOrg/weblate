@@ -243,6 +243,27 @@ class LanguagesTest(BaseTestCase):
             'n != 1',
             'xx (generated)',
         ),
+        (
+            'nb_NO',
+            'nb',
+            'ltr',
+            'n != 1',
+            'Norwegian Bokmål',
+        ),
+        (
+            'nb-NO',
+            'nb',
+            'ltr',
+            'n != 1',
+            'Norwegian Bokmål',
+        ),
+        (
+            'nb',
+            'nb',
+            'ltr',
+            'n != 1',
+            'Norwegian Bokmål',
+        ),
     )
 
     def test_auto_create(self):

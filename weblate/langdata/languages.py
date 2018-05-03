@@ -1229,12 +1229,6 @@ LANGUAGES = (
         'n != 1',
     ),
     (
-        'nb_NO',
-        _('Norwegian Bokmål'),
-        2,
-        'n != 1',
-    ),
-    (
         'nd',
         _('North Ndebele'),
         2,
