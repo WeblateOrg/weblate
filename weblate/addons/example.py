@@ -44,5 +44,5 @@ class ExampleAddon(BaseAddon):
     description = _('This addon does nothing it is just an example.')
 
     # Callback to implement custom behavior
-    def pre_commit(self, translation):
+    def pre_commit(self, translation, author):
         return

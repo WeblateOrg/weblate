@@ -57,7 +57,7 @@ class GenerateMoAddon(GettextBaseAddon):
         'Automatically generates MO file for every changed PO file.'
     )
 
-    def pre_commit(self, translation):
+    def pre_commit(self, translation, author):
         exporter = MoExporter(translation=translation)
         exporter.add_units(translation.unit_set.all())
         output = translation.get_filename()[:-2] + 'mo'
@@ -231,3 +231,25 @@ class GettextCustomizeAddon(StoreBaseAddon):
         store.store.wrapper.width = int(
             self.instance.configuration.get('width', 77)
         )
+
+
+class GettextAuthorComments(GettextBaseAddon):
+    events = (EVENT_PRE_COMMIT,)
+    name = 'weblate.gettext.authors'
+    verbose = _('Contributors in comment')
+    description = _(
+        'Update comment in the PO file header to include contributor name '
+        'and years of contributions.'
+    )
+
+    def pre_commit(self, translation, author):
+        if '<' in author:
+            name, email = author.split('<')
+            name = name.strip()
+            email = email.rstrip('>')
+        else:
+            name = author
+            email = None
+
+        translation.store.store.updatecontributor(name, email)
+        translation.store.save()

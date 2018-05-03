@@ -112,6 +112,7 @@ class AddonsConf(AppConf):
         'weblate.addons.gettext.UpdateConfigureAddon',
         'weblate.addons.gettext.MsgmergeAddon',
         'weblate.addons.gettext.GettextCustomizeAddon',
+        'weblate.addons.gettext.GettextAuthorComments',
         'weblate.addons.cleanup.CleanupAddon',
         'weblate.addons.discovery.DiscoveryAddon',
         'weblate.addons.flags.SourceEditAddon',
@@ -138,12 +139,12 @@ def post_update(sender, component, previous_head, **kwargs):
 
 
 @receiver(vcs_pre_commit)
-def pre_commit(sender, translation, **kwargs):
+def pre_commit(sender, translation, author, **kwargs):
     addons = Addon.objects.filter_event(
         translation.component, EVENT_PRE_COMMIT
     )
     for addon in addons:
-        addon.addon.pre_commit(translation)
+        addon.addon.pre_commit(translation, author)
 
 
 @receiver(vcs_post_commit)

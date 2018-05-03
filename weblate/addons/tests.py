@@ -39,7 +39,7 @@ from weblate.addons.flags import SourceEditAddon, TargetEditAddon
 from weblate.addons.generate import GenerateFileAddon
 from weblate.addons.gettext import (
     GenerateMoAddon, UpdateLinguasAddon, UpdateConfigureAddon, MsgmergeAddon,
-    GettextCustomizeAddon,
+    GettextCustomizeAddon, GettextAuthorComments,
 )
 from weblate.addons.json import JSONCustomizeAddon
 from weblate.addons.properties import PropertiesSortAddon
@@ -55,7 +55,7 @@ class AddonBaseTest(FixtureTestCase):
     def test_example(self):
         self.assertTrue(ExampleAddon.can_install(self.component, None))
         addon = ExampleAddon.create(self.component)
-        addon.pre_commit(None)
+        addon.pre_commit(None, '')
 
     def test_create(self):
         addon = TestAddon.create(self.component)
@@ -151,7 +151,7 @@ class GettextAddonTest(ViewTestCase):
             GenerateMoAddon.can_install(translation.component, None)
         )
         addon = GenerateMoAddon.create(translation.component)
-        addon.pre_commit(translation)
+        addon.pre_commit(translation, '')
         self.assertTrue(
             os.path.exists(translation.addon_commit_files[0])
         )
@@ -207,6 +207,17 @@ class GettextAddonTest(ViewTestCase):
         )
         self.assertIn('stats/cs.json', commit)
         self.assertIn('"translated": 25', commit)
+
+    def test_gettext_comment(self):
+        translation = self.get_translation()
+        self.assertTrue(
+            GettextAuthorComments.can_install(translation.component, None)
+        )
+        addon = GettextAuthorComments.create(translation.component)
+        addon.pre_commit(translation, 'Stojan Jakotyc <stojan@example.com>')
+        with open(translation.get_filename(), 'r') as handle:
+            content = handle.read()
+        self.assertIn('Stojan Jakotyc', content)
 
 
 class AndroidAddonTest(ViewTestCase):

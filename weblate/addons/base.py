@@ -104,7 +104,7 @@ class BaseAddon(object):
     def post_commit(self, translation):
         return
 
-    def pre_commit(self, translation):
+    def pre_commit(self, translation, author):
         return
 
     def post_add(self, translation):

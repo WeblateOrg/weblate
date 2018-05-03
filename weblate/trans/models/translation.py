@@ -491,7 +491,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         msg = self.get_commit_message()
 
         # Pre commit hook
-        vcs_pre_commit.send(sender=self.__class__, translation=self)
+        vcs_pre_commit.send(sender=self.__class__, translation=self, author=author)
 
         # Create list of files to commit
         files = [self.filename]

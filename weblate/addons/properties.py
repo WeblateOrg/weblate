@@ -153,5 +153,5 @@ class PropertiesSortAddon(BaseAddon):
     }
     icon = 'sort-alpha-asc'
 
-    def pre_commit(self, translation):
+    def pre_commit(self, translation, author):
         format_file(translation.get_filename())

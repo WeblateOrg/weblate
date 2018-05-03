@@ -75,6 +75,14 @@ Statistics generator
 This addon generates a file containing detailed information about the
 translation.
 
+.. _addon-weblate.gettext.authors:
+
+Contributors in comment
+-----------------------
+
+Update comment in the PO file header to include contributor name and years of
+contributions.
+
 .. _addon-weblate.gettext.configure:
 
 Update ALL_LINGUAS variable in the configure file
