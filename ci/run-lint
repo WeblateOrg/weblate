@@ -7,8 +7,8 @@ log() {
 }
 # Linter for our code
 ./scripts/generate-locales
-log pep8
-pep8 --exclude build,migrations weblate openshift examples *.py
+log pycodestyle
+pycodestyle --exclude build,migrations weblate openshift examples *.py
 pep_ret=$?
 log pyflakes
 pyflakes `find . -name '*.py' -not -name 'settings_test_*.py' -not -name 'settings_test.py' -not -name 'settings_openshift.py' -not -path './data/*' -not -path './scripts/yarn/*' -not -path './build/*'`
