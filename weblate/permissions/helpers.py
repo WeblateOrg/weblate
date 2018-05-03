@@ -292,7 +292,7 @@ def can_reset_translation(user, project):
 @cache_permission
 def can_lock_component(user, project):
     """Check whether user can lock translation component."""
-    return has_group_perm(user, 'trans.lock_component', project=project)
+    return has_group_perm(user, 'trans.lock_subproject', project=project)
 
 
 @cache_permission
