@@ -418,7 +418,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
     def commit_pending(self, request, skip_push=False):
         """Commit any pending changes."""
         if not self.unit_set.filter(pending=True).exists():
-            return
+            return False
 
         with self.component.repository.lock:
             while True:

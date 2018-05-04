@@ -32,7 +32,7 @@ from django.conf import settings
 from django.utils.functional import cached_property
 
 from weblate.trans.util import get_clean_env
-from weblate.trans.ssh import get_wrapper_filename
+from weblate.vcs.ssh import get_wrapper_filename
 from weblate.vcs.base import Repository, RepositoryException
 
 

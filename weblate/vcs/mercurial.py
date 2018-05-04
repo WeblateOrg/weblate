@@ -29,7 +29,7 @@ from dateutil import parser
 import six
 from six.moves.configparser import RawConfigParser
 
-from weblate.trans.ssh import get_wrapper_filename
+from weblate.vcs.ssh import get_wrapper_filename
 from weblate.vcs.base import Repository, RepositoryException
 
 

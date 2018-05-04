@@ -39,7 +39,7 @@ from pkg_resources import Requirement, resource_filename
 from weblate.trans.util import (
     get_clean_env, add_configuration_error, path_separator
 )
-from weblate.trans.ssh import get_wrapper_filename, create_ssh_wrapper
+from weblate.vcs.ssh import get_wrapper_filename, create_ssh_wrapper
 
 LOGGER = logging.getLogger('weblate-vcs')
 

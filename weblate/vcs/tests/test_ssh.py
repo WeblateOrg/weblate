@@ -24,7 +24,7 @@ import shutil
 from django.conf import settings
 from django.test import TestCase
 
-from weblate.trans.ssh import (
+from weblate.vcs.ssh import (
     get_host_keys, create_ssh_wrapper, ssh_file, get_wrapper_filename
 )
 from weblate.trans.tests.utils import get_test_file

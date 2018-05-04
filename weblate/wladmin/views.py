@@ -32,7 +32,7 @@ from weblate.trans.models import Component, IndexUpdate
 from weblate import settings_example
 from weblate.accounts.avatar import HAS_LIBRAVATAR
 from weblate.trans.util import HAS_PYUCA, check_domain
-from weblate.trans.ssh import (
+from weblate.vcs.ssh import (
     generate_ssh_key, get_key_data, add_host_key,
     get_host_keys, can_generate_key
 )
