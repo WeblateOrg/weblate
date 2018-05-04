@@ -28,9 +28,12 @@ from unittest import SkipTest, TestCase
 from django.utils import timezone
 
 from weblate.trans.tests.utils import RepoTestMixin
-from weblate.trans.vcs import GitRepository, HgRepository, \
-    RepositoryException, GitWithGerritRepository, GithubRepository, \
+from weblate.vcs.base import RepositoryException
+from weblate.vcs.git import (
+    GitRepository, GitWithGerritRepository, GithubRepository,
     SubversionRepository
+)
+from weblate.vcs.mercurial import HgRepository
 from weblate.trans.tests.utils import (
     get_test_file, remove_readonly, TempDirMixin,
 )

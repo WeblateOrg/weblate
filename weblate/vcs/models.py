@@ -44,11 +44,11 @@ VCS_REGISTRY = VcsClassLoader()
 
 class VCSConf(AppConf):
     BACKENDS = (
-        'weblate.trans.vcs.GitRepository',
-        'weblate.trans.vcs.GitWithGerritRepository',
-        'weblate.trans.vcs.SubversionRepository',
-        'weblate.trans.vcs.GithubRepository',
-        'weblate.trans.vcs.HgRepository',
+        'weblate.vcs.git.GitRepository',
+        'weblate.vcs.git.GitWithGerritRepository',
+        'weblate.vcs.git.SubversionRepository',
+        'weblate.vcs.git.GithubRepository',
+        'weblate.vcs.mercurial.HgRepository',
     )
 
     class Meta(object):

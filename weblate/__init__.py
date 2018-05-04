@@ -23,8 +23,9 @@ import os
 from weblate.requirements import (
     check_requirements, get_versions, get_optional_versions
 )
-from weblate.trans.vcs import GitRepository, RepositoryException
 from weblate.trans.data import check_data_writable
+from weblate.vcs.base import RepositoryException
+from weblate.vcs.git import GitRepository
 
 
 def get_root_dir():

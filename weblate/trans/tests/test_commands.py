@@ -34,7 +34,7 @@ from weblate.trans.models import (
 )
 from weblate.runner import main
 from weblate.trans.tests.utils import get_test_file, create_test_user
-from weblate.trans.vcs import HgRepository
+from weblate.vcs.mercurial import HgRepository
 from weblate.accounts.models import Profile
 
 TEST_PO = get_test_file('cs.po')
