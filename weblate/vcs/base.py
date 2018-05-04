@@ -34,6 +34,8 @@ from django.utils.functional import cached_property
 
 from filelock import FileLock
 
+from pkg_resources import Requirement, resource_filename
+
 from weblate.trans.util import (
     get_clean_env, add_configuration_error, path_separator
 )
@@ -352,18 +354,31 @@ class Repository(object):
         raise NotImplementedError()
 
     @staticmethod
-    def get_merge_driver(file_format):
+    def get_examples_paths():
+        """Generator of possible paths for examples."""
+        yield os.path.join(
+            os.path.dirname(
+                os.path.dirname(os.path.dirname(__file__))
+            ),
+            'examples'
+        )
+        yield resource_filename(Requirement.parse('weblate'), 'examples')
+        yield '/usr/share/weblate/examples/'
+        yield '/usr/local/share/weblate/examples/'
+
+    @classmethod
+    def find_merge_driver(cls, name):
+        for path in cls.get_examples_paths():
+            result = os.path.join(path, name)
+            if os.path.exists(result):
+                return os.path.abspath(result)
+        return None
+
+    @classmethod
+    def get_merge_driver(cls, file_format):
         merge_driver = None
         if file_format == 'po':
-            merge_driver = os.path.abspath(
-                os.path.join(
-                    os.path.dirname(
-                        os.path.dirname(os.path.dirname(__file__))
-                    ),
-                    'examples',
-                    'git-merge-gettext-po'
-                )
-            )
+            merge_driver = cls.find_merge_driver('git-merge-gettext-po')
         if merge_driver is None or not os.path.exists(merge_driver):
             return None
         return merge_driver
