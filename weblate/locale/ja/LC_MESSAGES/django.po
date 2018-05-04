@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-05-04 13:06+0000\n"
-"PO-Revision-Date: 2018-04-23 23:25+0000\n"
+"PO-Revision-Date: 2018-05-04 22:23+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
@@ -257,28 +257,24 @@ msgid "Password reset has been confirmed and password has been reset."
 msgstr "パスワードリセットを確認し、リセットを実施しました。"
 
 #: weblate/accounts/models.py:63
-#, fuzzy, python-brace-format
-#| msgid "Authentication using {method} ({name}) has been added."
+#, python-brace-format
 msgid "Authentication ({method}:{name}) has been added."
-msgstr "{method} ({name}) を使用する認証を追加しました。"
+msgstr "認証 ({method}:{name}) を追加しました。"
 
 #: weblate/accounts/models.py:66
-#, fuzzy, python-brace-format
-#| msgid "Authentication using {method} ({name}) has been removed."
+#, python-brace-format
 msgid "Authentication ({method}:{name}) has been removed."
-msgstr "{method} ({name}) を使用する認証を削除しました。"
+msgstr "認証 ({method}:{name}) を削除しました。"
 
 #: weblate/accounts/models.py:69
-#, fuzzy, python-brace-format
-#| msgid "Authenticated using {method} ({name})."
+#, python-brace-format
 msgid "Authenticated ({method}:{name})."
-msgstr "{method} ({name}) を利用して認証しました。"
+msgstr "認証しました ({method} ({name}) 。"
 
 #: weblate/accounts/models.py:72
-#, fuzzy, python-brace-format
-#| msgid "Authenticated using {method} ({name}) from new device."
+#, python-brace-format
 msgid "Authenticated ({method}:{name}) from new device."
-msgstr "新しいデバイスから、 {method} ({name}) を利用して認証しました。"
+msgstr "新しいデバイスから認証しました ({method} ({name}) 。"
 
 #: weblate/accounts/models.py:75
 msgid "Somebody has attempted to register with your email."
@@ -291,10 +287,9 @@ msgstr ""
 "した。"
 
 #: weblate/accounts/models.py:81
-#, fuzzy, python-brace-format
-#| msgid "Failed authentication attempt using {method} ({name})."
+#, python-brace-format
 msgid "Failed authentication attempt ({method}:{name})."
-msgstr "{method} ({name}) を利用した認証が失敗しました。"
+msgstr "認証が失敗しました ({method} ({name}) 。"
 
 #: weblate/accounts/models.py:84
 msgid "Account locked due to excessive failed authentication attempts."
@@ -871,16 +866,14 @@ msgstr ""
 "折り返し処理など、 gettext の出力動作をカスタマイズすることができます。"
 
 #: weblate/addons/gettext.py:239
-#, fuzzy
-#| msgid "Contributor agreement"
 msgid "Contributors in comment"
-msgstr "貢献者の同意"
+msgstr "コメント内の貢献者情報"
 
 #: weblate/addons/gettext.py:241
 msgid ""
 "Update comment in the PO file header to include contributor name and years "
 "of contributions."
-msgstr ""
+msgstr "PO ファイルヘッダ内のコメントを更新し、貢献者の名前と貢献した年を書き込みます。"
 
 #: weblate/addons/json.py:33
 msgid "Customize JSON output"
@@ -1692,17 +1685,10 @@ msgid "Privacy Policy"
 msgstr "プライバシーポリシー"
 
 #: weblate/legal/templates/legal/privacy.html:25
-#, fuzzy
-#| msgid ""
-#| "Weblate needs several personal information to ensure it's operation, this "
-#| "page describes how we store and use the information."
 msgid ""
 "Weblate needs some personal information, this page describes how it is "
 "stored and used."
-msgstr ""
-"Weblate では、各種の操作を確認する目的で、いくつかの個人情報を必要としていま"
-"す。このページでは、それらの情報をどのように保存し、使用しているのかを説明し"
-"ています。"
+msgstr "Weblate では、いくつかの個人情報を必要としています。このページでは、それらをどのように保存し、使用しているのかを説明しています。"
 
 #: weblate/legal/templates/legal/privacy.html:30
 msgid "Name and email"
@@ -1725,17 +1711,12 @@ msgid "IP address and browser name"
 msgstr "IP アドレスとブラウザ名"
 
 #: weblate/legal/templates/legal/privacy.html:35
-#, fuzzy
-#| msgid ""
-#| "These are logged in case of important changes to your account (eg. "
-#| "password change) to allow diagnosis in case of your account is stolen"
 msgid ""
 "These are logged in case of important changes to your account (e.g. password "
 "change) to allow diagnosis in case your account is stolen"
 msgstr ""
-"これらは、お使いのアカウントに対する重要な変更 (例: パスワード変更) の際に記"
-"録され、アカウントが不正利用された場合の解析情報として使用できるようになって"
-"います"
+"これらは、お使いのアカウントに対する重要な変更 (例: パスワード変更) "
+"の際に記録され、アカウントが不正利用された場合の解析情報として使用できるようになっています"
 
 #: weblate/legal/templates/legal/privacy.html:40
 msgid ""
