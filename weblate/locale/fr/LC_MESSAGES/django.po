@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-05-04 13:06+0000\n"
-"PO-Revision-Date: 2018-04-29 13:02+0000\n"
+"PO-Revision-Date: 2018-05-04 19:04+0000\n"
 "Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/master/fr/"
 ">\n"
@@ -256,30 +256,25 @@ msgstr ""
 "été réinitialisé."
 
 #: weblate/accounts/models.py:63
-#, fuzzy, python-brace-format
-#| msgid "Authentication using {method} ({name}) has been added."
+#, python-brace-format
 msgid "Authentication ({method}:{name}) has been added."
-msgstr "L’authentification utilisant {method}{name} a été ajoutée."
+msgstr "L’authentification ({method}:{name}) a été ajoutée."
 
 #: weblate/accounts/models.py:66
-#, fuzzy, python-brace-format
-#| msgid "Authentication using {method} ({name}) has been removed."
+#, python-brace-format
 msgid "Authentication ({method}:{name}) has been removed."
-msgstr "L’authentification utilisant {method} ({name}) a été supprimée."
+msgstr "L’authentification ({method}:{name}) a été supprimée."
 
 #: weblate/accounts/models.py:69
-#, fuzzy, python-brace-format
-#| msgid "Authenticated using {method} ({name})."
+#, python-brace-format
 msgid "Authenticated ({method}:{name})."
-msgstr "Authentification en utilisant la méthode {method} ({name})."
+msgstr "Authentification par ({method}:{name})."
 
 #: weblate/accounts/models.py:72
-#, fuzzy, python-brace-format
-#| msgid "Authenticated using {method} ({name}) from new device."
+#, python-brace-format
 msgid "Authenticated ({method}:{name}) from new device."
 msgstr ""
-"Authentification en utilisant la méthode {method} ({name}) depuis un nouvel "
-"appareil."
+"Authentification avec la méthode ({method}:{name}) depuis un nouvel appareil."
 
 #: weblate/accounts/models.py:75
 msgid "Somebody has attempted to register with your email."
@@ -291,10 +286,9 @@ msgstr ""
 "Quelqu’un a tenté d’ajouter votre adresse courriel à un compte existant."
 
 #: weblate/accounts/models.py:81
-#, fuzzy, python-brace-format
-#| msgid "Failed authentication attempt using {method} ({name})."
+#, python-brace-format
 msgid "Failed authentication attempt ({method}:{name})."
-msgstr "Authentification échouée en utilisant la méthode {method} ({name})."
+msgstr "Erreur d'authentification avec la méthode ({method}:{name})."
 
 #: weblate/accounts/models.py:84
 msgid "Account locked due to excessive failed authentication attempts."
@@ -895,16 +889,16 @@ msgstr ""
 "exemple l'emballage de ligne."
 
 #: weblate/addons/gettext.py:239
-#, fuzzy
-#| msgid "Contributor agreement"
 msgid "Contributors in comment"
-msgstr "Accord de contribution"
+msgstr "Contributeurs dans le commentaire"
 
 #: weblate/addons/gettext.py:241
 msgid ""
 "Update comment in the PO file header to include contributor name and years "
 "of contributions."
 msgstr ""
+"Ajouter dans le commentaire d'entête du fichier PO le nom du contributeur et "
+"les années de contribution."
 
 #: weblate/addons/json.py:33
 msgid "Customize JSON output"
@@ -1742,17 +1736,12 @@ msgid "Privacy Policy"
 msgstr "Politique sur la vie privée"
 
 #: weblate/legal/templates/legal/privacy.html:25
-#, fuzzy
-#| msgid ""
-#| "Weblate needs several personal information to ensure it's operation, this "
-#| "page describes how we store and use the information."
 msgid ""
 "Weblate needs some personal information, this page describes how it is "
 "stored and used."
 msgstr ""
-"Weblate s'appuie sur plusieurs de vos informations personnelles pour "
-"fonctionner, cette page décrit comment nous stockons et utilisons ces "
-"informations."
+"Weblate utilise certaines de vos informations personnelles, cette page "
+"décrit comment nous stockons et utilisons ces informations."
 
 #: weblate/legal/templates/legal/privacy.html:30
 msgid "Name and email"
@@ -1775,17 +1764,13 @@ msgid "IP address and browser name"
 msgstr "Adresse IP et nom de votre navigateur Internet"
 
 #: weblate/legal/templates/legal/privacy.html:35
-#, fuzzy
-#| msgid ""
-#| "These are logged in case of important changes to your account (eg. "
-#| "password change) to allow diagnosis in case of your account is stolen"
 msgid ""
 "These are logged in case of important changes to your account (e.g. password "
 "change) to allow diagnosis in case your account is stolen"
 msgstr ""
-"Ceux-ci sont enregistrés lors des modifications importantes de votre compte "
-"(par exemple : modification du mot de passe) afin de permettre un diagnostic "
-"en cas d'usurpation d'identité"
+"Ils sont enregistrés lors des modifications importantes de votre compte (par "
+"exemple : changement de mot de passe) afin de permettre un diagnostic en cas "
+"d'usurpation d'identité"
 
 #: weblate/legal/templates/legal/privacy.html:40
 msgid ""
@@ -2052,7 +2037,7 @@ msgstr "Contribuez financièrement à Weblate"
 #: weblate/templates/about.html:25 weblate/templates/footer.html:11
 #: weblate/trans/templatetags/advertisement.py:42
 msgid "Donate to Weblate"
-msgstr "Faire un don à Weblate"
+msgstr "Faites un don à Weblate."
 
 #: weblate/templates/about.html:32
 msgid "Hosting translations"
@@ -4332,11 +4317,11 @@ msgstr "Votre enregistrement sur %(site_title)s"
 
 #: weblate/templates/mail/base.html:34 weblate/templates/mail/signature.txt:2
 msgid "Sent by Weblate translation system"
-msgstr "Envoyé par le système de traduction Weblate"
+msgstr "Envoyé par la plateforme de traduction Weblate."
 
 #: weblate/templates/mail/base.html:36
 msgid "Change subscription settings"
-msgstr "Modifier vos abonnements"
+msgstr "Modifiez vos abonnements."
 
 #: weblate/templates/mail/changed_translation.html:11
 #: weblate/templates/mail/changed_translation.txt:3
@@ -4411,7 +4396,7 @@ msgstr "Chaînes à vérifier :"
 #: weblate/templates/mail/footer.html:20 weblate/templates/mail/footer.txt:8
 #, python-format
 msgid "You can translate at %(translation_url)s"
-msgstr "Vous pouvez faire la traduction à %(translation_url)s"
+msgstr "Contribuez à cette traduction sur %(translation_url)s."
 
 #: weblate/templates/mail/merge_failure.html:11
 #: weblate/templates/mail/merge_failure.txt:3
