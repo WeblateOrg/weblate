@@ -23,6 +23,7 @@ from __future__ import unicode_literals
 import json
 
 from django.db import models
+from django.core.serializers.json import DjangoJSONEncoder
 
 
 class JSONField(models.TextField):
@@ -41,7 +42,7 @@ class JSONField(models.TextField):
         if not value:
             return None
         if isinstance(value, (dict, list)):
-            return json.dumps(value)
+            return json.dumps(value, cls=DjangoJSONEncoder)
         return super(JSONField, self).get_prep_value(value)
 
     def from_db_value(self, value, *args, **kwargs):
@@ -50,8 +51,8 @@ class JSONField(models.TextField):
     def get_db_prep_save(self, value, *args, **kwargs):
         if not value:
             value = {}
-        return json.dumps(value)
+        return json.dumps(value, cls=DjangoJSONEncoder)
 
     def value_from_object(self, obj):
         value = super(JSONField, self).value_from_object(obj)
-        return json.dumps(value)
+        return json.dumps(value, cls=DjangoJSONEncoder)
