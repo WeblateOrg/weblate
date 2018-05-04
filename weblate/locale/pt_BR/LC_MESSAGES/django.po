@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-04-23 19:40+0000\n"
-"PO-Revision-Date: 2018-05-04 10:29+0000\n"
+"PO-Revision-Date: 2018-05-04 12:59+0000\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/master/pt_BR/>\n"
@@ -1695,22 +1695,26 @@ msgstr "Estes são usados para identificar você nos envios VCS"
 
 #: weblate/legal/templates/legal/privacy.html:32
 msgid "Additionally email is used for notifications on watched events"
-msgstr ""
+msgstr "Além disto, o e-mail é usado para notificações e projetos observados"
 
 #: weblate/legal/templates/legal/privacy.html:34
 msgid "IP address and browser name"
-msgstr ""
+msgstr "Endereço IP e nome do navegador"
 
 #: weblate/legal/templates/legal/privacy.html:35
 msgid ""
 "These are logged in case of important changes to your account (eg. password "
 "change) to allow diagnosis in case of your account is stolen"
 msgstr ""
+"Eles são registrados no caso de alterações importantes em sua conta (ex: "
+"alteração de senha) e permitem um diagnóstico caso sua conta seja roubada"
 
 #: weblate/legal/templates/legal/privacy.html:40
 msgid ""
 "All these information is removed once you delete your account in Weblate."
 msgstr ""
+"Todas estas informações serão removidas quando você excluir sua conta do "
+"Weblate."
 
 #: weblate/legal/templates/legal/security.html:7 weblate/legal/views.py:52
 msgid "Security"
@@ -2823,8 +2827,6 @@ msgid "One folder per language containing translation files for components."
 msgstr "Uma pasta por idioma contendo arquivos de traduções para componentes."
 
 #: weblate/templates/addons/discovery_help.html:32
-#, fuzzy
-#| msgid "Usual structure for storing gettext po files."
 msgid "Usual structure for storing gettext PO files."
 msgstr "Estrutura usual para armazenar arquivos PO."
 
@@ -4298,10 +4300,10 @@ msgstr "Você pode traduzir em %(translation_url)s"
 
 #: weblate/templates/mail/merge_failure.html:11
 #: weblate/templates/mail/merge_failure.txt:3
-#, fuzzy, python-format
-#| msgid "There has been a merge failure on %(subproject)s at %(site_title)s."
+#, python-format
 msgid "There has been a merge failure on %(component)s at %(site_title)s."
-msgstr "Houve uma falha na mesclagem de %(subproject)s em %(site_title)s."
+msgstr ""
+"%(component)sHouve uma falha na mesclagem no %(component)s em %(site_title)s."
 
 #: weblate/templates/mail/merge_failure.html:15
 #: weblate/templates/mail/parse_error.html:15
@@ -4328,17 +4330,15 @@ msgid "Repository status:"
 msgstr "Status do repositório:"
 
 #: weblate/templates/mail/merge_failure_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Merge failure in %(subproject)s"
+#, python-format
 msgid "Merge failure in %(component)s"
-msgstr "Falha de mesclagem em %(subproject)s"
+msgstr "Falha de mesclagem no %(component)s"
 
 #: weblate/templates/mail/new_comment.html:11
 #: weblate/templates/mail/new_comment.txt:3
-#, fuzzy, python-format
-#| msgid "There has been a new comment on %(subproject)s at %(site_title)s."
+#, python-format
 msgid "There has been a new comment on %(component)s at %(site_title)s."
-msgstr "Existe um novo comentário no %(subproject)s em %(site_title)s."
+msgstr "Existe um novo comentário no %(component)s em %(site_title)s."
 
 #: weblate/templates/mail/new_comment.html:28
 #: weblate/templates/mail/new_comment.txt:9
@@ -4346,10 +4346,9 @@ msgid "Comment:"
 msgstr "Comentário:"
 
 #: weblate/templates/mail/new_comment_subject.txt:3
-#, fuzzy, python-format
-#| msgid "New comment in %(subproject)s"
+#, python-format
 msgid "New comment in %(component)s"
-msgstr "Novo comentário em %(subproject)s"
+msgstr "Novo comentário no %(component)s"
 
 #: weblate/templates/mail/new_contributor.html:7
 #: weblate/templates/mail/new_contributor.txt:1
@@ -4482,10 +4481,9 @@ msgstr "Nova tradução em %(translation)s"
 
 #: weblate/templates/mail/parse_error.html:11
 #: weblate/templates/mail/parse_error.txt:3
-#, fuzzy, python-format
-#| msgid "There has been a parse error on %(subproject)s at %(site_title)s."
+#, python-format
 msgid "There has been a parse error on %(component)s at %(site_title)s."
-msgstr "Houve um erro de análise no %(subproject)s em %(site_title)s."
+msgstr "Houve um erro de análise no %(component)s em %(site_title)s."
 
 #: weblate/templates/mail/parse_error.html:21
 msgid "Failing file"
@@ -4496,10 +4494,9 @@ msgid "Failing file:"
 msgstr "Arquivo com falha:"
 
 #: weblate/templates/mail/parse_error_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Parse error in %(subproject)s"
+#, python-format
 msgid "Parse error in %(component)s"
-msgstr "Erro de análise no %(subproject)s"
+msgstr "Erro de análise no %(component)s"
 
 #: weblate/templates/mail/remove.html:11 weblate/templates/mail/remove.txt:3
 #, python-format
