@@ -31,7 +31,7 @@ from weblate.trans.models import Component, Project
 from weblate.trans.discovery import ComponentDiscovery
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.util import is_repo_link
-from weblate.trans.vcs import VCS_REGISTRY
+from weblate.vcs.models import VCS_REGISTRY
 from weblate.logger import LOGGER
 
 

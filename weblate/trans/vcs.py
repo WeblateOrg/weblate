@@ -50,20 +50,6 @@ from weblate.trans.ssh import get_wrapper_filename, create_ssh_wrapper
 
 LOGGER = logging.getLogger('weblate-vcs')
 
-VCS_REGISTRY = {}
-VCS_CHOICES = []
-
-
-def register_vcs(vcs):
-    """Register VCS if it's supported."""
-    if vcs.is_supported():
-        key = vcs.name.lower()
-        VCS_REGISTRY[key] = vcs
-        VCS_CHOICES.append(
-            (key, vcs.name)
-        )
-    return vcs
-
 
 class RepositoryException(Exception):
     """Error while working with a repository."""
@@ -101,6 +87,10 @@ class Repository(object):
 
     _is_supported = None
     _version = None
+
+    @classmethod
+    def get_identifier(cls):
+        return cls.name.lower()
 
     def __init__(self, path, branch=None, component=None, local=False):
         self.path = path
@@ -388,7 +378,6 @@ class Repository(object):
         return merge_driver
 
 
-@register_vcs
 class GitRepository(Repository):
     """Repository implementation for Git."""
     _cmd = 'git'
@@ -678,7 +667,6 @@ class GitRepository(Repository):
         )
 
 
-@register_vcs
 class GitWithGerritRepository(GitRepository):
 
     name = 'Gerrit'
@@ -701,7 +689,6 @@ class GitWithGerritRepository(GitRepository):
             raise
 
 
-@register_vcs
 class SubversionRepository(GitRepository):
 
     name = 'Subversion'
@@ -847,7 +834,6 @@ class SubversionRepository(GitRepository):
         return 'origin/{0}'.format(self.branch)
 
 
-@register_vcs
 class GithubRepository(GitRepository):
 
     name = 'GitHub'
@@ -924,7 +910,6 @@ class GithubRepository(GitRepository):
         super(GithubRepository, self).configure_remote(pull_url, None, branch)
 
 
-@register_vcs
 class HgRepository(Repository):
     """Repository implementation for Mercurial."""
     _cmd = 'hg'
