@@ -8,11 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-04-23 19:40+0000\n"
+"POT-Creation-Date: 2018-05-04 13:06+0000\n"
 "PO-Revision-Date: 2018-04-24 05:51+0000\n"
 "Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
-"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/>"
-"\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/"
+">\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -186,7 +186,8 @@ msgstr "Zadali jste nesprávné heslo."
 msgid "Username or email"
 msgstr "Uživatelské jméno nebo e-mail"
 
-#: weblate/accounts/forms.py:542 weblate/templates/accounts/login.html:27
+#: weblate/accounts/forms.py:542 weblate/accounts/forms.py:580
+#: weblate/accounts/forms.py:598 weblate/templates/accounts/login.html:27
 #: weblate/templates/accounts/profile.html:190
 msgid "Password"
 msgstr "Heslo"
@@ -217,7 +218,7 @@ msgstr "Název projektu"
 msgid "Project website"
 msgstr "Stránky projektu"
 
-#: weblate/accounts/forms.py:635 weblate/trans/models/component.py:162
+#: weblate/accounts/forms.py:635 weblate/trans/models/component.py:163
 msgid "Source code repository"
 msgstr "Repozitář se zdrojovými kódy"
 
@@ -225,7 +226,7 @@ msgstr "Repozitář se zdrojovými kódy"
 msgid "URL of source code repository for example Git or Mercurial."
 msgstr "URL adresa zdrojového repozitáře, například Git nebo Mercurial."
 
-#: weblate/accounts/forms.py:643 weblate/trans/models/component.py:211
+#: weblate/accounts/forms.py:643 weblate/trans/models/component.py:212
 msgid "File mask"
 msgstr "Maska souborů"
 
@@ -255,23 +256,27 @@ msgstr ""
 "Obnovení zapomenutého hesla bylo potvrzeno a heslo bylo znovu nastaveno."
 
 #: weblate/accounts/models.py:63
-#, python-brace-format
-msgid "Authentication using {method} ({name}) has been added."
+#, fuzzy, python-brace-format
+#| msgid "Authentication using {method} ({name}) has been added."
+msgid "Authentication ({method}:{name}) has been added."
 msgstr "Bylo přidáno přihlašování přes {method} ({name})."
 
 #: weblate/accounts/models.py:66
-#, python-brace-format
-msgid "Authentication using {method} ({name}) has been removed."
+#, fuzzy, python-brace-format
+#| msgid "Authentication using {method} ({name}) has been removed."
+msgid "Authentication ({method}:{name}) has been removed."
 msgstr "Bylo odebráno přihlašování přes {method} ({name})."
 
 #: weblate/accounts/models.py:69
-#, python-brace-format
-msgid "Authenticated using {method} ({name})."
+#, fuzzy, python-brace-format
+#| msgid "Authenticated using {method} ({name})."
+msgid "Authenticated ({method}:{name})."
 msgstr "Přihlášeno pomocí {method} ({name})."
 
 #: weblate/accounts/models.py:72
-#, python-brace-format
-msgid "Authenticated using {method} ({name}) from new device."
+#, fuzzy, python-brace-format
+#| msgid "Authenticated using {method} ({name}) from new device."
+msgid "Authenticated ({method}:{name}) from new device."
 msgstr "Přihlášeno pomocí {method} ({name}) z nového zařízení."
 
 #: weblate/accounts/models.py:75
@@ -283,8 +288,9 @@ msgid "Somebody has attempted to add your email to existing account."
 msgstr "Někdo se pokusil přidat váš e-mail k existujícímu účtu."
 
 #: weblate/accounts/models.py:81
-#, python-brace-format
-msgid "Failed authentication attempt using {method} ({name})."
+#, fuzzy, python-brace-format
+#| msgid "Failed authentication attempt using {method} ({name})."
+msgid "Failed authentication attempt ({method}:{name})."
 msgstr "Chybné přihlášení přes {method} ({name})."
 
 #: weblate/accounts/models.py:84
@@ -737,11 +743,11 @@ msgstr "Odsazování JSON"
 msgid "Regular expression to match translation files"
 msgstr "Regulární výraz pro hledání shody s překladovými soubory"
 
-#: weblate/addons/forms.py:124 weblate/trans/models/component.py:248
+#: weblate/addons/forms.py:124 weblate/trans/models/component.py:249
 msgid "File format"
 msgstr "Formát souborů"
 
-#: weblate/addons/forms.py:129 weblate/trans/models/component.py:253
+#: weblate/addons/forms.py:129 weblate/trans/models/component.py:254
 msgid "Automatic detection might fail for some formats and is slightly slower."
 msgstr ""
 "Automatické zjišťování nemusí pro některé formáty fungovat a je trochu "
@@ -763,7 +769,7 @@ msgstr "U dvojjazyčných překladových souborů nevyplňujte."
 msgid "Define the base file for new translations"
 msgstr "Určit základní soubor pro nové překlady"
 
-#: weblate/addons/forms.py:149 weblate/trans/models/component.py:243
+#: weblate/addons/forms.py:149 weblate/trans/models/component.py:244
 msgid ""
 "Filename of file which is used for creating new translations. For Gettext "
 "choose .pot file."
@@ -771,11 +777,11 @@ msgstr ""
 "Jméno souboru, který bude použit pro vytvoření nového překladu. Pokud "
 "používáte Gettext zvolte .pot soubor."
 
-#: weblate/addons/forms.py:154 weblate/trans/models/component.py:484
+#: weblate/addons/forms.py:154 weblate/trans/models/component.py:485
 msgid "Language filter"
 msgstr "Filtr jazyků"
 
-#: weblate/addons/forms.py:159 weblate/trans/models/component.py:488
+#: weblate/addons/forms.py:159 weblate/trans/models/component.py:489
 msgid ""
 "Regular expression which is used to filter translation when scanning for "
 "file mask."
@@ -855,6 +861,18 @@ msgid ""
 msgstr ""
 "Umožňuje přizpůsobit chování výstupu z gettext, například zalamování řádků."
 
+#: weblate/addons/gettext.py:239
+#, fuzzy
+#| msgid "Contributor agreement"
+msgid "Contributors in comment"
+msgstr "Dohoda s přispěvatelem"
+
+#: weblate/addons/gettext.py:241
+msgid ""
+"Update comment in the PO file header to include contributor name and years "
+"of contributions."
+msgstr ""
+
 #: weblate/addons/json.py:33
 msgid "Customize JSON output"
 msgstr "Přizpůsobit JSON výstup"
@@ -928,7 +946,7 @@ msgstr "Zdrojová slova"
 #: weblate/templates/languages.html:6 weblate/templates/project.html:26
 #: weblate/templates/trans/change_list.html:18 weblate/trans/forms.py:837
 #: weblate/trans/forms.py:1122 weblate/trans/forms.py:1483
-#: weblate/trans/models/project.py:294
+#: weblate/trans/models/project.py:302
 msgid "Languages"
 msgstr "Jazyky"
 
@@ -1161,19 +1179,19 @@ msgstr "Neodpovídající BBcode"
 msgid "BBcode in translation does not match source"
 msgstr "BBcode v překladu neodpovídá zdroji"
 
-#: weblate/checks/markup.py:110
+#: weblate/checks/markup.py:116
 msgid "Invalid XML markup"
 msgstr "Chybná syntaxe XML"
 
-#: weblate/checks/markup.py:111
+#: weblate/checks/markup.py:117
 msgid "The translation is not valid XML"
 msgstr "Tento překlad není platné XML"
 
-#: weblate/checks/markup.py:138
+#: weblate/checks/markup.py:144
 msgid "XML tags mismatch"
 msgstr "Neodpovídající XML"
 
-#: weblate/checks/markup.py:139
+#: weblate/checks/markup.py:145
 msgid "XML tags in translation do not match source"
 msgstr "XML značky v překladu neodpovídají zdroji"
 
@@ -1218,107 +1236,107 @@ msgstr "Překlad do více jazyků má nezdařilé kontroly"
 msgid "Failing checks"
 msgstr "Kontroly které nedopadly dobře"
 
-#: weblate/formats/ttkit.py:230
+#: weblate/formats/auto.py:79
 msgid "Automatic detection"
 msgstr "Automaticky"
 
-#: weblate/formats/ttkit.py:261
+#: weblate/formats/ttkit.py:229
 msgid "Gettext PO file"
 msgstr "PO soubor Gettextu"
 
-#: weblate/formats/ttkit.py:344
+#: weblate/formats/ttkit.py:312
 msgid "Gettext PO file (monolingual)"
 msgstr "PO soubor Gettextu (jednojazyčný)"
 
-#: weblate/formats/ttkit.py:350
+#: weblate/formats/ttkit.py:318
 msgid "Qt Linguist Translation File"
 msgstr "Překladový soubor Qt Linguistu"
 
-#: weblate/formats/ttkit.py:367
+#: weblate/formats/ttkit.py:335
 msgid "XLIFF Translation File"
 msgstr "Překladový soubor XLIFF"
 
-#: weblate/formats/ttkit.py:402
+#: weblate/formats/ttkit.py:370
 msgid "XLIFF Translation File with PO extensions"
 msgstr "Překladový soubor XLIFF s rozšířením PO"
 
-#: weblate/formats/ttkit.py:409
+#: weblate/formats/ttkit.py:377
 msgid "OS X Strings"
 msgstr "Řetězce OS X"
 
-#: weblate/formats/ttkit.py:422
+#: weblate/formats/ttkit.py:390
 msgid "OS X Strings (UTF-8)"
 msgstr "Řetězce OS X (UTF-8)"
 
-#: weblate/formats/ttkit.py:429
+#: weblate/formats/ttkit.py:397
 msgid "Java Properties (UTF-8)"
 msgstr "Vlastnosti Javy (UTF-8)"
 
-#: weblate/formats/ttkit.py:437
+#: weblate/formats/ttkit.py:405
 msgid "Java Properties (UTF-16)"
 msgstr "Vlastnosti Javy (UTF-16)"
 
-#: weblate/formats/ttkit.py:443
+#: weblate/formats/ttkit.py:411
 msgid "Java Properties (ISO-8859-1)"
 msgstr "Vlastnosti Javy (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:464
+#: weblate/formats/ttkit.py:432
 msgid "Joomla Language File"
 msgstr "Jazykový soubor Joomla"
 
-#: weblate/formats/ttkit.py:473
+#: weblate/formats/ttkit.py:441
 msgid "PHP strings"
 msgstr "PHP řetězce"
 
-#: weblate/formats/ttkit.py:492
+#: weblate/formats/ttkit.py:460
 msgid ".Net resource file"
 msgstr ".Net zdrojový soubor"
 
-#: weblate/formats/ttkit.py:502
+#: weblate/formats/ttkit.py:470
 msgid "Android String Resource"
 msgstr "Textové zdroje pro Android"
 
-#: weblate/formats/ttkit.py:531
+#: weblate/formats/ttkit.py:499
 msgid "JSON file"
 msgstr "Soubor JSON"
 
-#: weblate/formats/ttkit.py:550
+#: weblate/formats/ttkit.py:518
 msgid "JSON nested structure file"
 msgstr "Soubor JSON s vnořenou strukturou"
 
-#: weblate/formats/ttkit.py:556
+#: weblate/formats/ttkit.py:524
 msgid "WebExtension JSON file"
 msgstr "Soubor JSON pro WebExtension"
 
-#: weblate/formats/ttkit.py:564
+#: weblate/formats/ttkit.py:532
 msgid "i18next JSON file"
 msgstr "Soubor JSON i18next"
 
-#: weblate/formats/ttkit.py:570
+#: weblate/formats/ttkit.py:538
 msgid "CSV file"
 msgstr "Soubor CSV"
 
-#: weblate/formats/ttkit.py:640
+#: weblate/formats/ttkit.py:608
 msgid "Simple CSV file"
 msgstr "Jednoduchý soubor CSV"
 
-#: weblate/formats/ttkit.py:676
+#: weblate/formats/ttkit.py:644
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Jednoduchý soubor CSV (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:682
+#: weblate/formats/ttkit.py:650
 msgid "YAML file"
 msgstr "YAML soubor"
 
-#: weblate/formats/ttkit.py:701
+#: weblate/formats/ttkit.py:669
 msgid "Ruby YAML file"
 msgstr "YAML soubor pro Ruby"
 
-#: weblate/formats/ttkit.py:708
+#: weblate/formats/ttkit.py:676
 msgid "DTD file"
 msgstr "Soubor DTD"
 
-#: weblate/formats/ttkit.py:734
+#: weblate/formats/ttkit.py:702
 msgid "RC file"
 msgstr "Soubor RC"
 
@@ -1662,9 +1680,13 @@ msgid "Privacy Policy"
 msgstr "Zásady soukromí"
 
 #: weblate/legal/templates/legal/privacy.html:25
+#, fuzzy
+#| msgid ""
+#| "Weblate needs several personal information to ensure it's operation, this "
+#| "page describes how we store and use the information."
 msgid ""
-"Weblate needs several personal information to ensure it's operation, this "
-"page describes how we store and use the information."
+"Weblate needs some personal information, this page describes how it is "
+"stored and used."
 msgstr ""
 "Weblate potřebuje některé osobní údaje aby mohlo fungovat, tato stránka "
 "popisuje jak jsou uchovávány a používány."
@@ -1686,9 +1708,13 @@ msgid "IP address and browser name"
 msgstr "IP adresa a název webového prohlížeče"
 
 #: weblate/legal/templates/legal/privacy.html:35
+#, fuzzy
+#| msgid ""
+#| "These are logged in case of important changes to your account (eg. "
+#| "password change) to allow diagnosis in case of your account is stolen"
 msgid ""
-"These are logged in case of important changes to your account (eg. password "
-"change) to allow diagnosis in case of your account is stolen"
+"These are logged in case of important changes to your account (e.g. password "
+"change) to allow diagnosis in case your account is stolen"
 msgstr ""
 "Tyto jsou zaznamenány v případě zásadních změn ve vašem účtu (např. při "
 "změně hesla) z důvodu diagnostiky v případě krádeže vašeho účtu"
@@ -2581,7 +2607,7 @@ msgstr "Následující překlady mají uvedenou svoji licenci:"
 #: weblate/templates/data.html:62 weblate/templates/data.html:103
 #: weblate/templates/language.html:37 weblate/templates/list-projects.html:8
 #: weblate/templates/list-translations.html:7
-#: weblate/trans/models/component.py:148 weblate/trans/models/project.py:179
+#: weblate/trans/models/component.py:149 weblate/trans/models/project.py:179
 #: weblate/trans/models/whiteboard.py:80
 msgid "Project"
 msgstr "Projekt"
@@ -2822,7 +2848,7 @@ msgstr "Soubor součásti s velkým prvním písmenem"
 #: weblate/templates/addons/discovery_preview.html:5
 #: weblate/templates/list-translations.html:7
 #: weblate/templates/project.html:104 weblate/templates/translate.html:298
-#: weblate/trans/models/component.py:521 weblate/trans/models/whiteboard.py:87
+#: weblate/trans/models/component.py:522 weblate/trans/models/whiteboard.py:87
 msgid "Component"
 msgstr "Součást"
 
@@ -2863,7 +2889,7 @@ msgid "Number of translated strings"
 msgstr "Počet přeložených řetězců"
 
 #: weblate/templates/addons/generate_help.html:17
-#: weblate/trans/models/component.py:137
+#: weblate/trans/models/component.py:138
 msgid "Component name"
 msgstr "Název součásti"
 
@@ -3002,7 +3028,7 @@ msgstr ""
 
 #: weblate/templates/component-list.html:13
 #: weblate/templates/language-project.html:16 weblate/templates/project.html:25
-#: weblate/trans/models/component.py:522
+#: weblate/trans/models/component.py:523
 msgid "Components"
 msgstr "Součásti"
 
@@ -3270,7 +3296,7 @@ msgid "Any authenticated user can contribute."
 msgstr "Přispívat může jakýkoli přihlášený uživatel."
 
 #: weblate/templates/component_info.html:36
-#: weblate/trans/models/component.py:382
+#: weblate/trans/models/component.py:383
 msgid "Translation license"
 msgstr "Licence překladu"
 
@@ -3279,7 +3305,7 @@ msgid "Repository"
 msgstr "Repozitář"
 
 #: weblate/templates/component_info.html:56
-#: weblate/trans/models/component.py:204
+#: weblate/trans/models/component.py:205
 msgid "Repository branch"
 msgstr "Větev repozitáře"
 
@@ -3890,7 +3916,7 @@ msgid "Push changes to the remote repository"
 msgstr "Odeslat změny do vzdáleného repozitáře"
 
 #: weblate/templates/js/git-status.html:154
-#: weblate/trans/models/component.py:102
+#: weblate/trans/models/component.py:103
 msgid "Rebase"
 msgstr "Přeskládat"
 
@@ -4270,7 +4296,8 @@ msgstr "Překládat můžete na %(translation_url)s"
 #: weblate/templates/mail/merge_failure.txt:3
 #, python-format
 msgid "There has been a merge failure on %(component)s at %(site_title)s."
-msgstr "V překladu %(component)s na %(site_title)s došlo k chybě při slučování."
+msgstr ""
+"V překladu %(component)s na %(site_title)s došlo k chybě při slučování."
 
 #: weblate/templates/mail/merge_failure.html:15
 #: weblate/templates/mail/parse_error.html:15
@@ -4714,7 +4741,7 @@ msgid "review"
 msgstr "zkontrolovat"
 
 #: weblate/templates/source-review.html:26 weblate/trans/forms.py:1183
-#: weblate/trans/models/component.py:496
+#: weblate/trans/models/component.py:497
 msgid "Priority"
 msgstr "Priorita"
 
@@ -5474,7 +5501,7 @@ msgstr "Aktualizovat kontrolu kvality"
 msgid "Commit pending changes"
 msgstr "Zapsat čekající změny"
 
-#: weblate/trans/apps.py:36
+#: weblate/trans/apps.py:37
 msgid "Weblate translations"
 msgstr "Překlady Weblate"
 
@@ -6054,7 +6081,7 @@ msgstr "Dokončení překladu"
 msgid "Translation changed"
 msgstr "Změna překladu"
 
-#: weblate/trans/models/change.py:204 weblate/trans/models/component.py:408
+#: weblate/trans/models/change.py:204 weblate/trans/models/component.py:409
 msgid "New translation"
 msgstr "Nový překlad"
 
@@ -6167,51 +6194,51 @@ msgstr "Přidán nový řetězec"
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s v %(time)s na %(translation)s provedl %(user)s"
 
-#: weblate/trans/models/component.py:95
+#: weblate/trans/models/component.py:96
 msgid "Use contact form"
 msgstr "Použít kontaktní formulář"
 
-#: weblate/trans/models/component.py:96
+#: weblate/trans/models/component.py:97
 msgid "Point to translation instructions URL"
 msgstr "Odkázat na instrukce pro překladatele"
 
-#: weblate/trans/models/component.py:97
+#: weblate/trans/models/component.py:98
 msgid "Automatically add language file"
 msgstr "Automaticky přidat soubor s překladem"
 
-#: weblate/trans/models/component.py:98
+#: weblate/trans/models/component.py:99
 msgid "No adding of language"
 msgstr "Bez možnosti přidání jazyka"
 
-#: weblate/trans/models/component.py:101
+#: weblate/trans/models/component.py:102
 msgid "Merge"
 msgstr "Sloučit"
 
-#: weblate/trans/models/component.py:139
+#: weblate/trans/models/component.py:140
 #: weblate/trans/models/componentlist.py:41 weblate/trans/models/project.py:95
 msgid "Name to display"
 msgstr "Zobrazené jméno"
 
-#: weblate/trans/models/component.py:142
+#: weblate/trans/models/component.py:143
 #: weblate/trans/models/componentlist.py:45 weblate/trans/models/project.py:98
 msgid "URL slug"
 msgstr "URL slug"
 
-#: weblate/trans/models/component.py:144
+#: weblate/trans/models/component.py:145
 #: weblate/trans/models/componentlist.py:48
 msgid "Name used in URLs and file names."
 msgstr "Jméno použité v URL a cestách souborů."
 
-#: weblate/trans/models/component.py:152
+#: weblate/trans/models/component.py:153
 msgid "Version control system"
 msgstr "Verzovací systém"
 
-#: weblate/trans/models/component.py:155
+#: weblate/trans/models/component.py:156
 msgid ""
 "Version control system to use to access your repository with translations."
 msgstr "Verzovací systém který používáte pro váš repozitář s překlady."
 
-#: weblate/trans/models/component.py:165
+#: weblate/trans/models/component.py:166
 msgid ""
 "URL of a repository, use weblate://project/component for sharing with other "
 "component."
@@ -6219,21 +6246,21 @@ msgstr ""
 "URL repozitáře, použijte weblate://projekt/soucast pro sdílení s jinou "
 "soucasti."
 
-#: weblate/trans/models/component.py:170
+#: weblate/trans/models/component.py:171
 msgid "Repository push URL"
 msgstr "URL pro odesílání repozitáře"
 
-#: weblate/trans/models/component.py:173
+#: weblate/trans/models/component.py:174
 msgid "URL of a push repository, pushing is disabled if empty."
 msgstr ""
 "URL pro odesílání do repozitáře, pokud ponecháte prázdné, bude odesílání "
 "vypnuté."
 
-#: weblate/trans/models/component.py:178
+#: weblate/trans/models/component.py:179
 msgid "Repository browser"
 msgstr "Prohlížení repozitáře"
 
-#: weblate/trans/models/component.py:180
+#: weblate/trans/models/component.py:181
 #, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
@@ -6242,19 +6269,19 @@ msgstr ""
 "Odkaz na prohlížení Gitu, použijte %(branch)s místo větve, %(file)s a "
 "%(line)s místo jména souboru a řádky."
 
-#: weblate/trans/models/component.py:187
+#: weblate/trans/models/component.py:188
 msgid "Exported repository URL"
 msgstr "Adresa exportovaného repozitáře"
 
-#: weblate/trans/models/component.py:190
+#: weblate/trans/models/component.py:191
 msgid "URL of a repository where users can fetch changes from Weblate"
 msgstr "URL repozitáře, odkud si uživatelé mohou stáhnout změny z Weblate"
 
-#: weblate/trans/models/component.py:195
+#: weblate/trans/models/component.py:196
 msgid "Source string bug report address"
 msgstr "Adresa pro hlášení problémů ve zdroji"
 
-#: weblate/trans/models/component.py:197
+#: weblate/trans/models/component.py:198
 msgid ""
 "Email address where errors in source string will be reported, keep empty for "
 "no emails."
@@ -6262,11 +6289,11 @@ msgstr ""
 "E-mailová adresa, na kterou budou hlášeny chyby ve zdrojových řetězcích. "
 "Ponechte prázdné pokud je nechcete zasílat."
 
-#: weblate/trans/models/component.py:206
+#: weblate/trans/models/component.py:207
 msgid "Repository branch to translate"
 msgstr "Větev repozitáře k překladu"
 
-#: weblate/trans/models/component.py:215
+#: weblate/trans/models/component.py:216
 msgid ""
 "Path of files to translate relative to repository root, use * instead of "
 "language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po."
@@ -6274,11 +6301,11 @@ msgstr ""
 "Relativní cesta souborů k překladu, použijte * místo kódu jazyka, například: "
 "po/*.po nebo locale/*/LC_MESSAGES/django.po."
 
-#: weblate/trans/models/component.py:221
+#: weblate/trans/models/component.py:222
 msgid "Monolingual base language file"
 msgstr "Základní soubor pro jednojazyčné překlady"
 
-#: weblate/trans/models/component.py:225
+#: weblate/trans/models/component.py:226
 msgid ""
 "Filename of translations base file, which contains all strings and their "
 "source; this is recommended to use for monolingual translation formats."
@@ -6286,26 +6313,26 @@ msgstr ""
 "Název souboru s základním souborem překladu, který obsahuje všechny řetězce "
 "a jejich zdroj. Toto je doporučené pro monolinguální překlady."
 
-#: weblate/trans/models/component.py:231
+#: weblate/trans/models/component.py:232
 msgid "Edit base file"
 msgstr "Upravovat základní soubor"
 
-#: weblate/trans/models/component.py:234
+#: weblate/trans/models/component.py:235
 msgid ""
 "Whether users will be able to edit base file for monolingual translations."
 msgstr ""
 "Zda budou uživatelé mít možnost upravit základní soubor pro jednojazyčný "
 "překlad."
 
-#: weblate/trans/models/component.py:239
+#: weblate/trans/models/component.py:240
 msgid "Base file for new translations"
 msgstr "Základní soubor pro nové překlady"
 
-#: weblate/trans/models/component.py:258
+#: weblate/trans/models/component.py:259
 msgid "Additional commit files"
 msgstr "Další soubory do commitu"
 
-#: weblate/trans/models/component.py:263
+#: weblate/trans/models/component.py:264
 msgid ""
 "Additional files to include in commits, one per line; please check "
 "documentation for more details."
@@ -6313,11 +6340,11 @@ msgstr ""
 "Další soubory, které mají být obsaženy v comittech, více informací naleznete "
 "v dokumentaci."
 
-#: weblate/trans/models/component.py:268
+#: weblate/trans/models/component.py:269
 msgid "Post-update script"
 msgstr "Skript po aktualizaci"
 
-#: weblate/trans/models/component.py:274
+#: weblate/trans/models/component.py:275
 msgid ""
 "Script to be executed after receiving a repository update, please check "
 "documentation for more details."
@@ -6325,11 +6352,11 @@ msgstr ""
 "Skript, který bude spuštěn po přijmutí změn v repozitáři, více informací "
 "naleznete v dokumentaci."
 
-#: weblate/trans/models/component.py:279
+#: weblate/trans/models/component.py:280
 msgid "Pre-commit script"
 msgstr "Skript před commitem"
 
-#: weblate/trans/models/component.py:285
+#: weblate/trans/models/component.py:286
 msgid ""
 "Script to be executed before committing translation, please check "
 "documentation for more details."
@@ -6337,11 +6364,11 @@ msgstr ""
 "Skript, který bude spuštěn před zapsáním změn do repozitáře, více informací "
 "naleznete v dokumentaci."
 
-#: weblate/trans/models/component.py:290
+#: weblate/trans/models/component.py:291
 msgid "Post-commit script"
 msgstr "Skript po commitu"
 
-#: weblate/trans/models/component.py:296
+#: weblate/trans/models/component.py:297
 msgid ""
 "Script to be executed after committing translation, please check "
 "documentation for more details."
@@ -6349,11 +6376,11 @@ msgstr ""
 "Skript, který bude spuštěn po zapsání změn do repozitáře, více informací "
 "naleznete v dokumentaci."
 
-#: weblate/trans/models/component.py:301
+#: weblate/trans/models/component.py:302
 msgid "Post-push script"
 msgstr "Skript po odeslání"
 
-#: weblate/trans/models/component.py:307
+#: weblate/trans/models/component.py:308
 msgid ""
 "Script to be executed after pushing translation to remote, please check "
 "documentation for more details."
@@ -6361,11 +6388,11 @@ msgstr ""
 "Skript, který bude spuštěn po odeslání změn do vzdáleného repozitáře, více "
 "informací naleznete v dokumentaci."
 
-#: weblate/trans/models/component.py:312
+#: weblate/trans/models/component.py:313
 msgid "Post-add script"
 msgstr "Skript po přidání"
 
-#: weblate/trans/models/component.py:318
+#: weblate/trans/models/component.py:319
 msgid ""
 "Script to be executed after adding new translation, please check "
 "documentation for more details."
@@ -6373,64 +6400,64 @@ msgstr ""
 "Skript, který bude spuštěn po přidání nového překladu, více informací "
 "naleznete v dokumentaci."
 
-#: weblate/trans/models/component.py:324
+#: weblate/trans/models/component.py:325
 msgid "Locked"
 msgstr "Zamknuté"
 
-#: weblate/trans/models/component.py:327
+#: weblate/trans/models/component.py:328
 msgid "Whether component is locked for translation updates."
 msgstr "Zda je součást zamknutá pro překlady."
 
-#: weblate/trans/models/component.py:331
+#: weblate/trans/models/component.py:332
 msgid "Allow translation propagation"
 msgstr "Povolit propagování překladů"
 
-#: weblate/trans/models/component.py:335
+#: weblate/trans/models/component.py:336
 msgid ""
 "Whether translation updates in other components will cause automatic "
 "translation in this one"
 msgstr "Zda překlady v jiných součástech způsobí automatický překlad v této"
 
-#: weblate/trans/models/component.py:340
+#: weblate/trans/models/component.py:341
 msgid "Save translation history"
 msgstr "Ukládat historii překladů"
 
-#: weblate/trans/models/component.py:343
+#: weblate/trans/models/component.py:344
 msgid "Whether Weblate should keep history of translations"
 msgstr "Zvolte zda má Weblate ukládat historii překladů"
 
-#: weblate/trans/models/component.py:347
+#: weblate/trans/models/component.py:348
 msgid "Enable suggestions"
 msgstr "Povolit návrhy"
 
-#: weblate/trans/models/component.py:350
+#: weblate/trans/models/component.py:351
 msgid "Whether to allow translation suggestions at all."
 msgstr "Zda vůbec umožnit přidávat návrhy překladů."
 
-#: weblate/trans/models/component.py:354
+#: weblate/trans/models/component.py:355
 msgid "Suggestion voting"
 msgstr "Hlasování o návrzích"
 
-#: weblate/trans/models/component.py:357
+#: weblate/trans/models/component.py:358
 msgid "Whether users can vote for suggestions."
 msgstr "Zda mohou uživatelé hlasovat o návrzích."
 
-#: weblate/trans/models/component.py:361
+#: weblate/trans/models/component.py:362
 msgid "Autoaccept suggestions"
 msgstr "Automaticky přijímat návrhy"
 
-#: weblate/trans/models/component.py:364
+#: weblate/trans/models/component.py:365
 msgid ""
 "Automatically accept suggestions with this number of votes, use 0 to disable."
 msgstr ""
 "Automaticky přijímat návrhy pokud získají tento počet hlasů, nastavte 0 pro "
 "vypnutí."
 
-#: weblate/trans/models/component.py:370
+#: weblate/trans/models/component.py:371
 msgid "Quality checks flags"
 msgstr "Značky pro kontrolu kvality"
 
-#: weblate/trans/models/component.py:373
+#: weblate/trans/models/component.py:374
 msgid ""
 "Additional comma-separated flags to influence quality checks, check "
 "documentation for possible values."
@@ -6438,23 +6465,23 @@ msgstr ""
 "Další značky pro ovlivnění kontroly kvality, více informací naleznete v "
 "dokumentaci."
 
-#: weblate/trans/models/component.py:387
+#: weblate/trans/models/component.py:388
 msgid "Optional short summary of license used for translations."
 msgstr "Volitelný krátký popis licence používané pro překlady."
 
-#: weblate/trans/models/component.py:391
+#: weblate/trans/models/component.py:392
 msgid "License URL"
 msgstr "URL licence"
 
-#: weblate/trans/models/component.py:394
+#: weblate/trans/models/component.py:395
 msgid "Optional URL with license details."
 msgstr "Volitelné URL s podrobnostmi o licenci."
 
-#: weblate/trans/models/component.py:397
+#: weblate/trans/models/component.py:398
 msgid "Contributor agreement"
 msgstr "Dohoda s přispěvatelem"
 
-#: weblate/trans/models/component.py:401
+#: weblate/trans/models/component.py:402
 msgid ""
 "Agreement which needs to be approved before user can translate this "
 "component."
@@ -6462,7 +6489,7 @@ msgstr ""
 "Dohoda, která musí být odsouhlasena, než může uživatel překládat tuto "
 "součást."
 
-#: weblate/trans/models/component.py:413
+#: weblate/trans/models/component.py:414
 msgid ""
 "How to handle requests for creating new translations. Please note that "
 "availability of choices depends on the file format."
@@ -6470,23 +6497,23 @@ msgstr ""
 "Jak se mají řešit požadavky na nové překlady. Některé volby nemusí být "
 "dostupné v závislosti na formátu souborů."
 
-#: weblate/trans/models/component.py:421
+#: weblate/trans/models/component.py:422
 msgid "Merge style"
 msgstr "Způsob slučování"
 
-#: weblate/trans/models/component.py:426
+#: weblate/trans/models/component.py:427
 msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it."
 msgstr ""
 "Zvolte zda má Weblate sloučit vzdálený repozitář nebo přeskládat změny."
 
-#: weblate/trans/models/component.py:431
+#: weblate/trans/models/component.py:432
 msgid "Commit message when translating"
 msgstr "Zpráva k revizi při překládání"
 
-#: weblate/trans/models/component.py:433 weblate/trans/models/component.py:442
-#: weblate/trans/models/component.py:451
+#: weblate/trans/models/component.py:434 weblate/trans/models/component.py:443
+#: weblate/trans/models/component.py:452
 msgid ""
 "You can use format strings for various information, please check "
 "documentation for more details."
@@ -6494,44 +6521,44 @@ msgstr ""
 "Můžete použít formátovací řetězce pro začlenění různých informace, další "
 "informace naleznete v dokumentaci."
 
-#: weblate/trans/models/component.py:440
+#: weblate/trans/models/component.py:441
 msgid "Commit message when adding translation"
 msgstr "Zpráva k revizi při přidání překladu"
 
-#: weblate/trans/models/component.py:449
+#: weblate/trans/models/component.py:450
 msgid "Commit message when removing translation"
 msgstr "Zpráva k revizi při odstranění překladu"
 
-#: weblate/trans/models/component.py:458
+#: weblate/trans/models/component.py:459
 msgid "Committer name"
 msgstr "Jméno pro revizi"
 
-#: weblate/trans/models/component.py:463
+#: weblate/trans/models/component.py:464
 msgid "Committer email"
 msgstr "E-mail pro revizi"
 
-#: weblate/trans/models/component.py:468
+#: weblate/trans/models/component.py:469
 msgid "Push on commit"
 msgstr "Odeslat při vytvoření revize"
 
-#: weblate/trans/models/component.py:471
+#: weblate/trans/models/component.py:472
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr "Zda má být repozitář odeslán při každém zapsání změn."
 
-#: weblate/trans/models/component.py:475
+#: weblate/trans/models/component.py:476
 msgid "Age of changes to commit"
 msgstr "Stáří změn pro zapsání"
 
-#: weblate/trans/models/component.py:478
+#: weblate/trans/models/component.py:479
 msgid ""
 "Time in hours after which any pending changes will be committed to the VCS."
 msgstr "Doba v hodinách po které budou čekající změny zapsány do VCS."
 
-#: weblate/trans/models/component.py:498
+#: weblate/trans/models/component.py:499
 msgid "Components with higher priority are offered first to translators."
 msgstr "Součásti s vyšší prioritou jsou dříve nabízeny k překladu."
 
-#: weblate/trans/models/component.py:668
+#: weblate/trans/models/component.py:670
 msgid ""
 "Failed to verify SSH host key, please add them in SSH page in the admin "
 "interface."
@@ -6539,73 +6566,73 @@ msgstr ""
 "Nepodařilo se ověřit SSH klíč hostitele, prosím přidejte ho na SSH stránce "
 "správcovského rozhraní."
 
-#: weblate/trans/models/component.py:672
+#: weblate/trans/models/component.py:674
 #, python-format
 msgid "Failed to fetch repository: %s"
 msgstr "Nepodařilo se stáhnout repozitář: %s"
 
-#: weblate/trans/models/component.py:762
+#: weblate/trans/models/component.py:764
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Odesílání je vypnuté pro %s."
 
-#: weblate/trans/models/component.py:814
+#: weblate/trans/models/component.py:816
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Nepodařilo se odeslat do vzdálené větve %s."
 
-#: weblate/trans/models/component.py:844
+#: weblate/trans/models/component.py:846
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Nepodařilo se vrátit na vzdálenou větev %s."
 
-#: weblate/trans/models/component.py:921
+#: weblate/trans/models/component.py:923
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "Nepodařilo se přeskládat změny na vzdálenou větev %s."
 
-#: weblate/trans/models/component.py:926
+#: weblate/trans/models/component.py:928
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Nepodařilo se sloučit vzdálenou větev do %s."
 
-#: weblate/trans/models/component.py:1115
+#: weblate/trans/models/component.py:1117
 msgid "Invalid link to a Weblate project, can not link to linked repository!"
 msgstr ""
 "Chybný odkaz na projekt, protože nelze odkázat na repozitář, který už je "
 "odkazem!"
 
-#: weblate/trans/models/component.py:1122
+#: weblate/trans/models/component.py:1124
 msgid "Invalid link to a Weblate project, can not link to self!"
 msgstr "Chybný odkaz na projekt, protože nelze odkázat na sebe sama!"
 
-#: weblate/trans/models/component.py:1129
+#: weblate/trans/models/component.py:1131
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr "Neplatný odkaz na projekt, použijte weblate://projekt/soucast."
 
-#: weblate/trans/models/component.py:1135
+#: weblate/trans/models/component.py:1137
 msgid "Push URL is not used when repository is linked!"
 msgstr "URL pro odesílání se nepoužije pro odkazované repozitáře!"
 
-#: weblate/trans/models/component.py:1141
+#: weblate/trans/models/component.py:1143
 msgid "Export URL is not used when repository is linked!"
 msgstr "URL pro export se nepoužije pro odkazované repozitáře!"
 
-#: weblate/trans/models/component.py:1149
+#: weblate/trans/models/component.py:1151
 msgid "The mask did not match any files!"
 msgstr "Masce neodpovídají žádné soubory!"
 
-#: weblate/trans/models/component.py:1157
+#: weblate/trans/models/component.py:1159
 #, python-format
 msgid "Got empty language code for %s, please check filemask!"
 msgstr "Nepodařilo se zjistit jazyk pro %s, prosím zkontrolujte masku!"
 
-#: weblate/trans/models/component.py:1162
+#: weblate/trans/models/component.py:1164
 #, python-format
 msgid "Language code %s is too long, please check filemask!"
 msgstr "Kód jazyka %s je příliš dlouhý, prosím zkontrolujte masku!"
 
-#: weblate/trans/models/component.py:1166
+#: weblate/trans/models/component.py:1168
 #, python-format
 msgid ""
 "There are more files for single language (%s), please adjust the mask and "
@@ -6614,7 +6641,7 @@ msgstr ""
 "Bylo nalezeno více souborů pro jeden jazyk (%s). Prosím opravte masku a "
 "použijte součásti pro překládání různých souborů."
 
-#: weblate/trans/models/component.py:1172
+#: weblate/trans/models/component.py:1174
 #, python-format
 msgid ""
 "Multiple translations were mapped to a single language code (%s). You should "
@@ -6624,21 +6651,21 @@ msgstr ""
 "Více překladů by použilo stejný kód jazyka (%s). Pravděpodobně by pomohlo "
 "vypnutí mapování podobných jazyků ve Weblate pomocí SIMPLIFY_LANGUAGES."
 
-#: weblate/trans/models/component.py:1191
+#: weblate/trans/models/component.py:1193
 msgid "File does not seem to be valid!"
 msgstr "Soubor nevypadá jako platný!"
 
-#: weblate/trans/models/component.py:1199
+#: weblate/trans/models/component.py:1201
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Nepodařilo ze rozpoznat formát %d souborů."
 
-#: weblate/trans/models/component.py:1208
+#: weblate/trans/models/component.py:1210
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Nepodařilo ze zpracovat %d souborů!"
 
-#: weblate/trans/models/component.py:1219
+#: weblate/trans/models/component.py:1221
 msgid ""
 "You have configured Weblate to add new translation files, but did not "
 "provide base file to do that!"
@@ -6646,11 +6673,11 @@ msgstr ""
 "Je nastaveno automaticky přidávat nové překlady, ale není zadán soubor, ze "
 "kterého se mají vytvářet!"
 
-#: weblate/trans/models/component.py:1223
+#: weblate/trans/models/component.py:1225
 msgid "Format of base file for new translations was not recognized!"
 msgstr "Nepodařilo ze rozpoznat formát základního souboru pro nové překlady!"
 
-#: weblate/trans/models/component.py:1228
+#: weblate/trans/models/component.py:1230
 msgid ""
 "Base file for new translations is not used because of component settings. "
 "You probably want to enable automatic adding of new translations."
@@ -6658,33 +6685,33 @@ msgstr ""
 "Základní soubor pro nové překlady nebude použit kvůli nastavení součásti. "
 "Pravděpodobně chcete zapnout automatické přidávání nových překladů."
 
-#: weblate/trans/models/component.py:1239
+#: weblate/trans/models/component.py:1241
 msgid "You can not use base file with bilingual translation!"
 msgstr "Nelze použít základní soubor pro dvoujazyčný překlad!"
 
-#: weblate/trans/models/component.py:1244
+#: weblate/trans/models/component.py:1246
 msgid "Using .pot file as base file is not supported!"
 msgstr "Nelze použít .pot soubor jako základní soubor pro dvoujazyčný překlad!"
 
-#: weblate/trans/models/component.py:1251
+#: weblate/trans/models/component.py:1253
 msgid "Template file not found!"
 msgstr "Soubor s šablonou se nepodařilo nalézt!"
 
-#: weblate/trans/models/component.py:1257
+#: weblate/trans/models/component.py:1259
 #, python-format
 msgid "Failed to parse translation base file: %s"
 msgstr "Nepodařilo se zpracovat základní soubor překladů: %s"
 
-#: weblate/trans/models/component.py:1267
+#: weblate/trans/models/component.py:1269
 #, python-brace-format
 msgid "Template language ({0}) does not match project source language ({1})!"
 msgstr "Jazyk šablony ({0}) neodpovídá zdrojovému jazyku projektu ({1})!"
 
-#: weblate/trans/models/component.py:1274
+#: weblate/trans/models/component.py:1276
 msgid "You can not use monolingual translation without base file!"
 msgstr "Nelze vytvořit jednojazyčný překlad bez základního soubor!"
 
-#: weblate/trans/models/component.py:1285
+#: weblate/trans/models/component.py:1287
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
@@ -6692,44 +6719,44 @@ msgstr ""
 "Prosím zadejte URL s instrukcemi nebo zvolte jinou možnost přidávání nového "
 "jazyka."
 
-#: weblate/trans/models/component.py:1292
+#: weblate/trans/models/component.py:1294
 msgid "License URL can not be used without license summary."
 msgstr "URL licence nemůže být použito bez jejího popisu."
 
-#: weblate/trans/models/component.py:1312
+#: weblate/trans/models/component.py:1314
 msgid "Changing version control system is not supported!"
 msgstr "Změna systému správy revizí není podporována!"
 
-#: weblate/trans/models/component.py:1317
+#: weblate/trans/models/component.py:1319
 #, python-brace-format
 msgid "Unsupported file format: {0}"
 msgstr "Nepodporovaný formát: {0}"
 
-#: weblate/trans/models/component.py:1324
+#: weblate/trans/models/component.py:1326
 #, python-format
 msgid "Failed to update repository: %s"
 msgstr "Nepodařilo se aktualizovat repozitář: %s"
 
-#: weblate/trans/models/component.py:1344
+#: weblate/trans/models/component.py:1346
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
 "Nepodařilo ze ověřit vyhovující soubory kvůli chybě v regulárním výrazu."
 
-#: weblate/trans/models/component.py:1356
+#: weblate/trans/models/component.py:1358
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
 "Automatické přijímání návrhů může fungovat pouze spolu s hlasováním o "
 "návrzích!"
 
-#: weblate/trans/models/component.py:1526
+#: weblate/trans/models/component.py:1531
 msgid "Failed to add new translation file!"
 msgstr "Nepodařilo se přidat překlad!"
 
-#: weblate/trans/models/component.py:1537
+#: weblate/trans/models/component.py:1542
 msgid "Given language is filtered by the language filter!"
 msgstr "Daný jazyk neprošel filtrem jazyků!"
 
-#: weblate/trans/models/component.py:1559
+#: weblate/trans/models/component.py:1564
 msgid "Translation file already exists!"
 msgstr "Soubor s překladem už existuje!"
 
@@ -6980,42 +7007,6 @@ msgstr "Dlouhá pomlčka"
 #: weblate/trans/specialchars.py:491
 msgid "User configured character: {}"
 msgstr "Uživatelem zadaný znak: {}"
-
-#. Translators: placeholder SSH hashed hostname
-#: weblate/trans/ssh.py:95
-msgid "[hostname hashed]"
-msgstr "[název stroje je skrytý]"
-
-#: weblate/trans/ssh.py:145
-msgid "Created new SSH key."
-msgstr "Byl vytvořen nový SSH klíč."
-
-#: weblate/trans/ssh.py:149
-#, python-format
-msgid "Failed to generate key: %s"
-msgstr "Nepodařilo se vytvořit klíč: %s"
-
-#: weblate/trans/ssh.py:159
-msgid "Invalid host name given!"
-msgstr "Zadán chybný název stroje!"
-
-#: weblate/trans/ssh.py:181
-#, python-format
-msgid ""
-"Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), "
-"please verify that it is correct."
-msgstr ""
-"Přidán klíč pro stroj %(host)s s otiskem %(fingerprint)s (%(keytype)s) – "
-"prosím ověřte, že je tento otisk správný."
-
-#: weblate/trans/ssh.py:193
-msgid "Failed to fetch public key for a host!"
-msgstr "Nepodařilo se stáhnout veřejnou část klíče!"
-
-#: weblate/trans/ssh.py:201 weblate/trans/ssh.py:206
-#, python-format
-msgid "Failed to get host key: %s"
-msgstr "Nepodařilo se načíst klíč: %s"
 
 #: weblate/trans/templatetags/advertisement.py:36
 #, python-brace-format
@@ -7309,7 +7300,7 @@ msgid "XML text"
 msgstr "XML text"
 
 #: weblate/trans/validators.py:41 weblate/trans/validators.py:62
-#: weblate/utils/validators.py:161
+#: weblate/utils/validators.py:162
 #, python-format
 msgid "Bad format string (%s)"
 msgstr "Chybný formátovací řetězec (%s)"
@@ -7828,25 +7819,61 @@ msgstr ""
 "Obrázek je příliš velký, prosím zmenšete ho, nebo ořízněte jen související "
 "část!"
 
-#: weblate/utils/validators.py:175
+#: weblate/utils/validators.py:176
 msgid "The editor link lacks URL scheme!"
 msgstr "Odkaz editoru neobsahuje schéma URL!"
 
-#: weblate/utils/validators.py:181
+#: weblate/utils/validators.py:182
 msgid "Forbidden URL scheme!"
 msgstr "Zakázané schéma URL!"
 
-#: weblate/utils/validators.py:197
+#: weblate/utils/validators.py:198
 msgid "Please avoid using special chars in the full name."
 msgstr "Prosíme vyhněte se používání zvláštních znaků v názvu."
 
-#: weblate/utils/validators.py:206
+#: weblate/utils/validators.py:207
 msgid "Unsupported file format."
 msgstr "Nepodporovaný formát."
 
-#: weblate/utils/validators.py:216
+#: weblate/utils/validators.py:217
 msgid "Failed to render template: {}"
 msgstr "Šablonu se nepodařilo vykreslit: {0}"
+
+#. Translators: placeholder SSH hashed hostname
+#: weblate/vcs/ssh.py:95
+msgid "[hostname hashed]"
+msgstr "[název stroje je skrytý]"
+
+#: weblate/vcs/ssh.py:145
+msgid "Created new SSH key."
+msgstr "Byl vytvořen nový SSH klíč."
+
+#: weblate/vcs/ssh.py:149
+#, python-format
+msgid "Failed to generate key: %s"
+msgstr "Nepodařilo se vytvořit klíč: %s"
+
+#: weblate/vcs/ssh.py:159
+msgid "Invalid host name given!"
+msgstr "Zadán chybný název stroje!"
+
+#: weblate/vcs/ssh.py:181
+#, python-format
+msgid ""
+"Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), "
+"please verify that it is correct."
+msgstr ""
+"Přidán klíč pro stroj %(host)s s otiskem %(fingerprint)s (%(keytype)s) – "
+"prosím ověřte, že je tento otisk správný."
+
+#: weblate/vcs/ssh.py:193
+msgid "Failed to fetch public key for a host!"
+msgstr "Nepodařilo se stáhnout veřejnou část klíče!"
+
+#: weblate/vcs/ssh.py:201 weblate/vcs/ssh.py:206
+#, python-format
+msgid "Failed to get host key: %s"
+msgstr "Nepodařilo se načíst klíč: %s"
 
 #: weblate/wladmin/sites.py:75 weblate/wladmin/sites.py:76
 msgid "Weblate administration"
