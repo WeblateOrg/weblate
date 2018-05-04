@@ -52,10 +52,9 @@ class ScriptTest(RepoTestCase, TempDirMixin):
 
     def test_run_hook(self):
         component = self.create_component()
-        self.assertFalse(
+        with self.assertRaises(Exception):
             run_hook(component, None, 'false')
-        )
-        self.assertTrue(
+        self.assertIsNone(
             run_hook(component, None, 'true')
         )
 

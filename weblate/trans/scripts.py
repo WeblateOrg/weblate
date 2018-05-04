@@ -89,11 +89,10 @@ def run_hook(component, translation, script, env=None, args=None):
             env=get_clean_env(environment),
             cwd=component.full_path,
         )
-        return True
     except (OSError, subprocess.CalledProcessError) as err:
         component.log_error(
             'failed to run hook script %s: %s',
             script,
             err
         )
-        return False
+        raise
