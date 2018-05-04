@@ -109,10 +109,30 @@ class GitRepository(Repository):
 
     def merge(self, abort=False):
         """Merge remote branch or reverts the merge."""
+        tmp = 'weblate-merge-tmp'
         if abort:
             self.execute(['merge', '--abort'])
+            self.execute(['checkout', self.branch])
         else:
-            self.execute(['merge', 'origin/{0}'.format(self.branch)])
+            # We don't do simple git merge origin/branch as that leads
+            # to different merge order than expected and most GUI tools
+            # then show confusing diff (not changes done by Weblate, but
+            # changes merged into Weblate)
+            remote = 'origin/{}'.format(self.branch)
+            # Create local branch for upstream
+            self.execute(['branch', tmp, remote])
+            # Checkout upstream branch
+            self.execute(['checkout', tmp])
+            # Merge current Weblate changes, this can lead to conflict
+            self.execute(['merge', self.branch])
+            # Checkout branch with Weblate changes
+            self.execute(['checkout', self.branch])
+            # Merge temporary branch (this is fast forward so does not create
+            # merge commit)
+            self.execute(['merge', tmp])
+
+        # Delete temporary branch
+        self.execute(['branch', '-D', tmp])
 
     def needs_commit(self, filename=None):
         """Check whether repository needs commit."""
