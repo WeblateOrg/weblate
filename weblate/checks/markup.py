@@ -82,11 +82,17 @@ class BBCodeCheck(TargetCheck):
 
 
 class BaseXMLCheck(TargetCheck):
-    def parse_xml(self, text):
+    def parse_xml(self, text, wrap=None):
         """Wrapper for parsing XML."""
-        text = ''.join(
-            ('<weblate>', strip_entities(text), '</weblate>')
-        )
+        if wrap is None:
+            # Detect whether wrapping is desired
+            try:
+                return self.parse_xml(text, True), True
+            except SyntaxError:
+                return self.parse_xml(text, False), False
+        text = strip_entities(text)
+        if wrap:
+            text = '<weblate>{}</weblate>'.format(text)
 
         if six.PY2:
             return lxml.fromstring(text.encode('utf-8'))
@@ -117,14 +123,14 @@ class XMLValidityCheck(BaseXMLCheck):
 
         # Check if source is XML
         try:
-            self.parse_xml(source)
+            wrap = self.parse_xml(source)[1]
         except SyntaxError:
             # Source is not valid XML, we give up
             return False
 
         # Check target
         try:
-            self.parse_xml(target)
+            self.parse_xml(target, wrap)
         except SyntaxError:
             # Target is not valid XML
             return True
@@ -145,16 +151,16 @@ class XMLTagsCheck(BaseXMLCheck):
 
         # Check if source is XML
         try:
-            source_tree = self.parse_xml(source)
-            source_tags = [x.tag for x in source_tree]
+            source_tree, wrap = self.parse_xml(source)
+            source_tags = [x.tag for x in source_tree.iter()]
         except SyntaxError:
             # Source is not valid XML, we give up
             return False
 
         # Check target
         try:
-            target_tree = self.parse_xml(target)
-            target_tags = [x.tag for x in target_tree]
+            target_tree = self.parse_xml(target, wrap)
+            target_tags = [x.tag for x in target_tree.iter()]
         except SyntaxError:
             # Target is not valid XML
             return False

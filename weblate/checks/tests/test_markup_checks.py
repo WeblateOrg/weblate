@@ -75,6 +75,24 @@ class XMLValidityCheckTest(CheckTestCase):
             ('<emphasis>2nd</emphasis>', '<emphasis>not< /emphasis>', '')
         )
 
+    def test_root(self):
+        self.do_test(
+            False,
+            (
+                '<?xml version="1.0" encoding="UTF-8"?><b>test</b>',
+                '<?xml version="1.0" encoding="UTF-8"?><b>test</b>',
+                ''
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                '<?xml version="1.0" encoding="UTF-8"?><b>test</b>',
+                '<?xml version="1.0" encoding="UTF-8"?><b>test',
+                ''
+            ),
+        )
+
     def test_html(self):
         self.do_test(
             False,
@@ -103,3 +121,21 @@ class XMLTagsCheckTest(CheckTestCase):
 
     def test_unicode(self):
         self.do_test(False, ('<a>zkouška</a>', '<a>zkouška</a>', ''))
+
+    def test_root(self):
+        self.do_test(
+            False,
+            (
+                '<?xml version="1.0" encoding="UTF-8"?><b>test</b>',
+                '<?xml version="1.0" encoding="UTF-8"?><b>test</b>',
+                ''
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                '<?xml version="1.0" encoding="UTF-8"?><b>test</b>',
+                '<?xml version="1.0" encoding="UTF-8"?><a>test</a>',
+                ''
+            ),
+        )
