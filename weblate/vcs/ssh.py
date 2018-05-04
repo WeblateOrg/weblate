@@ -20,11 +20,13 @@
 
 from __future__ import unicode_literals
 
-from base64 import b64decode
+from base64 import b64decode, b64encode
 import subprocess
 import hashlib
 from distutils.spawn import find_executable
 import os
+
+from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _
 
 from weblate.utils import messages
@@ -86,10 +88,8 @@ def is_key_line(key):
 def parse_hosts_line(line):
     """Parse single hosts line into tuple host, key fingerprint."""
     host, keytype, key = line.strip().split(None, 3)[:3]
-    fp_plain = hashlib.md5(b64decode(key)).hexdigest()
-    fingerprint = ':'.join(
-        [a + b for a, b in zip(fp_plain[::2], fp_plain[1::2])]
-    )
+    digest = hashlib.sha256(b64decode(key)).digest()
+    fingerprint = force_text(b64encode(digest).rstrip(b'='))
     if host.startswith('|1|'):
         # Translators: placeholder SSH hashed hostname
         host = _('[hostname hashed]')
