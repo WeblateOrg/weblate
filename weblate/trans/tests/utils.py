@@ -318,10 +318,11 @@ class RepoTestMixin(object):
             'ts-mono/en.ts',
         )
 
-    def create_iphone(self):
+    def create_iphone(self, **kwargs):
         return self._create_component(
             'strings',
             'iphone/*.lproj/Localizable.strings',
+            **kwargs
         )
 
     def create_android(self, suffix='', **kwargs):
@@ -434,8 +435,8 @@ class RepoTestMixin(object):
             'dtd/en.dtd',
         )
 
-    def create_link(self):
-        parent = self.create_iphone()
+    def create_link(self, **kwargs):
+        parent = self.create_iphone(*kwargs)
         return Component.objects.create(
             name='Test2',
             slug='test2',

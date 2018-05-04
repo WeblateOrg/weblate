@@ -36,6 +36,7 @@ from django.core.exceptions import ValidationError
 from weblate.checks.models import Check
 from weblate.trans.models import (
     Project, Source, Unit, WhiteboardMessage, ComponentList, AutoComponentList,
+    Component,
 )
 import weblate.trans.models.component
 from weblate.lang.models import Language
@@ -86,7 +87,11 @@ class ProjectTest(RepoTestCase):
         self.assertTrue(project.slug in project.full_path)
 
     def test_rename(self):
-        project = self.create_project()
+        component = self.create_link()
+        self.assertTrue(
+            Component.objects.filter(repo='weblate://test/test').exists()
+        )
+        project = component.project
         old_path = project.full_path
         self.assertTrue(os.path.exists(old_path))
         project.slug = 'changed'
@@ -95,6 +100,12 @@ class ProjectTest(RepoTestCase):
         self.addCleanup(shutil.rmtree, new_path, True)
         self.assertFalse(os.path.exists(old_path))
         self.assertTrue(os.path.exists(new_path))
+        self.assertTrue(
+            Component.objects.filter(repo='weblate://changed/test').exists()
+        )
+        self.assertFalse(
+            Component.objects.filter(repo='weblate://test/test').exists()
+        )
 
     def test_delete(self):
         project = self.create_project()

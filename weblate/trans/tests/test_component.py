@@ -356,13 +356,25 @@ class ComponentDeleteTest(RepoTestCase):
 class ComponentChangeTest(RepoTestCase):
     """Component object change testing."""
     def test_rename(self):
-        component = self.create_component()
+        link_component = self.create_link()
+        component = link_component.linked_component
+        self.assertTrue(
+            Component.objects.filter(repo='weblate://test/test').exists()
+        )
+
         old_path = component.full_path
         self.assertTrue(os.path.exists(old_path))
         component.slug = 'changed'
         component.save()
         self.assertFalse(os.path.exists(old_path))
         self.assertTrue(os.path.exists(component.full_path))
+
+        self.assertTrue(
+            Component.objects.filter(repo='weblate://test/changed').exists()
+        )
+        self.assertFalse(
+            Component.objects.filter(repo='weblate://test/test').exists()
+        )
 
     def test_change_project(self):
         component = self.create_component()

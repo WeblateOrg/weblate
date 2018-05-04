@@ -1404,6 +1404,9 @@ class Component(models.Model, URLMixin, PathMixin):
             changed_project = (old.project_id != self.project_id)
             # Detect slug changes and rename git repo
             self.check_rename(old)
+            # Rename linked repos
+            if old.slug != self.slug:
+                old.get_linked_childs().update(repo=self.get_repo_link_url())
 
         # Remove leading ./ from paths
         self.filemask = cleanup_path(self.filemask)
