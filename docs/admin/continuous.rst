@@ -70,9 +70,8 @@ And enable its use by defining proper attributes in given repository (eg. in
 
 .. versionchanged:: 2.9
 
-    This merge driver is automatically installed in case Weblate finds it (this
-    currently works only for Git checkout as distutils package does not include
-    examples).
+    This merge driver is now automatically installed for all Weblate internal
+    repositories.
 
 .. _avoid-merge-conflicts:
 
