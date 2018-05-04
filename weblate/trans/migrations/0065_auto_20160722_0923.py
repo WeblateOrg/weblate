@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 from django.conf import settings
 from django.db import migrations, models
 
-from weblate.trans.vcs import VCS_CHOICES
+from weblate.vcs.models import VCS_REGISTRY
 
 
 class Migration(migrations.Migration):
@@ -18,6 +18,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='subproject',
             name='vcs',
-            field=models.CharField(choices=VCS_CHOICES, default=settings.DEFAULT_VCS, help_text='Version control system to use to access your repository with translations.', max_length=20, verbose_name='Version control system'),
+            field=models.CharField(choices=VCS_REGISTRY.get_choices(), default=settings.DEFAULT_VCS, help_text='Version control system to use to access your repository with translations.', max_length=20, verbose_name='Version control system'),
         ),
     ]

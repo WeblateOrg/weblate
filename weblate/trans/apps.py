@@ -26,8 +26,9 @@ from django.utils.translation import ugettext_lazy as _
 from filelock import FileLock
 
 from weblate.trans.data import data_dir
-from weblate.trans.vcs import GitRepository, RepositoryException
 from weblate.trans.util import add_configuration_error
+from weblate.vcs.base import RepositoryException
+from weblate.vcs.git import GitRepository
 
 
 class TransConfig(AppConfig):

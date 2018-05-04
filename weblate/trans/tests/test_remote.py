@@ -28,7 +28,7 @@ from django.utils import timezone
 from weblate.trans.models import Component
 from weblate.trans.tests.utils import REPOWEB_URL
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.trans.vcs import VCS_REGISTRY
+from weblate.vcs.models import VCS_REGISTRY
 from weblate.utils.state import STATE_TRANSLATED
 
 EXTRA_PO = '''

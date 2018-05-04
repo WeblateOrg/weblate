@@ -366,6 +366,7 @@ INSTALLED_APPS = (
     'weblate.screenshots',
     'weblate.accounts',
     'weblate.utils',
+    'weblate.vcs',
     'weblate.wladmin',
     'weblate',
 

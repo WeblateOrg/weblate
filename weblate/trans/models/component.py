@@ -53,7 +53,8 @@ from weblate.trans.util import (
 from weblate.trans.signals import (
     vcs_post_push, vcs_post_update, translation_post_add
 )
-from weblate.trans.vcs import RepositoryException, VCS_REGISTRY, VCS_CHOICES
+from weblate.vcs.base import RepositoryException
+from weblate.vcs.models import VCS_REGISTRY
 from weblate.utils.stats import ComponentStats
 from weblate.trans.models.translation import Translation
 from weblate.trans.validators import (
@@ -155,7 +156,7 @@ class Component(models.Model, URLMixin, PathMixin):
             'Version control system to use to access your '
             'repository with translations.'
         ),
-        choices=VCS_CHOICES,
+        choices=VCS_REGISTRY.get_choices(),
         default=settings.DEFAULT_VCS,
     )
     repo = models.CharField(
