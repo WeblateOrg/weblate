@@ -20,7 +20,6 @@
 
 from __future__ import unicode_literals
 
-from copy import copy
 import os
 import os.path
 
@@ -281,7 +280,7 @@ class Project(models.Model, URLMixin, PathMixin):
             # Rename linked repos
             if old.slug != self.slug:
                 for component in old.component_set.all():
-                    new_component = copy(component)
+                    new_component = self.component_set.get(pk=component.pk)
                     new_component.project = self
                     component.get_linked_childs().update(
                         repo=new_component.get_repo_link_url()
