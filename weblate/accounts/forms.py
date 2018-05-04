@@ -28,7 +28,7 @@ from crispy_forms.layout import Layout, Fieldset, HTML
 from django import forms
 from django.conf import settings
 from django.utils.html import escape
-from django.utils.translation import ugettext_lazy as _, pgettext
+from django.utils.translation import ugettext_lazy as _, ugettext, pgettext
 from django.contrib.auth import authenticate, password_validation
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
@@ -577,7 +577,7 @@ class LoginForm(forms.Form):
                         user,
                         self.request,
                         'failed-auth',
-                        method='Password',
+                        method=ugettext('Password'),
                         name=username,
                     )
                 rotate_token(self.request)
@@ -595,7 +595,7 @@ class LoginForm(forms.Form):
                     self.user_cache,
                     self.request,
                     'login',
-                    method='Password',
+                    method=ugettext('Password'),
                     name=username,
                 )
             reset_rate_limit('login', self.request)

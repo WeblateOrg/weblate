@@ -60,16 +60,16 @@ ACCOUNT_ACTIVITY = {
         'Password reset has been confirmed and password has been reset.'
     ),
     'auth-connect': _(
-        'Authentication using {method} ({name}) has been added.'
+        'Authentication ({method}:{name}) has been added.'
     ),
     'auth-disconnect': _(
-        'Authentication using {method} ({name}) has been removed.'
+        'Authentication ({method}:{name}) has been removed.'
     ),
     'login': _(
-        'Authenticated using {method} ({name}).'
+        'Authenticated ({method}:{name}).'
     ),
     'login-new': _(
-        'Authenticated using {method} ({name}) from new device.'
+        'Authenticated ({method}:{name}) from new device.'
     ),
     'register': _(
         'Somebody has attempted to register with your email.'
@@ -78,7 +78,7 @@ ACCOUNT_ACTIVITY = {
         'Somebody has attempted to add your email to existing account.'
     ),
     'failed-auth': _(
-        'Failed authentication attempt using {method} ({name}).'
+        'Failed authentication attempt ({method}:{name}).'
     ),
     'locked': _(
         'Account locked due to excessive failed authentication attempts.'
