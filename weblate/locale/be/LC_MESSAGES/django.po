@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-05-04 13:06+0000\n"
-"PO-Revision-Date: 2018-04-15 06:46+0000\n"
+"PO-Revision-Date: 2018-05-06 21:01+0000\n"
 "Last-Translator: Viktar Vauchkevich <victorenator@gmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/weblate/"
 "master/be/>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.0-dev\n"
 
 #: weblate/accounts/admin.py:109 weblate/accounts/admin.py:114
@@ -144,10 +144,8 @@ msgid "Activation email will be sent here."
 msgstr "На гэты адрас будзе адпраўлена пацверджанне."
 
 #: weblate/accounts/forms.py:406
-#, fuzzy
-#| msgid "Too many registration attempts!"
 msgid "Too many registration attempts from this location!"
-msgstr "Занадта шмат спроб рэгістрацыі!"
+msgstr "Занадта шмат спроб рэгістрацыі з гэтага месца!"
 
 #: weblate/accounts/forms.py:413
 msgid "New password"
@@ -207,10 +205,8 @@ msgid "This account is inactive."
 msgstr "Гэты конт неактыўны."
 
 #: weblate/accounts/forms.py:567
-#, fuzzy
-#| msgid "Too many authentication attempts!"
 msgid "Too many authentication attempts from this location!"
-msgstr "Занадта шмат спроб аўтэнтыфікацыі!"
+msgstr "Занадта шмат спроб аўтэнтыфікацыі з гэтага месца!"
 
 #: weblate/accounts/forms.py:625 weblate/templates/addons/generate_help.html:21
 #: weblate/trans/models/project.py:92
@@ -259,28 +255,24 @@ msgid "Password reset has been confirmed and password has been reset."
 msgstr "Скід пароля пацверджаны і пароль скінуты."
 
 #: weblate/accounts/models.py:63
-#, fuzzy, python-brace-format
-#| msgid "Authentication using {method} ({name}) has been added."
+#, python-brace-format
 msgid "Authentication ({method}:{name}) has been added."
-msgstr "Аўтэнтыфікацыя выкарыстоўваючы {method} ({name}) дададзеныя."
+msgstr "Аўтэнтыфікацыя ({method}: {name}) дададзеныя."
 
 #: weblate/accounts/models.py:66
-#, fuzzy, python-brace-format
-#| msgid "Authentication using {method} ({name}) has been removed."
+#, python-brace-format
 msgid "Authentication ({method}:{name}) has been removed."
-msgstr "Аўтэнтыфікацыя выкарыстоўваючы {method} ({name}) выдалена."
+msgstr "Аўтэнтыфікацыя ({method}: {name}) выдалена."
 
 #: weblate/accounts/models.py:69
-#, fuzzy, python-brace-format
-#| msgid "Authenticated using {method} ({name})."
+#, python-brace-format
 msgid "Authenticated ({method}:{name})."
-msgstr "Аўтэнтыфікаваны праз {method} ({name})."
+msgstr "Аўтэнтыфікаваны ({method}: {name})."
 
 #: weblate/accounts/models.py:72
-#, fuzzy, python-brace-format
-#| msgid "Authenticated using {method} ({name}) from new device."
+#, python-brace-format
 msgid "Authenticated ({method}:{name}) from new device."
-msgstr "Аўтэнтыфікаваны праз {method} ({name}) з новай прылады."
+msgstr "Аўтэнтыфікаваны ({method}: {name}) з новай прылады."
 
 #: weblate/accounts/models.py:75
 msgid "Somebody has attempted to register with your email."
@@ -291,10 +283,9 @@ msgid "Somebody has attempted to add your email to existing account."
 msgstr "Нехта спрабаваў дадаць ваш email да існага конту."
 
 #: weblate/accounts/models.py:81
-#, fuzzy, python-brace-format
-#| msgid "Failed authentication attempt using {method} ({name})."
+#, python-brace-format
 msgid "Failed authentication attempt ({method}:{name})."
-msgstr "Наўдалая аўтэнтыфікацыя выкарыстоўваючы {method} ({name})."
+msgstr "Наўдалая аўтэнтыфікацыя ({method}: {name})."
 
 #: weblate/accounts/models.py:84
 msgid "Account locked due to excessive failed authentication attempts."
@@ -775,10 +766,8 @@ msgid "Keep empty for bilingual translation files."
 msgstr "Пакінуць пустым для файлаў двумоўнага перакладу."
 
 #: weblate/addons/forms.py:145
-#, fuzzy
-#| msgid "Base file for new translations"
 msgid "Define the base file for new translations"
-msgstr "Базавы файл для новых перакладаў"
+msgstr "Вызначыць базавы файл для новых перакладаў"
 
 #: weblate/addons/forms.py:149 weblate/trans/models/component.py:244
 msgid ""
@@ -874,16 +863,16 @@ msgstr ""
 "Дазваляе наладзіць паводзіны вываду gettext, напрыклад, перанос радкоў."
 
 #: weblate/addons/gettext.py:239
-#, fuzzy
-#| msgid "Contributor agreement"
 msgid "Contributors in comment"
-msgstr "Пагадненне з Удзельнікам"
+msgstr "Удзельнікі ў каментары"
 
 #: weblate/addons/gettext.py:241
 msgid ""
 "Update comment in the PO file header to include contributor name and years "
 "of contributions."
 msgstr ""
+"Абнаўляць каментар у загалоўку PO-файла для ўключэння імя ўдзельніка і гадоў "
+"удзелу."
 
 #: weblate/addons/json.py:33
 msgid "Customize JSON output"
@@ -1355,10 +1344,8 @@ msgid "DTD file"
 msgstr "DTD-файл"
 
 #: weblate/formats/ttkit.py:702
-#, fuzzy
-#| msgid "CSV file"
 msgid "RC file"
-msgstr "Файл CSV"
+msgstr "Файл RC"
 
 #: weblate/lang/apps.py:28
 msgid "Weblate languages"
@@ -1692,51 +1679,50 @@ msgid "We use cookies to deliver our services."
 msgstr "Мы выкарыстоўваем кукі, каб дастаўляць нашы паслугі."
 
 #: weblate/legal/templates/legal/privacy.html:7 weblate/legal/views.py:57
-#, fuzzy
-#| msgid "Private"
 msgid "Privacy"
-msgstr "Прыватны"
+msgstr "Прыватнасць"
 
 #: weblate/legal/templates/legal/privacy.html:17
-#, fuzzy
-#| msgid "Security Policy"
 msgid "Privacy Policy"
-msgstr "Палітыка бяспекі"
+msgstr "Палітыка прыватнасці"
 
 #: weblate/legal/templates/legal/privacy.html:25
 msgid ""
 "Weblate needs some personal information, this page describes how it is "
 "stored and used."
 msgstr ""
+"Weblate патрабуе некаторую асабістую інфармацыю і гэтая старонка распавядае, "
+"як яна захоўваецца і выкарыстоўваецца."
 
 #: weblate/legal/templates/legal/privacy.html:30
-#, fuzzy
-#| msgid "Username or email"
 msgid "Name and email"
-msgstr "Імя карыстальніка альбо эл. пошта"
+msgstr "Імя і электронная пошта"
 
 #: weblate/legal/templates/legal/privacy.html:31
 msgid "These are used to identify you in the VCS commits"
-msgstr ""
+msgstr "Выкарыстоўваецца для ідэнтыфікацыі вас у VCS-камітах"
 
 #: weblate/legal/templates/legal/privacy.html:32
 msgid "Additionally email is used for notifications on watched events"
-msgstr ""
+msgstr "Дадаткова, электронная пошта выкарыстоўваецца для апавяшчэнняў"
 
 #: weblate/legal/templates/legal/privacy.html:34
 msgid "IP address and browser name"
-msgstr ""
+msgstr "IP-адрас і назва браўзера"
 
 #: weblate/legal/templates/legal/privacy.html:35
 msgid ""
 "These are logged in case of important changes to your account (e.g. password "
 "change) to allow diagnosis in case your account is stolen"
 msgstr ""
+"Запісваецца ў выпадку важных змен вашага конту (напрыклад, змены пароля), "
+"каб зрабіць дыягностыку ў выпадку крадзяжу конту"
 
 #: weblate/legal/templates/legal/privacy.html:40
 msgid ""
 "All these information is removed once you delete your account in Weblate."
 msgstr ""
+"Уся гэтая інфармацыя будзе выдаленая як толькі вы выдаліце ваш Weblate-конт."
 
 #: weblate/legal/templates/legal/security.html:7 weblate/legal/views.py:52
 msgid "Security"
@@ -2848,8 +2834,6 @@ msgid "One folder per language containing translation files for components."
 msgstr "Адзін тэчка на мову, што змяшчае файлы перакладаў для кампанентаў."
 
 #: weblate/templates/addons/discovery_help.html:32
-#, fuzzy
-#| msgid "Usual structure for storing gettext po files."
 msgid "Usual structure for storing gettext PO files."
 msgstr "Звычайная структура для захавання PO-файлаў gettext."
 
@@ -4321,10 +4305,9 @@ msgstr "Перакладаць можна на %(translation_url)s"
 
 #: weblate/templates/mail/merge_failure.html:11
 #: weblate/templates/mail/merge_failure.txt:3
-#, fuzzy, python-format
-#| msgid "There has been a merge failure on %(subproject)s at %(site_title)s."
+#, python-format
 msgid "There has been a merge failure on %(component)s at %(site_title)s."
-msgstr "У перакладзе %(subproject)s на %(site_title)s адбылася памылка зліцця."
+msgstr "У %(component)s на %(site_title)s адбылася памылка зліцця."
 
 #: weblate/templates/mail/merge_failure.html:15
 #: weblate/templates/mail/parse_error.html:15
@@ -4352,18 +4335,15 @@ msgid "Repository status:"
 msgstr "Стан рэпазіторыя:"
 
 #: weblate/templates/mail/merge_failure_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Merge failure in %(subproject)s"
+#, python-format
 msgid "Merge failure in %(component)s"
-msgstr "Зліццё не ўдалося ў %(subproject)s"
+msgstr "Зліццё не ўдалося ў %(component)s"
 
 #: weblate/templates/mail/new_comment.html:11
 #: weblate/templates/mail/new_comment.txt:3
-#, fuzzy, python-format
-#| msgid "There has been a new comment on %(subproject)s at %(site_title)s."
+#, python-format
 msgid "There has been a new comment on %(component)s at %(site_title)s."
-msgstr ""
-"У перакладзе %(subproject)s на %(site_title)s быў даданы новы каментарый."
+msgstr "У %(component)s на %(site_title)s быў даданы новы каментар."
 
 #: weblate/templates/mail/new_comment.html:28
 #: weblate/templates/mail/new_comment.txt:9
@@ -4371,10 +4351,9 @@ msgid "Comment:"
 msgstr "Каментарый:"
 
 #: weblate/templates/mail/new_comment_subject.txt:3
-#, fuzzy, python-format
-#| msgid "New comment in %(subproject)s"
+#, python-format
 msgid "New comment in %(component)s"
-msgstr "Новы каментарый у %(subproject)s"
+msgstr "Новы каментарый у %(component)s"
 
 #: weblate/templates/mail/new_contributor.html:7
 #: weblate/templates/mail/new_contributor.txt:1
@@ -4510,11 +4489,9 @@ msgstr "Новы пераклад у %(translation)s"
 
 #: weblate/templates/mail/parse_error.html:11
 #: weblate/templates/mail/parse_error.txt:3
-#, fuzzy, python-format
-#| msgid "There has been a parse error on %(subproject)s at %(site_title)s."
+#, python-format
 msgid "There has been a parse error on %(component)s at %(site_title)s."
-msgstr ""
-"У перакладзе %(subproject)s на %(site_title)s адбылася памылка разбору."
+msgstr "У %(component)s на %(site_title)s адбылася памылка разбору."
 
 #: weblate/templates/mail/parse_error.html:21
 msgid "Failing file"
@@ -4525,10 +4502,9 @@ msgid "Failing file:"
 msgstr "Памылковы файл:"
 
 #: weblate/templates/mail/parse_error_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Parse error in %(subproject)s"
+#, python-format
 msgid "Parse error in %(component)s"
-msgstr "Разбор не ўдаўся ў %(subproject)s"
+msgstr "Разбор не ўдаўся ў %(component)s"
 
 #: weblate/templates/mail/remove.html:11 weblate/templates/mail/remove.txt:3
 #, python-format
