@@ -8,7 +8,7 @@ from django.db import migrations
 def migrate_push_on_commit(apps, schema_editor):
     Project = apps.get_model('trans', 'Project')
     for project in Project.objects.all():
-        project.component_set.update(
+        project.subproject_set.update(
             push_on_commit=project.push_on_commit
         )
 
