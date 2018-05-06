@@ -26,8 +26,6 @@ from defusedxml import lxml
 
 from django.utils.translation import ugettext_lazy as _
 
-import six
-
 from weblate.checks.base import TargetCheck
 
 BBCODE_MATCH = re.compile(
@@ -94,10 +92,7 @@ class BaseXMLCheck(TargetCheck):
         if wrap:
             text = '<weblate>{}</weblate>'.format(text)
 
-        if six.PY2:
-            return lxml.fromstring(text.encode('utf-8'))
-
-        return lxml.fromstring(text)
+        return lxml.fromstring(text.encode('utf-8'))
 
     def is_source_xml(self, flags, source):
         """Quick check if source looks like XML."""
