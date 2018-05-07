@@ -20,7 +20,7 @@
 
 from __future__ import unicode_literals
 
-from django.contrib.auth.models import User
+from django.conf import settings
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 
@@ -63,7 +63,8 @@ class CommentManager(models.Manager):
 class Comment(UnitData, UserDisplayMixin):
     comment = models.TextField()
     user = models.ForeignKey(
-        User, null=True, blank=True, on_delete=models.deletion.CASCADE
+        settings.AUTH_USER_MODEL, null=True, blank=True,
+        on_delete=models.deletion.CASCADE
     )
     timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
 

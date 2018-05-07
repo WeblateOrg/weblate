@@ -214,6 +214,8 @@ AUTHENTICATION_BACKENDS = (
     'weblate.accounts.auth.WeblateUserBackend',
 )
 
+AUTH_USER_MODEL = 'weblate_auth.User'
+
 # Social auth backends setup
 SOCIAL_AUTH_GITHUB_KEY = ''
 SOCIAL_AUTH_GITHUB_SECRET = ''

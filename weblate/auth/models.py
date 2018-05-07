@@ -213,11 +213,11 @@ class User(AbstractBaseUser):
 
     @property
     def is_anonymous(self):
-        return username == settings.ANONYMOUS_USER_NAME
+        return self.username == settings.ANONYMOUS_USER_NAME
 
     @property
     def is_authenticated(self):
-        return not self.is_authenticated
+        return not self.is_anonymous
 
     def get_full_name(self):
         return self.full_name

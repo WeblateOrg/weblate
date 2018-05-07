@@ -30,7 +30,6 @@ from django.core.exceptions import ValidationError
 from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
-from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.crypto import get_random_string
@@ -40,6 +39,7 @@ from rest_framework.authtoken.models import Token
 
 from social_django.models import UserSocialAuth
 
+from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.utils import messages
 from weblate.accounts.avatar import get_user_display
@@ -110,24 +110,9 @@ NOTIFY_ACTIVITY = frozenset((
 ))
 
 
-class WeblateAnonymousUser(User):
-    """Proxy model to customize User behavior."""
-
-    class Meta(object):
-        proxy = True
-
-    @property
-    def is_authenticated(self):
-        return False
-
-    @property
-    def is_anonymous(self):
-        return True
-
-
 def get_anonymous():
     """Return anonymous user"""
-    return WeblateAnonymousUser.objects.get(
+    return User.objects.get(
         username=settings.ANONYMOUS_USER_NAME,
     )
 

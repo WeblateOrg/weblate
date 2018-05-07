@@ -173,7 +173,7 @@ def move_users():
         user.groups.add(group)
 
 
-@receiver(post_migrate)
+#TODO: @receiver(post_migrate)
 def sync_create_groups(sender, intermediate=False, **kwargs):
     """Create groups on syncdb."""
     if intermediate:
@@ -197,7 +197,7 @@ def auto_assign_group(user):
             user.groups.add(auto.group)
 
 
-@receiver(post_save, sender=User)
+#TODO: @receiver(post_save, sender=User)
 @disable_for_loaddata
 def auto_group_upon_save(sender, instance, created=False, **kwargs):
     """Automatically add user to Users group."""
@@ -205,7 +205,7 @@ def auto_group_upon_save(sender, instance, created=False, **kwargs):
         auto_assign_group(instance)
 
 
-@receiver(m2m_changed, sender=Group.permissions.through)
+#TODO: @receiver(m2m_changed, sender=Group.permissions.through)
 def change_acl_groups(sender, instance, action, reverse, model, pk_set,
                       **kwargs):
     """Update per project ACL groups on master group change."""

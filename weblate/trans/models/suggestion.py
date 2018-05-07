@@ -20,7 +20,7 @@
 
 from __future__ import unicode_literals
 
-from django.contrib.auth.models import User
+from django.conf import settings
 from django.db import models, transaction
 from django.db.models import Count
 from django.utils.encoding import python_2_unicode_compatible
@@ -115,7 +115,8 @@ class SuggestionManager(models.Manager):
 class Suggestion(UnitData, UserDisplayMixin):
     target = models.TextField()
     user = models.ForeignKey(
-        User, null=True, blank=True, on_delete=models.deletion.CASCADE
+        settings.AUTH_USER_MODEL, null=True, blank=True,
+        on_delete=models.deletion.CASCADE
     )
     language = models.ForeignKey(
         Language, on_delete=models.deletion.CASCADE
@@ -123,7 +124,7 @@ class Suggestion(UnitData, UserDisplayMixin):
     timestamp = models.DateTimeField(auto_now_add=True)
 
     votes = models.ManyToManyField(
-        User,
+        settings.AUTH_USER_MODEL,
         through='Vote',
         related_name='user_votes'
     )
@@ -220,7 +221,7 @@ class Vote(models.Model):
         Suggestion, on_delete=models.deletion.CASCADE
     )
     user = models.ForeignKey(
-        User, on_delete=models.deletion.CASCADE
+        settings.AUTH_USER_MODEL, on_delete=models.deletion.CASCADE
     )
     positive = models.BooleanField(default=True)
 

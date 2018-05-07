@@ -22,9 +22,9 @@ from __future__ import unicode_literals
 
 from datetime import timedelta
 
+from django.conf import settings
 from django.db import models
 from django.db.models import Q
-from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
@@ -67,7 +67,7 @@ class Billing(models.Model):
         on_delete=models.deletion.CASCADE
     )
     user = models.OneToOneField(
-        User, on_delete=models.deletion.CASCADE
+        settings.AUTH_USER_MODEL, on_delete=models.deletion.CASCADE
     )
     projects = models.ManyToManyField(Project, blank=True)
     state = models.IntegerField(

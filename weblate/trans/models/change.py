@@ -19,9 +19,9 @@
 #
 from __future__ import unicode_literals
 
+from django.conf import settings
 from django.db import models
 from django.db.models import Count, Q
-from django.contrib.auth.models import User
 from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.utils.translation import ugettext as _, ugettext_lazy
@@ -301,10 +301,10 @@ class Change(models.Model, UserDisplayMixin):
         'Dictionary', null=True, on_delete=models.deletion.CASCADE
     )
     user = models.ForeignKey(
-        User, null=True, on_delete=models.deletion.CASCADE
+        settings.AUTH_USER_MODEL, null=True, on_delete=models.deletion.CASCADE
     )
     author = models.ForeignKey(
-        User, null=True, related_name='author_set',
+        settings.AUTH_USER_MODEL, null=True, related_name='author_set',
         on_delete=models.deletion.CASCADE
     )
     timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
