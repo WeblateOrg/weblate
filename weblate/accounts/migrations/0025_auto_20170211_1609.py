@@ -15,18 +15,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.CreateModel(
-            name='WeblateAnonymousUser',
-            fields=[
-            ],
-            options={
-                'proxy': True,
-            },
-            bases=('auth.user',),
-            managers=[
-                ('objects', django.contrib.auth.models.UserManager()),
-            ],
-        ),
         migrations.AddField(
             model_name='profile',
             name='editor_link',

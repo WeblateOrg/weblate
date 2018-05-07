@@ -6,16 +6,6 @@ from django.db import migrations
 from django.utils.crypto import get_random_string
 
 
-def add_api_keys(apps, schema_editor):
-    Token = apps.get_model('authtoken', 'Token')
-    User = apps.get_model('auth', 'User')
-    for user in User.objects.iterator():
-        Token.objects.get_or_create(
-            user=user,
-            defaults={'key': get_random_string(40)}
-        )
-
-
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -25,5 +15,4 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(add_api_keys),
     ]
