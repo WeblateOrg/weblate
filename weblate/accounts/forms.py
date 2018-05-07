@@ -20,20 +20,16 @@
 
 from __future__ import unicode_literals
 
-import re
-
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, HTML
 
 from django import forms
-from django.conf import settings
 from django.utils.html import escape
 from django.utils.translation import ugettext_lazy as _, ugettext, pgettext
 from django.contrib.auth import authenticate, password_validation
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
 from django.contrib.auth.models import User
-from django.core.validators import validate_email
 from django.db.models import Q
 from django.forms.widgets import EmailInput
 from django.middleware.csrf import rotate_token
@@ -44,18 +40,15 @@ from weblate.accounts.models import Profile
 from weblate.accounts.utils import get_all_user_mails
 from weblate.accounts.captcha import MathCaptcha
 from weblate.accounts.notifications import notify_account_activity
-from weblate.accounts.pipeline import USERNAME_RE
 from weblate.accounts.ratelimit import reset_rate_limit, check_rate_limit
 from weblate.lang.models import Language
 from weblate.trans.models import Project
 from weblate.trans.util import sort_choices
 from weblate.utils import messages
-from weblate.utils.validators import validate_fullname
+from weblate.utils.validators import (
+    validate_fullname, validate_username, validate_email
+)
 from weblate.logger import LOGGER
-
-
-# Reject some suspicious email addresses, based on checks enforced by Exim MTA
-EMAIL_BLACKLIST = re.compile(r'^([./|]|.*([@%!`#&?]|/\.\./))')
 
 
 class UniqueEmailMixin(object):
@@ -100,29 +93,17 @@ class EmailField(forms.CharField):
         kwargs['max_length'] = 254
         super(EmailField, self).__init__(*args, **kwargs)
 
-    def clean(self, value):
-        value = super(EmailField, self).clean(value)
-        user_part = value.rsplit('@', 1)[0]
-        if EMAIL_BLACKLIST.match(user_part):
-            raise forms.ValidationError(_('Enter a valid email address.'))
-        if re.match(settings.REGISTRATION_EMAIL_MATCH, value):
-            return value
-        raise forms.ValidationError(_('This email address is not allowed.'))
 
+class UsernameField(forms.CharField):
+    default_validators = [validate_username]
 
-class UsernameField(forms.RegexField):
     def __init__(self, *args, **kwargs):
-        help_text = _(
+        kwargs['max_length'] = 30
+        kwargs['help_text'] = _(
             'Username may only contain letters, '
             'numbers or the following characters: @ . + - _'
         )
-        kwargs['max_length'] = 30
-        kwargs['regex'] = USERNAME_RE
-        kwargs['help_text'] = help_text
         kwargs['label'] = _('Username')
-        kwargs['error_messages'] = {
-            'invalid': help_text,
-        }
         kwargs['required'] = True
         self.valid = None
 
@@ -132,10 +113,6 @@ class UsernameField(forms.RegexField):
         """Username validation, requires unique name."""
         if value is None:
             return None
-        if value.startswith('.'):
-            raise forms.ValidationError(
-                _('Username can not start with full stop.')
-            )
         if value is not None:
             existing = User.objects.filter(username=value)
             if existing.exists() and value != self.valid:

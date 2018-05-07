@@ -45,11 +45,9 @@ from weblate.accounts.notifications import (
 from weblate.accounts.templatetags.authnames import get_auth_name
 from weblate.accounts.models import VerifiedEmail, DEMO_ACCOUNTS
 from weblate.utils import messages
-from weblate.utils.validators import clean_fullname
+from weblate.utils.validators import clean_fullname, USERNAME_MATCHER
 from weblate import USER_AGENT
 
-USERNAME_RE = r'^[\w@+-][\w.@+-]*$'
-USERNAME_MATCHER = re.compile(USERNAME_RE)
 STRIP_MATCHER = re.compile(r'[^\w\s.@+-]')
 CLEANUP_MATCHER = re.compile(r'[-\s]+')
 

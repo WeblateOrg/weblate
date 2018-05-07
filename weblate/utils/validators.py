@@ -27,11 +27,18 @@ from PIL import Image
 
 import six
 
+from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.core.validators import validate_email as validate_email_django
 from django.utils.translation import ugettext as _
 
 from weblate.utils.render import render_template
 
+
+USERNAME_MATCHER = re.compile(r'^[\w@+-][\w.@+-]*$')
+
+# Reject some suspicious email addresses, based on checks enforced by Exim MTA
+EMAIL_BLACKLIST = re.compile(r'^([./|]|.*([@%!`#&?]|/\.\./))')
 
 ALLOWED_IMAGES = frozenset((
     'image/jpeg',
@@ -216,3 +223,24 @@ def validate_render(value, **kwargs):
         raise ValidationError(
             _('Failed to render template: {}').format(err)
         )
+
+
+def validate_username(value):
+    if value.startswith('.'):
+        raise ValidationError(
+            _('Username can not start with a full stop.')
+        )
+    if not USERNAME_MATCHER.match(value):
+        raise ValidationError(_(
+            'Username may only contain letters, '
+            'numbers or the following characters: @ . + - _'
+        ))
+
+
+def validate_email(value):
+    validate_email_django(value)
+    user_part = value.rsplit('@', 1)[0]
+    if EMAIL_BLACKLIST.match(user_part):
+        raise ValidationError(_('Enter a valid email address.'))
+    if not re.match(settings.REGISTRATION_EMAIL_MATCH, value):
+        raise ValidationError(_('This email address is not allowed.'))
