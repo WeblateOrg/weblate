@@ -59,10 +59,16 @@ class SAPTranslationHub(MachineTranslation):
                 settings.MT_SAP_USERNAME,
                 settings.MT_SAP_PASSWORD
             )
-            request.add_header(
-                'Authorization',
-                'Basic ' + base64.b64encode(credentials.encode('utf-8'))
-            )
+            if six.PY2:
+                request.add_header(
+                    'Authorization',
+                    'Basic ' + base64.b64encode(credentials.encode('utf-8'))
+                )
+            else:
+                request.add_header(
+                    'Authorization',
+                    'Basic ' + base64.b64encode(credentials.encode('utf-8')).decode('utf-8')
+                )
 
     def download_languages(self):
         """Get all available languages from SAP Translation Hub"""
