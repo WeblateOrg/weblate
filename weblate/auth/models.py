@@ -26,8 +26,11 @@ from django.db.models.signals import post_save, post_migrate
 from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible, force_text
-from django.utils.translation import ugettext, ugettext_lazy as _
+from django.utils.translation import ugettext, ugettext_lazy as _, pgettext
 
+from weblate.auth.utils import (
+    migrate_permissions, migrate_roles, create_anonymous,
+)
 from weblate.trans.fields import RegexField
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.validators import (
@@ -63,7 +66,7 @@ class Role(models.Model):
     )
 
     def __str__(self):
-        return self.name
+        return pgettext('Access control role', self.name)
 
 
 @python_2_unicode_compatible
@@ -260,33 +263,13 @@ class AutoGroup(models.Model):
 
 def create_groups(update):
     """Create standard groups and gives them permissions."""
-    # TODO
-    #for name in DEFAULT_GROUPS:
-    #    group, created = Group.objects.get_or_create(name=name)
-    #    if created or update or group.permissions.count() == 0:
-    #        group.permissions.set(
-    #            Permission.objects.filter(codename__in=DEFAULT_GROUPS[name])
-    #        )
 
-    anon_user, created = User.objects.get_or_create(
-        username=settings.ANONYMOUS_USER_NAME,
-        defaults={
-            'email': 'noreply@weblate.org',
-            'is_active': False,
-        }
-    )
-    if anon_user.is_active:
-        raise ValueError(
-            'Anonymous user ({}) already exists and enabled, '
-            'please change ANONYMOUS_USER_NAME setting.'.format(
-                settings.ANONYMOUS_USER_NAME,
-            )
-        )
+    # Create permissions and roles
+    migrate_permissions(Permission)
+    migrate_roles(Role, Permission)
 
-    if created or update:
-        anon_user.set_unusable_password()
-        anon_user.groups.clear()
-        anon_user.groups.add(Group.objects.get(name='Guests'))
+    # Create anonymous user
+    create_anonymous(User, Group, update)
 
 
 def move_users():
