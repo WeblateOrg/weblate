@@ -24,5 +24,5 @@ from django.apps import AppConfig
 
 class AuthConfig(AppConfig):
     name = 'weblate.auth'
-    label = 'auth'
+    label = 'weblate_auth'
     verbose_name = 'Authentication'
