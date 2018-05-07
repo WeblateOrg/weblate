@@ -95,7 +95,7 @@ class Group(models.Model):
     )
     componentlist = models.ForeignKey(
         'trans.ComponentList',
-        verbose_name=_('Projects'),
+        verbose_name=_('Component list'),
         on_delete=models.deletion.CASCADE,
         null=True,
         blank=True,
