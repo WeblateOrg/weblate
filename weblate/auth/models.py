@@ -22,10 +22,14 @@ from __future__ import unicode_literals
 from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.db import models
+from django.db.models.signals import post_save, post_migrate
+from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.utils.translation import ugettext, ugettext_lazy as _
 
+from weblate.trans.fields import RegexField
+from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.validators import (
     validate_fullname, validate_username, validate_email,
 )
@@ -227,3 +231,90 @@ class User(AbstractBaseUser):
 
     def __str__(self):
         return self.full_name
+
+
+@python_2_unicode_compatible
+class AutoGroup(models.Model):
+    match = RegexField(
+        verbose_name=_('Email regular expression'),
+        max_length=200,
+        default='^.*$',
+        help_text=_(
+            'Regular expression which is used to match user email.'
+        ),
+    )
+    group = models.ForeignKey(
+        Group,
+        verbose_name=_('Group to assign'),
+        on_delete=models.deletion.CASCADE,
+    )
+
+    class Meta(object):
+        verbose_name = _('Automatic group assignment')
+        verbose_name_plural = _('Automatic group assignments')
+        ordering = ('group__name', )
+
+    def __str__(self):
+        return 'Automatic rule for {0}'.format(self.group)
+
+
+def create_groups(update):
+    """Create standard groups and gives them permissions."""
+    # TODO
+    #for name in DEFAULT_GROUPS:
+    #    group, created = Group.objects.get_or_create(name=name)
+    #    if created or update or group.permissions.count() == 0:
+    #        group.permissions.set(
+    #            Permission.objects.filter(codename__in=DEFAULT_GROUPS[name])
+    #        )
+
+    anon_user, created = User.objects.get_or_create(
+        username=settings.ANONYMOUS_USER_NAME,
+        defaults={
+            'email': 'noreply@weblate.org',
+            'is_active': False,
+        }
+    )
+    if anon_user.is_active:
+        raise ValueError(
+            'Anonymous user ({}) already exists and enabled, '
+            'please change ANONYMOUS_USER_NAME setting.'.format(
+                settings.ANONYMOUS_USER_NAME,
+            )
+        )
+
+    if created or update:
+        anon_user.set_unusable_password()
+        anon_user.groups.clear()
+        anon_user.groups.add(Group.objects.get(name='Guests'))
+
+
+def move_users():
+    """Move users to default group."""
+    group = Group.objects.get(name='Users')
+
+    for user in User.objects.all():
+        user.groups.add(group)
+
+
+@receiver(post_migrate)
+def sync_create_groups(sender, **kwargs):
+    """Create groups on syncdb."""
+    if sender.label == 'weblate_auth':
+        create_groups(False)
+
+
+def auto_assign_group(user):
+    """Automatic group assignment based on user email."""
+    # Add user to automatic groups
+    for auto in AutoGroup.objects.all():
+        if re.match(auto.match, user.email):
+            user.groups.add(auto.group)
+
+
+@receiver(post_save, sender=User)
+@disable_for_loaddata
+def auto_group_upon_save(sender, instance, created=False, **kwargs):
+    """Automatically add user to Users group."""
+    if created:
+        auto_assign_group(instance)
