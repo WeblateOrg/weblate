@@ -19,7 +19,7 @@
 #
 from __future__ import unicode_literals
 
-from django.contrib.auth.models import User
+from weblate.auth.models import User
 from django.shortcuts import render, redirect
 from django.views.decorators.cache import never_cache
 from django.views.generic import TemplateView

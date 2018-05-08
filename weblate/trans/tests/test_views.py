@@ -28,7 +28,7 @@ from six.moves.urllib.parse import urlsplit
 from PIL import Image
 
 from django.test.client import RequestFactory
-from django.contrib.auth.models import Group, Permission
+from weblate.auth.models import Group, Permission
 from django.urls import reverse
 from django.contrib.messages.storage.fallback import FallbackStorage
 from django.core.management import call_command

@@ -20,7 +20,7 @@
 
 from django.contrib.auth.admin import UserAdmin, GroupAdmin
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from django.contrib.auth.models import User
+from weblate.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.accounts.forms import (

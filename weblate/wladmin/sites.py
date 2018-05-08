@@ -23,7 +23,7 @@ from functools import update_wrapper
 from django.conf import settings
 from django.conf.urls import url
 from django.contrib.admin import AdminSite
-from django.contrib.auth.models import User, Group
+from weblate.auth.models import User, Group
 from django.contrib.auth.views import logout
 from django.contrib.sites.admin import SiteAdmin
 from django.contrib.sites.models import Site

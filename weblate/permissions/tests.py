@@ -18,7 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from django.contrib.auth.models import User, Group, Permission
+from weblate.auth.models import User, Group, Permission
 from django.core.exceptions import ValidationError
 from django.core.management import call_command
 from django.test import TestCase

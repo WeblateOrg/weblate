@@ -158,6 +158,9 @@ class UserManager(BaseUserManager):
 
         return self._create_user(username, email, password, **extra_fields)
 
+    def get_anonymous(self):
+        return self.get(username=settings.ANONYMOUS_USER_NAME)
+
 
 @python_2_unicode_compatible
 class User(AbstractBaseUser):

@@ -30,7 +30,7 @@ from django.http.request import HttpRequest
 from django.test import TestCase, LiveServerTestCase
 from django.test.utils import override_settings
 from django.utils import timezone
-from django.contrib.auth.models import User, Group
+from weblate.auth.models import User, Group
 from django.core.exceptions import ValidationError
 
 from weblate.checks.models import Check

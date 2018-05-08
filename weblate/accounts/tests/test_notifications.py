@@ -22,7 +22,7 @@
 Tests for user handling.
 """
 
-from django.contrib.auth.models import User
+from weblate.auth.models import User
 from django.core import mail
 
 from weblate.accounts.models import Profile

@@ -22,7 +22,7 @@ import csv
 
 from django.views.generic.list import ListView
 from django.http import Http404, HttpResponse
-from django.contrib.auth.models import User
+from weblate.auth.models import User
 from django.utils.translation import ugettext as _, activate, pgettext
 from django.urls import reverse
 from django.db.models import Q

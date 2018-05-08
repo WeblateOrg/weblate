@@ -42,7 +42,7 @@ from django.utils.html import escape
 from django.utils.http import urlencode
 from django.forms import ValidationError
 from django.db.models import Q
-from django.contrib.auth.models import User
+from weblate.auth.models import User
 
 from weblate.lang.data import LOCALE_ALIASES
 from weblate.lang.models import Language

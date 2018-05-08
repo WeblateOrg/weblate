@@ -21,7 +21,7 @@
 import argparse
 
 from django.core.management.base import CommandError
-from django.contrib.auth.models import User
+from weblate.auth.models import User
 from django.http.request import HttpRequest
 
 from weblate.accounts.models import get_author_name

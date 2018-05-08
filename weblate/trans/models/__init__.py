@@ -23,7 +23,7 @@ from __future__ import unicode_literals
 import os
 import shutil
 
-from django.contrib.auth.models import Group, Permission
+from weblate.auth.models import Group, Permission
 from django.db.models import Q
 from django.db.models.signals import (
     post_delete, post_save, m2m_changed, pre_delete,

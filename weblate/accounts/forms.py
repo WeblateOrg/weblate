@@ -29,7 +29,7 @@ from django.utils.translation import ugettext_lazy as _, ugettext, pgettext
 from django.contrib.auth import authenticate, password_validation
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
-from django.contrib.auth.models import User
+from weblate.auth.models import User
 from django.db.models import Q
 from django.forms.widgets import EmailInput
 from django.middleware.csrf import rotate_token

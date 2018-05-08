@@ -23,7 +23,7 @@
 import os.path
 
 from django.test import TestCase
-from django.contrib.auth.models import User
+from weblate.auth.models import User
 from django.contrib.sites.models import Site
 from django.core.management import call_command
 from django.core.management.base import CommandError

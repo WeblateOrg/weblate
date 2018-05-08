@@ -23,7 +23,7 @@ from __future__ import unicode_literals
 import os
 import binascii
 
-from django.contrib.auth.models import User
+from weblate.auth.models import User
 
 from social_django.models import Code
 

@@ -19,7 +19,7 @@
 #
 
 from django.conf import settings
-from django.contrib.auth.models import User, Permission
+from weblate.auth.models import User, Permission
 from django.db.models.signals import pre_save
 from django.dispatch.dispatcher import receiver
 from django.contrib.auth.backends import ModelBackend

@@ -28,7 +28,7 @@ from django.utils.translation import ugettext as _, ugettext_lazy, pgettext
 from django.utils.encoding import python_2_unicode_compatible
 from django.core.exceptions import ValidationError
 from django.urls import reverse
-from django.contrib.auth.models import Permission, User, Group
+from weblate.auth.models import Permission, User, Group
 
 from weblate.accounts.models import Profile
 from weblate.lang.models import Language, get_english_lang

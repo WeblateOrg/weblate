@@ -27,7 +27,7 @@ import unicodedata
 from django.conf import settings
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.contrib.auth.models import User
+from weblate.auth.models import User
 from django.utils.encoding import force_text
 from django.utils.http import is_safe_url
 from django.utils.translation import ugettext as _

@@ -22,7 +22,7 @@
 
 from django.conf import settings
 from django.urls import reverse
-from django.contrib.auth.models import User, Group
+from weblate.auth.models import User, Group
 
 from weblate.trans.models import Project
 from weblate.trans.tests.test_views import FixtureTestCase

@@ -23,7 +23,7 @@ from email import message_from_string
 import os.path
 import subprocess
 
-from django.contrib.auth.models import User
+from weblate.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
 from django.http.response import HttpResponseServerError, HttpResponse

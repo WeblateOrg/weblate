@@ -21,7 +21,7 @@
 import os.path
 
 from django.conf import settings
-from django.contrib.auth.models import User
+from weblate.auth.models import User
 from django.contrib.messages import get_messages
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404

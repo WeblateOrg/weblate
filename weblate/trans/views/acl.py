@@ -19,7 +19,7 @@
 #
 
 from django.utils.translation import ugettext as _
-from django.contrib.auth.models import Group
+from weblate.auth.models import Group
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST

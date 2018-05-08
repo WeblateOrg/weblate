@@ -21,7 +21,7 @@
 Permissions abstract layer for Weblate.
 """
 from django.conf import settings
-from django.contrib.auth.models import Permission
+from weblate.auth.models import Permission
 from django.db.models import Q
 from django.http import Http404
 

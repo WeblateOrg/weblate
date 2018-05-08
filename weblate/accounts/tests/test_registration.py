@@ -25,7 +25,7 @@ import json
 import httpretty
 from six.moves.urllib.parse import parse_qs, urlparse
 
-from django.contrib.auth.models import User
+from weblate.auth.models import User
 from django.urls import reverse
 from django.core import mail
 from django.test import TestCase, Client

@@ -26,7 +26,7 @@ from io import BytesIO
 from unittest import SkipTest
 
 from django.urls import reverse
-from django.contrib.auth.models import User
+from weblate.auth.models import User
 
 import httpretty
 

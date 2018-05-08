@@ -18,7 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from django.contrib.auth.models import User, Group
+from weblate.auth.models import User, Group
 from django.core.files import File
 from django.urls import reverse
 

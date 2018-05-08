@@ -23,7 +23,7 @@ import os.path
 
 from django.test import TestCase
 from django.test.utils import override_settings
-from django.contrib.auth.models import User
+from weblate.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.management import call_command
 from django.urls import reverse
