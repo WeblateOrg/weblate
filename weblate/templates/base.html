@@ -123,7 +123,7 @@ var _rollbarConfig = {
       <ul class="nav navbar-nav navbar-right flip">
         {% if user.is_authenticated %}
         <li><a class="button" id="profile-button" href="{% url 'profile' %}" title="{% trans "Your profile" %}">{{ user.profile.get_user_display }}</a></li>
-        {% if user.is_staff %}
+        {% if user.is_superuser %}
         <li><a class="button" id="admin-button" href="{% url 'admin:index' %}" title="{% trans "Administration" %}"><i class="fa fa-wrench"></i></a></li>
         {% if configuration_errors.exists %}
         <li><a class="button" id="admin-button" href="{% url 'admin:performance' %}" title="{% trans "Configuration errors" %}"><i class="fa fa-exclamation-triangle text-danger"></i></a></li>

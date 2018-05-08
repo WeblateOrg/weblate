@@ -306,7 +306,7 @@ def create_groups(update):
     # Create permissions and roles
     migrate_permissions(Permission)
     migrate_roles(Role, Permission)
-    migrate_groups(Group, Role)
+    migrate_groups(Group, Role, update)
 
     # Create anonymous user
     create_anonymous(User, Group, update)

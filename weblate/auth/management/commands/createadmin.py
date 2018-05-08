@@ -93,6 +93,5 @@ class Command(BaseCommand):
             )
         user.full_name = options['name']
         user.is_superuser = True
-        user.is_staff = True
         user.is_active = True
         user.save()

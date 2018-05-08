@@ -27,7 +27,7 @@ from django.utils.encoding import force_text
 from weblate.lang.models import Language
 from weblate.trans.models import Project, Translation, Comment
 from weblate.permissions.data import DEFAULT_GROUPS, ADMIN_PERMS
-from weblate.permissions.models import AutoGroup, GroupACL
+from weblate.permissions.models import GroupACL
 from weblate.permissions.helpers import (
     has_group_perm, can_delete_comment, can_edit, can_author_translation,
 )
@@ -412,47 +412,3 @@ class GroupACLTest(ModelTestCase):
 
         self.assertTrue(can_edit(self.privileged, self.trans, self.PERMISSION))
         self.assertTrue(can_edit(self.user, self.trans, self.PERMISSION))
-
-
-class AutoGroupTest(TestCase):
-    @staticmethod
-    def create_user():
-        return User.objects.create_user('test1', 'noreply@weblate.org', 'pass')
-
-    def test_default(self):
-        user = self.create_user()
-        self.assertEqual(user.groups.count(), 1)
-
-    def test_none(self):
-        AutoGroup.objects.all().delete()
-        user = self.create_user()
-        self.assertEqual(user.groups.count(), 0)
-
-    def test_matching(self):
-        AutoGroup.objects.create(
-            match='^.*@weblate.org',
-            group=Group.objects.get(name='Guests')
-        )
-        user = self.create_user()
-        self.assertEqual(user.groups.count(), 2)
-
-    def test_nonmatching(self):
-        AutoGroup.objects.create(
-            match='^.*@example.net',
-            group=Group.objects.get(name='Guests')
-        )
-        user = self.create_user()
-        self.assertEqual(user.groups.count(), 1)
-
-
-class CommandTest(TestCase):
-    """Test for management commands."""
-    def test_setupgroups(self):
-        call_command('setupgroups')
-        group = Group.objects.get(name='Users')
-        self.assertTrue(
-            group.permissions.filter(
-                codename='save_translation'
-            ).exists()
-        )
-        call_command('setupgroups', move=True)
