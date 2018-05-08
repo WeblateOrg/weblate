@@ -581,12 +581,3 @@ def create_profile_callback(sender, instance, created=False, **kwargs):
         )
         # Create profile
         Profile.objects.get_or_create(user=instance)
-        # Generate full name from parts
-        # This is needed with LDAP authentication when the
-        # server does not contain full name
-        if (instance.first_name and instance.last_name and
-                instance.last_name not in instance.first_name):
-            instance.first_name = '{} {}'.format(
-                instance.first_name, instance.last_name
-            )
-            instance.save(update_fields=['first_name'])

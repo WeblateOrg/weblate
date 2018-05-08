@@ -212,6 +212,8 @@ class User(AbstractBaseUser):
         ),
     )
 
+    extra_data = {}
+
     objects = UserManager()
 
     EMAIL_FIELD = 'email'
@@ -234,6 +236,25 @@ class User(AbstractBaseUser):
 
     def __str__(self):
         return self.full_name
+
+    def __setattr__(self, name, value):
+        """Mimic first/last name for third party auth"""
+        if name in ('first_name', 'last_name'):
+            self.extra_data[name] = value
+        else:
+            super(User, self).__setattr__(name, value)
+
+    def save(self, *args, **kwargs):
+        # Generate full name from parts
+        # This is needed with LDAP authentication when the
+        # server does not contain full name
+        if 'first_name' in self.extra_data and 'last_name' in self.extra_data:
+            self.full_name = '{first_name} {last_name}'.format(**self.extra_data)
+        elif 'first_name' in self.extra_data:
+            self.full_name = self.extra_data['first_name']
+        elif 'last_name' in self.extra_data:
+            self.full_name = self.extra_data['last_name']
+        super(User, self).save(*args, **kwargs)
 
 
 @python_2_unicode_compatible
@@ -281,9 +302,9 @@ def move_users():
 
 
 @receiver(post_migrate)
-def sync_create_groups(sender, **kwargs):
+def sync_create_groups(sender, intermediate=False, **kwargs):
     """Create groups on syncdb."""
-    if sender.label == 'weblate_auth':
+    if not intermediate and sender.label == 'weblate_auth':
         create_groups(False)
 
 
