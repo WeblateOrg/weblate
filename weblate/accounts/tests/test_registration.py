@@ -45,7 +45,7 @@ import weblate.trans.tests.mypretty  # noqa
 REGISTRATION_DATA = {
     'username': 'username',
     'email': 'noreply-weblate@example.org',
-    'full_name': 'First Last',
+    'fullname': 'First Last',
     'captcha': '9999'
 }
 

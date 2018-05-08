@@ -360,7 +360,8 @@ class RegistrationForm(EmailForm):
     error_css_class = "error"
 
     username = UsernameField()
-    full_name = FullNameField()
+    # This has to be without underscore for social-auth
+    fullname = FullNameField()
     content = forms.CharField(required=False)
 
     def __init__(self, request=None, *args, **kwargs):
