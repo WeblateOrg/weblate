@@ -274,6 +274,23 @@ class User(AbstractBaseUser):
         """Compatibility API for admin interface."""
         return self.is_superuser
 
+    def get_author_name(self, email=True):
+        """Return formatted author name with email."""
+        # The < > are replace to avoid tricking Git to use
+        # name as email
+
+        # Get full name from database
+        full_name = self.full_name.replace('<', '').replace('>', '')
+
+        # Use username if full name is empty
+        if full_name == '':
+            full_name = self.username.replace('<', '').replace('>', '')
+
+        # Add email if we are asked for it
+        if not email:
+            return full_name
+        return '{0} <{1}>'.format(full_name, user.email)
+
 
 @python_2_unicode_compatible
 class AutoGroup(models.Model):

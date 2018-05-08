@@ -24,7 +24,6 @@ from django.core.management.base import CommandError
 from weblate.auth.models import User
 from django.http.request import HttpRequest
 
-from weblate.accounts.models import get_author_name
 from weblate.trans.management.commands import WeblateTranslationCommand
 
 
@@ -67,7 +66,7 @@ class Command(WeblateTranslationCommand):
         try:
             translation.merge_upload(
                 request, options['file'], False, method='suggest',
-                author=get_author_name(user),
+                author=user.get_author_name(),
             )
         except IOError:
             raise CommandError('Failed to import translation file!')

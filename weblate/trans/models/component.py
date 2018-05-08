@@ -65,7 +65,6 @@ from weblate.lang.models import Language
 from weblate.accounts.notifications import (
     notify_parse_error, notify_merge_failure,
 )
-from weblate.accounts.models import get_author_name
 from weblate.trans.models.change import Change
 from weblate.utils.scripts import get_script_choices
 from weblate.utils.validators import validate_repoweb
@@ -1585,7 +1584,7 @@ class Component(models.Model, URLMixin, PathMixin):
         )
         translation.git_commit(
             request,
-            get_author_name(request.user)
+            request.user.get_author_name()
             if request else 'Weblate <noreply@weblate.org>',
             timezone.now(),
             force_new=True,
