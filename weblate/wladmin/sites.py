@@ -51,8 +51,8 @@ from weblate.checks.admin import CheckAdmin
 from weblate.checks.models import Check
 from weblate.lang.admin import LanguageAdmin
 from weblate.lang.models import Language
-from weblate.permissions.admin import AutoGroupAdmin, GroupACLAdmin
-from weblate.permissions.models import AutoGroup, GroupACL
+#from weblate.permissions.admin import AutoGroupAdmin, GroupACLAdmin
+#from weblate.permissions.models import AutoGroup, GroupACL
 from weblate.screenshots.admin import ScreenshotAdmin
 from weblate.screenshots.models import Screenshot
 from weblate.trans.admin import (
@@ -90,8 +90,9 @@ class WeblateAdminSite(AdminSite):
         self.register(Language, LanguageAdmin)
 
         # Permissions
-        self.register(GroupACL, GroupACLAdmin)
-        self.register(AutoGroup, AutoGroupAdmin)
+        # TODO:
+        # self.register(GroupACL, GroupACLAdmin)
+        # self.register(AutoGroup, AutoGroupAdmin)
 
         # Screenshots
         self.register(Screenshot, ScreenshotAdmin)

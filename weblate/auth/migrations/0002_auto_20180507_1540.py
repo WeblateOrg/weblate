@@ -17,18 +17,6 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='AutoGroup',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('match', weblate.trans.fields.RegexField(default='^.*$', help_text='Regular expression which is used to match user email.', max_length=200, verbose_name='Email regular expression')),
-            ],
-            options={
-                'ordering': ('group__name',),
-                'verbose_name': 'Automatic group assignment',
-                'verbose_name_plural': 'Automatic group assignments',
-            },
-        ),
-        migrations.CreateModel(
             name='Group',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
@@ -66,11 +54,6 @@ class Migration(migrations.Migration):
             model_name='group',
             name='roles',
             field=models.ManyToManyField(blank=True, help_text='Choose roles granted to this group.', to='weblate_auth.Role', verbose_name='Roles'),
-        ),
-        migrations.AddField(
-            model_name='autogroup',
-            name='group',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='weblate_auth.Group', verbose_name='Group to assign'),
         ),
         migrations.AddField(
             model_name='user',
