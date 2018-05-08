@@ -588,6 +588,8 @@ consistency problems:
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
+.. _upgrade_2_20:
+
 Upgrade from 2.19 to 2.20
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -624,8 +626,27 @@ Notable configuration or dependencies changes:
 * Several dependencies have raised minimal version.
 * The setting :setting:`MACHINE_TRANSLATION_SERVICES` was renamed to
   :setting:`MT_SERVICES`.
+* The :ref:`privileges` is completely rewritten, you might have to adjust
+  privileges you have manually assigned.
 
-Upgrading steps
+Upgrading steps:
+
+1. :ref:`upgrade_2_20`
+2. Backup your database and Weblate.
+3. Stop web server and any background jobs using Weblate.
+4. Update the configuration file to match :file:`settings_example.py`.
+5. Comment out :setting:`django:AUTH_USER_MODEL` in the configuration.
+6. Run first authentication migration: ``./manage.py migrate weblate_auth 0001``
+7. Bring back setting for :setting:`django:AUTH_USER_MODEL`.
+8. Run rest of migrations: ``./manage.py migrate``
+
+After upgrading:
+
+* All existing users and groups have been migrated to new model.
+* Any per user permissions are removed, please assign users to appropriate
+  groups and roles to grant them permissions.
+* Any custom groups will not have any permissions after upgrade, please grant
+  the permissions again.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

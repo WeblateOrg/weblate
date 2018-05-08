@@ -214,6 +214,7 @@ AUTHENTICATION_BACKENDS = (
     'weblate.accounts.auth.WeblateUserBackend',
 )
 
+# Custom user model
 AUTH_USER_MODEL = 'weblate_auth.User'
 
 # Social auth backends setup
