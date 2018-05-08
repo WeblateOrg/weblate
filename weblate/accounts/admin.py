@@ -18,14 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from django.contrib.auth.admin import UserAdmin, GroupAdmin
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from weblate.auth.models import User
-from django.utils.translation import ugettext_lazy as _
-
-from weblate.accounts.forms import (
-    UniqueEmailMixin, FullNameField, UsernameField,
-)
 from weblate.wladmin.models import WeblateModelAdmin
 
 
@@ -60,74 +52,3 @@ class VerifiedEmailAdmin(WeblateModelAdmin):
         'email', 'social__user__username', 'social__user__email'
     )
     raw_id_fields = ('social',)
-
-
-class WeblateUserChangeForm(UserChangeForm):
-    class Meta:
-        model = User
-        fields = '__all__'
-        field_classes = {
-            'username': UsernameField,
-            'full_name': FullNameField,
-        }
-
-    def __init__(self, *args, **kwargs):
-        super(WeblateUserChangeForm, self).__init__(*args, **kwargs)
-        self.fields['email'].required = True
-        self.fields['username'].valid = self.instance.username
-
-
-class WeblateUserCreationForm(UserCreationForm, UniqueEmailMixin):
-    validate_unique_mail = True
-
-    class Meta(object):
-        model = User
-        fields = ('username', 'email', 'full_name')
-        field_classes = {
-            'username': UsernameField,
-            'full_name': FullNameField,
-        }
-
-    def __init__(self, *args, **kwargs):
-        super(WeblateUserCreationForm, self).__init__(*args, **kwargs)
-        self.fields['email'].required = True
-
-
-class WeblateUserAdmin(UserAdmin):
-    """Custom UserAdmin class.
-
-    Used to add listing of group membership and whether user is active.
-    """
-    list_display = (
-        'username', 'email', 'full_name', 'user_groups', 'is_active',
-        'is_staff',
-    )
-    form = WeblateUserChangeForm
-    add_form = WeblateUserCreationForm
-    add_fieldsets = (
-        (None, {'fields': ('username',)}),
-        (_('Personal info'), {'fields': ('full_name', 'email')}),
-        (_('Authentication'), {'fields': ('password1', 'password2')}),
-    )
-    fieldsets = (
-        (None, {'fields': ('username', 'password')}),
-        (_('Personal info'), {'fields': ('full_name', 'email')}),
-        (_('Permissions'), {'fields': (
-            'is_active', 'is_staff', 'is_superuser',
-            'groups', 'user_permissions'
-        )}),
-        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
-    )
-
-    def user_groups(self, obj):
-        """Display comma separated list of user groups."""
-        return ','.join([g.name for g in obj.groups.all()])
-
-    def full_name(self, obj):
-        return obj.full_name
-
-    full_name.short_description = _('Full name')
-
-
-class WeblateGroupAdmin(GroupAdmin):
-    save_as = True

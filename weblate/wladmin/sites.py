@@ -23,7 +23,6 @@ from functools import update_wrapper
 from django.conf import settings
 from django.conf.urls import url
 from django.contrib.admin import AdminSite
-from weblate.auth.models import User, Group
 from django.contrib.auth.views import logout
 from django.contrib.sites.admin import SiteAdmin
 from django.contrib.sites.models import Site
@@ -42,17 +41,18 @@ from social_django.admin import (
 from social_django.models import UserSocialAuth, Nonce, Association
 
 from weblate.accounts.admin import (
-    WeblateUserAdmin, WeblateGroupAdmin, ProfileAdmin, VerifiedEmailAdmin,
-    AuditLogAdmin,
+    ProfileAdmin, VerifiedEmailAdmin, AuditLogAdmin,
 )
 from weblate.accounts.forms import LoginForm
 from weblate.accounts.models import Profile, VerifiedEmail, AuditLog
+from weblate.auth.admin import (
+    WeblateUserAdmin, WeblateGroupAdmin, AutoGroupAdmin, RoleAdmin,
+)
+from weblate.auth.models import User, Group, Role, AutoGroup
 from weblate.checks.admin import CheckAdmin
 from weblate.checks.models import Check
 from weblate.lang.admin import LanguageAdmin
 from weblate.lang.models import Language
-#from weblate.permissions.admin import AutoGroupAdmin, GroupACLAdmin
-#from weblate.permissions.models import AutoGroup, GroupACL
 from weblate.screenshots.admin import ScreenshotAdmin
 from weblate.screenshots.models import Screenshot
 from weblate.trans.admin import (
@@ -79,20 +79,16 @@ class WeblateAdminSite(AdminSite):
     def discover(self):
         """Manual discovery."""
         # Accounts
-        # TODO:
-        #self.register(User, WeblateUserAdmin)
-        #self.register(Group, WeblateGroupAdmin)
+        self.register(User, WeblateUserAdmin)
+        self.register(Role, RoleAdmin)
+        self.register(Group, WeblateGroupAdmin)
         self.register(AuditLog, AuditLogAdmin)
+        self.register(AutoGroup, AutoGroupAdmin)
         self.register(Profile, ProfileAdmin)
         self.register(VerifiedEmail, VerifiedEmailAdmin)
 
         # Languages
         self.register(Language, LanguageAdmin)
-
-        # Permissions
-        # TODO:
-        # self.register(GroupACL, GroupACLAdmin)
-        # self.register(AutoGroup, AutoGroupAdmin)
 
         # Screenshots
         self.register(Screenshot, ScreenshotAdmin)

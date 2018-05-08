@@ -261,6 +261,19 @@ class User(AbstractBaseUser):
             self.full_name = self.extra_data['last_name']
         super(User, self).save(*args, **kwargs)
 
+    def has_module_perms(self, module):
+        """Compatibility API for admin interface."""
+        return self.is_superuser
+
+    @property
+    def is_staff(self):
+        """Compatibility API for admin interface."""
+        return self.is_superuser
+
+    def has_perm(self, perm, obj=None):
+        """Compatibility API for admin interface."""
+        return self.is_superuser
+
 
 @python_2_unicode_compatible
 class AutoGroup(models.Model):

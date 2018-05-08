@@ -17,29 +17,3 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-
-from django.utils.translation import ugettext_lazy as _
-
-from weblate.wladmin.models import WeblateModelAdmin
-
-
-class GroupACLAdmin(WeblateModelAdmin):
-    list_display = ['language', 'project_component', 'group_list']
-    filter_horizontal = ('permissions', 'groups')
-
-    def group_list(self, obj):
-        groups = obj.groups.values_list('name', flat=True)
-        ret = ', '.join(groups[:5])
-        if len(groups) > 5:
-            ret += ', ...'
-        return ret
-
-    def project_component(self, obj):
-        if obj.component:
-            return obj.component
-        return obj.project
-    project_component.short_description = _('Project / Component')
-
-
-class AutoGroupAdmin(WeblateModelAdmin):
-    list_display = ('group', 'match')
