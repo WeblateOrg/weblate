@@ -49,7 +49,7 @@ class ProfileAdmin(WeblateModelAdmin):
         'user', 'full_name', 'language', 'suggested', 'translated'
     ]
     search_fields = [
-        'user__username', 'user__email', 'user__first_name'
+        'user__username', 'user__email', 'user__full_name'
     ]
     list_filter = ['language']
 
@@ -68,7 +68,7 @@ class WeblateUserChangeForm(UserChangeForm):
         fields = '__all__'
         field_classes = {
             'username': UsernameField,
-            'first_name': FullNameField,
+            'full_name': FullNameField,
         }
 
     def __init__(self, *args, **kwargs):
@@ -82,10 +82,10 @@ class WeblateUserCreationForm(UserCreationForm, UniqueEmailMixin):
 
     class Meta(object):
         model = User
-        fields = ('username', 'email', 'first_name')
+        fields = ('username', 'email', 'full_name')
         field_classes = {
             'username': UsernameField,
-            'first_name': FullNameField,
+            'full_name': FullNameField,
         }
 
     def __init__(self, *args, **kwargs):
@@ -106,12 +106,12 @@ class WeblateUserAdmin(UserAdmin):
     add_form = WeblateUserCreationForm
     add_fieldsets = (
         (None, {'fields': ('username',)}),
-        (_('Personal info'), {'fields': ('first_name', 'email')}),
+        (_('Personal info'), {'fields': ('full_name', 'email')}),
         (_('Authentication'), {'fields': ('password1', 'password2')}),
     )
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
-        (_('Personal info'), {'fields': ('first_name', 'email')}),
+        (_('Personal info'), {'fields': ('full_name', 'email')}),
         (_('Permissions'), {'fields': (
             'is_active', 'is_staff', 'is_superuser',
             'groups', 'user_permissions'
@@ -124,7 +124,7 @@ class WeblateUserAdmin(UserAdmin):
         return ','.join([g.name for g in obj.groups.all()])
 
     def full_name(self, obj):
-        return obj.first_name
+        return obj.full_name
 
     full_name.short_description = _('Full name')
 

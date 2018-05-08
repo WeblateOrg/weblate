@@ -38,22 +38,19 @@ class CommandTest(TestCase, TempDirMixin):
     def test_createadmin(self):
         call_command('createadmin')
         user = User.objects.get(username='admin')
-        self.assertEqual(user.first_name, 'Weblate Admin')
-        self.assertEqual(user.last_name, '')
+        self.assertEqual(user.full_name, 'Weblate Admin')
         self.assertFalse(user.check_password('admin'))
 
     def test_createadmin_password(self):
         call_command('createadmin', password='admin')
         user = User.objects.get(username='admin')
-        self.assertEqual(user.first_name, 'Weblate Admin')
-        self.assertEqual(user.last_name, '')
+        self.assertEqual(user.full_name, 'Weblate Admin')
         self.assertTrue(user.check_password('admin'))
 
     def test_createadmin_username(self):
         call_command('createadmin', username='admin2')
         user = User.objects.get(username='admin2')
-        self.assertEqual(user.first_name, 'Weblate Admin')
-        self.assertEqual(user.last_name, '')
+        self.assertEqual(user.full_name, 'Weblate Admin')
 
     def test_createadmin_email(self):
         call_command('createadmin', email='noreply@weblate.org')
@@ -80,11 +77,11 @@ class CommandTest(TestCase, TempDirMixin):
 
         # Test that second import does not change anything
         user = User.objects.get(username='weblate')
-        user.first_name = 'Weblate test user'
+        user.full_name = 'Weblate test user'
         user.save()
         call_command('importusers', get_test_file('users.json'))
         user2 = User.objects.get(username='weblate')
-        self.assertEqual(user.first_name, user2.first_name)
+        self.assertEqual(user.full_name, user2.full_name)
 
     def test_importdjangousers(self):
         # First import

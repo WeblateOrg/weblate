@@ -54,7 +54,7 @@ class ViewTest(TestCase):
             username='testuser',
             password='testpassword'
         )
-        user.first_name = 'First Second'
+        user.full_name = 'First Second'
         user.email = 'noreply@example.com'
         user.save()
         Profile.objects.get_or_create(user=user)
@@ -360,7 +360,7 @@ class ProfileTest(FixtureTestCase):
                 'language': 'cs',
                 'languages': Language.objects.get(code='cs').id,
                 'secondary_languages': Language.objects.get(code='cs').id,
-                'first_name': 'First Last',
+                'full_name': 'First Last',
                 'email': 'weblate@example.org',
                 'username': 'testik',
                 'dashboard_view': Profile.DASHBOARD_WATCHED,

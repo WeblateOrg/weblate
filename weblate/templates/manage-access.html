@@ -32,7 +32,7 @@
 {% for user in object.all_users %}
   <tr>
   <td>{{ user.username }}</td>
-  <td>{{ user.first_name }}</td>
+  <td>{{ user.full_name }}</td>
   <td>{{ user.email }}</td>
   {% user_permissions user groups %}
   <td>

@@ -280,13 +280,13 @@ class UserForm(forms.ModelForm):
         ),
         required=True
     )
-    first_name = FullNameField()
+    full_name = FullNameField()
 
     class Meta(object):
         model = User
         fields = (
             'username',
-            'first_name',
+            'full_name',
             'email',
         )
 
@@ -360,7 +360,7 @@ class RegistrationForm(EmailForm):
     error_css_class = "error"
 
     username = UsernameField()
-    first_name = FullNameField()
+    full_name = FullNameField()
     content = forms.CharField(required=False)
 
     def __init__(self, request=None, *args, **kwargs):

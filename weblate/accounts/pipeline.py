@@ -382,7 +382,7 @@ def notify_connect(strategy, backend, user, social, new_association=False,
 
 def user_full_name(strategy, details, user=None, **kwargs):
     """Update user full name using data from provider."""
-    if user and not user.first_name:
+    if user and not user.full_name:
         full_name = details.get('fullname', '').strip()
 
         if (not full_name and
@@ -411,7 +411,7 @@ def user_full_name(strategy, details, user=None, **kwargs):
             full_name = full_name[:30]
 
         if full_name:
-            user.first_name = full_name
+            user.full_name = full_name
             strategy.storage.user.changed(user)
 
 

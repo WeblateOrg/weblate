@@ -91,8 +91,7 @@ class Command(BaseCommand):
                 options['email'],
                 password
             )
-        user.first_name = options['name']
-        user.last_name = ''
+        user.full_name = options['name']
         user.is_superuser = True
         user.is_staff = True
         user.is_active = True

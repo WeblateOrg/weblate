@@ -86,8 +86,7 @@ class Command(BaseCommand):
             if not options['check']:
                 User.objects.create(
                     username=line['username'],
-                    first_name=full_name,
-                    last_name='',
+                    full_name=full_name,
                     password=line['password'],
                     email=line['email']
                 )

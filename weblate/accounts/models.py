@@ -123,7 +123,7 @@ def get_author_name(user, email=True):
     # name as email
 
     # Get full name from database
-    full_name = user.first_name.replace('<', '').replace('>', '')
+    full_name = user.full_name.replace('<', '').replace('>', '')
 
     # Use username if full name is empty
     if full_name == '':
@@ -487,7 +487,7 @@ class Profile(models.Model):
     @property
     def full_name(self):
         """Return user's full name."""
-        return self.user.first_name
+        return self.user.full_name
 
     def clean(self):
         """Check if component list is selected when required."""
@@ -551,12 +551,9 @@ def post_login_handler(sender, request, user, **kwargs):
     set_lang(request, profile)
 
     # Fixup accounts with empty name
-    if not user.first_name:
-        if user.last_name:
-            user.first_name = user.last_name
-        else:
-            user.first_name = user.username
-        user.save(update_fields=['first_name'])
+    if not user.full_name:
+        user.full_name = user.username
+        user.save(update_fields=['full_name'])
 
     # Warn about not set email
     if not user.email:

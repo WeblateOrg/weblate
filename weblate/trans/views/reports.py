@@ -145,7 +145,7 @@ def generate_counts(component, start_date, end_date):
             translation=translation,
             timestamp__range=(start_date, end_date),
         ).values_list(
-            'author__email', 'author__first_name', 'unit__num_words', 'action',
+            'author__email', 'author__full_name', 'unit__num_words', 'action',
         )
         for email, name, words, action in authors:
             if words is None:

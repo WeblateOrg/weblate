@@ -233,7 +233,7 @@ class TranslationTest(RepoTestCase):
         # Translation from other author should trigger commmit
         for i, unit in enumerate(translation.unit_set.all()):
             request.user = User.objects.create(
-                first_name='User {}'.format(unit.pk),
+                full_name='User {}'.format(unit.pk),
                 username='user-{}'.format(unit.pk),
                 email='{}@example.com'.format(unit.pk)
             )

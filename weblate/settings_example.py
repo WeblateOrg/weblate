@@ -317,7 +317,7 @@ AUTH_PASSWORD_VALIDATORS = [
     #     'NAME': 'zxcvbn_password.ZXCVBNValidator',
     #     'OPTIONS': {
     #         'min_score': 3,
-    #         'user_attributes': ('username', 'email', 'first_name')
+    #         'user_attributes': ('username', 'email', 'full_name')
     #     }
     # },
 ]

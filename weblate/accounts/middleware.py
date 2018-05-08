@@ -23,7 +23,7 @@ import re
 from django.conf import settings
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
-from weblate.auth.models import AnonymousUser
+from django.contrib.auth.models import AnonymousUser
 from django.utils.functional import SimpleLazyObject
 
 from weblate.accounts.models import get_anonymous

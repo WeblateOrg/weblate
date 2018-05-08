@@ -114,7 +114,7 @@ class ChangesView(ListView):
             if 'title' not in context:
                 context['title'] = pgettext(
                     'Changes by user', 'Changes by %s'
-                ) % self.user.first_name
+                ) % self.user.full_name
 
         if self.glossary:
             url['glossary'] = 1

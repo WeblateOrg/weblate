@@ -60,7 +60,7 @@ def create_test_user():
         'testuser',
         'weblate@example.org',
         'testpassword',
-        first_name='Weblate Test',
+        full_name='Weblate Test',
     )
 
 

@@ -124,6 +124,7 @@ class AutoGroup(models.Model):
         Group,
         verbose_name=_('Group to assign'),
         on_delete=models.deletion.CASCADE,
+        related_name='old_auto_group',
     )
 
     class Meta(object):

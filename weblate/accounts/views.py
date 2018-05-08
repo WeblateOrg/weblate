@@ -397,7 +397,7 @@ def get_initial_contact(request):
     """Fill in initial contact form fields from request."""
     initial = {}
     if request.user.is_authenticated:
-        initial['name'] = request.user.first_name
+        initial['name'] = request.user.full_name
         initial['email'] = request.user.email
     return initial
 

@@ -79,8 +79,9 @@ class WeblateAdminSite(AdminSite):
     def discover(self):
         """Manual discovery."""
         # Accounts
-        self.register(User, WeblateUserAdmin)
-        self.register(Group, WeblateGroupAdmin)
+        # TODO:
+        #self.register(User, WeblateUserAdmin)
+        #self.register(Group, WeblateGroupAdmin)
         self.register(AuditLog, AuditLogAdmin)
         self.register(Profile, ProfileAdmin)
         self.register(VerifiedEmail, VerifiedEmailAdmin)

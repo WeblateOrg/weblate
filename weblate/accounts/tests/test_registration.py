@@ -45,7 +45,7 @@ import weblate.trans.tests.mypretty  # noqa
 REGISTRATION_DATA = {
     'username': 'username',
     'email': 'noreply-weblate@example.org',
-    'first_name': 'First Last',
+    'full_name': 'First Last',
     'captcha': '9999'
 }
 
@@ -132,7 +132,7 @@ class BaseRegistrationTest(TestCase, RegistrationTestMixin):
         # Verify user is active
         self.assertTrue(user.is_active)
         # Verify stored first/last name
-        self.assertEqual(user.first_name, 'First Last')
+        self.assertEqual(user.full_name, 'First Last')
 
         # Ensure we've picked up all mails
         self.assertEqual(len(mail.outbox), 0)
@@ -707,7 +707,7 @@ class RegistrationTest(BaseRegistrationTest):
                 )
             self.assertContains(response, 'Test Weblate Name')
             user = User.objects.get(username='weblate')
-            self.assertEqual(user.first_name, 'Test Weblate Name')
+            self.assertEqual(user.full_name, 'Test Weblate Name')
             self.assertEqual(user.email, 'noreply-weblate@example.org')
         finally:
             social_django.utils.BACKENDS = orig_backends
@@ -723,10 +723,10 @@ class RegistrationTest(BaseRegistrationTest):
         self.client.login(username='weblate', password='x')
         user = User.objects.get(username='weblate')
         # Name should now contain username (as that is only info we have)
-        self.assertEqual(user.first_name, 'weblate')
+        self.assertEqual(user.full_name, 'weblate')
         # Reset name
-        user.first_name = ''
-        user.save(update_fields=['first_name'])
+        user.full_name = ''
+        user.save(update_fields=['full_name'])
         self.test_github(confirm='x')
 
     def test_github_add_other(self):

@@ -189,7 +189,7 @@ def home(request):
 
     # Warn about not filled in username (usually caused by migration of
     # users from older system
-    if user.is_authenticated and user.first_name == '':
+    if user.is_authenticated and user.full_name == '':
         messages.warning(
             request,
             mark_safe('<a href="{0}">{1}</a>'.format(

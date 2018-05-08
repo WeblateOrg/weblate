@@ -149,7 +149,7 @@ class ChangeQuerySet(models.QuerySet):
                 timestamp__range=date_range
             )
         return authors.values_list(
-            'author__email', 'author__first_name'
+            'author__email', 'author__full_name'
         )
 
 

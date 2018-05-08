@@ -53,8 +53,7 @@ def remove_user(user, request):
         )
 
     # Remove user information
-    user.first_name = 'Deleted User'
-    user.last_name = ''
+    user.full_name = 'Deleted User'
     user.email = 'noreply@weblate.org'
 
     # Disable the user
