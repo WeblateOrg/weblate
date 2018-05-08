@@ -99,7 +99,7 @@ TRANSLATE_PERMS = {
     'upload.overwrite', 'upload.perform',
 }
 
-
+# Default set of roles
 ROLES = (
     (
         pgettext_noop('Access control role', 'Add suggestion'),
@@ -152,3 +152,35 @@ ROLES = (
         filter_perms('billing.')
     ),
 )
+
+# Default set of roles for groups
+GROUPS = (
+    (
+        pgettext_noop('Access control group', 'Guests'),
+        ('Add suggestion',),
+    ),
+    (
+        pgettext_noop('Access control group', 'Users'),
+        ('Power user',),
+    ),
+    (
+        pgettext_noop('Access control group', 'Reviewers'),
+        ('Review strings',),
+    ),
+    (
+        pgettext_noop('Access control group', 'Managers'),
+        ('Administration',),
+    ),
+)
+
+# Mapping of old default GroupACL groups to roles
+ACL_GROUPS = {
+    'Translate': 'Translate',
+    'Template': 'Edit source',
+    'Languages': 'Manage languages',
+    'Glossary': 'Manage glossary',
+    'Screenshots': 'Manage screenshots',
+    'Review': 'Review strings',
+    'VCS': 'Manage repository',
+    'Administration': 'Administration',
+}

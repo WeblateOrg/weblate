@@ -31,7 +31,7 @@ from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.utils.translation import ugettext, ugettext_lazy as _, pgettext
 
 from weblate.auth.utils import (
-    migrate_permissions, migrate_roles, create_anonymous,
+    migrate_permissions, migrate_roles, create_anonymous, migrate_groups,
 )
 from weblate.trans.fields import RegexField
 from weblate.utils.decorators import disable_for_loaddata
@@ -293,6 +293,7 @@ def create_groups(update):
     # Create permissions and roles
     migrate_permissions(Permission)
     migrate_roles(Role, Permission)
+    migrate_groups(Group, Role)
 
     # Create anonymous user
     create_anonymous(User, Group, update)
@@ -309,6 +310,8 @@ def move_users():
 @receiver(post_migrate)
 def sync_create_groups(sender, intermediate=False, **kwargs):
     """Create groups on syncdb."""
+    if settings.AUTH_USER_MODEL != 'weblate_auth.User':
+        return
     if not intermediate and sender.label == 'weblate_auth':
         create_groups(False)
 

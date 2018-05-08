@@ -33,7 +33,7 @@ def migrate_groups(apps, schema_editor):
         'auth_group',
         'weblate_auth_group',
         apps.get_model('weblate_auth', 'Group'),
-        (0, 0, 0),
+        (0, 1, False),
     )
 
 def migrate_user_groups(apps, schema_editor):
@@ -106,6 +106,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('weblate_auth', '0003_permissions'),
+        ('auth', '0008_alter_user_username_max_length'),
     ]
 
     operations = [
