@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-{% can_add_translation user object.project as user_can_add_translation %}
+{% perm 'translation.add' object as user_can_add_translation %}
 
 {% if object.can_add_language and user_can_add_translation %}
 

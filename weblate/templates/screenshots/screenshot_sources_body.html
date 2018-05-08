@@ -2,7 +2,7 @@
 {% load permissions %}
 {% load translations %}
 
-{% can_change_screenshot user object.component.project as user_can_change_screenshot %}
+{% perm 'screenshot.edit' object.component as user_can_change_screenshot %}
 
 {% for source in sources %}
 {% with source.unit as unit %}

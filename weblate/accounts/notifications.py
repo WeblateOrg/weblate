@@ -29,7 +29,6 @@ from django.utils import translation as django_translation
 from django.utils.encoding import force_text
 
 from weblate.accounts.models import Profile, AuditLog
-from weblate.permissions.helpers import can_access_project
 from weblate.utils.site import get_site_url, get_site_domain
 from weblate.utils.errors import report_error
 from weblate.utils.request import get_ip_address, get_user_agent
@@ -421,7 +420,7 @@ def send_user(profile, notification, component, display_obj,
         headers = {}
 
     # Check whether user is still allowed to access this project
-    if can_access_project(profile.user, component.project):
+    if profile.user.can_access_project(component.project):
         # Generate notification
         return get_notification_email(
             profile.language,

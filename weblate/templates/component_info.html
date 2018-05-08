@@ -1,7 +1,7 @@
 {% load i18n %}
 {% load permissions %}
 
-{% can_see_git_repository user object.project as user_can_see_git_repository %}
+{% perm 'vcs.view' object as user_can_see_git_repository %}
 
 {% with object.project as object %}
 {% include "project_info.html" %}

@@ -34,7 +34,6 @@ from django.utils.translation import ugettext as _
 
 import six
 
-from weblate.permissions.helpers import can_translate
 from weblate.checks import CHECKS
 from weblate.checks.models import Check
 from weblate.trans.models.source import Source
@@ -587,7 +586,7 @@ class Unit(models.Model, LoggerMixin):
             translation__component__allow_translation_propagation=True
         )
         for unit in allunits:
-            if not can_translate(request.user, unit):
+            if not request.user.has_perm('unit.edit', unit):
                 continue
             unit.target = self.target
             unit.state = self.state

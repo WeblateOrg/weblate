@@ -33,7 +33,6 @@ from django.utils import timezone
 from django.urls import reverse
 
 from weblate.lang.models import Language, Plural
-from weblate.permissions.helpers import can_translate
 from weblate.formats import ParseError
 from weblate.formats.auto import try_load
 from weblate.checks import CHECKS
@@ -48,7 +47,6 @@ from weblate.trans.signals import (
 from weblate.utils.site import get_site_url
 from weblate.trans.util import split_plural
 from weblate.trans.mixins import URLMixin, LoggerMixin
-from weblate.accounts.notifications import notify_new_string
 from weblate.trans.models.change import Change
 from weblate.trans.checklists import TranslationChecklist
 
@@ -348,6 +346,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         # Notify subscribed users
         if was_new:
+            from weblate.accounts.notifications import notify_new_string
             notify_new_string(self)
 
     def get_last_remote_commit(self):
@@ -832,7 +831,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 continue
 
             if ((unit.translated and not overwrite)
-                    or (not can_translate(request.user, unit))):
+                    or (not request.user.has_perm('unit.edit', unit))):
                 skipped += 1
                 continue
 

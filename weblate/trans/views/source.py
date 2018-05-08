@@ -36,7 +36,6 @@ from weblate.trans.models import Translation, Source, Unit
 from weblate.trans.forms import (
     PriorityForm, CheckFlagsForm, MatrixLanguageForm,
 )
-from weblate.permissions.helpers import can_edit_flags, can_edit_priority
 from weblate.trans.util import render, redirect_next
 from weblate.utils.hash import checksum_to_hash
 from weblate.utils.views import get_page_limit
@@ -130,7 +129,7 @@ def edit_priority(request, pk):
     """Change source string priority."""
     source = get_object_or_404(Source, pk=pk)
 
-    if not can_edit_priority(request.user, source.component.project):
+    if not request.user.has_perm('source.edit', source.component):
         raise PermissionDenied()
 
     form = PriorityForm(request.POST)
@@ -148,7 +147,7 @@ def edit_check_flags(request, pk):
     """Change source string check flags."""
     source = get_object_or_404(Source, pk=pk)
 
-    if not can_edit_flags(request.user, source.component.project):
+    if not request.user.has_perm('source.edit', source.component):
         raise PermissionDenied()
 
     form = CheckFlagsForm(request.POST)

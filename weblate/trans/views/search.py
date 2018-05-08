@@ -30,9 +30,6 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 
 from weblate.lang.models import Language
-from weblate.permissions.helpers import (
-    can_translate, can_automatic_translation,
-)
 from weblate.trans.forms import (
     SiteSearchForm, ReplaceForm, ReplaceConfirmForm, MassStateForm,
 )
@@ -51,24 +48,21 @@ def parse_url(request, project, component=None, lang=None):
     context = {}
     if component is None:
         obj = get_project(request, project)
-        perms = {'project': obj}
         unit_set = Unit.objects.filter(translation__component__project=obj)
         context['project'] = obj
     elif lang is None:
         obj = get_component(request, project, component)
-        perms = {'project': obj.project}
         unit_set = Unit.objects.filter(translation__component=obj)
         context['component'] = obj
         context['project'] = obj.project
     else:
         obj = get_translation(request, project, component, lang)
-        perms = {'translation': obj}
         unit_set = obj.unit_set
         context['translation'] = obj
         context['component'] = obj.component
         context['project'] = obj.component.project
 
-    if not can_translate(request.user, **perms):
+    if not request.user.has_perm('unit.edit', obj):
         raise PermissionDenied()
 
     return obj, unit_set, context
@@ -119,7 +113,7 @@ def search_replace(request, project, component=None, lang=None):
 
         with transaction.atomic():
             for unit in matching.select_for_update():
-                if not can_translate(request.user, unit):
+                if not request.user.has_perm('unit.edit', unit):
                     continue
                 unit.translate(
                     request,
@@ -219,7 +213,7 @@ def search(request, project=None, component=None, lang=None):
 def state_change(request, project, component=None, lang=None):
     obj, unit_set, context = parse_url(request, project, component, lang)
 
-    if not can_automatic_translation(request.user, context['project']):
+    if not request.user.has_perm('translation.auto', obj):
         raise PermissionDenied()
 
     form = MassStateForm(request.user, obj, request.POST)
@@ -242,7 +236,7 @@ def state_change(request, project, component=None, lang=None):
     updated = 0
     with transaction.atomic():
         for unit in matching.select_for_update():
-            if not can_translate(request.user, unit):
+            if not request.user.has_perm('unit.edit', unit):
                 continue
             unit.translate(
                 request,

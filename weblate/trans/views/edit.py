@@ -37,7 +37,6 @@ from django.template.loader import render_to_string
 from weblate import get_doc_url
 from weblate.utils import messages
 from weblate.utils.antispam import is_spam
-from weblate.permissions.helpers import check_access
 from weblate.trans.models import Unit, Change, Comment, Suggestion, Dictionary
 from weblate.trans.autofixes import fix_target
 from weblate.trans.forms import (
@@ -50,11 +49,6 @@ from weblate.trans.views.helper import (
 from weblate.checks import CHECKS
 from weblate.trans.util import join_plural, render, redirect_next
 from weblate.trans.autotranslate import AutoTranslate
-from weblate.permissions.helpers import (
-    can_translate, can_suggest, can_accept_suggestion, can_delete_suggestion,
-    can_vote_suggestion, can_delete_comment, can_automatic_translation,
-    can_add_comment, can_add_unit,
-)
 from weblate.utils.hash import hash_to_checksum
 
 
@@ -183,7 +177,7 @@ def perform_suggestion(unit, form, request):
         messages.error(request, _('Your suggestion is empty!'))
         # Stay on same entry
         return False
-    elif not can_suggest(request.user, unit.translation):
+    elif not request.user.has_perm('suggestion.add', unit.translation):
         # Need privilege to add
         messages.error(
             request,
@@ -230,7 +224,7 @@ def perform_suggestion(unit, form, request):
         unit,
         join_plural(form.cleaned_data['target']),
         request,
-        can_vote_suggestion(request.user, unit)
+        request.user.has_perm('suggestion.vote', unit)
     )
     if not result:
         messages.error(request, _('Your suggestion already exists!'))
@@ -310,7 +304,7 @@ def handle_translate(translation, request, this_unit_url, next_unit_url):
 
     if 'suggest' in request.POST:
         go_next = perform_suggestion(unit, form, request)
-    elif not can_translate(request.user, unit):
+    elif not request.user.has_perm('unit.edit', unit):
         messages.error(
             request,
             _('Insufficient privileges for saving translations.')
@@ -343,7 +337,7 @@ def handle_merge(translation, request, next_unit_url):
     unit = mergeform.cleaned_data['unit']
     merged = mergeform.cleaned_data['merge_unit']
 
-    if not can_translate(request.user, unit):
+    if not request.user.has_perm('unit.edit', unit):
         messages.error(
             request,
             _('Insufficient privileges for saving translations.')
@@ -369,7 +363,7 @@ def handle_revert(translation, request, next_unit_url):
     unit = revertform.cleaned_data['unit']
     change = revertform.cleaned_data['revert_change']
 
-    if not can_translate(request.user, unit):
+    if not request.user.has_perm('unit.edit', unit):
         messages.error(
             request,
             _('Insufficient privileges for saving translations.')
@@ -391,21 +385,21 @@ def handle_revert(translation, request, next_unit_url):
 def check_suggest_permissions(request, mode, translation, suggestion):
     """Check permission for suggestion handling."""
     if mode in ('accept', 'accept_edit'):
-        if not can_accept_suggestion(request.user, translation=translation):
+        if not request.user.has_perm('suggestion.accept', translation):
             messages.error(
                 request,
                 _('You do not have privilege to accept suggestions!')
             )
             return False
     elif mode == 'delete':
-        if not can_delete_suggestion(request.user, translation, suggestion):
+        if not request.user.has_perm('suggestion.delete', suggestion, translation):
             messages.error(
                 request,
                 _('You do not have privilege to delete suggestions!')
             )
             return False
     elif mode in ('upvote', 'downvote'):
-        if not can_vote_suggestion(request.user, translation=translation):
+        if not request.user.has_perm('suggestion.vote', translation):
             messages.error(
                 request,
                 _('You do not have privilege to vote for suggestions!')
@@ -601,7 +595,7 @@ def translate(request, project, component, lang):
 def auto_translation(request, project, component, lang):
     translation = get_translation(request, project, component, lang)
     project = translation.component.project
-    if not can_automatic_translation(request.user, project):
+    if not request.user.has_perm('translation.auto', project):
         raise PermissionDenied()
 
     autoform = AutoForm(translation, request.user, request.POST)
@@ -645,9 +639,9 @@ def auto_translation(request, project, component, lang):
 def comment(request, pk):
     """Add new comment."""
     unit = get_object_or_404(Unit, pk=pk)
-    check_access(request, unit.translation.component.project)
+    request.user.check_access(unit.translation.component.project)
 
-    if not can_add_comment(request.user, unit.translation.component.project):
+    if not request.user.has_perm('comment.add', unit.translation):
         raise PermissionDenied()
 
     form = CommentForm(request.POST)
@@ -675,9 +669,9 @@ def comment(request, pk):
 def delete_comment(request, pk):
     """Delete comment."""
     comment_obj = get_object_or_404(Comment, pk=pk)
-    check_access(request, comment_obj.project)
+    request.user.check_access(comment_obj.project)
 
-    if not can_delete_comment(request.user, comment_obj):
+    if not request.user.has_perm('comment.delete', comment_obj, comment_obj.project):
         raise PermissionDenied()
 
     units = comment_obj.related_units
@@ -798,7 +792,7 @@ def save_zen(request, project, component, lang):
     translationsum = ''
     if not form.is_valid():
         show_form_errors(request, form)
-    elif not can_translate(request.user, form.cleaned_data['unit']):
+    elif not request.user.has_perm('unit.edit', form.cleaned_data['unit']):
         messages.error(
             request, _('Insufficient privileges for saving translations.')
         )
@@ -833,7 +827,7 @@ def save_zen(request, project, component, lang):
 @login_required
 def new_unit(request, project, component, lang):
     translation = get_translation(request, project, component, lang)
-    if not can_add_unit(request.user, translation):
+    if not request.user.has_perm('unit.add', translation):
         raise PermissionDenied()
 
     form = NewUnitForm(request.user, request.POST)

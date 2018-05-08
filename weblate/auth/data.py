@@ -61,6 +61,7 @@ PERMISSIONS = (
     ('suggestion.vote', _('Vote suggestion')),
 
     ('translation.add', _('Start new translation')),
+    ('translation.auto', _('Perform automatic translation')),
     ('translation.delete', _('Delete existing translation')),
     ('translation.add_more', _('Start new translation into more languages')),
 

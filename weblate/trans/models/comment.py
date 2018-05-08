@@ -27,7 +27,6 @@ from django.utils.encoding import python_2_unicode_compatible
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.change import Change
 from weblate.utils.unitdata import UnitData
-from weblate.accounts.notifications import notify_new_comment
 
 
 class CommentManager(models.Manager):
@@ -51,6 +50,7 @@ class CommentManager(models.Manager):
         )
 
         # Notify subscribed users
+        from weblate.accounts.notifications import notify_new_comment
         notify_new_comment(
             unit,
             new_comment,

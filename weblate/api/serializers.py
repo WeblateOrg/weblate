@@ -24,7 +24,6 @@ from weblate.trans.models import (
     Project, Component, Translation, Unit, Change, Source,
 )
 from weblate.lang.models import Language
-from weblate.permissions.helpers import can_see_git_repository
 from weblate.screenshots.models import Screenshot
 from weblate.utils.site import get_site_url
 from weblate.utils.validators import validate_bitmap
@@ -181,7 +180,7 @@ class ComponentSerializer(RemovableSerializer):
         """Remove VCS properties if user has no permission for that"""
         result = super(ComponentSerializer, self).to_representation(instance)
         user = self.context['request'].user
-        if not can_see_git_repository(user, instance.project):
+        if not user.has_perm('vcs.view', instance):
             result['vcs'] = None
             result['repo'] = None
             result['branch'] = None

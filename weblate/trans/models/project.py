@@ -28,9 +28,7 @@ from django.utils.translation import ugettext as _, ugettext_lazy, pgettext
 from django.utils.encoding import python_2_unicode_compatible
 from django.core.exceptions import ValidationError
 from django.urls import reverse
-from weblate.auth.models import Permission, User, Group
 
-from weblate.accounts.models import Profile
 from weblate.lang.models import Language, get_english_lang
 from weblate.trans.mixins import URLMixin, PathMixin
 from weblate.utils.stats import ProjectStats
@@ -45,6 +43,7 @@ class ProjectManager(models.Manager):
         """Return list of project IDs and status
         for current user filtered by ACL
         """
+        from weblate.auth.models import Permission
         # TODO: implement
         if user.is_superuser or True:
             return self.values_list('id', flat=True)
@@ -187,6 +186,7 @@ class Project(models.Model, URLMixin, PathMixin):
 
     def all_users(self, group=None):
         """Return all users having ACL on this project."""
+        from weblate.auth.models import Group, User
         groups = Group.objects.filter(groupacl__project=self)
         if group is not None:
             groups = groups.filter(name__endswith=group)
@@ -194,6 +194,7 @@ class Project(models.Model, URLMixin, PathMixin):
 
     def all_groups(self):
         """Return list of applicable groups for project."""
+        from weblate.auth.models import Group
         return [
             (g.pk, pgettext('Permissions group', g.name.split('@')[1]))
             for g in Group.objects.filter(
@@ -203,6 +204,7 @@ class Project(models.Model, URLMixin, PathMixin):
 
     def add_user(self, user, group=None):
         """Add user based on username of email."""
+        from weblate.auth.models import Group
         if group is None:
             if self.access_control != self.ACCESS_PUBLIC:
                 group = '@Translate'
@@ -214,6 +216,7 @@ class Project(models.Model, URLMixin, PathMixin):
 
     def add_subscription(self, user):
         """Add user subscription to current project"""
+        from weblate.accounts.models import Profile
         try:
             profile = user.profile
         except Profile.DoesNotExist:
@@ -223,6 +226,7 @@ class Project(models.Model, URLMixin, PathMixin):
 
     def remove_user(self, user, group=None):
         """Add user based on username of email."""
+        from weblate.auth.models import Group
         if group is None:
             groups = Group.objects.filter(
                 name__startswith='{0}@'.format(self.name)

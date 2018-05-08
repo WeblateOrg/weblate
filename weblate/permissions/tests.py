@@ -27,7 +27,7 @@ from django.utils.encoding import force_text
 from weblate.lang.models import Language
 from weblate.trans.models import Project, Translation, Comment
 from weblate.permissions.data import DEFAULT_GROUPS, ADMIN_PERMS
-from weblate.permissions.models import GroupACL
+#from weblate.permissions.models import GroupACL
 from weblate.permissions.helpers import (
     has_group_perm, can_delete_comment, can_edit, can_author_translation,
 )

@@ -40,7 +40,6 @@ from weblate.trans.models import (
 )
 import weblate.trans.models.component
 from weblate.lang.models import Language
-from weblate.permissions.helpers import can_access_project
 from weblate.trans.tests.utils import (
     get_test_file, RepoTestMixin, create_test_user,
 )
@@ -145,7 +144,7 @@ class ProjectTest(RepoTestCase):
         project.save()
 
         # Check user does not have access
-        self.assertFalse(can_access_project(user, project))
+        self.assertFalse(user.can_access_project(project))
 
         # Add to ACL group
         user.groups.add(Group.objects.get(name='Test@Translate'))
@@ -154,7 +153,7 @@ class ProjectTest(RepoTestCase):
         user = User.objects.get(username='testuser')
 
         # We now should have access
-        self.assertTrue(can_access_project(user, project))
+        self.assertTrue(user.can_access_project(project))
 
 
 class TranslationTest(RepoTestCase):

@@ -11,7 +11,7 @@
 
 {% block content %}
 
-{% can_change_dictionary user project as user_can_change_dictionary %}
+{% perm 'glossary.edit' project as user_can_change_dictionary %}
 
 {% if user_can_change_dictionary %}
 

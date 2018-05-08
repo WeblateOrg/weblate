@@ -13,7 +13,7 @@
 
 {% block content %}
 
-{% can_edit_priority user project as user_can_edit_priority %}
+{% perm 'source.edit' project as user_can_edit_source %}
 
 {% include "paginator.html" %}
 
@@ -35,7 +35,7 @@
 <a><i class="fa fa-chevron-right expand-icon"></i></a>
 </td>
 <td class="translatetext expander">{% format_translation source.source source.translation.component.project.source_language %}</td>
-<td>{{ source.source_info.get_priority_display }}{% if user_can_edit_priority %} <a class="button smallbutton edit-priority" href="{% url 'edit_priority' pk=source.source_info.pk %}" data-priority="{{ source.source_info.priority }}"><i class="fa fa-pencil"></i></a>{% endif %}</td>
+<td>{{ source.source_info.get_priority_display }}{% if user_can_edit_source %} <a class="button smallbutton edit-priority" href="{% url 'edit_priority' pk=source.source_info.pk %}" data-priority="{{ source.source_info.priority }}"><i class="fa fa-pencil"></i></a>{% endif %}</td>
 <td class="source-checks">
 {% if ignored %}
 {% show_checks source.translation.component.project source.source_checks user %}

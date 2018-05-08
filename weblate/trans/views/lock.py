@@ -26,7 +26,6 @@ from django.views.decorators.http import require_POST
 from weblate.utils import messages
 from weblate.trans.util import redirect_param
 from weblate.trans.views.helper import get_project, get_component
-from weblate.permissions.helpers import can_lock_component
 
 
 @require_POST
@@ -34,7 +33,7 @@ from weblate.permissions.helpers import can_lock_component
 def lock_component(request, project, component):
     obj = get_component(request, project, component)
 
-    if not can_lock_component(request.user, obj.project):
+    if not request.user.has_perm('component.lock', obj):
         raise PermissionDenied()
 
     obj.commit_pending(request)
@@ -54,7 +53,7 @@ def lock_component(request, project, component):
 def unlock_component(request, project, component):
     obj = get_component(request, project, component)
 
-    if not can_lock_component(request.user, obj.project):
+    if not request.user.has_perm('component.lock', obj):
         raise PermissionDenied()
 
     obj.do_lock(request.user, False)
@@ -72,7 +71,7 @@ def unlock_component(request, project, component):
 def lock_project(request, project):
     obj = get_project(request, project)
 
-    if not can_lock_component(request.user, obj):
+    if not request.user.has_perm('component.lock', obj):
         raise PermissionDenied()
 
     obj.commit_pending(request)
@@ -93,7 +92,7 @@ def lock_project(request, project):
 def unlock_project(request, project):
     obj = get_project(request, project)
 
-    if not can_lock_component(request.user, obj):
+    if not request.user.has_perm('component.lock', obj):
         raise PermissionDenied()
 
     for component in obj.component_set.all():

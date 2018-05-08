@@ -50,11 +50,6 @@ from weblate.trans.models import (
     Project, Component, Translation, Change, Unit, Source,
     IndexUpdate, Suggestion,
 )
-from weblate.permissions.helpers import (
-    can_upload_translation, can_lock_component, can_see_repository_status,
-    can_commit_translation, can_update_translation, can_reset_translation,
-    can_push_translation, can_overwrite_translation, can_change_screenshot,
-)
 from weblate.trans.stats import get_project_stats
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
@@ -63,10 +58,10 @@ from weblate.utils.state import STATE_TRANSLATED
 from weblate import get_doc_url
 
 REPO_OPERATIONS = {
-    'push': (can_push_translation, 'do_push'),
-    'pull': (can_update_translation, 'do_update'),
-    'reset': (can_reset_translation, 'do_reset'),
-    'commit': (can_commit_translation, 'commit_pending'),
+    'push': ('vcs.push', 'do_push'),
+    'pull': ('vcs.update', 'do_update'),
+    'reset': ('vcs.reset', 'do_reset'),
+    'commit': ('vcs.commit', 'commit_pending'),
 }
 
 DOC_TEXT = """
@@ -155,9 +150,9 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
 class WeblateViewSet(DownloadViewSet):
     """Allow to skip content negotiation for certain requests."""
     def repository_operation(self, request, obj, project, operation):
-        permission_check, method = REPO_OPERATIONS[operation]
+        permission, method = REPO_OPERATIONS[operation]
 
-        if not permission_check(request.user, project):
+        if not request.user.has_perm(permission, project):
             raise PermissionDenied()
 
         return getattr(obj, method)(request)
@@ -194,7 +189,7 @@ class WeblateViewSet(DownloadViewSet):
 
             return Response(data)
 
-        if not can_see_repository_status(request.user, project):
+        if not request.user.has_perm('meta:vcs.status', project):
             raise PermissionDenied()
 
         data = {
@@ -324,7 +319,7 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
         obj = self.get_object()
 
         if request.method == 'POST':
-            if not can_lock_component(request.user, obj.project):
+            if not request.user.has_perm('component.lock', obj):
                 raise PermissionDenied()
 
             serializer = LockRequestSerializer(data=request.data)
@@ -444,7 +439,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
             fmt = self.format_kwarg or request.query_params.get('format')
             return download_translation_file(obj, fmt)
 
-        if (not can_upload_translation(request.user, obj) or
+        if (not request.user.has_perm('upload.perform', obj) or
                 obj.component.locked):
             raise PermissionDenied()
 
@@ -455,7 +450,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
         serializer.is_valid(raise_exception=True)
 
         if (serializer.validated_data['overwrite'] and
-                not can_overwrite_translation(request.user, project)):
+                not request.user.has_perm('upload.overwrite', obj)):
             raise PermissionDenied()
 
         not_found, skipped, accepted, total = obj.merge_upload(
@@ -586,7 +581,7 @@ class ScreenshotViewSet(DownloadViewSet):
                 'application/binary',
             )
 
-        if not can_change_screenshot(request.user, obj.component.project):
+        if not request.user.has_perm('screenshot.edit', obj.component):
             raise PermissionDenied()
 
         serializer = ScreenshotFileSerializer(data=request.data)

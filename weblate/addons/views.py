@@ -27,7 +27,6 @@ from django.utils.translation import ugettext as _
 from django.views.generic import ListView, UpdateView
 
 from weblate.addons.models import Addon, ADDONS
-from weblate.permissions.helpers import can_edit_component
 from weblate.utils import messages
 from weblate.utils.views import ComponentViewMixin
 
@@ -35,7 +34,7 @@ from weblate.utils.views import ComponentViewMixin
 class AddonViewMixin(ComponentViewMixin):
     def get_queryset(self):
         component = self.get_component()
-        if not can_edit_component(self.request.user, component.project):
+        if not self.request.user.has_perm('component.edit', component):
             raise PermissionDenied('Can not edit component')
         self.kwargs['component_obj'] = component
         return Addon.objects.filter(component=component)

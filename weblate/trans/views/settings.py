@@ -26,7 +26,6 @@ from django.shortcuts import redirect
 from django.views.decorators.cache import never_cache
 from django.utils.translation import ugettext as _
 
-from weblate.permissions.helpers import can_edit_component, can_edit_project
 from weblate.trans.forms import ComponentSettingsForm, ProjectSettingsForm
 from weblate.trans.util import render
 from weblate.trans.views.helper import get_project, get_component
@@ -38,7 +37,7 @@ from weblate.utils import messages
 def change_project(request, project):
     obj = get_project(request, project)
 
-    if not can_edit_project(request.user, obj):
+    if not request.user.has_perm('project.edit', obj):
         raise Http404()
 
     if request.method == 'POST':
@@ -70,7 +69,7 @@ def change_project(request, project):
 def change_component(request, project, component):
     obj = get_component(request, project, component)
 
-    if not can_edit_component(request.user, obj.project):
+    if not request.user.has_perm('component.edit', obj):
         raise Http404()
 
     if request.method == 'POST':

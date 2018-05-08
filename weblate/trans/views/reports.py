@@ -29,7 +29,6 @@ from weblate.trans.models.change import Change
 from weblate.trans.forms import ReportsForm
 from weblate.trans.util import redirect_param
 from weblate.trans.views.helper import get_component, show_form_errors
-from weblate.permissions.helpers import can_view_reports
 
 
 RST_HEADING = ' '.join([
@@ -69,7 +68,7 @@ def get_credits(request, project, component):
     """View for credits"""
     obj = get_component(request, project, component)
 
-    if not can_view_reports(request.user, obj.project):
+    if not request.user.has_perm('report.view', obj):
         raise PermissionDenied()
 
     form = ReportsForm(request.POST)
@@ -179,7 +178,7 @@ def get_counts(request, project, component):
     """View for work counts"""
     obj = get_component(request, project, component)
 
-    if not can_view_reports(request.user, obj.project):
+    if not request.user.has_perm('report.view', obj):
         raise PermissionDenied()
 
     form = ReportsForm(request.POST)

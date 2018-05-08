@@ -26,14 +26,18 @@ from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.db import models
 from django.db.models.signals import post_save, post_migrate
 from django.dispatch import receiver
+from django.http import Http404
 from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible, force_text
+from django.utils.functional import cached_property
 from django.utils.translation import ugettext, ugettext_lazy as _, pgettext
 
+from weblate.auth.permissions import SPECIALS, check_permission
 from weblate.auth.utils import (
     migrate_permissions, migrate_roles, create_anonymous, migrate_groups,
 )
 from weblate.trans.fields import RegexField
+from weblate.trans.models import Project
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.validators import (
     validate_fullname, validate_username, validate_email,
@@ -217,13 +221,16 @@ class User(AbstractBaseUser):
         ),
     )
 
-    extra_data = {}
-
     objects = UserManager()
 
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email', 'full_name']
+
+    def __init__(self, *args, **kwargs):
+        self.extra_data = {}
+        self.perm_cache = {}
+        super(User, self).__init__(*args, **kwargs)
 
     @property
     def is_anonymous(self):
@@ -270,9 +277,49 @@ class User(AbstractBaseUser):
         """Compatibility API for admin interface."""
         return self.is_superuser
 
-    def has_perm(self, perm, obj=None):
-        """Compatibility API for admin interface."""
-        return self.is_superuser
+    def has_perm(self, perm, obj=None, *args):
+        """Permission check"""
+        # Superuser has all permissions
+        if self.is_superuser:
+            return True
+
+        # Compatibility API for admin interface
+        if obj is None:
+            return False
+
+        # Special permission functions
+        if perm in SPECIALS:
+            return SPECIALS[perm](self, perm, obj, *args)
+
+        # Generic permission
+        return check_permission(self, perm, obj)
+
+    def can_access_project(self, project):
+        """Check access to given project."""
+        if self.is_superuser:
+            return True
+        return self.groups.filter(projects=project).exists()
+
+    def check_access(self, project):
+        """Raise an error if user is not allowed to access this project."""
+        if not self.can_access_project(project):
+            raise Http404('Access denied')
+
+    @cached_property
+    def allowed_projects(self):
+        """List of allowed projects."""
+        if self.is_superuser:
+            return Project.objects.all()
+        return Project.objects.filter(group__user=self)
+
+    @cached_property
+    def owned_projects(self):
+        if self.is_superuser:
+            return Project.objects.all()
+        groups = Group.objects.filter(
+            user=self, roles__permissions__codename='project.edit'
+        )
+        return Project.objects.filter(group__in=groups)
 
     def get_author_name(self, email=True):
         """Return formatted author name with email."""

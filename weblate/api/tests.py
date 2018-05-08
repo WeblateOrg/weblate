@@ -414,7 +414,7 @@ class TranslationAPITest(APIBaseTest):
     def test_upload_denied(self):
         self.authenticate()
         # Remove all permissions
-        self.user.groups.all()[0].permissions.clear()
+        self.user.groups.clear()
         response = self.client.put(
             reverse(
                 'api:translation-file',

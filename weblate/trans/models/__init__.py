@@ -23,18 +23,16 @@ from __future__ import unicode_literals
 import os
 import shutil
 
-from weblate.auth.models import Group, Permission
 from django.db.models import Q
 from django.db.models.signals import (
     post_delete, post_save, m2m_changed, pre_delete,
 )
 from django.dispatch import receiver
 
-from weblate.accounts.models import Profile
+#from weblate.accounts.models import Profile
 from weblate.permissions.data import (
     PRIVATE_PERMS, PROTECTED_PERMS, PUBLIC_PERMS,
 )
-from weblate.permissions.models import GroupACL
 from weblate.trans.models.conf import WeblateConf
 from weblate.trans.models.project import Project
 from weblate.trans.models.component import Component
@@ -180,7 +178,8 @@ def user_commit_pending(sender, instance, **kwargs):
             translation.commit_pending(None)
 
 
-@receiver(m2m_changed, sender=Profile.subscriptions.through)
+# TODO:
+#@receiver(m2m_changed, sender=Profile.subscriptions.through)
 def add_user_subscription(sender, instance, action, reverse, model, pk_set,
                           **kwargs):
     if action != 'post_add':
@@ -220,10 +219,12 @@ def auto_component_list(sender, instance, **kwargs):
         auto.check_match(instance)
 
 
-@receiver(post_save, sender=Project)
-@disable_for_loaddata
+#TODO: @receiver(post_save, sender=Project)
+#@disable_for_loaddata
 def setup_group_acl(sender, instance, **kwargs):
     """Setup Group and GroupACL objects on project save."""
+    from weblate.auth.models import Group, Permission
+    from weblate.permissions.models import GroupACL
     old_access_control = instance.old_access_control
     instance.old_access_control = instance.access_control
 
@@ -289,8 +290,9 @@ def setup_group_acl(sender, instance, **kwargs):
     ).delete()
 
 
-@receiver(pre_delete, sender=Project)
+#TODO: @receiver(pre_delete, sender=Project)
 def cleanup_group_acl(sender, instance, **kwargs):
+    from weblate.permissions.models import GroupACL
     group_acl = GroupACL.objects.get_or_create(
         project=instance, component=None, language=None
     )[0]

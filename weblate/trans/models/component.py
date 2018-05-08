@@ -62,9 +62,6 @@ from weblate.trans.validators import (
     validate_autoaccept, validate_check_flags, validate_commit_message,
 )
 from weblate.lang.models import Language
-from weblate.accounts.notifications import (
-    notify_parse_error, notify_merge_failure,
-)
 from weblate.trans.models.change import Change
 from weblate.utils.scripts import get_script_choices
 from weblate.utils.validators import validate_repoweb
@@ -897,6 +894,7 @@ class Component(models.Model, URLMixin, PathMixin):
             filename = self.template
         else:
             filename = translation.filename
+        from weblate.accounts.notifications import notify_parse_error
         notify_parse_error(
             self,
             translation,
@@ -974,6 +972,7 @@ class Component(models.Model, URLMixin, PathMixin):
                     )
 
                 # Notify subscribers and admins
+                from weblate.accounts.notifications import notify_merge_failure
                 notify_merge_failure(self, error, status)
 
                 # Reset repo back

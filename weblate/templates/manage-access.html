@@ -84,7 +84,7 @@
 </div>
 {% endif %}
 
-{% can_edit_access_control user object as user_can_edit_access_control %}
+{% perm 'billing:project.permissions' object as user_can_edit_access_control %}
 
 <form action="{% url "change-access" project=object.slug %}" method="post">
 {% csrf_token %}

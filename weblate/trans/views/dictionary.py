@@ -41,10 +41,6 @@ from weblate.utils.site import get_site_url
 from weblate.utils.errors import report_error
 from weblate.trans.util import render, redirect_next, redirect_param
 from weblate.trans.forms import WordForm, DictUploadForm, LetterForm
-from weblate.permissions.helpers import (
-    can_add_dictionary, can_upload_dictionary, can_delete_dictionary,
-    can_change_dictionary, check_access,
-)
 from weblate.trans.views.helper import get_project, import_message
 from weblate.utils.views import get_page_limit
 
@@ -78,7 +74,7 @@ def show_dictionaries(request, project):
 @never_cache
 def edit_dictionary(request, project, lang, pk):
     prj = get_project(request, project)
-    if not can_change_dictionary(request.user, prj):
+    if not request.user.has_perm('glossary.edit', prj):
         raise PermissionDenied()
     lang = get_object_or_404(Language, code=lang)
     word = get_object_or_404(
@@ -131,7 +127,7 @@ def edit_dictionary(request, project, lang, pk):
 @require_POST
 def delete_dictionary(request, project, lang, pk):
     prj = get_project(request, project)
-    if not can_delete_dictionary(request.user, prj):
+    if not request.user.has_perm('glossary.delete', prj):
         raise PermissionDenied()
 
     lang = get_object_or_404(Language, code=lang)
@@ -165,7 +161,7 @@ def delete_dictionary(request, project, lang, pk):
 @require_POST
 def upload_dictionary(request, project, lang):
     prj = get_project(request, project)
-    if not can_upload_dictionary(request.user, prj):
+    if not request.user.has_perm('glossary.upload', prj):
         raise PermissionDenied()
     lang = get_object_or_404(Language, code=lang)
 
@@ -243,7 +239,7 @@ def download_dictionary(request, project, lang):
 
 def add_dictionary(request, unit_id):
     unit = get_object_or_404(Unit, pk=int(unit_id))
-    check_access(request, unit.translation.component.project)
+    request.user.check_access(unit.translation.component.project)
 
     prj = unit.translation.component.project
     lang = unit.translation.language
@@ -252,7 +248,7 @@ def add_dictionary(request, unit_id):
     results = ''
     words = []
 
-    if request.method == 'POST' and can_add_dictionary(request.user, prj):
+    if request.method == 'POST' and request.user.has_perm('glossary.add', prj):
         form = WordForm(request.POST)
         if form.is_valid():
             word = Dictionary.objects.create(
@@ -291,7 +287,7 @@ def show_dictionary(request, project, lang):
     prj = get_project(request, project)
     lang = get_object_or_404(Language, code=lang)
 
-    if request.method == 'POST' and can_add_dictionary(request.user, prj):
+    if request.method == 'POST' and request.user.has_perm('glossary.add', prj):
         form = WordForm(request.POST)
         if form.is_valid():
             Dictionary.objects.create(

@@ -18,16 +18,15 @@
 
 {% block content %}
 
-{% can_translate user unit as user_can_translate %}
-{% can_suggest user unit.translation as user_can_suggest %}
-{% can_accept_suggestion user unit as user_can_accept_suggestion %}
-{% can_vote_suggestion user unit as user_can_vote_suggestion %}
-{% can_use_mt user unit.translation as user_can_use_mt %}
-{% can_edit_flags user unit.translation.component.project as user_can_edit_flags %}
-{% can_edit_priority user unit.translation.component.project as user_can_edit_priority %}
-{% can_add_screenshot user project as user_can_add_screenshot %}
-{% can_add_comment user project as user_can_add_comment %}
-{% can_add_dictionary user project as user_can_add_dictionary %}
+{% perm 'unit.edit' unit as user_can_translate %}
+{% perm 'suggestion.add' unit.translation as user_can_suggest %}
+{% perm 'suggestion.accept' unit as user_can_accept_suggestion %}
+{% perm 'suggestion.vote' unit.translation as user_can_vote_suggestion %}
+{% perm 'machinery.view' unit.translation as user_can_use_mt %}
+{% perm 'source.edit' unit.translation as user_can_edit_source %}
+{% perm 'screenshot.add' project as user_can_add_screenshot %}
+{% perm 'comment.add' project as user_can_add_comment %}
+{% perm 'glossary.add' project as user_can_add_dictionary %}
 
 {% if user_can_translate %}
 <a href="{% url 'zen' project=unit.translation.component.project.slug component=unit.translation.component.slug lang=unit.translation.language.code %}?{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Edit in Zen mode" %}" class="btn btn-default pull-right flip"><i class="fa fa-arrows-alt"></i> {% trans "Zen" %}</a>
@@ -102,7 +101,7 @@
     {% for secondary_unit in secondary %}
     <div class="form-group">
     <label>{{ secondary_unit.translation.language }}</label>
-    {% can_translate user secondary_unit as user_can_edit_secondary %}
+    {% perm 'unit.edit' secondary_unit as user_can_edit_secondary %}
     {% if user_can_edit_secondary %}
     <a title="{% trans "Edit string" %}"href="{{ secondary_unit.get_absolute_url }}"><i class="fa fa-pencil"></i></a>
     {% endif %}
@@ -151,7 +150,7 @@
     <label>{% trans "Source" %}</label>
     {% with unit.translation.component.get_editable_template as edit_template %}
     {% if edit_template %}
-    {% can_translate user translation=edit_template as user_can_edit_template %}
+    {% perm 'unit.edit' edit_template as user_can_edit_template %}
     {% if user_can_edit_template %}
     <a title="{% trans "Edit source string" %}"href="{{ edit_template.get_translate_url }}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>
     {% endif %}
@@ -280,7 +279,7 @@
 <button type="submit" class="btn btn-success" name="accept" value="{{ suggestion.id }}"><i class="fa fa-check"></i> {% trans "Accept" %}</button>
 <button type="submit" class="btn btn-warning" name="accept_edit" value="{{ suggestion.id }}"><i class="fa fa-pencil"></i> {% trans "Accept and edit" %}</button>
 {% endif %}
-{% can_delete_suggestion user unit.translation suggestion as user_can_delete_suggestion %}
+{% perm 'suggestion.delete' suggestion unit.translation as user_can_delete_suggestion %}
 {% if user_can_delete_suggestion %}
 <button type="submit" class="btn btn-danger" name="delete" value="{{ suggestion.id }}"><i class="fa fa-trash"></i> {% trans "Delete" %}</button>
 {% endif %}
@@ -367,7 +366,7 @@
 
 {% if comments %}
   {% with this_unit_url as next_url %}
-    {% include "list-comments.html" %}
+    {% include "list-comments.html" with object=unit.translation %}
   {% endwith %}
 {% endif %}
 
@@ -490,10 +489,10 @@
     <td>{% format_translation unit.context unit.translation.component.project.source_language search_match=search_query simple=True %}</td>
     </tr>
     {% endif %}
-    {% if unit.all_flags or user_can_edit_flags %}
+    {% if unit.all_flags or user_can_edit_source %}
     <tr>
     <th>
-    {% if user_can_edit_flags %} <a class="button smallbutton pull-right flip" href="{% url 'review_source' project=unit.translation.component.project.slug component=unit.translation.component.slug  %}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>{% endif %}
+    {% if user_can_edit_source %} <a class="button smallbutton pull-right flip" href="{% url 'review_source' project=unit.translation.component.project.slug component=unit.translation.component.slug  %}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>{% endif %}
     {% trans "Flags" %}
     </th>
     </tr>
@@ -510,7 +509,7 @@
     {% include "unit-details.html" %}
     <tr>
     <th>
-    {% if user_can_edit_priority %} <a class="button smallbutton pull-right flip" href="{% url 'review_source' project=unit.translation.component.project.slug component=unit.translation.component.slug  %}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>{% endif %}
+    {% if user_can_edit_source %} <a class="button smallbutton pull-right flip" href="{% url 'review_source' project=unit.translation.component.project.slug component=unit.translation.component.slug  %}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>{% endif %}
     {% trans "String priority" %}
     </th>
     </tr>

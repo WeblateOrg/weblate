@@ -33,7 +33,6 @@ from weblate.utils import messages
 from weblate.trans.models.change import Change
 from weblate.trans.views.helper import get_project_translation
 from weblate.lang.models import Language
-from weblate.permissions.helpers import can_download_changes
 
 
 class ChangesView(ListView):
@@ -222,7 +221,7 @@ class ChangesCSVView(ChangesView):
     def get(self, request, *args, **kwargs):
         object_list = self.get_queryset()
 
-        if not can_download_changes(request.user, self.project):
+        if not request.user.has_perm('change.download', self.project):
             raise PermissionDenied()
 
         # Always output in english

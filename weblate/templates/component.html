@@ -17,12 +17,12 @@
 
 {% whiteboard_messages component=object %}
 
-{% can_see_repository_status user object.project as user_can_see_repository_status %}
-{% can_commit_translation user object.project as user_can_commit_translation %}
-{% can_manage_acl user object.project as user_can_manage_acl %}
-{% can_view_reports user object.project as user_can_view_reports %}
-{% can_add_translation user object.project as user_can_add_translation %}
-{% can_edit_component user object.project as user_can_edit_component %}
+{% perm 'meta:vcs.status' object as user_can_see_repository_status %}
+{% perm 'vcs.commit' object as user_can_commit_translation %}
+{% perm 'project.permissions' object as user_can_manage_acl %}
+{% perm 'reports.view' object as user_can_view_reports %}
+{% perm 'translation.add' object as user_can_add_translation %}
+{% perm 'component.edit' object as user_can_edit_component %}
 
 {% include "show-lock.html" %}
 

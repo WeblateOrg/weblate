@@ -1,7 +1,7 @@
 {% load i18n %}
 {% load permissions %}
 
-{% can_upload_translation user object as user_can_upload_translation %}
+{% perm 'upload.perform' object as user_can_upload_translation %}
 
 <li><a href="{% url 'download_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" title="{% trans "Download for an offline translation." %}">{% blocktrans with object.component.file_format_name as format %}Download original translation file ({{format}}){% endblocktrans %}</a></li>
 <li><a href="{% url 'download_translation_format' project=object.component.project.slug component=object.component.slug lang=object.language.code fmt='xliff'%}" title="{% trans "Download for an offline translation." %}">{% trans "Download translation as XLIFF with gettext extensions" %}</a></li>
