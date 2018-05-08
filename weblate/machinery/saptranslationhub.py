@@ -61,7 +61,9 @@ class SAPTranslationHub(MachineTranslation):
             )
             request.add_header(
                 'Authorization',
-                'Basic ' + base64.b64encode(credentials.encode('utf-8'))
+                'Basic ' + base64.b64encode(
+                    credentials.encode('utf-8')
+                ).decode('utf-8')
             )
 
     def download_languages(self):

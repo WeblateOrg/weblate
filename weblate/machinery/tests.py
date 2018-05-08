@@ -579,6 +579,9 @@ class MachineTranslationTest(TestCase):
         self.assert_translate(machine, empty=True)
 
     @override_settings(MT_SAP_BASE_URL='http://sth.example.com/')
+    @override_settings(MT_SAP_SANDBOX_APIKEY='http://sandbox.example.com')
+    @override_settings(MT_SAP_USERNAME='username')
+    @override_settings(MT_SAP_PASSWORD='password')
     @httpretty.activate
     def test_saptranslationhub(self):
         machine = self.get_machine(SAPTranslationHub)
