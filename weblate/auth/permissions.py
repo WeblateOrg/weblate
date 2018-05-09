@@ -92,23 +92,26 @@ def check_delete_own(user, permission, obj, scope):
 
 
 @cache_perm
-def check_can_edit(user, permission, translation, is_vote=False):
-    if translation.component.locked:
+def check_can_edit(user, permission, obj, is_vote=False):
+    # TODO: move to the top
+    from weblate.trans.models import Translation
+    translation = obj if isinstance(obj, Translation) else None
+    if translation and translation.component.locked:
         return False
     if user.is_authenticated and not user.email:
         return False
-    if not check_permission(user, permission, translation):
+    if not check_permission(user, permission, obj):
         return False
 
     # Special check for source strings (templates)
-    if translation.is_template \
+    if translation and translation.is_template \
             and not check_permission(user, 'unit.template', translation):
         return False
 
     # Special check for voting
-    if is_vote and not translation.component.suggestion_voting:
+    if is_vote and translation and not translation.component.suggestion_voting:
         return False
-    elif not is_vote and translation.component.suggestion_voting \
+    elif not is_vote and translation and translation.component.suggestion_voting \
             and translation.component.suggestion_autoaccept > 0 \
             and not check_permission(user, 'unit.override', translation):
         return False
