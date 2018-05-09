@@ -456,7 +456,7 @@ def auto_assign_group(user):
 @receiver(m2m_changed, sender=ComponentList.components.through)
 def change_componentlist(sender, instance, **kwargs):
     groups = Group.objects.filter(
-        componentlist=instnace,
+        componentlist=instance,
         project_selection=Group.SELECTION_COMPONENT_LIST,
     )
     for group in groups:
@@ -511,7 +511,7 @@ def setup_project_groups(sender, instance, **kwargs):
         Group.objects.filter(
             name__contains='@',
             internal=True,
-            project=instnace
+            project=instance
         ).delete()
         return
 
