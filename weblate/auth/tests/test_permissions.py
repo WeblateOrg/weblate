@@ -35,11 +35,18 @@ class PermissionsTest(TestCase):
         self.admin = User.objects.create_user(
             'admin', 'admin@example.com', 'x'
         )
+        self.superuser = User.objects.create_user(
+            'super', 'super@example.com', 'x',
+            is_superuser=True
+        )
 
         self.project = Project.objects.create(slug='test')
         self.project.add_user(self.admin, '@Administration')
 
     def test_admin_perm(self):
+        self.assertTrue(
+            self.superuser.has_perm('upload.authorship', self.project)
+        )
         self.assertTrue(
             self.admin.has_perm('upload.authorship', self.project)
         )
@@ -48,6 +55,9 @@ class PermissionsTest(TestCase):
         )
 
     def test_user_perm(self):
+        self.assertTrue(
+            self.superuser.has_perm('comment.add', self.project)
+        )
         self.assertTrue(
             self.admin.has_perm('comment.add', self.project)
         )
@@ -58,6 +68,9 @@ class PermissionsTest(TestCase):
     def test_delete_comment(self):
         comment = Comment(project=self.project)
         self.assertTrue(
+            self.superuser.has_perm('comment.delete', comment, self.project)
+        )
+        self.assertTrue(
             self.admin.has_perm('comment.delete', comment, self.project)
         )
         self.assertFalse(
@@ -67,6 +80,9 @@ class PermissionsTest(TestCase):
     def test_delete_owned_comment(self):
         comment = Comment(project=self.project, user=self.user)
         self.assertTrue(
+            self.superuser.has_perm('comment.delete', comment, self.project)
+        )
+        self.assertTrue(
             self.admin.has_perm('comment.delete', comment, self.project)
         )
         self.assertTrue(
@@ -75,6 +91,9 @@ class PermissionsTest(TestCase):
 
     def test_delete_not_owned_comment(self):
         comment = Comment(project=self.project, user=self.admin)
+        self.assertTrue(
+            self.superuser.has_perm('comment.delete', comment, self.project)
+        )
         self.assertTrue(
             self.admin.has_perm('comment.delete', comment, self.project)
         )
