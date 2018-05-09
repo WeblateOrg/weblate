@@ -21,7 +21,9 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 
-from weblate.auth.data import PERMISSIONS, ROLES, GROUPS
+from weblate.auth.data import (
+    PERMISSIONS, ROLES, GROUPS, SELECTION_MANUAL, SELECTION_ALL,
+)
 
 
 def migrate_permissions(model):
@@ -50,18 +52,28 @@ def migrate_roles(model, perm_model):
 
 def migrate_groups(model, role_model, update=False):
     """Create groups as defined in the data."""
-    for group, roles in GROUPS:
+    for group, roles, selection in GROUPS:
+        defaults = {
+            'internal': True,
+            'project_selection': SELECTION_MANUAL,
+            'language_selection': SELECTION_MANUAL,
+        }
+        if selection:
+            defaults['language_selection'] = SELECTION_ALL
+            defaults['project_selection'] = selection
         instance, created = model.objects.get_or_create(
-            name=group
+            name=group,
+            defaults=defaults,
         )
         if created or update:
             instance.roles.set(
                 role_model.objects.filter(name__in=roles),
                 clear=True
             )
-            if not instance.internal:
-                instance.internal = True
-                instance.save(update_fields=['internal'])
+        if update:
+            for key, value in defaults.items():
+                setattr(instance, key, value)
+            instance.save()
 
 
 def create_anonymous(model, group_model, update=True):

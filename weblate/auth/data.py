@@ -25,6 +25,11 @@ from django.utils.translation import ugettext_noop as _
 
 from weblate.utils.translation import pgettext_noop
 
+SELECTION_MANUAL = 0
+SELECTION_ALL = 1
+SELECTION_COMPONENT_LIST = 2
+SELECTION_ALL_PUBLIC = 3
+SELECTION_ALL_PROTECTED = 4
 
 PERMISSIONS = (
     ('billing.view', _('View billing information')),
@@ -159,22 +164,27 @@ GROUPS = (
     (
         pgettext_noop('Access control group', 'Guests'),
         ('Add suggestion',),
+        SELECTION_ALL_PUBLIC,
     ),
     (
         pgettext_noop('Access control group', 'Viewers'),
         (),
+        SELECTION_ALL_PUBLIC,
     ),
     (
         pgettext_noop('Access control group', 'Users'),
         ('Power user',),
+        SELECTION_ALL_PROTECTED,
     ),
     (
         pgettext_noop('Access control group', 'Reviewers'),
         ('Review strings',),
+        SELECTION_MANUAL,
     ),
     (
         pgettext_noop('Access control group', 'Managers'),
         ('Administration',),
+        SELECTION_MANUAL,
     ),
 )
 

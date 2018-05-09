@@ -24,7 +24,9 @@ import re
 from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.db import models
-from django.db.models.signals import post_save, post_migrate, pre_delete
+from django.db.models.signals import (
+    post_save, post_migrate, pre_delete, m2m_changed
+)
 from django.dispatch import receiver
 from django.http import Http404
 from django.utils import timezone
@@ -32,12 +34,17 @@ from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext, ugettext_lazy as _, pgettext
 
-from weblate.auth.data import ACL_GROUPS
+from weblate.auth.data import (
+    ACL_GROUPS, SELECTION_MANUAL, SELECTION_ALL, SELECTION_COMPONENT_LIST,
+    SELECTION_ALL_PUBLIC, SELECTION_ALL_PROTECTED,
+)
 from weblate.auth.permissions import SPECIALS, check_permission
 from weblate.auth.utils import (
     migrate_permissions, migrate_roles, create_anonymous, migrate_groups,
 )
+from weblate.lang.models import Language
 from weblate.trans.fields import RegexField
+from weblate.trans.models.componentlist import ComponentList
 from weblate.trans.models import Project
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.validators import (
@@ -98,6 +105,8 @@ class Group(models.Model):
         choices=(
             (SELECTION_MANUAL, _('As defined')),
             (SELECTION_ALL, _('All projects')),
+            (SELECTION_ALL_PUBLIC, _('All public projects')),
+            (SELECTION_ALL_PROTECTED, _('All protected projects')),
             (SELECTION_COMPONENT_LIST, _('From component list')),
         ),
         default=SELECTION_MANUAL,
@@ -141,6 +150,34 @@ class Group(models.Model):
         if '@' in self.name:
             return pgettext('Per project access control group', self.name.split('@')[1])
         return self.__str__()
+
+    def save(self, *args, **kwargs):
+        super(Group, self).save(*args, **kwargs)
+        if self.language_selection == SELECTION_ALL:
+            self.languages.set(Language.objects.all())
+        if self.project_selection == SELECTION_ALL:
+            self.projects.set(Project.objects.all())
+        elif self.project_selection == SELECTION_ALL_PUBLIC:
+            self.projects.set(
+                Project.objects.filter(access_control=Project.ACCESS_PUBLIC),
+                clear=True
+            )
+        elif self.project_selection == SELECTION_ALL_PROTECTED:
+            self.projects.set(
+                Project.objects.filter(
+                    access_control__in=(
+                        Project.ACCESS_PUBLIC, Project.ACCESS_PROTECTED
+                    )
+                ),
+                clear=True
+            )
+        elif self.project_selection == SELECTION_COMPONENT_LIST:
+            self.projects.set(
+                Projects.objects.filter(
+                    component__componentlist=self.componentlist
+                ),
+                clear=True
+            )
 
 
 class UserManager(BaseUserManager):
@@ -317,7 +354,7 @@ class User(AbstractBaseUser):
         """List of allowed projects."""
         if self.is_superuser:
             return Project.objects.all()
-        return Project.objects.filter(group__user=self)
+        return Project.objects.filter(group__user=self).distinct()
 
     @cached_property
     def owned_projects(self):
@@ -326,7 +363,7 @@ class User(AbstractBaseUser):
         groups = Group.objects.filter(
             user=self, roles__permissions__codename='project.edit'
         )
-        return Project.objects.filter(group__in=groups)
+        return Project.objects.filter(group__in=groups).distinct()
 
     def get_author_name(self, email=True):
         """Return formatted author name with email."""
@@ -343,7 +380,7 @@ class User(AbstractBaseUser):
         # Add email if we are asked for it
         if not email:
             return full_name
-        return '{0} <{1}>'.format(full_name, user.email)
+        return '{0} <{1}>'.format(full_name, self.email)
 
 
 @python_2_unicode_compatible
@@ -416,6 +453,21 @@ def auto_assign_group(user):
             user.groups.add(auto.group)
 
 
+@receiver(m2m_changed, sender=ComponentList.components.through)
+def change_componentlist(sender, instance, **kwargs):
+    groups = Group.objects.filter(
+        componentlist=instnace,
+        project_selection=Group.SELECTION_COMPONENT_LIST,
+    )
+    for group in groups:
+        group.projects.set(
+            Projects.objects.filter(
+                component__componentlist=instance
+            ),
+            clear=True
+        )
+
+
 @receiver(post_save, sender=User)
 @disable_for_loaddata
 def auto_group_upon_save(sender, instance, created=False, **kwargs):
@@ -424,10 +476,31 @@ def auto_group_upon_save(sender, instance, created=False, **kwargs):
         auto_assign_group(instance)
 
 
+@receiver(post_save, sender=Language)
+@disable_for_loaddata
+def setup_language_groups(sender, instance, **kwargs):
+    """Setup Group objects on language save."""
+    auto_languages = Group.objects.filter(
+        language_selection=SELECTION_ALL
+    )
+    for group in auto_languages:
+        group.languages.add(instance)
+
+
 @receiver(post_save, sender=Project)
 @disable_for_loaddata
 def setup_project_groups(sender, instance, **kwargs):
     """Setup Group objects on project save."""
+
+    # Handle group automation to set project visibility
+    auto_projects = Group.objects.filter(
+        project_selection__in=(
+            SELECTION_ALL, SELECTION_ALL_PUBLIC, SELECTION_ALL_PROTECTED,
+        )
+    )
+    for group in auto_projects:
+        group.save()
+
     old_access_control = instance.old_access_control
     instance.old_access_control = instance.access_control
 
@@ -442,26 +515,11 @@ def setup_project_groups(sender, instance, **kwargs):
         ).delete()
         return
 
-    # Get global groups for global project access/visibility
-    viewers_group = Group.objects.get(name='Viewers')
-    users_group = Group.objects.get(name='Users')
-
-    # Set project visibility and choose groups to configure
-    if instance.access_control == Project.ACCESS_PRIVATE:
-        viewers_group.projects.remove(instance)
-        users_group.projects.remove(instance)
-
-        groups = set(ACL_GROUPS.keys())
-    elif instance.access_control == Project.ACCESS_PROTECTED:
-        viewers_group.projects.add(instance)
-        users_group.projects.remove(instance)
-
-        groups = set(ACL_GROUPS.keys())
-    else:
-        viewers_group.projects.add(instance)
-        users_group.projects.add(instance)
-
+    # Choose groups to configure
+    if instance.access_control == Project.ACCESS_PUBLIC:
         groups = set(('Administration', 'Review'))
+    else:
+        groups = set(ACL_GROUPS.keys())
 
     # Remove review group if review is not enabled
     if not instance.enable_review:
