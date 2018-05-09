@@ -110,7 +110,7 @@ class ScreenshotDetail(DetailView):
 
     def get_object(self, *args, **kwargs):
         obj = super(ScreenshotDetail, self).get_object(*args, **kwargs)
-        request.user.check_access(obj.component.project)
+        self.request.user.check_access(obj.component.project)
         return obj
 
     def get_context_data(self, **kwargs):
