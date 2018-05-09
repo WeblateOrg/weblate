@@ -37,10 +37,10 @@ PERMISSIONS = (
     ('comment.add', _('Post coment')),
     ('comment.delete', _('Delete comment')),
 
-    ('dictionary.add', _('Add glossary entry')),
-    ('dictionary.change', _('Edit glossary entry')),
-    ('dictionary.delete', _('Delete glossary entry')),
-    ('dictionary.upload', _('Uploady glossary entries')),
+    ('glossary.add', _('Add glossary entry')),
+    ('glossary.edit', _('Edit glossary entry')),
+    ('glossary.delete', _('Delete glossary entry')),
+    ('glossary.upload', _('Uploady glossary entries')),
 
     ('machinery.view', _('Use machine translation services')),
 
@@ -50,7 +50,7 @@ PERMISSIONS = (
     ('reports.view', _('Download reports')),
 
     ('screenshot.add', _('Add screenshot')),
-    ('screenshot.change', _('Edit screenshot')),
+    ('screenshot.edit', _('Edit screenshot')),
     ('screenshot.delete', _('Delete screenshot')),
 
     ('source.edit', _('Edit source strings information')),
@@ -113,7 +113,7 @@ ROLES = (
             'translation.add',
             'unit.template',
             'vcs.access', 'vcs.view',
-        } | filter_perms('dictionary.')
+        } | filter_perms('glossary.')
     ),
     (
         pgettext_noop('Access control role', 'Translate'),
@@ -129,7 +129,7 @@ ROLES = (
     ),
     (
         pgettext_noop('Access control role', 'Manage glossary'),
-        filter_perms('dictionary.')
+        filter_perms('glossary.')
     ),
     (
         pgettext_noop('Access control role', 'Manage screenshots'),
