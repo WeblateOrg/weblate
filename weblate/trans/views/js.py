@@ -123,7 +123,7 @@ def ignore_check(request, check_id):
     obj = get_object_or_404(Check, pk=int(check_id))
     request.user.check_access(obj.project)
 
-    if not request.user('unit.check', obj.project):
+    if not request.user.has_perm('unit.check', obj.project):
         raise PermissionDenied()
 
     # Mark check for ignoring

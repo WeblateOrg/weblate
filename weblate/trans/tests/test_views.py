@@ -34,7 +34,7 @@ from django.core.management import call_command
 from django.core import mail
 from django.core.cache import cache
 
-from weblate.auth.models import Group, Permission, setup_project_groups
+from weblate.auth.models import Group, Role, Permission, setup_project_groups
 from weblate.lang.models import Language
 from weblate.trans.management.commands.update_index import (
     Command as UpdateIndexCommand
@@ -248,6 +248,10 @@ class FixtureTestCase(ViewTestCase):
                 verbosity=0,
                 database=db_name
             )
+        # Apply group project/language automation
+        for group in Group.objects.all():
+            group.save()
+
         super(FixtureTestCase, cls).setUpTestData()
 
     def clone_test_repos(self):
@@ -320,8 +324,8 @@ class NewLangTest(ViewTestCase):
 
     def test_no_permission(self):
         # Remove permission to add translations
-        Group.objects.get(name='Users').permissions.remove(
-            Permission.objects.get(codename='add_translation')
+        Role.objects.get(name='Power user').permissions.remove(
+            Permission.objects.get(codename='translation.add')
         )
 
         # Test there is no add form

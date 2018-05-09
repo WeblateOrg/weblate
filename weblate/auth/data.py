@@ -117,6 +117,7 @@ ROLES = (
         pgettext_noop('Access control role', 'Power user'),
         TRANSLATE_PERMS | {
             'translation.add',
+            'machinery.view',
             'unit.template',
             'vcs.access', 'vcs.view',
         } | filter_perms('glossary.')

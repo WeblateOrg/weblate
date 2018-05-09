@@ -145,7 +145,7 @@ class Group(models.Model):
     )
 
     def __str__(self):
-        return pgettext_noop('Access control group', self.name)
+        return pgettext('Access control group', self.name)
 
     @cached_property
     def short_name(self):
@@ -522,7 +522,7 @@ def setup_project_groups(sender, instance, **kwargs):
         Group.objects.filter(
             name__contains='@',
             internal=True,
-            project=instance
+            projects=instance
         ).delete()
         return
 
@@ -553,6 +553,8 @@ def setup_project_groups(sender, instance, **kwargs):
             group = Group.objects.create(
                 internal=True,
                 name=name,
+                project_selection=SELECTION_MANUAL,
+                language_selection=SELECTION_ALL,
             )
             group.projects.add(instance)
             group.roles.set(
