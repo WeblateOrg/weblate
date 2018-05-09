@@ -12,6 +12,11 @@ class Migration(migrations.Migration):
     dependencies = [
         ('lang', '0011_auto_20180215_1158'),
         ('trans', '0130_auto_20180416_1503'),
+        ('addons', '0005_unwrapped_po'),
+        ('gitexport', '0001_initial'),
+        ('permissions', '0001_initial'),
+        ('screenshots', '0001_initial'),
+
     ]
 
     operations = [
