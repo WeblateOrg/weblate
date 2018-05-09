@@ -24,7 +24,7 @@ import re
 from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.db import models
-from django.db.models.signals import post_save, post_migrate
+from django.db.models.signals import post_save, post_migrate, pre_delete
 from django.dispatch import receiver
 from django.http import Http404
 from django.utils import timezone
@@ -32,6 +32,7 @@ from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext, ugettext_lazy as _, pgettext
 
+from weblate.auth.data import ACL_GROUPS
 from weblate.auth.permissions import SPECIALS, check_permission
 from weblate.auth.utils import (
     migrate_permissions, migrate_roles, create_anonymous, migrate_groups,
@@ -379,6 +380,9 @@ def create_groups(update):
     group = Group.objects.get(name='Users')
     if not AutoGroup.objects.filter(group=group).exists():
         AutoGroup.objects.create(group=group, match='^.*$')
+    group = Group.objects.get(name='Viewers')
+    if not AutoGroup.objects.filter(group=group).exists():
+        AutoGroup.objects.create(group=group, match='^.*$')
 
 
 def move_users():
@@ -412,3 +416,88 @@ def auto_group_upon_save(sender, instance, created=False, **kwargs):
     """Automatically add user to Users group."""
     if created:
         auto_assign_group(instance)
+
+
+@receiver(post_save, sender=Project)
+@disable_for_loaddata
+def setup_project_groups(sender, instance, **kwargs):
+    """Setup Group objects on project save."""
+    old_access_control = instance.old_access_control
+    instance.old_access_control = instance.access_control
+
+    if instance.access_control == Project.ACCESS_CUSTOM:
+        if old_access_control == Project.ACCESS_CUSTOM:
+            return
+        # Do cleanup of previous setup
+        Group.objects.filter(
+            name__contains='@',
+            internal=True,
+            project=instnace
+        ).delete()
+        return
+
+    # Get global groups for global project access/visibility
+    viewers_group = Group.objects.get(name='Viewers')
+    users_group = Group.objects.get(name='Users')
+
+    # Set project visibility and choose groups to configure
+    if instance.access_control == Project.ACCESS_PRIVATE:
+        viewers_group.projects.remove(instance)
+        users_group.projects.remove(instance)
+
+        groups = set(ACL_GROUPS.keys())
+    elif instance.access_control == Project.ACCESS_PROTECTED:
+        viewers_group.projects.add(instance)
+        users_group.projects.remove(instance)
+
+        groups = set(ACL_GROUPS.keys())
+    else:
+        viewers_group.projects.add(instance)
+        users_group.projects.add(instance)
+
+        groups = set(('Administration', 'Review'))
+
+    # Remove review group if review is not enabled
+    if not instance.enable_review:
+        groups.remove('Review')
+
+    # Create role specific groups
+    handled = set()
+    for group_name in groups:
+        name = '{0}@{1}'.format(instance.name, group_name)
+        try:
+            group = instance.group_set.get(
+                internal=True, name__endswith='@{}'.format(group_name)
+            )
+            # Update exiting group (to hanle rename)
+            if group.name != name:
+                group.name = name
+                group.save()
+        except Group.DoesNotExist:
+            # Create new group
+            group = Group.objects.create(
+                internal=True,
+                name=name,
+            )
+            group.projects.add(instance)
+            group.roles.set(
+                Role.objects.filter(name=ACL_GROUPS[group_name]),
+                clear=True
+            )
+        handled.add(group.pk)
+
+    # Remove stale groups
+    instance.group_set.filter(
+        name__contains='@',
+        internal=True,
+    ).exclude(
+        pk__in=handled
+    ).delete()
+
+
+@receiver(pre_delete, sender=Project)
+def cleanup_group_acl(sender, instance, **kwargs):
+    instance.group_set.filter(
+        name__contains='@',
+        internal=True,
+    ).delete()

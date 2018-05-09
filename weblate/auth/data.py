@@ -161,6 +161,10 @@ GROUPS = (
         ('Add suggestion',),
     ),
     (
+        pgettext_noop('Access control group', 'Viewers'),
+        (),
+    ),
+    (
         pgettext_noop('Access control group', 'Users'),
         ('Power user',),
     ),
@@ -174,7 +178,7 @@ GROUPS = (
     ),
 )
 
-# Mapping of old default GroupACL groups to roles
+# Per project group definitions
 ACL_GROUPS = {
     'Translate': 'Translate',
     'Template': 'Edit source',
@@ -184,4 +188,5 @@ ACL_GROUPS = {
     'Review': 'Review strings',
     'VCS': 'Manage repository',
     'Administration': 'Administration',
+    'Billing': 'Billing',
 }

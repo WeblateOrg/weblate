@@ -20,8 +20,8 @@
 
 from django.core.management.base import BaseCommand
 
-from weblate.auth.models import create_groups, move_users
-from weblate.trans.models import Project, setup_group_acl
+from weblate.auth.models import create_groups, move_users, setup_project_groups
+from weblate.trans.models import Project
 
 
 class Command(BaseCommand):
@@ -59,4 +59,4 @@ class Command(BaseCommand):
             move_users()
         if options['projects']:
             for project in Project.objects.iterator():
-                setup_group_acl(Project, project)
+                setup_project_groups(Project, project)
