@@ -5,16 +5,6 @@ from __future__ import unicode_literals
 from django.db import migrations
 
 
-def add_users_autogroup(apps, schema_editor):
-    """Ensure there is AutoGroup for Users group matching all"""
-    Group = apps.get_model('auth', 'Group')
-    AutoGroup = apps.get_model('accounts', 'AutoGroup')
-
-    group = Group.objects.get_or_create(name='Users')[0]
-    if not AutoGroup.objects.filter(group=group).exists():
-        AutoGroup.objects.create(group=group, match='^.*$')
-
-
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -22,5 +12,4 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(add_users_autogroup)
     ]

@@ -375,6 +375,11 @@ def create_groups(update):
     # Create anonymous user
     create_anonymous(User, Group, update)
 
+    # Automatic assignment to the users group
+    group = Group.objects.get(name='Users')
+    if not AutoGroup.objects.filter(group=group).exists():
+        AutoGroup.objects.create(group=group, match='^.*$')
+
 
 def move_users():
     """Move users to default group."""

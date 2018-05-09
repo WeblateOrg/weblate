@@ -189,6 +189,13 @@ email. This automatic assignment happens only at the time of account creation.
 This can be configured in the Django admin interface (in the
 :guilabel:`Accounts` section).
 
+.. note::
+
+    The automatic group assignment for the :guilabel:`Users` group will be
+    always created by Weblate on migrations, in case you want to disable it,
+    simply set the regular expression to something what will never match, eg.
+    empty string ``^$``.
+
 .. _groupacl:
 
 Group-based access control
