@@ -26,7 +26,6 @@ from django.db.models import Count
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext as _
 
-from weblate.accounts.notifications import notify_new_suggestion
 from weblate.lang.models import Language
 from weblate.trans.models.change import Change
 from weblate.utils.unitdata import UnitData
@@ -81,6 +80,7 @@ class SuggestionManager(models.Manager):
             )
 
         # Notify subscribed users
+        from weblate.accounts.notifications import notify_new_suggestion
         notify_new_suggestion(unit, suggestion, user)
 
         # Update suggestion stats

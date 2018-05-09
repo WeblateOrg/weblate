@@ -42,9 +42,6 @@ from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.models.change import Change
 from weblate.trans.search import update_index_unit, fulltext_search, more_like
 from weblate.trans.signals import unit_pre_create
-from weblate.accounts.notifications import (
-    notify_new_contributor, notify_new_translation
-)
 from weblate.trans.mixins import LoggerMixin
 from weblate.trans.util import (
     is_plural, split_plural, join_plural, get_distinct_translations,
@@ -654,6 +651,7 @@ class Unit(models.Model, LoggerMixin):
             user.profile.save()
 
         # Notify subscribed users about new translation
+        from weblate.accounts.notifications import notify_new_translation
         notify_new_translation(self, self.old_unit, user)
 
         # Generate Change object for this change
@@ -741,6 +739,7 @@ class Unit(models.Model, LoggerMixin):
             user=request.user
         )
         if not user_changes.exists():
+            from weblate.accounts.notifications import notify_new_contributor
             notify_new_contributor(self, request.user)
 
         # Action type to store

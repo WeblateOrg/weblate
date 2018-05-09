@@ -23,6 +23,7 @@ from django.conf import settings
 from django.db.models import Q
 
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
+from weblate.trans.models import Project, Component, Translation, Unit
 
 
 SPECIALS = {}
@@ -59,8 +60,6 @@ def cache_perm(func):
 def check_permission(user, permission, obj):
     """Generic permission check for base classes"""
     query = user.groups.filter(roles__permissions__codename=permission)
-    # TODO: move to the top
-    from weblate.trans.models import Project, Component, Translation
     if isinstance(obj, Project):
         return query.filter(
             projects=obj,
@@ -95,8 +94,6 @@ def check_delete_own(user, permission, obj, scope):
 
 @cache_perm
 def check_can_edit(user, permission, obj, is_vote=False):
-    # TODO: move to the top
-    from weblate.trans.models import Translation
     translation = obj if isinstance(obj, Translation) else None
     if translation and translation.component.locked:
         return False
@@ -138,8 +135,6 @@ def check_unit_review(user, permission, obj):
 @register_perm('unit.edit', 'suggestion.accept')
 @cache_perm
 def check_edit_approved(user, permission, obj):
-    # TODO: move to the top
-    from weblate.trans.models import Unit
     if isinstance(obj, Unit):
         unit = obj
         obj = unit.translation
@@ -160,8 +155,6 @@ def check_only_template(user, permission, obj):
 @register_perm('suggestion.vote')
 @cache_perm
 def check_suggestion_vote(user, permission, obj):
-    # TODO: move to the top
-    from weblate.trans.models import Unit
     if isinstance(obj, Unit):
         obj = obj.translation
     return check_can_edit(user, permission, obj, True)
