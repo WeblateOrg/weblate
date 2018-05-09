@@ -214,9 +214,8 @@ def home(request):
     if user.is_authenticated:
         # Ensure ACL filtering applies (user could have been removed
         # from the project meanwhile)
-        subscribed_projects = (
-            user.profile.subscriptions.all()
-            & user.allowed_projects
+        subscribed_projects = user.allowed_projects.filter(
+            profile=user.profile
         )
 
         usersubscriptions = user_translations.filter(
