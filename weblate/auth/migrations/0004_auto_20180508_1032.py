@@ -87,7 +87,7 @@ def migrate_table(schema_editor, old_cols, new_cols, from_table_name, to_table_n
     if to_model:
         reset_seq = schema_editor.connection.ops.sequence_reset_sql(
             no_style(),
-            to_model,
+            [to_model],
         )
         for sql in reset_seq:
             schema_editor.execute(sql)
