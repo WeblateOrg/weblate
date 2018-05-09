@@ -196,12 +196,9 @@ class Project(models.Model, URLMixin, PathMixin):
 
     def all_groups(self):
         """Return list of applicable groups for project."""
-        return [
-            (g.pk, pgettext('Permissions group', g.name.split('@')[1]))
-            for g in self.group_set.filter(
-                internal=True, name__contains='@'
-            ).order_by('name')
-        ]
+        return self.group_set.filter(
+            internal=True, name__contains='@'
+        ).order_by('name')
 
     def add_user(self, user, group=None):
         """Add user based on username of email."""

@@ -180,13 +180,13 @@ GROUPS = (
 
 # Per project group definitions
 ACL_GROUPS = {
-    'Translate': 'Translate',
-    'Template': 'Edit source',
-    'Languages': 'Manage languages',
-    'Glossary': 'Manage glossary',
-    'Screenshots': 'Manage screenshots',
-    'Review': 'Review strings',
-    'VCS': 'Manage repository',
-    'Administration': 'Administration',
-    'Billing': 'Billing',
+    pgettext_noop('Per project access control group', 'Translate'): 'Translate',
+    pgettext_noop('Per project access control group', 'Template'): 'Edit source',
+    pgettext_noop('Per project access control group', 'Languages'): 'Manage languages',
+    pgettext_noop('Per project access control group', 'Glossary'): 'Manage glossary',
+    pgettext_noop('Per project access control group', 'Screenshots'): 'Manage screenshots',
+    pgettext_noop('Per project access control group', 'Review'): 'Review strings',
+    pgettext_noop('Per project access control group', 'VCS'): 'Manage repository',
+    pgettext_noop('Per project access control group', 'Administration'): 'Administration',
+    pgettext_noop('Per project access control group', 'Billing'): 'Billing',
 }

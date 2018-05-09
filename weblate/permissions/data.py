@@ -190,11 +190,11 @@ PUBLIC_PERMS = ADMIN_ONLY_PERMS - {'review_translation'}
 
 def translate_groups():
     """Dummy method to allow extraction of group names translation."""
-    pgettext('Permissions group', 'Administration')
-    pgettext('Permissions group', 'Template')
-    pgettext('Permissions group', 'Languages')
-    pgettext('Permissions group', 'Glossary')
-    pgettext('Permissions group', 'Screenshots')
-    pgettext('Permissions group', 'Translate')
-    pgettext('Permissions group', 'VCS')
-    pgettext('Permissions group', 'Review')
+    pgettext('Per project access control group', 'Administration')
+    pgettext('Per project access control group', 'Template')
+    pgettext('Per project access control group', 'Languages')
+    pgettext('Per project access control group', 'Glossary')
+    pgettext('Per project access control group', 'Screenshots')
+    pgettext('Per project access control group', 'Translate')
+    pgettext('Per project access control group', 'VCS')
+    pgettext('Per project access control group', 'Review')
