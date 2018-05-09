@@ -162,17 +162,7 @@ class Project(models.Model, URLMixin, PathMixin):
                 group = '@Administration'
         group = self.group_set.get(name='{0}{1}'.format(self.name, group))
         user.groups.add(group)
-        self.add_subscription(user)
-
-    def add_subscription(self, user):
-        """Add user subscription to current project"""
-        from weblate.accounts.models import Profile
-        try:
-            profile = user.profile
-        except Profile.DoesNotExist:
-            profile = Profile.objects.create(user=user)
-
-        profile.subscriptions.add(self)
+        user.profile.subscriptions.add(self)
 
     def remove_user(self, user, group=None):
         """Add user based on username of email."""
