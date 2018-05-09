@@ -37,54 +37,7 @@ def try_get_user(username, list_all=False):
 
 
 class WeblateUserBackend(ModelBackend):
-    """Weblate authentication backend.
-
-    It allows to control anonymous user permissions and to login using email.
-    """
-    def get_all_permissions(self, user_obj, obj=None):
-        if ((not user_obj.is_active and not user_obj.is_anonymous)
-                or obj is not None):
-            return set()
-        # pylint: disable=protected-access
-        if not hasattr(user_obj, '_perm_cache'):
-            user_obj._perm_cache = self.get_user_permissions(user_obj)
-            user_obj._perm_cache.update(self.get_group_permissions(user_obj))
-        return user_obj._perm_cache
-
-    def _get_permissions(self, user_obj, obj, from_name):
-        """Return the permissions of `user_obj` from `from_name`.
-
-        `from_name` can be either "group" or "user" to return permissions from
-        `_get_group_permissions` or `_get_user_permissions` respectively.
-        """
-        if not user_obj.is_active and not user_obj.is_anonymous:
-            return set()
-
-        perm_cache_name = '_{0}_perm_cache'.format(from_name)
-        if not hasattr(user_obj, perm_cache_name):
-            if user_obj.is_superuser:
-                perms = Permission.objects.all()
-            else:
-                perms = getattr(
-                    self, '_get_{0}_permissions'.format(from_name)
-                )(user_obj)
-            perms = perms.values_list(
-                'content_type__app_label', 'codename'
-            ).order_by()
-            setattr(
-                user_obj,
-                perm_cache_name,
-                set("{0}.{1}".format(ct, name) for ct, name in perms)
-            )
-        return getattr(user_obj, perm_cache_name)
-
-    def _get_group_permissions(self, user_obj):
-        """Wrapper around _get_group_permissions to exclude groupacl
-
-        We don't want these to be applied directly, they should work
-        only using group matching rules."""
-        user_groups = user_obj.groups.filter(groupacl=None)
-        return Permission.objects.filter(group__in=user_groups)
+    """Weblate authentication backend."""
 
     def authenticate(self, request, username=None, password=None, **kwargs):
         """Prohibit login for anonymous user and allows to login by email."""
@@ -98,12 +51,6 @@ class WeblateUserBackend(ModelBackend):
         except (User.DoesNotExist, User.MultipleObjectsReturned):
             pass
         return None
-
-    def has_perm(self, user_obj, perm, obj=None):
-        """Allow checking permissions for anonymous user as well."""
-        if not user_obj.is_active and not user_obj.is_anonymous:
-            return False
-        return perm in self.get_all_permissions(user_obj, obj)
 
 
 @receiver(pre_save, sender=User)
