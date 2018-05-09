@@ -42,7 +42,6 @@ from weblate.accounts.captcha import MathCaptcha
 from weblate.accounts.notifications import notify_account_activity
 from weblate.accounts.ratelimit import reset_rate_limit, check_rate_limit
 from weblate.lang.models import Language
-from weblate.trans.models import Project
 from weblate.trans.util import sort_choices
 from weblate.utils import messages
 from weblate.utils.validators import (
@@ -206,7 +205,7 @@ class SubscriptionForm(forms.ModelForm):
         super(SubscriptionForm, self).__init__(*args, **kwargs)
         user = kwargs['instance'].user
         self.fields['subscriptions'].required = False
-        self.fields['subscriptions'].queryset = Project.objects.all_acl(user)
+        self.fields['subscriptions'].queryset = user.allowed_projects
 
 
 class SubscriptionSettingsForm(forms.ModelForm):

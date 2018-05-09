@@ -14,7 +14,7 @@
 </p>
 
 <ul>
-{% for project in acl_projects %}
+{% for project in user.allowed_projects %}
 <li><a href="{% url 'widgets' project=project.slug %}">{{ project.name }}</a></li>
 {% endfor %}
 </ul>

@@ -16,11 +16,11 @@
 
 </p>
 
-{% if acl_projects %}
+{% if user.allowed_projects %}
 <p>{% trans "However, the following translation projects are available on this server:" %}</p>
 
 <ul>
-{% for p in acl_projects %}
+{% for p in user.allowed_projects %}
     <li><a href="{{ p.get_absolute_url }}">{{ p }}</a></li>
 {% endfor %}
 </ul>

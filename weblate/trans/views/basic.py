@@ -121,13 +121,13 @@ def guess_user_language(request, translations):
         return Language.objects.all()[0]
 
 
-def get_user_translations(request, user, project_ids):
+def get_user_translations(request, user):
     """Get list of translations in user languages
 
     Works also for anonymous users based on current UI language.
     """
     result = Translation.objects.prefetch().filter(
-        component__project_id__in=project_ids
+        component__project__in=user.allowed_projects
     ).order_by(
         'component__priority',
         'component__project__name',
@@ -178,9 +178,7 @@ def home(request):
 
     user = request.user
 
-    project_ids = Project.objects.get_acl_ids(user)
-
-    user_translations = get_user_translations(request, user, project_ids)
+    user_translations = get_user_translations(request, user)
 
     suggestions = get_suggestions(request, user, user_translations)
 
@@ -216,8 +214,9 @@ def home(request):
     if user.is_authenticated:
         # Ensure ACL filtering applies (user could have been removed
         # from the project meanwhile)
-        subscribed_projects = user.profile.subscriptions.filter(
-            id__in=project_ids
+        subscribed_projects = (
+            user.profile.subscriptions.all()
+            & user.allowed_projects
         )
 
         usersubscriptions = user_translations.filter(
@@ -258,7 +257,7 @@ def list_projects(request):
         'projects.html',
         {
             'allow_index': True,
-            'projects': prefetch_stats(Project.objects.all_acl(request.user)),
+            'projects': prefetch_stats(request.user.allowed_projects),
             'title': _('Projects'),
         }
     )

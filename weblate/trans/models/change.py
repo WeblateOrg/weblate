@@ -29,7 +29,6 @@ from django.utils.translation import ugettext as _, ugettext_lazy
 import six.moves
 
 from weblate.trans.mixins import UserDisplayMixin
-from weblate.trans.models.project import Project
 
 
 class ChangeQuerySet(models.QuerySet):
@@ -133,10 +132,9 @@ class ChangeQuerySet(models.QuerySet):
         """Prefilter Changes by ACL for users and fetches related fields
         for last changes display.
         """
-        acl_projects = Project.objects.get_acl_ids(user)
         return self.prefetch().filter(
-            Q(component__project_id__in=acl_projects) |
-            Q(dictionary__project_id__in=acl_projects)
+            Q(component__project__in=user.allowed_projects) |
+            Q(dictionary__project__in=user.allowed_projects)
         )
 
     def authors_list(self, translation, date_range=None):

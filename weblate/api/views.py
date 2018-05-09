@@ -254,7 +254,7 @@ class ProjectViewSet(WeblateViewSet):
     lookup_field = 'slug'
 
     def get_queryset(self):
-        return Project.objects.all_acl(self.request.user).prefetch_related(
+        return self.request.user.allowed_projects.prefetch_related(
             'source_language'
         )
 
@@ -305,7 +305,7 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
 
     def get_queryset(self):
         return Component.objects.prefetch().filter(
-            project_id__in=Project.objects.get_acl_ids(self.request.user)
+            project__in=self.request.user.allowed_projects
         ).prefetch_related(
             'project__source_language'
         )
@@ -415,9 +415,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
 
     def get_queryset(self):
         return Translation.objects.prefetch().filter(
-            component__project_id__in=Project.objects.get_acl_ids(
-                self.request.user
-            )
+            component__project__in=self.request.user.allowed_projects
         ).prefetch_related(
             'component__project__source_language',
         )
@@ -529,9 +527,8 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = UnitSerializer
 
     def get_queryset(self):
-        acl_projects = Project.objects.get_acl_ids(self.request.user)
         return Unit.objects.filter(
-            translation__component__project__in=acl_projects
+            translation__component__project__in=self.request.user.allowed_projects
         )
 
 
@@ -542,9 +539,8 @@ class SourceViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = SourceSerializer
 
     def get_queryset(self):
-        acl_projects = Project.objects.get_acl_ids(self.request.user)
         return Source.objects.filter(
-            component__project__in=acl_projects
+            component__project__in=self.request.user.allowed_projects
         )
 
 
@@ -558,9 +554,8 @@ class ScreenshotViewSet(DownloadViewSet):
     )
 
     def get_queryset(self):
-        acl_projects = Project.objects.get_acl_ids(self.request.user)
         return Screenshot.objects.filter(
-            component__project__in=acl_projects
+            component__project__in=self.request.user.allowed_projects
         )
 
     @action(

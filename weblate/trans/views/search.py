@@ -33,7 +33,7 @@ from weblate.lang.models import Language
 from weblate.trans.forms import (
     SiteSearchForm, ReplaceForm, ReplaceConfirmForm, MassStateForm,
 )
-from weblate.trans.models import Unit, Change, Project
+from weblate.trans.models import Unit, Change
 from weblate.trans.views.helper import (
     get_translation, get_component, get_project, import_message,
 )
@@ -167,9 +167,8 @@ def search(request, project=None, component=None, lang=None):
         elif project:
             units = Unit.objects.filter(translation__component__project=obj)
         else:
-            projects = Project.objects.get_acl_ids(request.user)
             units = Unit.objects.filter(
-                translation__component__project_id__in=projects
+                translation__component__project__in=request.user.allowed_projects
             )
         units = units.search(
             search_form.cleaned_data,

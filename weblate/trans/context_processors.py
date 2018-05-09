@@ -30,7 +30,6 @@ import weblate
 import weblate.screenshots.views
 from weblate.accounts.models import DEMO_ACCOUNTS
 from weblate.utils.site import get_site_url
-from weblate.trans.models.project import Project
 from weblate.wladmin.models import ConfigurationError
 
 URL_BASE = 'https://weblate.org/?utm_source=weblate&utm_term=%s'
@@ -43,8 +42,6 @@ def weblate_context(request):
         login_redirect_url = request.GET['next']
     else:
         login_redirect_url = request.get_full_path()
-
-    projects = Project.objects.all_acl(request.user)
 
     # Load user translations if user is authenticated
     subscribed_projects = None
@@ -112,7 +109,6 @@ def weblate_context(request):
         'has_ocr': weblate.screenshots.views.HAS_OCR,
 
         'registration_open': settings.REGISTRATION_OPEN,
-        'acl_projects': projects,
         'subscribed_projects': subscribed_projects,
 
         'rollbar_token': rollbar_token,

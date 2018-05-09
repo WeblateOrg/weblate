@@ -59,7 +59,7 @@ def show_language(request, lang):
     last_changes = Change.objects.last_changes(request.user).filter(
         translation__language=obj
     )[:10]
-    projects = Project.objects.all_acl(request.user)
+    projects = request.user.allowed_projects
     dicts = projects.filter(
         dictionary__language=obj
     ).distinct()

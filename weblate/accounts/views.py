@@ -287,7 +287,7 @@ def user_profile(request):
         if x == 'email' or x not in social_names
     ]
     license_projects = Component.objects.filter(
-        project__in=Project.objects.all_acl(request.user)
+        project__in=request.user.allowed_projects
     ).exclude(
         license=''
     )
@@ -844,7 +844,7 @@ class SuggestionView(ListView):
             user = get_object_or_404(User, username=self.kwargs['user'])
         return Suggestion.objects.filter(
             user=user,
-            project__in=Project.objects.all_acl(self.request.user)
+            project__in=self.request.user.allowed_projects
         )
 
     def get_context_data(self):
