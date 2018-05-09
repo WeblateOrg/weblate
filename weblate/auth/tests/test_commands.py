@@ -101,4 +101,3 @@ class CommandTest(TestCase, TempDirMixin):
         self.assertTrue(
             group.roles.filter(name='Power user').exists()
         )
-        call_command('setupgroups', move=True)

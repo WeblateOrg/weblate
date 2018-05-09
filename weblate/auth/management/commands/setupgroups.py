@@ -20,7 +20,7 @@
 
 from django.core.management.base import BaseCommand
 
-from weblate.auth.models import create_groups, move_users, setup_project_groups
+from weblate.auth.models import create_groups, setup_project_groups
 from weblate.trans.models import Project
 
 
@@ -28,13 +28,6 @@ class Command(BaseCommand):
     help = 'setups default user groups'
 
     def add_arguments(self, parser):
-        parser.add_argument(
-            '--move',
-            action='store_true',
-            dest='move',
-            default=False,
-            help='Move all users to Users group'
-        )
         parser.add_argument(
             '--no-privs-update',
             action='store_false',
@@ -55,8 +48,6 @@ class Command(BaseCommand):
         users around to default group.
         """
         create_groups(options['update'])
-        if options['move']:
-            move_users()
         if options['projects']:
             for project in Project.objects.iterator():
                 setup_project_groups(Project, project)

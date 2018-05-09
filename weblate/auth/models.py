@@ -447,14 +447,6 @@ def create_groups(update):
         AutoGroup.objects.create(group=group, match='^.*$')
 
 
-def move_users():
-    """Move users to default group."""
-    group = Group.objects.get(name='Users')
-
-    for user in User.objects.all():
-        user.groups.add(group)
-
-
 @receiver(post_migrate)
 def sync_create_groups(sender, intermediate=False, **kwargs):
     """Create groups on syncdb."""
