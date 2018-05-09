@@ -179,12 +179,12 @@ GROUPS = (
     (
         pgettext_noop('Access control group', 'Reviewers'),
         ('Review strings',),
-        SELECTION_MANUAL,
+        SELECTION_ALL,
     ),
     (
         pgettext_noop('Access control group', 'Managers'),
         ('Administration',),
-        SELECTION_MANUAL,
+        SELECTION_ALL,
     ),
 )
 

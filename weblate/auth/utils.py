@@ -21,9 +21,7 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 
-from weblate.auth.data import (
-    PERMISSIONS, ROLES, GROUPS, SELECTION_MANUAL, SELECTION_ALL,
-)
+from weblate.auth.data import PERMISSIONS, ROLES, GROUPS, SELECTION_ALL
 
 
 def migrate_permissions(model):
@@ -55,12 +53,9 @@ def migrate_groups(model, role_model, update=False):
     for group, roles, selection in GROUPS:
         defaults = {
             'internal': True,
-            'project_selection': SELECTION_MANUAL,
-            'language_selection': SELECTION_MANUAL,
+            'project_selection': selection,
+            'language_selection': SELECTION_ALL,
         }
-        if selection:
-            defaults['language_selection'] = SELECTION_ALL
-            defaults['project_selection'] = selection
         instance, created = model.objects.get_or_create(
             name=group,
             defaults=defaults,

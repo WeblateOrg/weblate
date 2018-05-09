@@ -603,7 +603,7 @@ class Unit(models.Model, LoggerMixin):
         locked for update.
         """
         # For case when authorship specified, use user from request
-        if user is None or user.is_anonymous:
+        if user is None or (user.is_anonymous and request):
             user = request.user
 
         # Commit possible previous changes on this unit
