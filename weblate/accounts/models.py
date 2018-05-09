@@ -110,13 +110,6 @@ NOTIFY_ACTIVITY = frozenset((
 ))
 
 
-def get_anonymous():
-    """Return anonymous user"""
-    return User.objects.get(
-        username=settings.ANONYMOUS_USER_NAME,
-    )
-
-
 class AuditLogManager(models.Manager):
     def create(self, user, activity, address, user_agent, **params):
         return super(AuditLogManager, self).create(

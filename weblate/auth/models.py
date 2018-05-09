@@ -213,8 +213,10 @@ class UserManager(BaseUserManager):
 
         return self._create_user(username, email, password, **extra_fields)
 
-    def get_anonymous(self):
-        return self.get(username=settings.ANONYMOUS_USER_NAME)
+
+def get_anonymous():
+    """Return an anonymous user"""
+    return User.objects.get(username=settings.ANONYMOUS_USER_NAME)
 
 
 @python_2_unicode_compatible

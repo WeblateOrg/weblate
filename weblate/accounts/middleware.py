@@ -26,7 +26,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser
 from django.utils.functional import SimpleLazyObject
 
-from weblate.accounts.models import get_anonymous
+from weblate.auth.models import get_anonymous
 
 
 def get_user(request):
