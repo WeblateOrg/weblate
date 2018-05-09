@@ -307,10 +307,7 @@ def user_profile(request):
             'licenses': license_projects,
             'associated': social,
             'new_backends': new_backends,
-            'managed_projects': Project.objects.filter(
-                groupacl__groups__name__endswith='@Administration',
-                groupacl__groups__user=request.user,
-            ).distinct(),
+            'managed_projects': request.user.owned_projects,
             'auditlog': request.user.auditlog_set.all()[:20],
         }
     )

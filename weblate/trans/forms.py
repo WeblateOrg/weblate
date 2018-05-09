@@ -927,7 +927,7 @@ class AutoForm(forms.Form):
 
         # Add components from other owned projects
         owned_components = Component.objects.filter(
-            project__groupacl__groups__name__endswith='@Administration'
+            project__in=user.owned_projects,
         ).exclude(
             project=obj.component.project
         ).distinct()
