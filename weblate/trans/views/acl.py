@@ -64,8 +64,9 @@ def set_groups(request, project):
     obj, form = check_user_form(request, project)
 
     try:
-        group = Group.objects.get(
-            groupacl__project=obj,
+        group = project.group_set.get(
+            name__contains='@',
+            internal=True,
             pk=int(request.POST.get('group', '')),
         )
     except (Group.DoesNotExist, ValueError):

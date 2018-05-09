@@ -40,8 +40,7 @@ class ACLTest(FixtureTestCase):
             'noreply@example.org',
             'testpassword'
         )
-        self.admin_group = Group.objects.get(
-            groupacl__project=self.project,
+        self.admin_group = self.project.group_set.get(
             name__endswith='@Administration'
         )
 
