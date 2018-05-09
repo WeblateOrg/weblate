@@ -22,7 +22,6 @@ from __future__ import unicode_literals
 
 from datetime import timedelta
 
-from django.conf import settings
 from django.db import models
 from django.db.models import Q
 from django.core.exceptions import ValidationError
@@ -66,9 +65,6 @@ class Billing(models.Model):
         Plan,
         on_delete=models.deletion.CASCADE
     )
-    user = models.OneToOneField(
-        settings.AUTH_USER_MODEL, on_delete=models.deletion.CASCADE
-    )
     projects = models.ManyToManyField(Project, blank=True)
     state = models.IntegerField(
         choices=(
@@ -80,9 +76,9 @@ class Billing(models.Model):
     )
 
     def __str__(self):
-        return '{0}: {1} ({2})'.format(
+        return '{0} ({1})'.format(
             ', '.join([str(x) for x in self.projects.all()]),
-            self.user, self.plan
+            self.plan
         )
 
     def count_changes(self, interval):

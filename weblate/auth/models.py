@@ -374,10 +374,13 @@ class User(AbstractBaseUser):
 
     @cached_property
     def owned_projects(self):
+        return self.projects_with_perm('project.edit')
+
+    def projects_with_perm(self, perm):
         if self.is_superuser:
             return Project.objects.all()
         groups = Group.objects.filter(
-            user=self, roles__permissions__codename='project.edit'
+            user=self, roles__permissions__codename=perm
         )
         return Project.objects.filter(group__in=groups).distinct()
 
@@ -540,6 +543,10 @@ def setup_project_groups(sender, instance, **kwargs):
     # Remove review group if review is not enabled
     if not instance.enable_review:
         groups.remove('Review')
+
+    # Remove billing if billing is not installed
+    if 'weblate.billing' not in settings.INSTALLED_APPS:
+        groups.discard('Billing')
 
     # Create role specific groups
     handled = set()

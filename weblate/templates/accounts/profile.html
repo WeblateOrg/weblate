@@ -29,7 +29,7 @@
 <li><a data-toggle="tab" href="#licenses">{% trans "Licenses" %}</a></li>
 <li><a data-toggle="tab" href="#audit">{% trans "Audit log" %}</a></li>
 <li><a data-toggle="tab" href="#api">{% trans "API access" %}</a></li>
-{% if user.billing %}
+{% if billings %}
 <li><a data-toggle="tab" href="#billing">{% trans "Billing" %}</a></li>
 {% endif %}
 </ul>
@@ -457,9 +457,9 @@ wlc \
 
 </div>
 
-{% if user.billing %}
-{% with user.billing as billing %}
+{% if billings %}
 <div class="tab-pane" id="billing">
+{% for billing in billings %}
 <div class="row">
 
 
@@ -500,9 +500,9 @@ wlc \
 </div>
 
 </div>
+{% endfor %}
 
 </div>
-{% endwith %}
 {% endif %}
 
 </div>

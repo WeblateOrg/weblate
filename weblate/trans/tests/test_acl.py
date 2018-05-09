@@ -242,7 +242,7 @@ class ACLTest(FixtureTestCase):
             # Allow editing by creating billing plan
             from weblate.billing.models import Plan, Billing
             plan = Plan.objects.create()
-            billing = Billing.objects.create(plan=plan, user=self.user)
+            billing = Billing.objects.create(plan=plan)
             billing.projects.add(self.project)
 
         # Editing should now work

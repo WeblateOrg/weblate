@@ -292,6 +292,14 @@ def user_profile(request):
         license=''
     )
 
+    billings = None
+    if 'weblate.billing' in settings.INSTALLED_APPS:
+        # pylint: disable=wrong-import-position
+        from weblate.billing.models import Billing
+        billings = Billing.objects.filter(
+            projects__in=request.user.projects_with_perm('billing.view')
+        )
+
     result = render(
         request,
         'accounts/profile.html',
@@ -309,6 +317,7 @@ def user_profile(request):
             'new_backends': new_backends,
             'managed_projects': request.user.owned_projects,
             'auditlog': request.user.auditlog_set.all()[:20],
+            'billings': billings,
         }
     )
     result.set_cookie(
