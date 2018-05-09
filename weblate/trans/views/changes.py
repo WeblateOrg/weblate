@@ -221,7 +221,15 @@ class ChangesCSVView(ChangesView):
     def get(self, request, *args, **kwargs):
         object_list = self.get_queryset()
 
-        if not request.user.has_perm('change.download', self.project):
+        # Do reasonable ACL check for global
+        acl_obj = self.project
+        if not acl_obj:
+            for change in object_list:
+                if change.component:
+                    acl_obj = change.component
+                    break
+
+        if not request.user.has_perm('change.download', acl_obj):
             raise PermissionDenied()
 
         # Always output in english
@@ -235,7 +243,7 @@ class ChangesCSVView(ChangesView):
         # Add header
         writer.writerow(('timestamp', 'action', 'user', 'url'))
 
-        for change in object_list[:2000].iterator():
+        for change in object_list[:2000]:
             writer.writerow((
                 change.timestamp.isoformat(),
                 change.get_action_display().encode('utf8'),
