@@ -22,13 +22,13 @@ import csv
 
 from django.views.generic.list import ListView
 from django.http import Http404, HttpResponse
-from weblate.auth.models import User
 from django.utils.translation import ugettext as _, activate, pgettext
 from django.urls import reverse
 from django.db.models import Q
 from django.core.exceptions import PermissionDenied
 from django.utils.http import urlencode
 
+from weblate.auth.models import User
 from weblate.utils import messages
 from weblate.trans.models.change import Change
 from weblate.trans.views.helper import get_project_translation

@@ -27,7 +27,6 @@ import unicodedata
 from django.conf import settings
 from django.shortcuts import redirect
 from django.urls import reverse
-from weblate.auth.models import User
 from django.utils.encoding import force_text
 from django.utils.http import is_safe_url
 from django.utils.translation import ugettext as _
@@ -39,6 +38,7 @@ from social_core.exceptions import AuthMissingParameter, AuthAlreadyAssociated
 
 from social_django.models import Code
 
+from weblate.auth.models import User
 from weblate.accounts.notifications import (
     send_notification_email, notify_account_activity
 )

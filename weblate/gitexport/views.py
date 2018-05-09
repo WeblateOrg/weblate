@@ -23,7 +23,6 @@ from email import message_from_string
 import os.path
 import subprocess
 
-from weblate.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
 from django.http.response import HttpResponseServerError, HttpResponse
@@ -32,6 +31,7 @@ from django.utils.encoding import force_text
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
 
+from weblate.auth.models import User
 from weblate.trans.views.helper import get_component
 
 

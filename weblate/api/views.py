@@ -21,7 +21,6 @@
 import os.path
 
 from django.conf import settings
-from weblate.auth.models import User
 from django.contrib.messages import get_messages
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
@@ -44,6 +43,7 @@ from weblate.api.serializers import (
     ChangeSerializer, SourceSerializer, ScreenshotSerializer,
     UploadRequestSerializer, ScreenshotFileSerializer,
 )
+from weblate.auth.models import User
 from weblate.checks.models import Check
 from weblate.trans.exporters import EXPORTERS
 from weblate.trans.models import (
@@ -432,7 +432,6 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
     )
     def file(self, request, **kwargs):
         obj = self.get_object()
-        project = obj.component.project
         if request.method == 'GET':
             fmt = self.format_kwarg or request.query_params.get('format')
             return download_translation_file(obj, fmt)

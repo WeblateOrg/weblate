@@ -24,9 +24,9 @@ from django.test import TestCase
 from django.test.utils import override_settings
 from django.urls import reverse
 from django.conf import settings
-from weblate.auth.models import User
 from django.core import mail
 
+from weblate.auth.models import User
 from weblate.accounts.models import Profile
 from weblate.accounts.ratelimit import reset_rate_limit
 

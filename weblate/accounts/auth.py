@@ -19,10 +19,11 @@
 #
 
 from django.conf import settings
-from weblate.auth.models import User, Permission
 from django.db.models.signals import pre_save
 from django.dispatch.dispatcher import receiver
 from django.contrib.auth.backends import ModelBackend
+
+from weblate.auth.models import User
 
 
 def try_get_user(username, list_all=False):

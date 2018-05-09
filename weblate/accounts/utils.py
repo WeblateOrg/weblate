@@ -23,10 +23,9 @@ from __future__ import unicode_literals
 import os
 import binascii
 
-from weblate.auth.models import User
-
 from social_django.models import Code
 
+from weblate.auth.models import User
 from weblate.trans.signals import user_pre_delete
 from weblate.accounts.models import VerifiedEmail
 from weblate.accounts.notifications import notify_account_activity

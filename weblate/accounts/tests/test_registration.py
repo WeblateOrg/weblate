@@ -25,7 +25,6 @@ import json
 import httpretty
 from six.moves.urllib.parse import parse_qs, urlparse
 
-from weblate.auth.models import User
 from django.urls import reverse
 from django.core import mail
 from django.test import TestCase, Client
@@ -33,6 +32,7 @@ from django.test.utils import override_settings
 
 import social_django.utils
 
+from weblate.auth.models import User
 from weblate.accounts.models import VerifiedEmail
 from weblate.accounts.ratelimit import reset_rate_limit
 

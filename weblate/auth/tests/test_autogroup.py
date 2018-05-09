@@ -18,10 +18,9 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from weblate.auth.models import User, Group
 from django.test import TestCase
 
-from weblate.auth.models import AutoGroup
+from weblate.auth.models import User, Group, AutoGroup
 
 
 class AutoGroupTest(TestCase):

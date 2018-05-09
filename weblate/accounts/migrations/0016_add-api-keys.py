@@ -3,7 +3,6 @@
 from __future__ import unicode_literals
 
 from django.db import migrations
-from django.utils.crypto import get_random_string
 
 
 class Migration(migrations.Migration):

@@ -24,7 +24,7 @@ import os
 import os.path
 
 from django.db import models
-from django.utils.translation import ugettext as _, ugettext_lazy, pgettext
+from django.utils.translation import ugettext as _, ugettext_lazy
 from django.utils.encoding import python_2_unicode_compatible
 from django.core.exceptions import ValidationError
 from django.urls import reverse

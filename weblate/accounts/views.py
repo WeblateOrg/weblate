@@ -34,7 +34,6 @@ from django.utils.cache import patch_response_headers
 from django.utils.crypto import get_random_string
 from django.utils.decorators import method_decorator
 from django.utils.translation import get_language
-from weblate.auth.models import User
 from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic import TemplateView, ListView
 from django.views.decorators.cache import never_cache
@@ -55,6 +54,7 @@ from social_core.exceptions import (
 from social_django.utils import BACKENDS
 from social_django.views import complete, auth
 
+from weblate.auth.models import User
 from weblate.accounts.forms import (
     RegistrationForm, PasswordConfirmForm, EmailForm, ResetForm,
     LoginForm, HostingForm, CaptchaForm, SetPasswordForm,

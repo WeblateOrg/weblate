@@ -22,9 +22,9 @@
 Tests for user handling.
 """
 
-from weblate.auth.models import User
 from django.core import mail
 
+from weblate.auth.models import User
 from weblate.accounts.models import Profile
 from weblate.accounts.notifications import (
     notify_merge_failure,

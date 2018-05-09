@@ -23,11 +23,11 @@
 import os.path
 
 from django.test import TestCase
-from weblate.auth.models import User
 from django.contrib.sites.models import Site
 from django.core.management import call_command
 from django.core.management.base import CommandError
 
+from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.trans.tests.utils import TempDirMixin
 from weblate.accounts.models import Profile

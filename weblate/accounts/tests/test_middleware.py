@@ -23,10 +23,10 @@ Tests for user handling.
 """
 
 from django.test import TestCase
-from weblate.auth.models import User
 from django.test.utils import override_settings
 from django.http import HttpRequest, HttpResponseRedirect
 
+from weblate.auth.models import User
 from weblate.accounts.middleware import RequireLoginMiddleware
 
 

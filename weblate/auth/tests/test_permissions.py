@@ -18,13 +18,10 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from django.core.exceptions import ValidationError
-from django.core.management import call_command
 from django.test import TestCase
-from django.utils.encoding import force_text
 
-from weblate.auth.models import User, Group, Permission
-from weblate.trans.models import Project, Translation, Comment
+from weblate.auth.models import User
+from weblate.trans.models import Project, Comment
 
 
 class PermissionsTest(TestCase):

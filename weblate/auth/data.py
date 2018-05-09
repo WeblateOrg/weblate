@@ -152,7 +152,7 @@ ROLES = (
     ),
     (
         pgettext_noop('Access control role', 'Administration'),
-        [perm[0] for perm in PERMISSIONS],
+        [x[0] for x in PERMISSIONS],
     ),
     (
         pgettext_noop('Access control role', 'Billing'),
@@ -191,13 +191,22 @@ GROUPS = (
 
 # Per project group definitions
 ACL_GROUPS = {
-    pgettext_noop('Per project access control group', 'Translate'): 'Translate',
-    pgettext_noop('Per project access control group', 'Template'): 'Edit source',
-    pgettext_noop('Per project access control group', 'Languages'): 'Manage languages',
-    pgettext_noop('Per project access control group', 'Glossary'): 'Manage glossary',
-    pgettext_noop('Per project access control group', 'Screenshots'): 'Manage screenshots',
-    pgettext_noop('Per project access control group', 'Review'): 'Review strings',
-    pgettext_noop('Per project access control group', 'VCS'): 'Manage repository',
-    pgettext_noop('Per project access control group', 'Administration'): 'Administration',
-    pgettext_noop('Per project access control group', 'Billing'): 'Billing',
+    pgettext_noop('Per project access control group', 'Translate'):
+        'Translate',
+    pgettext_noop('Per project access control group', 'Template'):
+        'Edit source',
+    pgettext_noop('Per project access control group', 'Languages'):
+        'Manage languages',
+    pgettext_noop('Per project access control group', 'Glossary'):
+        'Manage glossary',
+    pgettext_noop('Per project access control group', 'Screenshots'):
+        'Manage screenshots',
+    pgettext_noop('Per project access control group', 'Review'):
+        'Review strings',
+    pgettext_noop('Per project access control group', 'VCS'):
+        'Manage repository',
+    pgettext_noop('Per project access control group', 'Administration'):
+        'Administration',
+    pgettext_noop('Per project access control group', 'Billing'):
+        'Billing',
 }

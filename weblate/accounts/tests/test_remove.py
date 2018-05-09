@@ -20,9 +20,9 @@
 
 """Test for account removal."""
 
-from weblate.auth.models import User
 from django.urls import reverse
 
+from weblate.auth.models import User
 from weblate.trans.tests.test_views import ViewTestCase, RegistrationTestMixin
 
 

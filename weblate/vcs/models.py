@@ -38,6 +38,7 @@ class VcsClassLoader(ClassLoader):
 
         return result
 
+
 # Initialize VCS list
 VCS_REGISTRY = VcsClassLoader()
 

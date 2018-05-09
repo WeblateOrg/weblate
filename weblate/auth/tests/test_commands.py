@@ -21,10 +21,10 @@
 """Test for user handling."""
 
 from django.test import TestCase
-from weblate.auth.models import User, Group
 from django.core.management import call_command
 from django.core.management.base import CommandError
 
+from weblate.auth.models import User, Group
 from weblate.trans.tests.utils import get_test_file, TempDirMixin
 
 

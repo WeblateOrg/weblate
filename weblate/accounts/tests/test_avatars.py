@@ -26,12 +26,12 @@ from io import BytesIO
 from unittest import SkipTest
 
 from django.urls import reverse
-from weblate.auth.models import User
 
 import httpretty
 
 from PIL import Image
 
+from weblate.auth.models import User
 from weblate.accounts import avatar
 from weblate.trans.tests.test_views import FixtureTestCase
 

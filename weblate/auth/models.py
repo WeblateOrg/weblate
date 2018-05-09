@@ -32,7 +32,7 @@ from django.db.models.signals import (
 from django.dispatch import receiver
 from django.http import Http404
 from django.utils import timezone
-from django.utils.encoding import python_2_unicode_compatible, force_text
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext, ugettext_lazy as _, pgettext
 
@@ -150,7 +150,10 @@ class Group(models.Model):
     @cached_property
     def short_name(self):
         if '@' in self.name:
-            return pgettext('Per project access control group', self.name.split('@')[1])
+            return pgettext(
+                'Per project access control group',
+                self.name.split('@')[1]
+            )
         return self.__str__()
 
     def save(self, *args, **kwargs):
@@ -175,7 +178,7 @@ class Group(models.Model):
             )
         elif self.project_selection == SELECTION_COMPONENT_LIST:
             self.projects.set(
-                Projects.objects.filter(
+                Project.objects.filter(
                     component__componentlist=self.componentlist
                 ),
                 clear=True
@@ -308,7 +311,9 @@ class User(AbstractBaseUser):
         # This is needed with LDAP authentication when the
         # server does not contain full name
         if 'first_name' in self.extra_data and 'last_name' in self.extra_data:
-            self.full_name = '{first_name} {last_name}'.format(**self.extra_data)
+            self.full_name = '{first_name} {last_name}'.format(
+                **self.extra_data
+            )
         elif 'first_name' in self.extra_data:
             self.full_name = self.extra_data['first_name']
         elif 'last_name' in self.extra_data:
@@ -472,7 +477,7 @@ def change_componentlist(sender, instance, **kwargs):
     )
     for group in groups:
         group.projects.set(
-            Projects.objects.filter(
+            Project.objects.filter(
                 component__componentlist=instance
             ),
             clear=True

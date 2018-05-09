@@ -27,6 +27,7 @@ from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 
 SPECIALS = {}
 
+
 def register_perm(*perms):
     def wrap_perm(function):
         for perm in perms:
@@ -83,6 +84,7 @@ def check_permission(user, permission, obj):
             )
         )
 
+
 @register_perm('comment.delete', 'suggestion.delete')
 @cache_perm
 def check_delete_own(user, permission, obj, scope):
@@ -111,7 +113,8 @@ def check_can_edit(user, permission, obj, is_vote=False):
     # Special check for voting
     if is_vote and translation and not translation.component.suggestion_voting:
         return False
-    elif not is_vote and translation and translation.component.suggestion_voting \
+    elif not is_vote and translation \
+            and translation.component.suggestion_voting \
             and translation.component.suggestion_autoaccept > 0 \
             and not check_permission(user, 'unit.override', translation):
         return False
