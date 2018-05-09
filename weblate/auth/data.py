@@ -165,17 +165,17 @@ GROUPS = (
     (
         pgettext_noop('Access control group', 'Guests'),
         ('Add suggestion',),
-        SELECTION_ALL_PUBLIC,
+        SELECTION_ALL_PROTECTED,
     ),
     (
         pgettext_noop('Access control group', 'Viewers'),
         (),
-        SELECTION_ALL_PUBLIC,
+        SELECTION_ALL_PROTECTED,
     ),
     (
         pgettext_noop('Access control group', 'Users'),
         ('Power user',),
-        SELECTION_ALL_PROTECTED,
+        SELECTION_ALL_PUBLIC,
     ),
     (
         pgettext_noop('Access control group', 'Reviewers'),
