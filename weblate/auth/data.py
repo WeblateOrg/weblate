@@ -114,6 +114,12 @@ ROLES = (
         }
     ),
     (
+        pgettext_noop('Access control role', 'Access repository'),
+        {
+            'vcs.access', 'vcs.view'
+        }
+    ),
+    (
         pgettext_noop('Access control role', 'Power user'),
         TRANSLATE_PERMS | {
             'translation.add',
@@ -164,8 +170,8 @@ ROLES = (
 GROUPS = (
     (
         pgettext_noop('Access control group', 'Guests'),
-        ('Add suggestion',),
-        SELECTION_ALL_PROTECTED,
+        ('Add suggestion', 'Access repository'),
+        SELECTION_ALL_PUBLIC,
     ),
     (
         pgettext_noop('Access control group', 'Viewers'),

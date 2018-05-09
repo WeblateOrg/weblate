@@ -91,6 +91,6 @@ def create_anonymous(model, group_model, update=True):
     if created or update:
         user.set_unusable_password()
         user.groups.set(
-            group_model.objects.filter(name='Guests'),
+            group_model.objects.filter(name__in=('Guests', 'Viewers')),
             clear=True
         )

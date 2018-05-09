@@ -466,6 +466,8 @@ def sync_create_groups(sender, intermediate=False, **kwargs):
 
 def auto_assign_group(user):
     """Automatic group assignment based on user email."""
+    if user.username == settings.ANONYMOUS_USER_NAME:
+        return
     # Add user to automatic groups
     for auto in AutoGroup.objects.all():
         if re.match(auto.match, user.email):
