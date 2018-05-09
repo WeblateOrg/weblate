@@ -270,13 +270,13 @@ class ACLTest(FixtureTestCase):
         self.project.enable_review = True
         self.project.save()
         self.assertEqual(
-            8, Group.objects.filter(name__startswith=match).count()
+            9, Group.objects.filter(name__startswith=match).count()
         )
         self.project.access_control = Project.ACCESS_PRIVATE
         self.project.enable_review = True
         self.project.save()
         self.assertEqual(
-            8, Group.objects.filter(name__startswith=match).count()
+            9, Group.objects.filter(name__startswith=match).count()
         )
         self.project.access_control = Project.ACCESS_CUSTOM
         self.project.save()
@@ -291,7 +291,7 @@ class ACLTest(FixtureTestCase):
         self.project.access_control = Project.ACCESS_PRIVATE
         self.project.save()
         self.assertEqual(
-            8, Group.objects.filter(name__startswith=match).count()
+            9, Group.objects.filter(name__startswith=match).count()
         )
         self.project.delete()
         self.assertEqual(
