@@ -21,6 +21,8 @@ from __future__ import unicode_literals
 
 import re
 
+from appconf import AppConf
+
 from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.db import models
@@ -332,6 +334,14 @@ class User(AbstractBaseUser):
         if obj is None:
             return False
 
+        # Validate perms, this is expensive to perform, so this only in test by
+        # default
+        if settings.AUTH_VALIDATE_PERMS and ':' not in perm:
+            try:
+                Permission.objects.get(codename=perm)
+            except Permission.DoesNotExist:
+                raise ValueError('Invalid permission: {}'.format(perm))
+
         # Special permission functions
         if perm in SPECIALS:
             return SPECIALS[perm](self, perm, obj, *args)
@@ -566,3 +576,11 @@ def cleanup_group_acl(sender, instance, **kwargs):
         name__contains='@',
         internal=True,
     ).delete()
+
+
+class WeblateAuthConf(AppConf):
+    """Authentication settings."""
+    AUTH_VALIDATE_PERMS = False
+
+    class Meta(object):
+        prefix = ''
