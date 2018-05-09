@@ -48,9 +48,9 @@ class CommandTest(TestCase, TempDirMixin):
         self.assertEqual(user.full_name, 'Weblate Admin')
 
     def test_createadmin_email(self):
-        call_command('createadmin', email='noreply@weblate.org')
+        call_command('createadmin', email='noreply1@weblate.org')
         user = User.objects.get(username='admin')
-        self.assertEqual(user.email, 'noreply@weblate.org')
+        self.assertEqual(user.email, 'noreply1@weblate.org')
 
     def test_createadmin_twice(self):
         call_command('createadmin')

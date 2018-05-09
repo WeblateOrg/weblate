@@ -236,6 +236,7 @@ class User(AbstractBaseUser):
     email = models.EmailField(
         _('Email'),
         blank=False,
+        unique=True,
         validators=[validate_email],
     )
     is_superuser = models.BooleanField(
