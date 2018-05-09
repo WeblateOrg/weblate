@@ -83,14 +83,14 @@ def migrate_table(schema_editor, old_cols, new_cols, from_table_name, to_table_n
 
             # could collect and do 'executemany', but sqlite doesn't let us
             # execute more than one statement at once it seems.
-            schema_editor.execute(sql, row + extra)
+            schema_editor.connection.cursor().execute(sql, row + extra)
     if to_model:
         reset_seq = schema_editor.connection.ops.sequence_reset_sql(
             no_style(),
             [to_model],
         )
         for sql in reset_seq:
-            schema_editor.execute(sql)
+            schema_editor.connection.cursor().execute(sql)
 
 
 def get_max_id(schema_editor, table_name):
