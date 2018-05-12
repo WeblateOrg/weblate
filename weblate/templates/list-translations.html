@@ -35,7 +35,7 @@
 </th>
 <td class="progress-cell">{% translation_progress trans %}</td>
 <td class="percent">{{ percent }}%</td>
-<td class="percent col-untranslated" style="display: none">{{ untranslated }}%</td>
+<td class="percent col-untranslated" style="display: none">{{ untranslated }}</td>
 <td class="percent col-words" title="{% blocktrans count words=trans.stats.nottranslated_words %}{{ words }} word to translate!{% plural %}{{ words }} words to translate!{% endblocktrans %}" >{{ trans.stats.translated_words_percent }}%</td>
 <td class="percent col-fuzzy">
 {% if fuzzy > 0 and translate_url %}
