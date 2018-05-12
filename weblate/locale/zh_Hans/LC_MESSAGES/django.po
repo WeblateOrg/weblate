@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-05-04 13:06+0000\n"
-"PO-Revision-Date: 2018-05-04 10:29+0000\n"
-"Last-Translator: huzhanrong <480298199@qq.com>\n"
+"PO-Revision-Date: 2018-05-13 00:31+0000\n"
+"Last-Translator: dragonandy <dragonandy@foxmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -244,28 +244,24 @@ msgid "Password reset has been confirmed and password has been reset."
 msgstr "密码重设请求已确认，密码已被重设。"
 
 #: weblate/accounts/models.py:63
-#, fuzzy, python-brace-format
-#| msgid "Authentication using {method} ({name}) has been added."
+#, python-brace-format
 msgid "Authentication ({method}:{name}) has been added."
-msgstr "使用 {method} ({name}) 的身份验证已被添加。"
+msgstr "({method}:{name}) 的身份验证已被添加。"
 
 #: weblate/accounts/models.py:66
-#, fuzzy, python-brace-format
-#| msgid "Authentication using {method} ({name}) has been removed."
+#, python-brace-format
 msgid "Authentication ({method}:{name}) has been removed."
-msgstr "使用 {method} ({name}) 身份验证已被删除。"
+msgstr "({method}:{name}) 身份验证已被删除。"
 
 #: weblate/accounts/models.py:69
-#, fuzzy, python-brace-format
-#| msgid "Authenticated using {method} ({name})."
+#, python-brace-format
 msgid "Authenticated ({method}:{name})."
-msgstr "已使用 {method} ({name}) 验证身份。"
+msgstr "已使用 ({method}:{name}) 验证身份。"
 
 #: weblate/accounts/models.py:72
-#, fuzzy, python-brace-format
-#| msgid "Authenticated using {method} ({name}) from new device."
+#, python-brace-format
 msgid "Authenticated ({method}:{name}) from new device."
-msgstr "已使用 {method} ({name}) 从新设备验证身份。"
+msgstr "已使用 ({method}:{name}) 从新设备验证身份。"
 
 #: weblate/accounts/models.py:75
 msgid "Somebody has attempted to register with your email."
@@ -276,10 +272,9 @@ msgid "Somebody has attempted to add your email to existing account."
 msgstr "有人试图将您的电子邮件添加到现有的帐户。"
 
 #: weblate/accounts/models.py:81
-#, fuzzy, python-brace-format
-#| msgid "Failed authentication attempt using {method} ({name})."
+#, python-brace-format
 msgid "Failed authentication attempt ({method}:{name})."
-msgstr "使用 {method}（{name}）进行身份验证尝试失败。"
+msgstr "使用 ({method}:{name}) 身份验证尝试失败。"
 
 #: weblate/accounts/models.py:84
 msgid "Account locked due to excessive failed authentication attempts."
@@ -623,13 +618,12 @@ msgid "Cleanup translation files"
 msgstr "清理翻译文件"
 
 #: weblate/addons/cleanup.py:36
+#, fuzzy
 msgid ""
 "Update all translation files to match the monolingual base file. For most "
 "file formats, this means removing stale translation keys no longer present "
 "in the base file."
-msgstr ""
-"更新所有翻译文件以匹配单语言基础文件。对于大多数文件格式来说，这意味着移除基"
-"础文件中不再出现的旧翻译条目。"
+msgstr "更新所有翻译文件以匹配单语译文模版文件。对于大多数文件格式来说，这意味着移除译文模版文件中不再出现的旧翻译条目。"
 
 #: weblate/addons/discovery.py:35
 msgid "Component discovery"
@@ -663,8 +657,9 @@ msgstr ""
 "辑。这样您可以简单地过滤并编辑开发者编写的源字符串。"
 
 #: weblate/addons/flags.py:64
+#, fuzzy
 msgid "Flag new translations to need edit"
-msgstr "标记新翻译为需要编辑"
+msgstr "将新翻译标记为需要编辑"
 
 #: weblate/addons/flags.py:66
 msgid ""
@@ -703,19 +698,15 @@ msgstr "无换行"
 #, fuzzy
 #| msgid "SSH keys"
 msgid "Sort JSON keys"
-msgstr "SSH 密钥"
+msgstr "JSON 键排序"
 
 #: weblate/addons/forms.py:100
-#, fuzzy
-#| msgid "API documentation"
 msgid "JSON indentation"
-msgstr "API 文档"
+msgstr "JSON 缩进"
 
 #: weblate/addons/forms.py:120
-#, fuzzy
-#| msgid "Regular expression which is used to match user email."
 msgid "Regular expression to match translation files"
-msgstr "正则表达式用于匹配用户的电子邮件地址。"
+msgstr "用于匹配翻译文件的正则表达式"
 
 #: weblate/addons/forms.py:124 weblate/trans/models/component.py:249
 msgid "File format"
@@ -726,8 +717,6 @@ msgid "Automatic detection might fail for some formats and is slightly slower."
 msgstr "对于某些格式来说自动检查有可能失败并且会比较慢。"
 
 #: weblate/addons/forms.py:134
-#, fuzzy
-#| msgid "Component name"
 msgid "Customize the component name"
 msgstr "自定义组件名称"
 
@@ -735,15 +724,16 @@ msgstr "自定义组件名称"
 #, fuzzy
 #| msgid "Monolingual base language file"
 msgid "Define the monolingual base filename"
-msgstr "定义单语基文件名"
+msgstr "定义单语言译文模版文件名"
 
 #: weblate/addons/forms.py:142
 msgid "Keep empty for bilingual translation files."
 msgstr "为双语翻译文件保留空。"
 
 #: weblate/addons/forms.py:145
+#, fuzzy
 msgid "Define the base file for new translations"
-msgstr "为新的翻译定义基文件"
+msgstr "为新的翻译条目定义译文模版文件"
 
 #: weblate/addons/forms.py:149 weblate/trans/models/component.py:244
 msgid ""
@@ -767,7 +757,7 @@ msgstr "删除非现有文件的组件"
 
 #: weblate/addons/forms.py:168
 msgid "I confirm that the above matches look correct"
-msgstr ""
+msgstr "我确认上述匹配是正确的"
 
 #: weblate/addons/forms.py:231
 #, fuzzy
@@ -788,24 +778,18 @@ msgid ""
 msgstr "将文件头的内容合并到翻译中。"
 
 #: weblate/addons/gettext.py:55
-#, fuzzy
-#| msgid "Generate mo files"
 msgid "Generate MO files"
-msgstr "生成 mo 文件"
+msgstr "生成 MO 文件"
 
 #: weblate/addons/gettext.py:57
-#, fuzzy
-#| msgid "Automatically generates mo file for every changed po file."
 msgid "Automatically generates MO file for every changed PO file."
-msgstr "为每个变更的 po 文件自动生成 mo 文件。"
+msgstr "为每个变更的 PO 文件自动生成 MO 文件。"
 
 #: weblate/addons/gettext.py:72
 msgid "Update LINGUAS file"
 msgstr "更新 LINGUAS 文件"
 
 #: weblate/addons/gettext.py:74
-#, fuzzy
-#| msgid "Updates the LINGUAS file when adding new translation."
 msgid "Updates the LINGUAS file when a new translation is added."
 msgstr "添加新翻译时更新 LINGUAS 文件。"
 
@@ -835,37 +819,42 @@ msgstr "更新 po 文件以匹配 pot (msgmerge)"
 msgid ""
 "Update all PO files to match the POT file using msgmerge. This is triggered "
 "whenever new changes are pulled from the upstream repository."
-msgstr ""
+msgstr "使用 msgmerge 更新所有的 PO 文件以匹配 POT 文件。这将在每次拉取上游仓库的更新时触发。"
 
 #: weblate/addons/gettext.py:213
+#, fuzzy
 msgid "Customize gettext output"
-msgstr ""
+msgstr "自定义 gettext 输出"
 
 #: weblate/addons/gettext.py:215
+#, fuzzy
 msgid ""
 "Allows customization of gettext output behavior, for example line wrapping."
-msgstr ""
+msgstr "允许自定义 gettext 输出行为，例如使用自动换行。"
 
 #: weblate/addons/gettext.py:239
 #, fuzzy
 #| msgid "Contributor agreement"
 msgid "Contributors in comment"
-msgstr "提供者协议"
+msgstr "注释贡献者"
 
 #: weblate/addons/gettext.py:241
+#, fuzzy
 msgid ""
 "Update comment in the PO file header to include contributor name and years "
 "of contributions."
-msgstr ""
+msgstr "在 PO 文件的头部添加注释 用以包括贡献者的名字和贡献年份。"
 
 #: weblate/addons/json.py:33
+#, fuzzy
 msgid "Customize JSON output"
-msgstr ""
+msgstr "自定义 JSON 输出"
 
 #: weblate/addons/json.py:35
+#, fuzzy
 msgid ""
 "Allows to customize JSON output behavior, for example indentation or sorting."
-msgstr ""
+msgstr "允许自定义 JSON 输出行为，例如缩进和排序。"
 
 #: weblate/addons/properties.py:147
 msgid "Formats the Java properties file"
@@ -1645,22 +1634,18 @@ msgid "We use cookies to deliver our services."
 msgstr "我们使用 cookie 以提供服务。"
 
 #: weblate/legal/templates/legal/privacy.html:7 weblate/legal/views.py:57
-#, fuzzy
-#| msgid "Private"
 msgid "Privacy"
-msgstr "私有的"
+msgstr "隐私"
 
 #: weblate/legal/templates/legal/privacy.html:17
-#, fuzzy
-#| msgid "Security Policy"
 msgid "Privacy Policy"
-msgstr "安全政策"
+msgstr "隐私策略"
 
 #: weblate/legal/templates/legal/privacy.html:25
 msgid ""
 "Weblate needs some personal information, this page describes how it is "
 "stored and used."
-msgstr ""
+msgstr "Weblate 需要一些个人信息，当前页面描述了这些信息是如何存储和使用的。"
 
 #: weblate/legal/templates/legal/privacy.html:30
 #, fuzzy
@@ -1669,27 +1654,32 @@ msgid "Name and email"
 msgstr "用户名或电子邮件"
 
 #: weblate/legal/templates/legal/privacy.html:31
+#, fuzzy
 msgid "These are used to identify you in the VCS commits"
-msgstr ""
+msgstr "这些信息将用于在 VCS commits 中辨认出你"
 
 #: weblate/legal/templates/legal/privacy.html:32
+#, fuzzy
 msgid "Additionally email is used for notifications on watched events"
-msgstr ""
+msgstr "email 地址用于你关注的事件的消息提醒"
 
 #: weblate/legal/templates/legal/privacy.html:34
+#, fuzzy
 msgid "IP address and browser name"
-msgstr ""
+msgstr "IP 地址和浏览器名称"
 
 #: weblate/legal/templates/legal/privacy.html:35
+#, fuzzy
 msgid ""
 "These are logged in case of important changes to your account (e.g. password "
 "change) to allow diagnosis in case your account is stolen"
-msgstr ""
+msgstr "存储这些记录以备在你账号有重要的变更时 (例如更改密码) 判断你的账号是否已被盗取"
 
 #: weblate/legal/templates/legal/privacy.html:40
+#, fuzzy
 msgid ""
 "All these information is removed once you delete your account in Weblate."
-msgstr ""
+msgstr "所有的这些记录将在你删除 Weblate 账号时被移除。"
 
 #: weblate/legal/templates/legal/security.html:7 weblate/legal/views.py:52
 msgid "Security"
@@ -1715,7 +1705,7 @@ msgstr "Weblate 的开发遵循 Linux 基金会核心基础架构联盟最佳实
 msgid ""
 "Please see our documentation for instructions how to report security "
 "weaknesses in our platform."
-msgstr "请参阅我们的  文档 一节以获得如何报告平台安全漏洞的说明。"
+msgstr "请参阅我们的 文档 一节以获得如何报告平台安全漏洞的说明。"
 
 #: weblate/legal/templates/legal/terms.html:6
 msgid "Terms"
@@ -2192,9 +2182,10 @@ msgid "This username/password combination was not found. Please try again."
 msgstr "未找到相应的用户名/密码组合。请重试。"
 
 #: weblate/templates/accounts/login.html:21
+#, fuzzy
 msgid ""
 "To test Weblate on this demo server, you can log in as the following users:"
-msgstr ""
+msgstr "要在 demo 服务器上测试 Weblate，你可以使用下列用户登录:"
 
 #: weblate/templates/accounts/login.html:28
 #: weblate/templates/accounts/profile.html:53
@@ -2235,8 +2226,9 @@ msgid "You can register."
 msgstr "您可以注册账号。"
 
 #: weblate/templates/accounts/password-warning.html:3
+#, fuzzy
 msgid "Please enable the password authentication to secure your account."
-msgstr ""
+msgstr "请启用密码验证来保护你的账号。"
 
 #: weblate/templates/accounts/password-warning.html:8
 msgid "You will be still able to authenticate using third party services."
@@ -2530,10 +2522,11 @@ msgstr ""
 "\">API 文档</a>。"
 
 #: weblate/templates/accounts/profile.html:398
+#, fuzzy
 msgid ""
 "The API key is also used to authenticate to automatically exported Git "
 "repositories."
-msgstr ""
+msgstr "API key 也用于验证自动导出的 Git 仓库。"
 
 #: weblate/templates/accounts/profile.html:401
 msgid "API documentation"
@@ -2733,54 +2726,57 @@ msgid "Some addons will ask for additional configuration during installation."
 msgstr "部分附加组件会在安装时要求额外配置。"
 
 #: weblate/templates/addons/discovery_help.html:3
+#, fuzzy
 msgid ""
 "The regular expression to match translation files has to contain two named "
 "groups to match component and language, some examples:"
-msgstr ""
+msgstr "与翻译文件相匹配的正则表达式必须包含两个已被命名的组来匹配组件和语言，例子:"
 
 #: weblate/templates/addons/discovery_help.html:8
-#, fuzzy
-#| msgid "Email regular expression"
 msgid "Regular expression"
-msgstr "电子邮件正则表达式"
+msgstr "正则表达式"
 
 #: weblate/templates/addons/discovery_help.html:9
 #, fuzzy
 #| msgid "Failed to parse %d matched files!"
 msgid "Example matched files"
-msgstr "解析 %d 匹配文件失败！"
+msgstr "匹配文件例子"
 
 #: weblate/templates/addons/discovery_help.html:22
+#, fuzzy
 msgid "One folder per language containing translation files for components."
-msgstr ""
+msgstr "每种语言使用单一文件夹并在其中包含相应组件的翻译文件。"
 
 #: weblate/templates/addons/discovery_help.html:32
+#, fuzzy
 msgid "Usual structure for storing gettext PO files."
-msgstr ""
+msgstr "存储 gettext PO 文件时使用常用结构。"
 
 #: weblate/templates/addons/discovery_help.html:42
+#, fuzzy
 msgid "Using both component and language name within filename."
-msgstr ""
+msgstr "同时在文件名处使用组建名和语言名。"
 
 #: weblate/templates/addons/discovery_help.html:52
+#, fuzzy
 msgid "Using language in both path and filename."
-msgstr ""
+msgstr "路径和文件名使用的语言。"
 
 #: weblate/templates/addons/discovery_help.html:57
+#, fuzzy
 msgid ""
 "You can use Django templates markup in both component name and monolingual "
 "base filename, for example:"
-msgstr ""
+msgstr "你可以在组件名和单基语言文件中使用 Django templates markup，例如:"
 
 #: weblate/templates/addons/discovery_help.html:61
-#, fuzzy
-#| msgid "Component name"
 msgid "Component filename match"
-msgstr "组件名称"
+msgstr "组件名称匹配"
 
 #: weblate/templates/addons/discovery_help.html:63
+#, fuzzy
 msgid "Component filename with upper case first letter"
-msgstr ""
+msgstr "带有首字母大写的组件文件名"
 
 #: weblate/templates/addons/discovery_preview.html:5
 #: weblate/templates/list-translations.html:7
@@ -2797,25 +2793,27 @@ msgstr "已关注项目"
 
 #: weblate/templates/addons/discovery_preview.html:9
 msgid "Following components would be deleted"
-msgstr ""
+msgstr "以下组件将被删除"
 
 #: weblate/templates/addons/discovery_preview.html:15
 msgid "Following components would be created"
-msgstr ""
+msgstr "以下组件将被创建"
 
 #: weblate/templates/addons/discovery_preview.html:28
 msgid "Following components matched existing ones"
-msgstr ""
+msgstr "以下组件与现有组件匹配"
 
 #: weblate/templates/addons/discovery_preview.html:41
+#, fuzzy
 msgid "No components were matched!"
-msgstr ""
+msgstr "没有匹配的组件!"
 
 #: weblate/templates/addons/generate_help.html:3
+#, fuzzy
 msgid ""
 "You can use Django templates markup in both filename and content, for "
 "example:"
-msgstr ""
+msgstr "您可以在文件名和内容中使用 Django 模板标记, 例如:"
 
 #: weblate/templates/addons/generate_help.html:11
 msgid "Percents translated"
@@ -3158,8 +3156,9 @@ msgstr "最后更改"
 
 #: weblate/templates/component.html:162 weblate/templates/project.html:211
 #: weblate/templates/translation.html:244
+#, fuzzy
 msgid "You can change state of all strings matching given type at once."
-msgstr ""
+msgstr "您可以同时更改所有的匹配给定类型的字符串的状态。"
 
 #: weblate/templates/component.html:178 weblate/templates/js/changes.html:5
 msgid "Browse all component changes"
@@ -4329,7 +4328,7 @@ msgstr "%(subproject)s 的新注释"
 #: weblate/templates/mail/new_contributor.html:7
 #: weblate/templates/mail/new_contributor.txt:1
 msgid "Good news,"
-msgstr ""
+msgstr "好消息，"
 
 #: weblate/templates/mail/new_contributor.html:11
 #: weblate/templates/mail/new_contributor.txt:3
@@ -5304,11 +5303,12 @@ msgstr ""
 "的分支，修复不一致的翻译或使用翻译记忆翻译新组件。"
 
 #: weblate/templates/translation.html:211
+#, fuzzy
 msgid ""
 "Automatic translation via machine translation uses active machine "
 "translation engines to get the best possible translations and applies them "
 "in this project."
-msgstr ""
+msgstr "自动翻译使用主动机器翻译引擎来获得最佳的翻译结果，并将其应用于此项目。"
 
 #: weblate/templates/translation.html:264
 #, fuzzy
@@ -5674,7 +5674,7 @@ msgstr "您想要翻译的信息已不可用了！"
 msgid ""
 "Strings are usually marked as \"Needs editing\" after the source string is "
 "updated, or when marked as such manually."
-msgstr ""
+msgstr "当源文件更新或者被手动标记时，相应的字符串会被标记为 \"需要编辑\" 。"
 
 #: weblate/trans/forms.py:434
 msgid "Review state"
@@ -5904,8 +5904,9 @@ msgid "Machine translation engines to use"
 msgstr "机器翻译建议"
 
 #: weblate/trans/forms.py:920
+#, fuzzy
 msgid "Score threshold"
-msgstr ""
+msgstr "分数阈值"
 
 #: weblate/trans/forms.py:947
 msgid "All components in current project"
@@ -6052,7 +6053,7 @@ msgstr "最后作者"
 
 #: weblate/trans/forms.py:1241
 msgid "As specified"
-msgstr ""
+msgstr "指定"
 
 #: weblate/trans/forms.py:1251
 msgid "Ending date"
@@ -6116,7 +6117,7 @@ msgstr "翻译"
 msgid ""
 "Key used to identify string in translation file. File format specific rules "
 "might apply."
-msgstr ""
+msgstr "用于标识翻译文件中的字符串的键。可能会应用特定的文件格式规则。"
 
 #: weblate/trans/forms.py:1506
 #, fuzzy
@@ -6127,7 +6128,7 @@ msgstr "源语言"
 #: weblate/trans/forms.py:1508
 msgid ""
 "You can edit this later, as with any other string in the source language."
-msgstr ""
+msgstr "您可以稍后对此进行编辑，与源语言中的任何其他字符串一样。"
 
 #: weblate/trans/forms.py:1529
 #, fuzzy
@@ -6364,28 +6365,32 @@ msgstr ""
 "*/LC_MESSAGES/django.po。"
 
 #: weblate/trans/models/component.py:222
+#, fuzzy
 msgid "Monolingual base language file"
-msgstr "单语语言模板文件"
+msgstr "单语译文模版语言文件"
 
 #: weblate/trans/models/component.py:226
+#, fuzzy
 msgid ""
 "Filename of translations base file, which contains all strings and their "
 "source; this is recommended to use for monolingual translation formats."
-msgstr ""
-"包含了所有的项目和源代码的翻译模板文件的文件名；推荐用于单语言翻译格式。"
+msgstr "翻译所用的译文模版文件的文件名, 其中包含所有字符串及其来源；推荐用于单语言翻译格式。"
 
 #: weblate/trans/models/component.py:232
+#, fuzzy
 msgid "Edit base file"
-msgstr "编辑模板文件"
+msgstr "编辑译文模版文件"
 
 #: weblate/trans/models/component.py:235
+#, fuzzy
 msgid ""
 "Whether users will be able to edit base file for monolingual translations."
-msgstr "用户是否可以编辑单种语言的翻译基础文件。"
+msgstr "用户是否可以编辑译文模版文件以进行单语言翻译。"
 
 #: weblate/trans/models/component.py:240
+#, fuzzy
 msgid "Base file for new translations"
-msgstr "新翻译的模板文件"
+msgstr "新翻译条目的译文模版文件"
 
 #: weblate/trans/models/component.py:259
 msgid "Additional commit files"
@@ -6696,28 +6701,32 @@ msgid "Failed to parse %d matched files!"
 msgstr "解析 %d 匹配文件失败！"
 
 #: weblate/trans/models/component.py:1221
+#, fuzzy
 msgid ""
 "You have configured Weblate to add new translation files, but did not "
 "provide base file to do that!"
-msgstr "您已配置 Weblate 添加新的翻译文件，但未提供基础文件！"
+msgstr "您已配置 Weblate 添加新的翻译文件，但未提供译文模版文件！"
 
 #: weblate/trans/models/component.py:1225
 msgid "Format of base file for new translations was not recognized!"
 msgstr "无法识别新译文模板的格式！"
 
 #: weblate/trans/models/component.py:1230
+#, fuzzy
 msgid ""
 "Base file for new translations is not used because of component settings. "
 "You probably want to enable automatic adding of new translations."
-msgstr "因为组件的设置，新翻译不使用基底文件。您可能愿意启用自动添加新翻译。"
+msgstr "因为组件的设置，新翻译不使用译文模版文件。您可能希望启用自动添加新的翻译功能。"
 
 #: weblate/trans/models/component.py:1241
+#, fuzzy
 msgid "You can not use base file with bilingual translation!"
-msgstr "您不能使用带有双语翻译的基底文件！"
+msgstr "您不能使用带有双语翻译的译文模版文件！"
 
 #: weblate/trans/models/component.py:1246
+#, fuzzy
 msgid "Using .pot file as base file is not supported!"
-msgstr "不支持使用 .pot 文件做模板！"
+msgstr "不支持使用 .pot 文件作为译文模版！"
 
 #: weblate/trans/models/component.py:1253
 msgid "Template file not found!"
@@ -6726,7 +6735,7 @@ msgstr "未发现模板文件！"
 #: weblate/trans/models/component.py:1259
 #, python-format
 msgid "Failed to parse translation base file: %s"
-msgstr "无法解析翻译模板文件: %s"
+msgstr "无法解析翻译译文模版文件: %s"
 
 #: weblate/trans/models/component.py:1269
 #, python-brace-format
@@ -6734,8 +6743,9 @@ msgid "Template language ({0}) does not match project source language ({1})!"
 msgstr "模板语言 ({0}) 与项目源语言不匹配 ({1})！"
 
 #: weblate/trans/models/component.py:1276
+#, fuzzy
 msgid "You can not use monolingual translation without base file!"
-msgstr "在没有模板文件的情况下您不能用单语翻译！"
+msgstr "您不能在没有译文模版文件的情况下进行单语翻译！"
 
 #: weblate/trans/models/component.py:1287
 msgid ""
@@ -6788,15 +6798,14 @@ msgid "Component list name"
 msgstr "组件列表名称"
 
 #: weblate/trans/models/componentlist.py:51
-#, fuzzy
-#| msgid "Dashboard"
 msgid "Show on dashboard"
-msgstr "控制面板"
+msgstr "在控制面板中显示"
 
 #: weblate/trans/models/componentlist.py:55
+#, fuzzy
 msgid ""
 "When enabled this component list will be shown as a tab on the dashboard"
-msgstr ""
+msgstr "启用时, 组件列表将显示为控制面板上的选项卡"
 
 #: weblate/trans/models/componentlist.py:84
 msgid "Project regular expression"
@@ -6927,13 +6936,13 @@ msgstr "{translation}，翻译编号 {position}"
 
 #: weblate/trans/models/whiteboard.py:69
 msgid "Render as HTML"
-msgstr ""
+msgstr "渲染为 HTML"
 
 #: weblate/trans/models/whiteboard.py:71
 msgid ""
 "When disabled, URLs will be converted to links and any markup will be "
 "escaped."
-msgstr ""
+msgstr "当禁用时，URLs 会被转换为链接，任何标记将被转义。"
 
 #: weblate/trans/models/whiteboard.py:101
 msgid "Category"
@@ -7765,7 +7774,7 @@ msgstr "已翻译"
 
 #: weblate/utils/state.py:31
 msgid "Empty"
-msgstr ""
+msgstr "空"
 
 #: weblate/utils/validators.py:78
 #, python-brace-format
@@ -7773,11 +7782,11 @@ msgid "Failed to compile: {0}"
 msgstr "编译失败：{0}"
 
 #: weblate/utils/validators.py:85
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "Regular expression is missing named group \"{0}\", the simplest way to "
 "define it is {1}."
-msgstr ""
+msgstr "正则表达式缺少命名组 \"{0}\"，定义它的最简单方法是 {1}。"
 
 #: weblate/utils/validators.py:127
 msgid "Invalid image!"
@@ -7900,13 +7909,14 @@ msgstr "消除"
 
 #: weblate/wladmin/templates/admin/performance.html:44
 msgid "Ignore permanently"
-msgstr ""
+msgstr "永久忽略"
 
 #: weblate/wladmin/templates/admin/performance.html:52
+#, fuzzy
 msgid ""
 "You can safely permanently ignore errors for file formats you do not intend "
 "to use. These are usually caused by missing or outdated dependencies."
-msgstr ""
+msgstr "您可以安全地永久忽略不打算使用的文件格式的错误。这些通常是由于缺少或是已过时的依赖造成的。"
 
 #: weblate/wladmin/templates/admin/performance.html:64
 msgid "Check"
@@ -7934,7 +7944,7 @@ msgstr "SSH 密钥"
 
 #: weblate/wladmin/templates/admin/ssh.html:14
 msgid "SSH keys management"
-msgstr ""
+msgstr "SSH 密钥管理"
 
 #: weblate/wladmin/templates/admin/ssh.html:23
 msgid "Public SSH key"
@@ -7996,7 +8006,7 @@ msgstr "文档"
 
 #: weblate/wladmin/templates/admin/trans/change_form.html:37
 msgid "Required fields are marked in bold."
-msgstr ""
+msgstr "必填字段已用粗体标记。"
 
 #: weblate/wladmin/templates/admin/trans/change_form.html:39
 #, fuzzy
