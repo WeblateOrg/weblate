@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-05-04 13:06+0000\n"
-"PO-Revision-Date: 2018-05-09 19:41+0000\n"
-"Last-Translator: anonymous <>\n"
+"PO-Revision-Date: 2018-05-13 20:22+0000\n"
+"Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/master/de/"
 ">\n"
 "Language: de\n"
@@ -149,10 +149,8 @@ msgid "Activation email will be sent here."
 msgstr "Aktivierungs-E-Mail wird dorthin gesendet."
 
 #: weblate/accounts/forms.py:406
-#, fuzzy
-#| msgid "Too many registration attempts!"
 msgid "Too many registration attempts from this location!"
-msgstr "Zu viele Registrierungsversuche!"
+msgstr "Zu viele Registrierungsversuche von diesem Ort aus!"
 
 #: weblate/accounts/forms.py:413
 msgid "New password"
@@ -214,10 +212,8 @@ msgid "This account is inactive."
 msgstr "Dieses Konto ist deaktiviert."
 
 #: weblate/accounts/forms.py:567
-#, fuzzy
-#| msgid "Too many authentication attempts!"
 msgid "Too many authentication attempts from this location!"
-msgstr "Zu viele Authentifizierungsversuche!"
+msgstr "Zu viele Authentifizierungsversuche von diesem Ort aus!"
 
 #: weblate/accounts/forms.py:625 weblate/templates/addons/generate_help.html:21
 #: weblate/trans/models/project.py:92
@@ -268,29 +264,24 @@ msgstr ""
 "zurückgesetzt."
 
 #: weblate/accounts/models.py:63
-#, fuzzy, python-brace-format
-#| msgid "Authentication using {method} ({name}) has been added."
+#, python-brace-format
 msgid "Authentication ({method}:{name}) has been added."
-msgstr "Authentifizierung mittels {method} ({name}) wurde hinzugefügt."
+msgstr "Authentifizierung ({method}:{name}) wurde hinzugefügt."
 
 #: weblate/accounts/models.py:66
-#, fuzzy, python-brace-format
-#| msgid "Authentication using {method} ({name}) has been removed."
+#, python-brace-format
 msgid "Authentication ({method}:{name}) has been removed."
-msgstr "Authentifizierung mittels {method} ({name}) wurde entfernt."
+msgstr "Die Authentifizierung ({method}:{name}) wurde entfernt."
 
 #: weblate/accounts/models.py:69
-#, fuzzy, python-brace-format
-#| msgid "Authenticated using {method} ({name})."
+#, python-brace-format
 msgid "Authenticated ({method}:{name})."
-msgstr "Erfolgreich mittels {method} ({name}) authentifiziert."
+msgstr "Authentifiziert ({method}:{name})."
 
 #: weblate/accounts/models.py:72
-#, fuzzy, python-brace-format
-#| msgid "Authenticated using {method} ({name}) from new device."
+#, python-brace-format
 msgid "Authenticated ({method}:{name}) from new device."
-msgstr ""
-"Erfolgreich über {method} ({name}) von einem neuen Gerät aus authentifiziert."
+msgstr "Authentifiziert ({method}:{name}) von neuem Gerät."
 
 #: weblate/accounts/models.py:75
 msgid "Somebody has attempted to register with your email."
@@ -303,10 +294,9 @@ msgstr ""
 "Benutzerkonto hinzuzufügen."
 
 #: weblate/accounts/models.py:81
-#, fuzzy, python-brace-format
-#| msgid "Failed authentication attempt using {method} ({name})."
+#, python-brace-format
 msgid "Failed authentication attempt ({method}:{name})."
-msgstr "Authentifizierungsversuch mittels {method} ({name}) fehlgeschlagen."
+msgstr "Fehlgeschlagener Authentifizierungsversuch ({method}:{name})."
 
 #: weblate/accounts/models.py:84
 msgid "Account locked due to excessive failed authentication attempts."
@@ -696,10 +686,8 @@ msgstr ""
 "mehr vorhanden sind, zu entfernen."
 
 #: weblate/addons/discovery.py:35
-#, fuzzy
-#| msgid "Component list"
 msgid "Component discovery"
-msgstr "Liste der Komponenten"
+msgstr "Komponentenerkennung"
 
 #: weblate/addons/discovery.py:37
 msgid ""
@@ -783,12 +771,8 @@ msgid "JSON indentation"
 msgstr "API-Dokumentation"
 
 #: weblate/addons/forms.py:120
-#, fuzzy
-#| msgid "Regular expression which is used to match user email."
 msgid "Regular expression to match translation files"
-msgstr ""
-"Regulärer Ausdruck, der zum Vergleich mit der E-Mail-Adresse des Benutzers "
-"genutzt wird."
+msgstr "Regulärer Ausdruck zum Abgleich von Übersetzungsdateien"
 
 #: weblate/addons/forms.py:124 weblate/trans/models/component.py:249
 msgid "File format"
@@ -801,28 +785,20 @@ msgstr ""
 "langsamer."
 
 #: weblate/addons/forms.py:134
-#, fuzzy
-#| msgid "Component name"
 msgid "Customize the component name"
-msgstr "Name der Komponente"
+msgstr "Anpassen des Komponentennamens"
 
 #: weblate/addons/forms.py:139
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Define the monolingual base filename"
-msgstr "Einsprachige Basis-Sprachdatei"
+msgstr "Definition des einsprachigen Basisdateinamens"
 
 #: weblate/addons/forms.py:142
-#, fuzzy
-#| msgid "The request for machine translation has failed."
 msgid "Keep empty for bilingual translation files."
-msgstr "Die Anforderung für die maschinelle Übersetzung ist fehlgeschlagen."
+msgstr "Für zweisprachige Übersetzungsdateien leer lassen."
 
 #: weblate/addons/forms.py:145
-#, fuzzy
-#| msgid "Base file for new translations"
 msgid "Define the base file for new translations"
-msgstr "Basisdatei für neue Übersetzungen"
+msgstr "Definition der Basisdatei für neue Übersetzungen"
 
 #: weblate/addons/forms.py:149 weblate/trans/models/component.py:244
 msgid ""
@@ -846,17 +822,15 @@ msgstr ""
 
 #: weblate/addons/forms.py:164
 msgid "Remove components for non existing files"
-msgstr ""
+msgstr "Komponenten für nicht vorhandene Dateien entfernen"
 
 #: weblate/addons/forms.py:168
 msgid "I confirm that the above matches look correct"
-msgstr ""
+msgstr "Ich bestätige, dass die obigen Übereinstimmungen korrekt aussehen"
 
 #: weblate/addons/forms.py:231
-#, fuzzy
-#| msgid "Please review and confirm the search and replace results."
 msgid "Please review and confirm matched components."
-msgstr "Bitte prüfen und bestätigen Sie die Suchen-und-Ersetzen-Ergebnisse."
+msgstr "Bitte prüfen und bestätigen Sie abgestimmte Komponenten."
 
 #: weblate/addons/generate.py:36
 msgid "Statistics generator"
@@ -883,33 +857,25 @@ msgid "Update LINGUAS file"
 msgstr "LINGUAS-Datei aktualisieren"
 
 #: weblate/addons/gettext.py:74
-#, fuzzy
-#| msgid "Updates the LINGUAS file when adding new translation."
 msgid "Updates the LINGUAS file when a new translation is added."
 msgstr ""
-"Aktualisiert die LINGUAS-Datei beim Hinzufügen einer neuen Übersetzung."
+"Aktualisiert die LINGUAS-Datei, wenn eine neue Übersetzung hinzugefügt wird."
 
 #: weblate/addons/gettext.py:127
 msgid "Update ALL_LINGUAS variable in the configure file"
-msgstr "Aktualisieren Sie die Variable ALL_LINGUAS in der configure-Datei."
+msgstr "Aktualisieren Sie die Variable ALL_LINGUAS in der configure-Datei"
 
 #: weblate/addons/gettext.py:129
-#, fuzzy
-#| msgid ""
-#| "Updates the ALL_LINGUAS variable in configure, configure.in or configure."
-#| "ac files when adding new translation."
 msgid ""
 "Updates the ALL_LINGUAS variable in configure, configure.in or configure.ac "
 "files, when a new translation is added."
 msgstr ""
-"Aktualisiert die Variable ALL_LINGUAS in configure-, configure.in- oder "
-"configure.ac-Dateien, wenn neue Übersetzungen hinzugefügt werden."
+"Aktualisiert die Variable ALL_LINGUAS in configure, configure.in oder "
+"configure.ac Dateien, wenn eine neue Übersetzung hinzugefügt wird."
 
 #: weblate/addons/gettext.py:187
-#, fuzzy
-#| msgid "Update po files to match pot (msgmerge)"
 msgid "Update PO files to match POT (msgmerge)"
-msgstr "Aktualisieren von po-Dateien zur Anpassung an pot (msgmerge)"
+msgstr "PO-Dateien auf POT aktualisieren (msgmerge)"
 
 #: weblate/addons/gettext.py:189
 msgid ""
@@ -932,10 +898,8 @@ msgstr ""
 "Zeilenumbrüche."
 
 #: weblate/addons/gettext.py:239
-#, fuzzy
-#| msgid "Contributor agreement"
 msgid "Contributors in comment"
-msgstr "Mitwirkenden-Vereinbarung"
+msgstr "Mitwirkende im Kommentar"
 
 #: weblate/addons/gettext.py:241
 msgid ""
@@ -1435,10 +1399,8 @@ msgid "DTD file"
 msgstr "DTD-Datei"
 
 #: weblate/formats/ttkit.py:702
-#, fuzzy
-#| msgid "CSV file"
 msgid "RC file"
-msgstr "CSV-Datei"
+msgstr "RC-Datei"
 
 #: weblate/lang/apps.py:28
 msgid "Weblate languages"
@@ -1783,16 +1745,12 @@ msgid "We use cookies to deliver our services."
 msgstr "Wir nutzen Cookies um unsere Dienste zur Verfügung zu stellen."
 
 #: weblate/legal/templates/legal/privacy.html:7 weblate/legal/views.py:57
-#, fuzzy
-#| msgid "Private"
 msgid "Privacy"
-msgstr "Privat"
+msgstr "Datenschutz"
 
 #: weblate/legal/templates/legal/privacy.html:17
-#, fuzzy
-#| msgid "Security Policy"
 msgid "Privacy Policy"
-msgstr "Sicherheitsregeln"
+msgstr "Datenschutzrichtlinie"
 
 #: weblate/legal/templates/legal/privacy.html:25
 msgid ""
@@ -1813,6 +1771,8 @@ msgstr "Beide werden zur Identifikation bei den VCS-Commits genutzt"
 #: weblate/legal/templates/legal/privacy.html:32
 msgid "Additionally email is used for notifications on watched events"
 msgstr ""
+"E-Mail wird zusätzlich zu Benachrichtigungen über beobachtete Ereignisse "
+"verwendet"
 
 #: weblate/legal/templates/legal/privacy.html:34
 msgid "IP address and browser name"
@@ -1825,7 +1785,7 @@ msgid ""
 msgstr ""
 "Sie werden für den Fall wichtiger Veränderungen an Ihrem Konto (z. B. "
 "Passwortänderungen) aufgezeichnet, um feststellen zu können, ob Ihr Konto "
-"gekapert wurde."
+"gekapert wurde"
 
 #: weblate/legal/templates/legal/privacy.html:40
 msgid ""
@@ -2960,56 +2920,50 @@ msgid ""
 "The regular expression to match translation files has to contain two named "
 "groups to match component and language, some examples:"
 msgstr ""
+"Der reguläre Ausdruck zum Abgleich von Übersetzungsdateien muss zwei "
+"benannte Gruppen enthalten, um Komponente und Sprache abzugleichen, z.B. "
+"Beispiel:"
 
 #: weblate/templates/addons/discovery_help.html:8
-#, fuzzy
-#| msgid "Email regular expression"
 msgid "Regular expression"
-msgstr "Email Regulärer Ausdruck"
+msgstr "Regulärer Ausdruck"
 
 #: weblate/templates/addons/discovery_help.html:9
-#, fuzzy
-#| msgid "Failed to parse %d matched files!"
 msgid "Example matched files"
-msgstr "Fehler beim Verarbeiten von %d passenden Dateien!"
+msgstr "Beispiel für übereinstimmende Dateien"
 
 #: weblate/templates/addons/discovery_help.html:22
 msgid "One folder per language containing translation files for components."
 msgstr ""
+"Ein Ordner pro Sprache, der Übersetzungsdateien für Komponenten enthält."
 
 #: weblate/templates/addons/discovery_help.html:32
 msgid "Usual structure for storing gettext PO files."
-msgstr ""
+msgstr "Übliche Struktur zum Speichern von gettext PO-Dateien."
 
 #: weblate/templates/addons/discovery_help.html:42
 msgid "Using both component and language name within filename."
-msgstr ""
+msgstr "Verwendung von Komponenten- und Sprachnamen innerhalb des Dateinamens."
 
 #: weblate/templates/addons/discovery_help.html:52
 msgid "Using language in both path and filename."
-msgstr ""
+msgstr "Verwendung von Sprache in Pfad und Dateiname."
 
 #: weblate/templates/addons/discovery_help.html:57
-#, fuzzy
-#| msgid ""
-#| "You can use Django templates markup in both filename and content, for "
-#| "example:"
 msgid ""
 "You can use Django templates markup in both component name and monolingual "
 "base filename, for example:"
 msgstr ""
-"Sie können z.B. Django-Templates-Markup sowohl im Dateinamen als auch im "
-"Inhalt verwenden:"
+"Sie können z.B. Django-Templates sowohl im Komponentennamen als auch im "
+"einsprachigen Basisdateinamen verwenden:"
 
 #: weblate/templates/addons/discovery_help.html:61
-#, fuzzy
-#| msgid "Component name"
 msgid "Component filename match"
-msgstr "Name der Komponente"
+msgstr "Dateinamenübereinstimmung der Komponente"
 
 #: weblate/templates/addons/discovery_help.html:63
 msgid "Component filename with upper case first letter"
-msgstr ""
+msgstr "Komponentendateiname mit Großbuchstaben beginnend"
 
 #: weblate/templates/addons/discovery_preview.html:5
 #: weblate/templates/list-translations.html:7
@@ -3019,26 +2973,24 @@ msgid "Component"
 msgstr "Komponente"
 
 #: weblate/templates/addons/discovery_preview.html:5
-#, fuzzy
-#| msgid "Watched projects"
 msgid "Matched files"
-msgstr "Beobachtete Projekte"
+msgstr "Abgestimmte Dateien"
 
 #: weblate/templates/addons/discovery_preview.html:9
 msgid "Following components would be deleted"
-msgstr ""
+msgstr "Folgende Komponenten würden gelöscht werden"
 
 #: weblate/templates/addons/discovery_preview.html:15
 msgid "Following components would be created"
-msgstr ""
+msgstr "Folgende Komponenten würden erzeugt werden"
 
 #: weblate/templates/addons/discovery_preview.html:28
 msgid "Following components matched existing ones"
-msgstr ""
+msgstr "Folgende Komponenten sind auf die vorhandenen abgestimmt"
 
 #: weblate/templates/addons/discovery_preview.html:41
 msgid "No components were matched!"
-msgstr ""
+msgstr "Es wurden keine Komponenten aufeinander abgestimmt!"
 
 #: weblate/templates/addons/generate_help.html:3
 msgid ""
@@ -4501,10 +4453,10 @@ msgstr "Sie können hier übersetzen: %(translation_url)s"
 
 #: weblate/templates/mail/merge_failure.html:11
 #: weblate/templates/mail/merge_failure.txt:3
-#, fuzzy, python-format
-#| msgid "There has been a merge failure on %(subproject)s at %(site_title)s."
+#, python-format
 msgid "There has been a merge failure on %(component)s at %(site_title)s."
-msgstr "es gab einen Merge-Konflikt bei %(subproject)s auf %(site_title)s."
+msgstr ""
+"Es gab einen Fehler beim Zusammenführen von %(component)s bei %(site_title)s."
 
 #: weblate/templates/mail/merge_failure.html:15
 #: weblate/templates/mail/parse_error.html:15
@@ -4531,17 +4483,15 @@ msgid "Repository status:"
 msgstr "Repository-Status:"
 
 #: weblate/templates/mail/merge_failure_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Merge failure in %(subproject)s"
+#, python-format
 msgid "Merge failure in %(component)s"
-msgstr "Merge-Konflikt in %(subproject)s"
+msgstr "Zusammenführungsfehler in %(component)s"
 
 #: weblate/templates/mail/new_comment.html:11
 #: weblate/templates/mail/new_comment.txt:3
-#, fuzzy, python-format
-#| msgid "There has been a new comment on %(subproject)s at %(site_title)s."
+#, python-format
 msgid "There has been a new comment on %(component)s at %(site_title)s."
-msgstr "es gibt einen neuen Kommentar zu %(subproject)s auf %(site_title)s."
+msgstr "Es gab einen neuen Kommentar zu %(component)s unter %(site_title)s."
 
 #: weblate/templates/mail/new_comment.html:28
 #: weblate/templates/mail/new_comment.txt:9
@@ -4549,10 +4499,9 @@ msgid "Comment:"
 msgstr "Kommentar:"
 
 #: weblate/templates/mail/new_comment_subject.txt:3
-#, fuzzy, python-format
-#| msgid "New comment in %(subproject)s"
+#, python-format
 msgid "New comment in %(component)s"
-msgstr "Neuer Kommentar zu %(subproject)s"
+msgstr "Neuer Kommentar in %(component)s"
 
 #: weblate/templates/mail/new_contributor.html:7
 #: weblate/templates/mail/new_contributor.txt:1
@@ -4689,10 +4638,9 @@ msgstr "Neue Übersetzung in %(translation)s"
 
 #: weblate/templates/mail/parse_error.html:11
 #: weblate/templates/mail/parse_error.txt:3
-#, fuzzy, python-format
-#| msgid "There has been a parse error on %(subproject)s at %(site_title)s."
+#, python-format
 msgid "There has been a parse error on %(component)s at %(site_title)s."
-msgstr "Die Prüfung ist bei %(subproject)s von %(site_title)s gescheitert."
+msgstr "Es gab einen Parse-Fehler auf %(component)s bei %(site_title)s."
 
 #: weblate/templates/mail/parse_error.html:21
 msgid "Failing file"
@@ -4703,10 +4651,9 @@ msgid "Failing file:"
 msgstr "Datei fehlerhaft:"
 
 #: weblate/templates/mail/parse_error_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Parse error in %(subproject)s"
+#, python-format
 msgid "Parse error in %(component)s"
-msgstr "Fehler beim Analysieren in %(subproject)s"
+msgstr "Parse-Fehler in %(component)s"
 
 #: weblate/templates/mail/remove.html:11 weblate/templates/mail/remove.txt:3
 #, python-format
@@ -5838,7 +5785,7 @@ msgstr "Kein passender Nutzer gefunden."
 
 #: weblate/trans/forms.py:165
 msgid "More users matched."
-msgstr "Weitere Nutzer gefunden!"
+msgstr "Weitere Nutzer gefunden."
 
 #: weblate/trans/forms.py:202 weblate/trans/forms.py:210
 msgid "Toggle text direction"
@@ -6091,7 +6038,7 @@ msgstr "Vorschläge aus automatischer Übersetzung"
 
 #: weblate/trans/forms.py:920
 msgid "Score threshold"
-msgstr ""
+msgstr "Scoreschwellwert"
 
 #: weblate/trans/forms.py:947
 msgid "All components in current project"
@@ -7022,7 +6969,7 @@ msgstr "Fehler beim Hinzufügen der neuen Übersetzungsdatei!"
 
 #: weblate/trans/models/component.py:1542
 msgid "Given language is filtered by the language filter!"
-msgstr "Einsprachige Basis-Sprachdatei"
+msgstr "Die angegebene Sprache wird durch den Sprachfilter gefiltert!"
 
 #: weblate/trans/models/component.py:1564
 msgid "Translation file already exists!"
@@ -8076,6 +8023,8 @@ msgid ""
 "Regular expression is missing named group \"{0}\", the simplest way to "
 "define it is {1}."
 msgstr ""
+"Es fehlt der reguläre Ausdruck mit dem Gruppennamen \"{0}\", die einfachste "
+"Art, ihn zu definieren, ist {1}."
 
 #: weblate/utils/validators.py:127
 msgid "Invalid image!"
@@ -8311,7 +8260,7 @@ msgstr "Auswertungen"
 
 #: weblate/wladmin/views.py:87
 msgid "Failed to dismiss configuration error!"
-msgstr "Fehler in der Konfiguration"
+msgstr "Konfigurationsfehler konnte nicht verworfen werden!"
 
 #: weblate/wladmin/views.py:98
 msgid "Debug mode"
