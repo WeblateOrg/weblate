@@ -4,60 +4,6 @@ from __future__ import unicode_literals
 
 from django.db import migrations
 
-from weblate.permissions.data import DEFAULT_GROUPS
-
-
-def add_groups(apps, schema_editor):
-    Group = apps.get_model('auth', 'Group')
-    Permission = apps.get_model('auth', 'Permission')
-    Project = apps.get_model('trans', 'Project')
-    GroupACL = apps.get_model('permissions', 'GroupACL')
-
-    groups = {}
-    group_perms = {
-        '@Languages': 'add_translation',
-        '@Template': 'save_template',
-    }
-
-    # Create default @ groups
-    # This is stripped down version of create_groups
-    for name in DEFAULT_GROUPS:
-        if name[0] != '@':
-            continue
-        group, created = Group.objects.get_or_create(name=name)
-        if created:
-            group.permissions.set(
-                Permission.objects.filter(codename__in=DEFAULT_GROUPS[name])
-            )
-        groups[name] = group.permissions.all()
-
-    # Create ACL groups for ACL enabled projects
-    for project in Project.objects.filter(enable_acl=True).iterator():
-        # Create GroupACL object
-        group_acl = GroupACL.objects.get_or_create(
-            project=project, subproject=None, language=None
-        )[0]
-
-        # Create groups
-        for name in group_perms.keys():
-            groupname = '{0}{1}'.format(project.name, name)
-            group = Group.objects.get_or_create(name=groupname)[0]
-            group.permissions.set(groups[name])
-
-            # Add GroupACL assignment
-            group_acl.groups.add(group)
-
-            # Migrate ACL assignments
-            try:
-                old_group = Group.objects.get(
-                    name='{0}@Translate'.format(project.name)
-                )
-                perm = old_group.permissions.filter(codename=group_perms[name])
-                if perm.exists():
-                    group.user_set.add(*old_group.user_set.all())
-            except Group.DoesNotExist:
-                pass
-
 
 class Migration(migrations.Migration):
 
@@ -66,5 +12,4 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(add_groups),
     ]
