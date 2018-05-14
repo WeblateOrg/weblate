@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-05-04 13:06+0000\n"
-"PO-Revision-Date: 2018-03-25 17:37+0000\n"
-"Last-Translator: Tumpal Gemelli <gemell1@hotmail.co.id>\n"
+"PO-Revision-Date: 2018-05-15 11:45+0000\n"
+"Last-Translator: ditokp <ditokpl@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "master/id/>\n"
 "Language: id\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2.20-dev\n"
+"X-Generator: Weblate 3.0-dev\n"
 
 #: weblate/accounts/admin.py:109 weblate/accounts/admin.py:114
 msgid "Personal info"
@@ -144,10 +144,8 @@ msgid "Activation email will be sent here."
 msgstr "Surel aktivasi akan dikirim ke sini."
 
 #: weblate/accounts/forms.py:406
-#, fuzzy
-#| msgid "Too many registration attempts!"
 msgid "Too many registration attempts from this location!"
-msgstr "Terlalu banyak upaya pendaftaran!"
+msgstr "Terlalu banyak upaya pendaftaran dari lokasi ini!"
 
 #: weblate/accounts/forms.py:413
 msgid "New password"
@@ -207,10 +205,8 @@ msgid "This account is inactive."
 msgstr "Akun ini tidak aktif."
 
 #: weblate/accounts/forms.py:567
-#, fuzzy
-#| msgid "Too many authentication attempts!"
 msgid "Too many authentication attempts from this location!"
-msgstr "Terlalu banyak usaha autentikasi!"
+msgstr "Terlalu banyak usaha autentikasi dari lokasi ini!"
 
 #: weblate/accounts/forms.py:625 weblate/templates/addons/generate_help.html:21
 #: weblate/trans/models/project.py:92
@@ -261,28 +257,24 @@ msgstr ""
 "ulang."
 
 #: weblate/accounts/models.py:63
-#, fuzzy, python-brace-format
-#| msgid "Authentication using {method} ({name}) has been added."
+#, python-brace-format
 msgid "Authentication ({method}:{name}) has been added."
-msgstr "Autentikasi menggunakan {method} ({name}) telah ditambah."
+msgstr "Autentikasi menggunakan ({method}:{name}) telah ditambah."
 
 #: weblate/accounts/models.py:66
-#, fuzzy, python-brace-format
-#| msgid "Authentication using {method} ({name}) has been removed."
+#, python-brace-format
 msgid "Authentication ({method}:{name}) has been removed."
-msgstr "Autentikasi menggunakan {method} ({name}) telah dihapus."
+msgstr "Autentikasi menggunakan ({method}:{name}) telah dihapus."
 
 #: weblate/accounts/models.py:69
-#, fuzzy, python-brace-format
-#| msgid "Authenticated using {method} ({name})."
+#, python-brace-format
 msgid "Authenticated ({method}:{name})."
-msgstr "Terautentikasi menggunakan {method} ({name})."
+msgstr "Terautentikasi menggunakan ({method}:({name})."
 
 #: weblate/accounts/models.py:72
-#, fuzzy, python-brace-format
-#| msgid "Authenticated using {method} ({name}) from new device."
+#, python-brace-format
 msgid "Authenticated ({method}:{name}) from new device."
-msgstr "Terautentikasi menggunakan {method} ({name}) dari perangkat baru."
+msgstr "Terautentikasi menggunakan ({method}:{name}) dari perangkat baru."
 
 #: weblate/accounts/models.py:75
 msgid "Somebody has attempted to register with your email."
@@ -293,10 +285,9 @@ msgid "Somebody has attempted to add your email to existing account."
 msgstr "Seseorang mencoba menambahkan surel anda ke akun yang telah ada."
 
 #: weblate/accounts/models.py:81
-#, fuzzy, python-brace-format
-#| msgid "Failed authentication attempt using {method} ({name})."
+#, python-brace-format
 msgid "Failed authentication attempt ({method}:{name})."
-msgstr "Percobaan autentikasi gagal menggunakan {method} ({name})."
+msgstr "Percobaan autentikasi gagal menggunakan ({method}:{name})."
 
 #: weblate/accounts/models.py:84
 msgid "Account locked due to excessive failed authentication attempts."
@@ -670,16 +661,16 @@ msgstr ""
 "terjemahan lama yang tidak ada lagi di berkas basis."
 
 #: weblate/addons/discovery.py:35
-#, fuzzy
-#| msgid "Component list"
 msgid "Component discovery"
-msgstr "Daftar komponen"
+msgstr "Penemuan komponen"
 
 #: weblate/addons/discovery.py:37
 msgid ""
 "This addon automatically adds or removes components to the project based on "
 "file changes in the version control system."
 msgstr ""
+"Addon ini otomatis menambahkan atau menghapus komponen pada proyek "
+"berdasarkan perubahan file di sistem kontrol versi."
 
 #: weblate/addons/example.py:42
 msgid "Example addon"
@@ -753,10 +744,8 @@ msgid "JSON indentation"
 msgstr "Indentasi JSON"
 
 #: weblate/addons/forms.py:120
-#, fuzzy
-#| msgid "Regular expression which is used to match user email."
 msgid "Regular expression to match translation files"
-msgstr "Ekspresi reguler yang digunakan untuk mencocokan surel pengguna."
+msgstr "Ekspresi reguler untuk mencocokan file terjemahan"
 
 #: weblate/addons/forms.py:124 weblate/trans/models/component.py:249
 msgid "File format"
@@ -769,28 +758,20 @@ msgstr ""
 "lambat."
 
 #: weblate/addons/forms.py:134
-#, fuzzy
-#| msgid "Component name"
 msgid "Customize the component name"
-msgstr "Nama komponen"
+msgstr "Sesuaikan nama komponen"
 
 #: weblate/addons/forms.py:139
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Define the monolingual base filename"
-msgstr "Berkas bahasa berbasis ekabahasa"
+msgstr "Tentukan nama file basis ekabahasa"
 
 #: weblate/addons/forms.py:142
-#, fuzzy
-#| msgid "The request for machine translation has failed:"
 msgid "Keep empty for bilingual translation files."
-msgstr "Permintaan untuk mesin penerjemahan telah gagal:"
+msgstr "Tetap kosong untuk file terjemahan bilingual."
 
 #: weblate/addons/forms.py:145
-#, fuzzy
-#| msgid "Base file for new translations"
 msgid "Define the base file for new translations"
-msgstr "Berkas dasar untuk penerjemahan baru"
+msgstr "Tetapkan berkas dasar untuk penerjemahan baru"
 
 #: weblate/addons/forms.py:149 weblate/trans/models/component.py:244
 msgid ""
@@ -814,17 +795,15 @@ msgstr ""
 
 #: weblate/addons/forms.py:164
 msgid "Remove components for non existing files"
-msgstr ""
+msgstr "Hapus komponen untuk file yang tidak ada"
 
 #: weblate/addons/forms.py:168
 msgid "I confirm that the above matches look correct"
-msgstr ""
+msgstr "Saya mengkonfirmasi bahwa diatas terlihat benar"
 
 #: weblate/addons/forms.py:231
-#, fuzzy
-#| msgid "Please review and confirm the search and replace results."
 msgid "Please review and confirm matched components."
-msgstr "Harap tinjau dan konfirmasikan pencarian dan ganti hasilnya."
+msgstr "Harap tinjau dan konfirmasikan komponen yang cocok."
 
 #: weblate/addons/generate.py:36
 msgid "Statistics generator"
@@ -838,10 +817,8 @@ msgstr ""
 "Addon ini menghasilkan satu berkas berisi informasi rinci tentang terjemahan."
 
 #: weblate/addons/gettext.py:55
-#, fuzzy
-#| msgid "Generate mo files"
 msgid "Generate MO files"
-msgstr "Menghasilkan berkas mo"
+msgstr "Menghasilkan berkas MO"
 
 #: weblate/addons/gettext.py:57
 msgid "Automatically generates MO file for every changed PO file."
@@ -852,32 +829,24 @@ msgid "Update LINGUAS file"
 msgstr "Perbarui berkas LINGUAS"
 
 #: weblate/addons/gettext.py:74
-#, fuzzy
-#| msgid "Updates the LINGUAS file when adding new translation."
 msgid "Updates the LINGUAS file when a new translation is added."
-msgstr "Memperbarui berkas LINGUAS saat menambahkan terjemahan baru."
+msgstr "Memperbarui berkas LINGUAS saat terjemahan baru ditambahkan."
 
 #: weblate/addons/gettext.py:127
 msgid "Update ALL_LINGUAS variable in the configure file"
 msgstr "Perbarui variabel ALL_LINGUAS di berkas configure"
 
 #: weblate/addons/gettext.py:129
-#, fuzzy
-#| msgid ""
-#| "Updates the ALL_LINGUAS variable in configure, configure.in or configure."
-#| "ac files when adding new translation."
 msgid ""
 "Updates the ALL_LINGUAS variable in configure, configure.in or configure.ac "
 "files, when a new translation is added."
 msgstr ""
 "Perbarui variabel ALL_LINGUAS di berkas configure, configure.in atau "
-"configure.ac saat menambahkan terjemahan baru."
+"configure.ac saat terjemahan baru ditambahkan."
 
 #: weblate/addons/gettext.py:187
-#, fuzzy
-#| msgid "Update po files to match pot (msgmerge)"
 msgid "Update PO files to match POT (msgmerge)"
-msgstr "Perbarui berkas po agar sesuai dengan pot (msgmerge)"
+msgstr "Perbarui berkas PO agar sesuai dengan POT (msgmerge)"
 
 #: weblate/addons/gettext.py:189
 msgid ""
@@ -898,16 +867,16 @@ msgstr ""
 "Izinkan penyesuaian perilaku keluaran gettext, contohnya wrapping baris."
 
 #: weblate/addons/gettext.py:239
-#, fuzzy
-#| msgid "Contributor agreement"
 msgid "Contributors in comment"
-msgstr "Perjanjian kontributor"
+msgstr "Kontributor dalam komentar"
 
 #: weblate/addons/gettext.py:241
 msgid ""
 "Update comment in the PO file header to include contributor name and years "
 "of contributions."
 msgstr ""
+"Perbarui komentar di header berkas PO untuk menyertakan nama kontributor dan "
+"tahun kontribusi."
 
 #: weblate/addons/json.py:33
 msgid "Customize JSON output"
@@ -1378,10 +1347,8 @@ msgid "DTD file"
 msgstr "Berkas DTD"
 
 #: weblate/formats/ttkit.py:702
-#, fuzzy
-#| msgid "CSV file"
 msgid "RC file"
-msgstr "Berkas CSV"
+msgstr "Berkas RC"
 
 #: weblate/lang/apps.py:28
 msgid "Weblate languages"
@@ -1714,51 +1681,50 @@ msgid "We use cookies to deliver our services."
 msgstr "Kami menggunakan kuki untuk memberikan layanan kami."
 
 #: weblate/legal/templates/legal/privacy.html:7 weblate/legal/views.py:57
-#, fuzzy
-#| msgid "Private"
 msgid "Privacy"
-msgstr "Privat"
+msgstr "Privasi"
 
 #: weblate/legal/templates/legal/privacy.html:17
-#, fuzzy
-#| msgid "Security Policy"
 msgid "Privacy Policy"
-msgstr "Kebijakan Keamanan"
+msgstr "Kebijakan Privasi"
 
 #: weblate/legal/templates/legal/privacy.html:25
 msgid ""
 "Weblate needs some personal information, this page describes how it is "
 "stored and used."
 msgstr ""
+"Weblate butuh beberapa informasi pribadi, halaman ini mendeskripsikan "
+"bagaimana ia disimpan dan digunakan."
 
 #: weblate/legal/templates/legal/privacy.html:30
-#, fuzzy
-#| msgid "Username or email"
 msgid "Name and email"
-msgstr "Nama pengguna atau surel"
+msgstr "Nama dan surel"
 
 #: weblate/legal/templates/legal/privacy.html:31
 msgid "These are used to identify you in the VCS commits"
-msgstr ""
+msgstr "Ini digunakan untuk mengidentifikasi Anda dalam commit VCS"
 
 #: weblate/legal/templates/legal/privacy.html:32
 msgid "Additionally email is used for notifications on watched events"
-msgstr ""
+msgstr "Tambahan surel digunakan untuk pemberitahuan pada proyek yang ditonton"
 
 #: weblate/legal/templates/legal/privacy.html:34
 msgid "IP address and browser name"
-msgstr ""
+msgstr "Alamat IP dan nama browser"
 
 #: weblate/legal/templates/legal/privacy.html:35
 msgid ""
 "These are logged in case of important changes to your account (e.g. password "
 "change) to allow diagnosis in case your account is stolen"
 msgstr ""
+"Ini dicatat dalam kasus perubahan penting pada akun Anda (mis. Perubahan "
+"kata sandi) untuk memungkinkan diagnosis jika akun Anda dicuri"
 
 #: weblate/legal/templates/legal/privacy.html:40
 msgid ""
 "All these information is removed once you delete your account in Weblate."
 msgstr ""
+"Semua informasi ini akan dihapus ketika Anda menghapus akun Weblate Anda."
 
 #: weblate/legal/templates/legal/security.html:7 weblate/legal/views.py:52
 msgid "Security"
@@ -2851,56 +2817,48 @@ msgid ""
 "The regular expression to match translation files has to contain two named "
 "groups to match component and language, some examples:"
 msgstr ""
+"Ekspresi reguler untuk mencocokkan berkas terjemahan harus mengandung dua "
+"grup bernama untuk mencocokkan komponen dan bahasa, beberapa contoh:"
 
 #: weblate/templates/addons/discovery_help.html:8
-#, fuzzy
-#| msgid "Email regular expression"
 msgid "Regular expression"
-msgstr "Surel ekspresi reguler"
+msgstr "Ekspresi reguler"
 
 #: weblate/templates/addons/discovery_help.html:9
-#, fuzzy
-#| msgid "Failed to parse %d matched files!"
 msgid "Example matched files"
-msgstr "Gagal untuk mengurai berkas %d ini!"
+msgstr "Contoh berkas yang cocok"
 
 #: weblate/templates/addons/discovery_help.html:22
 msgid "One folder per language containing translation files for components."
-msgstr ""
+msgstr "Satu folder per bahasa mengandung berkas terjemahan untuk komponen."
 
 #: weblate/templates/addons/discovery_help.html:32
 msgid "Usual structure for storing gettext PO files."
-msgstr ""
+msgstr "Struktur biasa untuk menyimpan berkas gettext PO."
 
 #: weblate/templates/addons/discovery_help.html:42
 msgid "Using both component and language name within filename."
-msgstr ""
+msgstr "Menggunakan kedua komponen dan nama bahasa dalam nama berkas."
 
 #: weblate/templates/addons/discovery_help.html:52
 msgid "Using language in both path and filename."
-msgstr ""
+msgstr "Menggunakan bahasa dalam kedua jalur dan nama berkas."
 
 #: weblate/templates/addons/discovery_help.html:57
-#, fuzzy
-#| msgid ""
-#| "You can use Django templates markup in both filename and content, for "
-#| "example:"
 msgid ""
 "You can use Django templates markup in both component name and monolingual "
 "base filename, for example:"
 msgstr ""
-"Anda bisa menggunakan markup templat Django baik di nama berkas dan konten, "
-"misalnya:"
+"Anda bisa menggunakan markup templat Django baik di nama komponen dan berkas "
+"nama utama satu bahasa, misalnya:"
 
 #: weblate/templates/addons/discovery_help.html:61
-#, fuzzy
-#| msgid "Component name"
 msgid "Component filename match"
-msgstr "Nama komponen"
+msgstr "Nama berkas komponen cocok"
 
 #: weblate/templates/addons/discovery_help.html:63
 msgid "Component filename with upper case first letter"
-msgstr ""
+msgstr "Nama berkas komponen dengan huruf pertama huruf besar"
 
 #: weblate/templates/addons/discovery_preview.html:5
 #: weblate/templates/list-translations.html:7
@@ -2910,26 +2868,24 @@ msgid "Component"
 msgstr "Komponen"
 
 #: weblate/templates/addons/discovery_preview.html:5
-#, fuzzy
-#| msgid "Watched projects"
 msgid "Matched files"
-msgstr "Proyek yang dipantau"
+msgstr "Berkas cocok"
 
 #: weblate/templates/addons/discovery_preview.html:9
 msgid "Following components would be deleted"
-msgstr ""
+msgstr "Komponen-komponen berikut akan dihapus"
 
 #: weblate/templates/addons/discovery_preview.html:15
 msgid "Following components would be created"
-msgstr ""
+msgstr "Komponen-komponen berikut akan dibuat"
 
 #: weblate/templates/addons/discovery_preview.html:28
 msgid "Following components matched existing ones"
-msgstr ""
+msgstr "Komponen-komponen berikut cocok dengan yang sudah ada"
 
 #: weblate/templates/addons/discovery_preview.html:41
 msgid "No components were matched!"
-msgstr ""
+msgstr "Tidak ada komponen yang cocok!"
 
 #: weblate/templates/addons/generate_help.html:3
 msgid ""
@@ -4344,10 +4300,9 @@ msgstr "Anda dapat menerjemahkan di %(translation_url)s"
 
 #: weblate/templates/mail/merge_failure.html:11
 #: weblate/templates/mail/merge_failure.txt:3
-#, fuzzy, python-format
-#| msgid "There has been a merge failure on %(subproject)s at %(site_title)s."
+#, python-format
 msgid "There has been a merge failure on %(component)s at %(site_title)s."
-msgstr "Ada penggabungan yang gagal pada %(subproject)s di %(site_title)s."
+msgstr "Ada penggabungan yang gagal pada %(component)s di %(site_title)s."
 
 #: weblate/templates/mail/merge_failure.html:15
 #: weblate/templates/mail/parse_error.html:15
@@ -4374,17 +4329,15 @@ msgid "Repository status:"
 msgstr "Status repositori:"
 
 #: weblate/templates/mail/merge_failure_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Merge failure in %(subproject)s"
+#, python-format
 msgid "Merge failure in %(component)s"
-msgstr "Penggabungan gagal di %(subproject)s"
+msgstr "Penggabungan gagal di %(component)s"
 
 #: weblate/templates/mail/new_comment.html:11
 #: weblate/templates/mail/new_comment.txt:3
-#, fuzzy, python-format
-#| msgid "There has been a new comment on %(subproject)s at %(site_title)s."
+#, python-format
 msgid "There has been a new comment on %(component)s at %(site_title)s."
-msgstr "Ada komentar baru pada %(subproject)s di %(site_title)s."
+msgstr "Ada komentar baru pada %(component)s di %(site_title)s."
 
 #: weblate/templates/mail/new_comment.html:28
 #: weblate/templates/mail/new_comment.txt:9
@@ -4392,10 +4345,9 @@ msgid "Comment:"
 msgstr "Komentar:"
 
 #: weblate/templates/mail/new_comment_subject.txt:3
-#, fuzzy, python-format
-#| msgid "New comment in %(subproject)s"
+#, python-format
 msgid "New comment in %(component)s"
-msgstr "Komentar baru di %(subproject)s"
+msgstr "Komentar baru di %(component)s"
 
 #: weblate/templates/mail/new_contributor.html:7
 #: weblate/templates/mail/new_contributor.txt:1
@@ -4530,10 +4482,9 @@ msgstr "Terjemahan baru di %(translation)s"
 
 #: weblate/templates/mail/parse_error.html:11
 #: weblate/templates/mail/parse_error.txt:3
-#, fuzzy, python-format
-#| msgid "There has been a parse error on %(subproject)s at %(site_title)s."
+#, python-format
 msgid "There has been a parse error on %(component)s at %(site_title)s."
-msgstr "Ada kesalahan penguraian pada %(subproject)s di %(site_title)s."
+msgstr "Ada kesalahan penguraian pada %(component)s di %(site_title)s."
 
 #: weblate/templates/mail/parse_error.html:21
 msgid "Failing file"
@@ -4544,10 +4495,9 @@ msgid "Failing file:"
 msgstr "Berkas gagal:"
 
 #: weblate/templates/mail/parse_error_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Parse error in %(subproject)s"
+#, python-format
 msgid "Parse error in %(component)s"
-msgstr "Kesalahan penguraian di %(subproject)s"
+msgstr "Kesalahan penguraian di %(component)s"
 
 #: weblate/templates/mail/remove.html:11 weblate/templates/mail/remove.txt:3
 #, python-format
@@ -5217,26 +5167,20 @@ msgid "Download original translation file (%(format)s)"
 msgstr "Unduh berkas penerjemahan asli (%(format)s)"
 
 #: weblate/templates/translation-download.html:7
-#, fuzzy
-#| msgid "Download translation as XLIFF with Gettext extensions"
 msgid "Download translation as XLIFF with gettext extensions"
-msgstr "Unduh penerjemahan sebagai XLIFF dengan ekstensi Gettext"
+msgstr "Unduh penerjemahan sebagai XLIFF dengan ekstensi gettext"
 
 #: weblate/templates/translation-download.html:8
 msgid "Download translation as XLIFF 1.2"
 msgstr "Unduh penerjemahan sebagai XLIFF 1.2"
 
 #: weblate/templates/translation-download.html:9
-#, fuzzy
-#| msgid "Download translation as Gettext PO"
 msgid "Download translation as gettext PO"
-msgstr "Unduh penerjemahan sebagai Gettext PO"
+msgstr "Unduh penerjemahan sebagai gettext PO"
 
 #: weblate/templates/translation-download.html:10
-#, fuzzy
-#| msgid "Download translation as Gettext MO"
 msgid "Download translation as gettext MO"
-msgstr "Unduh penerjemahan sebagai Gettext MO"
+msgstr "Unduh penerjemahan sebagai gettext MO"
 
 #: weblate/templates/translation-download.html:11
 msgid "Download translation as CSV"
@@ -5247,26 +5191,20 @@ msgid "Download translation as TMX"
 msgstr "Unduh terjemahan sebagai TMX"
 
 #: weblate/templates/translation-download.html:15
-#, fuzzy
-#| msgid "Download strings needing action as XLIFF with Gettext extensions"
 msgid "Download strings needing action as XLIFF with gettext extensions"
-msgstr "Unduh string perlu tindakan sebagai XLIFF dengan ekstensi Gettext"
+msgstr "Unduh string perlu tindakan sebagai XLIFF dengan ekstensi gettext"
 
 #: weblate/templates/translation-download.html:16
 msgid "Download strings needing action as XLIFF 1.2"
 msgstr "Unduh string perlu tindakan sebagai XLIFF 1.2"
 
 #: weblate/templates/translation-download.html:17
-#, fuzzy
-#| msgid "Download strings needing action as Gettext PO"
 msgid "Download strings needing action as gettext PO"
-msgstr "Unduh string perlu tindakan sebagai Gettext PO"
+msgstr "Unduh string perlu tindakan sebagai gettext PO"
 
 #: weblate/templates/translation-download.html:18
-#, fuzzy
-#| msgid "Download strings needing action as Gettext MO"
 msgid "Download strings needing action as gettext MO"
-msgstr "Unduh string perlu tindakan sebagai Gettext MO"
+msgstr "Unduh string perlu tindakan sebagai gettext MO"
 
 #: weblate/templates/translation-download.html:19
 msgid "Download strings needing action as CSV"
@@ -7845,6 +7783,8 @@ msgid ""
 "Regular expression is missing named group \"{0}\", the simplest way to "
 "define it is {1}."
 msgstr ""
+"Ekspresi reguler tidak memiliki nama grup bernama \"{0}\", cara termudah "
+"untuk mendefinisikannya dengan {1}."
 
 #: weblate/utils/validators.py:127
 msgid "Invalid image!"
