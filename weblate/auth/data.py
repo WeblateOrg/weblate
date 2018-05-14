@@ -134,7 +134,7 @@ ROLES = (
     ),
     (
         pgettext('Access control role', 'Edit source'),
-        TRANSLATE_PERMS | {'unit.template'},
+        TRANSLATE_PERMS | {'unit.template', 'source.edit'},
     ),
     (
         pgettext('Access control role', 'Manage languages'),
