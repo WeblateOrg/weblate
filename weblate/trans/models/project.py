@@ -23,6 +23,7 @@ from __future__ import unicode_literals
 import os
 import os.path
 
+from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.utils.encoding import python_2_unicode_compatible
@@ -81,7 +82,9 @@ class Project(models.Model, URLMixin, PathMixin):
     )
 
     access_control = models.IntegerField(
-        default=ACCESS_PUBLIC,
+        default=(
+            ACCESS_CUSTOM if settings.DEFAULT_CUSTOM_ACL else ACCESS_PUBLIC
+        ),
         choices=(
             (ACCESS_PUBLIC, ugettext_lazy('Public')),
             (ACCESS_PROTECTED, ugettext_lazy('Protected')),

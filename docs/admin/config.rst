@@ -366,6 +366,23 @@ Default committer name when creating translation component (see
 
    :setting:`DEFAULT_COMMITER_EMAIL`, :ref:`component`
 
+.. setting:: DEFAULT_CUSTOM_ACL
+
+DEFAULT_CUSTOM_ACL
+------------------
+
+.. versionadded:: 3.0
+
+Whether newly created projects should default to :guilabel:`Custom` ACL.
+Use if you are going to manage ACL manually and do not want to rely on Weblate
+internal management.
+
+.. seealso::
+
+   :ref:`acl`,
+   :ref:`privileges`
+
+
 .. setting:: DEFAULT_TRANSLATION_PROPAGATION
 
 DEFAULT_TRANSLATION_PROPAGATION
