@@ -131,13 +131,12 @@ should be no need for additional manual actions.
 Maintenance tasks
 +++++++++++++++++
 
-There are some cron jobs to run. You should set :envvar:`WEBLATE_OFFLOAD_INDEXING` to ``1`` when these are setup
+The Docker container runs some cron jobs to perform maintenance tasks in
+background:
 
-.. code-block:: text
-
-    */5 * * * * cd /usr/share/weblate/; docker-compose run --rm weblate update_index
-    @daily cd /usr/share/weblate/; docker-compose run --rm weblate cleanuptrans
-    @hourly cd /usr/share/weblate-docker/; docker-compose run --rm weblate commit_pending --all --age=96
+* Update fulltext index by :djadmin:`update_index` (needed for :envvar:`WEBLATE_OFFLOAD_INDEXING`)
+* Cleanup stale objects by :djadmin:`cleanuptrans`
+* Commit pending changes by :djadmin:`commit_pending`
 
 .. _docker-environment:
 
@@ -257,7 +256,7 @@ Generic settings
 
 .. envvar:: WEBLATE_OFFLOAD_INDEXING
 
-    Configures offloaded indexing.
+    Configures offloaded indexing, defaults to enabled.
 
     **Example:**
 
