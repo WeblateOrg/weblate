@@ -44,7 +44,7 @@ class AutoTranslate(object):
     def update(self, unit, state, target):
         unit.state = state
         unit.target = target
-        # Create signle change object for whole merge
+        # Create single change object for whole merge
         Change.objects.create(
             action=Change.ACTION_AUTO,
             unit=unit,
