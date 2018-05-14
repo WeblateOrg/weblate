@@ -461,12 +461,10 @@ Notable configuration or dependencies changes:
 * There is new quality check: :ref:`check-translated`.
 * The ``INSTALLED_APPS`` now should include ``weblate.permissions``.
 * The per project ALCs are now implemented using Group ACL, you might need to
-  adjust your setup if you were using Group ACLs before, see :ref:`groupacl`
-  for more information about the setup.
+  adjust your setup if you were using Group ACLs before.
 * There are several new permissions which should be assigned to default groups,
   you should run ``./manage.py setupgroups`` to update them. Alternatively, you
-  might want to add the following permissions where applicable (see :ref:`extra-privs`
-  for their default setup):
+  might want to add the following permissions where applicable:
   * Can access VCS repository
   * Can access project
 
@@ -554,8 +552,7 @@ Notable configuration or dependencies changes:
 * There is change in default value for :setting:`django:TEMPLATES` setting.
 * There are several new permissions which should be assigned to default groups,
   you should run ``./manage.py setupgroups`` to update them. Alternatively, you
-  might want to add the following permissions where applicable (see :ref:`extra-privs`
-  for their default setup):
+  might want to add the following permissions where applicable:
   * Can review translation
 * Weblate now needs database to be configured with :setting:`ATOMIC_REQUESTS <django:DATABASE-ATOMIC_REQUESTS>` enabled.
 
@@ -650,7 +647,7 @@ After upgrading:
 * Any custom groups will not have any permissions after upgrade, please grant
   the permissions again.
 
-.. seealso:: :ref:`generic-upgrade-instructions`
+.. seealso:: :ref:`generic-upgrade-instructions`, :ref:`privileges`
 
 .. _django-17:
 

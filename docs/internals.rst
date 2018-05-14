@@ -21,13 +21,25 @@ Weblate consists of several Django applications (some of them are optional, see
 
     User account, profiles and notifications.
 
+``addons``
+
+    Addons to tweak Weblate behavior, see :ref:`addons`.
+
 ``api``
 
     API based on `Django REST framework`_.
 
+``auth``
+    
+    Authentication and permissions.
+
 ``billing``
 
     The optional :ref:`billing` module.
+
+``formats``
+
+    File formats abstraction layer based on translate-toolkit.
 
 ``gitexport``
 
@@ -35,15 +47,27 @@ Weblate consists of several Django applications (some of them are optional, see
 
 ``lang``
 
-    Module defining language parameters.
+    Module defining language and plural models.
+
+``langdata``
+
+    Language data definitions.
 
 ``legal``
 
     The optional :ref:`legal` module.
 
+``machinery```
+
+    Machine translation services integration.
+
+``memory``
+
+    Built in translation memory, see :ref:`translation-memory`.
+
 ``permissions``
 
-    The :ref:`groupacl` code with various helpers.
+    Obsolete.
 
 ``screenshots``
 
@@ -56,6 +80,14 @@ Weblate consists of several Django applications (some of them are optional, see
 ``utils``
 
     Various helper utilities.
+
+``vcs``
+
+    Version control system abstraction.
+
+``wladmin``
+
+    Django admin interface customization.
     
 
 .. _Django: https://www.djangoproject.com/
