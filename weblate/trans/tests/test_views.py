@@ -36,6 +36,9 @@ from django.core import mail
 from django.core.cache import cache
 
 from weblate.lang.models import Language
+from weblate.trans.management.commands.update_index import (
+    Command as UpdateIndexCommand
+)
 from weblate.trans.models import (
     ComponentList, WhiteboardMessage, Project, setup_group_acl,
 )
@@ -111,6 +114,10 @@ class ViewTestCase(RepoTestCase):
         self.translation_url = self.get_translation().get_absolute_url()
         self.project_url = self.project.get_absolute_url()
         self.component_url = self.component.get_absolute_url()
+
+    def update_fulltext_index(self):
+        command = UpdateIndexCommand()
+        command.do_update(100000)
 
     def make_manager(self):
         """Make user a Manager."""

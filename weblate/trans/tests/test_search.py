@@ -46,6 +46,7 @@ class SearchViewTest(ViewTestCase):
             language_code='cs'
         )
         self.translate_url = self.translation.get_translate_url()
+        self.update_fulltext_index()
 
     def do_search(self, params, expected, url=None):
         """Helper method for performing search test."""
@@ -373,6 +374,10 @@ class SearchViewTest(ViewTestCase):
 
 
 class SearchBackendTest(ViewTestCase):
+    def setUp(self):
+        super(SearchBackendTest, self).setUp()
+        self.update_fulltext_index()
+
     def do_index_update(self):
         self.edit_unit(
             'Hello, world!\n',
