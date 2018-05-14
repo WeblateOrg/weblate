@@ -616,8 +616,10 @@ Notable configuration or dependencies changes:
 Upgrade from 2.20 to 3.0
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Please follow carefully following instructions. It is extremely recommended to
-backup your database prior to this upgrade.
+.. warning::
+
+    Please follow carefully following instructions. It is extremely recommended to
+    backup your database prior to this upgrade.
 
 Notable configuration or dependencies changes:
 
@@ -631,7 +633,7 @@ Notable configuration or dependencies changes:
 
 Upgrading steps:
 
-1. :ref:`upgrade_2_20`
+1. It is recommended to upgrade to 2.20 first, see :ref:`upgrade_2_20`.
 2. Backup your database and Weblate.
 3. Stop web server and any background jobs using Weblate.
 4. Update the configuration file to match :file:`settings_example.py`.
