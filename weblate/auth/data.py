@@ -23,7 +23,7 @@ from __future__ import unicode_literals
 
 from django.utils.translation import ugettext_noop as _
 
-from weblate.utils.translation import pgettext_noop
+from weblate.utils.translation import pgettext_noop as pgettext
 
 SELECTION_MANUAL = 0
 SELECTION_ALL = 1
@@ -108,19 +108,19 @@ TRANSLATE_PERMS = {
 # Default set of roles
 ROLES = (
     (
-        pgettext_noop('Access control role', 'Add suggestion'),
+        pgettext('Access control role', 'Add suggestion'),
         {
             'suggestion.add'
         }
     ),
     (
-        pgettext_noop('Access control role', 'Access repository'),
+        pgettext('Access control role', 'Access repository'),
         {
             'vcs.access', 'vcs.view'
         }
     ),
     (
-        pgettext_noop('Access control role', 'Power user'),
+        pgettext('Access control role', 'Power user'),
         TRANSLATE_PERMS | {
             'translation.add',
             'machinery.view',
@@ -129,39 +129,39 @@ ROLES = (
         } | filter_perms('glossary.')
     ),
     (
-        pgettext_noop('Access control role', 'Translate'),
+        pgettext('Access control role', 'Translate'),
         TRANSLATE_PERMS,
     ),
     (
-        pgettext_noop('Access control role', 'Edit source'),
+        pgettext('Access control role', 'Edit source'),
         TRANSLATE_PERMS | {'unit.template'},
     ),
     (
-        pgettext_noop('Access control role', 'Manage languages'),
+        pgettext('Access control role', 'Manage languages'),
         filter_perms('translation.')
     ),
     (
-        pgettext_noop('Access control role', 'Manage glossary'),
+        pgettext('Access control role', 'Manage glossary'),
         filter_perms('glossary.')
     ),
     (
-        pgettext_noop('Access control role', 'Manage screenshots'),
+        pgettext('Access control role', 'Manage screenshots'),
         filter_perms('screenshot.')
     ),
     (
-        pgettext_noop('Access control role', 'Review strings'),
+        pgettext('Access control role', 'Review strings'),
         TRANSLATE_PERMS | {'unit.review', 'unit.override'},
     ),
     (
-        pgettext_noop('Access control role', 'Manage repository'),
+        pgettext('Access control role', 'Manage repository'),
         filter_perms('vcs.')
     ),
     (
-        pgettext_noop('Access control role', 'Administration'),
+        pgettext('Access control role', 'Administration'),
         [x[0] for x in PERMISSIONS],
     ),
     (
-        pgettext_noop('Access control role', 'Billing'),
+        pgettext('Access control role', 'Billing'),
         filter_perms('billing.')
     ),
 )
@@ -169,27 +169,27 @@ ROLES = (
 # Default set of roles for groups
 GROUPS = (
     (
-        pgettext_noop('Access control group', 'Guests'),
+        pgettext('Access control group', 'Guests'),
         ('Add suggestion', 'Access repository'),
         SELECTION_ALL_PUBLIC,
     ),
     (
-        pgettext_noop('Access control group', 'Viewers'),
+        pgettext('Access control group', 'Viewers'),
         (),
         SELECTION_ALL_PROTECTED,
     ),
     (
-        pgettext_noop('Access control group', 'Users'),
+        pgettext('Access control group', 'Users'),
         ('Power user',),
         SELECTION_ALL_PUBLIC,
     ),
     (
-        pgettext_noop('Access control group', 'Reviewers'),
+        pgettext('Access control group', 'Reviewers'),
         ('Review strings',),
         SELECTION_ALL,
     ),
     (
-        pgettext_noop('Access control group', 'Managers'),
+        pgettext('Access control group', 'Managers'),
         ('Administration',),
         SELECTION_ALL,
     ),
@@ -197,22 +197,22 @@ GROUPS = (
 
 # Per project group definitions
 ACL_GROUPS = {
-    pgettext_noop('Per project access control group', 'Translate'):
+    pgettext('Per project access control group', 'Translate'):
         'Translate',
-    pgettext_noop('Per project access control group', 'Template'):
+    pgettext('Per project access control group', 'Template'):
         'Edit source',
-    pgettext_noop('Per project access control group', 'Languages'):
+    pgettext('Per project access control group', 'Languages'):
         'Manage languages',
-    pgettext_noop('Per project access control group', 'Glossary'):
+    pgettext('Per project access control group', 'Glossary'):
         'Manage glossary',
-    pgettext_noop('Per project access control group', 'Screenshots'):
+    pgettext('Per project access control group', 'Screenshots'):
         'Manage screenshots',
-    pgettext_noop('Per project access control group', 'Review'):
+    pgettext('Per project access control group', 'Review'):
         'Review strings',
-    pgettext_noop('Per project access control group', 'VCS'):
+    pgettext('Per project access control group', 'VCS'):
         'Manage repository',
-    pgettext_noop('Per project access control group', 'Administration'):
+    pgettext('Per project access control group', 'Administration'):
         'Administration',
-    pgettext_noop('Per project access control group', 'Billing'):
+    pgettext('Per project access control group', 'Billing'):
         'Billing',
 }
