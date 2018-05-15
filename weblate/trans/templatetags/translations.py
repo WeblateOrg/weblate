@@ -20,6 +20,7 @@
 
 from __future__ import unicode_literals
 
+import json
 import re
 
 from datetime import date
@@ -162,7 +163,7 @@ def fmt_search(value, search_match, match):
 @register.inclusion_tag('format-translation.html')
 def format_translation(value, language, plural=None, diff=None,
                        search_match=None, simple=False, num_plurals=2,
-                       unit=None, match='search'):
+                       unit=None, match='search', copy_to=None):
     """Nicely formats translation text possibly handling plurals or diff."""
     # Split plurals to separate strings
     plurals = split_plural(value)
@@ -217,12 +218,13 @@ def format_translation(value, language, plural=None, diff=None,
         # Join paragraphs
         content = mark_safe(newline.join(paras))
 
-        parts.append({'title': title, 'content': content})
+        parts.append({'title': title, 'content': content, 'encoded': json.dumps(content)})
 
     return {
         'simple': simple,
         'items': parts,
         'language': language,
+        'copy_to': copy_to
     }
 
 
@@ -445,6 +447,12 @@ def naturaltime_future(value, now):
         return ungettext(
             '%(count)s hour from now', '%(count)s hours from now', count
         ) % {'count': count}
+
+
+@register.filter
+def json_dumps(value):
+    print(repr(value))
+    return json.dumps(value)
 
 
 @register.filter

@@ -102,7 +102,7 @@ PLURALS_TEMPLATE = '''
 </p>
 '''
 COPY_TEMPLATE = '''
-data-loading-text="{0}" data-checksum="{1}" data-content="{2}"
+data-loading-text="{0}" data-checksum="{1}" data-content="{2}" data-index="{3}"
 '''
 
 
@@ -235,7 +235,8 @@ class PluralTextarea(forms.Textarea):
         extra_params = COPY_TEMPLATE.format(
             escape(ugettext('Loading…')),
             unit.checksum,
-            escape(json.dumps(source))
+            escape(json.dumps(source)),
+            str(idx)
         )
         groups.append(
             GROUP_TEMPLATE.format(

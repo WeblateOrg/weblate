@@ -101,15 +101,26 @@
     {% if secondary %}
     {% for secondary_unit in secondary %}
     <div class="form-group">
-    <label>{{ secondary_unit.translation.language }}</label>
+    <label>
+      {{ secondary_unit.translation.language }}
+      {% if unit.translation.plural.number == 1 %}
+        <button class="btn btn-xs btn-default copy-text"
+                title="{% trans "Use as translation" %}"
+                data-checksum="{{ unit.checksum }}"
+                data-index="0"
+                data-content="{{ secondary_unit.target|json_dumps }}">
+          <i class="fa fa-clipboard"></i> {% trans "Copy" %}
+        </button>
+      {% endif %}
+    </label>
     {% can_translate user secondary_unit as user_can_edit_secondary %}
     {% if user_can_edit_secondary %}
     <a title="{% trans "Edit string" %}"href="{{ secondary_unit.get_absolute_url }}"><i class="fa fa-pencil"></i></a>
     {% endif %}
     {% if user.profile.hide_source_secondary %}
-    {% format_translation secondary_unit.target secondary_unit.translation.language secondary_unit.translation.plural search_match=search_query num_plurals=unit.translation.plural.number unit=unit %}
+    {% format_translation secondary_unit.target secondary_unit.translation.language secondary_unit.translation.plural search_match=search_query num_plurals=unit.translation.plural.number unit=unit copy_to=unit.checksum %}
     {% else %}
-    {% format_translation secondary_unit.target secondary_unit.translation.language secondary_unit.translation.plural %}
+    {% format_translation secondary_unit.target secondary_unit.translation.language secondary_unit.translation.plural copy_to=unit.checksum %}
     {% endif %}
     </div>
     {% endfor %}

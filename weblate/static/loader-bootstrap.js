@@ -216,7 +216,7 @@ function initEditor() {
         var $this = $(this);
 
         $this.button('loading');
-        $this.parents('.translation-item').find('.translation-editor').val(
+        $this.parents('.translation-form').find('.translation-editor').eq($this.data('index')).val(
             $.parseJSON($this.data('content'))
         );
         autosize.update($('.translation-editor'));

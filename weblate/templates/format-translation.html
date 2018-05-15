@@ -1,3 +1,4 @@
+{% load i18n %}
 {% if simple %}
 <span lang="{{ language.code }}" dir="{{ language.direction }}">{{ items.0.content }}</span>
 {% else %}
@@ -5,7 +6,18 @@
   {% for item in items %}
   <div class="list-group-item">
     {% if item.title %}
-    <h5 class="list-group-item-heading"><strong>{{ item.title }}</strong></h5>
+    <h5 class="list-group-item-heading">
+      <strong>{{ item.title }}</strong>
+      {% if copy_to %}
+        <button class="btn btn-xs btn-default copy-text"
+                title="{% trans "Use as translation" %}"
+                data-checksum="{{ copy_to }}"
+                data-index="{{ forloop.counter0 }}"
+                data-content="{{ item.encoded }}">
+          <i class="fa fa-clipboard"></i> {% trans "Copy" %}
+        </button>
+      {% endif %}
+    </h5>
     {% endif %}
     <div class="list-group-item-text" lang="{{ language.code }}" dir="{{ language.direction }}">{{ item.content }}</div>
   </div>
