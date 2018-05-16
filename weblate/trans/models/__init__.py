@@ -23,18 +23,9 @@ from __future__ import unicode_literals
 import os
 import shutil
 
-from django.contrib.auth.models import Group, Permission
-from django.db.models import Q
-from django.db.models.signals import (
-    post_delete, post_save, m2m_changed, pre_delete,
-)
+from django.db.models.signals import post_delete, post_save, m2m_changed
 from django.dispatch import receiver
 
-from weblate.accounts.models import Profile
-from weblate.permissions.data import (
-    PRIVATE_PERMS, PROTECTED_PERMS, PUBLIC_PERMS,
-)
-from weblate.permissions.models import GroupACL
 from weblate.trans.models.conf import WeblateConf
 from weblate.trans.models.project import Project
 from weblate.trans.models.component import Component
@@ -180,20 +171,6 @@ def user_commit_pending(sender, instance, **kwargs):
             translation.commit_pending(None)
 
 
-@receiver(m2m_changed, sender=Profile.subscriptions.through)
-def add_user_subscription(sender, instance, action, reverse, model, pk_set,
-                          **kwargs):
-    if action != 'post_add':
-        return
-    targets = model.objects.filter(pk__in=pk_set)
-    if reverse:
-        for target in targets:
-            instance.add_subscription(target.user)
-    else:
-        for target in targets:
-            target.add_subscription(instance.user)
-
-
 @receiver(m2m_changed, sender=ComponentList.components.through)
 def change_componentlist(sender, instance, **kwargs):
     instance.stats.invalidate()
@@ -218,81 +195,3 @@ def auto_project_componentlist(sender, instance, **kwargs):
 def auto_component_list(sender, instance, **kwargs):
     for auto in AutoComponentList.objects.all():
         auto.check_match(instance)
-
-
-@receiver(post_save, sender=Project)
-@disable_for_loaddata
-def setup_group_acl(sender, instance, **kwargs):
-    """Setup Group and GroupACL objects on project save."""
-    old_access_control = instance.old_access_control
-    instance.old_access_control = instance.access_control
-
-    if instance.access_control == Project.ACCESS_CUSTOM:
-        if old_access_control == Project.ACCESS_CUSTOM:
-            return
-        # Do cleanup of previous setup
-        try:
-            group_acl = GroupACL.objects.get(
-                project=instance, component=None, language=None
-            )
-            Group.objects.filter(
-                groupacl=group_acl, name__contains='@'
-            ).delete()
-            group_acl.delete()
-            return
-        except GroupACL.DoesNotExist:
-            return
-
-    group_acl = GroupACL.objects.get_or_create(
-        project=instance, component=None, language=None
-    )[0]
-    if instance.access_control == Project.ACCESS_PRIVATE:
-        permissions = PRIVATE_PERMS
-        lookup = Q(name__startswith='@')
-    elif instance.access_control == Project.ACCESS_PROTECTED:
-        permissions = PROTECTED_PERMS
-        lookup = Q(name__startswith='@')
-    else:
-        permissions = PUBLIC_PERMS
-        lookup = Q(name__in=('@Administration', '@Review'))
-
-    if not instance.enable_review:
-        lookup = lookup & ~Q(name='@Review')
-
-    group_acl.permissions.set(
-        Permission.objects.filter(codename__in=permissions),
-        clear=True
-    )
-
-    handled = set()
-    for template_group in Group.objects.filter(lookup):
-        name = '{0}{1}'.format(instance.name, template_group.name)
-        try:
-            group = group_acl.groups.get(name__endswith=template_group.name)
-            # Update exiting group (to hanle rename)
-            if group.name != name:
-                group.name = name
-                group.save()
-        except Group.DoesNotExist:
-            # Create new group
-            group = Group.objects.get_or_create(name=name)[0]
-            group.permissions.set(template_group.permissions.all())
-            group_acl.groups.add(group)
-        handled.add(group.pk)
-
-    # Remove stale groups
-    Group.objects.filter(
-        groupacl=group_acl,
-        name__contains='@'
-    ).exclude(
-        pk__in=handled
-    ).delete()
-
-
-@receiver(pre_delete, sender=Project)
-def cleanup_group_acl(sender, instance, **kwargs):
-    group_acl = GroupACL.objects.get_or_create(
-        project=instance, component=None, language=None
-    )[0]
-    # Remove stale groups
-    group_acl.groups.filter(name__contains='@').delete()

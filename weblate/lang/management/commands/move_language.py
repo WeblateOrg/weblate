@@ -53,7 +53,9 @@ class Command(BaseCommand):
             profile.secondary_languages.add(target)
 
         source.project_set.update(source_language=target)
-        source.groupacl_set.update(language=target)
+        for group in source.group_set.all():
+            group.languages.remove(source)
+            group.languages.add(target)
         source.dictionary_set.update(language=target)
         source.comment_set.update(language=target)
         source.check_set.update(language=target)

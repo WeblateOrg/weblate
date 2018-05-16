@@ -22,7 +22,7 @@
 
 from django.conf import settings
 from django.urls import reverse
-from django.contrib.auth.models import User, Group
+from weblate.auth.models import User, Group
 
 from weblate.trans.models import Project
 from weblate.trans.tests.test_views import FixtureTestCase
@@ -40,8 +40,7 @@ class ACLTest(FixtureTestCase):
             'noreply@example.org',
             'testpassword'
         )
-        self.admin_group = Group.objects.get(
-            groupacl__project=self.project,
+        self.admin_group = self.project.group_set.get(
             name__endswith='@Administration'
         )
 
@@ -243,7 +242,7 @@ class ACLTest(FixtureTestCase):
             # Allow editing by creating billing plan
             from weblate.billing.models import Plan, Billing
             plan = Plan.objects.create()
-            billing = Billing.objects.create(plan=plan, user=self.user)
+            billing = Billing.objects.create(plan=plan)
             billing.projects.add(self.project)
 
         # Editing should now work
@@ -271,13 +270,13 @@ class ACLTest(FixtureTestCase):
         self.project.enable_review = True
         self.project.save()
         self.assertEqual(
-            8, Group.objects.filter(name__startswith=match).count()
+            9, Group.objects.filter(name__startswith=match).count()
         )
         self.project.access_control = Project.ACCESS_PRIVATE
         self.project.enable_review = True
         self.project.save()
         self.assertEqual(
-            8, Group.objects.filter(name__startswith=match).count()
+            9, Group.objects.filter(name__startswith=match).count()
         )
         self.project.access_control = Project.ACCESS_CUSTOM
         self.project.save()
@@ -292,7 +291,7 @@ class ACLTest(FixtureTestCase):
         self.project.access_control = Project.ACCESS_PRIVATE
         self.project.save()
         self.assertEqual(
-            8, Group.objects.filter(name__startswith=match).count()
+            9, Group.objects.filter(name__startswith=match).count()
         )
         self.project.delete()
         self.assertEqual(

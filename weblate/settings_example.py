@@ -214,6 +214,9 @@ AUTHENTICATION_BACKENDS = (
     'weblate.accounts.auth.WeblateUserBackend',
 )
 
+# Custom user model
+AUTH_USER_MODEL = 'weblate_auth.User'
+
 # Social auth backends setup
 SOCIAL_AUTH_GITHUB_KEY = ''
 SOCIAL_AUTH_GITHUB_SECRET = ''
@@ -315,7 +318,7 @@ AUTH_PASSWORD_VALIDATORS = [
     #     'NAME': 'zxcvbn_password.ZXCVBNValidator',
     #     'OPTIONS': {
     #         'min_score': 3,
-    #         'user_attributes': ('username', 'email', 'first_name')
+    #         'user_attributes': ('username', 'email', 'full_name')
     #     }
     # },
 ]
@@ -355,6 +358,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'rest_framework.authtoken',
     'weblate.addons',
+    'weblate.auth',
     'weblate.checks',
     'weblate.formats',
     'weblate.machinery',
@@ -738,7 +742,7 @@ REST_FRAMEWORK = {
     ),
     'PAGE_SIZE': 20,
     'VIEW_DESCRIPTION_FUNCTION': 'weblate.api.views.get_view_description',
-    'UNAUTHENTICATED_USER': 'weblate.accounts.models.get_anonymous',
+    'UNAUTHENTICATED_USER': 'weblate.auth.models.get_anonymous',
 }
 
 # Example for restricting access to logged in users

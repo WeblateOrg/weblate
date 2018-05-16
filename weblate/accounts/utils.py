@@ -23,10 +23,9 @@ from __future__ import unicode_literals
 import os
 import binascii
 
-from django.contrib.auth.models import User
-
 from social_django.models import Code
 
+from weblate.auth.models import User
 from weblate.trans.signals import user_pre_delete
 from weblate.accounts.models import VerifiedEmail
 from weblate.accounts.notifications import notify_account_activity
@@ -46,16 +45,20 @@ def remove_user(user, request):
 
     # Change username
     user.username = 'deleted-{0}'.format(user.pk)
+    user.email = 'noreply+{}@weblate.org'.format(user.pk)
     while User.objects.filter(username=user.username).exists():
         user.username = 'deleted-{0}-{1}'.format(
             user.pk,
             binascii.b2a_hex(os.urandom(5))
         )
+    while User.objects.filter(email=user.email).exists():
+        user.email = 'noreply+{0}-{1}@weblate.org'.format(
+            user.pk,
+            binascii.b2a_hex(os.urandom(5))
+        )
 
     # Remove user information
-    user.first_name = 'Deleted User'
-    user.last_name = ''
-    user.email = 'noreply@weblate.org'
+    user.full_name = 'Deleted User'
 
     # Disable the user
     user.is_active = False

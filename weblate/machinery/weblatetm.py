@@ -23,7 +23,7 @@ from __future__ import unicode_literals
 from django.utils.encoding import force_text
 
 from weblate.machinery.base import MachineTranslation
-from weblate.trans.models import Unit, Project
+from weblate.trans.models import Unit
 from weblate.utils.search import Comparer
 
 
@@ -54,7 +54,7 @@ class WeblateTranslation(MachineTranslation):
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
         matching_units = Unit.objects.prefetch().filter(
-            translation__component__project__in=Project.objects.all_acl(user)
+            translation__component__project__in=user.allowed_projects
         ).more_like_this(unit, 1000)
 
         comparer = Comparer()

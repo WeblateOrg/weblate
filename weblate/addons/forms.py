@@ -82,12 +82,16 @@ class GettextCustomizeForm(BaseAddonForm):
     width = forms.ChoiceField(
         label=_('Long lines wrapping'),
         choices=[
-            (77, _('Wrap lines at 77 chars and at newlines (default gettext behavior)')),
-            (65535, _('Only wrap lines at newlines (gettext behavior with --no-wrap)')),
+            (77, _('Wrap lines at 77 chars and at newlines')),
+            (65535, _('Only wrap lines at newlines')),
             (-1, _('No line wrapping')),
         ],
         required=True,
         initial=77,
+        help_text=_(
+            'By default gettext wraps lines at 77 chars and newlines, '
+            'with --no-wrap parameter it wraps only at newlines.'
+        )
     )
 
 

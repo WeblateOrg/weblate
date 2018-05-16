@@ -25,7 +25,6 @@ import django.utils.translation
 from django.utils.translation import trans_real, ugettext as _
 
 from weblate.utils import messages
-from weblate.permissions.helpers import check_access
 from weblate.trans.exporters import get_exporter
 from weblate.trans.models import Project, Component, Translation
 
@@ -39,7 +38,7 @@ def get_translation(request, project, component, lang, skip_acl=False):
         component__project__slug=project
     )
     if not skip_acl:
-        check_access(request, translation.component.project)
+        request.user.check_access(translation.component.project)
     return translation
 
 
@@ -51,7 +50,7 @@ def get_component(request, project, component, skip_acl=False):
         slug=component
     )
     if not skip_acl:
-        check_access(request, component.project)
+        request.user.check_access(component.project)
     return component
 
 
@@ -62,7 +61,7 @@ def get_project(request, project, skip_acl=False):
         slug=project,
     )
     if not skip_acl:
-        check_access(request, project)
+        request.user.check_access(project)
     return project
 
 

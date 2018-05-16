@@ -11,8 +11,8 @@
 
 {% block content %}
 
-{% can_delete_screenshot user object.project as user_can_delete_screenshot %}
-{% can_change_screenshot user object.project as user_can_change_screenshot %}
+{% perm 'screenshot.delete' object as user_can_delete_screenshot %}
+{% perm 'screenshot.edit' object as user_can_change_screenshot %}
 
 <table class="sort table">
 <thead>

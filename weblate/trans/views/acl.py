@@ -19,22 +19,19 @@
 #
 
 from django.utils.translation import ugettext as _
-from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
 
+from weblate.auth.models import Group
 from weblate.utils import messages
 from weblate.trans.util import render
 from weblate.trans.forms import (
     UserManageForm, ProjectAccessForm, DisabledProjectAccessForm,
 )
 from weblate.trans.views.helper import get_project
-from weblate.permissions.helpers import (
-    can_manage_acl, can_edit_access_control,
-)
 
 
 def check_user_form(request, project, verbose=False):
@@ -45,7 +42,7 @@ def check_user_form(request, project, verbose=False):
     """
     obj = get_project(request, project)
 
-    if (not can_manage_acl(request.user, obj) or
+    if (not request.user.has_perm('project.permissions', obj) or
             obj.access_control == obj.ACCESS_CUSTOM):
         raise PermissionDenied()
 
@@ -67,8 +64,9 @@ def set_groups(request, project):
     obj, form = check_user_form(request, project)
 
     try:
-        group = Group.objects.get(
-            groupacl__project=obj,
+        group = obj.group_set.get(
+            name__contains='@',
+            internal=True,
             pk=int(request.POST.get('group', '')),
         )
     except (Group.DoesNotExist, ValueError):
@@ -158,7 +156,7 @@ def delete_user(request, project):
 def change_access(request, project):
     obj = get_project(request, project)
 
-    if not can_edit_access_control(request.user, obj):
+    if not request.user.has_perm('billing:project.permissions', obj):
         raise PermissionDenied()
 
     form = ProjectAccessForm(request.POST, instance=obj)
@@ -184,10 +182,10 @@ def manage_access(request, project):
     """User management view."""
     obj = get_project(request, project)
 
-    if not can_manage_acl(request.user, obj):
+    if not request.user.has_perm('project.permissions', obj):
         raise PermissionDenied()
 
-    if can_edit_access_control(request.user, obj):
+    if request.user.has_perm('billing:project.permissions', obj):
         access_form = ProjectAccessForm(instance=obj)
     else:
         access_form = DisabledProjectAccessForm(instance=obj)

@@ -371,9 +371,9 @@ Authentication settings
         environment:
           - WEBLATE_AUTH_LDAP_SERVER_URI=ldap://ldap.example.org
           - WEBLATE_AUTH_LDAP_USER_DN_TEMPLATE=uid=%(user)s,ou=People,dc=example,dc=net
-          # map weblate 'first_name' to ldap 'name' and weblate 'email' attribute to 'mail' ldap attribute.
-          # another example that can be used with OpenLDAP: 'first_name:cn,email:mail'
-          - WEBLATE_AUTH_LDAP_USER_ATTR_MAP=first_name:name,email:mail
+          # map weblate 'full_name' to ldap 'name' and weblate 'email' attribute to 'mail' ldap attribute.
+          # another example that can be used with OpenLDAP: 'full_name:cn,email:mail'
+          - WEBLATE_AUTH_LDAP_USER_ATTR_MAP=full_name:name,email:mail
 
     .. seealso::
 

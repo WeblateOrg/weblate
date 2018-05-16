@@ -29,12 +29,12 @@ from django.utils.translation import ugettext_lazy as _, ugettext, pgettext
 from django.contrib.auth import authenticate, password_validation
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
-from django.contrib.auth.models import User
 from django.db.models import Q
 from django.forms.widgets import EmailInput
 from django.middleware.csrf import rotate_token
 from django.utils.encoding import force_text
 
+from weblate.auth.models import User
 from weblate.accounts.auth import try_get_user
 from weblate.accounts.models import Profile
 from weblate.accounts.utils import get_all_user_mails
@@ -42,7 +42,6 @@ from weblate.accounts.captcha import MathCaptcha
 from weblate.accounts.notifications import notify_account_activity
 from weblate.accounts.ratelimit import reset_rate_limit, check_rate_limit
 from weblate.lang.models import Language
-from weblate.trans.models import Project
 from weblate.trans.util import sort_choices
 from weblate.utils import messages
 from weblate.utils.validators import (
@@ -206,7 +205,7 @@ class SubscriptionForm(forms.ModelForm):
         super(SubscriptionForm, self).__init__(*args, **kwargs)
         user = kwargs['instance'].user
         self.fields['subscriptions'].required = False
-        self.fields['subscriptions'].queryset = Project.objects.all_acl(user)
+        self.fields['subscriptions'].queryset = user.allowed_projects
 
 
 class SubscriptionSettingsForm(forms.ModelForm):
@@ -271,7 +270,7 @@ class UserForm(forms.ModelForm):
     """User information form."""
     username = UsernameField()
     email = forms.ChoiceField(
-        label=_('E-mail'),
+        label=_('Email'),
         help_text=_(
             'You can add another email address on the Authentication tab.'
         ),
@@ -280,13 +279,13 @@ class UserForm(forms.ModelForm):
         ),
         required=True
     )
-    first_name = FullNameField()
+    full_name = FullNameField()
 
     class Meta(object):
         model = User
         fields = (
             'username',
-            'first_name',
+            'full_name',
             'email',
         )
 
@@ -360,7 +359,8 @@ class RegistrationForm(EmailForm):
     error_css_class = "error"
 
     username = UsernameField()
-    first_name = FullNameField()
+    # This has to be without underscore for social-auth
+    fullname = FullNameField()
     content = forms.CharField(required=False)
 
     def __init__(self, request=None, *args, **kwargs):

@@ -21,7 +21,6 @@
 import os.path
 
 from django.conf import settings
-from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
@@ -44,16 +43,12 @@ from weblate.api.serializers import (
     ChangeSerializer, SourceSerializer, ScreenshotSerializer,
     UploadRequestSerializer, ScreenshotFileSerializer,
 )
+from weblate.auth.models import User
 from weblate.checks.models import Check
 from weblate.trans.exporters import EXPORTERS
 from weblate.trans.models import (
     Project, Component, Translation, Change, Unit, Source,
     IndexUpdate, Suggestion,
-)
-from weblate.permissions.helpers import (
-    can_upload_translation, can_lock_component, can_see_repository_status,
-    can_commit_translation, can_update_translation, can_reset_translation,
-    can_push_translation, can_overwrite_translation, can_change_screenshot,
 )
 from weblate.trans.stats import get_project_stats
 from weblate.lang.models import Language
@@ -63,10 +58,10 @@ from weblate.utils.state import STATE_TRANSLATED
 from weblate import get_doc_url
 
 REPO_OPERATIONS = {
-    'push': (can_push_translation, 'do_push'),
-    'pull': (can_update_translation, 'do_update'),
-    'reset': (can_reset_translation, 'do_reset'),
-    'commit': (can_commit_translation, 'commit_pending'),
+    'push': ('vcs.push', 'do_push'),
+    'pull': ('vcs.update', 'do_update'),
+    'reset': ('vcs.reset', 'do_reset'),
+    'commit': ('vcs.commit', 'commit_pending'),
 }
 
 DOC_TEXT = """
@@ -155,9 +150,9 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
 class WeblateViewSet(DownloadViewSet):
     """Allow to skip content negotiation for certain requests."""
     def repository_operation(self, request, obj, project, operation):
-        permission_check, method = REPO_OPERATIONS[operation]
+        permission, method = REPO_OPERATIONS[operation]
 
-        if not permission_check(request.user, project):
+        if not request.user.has_perm(permission, project):
             raise PermissionDenied()
 
         return getattr(obj, method)(request)
@@ -194,7 +189,7 @@ class WeblateViewSet(DownloadViewSet):
 
             return Response(data)
 
-        if not can_see_repository_status(request.user, project):
+        if not request.user.has_perm('meta:vcs.status', project):
             raise PermissionDenied()
 
         data = {
@@ -259,7 +254,7 @@ class ProjectViewSet(WeblateViewSet):
     lookup_field = 'slug'
 
     def get_queryset(self):
-        return Project.objects.all_acl(self.request.user).prefetch_related(
+        return self.request.user.allowed_projects.prefetch_related(
             'source_language'
         )
 
@@ -310,7 +305,7 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
 
     def get_queryset(self):
         return Component.objects.prefetch().filter(
-            project_id__in=Project.objects.get_acl_ids(self.request.user)
+            project__in=self.request.user.allowed_projects
         ).prefetch_related(
             'project__source_language'
         )
@@ -324,7 +319,7 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
         obj = self.get_object()
 
         if request.method == 'POST':
-            if not can_lock_component(request.user, obj.project):
+            if not request.user.has_perm('component.lock', obj):
                 raise PermissionDenied()
 
             serializer = LockRequestSerializer(data=request.data)
@@ -420,9 +415,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
 
     def get_queryset(self):
         return Translation.objects.prefetch().filter(
-            component__project_id__in=Project.objects.get_acl_ids(
-                self.request.user
-            )
+            component__project__in=self.request.user.allowed_projects
         ).prefetch_related(
             'component__project__source_language',
         )
@@ -439,12 +432,11 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
     )
     def file(self, request, **kwargs):
         obj = self.get_object()
-        project = obj.component.project
         if request.method == 'GET':
             fmt = self.format_kwarg or request.query_params.get('format')
             return download_translation_file(obj, fmt)
 
-        if (not can_upload_translation(request.user, obj) or
+        if (not request.user.has_perm('upload.perform', obj) or
                 obj.component.locked):
             raise PermissionDenied()
 
@@ -455,7 +447,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
         serializer.is_valid(raise_exception=True)
 
         if (serializer.validated_data['overwrite'] and
-                not can_overwrite_translation(request.user, project)):
+                not request.user.has_perm('upload.overwrite', obj)):
             raise PermissionDenied()
 
         not_found, skipped, accepted, total = obj.merge_upload(
@@ -534,9 +526,9 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = UnitSerializer
 
     def get_queryset(self):
-        acl_projects = Project.objects.get_acl_ids(self.request.user)
+        allowed_projects = self.request.user.allowed_projects
         return Unit.objects.filter(
-            translation__component__project__in=acl_projects
+            translation__component__project__in=allowed_projects
         )
 
 
@@ -547,9 +539,8 @@ class SourceViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = SourceSerializer
 
     def get_queryset(self):
-        acl_projects = Project.objects.get_acl_ids(self.request.user)
         return Source.objects.filter(
-            component__project__in=acl_projects
+            component__project__in=self.request.user.allowed_projects
         )
 
 
@@ -563,9 +554,8 @@ class ScreenshotViewSet(DownloadViewSet):
     )
 
     def get_queryset(self):
-        acl_projects = Project.objects.get_acl_ids(self.request.user)
         return Screenshot.objects.filter(
-            component__project__in=acl_projects
+            component__project__in=self.request.user.allowed_projects
         )
 
     @action(
@@ -586,7 +576,7 @@ class ScreenshotViewSet(DownloadViewSet):
                 'application/binary',
             )
 
-        if not can_change_screenshot(request.user, obj.component.project):
+        if not request.user.has_perm('screenshot.edit', obj.component):
             raise PermissionDenied()
 
         serializer = ScreenshotFileSerializer(data=request.data)
@@ -616,6 +606,7 @@ class Metrics(APIView):
     """Metrics view for monitoring"""
     permission_classes = (IsAuthenticated,)
 
+    # pylint: disable=redefined-builtin
     def get(self, request, format=None):
         """
         Return a list of all users.

@@ -28,7 +28,7 @@
 <td colspan="4">{% format_translation c.target c.unit.translation.language c.unit.translation.plural %}</td>
 {% endif %}
 <td>
-{% can_translate request.user c.unit as user_can_translate %}
+{% perm 'unit.edit' c.unit as user_can_translate %}
 {% if user_can_translate %}
 <a class="btn btn-xs btn-default" href="{{ c.translation.get_translate_url}}?{% if search_url %}{{ search_url }}&amp;offset={{ offset }}&amp;{% endif %}checksum={{ c.unit.checksum }}&amp;revert={{ c.id }}" title="{% trans "Revert to this translation" %}">{% trans "Revert" %}</a>
 {% endif %}

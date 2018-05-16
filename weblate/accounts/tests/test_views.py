@@ -24,9 +24,9 @@ from django.test import TestCase
 from django.test.utils import override_settings
 from django.urls import reverse
 from django.conf import settings
-from django.contrib.auth.models import User
 from django.core import mail
 
+from weblate.auth.models import User
 from weblate.accounts.models import Profile
 from weblate.accounts.ratelimit import reset_rate_limit
 
@@ -54,7 +54,7 @@ class ViewTest(TestCase):
             username='testuser',
             password='testpassword'
         )
-        user.first_name = 'First Second'
+        user.full_name = 'First Second'
         user.email = 'noreply@example.com'
         user.save()
         Profile.objects.get_or_create(user=user)
@@ -360,7 +360,7 @@ class ProfileTest(FixtureTestCase):
                 'language': 'cs',
                 'languages': Language.objects.get(code='cs').id,
                 'secondary_languages': Language.objects.get(code='cs').id,
-                'first_name': 'First Last',
+                'full_name': 'First Last',
                 'email': 'weblate@example.org',
                 'username': 'testik',
                 'dashboard_view': Profile.DASHBOARD_WATCHED,

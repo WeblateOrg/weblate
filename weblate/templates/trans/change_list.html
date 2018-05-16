@@ -23,7 +23,7 @@
 
 {% block content %}
 
-{% can_download_changes user project as user_can_download_changes %}
+{% perm 'change.download' project as user_can_download_changes %}
 
 {% if user_can_download_changes or changes_rss %}
 <ul class="pagination pull-right flip">

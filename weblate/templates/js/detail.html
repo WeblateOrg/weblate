@@ -3,10 +3,9 @@
 {% load crispy_forms_tags %}
 {% load permissions %}
 
-{% can_edit_flags user project as user_can_edit_flags %}
-{% can_edit_priority user project as user_can_edit_priority %}
-{% can_add_screenshot user project as user_can_add_screenshot %}
-{% can_change_screenshot user project as user_can_change_screenshot %}
+{% perm 'source.edit' project as user_can_edit_source %}
+{% perm 'screenshot.add' project as user_can_add_screenshot %}
+{% perm 'screenshot.edit' project as user_can_change_screenshot %}
 
 <div class="row">
 <div class="col-lg-6">
@@ -34,7 +33,7 @@
 
 <div class="col-lg-6">
 <table class="table table-condensed">
-{% if user_can_edit_flags %}
+{% if user_can_edit_source %}
 <tr>
 <td>
 <div class="btn-group pull-right flip">
@@ -60,8 +59,6 @@
 </form>
 </td>
 </tr>
-{% endif %}
-{% if user_can_edit_priority %}
 <tr>
 <td>
 <form method="POST" action="{% url 'edit_priority' pk=source.pk %}">
@@ -117,7 +114,7 @@
 <tr>
 <td>
 {% with next as next_url %}
-{% include "list-comments.html" %}
+{% include "list-comments.html" with object=unit.translation %}
 {% endwith %}
 </td>
 </tr>

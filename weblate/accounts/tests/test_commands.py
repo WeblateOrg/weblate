@@ -23,86 +23,18 @@
 import os.path
 
 from django.test import TestCase
-from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from django.core.management import call_command
 from django.core.management.base import CommandError
 
+from weblate.auth.models import User
 from weblate.lang.models import Language
-from weblate.trans.tests.utils import get_test_file, TempDirMixin
+from weblate.trans.tests.utils import TempDirMixin
 from weblate.accounts.models import Profile
 
 
 class CommandTest(TestCase, TempDirMixin):
     """Test for management commands."""
-    def test_createadmin(self):
-        call_command('createadmin')
-        user = User.objects.get(username='admin')
-        self.assertEqual(user.first_name, 'Weblate Admin')
-        self.assertEqual(user.last_name, '')
-        self.assertFalse(user.check_password('admin'))
-
-    def test_createadmin_password(self):
-        call_command('createadmin', password='admin')
-        user = User.objects.get(username='admin')
-        self.assertEqual(user.first_name, 'Weblate Admin')
-        self.assertEqual(user.last_name, '')
-        self.assertTrue(user.check_password('admin'))
-
-    def test_createadmin_username(self):
-        call_command('createadmin', username='admin2')
-        user = User.objects.get(username='admin2')
-        self.assertEqual(user.first_name, 'Weblate Admin')
-        self.assertEqual(user.last_name, '')
-
-    def test_createadmin_email(self):
-        call_command('createadmin', email='noreply@weblate.org')
-        user = User.objects.get(username='admin')
-        self.assertEqual(user.email, 'noreply@weblate.org')
-
-    def test_createadmin_twice(self):
-        call_command('createadmin')
-        self.assertRaises(
-            CommandError,
-            call_command,
-            'createadmin'
-        )
-
-    def test_createadmin_update(self):
-        call_command('createadmin', update=True)
-        call_command('createadmin', update=True, password='123456')
-        user = User.objects.get(username='admin')
-        self.assertTrue(user.check_password('123456'))
-
-    def test_importusers(self):
-        # First import
-        call_command('importusers', get_test_file('users.json'))
-
-        # Test that second import does not change anything
-        user = User.objects.get(username='weblate')
-        user.first_name = 'Weblate test user'
-        user.save()
-        call_command('importusers', get_test_file('users.json'))
-        user2 = User.objects.get(username='weblate')
-        self.assertEqual(user.first_name, user2.first_name)
-
-    def test_importdjangousers(self):
-        # First import
-        call_command('importusers', get_test_file('users-django.json'))
-        self.assertEqual(User.objects.count(), 2)
-
-    def test_import_empty_users(self):
-        """Test importing empty file"""
-        call_command('importusers', get_test_file('users-empty.json'))
-        # Only anonymous user
-        self.assertEqual(User.objects.count(), 1)
-
-    def test_import_invalud_users(self):
-        """Test error handling in user import"""
-        call_command('importusers', get_test_file('users-invalid.json'))
-        # Only anonymous user
-        self.assertEqual(User.objects.count(), 1)
-
     def test_userdata(self):
         # Create test user
         language = Language.objects.get(code='cs')

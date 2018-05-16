@@ -30,9 +30,9 @@ from django.http.request import HttpRequest
 from django.test import TestCase, LiveServerTestCase
 from django.test.utils import override_settings
 from django.utils import timezone
-from django.contrib.auth.models import User, Group
 from django.core.exceptions import ValidationError
 
+from weblate.auth.models import User, Group
 from weblate.checks.models import Check
 from weblate.trans.models import (
     Project, Source, Unit, WhiteboardMessage, ComponentList, AutoComponentList,
@@ -40,7 +40,6 @@ from weblate.trans.models import (
 )
 import weblate.trans.models.component
 from weblate.lang.models import Language
-from weblate.permissions.helpers import can_access_project
 from weblate.trans.tests.utils import (
     get_test_file, RepoTestMixin, create_test_user,
 )
@@ -145,7 +144,7 @@ class ProjectTest(RepoTestCase):
         project.save()
 
         # Check user does not have access
-        self.assertFalse(can_access_project(user, project))
+        self.assertFalse(user.can_access_project(project))
 
         # Add to ACL group
         user.groups.add(Group.objects.get(name='Test@Translate'))
@@ -154,7 +153,7 @@ class ProjectTest(RepoTestCase):
         user = User.objects.get(username='testuser')
 
         # We now should have access
-        self.assertTrue(can_access_project(user, project))
+        self.assertTrue(user.can_access_project(project))
 
 
 class TranslationTest(RepoTestCase):
@@ -233,7 +232,7 @@ class TranslationTest(RepoTestCase):
         # Translation from other author should trigger commmit
         for i, unit in enumerate(translation.unit_set.all()):
             request.user = User.objects.create(
-                first_name='User {}'.format(unit.pk),
+                full_name='User {}'.format(unit.pk),
                 username='user-{}'.format(unit.pk),
                 email='{}@example.com'.format(unit.pk)
             )

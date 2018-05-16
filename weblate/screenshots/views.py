@@ -38,11 +38,7 @@ except ImportError:
 
 from weblate.screenshots.forms import ScreenshotForm
 from weblate.screenshots.models import Screenshot
-from weblate.permissions.helpers import check_access
 from weblate.trans.models import Source
-from weblate.permissions.helpers import (
-    can_delete_screenshot, can_add_screenshot, can_change_screenshot,
-)
 from weblate.utils import messages
 from weblate.utils.views import ComponentViewMixin
 
@@ -75,7 +71,7 @@ class ScreenshotList(ListView, ComponentViewMixin):
         result = super(ScreenshotList, self).get_context_data()
         component = self.kwargs['component']
         result['object'] = component
-        if can_add_screenshot(self.request.user, component.project):
+        if self.request.user.has_perm('screenshot.add', component):
             if self._add_form is not None:
                 result['add_form'] = self._add_form
             else:
@@ -84,7 +80,7 @@ class ScreenshotList(ListView, ComponentViewMixin):
 
     def post(self, request, **kwargs):
         component = self.get_component()
-        if not can_add_screenshot(request.user, component.project):
+        if not request.user.has_perm('screenshot.add', component):
             raise PermissionDenied()
         self._add_form = ScreenshotForm(request.POST, request.FILES)
         if self._add_form.is_valid():
@@ -114,13 +110,13 @@ class ScreenshotDetail(DetailView):
 
     def get_object(self, *args, **kwargs):
         obj = super(ScreenshotDetail, self).get_object(*args, **kwargs)
-        check_access(self.request, obj.component.project)
+        self.request.user.check_access(obj.component.project)
         return obj
 
     def get_context_data(self, **kwargs):
         result = super(ScreenshotDetail, self).get_context_data(**kwargs)
         component = result['object'].component
-        if can_change_screenshot(self.request.user, component.project):
+        if self.request.user.has_perm('screenshot.edit', component):
             if self._edit_form is not None:
                 result['edit_form'] = self._edit_form
             else:
@@ -129,7 +125,7 @@ class ScreenshotDetail(DetailView):
 
     def post(self, request, **kwargs):
         obj = self.get_object()
-        if can_change_screenshot(request.user, obj.component.project):
+        if request.user.has_perm('screenshot.edit', obj.component):
             self._edit_form = ScreenshotForm(
                 request.POST, request.FILES, instance=obj
             )
@@ -144,8 +140,8 @@ class ScreenshotDetail(DetailView):
 @login_required
 def delete_screenshot(request, pk):
     obj = get_object_or_404(Screenshot, pk=pk)
-    check_access(request, obj.component.project)
-    if not can_delete_screenshot(request.user, obj.component.project):
+    request.user.check_access(obj.component.project)
+    if not request.user.has_perm('screenshot.delete', obj.component):
         raise PermissionDenied()
 
     kwargs = {
@@ -162,8 +158,8 @@ def delete_screenshot(request, pk):
 
 def get_screenshot(request, pk):
     obj = get_object_or_404(Screenshot, pk=pk)
-    check_access(request, obj.component.project)
-    if not can_change_screenshot(request.user, obj.component.project):
+    request.user.check_access(obj.component.project)
+    if not request.user.has_perm('screenshot.edit', obj.component):
         raise PermissionDenied()
     return obj
 

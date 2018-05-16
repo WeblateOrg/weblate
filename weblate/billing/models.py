@@ -24,7 +24,6 @@ from datetime import timedelta
 
 from django.db import models
 from django.db.models import Q
-from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
@@ -66,9 +65,6 @@ class Billing(models.Model):
         Plan,
         on_delete=models.deletion.CASCADE
     )
-    user = models.OneToOneField(
-        User, on_delete=models.deletion.CASCADE
-    )
     projects = models.ManyToManyField(Project, blank=True)
     state = models.IntegerField(
         choices=(
@@ -80,9 +76,9 @@ class Billing(models.Model):
     )
 
     def __str__(self):
-        return '{0}: {1} ({2})'.format(
+        return '{0} ({1})'.format(
             ', '.join([str(x) for x in self.projects.all()]),
-            self.user, self.plan
+            self.plan
         )
 
     def count_changes(self, interval):

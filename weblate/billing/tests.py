@@ -23,7 +23,6 @@ import os.path
 
 from django.test import TestCase
 from django.test.utils import override_settings
-from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.management import call_command
 from django.urls import reverse
@@ -31,6 +30,7 @@ from django.utils import timezone
 
 from six import StringIO
 
+from weblate.auth.models import User
 from weblate.billing.models import Plan, Billing, Invoice
 from weblate.trans.models import Project
 
@@ -49,7 +49,7 @@ class BillingTest(TestCase):
             email='noreply@example.net'
         )
         self.plan = Plan.objects.create(name='test', limit_projects=1, price=0)
-        self.billing = Billing.objects.create(user=self.user, plan=self.plan)
+        self.billing = Billing.objects.create(plan=self.plan)
         self.invoice = Invoice.objects.create(
             billing=self.billing,
             start=timezone.now().date() - timedelta(days=2),
@@ -62,11 +62,14 @@ class BillingTest(TestCase):
     def add_project(self):
         name = 'test{0}'.format(self.projectnum)
         self.projectnum += 1
-        self.billing.projects.add(
-            Project.objects.create(name=name, slug=name)
+        project = Project.objects.create(
+            name=name, slug=name, access_control=Project.ACCESS_PROTECTED
         )
+        self.billing.projects.add(project)
+        project.add_user(self.user, '@Billing')
 
     def test_view_billing(self):
+        self.add_project()
         # Not authenticated
         response = self.client.get(reverse('billing'))
         self.assertEqual(302, response.status_code,)
@@ -106,7 +109,7 @@ class BillingTest(TestCase):
         self.assertEqual(
             out.getvalue(),
             'Following billings are over limit:\n'
-            ' * test0, test1: bill (test)\n'
+            ' * test0, test1 (test)\n'
         )
         self.invoice.delete()
         out = StringIO()
@@ -114,9 +117,9 @@ class BillingTest(TestCase):
         self.assertEqual(
             out.getvalue(),
             'Following billings are over limit:\n'
-            ' * test0, test1: bill (test)\n'
+            ' * test0, test1 (test)\n'
             'Following billings are past due date:\n'
-            ' * test0, test1: bill (test)\n'
+            ' * test0, test1 (test)\n'
         )
 
     def test_invoice_validation(self):
@@ -167,6 +170,7 @@ class BillingTest(TestCase):
 
     @override_settings(INVOICE_PATH=TEST_DATA)
     def test_download(self):
+        self.add_project()
         # Unauthenticated
         response = self.client.get(
             reverse('invoice-download', kwargs={'pk': self.invoice.pk})

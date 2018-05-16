@@ -27,7 +27,6 @@ import unicodedata
 from django.conf import settings
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.contrib.auth.models import User
 from django.utils.encoding import force_text
 from django.utils.http import is_safe_url
 from django.utils.translation import ugettext as _
@@ -39,6 +38,7 @@ from social_core.exceptions import AuthMissingParameter, AuthAlreadyAssociated
 
 from social_django.models import Code
 
+from weblate.auth.models import User
 from weblate.accounts.notifications import (
     send_notification_email, notify_account_activity
 )
@@ -382,7 +382,7 @@ def notify_connect(strategy, backend, user, social, new_association=False,
 
 def user_full_name(strategy, details, user=None, **kwargs):
     """Update user full name using data from provider."""
-    if user and not user.first_name:
+    if user and not user.full_name:
         full_name = details.get('fullname', '').strip()
 
         if (not full_name and
@@ -405,13 +405,12 @@ def user_full_name(strategy, details, user=None, **kwargs):
 
         full_name = clean_fullname(full_name)
 
-        # The Django User model limit is 30 chars, this should
-        # be raised if we switch to custom User model
-        if len(full_name) > 30:
-            full_name = full_name[:30]
+        # The User model limit is 150 chars
+        if len(full_name) > 150:
+            full_name = full_name[:150]
 
         if full_name:
-            user.first_name = full_name
+            user.full_name = full_name
             strategy.storage.user.changed(user)
 
 

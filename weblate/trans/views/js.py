@@ -27,7 +27,6 @@ from django.utils.encoding import force_text
 from django.utils.http import urlencode
 
 from weblate.checks.models import Check
-from weblate.permissions.helpers import check_access
 from weblate.screenshots.forms import ScreenshotForm
 from weblate.trans.models import Unit, Change
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
@@ -37,9 +36,6 @@ from weblate.trans.views.helper import (
 from weblate.trans.forms import PriorityForm, CheckFlagsForm
 from weblate.trans.validators import EXTRA_FLAGS
 from weblate.checks import CHECKS
-from weblate.permissions.helpers import (
-    can_use_mt, can_see_repository_status, can_ignore_check,
-)
 from weblate.utils.hash import checksum_to_hash
 from weblate.trans.util import sort_objects
 
@@ -47,8 +43,8 @@ from weblate.trans.util import sort_objects
 def translate(request, unit_id):
     """AJAX handler for translating."""
     unit = get_object_or_404(Unit, pk=int(unit_id))
-    check_access(request, unit.translation.component.project)
-    if not can_use_mt(request.user, unit.translation):
+    request.user.check_access(unit.translation.component.project)
+    if not request.user.has_perm('machinery.view', unit.translation):
         raise PermissionDenied()
 
     service_name = request.GET.get('service', 'INVALID')
@@ -90,7 +86,7 @@ def translate(request, unit_id):
 def get_unit_changes(request, unit_id):
     """Return unit's recent changes."""
     unit = get_object_or_404(Unit, pk=int(unit_id))
-    check_access(request, unit.translation.component.project)
+    request.user.check_access(unit.translation.component.project)
 
     return render(
         request,
@@ -105,7 +101,7 @@ def get_unit_changes(request, unit_id):
 def get_unit_translations(request, unit_id):
     """Return unit's other translations."""
     unit = get_object_or_404(Unit, pk=int(unit_id))
-    check_access(request, unit.translation.component.project)
+    request.user.check_access(unit.translation.component.project)
 
     return render(
         request,
@@ -125,9 +121,9 @@ def get_unit_translations(request, unit_id):
 
 def ignore_check(request, check_id):
     obj = get_object_or_404(Check, pk=int(check_id))
-    check_access(request, obj.project)
+    request.user.check_access(obj.project)
 
-    if not can_ignore_check(request.user, obj.project):
+    if not request.user.has_perm('unit.check', obj.project):
         raise PermissionDenied()
 
     # Mark check for ignoring
@@ -139,7 +135,7 @@ def ignore_check(request, check_id):
 def git_status_project(request, project):
     obj = get_project(request, project)
 
-    if not can_see_repository_status(request.user, obj):
+    if not request.user.has_perm('meta:vcs.status', obj):
         raise PermissionDenied()
 
     statuses = [
@@ -165,7 +161,7 @@ def git_status_project(request, project):
 def git_status_component(request, project, component):
     obj = get_component(request, project, component)
 
-    if not can_see_repository_status(request.user, obj.project):
+    if not request.user.has_perm('meta:vcs.status', obj):
         raise PermissionDenied()
 
     target = obj
@@ -190,7 +186,7 @@ def git_status_component(request, project, component):
 def git_status_translation(request, project, component, lang):
     obj = get_translation(request, project, component, lang)
 
-    if not can_see_repository_status(request.user, obj.component.project):
+    if not request.user.has_perm('meta:vcs.status', obj):
         raise PermissionDenied()
 
     target = obj.component

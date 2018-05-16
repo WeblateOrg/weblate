@@ -29,7 +29,7 @@ from social_django.models import Partial
 
 from whoosh.index import EmptyIndexError
 
-from weblate.accounts.models import get_anonymous
+from weblate.auth.models import get_anonymous
 from weblate.checks.models import Check
 from weblate.trans.models import (
     Suggestion, Comment, Unit, Project, Source, Component, Change,

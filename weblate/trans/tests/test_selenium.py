@@ -223,7 +223,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             'test-example'
         )
         self.driver.find_element_by_id(
-            'id_first_name'
+            'id_fullname'
         ).send_keys(
             'Test Example'
         )

@@ -19,9 +19,9 @@
 #
 from __future__ import unicode_literals
 
+from django.conf import settings
 from django.db import models
 from django.db.models import Count, Q
-from django.contrib.auth.models import User
 from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.utils.translation import ugettext as _, ugettext_lazy
@@ -29,7 +29,6 @@ from django.utils.translation import ugettext as _, ugettext_lazy
 import six.moves
 
 from weblate.trans.mixins import UserDisplayMixin
-from weblate.trans.models.project import Project
 
 
 class ChangeQuerySet(models.QuerySet):
@@ -133,10 +132,9 @@ class ChangeQuerySet(models.QuerySet):
         """Prefilter Changes by ACL for users and fetches related fields
         for last changes display.
         """
-        acl_projects = Project.objects.get_acl_ids(user)
         return self.prefetch().filter(
-            Q(component__project_id__in=acl_projects) |
-            Q(dictionary__project_id__in=acl_projects)
+            Q(component__project__in=user.allowed_projects) |
+            Q(dictionary__project__in=user.allowed_projects)
         )
 
     def authors_list(self, translation, date_range=None):
@@ -149,7 +147,7 @@ class ChangeQuerySet(models.QuerySet):
                 timestamp__range=date_range
             )
         return authors.values_list(
-            'author__email', 'author__first_name'
+            'author__email', 'author__full_name'
         )
 
 
@@ -301,10 +299,10 @@ class Change(models.Model, UserDisplayMixin):
         'Dictionary', null=True, on_delete=models.deletion.CASCADE
     )
     user = models.ForeignKey(
-        User, null=True, on_delete=models.deletion.CASCADE
+        settings.AUTH_USER_MODEL, null=True, on_delete=models.deletion.CASCADE
     )
     author = models.ForeignKey(
-        User, null=True, related_name='author_set',
+        settings.AUTH_USER_MODEL, null=True, related_name='author_set',
         on_delete=models.deletion.CASCADE
     )
     timestamp = models.DateTimeField(auto_now_add=True, db_index=True)

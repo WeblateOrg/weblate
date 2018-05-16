@@ -674,10 +674,6 @@ setupgroups
 
 Configures default groups and optionally assigns all users to default group.
 
-.. django-admin-option:: --move
-
-    Assigns all users to the default group.
-
 .. django-admin-option:: --no-privs-update
 
     Disables update of existing groups (only adds new ones).

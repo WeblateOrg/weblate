@@ -22,9 +22,9 @@
 Tests for user handling.
 """
 
-from django.contrib.auth.models import User
 from django.core import mail
 
+from weblate.auth.models import User
 from weblate.accounts.models import Profile
 from weblate.accounts.notifications import (
     notify_merge_failure,
@@ -47,7 +47,7 @@ from weblate.lang.models import Language
 class NotificationTest(FixtureTestCase, RegistrationTestMixin):
     def setUp(self):
         super(NotificationTest, self).setUp()
-        self.user.email = 'noreply@weblate.org'
+        self.user.email = 'noreply+notify@weblate.org'
         self.user.save()
         czech = Language.objects.get(code='cs')
         profile = Profile.objects.get(user=self.user)
@@ -66,7 +66,7 @@ class NotificationTest(FixtureTestCase, RegistrationTestMixin):
     def second_user():
         return User.objects.create_user(
             'seconduser',
-            'noreply@example.org',
+            'noreply+second@example.org',
             'testpassword'
         )
 

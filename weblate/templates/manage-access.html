@@ -24,7 +24,7 @@
   <th>{% trans "Full name" %}</th>
   <th>{% trans "E-mail" %}</th>
   {% for group in groups %}
-  <th>{{ group.1 }}</th>
+  <th>{{ group.short_name }}</th>
   {% endfor %}
   </tr>
   </thead>
@@ -32,7 +32,7 @@
 {% for user in object.all_users %}
   <tr>
   <td>{{ user.username }}</td>
-  <td>{{ user.first_name }}</td>
+  <td>{{ user.full_name }}</td>
   <td>{{ user.email }}</td>
   {% user_permissions user groups %}
   <td>
@@ -84,7 +84,7 @@
 </div>
 {% endif %}
 
-{% can_edit_access_control user object as user_can_edit_access_control %}
+{% perm 'billing:project.permissions' object as user_can_edit_access_control %}
 
 <form action="{% url "change-access" project=object.slug %}" method="post">
 {% csrf_token %}

@@ -20,17 +20,13 @@
 
 from __future__ import unicode_literals
 
-from django.contrib.auth.models import User
+from django.conf import settings
 from django.db import models, transaction
 from django.db.models import Count
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext as _
 
-from weblate.accounts.notifications import notify_new_suggestion
 from weblate.lang.models import Language
-from weblate.permissions.helpers import (
-    can_accept_suggestion, can_vote_suggestion
-)
 from weblate.trans.models.change import Change
 from weblate.utils.unitdata import UnitData
 from weblate.trans.mixins import UserDisplayMixin
@@ -84,6 +80,7 @@ class SuggestionManager(models.Manager):
             )
 
         # Notify subscribed users
+        from weblate.accounts.notifications import notify_new_suggestion
         notify_new_suggestion(unit, suggestion, user)
 
         # Update suggestion stats
@@ -115,7 +112,8 @@ class SuggestionManager(models.Manager):
 class Suggestion(UnitData, UserDisplayMixin):
     target = models.TextField()
     user = models.ForeignKey(
-        User, null=True, blank=True, on_delete=models.deletion.CASCADE
+        settings.AUTH_USER_MODEL, null=True, blank=True,
+        on_delete=models.deletion.CASCADE
     )
     language = models.ForeignKey(
         Language, on_delete=models.deletion.CASCADE
@@ -123,7 +121,7 @@ class Suggestion(UnitData, UserDisplayMixin):
     timestamp = models.DateTimeField(auto_now_add=True)
 
     votes = models.ManyToManyField(
-        User,
+        settings.AUTH_USER_MODEL,
         through='Vote',
         related_name='user_votes'
     )
@@ -149,13 +147,13 @@ class Suggestion(UnitData, UserDisplayMixin):
         )
 
     @transaction.atomic
-    def accept(self, translation, request, check=can_accept_suggestion):
+    def accept(self, translation, request, permission='suggestion.accept'):
         allunits = translation.unit_set.select_for_update().filter(
             content_hash=self.content_hash,
         )
         failure = False
         for unit in allunits:
-            if not check(request.user, unit):
+            if not request.user.has_perm(permission, unit):
                 failure = True
                 messages.error(request, _('Failed to accept suggestion!'))
                 continue
@@ -210,7 +208,7 @@ class Suggestion(UnitData, UserDisplayMixin):
         # Automatic accepting
         required_votes = translation.component.suggestion_autoaccept
         if required_votes and self.get_num_votes() >= required_votes:
-            self.accept(translation, request, can_vote_suggestion)
+            self.accept(translation, request, 'suggestion.vote')
 
 
 @python_2_unicode_compatible
@@ -220,7 +218,7 @@ class Vote(models.Model):
         Suggestion, on_delete=models.deletion.CASCADE
     )
     user = models.ForeignKey(
-        User, on_delete=models.deletion.CASCADE
+        settings.AUTH_USER_MODEL, on_delete=models.deletion.CASCADE
     )
     positive = models.BooleanField(default=True)
 

@@ -22,18 +22,17 @@ import csv
 
 from django.views.generic.list import ListView
 from django.http import Http404, HttpResponse
-from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _, activate, pgettext
 from django.urls import reverse
 from django.db.models import Q
 from django.core.exceptions import PermissionDenied
 from django.utils.http import urlencode
 
+from weblate.auth.models import User
 from weblate.utils import messages
 from weblate.trans.models.change import Change
 from weblate.trans.views.helper import get_project_translation
 from weblate.lang.models import Language
-from weblate.permissions.helpers import can_download_changes
 
 
 class ChangesView(ListView):
@@ -114,7 +113,7 @@ class ChangesView(ListView):
             if 'title' not in context:
                 context['title'] = pgettext(
                     'Changes by user', 'Changes by %s'
-                ) % self.user.first_name
+                ) % self.user.full_name
 
         if self.glossary:
             url['glossary'] = 1
@@ -222,7 +221,15 @@ class ChangesCSVView(ChangesView):
     def get(self, request, *args, **kwargs):
         object_list = self.get_queryset()
 
-        if not can_download_changes(request.user, self.project):
+        # Do reasonable ACL check for global
+        acl_obj = self.project
+        if not acl_obj:
+            for change in object_list:
+                if change.component:
+                    acl_obj = change.component
+                    break
+
+        if not request.user.has_perm('change.download', acl_obj):
             raise PermissionDenied()
 
         # Always output in english
@@ -236,7 +243,7 @@ class ChangesCSVView(ChangesView):
         # Add header
         writer.writerow(('timestamp', 'action', 'user', 'url'))
 
-        for change in object_list[:2000].iterator():
+        for change in object_list[:2000]:
             writer.writerow((
                 change.timestamp.isoformat(),
                 change.get_action_display().encode('utf8'),

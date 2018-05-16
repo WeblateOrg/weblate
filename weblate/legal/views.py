@@ -19,12 +19,12 @@
 #
 from __future__ import unicode_literals
 
-from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.views.decorators.cache import never_cache
 from django.views.generic import TemplateView
 from django.utils.translation import ugettext_lazy as _
 
+from weblate.auth.models import User
 from weblate.legal.forms import TOSForm
 from weblate.legal.models import Agreement
 from weblate.trans.util import redirect_next

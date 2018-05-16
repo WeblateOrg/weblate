@@ -33,10 +33,6 @@ from weblate.trans.forms import get_upload_form, SearchForm
 from weblate.trans.views.helper import (
     get_translation, download_translation_file, show_form_errors,
 )
-from weblate.permissions.helpers import (
-    can_author_translation, can_overwrite_translation,
-    can_upload_translation,
-)
 
 
 def download_translation_format(request, project, component, lang, fmt):
@@ -65,7 +61,7 @@ def upload_translation(request, project, component, lang):
     """Handling of translation uploads."""
     obj = get_translation(request, project, component, lang)
 
-    if not can_upload_translation(request.user, obj):
+    if not request.user.has_perm('upload.perform', obj):
         raise PermissionDenied()
 
     # Check method and lock
@@ -87,7 +83,7 @@ def upload_translation(request, project, component, lang):
 
     # Create author name
     author = None
-    if (can_author_translation(request.user, obj.component.project) and
+    if (request.user.has_perm('upload.authorship', obj) and
             form.cleaned_data['author_name'] != '' and
             form.cleaned_data['author_email'] != ''):
         author = '{0} <{1}>'.format(
@@ -97,7 +93,7 @@ def upload_translation(request, project, component, lang):
 
     # Check for overwriting
     overwrite = False
-    if can_overwrite_translation(request.user, obj.component.project):
+    if request.user.has_perm('upload.overwrite', obj):
         overwrite = form.cleaned_data['upload_overwrite']
 
     # Do actual import

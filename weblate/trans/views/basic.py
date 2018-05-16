@@ -48,9 +48,6 @@ from weblate.trans.forms import (
     AutoForm, ReviewForm, get_new_language_form,
     ReportsForm, ReplaceForm, NewUnitForm, MassStateForm,
 )
-from weblate.permissions.helpers import (
-    can_automatic_translation, can_translate,
-)
 from weblate.accounts.models import Profile
 from weblate.accounts.notifications import notify_new_language
 from weblate.trans.views.helper import (
@@ -124,13 +121,13 @@ def guess_user_language(request, translations):
         return Language.objects.all()[0]
 
 
-def get_user_translations(request, user, project_ids):
+def get_user_translations(request, user):
     """Get list of translations in user languages
 
     Works also for anonymous users based on current UI language.
     """
     result = Translation.objects.prefetch().filter(
-        component__project_id__in=project_ids
+        component__project__in=user.allowed_projects
     ).order_by(
         'component__priority',
         'component__project__name',
@@ -181,15 +178,13 @@ def home(request):
 
     user = request.user
 
-    project_ids = Project.objects.get_acl_ids(user)
-
-    user_translations = get_user_translations(request, user, project_ids)
+    user_translations = get_user_translations(request, user)
 
     suggestions = get_suggestions(request, user, user_translations)
 
     # Warn about not filled in username (usually caused by migration of
     # users from older system
-    if user.is_authenticated and user.first_name == '':
+    if user.is_authenticated and user.full_name == '':
         messages.warning(
             request,
             mark_safe('<a href="{0}">{1}</a>'.format(
@@ -219,8 +214,8 @@ def home(request):
     if user.is_authenticated:
         # Ensure ACL filtering applies (user could have been removed
         # from the project meanwhile)
-        subscribed_projects = user.profile.subscriptions.filter(
-            id__in=project_ids
+        subscribed_projects = user.allowed_projects.filter(
+            profile=user.profile
         )
 
         usersubscriptions = user_translations.filter(
@@ -261,7 +256,7 @@ def list_projects(request):
         'projects.html',
         {
             'allow_index': True,
-            'projects': prefetch_stats(Project.objects.all_acl(request.user)),
+            'projects': prefetch_stats(request.user.allowed_projects),
             'title': _('Projects'),
         }
     )
@@ -341,12 +336,12 @@ def show_project(request, project):
     )
 
     # Is user allowed to do automatic translation?
-    if can_automatic_translation(request.user, obj):
+    if not request.user.has_perm('translation.auto', obj):
         mass_state_form = MassStateForm(request.user, obj)
     else:
         mass_state_form = None
 
-    if can_translate(request.user, project=obj):
+    if not request.user.has_perm('unit.edit', obj):
         replace_form = ReplaceForm()
     else:
         replace_form = None
@@ -382,12 +377,12 @@ def show_component(request, project, component):
     last_changes = Change.objects.for_component(obj)[:10]
 
     # Is user allowed to do automatic translation?
-    if can_automatic_translation(request.user, obj.project):
+    if not request.user.has_perm('translation.auto', obj):
         mass_state_form = MassStateForm(request.user, obj)
     else:
         mass_state_form = None
 
-    if can_translate(request.user, project=obj.project):
+    if not request.user.has_perm('unit.edit', obj):
         replace_form = ReplaceForm()
     else:
         replace_form = None
@@ -428,13 +423,13 @@ def show_translation(request, project, component, lang):
     form = get_upload_form(request.user, obj)
 
     # Is user allowed to do automatic translation?
-    if can_automatic_translation(request.user, obj.component.project):
+    if not request.user.has_perm('translation.auto', obj):
         mass_state_form = MassStateForm(request.user, obj)
     else:
         mass_state_form = None
 
     # Is user allowed to do automatic translation?
-    if can_automatic_translation(request.user, obj.component.project):
+    if not request.user.has_perm('translation.auto', obj):
         autoform = AutoForm(obj, request.user)
     else:
         autoform = None
@@ -450,7 +445,7 @@ def show_translation(request, project, component, lang):
             initial={'exclude_user': request.user.username}
         )
 
-    if can_translate(request.user, translation=obj):
+    if not request.user.has_perm('unit.edit', obj):
         replace_form = ReplaceForm()
     else:
         replace_form = None

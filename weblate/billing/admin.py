@@ -36,8 +36,8 @@ class PlanAdmin(WeblateModelAdmin):
 
 class BillingAdmin(WeblateModelAdmin):
     list_display = (
-        'user', 'plan', 'state',
         'list_projects',
+        'plan', 'state',
         'count_changes_1m', 'count_changes_1q', 'count_changes_1y',
         'unit_count',
         'display_projects', 'display_repositories', 'display_strings',
@@ -45,7 +45,7 @@ class BillingAdmin(WeblateModelAdmin):
         'in_limits', 'in_display_limits', 'last_invoice'
     )
     list_filter = ('plan', 'state')
-    search_fields = ('user__username', 'projects__name')
+    search_fields = ('projects__name',)
 
     def list_projects(self, obj):
         return ','.join(obj.projects.values_list('name', flat=True))
@@ -58,7 +58,6 @@ class InvoiceAdmin(WeblateModelAdmin):
     )
     list_filter = ('currency', 'billing')
     search_fields = (
-        'billing__user__username', 'billing__projects__name',
-        'ref', 'note',
+        'billing__projects__name', 'ref', 'note',
     )
     date_hierarchy = 'end'

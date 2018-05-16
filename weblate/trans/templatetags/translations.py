@@ -683,13 +683,13 @@ def user_permissions(user, groups):
     result = []
     for group in groups:
         checked = ''
-        if user.groups.filter(pk=group[0]).exists():
+        if user.groups.filter(pk=group.pk).exists():
             checked = ' checked="checked"'
         result.append(
             PERM_TEMPLATE.format(
                 escape(user.username),
-                group[0],
-                escape(group[1]),
+                group.pk,
+                escape(group.short_name),
                 checked
             )
         )

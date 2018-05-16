@@ -34,7 +34,6 @@ class AdminTest(FixtureTestCase):
     """Test for customized admin interface."""
     def setUp(self):
         super(AdminTest, self).setUp()
-        self.user.is_staff = True
         self.user.is_superuser = True
         self.user.save()
 

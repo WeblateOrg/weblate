@@ -22,7 +22,7 @@ from random import SystemRandom
 import string
 
 from django.core.management.base import BaseCommand, CommandError
-from django.contrib.auth.models import User
+from weblate.auth.models import User
 
 
 class Command(BaseCommand):
@@ -91,9 +91,7 @@ class Command(BaseCommand):
                 options['email'],
                 password
             )
-        user.first_name = options['name']
-        user.last_name = ''
+        user.full_name = options['name']
         user.is_superuser = True
-        user.is_staff = True
         user.is_active = True
         user.save()

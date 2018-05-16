@@ -34,7 +34,6 @@ from django.utils.cache import patch_response_headers
 from django.utils.crypto import get_random_string
 from django.utils.decorators import method_decorator
 from django.utils.translation import get_language
-from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic import TemplateView, ListView
 from django.views.decorators.cache import never_cache
@@ -55,6 +54,7 @@ from social_core.exceptions import (
 from social_django.utils import BACKENDS
 from social_django.views import complete, auth
 
+from weblate.auth.models import User
 from weblate.accounts.forms import (
     RegistrationForm, PasswordConfirmForm, EmailForm, ResetForm,
     LoginForm, HostingForm, CaptchaForm, SetPasswordForm,
@@ -287,10 +287,18 @@ def user_profile(request):
         if x == 'email' or x not in social_names
     ]
     license_projects = Component.objects.filter(
-        project__in=Project.objects.all_acl(request.user)
+        project__in=request.user.allowed_projects
     ).exclude(
         license=''
     )
+
+    billings = None
+    if 'weblate.billing' in settings.INSTALLED_APPS:
+        # pylint: disable=wrong-import-position
+        from weblate.billing.models import Billing
+        billings = Billing.objects.filter(
+            projects__in=request.user.projects_with_perm('billing.view')
+        )
 
     result = render(
         request,
@@ -307,11 +315,9 @@ def user_profile(request):
             'licenses': license_projects,
             'associated': social,
             'new_backends': new_backends,
-            'managed_projects': Project.objects.filter(
-                groupacl__groups__name__endswith='@Administration',
-                groupacl__groups__user=request.user,
-            ).distinct(),
+            'managed_projects': request.user.owned_projects,
             'auditlog': request.user.auditlog_set.all()[:20],
+            'billings': billings,
         }
     )
     result.set_cookie(
@@ -397,7 +403,7 @@ def get_initial_contact(request):
     """Fill in initial contact form fields from request."""
     initial = {}
     if request.user.is_authenticated:
-        initial['name'] = request.user.first_name
+        initial['name'] = request.user.full_name
         initial['email'] = request.user.email
     return initial
 
@@ -847,7 +853,7 @@ class SuggestionView(ListView):
             user = get_object_or_404(User, username=self.kwargs['user'])
         return Suggestion.objects.filter(
             user=user,
-            project__in=Project.objects.all_acl(self.request.user)
+            project__in=self.request.user.allowed_projects
         )
 
     def get_context_data(self):

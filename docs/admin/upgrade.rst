@@ -461,12 +461,10 @@ Notable configuration or dependencies changes:
 * There is new quality check: :ref:`check-translated`.
 * The ``INSTALLED_APPS`` now should include ``weblate.permissions``.
 * The per project ALCs are now implemented using Group ACL, you might need to
-  adjust your setup if you were using Group ACLs before, see :ref:`groupacl`
-  for more information about the setup.
+  adjust your setup if you were using Group ACLs before.
 * There are several new permissions which should be assigned to default groups,
   you should run ``./manage.py setupgroups`` to update them. Alternatively, you
-  might want to add the following permissions where applicable (see :ref:`extra-privs`
-  for their default setup):
+  might want to add the following permissions where applicable:
   * Can access VCS repository
   * Can access project
 
@@ -554,8 +552,7 @@ Notable configuration or dependencies changes:
 * There is change in default value for :setting:`django:TEMPLATES` setting.
 * There are several new permissions which should be assigned to default groups,
   you should run ``./manage.py setupgroups`` to update them. Alternatively, you
-  might want to add the following permissions where applicable (see :ref:`extra-privs`
-  for their default setup):
+  might want to add the following permissions where applicable:
   * Can review translation
 * Weblate now needs database to be configured with :setting:`ATOMIC_REQUESTS <django:DATABASE-ATOMIC_REQUESTS>` enabled.
 
@@ -588,6 +585,8 @@ consistency problems:
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
+.. _upgrade_2_20:
+
 Upgrade from 2.19 to 2.20
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -614,8 +613,10 @@ Notable configuration or dependencies changes:
 Upgrade from 2.20 to 3.0
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Please follow carefully following instructions. It is extremely recommended to
-backup your database prior to this upgrade.
+.. warning::
+
+    Please follow carefully following instructions. It is extremely recommended to
+    backup your database prior to this upgrade.
 
 Notable configuration or dependencies changes:
 
@@ -624,10 +625,29 @@ Notable configuration or dependencies changes:
 * Several dependencies have raised minimal version.
 * The setting :setting:`MACHINE_TRANSLATION_SERVICES` was renamed to
   :setting:`MT_SERVICES`.
+* The :ref:`privileges` is completely rewritten, you might have to adjust
+  privileges you have manually assigned.
 
-Upgrading steps
+Upgrading steps:
 
-.. seealso:: :ref:`generic-upgrade-instructions`
+1. It is recommended to upgrade to 2.20 first, see :ref:`upgrade_2_20`.
+2. Backup your database and Weblate.
+3. Stop web server and any background jobs using Weblate.
+4. Update the configuration file to match :file:`settings_example.py`.
+5. Comment out :setting:`django:AUTH_USER_MODEL` in the configuration.
+6. Run first authentication migration: ``./manage.py migrate weblate_auth 0001``
+7. Bring back setting for :setting:`django:AUTH_USER_MODEL`.
+8. Run rest of migrations: ``./manage.py migrate``
+
+After upgrading:
+
+* All existing users and groups have been migrated to new model.
+* Any per user permissions are removed, please assign users to appropriate
+  groups and roles to grant them permissions.
+* Any custom groups will not have any permissions after upgrade, please grant
+  the permissions again.
+
+.. seealso:: :ref:`generic-upgrade-instructions`, :ref:`privileges`
 
 .. _django-17:
 

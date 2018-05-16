@@ -30,7 +30,6 @@ from django.core.exceptions import ValidationError
 from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
-from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.crypto import get_random_string
@@ -40,6 +39,7 @@ from rest_framework.authtoken.models import Token
 
 from social_django.models import UserSocialAuth
 
+from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.utils import messages
 from weblate.accounts.avatar import get_user_display
@@ -108,46 +108,6 @@ NOTIFY_ACTIVITY = frozenset((
     'removed',
     'login-new',
 ))
-
-
-class WeblateAnonymousUser(User):
-    """Proxy model to customize User behavior."""
-
-    class Meta(object):
-        proxy = True
-
-    @property
-    def is_authenticated(self):
-        return False
-
-    @property
-    def is_anonymous(self):
-        return True
-
-
-def get_anonymous():
-    """Return anonymous user"""
-    return WeblateAnonymousUser.objects.get(
-        username=settings.ANONYMOUS_USER_NAME,
-    )
-
-
-def get_author_name(user, email=True):
-    """Return formatted author name with email."""
-    # The < > are replace to avoid tricking Git to use
-    # name as email
-
-    # Get full name from database
-    full_name = user.first_name.replace('<', '').replace('>', '')
-
-    # Use username if full name is empty
-    if full_name == '':
-        full_name = user.username.replace('<', '').replace('>', '')
-
-    # Add email if we are asked for it
-    if not email:
-        return full_name
-    return '{0} <{1}>'.format(full_name, user.email)
 
 
 class AuditLogManager(models.Manager):
@@ -502,7 +462,7 @@ class Profile(models.Model):
     @property
     def full_name(self):
         """Return user's full name."""
-        return self.user.first_name
+        return self.user.full_name
 
     def clean(self):
         """Check if component list is selected when required."""
@@ -566,12 +526,9 @@ def post_login_handler(sender, request, user, **kwargs):
     set_lang(request, profile)
 
     # Fixup accounts with empty name
-    if not user.first_name:
-        if user.last_name:
-            user.first_name = user.last_name
-        else:
-            user.first_name = user.username
-        user.save(update_fields=['first_name'])
+    if not user.full_name:
+        user.full_name = user.username
+        user.save(update_fields=['full_name'])
 
     # Warn about not set email
     if not user.email:
@@ -596,12 +553,3 @@ def create_profile_callback(sender, instance, created=False, **kwargs):
         )
         # Create profile
         Profile.objects.get_or_create(user=instance)
-        # Generate full name from parts
-        # This is needed with LDAP authentication when the
-        # server does not contain full name
-        if (instance.first_name and instance.last_name and
-                instance.last_name not in instance.first_name):
-            instance.first_name = '{} {}'.format(
-                instance.first_name, instance.last_name
-            )
-            instance.save(update_fields=['first_name'])

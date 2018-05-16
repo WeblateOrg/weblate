@@ -23,10 +23,10 @@ Tests for user handling.
 """
 
 from django.test import TestCase
-from django.contrib.auth.models import AnonymousUser, User
 from django.test.utils import override_settings
 from django.http import HttpRequest, HttpResponseRedirect
 
+from weblate.auth.models import User, get_anonymous
 from weblate.accounts.middleware import RequireLoginMiddleware
 
 
@@ -58,7 +58,7 @@ class MiddlewareTest(TestCase):
             middleware.process_view(request, self.view_method, (), {})
         )
         # Protection for protected path and not logged in user
-        request.user = AnonymousUser()
+        request.user = get_anonymous()
         self.assertIsInstance(
             middleware.process_view(request, self.view_method, (), {}),
             HttpResponseRedirect

@@ -42,7 +42,7 @@ from django.utils.html import escape
 from django.utils.http import urlencode
 from django.forms import ValidationError
 from django.db.models import Q
-from django.contrib.auth.models import User
+from weblate.auth.models import User
 
 from weblate.lang.data import LOCALE_ALIASES
 from weblate.lang.models import Language
@@ -52,11 +52,6 @@ from weblate.trans.models import (
 )
 from weblate.trans.models.source import PRIORITY_CHOICES
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
-from weblate.permissions.helpers import (
-    can_author_translation, can_overwrite_translation, can_translate,
-    can_suggest, can_add_translation, can_mass_add_translation, can_review,
-    can_review_project,
-)
 from weblate.trans.specialchars import get_special_chars, RTL_CHARS_DATA
 from weblate.trans.validators import validate_check_flags
 from weblate.trans.util import sort_choices
@@ -473,7 +468,7 @@ class TranslationForm(ChecksumForm):
             Field('translationsum'),
             InlineRadios('review'),
         )
-        if unit and can_review(user, unit.translation):
+        if unit and user.has_perm('unit.review', unit.translation):
             self.fields['fuzzy'].widget = forms.HiddenInput()
         else:
             self.fields['review'].widget = forms.HiddenInput()
@@ -510,7 +505,7 @@ class TranslationForm(ChecksumForm):
                 raise ValidationError(
                     _('Translation text too long!')
                 )
-        if (can_review(self.user, unit.translation)
+        if (self.user.has_perm('unit.review', unit.translation)
                 and self.cleaned_data.get('review')):
             self.cleaned_data['state'] = int(self.cleaned_data['review'])
         elif self.cleaned_data['fuzzy']:
@@ -608,17 +603,17 @@ class ExtraUploadForm(UploadForm):
 def get_upload_form(user, translation, *args):
     """Return correct upload form based on user permissions."""
     project = translation.component.project
-    if can_author_translation(user, project):
+    if user.has_perm('upload.authorship', project):
         form = ExtraUploadForm
-    elif can_overwrite_translation(user, project):
+    elif user.has_perm('upload.overwrite', project):
         form = UploadForm
     else:
         form = SimpleUploadForm
     result = form(*args)
-    if not can_translate(user, translation=translation):
+    if not user.has_perm('unit.edit', translation):
         result.remove_translation_choice('translate')
         result.remove_translation_choice('fuzzy')
-    if not can_suggest(user, translation):
+    if not user.has_perm('suggestion.add', translation):
         result.remove_translation_choice('suggest')
     return result
 
@@ -932,7 +927,7 @@ class AutoForm(forms.Form):
 
         # Add components from other owned projects
         owned_components = Component.objects.filter(
-            project__groupacl__groups__name__endswith='@Administration'
+            project__in=user.owned_projects,
         ).exclude(
             project=obj.component.project
         ).distinct()
@@ -1171,9 +1166,9 @@ class NewLanguageForm(NewLanguageOwnerForm):
 
 def get_new_language_form(request, component):
     """Return new language form for user"""
-    if not can_add_translation(request.user, component.project):
+    if not request.user.has_perm('translation.add', component):
         raise PermissionDenied()
-    if can_mass_add_translation(request.user, component.project):
+    if request.user.has_perm('translation.add_more', component):
         return NewLanguageOwnerForm
     return NewLanguageForm
 
@@ -1543,7 +1538,7 @@ class MassStateForm(forms.Form):
             project = obj
 
         # Filter offered states
-        if not can_review_project(user, project):
+        if not user.has_perm('unit.review', project):
             excluded.add(STATE_APPROVED)
         self.fields['state'].choices = [
             x for x in self.fields['state'].choices

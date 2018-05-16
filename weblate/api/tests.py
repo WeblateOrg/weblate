@@ -18,12 +18,12 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from django.contrib.auth.models import User, Group
 from django.core.files import File
 from django.urls import reverse
 
 from rest_framework.test import APITestCase
 
+from weblate.auth.models import User, Group
 from weblate.screenshots.models import Screenshot
 from weblate.trans.models import Project, Change, Unit, Source
 from weblate.trans.tests.utils import RepoTestMixin, get_test_file
@@ -414,7 +414,7 @@ class TranslationAPITest(APIBaseTest):
     def test_upload_denied(self):
         self.authenticate()
         # Remove all permissions
-        self.user.groups.all()[0].permissions.clear()
+        self.user.groups.clear()
         response = self.client.put(
             reverse(
                 'api:translation-file',

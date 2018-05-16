@@ -33,7 +33,6 @@ from django.utils import timezone
 from django.urls import reverse
 
 from weblate.lang.models import Language, Plural
-from weblate.permissions.helpers import can_translate
 from weblate.formats import ParseError
 from weblate.formats.auto import try_load
 from weblate.checks import CHECKS
@@ -48,8 +47,6 @@ from weblate.trans.signals import (
 from weblate.utils.site import get_site_url
 from weblate.trans.util import split_plural
 from weblate.trans.mixins import URLMixin, LoggerMixin
-from weblate.accounts.notifications import notify_new_string
-from weblate.accounts.models import get_author_name
 from weblate.trans.models.change import Change
 from weblate.trans.checklists import TranslationChecklist
 
@@ -349,6 +346,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         # Notify subscribed users
         if was_new:
+            from weblate.accounts.notifications import notify_new_string
             notify_new_string(self)
 
     def get_last_remote_commit(self):
@@ -389,10 +387,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         """Return last autor of change done in Weblate."""
         if self.last_change_obj is None:
             return None
-        return get_author_name(
-            self.last_change_obj.author,
-            email
-        )
+        return self.last_change_obj.author.get_author_name(email)
 
     def invalidate_last_change(self):
         """Invalidate last change cache."""
@@ -440,7 +435,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                     timestamp=unit.change__timestamp__max
                 )[0]
 
-                author_name = get_author_name(change.author)
+                author_name = change.author.get_author_name()
 
                 # Flush pending units for this author
                 self.update_units(author_name, change.author.id)
@@ -491,7 +486,9 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         msg = self.get_commit_message()
 
         # Pre commit hook
-        vcs_pre_commit.send(sender=self.__class__, translation=self, author=author)
+        vcs_pre_commit.send(
+            sender=self.__class__, translation=self, author=author
+        )
 
         # Create list of files to commit
         files = [self.filename]
@@ -836,7 +833,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 continue
 
             if ((unit.translated and not overwrite)
-                    or (not can_translate(request.user, unit))):
+                    or (not request.user.has_perm('unit.edit', unit))):
                 skipped += 1
                 continue
 
@@ -923,7 +920,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         # Optionally set authorship
         if author is None:
-            author = get_author_name(request.user)
+            author = request.user.get_author_name()
 
         # Check valid plural forms
         if hasattr(store.store, 'parseheader'):
@@ -1000,7 +997,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
     def remove(self, user):
         """Remove translation from the VCS"""
-        author = get_author_name(user)
+        author = user.get_author_name()
         # Log
         self.log_info(
             'removing %s as %s',

@@ -23,7 +23,6 @@ from email import message_from_string
 import os.path
 import subprocess
 
-from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
 from django.http.response import HttpResponseServerError, HttpResponse
@@ -32,8 +31,8 @@ from django.utils.encoding import force_text
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
 
+from weblate.auth.models import User
 from weblate.trans.views.helper import get_component
-from weblate.permissions.helpers import can_access_vcs
 
 
 GIT_PATHS = [
@@ -126,7 +125,7 @@ def git_export(request, project, component, path):
         if not request.user.is_authenticated:
             return response_authenticate()
         raise
-    if not can_access_vcs(request.user, obj.project):
+    if not request.user.has_perm('vcs.access', obj):
         raise PermissionDenied('No VCS permissions')
 
     return run_git_http(request, obj, path)

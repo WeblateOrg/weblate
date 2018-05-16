@@ -23,62 +23,18 @@ from __future__ import unicode_literals
 import os
 import os.path
 
+from django.conf import settings
 from django.db import models
-from django.utils.translation import ugettext as _, ugettext_lazy, pgettext
+from django.utils.translation import ugettext as _, ugettext_lazy
 from django.utils.encoding import python_2_unicode_compatible
 from django.core.exceptions import ValidationError
 from django.urls import reverse
-from django.contrib.auth.models import Permission, User, Group
 
-from weblate.accounts.models import Profile
 from weblate.lang.models import Language, get_english_lang
 from weblate.trans.mixins import URLMixin, PathMixin
 from weblate.utils.stats import ProjectStats
 from weblate.utils.site import get_site_url
 from weblate.trans.data import data_dir
-
-
-class ProjectManager(models.Manager):
-    # pylint: disable=no-init
-
-    def get_acl_ids(self, user):
-        """Return list of project IDs and status
-        for current user filtered by ACL
-        """
-        if user.is_superuser:
-            return self.values_list('id', flat=True)
-        if not hasattr(user, 'acl_ids_cache'):
-            permission = Permission.objects.get(codename='access_project')
-
-            not_filtered = set()
-            # Projects where access is not filtered by GroupACL
-            if user.has_perm('trans.access_project'):
-                not_filtered = set(self.exclude(
-                    groupacl__permissions=permission
-                ).values_list(
-                    'id', flat=True
-                ))
-
-            # Projects where current user has GroupACL based access
-            have_access = set(self.filter(
-                groupacl__permissions=permission,
-                groupacl__groups__permissions=permission,
-                groupacl__groups__user=user,
-            ).values_list(
-                'id', flat=True
-            ))
-
-            user.acl_ids_cache = not_filtered | have_access
-
-        return user.acl_ids_cache
-
-    def all_acl(self, user):
-        """Return list of projects user is allowed to access
-        and flag whether there is any filtering active.
-        """
-        if user.is_superuser:
-            return self.all()
-        return self.filter(id__in=self.get_acl_ids(user))
 
 
 @python_2_unicode_compatible
@@ -126,7 +82,9 @@ class Project(models.Model, URLMixin, PathMixin):
     )
 
     access_control = models.IntegerField(
-        default=ACCESS_PUBLIC,
+        default=(
+            ACCESS_CUSTOM if settings.DEFAULT_CUSTOM_ACL else ACCESS_PUBLIC
+        ),
         choices=(
             (ACCESS_PUBLIC, ugettext_lazy('Public')),
             (ACCESS_PROTECTED, ugettext_lazy('Protected')),
@@ -164,8 +122,6 @@ class Project(models.Model, URLMixin, PathMixin):
         on_delete=models.deletion.CASCADE,
     )
 
-    objects = ProjectManager()
-
     is_lockable = True
     _reverse_url_name = 'project'
 
@@ -186,19 +142,19 @@ class Project(models.Model, URLMixin, PathMixin):
 
     def all_users(self, group=None):
         """Return all users having ACL on this project."""
-        groups = Group.objects.filter(groupacl__project=self)
+        from weblate.auth.models import User
+        groups = self.group_set.filter(
+            internal=True, name__contains='@'
+        )
         if group is not None:
             groups = groups.filter(name__endswith=group)
         return User.objects.filter(groups__in=groups).distinct()
 
     def all_groups(self):
         """Return list of applicable groups for project."""
-        return [
-            (g.pk, pgettext('Permissions group', g.name.split('@')[1]))
-            for g in Group.objects.filter(
-                groupacl__project=self, name__contains='@'
-            ).order_by('name')
-        ]
+        return self.group_set.filter(
+            internal=True, name__contains='@'
+        ).order_by('name')
 
     def add_user(self, user, group=None):
         """Add user based on username of email."""
@@ -207,28 +163,19 @@ class Project(models.Model, URLMixin, PathMixin):
                 group = '@Translate'
             else:
                 group = '@Administration'
-        group = Group.objects.get(name='{0}{1}'.format(self.name, group))
+        group = self.group_set.get(name='{0}{1}'.format(self.name, group))
         user.groups.add(group)
-        self.add_subscription(user)
-
-    def add_subscription(self, user):
-        """Add user subscription to current project"""
-        try:
-            profile = user.profile
-        except Profile.DoesNotExist:
-            profile = Profile.objects.create(user=user)
-
-        profile.subscriptions.add(self)
+        user.profile.subscriptions.add(self)
 
     def remove_user(self, user, group=None):
         """Add user based on username of email."""
         if group is None:
-            groups = Group.objects.filter(
-                name__startswith='{0}@'.format(self.name)
+            groups = self.group_set.filter(
+                internal=True, name__contains='@'
             )
             user.groups.remove(*groups)
         else:
-            group = Group.objects.get(name='{0}{1}'.format(self.name, group))
+            group = self.group_set.get(name='{0}{1}'.format(self.name, group))
             user.groups.remove(group)
 
     def clean(self):
