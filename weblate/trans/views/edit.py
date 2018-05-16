@@ -384,22 +384,23 @@ def handle_revert(translation, request, next_unit_url):
 
 def check_suggest_permissions(request, mode, translation, suggestion):
     """Check permission for suggestion handling."""
+    user = request.user
     if mode in ('accept', 'accept_edit'):
-        if not request.user.has_perm('suggestion.accept', translation):
+        if not user.has_perm('suggestion.accept', translation):
             messages.error(
                 request,
                 _('You do not have privilege to accept suggestions!')
             )
             return False
     elif mode == 'delete':
-        if not request.user.has_perm('suggestion.delete', suggestion, translation):
+        if not user.has_perm('suggestion.delete', suggestion, translation):
             messages.error(
                 request,
                 _('You do not have privilege to delete suggestions!')
             )
             return False
     elif mode in ('upvote', 'downvote'):
-        if not request.user.has_perm('suggestion.vote', translation):
+        if not user.has_perm('suggestion.vote', translation):
             messages.error(
                 request,
                 _('You do not have privilege to vote for suggestions!')

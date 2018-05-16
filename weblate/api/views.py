@@ -526,8 +526,9 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = UnitSerializer
 
     def get_queryset(self):
+        allowed_projects = self.request.user.allowed_projects
         return Unit.objects.filter(
-            translation__component__project__in=self.request.user.allowed_projects
+            translation__component__project__in=allowed_projects
         )
 
 
@@ -605,6 +606,7 @@ class Metrics(APIView):
     """Metrics view for monitoring"""
     permission_classes = (IsAuthenticated,)
 
+    # pylint: disable=redefined-builtin
     def get(self, request, format=None):
         """
         Return a list of all users.

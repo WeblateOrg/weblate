@@ -46,8 +46,7 @@ from weblate.auth.utils import (
 )
 from weblate.lang.models import Language
 from weblate.trans.fields import RegexField
-from weblate.trans.models.componentlist import ComponentList
-from weblate.trans.models import Project
+from weblate.trans.models import ComponentList, Project
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.validators import (
     validate_fullname, validate_username, validate_email,
@@ -331,6 +330,7 @@ class User(AbstractBaseUser):
         """Compatibility API for admin interface."""
         return self.is_superuser
 
+    # pylint: disable=keyword-arg-before-vararg
     def has_perm(self, perm, obj=None, *args):
         """Permission check"""
         # Superuser has all permissions

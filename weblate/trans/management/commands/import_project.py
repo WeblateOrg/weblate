@@ -296,8 +296,8 @@ class Command(BaseCommand):
                 len(self.discovery.matched_components)
             )
             langs = set()
-            for component in self.discovery.matched_components.values():
-                langs.update(component['languages'])
+            for match in self.discovery.matched_components.values():
+                langs.update(match['languages'])
             self.logger.info('Found %d languages', len(langs))
 
             # Do some basic sanity check on languages
@@ -321,10 +321,11 @@ class Command(BaseCommand):
 
         # Create first component (this one will get full git repo)
         if self.main_component:
+            match = None
             for match in discovery.matched_components.values():
                 if match['slug'] == self.main_component:
                     break
-            if match['slug'] != self.main_component:
+            if match is None or match['slug'] != self.main_component:
                 raise CommandError(
                     'Specified --main-component was not found in matches!'
                 )

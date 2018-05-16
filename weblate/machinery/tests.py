@@ -26,6 +26,7 @@ from django.test.utils import override_settings
 
 import httpretty
 
+# pylint: disable=unused-import
 import weblate.trans.tests.mypretty  # noqa
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.models.unit import Unit
