@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-05-04 13:06+0000\n"
-"PO-Revision-Date: 2018-05-16 06:47+0000\n"
-"Last-Translator: anonymous <>\n"
+"PO-Revision-Date: 2018-05-17 09:40+0000\n"
+"Last-Translator: Piotr Strebski <strebski@o2.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/master/pl/"
 ">\n"
 "Language: pl\n"
@@ -205,10 +205,8 @@ msgid "This account is inactive."
 msgstr "To konto jest już nieaktywne."
 
 #: weblate/accounts/forms.py:567
-#, fuzzy
-#| msgid "Too many authentication attempts!"
 msgid "Too many authentication attempts from this location!"
-msgstr "Zbyt wiele prób uwierzytelnienia!"
+msgstr "Zbyt wiele prób uwierzytelniania w tej lokalizacji!"
 
 #: weblate/accounts/forms.py:625 weblate/templates/addons/generate_help.html:21
 #: weblate/trans/models/project.py:92
@@ -257,22 +255,19 @@ msgid "Password reset has been confirmed and password has been reset."
 msgstr "Zresetowanie hasła zostało potwierdzone, a hasło zostało zresetowane."
 
 #: weblate/accounts/models.py:63
-#, fuzzy, python-brace-format
-#| msgid "Authentication using {method} ({name}) has been added."
+#, python-brace-format
 msgid "Authentication ({method}:{name}) has been added."
-msgstr "Dodano możliwość uwierzytelniania za pomocą {method} ({name})."
+msgstr "Dodano możliwość uwierzytelniania ({method}:({name})."
 
 #: weblate/accounts/models.py:66
-#, fuzzy, python-brace-format
-#| msgid "Authentication using {method} ({name}) has been removed."
+#, python-brace-format
 msgid "Authentication ({method}:{name}) has been removed."
-msgstr "Uwierzytelnienie za pomocą {method} ({name}) zostało usunięte."
+msgstr "Uwierzytelnienie ({method}:{name}) zostało usunięte."
 
 #: weblate/accounts/models.py:69
-#, fuzzy, python-brace-format
-#| msgid "Authenticated using {method} ({name})."
+#, python-brace-format
 msgid "Authenticated ({method}:{name})."
-msgstr "Uwierzytelnione za pomocą {method} ({name})."
+msgstr "Uwierzytelniono ({method}:{name})."
 
 #: weblate/accounts/models.py:72
 #, fuzzy, python-brace-format
@@ -312,6 +307,7 @@ msgstr "Umowa z Warunkami korzystania z usługi {date}."
 #: weblate/accounts/models.py:96
 msgid "To restore access to your account, please reset your password."
 msgstr ""
+"Aby przywrócić dostęp do swojego konta prosimy o zresetowanie swojego hasła."
 
 #: weblate/accounts/models.py:219 weblate/templates/accounts/profile.html:310
 msgid "Account activity"
