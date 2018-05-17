@@ -108,9 +108,34 @@ class WeblateUserAdmin(UserAdmin):
         """Display comma separated list of user groups."""
         return ','.join([g.name for g in obj.groups.all()])
 
+    def action_checkbox(self, obj):
+        if obj.is_anonymous:
+            return ''
+        return super(WeblateUserAdmin, self).action_checkbox(obj)
+
+    def has_delete_permission(self, request, obj=None):
+        if obj and obj.is_anonymous:
+            return False
+        return super(WeblateUserAdmin, self).has_delete_permission(
+            request, obj
+        )
+
 
 class WeblateGroupAdmin(GroupAdmin):
     save_as = True
     model = Group
     inlines = [InlineAutoGroupAdmin]
+    list_filter = ('internal', 'project_selection', 'language_selection')
     filter_horizontal = ('roles', 'projects', 'languages')
+
+    def action_checkbox(self, obj):
+        if obj.internal:
+            return ''
+        return super(WeblateGroupAdmin, self).action_checkbox(obj)
+
+    def has_delete_permission(self, request, obj=None):
+        if obj and obj.internal:
+            return False
+        return super(WeblateGroupAdmin, self).has_delete_permission(
+            request, obj
+        )
