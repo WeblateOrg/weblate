@@ -292,18 +292,20 @@ class ImportJoomlaTest(ImportTest):
     def create_component(self):
         return self.create_joomla()
 
-    def test_import_fuzzy(self):
-        # Does not make sense here
-        raise SkipTest('Fuzzy flag not supported on Joomla format')
+
+class ImportJSONTest(ImportTest):
+    def create_component(self):
+        return self.create_json()
+
+
+class ImportJSONMonoTest(ImportTest):
+    def create_component(self):
+        return self.create_json_mono()
 
 
 class ImportPHPMonoTest(ImportTest):
     def create_component(self):
         return self.create_php_mono()
-
-    def test_import_fuzzy(self):
-        # Does not make sense here
-        raise SkipTest('Fuzzy flag not supported on PHP format')
 
 
 class StringsImportTest(ImportTest):
