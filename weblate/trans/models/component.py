@@ -58,19 +58,13 @@ from weblate.vcs.models import VCS_REGISTRY
 from weblate.utils.stats import ComponentStats
 from weblate.trans.models.translation import Translation
 from weblate.trans.validators import (
-    validate_filemask, validate_extra_file,
+    validate_filemask,
     validate_autoaccept, validate_check_flags, validate_commit_message,
 )
 from weblate.lang.models import Language
 from weblate.trans.models.change import Change
-from weblate.utils.scripts import get_script_choices
 from weblate.utils.validators import validate_repoweb
 
-POST_UPDATE_SCRIPT_CHOICES = get_script_choices(settings.POST_UPDATE_SCRIPTS)
-PRE_COMMIT_SCRIPT_CHOICES = get_script_choices(settings.PRE_COMMIT_SCRIPTS)
-POST_COMMIT_SCRIPT_CHOICES = get_script_choices(settings.POST_COMMIT_SCRIPTS)
-POST_PUSH_SCRIPT_CHOICES = get_script_choices(settings.POST_PUSH_SCRIPTS)
-POST_ADD_SCRIPT_CHOICES = get_script_choices(settings.POST_ADD_SCRIPTS)
 
 DEFAULT_COMMIT_MESSAGE = (
     'Translated using Weblate (%(language_name)s)\n\n'
@@ -249,71 +243,6 @@ class Component(models.Model, URLMixin, PathMixin):
         help_text=ugettext_lazy(
             'Automatic detection might fail for some formats '
             'and is slightly slower.'
-        ),
-    )
-    extra_commit_file = models.TextField(
-        verbose_name=ugettext_lazy('Additional commit files'),
-        default='',
-        blank=True,
-        validators=[validate_extra_file],
-        help_text=ugettext_lazy(
-            'Additional files to include in commits, one per line; '
-            'please check documentation for more details.',
-        )
-    )
-    post_update_script = models.CharField(
-        verbose_name=ugettext_lazy('Post-update script'),
-        max_length=200,
-        default='',
-        blank=True,
-        choices=POST_UPDATE_SCRIPT_CHOICES,
-        help_text=ugettext_lazy(
-            'Script to be executed after receiving a repository update, '
-            'please check documentation for more details.'
-        ),
-    )
-    pre_commit_script = models.CharField(
-        verbose_name=ugettext_lazy('Pre-commit script'),
-        max_length=200,
-        default='',
-        blank=True,
-        choices=PRE_COMMIT_SCRIPT_CHOICES,
-        help_text=ugettext_lazy(
-            'Script to be executed before committing translation, '
-            'please check documentation for more details.'
-        ),
-    )
-    post_commit_script = models.CharField(
-        verbose_name=ugettext_lazy('Post-commit script'),
-        max_length=200,
-        default='',
-        blank=True,
-        choices=POST_COMMIT_SCRIPT_CHOICES,
-        help_text=ugettext_lazy(
-            'Script to be executed after committing translation, '
-            'please check documentation for more details.'
-        ),
-    )
-    post_push_script = models.CharField(
-        verbose_name=ugettext_lazy('Post-push script'),
-        max_length=200,
-        default='',
-        blank=True,
-        choices=POST_PUSH_SCRIPT_CHOICES,
-        help_text=ugettext_lazy(
-            'Script to be executed after pushing translation to remote, '
-            'please check documentation for more details.'
-        ),
-    )
-    post_add_script = models.CharField(
-        verbose_name=ugettext_lazy('Post-add script'),
-        max_length=200,
-        default='',
-        blank=True,
-        choices=POST_ADD_SCRIPT_CHOICES,
-        help_text=ugettext_lazy(
-            'Script to be executed after adding new translation, '
-            'please check documentation for more details.'
         ),
     )
 
@@ -1402,10 +1331,6 @@ class Component(models.Model, URLMixin, PathMixin):
         # Remove leading ./ from paths
         self.filemask = cleanup_path(self.filemask)
         self.template = cleanup_path(self.template)
-        extra_files = [
-            cleanup_path(x.strip()) for x in self.extra_commit_file.split('\n')
-        ]
-        self.extra_commit_file = '\n'.join([x for x in extra_files if x])
 
         # Save/Create object
         super(Component, self).save(*args, **kwargs)

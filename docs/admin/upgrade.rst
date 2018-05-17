@@ -627,6 +627,8 @@ Notable configuration or dependencies changes:
   :setting:`MT_SERVICES`.
 * The :ref:`privileges` is completely rewritten, you might have to adjust
   privileges you have manually assigned.
+* The per component scripts are no longer supported, please use addons instead,
+  see :ref:`addon-script` for more details.
 
 Upgrading steps:
 

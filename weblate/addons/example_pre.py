@@ -17,19 +17,29 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+"""
+Example pre commit script
+"""
 
-import os
+from __future__ import unicode_literals
+
+from django.utils.translation import ugettext_lazy as _
+
+from weblate.addons.events import EVENT_PRE_COMMIT
+from weblate.addons.scripts import BaseScriptAddon
 
 
-def get_script_name(name):
-    """Return script name from string possibly containing full path and
-    parameters.
-    """
-    return os.path.basename(name).split()[0]
+class ExamplePreAddon(BaseScriptAddon):
+    # Event used to trigger the script
+    events = (EVENT_PRE_COMMIT,)
+    # Name of the addon, has to be unique
+    name = 'weblate.example.pre'
+    # Verbose name and long descrption
+    verbose = _('Execute script before commit')
+    description = _('This addon executes a script.')
 
-
-def get_script_choices(choices):
-    """Generate list of script choice in the Admin interface."""
-    return [
-        (script, get_script_name(script)) for script in choices
-    ] + [('', '')]
+    # Script to execute
+    script = '/bin/true'
+    # File to add in commit (for pre commit event)
+    # does not have to be set
+    add_file = 'po/{{ language_code }}.po'

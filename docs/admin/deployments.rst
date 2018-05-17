@@ -405,40 +405,6 @@ Authentication settings
 
     Enables :ref:`gitlab_auth`.
 
-Processing hooks
-~~~~~~~~~~~~~~~~
-
-All these processing hooks should get a comma-separated list of available
-scripts, for example:
-
-.. code-block:: sh
-
-    WEBLATE_POST_UPDATE_SCRIPTS=/usr/local/share/weblate/examples/hook-unwrap-po
-
-.. seealso::
-
-    :ref:`processing`
-
-.. envvar:: WEBLATE_POST_UPDATE_SCRIPTS
-
-    Sets :setting:`POST_UPDATE_SCRIPTS`.
-
-.. envvar:: WEBLATE_PRE_COMMIT_SCRIPTS
-
-    Sets :setting:`PRE_COMMIT_SCRIPTS`.
-
-.. envvar:: WEBLATE_POST_COMMIT_SCRIPTS
-
-    Sets :setting:`POST_COMMIT_SCRIPTS`.
-
-.. envvar:: WEBLATE_POST_PUSH_SCRIPTS
-
-    Sets :setting:`POST_PUSH_SCRIPTS`.
-
-.. envvar:: WEBLATE_POST_ADD_SCRIPTS
-
-    Sets :setting:`POST_ADD_SCRIPTS`.
-
 
 PostgreSQL database setup
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -718,7 +684,7 @@ With the exception of environment variables which can be referenced using ``${EN
 
 .. code-block:: sh
 
-    rhc -aweblate env set WEBLATE_PRE_COMMIT_SCRIPTS='("${OPENSHIFT_DATA_DIR}/examples/hook-unwrap-po",)'
+    rhc -aweblate env set WEBLATE_SCRIPTS='("${OPENSHIFT_DATA_DIR}/examples/hook-unwrap-po",)'
 
 You can check the effective settings Weblate is using by running:
 

@@ -2,11 +2,9 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-from django.conf import settings
-from weblate.utils.scripts import get_script_choices
 
-POST_COMMIT_SCRIPT_CHOICES = get_script_choices(settings.POST_COMMIT_SCRIPTS)
-POST_PUSH_SCRIPT_CHOICES = get_script_choices(settings.POST_PUSH_SCRIPTS)
+POST_COMMIT_SCRIPT_CHOICES = ()
+POST_PUSH_SCRIPT_CHOICES = ()
 
 
 class Migration(migrations.Migration):
