@@ -20,11 +20,7 @@
 """Exporter using translate-toolkit"""
 from __future__ import unicode_literals
 
-import string
-
 from django.http import HttpResponse
-
-import six
 
 from translate.misc.multistring import multistring
 from translate.storage.po import pofile
@@ -39,9 +35,10 @@ import weblate
 from weblate.formats.base import FileFormat
 from weblate.utils.site import get_site_url
 
-if six.PY2:
-    _CHARMAP2 = string.maketrans('', '')[:32]
-_CHARMAP = dict.fromkeys(range(32))
+# Map to remove control chars except newlines and tabs
+_CHARMAP = dict.fromkeys(
+    x for x in range(32) if x not in (9, 10, 13)
+)
 
 EXPORTERS = {}
 
@@ -189,8 +186,6 @@ class XMLExporter(BaseExporter):
     """Wrapper for XML based exporters to strip control chars"""
 
     def string_filter(self, text):
-        if six.PY2 and not isinstance(text, six.text_type):
-            return text.translate(None, _CHARMAP2)
         return text.translate(_CHARMAP)
 
     def get_storage(self):
