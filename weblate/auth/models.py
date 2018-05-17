@@ -455,11 +455,11 @@ def create_groups(update):
 
 
 @receiver(post_migrate)
-def sync_create_groups(sender, intermediate=False, **kwargs):
+def sync_create_groups(sender, **kwargs):
     """Create groups on syncdb."""
     if settings.AUTH_USER_MODEL != 'weblate_auth.User':
         return
-    if not intermediate and sender.label == 'weblate_auth':
+    if sender.label == 'weblate_auth':
         create_groups(False)
 
 

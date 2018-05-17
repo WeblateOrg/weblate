@@ -328,9 +328,9 @@ class LanguageQuerySet(models.QuerySet):
 
 
 @receiver(post_migrate)
-def setup_lang(sender, intermediate=False, **kwargs):
+def setup_lang(sender, **kwargs):
     """Hook for creating basic set of languages on database migration."""
-    if not intermediate and sender.label == 'lang':
+    if sender.label == 'lang':
         with transaction.atomic():
             Language.objects.setup(False)
 
