@@ -285,6 +285,9 @@ class User(AbstractBaseUser):
         self.perm_cache = {}
         super(User, self).__init__(*args, **kwargs)
 
+    def clear_cache(self):
+        self.perm_cache = {}
+
     @property
     def is_anonymous(self):
         return self.username == settings.ANONYMOUS_USER_NAME
