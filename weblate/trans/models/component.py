@@ -507,13 +507,6 @@ class Component(models.Model, URLMixin, PathMixin):
             ('project', 'name'),
             ('project', 'slug'),
         )
-        permissions = (
-            ('lock_component', "Can lock translation for translating"),
-            ('change_subproject', 'Can change component'),
-            ('can_see_git_repository', "Can see VCS repository URL"),
-            ('access_vcs', 'Can access VCS repository'),
-            ('view_reports', "Can display reports"),
-        )
         app_label = 'trans'
         verbose_name = ugettext_lazy('Component')
         verbose_name_plural = ugettext_lazy('Components')

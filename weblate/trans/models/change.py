@@ -318,9 +318,6 @@ class Change(models.Model, UserDisplayMixin):
     class Meta(object):
         ordering = ['-timestamp']
         app_label = 'trans'
-        permissions = (
-            ('download_changes', "Can download changes"),
-        )
 
     def __str__(self):
         return _('%(action)s at %(time)s on %(translation)s by %(user)s') % {

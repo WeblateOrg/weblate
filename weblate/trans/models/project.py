@@ -128,10 +128,6 @@ class Project(models.Model, URLMixin, PathMixin):
     class Meta(object):
         ordering = ['name']
         app_label = 'trans'
-        permissions = (
-            ('manage_acl', 'Can manage ACL rules for a project'),
-            ('access_project', 'Can access project'),
-        )
         verbose_name = ugettext_lazy('Project')
         verbose_name_plural = ugettext_lazy('Projects')
 

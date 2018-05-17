@@ -47,10 +47,6 @@ class Source(models.Model):
     )
 
     class Meta(object):
-        permissions = (
-            ('edit_priority', "Can edit priority"),
-            ('edit_flags', "Can edit check flags"),
-        )
         app_label = 'trans'
         unique_together = ('id_hash', 'component')
         ordering = ('id', )

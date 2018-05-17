@@ -383,13 +383,6 @@ class Unit(models.Model, LoggerMixin):
     objects = UnitManager.from_queryset(UnitQuerySet)()
 
     class Meta(object):
-        permissions = (
-            ('save_translation', "Can save translation"),
-            ('save_template', "Can save template"),
-            ('review_translation', 'Can review translation'),
-            # Temporary location after moving checks to separate app
-            ('ignore_check', 'Can ignore check results'),
-        )
         ordering = ['priority', 'position']
         app_label = 'trans'
         unique_together = ('translation', 'id_hash')

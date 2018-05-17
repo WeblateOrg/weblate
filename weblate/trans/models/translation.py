@@ -102,21 +102,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
     class Meta(object):
         ordering = ['language__name']
-        permissions = (
-            ('upload_translation', "Can upload translation"),
-            ('overwrite_translation', "Can overwrite with translation upload"),
-            ('author_translation', "Can define author of translation upload"),
-            ('commit_translation', "Can force commiting of translation"),
-            ('update_translation', "Can update translation from VCS"),
-            ('push_translation', "Can push translations to remote VCS"),
-            (
-                'reset_translation',
-                "Can reset translations to match remote VCS"
-            ),
-            ('mass_add_translation', 'Can mass add translation'),
-            ('automatic_translation', "Can do automatic translation"),
-            ('use_mt', "Can use machine translation"),
-        )
         app_label = 'trans'
         unique_together = ('component', 'language')
 

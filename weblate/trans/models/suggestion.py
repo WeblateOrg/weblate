@@ -129,11 +129,6 @@ class Suggestion(UnitData, UserDisplayMixin):
     objects = SuggestionManager()
 
     class Meta(object):
-        permissions = (
-            ('accept_suggestion', "Can accept suggestion"),
-            ('override_suggestion', 'Can override suggestion state'),
-            ('vote_suggestion', 'Can vote for suggestion'),
-        )
         app_label = 'trans'
         ordering = ['-timestamp']
         index_together = [

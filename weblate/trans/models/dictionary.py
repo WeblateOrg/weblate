@@ -173,9 +173,6 @@ class Dictionary(models.Model):
 
     class Meta(object):
         ordering = ['source']
-        permissions = (
-            ('upload_dictionary', "Can import dictionary"),
-        )
         app_label = 'trans'
 
     def __str__(self):
