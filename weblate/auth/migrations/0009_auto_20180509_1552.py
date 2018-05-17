@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='group',
             name='project_selection',
-            field=models.IntegerField(choices=[(0, 'As defined'), (1, 'All projects'), (3, 'All public projects'), (4, 'All protected projects'), (2, 'From component list')], default=0),
+            field=models.IntegerField(choices=[(0, 'As defined'), (1, 'All projects'), (3, 'All public projects'), (4, 'All protected projects'), (2, 'From component list')], default=0, verbose_name='Project selection'),
         ),
         migrations.AlterField(
             model_name='user',

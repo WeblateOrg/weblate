@@ -103,6 +103,7 @@ class Group(models.Model):
     )
 
     project_selection = models.IntegerField(
+        verbose_name=_('Project selection'),
         choices=(
             (SELECTION_MANUAL, _('As defined')),
             (SELECTION_ALL, _('All projects')),
@@ -126,6 +127,7 @@ class Group(models.Model):
     )
 
     language_selection = models.IntegerField(
+        verbose_name=_('Language selection'),
         choices=(
             (SELECTION_MANUAL, _('As defined')),
             (SELECTION_ALL, _('All languages')),
