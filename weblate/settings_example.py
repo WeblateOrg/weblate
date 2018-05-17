@@ -675,12 +675,13 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 #     'weblate.addons.gettext.UpdateConfigureAddon',
 #     'weblate.addons.gettext.MsgmergeAddon',
 #     'weblate.addons.gettext.GettextCustomizeAddon',
+#     'weblate.addons.gettext.GettextAuthorComments',
 #     'weblate.addons.cleanup.CleanupAddon',
 #     'weblate.addons.discovery.DiscoveryAddon',
 #     'weblate.addons.flags.SourceEditAddon',
 #     'weblate.addons.flags.TargetEditAddon',
-#     'weblate.addons.json.JSONCustomizeAddon',
 #     'weblate.addons.generate.GenerateFileAddon',
+#     'weblate.addons.json.JSONCustomizeAddon',
 #     'weblate.addons.properties.PropertiesSortAddon',
 # )
 
