@@ -25,7 +25,7 @@ import django.utils.translation
 from django.utils.translation import trans_real, ugettext as _
 
 from weblate.utils import messages
-from weblate.trans.exporters import get_exporter
+from weblate.formats.exporters import get_exporter
 from weblate.trans.models import Project, Component, Translation
 
 

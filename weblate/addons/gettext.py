@@ -31,7 +31,7 @@ from translate.storage.po import pofile
 from weblate.addons.base import BaseAddon, UpdateBaseAddon, StoreBaseAddon
 from weblate.addons.events import EVENT_PRE_COMMIT, EVENT_POST_ADD
 from weblate.addons.forms import GettextCustomizeForm
-from weblate.trans.exporters import MoExporter
+from weblate.formats.exporters import MoExporter
 
 
 class GettextBaseAddon(BaseAddon):

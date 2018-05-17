@@ -17,11 +17,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+from __future__ import unicode_literals
 
 from django.test import TestCase
 
 from weblate.lang.models import Language, Plural
-from weblate.trans.exporters import (
+from weblate.formats.exporters import (
     PoExporter, PoXliffExporter, XliffExporter, TBXExporter, MoExporter,
     CSVExporter,
 )

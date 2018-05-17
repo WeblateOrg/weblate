@@ -34,7 +34,7 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 
 from weblate.utils import messages
-from weblate.trans.exporters import get_exporter
+from weblate.formats.exporters import get_exporter
 from weblate.trans.models import Translation, Dictionary, Change, Unit
 from weblate.lang.models import Language
 from weblate.utils.site import get_site_url

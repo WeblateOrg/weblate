@@ -45,7 +45,7 @@ from weblate.api.serializers import (
 )
 from weblate.auth.models import User
 from weblate.checks.models import Check
-from weblate.trans.exporters import EXPORTERS
+from weblate.formats.exporters import EXPORTERS
 from weblate.trans.models import (
     Project, Component, Translation, Change, Unit, Source,
     IndexUpdate, Suggestion,
