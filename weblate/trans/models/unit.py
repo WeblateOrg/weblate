@@ -335,8 +335,14 @@ class UnitQuerySet(models.QuerySet):
         context = ttunit.get_context()
 
         params = [{'source': source, 'context': context}, {'source': source}]
+        # Try empty context first before matching any context
         if context != '':
             params.insert(1, {'source': source, 'context': ''})
+        # Special case for XLIFF
+        if '///' in context:
+            params.insert(
+                1, {'source': source, 'context': context.split('///', 1)[1]}
+            )
 
         for param in params:
             try:
