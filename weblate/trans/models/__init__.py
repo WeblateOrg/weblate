@@ -41,14 +41,7 @@ from weblate.trans.models.whiteboard import WhiteboardMessage
 from weblate.trans.models.componentlist import (
     ComponentList, AutoComponentList,
 )
-from weblate.trans.signals import (
-    vcs_post_push, vcs_post_update, vcs_pre_commit, vcs_post_commit,
-    user_pre_delete, translation_post_add,
-)
-from weblate.trans.scripts import (
-    run_post_push_script, run_post_update_script, run_pre_commit_script,
-    run_post_commit_script, run_post_add_script,
-)
+from weblate.trans.signals import user_pre_delete
 from weblate.utils.decorators import disable_for_loaddata
 
 __all__ = [
@@ -114,37 +107,6 @@ def update_suggestion_flag(sender, instance, **kwargs):
         # Update unit stats
         unit.update_has_suggestion()
         unit.translation.invalidate_cache()
-
-
-@receiver(vcs_post_push)
-def post_push(sender, component, **kwargs):
-    run_post_push_script(component)
-
-
-@receiver(vcs_post_update)
-def post_update(sender, component, previous_head, **kwargs):
-    run_post_update_script(component, previous_head)
-
-
-@receiver(vcs_pre_commit)
-def pre_commit(sender, translation, **kwargs):
-    run_pre_commit_script(
-        translation.component, translation, translation.get_filename()
-    )
-
-
-@receiver(vcs_post_commit)
-def post_commit(sender, translation, **kwargs):
-    run_post_commit_script(
-        translation.component, translation, translation.get_filename()
-    )
-
-
-@receiver(translation_post_add)
-def post_add(sender, translation, **kwargs):
-    run_post_add_script(
-        translation.component, translation, translation.get_filename()
-    )
 
 
 @receiver(user_pre_delete)

@@ -110,13 +110,6 @@ class WeblateConf(AppConf):
         'weblate.trans.autofixes.chars.RemoveControlChars',
     )
 
-    # List of scripts to use in custom processing
-    POST_UPDATE_SCRIPTS = ()
-    PRE_COMMIT_SCRIPTS = ()
-    POST_COMMIT_SCRIPTS = ()
-    POST_PUSH_SCRIPTS = ()
-    POST_ADD_SCRIPTS = ()
-
     # Font for charts and widgets
     TTF_PATH = os.path.join(settings.BASE_DIR, 'weblate', 'ttf')
 

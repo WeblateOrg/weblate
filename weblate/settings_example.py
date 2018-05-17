@@ -685,13 +685,6 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 #     'weblate.addons.properties.PropertiesSortAddon',
 # )
 
-
-# List of scripts to use in custom processing
-# POST_UPDATE_SCRIPTS = (
-# )
-# PRE_COMMIT_SCRIPTS = (
-# )
-
 # E-mail address that error messages come from.
 SERVER_EMAIL = 'noreply@example.com'
 

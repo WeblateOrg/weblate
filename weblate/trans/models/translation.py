@@ -477,17 +477,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         # Create list of files to commit
         files = [self.filename]
-        if self.component.extra_commit_file:
-            extra_files = self.component.extra_commit_file % {
-                'language': self.language_code,
-            }
-            for extra_file in extra_files.split('\n'):
-                full_path_extra = os.path.join(
-                    self.component.full_path,
-                    extra_file
-                )
-                if os.path.exists(full_path_extra):
-                    files.append(extra_file)
 
         # Do actual commit
         self.component.repository.commit(

@@ -5,11 +5,10 @@ from django.db import models, migrations
 import django.utils.timezone
 import weblate.trans.mixins
 import weblate.utils.validators
-from weblate.utils.scripts import get_script_choices
 import weblate.trans.validators
 from django.conf import settings
 
-PRE_COMMIT_SCRIPT_CHOICES = get_script_choices(settings.PRE_COMMIT_SCRIPTS)
+PRE_COMMIT_SCRIPT_CHOICES = ()
 
 
 class Migration(migrations.Migration):
@@ -155,7 +154,7 @@ class Migration(migrations.Migration):
                 ('template', models.CharField(help_text='Filename of translations base file, which contains all strings and their source; this is recommended to use for monolingual translation formats.', max_length=200, verbose_name='Monolingual base language file', blank=True)),
                 ('new_base', models.CharField(help_text='Filename of file which is used for creating new translations. For Gettext choose .pot file.', max_length=200, verbose_name='Base file for new translations', blank=True)),
                 ('file_format', models.CharField(default='auto', help_text='Automatic detection might fail for some formats and is slightly slower.', max_length=50, verbose_name='File format', choices=[('aresource', 'Android String Resource'), ('auto', 'Automatic detection'), ('json', 'JSON file'), ('php', 'PHP strings'), ('po', 'Gettext PO file'), ('po-mono', 'Gettext PO file (monolingual)'), ('properties', 'Java Properties'), ('properties-utf8', 'Java Properties (UTF-8)'), ('strings', 'OS X Strings'), ('strings-utf8', 'OS X Strings (UTF-8)'), ('ts', 'Qt Linguist Translation File'), ('xliff', 'XLIFF Translation File')])),
-                ('extra_commit_file', models.CharField(default='', validators=[weblate.trans.validators.validate_extra_file], max_length=200, blank=True, help_text='Additional file to include in commits; please check documentation for more details.', verbose_name='Additional commit file')),
+                ('extra_commit_file', models.CharField(default='', max_length=200, blank=True, help_text='Additional file to include in commits; please check documentation for more details.', verbose_name='Additional commit file')),
                 ('pre_commit_script', models.CharField(default='', choices=PRE_COMMIT_SCRIPT_CHOICES, max_length=200, blank=True, help_text='Script to be executed before committing translation, please check documentation for more details.', verbose_name='Pre-commit script')),
                 ('locked', models.BooleanField(default=False, help_text='Whether subproject is locked for translation updates.', verbose_name='Locked')),
                 ('allow_translation_propagation', models.BooleanField(default=True, help_text='Whether translation updates in other subproject will cause automatic translation in this project', verbose_name='Allow translation propagation')),

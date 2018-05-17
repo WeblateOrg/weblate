@@ -33,14 +33,6 @@ EXTRA_FLAGS['xml-text'] = ugettext_lazy('XML text')
 IGNORE_CHECK_FLAGS = {CHECKS[x].ignore_string for x in CHECKS}
 
 
-def validate_extra_file(val):
-    """Validate extra file to commit."""
-    try:
-        val % {'language': 'cs'}
-    except Exception as error:
-        raise ValidationError(_('Bad format string (%s)') % str(error))
-
-
 def validate_commit_message(val):
     """Validate that commit message is a valid format string."""
     try:

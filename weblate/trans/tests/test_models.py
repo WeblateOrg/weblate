@@ -165,35 +165,6 @@ class TranslationTest(RepoTestCase):
         self.assertEqual(translation.stats.all, 4)
         self.assertEqual(translation.stats.fuzzy, 0)
 
-    def test_extra_file(self):
-        """Test extra commit file handling."""
-        component = self.create_component()
-        component.pre_commit_script = get_test_file('hook-generate-mo')
-        weblate.trans.models.component.PRE_COMMIT_SCRIPT_CHOICES.append(
-            (component.pre_commit_script, 'hook-generate-mo')
-        )
-        component.pre_commit_script = get_test_file('hook-update-linguas')
-        weblate.trans.models.component.PRE_COMMIT_SCRIPT_CHOICES.append(
-            (component.pre_commit_script, 'hook-update-linguas')
-        )
-        component.extra_commit_file = 'po/%(language)s.mo\npo/LINGUAS'
-        component.save()
-        component.full_clean()
-        translation = component.translation_set.get(language_code='cs')
-        # change backend file
-        with open(translation.get_filename(), 'a') as handle:
-            handle.write(' ')
-        # Test committing
-        translation.git_commit(
-            None, 'TEST <test@example.net>', timezone.now(),
-        )
-        self.assertFalse(translation.repo_needs_commit())
-        linguas = os.path.join(component.full_path, 'po', 'LINGUAS')
-        with open(linguas, 'r') as handle:
-            data = handle.read()
-            self.assertIn('\ncs\n', data)
-        self.assertFalse(translation.repo_needs_commit())
-
     def test_validation(self):
         """Translation validation"""
         project = self.create_component()

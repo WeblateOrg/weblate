@@ -35,6 +35,7 @@ from weblate.addons.base import TestAddon
 from weblate.addons.cleanup import CleanupAddon
 from weblate.addons.discovery import DiscoveryAddon
 from weblate.addons.example import ExampleAddon
+from weblate.addons.example_pre import ExamplePreAddon
 from weblate.addons.flags import SourceEditAddon, TargetEditAddon
 from weblate.addons.generate import GenerateFileAddon
 from weblate.addons.gettext import (
@@ -455,3 +456,18 @@ class DiscoveryTest(ViewTestCase):
             follow=True
         )
         self.assertContains(response, '1 addon installed')
+
+
+class ScriptsTest(ViewTestCase):
+    def test_example_pre(self):
+        self.assertTrue(ExamplePreAddon.can_install(self.component, None))
+        translation = self.get_translation()
+        addon = ExamplePreAddon.create(self.component)
+        addon.pre_commit(translation, '')
+        self.assertIn(
+            os.path.join(
+                self.component.full_path,
+                'po/{}.po'.format(translation.language_code)
+            ),
+            translation.addon_commit_files
+        )
