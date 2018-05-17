@@ -44,6 +44,13 @@ class Project(models.Model, URLMixin, PathMixin):
     ACCESS_PRIVATE = 100
     ACCESS_CUSTOM = 200
 
+    ACCESS_CHOICES = (
+        (ACCESS_PUBLIC, ugettext_lazy('Public')),
+        (ACCESS_PROTECTED, ugettext_lazy('Protected')),
+        (ACCESS_PRIVATE, ugettext_lazy('Private')),
+        (ACCESS_CUSTOM, ugettext_lazy('Custom')),
+    )
+
     name = models.CharField(
         verbose_name=ugettext_lazy('Project name'),
         max_length=60,
@@ -85,12 +92,7 @@ class Project(models.Model, URLMixin, PathMixin):
         default=(
             ACCESS_CUSTOM if settings.DEFAULT_CUSTOM_ACL else ACCESS_PUBLIC
         ),
-        choices=(
-            (ACCESS_PUBLIC, ugettext_lazy('Public')),
-            (ACCESS_PROTECTED, ugettext_lazy('Protected')),
-            (ACCESS_PRIVATE, ugettext_lazy('Private')),
-            (ACCESS_CUSTOM, ugettext_lazy('Custom')),
-        ),
+        choices=ACCESS_CHOICES,
         verbose_name=_('Access control'),
         help_text=ugettext_lazy(
             'How to restrict access to this project, please check '

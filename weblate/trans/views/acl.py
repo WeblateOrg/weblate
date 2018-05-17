@@ -31,6 +31,7 @@ from weblate.trans.util import render
 from weblate.trans.forms import (
     UserManageForm, ProjectAccessForm, DisabledProjectAccessForm,
 )
+from weblate.trans.models import Change
 from weblate.trans.views.helper import get_project
 
 
@@ -89,9 +90,21 @@ def set_groups(request, project):
             code = 200
             message = ''
             user.groups.remove(group)
+            Change.objects.create(
+                project=obj,
+                action=Change.ACTION_REMOVE_USER,
+                user=request.user,
+                details={'username': user.username, 'group': group.name},
+            )
         status = user.groups.filter(pk=group.pk).exists()
     else:
         user.groups.add(group)
+        Change.objects.create(
+            project=obj,
+            action=Change.ACTION_ADD_USER,
+            user=request.user,
+            details={'username': user.username, 'group': group.name},
+        )
         code = 200
         message = ''
         status = user.groups.filter(pk=group.pk).exists()
@@ -113,7 +126,14 @@ def add_user(request, project):
 
     if form is not None:
         try:
-            obj.add_user(form.cleaned_data['user'])
+            user = form.cleaned_data['user']
+            obj.add_user(user)
+            Change.objects.create(
+                project=obj,
+                action=Change.ACTION_ADD_USER,
+                user=request.user,
+                details={'username': user.username},
+            )
             messages.success(
                 request, _('User has been added to this project.')
             )
@@ -136,11 +156,18 @@ def delete_user(request, project):
 
     if form is not None:
         owners = User.objects.all_admins(obj)
-        is_owner = owners.filter(pk=form.cleaned_data['user'].pk).exists()
+        user = form.cleaned_data['user']
+        is_owner = owners.filter(pk=user.pk).exists()
         if is_owner and owners.count() <= 1:
             messages.error(request, _('You can not remove last owner!'))
         else:
-            obj.remove_user(form.cleaned_data['user'])
+            obj.remove_user(user)
+            Change.objects.create(
+                project=obj,
+                action=Change.ACTION_REMOVE_USER,
+                user=request.user,
+                details={'username': user.username},
+            )
             messages.success(
                 request, _('User has been removed from this project.')
             )
@@ -167,6 +194,12 @@ def change_access(request, project):
                 messages.error(request, message)
     else:
         form.save()
+        Change.objects.create(
+            project=obj,
+            action=Change.ACTION_ACCESS_EDIT,
+            user=request.user,
+            details={'access_control': obj.access_control},
+        )
         messages.success(
             request, _('Project access control has been changed.')
         )

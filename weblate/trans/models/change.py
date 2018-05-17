@@ -29,6 +29,8 @@ from django.utils.translation import ugettext as _, ugettext_lazy
 import six.moves
 
 from weblate.trans.mixins import UserDisplayMixin
+from weblate.trans.models.project import Project
+from weblate.utils.fields import JSONField
 
 
 class ChangeQuerySet(models.QuerySet):
@@ -115,18 +117,13 @@ class ChangeQuerySet(models.QuerySet):
         )
 
     def for_project(self, project):
-        return self.prefetch().filter(
-            Q(component__project=project) |
-            Q(dictionary__project=project)
-        )
+        return self.prefetch().filter(project=project)
 
     def for_component(self, component):
         return self.prefetch().filter(component=component)
 
     def for_translation(self, translation):
-        return self.prefetch().filter(
-            translation=translation
-        )
+        return self.prefetch().filter(translation=translation)
 
     def last_changes(self, user):
         """Prefilter Changes by ACL for users and fetches related fields
@@ -194,6 +191,9 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_SOURCE_CHANGE = 30
     ACTION_NEW_UNIT = 31
     ACTION_MASS_STATE = 32
+    ACTION_ACCESS_EDIT = 33
+    ACTION_ADD_USER = 34
+    ACTION_REMOVE_USER = 35
 
     ACTION_CHOICES = (
         (ACTION_UPDATE, ugettext_lazy('Resource update')),
@@ -232,6 +232,9 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_SOURCE_CHANGE, ugettext_lazy('Source string changed')),
         (ACTION_NEW_UNIT, ugettext_lazy('New string added')),
         (ACTION_MASS_STATE, ugettext_lazy('Mass state change')),
+        (ACTION_ACCESS_EDIT, ugettext_lazy('Changed visibility')),
+        (ACTION_ADD_USER, ugettext_lazy('Added user')),
+        (ACTION_REMOVE_USER, ugettext_lazy('Removed user')),
     )
 
     ACTIONS_COMPONENT = frozenset((
@@ -289,6 +292,9 @@ class Change(models.Model, UserDisplayMixin):
     unit = models.ForeignKey(
         'Unit', null=True, on_delete=models.deletion.CASCADE
     )
+    project = models.ForeignKey(
+        'Project', null=True, on_delete=models.deletion.CASCADE
+    )
     component = models.ForeignKey(
         'Component', null=True, on_delete=models.deletion.CASCADE
     )
@@ -312,6 +318,7 @@ class Change(models.Model, UserDisplayMixin):
     )
     target = models.TextField(default='', blank=True)
     old = models.TextField(default='', blank=True)
+    details = JSONField()
 
     objects = ChangeManager.from_queryset(ChangeQuerySet)()
 
@@ -344,6 +351,8 @@ class Change(models.Model, UserDisplayMixin):
             return self.component.get_absolute_url()
         elif self.dictionary is not None:
             return self.dictionary.get_parent_url()
+        elif self.project is not None:
+            return self.project.get_absolute_url()
         return None
 
     def get_translation_display(self):
@@ -357,6 +366,8 @@ class Change(models.Model, UserDisplayMixin):
                 self.dictionary.project,
                 self.dictionary.language
             )
+        elif self.project is not None:
+            return force_text(self.project)
         return None
 
     def can_revert(self):
@@ -379,10 +390,28 @@ class Change(models.Model, UserDisplayMixin):
             self.ACTION_NEW_UNIT,
         )
 
+    def get_details_display(self):
+        if not self.details:
+            return ''
+        if self.action == self.ACTION_ACCESS_EDIT:
+            for number, name in Project.ACCESS_CHOICES:
+                if number == self.details['access_control']:
+                    return name
+            return 'Unknonwn {}'.format(self.details['access_control'])
+        elif self.action in (self.ACTION_ADD_USER, self.ACTION_REMOVE_USER):
+            if 'group' in self.details:
+                return '{username} ({group})'.format(**self.details)
+            return self.details['username']
+        return ''
+
     def save(self, *args, **kwargs):
         if self.unit:
             self.translation = self.unit.translation
         if self.translation:
             self.component = self.translation.component
             self.translation.invalidate_last_change()
+        if self.component:
+            self.project = self.component.project
+        if self.dictionary:
+            self.project = self.dictionary.project
         super(Change, self).save(*args, **kwargs)
