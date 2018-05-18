@@ -12,6 +12,7 @@ Administrators guide
     projects
     languages
     continuous
+    licensing
     translating
     checks
     machine
