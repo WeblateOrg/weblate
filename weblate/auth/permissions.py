@@ -94,8 +94,15 @@ def check_delete_own(user, permission, obj, scope):
 
 @cache_perm
 def check_can_edit(user, permission, obj, is_vote=False):
-    translation = obj if isinstance(obj, Translation) else None
-    if translation and translation.component.locked:
+    translation = component = None
+
+    if isinstance(obj, Translation):
+        translation = obj
+        component = obj.component
+    elif isinstance(obj, Component):
+        component = obj
+
+    if component and component.locked:
         return False
     if user.is_authenticated and not user.email:
         return False
@@ -104,16 +111,16 @@ def check_can_edit(user, permission, obj, is_vote=False):
 
     # Special check for source strings (templates)
     if translation and translation.is_template \
-            and not check_permission(user, 'unit.template', translation):
+            and not check_permission(user, 'unit.template', obj):
         return False
 
     # Special check for voting
-    if is_vote and translation and not translation.component.suggestion_voting:
+    if is_vote and component and not component.suggestion_voting:
         return False
     elif not is_vote and translation \
-            and translation.component.suggestion_voting \
-            and translation.component.suggestion_autoaccept > 0 \
-            and not check_permission(user, 'unit.override', translation):
+            and component.suggestion_voting \
+            and component.suggestion_autoaccept > 0 \
+            and not check_permission(user, 'unit.override', obj):
         return False
 
     return True
