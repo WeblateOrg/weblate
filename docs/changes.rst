@@ -13,6 +13,7 @@ Released on ? 2018.
 * New addon to store contributor names in PO file headers.
 * The per component hook scripts are removed, use addons instead.
 * Add support for collecting contributor agreements.
+* Access control changes are now tracked in history.
 
 weblate 2.20
 ------------
