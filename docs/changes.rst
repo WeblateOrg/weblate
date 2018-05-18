@@ -12,6 +12,7 @@ Released on ? 2018.
 * Added basic support for Windows RC files.
 * New addon to store contributor names in PO file headers.
 * The per component hook scripts are removed, use addons instead.
+* Add support for collecting contributor agreements.
 
 weblate 2.20
 ------------
