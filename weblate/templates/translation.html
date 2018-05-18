@@ -23,7 +23,7 @@
 {% perm 'upload.perform' object as user_can_upload_translation %}
 {% perm 'unit.add' object as user_can_add_unit %}
 
-{% include "show-lock.html" %}
+{% include "show-lock.html" with object=object.component %}
 
 <ul class="nav nav-pills">
   <li class="active"><a href="#overview" data-toggle="tab">{% trans "Overview" %}</a></li>
