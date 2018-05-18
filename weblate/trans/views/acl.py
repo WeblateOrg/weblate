@@ -25,7 +25,7 @@ from django.views.decorators.http import require_POST
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
 
-from weblate.auth.models import Group
+from weblate.auth.models import Group, User
 from weblate.utils import messages
 from weblate.trans.util import render
 from weblate.trans.forms import (
@@ -81,8 +81,8 @@ def set_groups(request, project):
         message = _('Invalid parameters!')
         status = None
     elif action == 'remove':
-        if (group.name.endswith('@Administration') and
-                obj.all_users('@Administration').count() <= 1):
+        owners = User.objects.all_admins(obj)
+        if group.name.endswith('@Administration') and owners.count() <= 1:
             code = 400
             message = _('You can not remove last owner!')
         else:
@@ -135,7 +135,7 @@ def delete_user(request, project):
     obj, form = check_user_form(request, project, True)
 
     if form is not None:
-        owners = obj.all_users('@Administration')
+        owners = User.objects.all_admins(obj)
         is_owner = owners.filter(pk=form.cleaned_data['user'].pk).exists()
         if is_owner and owners.count() <= 1:
             messages.error(request, _('You can not remove last owner!'))
@@ -196,7 +196,8 @@ def manage_access(request, project):
         {
             'object': obj,
             'project': obj,
-            'groups': obj.all_groups(),
+            'groups': Group.objects.for_project(obj),
+            'all_users': User.objects.for_project(obj),
             'add_user_form': UserManageForm(),
             'access_form': access_form,
         }

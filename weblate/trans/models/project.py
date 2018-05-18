@@ -136,22 +136,6 @@ class Project(models.Model, URLMixin, PathMixin):
         self.old_access_control = self.access_control
         self.stats = ProjectStats(self)
 
-    def all_users(self, group=None):
-        """Return all users having ACL on this project."""
-        from weblate.auth.models import User
-        groups = self.group_set.filter(
-            internal=True, name__contains='@'
-        )
-        if group is not None:
-            groups = groups.filter(name__endswith=group)
-        return User.objects.filter(groups__in=groups).distinct()
-
-    def all_groups(self):
-        """Return list of applicable groups for project."""
-        return self.group_set.filter(
-            internal=True, name__contains='@'
-        ).order_by('name')
-
     def add_user(self, user, group=None):
         """Add user based on username of email."""
         if group is None:

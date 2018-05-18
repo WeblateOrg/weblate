@@ -84,6 +84,14 @@ class Role(models.Model):
         return pgettext('Access control role', self.name)
 
 
+class GroupManager(BaseUserManager):
+    def for_project(self, project):
+        """All groups for a project."""
+        return self.filter(
+            projects=project, internal=True, name__contains='@'
+        ).order_by('name')
+
+
 @python_2_unicode_compatible
 class Group(models.Model):
     SELECTION_MANUAL = 0
@@ -144,6 +152,8 @@ class Group(models.Model):
         verbose_name=_('Weblate internal group'),
         default=False,
     )
+
+    objects = GroupManager()
 
     def __str__(self):
         return pgettext('Access control group', self.name)
@@ -213,6 +223,23 @@ class UserManager(BaseUserManager):
             raise ValueError('Superuser must have is_superuser=True.')
 
         return self._create_user(username, email, password, **extra_fields)
+
+    def for_project(self, project):
+        """Return all users having ACL for this project."""
+        groups = project.group_set.filter(internal=True, name__contains='@')
+        return self.filter(groups__in=groups).distinct()
+
+    def having_perm(self, perm, project):
+        """All users having permission on a project."""
+        groups = Group.objects.filter(
+            roles__permissions__codename=perm,
+            projects=project
+        )
+        return self.filter(groups__in=groups).distinct()
+
+    def all_admins(self, project):
+        """All admins in a project."""
+        return self.having_perm('project.edit', project)
 
 
 def get_anonymous():

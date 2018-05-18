@@ -21,6 +21,7 @@
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 
+from weblate.auth.models import User
 from weblate.trans.models import AutoComponentList, Unit
 from weblate.trans.util import sort_choices
 
@@ -38,7 +39,7 @@ class ProjectAdmin(WeblateModelAdmin):
 
     def list_admins(self, obj):
         return ', '.join(
-            obj.all_users('@Administration').values_list('username', flat=True)
+            User.objects.all_admins(obj).values_list('username', flat=True)
         )
     list_admins.short_description = _('Administrators')
 

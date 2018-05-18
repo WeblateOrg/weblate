@@ -151,7 +151,7 @@ class ACLTest(FixtureTestCase):
             }
         )
         self.assertTrue(
-            self.project.all_users('@Administration').filter(
+            User.objects.all_admins(self.project).filter(
                 username=self.second_user.username
             ).exists()
         )
@@ -164,7 +164,7 @@ class ACLTest(FixtureTestCase):
             }
         )
         self.assertFalse(
-            self.project.all_users('@Administration').filter(
+            User.objects.all_admins(self.project).filter(
                 username=self.second_user.username
             ).exists()
         )
@@ -184,7 +184,7 @@ class ACLTest(FixtureTestCase):
         )
         self.remove_user()
         self.assertFalse(
-            self.project.all_users('@Administration').filter(
+            User.objects.all_admins(self.project).filter(
                 username=self.second_user.username
             ).exists()
         )
@@ -201,7 +201,7 @@ class ACLTest(FixtureTestCase):
             }
         )
         self.assertTrue(
-            self.project.all_users('@Administration').filter(
+            User.objects.all_admins(self.project).filter(
                 username=self.user.username
             ).exists()
         )
@@ -214,7 +214,7 @@ class ACLTest(FixtureTestCase):
             }
         )
         self.assertTrue(
-            self.project.all_users('@Administration').filter(
+            User.objects.all_admins(self.project).filter(
                 username=self.user.username
             ).exists()
         )

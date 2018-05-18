@@ -28,6 +28,7 @@ from django.template.loader import render_to_string
 from django.utils import translation as django_translation
 from django.utils.encoding import force_text
 
+from weblate.auth.models import User
 from weblate.accounts.models import Profile, AuditLog
 from weblate.utils.site import get_site_url, get_site_domain
 from weblate.utils.errors import report_error
@@ -49,7 +50,7 @@ def notify_merge_failure(component, error, status):
         )
         users.add(subscription.user_id)
 
-    for owner in component.project.all_users('@Administration'):
+    for owner in User.objects.all_admins(component.project):
         mails.append(
             send_merge_failure(
                 owner.profile, component, error, status
@@ -89,7 +90,7 @@ def notify_parse_error(component, translation, error, filename):
         )
         users.add(subscription.user_id)
 
-    for owner in component.project.all_users('@Administration'):
+    for owner in User.objects.all_admins(component.project):
         mails.append(
             send_parse_error(
                 owner.profile,
@@ -143,7 +144,7 @@ def notify_new_language(component, language, user):
         )
         users.add(subscription.user_id)
 
-    for owner in component.project.all_users('@Administration'):
+    for owner in User.objects.all_admins(component.project):
         mails.append(
             send_new_language(
                 owner.profile, component, language, user
