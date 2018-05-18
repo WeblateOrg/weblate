@@ -417,6 +417,15 @@ wlc \
 {% trans "By registering you agree to use your name and email in the commits and provide your contribution under license defined by each translated project." %}
 </p>
 
+{% if user.contributoragreement_set.all %}
+<p>{% trans "You have agreed to folowing contributor agreements:" %}</p>
+<ul>
+{% for agreement in user.contributoragreement_set.all %}
+<li><a href="{% url 'contributor-agreement' project=agreement.component.project.slug component=agreement.component.slug %}">{{ agreement.component }}</a></li>
+{% endfor %}
+</ul>
+{% endif %}
+
 {% if licenses %}
 <p>{% trans "Following translations have explicitly specified their licensing and copyright conditions:" %}</p>
 <table class="table">

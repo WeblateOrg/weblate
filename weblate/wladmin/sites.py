@@ -59,9 +59,10 @@ from weblate.trans.admin import (
     ProjectAdmin, ComponentAdmin, TranslationAdmin,
     UnitAdmin, SuggestionAdmin, CommentAdmin, DictionaryAdmin,
     ChangeAdmin, SourceAdmin, WhiteboardMessageAdmin, ComponentListAdmin,
+    ContributorAgreementAdmin,
 )
 from weblate.trans.models import (
-    Project, Component, Translation,
+    Project, Component, Translation, ContributorAgreement,
     Unit, Suggestion, Comment, Dictionary, Change,
     Source, WhiteboardMessage, ComponentList,
 )
@@ -93,11 +94,12 @@ class WeblateAdminSite(AdminSite):
         # Screenshots
         self.register(Screenshot, ScreenshotAdmin)
 
-        # Transaltions
+        # Translations
         self.register(Project, ProjectAdmin)
         self.register(Component, ComponentAdmin)
         self.register(WhiteboardMessage, WhiteboardMessageAdmin)
         self.register(ComponentList, ComponentListAdmin)
+        self.register(ContributorAgreement, ContributorAgreementAdmin)
 
         # Show some controls only in debug mode
         if settings.DEBUG and False:

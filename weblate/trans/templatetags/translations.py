@@ -39,6 +39,7 @@ from weblate.trans.util import split_plural
 from weblate.lang.models import Language
 from weblate.trans.models import (
     Project, Component, Dictionary, WhiteboardMessage, Unit,
+    ContributorAgreement,
 )
 from weblate.checks import CHECKS, highlight_string
 from weblate.utils.stats import BaseStats
@@ -694,3 +695,19 @@ def user_permissions(user, groups):
             )
         )
     return mark_safe(''.join(result))
+
+
+@register.simple_tag(takes_context=True)
+def show_contributor_agreement(context, component):
+    if not component.agreement:
+        return ''
+    if ContributorAgreement.objects.has_agreed(context['user'], component):
+        return ''
+
+    return render_to_string(
+        'show-contributor-agreement.html',
+        {
+            'object': component,
+            'next': context['request'].get_full_path(),
+        }
+    )

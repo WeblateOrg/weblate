@@ -26,6 +26,7 @@ import shutil
 from django.db.models.signals import post_delete, post_save, m2m_changed
 from django.dispatch import receiver
 
+from weblate.trans.models.agreement import ContributorAgreement
 from weblate.trans.models.conf import WeblateConf
 from weblate.trans.models.project import Project
 from weblate.trans.models.component import Component
@@ -48,7 +49,7 @@ __all__ = [
     'Project', 'Component', 'Translation', 'Unit', 'Suggestion',
     'Comment', 'Vote', 'IndexUpdate', 'Change', 'Dictionary', 'Source',
     'WhiteboardMessage', 'ComponentList',
-    'WeblateConf',
+    'WeblateConf', 'ContributorAgreement',
 ]
 
 

@@ -36,6 +36,7 @@ import weblate.checks.views
 import weblate.lang.views
 import weblate.screenshots.views
 import weblate.trans.views.acl
+import weblate.trans.views.agreement
 import weblate.trans.views.api
 import weblate.trans.views.basic
 import weblate.trans.views.charts
@@ -300,6 +301,11 @@ urlpatterns = [
         r'^settings/' + COMPONENT + '$',
         weblate.trans.views.settings.change_component,
         name='settings',
+    ),
+    url(
+        r'^contributor-agreement/' + COMPONENT + '$',
+        weblate.trans.views.agreement.agreement_confirm,
+        name='contributor-agreement',
     ),
     url(
         r'^access/' + PROJECT + 'add/$',

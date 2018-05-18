@@ -225,3 +225,8 @@ class ComponentListAdmin(WeblateModelAdmin):
 class SourceAdmin(WeblateModelAdmin):
     list_display = ['id_hash', 'priority', 'timestamp']
     date_hierarchy = 'timestamp'
+
+
+class ContributorAgreementAdmin(WeblateModelAdmin):
+    list_display = ['user', 'component', 'timestamp']
+    date_hierarchy = 'timestamp'

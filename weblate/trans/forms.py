@@ -1309,6 +1309,7 @@ class ComponentSettingsForm(forms.ModelForm):
             'report_source_bugs',
             'license',
             'license_url',
+            'agreement',
 
             'allow_translation_propagation',
             'save_history',
@@ -1345,6 +1346,7 @@ class ComponentSettingsForm(forms.ModelForm):
                         _('License'),
                         'license',
                         'license_url',
+                        'agreement',
                     ),
                     Fieldset(
                         _('Upstream links'),
@@ -1550,3 +1552,14 @@ class MassStateForm(forms.Form):
             self.fields['type'].choices = [
                 (x[0], x[1]) for x in translation.list_translation_checks
             ]
+
+
+class ContributorAgreementForm(forms.Form):
+    confirm = forms.BooleanField(
+        label=_("I agree with the contributor agreement"),
+        required=True
+    )
+    next = forms.CharField(
+        required=False,
+        widget=forms.HiddenInput,
+    )

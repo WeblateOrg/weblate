@@ -23,7 +23,9 @@ from django.conf import settings
 from django.db.models import Q
 
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
-from weblate.trans.models import Project, Component, Translation, Unit
+from weblate.trans.models import (
+    Project, Component, Translation, Unit, ContributorAgreement,
+)
 
 
 SPECIALS = {}
@@ -102,10 +104,21 @@ def check_can_edit(user, permission, obj, is_vote=False):
     elif isinstance(obj, Component):
         component = obj
 
-    if component and component.locked:
-        return False
+    # Email is needed for user to be able to edit
     if user.is_authenticated and not user.email:
         return False
+
+    if component:
+        # Check component lock
+        if component.locked:
+            return False
+
+        # Check contributor agreement
+        if (component.agreement and
+                not ContributorAgreement.objects.has_agreed(user, component)):
+            return False
+
+    # Perform usual permission check
     if not check_permission(user, permission, obj):
         return False
 

@@ -33,6 +33,7 @@
 {% endif %}
 
 {% include "show-lock.html" with object=unit.translation.component %}
+{% show_contributor_agreement unit.translation.component %}
 
 {% with unit.get_comments as comments and unit.nearby as nearby %}
 

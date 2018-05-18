@@ -25,6 +25,7 @@
 {% perm 'component.edit' object as user_can_edit_component %}
 
 {% include "show-lock.html" %}
+{% show_contributor_agreement object %}
 
 <ul class="nav nav-pills">
   <li class="active"><a href="#translations" data-toggle="tab">{% trans "Translations" %}</a></li>

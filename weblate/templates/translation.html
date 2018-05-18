@@ -24,6 +24,7 @@
 {% perm 'unit.add' object as user_can_add_unit %}
 
 {% include "show-lock.html" with object=object.component %}
+{% show_contributor_agreement object.component %}
 
 <ul class="nav nav-pills">
   <li class="active"><a href="#overview" data-toggle="tab">{% trans "Overview" %}</a></li>
