@@ -256,7 +256,7 @@ class ProjectViewSet(WeblateViewSet):
     def get_queryset(self):
         return self.request.user.allowed_projects.prefetch_related(
             'source_language'
-        )
+        ).order_by('id')
 
     @action(detail=True, methods=['get'])
     def components(self, request, **kwargs):
@@ -308,7 +308,7 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
             project__in=self.request.user.allowed_projects
         ).prefetch_related(
             'project__source_language'
-        )
+        ).order_by('id')
 
     @action(
         detail=True,
@@ -418,7 +418,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
             component__project__in=self.request.user.allowed_projects
         ).prefetch_related(
             'component__project__source_language',
-        )
+        ).order_by('id')
 
     @action(
         detail=True,
@@ -516,7 +516,7 @@ class LanguageViewSet(viewsets.ReadOnlyModelViewSet):
     lookup_field = 'code'
 
     def get_queryset(self):
-        return Language.objects.have_translation()
+        return Language.objects.have_translation().order_by('id')
 
 
 class UnitViewSet(viewsets.ReadOnlyModelViewSet):
@@ -529,7 +529,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet):
         allowed_projects = self.request.user.allowed_projects
         return Unit.objects.filter(
             translation__component__project__in=allowed_projects
-        )
+        ).order_by('id')
 
 
 class SourceViewSet(viewsets.ReadOnlyModelViewSet):
@@ -541,7 +541,7 @@ class SourceViewSet(viewsets.ReadOnlyModelViewSet):
     def get_queryset(self):
         return Source.objects.filter(
             component__project__in=self.request.user.allowed_projects
-        )
+        ).order_by('id')
 
 
 class ScreenshotViewSet(DownloadViewSet):
@@ -556,7 +556,7 @@ class ScreenshotViewSet(DownloadViewSet):
     def get_queryset(self):
         return Screenshot.objects.filter(
             component__project__in=self.request.user.allowed_projects
-        )
+        ).order_by('id')
 
     @action(
         detail=True,
@@ -599,7 +599,7 @@ class ChangeViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = ChangeSerializer
 
     def get_queryset(self):
-        return Change.objects.last_changes(self.request.user)
+        return Change.objects.last_changes(self.request.user).order_by('id')
 
 
 class Metrics(APIView):
