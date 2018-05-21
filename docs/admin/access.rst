@@ -296,7 +296,7 @@ Glossary
     Add glossary entry [`Administration`, `Manage glossary`, `Power user`]
     Edit glossary entry [`Administration`, `Manage glossary`, `Power user`]
     Delete glossary entry [`Administration`, `Manage glossary`, `Power user`]
-    Uploady glossary entries [`Administration`, `Manage glossary`, `Power user`]
+    Upload glossary entries [`Administration`, `Manage glossary`, `Power user`]
 
 Machinery
     Use machine translation services [`Administration`, `Power user`]
@@ -314,7 +314,7 @@ Screenshots
     Delete screenshot [`Administration`, `Manage screenshots`]
 
 Source strings
-    Edit source strings information [`Administration`, `Edit source`]
+    Edit info on source strings [`Administration`, `Edit source`]
 
 Strings
     Add new string [`Administration`]
