@@ -349,7 +349,7 @@ You can combine them with filters:
 
 You can use conditions:
 
-.. code-block::
+.. code-block:: django
 
     {% if stats.translated_percent > 80 %}Well translated!{% endif %}
 
