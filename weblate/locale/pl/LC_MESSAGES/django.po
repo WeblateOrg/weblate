@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-05-21 09:21+0000\n"
+"POT-Creation-Date: 2018-05-21 12:21+0000\n"
 "PO-Revision-Date: 2018-05-17 09:40+0000\n"
 "Last-Translator: Piotr Strebski <strebski@o2.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/master/pl/"
@@ -965,7 +965,7 @@ msgstr "Pobierz skompilowane tłumaczenie"
 #: weblate/auth/data.py:42
 #, fuzzy
 #| msgid "Posted new comment"
-msgid "Post coment"
+msgid "Post comment"
 msgstr "Wysłany nowy komentarz"
 
 #: weblate/auth/data.py:43
@@ -1067,7 +1067,8 @@ msgid "Vote suggestion"
 msgstr "Włącz sugestie"
 
 #: weblate/auth/data.py:68 weblate/templates/component.html:60
-#: weblate/templates/component.html:115 weblate/templates/new-language.html:22
+#: weblate/templates/component.html:116 weblate/templates/component.html:118
+#: weblate/templates/new-language.html:22
 #: weblate/templates/new-language.html:38
 msgid "Start new translation"
 msgstr "Rozpocznij nowe tłumaczenie"
@@ -2503,30 +2504,38 @@ msgstr ""
 "akceptującym darowizny."
 
 #: weblate/templates/about.html:24
-msgid "Fund Weblate"
-msgstr "Wesprzyj finansowo Weblate"
+#, fuzzy
+#| msgid "Support Weblate on Liberapay"
+msgid "Fund Weblate on Liberapay"
+msgstr "Wspieraj Weblate na Liberapay"
 
-#: weblate/templates/about.html:25 weblate/templates/footer.html:11
+#: weblate/templates/about.html:25
+#, fuzzy
+#| msgid "Support Weblate on Bountysource"
+msgid "Fund Weblate on BountySource"
+msgstr "Wspomóż Weblate na Bountysource"
+
+#: weblate/templates/about.html:26 weblate/templates/footer.html:11
 #: weblate/trans/templatetags/advertisement.py:42
 msgid "Donate to Weblate"
 msgstr "Złóż darowiznę dla Weblate"
 
-#: weblate/templates/about.html:32
+#: weblate/templates/about.html:33
 msgid "Hosting translations"
 msgstr "Hosting tłumaczeń"
 
-#: weblate/templates/about.html:35
+#: weblate/templates/about.html:36
 msgid ""
 "This Weblate instance hosts translations for various libre software projects."
 msgstr ""
 "Ta instancja Weblate hostuje tłumaczenia dla różnych projektów wolnego "
 "oprogramowania."
 
-#: weblate/templates/about.html:36
+#: weblate/templates/about.html:37
 msgid "Weblate can host your project as well, please get in touch."
 msgstr "Weblate może również hostować Twój projekt — prosimy o kontakt."
 
-#: weblate/templates/about.html:39
+#: weblate/templates/about.html:40
 msgid ""
 "Commercial hosting is also available, pricing starts at 19 EUR per month, "
 "please get in touch for more details."
@@ -2534,24 +2543,24 @@ msgstr ""
 "Hosting komercyjny jest także dostępny, a nasze ceny zaczynają się od 19 "
 "euro miesięcznie. Prosimy o kontakt, jeśli chcesz dowiedzieć się więcej."
 
-#: weblate/templates/about.html:43 weblate/templates/accounts/hosting.html:21
+#: weblate/templates/about.html:44 weblate/templates/accounts/hosting.html:21
 #: weblate/templates/projects.html:13
 msgid "Ask for project hosting"
 msgstr "Zapytaj o hosting projektu"
 
-#: weblate/templates/about.html:44
+#: weblate/templates/about.html:45
 msgid "View hosting plans"
 msgstr "Zobacz plany hostingowe"
 
-#: weblate/templates/about.html:45 weblate/templates/accounts/hosting.html:55
+#: weblate/templates/about.html:46 weblate/templates/accounts/hosting.html:55
 msgid "Contact us for commercial hosting"
 msgstr "Skontaktuj się z nami w sprawie hostingu komercyjnego"
 
-#: weblate/templates/about.html:52
+#: weblate/templates/about.html:53
 msgid "Versions"
 msgstr "Wersje"
 
-#: weblate/templates/about.html:68
+#: weblate/templates/about.html:69
 msgid "Weblate owes its existence to these projects."
 msgstr "Weblate zawdzięcza swoje istnienie tym projektom."
 
@@ -3697,7 +3706,7 @@ msgstr "Raporty tłumaczenia"
 msgid "Tools"
 msgstr "Narzędzia"
 
-#: weblate/templates/component.html:52 weblate/templates/component.html:135
+#: weblate/templates/component.html:52 weblate/templates/component.html:139
 #: weblate/templates/index.html:49 weblate/templates/index.html:123
 #: weblate/templates/language-project.html:24
 #: weblate/templates/language-project.html:49 weblate/templates/project.html:45
@@ -3710,7 +3719,7 @@ msgstr "Narzędzia"
 msgid "Search"
 msgstr "Szukaj"
 
-#: weblate/templates/component.html:54 weblate/templates/component.html:144
+#: weblate/templates/component.html:54 weblate/templates/component.html:148
 #: weblate/templates/project.html:47 weblate/templates/project.html:195
 #: weblate/templates/replace.html:13 weblate/templates/translation.html:61
 #: weblate/templates/translation.html:228 weblate/trans/models/change.py:227
@@ -3783,7 +3792,19 @@ msgstr "Strona zachęcająca do tłumaczenia"
 msgid "Status widgets"
 msgstr "Widżety stanu"
 
-#: weblate/templates/component.html:146 weblate/templates/project.html:197
+#: weblate/templates/component.html:118
+#, fuzzy
+#| msgid "You don't have privileges to save translations!"
+msgid "You don't have permission to start new translation"
+msgstr "Nie masz uprawnień do zapisu tłumaczeń!"
+
+#: weblate/templates/component.html:118
+#, fuzzy
+#| msgid "Please log in for saving translations."
+msgid "Please login to start new translation "
+msgstr "Zaloguj się by zapisywać tłumaczenia."
+
+#: weblate/templates/component.html:150 weblate/templates/project.html:197
 #: weblate/templates/translation.html:230
 msgid ""
 "You can replace a string in all strings at once. The search is a simple "
@@ -3793,7 +3814,7 @@ msgstr ""
 "Wyszukiwanie polega na odnajdowaniu fragmentów ciągów znaków, bez "
 "rozróżniania małych i dużych liter."
 
-#: weblate/templates/component.html:151 weblate/templates/component.html:166
+#: weblate/templates/component.html:155 weblate/templates/component.html:170
 #: weblate/templates/project.html:202 weblate/templates/project.html:217
 #: weblate/templates/replace.html:46 weblate/templates/translation.html:216
 #: weblate/templates/translation.html:235
@@ -3802,33 +3823,33 @@ msgstr ""
 msgid "Process"
 msgstr "Przetwarzaj"
 
-#: weblate/templates/component.html:159 weblate/templates/project.html:210
+#: weblate/templates/component.html:163 weblate/templates/project.html:210
 #: weblate/templates/translation.html:243 weblate/trans/models/change.py:234
 #, fuzzy
 #| msgid "Last change"
 msgid "Mass state change"
 msgstr "Ostatnia zmiana"
 
-#: weblate/templates/component.html:161 weblate/templates/project.html:212
+#: weblate/templates/component.html:165 weblate/templates/project.html:212
 #: weblate/templates/translation.html:245
 msgid "You can change state of all strings matching given type at once."
 msgstr ""
 
-#: weblate/templates/component.html:177 weblate/templates/js/changes.html:5
+#: weblate/templates/component.html:181 weblate/templates/js/changes.html:5
 msgid "Browse all component changes"
 msgstr "Przeglądaj wszystkie zmiany komponentu"
 
-#: weblate/templates/component.html:184 weblate/templates/project.html:228
+#: weblate/templates/component.html:188 weblate/templates/project.html:228
 #: weblate/templates/translate.html:334 weblate/templates/translate.html:338
 #: weblate/templates/translation.html:302 weblate/trans/forms.py:231
 msgid "Loading…"
 msgstr "Wczytywanie…"
 
-#: weblate/templates/component.html:197
+#: weblate/templates/component.html:201
 msgid "Credits"
 msgstr "Autorzy"
 
-#: weblate/templates/component.html:201
+#: weblate/templates/component.html:205
 msgid ""
 "Credits list all translators who have contributed to this component in a "
 "given time period. It can be useful for including in your documentation or "
@@ -3838,16 +3859,16 @@ msgstr ""
 "komponentu w danym okresie czasu. Dołączenie podziękowań dla tłumaczy w "
 "twojej dokumentacji lub programie może okazać się pożyteczne."
 
-#: weblate/templates/component.html:205 weblate/templates/component.html:224
+#: weblate/templates/component.html:209 weblate/templates/component.html:228
 #: weblate/wladmin/templates/admin/ssh.html:36
 msgid "Generate"
 msgstr "Generuj"
 
-#: weblate/templates/component.html:216
+#: weblate/templates/component.html:220
 msgid "Contributor stats"
 msgstr "Statystyki współpracownika"
 
-#: weblate/templates/component.html:220
+#: weblate/templates/component.html:224
 msgid "Reports number of strings and words translated by each translator."
 msgstr ""
 "Raporty o ilości tekstów i słów przetłumaczonych przez każdego tłumacza."
@@ -8984,6 +9005,9 @@ msgstr "Buforowany program wczytujący szablon"
 msgid "Admin static files"
 msgstr "Pliki statyczne administratora"
 
+#~ msgid "Fund Weblate"
+#~ msgstr "Wesprzyj finansowo Weblate"
+
 #~ msgid "Project / Component"
 #~ msgstr "Projekt / Składnik"
 
@@ -10342,9 +10366,6 @@ msgstr "Pliki statyczne administratora"
 
 #~ msgid "Fuzzy translations"
 #~ msgstr "Niepewne tłumaczenia"
-
-#~ msgid "You don't have privileges to save translations!"
-#~ msgstr "Nie masz uprawnień do zapisu tłumaczeń!"
 
 #~ msgid "Bilin"
 #~ msgstr "blin"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-05-21 09:21+0000\n"
+"POT-Creation-Date: 2018-05-21 12:21+0000\n"
 "PO-Revision-Date: 2018-05-17 13:57+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/"
@@ -943,7 +943,7 @@ msgstr "Stáhnout zkompilovaný překlad"
 #: weblate/auth/data.py:42
 #, fuzzy
 #| msgid "Posted new comment"
-msgid "Post coment"
+msgid "Post comment"
 msgstr "Přidán nový komentář"
 
 #: weblate/auth/data.py:43
@@ -1045,7 +1045,8 @@ msgid "Vote suggestion"
 msgstr "Povolit návrhy"
 
 #: weblate/auth/data.py:68 weblate/templates/component.html:60
-#: weblate/templates/component.html:115 weblate/templates/new-language.html:22
+#: weblate/templates/component.html:116 weblate/templates/component.html:118
+#: weblate/templates/new-language.html:22
 #: weblate/templates/new-language.html:38
 msgid "Start new translation"
 msgstr "Začít nový překlad"
@@ -2456,28 +2457,36 @@ msgstr ""
 "finančně."
 
 #: weblate/templates/about.html:24
-msgid "Fund Weblate"
-msgstr "Financujte Weblate"
+#, fuzzy
+#| msgid "Support Weblate on Liberapay"
+msgid "Fund Weblate on Liberapay"
+msgstr "Podpořte Weblate na Liberapay"
 
-#: weblate/templates/about.html:25 weblate/templates/footer.html:11
+#: weblate/templates/about.html:25
+#, fuzzy
+#| msgid "Support Weblate on Bountysource"
+msgid "Fund Weblate on BountySource"
+msgstr "Podpořte Weblate na Bountysource"
+
+#: weblate/templates/about.html:26 weblate/templates/footer.html:11
 #: weblate/trans/templatetags/advertisement.py:42
 msgid "Donate to Weblate"
 msgstr "Přispějte na Weblate"
 
-#: weblate/templates/about.html:32
+#: weblate/templates/about.html:33
 msgid "Hosting translations"
 msgstr "Hostování překladů"
 
-#: weblate/templates/about.html:35
+#: weblate/templates/about.html:36
 msgid ""
 "This Weblate instance hosts translations for various libre software projects."
 msgstr "Tato instalace Weblate vám umožní překládat váš svobodný software."
 
-#: weblate/templates/about.html:36
+#: weblate/templates/about.html:37
 msgid "Weblate can host your project as well, please get in touch."
 msgstr "Můžeme vám pomoci překládat i váš projekt, prosím napište nám."
 
-#: weblate/templates/about.html:39
+#: weblate/templates/about.html:40
 msgid ""
 "Commercial hosting is also available, pricing starts at 19 EUR per month, "
 "please get in touch for more details."
@@ -2485,24 +2494,24 @@ msgstr ""
 "Můžeme hostovat i komerční překlady již od 19 EUR měsíčně. Prosím napište "
 "nám a domluvíme se."
 
-#: weblate/templates/about.html:43 weblate/templates/accounts/hosting.html:21
+#: weblate/templates/about.html:44 weblate/templates/accounts/hosting.html:21
 #: weblate/templates/projects.html:13
 msgid "Ask for project hosting"
 msgstr "Požádat o hostování projektu"
 
-#: weblate/templates/about.html:44
+#: weblate/templates/about.html:45
 msgid "View hosting plans"
 msgstr "Zobrazit hostovací balíčky"
 
-#: weblate/templates/about.html:45 weblate/templates/accounts/hosting.html:55
+#: weblate/templates/about.html:46 weblate/templates/accounts/hosting.html:55
 msgid "Contact us for commercial hosting"
 msgstr "Napište nám ohledně komerčního hostování"
 
-#: weblate/templates/about.html:52
+#: weblate/templates/about.html:53
 msgid "Versions"
 msgstr "Verze"
 
-#: weblate/templates/about.html:68
+#: weblate/templates/about.html:69
 msgid "Weblate owes its existence to these projects."
 msgstr "Weblate vděčí za svoji existenci těmto projektům."
 
@@ -3590,7 +3599,7 @@ msgstr "Souhrny překladů"
 msgid "Tools"
 msgstr "Nástroje"
 
-#: weblate/templates/component.html:52 weblate/templates/component.html:135
+#: weblate/templates/component.html:52 weblate/templates/component.html:139
 #: weblate/templates/index.html:49 weblate/templates/index.html:123
 #: weblate/templates/language-project.html:24
 #: weblate/templates/language-project.html:49 weblate/templates/project.html:45
@@ -3603,7 +3612,7 @@ msgstr "Nástroje"
 msgid "Search"
 msgstr "Vyhledávání"
 
-#: weblate/templates/component.html:54 weblate/templates/component.html:144
+#: weblate/templates/component.html:54 weblate/templates/component.html:148
 #: weblate/templates/project.html:47 weblate/templates/project.html:195
 #: weblate/templates/replace.html:13 weblate/templates/translation.html:61
 #: weblate/templates/translation.html:228 weblate/trans/models/change.py:227
@@ -3676,7 +3685,19 @@ msgstr "Stránka pro zapojení"
 msgid "Status widgets"
 msgstr "Stavová tlačítka"
 
-#: weblate/templates/component.html:146 weblate/templates/project.html:197
+#: weblate/templates/component.html:118
+#, fuzzy
+#| msgid "You don't have privileges to save translations!"
+msgid "You don't have permission to start new translation"
+msgstr "Pro ukládání překladů nemáte oprávnění!"
+
+#: weblate/templates/component.html:118
+#, fuzzy
+#| msgid "Please log in to save translations."
+msgid "Please login to start new translation "
+msgstr "Pro ukládání překladů se přihlaste."
+
+#: weblate/templates/component.html:150 weblate/templates/project.html:197
 #: weblate/templates/translation.html:230
 msgid ""
 "You can replace a string in all strings at once. The search is a simple "
@@ -3685,7 +3706,7 @@ msgstr ""
 "Můžete nahradit řetězec ve všech překladech najednou. Vyhledávání je "
 "jednoduché porovnání řetězců a rozlišuje velikost písmen."
 
-#: weblate/templates/component.html:151 weblate/templates/component.html:166
+#: weblate/templates/component.html:155 weblate/templates/component.html:170
 #: weblate/templates/project.html:202 weblate/templates/project.html:217
 #: weblate/templates/replace.html:46 weblate/templates/translation.html:216
 #: weblate/templates/translation.html:235
@@ -3694,31 +3715,31 @@ msgstr ""
 msgid "Process"
 msgstr "Zpracovat"
 
-#: weblate/templates/component.html:159 weblate/templates/project.html:210
+#: weblate/templates/component.html:163 weblate/templates/project.html:210
 #: weblate/templates/translation.html:243 weblate/trans/models/change.py:234
 msgid "Mass state change"
 msgstr "Hromadná změna stavu"
 
-#: weblate/templates/component.html:161 weblate/templates/project.html:212
+#: weblate/templates/component.html:165 weblate/templates/project.html:212
 #: weblate/templates/translation.html:245
 msgid "You can change state of all strings matching given type at once."
 msgstr "Je možné změnit stav všech řetězců odpovídajícího typu naráz."
 
-#: weblate/templates/component.html:177 weblate/templates/js/changes.html:5
+#: weblate/templates/component.html:181 weblate/templates/js/changes.html:5
 msgid "Browse all component changes"
 msgstr "Procházet všechny změny v součásti"
 
-#: weblate/templates/component.html:184 weblate/templates/project.html:228
+#: weblate/templates/component.html:188 weblate/templates/project.html:228
 #: weblate/templates/translate.html:334 weblate/templates/translate.html:338
 #: weblate/templates/translation.html:302 weblate/trans/forms.py:231
 msgid "Loading…"
 msgstr "Načítání…"
 
-#: weblate/templates/component.html:197
+#: weblate/templates/component.html:201
 msgid "Credits"
 msgstr "Poděkování"
 
-#: weblate/templates/component.html:201
+#: weblate/templates/component.html:205
 msgid ""
 "Credits list all translators who have contributed to this component in a "
 "given time period. It can be useful for including in your documentation or "
@@ -3728,16 +3749,16 @@ msgstr ""
 "zadaném období. Přehled může být užitečný pro začlenění do dokumentace nebo "
 "aplikace pro poděkování překladatelům."
 
-#: weblate/templates/component.html:205 weblate/templates/component.html:224
+#: weblate/templates/component.html:209 weblate/templates/component.html:228
 #: weblate/wladmin/templates/admin/ssh.html:36
 msgid "Generate"
 msgstr "Vytvořit"
 
-#: weblate/templates/component.html:216
+#: weblate/templates/component.html:220
 msgid "Contributor stats"
 msgstr "Statistiky přispěvatelů"
 
-#: weblate/templates/component.html:220
+#: weblate/templates/component.html:224
 msgid "Reports number of strings and words translated by each translator."
 msgstr "Pro každého překladatele vypíše počet řetězců a slov, které přeložil."
 
@@ -8607,6 +8628,9 @@ msgstr "Načítání šablon s mezipamětí"
 msgid "Admin static files"
 msgstr "Statické soubory správy"
 
+#~ msgid "Fund Weblate"
+#~ msgstr "Financujte Weblate"
+
 #~ msgid "Project / Component"
 #~ msgstr "Project / součást"
 
@@ -9941,9 +9965,6 @@ msgstr "Statické soubory správy"
 
 #~ msgid "Fuzzy translations"
 #~ msgstr "Nejasné překlady"
-
-#~ msgid "You don't have privileges to save translations!"
-#~ msgstr "Pro ukládání překladů nemáte oprávnění!"
 
 #~ msgid "Bilin"
 #~ msgstr "Bilin"

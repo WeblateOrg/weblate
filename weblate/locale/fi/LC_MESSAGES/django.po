@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-05-21 09:21+0000\n"
+"POT-Creation-Date: 2018-05-21 12:21+0000\n"
 "PO-Revision-Date: 2018-02-17 10:44+0000\n"
 "Last-Translator: Tuomas Harju <tuomas@rtj-group.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
@@ -1003,7 +1003,7 @@ msgstr "Lataa käännetty käännöstiedosto"
 #: weblate/auth/data.py:42
 #, fuzzy
 #| msgid "Posted new comment"
-msgid "Post coment"
+msgid "Post comment"
 msgstr "Lähetetty uusi kommentti"
 
 #: weblate/auth/data.py:43
@@ -1105,7 +1105,8 @@ msgid "Vote suggestion"
 msgstr "Ota käyttöön ehdotukset"
 
 #: weblate/auth/data.py:68 weblate/templates/component.html:60
-#: weblate/templates/component.html:115 weblate/templates/new-language.html:22
+#: weblate/templates/component.html:116 weblate/templates/component.html:118
+#: weblate/templates/new-language.html:22
 #: weblate/templates/new-language.html:38
 msgid "Start new translation"
 msgstr "Aloita uusi käännös"
@@ -2533,30 +2534,38 @@ msgstr ""
 "lahjoituksia."
 
 #: weblate/templates/about.html:24
-msgid "Fund Weblate"
-msgstr "Rahoita Weblatea"
+#, fuzzy
+#| msgid "Support Weblate on Liberapay"
+msgid "Fund Weblate on Liberapay"
+msgstr "Tue Weblatea Liberpaylla"
 
-#: weblate/templates/about.html:25 weblate/templates/footer.html:11
+#: weblate/templates/about.html:25
+#, fuzzy
+#| msgid "Support Weblate on Bountysource"
+msgid "Fund Weblate on BountySource"
+msgstr "Tue Weblatea Bountysourcessa"
+
+#: weblate/templates/about.html:26 weblate/templates/footer.html:11
 #: weblate/trans/templatetags/advertisement.py:42
 msgid "Donate to Weblate"
 msgstr "Lahjoita Weblate:lle"
 
-#: weblate/templates/about.html:32
+#: weblate/templates/about.html:33
 msgid "Hosting translations"
 msgstr "Isännöi käännöksiä"
 
-#: weblate/templates/about.html:35
+#: weblate/templates/about.html:36
 msgid ""
 "This Weblate instance hosts translations for various libre software projects."
 msgstr ""
 "Tämä Weblate-palvelin isännöi käännöksiä eri vapaiden ohjelmien projekteissa."
 
-#: weblate/templates/about.html:36
+#: weblate/templates/about.html:37
 msgid "Weblate can host your project as well, please get in touch."
 msgstr ""
 "Weblate voisi isännöidä sinunkin projektiasi, ole hyvä ja ota yhteyttä."
 
-#: weblate/templates/about.html:39
+#: weblate/templates/about.html:40
 msgid ""
 "Commercial hosting is also available, pricing starts at 19 EUR per month, "
 "please get in touch for more details."
@@ -2565,24 +2574,24 @@ msgstr ""
 "hintamme alkavat 19 eurosta per kuukausi. Ole hyvä ole yhteydessä meihin "
 "saadaksesi lisätietoja."
 
-#: weblate/templates/about.html:43 weblate/templates/accounts/hosting.html:21
+#: weblate/templates/about.html:44 weblate/templates/accounts/hosting.html:21
 #: weblate/templates/projects.html:13
 msgid "Ask for project hosting"
 msgstr "Kysy projektillesi hostaus -palvelua"
 
-#: weblate/templates/about.html:44
+#: weblate/templates/about.html:45
 msgid "View hosting plans"
 msgstr "Katso hostauspalvelupakettit"
 
-#: weblate/templates/about.html:45 weblate/templates/accounts/hosting.html:55
+#: weblate/templates/about.html:46 weblate/templates/accounts/hosting.html:55
 msgid "Contact us for commercial hosting"
 msgstr "Ota yhteyttä kaupallisten palvelujen hostaukseen liittyen"
 
-#: weblate/templates/about.html:52
+#: weblate/templates/about.html:53
 msgid "Versions"
 msgstr "Versiot"
 
-#: weblate/templates/about.html:68
+#: weblate/templates/about.html:69
 msgid "Weblate owes its existence to these projects."
 msgstr "Weblate on olemassaolostaan velkaa näille projekteille."
 
@@ -3701,7 +3710,7 @@ msgstr "Käännösraportit"
 msgid "Tools"
 msgstr "Työkalut"
 
-#: weblate/templates/component.html:52 weblate/templates/component.html:135
+#: weblate/templates/component.html:52 weblate/templates/component.html:139
 #: weblate/templates/index.html:49 weblate/templates/index.html:123
 #: weblate/templates/language-project.html:24
 #: weblate/templates/language-project.html:49 weblate/templates/project.html:45
@@ -3714,7 +3723,7 @@ msgstr "Työkalut"
 msgid "Search"
 msgstr "Etsi"
 
-#: weblate/templates/component.html:54 weblate/templates/component.html:144
+#: weblate/templates/component.html:54 weblate/templates/component.html:148
 #: weblate/templates/project.html:47 weblate/templates/project.html:195
 #: weblate/templates/replace.html:13 weblate/templates/translation.html:61
 #: weblate/templates/translation.html:228 weblate/trans/models/change.py:227
@@ -3787,7 +3796,19 @@ msgstr "Osallistu -sivu"
 msgid "Status widgets"
 msgstr "Tilawidgetit"
 
-#: weblate/templates/component.html:146 weblate/templates/project.html:197
+#: weblate/templates/component.html:118
+#, fuzzy
+#| msgid "You don't have privileges to save translations!"
+msgid "You don't have permission to start new translation"
+msgstr "Sinulla ei ole oikeuksia tallentaa käännöstä!"
+
+#: weblate/templates/component.html:118
+#, fuzzy
+#| msgid "Please log in to save translations."
+msgid "Please login to start new translation "
+msgstr "Kirjaudu sisään tallentaaksesi käännöksiä."
+
+#: weblate/templates/component.html:150 weblate/templates/project.html:197
 #: weblate/templates/translation.html:230
 #, fuzzy
 #| msgid ""
@@ -3801,7 +3822,7 @@ msgstr ""
 "kirjainkoosta riippuvainen, ja se hakee myös pidempiin sanoihin sisältyviä "
 "sanoja, eli ts. se hakee myös merkkijonosta alimerkkijonoa."
 
-#: weblate/templates/component.html:151 weblate/templates/component.html:166
+#: weblate/templates/component.html:155 weblate/templates/component.html:170
 #: weblate/templates/project.html:202 weblate/templates/project.html:217
 #: weblate/templates/replace.html:46 weblate/templates/translation.html:216
 #: weblate/templates/translation.html:235
@@ -3810,33 +3831,33 @@ msgstr ""
 msgid "Process"
 msgstr "Edistyminen"
 
-#: weblate/templates/component.html:159 weblate/templates/project.html:210
+#: weblate/templates/component.html:163 weblate/templates/project.html:210
 #: weblate/templates/translation.html:243 weblate/trans/models/change.py:234
 #, fuzzy
 #| msgid "Last change"
 msgid "Mass state change"
 msgstr "Viimeinen muutos"
 
-#: weblate/templates/component.html:161 weblate/templates/project.html:212
+#: weblate/templates/component.html:165 weblate/templates/project.html:212
 #: weblate/templates/translation.html:245
 msgid "You can change state of all strings matching given type at once."
 msgstr ""
 
-#: weblate/templates/component.html:177 weblate/templates/js/changes.html:5
+#: weblate/templates/component.html:181 weblate/templates/js/changes.html:5
 msgid "Browse all component changes"
 msgstr "Selaa kaikkia komponentin muutoksia"
 
-#: weblate/templates/component.html:184 weblate/templates/project.html:228
+#: weblate/templates/component.html:188 weblate/templates/project.html:228
 #: weblate/templates/translate.html:334 weblate/templates/translate.html:338
 #: weblate/templates/translation.html:302 weblate/trans/forms.py:231
 msgid "Loading…"
 msgstr "Ladataan…"
 
-#: weblate/templates/component.html:197
+#: weblate/templates/component.html:201
 msgid "Credits"
 msgstr "Kiitokset"
 
-#: weblate/templates/component.html:201
+#: weblate/templates/component.html:205
 msgid ""
 "Credits list all translators who have contributed to this component in a "
 "given time period. It can be useful for including in your documentation or "
@@ -3846,16 +3867,16 @@ msgstr ""
 "komponentin kääntämiseen annettuna ajanjaksona. Voisi olla paikallaan "
 "kiittää kääntäjiä myös mussa dokumnetaatiossasi."
 
-#: weblate/templates/component.html:205 weblate/templates/component.html:224
+#: weblate/templates/component.html:209 weblate/templates/component.html:228
 #: weblate/wladmin/templates/admin/ssh.html:36
 msgid "Generate"
 msgstr "Keksi"
 
-#: weblate/templates/component.html:216
+#: weblate/templates/component.html:220
 msgid "Contributor stats"
 msgstr "Kääntäjän tilastot"
 
-#: weblate/templates/component.html:220
+#: weblate/templates/component.html:224
 msgid "Reports number of strings and words translated by each translator."
 msgstr "Raportoi tekstien ja sanojen käännökset per kääntäjä."
 
@@ -8805,6 +8826,9 @@ msgstr "Välimuistimallineiden lataaja"
 msgid "Admin static files"
 msgstr "Ylläpitäjän staattiset tiedostot"
 
+#~ msgid "Fund Weblate"
+#~ msgstr "Rahoita Weblatea"
+
 #~ msgid "Project / Component"
 #~ msgstr "Projekti / Komponentti"
 
@@ -10153,9 +10177,6 @@ msgstr "Ylläpitäjän staattiset tiedostot"
 
 #~ msgid "Fuzzy translations"
 #~ msgstr "Epätarkat käännökset"
-
-#~ msgid "You don't have privileges to save translations!"
-#~ msgstr "Sinulla ei ole oikeuksia tallentaa käännöstä!"
 
 #~ msgid "Download for using within an application."
 #~ msgstr "Lataa käytettäväksi ohjelmassa."

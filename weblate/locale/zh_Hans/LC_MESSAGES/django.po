@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-05-21 09:21+0000\n"
+"POT-Creation-Date: 2018-05-21 12:21+0000\n"
 "PO-Revision-Date: 2018-05-16 08:35+0000\n"
 "Last-Translator: S. Liu <ensigma96@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -914,7 +914,7 @@ msgstr "下载编译的译文"
 #: weblate/auth/data.py:42
 #, fuzzy
 #| msgid "Posted new comment"
-msgid "Post coment"
+msgid "Post comment"
 msgstr "新注释已发表"
 
 #: weblate/auth/data.py:43
@@ -1016,7 +1016,8 @@ msgid "Vote suggestion"
 msgstr "启用建议"
 
 #: weblate/auth/data.py:68 weblate/templates/component.html:60
-#: weblate/templates/component.html:115 weblate/templates/new-language.html:22
+#: weblate/templates/component.html:116 weblate/templates/component.html:118
+#: weblate/templates/new-language.html:22
 #: weblate/templates/new-language.html:38
 msgid "Start new translation"
 msgstr "开始新翻译"
@@ -2393,51 +2394,59 @@ msgid "Weblate is libre software created by volunteers, and accepts donations."
 msgstr "Weblate 是由志愿者创建的自由软件，它同时接受捐赠。"
 
 #: weblate/templates/about.html:24
-msgid "Fund Weblate"
-msgstr "资助 Weblate"
+#, fuzzy
+#| msgid "Support Weblate on Liberapay"
+msgid "Fund Weblate on Liberapay"
+msgstr "在 Liberapay 上支持 Weblate"
 
-#: weblate/templates/about.html:25 weblate/templates/footer.html:11
+#: weblate/templates/about.html:25
+#, fuzzy
+#| msgid "Support Weblate on Bountysource"
+msgid "Fund Weblate on BountySource"
+msgstr "在 Bountysource 上支持 Weblate"
+
+#: weblate/templates/about.html:26 weblate/templates/footer.html:11
 #: weblate/trans/templatetags/advertisement.py:42
 msgid "Donate to Weblate"
 msgstr "捐助 Weblate"
 
-#: weblate/templates/about.html:32
+#: weblate/templates/about.html:33
 msgid "Hosting translations"
 msgstr "托管翻译项目"
 
-#: weblate/templates/about.html:35
+#: weblate/templates/about.html:36
 msgid ""
 "This Weblate instance hosts translations for various libre software projects."
 msgstr "此 Weblate 网站托管了许多自由软件项目的翻译。"
 
-#: weblate/templates/about.html:36
+#: weblate/templates/about.html:37
 msgid "Weblate can host your project as well, please get in touch."
 msgstr "Weblate 也能为您的项目提供托管，若您有兴趣，请与我们取得联系。"
 
-#: weblate/templates/about.html:39
+#: weblate/templates/about.html:40
 msgid ""
 "Commercial hosting is also available, pricing starts at 19 EUR per month, "
 "please get in touch for more details."
 msgstr "我们也能提供收费托管，起价每月19欧元，更多细节请联系我们。"
 
-#: weblate/templates/about.html:43 weblate/templates/accounts/hosting.html:21
+#: weblate/templates/about.html:44 weblate/templates/accounts/hosting.html:21
 #: weblate/templates/projects.html:13
 msgid "Ask for project hosting"
 msgstr "请求项目托管"
 
-#: weblate/templates/about.html:44
+#: weblate/templates/about.html:45
 msgid "View hosting plans"
 msgstr "查看托管套餐"
 
-#: weblate/templates/about.html:45 weblate/templates/accounts/hosting.html:55
+#: weblate/templates/about.html:46 weblate/templates/accounts/hosting.html:55
 msgid "Contact us for commercial hosting"
 msgstr "关于收费托管，请联系我们"
 
-#: weblate/templates/about.html:52
+#: weblate/templates/about.html:53
 msgid "Versions"
 msgstr "版本"
 
-#: weblate/templates/about.html:68
+#: weblate/templates/about.html:69
 msgid "Weblate owes its existence to these projects."
 msgstr "Weblate 的诞生与这些项目分不开。"
 
@@ -3482,7 +3491,7 @@ msgstr "翻译报告"
 msgid "Tools"
 msgstr "工具"
 
-#: weblate/templates/component.html:52 weblate/templates/component.html:135
+#: weblate/templates/component.html:52 weblate/templates/component.html:139
 #: weblate/templates/index.html:49 weblate/templates/index.html:123
 #: weblate/templates/language-project.html:24
 #: weblate/templates/language-project.html:49 weblate/templates/project.html:45
@@ -3495,7 +3504,7 @@ msgstr "工具"
 msgid "Search"
 msgstr "搜索"
 
-#: weblate/templates/component.html:54 weblate/templates/component.html:144
+#: weblate/templates/component.html:54 weblate/templates/component.html:148
 #: weblate/templates/project.html:47 weblate/templates/project.html:195
 #: weblate/templates/replace.html:13 weblate/templates/translation.html:61
 #: weblate/templates/translation.html:228 weblate/trans/models/change.py:227
@@ -3568,7 +3577,19 @@ msgstr "入门页面"
 msgid "Status widgets"
 msgstr "状态小工具"
 
-#: weblate/templates/component.html:146 weblate/templates/project.html:197
+#: weblate/templates/component.html:118
+#, fuzzy
+#| msgid "You don't have privileges to save translations!"
+msgid "You don't have permission to start new translation"
+msgstr "您没有保存译文的权限！"
+
+#: weblate/templates/component.html:118
+#, fuzzy
+#| msgid "Please log in to save translations."
+msgid "Please login to start new translation "
+msgstr "请登录以保存翻译。"
+
+#: weblate/templates/component.html:150 weblate/templates/project.html:197
 #: weblate/templates/translation.html:230
 #, fuzzy
 #| msgid ""
@@ -3581,7 +3602,7 @@ msgstr ""
 "您可以一次替换所有字符串中的特定字符串。搜索功能是简单的子字符串、大小写敏感"
 "搜索。"
 
-#: weblate/templates/component.html:151 weblate/templates/component.html:166
+#: weblate/templates/component.html:155 weblate/templates/component.html:170
 #: weblate/templates/project.html:202 weblate/templates/project.html:217
 #: weblate/templates/replace.html:46 weblate/templates/translation.html:216
 #: weblate/templates/translation.html:235
@@ -3590,34 +3611,34 @@ msgstr ""
 msgid "Process"
 msgstr "开始"
 
-#: weblate/templates/component.html:159 weblate/templates/project.html:210
+#: weblate/templates/component.html:163 weblate/templates/project.html:210
 #: weblate/templates/translation.html:243 weblate/trans/models/change.py:234
 #, fuzzy
 #| msgid "Last change"
 msgid "Mass state change"
 msgstr "大量状态变化"
 
-#: weblate/templates/component.html:161 weblate/templates/project.html:212
+#: weblate/templates/component.html:165 weblate/templates/project.html:212
 #: weblate/templates/translation.html:245
 #, fuzzy
 msgid "You can change state of all strings matching given type at once."
 msgstr "您可以一次性更改所有匹配给定类型的字符串的状态。"
 
-#: weblate/templates/component.html:177 weblate/templates/js/changes.html:5
+#: weblate/templates/component.html:181 weblate/templates/js/changes.html:5
 msgid "Browse all component changes"
 msgstr "查看所有组件变更"
 
-#: weblate/templates/component.html:184 weblate/templates/project.html:228
+#: weblate/templates/component.html:188 weblate/templates/project.html:228
 #: weblate/templates/translate.html:334 weblate/templates/translate.html:338
 #: weblate/templates/translation.html:302 weblate/trans/forms.py:231
 msgid "Loading…"
 msgstr "正在加载…"
 
-#: weblate/templates/component.html:197
+#: weblate/templates/component.html:201
 msgid "Credits"
 msgstr "鸣谢表"
 
-#: weblate/templates/component.html:201
+#: weblate/templates/component.html:205
 msgid ""
 "Credits list all translators who have contributed to this component in a "
 "given time period. It can be useful for including in your documentation or "
@@ -3626,16 +3647,16 @@ msgstr ""
 "鸣谢表是在指定时间段内为此组件的翻译作出贡献的译者名单。它很适合放在您的文档"
 "或应用程序中，以此感谢翻译者的努力。"
 
-#: weblate/templates/component.html:205 weblate/templates/component.html:224
+#: weblate/templates/component.html:209 weblate/templates/component.html:228
 #: weblate/wladmin/templates/admin/ssh.html:36
 msgid "Generate"
 msgstr "生成"
 
-#: weblate/templates/component.html:216
+#: weblate/templates/component.html:220
 msgid "Contributor stats"
 msgstr "贡献者统计"
 
-#: weblate/templates/component.html:220
+#: weblate/templates/component.html:224
 msgid "Reports number of strings and words translated by each translator."
 msgstr "按每个译者报告已翻译字符串和单词数量。"
 
@@ -8329,6 +8350,9 @@ msgstr "缓存模板加载器"
 msgid "Admin static files"
 msgstr "Admin静态文件"
 
+#~ msgid "Fund Weblate"
+#~ msgstr "资助 Weblate"
+
 #~ msgid "Project / Component"
 #~ msgstr "项目 / 组件"
 
@@ -9650,9 +9674,6 @@ msgstr "Admin静态文件"
 
 #~ msgid "Fuzzy translations"
 #~ msgstr "模糊的翻译"
-
-#~ msgid "You don't have privileges to save translations!"
-#~ msgstr "您没有保存译文的权限！"
 
 #, fuzzy
 #~ msgid "Bilin"

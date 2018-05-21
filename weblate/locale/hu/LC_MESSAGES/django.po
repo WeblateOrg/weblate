@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-05-21 09:21+0000\n"
+"POT-Creation-Date: 2018-05-21 12:21+0000\n"
 "PO-Revision-Date: 2018-05-14 09:38+0000\n"
 "Last-Translator: Varanka Zoltán <zvaranka60@gmail.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/master/"
@@ -972,7 +972,7 @@ msgstr "Összes fordítás letöltése"
 #: weblate/auth/data.py:42
 #, fuzzy
 #| msgid "Posted new comment"
-msgid "Post coment"
+msgid "Post comment"
 msgstr "Új megjegyzés beküldve"
 
 #: weblate/auth/data.py:43
@@ -1078,7 +1078,8 @@ msgid "Vote suggestion"
 msgstr "Javaslatok engedélyezése"
 
 #: weblate/auth/data.py:68 weblate/templates/component.html:60
-#: weblate/templates/component.html:115 weblate/templates/new-language.html:22
+#: weblate/templates/component.html:116 weblate/templates/component.html:118
+#: weblate/templates/new-language.html:22
 #: weblate/templates/new-language.html:38
 msgid "Start new translation"
 msgstr "Új nyelv fordítása"
@@ -2558,20 +2559,26 @@ msgstr ""
 
 #: weblate/templates/about.html:24
 #, fuzzy
-#| msgid "Fund Weblate!"
-msgid "Fund Weblate"
-msgstr "Adományozzon a Weblate-nek!"
+#| msgid "Support Weblate at {0}"
+msgid "Fund Weblate on Liberapay"
+msgstr "Weblate támogatása: {0}"
 
-#: weblate/templates/about.html:25 weblate/templates/footer.html:11
+#: weblate/templates/about.html:25
+#, fuzzy
+#| msgid "Support Weblate on Bountysource"
+msgid "Fund Weblate on BountySource"
+msgstr "Weblate támogatása a Bountysource-on"
+
+#: weblate/templates/about.html:26 weblate/templates/footer.html:11
 #: weblate/trans/templatetags/advertisement.py:42
 msgid "Donate to Weblate"
 msgstr "Támogassa a Weblate-et"
 
-#: weblate/templates/about.html:32
+#: weblate/templates/about.html:33
 msgid "Hosting translations"
 msgstr "Fordítások elhelyezése"
 
-#: weblate/templates/about.html:35
+#: weblate/templates/about.html:36
 #, fuzzy
 #| msgid ""
 #| "This Weblate instance hosts translations for various free software "
@@ -2581,7 +2588,7 @@ msgid ""
 msgstr ""
 "Ez a Weblate példány több szabad szoftver projekt fordításának nyújt helyet."
 
-#: weblate/templates/about.html:36
+#: weblate/templates/about.html:37
 #, fuzzy
 #| msgid ""
 #| "We can host your project as well, if you are interested, please contact "
@@ -2591,7 +2598,7 @@ msgstr ""
 "Az Ön projektjének is tudunk helyet biztosítani. Ha felkeltettük "
 "érdeklődését, lépjen kapcsolatba velünk."
 
-#: weblate/templates/about.html:39
+#: weblate/templates/about.html:40
 #, fuzzy
 #| msgid ""
 #| "Commercial hosting is possible as well, our price starts at 19 EUR per "
@@ -2603,24 +2610,24 @@ msgstr ""
 "Kereskedelmi elhelyezésre is van lehetőség, áraink 19EUR/projekt/hótól "
 "kezdődnek. További részletekért kérjük lépjen kapcsolatba velünk."
 
-#: weblate/templates/about.html:43 weblate/templates/accounts/hosting.html:21
+#: weblate/templates/about.html:44 weblate/templates/accounts/hosting.html:21
 #: weblate/templates/projects.html:13
 msgid "Ask for project hosting"
 msgstr "Projektelhelyezés kérése"
 
-#: weblate/templates/about.html:44
+#: weblate/templates/about.html:45
 msgid "View hosting plans"
 msgstr "Hosting tervek megtekintése"
 
-#: weblate/templates/about.html:45 weblate/templates/accounts/hosting.html:55
+#: weblate/templates/about.html:46 weblate/templates/accounts/hosting.html:55
 msgid "Contact us for commercial hosting"
 msgstr "Kereskedelmi elhelyezéssel kapcsoltban érdeklődjön nálunk"
 
-#: weblate/templates/about.html:52
+#: weblate/templates/about.html:53
 msgid "Versions"
 msgstr "Verziók"
 
-#: weblate/templates/about.html:68
+#: weblate/templates/about.html:69
 msgid "Weblate owes its existence to these projects."
 msgstr ""
 
@@ -3813,7 +3820,7 @@ msgstr "Fordítási jelentések"
 msgid "Tools"
 msgstr "Eszközök"
 
-#: weblate/templates/component.html:52 weblate/templates/component.html:135
+#: weblate/templates/component.html:52 weblate/templates/component.html:139
 #: weblate/templates/index.html:49 weblate/templates/index.html:123
 #: weblate/templates/language-project.html:24
 #: weblate/templates/language-project.html:49 weblate/templates/project.html:45
@@ -3826,7 +3833,7 @@ msgstr "Eszközök"
 msgid "Search"
 msgstr "Keresés"
 
-#: weblate/templates/component.html:54 weblate/templates/component.html:144
+#: weblate/templates/component.html:54 weblate/templates/component.html:148
 #: weblate/templates/project.html:47 weblate/templates/project.html:195
 #: weblate/templates/replace.html:13 weblate/templates/translation.html:61
 #: weblate/templates/translation.html:228 weblate/trans/models/change.py:227
@@ -3907,14 +3914,26 @@ msgstr "Buzdítás"
 msgid "Status widgets"
 msgstr "Státuszjelző widgetek"
 
-#: weblate/templates/component.html:146 weblate/templates/project.html:197
+#: weblate/templates/component.html:118
+#, fuzzy
+#| msgid "You don't have privileges to save translations!"
+msgid "You don't have permission to start new translation"
+msgstr "Nincs jogosultsága a fordítások mentéséhez!"
+
+#: weblate/templates/component.html:118
+#, fuzzy
+#| msgid "Base file for new translations"
+msgid "Please login to start new translation "
+msgstr "Alapfájl új fordításokhoz"
+
+#: weblate/templates/component.html:150 weblate/templates/project.html:197
 #: weblate/templates/translation.html:230
 msgid ""
 "You can replace a string in all strings at once. The search is a simple "
 "substring case sensitive search."
 msgstr ""
 
-#: weblate/templates/component.html:151 weblate/templates/component.html:166
+#: weblate/templates/component.html:155 weblate/templates/component.html:170
 #: weblate/templates/project.html:202 weblate/templates/project.html:217
 #: weblate/templates/replace.html:46 weblate/templates/translation.html:216
 #: weblate/templates/translation.html:235
@@ -3923,33 +3942,33 @@ msgstr ""
 msgid "Process"
 msgstr "Feldolgozás"
 
-#: weblate/templates/component.html:159 weblate/templates/project.html:210
+#: weblate/templates/component.html:163 weblate/templates/project.html:210
 #: weblate/templates/translation.html:243 weblate/trans/models/change.py:234
 #, fuzzy
 #| msgid "Last change"
 msgid "Mass state change"
 msgstr "Utolsó változás"
 
-#: weblate/templates/component.html:161 weblate/templates/project.html:212
+#: weblate/templates/component.html:165 weblate/templates/project.html:212
 #: weblate/templates/translation.html:245
 msgid "You can change state of all strings matching given type at once."
 msgstr ""
 
-#: weblate/templates/component.html:177 weblate/templates/js/changes.html:5
+#: weblate/templates/component.html:181 weblate/templates/js/changes.html:5
 msgid "Browse all component changes"
 msgstr "Minden komponens módosítás tallózása"
 
-#: weblate/templates/component.html:184 weblate/templates/project.html:228
+#: weblate/templates/component.html:188 weblate/templates/project.html:228
 #: weblate/templates/translate.html:334 weblate/templates/translate.html:338
 #: weblate/templates/translation.html:302 weblate/trans/forms.py:231
 msgid "Loading…"
 msgstr "Betöltés…"
 
-#: weblate/templates/component.html:197
+#: weblate/templates/component.html:201
 msgid "Credits"
 msgstr "Készítők"
 
-#: weblate/templates/component.html:201
+#: weblate/templates/component.html:205
 msgid ""
 "Credits list all translators who have contributed to this component in a "
 "given time period. It can be useful for including in your documentation or "
@@ -3959,16 +3978,16 @@ msgstr ""
 "a komponenshez egy adott időszakban. Hasznos lehet a dokumentációban vagy az "
 "alkalmazásban a fordítóknak szánt köszönetnél."
 
-#: weblate/templates/component.html:205 weblate/templates/component.html:224
+#: weblate/templates/component.html:209 weblate/templates/component.html:228
 #: weblate/wladmin/templates/admin/ssh.html:36
 msgid "Generate"
 msgstr "Generálás"
 
-#: weblate/templates/component.html:216
+#: weblate/templates/component.html:220
 msgid "Contributor stats"
 msgstr "Közreműködési statisztikák"
 
-#: weblate/templates/component.html:220
+#: weblate/templates/component.html:224
 msgid "Reports number of strings and words translated by each translator."
 msgstr "A lefordított szövegek és szavak fordítókkénti számának kimutatása."
 
@@ -9297,6 +9316,11 @@ msgstr "Gyorstárban található sablonbetöltők"
 msgid "Admin static files"
 msgstr "Admin statikus fájlok"
 
+#, fuzzy
+#~| msgid "Fund Weblate!"
+#~ msgid "Fund Weblate"
+#~ msgstr "Adományozzon a Weblate-nek!"
+
 #~ msgid "Project / Component"
 #~ msgstr "Projekt / Összetevő"
 
@@ -10640,9 +10664,6 @@ msgstr "Admin statikus fájlok"
 
 #~ msgid "Fuzzy translations"
 #~ msgstr "Zavaros fordítások"
-
-#~ msgid "You don't have privileges to save translations!"
-#~ msgstr "Nincs jogosultsága a fordítások mentéséhez!"
 
 #~ msgid "Download for using within an application."
 #~ msgstr "Letöltés fordítássegítő-alkalmazáson belüli használatra."

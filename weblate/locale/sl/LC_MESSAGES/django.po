@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-05-21 09:21+0000\n"
+"POT-Creation-Date: 2018-05-21 12:21+0000\n"
 "PO-Revision-Date: 2018-04-29 19:06+0000\n"
 "Last-Translator: Domen <mitenem@outlook.com>\n"
 "Language-Team: Slovenian <https://hosted.weblate.org/projects/weblate/master/"
@@ -945,7 +945,7 @@ msgstr "Prenesi preveden prevod"
 #: weblate/auth/data.py:42
 #, fuzzy
 #| msgid "Posted new comment"
-msgid "Post coment"
+msgid "Post comment"
 msgstr "Objava nove pripombe"
 
 #: weblate/auth/data.py:43
@@ -1047,7 +1047,8 @@ msgid "Vote suggestion"
 msgstr "Omogoči predloge"
 
 #: weblate/auth/data.py:68 weblate/templates/component.html:60
-#: weblate/templates/component.html:115 weblate/templates/new-language.html:22
+#: weblate/templates/component.html:116 weblate/templates/component.html:118
+#: weblate/templates/new-language.html:22
 #: weblate/templates/new-language.html:38
 msgid "Start new translation"
 msgstr "Začni nov prevod"
@@ -2433,30 +2434,38 @@ msgstr ""
 "donacije."
 
 #: weblate/templates/about.html:24
-msgid "Fund Weblate"
-msgstr "Financirajte Weblate"
+#, fuzzy
+#| msgid "Support Weblate on Liberapay"
+msgid "Fund Weblate on Liberapay"
+msgstr "Podprite Weblate na Liberapay"
 
-#: weblate/templates/about.html:25 weblate/templates/footer.html:11
+#: weblate/templates/about.html:25
+#, fuzzy
+#| msgid "Support Weblate on Bountysource"
+msgid "Fund Weblate on BountySource"
+msgstr "Podprite Weblate na Bountysource"
+
+#: weblate/templates/about.html:26 weblate/templates/footer.html:11
 #: weblate/trans/templatetags/advertisement.py:42
 msgid "Donate to Weblate"
 msgstr "Donirajte Weblateu"
 
-#: weblate/templates/about.html:32
+#: weblate/templates/about.html:33
 msgid "Hosting translations"
 msgstr "Gostovanje prevodov"
 
-#: weblate/templates/about.html:35
+#: weblate/templates/about.html:36
 msgid ""
 "This Weblate instance hosts translations for various libre software projects."
 msgstr ""
 "Ta postavitev Weblate gosti prevode različnih odprtokodnih programskih "
 "projektov."
 
-#: weblate/templates/about.html:36
+#: weblate/templates/about.html:37
 msgid "Weblate can host your project as well, please get in touch."
 msgstr "Weblate lahko gosti tudi vaš projekt; prosimo, stopite v stik z nami."
 
-#: weblate/templates/about.html:39
+#: weblate/templates/about.html:40
 msgid ""
 "Commercial hosting is also available, pricing starts at 19 EUR per month, "
 "please get in touch for more details."
@@ -2464,24 +2473,24 @@ msgstr ""
 "Na voljo je tudi komercialno gostovanje, naše cene se pričnejo pri 19 EUR na "
 "mesec; prosimo, stopite v stik z nami za več podrobnosti."
 
-#: weblate/templates/about.html:43 weblate/templates/accounts/hosting.html:21
+#: weblate/templates/about.html:44 weblate/templates/accounts/hosting.html:21
 #: weblate/templates/projects.html:13
 msgid "Ask for project hosting"
 msgstr "Zaprosite za gostovanje projekta"
 
-#: weblate/templates/about.html:44
+#: weblate/templates/about.html:45
 msgid "View hosting plans"
 msgstr "Ogled načrtov gostovanja"
 
-#: weblate/templates/about.html:45 weblate/templates/accounts/hosting.html:55
+#: weblate/templates/about.html:46 weblate/templates/accounts/hosting.html:55
 msgid "Contact us for commercial hosting"
 msgstr "Za poslovno gostovanje stopite v stik z nami"
 
-#: weblate/templates/about.html:52
+#: weblate/templates/about.html:53
 msgid "Versions"
 msgstr "Različice"
 
-#: weblate/templates/about.html:68
+#: weblate/templates/about.html:69
 msgid "Weblate owes its existence to these projects."
 msgstr ""
 
@@ -3631,7 +3640,7 @@ msgstr "Poročila o prevajanju"
 msgid "Tools"
 msgstr "Orodja"
 
-#: weblate/templates/component.html:52 weblate/templates/component.html:135
+#: weblate/templates/component.html:52 weblate/templates/component.html:139
 #: weblate/templates/index.html:49 weblate/templates/index.html:123
 #: weblate/templates/language-project.html:24
 #: weblate/templates/language-project.html:49 weblate/templates/project.html:45
@@ -3644,7 +3653,7 @@ msgstr "Orodja"
 msgid "Search"
 msgstr "Iskanje"
 
-#: weblate/templates/component.html:54 weblate/templates/component.html:144
+#: weblate/templates/component.html:54 weblate/templates/component.html:148
 #: weblate/templates/project.html:47 weblate/templates/project.html:195
 #: weblate/templates/replace.html:13 weblate/templates/translation.html:61
 #: weblate/templates/translation.html:228 weblate/trans/models/change.py:227
@@ -3717,7 +3726,19 @@ msgstr "Sodelovalna stran"
 msgid "Status widgets"
 msgstr "Gradniki stanja"
 
-#: weblate/templates/component.html:146 weblate/templates/project.html:197
+#: weblate/templates/component.html:118
+#, fuzzy
+#| msgid "You don't have privileges to save translations!"
+msgid "You don't have permission to start new translation"
+msgstr "Nimate pravic za shranjevanje prevodov!"
+
+#: weblate/templates/component.html:118
+#, fuzzy
+#| msgid "Base file for new translations"
+msgid "Please login to start new translation "
+msgstr "Temeljna datoteka za nove prevode"
+
+#: weblate/templates/component.html:150 weblate/templates/project.html:197
 #: weblate/templates/translation.html:230
 #, fuzzy
 #| msgid ""
@@ -3730,7 +3751,7 @@ msgstr ""
 "Zamenjate lahko niz v vseh enotah naenkrat. Iskanje je preprosto iskanje "
 "podniza, občutljivo na velikost črk."
 
-#: weblate/templates/component.html:151 weblate/templates/component.html:166
+#: weblate/templates/component.html:155 weblate/templates/component.html:170
 #: weblate/templates/project.html:202 weblate/templates/project.html:217
 #: weblate/templates/replace.html:46 weblate/templates/translation.html:216
 #: weblate/templates/translation.html:235
@@ -3739,33 +3760,33 @@ msgstr ""
 msgid "Process"
 msgstr "Obdelaj"
 
-#: weblate/templates/component.html:159 weblate/templates/project.html:210
+#: weblate/templates/component.html:163 weblate/templates/project.html:210
 #: weblate/templates/translation.html:243 weblate/trans/models/change.py:234
 #, fuzzy
 #| msgid "Last change"
 msgid "Mass state change"
 msgstr "Zadnja sprememba"
 
-#: weblate/templates/component.html:161 weblate/templates/project.html:212
+#: weblate/templates/component.html:165 weblate/templates/project.html:212
 #: weblate/templates/translation.html:245
 msgid "You can change state of all strings matching given type at once."
 msgstr ""
 
-#: weblate/templates/component.html:177 weblate/templates/js/changes.html:5
+#: weblate/templates/component.html:181 weblate/templates/js/changes.html:5
 msgid "Browse all component changes"
 msgstr "Brskanje po vseh spremembah komponent"
 
-#: weblate/templates/component.html:184 weblate/templates/project.html:228
+#: weblate/templates/component.html:188 weblate/templates/project.html:228
 #: weblate/templates/translate.html:334 weblate/templates/translate.html:338
 #: weblate/templates/translation.html:302 weblate/trans/forms.py:231
 msgid "Loading…"
 msgstr "Nalaganje…"
 
-#: weblate/templates/component.html:197
+#: weblate/templates/component.html:201
 msgid "Credits"
 msgstr "Zasluge"
 
-#: weblate/templates/component.html:201
+#: weblate/templates/component.html:205
 msgid ""
 "Credits list all translators who have contributed to this component in a "
 "given time period. It can be useful for including in your documentation or "
@@ -3775,16 +3796,16 @@ msgstr ""
 "časovnem obdobju. Lahko so uporabne za vključitev v vašo dokumentacijo ali "
 "aplikacijo, da se zahvalite prevajalcem."
 
-#: weblate/templates/component.html:205 weblate/templates/component.html:224
+#: weblate/templates/component.html:209 weblate/templates/component.html:228
 #: weblate/wladmin/templates/admin/ssh.html:36
 msgid "Generate"
 msgstr "Ustvari"
 
-#: weblate/templates/component.html:216
+#: weblate/templates/component.html:220
 msgid "Contributor stats"
 msgstr "Statistika sodelavca"
 
-#: weblate/templates/component.html:220
+#: weblate/templates/component.html:224
 msgid "Reports number of strings and words translated by each translator."
 msgstr ""
 "Poroča število nizov in besed, ki jih je prevedel posamezni prevajalec."
@@ -8969,6 +8990,9 @@ msgstr "Predpomnjen nalagalnik predlog"
 msgid "Admin static files"
 msgstr "Administratorske statične datoteke"
 
+#~ msgid "Fund Weblate"
+#~ msgstr "Financirajte Weblate"
+
 #~ msgid "Project / Component"
 #~ msgstr "Projekt / Komponenta"
 
@@ -10271,9 +10295,6 @@ msgstr "Administratorske statične datoteke"
 
 #~ msgid "Fuzzy translations"
 #~ msgstr "Neurejeni prevodi"
-
-#~ msgid "You don't have privileges to save translations!"
-#~ msgstr "Nimate pravic za shranjevanje prevodov!"
 
 #~ msgid "Download for using within an application."
 #~ msgstr "Prenesi za uporabo znotraj aplikacije."

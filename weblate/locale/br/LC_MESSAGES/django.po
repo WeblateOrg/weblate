@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-05-21 09:21+0000\n"
+"POT-Creation-Date: 2018-05-21 12:21+0000\n"
 "PO-Revision-Date: 2018-01-30 18:47+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Breton <https://hosted.weblate.org/projects/weblate/master/br/"
@@ -1015,7 +1015,7 @@ msgstr "Treiñ emgefre"
 #: weblate/auth/data.py:42
 #, fuzzy
 #| msgid "User comments"
-msgid "Post coment"
+msgid "Post comment"
 msgstr "Evezhiadennoù an implijer"
 
 #: weblate/auth/data.py:43
@@ -1121,7 +1121,8 @@ msgid "Vote suggestion"
 msgstr "Kinnigoù"
 
 #: weblate/auth/data.py:68 weblate/templates/component.html:60
-#: weblate/templates/component.html:115 weblate/templates/new-language.html:22
+#: weblate/templates/component.html:116 weblate/templates/component.html:118
+#: weblate/templates/new-language.html:22
 #: weblate/templates/new-language.html:38
 msgid "Start new translation"
 msgstr "Kregiñ gant un droidigezh nevez"
@@ -2581,21 +2582,27 @@ msgstr ""
 #: weblate/templates/about.html:24
 #, fuzzy
 #| msgid "Flattr Weblate!"
-msgid "Fund Weblate"
+msgid "Fund Weblate on Liberapay"
 msgstr "Roit tammoù gwenneien da Weblate dre Flattr !"
 
-#: weblate/templates/about.html:25 weblate/templates/footer.html:11
+#: weblate/templates/about.html:25
+#, fuzzy
+#| msgid "Flattr Weblate!"
+msgid "Fund Weblate on BountySource"
+msgstr "Roit tammoù gwenneien da Weblate dre Flattr !"
+
+#: weblate/templates/about.html:26 weblate/templates/footer.html:11
 #: weblate/trans/templatetags/advertisement.py:42
 msgid "Donate to Weblate"
 msgstr "Reiñ un dra bennak da Weblate"
 
-#: weblate/templates/about.html:32
+#: weblate/templates/about.html:33
 #, fuzzy
 #| msgid "Your translations"
 msgid "Hosting translations"
 msgstr "Ho troidigezhioù"
 
-#: weblate/templates/about.html:35
+#: weblate/templates/about.html:36
 #, fuzzy
 #| msgid ""
 #| "This Weblate instance hosts translations for various free software "
@@ -2606,7 +2613,7 @@ msgstr ""
 "Herberc'hiañ a ra staliadur Weblate troidigezhioù evit meur a raktres "
 "meziantoù frank."
 
-#: weblate/templates/about.html:36
+#: weblate/templates/about.html:37
 #, fuzzy
 #| msgid ""
 #| "We can host your project as well, if you are interested, please <a href="
@@ -2616,32 +2623,32 @@ msgstr ""
 "Gallout a reomp herberc'hiañ ho raktres ivez. Mard oc'h dedennet, <a href="
 "\"%(contact_url)s?subject=Project hosting\">kit e darempred ganeomp</a>."
 
-#: weblate/templates/about.html:39
+#: weblate/templates/about.html:40
 msgid ""
 "Commercial hosting is also available, pricing starts at 19 EUR per month, "
 "please get in touch for more details."
 msgstr ""
 
-#: weblate/templates/about.html:43 weblate/templates/accounts/hosting.html:21
+#: weblate/templates/about.html:44 weblate/templates/accounts/hosting.html:21
 #: weblate/templates/projects.html:13
 msgid "Ask for project hosting"
 msgstr ""
 
-#: weblate/templates/about.html:44
+#: weblate/templates/about.html:45
 msgid "View hosting plans"
 msgstr ""
 
-#: weblate/templates/about.html:45 weblate/templates/accounts/hosting.html:55
+#: weblate/templates/about.html:46 weblate/templates/accounts/hosting.html:55
 #, fuzzy
 #| msgid "Commercial hosting"
 msgid "Contact us for commercial hosting"
 msgstr "Herberc'hiañ kenwerzhel"
 
-#: weblate/templates/about.html:52
+#: weblate/templates/about.html:53
 msgid "Versions"
 msgstr "Stummoù"
 
-#: weblate/templates/about.html:68
+#: weblate/templates/about.html:69
 msgid "Weblate owes its existence to these projects."
 msgstr ""
 
@@ -3867,7 +3874,7 @@ msgstr "Troidigezhioù"
 msgid "Tools"
 msgstr "Ostilhoù"
 
-#: weblate/templates/component.html:52 weblate/templates/component.html:135
+#: weblate/templates/component.html:52 weblate/templates/component.html:139
 #: weblate/templates/index.html:49 weblate/templates/index.html:123
 #: weblate/templates/language-project.html:24
 #: weblate/templates/language-project.html:49 weblate/templates/project.html:45
@@ -3880,7 +3887,7 @@ msgstr "Ostilhoù"
 msgid "Search"
 msgstr "Klask"
 
-#: weblate/templates/component.html:54 weblate/templates/component.html:144
+#: weblate/templates/component.html:54 weblate/templates/component.html:148
 #: weblate/templates/project.html:47 weblate/templates/project.html:195
 #: weblate/templates/replace.html:13 weblate/templates/translation.html:61
 #: weblate/templates/translation.html:228 weblate/trans/models/change.py:227
@@ -3967,14 +3974,26 @@ msgstr ""
 msgid "Status widgets"
 msgstr "Skeudennoù Widget"
 
-#: weblate/templates/component.html:146 weblate/templates/project.html:197
+#: weblate/templates/component.html:118
+#, fuzzy
+#| msgid "You don't have privileges to display this page."
+msgid "You don't have permission to start new translation"
+msgstr "N'oc'h ket aotreet da ziskwel ar bajenn-mañ."
+
+#: weblate/templates/component.html:118
+#, fuzzy
+#| msgid "Your translations"
+msgid "Please login to start new translation "
+msgstr "Ho troidigezhioù"
+
+#: weblate/templates/component.html:150 weblate/templates/project.html:197
 #: weblate/templates/translation.html:230
 msgid ""
 "You can replace a string in all strings at once. The search is a simple "
 "substring case sensitive search."
 msgstr ""
 
-#: weblate/templates/component.html:151 weblate/templates/component.html:166
+#: weblate/templates/component.html:155 weblate/templates/component.html:170
 #: weblate/templates/project.html:202 weblate/templates/project.html:217
 #: weblate/templates/replace.html:46 weblate/templates/translation.html:216
 #: weblate/templates/translation.html:235
@@ -3983,51 +4002,51 @@ msgstr ""
 msgid "Process"
 msgstr "Argerzh"
 
-#: weblate/templates/component.html:159 weblate/templates/project.html:210
+#: weblate/templates/component.html:163 weblate/templates/project.html:210
 #: weblate/templates/translation.html:243 weblate/trans/models/change.py:234
 #, fuzzy
 #| msgid "Last change"
 msgid "Mass state change"
 msgstr "Kemm diwezhañ"
 
-#: weblate/templates/component.html:161 weblate/templates/project.html:212
+#: weblate/templates/component.html:165 weblate/templates/project.html:212
 #: weblate/templates/translation.html:245
 msgid "You can change state of all strings matching given type at once."
 msgstr ""
 
-#: weblate/templates/component.html:177 weblate/templates/js/changes.html:5
+#: weblate/templates/component.html:181 weblate/templates/js/changes.html:5
 #, fuzzy
 #| msgid "Browse changes"
 msgid "Browse all component changes"
 msgstr "Furchal er c'hemmoù"
 
-#: weblate/templates/component.html:184 weblate/templates/project.html:228
+#: weblate/templates/component.html:188 weblate/templates/project.html:228
 #: weblate/templates/translate.html:334 weblate/templates/translate.html:338
 #: weblate/templates/translation.html:302 weblate/trans/forms.py:231
 msgid "Loading…"
 msgstr "O kargañ…"
 
-#: weblate/templates/component.html:197
+#: weblate/templates/component.html:201
 msgid "Credits"
 msgstr ""
 
-#: weblate/templates/component.html:201
+#: weblate/templates/component.html:205
 msgid ""
 "Credits list all translators who have contributed to this component in a "
 "given time period. It can be useful for including in your documentation or "
 "application to thank translators."
 msgstr ""
 
-#: weblate/templates/component.html:205 weblate/templates/component.html:224
+#: weblate/templates/component.html:209 weblate/templates/component.html:228
 #: weblate/wladmin/templates/admin/ssh.html:36
 msgid "Generate"
 msgstr "Genel"
 
-#: weblate/templates/component.html:216
+#: weblate/templates/component.html:220
 msgid "Contributor stats"
 msgstr ""
 
-#: weblate/templates/component.html:220
+#: weblate/templates/component.html:224
 msgid "Reports number of strings and words translated by each translator."
 msgstr ""
 
@@ -10548,11 +10567,6 @@ msgstr ""
 #~| msgid "Comments about this translation"
 #~ msgid "Suggestions are not allowed on this translation!"
 #~ msgstr "Evezhiadennoù diwar-benn an droidigezh-mañ"
-
-#, fuzzy
-#~| msgid "You don't have privileges to display this page."
-#~ msgid "You don't have privileges to save templates!"
-#~ msgstr "N'oc'h ket aotreet da ziskwel ar bajenn-mañ."
 
 #~ msgid ""
 #~ "By registering you agree to use your name and email in Git commits and "
