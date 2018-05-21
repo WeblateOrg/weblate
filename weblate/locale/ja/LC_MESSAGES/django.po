@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-05-21 12:43+0000\n"
-"PO-Revision-Date: 2018-05-04 22:23+0000\n"
+"PO-Revision-Date: 2018-05-21 22:57+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
@@ -78,10 +78,8 @@ msgstr ""
 "知を行ないます。"
 
 #: weblate/accounts/forms.py:273 weblate/auth/models.py:272
-#, fuzzy
-#| msgid "E-mail"
 msgid "Email"
-msgstr "メールアドレス"
+msgstr "電子メール"
 
 #: weblate/accounts/forms.py:275
 msgid "You can add another email address on the Authentication tab."
@@ -642,16 +640,14 @@ msgstr ""
 "キーを削除します。"
 
 #: weblate/addons/consistency.py:33
-#, fuzzy
-#| msgid "Language code"
 msgid "Language consistency"
-msgstr "言語コード"
+msgstr "言語の一貫性"
 
 #: weblate/addons/consistency.py:35
 msgid ""
 "This addon ensures that all components within one project have translation "
 "to same languages."
-msgstr ""
+msgstr "このアドオンは、 1 つのプロジェクト内にある全てのコンポーネントが、同じ言語セットになっていることを確認します。"
 
 #: weblate/addons/discovery.py:35
 msgid "Component discovery"
@@ -675,11 +671,11 @@ msgstr "このアドオンは何もしません。単なる例として用意さ
 
 #: weblate/addons/example_pre.py:38
 msgid "Execute script before commit"
-msgstr ""
+msgstr "コミット前のスクリプト実行"
 
 #: weblate/addons/example_pre.py:39
 msgid "This addon executes a script."
-msgstr ""
+msgstr "このアドオンは、スクリプトを実行します。"
 
 #: weblate/addons/flags.py:50
 msgid "Flag new source strings to need edit"
@@ -722,16 +718,12 @@ msgid "Long lines wrapping"
 msgstr "長い行の折り返し"
 
 #: weblate/addons/forms.py:85
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines (default gettext behavior)"
 msgid "Wrap lines at 77 chars and at newlines"
-msgstr "77 文字を超えた場合、もしくは改行で折り返す (gettext のデフォルト動作)"
+msgstr "77 文字を超えた場合、もしくは改行で折り返す"
 
 #: weblate/addons/forms.py:86
-#, fuzzy
-#| msgid "Only wrap lines at newlines (gettext behavior with --no-wrap)"
 msgid "Only wrap lines at newlines"
-msgstr "改行でのみ折り返す (gettext で --no-wrap オプションを付けた場合の動作)"
+msgstr "改行でのみ折り返す"
 
 #: weblate/addons/forms.py:87
 msgid "No line wrapping"
@@ -742,6 +734,8 @@ msgid ""
 "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
 "parameter it wraps only at newlines."
 msgstr ""
+"既定では、 gettext は 77 文字を超えた場合や改行の存在で行を折り返します。 --no-wrap "
+"パラメータを指定すると、改行でのみ折り返します。"
 
 #: weblate/addons/forms.py:100
 msgid "Sort JSON keys"
@@ -926,94 +920,64 @@ msgid "Important dates"
 msgstr "重要な日時情報"
 
 #: weblate/auth/data.py:35
-#, fuzzy
-#| msgid "More information"
 msgid "View billing information"
-msgstr "さらなる情報"
+msgstr "課金情報の表示"
 
 #: weblate/auth/data.py:37
-#, fuzzy
-#| msgid "Download latest changes as CSV"
 msgid "Download changes"
-msgstr "最新の変更点を CSV でダウンロード"
+msgstr "変更点のダウンロード"
 
 #: weblate/auth/data.py:39
-#, fuzzy
-#| msgid "Version control settings"
 msgid "Edit component settings"
-msgstr "バージョンコントロールの設定"
+msgstr "コンポーネント設定の編集"
 
 #: weblate/auth/data.py:40
-#, fuzzy
-#| msgid "Download compiled translation"
 msgid "Lock component from translating"
-msgstr "コンパイル済み翻訳のダウンロード"
+msgstr "コンポーネントを翻訳できないようにロックする"
 
 #: weblate/auth/data.py:42
-#, fuzzy
-#| msgid "Posted new comment"
 msgid "Post comment"
-msgstr "新しいコメントを投稿しました"
+msgstr "コメントを投稿する"
 
 #: weblate/auth/data.py:43
-#, fuzzy
-#| msgid "New comment"
 msgid "Delete comment"
-msgstr "新しいコメント"
+msgstr "コメントを削除する"
 
 #: weblate/auth/data.py:45
-#, fuzzy
-#| msgid "Add word to glossary"
 msgid "Add glossary entry"
-msgstr "単語を用語集に追加"
+msgstr "用語集への項目の追加"
 
 #: weblate/auth/data.py:46
-#, fuzzy
-#| msgid "Export glossary"
 msgid "Edit glossary entry"
-msgstr "用語集のエクスポート"
+msgstr "用語集の項目の編集"
 
 #: weblate/auth/data.py:47
-#, fuzzy
-#| msgid "Delete screenshot"
 msgid "Delete glossary entry"
-msgstr "スクリーンショットの削除"
+msgstr "用語集の項目の削除"
 
 #: weblate/auth/data.py:48
-#, fuzzy
-#| msgid "Add word to glossary"
 msgid "Upload glossary entries"
-msgstr "単語を用語集に追加"
+msgstr "用語集の項目のアップロード"
 
 #: weblate/auth/data.py:50
-#, fuzzy
-#| msgid "Machine translation suggestions"
 msgid "Use machine translation services"
-msgstr "機械翻訳による提案"
+msgstr "機械翻訳サービスの使用"
 
 #: weblate/auth/data.py:52
-#, fuzzy
-#| msgid "Edit source string"
 msgid "Edit project settings"
-msgstr "原文を編集"
+msgstr "プロジェクト設定の編集"
 
 #: weblate/auth/data.py:53
-#, fuzzy
-#| msgid "Managed projects"
 msgid "Manage project access"
-msgstr "管理しているプロジェクト"
+msgstr "プロジェクトのアクセスの管理"
 
 #: weblate/auth/data.py:55
-#, fuzzy
-#| msgid "Download"
 msgid "Download reports"
-msgstr "ダウンロード"
+msgstr "レポートのダウンロード"
 
 #: weblate/auth/data.py:57
-#, fuzzy
-#| msgid "Add new screenshot"
 msgid "Add screenshot"
-msgstr "新しいスクリーンショットの追加"
+msgstr "スクリーンショットの追加"
 
 #: weblate/auth/data.py:58
 #: weblate/templates/screenshots/screenshot_detail.html:98
@@ -1026,34 +990,24 @@ msgid "Delete screenshot"
 msgstr "スクリーンショットの削除"
 
 #: weblate/auth/data.py:61
-#, fuzzy
-#| msgid "Editing source string"
 msgid "Edit info on source strings"
-msgstr "原文を編集しています"
+msgstr "原文の情報の編集"
 
 #: weblate/auth/data.py:63
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Accept suggestion"
-msgstr "提案の自動採用"
+msgstr "提案の採用"
 
 #: weblate/auth/data.py:64
-#, fuzzy
-#| msgid "Add as a suggestion"
 msgid "Add suggestion"
-msgstr "提案として追加"
+msgstr "提案の追加"
 
 #: weblate/auth/data.py:65
-#, fuzzy
-#| msgid "Enable suggestions"
 msgid "Delete suggestion"
-msgstr "提案の有効化"
+msgstr "提案の削除"
 
 #: weblate/auth/data.py:66
-#, fuzzy
-#| msgid "Enable suggestions"
 msgid "Vote suggestion"
-msgstr "提案の有効化"
+msgstr "提案への投票"
 
 #: weblate/auth/data.py:68 weblate/templates/component.html:60
 #: weblate/templates/component.html:116 weblate/templates/component.html:118
@@ -1063,189 +1017,133 @@ msgid "Start new translation"
 msgstr "新しい翻訳を開始する"
 
 #: weblate/auth/data.py:69
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Perform automatic translation"
-msgstr "自動翻訳"
+msgstr "自動翻訳の実行"
 
 #: weblate/auth/data.py:70
-#, fuzzy
-#| msgid "Overwrite existing translations"
 msgid "Delete existing translation"
-msgstr "既に存在している翻訳を上書きする"
+msgstr "既存の翻訳の削除"
 
 #: weblate/auth/data.py:71
-#, fuzzy
-#| msgid "Start new translation"
 msgid "Start new translation into more languages"
-msgstr "新しい翻訳を開始する"
+msgstr "新しい言語での翻訳の開始"
 
 #: weblate/auth/data.py:73
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new string"
-msgstr "新しいユーザの追加"
+msgstr "新しい文字列の追加"
 
 #: weblate/auth/data.py:74
-#, fuzzy
-#| msgid "Failing check"
 msgid "Ignore failing check"
-msgstr "チェック失敗"
+msgstr "失敗したチェックの無視"
 
 #: weblate/auth/data.py:75
-#, fuzzy
-#| msgid "Edit string"
 msgid "Edit strings"
-msgstr "文字列を編集"
+msgstr "文字列の編集"
 
 #: weblate/auth/data.py:76
-#, fuzzy
-#| msgid "Overwrite strings"
 msgid "Review strings"
-msgstr "上書きする"
+msgstr "文字列の査読"
 
 #: weblate/auth/data.py:77
-#, fuzzy
-#| msgid "Strings with suggestions (%d)"
 msgid "Edit string when suggestions are enforced"
-msgstr "提案があるもの (%d)"
+msgstr "提案が施行されている場合の文字列の編集"
 
 #: weblate/auth/data.py:78
-#, fuzzy
-#| msgid "Edit source string"
 msgid "Edit source strings"
-msgstr "原文を編集"
+msgstr "原文の編集"
 
 #: weblate/auth/data.py:80
-#, fuzzy
-#| msgid "Define the base file for new translations"
 msgid "Define author of translation upload"
-msgstr "新しい翻訳に対するベースファイルの設定"
+msgstr "翻訳アップロード時の作者の設定"
 
 #: weblate/auth/data.py:81
-#, fuzzy
-#| msgid "Overwrite existing translations"
 msgid "Overwrite existing strings with upload"
-msgstr "既に存在している翻訳を上書きする"
+msgstr "アップロードでの既存文字列の上書き"
 
 #: weblate/auth/data.py:82
-#, fuzzy
-#| msgid "Upload translation"
 msgid "Upload translation strings"
 msgstr "翻訳のアップロード"
 
 #: weblate/auth/data.py:84
-#, fuzzy
-#| msgid "Allow changes to the local repository"
 msgid "Access the internal repository"
-msgstr "ローカルリポジトリに対する変更を許可する"
+msgstr "内部リポジトリへのアクセス"
 
 #: weblate/auth/data.py:85
-#, fuzzy
-#| msgid "Commit pending changes to the local repository"
 msgid "Commit changes to the internal repository"
-msgstr "ローカルのリポジトリに対して保留中の変更をコミットする"
+msgstr "内部リポジトリへの変更点のコミット"
 
 #: weblate/auth/data.py:86
-#, fuzzy
-#| msgid "Pull changes from the remote repository"
 msgid "Push change from the the internal repository"
-msgstr "リモートリポジトリから変更を引き出す"
+msgstr "内部リポジトリからの変更点のプッシュ"
 
 #: weblate/auth/data.py:87
-#, fuzzy
-#| msgid "Reset all changes in the local repository"
 msgid "Reset changes in the internal repository"
-msgstr "ローカルリポジトリ内のすべての変更をリセットする"
+msgstr "内部リポジトリ内の変更点のリセット"
 
 #: weblate/auth/data.py:88
 msgid "View upstream repository location"
-msgstr ""
+msgstr "アップストリームのリポジトリの場所表示"
 
 #: weblate/auth/data.py:89
-#, fuzzy
-#| msgid "Update VCS repository"
 msgid "Update the internal repository"
-msgstr "VCS リポジトリの更新"
+msgstr "内部リポジトリの更新"
 
 #: weblate/auth/data.py:111
-#, fuzzy
-#| msgid "Add as a suggestion"
 msgctxt "Access control role"
 msgid "Add suggestion"
-msgstr "提案として追加"
+msgstr "提案の追加"
 
 #: weblate/auth/data.py:117
-#, fuzzy
-#| msgid "Reset repository"
 msgctxt "Access control role"
 msgid "Access repository"
-msgstr "リポジトリのリセット"
+msgstr "リポジトリのアクセス"
 
 #: weblate/auth/data.py:123
 msgctxt "Access control role"
 msgid "Power user"
-msgstr ""
+msgstr "パワーユーザ"
 
 #: weblate/auth/data.py:132
-#, fuzzy
-#| msgid "Translate"
 msgctxt "Access control role"
 msgid "Translate"
 msgstr "翻訳"
 
 #: weblate/auth/data.py:136
-#, fuzzy
-#| msgid "Edit source string"
 msgctxt "Access control role"
 msgid "Edit source"
-msgstr "原文を編集"
+msgstr "原文の編集"
 
 #: weblate/auth/data.py:140
-#, fuzzy
-#| msgid "Manage your languages"
 msgctxt "Access control role"
 msgid "Manage languages"
-msgstr "お使いの言語の管理"
+msgstr "言語の管理"
 
 #: weblate/auth/data.py:144
-#, fuzzy
-#| msgid "Manage glossary"
 msgctxt "Access control role"
 msgid "Manage glossary"
 msgstr "用語集の管理"
 
 #: weblate/auth/data.py:148
-#, fuzzy
-#| msgid "Manage screenshots"
 msgctxt "Access control role"
 msgid "Manage screenshots"
 msgstr "スクリーンショットの管理"
 
 #: weblate/auth/data.py:152
-#, fuzzy
-#| msgid "Overwrite strings"
 msgctxt "Access control role"
 msgid "Review strings"
-msgstr "上書きする"
+msgstr "文字列の査読"
 
 #: weblate/auth/data.py:156
-#, fuzzy
-#| msgid "Merged repository"
 msgctxt "Access control role"
 msgid "Manage repository"
-msgstr "リポジトリのマージ"
+msgstr "リポジトリの管理"
 
 #: weblate/auth/data.py:160
-#, fuzzy
-#| msgid "Administration"
 msgctxt "Access control role"
 msgid "Administration"
 msgstr "管理"
 
 #: weblate/auth/data.py:164
-#, fuzzy
-#| msgid "Billing"
 msgctxt "Access control role"
 msgid "Billing"
 msgstr "課金"
@@ -1253,35 +1151,27 @@ msgstr "課金"
 #: weblate/auth/data.py:172
 msgctxt "Access control group"
 msgid "Guests"
-msgstr ""
+msgstr "ゲスト"
 
 #: weblate/auth/data.py:177
-#, fuzzy
-#| msgid "View"
 msgctxt "Access control group"
 msgid "Viewers"
-msgstr "ビュー"
+msgstr "ビューア"
 
 #: weblate/auth/data.py:182
-#, fuzzy
-#| msgid "Users"
 msgctxt "Access control group"
 msgid "Users"
 msgstr "ユーザ"
 
 #: weblate/auth/data.py:187
-#, fuzzy
-#| msgid "Review"
 msgctxt "Access control group"
 msgid "Reviewers"
-msgstr "査読"
+msgstr "査読者"
 
 #: weblate/auth/data.py:192
-#, fuzzy
-#| msgid "Manage"
 msgctxt "Access control group"
 msgid "Managers"
-msgstr "管理"
+msgstr "管理者"
 
 #: weblate/auth/data.py:200
 msgctxt "Per project access control group"
@@ -1324,15 +1214,11 @@ msgid "Administration"
 msgstr "管理"
 
 #: weblate/auth/data.py:216
-#, fuzzy
-#| msgid "Billing"
 msgctxt "Per project access control group"
 msgid "Billing"
 msgstr "課金"
 
 #: weblate/auth/models.py:63
-#, fuzzy
-#| msgid "Permissions"
 msgid "Permission"
 msgstr "パーミッション"
 
@@ -1344,51 +1230,39 @@ msgstr "名前"
 
 #: weblate/auth/models.py:80
 msgid "Choose permissions granted to this role."
-msgstr ""
+msgstr "この役割に対して許可する権限を選択してください。"
 
 #: weblate/auth/models.py:108
 msgid "Roles"
-msgstr ""
+msgstr "役割"
 
 #: weblate/auth/models.py:110
-#, fuzzy
-#| msgid "Choose file format for the report"
 msgid "Choose roles granted to this group."
-msgstr "レポートに対するファイル形式の選択"
+msgstr "このグループに対する役割を選択してください。"
 
 #: weblate/auth/models.py:114
-#, fuzzy
-#| msgid "Project Information"
 msgid "Project selection"
-msgstr "プロジェクト情報"
+msgstr "プロジェクトの選択"
 
 #: weblate/auth/models.py:116 weblate/auth/models.py:140
-#, fuzzy
-#| msgid "Access denied."
 msgid "As defined"
-msgstr "アクセスが拒否されました。"
+msgstr "個別に選択"
 
 #: weblate/auth/models.py:117 weblate/templates/index.html:51
 msgid "All projects"
 msgstr "すべてのプロジェクト"
 
 #: weblate/auth/models.py:118
-#, fuzzy
-#| msgid "All projects"
 msgid "All public projects"
-msgstr "すべてのプロジェクト"
+msgstr "すべての公開プロジェクト"
 
 #: weblate/auth/models.py:119
-#, fuzzy
-#| msgid "All projects"
 msgid "All protected projects"
-msgstr "すべてのプロジェクト"
+msgstr "すべての保護プロジェクト"
 
 #: weblate/auth/models.py:120
-#, fuzzy
-#| msgid "Component list"
 msgid "From component list"
-msgstr "コンポーネントリスト"
+msgstr "コンポーネントリストから"
 
 #: weblate/auth/models.py:126 weblate/billing/admin.py:52
 #: weblate/billing/models.py:124 weblate/templates/accounts/user.html:38
@@ -1399,10 +1273,8 @@ msgid "Projects"
 msgstr "プロジェクト"
 
 #: weblate/auth/models.py:138
-#, fuzzy
-#| msgid "Language code"
 msgid "Language selection"
-msgstr "言語コード"
+msgstr "言語の選択"
 
 #: weblate/auth/models.py:141 weblate/trans/forms.py:1096
 msgid "All languages"
@@ -1420,38 +1292,28 @@ msgid "Languages"
 msgstr "言語"
 
 #: weblate/auth/models.py:152
-#, fuzzy
-#| msgid "Weblate administration"
 msgid "Weblate internal group"
-msgstr "Weblate の管理"
+msgstr "Weblate 内部グループ"
 
 #: weblate/auth/models.py:253
-#, fuzzy
-#| msgid "Username"
 msgid "username"
 msgstr "ユーザ名"
 
 #: weblate/auth/models.py:262
-#, fuzzy
-#| msgid "Translation with this key seem to already exist!"
 msgid "A user with that username already exists."
-msgstr "このキーの翻訳は既に存在しているものと思われます！"
+msgstr "指定したユーザ名は既に存在しています。"
 
 #: weblate/auth/models.py:278
-#, fuzzy
-#| msgid "Service status"
 msgid "superuser status"
-msgstr "サービス状態"
+msgstr "スーパーユーザの状態"
 
 #: weblate/auth/models.py:281
 msgid ""
 "Designates that this user has all permissions without explicitly assigning "
 "them."
-msgstr ""
+msgstr "このユーザは、明示的に権限を与えなくても、全ての権限を持っているものとして扱われるユーザを意味します。"
 
 #: weblate/auth/models.py:286
-#, fuzzy
-#| msgid "Active"
 msgid "active"
 msgstr "有効"
 
@@ -1459,23 +1321,21 @@ msgstr "有効"
 msgid ""
 "Designates whether this user should be treated as active. Unselect this "
 "instead of deleting accounts."
-msgstr ""
+msgstr "このユーザは、有効であるものとして扱われます。アカウントを削除する代わりに、この項目の選択を解除してください。"
 
 #: weblate/auth/models.py:293
 msgid "Date joined"
-msgstr ""
+msgstr "参加日"
 
 #: weblate/auth/models.py:296
-#, fuzzy
-#| msgid "Group ACLs"
 msgid "Groups"
-msgstr "グループ ACL"
+msgstr "グループ"
 
 #: weblate/auth/models.py:299
 msgid ""
 "The groups this user belongs to. A user will get all permissions granted to "
 "each of their groups."
-msgstr ""
+msgstr "このユーザが所属するグループです。ユーザは、所属するグループに設定された全ての権限を持つものとして扱われます。"
 
 #: weblate/auth/models.py:442
 msgid "Email regular expression"
@@ -2286,12 +2146,8 @@ msgstr ""
 "ます"
 
 #: weblate/legal/templates/legal/privacy.html:32
-#, fuzzy
-#| msgid "Additionally email is used for notifications on watched events"
 msgid "Additionally, email is used for notification of watched events"
-msgstr ""
-"これに加えて電子メールアドレスは、監視対象として設定したイベントの通知にも使"
-"用しています"
+msgstr "これに加えて、電子メールアドレスは監視対象として設定したイベントの通知にも使用しています"
 
 #: weblate/legal/templates/legal/privacy.html:34
 msgid "IP address and browser name"
@@ -2307,14 +2163,10 @@ msgstr ""
 "います"
 
 #: weblate/legal/templates/legal/privacy.html:40
-#, fuzzy
-#| msgid ""
-#| "All these information is removed once you delete your account in Weblate."
 msgid ""
 "All this information is removed once you delete your Weblate account in its "
 "UI."
-msgstr ""
-"これら全ての情報は、 Weblate でアカウントを削除することで消去されます。"
+msgstr "これら全ての情報は、 Weblate でアカウントを削除することで消去されます。"
 
 #: weblate/legal/templates/legal/security.html:7 weblate/legal/views.py:52
 msgid "Security"
@@ -2479,16 +2331,12 @@ msgstr ""
 "付けております。"
 
 #: weblate/templates/about.html:24
-#, fuzzy
-#| msgid "Support Weblate on Liberapay"
 msgid "Fund Weblate on Liberapay"
-msgstr "Liberapay で Weblate をサポート"
+msgstr "Liberapay で Weblate に資金提供"
 
 #: weblate/templates/about.html:25
-#, fuzzy
-#| msgid "Support Weblate on Bountysource"
 msgid "Fund Weblate on BountySource"
-msgstr "Bountysource で Weblate をサポート"
+msgstr "Bountysource で Weblate に資金提供"
 
 #: weblate/templates/about.html:26 weblate/templates/footer.html:11
 #: weblate/trans/templatetags/advertisement.py:42
@@ -3130,10 +2978,8 @@ msgid "Git export documentation"
 msgstr "git 公開のドキュメンテーション"
 
 #: weblate/templates/accounts/profile.html:421
-#, fuzzy
-#| msgid "Please read following Terms of Service document:"
 msgid "You have agreed to the following as a contributor:"
-msgstr "下記にあるサービス利用規約の文書をお読みください:"
+msgstr "貢献者として下記の内容に合意しています:"
 
 #: weblate/templates/accounts/profile.html:430
 msgid ""
@@ -3293,13 +3139,11 @@ msgstr "アドオンの設定"
 msgid ""
 "This addon operates on whole project, it is enough to install it on one "
 "component."
-msgstr ""
+msgstr "このアドオンは全てのプロジェクトに対して動作するもので、 1 つのコンポーネントにインストールすれば十分なものです。"
 
 #: weblate/templates/addons/addon_head.html:5
-#, fuzzy
-#| msgid "Project website"
 msgid "project wide"
-msgstr "プロジェクトのウェブサイト"
+msgstr "プロジェクト全体"
 
 #: weblate/templates/addons/addon_list.html:18
 msgid "Installed addons"
@@ -3725,16 +3569,12 @@ msgid "Status widgets"
 msgstr "ステータスウィジェット"
 
 #: weblate/templates/component.html:118
-#, fuzzy
-#| msgid "You don't have privileges to save translations!"
 msgid "You don't have permission to start new translation"
-msgstr "翻訳を保存できる権限がありません！"
+msgstr "新しい翻訳を開始するための権限がありません"
 
 #: weblate/templates/component.html:118
-#, fuzzy
-#| msgid "Please log in to save translations."
 msgid "Please login to start new translation "
-msgstr "翻訳を保存するには、ログインしてください。"
+msgstr "新しい翻訳を開始するには、ログインを行なってください "
 
 #: weblate/templates/component.html:150 weblate/templates/project.html:197
 #: weblate/templates/translation.html:230
@@ -3871,22 +3711,16 @@ msgid "Repository with Weblate translations"
 msgstr "Weblate 翻訳のリポジトリ"
 
 #: weblate/templates/contributor-agreement.html:16
-#, fuzzy
-#| msgid "Contributor agreement"
 msgid "Please review the contributor agreement"
-msgstr "貢献者の同意"
+msgstr "貢献者同意条項をご確認ください"
 
 #: weblate/templates/contributor-agreement.html:18
-#, fuzzy
-#| msgid "Please read following Terms of Service document:"
 msgid "Please read following contributor agreement:"
-msgstr "下記にあるサービス利用規約の文書をお読みください:"
+msgstr "下記にある貢献者同意条項をお読みください:"
 
 #: weblate/templates/contributor-agreement.html:29
-#, fuzzy
-#| msgid "You have reached end of translating."
 msgid "You have already agreed to this agreement."
-msgstr "翻訳すべきものは以上です。"
+msgstr "この条項には既に合意済みです。"
 
 #: weblate/templates/data-root.html:6 weblate/templates/index.html:53
 msgid "Data export"
@@ -4568,16 +4402,12 @@ msgid "User"
 msgstr "ユーザ"
 
 #: weblate/templates/last-changes-content.html:11
-#, fuzzy
-#| msgid "Details"
 msgid "Detail"
 msgstr "詳細"
 
 #: weblate/templates/last-changes-content.html:12
-#, fuzzy
-#| msgid "Subject"
 msgid "Object"
-msgstr "件名"
+msgstr "オブジェクト"
 
 #: weblate/templates/last-changes-content.html:35
 msgid "Revert to this translation"
@@ -5195,11 +5025,11 @@ msgstr "この翻訳をツイートする"
 #: weblate/templates/project.html:111
 #, python-format
 msgid "Repository for this component is linked to %(target)s"
-msgstr ""
+msgstr "このコンポーネントに対するリポジトリは、 %(target)s にリンクされています"
 
 #: weblate/templates/project.html:111
 msgid "link"
-msgstr ""
+msgstr "リンク"
 
 #: weblate/templates/project.html:168
 msgid "There are currently no glossaries defined for this project."
@@ -5313,16 +5143,14 @@ msgid "No matching strings found."
 msgstr "該当する文字列は見つかりませんでした。"
 
 #: weblate/templates/show-contributor-agreement.html:7
-#, fuzzy
-#| msgid "Contributor agreement"
 msgid "View contributor agreement"
-msgstr "貢献者の同意"
+msgstr "貢献者同意条項の表示"
 
 #: weblate/templates/show-contributor-agreement.html:8
 msgid ""
 "Contribution to this translation requires you to agree with a contributor "
 "agreement."
-msgstr ""
+msgstr "この翻訳に貢献するにあたっては、貢献者同意条項への合意が必要です。"
 
 #: weblate/templates/show-lock.html:4
 msgid "This translation is currently locked for updates."
@@ -5533,10 +5361,8 @@ msgid "Source change"
 msgstr "原文の変更"
 
 #: weblate/templates/translate.html:143 weblate/trans/forms.py:1188
-#, fuzzy
-#| msgid "Additional commit files"
 msgid "Additional context"
-msgstr "追加のコミットファイル"
+msgstr "追加のコンテキスト"
 
 #: weblate/templates/translate.html:153 weblate/templates/zen-units.html:13
 msgid "Context:"
@@ -5729,10 +5555,8 @@ msgid "Source information"
 msgstr "ソース情報"
 
 #: weblate/templates/translate.html:500
-#, fuzzy
-#| msgid "No screenshot currently associated!"
 msgid "No context currently associated!"
-msgstr "現時点ではスクリーンショットは関連づけられていません！"
+msgstr "現時点ではコンテキストが割り当てられていません！"
 
 #: weblate/templates/translate.html:518
 msgid "Flags"
@@ -6667,10 +6491,8 @@ msgid "State to set"
 msgstr "設定する状態"
 
 #: weblate/trans/forms.py:1566
-#, fuzzy
-#| msgid "Contributor agreement"
 msgid "I agree with the contributor agreement"
-msgstr "貢献者の同意"
+msgstr "貢献者同意条項への合意"
 
 #: weblate/trans/models/change.py:199
 msgid "Resource update"
@@ -6793,22 +6615,16 @@ msgid "New string added"
 msgstr "新しい文字列の追加"
 
 #: weblate/trans/models/change.py:235
-#, fuzzy
-#| msgid "Changed since"
 msgid "Changed visibility"
-msgstr "変更日時"
+msgstr "表示可否の変更"
 
 #: weblate/trans/models/change.py:236
-#, fuzzy
-#| msgid "Add new user"
 msgid "Added user"
-msgstr "新しいユーザの追加"
+msgstr "ユーザの追加"
 
 #: weblate/trans/models/change.py:237
-#, fuzzy
-#| msgid "Remove"
 msgid "Removed user"
-msgstr "削除"
+msgstr "ユーザの削除"
 
 #: weblate/trans/models/change.py:330
 #, python-format
@@ -7061,16 +6877,10 @@ msgid "Commit message when translating"
 msgstr "翻訳時のコミットメッセージ"
 
 #: weblate/trans/models/component.py:358
-#, fuzzy
-#| msgid ""
-#| "You can use format strings for various information, please check "
-#| "documentation for more details."
 msgid ""
 "You can use template language for various information, please check "
 "documentation for more details."
-msgstr ""
-"様々な情報に対して書式文字列を使用することができます。詳しくはドキュメンテー"
-"ションをお読みください。"
+msgstr "様々な情報に対してテンプレート言語を使用することができます。詳しくはドキュメンテーションをお読みください。"
 
 #: weblate/trans/models/component.py:365
 msgid "Commit message when adding translation"
@@ -8241,7 +8051,7 @@ msgstr "設定が正しくありません。フォームに問題が無いかど
 #: weblate/trans/views/source.py:104
 #, python-format
 msgid "Review source strings in %s"
-msgstr "原文のレビュー：%s"
+msgstr "%s 内の原文の査読"
 
 #: weblate/trans/views/source.py:121
 #, python-format
@@ -8253,10 +8063,8 @@ msgid "Failed to change a priority!"
 msgstr "優先順位の変更に失敗しました！"
 
 #: weblate/trans/views/source.py:158
-#, fuzzy
-#| msgid "Failed to change a priority!"
 msgid "Failed to change a context!"
-msgstr "優先順位の変更に失敗しました！"
+msgstr "コンテキストの変更に失敗しました！"
 
 #: weblate/trans/views/source.py:176
 msgid "Failed to change check flags!"
@@ -8374,8 +8182,6 @@ msgid "Failed to render template: {}"
 msgstr "テンプレートの描画に失敗しました: {}"
 
 #: weblate/utils/validators.py:231
-#, fuzzy
-#| msgid "Username can not start with full stop."
 msgid "Username can not start with a full stop."
 msgstr "ユーザ名を終止符で始めることはできません。"
 
