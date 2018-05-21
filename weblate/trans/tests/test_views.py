@@ -332,7 +332,8 @@ class NewLangTest(ViewTestCase):
         response = self.client.get(
             reverse('component', kwargs=self.kw_component)
         )
-        self.assertNotContains(response, 'Start new translation')
+        self.assertContains(response, 'Start new translation')
+        self.assertContains(response, 'permission to start new translation')
 
         # Test adding fails
         response = self.client.post(
