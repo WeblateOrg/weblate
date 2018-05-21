@@ -14,6 +14,7 @@ Released on ? 2018.
 * The per component hook scripts are removed, use addons instead.
 * Add support for collecting contributor agreements.
 * Access control changes are now tracked in history.
+* New addon to ensure all components in a project have same translations.
 
 weblate 2.20
 ------------

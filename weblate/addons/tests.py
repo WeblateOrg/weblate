@@ -33,6 +33,7 @@ from weblate.trans.tests.test_views import ViewTestCase, FixtureTestCase
 
 from weblate.addons.base import TestAddon
 from weblate.addons.cleanup import CleanupAddon
+from weblate.addons.consistency import LangaugeConsistencyAddon
 from weblate.addons.discovery import DiscoveryAddon
 from weblate.addons.example import ExampleAddon
 from weblate.addons.example_pre import ExamplePreAddon
@@ -45,7 +46,7 @@ from weblate.addons.gettext import (
 from weblate.addons.json import JSONCustomizeAddon
 from weblate.addons.properties import PropertiesSortAddon
 from weblate.lang.models import Language
-from weblate.trans.models import Unit
+from weblate.trans.models import Unit, Translation
 from weblate.utils.state import STATE_FUZZY, STATE_EMPTY
 
 
@@ -471,3 +472,46 @@ class ScriptsTest(ViewTestCase):
             ),
             translation.addon_commit_files
         )
+
+
+class LanguageConsistencyTest(ViewTestCase):
+    def test_can_install(self):
+        self.assertFalse(
+            LangaugeConsistencyAddon.can_install(self.component, self.user)
+        )
+        self.user.is_superuser = True
+        self.user.save()
+        self.assertTrue(
+            LangaugeConsistencyAddon.can_install(self.component, self.user)
+        )
+
+    def test_langauge_consistency(self):
+        self.component.new_lang = 'add'
+        self.component.new_base = 'po/hello.pot'
+        self.component.save()
+        self.create_ts(
+            name='TS',
+            new_lang='add',
+            new_base='ts/cs.ts',
+            project=self.component.project,
+        )
+        self.assertEquals(Translation.objects.count(), 4)
+
+        # Installation should make langauges consistent
+        addon = LangaugeConsistencyAddon.create(self.component)
+        self.assertEquals(Translation.objects.count(), 6)
+
+        # Add one language
+        language = Language.objects.get(code='af')
+        self.component.add_new_language(language, None)
+        self.assertEquals(
+            Translation.objects.filter(
+                language=language,
+                component__project=self.component.project
+            ).count(),
+            2
+        )
+
+        # Trigger post update signal, should do nothing
+        addon.post_update(self.component, '')
+        self.assertEquals(Translation.objects.count(), 8)

@@ -221,12 +221,14 @@ class RepoTestMixin(object):
         if 'push_on_commit' not in kwargs:
             kwargs['push_on_commit'] = False
 
+        if 'name' not in kwargs:
+            kwargs['name'] = 'Test'
+        kwargs['slug'] = kwargs['name'].lower()
+
         if branch is None:
             branch = VCS_REGISTRY[vcs].default_branch
 
         result = Component.objects.create(
-            name='Test',
-            slug='test',
             repo=repo,
             push=push,
             branch=branch,
@@ -305,10 +307,11 @@ class RepoTestMixin(object):
             'po-mono/en.po',
         )
 
-    def create_ts(self, suffix=''):
+    def create_ts(self, suffix='', **kwargs):
         return self._create_component(
             'ts',
             'ts{0}/*.ts'.format(suffix),
+            **kwargs
         )
 
     def create_ts_mono(self):

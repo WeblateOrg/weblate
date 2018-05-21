@@ -22,6 +22,16 @@ Update all translation files to match the monolingual base file. For most file
 formats, this means removing stale translation keys no longer present in the
 base file.
 
+.. _addon-weblate.consistency.languages:
+
+Language consistenty
+--------------------
+
+This addon ensures that all components within one project have translation to
+same languages.
+
+Unlike most others, this addon operates on whole project.
+
 .. _addon-weblate.discovery.discovery:
 
 Component discovery
