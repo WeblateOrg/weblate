@@ -45,7 +45,7 @@ PERMISSIONS = (
     ('glossary.add', _('Add glossary entry')),
     ('glossary.edit', _('Edit glossary entry')),
     ('glossary.delete', _('Delete glossary entry')),
-    ('glossary.upload', _('Uploady glossary entries')),
+    ('glossary.upload', _('Upload glossary entries')),
 
     ('machinery.view', _('Use machine translation services')),
 
@@ -58,7 +58,7 @@ PERMISSIONS = (
     ('screenshot.edit', _('Edit screenshot')),
     ('screenshot.delete', _('Delete screenshot')),
 
-    ('source.edit', _('Edit source strings information')),
+    ('source.edit', _('Edit info on source strings')),
 
     ('suggestion.accept', _('Accept suggestion')),
     ('suggestion.add', _('Add suggestion')),
