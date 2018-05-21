@@ -432,7 +432,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 )
         return True
 
-    def get_commit_message(self):
+    def get_commit_message(self, author):
         """Format commit message based on project configuration."""
         template = self.component.commit_message
         if self.commit_message == '__add__':
@@ -444,7 +444,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             self.commit_message = ''
             self.save()
 
-        msg = render_template(template, self)
+        msg = render_template(template, self, author=author)
 
         if self.commit_message:
             msg = '{0}\n\n{1}'.format(msg, self.commit_message)
@@ -457,7 +457,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         """Commit translation to git."""
 
         # Format commit message
-        msg = self.get_commit_message()
+        msg = self.get_commit_message(author)
 
         # Pre commit hook
         vcs_pre_commit.send(
@@ -973,7 +973,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         with self.component.repository.lock:
             self.component.repository.remove(
                 [self.filename],
-                self.get_commit_message(),
+                self.get_commit_message(author),
                 author,
             )
 

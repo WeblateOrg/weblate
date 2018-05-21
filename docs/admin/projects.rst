@@ -338,6 +338,8 @@ There are following variables available in the templates:
     Number of strings with failing check
 ``{{ stats.allchecks_percent }}``
     Percent of strings with failing check
+``{{ author }}``
+    Author of current commit, available only in the commit scope.
 
 You can combine them with filters:
 

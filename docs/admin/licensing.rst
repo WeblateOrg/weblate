@@ -28,3 +28,20 @@ be able to contribute. This is clearly visible when accessing the translation:
 
 The entered text is formatted into paragraphs and external links are possible.
 HTML markup can not be used.
+
+Signed off by
+-------------
+
+Should your project require ``Signed-off-by`` header in the commits, you should
+enable contributor agreement with the DCO text and add the header to the commit
+message (see :ref:`markup` for more details). The full commit message can look like:
+
+.. code-block:: django
+
+    Translated using Weblate ({{ language_name }})
+
+    Currently translated at {{ stats.translated_percent }}% ({{ stats.translated }} of {{ stats.all }} strings)
+
+    Translation: {{ project_name }}/{{ component_name }}
+    Translate-URL: {{ url }}
+    Signed-off-by: {{ author }}
