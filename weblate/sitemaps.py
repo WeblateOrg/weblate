@@ -94,7 +94,7 @@ class EngageLangSitemap(Sitemap):
     priority = 0.9
 
     def items(self):
-        """Return list of existing project, langauge tuples."""
+        """Return list of existing project, language tuples."""
         ret = []
         projects = Project.objects.filter(
             access_control__lt=Project.ACCESS_PRIVATE

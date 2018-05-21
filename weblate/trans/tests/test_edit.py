@@ -181,7 +181,7 @@ class EditValidationTest(ViewTestCase):
         self.assertContains(response, 'Invalid merge request!')
 
     def test_merge_lang(self):
-        """Merging across langauges."""
+        """Merging across languages."""
         unit = self.get_unit()
         trans = self.component.translation_set.exclude(
             language_code='cs'

@@ -475,7 +475,7 @@ class ScriptsTest(ViewTestCase):
 
 
 class LanguageConsistencyTest(ViewTestCase):
-    def test_langauge_consistency(self):
+    def test_language_consistency(self):
         self.component.new_lang = 'add'
         self.component.new_base = 'po/hello.pot'
         self.component.save()
@@ -487,7 +487,7 @@ class LanguageConsistencyTest(ViewTestCase):
         )
         self.assertEquals(Translation.objects.count(), 4)
 
-        # Installation should make langauges consistent
+        # Installation should make languages consistent
         addon = LangaugeConsistencyAddon.create(self.component)
         self.assertEquals(Translation.objects.count(), 6)
 

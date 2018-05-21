@@ -157,7 +157,7 @@ class LanguageQuerySet(models.QuerySet):
         code = self.sanitize_code(code)
 
         lookups = [
-            # First try getting langauge as is
+            # First try getting language as is
             Q(code__iexact=code),
             # Replace dash with underscore (for things as zh_Hant)
             Q(code__iexact=code.replace('-', '_')),
@@ -166,7 +166,7 @@ class LanguageQuerySet(models.QuerySet):
         ]
 
         for lookup in lookups:
-            # First try getting langauge as is
+            # First try getting language as is
             ret = self.try_get(lookup)
             if ret is not None:
                 return ret

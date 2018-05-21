@@ -74,7 +74,7 @@ class ComponentDiscovery(object):
                 if not matches:
                     continue
 
-                # Check langauge regexp
+                # Check language regexp
                 if not self.language_match.match(matches.group('language')):
                     continue
 

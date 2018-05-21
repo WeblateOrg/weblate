@@ -294,7 +294,7 @@ Language filter
 Template markup
 ---------------
 
-Weblate uses simple markup langauge on several places where text rendering is
+Weblate uses simple markup language on several places where text rendering is
 needed. It is based on :doc:`django:ref/templates/language` so it can be quite
 powerful.
 

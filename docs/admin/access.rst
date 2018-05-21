@@ -168,7 +168,7 @@ is performed based on scope, following checks are performed:
     language.
 
     You can use :guilabel:`Language selection` to automate including all
-    langauges.
+    languages.
 
 Checking access to a project
 ++++++++++++++++++++++++++++

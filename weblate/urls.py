@@ -68,7 +68,7 @@ COMPONENT = PROJECT + r'(?P<component>[^/]+)/'
 # URL regexp for translations
 TRANSLATION = COMPONENT + LANGUAGE + '/'
 
-# URL regexp for project langauge pages
+# URL regexp for project language pages
 PROJECT_LANG = PROJECT + LANGUAGE + '/'
 
 # URL regexp used as base for widgets

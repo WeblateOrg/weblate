@@ -355,7 +355,7 @@ class Component(models.Model, URLMixin, PathMixin):
     commit_message = models.TextField(
         verbose_name=ugettext_lazy('Commit message when translating'),
         help_text=ugettext_lazy(
-            'You can use template langauge for various information, '
+            'You can use template language for various information, '
             'please check documentation for more details.'
         ),
         validators=[validate_render],
