@@ -45,6 +45,7 @@ class Source(models.Model):
         validators=[validate_check_flags],
         blank=True,
     )
+    context = models.TextField(default='', blank=True)
 
     class Meta(object):
         app_label = 'trans'

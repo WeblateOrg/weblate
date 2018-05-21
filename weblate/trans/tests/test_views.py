@@ -692,6 +692,22 @@ class SourceStringsTest(ViewTestCase):
         self.assertEqual(unit.priority, 60)
         self.assertEqual(unit.source_info.priority, 60)
 
+    def test_edit_context(self):
+        # Need extra power
+        self.user.is_superuser = True
+        self.user.save()
+
+        source = self.get_unit().source_info
+        response = self.client.post(
+            reverse('edit_context', kwargs={'pk': source.pk}),
+            {'context': 'Extra context'}
+        )
+        self.assertRedirects(response, source.get_absolute_url())
+
+        unit = self.get_unit()
+        self.assertEqual(unit.context, '')
+        self.assertEqual(unit.source_info.context, 'Extra context')
+
     def test_edit_check_flags(self):
         # Need extra power
         self.user.is_superuser = True

@@ -137,6 +137,14 @@
     </div>
     {% endif %}
 
+    {% if unit.source_info.context %}
+    <!-- source string context  -->
+    <div class="form-group help-block">
+    <label>{% trans "Additional context" %}</label>
+    {% format_translation unit.source_info.context unit.translation.component.project.source_language %}
+    </div>
+    {% endif %}
+
     {% if not user.profile.hide_source_secondary or not secondary %}
     <!-- source -->
     <div class="form-group">
@@ -480,13 +488,28 @@
     </tr>
     {% endif %} 
     {% endwith %}
-    {% if unit.context %}
+    {% if unit.context or unit.source_info.context or user_can_edit_source %}
     <tr>
-    <th>{% trans "Context" %}</th>
+    <th>
+    {% if user_can_edit_source %} <a class="button smallbutton pull-right flip" href="{% url 'review_source' project=unit.translation.component.project.slug component=unit.translation.component.slug  %}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>{% endif %}
+    {% trans "Context" %}
+    </th>
     </tr>
+    {% if user_can_edit_source and not unit.source_info.context and not unit.context %}
+    <tr>
+    <td>{% trans "No context currently associated!" %}</td>
+    </tr>
+    {% endif %}
+    {% if unit.source_info.context %}
+    <tr>
+    <td>{{ unit.source_info.context }}</td>
+    </tr>
+    {% endif %}
+    {% if unit.context %}
     <tr>
     <td>{% format_translation unit.context unit.translation.component.project.source_language search_match=search_query simple=True %}</td>
     </tr>
+    {% endif %}
     {% endif %}
     {% if unit.all_flags or user_can_edit_source %}
     <tr>

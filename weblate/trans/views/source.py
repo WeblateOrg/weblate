@@ -34,7 +34,7 @@ from weblate.utils import messages
 from weblate.trans.views.helper import get_component
 from weblate.trans.models import Translation, Source, Unit
 from weblate.trans.forms import (
-    PriorityForm, CheckFlagsForm, MatrixLanguageForm,
+    PriorityForm, CheckFlagsForm, MatrixLanguageForm, ContextForm,
 )
 from weblate.trans.util import render, redirect_next
 from weblate.utils.hash import checksum_to_hash
@@ -138,6 +138,24 @@ def edit_priority(request, pk):
         source.save()
     else:
         messages.error(request, _('Failed to change a priority!'))
+    return redirect_next(request.POST.get('next'), source.get_absolute_url())
+
+
+@require_POST
+@login_required
+def edit_context(request, pk):
+    """Change source string context."""
+    source = get_object_or_404(Source, pk=pk)
+
+    if not request.user.has_perm('source.edit', source.component):
+        raise PermissionDenied()
+
+    form = ContextForm(request.POST)
+    if form.is_valid():
+        source.context = form.cleaned_data['context']
+        source.save()
+    else:
+        messages.error(request, _('Failed to change a context!'))
     return redirect_next(request.POST.get('next'), source.get_absolute_url())
 
 

@@ -69,6 +69,16 @@
 </form>
 </td>
 </tr>
+<tr>
+<td>
+<form method="POST" action="{% url 'edit_context' pk=source.pk %}">
+{% csrf_token %}
+<input type="hidden" name="next" value="{{ next }}" />
+{{ context_form|crispy }}
+<input type="submit" value="{% trans "Save" %}" class="btn btn-default" />
+</form>
+</td>
+</tr>
 {% endif %}
 <tr>
 <th>{% trans "Screenshot context" %}</th>

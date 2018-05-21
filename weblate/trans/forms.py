@@ -1183,6 +1183,13 @@ class PriorityForm(forms.Form):
     )
 
 
+class ContextForm(forms.Form):
+    context = forms.CharField(
+        label=_('Additional context'),
+        required=False,
+    )
+
+
 class CheckFlagsForm(forms.Form):
     flags = forms.CharField(
         label=_('Check flags'),

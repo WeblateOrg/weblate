@@ -16,6 +16,7 @@ Released on ? 2018.
 * Access control changes are now tracked in history.
 * New addon to ensure all components in a project have same translations.
 * Support for more variables in commit message templates.
+* Add support for providing additional textual context.
 
 weblate 2.20
 ------------
