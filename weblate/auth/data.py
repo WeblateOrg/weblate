@@ -39,7 +39,7 @@ PERMISSIONS = (
     ('component.edit', _('Edit component settings')),
     ('component.lock', _('Lock component from translating')),
 
-    ('comment.add', _('Post coment')),
+    ('comment.add', _('Post comment')),
     ('comment.delete', _('Delete comment')),
 
     ('glossary.add', _('Add glossary entry')),
