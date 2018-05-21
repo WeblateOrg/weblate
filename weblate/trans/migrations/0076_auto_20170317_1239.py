@@ -3,7 +3,7 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
-import weblate.trans.validators
+import weblate.utils.validators
 
 
 class Migration(migrations.Migration):
@@ -42,7 +42,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='subproject',
             name='commit_message',
-            field=models.TextField(default='Translated using Weblate (%(language_name)s)\n\nCurrently translated at %(translated_percent)s%% (%(translated)s of %(total)s strings)\n\nTranslation: %(project)s/%(component)s\nTranslate-URL: %(url)s', help_text='You can use format strings for various information, please check documentation for more details.', validators=[weblate.trans.validators.validate_commit_message], verbose_name='Commit message when translating'),
+            field=models.TextField(default='Translated using Weblate (%(language_name)s)\n\nCurrently translated at %(translated_percent)s%% (%(translated)s of %(total)s strings)\n\nTranslation: %(project)s/%(component)s\nTranslate-URL: %(url)s', help_text='You can use format strings for various information, please check documentation for more details.', validators=[weblate.utils.validators.validate_render], verbose_name='Commit message when translating'),
         ),
         migrations.AlterField(
             model_name='subproject',

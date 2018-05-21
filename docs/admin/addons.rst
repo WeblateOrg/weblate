@@ -59,6 +59,10 @@ so you can check whether the configuration actually matches your needs:
 
 .. image:: ../images/addon-discovery.png
 
+.. seealso::
+
+    :ref:`markup`
+
 .. _addon-weblate.flags.source_edit:
 
 Flag new source strings to need edit
@@ -84,6 +88,10 @@ Statistics generator
 
 This addon generates a file containing detailed information about the
 translation.
+
+.. seealso::
+
+    :ref:`markup`
 
 .. _addon-weblate.gettext.authors:
 

@@ -58,28 +58,27 @@ from weblate.vcs.models import VCS_REGISTRY
 from weblate.utils.stats import ComponentStats
 from weblate.trans.models.translation import Translation
 from weblate.trans.validators import (
-    validate_filemask,
-    validate_autoaccept, validate_check_flags, validate_commit_message,
+    validate_filemask, validate_autoaccept, validate_check_flags,
 )
 from weblate.lang.models import Language
 from weblate.trans.models.change import Change
-from weblate.utils.validators import validate_repoweb
+from weblate.utils.validators import validate_repoweb, validate_render
 
 
 DEFAULT_COMMIT_MESSAGE = (
-    'Translated using Weblate (%(language_name)s)\n\n'
-    'Currently translated at %(translated_percent)s%% '
-    '(%(translated)s of %(total)s strings)\n\n'
-    'Translation: %(project)s/%(component)s\n'
-    'Translate-URL: %(url)s'
+    'Translated using Weblate ({{ language_name }})\n\n'
+    'Currently translated at {{ stats.translated_percent }}% '
+    '({{ stats.translated }} of {{ stats.all }} strings)\n\n'
+    'Translation: {{ project_name }}/{{ component_name }}\n'
+    'Translate-URL: {{ url }}'
 )
 
 DEFAULT_ADD_MESSAGE = (
-    'Added translation using Weblate (%(language_name)s)\n\n'
+    'Added translation using Weblate ({{ language_name }})\n\n'
 )
 
 DEFAULT_DELETE_MESSAGE = (
-    'Deleted translation using Weblate (%(language_name)s)\n\n'
+    'Deleted translation using Weblate ({{ language_name }})\n\n'
 )
 
 NEW_LANG_CHOICES = (
@@ -359,7 +358,7 @@ class Component(models.Model, URLMixin, PathMixin):
             'You can use format strings for various information, '
             'please check documentation for more details.'
         ),
-        validators=[validate_commit_message],
+        validators=[validate_render],
         default=DEFAULT_COMMIT_MESSAGE,
     )
     add_message = models.TextField(
@@ -368,7 +367,7 @@ class Component(models.Model, URLMixin, PathMixin):
             'You can use format strings for various information, '
             'please check documentation for more details.'
         ),
-        validators=[validate_commit_message],
+        validators=[validate_render],
         default=DEFAULT_ADD_MESSAGE,
     )
     delete_message = models.TextField(
@@ -377,7 +376,7 @@ class Component(models.Model, URLMixin, PathMixin):
             'You can use format strings for various information, '
             'please check documentation for more details.'
         ),
-        validators=[validate_commit_message],
+        validators=[validate_render],
         default=DEFAULT_DELETE_MESSAGE,
     )
     committer_name = models.CharField(

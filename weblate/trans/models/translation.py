@@ -40,6 +40,7 @@ from weblate.trans.models.unit import (
     Unit, STATE_TRANSLATED, STATE_FUZZY, STATE_APPROVED,
 )
 from weblate.utils.stats import TranslationStats
+from weblate.utils.render import render_template
 from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.signals import (
     vcs_pre_commit, vcs_post_commit, store_post_load
@@ -443,20 +444,8 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             self.commit_message = ''
             self.save()
 
-        msg = template % {
-            'language': self.language_code,
-            'language_name': self.language.name,
-            'subproject': self.component.name,
-            'resource': self.component.name,
-            'component': self.component.name,
-            'project': self.component.project.name,
-            'url': get_site_url(self.get_absolute_url()),
-            'total': self.stats.all,
-            'fuzzy': self.stats.fuzzy,
-            'fuzzy_percent': self.stats.fuzzy_percent,
-            'translated': self.stats.translated,
-            'translated_percent': self.stats.translated_percent,
-        }
+        msg = render_template(template, self)
+
         if self.commit_message:
             msg = '{0}\n\n{1}'.format(msg, self.commit_message)
             self.commit_message = ''

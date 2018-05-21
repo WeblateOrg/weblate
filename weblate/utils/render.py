@@ -23,6 +23,8 @@ from __future__ import unicode_literals
 from django.template import Template, Context, Engine
 from django.utils.encoding import force_text
 
+from weblate.utils.site import get_site_url
+
 
 class RestrictedEngine(Engine):
     default_builtins = [
@@ -38,6 +40,7 @@ def render_template(template, translation=None, **kwargs):
     """Helper class to render string template with context."""
     context = {}
     context.update(kwargs)
+
     if translation is not None:
         translation.stats.ensure_basic()
         context['project_name'] = translation.component.project.name
@@ -47,6 +50,8 @@ def render_template(template, translation=None, **kwargs):
         context['language_code'] = translation.language_code
         context['language_name'] = force_text(translation.language)
         context['stats'] = translation.stats.get_data()
+        context['url'] = get_site_url(translation.get_absolute_url())
+
     return Template(
         template,
         engine=RestrictedEngine(),

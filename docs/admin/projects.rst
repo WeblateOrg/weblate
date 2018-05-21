@@ -258,7 +258,7 @@ Merge style
     This might not be supported for some VCS. See :ref:`merge-rebase` for
     more details.
 Commit message
-    Message used when committing translation, see :ref:`commit-message`.
+    Message used when committing translation, see :ref:`markup`.
 Committer name
     Name of the committer used on Weblate commits, the author will be always the
     real translator. On some VCS this might be not supported. Default value
@@ -285,38 +285,73 @@ Language filter
     Most of the fields can be edited by project owners or managers in the 
     Weblate interface.
 
-.. _commit-message:
-
-Commit message formatting
-+++++++++++++++++++++++++
-
-The commit message on each commit Weblate does, it can use following format
-strings in the message:
-
-``%(language)s``
-    Language code
-``%(language_name)s``
-    Language name
-``%(component)s``
-    Component name
-``%(project)s``
-    Project name
-``%(url)s``
-    Translation URL
-``%(total)s``
-    Total strings count
-``%(fuzzy)s``
-    Count of strings needing review
-``%(fuzzy_percent)s``
-    Percent of strings needing review
-``%(translated)s``
-    Translated strings count
-``%(translated_percent)s``
-    Translated strings percent
-
 .. seealso:: 
    
    :ref:`faq-vcs`
+
+.. _markup:
+
+Template markup
+---------------
+
+Weblate uses simple markup langauge on several places where text rendering is
+needed. It is based on :doc:`django:ref/templates/language` so it can be quite
+powerful.
+
+Currently it is used in:
+
+* Commit message formatting, see :ref:`component`
+* Several addons
+    * :ref:`addon-weblate.discovery.discovery`
+    * :ref:`addon-weblate.generate.generate`
+    * :ref:`addon-script`
+
+There are following variables available in the templates:
+
+``{{ language_code }}``
+    Language code
+``{{ language_name }}``
+    Language name
+``{{ component_name }}``
+    Component name
+``{{ component_slug }}``
+    Component slug
+``{{ project_name }}``
+    Project name
+``{{ project_slug }}``
+    Project slug
+``{{ url }}``
+    Translation URL
+``{{ stats }}``
+    Translation stats, this has futher attributes, see below for examples.
+``{{ stats.all }}``
+    Total strings count
+``{{ stats.fuzzy }}``
+    Count of strings needing review
+``{{ stats.fuzzy_percent }}``
+    Percent of strings needing review
+``{{ stats.translated }}``
+    Translated strings count
+``{{ stats.translated_percent }}``
+    Translated strings percent
+``{{ stats.allchecks }}``
+    Number of strings with failing check
+``{{ stats.allchecks_percent }}``
+    Percent of strings with failing check
+
+You can combine them with filters:
+
+.. code-block:: django
+
+    {{ component|title }}
+
+You can use conditions:
+
+.. code-block::
+
+    {% if stats.translated_percent > 80 %}Well translated!{% endif %}
+
+...and other Django template features.
 
 .. _import-speed:
 

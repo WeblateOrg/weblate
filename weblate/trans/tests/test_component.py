@@ -417,10 +417,9 @@ class ComponentValidationTest(RepoTestCase):
 
     def test_commit_message(self):
         """Invalid commit message"""
-        self.component.commit_message = '%(foo)s'
-        self.assertRaisesMessage(
+        self.component.commit_message = '{% if %}'
+        self.assertRaises(
             ValidationError,
-            'Bad format string',
             self.component.full_clean
         )
 
