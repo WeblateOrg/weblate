@@ -41,12 +41,6 @@ class LangaugeConsistencyAddon(BaseAddon):
     icon = 'language'
 
     @classmethod
-    def can_install(cls, component, user):
-        if not user.is_superuser:
-            return False
-        return super(LangaugeConsistencyAddon, cls).can_install(component, user)
-
-    @classmethod
     def create(cls, component, **kwargs):
         result = super(LangaugeConsistencyAddon, cls).create(component, **kwargs)
         for target in component.project.component_set.all():

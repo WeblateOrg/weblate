@@ -475,16 +475,6 @@ class ScriptsTest(ViewTestCase):
 
 
 class LanguageConsistencyTest(ViewTestCase):
-    def test_can_install(self):
-        self.assertFalse(
-            LangaugeConsistencyAddon.can_install(self.component, self.user)
-        )
-        self.user.is_superuser = True
-        self.user.save()
-        self.assertTrue(
-            LangaugeConsistencyAddon.can_install(self.component, self.user)
-        )
-
     def test_langauge_consistency(self):
         self.component.new_lang = 'add'
         self.component.new_base = 'po/hello.pot'
