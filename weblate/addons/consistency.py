@@ -30,7 +30,7 @@ from weblate.lang.models import Language
 class LangaugeConsistencyAddon(BaseAddon):
     events = (EVENT_POST_UPDATE, EVENT_POST_ADD)
     name = 'weblate.consistency.languages'
-    verbose = _('Language consistenty')
+    verbose = _('Language consistency')
     description = _(
         'This addon ensures that all components within one project '
         'have translation to same languages.'

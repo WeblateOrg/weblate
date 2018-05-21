@@ -24,7 +24,7 @@ base file.
 
 .. _addon-weblate.consistency.languages:
 
-Language consistenty
+Language consistency
 --------------------
 
 This addon ensures that all components within one project have translation to
