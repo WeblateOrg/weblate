@@ -285,7 +285,7 @@ Changes
     Download changes [`Administration`]
 
 Comments
-    Post coment [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
+    Post comment [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
     Delete comment [`Administration`]
 
 Component
