@@ -49,7 +49,7 @@ ADDONS = ClassLoader('WEBLATE_ADDONS', False)
 
 class AddonQuerySet(models.QuerySet):
     def filter_component(self, component):
-        return self.filter( (
+        return self.filter((
             Q(component=component) & Q(project_scope=False)
         ) | (
             Q(component__project=component.project) & Q(project_scope=True)

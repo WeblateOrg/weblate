@@ -38,11 +38,8 @@ from weblate.trans.models import (
     Project, Source, Unit, WhiteboardMessage, ComponentList, AutoComponentList,
     Component,
 )
-import weblate.trans.models.component
 from weblate.lang.models import Language
-from weblate.trans.tests.utils import (
-    get_test_file, RepoTestMixin, create_test_user,
-)
+from weblate.trans.tests.utils import RepoTestMixin, create_test_user
 from weblate.utils.state import STATE_TRANSLATED
 
 

@@ -19,7 +19,7 @@
 #
 
 from weblate.auth.data import SELECTION_MANUAL, SELECTION_ALL
-from weblate.auth.models import User, Group, Role
+from weblate.auth.models import Group, Role
 from weblate.lang.models import Language
 from weblate.trans.models import Project, ComponentList
 from weblate.trans.tests.test_views import FixtureTestCase

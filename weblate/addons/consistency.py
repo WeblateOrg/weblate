@@ -20,14 +20,11 @@
 
 from __future__ import unicode_literals
 
-from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.addons.base import BaseAddon
 from weblate.addons.events import EVENT_POST_UPDATE, EVENT_POST_ADD
-from weblate.addons.forms import DiscoveryForm
 from weblate.lang.models import Language
-from weblate.trans.discovery import ComponentDiscovery
 
 
 class LangaugeConsistencyAddon(BaseAddon):
@@ -42,7 +39,9 @@ class LangaugeConsistencyAddon(BaseAddon):
 
     @classmethod
     def create(cls, component, **kwargs):
-        result = super(LangaugeConsistencyAddon, cls).create(component, **kwargs)
+        result = super(LangaugeConsistencyAddon, cls).create(
+            component, **kwargs
+        )
         for target in component.project.component_set.all():
             result.post_update(target, '')
         return result
