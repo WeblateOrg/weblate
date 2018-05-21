@@ -23,6 +23,7 @@ from __future__ import unicode_literals
 from appconf import AppConf
 
 from django.db import models
+from django.db.models import Q
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.encoding import python_2_unicode_compatible
@@ -47,10 +48,18 @@ ADDONS = ClassLoader('WEBLATE_ADDONS', False)
 
 
 class AddonQuerySet(models.QuerySet):
+    def filter_component(self, component):
+        return self.filter( (
+            Q(component=component) & Q(project_scope=False)
+        ) | (
+            Q(component__project=component.project) & Q(project_scope=True)
+        ))
+
     def filter_event(self, component, event):
         if event not in component.addons_cache:
-            component.addons_cache[event] = self.filter(
-                component=component,
+            component.addons_cache[event] = self.filter_component(
+                component
+            ).filter(
                 event__event=event
             )
         return component.addons_cache[event]
@@ -64,6 +73,7 @@ class Addon(models.Model):
     name = models.CharField(max_length=100)
     configuration = JSONField()
     state = JSONField()
+    project_scope = models.BooleanField(default=False, db_index=True)
 
     objects = AddonQuerySet.as_manager()
 

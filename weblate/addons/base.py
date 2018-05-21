@@ -35,6 +35,7 @@ class BaseAddon(object):
     verbose = 'Base addon'
     description = 'Base addon'
     icon = 'cog'
+    project_scope = False
 
     """Base class for Weblate addons."""
     def __init__(self, storage=None):
@@ -50,6 +51,7 @@ class BaseAddon(object):
 
     @classmethod
     def create(cls, component, **kwargs):
+        kwargs['project_scope'] = cls.project_scope
         storage = apps.get_model('addons', 'Addon').objects.create(
             component=component, name=cls.name, **kwargs
         )

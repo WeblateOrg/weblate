@@ -37,7 +37,7 @@ class AddonViewMixin(ComponentViewMixin):
         if not self.request.user.has_perm('component.edit', component):
             raise PermissionDenied('Can not edit component')
         self.kwargs['component_obj'] = component
-        return Addon.objects.filter(component=component)
+        return Addon.objects.filter_component(component)
 
     def get_success_url(self):
         component = self.get_component()

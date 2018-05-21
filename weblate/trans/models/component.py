@@ -1438,7 +1438,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
         return True
 
-    def add_new_language(self, language, request):
+    def add_new_language(self, language, request, send_signal=True):
         """Create new language file."""
         if not self.can_add_new_language():
             if request:
@@ -1495,10 +1495,11 @@ class Component(models.Model, URLMixin, PathMixin):
             language_code=language.code,
             commit_message='__add__'
         )
-        translation_post_add.send(
-            sender=self.__class__,
-            translation=translation
-        )
+        if send_signal:
+            translation_post_add.send(
+                sender=self.__class__,
+                translation=translation
+            )
         translation.git_commit(
             request,
             request.user.get_author_name()
