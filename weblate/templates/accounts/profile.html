@@ -418,7 +418,7 @@ wlc \
 </p>
 
 {% if user.contributoragreement_set.all %}
-<p>{% trans "You have agreed to folowing contributor agreements:" %}</p>
+<p>{% trans "You have agreed to the following as a contributor:" %}</p>
 <ul>
 {% for agreement in user.contributoragreement_set.all %}
 <li><a href="{% url 'contributor-agreement' project=agreement.component.project.slug component=agreement.component.slug %}">{{ agreement.component }}</a></li>
