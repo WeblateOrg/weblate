@@ -355,7 +355,7 @@ class Component(models.Model, URLMixin, PathMixin):
     commit_message = models.TextField(
         verbose_name=ugettext_lazy('Commit message when translating'),
         help_text=ugettext_lazy(
-            'You can use format strings for various information, '
+            'You can use template langauge for various information, '
             'please check documentation for more details.'
         ),
         validators=[validate_render],
@@ -364,7 +364,7 @@ class Component(models.Model, URLMixin, PathMixin):
     add_message = models.TextField(
         verbose_name=ugettext_lazy('Commit message when adding translation'),
         help_text=ugettext_lazy(
-            'You can use format strings for various information, '
+            'You can use template language for various information, '
             'please check documentation for more details.'
         ),
         validators=[validate_render],
@@ -373,7 +373,7 @@ class Component(models.Model, URLMixin, PathMixin):
     delete_message = models.TextField(
         verbose_name=ugettext_lazy('Commit message when removing translation'),
         help_text=ugettext_lazy(
-            'You can use format strings for various information, '
+            'You can use template language for various information, '
             'please check documentation for more details.'
         ),
         validators=[validate_render],
