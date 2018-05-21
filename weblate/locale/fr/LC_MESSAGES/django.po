@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-05-21 12:24+0000\n"
-"PO-Revision-Date: 2018-05-21 12:23+0000\n"
+"PO-Revision-Date: 2018-05-21 12:42+0000\n"
 "Last-Translator: Jean-Baptiste <jean-baptiste@holcroft.fr>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/master/fr/"
 ">\n"
@@ -734,20 +734,13 @@ msgid "Long lines wrapping"
 msgstr "Emballage des lignes longues"
 
 #: weblate/addons/forms.py:85
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines (default gettext behavior)"
 msgid "Wrap lines at 77 chars and at newlines"
 msgstr ""
-"Emballage des lignes à 77 caractères et à de nouvelles lignes (comportement "
-"par défaut de gettext)"
+"Retour automatique à la ligne à 77 caractères et pour les nouvelles lignes"
 
 #: weblate/addons/forms.py:86
-#, fuzzy
-#| msgid "Only wrap lines at newlines (gettext behavior with --no-wrap)"
 msgid "Only wrap lines at newlines"
-msgstr ""
-"Emballer seulement les lignes à des nouvelles lignes (comportement de "
-"gettext avec --no-wrap)"
+msgstr "Retour automatique uniquement pour les nouvelles lignes"
 
 #: weblate/addons/forms.py:87
 msgid "No line wrapping"
@@ -758,6 +751,9 @@ msgid ""
 "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
 "parameter it wraps only at newlines."
 msgstr ""
+"Par défaut, gettext fait un retour automatique à la ligne à 77 caractères et "
+"pour les nouvelles lignes, avec le paramètre --no-wrap il ne le fait que "
+"pour les nouvelles lignes."
 
 #: weblate/addons/forms.py:100
 msgid "Sort JSON keys"
@@ -948,94 +944,64 @@ msgid "Important dates"
 msgstr "Dates importantes"
 
 #: weblate/auth/data.py:35
-#, fuzzy
-#| msgid "More information"
 msgid "View billing information"
-msgstr "Plus d’informations"
+msgstr "Voir les informations de facturation"
 
 #: weblate/auth/data.py:37
-#, fuzzy
-#| msgid "Download latest changes as CSV"
 msgid "Download changes"
-msgstr "Télécharger les dernières modifications au format CSV"
+msgstr "Télécharger les modifications"
 
 #: weblate/auth/data.py:39
-#, fuzzy
-#| msgid "Version control settings"
 msgid "Edit component settings"
-msgstr "Paramètres du Système de contrôle de versions"
+msgstr "Modifier les paramètres du composant"
 
 #: weblate/auth/data.py:40
-#, fuzzy
-#| msgid "Download compiled translation"
 msgid "Lock component from translating"
-msgstr "Télécharger la traduction compilée"
+msgstr "Verrouiller la traduction du composant"
 
 #: weblate/auth/data.py:42
-#, fuzzy
-#| msgid "Posted new comment"
 msgid "Post comment"
-msgstr "Nouveau commentaire publié"
+msgstr "Envoyer un commentaire"
 
 #: weblate/auth/data.py:43
-#, fuzzy
-#| msgid "New comment"
 msgid "Delete comment"
-msgstr "Nouveau commentaire"
+msgstr "Supprimer le commentaire"
 
 #: weblate/auth/data.py:45
-#, fuzzy
-#| msgid "Add word to glossary"
 msgid "Add glossary entry"
-msgstr "Ajouter le mot au glossaire"
+msgstr "Ajouter une entrée de glossaire"
 
 #: weblate/auth/data.py:46
-#, fuzzy
-#| msgid "Export glossary"
 msgid "Edit glossary entry"
-msgstr "Exporter le glossaire"
+msgstr "Modifier une entrée de glossaire"
 
 #: weblate/auth/data.py:47
-#, fuzzy
-#| msgid "Delete screenshot"
 msgid "Delete glossary entry"
-msgstr "Supprimer la capture d'écran"
+msgstr "Supprimer une entrée de glossaire"
 
 #: weblate/auth/data.py:48
-#, fuzzy
-#| msgid "Add word to glossary"
 msgid "Upload glossary entries"
-msgstr "Ajouter le mot au glossaire"
+msgstr "Téléverser des entrées de glossaires"
 
 #: weblate/auth/data.py:50
-#, fuzzy
-#| msgid "Machine translation suggestions"
 msgid "Use machine translation services"
-msgstr "Suggestions de traduction automatisée"
+msgstr "Utiliser les services de traduction automatiques"
 
 #: weblate/auth/data.py:52
-#, fuzzy
-#| msgid "Edit source string"
 msgid "Edit project settings"
-msgstr "Modifier la chaîne source"
+msgstr "Modifier les paramètres du projet"
 
 #: weblate/auth/data.py:53
-#, fuzzy
-#| msgid "Managed projects"
 msgid "Manage project access"
-msgstr "Projets pilotés"
+msgstr "Gérer les accès du projet"
 
 #: weblate/auth/data.py:55
-#, fuzzy
-#| msgid "Download"
 msgid "Download reports"
-msgstr "Télécharger"
+msgstr "Télécharger les rapports"
 
 #: weblate/auth/data.py:57
-#, fuzzy
-#| msgid "Add new screenshot"
 msgid "Add screenshot"
-msgstr "Ajouter une nouvelle capture d'écran"
+msgstr "Ajouter une capture d'écran"
 
 #: weblate/auth/data.py:58
 #: weblate/templates/screenshots/screenshot_detail.html:98
@@ -1048,34 +1014,24 @@ msgid "Delete screenshot"
 msgstr "Supprimer la capture d'écran"
 
 #: weblate/auth/data.py:61
-#, fuzzy
-#| msgid "Editing source string"
 msgid "Edit info on source strings"
-msgstr "Modification de la chaîne source"
+msgstr "Modifier les informations des chaînes source"
 
 #: weblate/auth/data.py:63
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Accept suggestion"
-msgstr "Accepter automatiquement les suggestions"
+msgstr "Accepter les suggestions"
 
 #: weblate/auth/data.py:64
-#, fuzzy
-#| msgid "Add as a suggestion"
 msgid "Add suggestion"
-msgstr "Ajouter comme suggestion"
+msgstr "Ajouter une suggestion"
 
 #: weblate/auth/data.py:65
-#, fuzzy
-#| msgid "Enable suggestions"
 msgid "Delete suggestion"
-msgstr "Autoriser les suggestions"
+msgstr "Supprimer une suggestion"
 
 #: weblate/auth/data.py:66
-#, fuzzy
-#| msgid "Enable suggestions"
 msgid "Vote suggestion"
-msgstr "Autoriser les suggestions"
+msgstr "Voter pour une suggestion"
 
 #: weblate/auth/data.py:68 weblate/templates/component.html:60
 #: weblate/templates/component.html:116 weblate/templates/component.html:118
@@ -1085,189 +1041,133 @@ msgid "Start new translation"
 msgstr "Débuter une nouvelle traduction"
 
 #: weblate/auth/data.py:69
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Perform automatic translation"
-msgstr "Traduction automatique"
+msgstr "Réaliser une traduction automatique"
 
 #: weblate/auth/data.py:70
-#, fuzzy
-#| msgid "Overwrite existing translations"
 msgid "Delete existing translation"
-msgstr "Écraser les traductions existantes"
+msgstr "Supprimer les traductions existantes"
 
 #: weblate/auth/data.py:71
-#, fuzzy
-#| msgid "Start new translation"
 msgid "Start new translation into more languages"
-msgstr "Débuter une nouvelle traduction"
+msgstr "Débuter une nouvelle traduction dans d’autres langues"
 
 #: weblate/auth/data.py:73
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new string"
-msgstr "Ajouter un utilisateur"
+msgstr "Ajouter une nouvelle chaîne"
 
 #: weblate/auth/data.py:74
-#, fuzzy
-#| msgid "Failing check"
 msgid "Ignore failing check"
-msgstr "Vérifications en échec"
+msgstr "Ignorer les vérifications en échec"
 
 #: weblate/auth/data.py:75
-#, fuzzy
-#| msgid "Edit string"
 msgid "Edit strings"
-msgstr "Modifier la chaîne"
+msgstr "Modifier les chaînes"
 
 #: weblate/auth/data.py:76
-#, fuzzy
-#| msgid "Overwrite strings"
 msgid "Review strings"
-msgstr "Écraser les traductions existantes"
+msgstr "Réviser les traductions existantes"
 
 #: weblate/auth/data.py:77
-#, fuzzy
-#| msgid "Strings with suggestions (%d)"
 msgid "Edit string when suggestions are enforced"
-msgstr "Chaînes avec suggestions (%d)"
+msgstr "Modifier une chaîne lorsque les suggestions sont appliquées"
 
 #: weblate/auth/data.py:78
-#, fuzzy
-#| msgid "Edit source string"
 msgid "Edit source strings"
-msgstr "Modifier la chaîne source"
+msgstr "Modifier les chaînes source"
 
 #: weblate/auth/data.py:80
-#, fuzzy
-#| msgid "Define the base file for new translations"
 msgid "Define author of translation upload"
-msgstr "Définit le fichier de base pour de nouvelles traductions"
+msgstr "Définir l’auteur d’un téléversement de traduction"
 
 #: weblate/auth/data.py:81
-#, fuzzy
-#| msgid "Overwrite existing translations"
 msgid "Overwrite existing strings with upload"
-msgstr "Écraser les traductions existantes"
+msgstr "Écraser les traductions existantes en téléversant"
 
 #: weblate/auth/data.py:82
-#, fuzzy
-#| msgid "Upload translation"
 msgid "Upload translation strings"
-msgstr "Envoyer votre traduction"
+msgstr "Téléverser des traduction"
 
 #: weblate/auth/data.py:84
-#, fuzzy
-#| msgid "Allow changes to the local repository"
 msgid "Access the internal repository"
-msgstr "Permettre les modifications dans le dépôt local"
+msgstr "Accéder au dépôt local"
 
 #: weblate/auth/data.py:85
-#, fuzzy
-#| msgid "Commit pending changes to the local repository"
 msgid "Commit changes to the internal repository"
-msgstr "Archiver dans le dépôt local les modifications en attente"
+msgstr "Archiver les modifications dans le dépôt local"
 
 #: weblate/auth/data.py:86
-#, fuzzy
-#| msgid "Pull changes from the remote repository"
 msgid "Push change from the the internal repository"
-msgstr "Récupérer les modifications du dépôt distant"
+msgstr "Pousser les changements depuis le dépôt local"
 
 #: weblate/auth/data.py:87
-#, fuzzy
-#| msgid "Reset all changes in the local repository"
 msgid "Reset changes in the internal repository"
-msgstr "Réinitialiser toutes les modifications dans le dépôt local"
+msgstr "Réinitialiser les modifications dans le dépôt local"
 
 #: weblate/auth/data.py:88
 msgid "View upstream repository location"
-msgstr ""
+msgstr "Voir l’emplacement du dépôt amont"
 
 #: weblate/auth/data.py:89
-#, fuzzy
-#| msgid "Update VCS repository"
 msgid "Update the internal repository"
-msgstr "Mettre à jour le dépôt VCS"
+msgstr "Mettre à jour le dépôt local"
 
 #: weblate/auth/data.py:111
-#, fuzzy
-#| msgid "Add as a suggestion"
 msgctxt "Access control role"
 msgid "Add suggestion"
-msgstr "Ajouter comme suggestion"
+msgstr "Ajouter une suggestion"
 
 #: weblate/auth/data.py:117
-#, fuzzy
-#| msgid "Reset repository"
 msgctxt "Access control role"
 msgid "Access repository"
-msgstr "Réinitialiser le dépôt"
+msgstr "Accéder au dépôt"
 
 #: weblate/auth/data.py:123
 msgctxt "Access control role"
 msgid "Power user"
-msgstr ""
+msgstr "Utilisateur avancé"
 
 #: weblate/auth/data.py:132
-#, fuzzy
-#| msgid "Translate"
 msgctxt "Access control role"
 msgid "Translate"
 msgstr "Traduire"
 
 #: weblate/auth/data.py:136
-#, fuzzy
-#| msgid "Edit source string"
 msgctxt "Access control role"
 msgid "Edit source"
-msgstr "Modifier la chaîne source"
+msgstr "Modifier la source"
 
 #: weblate/auth/data.py:140
-#, fuzzy
-#| msgid "Manage your languages"
 msgctxt "Access control role"
 msgid "Manage languages"
-msgstr "Gérer vos langues"
+msgstr "Gérer les langues"
 
 #: weblate/auth/data.py:144
-#, fuzzy
-#| msgid "Manage glossary"
 msgctxt "Access control role"
 msgid "Manage glossary"
 msgstr "Gérer le glossaire"
 
 #: weblate/auth/data.py:148
-#, fuzzy
-#| msgid "Manage screenshots"
 msgctxt "Access control role"
 msgid "Manage screenshots"
-msgstr "Gérer les captures écran"
+msgstr "Gérer les captures d’écran"
 
 #: weblate/auth/data.py:152
-#, fuzzy
-#| msgid "Overwrite strings"
 msgctxt "Access control role"
 msgid "Review strings"
-msgstr "Écraser les traductions existantes"
+msgstr "Réviser les traductions"
 
 #: weblate/auth/data.py:156
-#, fuzzy
-#| msgid "Merged repository"
 msgctxt "Access control role"
 msgid "Manage repository"
-msgstr "Dépôt fusionné"
+msgstr "Gérer le dépôt"
 
 #: weblate/auth/data.py:160
-#, fuzzy
-#| msgid "Administration"
 msgctxt "Access control role"
 msgid "Administration"
 msgstr "Administration"
 
 #: weblate/auth/data.py:164
-#, fuzzy
-#| msgid "Billing"
 msgctxt "Access control role"
 msgid "Billing"
 msgstr "Facturation"
@@ -1275,7 +1175,7 @@ msgstr "Facturation"
 #: weblate/auth/data.py:172
 msgctxt "Access control group"
 msgid "Guests"
-msgstr ""
+msgstr "Invités"
 
 #: weblate/auth/data.py:177
 #, fuzzy
