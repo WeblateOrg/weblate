@@ -27,7 +27,7 @@ def store_ids(apps, schema_editor):
 def restore_ids(apps, schema_editor):
     ComponentList = apps.get_model('trans', 'ComponentList')
     Component = apps.get_model('trans', 'Component')
-    for cl in ComponentList.objects.all():
+    for cl in ComponentList.objects.exclude(component_ids=''):
         cl.components.set(
             Component.objects.filter(
                 pk__in=cl.component_ids.split(',')
