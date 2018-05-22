@@ -344,7 +344,7 @@ Uploads
 VCS
     Access the internal repository [`Access repository`, `Administration`, `Manage repository`, `Power user`]
     Commit changes to the internal repository [`Administration`, `Manage repository`]
-    Push change from the the internal repository [`Administration`, `Manage repository`]
+    Push change from the internal repository [`Administration`, `Manage repository`]
     Reset changes in the internal repository [`Administration`, `Manage repository`]
     View upstream repository location [`Access repository`, `Administration`, `Manage repository`, `Power user`]
     Update the internal repository [`Administration`, `Manage repository`]

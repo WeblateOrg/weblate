@@ -736,7 +736,7 @@ Adding new translations
     In versions prior to 2.18 the behaviour of adding new translations was file
     format specific.
 
-Weblate can automatically start new translation for all of the the file
+Weblate can automatically start new translation for all of the file
 formats.
 
 Some formats expect to start with empty file and only translated
