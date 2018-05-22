@@ -67,7 +67,7 @@ class AddonList(AddonViewMixin, ListView):
         result['available'] = [
             x for x in ADDONS.values()
             if x.can_install(component, self.request.user)
-            and x.name not in installed
+            and (x.multiple or x.name not in installed)
         ]
         return result
 

@@ -38,6 +38,7 @@ class DiscoveryAddon(BaseAddon):
         'project based on file changes in the version control system.'
     )
     settings_form = DiscoveryForm
+    multiple = True
     icon = 'search'
 
     @classmethod
