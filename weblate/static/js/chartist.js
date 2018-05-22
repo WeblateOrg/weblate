@@ -371,7 +371,7 @@ var Chartist = {
     if (output.normalized.series.every(function(value) {
         return value instanceof Array;
       })) {
-      // Getting the series with the most elements
+      // Getting the series with the the most elements
       labelCount = Math.max.apply(null, output.normalized.series.map(function(series) {
         return series.length;
       }));
