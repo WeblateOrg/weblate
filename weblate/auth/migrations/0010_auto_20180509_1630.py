@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 from django.db import migrations
+from django.db.models import Q
 
 from weblate.auth.data import ACL_GROUPS, SELECTION_MANUAL, SELECTION_ALL
 
@@ -16,13 +17,13 @@ def run_migration(apps, schema_editor):
     Role = apps.get_model('weblate_auth', 'Role')
     Project = apps.get_model('trans', 'Project')
     # Private and protected projects
-    for project in Project.objects.filter(access_control__in=(1, 100)):
-        group = Group.objects.create(
+    for project in Project.objects.filter(Q(billing__pk__gt=0) | access_control__in=(1, 100)):
+        group = Group.objects.get_or_create(
             internal=True,
             name='{}@Billing'.format(project.name),
             project_selection=SELECTION_MANUAL,
             language_selection=SELECTION_ALL,
-        )
+        )[0]
         group.projects.add(project)
         group.roles.set(
             Role.objects.filter(name=ACL_GROUPS['Billing']),
