@@ -21,6 +21,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='user',
             name='email',
-            field=models.EmailField(max_length=254, unique=True, validators=[weblate.utils.validators.validate_email], verbose_name='Email'),
+            field=models.EmailField(max_length=190, unique=True, validators=[weblate.utils.validators.validate_email], verbose_name='Email'),
         ),
     ]

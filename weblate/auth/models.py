@@ -271,6 +271,7 @@ class User(AbstractBaseUser):
     email = models.EmailField(
         _('Email'),
         blank=False,
+        max_length=190,
         unique=True,
         validators=[validate_email],
     )
