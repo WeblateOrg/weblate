@@ -20,7 +20,7 @@
 from __future__ import unicode_literals
 
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin, GroupAdmin
+from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.utils.translation import ugettext_lazy as _
 
@@ -121,10 +121,12 @@ class WeblateUserAdmin(UserAdmin):
         )
 
 
-class WeblateGroupAdmin(GroupAdmin):
+class WeblateGroupAdmin(WeblateModelAdmin):
     save_as = True
     model = Group
     inlines = [InlineAutoGroupAdmin]
+    search_fields = ('name',)
+    ordering = ('name',)
     list_filter = ('internal', 'project_selection', 'language_selection')
     filter_horizontal = ('roles', 'projects', 'languages')
 
