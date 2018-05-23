@@ -9,10 +9,7 @@ from django.db.models import Q
 from weblate.auth.data import ACL_GROUPS, SELECTION_MANUAL, SELECTION_ALL
 
 
-def handle_project(project):
-    Group = apps.get_model('weblate_auth', 'Group')
-    Role = apps.get_model('weblate_auth', 'Role')
-
+def handle_project(Group, Role, project):
     group = Group.objects.get_or_create(
         internal=True,
         name='{}@Billing'.format(project.name),
@@ -31,14 +28,16 @@ def run_migration(apps, schema_editor):
     if 'weblate.billing' not in settings.INSTALLED_APPS:
         return
     Project = apps.get_model('trans', 'Project')
+    Group = apps.get_model('weblate_auth', 'Group')
+    Role = apps.get_model('weblate_auth', 'Role')
     Billing = apps.get_model('billing', 'Billing')
 
     # Private and protected projects
     for project in Project.objects.filter(access_control__in=(1, 100)):
-        handle_project(project)
+        handle_project(Group, Role, project)
     for billing in Billing.objects.all():
         for project in billing.projects:
-            handle_project(project)
+            handle_project(Group, Role, project)
 
 
 if 'weblate.billing' in settings.INSTALLED_APPS:
