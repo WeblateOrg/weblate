@@ -17,7 +17,7 @@ def run_migration(apps, schema_editor):
     Role = apps.get_model('weblate_auth', 'Role')
     Project = apps.get_model('trans', 'Project')
     # Private and protected projects
-    for project in Project.objects.filter(Q(billing__pk__gt=0) | access_control__in=(1, 100)):
+    for project in Project.objects.filter(Q(billing__pk__gt=0) | Q(access_control__in=(1, 100))):
         group = Group.objects.get_or_create(
             internal=True,
             name='{}@Billing'.format(project.name),
