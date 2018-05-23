@@ -26,6 +26,7 @@ from appconf import AppConf
 from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.db import models
+from django.db.models import Q
 from django.db.models.signals import (
     post_save, post_migrate, pre_delete, m2m_changed
 )
@@ -487,8 +488,19 @@ def sync_create_groups(sender, **kwargs):
     """Create groups on syncdb."""
     if settings.AUTH_USER_MODEL != 'weblate_auth.User':
         return
-    if sender.label == 'weblate_auth':
-        create_groups(False)
+    if sender.label != 'weblate_auth':
+        return
+
+    # Create default groups
+    create_groups(False)
+
+    # Ensure automatic group assignments are applied
+    groups = Group.objects.exclude(
+        Q(project_selection=SELECTION_MANUAL) &
+        Q(language_selection=SELECTION_MANUAL)
+    )
+    for group in groups:
+        group.save()
 
 
 def auto_assign_group(user):
