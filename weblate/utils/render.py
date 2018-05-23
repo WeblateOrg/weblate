@@ -56,5 +56,5 @@ def render_template(template, translation=None, **kwargs):
         template,
         engine=RestrictedEngine(),
     ).render(
-        Context(context),
+        Context(context, autoescape=False),
     )
