@@ -44,7 +44,6 @@ class CommentManager(models.Manager):
         Change.objects.create(
             unit=unit,
             action=Change.ACTION_COMMENT,
-            translation=unit.translation,
             user=user,
             author=user
         )

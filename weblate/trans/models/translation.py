@@ -299,7 +299,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 )
                 Change.objects.create(
                     unit=newunit,
-                    translation=self,
                     action=Change.ACTION_DUPLICATE_STRING,
                     user=user,
                     author=user
