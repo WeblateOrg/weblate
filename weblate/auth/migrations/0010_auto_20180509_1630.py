@@ -36,7 +36,7 @@ def run_migration(apps, schema_editor):
     for project in Project.objects.filter(access_control__in=(1, 100)):
         handle_project(Group, Role, project)
     for billing in Billing.objects.all():
-        for project in billing.projects:
+        for project in billing.projects.all():
             handle_project(Group, Role, project)
 
 
