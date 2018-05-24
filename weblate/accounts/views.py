@@ -298,7 +298,7 @@ def user_profile(request):
         from weblate.billing.models import Billing
         billings = Billing.objects.filter(
             projects__in=request.user.projects_with_perm('billing.view')
-        )
+        ).distinct()
 
     result = render(
         request,
