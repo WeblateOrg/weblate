@@ -1,0 +1,22 @@
+version: '2'
+
+##########
+# WARNING!
+# This docker-compose file is meant to be used in the development process
+# and WILL perform very poorly in production.
+#
+# For production-ready docker-compose file see:
+# https://github.com/WeblateOrg/docker
+#########
+
+services:
+  weblate:
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    ports:
+      - 127.0.0.1:8080:8080
+    volumes:
+      - $PWD:/srv
+    working_dir: /srv
+    entrypoint: sh -c "./manage.py migrate && ./manage.py createadmin --update --password admin && ./manage.py runserver 0.0.0.0:8080"
