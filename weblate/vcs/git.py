@@ -290,16 +290,16 @@ class GitRepository(Repository):
 
         self.branch = branch
 
-    def configure_branch(self, branch):
-        """Configure repository branch."""
+    def has_branch(self, branch):
         # Get List of current branches in local repository
         # (we get additional * there indicating current branch)
         branches = [x.strip() for x in self.execute(['branch']).splitlines()]
-        if '* {0}'.format(branch) in branches:
-            return
+        return '* {0}'.format(branch) in branches
 
+    def configure_branch(self, branch):
+        """Configure repository branch."""
         # Add branch
-        if branch not in branches:
+        if not self.has_branch(branch):
             self.execute(
                 ['checkout', '-b', branch, 'origin/{0}'.format(branch)]
             )
