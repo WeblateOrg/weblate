@@ -295,8 +295,10 @@ class GitRepository(Repository):
     def has_branch(self, branch):
         # Get List of current branches in local repository
         # (we get additional * there indicating current branch)
-        branches = [x.strip() for x in self.execute(['branch']).splitlines()]
-        return '* {0}'.format(branch) in branches
+        branches = [
+            x.lstrip('*').strip() for x in self.execute(['branch']).splitlines()
+        ]
+        return branch in branches
 
     def configure_branch(self, branch):
         """Configure repository branch."""
