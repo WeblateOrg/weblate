@@ -114,6 +114,8 @@ class GitRepository(Repository):
             self.execute(['merge', '--abort'])
             self.execute(['checkout', self.branch])
         else:
+            if self.has_branch(tmp):
+                self.execute(['branch', '-D', tmp])
             # We don't do simple git merge origin/branch as that leads
             # to different merge order than expected and most GUI tools
             # then show confusing diff (not changes done by Weblate, but
