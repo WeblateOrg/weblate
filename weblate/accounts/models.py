@@ -47,8 +47,6 @@ from weblate.utils.validators import validate_editor
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.fields import JSONField
 
-DEMO_ACCOUNTS = ('demo', 'review')
-
 ACCOUNT_ACTIVITY = {
     'password': _(
         'Password has been changed.'

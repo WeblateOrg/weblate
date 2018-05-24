@@ -53,6 +53,8 @@ from weblate.utils.validators import (
     validate_fullname, validate_username, validate_email,
 )
 
+DEMO_ACCOUNTS = ('demo', 'review')
+
 
 @python_2_unicode_compatible
 class Permission(models.Model):
@@ -317,13 +319,17 @@ class User(AbstractBaseUser):
     def clear_cache(self):
         self.perm_cache = {}
 
-    @property
+    @cached_property
     def is_anonymous(self):
         return self.username == settings.ANONYMOUS_USER_NAME
 
-    @property
+    @cached_property
     def is_authenticated(self):
         return not self.is_anonymous
+
+    @cached_property
+    def is_demo(self):
+        return settings.DEMO_SERVER and self.username in DEMO_ACCOUNTS
 
     def get_full_name(self):
         return self.full_name

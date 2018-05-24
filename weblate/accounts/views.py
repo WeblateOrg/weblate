@@ -63,7 +63,7 @@ from weblate.accounts.forms import (
 from weblate.accounts.ratelimit import check_rate_limit
 from weblate.logger import LOGGER
 from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
-from weblate.accounts.models import set_lang, Profile, DEMO_ACCOUNTS
+from weblate.accounts.models import set_lang, Profile
 from weblate.accounts.utils import remove_user
 from weblate.utils import messages
 from weblate.trans.models import Change, Project, Component, Suggestion
@@ -188,7 +188,7 @@ def deny_demo(request):
 def avoid_demo(function):
     """Avoid page being served to demo account."""
     def demo_wrap(request, *args, **kwargs):
-        if settings.DEMO_SERVER and request.user.username in DEMO_ACCOUNTS:
+        if request.user.is_demo:
             return deny_demo(request)
         return function(request, *args, **kwargs)
     return demo_wrap
@@ -248,7 +248,7 @@ def user_profile(request):
         forms = [form(request.POST, instance=profile) for form in form_classes]
         forms.append(UserForm(request.POST, instance=request.user))
 
-        if settings.DEMO_SERVER and request.user.username in DEMO_ACCOUNTS:
+        if request.user.is_demo:
             return deny_demo(request)
 
         if all(form.is_valid() for form in forms):
