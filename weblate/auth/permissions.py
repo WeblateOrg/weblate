@@ -166,10 +166,12 @@ def check_edit_approved(user, permission, obj):
 
 @register_perm('unit.add')
 @cache_perm
-def check_only_template(user, permission, obj):
-    if not obj.is_template:
+def check_unit_add(user, permission, translation):
+    if not translation.is_template:
         return False
-    return check_can_edit(user, permission, obj)
+    if not translation.component.file_format_cls.can_add_unit:
+        return False
+    return check_can_edit(user, permission, translation)
 
 
 @register_perm('suggestion.vote')
