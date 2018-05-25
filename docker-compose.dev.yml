@@ -11,6 +11,7 @@ version: '2'
 
 services:
   weblate:
+    image: weblate-dev:latest
     build:
       context: .
       dockerfile: dev.Dockerfile
@@ -18,5 +19,3 @@ services:
       - 127.0.0.1:8080:8080
     volumes:
       - $PWD:/srv
-    working_dir: /srv
-    entrypoint: sh -c "./manage.py migrate && ./manage.py createadmin --update --password admin && ./manage.py runserver 0.0.0.0:8080"

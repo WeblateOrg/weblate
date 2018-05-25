@@ -9,4 +9,15 @@ FROM weblate/weblate:edge
 # https://github.com/WeblateOrg/docker/tree/docker
 #########
 
+WORKDIR /srv
+
 # TODO: put some new dependencies here
+
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+ENTRYPOINT
+
+CMD sh -c "./manage.py migrate \
+    && ./manage.py createadmin --update --password admin \
+    && ./manage.py runserver 0.0.0.0:8080"
