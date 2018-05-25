@@ -256,7 +256,7 @@
 </div>
 {% endif %}
 
-{% if object.is_template and object.component.file_format_cls.can_add_unit and user_can_add_unit %}
+{% if object.is_template and user_can_add_unit %}
 <div class="tab-pane" id="new">
 <form action="{% url 'new-unit' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" method="post">
 <div class="panel panel-primary">
