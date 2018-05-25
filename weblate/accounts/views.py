@@ -863,7 +863,7 @@ class SuggestionView(ListView):
         else:
             user = get_object_or_404(User, username=self.kwargs['user'])
         result['page_user'] = user
-        result['page_profile'] = user.profile
+        result['page_profile'] = Profile.objects.get_or_create(user=user)[0]
         return result
 
 
