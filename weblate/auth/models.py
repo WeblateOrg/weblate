@@ -373,13 +373,10 @@ class User(AbstractBaseUser):
     # pylint: disable=keyword-arg-before-vararg
     def has_perm(self, perm, obj=None, *args):
         """Permission check"""
-        # Superuser has all permissions
-        if self.is_superuser:
-            return True
-
         # Compatibility API for admin interface
         if obj is None:
-            return False
+            # Superuser has all permissions
+            return self.is_superuser
 
         # Validate perms, this is expensive to perform, so this only in test by
         # default
