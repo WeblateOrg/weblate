@@ -162,6 +162,10 @@ def vcs_service_hook(request, service):
         report_error(error, sys.exc_info())
         return HttpResponseBadRequest('Invalid data in json payload!')
 
+    # This happens on ping request upon installation
+    if service_data is None:
+        return hook_response('Hook working')
+
     # Log data
     service_long_name = service_data['service_long_name']
     repos = service_data['repos']
@@ -276,6 +280,8 @@ def bitbucket_hook_helper(data):
 @register_hook
 def github_hook_helper(data):
     """API to handle commit hooks from GitHub."""
+    if 'ref' not in data and 'zen' in data:
+        return None
     # Parse owner, branch and repository name
     o_data = data['repository']['owner']
     owner = o_data['login'] if 'login' in o_data else o_data['name']
