@@ -123,11 +123,12 @@ def update_project(request, project):
 
 
 def parse_hook_payload(request):
-    """Parse hook payload."""
-    # GitLab sends json as application/json
+    """Parse hook payload.
+
+    We handle both application/x-www-form-urlencoded and application/json.
+    """
     if request.META['CONTENT_TYPE'] == 'application/json':
         return json.loads(request.body.decode('utf-8'))
-    # Bitbucket and GitHub sends json as x-www-form-data
     return json.loads(request.POST['payload'])
 
 
