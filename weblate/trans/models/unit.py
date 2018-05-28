@@ -535,7 +535,6 @@ class Unit(models.Model, LoggerMixin):
         # Create change object for new source string
         if source_created:
             Change.objects.create(
-                translation=self.translation,
                 action=Change.ACTION_NEW_SOURCE,
                 unit=self,
             )
@@ -721,7 +720,6 @@ class Unit(models.Model, LoggerMixin):
             update_index_unit(unit)
             Change.objects.create(
                 unit=unit,
-                translation=unit.translation,
                 action=Change.ACTION_SOURCE_CHANGE,
                 user=user,
                 author=user,
@@ -759,7 +757,6 @@ class Unit(models.Model, LoggerMixin):
         # Create change object
         Change.objects.create(
             unit=self,
-            translation=self.translation,
             action=action,
             user=request.user,
             author=author,

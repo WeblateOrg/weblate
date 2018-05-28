@@ -26,6 +26,7 @@ from appconf import AppConf
 from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.db import models
+from django.db.models import Q
 from django.db.models.signals import (
     post_save, post_migrate, pre_delete, m2m_changed
 )
@@ -51,6 +52,8 @@ from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.validators import (
     validate_fullname, validate_username, validate_email,
 )
+
+DEMO_ACCOUNTS = ('demo', 'review')
 
 
 @python_2_unicode_compatible
@@ -271,6 +274,7 @@ class User(AbstractBaseUser):
     email = models.EmailField(
         _('Email'),
         blank=False,
+        max_length=190,
         unique=True,
         validators=[validate_email],
     )
@@ -315,13 +319,17 @@ class User(AbstractBaseUser):
     def clear_cache(self):
         self.perm_cache = {}
 
-    @property
+    @cached_property
     def is_anonymous(self):
         return self.username == settings.ANONYMOUS_USER_NAME
 
-    @property
+    @cached_property
     def is_authenticated(self):
         return not self.is_anonymous
+
+    @cached_property
+    def is_demo(self):
+        return settings.DEMO_SERVER and self.username in DEMO_ACCOUNTS
 
     def get_full_name(self):
         return self.full_name
@@ -486,8 +494,19 @@ def sync_create_groups(sender, **kwargs):
     """Create groups on syncdb."""
     if settings.AUTH_USER_MODEL != 'weblate_auth.User':
         return
-    if sender.label == 'weblate_auth':
-        create_groups(False)
+    if sender.label != 'weblate_auth':
+        return
+
+    # Create default groups
+    create_groups(False)
+
+    # Ensure automatic group assignments are applied
+    groups = Group.objects.exclude(
+        Q(project_selection=SELECTION_MANUAL) &
+        Q(language_selection=SELECTION_MANUAL)
+    )
+    for group in groups:
+        group.save()
 
 
 def auto_assign_group(user):
@@ -527,6 +546,8 @@ def auto_group_upon_save(sender, instance, created=False, **kwargs):
 @disable_for_loaddata
 def setup_language_groups(sender, instance, **kwargs):
     """Setup Group objects on language save."""
+    if settings.AUTH_USER_MODEL != 'weblate_auth.User':
+        return
     auto_languages = Group.objects.filter(
         language_selection=SELECTION_ALL
     )

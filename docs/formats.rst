@@ -506,7 +506,8 @@ Nested files are supported as well (see above for requirements), such file can l
 
 .. seealso::
 
-    :doc:`tt:formats/json`
+    :doc:`tt:formats/json`,
+    `i18next JSON Format <https://www.i18next.com/misc/json-format>`_,
     :ref:`addon-weblate.json.customize`,
     :ref:`addon-weblate.cleanup.generic`,
 
@@ -735,7 +736,7 @@ Adding new translations
     In versions prior to 2.18 the behaviour of adding new translations was file
     format specific.
 
-Weblate can automatically start new translation for all of the the file
+Weblate can automatically start new translation for all of the file
 formats.
 
 Some formats expect to start with empty file and only translated

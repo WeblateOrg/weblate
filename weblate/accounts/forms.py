@@ -89,7 +89,7 @@ class EmailField(forms.CharField):
     default_validators = [validate_email]
 
     def __init__(self, *args, **kwargs):
-        kwargs['max_length'] = 254
+        kwargs['max_length'] = 190
         super(EmailField, self).__init__(*args, **kwargs)
 
 

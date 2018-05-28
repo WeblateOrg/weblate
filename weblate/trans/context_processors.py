@@ -28,7 +28,6 @@ from django.conf import settings
 
 import weblate
 import weblate.screenshots.views
-from weblate.accounts.models import DEMO_ACCOUNTS
 from weblate.utils.site import get_site_url
 from weblate.wladmin.models import ConfigurationError
 
@@ -91,7 +90,6 @@ def weblate_context(request):
 
         'offer_hosting': settings.OFFER_HOSTING,
         'demo_server': settings.DEMO_SERVER,
-        'demo_accounts': DEMO_ACCOUNTS,
         'enable_avatars': settings.ENABLE_AVATARS,
         'enable_sharing': settings.ENABLE_SHARING,
 

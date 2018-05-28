@@ -629,6 +629,9 @@ Notable configuration or dependencies changes:
   privileges you have manually assigned.
 * The per component scripts are no longer supported, please use addons instead,
   see :ref:`addon-script` for more details.
+* Users now need to have unique emails. This was assumed before, but the check
+  was not enforced in all places (eg. in the admin interface in older version).
+  You will get a migration error if there are more users using same email.
 
 Upgrading steps:
 

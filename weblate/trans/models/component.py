@@ -824,7 +824,7 @@ class Component(models.Model, URLMixin, PathMixin):
         )
         if self.id:
             Change.objects.create(
-                component=self, translation=translation,
+                component=self,
                 action=Change.ACTION_PARSE_ERROR,
             )
         raise ParseError(str(error))

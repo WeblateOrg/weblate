@@ -83,7 +83,7 @@ PERMISSIONS = (
 
     ('vcs.access', _('Access the internal repository')),
     ('vcs.commit', _('Commit changes to the internal repository')),
-    ('vcs.push', _('Push change from the the internal repository')),
+    ('vcs.push', _('Push change from the internal repository')),
     ('vcs.reset', _('Reset changes in the internal repository')),
     ('vcs.view', _('View upstream repository location')),
     ('vcs.update', _('Update the internal repository')),

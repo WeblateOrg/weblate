@@ -114,6 +114,8 @@ class GitRepository(Repository):
             self.execute(['merge', '--abort'])
             self.execute(['checkout', self.branch])
         else:
+            if self.has_branch(tmp):
+                self.execute(['branch', '-D', tmp])
             # We don't do simple git merge origin/branch as that leads
             # to different merge order than expected and most GUI tools
             # then show confusing diff (not changes done by Weblate, but
@@ -290,16 +292,18 @@ class GitRepository(Repository):
 
         self.branch = branch
 
-    def configure_branch(self, branch):
-        """Configure repository branch."""
+    def has_branch(self, branch):
         # Get List of current branches in local repository
         # (we get additional * there indicating current branch)
-        branches = [x.strip() for x in self.execute(['branch']).splitlines()]
-        if '* {0}'.format(branch) in branches:
-            return
+        branches = [
+            x.lstrip('*').strip() for x in self.execute(['branch']).splitlines()
+        ]
+        return branch in branches
 
+    def configure_branch(self, branch):
+        """Configure repository branch."""
         # Add branch
-        if branch not in branches:
+        if not self.has_branch(branch):
             self.execute(
                 ['checkout', '-b', branch, 'origin/{0}'.format(branch)]
             )

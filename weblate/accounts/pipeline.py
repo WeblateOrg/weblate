@@ -43,7 +43,7 @@ from weblate.accounts.notifications import (
     send_notification_email, notify_account_activity
 )
 from weblate.accounts.templatetags.authnames import get_auth_name
-from weblate.accounts.models import VerifiedEmail, DEMO_ACCOUNTS
+from weblate.accounts.models import VerifiedEmail
 from weblate.utils import messages
 from weblate.utils.validators import clean_fullname, USERNAME_MATCHER
 from weblate import USER_AGENT
@@ -213,7 +213,7 @@ def verify_open(strategy, backend, user, weblate_action, **kwargs):
         raise AuthMissingParameter(backend, 'disabled')
 
     # Avoid adding associations to demo user
-    if user and settings.DEMO_SERVER and user.username in DEMO_ACCOUNTS:
+    if user and user.is_demo:
         raise AuthMissingParameter(backend, 'demo')
 
     # Ensure it's still same user

@@ -65,7 +65,6 @@ class SuggestionManager(models.Manager):
             Change.objects.create(
                 unit=aunit,
                 action=Change.ACTION_SUGGESTION,
-                translation=aunit.translation,
                 user=user,
                 target=target,
                 author=user
@@ -172,7 +171,6 @@ class Suggestion(UnitData, UserDisplayMixin):
             Change.objects.create(
                 unit=unit,
                 action=change,
-                translation=unit.translation,
                 user=user,
                 target=self.target,
                 author=user

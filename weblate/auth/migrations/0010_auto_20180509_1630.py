@@ -4,38 +4,54 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 from django.db import migrations
+from django.db.models import Q
 
 from weblate.auth.data import ACL_GROUPS, SELECTION_MANUAL, SELECTION_ALL
+
+
+def handle_project(Group, Role, project):
+    group = Group.objects.get_or_create(
+        internal=True,
+        name='{}@Billing'.format(project.name),
+        project_selection=SELECTION_MANUAL,
+        language_selection=SELECTION_ALL,
+    )[0]
+    group.projects.add(project)
+    group.roles.set(
+        Role.objects.filter(name=ACL_GROUPS['Billing']),
+        clear=True
+    )
 
 
 def run_migration(apps, schema_editor):
     """Create new Billing group."""
     if 'weblate.billing' not in settings.INSTALLED_APPS:
         return
+    Project = apps.get_model('trans', 'Project')
     Group = apps.get_model('weblate_auth', 'Group')
     Role = apps.get_model('weblate_auth', 'Role')
-    Project = apps.get_model('trans', 'Project')
+    Billing = apps.get_model('billing', 'Billing')
+
     # Private and protected projects
     for project in Project.objects.filter(access_control__in=(1, 100)):
-        group = Group.objects.create(
-            internal=True,
-            name='{}@Billing'.format(project.name),
-            project_selection=SELECTION_MANUAL,
-            language_selection=SELECTION_ALL,
-        )
-        group.projects.add(project)
-        group.roles.set(
-            Role.objects.filter(name=ACL_GROUPS['Billing']),
-            clear=True
-        )
+        handle_project(Group, Role, project)
+    for billing in Billing.objects.all():
+        for project in billing.projects.all():
+            handle_project(Group, Role, project)
+
+
+if 'weblate.billing' in settings.INSTALLED_APPS:
+    billing_dep = [('billing', '0014_plan_change_access_control')]
+else:
+    billing_dep = []
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
         ('weblate_auth', '0009_auto_20180509_1552'),
-    ]
+    ] + billing_dep
 
     operations = [
-        migrations.RunPython(run_migration)
+        migrations.RunPython(run_migration, reverse_code=run_migration)
     ]

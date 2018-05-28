@@ -453,4 +453,7 @@ LOCALE_ALIASES = {
     'dk': 'da',
     'gr': 'el',
     'rs': 'sr',
+    'jpn': 'ja',
+    'swe': 'sv',
+    'zho': 'zh_Hant',
 }

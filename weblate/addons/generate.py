@@ -39,6 +39,7 @@ class GenerateFileAddon(BaseAddon):
         'about the translation.'
     )
     settings_form = GenerateForm
+    multiple = True
     icon = 'bar-chart'
 
     @classmethod

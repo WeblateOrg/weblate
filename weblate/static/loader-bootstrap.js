@@ -335,7 +335,7 @@ function processMachineTranslation(data) {
 
                 $(this).find('.mt-number').html(
                     ' <span class="badge kbd-badge" title="' +
-                    interpolate(gettext('Alt+M then %s'), [key]) +
+                    interpolate(gettext('Ctrl+M then %s'), [key]) +
                     '">' +
                     key +
                     '</span>'
@@ -1093,7 +1093,7 @@ $(function () {
 
                 $(this).find('.check-number').html(
                     ' <span class="badge kbd-badge" title="' +
-                    interpolate(gettext('Alt+I then %s'), [key]) +
+                    interpolate(gettext('Ctrl+I then %s'), [key]) +
                     '">' +
                     key +
                     '</span>'

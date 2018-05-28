@@ -32,6 +32,7 @@ class BaseAddon(object):
     settings_form = None
     name = None
     compat = {}
+    multiple = False
     verbose = 'Base addon'
     description = 'Base addon'
     icon = 'cog'

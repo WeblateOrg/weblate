@@ -47,8 +47,6 @@ from weblate.utils.validators import validate_editor
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.fields import JSONField
 
-DEMO_ACCOUNTS = ('demo', 'review')
-
 ACCOUNT_ACTIVITY = {
     'password': _(
         'Password has been changed.'
@@ -186,7 +184,7 @@ class AuditLog(models.Model):
         return None
 
     def should_notify(self):
-        return self.activity in NOTIFY_ACTIVITY
+        return self.activity in NOTIFY_ACTIVITY and not self.user.is_demo
 
     def __str__(self):
         return '{0} for {1} from {2}'.format(
