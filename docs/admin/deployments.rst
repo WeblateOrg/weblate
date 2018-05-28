@@ -438,10 +438,19 @@ both Weblate and PostgreSQL containers.
 Caching server setup
 ~~~~~~~~~~~~~~~~~~~~
 
-Using memcached is strongly recommended by Weblate and you have to provide
-memcached instance when running Weblate in Docker.
+Using redis is strongly recommended by Weblate and you have to provide redis
+instance when running Weblate in Docker. Additionally memcached is supported
+for compatibility with older deployments.
 
 .. seealso:: :ref:`production-cache`
+
+.. envvar:: REDIS_HOST
+
+   The memcached server hostname or IP adress. Defaults to ``cache``.
+
+.. envvar:: REDIS_PORT
+
+    The memcached server port. Defaults to ``6379``.
 
 .. envvar:: MEMCACHED_HOST
 
