@@ -118,8 +118,10 @@ class GitRepository(Repository):
         """Merge remote branch or reverts the merge."""
         tmp = 'weblate-merge-tmp'
         if abort:
+            # Abort merge if there is one to abort
             if self.has_rev('MERGE_HEAD'):
                 self.execute(['merge', '--abort'])
+            # Checkout original branch (we might be on tmp)
             self.execute(['checkout', self.branch])
         else:
             if self.has_branch(tmp):
@@ -134,7 +136,11 @@ class GitRepository(Repository):
             # Checkout upstream branch
             self.execute(['checkout', tmp])
             # Merge current Weblate changes, this can lead to conflict
-            self.execute(['merge', self.branch])
+            self.execute([
+                'merge',
+                '-m', "Merge branch '{}' into Weblate".format(remote),
+                self.branch
+            ])
             # Checkout branch with Weblate changes
             self.execute(['checkout', self.branch])
             # Merge temporary branch (this is fast forward so does not create
