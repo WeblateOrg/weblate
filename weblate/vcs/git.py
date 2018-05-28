@@ -107,11 +107,19 @@ class GitRepository(Repository):
         else:
             self.execute(['rebase', 'origin/{0}'.format(self.branch)])
 
+    def has_rev(self, rev):
+        try:
+            self.execute(['rev-parse', '--verify', rev], needs_lock=False)
+            return True
+        except RepositoryException as error:
+            return False
+
     def merge(self, abort=False):
         """Merge remote branch or reverts the merge."""
         tmp = 'weblate-merge-tmp'
         if abort:
-            self.execute(['merge', '--abort'])
+            if self.has_rev('MERGE_HEAD'):
+                self.execute(['merge', '--abort'])
             self.execute(['checkout', self.branch])
         else:
             if self.has_branch(tmp):
