@@ -61,6 +61,8 @@ def cache_perm(func):
 @cache_perm
 def check_permission(user, permission, obj):
     """Generic permission check for base classes"""
+    if user.is_superuser:
+        return True
     query = user.groups.filter(roles__permissions__codename=permission)
     if isinstance(obj, Project):
         return query.filter(

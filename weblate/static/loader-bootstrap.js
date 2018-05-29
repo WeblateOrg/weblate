@@ -1015,6 +1015,11 @@ $(function () {
             .submit();
     });
 
+    /* Check if browser provides native datapicker */
+    if(Modernizr.inputtypes.date) {
+        $(document).off('.datepicker.data-api');
+    }
+
     /* Datepicker localization */
     var week_start = '1';
 

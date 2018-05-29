@@ -31,7 +31,7 @@ from crispy_forms.bootstrap import TabHolder, Tab, InlineRadios
 from django import forms
 from django.core.exceptions import PermissionDenied
 from django.utils.translation import (
-    ugettext_lazy as _, ugettext, pgettext_lazy, pgettext
+    ugettext_lazy as _, ugettext, pgettext_lazy, pgettext, get_language,
 )
 from django.urls import reverse
 from django.forms.utils import from_current_timezone
@@ -311,6 +311,9 @@ class PluralTextarea(forms.Textarea):
                     label = ugettext('Translation')
             else:
                 label = plural.get_plural_label(idx)
+            if (not unit.translation.is_template and
+                    get_language() != lang.code):
+                label += ' <span class="badge">{}</span>'.format(lang)
             ret.append(
                 EDITOR_TEMPLATE.format(
                     self.get_toolbar(lang, fieldid, unit, idx),

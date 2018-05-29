@@ -382,6 +382,17 @@ class HooksViewTest(ViewTestCase):
         self.assertContains(response, 'Update triggered')
 
     @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
+    def test_view_hook_github_ping(self):
+        # Adjust matching repo
+        self.component.repo = 'git://github.com/defunkt/github.git'
+        self.component.save()
+        response = self.client.post(
+            reverse('hook-github'),
+            {'payload': '{"zen": "Approachable is better than simple."}'}
+        )
+        self.assertContains(response, 'Hook working')
+
+    @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
     def test_view_hook_github_auth(self):
         # Adjust matching repo
         self.component.repo = 'https://user:pwd@github.com/defunkt/github.git'

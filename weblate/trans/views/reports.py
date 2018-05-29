@@ -68,7 +68,7 @@ def get_credits(request, project, component):
     """View for credits"""
     obj = get_component(request, project, component)
 
-    if not request.user.has_perm('report.view', obj):
+    if not request.user.has_perm('reports.view', obj):
         raise PermissionDenied()
 
     form = ReportsForm(request.POST)
@@ -178,7 +178,7 @@ def get_counts(request, project, component):
     """View for work counts"""
     obj = get_component(request, project, component)
 
-    if not request.user.has_perm('report.view', obj):
+    if not request.user.has_perm('reports.view', obj):
         raise PermissionDenied()
 
     form = ReportsForm(request.POST)

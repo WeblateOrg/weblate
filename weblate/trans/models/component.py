@@ -156,6 +156,13 @@ class Component(models.Model, URLMixin, PathMixin):
             'for sharing with other component.'
         ),
     )
+    linked_component = models.ForeignKey(
+        'Component',
+        verbose_name=ugettext_lazy('Project'),
+        on_delete=models.deletion.CASCADE,
+        null=True,
+        editable=False,
+    )
     push = models.CharField(
         verbose_name=ugettext_lazy('Repository push URL'),
         max_length=200,
@@ -501,11 +508,6 @@ class Component(models.Model, URLMixin, PathMixin):
         return self.new_lang != 'none'
 
     @cached_property
-    def linked_component(self):
-        """Return component for linked repo."""
-        return Component.objects.get_linked(self.repo)
-
-    @cached_property
     def repository(self):
         """Get VCS repository object."""
         if self.is_repo_link:
@@ -773,18 +775,9 @@ class Component(models.Model, URLMixin, PathMixin):
     def get_repo_link_url(self):
         return 'weblate://{0}/{1}'.format(self.project.slug, self.slug)
 
-    def set_linked_cache(self, linked):
-        """Store linked component cache"""
-        self.__dict__['linked_component'] = linked
-
     def get_linked_childs(self):
         """Return list of components which link repository to us."""
-        result = Component.objects.prefetch().filter(
-            repo=self.get_repo_link_url()
-        )
-        for child in result:
-            child.set_linked_cache(self)
-        return result
+        return self.component_set.prefetch()
 
     def commit_pending(self, request, from_link=False, skip_push=False):
         """Check whether there is any translation which needs commit."""
@@ -1298,6 +1291,9 @@ class Component(models.Model, URLMixin, PathMixin):
         """
         self.set_default_branch()
 
+        # Linked component cache
+        self.linked_component = Component.objects.get_linked(self.repo)
+
         # Detect if VCS config has changed (so that we have to pull the repo)
         changed_git = True
         changed_setup = False
@@ -1325,7 +1321,7 @@ class Component(models.Model, URLMixin, PathMixin):
             self.check_rename(old)
             # Rename linked repos
             if old.slug != self.slug:
-                old.get_linked_childs().update(repo=self.get_repo_link_url())
+                old.component_set.update(repo=self.get_repo_link_url())
 
         # Remove leading ./ from paths
         self.filemask = cleanup_path(self.filemask)

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-05-23 22:42+0000\n"
-"PO-Revision-Date: 2018-05-27 14:40+0000\n"
+"PO-Revision-Date: 2018-05-28 21:14+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
 "master/nb/>\n"
@@ -119,10 +119,8 @@ msgid "Activation email will be sent here."
 msgstr "Aktiverings-e-post vil bli sendt hit."
 
 #: weblate/accounts/forms.py:383
-#, fuzzy
-#| msgid "Too many registration attempts!"
 msgid "Too many registration attempts from this location!"
-msgstr "For mange registreringsforsøk!"
+msgstr "For mange registreringsforsøk fra denne plasseringen!"
 
 #: weblate/accounts/forms.py:390
 msgid "New password"
@@ -182,10 +180,8 @@ msgid "This account is inactive."
 msgstr "Denne kontoen er inaktiv."
 
 #: weblate/accounts/forms.py:544
-#, fuzzy
-#| msgid "Too many authentication attempts!"
 msgid "Too many authentication attempts from this location!"
-msgstr "For mange innloggingsforsøk!"
+msgstr "For mange innloggingsforsøk fra denne plasseringen!"
 
 #: weblate/accounts/forms.py:602 weblate/templates/addons/generate_help.html:21
 #: weblate/trans/models/project.py:55
@@ -234,28 +230,24 @@ msgid "Password reset has been confirmed and password has been reset."
 msgstr "Tilbakestilling av passord er bekreftet og er nå utført."
 
 #: weblate/accounts/models.py:63
-#, fuzzy, python-brace-format
-#| msgid "Authentication using {method} ({name}) has been added."
+#, python-brace-format
 msgid "Authentication ({method}:{name}) has been added."
-msgstr "Identitetsbekreftelse med {method}{name} har blitt lagt til."
+msgstr "Identitetsbekreftelse ({method}:{name}) har blitt lagt til."
 
 #: weblate/accounts/models.py:66
-#, fuzzy, python-brace-format
-#| msgid "Authentication using {method} ({name}) has been removed."
+#, python-brace-format
 msgid "Authentication ({method}:{name}) has been removed."
-msgstr "Identitetsbekreftelse med{method}{name} har blitt fjernet."
+msgstr "Identitetsbekreftelse ({method}:{name}) har blitt fjernet."
 
 #: weblate/accounts/models.py:69
-#, fuzzy, python-brace-format
-#| msgid "Authenticated using {method} ({name})."
+#, python-brace-format
 msgid "Authenticated ({method}:{name})."
-msgstr "Identitet bekreftet med {method}{name}."
+msgstr "Identitet bekreftet ({method}:{name})."
 
 #: weblate/accounts/models.py:72
-#, fuzzy, python-brace-format
-#| msgid "Authenticated using {method} ({name}) from new device."
+#, python-brace-format
 msgid "Authenticated ({method}:{name}) from new device."
-msgstr "Identitetsbekreftet med {method} ({name}) fra ny enhet."
+msgstr "Identitetsbekreftet ({method}:{name}) fra ny enhet."
 
 #: weblate/accounts/models.py:75
 msgid "Somebody has attempted to register with your email."
@@ -266,10 +258,9 @@ msgid "Somebody has attempted to add your email to existing account."
 msgstr "Noen har prøvd å legge din e-post til en eksisterende konto."
 
 #: weblate/accounts/models.py:81
-#, fuzzy, python-brace-format
-#| msgid "Failed authentication attempt using {method} ({name})."
+#, python-brace-format
 msgid "Failed authentication attempt ({method}:{name})."
-msgstr "Mislykket identitetsbekreftelsesforsøk med {method}{name}."
+msgstr "Mislykket identitetsbekreftelsesforsøk ({method}:{name})."
 
 #: weblate/accounts/models.py:84
 msgid "Account locked due to excessive failed authentication attempts."
@@ -641,10 +632,8 @@ msgstr ""
 "av ubrukte oversettelsesnøkler, som ikke lenger finnes i basisfila."
 
 #: weblate/addons/consistency.py:33
-#, fuzzy
-#| msgid "Language code"
 msgid "Language consistency"
-msgstr "Språkkode"
+msgstr "Språkkonsistens"
 
 #: weblate/addons/consistency.py:35
 msgid ""
@@ -655,10 +644,8 @@ msgstr ""
 "oversettelser til de samme språkene."
 
 #: weblate/addons/discovery.py:35
-#, fuzzy
-#| msgid "Component list"
 msgid "Component discovery"
-msgstr "Komponentliste"
+msgstr "Komponentoppdagelse"
 
 #: weblate/addons/discovery.py:37
 msgid ""
@@ -726,16 +713,12 @@ msgid "Long lines wrapping"
 msgstr "Linjebrying av lange linjer"
 
 #: weblate/addons/forms.py:85
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines (default gettext behavior)"
 msgid "Wrap lines at 77 chars and at newlines"
-msgstr "Linjebryt på 77 tegn og ved linjeskift (forvalgt gettext-oppførsel)"
+msgstr "Linjebryt på 77 tegn og ved linjeskift"
 
 #: weblate/addons/forms.py:86
-#, fuzzy
-#| msgid "Only wrap lines at newlines (gettext behavior with --no-wrap)"
 msgid "Only wrap lines at newlines"
-msgstr "Linjebryt ved linjeskift (gettext-oppførsel med --no-wrap)"
+msgstr "Kun linjebryt ved linjeskift"
 
 #: weblate/addons/forms.py:87
 msgid "No line wrapping"
@@ -746,6 +729,8 @@ msgid ""
 "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
 "parameter it wraps only at newlines."
 msgstr ""
+"I utgangspunktet deler gettext lenker på 77 tegn og linjeskift. Med "
+"parameteret --no-wrap deler det kun på linjeskift."
 
 #: weblate/addons/forms.py:100
 msgid "Sort JSON keys"
@@ -756,10 +741,8 @@ msgid "JSON indentation"
 msgstr "JSON-innrykk"
 
 #: weblate/addons/forms.py:124
-#, fuzzy
-#| msgid "Regular expression which is used to match user email."
 msgid "Regular expression to match translation files"
-msgstr "Regulært uttrykk som brukes til å matche brukerens e-post."
+msgstr "Regulært uttrykk som brukes til å samsvare med oversettelsesfiler"
 
 #: weblate/addons/forms.py:128 weblate/trans/models/component.py:238
 msgid "File format"
@@ -771,28 +754,22 @@ msgstr ""
 "Automatisk gjenkjenning kan mislykkes for noen formater, og er litt tregere."
 
 #: weblate/addons/forms.py:138
-#, fuzzy
-#| msgid "Component name"
 msgid "Customize the component name"
-msgstr "Komponentnavn"
+msgstr "Tilpass komponentnavnet"
 
 #: weblate/addons/forms.py:143
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Define the monolingual base filename"
-msgstr "Ettspråklig basis-språkfil"
+msgstr "Definer ettspråklig basisfilnavn"
 
 #: weblate/addons/forms.py:146
 #, fuzzy
 #| msgid "Cleanup translation files"
 msgid "Keep empty for bilingual translation files."
-msgstr "Rydd opp i oversettelsesfiler"
+msgstr "Behold tom for tospråklige oversettelsesfiler."
 
 #: weblate/addons/forms.py:149
-#, fuzzy
-#| msgid "Base file for new translations"
 msgid "Define the base file for new translations"
-msgstr "Basisfil for nye oversettelser"
+msgstr "Definer basisfil for nye oversettelser"
 
 #: weblate/addons/forms.py:153 weblate/trans/models/component.py:233
 msgid ""
@@ -823,10 +800,8 @@ msgid "I confirm that the above matches look correct"
 msgstr "Jeg bekrefter at overnevnte treff ser ut til å stemme"
 
 #: weblate/addons/forms.py:235
-#, fuzzy
-#| msgid "Please review and confirm the search and replace results."
 msgid "Please review and confirm matched components."
-msgstr "Se over og bekreft søket og erstatt resultater."
+msgstr "Se over og bekreft samsvarende komponenter."
 
 #: weblate/addons/generate.py:36
 msgid "Statistics generator"
@@ -895,10 +870,8 @@ msgstr ""
 "Tillater tilpasning av gettext-utdataoppførsel, for eksempel linjebryting."
 
 #: weblate/addons/gettext.py:239
-#, fuzzy
-#| msgid "Contributor agreement"
 msgid "Contributors in comment"
-msgstr "Bidragsyteravtale"
+msgstr "Bidragsytere i kommentar"
 
 #: weblate/addons/gettext.py:241
 msgid ""
@@ -953,49 +926,37 @@ msgstr "Viktige datoer"
 #, fuzzy
 #| msgid "More information"
 msgid "View billing information"
-msgstr "Mer informasjon"
+msgstr "Vis faktureringsinformasjon"
 
 #: weblate/auth/data.py:37
-#, fuzzy
-#| msgid "Download latest changes as CSV"
 msgid "Download changes"
-msgstr "Last ned siste endringer som CSV"
+msgstr "Last ned endringer"
 
 #: weblate/auth/data.py:39
-#, fuzzy
-#| msgid "Version control settings"
 msgid "Edit component settings"
-msgstr "Versjonskontrollsystemsinnstillinger"
+msgstr "Rediger komponentinnstillinger"
 
 #: weblate/auth/data.py:40
-#, fuzzy
-#| msgid "Download compiled translation"
 msgid "Lock component from translating"
-msgstr "Last ned kompilert oversettelse"
+msgstr "Lås komponent fra oversettelse"
 
 #: weblate/auth/data.py:42
 #, fuzzy
 #| msgid "Posted new comment"
 msgid "Post comment"
-msgstr "Postet ny kommentar"
+msgstr "Post kommentar"
 
 #: weblate/auth/data.py:43
-#, fuzzy
-#| msgid "New comment"
 msgid "Delete comment"
-msgstr "Ny kommentar"
+msgstr "Slett kommentar"
 
 #: weblate/auth/data.py:45
-#, fuzzy
-#| msgid "Add word to glossary"
 msgid "Add glossary entry"
-msgstr "Legge til ord i ordlisten"
+msgstr "Legg til ordboksoppføring"
 
 #: weblate/auth/data.py:46
-#, fuzzy
-#| msgid "Export glossary"
 msgid "Edit glossary entry"
-msgstr "Eksporter ordliste"
+msgstr "Rediger ordboksoppføring"
 
 #: weblate/auth/data.py:47
 msgid "Delete glossary entry"
@@ -1004,31 +965,23 @@ msgstr "Slett ordboksoppføring"
 #: weblate/auth/data.py:48
 #, fuzzy
 msgid "Upload glossary entries"
-msgstr "Last opp ordboksoppføringer."
+msgstr "Last opp ordboksoppføringer"
 
 #: weblate/auth/data.py:50
-#, fuzzy
-#| msgid "Machine translation suggestions"
 msgid "Use machine translation services"
-msgstr "Maskinoversettelsesforslag"
+msgstr "Bruk tjenester for maskinoversettelsesforslag"
 
 #: weblate/auth/data.py:52
-#, fuzzy
-#| msgid "Edit source string"
 msgid "Edit project settings"
-msgstr "Rediger kildestreng"
+msgstr "Rediger prosjektinnstillinger"
 
 #: weblate/auth/data.py:53
-#, fuzzy
-#| msgid "Managed projects"
 msgid "Manage project access"
-msgstr "Administrerte prosjekter"
+msgstr "Behandle prosjekttilgang"
 
 #: weblate/auth/data.py:55
-#, fuzzy
-#| msgid "Download"
 msgid "Download reports"
-msgstr "Last ned"
+msgstr "Last ned rapporter"
 
 #: weblate/auth/data.py:57
 msgid "Add screenshot"
@@ -1048,31 +1001,23 @@ msgstr "Slett skjermbilde"
 #, fuzzy
 #| msgid "Editing source string"
 msgid "Edit info on source strings"
-msgstr "Redigering av kildestreng"
+msgstr "Rediger info om kildestrenger"
 
 #: weblate/auth/data.py:63
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Accept suggestion"
-msgstr "Godta forslag automatisk"
+msgstr "Godta forslag"
 
 #: weblate/auth/data.py:64
-#, fuzzy
-#| msgid "Add as a suggestion"
 msgid "Add suggestion"
-msgstr "Legg til som forslag"
+msgstr "Legg til forslag"
 
 #: weblate/auth/data.py:65
-#, fuzzy
-#| msgid "Enable suggestions"
 msgid "Delete suggestion"
-msgstr "Tillat forslag"
+msgstr "Slett forslag"
 
 #: weblate/auth/data.py:66
-#, fuzzy
-#| msgid "Enable suggestions"
 msgid "Vote suggestion"
-msgstr "Tillat forslag"
+msgstr "Stem på forslag"
 
 #: weblate/auth/data.py:68 weblate/templates/component.html:60
 #: weblate/templates/component.html:116 weblate/templates/component.html:118
@@ -1082,40 +1027,28 @@ msgid "Start new translation"
 msgstr "Start ny oversettelse"
 
 #: weblate/auth/data.py:69
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Perform automatic translation"
-msgstr "Automatisk oversettelse"
+msgstr "Utfør automatisk oversettelse"
 
 #: weblate/auth/data.py:70
-#, fuzzy
-#| msgid "Overwrite existing translations"
 msgid "Delete existing translation"
-msgstr "Overskriv eksisterende oversettelser"
+msgstr "Slett eksisterende oversettelse"
 
 #: weblate/auth/data.py:71
-#, fuzzy
-#| msgid "Start new translation"
 msgid "Start new translation into more languages"
-msgstr "Start ny oversettelse"
+msgstr "Start ny oversettelse til flere språk"
 
 #: weblate/auth/data.py:73
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new string"
-msgstr "Legge til ny bruker"
+msgstr "Legg til ny streng"
 
 #: weblate/auth/data.py:74
-#, fuzzy
-#| msgid "Failing check"
 msgid "Ignore failing check"
-msgstr "Kontroller som feiler"
+msgstr "Ignorer kontroller som feiler"
 
 #: weblate/auth/data.py:75
-#, fuzzy
-#| msgid "Edit string"
 msgid "Edit strings"
-msgstr "Rediger streng"
+msgstr "Rediger strenger"
 
 #: weblate/auth/data.py:76
 #, fuzzy
@@ -1127,66 +1060,57 @@ msgstr "Overskriv strenger"
 #, fuzzy
 #| msgid "Approved strings with suggestions"
 msgid "Edit string when suggestions are enforced"
-msgstr "Godkjente strenger med forslag"
+msgstr "Rediger streng når forslag kreves"
 
 #: weblate/auth/data.py:78
-#, fuzzy
-#| msgid "Edit source string"
 msgid "Edit source strings"
-msgstr "Rediger kildestreng"
+msgstr "Rediger kildestrenger"
 
 #: weblate/auth/data.py:80
 #, fuzzy
 #| msgid "Base file for new translations"
 msgid "Define author of translation upload"
-msgstr "Basisfil for nye oversettelser"
+msgstr "Definer forfatter av oversettelsesopplasting"
 
 #: weblate/auth/data.py:81
 #, fuzzy
 #| msgid "Overwrite existing translations"
 msgid "Overwrite existing strings with upload"
-msgstr "Overskriv eksisterende oversettelser"
+msgstr "Overskriv eksisterende oversettelser med opplasting"
 
 #: weblate/auth/data.py:82
-#, fuzzy
-#| msgid "Upload translation"
 msgid "Upload translation strings"
-msgstr "Last opp oversettelse"
+msgstr "Last opp oversettelsesstrenger"
 
 #: weblate/auth/data.py:84
 #, fuzzy
 #| msgid "Allow changes to the local repository"
 msgid "Access the internal repository"
-msgstr "Tillat endringer i den lokale pakkebrønnen"
+msgstr "Gå til internt kodelager"
 
 #: weblate/auth/data.py:85
-#, fuzzy
-#| msgid "Commit pending changes to the local repository"
 msgid "Commit changes to the internal repository"
-msgstr "Send ventende endringer til det lokale pakkelageret"
+msgstr "Send endringer til det interne pakkelageret"
 
 #: weblate/auth/data.py:86
 #, fuzzy
 #| msgid "Pull changes from the remote repository"
 msgid "Push change from the internal repository"
-msgstr "Hente endringer fra fjernpakkelageret"
+msgstr "Dytt endringer fra internt kodelager"
 
 #: weblate/auth/data.py:87
 #, fuzzy
 #| msgid "Reset all changes in the local repository"
 msgid "Reset changes in the internal repository"
-msgstr "Tilbakestill alle forandringer i det lokale pakkelageret"
+msgstr "Tilbakestill endringer i lokalt kodelager"
 
 #: weblate/auth/data.py:88
-#, fuzzy
 msgid "View upstream repository location"
-msgstr "Vis hvor oppstrømspakkebrønnen befinner seg"
+msgstr "Vis hvor oppstrømskodelageret befinner seg"
 
 #: weblate/auth/data.py:89
-#, fuzzy
-#| msgid "Update VCS repository"
 msgid "Update the internal repository"
-msgstr "Oppdater VCS-kodelager"
+msgstr "Oppdater det kodelageret"
 
 #: weblate/auth/data.py:111
 #, fuzzy
@@ -1196,11 +1120,9 @@ msgid "Add suggestion"
 msgstr "Legg til som forslag"
 
 #: weblate/auth/data.py:117
-#, fuzzy
-#| msgid "Reset repository"
 msgctxt "Access control role"
 msgid "Access repository"
-msgstr "Tilbakestilt pakkelager"
+msgstr "Gå til kodelager"
 
 #: weblate/auth/data.py:123
 msgctxt "Access control role"
@@ -1215,25 +1137,19 @@ msgid "Translate"
 msgstr "Oversett"
 
 #: weblate/auth/data.py:136
-#, fuzzy
-#| msgid "Edit source string"
 msgctxt "Access control role"
 msgid "Edit source"
-msgstr "Rediger kildestreng"
+msgstr "Rediger kilde"
 
 #: weblate/auth/data.py:140
-#, fuzzy
-#| msgid "Manage your languages"
 msgctxt "Access control role"
 msgid "Manage languages"
-msgstr "Administrer språkene dine"
+msgstr "Behandle språk"
 
 #: weblate/auth/data.py:144
-#, fuzzy
-#| msgid "Manage glossary"
 msgctxt "Access control role"
 msgid "Manage glossary"
-msgstr "Administrer ordbøker"
+msgstr "Behandle ordbok"
 
 #: weblate/auth/data.py:148
 msgctxt "Access control role"
@@ -1245,14 +1161,12 @@ msgstr "Behandle skjermbilder"
 #| msgid "Overwrite strings"
 msgctxt "Access control role"
 msgid "Review strings"
-msgstr "Overskriv strenger"
+msgstr "Gjennomse strenger"
 
 #: weblate/auth/data.py:156
-#, fuzzy
-#| msgid "Merged repository"
 msgctxt "Access control role"
 msgid "Manage repository"
-msgstr "Flettet pakkelager"
+msgstr "Behandle kodelager"
 
 #: weblate/auth/data.py:160
 #, fuzzy
@@ -1274,11 +1188,9 @@ msgid "Guests"
 msgstr "Gjester"
 
 #: weblate/auth/data.py:177
-#, fuzzy
-#| msgid "View"
 msgctxt "Access control group"
 msgid "Viewers"
-msgstr "Visning"
+msgstr "Seere"
 
 #: weblate/auth/data.py:182
 #, fuzzy
@@ -1288,18 +1200,14 @@ msgid "Users"
 msgstr "Brukere"
 
 #: weblate/auth/data.py:187
-#, fuzzy
-#| msgid "Review"
 msgctxt "Access control group"
 msgid "Reviewers"
-msgstr "Gjennomgang"
+msgstr "Korrekturlesere"
 
 #: weblate/auth/data.py:192
-#, fuzzy
-#| msgid "Manage"
 msgctxt "Access control group"
 msgid "Managers"
-msgstr "Administrer"
+msgstr "Ledere"
 
 #: weblate/auth/data.py:200
 msgctxt "Per project access control group"
@@ -1349,10 +1257,8 @@ msgid "Billing"
 msgstr "Fakturering"
 
 #: weblate/auth/models.py:64
-#, fuzzy
-#| msgid "Permissions"
 msgid "Permission"
-msgstr "Tillatelser"
+msgstr "Tillatelse"
 
 #: weblate/auth/models.py:74 weblate/auth/models.py:103
 #: weblate/templates/accounts/user.html:26
@@ -1372,41 +1278,31 @@ msgstr "Roller"
 #, fuzzy
 #| msgid "Choose file format for the report"
 msgid "Choose roles granted to this group."
-msgstr "Velge filformat for rapporten"
+msgstr "Velg roller innvilget til denne gruppen."
 
 #: weblate/auth/models.py:115
-#, fuzzy
-#| msgid "Project Information"
 msgid "Project selection"
-msgstr "Prosjektinformasjon"
+msgstr "Prosjektutvalg"
 
 #: weblate/auth/models.py:117 weblate/auth/models.py:141
-#, fuzzy
-#| msgid "Access denied."
 msgid "As defined"
-msgstr "Ingen tilgang."
+msgstr "Som definert"
 
 #: weblate/auth/models.py:118 weblate/templates/index.html:51
 msgid "All projects"
 msgstr "Alle prosjekter"
 
 #: weblate/auth/models.py:119
-#, fuzzy
-#| msgid "All projects"
 msgid "All public projects"
-msgstr "Alle prosjekter"
+msgstr "Alle offentlige prosjekter"
 
 #: weblate/auth/models.py:120
-#, fuzzy
-#| msgid "All projects"
 msgid "All protected projects"
-msgstr "Alle prosjekter"
+msgstr "Alle beskyttede prosjekter"
 
 #: weblate/auth/models.py:121
-#, fuzzy
-#| msgid "Component list"
 msgid "From component list"
-msgstr "Komponentliste"
+msgstr "Fra komponentliste"
 
 #: weblate/auth/models.py:127 weblate/billing/admin.py:52
 #: weblate/billing/models.py:124 weblate/templates/accounts/user.html:38
@@ -1417,10 +1313,8 @@ msgid "Projects"
 msgstr "Prosjekter"
 
 #: weblate/auth/models.py:139
-#, fuzzy
-#| msgid "Language code"
 msgid "Language selection"
-msgstr "Språkkode"
+msgstr "Språkvalg"
 
 #: weblate/auth/models.py:142 weblate/trans/forms.py:1096
 msgid "All languages"
@@ -1438,28 +1332,20 @@ msgid "Languages"
 msgstr "Språk"
 
 #: weblate/auth/models.py:153
-#, fuzzy
-#| msgid "Weblate administration"
 msgid "Weblate internal group"
-msgstr "Weblate-administrasjon"
+msgstr "Intern Weblate-gruppe"
 
 #: weblate/auth/models.py:254
-#, fuzzy
-#| msgid "Username"
 msgid "username"
-msgstr "Brukernavn"
+msgstr "brukernavn"
 
 #: weblate/auth/models.py:263
-#, fuzzy
-#| msgid "Translation with this key seem to already exist!"
 msgid "A user with that username already exists."
-msgstr "Oversettelse med denne nøkkelen ser ut til å finnes allerede!"
+msgstr "En bruker med det brukernavnet finnes allerede."
 
 #: weblate/auth/models.py:280
-#, fuzzy
-#| msgid "Service status"
 msgid "superuser status"
-msgstr "Tjenestestatus"
+msgstr "superbrukerstatus"
 
 #: weblate/auth/models.py:283
 #, fuzzy
@@ -1470,10 +1356,8 @@ msgstr ""
 "Befordrer at denne brukeren har alle tilganger, uten å spesifikt tildele dem."
 
 #: weblate/auth/models.py:288
-#, fuzzy
-#| msgid "Active"
 msgid "active"
-msgstr "Aktiv"
+msgstr "aktiv"
 
 #: weblate/auth/models.py:291
 #, fuzzy
@@ -1489,10 +1373,8 @@ msgid "Date joined"
 msgstr "Dato innmeldt"
 
 #: weblate/auth/models.py:298
-#, fuzzy
-#| msgid "Group ACLs"
 msgid "Groups"
-msgstr "Gruppe ACL-er"
+msgstr "Grupper"
 
 #: weblate/auth/models.py:301
 #, fuzzy
@@ -1952,10 +1834,8 @@ msgid "DTD file"
 msgstr "DTD-fil"
 
 #: weblate/formats/ttkit.py:702
-#, fuzzy
-#| msgid "CSV file"
 msgid "RC file"
-msgstr "CSV-fil"
+msgstr "RC-fil"
 
 #: weblate/lang/apps.py:28
 msgid "Weblate languages"
@@ -2289,16 +2169,12 @@ msgid "We use cookies to deliver our services."
 msgstr "Vi bruker noen kaker for å levere våre tjenester."
 
 #: weblate/legal/templates/legal/privacy.html:7 weblate/legal/views.py:57
-#, fuzzy
-#| msgid "Private"
 msgid "Privacy"
-msgstr "Privat"
+msgstr "Personvern"
 
 #: weblate/legal/templates/legal/privacy.html:17
-#, fuzzy
-#| msgid "Security Policy"
 msgid "Privacy Policy"
-msgstr "Sikkerhetspraksis"
+msgstr "Personvernspraksis"
 
 #: weblate/legal/templates/legal/privacy.html:25
 msgid ""
@@ -2312,7 +2188,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Username or email"
 msgid "Name and email"
-msgstr "Brukernavn eller e-postadresse"
+msgstr "Navn og e-post"
 
 #: weblate/legal/templates/legal/privacy.html:31
 #, fuzzy
@@ -2507,15 +2383,11 @@ msgstr ""
 "Weblate er fri programvare laget av frivillige, og tar imot donasjoner."
 
 #: weblate/templates/about.html:24
-#, fuzzy
-#| msgid "Support Weblate on Liberapay"
 msgid "Fund Weblate on Liberapay"
 msgstr "Støtt Weblate på Liberapay"
 
 #: weblate/templates/about.html:25
-#, fuzzy
-#| msgid "Support Weblate on Bountysource"
-msgid "Fund Weblate on BountySource"
+msgid "Fund Weblate on Bountysource"
 msgstr "Støtt Weblate på Bountysource"
 
 #: weblate/templates/about.html:26 weblate/templates/footer.html:11
@@ -3319,10 +3191,8 @@ msgstr ""
 "det for én komponent."
 
 #: weblate/templates/addons/addon_head.html:5
-#, fuzzy
-#| msgid "Project website"
 msgid "project wide"
-msgstr "Prosjektnettsted"
+msgstr "på hele prosjektet"
 
 #: weblate/templates/addons/addon_list.html:18
 msgid "Installed addons"
@@ -3372,16 +3242,14 @@ msgstr ""
 "navngitte grupper for å samsvare med komponent og språk, noen eksempler:"
 
 #: weblate/templates/addons/discovery_help.html:8
-#, fuzzy
-#| msgid "Email regular expression"
 msgid "Regular expression"
-msgstr "Regulært uttrykk for e-post"
+msgstr "Regulært uttrykk"
 
 #: weblate/templates/addons/discovery_help.html:9
 #, fuzzy
 #| msgid "Failed to parse %d matched files!"
 msgid "Example matched files"
-msgstr "Kan ikke analysere %d filsamsvar!"
+msgstr "Eksempel på samsvarende filer"
 
 #: weblate/templates/addons/discovery_help.html:22
 msgid "One folder per language containing translation files for components."
@@ -3413,7 +3281,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Component name"
 msgid "Component filename match"
-msgstr "Komponentnavn"
+msgstr "Komponentfilnavns-samsvar"
 
 #: weblate/templates/addons/discovery_help.html:63
 msgid "Component filename with upper case first letter"
@@ -3430,7 +3298,7 @@ msgstr "Komponent"
 #, fuzzy
 #| msgid "Watched projects"
 msgid "Matched files"
-msgstr "Fulgte prosjekter"
+msgstr "Samsvarende filer"
 
 #: weblate/templates/addons/discovery_preview.html:9
 msgid "Following components would be deleted"
@@ -3763,13 +3631,13 @@ msgstr "Skjermelementer som viser status"
 #, fuzzy
 #| msgid "You don't have privileges to save translations!"
 msgid "You don't have permission to start new translation"
-msgstr "Du har ikke rettigheter til å lagre oversettelser!"
+msgstr "Du har ikke tilgang til å starte ny oversettelse"
 
 #: weblate/templates/component.html:118
 #, fuzzy
 #| msgid "Please log in to save translations."
 msgid "Please login to start new translation "
-msgstr "Logg inn for å lagre oversettelser."
+msgstr "Logg inn for å starte ny oversettelse "
 
 #: weblate/templates/component.html:150 weblate/templates/project.html:197
 #: weblate/templates/translation.html:230
@@ -3914,19 +3782,15 @@ msgstr "Kodelager med Weblate-oversettelser"
 #, fuzzy
 #| msgid "Contributor agreement"
 msgid "Please review the contributor agreement"
-msgstr "Bidragsyteravtale"
+msgstr "Gjennomse bidragsoverensstemmelsen"
 
 #: weblate/templates/contributor-agreement.html:18
-#, fuzzy
-#| msgid "Please read following Terms of Service document:"
 msgid "Please read following contributor agreement:"
-msgstr "Les følgende tjenestevilkårsdokument:"
+msgstr "Les følgende bidragsyteroverensstemmelse:"
 
 #: weblate/templates/contributor-agreement.html:29
-#, fuzzy
-#| msgid "You have reached end of translating."
 msgid "You have already agreed to this agreement."
-msgstr "Du har nådd slutten på oversettelsen."
+msgstr "Du har allerede samtykket til denne overensstemmelsen."
 
 #: weblate/templates/data-root.html:6 weblate/templates/index.html:53
 msgid "Data export"
@@ -4603,10 +4467,8 @@ msgid "Detail"
 msgstr "Detalj"
 
 #: weblate/templates/last-changes-content.html:12
-#, fuzzy
-#| msgid "Subject"
 msgid "Object"
-msgstr "Emne"
+msgstr "Objekt"
 
 #: weblate/templates/last-changes-content.html:35
 msgid "Revert to this translation"
@@ -4903,11 +4765,10 @@ msgstr "Du kan oversette fra %(translation_url)s"
 
 #: weblate/templates/mail/merge_failure.html:11
 #: weblate/templates/mail/merge_failure.txt:3
-#, fuzzy, python-format
-#| msgid "There has been a merge failure on %(subproject)s at %(site_title)s."
+#, python-format
 msgid "There has been a merge failure on %(component)s at %(site_title)s."
 msgstr ""
-"Det har vært en sammenslåingssvikt på %(subproject)s under %(site_title)s."
+"Det har vært en sammenslåingssvikt på %(component)s under %(site_title)s."
 
 #: weblate/templates/mail/merge_failure.html:15
 #: weblate/templates/mail/parse_error.html:15
@@ -4935,17 +4796,15 @@ msgid "Repository status:"
 msgstr "Pakkelagerstatus:"
 
 #: weblate/templates/mail/merge_failure_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Merge failure in %(subproject)s"
+#, python-format
 msgid "Merge failure in %(component)s"
-msgstr "Flettesvikt i %(subproject)s"
+msgstr "Flettesvikt i %(component)s"
 
 #: weblate/templates/mail/new_comment.html:11
 #: weblate/templates/mail/new_comment.txt:3
-#, fuzzy, python-format
-#| msgid "There has been a new comment on %(subproject)s at %(site_title)s."
+#, python-format
 msgid "There has been a new comment on %(component)s at %(site_title)s."
-msgstr "Det er kommet en ny kommentar til %(subproject)s under %(site_title)s."
+msgstr "Det er kommet en ny kommentar til %(component)s under %(site_title)s."
 
 #: weblate/templates/mail/new_comment.html:28
 #: weblate/templates/mail/new_comment.txt:9
@@ -4953,10 +4812,9 @@ msgid "Comment:"
 msgstr "Kommentar:"
 
 #: weblate/templates/mail/new_comment_subject.txt:3
-#, fuzzy, python-format
-#| msgid "New comment in %(subproject)s"
+#, python-format
 msgid "New comment in %(component)s"
-msgstr "Nye kommentarer i %(subproject)s"
+msgstr "Ny kommentar i %(component)s"
 
 #: weblate/templates/mail/new_contributor.html:7
 #: weblate/templates/mail/new_contributor.txt:1
@@ -5092,10 +4950,9 @@ msgstr "Ny oversettelse i %(translation)s"
 
 #: weblate/templates/mail/parse_error.html:11
 #: weblate/templates/mail/parse_error.txt:3
-#, fuzzy, python-format
-#| msgid "There has been a parse error on %(subproject)s at %(site_title)s."
+#, python-format
 msgid "There has been a parse error on %(component)s at %(site_title)s."
-msgstr "Det har vært en analysefeil i %(subproject)s under %(site_title)s."
+msgstr "Det har vært en analysefeil i %(component)s under %(site_title)s."
 
 #: weblate/templates/mail/parse_error.html:21
 msgid "Failing file"
@@ -5106,10 +4963,9 @@ msgid "Failing file:"
 msgstr "Feilaktig fil:"
 
 #: weblate/templates/mail/parse_error_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Parse error in %(subproject)s"
+#, python-format
 msgid "Parse error in %(component)s"
-msgstr "Analysefeil i %(subproject)s"
+msgstr "Analysefeil i %(component)s"
 
 #: weblate/templates/mail/remove.html:11 weblate/templates/mail/remove.txt:3
 #, python-format
@@ -5354,7 +5210,7 @@ msgstr "Ingen sammenfallende strenger funnet."
 #, fuzzy
 #| msgid "Contributor agreement"
 msgid "View contributor agreement"
-msgstr "Bidragsyteravtale"
+msgstr "Vis bidragsyteroverensstemmelse"
 
 #: weblate/templates/show-contributor-agreement.html:8
 #, fuzzy
@@ -5577,7 +5433,7 @@ msgstr "Kildeendring"
 #, fuzzy
 #| msgid "Additional commit files"
 msgid "Additional context"
-msgstr "Ekstra innsendelsesfiler"
+msgstr "Ytterligere bindeleddsinformasjon"
 
 #: weblate/templates/translate.html:153 weblate/templates/zen-units.html:13
 msgid "Context:"
@@ -6714,7 +6570,7 @@ msgstr "Tilstand å sette"
 #, fuzzy
 #| msgid "Contributor agreement"
 msgid "I agree with the contributor agreement"
-msgstr "Bidragsyteravtale"
+msgstr "Jeg samtykker med bidragsyteroverensstemmelsen"
 
 #: weblate/trans/models/change.py:199
 msgid "Resource update"
@@ -6840,19 +6696,19 @@ msgstr "Ny streng lagt til"
 #, fuzzy
 #| msgid "Changed since"
 msgid "Changed visibility"
-msgstr "Endret siden"
+msgstr "Endret synlighet"
 
 #: weblate/trans/models/change.py:236
 #, fuzzy
 #| msgid "Add new user"
 msgid "Added user"
-msgstr "Legge til ny bruker"
+msgstr "La til bruker"
 
 #: weblate/trans/models/change.py:237
 #, fuzzy
 #| msgid "Remove"
 msgid "Removed user"
-msgstr "Fjern"
+msgstr "Fjernet bruker"
 
 #: weblate/trans/models/change.py:330
 #, python-format
@@ -7103,16 +6959,12 @@ msgstr "Send melding ved oversettelse"
 
 #: weblate/trans/models/component.py:358 weblate/trans/models/component.py:367
 #: weblate/trans/models/component.py:376
-#, fuzzy
-#| msgid ""
-#| "You can use format strings for various information, please check "
-#| "documentation for more details."
 msgid ""
 "You can use template language for various information, please check "
 "documentation for more details."
 msgstr ""
-"Du kan bruke formatstrenger til forskjellig informasjon. Sjekk "
-"dokumentasjonen for mer informasjon."
+"Du kan bruke malspråk til forskjellig informasjon. Sjekk dokumentasjonen for "
+"mer informasjon."
 
 #: weblate/trans/models/component.py:365
 msgid "Commit message when adding translation"
@@ -8313,7 +8165,7 @@ msgstr "Kunne ikke endre en prioritet!"
 #, fuzzy
 #| msgid "Failed to change a priority!"
 msgid "Failed to change a context!"
-msgstr "Kunne ikke endre en prioritet!"
+msgstr "Kunne ikke endre en bindeleddsinformasjon!"
 
 #: weblate/trans/views/source.py:176
 msgid "Failed to change check flags!"
@@ -8428,8 +8280,6 @@ msgid "Failed to render template: {}"
 msgstr "Klarte ikke å tegne opp mal: {0}"
 
 #: weblate/utils/validators.py:231
-#, fuzzy
-#| msgid "Username can not start with full stop."
 msgid "Username can not start with a full stop."
 msgstr "Brukernavn kan ikke starte med punktum."
 
