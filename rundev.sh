@@ -2,7 +2,7 @@
 
 if [ ! -f ./weblate/settings.py ]
 then
-    cp ./weblate/settings_example.py ./weblate/settings.py
+    cp ./weblate/settings_dev.py ./weblate/settings.py
 fi
 
 export USER_ID=$(id -u)
