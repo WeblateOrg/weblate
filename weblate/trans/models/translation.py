@@ -998,4 +998,10 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             author=request.user
         )
         self.store.new_unit(key, value)
+        with self.component.repository.lock:
+            self.__git_commit(
+                request.user.get_author_name(),
+                timezone.now()
+            )
+            self.component.push_if_needed(request)
         self.component.create_translations(request=request)
