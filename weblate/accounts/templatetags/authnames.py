@@ -26,6 +26,7 @@ register = template.Library()
 
 SOCIALS = {
     'amazon': {'name': 'Amazon', 'fa_icon': 'amazon'},
+    'azuread-oauth2': {'name': 'Azure', 'fa_icon': 'windows'},
     'google': {'name': 'Google', 'fa_icon': 'google'},
     'google-oauth2': {'name': 'Google', 'fa_icon': 'google'},
     'google-plus': {'name': 'Google+', 'fa_icon': 'google-plus'},
