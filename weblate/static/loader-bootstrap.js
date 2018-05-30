@@ -1015,8 +1015,8 @@ $(function () {
             .submit();
     });
 
-    /* Check if browser provides native datapicker */
-    if(Modernizr.inputtypes.date) {
+    /* Check if browser provides native datepicker */
+    if (Modernizr.inputtypes.date) {
         $(document).off('.datepicker.data-api');
     }
 
