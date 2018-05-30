@@ -145,6 +145,13 @@ codebase, you can find them labelled with :guilabel:`good first issue` tag:
 
 https://github.com/WeblateOrg/weblate/labels/good%20first%20issue
 
+If you have Docker and docker-compose installed you can spin up the development
+environment simply by running:
+
+.. code-block:: sh
+
+   ./rundev.sh
+
 Earning money by coding
 -----------------------
 

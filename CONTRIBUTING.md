@@ -27,6 +27,14 @@ license the patch as GPLv3-or-later.  See [the DCO file][4] for details.
 [3]: https://lists.cihar.com/cgi-bin/mailman/listinfo/weblate
 [4]: https://github.com/WeblateOrg/weblate/blob/master/DCO
 
+## Running development version locally
+
+If you have Docker and docker-compose installed you can spin up the development
+environment simply by running:
+```
+   ./rundev.sh
+```
+
 ## More information
 
 You can find more information on our website:
