@@ -11,6 +11,9 @@ for tag in $TAGS ; do
     run_coverage ./manage.py migrate
     check
     git checkout $TRAVIS_COMMIT
+    sed -i 's/^AUTH_USER_MODEL/#AUTH_USER_MODEL/' weblate/settings_example.py
+    run_coverage ./manage.py migrate weblate_auth 0001
+    sed -i 's/^#AUTH_USER_MODEL/AUTH_USER_MODEL/' weblate/settings_example.py
     run_coverage ./manage.py migrate
     check
 done
