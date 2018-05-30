@@ -3,6 +3,10 @@
   "description": "Mock to install javascript deps",
   "main": "index.js",
   "license": "GPL-3.0+",
+  "scripts": {
+    "build:modernizr": "modernizr -c ./modernizr-config.json -d modernizr.js",
+    "build": "npm run build:modernizr"
+  },
   "dependencies": {
     "autosize": "^4.0.0",
     "bootstrap-datepicker": "^1.7.1",
