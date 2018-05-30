@@ -1055,6 +1055,7 @@ class Component(models.Model, URLMixin, PathMixin):
                         _('Export URL is not used when repository is linked!')
                 }
             )
+        self.linked_component = Component.objects.get_linked(self.repo)
 
     def clean_lang_codes(self, matches):
         """Validate that there are no double language codes"""
