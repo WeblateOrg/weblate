@@ -4,6 +4,7 @@
 cd scripts/yarn/
 
 yarn upgrade-interactive
+yarn run build
 
 # Bootstrap Datepicker
 cp node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css ../../weblate/static/bootstrap/css/
@@ -44,7 +45,6 @@ cp node_modules/multi.js/src/multi.js ../../weblate/static/js/
 cp node_modules/multi.js/src/multi.css ../../weblate/static/
 
 # Modernizr
-./node_modules/.bin/modernizr -c ./modernizr-config.json
 mv modernizr.js ../../weblate/static/js/
 
 # Not updated:
