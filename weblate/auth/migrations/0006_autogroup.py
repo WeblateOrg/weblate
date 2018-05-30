@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('match', weblate.trans.fields.RegexField(default='^.*$', help_text='Regular expression which is used to match user email.', max_length=200, verbose_name='Email regular expression')),
-                ('group', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='weblate_auth.Group', verbose_name='Group to assign')),
+                ('group', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='auth.Group', verbose_name='Group to assign')),
             ],
             options={
                 'ordering': ('group__name',),
