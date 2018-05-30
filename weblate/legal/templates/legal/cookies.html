@@ -17,8 +17,13 @@
 <div class="panel-body">
 
 <p>
-{% blocktrans %}This page is based on the Terms of Service, you should still read the original document to fully understand them.{% endblocktrans %}
+{% blocktrans %}This page is based on the Terms of Service and the Privacy Policy, you should still read the original documents to fully understand them:{% endblocktrans %}
 </p>
+
+<ul>
+<li><a href="{% url 'legal:terms' %}">{% trans "Terms of Service" %}</a></li>
+<li><a href="{% url 'legal:privacy' %}">{% trans "Privacy Policy" %}</a></li>
+<ul>
 
 <p>
 {% blocktrans %}We use cookies for following:{% endblocktrans %}
