@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-05-30 18:42+0000\n"
-"PO-Revision-Date: 2018-05-21 15:02+0000\n"
+"PO-Revision-Date: 2018-05-30 19:16+0000\n"
 "Last-Translator: monolifed <monolifed@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
 "tr/>\n"
@@ -82,7 +82,7 @@ msgstr "Eposta"
 
 #: weblate/accounts/forms.py:275
 msgid "You can add another email address on the Authentication tab."
-msgstr "Kimlik doğrulaması sekmesinde başka eposta adresi ekleyebilirsiniz."
+msgstr "Kimlik doğrulama sekmesinde başka eposta adresi ekleyebilirsiniz."
 
 #: weblate/accounts/forms.py:305
 msgid "Subject"
@@ -225,10 +225,8 @@ msgid "Password reset has been requested."
 msgstr "Parola sıfırlama istendi."
 
 #: weblate/accounts/models.py:58
-#, fuzzy
-#| msgid "Password reset has been confirmed and password has been reset."
 msgid "Password reset has been confirmed and password has been disabled."
-msgstr "Parola sıfırlama onaylandı ve parola sıfırlandı."
+msgstr "Parola sıfırlama onaylandı ve parola devre dışı kılındı."
 
 #: weblate/accounts/models.py:61
 #, python-brace-format
@@ -585,7 +583,7 @@ msgstr "Geçersiz oturum durumu yüzünden kimlik doğrulma başarısız oldu."
 
 #: weblate/accounts/views.py:926
 msgid "Can not change authentication for demo!"
-msgstr "Kimlik doğrulaması demo için değiştirilemiyor!"
+msgstr "Kimlik doğrulama demo için değiştirilemiyor!"
 
 #: weblate/accounts/views.py:930
 msgid "New registrations are disabled!"
@@ -901,7 +899,7 @@ msgstr "Kişisel bilgi"
 
 #: weblate/auth/admin.py:94 weblate/templates/accounts/profile.html:27
 msgid "Authentication"
-msgstr "Kimlik doğrulaması"
+msgstr "Kimlik doğrulama"
 
 #: weblate/auth/admin.py:99 weblate/auth/models.py:67 weblate/auth/models.py:81
 #: weblate/permissions/apps.py:30
@@ -2056,7 +2054,7 @@ msgid ""
 "Authentication cookies which are required for recognizing authenticated "
 "users."
 msgstr ""
-"Kimlik doğrulamış kullanıcıları tanımlamak için gerekli olan kimlik "
+"Kimliği doğrulamış kullanıcıları tanımlamak için gerekli olan kimlik "
 "doğrulama çerezleri."
 
 #: weblate/legal/templates/legal/cookies.html:29
@@ -2118,16 +2116,12 @@ msgid "We use cookies to deliver our services."
 msgstr "Hizmetlerimizi sunmak için çerezleri kullanırız."
 
 #: weblate/legal/templates/legal/index.html:28
-#, fuzzy
-#| msgid ""
-#| "This page is based on the Terms of Service, you should still read the "
-#| "original document to fully understand them."
 msgid ""
 "This page is based on the Terms of Service and the Privacy Policy, you "
 "should still read the original documents to fully understand them:"
 msgstr ""
-"Bu sayfa Hizmet Şartları'nı temel alır, yine de onları tam olarak anlamak "
-"için özgün belgeyi okumalısınız."
+"Bu sayfa Hizmet Şartları'nı ve Gizlilik İlkesi'ni temel alır, yine de onları "
+"tam olarak anlamak için özgün belgeleri okumalısınız:"
 
 #: weblate/legal/templates/legal/index.html:32
 #: weblate/legal/templates/legal/terms.html:16 weblate/legal/views.py:42
@@ -2146,6 +2140,8 @@ msgstr "Gizlilik"
 #: weblate/legal/templates/legal/privacy.html:39
 msgid "We process only Personal Data User provides us by using our service:"
 msgstr ""
+"Yalnızca Kullanıcının bize hizmetimizi kullanarak sağladığı Kişisel Verileri "
+"işleriz:"
 
 #: weblate/legal/templates/legal/privacy.html:44
 msgid "Name and email"
@@ -2160,16 +2156,12 @@ msgid "Additionally, email is used for notification of watched events"
 msgstr "Ek olarak, eposta izlenen etkinliklerin bildirimi için kullanılır"
 
 #: weblate/legal/templates/legal/privacy.html:48
-#, fuzzy
-#| msgid "Password changed"
 msgid "Password in hashed form"
-msgstr "Parola değiştirildi"
+msgstr "Sağlama biçiminde parola"
 
 #: weblate/legal/templates/legal/privacy.html:49
-#, fuzzy
-#| msgid "Any authenticated user can contribute."
 msgid "Used to authenticate user if configured"
-msgstr "Kimlik doğrulamış her kullanıcı katkıda bulunabilir."
+msgstr "Yapılandırılmışsa, kullanıcının kimliğini doğrulamak için kullanılır"
 
 #: weblate/legal/templates/legal/privacy.html:51
 msgid "IP address and browser name"
