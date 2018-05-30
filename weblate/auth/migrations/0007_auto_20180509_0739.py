@@ -28,12 +28,7 @@ def change_foreign_keys(apps, schema_editor, from_app, from_model_name, to_app, 
     FromModel = apps.get_model(from_app, from_model_name)
     ToModel = apps.get_model(to_app, to_model_name)
 
-    # We don't make assumptions about which model is being pointed to by
-    # AUTH_USER_MODEL. So include fields from both FromModel and ToModel.
-    # Only one of them will actually have FK fields pointing to them.
-
-    fields = (FromModel._meta.get_fields(include_hidden=True) +
-              ToModel._meta.get_fields(include_hidden=True))
+    fields = FromModel._meta.get_fields(include_hidden=True)
 
     for rel in fields:
         if not hasattr(rel, 'field') or not isinstance(rel.field, models.ForeignKey):
