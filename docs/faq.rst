@@ -96,6 +96,37 @@ branches:
     # Push changes to upstream respository, Weblate will fetch merge from there
     git push
 
+In case of Gettext po files, there is a way to merge conflict in a semi-automatic way:
+
+Get and keep local clone of the Weblate git repository. Also get a second fresh
+local clone of the upstream git repository (i. e. you need two copies of the
+upstream git repository: intact and working copy):
+
+
+.. code-block:: sh
+
+    # Add remote
+    git remote add weblate /path/to/weblate/snapshot/
+
+    # Update weblate remote
+    git remote update weblate
+
+    # Merge Weblate changes
+    git merge weblate/master
+
+    # Resolve conflicts in the po files
+    for PO in `find . -name '*.po'` ; do
+        msgcat --use-first /path/to/weblate/snapshot/$PO\
+                   /path/to/upstream/snapshot/$PO -o $PO.merge
+        msgmerge --previous --lang=${PO%.po} $PO.merge domain.pot -o $PO
+        rm $PO.merge
+        git add $PO
+    done
+    git commit
+
+    # Push changes to upstream respository, Weblate will fetch merge from there
+    git push
+
 .. seealso:: 
    
    :ref:`git-export`
