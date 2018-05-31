@@ -23,6 +23,7 @@ from unittest import SkipTest
 import time
 import os
 import json
+from contextlib import contextmanager
 from base64 import b64encode
 from six.moves.http_client import HTTPConnection
 import django
@@ -34,6 +35,8 @@ try:
     from selenium.common.exceptions import (
         WebDriverException, ElementNotVisibleException
     )
+    from selenium.webdriver.support.ui import WebDriverWait
+    from selenium.webdriver.support.expected_conditions import staleness_of
     HAS_SELENIUM = True
 except ImportError:
     HAS_SELENIUM = False
@@ -54,8 +57,9 @@ DO_SELENIUM = (
 class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
     caps = {
         'browserName': 'firefox',
-        'platform': 'Linux',
+        'platform': 'Windows 10',
     }
+    driver = None
 
     def set_test_status(self, passed=True):
         connection = HTTPConnection("saucelabs.com")
@@ -84,10 +88,19 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
                 failures == len(result.failures)
             )
 
+    @contextmanager
+    def wait_for_page_load(self, timeout=30):
+        old_page = self.driver.find_element_by_tag_name('html')
+        yield
+        WebDriverWait(self.driver, timeout).until(
+            staleness_of(old_page)
+        )
+
     @classmethod
     def setUpClass(cls):
         if DO_SELENIUM:
             cls.caps['name'] = 'Weblate CI build'
+            cls.caps['screenResolution'] = '1024x768'
             # Fill in Travis details in caps
             if 'TRAVIS_JOB_NUMBER' in os.environ:
                 cls.caps['tunnel-identifier'] = os.environ['TRAVIS_JOB_NUMBER']
@@ -121,22 +134,19 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         super(SeleniumTests, cls).setUpClass()
 
     def setUp(self):
-        if not DO_SELENIUM:
+        if self.driver is None:
             raise SkipTest('Selenium Tests disabled')
         super(SeleniumTests, self).setUp()
+        self.driver.get('{0}{1}'.format(self.live_server_url, reverse('home')))
+        self.driver.set_window_size(1024, 768)
+        time.sleep(1)
 
     @classmethod
     def tearDownClass(cls):
         super(SeleniumTests, cls).tearDownClass()
-        if DO_SELENIUM:
+        if cls.driver is not None:
             cls.driver.quit()
-
-    def expand_navbar(self):
-        """Expand navbar if exists"""
-        try:
-            self.driver.find_element_by_id('navbar-toggle').click()
-        except ElementNotVisibleException:
-            return
+            cls.driver = None
 
     def click(self, element):
         """Wrapper to scroll into element for click"""
@@ -146,75 +156,68 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             self.actions.move_to_element(element).perform()
             element.click()
 
-    def test_login(self):
-        # open home page
-        self.driver.get('{0}{1}'.format(self.live_server_url, reverse('home')))
-
+    def do_login(self, create=True):
         # login page
-        self.expand_navbar()
-        self.click(
-            self.driver.find_element_by_id('login-button'),
-        )
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element_by_id('login-button'),
+            )
 
+        # Create user
+        if create:
+            create_test_user()
+
+        # Login
         username_input = self.driver.find_element_by_id('id_username')
-        username_input.send_keys('testuser')
+        username_input.send_keys('weblate@example.org')
         password_input = self.driver.find_element_by_id('id_password')
-        password_input.send_keys('secret')
-        self.click(
-            self.driver.find_element_by_xpath('//input[@value="Login"]')
-        )
+        password_input.send_keys('testpassword')
 
-        # Wait for submit
-        time.sleep(1)
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element_by_xpath('//input[@value="Login"]')
+            )
+
+    def test_failed_login(self):
+        self.do_login(create=False)
 
         # We should end up on login page as user was invalid
         self.driver.find_element_by_id('id_username')
 
+    def test_login(self):
         # Do proper login with new user
-        create_test_user()
-        password_input = self.driver.find_element_by_id('id_password')
-        password_input.send_keys('testpassword')
-        self.click(
-            self.driver.find_element_by_xpath('//input[@value="Login"]')
-        )
-
-        # Wait for submit
-        time.sleep(1)
+        self.do_login()
 
         # Load profile
-        self.expand_navbar()
-        self.click(
-            self.driver.find_element_by_id('profile-button')
-        )
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element_by_id('profile-button')
+            )
 
         # Wait for profile to load
         self.driver.find_element_by_id('subscriptions')
 
         # Finally logout
-        self.expand_navbar()
-        self.click(
-            self.driver.find_element_by_id('logout-button')
-        )
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element_by_id('logout-button')
+            )
 
         # We should be back on home page
-        self.expand_navbar()
         self.driver.find_element_by_id('suggestions')
 
     def register_user(self):
-        # open home page
-        self.driver.get('{0}{1}'.format(self.live_server_url, reverse('home')))
-
         # registration page
-        self.expand_navbar()
-        self.click(
-            self.driver.find_element_by_id('register-button'),
-        )
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element_by_id('register-button'),
+            )
 
         # Fill in registration form
         self.driver.find_element_by_id(
             'id_email'
         ).send_keys(
-            'test@example.net'
+            'weblate@example.org'
         )
         self.driver.find_element_by_id(
             'id_username'
@@ -226,9 +229,10 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         ).send_keys(
             'Test Example'
         )
-        self.click(
-            self.driver.find_element_by_xpath('//input[@value="Register"]')
-        )
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element_by_xpath('//input[@value="Register"]')
+            )
 
         # Wait for registration email
         loops = 0
@@ -260,7 +264,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         self.driver.get(url)
 
         # Check we're logged in
-        self.expand_navbar()
         self.assertTrue(
             'Test Example' in
             self.driver.find_element_by_id('profile-button').text
