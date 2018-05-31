@@ -60,6 +60,8 @@ To enable this service, add ``weblate.machinery.deepl.DeepLTranslation`` to
     `DeepL API documentation <https://www.deepl.com/api.html>`_
 
 
+.. _glosbe:
+
 Glosbe
 ------
 

@@ -349,15 +349,24 @@ Machine translation settings
 
 .. envvar:: WEBLATE_MT_DEEPL_KEY
 
-    Enables DeepL machine translation and sets :setting:`MT_DEEPL_KEY`
+    Enables :ref:`deepl` machine translation and sets :setting:`MT_DEEPL_KEY`
 
 .. envvar:: WEBLATE_MT_GOOGLE_KEY
 
-    Enables Google machine translation and sets :setting:`MT_GOOGLE_KEY`
+    Enables :ref:`google-translate` and sets :setting:`MT_GOOGLE_KEY`
 
 .. envvar:: WEBLATE_MT_MICROSOFT_COGNITIVE_KEY
 
-    Enables Microsoft machine translation and sets :setting:`MT_MICROSOFT_COGNITIVE_KEY`
+    Enables :ref:`ms-cognitive-translate` and sets :setting:`MT_MICROSOFT_COGNITIVE_KEY`
+
+.. envvar:: WEBLATE_MT_MYMEMORY_ENABLED
+
+    Enables :ref:`mymemory` machine translation and sets
+    :setting:`MT_MYMEMORY_EMAIL` to :envvar:`WEBLATE_ADMIN_EMAIL`.
+
+.. envvar:: WEBLATE_MT_GLOSBE_ENABLED
+
+    Enables :ref:`glosbe` machine translation.
 
 Authentication settings
 ~~~~~~~~~~~~~~~~~~~~~~~
