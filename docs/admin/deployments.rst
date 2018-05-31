@@ -317,6 +317,10 @@ Generic settings
         environment:
           - WEBLATE_REQUIRE_LOGIN=1
 
+.. envvar:: WEBLATE_LOGIN_REQUIRED_URLS_EXCEPTIONS
+
+    Adds URL exceptions for login required for whole Weblate using :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS`.
+
 .. envvar:: WEBLATE_GOOGLE_ANALYTICS_ID
 
     Configures ID for Google Analytics by changing :setting:`GOOGLE_ANALYTICS_ID`.
