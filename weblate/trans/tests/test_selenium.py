@@ -58,14 +58,13 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
     }
 
     def set_test_status(self, passed=True):
-        body_content = json.dumps({"passed": passed})
         connection = HTTPConnection("saucelabs.com")
         connection.request(
             'PUT',
             '/rest/v1/{0}/jobs/{1}'.format(
                 self.username, self.driver.session_id
             ),
-            body_content,
+            json.dumps({"passed": passed}),
             headers={"Authorization": "Basic {0}".format(self.sauce_auth)}
         )
         result = connection.getresponse()
