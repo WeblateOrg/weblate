@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-05-30 18:42+0000\n"
-"PO-Revision-Date: 2018-05-30 07:15+0000\n"
+"PO-Revision-Date: 2018-05-31 22:02+0000\n"
 "Last-Translator: Viktar Vauchkevich <victorenator@gmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/weblate/"
 "master/be/>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.0-dev\n"
 
 #: weblate/accounts/avatar.py:164
@@ -227,10 +227,8 @@ msgid "Password reset has been requested."
 msgstr "Скід пароля запрошаны."
 
 #: weblate/accounts/models.py:58
-#, fuzzy
-#| msgid "Password reset has been confirmed and password has been reset."
 msgid "Password reset has been confirmed and password has been disabled."
-msgstr "Скід пароля пацверджаны і пароль скінуты."
+msgstr "Скід пароля пацверджаны і пароль адключаны."
 
 #: weblate/accounts/models.py:61
 #, python-brace-format
@@ -1042,147 +1040,105 @@ msgid "Review strings"
 msgstr "Праглядзець радкі"
 
 #: weblate/auth/data.py:77
-#, fuzzy
-#| msgid "Strings with suggestions (%d)"
 msgid "Edit string when suggestions are enforced"
-msgstr "Радкоў з прапановамі (%d)"
+msgstr "Рэдагаваць радкі з настойлівымі прапановамі"
 
 #: weblate/auth/data.py:78
-#, fuzzy
-#| msgid "Edit source string"
 msgid "Edit source strings"
-msgstr "Правіць зыходны радок"
+msgstr "Рэдагаваць зыходныя радкі"
 
 #: weblate/auth/data.py:80
-#, fuzzy
-#| msgid "Define the base file for new translations"
 msgid "Define author of translation upload"
-msgstr "Вызначыць базавы файл для новых перакладаў"
+msgstr "Задаць аўтара загружанага перакладу"
 
 #: weblate/auth/data.py:81
-#, fuzzy
-#| msgid "Overwrite existing translations"
 msgid "Overwrite existing strings with upload"
-msgstr "Перазапісаць існыя пераклады"
+msgstr "Перазапісаць наяўныя радкі загрузкай"
 
 #: weblate/auth/data.py:82
-#, fuzzy
-#| msgid "Upload translation"
 msgid "Upload translation strings"
-msgstr "Укласці пераклад"
+msgstr "Загрузіць радкі перакладу"
 
 #: weblate/auth/data.py:84
-#, fuzzy
-#| msgid "Allow changes to the local repository"
 msgid "Access the internal repository"
-msgstr "Дазволіць змены ў лакальным рэпазіторыі"
+msgstr "Доступ да ўнутранага рэпазіторыя"
 
 #: weblate/auth/data.py:85
-#, fuzzy
-#| msgid "Commit pending changes to the local repository"
 msgid "Commit changes to the internal repository"
-msgstr "Укласці ўсе змены ў лакальны рэпазіторый"
+msgstr "Зафіксаваць змены ва ўнутраны рэпазіторый"
 
 #: weblate/auth/data.py:86
-#, fuzzy
-#| msgid "Pull changes from the remote repository"
 msgid "Push change from the internal repository"
-msgstr "Сцягнуць змены з аддаленага рэпазіторыя"
+msgstr "Выштурхнуць змены з унутранага рэпазіторыя"
 
 #: weblate/auth/data.py:87
-#, fuzzy
-#| msgid "Reset all changes in the local repository"
 msgid "Reset changes in the internal repository"
-msgstr "Скінуць усе змены ў лакальным рэпазіторыі"
+msgstr "Скінуць змены ва ўнутраным рэпазіторыі"
 
 #: weblate/auth/data.py:88
 msgid "View upstream repository location"
-msgstr ""
+msgstr "Праглядзець знаходжанне верхняга рэпазіторыя"
 
 #: weblate/auth/data.py:89
-#, fuzzy
-#| msgid "Update VCS repository"
 msgid "Update the internal repository"
-msgstr "Абнавіць VCS рэпазіторый"
+msgstr "Абнавіць унутраны рэпазіторый"
 
 #: weblate/auth/data.py:111
-#, fuzzy
-#| msgid "Add as a suggestion"
 msgctxt "Access control role"
 msgid "Add suggestion"
-msgstr "Дадаць як прапанову"
+msgstr "Дадаць прапанову"
 
 #: weblate/auth/data.py:117
-#, fuzzy
-#| msgid "Reset repository"
 msgctxt "Access control role"
 msgid "Access repository"
-msgstr "Скінуць рэпазіторый"
+msgstr "Доступ да рэпазіторыя"
 
 #: weblate/auth/data.py:123
 msgctxt "Access control role"
 msgid "Power user"
-msgstr ""
+msgstr "Дасведчаны карыстальнік"
 
 #: weblate/auth/data.py:132
-#, fuzzy
-#| msgid "Translate"
 msgctxt "Access control role"
 msgid "Translate"
-msgstr "Перакласці"
+msgstr "Пераклад"
 
 #: weblate/auth/data.py:136
-#, fuzzy
-#| msgid "Edit source string"
 msgctxt "Access control role"
 msgid "Edit source"
-msgstr "Правіць зыходны радок"
+msgstr "Рэдагаванне зыходнага радка"
 
 #: weblate/auth/data.py:140
-#, fuzzy
-#| msgid "Manage your languages"
 msgctxt "Access control role"
 msgid "Manage languages"
-msgstr "Кіраванне вашымі мовамі"
+msgstr "Кіраванне мовамі"
 
 #: weblate/auth/data.py:144
-#, fuzzy
-#| msgid "Manage glossary"
 msgctxt "Access control role"
 msgid "Manage glossary"
-msgstr "Кіраваць гласарыем"
+msgstr "Кіраванне гласарыем"
 
 #: weblate/auth/data.py:148
-#, fuzzy
-#| msgid "Manage screenshots"
 msgctxt "Access control role"
 msgid "Manage screenshots"
 msgstr "Кіраванне здымкамі экрана"
 
 #: weblate/auth/data.py:152
-#, fuzzy
-#| msgid "Overwrite strings"
 msgctxt "Access control role"
 msgid "Review strings"
-msgstr "Перазапісаць радкі"
+msgstr "Перагляд радкоў"
 
 #: weblate/auth/data.py:156
-#, fuzzy
-#| msgid "Merged repository"
 msgctxt "Access control role"
 msgid "Manage repository"
-msgstr "Аб'яднаны рэпазіторый"
+msgstr "Кіраванне рэпазіторыям"
 
 #: weblate/auth/data.py:160
-#, fuzzy
-#| msgid "Administration"
 msgctxt "Access control role"
 msgid "Administration"
 msgstr "Адміністраванне"
 
 #: weblate/auth/data.py:164
-#, fuzzy
-#| msgid "Billing"
 msgctxt "Access control role"
 msgid "Billing"
 msgstr "Аплата"
@@ -1190,35 +1146,27 @@ msgstr "Аплата"
 #: weblate/auth/data.py:172
 msgctxt "Access control group"
 msgid "Guests"
-msgstr ""
+msgstr "Госці"
 
 #: weblate/auth/data.py:177
-#, fuzzy
-#| msgid "View"
 msgctxt "Access control group"
 msgid "Viewers"
-msgstr "Від"
+msgstr "Гледачы"
 
 #: weblate/auth/data.py:182
-#, fuzzy
-#| msgid "Users"
 msgctxt "Access control group"
 msgid "Users"
 msgstr "Карыстальнікі"
 
 #: weblate/auth/data.py:187
-#, fuzzy
-#| msgid "Review"
 msgctxt "Access control group"
 msgid "Reviewers"
-msgstr "Перагляд"
+msgstr "Рэцэнзенты"
 
 #: weblate/auth/data.py:192
-#, fuzzy
-#| msgid "Manage"
 msgctxt "Access control group"
 msgid "Managers"
-msgstr "Кіраванне"
+msgstr "Кіраўнікі"
 
 #: weblate/auth/data.py:200
 msgctxt "Per project access control group"
@@ -1261,17 +1209,13 @@ msgid "Administration"
 msgstr "Адміністраванне"
 
 #: weblate/auth/data.py:216
-#, fuzzy
-#| msgid "Billing"
 msgctxt "Per project access control group"
 msgid "Billing"
 msgstr "Аплата"
 
 #: weblate/auth/models.py:66
-#, fuzzy
-#| msgid "Permissions"
 msgid "Permission"
-msgstr "Дазволы"
+msgstr "Дазвол"
 
 #: weblate/auth/models.py:76 weblate/auth/models.py:105
 #: weblate/templates/accounts/user.html:26
@@ -1281,51 +1225,39 @@ msgstr "Назва"
 
 #: weblate/auth/models.py:83
 msgid "Choose permissions granted to this role."
-msgstr ""
+msgstr "Абярыце дазволы для гэтай ролі."
 
 #: weblate/auth/models.py:111
 msgid "Roles"
-msgstr ""
+msgstr "Ролі"
 
 #: weblate/auth/models.py:113
-#, fuzzy
-#| msgid "Choose file format for the report"
 msgid "Choose roles granted to this group."
-msgstr "Выберыце фармат файла для справаздачы"
+msgstr "Абярыце ролі для гэтай групы."
 
 #: weblate/auth/models.py:117
-#, fuzzy
-#| msgid "Project Information"
 msgid "Project selection"
-msgstr "Інфармацыя аб праекце"
+msgstr "Выбар праекта"
 
 #: weblate/auth/models.py:119 weblate/auth/models.py:143
-#, fuzzy
-#| msgid "Access denied."
 msgid "As defined"
-msgstr "Адмоўлена ў доступе."
+msgstr "Як вызначана"
 
 #: weblate/auth/models.py:120 weblate/templates/index.html:51
 msgid "All projects"
 msgstr "Усе праекты"
 
 #: weblate/auth/models.py:121
-#, fuzzy
-#| msgid "All projects"
 msgid "All public projects"
-msgstr "Усе праекты"
+msgstr "Усе публічныя праекты"
 
 #: weblate/auth/models.py:122
-#, fuzzy
-#| msgid "All projects"
 msgid "All protected projects"
-msgstr "Усе праекты"
+msgstr "Усе абароненыя праекты"
 
 #: weblate/auth/models.py:123
-#, fuzzy
-#| msgid "Component list"
 msgid "From component list"
-msgstr "Спіс кампанентаў"
+msgstr "Са спісу кампанентаў"
 
 #: weblate/auth/models.py:129 weblate/billing/admin.py:52
 #: weblate/billing/models.py:124 weblate/templates/accounts/user.html:38
@@ -1336,10 +1268,8 @@ msgid "Projects"
 msgstr "Праекты"
 
 #: weblate/auth/models.py:141
-#, fuzzy
-#| msgid "Language code"
 msgid "Language selection"
-msgstr "Код мовы"
+msgstr "Выбар мовы"
 
 #: weblate/auth/models.py:144 weblate/trans/forms.py:1099
 msgid "All languages"
@@ -1357,62 +1287,56 @@ msgid "Languages"
 msgstr "Мовы"
 
 #: weblate/auth/models.py:155
-#, fuzzy
-#| msgid "Weblate administration"
 msgid "Weblate internal group"
-msgstr "Адміністраванне Weblate"
+msgstr "Унутраная група Weblate"
 
 #: weblate/auth/models.py:256
-#, fuzzy
-#| msgid "Username"
 msgid "username"
-msgstr "Імя карыстальніка"
+msgstr "імя карыстальніка"
 
 #: weblate/auth/models.py:265
-#, fuzzy
-#| msgid "Translation with this key seem to already exist!"
 msgid "A user with that username already exists."
-msgstr "Адзінка перакладу з такім ключом ўжо існуе!"
+msgstr "Карыстальнік з такім імем ўжо існуе."
 
 #: weblate/auth/models.py:282
-#, fuzzy
-#| msgid "Service status"
 msgid "superuser status"
-msgstr "Стан службы"
+msgstr "стан суперкарыстальніка"
 
 #: weblate/auth/models.py:285
 msgid ""
 "Designates that this user has all permissions without explicitly assigning "
 "them."
 msgstr ""
+"Пазначае, што гэты карыстальнік мае ўсе дазволы нават без яўнага іх "
+"прызначэння."
 
 #: weblate/auth/models.py:290
-#, fuzzy
-#| msgid "Active"
 msgid "active"
-msgstr "Актыўны"
+msgstr "актыўны"
 
 #: weblate/auth/models.py:293
 msgid ""
 "Designates whether this user should be treated as active. Unselect this "
 "instead of deleting accounts."
 msgstr ""
+"Пазначае, ці павінен гэты карыстальнік лічыцца актыўным. Зніміце гэта замест "
+"выдалення конту."
 
 #: weblate/auth/models.py:297
 msgid "Date joined"
-msgstr ""
+msgstr "Дата далучэння"
 
 #: weblate/auth/models.py:300
-#, fuzzy
-#| msgid "Group ACLs"
 msgid "Groups"
-msgstr "Групавыя ACL"
+msgstr "Групы"
 
 #: weblate/auth/models.py:303
 msgid ""
 "The groups this user belongs to. A user will get all permissions granted to "
 "each of their groups."
 msgstr ""
+"Групы, да якіх належыць гэты карыстальнік. Карыстальнік атрымае ўсе дазволы "
+"гэтых груп."
 
 #: weblate/auth/models.py:447
 msgid "Email regular expression"
@@ -2199,16 +2123,13 @@ msgid "We use cookies to deliver our services."
 msgstr "Мы выкарыстоўваем кукі, каб дастаўляць нашы паслугі."
 
 #: weblate/legal/templates/legal/index.html:28
-#, fuzzy
-#| msgid ""
-#| "This page is based on the Terms of Service, you should still read the "
-#| "original document to fully understand them."
 msgid ""
 "This page is based on the Terms of Service and the Privacy Policy, you "
 "should still read the original documents to fully understand them:"
 msgstr ""
-"Гэтая старонка базуецца на Умовах абслугоўвання, вы ўсе адно павінны "
-"прачытаць арыгінальны дакумент, каб зразумець яго поўнасцю."
+"Гэтая старонка базуецца на «Умовах абслугоўвання» і «Палітыцы прыватнасці», "
+"вы ўсе адно павінны прачытаць арыгінальныя дакументы, каб зразумець іх "
+"поўнасцю:"
 
 #: weblate/legal/templates/legal/index.html:32
 #: weblate/legal/templates/legal/terms.html:16 weblate/legal/views.py:42
@@ -2227,6 +2148,8 @@ msgstr "Прыватнасць"
 #: weblate/legal/templates/legal/privacy.html:39
 msgid "We process only Personal Data User provides us by using our service:"
 msgstr ""
+"Мы апрацоўваем толькі тыя асабістыя даныя, які карыстальнік прадастаўляе нам "
+"шляхам выкарыстання нашага сэрвісу:"
 
 #: weblate/legal/templates/legal/privacy.html:44
 msgid "Name and email"
@@ -2237,22 +2160,16 @@ msgid "These are used to identify you in the VCS commits"
 msgstr "Выкарыстоўваецца для ідэнтыфікацыі вас у VCS-камітах"
 
 #: weblate/legal/templates/legal/privacy.html:46
-#, fuzzy
-#| msgid "Additionally email is used for notifications on watched events"
 msgid "Additionally, email is used for notification of watched events"
 msgstr "Дадаткова, электронная пошта выкарыстоўваецца для апавяшчэнняў"
 
 #: weblate/legal/templates/legal/privacy.html:48
-#, fuzzy
-#| msgid "Password changed"
 msgid "Password in hashed form"
-msgstr "Пароль зменены"
+msgstr "Пароль у хэшаванай форме"
 
 #: weblate/legal/templates/legal/privacy.html:49
-#, fuzzy
-#| msgid "Any authenticated user can contribute."
 msgid "Used to authenticate user if configured"
-msgstr "Любыя аўтэнтыфікаваныя карыстальнікі могуць удзельнічаць."
+msgstr "Выкарыстоўваецца для аўтэнтыфікацыі карыстальніка, калі наладжана"
 
 #: weblate/legal/templates/legal/privacy.html:51
 msgid "IP address and browser name"
@@ -2427,16 +2344,12 @@ msgstr ""
 "прымае ахвяраванні."
 
 #: weblate/templates/about.html:24
-#, fuzzy
-#| msgid "Support Weblate on Liberapay"
 msgid "Fund Weblate on Liberapay"
-msgstr "Падтрымайце Weblate на Liberapay"
+msgstr "Фундуйце Weblate праз Liberapay"
 
 #: weblate/templates/about.html:25
-#, fuzzy
-#| msgid "Support Weblate on Bountysource"
 msgid "Fund Weblate on Bountysource"
-msgstr "Падтрымайце Weblate праз Bountysource"
+msgstr "Фундуйце Weblate праз Bountysource"
 
 #: weblate/templates/about.html:26 weblate/templates/footer.html:11
 #: weblate/trans/templatetags/advertisement.py:42
@@ -3076,10 +2989,8 @@ msgid "Git export documentation"
 msgstr "Дакументацыя аб Git-экспарце"
 
 #: weblate/templates/accounts/profile.html:421
-#, fuzzy
-#| msgid "Please read following Terms of Service document:"
 msgid "You have agreed to the following as a contributor:"
-msgstr "Калі ласка, прачытайце наступны дакумент «Умоў абслугоўвання»:"
+msgstr "Як удзельнік, вы згаджаецеся з наступным:"
 
 #: weblate/templates/accounts/profile.html:430
 msgid ""
@@ -3240,12 +3151,12 @@ msgid ""
 "This addon operates on whole project, it is enough to install it on one "
 "component."
 msgstr ""
+"Гэты дадатак дзейнічае на ўвесь праект, дастакова ўсталяваць яго на адзін "
+"кампанент."
 
 #: weblate/templates/addons/addon_head.html:5
-#, fuzzy
-#| msgid "Project website"
 msgid "project wide"
-msgstr "Сайт праекта"
+msgstr "праект цалкам"
 
 #: weblate/templates/addons/addon_list.html:18
 msgid "Installed addons"
@@ -3669,16 +3580,12 @@ msgid "Status widgets"
 msgstr "Віджэты-стану"
 
 #: weblate/templates/component.html:118
-#, fuzzy
-#| msgid "You don't have privileges to save translations!"
 msgid "You don't have permission to start new translation"
-msgstr "Вам не дастае правоў для захавання перакладу!"
+msgstr "Вам не дастае дазволу пачаць новы пераклад"
 
 #: weblate/templates/component.html:118
-#, fuzzy
-#| msgid "Please log in to save translations."
 msgid "Please login to start new translation "
-msgstr "Зайдзіце, калі ласка, каб захаваць пераклады."
+msgstr "Зайдзіце, калі ласка, каб пачаць новы пераклад "
 
 #: weblate/templates/component.html:150 weblate/templates/project.html:197
 #: weblate/templates/translation.html:230
@@ -3822,22 +3729,16 @@ msgid "Repository with Weblate translations"
 msgstr "Рэпазіторый з перакладамі Weblate"
 
 #: weblate/templates/contributor-agreement.html:16
-#, fuzzy
-#| msgid "Contributor agreement"
 msgid "Please review the contributor agreement"
-msgstr "Пагадненне з Удзельнікам"
+msgstr "Калі ласка, азнаёмцеся з пагадненнем з удзельнікам"
 
 #: weblate/templates/contributor-agreement.html:18
-#, fuzzy
-#| msgid "Please read following Terms of Service document:"
 msgid "Please read following contributor agreement:"
-msgstr "Калі ласка, прачытайце наступны дакумент «Умоў абслугоўвання»:"
+msgstr "Калі ласка, прачытайце наступнае пагадненне з удзельнікам:"
 
 #: weblate/templates/contributor-agreement.html:29
-#, fuzzy
-#| msgid "You have reached end of translating."
 msgid "You have already agreed to this agreement."
-msgstr "Дасягнуты канец перакладу."
+msgstr "Вы ўжа пагадзіліся з гэтым пагадненнем."
 
 #: weblate/templates/data-root.html:6 weblate/templates/index.html:53
 msgid "Data export"
@@ -4508,16 +4409,12 @@ msgid "User"
 msgstr "Карыстальнік"
 
 #: weblate/templates/last-changes-content.html:11
-#, fuzzy
-#| msgid "Details"
 msgid "Detail"
 msgstr "Падрабязнасці"
 
 #: weblate/templates/last-changes-content.html:12
-#, fuzzy
-#| msgid "Subject"
 msgid "Object"
-msgstr "Тэма"
+msgstr "Аб'ект"
 
 #: weblate/templates/last-changes-content.html:35
 msgid "Revert to this translation"
@@ -5140,11 +5037,11 @@ msgstr "Затвітайце гэты пераклад"
 #: weblate/templates/project.html:111
 #, python-format
 msgid "Repository for this component is linked to %(target)s"
-msgstr ""
+msgstr "Рэпазіторый гэтага кампаненты звязаны з %(target)s"
 
 #: weblate/templates/project.html:111
 msgid "link"
-msgstr ""
+msgstr "спасылка"
 
 #: weblate/templates/project.html:168
 msgid "There are currently no glossaries defined for this project."
@@ -5258,16 +5155,15 @@ msgid "No matching strings found."
 msgstr "Ніводнага адпаведнага радка не знойдзена."
 
 #: weblate/templates/show-contributor-agreement.html:7
-#, fuzzy
-#| msgid "Contributor agreement"
 msgid "View contributor agreement"
-msgstr "Пагадненне з Удзельнікам"
+msgstr "Паглядзець пагадненне з удзельнікам"
 
 #: weblate/templates/show-contributor-agreement.html:8
 msgid ""
 "Contribution to this translation requires you to agree with a contributor "
 "agreement."
 msgstr ""
+"Удзел у гэтым перакладзе патрабуе ад вас згоды з пагадненнем з удзельнікам."
 
 #: weblate/templates/show-lock.html:4
 msgid "This translation is currently locked for updates."
@@ -5478,10 +5374,8 @@ msgid "Source change"
 msgstr "Змена ключа"
 
 #: weblate/templates/translate.html:143 weblate/trans/forms.py:1191
-#, fuzzy
-#| msgid "Additional commit files"
 msgid "Additional context"
-msgstr "Дадатковыя файлы рэвізіі"
+msgstr "Дадатковыя кантэкст"
 
 #: weblate/templates/translate.html:153 weblate/templates/zen-units.html:13
 msgid "Context:"
@@ -5677,10 +5571,8 @@ msgid "Source information"
 msgstr "Інфармацыя пра крыніцу"
 
 #: weblate/templates/translate.html:500
-#, fuzzy
-#| msgid "No screenshot currently associated!"
 msgid "No context currently associated!"
-msgstr "Няма звязаных здымкаў экрана!"
+msgstr "Няма звязанага кантэксту!"
 
 #: weblate/templates/translate.html:518
 msgid "Flags"
@@ -6616,10 +6508,8 @@ msgid "State to set"
 msgstr "Стан для ўстанаўлення"
 
 #: weblate/trans/forms.py:1569
-#, fuzzy
-#| msgid "Contributor agreement"
 msgid "I agree with the contributor agreement"
-msgstr "Пагадненне з Удзельнікам"
+msgstr "Я згодны з пагадненнем з удзельнікам"
 
 #: weblate/trans/models/change.py:199
 msgid "Resource update"
@@ -6742,22 +6632,16 @@ msgid "New string added"
 msgstr "Новы радок дададзены"
 
 #: weblate/trans/models/change.py:235
-#, fuzzy
-#| msgid "Changed since"
 msgid "Changed visibility"
-msgstr "Зменены ад"
+msgstr "Змененая бачнасць"
 
 #: weblate/trans/models/change.py:236
-#, fuzzy
-#| msgid "Add new user"
 msgid "Added user"
-msgstr "Дадаць новага карыстальніка"
+msgstr "Даданы карыстальніка"
 
 #: weblate/trans/models/change.py:237
-#, fuzzy
-#| msgid "Remove"
 msgid "Removed user"
-msgstr "Выдаліць"
+msgstr "Выдалены карыстальнік"
 
 #: weblate/trans/models/change.py:330
 #, python-format
@@ -7013,15 +6897,11 @@ msgstr "Паведамленне пры фіксацыі перакладу"
 
 #: weblate/trans/models/component.py:365 weblate/trans/models/component.py:374
 #: weblate/trans/models/component.py:383
-#, fuzzy
-#| msgid ""
-#| "You can use format strings for various information, please check "
-#| "documentation for more details."
 msgid ""
 "You can use template language for various information, please check "
 "documentation for more details."
 msgstr ""
-"Радкі фарматавання можна ўжываць па-рознаму. Калі ласка, звярніцеся да "
+"Вы можаце ўжываць моўны шаблон па-рознаму. Калі ласка, звярніцеся да "
 "дакументацыі."
 
 #: weblate/trans/models/component.py:372
@@ -8231,10 +8111,8 @@ msgid "Failed to change a priority!"
 msgstr "Не атрымалася змяніць прыярытэт!"
 
 #: weblate/trans/views/source.py:158
-#, fuzzy
-#| msgid "Failed to change a priority!"
 msgid "Failed to change a context!"
-msgstr "Не атрымалася змяніць прыярытэт!"
+msgstr "Не атрымалася змяніць кантэкст!"
 
 #: weblate/trans/views/source.py:176
 msgid "Failed to change check flags!"
@@ -8350,8 +8228,6 @@ msgid "Failed to render template: {}"
 msgstr "Не ўдалося прымяніць шаблон: {}"
 
 #: weblate/utils/validators.py:231
-#, fuzzy
-#| msgid "Username can not start with full stop."
 msgid "Username can not start with a full stop."
 msgstr "Імя карыстальніка не павінна пачынацца з кропкі."
 
