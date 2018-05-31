@@ -91,11 +91,17 @@ Extracting translatable strings
 +++++++++++++++++++++++++++++++
 
 Once you have code using the gettext calls, you can use :program:`xgettext` to
-extract messages from it:
+extract messages from it and store them into a `.pot
+<https://www.gnu.org/software/gettext/manual/gettext.html#index-files_002c-_002epot>`_:
 
 .. code-block:: console
 
     $ xgettext main.c -o po/hello.pot
+
+.. note::
+
+    There are alternative programs to extract strings from the code, for example
+    `pybabel`_.
 
 This creates a template file, which you can use for starting new translations
 (using :program:`msginit`) or updating existing ones after code change (you
@@ -184,6 +190,11 @@ can see number of plurals have changed according to that:
     #: main.c:20
     msgid "Thank you for using Weblate."
     msgstr ""
+
+
+This file is compiled into an optimized binary form, the `.mo
+<https://www.gnu.org/software/gettext/manual/gettext.html#MO-Files>`_
+file used by the `GNU Gettext`_ functions at runtime.
 
 Updating strings
 ++++++++++++++++
@@ -291,3 +302,4 @@ direcly supported, you currently have to list them separately:
 .. _Internationalization Quick Guide: http://www.sphinx-doc.org/en/stable/intl.html#quick-guide
 .. _Localization of Documentation: https://docs.readthedocs.io/en/latest/localization.html
 .. _intltool: https://freedesktop.org/wiki/Software/intltool/
+.. _pybabel: http://babel.pocoo.org/
