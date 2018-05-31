@@ -518,6 +518,14 @@ To make outgoing email work, you need to provide mail server.
 
     .. seealso:: :setting:`django:EMAIL_USE_TLS`
 
+Further configuration custmoziation
++++++++++++++++++++++++++++++++++++
+
+You can additionally override the configuration by
+:file:`/app/data/settings-override.py`. This is executed after all environment
+settings are loaded, so it gets complete setup and can be used to customize
+anything.
+
 Hub setup
 +++++++++
 
