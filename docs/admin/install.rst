@@ -330,8 +330,8 @@ you might need additional components:
     # Web server option 2: Apache with mod_wsgi
     apt-get install apache2 libapache2-mod-wsgi
 
-    # Caching backend: memcached
-    apt-get install memcached
+    # Caching backend: redis
+    apt-get install redis-server
 
     # Database option 1: postgresql
     apt-get install postgresql
@@ -379,8 +379,8 @@ you might need additional components:
     # Web server option 2: Apache with mod_wsgi
     zypper install apache2 apache2-mod_wsgi
 
-    # Caching backend: memcached
-    zypper install memcached
+    # Caching backend: redis
+    zypper install redis-server
 
     # Database option 1: postgresql
     zypper install postgresql
@@ -897,8 +897,23 @@ environment), see :ref:`database-setup` for more information.
 Enable caching
 ++++++++++++++
 
-If possible, use memcache from Django by adjusting ``CACHES`` configuration
+If possible, use redis from Django by adjusting ``CACHES`` configuration
 variable, for example:
+
+.. code-block:: python
+
+    CACHES = {
+        'default': {
+            'BACKEND': 'django_redis.cache.RedisCache',
+            'LOCATION': 'unix:///var/run/redis/redis.sock?db=0',
+            'OPTIONS': {
+                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+                'PARSER_CLASS': 'redis.connection.HiredisParser',
+            }
+        }
+    }
+
+Alternatively you can also use memcached:
 
 .. code-block:: python
 
@@ -927,8 +942,12 @@ recommended to use separate, file backed cache for this purpose:
     CACHES = {
         'default': {
             # Default caching backend setup, see above
-            'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-            'LOCATION': '127.0.0.1:11211',
+            'BACKEND': 'django_redis.cache.RedisCache',
+            'LOCATION': 'unix:///var/run/redis/redis.sock?db=0',
+            'OPTIONS': {
+                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+                'PARSER_CLASS': 'redis.connection.HiredisParser',
+            }
         },
         'avatar': {
             'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
@@ -1351,4 +1370,4 @@ Other notes
 +++++++++++
 
 Don't forget to move other services which Weblate might have been using like
-memcached, cron jobs or custom authentication backends.
+redis, memcached, cron jobs or custom authentication backends.
