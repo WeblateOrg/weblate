@@ -8,8 +8,8 @@ from weblate.gitexport.models import get_export_url, SUPPORTED_VCS
 
 
 def set_export_url(apps, schema_editor):
-    SubProject = apps.get_model('trans', 'SubProject')
-    matching = SubProject.objects.filter(
+    Component = apps.get_model('trans', 'Component')
+    matching = Component.objects.filter(
         vcs__in=SUPPORTED_VCS
     ).exclude(
         repo__startswith='weblate:/'
@@ -25,6 +25,10 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('trans', '0069_source_screenshot'),
+    ]
+
+    run_before = [
+        ('trans', '0131_auto_20180416_1610'),
     ]
 
     operations = [

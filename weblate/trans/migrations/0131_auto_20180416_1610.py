@@ -13,7 +13,6 @@ ComponentList.components relation after SubProject -> Component rename.
 
 from __future__ import unicode_literals
 
-from django.conf import settings
 from django.db import models, migrations
 
 def store_ids(apps, schema_editor):
@@ -35,11 +34,6 @@ def restore_ids(apps, schema_editor):
         )
 
 
-if 'weblate.gitexport' in settings.INSTALLED_APPS:
-    git_dep = [('gitexport', '0001_initial')]
-else:
-    git_dep = []
-
 class Migration(migrations.Migration):
     # This can not be done atomic on SQLite
     atomic = False
@@ -50,8 +44,7 @@ class Migration(migrations.Migration):
         ('addons', '0005_unwrapped_po'),
         ('permissions', '0001_initial'),
         ('screenshots', '0001_initial'),
-
-    ] + git_dep
+    ]
 
     operations = [
         migrations.AddField(

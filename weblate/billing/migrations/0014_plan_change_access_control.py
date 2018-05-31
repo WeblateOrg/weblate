@@ -11,6 +11,10 @@ class Migration(migrations.Migration):
         ('billing', '0013_auto_20170601_1116'),
     ]
 
+    run_before = [
+        ('weblate_auth', '0010_auto_20180509_1630'),
+    ]
+
     operations = [
         migrations.AddField(
             model_name='plan',

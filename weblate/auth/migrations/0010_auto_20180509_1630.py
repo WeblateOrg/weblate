@@ -40,17 +40,11 @@ def run_migration(apps, schema_editor):
             handle_project(Group, Role, project)
 
 
-if 'weblate.billing' in settings.INSTALLED_APPS:
-    billing_dep = [('billing', '0014_plan_change_access_control')]
-else:
-    billing_dep = []
-
-
 class Migration(migrations.Migration):
 
     dependencies = [
         ('weblate_auth', '0009_auto_20180509_1552'),
-    ] + billing_dep
+    ]
 
     operations = [
         migrations.RunPython(run_migration, reverse_code=run_migration)
