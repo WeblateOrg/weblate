@@ -405,6 +405,10 @@ Authentication settings
 
     Enables :ref:`gitlab_auth`.
 
+.. envvar:: WEBLATE_NO_EMAIL_AUTH
+
+    Disabled email authenticatin when set to any value.
+
 
 PostgreSQL database setup
 ~~~~~~~~~~~~~~~~~~~~~~~~~
