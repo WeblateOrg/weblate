@@ -790,7 +790,11 @@ site.
 Production setup
 ----------------
 
-For production setup you should do following adjustments:
+For production setup you should do following adjustments.
+
+.. seealso::
+
+    :doc:`django:howto/deployment/checklist`
 
 .. _production-debug:
 
