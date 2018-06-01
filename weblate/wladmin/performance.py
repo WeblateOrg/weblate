@@ -82,7 +82,7 @@ def run_server(checks, request):
             _('Server'),
             server.__module__ != 'wsgiref.util',
             'server',
-            server.__module__ or server.__class__
+            server.__module__ or server.__class__.__name__
         ))
 
 
