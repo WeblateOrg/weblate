@@ -6,6 +6,7 @@ weblate 3.0
 
 Released on June 1st 2018.
 
+* Rewritten access control.
 * Several code cleanups that lead to moved and renamed modules.
 * New addon for automatic component discovery.
 * The import_project management command has now slightly different parameters.
