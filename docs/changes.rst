@@ -4,7 +4,7 @@ Changes
 weblate 3.0
 -----------
 
-Released on ? 2018.
+Released on June 1st 2018.
 
 * Several code cleanups that lead to moved and renamed modules.
 * New addon for automatic component discovery.
