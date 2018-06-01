@@ -65,7 +65,7 @@ def performance(request, admin_site):
         return handle_dismiss(request)
 
     context = admin_site.each_context(request)
-    context['checks'] = run_checks()
+    context['checks'] = run_checks(request)
     context['errors'] = ConfigurationError.objects.filter(ignored=False)
 
     return render(

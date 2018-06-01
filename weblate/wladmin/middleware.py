@@ -42,7 +42,7 @@ class ConfigurationErrorsMiddleware(object):
     @staticmethod
     def does_fire(func):
         checks = []
-        func(checks)
+        func(checks, None)
         return checks and checks[0][1] is False
 
     def __init__(self, get_response=None):

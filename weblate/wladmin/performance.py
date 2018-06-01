@@ -55,15 +55,15 @@ def register_check(function):
     return function
 
 
-def run_checks():
+def run_checks(request):
     result = []
     for check in PERFORMANCE_CHECKS:
-        check(result)
+        check(result, request)
     return result
 
 
 @register_check
-def run_debug(checks):
+def run_debug(checks, request):
     """Check for debug mode"""
     checks.append((
         _('Debug mode'),
@@ -74,8 +74,8 @@ def run_debug(checks):
 
 
 @register_check
-def run_(checks):
-    # Check for domain configuration
+def run_domain(checks, request):
+    """Check for domain configuration"""
     checks.append((
         _('Site domain'),
         check_domain(get_site_domain()),
@@ -85,7 +85,7 @@ def run_(checks):
 
 
 @register_check
-def run_db(checks):
+def run_db(checks, request):
     """Check database being used"""
     checks.append((
         _('Database backend'),
@@ -96,7 +96,7 @@ def run_db(checks):
 
 
 @register_check
-def run_admin(checks):
+def run_admin(checks, request):
     """Check configured admins"""
     checks.append((
         _('Site administrator'),
@@ -108,7 +108,7 @@ def run_admin(checks):
 
 
 @register_check
-def run_index(checks):
+def run_index(checks, request):
     """Check offloading indexing"""
     checks.append((
         # Translators: Indexing is postponed to cron job
@@ -120,7 +120,7 @@ def run_index(checks):
 
 
 @register_check
-def run_index_queue(checks):
+def run_index_queue(checks, request):
     if settings.OFFLOAD_INDEXING:
         if IndexUpdate.objects.count() < 1000:
             index_updates = True
@@ -139,7 +139,7 @@ def run_index_queue(checks):
 
 
 @register_check
-def run_cache(checks):
+def run_cache(checks, request):
     """Check for sane caching"""
     caches = settings.CACHES['default']['BACKEND'].split('.')[-1]
     if caches in GOOD_CACHE:
@@ -160,7 +160,7 @@ def run_cache(checks):
 
 
 @register_check
-def run_avatar_cache(checks):
+def run_avatar_cache(checks, request):
     """Avatar caching"""
     checks.append((
         _('Avatar caching'),
@@ -172,7 +172,7 @@ def run_avatar_cache(checks):
 
 
 @register_check
-def run_mails(checks):
+def run_mails(checks, request):
     """Check email setup"""
     checks.append((
         _('Email addresses'),
@@ -186,7 +186,7 @@ def run_mails(checks):
 
 
 @register_check
-def run_libravatar(checks):
+def run_libravatar(checks, request):
     """libravatar library"""
     checks.append((
         _('Federated avatar support'),
@@ -197,7 +197,7 @@ def run_libravatar(checks):
 
 
 @register_check
-def run_pyuca(checks):
+def run_pyuca(checks, request):
     """pyuca library"""
     checks.append((
         _('pyuca library'),
@@ -208,7 +208,7 @@ def run_pyuca(checks):
 
 
 @register_check
-def run_cookies(checks):
+def run_cookies(checks, request):
     """Cookie signing key"""
     checks.append((
         _('Secret key'),
@@ -219,7 +219,7 @@ def run_cookies(checks):
 
 
 @register_check
-def run_hosts(checks):
+def run_hosts(checks, request):
     """Allowed hosts"""
     checks.append((
         _('Allowed hosts'),
@@ -247,7 +247,7 @@ def get_first_loader():
 
 
 @register_check
-def run_templates(checks):
+def run_templates(checks, request):
     """Cached template loader"""
     loader = get_first_loader()
     checks.append((
@@ -259,7 +259,7 @@ def run_templates(checks):
 
 
 @register_check
-def run_static(checks):
+def run_static(checks, request):
     """Check for serving static files"""
     checks.append((
         _('Admin static files'),
