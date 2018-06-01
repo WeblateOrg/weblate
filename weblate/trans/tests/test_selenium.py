@@ -156,7 +156,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             self.actions.move_to_element(element).perform()
             element.click()
 
-    def do_login(self, create=True):
+    def do_login(self, create=True, superuser=False):
         # login page
         with self.wait_for_page_load():
             self.click(
@@ -165,7 +165,10 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
 
         # Create user
         if create:
-            create_test_user()
+            user = create_test_user()
+            if superuser:
+                user.is_superuser = True
+                user.save()
 
         # Login
         username_input = self.driver.find_element_by_id('id_username')
@@ -278,6 +281,39 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
     def test_register_nocookie(self):
         """Test registration without cookies."""
         self.test_register(True)
+
+    def test_admin(self):
+        """Test admin interface."""
+        self.do_login(superuser=True)
+
+        # Open admin page
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element_by_id('admin-button'),
+            )
+
+        # Open SSH page
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element_by_link_text('SSH keys'),
+            )
+
+        # Generate SSH key
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element_by_id('generate-ssh-button'),
+            )
+
+        # Add SSH host key
+        self.driver.find_element_by_id(
+            'ssh-host'
+        ).send_keys(
+            'github.com'
+        )
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element_by_id('ssh-add-button'),
+            )
 
 
 # What other platforms we want to test
