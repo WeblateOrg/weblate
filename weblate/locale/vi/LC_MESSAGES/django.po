@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-05-30 18:42+0000\n"
+"POT-Creation-Date: 2018-06-01 08:46+0000\n"
 "PO-Revision-Date: 2016-01-14 15:09+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
@@ -2238,26 +2238,39 @@ msgid "Cookies Policy"
 msgstr ""
 
 #: weblate/legal/templates/legal/cookies.html:20
+#: weblate/legal/templates/legal/index.html:28
 msgid ""
-"This page is based on the Terms of Service, you should still read the "
-"original document to fully understand them."
+"This page is based on the Terms of Service and the Privacy Policy, you "
+"should still read the original documents to fully understand them:"
 msgstr ""
 
 #: weblate/legal/templates/legal/cookies.html:24
+#: weblate/legal/templates/legal/index.html:32
+#: weblate/legal/templates/legal/terms.html:16 weblate/legal/views.py:42
+msgid "Terms of Service"
+msgstr ""
+
+#: weblate/legal/templates/legal/cookies.html:25
+#: weblate/legal/templates/legal/index.html:33
+#: weblate/legal/templates/legal/privacy.html:17
+msgid "Privacy Policy"
+msgstr ""
+
+#: weblate/legal/templates/legal/cookies.html:29
 msgid "We use cookies for following:"
 msgstr ""
 
-#: weblate/legal/templates/legal/cookies.html:28
+#: weblate/legal/templates/legal/cookies.html:33
 msgid ""
 "Authentication cookies which are required for recognizing authenticated "
 "users."
 msgstr ""
 
-#: weblate/legal/templates/legal/cookies.html:29
+#: weblate/legal/templates/legal/cookies.html:34
 msgid "Preferences cookie to store user preferences in certain situations."
 msgstr ""
 
-#: weblate/legal/templates/legal/cookies.html:30
+#: weblate/legal/templates/legal/cookies.html:35
 msgid ""
 "We use Matomo to analyze traffic on our website. Matomo honours Do Not Track "
 "settings in your browser."
@@ -2298,22 +2311,6 @@ msgstr ""
 
 #: weblate/legal/templates/legal/index.html:24
 msgid "We use cookies to deliver our services."
-msgstr ""
-
-#: weblate/legal/templates/legal/index.html:28
-msgid ""
-"This page is based on the Terms of Service and the Privacy Policy, you "
-"should still read the original documents to fully understand them:"
-msgstr ""
-
-#: weblate/legal/templates/legal/index.html:32
-#: weblate/legal/templates/legal/terms.html:16 weblate/legal/views.py:42
-msgid "Terms of Service"
-msgstr ""
-
-#: weblate/legal/templates/legal/index.html:33
-#: weblate/legal/templates/legal/privacy.html:17
-msgid "Privacy Policy"
 msgstr ""
 
 #: weblate/legal/templates/legal/privacy.html:7 weblate/legal/views.py:57
@@ -8545,6 +8542,76 @@ msgstr "Xảy ra lỗi khi tạo khóa: %s"
 msgid "Failed to get host key: %s"
 msgstr "Xảy ra lỗi khi tạo khóa: %s"
 
+#: weblate/wladmin/performance.py:69
+msgid "Debug mode"
+msgstr "Chế độ gỡ rối"
+
+#: weblate/wladmin/performance.py:82
+msgid "Server"
+msgstr ""
+
+#: weblate/wladmin/performance.py:93
+msgid "Site domain"
+msgstr "Tên miền"
+
+#: weblate/wladmin/performance.py:104
+msgid "Database backend"
+msgstr "Cơ sở dữ liệu đầu cuối"
+
+#: weblate/wladmin/performance.py:115
+msgid "Site administrator"
+msgstr "Trang quản trị"
+
+#. Translators: Indexing is postponed to cron job
+#: weblate/wladmin/performance.py:128
+msgid "Indexing offloading"
+msgstr "Giảm tải đánh chỉ số"
+
+#. Translators: Indexing is postponed to cron job
+#: weblate/wladmin/performance.py:147
+#, fuzzy
+#| msgid "Indexing offloading"
+msgid "Indexing offloading queue"
+msgstr "Giảm tải đánh chỉ số"
+
+#: weblate/wladmin/performance.py:168
+msgid "Django caching"
+msgstr "Bộ nhớ đệm cho Django"
+
+#: weblate/wladmin/performance.py:179
+#, fuzzy
+#| msgid "Django caching"
+msgid "Avatar caching"
+msgstr "Bộ nhớ đệm cho Django"
+
+#: weblate/wladmin/performance.py:191
+msgid "Email addresses"
+msgstr "Địa chỉ email"
+
+#: weblate/wladmin/performance.py:205
+msgid "Federated avatar support"
+msgstr "Hỗ trợ hình ảnh đại diện tổ chức"
+
+#: weblate/wladmin/performance.py:216
+msgid "pyuca library"
+msgstr "Thư viện pyuca"
+
+#: weblate/wladmin/performance.py:227
+msgid "Secret key"
+msgstr ""
+
+#: weblate/wladmin/performance.py:238
+msgid "Allowed hosts"
+msgstr "Các host được cho phép"
+
+#: weblate/wladmin/performance.py:267
+msgid "Cached template loader"
+msgstr ""
+
+#: weblate/wladmin/performance.py:278
+msgid "Admin static files"
+msgstr ""
+
 #: weblate/wladmin/sites.py:76 weblate/wladmin/sites.py:77
 #, fuzzy
 #| msgid "Notification on any translation"
@@ -8702,77 +8769,16 @@ msgstr ""
 msgid "Reports"
 msgstr ""
 
-#: weblate/wladmin/views.py:87
+#: weblate/wladmin/views.py:58
 #, fuzzy
 #| msgid "Notification on any translation"
 msgid "Failed to dismiss configuration error!"
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
-#: weblate/wladmin/views.py:98
-msgid "Debug mode"
-msgstr "Chế độ gỡ rối"
-
-#: weblate/wladmin/views.py:105
-msgid "Site domain"
-msgstr "Tên miền"
-
-#: weblate/wladmin/views.py:112
-msgid "Database backend"
-msgstr "Cơ sở dữ liệu đầu cuối"
-
-#: weblate/wladmin/views.py:119
-msgid "Site administrator"
-msgstr "Trang quản trị"
-
-#. Translators: Indexing is postponed to cron job
-#: weblate/wladmin/views.py:128
-msgid "Indexing offloading"
-msgstr "Giảm tải đánh chỉ số"
-
-#. Translators: Indexing is postponed to cron job
-#: weblate/wladmin/views.py:143
 #, fuzzy
-#| msgid "Indexing offloading"
-msgid "Indexing offloading processing"
-msgstr "Giảm tải đánh chỉ số"
-
-#: weblate/wladmin/views.py:160
-msgid "Django caching"
-msgstr "Bộ nhớ đệm cho Django"
-
-#: weblate/wladmin/views.py:167
-#, fuzzy
-#| msgid "Django caching"
-msgid "Avatar caching"
-msgstr "Bộ nhớ đệm cho Django"
-
-#: weblate/wladmin/views.py:181
-msgid "Email addresses"
-msgstr "Địa chỉ email"
-
-#: weblate/wladmin/views.py:191
-msgid "Federated avatar support"
-msgstr "Hỗ trợ hình ảnh đại diện tổ chức"
-
-#: weblate/wladmin/views.py:198
-msgid "pyuca library"
-msgstr "Thư viện pyuca"
-
-#: weblate/wladmin/views.py:205
-msgid "Secret key"
-msgstr ""
-
-#: weblate/wladmin/views.py:212
-msgid "Allowed hosts"
-msgstr "Các host được cho phép"
-
-#: weblate/wladmin/views.py:221
-msgid "Cached template loader"
-msgstr ""
-
-#: weblate/wladmin/views.py:229
-msgid "Admin static files"
-msgstr ""
+#~| msgid "Indexing offloading"
+#~ msgid "Indexing offloading processing"
+#~ msgstr "Giảm tải đánh chỉ số"
 
 #, fuzzy
 #~| msgid "PHP strings"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-05-30 18:42+0000\n"
+"POT-Creation-Date: 2018-06-01 08:46+0000\n"
 "PO-Revision-Date: 2018-05-31 20:19+0000\n"
 "Last-Translator: Андрій Бандура <andriykopanytsia@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/master/"
@@ -16,8 +16,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
-"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.0-dev\n"
 
 #: weblate/accounts/avatar.py:164
@@ -734,8 +734,8 @@ msgid ""
 "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
 "parameter it wraps only at newlines."
 msgstr ""
-"Типово gettext переносить рядки на 77 символі і нових рядках, з параметром "
-"--no-wrap він переносить тільки на нових рядках."
+"Типово gettext переносить рядки на 77 символі і нових рядках, з параметром --"
+"no-wrap він переносить тільки на нових рядках."
 
 #: weblate/addons/forms.py:100
 msgid "Sort JSON keys"
@@ -2121,18 +2121,35 @@ msgid "Cookies Policy"
 msgstr "Політика реп'яшків"
 
 #: weblate/legal/templates/legal/cookies.html:20
+#: weblate/legal/templates/legal/index.html:28
+#, fuzzy
+#| msgid ""
+#| "This page is based on the Terms of Service, you should still read the "
+#| "original document to fully understand them."
 msgid ""
-"This page is based on the Terms of Service, you should still read the "
-"original document to fully understand them."
+"This page is based on the Terms of Service and the Privacy Policy, you "
+"should still read the original documents to fully understand them:"
 msgstr ""
 "Ця сторінка базується на Умовах послуги, ви все одно повинні прочитати "
 "оригінал документа, щоб повністю зрозуміти їх."
 
 #: weblate/legal/templates/legal/cookies.html:24
+#: weblate/legal/templates/legal/index.html:32
+#: weblate/legal/templates/legal/terms.html:16 weblate/legal/views.py:42
+msgid "Terms of Service"
+msgstr "Умови послуг"
+
+#: weblate/legal/templates/legal/cookies.html:25
+#: weblate/legal/templates/legal/index.html:33
+#: weblate/legal/templates/legal/privacy.html:17
+msgid "Privacy Policy"
+msgstr "Політика конфіденційності"
+
+#: weblate/legal/templates/legal/cookies.html:29
 msgid "We use cookies for following:"
 msgstr "Ми використовуємо реп'яшки для таких цілей:"
 
-#: weblate/legal/templates/legal/cookies.html:28
+#: weblate/legal/templates/legal/cookies.html:33
 msgid ""
 "Authentication cookies which are required for recognizing authenticated "
 "users."
@@ -2140,13 +2157,13 @@ msgstr ""
 "Реп'яшки розпізнавання, які необхідні для визнання авторизованих "
 "користувачів."
 
-#: weblate/legal/templates/legal/cookies.html:29
+#: weblate/legal/templates/legal/cookies.html:34
 msgid "Preferences cookie to store user preferences in certain situations."
 msgstr ""
 "Реп'яшки налаштувань, які зберігають уподобання користувача у певних "
 "випадках."
 
-#: weblate/legal/templates/legal/cookies.html:30
+#: weblate/legal/templates/legal/cookies.html:35
 msgid ""
 "We use Matomo to analyze traffic on our website. Matomo honours Do Not Track "
 "settings in your browser."
@@ -2197,28 +2214,6 @@ msgstr ""
 #: weblate/legal/templates/legal/index.html:24
 msgid "We use cookies to deliver our services."
 msgstr "Ми використовуємо реп'яшки, щоби доставити наші послуги."
-
-#: weblate/legal/templates/legal/index.html:28
-#, fuzzy
-#| msgid ""
-#| "This page is based on the Terms of Service, you should still read the "
-#| "original document to fully understand them."
-msgid ""
-"This page is based on the Terms of Service and the Privacy Policy, you "
-"should still read the original documents to fully understand them:"
-msgstr ""
-"Ця сторінка базується на Умовах послуги, ви все одно повинні прочитати "
-"оригінал документа, щоб повністю зрозуміти їх."
-
-#: weblate/legal/templates/legal/index.html:32
-#: weblate/legal/templates/legal/terms.html:16 weblate/legal/views.py:42
-msgid "Terms of Service"
-msgstr "Умови послуг"
-
-#: weblate/legal/templates/legal/index.html:33
-#: weblate/legal/templates/legal/privacy.html:17
-msgid "Privacy Policy"
-msgstr "Політика конфіденційності"
 
 #: weblate/legal/templates/legal/privacy.html:7 weblate/legal/views.py:57
 msgid "Privacy"
@@ -8405,6 +8400,76 @@ msgstr "Не вдалося стягнути публічний ключ для 
 msgid "Failed to get host key: %s"
 msgstr "Не вдалося отримати ключ: %s"
 
+#: weblate/wladmin/performance.py:69
+msgid "Debug mode"
+msgstr "Режим налагодження"
+
+#: weblate/wladmin/performance.py:82
+#, fuzzy
+#| msgid "Service"
+msgid "Server"
+msgstr "Служба"
+
+#: weblate/wladmin/performance.py:93
+msgid "Site domain"
+msgstr "Домен сайту"
+
+#: weblate/wladmin/performance.py:104
+msgid "Database backend"
+msgstr "Основа бази даних"
+
+#: weblate/wladmin/performance.py:115
+msgid "Site administrator"
+msgstr "Адміністратор сайту"
+
+#. Translators: Indexing is postponed to cron job
+#: weblate/wladmin/performance.py:128
+msgid "Indexing offloading"
+msgstr "Індексування розвантаження"
+
+#. Translators: Indexing is postponed to cron job
+#: weblate/wladmin/performance.py:147
+#, fuzzy
+#| msgid "Indexing offloading"
+msgid "Indexing offloading queue"
+msgstr "Індексування розвантаження"
+
+#: weblate/wladmin/performance.py:168
+msgid "Django caching"
+msgstr "Кешування Django"
+
+#: weblate/wladmin/performance.py:179
+msgid "Avatar caching"
+msgstr "Кешування аватару"
+
+#: weblate/wladmin/performance.py:191
+msgid "Email addresses"
+msgstr "Адреси електронної пошти"
+
+#: weblate/wladmin/performance.py:205
+msgid "Federated avatar support"
+msgstr "Підтримка федеративних аватарів"
+
+#: weblate/wladmin/performance.py:216
+msgid "pyuca library"
+msgstr "Бібліотека pyuca"
+
+#: weblate/wladmin/performance.py:227
+msgid "Secret key"
+msgstr "Секретний ключ"
+
+#: weblate/wladmin/performance.py:238
+msgid "Allowed hosts"
+msgstr "Дозволені вузли"
+
+#: weblate/wladmin/performance.py:267
+msgid "Cached template loader"
+msgstr "Завантажувач шаблону кешу"
+
+#: weblate/wladmin/performance.py:278
+msgid "Admin static files"
+msgstr "Статичні файли адміністратора"
+
 #: weblate/wladmin/sites.py:76 weblate/wladmin/sites.py:77
 msgid "Weblate administration"
 msgstr "Адміністрування Weblate"
@@ -8566,71 +8631,19 @@ msgstr ""
 msgid "Reports"
 msgstr "Звіти"
 
-#: weblate/wladmin/views.py:87
+#: weblate/wladmin/views.py:58
 msgid "Failed to dismiss configuration error!"
 msgstr "Не вдалося знехтувати помилкою в налаштуваннях!"
 
-#: weblate/wladmin/views.py:98
-msgid "Debug mode"
-msgstr "Режим налагодження"
+#~ msgid ""
+#~ "This page is based on the Terms of Service, you should still read the "
+#~ "original document to fully understand them."
+#~ msgstr ""
+#~ "Ця сторінка базується на Умовах послуги, ви все одно повинні прочитати "
+#~ "оригінал документа, щоб повністю зрозуміти їх."
 
-#: weblate/wladmin/views.py:105
-msgid "Site domain"
-msgstr "Домен сайту"
-
-#: weblate/wladmin/views.py:112
-msgid "Database backend"
-msgstr "Основа бази даних"
-
-#: weblate/wladmin/views.py:119
-msgid "Site administrator"
-msgstr "Адміністратор сайту"
-
-#. Translators: Indexing is postponed to cron job
-#: weblate/wladmin/views.py:128
-msgid "Indexing offloading"
-msgstr "Індексування розвантаження"
-
-#. Translators: Indexing is postponed to cron job
-#: weblate/wladmin/views.py:143
-msgid "Indexing offloading processing"
-msgstr "Опрацьовується розвантаження індексування"
-
-#: weblate/wladmin/views.py:160
-msgid "Django caching"
-msgstr "Кешування Django"
-
-#: weblate/wladmin/views.py:167
-msgid "Avatar caching"
-msgstr "Кешування аватару"
-
-#: weblate/wladmin/views.py:181
-msgid "Email addresses"
-msgstr "Адреси електронної пошти"
-
-#: weblate/wladmin/views.py:191
-msgid "Federated avatar support"
-msgstr "Підтримка федеративних аватарів"
-
-#: weblate/wladmin/views.py:198
-msgid "pyuca library"
-msgstr "Бібліотека pyuca"
-
-#: weblate/wladmin/views.py:205
-msgid "Secret key"
-msgstr "Секретний ключ"
-
-#: weblate/wladmin/views.py:212
-msgid "Allowed hosts"
-msgstr "Дозволені вузли"
-
-#: weblate/wladmin/views.py:221
-msgid "Cached template loader"
-msgstr "Завантажувач шаблону кешу"
-
-#: weblate/wladmin/views.py:229
-msgid "Admin static files"
-msgstr "Статичні файли адміністратора"
+#~ msgid "Indexing offloading processing"
+#~ msgstr "Опрацьовується розвантаження індексування"
 
 #~ msgid ""
 #~ "Weblate needs some personal information, this page describes how it is "

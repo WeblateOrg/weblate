@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-05-30 18:42+0000\n"
+"POT-Creation-Date: 2018-06-01 08:46+0000\n"
 "PO-Revision-Date: 2018-01-30 18:47+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Azerbaijani <https://hosted.weblate.org/projects/weblate/"
@@ -2325,26 +2325,41 @@ msgid "Cookies Policy"
 msgstr ""
 
 #: weblate/legal/templates/legal/cookies.html:20
+#: weblate/legal/templates/legal/index.html:28
 msgid ""
-"This page is based on the Terms of Service, you should still read the "
-"original document to fully understand them."
+"This page is based on the Terms of Service and the Privacy Policy, you "
+"should still read the original documents to fully understand them:"
 msgstr ""
 
 #: weblate/legal/templates/legal/cookies.html:24
+#: weblate/legal/templates/legal/index.html:32
+#: weblate/legal/templates/legal/terms.html:16 weblate/legal/views.py:42
+#, fuzzy
+#| msgid "Service"
+msgid "Terms of Service"
+msgstr "Servis"
+
+#: weblate/legal/templates/legal/cookies.html:25
+#: weblate/legal/templates/legal/index.html:33
+#: weblate/legal/templates/legal/privacy.html:17
+msgid "Privacy Policy"
+msgstr ""
+
+#: weblate/legal/templates/legal/cookies.html:29
 msgid "We use cookies for following:"
 msgstr ""
 
-#: weblate/legal/templates/legal/cookies.html:28
+#: weblate/legal/templates/legal/cookies.html:33
 msgid ""
 "Authentication cookies which are required for recognizing authenticated "
 "users."
 msgstr ""
 
-#: weblate/legal/templates/legal/cookies.html:29
+#: weblate/legal/templates/legal/cookies.html:34
 msgid "Preferences cookie to store user preferences in certain situations."
 msgstr ""
 
-#: weblate/legal/templates/legal/cookies.html:30
+#: weblate/legal/templates/legal/cookies.html:35
 msgid ""
 "We use Matomo to analyze traffic on our website. Matomo honours Do Not Track "
 "settings in your browser."
@@ -2385,24 +2400,6 @@ msgstr ""
 
 #: weblate/legal/templates/legal/index.html:24
 msgid "We use cookies to deliver our services."
-msgstr ""
-
-#: weblate/legal/templates/legal/index.html:28
-msgid ""
-"This page is based on the Terms of Service and the Privacy Policy, you "
-"should still read the original documents to fully understand them:"
-msgstr ""
-
-#: weblate/legal/templates/legal/index.html:32
-#: weblate/legal/templates/legal/terms.html:16 weblate/legal/views.py:42
-#, fuzzy
-#| msgid "Service"
-msgid "Terms of Service"
-msgstr "Servis"
-
-#: weblate/legal/templates/legal/index.html:33
-#: weblate/legal/templates/legal/privacy.html:17
-msgid "Privacy Policy"
 msgstr ""
 
 #: weblate/legal/templates/legal/privacy.html:7 weblate/legal/views.py:57
@@ -9294,6 +9291,76 @@ msgstr "Host açarını alma uğursuz oldu: %s"
 msgid "Failed to get host key: %s"
 msgstr "Host açarını alma uğursuz oldu: %s"
 
+#: weblate/wladmin/performance.py:69
+msgid "Debug mode"
+msgstr "Debug modu"
+
+#: weblate/wladmin/performance.py:82
+#, fuzzy
+#| msgid "Service"
+msgid "Server"
+msgstr "Servis"
+
+#: weblate/wladmin/performance.py:93
+msgid "Site domain"
+msgstr "Sayt domeyni"
+
+#: weblate/wladmin/performance.py:104
+msgid "Database backend"
+msgstr "Verilənlər Bazası backendi"
+
+#: weblate/wladmin/performance.py:115
+msgid "Site administrator"
+msgstr "Sayt adminsitratoru"
+
+#. Translators: Indexing is postponed to cron job
+#: weblate/wladmin/performance.py:128
+msgid "Indexing offloading"
+msgstr "İndeksləmə boşaldılır"
+
+#. Translators: Indexing is postponed to cron job
+#: weblate/wladmin/performance.py:147
+#, fuzzy
+#| msgid "Indexing offloading"
+msgid "Indexing offloading queue"
+msgstr "İndeksləmə boşaldılır"
+
+#: weblate/wladmin/performance.py:168
+msgid "Django caching"
+msgstr "Django keşləməsi"
+
+#: weblate/wladmin/performance.py:179
+msgid "Avatar caching"
+msgstr "Avatar keşləməsi"
+
+#: weblate/wladmin/performance.py:191
+msgid "Email addresses"
+msgstr "Mail adresləri"
+
+#: weblate/wladmin/performance.py:205
+msgid "Federated avatar support"
+msgstr "Birləşmiş avatar dəstəyi"
+
+#: weblate/wladmin/performance.py:216
+msgid "pyuca library"
+msgstr "pyuca kitabxanası"
+
+#: weblate/wladmin/performance.py:227
+msgid "Secret key"
+msgstr "Gizli açar"
+
+#: weblate/wladmin/performance.py:238
+msgid "Allowed hosts"
+msgstr "İcazə verilən hostlar"
+
+#: weblate/wladmin/performance.py:267
+msgid "Cached template loader"
+msgstr ""
+
+#: weblate/wladmin/performance.py:278
+msgid "Admin static files"
+msgstr "Admin statik faylları"
+
 #: weblate/wladmin/sites.py:76 weblate/wladmin/sites.py:77
 #, fuzzy
 #| msgid "Your translations"
@@ -9468,75 +9535,16 @@ msgstr ""
 msgid "Reports"
 msgstr "Hesabatlar"
 
-#: weblate/wladmin/views.py:87
+#: weblate/wladmin/views.py:58
 #, fuzzy
 #| msgid "Configuration errors"
 msgid "Failed to dismiss configuration error!"
 msgstr "Konfiqurasiya xətaları"
 
-#: weblate/wladmin/views.py:98
-msgid "Debug mode"
-msgstr "Debug modu"
-
-#: weblate/wladmin/views.py:105
-msgid "Site domain"
-msgstr "Sayt domeyni"
-
-#: weblate/wladmin/views.py:112
-msgid "Database backend"
-msgstr "Verilənlər Bazası backendi"
-
-#: weblate/wladmin/views.py:119
-msgid "Site administrator"
-msgstr "Sayt adminsitratoru"
-
-#. Translators: Indexing is postponed to cron job
-#: weblate/wladmin/views.py:128
-msgid "Indexing offloading"
-msgstr "İndeksləmə boşaldılır"
-
-#. Translators: Indexing is postponed to cron job
-#: weblate/wladmin/views.py:143
 #, fuzzy
-#| msgid "Indexing offloading"
-msgid "Indexing offloading processing"
-msgstr "İndeksləmə boşaldılır"
-
-#: weblate/wladmin/views.py:160
-msgid "Django caching"
-msgstr "Django keşləməsi"
-
-#: weblate/wladmin/views.py:167
-msgid "Avatar caching"
-msgstr "Avatar keşləməsi"
-
-#: weblate/wladmin/views.py:181
-msgid "Email addresses"
-msgstr "Mail adresləri"
-
-#: weblate/wladmin/views.py:191
-msgid "Federated avatar support"
-msgstr "Birləşmiş avatar dəstəyi"
-
-#: weblate/wladmin/views.py:198
-msgid "pyuca library"
-msgstr "pyuca kitabxanası"
-
-#: weblate/wladmin/views.py:205
-msgid "Secret key"
-msgstr "Gizli açar"
-
-#: weblate/wladmin/views.py:212
-msgid "Allowed hosts"
-msgstr "İcazə verilən hostlar"
-
-#: weblate/wladmin/views.py:221
-msgid "Cached template loader"
-msgstr ""
-
-#: weblate/wladmin/views.py:229
-msgid "Admin static files"
-msgstr "Admin statik faylları"
+#~| msgid "Indexing offloading"
+#~ msgid "Indexing offloading processing"
+#~ msgstr "İndeksləmə boşaldılır"
 
 #, fuzzy
 #~| msgid "Source string:"

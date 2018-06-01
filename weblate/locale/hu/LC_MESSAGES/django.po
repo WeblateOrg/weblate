@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-05-30 18:42+0000\n"
+"POT-Creation-Date: 2018-06-01 08:46+0000\n"
 "PO-Revision-Date: 2018-05-14 09:38+0000\n"
 "Last-Translator: Varanka Zoltán <zvaranka60@gmail.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/master/"
@@ -2269,26 +2269,41 @@ msgid "Cookies Policy"
 msgstr ""
 
 #: weblate/legal/templates/legal/cookies.html:20
+#: weblate/legal/templates/legal/index.html:28
 msgid ""
-"This page is based on the Terms of Service, you should still read the "
-"original document to fully understand them."
+"This page is based on the Terms of Service and the Privacy Policy, you "
+"should still read the original documents to fully understand them:"
 msgstr ""
 
 #: weblate/legal/templates/legal/cookies.html:24
+#: weblate/legal/templates/legal/index.html:32
+#: weblate/legal/templates/legal/terms.html:16 weblate/legal/views.py:42
+#, fuzzy
+#| msgid "Service"
+msgid "Terms of Service"
+msgstr "Szolgáltatás"
+
+#: weblate/legal/templates/legal/cookies.html:25
+#: weblate/legal/templates/legal/index.html:33
+#: weblate/legal/templates/legal/privacy.html:17
+msgid "Privacy Policy"
+msgstr ""
+
+#: weblate/legal/templates/legal/cookies.html:29
 msgid "We use cookies for following:"
 msgstr ""
 
-#: weblate/legal/templates/legal/cookies.html:28
+#: weblate/legal/templates/legal/cookies.html:33
 msgid ""
 "Authentication cookies which are required for recognizing authenticated "
 "users."
 msgstr ""
 
-#: weblate/legal/templates/legal/cookies.html:29
+#: weblate/legal/templates/legal/cookies.html:34
 msgid "Preferences cookie to store user preferences in certain situations."
 msgstr ""
 
-#: weblate/legal/templates/legal/cookies.html:30
+#: weblate/legal/templates/legal/cookies.html:35
 msgid ""
 "We use Matomo to analyze traffic on our website. Matomo honours Do Not Track "
 "settings in your browser."
@@ -2329,24 +2344,6 @@ msgstr ""
 
 #: weblate/legal/templates/legal/index.html:24
 msgid "We use cookies to deliver our services."
-msgstr ""
-
-#: weblate/legal/templates/legal/index.html:28
-msgid ""
-"This page is based on the Terms of Service and the Privacy Policy, you "
-"should still read the original documents to fully understand them:"
-msgstr ""
-
-#: weblate/legal/templates/legal/index.html:32
-#: weblate/legal/templates/legal/terms.html:16 weblate/legal/views.py:42
-#, fuzzy
-#| msgid "Service"
-msgid "Terms of Service"
-msgstr "Szolgáltatás"
-
-#: weblate/legal/templates/legal/index.html:33
-#: weblate/legal/templates/legal/privacy.html:17
-msgid "Privacy Policy"
 msgstr ""
 
 #: weblate/legal/templates/legal/privacy.html:7 weblate/legal/views.py:57
@@ -9100,6 +9097,76 @@ msgstr "Nem sikerült letölteni a gép nyilvános kulcsát!"
 msgid "Failed to get host key: %s"
 msgstr "Nem sikerült lekérni a host-azonosító kulcsot: %s"
 
+#: weblate/wladmin/performance.py:69
+msgid "Debug mode"
+msgstr "Hibakeresési mód"
+
+#: weblate/wladmin/performance.py:82
+#, fuzzy
+#| msgid "Service"
+msgid "Server"
+msgstr "Szolgáltatás"
+
+#: weblate/wladmin/performance.py:93
+msgid "Site domain"
+msgstr "Webhely tartomány"
+
+#: weblate/wladmin/performance.py:104
+msgid "Database backend"
+msgstr "Adatbázis háttérrendszer"
+
+#: weblate/wladmin/performance.py:115
+msgid "Site administrator"
+msgstr "Webhely adminisztrátor"
+
+#. Translators: Indexing is postponed to cron job
+#: weblate/wladmin/performance.py:128
+msgid "Indexing offloading"
+msgstr "Indexelési tehermentesítés"
+
+#. Translators: Indexing is postponed to cron job
+#: weblate/wladmin/performance.py:147
+#, fuzzy
+#| msgid "Indexing offloading"
+msgid "Indexing offloading queue"
+msgstr "Indexelési tehermentesítés"
+
+#: weblate/wladmin/performance.py:168
+msgid "Django caching"
+msgstr "Django gyorsítótárazás"
+
+#: weblate/wladmin/performance.py:179
+msgid "Avatar caching"
+msgstr "Avatar gyorsítótárazás"
+
+#: weblate/wladmin/performance.py:191
+msgid "Email addresses"
+msgstr "E-mail címek"
+
+#: weblate/wladmin/performance.py:205
+msgid "Federated avatar support"
+msgstr "Külső avatár támogatás"
+
+#: weblate/wladmin/performance.py:216
+msgid "pyuca library"
+msgstr "pyuca programkönyvtár"
+
+#: weblate/wladmin/performance.py:227
+msgid "Secret key"
+msgstr "Titkos kulcs"
+
+#: weblate/wladmin/performance.py:238
+msgid "Allowed hosts"
+msgstr "Engedélyezett gépek"
+
+#: weblate/wladmin/performance.py:267
+msgid "Cached template loader"
+msgstr "Gyorstárban található sablonbetöltők"
+
+#: weblate/wladmin/performance.py:278
+msgid "Admin static files"
+msgstr "Admin statikus fájlok"
+
 #: weblate/wladmin/sites.py:76 weblate/wladmin/sites.py:77
 #, fuzzy
 #| msgid "Weblate translations"
@@ -9270,73 +9337,14 @@ msgstr ""
 msgid "Reports"
 msgstr "Jelentések"
 
-#: weblate/wladmin/views.py:87
+#: weblate/wladmin/views.py:58
 #, fuzzy
 #| msgid "Configuration errors"
 msgid "Failed to dismiss configuration error!"
 msgstr "Konfigurációs hibák"
 
-#: weblate/wladmin/views.py:98
-msgid "Debug mode"
-msgstr "Hibakeresési mód"
-
-#: weblate/wladmin/views.py:105
-msgid "Site domain"
-msgstr "Webhely tartomány"
-
-#: weblate/wladmin/views.py:112
-msgid "Database backend"
-msgstr "Adatbázis háttérrendszer"
-
-#: weblate/wladmin/views.py:119
-msgid "Site administrator"
-msgstr "Webhely adminisztrátor"
-
-#. Translators: Indexing is postponed to cron job
-#: weblate/wladmin/views.py:128
-msgid "Indexing offloading"
-msgstr "Indexelési tehermentesítés"
-
-#. Translators: Indexing is postponed to cron job
-#: weblate/wladmin/views.py:143
-msgid "Indexing offloading processing"
-msgstr "Indexelési tehermentesítés folyamatban"
-
-#: weblate/wladmin/views.py:160
-msgid "Django caching"
-msgstr "Django gyorsítótárazás"
-
-#: weblate/wladmin/views.py:167
-msgid "Avatar caching"
-msgstr "Avatar gyorsítótárazás"
-
-#: weblate/wladmin/views.py:181
-msgid "Email addresses"
-msgstr "E-mail címek"
-
-#: weblate/wladmin/views.py:191
-msgid "Federated avatar support"
-msgstr "Külső avatár támogatás"
-
-#: weblate/wladmin/views.py:198
-msgid "pyuca library"
-msgstr "pyuca programkönyvtár"
-
-#: weblate/wladmin/views.py:205
-msgid "Secret key"
-msgstr "Titkos kulcs"
-
-#: weblate/wladmin/views.py:212
-msgid "Allowed hosts"
-msgstr "Engedélyezett gépek"
-
-#: weblate/wladmin/views.py:221
-msgid "Cached template loader"
-msgstr "Gyorstárban található sablonbetöltők"
-
-#: weblate/wladmin/views.py:229
-msgid "Admin static files"
-msgstr "Admin statikus fájlok"
+#~ msgid "Indexing offloading processing"
+#~ msgstr "Indexelési tehermentesítés folyamatban"
 
 #, fuzzy
 #~| msgid "Edit source string"

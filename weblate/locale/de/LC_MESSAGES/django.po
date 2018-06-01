@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-05-30 18:42+0000\n"
+"POT-Creation-Date: 2018-06-01 08:46+0000\n"
 "PO-Revision-Date: 2018-05-22 15:28+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/master/de/"
@@ -2109,19 +2109,36 @@ msgid "Cookies Policy"
 msgstr "Cookie-Richtlinien"
 
 #: weblate/legal/templates/legal/cookies.html:20
+#: weblate/legal/templates/legal/index.html:28
+#, fuzzy
+#| msgid ""
+#| "This page is based on the Terms of Service, you should still read the "
+#| "original document to fully understand them."
 msgid ""
-"This page is based on the Terms of Service, you should still read the "
-"original document to fully understand them."
+"This page is based on the Terms of Service and the Privacy Policy, you "
+"should still read the original documents to fully understand them:"
 msgstr ""
 "Diese Seite basiert auf den Nutzungsbedingungen. Sie sollten das "
 "Originaldokument aufmerksam lesen, um die Nutzungsbedingungen vollständig "
 "verstehen zu können."
 
 #: weblate/legal/templates/legal/cookies.html:24
+#: weblate/legal/templates/legal/index.html:32
+#: weblate/legal/templates/legal/terms.html:16 weblate/legal/views.py:42
+msgid "Terms of Service"
+msgstr "Nutzungsbedingungen"
+
+#: weblate/legal/templates/legal/cookies.html:25
+#: weblate/legal/templates/legal/index.html:33
+#: weblate/legal/templates/legal/privacy.html:17
+msgid "Privacy Policy"
+msgstr "Datenschutzrichtlinie"
+
+#: weblate/legal/templates/legal/cookies.html:29
 msgid "We use cookies for following:"
 msgstr "Wir nutzen Cookies für folgende Zwecke:"
 
-#: weblate/legal/templates/legal/cookies.html:28
+#: weblate/legal/templates/legal/cookies.html:33
 msgid ""
 "Authentication cookies which are required for recognizing authenticated "
 "users."
@@ -2129,13 +2146,13 @@ msgstr ""
 "Cookies zur Echtheitsprüfung sind notwendig zur Wiedererkennung "
 "authentifizierter Nutzer."
 
-#: weblate/legal/templates/legal/cookies.html:29
+#: weblate/legal/templates/legal/cookies.html:34
 msgid "Preferences cookie to store user preferences in certain situations."
 msgstr ""
 "Cookies zur Speicherung von benutzerspezifischen Einstellungen für "
 "festgelegte Anwendungsfälle."
 
-#: weblate/legal/templates/legal/cookies.html:30
+#: weblate/legal/templates/legal/cookies.html:35
 msgid ""
 "We use Matomo to analyze traffic on our website. Matomo honours Do Not Track "
 "settings in your browser."
@@ -2191,29 +2208,6 @@ msgstr ""
 #: weblate/legal/templates/legal/index.html:24
 msgid "We use cookies to deliver our services."
 msgstr "Wir nutzen Cookies um unsere Dienste zur Verfügung zu stellen."
-
-#: weblate/legal/templates/legal/index.html:28
-#, fuzzy
-#| msgid ""
-#| "This page is based on the Terms of Service, you should still read the "
-#| "original document to fully understand them."
-msgid ""
-"This page is based on the Terms of Service and the Privacy Policy, you "
-"should still read the original documents to fully understand them:"
-msgstr ""
-"Diese Seite basiert auf den Nutzungsbedingungen. Sie sollten das "
-"Originaldokument aufmerksam lesen, um die Nutzungsbedingungen vollständig "
-"verstehen zu können."
-
-#: weblate/legal/templates/legal/index.html:32
-#: weblate/legal/templates/legal/terms.html:16 weblate/legal/views.py:42
-msgid "Terms of Service"
-msgstr "Nutzungsbedingungen"
-
-#: weblate/legal/templates/legal/index.html:33
-#: weblate/legal/templates/legal/privacy.html:17
-msgid "Privacy Policy"
-msgstr "Datenschutzrichtlinie"
 
 #: weblate/legal/templates/legal/privacy.html:7 weblate/legal/views.py:57
 msgid "Privacy"
@@ -8486,6 +8480,76 @@ msgstr "Abrufen des öffentlichen Schlüssels für einen Host fehlgeschlagen!"
 msgid "Failed to get host key: %s"
 msgstr "Fehler beim Besorgen des Schlüssels: %s"
 
+#: weblate/wladmin/performance.py:69
+msgid "Debug mode"
+msgstr "Debugmodus"
+
+#: weblate/wladmin/performance.py:82
+#, fuzzy
+#| msgid "Service"
+msgid "Server"
+msgstr "Dienst"
+
+#: weblate/wladmin/performance.py:93
+msgid "Site domain"
+msgstr "Seitendomain"
+
+#: weblate/wladmin/performance.py:104
+msgid "Database backend"
+msgstr "Datenbank-Backend"
+
+#: weblate/wladmin/performance.py:115
+msgid "Site administrator"
+msgstr "Seitenadministrator"
+
+#. Translators: Indexing is postponed to cron job
+#: weblate/wladmin/performance.py:128
+msgid "Indexing offloading"
+msgstr "Indizieren auslagern"
+
+#. Translators: Indexing is postponed to cron job
+#: weblate/wladmin/performance.py:147
+#, fuzzy
+#| msgid "Indexing offloading"
+msgid "Indexing offloading queue"
+msgstr "Indizieren auslagern"
+
+#: weblate/wladmin/performance.py:168
+msgid "Django caching"
+msgstr "Django-Zwischenspeicherung"
+
+#: weblate/wladmin/performance.py:179
+msgid "Avatar caching"
+msgstr "Avatar-Zwischenspeicherung"
+
+#: weblate/wladmin/performance.py:191
+msgid "Email addresses"
+msgstr "E-Mail-Adressen"
+
+#: weblate/wladmin/performance.py:205
+msgid "Federated avatar support"
+msgstr "Unterstützung für Avatar-Services"
+
+#: weblate/wladmin/performance.py:216
+msgid "pyuca library"
+msgstr "pyuca-Programmbibliothek"
+
+#: weblate/wladmin/performance.py:227
+msgid "Secret key"
+msgstr "Geheimer Schlüssel"
+
+#: weblate/wladmin/performance.py:238
+msgid "Allowed hosts"
+msgstr "Erlaubte Server"
+
+#: weblate/wladmin/performance.py:267
+msgid "Cached template loader"
+msgstr "Zwischengespeichertes Vorlagenladeprogramm"
+
+#: weblate/wladmin/performance.py:278
+msgid "Admin static files"
+msgstr "Statische Admin-Dateien"
+
 #: weblate/wladmin/sites.py:76 weblate/wladmin/sites.py:77
 msgid "Weblate administration"
 msgstr "Weblate-Administration"
@@ -8647,71 +8711,20 @@ msgstr ""
 msgid "Reports"
 msgstr "Auswertungen"
 
-#: weblate/wladmin/views.py:87
+#: weblate/wladmin/views.py:58
 msgid "Failed to dismiss configuration error!"
 msgstr "Konfigurationsfehler konnte nicht verworfen werden!"
 
-#: weblate/wladmin/views.py:98
-msgid "Debug mode"
-msgstr "Debugmodus"
+#~ msgid ""
+#~ "This page is based on the Terms of Service, you should still read the "
+#~ "original document to fully understand them."
+#~ msgstr ""
+#~ "Diese Seite basiert auf den Nutzungsbedingungen. Sie sollten das "
+#~ "Originaldokument aufmerksam lesen, um die Nutzungsbedingungen vollständig "
+#~ "verstehen zu können."
 
-#: weblate/wladmin/views.py:105
-msgid "Site domain"
-msgstr "Seitendomain"
-
-#: weblate/wladmin/views.py:112
-msgid "Database backend"
-msgstr "Datenbank-Backend"
-
-#: weblate/wladmin/views.py:119
-msgid "Site administrator"
-msgstr "Seitenadministrator"
-
-#. Translators: Indexing is postponed to cron job
-#: weblate/wladmin/views.py:128
-msgid "Indexing offloading"
-msgstr "Indizieren auslagern"
-
-#. Translators: Indexing is postponed to cron job
-#: weblate/wladmin/views.py:143
-msgid "Indexing offloading processing"
-msgstr "Indizieren auslagern wird ausgeführt"
-
-#: weblate/wladmin/views.py:160
-msgid "Django caching"
-msgstr "Django-Zwischenspeicherung"
-
-#: weblate/wladmin/views.py:167
-msgid "Avatar caching"
-msgstr "Avatar-Zwischenspeicherung"
-
-#: weblate/wladmin/views.py:181
-msgid "Email addresses"
-msgstr "E-Mail-Adressen"
-
-#: weblate/wladmin/views.py:191
-msgid "Federated avatar support"
-msgstr "Unterstützung für Avatar-Services"
-
-#: weblate/wladmin/views.py:198
-msgid "pyuca library"
-msgstr "pyuca-Programmbibliothek"
-
-#: weblate/wladmin/views.py:205
-msgid "Secret key"
-msgstr "Geheimer Schlüssel"
-
-#: weblate/wladmin/views.py:212
-msgid "Allowed hosts"
-msgstr "Erlaubte Server"
-
-#: weblate/wladmin/views.py:221
-msgid "Cached template loader"
-msgstr "Zwischengespeichertes Vorlagenladeprogramm"
-
-#: weblate/wladmin/views.py:229
-msgid "Admin static files"
-msgstr "Statische Admin-Dateien"
+#~ msgid "Indexing offloading processing"
+#~ msgstr "Indizieren auslagern wird ausgeführt"
 
 #~ msgid ""
 #~ "Weblate needs some personal information, this page describes how it is "

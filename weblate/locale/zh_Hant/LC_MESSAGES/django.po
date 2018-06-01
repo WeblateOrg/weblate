@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-05-30 18:42+0000\n"
+"POT-Creation-Date: 2018-06-01 08:46+0000\n"
 "PO-Revision-Date: 2018-05-26 13:35+0000\n"
 "Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
@@ -1985,26 +1985,43 @@ msgid "Cookies Policy"
 msgstr "Cookie 政策"
 
 #: weblate/legal/templates/legal/cookies.html:20
+#: weblate/legal/templates/legal/index.html:28
+#, fuzzy
+#| msgid ""
+#| "This page is based on the Terms of Service, you should still read the "
+#| "original document to fully understand them."
 msgid ""
-"This page is based on the Terms of Service, you should still read the "
-"original document to fully understand them."
+"This page is based on the Terms of Service and the Privacy Policy, you "
+"should still read the original documents to fully understand them:"
 msgstr "本頁內容基於服務條款而來，您應該仍要閱讀原始文件以完全明瞭其內容。"
 
 #: weblate/legal/templates/legal/cookies.html:24
+#: weblate/legal/templates/legal/index.html:32
+#: weblate/legal/templates/legal/terms.html:16 weblate/legal/views.py:42
+msgid "Terms of Service"
+msgstr "服務條款"
+
+#: weblate/legal/templates/legal/cookies.html:25
+#: weblate/legal/templates/legal/index.html:33
+#: weblate/legal/templates/legal/privacy.html:17
+msgid "Privacy Policy"
+msgstr "隱私政策"
+
+#: weblate/legal/templates/legal/cookies.html:29
 msgid "We use cookies for following:"
 msgstr "我們使用 Cookie 的方式："
 
-#: weblate/legal/templates/legal/cookies.html:28
+#: weblate/legal/templates/legal/cookies.html:33
 msgid ""
 "Authentication cookies which are required for recognizing authenticated "
 "users."
 msgstr "需要有身份核對用 Cookie 來辨識通過核對的使用者。"
 
-#: weblate/legal/templates/legal/cookies.html:29
+#: weblate/legal/templates/legal/cookies.html:34
 msgid "Preferences cookie to store user preferences in certain situations."
 msgstr "偏好設定 Cookie 用來儲存特定情況下使用者的偏好設定。"
 
-#: weblate/legal/templates/legal/cookies.html:30
+#: weblate/legal/templates/legal/cookies.html:35
 msgid ""
 "We use Matomo to analyze traffic on our website. Matomo honours Do Not Track "
 "settings in your browser."
@@ -2050,26 +2067,6 @@ msgstr "您的名稱與電子郵件位址會在 VCS 提交動作中使用，它�
 #: weblate/legal/templates/legal/index.html:24
 msgid "We use cookies to deliver our services."
 msgstr "我們使用 Cookie 遞送我們的服務。"
-
-#: weblate/legal/templates/legal/index.html:28
-#, fuzzy
-#| msgid ""
-#| "This page is based on the Terms of Service, you should still read the "
-#| "original document to fully understand them."
-msgid ""
-"This page is based on the Terms of Service and the Privacy Policy, you "
-"should still read the original documents to fully understand them:"
-msgstr "本頁內容基於服務條款而來，您應該仍要閱讀原始文件以完全明瞭其內容。"
-
-#: weblate/legal/templates/legal/index.html:32
-#: weblate/legal/templates/legal/terms.html:16 weblate/legal/views.py:42
-msgid "Terms of Service"
-msgstr "服務條款"
-
-#: weblate/legal/templates/legal/index.html:33
-#: weblate/legal/templates/legal/privacy.html:17
-msgid "Privacy Policy"
-msgstr "隱私政策"
 
 #: weblate/legal/templates/legal/privacy.html:7 weblate/legal/views.py:57
 msgid "Privacy"
@@ -7912,6 +7909,76 @@ msgstr "無法擷取主機的公開金鑰！"
 msgid "Failed to get host key: %s"
 msgstr "無法取得主機金鑰：%s"
 
+#: weblate/wladmin/performance.py:69
+msgid "Debug mode"
+msgstr "除錯模式"
+
+#: weblate/wladmin/performance.py:82
+#, fuzzy
+#| msgid "Service"
+msgid "Server"
+msgstr "服務"
+
+#: weblate/wladmin/performance.py:93
+msgid "Site domain"
+msgstr "網站域名"
+
+#: weblate/wladmin/performance.py:104
+msgid "Database backend"
+msgstr "資料庫後端"
+
+#: weblate/wladmin/performance.py:115
+msgid "Site administrator"
+msgstr "網站管理員"
+
+#. Translators: Indexing is postponed to cron job
+#: weblate/wladmin/performance.py:128
+msgid "Indexing offloading"
+msgstr "索引卸載"
+
+#. Translators: Indexing is postponed to cron job
+#: weblate/wladmin/performance.py:147
+#, fuzzy
+#| msgid "Indexing offloading"
+msgid "Indexing offloading queue"
+msgstr "索引卸載"
+
+#: weblate/wladmin/performance.py:168
+msgid "Django caching"
+msgstr "Django 快取"
+
+#: weblate/wladmin/performance.py:179
+msgid "Avatar caching"
+msgstr "個人頭像快取"
+
+#: weblate/wladmin/performance.py:191
+msgid "Email addresses"
+msgstr "電子郵件位址"
+
+#: weblate/wladmin/performance.py:205
+msgid "Federated avatar support"
+msgstr "互聯式個人頭像支援"
+
+#: weblate/wladmin/performance.py:216
+msgid "pyuca library"
+msgstr "pyuca 函式庫"
+
+#: weblate/wladmin/performance.py:227
+msgid "Secret key"
+msgstr "祕密金鑰"
+
+#: weblate/wladmin/performance.py:238
+msgid "Allowed hosts"
+msgstr "允許的主機"
+
+#: weblate/wladmin/performance.py:267
+msgid "Cached template loader"
+msgstr "快取的模板載入器"
+
+#: weblate/wladmin/performance.py:278
+msgid "Admin static files"
+msgstr "管理靜態檔案"
+
 #: weblate/wladmin/sites.py:76 weblate/wladmin/sites.py:77
 msgid "Weblate administration"
 msgstr "Weblate 管理"
@@ -8067,71 +8134,17 @@ msgstr "不要在這裡更動物件，請使用 Weblate 介面代替。"
 msgid "Reports"
 msgstr "回報"
 
-#: weblate/wladmin/views.py:87
+#: weblate/wladmin/views.py:58
 msgid "Failed to dismiss configuration error!"
 msgstr "中止組態設定失敗！"
 
-#: weblate/wladmin/views.py:98
-msgid "Debug mode"
-msgstr "除錯模式"
+#~ msgid ""
+#~ "This page is based on the Terms of Service, you should still read the "
+#~ "original document to fully understand them."
+#~ msgstr "本頁內容基於服務條款而來，您應該仍要閱讀原始文件以完全明瞭其內容。"
 
-#: weblate/wladmin/views.py:105
-msgid "Site domain"
-msgstr "網站域名"
-
-#: weblate/wladmin/views.py:112
-msgid "Database backend"
-msgstr "資料庫後端"
-
-#: weblate/wladmin/views.py:119
-msgid "Site administrator"
-msgstr "網站管理員"
-
-#. Translators: Indexing is postponed to cron job
-#: weblate/wladmin/views.py:128
-msgid "Indexing offloading"
-msgstr "索引卸載"
-
-#. Translators: Indexing is postponed to cron job
-#: weblate/wladmin/views.py:143
-msgid "Indexing offloading processing"
-msgstr "索引卸載處理"
-
-#: weblate/wladmin/views.py:160
-msgid "Django caching"
-msgstr "Django 快取"
-
-#: weblate/wladmin/views.py:167
-msgid "Avatar caching"
-msgstr "個人頭像快取"
-
-#: weblate/wladmin/views.py:181
-msgid "Email addresses"
-msgstr "電子郵件位址"
-
-#: weblate/wladmin/views.py:191
-msgid "Federated avatar support"
-msgstr "互聯式個人頭像支援"
-
-#: weblate/wladmin/views.py:198
-msgid "pyuca library"
-msgstr "pyuca 函式庫"
-
-#: weblate/wladmin/views.py:205
-msgid "Secret key"
-msgstr "祕密金鑰"
-
-#: weblate/wladmin/views.py:212
-msgid "Allowed hosts"
-msgstr "允許的主機"
-
-#: weblate/wladmin/views.py:221
-msgid "Cached template loader"
-msgstr "快取的模板載入器"
-
-#: weblate/wladmin/views.py:229
-msgid "Admin static files"
-msgstr "管理靜態檔案"
+#~ msgid "Indexing offloading processing"
+#~ msgstr "索引卸載處理"
 
 #~ msgid ""
 #~ "Weblate needs some personal information, this page describes how it is "

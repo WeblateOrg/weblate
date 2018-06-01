@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-05-30 18:42+0000\n"
+"POT-Creation-Date: 2018-06-01 08:46+0000\n"
 "PO-Revision-Date: 2018-05-31 13:28+0000\n"
 "Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/master/da/"
@@ -2041,29 +2041,42 @@ msgid "Cookies Policy"
 msgstr "Cookiepolitik"
 
 #: weblate/legal/templates/legal/cookies.html:20
+#: weblate/legal/templates/legal/index.html:28
 msgid ""
-"This page is based on the Terms of Service, you should still read the "
-"original document to fully understand them."
+"This page is based on the Terms of Service and the Privacy Policy, you "
+"should still read the original documents to fully understand them:"
 msgstr ""
-"Siden er baseret på vilkår for tjeneste, det originale dokument bør dog "
-"stadig læses for at fuldt ud at forstå dem."
+"Siden er baseret på vilkår for tjeneste og privatlivspolitik, de originale "
+"dokumenter bør dog stadig læses for at fuldt ud at forstå dem:"
 
 #: weblate/legal/templates/legal/cookies.html:24
+#: weblate/legal/templates/legal/index.html:32
+#: weblate/legal/templates/legal/terms.html:16 weblate/legal/views.py:42
+msgid "Terms of Service"
+msgstr "Vilkår for tjeneste"
+
+#: weblate/legal/templates/legal/cookies.html:25
+#: weblate/legal/templates/legal/index.html:33
+#: weblate/legal/templates/legal/privacy.html:17
+msgid "Privacy Policy"
+msgstr "Privatlivspolitik"
+
+#: weblate/legal/templates/legal/cookies.html:29
 msgid "We use cookies for following:"
 msgstr "Cookies anvendes til følgende:"
 
-#: weblate/legal/templates/legal/cookies.html:28
+#: weblate/legal/templates/legal/cookies.html:33
 msgid ""
 "Authentication cookies which are required for recognizing authenticated "
 "users."
 msgstr ""
 "Godkendelsescookies, som er nødvendige for at genkende godkendte brugere."
 
-#: weblate/legal/templates/legal/cookies.html:29
+#: weblate/legal/templates/legal/cookies.html:34
 msgid "Preferences cookie to store user preferences in certain situations."
 msgstr "Præferencecookie til at gemme brugerpræferencer i visse situationer."
 
-#: weblate/legal/templates/legal/cookies.html:30
+#: weblate/legal/templates/legal/cookies.html:35
 msgid ""
 "We use Matomo to analyze traffic on our website. Matomo honours Do Not Track "
 "settings in your browser."
@@ -2115,24 +2128,6 @@ msgstr "Navn og e-mail bruges i VCS-indsendelser, der bliver de for evigt."
 #: weblate/legal/templates/legal/index.html:24
 msgid "We use cookies to deliver our services."
 msgstr "Vi bruger cookies til at levere vores tjenester."
-
-#: weblate/legal/templates/legal/index.html:28
-msgid ""
-"This page is based on the Terms of Service and the Privacy Policy, you "
-"should still read the original documents to fully understand them:"
-msgstr ""
-"Siden er baseret på vilkår for tjeneste og privatlivspolitik, de originale "
-"dokumenter bør dog stadig læses for at fuldt ud at forstå dem:"
-
-#: weblate/legal/templates/legal/index.html:32
-#: weblate/legal/templates/legal/terms.html:16 weblate/legal/views.py:42
-msgid "Terms of Service"
-msgstr "Vilkår for tjeneste"
-
-#: weblate/legal/templates/legal/index.html:33
-#: weblate/legal/templates/legal/privacy.html:17
-msgid "Privacy Policy"
-msgstr "Privatlivspolitik"
 
 #: weblate/legal/templates/legal/privacy.html:7 weblate/legal/views.py:57
 msgid "Privacy"
@@ -8225,6 +8220,76 @@ msgstr "Kunne ikke hente offentlig nøgle for værten!"
 msgid "Failed to get host key: %s"
 msgstr "Kunne ikke hente værtsnøgle: %s"
 
+#: weblate/wladmin/performance.py:69
+msgid "Debug mode"
+msgstr "Fejlsøgningstilstand"
+
+#: weblate/wladmin/performance.py:82
+#, fuzzy
+#| msgid "Service"
+msgid "Server"
+msgstr "Tjeneste"
+
+#: weblate/wladmin/performance.py:93
+msgid "Site domain"
+msgstr "Webstedsdomæne"
+
+#: weblate/wladmin/performance.py:104
+msgid "Database backend"
+msgstr "Databasemotor"
+
+#: weblate/wladmin/performance.py:115
+msgid "Site administrator"
+msgstr "Webstedsadministrator"
+
+#. Translators: Indexing is postponed to cron job
+#: weblate/wladmin/performance.py:128
+msgid "Indexing offloading"
+msgstr "Udskudt indeksering"
+
+#. Translators: Indexing is postponed to cron job
+#: weblate/wladmin/performance.py:147
+#, fuzzy
+#| msgid "Indexing offloading"
+msgid "Indexing offloading queue"
+msgstr "Udskudt indeksering"
+
+#: weblate/wladmin/performance.py:168
+msgid "Django caching"
+msgstr "Django-cachelagring"
+
+#: weblate/wladmin/performance.py:179
+msgid "Avatar caching"
+msgstr "Avatar-cachelagring"
+
+#: weblate/wladmin/performance.py:191
+msgid "Email addresses"
+msgstr "E-mailadresser"
+
+#: weblate/wladmin/performance.py:205
+msgid "Federated avatar support"
+msgstr "Understøtter centraliserede avatarer"
+
+#: weblate/wladmin/performance.py:216
+msgid "pyuca library"
+msgstr "pyuca-bibliotek"
+
+#: weblate/wladmin/performance.py:227
+msgid "Secret key"
+msgstr "Hemmelig nøgle"
+
+#: weblate/wladmin/performance.py:238
+msgid "Allowed hosts"
+msgstr "Tilladte værter"
+
+#: weblate/wladmin/performance.py:267
+msgid "Cached template loader"
+msgstr "Cachet skabelonindlæser"
+
+#: weblate/wladmin/performance.py:278
+msgid "Admin static files"
+msgstr "Admin. statiske filer"
+
 #: weblate/wladmin/sites.py:76 weblate/wladmin/sites.py:77
 msgid "Weblate administration"
 msgstr "Weblate administration"
@@ -8384,71 +8449,19 @@ msgstr "Objektet skal ikke ændres her, brug Weblate-brugerfladen i stedet."
 msgid "Reports"
 msgstr "Rapporter"
 
-#: weblate/wladmin/views.py:87
+#: weblate/wladmin/views.py:58
 msgid "Failed to dismiss configuration error!"
 msgstr "Kunne ikke afvise konfigurationsfejl!"
 
-#: weblate/wladmin/views.py:98
-msgid "Debug mode"
-msgstr "Fejlsøgningstilstand"
+#~ msgid ""
+#~ "This page is based on the Terms of Service, you should still read the "
+#~ "original document to fully understand them."
+#~ msgstr ""
+#~ "Siden er baseret på vilkår for tjeneste, det originale dokument bør dog "
+#~ "stadig læses for at fuldt ud at forstå dem."
 
-#: weblate/wladmin/views.py:105
-msgid "Site domain"
-msgstr "Webstedsdomæne"
-
-#: weblate/wladmin/views.py:112
-msgid "Database backend"
-msgstr "Databasemotor"
-
-#: weblate/wladmin/views.py:119
-msgid "Site administrator"
-msgstr "Webstedsadministrator"
-
-#. Translators: Indexing is postponed to cron job
-#: weblate/wladmin/views.py:128
-msgid "Indexing offloading"
-msgstr "Udskudt indeksering"
-
-#. Translators: Indexing is postponed to cron job
-#: weblate/wladmin/views.py:143
-msgid "Indexing offloading processing"
-msgstr "Udskudt indeksering kører"
-
-#: weblate/wladmin/views.py:160
-msgid "Django caching"
-msgstr "Django-cachelagring"
-
-#: weblate/wladmin/views.py:167
-msgid "Avatar caching"
-msgstr "Avatar-cachelagring"
-
-#: weblate/wladmin/views.py:181
-msgid "Email addresses"
-msgstr "E-mailadresser"
-
-#: weblate/wladmin/views.py:191
-msgid "Federated avatar support"
-msgstr "Understøtter centraliserede avatarer"
-
-#: weblate/wladmin/views.py:198
-msgid "pyuca library"
-msgstr "pyuca-bibliotek"
-
-#: weblate/wladmin/views.py:205
-msgid "Secret key"
-msgstr "Hemmelig nøgle"
-
-#: weblate/wladmin/views.py:212
-msgid "Allowed hosts"
-msgstr "Tilladte værter"
-
-#: weblate/wladmin/views.py:221
-msgid "Cached template loader"
-msgstr "Cachet skabelonindlæser"
-
-#: weblate/wladmin/views.py:229
-msgid "Admin static files"
-msgstr "Admin. statiske filer"
+#~ msgid "Indexing offloading processing"
+#~ msgstr "Udskudt indeksering kører"
 
 #~ msgid ""
 #~ "Weblate needs some personal information, this page describes how it is "

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-05-30 18:42+0000\n"
+"POT-Creation-Date: 2018-06-01 08:46+0000\n"
 "PO-Revision-Date: 2018-05-31 05:27+0000\n"
 "Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -2133,26 +2133,43 @@ msgid "Cookies Policy"
 msgstr "Cookies 方针"
 
 #: weblate/legal/templates/legal/cookies.html:20
+#: weblate/legal/templates/legal/index.html:28
+#, fuzzy
+#| msgid ""
+#| "This page is based on the Terms of Service, you should still read the "
+#| "original document to fully understand them."
 msgid ""
-"This page is based on the Terms of Service, you should still read the "
-"original document to fully understand them."
+"This page is based on the Terms of Service and the Privacy Policy, you "
+"should still read the original documents to fully understand them:"
 msgstr "本页面基于 服务条款，您仍需阅读原始文本以完全了解其内容。"
 
 #: weblate/legal/templates/legal/cookies.html:24
+#: weblate/legal/templates/legal/index.html:32
+#: weblate/legal/templates/legal/terms.html:16 weblate/legal/views.py:42
+msgid "Terms of Service"
+msgstr "服务条款"
+
+#: weblate/legal/templates/legal/cookies.html:25
+#: weblate/legal/templates/legal/index.html:33
+#: weblate/legal/templates/legal/privacy.html:17
+msgid "Privacy Policy"
+msgstr "隐私策略"
+
+#: weblate/legal/templates/legal/cookies.html:29
 msgid "We use cookies for following:"
 msgstr "我们在以下情况下使用 cookies："
 
-#: weblate/legal/templates/legal/cookies.html:28
+#: weblate/legal/templates/legal/cookies.html:33
 msgid ""
 "Authentication cookies which are required for recognizing authenticated "
 "users."
 msgstr "验证 cookie 用于识别已验证的用户。"
 
-#: weblate/legal/templates/legal/cookies.html:29
+#: weblate/legal/templates/legal/cookies.html:34
 msgid "Preferences cookie to store user preferences in certain situations."
 msgstr "设定 cookie 用于存储用户在特定情况下的设定信息。"
 
-#: weblate/legal/templates/legal/cookies.html:30
+#: weblate/legal/templates/legal/cookies.html:35
 msgid ""
 "We use Matomo to analyze traffic on our website. Matomo honours Do Not Track "
 "settings in your browser."
@@ -2199,26 +2216,6 @@ msgstr ""
 #: weblate/legal/templates/legal/index.html:24
 msgid "We use cookies to deliver our services."
 msgstr "我们使用 cookie 以提供服务。"
-
-#: weblate/legal/templates/legal/index.html:28
-#, fuzzy
-#| msgid ""
-#| "This page is based on the Terms of Service, you should still read the "
-#| "original document to fully understand them."
-msgid ""
-"This page is based on the Terms of Service and the Privacy Policy, you "
-"should still read the original documents to fully understand them:"
-msgstr "本页面基于 服务条款，您仍需阅读原始文本以完全了解其内容。"
-
-#: weblate/legal/templates/legal/index.html:32
-#: weblate/legal/templates/legal/terms.html:16 weblate/legal/views.py:42
-msgid "Terms of Service"
-msgstr "服务条款"
-
-#: weblate/legal/templates/legal/index.html:33
-#: weblate/legal/templates/legal/privacy.html:17
-msgid "Privacy Policy"
-msgstr "隐私策略"
 
 #: weblate/legal/templates/legal/privacy.html:7 weblate/legal/views.py:57
 msgid "Privacy"
@@ -8153,6 +8150,76 @@ msgstr "获取一个主机的公钥失败！"
 msgid "Failed to get host key: %s"
 msgstr "获取主机密钥失败：%s"
 
+#: weblate/wladmin/performance.py:69
+msgid "Debug mode"
+msgstr "调试模式"
+
+#: weblate/wladmin/performance.py:82
+#, fuzzy
+#| msgid "Service"
+msgid "Server"
+msgstr "服务"
+
+#: weblate/wladmin/performance.py:93
+msgid "Site domain"
+msgstr "网站域名"
+
+#: weblate/wladmin/performance.py:104
+msgid "Database backend"
+msgstr "数据库后端"
+
+#: weblate/wladmin/performance.py:115
+msgid "Site administrator"
+msgstr "网站管理员"
+
+#. Translators: Indexing is postponed to cron job
+#: weblate/wladmin/performance.py:128
+msgid "Indexing offloading"
+msgstr "索引分离"
+
+#. Translators: Indexing is postponed to cron job
+#: weblate/wladmin/performance.py:147
+#, fuzzy
+#| msgid "Indexing offloading"
+msgid "Indexing offloading queue"
+msgstr "索引分离"
+
+#: weblate/wladmin/performance.py:168
+msgid "Django caching"
+msgstr "Django 缓存"
+
+#: weblate/wladmin/performance.py:179
+msgid "Avatar caching"
+msgstr "头像缓存"
+
+#: weblate/wladmin/performance.py:191
+msgid "Email addresses"
+msgstr "电子邮件地址"
+
+#: weblate/wladmin/performance.py:205
+msgid "Federated avatar support"
+msgstr "联合头像支持"
+
+#: weblate/wladmin/performance.py:216
+msgid "pyuca library"
+msgstr "pyuca 库"
+
+#: weblate/wladmin/performance.py:227
+msgid "Secret key"
+msgstr "密钥"
+
+#: weblate/wladmin/performance.py:238
+msgid "Allowed hosts"
+msgstr "允许的主机"
+
+#: weblate/wladmin/performance.py:267
+msgid "Cached template loader"
+msgstr "缓存模板加载器"
+
+#: weblate/wladmin/performance.py:278
+msgid "Admin static files"
+msgstr "Admin静态文件"
+
 #: weblate/wladmin/sites.py:76 weblate/wladmin/sites.py:77
 msgid "Weblate administration"
 msgstr "Weblate 管理"
@@ -8309,71 +8376,17 @@ msgstr "不要在此处更改对象，请使用 Weblate 界面来修改。"
 msgid "Reports"
 msgstr "报告"
 
-#: weblate/wladmin/views.py:87
+#: weblate/wladmin/views.py:58
 msgid "Failed to dismiss configuration error!"
 msgstr "排除配置错误时失败！"
 
-#: weblate/wladmin/views.py:98
-msgid "Debug mode"
-msgstr "调试模式"
+#~ msgid ""
+#~ "This page is based on the Terms of Service, you should still read the "
+#~ "original document to fully understand them."
+#~ msgstr "本页面基于 服务条款，您仍需阅读原始文本以完全了解其内容。"
 
-#: weblate/wladmin/views.py:105
-msgid "Site domain"
-msgstr "网站域名"
-
-#: weblate/wladmin/views.py:112
-msgid "Database backend"
-msgstr "数据库后端"
-
-#: weblate/wladmin/views.py:119
-msgid "Site administrator"
-msgstr "网站管理员"
-
-#. Translators: Indexing is postponed to cron job
-#: weblate/wladmin/views.py:128
-msgid "Indexing offloading"
-msgstr "索引分离"
-
-#. Translators: Indexing is postponed to cron job
-#: weblate/wladmin/views.py:143
-msgid "Indexing offloading processing"
-msgstr "正在索引卸载处理"
-
-#: weblate/wladmin/views.py:160
-msgid "Django caching"
-msgstr "Django 缓存"
-
-#: weblate/wladmin/views.py:167
-msgid "Avatar caching"
-msgstr "头像缓存"
-
-#: weblate/wladmin/views.py:181
-msgid "Email addresses"
-msgstr "电子邮件地址"
-
-#: weblate/wladmin/views.py:191
-msgid "Federated avatar support"
-msgstr "联合头像支持"
-
-#: weblate/wladmin/views.py:198
-msgid "pyuca library"
-msgstr "pyuca 库"
-
-#: weblate/wladmin/views.py:205
-msgid "Secret key"
-msgstr "密钥"
-
-#: weblate/wladmin/views.py:212
-msgid "Allowed hosts"
-msgstr "允许的主机"
-
-#: weblate/wladmin/views.py:221
-msgid "Cached template loader"
-msgstr "缓存模板加载器"
-
-#: weblate/wladmin/views.py:229
-msgid "Admin static files"
-msgstr "Admin静态文件"
+#~ msgid "Indexing offloading processing"
+#~ msgstr "正在索引卸载处理"
 
 #~ msgid ""
 #~ "Weblate needs some personal information, this page describes how it is "
