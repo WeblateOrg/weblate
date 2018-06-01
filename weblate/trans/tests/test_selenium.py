@@ -27,6 +27,7 @@ from contextlib import contextmanager
 from base64 import b64encode
 from six.moves.http_client import HTTPConnection
 import django
+from django.conf import settings
 from django.test.utils import override_settings
 from django.urls import reverse
 from django.core import mail
@@ -44,6 +45,7 @@ except ImportError:
 from weblate.trans.tests.test_views import RegistrationTestMixin
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
 from weblate.trans.tests.utils import create_test_user
+from weblate.vcs.ssh import get_key_data
 
 # Check whether we should run Selenium tests
 DO_SELENIUM = (
@@ -60,6 +62,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         'platform': 'Windows 10',
     }
     driver = None
+    image_path = None
 
     def set_test_status(self, passed=True):
         connection = HTTPConnection("saucelabs.com")
@@ -131,6 +134,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             print(
                 'Sauce Labs job: https://saucelabs.com/jobs/{0}'.format(jobid)
             )
+            cls.image_path = os.path.join(settings.BASE_DIR, 'test-images')
+            if not os.path.exists(cls.image_path):
+                os.makedirs(cls.image_path)
         super(SeleniumTests, cls).setUpClass()
 
     def setUp(self):
@@ -147,6 +153,12 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         if cls.driver is not None:
             cls.driver.quit()
             cls.driver = None
+
+    def screenshot(self, name):
+        """Captures named screenshot."""
+        self.driver.get_screenshot_as_file(
+            os.path.join(self.image_path, name)
+        )
 
     def click(self, element):
         """Wrapper to scroll into element for click"""
@@ -292,6 +304,8 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
                 self.driver.find_element_by_id('admin-button'),
             )
 
+        self.screenshot('admin.png')
+
         # Open SSH page
         with self.wait_for_page_load():
             self.click(
@@ -299,10 +313,11 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             )
 
         # Generate SSH key
-        with self.wait_for_page_load():
-            self.click(
-                self.driver.find_element_by_id('generate-ssh-button'),
-            )
+        if get_key_data() is None:
+            with self.wait_for_page_load():
+                self.click(
+                    self.driver.find_element_by_id('generate-ssh-button'),
+                )
 
         # Add SSH host key
         self.driver.find_element_by_id(
@@ -314,6 +329,8 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             self.click(
                 self.driver.find_element_by_id('ssh-add-button'),
             )
+
+        self.screenshot('ssh-keys.png')
 
 
 # What other platforms we want to test
