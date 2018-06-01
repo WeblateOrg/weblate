@@ -43,6 +43,9 @@ DEFAULT_MAILS = frozenset((
 GOOD_CACHE = frozenset((
     'MemcachedCache', 'PyLibMCCache', 'DatabaseCache', 'RedisCache'
 ))
+BAD_CACHE = frozenset((
+    'DummyCache', 'LocMemCache',
+))
 
 PERFORMANCE_CHECKS = []
 
@@ -142,7 +145,7 @@ def run_cache(checks):
     if caches in GOOD_CACHE:
         # We consider these good
         caches = True
-    elif caches in ['DummyCache']:
+    elif caches in BAD_CACHE:
         # This one is definitely bad
         caches = False
     else:

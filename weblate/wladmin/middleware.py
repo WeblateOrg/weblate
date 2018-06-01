@@ -27,7 +27,7 @@ from django.utils.timezone import now
 
 from weblate.trans.models import IndexUpdate
 from weblate.wladmin.models import ConfigurationError
-from weblate.wladmin.performance import run_index_queue
+from weblate.wladmin.performance import run_index_queue, run_cache
 
 
 class ConfigurationErrorsMiddleware(object):
@@ -57,5 +57,11 @@ class ConfigurationErrorsMiddleware(object):
                 'Offloaded index',
                 'The processing seems to be slow, '
                 'there are more than 20000 entries to process.'
+            )
+        if self.does_fire(run_cache):
+            ConfigurationError.objects.add(
+                'Cache',
+                'The configured cache backend will lead to serious '
+                'performance or consistency issues.'
             )
         raise MiddlewareNotUsed()
