@@ -75,13 +75,14 @@ def run_debug(checks, request):
 
 @register_check
 def run_server(checks, request):
+    """Detect Django built in server."""
     server = request.META.get('wsgi.file_wrapper', None)
     if server:
         checks.append((
             _('Server'),
             server.__module__ != 'wsgiref.util',
             'server',
-            server.__module__
+            server.__module__ or server.__class__
         ))
 
 
