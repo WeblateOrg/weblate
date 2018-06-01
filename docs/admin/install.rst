@@ -1168,6 +1168,10 @@ For testing purposes, you can use the Django built-in web server:
 
     ./manage.py runserver
 
+.. warning::
+
+    Do not use this in production as this has severe performance limitations.
+
 .. _static-files:
 
 Serving static files

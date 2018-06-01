@@ -74,6 +74,18 @@ def run_debug(checks, request):
 
 
 @register_check
+def run_server(checks, request):
+    server = request.META.get('wsgi.file_wrapper', None)
+    if server:
+        checks.append((
+            _('Server'),
+            server.__module__ != 'wsgiref.util',
+            'server',
+            server.__module__
+        ))
+
+
+@register_check
 def run_domain(checks, request):
     """Check for domain configuration"""
     checks.append((
