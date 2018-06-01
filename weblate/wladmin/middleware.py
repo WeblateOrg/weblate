@@ -27,6 +27,7 @@ from django.utils.timezone import now
 
 from weblate.trans.models import IndexUpdate
 from weblate.wladmin.models import ConfigurationError
+from weblate.wladmin.performance import run_index_queue
 
 
 class ConfigurationErrorsMiddleware(object):
@@ -38,6 +39,12 @@ class ConfigurationErrorsMiddleware(object):
     This middleware is active only on first request and then removed
     by raising
     """
+    @staticmethod
+    def does_fire(func):
+        checks = []
+        func(checks)
+        return checks and checks[0][1] is False
+
     def __init__(self, get_response=None):
         for error in cache.get('configuration-errors', []):
             ConfigurationError.objects.add(
@@ -45,10 +52,10 @@ class ConfigurationErrorsMiddleware(object):
                 error['message'],
                 error['timestamp'] if 'timestamp' in error else now(),
             )
-        if settings.OFFLOAD_INDEXING and IndexUpdate.objects.count() > 20000:
+        if self.does_fire(run_index_queue):
             ConfigurationError.objects.add(
                 'Offloaded index',
                 'The processing seems to be slow, '
-                'there are more than 5000 entries to process.'
+                'there are more than 20000 entries to process.'
             )
         raise MiddlewareNotUsed()
