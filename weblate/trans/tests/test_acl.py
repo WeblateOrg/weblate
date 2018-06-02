@@ -259,6 +259,10 @@ class ACLTest(FixtureTestCase):
     def test_acl_groups(self):
         """Test handling of ACL groups.
         """
+        if 'weblate.billing' in settings.INSTALLED_APPS:
+            billing_group = 1
+        else:
+            billing_group = 0
         match = '{}@'.format(self.project.name)
         self.project.access_control = Project.ACCESS_PUBLIC
         self.project.enable_review = False
@@ -270,13 +274,15 @@ class ACLTest(FixtureTestCase):
         self.project.enable_review = True
         self.project.save()
         self.assertEqual(
-            9, Group.objects.filter(name__startswith=match).count()
+            8 + billing_group,
+            Group.objects.filter(name__startswith=match).count()
         )
         self.project.access_control = Project.ACCESS_PRIVATE
         self.project.enable_review = True
         self.project.save()
         self.assertEqual(
-            9, Group.objects.filter(name__startswith=match).count()
+            8 + billing_group,
+            Group.objects.filter(name__startswith=match).count()
         )
         self.project.access_control = Project.ACCESS_CUSTOM
         self.project.save()
@@ -291,7 +297,8 @@ class ACLTest(FixtureTestCase):
         self.project.access_control = Project.ACCESS_PRIVATE
         self.project.save()
         self.assertEqual(
-            9, Group.objects.filter(name__startswith=match).count()
+            8 + billing_group,
+            Group.objects.filter(name__startswith=match).count()
         )
         self.project.delete()
         self.assertEqual(
