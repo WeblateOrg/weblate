@@ -80,10 +80,10 @@ class Project(models.Model, URLMixin, PathMixin):
     )
 
     set_translation_team = models.BooleanField(
-        verbose_name=ugettext_lazy('Set Translation-Team header'),
+        verbose_name=ugettext_lazy('Set \"Translation-Team\" header'),
         default=True,
         help_text=ugettext_lazy(
-            'Whether the Translation-Team in file headers should be '
+            'Whether the \"Translation-Team\" field in file headers should be '
             'updated by Weblate.'
         ),
     )
@@ -95,16 +95,14 @@ class Project(models.Model, URLMixin, PathMixin):
         choices=ACCESS_CHOICES,
         verbose_name=_('Access control'),
         help_text=ugettext_lazy(
-            'How to restrict access to this project, please check '
-            'the documentation for more details.'
+            'How to restrict access to this project is detailed in the documentation.'
         )
     )
     enable_review = models.BooleanField(
         verbose_name=ugettext_lazy('Enable reviews'),
         default=False,
         help_text=ugettext_lazy(
-            'Enable this if you intend for dedicated reviewers to '
-            'approve translations.'
+            'Requires dedicated reviewers to approve translations.'
         )
     )
     enable_hooks = models.BooleanField(
@@ -139,7 +137,7 @@ class Project(models.Model, URLMixin, PathMixin):
         self.stats = ProjectStats(self)
 
     def add_user(self, user, group=None):
-        """Add user based on username of email."""
+        """Add user based on username or email address."""
         if group is None:
             if self.access_control != self.ACCESS_PUBLIC:
                 group = '@Translate'
@@ -150,7 +148,7 @@ class Project(models.Model, URLMixin, PathMixin):
         user.profile.subscriptions.add(self)
 
     def remove_user(self, user, group=None):
-        """Add user based on username of email."""
+        """Add user based on username or email address."""
         if group is None:
             groups = self.group_set.filter(
                 internal=True, name__contains='@'
@@ -267,18 +265,18 @@ class Project(models.Model, URLMixin, PathMixin):
         return ret
 
     def do_update(self, request=None, method=None):
-        """Update all git repos."""
+        """Update all Git repos."""
         ret = True
         for component in self.all_repo_components():
             ret &= component.do_update(request, method=method)
         return ret
 
     def do_push(self, request=None):
-        """Pushe all git repos."""
+        """Push all Git repos."""
         return self.commit_pending(request, on_commit=False)
 
     def do_reset(self, request=None):
-        """Pushe all git repos."""
+        """Push all Git repos."""
         ret = False
         for component in self.all_repo_components():
             ret |= component.do_reset(request)
