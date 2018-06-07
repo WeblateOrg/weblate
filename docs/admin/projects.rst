@@ -407,8 +407,9 @@ information how to configure this.
 Automatic creation of components
 --------------------------------
 
-In case you have project with dozen of translation files, you might want to
-import them automatically. This can be either achieved from command line using
+In case you have project with dozen of translation files (eg. for different
+Gettext domains or parts of Android apps), you might want to import them
+automatically. This can be either achieved from command line using
 :djadmin:`import_project` or :djadmin:`import_json` or by installing
 :ref:`addon-weblate.discovery.discovery` addon.
 
