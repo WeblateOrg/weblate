@@ -10,6 +10,7 @@ Released on ? 2018.
 * Localization updates.
 * Removed obsolete hook examples.
 * Improved caching documentation.
+* Fixed displaying of admin documentation.
 
 weblate 3.0
 -----------
