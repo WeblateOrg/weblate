@@ -86,6 +86,7 @@ class WeblateUserAdmin(UserAdmin):
         'username', 'email', 'full_name', 'user_groups', 'is_active',
         'is_superuser',
     )
+    search_fields = ('username', 'full_name', 'email')
     form = WeblateUserChangeForm
     add_form = WeblateUserCreationForm
     add_fieldsets = (
