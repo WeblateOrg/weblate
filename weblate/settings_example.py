@@ -696,8 +696,21 @@ DEFAULT_FROM_EMAIL = 'noreply@example.com'
 # List of URLs your site is supposed to serve
 ALLOWED_HOSTS = []
 
-# Example configuration to use memcached for caching
+# Example configuration for caching
 # CACHES = {
+# Recommended redis + hiredis:
+#     'default': {
+#         'BACKEND': 'django_redis.cache.RedisCache',
+#         'LOCATION': 'redis://127.0.0.1:6379/0',
+#         # If redis is running on same host as Weblate, you might
+#         # want to use unix sockets instead:
+#         # 'LOCATION': 'unix:///var/run/redis/redis.sock?db=0',
+#         'OPTIONS': {
+#             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+#             'PARSER_CLASS': 'redis.connection.HiredisParser',
+#         }
+#     }
+# Memcached alternative:
 #     'default': {
 #         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
 #         'LOCATION': '127.0.0.1:11211',

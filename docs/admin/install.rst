@@ -909,7 +909,10 @@ variable, for example:
     CACHES = {
         'default': {
             'BACKEND': 'django_redis.cache.RedisCache',
-            'LOCATION': 'unix:///var/run/redis/redis.sock?db=0',
+            'LOCATION': 'redis://127.0.0.1:6379/0',
+            # If redis is running on same host as Weblate, you might
+            # want to use unix sockets instead:
+            # 'LOCATION': 'unix:///var/run/redis/redis.sock?db=0',
             'OPTIONS': {
                 'CLIENT_CLASS': 'django_redis.client.DefaultClient',
                 'PARSER_CLASS': 'redis.connection.HiredisParser',
