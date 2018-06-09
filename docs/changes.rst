@@ -2,7 +2,7 @@ Changes
 =======
 
 weblate 3.0.1
-------------
+-------------
 
 Released on ? 2018.
 
@@ -11,6 +11,7 @@ Released on ? 2018.
 * Removed obsolete hook examples.
 * Improved caching documentation.
 * Fixed displaying of admin documentation.
+* Improved handling of long language names.
 
 weblate 3.0
 -----------
