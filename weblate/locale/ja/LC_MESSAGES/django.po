@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-06-09 14:08+0000\n"
-"PO-Revision-Date: 2018-06-02 02:37+0000\n"
+"PO-Revision-Date: 2018-06-09 23:03+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
@@ -7014,10 +7014,9 @@ msgid "Got empty language code for %s, please check filemask!"
 msgstr "%s で言語コードが設定されていません。ファイルマスクをご確認ください！"
 
 #: weblate/trans/models/component.py:1077
-#, fuzzy, python-format
-#| msgid "Language code %s is too long, please check filemask!"
+#, python-format
 msgid "Language code \"%s\" is too long, please check filemask!"
-msgstr "言語コード %s が長すぎます。ファイルマスクをご確認ください！"
+msgstr "言語コード \"%s\" が長すぎます。ファイルマスクをご確認ください！"
 
 #: weblate/trans/models/component.py:1081
 #, python-format
@@ -7210,46 +7209,31 @@ msgid "URL with instructions for translators."
 msgstr "翻訳者向けの説明が書かれた URL。"
 
 #: weblate/trans/models/project.py:83
-#, fuzzy
-#| msgid "Set Translation-Team header"
 msgid "Set \"Translation-Team\" header"
-msgstr "Translation-Team ヘッダの設定"
+msgstr "\"Translation-Team\" ヘッダの設定"
 
 #: weblate/trans/models/project.py:86
-#, fuzzy
-#| msgid ""
-#| "Whether the Translation-Team in file headers should be updated by Weblate."
 msgid ""
 "Whether the \"Translation-Team\" field in file headers should be updated by "
 "Weblate."
-msgstr ""
-"ファイルヘッダ内の Translation-Team を Weblate 側で更新すべきかどうか。"
+msgstr "ファイルヘッダ内の \"Translation-Team\" フィールドを Weblate 側で更新すべきかどうか。"
 
 #: weblate/trans/models/project.py:96
 msgid "Access control"
 msgstr "アクセス制御"
 
 #: weblate/trans/models/project.py:98
-#, fuzzy
-#| msgid ""
-#| "How to restrict access to this project, please check the documentation "
-#| "for more details."
 msgid ""
 "How to restrict access to this project is detailed in the documentation."
-msgstr ""
-"このプロジェクトに対するアクセス制限の設定。詳しくはドキュメンテーションをお"
-"読みください。"
+msgstr "このプロジェクトに対するアクセス制限の設定 (詳しくはドキュメンテーションをお読みください) 。"
 
 #: weblate/trans/models/project.py:102
 msgid "Enable reviews"
 msgstr "査読の有効化"
 
 #: weblate/trans/models/project.py:105
-#, fuzzy
-#| msgid ""
-#| "Enable this if you intend for dedicated reviewers to approve translations."
 msgid "Requires dedicated reviewers to approve translations."
-msgstr "翻訳を承認する際、専門の査読者を設定したい場合に有効にします。"
+msgstr "翻訳を承認する際、専門の査読者を必須とするかどうか。"
 
 #: weblate/trans/models/project.py:109
 msgid "Enable hooks"
