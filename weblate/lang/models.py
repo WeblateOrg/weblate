@@ -216,7 +216,7 @@ class LanguageQuerySet(models.QuerySet):
         # Create new one
         return self.auto_create(ret, create)
 
-    def auto_create(self, code, create):
+    def auto_create(self, code, create=True):
         """Automatically create new language based on code and best guess
         of parameters.
         """
@@ -245,14 +245,15 @@ class LanguageQuerySet(models.QuerySet):
         if baselang is not None:
             lang.name = baselang.name
             lang.direction = baselang.direction
-            lang.save()
-            baseplural = baselang.plural
-            lang.plural_set.create(
-                source=Plural.SOURCE_DEFAULT,
-                number=baseplural.number,
-                equation=baseplural.equation,
-            )
-        else:
+            if create:
+                lang.save()
+                baseplural = baselang.plural
+                lang.plural_set.create(
+                    source=Plural.SOURCE_DEFAULT,
+                    number=baseplural.number,
+                    equation=baseplural.equation,
+                )
+        elif create:
             lang.plural_set.create(
                 source=Plural.SOURCE_DEFAULT,
                 number=2,
