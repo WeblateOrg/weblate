@@ -22,6 +22,7 @@ from functools import update_wrapper
 
 from django.conf import settings
 from django.conf.urls import url
+from django.contrib import admin
 from django.contrib.admin import AdminSite
 from django.contrib.auth.views import logout
 from django.contrib.sites.admin import SiteAdmin
@@ -195,3 +196,4 @@ class WeblateAdminSite(AdminSite):
 
 SITE = WeblateAdminSite()
 SITE.discover()
+admin.site = SITE
