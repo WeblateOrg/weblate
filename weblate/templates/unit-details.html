@@ -27,6 +27,6 @@
 </tr>
 <tr>
 <td>
-{% blocktrans with unit.translation.filename as filename and unit.position as position %}{{ filename }}, string {{ position }}{% endblocktrans %}
+{% blocktrans with unit.translation.get_display_filename as filename and unit.position as position %}{{ filename }}, string {{ position }}{% endblocktrans %}
 </td>
 </tr>
