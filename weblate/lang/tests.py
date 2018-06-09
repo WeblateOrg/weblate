@@ -38,237 +38,278 @@ from weblate.trans.tests.test_models import BaseTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
 
 
-class LanguagesTest(BaseTestCase):
-    TEST_LANGUAGES = (
-        (
-            'cs_CZ',
-            'cs',
-            'ltr',
-            '(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2',
-            'Czech',
-        ),
-        (
-            'cs (2)',
-            'cs',
-            'ltr',
-            '(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2',
-            'Czech',
-        ),
-        (
-            'czech',
-            'cs',
-            'ltr',
-            '(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2',
-            'Czech',
-        ),
-        (
-            'cs_CZ@hantec',
-            'cs_CZ@hantec',
-            'ltr',
-            '(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2',
-            'Czech (cs_CZ@hantec)',
-        ),
-        (
-            'de-DE',
-            'de',
-            'ltr',
-            'n != 1',
-            'German',
-        ),
-        (
-            'de_AT',
-            'de_AT',
-            'ltr',
-            'n != 1',
-            'Austrian German',
-        ),
-        (
-            'de_CZ',
-            'de_CZ',
-            'ltr',
-            'n != 1',
-            'German (de_CZ)',
-        ),
-        (
-            'portuguese_portugal',
-            'pt_PT',
-            'ltr',
-            'n != 1',
-            'Portuguese (Portugal)',
-        ),
-        (
-            'pt-rBR',
-            'pt_BR',
-            'ltr',
-            'n > 1',
-            'Portuguese (Brazil)',
-        ),
-        (
-            'sr+latn',
-            'sr_Latn',
-            'ltr',
-            'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && '
-            '(n%100<10 || n%100>=20) ? 1 : 2',
-            'Serbian (latin)',
-        ),
-        (
-            'sr_RS@latin',
-            'sr_Latn',
-            'ltr',
-            'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && '
-            '(n%100<10 || n%100>=20) ? 1 : 2',
-            'Serbian (latin)',
-        ),
-        (
-            'sr-RS@latin',
-            'sr_Latn',
-            'ltr',
-            'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && '
-            '(n%100<10 || n%100>=20) ? 1 : 2',
-            'Serbian (latin)',
-        ),
-        (
-            'sr_RS@latin',
-            'sr_Latn',
-            'ltr',
-            'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && '
-            '(n%100<10 || n%100>=20) ? 1 : 2',
-            'Serbian (latin)',
-        ),
-        (
-            'en_CA_MyVariant',
-            'en_CA@myvariant',
-            'ltr',
-            'n != 1',
-            'English (Canada)',
-        ),
-        (
-            'en_CZ',
-            'en_CZ',
-            'ltr',
-            'n != 1',
-            'English (en_CZ)',
-        ),
-        (
-            'zh_CN',
-            'zh_Hans',
-            'ltr',
-            '0',
-            'Chinese (Simplified)',
-        ),
-        (
-            'zh-CN',
-            'zh_Hans',
-            'ltr',
-            '0',
-            'Chinese (Simplified)',
-        ),
-        (
-            'zh_HANT',
-            'zh_Hant',
-            'ltr',
-            '0',
-            'Chinese (Traditional)',
-        ),
-        (
-            'zh-HANT',
-            'zh_Hant',
-            'ltr',
-            '0',
-            'Chinese (Traditional)',
-        ),
-        (
-            'zh-CN@test',
-            'zh_CN@test',
-            'ltr',
-            '0',
-            'Chinese (zh_CN@test)',
-        ),
-        (
-            'zh-rCN',
-            'zh_Hans',
-            'ltr',
-            '0',
-            'Chinese (Simplified)',
-        ),
-        (
-            'zh_rCN',
-            'zh_Hans',
-            'ltr',
-            '0',
-            'Chinese (Simplified)',
-        ),
-        (
-            'zh_HK',
-            'zh_Hant_HK',
-            'ltr',
-            '0',
-            'Chinese (Hong Kong)',
-        ),
-        (
-            'zh_Hant-rHK',
-            'zh_Hant_HK',
-            'ltr',
-            '0',
-            'Chinese (Hong Kong)',
-        ),
-        (
-            'ar',
-            'ar',
-            'rtl',
-            'n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 '
-            ': n%100>=11 ? 4 : 5',
-            'Arabic',
-        ),
-        (
-            'ar_AA',
-            'ar',
-            'rtl',
-            'n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 '
-            ': n%100>=11 ? 4 : 5',
-            'Arabic',
-        ),
-        (
-            'ar_XX',
-            'ar_XX',
-            'rtl',
-            'n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 '
-            ': n%100>=11 ? 4 : 5',
-            'Arabic (ar_XX)',
-        ),
-        (
-            'xx',
-            'xx',
-            'ltr',
-            'n != 1',
-            'xx (generated)',
-        ),
-        (
-            'nb_NO',
-            'nb',
-            'ltr',
-            'n != 1',
-            'Norwegian Bokmål',
-        ),
-        (
-            'nb-NO',
-            'nb',
-            'ltr',
-            'n != 1',
-            'Norwegian Bokmål',
-        ),
-        (
-            'nb',
-            'nb',
-            'ltr',
-            'n != 1',
-            'Norwegian Bokmål',
-        ),
-    )
+LANGUAGES = (
+    (
+        'cs_CZ',
+        'cs',
+        'ltr',
+        '(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2',
+        'Czech',
+        False,
+    ),
+    (
+        'cs (2)',
+        'cs',
+        'ltr',
+        '(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2',
+        'Czech',
+        False,
+    ),
+    (
+        'czech',
+        'cs',
+        'ltr',
+        '(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2',
+        'Czech',
+        False,
+    ),
+    (
+        'cs_CZ@hantec',
+        'cs_CZ@hantec',
+        'ltr',
+        '(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2',
+        'Czech (cs_CZ@hantec)',
+        True,
+    ),
+    (
+        'de-DE',
+        'de',
+        'ltr',
+        'n != 1',
+        'German',
+        False,
+    ),
+    (
+        'de_AT',
+        'de_AT',
+        'ltr',
+        'n != 1',
+        'Austrian German',
+        False,
+    ),
+    (
+        'de_CZ',
+        'de_CZ',
+        'ltr',
+        'n != 1',
+        'German (de_CZ)',
+        True,
+    ),
+    (
+        'portuguese_portugal',
+        'pt_PT',
+        'ltr',
+        'n != 1',
+        'Portuguese (Portugal)',
+        False,
+    ),
+    (
+        'pt-rBR',
+        'pt_BR',
+        'ltr',
+        'n > 1',
+        'Portuguese (Brazil)',
+        False,
+    ),
+    (
+        'sr+latn',
+        'sr_Latn',
+        'ltr',
+        'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && '
+        '(n%100<10 || n%100>=20) ? 1 : 2',
+        'Serbian (latin)',
+        False,
+    ),
+    (
+        'sr_RS@latin',
+        'sr_Latn',
+        'ltr',
+        'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && '
+        '(n%100<10 || n%100>=20) ? 1 : 2',
+        'Serbian (latin)',
+        False,
+    ),
+    (
+        'sr-RS@latin',
+        'sr_Latn',
+        'ltr',
+        'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && '
+        '(n%100<10 || n%100>=20) ? 1 : 2',
+        'Serbian (latin)',
+        False,
+    ),
+    (
+        'sr_RS@latin',
+        'sr_Latn',
+        'ltr',
+        'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && '
+        '(n%100<10 || n%100>=20) ? 1 : 2',
+        'Serbian (latin)',
+        False,
+    ),
+    (
+        'en_CA_MyVariant',
+        'en_CA@myvariant',
+        'ltr',
+        'n != 1',
+        'English (Canada)',
+        True,
+    ),
+    (
+        'en_CZ',
+        'en_CZ',
+        'ltr',
+        'n != 1',
+        'English (en_CZ)',
+        True,
+    ),
+    (
+        'zh_CN',
+        'zh_Hans',
+        'ltr',
+        '0',
+        'Chinese (Simplified)',
+        False,
+    ),
+    (
+        'zh-CN',
+        'zh_Hans',
+        'ltr',
+        '0',
+        'Chinese (Simplified)',
+        False,
+    ),
+    (
+        'zh_HANT',
+        'zh_Hant',
+        'ltr',
+        '0',
+        'Chinese (Traditional)',
+        False,
+    ),
+    (
+        'zh-HANT',
+        'zh_Hant',
+        'ltr',
+        '0',
+        'Chinese (Traditional)',
+        False,
+    ),
+    (
+        'zh-CN@test',
+        'zh_CN@test',
+        'ltr',
+        '0',
+        'Chinese (zh_CN@test)',
+        True,
+    ),
+    (
+        'zh-rCN',
+        'zh_Hans',
+        'ltr',
+        '0',
+        'Chinese (Simplified)',
+        False,
+    ),
+    (
+        'zh_rCN',
+        'zh_Hans',
+        'ltr',
+        '0',
+        'Chinese (Simplified)',
+        False,
+    ),
+    (
+        'zh_HK',
+        'zh_Hant_HK',
+        'ltr',
+        '0',
+        'Chinese (Hong Kong)',
+        False,
+    ),
+    (
+        'zh_Hant-rHK',
+        'zh_Hant_HK',
+        'ltr',
+        '0',
+        'Chinese (Hong Kong)',
+        False,
+    ),
+    (
+        'ar',
+        'ar',
+        'rtl',
+        'n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 '
+        ': n%100>=11 ? 4 : 5',
+        'Arabic',
+        False,
+    ),
+    (
+        'ar_AA',
+        'ar',
+        'rtl',
+        'n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 '
+        ': n%100>=11 ? 4 : 5',
+        'Arabic',
+        False,
+    ),
+    (
+        'ar_XX',
+        'ar_XX',
+        'rtl',
+        'n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 '
+        ': n%100>=11 ? 4 : 5',
+        'Arabic (ar_XX)',
+        True,
+    ),
+    (
+        'xx',
+        'xx',
+        'ltr',
+        'n != 1',
+        'xx (generated)',
+        True,
+    ),
+    (
+        'nb_NO',
+        'nb',
+        'ltr',
+        'n != 1',
+        'Norwegian Bokmål',
+        False,
+    ),
+    (
+        'nb-NO',
+        'nb',
+        'ltr',
+        'n != 1',
+        'Norwegian Bokmål',
+        False,
+    ),
+    (
+        'nb',
+        'nb',
+        'ltr',
+        'n != 1',
+        'Norwegian Bokmål',
+        False,
+    ),
+)
 
+
+class LanguagesTest(BaseTestCase):
     def test_auto_create(self):
         """Test that auto create correctly handles languages"""
-        for original, expected, direction, plural, name in self.TEST_LANGUAGES:
+        for original, expected, direction, plural, name, create in LANGUAGES:
+            # Lookup language
+            lang = Language.objects.auto_get_or_create(original, create=False)
+            self.assertEqual(
+                create,
+                not bool(lang.pk),
+                'Failed to assert creation for {}: {}'.format(
+                    original, create
+                )
+            )
             # Create language
             lang = Language.objects.auto_get_or_create(original)
             # Check language code
