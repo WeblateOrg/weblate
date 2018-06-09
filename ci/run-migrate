@@ -7,7 +7,7 @@ TAGS="weblate-2.16 weblate-2.17.1 weblate-2.18 weblate-2.19 weblate-2.19.1 webla
 
 for tag in $TAGS ; do
     rm weblate.db
-    git checkout $tag
+    git checkout $tag || continue
     run_coverage ./manage.py migrate
     check
     git checkout $TRAVIS_COMMIT
