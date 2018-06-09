@@ -479,6 +479,12 @@ LANGUAGES = (
         'n != 1',
     ),
     (
+        'en_NZ',
+        _('English (New Zealand)'),
+        2,
+        'n != 1',
+    ),
+    (
         'en_PH',
         _('English (Philippines)'),
         2,
