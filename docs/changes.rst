@@ -6,6 +6,11 @@ weblate 3.0.1
 
 Released on ? 2018.
 
+* Fixed possible migration issue from 2.20.
+* Localization updates.
+* Removed obsolete hook examples.
+* Improved caching documentation.
+
 weblate 3.0
 -----------
 
