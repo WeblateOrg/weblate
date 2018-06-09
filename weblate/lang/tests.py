@@ -29,7 +29,7 @@ from django.urls import reverse
 from django.core.management import call_command
 from django.utils.encoding import force_text
 
-from six import StringIO, PY2
+from six import StringIO, PY2, with_metaclass
 
 from weblate.lang.models import Language, Plural, get_plural_type
 from weblate.lang import data
@@ -297,47 +297,64 @@ LANGUAGES = (
 )
 
 
-class LanguagesTest(BaseTestCase):
-    def test_auto_create(self):
+class TestSequenceMeta(type):
+    def __new__(mcs, name, bases, dict):
+
+        def gen_test(original, expected, direction, plural, name, create):
+            def test(self):
+                self.run_create(
+                    original, expected, direction, plural, name, create
+                )
+            return test
+
+        for params in LANGUAGES:
+            test_name = "test_create_%s" % params[1].replace('@','_')
+            dict[test_name] = gen_test(*params)
+
+        return type.__new__(mcs, name, bases, dict)
+
+
+class LanguagesTest(with_metaclass(TestSequenceMeta, BaseTestCase)):
+
+    def run_create(self, original, expected, direction, plural, name, create):
         """Test that auto create correctly handles languages"""
-        for original, expected, direction, plural, name, create in LANGUAGES:
-            # Lookup language
-            lang = Language.objects.auto_get_or_create(original, create=False)
-            self.assertEqual(
-                create,
-                not bool(lang.pk),
-                'Failed to assert creation for {}: {}'.format(
-                    original, create
-                )
+        # Lookup language
+        lang = Language.objects.auto_get_or_create(original, create=False)
+        self.assertEqual(
+            create,
+            not bool(lang.pk),
+            'Failed to assert creation for {}: {}'.format(
+                original, create
             )
-            # Create language
-            lang = Language.objects.auto_get_or_create(original)
-            # Check language code
-            self.assertEqual(
-                lang.code,
-                expected,
-                'Invalid code for {0}: {1}'.format(original, lang.code)
+        )
+        # Create language
+        lang = Language.objects.auto_get_or_create(original)
+        # Check language code
+        self.assertEqual(
+            lang.code,
+            expected,
+            'Invalid code for {0}: {1}'.format(original, lang.code)
+        )
+        # Check direction
+        self.assertEqual(
+            lang.direction,
+            direction,
+            'Invalid direction for {0}'.format(original)
+        )
+        # Check plurals
+        plural_obj = lang.plural_set.get(source=Plural.SOURCE_DEFAULT)
+        self.assertEqual(
+            plural_obj.equation,
+            plural,
+            'Invalid plural for {0} (expected {1}, got {2})'.format(
+                original, plural, plural_obj.equation,
             )
-            # Check direction
-            self.assertEqual(
-                lang.direction,
-                direction,
-                'Invalid direction for {0}'.format(original)
-            )
-            # Check plurals
-            plural_obj = lang.plural_set.get(source=Plural.SOURCE_DEFAULT)
-            self.assertEqual(
-                plural_obj.equation,
-                plural,
-                'Invalid plural for {0} (expected {1}, got {2})'.format(
-                    original, plural, plural_obj.equation,
-                )
-            )
-            # Check whether html contains both language code and direction
-            self.assertIn(direction, lang.get_html())
-            self.assertIn(expected, lang.get_html())
-            # Check name
-            self.assertEqual(force_text(lang), name)
+        )
+        # Check whether html contains both language code and direction
+        self.assertIn(direction, lang.get_html())
+        self.assertIn(expected, lang.get_html())
+        # Check name
+        self.assertEqual(force_text(lang), name)
 
 
 class CommandTest(TestCase):
