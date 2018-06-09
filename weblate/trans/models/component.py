@@ -1071,7 +1071,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 raise ValidationError({'filemask': _(
                     'Got empty language code for %s, please check filemask!'
                 ) % match})
-            lang = Language.objects.auto_get_or_create(code=code)
+            lang = Language.objects.auto_get_or_create(code, create=False)
             if len(code) > 20:
                 raise ValidationError({'filemask': _(
                     'Language code "%s" is too long, please check filemask!'

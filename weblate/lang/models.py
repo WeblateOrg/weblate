@@ -207,21 +207,25 @@ class LanguageQuerySet(models.QuerySet):
 
         return newcode
 
-    def auto_get_or_create(self, code):
+    def auto_get_or_create(self, code, create=True):
         """Try to get language using fuzzy_get and create it if that fails."""
         ret = self.fuzzy_get(code)
         if isinstance(ret, Language):
             return ret
 
         # Create new one
-        return self.auto_create(ret)
+        return self.auto_create(ret, create)
 
-    def auto_create(self, code):
+    def auto_create(self, code, create):
         """Automatically create new language based on code and best guess
         of parameters.
         """
         # Create standard language
-        lang = self.create(
+        if create:
+            meth = self.create
+        else:
+            meth = Language
+        lang = meth(
             code=code,
             name='{0} (generated)'.format(code),
         )
