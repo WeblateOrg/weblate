@@ -4,7 +4,7 @@ Changes
 weblate 3.0.1
 -------------
 
-Released on ? 2018.
+Released on June 10th 2018.
 
 * Fixed possible migration issue from 2.20.
 * Localization updates.
