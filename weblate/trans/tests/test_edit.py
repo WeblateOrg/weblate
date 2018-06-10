@@ -168,7 +168,7 @@ class EditValidationTest(ViewTestCase):
     def test_edit_spam(self):
         """Editing with spam trap."""
         response = self.edit(content='1')
-        self.assertContains(response, 'po/cs.po, string 2')
+        self.assertContains(response, 'po/\u200Bcs.po, string 2')
 
     def test_merge(self):
         """Merging with invalid parameter."""
