@@ -683,6 +683,8 @@ the initial setup, you might need to fake some of the migrations though:
 
     ./manage.py migrate --fake-initial
 
+.. _py3:
+
 Upgrading from Python 2.x to 3.x
 --------------------------------
 
