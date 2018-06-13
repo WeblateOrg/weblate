@@ -65,22 +65,6 @@ from weblate.trans.models.change import Change
 from weblate.utils.validators import validate_repoweb, validate_render
 
 
-DEFAULT_COMMIT_MESSAGE = (
-    'Translated using Weblate ({{ language_name }})\n\n'
-    'Currently translated at {{ stats.translated_percent }}% '
-    '({{ stats.translated }} of {{ stats.all }} strings)\n\n'
-    'Translation: {{ project_name }}/{{ component_name }}\n'
-    'Translate-URL: {{ url }}'
-)
-
-DEFAULT_ADD_MESSAGE = (
-    'Added translation using Weblate ({{ language_name }})\n\n'
-)
-
-DEFAULT_DELETE_MESSAGE = (
-    'Deleted translation using Weblate ({{ language_name }})\n\n'
-)
-
 NEW_LANG_CHOICES = (
     ('contact', ugettext_lazy('Use contact form')),
     ('url', ugettext_lazy('Point to translation instructions URL')),
@@ -366,7 +350,7 @@ class Component(models.Model, URLMixin, PathMixin):
             'please check documentation for more details.'
         ),
         validators=[validate_render],
-        default=DEFAULT_COMMIT_MESSAGE,
+        default=settings.DEFAULT_COMMIT_MESSAGE,
     )
     add_message = models.TextField(
         verbose_name=ugettext_lazy('Commit message when adding translation'),
@@ -375,7 +359,7 @@ class Component(models.Model, URLMixin, PathMixin):
             'please check documentation for more details.'
         ),
         validators=[validate_render],
-        default=DEFAULT_ADD_MESSAGE,
+        default=settings.DEFAULT_ADD_MESSAGE,
     )
     delete_message = models.TextField(
         verbose_name=ugettext_lazy('Commit message when removing translation'),
@@ -384,7 +368,7 @@ class Component(models.Model, URLMixin, PathMixin):
             'please check documentation for more details.'
         ),
         validators=[validate_render],
-        default=DEFAULT_DELETE_MESSAGE,
+        default=settings.DEFAULT_DELETE_MESSAGE,
     )
     committer_name = models.CharField(
         verbose_name=ugettext_lazy('Committer name'),

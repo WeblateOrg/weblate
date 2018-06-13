@@ -167,6 +167,22 @@ class WeblateConf(AppConf):
 
     DEFAULT_PUSH_ON_COMMIT = True
     DEFAULT_VCS = 'git'
+    DEFAULT_COMMIT_MESSAGE = (
+        'Translated using Weblate ({{ language_name }})\n\n'
+        'Currently translated at {{ stats.translated_percent }}% '
+        '({{ stats.translated }} of {{ stats.all }} strings)\n\n'
+        'Translation: {{ project_name }}/{{ component_name }}\n'
+        'Translate-URL: {{ url }}'
+    )
+
+    DEFAULT_ADD_MESSAGE = (
+        'Added translation using Weblate ({{ language_name }})\n\n'
+    )
+
+    DEFAULT_DELETE_MESSAGE = (
+        'Deleted translation using Weblate ({{ language_name }})\n\n'
+    )
+
 
     # Billing
     INVOICE_PATH = ''

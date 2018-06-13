@@ -6,6 +6,8 @@ weblate 3.1
 
 Released on ? 2018.
 
+* Allow to override default commit messages from settings.
+
 weblate 3.0.1
 -------------
 
