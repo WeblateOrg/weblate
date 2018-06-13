@@ -27,6 +27,16 @@
 {% else %}
 <li>{% trans "Any authenticated user can contribute." %}</li>
 {% endif %}
+{% if object.template %}
+<li>{% trans "The translation is using monolingual files." %}</li>
+{% if object.edit_template %}
+<li>{% trans "The translation base language can be edited." %}</li>
+{% else %}
+<li>{% trans "The translation base language can not be edited." %}</li>
+{% endif %}
+{% else %}
+<li>{% trans "The translation is using bilingual files." %}</li>
+{% endif %}
 </ul>
 </td>
 
