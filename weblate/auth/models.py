@@ -282,16 +282,14 @@ class User(AbstractBaseUser):
         _('superuser status'),
         default=False,
         help_text=_(
-            'Designates that this user has all permissions without '
-            'explicitly assigning them.'
+            'User has all permissions without having been given them.'
         ),
     )
     is_active = models.BooleanField(
         _('active'),
         default=True,
         help_text=_(
-            'Designates whether this user should be treated as active. '
-            'Unselect this instead of deleting accounts.'
+            'Marks a user as inactive instead of being removed.'
         ),
     )
     date_joined = models.DateTimeField(_('Date joined'), default=timezone.now)
@@ -300,8 +298,7 @@ class User(AbstractBaseUser):
         verbose_name=_('Groups'),
         blank=True,
         help_text=_(
-            'The groups this user belongs to. A user will get all permissions '
-            'granted to each of their groups.'
+            'The user is granted all permissions included in membership of these groups.'
         ),
     )
 
@@ -448,7 +445,7 @@ class AutoGroup(models.Model):
         max_length=200,
         default='^.*$',
         help_text=_(
-            'Regular expression which is used to match user email.'
+            'Regular expression used to match user email.'
         ),
     )
     group = models.ForeignKey(
@@ -467,7 +464,7 @@ class AutoGroup(models.Model):
 
 
 def create_groups(update):
-    """Create standard groups and gives them permissions."""
+    """Creates standard groups and gives them permissions."""
 
     # Create permissions and roles
     migrate_permissions(Permission)
@@ -488,7 +485,7 @@ def create_groups(update):
 
 @receiver(post_migrate)
 def sync_create_groups(sender, **kwargs):
-    """Create groups on syncdb."""
+    """Create groups."""
     if sender.label != 'weblate_auth':
         return
 
@@ -532,7 +529,7 @@ def auto_group_upon_save(sender, instance, created=False, **kwargs):
 @receiver(post_save, sender=Language)
 @disable_for_loaddata
 def setup_language_groups(sender, instance, **kwargs):
-    """Setup Group objects on language save."""
+    """Set up group objects upon saving language."""
     auto_languages = Group.objects.filter(
         language_selection=SELECTION_ALL
     )
@@ -543,7 +540,7 @@ def setup_language_groups(sender, instance, **kwargs):
 @receiver(post_save, sender=Project)
 @disable_for_loaddata
 def setup_project_groups(sender, instance, **kwargs):
-    """Setup Group objects on project save."""
+    """Set up group objects upon saving project."""
 
     # Handle group automation to set project visibility
     auto_projects = Group.objects.filter(
