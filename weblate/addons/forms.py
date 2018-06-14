@@ -151,7 +151,7 @@ class DiscoveryForm(BaseAddonForm):
         required=False,
         help_text=_(
             'Filename of file which is used for creating new translations. '
-            'For Gettext choose .pot file.'
+            'For gettext choose .pot file.'
         )
     )
     language_regex = forms.CharField(
