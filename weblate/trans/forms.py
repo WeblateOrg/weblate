@@ -1047,7 +1047,7 @@ class ReviewForm(BaseSearchForm):
 class LetterForm(forms.Form):
     """Form for choosing starting letter in a glossary."""
     LETTER_CHOICES = [(chr(97 + x), chr(65 + x)) for x in range(26)]
-    any_letter = pgettext_lazy('Select starting letter in glossary', 'Any')
+    any_letter = pgettext_lazy('Choose starting letter in glossary', 'Any')
     letter = forms.ChoiceField(
         label=_('Starting letter'),
         choices=[('', any_letter)] + LETTER_CHOICES,
@@ -1159,7 +1159,7 @@ class NewLanguageForm(NewLanguageOwnerForm):
     def __init__(self, component, *args, **kwargs):
         super(NewLanguageForm, self).__init__(component, *args, **kwargs)
         self.fields['lang'].choices = (
-            [('', _('Please select'))] + self.fields['lang'].choices
+            [('', _('Please choose'))] + self.fields['lang'].choices
         )
 
     def clean_lang(self):
