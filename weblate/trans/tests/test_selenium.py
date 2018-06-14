@@ -292,6 +292,10 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             )
         return user
 
+    def test_admin(self):
+        self.do_login(superuser=True)
+        self.screenshot('admin-wrench.png')
+
     def test_failed_login(self):
         self.do_login(create=False)
 

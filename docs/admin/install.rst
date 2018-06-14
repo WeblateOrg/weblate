@@ -790,7 +790,11 @@ site.
 Production setup
 ----------------
 
-For production setup you should do following adjustments.
+For production setup you should do adjustments described in following sections.
+The most critical settings will trigger warning which is indicated by red
+exclamation mark in the top bar if you are logged in as a superuser:
+
+.. image:: ../images/admin-wrench.png
 
 .. seealso::
 
