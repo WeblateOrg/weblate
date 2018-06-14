@@ -58,7 +58,7 @@
   {% include 'addons/addon_head.html' with addon=addon %}
   </td>
   <td class="bottom-button">
-    <form method="POST">{% csrf_token %}<input type="hidden" name="name" value="{{ addon.name }}" /><button type="submit" class="btn btn-success"><i class="fa fa-plus"></i> {% trans "Install" %}</button></form>
+    <form method="POST">{% csrf_token %}<input type="hidden" name="name" value="{{ addon.name }}" /><button type="submit" class="btn btn-success" data-addon="{{ addon.name }}"><i class="fa fa-plus"></i> {% trans "Install" %}</button></form>
   </td>
   </tr>
 {% endfor %}
