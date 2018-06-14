@@ -183,7 +183,7 @@ update-screenshots:
 		echo Processing `basename $$file` ; \
 		cp $$file tmp.png ; \
 		pngnq -s 1 -f -n 255 tmp.png ; \
-		rm images/`basename $$file` ; \
+		rm -f images/`basename $$file` ; \
 		zopflipng -m tmp-nq8.png images/`basename $$file` ; \
 	done
 	@rm -f tmp.png tmp-nq8.png
