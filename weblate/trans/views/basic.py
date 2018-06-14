@@ -336,7 +336,7 @@ def show_project(request, project):
     )
 
     # Is user allowed to do automatic translation?
-    if not request.user.has_perm('translation.auto', obj):
+    if request.user.has_perm('translation.auto', obj):
         mass_state_form = MassStateForm(request.user, obj)
     else:
         mass_state_form = None
@@ -377,7 +377,7 @@ def show_component(request, project, component):
     last_changes = Change.objects.for_component(obj)[:10]
 
     # Is user allowed to do automatic translation?
-    if not request.user.has_perm('translation.auto', obj):
+    if request.user.has_perm('translation.auto', obj):
         mass_state_form = MassStateForm(request.user, obj)
     else:
         mass_state_form = None
@@ -423,13 +423,13 @@ def show_translation(request, project, component, lang):
     form = get_upload_form(request.user, obj)
 
     # Is user allowed to do automatic translation?
-    if not request.user.has_perm('translation.auto', obj):
+    if request.user.has_perm('translation.auto', obj):
         mass_state_form = MassStateForm(request.user, obj)
     else:
         mass_state_form = None
 
     # Is user allowed to do automatic translation?
-    if not request.user.has_perm('translation.auto', obj):
+    if request.user.has_perm('translation.auto', obj):
         autoform = AutoForm(obj, request.user)
     else:
         autoform = None
