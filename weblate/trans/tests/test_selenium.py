@@ -266,6 +266,8 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             user.profile.languages.set(
                 Language.objects.filter(code__in=('he', 'cs'))
             )
+        else:
+            user = None
 
         # Login
         username_input = self.driver.find_element_by_id('id_username')
