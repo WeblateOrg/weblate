@@ -48,6 +48,8 @@ try:
 except ImportError:
     HAS_SELENIUM = False
 
+import six
+
 from weblate.trans.tests.test_views import RegistrationTestMixin
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
 from weblate.trans.tests.utils import create_test_user
@@ -224,6 +226,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
 
     def click(self, element):
         """Wrapper to scroll into element for click"""
+        if isinstance(element, six.string_types):
+            element = self.driver.find_element_by_link_text(element)
+
         try:
             element.click()
         except ElementNotVisibleException:
@@ -258,6 +263,16 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         with self.wait_for_page_load():
             self.click(
                 self.driver.find_element_by_xpath('//input[@value="Login"]')
+            )
+
+    def open_admin(self):
+        # Login as superuser
+        self.do_login(superuser=True)
+
+        # Open admin page
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element_by_id('admin-button'),
             )
 
     def test_failed_login(self):
@@ -363,21 +378,13 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
 
     def test_admin_ssh(self):
         """Test admin interface."""
-        self.do_login(superuser=True)
-
-        # Open admin page
-        with self.wait_for_page_load():
-            self.click(
-                self.driver.find_element_by_id('admin-button'),
-            )
+        self.open_admin()
 
         self.screenshot('admin.png')
 
         # Open SSH page
         with self.wait_for_page_load():
-            self.click(
-                self.driver.find_element_by_link_text('SSH keys'),
-            )
+            self.click('SSH keys')
 
         # Generate SSH key
         if get_key_data() is None:
@@ -402,41 +409,23 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
 
         # Open SSH page for final screenshot
         with self.wait_for_page_load():
-            self.click(
-                self.driver.find_element_by_link_text('Home'),
-            )
+            self.click('Home')
         with self.wait_for_page_load():
-            self.click(
-                self.driver.find_element_by_link_text('SSH keys'),
-            )
+            self.click('SSH keys')
         self.screenshot('ssh-keys.png')
 
     def test_admin_componentlist(self):
         """Test admin interface."""
-        self.do_login(superuser=True)
-
-        # Open admin page
-        with self.wait_for_page_load():
-            self.click(
-                self.driver.find_element_by_id('admin-button'),
-            )
+        self.open_admin()
 
         with self.wait_for_page_load():
-            self.click(
-                self.driver.find_element_by_link_text('Component lists')
-            )
+            self.click('Component lists')
 
         with self.wait_for_page_load():
-            self.click(
-                self.driver.find_element_by_link_text('Add Component list')
-            )
+            self.click('Add Component list')
         self.driver.find_element_by_id('id_name').send_keys('All components')
 
-        self.click(
-            self.driver.find_element_by_link_text(
-                'Add another Automatic component list assignment'
-            )
-        )
+        self.click('Add another Automatic component list assignment')
         self.clear_field(
             self.driver.find_element_by_id(
                 'id_autocomponentlist_set-0-project_match'
@@ -453,9 +442,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             self.driver.find_element_by_id('id_name').submit()
 
         # Ensure the component list is there
-        self.click(
-            self.driver.find_element_by_link_text('All components')
-        )
+        self.click('All components')
 
 
 # What other platforms we want to test
