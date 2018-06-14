@@ -158,7 +158,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             raise SkipTest('Selenium Tests disabled')
         super(SeleniumTests, self).setUp()
         self.driver.get('{0}{1}'.format(self.live_server_url, reverse('home')))
-        self.driver.set_window_size(1280, 1024)
+        self.driver.set_window_size(1280, 400)
         time.sleep(1)
 
     @classmethod
