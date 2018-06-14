@@ -466,10 +466,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         self.click('All components')
 
     def test_weblate(self):
-        def navigate_project():
-            self.click('Watched projects')
-            with self.wait_for_page_load():
-                self.click('WeblateOrg')
         user = self.open_admin()
         language_regex = '^(cs|he|hu)$'
 
@@ -582,7 +578,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         self.screenshot('manage-users.png')
         self.screenshot('project-access.png')
         # The project is now watched
-        navigate_project()
+        self.click('Watched projects')
+        with self.wait_for_page_load():
+            self.click('WeblateOrg')
 
         # Engage page
         self.click('Share')
@@ -605,7 +603,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         with self.wait_for_page_load():
             element.submit()
         self.screenshot('glossary-edit.png')
-        navigate_project()
+        self.click('Watched projects')
+        with self.wait_for_page_load():
+            self.click('WeblateOrg')
         self.click('Glossaries')
         self.screenshot('project-glossaries.png')
 
