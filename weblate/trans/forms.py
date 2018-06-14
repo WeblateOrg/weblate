@@ -628,7 +628,7 @@ class FilterField(forms.ChoiceField):
             kwargs['required'] = False
         kwargs['choices'] = get_filter_choice()
         kwargs['error_messages'] = {
-            'invalid_choice': _('Please select a valid filter type.'),
+            'invalid_choice': _('Please choose a valid filter type.'),
         }
         super(FilterField, self).__init__(*args, **kwargs)
 
@@ -693,7 +693,7 @@ class BaseSearchForm(forms.Form):
         return urlencode(items)
 
     def reset_offset(self):
-        """Reset offset to avoid using form as defaults for new search."""
+        """Reset offset to avoid using form as default for new search."""
         data = copy.copy(self.data)
         data['offset'] = '0'
         data['checksum'] = ''
@@ -719,31 +719,31 @@ class SearchForm(BaseSearchForm):
         ),
         initial='ftx',
         error_messages={
-            'invalid_choice': _('Please select a valid search type.'),
+            'invalid_choice': _('Please choose a valid search type.'),
         }
     )
     source = forms.BooleanField(
-        label=_('Search in source strings'),
+        label=_('Source strings'),
         required=False,
         initial=True
     )
     target = forms.BooleanField(
-        label=_('Search in target strings'),
+        label=_('Target strings'),
         required=False,
         initial=True
     )
     context = forms.BooleanField(
-        label=_('Search in context strings'),
+        label=_('Context strings'),
         required=False,
         initial=False
     )
     location = forms.BooleanField(
-        label=_('Search in location strings'),
+        label=_('Location strings'),
         required=False,
         initial=False
     )
     comment = forms.BooleanField(
-        label=_('Search in comment strings'),
+        label=_('Comment strings'),
         required=False,
         initial=False
     )
@@ -865,9 +865,9 @@ class MergeForm(ChecksumForm):
             if (unit.id_hash != merge_unit.id_hash and
                     unit.content_hash != merge_unit.content_hash and
                     unit.source != merge_unit.source):
-                raise ValidationError(_('Merged string not found!'))
+                raise ValidationError(_('Could not find merged string.'))
         except Unit.DoesNotExist:
-            raise ValidationError(_('Merged string not found!'))
+            raise ValidationError(_('Could not find merged string.'))
         return self.cleaned_data
 
 
@@ -886,7 +886,7 @@ class RevertForm(ChecksumForm):
                 unit=self.cleaned_data['unit'],
             )
         except Change.DoesNotExist:
-            raise ValidationError(_('Reverted change not found!'))
+            raise ValidationError(_('Could not find reverted change.'))
         return self.cleaned_data
 
 
@@ -905,12 +905,12 @@ class AutoForm(forms.Form):
         initial='others',
     )
     component = forms.ChoiceField(
-        label=_('Component to use'),
+        label=_('Components'),
         required=False,
         initial=''
     )
     engines = forms.MultipleChoiceField(
-        label=_('Machine translation engines to use'),
+        label=_('Machine translation engines'),
         choices=[],
         required=False,
     )
@@ -1013,7 +1013,7 @@ class DictUploadForm(forms.Form):
         validators=[validate_file_extension],
         help_text=_(
             'You can upload any format which is understood by '
-            'Translate Toolkit (including TBX, CSV or Gettext PO files).'
+            'Translate Toolkit (including TBX, CSV or gettext PO files).'
         )
     )
     method = forms.ChoiceField(
@@ -1181,7 +1181,7 @@ class PriorityForm(forms.Form):
         label=_('Priority'),
         choices=PRIORITY_CHOICES,
         help_text=_(
-            'Strings with higher priority are offered first to translators.'
+            'Higher priority strings are presented to translators earlier.'
         ),
     )
 
