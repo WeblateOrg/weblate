@@ -41,6 +41,7 @@ try:
     from selenium.common.exceptions import (
         WebDriverException, ElementNotVisibleException
     )
+    from selenium.webdriver.remote.file_detector import UselessFileDetector
     from selenium.webdriver.common.keys import Keys
     from selenium.webdriver.support.ui import WebDriverWait
     from selenium.webdriver.support.expected_conditions import staleness_of
@@ -128,13 +129,16 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             cls.sauce_auth = b64encode(
                 '{}:{}'.format(cls.username, cls.key).encode('utf-8')
             )
+            # We do not want to use file detector as it magically uploads
+            # anything what matches local filename
             cls.driver = webdriver.Remote(
                 desired_capabilities=cls.caps,
                 command_executor="http://{0}:{1}@{2}/wd/hub".format(
                     cls.username,
                     cls.key,
                     'ondemand.saucelabs.com',
-                )
+                ),
+                file_detector=UselessFileDetector(),
             )
             cls.driver.implicitly_wait(10)
             cls.actions = webdriver.ActionChains(cls.driver)
