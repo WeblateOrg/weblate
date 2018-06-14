@@ -691,7 +691,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         self.screenshot('export-import.png')
         self.click('Tools')
         self.click('Automatic translation')
-        self.driver.find_element_by_id('id_select_auto_source_2').click()
+        self.click(
+            self.driver.find_element_by_id('id_select_auto_source_2')
+        )
         self.click('Tools')
         self.screenshot('automatic-translation.png')
         self.click('Overview')
@@ -705,7 +707,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         ).select_by_value('substring')
         with self.wait_for_page_load():
             element.submit()
+        self.click('History')
         self.screenshot('format-highlight.png')
+        self.click('Comments')
         self.screenshot('plurals.png')
 
         # Secondary language display
@@ -718,6 +722,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             self.click(
                 self.driver.find_element_by_partial_link_text('All strings')
             )
+        self.click('Other languages')
         self.screenshot('secondary-language.png')
 
         # RTL translation
