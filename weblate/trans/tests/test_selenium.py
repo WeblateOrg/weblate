@@ -533,7 +533,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         Select(
             self.driver.find_element_by_id('id_file_format')
         ).select_by_value('po')
-        self.driver.find_element_by_id('id_license').send_keys( 'GPL-3.0+')
+        self.driver.find_element_by_id('id_license').send_keys('GPL-3.0+')
         self.driver.find_element_by_id(
             'id_license_url'
         ).send_keys(
