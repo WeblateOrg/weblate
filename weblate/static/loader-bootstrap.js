@@ -1331,7 +1331,7 @@ $(function () {
         'enable_search': true,
         'search_placeholder': gettext('Search…'),
         'non_selected_header': gettext('Available:'),
-        'selected_header': gettext('Selected:')
+        'selected_header': gettext('Chosen:')
     });
 
     $('.auto-save-translation').on('submit', function () {
