@@ -45,3 +45,10 @@ message (see :ref:`markup` for more details). The full commit message can look l
     Translation: {{ project_name }}/{{ component_name }}
     Translate-URL: {{ url }}
     Signed-off-by: {{ author }}
+
+User licenses
+-------------
+
+User can review licenses on projects he is contributing to in the profile:
+
+.. image:: ../images/profile-licenses.png
