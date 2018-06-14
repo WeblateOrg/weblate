@@ -175,3 +175,15 @@ pseudoxml:
 	$(SPHINXBUILD) -b pseudoxml $(ALLSPHINXOPTS) $(BUILDDIR)/pseudoxml
 	@echo
 	@echo "Build finished. The pseudo-XML files are in $(BUILDDIR)/pseudoxml."
+
+update-screenshots:
+	@rm -rf ../data-test ../test-images
+	@cd .. && ./manage.py test --settings weblate.settings_test weblate.trans.tests.test_selenium.SeleniumTests
+	@set -e ;for file in ../test-images/*.png ; do \
+		echo Processing `basename $$file` ; \
+		cp $$file tmp.png ; \
+		pngnq -s 1 -f -n 255 tmp.png ; \
+		rm images/`basename $$file` ; \
+		zopflipng -m tmp-nq8.png images/`basename $$file` ; \
+	done
+	@rm -f tmp.png tmp-nq8.png
