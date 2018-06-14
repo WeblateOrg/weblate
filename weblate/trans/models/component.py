@@ -221,8 +221,8 @@ class Component(models.Model, URLMixin, PathMixin):
         max_length=200,
         blank=True,
         help_text=ugettext_lazy(
-            'Filename of file which is used for creating new translations. '
-            'For Gettext choose .pot file.'
+            'Filename of file used for creating new translations. '
+            'For gettext choose .pot file.'
         )
     )
     file_format = models.CharField(
