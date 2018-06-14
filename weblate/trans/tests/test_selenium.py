@@ -39,11 +39,12 @@ from PIL import Image
 try:
     from selenium import webdriver
     from selenium.common.exceptions import (
-        WebDriverException, ElementNotVisibleException
+        WebDriverException, ElementNotVisibleException,
+        NoSuchElementException,
     )
     from selenium.webdriver.remote.file_detector import UselessFileDetector
     from selenium.webdriver.common.keys import Keys
-    from selenium.webdriver.support.ui import WebDriverWait
+    from selenium.webdriver.support.ui import WebDriverWait, Select
     from selenium.webdriver.support.expected_conditions import staleness_of
     HAS_SELENIUM = True
 except ImportError:
@@ -51,6 +52,7 @@ except ImportError:
 
 import six
 
+from weblate.lang.models import Language
 from weblate.trans.tests.test_views import RegistrationTestMixin
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
 from weblate.trans.tests.utils import create_test_user
@@ -259,6 +261,11 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             if superuser:
                 user.is_superuser = True
                 user.save()
+            user.profile.langauge = 'en'
+            user.profile.save()
+            user.profile.languages.set(
+                Language.objects.filter(code__in=('he', 'cs'))
+            )
 
         # Login
         username_input = self.driver.find_element_by_id('id_username')
@@ -270,16 +277,18 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             self.click(
                 self.driver.find_element_by_xpath('//input[@value="Login"]')
             )
+        return user
 
     def open_admin(self):
         # Login as superuser
-        self.do_login(superuser=True)
+        user = self.do_login(superuser=True)
 
         # Open admin page
         with self.wait_for_page_load():
             self.click(
                 self.driver.find_element_by_id('admin-button'),
             )
+        return user
 
     def test_failed_login(self):
         self.do_login(create=False)
@@ -428,7 +437,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             self.click('Component lists')
 
         with self.wait_for_page_load():
-            self.click('Add Component list')
+            self.click(self.driver.find_element_by_class_name('addlink'))
         self.driver.find_element_by_id('id_name').send_keys('All components')
 
         self.click('Add another Automatic component list assignment')
@@ -449,6 +458,303 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
 
         # Ensure the component list is there
         self.click('All components')
+
+    def test_weblate(self):
+        def navigate_project():
+            self.click('Watched projects')
+            with self.wait_for_page_load():
+                self.click('WeblateOrg')
+        user = self.open_admin()
+        language_regex = '^(cs|he|hu)$'
+
+        # Add project
+        with self.wait_for_page_load():
+            self.click('Projects')
+        with self.wait_for_page_load():
+            self.click(self.driver.find_element_by_class_name('addlink'))
+        self.driver.find_element_by_id('id_name').send_keys('WeblateOrg')
+        Select(
+            self.driver.find_element_by_id('id_access_control')
+        ).select_by_value('1')
+        self.driver.find_element_by_id(
+            'id_web'
+        ).send_keys(
+            'https://weblate.org/'
+        )
+        self.driver.find_element_by_id(
+            'id_mail'
+        ).send_keys(
+            'weblate@lists.cihar.com'
+        )
+        self.driver.find_element_by_id(
+            'id_instructions'
+        ).send_keys(
+            'https://weblate.org/contribute/'
+        )
+        self.screenshot('add-project.png')
+        with self.wait_for_page_load():
+            self.driver.find_element_by_id('id_name').submit()
+
+        # Add component
+        with self.wait_for_page_load():
+            self.click('Home')
+        with self.wait_for_page_load():
+            self.click('Components')
+        with self.wait_for_page_load():
+            self.click(self.driver.find_element_by_class_name('addlink'))
+
+        self.driver.find_element_by_id('id_name').send_keys('Language names')
+        Select(
+            self.driver.find_element_by_id('id_project')
+        ).select_by_visible_text('WeblateOrg')
+        self.driver.find_element_by_id(
+            'id_repo'
+        ).send_keys(
+            'https://github.com/WeblateOrg/weblate.git'
+        )
+        self.driver.find_element_by_id(
+            'id_repoweb'
+        ).send_keys(
+            'https://github.com/WeblateOrg/hello/blob/'
+            '%(branch)s/%(file)s#L%(line)s'
+        )
+        self.driver.find_element_by_id(
+            'id_filemask'
+        ).send_keys(
+            'weblate/langdata/locale/*/LC_MESSAGES/django.po'
+        )
+        self.driver.find_element_by_id(
+            'id_new_base'
+        ).send_keys(
+            'weblate/langdata/locale/django.pot'
+        )
+        Select(
+            self.driver.find_element_by_id('id_file_format')
+        ).select_by_value('po')
+        self.driver.find_element_by_id('id_license').send_keys( 'GPL-3.0+')
+        self.driver.find_element_by_id(
+            'id_license_url'
+        ).send_keys(
+            'https://spdx.org/licenses/GPL-3.0+'
+        )
+        self.clear_field(
+            self.driver.find_element_by_id(
+                'id_language_regex'
+            )
+        ).send_keys(language_regex)
+        self.screenshot('add-component.png')
+        # This takes long
+        with self.wait_for_page_load(timeout=1200):
+            self.driver.find_element_by_id('id_name').submit()
+        with self.wait_for_page_load():
+            self.click('Language names')
+
+        # Load Weblate project page
+        try:
+            # Some browsers to apply CSS transformations when looking
+            element = self.driver.find_element_by_link_text('View site')
+        except NoSuchElementException:
+            element = self.driver.find_element_by_link_text('VIEW SITE')
+        with self.wait_for_page_load():
+            self.click(element)
+        self.click('Tools')
+        with self.wait_for_page_load():
+            self.click('All projects')
+        with self.wait_for_page_load():
+            self.click('WeblateOrg')
+
+        # User management
+        self.click('Manage')
+        with self.wait_for_page_load():
+            self.click('Manage users')
+        element = self.driver.find_element_by_id('id_user')
+        element.send_keys('testuser')
+        with self.wait_for_page_load():
+            element.submit()
+        with self.wait_for_page_load():
+            self.click('Manage users')
+        self.screenshot('manage-users.png')
+        self.screenshot('project-access.png')
+        # The project is now watched
+        navigate_project()
+
+        # Engage page
+        self.click('Share')
+        with self.wait_for_page_load():
+            self.click('Engage page')
+        self.screenshot('engage.png')
+        with self.wait_for_page_load():
+            self.click('Translation project for WeblateOrg')
+
+        # Glossary
+        self.click('Glossaries')
+        with self.wait_for_page_load():
+            self.click('Manage all glossaries')
+        with self.wait_for_page_load():
+            self.click('Czech')
+        self.click('Add new word')
+        self.driver.find_element_by_id('id_source').send_keys('language')
+        element = self.driver.find_element_by_id('id_target')
+        element.send_keys('jazyk')
+        with self.wait_for_page_load():
+            element.submit()
+        self.screenshot('glossary-edit.png')
+        navigate_project()
+        self.click('Glossaries')
+        self.screenshot('project-glossaries.png')
+
+        # Addons
+        self.click('Components')
+        with self.wait_for_page_load():
+            self.click('Language names')
+        self.click('Manage')
+        with self.wait_for_page_load():
+            self.click('Addons')
+        self.screenshot('addons.png')
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element_by_xpath(
+                    '//button[@data-addon="weblate.discovery.discovery"]'
+                )
+            )
+        element = self.driver.find_element_by_id('id_match')
+        element.send_keys(
+            'weblate/locale/(?P<language>[^/]*)/LC_MESSAGES/'
+            '(?P<component>[^/]*)\\.po'
+        )
+        self.clear_field(
+            self.driver.find_element_by_id(
+                'id_language_regex'
+            )
+        ).send_keys(language_regex)
+        self.driver.find_element_by_id(
+            'id_new_base_template'
+        ).send_keys(
+            'weblate/locale/{{ component }}.pot'
+        )
+        self.clear_field(
+            self.driver.find_element_by_id('id_name_template')
+        ).send_keys(
+            '{{ component|title }}'
+        )
+        Select(
+            self.driver.find_element_by_id('id_file_format')
+        ).select_by_value('po')
+        with self.wait_for_page_load():
+            element.submit()
+        self.screenshot('addon-discovery.png')
+        element = self.driver.find_element_by_id('id_confirm')
+        self.click(element)
+        # This takes long
+        with self.wait_for_page_load(timeout=1200):
+            element.submit()
+        with self.wait_for_page_load():
+            self.click('Language names')
+
+        # Reports
+        self.click('Insights')
+        self.click('Translation reports')
+        self.click('Insights')
+        self.screenshot('reporting.png')
+
+        # Contributor agreeement
+        self.click('Manage')
+        with self.wait_for_page_load():
+            self.click('Settings')
+        element = self.driver.find_element_by_id('id_agreement')
+        element.send_keys('This is an agreement.')
+        with self.wait_for_page_load():
+            element.submit()
+        with self.wait_for_page_load():
+            self.click('Language names')
+        self.screenshot('contributor-agreement.png')
+        with self.wait_for_page_load():
+            self.click('View contributor agreement')
+        element = self.driver.find_element_by_id('id_confirm')
+        self.click(element)
+        with self.wait_for_page_load():
+            element.submit()
+
+        # Translation page
+        with self.wait_for_page_load():
+            self.click('Czech')
+        self.screenshot('strings-to-check.png')
+        self.click('Files')
+        self.click('Upload translation')
+        self.click('Files')
+        self.screenshot('export-import.png')
+        self.click('Tools')
+        self.click('Automatic translation')
+        self.driver.find_element_by_id('id_select_auto_source_2').click()
+        self.click('Tools')
+        self.screenshot('automatic-translation.png')
+        self.click('Overview')
+        with self.wait_for_page_load():
+            self.click('Django')
+        self.click('Search')
+        element = self.driver.find_element_by_id('id_q')
+        element.send_keys('%(count)s word')
+        Select(
+            self.driver.find_element_by_id('id_search')
+        ).select_by_value('substring')
+        with self.wait_for_page_load():
+            element.submit()
+        self.screenshot('format-highlight.png')
+        self.screenshot('plurals.png')
+
+        # Secondary language display
+        user.profile.secondary_languages.set(
+            Language.objects.filter(code__in=('he',))
+        )
+        with self.wait_for_page_load():
+            self.click('Czech')
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element_by_partial_link_text('All strings')
+            )
+        self.screenshot('secondary-language.png')
+
+        # RTL translation
+        with self.wait_for_page_load():
+            self.click('Django')
+        with self.wait_for_page_load():
+            self.click('Hebrew')
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element_by_partial_link_text('All strings')
+            )
+        self.screenshot('visual-keyboard.png')
+
+        # Source review
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element_by_id('edit-screenshot')
+            )
+        self.screenshot('source-review-detail.png')
+        self.screenshot('source-review-edit.png')
+        with self.wait_for_page_load():
+            self.click('source strings')
+        self.screenshot('source-review.png')
+
+        # Profile
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element_by_id('profile-button')
+            )
+        self.click('Preferences')
+        self.click(
+            self.driver.find_element_by_id('id_dashboard_view')
+        )
+        self.screenshot('dashboard-dropdown.png')
+        self.click('Subscriptions')
+        self.screenshot('profile-subscriptions.png')
+        self.click('Licenses')
+        self.screenshot('profile-licenses.png')
+
+        # Dashboard
+        with self.wait_for_page_load():
+            self.click('Dashboard')
+        self.screenshot('your-translations.png')
 
 
 # What other platforms we want to test
