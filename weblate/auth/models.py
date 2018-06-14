@@ -114,12 +114,12 @@ class Group(models.Model):
     )
 
     project_selection = models.IntegerField(
-        verbose_name=_('Project selection'),
+        verbose_name=_('Project'),
         choices=(
             (SELECTION_MANUAL, _('As defined')),
             (SELECTION_ALL, _('All projects')),
-            (SELECTION_ALL_PUBLIC, _('All public projects')),
-            (SELECTION_ALL_PROTECTED, _('All protected projects')),
+            (SELECTION_ALL_PUBLIC, _('All public')),
+            (SELECTION_ALL_PROTECTED, _('All protected')),
             (SELECTION_COMPONENT_LIST, _('From component list')),
         ),
         default=SELECTION_MANUAL,
