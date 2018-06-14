@@ -112,7 +112,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
     def setUpClass(cls):
         if DO_SELENIUM:
             cls.caps['name'] = 'Weblate CI build'
-            cls.caps['screenResolution'] = '1024x768'
+            cls.caps['screenResolution'] = '1280x1024'
             # Fill in Travis details in caps
             if 'TRAVIS_JOB_NUMBER' in os.environ:
                 cls.caps['tunnel-identifier'] = os.environ['TRAVIS_JOB_NUMBER']
@@ -156,7 +156,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             raise SkipTest('Selenium Tests disabled')
         super(SeleniumTests, self).setUp()
         self.driver.get('{0}{1}'.format(self.live_server_url, reverse('home')))
-        self.driver.set_window_size(1024, 768)
+        self.driver.set_window_size(1280, 1024)
         time.sleep(1)
 
     @classmethod
