@@ -1013,7 +1013,7 @@ class DictUploadForm(forms.Form):
         validators=[validate_file_extension],
         help_text=_(
             'You can upload any format which is understood by '
-            'Translate Toolkit (including TBX, CSV or gettext PO files).'
+            'Translate Toolkit (including TBX, CSV or Gettext PO files).'
         )
     )
     method = forms.ChoiceField(
