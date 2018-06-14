@@ -180,3 +180,16 @@ as funding goals and rewards you can get for funding.
 
 
 .. _Bountysource: https://salt.bountysource.com/teams/weblate
+
+Releasing Weblate
+-----------------
+
+Releasing checklist:
+
+1. Make sure screenshots are up to date ``make -C docs update-screenshots``
+2. Create a release ``./scripts/create-release --tag``
+3. Push tags to GitHub
+4. Update Docker image
+5. Close GitHub milestone
+6. Enable building version docs on Read rhe Docs
+7. Once Docker image is tested, add tag and push it
