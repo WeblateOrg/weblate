@@ -41,6 +41,7 @@ try:
     from selenium.common.exceptions import (
         WebDriverException, ElementNotVisibleException
     )
+    from selenium.webdriver.common.keys import Keys
     from selenium.webdriver.support.ui import WebDriverWait
     from selenium.webdriver.support.expected_conditions import staleness_of
     HAS_SELENIUM = True
@@ -159,8 +160,12 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             cls.driver.quit()
             cls.driver = None
 
+    def scroll_top(self):
+        self.driver.execute_script('window.scrollTo(0, 0)')
+
     def screenshot(self, name):
         """Captures named full page screenshot."""
+        self.scroll_top()
         # Get window and document dimensions
         window_height = self.driver.execute_script(
             'return window.innerHeight'
@@ -215,6 +220,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             for path in tempfiles:
                 if os.path.isfile(path):
                     os.remove(path)
+        self.scroll_top()
 
     def click(self, element):
         """Wrapper to scroll into element for click"""
@@ -223,6 +229,11 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         except ElementNotVisibleException:
             self.actions.move_to_element(element).perform()
             element.click()
+
+    def clear_field(self, element):
+        element.send_keys(Keys.CONTROL + 'a')
+        element.send_keys(Keys.DELETE)
+        return element
 
     def do_login(self, create=True, superuser=False):
         # login page
@@ -350,7 +361,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         """Test registration without cookies."""
         self.test_register(True)
 
-    def test_admin(self):
+    def test_admin_ssh(self):
         """Test admin interface."""
         self.do_login(superuser=True)
 
@@ -399,6 +410,52 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
                 self.driver.find_element_by_link_text('SSH keys'),
             )
         self.screenshot('ssh-keys.png')
+
+    def test_admin_componentlist(self):
+        """Test admin interface."""
+        self.do_login(superuser=True)
+
+        # Open admin page
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element_by_id('admin-button'),
+            )
+
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element_by_link_text('Component lists')
+            )
+
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element_by_link_text('Add Component list')
+            )
+        self.driver.find_element_by_id('id_name').send_keys('All components')
+
+        self.click(
+            self.driver.find_element_by_link_text(
+                'Add another Automatic component list assignment'
+            )
+        )
+        self.clear_field(
+            self.driver.find_element_by_id(
+                'id_autocomponentlist_set-0-project_match'
+            )
+        ).send_keys('^.*$')
+        self.clear_field(
+            self.driver.find_element_by_id(
+                'id_autocomponentlist_set-0-component_match'
+            )
+        ).send_keys('^.*$')
+        self.screenshot('componentlist-add.png')
+
+        with self.wait_for_page_load():
+            self.driver.find_element_by_id('id_name').submit()
+
+        # Ensure the component list is there
+        self.click(
+            self.driver.find_element_by_link_text('All components')
+        )
 
 
 # What other platforms we want to test
