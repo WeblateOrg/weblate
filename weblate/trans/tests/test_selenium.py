@@ -386,6 +386,18 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
                 self.driver.find_element_by_id('ssh-add-button'),
             )
 
+        self.screenshot('ssh-keys-added.png')
+
+
+        # Open SSH page for final screenshot
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element_by_link_text('Home'),
+            )
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element_by_link_text('SSH keys'),
+            )
         self.screenshot('ssh-keys.png')
 
 
