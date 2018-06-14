@@ -264,7 +264,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             user.profile.langauge = 'en'
             user.profile.save()
             user.profile.languages.set(
-                Language.objects.filter(code__in=('he', 'cs'))
+                Language.objects.filter(code__in=('he', 'cs', 'hu'))
             )
         else:
             user = None
