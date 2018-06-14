@@ -20,7 +20,9 @@
 
 from __future__ import print_function
 from unittest import SkipTest
+import math
 import time
+import tempfile
 import os
 import json
 from contextlib import contextmanager
@@ -31,6 +33,9 @@ from django.conf import settings
 from django.test.utils import override_settings
 from django.urls import reverse
 from django.core import mail
+
+from PIL import Image
+
 try:
     from selenium import webdriver
     from selenium.common.exceptions import (
@@ -155,10 +160,61 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             cls.driver = None
 
     def screenshot(self, name):
-        """Captures named screenshot."""
-        self.driver.get_screenshot_as_file(
-            os.path.join(self.image_path, name)
+        """Captures named full page screenshot."""
+        # Get window and document dimensions
+        window_height = self.driver.execute_script(
+            'return window.innerHeight'
         )
+        scroll_height = self.driver.execute_script(
+            'return document.body.parentNode.scrollHeight'
+        )
+        # Calculate number of screnshots
+        num = int(math.ceil(float(scroll_height) / float(window_height)))
+
+        # Create temporary files
+        tempfiles = []
+        for i in xrange( num ):
+            fd, path = tempfile.mkstemp(
+                prefix='wl-shot-{0:02}-'.format(i), suffix='.png'
+            )
+            os.close(fd)
+            tempfiles.append(path)
+
+        try:
+            # take screenshots
+            for i, path in enumerate(tempfiles):
+                if i > 0:
+                    self.driver.execute_script(
+                        'window.scrollBy(%d,%d)' % (0, window_height)
+                    )
+
+                self.driver.save_screenshot(path)
+
+            # Stitch images together
+            stiched = None
+            for i, path in enumerate(tempfiles):
+                img = Image.open(path)
+
+                w, h = img.size
+                y = i * window_height
+
+                if i == (len(tempfiles) - 1):
+                    crop_height = scroll_height % h
+                    if crop_height > 0:
+                        img = img.crop((0, h - crop_height, w, h))
+                    w, h = img.size
+
+                if stiched is None:
+                    stiched = Image.new('RGB', (w, scroll_height))
+
+                stiched.paste(img, (0, y, w, y + h))
+
+            stiched.save(os.path.join(self.image_path, name))
+        finally:
+            # Temp files cleanup
+            for path in tempfiles:
+                if os.path.isfile(path):
+                    os.remove(path)
 
     def click(self, element):
         """Wrapper to scroll into element for click"""
