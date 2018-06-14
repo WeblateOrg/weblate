@@ -180,11 +180,11 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
 
         # Create temporary files
         tempfiles = []
-        for i in xrange( num ):
-            fd, path = tempfile.mkstemp(
+        for i in range(num):
+            handle, path = tempfile.mkstemp(
                 prefix='wl-shot-{0:02}-'.format(i), suffix='.png'
             )
-            os.close(fd)
+            os.close(handle)
             tempfiles.append(path)
 
         try:
@@ -202,19 +202,21 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             for i, path in enumerate(tempfiles):
                 img = Image.open(path)
 
-                w, h = img.size
-                y = i * window_height
+                width, height = img.size
+                offset = i * window_height
 
                 if i == (len(tempfiles) - 1):
-                    crop_height = scroll_height % h
+                    crop_height = scroll_height % height
                     if crop_height > 0:
-                        img = img.crop((0, h - crop_height, w, h))
-                    w, h = img.size
+                        img = img.crop(
+                            (0, height - crop_height, width, height)
+                        )
+                    width, height = img.size
 
                 if stiched is None:
-                    stiched = Image.new('RGB', (w, scroll_height))
+                    stiched = Image.new('RGB', (width, scroll_height))
 
-                stiched.paste(img, (0, y, w, y + h))
+                stiched.paste(img, (0, offset, width, offset + height))
 
             stiched.save(os.path.join(self.image_path, name))
         finally:
