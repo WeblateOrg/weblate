@@ -20,9 +20,9 @@
 
 from __future__ import print_function
 from unittest import SkipTest
+from io import BytesIO
 import math
 import time
-import tempfile
 import os
 import json
 from contextlib import contextmanager
@@ -184,53 +184,35 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         # Calculate number of screnshots
         num = int(math.ceil(float(scroll_height) / float(window_height)))
 
-        # Create temporary files
-        tempfiles = []
+        # Capture screenshots
+        screenshots = []
         for i in range(num):
-            handle, path = tempfile.mkstemp(
-                prefix='wl-shot-{0:02}-'.format(i), suffix='.png'
+            if i > 0:
+                self.driver.execute_script(
+                    'window.scrollBy(%d,%d)' % (0, window_height)
+                )
+            screenshots.append(
+                Image.open(BytesIO(self.driver.get_screenshot_as_png()))
             )
-            os.close(handle)
-            tempfiles.append(path)
 
-        try:
-            # take screenshots
-            for i, path in enumerate(tempfiles):
-                if i > 0:
-                    self.driver.execute_script(
-                        'window.scrollBy(%d,%d)' % (0, window_height)
-                    )
+        # Create final image
+        stitched = Image.new('RGB', (screenshots[0].width, scroll_height))
 
-                self.driver.save_screenshot(path)
+        # Stitch images together
+        for i, img in enumerate(screenshots):
+            width, height = img.size
+            offset = i * window_height
 
-            # Stitch images together
-            stiched = None
-            for i, path in enumerate(tempfiles):
-                img = Image.open(path)
+            # Remove overlapping area from last screenshot
+            if i > 0 and i == num - 1:
+                overlap_height = height - scroll_height % height
+            else:
+                overlap_height = 0
 
-                width, height = img.size
-                offset = i * window_height
+            stitched.paste(img, (0, offset - overlap_height))
 
-                if stiched is None:
-                    stiched = Image.new('RGB', (width, scroll_height))
+        stitched.save(os.path.join(self.image_path, name))
 
-                # Remove overlapping area from last screenshot
-                if i == (len(tempfiles) - 1) and i > 0:
-                    crop_height = scroll_height % height
-                    if crop_height:
-                        img = img.crop(
-                            (0, height - crop_height, width, height)
-                        )
-                        width, height = img.size
-
-                stiched.paste(img, (0, offset))
-
-            stiched.save(os.path.join(self.image_path, name))
-        finally:
-            # Temp files cleanup
-            for path in tempfiles:
-                if os.path.isfile(path):
-                    os.remove(path)
         self.scroll_top()
 
     def click(self, element):
