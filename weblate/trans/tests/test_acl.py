@@ -93,7 +93,7 @@ class ACLTest(FixtureTestCase):
         self.add_acl()
         self.make_manager()
         response = self.client.get(self.access_url)
-        self.assertContains(response, 'Manage users')
+        self.assertContains(response, 'Users')
 
     def test_edit_acl_owner(self):
         """Owner should have access to user management.
@@ -101,7 +101,7 @@ class ACLTest(FixtureTestCase):
         self.add_acl()
         self.project.add_user(self.user, '@Administration')
         response = self.client.get(self.access_url)
-        self.assertContains(response, 'Manage users')
+        self.assertContains(response, 'Users')
 
     def add_user(self):
         self.add_acl()

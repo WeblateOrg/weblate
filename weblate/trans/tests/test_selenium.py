@@ -538,7 +538,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             self.click('Django')
         self.click('Manage')
         with self.wait_for_page_load():
-            self.click('Manage screenshots')
+            self.click('Sreenshots')
 
         # Upload screenshot
         self.driver.find_element_by_id('id_name').send_keys(
@@ -781,7 +781,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         # User management
         self.click('Manage')
         with self.wait_for_page_load():
-            self.click('Manage users')
+            self.click('Users')
         element = self.driver.find_element_by_id('id_user')
         element.send_keys('testuser')
         with self.wait_for_page_load():

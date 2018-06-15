@@ -65,7 +65,7 @@
       <li role="separator" class="divider"></li>
       {% endif %}
       {% if user_can_manage_acl %}
-      <li><a href="{% url 'manage-access' project=object.slug %}">{% trans "Manage users" %}</a></li>
+      <li><a href="{% url 'manage-access' project=object.slug %}">{% trans "Users" %}</a></li>
       {% endif %}
       {% if user_can_edit_project %}
       <li><a href="{% url 'settings' project=object.slug %}">{% trans "Settings" %}</a></li>
