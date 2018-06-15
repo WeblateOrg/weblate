@@ -53,6 +53,7 @@ except ImportError:
 import six
 
 from weblate.lang.models import Language
+from weblate.trans.models import Project, Component
 from weblate.trans.tests.test_views import RegistrationTestMixin
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
 from weblate.trans.tests.utils import create_test_user
@@ -380,7 +381,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         """Test registration without cookies."""
         self.test_register(True)
 
-    def test_admin_ssh(self):
+    def test_ssh(self):
         """Test admin interface."""
         self.open_admin()
 
@@ -418,17 +419,38 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             self.click('SSH keys')
         self.screenshot('ssh-keys.png')
 
-    def test_admin_componentlist(self):
+    def create_component(self):
+        project = Project.objects.create(name='WeblateOrg', slug='weblateorg')
+        return Component.objects.create(
+            name='Language names',
+            slug='language-names',
+            project=project,
+            repo='https://github.com/WeblateOrg/demo.git',
+            filemask='weblate/langdata/locale/*/LC_MESSAGES/django.po',
+            new_base='weblate/langdata/locale/django.pot',
+        )
+
+    def view_site(self):
+        try:
+            # Some browsers to apply CSS transformations when looking
+            element = self.driver.find_element_by_link_text('View site')
+        except NoSuchElementException:
+            element = self.driver.find_element_by_link_text('VIEW SITE')
+        with self.wait_for_page_load():
+            self.click(element)
+
+    def test_admin(self):
         """Test admin interface."""
+        self.create_component()
         self.open_admin()
 
+        # Component list
         with self.wait_for_page_load():
             self.click('Component lists')
-
         with self.wait_for_page_load():
             self.click(self.driver.find_element_by_class_name('addlink'))
-        self.driver.find_element_by_id('id_name').send_keys('All components')
-
+        element = self.driver.find_element_by_id('id_name')
+        element.send_keys('All components')
         self.click('Add another Automatic component list assignment')
         self.clear_field(
             self.driver.find_element_by_id(
@@ -441,12 +463,53 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             )
         ).send_keys('^.*$')
         self.screenshot('componentlist-add.png')
-
         with self.wait_for_page_load():
-            self.driver.find_element_by_id('id_name').submit()
+            element.submit()
 
         # Ensure the component list is there
-        self.click('All components')
+        with self.wait_for_page_load():
+            self.click('All components')
+
+        # Whiteboard
+        with self.wait_for_page_load():
+            self.click('Weblate translations')
+        with self.wait_for_page_load():
+            self.click('Whiteboard messages')
+        with self.wait_for_page_load():
+            self.click(self.driver.find_element_by_class_name('addlink'))
+        Select(
+            self.driver.find_element_by_id('id_project')
+        ).select_by_visible_text('WeblateOrg')
+        element = self.driver.find_element_by_id('id_message')
+        element.send_keys(
+            'Translations will be used only if they reach 60%.'
+        )
+        self.screenshot('whiteboard.png')
+        with self.wait_for_page_load():
+            element.submit()
+        with self.wait_for_page_load():
+            self.click(self.driver.find_element_by_class_name('addlink'))
+        Select(
+            self.driver.find_element_by_id('id_language')
+        ).select_by_visible_text('Czech')
+        element = self.driver.find_element_by_id('id_message')
+        element.send_keys('Czech translators rock!')
+        with self.wait_for_page_load():
+            element.submit()
+
+        # Whiteboard display
+        self.view_site()
+        self.click('Tools')
+        with self.wait_for_page_load():
+            self.click('All projects')
+        with self.wait_for_page_load():
+            self.click('WeblateOrg')
+        self.screenshot('whiteboard-project.png')
+        with self.wait_for_page_load():
+            self.click('Language names')
+        with self.wait_for_page_load():
+            self.click('Czech')
+        self.screenshot('whiteboard-language.png')
 
     def test_weblate(self):
         user = self.open_admin()
@@ -575,13 +638,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             self.click('Android')
 
         # Load Weblate project page
-        try:
-            # Some browsers to apply CSS transformations when looking
-            element = self.driver.find_element_by_link_text('View site')
-        except NoSuchElementException:
-            element = self.driver.find_element_by_link_text('VIEW SITE')
-        with self.wait_for_page_load():
-            self.click(element)
+        self.view_site()
         self.click('Tools')
         with self.wait_for_page_load():
             self.click('All projects')
