@@ -54,7 +54,7 @@ before_script:
   - ./manage.py list_versions
 # commands to run tests
 script:
-  - ./ci/run-$CI_MODE
+  - travis_wait ./ci/run-$CI_MODE
 # upload coverage
 after_script:
   # Kill Sauce Connect Proxy if running
