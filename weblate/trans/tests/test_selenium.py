@@ -684,6 +684,8 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         # Translation page
         with self.wait_for_page_load():
             self.click('Czech')
+        with self.wait_for_page_load():
+            self.click('Django')
         self.screenshot('strings-to-check.png')
         self.click('Files')
         self.click('Upload translation')
@@ -696,9 +698,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         )
         self.click('Tools')
         self.screenshot('automatic-translation.png')
-        self.click('Overview')
-        with self.wait_for_page_load():
-            self.click('Django')
         self.click('Search')
         element = self.driver.find_element_by_id('id_q')
         element.send_keys('%(count)s word')
