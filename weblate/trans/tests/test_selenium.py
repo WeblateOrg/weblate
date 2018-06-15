@@ -512,12 +512,12 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         self.driver.find_element_by_id(
             'id_repo'
         ).send_keys(
-            'https://github.com/WeblateOrg/weblate.git'
+            'https://github.com/WeblateOrg/demo.git'
         )
         self.driver.find_element_by_id(
             'id_repoweb'
         ).send_keys(
-            'https://github.com/WeblateOrg/hello/blob/'
+            'https://github.com/WeblateOrg/demo/blob/'
             '%(branch)s/%(file)s#L%(line)s'
         )
         self.driver.find_element_by_id(
