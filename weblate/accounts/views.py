@@ -51,7 +51,7 @@ from social_core.exceptions import (
     AuthStateMissing, AuthStateForbidden, AuthAlreadyAssociated,
     AuthForbidden,
 )
-from social_django.utils import BACKENDS
+import social_django.utils
 from social_django.views import complete, auth
 
 from weblate.auth.models import User
@@ -241,7 +241,7 @@ def user_profile(request):
         UserSettingsForm,
         DashboardSettingsForm,
     ]
-    all_backends = set(load_backends(BACKENDS).keys())
+    all_backends = set(load_backends(social_django.utils.BACKENDS).keys())
 
     if request.method == 'POST':
         # Parse POST params
@@ -554,7 +554,9 @@ class WeblateLoginView(LoginView):
 
     def get_context_data(self, **kwargs):
         context = super(WeblateLoginView, self).get_context_data(**kwargs)
-        auth_backends = list(load_backends(BACKENDS).keys())
+        auth_backends = list(
+            load_backends(social_django.utils.BACKENDS).keys()
+        )
         context['login_backends'] = [x for x in auth_backends if x != 'email']
         context['can_reset'] = 'email' in auth_backends
         context['title'] = _('Login')
@@ -571,7 +573,9 @@ class WeblateLoginView(LoginView):
             return redirect_profile()
 
         # Redirect if there is only one backend
-        auth_backends = list(load_backends(BACKENDS).keys())
+        auth_backends = list(
+            load_backends(social_django.utils.BACKENDS).keys()
+        )
         if len(auth_backends) == 1 and auth_backends[0] != 'email':
             return redirect_single(request, auth_backends[0])
 
@@ -627,7 +631,7 @@ def register(request):
         if settings.REGISTRATION_CAPTCHA:
             captcha = CaptchaForm(request)
 
-    backends = set(load_backends(BACKENDS).keys())
+    backends = set(load_backends(social_django.utils.BACKENDS).keys())
 
     # Redirect if there is only one backend
     if len(backends) == 1 and 'email' not in backends:
@@ -763,7 +767,7 @@ def reset_password(request):
     """Password reset handling."""
     if request.user.is_authenticated:
         redirect_profile()
-    if 'email' not in load_backends(BACKENDS).keys():
+    if 'email' not in load_backends(social_django.utils.BACKENDS).keys():
         messages.error(
             request,
             _('Can not reset password, email authentication is disabled!')

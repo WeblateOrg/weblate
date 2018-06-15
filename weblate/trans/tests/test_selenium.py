@@ -56,6 +56,8 @@ except ImportError:
 
 import six
 
+import social_django.utils
+
 from weblate.lang.models import Language
 from weblate.trans.models import Project, Component, Change, Unit
 from weblate.trans.tests.test_views import RegistrationTestMixin
@@ -69,6 +71,18 @@ DO_SELENIUM = (
     'SAUCE_USERNAME' in os.environ and
     'SAUCE_ACCESS_KEY' in os.environ and
     HAS_SELENIUM
+)
+
+TEST_BACKENDS = (
+    'social_core.backends.email.EmailAuth',
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.github.GithubOAuth2',
+    'social_core.backends.bitbucket.BitbucketOAuth',
+    'social_core.backends.suse.OpenSUSEOpenId',
+    'social_core.backends.ubuntu.UbuntuOpenId',
+    'social_core.backends.fedora.FedoraOpenId',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'weblate.accounts.auth.WeblateUserBackend',
 )
 
 
@@ -279,10 +293,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             )
         return user
 
-    def test_admin(self):
-        self.do_login(superuser=True)
-        self.screenshot('admin-wrench.png')
-
     def test_failed_login(self):
         self.do_login(create=False)
 
@@ -414,7 +424,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
 
         self.screenshot('ssh-keys-added.png')
 
-
         # Open SSH page for final screenshot
         with self.wait_for_page_load():
             self.click('Home')
@@ -463,6 +472,31 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         self.click('Activity')
         self.screenshot('activity.png')
 
+    @override_settings(AUTHENTICATION_BACKENDS=TEST_BACKENDS)
+    def test_auth_backends(self):
+        try:
+            # psa creates copy of settings...
+            orig_backends = social_django.utils.BACKENDS
+            social_django.utils.BACKENDS = TEST_BACKENDS
+            user = self.do_login()
+            user.social_auth.create(
+                provider='google-oauth2', uid=user.email
+            )
+            user.social_auth.create(
+                provider='github', uid='123456'
+            )
+            user.social_auth.create(
+                provider='bitbucket', uid='weblate'
+            )
+            with self.wait_for_page_load():
+                self.click(
+                    self.driver.find_element_by_id('profile-button')
+                )
+            self.click('Authentication')
+            self.screenshot('authentication.png')
+        finally:
+            social_django.utils.BACKENDS = orig_backends
+
     def test_screenshots(self):
         """Test admin interface."""
         text = (
@@ -470,6 +504,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             'machine translation engines to get the best possible '
             'translations and applies them in this project.'
         )
+
         def capture_unit(name):
             unit = Unit.objects.get(
                 source=text,
@@ -487,7 +522,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         def wait_search():
             WebDriverWait(self.driver, 30).until(
                 presence_of_element_located(
-                    (By.XPATH,'//tbody[@id="search-results"]/tr')
+                    (By.XPATH, '//tbody[@id="search-results"]/tr')
                 )
             )
 
@@ -533,8 +568,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
 
     def test_admin(self):
         """Test admin interface."""
+        self.do_login(superuser=True)
+        self.screenshot('admin-wrench.png')
         self.create_component()
-        self.open_admin()
+        # Open admin page
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element_by_id('admin-button'),
+            )
 
         # Component list
         with self.wait_for_page_load():
