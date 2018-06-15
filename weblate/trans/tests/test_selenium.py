@@ -244,7 +244,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             if superuser:
                 user.is_superuser = True
                 user.save()
-            user.profile.langauge = 'en'
+            user.profile.language = 'en'
             user.profile.save()
             user.profile.languages.set(
                 Language.objects.filter(code__in=('he', 'cs', 'hu'))
@@ -480,7 +480,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         with self.wait_for_page_load():
             self.driver.find_element_by_id('id_name').submit()
 
-        # Add component
+        # Add bilingual component
         with self.wait_for_page_load():
             self.click('Home')
         with self.wait_for_page_load():
@@ -533,6 +533,46 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             self.driver.find_element_by_id('id_name').submit()
         with self.wait_for_page_load():
             self.click('Language names')
+
+        # Add monolingual component
+        with self.wait_for_page_load():
+            self.click('Components')
+        with self.wait_for_page_load():
+            self.click(self.driver.find_element_by_class_name('addlink'))
+        self.driver.find_element_by_id('id_name').send_keys('Android')
+        Select(
+            self.driver.find_element_by_id('id_project')
+        ).select_by_visible_text('WeblateOrg')
+        self.driver.find_element_by_id(
+            'id_repo'
+        ).send_keys(
+            'weblate://weblateorg/language-names'
+        )
+        self.driver.find_element_by_id(
+            'id_filemask'
+        ).send_keys(
+            'app/src/main/res/values-*/strings.xml'
+        )
+        self.driver.find_element_by_id(
+            'id_template'
+        ).send_keys(
+            'app/src/main/res/values/strings.xml'
+        )
+        Select(
+            self.driver.find_element_by_id('id_file_format')
+        ).select_by_value('aresource')
+        self.driver.find_element_by_id('id_license').send_keys('MIT')
+        self.driver.find_element_by_id(
+            'id_license_url'
+        ).send_keys(
+            'https://spdx.org/licenses/MIT'
+        )
+        self.screenshot('add-component-mono.png')
+        # This takes long
+        with self.wait_for_page_load(timeout=1200):
+            self.driver.find_element_by_id('id_name').submit()
+        with self.wait_for_page_load():
+            self.click('Android')
 
         # Load Weblate project page
         try:
