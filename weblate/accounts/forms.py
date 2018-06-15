@@ -264,6 +264,9 @@ class DashboardSettingsForm(forms.ModelForm):
             'dashboard_view',
             'dashboard_component_list',
         )
+        widgets = {
+            'dashboard_view': forms.RadioSelect,
+        }
 
 
 class UserForm(forms.ModelForm):

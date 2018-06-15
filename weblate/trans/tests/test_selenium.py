@@ -735,9 +735,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
                 self.driver.find_element_by_id('profile-button')
             )
         self.click('Preferences')
-        self.click(
-            self.driver.find_element_by_id('id_dashboard_view')
-        )
         self.screenshot('dashboard-dropdown.png')
         self.click('Subscriptions')
         self.screenshot('profile-subscriptions.png')
