@@ -36,7 +36,7 @@ class ComponentDiscoveryTest(RepoTestCase):
         )
 
     def test_matched_files(self):
-        self.assertEquals(
+        self.assertEqual(
             sorted(self.discovery.matched_files),
             sorted([
                 'po-link/cs.po',
@@ -55,7 +55,7 @@ class ComponentDiscoveryTest(RepoTestCase):
         )
 
     def test_matched_components(self):
-        self.assertEquals(
+        self.assertEqual(
             self.discovery.matched_components,
             {
                 'po/*.po': {

@@ -370,7 +370,7 @@ class PeriodicCommandTest(RepoTestCase):
             'update_index',
             stdout=output
         )
-        self.assertEquals('', output.getvalue())
+        self.assertEqual('', output.getvalue())
 
     def test_update_index(self):
         IndexUpdate.objects.create(

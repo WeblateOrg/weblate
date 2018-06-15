@@ -485,16 +485,16 @@ class LanguageConsistencyTest(ViewTestCase):
             new_base='ts/cs.ts',
             project=self.component.project,
         )
-        self.assertEquals(Translation.objects.count(), 4)
+        self.assertEqual(Translation.objects.count(), 4)
 
         # Installation should make languages consistent
         addon = LangaugeConsistencyAddon.create(self.component)
-        self.assertEquals(Translation.objects.count(), 6)
+        self.assertEqual(Translation.objects.count(), 6)
 
         # Add one language
         language = Language.objects.get(code='af')
         self.component.add_new_language(language, None)
-        self.assertEquals(
+        self.assertEqual(
             Translation.objects.filter(
                 language=language,
                 component__project=self.component.project
@@ -504,4 +504,4 @@ class LanguageConsistencyTest(ViewTestCase):
 
         # Trigger post update signal, should do nothing
         addon.post_update(self.component, '')
-        self.assertEquals(Translation.objects.count(), 8)
+        self.assertEqual(Translation.objects.count(), 8)
