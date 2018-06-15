@@ -73,7 +73,7 @@
     {% endif %}
     <form class="form-inline double-submission">
       {% csrf_token %}
-      <input type="text" required="yes" name="q" placeholder="{% trans "Source string search" %}" />
+      <input type="text" required="yes" name="q" id="search-input" placeholder="{% trans "Source string search" %}" />
       <button data-href="{% url 'screenshot-js-search' pk=object.pk %}" class="btn btn-success" id="screenshots-search"><i class="fa fa-search"></i> {% trans "Search" %}</button>
     </form>
   </div>

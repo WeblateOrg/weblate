@@ -44,9 +44,12 @@ try:
         NoSuchElementException,
     )
     from selenium.webdriver.remote.file_detector import UselessFileDetector
+    from selenium.webdriver.common.by import By
     from selenium.webdriver.common.keys import Keys
     from selenium.webdriver.support.ui import WebDriverWait, Select
-    from selenium.webdriver.support.expected_conditions import staleness_of
+    from selenium.webdriver.support.expected_conditions import (
+        staleness_of, presence_of_element_located,
+    )
     HAS_SELENIUM = True
 except ImportError:
     HAS_SELENIUM = False
@@ -54,7 +57,7 @@ except ImportError:
 import six
 
 from weblate.lang.models import Language
-from weblate.trans.models import Project, Component, Change
+from weblate.trans.models import Project, Component, Change, Unit
 from weblate.trans.tests.test_views import RegistrationTestMixin
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
 from weblate.trans.tests.utils import create_test_user
@@ -421,13 +424,21 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
 
     def create_component(self):
         project = Project.objects.create(name='WeblateOrg', slug='weblateorg')
-        return Component.objects.create(
+        Component.objects.create(
             name='Language names',
             slug='language-names',
             project=project,
             repo='https://github.com/WeblateOrg/demo.git',
             filemask='weblate/langdata/locale/*/LC_MESSAGES/django.po',
             new_base='weblate/langdata/locale/django.pot',
+        )
+        Component.objects.create(
+            name='Django',
+            slug='django',
+            project=project,
+            repo='weblate://weblateorg/language-names',
+            filemask='weblate/locale/*/LC_MESSAGES/django.po',
+            new_base='weblate/locale/django.pot',
         )
 
     def view_site(self):
@@ -451,6 +462,74 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         self.click('Insights')
         self.click('Activity')
         self.screenshot('activity.png')
+
+    def test_screenshots(self):
+        """Test admin interface."""
+        text = (
+            'Automatic translation via machine translation uses active '
+            'machine translation engines to get the best possible '
+            'translations and applies them in this project.'
+        )
+        def capture_unit(name):
+            unit = Unit.objects.get(
+                source=text,
+                translation__language_code='cs',
+            )
+            with self.wait_for_page_load():
+                self.driver.get('{0}{1}'.format(
+                    self.live_server_url, unit.get_absolute_url()
+                ))
+            self.click('Other languages')
+            self.screenshot(name)
+            with self.wait_for_page_load():
+                self.click('Dashboard')
+
+        def wait_search():
+            WebDriverWait(self.driver, 30).until(
+                presence_of_element_located(
+                    (By.XPATH,'//tbody[@id="search-results"]/tr')
+                )
+            )
+
+        self.do_login(superuser=True)
+        self.create_component()
+        capture_unit('source-information.png')
+        self.click('Tools')
+        with self.wait_for_page_load():
+            self.click('All projects')
+        with self.wait_for_page_load():
+            self.click('WeblateOrg')
+        with self.wait_for_page_load():
+            self.click('Django')
+        self.click('Manage')
+        with self.wait_for_page_load():
+            self.click('Manage screenshots')
+
+        # Upload screenshot
+        self.driver.find_element_by_id('id_name').send_keys(
+            'Automatic translation'
+        )
+        element = self.driver.find_element_by_id('id_image')
+        element.send_keys(
+            element._upload('docs/images/automatic-translation.png')
+        )
+        with self.wait_for_page_load():
+            element.submit()
+
+        # Perform OCR
+        self.click(self.driver.find_element_by_id('screenshots-auto'))
+        wait_search()
+
+        self.screenshot('screenshot-ocr.png')
+
+        # Add string manually
+        self.driver.find_element_by_id('search-input').send_keys(text)
+        self.click(self.driver.find_element_by_id('screenshots-search'))
+        wait_search()
+        self.click(self.driver.find_element_by_class_name('add-string'))
+
+        # Unit should have screenshot assigned now
+        capture_unit('screenshot-context.png')
 
     def test_admin(self):
         """Test admin interface."""
