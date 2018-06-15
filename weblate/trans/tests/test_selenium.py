@@ -638,8 +638,12 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         with self.wait_for_page_load():
             self.click('WeblateOrg')
         self.screenshot('whiteboard-project.png')
+
         with self.wait_for_page_load():
-            self.click('Language names')
+            self.click('Dashboard')
+        self.click('Tools')
+        with self.wait_for_page_load():
+            self.click('All languages')
         with self.wait_for_page_load():
             self.click('Czech')
         self.screenshot('whiteboard-language.png')
