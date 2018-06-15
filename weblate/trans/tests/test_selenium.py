@@ -173,14 +173,13 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
 
     def screenshot(self, name):
         """Captures named full page screenshot."""
-        self.driver.set_window_size(1280, 400)
         self.scroll_top()
         # Get window and document dimensions
         window_height = self.driver.execute_script(
             'return window.innerHeight'
         )
         scroll_height = self.driver.execute_script(
-            'return document.body.parentNode.scrollHeight'
+            'return document.body.scrollHeight'
         )
         # Calculate number of screnshots
         num = int(math.ceil(float(scroll_height) / float(window_height)))
@@ -212,18 +211,19 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
                 width, height = img.size
                 offset = i * window_height
 
-                if i == (len(tempfiles) - 1):
-                    crop_height = scroll_height % height
-                    if crop_height > 0:
-                        img = img.crop(
-                            (0, height - crop_height, width, height)
-                        )
-                    width, height = img.size
-
                 if stiched is None:
                     stiched = Image.new('RGB', (width, scroll_height))
 
-                stiched.paste(img, (0, offset, width, offset + height))
+                # Remove overlapping area from last screenshot
+                if i == (len(tempfiles) - 1) and i > 0:
+                    crop_height = scroll_height % height
+                    if crop_height:
+                        img = img.crop(
+                            (0, height - crop_height, width, height)
+                        )
+                        width, height = img.size
+
+                stiched.paste(img, (0, offset))
 
             stiched.save(os.path.join(self.image_path, name))
         finally:
@@ -231,7 +231,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             for path in tempfiles:
                 if os.path.isfile(path):
                     os.remove(path)
-        self.driver.set_window_size(1280, 1024)
         self.scroll_top()
 
     def click(self, element):
