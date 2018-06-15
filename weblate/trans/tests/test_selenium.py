@@ -19,6 +19,7 @@
 #
 
 from __future__ import print_function
+from datetime import timedelta
 from unittest import SkipTest
 from io import BytesIO
 import math
@@ -53,7 +54,7 @@ except ImportError:
 import six
 
 from weblate.lang.models import Language
-from weblate.trans.models import Project, Component
+from weblate.trans.models import Project, Component, Change
 from weblate.trans.tests.test_views import RegistrationTestMixin
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
 from weblate.trans.tests.utils import create_test_user
@@ -201,12 +202,11 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
 
         # Stitch images together
         for i, img in enumerate(screenshots):
-            width, height = img.size
             offset = i * window_height
 
             # Remove overlapping area from last screenshot
             if i > 0 and i == num - 1:
-                overlap_height = height - scroll_height % height
+                overlap_height = img.height - scroll_height % img.height
             else:
                 overlap_height = 0
 
@@ -382,7 +382,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         self.test_register(True)
 
     def test_ssh(self):
-        """Test admin interface."""
+        """Test SSH admin interface."""
         self.open_admin()
 
         self.screenshot('admin.png')
@@ -438,6 +438,19 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             element = self.driver.find_element_by_link_text('VIEW SITE')
         with self.wait_for_page_load():
             self.click(element)
+
+    def test_activity(self):
+        # Generate nice changes data
+        for day in range(365):
+            for i in range(int(10 + 10 * math.sin(2 * math.pi * day / 30))):
+                change = Change.objects.create()
+                change.timestamp -= timedelta(days=day)
+                change.save()
+
+        # Render it
+        self.click('Insights')
+        self.click('Activity')
+        self.screenshot('activity.png')
 
     def test_admin(self):
         """Test admin interface."""
