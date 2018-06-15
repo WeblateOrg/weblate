@@ -158,7 +158,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             raise SkipTest('Selenium Tests disabled')
         super(SeleniumTests, self).setUp()
         self.driver.get('{0}{1}'.format(self.live_server_url, reverse('home')))
-        self.driver.set_window_size(1280, 400)
+        self.driver.set_window_size(1280, 1024)
         time.sleep(1)
 
     @classmethod
@@ -173,6 +173,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
 
     def screenshot(self, name):
         """Captures named full page screenshot."""
+        self.driver.set_window_size(1280, 400)
         self.scroll_top()
         # Get window and document dimensions
         window_height = self.driver.execute_script(
@@ -230,6 +231,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             for path in tempfiles:
                 if os.path.isfile(path):
                     os.remove(path)
+        self.driver.set_window_size(1280, 1024)
         self.scroll_top()
 
     def click(self, element):
