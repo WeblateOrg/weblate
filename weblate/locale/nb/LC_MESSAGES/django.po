@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-06-15 19:47+0000\n"
-"PO-Revision-Date: 2018-06-09 19:39+0000\n"
+"PO-Revision-Date: 2018-06-17 04:41+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
 "master/nb/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.0\n"
+"X-Generator: Weblate 3.0.1\n"
 
 #: weblate/accounts/avatar.py:164
 msgctxt "No known user"
@@ -767,16 +767,12 @@ msgid "Define the base file for new translations"
 msgstr "Definer basisfil for nye oversettelser"
 
 #: weblate/addons/forms.py:153 weblate/trans/models/component.py:224
-#, fuzzy
-#| msgid ""
-#| "Filename of file which is used for creating new translations. For Gettext "
-#| "choose .pot file."
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
 msgstr ""
-"Navnet på filen som brukes til å opprette nye oversettelser. For Gettext "
-"velg .pot fil."
+"Navnet på filen brukt til å opprette nye oversettelser. For gettext velg "
+".pot fil."
 
 #: weblate/addons/forms.py:158 weblate/trans/models/component.py:400
 msgid "Language filter"
@@ -1095,11 +1091,9 @@ msgid "Update the internal repository"
 msgstr "Oppdater det kodelageret"
 
 #: weblate/auth/data.py:111
-#, fuzzy
-#| msgid "Add as a suggestion"
 msgctxt "Access control role"
 msgid "Add suggestion"
-msgstr "Legg til som forslag"
+msgstr "Legg til forslag"
 
 #: weblate/auth/data.py:117
 msgctxt "Access control role"
@@ -1257,10 +1251,8 @@ msgid "Roles"
 msgstr "Roller"
 
 #: weblate/auth/models.py:113
-#, fuzzy
-#| msgid "Choose file format for the report"
 msgid "Choose roles granted to this group."
-msgstr "Velg roller innvilget til denne gruppen."
+msgstr "Velg roller innvilget denne gruppen."
 
 #: weblate/auth/models.py:117
 msgid "Project selection"
@@ -2076,16 +2068,12 @@ msgstr "Kakepraksis"
 
 #: weblate/legal/templates/legal/cookies.html:20
 #: weblate/legal/templates/legal/index.html:28
-#, fuzzy
-#| msgid ""
-#| "This page is based on the Terms of Service, you should still read the "
-#| "original document to fully understand them."
 msgid ""
 "This page is based on the Terms of Service and the Privacy Policy, you "
 "should still read the original documents to fully understand them:"
 msgstr ""
-"Denne siden er basert på tjenestevilkårene, du burde fremdeles lese det "
-"opprinnelige dokumentet for å forstå dem."
+"Denne siden er basert på tjenestevilkårene og personvernspraksisen, du burde "
+"fremdeles lese det opprinnelige dokumentet for å forstå dem."
 
 #: weblate/legal/templates/legal/cookies.html:24
 #: weblate/legal/templates/legal/index.html:32
@@ -2197,13 +2185,13 @@ msgstr ""
 #, fuzzy
 #| msgid "Password has been changed."
 msgid "Password in hashed form"
-msgstr "Passordet er endret."
+msgstr "Passord i sjekksummert form"
 
 #: weblate/legal/templates/legal/privacy.html:49
 #, fuzzy
 #| msgid "Any authenticated user can contribute."
 msgid "Used to authenticate user if configured"
-msgstr "Enhver autentisert bruker kan bidra."
+msgstr "Brukt til autentisering av bruker hvis satt opp"
 
 #: weblate/legal/templates/legal/privacy.html:51
 msgid "IP address and browser name"
@@ -3621,8 +3609,6 @@ msgid "Status widgets"
 msgstr "Skjermelementer som viser status"
 
 #: weblate/templates/component.html:118
-#, fuzzy
-#| msgid "You don't have privileges to save translations!"
 msgid "You don't have permission to start new translation"
 msgstr "Du har ikke tilgang til å starte ny oversettelse"
 
@@ -3743,28 +3729,20 @@ msgid "Any authenticated user can contribute."
 msgstr "Enhver autentisert bruker kan bidra."
 
 #: weblate/templates/component_info.html:31
-#, fuzzy
-#| msgid "The translation is not valid XML"
 msgid "The translation is using monolingual files."
-msgstr "Oversettelsen er ikke gyldig XML"
+msgstr "Oversettelsen bruker enkeltspråklige filer."
 
 #: weblate/templates/component_info.html:33
-#, fuzzy
-#| msgid "The translation has come to an end."
 msgid "The translation base language can be edited."
-msgstr "Oversettelsen er kommet til slutten."
+msgstr "Oversettelsens grunnspråk kan redigeres."
 
 #: weblate/templates/component_info.html:35
-#, fuzzy
-#| msgid "The translation has come to an end."
 msgid "The translation base language can not be edited."
-msgstr "Oversettelsen er kommet til slutten."
+msgstr "Oversettelsens grunnspråk kan ikke redigeres."
 
 #: weblate/templates/component_info.html:38
-#, fuzzy
-#| msgid "The translation is not valid XML"
 msgid "The translation is using bilingual files."
-msgstr "Oversettelsen er ikke gyldig XML"
+msgstr "Oversettelsen bruker flerspråklige filer."
 
 #: weblate/templates/component_info.html:46
 #: weblate/trans/models/component.py:298
@@ -6372,16 +6350,12 @@ msgid "Invalid integer list!"
 msgstr "Ugyldig heltallsliste!"
 
 #: weblate/trans/forms.py:1015
-#, fuzzy
-#| msgid ""
-#| "You can upload any format which is understood by Translate Toolkit "
-#| "(including TBX, CSV or Gettext PO files)."
 msgid ""
 "You can upload any format understood by Translate Toolkit (including TBX, "
 "CSV or gettext PO files)."
 msgstr ""
 "Du kan laste opp alle formater som forstås av Translate Toolkit (inkludert "
-"TBX, CSV eller Gettext PO-filer)."
+"TBX, CSV eller gettext PO-filer)."
 
 #: weblate/trans/forms.py:1022
 msgid "Keep current"
@@ -6708,8 +6682,6 @@ msgid "New string added"
 msgstr "Ny streng lagt til"
 
 #: weblate/trans/models/change.py:235
-#, fuzzy
-#| msgid "Changed since"
 msgid "Changed visibility"
 msgstr "Endret synlighet"
 
@@ -7090,10 +7062,9 @@ msgid "Got empty language code for %s, please check filemask!"
 msgstr "Fikk tom språkkode for %s. Sjekk filmasken!"
 
 #: weblate/trans/models/component.py:1061
-#, fuzzy, python-format
-#| msgid "Language code %s is too long, please check filemask!"
+#, python-format
 msgid "Language code \"%s\" is too long, please check filemask!"
-msgstr "Språkkoden for %s er for lang. Sjekk filmasken!"
+msgstr "Språkkoden for \"%s\" er for lang. Sjekk filmasken!"
 
 #: weblate/trans/models/component.py:1065
 #, python-format
@@ -7289,48 +7260,34 @@ msgid "URL with instructions for translators."
 msgstr "Nettadresse med instruksjoner for oversettere."
 
 #: weblate/trans/models/project.py:83
-#, fuzzy
-#| msgid "Set Translation-Team header"
 msgid "Set \"Translation-Team\" header"
-msgstr "Sett oversettelsesteam (Translation-Team) topptekst"
+msgstr "Sett \"oversettelseslag\" (Translation-Team) -topptekst"
 
 #: weblate/trans/models/project.py:86
-#, fuzzy
-#| msgid ""
-#| "Whether the Translation-Team in file headers should be updated by Weblate."
 msgid ""
 "Whether the \"Translation-Team\" field in file headers should be updated by "
 "Weblate."
 msgstr ""
-"Hvorvidt oversettelseslag i filtopptekstene skal oppdateres av Weblate."
+"Hvorvidt \"oversettelseslag\" i filtopptekstene skal oppdateres av Weblate."
 
 #: weblate/trans/models/project.py:96
 msgid "Access control"
 msgstr "Tilgangskontroll"
 
 #: weblate/trans/models/project.py:98
-#, fuzzy
-#| msgid ""
-#| "How to restrict access to this project, please check the documentation "
-#| "for more details."
 msgid ""
 "How to restrict access to this project is detailed in the documentation."
 msgstr ""
-"Sjekk dokumentasjonen for flere detaljer om hvordan du begrenser tilgangen "
-"til dette prosjektet."
+"I dokumentasjonen finnes flere detaljer om hvordan tilgangen til dette "
+"prosjektet kan begrenses."
 
 #: weblate/trans/models/project.py:102
 msgid "Enable reviews"
 msgstr "Aktiver korrekturlesing"
 
 #: weblate/trans/models/project.py:105
-#, fuzzy
-#| msgid ""
-#| "Enable this if you intend for dedicated reviewers to approve translations."
 msgid "Requires dedicated reviewers to approve translations."
-msgstr ""
-"Aktiver dette hvis du ønsker at utplukkede korrekturlesere skal godkjenne "
-"oversettelser."
+msgstr "Krever at utvalgte korrekturlesere godkjenner oversettelser."
 
 #: weblate/trans/models/project.py:109
 msgid "Enable hooks"
@@ -8189,10 +8146,8 @@ msgid "Failed to change a priority!"
 msgstr "Kunne ikke endre en prioritet!"
 
 #: weblate/trans/views/source.py:158
-#, fuzzy
-#| msgid "Failed to change a priority!"
 msgid "Failed to change a context!"
-msgstr "Kunne ikke endre en bindeleddsinformasjon!"
+msgstr "Klarte ikke å endre bindeleddsinformasjon!"
 
 #: weblate/trans/views/source.py:176
 msgid "Failed to change check flags!"
