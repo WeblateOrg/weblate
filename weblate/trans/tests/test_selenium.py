@@ -538,7 +538,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             self.click('Django')
         self.click('Manage')
         with self.wait_for_page_load():
-            self.click('Sreenshots')
+            self.click('Screenshots')
 
         # Upload screenshot
         self.driver.find_element_by_id('id_name').send_keys(
