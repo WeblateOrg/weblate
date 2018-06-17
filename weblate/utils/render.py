@@ -48,7 +48,7 @@ def render_template(template, translation=None, **kwargs):
         context['component_name'] = translation.component.name
         context['component_slug'] = translation.component.slug
         context['language_code'] = translation.language_code
-        context['language_name'] = force_text(translation.language)
+        context['language_name'] = translation.language.name
         context['stats'] = translation.stats.get_data()
         context['url'] = get_site_url(translation.get_absolute_url())
 
