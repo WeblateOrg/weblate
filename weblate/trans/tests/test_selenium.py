@@ -59,6 +59,7 @@ import six
 import social_django.utils
 
 from weblate.lang.models import Language
+import weblate.screenshots.views
 from weblate.trans.models import Project, Component, Change, Unit
 from weblate.trans.tests.test_views import RegistrationTestMixin
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
@@ -552,10 +553,11 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             element.submit()
 
         # Perform OCR
-        self.click(self.driver.find_element_by_id('screenshots-auto'))
-        wait_search()
+        if weblate.screenshots.views.HAS_OCR:
+            self.click(self.driver.find_element_by_id('screenshots-auto'))
+            wait_search()
 
-        self.screenshot('screenshot-ocr.png')
+            self.screenshot('screenshot-ocr.png')
 
         # Add string manually
         self.driver.find_element_by_id('search-input').send_keys(text)
