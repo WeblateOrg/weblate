@@ -498,7 +498,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             social_django.utils.BACKENDS = orig_backends
 
     def test_screenshots(self):
-        """Test admin interface."""
+        """Screenshot tests."""
         text = (
             'Automatic translation via machine translation uses active '
             'machine translation engines to get the best possible '
