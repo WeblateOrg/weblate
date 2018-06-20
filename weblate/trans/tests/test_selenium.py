@@ -31,6 +31,7 @@ from base64 import b64encode
 from six.moves.http_client import HTTPConnection
 import django
 from django.conf import settings
+from django.contrib.sites.models import Site
 from django.test.utils import override_settings
 from django.urls import reverse
 from django.core import mail
@@ -179,7 +180,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         super(SeleniumTests, self).setUp()
         self.driver.get('{0}{1}'.format(self.live_server_url, reverse('home')))
         self.driver.set_window_size(1280, 1024)
-        time.sleep(1)
+        site = Site.objects.get(pk=1)
+        site.domain = '{}:{}'.format(self.host, self.server_thread.port)
+        site.save()
 
     @classmethod
     def tearDownClass(cls):
@@ -805,7 +808,12 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         # Engage page
         self.click('Share')
         with self.wait_for_page_load():
-            self.click('Engage page')
+            self.click('Status widgets')
+        self.screenshot('promote.png')
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element_by_id('engage-link')
+            )
         self.screenshot('engage.png')
         with self.wait_for_page_load():
             self.click('Translation project for WeblateOrg')
