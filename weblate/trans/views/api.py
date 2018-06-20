@@ -299,8 +299,15 @@ def github_hook_helper(data):
 
     params = {'owner': owner, 'slug': slug}
 
-    # Construct possible repository URLs
-    repos = [repo % params for repo in GITHUB_REPOS]
+    if 'clone_url' not in data['repository']:
+        # Construct possible repository URLs
+        repos = [repo % params for repo in GITHUB_REPOS]
+    else:
+        repos = []
+        keys = ['clone_url', 'git_url', 'ssh_url', 'svn_url', 'html_url']
+        for key in keys:
+            if key in data['repository']:
+                repos.append(data['repository'][key])
 
     return {
         'service_long_name': 'GitHub',
