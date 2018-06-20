@@ -38,22 +38,18 @@ from django.core import mail
 
 from PIL import Image
 
-try:
-    from selenium import webdriver
-    from selenium.common.exceptions import (
-        WebDriverException, ElementNotVisibleException,
-        NoSuchElementException,
-    )
-    from selenium.webdriver.remote.file_detector import UselessFileDetector
-    from selenium.webdriver.common.by import By
-    from selenium.webdriver.common.keys import Keys
-    from selenium.webdriver.support.ui import WebDriverWait, Select
-    from selenium.webdriver.support.expected_conditions import (
-        staleness_of, presence_of_element_located,
-    )
-    HAS_SELENIUM = True
-except ImportError:
-    HAS_SELENIUM = False
+from selenium import webdriver
+from selenium.common.exceptions import (
+    WebDriverException, ElementNotVisibleException,
+    NoSuchElementException,
+)
+from selenium.webdriver.remote.file_detector import UselessFileDetector
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait, Select
+from selenium.webdriver.support.expected_conditions import (
+    staleness_of, presence_of_element_located,
+)
 
 import six
 
@@ -71,8 +67,7 @@ from weblate.vcs.ssh import get_key_data
 DO_SELENIUM = (
     'DO_SELENIUM' in os.environ and
     'SAUCE_USERNAME' in os.environ and
-    'SAUCE_ACCESS_KEY' in os.environ and
-    HAS_SELENIUM
+    'SAUCE_ACCESS_KEY' in os.environ
 )
 
 TEST_BACKENDS = (
@@ -509,7 +504,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             'translations and applies them in this project.'
         )
 
-        def capture_unit(name, tab='toggle-others'):
+        def capture_unit(name, tab='toggle-history'):
             unit = Unit.objects.get(
                 source=text,
                 translation__language_code='cs',
