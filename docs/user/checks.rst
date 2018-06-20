@@ -1,6 +1,16 @@
 Checks and fixups
 =================
 
+The quality checks help to catch common translator errors to make sure the
+translation is in good shape. The checks are divided into three severities and
+can be ignored in case there is a false positive.
+
+Once submitting translation with failing check, this is immediatelly shown to
+the user:
+
+.. image:: ../images/checks.png
+
+
 .. _autofix:
 
 Automatic fixups

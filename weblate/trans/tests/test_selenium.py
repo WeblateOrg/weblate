@@ -939,6 +939,17 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         self.click('Comments')
         self.screenshot('plurals.png')
 
+        # Trigger check
+        self.clear_field(
+            self.driver.find_element_by_id('id_a2a808c8ccbece08_0')
+        )
+        element = self.driver.find_element_by_id('id_a2a808c8ccbece08_1')
+        self.clear_field(element)
+        element.send_keys('some word')
+        with self.wait_for_page_load():
+            element.submit()
+        self.screenshot('checks.png')
+
         # Secondary language display
         user.profile.secondary_languages.set(
             Language.objects.filter(code__in=('he',))
