@@ -383,9 +383,6 @@ class HooksViewTest(ViewTestCase):
 
     @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
     def test_view_hook_github_ping(self):
-        # Adjust matching repo
-        self.component.repo = 'git://github.com/defunkt/github.git'
-        self.component.save()
         response = self.client.post(
             reverse('hook-github'),
             {'payload': '{"zen": "Approachable is better than simple."}'}
@@ -431,6 +428,14 @@ class HooksViewTest(ViewTestCase):
             content_type="application/json"
         )
         self.assertContains(response, 'No matching repositories found!')
+
+    @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
+    def test_view_hook_bitbucket_ping(self):
+        response = self.client.post(
+            reverse('hook-bitbucket'),
+            HTTTP_X_EVENT_KEY='diagnostics:ping',
+        )
+        self.assertContains(response, 'Hook working')
 
     @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
     def test_view_hook_bitbucket_git(self):

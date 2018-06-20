@@ -127,6 +127,9 @@ def parse_hook_payload(request):
 
     We handle both application/x-www-form-urlencoded and application/json.
     """
+    # Bitbucket ping event
+    if request.META.get('HTTTP_X_EVENT_KEY') == 'diagnostics:ping':
+        return {'diagnostics': 'ping'}
     if request.META['CONTENT_TYPE'] == 'application/json':
         return json.loads(request.body.decode('utf-8'))
     return json.loads(request.POST['payload'])
@@ -243,6 +246,8 @@ def bitbucket_webhook_helper(data):
 @register_hook
 def bitbucket_hook_helper(data):
     """API to handle service hooks from Bitbucket."""
+    if 'diagnostics' in data:
+        return None
     if 'push' in data:
         return bitbucket_webhook_helper(data)
 
