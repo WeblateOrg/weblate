@@ -7,6 +7,7 @@ weblate 3.1
 Released on ? 2018.
 
 * Allow to override default commit messages from settings.
+* Improve webhooks compatibility with self hosted environments.
 
 weblate 3.0.1
 -------------
