@@ -17,6 +17,14 @@ There are also some options for translation project visibility:
 
 Plase see :ref:`workflows` for more information about translation workflow.
 
+Translation projects
+--------------------
+
+Translation projects are used to organize translations into related groups. It
+can be one software component, book or anything closely related.
+
+.. image:: ../images/project-overview.png
+
 .. _strings-to-check:
 
 Translation links

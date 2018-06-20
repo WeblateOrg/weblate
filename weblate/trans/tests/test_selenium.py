@@ -788,6 +788,8 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         with self.wait_for_page_load():
             self.click('WeblateOrg')
 
+        self.screenshot('project-overview.png')
+
         # User management
         self.click('Manage')
         with self.wait_for_page_load():
