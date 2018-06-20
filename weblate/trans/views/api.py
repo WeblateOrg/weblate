@@ -220,6 +220,10 @@ def vcs_service_hook(request, service):
 
 def bitbucket_webhook_helper(data):
     """API to handle webhooks from Bitbucket"""
+    if 'full_name' in data['repository']:
+        full_name = data['repository']['full_name']
+    else:
+        full_name = data['repository']['fullName']
     repos = [
         repo % {'full_name': data['repository']['full_name']}
         for repo in BITBUCKET_REPOS
