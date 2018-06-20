@@ -337,6 +337,61 @@ BITBUCKET_PAYLOAD_WEBHOOK = r'''
 }
 '''
 
+BITBUCKET_PAYLOAD_HOSTED = r'''
+{
+  "actor":{
+    "username":"DSnoeck",
+    "displayName":"Snoeck, Damien"
+  },
+  "repository":{
+    "scmId":"git",
+    "project":{
+      "key":"~DSNOECK",
+      "name":"Snoeck, Damien"
+    },
+    "slug":"weblate-training",
+    "links":{
+      "self":[
+        {
+          "href":"https://bitbucket.example.com/weblate-training/browse"
+        }
+      ]
+    },
+    "fullName":"~DSNOECK/weblate-training",
+    "public":false,
+    "ownerName":"~DSNOECK",
+    "owner":{
+      "username":"~DSNOECK",
+      "displayName":"~DSNOECK"
+    }
+  },
+  "push":{
+    "changes":[
+      {
+        "created":false,
+        "closed":false,
+        "old":{
+          "type":"branch",
+          "name":"develop",
+          "target":{
+            "type":"commit",
+            "hash":"2b44604898704e301a07dda936158a7ae96b1ab6"
+          }
+        },
+        "new":{
+          "type":"branch",
+          "name":"develop",
+          "target":{
+            "type":"commit",
+            "hash":"5371124bf9db76cd6c9386048ef3e821d1f59ff3"
+          }
+        }
+      }
+    ]
+  }
+}
+'''
+
 BITBUCKET_PAYLOAD_WEBHOOK_CLOSED = r'''
 {
   "actor": {
@@ -524,6 +579,14 @@ class HooksViewTest(ViewTestCase):
         response = self.client.post(
             reverse('hook-bitbucket'),
             {'payload': BITBUCKET_PAYLOAD_WEBHOOK}
+        )
+        self.assertContains(response, 'No matching repositories found!')
+
+    @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
+    def test_hook_bitbucket_hosted(self):
+        response = self.client.post(
+            reverse('hook-bitbucket'),
+            {'payload': BITBUCKET_PAYLOAD_HOSTED}
         )
         self.assertContains(response, 'No matching repositories found!')
 

@@ -25,6 +25,7 @@ import sys
 import threading
 
 import six
+from six.moves.urllib.parse import urlparse
 
 from django.conf import settings
 from django.db.models import Q
@@ -56,13 +57,13 @@ BITBUCKET_HG_REPOS = (
 )
 
 BITBUCKET_REPOS = (
-    'ssh://git@bitbucket.org/%(full_name)s.git',
-    'git@bitbucket.org:%(full_name)s.git',
-    'https://bitbucket.org/%(full_name)s.git',
-    'https://bitbucket.org/%(full_name)s',
-    'ssh://hg@bitbucket.org/%(full_name)s',
-    'hg::ssh://hg@bitbucket.org/%(full_name)s',
-    'hg::https://bitbucket.org/%(full_name)s',
+    'ssh://git@{server}/{full_name}.git',
+    'git@{server}:{full_name}.git',
+    'https://{server}/{full_name}.git',
+    'https://{server}/{full_name}',
+    'ssh://hg@{server}/{full_name}',
+    'hg::ssh://hg@{server}/{full_name}',
+    'hg::https://{server}/{full_name}',
 )
 
 GITHUB_REPOS = (
@@ -224,9 +225,18 @@ def bitbucket_webhook_helper(data):
         full_name = data['repository']['full_name']
     else:
         full_name = data['repository']['fullName']
+    if 'html' in data['repository']['links']:
+        repo_url = data['repository']['links']['html']['href']
+    else:
+        repo_url = data['repository']['links']['self'][0]['href']
+
+    repo_servers = set(('bitbucket.org',))
+    repo_servers.add(urlparse(repo_url).hostname)
+
     repos = [
-        repo % {'full_name': data['repository']['full_name']}
+        repo.format(full_name=full_name, server=server)
         for repo in BITBUCKET_REPOS
+        for server in repo_servers
     ]
 
     branch = None
@@ -241,7 +251,7 @@ def bitbucket_webhook_helper(data):
 
     return {
         'service_long_name': 'Bitbucket',
-        'repo_url': data['repository']['links']['html']['href'],
+        'repo_url': repo_url,
         'repos': repos,
         'branch': branch,
     }
