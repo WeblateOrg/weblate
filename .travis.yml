@@ -28,7 +28,14 @@ env:
     - SAUCE_USERNAME=nijel
 # commands to install dependencies
 install:
+  - export TESSERACT_INSTALL=`pwd`/.tesseract
+  - export TESSERACT_PKG=$TESSERACT_INSTALL/lib/pkgconfig
+  - export LD_LIBRARY_PATH=$TESSERACT_INSTALL/lib:$LD_LIBRARY_PATH
+  - export PKG_CONFIG_PATH=$TESSERACT_PKG:$PKG_CONFIG_PATH
+  - export TESSDATA_PREFIX=/usr/share/tesseract-ocr/tessdata/
   - export SAUCE_ACCESS_KEY=`echo MTBlOGE0MzItZmI0Mi00MmZhLTk5NjgtMTE4N2E3YjhlYTAy | base64 --decode`
+  - wget --no-check-certificate -O - https://dl.cihar.com/ci/tesseract.tar.xz | tar xJ
+  - if [ ! -f $TESSERACT_PKG/tesseract.pc -o ! -f $TESSERACT_PKG/lept.pc ] ; then ./ci/install-tesseract ; fi
   # Get newer pip and whell for binary caching support
   - pip install --upgrade pip wheel
   # Install PyPI packages
@@ -47,6 +54,7 @@ before_script:
   - ./manage.py list_versions
 # commands to run tests
 script:
+  - python -c 'from tesserocr import PyTessBaseAPI, RIL'
   - ./ci/run-$CI_MODE
 # upload coverage
 after_script:
@@ -76,8 +84,6 @@ addons:
     - git-svn
     - graphviz
     - tesseract-ocr
-    - libtesseract-dev
-    - libleptonica-dev
     - g++
 services:
   - postgresql
