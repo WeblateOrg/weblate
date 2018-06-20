@@ -36,6 +36,7 @@ class LangaugeConsistencyAddon(BaseAddon):
         'have translation to same languages.'
     )
     icon = 'language'
+    project_scope = True
 
     @classmethod
     def create(cls, component, **kwargs):
