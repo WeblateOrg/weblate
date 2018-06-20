@@ -433,7 +433,7 @@ class HooksViewTest(ViewTestCase):
     def test_hook_bitbucket_ping(self):
         response = self.client.post(
             reverse('hook-bitbucket'),
-            HTTTP_X_EVENT_KEY='diagnostics:ping',
+            HTTP_X_EVENT_KEY='diagnostics:ping',
         )
         self.assertContains(response, 'Hook working')
 

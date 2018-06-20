@@ -128,7 +128,7 @@ def parse_hook_payload(request):
     We handle both application/x-www-form-urlencoded and application/json.
     """
     # Bitbucket ping event
-    if request.META.get('HTTTP_X_EVENT_KEY') == 'diagnostics:ping':
+    if request.META.get('HTTP_X_EVENT_KEY') == 'diagnostics:ping':
         return {'diagnostics': 'ping'}
     if request.META['CONTENT_TYPE'] == 'application/json':
         return json.loads(request.body.decode('utf-8'))
