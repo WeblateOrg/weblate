@@ -529,6 +529,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
 
         self.do_login(superuser=True)
         self.create_component()
+        self.click(self.driver.find_element_by_id('toggle-nearby'))
         capture_unit('source-information.png')
         self.click('Tools')
         with self.wait_for_page_load():
