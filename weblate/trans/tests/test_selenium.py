@@ -509,7 +509,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             'translations and applies them in this project.'
         )
 
-        def capture_unit(name):
+        def capture_unit(name, tab='toggle-others'):
             unit = Unit.objects.get(
                 source=text,
                 translation__language_code='cs',
@@ -518,7 +518,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
                 self.driver.get('{0}{1}'.format(
                     self.live_server_url, unit.get_absolute_url()
                 ))
-            self.click('Other languages')
+            self.click(self.driver.find_element_by_id(tab))
             self.screenshot(name)
             with self.wait_for_page_load():
                 self.click('Dashboard')
@@ -532,8 +532,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
 
         self.do_login(superuser=True)
         self.create_component()
-        self.click(self.driver.find_element_by_id('toggle-nearby'))
-        capture_unit('source-information.png')
+        capture_unit('source-information.png', 'toggle-nearby')
         self.click('Tools')
         with self.wait_for_page_load():
             self.click('All projects')

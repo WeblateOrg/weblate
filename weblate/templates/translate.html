@@ -218,19 +218,19 @@
 <ul class="nav nav-pills translation-tabs">
 <li class="active"><a href="#nearby" data-toggle="tab" id="toggle-nearby" title="{% trans "Messages placed around this one" %}">{% trans "Nearby strings" %} <span class="badge">{{ nearby|length }}</span></a></li>
 {% if unit.suggestions %}
-<li><a href="#suggestions" data-toggle="tab">{% trans "Suggestions" %} <span class="badge">{{ unit.suggestions.count }}</span></a></li>
+<li><a href="#suggestions" data-toggle="tab" id="toggle-suggestions">{% trans "Suggestions" %} <span class="badge">{{ unit.suggestions.count }}</span></a></li>
 {% endif %}
 {% if others.exists %}
-<li><a href="#others" data-toggle="tab">{% trans "Other translations" %} <span class="badge">{{ others.exists }}</span></a></li>
+<li><a href="#others" data-toggle="tab" id="toggle-others">{% trans "Other translations" %} <span class="badge">{{ others.exists }}</span></a></li>
 {% endif %}
 {% if comments or user_can_add_comment %}
-<li><a href="#comments" data-toggle="tab">{% trans "Comments" %}{% if comments %} <span class="badge">{{ comments.count }}</span>{% endif %}</a></li>
+<li><a href="#comments" data-toggle="tab" id="toggle-comments">{% trans "Comments" %}{% if comments %} <span class="badge">{{ comments.count }}</span>{% endif %}</a></li>
 {% endif %}
 {% if user_can_use_mt %}
-<li><a href="#machine" data-toggle="tab" data-load="mt" title="{% trans "Machine translation suggestions" %}">{% trans "Machine translation" %}</a></li>
+<li><a href="#machine" data-toggle="tab" id="toggle-machine" data-load="mt" title="{% trans "Machine translation suggestions" %}">{% trans "Machine translation" %}</a></li>
 {% endif %}
-<li><a href="#translations" data-toggle="tab" data-href="{% url 'js-unit-translations' unit_id=unit.id %}" title="{% trans "Translations of this string in the other languages" %}">{% trans "Other languages" %}</a></li>
-<li><a href="#history" data-toggle="tab" data-href="{% url 'js-unit-changes' unit_id=unit.id %}" title="{% trans "List of recent changes done in Weblate" %}">{% trans "History" %}</a></li>
+<li><a href="#translations" data-toggle="tab" id="toggle-translations" data-href="{% url 'js-unit-translations' unit_id=unit.id %}" title="{% trans "Translations of this string in the other languages" %}">{% trans "Other languages" %}</a></li>
+<li><a href="#history" data-toggle="tab" id="toggle-history" data-href="{% url 'js-unit-changes' unit_id=unit.id %}" title="{% trans "List of recent changes done in Weblate" %}">{% trans "History" %}</a></li>
 </ul>
 
 <div class="tab-content">
