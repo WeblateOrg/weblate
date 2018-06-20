@@ -58,14 +58,17 @@ class RegistrationTestMixin(object):
             match
         )
 
+        live_url = getattr(self, 'live_server_url', None)
+
         # Parse URL
         line = ''
         for line in mail.outbox[0].body.splitlines():
+            if live_url and line.startswith(live_url):
+                return line
             if line.startswith('http://example.com'):
-                break
+                return line[18:]
 
-        # Return confirmation URL
-        return line[18:]
+        self.fail('Confirmation URL not found')
 
     def assert_notify_mailbox(self, sent_mail):
         self.assertEqual(

@@ -356,9 +356,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             if loops > 20:
                 break
 
-        return ''.join(
-            (self.live_server_url, self.assert_registration_mailbox())
-        )
+        return self.assert_registration_mailbox()
 
     @override_settings(REGISTRATION_CAPTCHA=False)
     def test_register(self, clear=False):
