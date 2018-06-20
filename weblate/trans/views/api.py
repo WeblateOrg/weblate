@@ -130,7 +130,7 @@ def parse_hook_payload(request):
     # Bitbucket ping event
     if request.META.get('HTTP_X_EVENT_KEY') == 'diagnostics:ping':
         return {'diagnostics': 'ping'}
-    if request.META['CONTENT_TYPE'] == 'application/json':
+    if 'application/json' in request.META['CONTENT_TYPE'].lower():
         return json.loads(request.body.decode('utf-8'))
     return json.loads(request.POST['payload'])
 
