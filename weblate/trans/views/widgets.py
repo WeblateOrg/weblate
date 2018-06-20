@@ -35,14 +35,6 @@ from weblate.trans.views.helper import (
 from weblate.trans.util import render
 
 
-def widgets_root(request):
-    return render(
-        request,
-        'widgets-root.html',
-        {},
-    )
-
-
 def widgets_sorter(widget):
     """Provide better ordering of widgets."""
     return WIDGETS[widget].order

@@ -84,10 +84,6 @@ class ExportsViewTest(FixtureTestCase):
 
     def test_data(self):
         response = self.client.get(
-            reverse('data_root')
-        )
-        self.assertContains(response, 'Test')
-        response = self.client.get(
             reverse('data_project', kwargs=self.kw_project)
         )
         self.assertContains(response, 'Test')

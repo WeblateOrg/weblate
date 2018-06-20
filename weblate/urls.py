@@ -724,15 +724,13 @@ urlpatterns = [
     ),
     url(
         r'^widgets/$',
-        weblate.trans.views.widgets.widgets_root,
-        name='widgets_root',
+        RedirectView.as_view(url='/projects/', permanent=True),
     ),
 
     # Data exports pages
     url(
         r'^data/$',
-        weblate.trans.views.basic.data_root,
-        name='data_root',
+        RedirectView.as_view(url='/projects/', permanent=True),
     ),
     url(
         r'^data/' + PROJECT + '$',

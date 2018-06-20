@@ -56,12 +56,6 @@ class FontsTest(TestCase):
 
 class WidgetsTest(FixtureTestCase):
     """Testing of widgets."""
-    def test_view_widgets_root(self):
-        response = self.client.get(
-            reverse('widgets_root')
-        )
-        self.assertContains(response, 'Test')
-
     def test_view_widgets(self):
         response = self.client.get(
             reverse('widgets', kwargs=self.kw_project)

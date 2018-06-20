@@ -586,11 +586,6 @@ def stats(request):
 
 
 @never_cache
-def data_root(request):
-    return render(request, 'data-root.html')
-
-
-@never_cache
 def data_project(request, project):
     obj = get_project(request, project)
     return render(
