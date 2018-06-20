@@ -66,10 +66,10 @@ matrix:
     - python: "2.7"
       env: CI_DEPS="Django>=1.11,<1.12" CI_DATABASE=postgresql
     - python: "3.6"
-      env: CI_PIP_DEPS="--pre Django" CI_DATABASE=postgresql
+      env: CI_DEPS="--pre Django" CI_DATABASE=postgresql
   allow_failures:
     - python: "3.6"
-      env: CI_PIP_DEPS="--pre Django" CI_DATABASE=postgresql
+      env: CI_DEPS="--pre Django" CI_DATABASE=postgresql
 addons:
   apt:
     packages:
