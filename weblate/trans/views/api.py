@@ -196,7 +196,7 @@ def vcs_service_hook(request, service):
     components = all_components.filter(project__enable_hooks=True)
 
     LOGGER.info(
-        'received %s notification on repository %s, branch %s,'
+        'received %s notification on repository %s, branch %s, '
         '%d matching components, %d to process',
         service_long_name, repo_url, branch,
         all_components.count(), components.count(),
