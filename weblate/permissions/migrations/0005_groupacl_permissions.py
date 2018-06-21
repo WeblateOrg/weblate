@@ -5,20 +5,9 @@ from __future__ import unicode_literals
 from django.db import migrations, models
 
 
-def fill_in_permissions(apps, schema_editor):
-    """Add all permissions to GroupACL"""
-    Permission = apps.get_model('auth', 'Permission')
-    GroupACL = apps.get_model('permissions', 'GroupACL')
-
-    for group in GroupACL.objects.iterator():
-        if group.permissions.count() == 0:
-            group.permissions.set(Permission.objects.all())
-
-
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('auth', '0008_alter_user_username_max_length'),
         ('permissions', '0004_auto_20170317_1430'),
     ]
 
@@ -28,5 +17,4 @@ class Migration(migrations.Migration):
             name='permissions',
             field=models.ManyToManyField(blank=True, to='auth.Permission', verbose_name='Filtered permissions'),
         ),
-        migrations.RunPython(fill_in_permissions),
     ]

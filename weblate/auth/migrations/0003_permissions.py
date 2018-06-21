@@ -3,15 +3,6 @@
 from __future__ import unicode_literals
 
 from django.db import migrations
-from weblate.auth.utils import migrate_permissions, migrate_roles
-
-
-def run_migration(apps, schema_editor):
-    Role = apps.get_model('weblate_auth', 'Role')
-    Permission = apps.get_model('weblate_auth', 'Permission')
-
-    migrate_permissions(Permission)
-    migrate_roles(Role, Permission)
 
 
 class Migration(migrations.Migration):
@@ -21,5 +12,4 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(run_migration),
     ]

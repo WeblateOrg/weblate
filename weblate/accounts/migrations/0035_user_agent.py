@@ -3,18 +3,6 @@
 from __future__ import unicode_literals
 
 from django.db import migrations
-from django.utils.encoding import force_text
-
-import user_agents
-
-
-def update_user_agent(apps, schema_editor):
-    AuditLog = apps.get_model('accounts', 'AuditLog')
-    for log in AuditLog.objects.exclude(user_agent=''):
-        uaobj = user_agents.parse(log.user_agent)
-        log.user_agent = force_text(uaobj)
-        log.save(update_fields=['user_agent'])
-
 
 class Migration(migrations.Migration):
 
@@ -23,5 +11,4 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(update_user_agent),
     ]

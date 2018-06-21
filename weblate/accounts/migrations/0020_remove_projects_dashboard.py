@@ -5,17 +5,6 @@ from __future__ import unicode_literals
 from django.db import migrations
 
 
-def remove_projects_dashboard(apps, schema_editor):
-    Profile = apps.get_model('accounts', 'Profile')
-    Profile.objects.filter(
-        # Profile.DASHBOARD_ALL
-        dashboard_view=3
-    ).update(
-        # Profile.DASHBOARD_WATCHED
-        dashboard_view=1
-    )
-
-
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -23,5 +12,4 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(remove_projects_dashboard),
     ]

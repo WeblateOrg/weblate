@@ -5,14 +5,6 @@ from __future__ import unicode_literals
 from django.db import migrations
 
 
-def migrate_state(apps, schema_editor):
-    Unit = apps.get_model('trans', 'Unit')
-
-    Unit.objects.filter(translated=True).update(state=20)
-    Unit.objects.filter(approved=True).update(state=30)
-    Unit.objects.filter(fuzzy=True).update(state=10)
-
-
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -20,5 +12,4 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(migrate_state),
     ]

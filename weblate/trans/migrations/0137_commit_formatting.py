@@ -5,32 +5,6 @@ from __future__ import unicode_literals
 from django.db import migrations
 
 
-FORMAT = {
-    'language': '{{ language_code }}',
-    'language_name': '{{ language_name }}',
-    'subproject': '{{ component_name }}',
-    'resource': '{{ component_name }}',
-    'component': '{{ component_name }}',
-    'project': '{{ project_name }}',
-    'url': '{{ url }}',
-    'total': '{{ stats.all }}',
-    'fuzzy': '{{ stats.fuzzy }}',
-    'fuzzy_percent': '{{ stats.fuzzy_percent }}',
-    'translated': '{{ stats.translated }}',
-    'translated_percent': '{{ stats.translated_percent }}',
-}
-
-
-def run_migration(apps, schema_editor):
-    Component = apps.get_model('trans', 'Component')
-
-    for component in Component.objects.all():
-        component.commit_message = component.commit_message % FORMAT
-        component.add_message = component.add_message % FORMAT
-        component.delete_message = component.delete_message % FORMAT
-        component.save()
-
-
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -38,5 +12,4 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(run_migration),
     ]
