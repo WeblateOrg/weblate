@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=150, unique=True, verbose_name='Name')),
-                ('project_selection', models.IntegerField(choices=[(0, 'As defined'), (1, 'All projects'), (2, 'From component list')], default=0, verbose_name='Project selection')),
+                ('project_selection', models.IntegerField(choices=[(0, 'As defined'), (1, 'All projects'), (3, 'All public projects'), (4, 'All protected projects'), (2, 'From component list')], default=0, verbose_name='Project selection')),
                 ('language_selection', models.IntegerField(choices=[(0, 'As defined'), (1, 'All languages')], default=0, verbose_name='Language selection')),
                 ('internal', models.BooleanField(default=False, verbose_name='Weblate internal group')),
                 ('componentlist', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='trans.ComponentList', verbose_name='Component list')),
@@ -75,11 +75,6 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Automatic group assignment',
                 'verbose_name_plural': 'Automatic group assignments',
             },
-        ),
-        migrations.AlterField(
-            model_name='group',
-            name='project_selection',
-            field=models.IntegerField(choices=[(0, 'As defined'), (1, 'All projects'), (3, 'All public projects'), (4, 'All protected projects'), (2, 'From component list')], default=0, verbose_name='Project selection'),
         ),
         migrations.AlterField(
             model_name='user',
