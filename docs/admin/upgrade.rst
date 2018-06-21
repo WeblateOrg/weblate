@@ -75,6 +75,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 Notable configuration or dependencies changes:
 
+* Several no longer needed applications have been removed from :setting:`django:INSTALLED_APPS`.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

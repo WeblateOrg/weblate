@@ -9,7 +9,6 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('accounts', '0026_profile_special_chars'),
-        ('permissions', '0004_auto_20170317_1430'),
     ]
 
     operations = [
