@@ -13,6 +13,8 @@ import weblate.trans.mixins
 import weblate.trans.validators
 import weblate.utils.fields
 import weblate.utils.validators
+from weblate.vcs.models import VCS_REGISTRY
+from weblate.formats.models import FILE_FORMATS
 
 
 class Migration(migrations.Migration):
@@ -338,7 +340,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='subproject',
             name='committer_name',
-            field=models.CharField(default='Weblate', max_length=200, verbose_name='Committer name'),
+            field=models.CharField(default=settings.DEFAULT_COMMITER_NAME, max_length=200, verbose_name='Committer name'),
         ),
         migrations.AddField(
             model_name='subproject',
@@ -457,7 +459,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='subproject',
             name='committer_email',
-            field=models.EmailField(default='noreply@weblate.org', max_length=254, verbose_name='Committer email'),
+            field=models.EmailField(default=settings.DEFAULT_COMMITER_EMAIL, max_length=254, verbose_name='Committer email'),
         ),
         migrations.AlterField(
             model_name='subproject',
@@ -549,7 +551,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='subproject',
             name='allow_translation_propagation',
-            field=models.BooleanField(db_index=True, default=True, help_text='Whether translation updates in other components will cause automatic translation in this one', verbose_name='Allow translation propagation'),
+            field=models.BooleanField(db_index=True, default=settings.DEFAULT_TRANSLATION_PROPAGATION, help_text='Whether translation updates in other components will cause automatic translation in this one', verbose_name='Allow translation propagation'),
         ),
         migrations.AddField(
             model_name='subproject',
@@ -726,7 +728,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='subproject',
             name='vcs',
-            field=models.CharField(choices=[('gerrit', 'Gerrit'), ('git', 'Git'), ('mercurial', 'Mercurial'), ('subversion', 'Subversion')], default='git', help_text='Version control system to use to access your repository with translations.', max_length=20, verbose_name='Version control system'),
+            field=models.CharField(choices=VCS_REGISTRY.get_choices(), default=settings.DEFAULT_VCS, help_text='Version control system to use to access your repository with translations.', max_length=20, verbose_name='Version control system'),
         ),
         migrations.AlterField(
             model_name='change',
@@ -913,12 +915,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='subproject',
             name='commit_pending_age',
-            field=models.IntegerField(default=24, help_text='Time in hours after which any pending changes will be committed to the VCS.', verbose_name='Age of changes to commit'),
+            field=models.IntegerField(default=settings.COMMIT_PENDING_HOURS, help_text='Time in hours after which any pending changes will be committed to the VCS.', verbose_name='Age of changes to commit'),
         ),
         migrations.AddField(
             model_name='subproject',
             name='push_on_commit',
-            field=models.BooleanField(default=True, help_text='Whether the repository should be pushed upstream on every commit.', verbose_name='Push on commit'),
+            field=models.BooleanField(default=settings.DEFAULT_PUSH_ON_COMMIT, help_text='Whether the repository should be pushed upstream on every commit.', verbose_name='Push on commit'),
         ),
         migrations.AlterField(
             model_name='subproject',
@@ -1148,7 +1150,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='subproject',
             name='file_format',
-            field=models.CharField(choices=[('aresource', 'Android String Resource'), ('auto', 'Automatic detection'), ('csv', 'CSV file'), ('csv-simple', 'Simple CSV file'), ('csv-simple-iso', 'Simple CSV file (ISO-8859-1)'), ('dtd', 'DTD file'), ('i18next', 'i18next JSON file'), ('joomla', 'Joomla Language File'), ('json', 'JSON file'), ('json-nested', 'JSON nested structure file'), ('php', 'PHP strings'), ('po', 'Gettext PO file'), ('po-mono', 'Gettext PO file (monolingual)'), ('poxliff', 'XLIFF Translation File with PO extensions'), ('properties', 'Java Properties (ISO-8859-1)'), ('properties-utf16', 'Java Properties (UTF-16)'), ('properties-utf8', 'Java Properties (UTF-8)'), ('rc', 'RC file'), ('resx', '.Net resource file'), ('ruby-yaml', 'Ruby YAML file'), ('strings', 'OS X Strings'), ('strings-utf8', 'OS X Strings (UTF-8)'), ('ts', 'Qt Linguist Translation File'), ('webextension', 'WebExtension JSON file'), ('xliff', 'XLIFF Translation File'), ('yaml', 'YAML file')], default='auto', help_text='Automatic detection might fail for some formats and is slightly slower.', max_length=50, verbose_name='File format'),
+            field=models.CharField(choices=FILE_FORMATS.get_choices(), default='auto', help_text='Automatic detection might fail for some formats and is slightly slower.', max_length=50, verbose_name='File format'),
         ),
         migrations.AddField(
             model_name='whiteboardmessage',
@@ -1320,17 +1322,17 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='component',
             name='add_message',
-            field=models.TextField(default='Added translation using Weblate ({{ language_name }})\n\n', help_text='You can use template language for various information, please check documentation for more details.', validators=[weblate.utils.validators.validate_render], verbose_name='Commit message when adding translation'),
+            field=models.TextField(default=settings.DEFAULT_ADD_MESSAGE, help_text='You can use template language for various information, please check documentation for more details.', validators=[weblate.utils.validators.validate_render], verbose_name='Commit message when adding translation'),
         ),
         migrations.AlterField(
             model_name='component',
             name='commit_message',
-            field=models.TextField(default='Translated using Weblate ({{ language_name }})\n\nCurrently translated at {{ stats.translated_percent }}% ({{ stats.translated }} of {{ stats.all }} strings)\n\nTranslation: {{ project_name }}/{{ component_name }}\nTranslate-URL: {{ url }}', help_text='You can use template language for various information, please check documentation for more details.', validators=[weblate.utils.validators.validate_render], verbose_name='Commit message when translating'),
+            field=models.TextField(default=settings.DEFAULT_COMMIT_MESSAGE, help_text='You can use template language for various information, please check documentation for more details.', validators=[weblate.utils.validators.validate_render], verbose_name='Commit message when translating'),
         ),
         migrations.AlterField(
             model_name='component',
             name='delete_message',
-            field=models.TextField(default='Deleted translation using Weblate ({{ language_name }})\n\n', help_text='You can use template language for various information, please check documentation for more details.', validators=[weblate.utils.validators.validate_render], verbose_name='Commit message when removing translation'),
+            field=models.TextField(default=settings.DEFAULT_DELETE_MESSAGE, help_text='You can use template language for various information, please check documentation for more details.', validators=[weblate.utils.validators.validate_render], verbose_name='Commit message when removing translation'),
         ),
         migrations.AddField(
             model_name='source',
@@ -1345,7 +1347,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='project',
             name='access_control',
-            field=models.IntegerField(choices=[(0, 'Public'), (1, 'Protected'), (100, 'Private'), (200, 'Custom')], default=0, help_text='How to restrict access to this project is detailed in the documentation.', verbose_name='Access control'),
+            field=models.IntegerField(choices=[(0, 'Public'), (1, 'Protected'), (100, 'Private'), (200, 'Custom')], default=200 if settings.DEFAULT_CUSTOM_ACL else 0, help_text='How to restrict access to this project is detailed in the documentation.', verbose_name='Access control'),
         ),
         migrations.AlterField(
             model_name='project',
