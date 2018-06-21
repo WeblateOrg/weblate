@@ -32,7 +32,7 @@ class Migration(migrations.Migration):
             name='Event',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('event', models.IntegerField(choices=[(1, 'post push'), (2, 'post update'), (3, 'pre commit'), (4, 'post commit')])),
+                ('event', models.IntegerField(choices=[(1, 'post push'), (2, 'post update'), (3, 'pre commit'), (4, 'post commit'), (5, 'post add'), (6, 'unit post create'), (7, 'store post load')])),
                 ('addon', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='addons.Addon')),
             ],
         ),
@@ -48,15 +48,5 @@ class Migration(migrations.Migration):
         migrations.AlterUniqueTogether(
             name='addon',
             unique_together=set([('component', 'name')]),
-        ),
-        migrations.AlterField(
-            model_name='event',
-            name='event',
-            field=models.IntegerField(choices=[(1, 'post push'), (2, 'post update'), (3, 'pre commit'), (4, 'post commit'), (5, 'post add'), (6, 'unit post create')]),
-        ),
-        migrations.AlterField(
-            model_name='event',
-            name='event',
-            field=models.IntegerField(choices=[(1, 'post push'), (2, 'post update'), (3, 'pre commit'), (4, 'post commit'), (5, 'post add'), (6, 'unit post create'), (7, 'store post load')]),
         ),
     ]

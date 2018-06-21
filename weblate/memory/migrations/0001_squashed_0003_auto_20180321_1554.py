@@ -13,39 +13,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('lang', '0011_auto_20180215_1158'),
     ]
 
     operations = [
-        migrations.CreateModel(
-            name='Memory',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('source', models.TextField()),
-                ('source_hash', models.BigIntegerField(editable=False)),
-                ('target', models.TextField()),
-                ('origin', models.TextField()),
-                ('timestamp', models.DateTimeField(auto_now_add=True)),
-                ('source_language', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='memory_source', to='lang.Language')),
-                ('target_language', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='memory_target', to='lang.Language')),
-            ],
-            options={
-                'ordering': ['source'],
-            },
-        ),
-        migrations.AlterIndexTogether(
-            name='memory',
-            index_together=set([]),
-        ),
-        migrations.RemoveField(
-            model_name='memory',
-            name='source_language',
-        ),
-        migrations.RemoveField(
-            model_name='memory',
-            name='target_language',
-        ),
-        migrations.DeleteModel(
-            name='Memory',
-        ),
     ]

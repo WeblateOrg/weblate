@@ -22,10 +22,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('code', models.SlugField(unique=True, verbose_name='Language code')),
                 ('name', models.CharField(max_length=100, verbose_name='Language name')),
-                ('nplurals', models.SmallIntegerField(default=2, verbose_name='Number of plurals')),
-                ('pluralequation', models.CharField(blank=True, max_length=400, verbose_name='Plural equation')),
                 ('direction', models.CharField(choices=[('ltr', 'Left to right'), ('rtl', 'Right to left')], default='ltr', max_length=3, verbose_name='Text direction')),
-                ('plural_type', models.IntegerField(choices=[(0, 'None'), (1, 'One/other (classic plural)'), (2, 'One/few/other (Slavic languages)'), (3, 'Arabic languages'), (11, 'Zero/one/other'), (4, 'One/two/other'), (6, 'One/two/few/other'), (5, 'One/two/three/other'), (7, 'One/other/zero'), (8, 'One/few/many/other'), (9, 'Two/other'), (10, 'One/two/few/many/other'), (666, 'Unknown')], default=1, verbose_name='Plural type')),
             ],
             options={
                 'ordering': ['name'],
@@ -48,17 +45,5 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Plural form',
                 'verbose_name_plural': 'Plural forms',
             },
-        ),
-        migrations.RemoveField(
-            model_name='language',
-            name='nplurals',
-        ),
-        migrations.RemoveField(
-            model_name='language',
-            name='plural_type',
-        ),
-        migrations.RemoveField(
-            model_name='language',
-            name='pluralequation',
         ),
     ]
