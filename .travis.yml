@@ -32,7 +32,7 @@ install:
   - export TESSERACT_PKG=$TESSERACT_INSTALL/lib/pkgconfig
   - export LD_LIBRARY_PATH=$TESSERACT_INSTALL/lib:$LD_LIBRARY_PATH
   - export PKG_CONFIG_PATH=$TESSERACT_PKG:$PKG_CONFIG_PATH
-  - wget -O - https://github.com/nijel/tesseract-ocr-build/releases/download/3.05.02-3/tesseract.tar.xz | tar -C $HOME -xJf -
+  - wget -O - https://github.com/nijel/tesseract-ocr-build/releases/download/3.04.01-1/tesseract.tar.xz | tar -C $HOME -xJf -
   - export SAUCE_ACCESS_KEY=`echo MTBlOGE0MzItZmI0Mi00MmZhLTk5NjgtMTE4N2E3YjhlYTAy | base64 --decode`
   # Get newer pip and whell for binary caching support
   - pip install --upgrade pip wheel
