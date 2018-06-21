@@ -489,8 +489,6 @@ def create_groups(update):
 @receiver(post_migrate)
 def sync_create_groups(sender, **kwargs):
     """Create groups on syncdb."""
-    if settings.AUTH_USER_MODEL != 'weblate_auth.User':
-        return
     if sender.label != 'weblate_auth':
         return
 
@@ -535,8 +533,6 @@ def auto_group_upon_save(sender, instance, created=False, **kwargs):
 @disable_for_loaddata
 def setup_language_groups(sender, instance, **kwargs):
     """Setup Group objects on language save."""
-    if settings.AUTH_USER_MODEL != 'weblate_auth.User':
-        return
     auto_languages = Group.objects.filter(
         language_selection=SELECTION_ALL
     )
