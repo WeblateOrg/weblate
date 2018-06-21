@@ -41,19 +41,6 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='Check',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('contentsum', models.CharField(db_index=True, max_length=40)),
-                ('check', models.CharField(choices=[('end_space', 'Trailing space'), ('inconsistent', 'Inconsistent'), ('begin_newline', 'Starting newline'), ('zero-width-space', 'Zero-width space'), ('escaped_newline', 'Mismatched \\n'), ('same', 'Not translated'), ('end_question', 'Trailing question'), ('end_ellipsis', 'Trailing ellipsis'), ('ellipsis', 'Ellipsis'), ('python_brace_format', 'Python brace format'), ('end_newline', 'Trailing newline'), ('c_format', 'C format'), ('optional_plural', 'Optional plural'), ('end_exclamation', 'Trailing exclamation'), ('end_colon', 'Trailing colon'), ('xml-tags', 'XML tags mismatch'), ('python_format', 'Python format'), ('plurals', 'Missing plurals'), ('begin_space', 'Starting spaces'), ('bbcode', 'Mismatched BBcode'), ('multiple_failures', 'Multiple failing checks'), ('php_format', 'PHP format'), ('end_stop', 'Trailing stop')], max_length=20)),
-                ('ignore', models.BooleanField(db_index=True, default=False)),
-                ('language', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='lang.Language')),
-            ],
-            options={
-                'permissions': (('ignore_check', 'Can ignore check results'),),
-            },
-        ),
-        migrations.CreateModel(
             name='Comment',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
@@ -1281,27 +1268,6 @@ class Migration(migrations.Migration):
         migrations.AlterModelOptions(
             name='unit',
             options={'ordering': ['priority', 'position'], 'permissions': (('save_translation', 'Can save translation'), ('save_template', 'Can save template'), ('review_translation', 'Can review translation'), ('ignore_check', 'Can ignore check results'))},
-        ),
-        migrations.SeparateDatabaseAndState(
-            database_operations=[
-                migrations.AlterUniqueTogether(
-                    name='check',
-                    unique_together=set([]),
-                ),
-                migrations.AlterIndexTogether(
-                    name='check',
-                    index_together=set([]),
-                ),
-                migrations.AlterModelTable(
-                    name='Check',
-                    table='checks_check',
-                ),
-            ],
-            state_operations=[
-                migrations.DeleteModel(
-                    name='Check',
-                ),
-            ],
         ),
         migrations.RemoveField(
             model_name='componentlist',
