@@ -73,7 +73,7 @@ class Migration(migrations.Migration):
                 ('source', models.BooleanField(default=True)),
                 ('to_delete', models.BooleanField(default=False)),
                 ('unitid', models.IntegerField(unique=True)),
-                ('language_code', models.SlugField(default='')),
+                ('language_code', models.SlugField()),
             ],
         ),
         migrations.CreateModel(
@@ -207,7 +207,7 @@ class Migration(migrations.Migration):
                 ('num_words', models.IntegerField(default=0)),
                 ('priority', models.IntegerField(db_index=True, default=100)),
                 ('translation', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='trans.Translation')),
-                ('content_hash', models.BigIntegerField(db_index=True, default=0)),
+                ('content_hash', models.BigIntegerField(db_index=True)),
                 ('id_hash', models.BigIntegerField(db_index=True, default=0)),
                 ('pending', models.BooleanField(db_index=True, default=False)),
                 ('state', models.IntegerField(choices=[(0, 'Empty'), (10, 'Needs editing'), (20, 'Translated'), (30, 'Approved')], db_index=True, default=0)),
@@ -289,15 +289,6 @@ class Migration(migrations.Migration):
             model_name='comment',
             name='user',
             field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
-        ),
-        migrations.AddField(
-            model_name='check',
-            name='project',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='trans.Project'),
-        ),
-        migrations.AlterUniqueTogether(
-            name='check',
-            unique_together=set([('contentsum', 'project', 'language', 'check')]),
         ),
         migrations.AddField(
             model_name='change',
@@ -407,11 +398,6 @@ class Migration(migrations.Migration):
             field=models.CharField(help_text='Name to display', max_length=100, verbose_name='Component name'),
         ),
         migrations.AlterField(
-            model_name='check',
-            name='check',
-            field=models.CharField(choices=[('end_space', 'Trailing space'), ('inconsistent', 'Inconsistent'), ('begin_newline', 'Starting newline'), ('zero-width-space', 'Zero-width space'), ('escaped_newline', 'Mismatched \\n'), ('same', 'Unchanged translation'), ('end_question', 'Trailing question'), ('end_ellipsis', 'Trailing ellipsis'), ('ellipsis', 'Ellipsis'), ('python_brace_format', 'Python brace format'), ('end_newline', 'Trailing newline'), ('c_format', 'C format'), ('optional_plural', 'Optional plural'), ('end_exclamation', 'Trailing exclamation'), ('end_colon', 'Trailing colon'), ('xml-tags', 'XML tags mismatch'), ('python_format', 'Python format'), ('plurals', 'Missing plurals'), ('begin_space', 'Starting spaces'), ('bbcode', 'Mismatched BBcode'), ('multiple_failures', 'Multiple failing checks'), ('php_format', 'PHP format'), ('end_stop', 'Trailing stop')], max_length=20),
-        ),
-        migrations.AlterField(
             model_name='subproject',
             name='allow_translation_propagation',
             field=models.BooleanField(default=True, help_text='Whether translation updates in other components will cause automatic translation in this one', verbose_name='Allow translation propagation'),
@@ -462,11 +448,6 @@ class Migration(migrations.Migration):
         migrations.AlterModelOptions(
             name='translation',
             options={'ordering': ['language__name'], 'permissions': (('upload_translation', 'Can upload translation'), ('overwrite_translation', 'Can overwrite with translation upload'), ('author_translation', 'Can define author of translation upload'), ('commit_translation', 'Can force commiting of translation'), ('update_translation', 'Can update translation from VCS'), ('push_translation', 'Can push translations to remote VCS'), ('reset_translation', 'Can reset translations to match remote VCS'), ('automatic_translation', 'Can do automatic translation'), ('lock_translation', 'Can lock whole translation project'), ('use_mt', 'Can use machine translation'))},
-        ),
-        migrations.AlterField(
-            model_name='check',
-            name='check',
-            field=models.CharField(choices=[('end_space', 'Trailing space'), ('begin_space', 'Starting spaces'), ('python_brace_format', 'Python brace format'), ('plurals', 'Missing plurals'), ('escaped_newline', 'Mismatched \\n'), ('end_exclamation', 'Trailing exclamation'), ('php_format', 'PHP format'), ('same', 'Unchanged translation'), ('xml-tags', 'XML tags mismatch'), ('bbcode', 'Mismatched BBcode'), ('zero-width-space', 'Zero-width space'), ('c_format', 'C format'), ('end_colon', 'Trailing colon'), ('end_question', 'Trailing question'), ('end_ellipsis', 'Trailing ellipsis'), ('end_stop', 'Trailing stop'), ('begin_newline', 'Starting newline'), ('inconsistent', 'Inconsistent'), ('end_newline', 'Trailing newline'), ('python_format', 'Python format')], max_length=20),
         ),
         migrations.AlterField(
             model_name='project',
@@ -590,11 +571,6 @@ class Migration(migrations.Migration):
             name='language_regex',
             field=weblate.trans.fields.RegexField(default='^[^.]+$', help_text='Regular expression which is used to filter translation when scanning for file mask.', max_length=200, verbose_name='Language filter'),
         ),
-        migrations.AlterField(
-            model_name='check',
-            name='check',
-            field=models.CharField(choices=[('end_space', 'Trailing space'), ('begin_space', 'Starting spaces'), ('bbcode', 'Mismatched BBcode'), ('python_brace_format', 'Python brace format'), ('plurals', 'Missing plurals'), ('escaped_newline', 'Mismatched \\n'), ('end_exclamation', 'Trailing exclamation'), ('php_format', 'PHP format'), ('same', 'Unchanged translation'), ('xml-tags', 'XML tags mismatch'), ('inconsistent', 'Inconsistent'), ('zero-width-space', 'Zero-width space'), ('c_format', 'C format'), ('end_colon', 'Trailing colon'), ('end_question', 'Trailing question'), ('end_ellipsis', 'Trailing ellipsis'), ('end_stop', 'Trailing stop'), ('begin_newline', 'Starting newline'), ('javascript_format', 'Javascript format'), ('end_newline', 'Trailing newline'), ('python_format', 'Python format')], max_length=20),
-        ),
         migrations.AddField(
             model_name='subproject',
             name='post_add_script',
@@ -669,11 +645,6 @@ class Migration(migrations.Migration):
             field=models.TextField(verbose_name='Message'),
         ),
         migrations.AlterField(
-            model_name='check',
-            name='check',
-            field=models.CharField(choices=[('end_space', 'Trailing space'), ('inconsistent', 'Inconsistent'), ('begin_newline', 'Starting newline'), ('max-length', 'Maximum length of translation'), ('zero-width-space', 'Zero-width space'), ('escaped_newline', 'Mismatched \\n'), ('same', 'Unchanged translation'), ('end_question', 'Trailing question'), ('end_ellipsis', 'Trailing ellipsis'), ('python_brace_format', 'Python brace format'), ('end_newline', 'Trailing newline'), ('c_format', 'C format'), ('end_exclamation', 'Trailing exclamation'), ('end_colon', 'Trailing colon'), ('xml-tags', 'XML tags mismatch'), ('python_format', 'Python format'), ('plurals', 'Missing plurals'), ('javascript_format', 'Javascript format'), ('begin_space', 'Starting spaces'), ('bbcode', 'Mismatched BBcode'), ('php_format', 'PHP format'), ('end_stop', 'Trailing stop')], max_length=20),
-        ),
-        migrations.AlterField(
             model_name='subproject',
             name='file_format',
             field=models.CharField(choices=[('aresource', 'Android String Resource'), ('auto', 'Automatic detection'), ('csv', 'CSV file'), ('csv-simple', 'Simple CSV file'), ('csv-simple-iso', 'Simple CSV file (ISO-8859-1)'), ('json', 'JSON file'), ('php', 'PHP strings'), ('po', 'Gettext PO file'), ('po-mono', 'Gettext PO file (monolingual)'), ('properties', 'Java Properties (ISO-8859-1)'), ('properties-utf16', 'Java Properties (UTF-16)'), ('properties-utf8', 'Java Properties (UTF-8)'), ('resx', '.Net resource file'), ('strings', 'OS X Strings'), ('strings-utf8', 'OS X Strings (UTF-8)'), ('ts', 'Qt Linguist Translation File'), ('xliff', 'XLIFF Translation File')], default='auto', help_text='Automatic detection might fail for some formats and is slightly slower.', max_length=50, verbose_name='File format'),
@@ -700,11 +671,6 @@ class Migration(migrations.Migration):
         migrations.AlterUniqueTogether(
             name='groupacl',
             unique_together=set([]),
-        ),
-        migrations.AlterField(
-            model_name='check',
-            name='check',
-            field=models.CharField(choices=[('end_space', 'Trailing space'), ('inconsistent', 'Inconsistent'), ('begin_newline', 'Starting newline'), ('max-length', 'Maximum length of translation'), ('zero-width-space', 'Zero-width space'), ('escaped_newline', 'Mismatched \\n'), ('same', 'Unchanged translation'), ('end_question', 'Trailing question'), ('angularjs_format', 'AngularJS interpolation string'), ('python_brace_format', 'Python brace format'), ('end_newline', 'Trailing newline'), ('c_format', 'C format'), ('end_exclamation', 'Trailing exclamation'), ('end_ellipsis', 'Trailing ellipsis'), ('end_colon', 'Trailing colon'), ('xml-tags', 'XML tags mismatch'), ('python_format', 'Python format'), ('plurals', 'Missing plurals'), ('javascript_format', 'Javascript format'), ('begin_space', 'Starting spaces'), ('bbcode', 'Mismatched BBcode'), ('php_format', 'PHP format'), ('end_stop', 'Trailing stop')], max_length=20),
         ),
         migrations.CreateModel(
             name='ComponentList',
@@ -768,11 +734,6 @@ class Migration(migrations.Migration):
             field=models.IntegerField(choices=[(0, 'Resource update'), (1, 'Translation completed'), (2, 'Translation changed'), (5, 'New translation'), (3, 'Comment added'), (4, 'Suggestion added'), (6, 'Automatic translation'), (7, 'Suggestion accepted'), (8, 'Translation reverted'), (9, 'Translation uploaded'), (10, 'Glossary added'), (11, 'Glossary updated'), (12, 'Glossary uploaded'), (13, 'New source string'), (14, 'Component locked'), (15, 'Component unlocked'), (16, 'Detected duplicate string'), (17, 'Committed changes'), (18, 'Pushed changes'), (19, 'Reset repository'), (20, 'Merged repository'), (21, 'Rebased repository'), (22, 'Failed merge on repository'), (23, 'Failed rebase on repository'), (24, 'Parse error'), (25, 'Removed translation')], default=2),
         ),
         migrations.AlterField(
-            model_name='check',
-            name='check',
-            field=models.CharField(choices=[('end_space', 'Trailing space'), ('inconsistent', 'Inconsistent'), ('begin_newline', 'Starting newline'), ('max-length', 'Maximum length of translation'), ('zero-width-space', 'Zero-width space'), ('escaped_newline', 'Mismatched \\n'), ('same', 'Unchanged translation'), ('end_question', 'Trailing question'), ('angularjs_format', 'AngularJS interpolation string'), ('python_brace_format', 'Python brace format'), ('end_newline', 'Trailing newline'), ('c_format', 'C format'), ('end_exclamation', 'Trailing exclamation'), ('end_ellipsis', 'Trailing ellipsis'), ('end_colon', 'Trailing colon'), ('xml-tags', 'XML tags mismatch'), ('python_format', 'Python format'), ('plurals', 'Missing plurals'), ('javascript_format', 'Javascript format'), ('begin_space', 'Starting spaces'), ('bbcode', 'Mismatched BBcode'), ('php_format', 'PHP format'), ('xml-invalid', 'Invalid XML markup'), ('end_stop', 'Trailing stop')], max_length=20),
-        ),
-        migrations.AlterField(
             model_name='change',
             name='action',
             field=models.IntegerField(choices=[(0, 'Resource update'), (1, 'Translation completed'), (2, 'Translation changed'), (5, 'New translation'), (3, 'Comment added'), (4, 'Suggestion added'), (6, 'Automatic translation'), (7, 'Suggestion accepted'), (8, 'Translation reverted'), (9, 'Translation uploaded'), (10, 'Glossary added'), (11, 'Glossary updated'), (12, 'Glossary uploaded'), (13, 'New source string'), (14, 'Component locked'), (15, 'Component unlocked'), (16, 'Detected duplicate string'), (17, 'Committed changes'), (18, 'Pushed changes'), (19, 'Reset repository'), (20, 'Merged repository'), (21, 'Rebased repository'), (22, 'Failed merge on repository'), (23, 'Failed rebase on repository'), (24, 'Parse error'), (25, 'Removed translation'), (26, 'Suggestion removed')], default=2),
@@ -806,20 +767,9 @@ class Migration(migrations.Migration):
             field=models.IntegerField(choices=[(60, 'Very high'), (80, 'High'), (100, 'Medium'), (120, 'Low'), (140, 'Very low')], default=100, help_text='Components with higher priority are offered first to translators.', verbose_name='Priority'),
         ),
         migrations.AlterField(
-            model_name='check',
-            name='check',
-            field=models.CharField(choices=[('end_space', 'Trailing space'), ('inconsistent', 'Inconsistent'), ('begin_newline', 'Starting newline'), ('max-length', 'Maximum length of translation'), ('zero-width-space', 'Zero-width space'), ('escaped_newline', 'Mismatched \\n'), ('same', 'Unchanged translation'), ('end_question', 'Trailing question'), ('angularjs_format', 'AngularJS interpolation string'), ('python_brace_format', 'Python brace format'), ('end_newline', 'Trailing newline'), ('c_format', 'C format'), ('end_exclamation', 'Trailing exclamation'), ('end_ellipsis', 'Trailing ellipsis'), ('end_colon', 'Trailing colon'), ('xml-tags', 'XML tags mismatch'), ('python_format', 'Python format'), ('plurals', 'Missing plurals'), ('javascript_format', 'Javascript format'), ('begin_space', 'Starting spaces'), ('bbcode', 'Mismatched BBcode'), ('php_format', 'PHP format'), ('xml-invalid', 'Invalid XML markup'), ('same-plurals', 'Same plurals'), ('end_stop', 'Trailing stop')], max_length=20),
-        ),
-        migrations.AlterField(
             model_name='subproject',
             name='filemask',
             field=models.CharField(help_text='Path of files to translate relative to repository root, use * instead of language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po.', max_length=200, validators=[weblate.trans.validators.validate_filemask], verbose_name='File mask'),
-        ),
-        migrations.AddField(
-            model_name='check',
-            name='content_hash',
-            field=models.BigIntegerField(db_index=True, default=0),
-            preserve_default=False,
         ),
         migrations.AddField(
             model_name='comment',
@@ -850,14 +800,6 @@ class Migration(migrations.Migration):
         migrations.RemoveField(
             model_name='suggestion',
             name='contentsum',
-        ),
-        migrations.RemoveField(
-            model_name='check',
-            name='contentsum',
-        ),
-        migrations.AlterUniqueTogether(
-            name='check',
-            unique_together=set([('content_hash', 'project', 'language', 'check')]),
         ),
         migrations.RemoveField(
             model_name='source',
@@ -892,11 +834,6 @@ class Migration(migrations.Migration):
             name='subproject',
         ),
         migrations.AlterField(
-            model_name='check',
-            name='check',
-            field=models.CharField(choices=[('end_space', 'Trailing space'), ('inconsistent', 'Inconsistent'), ('begin_newline', 'Starting newline'), ('max-length', 'Maximum length of translation'), ('zero-width-space', 'Zero-width space'), ('escaped_newline', 'Mismatched \\n'), ('same', 'Unchanged translation'), ('end_question', 'Trailing question'), ('angularjs_format', 'AngularJS interpolation string'), ('python_brace_format', 'Python brace format'), ('end_newline', 'Trailing newline'), ('c_format', 'C format'), ('end_exclamation', 'Trailing exclamation'), ('end_ellipsis', 'Trailing ellipsis'), ('end_colon', 'Trailing colon'), ('xml-tags', 'XML tags mismatch'), ('python_format', 'Python format'), ('plurals', 'Missing plurals'), ('javascript_format', 'Javascript format'), ('begin_space', 'Starting spaces'), ('bbcode', 'Mismatched BBcode'), ('php_format', 'PHP format'), ('xml-invalid', 'Invalid XML markup'), ('same-plurals', 'Same plurals'), ('translated', 'Has been translated'), ('end_stop', 'Trailing stop')], max_length=20),
-        ),
-        migrations.AlterField(
             model_name='subproject',
             name='commit_message',
             field=models.TextField(default='Translated using Weblate (%(language_name)s)\n\nCurrently translated at %(translated_percent)s%% (%(translated)s of %(total)s strings)\n\nTranslation: %(project)s/%(component)s\nTranslate-URL: %(url)s', help_text='You can use format strings for various information, please check documentation for more details.', validators=[weblate.utils.validators.validate_render], verbose_name='Commit message when translating'),
@@ -912,11 +849,6 @@ class Migration(migrations.Migration):
         migrations.AlterModelOptions(
             name='subproject',
             options={'ordering': ['priority', 'project__name', 'name'], 'permissions': (('lock_subproject', 'Can lock translation for translating'), ('can_see_git_repository', 'Can see VCS repository URL'), ('access_vcs', 'Can access VCS repository'), ('view_reports', 'Can display reports')), 'verbose_name': 'Component', 'verbose_name_plural': 'Components'},
-        ),
-        migrations.AlterField(
-            model_name='check',
-            name='check',
-            field=models.CharField(choices=[('end_space', 'Trailing space'), ('inconsistent', 'Inconsistent'), ('begin_newline', 'Starting newline'), ('max-length', 'Maximum length of translation'), ('zero-width-space', 'Zero-width space'), ('escaped_newline', 'Mismatched \\n'), ('same', 'Unchanged translation'), ('end_question', 'Trailing question'), ('angularjs_format', 'AngularJS interpolation string'), ('python_brace_format', 'Python brace format'), ('end_newline', 'Trailing newline'), ('c_format', 'C format'), ('end_exclamation', 'Trailing exclamation'), ('end_ellipsis', 'Trailing ellipsis'), ('end_colon', 'Trailing colon'), ('xml-tags', 'XML tags mismatch'), ('python_format', 'Python format'), ('plurals', 'Missing plurals'), ('javascript_format', 'Javascript format'), ('begin_space', 'Starting spaces'), ('bbcode', 'Mismatched BBcode'), ('php_format', 'PHP format'), ('xml-invalid', 'Invalid XML markup'), ('same-plurals', 'Same plurals'), ('translated', 'Has been translated'), ('end_stop', 'Trailing stop')], max_length=50),
         ),
         migrations.CreateModel(
             name='AutoComponentList',
@@ -957,16 +889,6 @@ class Migration(migrations.Migration):
         migrations.AlterModelOptions(
             name='source',
             options={'ordering': ('id',), 'permissions': (('edit_priority', 'Can edit priority'), ('edit_flags', 'Can edit check flags'))},
-        ),
-        migrations.AlterField(
-            model_name='check',
-            name='check',
-            field=models.CharField(choices=[('end_space', 'Trailing space'), ('inconsistent', 'Inconsistent'), ('begin_newline', 'Starting newline'), ('max-length', 'Maximum length of translation'), ('end_semicolon', 'Trailing semicolon'), ('zero-width-space', 'Zero-width space'), ('escaped_newline', 'Mismatched \\n'), ('same', 'Unchanged translation'), ('end_question', 'Trailing question'), ('angularjs_format', 'AngularJS interpolation string'), ('python_brace_format', 'Python brace format'), ('end_newline', 'Trailing newline'), ('c_format', 'C format'), ('end_exclamation', 'Trailing exclamation'), ('end_ellipsis', 'Trailing ellipsis'), ('end_colon', 'Trailing colon'), ('xml-tags', 'XML tags mismatch'), ('python_format', 'Python format'), ('plurals', 'Missing plurals'), ('javascript_format', 'Javascript format'), ('begin_space', 'Starting spaces'), ('bbcode', 'Mismatched BBcode'), ('php_format', 'PHP format'), ('xml-invalid', 'Invalid XML markup'), ('same-plurals', 'Same plurals'), ('translated', 'Has been translated'), ('end_stop', 'Trailing stop')], max_length=50),
-        ),
-        migrations.AlterField(
-            model_name='check',
-            name='check',
-            field=models.CharField(choices=[('end_space', 'Trailing space'), ('inconsistent', 'Inconsistent'), ('begin_newline', 'Starting newline'), ('max-length', 'Maximum length of translation'), ('end_semicolon', 'Trailing semicolon'), ('zero-width-space', 'Zero-width space'), ('escaped_newline', 'Mismatched \\n'), ('same', 'Unchanged translation'), ('end_question', 'Trailing question'), ('angularjs_format', 'AngularJS interpolation string'), ('perl_format', 'Perl format'), ('python_brace_format', 'Python brace format'), ('end_newline', 'Trailing newline'), ('c_format', 'C format'), ('end_exclamation', 'Trailing exclamation'), ('end_ellipsis', 'Trailing ellipsis'), ('end_colon', 'Trailing colon'), ('xml-tags', 'XML tags mismatch'), ('python_format', 'Python format'), ('plurals', 'Missing plurals'), ('javascript_format', 'Javascript format'), ('begin_space', 'Starting spaces'), ('bbcode', 'Mismatched BBcode'), ('php_format', 'PHP format'), ('xml-invalid', 'Invalid XML markup'), ('same-plurals', 'Same plurals'), ('translated', 'Has been translated'), ('end_stop', 'Trailing stop')], max_length=50),
         ),
         migrations.AlterField(
             model_name='componentlist',
@@ -1177,16 +1099,6 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='lang.Plural'),
         ),
         migrations.AlterField(
-            model_name='check',
-            name='check',
-            field=models.CharField(choices=[('end_space', 'Trailing space'), (b'inconsistent', 'Inconsistent'), ('begin_newline', 'Starting newline'), ('max-length', 'Maximum length of translation'), ('end_semicolon', 'Trailing semicolon'), ('zero-width-space', 'Zero-width space'), ('escaped_newline', 'Mismatched \\n'), ('same', 'Unchanged translation'), ('end_question', 'Trailing question'), (b'angularjs_format', 'AngularJS interpolation string'), (b'perl_format', 'Perl format'), ('ellipsis', 'Ellipsis'), (b'python_brace_format', 'Python brace format'), ('end_newline', 'Trailing newline'), (b'c_format', 'C format'), ('optional_plural', 'Optional plural'), ('end_exclamation', 'Trailing exclamation'), ('end_ellipsis', 'Trailing ellipsis'), ('end_colon', 'Trailing colon'), ('xml-tags', 'XML tags mismatch'), (b'python_format', 'Python format'), (b'plurals', 'Missing plurals'), (b'javascript_format', 'Javascript format'), ('begin_space', 'Starting spaces'), ('bbcode', 'Mismatched BBcode'), ('multiple_failures', 'Multiple failing checks'), (b'php_format', 'PHP format'), ('xml-invalid', 'Invalid XML markup'), (b'same-plurals', 'Same plurals'), (b'translated', 'Has been translated'), ('end_stop', 'Trailing stop')], max_length=50),
-        ),
-        migrations.AlterField(
-            model_name='check',
-            name='content_hash',
-            field=models.BigIntegerField(),
-        ),
-        migrations.AlterField(
             model_name='source',
             name='id_hash',
             field=models.BigIntegerField(),
@@ -1219,10 +1131,6 @@ class Migration(migrations.Migration):
         migrations.AlterIndexTogether(
             name='unit',
             index_together=set([('priority', 'position'), ('translation', 'pending')]),
-        ),
-        migrations.AlterIndexTogether(
-            name='check',
-            index_together=set([('project', 'language', 'content_hash')]),
         ),
         migrations.AlterIndexTogether(
             name='comment',
@@ -1260,10 +1168,6 @@ class Migration(migrations.Migration):
             model_name='componentlist',
             name='show_dashboard',
             field=models.BooleanField(db_index=True, default=True, help_text='When enabled this component list will be shown as a tab on the dashboard', verbose_name='Show on dashboard'),
-        ),
-        migrations.AlterModelOptions(
-            name='check',
-            options={},
         ),
         migrations.AlterModelOptions(
             name='unit',
