@@ -52,7 +52,6 @@ before_script:
   - ./manage.py list_versions
 # commands to run tests
 script:
-  - python -c 'from tesserocr import PyTessBaseAPI, RIL'
   - ./ci/run-$CI_MODE
 # upload coverage
 after_script:
