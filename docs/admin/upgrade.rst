@@ -94,6 +94,9 @@ you can do that using following command:
 
     ./manage.py rebuild_index --clean --all
 
+The caches might be incompatible (depending on cache backend you are using), so
+it might be good idea to purge caches.
+
 .. _pootle-migration:
 
 Migrating from Pootle
