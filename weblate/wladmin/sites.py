@@ -24,7 +24,7 @@ from django.conf import settings
 from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.admin import AdminSite
-from django.contrib.auth.views import logout
+from django.contrib.auth.views import LogoutView
 from django.contrib.sites.admin import SiteAdmin
 from django.contrib.sites.models import Site
 from django.shortcuts import render
@@ -146,7 +146,8 @@ class WeblateAdminSite(AdminSite):
     def logout(self, request, extra_context=None):
         if request.method == 'POST':
             messages.info(request, _('Thanks for using Weblate!'))
-            return logout(request, next_page=reverse('admin:login'))
+            request.current_app = self.name
+            return LogoutView.as_view(next_page=reverse('admin:login'))(request)
         context = self.each_context(request)
         context['title'] = _('Logout')
         return render(request, 'admin/logout-confirm.html', context)
