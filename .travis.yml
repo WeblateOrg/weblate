@@ -28,13 +28,13 @@ env:
     - SAUCE_USERNAME=nijel
 # commands to install dependencies
 install:
-  - export TESSERACT_INSTALL=`pwd`/.tesseract
+  - export TESSERACT_INSTALL=$HOME/.tesseract
   - export TESSERACT_PKG=$TESSERACT_INSTALL/lib/pkgconfig
   - export LD_LIBRARY_PATH=$TESSERACT_INSTALL/lib:$LD_LIBRARY_PATH
   - export PKG_CONFIG_PATH=$TESSERACT_PKG:$PKG_CONFIG_PATH
   - export TESSDATA_PREFIX=/usr/share/tesseract-ocr/tessdata/
+  - wget -O - https://github.com/nijel/tesseract-ocr-build/releases/download/3.05.02-4/tesseract.tar.xz | tar -C $HOME -xf -
   - export SAUCE_ACCESS_KEY=`echo MTBlOGE0MzItZmI0Mi00MmZhLTk5NjgtMTE4N2E3YjhlYTAy | base64 --decode`
-  - if [ ! -f $TESSERACT_PKG/tesseract.pc -o ! -f $TESSERACT_PKG/lept.pc ] ; then ./ci/install-tesseract ; fi
   # Get newer pip and whell for binary caching support
   - pip install --upgrade pip wheel
   # Install PyPI packages
@@ -82,14 +82,11 @@ addons:
     packages:
     - git-svn
     - graphviz
-    - tesseract-ocr
     - g++
 services:
   - postgresql
   - mysql
 cache:
   pip: true
-  directories:
-    - /home/travis/.tesseract/
 git:
   depth: 3000
