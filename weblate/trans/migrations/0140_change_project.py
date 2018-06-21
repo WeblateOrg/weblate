@@ -5,20 +5,6 @@ from __future__ import unicode_literals
 from django.db import migrations
 
 
-def fill_in_project(apps, schema_editor):
-    Change = apps.get_model('trans', 'Change')
-
-    for change in Change.objects.all():
-        if change.project:
-            continue
-        if change.component:
-            change.project = change.component.project
-            change.save()
-        elif change.dictionary:
-            change.project = change.dictionary.project
-            change.save()
-
-
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -26,5 +12,4 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(fill_in_project),
     ]

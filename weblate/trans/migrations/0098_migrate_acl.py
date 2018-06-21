@@ -5,17 +5,6 @@ from __future__ import unicode_literals
 from django.db import migrations
 
 
-def migrate_acl(apps, schema_editor):
-    Project = apps.get_model('trans', 'Project')
-
-    ACCESS_PRIVATE = 100
-    Project.objects.filter(
-        enable_acl=True
-    ).update(
-        access_control=ACCESS_PRIVATE
-    )
-
-
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -23,5 +12,4 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(migrate_acl),
     ]

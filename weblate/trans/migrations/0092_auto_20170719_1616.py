@@ -5,14 +5,6 @@ from __future__ import unicode_literals
 from django.db import migrations
 
 
-def migrate_push_on_commit(apps, schema_editor):
-    Project = apps.get_model('trans', 'Project')
-    for project in Project.objects.all():
-        project.subproject_set.update(
-            push_on_commit=project.push_on_commit
-        )
-
-
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -20,5 +12,4 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(migrate_push_on_commit),
     ]

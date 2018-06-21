@@ -15,28 +15,8 @@ from __future__ import unicode_literals
 
 from django.db import models, migrations
 
-def store_ids(apps, schema_editor):
-    ComponentList = apps.get_model('trans', 'ComponentList')
-    for cl in ComponentList.objects.all():
-        cl.component_ids = ','.join(
-            str(x.pk) for x in cl.components.all()
-        )
-        cl.save()
-
-def restore_ids(apps, schema_editor):
-    ComponentList = apps.get_model('trans', 'ComponentList')
-    Component = apps.get_model('trans', 'Component')
-    for cl in ComponentList.objects.exclude(component_ids=''):
-        cl.components.set(
-            Component.objects.filter(
-                pk__in=cl.component_ids.split(',')
-            )
-        )
-
 
 class Migration(migrations.Migration):
-    # This can not be done atomic on SQLite
-    atomic = False
 
     dependencies = [
         ('lang', '0011_auto_20180215_1158'),
@@ -47,12 +27,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='componentlist',
-            name='component_ids',
-            field=models.TextField(default='', blank=True),
-        ),
-        migrations.RunPython(store_ids),
         migrations.RemoveField(
             model_name='componentlist',
             name='components',
@@ -65,11 +39,6 @@ class Migration(migrations.Migration):
             model_name='componentlist',
             name='components',
             field=models.ManyToManyField(blank=True, to='trans.Component'),
-        ),
-        migrations.RunPython(restore_ids),
-        migrations.RemoveField(
-            model_name='componentlist',
-            name='component_ids',
         ),
         migrations.AlterModelOptions(
             name='component',

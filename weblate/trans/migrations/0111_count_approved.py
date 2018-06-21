@@ -3,29 +3,6 @@
 from __future__ import unicode_literals
 
 from django.db import migrations
-from django.db.models.aggregates import Sum
-
-from weblate.utils.query import conditional_sum
-
-STATE_APPROVED = 30
-
-
-def fill_in_approved(apps, schema_editor):
-    Translation = apps.get_model('trans', 'Translation')
-
-    for translation in Translation.objects.all():
-        stats = translation.unit_set.aggregate(
-            Sum('num_words'),
-            approved__sum=conditional_sum(1, state__gte=STATE_APPROVED),
-            approved_words__sum=conditional_sum(
-                'num_words', state__gte=STATE_APPROVED
-            ),
-        )
-        if stats['num_words__sum'] is not None:
-            translation.approved = int(stats['approved__sum'])
-            translation.approved_words = int(stats['approved_words__sum'])
-            translation.save(update_fields=('approved', 'approved_words'))
-
 
 class Migration(migrations.Migration):
 
@@ -34,5 +11,4 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(fill_in_approved),
     ]

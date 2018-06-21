@@ -5,14 +5,6 @@ from __future__ import unicode_literals
 from django.db import migrations
 
 
-def fill_in_unitid(apps, schema_editor):
-    IndexUpdate = apps.get_model('trans', 'IndexUpdate')
-
-    for update in IndexUpdate.objects.all():
-        update.unitid = update.unit_id
-        update.save()
-
-
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -20,7 +12,4 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(
-            fill_in_unitid,
-        ),
     ]

@@ -5,14 +5,6 @@ from __future__ import unicode_literals
 from django.db import migrations
 
 
-def migrate_plurals(apps, schema_editor):
-    Translation = apps.get_model('trans', 'Translation')
-    # Set default plural for translation
-    for translation in Translation.objects.all():
-        translation.plural = translation.language.plural_set.get(source=0)
-        translation.save()
-
-
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -20,5 +12,4 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(migrate_plurals),
     ]
