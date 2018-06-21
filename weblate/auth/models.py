@@ -497,14 +497,6 @@ def sync_create_groups(sender, **kwargs):
     # Create default groups
     create_groups(False)
 
-    # Ensure automatic group assignments are applied
-    groups = Group.objects.exclude(
-        Q(project_selection=SELECTION_MANUAL) &
-        Q(language_selection=SELECTION_MANUAL)
-    )
-    for group in groups:
-        group.save()
-
 
 def auto_assign_group(user):
     """Automatic group assignment based on user email."""
