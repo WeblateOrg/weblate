@@ -23,5 +23,5 @@ diff -ruNqp -x '*.swp' -x '*.pyc' weblate $INSTALLED_DIR/weblate
 check
 
 cd $INSTALL_DIR
-PYTHONPATH=$INSTALLED_DIR $BIN_DIR/weblate test -v 2 --settings weblate.settings_test weblate.trans weblate.lang weblate.accounts weblate.api weblate.billing weblate.utils weblate.gitexport weblate.screenshots weblate.permissions weblate.legal weblate
+PYTHONPATH=$INSTALLED_DIR $BIN_DIR/weblate test -v 2 --settings weblate.settings_test weblate.trans weblate.lang weblate.accounts weblate.api weblate.billing weblate.utils weblate.gitexport weblate.screenshots weblate.auth weblate.legal weblate.checks weblate.addons weblate.formats weblate.wladmin weblate
 check
