@@ -388,7 +388,7 @@ class Profile(models.Model):
         verbose_name=_('Watched projects'),
         help_text=_(
             'You can receive notifications for watched projects and '
-            'they are shown on dashboard by default.'
+            'they are shown on the dashboard by default.'
         ),
         blank=True,
     )
@@ -463,7 +463,7 @@ class Profile(models.Model):
         return self.user.full_name
 
     def clean(self):
-        """Check if component list is selected when required."""
+        """Check if component list is chosen when required."""
         # This is used for form validation as well, but those
         # will not contain all fields
         if not hasattr(self, 'dashboard_component_list'):
@@ -472,13 +472,13 @@ class Profile(models.Model):
                 self.dashboard_component_list is None):
             raise ValidationError({
                 'dashboard_component_list':
-                _("Component list must be selected when used as default.")
+                _("Component list must be chosen when used as default.")
             })
         if (self.dashboard_view != Profile.DASHBOARD_COMPONENT_LIST and
                 self.dashboard_component_list is not None):
             raise ValidationError({
                 'dashboard_component_list':
-                _("Component list must not be selected when not used.")
+                _("Component list can not be chosen when unused.")
             })
 
 
