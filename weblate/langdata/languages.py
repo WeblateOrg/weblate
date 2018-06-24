@@ -1412,7 +1412,7 @@ LANGUAGES = (
         'pt_PT',
         _('Portuguese (Portugal)'),
         2,
-        'n != 1',
+        'n > 1',
     ),
     (
         'qu',
