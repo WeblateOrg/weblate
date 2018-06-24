@@ -166,7 +166,7 @@ for word in SKIP:
     words.discard(word)
 
 # Write same check blacklist
-with open('weblate/trans/checks/languages.py', 'w') as output:
+with open('weblate/checks/languages.py', 'w') as output:
     output.write(HEADER)
     output.write('\n\n')
     output.write('# Language names to ignore in same check\n')
