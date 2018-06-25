@@ -272,7 +272,7 @@ def check_domain(domain):
 def redirect_next(next_url, fallback):
     """Redirect to next URL from request after validating it."""
     if (next_url is None or
-            not is_safe_url(next_url) or
+            not is_safe_url(next_url, allowed_hosts=None) or
             not next_url.startswith('/')):
         return redirect(fallback)
     return HttpResponseRedirect(next_url)

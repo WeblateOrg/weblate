@@ -226,11 +226,11 @@ def cleanup_next(strategy, **kwargs):
     # This is mostly fix for lack of next validation in Python Social Auth
     # see https://github.com/python-social-auth/social-core/issues/62
     url = strategy.session_get('next')
-    if url and not is_safe_url(url):
+    if url and not is_safe_url(url, allowed_hosts=None):
         strategy.session_set('next', None)
-    if 'next' in kwargs and not is_safe_url(kwargs['next']):
-        return {'next': None}
-    return None
+    if is_safe_url(kwargs.get('next', ''), allowed_hosts=None):
+        return None
+    return {'next': None}
 
 
 def store_params(strategy, user, **kwargs):
