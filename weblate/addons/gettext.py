@@ -205,7 +205,7 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
         ]
         for translation in component.translation_set.all():
             cmd[2] = translation.get_filename()
-            popen_wrapper(cmd, OSError)
+            popen_wrapper(cmd)
 
 
 class GettextCustomizeAddon(StoreBaseAddon):
