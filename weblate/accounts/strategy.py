@@ -51,6 +51,6 @@ class WeblateStrategy(DjangoStrategy):
         # This is mostly fix for lack of next validation in Python Social Auth
         # - https://github.com/python-social-auth/social-core/pull/92
         # - https://github.com/python-social-auth/social-core/issues/62
-        if not is_safe_url(kwargs.get('next', ''), allowed_hosts=None):
+        if not is_safe_url(data.get('next', ''), allowed_hosts=None):
             data['next'] = '/accounts/profile/#auth'
         return data
