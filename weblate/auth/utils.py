@@ -20,6 +20,7 @@
 from __future__ import unicode_literals
 
 from django.conf import settings
+from django.contrib.auth.hashers import make_password
 
 from weblate.auth.data import PERMISSIONS, ROLES, GROUPS, SELECTION_ALL
 
@@ -78,6 +79,7 @@ def create_anonymous(model, group_model, update=True):
             'full_name': 'Anonymous',
             'email': 'noreply@weblate.org',
             'is_active': False,
+            'password': make_password(None),
         }
     )
     if user.is_active:
@@ -90,6 +92,7 @@ def create_anonymous(model, group_model, update=True):
 
     if created or update:
         user.set_unusable_password()
+        user.save()
         user.groups.set(
             group_model.objects.filter(name__in=('Guests', 'Viewers')),
             clear=True

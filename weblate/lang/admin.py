@@ -26,7 +26,7 @@ from weblate.lang.models import Plural
 
 class PluralAdmin(admin.TabularInline):
     model = Plural
-    extra = 0
+    extra = 1
 
 
 class LanguageAdmin(WeblateModelAdmin):

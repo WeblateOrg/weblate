@@ -99,7 +99,7 @@ LANGUAGES = (
         'portuguese_portugal',
         'pt_PT',
         'ltr',
-        'n != 1',
+        'n > 1',
         'Portuguese (Portugal)',
         False,
     ),

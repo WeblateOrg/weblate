@@ -47,8 +47,10 @@ before_script:
   - mysql -e 'SET GLOBAL collation_server=utf8_general_ci' -uroot
   - mysql -e 'DROP DATABASE IF EXISTS weblate;' -uroot
   - mysql -e 'CREATE DATABASE weblate CHARACTER SET utf8 COLLATE utf8_general_ci;' -uroot
+  - mysql -e 'SHOW VARIABLES LIKE "%version%";' -uroot
   - psql -c 'DROP DATABASE IF EXISTS weblate;' -U postgres
   - psql -c 'CREATE DATABASE weblate;' -U postgres
+  - psql -c 'SELECT version();' -U postgres
   - ./manage.py list_versions
 # commands to run tests
 script:
@@ -81,6 +83,7 @@ addons:
     - git-svn
     - graphviz
     - g++
+  postgresql: "9.6"
 services:
   - postgresql
   - mysql
