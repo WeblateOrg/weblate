@@ -312,6 +312,13 @@ class PoMonoFormat(PoFormat):
     name = _('Gettext PO file (monolingual)')
     format_id = 'po-mono'
     monolingual = True
+    new_translation = (
+        'msgid ""\n'
+        'msgstr "X-Generator: Weblate\\n'
+        'MIME-Version: 1.0\\n'
+        'Content-Type: text/plain; charset=UTF-8\\n'
+        'Content-Transfer-Encoding: 8bit"'
+    )
 
 
 class TSFormat(FileFormat):
