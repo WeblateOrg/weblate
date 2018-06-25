@@ -175,12 +175,19 @@ def vcs_service_hook(request, service):
     repos = service_data['repos']
     repo_url = service_data['repo_url']
     branch = service_data['branch']
+    full_name = service_data['full_name']
 
     # Generate filter
     spfilter = Q(repo__in=repos)
 
     # We need to match also URLs which include username and password
     for repo in repos:
+        if repo.startswith('ssh://git@'):
+            spfilter = spfilter | (
+                Q(repo__startswith='ssh://git@' + urlparse(repo_url).hostname) &
+                Q(repo__icontains=full_name)
+            )
+            continue
         if not repo.startswith('https://'):
             continue
         spfilter = spfilter | (
@@ -254,6 +261,7 @@ def bitbucket_webhook_helper(data):
         'repo_url': repo_url,
         'repos': repos,
         'branch': branch,
+        'full_name': full_name,
     }
 
 
