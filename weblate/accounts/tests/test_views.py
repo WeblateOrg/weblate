@@ -357,7 +357,7 @@ class ProfileTest(FixtureTestCase):
         response = self.client.post(
             reverse('profile'),
             {
-                'language': 'cs',
+                'language': 'en',
                 'languages': Language.objects.get(code='cs').id,
                 'secondary_languages': Language.objects.get(code='cs').id,
                 'full_name': 'First Last',
