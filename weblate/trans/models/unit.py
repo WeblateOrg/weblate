@@ -1036,7 +1036,7 @@ class Unit(models.Model, LoggerMixin):
             self.target = new_target
         else:
             self.target = join_plural(new_target)
-        if bool(max(new_target)):
+        if new_target and bool(max(new_target)):
             self.state = new_state
         else:
             self.state = STATE_EMPTY
