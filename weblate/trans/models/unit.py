@@ -1034,9 +1034,11 @@ class Unit(models.Model, LoggerMixin):
         # Update unit and save it
         if isinstance(new_target, six.string_types):
             self.target = new_target
+            not_empty = bool(new_target)
         else:
             self.target = join_plural(new_target)
-        if bool(max(new_target)):
+            not_empty = bool(max(new_target))
+        if not_empty:
             self.state = new_state
         else:
             self.state = STATE_EMPTY
