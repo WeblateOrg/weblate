@@ -308,7 +308,7 @@ class Profile(models.Model):
     translated = models.IntegerField(default=0, db_index=True)
 
     hide_completed = models.BooleanField(
-        verbose_name=_('Hide completed translations on dashboard'),
+        verbose_name=_('Hide completed translations on the dashboard'),
         default=False
     )
     secondary_in_zen = models.BooleanField(

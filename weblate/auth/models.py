@@ -288,9 +288,7 @@ class User(AbstractBaseUser):
     is_active = models.BooleanField(
         _('active'),
         default=True,
-        help_text=_(
-            'Marks a user as inactive instead of being removed.'
-        ),
+        help_text=_('Mark user as inactive instead of removing.'),
     )
     date_joined = models.DateTimeField(_('Date joined'), default=timezone.now)
     groups = models.ManyToManyField(

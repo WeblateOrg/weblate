@@ -61,13 +61,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='user',
             name='groups',
-            field=models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', to='weblate_auth.Group', verbose_name='Groups'),
+            field=models.ManyToManyField(blank=True, help_text='The user is granted all permissions included in membership of these groups.', to='weblate_auth.Group', verbose_name='Groups'),
         ),
         migrations.CreateModel(
             name='AutoGroup',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('match', weblate.trans.fields.RegexField(default='^.*$', help_text='Regular expression which is used to match user email.', max_length=200, verbose_name='Email regular expression')),
+                ('match', weblate.trans.fields.RegexField(default='^.*$', help_text='Regular expression used to match user email.', max_length=200, verbose_name='Email regular expression')),
                 ('group', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='weblate_auth.Group', verbose_name='Group to assign')),
             ],
             options={

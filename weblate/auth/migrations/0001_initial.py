@@ -25,8 +25,8 @@ class Migration(migrations.Migration):
                 ('username', models.CharField(error_messages={'unique': 'A user with that username already exists.'}, help_text='Username may only contain letters, numbers or the following characters: @ . + - _', max_length=150, unique=True, validators=[weblate.utils.validators.validate_username], verbose_name='username')),
                 ('full_name', models.CharField(max_length=150, validators=[weblate.utils.validators.validate_fullname], verbose_name='Full name')),
                 ('email', models.EmailField(max_length=254, validators=[weblate.utils.validators.validate_email], verbose_name='Email')),
-                ('is_superuser', models.BooleanField(default=False, help_text='Designates that this user has all permissions without explicitly assigning them.', verbose_name='superuser status')),
-                ('is_active', models.BooleanField(default=True, help_text='Designates whether this user should be treated as active. Unselect this instead of deleting accounts.', verbose_name='active')),
+                ('is_superuser', models.BooleanField(default=False, help_text='User has all permissions without having been given them.', verbose_name='superuser status')),
+                ('is_active', models.BooleanField(default=True, help_text='Mark user as inactive instead of removing.', verbose_name='active')),
                 ('date_joined', models.DateTimeField(default=django.utils.timezone.now, verbose_name='Date joined')),
             ],
             options={
