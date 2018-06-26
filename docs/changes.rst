@@ -10,6 +10,7 @@ Released on ? 2018.
 * Allow to override default commit messages from settings.
 * Improve webhooks compatibility with self hosted environments.
 * Added support for Amazon Translate.
+* Compatibility with Django 2.1.
 
 weblate 3.0.1
 -------------
