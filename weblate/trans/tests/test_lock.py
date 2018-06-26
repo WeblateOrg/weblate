@@ -22,11 +22,11 @@
 
 from django.urls import reverse
 
-from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.models.component import Component
 
 
-class LockTest(FixtureTestCase):
+class LockTest(ViewTestCase):
     def setUp(self):
         super(LockTest, self).setUp()
 
