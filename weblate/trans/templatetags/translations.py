@@ -25,7 +25,7 @@ import re
 from datetime import date
 
 from django.utils.html import escape, urlize
-from django.contrib.admin.templatetags.admin_static import static
+from django.templatetags.static import static
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 from django.utils.encoding import force_text
