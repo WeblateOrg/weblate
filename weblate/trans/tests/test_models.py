@@ -203,7 +203,9 @@ class TranslationTest(RepoTestCase):
                 username='user-{}'.format(unit.pk),
                 email='{}@example.com'.format(unit.pk)
             )
-            unit.refresh_from_db()
+            # Fetch current pending state, it might have been
+            # updated by background commit
+            unit.pending = Unit.objects.get(pk=unit.pk).pending
             unit.translate(request, 'test', STATE_TRANSLATED)
             if i == 0:
                 # First edit should trigger commit
