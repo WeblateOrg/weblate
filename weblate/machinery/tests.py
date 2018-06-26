@@ -21,6 +21,8 @@
 from __future__ import unicode_literals
 import json
 
+from botocore.stub import Stubber, ANY
+
 from django.test import TestCase
 from django.test.utils import override_settings
 
@@ -38,6 +40,7 @@ from weblate.machinery.mymemory import MyMemoryTranslation
 from weblate.machinery.apertium import (
     ApertiumTranslation, ApertiumAPYTranslation,
 )
+from weblate.machinery.aws import AWSTranslation
 from weblate.machinery.tmserver import AmagamaTranslation
 from weblate.machinery.microsoft import (
     MicrosoftTranslation,
@@ -664,6 +667,25 @@ class MachineTranslationTest(TestCase):
         # Fetch from cache
         self.assert_translate(machine, lang='de', word='Hello')
         self.assertFalse(httpretty.has_request())
+
+    @override_settings(MT_AWS_REGION='us-west-2')
+    def test_aws(self):
+        machine = self.get_machine(AWSTranslation)
+        with Stubber(machine.client) as stubber:
+            stubber.add_response(
+                'translate_text',
+                {
+                    'TranslatedText': 'Hallo',
+                    'SourceLanguageCode': 'en',
+                    'TargetLanguageCode': 'de',
+                },
+                {
+                    'SourceLanguageCode': ANY,
+                    'TargetLanguageCode': ANY,
+                    'Text': ANY,
+                }
+            )
+            self.assert_translate(machine, lang='de', word='Hello')
 
 
 class WeblateTranslationTest(FixtureTestCase):

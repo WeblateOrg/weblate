@@ -52,12 +52,11 @@ Amazon Translate is a neural machine translation service for translating text
 to and from English across a breadth of supported languages.
 
 To enable this service, add ``weblate.machinery.aws.AWSTranslation`` to
-:setting:`MT_SERVICES`, install the `boto3` module and set
-:setting:`MT_AWS_KEY`.
+:setting:`MT_SERVICES`, install the `boto3` module and set the settings.
 
 .. seealso::
 
-    :setting:`MT_AWS_KEY`,
+    :setting:`MT_AWS_REGION`, :setting:`MT_AWS_ACCESS_KEY_ID`, :setting:`MT_AWS_SECRET_ACCESS_KEY`
     `Amazon Translate Documentation <https://aws.amazon.com/documentation/translate/>`_
 
 .. _deepl:

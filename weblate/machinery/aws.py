@@ -24,7 +24,7 @@ import boto3
 
 from django.conf import settings
 
-from weblate.machinery.base import MachineTranslation, MissingConfiguration
+from weblate.machinery.base import MachineTranslation
 
 
 class AWSTranslation(MachineTranslation):
@@ -34,15 +34,20 @@ class AWSTranslation(MachineTranslation):
 
     def __init__(self):
         super(AWSTranslation,self).__init__()
-        if settings.MT_AWS_KEY is None:
-            raise MissingConfiguration('Amazon Web Services requires API key')
-        self.client = boto3.client('translate')
+        self.client = boto3.client(
+            'translate',
+            region_name=settings.MT_AWS_REGION,
+            aws_access_key_id=settings.MT_AWS_ACCESS_KEY_ID,
+            aws_secret_access_key=settings.MT_AWS_SECRET_ACCESS_KEY,
+        )
 
     def download_languages(self):
         return ('en', 'ar', 'zh', 'fr', 'de', 'pt', 'es')
 
-    def download_translations(self, source, language, text):
+    def download_translations(self, source, language, text, unit, user):
         response = self.client.translate_text(
-            Text=text, Source=source, Target=language
+            Text=text, SourceLanguageCode=source, TargetLanguageCode=language
         )
-        return (response['TranslatedText'], self.max_score, self.name, text)
+        return [
+            (response['TranslatedText'], self.max_score, self.name, text)
+        ]

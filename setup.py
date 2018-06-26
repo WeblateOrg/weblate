@@ -97,6 +97,7 @@ setup(
     tests_require=(
         'selenium',
         'httpretty',
+        'boto3',
     ),
     test_suite='runtests.runtests',
     data_files=DATA_FILES,

@@ -9,6 +9,7 @@ Released on ? 2018.
 * Upgrades from older version than 3.0.1 are not supported.
 * Allow to override default commit messages from settings.
 * Improve webhooks compatibility with self hosted environments.
+* Added support for Amazon Translate.
 
 weblate 3.0.1
 -------------
