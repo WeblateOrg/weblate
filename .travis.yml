@@ -39,7 +39,6 @@ install:
   # Install PyPI packages
   - pip install $CI_DEPS Cython
   - pip install -r requirements-optional.txt -r ci/requirements-travis.txt
-  - if [ -n "$CI_DATABASE" -a -f ci/requirements-${CI_DATABASE}.txt ] ; then pip install -r ci/requirements-${CI_DATABASE}.txt ; fi
   - if [ "$CI_MODE" = selenium -a -n "$SAUCE_USERNAME" -a -n "$SAUCE_ACCESS_KEY" ] ; then ./ci/install-sauce ; fi
 # create databases
 before_script:
