@@ -29,7 +29,6 @@ from django.db import connection
 from django.http.request import HttpRequest
 from django.test import TestCase, LiveServerTestCase
 from django.test.utils import override_settings
-from django.utils import timezone
 from django.core.exceptions import ValidationError
 
 from weblate.auth.models import User, Group
@@ -156,22 +155,22 @@ class ProjectTest(RepoTestCase):
 class TranslationTest(RepoTestCase):
     """Translation testing."""
     def test_basic(self):
-        project = self.create_component()
-        translation = project.translation_set.get(language_code='cs')
+        component = self.create_component()
+        translation = component.translation_set.get(language_code='cs')
         self.assertEqual(translation.stats.translated, 0)
         self.assertEqual(translation.stats.all, 4)
         self.assertEqual(translation.stats.fuzzy, 0)
 
     def test_validation(self):
         """Translation validation"""
-        project = self.create_component()
-        translation = project.translation_set.get(language_code='cs')
+        component = self.create_component()
+        translation = component.translation_set.get(language_code='cs')
         translation.full_clean()
 
     def test_update_stats(self):
         """Check update stats with no units."""
-        project = self.create_component()
-        translation = project.translation_set.get(language_code='cs')
+        component = self.create_component()
+        translation = component.translation_set.get(language_code='cs')
         self.assertEqual(translation.stats.all, 4)
         self.assertEqual(translation.stats.all_words, 15)
         translation.unit_set.all().delete()
@@ -180,23 +179,23 @@ class TranslationTest(RepoTestCase):
         self.assertEqual(translation.stats.all_words, 0)
 
     def test_commit_groupping(self):
-        project = self.create_component()
-        translation = project.translation_set.get(language_code='cs')
+        component = self.create_component()
+        translation = component.translation_set.get(language_code='cs')
         request = HttpRequest()
         request.user = create_test_user()
-        start_rev = project.repository.last_revision
+        start_rev = component.repository.last_revision
         # Initial translation
         for unit in translation.unit_set.all():
             unit.translate(request, 'test2', STATE_TRANSLATED)
         # Translation completed, commit forced
-        self.assertNotEqual(start_rev, project.repository.last_revision)
-        start_rev = project.repository.last_revision
+        self.assertNotEqual(start_rev, component.repository.last_revision)
+        start_rev = component.repository.last_revision
         # Translation from same author should not trigger commit
         for unit in translation.unit_set.all():
             unit.translate(request, 'test3', STATE_TRANSLATED)
         for unit in translation.unit_set.all():
             unit.translate(request, 'test4', STATE_TRANSLATED)
-        self.assertEqual(start_rev, project.repository.last_revision)
+        self.assertEqual(start_rev, component.repository.last_revision)
         # Translation from other author should trigger commmit
         for i, unit in enumerate(translation.unit_set.all()):
             request.user = User.objects.create(
@@ -209,16 +208,16 @@ class TranslationTest(RepoTestCase):
             if i == 0:
                 # First edit should trigger commit
                 self.assertNotEqual(
-                    start_rev, project.repository.last_revision
+                    start_rev, component.repository.last_revision
                 )
-                start_rev = project.repository.last_revision
+                start_rev = component.repository.last_revision
 
         # No further commit now
-        self.assertEqual(start_rev, project.repository.last_revision)
+        self.assertEqual(start_rev, component.repository.last_revision)
 
         # Commit pending changes
         translation.commit_pending(None)
-        self.assertNotEqual(start_rev, project.repository.last_revision)
+        self.assertNotEqual(start_rev, component.repository.last_revision)
 
 
 class ComponentListTest(RepoTestCase):
