@@ -301,6 +301,7 @@ def bitbucket_hook_helper(data):
         ]),
         'repos': repos,
         'branch': branch,
+        'full_name': '{}/{}.git'.format(owner, slug),
     }
 
 
@@ -332,6 +333,7 @@ def github_hook_helper(data):
         'repo_url': data['repository']['url'],
         'repos': repos,
         'branch': branch,
+        'full_name': '{}/{}.git'.format(owner, slug),
     }
 
 
@@ -355,6 +357,7 @@ def gitlab_hook_helper(data):
         'repo_url': data['repository']['homepage'],
         'repos': repos,
         'branch': branch,
+        'full_name': ssh_url.split(':', 1)[1],
     }
 
 
