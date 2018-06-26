@@ -280,10 +280,9 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             # - newly fuzzy
             was_new = (
                 was_new or
-                (is_new and newunit.state <= STATE_TRANSLATED) or
                 (
                     newunit.state < STATE_TRANSLATED and
-                    newunit.state != newunit.old_unit.state
+                    (newunit.state != newunit.old_unit.state or is_new)
                 )
             )
 
