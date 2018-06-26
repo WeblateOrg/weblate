@@ -255,7 +255,7 @@ def bitbucket_webhook_helper(data):
         'repo_url': repo_url,
         'repos': repos,
         'branch': branch,
-        'full_name': full_name,
+        'full_name': '{}.git'.format(full_name),
     }
 
 
