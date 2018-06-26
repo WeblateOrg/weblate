@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-06-15 19:47+0000\n"
+"POT-Creation-Date: 2018-06-26 19:28+0000\n"
 "PO-Revision-Date: 2018-05-17 10:00+0000\n"
 "Last-Translator: Tumpal Gemelli <gemell1@hotmail.co.id>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
@@ -31,7 +31,7 @@ msgstr ""
 "Alamat surel ini sudah digunakan. Silakan menggunakan alamat surel yang "
 "berbeda."
 
-#: weblate/accounts/forms.py:102 weblate/auth/models.py:260
+#: weblate/accounts/forms.py:102 weblate/auth/models.py:259
 #: weblate/utils/validators.py:235
 msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
@@ -50,7 +50,7 @@ msgstr "Nama pengguna"
 msgid "This username is already taken. Please choose another."
 msgstr "Nama pengguna ini sudah digunakan. Silakan pilih yang lain."
 
-#: weblate/accounts/forms.py:135 weblate/auth/models.py:269
+#: weblate/accounts/forms.py:135 weblate/auth/models.py:268
 #: weblate/templates/manage-access.html:24
 msgid "Full name"
 msgstr "Nama lengkap"
@@ -78,7 +78,7 @@ msgstr ""
 "Anda akan menerima pemberitahuan berikut hanya untuk bahasa yang Anda "
 "terjemahkan pada proyek yang Anda pantau."
 
-#: weblate/accounts/forms.py:276 weblate/auth/models.py:275
+#: weblate/accounts/forms.py:276 weblate/auth/models.py:274
 #, fuzzy
 #| msgid "E-mail"
 msgid "Email"
@@ -316,7 +316,9 @@ msgstr ""
 "ditampilkan disamping string sumber."
 
 #: weblate/accounts/models.py:311
-msgid "Hide completed translations on dashboard"
+#, fuzzy
+#| msgid "Hide completed translations on dashboard"
+msgid "Hide completed translations on the dashboard"
 msgstr "Sembunyikan terjemahan yang selesai pada dasbor"
 
 #: weblate/accounts/models.py:315
@@ -371,7 +373,7 @@ msgstr "Bahasa Anda"
 msgid "Component lists"
 msgstr "Daftar komponen"
 
-#: weblate/accounts/models.py:356 weblate/auth/models.py:134
+#: weblate/accounts/models.py:356 weblate/auth/models.py:133
 #: weblate/templates/list-translations.html:7
 #: weblate/trans/models/componentlist.py:63
 msgid "Component list"
@@ -394,10 +396,13 @@ msgstr "Daftar komponen baku"
 msgid "Watched projects"
 msgstr "Proyek yang dipantau"
 
-#: weblate/accounts/models.py:390 weblate/templates/watch-dropdown.html:5
-#: weblate/templates/watch-dropdown.html:9
+#: weblate/accounts/models.py:390
+#, fuzzy
+#| msgid ""
+#| "You can receive notifications for watched projects and they are shown on "
+#| "dashboard by default."
 msgid ""
-"You can receive notifications for watched projects and they are shown on "
+"You can receive notifications for watched projects and they are shown on the "
 "dashboard by default."
 msgstr ""
 "Anda dapat menerima pemberitahuan untuk proyek yang dipantau dan mereka akan "
@@ -432,11 +437,15 @@ msgid "Notification on new language request"
 msgstr "Pemberitahuan jika ada permintaan bahasa baru"
 
 #: weblate/accounts/models.py:475
-msgid "Component list must be selected when used as default."
+#, fuzzy
+#| msgid "Component list must be selected when used as default."
+msgid "Component list must be chosen when used as default."
 msgstr "Daftar komponen wajib dipilih saat digunakan sebagai standar."
 
 #: weblate/accounts/models.py:481
-msgid "Component list must not be selected when not used."
+#, fuzzy
+#| msgid "Component list must not be selected when not used."
+msgid "Component list can not be chosen when unused."
 msgstr "Daftar komponen tidak boleh dipilih saat tidak digunakan."
 
 #: weblate/accounts/models.py:536
@@ -924,8 +933,8 @@ msgstr "Info pribadi"
 msgid "Authentication"
 msgstr "Autentikasi"
 
-#: weblate/auth/admin.py:100 weblate/auth/models.py:67
-#: weblate/auth/models.py:81 weblate/permissions/apps.py:30
+#: weblate/auth/admin.py:100 weblate/auth/models.py:66
+#: weblate/auth/models.py:80
 msgid "Permissions"
 msgstr "Izin"
 
@@ -1338,171 +1347,168 @@ msgctxt "Per project access control group"
 msgid "Billing"
 msgstr "Penagihan"
 
-#: weblate/auth/models.py:66
+#: weblate/auth/models.py:65
 #, fuzzy
 #| msgid "Permissions"
 msgid "Permission"
 msgstr "Izin"
 
-#: weblate/auth/models.py:76 weblate/auth/models.py:105
+#: weblate/auth/models.py:75 weblate/auth/models.py:104
 #: weblate/templates/accounts/user.html:26
 #: weblate/wladmin/templates/admin/performance.html:28
 msgid "Name"
 msgstr "Nama"
 
-#: weblate/auth/models.py:83
+#: weblate/auth/models.py:82
 msgid "Choose permissions granted to this role."
 msgstr ""
 
-#: weblate/auth/models.py:111
+#: weblate/auth/models.py:110
 msgid "Roles"
 msgstr ""
 
-#: weblate/auth/models.py:113
+#: weblate/auth/models.py:112
 #, fuzzy
 #| msgid "Choose file format for the report"
 msgid "Choose roles granted to this group."
 msgstr "Pilih format berkas untuk laporan"
 
-#: weblate/auth/models.py:117
+#: weblate/auth/models.py:116
 #, fuzzy
 #| msgid "Project Information"
 msgid "Project selection"
 msgstr "Informasi proyek"
 
-#: weblate/auth/models.py:119 weblate/auth/models.py:143
+#: weblate/auth/models.py:118 weblate/auth/models.py:142
 #, fuzzy
 #| msgid "Access denied."
 msgid "As defined"
 msgstr "Akses ditolak."
 
-#: weblate/auth/models.py:120 weblate/templates/index.html:51
+#: weblate/auth/models.py:119 weblate/templates/index.html:51
 msgid "All projects"
 msgstr "Semua proyek"
 
-#: weblate/auth/models.py:121
+#: weblate/auth/models.py:120
 #, fuzzy
 #| msgid "All projects"
 msgid "All public projects"
 msgstr "Semua proyek"
 
-#: weblate/auth/models.py:122
+#: weblate/auth/models.py:121
 #, fuzzy
 #| msgid "All projects"
 msgid "All protected projects"
 msgstr "Semua proyek"
 
-#: weblate/auth/models.py:123
+#: weblate/auth/models.py:122
 #, fuzzy
 #| msgid "Component list"
 msgid "From component list"
 msgstr "Daftar komponen"
 
-#: weblate/auth/models.py:129 weblate/billing/admin.py:52
+#: weblate/auth/models.py:128 weblate/billing/admin.py:52
 #: weblate/billing/models.py:124 weblate/templates/accounts/user.html:38
 #: weblate/templates/billing/detail.html:31 weblate/templates/language.html:15
-#: weblate/templates/projects.html:5 weblate/trans/models/project.py:132
+#: weblate/templates/projects.html:5 weblate/trans/models/project.py:133
 #: weblate/trans/views/basic.py:260
 msgid "Projects"
 msgstr "Proyek"
 
-#: weblate/auth/models.py:141
+#: weblate/auth/models.py:140
 #, fuzzy
 #| msgid "Language code"
 msgid "Language selection"
 msgstr "Kode bahasa"
 
-#: weblate/auth/models.py:144 weblate/templates/index.html:50
+#: weblate/auth/models.py:143 weblate/templates/index.html:50
 #: weblate/trans/forms.py:1099
 msgid "All languages"
 msgstr "Semua bahasa"
 
-#: weblate/auth/models.py:150 weblate/billing/models.py:159
+#: weblate/auth/models.py:149 weblate/billing/models.py:159
 #: weblate/lang/models.py:368 weblate/lang/views.py:45
 #: weblate/templates/accounts/profile.html:23
 #: weblate/templates/accounts/profile.html:43 weblate/templates/language.html:6
 #: weblate/templates/languages.html:6 weblate/templates/project.html:26
 #: weblate/templates/trans/change_list.html:18 weblate/trans/forms.py:835
 #: weblate/trans/forms.py:1120 weblate/trans/forms.py:1490
-#: weblate/trans/models/project.py:229
+#: weblate/trans/models/project.py:230
 msgid "Languages"
 msgstr "Bahasa"
 
-#: weblate/auth/models.py:155
+#: weblate/auth/models.py:154
 #, fuzzy
 #| msgid "Weblate administration"
 msgid "Weblate internal group"
 msgstr "Administrasi Weblate"
 
-#: weblate/auth/models.py:256
+#: weblate/auth/models.py:255
 #, fuzzy
 #| msgid "Username"
 msgid "username"
 msgstr "Nama pengguna"
 
-#: weblate/auth/models.py:265
+#: weblate/auth/models.py:264
 #, fuzzy
 #| msgid "Translation with this key seem to already exist!"
 msgid "A user with that username already exists."
 msgstr "Berkas terjemahan dengan key ini sepertinya sudah ada!"
 
-#: weblate/auth/models.py:282
+#: weblate/auth/models.py:281
 #, fuzzy
 #| msgid "Service status"
 msgid "superuser status"
 msgstr "Status layanan"
 
-#: weblate/auth/models.py:285
-msgid ""
-"Designates that this user has all permissions without explicitly assigning "
-"them."
+#: weblate/auth/models.py:284
+msgid "User has all permissions without having been given them."
 msgstr ""
 
-#: weblate/auth/models.py:290
+#: weblate/auth/models.py:288
 #, fuzzy
 #| msgid "Active"
 msgid "active"
 msgstr "Aktif"
 
-#: weblate/auth/models.py:293
-msgid ""
-"Designates whether this user should be treated as active. Unselect this "
-"instead of deleting accounts."
+#: weblate/auth/models.py:290
+msgid "Mark user as inactive instead of removing."
 msgstr ""
 
-#: weblate/auth/models.py:297
+#: weblate/auth/models.py:292
 msgid "Date joined"
 msgstr ""
 
-#: weblate/auth/models.py:300
+#: weblate/auth/models.py:295
 #, fuzzy
 #| msgid "Group ACLs"
 msgid "Groups"
 msgstr "Grup ACL"
 
-#: weblate/auth/models.py:303
+#: weblate/auth/models.py:298
 msgid ""
-"The groups this user belongs to. A user will get all permissions granted to "
-"each of their groups."
+"The user is granted all permissions included in membership of these groups."
 msgstr ""
 
-#: weblate/auth/models.py:447
+#: weblate/auth/models.py:442
 msgid "Email regular expression"
 msgstr "Surel ekspresi reguler"
 
-#: weblate/auth/models.py:451
-msgid "Regular expression which is used to match user email."
+#: weblate/auth/models.py:446
+#, fuzzy
+#| msgid "Regular expression which is used to match user email."
+msgid "Regular expression used to match user email."
 msgstr "Ekspresi reguler yang digunakan untuk mencocokan surel pengguna."
 
-#: weblate/auth/models.py:456
+#: weblate/auth/models.py:451
 msgid "Group to assign"
 msgstr "Menetapkan grup"
 
-#: weblate/auth/models.py:461
+#: weblate/auth/models.py:456
 msgid "Automatic group assignment"
 msgstr "Penetapan Grup Otomatis"
 
-#: weblate/auth/models.py:462
+#: weblate/auth/models.py:457
 msgid "Automatic group assignments"
 msgstr "Penetapan Grup Otomatis"
 
@@ -1535,7 +1541,7 @@ msgid "VCS repositories"
 msgstr "Repositori VCS"
 
 #: weblate/billing/models.py:136 weblate/templates/stats.html:66
-#: weblate/trans/admin.py:48
+#: weblate/trans/admin.py:48 weblate/trans/forms.py:726
 msgid "Source strings"
 msgstr "String sumber"
 
@@ -1845,95 +1851,95 @@ msgstr "Berkas gettext PO"
 msgid "Gettext PO file (monolingual)"
 msgstr "Berkas gettext PO (ekabahasa)"
 
-#: weblate/formats/ttkit.py:318
+#: weblate/formats/ttkit.py:325
 msgid "Qt Linguist Translation File"
 msgstr "Berkas penerjemahan Qt Linguist"
 
-#: weblate/formats/ttkit.py:335
+#: weblate/formats/ttkit.py:342
 msgid "XLIFF Translation File"
 msgstr "Berkas penerjemahan XLIFF"
 
-#: weblate/formats/ttkit.py:370
+#: weblate/formats/ttkit.py:377
 msgid "XLIFF Translation File with PO extensions"
 msgstr "Berkas penerjemahan XLIFF dengan ekstensi PO"
 
-#: weblate/formats/ttkit.py:377
+#: weblate/formats/ttkit.py:384
 msgid "OS X Strings"
 msgstr "String OS X"
 
-#: weblate/formats/ttkit.py:390
+#: weblate/formats/ttkit.py:397
 msgid "OS X Strings (UTF-8)"
 msgstr "String OS X (UTF-8)"
 
-#: weblate/formats/ttkit.py:397
+#: weblate/formats/ttkit.py:404
 msgid "Java Properties (UTF-8)"
 msgstr "Properti Java (UTF-8)"
 
-#: weblate/formats/ttkit.py:405
+#: weblate/formats/ttkit.py:412
 msgid "Java Properties (UTF-16)"
 msgstr "Properti Java (UTF-16)"
 
-#: weblate/formats/ttkit.py:411
+#: weblate/formats/ttkit.py:418
 msgid "Java Properties (ISO-8859-1)"
 msgstr "Properti Java (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:432
+#: weblate/formats/ttkit.py:439
 msgid "Joomla Language File"
 msgstr "Berkas Bahasa Joomla"
 
-#: weblate/formats/ttkit.py:441
+#: weblate/formats/ttkit.py:448
 msgid "PHP strings"
 msgstr "String PHP"
 
-#: weblate/formats/ttkit.py:460
+#: weblate/formats/ttkit.py:467
 msgid ".Net resource file"
 msgstr "Berkas sumber daya .Net"
 
-#: weblate/formats/ttkit.py:470
+#: weblate/formats/ttkit.py:477
 msgid "Android String Resource"
 msgstr "String Sumber Daya Android"
 
-#: weblate/formats/ttkit.py:499
+#: weblate/formats/ttkit.py:506
 msgid "JSON file"
 msgstr "Berkas JSON"
 
-#: weblate/formats/ttkit.py:518
+#: weblate/formats/ttkit.py:525
 msgid "JSON nested structure file"
 msgstr "Berkas struktur bersarang JSON"
 
-#: weblate/formats/ttkit.py:524
+#: weblate/formats/ttkit.py:531
 msgid "WebExtension JSON file"
 msgstr "Berkas JSON WebExtension"
 
-#: weblate/formats/ttkit.py:532
+#: weblate/formats/ttkit.py:539
 msgid "i18next JSON file"
 msgstr "Berkas JSON i18next"
 
-#: weblate/formats/ttkit.py:538
+#: weblate/formats/ttkit.py:545
 msgid "CSV file"
 msgstr "Berkas CSV"
 
-#: weblate/formats/ttkit.py:608
+#: weblate/formats/ttkit.py:615
 msgid "Simple CSV file"
 msgstr "Berkas CSV Sederhana"
 
-#: weblate/formats/ttkit.py:644
+#: weblate/formats/ttkit.py:651
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Berkas CSV Sederhana (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:650
+#: weblate/formats/ttkit.py:657
 msgid "YAML file"
 msgstr "Berkas YAML"
 
-#: weblate/formats/ttkit.py:669
+#: weblate/formats/ttkit.py:676
 msgid "Ruby YAML file"
 msgstr "Berkas YAML Ruby"
 
-#: weblate/formats/ttkit.py:676
+#: weblate/formats/ttkit.py:683
 msgid "DTD file"
 msgstr "Berkas DTD"
 
-#: weblate/formats/ttkit.py:702
+#: weblate/formats/ttkit.py:709
 msgid "RC file"
 msgstr "Berkas RC"
 
@@ -2562,7 +2568,9 @@ msgid "Protected"
 msgstr "Terlindungi"
 
 #: weblate/templates/access_control_description.html:7
-msgid "Publicly visible, only translatable for selected users"
+#, fuzzy
+#| msgid "Publicly visible, only translatable for selected users"
+msgid "Publicly visible, only translatable for chosen users"
 msgstr "Terlihat oleh publik, hanya dapat diterjemahkan oleh pengguna terpilih"
 
 #: weblate/templates/access_control_description.html:8
@@ -2571,7 +2579,9 @@ msgid "Private"
 msgstr "Privat"
 
 #: weblate/templates/access_control_description.html:9
-msgid "Visible and translatable only for selected users"
+#, fuzzy
+#| msgid "Visible and translatable only for selected users"
+msgid "Visible and translatable only for chosen users"
 msgstr "Hanya terlihat dan dapat diterjemahkan oleh pengguna terpilih"
 
 #: weblate/templates/access_control_description.html:10
@@ -2782,7 +2792,7 @@ msgstr ""
 #: weblate/templates/accounts/profile.html:293
 #: weblate/templates/accounts/profile.html:310
 #: weblate/templates/accounts/profile.html:408
-#: weblate/templates/accounts/profile.html:474
+#: weblate/templates/accounts/profile.html:473
 #: weblate/templates/addons/discovery_help.html:10
 msgid "Description"
 msgstr "Deskripsi"
@@ -2841,7 +2851,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Ubah kata sandi saya"
 
-#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:634
+#: weblate/templates/accounts/profile.html:14 weblate/trans/views/basic.py:629
 #: weblate/trans/views/files.py:80
 msgid "Please fix errors in the form."
 msgstr "Harap perbaiki kesalahan dalam formulir."
@@ -3155,7 +3165,7 @@ msgstr ""
 #: weblate/templates/language.html:37 weblate/templates/list-projects.html:8
 #: weblate/templates/list-translations.html:7
 #: weblate/trans/models/component.py:122 weblate/trans/models/component.py:145
-#: weblate/trans/models/project.py:131 weblate/trans/models/whiteboard.py:80
+#: weblate/trans/models/project.py:132 weblate/trans/models/whiteboard.py:80
 msgid "Project"
 msgstr "Proyek"
 
@@ -3163,7 +3173,7 @@ msgstr "Proyek"
 msgid "License"
 msgstr "Lisensi"
 
-#: weblate/templates/accounts/profile.html:476
+#: weblate/templates/accounts/profile.html:475
 msgid ""
 "Please pay attention to the licensing information as these specify how "
 "others are allowed to use your translations."
@@ -3462,7 +3472,7 @@ msgstr "Menu navigasi"
 msgid "Dashboard"
 msgstr "Dasbor"
 
-#: weblate/templates/base.html:118 weblate/templates/index.html:74
+#: weblate/templates/base.html:118 weblate/templates/index.html:72
 msgid "Manage watched projects"
 msgstr "Kelola proyek yang dipantau"
 
@@ -3475,7 +3485,7 @@ msgstr "Administrasi"
 msgid "Configuration errors"
 msgstr "Kesalahan konfigurasi"
 
-#: weblate/templates/base.html:133 weblate/wladmin/sites.py:151
+#: weblate/templates/base.html:133 weblate/wladmin/sites.py:154
 msgid "Logout"
 msgstr "Keluar"
 
@@ -3582,7 +3592,7 @@ msgstr ""
 
 #: weblate/templates/component-list.html:13
 #: weblate/templates/language-project.html:16 weblate/templates/project.html:25
-#: weblate/trans/models/component.py:431
+#: weblate/trans/forms.py:908 weblate/trans/models/component.py:431
 msgid "Components"
 msgstr "Komponen"
 
@@ -3647,7 +3657,7 @@ msgid "Tools"
 msgstr "Alat"
 
 #: weblate/templates/component.html:52 weblate/templates/component.html:139
-#: weblate/templates/index.html:49 weblate/templates/index.html:123
+#: weblate/templates/index.html:49 weblate/templates/index.html:121
 #: weblate/templates/language-project.html:24
 #: weblate/templates/language-project.html:49 weblate/templates/project.html:45
 #: weblate/templates/project.html:186
@@ -3847,7 +3857,9 @@ msgid "Suggestions to improve translation are disabled."
 msgstr "Saran untuk memperbaiki terjemahan dinonaktifkan."
 
 #: weblate/templates/component_info.html:26
-msgid "Only selected users can contribute."
+#, fuzzy
+#| msgid "Only selected users can contribute."
+msgid "Only chosen users can contribute."
 msgstr "Hanya pengguna terpilih yang bisa berkontribusi."
 
 #: weblate/templates/component_info.html:28
@@ -3925,21 +3937,21 @@ msgstr "Harap baca dokumen Persyaratan Layanan berikut ini:"
 msgid "You have already agreed to this agreement."
 msgstr "Anda telah mencapai akhir dari penerjemahan."
 
-#: weblate/templates/data-root.html:6 weblate/templates/index.html:53
-msgid "Data export"
-msgstr "Ekspor data"
+#: weblate/templates/data.html:7
+msgid "data exports"
+msgstr "ekspor data"
 
-#: weblate/templates/data-root.html:12 weblate/templates/data.html:13
+#: weblate/templates/data.html:13
 msgid "You can retrieve various data from Weblate in machine readable format."
 msgstr ""
 "Anda dapat mengambil berbagai data dari Weblate dalam format yang dapat "
 "dibaca mesin."
 
-#: weblate/templates/data-root.html:16 weblate/templates/data.html:17
+#: weblate/templates/data.html:17
 msgid "RSS feeds"
 msgstr "RSS feeds"
 
-#: weblate/templates/data-root.html:21 weblate/templates/data.html:22
+#: weblate/templates/data.html:22
 msgid ""
 "To follow translation progress you can use RSS feeds, detailing all "
 "important translation changes."
@@ -3947,50 +3959,19 @@ msgstr ""
 "Untuk mengikuti perkembangan terjemahan, Anda dapat menggunakan umpan RSS, "
 "yang merincikan semua perubahan pokok terjemahan."
 
-#: weblate/templates/data-root.html:27 weblate/templates/data.html:29
-#: weblate/templates/data.html:63 weblate/templates/data.html:104
-#: weblate/templates/data.html:138
+#: weblate/templates/data.html:29 weblate/templates/data.html:63
+#: weblate/templates/data.html:104 weblate/templates/data.html:138
 msgid "URL"
 msgstr "URL"
 
-#: weblate/templates/data-root.html:28 weblate/templates/data.html:30
-#: weblate/templates/data.html:64 weblate/templates/data.html:105
+#: weblate/templates/data.html:30 weblate/templates/data.html:64
+#: weblate/templates/data.html:105
 msgid "Link"
 msgstr "Taut"
 
-#: weblate/templates/data-root.html:33 weblate/templates/data.html:36
-#: weblate/templates/data.html:42
+#: weblate/templates/data.html:36 weblate/templates/data.html:42
 msgid "RSS"
 msgstr "RSS"
-
-#: weblate/templates/data-root.html:38
-msgid "Per project data"
-msgstr "Per data proyek"
-
-#: weblate/templates/data-root.html:41
-msgid ""
-"There is more data exported per project, please check the following links "
-"for more information."
-msgstr ""
-"Terdapat lebih banyak data yang diekspor per proyek, silakan periksa tautan "
-"berikut untuk informasi lebih lanjut."
-
-#: weblate/templates/data-root.html:52 weblate/templates/data.html:91
-msgid "Notification hooks"
-msgstr "Pengait pemberitahuan"
-
-#: weblate/templates/data-root.html:57 weblate/templates/data.html:96
-msgid ""
-"With notification hooks, Weblate will automatically import changes made by "
-"your developers, and allows continuous translation."
-msgstr ""
-"Dengan hook notifikasi, Weblate secara otomatis akan mengimpor perubahan "
-"yang dilakukan oleh pengembang Anda, dan memungkinkan penerjemahan "
-"berkesinambungan."
-
-#: weblate/templates/data.html:7
-msgid "data exports"
-msgstr "ekspor data"
 
 #: weblate/templates/data.html:48
 msgid ""
@@ -4021,6 +4002,19 @@ msgid ""
 msgstr ""
 "Misalnya, pengambilan statistik untuk semua terjemahan dalam satu komponen "
 "dapat dilakukan demikian:"
+
+#: weblate/templates/data.html:91
+msgid "Notification hooks"
+msgstr "Pengait pemberitahuan"
+
+#: weblate/templates/data.html:96
+msgid ""
+"With notification hooks, Weblate will automatically import changes made by "
+"your developers, and allows continuous translation."
+msgstr ""
+"Dengan hook notifikasi, Weblate secara otomatis akan mengimpor perubahan "
+"yang dilakukan oleh pengembang Anda, dan memungkinkan penerjemahan "
+"berkesinambungan."
 
 #: weblate/templates/data.html:111 weblate/templates/data.html:117
 msgid "Hook"
@@ -4375,12 +4369,7 @@ msgstr ""
 msgid "Checks overview"
 msgstr "Ikhtisar Pemeriksaan"
 
-#: weblate/templates/index.html:54 weblate/templates/widgets-root.html:5
-#: weblate/templates/widgets.html:6
-msgid "Widgets"
-msgstr "Widget"
-
-#: weblate/templates/index.html:70
+#: weblate/templates/index.html:68
 msgid ""
 "Choose what languages you want in the preferences, to see overview of "
 "available translations for those languages in your watched projects."
@@ -4388,12 +4377,12 @@ msgstr ""
 "Pilih bahasa apa yang Anda inginkan di preferensi, untuk melihat ikhtisar "
 "ketersediaan terjemahan bahasa tersebut pada proyek yang Anda pantau."
 
-#: weblate/templates/index.html:73 weblate/templates/index.html:85
-#: weblate/templates/index.html:105 weblate/templates/index.html:116
+#: weblate/templates/index.html:71 weblate/templates/index.html:83
+#: weblate/templates/index.html:103 weblate/templates/index.html:114
 msgid "Manage your languages"
 msgstr "Kelola bahasa Anda"
 
-#: weblate/templates/index.html:83
+#: weblate/templates/index.html:81
 msgid ""
 "Choose languages you speak in the preferences, to see an overview of all "
 "projects that feature those languages here."
@@ -4401,7 +4390,7 @@ msgstr ""
 "Pilih bahasa yang Anda pakai di preferensi, untuk melihat ikhtisar dari "
 "semua proyek yang mengutamakan bahasa tersebut di sini."
 
-#: weblate/templates/index.html:102
+#: weblate/templates/index.html:100
 msgid ""
 "Could not find any suggestions for you, please choose your languages in the "
 "preferences to get some."
@@ -4409,7 +4398,7 @@ msgstr ""
 "Tidak dapat menemukan saran apapun untuk Anda, silakan pilih bahasa Anda di "
 "preferensi untuk mendapatkannya."
 
-#: weblate/templates/index.html:107
+#: weblate/templates/index.html:105
 msgid "Register to manage your languages"
 msgstr "Daftar untuk mengelola bahasa Anda"
 
@@ -5170,12 +5159,14 @@ msgid "matrix"
 msgstr "matriks"
 
 #: weblate/templates/matrix.html:34
-msgid "Select languages to display"
-msgstr "Pilih bahasa untuk ditampilkan"
+#, fuzzy
+#| msgid "Used languages"
+msgid "Displayed languages"
+msgstr "Bahasa yang digunakan"
 
 #: weblate/templates/matrix.html:39
-msgid "Select"
-msgstr "Pilih"
+msgid "Chose"
+msgstr ""
 
 #: weblate/templates/new-language.html:25
 msgid ""
@@ -5996,6 +5987,15 @@ msgstr "Masuk terakhir"
 msgid "Registration date"
 msgstr "Tanggal pendaftaran"
 
+#: weblate/templates/watch-dropdown.html:5
+#: weblate/templates/watch-dropdown.html:9
+msgid ""
+"You can receive notifications for watched projects and they are shown on "
+"dashboard by default."
+msgstr ""
+"Anda dapat menerima pemberitahuan untuk proyek yang dipantau dan mereka akan "
+"ditampilkan pada dasbor secara baku."
+
 #: weblate/templates/watch-dropdown.html:6
 msgid "Unwatch"
 msgstr "Tidak dipantau"
@@ -6004,17 +6004,13 @@ msgstr "Tidak dipantau"
 msgid "Watch"
 msgstr "Pantau"
 
-#: weblate/templates/widgets-root.html:10 weblate/templates/widgets.html:11
+#: weblate/templates/widgets.html:6
+msgid "Widgets"
+msgstr "Widget"
+
+#: weblate/templates/widgets.html:11
 msgid "Promoting translation projects"
 msgstr "Mempromosikan proyek penerjemahan"
-
-#: weblate/templates/widgets-root.html:13
-msgid ""
-"Weblate provides various widgets to promote your translation projects. Open "
-"one of the project pages below."
-msgstr ""
-"Weblate dilengkapi berbagai widget untuk mempromosikan proyek penerjemahan "
-"Anda. Buka salah satu dari halaman proyek berikut."
 
 #: weblate/templates/widgets.html:14
 #, python-format
@@ -6156,20 +6152,20 @@ msgstr "Perubahan terbaru dalam %s"
 msgid "All recent changes made using Weblate in %s."
 msgstr "Semua perubahan terbaru yang dibuat Weblate dalam %s."
 
-#: weblate/trans/filter.py:31 weblate/trans/models/translation.py:630
-#: weblate/trans/models/translation.py:673
+#: weblate/trans/filter.py:31 weblate/trans/models/translation.py:629
+#: weblate/trans/models/translation.py:672
 msgid "All strings"
 msgstr "Semua string"
 
-#: weblate/trans/filter.py:32 weblate/trans/models/translation.py:721
+#: weblate/trans/filter.py:32 weblate/trans/models/translation.py:720
 msgid "Not translated strings"
 msgstr "String belum diterjemahkan"
 
-#: weblate/trans/filter.py:33 weblate/trans/models/translation.py:713
+#: weblate/trans/filter.py:33 weblate/trans/models/translation.py:712
 msgid "Strings needing action"
 msgstr "String butuh tindakan"
 
-#: weblate/trans/filter.py:34 weblate/trans/models/translation.py:688
+#: weblate/trans/filter.py:34 weblate/trans/models/translation.py:687
 msgid "Translated strings"
 msgstr "String telah diterjemahkan"
 
@@ -6177,33 +6173,33 @@ msgstr "String telah diterjemahkan"
 msgid "Strings marked for edit"
 msgstr "String ditandai untuk penyuntingan"
 
-#: weblate/trans/filter.py:36 weblate/trans/models/translation.py:737
+#: weblate/trans/filter.py:36 weblate/trans/models/translation.py:736
 msgid "Strings with suggestions"
 msgstr "String dengan saran"
 
-#: weblate/trans/filter.py:37 weblate/trans/models/translation.py:743
+#: weblate/trans/filter.py:37 weblate/trans/models/translation.py:742
 msgid "Strings without suggestions"
 msgstr "String tanpa saran"
 
-#: weblate/trans/filter.py:38 weblate/trans/models/translation.py:658
-#: weblate/trans/models/translation.py:771
+#: weblate/trans/filter.py:38 weblate/trans/models/translation.py:657
+#: weblate/trans/models/translation.py:770
 msgid "Strings with comments"
 msgstr "String dengan komentar"
 
-#: weblate/trans/filter.py:39 weblate/trans/models/translation.py:638
-#: weblate/trans/models/translation.py:751
+#: weblate/trans/filter.py:39 weblate/trans/models/translation.py:637
+#: weblate/trans/models/translation.py:750
 msgid "Strings with any failing checks"
 msgstr "String dengan pemeriksaan gagal"
 
-#: weblate/trans/filter.py:40 weblate/trans/models/translation.py:680
+#: weblate/trans/filter.py:40 weblate/trans/models/translation.py:679
 msgid "Approved strings"
 msgstr "String yang disetujui"
 
-#: weblate/trans/filter.py:43 weblate/trans/models/translation.py:705
+#: weblate/trans/filter.py:43 weblate/trans/models/translation.py:704
 msgid "Approved strings with suggestions"
 msgstr "String yang disetujui dengan saran"
 
-#: weblate/trans/filter.py:45 weblate/trans/models/translation.py:697
+#: weblate/trans/filter.py:45 weblate/trans/models/translation.py:696
 msgid "Strings waiting for review"
 msgstr "String menunggu untuk ditinjau"
 
@@ -6357,7 +6353,9 @@ msgid "Search filter"
 msgstr "Filter pencarian"
 
 #: weblate/trans/forms.py:631
-msgid "Please select a valid filter type."
+#, fuzzy
+#| msgid "Please select a valid filter type."
+msgid "Please choose a valid filter type."
 msgstr "Mohon pilih tipe filter yang valid."
 
 #: weblate/trans/forms.py:708
@@ -6381,28 +6379,34 @@ msgid "Exact match"
 msgstr "Sama persis"
 
 #: weblate/trans/forms.py:722
-msgid "Please select a valid search type."
+#, fuzzy
+#| msgid "Please select a valid search type."
+msgid "Please choose a valid search type."
 msgstr "Mohon pilih tipe penelusuran yang valid."
 
-#: weblate/trans/forms.py:726
-msgid "Search in source strings"
-msgstr "Cari dalam string sumber"
-
 #: weblate/trans/forms.py:731
-msgid "Search in target strings"
-msgstr "Cari dalam string target"
+#, fuzzy
+#| msgid "Source strings"
+msgid "Target strings"
+msgstr "String sumber"
 
 #: weblate/trans/forms.py:736
-msgid "Search in context strings"
+#, fuzzy
+#| msgid "Search in context strings"
+msgid "Context strings"
 msgstr "Cari dalam string konteks"
 
 #: weblate/trans/forms.py:741
-msgid "Search in location strings"
-msgstr "Cari dalam string lokasi"
+#, fuzzy
+#| msgid "Locations"
+msgid "Location strings"
+msgstr "Lokasi"
 
 #: weblate/trans/forms.py:746
-msgid "Search in comment strings"
-msgstr "Cari dalam string komentar"
+#, fuzzy
+#| msgid "Bad format string (%s)"
+msgid "Comment strings"
+msgstr "String berformat jelek (%s)"
 
 #: weblate/trans/forms.py:753
 msgid "Show ignored checks as well"
@@ -6446,12 +6450,12 @@ msgid "{filter_name}, {search_name}"
 msgstr "{filter_name}, {search_name}"
 
 #: weblate/trans/forms.py:868 weblate/trans/forms.py:870
-msgid "Merged string not found!"
-msgstr "String yang di merge tidak ditemukan!"
+msgid "Could not find merged string."
+msgstr ""
 
 #: weblate/trans/forms.py:889
-msgid "Reverted change not found!"
-msgstr "Perubahan yang dikembalikan tidak ditemukan!"
+msgid "Could not find reverted change."
+msgstr ""
 
 #: weblate/trans/forms.py:900
 msgid "Automatic translation source"
@@ -6461,12 +6465,10 @@ msgstr "Sumber terjemahan otomatis"
 msgid "Other translation components"
 msgstr "Komponen terjemahan lainnya"
 
-#: weblate/trans/forms.py:908
-msgid "Component to use"
-msgstr "Komponen yang digunakan"
-
 #: weblate/trans/forms.py:913
-msgid "Machine translation engines to use"
+#, fuzzy
+#| msgid "Machine translation engines to use"
+msgid "Machine translation engines"
 msgstr "Mesin terjemahan untuk digunakan"
 
 #: weblate/trans/forms.py:918
@@ -6510,7 +6512,10 @@ msgid "Starting date"
 msgstr "Tanggal mulai"
 
 #: weblate/trans/forms.py:1050
-msgctxt "Select starting letter in glossary"
+#, fuzzy
+#| msgctxt "Select starting letter in glossary"
+#| msgid "Any"
+msgctxt "Choose starting letter in glossary"
 msgid "Any"
 msgstr "Apasaja"
 
@@ -6547,11 +6552,15 @@ msgid "Similar translation already exists in the project ({0})!"
 msgstr "Terjemahan yang sama sudah ada dalam proyek ({0})!"
 
 #: weblate/trans/forms.py:1162
-msgid "Please select"
+#, fuzzy
+#| msgid "Please select"
+msgid "Please choose"
 msgstr "Silakan pilih"
 
 #: weblate/trans/forms.py:1184
-msgid "Strings with higher priority are offered first to translators."
+#, fuzzy
+#| msgid "Strings with higher priority are offered first to translators."
+msgid "Higher priority strings are presented to translators earlier."
 msgstr ""
 "String dengan prioritas yang lebih tinggi akan pertama ditawarkan pada "
 "penerjemah."
@@ -7445,11 +7454,11 @@ msgstr ""
 "Cara batasi akses ke proyek ini, silakan lihat dokumentasi untuk rincian "
 "lebih lanjut."
 
-#: weblate/trans/models/project.py:102
+#: weblate/trans/models/project.py:103
 msgid "Enable reviews"
 msgstr "Aktifkan tinjauan"
 
-#: weblate/trans/models/project.py:105
+#: weblate/trans/models/project.py:106
 #, fuzzy
 #| msgid ""
 #| "Enable this if you intend for dedicated reviewers to approve translations."
@@ -7457,24 +7466,24 @@ msgid "Requires dedicated reviewers to approve translations."
 msgstr ""
 "Aktifkan ini jika Anda ingin agar pemeriksa khusus menyetujui terjemahan."
 
-#: weblate/trans/models/project.py:109
+#: weblate/trans/models/project.py:110
 msgid "Enable hooks"
 msgstr "Aktifkan hook"
 
-#: weblate/trans/models/project.py:112
+#: weblate/trans/models/project.py:113
 msgid "Whether to allow updating this repository by remote hooks."
 msgstr ""
 "Jika ingin mengizinkan pembaruan repositori ini melalui hook jarak jauh."
 
-#: weblate/trans/models/project.py:117
+#: weblate/trans/models/project.py:118
 msgid "Source language"
 msgstr "Bahasa sumber"
 
-#: weblate/trans/models/project.py:119
+#: weblate/trans/models/project.py:120
 msgid "Language used for source strings in all components"
 msgstr "Bahasa yang digunakan untuk string sumber di semua komponen"
 
-#: weblate/trans/models/project.py:166
+#: weblate/trans/models/project.py:167
 #, python-format
 msgid "Could not create project directory: %s"
 msgstr "Tidak dapat membuat direktori proyek: %s"
@@ -7497,7 +7506,7 @@ msgstr ""
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Gagal untuk mengurai berkas %(file)s: %(error)s"
 
-#: weblate/trans/models/translation.py:729
+#: weblate/trans/models/translation.py:728
 msgid "Strings marked as needing edit"
 msgstr "String ditandai sebagai perlu disunting"
 
@@ -7857,7 +7866,7 @@ msgstr "Rendah"
 msgid "Very low"
 msgstr "Sangat rendah"
 
-#: weblate/trans/util.py:204
+#: weblate/trans/util.py:206
 #, python-brace-format
 msgid ""
 "{0} is translated into {1} languages using Weblate. Join the translation or "
@@ -7970,7 +7979,7 @@ msgstr ""
 msgid "Weblate statistics"
 msgstr "Statistik Weblate"
 
-#: weblate/trans/views/basic.py:624
+#: weblate/trans/views/basic.py:619
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "Permintaan untuk penerjemahan baru telah dikirim ke pengelola proyek."
@@ -8534,7 +8543,7 @@ msgstr "Berkas statis admin"
 msgid "Weblate administration"
 msgstr "Administrasi Weblate"
 
-#: weblate/wladmin/sites.py:156
+#: weblate/wladmin/sites.py:159
 msgid "Object listing disabled"
 msgstr "Daftar obyek dinonaktifkan"
 
@@ -8695,6 +8704,53 @@ msgstr "Laporan"
 #: weblate/wladmin/views.py:58
 msgid "Failed to dismiss configuration error!"
 msgstr "Gagal menghilangkan kesalahan konfigurasi!"
+
+#~ msgid "Data export"
+#~ msgstr "Ekspor data"
+
+#~ msgid "Per project data"
+#~ msgstr "Per data proyek"
+
+#~ msgid ""
+#~ "There is more data exported per project, please check the following links "
+#~ "for more information."
+#~ msgstr ""
+#~ "Terdapat lebih banyak data yang diekspor per proyek, silakan periksa "
+#~ "tautan berikut untuk informasi lebih lanjut."
+
+#~ msgid "Select languages to display"
+#~ msgstr "Pilih bahasa untuk ditampilkan"
+
+#~ msgid "Select"
+#~ msgstr "Pilih"
+
+#~ msgid ""
+#~ "Weblate provides various widgets to promote your translation projects. "
+#~ "Open one of the project pages below."
+#~ msgstr ""
+#~ "Weblate dilengkapi berbagai widget untuk mempromosikan proyek "
+#~ "penerjemahan Anda. Buka salah satu dari halaman proyek berikut."
+
+#~ msgid "Search in source strings"
+#~ msgstr "Cari dalam string sumber"
+
+#~ msgid "Search in target strings"
+#~ msgstr "Cari dalam string target"
+
+#~ msgid "Search in location strings"
+#~ msgstr "Cari dalam string lokasi"
+
+#~ msgid "Search in comment strings"
+#~ msgstr "Cari dalam string komentar"
+
+#~ msgid "Merged string not found!"
+#~ msgstr "String yang di merge tidak ditemukan!"
+
+#~ msgid "Reverted change not found!"
+#~ msgstr "Perubahan yang dikembalikan tidak ditemukan!"
+
+#~ msgid "Component to use"
+#~ msgstr "Komponen yang digunakan"
 
 #~ msgid "Summary of languages"
 #~ msgstr "Ringkasan bahasa"
@@ -10409,11 +10465,6 @@ msgstr "Gagal menghilangkan kesalahan konfigurasi!"
 #~| msgid "Python format"
 #~ msgid "Python format string"
 #~ msgstr "Format python"
-
-#, fuzzy
-#~| msgid "Bad format string (%s)"
-#~ msgid "C format string"
-#~ msgstr "String berformat jelek (%s)"
 
 #, fuzzy
 #~| msgid "PHP format"
