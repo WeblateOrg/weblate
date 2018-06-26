@@ -36,12 +36,13 @@ class AWSTranslation(MachineTranslation):
         super(AWSTranslation,self).__init__()
         if settings.MT_AWS_KEY is None:
             raise MissingConfiguration('Amazon Web Services requires API key')
+        self.client = boto3.client('translate')
 
     def download_languages(self):
         return ('en', 'ar', 'zh', 'fr', 'de', 'pt', 'es')
 
     def download_translations(self, source, language, text):
-        client = boto3.client('translate')
-
-        response = client.translate_text(Text = text,Source = source, Target = language)
-        return (response['TranslatedText'],self.max_score,self.name,text)
+        response = self.client.translate_text(
+            Text=text, Source=source, Target=language
+        )
+        return (response['TranslatedText'], self.max_score, self.name, text)
