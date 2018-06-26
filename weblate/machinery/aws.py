@@ -33,7 +33,7 @@ class AWSTranslation(MachineTranslation):
     max_score = 88
 
     def __init__(self):
-        super(AWSTranslation,self).__init__()
+        super(AWSTranslation, self).__init__()
         self.client = boto3.client(
             'translate',
             region_name=settings.MT_AWS_REGION,

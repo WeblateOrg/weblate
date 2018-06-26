@@ -114,7 +114,9 @@ class WeblateUserAdmin(UserAdmin):
         if obj.is_anonymous:
             return ''
         return super(WeblateUserAdmin, self).action_checkbox(obj)
-    action_checkbox.short_description = mark_safe('<input type="checkbox" id="action-toggle" />')
+    action_checkbox.short_description = mark_safe(
+        '<input type="checkbox" id="action-toggle" />'
+    )
 
     def has_delete_permission(self, request, obj=None):
         if obj and obj.is_anonymous:
@@ -139,7 +141,9 @@ class WeblateGroupAdmin(WeblateModelAdmin):
         if obj.internal:
             return ''
         return super(WeblateGroupAdmin, self).action_checkbox(obj)
-    action_checkbox.short_description = mark_safe('<input type="checkbox" id="action-toggle" />')
+    action_checkbox.short_description = mark_safe(
+        '<input type="checkbox" id="action-toggle" />'
+    )
 
     def has_delete_permission(self, request, obj=None):
         if obj and obj.internal:

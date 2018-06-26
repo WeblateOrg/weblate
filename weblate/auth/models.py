@@ -26,7 +26,6 @@ from appconf import AppConf
 from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.db import models
-from django.db.models import Q
 from django.db.models.signals import (
     post_save, post_migrate, pre_delete, m2m_changed
 )
@@ -296,7 +295,8 @@ class User(AbstractBaseUser):
         verbose_name=_('Groups'),
         blank=True,
         help_text=_(
-            'The user is granted all permissions included in membership of these groups.'
+            'The user is granted all permissions included in '
+            'membership of these groups.'
         ),
     )
 

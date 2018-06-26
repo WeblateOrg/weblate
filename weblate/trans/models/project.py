@@ -95,7 +95,8 @@ class Project(models.Model, URLMixin, PathMixin):
         choices=ACCESS_CHOICES,
         verbose_name=_('Access control'),
         help_text=ugettext_lazy(
-            'How to restrict access to this project is detailed in the documentation.'
+            'How to restrict access to this project is detailed '
+            'in the documentation.'
         )
     )
     enable_review = models.BooleanField(

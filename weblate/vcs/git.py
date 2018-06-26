@@ -111,7 +111,7 @@ class GitRepository(Repository):
         try:
             self.execute(['rev-parse', '--verify', rev], needs_lock=False)
             return True
-        except RepositoryException as error:
+        except RepositoryException:
             return False
 
     def merge(self, abort=False):
@@ -310,7 +310,8 @@ class GitRepository(Repository):
         # Get List of current branches in local repository
         # (we get additional * there indicating current branch)
         branches = [
-            x.lstrip('*').strip() for x in self.execute(['branch']).splitlines()
+            x.lstrip('*').strip()
+            for x in self.execute(['branch']).splitlines()
         ]
         return branch in branches
 

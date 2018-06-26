@@ -21,7 +21,6 @@
 from __future__ import unicode_literals
 
 from django.template import Template, Context, Engine
-from django.utils.encoding import force_text
 
 from weblate.utils.site import get_site_url
 

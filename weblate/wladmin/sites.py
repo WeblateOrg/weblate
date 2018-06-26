@@ -147,7 +147,9 @@ class WeblateAdminSite(AdminSite):
         if request.method == 'POST':
             messages.info(request, _('Thanks for using Weblate!'))
             request.current_app = self.name
-            return LogoutView.as_view(next_page=reverse('admin:login'))(request)
+            return LogoutView.as_view(
+                next_page=reverse('admin:login')
+            )(request)
         context = self.each_context(request)
         context['title'] = _('Logout')
         return render(request, 'admin/logout-confirm.html', context)

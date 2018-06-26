@@ -309,7 +309,7 @@ class TestSequenceMeta(type):
             return test
 
         for params in LANGUAGES:
-            test_name = "test_create_%s" % params[1].replace('@','_')
+            test_name = "test_create_%s" % params[1].replace('@', '_')
             dict[test_name] = gen_test(*params)
 
         return type.__new__(mcs, name, bases, dict)

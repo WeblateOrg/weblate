@@ -20,12 +20,10 @@
 
 from __future__ import unicode_literals
 
-from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import MiddlewareNotUsed
 from django.utils.timezone import now
 
-from weblate.trans.models import IndexUpdate
 from weblate.wladmin.models import ConfigurationError
 from weblate.wladmin.performance import run_index_queue, run_cache
 

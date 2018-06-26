@@ -183,7 +183,6 @@ class WeblateConf(AppConf):
         'Deleted translation using Weblate ({{ language_name }})\n\n'
     )
 
-
     # Billing
     INVOICE_PATH = ''
 
