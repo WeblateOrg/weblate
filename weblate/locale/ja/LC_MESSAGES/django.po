@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-06-26 20:06+0000\n"
-"PO-Revision-Date: 2018-06-16 23:36+0000\n"
+"PO-Revision-Date: 2018-06-26 22:38+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.0.1\n"
+"X-Generator: Weblate 3.1-dev\n"
 
 #: weblate/accounts/avatar.py:164
 msgctxt "No known user"
@@ -315,8 +315,6 @@ msgstr ""
 "に表示されるようになります。"
 
 #: weblate/accounts/models.py:311
-#, fuzzy
-#| msgid "Hide completed translations on dashboard"
 msgid "Hide completed translations on the dashboard"
 msgstr "ダッシュボードでは完了した翻訳を隠す"
 
@@ -395,16 +393,10 @@ msgid "Watched projects"
 msgstr "プロジェクトの監視"
 
 #: weblate/accounts/models.py:390
-#, fuzzy
-#| msgid ""
-#| "You can receive notifications for watched projects and they are shown on "
-#| "dashboard by default."
 msgid ""
 "You can receive notifications for watched projects and they are shown on the "
 "dashboard by default."
-msgstr ""
-"プロジェクトを監視することで通知を受け取ることができるほか、ダッシュボードに"
-"もデフォルトで表示されるようになります。"
+msgstr "プロジェクトを監視することで通知を受け取ることができるほか、ダッシュボードにもデフォルトで表示されるようになります。"
 
 #: weblate/accounts/models.py:397
 msgid "Notification on any translation"
@@ -435,18 +427,12 @@ msgid "Notification on new language request"
 msgstr "新しい言語リクエストの通知"
 
 #: weblate/accounts/models.py:475
-#, fuzzy
-#| msgid "Component list must be selected when used as default."
 msgid "Component list must be chosen when used as default."
-msgstr ""
-"コンポーネントリストをデフォルトとして使用した場合、これを選択しなければなり"
-"ません。"
+msgstr "コンポーネントリストをデフォルトとして使用した場合、これを選択しなければなりません。"
 
 #: weblate/accounts/models.py:481
-#, fuzzy
-#| msgid "Component list must not be selected when not used."
 msgid "Component list can not be chosen when unused."
-msgstr "コンポーネントリストを使用しない場合、これを選択してはなりません。"
+msgstr "コンポーネントリストを使用しない場合、これを選択することはできません。"
 
 #: weblate/accounts/models.py:536
 msgid ""
@@ -1320,14 +1306,8 @@ msgid "superuser status"
 msgstr "スーパーユーザの状態"
 
 #: weblate/auth/models.py:284
-#, fuzzy
-#| msgid ""
-#| "Designates that this user has all permissions without explicitly "
-#| "assigning them."
 msgid "User has all permissions without having been given them."
-msgstr ""
-"このユーザは、明示的に権限を与えなくても、全ての権限を持っているものとして扱"
-"われるユーザを意味します。"
+msgstr "このユーザは、明示的に権限を与えなくても、全ての権限を持っているものとして扱われるユーザを意味します。"
 
 #: weblate/auth/models.py:288
 msgid "active"
@@ -1335,7 +1315,7 @@ msgstr "有効"
 
 #: weblate/auth/models.py:290
 msgid "Mark user as inactive instead of removing."
-msgstr ""
+msgstr "ユーザを削除せず無効化することができます。"
 
 #: weblate/auth/models.py:292
 msgid "Date joined"
@@ -1346,23 +1326,15 @@ msgid "Groups"
 msgstr "グループ"
 
 #: weblate/auth/models.py:298
-#, fuzzy
-#| msgid ""
-#| "The groups this user belongs to. A user will get all permissions granted "
-#| "to each of their groups."
 msgid ""
 "The user is granted all permissions included in membership of these groups."
-msgstr ""
-"このユーザが所属するグループです。ユーザは、所属するグループに設定された全て"
-"の権限を持つものとして扱われます。"
+msgstr "ユーザは、所属するグループに設定された全ての権限を持つものとして扱われます。"
 
 #: weblate/auth/models.py:442
 msgid "Email regular expression"
 msgstr "電子メールの正規表現"
 
 #: weblate/auth/models.py:446
-#, fuzzy
-#| msgid "Regular expression which is used to match user email."
 msgid "Regular expression used to match user email."
 msgstr "ユーザの電子メールアドレスへのマッチングに使用する正規表現。"
 
@@ -2429,8 +2401,6 @@ msgid "Protected"
 msgstr "保護"
 
 #: weblate/templates/access_control_description.html:7
-#, fuzzy
-#| msgid "Publicly visible, only translatable for selected users"
 msgid "Publicly visible, only translatable for chosen users"
 msgstr "一般に開放し閲覧を許可するが、翻訳は指定したユーザのみに限定する"
 
@@ -2440,8 +2410,6 @@ msgid "Private"
 msgstr "プライベート"
 
 #: weblate/templates/access_control_description.html:9
-#, fuzzy
-#| msgid "Visible and translatable only for selected users"
 msgid "Visible and translatable only for chosen users"
 msgstr "指定したユーザのみに閲覧および翻訳を許可する"
 
@@ -3707,10 +3675,8 @@ msgid "Suggestions to improve translation are disabled."
 msgstr "翻訳の改善を行なうための提案機能は無効化されています。"
 
 #: weblate/templates/component_info.html:26
-#, fuzzy
-#| msgid "Only selected users can contribute."
 msgid "Only chosen users can contribute."
-msgstr "選ばれたユーザのみが貢献できます。"
+msgstr "指定されたユーザのみが貢献できます。"
 
 #: weblate/templates/component_info.html:28
 msgid "Any authenticated user can contribute."
@@ -4576,7 +4542,7 @@ msgstr[0] "翻訳されていない文字列が %(count)s 個あります。"
 #: weblate/templates/mail/remove.html:7 weblate/templates/mail/remove.txt:1
 #: weblate/templates/mail/reset.html:7 weblate/templates/mail/reset.txt:1
 msgid "Hi,"
-msgstr "お世話になっております,"
+msgstr "お世話になっております、"
 
 #: weblate/templates/mail/account_activity.html:11
 #: weblate/templates/mail/account_activity.txt:3
@@ -5001,14 +4967,12 @@ msgid "matrix"
 msgstr "マトリックス"
 
 #: weblate/templates/matrix.html:34
-#, fuzzy
-#| msgid "Used languages"
 msgid "Displayed languages"
-msgstr "利用中の言語数"
+msgstr "表示している言語数"
 
 #: weblate/templates/matrix.html:39
 msgid "Choose"
-msgstr ""
+msgstr "選択"
 
 #: weblate/templates/new-language.html:25
 msgid ""
@@ -6190,8 +6154,6 @@ msgid "Search filter"
 msgstr "検索フィルタ"
 
 #: weblate/trans/forms.py:631
-#, fuzzy
-#| msgid "Please select a valid filter type."
 msgid "Please choose a valid filter type."
 msgstr "正しいフィルタタイプを選択してください。"
 
@@ -6216,34 +6178,24 @@ msgid "Exact match"
 msgstr "完全一致"
 
 #: weblate/trans/forms.py:722
-#, fuzzy
-#| msgid "Please select a valid search type."
 msgid "Please choose a valid search type."
 msgstr "正しい検索タイプを選択してください。"
 
 #: weblate/trans/forms.py:731
-#, fuzzy
-#| msgid "Source strings"
 msgid "Target strings"
-msgstr "原文数"
+msgstr "翻訳済み文字列"
 
 #: weblate/trans/forms.py:736
-#, fuzzy
-#| msgid "Search in context strings"
 msgid "Context strings"
-msgstr "コンテキスト文字列を検索する"
+msgstr "コンテキスト文字列"
 
 #: weblate/trans/forms.py:741
-#, fuzzy
-#| msgid "Locations"
 msgid "Location strings"
-msgstr "場所"
+msgstr "場所文字列"
 
 #: weblate/trans/forms.py:746
-#, fuzzy
-#| msgid "Bad format string (%s)"
 msgid "Comment strings"
-msgstr "不正な書式です (%s)"
+msgstr "コメント文字列"
 
 #: weblate/trans/forms.py:753
 msgid "Show ignored checks as well"
@@ -6288,11 +6240,11 @@ msgstr "{filter_name}, {search_name}"
 
 #: weblate/trans/forms.py:868 weblate/trans/forms.py:870
 msgid "Could not find merged string."
-msgstr ""
+msgstr "マージされた文字列が見つかりません。"
 
 #: weblate/trans/forms.py:889
 msgid "Could not find reverted change."
-msgstr ""
+msgstr "巻き戻した変更が見つかりません。"
 
 #: weblate/trans/forms.py:900
 msgid "Automatic translation source"
@@ -6303,10 +6255,8 @@ msgid "Other translation components"
 msgstr "その他の翻訳コンポーネント"
 
 #: weblate/trans/forms.py:913
-#, fuzzy
-#| msgid "Machine translation engines to use"
 msgid "Machine translation engines"
-msgstr "使用する機械翻訳エンジン"
+msgstr "機械翻訳エンジン"
 
 #: weblate/trans/forms.py:918
 msgid "Score threshold"
@@ -6345,9 +6295,6 @@ msgid "Starting date"
 msgstr "開始日"
 
 #: weblate/trans/forms.py:1050
-#, fuzzy
-#| msgctxt "Select starting letter in glossary"
-#| msgid "Any"
 msgctxt "Choose starting letter in glossary"
 msgid "Any"
 msgstr "すべて"
@@ -6384,14 +6331,10 @@ msgid "Similar translation already exists in the project ({0})!"
 msgstr "類似の翻訳がプロジェクト ({0}) 内に既に存在しています！"
 
 #: weblate/trans/forms.py:1162
-#, fuzzy
-#| msgid "Please select"
 msgid "Please choose"
 msgstr "選択してください"
 
 #: weblate/trans/forms.py:1184
-#, fuzzy
-#| msgid "Strings with higher priority are offered first to translators."
 msgid "Higher priority strings are presented to translators earlier."
 msgstr "翻訳者に対しては、高い優先順位を設定した文字列を先に提示します。"
 
