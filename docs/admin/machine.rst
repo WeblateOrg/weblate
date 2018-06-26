@@ -41,6 +41,25 @@ To enable this service, add ``weblate.machinery.apertium.ApertiumAPYTranslation`
     :setting:`MT_APERTIUM_APY`, `Apertium website <https://www.apertium.org/>`_,
     `Apertium APy documentation <http://wiki.apertium.org/wiki/Apertium-apy>`_
 
+.. _aws:
+
+AWS
+---
+
+.. versionadded:: 3.1
+
+Amazon Translate is a neural machine translation service for translating text
+to and from English across a breadth of supported languages.
+
+To enable this service, add ``weblate.machinery.aws.AWSTranslation`` to
+:setting:`MT_SERVICES`, install the `boto3` module and set
+:setting:`MT_AWS_KEY`.
+
+.. seealso::
+
+    :setting:`MT_AWS_KEY`,
+    `Amazon Translate Documentation <https://aws.amazon.com/documentation/translate/>`_
+
 .. _deepl:
 
 DeepL

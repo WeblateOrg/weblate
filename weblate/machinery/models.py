@@ -32,6 +32,9 @@ class WeblateConf(AppConf):
     # URL of the Apertium APy server
     APERTIUM_APY = None
 
+    # AWS API key
+    AWS_KEY = None
+
     # Microsoft Translator service, register at
     # https://datamarket.azure.com/developer/applications/
     MICROSOFT_ID = None

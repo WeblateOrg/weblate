@@ -678,6 +678,17 @@ Not needed at all when running your own Apertium APy server.
 
    :ref:`apertium`, :ref:`machine-translation-setup`, :ref:`machine-translation`
 
+.. setting:: MT_AWS_KEY
+
+MT_AWS_KEY
+----------
+
+API key for Amazon Translate.
+
+.. seealso::
+
+    :ref:`aws`, :ref:`machine-translation-setup`, :ref:`machine-translation`
+
 .. setting:: MT_DEEPL_KEY
 
 MT_DEEPL_KEY
