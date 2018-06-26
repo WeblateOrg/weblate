@@ -28,6 +28,7 @@ from django.test import TestCase
 from django.urls import reverse
 from django.core.management import call_command
 from django.utils.encoding import force_text
+from django.utils.translation import activate
 
 from six import StringIO, PY2, with_metaclass
 
@@ -315,6 +316,9 @@ class TestSequenceMeta(type):
 
 
 class LanguagesTest(with_metaclass(TestSequenceMeta, BaseTestCase)):
+    def setUp(self):
+        # Ensure we're using English
+        activate('en')
 
     def run_create(self, original, expected, direction, plural, name, create):
         """Test that auto create correctly handles languages"""
