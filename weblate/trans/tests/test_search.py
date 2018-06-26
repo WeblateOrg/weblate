@@ -129,7 +129,7 @@ class SearchViewTest(ViewTestCase):
             reverse('search'),
             {'type': 'xxx'}
         )
-        self.assertContains(response, 'Please select a valid filter type.')
+        self.assertContains(response, 'Please choose a valid filter type.')
         self.do_search_url(reverse('search'))
 
     def test_pagination(self):
@@ -221,7 +221,7 @@ class SearchViewTest(ViewTestCase):
         # Wrong type
         self.do_search(
             {'q': 'Thank', 'search': 'xxxx'},
-            'Please select a valid search type.'
+            'Please choose a valid search type.'
         )
 
     def test_random(self):
@@ -349,7 +349,7 @@ class SearchViewTest(ViewTestCase):
     def test_search_errors(self):
         self.do_search(
             {'type': 'nonexisting-type'},
-            'Please select a valid filter type.',
+            'Please choose a valid filter type.',
         )
         self.do_search(
             {'date': 'nonexisting'},
