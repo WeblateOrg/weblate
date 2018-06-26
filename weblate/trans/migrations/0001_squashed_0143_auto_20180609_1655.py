@@ -34,7 +34,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('timestamp', models.DateTimeField(auto_now_add=True, db_index=True)),
-                ('action', models.IntegerField(choices=[(0, 'Resource update'), (1, 'Translation completed'), (2, 'Translation changed'), (5, 'New translation'), (3, 'Comment added'), (4, 'Suggestion added'), (6, 'Automatic translation'), (7, 'Suggestion accepted'), (8, 'Translation reverted'), (9, 'Translation uploaded'), (10, 'Glossary added'), (11, 'Glossary updated'), (12, 'Glossary uploaded'), (13, 'New source string')], default=2)),
+                ('action', models.IntegerField(choices=[(0, 'Resource update'), (1, 'Translation completed'), (2, 'Translation changed'), (5, 'New translation'), (3, 'Comment added'), (4, 'Suggestion added'), (6, 'Automatic translation'), (7, 'Suggestion accepted'), (8, 'Translation reverted'), (9, 'Translation uploaded'), (10, 'Glossary added'), (11, 'Glossary updated'), (12, 'Glossary uploaded'), (13, 'New source string'), (14, 'Component locked'), (15, 'Component unlocked'), (16, 'Detected duplicate string'), (17, 'Committed changes'), (18, 'Pushed changes'), (19, 'Reset repository'), (20, 'Merged repository'), (21, 'Rebased repository'), (22, 'Failed merge on repository'), (23, 'Failed rebase on repository'), (28, 'Failed push on repository'), (24, 'Parse error'), (25, 'Removed translation'), (26, 'Suggestion removed'), (27, 'Search and replace'), (29, 'Suggestion removed during cleanup'), (30, 'Source string changed'), (31, 'New string added'), (32, 'Mass state change'), (33, 'Changed visibility'), (34, 'Added user'), (35, 'Removed user')], default=2)),
                 ('target', models.TextField(blank=True, default='')),
                 ('author', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='author_set', to=settings.AUTH_USER_MODEL)),
             ],
@@ -58,13 +58,12 @@ class Migration(migrations.Migration):
             name='Dictionary',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('source', models.CharField(db_index=True, max_length=100)),
-                ('target', models.CharField(max_length=100)),
+                ('source', models.CharField(db_index=True, max_length=190)),
+                ('target', models.CharField(max_length=190)),
                 ('language', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='lang.Language')),
             ],
             options={
                 'ordering': ['source'],
-                'permissions': (('upload_dictionary', 'Can import dictionary'),),
             },
         ),
         migrations.CreateModel(
@@ -81,15 +80,17 @@ class Migration(migrations.Migration):
             name='Project',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(help_text='Name to display', max_length=100, unique=True, verbose_name='Project name')),
-                ('slug', models.SlugField(help_text='Name used in URLs and file names.', unique=True, verbose_name='URL slug')),
+                ('name', models.CharField(help_text='Name to display', max_length=60, unique=True, verbose_name='Project name')),
+                ('slug', models.SlugField(help_text='Name used in URLs and filenames.', max_length=60, unique=True, verbose_name='URL slug')),
                 ('web', models.URLField(help_text='Main website of translated project.', verbose_name='Project website')),
-                ('mail', models.EmailField(blank=True, help_text='Mailing list for translators.', max_length=75, verbose_name='Mailing list')),
+                ('mail', models.EmailField(blank=True, help_text='Mailing list for translators.', max_length=254, verbose_name='Mailing list')),
                 ('instructions', models.URLField(blank=True, help_text='URL with instructions for translators.', verbose_name='Translation instructions')),
-                ('set_translation_team', models.BooleanField(default=True, help_text='Whether the Translation-Team in file headers should be updated by Weblate.', verbose_name='Set Translation-Team header')),
+                ('set_translation_team', models.BooleanField(default=True, help_text='Whether the "Translation-Team" field in file headers should be updated by Weblate.', verbose_name='Set "Translation-Team" header')),
             ],
             options={
                 'ordering': ['name'],
+                'verbose_name': 'Project',
+                'verbose_name_plural': 'Projects',
             },
             bases=(models.Model, weblate.trans.mixins.URLMixin, weblate.trans.mixins.PathMixin),
         ),
@@ -101,27 +102,27 @@ class Migration(migrations.Migration):
                 ('priority', models.IntegerField(choices=[(60, 'Very high'), (80, 'High'), (100, 'Medium'), (120, 'Low'), (140, 'Very low')], default=100)),
             ],
             options={
-                'permissions': (('edit_priority', 'Can edit priority'),),
+                'ordering': ('id',),
             },
         ),
         migrations.CreateModel(
             name='Component',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(help_text='Name to display', max_length=100, verbose_name='Subproject name')),
-                ('slug', models.SlugField(help_text='Name used in URLs and file names.', verbose_name='URL slug')),
-                ('repo', models.CharField(help_text='URL of Git repository, use weblate://project/subproject for sharing with other subproject.', max_length=200, verbose_name='Git repository')),
-                ('push', models.CharField(blank=True, help_text='URL of push Git repository, pushing is disabled if empty.', max_length=200, verbose_name='Git push URL')),
+                ('name', models.CharField(help_text='Name to display', max_length=100, verbose_name='Component name')),
+                ('slug', models.SlugField(help_text='Name used in URLs and file names.', max_length=100, verbose_name='URL slug')),
+                ('repo', models.CharField(help_text='URL of a repository, use weblate://project/component for sharing with other component.', max_length=200, verbose_name='Source code repository')),
+                ('push', models.CharField(blank=True, help_text='URL of a push repository, pushing is disabled if empty.', max_length=200, verbose_name='Repository push URL')),
                 ('repoweb', models.URLField(blank=True, help_text='Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s as filename and line placeholders.', validators=[weblate.utils.validators.validate_repoweb], verbose_name='Repository browser')),
-                ('git_export', models.CharField(blank=True, help_text='URL of Git repository where users can fetch changes from Weblate', max_length=200, verbose_name='Exported Git URL')),
-                ('report_source_bugs', models.EmailField(blank=True, help_text='Email address where errors in source string will be reported, keep empty for no emails.', max_length=75, verbose_name='Source string bug report address')),
-                ('branch', models.CharField(default='master', help_text='Git branch to translate', max_length=50, verbose_name='Git branch')),
-                ('filemask', models.CharField(help_text='Path of files to translate, use * instead of language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po.', max_length=200, validators=[weblate.trans.validators.validate_filemask], verbose_name='File mask')),
+                ('git_export', models.CharField(blank=True, help_text='URL of a repository where users can fetch changes from Weblate', max_length=200, verbose_name='Exported repository URL')),
+                ('report_source_bugs', models.EmailField(blank=True, help_text='Email address where errors in source string will be reported, keep empty for no emails.', max_length=254, verbose_name='Source string bug report address')),
+                ('branch', models.CharField(blank=True, default='', help_text='Repository branch to translate', max_length=50, verbose_name='Repository branch')),
+                ('filemask', models.CharField(help_text='Path of files to translate relative to repository root, use * instead of language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po.', max_length=200, validators=[weblate.trans.validators.validate_filemask], verbose_name='File mask')),
                 ('template', models.CharField(blank=True, help_text='Filename of translations base file, which contains all strings and their source; this is recommended to use for monolingual translation formats.', max_length=200, verbose_name='Monolingual base language file')),
                 ('new_base', models.CharField(blank=True, help_text='Filename of file used for creating new translations. For gettext choose .pot file.', max_length=200, verbose_name='Base file for new translations')),
-                ('file_format', models.CharField(choices=[('aresource', 'Android String Resource'), ('auto', 'Automatic detection'), ('json', 'JSON file'), ('php', 'PHP strings'), ('po', 'Gettext PO file'), ('po-mono', 'Gettext PO file (monolingual)'), ('properties', 'Java Properties'), ('properties-utf8', 'Java Properties (UTF-8)'), ('strings', 'OS X Strings'), ('strings-utf8', 'OS X Strings (UTF-8)'), ('ts', 'Qt Linguist Translation File'), ('xliff', 'XLIFF Translation File')], default='auto', help_text='Automatic detection might fail for some formats and is slightly slower.', max_length=50, verbose_name='File format')),
-                ('locked', models.BooleanField(default=False, help_text='Whether subproject is locked for translation updates.', verbose_name='Locked')),
-                ('allow_translation_propagation', models.BooleanField(default=True, help_text='Whether translation updates in other subproject will cause automatic translation in this project', verbose_name='Allow translation propagation')),
+                ('file_format', models.CharField(choices=FILE_FORMATS.get_choices(), default='auto', help_text='Automatic detection might fail for some formats and is slightly slower.', max_length=50, verbose_name='File format')),
+                ('locked', models.BooleanField(default=False, help_text='Whether component is locked for translation updates.', verbose_name='Locked')),
+                ('allow_translation_propagation', models.BooleanField(db_index=True, default=settings.DEFAULT_TRANSLATION_PROPAGATION, help_text='Whether translation updates in other components will cause automatic translation in this one', verbose_name='Allow translation propagation')),
                 ('save_history', models.BooleanField(default=True, help_text='Whether Weblate should keep history of translations', verbose_name='Save translation history')),
                 ('enable_suggestions', models.BooleanField(default=True, help_text='Whether to allow translation suggestions at all.', verbose_name='Enable suggestions')),
                 ('suggestion_voting', models.BooleanField(default=False, help_text='Whether users can vote for suggestions.', verbose_name='Suggestion voting')),
@@ -130,8 +131,9 @@ class Migration(migrations.Migration):
                 ('project', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='trans.Project', verbose_name='Project')),
             ],
             options={
-                'ordering': ['project__name', 'name'],
-                'permissions': (('lock_subproject', 'Can lock translation for translating'), ('can_see_git_repository', 'Can see git repository URL')),
+                'ordering': ['priority', 'project__name', 'name'],
+                'verbose_name': 'Component',
+                'verbose_name_plural': 'Components',
             },
             bases=(models.Model, weblate.trans.mixins.URLMixin, weblate.trans.mixins.PathMixin),
         ),
@@ -145,7 +147,7 @@ class Migration(migrations.Migration):
                 ('user', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
             options={
-                'permissions': (('accept_suggestion', 'Can accept suggestion'), ('override_suggestion', 'Can override suggestion state'), ('vote_suggestion', 'Can vote for suggestion')),
+                'ordering': ['-timestamp'],
             },
         ),
         migrations.CreateModel(
@@ -154,14 +156,13 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('revision', models.CharField(blank=True, default='', max_length=100)),
                 ('filename', models.CharField(max_length=200)),
-                ('language_code', models.CharField(default='', max_length=20)),
+                ('language_code', models.CharField(blank=True, default='', max_length=20)),
                 ('commit_message', models.TextField(blank=True, default='')),
                 ('language', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='lang.Language')),
                 ('component', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='trans.Component')),
             ],
             options={
                 'ordering': ['language__name'],
-                'permissions': (('upload_translation', 'Can upload translation'), ('overwrite_translation', 'Can overwrite with translation upload'), ('author_translation', 'Can define author of translation upload'), ('commit_translation', 'Can force commiting of translation'), ('update_translation', 'Can update translation from'), ('push_translation', 'Can push translations to remote'), ('reset_translation', 'Can reset translations to match remote'), ('automatic_translation', 'Can do automatic translation'), ('lock_translation', 'Can lock whole translation project'), ('use_mt', 'Can use machine translation')),
             },
             bases=(models.Model, weblate.trans.mixins.URLMixin),
         ),
@@ -176,21 +177,20 @@ class Migration(migrations.Migration):
                 ('source', models.TextField()),
                 ('previous_source', models.TextField(blank=True, default='')),
                 ('target', models.TextField(blank=True, default='')),
-                ('position', models.IntegerField(db_index=True)),
+                ('position', models.IntegerField()),
                 ('has_suggestion', models.BooleanField(db_index=True, default=False)),
                 ('has_comment', models.BooleanField(db_index=True, default=False)),
                 ('has_failing_check', models.BooleanField(db_index=True, default=False)),
                 ('num_words', models.IntegerField(default=0)),
-                ('priority', models.IntegerField(db_index=True, default=100)),
+                ('priority', models.IntegerField(default=100)),
                 ('translation', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='trans.Translation')),
                 ('content_hash', models.BigIntegerField(db_index=True)),
-                ('id_hash', models.BigIntegerField(db_index=True, default=0)),
-                ('pending', models.BooleanField(db_index=True, default=False)),
+                ('id_hash', models.BigIntegerField()),
+                ('pending', models.BooleanField(default=False)),
                 ('state', models.IntegerField(choices=[(0, 'Empty'), (10, 'Needs editing'), (20, 'Translated'), (30, 'Approved')], db_index=True, default=0)),
             ],
             options={
                 'ordering': ['priority', 'position'],
-                'permissions': (('save_translation', 'Can save translation'), ('save_template', 'Can save template')),
             },
         ),
         migrations.CreateModel(
@@ -206,8 +206,8 @@ class Migration(migrations.Migration):
             name='WhiteboardMessage',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('message', models.TextField(blank=True)),
-                ('language', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='lang.Language')),
+                ('message', models.TextField(verbose_name='Message')),
+                ('language', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='lang.Language', verbose_name='Language')),
             ],
             options={
                 'verbose_name': 'Whiteboard message',
@@ -222,16 +222,6 @@ class Migration(migrations.Migration):
             model_name='suggestion',
             name='votes',
             field=models.ManyToManyField(related_name='user_votes', through='trans.Vote', to=settings.AUTH_USER_MODEL),
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='allow_translation_propagation',
-            field=models.BooleanField(default=True, help_text='Whether translation updates in other resources will cause automatic translation in this one', verbose_name='Allow translation propagation'),
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='locked',
-            field=models.BooleanField(default=False, help_text='Whether resource is locked for translation updates.', verbose_name='Locked'),
         ),
         migrations.AlterUniqueTogether(
             name='component',
@@ -287,25 +277,15 @@ class Migration(migrations.Migration):
             name='enable_hooks',
             field=models.BooleanField(default=True, help_text='Whether to allow updating this repository by remote hooks.', verbose_name='Enable hooks'),
         ),
-        migrations.AlterField(
-            model_name='component',
-            name='name',
-            field=models.CharField(help_text='Name to display', max_length=100, verbose_name='Resource name'),
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='repo',
-            field=models.CharField(help_text='URL of Git repository, use weblate://project/resource for sharing with other resource.', max_length=200, verbose_name='Source code repository'),
-        ),
         migrations.AddField(
             model_name='component',
             name='commit_message',
-            field=models.TextField(default='Translated using Weblate (%(language_name)s)\n\nCurrently translated at %(translated_percent)s%% (%(translated)s of %(total)s strings)', help_text='You can use format strings for various information, please check documentation for more details.', validators=[weblate.utils.validators.validate_render], verbose_name='Commit message'),
+            field=models.TextField(default=settings.DEFAULT_COMMIT_MESSAGE, help_text='You can use template language for various information, please check documentation for more details.', validators=[weblate.utils.validators.validate_render], verbose_name='Commit message when translating'),
         ),
         migrations.AddField(
             model_name='component',
             name='committer_email',
-            field=models.EmailField(default='noreply@weblate.org', max_length=75, verbose_name='Committer email'),
+            field=models.EmailField(default=settings.DEFAULT_COMMITER_EMAIL, max_length=254, verbose_name='Committer email'),
         ),
         migrations.AddField(
             model_name='component',
@@ -330,113 +310,17 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='component',
             name='new_lang',
-            field=models.CharField(choices=[('contact', 'Use contact form'), ('url', 'Point to translation instructions URL'), ('add', 'Automatically add language file'), ('none', 'No adding of language')], default='contact', help_text='How to handle requests for creating new languages.', max_length=10, verbose_name='New language'),
-        ),
-        migrations.AlterModelOptions(
-            name='project',
-            options={'ordering': ['name'], 'permissions': (('manage_acl', 'Can manage ACL rules for a project'),)},
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='name',
-            field=models.CharField(help_text='Name to display', max_length=100, verbose_name='Component name'),
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='allow_translation_propagation',
-            field=models.BooleanField(default=True, help_text='Whether translation updates in other components will cause automatic translation in this one', verbose_name='Allow translation propagation'),
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='branch',
-            field=models.CharField(default='master', help_text='Repository branch to translate', max_length=50, verbose_name='Repository branch'),
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='git_export',
-            field=models.CharField(blank=True, help_text='URL of a repository where users can fetch changes from Weblate', max_length=200, verbose_name='Exported repository URL'),
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='locked',
-            field=models.BooleanField(default=False, help_text='Whether component is locked for translation updates.', verbose_name='Locked'),
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='push',
-            field=models.CharField(blank=True, help_text='URL of a push repository, pushing is disabled if empty.', max_length=200, verbose_name='Repository push URL'),
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='repo',
-            field=models.CharField(help_text='URL of a repository, use weblate://project/component for sharing with other component.', max_length=200, verbose_name='Source code repository'),
+            field=models.CharField(choices=[('contact', 'Use contact form'), ('url', 'Point to translation instructions URL'), ('add', 'Automatically add language file'), ('none', 'No adding of language')], default='add', help_text='How to handle requests for creating new translations. Please note that availability of choices depends on the file format.', max_length=10, verbose_name='New translation'),
         ),
         migrations.AddField(
             model_name='component',
             name='vcs',
-            field=models.CharField(choices=[('git', 'Git'), ('mercurial', 'Mercurial')], default='git', help_text='Version control system to use to access your repository with translations.', max_length=20, verbose_name='Version control system'),
-        ),
-        migrations.AlterModelOptions(
-            name='source',
-            options={'permissions': (('edit_priority', 'Can edit priority'), ('edit_flags', 'Can edit check flags'))},
-        ),
-        migrations.AlterModelOptions(
-            name='component',
-            options={'ordering': ['project__name', 'name'], 'permissions': (('lock_subproject', 'Can lock translation for translating'), ('can_see_git_repository', 'Can see VCS repository URL'))},
-        ),
-        migrations.AlterModelOptions(
-            name='translation',
-            options={'ordering': ['language__name'], 'permissions': (('upload_translation', 'Can upload translation'), ('overwrite_translation', 'Can overwrite with translation upload'), ('author_translation', 'Can define author of translation upload'), ('commit_translation', 'Can force commiting of translation'), ('update_translation', 'Can update translation from VCS'), ('push_translation', 'Can push translations to remote VCS'), ('reset_translation', 'Can reset translations to match remote VCS'), ('automatic_translation', 'Can do automatic translation'), ('lock_translation', 'Can lock whole translation project'), ('use_mt', 'Can use machine translation'))},
-        ),
-        migrations.AlterField(
-            model_name='project',
-            name='mail',
-            field=models.EmailField(blank=True, help_text='Mailing list for translators.', max_length=254, verbose_name='Mailing list'),
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='committer_email',
-            field=models.EmailField(default=settings.DEFAULT_COMMITER_EMAIL, max_length=254, verbose_name='Committer email'),
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='report_source_bugs',
-            field=models.EmailField(blank=True, help_text='Email address where errors in source string will be reported, keep empty for no emails.', max_length=254, verbose_name='Source string bug report address'),
-        ),
-        migrations.AlterField(
-            model_name='change',
-            name='action',
-            field=models.IntegerField(choices=[(0, 'Resource update'), (1, 'Translation completed'), (2, 'Translation changed'), (5, 'New translation'), (3, 'Comment added'), (4, 'Suggestion added'), (6, 'Automatic translation'), (7, 'Suggestion accepted'), (8, 'Translation reverted'), (9, 'Translation uploaded'), (10, 'Glossary added'), (11, 'Glossary updated'), (12, 'Glossary uploaded'), (13, 'New source string'), (14, 'Component locked'), (15, 'Component unlocked')], default=2),
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='vcs',
-            field=models.CharField(choices=[('git', 'Git'), ('gerrit', 'Gerrit'), ('mercurial', 'Mercurial')], default='git', help_text='Version control system to use to access your repository with translations.', max_length=20, verbose_name='Version control system'),
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='branch',
-            field=models.CharField(blank=True, default='', help_text='Repository branch to translate', max_length=50, verbose_name='Repository branch'),
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='file_format',
-            field=models.CharField(choices=[('aresource', 'Android String Resource'), ('auto', 'Automatic detection'), ('json', 'JSON file'), ('php', 'PHP strings'), ('po', 'Gettext PO file'), ('po-mono', 'Gettext PO file (monolingual)'), ('properties', 'Java Properties'), ('properties-utf8', 'Java Properties (UTF-8)'), ('resx', '.Net resource file'), ('strings', 'OS X Strings'), ('strings-utf8', 'OS X Strings (UTF-8)'), ('ts', 'Qt Linguist Translation File'), ('xliff', 'XLIFF Translation File')], default='auto', help_text='Automatic detection might fail for some formats and is slightly slower.', max_length=50, verbose_name='File format'),
+            field=models.CharField(choices=VCS_REGISTRY.get_choices(), default=settings.DEFAULT_VCS, help_text='Version control system to use to access your repository with translations.', max_length=20, verbose_name='Version control system'),
         ),
         migrations.AddField(
             model_name='component',
             name='edit_template',
             field=models.BooleanField(default=True, help_text='Whether users will be able to edit base file for monolingual translations.', verbose_name='Edit base file'),
-        ),
-        migrations.AlterField(
-            model_name='change',
-            name='action',
-            field=models.IntegerField(choices=[(0, 'Resource update'), (1, 'Translation completed'), (2, 'Translation changed'), (5, 'New translation'), (3, 'Comment added'), (4, 'Suggestion added'), (6, 'Automatic translation'), (7, 'Suggestion accepted'), (8, 'Translation reverted'), (9, 'Translation uploaded'), (10, 'Glossary added'), (11, 'Glossary updated'), (12, 'Glossary uploaded'), (13, 'New source string'), (14, 'Component locked'), (15, 'Component unlocked'), (16, 'Detected duplicate string'), (17, 'Committed changes'), (18, 'Pushed changes'), (19, 'Reset repository')], default=2),
-        ),
-        migrations.AlterField(
-            model_name='change',
-            name='action',
-            field=models.IntegerField(choices=[(0, 'Resource update'), (1, 'Translation completed'), (2, 'Translation changed'), (5, 'New translation'), (3, 'Comment added'), (4, 'Suggestion added'), (6, 'Automatic translation'), (7, 'Suggestion accepted'), (8, 'Translation reverted'), (9, 'Translation uploaded'), (10, 'Glossary added'), (11, 'Glossary updated'), (12, 'Glossary uploaded'), (13, 'New source string'), (14, 'Component locked'), (15, 'Component unlocked'), (16, 'Detected duplicate string'), (17, 'Committed changes'), (18, 'Pushed changes'), (19, 'Reset repository'), (20, 'Merged repository'), (21, 'Rebased repository'), (22, 'Failed merge on repository'), (23, 'Failed rebase on repository')], default=2),
         ),
         migrations.AddField(
             model_name='change',
@@ -448,81 +332,15 @@ class Migration(migrations.Migration):
             name='agreement',
             field=models.TextField(blank=True, default='', help_text='Agreement which needs to be approved before user can translate this component.', verbose_name='Contributor agreement'),
         ),
-        migrations.AlterModelOptions(
-            name='project',
-            options={'ordering': ['name'], 'permissions': (('manage_acl', 'Can manage ACL rules for a project'),), 'verbose_name': 'Project', 'verbose_name_plural': 'Projects'},
-        ),
-        migrations.AlterModelOptions(
-            name='component',
-            options={'ordering': ['project__name', 'name'], 'permissions': (('lock_subproject', 'Can lock translation for translating'), ('can_see_git_repository', 'Can see VCS repository URL')), 'verbose_name': 'Component', 'verbose_name_plural': 'Components'},
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='new_lang',
-            field=models.CharField(choices=[('contact', 'Use contact form'), ('url', 'Point to translation instructions URL'), ('add', 'Automatically add language file'), ('none', 'No adding of language')], default='contact', help_text='How to handle requests for creating new languages. Please note that availability of choices depends on the file format.', max_length=10, verbose_name='New language'),
-        ),
-        migrations.AlterField(
-            model_name='project',
-            name='slug',
-            field=models.SlugField(help_text='Name used in URLs and file names.', max_length=100, unique=True, verbose_name='URL slug'),
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='slug',
-            field=models.SlugField(help_text='Name used in URLs and file names.', max_length=100, verbose_name='URL slug'),
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='allow_translation_propagation',
-            field=models.BooleanField(db_index=True, default=settings.DEFAULT_TRANSLATION_PROPAGATION, help_text='Whether translation updates in other components will cause automatic translation in this one', verbose_name='Allow translation propagation'),
-        ),
         migrations.AddField(
             model_name='component',
             name='language_regex',
             field=weblate.trans.fields.RegexField(default='^[^.]+$', help_text='Regular expression which is used to filter translation when scanning for file mask.', max_length=200, verbose_name='Language filter'),
         ),
-        migrations.AlterField(
-            model_name='component',
-            name='file_format',
-            field=models.CharField(choices=[('aresource', 'Android String Resource'), ('auto', 'Automatic detection'), ('csv', 'CSV file'), ('json', 'JSON file'), ('php', 'PHP strings'), ('po', 'Gettext PO file'), ('po-mono', 'Gettext PO file (monolingual)'), ('properties', 'Java Properties'), ('properties-utf8', 'Java Properties (UTF-8)'), ('resx', '.Net resource file'), ('strings', 'OS X Strings'), ('strings-utf8', 'OS X Strings (UTF-8)'), ('ts', 'Qt Linguist Translation File'), ('xliff', 'XLIFF Translation File')], default='auto', help_text='Automatic detection might fail for some formats and is slightly slower.', max_length=50, verbose_name='File format'),
-        ),
-        migrations.AlterModelOptions(
-            name='change',
-            options={'ordering': ['-timestamp'], 'permissions': (('download_changes', 'Can download changes'),)},
-        ),
-        migrations.AlterModelOptions(
-            name='component',
-            options={'ordering': ['project__name', 'name'], 'permissions': (('lock_subproject', 'Can lock translation for translating'), ('can_see_git_repository', 'Can see VCS repository URL'), ('view_reports', 'Can display reports')), 'verbose_name': 'Component', 'verbose_name_plural': 'Components'},
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='file_format',
-            field=models.CharField(choices=[('aresource', 'Android String Resource'), ('auto', 'Automatic detection'), ('csv', 'CSV file'), ('json', 'JSON file'), ('php', 'PHP strings'), ('po', 'Gettext PO file'), ('po-mono', 'Gettext PO file (monolingual)'), ('properties', 'Java Properties (ISO-8859-1)'), ('properties-utf16', 'Java Properties (UTF-16)'), ('properties-utf8', 'Java Properties (UTF-8)'), ('resx', '.Net resource file'), ('strings', 'OS X Strings'), ('strings-utf8', 'OS X Strings (UTF-8)'), ('ts', 'Qt Linguist Translation File'), ('xliff', 'XLIFF Translation File')], default='auto', help_text='Automatic detection might fail for some formats and is slightly slower.', max_length=50, verbose_name='File format'),
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='new_lang',
-            field=models.CharField(choices=[('contact', 'Use contact form'), ('url', 'Point to translation instructions URL'), ('add', 'Automatically add language file'), ('none', 'No adding of language')], default='contact', help_text='How to handle requests for creating new translations. Please note that availability of choices depends on the file format.', max_length=10, verbose_name='New translation'),
-        ),
-        migrations.AlterField(
-            model_name='translation',
-            name='language_code',
-            field=models.CharField(blank=True, default='', max_length=20),
-        ),
         migrations.AddField(
             model_name='project',
             name='source_language',
             field=models.ForeignKey(default=weblate.lang.models.get_english_lang, help_text='Language used for source strings in all components', on_delete=django.db.models.deletion.CASCADE, to='lang.Language', verbose_name='Source language'),
-        ),
-        migrations.AlterField(
-            model_name='dictionary',
-            name='source',
-            field=models.CharField(db_index=True, max_length=190),
-        ),
-        migrations.AlterField(
-            model_name='dictionary',
-            name='target',
-            field=models.CharField(max_length=190),
         ),
         migrations.AddField(
             model_name='whiteboardmessage',
@@ -533,21 +351,6 @@ class Migration(migrations.Migration):
             model_name='whiteboardmessage',
             name='component',
             field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='trans.Component', verbose_name='Component'),
-        ),
-        migrations.AlterField(
-            model_name='whiteboardmessage',
-            name='message',
-            field=models.TextField(verbose_name='Message'),
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='file_format',
-            field=models.CharField(choices=[('aresource', 'Android String Resource'), ('auto', 'Automatic detection'), ('csv', 'CSV file'), ('csv-simple', 'Simple CSV file'), ('csv-simple-iso', 'Simple CSV file (ISO-8859-1)'), ('json', 'JSON file'), ('php', 'PHP strings'), ('po', 'Gettext PO file'), ('po-mono', 'Gettext PO file (monolingual)'), ('properties', 'Java Properties (ISO-8859-1)'), ('properties-utf16', 'Java Properties (UTF-16)'), ('properties-utf8', 'Java Properties (UTF-8)'), ('resx', '.Net resource file'), ('strings', 'OS X Strings'), ('strings-utf8', 'OS X Strings (UTF-8)'), ('ts', 'Qt Linguist Translation File'), ('xliff', 'XLIFF Translation File')], default='auto', help_text='Automatic detection might fail for some formats and is slightly slower.', max_length=50, verbose_name='File format'),
-        ),
-        migrations.AlterField(
-            model_name='whiteboardmessage',
-            name='language',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='lang.Language', verbose_name='Language'),
         ),
         migrations.CreateModel(
             name='ComponentList',
@@ -560,21 +363,8 @@ class Migration(migrations.Migration):
             options={
                 'verbose_name': 'Component list',
                 'verbose_name_plural': 'Component lists',
+                'ordering': ['name'],
             },
-        ),
-        migrations.AlterField(
-            model_name='change',
-            name='action',
-            field=models.IntegerField(choices=[(0, 'Resource update'), (1, 'Translation completed'), (2, 'Translation changed'), (5, 'New translation'), (3, 'Comment added'), (4, 'Suggestion added'), (6, 'Automatic translation'), (7, 'Suggestion accepted'), (8, 'Translation reverted'), (9, 'Translation uploaded'), (10, 'Glossary added'), (11, 'Glossary updated'), (12, 'Glossary uploaded'), (13, 'New source string'), (14, 'Component locked'), (15, 'Component unlocked'), (16, 'Detected duplicate string'), (17, 'Committed changes'), (18, 'Pushed changes'), (19, 'Reset repository'), (20, 'Merged repository'), (21, 'Rebased repository'), (22, 'Failed merge on repository'), (23, 'Failed rebase on repository'), (24, 'Parse error')], default=2),
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='new_lang',
-            field=models.CharField(choices=[('contact', 'Use contact form'), ('url', 'Point to translation instructions URL'), ('add', 'Automatically add language file'), ('none', 'No adding of language')], default='add', help_text='How to handle requests for creating new translations. Please note that availability of choices depends on the file format.', max_length=10, verbose_name='New translation'),
-        ),
-        migrations.AlterUniqueTogether(
-            name='translation',
-            unique_together=set([('component', 'language')]),
         ),
         migrations.AlterUniqueTogether(
             name='unit',
@@ -588,60 +378,17 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='component',
             name='add_message',
-            field=models.TextField(default='Added translation using Weblate (%(language_name)s)\n\n', help_text='You can use format strings for various information, please check documentation for more details.', validators=[weblate.utils.validators.validate_render], verbose_name='Commit message when adding translation'),
+            field=models.TextField(default=settings.DEFAULT_ADD_MESSAGE, help_text='You can use template language for various information, please check documentation for more details.', validators=[weblate.utils.validators.validate_render], verbose_name='Commit message when adding translation'),
         ),
         migrations.AddField(
             model_name='component',
             name='delete_message',
-            field=models.TextField(default='Deleted translation using Weblate (%(language_name)s)\n\n', help_text='You can use format strings for various information, please check documentation for more details.', validators=[weblate.utils.validators.validate_render], verbose_name='Commit message when removing translation'),
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='commit_message',
-            field=models.TextField(default='Translated using Weblate (%(language_name)s)\n\nCurrently translated at %(translated_percent)s%% (%(translated)s of %(total)s strings)', help_text='You can use format strings for various information, please check documentation for more details.', validators=[weblate.utils.validators.validate_render], verbose_name='Commit message when translating'),
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='vcs',
-            field=models.CharField(choices=VCS_REGISTRY.get_choices(), default=settings.DEFAULT_VCS, help_text='Version control system to use to access your repository with translations.', max_length=20, verbose_name='Version control system'),
-        ),
-        migrations.AlterField(
-            model_name='change',
-            name='action',
-            field=models.IntegerField(choices=[(0, 'Resource update'), (1, 'Translation completed'), (2, 'Translation changed'), (5, 'New translation'), (3, 'Comment added'), (4, 'Suggestion added'), (6, 'Automatic translation'), (7, 'Suggestion accepted'), (8, 'Translation reverted'), (9, 'Translation uploaded'), (10, 'Glossary added'), (11, 'Glossary updated'), (12, 'Glossary uploaded'), (13, 'New source string'), (14, 'Component locked'), (15, 'Component unlocked'), (16, 'Detected duplicate string'), (17, 'Committed changes'), (18, 'Pushed changes'), (19, 'Reset repository'), (20, 'Merged repository'), (21, 'Rebased repository'), (22, 'Failed merge on repository'), (23, 'Failed rebase on repository'), (24, 'Parse error'), (25, 'Removed translation')], default=2),
-        ),
-        migrations.AlterField(
-            model_name='change',
-            name='action',
-            field=models.IntegerField(choices=[(0, 'Resource update'), (1, 'Translation completed'), (2, 'Translation changed'), (5, 'New translation'), (3, 'Comment added'), (4, 'Suggestion added'), (6, 'Automatic translation'), (7, 'Suggestion accepted'), (8, 'Translation reverted'), (9, 'Translation uploaded'), (10, 'Glossary added'), (11, 'Glossary updated'), (12, 'Glossary uploaded'), (13, 'New source string'), (14, 'Component locked'), (15, 'Component unlocked'), (16, 'Detected duplicate string'), (17, 'Committed changes'), (18, 'Pushed changes'), (19, 'Reset repository'), (20, 'Merged repository'), (21, 'Rebased repository'), (22, 'Failed merge on repository'), (23, 'Failed rebase on repository'), (24, 'Parse error'), (25, 'Removed translation'), (26, 'Suggestion removed')], default=2),
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='file_format',
-            field=models.CharField(choices=[('aresource', 'Android String Resource'), ('auto', 'Automatic detection'), ('csv', 'CSV file'), ('csv-simple', 'Simple CSV file'), ('csv-simple-iso', 'Simple CSV file (ISO-8859-1)'), ('json', 'JSON file'), ('php', 'PHP strings'), ('po', 'Gettext PO file'), ('po-mono', 'Gettext PO file (monolingual)'), ('properties', 'Java Properties (ISO-8859-1)'), ('properties-utf16', 'Java Properties (UTF-16)'), ('properties-utf8', 'Java Properties (UTF-8)'), ('resx', '.Net resource file'), ('ruby-yaml', 'Ruby YAML file'), ('strings', 'OS X Strings'), ('strings-utf8', 'OS X Strings (UTF-8)'), ('ts', 'Qt Linguist Translation File'), ('xliff', 'XLIFF Translation File'), ('yaml', 'YAML file')], default='auto', help_text='Automatic detection might fail for some formats and is slightly slower.', max_length=50, verbose_name='File format'),
-        ),
-        migrations.AlterField(
-            model_name='change',
-            name='action',
-            field=models.IntegerField(choices=[(0, 'Resource update'), (1, 'Translation completed'), (2, 'Translation changed'), (5, 'New translation'), (3, 'Comment added'), (4, 'Suggestion added'), (6, 'Automatic translation'), (7, 'Suggestion accepted'), (8, 'Translation reverted'), (9, 'Translation uploaded'), (10, 'Glossary added'), (11, 'Glossary updated'), (12, 'Glossary uploaded'), (13, 'New source string'), (14, 'Component locked'), (15, 'Component unlocked'), (16, 'Detected duplicate string'), (17, 'Committed changes'), (18, 'Pushed changes'), (19, 'Reset repository'), (20, 'Merged repository'), (21, 'Rebased repository'), (22, 'Failed merge on repository'), (23, 'Failed rebase on repository'), (24, 'Parse error'), (25, 'Removed translation'), (26, 'Suggestion removed'), (27, 'Search and replace')], default=2),
-        ),
-        migrations.AlterModelOptions(
-            name='source',
-            options={'permissions': (('edit_priority', 'Can edit priority'), ('edit_flags', 'Can edit check flags'), ('upload_screenshot', 'Can upload screenshot'))},
-        ),
-        migrations.AlterModelOptions(
-            name='component',
-            options={'ordering': ['priority', 'project__name', 'name'], 'permissions': (('lock_subproject', 'Can lock translation for translating'), ('can_see_git_repository', 'Can see VCS repository URL'), ('view_reports', 'Can display reports')), 'verbose_name': 'Component', 'verbose_name_plural': 'Components'},
+            field=models.TextField(default=settings.DEFAULT_DELETE_MESSAGE, help_text='You can use template language for various information, please check documentation for more details.', validators=[weblate.utils.validators.validate_render], verbose_name='Commit message when removing translation'),
         ),
         migrations.AddField(
             model_name='component',
             name='priority',
             field=models.IntegerField(choices=[(60, 'Very high'), (80, 'High'), (100, 'Medium'), (120, 'Low'), (140, 'Very low')], default=100, help_text='Components with higher priority are offered first to translators.', verbose_name='Priority'),
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='filemask',
-            field=models.CharField(help_text='Path of files to translate relative to repository root, use * instead of language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po.', max_length=200, validators=[weblate.trans.validators.validate_filemask], verbose_name='File mask'),
         ),
         migrations.AddField(
             model_name='comment',
@@ -651,41 +398,14 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='suggestion',
             name='content_hash',
-            field=models.BigIntegerField(db_index=True, default=0),
+            field=models.BigIntegerField(),
             preserve_default=False,
         ),
         migrations.AddField(
             model_name='source',
             name='id_hash',
-            field=models.BigIntegerField(db_index=True, default=0),
+            field=models.BigIntegerField(),
             preserve_default=False,
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='file_format',
-            field=models.CharField(choices=[('aresource', 'Android String Resource'), ('auto', 'Automatic detection'), ('csv', 'CSV file'), ('csv-simple', 'Simple CSV file'), ('csv-simple-iso', 'Simple CSV file (ISO-8859-1)'), ('json', 'JSON file'), ('php', 'PHP strings'), ('po', 'Gettext PO file'), ('po-mono', 'Gettext PO file (monolingual)'), ('poxliff', 'XLIFF Translation File with PO extensions'), ('properties', 'Java Properties (ISO-8859-1)'), ('properties-utf16', 'Java Properties (UTF-16)'), ('properties-utf8', 'Java Properties (UTF-8)'), ('resx', '.Net resource file'), ('ruby-yaml', 'Ruby YAML file'), ('strings', 'OS X Strings'), ('strings-utf8', 'OS X Strings (UTF-8)'), ('ts', 'Qt Linguist Translation File'), ('xliff', 'XLIFF Translation File'), ('yaml', 'YAML file')], default='auto', help_text='Automatic detection might fail for some formats and is slightly slower.', max_length=50, verbose_name='File format'),
-        ),
-        migrations.AlterUniqueTogether(
-            name='source',
-            unique_together=set([('id_hash', 'component')]),
-        ),
-        migrations.AlterModelOptions(
-            name='source',
-            options={'permissions': (('edit_priority', 'Can edit priority'), ('edit_flags', 'Can edit check flags'))},
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='commit_message',
-            field=models.TextField(default='Translated using Weblate (%(language_name)s)\n\nCurrently translated at %(translated_percent)s%% (%(translated)s of %(total)s strings)\n\nTranslation: %(project)s/%(component)s\nTranslate-URL: %(url)s', help_text='You can use format strings for various information, please check documentation for more details.', validators=[weblate.utils.validators.validate_render], verbose_name='Commit message when translating'),
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='file_format',
-            field=models.CharField(choices=[('aresource', 'Android String Resource'), ('auto', 'Automatic detection'), ('csv', 'CSV file'), ('csv-simple', 'Simple CSV file'), ('csv-simple-iso', 'Simple CSV file (ISO-8859-1)'), ('joomla', 'Joomla Language File'), ('json', 'JSON file'), ('php', 'PHP strings'), ('po', 'Gettext PO file'), ('po-mono', 'Gettext PO file (monolingual)'), ('poxliff', 'XLIFF Translation File with PO extensions'), ('properties', 'Java Properties (ISO-8859-1)'), ('properties-utf16', 'Java Properties (UTF-16)'), ('properties-utf8', 'Java Properties (UTF-8)'), ('resx', '.Net resource file'), ('ruby-yaml', 'Ruby YAML file'), ('strings', 'OS X Strings'), ('strings-utf8', 'OS X Strings (UTF-8)'), ('ts', 'Qt Linguist Translation File'), ('xliff', 'XLIFF Translation File'), ('yaml', 'YAML file')], default='auto', help_text='Automatic detection might fail for some formats and is slightly slower.', max_length=50, verbose_name='File format'),
-        ),
-        migrations.AlterModelOptions(
-            name='component',
-            options={'ordering': ['priority', 'project__name', 'name'], 'permissions': (('lock_subproject', 'Can lock translation for translating'), ('can_see_git_repository', 'Can see VCS repository URL'), ('access_vcs', 'Can access VCS repository'), ('view_reports', 'Can display reports')), 'verbose_name': 'Component', 'verbose_name_plural': 'Components'},
         ),
         migrations.CreateModel(
             name='AutoComponentList',
@@ -705,38 +425,11 @@ class Migration(migrations.Migration):
             name='old',
             field=models.TextField(blank=True, default=''),
         ),
-        migrations.AlterModelOptions(
-            name='project',
-            options={'ordering': ['name'], 'permissions': (('manage_acl', 'Can manage ACL rules for a project'), ('access_project', 'Can access project')), 'verbose_name': 'Project', 'verbose_name_plural': 'Projects'},
-        ),
-        migrations.AlterModelOptions(
-            name='translation',
-            options={'ordering': ['language__name'], 'permissions': (('upload_translation', 'Can upload translation'), ('overwrite_translation', 'Can overwrite with translation upload'), ('author_translation', 'Can define author of translation upload'), ('commit_translation', 'Can force commiting of translation'), ('update_translation', 'Can update translation from VCS'), ('push_translation', 'Can push translations to remote VCS'), ('reset_translation', 'Can reset translations to match remote VCS'), ('mass_add_translation', 'Can mass add translation'), ('automatic_translation', 'Can do automatic translation'), ('lock_translation', 'Can lock whole translation project'), ('use_mt', 'Can use machine translation'))},
-        ),
         migrations.AddField(
             model_name='suggestion',
             name='timestamp',
             field=models.DateTimeField(auto_now_add=True, default=django.utils.timezone.now),
             preserve_default=False,
-        ),
-        migrations.AlterModelOptions(
-            name='source',
-            options={'ordering': ('id',), 'permissions': (('edit_priority', 'Can edit priority'), ('edit_flags', 'Can edit check flags'))},
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='file_format',
-            field=models.CharField(choices=[('aresource', 'Android String Resource'), ('auto', 'Automatic detection'), ('csv', 'CSV file'), ('csv-simple', 'Simple CSV file'), ('csv-simple-iso', 'Simple CSV file (ISO-8859-1)'), ('joomla', 'Joomla Language File'), ('json', 'JSON file'), ('json-nested', 'JSON nested structure file'), ('php', 'PHP strings'), ('po', 'Gettext PO file'), ('po-mono', 'Gettext PO file (monolingual)'), ('poxliff', 'XLIFF Translation File with PO extensions'), ('properties', 'Java Properties (ISO-8859-1)'), ('properties-utf16', 'Java Properties (UTF-16)'), ('properties-utf8', 'Java Properties (UTF-8)'), ('resx', '.Net resource file'), ('ruby-yaml', 'Ruby YAML file'), ('strings', 'OS X Strings'), ('strings-utf8', 'OS X Strings (UTF-8)'), ('ts', 'Qt Linguist Translation File'), ('xliff', 'XLIFF Translation File'), ('yaml', 'YAML file')], default='auto', help_text='Automatic detection might fail for some formats and is slightly slower.', max_length=50, verbose_name='File format'),
-        ),
-        migrations.AlterField(
-            model_name='project',
-            name='name',
-            field=models.CharField(help_text='Name to display', max_length=60, unique=True, verbose_name='Project name'),
-        ),
-        migrations.AlterField(
-            model_name='project',
-            name='slug',
-            field=models.SlugField(help_text='Name used in URLs and file names.', max_length=60, unique=True, verbose_name='URL slug'),
         ),
         migrations.AddField(
             model_name='component',
@@ -748,117 +441,20 @@ class Migration(migrations.Migration):
             name='push_on_commit',
             field=models.BooleanField(default=settings.DEFAULT_PUSH_ON_COMMIT, help_text='Whether the repository should be pushed upstream on every commit.', verbose_name='Push on commit'),
         ),
-        migrations.AlterField(
-            model_name='component',
-            name='file_format',
-            field=models.CharField(choices=[('aresource', 'Android String Resource'), ('auto', 'Automatic detection'), ('csv', 'CSV file'), ('csv-simple', 'Simple CSV file'), ('csv-simple-iso', 'Simple CSV file (ISO-8859-1)'), ('joomla', 'Joomla Language File'), ('json', 'JSON file'), ('json-nested', 'JSON nested structure file'), ('php', 'PHP strings'), ('po', 'Gettext PO file'), ('po-mono', 'Gettext PO file (monolingual)'), ('poxliff', 'XLIFF Translation File with PO extensions'), ('properties', 'Java Properties (ISO-8859-1)'), ('properties-utf16', 'Java Properties (UTF-16)'), ('properties-utf8', 'Java Properties (UTF-8)'), ('resx', '.Net resource file'), ('ruby-yaml', 'Ruby YAML file'), ('strings', 'OS X Strings'), ('strings-utf8', 'OS X Strings (UTF-8)'), ('ts', 'Qt Linguist Translation File'), ('webextension', 'WebExtension JSON file'), ('xliff', 'XLIFF Translation File'), ('yaml', 'YAML file')], default='auto', help_text='Automatic detection might fail for some formats and is slightly slower.', max_length=50, verbose_name='File format'),
-        ),
-        migrations.AlterModelOptions(
-            name='suggestion',
-            options={'ordering': ['-timestamp'], 'permissions': (('accept_suggestion', 'Can accept suggestion'), ('override_suggestion', 'Can override suggestion state'), ('vote_suggestion', 'Can vote for suggestion'))},
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='file_format',
-            field=models.CharField(choices=[('aresource', 'Android String Resource'), ('auto', 'Automatic detection'), ('csv', 'CSV file'), ('csv-simple', 'Simple CSV file'), ('csv-simple-iso', 'Simple CSV file (ISO-8859-1)'), ('i18next', 'i18next JSON file'), ('joomla', 'Joomla Language File'), ('json', 'JSON file'), ('json-nested', 'JSON nested structure file'), ('php', 'PHP strings'), ('po', 'Gettext PO file'), ('po-mono', 'Gettext PO file (monolingual)'), ('poxliff', 'XLIFF Translation File with PO extensions'), ('properties', 'Java Properties (ISO-8859-1)'), ('properties-utf16', 'Java Properties (UTF-16)'), ('properties-utf8', 'Java Properties (UTF-8)'), ('resx', '.Net resource file'), ('ruby-yaml', 'Ruby YAML file'), ('strings', 'OS X Strings'), ('strings-utf8', 'OS X Strings (UTF-8)'), ('ts', 'Qt Linguist Translation File'), ('webextension', 'WebExtension JSON file'), ('xliff', 'XLIFF Translation File'), ('yaml', 'YAML file')], default='auto', help_text='Automatic detection might fail for some formats and is slightly slower.', max_length=50, verbose_name='File format'),
-        ),
         migrations.AddField(
             model_name='project',
             name='access_control',
-            field=models.IntegerField(choices=[(0, 'Public'), (1, 'Protected'), (100, 'Private'), (200, 'Custom')], default=0, help_text='How to restrict access to this project, please check the documentation for more details.', verbose_name='Access control'),
-        ),
-        migrations.AlterField(
-            model_name='change',
-            name='action',
-            field=models.IntegerField(choices=[(0, 'Resource update'), (1, 'Translation completed'), (2, 'Translation changed'), (5, 'New translation'), (3, 'Comment added'), (4, 'Suggestion added'), (6, 'Automatic translation'), (7, 'Suggestion accepted'), (8, 'Translation reverted'), (9, 'Translation uploaded'), (10, 'Glossary added'), (11, 'Glossary updated'), (12, 'Glossary uploaded'), (13, 'New source string'), (14, 'Component locked'), (15, 'Component unlocked'), (16, 'Detected duplicate string'), (17, 'Committed changes'), (18, 'Pushed changes'), (19, 'Reset repository'), (20, 'Merged repository'), (21, 'Rebased repository'), (22, 'Failed merge on repository'), (23, 'Failed rebase on repository'), (28, 'Failed push on repository'), (24, 'Parse error'), (25, 'Removed translation'), (26, 'Suggestion removed'), (27, 'Search and replace')], default=2),
-        ),
-        migrations.AlterField(
-            model_name='change',
-            name='action',
-            field=models.IntegerField(choices=[(0, 'Resource update'), (1, 'Translation completed'), (2, 'Translation changed'), (5, 'New translation'), (3, 'Comment added'), (4, 'Suggestion added'), (6, 'Automatic translation'), (7, 'Suggestion accepted'), (8, 'Translation reverted'), (9, 'Translation uploaded'), (10, 'Glossary added'), (11, 'Glossary updated'), (12, 'Glossary uploaded'), (13, 'New source string'), (14, 'Component locked'), (15, 'Component unlocked'), (16, 'Detected duplicate string'), (17, 'Committed changes'), (18, 'Pushed changes'), (19, 'Reset repository'), (20, 'Merged repository'), (21, 'Rebased repository'), (22, 'Failed merge on repository'), (23, 'Failed rebase on repository'), (28, 'Failed push on repository'), (24, 'Parse error'), (25, 'Removed translation'), (26, 'Suggestion removed'), (27, 'Search and replace'), (29, 'Suggestion cleanup')], default=2),
-        ),
-        migrations.AlterField(
-            model_name='change',
-            name='action',
-            field=models.IntegerField(choices=[(0, 'Resource update'), (1, 'Translation completed'), (2, 'Translation changed'), (5, 'New translation'), (3, 'Comment added'), (4, 'Suggestion added'), (6, 'Automatic translation'), (7, 'Suggestion accepted'), (8, 'Translation reverted'), (9, 'Translation uploaded'), (10, 'Glossary added'), (11, 'Glossary updated'), (12, 'Glossary uploaded'), (13, 'New source string'), (14, 'Component locked'), (15, 'Component unlocked'), (16, 'Detected duplicate string'), (17, 'Committed changes'), (18, 'Pushed changes'), (19, 'Reset repository'), (20, 'Merged repository'), (21, 'Rebased repository'), (22, 'Failed merge on repository'), (23, 'Failed rebase on repository'), (28, 'Failed push on repository'), (24, 'Parse error'), (25, 'Removed translation'), (26, 'Suggestion removed'), (27, 'Search and replace'), (29, 'Suggestion cleanup'), (30, 'Source string changed')], default=2),
-        ),
-        migrations.AlterField(
-            model_name='change',
-            name='action',
-            field=models.IntegerField(choices=[(0, 'Resource update'), (1, 'Translation completed'), (2, 'Translation changed'), (5, 'New translation'), (3, 'Comment added'), (4, 'Suggestion added'), (6, 'Automatic translation'), (7, 'Suggestion accepted'), (8, 'Translation reverted'), (9, 'Translation uploaded'), (10, 'Glossary added'), (11, 'Glossary updated'), (12, 'Glossary uploaded'), (13, 'New source string'), (14, 'Component locked'), (15, 'Component unlocked'), (16, 'Detected duplicate string'), (17, 'Committed changes'), (18, 'Pushed changes'), (19, 'Reset repository'), (20, 'Merged repository'), (21, 'Rebased repository'), (22, 'Failed merge on repository'), (23, 'Failed rebase on repository'), (28, 'Failed push on repository'), (24, 'Parse error'), (25, 'Removed translation'), (26, 'Suggestion removed'), (27, 'Search and replace'), (29, 'Suggestion removed during cleanup'), (30, 'Source string changed')], default=2),
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='file_format',
-            field=models.CharField(choices=[('aresource', 'Android String Resource'), ('auto', 'Automatic detection'), ('csv', 'CSV file'), ('csv-simple', 'Simple CSV file'), ('csv-simple-iso', 'Simple CSV file (ISO-8859-1)'), ('dtd', 'DTD file'), ('i18next', 'i18next JSON file'), ('joomla', 'Joomla Language File'), ('json', 'JSON file'), ('json-nested', 'JSON nested structure file'), ('php', 'PHP strings'), ('po', 'Gettext PO file'), ('po-mono', 'Gettext PO file (monolingual)'), ('poxliff', 'XLIFF Translation File with PO extensions'), ('properties', 'Java Properties (ISO-8859-1)'), ('properties-utf16', 'Java Properties (UTF-16)'), ('properties-utf8', 'Java Properties (UTF-8)'), ('resx', '.Net resource file'), ('ruby-yaml', 'Ruby YAML file'), ('strings', 'OS X Strings'), ('strings-utf8', 'OS X Strings (UTF-8)'), ('ts', 'Qt Linguist Translation File'), ('webextension', 'WebExtension JSON file'), ('xliff', 'XLIFF Translation File'), ('yaml', 'YAML file')], default='auto', help_text='Automatic detection might fail for some formats and is slightly slower.', max_length=50, verbose_name='File format'),
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='file_format',
-            field=models.CharField(choices=[('aresource', 'Android String Resource'), ('auto', 'Automatic detection'), ('csv', 'CSV file'), ('csv-simple', 'Simple CSV file'), ('csv-simple-iso', 'Simple CSV file (ISO-8859-1)'), ('dtd', 'DTD file'), ('i18next', 'i18next JSON file'), ('joomla', 'Joomla Language File'), ('json', 'JSON file'), ('json-nested', 'JSON nested structure file'), ('php', 'PHP strings'), ('po', 'Gettext PO file'), ('po-mono', 'Gettext PO file (monolingual)'), ('po-unwrapped', 'Gettext PO file (unwrapped)'), ('poxliff', 'XLIFF Translation File with PO extensions'), ('properties', 'Java Properties (ISO-8859-1)'), ('properties-utf16', 'Java Properties (UTF-16)'), ('properties-utf8', 'Java Properties (UTF-8)'), ('resx', '.Net resource file'), ('ruby-yaml', 'Ruby YAML file'), ('strings', 'OS X Strings'), ('strings-utf8', 'OS X Strings (UTF-8)'), ('ts', 'Qt Linguist Translation File'), ('webextension', 'WebExtension JSON file'), ('xliff', 'XLIFF Translation File'), ('yaml', 'YAML file')], default='auto', help_text='Automatic detection might fail for some formats and is slightly slower.', max_length=50, verbose_name='File format'),
-        ),
-        migrations.AlterModelOptions(
-            name='unit',
-            options={'ordering': ['priority', 'position'], 'permissions': (('save_translation', 'Can save translation'), ('save_template', 'Can save template'), ('review_translation', 'Can review translation'))},
-        ),
-        migrations.AlterModelOptions(
-            name='translation',
-            options={'ordering': ['language__name'], 'permissions': (('upload_translation', 'Can upload translation'), ('overwrite_translation', 'Can overwrite with translation upload'), ('author_translation', 'Can define author of translation upload'), ('commit_translation', 'Can force commiting of translation'), ('update_translation', 'Can update translation from VCS'), ('push_translation', 'Can push translations to remote VCS'), ('reset_translation', 'Can reset translations to match remote VCS'), ('mass_add_translation', 'Can mass add translation'), ('automatic_translation', 'Can do automatic translation'), ('use_mt', 'Can use machine translation'))},
-        ),
-        migrations.AlterField(
-            model_name='change',
-            name='action',
-            field=models.IntegerField(choices=[(0, 'Resource update'), (1, 'Translation completed'), (2, 'Translation changed'), (5, 'New translation'), (3, 'Comment added'), (4, 'Suggestion added'), (6, 'Automatic translation'), (7, 'Suggestion accepted'), (8, 'Translation reverted'), (9, 'Translation uploaded'), (10, 'Glossary added'), (11, 'Glossary updated'), (12, 'Glossary uploaded'), (13, 'New source string'), (14, 'Component locked'), (15, 'Component unlocked'), (16, 'Detected duplicate string'), (17, 'Committed changes'), (18, 'Pushed changes'), (19, 'Reset repository'), (20, 'Merged repository'), (21, 'Rebased repository'), (22, 'Failed merge on repository'), (23, 'Failed rebase on repository'), (28, 'Failed push on repository'), (24, 'Parse error'), (25, 'Removed translation'), (26, 'Suggestion removed'), (27, 'Search and replace'), (29, 'Suggestion removed during cleanup'), (30, 'Source string changed'), (31, 'New unit added')], default=2),
+            field=models.IntegerField(choices=[(0, 'Public'), (1, 'Protected'), (100, 'Private'), (200, 'Custom')], default=200 if settings.DEFAULT_CUSTOM_ACL else 0, help_text='How to restrict access to this project is detailed in the documentation.', verbose_name='Access control'),
         ),
         migrations.AddField(
             model_name='project',
             name='enable_review',
-            field=models.BooleanField(default=False, help_text='Enable this if you intend for dedicated reviewers to approve translations.', verbose_name='Enable reviews'),
-        ),
-        migrations.AlterField(
-            model_name='project',
-            name='slug',
-            field=models.SlugField(help_text='Name used in URLs and filenames.', max_length=60, unique=True, verbose_name='URL slug'),
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='file_format',
-            field=models.CharField(choices=[('aresource', 'Android String Resource'), ('auto', 'Automatic detection'), ('csv', 'CSV file'), ('csv-simple', 'Simple CSV file'), ('csv-simple-iso', 'Simple CSV file (ISO-8859-1)'), ('dtd', 'DTD file'), ('i18next', 'i18next JSON file'), ('joomla', 'Joomla Language File'), ('json', 'JSON file'), ('json-nested', 'JSON nested structure file'), ('php', 'PHP strings'), ('po', 'Gettext PO file'), ('po-mono', 'Gettext PO file (monolingual)'), ('po-mono-unwrapped', 'Gettext PO file (monolingual, unwrapped)'), ('po-unwrapped', 'Gettext PO file (unwrapped)'), ('poxliff', 'XLIFF Translation File with PO extensions'), ('properties', 'Java Properties (ISO-8859-1)'), ('properties-utf16', 'Java Properties (UTF-16)'), ('properties-utf8', 'Java Properties (UTF-8)'), ('resx', '.Net resource file'), ('ruby-yaml', 'Ruby YAML file'), ('strings', 'OS X Strings'), ('strings-utf8', 'OS X Strings (UTF-8)'), ('ts', 'Qt Linguist Translation File'), ('webextension', 'WebExtension JSON file'), ('xliff', 'XLIFF Translation File'), ('yaml', 'YAML file')], default='auto', help_text='Automatic detection might fail for some formats and is slightly slower.', max_length=50, verbose_name='File format'),
+            field=models.BooleanField(default=False, help_text='Requires dedicated reviewers to approve translations.', verbose_name='Enable reviews'),
         ),
         migrations.AddField(
             model_name='translation',
             name='plural',
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='lang.Plural'),
-        ),
-        migrations.AlterField(
-            model_name='source',
-            name='id_hash',
-            field=models.BigIntegerField(),
-        ),
-        migrations.AlterField(
-            model_name='suggestion',
-            name='content_hash',
-            field=models.BigIntegerField(),
-        ),
-        migrations.AlterField(
-            model_name='unit',
-            name='id_hash',
-            field=models.BigIntegerField(),
-        ),
-        migrations.AlterField(
-            model_name='unit',
-            name='pending',
-            field=models.BooleanField(default=False),
-        ),
-        migrations.AlterField(
-            model_name='unit',
-            name='position',
-            field=models.IntegerField(),
-        ),
-        migrations.AlterField(
-            model_name='unit',
-            name='priority',
-            field=models.IntegerField(default=100),
         ),
         migrations.AlterIndexTogether(
             name='unit',
@@ -872,42 +468,15 @@ class Migration(migrations.Migration):
             name='suggestion',
             index_together=set([('project', 'language', 'content_hash')]),
         ),
-        migrations.AlterField(
-            model_name='change',
-            name='action',
-            field=models.IntegerField(choices=[(0, 'Resource update'), (1, 'Translation completed'), (2, 'Translation changed'), (5, 'New translation'), (3, 'Comment added'), (4, 'Suggestion added'), (6, 'Automatic translation'), (7, 'Suggestion accepted'), (8, 'Translation reverted'), (9, 'Translation uploaded'), (10, 'Glossary added'), (11, 'Glossary updated'), (12, 'Glossary uploaded'), (13, 'New source string'), (14, 'Component locked'), (15, 'Component unlocked'), (16, 'Detected duplicate string'), (17, 'Committed changes'), (18, 'Pushed changes'), (19, 'Reset repository'), (20, 'Merged repository'), (21, 'Rebased repository'), (22, 'Failed merge on repository'), (23, 'Failed rebase on repository'), (28, 'Failed push on repository'), (24, 'Parse error'), (25, 'Removed translation'), (26, 'Suggestion removed'), (27, 'Search and replace'), (29, 'Suggestion removed during cleanup'), (30, 'Source string changed'), (31, 'New string added')], default=2),
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='file_format',
-            field=models.CharField(choices=FILE_FORMATS.get_choices(), default='auto', help_text='Automatic detection might fail for some formats and is slightly slower.', max_length=50, verbose_name='File format'),
-        ),
         migrations.AddField(
             model_name='whiteboardmessage',
             name='message_html',
             field=models.BooleanField(default=False, help_text='When disabled, URLs will be converted to links and any markup will be escaped.', verbose_name='Render as HTML'),
         ),
-        migrations.AlterModelOptions(
-            name='componentlist',
-            options={'ordering': ['name'], 'verbose_name': 'Component list', 'verbose_name_plural': 'Component lists'},
-        ),
-        migrations.AlterField(
-            model_name='change',
-            name='action',
-            field=models.IntegerField(choices=[(0, 'Resource update'), (1, 'Translation completed'), (2, 'Translation changed'), (5, 'New translation'), (3, 'Comment added'), (4, 'Suggestion added'), (6, 'Automatic translation'), (7, 'Suggestion accepted'), (8, 'Translation reverted'), (9, 'Translation uploaded'), (10, 'Glossary added'), (11, 'Glossary updated'), (12, 'Glossary uploaded'), (13, 'New source string'), (14, 'Component locked'), (15, 'Component unlocked'), (16, 'Detected duplicate string'), (17, 'Committed changes'), (18, 'Pushed changes'), (19, 'Reset repository'), (20, 'Merged repository'), (21, 'Rebased repository'), (22, 'Failed merge on repository'), (23, 'Failed rebase on repository'), (28, 'Failed push on repository'), (24, 'Parse error'), (25, 'Removed translation'), (26, 'Suggestion removed'), (27, 'Search and replace'), (29, 'Suggestion removed during cleanup'), (30, 'Source string changed'), (31, 'New string added'), (32, 'Mass state change')], default=2),
-        ),
         migrations.AddField(
             model_name='componentlist',
             name='show_dashboard',
             field=models.BooleanField(db_index=True, default=True, help_text='When enabled this component list will be shown as a tab on the dashboard', verbose_name='Show on dashboard'),
-        ),
-        migrations.AlterModelOptions(
-            name='unit',
-            options={'ordering': ['priority', 'position'], 'permissions': (('save_translation', 'Can save translation'), ('save_template', 'Can save template'), ('review_translation', 'Can review translation'), ('ignore_check', 'Can ignore check results'))},
-        ),
-        migrations.AlterModelOptions(
-            name='component',
-            options={'ordering': ['priority', 'project__name', 'name'], 'verbose_name': 'Component', 'verbose_name_plural': 'Components'},
         ),
         migrations.AlterUniqueTogether(
             name='source',
@@ -916,34 +485,6 @@ class Migration(migrations.Migration):
         migrations.AlterUniqueTogether(
             name='translation',
             unique_together=set([('component', 'language')]),
-        ),
-        migrations.AlterModelOptions(
-            name='change',
-            options={'ordering': ['-timestamp']},
-        ),
-        migrations.AlterModelOptions(
-            name='dictionary',
-            options={'ordering': ['source']},
-        ),
-        migrations.AlterModelOptions(
-            name='project',
-            options={'ordering': ['name'], 'verbose_name': 'Project', 'verbose_name_plural': 'Projects'},
-        ),
-        migrations.AlterModelOptions(
-            name='source',
-            options={'ordering': ('id',)},
-        ),
-        migrations.AlterModelOptions(
-            name='suggestion',
-            options={'ordering': ['-timestamp']},
-        ),
-        migrations.AlterModelOptions(
-            name='translation',
-            options={'ordering': ['language__name']},
-        ),
-        migrations.AlterModelOptions(
-            name='unit',
-            options={'ordering': ['priority', 'position']},
         ),
         migrations.AddField(
             model_name='change',
@@ -955,11 +496,6 @@ class Migration(migrations.Migration):
             model_name='change',
             name='project',
             field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='trans.Project'),
-        ),
-        migrations.AlterField(
-            model_name='change',
-            name='action',
-            field=models.IntegerField(choices=[(0, 'Resource update'), (1, 'Translation completed'), (2, 'Translation changed'), (5, 'New translation'), (3, 'Comment added'), (4, 'Suggestion added'), (6, 'Automatic translation'), (7, 'Suggestion accepted'), (8, 'Translation reverted'), (9, 'Translation uploaded'), (10, 'Glossary added'), (11, 'Glossary updated'), (12, 'Glossary uploaded'), (13, 'New source string'), (14, 'Component locked'), (15, 'Component unlocked'), (16, 'Detected duplicate string'), (17, 'Committed changes'), (18, 'Pushed changes'), (19, 'Reset repository'), (20, 'Merged repository'), (21, 'Rebased repository'), (22, 'Failed merge on repository'), (23, 'Failed rebase on repository'), (28, 'Failed push on repository'), (24, 'Parse error'), (25, 'Removed translation'), (26, 'Suggestion removed'), (27, 'Search and replace'), (29, 'Suggestion removed during cleanup'), (30, 'Source string changed'), (31, 'New string added'), (32, 'Mass state change'), (33, 'Changed visibility'), (34, 'Added user'), (35, 'Removed user')], default=2),
         ),
         migrations.CreateModel(
             name='ContributorAgreement',
@@ -977,36 +513,6 @@ class Migration(migrations.Migration):
             name='contributoragreement',
             unique_together=set([('user', 'component')]),
         ),
-        migrations.AlterField(
-            model_name='component',
-            name='add_message',
-            field=models.TextField(default='Added translation using Weblate ({{ language_name }})\n\n', help_text='You can use format strings for various information, please check documentation for more details.', validators=[weblate.utils.validators.validate_render], verbose_name='Commit message when adding translation'),
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='commit_message',
-            field=models.TextField(default='Translated using Weblate ({{ language_name }})\n\nCurrently translated at {{ stats.translated_percent }}% ({{ stats.translated }} of {{ stats.all }} strings)\n\nTranslation: {{ project_name }}/{{ component_name }}\nTranslate-URL: {{ url }}', help_text='You can use format strings for various information, please check documentation for more details.', validators=[weblate.utils.validators.validate_render], verbose_name='Commit message when translating'),
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='delete_message',
-            field=models.TextField(default='Deleted translation using Weblate ({{ language_name }})\n\n', help_text='You can use format strings for various information, please check documentation for more details.', validators=[weblate.utils.validators.validate_render], verbose_name='Commit message when removing translation'),
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='add_message',
-            field=models.TextField(default=settings.DEFAULT_ADD_MESSAGE, help_text='You can use template language for various information, please check documentation for more details.', validators=[weblate.utils.validators.validate_render], verbose_name='Commit message when adding translation'),
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='commit_message',
-            field=models.TextField(default=settings.DEFAULT_COMMIT_MESSAGE, help_text='You can use template language for various information, please check documentation for more details.', validators=[weblate.utils.validators.validate_render], verbose_name='Commit message when translating'),
-        ),
-        migrations.AlterField(
-            model_name='component',
-            name='delete_message',
-            field=models.TextField(default=settings.DEFAULT_DELETE_MESSAGE, help_text='You can use template language for various information, please check documentation for more details.', validators=[weblate.utils.validators.validate_render], verbose_name='Commit message when removing translation'),
-        ),
         migrations.AddField(
             model_name='source',
             name='context',
@@ -1016,20 +522,5 @@ class Migration(migrations.Migration):
             model_name='component',
             name='linked_component',
             field=models.ForeignKey(editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, to='trans.Component', verbose_name='Project'),
-        ),
-        migrations.AlterField(
-            model_name='project',
-            name='access_control',
-            field=models.IntegerField(choices=[(0, 'Public'), (1, 'Protected'), (100, 'Private'), (200, 'Custom')], default=200 if settings.DEFAULT_CUSTOM_ACL else 0, help_text='How to restrict access to this project is detailed in the documentation.', verbose_name='Access control'),
-        ),
-        migrations.AlterField(
-            model_name='project',
-            name='enable_review',
-            field=models.BooleanField(default=False, help_text='Requires dedicated reviewers to approve translations.', verbose_name='Enable reviews'),
-        ),
-        migrations.AlterField(
-            model_name='project',
-            name='set_translation_team',
-            field=models.BooleanField(default=True, help_text='Whether the "Translation-Team" field in file headers should be updated by Weblate.', verbose_name='Set "Translation-Team" header'),
         ),
     ]
