@@ -4,15 +4,20 @@
 . ci/lib
 
 TAGS="weblate-3.0.1"
+DBS="sqlite mysql postgresql"
 
-for tag in $TAGS ; do
-    rm weblate.db
-    git checkout $tag || continue
-    run_coverage ./manage.py migrate
-    check
-    git checkout $TRAVIS_COMMIT
-    run_coverage ./manage.py migrate
-    check
+for CI_DATABASE in $DBS ; do
+    export CI_DATABASE
+
+    for tag in $TAGS ; do
+        rm weblate.db
+        git checkout $tag || continue
+        run_coverage ./manage.py migrate
+        check
+        git checkout $TRAVIS_COMMIT
+        run_coverage ./manage.py migrate
+        check
+    done
 done
 
 ./manage.py makemigrations
