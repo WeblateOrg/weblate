@@ -178,16 +178,10 @@ def vcs_service_hook(request, service):
     full_name = service_data['full_name']
 
     # Generate filter
-    spfilter = Q(repo__in=repos)
+    spfilter = Q(repo__in=repos) | Q(repo__iendswith=full_name)
 
     # We need to match also URLs which include username and password
     for repo in repos:
-        if repo.startswith('ssh://git@'):
-            spfilter = spfilter | (
-                Q(repo__startswith='ssh://git@' + urlparse(repo_url).hostname) &
-                Q(repo__icontains=full_name)
-            )
-            continue
         if not repo.startswith('https://'):
             continue
         spfilter = spfilter | (
