@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-06-26 19:28+0000\n"
-"PO-Revision-Date: 2018-06-21 08:12+0000\n"
+"PO-Revision-Date: 2018-06-26 20:02+0000\n"
 "Last-Translator: monolifed <monolifed@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
 "tr/>\n"
@@ -309,8 +309,6 @@ msgstr ""
 "olarak gösterilecektir."
 
 #: weblate/accounts/models.py:311
-#, fuzzy
-#| msgid "Hide completed translations on dashboard"
 msgid "Hide completed translations on the dashboard"
 msgstr "Tamamlanan çevirileri panelde gizle"
 
@@ -390,10 +388,6 @@ msgid "Watched projects"
 msgstr "İzlenen projeler"
 
 #: weblate/accounts/models.py:390
-#, fuzzy
-#| msgid ""
-#| "You can receive notifications for watched projects and they are shown on "
-#| "dashboard by default."
 msgid ""
 "You can receive notifications for watched projects and they are shown on the "
 "dashboard by default."
@@ -430,16 +424,12 @@ msgid "Notification on new language request"
 msgstr "Yeni dil isteğinde bildirim"
 
 #: weblate/accounts/models.py:475
-#, fuzzy
-#| msgid "Component list must be selected when used as default."
 msgid "Component list must be chosen when used as default."
 msgstr "Öntanımlı olarak kullanıldığında bileşen listesi seçilmek zorundadır."
 
 #: weblate/accounts/models.py:481
-#, fuzzy
-#| msgid "Component list must not be selected when not used."
 msgid "Component list can not be chosen when unused."
-msgstr "Kullanılmadığında bileşen listesi seçilmemelidir."
+msgstr "Kullanılmadığında bileşen listesi seçilemez."
 
 #: weblate/accounts/models.py:536
 msgid ""
@@ -1309,12 +1299,8 @@ msgid "superuser status"
 msgstr "yetkili kullanıcı durumu"
 
 #: weblate/auth/models.py:284
-#, fuzzy
-#| msgid ""
-#| "Designates that this user has all permissions without explicitly "
-#| "assigning them."
 msgid "User has all permissions without having been given them."
-msgstr "Bu kullanıcının açıkça atamadan tüm izinlere sahip olduğunu belirtir."
+msgstr "Kullanıcı verilmeden tüm izinlere sahip."
 
 #: weblate/auth/models.py:288
 msgid "active"
@@ -1322,7 +1308,7 @@ msgstr "etkin"
 
 #: weblate/auth/models.py:290
 msgid "Mark user as inactive instead of removing."
-msgstr ""
+msgstr "Kullanıcıyı kaldırmak yerine etkin değil olarak işaretle."
 
 #: weblate/auth/models.py:292
 msgid "Date joined"
@@ -1333,25 +1319,17 @@ msgid "Groups"
 msgstr "Gruplar"
 
 #: weblate/auth/models.py:298
-#, fuzzy
-#| msgid ""
-#| "The groups this user belongs to. A user will get all permissions granted "
-#| "to each of their groups."
 msgid ""
 "The user is granted all permissions included in membership of these groups."
-msgstr ""
-"Bu kullanıcının ait olduğu gruplar. Bir kullanıcı gruplarına verilen her bir "
-"izne sahip olur."
+msgstr "Kullanıcıya bu grupların üyeliğinde bulunan tüm izinler verilir."
 
 #: weblate/auth/models.py:442
 msgid "Email regular expression"
 msgstr "Eposta düzenli ifadesi"
 
 #: weblate/auth/models.py:446
-#, fuzzy
-#| msgid "Regular expression which is used to match user email."
 msgid "Regular expression used to match user email."
-msgstr "Kullanıcı epostası ile eşleşmesi için kullanılan düzenli ifade."
+msgstr "Kullanıcı epostasını eşleştirmek için kullanılan düzenli ifade."
 
 #: weblate/auth/models.py:451
 msgid "Group to assign"
@@ -2409,8 +2387,6 @@ msgid "Protected"
 msgstr "Korumalı"
 
 #: weblate/templates/access_control_description.html:7
-#, fuzzy
-#| msgid "Publicly visible, only translatable for selected users"
 msgid "Publicly visible, only translatable for chosen users"
 msgstr "Herkes görebilir, yalnızca seçilmiş kullanıcılar çevirebilir"
 
@@ -2420,8 +2396,6 @@ msgid "Private"
 msgstr "Özel"
 
 #: weblate/templates/access_control_description.html:9
-#, fuzzy
-#| msgid "Visible and translatable only for selected users"
 msgid "Visible and translatable only for chosen users"
 msgstr "Yalnızca seçilmiş kullanıcılar görebilir ve çevirebilir"
 
@@ -3680,10 +3654,8 @@ msgid "Suggestions to improve translation are disabled."
 msgstr "Çeviriyi iyileştirmek için öneriler devre dışı."
 
 #: weblate/templates/component_info.html:26
-#, fuzzy
-#| msgid "Only selected users can contribute."
 msgid "Only chosen users can contribute."
-msgstr "Yalnızca seçili kullanıcılar katkıda bulunabilir."
+msgstr "Yalnızca seçilmiş kullanıcılar katkıda bulunabilir."
 
 #: weblate/templates/component_info.html:28
 msgid "Any authenticated user can contribute."
@@ -4967,14 +4939,12 @@ msgid "matrix"
 msgstr "matris"
 
 #: weblate/templates/matrix.html:34
-#, fuzzy
-#| msgid "Used languages"
 msgid "Displayed languages"
-msgstr "Kullanılan dil"
+msgstr "Gösterilen diller"
 
 #: weblate/templates/matrix.html:39
 msgid "Chose"
-msgstr ""
+msgstr "Seç"
 
 #: weblate/templates/new-language.html:25
 msgid ""
@@ -6162,8 +6132,6 @@ msgid "Search filter"
 msgstr "Arama süzgeci"
 
 #: weblate/trans/forms.py:631
-#, fuzzy
-#| msgid "Please select a valid filter type."
 msgid "Please choose a valid filter type."
 msgstr "Lütfen geçerli bir süzgeç türü seçin."
 
@@ -6188,34 +6156,24 @@ msgid "Exact match"
 msgstr "Tam eşleşme"
 
 #: weblate/trans/forms.py:722
-#, fuzzy
-#| msgid "Please select a valid search type."
 msgid "Please choose a valid search type."
 msgstr "Lütfen geçerli bir arama türü seçin."
 
 #: weblate/trans/forms.py:731
-#, fuzzy
-#| msgid "Source strings"
 msgid "Target strings"
-msgstr "Kaynak satırlar"
+msgstr "Hedef satırlar"
 
 #: weblate/trans/forms.py:736
-#, fuzzy
-#| msgid "Search in context strings"
 msgid "Context strings"
-msgstr "Bağlam satırlarında ara"
+msgstr "Bağlam satırları"
 
 #: weblate/trans/forms.py:741
-#, fuzzy
-#| msgid "Locations"
 msgid "Location strings"
-msgstr "Yerler"
+msgstr "Yer satırları"
 
 #: weblate/trans/forms.py:746
-#, fuzzy
-#| msgid "C format string"
 msgid "Comment strings"
-msgstr "C biçimi dizgisi"
+msgstr "Yorum satırları"
 
 #: weblate/trans/forms.py:753
 msgid "Show ignored checks as well"
@@ -6260,11 +6218,11 @@ msgstr "{filter_name}, {search_name}"
 
 #: weblate/trans/forms.py:868 weblate/trans/forms.py:870
 msgid "Could not find merged string."
-msgstr ""
+msgstr "Birleştirilmiş satırlar bulunamadı."
 
 #: weblate/trans/forms.py:889
 msgid "Could not find reverted change."
-msgstr ""
+msgstr "Geri alınan değişiklik bulunamadı."
 
 #: weblate/trans/forms.py:900
 msgid "Automatic translation source"
@@ -6275,10 +6233,8 @@ msgid "Other translation components"
 msgstr "Diğer çeviri bileşenleri"
 
 #: weblate/trans/forms.py:913
-#, fuzzy
-#| msgid "Machine translation engines to use"
 msgid "Machine translation engines"
-msgstr "Kullanılacak makine çeviri motorları"
+msgstr "Makine çevirisi motorları"
 
 #: weblate/trans/forms.py:918
 msgid "Score threshold"
@@ -6317,9 +6273,6 @@ msgid "Starting date"
 msgstr "Başlangıç tarihi"
 
 #: weblate/trans/forms.py:1050
-#, fuzzy
-#| msgctxt "Select starting letter in glossary"
-#| msgid "Any"
 msgctxt "Choose starting letter in glossary"
 msgid "Any"
 msgstr "Hepsi"
@@ -6355,16 +6308,12 @@ msgid "Similar translation already exists in the project ({0})!"
 msgstr "Benzer çeviri projede ({0}) zaten var!"
 
 #: weblate/trans/forms.py:1162
-#, fuzzy
-#| msgid "Please select"
 msgid "Please choose"
 msgstr "Lütfen seçin"
 
 #: weblate/trans/forms.py:1184
-#, fuzzy
-#| msgid "Strings with higher priority are offered first to translators."
 msgid "Higher priority strings are presented to translators earlier."
-msgstr "Önce yüksek öncelikli satırlar çevirmenlere sunulur."
+msgstr "Yüksek öncelikli satırlar çevirmenlere daha önce sunulur."
 
 #: weblate/trans/forms.py:1198
 msgid "Check flags"
