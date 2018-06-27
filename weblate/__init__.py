@@ -20,7 +20,7 @@
 
 import os
 
-from weblate.requirements import check_requirements
+from weblate.utils.requirements import check_requirements
 from weblate.trans.data import check_data_writable
 from weblate.vcs.base import RepositoryException
 from weblate.vcs.git import GitRepository
