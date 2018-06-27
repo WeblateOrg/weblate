@@ -584,6 +584,15 @@ SESSION_COOKIE_SECURE = ENABLE_HTTPS
 # Session cookie age (in seconds)
 SESSION_COOKIE_AGE = 1209600
 
+# Some security headers
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = 'DENY'
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# Optionally enable HSTS
+SECURE_HSTS_SECONDS = 0
+SECURE_HSTS_PRELOAD = False
+
 # URL of login
 LOGIN_URL = '{0}/accounts/login/'.format(URL_PREFIX)
 

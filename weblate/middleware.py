@@ -33,11 +33,7 @@ CSP_TEMPLATE = (
 
 
 class SecurityMiddleware(object):
-    """Middleware that sets various security related headers.
-
-    - Content-Security-Policy
-    - X-XSS-Protection
-    """
+    """Middleware that sets Content-Security-Policy"""
     def __init__(self, get_response=None):
         self.get_response = get_response
 
@@ -88,5 +84,4 @@ class SecurityMiddleware(object):
             ' '.join(connect),
             ' '.join(font),
         )
-        response['X-XSS-Protection'] = '1; mode=block'
         return response
