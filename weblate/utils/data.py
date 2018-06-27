@@ -21,7 +21,7 @@
 import os
 
 from django.conf import settings
-from django.core.checks import Error
+from django.core.checks import Critical
 
 
 def check_data_writable(app_configs=None, **kwargs):
@@ -40,7 +40,7 @@ def check_data_writable(app_configs=None, **kwargs):
             os.makedirs(path)
         elif not os.access(path, os.W_OK):
             errors.append(
-                Error(
+                Critical(
                     'Path {} is not writable!'.format(path),
                     hint=(
                         'Maybe your DATA_DIR settings is wrong or '
