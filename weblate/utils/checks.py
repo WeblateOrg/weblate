@@ -17,23 +17,26 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+
 from __future__ import unicode_literals
 
-from django.apps import AppConfig
-from django.core.checks import Error, register
-
-from weblate.utils.checks import check_mail_connection
-from weblate.utils.data import check_data_writable
-from weblate.utils.requirements import check_requirements
+from django.core.mail import get_connection
+from django.core.checks import Error
 
 
-class UtilsConfig(AppConfig):
-    name = 'weblate.utils'
-    label = 'utils'
-    verbose_name = 'Utils'
+def check_mail_connection(app_configs, **kwargs):
+    errors = []
+    try:
+        connection = get_connection()
+        connection.open()
+        connection.close()
+    except Exception as error:
+        errors.append(
+            Error(
+                'Can not send email: {}'.format(error),
+                hint='Try checking EMAIL_* settings.',
+                id='weblate.E003',
+            )
+        )
 
-    def ready(self):
-        register(check_requirements)
-        register(check_data_writable)
-        register(check_mail_connection)
-        super(UtilsConfig, self).ready()
+    return errors
