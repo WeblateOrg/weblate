@@ -97,6 +97,7 @@ class Repository(object):
             self.path.rstrip('/').rstrip('\\') + '.lock',
             timeout=120
         )
+        self.local = local
         if not local:
             # Create ssh wrapper for possible use
             create_ssh_wrapper()
@@ -140,7 +141,7 @@ class Repository(object):
         return get_clean_env({'GIT_SSH': get_wrapper_filename()})
 
     @classmethod
-    def _popen(cls, args, cwd=None, err=False, fullcmd=False, raw=False):
+    def _popen(cls, args, cwd=None, err=False, fullcmd=False, raw=False, local=False):
         """Execute the command using popen."""
         if args is None:
             raise RepositoryException(0, 'Not supported functionality', '')
@@ -149,7 +150,7 @@ class Repository(object):
         process = subprocess.Popen(
             args,
             cwd=cwd,
-            env=cls._getenv(),
+            env={} if local else cls._getenv(),
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             stdin=subprocess.PIPE,
@@ -181,7 +182,9 @@ class Repository(object):
         # On Windows we pass Unicode object, on others UTF-8 encoded bytes
         if sys.platform != "win32":
             args = [arg.encode('utf-8') for arg in args]
-        self.last_output = self._popen(args, self.path, fullcmd=fullcmd)
+        self.last_output = self._popen(
+            args, self.path, fullcmd=fullcmd, local=self.local
+        )
         return self.last_output
 
     def clean_revision_cache(self):
@@ -308,7 +311,7 @@ class Repository(object):
     @classmethod
     def _get_version(cls):
         """Return VCS program version."""
-        return cls._popen(['--version'])
+        return cls._popen(['--version'], local=True)
 
     def set_committer(self, name, mail):
         """Configure commiter name."""

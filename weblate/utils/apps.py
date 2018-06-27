@@ -31,6 +31,5 @@ class UtilsConfig(AppConfig):
     verbose_name = 'Utils'
 
     def ready(self):
-        print 'READY'
         register(check_requirements)
         super(UtilsConfig, self).ready()
