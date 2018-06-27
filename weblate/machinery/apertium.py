@@ -109,11 +109,3 @@ class ApertiumAPYTranslation(MachineTranslation):
             self.name,
             text
         )]
-
-
-class ApertiumTranslation(ApertiumAPYTranslation):
-    """Apertium machine translation support."""
-    name = 'Apertium'
-
-    def get_server_url(self):
-        return 'http://api.apertium.org/json'

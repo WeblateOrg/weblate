@@ -37,9 +37,7 @@ from weblate.machinery.dummy import DummyTranslation
 from weblate.machinery.deepl import DeepLTranslation
 from weblate.machinery.glosbe import GlosbeTranslation
 from weblate.machinery.mymemory import MyMemoryTranslation
-from weblate.machinery.apertium import (
-    ApertiumTranslation, ApertiumAPYTranslation,
-)
+from weblate.machinery.apertium import ApertiumAPYTranslation
 from weblate.machinery.aws import AWSTranslation
 from weblate.machinery.tmserver import AmagamaTranslation
 from weblate.machinery.microsoft import (
@@ -336,24 +334,6 @@ class MachineTranslationTest(TestCase):
         )
         self.assert_translate(machine)
         self.assert_translate(machine, word='Zkouška')
-
-    @httpretty.activate
-    def test_apertium(self):
-        machine = self.get_machine(ApertiumTranslation)
-        httpretty.register_uri(
-            httpretty.GET,
-            'http://api.apertium.org/json/listPairs',
-            body='{"responseStatus": 200, "responseData":'
-            '[{"sourceLanguage": "en","targetLanguage": "es"}]}'
-        )
-        httpretty.register_uri(
-            httpretty.GET,
-            'http://api.apertium.org/json/translate',
-            body='{"responseData":{"translatedText":"Mundial"},'
-            '"responseDetails":null,"responseStatus":200}'
-        )
-        self.assert_translate(machine, 'es')
-        self.assert_translate(machine, 'es', word='Zkouška')
 
     @override_settings(MT_APERTIUM_APY='http://apertium.example.com/')
     @httpretty.activate
