@@ -32,9 +32,9 @@ from django.urls import reverse
 
 from weblate.lang.models import Language, get_english_lang
 from weblate.trans.mixins import URLMixin, PathMixin
+from weblate.utils.data import data_dir
 from weblate.utils.stats import ProjectStats
 from weblate.utils.site import get_site_url
-from weblate.trans.data import data_dir
 
 
 @python_2_unicode_compatible

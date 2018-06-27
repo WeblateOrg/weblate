@@ -21,27 +21,36 @@
 import os
 
 from django.conf import settings
+from django.core.checks import Error
 
 
-def create_and_check_dir(path):
-    """Ensure directory exists and is writable by us"""
-    if not os.path.exists(path):
-        os.makedirs(path)
-    else:
-        if not os.access(path, os.W_OK):
-            raise OSError(
-                'DATA_DIR {0} is not writable!'.format(path)
+def check_data_writable(app_configs=None, **kwargs):
+    """Check we can write to data dir."""
+    errors = []
+    dirs = [
+        settings.DATA_DIR,
+        data_dir('home'),
+        data_dir('whoosh'),
+        data_dir('ssh'),
+        data_dir('vcs'),
+        data_dir('memory'),
+    ]
+    for path in dirs:
+        if not os.path.exists(path):
+            os.makedirs(path)
+        elif not os.access(path, os.W_OK):
+            errors.append(
+                Error(
+                    'Path {} is not writable!'.format(path),
+                    hint=(
+                        'Maybe your DATA_DIR settings is wrong or '
+                        'running under wrong user?'
+                    ),
+                    id='weblate.E002',
+                )
             )
 
-
-def check_data_writable():
-    """Check we can write to data dir."""
-    create_and_check_dir(settings.DATA_DIR)
-    create_and_check_dir(data_dir('home'))
-    create_and_check_dir(data_dir('whoosh'))
-    create_and_check_dir(data_dir('ssh'))
-    create_and_check_dir(data_dir('vcs'))
-    create_and_check_dir(data_dir('memory'))
+    return errors
 
 
 def data_dir(component):

@@ -37,7 +37,7 @@ from django.utils.encoding import force_text
 from django.db import transaction
 
 from weblate.lang.models import Language
-from weblate.trans.data import data_dir
+from weblate.utils.data import data_dir
 
 STORAGE = FileStorage(data_dir('whoosh'))
 

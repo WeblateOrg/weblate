@@ -22,6 +22,7 @@ from __future__ import unicode_literals
 from django.apps import AppConfig
 from django.core.checks import Error, register
 
+from weblate.utils.data import check_data_writable
 from weblate.utils.requirements import check_requirements
 
 
@@ -32,4 +33,5 @@ class UtilsConfig(AppConfig):
 
     def ready(self):
         register(check_requirements)
+        register(check_data_writable)
         super(UtilsConfig, self).ready()

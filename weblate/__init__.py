@@ -20,7 +20,6 @@
 
 import os
 
-from weblate.trans.data import check_data_writable
 from weblate.vcs.base import RepositoryException
 from weblate.vcs.git import GitRepository
 
@@ -64,5 +63,3 @@ def get_doc_url(page, anchor=''):
         url += '#{0}'.format(anchor)
 
     return url
-
-check_data_writable()

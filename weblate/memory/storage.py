@@ -35,7 +35,7 @@ from whoosh import qparser
 from whoosh import query
 
 from weblate.lang.models import Language
-from weblate.trans.data import data_dir
+from weblate.utils.data import data_dir
 from weblate.utils.search import Comparer
 
 

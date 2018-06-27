@@ -44,7 +44,7 @@ except ImportError:
 import six
 from six.moves.urllib.parse import urlparse
 
-from weblate.trans.data import data_dir
+from weblate.utils.data import data_dir
 
 PLURAL_SEPARATOR = '\x1e\x1e'
 

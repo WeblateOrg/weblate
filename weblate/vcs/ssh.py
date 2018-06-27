@@ -31,7 +31,7 @@ from django.utils.translation import ugettext as _
 
 from weblate.utils import messages
 from weblate.trans.util import get_clean_env
-from weblate.trans.data import data_dir
+from weblate.utils.data import data_dir
 
 # SSH key files
 KNOWN_HOSTS = 'known_hosts'

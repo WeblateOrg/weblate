@@ -28,7 +28,7 @@ from weblate.vcs.ssh import (
     get_host_keys, create_ssh_wrapper, ssh_file, get_wrapper_filename
 )
 from weblate.trans.tests.utils import get_test_file
-from weblate.trans.data import check_data_writable
+from weblate.utils.data import check_data_writable
 from weblate.utils.unittest import tempdir_setting
 
 
@@ -39,14 +39,14 @@ class SSHTest(TestCase):
     """Test for customized admin interface."""
     @tempdir_setting('DATA_DIR')
     def test_parse(self):
-        check_data_writable()
+        self.assertEqual(check_data_writable(), [])
         shutil.copy(TEST_HOSTS, os.path.join(settings.DATA_DIR, 'ssh'))
         hosts = get_host_keys()
         self.assertEqual(len(hosts), 50)
 
     @tempdir_setting('DATA_DIR')
     def test_create_ssh_wrapper(self):
-        check_data_writable()
+        self.assertEqual(check_data_writable(), [])
         filename = get_wrapper_filename()
         create_ssh_wrapper()
         with open(filename, 'r') as handle:

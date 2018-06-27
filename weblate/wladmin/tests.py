@@ -26,7 +26,7 @@ from django.urls import reverse
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.util import add_configuration_error
 from weblate.trans.tests.utils import get_test_file
-from weblate.trans.data import check_data_writable
+from weblate.utils.data import check_data_writable
 from weblate.utils.unittest import tempdir_setting
 
 
@@ -47,7 +47,7 @@ class AdminTest(FixtureTestCase):
 
     @tempdir_setting('DATA_DIR')
     def test_ssh_generate(self):
-        check_data_writable()
+        self.assertEqual(check_data_writable(), [])
         response = self.client.get(reverse('admin:ssh'))
         self.assertContains(response, 'Generate SSH key')
 
@@ -59,7 +59,7 @@ class AdminTest(FixtureTestCase):
 
     @tempdir_setting('DATA_DIR')
     def test_ssh_add(self):
-        check_data_writable()
+        self.assertEqual(check_data_writable(), [])
         try:
             oldpath = os.environ['PATH']
             os.environ['PATH'] = ':'.join(
