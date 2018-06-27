@@ -537,13 +537,14 @@ class GithubRepository(GitRepository):
 
     _cmd = 'hub'
 
-    _hub_user = settings.GITHUB_USERNAME
-
-    _cmd_push = ['push', '--force', _hub_user] if _hub_user \
-        else ['push', 'origin']
-
-    _is_supported = False if _hub_user is None else None
+    _is_supported = None
     _version = None
+
+    @classmethod
+    def is_supported(cls):
+        if not settings.GITHUB_USERNAME:
+            return False
+        return super(GithubRepository, cls).is_supported()
 
     @staticmethod
     def _getenv():
@@ -564,7 +565,7 @@ class GithubRepository(GitRepository):
         cmd = [
             'pull-request',
             '-f',
-            '-h', '{0}:{1}'.format(self._hub_user, fork_branch),
+            '-h', '{0}:{1}'.format(settings.GITHUB_USERNAME, fork_branch),
             '-b', origin_branch,
             '-m', 'Update from Weblate.',
         ]
@@ -577,7 +578,8 @@ class GithubRepository(GitRepository):
 
     def fork(self):
         """Create fork of original repository if one doesn't exist yet."""
-        if self._hub_user not in self.execute(['remote']).splitlines():
+        remotes = self.execute(['remote']).splitlines()
+        if settings.GITHUB_USERNAME not in remotes:
             self.execute(['fork'])
 
     def push(self):
