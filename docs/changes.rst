@@ -11,6 +11,7 @@ Released on ? 2018.
 * Improve webhooks compatibility with self hosted environments.
 * Added support for Amazon Translate.
 * Compatibility with Django 2.1.
+* Django system checks are now used to diagnose problems with installation.
 
 weblate 3.0.1
 -------------
