@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-06-26 20:06+0000\n"
-"PO-Revision-Date: 2018-06-18 13:22+0000\n"
+"PO-Revision-Date: 2018-06-27 15:21+0000\n"
 "Last-Translator: Igor <f2404@yandex.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
 "ru/>\n"
@@ -16,9 +16,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 3.0.1\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 3.1-dev\n"
 
 #: weblate/accounts/avatar.py:164
 msgctxt "No known user"
@@ -316,10 +316,8 @@ msgstr ""
 "будут изображаться вместе с исходной строкой."
 
 #: weblate/accounts/models.py:311
-#, fuzzy
-#| msgid "Hide completed translations on dashboard"
 msgid "Hide completed translations on the dashboard"
-msgstr "Скрыть завершенные переводы с доски объявлений"
+msgstr "Скрывать завершённые переводы с доски объявлений"
 
 #: weblate/accounts/models.py:315
 msgid "Show secondary translations in zen mode"
@@ -397,10 +395,6 @@ msgid "Watched projects"
 msgstr "Наблюдаемые проекты"
 
 #: weblate/accounts/models.py:390
-#, fuzzy
-#| msgid ""
-#| "You can receive notifications for watched projects and they are shown on "
-#| "dashboard by default."
 msgid ""
 "You can receive notifications for watched projects and they are shown on the "
 "dashboard by default."
@@ -437,17 +431,12 @@ msgid "Notification on new language request"
 msgstr "Уведомление о заявке на новый язык"
 
 #: weblate/accounts/models.py:475
-#, fuzzy
-#| msgid "Component list must be selected when used as default."
 msgid "Component list must be chosen when used as default."
-msgstr ""
-"Список компонентов должен быть выбран, если используется как установленный."
+msgstr "Список компонентов должен быть выбран, если используется по умолчанию."
 
 #: weblate/accounts/models.py:481
-#, fuzzy
-#| msgid "Component list must not be selected when not used."
 msgid "Component list can not be chosen when unused."
-msgstr "Список компонентов не должен быть выбран, если не используется."
+msgstr "Список компонентов не может быть выбран, если не используется."
 
 #: weblate/accounts/models.py:536
 msgid ""
@@ -1317,14 +1306,8 @@ msgid "superuser status"
 msgstr "статус привилегированного пользователя"
 
 #: weblate/auth/models.py:284
-#, fuzzy
-#| msgid ""
-#| "Designates that this user has all permissions without explicitly "
-#| "assigning them."
 msgid "User has all permissions without having been given them."
-msgstr ""
-"Означает, что у этого пользователя есть все разрешения даже без явного их "
-"указания."
+msgstr "У пользователя есть все разрешения даже без явного их указания."
 
 #: weblate/auth/models.py:288
 msgid "active"
@@ -1332,7 +1315,7 @@ msgstr "активен"
 
 #: weblate/auth/models.py:290
 msgid "Mark user as inactive instead of removing."
-msgstr ""
+msgstr "Указать, что пользователь неактивен вместо удаления."
 
 #: weblate/auth/models.py:292
 msgid "Date joined"
@@ -1343,27 +1326,18 @@ msgid "Groups"
 msgstr "Группы"
 
 #: weblate/auth/models.py:298
-#, fuzzy
-#| msgid ""
-#| "The groups this user belongs to. A user will get all permissions granted "
-#| "to each of their groups."
 msgid ""
 "The user is granted all permissions included in membership of these groups."
-msgstr ""
-"Группы, к которым принадлежит этот пользователь. Пользователь получит все "
-"разрешения, данные каждой из этих групп."
+msgstr "Пользователь получает все разрешения, данные каждой из этих групп."
 
 #: weblate/auth/models.py:442
 msgid "Email regular expression"
 msgstr "Регулярное выражение эл. почты"
 
 #: weblate/auth/models.py:446
-#, fuzzy
-#| msgid "Regular expression which is used to match user email."
 msgid "Regular expression used to match user email."
 msgstr ""
-"Регулярное выражение, которое используется для сопоставления почты "
-"пользователя."
+"Регулярное выражение, используемое для сопоставления почты пользователя."
 
 #: weblate/auth/models.py:451
 msgid "Group to assign"
@@ -2423,8 +2397,6 @@ msgid "Protected"
 msgstr "Защищенный"
 
 #: weblate/templates/access_control_description.html:7
-#, fuzzy
-#| msgid "Publicly visible, only translatable for selected users"
 msgid "Publicly visible, only translatable for chosen users"
 msgstr "Все видят, но только выбранные пользователи могут переводить"
 
@@ -2434,8 +2406,6 @@ msgid "Private"
 msgstr "Приватный"
 
 #: weblate/templates/access_control_description.html:9
-#, fuzzy
-#| msgid "Visible and translatable only for selected users"
 msgid "Visible and translatable only for chosen users"
 msgstr "Только выбранные пользователи видят и могут переводить"
 
@@ -3707,8 +3677,6 @@ msgid "Suggestions to improve translation are disabled."
 msgstr "Предложения для улучшения перевода отключены."
 
 #: weblate/templates/component_info.html:26
-#, fuzzy
-#| msgid "Only selected users can contribute."
 msgid "Only chosen users can contribute."
 msgstr "Только выбранные пользователи могут участвовать."
 
@@ -4995,14 +4963,12 @@ msgid "matrix"
 msgstr "матрица"
 
 #: weblate/templates/matrix.html:34
-#, fuzzy
-#| msgid "Used languages"
 msgid "Displayed languages"
-msgstr "Используемые языки"
+msgstr "Отображаемые языки"
 
 #: weblate/templates/matrix.html:39
 msgid "Choose"
-msgstr ""
+msgstr "Выбрать"
 
 #: weblate/templates/new-language.html:25
 msgid ""
@@ -6192,8 +6158,6 @@ msgid "Search filter"
 msgstr "Фильтр поиска"
 
 #: weblate/trans/forms.py:631
-#, fuzzy
-#| msgid "Please select a valid filter type."
 msgid "Please choose a valid filter type."
 msgstr "Пожалуйста, выберите правильный тип фильтра."
 
@@ -6218,34 +6182,24 @@ msgid "Exact match"
 msgstr "Точное совпадение"
 
 #: weblate/trans/forms.py:722
-#, fuzzy
-#| msgid "Please select a valid search type."
 msgid "Please choose a valid search type."
 msgstr "Пожалуйста, выберите правильный тип поиска."
 
 #: weblate/trans/forms.py:731
-#, fuzzy
-#| msgid "Source strings"
 msgid "Target strings"
-msgstr "Строки-исходники"
+msgstr "Целевые строки"
 
 #: weblate/trans/forms.py:736
-#, fuzzy
-#| msgid "Search in context strings"
 msgid "Context strings"
-msgstr "Поиск в строках контекста"
+msgstr "Строки контекста"
 
 #: weblate/trans/forms.py:741
-#, fuzzy
-#| msgid "Locations"
 msgid "Location strings"
-msgstr "Местоположения"
+msgstr "Строки местоположения"
 
 #: weblate/trans/forms.py:746
-#, fuzzy
-#| msgid "C format string"
 msgid "Comment strings"
-msgstr "C - формат строки"
+msgstr "Строки комментариев"
 
 #: weblate/trans/forms.py:753
 msgid "Show ignored checks as well"
@@ -6290,11 +6244,11 @@ msgstr "{filter_name}, {search_name}"
 
 #: weblate/trans/forms.py:868 weblate/trans/forms.py:870
 msgid "Could not find merged string."
-msgstr ""
+msgstr "Не удалось найти слитые строки."
 
 #: weblate/trans/forms.py:889
 msgid "Could not find reverted change."
-msgstr ""
+msgstr "Не удалось найти отменённое изменение."
 
 #: weblate/trans/forms.py:900
 msgid "Automatic translation source"
@@ -6305,10 +6259,8 @@ msgid "Other translation components"
 msgstr "Другие компоненты перевода"
 
 #: weblate/trans/forms.py:913
-#, fuzzy
-#| msgid "Machine translation engines to use"
 msgid "Machine translation engines"
-msgstr "Движки машинного перевода для использования"
+msgstr "Движки машинного перевода"
 
 #: weblate/trans/forms.py:918
 msgid "Score threshold"
@@ -6347,9 +6299,6 @@ msgid "Starting date"
 msgstr "Дата начала"
 
 #: weblate/trans/forms.py:1050
-#, fuzzy
-#| msgctxt "Select starting letter in glossary"
-#| msgid "Any"
 msgctxt "Choose starting letter in glossary"
 msgid "Any"
 msgstr "Любая"
@@ -6386,14 +6335,10 @@ msgid "Similar translation already exists in the project ({0})!"
 msgstr "Такой же перевод уже существует в проекте {0}!"
 
 #: weblate/trans/forms.py:1162
-#, fuzzy
-#| msgid "Please select"
 msgid "Please choose"
 msgstr "Выберите, пожалуйста"
 
 #: weblate/trans/forms.py:1184
-#, fuzzy
-#| msgid "Strings with higher priority are offered first to translators."
 msgid "Higher priority strings are presented to translators earlier."
 msgstr "Переводчикам вначале предлагаются строки с большим приоритетом."
 
