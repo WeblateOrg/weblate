@@ -282,16 +282,11 @@ def get_versions():
     return result
 
 
-def check_version(name, url, version, expected):
+def check_version(version, expected):
     """Check for single module version."""
     if expected is None:
         return False
-    if LooseVersion(version) < LooseVersion(expected):
-        print('*** {0} <{1}> is too old! ***'.format(name, url))
-        print('Installed version {0}, required {1}'.format(version, expected))
-        return True
-
-    return False
+    return LooseVersion(version) < LooseVersion(expected)
 
 
 def check_requirements(app_configs, **kwargs):
@@ -300,7 +295,7 @@ def check_requirements(app_configs, **kwargs):
     errors = []
 
     for name, url, version, expected in versions:
-        if check_version(name, url, version, expected):
+        if check_version(version, expected):
             errors.append(
                 Error(
                     '{0} <{1}> is too old!'.format(name, url),

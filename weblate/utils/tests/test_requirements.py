@@ -27,26 +27,18 @@ class RequirementsTest(SimpleTestCase):
     """Testing of requirements checking code."""
     def test_check(self):
         self.assertFalse(check_version(
-            'Test',
-            'http://example.net',
             '1.0',
             '1.0'
         ))
         self.assertFalse(check_version(
-            'Test',
-            'http://example.net',
             '1.1',
             '1.0'
         ))
         self.assertTrue(check_version(
-            'Test',
-            'http://example.net',
             '0.9',
             '1.0'
         ))
         self.assertFalse(check_version(
-            'Test',
-            'http://example.net',
             '1.0',
             None
         ))
