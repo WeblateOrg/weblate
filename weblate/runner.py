@@ -27,10 +27,14 @@ def main(argv=None):
     os.environ['DJANGO_IS_MANAGEMENT_COMMAND'] = '1'
 
     from django.core.management import execute_from_command_line
+    from weblate.utils.errors import report_error
 
     if argv is None:
         argv = sys.argv
-    execute_from_command_line(argv)
+    try:
+        execute_from_command_line(argv)
+    except Exception as error:
+        report_error(error, sys.exc_info())
 
 
 if __name__ == "__main__":
