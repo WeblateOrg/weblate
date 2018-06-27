@@ -20,6 +20,7 @@
 
 from __future__ import unicode_literals
 
+from django.core.checks import run_checks
 from django.shortcuts import render, redirect
 from django.utils.translation import ugettext as _
 
@@ -30,7 +31,7 @@ from weblate.vcs.ssh import (
 )
 from weblate.utils import messages
 from weblate.wladmin.models import ConfigurationError
-from weblate.wladmin.performance import run_checks
+from weblate.wladmin.performance import run_checks as wl_run_checks
 
 
 def report(request, admin_site):
@@ -65,7 +66,8 @@ def performance(request, admin_site):
         return handle_dismiss(request)
 
     context = admin_site.each_context(request)
-    context['checks'] = run_checks(request)
+    context['checks'] = wl_run_checks(request)
+    context['django_errors'] = run_checks(include_deployment_checks=True)
     context['errors'] = ConfigurationError.objects.filter(ignored=False)
 
     return render(

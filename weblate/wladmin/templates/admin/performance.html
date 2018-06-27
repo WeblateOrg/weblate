@@ -55,6 +55,33 @@
   </div>
   {% endif %}
 
+  {% if django_errors %}
+  <h2>{% trans "System checks" %}</h2>
+  <div id="changelist" class="module filtered">
+    <div class="results">
+  <table id="result_list" class="orderable-initalized">
+  <thead>
+  <tr>
+    <th>{% trans "Name" %}</th>
+    <th>{% trans "Message" %}</th>
+    <th>{% trans "Documentation" %}</th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for check in django_errors %}
+  <tr class="row{% cycle '1' '2' %}">
+      <td>{{ check.id }}</td>
+      <td>{{ check.msg }}</td>
+      <td>{% if check.hint %}<a href="{{ check.hint }}">{% trans "Documentation" %}</a>{% endif %}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+  </table>
+    </div>
+  </div>
+
+  {% endif %}
+
   <h2>{% trans "Performance report" %}</h2>
   <div id="changelist" class="module filtered">
     <div class="results">
