@@ -35,5 +35,5 @@ class UtilsConfig(AppConfig):
     def ready(self):
         register(check_requirements)
         register(check_data_writable)
-        register(check_mail_connection)
+        register(check_mail_connection, deploy=True)
         super(UtilsConfig, self).ready()
