@@ -20,9 +20,7 @@
 
 import os
 
-from weblate.requirements import (
-    check_requirements, get_versions, get_optional_versions
-)
+from weblate.requirements import check_requirements
 from weblate.trans.data import check_data_writable
 from weblate.vcs.base import RepositoryException
 from weblate.vcs.git import GitRepository
@@ -67,29 +65,6 @@ def get_doc_url(page, anchor=''):
         url += '#{0}'.format(anchor)
 
     return url
-
-
-def get_versions_list():
-    """Return list with version information summary."""
-    return (
-        [('Weblate', '', GIT_VERSION)] +
-        get_versions() +
-        get_optional_versions()
-    )
-
-
-def get_versions_string():
-    """Return string with version information summary."""
-    result = []
-    for version in get_versions_list():
-        result.append(
-            ' * {0} {1}'.format(
-                version[0],
-                version[2]
-            )
-        )
-    return '\n'.join(result)
-
 
 # Check for requirements
 

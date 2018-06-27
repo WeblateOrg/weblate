@@ -29,6 +29,7 @@ from weblate.vcs.git import (
     GithubRepository,
 )
 from weblate.vcs.mercurial import HgRepository
+import weblate
 
 
 def get_version_module(module, name, url, optional=False):
@@ -305,3 +306,25 @@ def check_requirements():
             'Some of required modules are missing or too old! '
             'Check above output for details.'
         )
+
+
+def get_versions_list():
+    """Return list with version information summary."""
+    return (
+        [('Weblate', '', weblate.GIT_VERSION)] +
+        get_versions() +
+        get_optional_versions()
+    )
+
+
+def get_versions_string():
+    """Return string with version information summary."""
+    result = []
+    for version in get_versions_list():
+        result.append(
+            ' * {0} {1}'.format(
+                version[0],
+                version[2]
+            )
+        )
+    return '\n'.join(result)

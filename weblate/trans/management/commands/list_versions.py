@@ -21,7 +21,7 @@
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django import db
-from weblate import get_versions_string
+from weblate.utils.requirements import get_versions_string
 
 
 class Command(BaseCommand):

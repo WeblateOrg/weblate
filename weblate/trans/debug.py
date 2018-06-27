@@ -20,7 +20,7 @@
 """Wrapper to include useful information in error mails."""
 
 from django.views.debug import SafeExceptionReporterFilter
-from weblate import get_versions_list
+from weblate.utils.requirements import get_versions_list
 
 
 class WeblateExceptionReporterFilter(SafeExceptionReporterFilter):

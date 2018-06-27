@@ -41,7 +41,7 @@ from weblate.utils.stats import prefetch_stats
 from weblate.trans.models import (
     Project, Translation, ComponentList, Change, Unit, IndexUpdate,
 )
-from weblate.requirements import get_versions, get_optional_versions
+from weblate.utils.requirements import get_versions, get_optional_versions
 from weblate.lang.models import Language
 from weblate.trans.forms import (
     get_upload_form, SearchForm, SiteSearchForm,

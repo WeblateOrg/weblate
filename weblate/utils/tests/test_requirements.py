@@ -18,11 +18,12 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from django.test import TestCase
-from weblate.requirements import check_version
+from django.test import SimpleTestCase
+
+from weblate.utils.requirements import check_version
 
 
-class RequirementsTest(TestCase):
+class RequirementsTest(SimpleTestCase):
     """Testing of requirements checking code."""
     def test_check(self):
         self.assertFalse(check_version(
