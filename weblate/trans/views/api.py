@@ -76,6 +76,13 @@ GITHUB_REPOS = (
 HOOK_HANDLERS = {}
 
 
+def background_hook(method):
+    try:
+        method()
+    except Exception as error:
+        report_error(error, sys.exc_info())
+
+
 def hook_response(response='Update triggered', status='success'):
     """Generic okay hook response"""
     return JsonResponse(
@@ -93,7 +100,10 @@ def register_hook(handler):
 def perform_update(obj):
     """Trigger update of given object."""
     if settings.BACKGROUND_HOOKS:
-        thread = threading.Thread(target=obj.do_update)
+        thread = threading.Thread(
+            target=background_hook,
+            args=(obj.do_update,)
+        )
         thread.start()
     else:
         obj.do_update()
