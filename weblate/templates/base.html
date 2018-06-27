@@ -119,7 +119,6 @@ var _rollbarConfig = {
           </ul>
         </li>
         {% endif %}
-        <li><a href="{% documentation 'index' %}">{% trans "Documentation" %}</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right flip">
         {% if user.is_authenticated %}
@@ -137,6 +136,13 @@ var _rollbarConfig = {
         {% endif %}
         <li><a class="button" id="login-button" href="{% url 'login' %}{% if not skip_next %}?next={{ login_redirect_url|urlencode }}{% endif %}">{% trans "Login" %}</a></li>
         {% endif %}
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="{% trans "Help" %}"><i class="fa fa-question-circle"></i><b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="{% url 'contact' %}">{% trans "Contact" %}</a></li>
+            <li><a href="{% documentation 'index' %}">{% trans "Documentation" %}</a></li>
+          </ul>
+        </li>
       </ul>
     </div>
   </div>
