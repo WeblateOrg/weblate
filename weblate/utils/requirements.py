@@ -23,6 +23,7 @@ from __future__ import print_function, unicode_literals
 import importlib
 import sys
 from distutils.version import LooseVersion
+from django.core.checks import Error
 from django.core.exceptions import ImproperlyConfigured
 from weblate.vcs.git import (
     GitRepository, SubversionRepository, GitWithGerritRepository,
@@ -293,19 +294,24 @@ def check_version(name, url, version, expected):
     return False
 
 
-def check_requirements():
+def check_requirements(app_configs, **kwargs):
     """Perform check on requirements and raises an exception on error."""
     versions = get_versions() + get_optional_versions()
-    failure = False
+    errors = []
 
-    for version in versions:
-        failure |= check_version(*version)
+    for name, url, version, expected in versions:
+        if check_version(name, url, version, expected):
+            errors.append(
+                Error(
+                    '{0} <{1}> is too old!'.format(name, url),
+                    hint='Installed version {0}, required {1}'.format(
+                        version, expected
+                    ),
+                    id='weblate.E001',
+                )
+            )
 
-    if failure:
-        raise ImproperlyConfigured(
-            'Some of required modules are missing or too old! '
-            'Check above output for details.'
-        )
+    return errors
 
 
 def get_versions_list():

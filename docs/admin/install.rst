@@ -796,6 +796,13 @@ exclamation mark in the top bar if you are logged in as a superuser:
 
 .. image:: ../images/admin-wrench.png
 
+It is also recommended to inspect checks fired by Django (though you might not
+need to fix all of them):
+
+.. code-block:: sh
+
+    ./manage.py check --deploy
+
 .. seealso::
 
     :doc:`django:howto/deployment/checklist`

@@ -20,7 +20,6 @@
 
 import os
 
-from weblate.utils.requirements import check_requirements
 from weblate.trans.data import check_data_writable
 from weblate.vcs.base import RepositoryException
 from weblate.vcs.git import GitRepository
@@ -66,7 +65,4 @@ def get_doc_url(page, anchor=''):
 
     return url
 
-# Check for requirements
-
-check_requirements()
 check_data_writable()

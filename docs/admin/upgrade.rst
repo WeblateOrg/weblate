@@ -57,6 +57,12 @@ work, but is not as well tested as single version upgrades.
 
         ./manage.py compilemessages
 
+7. Verify that your setup is sane (see also :ref:`production`):
+
+   .. code-block:: sh
+
+        ./manage.py check --deploy
+
 .. versionchanged:: 3.0.1
 
     If you are upgrading from 2.x release, always first upgrade to 3.0.1 (see

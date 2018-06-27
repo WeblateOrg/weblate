@@ -20,9 +20,17 @@
 from __future__ import unicode_literals
 
 from django.apps import AppConfig
+from django.core.checks import Error, register
+
+from weblate.utils.requirements import check_requirements
 
 
 class UtilsConfig(AppConfig):
     name = 'weblate.utils'
     label = 'utils'
-    verbose_name = 'Uutils'
+    verbose_name = 'Utils'
+
+    def ready(self):
+        print 'READY'
+        register(check_requirements)
+        super(UtilsConfig, self).ready()
