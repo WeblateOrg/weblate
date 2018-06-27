@@ -33,7 +33,6 @@ from django.utils.translation import ugettext as _, ungettext, ugettext_lazy
 from django.utils import timezone
 from django import template
 
-import weblate
 from weblate.trans.simplediff import html_diff
 from weblate.trans.util import split_plural
 from weblate.lang.models import Language
@@ -42,6 +41,7 @@ from weblate.trans.models import (
     ContributorAgreement,
 )
 from weblate.checks import CHECKS, highlight_string
+from weblate.utils.docs import get_doc_url
 from weblate.utils.stats import BaseStats
 
 register = template.Library()
@@ -283,14 +283,14 @@ def dictionary_count(lang, project):
 @register.simple_tag
 def documentation(page, anchor=''):
     """Return link to Weblate documentation."""
-    return weblate.get_doc_url(page, anchor)
+    return get_doc_url(page, anchor)
 
 
 @register.inclusion_tag('documentation-icon.html')
 def documentation_icon(page, anchor='', right=False):
     return {
         'right': right,
-        'doc_url': weblate.get_doc_url(page, anchor),
+        'doc_url': get_doc_url(page, anchor),
     }
 
 

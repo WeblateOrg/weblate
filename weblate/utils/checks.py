@@ -23,6 +23,8 @@ from __future__ import unicode_literals
 from django.core.mail import get_connection
 from django.core.checks import Error
 
+from weblate.utils.docs import get_doc_url
+
 
 def check_mail_connection(app_configs, **kwargs):
     errors = []

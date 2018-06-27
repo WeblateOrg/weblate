@@ -55,7 +55,7 @@ from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
 from weblate.trans.views.helper import download_translation_file
 from weblate.utils.state import STATE_TRANSLATED
-from weblate import get_doc_url
+from weblate.utils.docs import get_doc_url
 
 REPO_OPERATIONS = {
     'push': ('vcs.push', 'do_push'),

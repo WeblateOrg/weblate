@@ -62,7 +62,7 @@ from weblate.utils.state import (
 )
 from weblate.utils.validators import validate_file_extension
 from weblate.logger import LOGGER
-from weblate import get_doc_url
+from weblate.utils.docs import get_doc_url
 
 ICON_TEMPLATE = '''
 <i class="fa fa-{0}"></i> {1}

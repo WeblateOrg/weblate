@@ -34,7 +34,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.template.loader import render_to_string
 
-from weblate import get_doc_url
+from weblate.utils.docs import get_doc_url
 from weblate.utils import messages
 from weblate.utils.antispam import is_spam
 from weblate.trans.models import Unit, Change, Comment, Suggestion, Dictionary

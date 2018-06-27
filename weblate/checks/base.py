@@ -18,7 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-import weblate
+from weblate.utils.docs import get_doc_url
 
 
 class Check(object):
@@ -125,7 +125,7 @@ class Check(object):
 
     def get_doc_url(self):
         """Return link to documentation."""
-        return weblate.get_doc_url('user/checks', self.doc_id)
+        return get_doc_url('user/checks', self.doc_id)
 
     def check_highlight(self, source, unit):
         """Return parts of the text that match to hightlight them

@@ -20,30 +20,21 @@
 
 import os
 
-from weblate.vcs.base import RepositoryException
-from weblate.vcs.git import GitRepository
+import weblate
 
 
-def get_root_dir():
-    """Return Weblate root dir."""
-    curdir = os.path.dirname(os.path.abspath(__file__))
-    return os.path.abspath(os.path.join(curdir, '..'))
+def get_doc_url(page, anchor=''):
+    """Return URL to documentation."""
+    # Should we use tagged release or latest version
+    if '-dev' in weblate.VERSION:
+        version = 'latest'
+    else:
+        version = 'weblate-{0}'.format(weblate.VERSION)
+    # Generate URL
+    url = 'https://docs.weblate.org/en/{0}/{1}.html'.format(version, page)
+    # Optionally append anchor
+    if anchor != '':
+        url += '#{0}'.format(anchor)
 
+    return url
 
-# Weblate version
-VERSION = '3.1-dev'
-
-# Version string without suffix
-VERSION_BASE = VERSION.replace('-dev', '')
-
-# User-Agent string to use
-USER_AGENT = 'Weblate/{0}'.format(VERSION)
-
-# Grab some information from git
-try:
-    # Describe current checkout
-    GIT_VERSION = GitRepository(get_root_dir(), local=True).describe()
-except (RepositoryException, OSError):
-    # Import failed or git has troubles reading
-    # repo (eg. swallow clone)
-    GIT_VERSION = VERSION
