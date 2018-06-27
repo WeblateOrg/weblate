@@ -123,7 +123,7 @@ HackerOne as well.
 
 If you don't want to use HackerOne for whatever reason, you can send the report
 by email to michal@cihar.com. You can choose to encrypt it using his PGP key
-`9C27B31342B7511D`.
+`3CB 1DF1 EF12 CF2A C0EE  5A32 9C27 B313 42B7 511D`.
 
 .. note::
 
