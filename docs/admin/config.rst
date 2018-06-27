@@ -664,20 +664,6 @@ URL of the Apertium APy server, see http://wiki.apertium.org/wiki/Apertium-apy
 
    :ref:`apertium`, :ref:`machine-translation-setup`, :ref:`machine-translation`
 
-
-.. setting:: MT_APERTIUM_KEY
-
-MT_APERTIUM_KEY
----------------
-
-API key for Apertium Web Service, currently not used.
-
-Not needed at all when running your own Apertium APy server.
-
-.. seealso::
-
-   :ref:`apertium`, :ref:`machine-translation-setup`, :ref:`machine-translation`
-
 .. setting:: MT_AWS_ACCESS_KEY_ID
 
 MT_AWS_ACCESS_KEY_ID

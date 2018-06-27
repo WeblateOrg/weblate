@@ -26,9 +26,6 @@ from appconf import AppConf
 class WeblateConf(AppConf):
     """Machine translation settings."""
 
-    # Apertium Web Service, register at http://api.apertium.org/register.jsp
-    APERTIUM_KEY = None
-
     # URL of the Apertium APy server
     APERTIUM_APY = None
 

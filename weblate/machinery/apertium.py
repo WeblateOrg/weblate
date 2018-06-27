@@ -96,8 +96,6 @@ class ApertiumAPYTranslation(MachineTranslation):
             'langpair': '{0}|{1}'.format(source, language),
             'q': text,
         }
-        if settings.MT_APERTIUM_KEY is not None:
-            args['key'] = settings.MT_APERTIUM_KEY
         response = self.json_status_req(
             '{0}/translate'.format(self.url),
             **args
