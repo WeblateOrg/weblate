@@ -60,8 +60,6 @@ PIL or Pillow library
     https://python-pillow.org/
 lxml (>= 3.1.0)
     http://lxml.de/
-PyYaML (>= 3.0) (optional for YAML support)
-    http://pyyaml.org/wiki/PyYAML
 defusedxml (>= 0.4)
     https://bitbucket.org/tiran/defusedxml
 dateutil
@@ -207,7 +205,7 @@ system Python libraries.
         
         pip install Weblate
         # Optional deps
-        pip install pytz python-bidi PyYaML Babel pyuca pylibravatar pydns
+        pip install pytz python-bidi PyYAML Babel pyuca pylibravatar pydns
 
 5. Create your settings (in our example it would be in 
    :file:`/tmp/weblate/lib/python2.7/site-packages/weblate/settings.py`
