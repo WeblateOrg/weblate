@@ -33,10 +33,11 @@ def check_mail_connection(app_configs, **kwargs):
         connection.open()
         connection.close()
     except Exception as error:
+        message = 'Can not send email ({}), please check EMAIL_* settings.'
         errors.append(
             Error(
-                'Can not send email: {}'.format(error),
-                hint='Try checking EMAIL_* settings.',
+                message.format(error),
+                hint=get_doc_url('admin/install', 'out-mail'),
                 id='weblate.E003',
             )
         )

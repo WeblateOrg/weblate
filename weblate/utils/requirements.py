@@ -25,6 +25,7 @@ import sys
 from distutils.version import LooseVersion
 from django.core.checks import Error
 from django.core.exceptions import ImproperlyConfigured
+from weblate.utils.docs import get_doc_url
 from weblate.vcs.git import (
     GitRepository, SubversionRepository, GitWithGerritRepository,
     GithubRepository,
@@ -293,15 +294,14 @@ def check_requirements(app_configs, **kwargs):
     """Perform check on requirements and raises an exception on error."""
     versions = get_versions() + get_optional_versions()
     errors = []
+    message = '{0} <{1}> is too old. Installed version {2}, required {3}.'
 
     for name, url, version, expected in versions:
         if check_version(version, expected):
             errors.append(
                 Error(
-                    '{0} <{1}> is too old!'.format(name, url),
-                    hint='Installed version {0}, required {1}'.format(
-                        version, expected
-                    ),
+                    message.format(name, url, version, expected),
+                    hint=get_doc_url('admin/install', 'requirements'),
                     id='weblate.E001',
                 )
             )

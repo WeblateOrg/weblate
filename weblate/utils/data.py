@@ -23,6 +23,8 @@ import os
 from django.conf import settings
 from django.core.checks import Critical
 
+from weblate.utils.docs import get_doc_url
+
 
 def check_data_writable(app_configs=None, **kwargs):
     """Check we can write to data dir."""
@@ -35,17 +37,15 @@ def check_data_writable(app_configs=None, **kwargs):
         data_dir('vcs'),
         data_dir('memory'),
     ]
+    message = 'Path {} is not writable, check your DATA_DIR settings.'
     for path in dirs:
         if not os.path.exists(path):
             os.makedirs(path)
         elif not os.access(path, os.W_OK):
             errors.append(
                 Critical(
-                    'Path {} is not writable!'.format(path),
-                    hint=(
-                        'Maybe your DATA_DIR settings is wrong or '
-                        'running under wrong user?'
-                    ),
+                    message.format(path),
+                    hint=get_doc_url('admin/install', 'file-permissions'),
                     id='weblate.E002',
                 )
             )
