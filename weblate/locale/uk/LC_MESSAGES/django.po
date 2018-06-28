@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-06-26 20:06+0000\n"
-"PO-Revision-Date: 2018-06-16 03:11+0000\n"
+"PO-Revision-Date: 2018-06-28 05:53+0000\n"
 "Last-Translator: Андрій Бандура <andriykopanytsia@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/master/"
 "uk/>\n"
@@ -16,9 +16,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 3.0.1\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 3.1-dev\n"
 
 #: weblate/accounts/avatar.py:164
 msgctxt "No known user"
@@ -312,8 +312,6 @@ msgstr ""
 "відображатися поруч із джерельним рядком."
 
 #: weblate/accounts/models.py:311
-#, fuzzy
-#| msgid "Hide completed translations on dashboard"
 msgid "Hide completed translations on the dashboard"
 msgstr "Приховати завершені переклади у домівці"
 
@@ -394,10 +392,6 @@ msgid "Watched projects"
 msgstr "Відстежувані проекти"
 
 #: weblate/accounts/models.py:390
-#, fuzzy
-#| msgid ""
-#| "You can receive notifications for watched projects and they are shown on "
-#| "dashboard by default."
 msgid ""
 "You can receive notifications for watched projects and they are shown on the "
 "dashboard by default."
@@ -434,15 +428,11 @@ msgid "Notification on new language request"
 msgstr "Повідомлення про запит нової мови"
 
 #: weblate/accounts/models.py:475
-#, fuzzy
-#| msgid "Component list must be selected when used as default."
 msgid "Component list must be chosen when used as default."
 msgstr ""
 "Список компонентів повинен бути вибраний, якщо використовується як усталений."
 
 #: weblate/accounts/models.py:481
-#, fuzzy
-#| msgid "Component list must not be selected when not used."
 msgid "Component list can not be chosen when unused."
 msgstr "Список компонент не потрібно вибирати, якщо не використовується."
 
@@ -1317,13 +1307,8 @@ msgid "superuser status"
 msgstr "статус суперкористувача"
 
 #: weblate/auth/models.py:284
-#, fuzzy
-#| msgid ""
-#| "Designates that this user has all permissions without explicitly "
-#| "assigning them."
 msgid "User has all permissions without having been given them."
-msgstr ""
-"Означає, що у цього користувача є всі дозволи навіть без їх явного задання."
+msgstr "Користувач має всі дозволи навіть без їх явного задання."
 
 #: weblate/auth/models.py:288
 msgid "active"
@@ -1331,7 +1316,7 @@ msgstr "активний"
 
 #: weblate/auth/models.py:290
 msgid "Mark user as inactive instead of removing."
-msgstr ""
+msgstr "Позначає, що користувач неактивний замість вилучення."
 
 #: weblate/auth/models.py:292
 msgid "Date joined"
@@ -1342,23 +1327,15 @@ msgid "Groups"
 msgstr "Групи"
 
 #: weblate/auth/models.py:298
-#, fuzzy
-#| msgid ""
-#| "The groups this user belongs to. A user will get all permissions granted "
-#| "to each of their groups."
 msgid ""
 "The user is granted all permissions included in membership of these groups."
-msgstr ""
-"Групи, до яких належить цей користувач. Користувач отримає всі дозволи, "
-"надані кожній з цих груп."
+msgstr "Користувач отримає всі дозволи, надані кожній з цих груп."
 
 #: weblate/auth/models.py:442
 msgid "Email regular expression"
 msgstr "Регулярний вираз Ел. пошти"
 
 #: weblate/auth/models.py:446
-#, fuzzy
-#| msgid "Regular expression which is used to match user email."
 msgid "Regular expression used to match user email."
 msgstr ""
 "Регулярний вираз, який використовується для зіставлення пошти користувача."
@@ -2426,8 +2403,6 @@ msgid "Protected"
 msgstr "Захищений"
 
 #: weblate/templates/access_control_description.html:7
-#, fuzzy
-#| msgid "Publicly visible, only translatable for selected users"
 msgid "Publicly visible, only translatable for chosen users"
 msgstr "Усі бачать, але перекладають тільки вибрані користувачі"
 
@@ -2437,8 +2412,6 @@ msgid "Private"
 msgstr "Приватний"
 
 #: weblate/templates/access_control_description.html:9
-#, fuzzy
-#| msgid "Visible and translatable only for selected users"
 msgid "Visible and translatable only for chosen users"
 msgstr "Тільки вибрані користувачі бачать і можуть перекладати"
 
@@ -3713,8 +3686,6 @@ msgid "Suggestions to improve translation are disabled."
 msgstr "Пропозиції для покращення перекладу вимкнено."
 
 #: weblate/templates/component_info.html:26
-#, fuzzy
-#| msgid "Only selected users can contribute."
 msgid "Only chosen users can contribute."
 msgstr "Тільки обрані користувачі можуть брати участь."
 
@@ -4999,14 +4970,12 @@ msgid "matrix"
 msgstr "матриця"
 
 #: weblate/templates/matrix.html:34
-#, fuzzy
-#| msgid "Used languages"
 msgid "Displayed languages"
-msgstr "Використані мови"
+msgstr "Показані мови"
 
 #: weblate/templates/matrix.html:39
 msgid "Choose"
-msgstr ""
+msgstr "Вибрати"
 
 #: weblate/templates/new-language.html:25
 msgid ""
@@ -6192,8 +6161,6 @@ msgid "Search filter"
 msgstr "Фільтр пошуку"
 
 #: weblate/trans/forms.py:631
-#, fuzzy
-#| msgid "Please select a valid filter type."
 msgid "Please choose a valid filter type."
 msgstr "Будь ласка, виберіть правильний тип фільтру."
 
@@ -6218,34 +6185,24 @@ msgid "Exact match"
 msgstr "Точний збіг"
 
 #: weblate/trans/forms.py:722
-#, fuzzy
-#| msgid "Please select a valid search type."
 msgid "Please choose a valid search type."
 msgstr "Будь ласка, виберіть правильний тип пошуку."
 
 #: weblate/trans/forms.py:731
-#, fuzzy
-#| msgid "Source strings"
 msgid "Target strings"
-msgstr "Початкові рядки"
+msgstr "Цільові рядки"
 
 #: weblate/trans/forms.py:736
-#, fuzzy
-#| msgid "Search in context strings"
 msgid "Context strings"
-msgstr "Шукати у контекстних рядках"
+msgstr "Контекстні рядки"
 
 #: weblate/trans/forms.py:741
-#, fuzzy
-#| msgid "Locations"
 msgid "Location strings"
-msgstr "Розташування"
+msgstr "Рядки розташування"
 
 #: weblate/trans/forms.py:746
-#, fuzzy
-#| msgid "Bad format string (%s)"
 msgid "Comment strings"
-msgstr "Хибний формат рядка (%s)"
+msgstr "Рядки коментарів"
 
 #: weblate/trans/forms.py:753
 msgid "Show ignored checks as well"
@@ -6290,11 +6247,11 @@ msgstr "{filter_name}, {search_name}"
 
 #: weblate/trans/forms.py:868 weblate/trans/forms.py:870
 msgid "Could not find merged string."
-msgstr ""
+msgstr "Не можна знайти об'єднані рядки."
 
 #: weblate/trans/forms.py:889
 msgid "Could not find reverted change."
-msgstr ""
+msgstr "Не вдалося знайти скасовану зміну."
 
 #: weblate/trans/forms.py:900
 msgid "Automatic translation source"
@@ -6305,8 +6262,6 @@ msgid "Other translation components"
 msgstr "Інші компоненти перекладу"
 
 #: weblate/trans/forms.py:913
-#, fuzzy
-#| msgid "Machine translation engines to use"
 msgid "Machine translation engines"
 msgstr "Рушії комп'ютерного перекладу"
 
@@ -6347,12 +6302,9 @@ msgid "Starting date"
 msgstr "Дата початку"
 
 #: weblate/trans/forms.py:1050
-#, fuzzy
-#| msgctxt "Select starting letter in glossary"
-#| msgid "Any"
 msgctxt "Choose starting letter in glossary"
 msgid "Any"
-msgstr "Виберіть початкову літеру у глосарію"
+msgstr "Будь-яка"
 
 #: weblate/trans/forms.py:1052
 msgid "Starting letter"
@@ -6385,14 +6337,10 @@ msgid "Similar translation already exists in the project ({0})!"
 msgstr "Подібний переклад вже існує у цьому проекті ({0})!"
 
 #: weblate/trans/forms.py:1162
-#, fuzzy
-#| msgid "Please select"
 msgid "Please choose"
 msgstr "Будь ласка, виберіть"
 
 #: weblate/trans/forms.py:1184
-#, fuzzy
-#| msgid "Strings with higher priority are offered first to translators."
 msgid "Higher priority strings are presented to translators earlier."
 msgstr "Перекладачам спершу пропонуються рядки із більшим пріоритетом."
 
