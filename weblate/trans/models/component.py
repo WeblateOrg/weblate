@@ -1113,15 +1113,17 @@ class Component(models.Model, URLMixin, PathMixin):
         if self.new_lang == 'add':
             filename = self.get_new_base_filename()
             if not self.file_format_cls.is_valid_base_for_new(filename):
-                if filename is not None:
-                    raise ValidationError(_(
+                if filename:
+                    message = _(
+                        'Format of base file for new translations '
+                        'was not recognized!'
+                    )
+                else:
+                    message = _(
                         'You have configured Weblate to add new translation '
                         'files, but did not provide base file to do that!'
-                    ))
-                raise ValidationError(_(
-                    'Format of base file for new translations '
-                    'was not recognized!'
-                ))
+                    )
+                raise ValidationError({'new_base': msg})
         elif self.new_lang != 'add' and self.new_base:
             msg = _(
                 'Base file for new translations is not used because of '
