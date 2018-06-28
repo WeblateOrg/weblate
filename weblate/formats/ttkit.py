@@ -233,15 +233,6 @@ class PoFormat(FileFormat):
     autoload = ('.po', '.pot')
     unit_class = PoUnit
 
-    @classmethod
-    def is_valid_base_for_new(cls, base):
-        """Check whether base is valid."""
-        try:
-            cls.loader.parsefile(base)
-            return True
-        except Exception:
-            return False
-
     def get_plural(self, language):
         """Return matching plural object."""
         from weblate.lang.models import Plural
@@ -328,15 +319,6 @@ class TSFormat(FileFormat):
     autoload = ('.ts',)
     unit_class = TSUnit
 
-    @classmethod
-    def is_valid_base_for_new(cls, base):
-        """Check whether base is valid."""
-        try:
-            cls.loader.parsefile(base)
-            return True
-        except Exception:
-            return False
-
 
 class XliffFormat(FileFormat):
     name = _('XLIFF Translation File')
@@ -362,15 +344,6 @@ class XliffFormat(FileFormat):
             self.unit_class(self._find_unit_mono(context, self.store)),
             False
         )
-
-    @classmethod
-    def is_valid_base_for_new(cls, base):
-        """Check whether base is valid."""
-        try:
-            cls.loader.parsefile(base)
-            return True
-        except Exception:
-            return False
 
 
 class PoXliffFormat(XliffFormat):
