@@ -212,6 +212,10 @@ Creates ``admin`` account with random password unless it is specified.
 .. django-admin-option:: --password PASSWORD
    
     Provide password on the command line and skip generating random one.
+
+.. django-admin-option:: --no-password
+   
+    Do not set password, this can be useful with --update.
     
 .. django-admin-option:: --username USERNAME
    
