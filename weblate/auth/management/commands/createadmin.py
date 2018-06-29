@@ -80,7 +80,7 @@ class Command(BaseCommand):
                 'User exists, specify --update to update existing'
             )
 
-        if options['no-password']:
+        if options['no_password']:
             password = None
         elif options['password']:
             password = options['password']
