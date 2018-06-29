@@ -74,6 +74,8 @@ work, but is not as well tested as single version upgrades.
 Version specific instructions
 -----------------------------
 
+.. _up-3-1:
+
 Upgrade from 3.0.1 to 3.1
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 

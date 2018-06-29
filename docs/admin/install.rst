@@ -878,6 +878,18 @@ For production site, you want something like:
    :ref:`faq-site`, :djadmin:`changesite`,
    :doc:`django:ref/contrib/sites`
 
+.. _production-ssl:
+
+Correctly configure HTTPS
++++++++++++++++++++++++++
+
+It is strongly recommended to run Weblate using encrypted HTTPS protocol. After
+enabling you shoud sed :setting:`ENABLE_HTTPS` settings which also adjusts
+several other related Django settings in the example configuration.
+
+You might want to configure HSTS as well, see
+:ref:`django:security-recommendation-ssl` for more details.
+
 .. _production-indexing:
 
 Enable indexing offloading

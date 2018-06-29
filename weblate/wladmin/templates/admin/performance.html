@@ -1,6 +1,7 @@
 {% extends "admin/base_site.html" %}
 {% load i18n %}
 {% load translations %}
+{% load check_links %}
 
 {% block title %}{% trans "Performance report" %}{% endblock %}
 
@@ -72,7 +73,7 @@
   <tr class="row{% cycle '1' '2' %}">
       <td>{{ check.id }}</td>
       <td>{{ check.msg }}</td>
-      <td>{% if check.hint %}<a href="{{ check.hint }}">{% trans "Documentation" %}</a>{% endif %}</td>
+      <td>{% check_link check %}</td>
   </tr>
   {% endfor %}
   </tbody>
