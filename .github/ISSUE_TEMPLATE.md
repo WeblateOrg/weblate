@@ -11,3 +11,6 @@ Tell us what should happen
 
 ### Server configuration
 Please paste the output of command `./manage.py list_versions` over here
+
+### System checks
+Please paste the output of command `./manage.py check --deploy` over here
