@@ -49,8 +49,13 @@ With :program:`docker-compose` this is quite similar, you just have to use
 
 .. code-block:: sh
 
-    docker-compose run <container> weblate list_versions
+    docker-compose run --rm weblate list_versions
 
+In case you need to pass some file, you can temporary add a volume:
+
+.. code-block:: sh
+
+    docker-compose run --rm --volume /tmp:/tmp weblate importusers /tmp/users.json
 
 .. seealso::
 
