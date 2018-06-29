@@ -61,11 +61,11 @@ class Command(BaseCommand):
         profile.language = userprofile['language']
         for lang in userprofile['secondary_languages']:
             profile.secondary_languages.add(
-                Language.objects.get(code=lang)
+                Language.objects.auto_get_or_create(lang)
             )
         for lang in userprofile['languages']:
             profile.languages.add(
-                Language.objects.get(code=lang)
+                Language.objects.auto_get_or_create(lang)
             )
 
     def handle(self, **options):
