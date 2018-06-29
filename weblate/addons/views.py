@@ -79,7 +79,7 @@ class AddonList(AddonViewMixin, ListView):
         if (not name or
                 addon is None or
                 not addon.can_install(component, request.user) or
-                name in installed):
+                (name in installed and not addon.multiple)):
             return self.redirect_list(_('Invalid addon name specified!'))
 
         form = None
