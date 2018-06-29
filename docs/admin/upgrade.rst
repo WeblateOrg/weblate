@@ -82,6 +82,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Notable configuration or dependencies changes:
 
 * Several no longer needed applications have been removed from :setting:`django:INSTALLED_APPS`.
+* The settings now recommend using several Django security features, see :ref:`django:security-recommendation-ssl`.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
