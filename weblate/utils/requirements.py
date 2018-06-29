@@ -84,11 +84,6 @@ def get_optional_versions():
     )
 
     get_optional_module(
-        result, 'libravatar', 'pyLibravatar',
-        'https://pypi.python.org/pypi/pyLibravatar', None
-    )
-
-    get_optional_module(
         result, 'yaml', 'PyYAML', 'http://pyyaml.org/wiki/PyYAML'
     )
 

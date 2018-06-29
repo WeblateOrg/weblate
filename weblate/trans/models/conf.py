@@ -142,10 +142,10 @@ class WeblateConf(AppConf):
     ENABLE_AVATARS = True
 
     # Avatar URL prefix
-    AVATAR_URL_PREFIX = 'https://seccdn.libravatar.org/'
+    AVATAR_URL_PREFIX = 'https://www.gravatar.com/'
 
     # Avatar fallback image
-    # See http://wiki.libravatar.org/api/ for available choices
+    # See http://en.gravatar.com/site/implement/images/ for available choices
     AVATAR_DEFAULT_IMAGE = 'identicon'
 
     # Is the site using https

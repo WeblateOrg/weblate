@@ -124,8 +124,8 @@ Avatar
 ++++++
 
 Weblate can be configured to show avatar for each user (depending on
-:setting:`ENABLE_AVATARS`). These images are obtained using libravatar protocol
-(see https://www.libravatar.org/) or using https://gravatar.com/.
+:setting:`ENABLE_AVATARS`). These images are obtained using
+https://gravatar.com/.
 
 Editor link
 +++++++++++

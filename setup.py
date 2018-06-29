@@ -61,10 +61,6 @@ setup(
     extras_require={
         'Mercurial': ['Mercurial>=2.8'],
         'Unicode': ['pyuca>=1.1', 'python-bidi>=0.4.0', 'chardet'],
-        'Avatars': [
-            'pyLibravatar',
-            'pydns' if sys.version_info[0] == 2 else 'py3dns'
-        ],
         'YAML': ['PyYAML>=3.0'],
         'OCR': ['tesserocr>=1.2'],
         'PHP': ['phply>=1.2.3'],

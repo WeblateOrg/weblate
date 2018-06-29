@@ -154,15 +154,9 @@ This can be disabled using :setting:`ENABLE_AVATARS`. The avatars are
 downloaded and cached server side to reduce information leaks to the sites
 serving them.
 
-Weblate currently supports two backends:
+Weblate currently supports single backend:
 
-* `Libravatar <https://www.libravatar.org/>`_, what is federated avatar service
-  with fallback to `Gravatar`_. Libravatar is used automatically when 
-  `pyLibravatar <https://pypi.python.org/pypi/pyLibravatar>`_ is installed.
-* `Gravatar`_ can be also used directly by Weblate and is used if the
-  pyLibravatar library is not found.
-
-.. _Gravatar: https://gravatar.com/
+* `Gravatar <https://gravatar.com/>`_
 
 .. seealso:: 
    

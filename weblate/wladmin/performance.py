@@ -29,7 +29,6 @@ import six
 
 from weblate.trans.models import IndexUpdate
 from weblate import settings_example
-from weblate.accounts.avatar import HAS_LIBRAVATAR
 from weblate.trans.util import HAS_PYUCA, check_domain
 from weblate.utils.site import get_site_url, get_site_domain
 
@@ -195,17 +194,6 @@ def run_mails(checks, request):
         ),
         'production-email',
         ', '.join((settings.SERVER_EMAIL, settings.DEFAULT_FROM_EMAIL)),
-    ))
-
-
-@register_check
-def run_libravatar(checks, request):
-    """libravatar library"""
-    checks.append((
-        _('Federated avatar support'),
-        HAS_LIBRAVATAR,
-        'production-avatar',
-        HAS_LIBRAVATAR,
     ))
 
 

@@ -72,11 +72,6 @@ Django REST Framework (>=3.8)
     http://www.django-rest-framework.org/
 user-agents (>= 1.1.0)
     https://github.com/selwin/python-user-agents
-libravatar (optional for federated avatar support)
-    You need to additionally install pydns (on Python 2) or py3dns (on Python 3)
-    to make libravatar work.
-
-    https://pypi.python.org/pypi/pyLibravatar
 pyuca (>= 1.1) (optional for proper sorting of strings)
     https://github.com/jtauber/pyuca
 Babel (optional for Android resources support)
@@ -205,7 +200,7 @@ system Python libraries.
         
         pip install Weblate
         # Optional deps
-        pip install pytz python-bidi PyYAML Babel pyuca pylibravatar pydns
+        pip install pytz python-bidi PyYAML Babel pyuca
 
 5. Create your settings (in our example it would be in 
    :file:`/tmp/weblate/lib/python2.7/site-packages/weblate/settings.py`
@@ -267,7 +262,7 @@ install them you can use apt-get:
 .. code-block:: sh
 
     apt-get install python-pip python-django translate-toolkit \
-        python-whoosh python-pil python-libravatar \
+        python-whoosh python-pil \
         python-babel git mercurial \
         python-django-compressor python-django-crispy-forms \
         python-djangorestframework python-dateutil
@@ -1025,17 +1020,6 @@ your site is allowed to serve, having it empty will block any request.
 .. seealso::
 
     :std:setting:`django:ALLOWED_HOSTS`
-
-.. _production-avatar:
-
-Federated avatar support
-++++++++++++++++++++++++
-
-By default, Weblate relies on <https://www.libravatar.org/> for avatars. When
-you install `pyLibavatar`_, you will get proper support for federated avatars.
-
-.. _pyLibavatar: https://pypi.python.org/pypi/pyLibravatar
-
 
 .. _production-pyuca:
 
