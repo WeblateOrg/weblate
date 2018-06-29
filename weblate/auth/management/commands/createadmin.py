@@ -35,6 +35,12 @@ class Command(BaseCommand):
             help='Password to set, random is generated if not specified'
         )
         parser.add_argument(
+            '--no-password',
+            action='store_true',
+            default=False,
+            help='Do not set password at all (useful with --update)'
+        )
+        parser.add_argument(
             '--username',
             default='admin',
             help='Admin username, defaults to "admin"'
@@ -74,7 +80,9 @@ class Command(BaseCommand):
                 'User exists, specify --update to update existing'
             )
 
-        if options['password']:
+        if options['no-password']:
+            password = None
+        elif options['password']:
             password = options['password']
             self.stdout.write('Creating user admin')
         else:
@@ -84,7 +92,8 @@ class Command(BaseCommand):
         if exists and options['update']:
             user = User.objects.get(username=options['username'])
             user.email = options['email']
-            user.set_password(password)
+            if password is not None:
+                user.set_password(password)
         else:
             user = User.objects.create_user(
                 options['username'],
