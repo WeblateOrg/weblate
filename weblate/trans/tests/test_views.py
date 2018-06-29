@@ -90,6 +90,7 @@ class ViewTestCase(RepoTestCase):
         self.component = self.create_component()
         self.project = self.component.project
         # Invalidate caches
+        self.project.stats.invalidate()
         cache.clear()
         # Login
         self.client.login(username='testuser', password='testpassword')
