@@ -53,13 +53,7 @@ this.
         If :envvar:`WEBLATE_ADMIN_PASSWORD` is not set, admin user is created with
         random password printed out on first startup.
 
-3. Build Weblate containers:
-
-   .. code-block:: sh
-
-        docker-compose build
-
-4. Start Weblate containers:
+3. Start Weblate containers:
 
    .. code-block:: sh
 
@@ -120,9 +114,8 @@ latest images and restarting:
 
 .. code-block:: sh
 
-    docker-compose down
+    docker-compose stop
     docker-compose pull
-    docker-compose build --pull
     docker-compose up
 
 The Weblate database should be automatically migrated on first start and there
