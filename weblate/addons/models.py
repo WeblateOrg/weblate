@@ -77,9 +77,6 @@ class Addon(models.Model):
 
     objects = AddonQuerySet.as_manager()
 
-    class Meta(object):
-        unique_together = ('component', 'name')
-
     def __str__(self):
         return '{}: {}'.format(self.addon.verbose, self.component)
 
