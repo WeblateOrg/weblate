@@ -22,8 +22,6 @@
 
 from __future__ import unicode_literals
 
-from unittest import SkipTest
-
 from django.contrib.messages import ERROR
 from django.test import SimpleTestCase
 from django.urls import reverse
@@ -309,15 +307,8 @@ class ImportPHPMonoTest(ImportTest):
 
 
 class StringsImportTest(ImportTest):
-    """Testing of mo file imports."""
-    test_file = TEST_PO
-
     def create_component(self):
         return self.create_iphone()
-
-    def test_import_fuzzy(self):
-        # Does not make sense here
-        raise SkipTest('Fuzzy flag not supported on Strings format')
 
 
 class AndroidImportTest(ViewTestCase):
