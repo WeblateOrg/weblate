@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-06-26 20:06+0000\n"
-"PO-Revision-Date: 2018-06-29 08:56+0000\n"
+"PO-Revision-Date: 2018-07-01 14:05+0000\n"
 "Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/master/da/"
 ">\n"
@@ -1319,7 +1319,7 @@ msgstr "Aktiv"
 
 #: weblate/auth/models.py:290
 msgid "Mark user as inactive instead of removing."
-msgstr ""
+msgstr "Mærk bruger som inaktiv i stedet for at fjerne."
 
 #: weblate/auth/models.py:292
 msgid "Date joined"
@@ -1345,10 +1345,8 @@ msgid "Email regular expression"
 msgstr "E-mail regulært udtryk"
 
 #: weblate/auth/models.py:446
-#, fuzzy
-#| msgid "Regular expression which is used to match user email."
 msgid "Regular expression used to match user email."
-msgstr "Regulært udtryk, som bruges til at matche brugers e-mail."
+msgstr "Regulært udtryk der bruges til at matche brugers e-mail."
 
 #: weblate/auth/models.py:451
 msgid "Group to assign"
@@ -2397,8 +2395,6 @@ msgid "Protected"
 msgstr "Beskyttet"
 
 #: weblate/templates/access_control_description.html:7
-#, fuzzy
-#| msgid "Publicly visible, only translatable for selected users"
 msgid "Publicly visible, only translatable for chosen users"
 msgstr "Offentligt synlig, som kun kan oversættes af udvalgte brugere"
 
@@ -2408,8 +2404,6 @@ msgid "Private"
 msgstr "Private"
 
 #: weblate/templates/access_control_description.html:9
-#, fuzzy
-#| msgid "Visible and translatable only for selected users"
 msgid "Visible and translatable only for chosen users"
 msgstr "Synlig og som kun kan oversættes af udvalgte brugere"
 
@@ -3675,8 +3669,6 @@ msgid "Suggestions to improve translation are disabled."
 msgstr "Forslag til at forbedre oversættelse er deaktiveret."
 
 #: weblate/templates/component_info.html:26
-#, fuzzy
-#| msgid "Only selected users can contribute."
 msgid "Only chosen users can contribute."
 msgstr "Kun udvalgte brugere kan bidrage."
 
@@ -4964,14 +4956,12 @@ msgid "matrix"
 msgstr "matrix"
 
 #: weblate/templates/matrix.html:34
-#, fuzzy
-#| msgid "Used languages"
 msgid "Displayed languages"
-msgstr "Anvendte sprog"
+msgstr "Viste sprog"
 
 #: weblate/templates/matrix.html:39
 msgid "Choose"
-msgstr ""
+msgstr "Vælg"
 
 #: weblate/templates/new-language.html:25
 msgid ""
@@ -6156,8 +6146,6 @@ msgid "Search filter"
 msgstr "Søgefilter"
 
 #: weblate/trans/forms.py:631
-#, fuzzy
-#| msgid "Please select a valid filter type."
 msgid "Please choose a valid filter type."
 msgstr "Vælg en gyldig filtertype."
 
@@ -6182,34 +6170,24 @@ msgid "Exact match"
 msgstr "Nøjagtigt ens"
 
 #: weblate/trans/forms.py:722
-#, fuzzy
-#| msgid "Please select a valid search type."
 msgid "Please choose a valid search type."
 msgstr "Vælg en gyldig søgetype."
 
 #: weblate/trans/forms.py:731
-#, fuzzy
-#| msgid "Source strings"
 msgid "Target strings"
-msgstr "Kildestrenge"
+msgstr "Målstrenge"
 
 #: weblate/trans/forms.py:736
-#, fuzzy
-#| msgid "Search in context strings"
 msgid "Context strings"
-msgstr "Søg i kontekststrenge"
+msgstr "Kontekststrenge"
 
 #: weblate/trans/forms.py:741
-#, fuzzy
-#| msgid "Locations"
 msgid "Location strings"
-msgstr "Placeringer"
+msgstr "Placeringsstrenge"
 
 #: weblate/trans/forms.py:746
-#, fuzzy
-#| msgid "C format string"
 msgid "Comment strings"
-msgstr "C formatstreng"
+msgstr "Kommentarstrenge"
 
 #: weblate/trans/forms.py:753
 msgid "Show ignored checks as well"
@@ -6254,11 +6232,11 @@ msgstr "{filter_name}, {search_name}"
 
 #: weblate/trans/forms.py:868 weblate/trans/forms.py:870
 msgid "Could not find merged string."
-msgstr ""
+msgstr "Kunne ikke finde sammenlagt streng."
 
 #: weblate/trans/forms.py:889
 msgid "Could not find reverted change."
-msgstr ""
+msgstr "Kunne ikke finde tilbageført ændring."
 
 #: weblate/trans/forms.py:900
 msgid "Automatic translation source"
@@ -6269,10 +6247,8 @@ msgid "Other translation components"
 msgstr "Andre oversættelseskomponenter"
 
 #: weblate/trans/forms.py:913
-#, fuzzy
-#| msgid "Machine translation engines to use"
 msgid "Machine translation engines"
-msgstr "Maskinoversættelsesmotorer som skal bruges"
+msgstr "Maskinoversættelsesmotorer"
 
 #: weblate/trans/forms.py:918
 msgid "Score threshold"
@@ -6311,9 +6287,6 @@ msgid "Starting date"
 msgstr "Startdato"
 
 #: weblate/trans/forms.py:1050
-#, fuzzy
-#| msgctxt "Select starting letter in glossary"
-#| msgid "Any"
 msgctxt "Choose starting letter in glossary"
 msgid "Any"
 msgstr "Alle"
@@ -6350,16 +6323,12 @@ msgid "Similar translation already exists in the project ({0})!"
 msgstr "Lignende oversættelse findes allerede i projektet {0}!"
 
 #: weblate/trans/forms.py:1162
-#, fuzzy
-#| msgid "Please select"
 msgid "Please choose"
 msgstr "Vælg"
 
 #: weblate/trans/forms.py:1184
-#, fuzzy
-#| msgid "Strings with higher priority are offered first to translators."
 msgid "Higher priority strings are presented to translators earlier."
-msgstr "Strenge med højere prioritet tilbydes først til oversættere."
+msgstr "Strenge med højere prioritet præsenteres tidligt til oversættere."
 
 #: weblate/trans/forms.py:1198
 msgid "Check flags"
