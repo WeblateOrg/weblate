@@ -573,8 +573,11 @@ class GithubRepository(GitRepository):
 
     def push_to_fork(self, local_branch, fork_branch):
         """Push given local branch to branch in forked repository."""
-        self.execute(self._cmd_push + ['{0}:{1}'.format(local_branch,
-                                                        fork_branch)])
+        if settings.GITHUB_USERNAME:
+            cmd_push = ['push', '--force', settings.GITHUB_USERNAME]
+        else:
+            cmd_push = ['push', 'origin']
+        self.execute(cmd_push + ['{0}:{1}'.format(local_branch, fork_branch)])
 
     def fork(self):
         """Create fork of original repository if one doesn't exist yet."""
