@@ -587,8 +587,8 @@ class Unit(models.Model, LoggerMixin):
             unit.state = self.state
             unit.save_backend(request, False, change_action=change_action)
 
-    def save_backend(self, request, propagate=True, gen_change=True,
-                     change_action=None, user=None):
+    def save_backend(self, request, propagate=True, change_action=None,
+                     user=None):
         """
         Stores unit to backend.
 
@@ -653,8 +653,7 @@ class Unit(models.Model, LoggerMixin):
         notify_new_translation(self, self.old_unit, user)
 
         # Generate Change object for this change
-        if gen_change:
-            self.generate_change(request, user, change_action)
+        self.generate_change(request, user, change_action)
 
         # Force commiting on completing translation
         translated = self.translation.stats.translated

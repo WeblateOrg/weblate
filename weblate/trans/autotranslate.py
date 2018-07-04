@@ -44,15 +44,10 @@ class AutoTranslate(object):
     def update(self, unit, state, target):
         unit.state = state
         unit.target = target
-        # Create single change object for whole merge
-        Change.objects.create(
-            action=Change.ACTION_AUTO,
-            unit=unit,
-            user=self.user,
-            author=self.user
-        )
         # Save unit to backend
-        unit.save_backend(self.request, False, False, user=self.user)
+        unit.save_backend(
+            self.request, False, Change.ACTION_AUTO, user=self.user
+        )
         self.updated += 1
 
     def pre_process(self):
