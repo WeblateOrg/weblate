@@ -729,10 +729,11 @@ class Unit(models.Model, LoggerMixin):
 
     def generate_change(self, request, author, change_action):
         """Create Change entry for saving unit."""
+        user = request.user if request else author
         # Notify about new contributor
         user_changes = Change.objects.filter(
             translation=self.translation,
-            user=request.user
+            user=user
         )
         if not user_changes.exists():
             from weblate.accounts.notifications import notify_new_contributor
@@ -757,7 +758,7 @@ class Unit(models.Model, LoggerMixin):
         Change.objects.create(
             unit=self,
             action=action,
-            user=request.user,
+            user=user,
             author=author,
             **kwargs
         )
