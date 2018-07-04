@@ -125,6 +125,7 @@ class AddonsConf(AppConf):
         'weblate.addons.discovery.DiscoveryAddon',
         'weblate.addons.flags.SourceEditAddon',
         'weblate.addons.flags.TargetEditAddon',
+        'weblate.addons.flags.SameEditAddon',
         'weblate.addons.generate.GenerateFileAddon',
         'weblate.addons.json.JSONCustomizeAddon',
         'weblate.addons.properties.PropertiesSortAddon',

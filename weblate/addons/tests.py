@@ -37,7 +37,9 @@ from weblate.addons.consistency import LangaugeConsistencyAddon
 from weblate.addons.discovery import DiscoveryAddon
 from weblate.addons.example import ExampleAddon
 from weblate.addons.example_pre import ExamplePreAddon
-from weblate.addons.flags import SourceEditAddon, TargetEditAddon
+from weblate.addons.flags import (
+    SourceEditAddon, TargetEditAddon, SameEditAddon,
+)
 from weblate.addons.generate import GenerateFileAddon
 from weblate.addons.gettext import (
     GenerateMoAddon, UpdateLinguasAddon, UpdateConfigureAddon, MsgmergeAddon,
@@ -274,8 +276,10 @@ class JsonAddonTest(ViewTestCase):
     def test_unit(self):
         self.assertTrue(SourceEditAddon.can_install(self.component, None))
         self.assertTrue(TargetEditAddon.can_install(self.component, None))
+        self.assertTrue(SameEditAddon.can_install(self.component, None))
         SourceEditAddon.create(self.component)
         TargetEditAddon.create(self.component)
+        SameEditAddon.create(self.component)
         Unit.objects.all().delete()
         self.component.create_translations(force=True)
         self.assertFalse(

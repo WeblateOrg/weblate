@@ -63,6 +63,17 @@ so you can check whether the configuration actually matches your needs:
 
     :ref:`markup`
 
+.. _addon-weblate.flags.same_edit:
+
+Flag unchanged translations to need edit
+----------------------------------------
+
+.. versionadded:: 3.1
+
+Whenever a new translation string is imported from the VCS and it matches
+source strings, it is flagged as needing editing in Weblate. This is especially
+useful for file formats including all strings even if they are not translated.
+
 .. _addon-weblate.flags.source_edit:
 
 Flag new source strings to need edit

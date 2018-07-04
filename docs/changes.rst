@@ -13,6 +13,7 @@ Released on ? 2018.
 * Compatibility with Django 2.1.
 * Django system checks are now used to diagnose problems with installation.
 * Removed support for soon shutdown libravatar service.
+* New addon to mark unchanged translations as needing edit.
 
 weblate 3.0.1
 -------------

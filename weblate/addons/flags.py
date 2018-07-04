@@ -71,3 +71,20 @@ class TargetEditAddon(FlagBase):
     def unit_pre_create(self, unit):
         if not unit.translation.is_template and unit.state >= STATE_TRANSLATED:
             unit.state = STATE_FUZZY
+
+
+class SameEditAddon(FlagBase):
+    name = 'weblate.flags.same_edit'
+    verbose = _('Flag unchanged translations to need edit')
+    description = _(
+        'Whenever a new translation string is imported from the VCS and it '
+        'matches source strings, it is flagged as needing editing in Weblate. '
+        'This is especially useful for file formats including all strings '
+        'even if they are not translated.'
+    )
+
+    def unit_pre_create(self, unit):
+        if (unit.source == unit.target
+                and 'ignore-same' not in unit.all_flags
+                and unit.state >= STATE_TRANSLATED):
+            unit.state = STATE_FUZZY
