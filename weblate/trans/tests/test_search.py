@@ -31,6 +31,7 @@ from django.urls import reverse
 from django.test.utils import override_settings
 from django.http import QueryDict
 
+from weblate.accounts.ratelimit import reset_rate_limit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.search import update_index_unit, fulltext_search
 import weblate.trans.search
@@ -47,6 +48,7 @@ class SearchViewTest(ViewTestCase):
         )
         self.translate_url = self.translation.get_translate_url()
         self.update_fulltext_index()
+        reset_rate_limit('search', address='127.0.0.1')
 
     def do_search(self, params, expected, url=None):
         """Helper method for performing search test."""
@@ -75,6 +77,7 @@ class SearchViewTest(ViewTestCase):
         response = self.client.get(url, {'date': '2010-01-10'})
         self.assertContains(response, '2010-01-10')
 
+    @override_settings(AUTH_MAX_ATTEMPTS=20000)
     def test_all_search(self):
         """Searching in all projects."""
         response = self.client.get(
@@ -277,10 +280,10 @@ class SearchViewTest(ViewTestCase):
         # Extract search URL
         params = self.extract_params(response)
         # Try access to pages
-        params['offset'] = 0
+        params['offset'] = 1
         response = self.client.get(self.translate_url, params)
         self.assertContains(response, 'https://demo.weblate.org/')
-        params['offset'] = 1
+        params['offset'] = 2
         response = self.client.get(self.translate_url, params)
         self.assertContains(response, 'Thank you for using Weblate.')
         # Invalid offset
@@ -288,14 +291,14 @@ class SearchViewTest(ViewTestCase):
         response = self.client.get(self.translate_url, params)
         self.assertContains(response, 'https://demo.weblate.org/')
         # Go to end
-        params['offset'] = 2
+        params['offset'] = 3
         response = self.client.get(self.translate_url, params)
         self.assertRedirects(
             response,
             self.translation.get_absolute_url()
         )
         # Try no longer cached query (should be deleted above)
-        params['offset'] = 1
+        params['offset'] = 2
         response = self.client.get(self.translate_url, params)
         self.assertContains(
             response,
@@ -313,11 +316,11 @@ class SearchViewTest(ViewTestCase):
         # Extract search ID
         params = self.extract_params(response)
         # Navigation
-        params['offset'] = 0
+        params['offset'] = 1
         response = self.do_search(params, '1 / 4')
-        params['offset'] = 3
-        response = self.do_search(params, '4 / 4')
         params['offset'] = 4
+        response = self.do_search(params, '4 / 4')
+        params['offset'] = 5
         response = self.do_search(params, None)
 
     def test_search_type(self):
