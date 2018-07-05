@@ -29,6 +29,7 @@ from django.utils.translation import ugettext as _, ungettext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 
+from weblate.accounts.ratelimit import check_rate_limit
 from weblate.lang.models import Language
 from weblate.trans.forms import (
     SiteSearchForm, ReplaceForm, ReplaceConfirmForm, MassStateForm,
@@ -139,7 +140,10 @@ def search_replace(request, project, component=None, lang=None):
 @never_cache
 def search(request, project=None, component=None, lang=None):
     """Perform site-wide search on units."""
-    search_form = SiteSearchForm(request.GET)
+    if not check_rate_limit('search', request):
+        search_form = SiteSearchForm()
+    else:
+        search_form = SiteSearchForm(request.GET)
     context = {
         'search_form': search_form,
     }
