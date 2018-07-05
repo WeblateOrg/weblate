@@ -53,17 +53,17 @@ class SuggestionsTest(ViewTestCase):
             suggest='yes'
         )
         # We should stay on same message
-        self.assert_redirects_offset(response, translate_url, 0)
+        self.assert_redirects_offset(response, translate_url, 1)
 
         # Add first suggestion
         response = self.add_suggestion_1()
         # We should get to second message
-        self.assert_redirects_offset(response, translate_url, 1)
+        self.assert_redirects_offset(response, translate_url, 2)
 
         # Add second suggestion
         response = self.add_suggestion_2()
         # We should get to second message
-        self.assert_redirects_offset(response, translate_url, 1)
+        self.assert_redirects_offset(response, translate_url, 2)
 
         # Reload from database
         unit = self.get_unit()
@@ -85,11 +85,11 @@ class SuggestionsTest(ViewTestCase):
         # Add first suggestion
         response = self.add_suggestion_1()
         # We should get to second message
-        self.assert_redirects_offset(response, translate_url, 1)
+        self.assert_redirects_offset(response, translate_url, 2)
         # Add first suggestion
         response = self.add_suggestion_1()
         # We should stay on same message
-        self.assert_redirects_offset(response, translate_url, 0)
+        self.assert_redirects_offset(response, translate_url, 1)
 
         # Reload from database
         unit = self.get_unit()
@@ -125,7 +125,7 @@ class SuggestionsTest(ViewTestCase):
             '',
             delete=suggestions[0],
         )
-        self.assert_redirects_offset(response, translate_url, 0)
+        self.assert_redirects_offset(response, translate_url, 1)
 
         # Ensure we have just one
         suggestions = self.get_unit().suggestions.values_list(
@@ -147,7 +147,7 @@ class SuggestionsTest(ViewTestCase):
             '',
             accept_edit=suggestion,
         )
-        self.assert_redirects_offset(response, translate_url, 0)
+        self.assert_redirects_offset(response, translate_url, 1)
 
     def test_accept(self):
         translate_url = reverse('translate', kwargs=self.kw_translation)
@@ -165,7 +165,7 @@ class SuggestionsTest(ViewTestCase):
             '',
             accept=suggestions.get(target='Ahoj svete!\n').pk,
         )
-        self.assert_redirects_offset(response, translate_url, 1)
+        self.assert_redirects_offset(response, translate_url, 2)
 
         # Reload from database
         unit = self.get_unit()
@@ -206,7 +206,7 @@ class SuggestionsTest(ViewTestCase):
             '',
             accept=suggestions[0].pk,
         )
-        self.assert_redirects_offset(response, translate_url, 1)
+        self.assert_redirects_offset(response, translate_url, 2)
 
         # Reload from database
         unit = self.get_unit()
@@ -234,7 +234,7 @@ class SuggestionsTest(ViewTestCase):
             '',
             upvote=suggestion_id,
         )
-        self.assert_redirects_offset(response, translate_url, 1)
+        self.assert_redirects_offset(response, translate_url, 2)
 
         suggestion = Suggestion.objects.get(pk=suggestion_id)
         self.assertEqual(
@@ -247,7 +247,7 @@ class SuggestionsTest(ViewTestCase):
             '',
             downvote=suggestion_id,
         )
-        self.assert_redirects_offset(response, translate_url, 0)
+        self.assert_redirects_offset(response, translate_url, 1)
 
         suggestion = Suggestion.objects.get(pk=suggestion_id)
         self.assertEqual(
@@ -270,7 +270,7 @@ class SuggestionsTest(ViewTestCase):
             '',
             upvote=suggestion_id,
         )
-        self.assert_redirects_offset(response, translate_url, 1)
+        self.assert_redirects_offset(response, translate_url, 2)
 
         # Reload from database
         unit = self.get_unit()

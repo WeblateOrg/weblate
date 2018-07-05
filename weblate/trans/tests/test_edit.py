@@ -47,7 +47,7 @@ class EditTest(ViewTestCase):
             'Nazdar svete!\n'
         )
         # We should get to second message
-        self.assert_redirects_offset(response, self.translate_url, 1)
+        self.assert_redirects_offset(response, self.translate_url, 2)
         unit = self.get_unit()
         self.assertEqual(unit.target, 'Nazdar svete!\n')
         self.assertEqual(len(unit.checks()), 0)
@@ -60,7 +60,7 @@ class EditTest(ViewTestCase):
             'Nazdar svete!\n'
         )
         # We should get to second message
-        self.assert_redirects_offset(response, self.translate_url, 1)
+        self.assert_redirects_offset(response, self.translate_url, 2)
         unit = self.get_unit()
         self.assertEqual(unit.target, 'Nazdar svete!\n')
         self.assertEqual(len(unit.checks()), 0)
@@ -73,7 +73,7 @@ class EditTest(ViewTestCase):
             'Ahoj svete!\n'
         )
         # We should get to second message
-        self.assert_redirects_offset(response, self.translate_url, 1)
+        self.assert_redirects_offset(response, self.translate_url, 2)
         unit = self.get_unit()
         self.assertEqual(unit.target, 'Ahoj svete!\n')
         self.assertEqual(len(unit.checks()), 0)
@@ -92,7 +92,7 @@ class EditTest(ViewTestCase):
             target_2='Opice má %d banánů.\n',
         )
         # We should get to second message
-        self.assert_redirects_offset(response, self.translate_url, 1)
+        self.assert_redirects_offset(response, self.translate_url, 2)
         # Check translations
         unit = self.get_unit('Orangutan')
         plurals = unit.get_target_plurals()
@@ -243,7 +243,7 @@ class EditResourceSourceTest(ViewTestCase):
             'Nazdar svete!\n'
         )
         # We should get to second message
-        self.assert_redirects_offset(response, translate_url, 1)
+        self.assert_redirects_offset(response, translate_url, 2)
         unit = self.get_unit('Nazdar svete!\n')
         self.assertEqual(unit.target, 'Nazdar svete!\n')
         self.assertEqual(len(unit.checks()), 0)
@@ -482,7 +482,7 @@ class ZenViewTest(ViewTestCase):
     def test_load_zen_offset(self):
         response = self.client.get(
             reverse('load_zen', kwargs=self.kw_translation),
-            {'offset': '1'}
+            {'offset': '2'}
         )
         self.assertNotContains(
             response,
@@ -563,7 +563,7 @@ class EditComplexTest(ViewTestCase):
         self.assert_backend(1)
         # We should stay on same message
         self.assert_redirects_offset(
-            response, self.translate_url, unit.position
+            response, self.translate_url, unit.position + 1
         )
 
         # Test error handling
@@ -626,7 +626,7 @@ class EditComplexTest(ViewTestCase):
             commit_message='Fixing issue #666',
         )
         # We should get to second message
-        self.assert_redirects_offset(response, self.translate_url, 1)
+        self.assert_redirects_offset(response, self.translate_url, 2)
 
         # Did the commit message got stored?
         translation = self.get_translation()
@@ -645,7 +645,7 @@ class EditComplexTest(ViewTestCase):
             'Nazdar svete!'
         )
         # We should get to second message
-        self.assert_redirects_offset(response, self.translate_url, 1)
+        self.assert_redirects_offset(response, self.translate_url, 2)
         unit = self.get_unit()
         self.assertEqual(unit.target, 'Nazdar svete!\n')
         self.assertFalse(unit.has_failing_check)
@@ -661,7 +661,7 @@ class EditComplexTest(ViewTestCase):
             'Hello, world!\n',
         )
         # We should stay on current message
-        self.assert_redirects_offset(response, self.translate_url, 0)
+        self.assert_redirects_offset(response, self.translate_url, 1)
         unit = self.get_unit()
         self.assertEqual(unit.target, 'Hello, world!\n')
         self.assertTrue(unit.has_failing_check)
@@ -688,7 +688,7 @@ class EditComplexTest(ViewTestCase):
             'Nazdar svete!\n'
         )
         # We should stay on current message
-        self.assert_redirects_offset(response, self.translate_url, 1)
+        self.assert_redirects_offset(response, self.translate_url, 2)
         unit = self.get_unit()
         self.assertEqual(unit.target, 'Nazdar svete!\n')
         self.assertFalse(unit.has_failing_check)
@@ -702,7 +702,7 @@ class EditComplexTest(ViewTestCase):
             'Nazdar svete!\n'
         )
         # We should get to second message
-        self.assert_redirects_offset(response, self.translate_url, 1)
+        self.assert_redirects_offset(response, self.translate_url, 2)
         self.assertTrue(self.translation.repo_needs_commit())
         self.assertTrue(self.component.repo_needs_commit())
         self.assertTrue(self.component.project.repo_needs_commit())
