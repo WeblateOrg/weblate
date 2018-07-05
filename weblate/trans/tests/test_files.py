@@ -389,14 +389,13 @@ class ExportTest(ViewTestCase):
         )
 
     def export_format(self, fmt, **extra):
-        kwargs = {'fmt': fmt}
-        kwargs.update(self.kw_translation)
+        extra['format'] = fmt
         return self.client.get(
             reverse(
                 'download_translation_format',
-                kwargs=kwargs
+                kwargs=self.kw_translation,
             ),
-            **extra
+            extra
         )
 
     def test_export_po(self):
@@ -440,7 +439,7 @@ class ExportTest(ViewTestCase):
 
     def test_export_invalid(self):
         response = self.export_format('invalid')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 302)
 
 
 class FormTest(SimpleTestCase):

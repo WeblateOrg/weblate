@@ -233,7 +233,7 @@ class UnitQuerySet(models.QuerySet):
                 params['type'],
                 project,
                 language,
-                params['ignored']
+                params.get('ignored', False)
             )
 
         if (params.get('date') or
@@ -249,7 +249,7 @@ class UnitQuerySet(models.QuerySet):
         if 'lang' in params and params['lang']:
             base = base.filter(translation__language__code__in=params['lang'])
 
-        if not params['q']:
+        if 'q' not in params or not params['q']:
             result = base
 
         elif params['search'] in ('exact', 'substring'):

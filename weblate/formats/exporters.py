@@ -21,6 +21,7 @@
 from __future__ import unicode_literals
 
 from django.http import HttpResponse
+from django.utils.translation import ugettext_lazy as _
 
 from translate.misc.multistring import multistring
 from translate.storage.po import pofile
@@ -58,6 +59,7 @@ class BaseExporter(object):
     content_type = 'text/plain'
     extension = 'txt'
     name = ''
+    verbose = ''
     set_id = False
 
     def __init__(self, project=None, language=None, url=None,
@@ -160,6 +162,7 @@ class PoExporter(BaseExporter):
     name = 'po'
     content_type = 'text/x-po'
     extension = 'po'
+    verbose = _('gettext PO')
 
     def get_storage(self):
         store = pofile()
@@ -201,6 +204,7 @@ class PoXliffExporter(XMLExporter):
     content_type = 'application/x-xliff+xml'
     extension = 'xlf'
     set_id = True
+    verbose = _('XLIFF with gettext extensions')
 
     def get_storage(self):
         return PoXliffFile()
@@ -212,6 +216,7 @@ class XliffExporter(XMLExporter):
     content_type = 'application/x-xliff+xml'
     extension = 'xlf'
     set_id = True
+    verbose = _('XLIFF 1.1')
 
     def get_storage(self):
         return xlifffile()
@@ -222,6 +227,7 @@ class TBXExporter(XMLExporter):
     name = 'tbx'
     content_type = 'application/x-tbx'
     extension = 'tbx'
+    verbose = _('TBX')
 
     def get_storage(self):
         return tbxfile()
@@ -232,6 +238,7 @@ class TMXExporter(XMLExporter):
     name = 'tmx'
     content_type = 'application/x-tmx'
     extension = 'tmx'
+    verbose = _('TMX')
 
     def get_storage(self):
         return tmxfile()
@@ -242,6 +249,7 @@ class MoExporter(BaseExporter):
     name = 'mo'
     content_type = 'application/x-gettext-catalog'
     extension = 'mo'
+    verbose = _('gettext MO')
 
     def get_storage(self):
         store = mofile()
@@ -274,6 +282,7 @@ class CSVExporter(BaseExporter):
     name = 'csv'
     content_type = 'text/csv'
     extension = 'csv'
+    verbose = _('CSV')
 
     def get_storage(self):
         return csvfile(fieldnames=self.fieldnames)

@@ -46,7 +46,7 @@ from weblate.lang.models import Language
 from weblate.trans.forms import (
     get_upload_form, SearchForm, SiteSearchForm,
     AutoForm, ReviewForm, get_new_language_form,
-    ReportsForm, ReplaceForm, NewUnitForm, MassStateForm,
+    ReportsForm, ReplaceForm, NewUnitForm, MassStateForm, DownloadForm,
 )
 from weblate.accounts.models import Profile
 from weblate.accounts.notifications import notify_new_language
@@ -458,6 +458,7 @@ def show_translation(request, project, component, lang):
             'object': obj,
             'project': obj.component.project,
             'form': form,
+            'download_form': DownloadForm(),
             'autoform': autoform,
             'search_form': search_form,
             'review_form': review_form,

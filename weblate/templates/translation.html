@@ -274,6 +274,21 @@
 </div>
 {% endif %}
 
+<div class="tab-pane" id="download">
+<form action="{% url 'download_translation_format' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" method="get" data-persist="download-translation">
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Customize download" %}</h4></div>
+<div class="panel-body">
+{% csrf_token %}
+{{ download_form|crispy }}
+</div>
+<div class="panel-footer">
+<input type="submit" value="{% trans "Download" %}" class="btn btn-default" />
+</div>
+</form>
+
+</div>
+</div>
 {% if user_can_upload_translation %}
 <div class="tab-pane" id="upload">
 <form action="{% url 'upload_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" method="post" enctype="multipart/form-data" data-persist="upload-translation">

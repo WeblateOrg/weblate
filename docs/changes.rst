@@ -15,6 +15,7 @@ Released on ? 2018.
 * Removed support for soon shutdown libravatar service.
 * New addon to mark unchanged translations as needing edit.
 * Add support for jumping to specific location while translating.
+* Downloaded translations can now be customized.
 
 weblate 3.0.1
 -------------

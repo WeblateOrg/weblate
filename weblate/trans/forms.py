@@ -44,6 +44,7 @@ from django.forms import ValidationError
 from django.db.models import Q
 from weblate.auth.models import User
 
+from weblate.formats.exporters import EXPORTERS
 from weblate.lang.data import LOCALE_ALIASES
 from weblate.lang.models import Language
 from weblate.trans.filter import get_filter_choice
@@ -381,6 +382,23 @@ class PluralField(forms.CharField):
         return value
 
 
+class FilterField(forms.ChoiceField):
+    def __init__(self, *args, **kwargs):
+        kwargs['label'] = _('Search filter')
+        if 'required' not in kwargs:
+            kwargs['required'] = False
+        kwargs['choices'] = get_filter_choice()
+        kwargs['error_messages'] = {
+            'invalid_choice': _('Please choose a valid filter type.'),
+        }
+        super(FilterField, self).__init__(*args, **kwargs)
+
+    def to_python(self, value):
+        if value == 'untranslated':
+            return 'todo'
+        return super(FilterField, self).to_python(value)
+
+
 class ChecksumForm(forms.Form):
     """Form for handling checksum IDs for translation."""
     checksum = ChecksumField(required=True)
@@ -538,6 +556,19 @@ class AntispamForm(forms.Form):
         return ''
 
 
+class DownloadForm(forms.Form):
+    type = FilterField(
+        initial='all',
+    )
+    format = forms.ChoiceField(
+        label=_('File format'),
+        choices=[(x.name, x.verbose) for x in EXPORTERS.values()],
+        initial='po',
+        required=True,
+        widget=forms.RadioSelect,
+    )
+
+
 class SimpleUploadForm(forms.Form):
     """Base form for uploading a file."""
     file = forms.FileField(
@@ -619,23 +650,6 @@ def get_upload_form(user, translation, *args):
     if not user.has_perm('suggestion.add', translation):
         result.remove_translation_choice('suggest')
     return result
-
-
-class FilterField(forms.ChoiceField):
-    def __init__(self, *args, **kwargs):
-        kwargs['label'] = _('Search filter')
-        if 'required' not in kwargs:
-            kwargs['required'] = False
-        kwargs['choices'] = get_filter_choice()
-        kwargs['error_messages'] = {
-            'invalid_choice': _('Please choose a valid filter type.'),
-        }
-        super(FilterField, self).__init__(*args, **kwargs)
-
-    def to_python(self, value):
-        if value == 'untranslated':
-            return 'todo'
-        return super(FilterField, self).to_python(value)
 
 
 class BaseSearchForm(forms.Form):
