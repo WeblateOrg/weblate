@@ -20,6 +20,8 @@
 
 from django.conf.urls import include, url
 from django.conf import settings
+from django.views.decorators.cache import cache_page
+from django.views.decorators.vary import vary_on_cookie
 from django.views.generic import RedirectView
 import django.contrib.sitemaps.views
 import django.views.i18n
@@ -746,7 +748,13 @@ urlpatterns = [
     ),
     url(
         r'^js/i18n/$',
-        django.views.i18n.JavaScriptCatalog.as_view(packages=['weblate']),
+        cache_page(3600)(
+            vary_on_cookie(
+                django.views.i18n.JavaScriptCatalog.as_view(
+                    packages=['weblate']
+                )
+            )
+        ),
         name='js-catalog'
     ),
     url(
@@ -844,13 +852,13 @@ urlpatterns = [
     # Sitemap
     url(
         r'^sitemap\.xml$',
-        django.contrib.sitemaps.views.index,
+        cache_page(3600)(django.contrib.sitemaps.views.index),
         {'sitemaps': SITEMAPS, 'sitemap_url_name': 'sitemap'},
         name='sitemap-index',
     ),
     url(
         r'^sitemap-(?P<section>.+)\.xml$',
-        django.contrib.sitemaps.views.sitemap,
+        cache_page(3600)(django.contrib.sitemaps.views.sitemap),
         {'sitemaps': SITEMAPS},
         name='sitemap',
     ),
