@@ -28,6 +28,7 @@ from django.db.models import Q
 from django.utils.functional import cached_property
 from django.utils.text import slugify
 
+from weblate.logger import LOGGER
 from weblate.trans.models import Component
 from weblate.utils.render import render_template
 from weblate.trans.util import path_separator
@@ -150,7 +151,10 @@ class ComponentDiscovery(object):
                     continue
                 break
 
-        self.component.log_info('Creating component %s', name)
+        if self.component:
+            self.component.log_info('Creating component %s', name)
+        else:
+            LOGGER.info('Creating component %s', name)
         return Component.objects.create(
             name=name,
             slug=slug,
