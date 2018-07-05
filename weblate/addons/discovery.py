@@ -40,6 +40,7 @@ class DiscoveryAddon(BaseAddon):
     settings_form = DiscoveryForm
     multiple = True
     icon = 'search'
+    has_summary = True
 
     @classmethod
     def can_install(cls, component, user):
@@ -80,3 +81,6 @@ class DiscoveryAddon(BaseAddon):
             self.instance.configuration['new_base_template'],
             self.instance.configuration['file_format'],
         )
+
+    def get_summary(self):
+        return self.instance.configuration['match']

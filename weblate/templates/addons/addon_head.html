@@ -7,4 +7,7 @@
 <i class="fa fa-{{ addon.icon }}"></i> 
 {{ addon.verbose }}
 </h4>
+{% if addon.instance and addon.has_summary %}
+<p><code>{{ addon.get_summary }}</code></p>
+{% endif %}
 <p>{{ addon.description }}</p>

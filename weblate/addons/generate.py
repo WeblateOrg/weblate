@@ -41,6 +41,7 @@ class GenerateFileAddon(BaseAddon):
     settings_form = GenerateForm
     multiple = True
     icon = 'bar-chart'
+    has_summary = True
 
     @classmethod
     def can_install(cls, component, user):
@@ -66,3 +67,6 @@ class GenerateFileAddon(BaseAddon):
         with open(filename, 'w') as handle:
             handle.write(content)
         translation.addon_commit_files.append(filename)
+
+    def get_summary(self):
+        return self.instance.configuration['filename']

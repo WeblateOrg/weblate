@@ -37,10 +37,14 @@ class BaseAddon(object):
     description = 'Base addon'
     icon = 'cog'
     project_scope = False
+    has_summary = False
 
     """Base class for Weblate addons."""
     def __init__(self, storage=None):
         self.instance = storage
+
+    def get_summary(self):
+        return ''
 
     @cached_property
     def has_settings(self):
