@@ -648,7 +648,7 @@ class BaseSearchForm(forms.Form):
 
     def clean_offset(self):
         if self.cleaned_data.get('offset') is None:
-            self.cleaned_data['offset'] = 0
+            self.cleaned_data['offset'] = 1
         return self.cleaned_data['offset']
 
     def get_name(self):
@@ -695,7 +695,7 @@ class BaseSearchForm(forms.Form):
     def reset_offset(self):
         """Reset offset to avoid using form as default for new search."""
         data = copy.copy(self.data)
-        data['offset'] = '0'
+        data['offset'] = '1'
         data['checksum'] = ''
         self.data = data
         return self

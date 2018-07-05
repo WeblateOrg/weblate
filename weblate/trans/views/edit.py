@@ -128,7 +128,7 @@ def search(translation, request):
 
     search_result = {
         'form': form,
-        'offset': form.cleaned_data.get('offset', 0),
+        'offset': form.cleaned_data.get('offset', 1),
         'checksum': form.cleaned_data.get('checksum'),
     }
     search_url = form.urlencode()
@@ -478,13 +478,13 @@ def translate(request, project, component, lang):
     if search_result['checksum']:
         try:
             unit = translation.unit_set.get(id_hash=search_result['checksum'])
-            offset = search_result['ids'].index(unit.id)
+            offset = search_result['ids'].index(unit.id) + 1
         except (Unit.DoesNotExist, ValueError):
             messages.warning(request, _('No string matched your search!'))
             return redirect(translation)
 
     # Check boundaries
-    if not 0 <= offset < num_results:
+    if not 0 < offset <= num_results:
         messages.info(request, _('The translation has come to an end.'))
         # Delete search
         del request.session[search_result['key']]
@@ -541,7 +541,7 @@ def translate(request, project, component, lang):
 
     # Grab actual unit
     try:
-        unit = translation.unit_set.get(pk=search_result['ids'][offset])
+        unit = translation.unit_set.get(pk=search_result['ids'][offset - 1])
     except Unit.DoesNotExist:
         # Can happen when using SID for other translation
         messages.error(request, _('Invalid search string!'))
@@ -564,8 +564,8 @@ def translate(request, project, component, lang):
         'translate.html',
         {
             'this_unit_url': this_unit_url,
-            'first_unit_url': base_unit_url + '0',
-            'last_unit_url': base_unit_url + str(num_results - 1),
+            'first_unit_url': base_unit_url + '1',
+            'last_unit_url': base_unit_url + str(num_results),
             'next_unit_url': next_unit_url,
             'prev_unit_url': base_unit_url + str(offset - 1),
             'object': translation,
@@ -578,7 +578,7 @@ def translate(request, project, component, lang):
             'offset': offset,
             'filter_name': search_result['name'],
             'filter_count': num_results,
-            'filter_pos': offset + 1,
+            'filter_pos': offset,
             'form': form,
             'antispam': antispam,
             'comment_form': CommentForm(),
@@ -696,7 +696,7 @@ def get_zen_unitdata(translation, request):
     if isinstance(search_result, HttpResponse):
         return search_result, None
 
-    offset = search_result['offset']
+    offset = search_result['offset'] - 1
     search_result['last_section'] = offset + 20 >= len(search_result['ids'])
 
     units = translation.unit_set.filter(
@@ -718,7 +718,7 @@ def get_zen_unitdata(translation, request):
                 unit,
                 tabindex=100 + (unit.position * 10),
             ),
-            'offset': offset + pos,
+            'offset': offset + pos + 1,
         }
         for pos, unit in enumerate(units)
     ]

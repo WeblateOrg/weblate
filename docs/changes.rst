@@ -14,6 +14,7 @@ Released on ? 2018.
 * Django system checks are now used to diagnose problems with installation.
 * Removed support for soon shutdown libravatar service.
 * New addon to mark unchanged translations as needing edit.
+* Add support for jumping to specific location while translating.
 
 weblate 3.0.1
 -------------
