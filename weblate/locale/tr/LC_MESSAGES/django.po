@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-07-07 08:58+0000\n"
-"PO-Revision-Date: 2018-06-27 12:57+0000\n"
-"Last-Translator: monolifed <monolifed@gmail.com>\n"
+"PO-Revision-Date: 2018-07-07 17:09+0000\n"
+"Last-Translator: Ali Demirtas <alidemirtas94@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
 "tr/>\n"
 "Language: tr\n"
@@ -696,26 +696,20 @@ msgstr ""
 "çevirileri kolayca süzer ve düzenleyebilirsiniz."
 
 #: weblate/addons/flags.py:78
-#, fuzzy
-#| msgid "Flag new translations to need edit"
 msgid "Flag unchanged translations to need edit"
-msgstr "Yeni çevirilere düzenlenmesi gerekli bayrağı ekle"
+msgstr "Düzenlenmemiş çevirileri düzenlemek gerekiyor"
 
 #: weblate/addons/flags.py:80
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translation string is imported from the VCS, it is flagged "
-#| "as needing editing in Weblate. This way you can easily filter and edit "
-#| "translations created by the developers."
 msgid ""
 "Whenever a new translation string is imported from the VCS and it matches "
 "source strings, it is flagged as needing editing in Weblate. This is "
 "especially useful for file formats including all strings even if they are "
 "not translated."
 msgstr ""
-"Yeni bir çeviri satırı VCS'den içeri her aktarıldığında, Weblate'de "
-"düzenleme gerekli olarak işaretlenir. Bu yolla geliştiricilerin oluşturduğu "
-"çevirileri kolayca süzer ve düzenleyebilirsiniz."
+"Yeni bir çeviri dizesi VCS'den içe aktarıldığında ve kaynak dizeleriyle "
+"eşleştiğinde, Weblate'de düzenlemeye ihtiyaç duyulduğu gibi işaretlenir. Bu, "
+"çevrilmese bile tüm dizeleri içeren dosya formatları için özellikle "
+"kullanışlıdır."
 
 #: weblate/addons/forms.py:50
 msgid "Name of generated file"
@@ -1702,41 +1696,32 @@ msgid "Automatic detection"
 msgstr "Kendiliğinden algılama"
 
 #: weblate/formats/exporters.py:165
-#, fuzzy
-#| msgid "Gettext (PO)"
 msgid "gettext PO"
-msgstr "Gettext (PO)"
+msgstr "gettext (PO)"
 
 #: weblate/formats/exporters.py:207
-#, fuzzy
-#| msgid "Download translation as XLIFF with gettext extensions"
 msgid "XLIFF with gettext extensions"
-msgstr "Çeviriyi gettext uzantıları ile XLIFF olarak indir"
+msgstr "Gettext uzantılı XLIFF"
 
 #: weblate/formats/exporters.py:219
 msgid "XLIFF 1.1"
-msgstr ""
+msgstr "XLIFF 1.1"
 
 #: weblate/formats/exporters.py:230
 msgid "TBX"
-msgstr ""
+msgstr "TBX"
 
 #: weblate/formats/exporters.py:241
 msgid "TMX"
-msgstr ""
+msgstr "TMX"
 
 #: weblate/formats/exporters.py:252
-#, fuzzy
-#| msgid "Gettext (PO)"
 msgid "gettext MO"
-msgstr "Gettext (PO)"
+msgstr "gettext MO"
 
 #: weblate/formats/exporters.py:285
-#, fuzzy
-#| msgctxt "Per project access control group"
-#| msgid "VCS"
 msgid "CSV"
-msgstr "VCS"
+msgstr "CSV"
 
 #: weblate/formats/ttkit.py:229
 msgid "Gettext PO file"
@@ -2929,10 +2914,8 @@ msgid "Your avatar"
 msgstr "Avatarınız"
 
 #: weblate/templates/accounts/profile.html:284
-#, fuzzy
-#| msgid "Avatars are provided using libravatar."
 msgid "Avatars are provided using Gravatar."
-msgstr "Avatarlar libravatar kullanılarak sağlanır."
+msgstr "Avatarlar Gravatar kullanılarak sağlanmaktadır."
 
 #: weblate/templates/accounts/profile.html:295
 msgid "Your public appearance on this site."
@@ -3357,7 +3340,7 @@ msgstr "Oturumu kapat"
 
 #: weblate/templates/base.html:140
 msgid "Help"
-msgstr ""
+msgstr "Yardım"
 
 #: weblate/templates/base.html:163
 msgid ""
@@ -5324,24 +5307,21 @@ msgid "Edit search parameters"
 msgstr "Arama parametrelerini düzenle"
 
 #: weblate/templates/translate.html:62
-#, fuzzy
-#| msgid "Good configuration"
 msgid "Go to position"
-msgstr "İyi yapılandırma"
+msgstr "Pozisyona git"
 
 #: weblate/templates/translate.html:63
-#, fuzzy, python-format
-#| msgid "%(filter_name)s (%(filter_count)s)"
+#, python-format
 msgid "%(filter_pos)s / %(filter_count)s"
-msgstr "%(filter_name)s (%(filter_count)s)"
+msgstr "%(filter_pos)s / %(filter_count)s"
 
 #: weblate/templates/translate.html:72
 msgid "Jump to position"
-msgstr ""
+msgstr "Pozisyona atla"
 
 #: weblate/templates/translate.html:77
 msgid "Jump"
-msgstr ""
+msgstr "Atla"
 
 #: weblate/templates/translate.html:83
 msgid "Next"
@@ -5690,7 +5670,7 @@ msgstr "Eylem gerektiren satırları TMX olarak indir"
 #: weblate/templates/translation-download.html:23
 #: weblate/templates/translation.html:280
 msgid "Customize download"
-msgstr ""
+msgstr "İndirmeyi özelleştir"
 
 #: weblate/templates/translation-download.html:26
 msgid "Upload translation"
@@ -8409,10 +8389,8 @@ msgstr ""
 "neden olur."
 
 #: weblate/wladmin/templates/admin/performance.html:60
-#, fuzzy
-#| msgid "checks"
 msgid "System checks"
-msgstr "kontroller"
+msgstr "Sistem denetimleri"
 
 #: weblate/wladmin/templates/admin/performance.html:92
 msgid "Check"
