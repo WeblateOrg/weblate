@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-07-07 08:58+0000\n"
-"PO-Revision-Date: 2018-06-26 22:38+0000\n"
+"PO-Revision-Date: 2018-07-08 23:37+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
@@ -709,26 +709,18 @@ msgstr ""
 "したりすることが簡単にできるようになります。"
 
 #: weblate/addons/flags.py:78
-#, fuzzy
-#| msgid "Flag new translations to need edit"
 msgid "Flag unchanged translations to need edit"
-msgstr "新しい翻訳を要編集としてフラグを設定する"
+msgstr "変更されていない翻訳を要編集としてフラグを設定する"
 
 #: weblate/addons/flags.py:80
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translation string is imported from the VCS, it is flagged "
-#| "as needing editing in Weblate. This way you can easily filter and edit "
-#| "translations created by the developers."
 msgid ""
 "Whenever a new translation string is imported from the VCS and it matches "
 "source strings, it is flagged as needing editing in Weblate. This is "
 "especially useful for file formats including all strings even if they are "
 "not translated."
 msgstr ""
-"新しい翻訳文字列が VCS からインポートされると、 Weblate 内では常に要編集フラ"
-"グを設定します。この仕組みにより、開発者が作成した翻訳をフィルタしたり、編集"
-"したりすることが簡単にできるようになります。"
+"新しい翻訳文字列が VCS からインポートされ、該当する原文が見つかると、 Weblate "
+"内では常に要編集フラグを設定します。これは特に、翻訳が完了していない文字列を全て含むファイル形式を利用する際に、便利な仕組みです。"
 
 #: weblate/addons/forms.py:50
 msgid "Name of generated file"
@@ -1716,41 +1708,32 @@ msgid "Automatic detection"
 msgstr "自動検出"
 
 #: weblate/formats/exporters.py:165
-#, fuzzy
-#| msgid "Gettext (PO)"
 msgid "gettext PO"
-msgstr "Gettext (PO)"
+msgstr "gettext PO"
 
 #: weblate/formats/exporters.py:207
-#, fuzzy
-#| msgid "Download translation as XLIFF with gettext extensions"
 msgid "XLIFF with gettext extensions"
-msgstr "翻訳を gettext 拡張付きの XLIFF でダウンロード"
+msgstr "gettext 拡張付きの XLIFF"
 
 #: weblate/formats/exporters.py:219
 msgid "XLIFF 1.1"
-msgstr ""
+msgstr "XLIFF 1.1"
 
 #: weblate/formats/exporters.py:230
 msgid "TBX"
-msgstr ""
+msgstr "TBX"
 
 #: weblate/formats/exporters.py:241
 msgid "TMX"
-msgstr ""
+msgstr "TMX"
 
 #: weblate/formats/exporters.py:252
-#, fuzzy
-#| msgid "Gettext (PO)"
 msgid "gettext MO"
-msgstr "Gettext (PO)"
+msgstr "gettext MO"
 
 #: weblate/formats/exporters.py:285
-#, fuzzy
-#| msgctxt "Per project access control group"
-#| msgid "VCS"
 msgid "CSV"
-msgstr "VCS"
+msgstr "CSV"
 
 #: weblate/formats/ttkit.py:229
 msgid "Gettext PO file"
@@ -2960,10 +2943,8 @@ msgid "Your avatar"
 msgstr "アバター"
 
 #: weblate/templates/accounts/profile.html:284
-#, fuzzy
-#| msgid "Avatars are provided using libravatar."
 msgid "Avatars are provided using Gravatar."
-msgstr "アバターは、libravatar を使用して提供しています。"
+msgstr "アバターは Gravatar を使用して提供しています。"
 
 #: weblate/templates/accounts/profile.html:295
 msgid "Your public appearance on this site."
@@ -3391,7 +3372,7 @@ msgstr "ログアウト"
 
 #: weblate/templates/base.html:140
 msgid "Help"
-msgstr ""
+msgstr "ヘルプ"
 
 #: weblate/templates/base.html:163
 msgid ""
@@ -5359,24 +5340,21 @@ msgid "Edit search parameters"
 msgstr "検索パラメータの編集"
 
 #: weblate/templates/translate.html:62
-#, fuzzy
-#| msgid "Good configuration"
 msgid "Go to position"
-msgstr "良い設定"
+msgstr "位置に移動"
 
 #: weblate/templates/translate.html:63
-#, fuzzy, python-format
-#| msgid "%(filter_name)s (%(filter_count)s)"
+#, python-format
 msgid "%(filter_pos)s / %(filter_count)s"
-msgstr "%(filter_name)s (%(filter_count)s)"
+msgstr "%(filter_pos)s / %(filter_count)s"
 
 #: weblate/templates/translate.html:72
 msgid "Jump to position"
-msgstr ""
+msgstr "位置にジャンプ"
 
 #: weblate/templates/translate.html:77
 msgid "Jump"
-msgstr ""
+msgstr "ジャンプ"
 
 #: weblate/templates/translate.html:83
 msgid "Next"
@@ -5724,7 +5702,7 @@ msgstr "何らかの作業が必要な文字列を TMX でダウンロード"
 #: weblate/templates/translation-download.html:23
 #: weblate/templates/translation.html:280
 msgid "Customize download"
-msgstr ""
+msgstr "ダウンロードのカスタマイズ"
 
 #: weblate/templates/translation-download.html:26
 msgid "Upload translation"
@@ -8425,10 +8403,8 @@ msgstr ""
 "す。"
 
 #: weblate/wladmin/templates/admin/performance.html:60
-#, fuzzy
-#| msgid "checks"
 msgid "System checks"
-msgstr "校正"
+msgstr "システムチェック"
 
 #: weblate/wladmin/templates/admin/performance.html:92
 msgid "Check"
