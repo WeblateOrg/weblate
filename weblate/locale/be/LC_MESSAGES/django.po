@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-07-07 08:58+0000\n"
-"PO-Revision-Date: 2018-06-28 16:01+0000\n"
+"PO-Revision-Date: 2018-07-08 21:33+0000\n"
 "Last-Translator: Viktar Vauchkevich <victorenator@gmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/weblate/"
 "master/be/>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.1-dev\n"
 
 #: weblate/accounts/avatar.py:131
@@ -702,26 +702,20 @@ msgstr ""
 "адфільтраваць і адрэдагаваць зыходныя радкі ад распрацоўнікаў."
 
 #: weblate/addons/flags.py:78
-#, fuzzy
-#| msgid "Flag new translations to need edit"
 msgid "Flag unchanged translations to need edit"
-msgstr "Пазначыць новыя пераклады як радкі, што патрабуюць рэдагавання"
+msgstr "Пазначыць незмененыя пераклады як такія, што патрабуюць рэдагавання"
 
 #: weblate/addons/flags.py:80
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translation string is imported from the VCS, it is flagged "
-#| "as needing editing in Weblate. This way you can easily filter and edit "
-#| "translations created by the developers."
 msgid ""
 "Whenever a new translation string is imported from the VCS and it matches "
 "source strings, it is flagged as needing editing in Weblate. This is "
 "especially useful for file formats including all strings even if they are "
 "not translated."
 msgstr ""
-"Кожны раз як навы радок перакладу імпартуецца з VCS, яна пазначаецца як "
-"радок, што патрабуе рэдагавання ў Weblate. Такім чынам, вы можаце лёгка "
-"адфільтраваць і адрэдагаваць зыходныя радкі ад распрацоўнікаў."
+"Кожны раз як навы радок перакладу імпартуецца з VCS і супадае з зыходным "
+"радком, ён пазначаецца як радок, што патрабуе рэдагавання ў Weblate. Гэта "
+"асабліва карысна для фарматаў файлаў, якія ўключаюць усе радкі, у тым ліку і "
+"тыя, што не перакладзеныя."
 
 #: weblate/addons/forms.py:50
 msgid "Name of generated file"
@@ -1708,41 +1702,32 @@ msgid "Automatic detection"
 msgstr "Аўтаматычнае выяўленне"
 
 #: weblate/formats/exporters.py:165
-#, fuzzy
-#| msgid "Gettext (PO)"
 msgid "gettext PO"
-msgstr "Gettext (PO)"
+msgstr "gettext PO"
 
 #: weblate/formats/exporters.py:207
-#, fuzzy
-#| msgid "Download translation as XLIFF with gettext extensions"
 msgid "XLIFF with gettext extensions"
-msgstr "Спампаваць пераклад як XLIFF з gettext-пашырэннямі"
+msgstr "XLIFF з gettext-пашырэннямі"
 
 #: weblate/formats/exporters.py:219
 msgid "XLIFF 1.1"
-msgstr ""
+msgstr "XLIFF 1.1"
 
 #: weblate/formats/exporters.py:230
 msgid "TBX"
-msgstr ""
+msgstr "TBX"
 
 #: weblate/formats/exporters.py:241
 msgid "TMX"
-msgstr ""
+msgstr "TMX"
 
 #: weblate/formats/exporters.py:252
-#, fuzzy
-#| msgid "Gettext (PO)"
 msgid "gettext MO"
-msgstr "Gettext (PO)"
+msgstr "gettext MO"
 
 #: weblate/formats/exporters.py:285
-#, fuzzy
-#| msgctxt "Per project access control group"
-#| msgid "VCS"
 msgid "CSV"
-msgstr "VCS"
+msgstr "CSV"
 
 #: weblate/formats/ttkit.py:229
 msgid "Gettext PO file"
@@ -2952,10 +2937,8 @@ msgid "Your avatar"
 msgstr "Ваш аватар"
 
 #: weblate/templates/accounts/profile.html:284
-#, fuzzy
-#| msgid "Avatars are provided using libravatar."
 msgid "Avatars are provided using Gravatar."
-msgstr "Аватары забяспечваюцца службай libravatar."
+msgstr "Аватары забяспечваюцца Gravatar."
 
 #: weblate/templates/accounts/profile.html:295
 msgid "Your public appearance on this site."
@@ -3381,7 +3364,7 @@ msgstr "Выйсці"
 
 #: weblate/templates/base.html:140
 msgid "Help"
-msgstr ""
+msgstr "Даведка"
 
 #: weblate/templates/base.html:163
 msgid ""
@@ -5349,24 +5332,21 @@ msgid "Edit search parameters"
 msgstr "Рэдагаваць параметры пошуку"
 
 #: weblate/templates/translate.html:62
-#, fuzzy
-#| msgid "Good configuration"
 msgid "Go to position"
-msgstr "Слушная канфігурацыя"
+msgstr "Перайсці да пазіцыі"
 
 #: weblate/templates/translate.html:63
-#, fuzzy, python-format
-#| msgid "%(filter_name)s (%(filter_count)s)"
+#, python-format
 msgid "%(filter_pos)s / %(filter_count)s"
-msgstr "%(filter_name)s (%(filter_count)s)"
+msgstr "%(filter_pos)s / %(filter_count)s"
 
 #: weblate/templates/translate.html:72
 msgid "Jump to position"
-msgstr ""
+msgstr "Перайсці да пазіцыі"
 
 #: weblate/templates/translate.html:77
 msgid "Jump"
-msgstr ""
+msgstr "Перайсці"
 
 #: weblate/templates/translate.html:83
 msgid "Next"
@@ -5718,7 +5698,7 @@ msgstr "Сцягнуць радкі, якія патрабуюць дзеянн�
 #: weblate/templates/translation-download.html:23
 #: weblate/templates/translation.html:280
 msgid "Customize download"
-msgstr ""
+msgstr "Наладзіць спампоўку"
 
 #: weblate/templates/translation-download.html:26
 msgid "Upload translation"
@@ -8452,10 +8432,8 @@ msgstr ""
 "залежнасцямі."
 
 #: weblate/wladmin/templates/admin/performance.html:60
-#, fuzzy
-#| msgid "checks"
 msgid "System checks"
-msgstr "праверкі"
+msgstr "Сістэмныя праверкі"
 
 #: weblate/wladmin/templates/admin/performance.html:92
 msgid "Check"
