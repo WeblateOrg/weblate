@@ -15,6 +15,7 @@ Contents:
     user/index
     devel/index
     admin/index
+    workflows
     faq
     formats
     vcs

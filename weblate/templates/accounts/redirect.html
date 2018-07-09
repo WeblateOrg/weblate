@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+{% load authnames %}
+{% load crispy_forms_tags %}
+
+{% block breadcrumbs %}
+<li><a href="{% url 'login' %}">{% trans "Login" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+{% trans "Redirecting you to the authentication provider." as msg %}
+{% show_message "info" msg %}
+
+<a class="btn btn-link link-post link-auto" href="{% url 'social:begin' backend %}{% if next %}?next={{ next }}{% endif %}">{% auth_name backend %}</a>
+
+{% endblock %}

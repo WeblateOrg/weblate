@@ -1,0 +1,12 @@
+{% load i18n %}
+
+<dl>
+<dt>{% trans "Public" %}</dt>
+<dd>{% trans "Publicly visible and translatable" %}</dd>
+<dt>{% trans "Protected" %}</dt>
+<dd>{% trans "Publicly visible, only translatable for chosen users" %}</dd>
+<dt>{% trans "Private" %}</dt>
+<dd>{% trans "Visible and translatable only for chosen users" %}</dd>
+<dt>{% trans "Custom" %}</dt>
+<dd><strong>{% trans "Only use this if you know what you are doing, enabling it might revoke your access to this project." %}</strong> {% trans "Permissions are not managed in Weblate." %}</dd>
+</dl>

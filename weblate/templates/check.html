@@ -23,7 +23,8 @@
 </div>
 {% else %}
 <div class="panel-body">
-{% show_message "warning" _("No matching checks found!") %}
+{% trans "No matching checks found!" as msg %}
+{% show_message "warning" msg %}
 </div>
 {% endif %}
 

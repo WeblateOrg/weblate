@@ -12,10 +12,10 @@
 
 {% block content %}
 
-{% can_delete_dictionary user project as user_can_delete_dictionary %}
-{% can_change_dictionary user project as user_can_change_dictionary %}
-{% can_upload_dictionary user project as user_can_upload_dictionary %}
-{% can_add_dictionary user project as user_can_add_dictionary %}
+{% perm 'glossary.delete' project as user_can_delete_dictionary %}
+{% perm 'glossary.edit' project as user_can_change_dictionary %}
+{% perm 'glossary.upload' project as user_can_upload_dictionary %}
+{% perm 'glossary.add' project as user_can_add_dictionary %}
 
 <ul class="nav nav-pills">
 <li class="active"><a href="#browse" data-toggle="tab">{% trans "Browse" %}</a></li>

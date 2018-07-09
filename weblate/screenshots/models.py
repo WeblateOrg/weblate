@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -21,10 +21,11 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.urls import reverse
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
-from weblate.trans.models import Source, SubProject
+from weblate.trans.models import Source, Component
 from weblate.screenshots.fields import ScreenshotField
 
 
@@ -40,7 +41,8 @@ class Screenshot(models.Model):
         upload_to='screenshots/',
     )
     component = models.ForeignKey(
-        SubProject
+        Component,
+        on_delete=models.deletion.CASCADE,
     )
     sources = models.ManyToManyField(
         Source,
@@ -54,6 +56,5 @@ class Screenshot(models.Model):
     def __str__(self):
         return self.name
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('screenshot', (), {'pk': self.pk})
+        return reverse('screenshot', kwargs={'pk': self.pk})

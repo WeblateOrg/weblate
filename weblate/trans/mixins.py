@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -22,55 +22,18 @@ from __future__ import unicode_literals
 
 import os
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
+from django.utils.functional import cached_property
 
 from weblate.logger import LOGGER
 from weblate.accounts.avatar import get_user_display
-
-
-class PercentMixin(object):
-    """Define API to getting percentage status of translations."""
-    _percents = None
-
-    def get_percents(self, lang=None):
-        """Return percentages of translation status."""
-        if self._percents is None:
-            self._percents = {}
-        if lang not in self._percents:
-            self._percents[lang] = self._get_percents(lang)
-
-        return self._percents[lang]
-
-    def _get_percents(self, lang=None):
-        """Return percentages of translation status."""
-        raise NotImplementedError()
-
-    def get_translated_percent(self, lang=None):
-        """Return percent of translated strings."""
-        return self.get_percents(lang)[0]
-
-    def get_words_percent(self, lang=None):
-        """Return percent of translated strings."""
-        return self.get_percents(lang)[3]
-
-    def get_untranslated_percent(self, lang=None):
-        """Return percent of untranslated strings."""
-        return round(100 - self.get_percents(lang)[0], 1)
-
-    def get_fuzzy_percent(self, lang=None):
-        """Return percent of fuzzy strings."""
-        return self.get_percents(lang)[1]
-
-    def get_failing_checks_percent(self, lang=None):
-        """Return percentage of failed checks."""
-        return self.get_percents(lang)[2]
 
 
 class URLMixin(object):
     """Mixin providing standard shortcut API for few standard URLs"""
     _reverse_url_name = None
 
-    def _reverse_url_kwargs(self):
+    def get_reverse_url_kwargs(self):
         """Return kwargs for URL reversing."""
         raise NotImplementedError()
 
@@ -85,7 +48,7 @@ class URLMixin(object):
             )
         return reverse(
             urlname,
-            kwargs=self._reverse_url_kwargs()
+            kwargs=self.get_reverse_url_kwargs()
         )
 
     def get_absolute_url(self):
@@ -112,7 +75,7 @@ class URLMixin(object):
 
 class LoggerMixin(object):
     """Mixin with logging."""
-    @property
+    @cached_property
     def log_prefix(self):
         return 'default'
 
@@ -139,23 +102,17 @@ class LoggerMixin(object):
 
 class PathMixin(LoggerMixin):
     """Mixin for path manipulations."""
-    _dir_path = None
-    _linked_subproject = None
-
     def _get_path(self):
         """Actual calculation of path."""
         raise NotImplementedError()
 
-    def get_path(self):
-        """Return path to directory.
+    @cached_property
+    def full_path(self):
+        return self._get_path()
 
-        Caching is really necessary for linked project, otherwise
-        we end up fetching linked subproject again and again.
-        """
-        if self._dir_path is None:
-            self._dir_path = self._get_path()
-
-        return self._dir_path
+    def invalidate_path_cache(self):
+        if 'full_path' in self.__dict__:
+            del self.__dict__['full_path']
 
     def check_rename(self, old):
         """Detect slug changes and possibly renames underlaying directory."""
@@ -164,10 +121,10 @@ class PathMixin(LoggerMixin):
                 getattr(old, 'is_repo_link', False)):
             return
 
-        old_path = old.get_path()
+        old_path = old.full_path
         # Invalidate path cache (otherwise we would still get old path)
-        self._dir_path = None
-        new_path = self.get_path()
+        self.invalidate_path_cache()
+        new_path = self.full_path
 
         if old_path != new_path:
             self.log_info(
@@ -179,12 +136,9 @@ class PathMixin(LoggerMixin):
                 )
                 os.rename(old_path, new_path)
 
-            # Clean subproject cache on rename
-            self._linked_subproject = None
-
     def create_path(self):
         """Create filesystem directory for storing data"""
-        path = self.get_path()
+        path = self.full_path
         if not os.path.exists(path):
             os.makedirs(path)
 

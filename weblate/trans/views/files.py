@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -25,55 +25,48 @@ from django.core.exceptions import PermissionDenied
 from django.utils.translation import ugettext as _, ungettext
 from django.utils.encoding import force_text
 from django.shortcuts import redirect
-from django.http import Http404
 from django.views.decorators.http import require_POST
 
 from weblate.utils import messages
 from weblate.utils.errors import report_error
-from weblate.trans.forms import get_upload_form
+from weblate.trans.forms import get_upload_form, DownloadForm
 from weblate.trans.views.helper import (
     get_translation, download_translation_file, show_form_errors,
 )
-from weblate.permissions.helpers import (
-    can_author_translation, can_overwrite_translation,
-    can_upload_translation,
-)
 
 
-def download_translation_format(request, project, subproject, lang, fmt):
-    obj = get_translation(request, project, subproject, lang)
+def download_translation_format(request, project, component, lang):
+    obj = get_translation(request, project, component, lang)
 
-    return download_translation_file(obj, fmt)
+    form = DownloadForm(request.GET)
+    if not form.is_valid():
+        show_form_errors(request, form)
+        return redirect(obj)
+
+    units = obj.unit_set.search(
+        form.cleaned_data,
+        translation=obj,
+    )
+
+    return download_translation_file(obj, form.cleaned_data['format'], units)
 
 
-def download_translation(request, project, subproject, lang):
-    obj = get_translation(request, project, subproject, lang)
+def download_translation(request, project, component, lang):
+    obj = get_translation(request, project, component, lang)
 
     return download_translation_file(obj)
 
 
-def download_language_pack(request, project, subproject, lang):
-    obj = get_translation(request, project, subproject, lang)
-
-    if not obj.supports_language_pack():
-        raise Http404('Language pack download not supported')
-
-    return download_translation_file(
-        obj,
-        obj.subproject.file_format_cls.language_pack
-    )
-
-
 @require_POST
-def upload_translation(request, project, subproject, lang):
+def upload_translation(request, project, component, lang):
     """Handling of translation uploads."""
-    obj = get_translation(request, project, subproject, lang)
+    obj = get_translation(request, project, component, lang)
 
-    if not can_upload_translation(request.user, obj):
+    if not request.user.has_perm('upload.perform', obj):
         raise PermissionDenied()
 
     # Check method and lock
-    if obj.is_locked(request.user):
+    if obj.component.locked:
         messages.error(request, _('Access denied.'))
         return redirect(obj)
 
@@ -91,7 +84,7 @@ def upload_translation(request, project, subproject, lang):
 
     # Create author name
     author = None
-    if (can_author_translation(request.user, obj.subproject.project) and
+    if (request.user.has_perm('upload.authorship', obj) and
             form.cleaned_data['author_name'] != '' and
             form.cleaned_data['author_email'] != ''):
         author = '{0} <{1}>'.format(
@@ -101,7 +94,7 @@ def upload_translation(request, project, subproject, lang):
 
     # Check for overwriting
     overwrite = False
-    if can_overwrite_translation(request.user, obj.subproject.project):
+    if request.user.has_perm('upload.overwrite', obj):
         overwrite = form.cleaned_data['upload_overwrite']
 
     # Do actual import

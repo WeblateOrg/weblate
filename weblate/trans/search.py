@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -25,6 +25,7 @@ import shutil
 
 from whoosh.fields import SchemaClass, TEXT, NUMERIC
 from whoosh.filedb.filestore import FileStorage
+from whoosh.query import Or, Term
 from whoosh.writing import AsyncWriter, BufferedWriter
 from whoosh import qparser
 
@@ -36,7 +37,7 @@ from django.utils.encoding import force_text
 from django.db import transaction
 
 from weblate.lang.models import Language
-from weblate.trans.data import data_dir
+from weblate.utils.data import data_dir
 
 STORAGE = FileStorage(data_dir('whoosh'))
 
@@ -180,7 +181,6 @@ def add_index_update(unit_id, to_delete, language_code):
                 to_delete=to_delete,
                 language_code=language_code,
             )
-    # pylint: disable=E0712
     except IntegrityError:
         try:
             update = IndexUpdate.objects.get(unitid=unit_id)
@@ -268,13 +268,29 @@ def more_like(pk, source, top=5):
     """Find similar units."""
     index = get_source_index()
     with index.searcher() as searcher:
-        docnum = searcher.document_number(pk=pk)
-        if docnum is None:
-            return set()
+        # Extract key terms
+        kts = searcher.key_terms_from_text(
+            'source', source,
+            numterms=10,
+            normalize=False
+        )
+        # Create an Or query from the key terms
+        query = Or(
+            [Term('source', word, boost=weight) for word, weight in kts]
+        )
 
-        results = searcher.more_like(docnum, 'source', source, top)
+        # Grab fulltext results
+        results = [
+            (h['pk'], h.score) for h in searcher.search(query, limit=top)
+        ]
+        if not results:
+            return []
+        # Normalize scores to 0-100
+        max_score = max([h[1] for h in results])
+        scores = {h[0]:  h[1] * 100 / max_score for h in results}
 
-        return {result['pk'] for result in results}
+        # Filter results with score above 50 and not current unit
+        return [h[0] for h in results if scores[h[0]] > 50 and h[0] != pk]
 
 
 def clean_search_unit(pk, lang):

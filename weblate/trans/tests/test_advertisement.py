@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -20,62 +20,23 @@
 
 """Test for translation models."""
 
-import datetime
+from unittest import TestCase
 
-from django.test import TestCase
-from django.test.utils import override_settings
-from django.utils import timezone
-
-from weblate.trans.models import Advertisement
+from weblate.trans.templatetags.advertisement import (
+    get_advertisement_text_mail,
+    get_advertisement_html_mail,
+)
 
 
 class AdvertisementTest(TestCase):
-    @override_settings(SELF_ADVERTISEMENT=False)
-    def test_none(self):
-        adv = Advertisement.objects.get_advertisement(
-            Advertisement.PLACEMENT_MAIL_TEXT
-        )
-        self.assertIsNone(adv)
-
-    @override_settings(SELF_ADVERTISEMENT=True)
-    def test_self(self):
-        adv = Advertisement.objects.get_advertisement(
-            Advertisement.PLACEMENT_MAIL_TEXT
-        )
-        self.assertTrue('Weblate' in adv.text)
-
-    @override_settings(SELF_ADVERTISEMENT=True)
-    def test_self_html(self):
-        adv = Advertisement.objects.get_advertisement(
-            Advertisement.PLACEMENT_MAIL_HTML
-        )
-        self.assertTrue('Weblate' in adv.text)
-
-    @override_settings(SELF_ADVERTISEMENT=False)
-    def test_existing(self):
-        adv_created = Advertisement.objects.create(
-            placement=Advertisement.PLACEMENT_MAIL_TEXT,
-            date_start=timezone.now(),
-            date_end=timezone.now(),
-            text='Test ADV'
-        )
-        adv = Advertisement.objects.get_advertisement(
-            Advertisement.PLACEMENT_MAIL_TEXT
-        )
-        self.assertEqual(
-            adv_created,
-            adv
+    def test_text(self):
+        self.assertIn(
+            'https://',
+            get_advertisement_text_mail()
         )
 
-    @override_settings(SELF_ADVERTISEMENT=False)
-    def test_outdated(self):
-        Advertisement.objects.create(
-            placement=Advertisement.PLACEMENT_MAIL_TEXT,
-            date_start=timezone.now() - datetime.timedelta(days=1),
-            date_end=timezone.now() - datetime.timedelta(days=1),
-            text='Test ADV'
+    def test_html(self):
+        self.assertIn(
+            'https://',
+            get_advertisement_html_mail()
         )
-        adv = Advertisement.objects.get_advertisement(
-            Advertisement.PLACEMENT_MAIL_TEXT
-        )
-        self.assertIsNone(adv)

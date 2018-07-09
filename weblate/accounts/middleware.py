@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -26,7 +26,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser
 from django.utils.functional import SimpleLazyObject
 
-from weblate.accounts.models import get_anonymous
+from weblate.auth.models import get_anonymous
 
 
 def get_user(request):
@@ -34,7 +34,7 @@ def get_user(request):
 
     Adds handling of anonymous user which is stored in database.
     """
-    # pylint: disable=W0212
+    # pylint: disable=protected-access
     if not hasattr(request, '_cached_user'):
         user = auth.get_user(request)
         if isinstance(user, AnonymousUser):
@@ -46,14 +46,18 @@ def get_user(request):
 
 class AuthenticationMiddleware(object):
     """Copy of django.contrib.auth.middleware.AuthenticationMiddleware"""
-    def process_request(self, request):
+    def __init__(self, get_response=None):
+        self.get_response = get_response
+
+    def __call__(self, request):
         request.user = SimpleLazyObject(lambda: get_user(request))
+        return self.get_response(request)
 
 
 class RequireLoginMiddleware(object):
     """
     Middleware component that wraps the login_required decorator around
-    matching URL patterns. To use, add the class to MIDDLEWARE_CLASSES and
+    matching URL patterns. To use, add the class to MIDDLEWARE and
     define LOGIN_REQUIRED_URLS and LOGIN_REQUIRED_URLS_EXCEPTIONS in your
     settings.py. For example:
     ------
@@ -71,7 +75,8 @@ class RequireLoginMiddleware(object):
     LOGIN_REQUIRED_URLS_EXCEPTIONS is, conversely, where you explicitly
     define any exceptions (like login and logout URLs).
     """
-    def __init__(self):
+    def __init__(self, get_response=None):
+        self.get_response = get_response
         self.required = self.get_setting_re(
             'LOGIN_REQUIRED_URLS',
             []
@@ -92,12 +97,23 @@ class RequireLoginMiddleware(object):
         on defined parameters.
         """
         # No need to process URLs if not configured
-        if len(self.required) == 0:
+        if not self.required:
             return None
 
         # No need to process URLs if user already logged in
         if request.user.is_authenticated:
             return None
+
+        # Let gitexporter handle authentication
+        # - it doesn't go through standard Django authentication
+        # - once HTTP_AUTHORIZATION is set, it enforces it
+        if 'weblate.gitexport' in settings.INSTALLED_APPS:
+            # pylint: disable=wrong-import-position
+            import weblate.gitexport.views
+            if request.path.startswith('/git/'):
+                if request.META.get('HTTP_AUTHORIZATION'):
+                    return None
+                return weblate.gitexport.views.response_authenticate()
 
         # An exception match should immediately return None
         for url in self.exceptions:
@@ -116,3 +132,6 @@ class RequireLoginMiddleware(object):
 
         # Explicitly return None for all non-matching requests
         return None
+
+    def __call__(self, request):
+        return self.get_response(request)

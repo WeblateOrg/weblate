@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -21,10 +21,9 @@
 import argparse
 
 from django.core.management.base import CommandError
-from django.contrib.auth.models import User
 from django.http.request import HttpRequest
 
-from weblate.accounts.models import get_author_name
+from weblate.auth.models import User
 from weblate.trans.management.commands import WeblateTranslationCommand
 
 
@@ -67,7 +66,9 @@ class Command(WeblateTranslationCommand):
         try:
             translation.merge_upload(
                 request, options['file'], False, method='suggest',
-                author=get_author_name(user),
+                author=user.get_author_name(),
             )
         except IOError:
             raise CommandError('Failed to import translation file!')
+        finally:
+            options['file'].close()

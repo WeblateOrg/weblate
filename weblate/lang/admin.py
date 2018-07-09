@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,10 +18,19 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from django.contrib import admin
+
 from weblate.wladmin.models import WeblateModelAdmin
+from weblate.lang.models import Plural
+
+
+class PluralAdmin(admin.TabularInline):
+    model = Plural
+    extra = 1
 
 
 class LanguageAdmin(WeblateModelAdmin):
-    list_display = ['name', 'code', 'get_plural_form', 'direction']
+    list_display = ['name', 'code', 'direction']
     search_fields = ['name', 'code']
-    list_filter = ('direction', 'plural_type')
+    list_filter = ('direction',)
+    inlines = [PluralAdmin]

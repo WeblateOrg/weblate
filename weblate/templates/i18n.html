@@ -1,287 +1,46 @@
 {% load i18n %}
 <!--
 Fake file to translate messages from Django
+
+Do not edit the messages here, these are copied from other sources
+and should be edited there if needed.
 -->
 
 <!--
-These are from django core
+Additional password validation by django-zxcvbn-password
+
+It supports internationalization, but there are no translations
+shipped with it.
+
+See:
+https://github.com/dwolfhub/zxcvbn-python/blob/master/zxcvbn/feedback.py
 -->
-{% blocktrans %}Hold down "Control", or "Command" on a Mac, to select more than one.{% endblocktrans %}
 
-<!--
-Language names, generated using:
-
-from weblate.lang.models import Language
-for l in Language.objects.exclude(name__contains='generated').values_list('name', flat=True).distinct():
-    print '{%% trans "%s" %%}' % l
-
--->
-{% trans "Abkhazian" %}
-{% trans "Acholi" %}
-{% trans "Afar" %}
-{% trans "Afrikaans" %}
-{% trans "Akan" %}
-{% trans "Albanian" %}
-{% trans "Amharic" %}
-{% trans "Angika" %}
-{% trans "Arabic" %}
-{% trans "Arabic (Algeria)" %}
-{% trans "Arabic (Morocco)" %}
-{% trans "Aragonese" %}
-{% trans "Armenian" %}
-{% trans "Assamese" %}
-{% trans "Asturian" %}
-{% trans "Austrian German" %}
-{% trans "Avaric" %}
-{% trans "Avestan" %}
-{% trans "Aymará" %}
-{% trans "Azerbaijani" %}
-{% trans "Bambara" %}
-{% trans "Bashkir" %}
-{% trans "Basque" %}
-{% trans "Bavarian" %}
-{% trans "Belarusian" %}
-{% trans "Belarusian (latin)" %}
-{% trans "Bengali" %}
-{% trans "Bengali (Bangladesh)" %}
-{% trans "Bengali (India)" %}
-{% trans "Bihari languages" %}
-{% trans "Bislama" %}
-{% trans "Bodo" %}
-{% trans "Bosnian" %}
-{% trans "Bosnian (cyrillic)" %}
-{% trans "Bosnian (latin)" %}
-{% trans "Breton" %}
-{% trans "Bulgarian" %}
-{% trans "Burmese" %}
-{% trans "Catalan" %}
-{% trans "Central Khmer" %}
-{% trans "Chamorro" %}
-{% trans "Chechen" %}
-{% trans "Cherokee" %}
-{% trans "Chhattisgarhi" %}
-{% trans "Chiga" %}
-{% trans "Chinese" %}
-{% trans "Chinese (China)" %}
-{% trans "Chinese (Hong Kong)" %}
-{% trans "Chinese (Simplified)" %}
-{% trans "Chinese (Taiwan)" %}
-{% trans "Chinese (Traditional)" %}
-{% trans "Zhuang" %}
-{% trans "Chuvash" %}
-{% trans "Colognian" %}
-{% trans "Cornish" %}
-{% trans "Corsican" %}
-{% trans "Cree" %}
-{% trans "Croatian" %}
-{% trans "Czech" %}
-{% trans "Danish" %}
-{% trans "Dhivehi" %}
-{% trans "Dogri" %}
-{% trans "Dutch" %}
-{% trans "Dutch (Belgium)" %}
-{% trans "Dzongkha" %}
-{% trans "English" %}
-{% trans "English (Australia)" %}
-{% trans "English (Canada)" %}
-{% trans "English (Ireland)" %}
-{% trans "English (Philippines)" %}
-{% trans "English (South Africa)" %}
-{% trans "English (United Kingdom)" %}
-{% trans "English (United States)" %}
-{% trans "Esperanto" %}
-{% trans "Estonian" %}
-{% trans "Ewe" %}
-{% trans "Faroese" %}
-{% trans "Fijian" %}
-{% trans "Filipino" %}
-{% trans "Finnish" %}
-{% trans "Franco-Provençal" %}
-{% trans "French" %}
-{% trans "French (Canada)" %}
-{% trans "Frisian" %}
-{% trans "Friulian" %}
-{% trans "Fulah" %}
-{% trans "Gaelic" %}
-{% trans "Galician" %}
-{% trans "Ganda" %}
-{% trans "Georgian" %}
-{% trans "German" %}
-{% trans "Gikuyu" %}
-{% trans "Greek" %}
-{% trans "Greenlandic" %}
-{% trans "Guarani" %}
-{% trans "Gujarati" %}
-{% trans "Gun" %}
-{% trans "Haitian" %}
-{% trans "Hausa" %}
-{% trans "Hawaiian" %}
-{% trans "Hebrew" %}
-{% trans "Herero" %}
-{% trans "Hindi" %}
-{% trans "Hiri Motu" %}
-{% trans "Hungarian" %}
-{% trans "Icelandic" %}
-{% trans "Ido" %}
-{% trans "Igbo" %}
-{% trans "Indonesian" %}
-{% trans "Interlingua" %}
-{% trans "Inuktitut" %}
-{% trans "Inupiaq" %}
-{% trans "Irish" %}
-{% trans "Italian" %}
-{% trans "Japanese" %}
-{% trans "Javanese" %}
-{% trans "Kabyle" %}
-{% trans "Kannada" %}
-{% trans "Kanuri" %}
-{% trans "Kashmiri" %}
-{% trans "Kashubian" %}
-{% trans "Kazakh" %}
-{% trans "Kinyarwanda" %}
-{% trans "Kirghiz" %}
-{% trans "Klingon" %}
-{% trans "Klingon (pIqaD)" %}
-{% trans "Komi" %}
-{% trans "Kongo" %}
-{% trans "Konkani" %}
-{% trans "Korean" %}
-{% trans "Kurdish" %}
-{% trans "Kurdish Sorani" %}
-{% trans "Kwanyama" %}
-{% trans "Kyrgyz" %}
-{% trans "Lao" %}
-{% trans "Latin" %}
-{% trans "Latvian" %}
-{% trans "Limburgish" %}
-{% trans "Lingala" %}
-{% trans "Lithuanian" %}
-{% trans "Lojban" %}
-{% trans "Low German" %}
-{% trans "Luba-Katanga" %}
-{% trans "Luxembourgish" %}
-{% trans "Macedonian" %}
-{% trans "Maithili" %}
-{% trans "Malagasy" %}
-{% trans "Malay" %}
-{% trans "Malayalam" %}
-{% trans "Maltese" %}
-{% trans "Mandinka" %}
-{% trans "Manipuri" %}
-{% trans "Manx" %}
-{% trans "Maori" %}
-{% trans "Mapudungun" %}
-{% trans "Marathi" %}
-{% trans "Marshallese" %}
-{% trans "Moldovan" %}
-{% trans "Mongolian" %}
-{% trans "Montenegrin" %}
-{% trans "Morisyen" %}
-{% trans "N'Ko" %}
-{% trans "Nahuatl languages" %}
-{% trans "Nauru" %}
-{% trans "Navaho" %}
-{% trans "Ndonga" %}
-{% trans "Neapolitan" %}
-{% trans "Nepali" %}
-{% trans "North Ndebele" %}
-{% trans "Northern Sami" %}
-{% trans "Norwegian (old code)" %}
-{% trans "Norwegian Bokmål" %}
-{% trans "Norwegian Nynorsk" %}
-{% trans "Nuosu" %}
-{% trans "Nyanja" %}
-{% trans "Occidental" %}
-{% trans "Occitan" %}
-{% trans "Odia" %}
-{% trans "Ojibwe" %}
-{% trans "Oriya" %}
-{% trans "Old Church Slavonic" %}
-{% trans "Oromo" %}
-{% trans "Ossetian" %}
-{% trans "Pali" %}
-{% trans "Papiamento" %}
-{% trans "Pedi" %}
-{% trans "Persian" %}
-{% trans "Piemontese" %}
-{% trans "Pirate" %}
-{% trans "Polish" %}
-{% trans "Portuguese" %}
-{% trans "Portuguese (Brazil)" %}
-{% trans "Portuguese (Portugal)" %}
-{% trans "Punjabi" %}
-{% trans "Pushto" %}
-{% trans "Quechua" %}
-{% trans "Romanian" %}
-{% trans "Romansh" %}
-{% trans "Rundi" %}
-{% trans "Russian" %}
-{% trans "Rusyn" %}
-{% trans "Samoan" %}
-{% trans "Sango" %}
-{% trans "Sanskrit" %}
-{% trans "Santali" %}
-{% trans "Sardinian" %}
-{% trans "Scots" %}
-{% trans "Serbian" %}
-{% trans "Serbian (cyrillic)" %}
-{% trans "Serbian (latin)" %}
-{% trans "Serbo-Croatian" %}
-{% trans "Shona" %}
-{% trans "Silesian" %}
-{% trans "Sindhi" %}
-{% trans "Sinhala" %}
-{% trans "Slovak" %}
-{% trans "Slovenian" %}
-{% trans "Somali" %}
-{% trans "Songhai languages" %}
-{% trans "Sotho" %}
-{% trans "South Ndebele" %}
-{% trans "Southern Sami" %}
-{% trans "Spanish" %}
-{% trans "Spanish (American)" %}
-{% trans "Spanish (Argentina)" %}
-{% trans "Spanish (Mexico)" %}
-{% trans "Spanish (Puerto Rico)" %}
-{% trans "Sundanese" %}
-{% trans "Swahili" %}
-{% trans "Swati" %}
-{% trans "Swedish" %}
-{% trans "Swiss High German" %}
-{% trans "Tagalog" %}
-{% trans "Tahitian" %}
-{% trans "Tajik" %}
-{% trans "Tamil" %}
-{% trans "Tatar" %}
-{% trans "Telugu" %}
-{% trans "Thai" %}
-{% trans "Tibetan" %}
-{% trans "Tigrinya" %}
-{% trans "Tonga (Tonga Islands)" %}
-{% trans "Tsonga" %}
-{% trans "Tswana" %}
-{% trans "Turkish" %}
-{% trans "Turkmen" %}
-{% trans "Twi" %}
-{% trans "Uighur" %}
-{% trans "Ukrainian" %}
-{% trans "Upper Sorbian" %}
-{% trans "Urdu" %}
-{% trans "Urdu (Pakistan)" %}
-{% trans "Uzbek" %}
-{% trans "Uzbek (latin)" %}
-{% trans "Valencian" %}
-{% trans "Venda" %}
-{% trans "Venetian" %}
-{% trans "Vietnamese" %}
-{% trans "Volapük" %}
-{% trans "Walloon" %}
-{% trans "Welsh" %}
-{% trans "West Flemish" %}
-{% trans "Wolof" %}
-{% trans "Xhosa" %}
-{% trans "Yakut" %}
-{% trans "Yiddish" %}
-{% trans "Yoruba" %}
-{% trans "Yue" %}
-{% trans "Zulu" %}
+{% blocktrans %}Your password must be stronger.{% endblocktrans %}
+{% blocktrans %}Use a few words, avoid common phrases.{% endblocktrans %}
+{% blocktrans %}No need for symbols, digits, or uppercase letters.{% endblocktrans %}
+{% blocktrans %}Add another word or two. Uncommon words are better.{% endblocktrans %}
+{% blocktrans %}Straight rows of keys are easy to guess.{% endblocktrans %}
+{% blocktrans %}Short keyboard patterns are easy to guess.{% endblocktrans %}
+{% blocktrans %}Use a longer keyboard pattern with more turns.{% endblocktrans %}
+{% blocktrans %}Repeats like "aaa" are easy to guess.{% endblocktrans %}
+{% blocktrans %}Repeats like "abcabcabc" are only slightly harder to guess than "abc".{% endblocktrans %}
+{% blocktrans %}Avoid repeated words and characters.{% endblocktrans %}
+{% blocktrans %}Sequences like "abc" or "6543" are easy to guess.{% endblocktrans %}
+{% blocktrans %}Avoid sequences.{% endblocktrans %}
+{% blocktrans %}Recent years are easy to guess.{% endblocktrans %}
+{% blocktrans %}Avoid recent years.{% endblocktrans %}
+{% blocktrans %}Avoid years that are associated with you.{% endblocktrans %}
+{% blocktrans %}Dates are often easy to guess.{% endblocktrans %}
+{% blocktrans %}Avoid dates and years that are associated with you.{% endblocktrans %}
+{% blocktrans %}This is a top-10 common password.{% endblocktrans %}
+{% blocktrans %}This is a top-100 common password.{% endblocktrans %}
+{% blocktrans %}This is a very common password.{% endblocktrans %}
+{% blocktrans %}This is similar to a commonly used password.{% endblocktrans %}
+{% blocktrans %}A word by itself is easy to guess.{% endblocktrans %}
+{% blocktrans %}Names and surnames by themselves are easy to guess.{% endblocktrans %}
+{% blocktrans %}Common names and surnames are easy to guess.{% endblocktrans %}
+{% blocktrans %}Capitalization doesn't help very much.{% endblocktrans %}
+{% blocktrans %}All-uppercase is almost as easy to guess as all-lowercase.{% endblocktrans %}
+{% blocktrans %}Reversed words aren't much harder to guess.{% endblocktrans %}
+{% blocktrans %}Predictable substitutions like '@' instead of 'a' don't help very much.{% endblocktrans %}

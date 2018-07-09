@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -20,24 +20,20 @@
 
 from __future__ import unicode_literals
 
-import functools
 import re
 import sys
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models
-from django.db.models import Q
 from django.utils.encoding import python_2_unicode_compatible
 
-from whoosh.analysis import (
-    LanguageAnalyzer, StandardAnalyzer, StemmingAnalyzer, NgramAnalyzer,
-    SimpleAnalyzer,
-)
-from whoosh.lang import has_stemmer
+from whoosh.analysis import LanguageAnalyzer, NgramAnalyzer, SimpleAnalyzer
 
 from weblate.lang.models import Language
-from weblate.trans.formats import AutoFormat
+from weblate.checks.same import strip_string
+from weblate.formats.auto import AutoFormat
 from weblate.trans.models.project import Project
+from weblate.utils.db import re_escape
 from weblate.utils.errors import report_error
 
 
@@ -45,7 +41,7 @@ SPLIT_RE = re.compile(r'[\s,.:!?]+', re.UNICODE)
 
 
 class DictionaryManager(models.Manager):
-    # pylint: disable=W0232
+    # pylint: disable=no-init
 
     def upload(self, request, project, language, fileobj, method):
         """Handle dictionary upload."""
@@ -73,7 +69,7 @@ class DictionaryManager(models.Manager):
                         'target': target,
                     },
                 )
-            except self.MultipleObjectsReturned:
+            except Dictionary.MultipleObjectsReturned:
                 word = self.filter(
                     project=project,
                     language=language,
@@ -121,28 +117,25 @@ class DictionaryManager(models.Manager):
     def get_words(self, unit):
         """Return list of word pairs for an unit."""
         words = set()
+        source_language = unit.translation.component.project.source_language
 
         # Prepare analyzers
-        # - standard analyzer simply splits words
-        # - stemming extracts stems, to catch things like plurals
+        # - simple analyzer just splits words based on regexp
+        # - language analyzer if available (it is for English)
         analyzers = [
-            (SimpleAnalyzer(), True),
-            (SimpleAnalyzer(expression=SPLIT_RE, gaps=True), True),
-            (StandardAnalyzer(), False),
-            (StemmingAnalyzer(), False),
+            SimpleAnalyzer(expression=SPLIT_RE, gaps=True),
+            LanguageAnalyzer(source_language.base_code()),
         ]
-        source_language = unit.translation.subproject.project.source_language
-        lang_code = source_language.base_code()
-        # Add per language analyzer if Whoosh has it
-        if has_stemmer(lang_code):
-            analyzers.append((LanguageAnalyzer(lang_code), False))
+
         # Add ngram analyzer for languages like Chinese or Japanese
         if source_language.uses_ngram():
-            analyzers.append((NgramAnalyzer(4), False))
+            analyzers.append(NgramAnalyzer(4))
 
         # Extract words from all plurals and from context
+        flags = unit.all_flags
         for text in unit.get_source_plurals() + [unit.context]:
-            for analyzer, combine in analyzers:
+            text = strip_string(text, flags).lower()
+            for analyzer in analyzers:
                 # Some Whoosh analyzers break on unicode
                 new_words = []
                 try:
@@ -150,44 +143,29 @@ class DictionaryManager(models.Manager):
                 except (UnicodeDecodeError, IndexError) as error:
                     report_error(error, sys.exc_info())
                 words.update(new_words)
-                # Add combined string to allow match against multiple word
-                # entries allowing to combine up to 5 words
-                if combine:
-                    words.update(
-                        [
-                            ' '.join(new_words[x:y])
-                            for x in range(len(new_words))
-                            for y in range(1, min(x + 6, len(new_words) + 1))
-                            if x != y
-                        ]
-                    )
 
-        # Grab all words in the dictionary
-        dictionary = self.filter(
-            project=unit.translation.subproject.project,
-            language=unit.translation.language
-        )
+        if '' in words:
+            words.remove('')
 
-        if len(words) == 0:
+        if not words:
             # No extracted words, no dictionary
-            dictionary = dictionary.none()
-        else:
-            # Build the query for fetching the words
-            # Can not use __in as we want case insensitive lookup
-            dictionary = dictionary.filter(
-                functools.reduce(
-                    lambda x, y: x | y,
-                    [Q(source__iexact=word) for word in words]
-                )
-            )
+            return self.none()
 
-        return dictionary
+        # Build the query for fetching the words
+        # We want case insensitive lookup
+        return self.filter(
+            project=unit.translation.component.project,
+            language=unit.translation.language,
+            source__iregex=r'(^|[ \t\n\r\f\v])({0})($|[ \t\n\r\f\v])'.format(
+                '|'.join([re_escape(word) for word in words])
+            )
+        )
 
 
 @python_2_unicode_compatible
 class Dictionary(models.Model):
-    project = models.ForeignKey(Project)
-    language = models.ForeignKey(Language)
+    project = models.ForeignKey(Project, on_delete=models.deletion.CASCADE)
+    language = models.ForeignKey(Language, on_delete=models.deletion.CASCADE)
     source = models.CharField(max_length=190, db_index=True)
     target = models.CharField(max_length=190)
 
@@ -195,9 +173,6 @@ class Dictionary(models.Model):
 
     class Meta(object):
         ordering = ['source']
-        permissions = (
-            ('upload_dictionary', "Can import dictionary"),
-        )
         app_label = 'trans'
 
     def __str__(self):
@@ -208,12 +183,10 @@ class Dictionary(models.Model):
             self.target
         )
 
-    @models.permalink
     def get_absolute_url(self):
-        return (
+        return reverse(
             'edit_dictionary',
-            (),
-            {
+            kwargs={
                 'project': self.project.slug,
                 'lang': self.language.code,
                 'pk': self.id,

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -25,10 +25,11 @@ from unittest import SkipTest
 
 from django.utils import timezone
 
-from weblate.trans.models import SubProject
+from weblate.trans.models import Component
 from weblate.trans.tests.utils import REPOWEB_URL
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.trans.vcs import HgRepository, SubversionRepository
+from weblate.vcs.models import VCS_REGISTRY
+from weblate.utils.state import STATE_TRANSLATED
 
 EXTRA_PO = '''
 #: accounts/models.py:319 trans/views/basic.py:104 weblate/html/index.html:21
@@ -67,20 +68,12 @@ class MultiRepoTest(ViewTestCase):
 
     def setUp(self):
         super(MultiRepoTest, self).setUp()
-        if self._vcs == 'git':
-            repo = self.git_repo_path
-            push = self.git_repo_path
-        elif self._vcs == 'subversion':
-            if not SubversionRepository.is_supported():
-                raise SkipTest('Subversion not available!')
-            repo = 'file://' + self.svn_repo_path
-            push = 'file://' + self.svn_repo_path
-        else:
-            if not HgRepository.is_supported():
-                raise SkipTest('Mercurial not available!')
-            repo = self.hg_repo_path
-            push = self.hg_repo_path
-        self.subproject2 = SubProject.objects.create(
+        if self._vcs not in VCS_REGISTRY:
+            raise SkipTest('VCS {0} not available!'.format(self._vcs))
+        repo = push = self.format_local_path(
+            getattr(self, '{0}_repo_path'.format(self._vcs))
+        )
+        self.component2 = Component.objects.create(
             name='Test 2',
             slug='test-2',
             project=self.project,
@@ -97,21 +90,21 @@ class MultiRepoTest(ViewTestCase):
         self.request = self.get_request('/')
 
     def push_first(self, propagate=True, newtext='Nazdar svete!\n'):
-        """Change and pushes first subproject."""
+        """Change and pushes first component."""
         if not propagate:
             # Disable changes propagating
-            self.subproject2.allow_translation_propagation = False
-            self.subproject2.save()
+            self.component2.allow_translation_propagation = False
+            self.component2.save()
 
         unit = self.get_unit()
-        unit.translate(self.request, [newtext], False)
-        self.assertEqual(self.get_translation().translated, 1)
-        self.subproject.do_push(self.request)
+        unit.translate(self.request, [newtext], STATE_TRANSLATED)
+        self.assertEqual(self.get_translation().stats.translated, 1)
+        self.component.do_push(self.request)
 
     def push_replace(self, content, mode):
         """Replace content of a po file and pushes it to remote repository."""
         # Manually edit po file, adding new unit
-        translation = self.subproject.translation_set.get(
+        translation = self.component.translation_set.get(
             language_code='cs'
         )
         with open(translation.get_filename(), mode) as handle:
@@ -120,10 +113,9 @@ class MultiRepoTest(ViewTestCase):
         # Do changes in first repo
         translation.git_commit(
             self.request, 'TEST <test@example.net>', timezone.now(),
-            force_commit=True
         )
         self.assertFalse(translation.repo_needs_commit())
-        translation.subproject.do_push(self.request)
+        translation.component.do_push(self.request)
 
     def test_propagate(self):
         """Test handling of propagating."""
@@ -131,20 +123,20 @@ class MultiRepoTest(ViewTestCase):
         self.push_first()
 
         # Verify changes got to the second one
-        translation = self.subproject2.translation_set.get(
+        translation = self.component2.translation_set.get(
             language_code='cs'
         )
-        self.assertEqual(translation.translated, 1)
+        self.assertEqual(translation.stats.translated, 1)
 
     def test_failed_update(self):
         """Test failed remote update."""
         if os.path.exists(self.git_repo_path):
             shutil.rmtree(self.git_repo_path)
-        if os.path.exists(self.hg_repo_path):
-            shutil.rmtree(self.hg_repo_path)
-        if os.path.exists(self.svn_repo_path):
-            shutil.rmtree(self.svn_repo_path)
-        translation = self.subproject.translation_set.get(
+        if os.path.exists(self.mercurial_repo_path):
+            shutil.rmtree(self.mercurial_repo_path)
+        if os.path.exists(self.subversion_repo_path):
+            shutil.rmtree(self.subversion_repo_path)
+        translation = self.component.translation_set.get(
             language_code='cs'
         )
         self.assertFalse(translation.do_update(self.request))
@@ -155,21 +147,22 @@ class MultiRepoTest(ViewTestCase):
         self.push_first(False)
 
         # Test pull
-        translation = self.subproject2.translation_set.get(
+        translation = self.component2.translation_set.get(
             language_code='cs'
         )
-        self.assertEqual(translation.translated, 0)
+        translation.invalidate_cache()
+        self.assertEqual(translation.stats.translated, 0)
 
         translation.do_update(self.request)
-        translation = self.subproject2.translation_set.get(
+        translation = self.component2.translation_set.get(
             language_code='cs'
         )
-        self.assertEqual(translation.translated, 1)
+        self.assertEqual(translation.stats.translated, 1)
 
     def test_rebase(self):
         """Testing of rebase"""
-        self.subproject2.merge_style = 'rebase'
-        self.subproject2.save()
+        self.component2.merge_style = 'rebase'
+        self.component2.save()
         self.test_update()
 
     def test_conflict(self):
@@ -178,11 +171,11 @@ class MultiRepoTest(ViewTestCase):
         self.push_first(False)
 
         # Do changes in the second repo
-        translation = self.subproject2.translation_set.get(
+        translation = self.component2.translation_set.get(
             language_code='cs'
         )
         unit = translation.unit_set.get(source='Hello, world!\n')
-        unit.translate(self.request, ['Ahoj svete!\n'], False)
+        unit.translate(self.request, ['Ahoj svete!\n'], STATE_TRANSLATED)
 
         self.assertFalse(translation.do_update(self.request))
 
@@ -190,59 +183,59 @@ class MultiRepoTest(ViewTestCase):
 
     def test_more_changes(self):
         """Test more string changes in remote repo."""
-        translation = self.subproject2.translation_set.get(
+        translation = self.component2.translation_set.get(
             language_code='cs'
         )
 
         self.push_first(False, 'Hello, world!\n')
         translation.do_update(self.request)
-        translation = self.subproject2.translation_set.get(
+        translation = self.component2.translation_set.get(
             language_code='cs'
         )
-        self.assertEqual(translation.failing_checks, 1)
+        self.assertEqual(translation.stats.allchecks, 1)
 
         self.push_first(False, 'Nazdar svete\n')
         translation.do_update(self.request)
-        translation = self.subproject2.translation_set.get(
+        translation = self.component2.translation_set.get(
             language_code='cs'
         )
-        self.assertEqual(translation.failing_checks, 0)
+        self.assertEqual(translation.stats.allchecks, 0)
 
     def test_new_unit(self):
         """Test adding new unit with update."""
         self.push_replace(EXTRA_PO, 'a')
 
-        self.subproject2.do_update(self.request)
+        self.component2.do_update(self.request)
 
-        translation = self.subproject2.translation_set.get(
+        translation = self.component2.translation_set.get(
             language_code='cs'
         )
-        self.assertEqual(translation.total, 5)
+        self.assertEqual(translation.stats.all, 5)
 
     def test_deleted_unit(self):
         """Test removing several units from remote repo."""
         self.push_replace(MINIMAL_PO, 'w')
 
-        self.subproject2.do_update(self.request)
+        self.component2.do_update(self.request)
 
-        translation = self.subproject2.translation_set.get(
+        translation = self.component2.translation_set.get(
             language_code='cs'
         )
-        self.assertEqual(translation.total, 1)
+        self.assertEqual(translation.stats.all, 1)
 
     def test_deleted_stale_unit(self):
         """Test removing several units from remote repo with no
         other reference, so full cleanup has to happen.
         """
         self.push_replace(MINIMAL_PO, 'w')
-        self.subproject.delete()
+        self.component.delete()
 
-        self.subproject2.do_update(self.request)
+        self.component2.do_update(self.request)
 
-        translation = self.subproject2.translation_set.get(
+        translation = self.component2.translation_set.get(
             language_code='cs'
         )
-        self.assertEqual(translation.total, 1)
+        self.assertEqual(translation.stats.all, 1)
 
 
 class GitBranchMultiRepoTest(MultiRepoTest):
@@ -250,7 +243,7 @@ class GitBranchMultiRepoTest(MultiRepoTest):
     _branch = 'translations'
     _filemask = 'translations/*.po'
 
-    def create_subproject(self):
+    def create_component(self):
         return self.create_po_branch()
 
 
@@ -258,12 +251,12 @@ class MercurialMultiRepoTest(MultiRepoTest):
     _vcs = 'mercurial'
     _branch = 'default'
 
-    def create_subproject(self):
+    def create_component(self):
         return self.create_po_mercurial()
 
 
 class SubversionMultiRepoTest(MultiRepoTest):
     _vcs = 'subversion'
 
-    def create_subproject(self):
+    def create_component(self):
         return self.create_po_svn()

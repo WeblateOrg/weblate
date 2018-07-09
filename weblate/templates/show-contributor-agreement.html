@@ -1,0 +1,11 @@
+{% extends "message.html" %}
+{% load i18n %}
+
+{% block tags %}warning{% endblock %}
+
+{% block message %}
+<a href="{% url 'contributor-agreement' project=object.project.slug component=object.slug %}{% if next %}?next={{ next }}{% endif %}" class="btn btn-success pull-right flip"><i class="fa fa-gavel"></i> {% trans "View contributor agreement" %}</a>
+{% trans "Contribution to this translation requires you to agree with a contributor agreement." %}
+<div class="clearfix"></div>
+{% endblock %}
+

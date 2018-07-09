@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+{% load crispy_forms_tags %}
+{% load permissions %}
+
+{% block breadcrumbs %}
+<li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
+<li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></li>
+<li><a href="{% url 'addons' project=object.project.slug component=object.slug %}">{% trans "Addons" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">
+    {% documentation_icon 'admin/addons' right=True %}
+  {% trans "Installed addons" %}
+  </h4></div>
+  <table class="table table-striped">
+  <tbody>
+{% for addon in object_list %}
+  <tr>
+  <td>
+  {% include 'addons/addon_head.html' with addon=addon.addon %}
+  </td>
+  <td class="bottom-button">
+    <form method="POST" action="{{ addon.get_absolute_url }}">{% csrf_token %}<input type="hidden" name="delete" value="{{ addon.name }}" /><button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> {% trans "Uninstall" %}</button></form>
+  </td>
+  <td class="bottom-button">
+  {% if addon.addon.has_settings %}
+  <a class="btn btn-default" href="{{ addon.get_absolute_url }}"><i class="fa fa-edit"></i> {% trans "Configure" %}</a>
+  {% endif %}
+  </td>
+  </tr>
+{% endfor %}
+  </tbody>
+  </table>
+  <div class="panel-footer">
+{% if not object_list %}
+  {% trans "There are no addons currently installed." %}
+{% else %}
+  {% blocktrans count count=object_list|length %}There is currently {{ count }} addon installed.{% plural %}There are currently {{ count }} addons installed.{% endblocktrans %}
+{% endif %}
+  </div>
+</div>
+
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">
+    {% documentation_icon 'admin/addons' right=True %}
+  {% trans "Available addons" %}
+  </h4></div>
+  <table class="table table-striped">
+  <tbody>
+{% for addon in available %}
+  <tr>
+  <td>
+  {% include 'addons/addon_head.html' with addon=addon %}
+  </td>
+  <td class="bottom-button">
+    <form method="POST">{% csrf_token %}<input type="hidden" name="name" value="{{ addon.name }}" /><button type="submit" class="btn btn-success" data-addon="{{ addon.name }}"><i class="fa fa-plus"></i> {% trans "Install" %}</button></form>
+  </td>
+  </tr>
+{% endfor %}
+  </tbody>
+  </table>
+  <div class="panel-footer">
+{% if not available %}
+    {% trans "Could not find any additional addons compatible with this translation." %}
+{% else %}
+    {% trans "Some addons will ask for additional configuration during installation." %}
+{% endif %}
+  </div>
+</div>
+
+{% endblock %}

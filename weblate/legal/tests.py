@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -21,13 +21,13 @@
 """Test for legal stuff."""
 
 from django.test import TestCase
-from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.http import HttpRequest
 from django.test.utils import override_settings, modify_settings
 
 from weblate.accounts.tests.test_registration import REGISTRATION_DATA
 from weblate.trans.tests.test_views import RegistrationTestMixin
+from weblate.trans.tests.utils import create_test_user
 
 
 class LegalTest(TestCase, RegistrationTestMixin):
@@ -93,16 +93,11 @@ class LegalTest(TestCase, RegistrationTestMixin):
         )
         self.assertContains(response, 'Your profile')
 
-    @modify_settings(MIDDLEWARE_CLASSES={
+    @modify_settings(MIDDLEWARE={
         'append': 'weblate.legal.middleware.RequireTOSMiddleware',
     })
     def test_middleware(self):
-        user = User.objects.create_user(
-            'testuser',
-            'noreply@weblate.org',
-            'testpassword',
-            first_name='Weblate Test',
-        )
+        user = create_test_user()
         # Unauthenticated
         response = self.client.get(reverse('home'), follow=True)
         self.assertContains(response, 'Suggested translations')

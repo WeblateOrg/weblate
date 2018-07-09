@@ -16,10 +16,10 @@
 
 {% whiteboard_messages project=object %}
 
-{% can_see_repository_status user object as user_can_see_repository_status %}
-{% can_commit_translation user object as user_can_commit_translation %}
-{% can_manage_acl user object as user_can_manage_acl %}
-{% can_edit_project user object as user_can_edit_project %}
+{% perm 'meta:vcs.status' object as user_can_see_repository_status %}
+{% perm 'vcs.commit' object as user_can_commit_translation %}
+{% perm 'project.permissions' object as user_can_manage_acl %}
+{% perm 'project.edit' object as user_can_edit_project %}
 
 <ul class="nav nav-pills">
   <li class="active"><a href="#components" data-toggle="tab">{% trans "Components" %}</a></li>
@@ -51,7 +51,7 @@
       <li><a href="{% url 'checks' %}?project={{ object.slug }}&amp;ignored=true">{% trans "Ignored checks" %}</a></li>
     </ul>
   </li>
-  {% if user_can_manage_acl or user_can_edit_project or user_can_commit_translation or user_can_see_repository_status %}
+  {% if user_can_manage_acl or user_can_edit_project or user_can_see_repository_status %}
   <li class="dropdown">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
       {% trans "Manage" %} <span class="caret"></span>
@@ -62,12 +62,10 @@
       {% endif %}
       {% if user_can_see_repository_status %}
       <li><a href="#repository" data-toggle="tab" data-href="{% url 'git_status_project' project=object.slug %}">{% trans "Repository maintenance" %}</a></li>
-      {% endif %}
-      {% if user_can_commit_translation or user_can_see_repository_status %}
       <li role="separator" class="divider"></li>
       {% endif %}
       {% if user_can_manage_acl %}
-      <li><a href="{% url 'manage-access' project=object.slug %}">{% trans "Manage users" %}</a></li>
+      <li><a href="{% url 'manage-access' project=object.slug %}">{% trans "Users" %}</a></li>
       {% endif %}
       {% if user_can_edit_project %}
       <li><a href="{% url 'settings' project=object.slug %}">{% trans "Settings" %}</a></li>
@@ -82,8 +80,8 @@
     </a>
     <ul class="dropdown-menu">
 {% with object.get_share_url as share_url and object.get_widgets_url as widgets_url %}
-      <li><a href="https://www.facebook.com/sharer.php?u={{ share_url }}">{% trans "Share on Facebook!" %}</a></li>
-      <li><a href="https://twitter.com/share?text={% blocktrans %}Translate {{ object }} using %23Weblate at {{ share_url }}!{% endblocktrans %}">{% trans "Tweet this translation!" %}</a></li>
+      <li><a href="https://www.facebook.com/sharer.php?u={{ share_url }}">{% trans "Share on Facebook" %}</a></li>
+      <li><a href="https://twitter.com/share?text={% blocktrans %}Translate {{ object }} using %23Weblate at {{ share_url }}!{% endblocktrans %}">{% trans "Tweet this translation" %}</a></li>
       <li><a href="{% url 'engage' project=object.slug %}">{% trans "Engage page" %}</a></li>
       <li><a href="{{ widgets_url }}">{% trans "Status widgets" %}</a></li>
 {% endwith %}
@@ -106,13 +104,16 @@
 <th colspan="2">{% trans "Words" %}</th>
 </tr>
 <tbody>
-{% for prj in object.subproject_set.select_related %}
+{% for prj in components %}
 <tr>
-<th><a href="{{ prj.get_absolute_url }}">{{ prj.name }}</a></th>
+<th>
+<a href="{{ prj.get_absolute_url }}">{{ prj.name }}</a>
+{% if prj.is_repo_link %}<span class="badge pull-right flip tooltip-control" title="{% blocktrans with prj.linked_component as target %}Repository for this component is linked to {{ target }}{% endblocktrans %}">{% trans "link" %}</span>{% endif %}
+</th>
 <td class="progress-cell">{% translation_progress prj %}</td>
-<td class="percent">{{ prj.get_translated_percent }}%</td>
-<td class="progress-cell">{% generic_progress prj.get_words_percent %}</td>
-<td class="percent">{{ prj.get_words_percent }}%</td>
+<td class="percent">{{ prj.stats.translated_percent }}%</td>
+<td class="progress-cell">{% words_progress prj %}</td>
+<td class="percent">{{ prj.stats.translated_words_percent }}%</td>
 </tr>
 {% endfor %}
 </tbody>
@@ -141,13 +142,13 @@
 </tr>
 </thead>
 <tbody>
-{% for language in language_stats %}
+{% for stats in language_stats %}
 <tr>
-<th><a href="{% url 'project-language' lang=language.0.code project=object.slug %}">{{ language.0 }}</a></th>
-<td class="progress-cell">{% generic_progress language.1 %}</td>
-<td class="percent">{{ language.1 }}%</td>
-<td class="progress-cell">{% generic_progress language.2 %}</td>
-<td class="percent">{{ language.2 }}%</td>
+<th><a href="{% url 'project-language' lang=stats.language.code project=object.slug %}">{{ stats.language.name }}</a></th>
+<td class="progress-cell">{% translation_progress stats %}</td>
+<td class="percent">{{ stats.translated_percent }}%</td>
+<td class="progress-cell">{% words_progress stats %}</td>
+<td class="percent">{{ stats.translated_words_percent }}%</td>
 </tr>
 {% endfor %}
 </tbody>
@@ -193,7 +194,7 @@
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Search and replace" %}</h4></div>
 <div class="panel-body">
-<p>{% trans "You can replace string in all units at once. The search is simple substring case sensitive search." %}</p>
+<p>{% trans "You can replace a string in all strings at once. The search is a simple substring case sensitive search." %}</p>
 {% csrf_token %}
 {{ replace_form|crispy }}
 </div>
@@ -202,6 +203,23 @@
 </div>
 </div>
 </form>
+
+{% if mass_state_form %}
+<form action="{% url 'state-change' project=object.slug %}" method="post" enctype="multipart/form-data">
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Mass state change" %}</h4></div>
+<div class="panel-body">
+<p>{% trans "You can change state of all strings matching given type at once." %}</p>
+{% csrf_token %}
+{{ mass_state_form|crispy }}
+</div>
+<div class="panel-footer">
+<input type="submit" value="{% trans "Process" %}" class="btn btn-default" />
+</div>
+</div>
+</form>
+{% endif %}
+
 </div>
 {% endif %}
 

@@ -1,0 +1,30 @@
+{% extends "mail/base.html" %}
+
+{% load i18n %}{% load translations %}
+
+{% block content %}
+<p>
+{% trans "Hi,"%}
+</p>
+
+<p>
+{% blocktrans %}There was a request to remove your Weblate account at {{ site_title }}.{% endblocktrans %}
+</p>
+
+<p>
+{% blocktrans %}Please open the following link in your web browser. If the link is split over several lines, you may need to copy it in the address bar.{% endblocktrans %}
+</p>
+
+<p>
+<a href="{{ current_site_url }}{{ url }}">{{ current_site_url }}{{ url }}</a>
+</p>
+
+<p>
+{% blocktrans %}If there is a problem with your registration, please contact us:{% endblocktrans %}
+</p>
+
+<p>
+<a href="{{ current_site_url }}{% url 'contact' %}?t=reg">{{ current_site_url }}{% url 'contact' %}?t=reg</a>
+</p>
+
+{% endblock %}

@@ -3,12 +3,12 @@
 {% load permissions %}
 {% with object.repo_needs_commit as needs_commit %}
 
-{% can_commit_translation user project as user_can_commit_translation %}
-{% can_update_translation user project as user_can_update_translation %}
-{% can_push_translation user project as user_can_push_translation %}
-{% can_reset_translation user project as user_can_reset_translation %}
-{% can_remove_translation user project as user_can_remove_translation %}
-{% can_lock_subproject user project as user_can_lock_subproject %}
+{% perm 'vcs.commit' project as user_can_commit_translation %}
+{% perm 'vcs.update' project as user_can_update_translation %}
+{% perm 'vcs.push' project as user_can_push_translation %}
+{% perm 'vcs.reset' project as user_can_reset_translation %}
+{% perm 'translation.delete' project as user_can_remove_translation %}
+{% perm 'component.lock' project as user_can_lock_component %}
 
 
 <div class="row">
@@ -18,27 +18,27 @@
 <div class="panel-heading"><h4 class="panel-title">{% trans "Repository status" %}</h4></div>
 <div class="panel-body">
 {% if needs_commit %}
-<div class="alert alert-info" role="alert">{% trans "There are some not committed changes!" %}</div>
+<div class="alert alert-info" role="alert">{% trans "There are some uncommitted changes!" %}</div>
 {% endif %}
 {% if changes.0.is_merge_failure %}
 <div class="alert alert-danger" role="alert">
-<p>{% trans "There has been a merge failure on the repository:" %}</p>
+<p>{% trans "There has been a merge failure in the repository:" %}</p>
 <pre>{{ changes.0.target }}</pre>
-<p><a href="{% documentation "faq" "merge" %}">{% trans "Check our FAQ for information how to resolve this." %}</a></p>
+<p><a href="{% documentation "faq" "merge" %}">{% trans "Check the FAQ for information on how to resolve this." %}</a></p>
 </div>
 {% else %}
 {% if object.repo_needs_merge %}
 <div class="alert alert-warning" role="alert">{% trans "The remote repository needs to be merged!" %}</div>
 {% endif %}
 {% if object.repo_needs_push %}
-<div class="alert alert-warning" role="alert">{% trans "There are some new commits in the local repository!" %}</div>
+<div class="alert alert-warning" role="alert">{% trans "There are some new commits in the local repository." %}</div>
 {% endif %}
 {% if not needs_commit and not object.repo_needs_merge and not object.repo_needs_push %}
 <div class="alert alert-success" role="alert">{% trans "The local repository is up to date." %}</div>
 {% endif %}
 {% endif %}
 
-{% if object.subproject_set %}
+{% if object.component_set %}
 {% else %}
 {% with object.get_last_remote_commit as commit %}
 <p>
@@ -49,7 +49,7 @@
 {% with object.get_export_url as export_url %}
 {% if export_url %}
 <p>
-{% trans "Repository with Weblate translations:" %}
+{% trans "Repository containing Weblate translations:" %}
 <code class="git-repo ui-corner-all">{{ export_url }}</code>
 </p>
 {% endif %}
@@ -109,7 +109,7 @@
 <td>
 <form method="POST" action="{{ object.get_commit_url }}">
 {% csrf_token %}
-<input type="submit" class="btn btn-default{% if not needs_commit %} disabled{% endif %}" value="{% trans "Commit" %}" />
+<input type="submit" class="btn btn-default" {% if not needs_commit %}disabled="disabled"{% endif %} value="{% trans "Commit" %}" />
 </form>
 </td>
 <td>
@@ -137,7 +137,7 @@
 <td>
 <form method="POST" action="{{ object.get_push_url }}">
 {% csrf_token %}
-<input type="submit" class="btn btn-default{% if not object.can_push %} disabled{% endif %}" value="{% trans "Push" %}" />
+<input type="submit" class="btn btn-default" {% if not object.can_push %}disabled="disabled"{% endif %} value="{% trans "Push" %}" />
 </form>
 </td>
 <td>
@@ -175,7 +175,7 @@
 {% endif %}
 
 
-{% if user_can_lock_subproject and object.is_lockable %}
+{% if user_can_lock_component and object.is_lockable %}
 {% if object.locked %}
 <tr>
 <td>
@@ -185,7 +185,7 @@
 </form>
 </td>
 <td>
-<p class="helptext">{% trans "Allow changes in the local repository" %}</p>
+<p class="helptext">{% trans "Allow changes to the local repository" %}</p>
 </td>
 </tr>
 {% else %}
@@ -206,7 +206,7 @@
 {% if translation and user_can_remove_translation %}
 <tr>
 <td>
-<form method="POST" action="{% url 'remove_translation' project=translation.subproject.project.slug subproject=translation.subproject.slug lang=translation.language.code %}">
+<form method="POST" action="{% url 'remove_translation' project=translation.component.project.slug component=translation.component.slug lang=translation.language.code %}">
 {% csrf_token %}
 <input type="submit" class="btn btn-danger" value="{% trans "Delete" %}" />
 </form>

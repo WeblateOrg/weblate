@@ -25,7 +25,7 @@ Authentication and generic parameters
 
 The public project API is available without authentication, though
 unauthenticated requests are heavily throttled (by default to 100 requests per
-day), so it is recommended to use authentication. The authentication is using
+day), so it is recommended to use authentication. The authentication uses a
 token, which you can get in your profile. Use it in the ``Authorization`` header:
 
 .. http:any:: /
@@ -146,6 +146,17 @@ form submission (:mimetype:`application/x-www-form-urlencoded`) or as JSON
         -H "Authorization: Token TOKEN" \
         http://example.com/api/components/hello/weblate/repository/
 
+Rate limiting
+~~~~~~~~~~~~~
+
+The API requests are rate limited, the default configuration limits it to 100
+requests per day for anonymous user and 1000 requests per day for authenticated
+users.
+
+Rate limiting can be adjusted in the :file:`settings.py`, see 
+`Throttling in Django REST framework documentation <http://www.django-rest-framework.org/api-guide/throttling/>`_
+for more details how to configure it.
+
 API Entry Point
 +++++++++++++++
 
@@ -187,7 +198,7 @@ Languages
 
 .. http:get:: /api/languages/
 
-    Returns listing of all languages.
+    Returns a list of all languages.
 
     .. seealso::
 
@@ -197,14 +208,12 @@ Languages
 
 .. http:get:: /api/languages/(string:language)/
 
-    Returns information about language.
+    Returns information about a language.
 
     :param language: Language code
     :type language: string
     :>json string code: Language code
     :>json string direction: Text direction
-    :>json int nplurals: Number of plurals
-    :>json string pluralequation: Gettext plural equation
 
     .. seealso::
 
@@ -218,8 +227,6 @@ Languages
             "code": "en",
             "direction": "ltr",
             "name": "English",
-            "nplurals": 2,
-            "pluralequation": "n != 1",
             "url": "http://example.com/api/languages/en/",
             "web_url": "http://example.com/languages/en/"
         }
@@ -230,7 +237,7 @@ Projects
 
 .. http:get:: /api/projects/
 
-    Returns listing of projects.
+    Returns a list of all projects.
 
     .. seealso::
 
@@ -240,7 +247,7 @@ Projects
 
 .. http:get:: /api/projects/(string:project)/
 
-    Returns information about project.
+    Returns information about a project.
 
     :param project: Project URL slug
     :type project: string
@@ -267,8 +274,6 @@ Projects
                 "code": "en",
                 "direction": "ltr",
                 "name": "English",
-                "nplurals": 2,
-                "pluralequation": "n != 1",
                 "url": "http://example.com/api/languages/en/",
                 "web_url": "http://example.com/languages/en/"
             },
@@ -279,7 +284,7 @@ Projects
 
 .. http:get:: /api/projects/(string:project)/changes/
 
-    Returns list of project changes.
+    Returns a list of project changes.
 
     :param project: Project URL slug
     :type project: string
@@ -370,7 +375,7 @@ Projects
 
 .. http:get:: /api/projects/(string:project)/components/
 
-    Returns list of translation components in given project.
+    Returns a list of translation components in the given project.
 
     :param project: Project URL slug
     :type project: string
@@ -382,7 +387,7 @@ Projects
 
 .. http:get:: /api/components/(string:project)/(string:component)/statistics/
 
-    Returns paginated statistics for all languages within project.
+    Returns paginated statistics for all languages within a project.
 
     .. versionadded:: 2.10
 
@@ -405,7 +410,7 @@ Components
 
 .. http:get:: /api/components/
 
-    Returns listin of translation components.
+    Returns a list of translation components.
 
     .. seealso::
 
@@ -463,8 +468,6 @@ Components
                     "code": "en",
                     "direction": "ltr",
                     "name": "English",
-                    "nplurals": 2,
-                    "pluralequation": "n != 1",
                     "url": "http://example.com/api/languages/en/",
                     "web_url": "http://example.com/languages/en/"
                 },
@@ -482,7 +485,7 @@ Components
 
 .. http:get::  /api/components/(string:project)/(string:component)/changes/
 
-    Returns list of component changes.
+    Returns a list of component changes.
 
     :param project: Project URL slug
     :type project: string
@@ -557,7 +560,7 @@ Components
 
 .. http:post:: /api/components/(string:project)/(string:component)/repository/
 
-    Performs given operation on the VCS repository.
+    Performs the given operation on a VCS repository.
 
     See :http:post:`/api/projects/(string:project)/repository/` for documentation.
 
@@ -600,7 +603,7 @@ Components
 
 .. http:get:: /api/components/(string:project)/(string:component)/translations/
 
-    Returns list of translation objects in given component.
+    Returns a list of translation objects in the given component.
 
     :param project: Project URL slug
     :type project: string
@@ -629,7 +632,7 @@ Translations
 
 .. http:get:: /api/translations/
 
-    Returns list of translations.
+    Returns a list of translations.
 
     .. seealso::
 
@@ -639,7 +642,7 @@ Translations
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/
 
-    Returns information about translation.
+    Returns information about a translation.
 
     :param project: Project URL slug
     :type project: string
@@ -648,12 +651,12 @@ Translations
     :param language: Translation language code
     :type language: string
     :>json object component: component object, see :http:get:`/api/components/(string:project)/(string:component)/`
-    :>json int failing_checks: number of units with failing check
-    :>json float failing_checks_percent: percetage of failing check units
+    :>json int failing_checks: number of units failing check
+    :>json float failing_checks_percent: percentage of units failing check
     :>json int failing_checks_words: number of words with failing check
     :>json string filename: translation filename
     :>json int fuzzy: number of units marked for review
-    :>json float fuzzy_percent: percetage of units marked for review
+    :>json float fuzzy_percent: percentage of units marked for review
     :>json int fuzzy_words: number of words marked for review
     :>json int have_comment: number of units with comment
     :>json int have_suggestion: number of units with suggestion
@@ -701,8 +704,6 @@ Translations
                         "code": "en",
                         "direction": "ltr",
                         "name": "English",
-                        "nplurals": 2,
-                        "pluralequation": "n != 1",
                         "url": "http://example.com/api/languages/en/",
                         "web_url": "http://example.com/languages/en/"
                     },
@@ -731,8 +732,6 @@ Translations
                 "code": "cs",
                 "direction": "ltr",
                 "name": "Czech",
-                "nplurals": 3,
-                "pluralequation": "(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2",
                 "url": "http://example.com/api/languages/cs/",
                 "web_url": "http://example.com/languages/cs/"
             },
@@ -753,7 +752,7 @@ Translations
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/changes/
 
-    Returns list of translation changes.
+    Returns a list of translation changes.
 
     :param project: Project URL slug
     :type project: string
@@ -770,7 +769,7 @@ Translations
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/units/
 
-    Returns list of translation units.
+    Returns a list of translation units.
 
     :param project: Project URL slug
     :type project: string
@@ -795,7 +794,7 @@ Translations
 
         This API endpoint uses different logic for output than rest of API as
         it operates on whole file rather than on data. Set of accepted ``format``
-        parameters differ and without such parameter you get translation file
+        parameter differs and without such parameter you get translation file
         as stored in VCS.
 
     :query format: File format to use, if not specified no format conversion happens, supported file formats: ``po``, ``mo``, ``xliff``, ``xliff11``, ``tbx``
@@ -951,7 +950,7 @@ Changes
 
 .. http:get:: /api/changes/
 
-    Returns list of translation changes.
+    Returns a list of translation changes.
 
     .. seealso::
 
@@ -984,7 +983,7 @@ Sources
 
 .. http:get:: /api/sources/
 
-    Returns list of source string information.
+    Returns a list of source string information.
 
     .. seealso::
 
@@ -1013,7 +1012,7 @@ Screenshots
 
 .. http:get:: /api/screenshots/
 
-    Returns list of screenshot string informations.
+    Returns a list of screenshot string informations.
 
     .. seealso::
 
@@ -1034,7 +1033,7 @@ Screenshots
 
 .. http:get:: /api/screenshots/(int:pk)/file/
 
-    Download the screenshots image.
+    Download the screenshot image.
 
     :param pk: Screenshot ID
     :type pk: int
@@ -1066,7 +1065,7 @@ Screenshots
 Notification hooks
 ------------------
 
-Notification hooks allow external applications to notify Weblate that VCS
+Notification hooks allow external applications to notify Weblate that the VCS
 repository has been updated.
 
 You can use repository endpoints for project, component and translation to
@@ -1101,7 +1100,7 @@ update individual repositories, see
     .. note::
 
         GitHub includes direct support for notifying Weblate, just enable
-        Weblate service hook in repository settings and set URL to URL of your
+        Weblate service hook in repository settings and set the URL to URL of your
         Weblate installation.
 
     .. seealso::

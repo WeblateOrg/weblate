@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -37,7 +37,7 @@ class Command(WeblateLangCommand):
             action='store',
             type=int,
             dest='age',
-            default=0,
+            default=None,
             help='Age of changes to commit in hours'
         )
 
@@ -45,16 +45,16 @@ class Command(WeblateLangCommand):
 
         hours = options['age']
 
-        if hours:
+        if hours is not None:
             age = timezone.now() - timedelta(hours=hours)
 
         for translation in self.get_translations(**options):
             if not translation.repo_needs_commit():
                 continue
 
-            if not hours:
+            if hours is None:
                 age = timezone.now() - timedelta(
-                    hours=translation.subproject.commit_pending_age
+                    hours=translation.component.commit_pending_age
                 )
 
             last_change = translation.last_change

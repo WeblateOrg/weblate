@@ -11,7 +11,8 @@
 {% block content %}
 
 {% if form.errors or userform.errors or subscriptionform.errors %}
-{% show_message "error" _("Please fix errors in the form.") %}
+{% trans "Please fix errors in the form." as msg %}
+{% show_message "error" msg %}
 {% endif %}
 
 <form method="post" action="{% url 'profile' %}">
@@ -28,13 +29,14 @@
 <li><a data-toggle="tab" href="#licenses">{% trans "Licenses" %}</a></li>
 <li><a data-toggle="tab" href="#audit">{% trans "Audit log" %}</a></li>
 <li><a data-toggle="tab" href="#api">{% trans "API access" %}</a></li>
-{% if user.billing %}
+{% if billings %}
 <li><a data-toggle="tab" href="#billing">{% trans "Billing" %}</a></li>
 {% endif %}
 </ul>
 
 <div class="tab-content">
 <div class="tab-pane active" id="languages">
+<div class="container-fluid">
 <div class="row">
 <div class="col-lg-6">
 <div class="panel panel-primary">
@@ -68,7 +70,9 @@
 </div>
 </div>
 </div>
+</div>
 <div class="tab-pane" id="preferences">
+<div class="container-fluid">
 <div class="row">
 <div class="col-lg-6">
 <div class="panel panel-primary">
@@ -97,7 +101,9 @@
 </div>
 </div>
 </div>
+</div>
 <div class="tab-pane" id="subscriptions">
+<div class="container-fluid">
 <div class="row">
 <div class="col-lg-6">
 {% if managed_projects %}
@@ -146,7 +152,9 @@
 </div>
 </div>
 </div>
+</div>
 <div class="tab-pane" id="account">
+<div class="container-fluid">
 <div class="row">
 <div class="col-lg-6">
 <div class="panel panel-primary">
@@ -172,7 +180,9 @@
 </div>
 </div>
 </div>
+</div>
 <div class="tab-pane" id="auth">
+<div class="container-fluid">
 <div class="row">
 <div class="col-lg-6">
 <div class="panel panel-primary">
@@ -245,9 +255,11 @@
 </div>
 </div>
 </div>
+</div>
 
 </div>
 <div class="tab-pane" id="profile">
+<div class="container-fluid">
 <div class="row">
 <div class="col-lg-6">
 <div class="panel panel-primary">
@@ -269,7 +281,7 @@
   <div class="panel-heading"><h4 class="panel-title">{% trans "Your avatar" %}</h4></div>
   <div class="panel-body">
 <p class="border"><img src="{% url 'user_avatar' user=request.user.username size=128 %}" /></p>
-<p><a href="https://www.libravatar.org/">{% trans "Avatars are provided using libravatar." %}</a></p>
+<p><a href="https://www.gravatar.com/">{% trans "Avatars are provided using Gravatar." %}</a></p>
 </div>
 </div>
 {% endif %}
@@ -287,14 +299,20 @@
   </div>
 </div>
 </div>
+</div>
 
 </div>
 
 </div>
 
 <div class="tab-pane" id="audit">
-<div class="row">
-<div class="col-lg-6">
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Description" %}</h4></div>
+  <div class="panel-body">
+    <p>{% blocktrans %}Audit log shows important changes on your account. In case you see something suspicious don't hesitate to contact us.{% endblocktrans %}</p>
+  </div>
+</div>
+
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Audit log" %}</h4></div>
 <table class="table">
@@ -303,6 +321,7 @@
 <th>{% trans "When" %}</th>
 <th>{% trans "Account activity" %}</th>
 <th>{% trans "IP address" %}</th>
+<th>{% trans "User agent" %}</th>
 </tr>
 </thead>
 <tbody>
@@ -310,13 +329,15 @@
 <tr>
 <td>{{ log.timestamp|naturaltime }}</td>
 <td>{{ log.get_message }}</td>
-<td>
-{% if not demo_server or user.username != 'demo' %}
-{{ log.address }}
+{% if not user.is_demo %}
+<td>{{ log.address }}</td>
+<td>{{ log.user_agent }}</td>
 {% else %}
-{% trans "Hidden" %}
+<td>{% trans "Hidden" %}</td>
+<td>{% trans "Hidden" %}</td>
 {% endif %}
 </td>
+<td>
 </tr>
 {% empty %}
 <tr><td colspan="3">{% trans "No recent activity found!" %}</td></tr>
@@ -330,19 +351,8 @@
 
 </div>
 
-<div class="col-lg-6 hidden-xs">
-<div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Description" %}</h4></div>
-  <div class="panel-body">
-    <p>{% blocktrans %}Audit log shows important changes on your account. In case you see something suspicious don't hesitate to contact us.{% endblocktrans %}</p>
-  </div>
-</div>
-</div>
-
-</div>
-</div>
-
 <div class="tab-pane" id="api">
+<div class="container-fluid">
 <div class="row">
 <div class="col-lg-6">
 <div class="panel panel-primary">
@@ -397,11 +407,14 @@ wlc \
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Description" %}</h4></div>
   <div class="panel-body">
-    {% doc_url 'api' as api_doc %}
-    <p>{% blocktrans %}You can control Weblate using HTTP REST API. Please check <a href="{{ api_doc }}">API documentation</a> for more details.{% endblocktrans %}</p>
-    {% doc_url 'admin/optionals' 'git-exporter' as git_doc %}
-    <p>{% blocktrans %}The API key is also used to access exported Git repositories, please check <a href="{{ git_doc }}">documentation</a> for more details.{% endblocktrans %}</p>
+    <p>{% blocktrans %}You can control Weblate using HTTP REST API and API key is used to authenticate to it.{% endblocktrans %}</p>
+    <p>{% blocktrans %}The API key is also used to authenticate to automatically exported Git repositories.{% endblocktrans %}</p>
   </div>
+  <div class="panel-footer">
+  <a class="btn btn-default" href="{% documentation 'api' %}">{% trans "API documentation" %}</a>
+  <a class="btn btn-default" href="{% documentation 'admin/optionals' 'git-exporter' %}">{% trans "Git export documentation" %}</a>
+  </div>
+</div>
 </div>
 </div>
 
@@ -409,6 +422,7 @@ wlc \
 
 </div>
 <div class="tab-pane" id="licenses">
+<div class="container-fluid">
 <div class="row">
 <div class="col-lg-6">
 <div class="panel panel-primary">
@@ -417,6 +431,15 @@ wlc \
 <p>
 {% trans "By registering you agree to use your name and email in the commits and provide your contribution under license defined by each translated project." %}
 </p>
+
+{% if user.contributoragreement_set.all %}
+<p>{% trans "You have agreed to the following as a contributor:" %}</p>
+<ul>
+{% for agreement in user.contributoragreement_set.all %}
+<li><a href="{% url 'contributor-agreement' project=agreement.component.project.slug component=agreement.component.slug %}">{{ agreement.component }}</a></li>
+{% endfor %}
+</ul>
+{% endif %}
 
 {% if licenses %}
 <p>{% trans "Following translations have explicitly specified their licensing and copyright conditions:" %}</p>
@@ -453,14 +476,16 @@ wlc \
   </div>
 </div>
 </div>
-
 </div>
 
 </div>
 
-{% if user.billing %}
-{% with user.billing as billing %}
+</div>
+
+{% if billings %}
 <div class="tab-pane" id="billing">
+{% for billing in billings %}
+<div class="container-fluid">
 <div class="row">
 
 
@@ -499,11 +524,12 @@ wlc \
 </table>
 </div>
 </div>
-
 </div>
 
 </div>
-{% endwith %}
+{% endfor %}
+
+</div>
 {% endif %}
 
 </div>

@@ -16,11 +16,11 @@ Installing from sources
    them, see :ref:`install-weblate`.
 
 #. Copy :file:`weblate/settings_example.py` to :file:`weblate/settings.py` and
-   adjust it to match your setup. You will at least need to configure database
+   adjust it to match your setup. You will at least need to configure the database
    connection (possibly adding user and creating the database). Check
    :ref:`config` for Weblate specific configuration options.
 
-#. Create database which will be used by Weblate, see :ref:`database-setup`.
+#. Create the database which will be used by Weblate, see :ref:`database-setup`.
 
 #. Build Django tables, static files and initial data (see
    :ref:`tables-setup` and :ref:`static-files`):
@@ -34,26 +34,41 @@ Installing from sources
 #. Configure webserver to serve Weblate, see :ref:`server`.
 
 
-Using prebuilt appliance
-------------------------
-
-#. Download the appliance and start it. You need to choose format depending on
-   your target environment.
-
-#. Everything should be set up immediately after boot, though you will want
-   to adjust some settings to improve security, see :ref:`appliance`.
-
-Installing on OpenShift
+Installing using Docker
 -----------------------
 
-#. You can install Weblate on OpenShift PaaS directly from its git repository using the OpenShift Client Tools:
+#. Clone weblate-docker repo:
+
+   .. code-block:: sh
+
+        git clone https://github.com/WeblateOrg/docker.git weblate-docker
+        cd weblate-docker
+
+#. Start Weblate containers:
+
+   .. code-block:: sh
+
+        docker-compose up
+
+.. seealso::
+
+    See :ref:`docker` for more detailed instructions and customization options.
+
+Installing on OpenShift 2
+-------------------------
+
+#. You can install Weblate on OpenShift PaaS directly from its Git repository using the OpenShift Client Tools:
 
    .. parsed-literal::
 
         rhc -aweblate app create -t python-2.7 --from-code \https://github.com/WeblateOrg/weblate.git --no-git
 
 #. After installation everything should be preconfigured and you can immediately start to add a translation
-   project as described below. For more information, including on how to retrieve the generated admin password, see :ref:`openshift`.
+   project as described below. 
+   
+.. seealso::
+   
+    For more information, including on how to retrieve the generated admin password, see :ref:`openshift`.
 
 Adding translation
 ------------------
@@ -68,11 +83,11 @@ Adding translation
    for more details.
 
    The important fields here being component name, VCS repository address and
-   mask for finding translatable files. Weblate supports wide range of formats
+   mask for finding translatable files. Weblate supports a wide range of formats
    including Gettext PO files, Android resource strings, OS X string properties,
    Java properties or Qt Linguist files, see :ref:`formats` for more details.
 
 
-#. Once above is completed (it can be lengthy process depending on size of
+#. Once the above is completed (it can be lengthy process depending on size of
    your VCS repository and number of messages to translate), you can start
    translating.

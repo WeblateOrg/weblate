@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -19,7 +19,7 @@
 #
 
 from unittest import TestCase
-from weblate.trans.util import cleanup_repo_url
+from weblate.trans.util import cleanup_repo_url, translation_percent
 
 
 class HideCredentialsTest(TestCase):
@@ -54,3 +54,26 @@ class HideCredentialsTest(TestCase):
             ),
             'hg::https://bitbucket.org/sumwars/sumwars-code'
         )
+
+
+class TranslationPercentTest(TestCase):
+    def test_common(self):
+        self.assertAlmostEqual(translation_percent(2, 4), 50.0)
+
+    def test_empty(self):
+        self.assertAlmostEqual(translation_percent(0, 0), 100.0)
+
+    def test_none(self):
+        self.assertAlmostEqual(translation_percent(0, None), 0.0)
+
+    def test_untranslated_file(self):
+        self.assertAlmostEqual(translation_percent(0, 100), 0.0)
+
+    def test_almost_untranslated_file(self):
+        self.assertAlmostEqual(translation_percent(1, 10000000000), 0.1)
+
+    def test_translated_file(self):
+        self.assertAlmostEqual(translation_percent(100, 100), 100.0)
+
+    def test_almost_translated_file(self):
+        self.assertAlmostEqual(translation_percent(99999999, 100000000), 99.9)

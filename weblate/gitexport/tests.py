@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -23,8 +23,7 @@ import shutil
 import subprocess
 import tempfile
 
-from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.http.request import HttpRequest
 
 from weblate.gitexport.views import authenticate
@@ -32,7 +31,7 @@ from weblate.gitexport.models import get_export_url
 from weblate.trans.models import Project
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.trans.tests.utils import RepoTestMixin
+from weblate.trans.tests.utils import RepoTestMixin, create_test_user
 
 
 class GitExportTest(ViewTestCase):
@@ -88,7 +87,7 @@ class GitExportTest(ViewTestCase):
 
     def get_git_url(self, path):
         kwargs = {'path': path}
-        kwargs.update(self.kw_subproject)
+        kwargs.update(self.kw_component)
         return reverse('git-export', kwargs=kwargs)
 
     def test_git_root(self):
@@ -142,7 +141,7 @@ class GitExportTest(ViewTestCase):
     def test_get_export_url(self):
         self.assertEqual(
             'http://example.com/git/test/test/',
-            get_export_url(self.subproject)
+            get_export_url(self.component)
         )
 
 
@@ -153,22 +152,17 @@ class GitCloneTest(BaseLiveServerTestCase, RepoTestMixin):
     def setUp(self):
         super(GitCloneTest, self).setUp()
         self.clone_test_repos()
-        self.subproject = self.create_subproject()
-        self.subproject.project.access_control = Project.ACCESS_PRIVATE
-        self.subproject.project.save()
-        self.user = User.objects.create_user(
-            'testuser',
-            'noreply@weblate.org',
-            'testpassword',
-            first_name='Weblate Test',
-        )
+        self.component = self.create_component()
+        self.component.project.access_control = Project.ACCESS_PRIVATE
+        self.component.project.save()
+        self.user = create_test_user()
 
     def test_clone(self):
         testdir = tempfile.mkdtemp()
         if self.acl:
-            self.subproject.project.add_user(self.user, '@VCS')
+            self.component.project.add_user(self.user, '@VCS')
         try:
-            url = get_export_url(self.subproject).replace(
+            url = get_export_url(self.component).replace(
                 'http://example.com', self.live_server_url
             ).replace(
                 'http://', 'http://{0}:{1}@'.format(

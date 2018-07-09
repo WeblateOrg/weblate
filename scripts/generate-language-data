@@ -1,36 +1,180 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
+#
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+#
+# This file is part of Weblate <https://weblate.org/>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+# Helper script to generate Python code from language-data repository
+# see https://github.com/WeblateOrg/language-data
 
-from __future__ import unicode_literals, print_function
-
+import csv
 import json
-import sys
+import re
 
-from babel import Locale, UnknownLocaleError
+SPLIT_RE = re.compile(
+    r'(?:\&(?:nbsp|rsaquo|lt|gt|amp|ldquo|rdquo|times|quot);|' +
+    r'[() ,.^`"\'\\/_<>!?;:|{}*^@%#&~=+\r\n✓—‑…\[\]0-9-])+'
+)
 
-names = {}
+HEADER = '''# -*- coding: utf-8 -*-
+#
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
+#
+# This file is part of Weblate <https://weblate.org/>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
 
-with open('/usr/share/iso-codes/json/iso_639-2.json', 'r') as handle:
-    for item in json.load(handle)['639-2']:
-        for value in ('alpha_2', 'alpha_3'):
-            if value in item:
-                names[item[value]] = item['name']
+############################################################################
+# This is automatically generated file, see scripts/generate-language-data #
+############################################################################
+# pylint: disable=line-too-long,too-many-lines
 
-for code in sys.argv[1:]:
-    try:
-        plurals = Locale(code).plural_form.tags
-        if len(plurals) <= 1:
-            plurals = 'n != 1'
-            nplurals = 2
-        else:
-            nplurals = len(plurals)
+from __future__ import unicode_literals
+'''
 
-    except UnknownLocaleError:
-        plurals = 'n != 1'
-        nplurals = 2
+TEMPLATE = '''    (
+        '{}',
+        _('{}'),
+        {},
+        '{}',
+    ),
+'''
 
-    print("""    (
-        '{0}',
-        '{1}',
-        {2},
-        '{3}',
-    ),""".format(code, names[code].split(';')[-1].strip(), nplurals, plurals))
+# Read languages
+with open('scripts/language-data/languages.csv', 'r') as csvfile:
+    reader = csv.reader(csvfile, delimiter=';')
+    LANGUAGES = list(reader)
+
+# Read extra plurals
+with open('scripts/language-data/extraplurals.csv', 'r') as csvfile:
+    reader = csv.reader(csvfile, delimiter=';')
+    EXTRAPLURALS = list(reader)
+
+# Write language definitions
+with open('weblate/langdata/languages.py', 'w') as output:
+    output.write(HEADER)
+    output.write(
+        'from django.utils.translation import ugettext_noop as _\n\n'
+    )
+    output.write('# Language definitions\n')
+    output.write('LANGUAGES = (\n')
+    for row in LANGUAGES:
+        output.write(TEMPLATE.format(
+            row[0],
+            row[1].replace("'", "\\'"),
+            row[2],
+            row[3],
+        ))
+    output.write(')\n\n')
+    output.write('# Additional plural rules definitions\n')
+    output.write('EXTRAPLURALS = (\n')
+    for row in EXTRAPLURALS:
+        output.write(TEMPLATE.format(
+            row[0],
+            row[1].replace("'", "\\'"),
+            row[2],
+            row[3],
+        ))
+    output.write(')\n')
+
+# Generate same check blacklist
+words = set()
+def add_word(word):
+    words.update(SPLIT_RE.split(word.lower()))
+
+def process_iso(name):
+    with open('/usr/share/iso-codes/json/iso_{}.json'.format(name), 'r') as handle:
+        for item in json.load(handle)[name]:
+            add_word(item['name'])
+            if 'common_name' in item:
+                add_word(item['common_name'])
+
+
+# Our languages data
+for row in LANGUAGES:
+    add_word(row[1])
+
+# iso-codes
+process_iso('639-2')
+process_iso('639-3')
+process_iso('639-5')
+process_iso('15924')
+process_iso('3166-1')
+process_iso('3166-2')
+process_iso('3166-3')
+process_iso('4217')
+
+SKIP = (
+    'administered',
+    'administrative',
+    'and',
+    'are',
+    'association',
+    'autonomous'
+    'auxiliary',
+    'bay',
+    'based',
+    'bassin',
+    'bath',
+    'canal',
+    'canton',
+    'country',
+    'county',
+    'family',
+    'language',
+    'languages',
+    'long',
+    'metropolitan',
+    'miscellaneous',
+    'neutral',
+    'region',
+    'see',
+    'state',
+    'states',
+    'transactions',
+    'trust',
+    'testing',
+    'use',
+)
+
+for word in SKIP:
+    words.discard(word)
+
+# Write same check blacklist
+with open('weblate/checks/languages.py', 'w') as output:
+    output.write(HEADER)
+    output.write('\n\n')
+    output.write('# Language names to ignore in same check\n')
+    output.write('LANGUAGES = frozenset((\n')
+    for word in sorted(words):
+        if len(word) <= 2:
+            continue
+        output.write('    \'{}\',\n'.format(
+            word.replace("'", "\\'")
+        ))
+    output.write('))\n')

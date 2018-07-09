@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -52,23 +52,22 @@ DATABASES = {
         # Customizations for databases
         'OPTIONS': {
             # Uncomment for MySQL older than 5.7:
-            # 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+            # 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            # Set emoji capable charset for MySQL:
+            # 'charset': 'utf8mb4',
         },
     }
 }
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Data directory
-DATA_DIR = os.path.join(BASE_DIR, '..', 'data')
+DATA_DIR = os.path.join(BASE_DIR, 'data')
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
-# On Unix systems, a value of None will cause Django to use the same
-# timezone as the operating system.
-# If running in a Windows environment this must be set to the same as your
-# system time zone.
+# In a Windows environment this must be set to your system time zone.
 TIME_ZONE = 'UTC'
 
 # Language code for this installation. All choices can be found here:
@@ -76,6 +75,7 @@ TIME_ZONE = 'UTC'
 LANGUAGE_CODE = 'en-us'
 
 LANGUAGES = (
+    ('ar', 'العربية'),
     ('az', 'Azərbaycan'),
     ('be', 'Беларуская'),
     ('be@latin', 'Biełaruskaja'),
@@ -173,6 +173,9 @@ SECRET_KEY = 'jm8fqjlg+5!#xu%e-oh#7!$aa7!6avf7ud*_v=chdrb9qdco6('  # noqa
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            os.path.join(BASE_DIR, 'weblate', 'templates'),
+        ],
         'OPTIONS': {
             'context_processors': [
                 'django.contrib.auth.context_processors.auth',
@@ -211,6 +214,9 @@ AUTHENTICATION_BACKENDS = (
     'weblate.accounts.auth.WeblateUserBackend',
 )
 
+# Custom user model
+AUTH_USER_MODEL = 'weblate_auth.User'
+
 # Social auth backends setup
 SOCIAL_AUTH_GITHUB_KEY = ''
 SOCIAL_AUTH_GITHUB_SECRET = ''
@@ -240,8 +246,9 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.mail.mail_validation',
     'weblate.accounts.pipeline.revoke_mail_code',
     'weblate.accounts.pipeline.ensure_valid',
-    'weblate.accounts.pipeline.reauthenticate',
+    'weblate.accounts.pipeline.remove_account',
     'social_core.pipeline.social_auth.associate_by_email',
+    'weblate.accounts.pipeline.reauthenticate',
     'weblate.accounts.pipeline.verify_username',
     'social_core.pipeline.user.create_user',
     'social_core.pipeline.social_auth.associate_user',
@@ -306,10 +313,19 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'weblate.accounts.password_validation.PastPasswordsValidator',
     },
+    # Optional password strength validation by django-zxcvbn-password
+    # {
+    #     'NAME': 'zxcvbn_password.ZXCVBNValidator',
+    #     'OPTIONS': {
+    #         'min_score': 3,
+    #         'user_attributes': ('username', 'email', 'full_name')
+    #     }
+    # },
 ]
 
 # Middleware
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.locale.LocaleMiddleware',
@@ -320,7 +336,8 @@ MIDDLEWARE_CLASSES = (
     'social_django.middleware.SocialAuthExceptionMiddleware',
     'weblate.accounts.middleware.RequireLoginMiddleware',
     'weblate.middleware.SecurityMiddleware',
-)
+    'weblate.wladmin.middleware.ConfigurationErrorsMiddleware',
+]
 
 ROOT_URLCONF = 'weblate.urls'
 
@@ -340,12 +357,19 @@ INSTALLED_APPS = (
     'compressor',
     'rest_framework',
     'rest_framework.authtoken',
+    'weblate.addons',
+    'weblate.auth',
+    'weblate.checks',
+    'weblate.formats',
+    'weblate.machinery',
     'weblate.trans',
     'weblate.lang',
-    'weblate.permissions',
+    'weblate.langdata',
+    'weblate.memory',
     'weblate.screenshots',
     'weblate.accounts',
     'weblate.utils',
+    'weblate.vcs',
     'weblate.wladmin',
     'weblate',
 
@@ -354,7 +378,7 @@ INSTALLED_APPS = (
 )
 
 # Path to locales
-LOCALE_PATHS = (os.path.join(BASE_DIR, 'locale'), )
+LOCALE_PATHS = (os.path.join(BASE_DIR, 'weblate', 'locale'), )
 
 # Custom exception reporter to include some details
 DEFAULT_EXCEPTION_REPORTER_FILTER = \
@@ -370,7 +394,10 @@ DEFAULT_EXCEPTION_REPORTER_FILTER = \
 HAVE_SYSLOG = False
 if platform.system() != 'Windows':
     try:
-        SysLogHandler(address='/dev/log', facility=SysLogHandler.LOG_LOCAL2)
+        handler = SysLogHandler(
+            address='/dev/log', facility=SysLogHandler.LOG_LOCAL2
+        )
+        handler.close()
         HAVE_SYSLOG = True
     except IOError:
         HAVE_SYSLOG = False
@@ -387,7 +414,7 @@ else:
 # more details on how to customize your logging configuration.
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': False,
+    'disable_existing_loggers': True,
     'filters': {
         'require_debug_false': {
             '()': 'django.utils.log.RequireDebugFalse'
@@ -403,6 +430,10 @@ LOGGING = {
         'logfile': {
             'format': '%(asctime)s %(levelname)s %(message)s'
         },
+        'django.server': {
+            '()': 'django.utils.log.ServerFormatter',
+            'format': '[%(server_time)s] %(message)s',
+        }
     },
     'handlers': {
         'mail_admins': {
@@ -415,6 +446,11 @@ LOGGING = {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
             'formatter': 'simple'
+        },
+        'django.server': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'django.server',
         },
         'syslog': {
             'level': 'DEBUG',
@@ -438,6 +474,11 @@ LOGGING = {
             'handlers': ['mail_admins', DEFAULT_LOG],
             'level': 'ERROR',
             'propagate': True,
+        },
+        'django.server': {
+            'handlers': ['django.server'],
+            'level': 'INFO',
+            'propagate': False,
         },
         # Logging database queries
         # 'django.db.backends': {
@@ -471,17 +512,19 @@ if not HAVE_SYSLOG:
     del LOGGING['handlers']['syslog']
 
 # List of machine translations
-# MACHINE_TRANSLATION_SERVICES = (
-#     'weblate.trans.machine.apertium.ApertiumAPYTranslation',
-#     'weblate.trans.machine.glosbe.GlosbeTranslation',
-#     'weblate.trans.machine.google.GoogleTranslation',
-#     'weblate.trans.machine.microsoft.MicrosoftCognitiveTranslation',
-#     'weblate.trans.machine.mymemory.MyMemoryTranslation',
-#     'weblate.trans.machine.tmserver.AmagamaTranslation',
-#     'weblate.trans.machine.tmserver.TMServerTranslation',
-#     'weblate.trans.machine.yandex.YandexTranslation',
-#     'weblate.trans.machine.weblatetm.WeblateSimilarTranslation',
-#     'weblate.trans.machine.weblatetm.WeblateTranslation',
+# MT_SERVICES = (
+#     'weblate.machinery.apertium.ApertiumAPYTranslation',
+#     'weblate.machinery.deepl.DeepLTranslation',
+#     'weblate.machinery.glosbe.GlosbeTranslation',
+#     'weblate.machinery.google.GoogleTranslation',
+#     'weblate.machinery.microsoft.MicrosoftCognitiveTranslation',
+#     'weblate.machinery.mymemory.MyMemoryTranslation',
+#     'weblate.machinery.tmserver.AmagamaTranslation',
+#     'weblate.machinery.tmserver.TMServerTranslation',
+#     'weblate.machinery.yandex.YandexTranslation',
+#     'weblate.machinery.weblatetm.WeblateTranslation',
+#     'weblate.machinery.saptranslationhub.SAPTranslationHub',
+#     'weblate.memory.machine.WeblateMemory',
 # )
 
 # Machine translation API keys
@@ -489,10 +532,8 @@ if not HAVE_SYSLOG:
 # URL of the Apertium APy server
 MT_APERTIUM_APY = None
 
-# Microsoft Translator service, register at
-# https://datamarket.azure.com/developer/applications/
-MT_MICROSOFT_ID = None
-MT_MICROSOFT_SECRET = None
+# DeepL API key
+MT_DEEPL_KEY = None
 
 # Microsoft Cognitive Services Translator API, register at
 # https://portal.azure.com/
@@ -515,6 +556,13 @@ MT_YANDEX_KEY = None
 # tmserver URL
 MT_TMSERVER = None
 
+# SAP Translation Hub
+MT_SAP_BASE_URL = None
+MT_SAP_SANDBOX_APIKEY = None
+MT_SAP_USERNAME = None
+MT_SAP_PASSWORD = None
+MT_SAP_USE_MT = True
+
 # Title of site to use
 SITE_TITLE = 'Weblate'
 
@@ -533,8 +581,20 @@ CSRF_COOKIE_SECURE = ENABLE_HTTPS
 # Store CSRF token in session (since Django 1.11)
 CSRF_USE_SESSIONS = True
 SESSION_COOKIE_SECURE = ENABLE_HTTPS
+# SSL redirect
+SECURE_SSL_REDIRECT = ENABLE_HTTPS
 # Session cookie age (in seconds)
 SESSION_COOKIE_AGE = 1209600
+
+# Some security headers
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = 'DENY'
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# Optionally enable HSTS
+SECURE_HSTS_SECONDS = 0
+SECURE_HSTS_PRELOAD = False
+SECURE_HSTS_INCLUDE_SUBDOMAINS = False
 
 # URL of login
 LOGIN_URL = '{0}/accounts/login/'.format(URL_PREFIX)
@@ -568,52 +628,47 @@ BACKGROUND_HOOKS = True
 # Number of nearby messages to show in each direction
 NEARBY_MESSAGES = 5
 
-# Enable lazy commits
-LAZY_COMMITS = True
-
 # Offload indexing
 OFFLOAD_INDEXING = False
 
-# Translation locking
-AUTO_LOCK = True
-AUTO_LOCK_TIME = 60
-LOCK_TIME = 15 * 60
+# Use simple language codes for default language/country combinations
+SIMPLIFY_LANGUAGES = True
 
 # Render forms using bootstrap
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 # List of quality checks
 # CHECK_LIST = (
-#     'weblate.trans.checks.same.SameCheck',
-#     'weblate.trans.checks.chars.BeginNewlineCheck',
-#     'weblate.trans.checks.chars.EndNewlineCheck',
-#     'weblate.trans.checks.chars.BeginSpaceCheck',
-#     'weblate.trans.checks.chars.EndSpaceCheck',
-#     'weblate.trans.checks.chars.EndStopCheck',
-#     'weblate.trans.checks.chars.EndColonCheck',
-#     'weblate.trans.checks.chars.EndQuestionCheck',
-#     'weblate.trans.checks.chars.EndExclamationCheck',
-#     'weblate.trans.checks.chars.EndEllipsisCheck',
-#     'weblate.trans.checks.chars.EndSemicolonCheck',
-#     'weblate.trans.checks.chars.MaxLengthCheck',
-#     'weblate.trans.checks.format.PythonFormatCheck',
-#     'weblate.trans.checks.format.PythonBraceFormatCheck',
-#     'weblate.trans.checks.format.PHPFormatCheck',
-#     'weblate.trans.checks.format.CFormatCheck',
-#     'weblate.trans.checks.format.PerlFormatCheck',
-#     'weblate.trans.checks.format.JavascriptFormatCheck',
-#     'weblate.trans.checks.consistency.PluralsCheck',
-#     'weblate.trans.checks.consistency.SamePluralsCheck',
-#     'weblate.trans.checks.consistency.ConsistencyCheck',
-#     'weblate.trans.checks.consistency.TranslatedCheck',
-#     'weblate.trans.checks.chars.NewlineCountingCheck',
-#     'weblate.trans.checks.markup.BBCodeCheck',
-#     'weblate.trans.checks.chars.ZeroWidthSpaceCheck',
-#     'weblate.trans.checks.markup.XMLValidityCheck',
-#     'weblate.trans.checks.markup.XMLTagsCheck',
-#     'weblate.trans.checks.source.OptionalPluralCheck',
-#     'weblate.trans.checks.source.EllipsisCheck',
-#     'weblate.trans.checks.source.MultipleFailingCheck',
+#     'weblate.checks.same.SameCheck',
+#     'weblate.checks.chars.BeginNewlineCheck',
+#     'weblate.checks.chars.EndNewlineCheck',
+#     'weblate.checks.chars.BeginSpaceCheck',
+#     'weblate.checks.chars.EndSpaceCheck',
+#     'weblate.checks.chars.EndStopCheck',
+#     'weblate.checks.chars.EndColonCheck',
+#     'weblate.checks.chars.EndQuestionCheck',
+#     'weblate.checks.chars.EndExclamationCheck',
+#     'weblate.checks.chars.EndEllipsisCheck',
+#     'weblate.checks.chars.EndSemicolonCheck',
+#     'weblate.checks.chars.MaxLengthCheck',
+#     'weblate.checks.format.PythonFormatCheck',
+#     'weblate.checks.format.PythonBraceFormatCheck',
+#     'weblate.checks.format.PHPFormatCheck',
+#     'weblate.checks.format.CFormatCheck',
+#     'weblate.checks.format.PerlFormatCheck',
+#     'weblate.checks.format.JavascriptFormatCheck',
+#     'weblate.checks.consistency.PluralsCheck',
+#     'weblate.checks.consistency.SamePluralsCheck',
+#     'weblate.checks.consistency.ConsistencyCheck',
+#     'weblate.checks.consistency.TranslatedCheck',
+#     'weblate.checks.chars.NewlineCountingCheck',
+#     'weblate.checks.markup.BBCodeCheck',
+#     'weblate.checks.chars.ZeroWidthSpaceCheck',
+#     'weblate.checks.markup.XMLValidityCheck',
+#     'weblate.checks.markup.XMLTagsCheck',
+#     'weblate.checks.source.OptionalPluralCheck',
+#     'weblate.checks.source.EllipsisCheck',
+#     'weblate.checks.source.MultipleFailingCheck',
 # )
 
 # List of automatic fixups
@@ -624,10 +679,22 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 #     'weblate.trans.autofixes.chars.RemoveControlChars',
 # )
 
-# List of scripts to use in custom processing
-# POST_UPDATE_SCRIPTS = (
-# )
-# PRE_COMMIT_SCRIPTS = (
+# List of enabled addons
+# WEBLATE_ADDONS = (
+#     'weblate.addons.gettext.GenerateMoAddon',
+#     'weblate.addons.gettext.UpdateLinguasAddon',
+#     'weblate.addons.gettext.UpdateConfigureAddon',
+#     'weblate.addons.gettext.MsgmergeAddon',
+#     'weblate.addons.gettext.GettextCustomizeAddon',
+#     'weblate.addons.gettext.GettextAuthorComments',
+#     'weblate.addons.cleanup.CleanupAddon',
+#     'weblate.addons.consistency.LangaugeConsistencyAddon',
+#     'weblate.addons.discovery.DiscoveryAddon',
+#     'weblate.addons.flags.SourceEditAddon',
+#     'weblate.addons.flags.TargetEditAddon',
+#     'weblate.addons.generate.GenerateFileAddon',
+#     'weblate.addons.json.JSONCustomizeAddon',
+#     'weblate.addons.properties.PropertiesSortAddon',
 # )
 
 # E-mail address that error messages come from.
@@ -640,15 +707,28 @@ DEFAULT_FROM_EMAIL = 'noreply@example.com'
 # List of URLs your site is supposed to serve
 ALLOWED_HOSTS = []
 
-# Example configuration to use memcached for caching
+# Example configuration for caching
 # CACHES = {
+# Recommended redis + hiredis:
+#     'default': {
+#         'BACKEND': 'django_redis.cache.RedisCache',
+#         'LOCATION': 'redis://127.0.0.1:6379/0',
+#         # If redis is running on same host as Weblate, you might
+#         # want to use unix sockets instead:
+#         # 'LOCATION': 'unix:///var/run/redis/redis.sock?db=0',
+#         'OPTIONS': {
+#             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+#             'PARSER_CLASS': 'redis.connection.HiredisParser',
+#         }
+#     }
+# Memcached alternative:
 #     'default': {
 #         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
 #         'LOCATION': '127.0.0.1:11211',
 #     },
 #     'avatar': {
 #         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-#         'LOCATION': os.path.join(BASE_DIR, 'avatar-cache'),
+#         'LOCATION': os.path.join(DATA_DIR, 'avatar-cache'),
 #         'TIMEOUT': 3600,
 #         'OPTIONS': {
 #             'MAX_ENTRIES': 1000,
@@ -665,6 +745,7 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
+        'weblate.api.authentication.BearerAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ),
     'DEFAULT_THROTTLE_CLASSES': (
@@ -680,7 +761,7 @@ REST_FRAMEWORK = {
     ),
     'PAGE_SIZE': 20,
     'VIEW_DESCRIPTION_FUNCTION': 'weblate.api.views.get_view_description',
-    'UNAUTHENTICATED_USER': 'weblate.accounts.models.get_anonymous',
+    'UNAUTHENTICATED_USER': 'weblate.auth.models.get_anonymous',
 }
 
 # Example for restricting access to logged in users
@@ -690,12 +771,16 @@ REST_FRAMEWORK = {
 
 # In such case you will want to include some of the exceptions
 # LOGIN_REQUIRED_URLS_EXCEPTIONS = (
-#    r'/accounts/(.*)$', # Required for login
-#    r'/static/(.*)$',   # Required for development mode
-#    r'/widgets/(.*)$',  # Allowing public access to widgets
-#    r'/data/(.*)$',     # Allowing public access to data exports
-#    r'/hooks/(.*)$',    # Allowing public access to notification hooks
-#    r'/api/(.*)$',      # Allowing access to API
+#    r'/accounts/(.*)$',        # Required for login
+#    r'/admin/login/(.*)$',     # Required for admin login
+#    r'/static/(.*)$',          # Required for development mode
+#    r'/widgets/(.*)$',         # Allowing public access to widgets
+#    r'/data/(.*)$',            # Allowing public access to data exports
+#    r'/hooks/(.*)$',           # Allowing public access to notification hooks
+#    r'/api/(.*)$',             # Allowing access to API
+#    r'/js/i18n/$',             # Javascript localization
+#    r'/contact/$',             # Optional for contact form
+#    r'/legal/(.*)$',           # Optional for legal app
 # )
 
 # Force sane test runner

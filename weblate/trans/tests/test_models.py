@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -26,20 +26,20 @@ import os
 
 from django.core.management.color import no_style
 from django.db import connection
+from django.http.request import HttpRequest
 from django.test import TestCase, LiveServerTestCase
 from django.test.utils import override_settings
-from django.utils import timezone
-from django.contrib.auth.models import User, Group
 from django.core.exceptions import ValidationError
 
+from weblate.auth.models import User, Group
+from weblate.checks.models import Check
 from weblate.trans.models import (
-    Project, Source, Unit, WhiteboardMessage, Check, ComponentList,
-    AutoComponentList, get_related_units,
+    Project, Source, Unit, WhiteboardMessage, ComponentList, AutoComponentList,
+    Component,
 )
-import weblate.trans.models.subproject
 from weblate.lang.models import Language
-from weblate.permissions.helpers import can_access_project
-from weblate.trans.tests.utils import get_test_file, RepoTestMixin
+from weblate.trans.tests.utils import RepoTestMixin, create_test_user
+from weblate.utils.state import STATE_TRANSLATED
 
 
 def fixup_languages_seq():
@@ -78,38 +78,48 @@ class ProjectTest(RepoTestCase):
 
     def test_create(self):
         project = self.create_project()
-        self.assertTrue(os.path.exists(project.get_path()))
-        self.assertTrue(project.slug in project.get_path())
+        self.assertTrue(os.path.exists(project.full_path))
+        self.assertTrue(project.slug in project.full_path)
 
     def test_rename(self):
-        project = self.create_project()
-        old_path = project.get_path()
+        component = self.create_link()
+        self.assertTrue(
+            Component.objects.filter(repo='weblate://test/test').exists()
+        )
+        project = component.project
+        old_path = project.full_path
         self.assertTrue(os.path.exists(old_path))
         project.slug = 'changed'
         project.save()
-        new_path = project.get_path()
+        new_path = project.full_path
         self.addCleanup(shutil.rmtree, new_path, True)
         self.assertFalse(os.path.exists(old_path))
         self.assertTrue(os.path.exists(new_path))
+        self.assertTrue(
+            Component.objects.filter(repo='weblate://changed/test').exists()
+        )
+        self.assertFalse(
+            Component.objects.filter(repo='weblate://test/test').exists()
+        )
 
     def test_delete(self):
         project = self.create_project()
-        self.assertTrue(os.path.exists(project.get_path()))
+        self.assertTrue(os.path.exists(project.full_path))
         project.delete()
-        self.assertFalse(os.path.exists(project.get_path()))
+        self.assertFalse(os.path.exists(project.full_path))
 
     def test_delete_all(self):
         project = self.create_project()
-        self.assertTrue(os.path.exists(project.get_path()))
+        self.assertTrue(os.path.exists(project.full_path))
         Project.objects.all().delete()
-        self.assertFalse(os.path.exists(project.get_path()))
+        self.assertFalse(os.path.exists(project.full_path))
 
     def test_wrong_path(self):
         project = self.create_project()
 
-        with override_settings(DATA_DIR='/weblate-nonexisting-path'):
-            # Invalidate cache, pylint: disable=W0212
-            project._dir_path = None
+        with override_settings(DATA_DIR='/weblate-nonexisting:path'):
+            # Invalidate cache
+            project.invalidate_path_cache()
 
             self.assertRaisesMessage(
                 ValidationError,
@@ -120,11 +130,7 @@ class ProjectTest(RepoTestCase):
     def test_acl(self):
         """Test for ACL handling."""
         # Create user to verify ACL
-        user = User.objects.create_user(
-            'testuser',
-            'noreply@example.com',
-            'testpassword'
-        )
+        user = create_test_user()
 
         # Create project
         project = self.create_project()
@@ -134,7 +140,7 @@ class ProjectTest(RepoTestCase):
         project.save()
 
         # Check user does not have access
-        self.assertFalse(can_access_project(user, project))
+        self.assertFalse(user.can_access_project(project))
 
         # Add to ACL group
         user.groups.add(Group.objects.get(name='Test@Translate'))
@@ -143,61 +149,77 @@ class ProjectTest(RepoTestCase):
         user = User.objects.get(username='testuser')
 
         # We now should have access
-        self.assertTrue(can_access_project(user, project))
+        self.assertTrue(user.can_access_project(project))
 
 
 class TranslationTest(RepoTestCase):
     """Translation testing."""
     def test_basic(self):
-        project = self.create_subproject()
-        translation = project.translation_set.get(language_code='cs')
-        self.assertEqual(translation.translated, 0)
-        self.assertEqual(translation.total, 4)
-        self.assertEqual(translation.fuzzy, 0)
-
-    def test_extra_file(self):
-        """Test extra commit file handling."""
-        subproject = self.create_subproject()
-        subproject.pre_commit_script = get_test_file('hook-generate-mo')
-        weblate.trans.models.subproject.PRE_COMMIT_SCRIPT_CHOICES.append(
-            (subproject.pre_commit_script, 'hook-generate-mo')
-        )
-        subproject.pre_commit_script = get_test_file('hook-update-linguas')
-        weblate.trans.models.subproject.PRE_COMMIT_SCRIPT_CHOICES.append(
-            (subproject.pre_commit_script, 'hook-update-linguas')
-        )
-        subproject.extra_commit_file = 'po/%(language)s.mo\npo/LINGUAS'
-        subproject.save()
-        subproject.full_clean()
-        translation = subproject.translation_set.get(language_code='cs')
-        # change backend file
-        with open(translation.get_filename(), 'a') as handle:
-            handle.write(' ')
-        # Test committing
-        translation.git_commit(
-            None, 'TEST <test@example.net>', timezone.now(),
-            force_commit=True
-        )
-        self.assertFalse(translation.repo_needs_commit())
-        linguas = os.path.join(subproject.get_path(), 'po', 'LINGUAS')
-        with open(linguas, 'r') as handle:
-            data = handle.read()
-            self.assertIn('\ncs\n', data)
-        self.assertFalse(translation.repo_needs_commit())
+        component = self.create_component()
+        translation = component.translation_set.get(language_code='cs')
+        self.assertEqual(translation.stats.translated, 0)
+        self.assertEqual(translation.stats.all, 4)
+        self.assertEqual(translation.stats.fuzzy, 0)
 
     def test_validation(self):
         """Translation validation"""
-        project = self.create_subproject()
-        translation = project.translation_set.get(language_code='cs')
+        component = self.create_component()
+        translation = component.translation_set.get(language_code='cs')
         translation.full_clean()
 
     def test_update_stats(self):
         """Check update stats with no units."""
-        project = self.create_subproject()
-        translation = project.translation_set.get(language_code='cs')
-        translation.update_stats()
+        component = self.create_component()
+        translation = component.translation_set.get(language_code='cs')
+        self.assertEqual(translation.stats.all, 4)
+        self.assertEqual(translation.stats.all_words, 15)
         translation.unit_set.all().delete()
-        translation.update_stats()
+        translation.invalidate_cache()
+        self.assertEqual(translation.stats.all, 0)
+        self.assertEqual(translation.stats.all_words, 0)
+
+    def test_commit_groupping(self):
+        component = self.create_component()
+        translation = component.translation_set.get(language_code='cs')
+        request = HttpRequest()
+        request.user = create_test_user()
+        start_rev = component.repository.last_revision
+        # Initial translation
+        for unit in translation.unit_set.all():
+            unit.translate(request, 'test2', STATE_TRANSLATED)
+        # Translation completed, commit forced
+        self.assertNotEqual(start_rev, component.repository.last_revision)
+        start_rev = component.repository.last_revision
+        # Translation from same author should not trigger commit
+        for unit in translation.unit_set.all():
+            unit.translate(request, 'test3', STATE_TRANSLATED)
+        for unit in translation.unit_set.all():
+            unit.translate(request, 'test4', STATE_TRANSLATED)
+        self.assertEqual(start_rev, component.repository.last_revision)
+        # Translation from other author should trigger commmit
+        for i, unit in enumerate(translation.unit_set.all()):
+            request.user = User.objects.create(
+                full_name='User {}'.format(unit.pk),
+                username='user-{}'.format(unit.pk),
+                email='{}@example.com'.format(unit.pk)
+            )
+            # Fetch current pending state, it might have been
+            # updated by background commit
+            unit.pending = Unit.objects.get(pk=unit.pk).pending
+            unit.translate(request, 'test', STATE_TRANSLATED)
+            if i == 0:
+                # First edit should trigger commit
+                self.assertNotEqual(
+                    start_rev, component.repository.last_revision
+                )
+                start_rev = component.repository.last_revision
+
+        # No further commit now
+        self.assertEqual(start_rev, component.repository.last_revision)
+
+        # Commit pending changes
+        translation.commit_pending(None)
+        self.assertNotEqual(start_rev, component.repository.last_revision)
 
 
 class ComponentListTest(RepoTestCase):
@@ -210,7 +232,7 @@ class ComponentListTest(RepoTestCase):
         self.assertEqual(clist.tab_slug(), 'list-slug')
 
     def test_auto(self):
-        self.create_subproject()
+        self.create_component()
         clist = ComponentList.objects.create(
             name='Name',
             slug='slug'
@@ -237,13 +259,13 @@ class ComponentListTest(RepoTestCase):
         self.assertEqual(
             clist.components.count(), 0
         )
-        self.create_subproject()
+        self.create_component()
         self.assertEqual(
             clist.components.count(), 1
         )
 
     def test_auto_nomatch(self):
-        self.create_subproject()
+        self.create_component()
         clist = ComponentList.objects.create(
             name='Name',
             slug='slug'
@@ -261,7 +283,7 @@ class ComponentListTest(RepoTestCase):
 class ModelTestCase(RepoTestCase):
     def setUp(self):
         super(ModelTestCase, self).setUp()
-        self.subproject = self.create_subproject()
+        self.component = self.create_component()
 
 
 class SourceTest(ModelTestCase):
@@ -286,7 +308,7 @@ class SourceTest(ModelTestCase):
         """Setting of Source check_flags changes checks for related units."""
         self.assertEqual(Check.objects.count(), 3)
         check = Check.objects.all()[0]
-        unit = get_related_units(check)[0]
+        unit = check.related_units[0]
         source = unit.source_info
         source.check_flags = 'ignore-{0}'.format(check.check)
         source.save()
@@ -328,13 +350,13 @@ class WhiteboardMessageTest(ModelTestCase):
             message='test de',
         )
         WhiteboardMessage.objects.create(
-            project=self.subproject.project,
+            project=self.component.project,
             message='test project',
         )
         WhiteboardMessage.objects.create(
-            subproject=self.subproject,
-            project=self.subproject.project,
-            message='test subproject',
+            component=self.component,
+            project=self.component.project,
+            message='test component',
         )
         WhiteboardMessage.objects.create(
             message='test global',
@@ -359,16 +381,16 @@ class WhiteboardMessageTest(ModelTestCase):
     def test_contextfilter_project(self):
         self.verify_filter(
             WhiteboardMessage.objects.context_filter(
-                project=self.subproject.project,
+                project=self.component.project,
             ),
             1,
             'test project'
         )
 
-    def test_contextfilter_subproject(self):
+    def test_contextfilter_component(self):
         self.verify_filter(
             WhiteboardMessage.objects.context_filter(
-                subproject=self.subproject,
+                component=self.component,
             ),
             2
         )
@@ -376,7 +398,7 @@ class WhiteboardMessageTest(ModelTestCase):
     def test_contextfilter_translation(self):
         self.verify_filter(
             WhiteboardMessage.objects.context_filter(
-                subproject=self.subproject,
+                component=self.component,
                 language=Language.objects.get(code='cs'),
             ),
             3,

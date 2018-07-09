@@ -9,7 +9,8 @@
 
 {% block content %}
 
-{% show_message 'info' _("Please check in advance whether your project is eligible for project hosting on this site.") %}
+{% trans "Please check in advance whether your project is eligible for project hosting on this site." as msg %}
+{% show_message 'info' msg %}
 
 <div class="row">
 
@@ -33,7 +34,7 @@
   <div class="panel-heading"><h4 class="panel-title">{% trans "Conditions for free hosting" %}</h4></div>
   <div class="panel-body">
 <ul>
-<li>{% trans 'Translated content has to be released under <a href="http://en.wikipedia.org/wiki/Free_software_license">free license</a>.' %}</li>
+<li>{% trans "Translated content has to be released under free software license." %}</li>
 <li>{% trans "Source code has to be publicly available in supported version control system." %}</li>
 <li>{% trans "There is no guarantee for service availability or quality." %}</li>
 <li>{% trans "The hosting requests are usually processed once in a month, so please be patient after submitting it." %}</li>

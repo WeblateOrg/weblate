@@ -1,13 +1,15 @@
 -r requirements.txt
 pyuca>=1.1
-pyLibravatar
-pydns; python_version < '3.0'
-py3dns; python_version >= '3.0'
 pytz>=2015.1
 Babel
+phply
 chardet
 Mercurial>=2.8; python_version < '3.0'
-python-memcached
+django-redis
+hiredis
 python-bidi>=0.4.0
 PyYAML>=3.0
-tesserocr>=1.2
+tesserocr>=1.2; platform_system != 'Windows'
+akismet>=1.0
+python-Levenshtein
+boto3

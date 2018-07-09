@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,63 +18,50 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
+
 import os
 import shutil
 
-from django.contrib.auth.models import Group, Permission
-from django.db.models import Q
 from django.db.models.signals import post_delete, post_save, m2m_changed
 from django.dispatch import receiver
 
-from weblate.accounts.models import Profile
-from weblate.permissions.data import (
-    PRIVATE_PERMS, PROTECTED_PERMS, PUBLIC_PERMS,
-)
-from weblate.permissions.models import GroupACL
+from weblate.trans.models.agreement import ContributorAgreement
 from weblate.trans.models.conf import WeblateConf
 from weblate.trans.models.project import Project
-from weblate.trans.models.subproject import SubProject
+from weblate.trans.models.component import Component
 from weblate.trans.models.translation import Translation
 from weblate.trans.models.unit import Unit
 from weblate.trans.models.comment import Comment
 from weblate.trans.models.suggestion import Suggestion, Vote
-from weblate.trans.models.check import Check
 from weblate.trans.models.search import IndexUpdate
 from weblate.trans.models.change import Change
 from weblate.trans.models.dictionary import Dictionary
 from weblate.trans.models.source import Source
-from weblate.trans.models.advertisement import Advertisement
 from weblate.trans.models.whiteboard import WhiteboardMessage
 from weblate.trans.models.componentlist import (
     ComponentList, AutoComponentList,
 )
-from weblate.trans.signals import (
-    vcs_post_push, vcs_post_update, vcs_pre_commit, vcs_post_commit,
-    user_pre_delete, translation_post_add,
-)
-from weblate.trans.scripts import (
-    run_post_push_script, run_post_update_script, run_pre_commit_script,
-    run_post_commit_script, run_post_add_script,
-)
+from weblate.trans.signals import user_pre_delete
 from weblate.utils.decorators import disable_for_loaddata
 
 __all__ = [
-    'Project', 'SubProject', 'Translation', 'Unit', 'Check', 'Suggestion',
+    'Project', 'Component', 'Translation', 'Unit', 'Suggestion',
     'Comment', 'Vote', 'IndexUpdate', 'Change', 'Dictionary', 'Source',
-    'Advertisement', 'WhiteboardMessage', 'ComponentList',
-    'WeblateConf',
+    'WhiteboardMessage', 'ComponentList',
+    'WeblateConf', 'ContributorAgreement',
 ]
 
 
 @receiver(post_delete, sender=Project)
-@receiver(post_delete, sender=SubProject)
+@receiver(post_delete, sender=Component)
 def delete_object_dir(sender, instance, **kwargs):
     """Handler to delete (sub)project directory on project deletion."""
-    # Do not delete linked subprojects
+    # Do not delete linked components
     if hasattr(instance, 'is_repo_link') and instance.is_repo_link:
         return
 
-    project_path = instance.get_path()
+    project_path = instance.full_path
 
     # Remove path if it exists
     if os.path.exists(project_path):
@@ -87,7 +74,7 @@ def update_source(sender, instance, **kwargs):
     """Update unit priority or checks based on source change."""
     related_units = Unit.objects.filter(
         id_hash=instance.id_hash,
-        translation__subproject=instance.subproject,
+        translation__component=instance.component,
     )
     if instance.priority_modified:
         units = related_units.exclude(
@@ -98,36 +85,7 @@ def update_source(sender, instance, **kwargs):
     if instance.check_flags_modified:
         for unit in related_units:
             unit.run_checks()
-
-
-def get_related_units(unitdata):
-    """Return queryset with related units."""
-    related_units = Unit.objects.filter(
-        content_hash=unitdata.content_hash,
-        translation__subproject__project=unitdata.project,
-    )
-    if unitdata.language is not None:
-        related_units = related_units.filter(
-            translation__language=unitdata.language
-        )
-
-    return related_units.select_related(
-        'translation__subproject__project',
-        'translation__language'
-    )
-
-
-@receiver(post_save, sender=Check)
-@disable_for_loaddata
-def update_failed_check_flag(sender, instance, **kwargs):
-    """Update related unit failed check flag."""
-    if instance.language is None:
-        return
-    related = get_related_units(instance)
-    if instance.for_unit is not None:
-        related = related.exclude(pk=instance.for_unit)
-    for unit in related:
-        unit.update_has_failing_check(False)
+            unit.translation.invalidate_cache()
 
 
 @receiver(post_delete, sender=Comment)
@@ -135,13 +93,10 @@ def update_failed_check_flag(sender, instance, **kwargs):
 @disable_for_loaddata
 def update_comment_flag(sender, instance, **kwargs):
     """Update related unit comment flags"""
-    for unit in get_related_units(instance):
+    for unit in instance.related_units:
         # Update unit stats
         unit.update_has_comment()
-
-        # Invalidate counts cache
-        if instance.language is None:
-            unit.translation.invalidate_cache('sourcecomments')
+        unit.translation.invalidate_cache()
 
 
 @receiver(post_delete, sender=Suggestion)
@@ -149,40 +104,10 @@ def update_comment_flag(sender, instance, **kwargs):
 @disable_for_loaddata
 def update_suggestion_flag(sender, instance, **kwargs):
     """Update related unit suggestion flags"""
-    for unit in get_related_units(instance):
+    for unit in instance.related_units:
         # Update unit stats
         unit.update_has_suggestion()
-
-
-@receiver(vcs_post_push)
-def post_push(sender, component, **kwargs):
-    run_post_push_script(component)
-
-
-@receiver(vcs_post_update)
-def post_update(sender, component, previous_head, **kwargs):
-    run_post_update_script(component, previous_head)
-
-
-@receiver(vcs_pre_commit)
-def pre_commit(sender, translation, **kwargs):
-    run_pre_commit_script(
-        translation.subproject, translation, translation.get_filename()
-    )
-
-
-@receiver(vcs_post_commit)
-def post_commit(sender, translation, **kwargs):
-    run_post_commit_script(
-        translation.subproject, translation, translation.get_filename()
-    )
-
-
-@receiver(translation_post_add)
-def post_add(sender, translation, **kwargs):
-    run_post_add_script(
-        translation.subproject, translation, translation.get_filename()
-    )
+        unit.translation.invalidate_cache()
 
 
 @receiver(user_pre_delete)
@@ -209,82 +134,27 @@ def user_commit_pending(sender, instance, **kwargs):
             translation.commit_pending(None)
 
 
-@receiver(m2m_changed, sender=Profile.subscriptions.through)
-def add_user_subscription(sender, instance, action, reverse, model, pk_set,
-                          **kwargs):
-    if action != 'post_add':
-        return
-    targets = model.objects.filter(pk__in=pk_set)
-    if reverse:
-        for target in targets:
-            instance.add_subscription(target.user)
-    else:
-        for target in targets:
-            target.add_subscription(instance.user)
+@receiver(m2m_changed, sender=ComponentList.components.through)
+def change_componentlist(sender, instance, **kwargs):
+    instance.stats.invalidate()
 
 
 @receiver(post_save, sender=AutoComponentList)
 @disable_for_loaddata
 def auto_componentlist(sender, instance, **kwargs):
-    for component in SubProject.objects.all():
+    for component in Component.objects.all():
         instance.check_match(component)
 
 
 @receiver(post_save, sender=Project)
 @disable_for_loaddata
 def auto_project_componentlist(sender, instance, **kwargs):
-    for component in instance.subproject_set.all():
+    for component in instance.component_set.all():
         auto_component_list(sender, component)
 
 
-@receiver(post_save, sender=SubProject)
+@receiver(post_save, sender=Component)
 @disable_for_loaddata
 def auto_component_list(sender, instance, **kwargs):
     for auto in AutoComponentList.objects.all():
         auto.check_match(instance)
-
-
-@receiver(post_save, sender=Project)
-@disable_for_loaddata
-def setup_group_acl(sender, instance, **kwargs):
-    """Setup Group and GroupACL objects on project save."""
-    group_acl = GroupACL.objects.get_or_create(
-        project=instance, subproject=None, language=None
-    )[0]
-    if instance.access_control == Project.ACCESS_PRIVATE:
-        permissions = PRIVATE_PERMS
-        lookup = Q(name__startswith='@')
-    elif instance.access_control == Project.ACCESS_PROTECTED:
-        permissions = PROTECTED_PERMS
-        lookup = Q(name__startswith='@')
-    else:
-        permissions = PUBLIC_PERMS
-        lookup = Q(name='@Administration')
-
-    group_acl.permissions.set(
-        Permission.objects.filter(codename__in=permissions),
-        clear=True
-    )
-
-    handled = set()
-    for template_group in Group.objects.filter(lookup):
-        name = '{0}{1}'.format(instance.name, template_group.name)
-        try:
-            group = group_acl.groups.get(name__endswith=template_group.name)
-            # Update exiting group (to hanle rename)
-            if group.name != name:
-                group.name = name
-                group.save()
-        except Group.DoesNotExist:
-            # Create new group
-            group = Group.objects.get_or_create(name=name)[0]
-            group.permissions.set(template_group.permissions.all())
-            group_acl.groups.add(group)
-        handled.add(group.pk)
-
-    # Remove stale groups
-    group_acl.groups.filter(
-        name__contains='@'
-    ).exclude(
-        pk__in=handled
-    ).delete()

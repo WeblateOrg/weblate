@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,9 +18,10 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from django.conf import settings
 from django.core.management.base import BaseCommand
 from django import db
-from weblate import get_versions_string
+from weblate.utils.requirements import get_versions_string
 
 
 class Command(BaseCommand):
@@ -33,5 +34,12 @@ class Command(BaseCommand):
             ' * Database backends: ' +
             ', '.join(
                 [conn['ENGINE'] for conn in db.connections.databases.values()]
+            )
+        )
+        self.stdout.write(
+            ' * Cache backends: ' +
+            ', '.join(
+                '{}:{}'.format(key, value['BACKEND'].split('.')[-1])
+                for key, value in settings.CACHES.items()
             )
         )

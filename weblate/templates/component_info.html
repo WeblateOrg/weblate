@@ -1,0 +1,90 @@
+{% load i18n %}
+{% load permissions %}
+
+{% perm 'vcs.view' object as user_can_see_git_repository %}
+
+{% with object.project as object %}
+{% include "project_info.html" %}
+{% endwith %}
+
+<tr>
+<th>{% trans "Translation process" %}</th>
+<td colspan="2">
+<ul>
+{% if object.suggestion_voting and object.suggestion_autoaccept %}
+<li>{% trans "Translations can be made only through suggesting." %}</li>
+<li>{% blocktrans count count=object.suggestion_autoaccept %}Suggestions are automatically accepted as translations once they have {{ count }} vote.{% plural %}Suggestions are automatically accepted as translations once they have {{ count }} votes.{% endblocktrans %}</li>
+{% else %}
+<li>{% trans "Translations can be made directly." %}</li>
+{% if object.enable_suggestions %}
+<li>{% trans "Suggestions to improve translation can be made." %}</li>
+{% else %}
+<li>{% trans "Suggestions to improve translation are disabled." %}</li>
+{% endif %}
+{% endif %}
+{% if object.project.access_control %}
+<li>{% trans "Only chosen users can contribute." %}</li>
+{% else %}
+<li>{% trans "Any authenticated user can contribute." %}</li>
+{% endif %}
+{% if object.template %}
+<li>{% trans "The translation is using monolingual files." %}</li>
+{% if object.edit_template %}
+<li>{% trans "The translation base language can be edited." %}</li>
+{% else %}
+<li>{% trans "The translation base language can not be edited." %}</li>
+{% endif %}
+{% else %}
+<li>{% trans "The translation is using bilingual files." %}</li>
+{% endif %}
+</ul>
+</td>
+
+
+{% if object.license %}
+<tr>
+<th>{% trans "Translation license" %}</th>
+<td colspan="2">
+{% if object.license_url %}
+<a href="{{ object.license_url }}">{{ object.license }}</a>
+{% else %}
+{{ object.license }}
+{% endif %}
+</td>
+</tr>
+{% endif %}
+
+{% if object.agreement %}
+<tr>
+<th>{% trans "Contributor agreement" %}</th>
+<td><a class="btn btn-default" href="{% url 'contributor-agreement' project=object.project.slug component=object.slug %}">{% trans "View" %}</a></td>
+</tr>
+{% endif %}
+
+{% if user_can_see_git_repository %}
+<tr>
+<th>{% trans "Repository" %}</th>
+<td colspan="2">
+<code class="git-repo ui-corner-all">{{ object.get_repo_url }}</code>
+</td>
+</tr>
+
+<tr>
+<th>{% trans "Repository branch" %}</th>
+<td colspan="2">
+{{ object.get_repo_branch }}
+{% with object.get_last_remote_commit as commit %}
+{% include "git-commit-info.html" %}
+{% endwith %}
+</td>
+</tr>
+
+{% with object.get_export_url as export_url %}
+{% if export_url %}
+<tr>
+<th>{% trans "Repository with Weblate translations" %}</th>
+<td colspan="2"><code class="git-repo ui-corner-all">{{ export_url }}</code></td>
+</tr>
+{% endif %}
+{% endwith %}
+{% endif %}

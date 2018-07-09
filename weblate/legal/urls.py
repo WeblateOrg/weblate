@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -21,7 +21,7 @@
 from django.conf.urls import url
 
 from weblate.legal.views import (
-    LegalView, TermsView, CookiesView, SecurityView,
+    LegalView, TermsView, CookiesView, SecurityView, PrivacyView,
     tos_confirm,
 )
 
@@ -45,6 +45,11 @@ urlpatterns = [
         r'^security/$',
         SecurityView.as_view(),
         name='security',
+    ),
+    url(
+        r'^privacy/$',
+        PrivacyView.as_view(),
+        name='privacy',
     ),
     url(
         r'^confirm/$',

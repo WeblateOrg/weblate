@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -21,12 +21,12 @@
 import os
 
 from django.conf import settings
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.util import add_configuration_error
 from weblate.trans.tests.utils import get_test_file
-from weblate.trans.data import check_data_writable
+from weblate.utils.data import check_data_writable
 from weblate.utils.unittest import tempdir_setting
 
 
@@ -34,7 +34,6 @@ class AdminTest(FixtureTestCase):
     """Test for customized admin interface."""
     def setUp(self):
         super(AdminTest, self).setUp()
-        self.user.is_staff = True
         self.user.is_superuser = True
         self.user.save()
 
@@ -48,7 +47,7 @@ class AdminTest(FixtureTestCase):
 
     @tempdir_setting('DATA_DIR')
     def test_ssh_generate(self):
-        check_data_writable()
+        self.assertEqual(check_data_writable(), [])
         response = self.client.get(reverse('admin:ssh'))
         self.assertContains(response, 'Generate SSH key')
 
@@ -60,7 +59,7 @@ class AdminTest(FixtureTestCase):
 
     @tempdir_setting('DATA_DIR')
     def test_ssh_add(self):
-        check_data_writable()
+        self.assertEqual(check_data_writable(), [])
         try:
             oldpath = os.environ['PATH']
             os.environ['PATH'] = ':'.join(
@@ -99,18 +98,16 @@ class AdminTest(FixtureTestCase):
 
     def test_create_project(self):
         response = self.client.get(reverse('admin:trans_project_add'))
-        self.assertContains(response, 'Required fields are marked as bold')
+        self.assertContains(response, 'Required fields are marked in bold')
 
-    def test_create_subproject(self):
-        response = self.client.get(reverse('admin:trans_subproject_add'))
-        self.assertContains(
-            response, 'Importing a new translation can take some time'
-        )
+    def test_create_component(self):
+        response = self.client.get(reverse('admin:trans_component_add'))
+        self.assertContains(response, 'Import speed documentation')
 
-    def test_subproject(self):
-        """Test for custom subproject actions."""
+    def test_component(self):
+        """Test for custom component actions."""
         self.assert_custom_admin(
-            reverse('admin:trans_subproject_changelist')
+            reverse('admin:trans_component_changelist')
         )
 
     def test_project(self):

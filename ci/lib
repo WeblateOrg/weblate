@@ -11,6 +11,6 @@ check() {
 }
 
 run_coverage() {
-    coverage run --source . --append "$@"
+    python -Wd -m coverage run --source . --append "$@"
 }
 

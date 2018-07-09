@@ -12,12 +12,13 @@
 </p>
 
 <p>
-{% trans "Please add the language file to VCS, Weblate will automatically discover it on next update." %}
+{% trans "Please add the language file to VCS, Weblate will automatically discover it upon next update." %}
 </p>
 
 <p>
-{% doc_url 'devel/translations' 'adding-translation' as doc_url %}
-{% blocktrans %}More information on adding new language files is available in <a href="{{ doc_url }}">the documentation</a>.{% endblocktrans %}
+<a href="{% documentation 'devel/translations' 'adding-translation' %}"> 
+{% trans "More information on adding new language files is to be found in the documentation." %}
+</a>
 </p>
 
 <table>
@@ -35,12 +36,12 @@
 <tr>
 
 <th>
-{% trans "Requesting user:" %}
+{% trans "Requested by:" %}
 
 </th>
 
 <td>
-<a href="mailto:{{ user.email }}">{{ user.first_name }}</a>
+<a href="mailto:{{ user.email }}">{{ user.full_name }}</a>
 </td>
 </tr>
 

@@ -1,13 +1,23 @@
 Checks and fixups
 =================
 
+The quality checks help to catch common translator errors to make sure the
+translation is in good shape. The checks are divided into three severities and
+can be ignored in case there is a false positive.
+
+Once submitting translation with failing check, this is immediatelly shown to
+the user:
+
+.. image:: ../images/checks.png
+
+
 .. _autofix:
 
 Automatic fixups
 ----------------
 
 In addition to :ref:`checks`, Weblate can also automatically fix some common
-errors in translated strings. This can be quite powerful feature to prevent
+errors in translated strings. This can be quite a powerful feature to prevent
 common mistakes in translations, however use it with caution as it can cause
 silent corruption as well.
 
@@ -20,8 +30,8 @@ silent corruption as well.
 Quality checks
 --------------
 
-Weblate does wide range of quality checks on messages. The following section
-describes them in more detail. The checks take account also special rules for
+Weblate does a wide range of quality checks on messages. The following section
+describes them in more detail. The checks also take account special rules for
 different languages, so if you think the result is wrong, please report a bug.
 
 .. seealso:: 
@@ -39,12 +49,12 @@ good quality of translations.
 Unchanged translation
 ~~~~~~~~~~~~~~~~~~~~~
 
-The source and translated strings are the same at least in one of the plural forms.
-This check ignores some strings which are quite usually same in all languages
-and strips various markup, which can occur in the string, to reduce number of
-false positives.
+The source and translated strings are identical at least in one of the plural
+forms. This check ignores some strings which are quite usually the same in all
+languages and strips various markup, which can occur in the string, to reduce
+the number of false positives.
 
-This check can help finding strings which were mistakenly not translated .
+This check can help finding strings which were mistakenly not translated.
 
 .. _check-begin-newline:
 .. _check-end-newline:
@@ -52,7 +62,7 @@ This check can help finding strings which were mistakenly not translated .
 Starting or trailing newline
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Source and translated do not both start (or end) with a newline.
+Source and translation do not both start (or end) with a newline.
 
 Newlines usually appear in source string for a good reason, so omitting or
 adding it can lead to formatting problems when the translated text is used in
@@ -63,9 +73,9 @@ the application.
 Starting spaces
 ~~~~~~~~~~~~~~~
 
-Source and translation do not both start with same number of spaces.
+Source and translation do not both start with the same number of spaces.
 
-Space in beginning is usually used for indentation in the interface and thus
+A space in the beginning is usually used for indentation in the interface and thus
 is important to keep.
 
 .. _check-end-space:
@@ -73,7 +83,7 @@ is important to keep.
 Trailing space
 ~~~~~~~~~~~~~~
 
-Source and translated do not both end with a space.
+Source and translation do not both end with a space.
 
 Trailing space is usually used to give space between neighbouring elements, so
 removing it might break application layout.
@@ -83,7 +93,7 @@ removing it might break application layout.
 Trailing stop
 ~~~~~~~~~~~~~
 
-Source and translated do not both end with a full stop. Full stop is also
+Source and translation do not both end with a full stop. Full stop is also
 checked in various language variants (Chinese, Japanese, Devanagari or Urdu).
 
 When the original string is a sentence, the translated one should be a sentence
@@ -94,7 +104,7 @@ as well to be consistent within the translated content.
 Trailing colon
 ~~~~~~~~~~~~~~
 
-Source and translated do not both end with a colon or the colon is not
+Source and translation do not both end with a colon or the colon is not
 correctly spaced. This includes spacing rules for languages like French or
 Breton. Colon is also checked in various language variants (Chinese or
 Japanese).
@@ -108,12 +118,12 @@ in some languages it should be preceded with space.
 Trailing question
 ~~~~~~~~~~~~~~~~~
 
-Source and translated do not both end with a question mark or it is not
+Source and translation do not both end with a question mark or it is not
 correctly spaced. This includes spacing rules for languages like French or
 Breton. Question mark is also checked in various language variants (Armenian,
 Arabic, Chinese, Korean, Japanese, Ethiopic, Vai or Coptic).
 
-Question mark indicates question and this semantics should be kept in
+Question mark indicates question and these semantics should be kept in
 translated string as well. Weblate also checks for various typographic
 conventions for question mark, for example in some languages it should be
 preceded with space.
@@ -123,12 +133,12 @@ preceded with space.
 Trailing exclamation
 ~~~~~~~~~~~~~~~~~~~~
 
-Source and translated do not both end with an exclamation mark or it is not
+Source and translation do not both end with an exclamation mark or it is not
 correctly spaced. This includes spacing rules for languages like French or
-Breton.  Exclamation mark is also checked in various language variants
+Breton. Exclamation mark is also checked in various language variants
 (Chinese, Japanese, Korean, Armenian, Limbu, Myanmar or Nko).
 
-Exclamation mark indicates some important statement and this semantics should
+Exclamation mark indicates some important statement and these semantics should
 be kept in translated string as well. Weblate also checks for various
 typographic conventions for exclamation mark, for example in some languages it
 should be preceded with space.
@@ -141,7 +151,7 @@ Trailing ellipsis
 Source and translation do not both end with an ellipsis. This only checks for
 real ellipsis (``…``) not for three dots (``...``).
 
-Ellipsis is usually rendered nicer than three dots, so it's good to keep it
+An ellipsis is usually rendered nicer than three dots, so it's good to keep it
 when the original string was using that as well.
 
 .. seealso:: 
@@ -165,9 +175,9 @@ Maximum Length
 Translation is too long to accept. This only checks for the length of translation
 characters.
 
-Source and translation usually do not have same amount of characters, but if 
+Source and translation usually do not have same amount of characters, but if the
 translation is too long, it can be affect a rendered shape. For example, in some UI
-widget, it should be kept in a specific length of characters in order to show
+widget, it should be kept in a specific length of characters in order to show the
 complete translation within limited space.
 
 Unlike the other checks, the flag should be set as a ``key:value`` pair like
@@ -184,26 +194,130 @@ Unlike the other checks, the flag should be set as a ``key:value`` pair like
 Format strings
 ~~~~~~~~~~~~~~
 
-Format string does not match source. Weblate supports following formats:
+Format string does not match source.  Omitting format string from translation
+usually cause severe problems, so you should really keep the format string
+matching the original one.
 
-* Python format
-* Python brace format
-* PHP format
-* C format
-* Perl format
-* Javascript format
-* AngularJS interpolation string
+Weblate supports checking format strings in several languages. The check is not
+enabled automatically, but only if string is flagged by appropriate flag (eg.
+`c-format` for C format). Gettext adds this automatically, but you will
+probably have to add it manually for other file formats or if your po files are
+not generated by :program:`xgettext`.
 
-Omitting format string from translation usually cause severe problems, so you
-should really keep the format string matching the original one.
+This can be done per unit (see :ref:`additional`) or in :ref:`component`.
+Having it defined in component is simpler, but can lead to false positives in
+case the string is not interpreted as format string, but format string syntax
+happens to be used.
+
+Besides checking, this will also highligh the format strings to be simply
+inserted to translated string:
+
+.. image:: ../images/format-highlight.png
+
+Python format
+*************
+
++----------------------+------------------------------------------------------------+
+| Simple format string | ``There are %d apples``                                    |
++----------------------+------------------------------------------------------------+
+| Named format string  | ``Your balance is %(amount) %(currency)``                  |
++----------------------+------------------------------------------------------------+
+| Flag to enable       | `python-format`                                            |
++----------------------+------------------------------------------------------------+
 
 .. seealso::
 
     :ref:`Python string formatting <python2:string-formatting>`,
+    `Python Format Strings <https://www.gnu.org/software/gettext/manual/html_node/python_002dformat.html>`_
+
+Python brace format
+*******************
+
++----------------------+------------------------------------------------------------+
+| Simple format string | ``There are {} apples``                                    |
++----------------------+------------------------------------------------------------+
+| Named format string  | ``Your balance is {amount} {currency}``                    |
++----------------------+------------------------------------------------------------+
+| Flag to enable       | `python-brace-format`                                      |
++----------------------+------------------------------------------------------------+
+
+.. seealso::
+
     :ref:`Python brace format <python:formatstrings>`,
-    `PHP format strings <https://php.net/manual/en/function.sprintf.php>`_,
-    `C printf format <https://en.wikipedia.org/wiki/Printf_format_string>`_,
+    `Python Format Strings <https://www.gnu.org/software/gettext/manual/html_node/python_002dformat.html>`_
+
+PHP format
+**********
+
++------------------------+------------------------------------------------------------+
+| Simple format string   | ``There are %d apples``                                    |
++------------------------+------------------------------------------------------------+
+| Position format string | ``Your balance is %1$d %2$s``                              |
++------------------------+------------------------------------------------------------+
+| Flag to enable         | `php-format`                                               |
++------------------------+------------------------------------------------------------+
+
+.. seealso::
+
+    `PHP sprintf documentation <https://php.net/manual/en/function.sprintf.php>`_,
+    `PHP Format Strings <https://www.gnu.org/software/gettext/manual/html_node/php_002dformat.html>`_
+
+C format
+********
+
++------------------------+------------------------------------------------------------+
+| Simple format string   | ``There are %d apples``                                    |
++------------------------+------------------------------------------------------------+
+| Position format string | ``Your balance is %1$d %2$s``                              |
++------------------------+------------------------------------------------------------+
+| Flag to enable         | `c-format`                                                 |
++------------------------+------------------------------------------------------------+
+
+.. seealso::
+
+    `C format strings <https://www.gnu.org/software/gettext/manual/html_node/c_002dformat.html>`_,
+    `C printf format <https://en.wikipedia.org/wiki/Printf_format_string>`_
+
+Perl format
+***********
+
++------------------------+------------------------------------------------------------+
+| Simple format string   | ``There are %d apples``                                    |
++------------------------+------------------------------------------------------------+
+| Position format string | ``Your balance is %1$d %2$s``                              |
++------------------------+------------------------------------------------------------+
+| Flag to enable         | `perl-format`                                              |
++------------------------+------------------------------------------------------------+
+
+.. seealso::
+
     `Perl sprintf <https://perldoc.perl.org/functions/sprintf.html>`_,
+    `Perl Format Strings <https://www.gnu.org/software/gettext/manual/html_node/perl_002dformat.html>`_
+
+Javascript format
+*****************
+
++------------------------+------------------------------------------------------------+
+| Simple format string   | ``There are %d apples``                                    |
++------------------------+------------------------------------------------------------+
+| Flag to enable         | `javascript-format`                                        |
++------------------------+------------------------------------------------------------+
+
+.. seealso::
+
+    `JavaScript Format Strings <https://www.gnu.org/software/gettext/manual/html_node/javascript_002dformat.html>`_
+
+AngularJS interpolation string
+******************************
+
++----------------------+------------------------------------------------------------+
+| Named format string  | ``Your balance is {{amount}} {{ currency }}``              |
++----------------------+------------------------------------------------------------+
+| Flag to enable       | `angularjs-format`                                         |
++----------------------+------------------------------------------------------------+
+
+.. seealso::
+
     `AngularJS: API: $interpolate <https://docs.angularjs.org/api/ng/service/$interpolate>`_
 
 .. _check-plurals:
@@ -215,14 +329,14 @@ Some plural forms are not translated. Check plural form definition to see for
 which counts each plural form is being used.
 
 Not filling in some plural forms will lead to showing no text in the
-application in case this plural would be displayed.
+application in the event the plural would be displayed.
 
 .. _check-same-plurals:
 
 Same plurals
 ~~~~~~~~~~~~
 
-Some plural forms are translated same. In most languages the plural forms have
+Some plural forms are translated the same. In most languages the plural forms have
 to be different, that's why this feature is actually used.
 
 .. _check-inconsistent:
@@ -250,7 +364,7 @@ translations have been reverted in VCS or otherwise lost.
 Mismatched \\n
 ~~~~~~~~~~~~~~
 
-Number of \\n in translation does not match source.
+Number of ``\\n`` literals in translation does not match source.
 
 Usually escaped newlines are important for formatting program output, so this
 should match to source.
@@ -277,7 +391,7 @@ Zero-width space
 
 Translation contains extra zero-width space (<U+200B>) character.
 
-This character is usually inserted by mistake, though it might have legitimate
+This character is usually inserted by mistake, though it might have a legitimate
 use. Some programs might have problems when this character is used.
 
 .. seealso:: 
@@ -333,7 +447,7 @@ Ellipsis
 
 The string uses three dots (``...``) instead of an ellipsis character (``…``).
 
-Using Unicode character is in most cases the better approach and looks better when
+Using the Unicode character is in most cases the better approach and looks better when
 rendered.
 
 .. seealso::

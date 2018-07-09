@@ -12,13 +12,13 @@ existing translation (even if it has been changed meanwhile).
 Downloading translations
 ------------------------
 
-You can download translatable file using the :guilabel:`Download source file`
-action in the :guilabel:`Files` menu. This will give you the file as is stored
+You can download a translatable file using the :guilabel:`Download source file`
+action in the :guilabel:`Files` menu. This will give you the file as it is stored
 in upstream version control system.
 
-For some formats you can also download compiled file to use withing application
-(for example ``.mo`` files for GNU Gettext) using the 
-:guilabel:`Download compiled translation`.
+You can also download files in several other formats, including a compiled file
+to use within an application (for example ``.mo`` files for GNU Gettext) using
+the :guilabel:`Files`.
 
 Uploading translations
 ----------------------
@@ -27,14 +27,14 @@ You can upload translated files using the :guilabel:`Upload translation` action
 in the :guilabel:`Files` menu.
 
 Weblate accepts any file format it understands on upload, but it is still
-recommeded to use same file format as is used for translation, otherwise some
+recommeded to use the same file format as is used for translation, otherwise some
 features might not be translated properly.
 
 .. seealso:: 
    
    :ref:`formats`
 
-The uploaded file is merged to current translation, overwriting existing
+The uploaded file is merged to current the translation, overwriting existing
 entries by default (this can be changed in the upload dialog).
 
 Import methods

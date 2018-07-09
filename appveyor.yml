@@ -3,7 +3,6 @@ version: "{build}"
 clone_depth: 100
 
 environment:
-
   matrix:
 
     # For Python versions available on Appveyor, see
@@ -11,17 +10,18 @@ environment:
     # The list here is complete (excluding Python 2.6, which
     # isn't covered by this document) at the time of writing.
 
-    - PYTHON: "C:\\Python27"
+    - PYTHON: "C:\\Python36"
+#    - PYTHON: "C:\\Python27"
 #    - PYTHON: "C:\\Python34"
 #    - PYTHON: "C:\\Python35"
 #    - PYTHON: "C:\\Python35-x64"
+
 
 install:
   - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
   # We need wheel installed to build wheels
   - "python.exe -m pip install wheel"
-  # lxml 3.6.0 has binaries built for Windows
-  - "python.exe -m pip install lxml==3.6.0"
+  - "python.exe -m pip install unittest-xml-reporting"
   - "python.exe -m pip install -r requirements-optional.txt"
   - "python.exe -m pip install -r ci/requirements-travis.txt"
 
@@ -30,7 +30,22 @@ build: off
 test_script:
   - "python.exe manage.py collectstatic --settings weblate.settings_test --noinput"
   - "python.exe manage.py check --settings weblate.settings_test"
-  - "coverage run ./manage.py test --settings weblate.settings_test -v2"
+  - ps: >-
+        $failure = 0;
+        try {
+            coverage run ./manage.py test --settings weblate.settings_test -v2
+            $failure = $lastExitCode;
+        } catch {
+            $failure = 1;
+        } finally {
+            # Upload results to AppVeyor
+            $wc = New-Object 'System.Net.WebClient';
+            $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\junit.xml));
+        }
+        if ($failure -ne 0) {
+            # Propagate error code from testsuite
+            exit $failure;
+        }
 
 after_test:
   - "coverage combine"

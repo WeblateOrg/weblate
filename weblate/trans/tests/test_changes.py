@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -22,7 +22,7 @@
 Tests for changes browsing.
 """
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from weblate.trans.tests.test_views import ViewTestCase
 
@@ -50,13 +50,13 @@ class ChangesTest(ViewTestCase):
         self.assertNotContains(response, 'Failed to find matching project!')
         response = self.client.get(
             reverse('changes'),
-            {'project': 'test', 'subproject': 'test'}
+            {'project': 'test', 'component': 'test'}
         )
         self.assertContains(response, 'Resource update')
         self.assertNotContains(response, 'Failed to find matching project!')
         response = self.client.get(
             reverse('changes'),
-            {'project': 'test', 'subproject': 'test', 'lang': 'cs'}
+            {'project': 'test', 'component': 'test', 'lang': 'cs'}
         )
         self.assertContains(response, 'Resource update')
         self.assertNotContains(response, 'Failed to find matching project!')
@@ -68,7 +68,7 @@ class ChangesTest(ViewTestCase):
         self.assertNotContains(response, 'Failed to find matching language!')
         response = self.client.get(
             reverse('changes'),
-            {'project': 'testx', 'subproject': 'test', 'lang': 'cs'}
+            {'project': 'testx', 'component': 'test', 'lang': 'cs'}
         )
         self.assertContains(response, 'Resource update')
         self.assertContains(response, 'Failed to find matching project!')

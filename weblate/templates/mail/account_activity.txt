@@ -3,6 +3,11 @@
 {% blocktrans %}There has been a change in your account at {{ site_title }}:{% endblocktrans %}
 
 {{ message }}
+{% if extra_message %}
+{{ extra_message }}{% endif %}
+
+{% trans "IP address:" %} {{ address }}
+{% trans "User agent:" %} {{ user_agent }}
 
 {% blocktrans %}If you did not request this change, please notify us as soon as possible using following form:{% endblocktrans %}
 

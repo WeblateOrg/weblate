@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,13 +17,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+from __future__ import unicode_literals
 
 from weblate.trans.management.commands import WeblateComponentCommand
 from weblate.trans.models.change import Change
 
 
 class Command(WeblateComponentCommand):
-    help = 'List translators for a subproject'
+    help = 'List translators for a component'
 
     def add_arguments(self, parser):
         super(Command, self).add_arguments(parser)
@@ -37,8 +38,8 @@ class Command(WeblateComponentCommand):
 
     def handle(self, *args, **options):
         data = []
-        for subproject in self.get_subprojects(*args, **options):
-            for translation in subproject.translation_set.all():
+        for component in self.get_components(*args, **options):
+            for translation in component.translation_set.all():
                 authors = Change.objects.authors_list(translation)
                 if not authors:
                     continue

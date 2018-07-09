@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,6 +18,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
+
 import os.path
 
 from django.conf import settings
@@ -27,47 +29,13 @@ from appconf import AppConf
 
 class WeblateConf(AppConf):
     # Weblate installation root
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
     # Data directory
-    DATA_DIR = os.path.join(settings.BASE_DIR, '..', 'data')
+    DATA_DIR = os.path.join(settings.BASE_DIR, 'data')
 
-    # Machine translation API keys
-
-    # Apertium Web Service, register at http://api.apertium.org/register.jsp
-    MT_APERTIUM_KEY = None
-
-    # URL of the Apertium APy server
-    MT_APERTIUM_APY = None
-
-    # Microsoft Translator service, register at
-    # https://datamarket.azure.com/developer/applications/
-    MT_MICROSOFT_ID = None
-    MT_MICROSOFT_SECRET = None
-
-    # Microsoft Conginite Services Translator, register at
-    # https://portal.azure.com/
-    MT_MICROSOFT_COGNITIVE_KEY = None
-
-    # MyMemory identification email, see
-    # https://mymemory.translated.net/doc/spec.php
-    MT_MYMEMORY_EMAIL = None
-
-    # Optional MyMemory credentials to access private translation memory
-    MT_MYMEMORY_USER = None
-    MT_MYMEMORY_KEY = None
-
-    # Google API key for Google Translate API
-    MT_GOOGLE_KEY = None
-
-    # API key for Yandex Translate API
-    MT_YANDEX_KEY = None
-
-    # tmserver URL
-    MT_TMSERVER = None
-
-    # Limit (in seconds) for Weblate machine translation
-    MT_WEBLATE_LIMIT = 15
+    # Akismet API key
+    AKISMET_API_KEY = None
 
     # Title of site to use
     SITE_TITLE = 'Weblate'
@@ -94,50 +62,44 @@ class WeblateConf(AppConf):
     SIMILAR_MESSAGES = 5
 
     # Enable lazy commits
-    LAZY_COMMITS = True
     COMMIT_PENDING_HOURS = 24
 
     # Offload indexing
     OFFLOAD_INDEXING = False
 
-    # Translation locking
-    AUTO_LOCK = True
-    AUTO_LOCK_TIME = 60
-    LOCK_TIME = 15 * 60
-
     # List of quality checks
     CHECK_LIST = (
-        'weblate.trans.checks.same.SameCheck',
-        'weblate.trans.checks.chars.BeginNewlineCheck',
-        'weblate.trans.checks.chars.EndNewlineCheck',
-        'weblate.trans.checks.chars.BeginSpaceCheck',
-        'weblate.trans.checks.chars.EndSpaceCheck',
-        'weblate.trans.checks.chars.EndStopCheck',
-        'weblate.trans.checks.chars.EndColonCheck',
-        'weblate.trans.checks.chars.EndQuestionCheck',
-        'weblate.trans.checks.chars.EndExclamationCheck',
-        'weblate.trans.checks.chars.EndEllipsisCheck',
-        'weblate.trans.checks.chars.EndSemicolonCheck',
-        'weblate.trans.checks.chars.MaxLengthCheck',
-        'weblate.trans.checks.format.PythonFormatCheck',
-        'weblate.trans.checks.format.PythonBraceFormatCheck',
-        'weblate.trans.checks.format.PHPFormatCheck',
-        'weblate.trans.checks.format.CFormatCheck',
-        'weblate.trans.checks.format.PerlFormatCheck',
-        'weblate.trans.checks.format.JavascriptFormatCheck',
-        'weblate.trans.checks.angularjs.AngularJSInterpolationCheck',
-        'weblate.trans.checks.consistency.PluralsCheck',
-        'weblate.trans.checks.consistency.SamePluralsCheck',
-        'weblate.trans.checks.consistency.ConsistencyCheck',
-        'weblate.trans.checks.consistency.TranslatedCheck',
-        'weblate.trans.checks.chars.NewlineCountingCheck',
-        'weblate.trans.checks.markup.BBCodeCheck',
-        'weblate.trans.checks.chars.ZeroWidthSpaceCheck',
-        'weblate.trans.checks.markup.XMLValidityCheck',
-        'weblate.trans.checks.markup.XMLTagsCheck',
-        'weblate.trans.checks.source.OptionalPluralCheck',
-        'weblate.trans.checks.source.EllipsisCheck',
-        'weblate.trans.checks.source.MultipleFailingCheck',
+        'weblate.checks.same.SameCheck',
+        'weblate.checks.chars.BeginNewlineCheck',
+        'weblate.checks.chars.EndNewlineCheck',
+        'weblate.checks.chars.BeginSpaceCheck',
+        'weblate.checks.chars.EndSpaceCheck',
+        'weblate.checks.chars.EndStopCheck',
+        'weblate.checks.chars.EndColonCheck',
+        'weblate.checks.chars.EndQuestionCheck',
+        'weblate.checks.chars.EndExclamationCheck',
+        'weblate.checks.chars.EndEllipsisCheck',
+        'weblate.checks.chars.EndSemicolonCheck',
+        'weblate.checks.chars.MaxLengthCheck',
+        'weblate.checks.format.PythonFormatCheck',
+        'weblate.checks.format.PythonBraceFormatCheck',
+        'weblate.checks.format.PHPFormatCheck',
+        'weblate.checks.format.CFormatCheck',
+        'weblate.checks.format.PerlFormatCheck',
+        'weblate.checks.format.JavascriptFormatCheck',
+        'weblate.checks.angularjs.AngularJSInterpolationCheck',
+        'weblate.checks.consistency.PluralsCheck',
+        'weblate.checks.consistency.SamePluralsCheck',
+        'weblate.checks.consistency.ConsistencyCheck',
+        'weblate.checks.consistency.TranslatedCheck',
+        'weblate.checks.chars.NewlineCountingCheck',
+        'weblate.checks.markup.BBCodeCheck',
+        'weblate.checks.chars.ZeroWidthSpaceCheck',
+        'weblate.checks.markup.XMLValidityCheck',
+        'weblate.checks.markup.XMLTagsCheck',
+        'weblate.checks.source.OptionalPluralCheck',
+        'weblate.checks.source.EllipsisCheck',
+        'weblate.checks.source.MultipleFailingCheck',
     )
 
     # List of automatic fixups
@@ -148,24 +110,8 @@ class WeblateConf(AppConf):
         'weblate.trans.autofixes.chars.RemoveControlChars',
     )
 
-    # List of machine translations
-    MACHINE_TRANSLATION_SERVICES = (
-        'weblate.trans.machine.weblatetm.WeblateSimilarTranslation',
-        'weblate.trans.machine.weblatetm.WeblateTranslation',
-    )
-
-    # Whether machine translations are enabled
-    MACHINE_TRANSLATION_ENABLED = len(MACHINE_TRANSLATION_SERVICES) > 0
-
-    # List of scripts to use in custom processing
-    POST_UPDATE_SCRIPTS = ()
-    PRE_COMMIT_SCRIPTS = ()
-    POST_COMMIT_SCRIPTS = ()
-    POST_PUSH_SCRIPTS = ()
-    POST_ADD_SCRIPTS = ()
-
     # Font for charts and widgets
-    TTF_PATH = os.path.join(settings.BASE_DIR, 'ttf')
+    TTF_PATH = os.path.join(settings.BASE_DIR, 'weblate', 'ttf')
 
     # Anonymous user name
     ANONYMOUS_USER_NAME = 'anonymous'
@@ -179,15 +125,15 @@ class WeblateConf(AppConf):
     # Captcha for registrations
     REGISTRATION_CAPTCHA = True
 
-    # Piwik
+    # Matomo
     PIWIK_SITE_ID = None
     PIWIK_URL = None
 
     # Google Analytics
     GOOGLE_ANALYTICS_ID = None
 
-    # Self advertisement
-    SELF_ADVERTISEMENT = False
+    # URL with status monitoring
+    STATUS_URL = None
 
     # Use simple language codes for default language/country combinations
     SIMPLIFY_LANGUAGES = True
@@ -196,10 +142,10 @@ class WeblateConf(AppConf):
     ENABLE_AVATARS = True
 
     # Avatar URL prefix
-    AVATAR_URL_PREFIX = 'https://seccdn.libravatar.org/'
+    AVATAR_URL_PREFIX = 'https://www.gravatar.com/'
 
     # Avatar fallback image
-    # See http://wiki.libravatar.org/api/ for available choices
+    # See http://en.gravatar.com/site/implement/images/ for available choices
     AVATAR_DEFAULT_IMAGE = 'identicon'
 
     # Is the site using https
@@ -217,6 +163,26 @@ class WeblateConf(AppConf):
 
     DEFAULT_TRANSLATION_PROPAGATION = True
 
+    DEFAULT_CUSTOM_ACL = False
+
+    DEFAULT_PUSH_ON_COMMIT = True
+    DEFAULT_VCS = 'git'
+    DEFAULT_COMMIT_MESSAGE = (
+        'Translated using Weblate ({{ language_name }})\n\n'
+        'Currently translated at {{ stats.translated_percent }}% '
+        '({{ stats.translated }} of {{ stats.all }} strings)\n\n'
+        'Translation: {{ project_name }}/{{ component_name }}\n'
+        'Translate-URL: {{ url }}'
+    )
+
+    DEFAULT_ADD_MESSAGE = (
+        'Added translation using Weblate ({{ language_name }})\n\n'
+    )
+
+    DEFAULT_DELETE_MESSAGE = (
+        'Deleted translation using Weblate ({{ language_name }})\n\n'
+    )
+
     # Billing
     INVOICE_PATH = ''
 
@@ -230,6 +196,16 @@ class WeblateConf(AppConf):
     AUTH_TOKEN_VALID = 3600
     AUTH_LOCK_ATTEMPTS = 10
     AUTH_PASSWORD_DAYS = 180
+
+    # Mail customization
+    ADMINS_CONTACT = []
+    ADMINS_HOSTING = []
+
+    # Special chars for visual keyboard
+    SPECIAL_CHARS = ('\t', '\n', '…')
+
+    # Following probably should not be configured
+    COMPONENT_NAME_LENGTH = 100
 
     class Meta(object):
         prefix = ''

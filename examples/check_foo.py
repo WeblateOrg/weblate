@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -19,7 +19,7 @@
 #
 """Simple quality check example."""
 
-from weblate.trans.checks.base import TargetCheck
+from weblate.checks.base import TargetCheck
 from django.utils.translation import ugettext_lazy as _
 
 

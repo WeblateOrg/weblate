@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -32,14 +32,14 @@ from django.core.mail.message import EmailMultiAlternatives
 from django.utils import translation
 from django.utils.cache import patch_response_headers
 from django.utils.crypto import get_random_string
+from django.utils.decorators import method_decorator
 from django.utils.translation import get_language
-from django.contrib.auth.models import User
-from django.contrib.auth import views as auth_views
+from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic import TemplateView, ListView
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils.http import urlencode
 from django.template.loader import render_to_string
 
@@ -49,20 +49,24 @@ from social_core.backends.utils import load_backends
 from social_core.exceptions import (
     AuthMissingParameter, InvalidEmail, AuthFailed, AuthCanceled,
     AuthStateMissing, AuthStateForbidden, AuthAlreadyAssociated,
+    AuthForbidden,
 )
-from social_django.utils import BACKENDS
+import social_django.utils
 from social_django.views import complete, auth
 
+from weblate.auth.models import User
 from weblate.accounts.forms import (
     RegistrationForm, PasswordConfirmForm, EmailForm, ResetForm,
     LoginForm, HostingForm, CaptchaForm, SetPasswordForm,
+    EmptyConfirmForm,
 )
 from weblate.accounts.ratelimit import check_rate_limit
 from weblate.logger import LOGGER
 from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
-from weblate.accounts.models import set_lang, remove_user, Profile
+from weblate.accounts.models import set_lang, Profile
+from weblate.accounts.utils import remove_user
 from weblate.utils import messages
-from weblate.trans.models import Change, Project, SubProject, Suggestion
+from weblate.trans.models import Change, Project, Component, Suggestion
 from weblate.trans.views.helper import get_project
 from weblate.accounts.forms import (
     ProfileForm, SubscriptionForm, UserForm, ContactForm,
@@ -107,12 +111,16 @@ class EmailSentView(TemplateView):
         context = super(EmailSentView, self).get_context_data(
             **kwargs
         )
+        context['is_reset'] = False
+        context['is_remove'] = False
         if kwargs['password_reset']:
             context['title'] = _('Password reset')
             context['is_reset'] = True
+        elif kwargs['account_remove']:
+            context['title'] = _('Remove account')
+            context['is_remove'] = True
         else:
             context['title'] = _('User registration')
-            context['is_reset'] = False
 
         return context
 
@@ -121,6 +129,7 @@ class EmailSentView(TemplateView):
             return redirect('home')
 
         kwargs['password_reset'] = request.session['password_reset']
+        kwargs['account_remove'] = request.session['account_remove']
         # Remove session for not authenticated user here.
         # It is no longer needed and will just cause problems
         # with multiple registrations from single browser.
@@ -134,13 +143,15 @@ class EmailSentView(TemplateView):
         )
 
 
-def mail_admins_contact(request, subject, message, context, sender):
+def mail_admins_contact(request, subject, message, context, sender, to):
     """Send a message to the admins, as defined by the ADMINS setting."""
     LOGGER.info(
         'contact form from %s',
         sender,
     )
-    if not settings.ADMINS:
+    if not to and settings.ADMINS:
+        to = [a[1] for a in settings.ADMINS]
+    elif not settings.ADMINS:
         messages.error(
             request,
             _('Message could not be sent to administrator!')
@@ -153,7 +164,7 @@ def mail_admins_contact(request, subject, message, context, sender):
     mail = EmailMultiAlternatives(
         '{0}{1}'.format(settings.EMAIL_SUBJECT_PREFIX, subject % context),
         message % context,
-        to=[a[1] for a in settings.ADMINS],
+        to=to,
         headers={'Reply-To': sender},
     )
 
@@ -177,7 +188,7 @@ def deny_demo(request):
 def avoid_demo(function):
     """Avoid page being served to demo account."""
     def demo_wrap(request, *args, **kwargs):
-        if settings.DEMO_SERVER and request.user.username == 'demo':
+        if request.user.is_demo:
             return deny_demo(request)
         return function(request, *args, **kwargs)
     return demo_wrap
@@ -221,7 +232,7 @@ def user_profile(request):
 
     if not profile.language:
         profile.language = get_language()
-        profile.save()
+        profile.save(update_fields=['language'])
 
     form_classes = [
         ProfileForm,
@@ -230,14 +241,14 @@ def user_profile(request):
         UserSettingsForm,
         DashboardSettingsForm,
     ]
-    all_backends = set(load_backends(BACKENDS).keys())
+    all_backends = set(load_backends(social_django.utils.BACKENDS).keys())
 
     if request.method == 'POST':
         # Parse POST params
         forms = [form(request.POST, instance=profile) for form in form_classes]
         forms.append(UserForm(request.POST, instance=request.user))
 
-        if settings.DEMO_SERVER and request.user.username == 'demo':
+        if request.user.is_demo:
             return deny_demo(request)
 
         if all(form.is_valid() for form in forms):
@@ -275,11 +286,19 @@ def user_profile(request):
         x for x in all_backends
         if x == 'email' or x not in social_names
     ]
-    license_projects = SubProject.objects.filter(
-        project__in=Project.objects.all_acl(request.user)
+    license_projects = Component.objects.filter(
+        project__in=request.user.allowed_projects
     ).exclude(
         license=''
     )
+
+    billings = None
+    if 'weblate.billing' in settings.INSTALLED_APPS:
+        # pylint: disable=wrong-import-position
+        from weblate.billing.models import Billing
+        billings = Billing.objects.filter(
+            projects__in=request.user.projects_with_perm('billing.view')
+        ).distinct()
 
     result = render(
         request,
@@ -296,11 +315,9 @@ def user_profile(request):
             'licenses': license_projects,
             'associated': social,
             'new_backends': new_backends,
-            'managed_projects': Project.objects.filter(
-                groupacl__groups__name__endswith='@Administration',
-                groupacl__groups__user=request.user,
-            ).distinct(),
+            'managed_projects': request.user.owned_projects,
             'auditlog': request.user.auditlog_set.all()[:20],
+            'billings': billings,
         }
     )
     result.set_cookie(
@@ -315,10 +332,9 @@ def user_profile(request):
 @session_ratelimit_post
 @never_cache
 def user_remove(request):
-    if request.method == 'POST':
-        confirm_form = PasswordConfirmForm(request, request.POST)
-        if confirm_form.is_valid():
-            session_ratelimit_reset(request)
+    is_confirmation = 'remove_confirm' in request.session
+    if is_confirmation:
+        if request.method == 'POST':
             remove_user(request.user, request)
             rotate_token(request)
             logout(request)
@@ -327,6 +343,16 @@ def user_remove(request):
                 _('Your account has been removed.')
             )
             return redirect('home')
+        else:
+            confirm_form = EmptyConfirmForm(request)
+
+    elif request.method == 'POST':
+        confirm_form = PasswordConfirmForm(request, request.POST)
+        if confirm_form.is_valid():
+            session_ratelimit_reset(request)
+            store_userid(request, remove=True)
+            request.GET = {'email': request.user.email}
+            return social_complete(request, 'email')
     else:
         confirm_form = PasswordConfirmForm(request)
 
@@ -335,11 +361,11 @@ def user_remove(request):
         'accounts/removal.html',
         {
             'confirm_form': confirm_form,
+            'is_confirmation': is_confirmation,
         }
     )
 
 
-@login_required
 @avoid_demo
 @session_ratelimit_post
 @never_cache
@@ -347,6 +373,9 @@ def confirm(request):
     details = request.session.get('reauthenticate')
     if not details:
         return redirect('home')
+
+    # Monkey patch request
+    request.user = User.objects.get(pk=details['user_pk'])
 
     if request.method == 'POST':
         confirm_form = PasswordConfirmForm(request, request.POST)
@@ -374,7 +403,7 @@ def get_initial_contact(request):
     """Fill in initial contact form fields from request."""
     initial = {}
     if request.user.is_authenticated:
-        initial['name'] = request.user.first_name
+        initial['name'] = request.user.full_name
         initial['email'] = request.user.email
     return initial
 
@@ -391,7 +420,7 @@ def contact(request):
         form = ContactForm(request.POST)
         if show_captcha:
             captcha = CaptchaForm(request, form, request.POST)
-        if not check_rate_limit(request):
+        if not check_rate_limit('message', request):
             messages.error(
                 request,
                 _('Too many messages sent, please try again later!')
@@ -403,6 +432,7 @@ def contact(request):
                 CONTACT_TEMPLATE,
                 form.cleaned_data,
                 form.cleaned_data['email'],
+                settings.ADMINS_CONTACT,
             )
             return redirect('home')
     else:
@@ -443,6 +473,7 @@ def hosting(request):
                 HOSTING_TEMPLATE,
                 context,
                 form.cleaned_data['email'],
+                settings.ADMINS_HOSTING,
             )
             return redirect('home')
     else:
@@ -474,7 +505,7 @@ def user_page(request, user):
 
     # Filter where project is active
     user_projects_ids = set(all_changes.values_list(
-        'translation__subproject__project', flat=True
+        'translation__component__project', flat=True
     ))
     user_projects = Project.objects.filter(id__in=user_projects_ids)
 
@@ -510,50 +541,67 @@ def user_avatar(request, user, size):
     return response
 
 
-@never_cache
-def weblate_login(request):
+def redirect_single(request, backend):
+    """Redirect user to single authentication backend."""
+    return render(request, 'accounts/redirect.html', {'backend': backend})
+
+
+class WeblateLoginView(LoginView):
     """Login handler, just wrapper around standard Django login."""
+    form_class = LoginForm
+    template_name = 'accounts/login.html'
+    redirect_authenticated_user = True
 
-    # Redirect logged in users to profile
-    if request.user.is_authenticated:
-        return redirect_profile()
+    def get_context_data(self, **kwargs):
+        context = super(WeblateLoginView, self).get_context_data(**kwargs)
+        auth_backends = list(
+            load_backends(social_django.utils.BACKENDS).keys()
+        )
+        context['login_backends'] = [x for x in auth_backends if x != 'email']
+        context['can_reset'] = 'email' in auth_backends
+        context['title'] = _('Login')
+        context['demo_users'] = (
+            ('demo', 'demo', _('Standard user')),
+            ('review', 'review', _('User with reviewer permissions')),
+        )
+        return context
 
-    # Redirect if there is only one backend
-    auth_backends = list(load_backends(BACKENDS).keys())
-    if len(auth_backends) == 1 and auth_backends[0] != 'email':
-        return redirect('social:begin', auth_backends[0])
+    @method_decorator(never_cache)
+    def dispatch(self, request, *args, **kwargs):
+        # Redirect logged in users to profile
+        if request.user.is_authenticated:
+            return redirect_profile()
 
-    return auth_views.login(
-        request,
-        template_name='accounts/login.html',
-        authentication_form=LoginForm,
-        extra_context={
-            'login_backends': [
-                x for x in auth_backends if x != 'email'
-            ],
-            'can_reset': 'email' in auth_backends,
-            'title': _('Login'),
-        }
-    )
+        # Redirect if there is only one backend
+        auth_backends = list(
+            load_backends(social_django.utils.BACKENDS).keys()
+        )
+        if len(auth_backends) == 1 and auth_backends[0] != 'email':
+            return redirect_single(request, auth_backends[0])
+
+        return super(WeblateLoginView, self).dispatch(request, *args, **kwargs)
 
 
-@require_POST
-@login_required
-@never_cache
-def weblate_logout(request):
+class WeblateLogoutView(LogoutView):
     """Logout handler, just wrapper around standard Django logout."""
-    messages.info(request, _('Thanks for using Weblate!'))
+    @method_decorator(require_POST)
+    @method_decorator(login_required)
+    @method_decorator(never_cache)
+    def dispatch(self, request, *args, **kwargs):
+        return super(WeblateLogoutView, self).dispatch(
+            request, *args, **kwargs
+        )
 
-    return auth_views.logout(
-        request,
-        next_page=reverse('home'),
-    )
+    def get_next_page(self):
+        messages.info(self.request, _('Thanks for using Weblate!'))
+        return reverse('home')
 
 
 def fake_email_sent(request, reset=False):
     """Fake redirect to email sent page."""
     request.session['registration-email-sent'] = True
     request.session['password_reset'] = reset
+    request.session['account_remove'] = False
     return redirect('email-sent')
 
 
@@ -583,11 +631,11 @@ def register(request):
         if settings.REGISTRATION_CAPTCHA:
             captcha = CaptchaForm(request)
 
-    backends = set(load_backends(BACKENDS).keys())
+    backends = set(load_backends(social_django.utils.BACKENDS).keys())
 
     # Redirect if there is only one backend
     if len(backends) == 1 and 'email' not in backends:
-        return redirect('social:begin', backends.pop())
+        return redirect_single(request, backends.pop())
 
     return render(
         request,
@@ -614,7 +662,8 @@ def email_login(request):
         if settings.REGISTRATION_CAPTCHA:
             captcha = CaptchaForm(request, form, request.POST)
         if (captcha is None or captcha.is_valid()) and form.is_valid():
-            if form.cleaned_data['email_user']:
+            email_user = form.cleaned_data['email_user']
+            if email_user and email_user != request.user:
                 notify_account_activity(
                     form.cleaned_data['email_user'],
                     request,
@@ -718,7 +767,7 @@ def reset_password(request):
     """Password reset handling."""
     if request.user.is_authenticated:
         redirect_profile()
-    if 'email' not in load_backends(BACKENDS).keys():
+    if 'email' not in load_backends(social_django.utils.BACKENDS).keys():
         messages.error(
             request,
             _('Can not reset password, email authentication is disabled!')
@@ -808,7 +857,7 @@ class SuggestionView(ListView):
             user = get_object_or_404(User, username=self.kwargs['user'])
         return Suggestion.objects.filter(
             user=user,
-            project__in=Project.objects.all_acl(self.request.user)
+            project__in=self.request.user.allowed_projects
         )
 
     def get_context_data(self):
@@ -818,14 +867,15 @@ class SuggestionView(ListView):
         else:
             user = get_object_or_404(User, username=self.kwargs['user'])
         result['page_user'] = user
-        result['page_profile'] = user.profile
+        result['page_profile'] = Profile.objects.get_or_create(user=user)[0]
         return result
 
 
-def store_userid(request, reset=False):
+def store_userid(request, reset=False, remove=False):
     """Store user ID in the session."""
     request.session['social_auth_user'] = request.user.pk
     request.session['password_reset'] = reset
+    request.session['account_remove'] = remove
 
 
 @require_POST
@@ -849,6 +899,7 @@ def social_complete(request, backend):
     - blocks access for demo user
     - gracefuly handle backend errors
     """
+    # pylint: disable=too-many-branches,too-many-return-statements
     def fail(message):
         messages.error(request, message)
         return redirect(reverse('login'))
@@ -892,6 +943,8 @@ def social_complete(request, backend):
         ))
     except AuthCanceled:
         return fail(_('Authentication has been cancelled.'))
+    except AuthForbidden:
+        return fail(_('Authentication has been forbidden by server.'))
     except AuthAlreadyAssociated:
         return fail(_(
             'Failed to complete your registration! This authentication, '

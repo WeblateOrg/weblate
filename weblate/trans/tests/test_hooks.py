@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -20,7 +20,7 @@
 
 """Test for notification hooks."""
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.test.utils import override_settings
 
 from weblate.trans.tests.test_views import ViewTestCase
@@ -30,6 +30,53 @@ GITHUB_PAYLOAD = '''
 "before": "5aef35982fb2d34e9d9d4502f6ede1072793222d",
 "repository": {
 "url": "http://github.com/defunkt/github",
+"name": "github",
+"description": "You're lookin' at it.",
+"watchers": 5,
+"forks": 2,
+"private": 1,
+"owner": {
+"email": "chris@ozmm.org",
+"name": "defunkt"
+}
+},
+"commits": [
+{
+"id": "41a212ee83ca127e3c8cf465891ab7216a705f59",
+"url": "http://github.com/defunkt/github/commit/41a212ee83",
+"author": {
+"email": "chris@ozmm.org",
+"name": "Chris Wanstrath"
+},
+"message": "okay i give in",
+"timestamp": "2008-02-15T14:57:17-08:00",
+"added": ["filepath.rb"]
+},
+{
+"id": "de8251ff97ee194a289832576287d6f8ad74e3d0",
+"url": "http://github.com/defunkt/github/commit/de8251ff97",
+"author": {
+"email": "chris@ozmm.org",
+"name": "Chris Wanstrath"
+},
+"message": "update pricing a tad",
+"timestamp": "2008-02-15T14:36:34-08:00"
+}
+],
+"after": "de8251ff97ee194a289832576287d6f8ad74e3d0",
+"ref": "refs/heads/master"
+}
+'''
+
+GITHUB_NEW_PAYLOAD = '''
+{
+"before": "5aef35982fb2d34e9d9d4502f6ede1072793222d",
+"repository": {
+"url": "http://github.com/defunkt/github",
+"git_url": "git://github.com/defunkt/github.git",
+"ssh_url": "git@github.com:defunkt/github.git",
+"clone_url": "https://github.com/defunkt/github.git",
+"svn_url": "https://github.com/defunkt/github",
 "name": "github",
 "description": "You're lookin' at it.",
 "watchers": 5,
@@ -290,6 +337,61 @@ BITBUCKET_PAYLOAD_WEBHOOK = r'''
 }
 '''
 
+BITBUCKET_PAYLOAD_HOSTED = r'''
+{
+  "actor":{
+    "username":"DSnoeck",
+    "displayName":"Snoeck, Damien"
+  },
+  "repository":{
+    "scmId":"git",
+    "project":{
+      "key":"~DSNOECK",
+      "name":"Snoeck, Damien"
+    },
+    "slug":"weblate-training",
+    "links":{
+      "self":[
+        {
+          "href":"https://bitbucket.example.com/weblate-training/browse"
+        }
+      ]
+    },
+    "fullName":"~DSNOECK/weblate-training",
+    "public":false,
+    "ownerName":"~DSNOECK",
+    "owner":{
+      "username":"~DSNOECK",
+      "displayName":"~DSNOECK"
+    }
+  },
+  "push":{
+    "changes":[
+      {
+        "created":false,
+        "closed":false,
+        "old":{
+          "type":"branch",
+          "name":"develop",
+          "target":{
+            "type":"commit",
+            "hash":"2b44604898704e301a07dda936158a7ae96b1ab6"
+          }
+        },
+        "new":{
+          "type":"branch",
+          "name":"develop",
+          "target":{
+            "type":"commit",
+            "hash":"5371124bf9db76cd6c9386048ef3e821d1f59ff3"
+          }
+        }
+      }
+    ]
+  }
+}
+'''
+
 BITBUCKET_PAYLOAD_WEBHOOK_CLOSED = r'''
 {
   "actor": {
@@ -357,24 +459,24 @@ BITBUCKET_PAYLOAD_WEBHOOK_CLOSED = r'''
 
 class HooksViewTest(ViewTestCase):
     @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
-    def test_view_hook_project(self):
+    def test_hook_project(self):
         response = self.client.get(
             reverse('hook-project', kwargs=self.kw_project)
         )
         self.assertContains(response, 'Update triggered')
 
     @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
-    def test_view_hook_subproject(self):
+    def test_hook_component(self):
         response = self.client.get(
-            reverse('hook-subproject', kwargs=self.kw_subproject)
+            reverse('hook-component', kwargs=self.kw_component)
         )
         self.assertContains(response, 'Update triggered')
 
     @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
-    def test_view_hook_github_exists(self):
+    def test_hook_github_exists(self):
         # Adjust matching repo
-        self.subproject.repo = 'git://github.com/defunkt/github.git'
-        self.subproject.save()
+        self.component.repo = 'git://github.com/defunkt/github.git'
+        self.component.save()
         response = self.client.post(
             reverse('hook-github'),
             {'payload': GITHUB_PAYLOAD}
@@ -382,10 +484,29 @@ class HooksViewTest(ViewTestCase):
         self.assertContains(response, 'Update triggered')
 
     @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
-    def test_view_hook_github_auth(self):
+    def test_hook_github_new(self):
         # Adjust matching repo
-        self.subproject.repo = 'https://user:pwd@github.com/defunkt/github.git'
-        self.subproject.save()
+        self.component.repo = 'git://github.com/defunkt/github.git'
+        self.component.save()
+        response = self.client.post(
+            reverse('hook-github'),
+            {'payload': GITHUB_NEW_PAYLOAD}
+        )
+        self.assertContains(response, 'Update triggered')
+
+    @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
+    def test_hook_github_ping(self):
+        response = self.client.post(
+            reverse('hook-github'),
+            {'payload': '{"zen": "Approachable is better than simple."}'}
+        )
+        self.assertContains(response, 'Hook working')
+
+    @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
+    def test_hook_github_auth(self):
+        # Adjust matching repo
+        self.component.repo = 'https://user:pwd@github.com/defunkt/github.git'
+        self.component.save()
         response = self.client.post(
             reverse('hook-github'),
             {'payload': GITHUB_PAYLOAD}
@@ -393,10 +514,10 @@ class HooksViewTest(ViewTestCase):
         self.assertContains(response, 'Update triggered')
 
     @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
-    def test_view_hook_github_disabled(self):
+    def test_hook_github_disabled(self):
         # Adjust matching repo
-        self.subproject.repo = 'git://github.com/defunkt/github.git'
-        self.subproject.save()
+        self.component.repo = 'git://github.com/defunkt/github.git'
+        self.component.save()
         self.project.enable_hooks = False
         self.project.save()
         response = self.client.post(
@@ -406,7 +527,7 @@ class HooksViewTest(ViewTestCase):
         self.assertContains(response, 'No matching repositories found!')
 
     @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
-    def test_view_hook_github(self):
+    def test_hook_github(self):
         response = self.client.post(
             reverse('hook-github'),
             {'payload': GITHUB_PAYLOAD}
@@ -414,7 +535,7 @@ class HooksViewTest(ViewTestCase):
         self.assertContains(response, 'No matching repositories found!')
 
     @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
-    def test_view_hook_gitlab(self):
+    def test_hook_gitlab(self):
         response = self.client.post(
             reverse('hook-gitlab'), GITLAB_PAYLOAD,
             content_type="application/json"
@@ -422,7 +543,15 @@ class HooksViewTest(ViewTestCase):
         self.assertContains(response, 'No matching repositories found!')
 
     @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
-    def test_view_hook_bitbucket_git(self):
+    def test_hook_bitbucket_ping(self):
+        response = self.client.post(
+            reverse('hook-bitbucket'),
+            HTTP_X_EVENT_KEY='diagnostics:ping',
+        )
+        self.assertContains(response, 'Hook working')
+
+    @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
+    def test_hook_bitbucket_git(self):
         response = self.client.post(
             reverse('hook-bitbucket'),
             {'payload': BITBUCKET_PAYLOAD_GIT}
@@ -430,7 +559,7 @@ class HooksViewTest(ViewTestCase):
         self.assertContains(response, 'No matching repositories found!')
 
     @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
-    def test_view_hook_bitbucket_hg(self):
+    def test_hook_bitbucket_hg(self):
         response = self.client.post(
             reverse('hook-bitbucket'),
             {'payload': BITBUCKET_PAYLOAD_HG}
@@ -438,7 +567,7 @@ class HooksViewTest(ViewTestCase):
         self.assertContains(response, 'No matching repositories found!')
 
     @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
-    def test_view_hook_bitbucket_hg_no_commit(self):
+    def test_hook_bitbucket_hg_no_commit(self):
         response = self.client.post(
             reverse('hook-bitbucket'),
             {'payload': BITBUCKET_PAYLOAD_HG_NO_COMMIT}
@@ -446,7 +575,7 @@ class HooksViewTest(ViewTestCase):
         self.assertContains(response, 'No matching repositories found!')
 
     @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
-    def test_view_hook_bitbucket_webhook(self):
+    def test_hook_bitbucket_webhook(self):
         response = self.client.post(
             reverse('hook-bitbucket'),
             {'payload': BITBUCKET_PAYLOAD_WEBHOOK}
@@ -454,7 +583,15 @@ class HooksViewTest(ViewTestCase):
         self.assertContains(response, 'No matching repositories found!')
 
     @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
-    def test_view_hook_bitbucket_webhook_closed(self):
+    def test_hook_bitbucket_hosted(self):
+        response = self.client.post(
+            reverse('hook-bitbucket'),
+            {'payload': BITBUCKET_PAYLOAD_HOSTED}
+        )
+        self.assertContains(response, 'No matching repositories found!')
+
+    @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
+    def test_hook_bitbucket_webhook_closed(self):
         response = self.client.post(
             reverse('hook-bitbucket'),
             {'payload': BITBUCKET_PAYLOAD_WEBHOOK_CLOSED}
@@ -493,7 +630,7 @@ class HooksViewTest(ViewTestCase):
         )
         self.assertEqual(response.status_code, 405)
         response = self.client.get(
-            reverse('hook-subproject', kwargs=self.kw_subproject)
+            reverse('hook-component', kwargs=self.kw_component)
         )
         self.assertEqual(response.status_code, 405)
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -22,14 +22,27 @@ from __future__ import unicode_literals
 
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.http import require_POST
-from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 
 from weblate.trans.models.change import Change
 from weblate.trans.forms import ReportsForm
-from weblate.trans.views.helper import get_subproject
-from weblate.permissions.helpers import can_view_reports
+from weblate.trans.util import redirect_param
+from weblate.trans.views.helper import get_component, show_form_errors
+
+
+RST_HEADING = ' '.join([
+    '=' * 40,
+    '=' * 40,
+    '=' * 12,
+    '=' * 12,
+    '=' * 12,
+    '=' * 12,
+    '=' * 12,
+    '=' * 12,
+])
+
+HTML_HEADING = '<table>\n<tr>{0}</tr>'
 
 
 def generate_credits(component, start_date, end_date):
@@ -51,17 +64,18 @@ def generate_credits(component, start_date, end_date):
 
 @login_required
 @require_POST
-def get_credits(request, project, subproject):
+def get_credits(request, project, component):
     """View for credits"""
-    obj = get_subproject(request, project, subproject)
+    obj = get_component(request, project, component)
 
-    if not can_view_reports(request.user, obj.project):
+    if not request.user.has_perm('reports.view', obj):
         raise PermissionDenied()
 
     form = ReportsForm(request.POST)
 
     if not form.is_valid():
-        return redirect(obj)
+        show_form_errors(request, form)
+        return redirect_param(obj, '#reports')
 
     data = generate_credits(
         obj,
@@ -130,38 +144,48 @@ def generate_counts(component, start_date, end_date):
             translation=translation,
             timestamp__range=(start_date, end_date),
         ).values_list(
-            'author__email', 'author__first_name', 'unit__num_words',
+            'author__email', 'author__full_name', 'unit__num_words', 'action',
         )
-        for email, name, words in authors:
+        for email, name, words, action in authors:
             if words is None:
                 continue
             if email not in result:
                 result[email] = {
                     'name': name,
                     'email': email,
-                    'words': words,
-                    'count': 1,
+                    'words': 0,
+                    'count': 0,
+                    'words_new': 0,
+                    'count_new': 0,
+                    'words_edit': 0,
+                    'count_edit': 0,
                 }
+            result[email]['words'] += words
+            result[email]['count'] += 1
+            if action == Change.ACTION_NEW:
+                result[email]['words_new'] += words
+                result[email]['count_new'] += 1
             else:
-                result[email]['words'] += words
-                result[email]['count'] += 1
+                result[email]['words_edit'] += words
+                result[email]['count_edit'] += 1
 
     return list(result.values())
 
 
 @login_required
 @require_POST
-def get_counts(request, project, subproject):
+def get_counts(request, project, component):
     """View for work counts"""
-    obj = get_subproject(request, project, subproject)
+    obj = get_component(request, project, component)
 
-    if not can_view_reports(request.user, obj.project):
+    if not request.user.has_perm('reports.view', obj):
         raise PermissionDenied()
 
     form = ReportsForm(request.POST)
 
     if not form.is_valid():
-        return redirect(obj)
+        show_form_errors(request, form)
+        return redirect_param(obj, '#reports')
 
     data = generate_counts(
         obj,
@@ -172,36 +196,38 @@ def get_counts(request, project, subproject):
     if form.cleaned_data['style'] == 'json':
         return JsonResponse(data=data, safe=False)
 
+    headers = (
+        'Name',
+        'Email',
+        'Words total',
+        'Count total',
+        'Words edited',
+        'Count edited',
+        'Words new',
+        'Count new',
+    )
+
     if form.cleaned_data['style'] == 'html':
-        start = (
-            '<table>\n<tr><th>Name</th><th>Email</th>'
-            '<th>Words</th><th>Count</th></tr>'
+        start = HTML_HEADING.format(
+            ''.join(['<th>{0}</th>'.format(h) for h in headers])
         )
         row_start = '<tr>'
-        cell_name = cell_email = cell_words = cell_count = '<td>{0}</td>\n'
+        cell_name = cell_count = '<td>{0}</td>\n'
         row_end = '</tr>'
         mime = 'text/html'
         end = '</table>'
     else:
-        heading = ' '.join([
-            '=' * 40,
-            '=' * 40,
-            '=' * 10,
-            '=' * 10,
-        ])
-        start = '{0}\n{1:40} {2:40} {3:10} {4:10}\n{0}'.format(
-            heading,
-            'Name',
-            'Email',
-            'Words',
-            'Count'
+        start = '{0}\n{1} {2}\n{0}'.format(
+            RST_HEADING,
+            ' '.join(['{0:40}'.format(h) for h in headers[:2]]),
+            ' '.join(['{0:12}'.format(h) for h in headers[2:]]),
         )
         row_start = ''
-        cell_name = cell_email = '{0:40} '
-        cell_words = cell_count = '{0:10} '
+        cell_name = '{0:40} '
+        cell_count = '{0:12} '
         row_end = ''
         mime = 'text/plain'
-        end = heading
+        end = RST_HEADING
 
     result = []
 
@@ -211,12 +237,16 @@ def get_counts(request, project, subproject):
         if row_start:
             result.append(row_start)
         result.append(
-            '{0}{1}{2}{3}'.format(
+            ''.join((
                 cell_name.format(item['name']),
-                cell_email.format(item['email']),
-                cell_words.format(item['words']),
+                cell_name.format(item['email']),
+                cell_count.format(item['words']),
                 cell_count.format(item['count']),
-            )
+                cell_count.format(item['words_new']),
+                cell_count.format(item['count_new']),
+                cell_count.format(item['words_edit']),
+                cell_count.format(item['count_edit']),
+            ))
         )
         if row_end:
             result.append(row_end)

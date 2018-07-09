@@ -1,5 +1,6 @@
 {% extends "admin/index.html" %}
 {% load i18n %}
+{% load static %}
 
 {% block content %}
 <div id="content-extra" style="float: left; width: 100%;">
@@ -22,7 +23,12 @@
         </tr>
 
         <tr>
-            <th scope="row"><a href="{% url 'admin:performance' %}">{% trans "Performance report" %}</a></th>
+            <th scope="row"><a href="{% url 'admin:performance' %}">
+            {% if configuration_errors.exists %}
+            <img src="{% static 'admin/img/icon-alert.svg' %}" />
+            {% endif %}
+            {% trans "Performance report" %}
+            </a></th>
             <th></th>
             <th></th>
         </tr>

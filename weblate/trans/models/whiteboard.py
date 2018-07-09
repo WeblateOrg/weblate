@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -29,33 +29,34 @@ from weblate.lang.models import Language
 
 
 class WhiteboardManager(models.Manager):
-    def context_filter(self, project=None, subproject=None, language=None):
+    def context_filter(self, project=None, component=None, language=None):
         """Filter whiteboard messages by context."""
         base = self.all()
 
-        if language and project is None and subproject is None:
+        if language and project is None and component is None:
             return base.filter(
-                project=None, subproject=None, language=language
+                project=None, component=None, language=language
             )
 
-        if subproject:
+        if component:
             if language:
                 return base.filter(
                     Q(language=language) |
-                    Q(subproject=subproject) |
-                    Q(project=subproject.project)
+                    Q(component=component) |
+                    (Q(project=component.project) & Q(component=None))
                 )
 
             return base.filter(
-                Q(subproject=subproject) | Q(project=subproject.project)
+                Q(component=component) |
+                (Q(project=component.project) & Q(component=None))
             )
 
         if project:
-            return base.filter(Q(project=project) & Q(subproject=None))
+            return base.filter(Q(project=project) & Q(component=None))
 
         # All are None
         return base.filter(
-            project=None, subproject=None, language=None
+            project=None, component=None, language=None
         )
 
 
@@ -64,24 +65,36 @@ class WhiteboardMessage(models.Model):
     message = models.TextField(
         verbose_name=ugettext_lazy('Message'),
     )
+    message_html = models.BooleanField(
+        verbose_name=ugettext_lazy('Render as HTML'),
+        help_text=ugettext_lazy(
+            'When disabled, URLs will be converted to links and '
+            'any markup will be escaped.'
+        ),
+        blank=True,
+        default=False,
+    )
 
     project = models.ForeignKey(
         'Project',
         verbose_name=ugettext_lazy('Project'),
         null=True,
         blank=True,
+        on_delete=models.deletion.CASCADE,
     )
-    subproject = models.ForeignKey(
-        'SubProject',
+    component = models.ForeignKey(
+        'Component',
         verbose_name=ugettext_lazy('Component'),
         null=True,
-        blank=True
+        blank=True,
+        on_delete=models.deletion.CASCADE,
     )
     language = models.ForeignKey(
         Language,
         verbose_name=ugettext_lazy('Language'),
         null=True,
-        blank=True
+        blank=True,
+        on_delete=models.deletion.CASCADE,
     )
     category = models.CharField(
         max_length=25,
@@ -110,10 +123,10 @@ class WhiteboardMessage(models.Model):
         return self.message
 
     def clean(self):
-        if (self.project and self.subproject
-                and self.subproject.project != self.project):
+        if (self.project and self.component
+                and self.component.project != self.project):
             raise ValidationError(
                 _('Do not specify both component and project!')
             )
-        if not self.project and self.subproject:
-            self.project = self.subproject.project
+        if not self.project and self.component:
+            self.project = self.component.project

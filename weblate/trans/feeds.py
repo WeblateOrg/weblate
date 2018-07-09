@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -22,18 +22,18 @@ from django.conf import settings
 from django.contrib.syndication.views import Feed
 from django.utils.translation import ugettext as _
 from django.shortcuts import get_object_or_404
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from weblate.trans.models import Change
 from weblate.lang.models import Language
 from weblate.trans.views.helper import (
-    get_translation, get_subproject, get_project
+    get_translation, get_component, get_project
 )
 
 
 class ChangesFeed(Feed):
     """Generic RSS feed for Weblate changes."""
-    def get_object(self, request):
+    def get_object(self, request, *args, **kwargs):
         return request.user
 
     def title(self):
@@ -67,10 +67,10 @@ class TranslationChangesFeed(ChangesFeed):
     """RSS feed for changes in translation."""
 
     # Arguments number differs from overridden method
-    # pylint: disable=W0221
+    # pylint: disable=arguments-differ
 
-    def get_object(self, request, project, subproject, lang):
-        return get_translation(request, project, subproject, lang)
+    def get_object(self, request, project, component, lang):
+        return get_translation(request, project, component, lang)
 
     def title(self, obj):
         return _('Recent changes in %s') % obj
@@ -87,18 +87,18 @@ class TranslationChangesFeed(ChangesFeed):
         )[:10]
 
 
-class SubProjectChangesFeed(TranslationChangesFeed):
-    """RSS feed for changes in subproject."""
+class ComponentChangesFeed(TranslationChangesFeed):
+    """RSS feed for changes in component."""
 
     # Arguments number differs from overridden method
-    # pylint: disable=W0221
+    # pylint: disable=arguments-differ
 
-    def get_object(self, request, project, subproject):
-        return get_subproject(request, project, subproject)
+    def get_object(self, request, project, component):
+        return get_component(request, project, component)
 
     def items(self, obj):
         return Change.objects.filter(
-            translation__subproject=obj
+            translation__component=obj
         )[:10]
 
 
@@ -106,14 +106,14 @@ class ProjectChangesFeed(TranslationChangesFeed):
     """RSS feed for changes in project."""
 
     # Arguments number differs from overridden method
-    # pylint: disable=W0221
+    # pylint: disable=arguments-differ
 
     def get_object(self, request, project):
         return get_project(request, project)
 
     def items(self, obj):
         return Change.objects.filter(
-            translation__subproject__project=obj
+            translation__component__project=obj
         )[:10]
 
 
@@ -121,7 +121,7 @@ class LanguageChangesFeed(TranslationChangesFeed):
     """RSS feed for changes in language."""
 
     # Arguments number differs from overridden method
-    # pylint: disable=W0221
+    # pylint: disable=arguments-differ
 
     def get_object(self, request, lang):
         return get_object_or_404(Language, code=lang)

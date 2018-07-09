@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -22,9 +22,9 @@ from functools import update_wrapper
 
 from django.conf import settings
 from django.conf.urls import url
+from django.contrib import admin
 from django.contrib.admin import AdminSite
-from django.contrib.auth.models import User, Group
-from django.contrib.auth.views import logout
+from django.contrib.auth.views import LogoutView
 from django.contrib.sites.admin import SiteAdmin
 from django.contrib.sites.models import Site
 from django.shortcuts import render
@@ -42,29 +42,34 @@ from social_django.admin import (
 from social_django.models import UserSocialAuth, Nonce, Association
 
 from weblate.accounts.admin import (
-    WeblateUserAdmin, WeblateGroupAdmin, ProfileAdmin, VerifiedEmailAdmin,
-    AuditLogAdmin,
+    ProfileAdmin, VerifiedEmailAdmin, AuditLogAdmin,
 )
 from weblate.accounts.forms import LoginForm
 from weblate.accounts.models import Profile, VerifiedEmail, AuditLog
+from weblate.auth.admin import (
+    WeblateUserAdmin, WeblateGroupAdmin, AutoGroupAdmin, RoleAdmin,
+)
+from weblate.auth.models import User, Group, Role, AutoGroup
+from weblate.checks.admin import CheckAdmin
+from weblate.checks.models import Check
 from weblate.lang.admin import LanguageAdmin
 from weblate.lang.models import Language
-from weblate.permissions.admin import AutoGroupAdmin, GroupACLAdmin
-from weblate.permissions.models import AutoGroup, GroupACL
 from weblate.screenshots.admin import ScreenshotAdmin
 from weblate.screenshots.models import Screenshot
 from weblate.trans.admin import (
-    ProjectAdmin, SubProjectAdmin, TranslationAdmin, AdvertisementAdmin,
-    UnitAdmin, SuggestionAdmin, CommentAdmin, CheckAdmin, DictionaryAdmin,
+    ProjectAdmin, ComponentAdmin, TranslationAdmin,
+    UnitAdmin, SuggestionAdmin, CommentAdmin, DictionaryAdmin,
     ChangeAdmin, SourceAdmin, WhiteboardMessageAdmin, ComponentListAdmin,
+    ContributorAgreementAdmin,
 )
 from weblate.trans.models import (
-    Project, SubProject, Translation, Advertisement,
-    Unit, Suggestion, Comment, Check, Dictionary, Change,
+    Project, Component, Translation, ContributorAgreement,
+    Unit, Suggestion, Comment, Dictionary, Change,
     Source, WhiteboardMessage, ComponentList,
 )
 from weblate.utils import messages
 import weblate.wladmin.views
+from weblate.wladmin.models import ConfigurationError
 
 
 class WeblateAdminSite(AdminSite):
@@ -77,27 +82,25 @@ class WeblateAdminSite(AdminSite):
         """Manual discovery."""
         # Accounts
         self.register(User, WeblateUserAdmin)
+        self.register(Role, RoleAdmin)
         self.register(Group, WeblateGroupAdmin)
         self.register(AuditLog, AuditLogAdmin)
+        self.register(AutoGroup, AutoGroupAdmin)
         self.register(Profile, ProfileAdmin)
         self.register(VerifiedEmail, VerifiedEmailAdmin)
 
         # Languages
         self.register(Language, LanguageAdmin)
 
-        # Permissions
-        self.register(GroupACL, GroupACLAdmin)
-        self.register(AutoGroup, AutoGroupAdmin)
-
         # Screenshots
         self.register(Screenshot, ScreenshotAdmin)
 
-        # Transaltions
+        # Translations
         self.register(Project, ProjectAdmin)
-        self.register(SubProject, SubProjectAdmin)
-        self.register(Advertisement, AdvertisementAdmin)
+        self.register(Component, ComponentAdmin)
         self.register(WhiteboardMessage, WhiteboardMessageAdmin)
         self.register(ComponentList, ComponentListAdmin)
+        self.register(ContributorAgreement, ContributorAgreementAdmin)
 
         # Show some controls only in debug mode
         if settings.DEBUG and False:
@@ -112,7 +115,7 @@ class WeblateAdminSite(AdminSite):
 
         # Billing
         if 'weblate.billing' in settings.INSTALLED_APPS:
-            # pylint: disable=C0413
+            # pylint: disable=wrong-import-position
             from weblate.billing.admin import (
                 PlanAdmin, BillingAdmin, InvoiceAdmin,
             )
@@ -123,7 +126,7 @@ class WeblateAdminSite(AdminSite):
 
         # Legal
         if 'weblate.legal' in settings.INSTALLED_APPS:
-            # pylint: disable=C0413
+            # pylint: disable=wrong-import-position
             from weblate.legal.admin import AgreementAdmin
             from weblate.legal.models import Agreement
             self.register(Agreement, AgreementAdmin)
@@ -143,7 +146,10 @@ class WeblateAdminSite(AdminSite):
     def logout(self, request, extra_context=None):
         if request.method == 'POST':
             messages.info(request, _('Thanks for using Weblate!'))
-            return logout(request, next_page=reverse('admin:login'))
+            request.current_app = self.name
+            return LogoutView.as_view(
+                next_page=reverse('admin:login')
+            )(request)
         context = self.each_context(request)
         context['title'] = _('Logout')
         return render(request, 'admin/logout-confirm.html', context)
@@ -153,6 +159,9 @@ class WeblateAdminSite(AdminSite):
         empty = [_('Object listing disabled')]
         result['empty_selectable_objects_list'] = [empty]
         result['empty_objects_list'] = empty
+        result['configuration_errors'] = ConfigurationError.objects.filter(
+            ignored=False
+        )
         return result
 
     def get_urls(self):
@@ -183,6 +192,11 @@ class WeblateAdminSite(AdminSite):
         ]
         return urls
 
+    @property
+    def urls(self):
+        return self.get_urls()
+
 
 SITE = WeblateAdminSite()
 SITE.discover()
+admin.site = SITE

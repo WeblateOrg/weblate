@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load translations %}
 {% load crispy_forms_tags %}
+{% load permissions %}
 
 {% block breadcrumbs %}
 <li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
@@ -10,10 +11,10 @@
 
 {% block content %}
 
+{% if object.access_control != object.ACCESS_CUSTOM %}
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">
-    {% doc_url 'admin/access' 'groups' as groups_doc_url %}
-    <a class="pull-right flip" href="{{ groups_doc_url }}"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+    {% documentation_icon 'admin/access' 'groups' right=True %}
   {% trans "Users" %}
   </h4></div>
   <table class="table table-striped">
@@ -23,15 +24,15 @@
   <th>{% trans "Full name" %}</th>
   <th>{% trans "E-mail" %}</th>
   {% for group in groups %}
-  <th>{{ group.1 }}</th>
+  <th>{{ group.short_name }}</th>
   {% endfor %}
   </tr>
   </thead>
   <tbody>
-{% for user in object.all_users %}
+{% for user in all_users %}
   <tr>
   <td>{{ user.username }}</td>
-  <td>{{ user.first_name }}</td>
+  <td>{{ user.full_name }}</td>
   <td>{{ user.email }}</td>
   {% user_permissions user groups %}
   <td>
@@ -49,7 +50,7 @@
   </tbody>
   </table>
   <div class="panel-body">
-  <p class="helptext">{% trans "The user will be removed from the project once you remove last user permission." %}</p>
+  <p class="helptext">{% trans "The user will be removed from the project once all user permissions are removed." %}</p>
   </div>
 </div>
 
@@ -71,5 +72,37 @@
   </div>
 </div>
 </form>
+{% else %}
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">
+    {% documentation_icon 'admin/access' 'groups' right=True %}
+  {% trans "Users" %}
+  </h4></div>
+  <div class="panel-body">
+  <p class="helptext">{% trans "The user management in Weblate is disabled, you can change permissions in the Django admin interface." %}</p>
+  </div>
+</div>
+{% endif %}
 
+{% perm 'billing:project.permissions' object as user_can_edit_access_control %}
+
+<form action="{% url "change-access" project=object.slug %}" method="post">
+{% csrf_token %}
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">
+    {% documentation_icon 'admin/access' 'acl' right=True %}
+  {% trans "Project access control" %}
+  </h4></div>
+  <div class="panel-body">
+  {% crispy access_form %}
+  </div>
+  <div class="panel-footer">
+{% if user_can_edit_access_control %}
+  <input type="submit" class="btn btn-default" value="{% trans "Change" %}" />
+{% else %}
+    <p class="helptext">{% trans "You do not have permission to change project access control." %}</p>
+{% endif %}
+  </div>
+</div>
+</form>
 {% endblock %}

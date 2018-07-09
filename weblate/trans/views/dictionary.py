@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -27,24 +27,20 @@ from django.utils.translation import ugettext as _, ungettext
 from django.http import JsonResponse
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator, EmptyPage
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.template.loader import render_to_string
 from django.utils.http import urlencode
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 
 from weblate.utils import messages
-from weblate.trans.exporters import get_exporter
+from weblate.formats.exporters import get_exporter
 from weblate.trans.models import Translation, Dictionary, Change, Unit
 from weblate.lang.models import Language
-from weblate.trans.site import get_site_url
+from weblate.utils.site import get_site_url
 from weblate.utils.errors import report_error
 from weblate.trans.util import render, redirect_next, redirect_param
 from weblate.trans.forms import WordForm, DictUploadForm, LetterForm
-from weblate.permissions.helpers import (
-    can_add_dictionary, can_upload_dictionary, can_delete_dictionary,
-    can_change_dictionary, check_access,
-)
 from weblate.trans.views.helper import get_project, import_message
 from weblate.utils.views import get_page_limit
 
@@ -61,7 +57,7 @@ def dict_title(prj, lang):
 def show_dictionaries(request, project):
     obj = get_project(request, project)
     dicts = Translation.objects.filter(
-        subproject__project=obj
+        component__project=obj
     ).values_list('language', flat=True).distinct()
 
     return render(
@@ -78,7 +74,7 @@ def show_dictionaries(request, project):
 @never_cache
 def edit_dictionary(request, project, lang, pk):
     prj = get_project(request, project)
-    if not can_change_dictionary(request.user, prj):
+    if not request.user.has_perm('glossary.edit', prj):
         raise PermissionDenied()
     lang = get_object_or_404(Language, code=lang)
     word = get_object_or_404(
@@ -131,7 +127,7 @@ def edit_dictionary(request, project, lang, pk):
 @require_POST
 def delete_dictionary(request, project, lang, pk):
     prj = get_project(request, project)
-    if not can_delete_dictionary(request.user, prj):
+    if not request.user.has_perm('glossary.delete', prj):
         raise PermissionDenied()
 
     lang = get_object_or_404(Language, code=lang)
@@ -165,7 +161,7 @@ def delete_dictionary(request, project, lang, pk):
 @require_POST
 def upload_dictionary(request, project, lang):
     prj = get_project(request, project)
-    if not can_upload_dictionary(request.user, prj):
+    if not request.user.has_perm('glossary.upload', prj):
         raise PermissionDenied()
     lang = get_object_or_404(Language, code=lang)
 
@@ -243,16 +239,16 @@ def download_dictionary(request, project, lang):
 
 def add_dictionary(request, unit_id):
     unit = get_object_or_404(Unit, pk=int(unit_id))
-    check_access(request, unit.translation.subproject.project)
+    request.user.check_access(unit.translation.component.project)
 
-    prj = unit.translation.subproject.project
+    prj = unit.translation.component.project
     lang = unit.translation.language
 
     code = 403
     results = ''
     words = []
 
-    if request.method == 'POST' and can_add_dictionary(request.user, prj):
+    if request.method == 'POST' and request.user.has_perm('glossary.add', prj):
         form = WordForm(request.POST)
         if form.is_valid():
             word = Dictionary.objects.create(
@@ -291,7 +287,7 @@ def show_dictionary(request, project, lang):
     prj = get_project(request, project)
     lang = get_object_or_404(Language, code=lang)
 
-    if request.method == 'POST' and can_add_dictionary(request.user, prj):
+    if request.method == 'POST' and request.user.has_perm('glossary.add', prj):
         form = WordForm(request.POST)
         if form.is_valid():
             Dictionary.objects.create(

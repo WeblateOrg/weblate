@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -19,8 +19,8 @@
 #
 
 from django.contrib.sitemaps import Sitemap
-from django.core.urlresolvers import reverse
-from weblate.trans.models import Project, SubProject, Translation, Change
+from django.urls import reverse
+from weblate.trans.models import Project, Component, Translation, Change
 
 
 class PagesSitemap(Sitemap):
@@ -30,8 +30,8 @@ class PagesSitemap(Sitemap):
             ('/about/', 0.8, 'daily'),
         )
 
-    def location(self, item):
-        return item[0]
+    def location(self, obj):
+        return obj[0]
 
     def lastmod(self, item):
         return Change.objects.values_list('timestamp', flat=True)[0]
@@ -67,7 +67,7 @@ class ComponentSitemap(WeblateSitemap):
     priority = 0.6
 
     def items(self):
-        return SubProject.objects.prefetch().filter(
+        return Component.objects.prefetch().filter(
             project__access_control__lt=Project.ACCESS_PRIVATE
         )
 
@@ -77,7 +77,7 @@ class TranslationSitemap(WeblateSitemap):
 
     def items(self):
         return Translation.objects.prefetch().filter(
-            subproject__project__access_control__lt=Project.ACCESS_PRIVATE
+            component__project__access_control__lt=Project.ACCESS_PRIVATE
         )
 
 
@@ -94,7 +94,7 @@ class EngageLangSitemap(Sitemap):
     priority = 0.9
 
     def items(self):
-        """Return list of existing project, langauge tuples."""
+        """Return list of existing project, language tuples."""
         ret = []
         projects = Project.objects.filter(
             access_control__lt=Project.ACCESS_PRIVATE
@@ -104,10 +104,10 @@ class EngageLangSitemap(Sitemap):
                 ret.append((project, lang))
         return ret
 
-    def location(self, item):
+    def location(self, obj):
         return reverse(
             'engage',
-            kwargs={'project': item[0].slug, 'lang': item[1].code}
+            kwargs={'project': obj[0].slug, 'lang': obj[1].code}
         )
 
 
@@ -115,7 +115,7 @@ SITEMAPS = {
     'project': ProjectSitemap(),
     'engage': EngageSitemap(),
     'engagelang': EngageLangSitemap(),
-    'subproject': ComponentSitemap(),
+    'component': ComponentSitemap(),
     'translation': TranslationSitemap(),
     'pages': PagesSitemap(),
 }

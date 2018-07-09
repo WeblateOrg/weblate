@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -22,7 +22,7 @@
 
 from __future__ import unicode_literals
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.models import Dictionary
@@ -33,6 +33,58 @@ TEST_CSV = get_test_file('terms.csv')
 TEST_CSV_HEADER = get_test_file('terms-header.csv')
 TEST_PO = get_test_file('terms.po')
 
+LONG = '''
+
+<div><b>Game Settings</b> can be found by pressing your device's
+Menu Button.</div>
+
+<p>________________</p>
+<h1>Interface Icons</h1>
+
+<div><b>The Chest</b><img alt=chest src=chest.png /></div>
+<p>Quickslots [Long press the pouches inside to assign items for instant
+use]</p>
+
+<div><b>The Hero</b><img alt=hero src=char_hero.png /></div>
+<p>Menu [Overview, Quests, Skills &amp; Inventory *]</p>
+<p>* (While in inventory, press an item for information &amp; long press for
+more options)</p>
+
+<div><b>The Enemy</b><img alt=monster src=monster.png /></div>
+<p>Information [Appears during Combat]</p>
+
+
+
+<p>________________</p>
+<h1>Combat</h1>
+
+<p>Actions taken during battle cost AP...</p>
+
+<div><b>Attacking</b> - [3AP] *</div>
+<img alt=attacking src=doubleattackexample.png />
+<p>* (Equipping Gear &amp; Using Items may alter AP &amp; usage cost)</p>
+
+<div><b>Using Items</b> - [5AP]</div>
+<div><b>Fleeing</b> - [6AP]</div>
+
+
+
+<p>________________</p>
+<h1>Advanced Combat</h1>
+
+<div>During Combat, long press a tile adjacent to the Hero...</div>
+
+<div><b>To Flee</b></div>
+<p>(chosen tile is highlighted - Attack Button changes to Move)</p>
+<img alt=flee src=flee_example.png />
+<p>[flee mode activated - Long press enemy to re-enter combat]</p>
+
+<div><b>To Change Targets</b></div>
+<p>(the red target highlight shifts between enemies)</p>
+<p>[the target has been changed]</p>
+
+'''
+
 
 class DictionaryTest(FixtureTestCase):
     """Testing of dictionary manipulations."""
@@ -40,7 +92,7 @@ class DictionaryTest(FixtureTestCase):
     def get_url(self, url, **kwargs):
         kwargs.update({
             'lang': 'cs',
-            'project': self.subproject.project.slug,
+            'project': self.component.project.slug,
         })
         return reverse(url, kwargs=kwargs)
 
@@ -317,6 +369,16 @@ class DictionaryTest(FixtureTestCase):
         self.assertEqual(
             Dictionary.objects.get_words(unit).count(),
             4
+        )
+
+    def test_get_long(self):
+        """Test parsing long source string."""
+        unit = self.get_unit()
+        unit.source = LONG
+        unit.save(backend=True)
+        self.assertEqual(
+            Dictionary.objects.get_words(unit).count(),
+            0
         )
 
     def test_get_dash(self):

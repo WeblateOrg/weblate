@@ -36,6 +36,8 @@ Weblate
 .. image:: https://img.shields.io/pypi/v/Weblate.svg
     :target: https://pypi.python.org/pypi/Weblate
 
+.. image:: https://www.codetriage.com/weblateorg/weblate/badges/users.svg
+    :target: https://www.codetriage.com/weblateorg/weblate
 .. image:: https://img.shields.io/badge/docs-latest-brightgreen.svg?style=flat
     :alt: Documentation
     :target: https://docs.weblate.org/
@@ -85,7 +87,7 @@ Please report bugs to https://github.com/WeblateOrg/weblate/issues.
 License
 -------
 
-Copyright (C) 2012 - 2017 Michal Čihař michal@cihar.com
+Copyright (C) 2012 - 2018 Michal Čihař michal@cihar.com
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software

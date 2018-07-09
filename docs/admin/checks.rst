@@ -6,19 +6,19 @@ Checks and fixups
 Custom automatic fixups
 -----------------------
 
-You can also implement own automatic fixup in addition to standard ones and
+You can also implement your own automatic fixup in addition to the standard ones and
 include them in :setting:`AUTOFIX_LIST`.
 
-The automatic fixes are powerful, but can also cause damage, be careful when
+The automatic fixes are powerful, but can also cause damage;  be careful when
 writing one.
 
-For example following automatic fixup would replace every occurrence of string
+For example, the following automatic fixup would replace every occurrence of string
 ``foo`` in translation with ``bar``:
 
 .. literalinclude:: ../../examples/fix_foo.py
     :language: python
 
-To install custom checks, you need to provide fully-qualified path to Python class
+To install custom checks, you need to provide a fully-qualified path to the Python class
 in the :setting:`AUTOFIX_LIST`, see :ref:`custom-modules`.
 
 .. _custom-checks:
@@ -31,26 +31,16 @@ Fine tuning existing checks
 
 You can fine tune checks for each source string (in source strings review, see
 :ref:`additional`) or in the :ref:`component` (:guilabel:`Quality checks
-flags`), here is current list of flags accepted:
+flags`); here is a list of flags currently accepted:
 
-``skip-review-flag``
-    Ignore whether unit is marked for review when importing from VCS. This 
-    can be useful for :ref:`xliff`.
-``add-source-review``
-    Whether to mark all new string in source language for review. This can
-    be useful if you want to proofread the source language. This flag has no
-    meaning for bilingual translations.
-``add-review``
-    Whether to mark all new string for review. This can be useful if you want
-    to proofread the translations done by developers.
 ``rst-text``
-    Treat text as RST document, affects :ref:`check-same`.
+    Treat text as RST document, effects :ref:`check-same`.
 ``max-length:N``
     Limit maximal length for string to N chars, see :ref:`check-max-length`
 ``xml-text``
     Treat text as XML document, affects :ref:`check-xml-invalid` and :ref:`check-xml-tags`.
 ``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, ``javascript-format``
-    Treats all string like format strings, affects :ref:`check-python-format`,
+    Treats all strings like format strings, affects :ref:`check-python-format`,
     :ref:`check-c-format`, :ref:`check-php-format`,
     :ref:`check-python-brace-format`, :ref:`check-javascript-format`, :ref:`check-same`.
 ``ignore-end-space``
@@ -122,18 +112,18 @@ Writing own checks
 Weblate comes with wide range of quality checks (see :ref:`checks`), though
 they might not 100% cover all you want to check. The list of performed checks
 can be adjusted using :setting:`CHECK_LIST` and you can also add custom checks.
-All you need to do is to subclass `weblate.trans.checks.Check`, set few
+All you need to do is to subclass `weblate.checks.Check`, set few
 attributes and implement either ``check`` or ``check_single`` methods (first
 one if you want to deal with plurals in your code, the latter one does this for
 you). You will find below some examples.
 
-To install custom checks, you need to provide fully-qualified path to Python class
+To install custom checks, you need to provide a fully-qualified path to the Python class
 in the :setting:`CHECK_LIST`, see :ref:`custom-modules`.
 
 Checking translation text does not contain "foo"
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This is pretty simple check which just checks whether translation does not
+This is a pretty simple check which just checks whether translation does not
 contain string "foo".
 
 .. literalinclude:: ../../examples/check_foo.py
@@ -157,24 +147,24 @@ You have implemented code for :ref:`custom-autofix` or :ref:`custom-checks` and
 now it's time to install it into Weblate. That can be achieved by adding its
 fully-qualified path to Python class to appropriate settings.
 
-This means that the module with class needs to be placed somewhere where Python
+This means that the module with class needs to be placed somewhere where the Python
 interpreter can import it - either in system path (usually something like
 :file:`/usr/lib/python2.7/site-packages/`) or in Weblate directory, which is
 also added to the interpreter search path.
 
-Assuming you've created :file:`mahongo.py` containing your custom quality check.
-You can place it among Weblate checks in :file:`weblate/trans/checks/` folder
+Assuming you've created :file:`mahongo.py` containing your custom quality check,
+you can place it among Weblate checks in :file:`weblate/trans/checks/` folder
 and then add it as following:
 
 .. code-block:: python
 
     CHECK_LIST = (
-        'weblate.trans.checks.mahongo.MahongoCheck',
+        'weblate.checks.mahongo.MahongoCheck',
     )
 
-As you can see, it's comma separated path to your module and class name.
+As you can see, it's a comma-separated path to your module and class name.
 
-Alternatively, you can create proper Python package out of your customization:
+Alternatively, you can create a proper Python package out of your customization:
 
 1. Place your Python module with check into folder which will match your 
    package name. We're using `weblate_custom_checks` in following examples.

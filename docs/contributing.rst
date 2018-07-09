@@ -105,7 +105,8 @@ Our issue tracker is hosted at GitHub:
 <https://github.com/WeblateOrg/weblate/issues>
 
 Feel welcome to report any issues or suggestions to improve Weblate there. In
-case you have found security issue in Weblate, please consult section below.
+case you have found a security issue in Weblate, please consult the "Security
+issues" section below.
 
 .. _security:
 
@@ -122,15 +123,15 @@ HackerOne as well.
 
 If you don't want to use HackerOne for whatever reason, you can send the report
 by email to michal@cihar.com. You can choose to encrypt it using his PGP key
-`9C27B31342B7511D`.
+`3CB 1DF1 EF12 CF2A C0EE  5A32 9C27 B313 42B7 511D`.
 
 .. note::
 
     We're heavily depending on third party components for many things.  In case
-    you find vulnerability which is affecting those components in general,
+    you find a vulnerability which is affecting those components in general,
     please report it directly to them.
 
-    See following sites for some of these:
+    Some of these are:
 
     * :doc:`Django <django:internals/security>`
     * `Django REST Framework <http://www.django-rest-framework.org/#security>`_
@@ -140,9 +141,16 @@ Starting with our codebase
 --------------------------
 
 If you are looking for some bugs which should be good for starting with our
-codebase, you can find them labelled with :guilabel:`newbie` tag:
+codebase, you can find them labelled with :guilabel:`good first issue` tag:
 
-https://github.com/WeblateOrg/weblate/labels/newbie
+https://github.com/WeblateOrg/weblate/labels/good%20first%20issue
+
+If you have Docker and docker-compose installed you can spin up the development
+environment simply by running:
+
+.. code-block:: sh
+
+   ./rundev.sh
 
 Earning money by coding
 -----------------------
@@ -172,3 +180,16 @@ as funding goals and rewards you can get for funding.
 
 
 .. _Bountysource: https://salt.bountysource.com/teams/weblate
+
+Releasing Weblate
+-----------------
+
+Releasing checklist:
+
+1. Make sure screenshots are up to date ``make -C docs update-screenshots``
+2. Create a release ``./scripts/create-release --tag``
+3. Push tags to GitHub
+4. Update Docker image
+5. Close GitHub milestone
+6. Enable building version docs on Read rhe Docs
+7. Once Docker image is tested, add tag and push it

@@ -1,10 +1,10 @@
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module unless amdModuleId is set
-    define([], function () {
+    define('Chartist', [], function () {
       return (root['Chartist'] = factory());
     });
-  } else if (typeof exports === 'object') {
+  } else if (typeof module === 'object' && module.exports) {
     // Node. Does not work with strict CommonJS, but
     // only CommonJS-like environments that support module.exports,
     // like Node.
@@ -14,8 +14,8 @@
   }
 }(this, function () {
 
-/* Chartist.js 0.9.8
- * Copyright © 2016 Gion Kunz
+/* Chartist.js 0.11.0
+ * Copyright © 2017 Gion Kunz
  * Free to use under either the WTFPL license or the MIT license.
  * https://raw.githubusercontent.com/gionkunz/chartist-js/master/LICENSE-WTFPL
  * https://raw.githubusercontent.com/gionkunz/chartist-js/master/LICENSE-MIT
@@ -26,7 +26,7 @@
  * @module Chartist.Core
  */
 var Chartist = {
-  version: '0.9.8'
+  version: '0.11.0'
 };
 
 (function (window, document, Chartist) {
@@ -78,18 +78,20 @@ var Chartist = {
    * @return {Object} An object that has the same reference as target but is extended and merged with the properties of source
    */
   Chartist.extend = function (target) {
+    var i, source, sourceProp;
     target = target || {};
 
-    var sources = Array.prototype.slice.call(arguments, 1);
-    sources.forEach(function(source) {
+    for (i = 1; i < arguments.length; i++) {
+      source = arguments[i];
       for (var prop in source) {
-        if (typeof source[prop] === 'object' && source[prop] !== null && !(source[prop] instanceof Array)) {
-          target[prop] = Chartist.extend({}, target[prop], source[prop]);
+        sourceProp = source[prop];
+        if (typeof sourceProp === 'object' && sourceProp !== null && !(sourceProp instanceof Array)) {
+          target[prop] = Chartist.extend(target[prop], sourceProp);
         } else {
-          target[prop] = source[prop];
+          target[prop] = sourceProp;
         }
       }
-    });
+    }
 
     return target;
   };
@@ -335,9 +337,10 @@ var Chartist = {
     svg = new Chartist.Svg('svg').attr({
       width: width,
       height: height
-    }).addClass(className).attr({
-      style: 'width: ' + width + '; height: ' + height + ';'
-    });
+    }).addClass(className);
+
+    svg._node.style.width = width;
+    svg._node.style.height = height;
 
     // Add the DOM node to our container
     container.appendChild(svg._node);
@@ -351,37 +354,71 @@ var Chartist = {
    * @param  {Object} data The data object that is passed as second argument to the charts
    * @return {Object} The normalized data object
    */
-  Chartist.normalizeData = function(data) {
-    // Ensure data is present otherwise enforce
-    data = data || {series: [], labels: []};
-    data.series = data.series || [];
-    data.labels = data.labels || [];
+  Chartist.normalizeData = function(data, reverse, multi) {
+    var labelCount;
+    var output = {
+      raw: data,
+      normalized: {}
+    };
 
     // Check if we should generate some labels based on existing series data
-    if (data.series.length > 0 && data.labels.length === 0) {
-      var normalized = Chartist.getDataArray(data),
-          labelCount;
+    output.normalized.series = Chartist.getDataArray({
+      series: data.series || []
+    }, reverse, multi);
 
-      // If all elements of the normalized data array are arrays we're dealing with
-      // data from Bar or Line charts and we need to find the largest series if they are un-even
-      if (normalized.every(function(value) {
+    // If all elements of the normalized data array are arrays we're dealing with
+    // multi series data and we need to find the largest series if they are un-even
+    if (output.normalized.series.every(function(value) {
         return value instanceof Array;
       })) {
-        // Getting the series with the the most elements
-        labelCount = Math.max.apply(null, normalized.map(function(series) {
-          return series.length;
-        }));
-      } else {
-        // We're dealing with Pie data so we just take the normalized array length
-        labelCount = normalized.length;
-      }
-
-      // Setting labels to an array with emptry strings using our labelCount estimated above
-      data.labels = Chartist.times(labelCount).map(function() {
-        return '';
-      });
+      // Getting the series with the the most elements
+      labelCount = Math.max.apply(null, output.normalized.series.map(function(series) {
+        return series.length;
+      }));
+    } else {
+      // We're dealing with Pie data so we just take the normalized array length
+      labelCount = output.normalized.series.length;
     }
-    return data;
+
+    output.normalized.labels = (data.labels || []).slice();
+    // Padding the labels to labelCount with empty strings
+    Array.prototype.push.apply(
+      output.normalized.labels,
+      Chartist.times(Math.max(0, labelCount - output.normalized.labels.length)).map(function() {
+        return '';
+      })
+    );
+
+    if(reverse) {
+      Chartist.reverseData(output.normalized);
+    }
+
+    return output;
+  };
+
+  /**
+   * This function safely checks if an objects has an owned property.
+   *
+   * @param {Object} object The object where to check for a property
+   * @param {string} property The property name
+   * @returns {boolean} Returns true if the object owns the specified property
+   */
+  Chartist.safeHasProperty = function(object, property) {
+    return object !== null &&
+      typeof object === 'object' &&
+      object.hasOwnProperty(property);
+  };
+
+  /**
+   * Checks if a value is considered a hole in the data series.
+   *
+   * @param {*} value
+   * @returns {boolean} True if the value is considered a data hole
+   */
+  Chartist.isDataHoleValue = function(value) {
+    return value === null ||
+      value === undefined ||
+      (typeof value === 'number' && isNaN(value));
   };
 
   /**
@@ -407,30 +444,29 @@ var Chartist = {
    *
    * @memberof Chartist.Core
    * @param {Object} data The series object that contains the data to be visualized in the chart
-   * @param {Boolean} reverse If true the whole data is reversed by the getDataArray call. This will modify the data object passed as first parameter. The labels as well as the series order is reversed. The whole series data arrays are reversed too.
-   * @param {Boolean} multi Create a multi dimensional array from a series data array where a value object with `x` and `y` values will be created.
+   * @param {Boolean} [reverse] If true the whole data is reversed by the getDataArray call. This will modify the data object passed as first parameter. The labels as well as the series order is reversed. The whole series data arrays are reversed too.
+   * @param {Boolean} [multi] Create a multi dimensional array from a series data array where a value object with `x` and `y` values will be created.
    * @return {Array} A plain array that contains the data to be visualized in the chart
    */
-  Chartist.getDataArray = function (data, reverse, multi) {
-    // If the data should be reversed but isn't we need to reverse it
-    // If it's reversed but it shouldn't we need to reverse it back
-    // That's required to handle data updates correctly and to reflect the responsive configurations
-    if(reverse && !data.reversed || !reverse && data.reversed) {
-      Chartist.reverseData(data);
-      data.reversed = !data.reversed;
-    }
-
+  Chartist.getDataArray = function(data, reverse, multi) {
     // Recursively walks through nested arrays and convert string values to numbers and objects with value properties
     // to values. Check the tests in data core -> data normalization for a detailed specification of expected values
     function recursiveConvert(value) {
-      if(Chartist.isFalseyButZero(value)) {
-        // This is a hole in data and we should return undefined
-        return undefined;
-      } else if((value.data || value) instanceof Array) {
-        return (value.data || value).map(recursiveConvert);
-      } else if(value.hasOwnProperty('value')) {
+      if(Chartist.safeHasProperty(value, 'value')) {
+        // We are dealing with value object notation so we need to recurse on value property
         return recursiveConvert(value.value);
+      } else if(Chartist.safeHasProperty(value, 'data')) {
+        // We are dealing with series object notation so we need to recurse on data property
+        return recursiveConvert(value.data);
+      } else if(value instanceof Array) {
+        // Data is of type array so we need to recurse on the series
+        return value.map(recursiveConvert);
+      } else if(Chartist.isDataHoleValue(value)) {
+        // We're dealing with a hole in the data and therefore need to return undefined
+        // We're also returning undefined for multi value output
+        return undefined;
       } else {
+        // We need to prepare multi value output (x and y data)
         if(multi) {
           var multiValue = {};
 
@@ -449,6 +485,7 @@ var Chartist = {
           return multiValue;
 
         } else {
+          // We can return simple data
           return Chartist.getNumberOrUndefined(value);
         }
       }
@@ -483,7 +520,7 @@ var Chartist = {
 
   Chartist.getMetaData = function(series, index) {
     var value = series.data ? series.data[index] : series[index];
-    return value ? Chartist.serialize(value.meta) : undefined;
+    return value ? value.meta : undefined;
   };
 
   /**
@@ -599,14 +636,14 @@ var Chartist = {
   };
 
   /**
-   * Checks if the value is a valid number or string with a number.
+   * Checks if a value can be safely coerced to a number. This includes all values except null which result in finite numbers when coerced. This excludes NaN, since it's not finite.
    *
    * @memberof Chartist.Core
    * @param value
    * @returns {Boolean}
    */
-  Chartist.isNum = function(value) {
-    return !isNaN(value) && isFinite(value);
+  Chartist.isNumeric = function(value) {
+    return value === null ? false : isFinite(value);
   };
 
   /**
@@ -628,23 +665,33 @@ var Chartist = {
    * @returns {*}
    */
   Chartist.getNumberOrUndefined = function(value) {
-    return isNaN(+value) ? undefined : +value;
+    return Chartist.isNumeric(value) ? +value : undefined;
   };
 
   /**
-   * Gets a value from a dimension `value.x` or `value.y` while returning value directly if it's a valid numeric value. If the value is not numeric and it's falsey this function will return undefined.
+   * Checks if provided value object is multi value (contains x or y properties)
    *
+   * @memberof Chartist.Core
+   * @param value
+   */
+  Chartist.isMultiValue = function(value) {
+    return typeof value === 'object' && ('x' in value || 'y' in value);
+  };
+
+  /**
+   * Gets a value from a dimension `value.x` or `value.y` while returning value directly if it's a valid numeric value. If the value is not numeric and it's falsey this function will return `defaultValue`.
+   *
+   * @memberof Chartist.Core
    * @param value
    * @param dimension
+   * @param defaultValue
    * @returns {*}
    */
   Chartist.getMultiValue = function(value, dimension) {
-    if(Chartist.isNum(value)) {
-      return +value;
-    } else if(value) {
-      return value[dimension || 'y'] || 0;
+    if(Chartist.isMultiValue(value)) {
+      return Chartist.getNumberOrUndefined(value[dimension || 'y']);
     } else {
-      return 0;
+      return Chartist.getNumberOrUndefined(value);
     }
   };
 
@@ -749,28 +796,34 @@ var Chartist = {
       }
     }
 
-    // step must not be less than EPSILON to create values that can be represented as floating number.
     var EPSILON = 2.221E-16;
     bounds.step = Math.max(bounds.step, EPSILON);
+    function safeIncrement(value, increment) {
+      // If increment is too small use *= (1+EPSILON) as a simple nextafter
+      if (value === (value += increment)) {
+      	value *= (1 + (increment > 0 ? EPSILON : -EPSILON));
+      }
+      return value;
+    }
 
     // Narrow min and max based on new step
     newMin = bounds.min;
     newMax = bounds.max;
-    while(newMin + bounds.step <= bounds.low) {
-      newMin += bounds.step;
+    while (newMin + bounds.step <= bounds.low) {
+    	newMin = safeIncrement(newMin, bounds.step);
     }
-    while(newMax - bounds.step >= bounds.high) {
-      newMax -= bounds.step;
+    while (newMax - bounds.step >= bounds.high) {
+    	newMax = safeIncrement(newMax, -bounds.step);
     }
     bounds.min = newMin;
     bounds.max = newMax;
     bounds.range = bounds.max - bounds.min;
 
     var values = [];
-    for (i = bounds.min; i <= bounds.max; i += bounds.step) {
+    for (i = bounds.min; i <= bounds.max; i = safeIncrement(i, bounds.step)) {
       var value = Chartist.roundWithPrecision(i);
       if (value !== values[values.length - 1]) {
-        values.push(i);
+        values.push(value);
       }
     }
     bounds.values = values;
@@ -889,6 +942,31 @@ var Chartist = {
   };
 
   /**
+   * Creates a grid background rect and emits the draw event.
+   *
+   * @memberof Chartist.Core
+   * @param gridGroup
+   * @param chartRect
+   * @param className
+   * @param eventEmitter
+   */
+  Chartist.createGridBackground = function (gridGroup, chartRect, className, eventEmitter) {
+    var gridBackground = gridGroup.elem('rect', {
+        x: chartRect.x1,
+        y: chartRect.y2,
+        width: chartRect.width(),
+        height: chartRect.height(),
+      }, className, true);
+
+      // Event for grid background draw
+      eventEmitter.emit('draw', {
+        type: 'gridBackground',
+        group: gridGroup,
+        element: gridBackground
+      });
+  };
+
+  /**
    * Creates a label based on a projected value and an axis.
    *
    * @memberof Chartist.Core
@@ -916,10 +994,12 @@ var Chartist = {
     if(useForeignObject) {
       // We need to set width and height explicitly to px as span will not expand with width and height being
       // 100% in all browsers
-      var content = '<span class="' + classes.join(' ') + '" style="' +
-        axis.units.len + ': ' + Math.round(positionalData[axis.units.len]) + 'px; ' +
-        axis.counterUnits.len + ': ' + Math.round(positionalData[axis.counterUnits.len]) + 'px">' +
-        labels[index] + '</span>';
+      var content = document.createElement('span');
+      content.className = classes.join(' ');
+      content.setAttribute('xmlns', Chartist.namespaces.xhtml);
+      content.innerText = labels[index];
+      content.style[axis.units.len] = Math.round(positionalData[axis.units.len]) + 'px';
+      content.style[axis.counterUnits.len] = Math.round(positionalData[axis.counterUnits.len]) + 'px';
 
       labelElement = group.foreignObject(content, Chartist.extend({
         style: 'overflow: visible;'
@@ -1057,7 +1137,8 @@ var Chartist = {
 
     for(var i = 0; i < pathCoordinates.length; i += 2) {
       // If this value is a "hole" we set the hole flag
-      if(valueData[i / 2].value === undefined) {
+      if(Chartist.getMultiValue(valueData[i / 2].value) === undefined) {
+      // if(valueData[i / 2].value === undefined) {
         if(!options.fillHoles) {
           hole = true;
         }
@@ -1129,7 +1210,7 @@ var Chartist = {
         var currY = pathCoordinates[i + 1];
         var currData = valueData[i / 2];
 
-        if(currData.value !== undefined) {
+        if(Chartist.getMultiValue(currData.value) !== undefined) {
 
           if(hole) {
             path.move(currX, currY, false, currData);
@@ -1738,7 +1819,9 @@ var Chartist = {
    */
   function update(data, options, override) {
     if(data) {
-      this.data = data;
+      this.data = data || {};
+      this.data.labels = this.data.labels || [];
+      this.data.series = this.data.series || [];
       // Event for data transformation that allows to manipulate the data before it gets rendered in the charts
       this.eventEmitter.emit('data', {
         type: 'update',
@@ -1858,7 +1941,9 @@ var Chartist = {
    */
   function Base(query, data, defaultOptions, options, responsiveOptions) {
     this.container = Chartist.querySelector(query);
-    this.data = data;
+    this.data = data || {};
+    this.data.labels = this.data.labels || [];
+    this.data.series = this.data.series || [];
     this.defaultOptions = defaultOptions;
     this.options = options;
     this.responsiveOptions = responsiveOptions;
@@ -1959,7 +2044,7 @@ var Chartist = {
    *
    * @memberof Chartist.Svg
    * @param {Object|String} attributes An object with properties that will be added as attributes to the SVG element that is created. Attributes with undefined values will not be added. If this parameter is a String then the function is used as a getter and will return the attribute value.
-   * @param {String} ns If specified, the attribute will be obtained using getAttributeNs. In order to write namepsaced attributes you can use the namespace:attribute notation within the attributes object.
+   * @param {String} [ns] If specified, the attribute will be obtained using getAttributeNs. In order to write namepsaced attributes you can use the namespace:attribute notation within the attributes object.
    * @return {Object|String} The current wrapper object will be returned so it can be used for chaining or the attribute value if used as getter function.
    */
   function attr(attributes, ns) {
@@ -2048,6 +2133,16 @@ var Chartist = {
   function querySelectorAll(selector) {
     var foundNodes = this._node.querySelectorAll(selector);
     return foundNodes.length ? new Chartist.Svg.List(foundNodes) : null;
+  }
+
+  /**
+   * Returns the underlying SVG node for the current element.
+   *
+   * @memberof Chartist.Svg
+   * @returns {Node}
+   */
+  function getNode() {
+    return this._node;
   }
 
   /**
@@ -2167,10 +2262,13 @@ var Chartist = {
    * @return {Chartist.Svg} The wrapper of the current element
    */
   function addClass(names) {
-  	var arr = this.classes(this._node).concat(names.trim().split(/\s+/));
-  	this._node.setAttribute('class', arr.filter(function(elem, pos) {
-	  	return arr.indexOf(elem) === pos;
-	  }).join(' '));
+    this._node.setAttribute('class',
+      this.classes(this._node)
+        .concat(names.trim().split(/\s+/))
+        .filter(function(elem, pos, self) {
+          return self.indexOf(elem) === pos;
+        }).join(' ')
+    );
 
     return this;
   }
@@ -2384,6 +2482,7 @@ var Chartist = {
     root: root,
     querySelector: querySelector,
     querySelectorAll: querySelectorAll,
+    getNode: getNode,
     foreignObject: foreignObject,
     text: text,
     empty: empty,
@@ -2970,7 +3069,7 @@ var Chartist = {
         Chartist.createLabel(projectedValue, labelLength, index, labelValues, this, axisOptions.offset, labelOffset, labelGroup, [
           chartOptions.classNames.label,
           chartOptions.classNames[this.units.dir],
-          chartOptions.classNames[axisOptions.position]
+          (axisOptions.position === 'start' ? chartOptions.classNames[axisOptions.position] : chartOptions.classNames['end'])
         ], useForeignObject, eventEmitter);
       }
     }.bind(this));
@@ -3014,7 +3113,7 @@ var Chartist = {
 
   function AutoScaleAxis(axisUnit, data, chartRect, options) {
     // Usually we calculate highLow based on the data but this can be overriden by a highLow object in the options
-    var highLow = options.highLow || Chartist.getHighLow(data.normalized, options, axisUnit.pos);
+    var highLow = options.highLow || Chartist.getHighLow(data, options, axisUnit.pos);
     this.bounds = Chartist.getBounds(chartRect[axisUnit.rectEnd] - chartRect[axisUnit.rectStart], highLow, options.scaleMinSpace || 20, options.onlyInteger);
     this.range = {
       min: this.bounds.min,
@@ -3062,7 +3161,7 @@ var Chartist = {
   'use strict';
 
   function FixedScaleAxis(axisUnit, data, chartRect, options) {
-    var highLow = options.highLow || Chartist.getHighLow(data.normalized, options, axisUnit.pos);
+    var highLow = options.highLow || Chartist.getHighLow(data, options, axisUnit.pos);
     this.divisor = options.divisor || 1;
     this.ticks = options.ticks || Chartist.times(this.divisor).map(function(value, index) {
       return highLow.low + (highLow.high - highLow.low) / this.divisor * index;
@@ -3120,7 +3219,8 @@ var Chartist = {
       options.ticks,
       options);
 
-    this.stepLength = this.axisLength / (options.ticks.length - (options.stretch ? 1 : 0));
+    var calc = Math.max(1, options.ticks.length - (options.stretch ? 1 : 0));
+    this.stepLength = this.axisLength / calc;
   }
 
   function projectValue(value, index) {
@@ -3208,6 +3308,8 @@ var Chartist = {
     areaBase: 0,
     // Specify if the lines should be smoothed. This value can be true or false where true will result in smoothing using the default smoothing interpolation function Chartist.Interpolation.cardinal and false results in Chartist.Interpolation.none. You can also choose other smoothing / interpolation functions available in the Chartist.Interpolation module, or write your own interpolation function. Check the examples for a brief description.
     lineSmooth: true,
+    // If the line chart should add a background fill to the .ct-grids group.
+    showGridBackground: false,
     // Overriding the natural low of the chart allows you to zoom in or limit the charts lowest displayed value
     low: undefined,
     // Overriding the natural high of the chart allows you to zoom in or limit the charts highest displayed value
@@ -3234,6 +3336,7 @@ var Chartist = {
       area: 'ct-area',
       grid: 'ct-grid',
       gridGroup: 'ct-grids',
+      gridBackground: 'ct-grid-background',
       vertical: 'ct-vertical',
       horizontal: 'ct-horizontal',
       start: 'ct-start',
@@ -3246,11 +3349,7 @@ var Chartist = {
    *
    */
   function createChart(options) {
-    this.data = Chartist.normalizeData(this.data);
-    var data = {
-      raw: this.data,
-      normalized: Chartist.getDataArray(this.data, options.reverseData, true)
-    };
+    var data = Chartist.normalizeData(this.data, options.reverseData, true);
 
     // Create new svg object
     this.svg = Chartist.createSvg(this.container, options.width, options.height, options.classNames.chart);
@@ -3263,25 +3362,29 @@ var Chartist = {
     var axisX, axisY;
 
     if(options.axisX.type === undefined) {
-      axisX = new Chartist.StepAxis(Chartist.Axis.units.x, data, chartRect, Chartist.extend({}, options.axisX, {
-        ticks: data.raw.labels,
+      axisX = new Chartist.StepAxis(Chartist.Axis.units.x, data.normalized.series, chartRect, Chartist.extend({}, options.axisX, {
+        ticks: data.normalized.labels,
         stretch: options.fullWidth
       }));
     } else {
-      axisX = options.axisX.type.call(Chartist, Chartist.Axis.units.x, data, chartRect, options.axisX);
+      axisX = options.axisX.type.call(Chartist, Chartist.Axis.units.x, data.normalized.series, chartRect, options.axisX);
     }
 
     if(options.axisY.type === undefined) {
-      axisY = new Chartist.AutoScaleAxis(Chartist.Axis.units.y, data, chartRect, Chartist.extend({}, options.axisY, {
-        high: Chartist.isNum(options.high) ? options.high : options.axisY.high,
-        low: Chartist.isNum(options.low) ? options.low : options.axisY.low
+      axisY = new Chartist.AutoScaleAxis(Chartist.Axis.units.y, data.normalized.series, chartRect, Chartist.extend({}, options.axisY, {
+        high: Chartist.isNumeric(options.high) ? options.high : options.axisY.high,
+        low: Chartist.isNumeric(options.low) ? options.low : options.axisY.low
       }));
     } else {
-      axisY = options.axisY.type.call(Chartist, Chartist.Axis.units.y, data, chartRect, options.axisY);
+      axisY = options.axisY.type.call(Chartist, Chartist.Axis.units.y, data.normalized.series, chartRect, options.axisY);
     }
 
     axisX.createGridAndLabels(gridGroup, labelGroup, this.supportsForeignObject, options, this.eventEmitter);
     axisY.createGridAndLabels(gridGroup, labelGroup, this.supportsForeignObject, options, this.eventEmitter);
+
+    if (options.showGridBackground) {
+      Chartist.createGridBackground(gridGroup, chartRect, options.classNames.gridBackground, this.eventEmitter);
+    }
 
     // Draw the series
     data.raw.series.forEach(function(series, seriesIndex) {
@@ -3302,10 +3405,10 @@ var Chartist = {
       var pathCoordinates = [],
         pathData = [];
 
-      data.normalized[seriesIndex].forEach(function(value, valueIndex) {
+      data.normalized.series[seriesIndex].forEach(function(value, valueIndex) {
         var p = {
-          x: chartRect.x1 + axisX.projectValue(value, valueIndex, data.normalized[seriesIndex]),
-          y: chartRect.y1 - axisY.projectValue(value, valueIndex, data.normalized[seriesIndex])
+          x: chartRect.x1 + axisX.projectValue(value, valueIndex, data.normalized.series[seriesIndex]),
+          y: chartRect.y1 - axisY.projectValue(value, valueIndex, data.normalized.series[seriesIndex])
         };
         pathCoordinates.push(p.x, p.y);
         pathData.push({
@@ -3341,8 +3444,8 @@ var Chartist = {
             x2: pathElement.x + 0.01,
             y2: pathElement.y
           }, options.classNames.point).attr({
-            'ct:value': [pathElement.data.value.x, pathElement.data.value.y].filter(Chartist.isNum).join(','),
-            'ct:meta': pathElement.data.meta
+            'ct:value': [pathElement.data.value.x, pathElement.data.value.y].filter(Chartist.isNumeric).join(','),
+            'ct:meta': Chartist.serialize(pathElement.data.meta)
           });
 
           this.eventEmitter.emit('draw', {
@@ -3369,12 +3472,13 @@ var Chartist = {
 
         this.eventEmitter.emit('draw', {
           type: 'line',
-          values: data.normalized[seriesIndex],
+          values: data.normalized.series[seriesIndex],
           path: path.clone(),
           chartRect: chartRect,
           index: seriesIndex,
           series: series,
           seriesIndex: seriesIndex,
+          seriesMeta: series.meta,
           axisX: axisX,
           axisY: axisY,
           group: seriesElement,
@@ -3422,7 +3526,7 @@ var Chartist = {
           // Emit an event for each area that was drawn
           this.eventEmitter.emit('draw', {
             type: 'area',
-            values: data.normalized[seriesIndex],
+            values: data.normalized.series[seriesIndex],
             path: areaPath.clone(),
             series: series,
             seriesIndex: seriesIndex,
@@ -3611,6 +3715,8 @@ var Chartist = {
     high: undefined,
     // Overriding the natural low of the chart allows you to zoom in or limit the charts lowest displayed value
     low: undefined,
+    // Unless low/high are explicitly set, bar chart will be centered at zero by default. Set referenceValue to null to auto scale.
+    referenceValue: 0,
     // Padding of the chart drawing area to the container element and labels as a number or padding object {top: 5, right: 5, bottom: 5, left: 5}
     chartPadding: {
       top: 15,
@@ -3631,6 +3737,8 @@ var Chartist = {
     distributeSeries: false,
     // If true the whole data is reversed including labels, the series order as well as the whole series data arrays.
     reverseData: false,
+    // If the bar chart should add a background fill to the .ct-grids group.
+    showGridBackground: false,
     // Override the class names that get used to generate the SVG structure of the chart
     classNames: {
       chart: 'ct-chart-bar',
@@ -3641,6 +3749,7 @@ var Chartist = {
       bar: 'ct-bar',
       grid: 'ct-grid',
       gridGroup: 'ct-grids',
+      gridBackground: 'ct-grid-background',
       vertical: 'ct-vertical',
       horizontal: 'ct-horizontal',
       start: 'ct-start',
@@ -3653,15 +3762,17 @@ var Chartist = {
    *
    */
   function createChart(options) {
-    this.data = Chartist.normalizeData(this.data);
-    var data = {
-      raw: this.data,
-      normalized: options.distributeSeries ? Chartist.getDataArray(this.data, options.reverseData, options.horizontalBars ? 'x' : 'y').map(function(value) {
-        return [value];
-      }) : Chartist.getDataArray(this.data, options.reverseData, options.horizontalBars ? 'x' : 'y')
-    };
-
+    var data;
     var highLow;
+
+    if(options.distributeSeries) {
+      data = Chartist.normalizeData(this.data, options.reverseData, options.horizontalBars ? 'x' : 'y');
+      data.normalized.series = data.normalized.series.map(function(value) {
+        return [value];
+      });
+    } else {
+      data = Chartist.normalizeData(this.data, options.reverseData, options.horizontalBars ? 'x' : 'y');
+    }
 
     // Create new svg element
     this.svg = Chartist.createSvg(
@@ -3676,9 +3787,10 @@ var Chartist = {
     var seriesGroup = this.svg.elem('g');
     var labelGroup = this.svg.elem('g').addClass(options.classNames.labelGroup);
 
-    if(options.stackBars && data.normalized.length !== 0) {
+    if(options.stackBars && data.normalized.series.length !== 0) {
+
       // If stacked bars we need to calculate the high low from stacked values from each series
-      var serialSums = Chartist.serialMap(data.normalized, function serialSums() {
+      var serialSums = Chartist.serialMap(data.normalized.series, function serialSums() {
         return Array.prototype.slice.call(arguments).map(function(value) {
           return value;
         }).reduce(function(prev, curr) {
@@ -3689,14 +3801,13 @@ var Chartist = {
         }, {x: 0, y: 0});
       });
 
-      highLow = Chartist.getHighLow([serialSums], Chartist.extend({}, options, {
-        referenceValue: 0
-      }), options.horizontalBars ? 'x' : 'y');
+      highLow = Chartist.getHighLow([serialSums], options, options.horizontalBars ? 'x' : 'y');
+
     } else {
-      highLow = Chartist.getHighLow(data.normalized, Chartist.extend({}, options, {
-        referenceValue: 0
-      }), options.horizontalBars ? 'x' : 'y');
+
+      highLow = Chartist.getHighLow(data.normalized.series, options, options.horizontalBars ? 'x' : 'y');
     }
+
     // Overrides of high / low from settings
     highLow.high = +options.high || (options.high === 0 ? 0 : highLow.high);
     highLow.low = +options.low || (options.low === 0 ? 0 : highLow.low);
@@ -3713,51 +3824,51 @@ var Chartist = {
     if(options.distributeSeries && options.stackBars) {
       // If distributed series are enabled and bars need to be stacked, we'll only have one bar and therefore should
       // use only the first label for the step axis
-      labelAxisTicks = data.raw.labels.slice(0, 1);
+      labelAxisTicks = data.normalized.labels.slice(0, 1);
     } else {
       // If distributed series are enabled but stacked bars aren't, we should use the series labels
       // If we are drawing a regular bar chart with two dimensional series data, we just use the labels array
       // as the bars are normalized
-      labelAxisTicks = data.raw.labels;
+      labelAxisTicks = data.normalized.labels;
     }
 
     // Set labelAxis and valueAxis based on the horizontalBars setting. This setting will flip the axes if necessary.
     if(options.horizontalBars) {
       if(options.axisX.type === undefined) {
-        valueAxis = axisX = new Chartist.AutoScaleAxis(Chartist.Axis.units.x, data, chartRect, Chartist.extend({}, options.axisX, {
+        valueAxis = axisX = new Chartist.AutoScaleAxis(Chartist.Axis.units.x, data.normalized.series, chartRect, Chartist.extend({}, options.axisX, {
           highLow: highLow,
           referenceValue: 0
         }));
       } else {
-        valueAxis = axisX = options.axisX.type.call(Chartist, Chartist.Axis.units.x, data, chartRect, Chartist.extend({}, options.axisX, {
+        valueAxis = axisX = options.axisX.type.call(Chartist, Chartist.Axis.units.x, data.normalized.series, chartRect, Chartist.extend({}, options.axisX, {
           highLow: highLow,
           referenceValue: 0
         }));
       }
 
       if(options.axisY.type === undefined) {
-        labelAxis = axisY = new Chartist.StepAxis(Chartist.Axis.units.y, data, chartRect, {
+        labelAxis = axisY = new Chartist.StepAxis(Chartist.Axis.units.y, data.normalized.series, chartRect, {
           ticks: labelAxisTicks
         });
       } else {
-        labelAxis = axisY = options.axisY.type.call(Chartist, Chartist.Axis.units.y, data, chartRect, options.axisY);
+        labelAxis = axisY = options.axisY.type.call(Chartist, Chartist.Axis.units.y, data.normalized.series, chartRect, options.axisY);
       }
     } else {
       if(options.axisX.type === undefined) {
-        labelAxis = axisX = new Chartist.StepAxis(Chartist.Axis.units.x, data, chartRect, {
+        labelAxis = axisX = new Chartist.StepAxis(Chartist.Axis.units.x, data.normalized.series, chartRect, {
           ticks: labelAxisTicks
         });
       } else {
-        labelAxis = axisX = options.axisX.type.call(Chartist, Chartist.Axis.units.x, data, chartRect, options.axisX);
+        labelAxis = axisX = options.axisX.type.call(Chartist, Chartist.Axis.units.x, data.normalized.series, chartRect, options.axisX);
       }
 
       if(options.axisY.type === undefined) {
-        valueAxis = axisY = new Chartist.AutoScaleAxis(Chartist.Axis.units.y, data, chartRect, Chartist.extend({}, options.axisY, {
+        valueAxis = axisY = new Chartist.AutoScaleAxis(Chartist.Axis.units.y, data.normalized.series, chartRect, Chartist.extend({}, options.axisY, {
           highLow: highLow,
           referenceValue: 0
         }));
       } else {
-        valueAxis = axisY = options.axisY.type.call(Chartist, Chartist.Axis.units.y, data, chartRect, Chartist.extend({}, options.axisY, {
+        valueAxis = axisY = options.axisY.type.call(Chartist, Chartist.Axis.units.y, data.normalized.series, chartRect, Chartist.extend({}, options.axisY, {
           highLow: highLow,
           referenceValue: 0
         }));
@@ -3772,6 +3883,10 @@ var Chartist = {
     labelAxis.createGridAndLabels(gridGroup, labelGroup, this.supportsForeignObject, options, this.eventEmitter);
     valueAxis.createGridAndLabels(gridGroup, labelGroup, this.supportsForeignObject, options, this.eventEmitter);
 
+    if (options.showGridBackground) {
+      Chartist.createGridBackground(gridGroup, chartRect, options.classNames.gridBackground, this.eventEmitter);
+    }
+
     // Draw the series
     data.raw.series.forEach(function(series, seriesIndex) {
       // Calculating bi-polar value of index for seriesOffset. For i = 0..4 biPol will be -1.5, -0.5, 0.5, 1.5 etc.
@@ -3785,14 +3900,14 @@ var Chartist = {
       if(options.distributeSeries && !options.stackBars) {
         // If distributed series are enabled but stacked bars aren't, we need to use the length of the normaizedData array
         // which is the series count and divide by 2
-        periodHalfLength = labelAxis.axisLength / data.normalized.length / 2;
+        periodHalfLength = labelAxis.axisLength / data.normalized.series.length / 2;
       } else if(options.distributeSeries && options.stackBars) {
         // If distributed series and stacked bars are enabled we'll only get one bar so we should just divide the axis
         // length by 2
         periodHalfLength = labelAxis.axisLength / 2;
       } else {
         // On regular bar charts we should just use the series length
-        periodHalfLength = labelAxis.axisLength / data.normalized[seriesIndex].length / 2;
+        periodHalfLength = labelAxis.axisLength / data.normalized.series[seriesIndex].length / 2;
       }
 
       // Adding the series group to the series element
@@ -3810,7 +3925,7 @@ var Chartist = {
         (series.className || options.classNames.series + '-' + Chartist.alphaNumerate(seriesIndex))
       ].join(' '));
 
-      data.normalized[seriesIndex].forEach(function(value, valueIndex) {
+      data.normalized.series[seriesIndex].forEach(function(value, valueIndex) {
         var projected,
           bar,
           previousStack,
@@ -3833,13 +3948,13 @@ var Chartist = {
         // We need to transform coordinates differently based on the chart layout
         if(options.horizontalBars) {
           projected = {
-            x: chartRect.x1 + valueAxis.projectValue(value && value.x ? value.x : 0, valueIndex, data.normalized[seriesIndex]),
-            y: chartRect.y1 - labelAxis.projectValue(value && value.y ? value.y : 0, labelAxisValueIndex, data.normalized[seriesIndex])
+            x: chartRect.x1 + valueAxis.projectValue(value && value.x ? value.x : 0, valueIndex, data.normalized.series[seriesIndex]),
+            y: chartRect.y1 - labelAxis.projectValue(value && value.y ? value.y : 0, labelAxisValueIndex, data.normalized.series[seriesIndex])
           };
         } else {
           projected = {
-            x: chartRect.x1 + labelAxis.projectValue(value && value.x ? value.x : 0, labelAxisValueIndex, data.normalized[seriesIndex]),
-            y: chartRect.y1 - valueAxis.projectValue(value && value.y ? value.y : 0, valueIndex, data.normalized[seriesIndex])
+            x: chartRect.x1 + labelAxis.projectValue(value && value.x ? value.x : 0, labelAxisValueIndex, data.normalized.series[seriesIndex]),
+            y: chartRect.y1 - valueAxis.projectValue(value && value.y ? value.y : 0, valueIndex, data.normalized.series[seriesIndex])
           }
         }
 
@@ -3889,17 +4004,19 @@ var Chartist = {
         positions.y1 = Math.min(Math.max(positions.y1, chartRect.y2), chartRect.y1);
         positions.y2 = Math.min(Math.max(positions.y2, chartRect.y2), chartRect.y1);
 
+        var metaData = Chartist.getMetaData(series, valueIndex);
+
         // Create bar element
         bar = seriesElement.elem('line', positions, options.classNames.bar).attr({
-          'ct:value': [value.x, value.y].filter(Chartist.isNum).join(','),
-          'ct:meta': Chartist.getMetaData(series, valueIndex)
+          'ct:value': [value.x, value.y].filter(Chartist.isNumeric).join(','),
+          'ct:meta': Chartist.serialize(metaData)
         });
 
         this.eventEmitter.emit('draw', Chartist.extend({
           type: 'bar',
           value: value,
           index: valueIndex,
-          meta: Chartist.getMetaData(series, valueIndex),
+          meta: metaData,
           series: series,
           seriesIndex: seriesIndex,
           axisX: axisX,
@@ -4002,6 +4119,7 @@ var Chartist = {
       series: 'ct-series',
       slicePie: 'ct-slice-pie',
       sliceDonut: 'ct-slice-donut',
+      sliceDonutSolid: 'ct-slice-donut-solid',
       label: 'ct-label'
     },
     // The start angle of the pie chart in degrees where 0 points north. A higher value offsets the start angle clockwise.
@@ -4010,6 +4128,8 @@ var Chartist = {
     total: undefined,
     // If specified the donut CSS classes will be used and strokes will be drawn instead of pie slices.
     donut: false,
+    // If specified the donut segments will be drawn as shapes instead of strokes.
+    donutSolid: false,
     // Specify the donut stroke width, currently done in javascript for convenience. May move to CSS styles in the future.
     // This option can be set as number or string to specify a relative width (i.e. 100 or '30%').
     donutWidth: 60,
@@ -4057,15 +4177,14 @@ var Chartist = {
    * @param options
    */
   function createChart(options) {
-    this.data = Chartist.normalizeData(this.data);
+    var data = Chartist.normalizeData(this.data);
     var seriesGroups = [],
       labelsGroup,
       chartRect,
       radius,
       labelRadius,
       totalDataSum,
-      startAngle = options.startAngle,
-      dataArray = Chartist.getDataArray(this.data, options.reverseData);
+      startAngle = options.startAngle;
 
     // Create SVG.js draw
     this.svg = Chartist.createSvg(this.container, options.width, options.height,options.donut ? options.classNames.chartDonut : options.classNames.chartPie);
@@ -4074,7 +4193,7 @@ var Chartist = {
     // Get biggest circle radius possible within chartRect
     radius = Math.min(chartRect.width() / 2, chartRect.height() / 2);
     // Calculate total of all series to get reference value or use total reference from optional options
-    totalDataSum = options.total || dataArray.reduce(function(previousValue, currentValue) {
+    totalDataSum = options.total || data.normalized.series.reduce(function(previousValue, currentValue) {
       return previousValue + currentValue;
     }, 0);
 
@@ -4086,15 +4205,17 @@ var Chartist = {
     // If this is a donut chart we need to adjust our radius to enable strokes to be drawn inside
     // Unfortunately this is not possible with the current SVG Spec
     // See this proposal for more details: http://lists.w3.org/Archives/Public/www-svg/2003Oct/0000.html
-    radius -= options.donut ? donutWidth.value / 2  : 0;
+    radius -= options.donut && !options.donutSolid ? donutWidth.value / 2  : 0;
 
     // If labelPosition is set to `outside` or a donut chart is drawn then the label position is at the radius,
     // if regular pie chart it's half of the radius
-    if(options.labelPosition === 'outside' || options.donut) {
+    if(options.labelPosition === 'outside' || options.donut && !options.donutSolid) {
       labelRadius = radius;
     } else if(options.labelPosition === 'center') {
       // If labelPosition is center we start with 0 and will later wait for the labelOffset
       labelRadius = 0;
+    } else if(options.donutSolid) {
+      labelRadius = radius - donutWidth.value / 2;
     } else {
       // Default option is 'inside' where we use half the radius so the label will be placed in the center of the pie
       // slice
@@ -4110,39 +4231,41 @@ var Chartist = {
     };
 
     // Check if there is only one non-zero value in the series array.
-    var hasSingleValInSeries = this.data.series.filter(function(val) {
+    var hasSingleValInSeries = data.raw.series.filter(function(val) {
       return val.hasOwnProperty('value') ? val.value !== 0 : val !== 0;
     }).length === 1;
 
+    // Creating the series groups
+    data.raw.series.forEach(function(series, index) {
+      seriesGroups[index] = this.svg.elem('g', null, null);
+    }.bind(this));
     //if we need to show labels we create the label group now
     if(options.showLabel) {
-      labelsGroup = this.svg.elem('g', null, null, true);
+      labelsGroup = this.svg.elem('g', null, null);
     }
 
     // Draw the series
     // initialize series groups
-    for (var i = 0; i < this.data.series.length; i++) {
+    data.raw.series.forEach(function(series, index) {
       // If current value is zero and we are ignoring empty values then skip to next value
-      if (dataArray[i] === 0 && options.ignoreEmptyValues) continue;
-
-      var series = this.data.series[i];
-      seriesGroups[i] = this.svg.elem('g', null, null, true);
+      if (data.normalized.series[index] === 0 && options.ignoreEmptyValues) return;
 
       // If the series is an object and contains a name or meta data we add a custom attribute
-      seriesGroups[i].attr({
+      seriesGroups[index].attr({
         'ct:series-name': series.name
       });
 
       // Use series class from series data or if not set generate one
-      seriesGroups[i].addClass([
+      seriesGroups[index].addClass([
         options.classNames.series,
-        (series.className || options.classNames.series + '-' + Chartist.alphaNumerate(i))
+        (series.className || options.classNames.series + '-' + Chartist.alphaNumerate(index))
       ].join(' '));
 
-      var endAngle = startAngle + dataArray[i] / totalDataSum * 360;
+      // If the whole dataset is 0 endAngle should be zero. Can't divide by 0.
+      var endAngle = (totalDataSum > 0 ? startAngle + data.normalized.series[index] / totalDataSum * 360 : 0);
 
       // Use slight offset so there are no transparent hairline issues
-      var overlappigStartAngle = Math.max(0, startAngle - (i === 0 || hasSingleValInSeries ? 0 : 0.2));
+      var overlappigStartAngle = Math.max(0, startAngle - (index === 0 || hasSingleValInSeries ? 0 : 0.2));
 
       // If we need to draw the arc for all 360 degrees we need to add a hack where we close the circle
       // with Z and use 359.99 degrees
@@ -4153,44 +4276,59 @@ var Chartist = {
       var start = Chartist.polarToCartesian(center.x, center.y, radius, overlappigStartAngle),
         end = Chartist.polarToCartesian(center.x, center.y, radius, endAngle);
 
+      var innerStart,
+        innerEnd,
+        donutSolidRadius;
+
       // Create a new path element for the pie chart. If this isn't a donut chart we should close the path for a correct stroke
-      var path = new Chartist.Svg.Path(!options.donut)
+      var path = new Chartist.Svg.Path(!options.donut || options.donutSolid)
         .move(end.x, end.y)
         .arc(radius, radius, 0, endAngle - startAngle > 180, 0, start.x, start.y);
 
       // If regular pie chart (no donut) we add a line to the center of the circle for completing the pie
       if(!options.donut) {
         path.line(center.x, center.y);
+      } else if (options.donutSolid) {
+        donutSolidRadius = radius - donutWidth.value;
+        innerStart = Chartist.polarToCartesian(center.x, center.y, donutSolidRadius, startAngle - (index === 0 || hasSingleValInSeries ? 0 : 0.2));
+        innerEnd = Chartist.polarToCartesian(center.x, center.y, donutSolidRadius, endAngle);
+        path.line(innerStart.x, innerStart.y);
+        path.arc(donutSolidRadius, donutSolidRadius, 0, endAngle - startAngle  > 180, 1, innerEnd.x, innerEnd.y);
       }
 
       // Create the SVG path
       // If this is a donut chart we add the donut class, otherwise just a regular slice
-      var pathElement = seriesGroups[i].elem('path', {
+      var pathClassName = options.classNames.slicePie;
+      if (options.donut) {
+        pathClassName = options.classNames.sliceDonut;
+        if (options.donutSolid) {
+          pathClassName = options.classNames.sliceDonutSolid;
+        }
+      }
+      var pathElement = seriesGroups[index].elem('path', {
         d: path.stringify()
-      }, options.donut ? options.classNames.sliceDonut : options.classNames.slicePie);
+      }, pathClassName);
 
       // Adding the pie series value to the path
       pathElement.attr({
-        'ct:value': dataArray[i],
+        'ct:value': data.normalized.series[index],
         'ct:meta': Chartist.serialize(series.meta)
       });
 
       // If this is a donut, we add the stroke-width as style attribute
-      if(options.donut) {
-        pathElement.attr({
-          'style': 'stroke-width: ' + donutWidth.value + 'px'
-        });
+      if(options.donut && !options.donutSolid) {
+        pathElement._node.style.strokeWidth = donutWidth.value + 'px';
       }
 
       // Fire off draw event
       this.eventEmitter.emit('draw', {
         type: 'slice',
-        value: dataArray[i],
+        value: data.normalized.series[index],
         totalDataSum: totalDataSum,
-        index: i,
+        index: index,
         meta: series.meta,
         series: series,
-        group: seriesGroups[i],
+        group: seriesGroups[index],
         element: pathElement,
         path: path.clone(),
         center: center,
@@ -4201,9 +4339,31 @@ var Chartist = {
 
       // If we need to show labels we need to add the label for this slice now
       if(options.showLabel) {
-        // Position at the labelRadius distance from center and between start and end angle
-        var labelPosition = Chartist.polarToCartesian(center.x, center.y, labelRadius, startAngle + (endAngle - startAngle) / 2),
-          interpolatedValue = options.labelInterpolationFnc(this.data.labels && !Chartist.isFalseyButZero(this.data.labels[i]) ? this.data.labels[i] : dataArray[i], i);
+        var labelPosition;
+        if(data.raw.series.length === 1) {
+          // If we have only 1 series, we can position the label in the center of the pie
+          labelPosition = {
+            x: center.x,
+            y: center.y
+          };
+        } else {
+          // Position at the labelRadius distance from center and between start and end angle
+          labelPosition = Chartist.polarToCartesian(
+            center.x,
+            center.y,
+            labelRadius,
+            startAngle + (endAngle - startAngle) / 2
+          );
+        }
+
+        var rawValue;
+        if(data.normalized.labels && !Chartist.isFalseyButZero(data.normalized.labels[index])) {
+          rawValue = data.normalized.labels[index];
+        } else {
+          rawValue = data.normalized.series[index];
+        }
+
+        var interpolatedValue = options.labelInterpolationFnc(rawValue, index);
 
         if(interpolatedValue || interpolatedValue === 0) {
           var labelElement = labelsGroup.elem('text', {
@@ -4215,7 +4375,7 @@ var Chartist = {
           // Fire off draw event
           this.eventEmitter.emit('draw', {
             type: 'label',
-            index: i,
+            index: index,
             group: labelsGroup,
             element: labelElement,
             text: '' + interpolatedValue,
@@ -4228,7 +4388,7 @@ var Chartist = {
       // Set next startAngle to current endAngle.
       // (except for last slice)
       startAngle = endAngle;
-    }
+    }.bind(this));
 
     this.eventEmitter.emit('created', {
       chartRect: chartRect,

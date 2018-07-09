@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -23,7 +23,7 @@ import pstats
 
 from django.core.management.base import BaseCommand
 
-from weblate.trans.models import SubProject, Project
+from weblate.trans.models import Component, Project
 
 
 class Command(BaseCommand):
@@ -61,13 +61,13 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         project = Project.objects.get(slug=options['project'])
         # Delete any possible previous tests
-        SubProject.objects.filter(
+        Component.objects.filter(
             project=project,
             slug='benchmark'
         ).delete()
         profiler = cProfile.Profile()
-        subproject = profiler.runcall(
-            SubProject.objects.create,
+        component = profiler.runcall(
+            Component.objects.create,
             name='Benchmark',
             slug='benchmark',
             repo=options['repo'],
@@ -78,4 +78,4 @@ class Command(BaseCommand):
         stats.sort_stats(options['profile_sort'])
         stats.print_stats(options['profile_count'])
         # Delete after testing
-        subproject.delete()
+        component.delete()

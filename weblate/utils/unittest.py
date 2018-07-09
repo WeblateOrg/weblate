@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -26,7 +26,7 @@ from django.test.utils import override_settings
 
 
 # Lowercase name to be consistent with Django
-# pylint: disable=C0103
+# pylint: disable=invalid-name
 class tempdir_setting(override_settings):  # noqa
     def __init__(self, setting):
         kwargs = {setting: None}

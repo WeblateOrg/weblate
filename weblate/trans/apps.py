@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -23,31 +23,8 @@ import os
 from django.apps import AppConfig
 from django.utils.translation import ugettext_lazy as _
 
-from weblate.trans.data import data_dir
-from weblate.trans.vcs import GitRepository, RepositoryException
-from weblate.trans.util import add_configuration_error
-
 
 class TransConfig(AppConfig):
     name = 'weblate.trans'
     label = 'trans'
     verbose_name = _('Weblate translations')
-
-    def ready(self):
-        # Configure merge driver for Gettext PO
-        try:
-            GitRepository.global_setup()
-        except RepositoryException as error:
-            add_configuration_error(
-                'Git global setup',
-                'Failed to do git setup: {0}'.format(error)
-            )
-
-        # Use it for *.po by default
-        configdir = os.path.join(data_dir('home'), '.config', 'git')
-        configfile = os.path.join(configdir, 'attributes')
-        if not os.path.exists(configfile):
-            if not os.path.exists(configdir):
-                os.makedirs(configdir)
-            with open(configfile, 'w') as handle:
-                handle.write('*.po merge=weblate-merge-gettext-po\n')

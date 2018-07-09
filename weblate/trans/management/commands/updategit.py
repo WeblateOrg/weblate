@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -25,5 +25,5 @@ class Command(WeblateComponentCommand):
     help = 'updates git repos'
 
     def handle(self, *args, **options):
-        for subproject in self.get_subprojects(*args, **options):
-            subproject.do_update()
+        for component in self.get_components(*args, **options):
+            component.do_update()

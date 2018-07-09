@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+
+{% block breadcrumbs %}
+<li><a href="{% url 'checks' %}">{% trans "Checks" %}</a></li>
+<li><a href="{% url 'show_check' name=check.check_id %}">{{ check.name }}</a></li>
+<li><a href="{% url 'show_check_project' name=check.check_id project=component.project.slug %}">{{ component.project }}</a></li>
+<li><a href="{% url 'show_check_component' name=check.check_id project=component.project.slug component=component.slug %}">{{ component.name }}</a></li>
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+<div class="row">
+<div class="col-lg-6">
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Checks listing" %}</h4></div>
+
+{% if checks %}
+<div class="list-group">
+{% for obj in checks %}
+<a class="list-group-item" href="{% url 'translate' project=component.project.slug component=component.slug lang=obj.translation__language__code %}{{ url_params }}{% if url_params %}&amp;{% else %}?{% endif %}type={{ check.url_id }}"><span class="badge">{{ obj.count }}</span>{% language_name obj.translation__language__code %}</a>
+{% endfor %}
+</div>
+{% else %}
+<div class="panel-body">
+{% trans "No matching checks found!" as msg %}
+{% show_message "warning" msg %}
+</div>
+{% endif %}
+
+</div>
+</div>
+
+<div class="col-lg-6">
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Check details" %}</h4></div>
+  <div class="panel-body">
+    <p>
+    {{ check.description }}
+    </p>
+  </div>
+  <div class="panel-footer">
+  <a class="btn btn-default" href="{{ check.get_doc_url  }}">{% trans "Documentation" %}</a>
+  </div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+{% endblock %}

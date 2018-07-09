@@ -28,6 +28,7 @@ VIRTUALENV = os.path.join(
 
 with open(VIRTUALENV) as handle:
     code = compile(handle.read(), 'activate_this.py', 'exec')
+    # pylint: disable=exec-used
     exec(code, dict(__file__=VIRTUALENV))  # noqa
 
 

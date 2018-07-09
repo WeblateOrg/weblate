@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -19,6 +19,9 @@
 #
 
 from django.contrib.admin import ModelAdmin
+from django.db import models
+from django.utils import timezone
+from django.utils.encoding import python_2_unicode_compatible
 
 
 class WeblateModelAdmin(ModelAdmin):
@@ -28,3 +31,42 @@ class WeblateModelAdmin(ModelAdmin):
         'wladmin/delete_confirmation.html'
     delete_selected_confirmation_template = \
         'wladmin/delete_selected_confirmation.html'
+
+
+class ConfigurationErrorManager(models.Manager):
+    def add(self, name, message, timestamp=None):
+        if timestamp is None:
+            timestamp = timezone.now()
+        obj, created = self.get_or_create(
+            name=name,
+            defaults={
+                'message': message,
+                'timestamp': timestamp,
+            }
+        )
+        if created:
+            return obj
+        if obj.message != message or obj.timestamp != timestamp:
+            obj.message = message
+            obj.timestamp = timestamp
+            obj.save(update_fields=['message', 'timestamp'])
+        return obj
+
+
+@python_2_unicode_compatible
+class ConfigurationError(models.Model):
+    name = models.CharField(unique=True, max_length=150)
+    message = models.TextField()
+    timestamp = models.DateTimeField(default=timezone.now)
+    ignored = models.BooleanField(default=False)
+
+    objects = ConfigurationErrorManager()
+
+    class Meta(object):
+        ordering = ['-timestamp']
+        index_together = [
+            ('ignored', 'timestamp'),
+        ]
+
+    def __str__(self):
+        return self.name

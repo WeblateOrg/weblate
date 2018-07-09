@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -21,11 +21,11 @@
 from __future__ import unicode_literals
 
 from django.core.management.base import CommandError
-from django.contrib.auth.models import User
+from weblate.auth.models import User
 
 from weblate.accounts.models import Profile
-from weblate.trans.models import SubProject
-from weblate.trans.autotranslate import auto_translate
+from weblate.trans.models import Component
+from weblate.trans.autotranslate import AutoTranslate
 from weblate.trans.management.commands import WeblateTranslationCommand
 
 
@@ -92,19 +92,22 @@ class Command(WeblateTranslationCommand):
             if len(parts) != 2:
                 raise CommandError('Invalid source component specified!')
             try:
-                subproject = SubProject.objects.get(
+                component = Component.objects.get(
                     project__slug=parts[0],
                     slug=parts[1],
                 )
-            except SubProject.DoesNotExist:
+            except Component.DoesNotExist:
                 raise CommandError('No matching source component found!')
-            source = subproject.id
+            source = component.id
         else:
             source = ''
 
-        result = auto_translate(
-            user, translation, source,
-            options['inconsistent'], options['overwrite'],
-            check_acl=False
-        )
-        self.stdout.write('Updated {0} units'.format(result))
+        if options['inconsistent']:
+            filter_type = 'check:inconsistent'
+        elif options['overwrite']:
+            filter_type = 'all'
+        else:
+            filter_type = 'todo'
+        auto = AutoTranslate(user, translation, filter_type)
+        auto.process_others(source, check_acl=False)
+        self.stdout.write('Updated {0} units'.format(auto.updated))

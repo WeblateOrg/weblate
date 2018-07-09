@@ -42,10 +42,10 @@
 {% for prj in projects %}
 <tr>
 <th><a href="{% url 'project-language' lang=object.code project=prj.slug %}">{{ prj }}</a></th>
-<td class="progress-cell">{% generic_progress prj.language_stats.0 %}</td>
-<td class="percent">{{ prj.language_stats.0 }}%</td>
-<td class="progress-cell">{% generic_progress prj.language_stats.1 %}</td>
-<td class="percent">{{ prj.language_stats.1 }}%</td>
+<td class="progress-cell">{% translation_progress prj.language_stats %}</td>
+<td class="percent">{{ prj.language_stats.translated_percent }}%</td>
+<td class="progress-cell">{% words_progress prj.language_stats %}</td>
+<td class="percent">{{ prj.language_stats.translated_words_percent }}%</td>
 </tr>
 {% endfor %}
 </tbody>
@@ -57,25 +57,46 @@
 
 <table class="table">
 <tr>
-<th>{% trans "Number of plurals" %}</th>
-<td>{{ object.nplurals }}</td>
-</tr>
-<tr>
-<th>{% trans "Plural type" %}</th>
-<td>{{ object.get_plural_type_display }}</td>
-</tr>
-<tr>
-<th>{% trans "Plural equation" %}</th>
-<td><code>{{ object.pluralequation }}</code></td>
+<th>{% trans "Language code" %}</th>
+<td colspan="2">{{ object.code }}</td>
 </tr>
 <tr>
 <th>{% trans "Text direction" %}</th>
-<td>{{ object.get_direction_display }}</td>
+<td colspan="2">{{ object.get_direction_display }}</td>
+</tr>
+
+{% for plural in object.plural_set.all %}
+<tr class="info">
+<th colspan="3">
+<span class="badge pull-right flip">{{ plural.translation_set.count }}</span>
+{% blocktrans with source_description=plural.get_source_display %}Plural: {{ source_description }}{% endblocktrans %}
+</th>
 </tr>
 <tr>
-<th>{% trans "Language code" %}</th>
-<td>{{ object.code }}</td>
+<th>{% trans "Number of plurals" %}</th>
+<td colspan="2">{{ plural.number }}</td>
 </tr>
+<tr>
+<th>{% trans "Plural type" %}</th>
+<td colspan="2">{{ plural.get_type_display }}</td>
+</tr>
+<tr>
+<th rowspan="{{ plural.number }}">{% trans "Plurals" %}</th>
+{% if plural.number > 1 %}
+{% for item in plural.list_plurals %}
+{% if item.index > 1 %}
+<tr>
+{% endif %}
+<td>{{ item.name }}</td>
+<td>{{ item.examples }}</td>
+</tr>
+{% endfor %}
+{% endif %}
+<tr>
+<th>{% trans "Plural equation" %}</th>
+<td colspan="2"><code>{{ plural.equation }}</code></td>
+</tr>
+{% endfor %}
 </table>
 
 </div>
@@ -95,7 +116,8 @@
 {% endfor %}
 </div>
 {% else %}
-{% show_message "info" _("There are no glossaries defined for this language.") %}
+{% trans "There are no glossaries defined for this language." as msg %}
+{% show_message "info" msg %}
 {% endif %}
 </div>
 

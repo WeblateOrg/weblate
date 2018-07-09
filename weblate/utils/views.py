@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,6 +18,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from weblate.trans.views.helper import get_component
+
 
 def get_page_limit(request, default):
     """Return page and limit as integers."""
@@ -32,3 +34,12 @@ def get_page_limit(request, default):
         page = 1
     page = max(1, page)
     return page, limit
+
+
+class ComponentViewMixin(object):
+    def get_component(self):
+        return get_component(
+            self.request,
+            self.kwargs['project'],
+            self.kwargs['component']
+        )

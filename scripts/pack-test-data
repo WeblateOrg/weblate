@@ -13,13 +13,18 @@ hg clone --updaterev null https://bitbucket.org/nijel/weblate-test test-base-rep
 
 # Close bare Git repo
 git clone --bare https://github.com/WeblateOrg/test.git test-base-repo.git
+cd test-base-repo.git
+git gc --aggressive
+cd ..
 
 # Create SVN repo with same content as Git
 git clone --reference test-base-repo.git https://github.com/WeblateOrg/test.git test-data
 svnadmin create --compatible-version 1.6 test-base-repo.svn
 cd test-data
 rm -rf .git
-svn import -m 'Import po files' . file://$WD/test-base-repo.svn/trunk
+svn import -m 'Import po files
+
+Zkouška' . file://$WD/test-base-repo.svn/trunk
 cd ..
 
 # Pack them

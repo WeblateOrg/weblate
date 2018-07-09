@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -20,7 +20,20 @@
 from __future__ import unicode_literals
 
 from django.apps import AppConfig
+from django.core.checks import Error, register
+
+from weblate.utils.checks import check_mail_connection
+from weblate.utils.data import check_data_writable
+from weblate.utils.requirements import check_requirements
 
 
 class UtilsConfig(AppConfig):
-    name = 'utils'
+    name = 'weblate.utils'
+    label = 'utils'
+    verbose_name = 'Utils'
+
+    def ready(self):
+        register(check_requirements)
+        register(check_data_writable)
+        register(check_mail_connection, deploy=True)
+        super(UtilsConfig, self).ready()

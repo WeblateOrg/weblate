@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from weblate.screenshots.models import Screenshot
 from weblate.trans.tests.test_views import FixtureTestCase
@@ -30,7 +30,7 @@ TEST_SCREENSHOT = get_test_file('screenshot.png')
 class ViewTest(FixtureTestCase):
     def test_list_empty(self):
         response = self.client.get(
-            reverse('screenshots', kwargs=self.kw_subproject)
+            reverse('screenshots', kwargs=self.kw_component)
         )
         self.assertContains(response, 'Screenshots')
 
@@ -39,7 +39,7 @@ class ViewTest(FixtureTestCase):
             data = {'image': handle, 'name': 'Obrazek'}
             data.update(kwargs)
             return self.client.post(
-                reverse('screenshots', kwargs=self.kw_subproject),
+                reverse('screenshots', kwargs=self.kw_component),
                 data,
                 follow=True
             )
@@ -63,7 +63,7 @@ class ViewTest(FixtureTestCase):
 
     def test_upload_source(self):
         self.make_manager()
-        source = self.subproject.source_set.all()[0]
+        source = self.component.source_set.all()[0]
         response = self.do_upload(source=source.pk)
         self.assertContains(response, 'Obrazek')
         self.assertEqual(Screenshot.objects.count(), 1)

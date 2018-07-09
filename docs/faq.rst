@@ -10,7 +10,7 @@ How to create an automated workflow?
 ------------------------------------
 
 Weblate can handle all the translation things semi-automatically for you. If
-you will give it push access to your repository, the translations can happen
+you give it push access to your repository, the translations can happen
 without interaction unless some merge conflict occurs.
 
 1. Set up your git repository to tell Weblate whenever there is any change, see
@@ -19,7 +19,7 @@ without interaction unless some merge conflict occurs.
    to push changes to your repository.
 3. Enable push on commit on your :ref:`project` in Weblate, this will make
    Weblate push changes to your repository whenever they are committed at Weblate.
-4. Optionally setup a cron job for :djadmin:`commit_pending`.
+4. Optionally set up a cron job for :djadmin:`commit_pending`.
 
 .. seealso:: 
    
@@ -39,7 +39,7 @@ The merge conflicts happen from time to time when the translation file is change
 both Weblate and the upstream repository. You can usually avoid this by merging
 Weblate translations prior to doing some changes in the translation files (e.g.
 before executing msgmerge). Just tell Weblate to commit all pending
-tranlslations (you can do it in the :guilabel:`Repository maintenance` in the
+translations (you can do it in the :guilabel:`Repository maintenance` in the
 :guilabel:`Tools` menu) and merge the repository (if automatic push is not
 enabled).
 
@@ -52,7 +52,9 @@ actions.
 .. code-block:: sh
 
     # Add weblate as remote
-    git remote add weblate https://hosted.weblate.org/git/weblate/master/
+    git remote add weblate https://hosted.weblate.org/git/weblate/website/
+    # You might need to include credentials in some cases:
+    git remote add weblate https://username:APIKEY@hosted.weblate.org/git/weblate/website/
 
     # Update weblate remote
     git remote update weblate
@@ -89,6 +91,37 @@ branches:
     git checkout master
     git merge weblate/master
     ... # Resolve conflicts
+    git commit
+
+    # Push changes to upstream respository, Weblate will fetch merge from there
+    git push
+
+In case of Gettext po files, there is a way to merge conflict in a semi-automatic way:
+
+Get and keep local clone of the Weblate git repository. Also get a second fresh
+local clone of the upstream git repository (i. e. you need two copies of the
+upstream git repository: intact and working copy):
+
+
+.. code-block:: sh
+
+    # Add remote
+    git remote add weblate /path/to/weblate/snapshot/
+
+    # Update weblate remote
+    git remote update weblate
+
+    # Merge Weblate changes
+    git merge weblate/master
+
+    # Resolve conflicts in the po files
+    for PO in `find . -name '*.po'` ; do
+        msgcat --use-first /path/to/weblate/snapshot/$PO\
+                   /path/to/upstream/snapshot/$PO -o $PO.merge
+        msgmerge --previous --lang=${PO%.po} $PO.merge domain.pot -o $PO
+        rm $PO.merge
+        git add $PO
+    done
     git commit
 
     # Push changes to upstream respository, Weblate will fetch merge from there
@@ -136,7 +169,7 @@ Here are examples of workflows used with Weblate:
 
 - Weblate automatically pushes and merges changes (see :ref:`auto-workflow`)
 - You manually tell Weblate to push (it needs push access to the upstream repository)
-- Somebody manually merges changes from Weblates git repository into the upstream
+- Somebody manually merges changes from the Weblate git repository into the upstream
   repository
 - Somebody rewrites history produced by Weblate (eg. by eliminating merge
   commits), merges changes and tells Weblate to reset the content on the upstream
@@ -159,7 +192,7 @@ while still having them under version control.
 
 3. Link Weblate to this repository, it no longer needs access to the repository
    with your source code.
-4. You can update the main repository by translations from Weblate by:
+4. You can update the main repository with translations from Weblate by:
 
    .. code-block:: sh
 
@@ -181,7 +214,7 @@ open the ``/admin/performance/`` URL directly.
 Why do links contain example.com as the domain?
 -----------------------------------------------
 
-Weblate uses Djangos sites framework and it defines the site name inside the
+Weblate uses Django's sites framework and it defines the site name inside the
 database. You need to set the domain name to match your installation.
 
 .. seealso:: 
@@ -200,17 +233,6 @@ correctly as the user who has made the translation.
 .. seealso:: 
    
    :ref:`component`
-
-Why do I get a warning about not reflected changes on database migration?
--------------------------------------------------------------------------
-
-When running :command:`./manage.py migrate`, you can get the following warning::
-
-    Your models have changes that are not yet reflected in a migration, and so won't be applied.
-    Run 'manage.py makemigrations' to make new migrations, and then re-run 'manage.py migrate' to apply them.
-
-This is expected as Weblate generates choices for some fields and Django
-migrations can not reflect this. You can safely ignore this warning.
 
 Usage
 +++++
@@ -300,7 +322,7 @@ shows the differences automatically.
 Why does Weblate still show old translation strings when I've updated the template?
 -----------------------------------------------------------------------------------
 
-Weblate does not try to manipulate with the translation files in any other way
+Weblate does not try to manipulate the translation files in any way other
 than allowing translators to translate. So it also does not update the
 translatable files when the template or source code have been changed. You
 simply have to do this manually and push changes to the repository, Weblate
@@ -319,9 +341,8 @@ the :command:`msgmerge` tool:
 
     msgmerge -U locale/cs/LC_MESSAGES/django.mo locale/django.pot
 
-In case you want to do the update automatically, you can add a custom script
-to handle this to :setting:`POST_UPDATE_SCRIPTS` and enable it in the
-:ref:`component`.
+In case you want to do the update automatically, you can install
+addon :ref:`addon-weblate.gettext.msgmerge`.
 
 Troubleshooting
 +++++++++++++++
@@ -407,7 +428,7 @@ as ``TEMP`` variable:
 Database operations fail with "too many SQL variables"
 ------------------------------------------------------
 
-This can happen with SQLite database as it is not powerful enough for some
+This can happen when using theSQLite database as it is not powerful enough for some
 relations used within Weblate. The only way to fix this is to use some more
 capable database, see :ref:`production-database` for more information.
 
@@ -420,7 +441,7 @@ capable database, see :ref:`production-database` for more information.
 When accessing the site I get Bad Request (400) error
 -----------------------------------------------------
 
-This is most likely caused by not properly configured :setting:`ALLOWED_HOSTS`.
+This is most likely caused by an improperly configured :setting:`ALLOWED_HOSTS`.
 It needs to contain all hostnames you want to access your Weblate. For example:
 
 .. code-block:: python
@@ -439,7 +460,7 @@ Features
 Does Weblate support other VCS than Git and Mercurial?
 ------------------------------------------------------
 
-Weblate currently does not have native support for anything else than
+Weblate currently does not have native support for anything other than
 :ref:`vcs-git` (with extended support for :ref:`vcs-github` and
 :ref:`vcs-git-svn`) and ref:`vcs-mercurial`, but it is possible to write
 backends for other VCSes.
@@ -450,7 +471,7 @@ You can also use :ref:`vcs-git-helpers` in Git to access other VCSes.
 .. note::
 
     For native support of other VCS, Weblate requires distributed VCS and could
-    be probably adjusted to work with anything else than Git and Mercurial, but
+    be probably adjusted to work with anything other than Git and Mercurial, but
     somebody has to implement this support.
 
 .. seealso:: :ref:`vcs`
@@ -468,7 +489,7 @@ updated to include the translator name.
 .. seealso:: :djadmin:`list_translators`
 
 Why does Weblate force to show all po files in a single tree?
-----------------------------------------------------------------
+-------------------------------------------------------------
 
 Weblate was designed in a way that every po file is represented as a single
 component. This is beneficial for translators, so they know what they are
@@ -480,3 +501,16 @@ not using Weblate.
 
     In case there will be big demand for this feature, it might be implemented
     in future versions, but it's definitely not a priority for now.
+
+.. _faq-codes:
+
+Why does Weblate use language codes such sr_Latn or zh_Hant?
+------------------------------------------------------------
+
+These are language codes defined by :rfc:`4646` to better indicate that they
+are really different languages instead previously wrongly used modifiers (for
+``@latin`` variants) or country codes (for Chinese).
+
+Weblate will still understand legacy language codes and will map them to
+current one - for example ``sr@latin`` will be handled as ``sr_Latn`` or
+``zh@CN`` as ``sr_Hans``.

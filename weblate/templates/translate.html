@@ -10,32 +10,30 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-<li><a href="{{ unit.translation.subproject.project.get_absolute_url }}">{{ unit.translation.subproject.project }}</a></li>
-<li><a href="{{ unit.translation.subproject.get_absolute_url }}">{{ unit.translation.subproject.name }}</a></li>
+<li><a href="{{ unit.translation.component.project.get_absolute_url }}">{{ unit.translation.component.project }}</a></li>
+<li><a href="{{ unit.translation.component.get_absolute_url }}">{{ unit.translation.component.name }}</a></li>
 <li><a href="{{ unit.translation.get_absolute_url }}">{{ unit.translation.language }}</a></li>
 <li><a href="{{ unit.translation.get_translate_url }}">{% trans "translate" %}</a></li>
 {% endblock %}
 
 {% block content %}
 
-{% can_translate user unit.translation as user_can_translate %}
-{% can_suggest user unit.translation as user_can_suggest %}
-{% can_accept_suggestion user unit.translation as user_can_accept_suggestion %}
-{% can_vote_suggestion user unit.translation as user_can_vote_suggestion %}
-{% can_use_mt user unit.translation as user_can_use_mt %}
-{% can_edit_flags user unit.translation.subproject.project as user_can_edit_flags %}
-{% can_edit_priority user unit.translation.subproject.project as user_can_edit_priority %}
-{% can_add_screenshot user project as user_can_add_screenshot %}
-{% can_add_comment user project as user_can_add_comment %}
-{% can_add_dictionary user project as user_can_add_dictionary %}
+{% perm 'unit.edit' unit as user_can_translate %}
+{% perm 'suggestion.add' unit.translation as user_can_suggest %}
+{% perm 'suggestion.accept' unit as user_can_accept_suggestion %}
+{% perm 'suggestion.vote' unit.translation as user_can_vote_suggestion %}
+{% perm 'machinery.view' unit.translation as user_can_use_mt %}
+{% perm 'source.edit' unit.translation as user_can_edit_source %}
+{% perm 'screenshot.add' project as user_can_add_screenshot %}
+{% perm 'comment.add' project as user_can_add_comment %}
+{% perm 'glossary.add' project as user_can_add_dictionary %}
 
 {% if user_can_translate %}
-<a href="{% url 'zen' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug lang=unit.translation.language.code %}?{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Edit in Zen mode" %}" class="btn btn-default pull-right flip"><i class="fa fa-arrows-alt"></i> {% trans "Zen" %}</a>
+<a href="{% url 'zen' project=unit.translation.component.project.slug component=unit.translation.component.slug lang=unit.translation.language.code %}?{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Edit in Zen mode" %}" class="btn btn-default pull-right flip"><i class="fa fa-arrows-alt"></i> {% trans "Zen" %}</a>
 {% endif %}
 
-{% with unit.translation as object %}
-{% include "show-lock.html" %}
-{% endwith %}
+{% include "show-lock.html" with object=unit.translation.component %}
+{% show_contributor_agreement unit.translation.component %}
 
 {% with unit.get_comments as comments and unit.nearby as nearby %}
 
@@ -44,8 +42,9 @@
 <li><a id="button-first" href="{{ first_unit_url }}" title="{% trans "First" %}"><i class="fa fa-step-backward"></i></a></li>
 <li><a id="button-prev" href="{{ prev_unit_url }}" title="{% trans "Previous" %}"><i class="fa fa-backward"></i></a></li>
 <li>
-<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-{% blocktrans %}{{ filter_name }} ({{ filter_pos }} / {{ filter_count }}){% endblocktrans %}
+<a class="dropdown-toggle" data-toggle="dropdown" href="#" title="{% trans "Edit search parameters" %}" id="search-dropdown">
+<i class="fa fa-search" aria-hidden="true"></i>
+{{ filter_name }}
 <span class="caret"></span>
 </a>
   <div class="dropdown-menu">
@@ -54,6 +53,28 @@
 <form action="{{ unit.translation.get_translate_url }}" method="GET">
 {{ search_form|crispy }}
 <input type="submit" value="{% trans "Search" %}" class="btn btn-default" />
+</form>
+</div>
+
+</div>
+</li>
+<li>
+<a class="dropdown-toggle" data-toggle="dropdown" href="#" title="{% trans "Go to position" %}" id="goto-dropdown">
+{% blocktrans %}{{ filter_pos }} / {{ filter_count }}{% endblocktrans %}
+<span class="caret"></span>
+</a>
+  <div class="dropdown-menu">
+
+<div class="panel-group">
+
+<form action="{{ unit.translation.get_translate_url }}?{{ search_url }}" method="GET">
+<div class="form-group">
+<label class="control-label" for="id-goto-number">{% trans "Jump to position" %}</label>
+<div class="controls">
+<input type="number" min="1" max="{{ filter_count }}" value="{{ filter_pos }}" name="offset" id="id-goto-number">
+</div>
+</div>
+<input type="submit" value="{% trans "Jump" %}" class="btn btn-default" />
 </form>
 </div>
 
@@ -70,21 +91,26 @@
 <div class="col-sm-9">
 
 <form action="{{ this_unit_url }}" method="post" class="translation-form translator">
-<div class="panel {% if unit.translation.is_template %}panel-warning{% else %}panel-primary{% endif %}">
+<div class="panel {% if unit.approved %}panel-success{% elif unit.translation.is_template %}panel-warning{% else %}panel-primary{% endif %}">
 
   <div class="panel-heading"><span class="pull-right flip">
+  <i class="fa fa-link text-tooltip" data-toggle="tooltip" data-placement="bottom" data-clipboard-text="{{ site_url }}{{ unit.get_absolute_url }}" title="{% trans "Copy permalink" %}"></i>
+  &nbsp;
   <i class="fa fa-keyboard-o html-tooltip" data-toggle="tooltip" data-placement="bottom"
-    data-title="{% trans "Keyboard shortcuts available:"%}<br />
-    {% trans "Ctrl+Enter - Save" %}<br />
-    {% trans "Ctrl+Shift+Enter - Unmark review needed flag and save" %}<br />
-    {% trans "Alt+PageUp/PageDown/Home/End - Translation units navigation"%}<br />
-    {% trans "Alt+E - Focus translation editor"%}<br />
-    {% trans "Alt+C - Focus comment editor"%}<br />
-    {% trans "Alt+M - Shows machine translation tab"%}<br />
-    {% trans "Alt+N - Shows nearby strings tab"%}<br />
-    {% trans "Alt+S - Shows search tab"%}<br />
-    {% trans "Alt+V - Copies source string"%}<br />
-    {% trans "Alt+F - Toggle review needed flag"%}<br />
+    data-title="<table><thead><tr><th colspan='2'>{% trans "Keyboard shortcuts available:" %}</th></tr></thead>
+    <tbody>
+    <tr><td>Ctrl+Enter</td><td>{% trans "Save" %}</td></tr>
+    <tr><td>Ctrl+Shift+Enter</td><td>{% trans "Unmark review needed flag and save" %}</td></tr>
+    <tr><td>Alt+PageUp/PageDown/Home/End</td><td>{% trans "Strings navigation" %}</td></tr>
+    <tr><td>Ctrl+E</td><td>{% trans "Focus translation editor" %}</td></tr>
+    <tr><td>Ctrl+Q</td><td>{% trans "Focus comment editor" %}</td></tr>
+    <tr><td>Ctrl+M</td><td>{% trans "Shows machine translation tab" %}</td></tr>
+    <tr><td>Ctrl+J</td><td>{% trans "Shows nearby strings tab" %}</td></tr>
+    <tr><td>Ctrl+S</td><td>{% trans "Shows search tab" %}</td></tr>
+    <tr><td>Ctrl+O</td><td>{% trans "Copies source string" %}</td></tr>
+    <tr><td>Ctrl+Y</td><td>{% trans "Toggle edit needed flag" %}</td></tr>
+    </tbody>
+    </table>
     "></i>
   </span><h4 class="panel-title">{% if unit.translation.is_template %}{% trans "Editing source string" %}{% else %}{% trans "Translate" %}{% endif %}</h4></div>
   <div class="panel-body">
@@ -96,14 +122,14 @@
     {% for secondary_unit in secondary %}
     <div class="form-group">
     <label>{{ secondary_unit.translation.language }}</label>
-    {% can_translate user secondary_unit.translation as user_can_edit_secondary %}
+    {% perm 'unit.edit' secondary_unit as user_can_edit_secondary %}
     {% if user_can_edit_secondary %}
     <a title="{% trans "Edit string" %}"href="{{ secondary_unit.get_absolute_url }}"><i class="fa fa-pencil"></i></a>
     {% endif %}
     {% if user.profile.hide_source_secondary %}
-    {% format_translation secondary_unit.target secondary_unit.translation.language search_match=search_query num_plurals=unit.translation.language.nplurals unit=unit %}
+    {% format_translation secondary_unit.target secondary_unit.translation.language secondary_unit.translation.plural search_match=search_query num_plurals=unit.translation.plural.number unit=unit %}
     {% else %}
-    {% format_translation secondary_unit.target secondary_unit.translation.language %}
+    {% format_translation secondary_unit.target secondary_unit.translation.language secondary_unit.translation.plural %}
     {% endif %}
     </div>
     {% endfor %}
@@ -113,7 +139,7 @@
     {% if unit.previous_source and unit.fuzzy %}
     <div class="form-group">
     <label>{% trans "Source change" %}</label>
-    {% format_translation unit.source unit.translation.subproject.project.source_language diff=unit.previous_source num_plurals=unit.translation.language.nplurals %}
+    {% format_translation unit.source unit.translation.component.project.source_language diff=unit.previous_source num_plurals=unit.translation.plural.number %}
     </div>
     {% endif %}
 
@@ -121,7 +147,7 @@
     <!-- editing template -->
     <div class="form-group">
     <label>{% trans "Context" %}</label>
-    {% format_translation unit.context unit.translation.subproject.project.source_language search_match=search_query num_plurals=unit.translation.language.nplurals %}
+    {% format_translation unit.context unit.translation.component.project.source_language search_match=search_query num_plurals=unit.translation.plural.number %}
     </div>
     {% else %}
 
@@ -129,7 +155,15 @@
     <!-- comment -->
     <div class="form-group help-block">
     <label>{% trans "Source string comment" %}</label>
-    {% format_translation unit.comment unit.translation.subproject.project.source_language %}
+    {% format_translation unit.comment unit.translation.component.project.source_language %}
+    </div>
+    {% endif %}
+
+    {% if unit.source_info.context %}
+    <!-- source string context  -->
+    <div class="form-group help-block">
+    <label>{% trans "Additional context" %}</label>
+    {% format_translation unit.source_info.context unit.translation.component.project.source_language %}
     </div>
     {% endif %}
 
@@ -143,38 +177,47 @@
     </div>
     {% endif %}
     <label>{% trans "Source" %}</label>
-    {% with unit.translation.subproject.get_editable_template as edit_template %}
+    {% with unit.translation.component.get_editable_template as edit_template %}
     {% if edit_template %}
-    {% can_translate user edit_template as user_can_edit_template %}
+    {% perm 'unit.edit' edit_template as user_can_edit_template %}
     {% if user_can_edit_template %}
     <a title="{% trans "Edit source string" %}"href="{{ edit_template.get_translate_url }}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>
     {% endif %}
     {% endif %}
     {% endwith %}
-    {% format_translation unit.source unit.translation.subproject.project.source_language search_match=search_query num_plurals=unit.translation.language.nplurals unit=unit %}
+    {% format_translation unit.source unit.translation.component.project.source_language search_match=search_query num_plurals=unit.translation.plural.number unit=unit %}
     </div>
     {% endif %}
     {% endif %}
 
     <!-- edit form -->
-    {{ form|crispy }}
+    {% crispy form %}
   </div>
   <div class="panel-footer">
-    {% if user_can_translate %}
-    <button class="btn btn-success" type="submit" name="save" tabindex="150" {% if locked %}disabled="disabled"{% endif %} ><i class="fa fa-check"></i> {% trans "Save" %}</button>
-    {% elif not user.is_authenticated %}
-    {% url 'login' as login_url %}
-    {% with unit.translation.get_translate_url as translate_url %}
-    {% blocktrans %}<a href="{{ login_url }}?next={{ translate_url }}">Log in</a> for saving translations.{% endblocktrans %}
-    {% endwith %}
-    {% endif %}
-
-    {% if unit.translation.subproject.enable_suggestions %}
-    {% if user_can_suggest %}
-    <button class="btn btn-warning" type="submit" name="suggest" tabindex="151" {% if project_locked %}disabled="disabled"{% endif %}><i class="fa fa-comment"></i> {% trans "Suggest" %}</button>
+    <button class="btn btn-success" type="submit" name="save" tabindex="150" 
+    {% if locked or not user_can_translate %}disabled="disabled"{% endif %} 
+    {% if not user_can_translate %}
+    {% if not user.is_authenticated %}
+    title="{% trans "Please log in to save translations." %}"
+    {% elif unit.approved %}
+    title="{% trans "Only reviewers can change approved strings, please add a suggestion if you think the string should be changed." %}"
     {% else %}
-    {% trans "No privileges for adding suggestions!" %}
+    title="{% trans "Insufficient privileges for saving translations." %}"
     {% endif %}
+    {% elif locked %}
+    title="{% trans "This translation is currently locked." %}"
+    {% endif %}
+    ><i class="fa fa-check"></i> {% trans "Save" %}</button>
+
+    {% if unit.translation.component.enable_suggestions %}
+    <button class="btn btn-warning" type="submit" name="suggest" tabindex="151" 
+    {% if project_locked or not user_can_suggest %}disabled="disabled"{% endif %}
+    {% if not user_can_suggest %}
+    title="{% trans "Insufficient privileges for adding suggestions." %}"
+    {% elif project_locked %}
+    title="{% trans "This translation is currently locked." %}"
+    {% endif %}
+    ><i class="fa fa-comment"></i> {% trans "Suggest" %}</button>
     {% endif %}
     <button class="btn btn-info" type="submit" name="skip" tabindex="152"><i class="fa {% if LANGUAGE_BIDI %}fa-backward{% else %}fa-forward{% endif %}"></i> {% trans "Skip" %}</button>
 
@@ -186,7 +229,7 @@
         placeholder="{% trans "Additional text to include" %}"
         tabindex="152"
         value="{{ unit.translation.commit_message }}"
-        title="{% trans "You can leave this empty in most cases as Weblate generates basic commit messages automatically." %}"
+        title="{% trans "You can leave this empty in most cases, as Weblate generates basic commit messages automatically." %}"
     />
     </div>
     {% endif %}
@@ -195,21 +238,21 @@
 </form>
 
 <ul class="nav nav-pills translation-tabs">
-<li class="active"><a href="#nearby" data-toggle="tab" title="{% trans "Messages placed around this one" %}">{% trans "Nearby messages" %} <span class="badge">{{ nearby|length }}</span></a></li>
+<li class="active"><a href="#nearby" data-toggle="tab" id="toggle-nearby" title="{% trans "Messages placed around this one" %}">{% trans "Nearby strings" %} <span class="badge">{{ nearby|length }}</span></a></li>
 {% if unit.suggestions %}
-<li><a href="#suggestions" data-toggle="tab">{% trans "Suggestions" %} <span class="badge">{{ unit.suggestions.count }}</span></a></li>
+<li><a href="#suggestions" data-toggle="tab" id="toggle-suggestions">{% trans "Suggestions" %} <span class="badge">{{ unit.suggestions.count }}</span></a></li>
 {% endif %}
 {% if others.exists %}
-<li><a href="#others" data-toggle="tab">{% trans "Other translations" %} <span class="badge">{{ others.exists }}</span></a></li>
+<li><a href="#others" data-toggle="tab" id="toggle-others">{% trans "Other translations" %} <span class="badge">{{ others.exists }}</span></a></li>
 {% endif %}
 {% if comments or user_can_add_comment %}
-<li><a href="#comments" data-toggle="tab">{% trans "Comments" %}{% if comments %} <span class="badge">{{ comments.count }}</span>{% endif %}</a></li>
+<li><a href="#comments" data-toggle="tab" id="toggle-comments">{% trans "Comments" %}{% if comments %} <span class="badge">{{ comments.count }}</span>{% endif %}</a></li>
 {% endif %}
 {% if user_can_use_mt %}
-<li><a href="#machine" data-toggle="tab" data-load="mt" title="{% trans "Machine translation suggestions" %}">{% trans "Machine translation" %}</a></li>
+<li><a href="#machine" data-toggle="tab" id="toggle-machine" data-load="mt" title="{% trans "Machine translation suggestions" %}">{% trans "Machine translation" %}</a></li>
 {% endif %}
-<li><a href="#translations" data-toggle="tab" data-href="{% url 'js-unit-translations' unit_id=unit.id %}" title="{% trans "Translations of this unit to other languages" %}">{% trans "Other languages" %}</a></li>
-<li><a href="#history" data-toggle="tab" data-href="{% url 'js-unit-changes' unit_id=unit.id %}" title="{% trans "List of recent changes done in Weblate" %}">{% trans "History" %}</a></li>
+<li><a href="#translations" data-toggle="tab" id="toggle-translations" data-href="{% url 'js-unit-translations' unit_id=unit.id %}" title="{% trans "Translations of this string in the other languages" %}">{% trans "Other languages" %}</a></li>
+<li><a href="#history" data-toggle="tab" id="toggle-history" data-href="{% url 'js-unit-changes' unit_id=unit.id %}" title="{% trans "List of recent changes done in Weblate" %}">{% trans "History" %}</a></li>
 </ul>
 
 <div class="tab-content">
@@ -223,8 +266,8 @@
 {% for item in nearby %}
 <tr {% if unit.position == item.position %}class="current_translation"{% endif %}>
 <td class="number"><a href="{{ item.get_absolute_url }}">{{ item.position }}</a></td>
-<td><a href="{{ item.get_absolute_url }}">{% format_translation item.source unit.translation.subproject.project.source_language %}</a></td>
-<td><a href="{{ item.get_absolute_url }}">{% format_translation item.target unit.translation.language %}</a></td>
+<td><a href="{{ item.get_absolute_url }}">{% format_translation item.source unit.translation.component.project.source_language %}</a></td>
+<td><a href="{{ item.get_absolute_url }}">{% format_translation item.target unit.translation.language unit.translation.plural %}</a></td>
 <td>{% get_state_flags item %}</td>
 </tr>
 {% endfor %}
@@ -248,9 +291,9 @@
 {% trans "Anonymous user has suggested" %}
 {% endif %}
 </strong></h5>
-{% format_translation suggestion.target unit.translation.language %}
+{% format_translation suggestion.target unit.translation.language unit.translation.plural %}
 <p class="help-block">{% trans "Suggested change:" %}</p>
-{% format_translation suggestion.target unit.translation.language unit.target %}
+{% format_translation suggestion.target unit.translation.language unit.translation.plural unit.target %}
 {% if user_can_vote_suggestion %}
 <p class="help-block">
 {% blocktrans count count=suggestion.get_num_votes %}{{ count }} vote{% plural %}{{ count }} votes{% endblocktrans %}
@@ -265,7 +308,7 @@
 <button type="submit" class="btn btn-success" name="accept" value="{{ suggestion.id }}"><i class="fa fa-check"></i> {% trans "Accept" %}</button>
 <button type="submit" class="btn btn-warning" name="accept_edit" value="{{ suggestion.id }}"><i class="fa fa-pencil"></i> {% trans "Accept and edit" %}</button>
 {% endif %}
-{% can_delete_suggestion user unit.translation suggestion as user_can_delete_suggestion %}
+{% perm 'suggestion.delete' suggestion unit.translation as user_can_delete_suggestion %}
 {% if user_can_delete_suggestion %}
 <button type="submit" class="btn btn-danger" name="delete" value="{{ suggestion.id }}"><i class="fa fa-trash"></i> {% trans "Delete" %}</button>
 {% endif %}
@@ -333,7 +376,8 @@
 <th>{% trans "Translation" %}</th>
 <th>{% trans "Source" %}</th>
 <th>{% trans "Service" %}</th>
-<th>
+<th>{% trans "Quality" %}</th>
+<th colspan="2">
 <i id="mt-loading" class="fa fa-spinner fa-spin pull-right flip" style="display:none;"></i>
 </th>
 <tr>
@@ -351,18 +395,18 @@
 
 {% if comments %}
   {% with this_unit_url as next_url %}
-    {% include "list-comments.html" %}
+    {% include "list-comments.html" with object=unit.translation %}
   {% endwith %}
 {% endif %}
 
 {% if user_can_add_comment %}
-<form method="post" action="{% url 'comment' pk=unit.id %}">
+<form method="post" action="{% url 'comment' pk=unit.id %}" class="auto-save-translation">
 {% csrf_token %}
 <input type="hidden" name="next" value="{{ this_unit_url }}#comments" />
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "New comment" %}</h4></div>
   <div class="panel-body">
-  <p class="help-block">{% trans "You can share comments about this string with other translators and developers." %}</p>
+  <p class="help-block">{% trans "Comment on this string for fellow translators and developers to read." %}</p>
 {{ comment_form|crispy }}
 </div>
 <div class="panel-footer">
@@ -388,12 +432,12 @@
   <div class="panel-heading"><h4 class="panel-title">{% trans "Things to check" %}</h4></div>
   <div class="panel-body">
   {% if unit.suggestions %}
-  <div class="alert alert-warning check"><a href="#suggestions" data-toggle="tab" class="alert-link">{% trans "Suggestions" %}</a> <span class="badge pull-right flip">{{ unit.suggestions.count }}</span></div>
+  <div class="alert alert-{% if unit.approved %}danger{% else %}warning{% endif %} check"><a href="#suggestions" data-toggle="tab" class="alert-link">{% trans "Suggestions" %}</a> <span class="badge pull-right flip">{{ unit.suggestions.count }}</span></div>
   {% endif %}
   {% if others.count %}
   <div class="alert alert-warning check"><a href="#others" data-toggle="tab" class="alert-link">{% trans "Other translations" %}</a> <span class="badge pull-right flip">{{ others.count }}</span></div>
   {% endif %}
-  {% show_checks unit.translation.subproject.project checks user %}
+  {% show_checks unit.translation.component.project checks user %}
   {% if comments %}
   <div class="alert alert-info check"><a href="#comments" data-toggle="tab" class="alert-link">{% trans "Comments" %}</a> <span class="badge pull-right flip">{{ comments.count }}</span></div>
   {% endif %}
@@ -409,7 +453,7 @@
 <div class="panel panel-primary">
   <div class="panel-heading">
   <h4 class="panel-title">
-    <a class="pull-right flip" title="{% trans "Manage glossary" %}" href="{% url 'show_dictionary' project=unit.translation.subproject.project.slug lang=unit.translation.language.code %}"><i class="fa fa-pencil-square-o"></i></a>
+    <a class="pull-right flip" title="{% trans "Manage glossary" %}" href="{% url 'show_dictionary' project=unit.translation.component.project.slug lang=unit.translation.language.code %}"><i class="fa fa-pencil-square-o"></i></a>
     <i id="glossary-add-loading" class="fa fa-spinner fa-spin pull-right flip" style="display:none;"></i>
     {% trans "Glossary" %}
   </h4>
@@ -442,8 +486,7 @@
 <div class="panel panel-primary">
   <div class="panel-heading">
   <h4 class="panel-title">
-    {% doc_url 'user/translating' 'source-context' as strings_doc_url %}
-    <a class="pull-right flip" href="{{ strings_doc_url }}"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+    {% documentation_icon 'user/translating' 'source-context' right=True %}
   {% trans "Source information" %}
   </h4>
   </div>
@@ -452,7 +495,7 @@
     {% if screenshots or user_can_add_screenshot %}
     <tr>
     <th>
-    {% if user_can_add_screenshot %} <a class="button smallbutton pull-right flip" href="{% url 'review_source' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug  %}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>{% endif %}
+    {% if user_can_add_screenshot %} <a class="button smallbutton pull-right flip" id="edit-screenshot" href="{% url 'review_source' project=unit.translation.component.project.slug component=unit.translation.component.slug  %}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>{% endif %}
     {% trans "Screenshot context" %}
     </th>
     </tr>
@@ -467,18 +510,33 @@
     </tr>
     {% endif %} 
     {% endwith %}
-    {% if unit.context %}
-    <tr>
-    <th>{% trans "Context" %}</th>
-    </tr>
-    <tr>
-    <td>{% format_translation unit.context unit.translation.subproject.project.source_language search_match=search_query simple=True %}</td>
-    </tr>
-    {% endif %}
-    {% if unit.all_flags or user_can_edit_flags %}
+    {% if unit.context or unit.source_info.context or user_can_edit_source %}
     <tr>
     <th>
-    {% if user_can_edit_flags %} <a class="button smallbutton pull-right flip" href="{% url 'review_source' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug  %}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>{% endif %}
+    {% if user_can_edit_source %} <a class="button smallbutton pull-right flip" href="{% url 'review_source' project=unit.translation.component.project.slug component=unit.translation.component.slug  %}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>{% endif %}
+    {% trans "Context" %}
+    </th>
+    </tr>
+    {% if user_can_edit_source and not unit.source_info.context and not unit.context %}
+    <tr>
+    <td>{% trans "No context currently associated!" %}</td>
+    </tr>
+    {% endif %}
+    {% if unit.source_info.context %}
+    <tr>
+    <td>{{ unit.source_info.context }}</td>
+    </tr>
+    {% endif %}
+    {% if unit.context %}
+    <tr>
+    <td>{% format_translation unit.context unit.translation.component.project.source_language search_match=search_query simple=True %}</td>
+    </tr>
+    {% endif %}
+    {% endif %}
+    {% if unit.all_flags or user_can_edit_source %}
+    <tr>
+    <th>
+    {% if user_can_edit_source %} <a class="button smallbutton pull-right flip" href="{% url 'review_source' project=unit.translation.component.project.slug component=unit.translation.component.slug  %}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>{% endif %}
     {% trans "Flags" %}
     </th>
     </tr>
@@ -495,7 +553,7 @@
     {% include "unit-details.html" %}
     <tr>
     <th>
-    {% if user_can_edit_priority %} <a class="button smallbutton pull-right flip" href="{% url 'review_source' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug  %}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>{% endif %}
+    {% if user_can_edit_source %} <a class="button smallbutton pull-right flip" href="{% url 'review_source' project=unit.translation.component.project.slug component=unit.translation.component.slug  %}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>{% endif %}
     {% trans "String priority" %}
     </th>
     </tr>
@@ -510,7 +568,7 @@
     <th>{% trans "Failing checks" %}</th>
     </tr>
     <tr>
-    <td>{% show_checks unit.translation.subproject.project checks user %}</td>
+    <td>{% show_checks unit.translation.component.project checks user %}</td>
     </tr>
     {% endif %}
     {% endwith %}
@@ -524,8 +582,6 @@
 
 <a href="{% url 'js-translate' unit_id=unit.id %}" class="hidden" id="js-translate"></a>
 <a href="{% url 'js-mt-services' %}" class="hidden" id="js-mt-services"></a>
-
-<a href="{% url 'js-lock' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug lang=unit.translation.language.code %}" class="hidden" id="js-lock" {% if update_lock %}data-autostart="1"{% endif %}></a>
 
 {% endwith %}
 

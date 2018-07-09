@@ -6,14 +6,14 @@
 {% block breadcrumbs %}
 <li><a href="{{ object.component.project.get_absolute_url }}">{{ object.component.project }}</a></li>
 <li><a href="{{ object.component.get_absolute_url }}">{{ object.component.name }}</a></li>
-<li><a href="{% url 'screenshots' project=object.component.project.slug subproject=object.component.slug %}">{% trans "Screenshots" %}</a></li>
+<li><a href="{% url 'screenshots' project=object.component.project.slug component=object.component.slug %}">{% trans "Screenshots" %}</a></li>
 <li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></li>
 {% endblock %}
 
 {% block content %}
 
-{% can_delete_screenshot user object.component.project as user_can_delete_screenshot %}
-{% can_change_screenshot user object.component.project as user_can_change_screenshot %}
+{% perm 'screenshot.delete' object.component as user_can_delete_screenshot %}
+{% perm 'screenshot.edit' object.component as user_can_change_screenshot %}
 
 
 <div class="panel panel-primary">
@@ -50,14 +50,15 @@
     <thead>
     <tr>
     <th>{% trans "Source string" %}</th>
+    <th>{% trans "Context" %}</th>
     <th>{% trans "Actions" %}</th>
     </tr>
     </thead>
     <tbody id="screenshots-loading" style="display:none;">
-      <tr><td colspan="2"><i class="fa fa-spinner fa-spin"></i> {% trans "Loading results…" %}</td></tr>
+      <tr><td colspan="3"><i class="fa fa-spinner fa-spin"></i> {% trans "Loading results…" %}</td></tr>
     </tbody>
     <tbody id="search-results">
-      <tr><td colspan="2">{% trans "Please search below to find matching source strings." %}</td></tr>
+      <tr><td colspan="3">{% trans "Please search below to find matching source strings." %}</td></tr>
     </tbody>
   </table>
   </div>
@@ -72,7 +73,7 @@
     {% endif %}
     <form class="form-inline double-submission">
       {% csrf_token %}
-      <input type="text" required="yes" name="q" placeholder="{% trans "Source string search" %}" />
+      <input type="text" required="yes" name="q" id="search-input" placeholder="{% trans "Source string search" %}" />
       <button data-href="{% url 'screenshot-js-search' pk=object.pk %}" class="btn btn-success" id="screenshots-search"><i class="fa fa-search"></i> {% trans "Search" %}</button>
     </form>
   </div>

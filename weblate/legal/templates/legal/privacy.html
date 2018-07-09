@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+
+{% block breadcrumbs %}
+<li><a href="{% url 'legal:index' %}">{% trans "Legal" %}</a></li>
+<li><a href="{% url 'legal:privacy' %}">{% trans "Privacy" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+{% include 'legal/menu.html' %}
+
+<div class="container-fluid">
+
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Privacy Policy" %}</h4></div>
+<div class="panel-body tos">
+
+<p>
+We comply with the Regulation No. 2016/679, the General Data Protection
+Regulation, also known as GDPR. This document includes necessary
+specifications.
+</p>
+
+<h2>Personal Data Controller</h2>
+
+<p>
+Ing. Michal Čihař, Zdiměřická 1439/8, 149 00 Praha, Czechia, Reg. No. 04705904
+</p>
+
+<p>
+We have appointed a data protection officer who may be reached via privacy@weblate.org.
+</p>
+
+<h2>Personal Data we process</h2>
+
+<p>
+{% trans "We process only Personal Data User provides us by using our service:" %}
+</p>
+
+<dl>
+
+<dt>{% trans "Name and email" %}</dt>
+<dd>{% trans "These are used to identify you in the VCS commits" %}</dd>
+<dd>{% trans "Additionally, email is used for notification of watched events" %}</dd>
+
+<dt>{% trans "Password in hashed form" %}</dt>
+<dd>{% trans "Used to authenticate user if configured" %}</dt>
+
+<dt>{% trans "IP address and browser name" %}</dt>
+<dd>{% trans "These are logged in case of important changes to your account (e.g. password change) to allow diagnosis in case your account is stolen" %}</dd>
+
+</dl>
+
+<h2>Purpose and legal basis of processing Personal Data</h2>
+
+<p>
+Your Personal Data will be used for the purposes of the Service:
+</p>
+
+<ul>
+    <li>for providing our services on the Service, to contact you in matters regarding our services (also by means of emails and messaging) and to ensure the technical functionality of our services fulfillment of contractual or pre-contractual obligations (Article 6 (1) b. GDPR)</li>
+    <li>to analyze your use of our services and improve our services (Article 6 (1) b. and f. GDPR)</li>
+    <li>with your express consent or instruction to carry out our business activities or sent you newsletters (Article 6 (1) a. GDPR)</li>
+</ul>
+
+<h2>Access to the Personal Data</h2>
+
+<p>
+Controller has made all reasonable technical means to protect the Personal Data. Only authorized persons can access the Personal Data.
+</p>
+
+<p>
+Third parties which can gain access to the Personal Data when necessary are:
+</p>
+
+<ul>
+    <li>Persons which are contracted for technical assurance of the service.</li>
+    <li>Payment processors.</li>
+</ul>
+
+<p>
+All Personal Data is stored in the European Union.
+</p>
+
+<h2>The Personal Data retention</h2>
+
+<p>
+The Personal Data is stored in the Service until User deletes his account in the service.
+</p>
+
+<p>
+Access log information might be collected for longer period for the purpose of establishing, exercise or defence of legal claims.
+</p>
+
+<h2>Your rights</h2>
+
+<p>
+User provides use Personal Data voluntarily. Without this we are not able to provide our services.
+</p>
+
+<p>We want you to always be in control of your Personal Data. To this end, you have certain rights that allow for it. Under certain conditions, you may:</p>
+
+<ul>
+    <li>Gain access to all your Personal Data that we use or processing, and even get a copy of all of it (Article 15 GDPR)</li>
+    <li>Correct the Personal Data that we are processing if you think that there are mistakes</li>
+    <li>Order us to delete your Personal Data</li>
+    <li>Restrict the Personal Data processing</li>
+    <li>Object to processing</li>
+    <li>Receive your Personal Data in a commonly used and machine-readable format or to transmit this Personal Data to a different provider.</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+{% endblock %}
+

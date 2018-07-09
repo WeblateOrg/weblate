@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -38,19 +38,19 @@ class CharsPasswordValidator(object):
 
         if password.strip() == '':
             raise ValidationError(
-                _("This password consists of whitespace only."),
+                _("This password consists of only whitespace."),
                 code='password_whitespace',
             )
         if password.strip(password[0]) == '':
             raise ValidationError(
-                _("This password consists of single character."),
+                _("This password is only a single character."),
                 code='password_same_chars',
             )
 
     def get_help_text(self):
         return _(
-            "Your password can't consist of "
-            "single character or whitespace only."
+            "Your password can't consist of a "
+            "single character or only whitespace."
         )
 
 
@@ -65,19 +65,18 @@ class PastPasswordsValidator(object):
                 passwords.append(user.password)
 
             for log in AuditLog.objects.get_password(user=user):
-                params = log.get_params()
-                if 'password' in params:
-                    passwords.append(params['password'])
+                if 'password' in log.params:
+                    passwords.append(log.params['password'])
 
             for old in passwords:
                 if check_password(password, old):
                     raise ValidationError(
-                        _('Can not use previously used password!'),
+                        _('Can not reuse previously used password!'),
                         code='password-past'
                     )
 
     def get_help_text(self):
         return _(
-            "Your password can't match password "
+            "Your password can't match a password "
             "you have used in the past."
         )

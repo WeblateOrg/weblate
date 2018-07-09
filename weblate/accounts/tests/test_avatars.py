@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -25,19 +25,19 @@ Tests for user handling.
 from io import BytesIO
 from unittest import SkipTest
 
-from django.core.urlresolvers import reverse
-from django.contrib.auth.models import User
+from django.urls import reverse
 
 import httpretty
 
 from PIL import Image
 
+from weblate.auth.models import User
 from weblate.accounts import avatar
 from weblate.trans.tests.test_views import FixtureTestCase
 
 
 TEST_URL = (
-    'https://seccdn.libravatar.org/avatar/'
+    'https://www.gravatar.com/avatar/'
     '55502f40dc8b7c769880b10874abc9d0?d=identicon&s=32'
 )
 
@@ -48,26 +48,12 @@ class AvatarTest(FixtureTestCase):
         self.user.email = 'test@example.com'
         self.user.save()
 
-    def assert_url(self):
+    def test_avatar_for_email(self):
         url = avatar.avatar_for_email(
             self.user.email,
             size=32,
-            skip_cache=True
         )
         self.assertEqual(TEST_URL, url)
-
-    def test_avatar_for_email_own(self):
-        backup = avatar.HAS_LIBRAVATAR
-        try:
-            avatar.HAS_LIBRAVATAR = False
-            self.assert_url()
-        finally:
-            avatar.HAS_LIBRAVATAR = backup
-
-    def test_avatar_for_email_libravatar(self):
-        if not avatar.HAS_LIBRAVATAR:
-            raise SkipTest('Libravatar not installed')
-        self.assert_url()
 
     @httpretty.activate
     def test_avatar(self):

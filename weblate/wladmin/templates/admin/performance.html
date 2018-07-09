@@ -1,6 +1,7 @@
 {% extends "admin/base_site.html" %}
 {% load i18n %}
 {% load translations %}
+{% load check_links %}
 
 {% block title %}{% trans "Performance report" %}{% endblock %}
 
@@ -11,7 +12,78 @@
 
 {% block content %}
 <div id="content-main">
-  <h1>{% trans "Performance report" %}</h1>
+  <h1>{% trans "Performance overview" %}</h1>
+  <ul class="object-tools">
+    <li>
+        <a href="{% documentation 'admin/install' 'production' %}" class="doclink">{% trans "Documentation" %}</a>
+    </li>
+  </ul>
+  {% if errors %}
+  <h2>{% trans "Configuration errors" %}</h2>
+  <div id="changelist" class="module filtered">
+    <div class="results">
+  <table id="result_list" class="orderable-initalized">
+  <thead>
+  <tr>
+    <th>{% trans "Last occurrence" %}</th>
+    <th>{% trans "Name" %}</th>
+    <th>{% trans "Message" %}</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for error in errors %}
+  <tr class="row{% cycle '1' '2' %}">
+      <td>{{ error.timestamp }}</td>
+      <td>{{ error.name }}</td>
+      <td><pre>{{ error.message }}</pre></td>
+      <td>
+      <form method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="pk" value="{{ error.pk }}"/>
+      <input type="submit" name="dismiss" value="{% trans "Dismiss" %}" />
+      <input type="submit" name="ignore" value="{% trans "Ignore permanently" %}" />
+      </form>
+      </td>
+  </tr>
+  {% endfor %}
+  </tbody>
+  </table>
+    <p class="help">
+    {% trans "You can safely permanently ignore errors for file formats you do not intend to use. These are usually caused by missing or outdated dependencies." %}
+    </p>
+    </div>
+  </div>
+  {% endif %}
+
+  {% if django_errors %}
+  <h2>{% trans "System checks" %}</h2>
+  <div id="changelist" class="module filtered">
+    <div class="results">
+  <table id="result_list" class="orderable-initalized">
+  <thead>
+  <tr>
+    <th>{% trans "Name" %}</th>
+    <th>{% trans "Message" %}</th>
+    <th>{% trans "Documentation" %}</th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for check in django_errors %}
+  <tr class="row{% cycle '1' '2' %}">
+      <td>{{ check.id }}</td>
+      <td>{{ check.msg }}</td>
+      <td>{% check_link check %}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+  </table>
+    </div>
+  </div>
+
+  {% endif %}
+
+  <h2>{% trans "Performance report" %}</h2>
   <div id="changelist" class="module filtered">
     <div class="results">
   <table id="result_list" class="orderable-initalized">
@@ -36,29 +108,6 @@
   </table>
     </div>
   </div>
-  {% if errors %}
-  <h1>{% trans "Configuration errors" %}</h1>
-  <div id="changelist" class="module filtered">
-    <div class="results">
-  <table id="result_list" class="orderable-initalized">
-  <thead>
-  <tr>
-    <th>{% trans "Name" %}</th>
-    <th>{% trans "Message" %}</th>
-  </tr>
-  </thead>
-  <tbody>
-  {% for error in errors %}
-  <tr class="row{% cycle '1' '2' %} {{ check.3 }}">
-      <td>{{ error.name }}</td>
-      <td><pre>{{ error.message }}</pre></td>
-  </tr>
-  {% endfor %}
-  </tbody>
-  </table>
-    </div>
-  </div>
-  {% endif %}
 </div>
 {% endblock %}
 

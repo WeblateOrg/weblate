@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -23,11 +23,23 @@ from __future__ import unicode_literals
 from datetime import timedelta
 import json
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils import timezone
 
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.views.reports import generate_credits, generate_counts
+
+
+COUNTS_DATA = [{
+    'count': 1,
+    'count_edit': 0,
+    'count_new': 1,
+    'name': 'Weblate Test',
+    'words': 2,
+    'words_edit': 0,
+    'words_new': 2,
+    'email': 'weblate@example.org'
+}]
 
 
 class ReportsTest(ViewTestCase):
@@ -44,7 +56,7 @@ class ReportsTest(ViewTestCase):
 
     def test_credits_empty(self):
         data = generate_credits(
-            self.subproject,
+            self.component,
             timezone.now() - timedelta(days=1),
             timezone.now() + timedelta(days=1)
         )
@@ -53,13 +65,13 @@ class ReportsTest(ViewTestCase):
     def test_credits_one(self):
         self.add_change()
         data = generate_credits(
-            self.subproject,
+            self.component,
             timezone.now() - timedelta(days=1),
             timezone.now() + timedelta(days=1)
         )
         self.assertEqual(
             data,
-            [{'Czech': [('noreply@weblate.org', 'Weblate Test')]}]
+            [{'Czech': [('weblate@example.org', 'Weblate Test')]}]
         )
 
     def test_credits_more(self):
@@ -72,8 +84,9 @@ class ReportsTest(ViewTestCase):
     def get_credits(self, style):
         self.add_change()
         return self.client.post(
-            reverse('credits', kwargs=self.kw_subproject),
+            reverse('credits', kwargs=self.kw_component),
             {
+                'period': '',
                 'style': style,
                 'start_date': '2000-01-01',
                 'end_date': '2100-01-01'
@@ -85,14 +98,14 @@ class ReportsTest(ViewTestCase):
         data = json.loads(response.content.decode('utf-8'))
         self.assertEqual(
             data,
-            [{'Czech': [['noreply@weblate.org', 'Weblate Test']]}]
+            [{'Czech': [['weblate@example.org', 'Weblate Test']]}]
         )
 
     def test_credits_view_rst(self):
         response = self.get_credits('rst')
         self.assertEqual(
             response.content.decode('utf-8'),
-            '\n\n* Czech\n\n    * Weblate Test <noreply@weblate.org>\n\n'
+            '\n\n* Czech\n\n    * Weblate Test <weblate@example.org>\n\n'
         )
 
     def test_credits_view_html(self):
@@ -101,7 +114,7 @@ class ReportsTest(ViewTestCase):
             response.content.decode('utf-8'),
             '<table>\n'
             '<tr>\n<th>Czech</th>\n'
-            '<td><ul><li><a href="mailto:noreply@weblate.org">'
+            '<td><ul><li><a href="mailto:weblate@example.org">'
             'Weblate Test</a></li></ul></td>\n</tr>\n'
             '</table>'
         )
@@ -109,57 +122,60 @@ class ReportsTest(ViewTestCase):
     def test_counts_one(self):
         self.add_change()
         data = generate_counts(
-            self.subproject,
+            self.component,
             timezone.now() - timedelta(days=1),
             timezone.now() + timedelta(days=1)
         )
-        self.assertEqual(
-            data,
-            [{
-                'count': 1,
-                'name': 'Weblate Test',
-                'words': 2,
-                'email': 'noreply@weblate.org'
-            }]
-        )
+        self.assertEqual(data, COUNTS_DATA)
 
-    def get_counts(self, style):
+    def get_counts(self, style, **kwargs):
         self.add_change()
+        params = {
+            'style': style,
+            'period': '',
+            'start_date': '2000-01-01',
+            'end_date': '2100-01-01'
+        }
+        params.update(kwargs)
         return self.client.post(
-            reverse('counts', kwargs=self.kw_subproject),
-            {
-                'style': style,
-                'start_date': '2000-01-01',
-                'end_date': '2100-01-01'
-            },
+            reverse('counts', kwargs=self.kw_component),
+            params
         )
 
     def test_counts_view_json(self):
         response = self.get_counts('json')
         data = json.loads(response.content.decode('utf-8'))
-        self.assertEqual(
-            data,
-            [{
-                'count': 1,
-                'email': 'noreply@weblate.org',
-                'name': 'Weblate Test',
-                'words': 2
-            }]
-        )
+        self.assertEqual(data, COUNTS_DATA)
+
+    def test_counts_view_month(self):
+        response = self.get_counts('json', period='month')
+        data = json.loads(response.content.decode('utf-8'))
+        self.assertEqual(data, [])
+
+    def test_counts_view_year(self):
+        response = self.get_counts('json', period='year')
+        data = json.loads(response.content.decode('utf-8'))
+        self.assertEqual(data, [])
 
     def test_counts_view_rst(self):
         response = self.get_counts('rst')
-        self.assertContains(response, 'noreply@weblate.org')
+        self.assertContains(response, 'weblate@example.org')
 
     def test_counts_view_html(self):
         response = self.get_counts('html')
         self.assertHTMLEqual(
             response.content.decode('utf-8'),
             '<table>\n'
-            '<tr><th>Name</th><th>Email</th><th>Words</th><th>Count</th></tr>'
+            '<tr><th>Name</th><th>Email</th>'
+            '<th>Words total</th><th>Count total</th>'
+            '<th>Words edited</th><th>Count edited</th>'
+            '<th>Words new</th><th>Count new</th>'
+            '</tr>'
             '\n'
             '<tr>\n<td>Weblate Test</td>\n'
-            '<td>noreply@weblate.org</td>\n'
+            '<td>weblate@example.org</td>\n'
             '<td>2</td>\n<td>1</td>\n'
+            '<td>2</td>\n<td>1</td>\n'
+            '<td>0</td>\n<td>0</td>\n'
             '\n</tr>\n</table>'
         )

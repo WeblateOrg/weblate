@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -24,26 +24,22 @@ from unittest import TestCase
 from django.http.request import HttpRequest
 from django.test.utils import override_settings
 
-from weblate.accounts.ratelimit import (
-    reset_rate_limit, check_rate_limit, get_ip_address,
-)
+from weblate.accounts.ratelimit import reset_rate_limit, check_rate_limit
 
 
 class RateLimitTest(TestCase):
     def get_request(self):
         request = HttpRequest()
         request.META['REMOTE_ADDR'] = '1.2.3.4'
-        request.META['HTTP_X_FORWARDED_FOR'] = '7.8.9.0'
         return request
 
     def setUp(self):
         # Ensure no rate limits are there
-        reset_rate_limit(address='1.2.3.4')
-        reset_rate_limit(address='7.8.9.0')
+        reset_rate_limit('test', address='1.2.3.4')
 
     def test_basic(self):
         self.assertTrue(
-            check_rate_limit(self.get_request())
+            check_rate_limit('test', self.get_request())
         )
 
     @override_settings(AUTH_MAX_ATTEMPTS=5, AUTH_CHECK_WINDOW=60)
@@ -51,11 +47,11 @@ class RateLimitTest(TestCase):
         request = self.get_request()
         for dummy in range(5):
             self.assertTrue(
-                check_rate_limit(request)
+                check_rate_limit('test', request)
             )
 
         self.assertFalse(
-            check_rate_limit(request)
+            check_rate_limit('test', request)
         )
 
     @override_settings(
@@ -66,15 +62,15 @@ class RateLimitTest(TestCase):
     def test_window(self):
         request = self.get_request()
         self.assertTrue(
-            check_rate_limit(request)
+            check_rate_limit('test', request)
         )
         sleep(1)
         self.assertFalse(
-            check_rate_limit(request)
+            check_rate_limit('test', request)
         )
         sleep(1)
         self.assertTrue(
-            check_rate_limit(request)
+            check_rate_limit('test', request)
         )
 
     @override_settings(
@@ -85,37 +81,13 @@ class RateLimitTest(TestCase):
     def test_lockout(self):
         request = self.get_request()
         self.assertTrue(
-            check_rate_limit(request)
+            check_rate_limit('test', request)
         )
         sleep(1)
         self.assertFalse(
-            check_rate_limit(request)
+            check_rate_limit('test', request)
         )
         sleep(1)
         self.assertFalse(
-            check_rate_limit(request)
-        )
-
-    @override_settings(
-        IP_BEHIND_REVERSE_PROXY=False,
-        IP_PROXY_HEADER='HTTP_X_FORWARDED_FOR',
-        IP_PROXY_OFFSET=0
-    )
-    def test_get_ip(self):
-        request = self.get_request()
-        self.assertEqual(
-            get_ip_address(request),
-            '1.2.3.4'
-        )
-
-    @override_settings(
-        IP_BEHIND_REVERSE_PROXY=True,
-        IP_PROXY_HEADER='HTTP_X_FORWARDED_FOR',
-        IP_PROXY_OFFSET=0
-    )
-    def test_get_ip_proxy(self):
-        request = self.get_request()
-        self.assertEqual(
-            get_ip_address(request),
-            '7.8.9.0'
+            check_rate_limit('test', request)
         )

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -25,35 +25,33 @@ import django.utils.translation
 from django.utils.translation import trans_real, ugettext as _
 
 from weblate.utils import messages
-from weblate.permissions.helpers import check_access
-from weblate.trans.exporters import get_exporter
-from weblate.trans.models import Project, SubProject, Translation
+from weblate.formats.exporters import get_exporter
+from weblate.trans.models import Project, Component, Translation
 
 
-def get_translation(request, project, subproject, lang, skip_acl=False):
+def get_translation(request, project, component, lang, skip_acl=False):
     """Return translation matching parameters."""
     translation = get_object_or_404(
         Translation.objects.prefetch(),
         language__code=lang,
-        subproject__slug=subproject,
-        subproject__project__slug=project,
-        enabled=True
+        component__slug=component,
+        component__project__slug=project
     )
     if not skip_acl:
-        check_access(request, translation.subproject.project)
+        request.user.check_access(translation.component.project)
     return translation
 
 
-def get_subproject(request, project, subproject, skip_acl=False):
-    """Return subproject matching parameters."""
-    subproject = get_object_or_404(
-        SubProject.objects.prefetch(),
+def get_component(request, project, component, skip_acl=False):
+    """Return component matching parameters."""
+    component = get_object_or_404(
+        Component.objects.prefetch(),
         project__slug=project,
-        slug=subproject
+        slug=component
     )
     if not skip_acl:
-        check_access(request, subproject.project)
-    return subproject
+        request.user.check_access(component.project)
+    return component
 
 
 def get_project(request, project, skip_acl=False):
@@ -63,30 +61,30 @@ def get_project(request, project, skip_acl=False):
         slug=project,
     )
     if not skip_acl:
-        check_access(request, project)
+        request.user.check_access(project)
     return project
 
 
-def get_project_translation(request, project=None, subproject=None, lang=None):
-    """Return project, subproject, translation tuple for given parameters."""
+def get_project_translation(request, project=None, component=None, lang=None):
+    """Return project, component, translation tuple for given parameters."""
 
-    if lang is not None and subproject is not None:
+    if lang is not None and component is not None:
         # Language defined? We can get all
-        translation = get_translation(request, project, subproject, lang)
-        subproject = translation.subproject
-        project = subproject.project
+        translation = get_translation(request, project, component, lang)
+        component = translation.component
+        project = component.project
     else:
         translation = None
-        if subproject is not None:
+        if component is not None:
             # Component defined?
-            subproject = get_subproject(request, project, subproject)
-            project = subproject.project
+            component = get_component(request, project, component)
+            project = component.project
         elif project is not None:
             # Only project defined?
             project = get_project(request, project)
 
     # Return tuple
-    return project, subproject, translation
+    return project, component, translation
 
 
 def try_set_language(lang):
@@ -95,7 +93,7 @@ def try_set_language(lang):
     try:
         django.utils.translation.activate(lang)
         # workaround for https://code.djangoproject.com/ticket/26050
-        # pylint: disable=W0212
+        # pylint: disable=protected-access
         if trans_real.catalog()._catalog is None:
             raise Exception('Invalid language!')
     except Exception:
@@ -110,26 +108,31 @@ def import_message(request, count, message_none, message_ok):
         messages.success(request, message_ok % count)
 
 
-def download_translation_file(translation, fmt=None):
+def download_translation_file(translation, fmt=None, units=None):
     if fmt is not None:
         try:
             exporter = get_exporter(fmt)(translation=translation)
         except KeyError:
             raise Http404('File format not supported')
-        exporter.add_units(translation)
+        if units is None:
+            units = translation.unit_set.all()
+        exporter.add_units(units)
         return exporter.get_response(
             '{{project}}-{0}-{{language}}.{{extension}}'.format(
-                translation.subproject.slug
+                translation.component.slug
             )
         )
+
+    # Force flushing pending units
+    translation.commit_pending(None)
 
     srcfilename = translation.get_filename()
 
     # Construct file name (do not use real filename as it is usually not
     # that useful)
     filename = '{0}-{1}-{2}.{3}'.format(
-        translation.subproject.project.slug,
-        translation.subproject.slug,
+        translation.component.project.slug,
+        translation.component.slug,
         translation.language.code,
         translation.store.extension
     )

@@ -1,6 +1,7 @@
 {% load i18n %}
 {% load static %}
 {% load translations %}
+{% load advertisement %}
 <!DOCTYPE html>
 
 <html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}">
@@ -20,10 +21,13 @@ del {
 footer {
     font-size: small;
 }
+th {
+    vertical-align: top;
+}
   </style>
  </head>
 
- <body {% if LANGUAGE_BIDI %}class="dir-rtl"{% endif %}>
+ <body>
 {% block content %}
 {% endblock %}
 <footer>

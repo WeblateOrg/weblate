@@ -15,14 +15,16 @@
 {% if legal %}
 <div class="alert alert-info">
 {% url 'legal:terms' as legal_url %}
-{% blocktrans %}Please read our <a href="{{ legal_url }}">Terms of Service</a> prior to registration.{% endblocktrans %}
+<a href="{{ legal_url }}">{% blocktrans %}Please read our Terms of Service prior to registration.{% endblocktrans %}</a>
 </div>
 {% else %}
-{% show_message "info" _("By registering you agree to use your name and email in version control system commits and provide your contribution under license defined by each translated project.") %}
+{% trans "By registering you agree to use your name and email in version control system commits and provide your contribution under license defined by each translated project." as msg %}
+{% show_message "info" msg %}
 {% endif %}
 
 {% if form.errors %}
-{% show_message "error" _("Please fix errors in the registration form.") %}
+{% trans "Please fix errors in the registration form." as msg%}
+{% show_message "error" msg %}
 {% endif %}
 <div class="row">
 
@@ -70,7 +72,8 @@
 
 <p>
 {% url 'contact' as contact_url %}
-{% blocktrans %}Sorry, but registrations on this site are disabled. You can <a href="{{ contact_url }}">contact us</a> for more details.{% endblocktrans %}
+{% trans "Sorry, but registrations on this site are disabled." %}
+<a href="{{ contact_url }}">{% trans "You can contact us for more details." %}</a>
 </p>
 
 {% endif %}

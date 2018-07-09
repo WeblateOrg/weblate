@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -22,18 +22,17 @@ import csv
 
 from django.views.generic.list import ListView
 from django.http import Http404, HttpResponse
-from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _, activate, pgettext
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db.models import Q
 from django.core.exceptions import PermissionDenied
 from django.utils.http import urlencode
 
+from weblate.auth.models import User
 from weblate.utils import messages
 from weblate.trans.models.change import Change
 from weblate.trans.views.helper import get_project_translation
 from weblate.lang.models import Language
-from weblate.permissions.helpers import can_download_changes
 
 
 class ChangesView(ListView):
@@ -43,7 +42,7 @@ class ChangesView(ListView):
     def __init__(self, **kwargs):
         super(ChangesView, self).__init__(**kwargs)
         self.project = None
-        self.subproject = None
+        self.component = None
         self.translation = None
         self.language = None
         self.user = None
@@ -59,12 +58,12 @@ class ChangesView(ListView):
         url = {}
 
         if self.translation is not None:
-            context['project'] = self.translation.subproject.project
-            context['subproject'] = self.translation.subproject
+            context['project'] = self.translation.component.project
+            context['component'] = self.translation.component
             context['translation'] = self.translation
             url['lang'] = self.translation.language.code
-            url['subproject'] = self.translation.subproject.slug
-            url['project'] = self.translation.subproject.project.slug
+            url['component'] = self.translation.component.slug
+            url['project'] = self.translation.component.project.slug
             context['changes_rss'] = reverse(
                 'rss-translation',
                 kwargs=url,
@@ -72,18 +71,18 @@ class ChangesView(ListView):
             context['title'] = pgettext(
                 'Changes in translation', 'Changes in %s'
             ) % self.translation
-        elif self.subproject is not None:
-            context['project'] = self.subproject.project
-            context['subproject'] = self.subproject
-            url['subproject'] = self.subproject.slug
-            url['project'] = self.subproject.project.slug
+        elif self.component is not None:
+            context['project'] = self.component.project
+            context['component'] = self.component
+            url['component'] = self.component.slug
+            url['project'] = self.component.project.slug
             context['changes_rss'] = reverse(
-                'rss-subproject',
+                'rss-component',
                 kwargs=url,
             )
             context['title'] = pgettext(
                 'Changes in component', 'Changes in %s'
-            ) % self.subproject
+            ) % self.component
         elif self.project is not None:
             context['project'] = self.project
             url['project'] = self.project.slug
@@ -114,12 +113,12 @@ class ChangesView(ListView):
             if 'title' not in context:
                 context['title'] = pgettext(
                     'Changes by user', 'Changes by %s'
-                ) % self.user.first_name
+                ) % self.user.full_name
 
         if self.glossary:
             url['glossary'] = 1
 
-        if len(url) == 0:
+        if not url:
             context['changes_rss'] = reverse('rss')
 
         context['query_string'] = urlencode(url)
@@ -130,11 +129,11 @@ class ChangesView(ListView):
         """Filtering by translation/project."""
         if 'project' in self.request.GET:
             try:
-                self.project, self.subproject, self.translation = \
+                self.project, self.component, self.translation = \
                     get_project_translation(
                         self.request,
                         self.request.GET.get('project'),
-                        self.request.GET.get('subproject'),
+                        self.request.GET.get('component'),
                         self.request.GET.get('lang'),
                     )
             except Http404:
@@ -186,13 +185,13 @@ class ChangesView(ListView):
             result = result.filter(
                 translation=self.translation
             )
-        elif self.subproject is not None:
+        elif self.component is not None:
             result = result.filter(
-                translation__subproject=self.subproject
+                translation__component=self.component
             )
         elif self.project is not None:
             result = result.filter(
-                Q(translation__subproject__project=self.project) |
+                Q(translation__component__project=self.project) |
                 Q(dictionary__project=self.project)
             )
 
@@ -222,7 +221,15 @@ class ChangesCSVView(ChangesView):
     def get(self, request, *args, **kwargs):
         object_list = self.get_queryset()
 
-        if not can_download_changes(request.user, self.project):
+        # Do reasonable ACL check for global
+        acl_obj = self.project
+        if not acl_obj:
+            for change in object_list:
+                if change.component:
+                    acl_obj = change.component
+                    break
+
+        if not request.user.has_perm('change.download', acl_obj):
             raise PermissionDenied()
 
         # Always output in english
@@ -236,7 +243,7 @@ class ChangesCSVView(ChangesView):
         # Add header
         writer.writerow(('timestamp', 'action', 'user', 'url'))
 
-        for change in object_list[:2000].iterator():
+        for change in object_list[:2000]:
             writer.writerow((
                 change.timestamp.isoformat(),
                 change.get_action_display().encode('utf8'),

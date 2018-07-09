@@ -8,3 +8,4 @@ List of Weblate supporters from
 * Cheng-Chia Tseng
 * Timon Reinhard
 * `Cassidy James <https://cassidyjames.com/>`_
+* Loic Dachary

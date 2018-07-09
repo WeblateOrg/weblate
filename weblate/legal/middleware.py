@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -20,7 +20,7 @@
 
 import re
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.shortcuts import redirect
 from django.utils.http import urlencode
 from django.utils.translation import ugettext as _
@@ -33,7 +33,8 @@ class RequireTOSMiddleware(object):
     """
     Middleware to enforce TOS confirmation on certain requests.
     """
-    def __init__(self):
+    def __init__(self, get_response=None):
+        self.get_response = get_response
         # Ignored paths regexp, mostly covers API and legal pages
         self.matcher = re.compile(
             r'^/(legal|about|contact|api|static|widgets|data|hooks)/'
@@ -68,3 +69,6 @@ class RequireTOSMiddleware(object):
 
         # Explicitly return None for all non-matching requests
         return None
+
+    def __call__(self, request):
+        return self.get_response(request)

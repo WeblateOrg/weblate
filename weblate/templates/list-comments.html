@@ -15,9 +15,9 @@
 {% endif %}
 </span>
 </div>
-{% can_delete_comment user comment as user_can_delete_comment %}
+{% perm 'comment.delete' comment object as user_can_delete_comment %}
 {% if user_can_delete_comment %}
-<form method="POST" action="{% url 'delete-comment' pk=comment.pk %}">
+<form method="POST" action="{% url 'delete-comment' pk=comment.pk %}" class="auto-save-translation">
 {% csrf_token %}
 <input type="hidden" name="next" value="{{ next_url }}" />
 <button class="btn btn-danger btn-xs pull-right flip"><i class="fa fa-trash"></i> {% trans "Delete" %}</button>
@@ -25,6 +25,6 @@
 <div class="clearfix"></div>
 {% endif %}
 <div class="list-group">
-<div class="list-group-item" dir="auto">{{ comment.comment|urlize|linebreaks }}</div>
+<div class="list-group-item{% if not comment.language %} list-group-item-warning{% endif %}" dir="auto">{{ comment.comment|urlize|linebreaks }}</div>
 </div>
 {% endfor %}

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -24,7 +24,7 @@ Tests for data exports.
 
 import json
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from weblate.trans.tests.test_views import FixtureTestCase
 
@@ -42,9 +42,9 @@ class ExportsViewTest(FixtureTestCase):
         )
         self.assertContains(response, 'Test/Test')
 
-    def test_view_rss_subproject(self):
+    def test_view_rss_component(self):
         response = self.client.get(
-            reverse('rss-subproject', kwargs=self.kw_subproject)
+            reverse('rss-component', kwargs=self.kw_component)
         )
         self.assertContains(response, 'Test/Test')
 
@@ -56,14 +56,14 @@ class ExportsViewTest(FixtureTestCase):
 
     def test_export_stats(self):
         response = self.client.get(
-            reverse('export_stats', kwargs=self.kw_subproject)
+            reverse('export_stats', kwargs=self.kw_component)
         )
         parsed = json.loads(response.content.decode('utf-8'))
         self.assertEqual(parsed[0]['name'], 'Czech')
 
     def test_export_stats_csv(self):
         response = self.client.get(
-            reverse('export_stats', kwargs=self.kw_subproject),
+            reverse('export_stats', kwargs=self.kw_component),
             {'format': 'csv'}
         )
         self.assertContains(response, 'name,code')
@@ -83,10 +83,6 @@ class ExportsViewTest(FixtureTestCase):
         self.assertContains(response, 'language,code')
 
     def test_data(self):
-        response = self.client.get(
-            reverse('data_root')
-        )
-        self.assertContains(response, 'Test')
         response = self.client.get(
             reverse('data_project', kwargs=self.kw_project)
         )

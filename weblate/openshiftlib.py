@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -28,7 +28,7 @@ from string import Template
 
 
 def get_openshift_secret_key():
-    """Trie to get secred token from OpenShift environment"""
+    """Try to get secred token from OpenShift environment"""
 
     # Use actual secret token
     token = os.getenv('OPENSHIFT_SECRET_TOKEN')

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -26,10 +26,9 @@ from django.shortcuts import redirect
 from django.views.decorators.cache import never_cache
 from django.utils.translation import ugettext as _
 
-from weblate.permissions.helpers import can_edit_subproject, can_edit_project
-from weblate.trans.forms import SUBPROJECT_SETTINGS, ProjectSettingsForm
+from weblate.trans.forms import ComponentSettingsForm, ProjectSettingsForm
 from weblate.trans.util import render
-from weblate.trans.views.helper import get_project, get_subproject
+from weblate.trans.views.helper import get_project, get_component
 from weblate.utils import messages
 
 
@@ -38,7 +37,7 @@ from weblate.utils import messages
 def change_project(request, project):
     obj = get_project(request, project)
 
-    if not can_edit_project(request.user, obj):
+    if not request.user.has_perm('project.edit', obj):
         raise Http404()
 
     if request.method == 'POST':
@@ -67,22 +66,19 @@ def change_project(request, project):
 
 @never_cache
 @login_required
-def change_subproject(request, project, subproject):
-    obj = get_subproject(request, project, subproject)
+def change_component(request, project, component):
+    obj = get_component(request, project, component)
 
-    if not can_edit_subproject(request.user, obj.project):
+    if not request.user.has_perm('component.edit', obj):
         raise Http404()
 
     if request.method == 'POST':
-        settings_forms = [
-            form(request.POST, instance=obj) for form in SUBPROJECT_SETTINGS
-        ]
-        if all([form.is_valid() for form in settings_forms]):
-            for form in settings_forms:
-                form.save()
+        form = ComponentSettingsForm(request.POST, instance=obj)
+        if form.is_valid():
+            form.save()
             messages.success(request, _('Settings saved'))
             return redirect(
-                'settings', project=obj.project.slug, subproject=obj.slug
+                'settings', project=obj.project.slug, component=obj.slug
             )
         else:
             messages.error(
@@ -90,14 +86,14 @@ def change_subproject(request, project, subproject):
                 _('Invalid settings, please check the form for errors!')
             )
     else:
-        settings_forms = [form(instance=obj) for form in SUBPROJECT_SETTINGS]
+        form = ComponentSettingsForm(instance=obj)
 
     return render(
         request,
-        'subproject-settings.html',
+        'component-settings.html',
         {
             'project': obj.project,
             'object': obj,
-            'settings_forms': settings_forms,
+            'form': form,
         }
     )

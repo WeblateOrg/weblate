@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -21,12 +21,11 @@
 from rest_framework import serializers
 
 from weblate.trans.models import (
-    Project, SubProject, Translation, Unit, Change, Source,
+    Project, Component, Translation, Unit, Change, Source,
 )
 from weblate.lang.models import Language
-from weblate.permissions.helpers import can_see_git_repository
 from weblate.screenshots.models import Screenshot
-from weblate.trans.site import get_site_url
+from weblate.utils.site import get_site_url
 from weblate.utils.validators import validate_bitmap
 
 
@@ -35,7 +34,7 @@ class MultiFieldHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
         self.strip_parts = strip_parts
         super(MultiFieldHyperlinkedIdentityField, self).__init__(**kwargs)
 
-    # pylint: disable=W0622
+    # pylint: disable=redefined-builtin
     def get_url(self, obj, view_name, request, format):
         """
         Given an object, return the URL that hyperlinks to the object.
@@ -88,7 +87,7 @@ class LanguageSerializer(serializers.ModelSerializer):
     class Meta(object):
         model = Language
         fields = (
-            'code', 'name', 'nplurals', 'pluralequation', 'direction',
+            'code', 'name', 'direction',
             'web_url', 'url',
         )
         extra_kwargs = {
@@ -162,7 +161,7 @@ class ComponentSerializer(RemovableSerializer):
     serializer_url_field = MultiFieldHyperlinkedIdentityField
 
     class Meta(object):
-        model = SubProject
+        model = Component
         fields = (
             'name', 'slug', 'project', 'vcs', 'repo', 'git_export',
             'branch', 'filemask', 'template', 'new_base', 'file_format',
@@ -181,7 +180,7 @@ class ComponentSerializer(RemovableSerializer):
         """Remove VCS properties if user has no permission for that"""
         result = super(ComponentSerializer, self).to_representation(instance)
         user = self.context['request'].user
-        if not can_see_git_repository(user, instance.project):
+        if not user.has_perm('vcs.view', instance):
             result['vcs'] = None
             result['repo'] = None
             result['branch'] = None
@@ -200,7 +199,7 @@ class TranslationSerializer(RemovableSerializer):
         source='get_translate_url', read_only=True
     )
     component = ComponentSerializer(
-        read_only=True, source='subproject'
+        read_only=True,
     )
     language = LanguageSerializer(
         read_only=True
@@ -208,14 +207,44 @@ class TranslationSerializer(RemovableSerializer):
     is_template = serializers.BooleanField(
         read_only=True
     )
+    total = serializers.IntegerField(
+        source='stats.all', read_only=True,
+    )
+    total_words = serializers.IntegerField(
+        source='stats.all_words', read_only=True,
+    )
+    translated = serializers.IntegerField(
+        source='stats.translated', read_only=True,
+    )
+    translated_words = serializers.IntegerField(
+        source='stats.translated_words', read_only=True,
+    )
     translated_percent = serializers.FloatField(
-        source='get_translated_percent', read_only=True,
+        source='stats.translated_percent', read_only=True,
+    )
+    fuzzy = serializers.IntegerField(
+        source='stats.fuzzy', read_only=True,
+    )
+    fuzzy_words = serializers.IntegerField(
+        source='stats.fuzzy_words', read_only=True,
     )
     fuzzy_percent = serializers.FloatField(
-        source='get_fuzzy_percent', read_only=True,
+        source='stats.fuzzy_percent', read_only=True,
+    )
+    failing_checks = serializers.IntegerField(
+        source='stats.allchecks', read_only=True,
+    )
+    failing_checks_words = serializers.IntegerField(
+        source='stats.allchecks_words', read_only=True,
     )
     failing_checks_percent = serializers.FloatField(
-        source='get_failing_checks_percent', read_only=True,
+        source='stats.allchecks_percent', read_only=True,
+    )
+    have_suggestion = serializers.IntegerField(
+        source='stats.suggestions', read_only=True,
+    )
+    have_comment = serializers.IntegerField(
+        source='stats.comments', read_only=True,
     )
     last_author = serializers.CharField(
         source='get_last_author', read_only=True,
@@ -223,40 +252,40 @@ class TranslationSerializer(RemovableSerializer):
     repository_url = MultiFieldHyperlinkedIdentityField(
         view_name='api:translation-repository',
         lookup_field=(
-            'subproject__project__slug',
-            'subproject__slug',
+            'component__project__slug',
+            'component__slug',
             'language__code',
         ),
     )
     statistics_url = MultiFieldHyperlinkedIdentityField(
         view_name='api:translation-statistics',
         lookup_field=(
-            'subproject__project__slug',
-            'subproject__slug',
+            'component__project__slug',
+            'component__slug',
             'language__code',
         ),
     )
     file_url = MultiFieldHyperlinkedIdentityField(
         view_name='api:translation-file',
         lookup_field=(
-            'subproject__project__slug',
-            'subproject__slug',
+            'component__project__slug',
+            'component__slug',
             'language__code',
         ),
     )
     changes_list_url = MultiFieldHyperlinkedIdentityField(
         view_name='api:translation-changes',
         lookup_field=(
-            'subproject__project__slug',
-            'subproject__slug',
+            'component__project__slug',
+            'component__slug',
             'language__code',
         ),
     )
     units_list_url = MultiFieldHyperlinkedIdentityField(
         view_name='api:translation-units',
         lookup_field=(
-            'subproject__project__slug',
-            'subproject__slug',
+            'component__project__slug',
+            'component__slug',
             'language__code',
         ),
     )
@@ -266,16 +295,15 @@ class TranslationSerializer(RemovableSerializer):
     class Meta(object):
         model = Translation
         fields = (
-            'language', 'component', 'translated', 'fuzzy', 'total',
-            'translated_words', 'fuzzy_words', 'failing_checks_words',
-            'total_words', 'failing_checks', 'have_suggestion', 'have_comment',
+            'language', 'component',
             'language_code', 'filename', 'revision',
             'web_url', 'share_url', 'translate_url', 'url',
             'is_template',
             'total', 'total_words',
             'translated', 'translated_words', 'translated_percent',
-            'fuzzy', 'fuzzy_percent',
-            'failing_checks_percent',
+            'fuzzy', 'fuzzy_words', 'fuzzy_percent',
+            'failing_checks', 'failing_checks_words', 'failing_checks_percent',
+            'have_suggestion', 'have_comment',
             'last_change', 'last_author',
             'repository_url', 'file_url', 'statistics_url', 'changes_list_url',
             'units_list_url',
@@ -284,8 +312,8 @@ class TranslationSerializer(RemovableSerializer):
             'url': {
                 'view_name': 'api:translation-detail',
                 'lookup_field': (
-                    'subproject__project__slug',
-                    'subproject__slug',
+                    'component__project__slug',
+                    'component__slug',
                     'language__code',
                 ),
             }
@@ -302,7 +330,7 @@ class ReadOnlySerializer(serializers.Serializer):
 
 class LockSerializer(serializers.ModelSerializer):
     class Meta(object):
-        model = SubProject
+        model = Component
         fields = ('locked', )
 
 
@@ -312,6 +340,7 @@ class LockRequestSerializer(ReadOnlySerializer):
 
 class UploadRequestSerializer(ReadOnlySerializer):
     overwrite = serializers.BooleanField()
+    file = serializers.FileField()
 
 
 class RepoRequestSerializer(ReadOnlySerializer):
@@ -321,8 +350,8 @@ class RepoRequestSerializer(ReadOnlySerializer):
 
 
 class StatisticsSerializer(ReadOnlySerializer):
-    def to_representation(self, obj):
-        return obj.get_stats()
+    def to_representation(self, instance):
+        return instance.get_stats()
 
 
 class UnitSerializer(RemovableSerializer):
@@ -332,8 +361,8 @@ class UnitSerializer(RemovableSerializer):
     translation = MultiFieldHyperlinkedIdentityField(
         view_name='api:translation-detail',
         lookup_field=(
-            'translation__subproject__project__slug',
-            'translation__subproject__slug',
+            'translation__component__project__slug',
+            'translation__component__slug',
             'translation__language__code',
         ),
         strip_parts=1,
@@ -363,7 +392,7 @@ class UnitSerializer(RemovableSerializer):
 class SourceSerializer(RemovableSerializer):
     component = MultiFieldHyperlinkedIdentityField(
         view_name='api:component-detail',
-        lookup_field=('subproject__project__slug', 'subproject__slug'),
+        lookup_field=('component__project__slug', 'component__slug'),
         strip_parts=1,
     )
     units = serializers.HyperlinkedRelatedField(
@@ -442,14 +471,14 @@ class ChangeSerializer(RemovableSerializer):
     )
     component = MultiFieldHyperlinkedIdentityField(
         view_name='api:component-detail',
-        lookup_field=('subproject__project__slug', 'subproject__slug'),
+        lookup_field=('component__project__slug', 'component__slug'),
         strip_parts=1,
     )
     translation = MultiFieldHyperlinkedIdentityField(
         view_name='api:translation-detail',
         lookup_field=(
-            'translation__subproject__project__slug',
-            'translation__subproject__slug',
+            'translation__component__project__slug',
+            'translation__component__slug',
             'translation__language__code'
         ),
         strip_parts=1,

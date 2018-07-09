@@ -62,11 +62,11 @@ if 'OPENSHIFT_POSTGRESQL_DB_URL' in os.environ:
     }
 
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 DATA_DIR = os.environ['OPENSHIFT_DATA_DIR']
 
-STATIC_ROOT = os.path.join(BASE_DIR, '..', 'wsgi', 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'wsgi', 'static')
 
 # Replace default keys with dynamic values if we are in OpenShift
 try:
@@ -100,8 +100,8 @@ else:
 
 # List of machine translations
 MACHINE_TRANSLATION_SERVICES = (
-    'weblate.trans.machine.weblatetm.WeblateSimilarTranslation',
-    'weblate.trans.machine.weblatetm.WeblateTranslation',
+    'weblate.machinery.weblatetm.WeblateTranslation',
+    'weblate.memory.machine.WeblateMemory',
 )
 
 if os.environ.get('OPENSHIFT_CLOUD_DOMAIN', False):

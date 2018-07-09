@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -19,7 +19,8 @@
 #
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _, ugettext_lazy
-from weblate.trans.checks import CHECKS
+
+from weblate.checks import CHECKS
 
 EXTRA_FLAGS = {
     v.enable_string: v.name
@@ -29,46 +30,8 @@ EXTRA_FLAGS = {
 
 EXTRA_FLAGS['rst-text'] = ugettext_lazy('RST text')
 EXTRA_FLAGS['xml-text'] = ugettext_lazy('XML text')
-EXTRA_FLAGS['skip-review-flag'] = ugettext_lazy(
-    'Skip review flag when importing'
-)
-EXTRA_FLAGS['add-source-review'] = ugettext_lazy(
-    'Add review flag for new source strings'
-)
-EXTRA_FLAGS['add-review'] = ugettext_lazy(
-    'Add review flag for new translated strings'
-)
 
 IGNORE_CHECK_FLAGS = {CHECKS[x].ignore_string for x in CHECKS}
-
-
-def validate_extra_file(val):
-    """Validate extra file to commit."""
-    try:
-        val % {'language': 'cs'}
-    except Exception as error:
-        raise ValidationError(_('Bad format string (%s)') % str(error))
-
-
-def validate_commit_message(val):
-    """Validate that commit message is a valid format string."""
-    try:
-        val % {
-            'language': 'cs',
-            'language_name': 'Czech',
-            'project': 'Weblate',
-            'subproject': 'master',
-            'resource': 'master',
-            'component': 'master',
-            'url': 'https://example.com/projects/weblate/master',
-            'total': 200,
-            'fuzzy': 20,
-            'fuzzy_percent': 10.0,
-            'translated': 40,
-            'translated_percent': 20.0,
-        }
-    except Exception as error:
-        raise ValidationError(_('Bad format string (%s)') % str(error))
 
 
 def validate_filemask(val):

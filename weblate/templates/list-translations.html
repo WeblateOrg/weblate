@@ -4,8 +4,7 @@
 <table class="sort table">
 <thead>
 <tr>
-<th>{% if show_language == 1 %}{% trans "Language" %}{% else %}{% trans "Project" %}{% endif %}</th>
-<th></th>
+<th>{% if show_language == 1 %}{% trans "Language" %}{% elif show_language == 4 or show_language == 2 %}{% trans "Component" %}{% elif show_language == 3 %}{% trans "Component list" %}{% else %}{% trans "Project" %}{% endif %}</th>
 <th colspan="2">{% trans "Translated" %}</th>
 <th class="col-untranslated" style="display: none">{% trans "Untranslated" context "Number of untranslated strings" %}</th>
 <th class="col-words">{% trans "Words" context "Number of translated words" %}</th>
@@ -29,19 +28,18 @@
 </tr>
 <tbody>
 {% for trans in translations %}
-{% with trans.get_untranslated_percent as untranslated and trans.get_translated_percent as percent and trans.get_fuzzy_percent as fuzzy and trans.failing_checks as checks and trans.untranslated as untranslated and trans.have_suggestion as suggestions %}
+{% with percent=trans.stats.translated_percent fuzzy=trans.stats.fuzzy_percent checks=trans.stats.allchecks untranslated=trans.stats.untranslated suggestions=trans.stats.suggestions translate_url=trans.get_translate_url %}
 <tr>
-<th><a href="{{ trans.get_absolute_url }}">{% if show_language == 1 %}{{ trans.language }}{% else %}{% if show_only_component %}{{ trans.subproject.name }}{% else %}{{ trans.subproject }}{% endif %}{% if show_language == 2 %} ({{ trans.language }}){% endif %}{% endif %}</a>
-{% if trans.is_template %}<span class="badge pull-rigth flip tooltip-control" title="{% trans "This translation is being used as source strings within this component." %}">{% trans "source" %}</span>{% endif %}
+<th><a href="{{ trans.get_absolute_url }}">{% if show_language == 1 %}{{ trans.language }}{% elif show_only_component %}{{ trans.component.name }}{% elif show_language == 3 or show_language == 4 %}{{ trans }}{% else %}{{ trans.component }}{% endif %}{% if show_language == 2 %} ({{ trans.language }}){% endif %}</a>
+{% if trans.is_template %}<span class="badge pull-right flip tooltip-control" title="{% trans "This translation is being used as source strings within this component." %}">{% trans "source" %}</span>{% endif %}
 </th>
-<td>{% if trans.is_user_locked %}<i class="fa fa-lock html-tooltip" data-placement="bottom" data-toggle="tooltip" data-title='{{ trans.get_lock_display }}'></a>{% endif %}</td>
 <td class="progress-cell">{% translation_progress trans %}</td>
 <td class="percent">{{ percent }}%</td>
-<td class="percent col-untranslated" style="display: none">{{ untranslated }}%</td>
-<td class="percent col-words" title="{% blocktrans count words=trans.untranslated_words %}{{ words }} word to translate!{% plural %}{{ words }} words to translate!{% endblocktrans %}" >{{ trans.get_words_percent }}%</td>
+<td class="percent col-untranslated" style="display: none">{{ untranslated }}</td>
+<td class="percent col-words" title="{% blocktrans count words=trans.stats.nottranslated_words %}{{ words }} word to translate!{% plural %}{{ words }} words to translate!{% endblocktrans %}" >{{ trans.stats.translated_words_percent }}%</td>
 <td class="percent col-fuzzy">
-{% if fuzzy > 0 %}
-<a href="{{ trans.get_translate_url }}?type=fuzzy" title="{% blocktrans count trans.fuzzy as count %}There is {{ count }} string needing review.{% plural %}There are {{ count }} strings needing review.{% endblocktrans %}">
+{% if fuzzy > 0 and translate_url %}
+<a href="{{ translate_url }}?type=fuzzy" title="{% blocktrans count trans.stats.fuzzy as count %}There is {{ count }} string needing review.{% plural %}There are {{ count }} strings needing review.{% endblocktrans %}">
 {{ fuzzy }}%
 </a>
 {% else %}
@@ -49,8 +47,8 @@
 {% endif %}
 </td>
 <td class="number col-checks">
-{% if checks > 0 %}
-<a href="{{ trans.get_translate_url }}?type=allchecks" title="{% blocktrans count checks as count %}There is {{ count }} failing check.{% plural %}There are {{ count }} failing checks.{% endblocktrans %}">
+{% if checks > 0 and translate_url %}
+<a href="{{ translate_url }}?type=allchecks" title="{% blocktrans count checks as count %}There is {{ count }} failing check.{% plural %}There are {{ count }} failing checks.{% endblocktrans %}">
 {{ checks }}
 </a>
 {% else %}
@@ -58,8 +56,8 @@
 {% endif %}
 </td>
 <td class="number col-suggestions">
-{% if suggestions > 0 %}
-<a href="{{ trans.get_translate_url }}?type=suggestions" title="{% blocktrans count suggestions as count %}There is {{ count }} suggestion.{% plural %}There are {{ count }} suggestions.{% endblocktrans %}">
+{% if suggestions > 0 and translate_url %}
+<a href="{{ translate_url }}?type=suggestions" title="{% blocktrans count suggestions as count %}There is {{ count }} suggestion.{% plural %}There are {{ count }} suggestions.{% endblocktrans %}">
 {{ suggestions }}
 </a>
 {% else %}
@@ -67,10 +65,12 @@
 {% endif %}
 </td>
 <td>
+{% if translate_url %}
 {% if untranslated > 0 %}
-<a href="{{ trans.get_translate_url }}?type=untranslated" title="{% blocktrans count trans.untranslated as count %}There is {{ count }} not translated string.{% plural %}There are {{ count }} not translated strings.{% endblocktrans %}" class="btn btn-default btn-xs"><i class="fa fa-pencil"></i> {% trans "Translate" %}</a>
+<a href="{{ translate_url }}?type=untranslated" title="{% blocktrans count untranslated as count %}There is {{ count }} not translated string.{% plural %}There are {{ count }} not translated strings.{% endblocktrans %}" class="btn btn-default btn-xs"><i class="fa fa-pencil"></i> {% trans "Translate" %}</a>
 {% else %}
-<a href="{{ trans.get_translate_url }}?type=all" title="{% blocktrans count trans.total as count %}There is {{ count }} translated string.{% plural %}There are {{ count }} translated strings.{% endblocktrans %}" class="btn btn-default btn-xs"><i class="fa fa-pencil"></i> {% trans "Translate" %}</a>
+<a href="{{ translate_url }}?type=all" title="{% blocktrans count trans.stats.all as count %}There is {{ count }} translated string.{% plural %}There are {{ count }} translated strings.{% endblocktrans %}" class="btn btn-default btn-xs"><i class="fa fa-pencil"></i> {% trans "Translate" %}</a>
+{% endif %}
 {% endif %}
 </td>
 </tr>

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -26,7 +26,7 @@ import json
 from django.core.management.base import BaseCommand, CommandError
 from django.utils.text import slugify
 
-from weblate.trans.models import SubProject, Project
+from weblate.trans.models import Component, Project
 
 
 class Command(BaseCommand):
@@ -88,17 +88,19 @@ class Command(BaseCommand):
         main_component = None
         if options['main_component']:
             try:
-                main_component = SubProject.objects.get(
+                main_component = Component.objects.get(
                     project=project,
                     slug=options['main_component']
                 )
-            except SubProject.DoesNotExist:
+            except Component.DoesNotExist:
                 raise CommandError('Main component does not exist!')
 
         try:
             data = json.load(options['json-file'])
         except ValueError:
             raise CommandError('Failed to parse JSON file!')
+        finally:
+            options['json-file'].close()
 
         for item in data:
             if ('filemask' not in item or
@@ -118,7 +120,7 @@ class Command(BaseCommand):
             item['project'] = project
 
             try:
-                component = SubProject.objects.get(
+                component = Component.objects.get(
                     slug=item['slug'], project=item['project']
                 )
                 self.stderr.write(
@@ -137,8 +139,8 @@ class Command(BaseCommand):
                     'Component already exists, use --ignore or --update!'
                 )
 
-            except SubProject.DoesNotExist:
-                component = SubProject.objects.create(**item)
+            except Component.DoesNotExist:
+                component = Component.objects.create(**item)
                 self.stdout.write(
                     'Imported {0} with {1} translations'.format(
                         component,

@@ -17,9 +17,13 @@
 <div class="panel-body">
 
 <p>
-{% url 'legal:terms' as terms_url %}
-{% blocktrans %}This page is based on the <a href="{{ terms_url }}">Terms of Service</a>, you should still read the original document to fully understand them.{% endblocktrans %}
+{% blocktrans %}This page is based on the Terms of Service and the Privacy Policy, you should still read the original documents to fully understand them:{% endblocktrans %}
 </p>
+
+<ul>
+<li><a href="{% url 'legal:terms' %}">{% trans "Terms of Service" %}</a></li>
+<li><a href="{% url 'legal:privacy' %}">{% trans "Privacy Policy" %}</a></li>
+<ul>
 
 <p>
 {% blocktrans %}We use cookies for following:{% endblocktrans %}
@@ -28,12 +32,8 @@
 <ul>
 <li>{% trans "Authentication cookies which are required for recognizing authenticated users." %}</li>
 <li>{% trans "Preferences cookie to store user preferences in certain situations." %}</li>
-<li>{% trans "We use Piwik to analyze traffic on our website. Piwik honours Do Not Track settings in your browser." %}</li>
+<li>{% trans "We use Matomo to analyze traffic on our website. Matomo honours Do Not Track settings in your browser." %}</li>
 </ul>
-
-<p>
-{% blocktrans %}You can find more information about cookies in the <a href="https://en.wikipedia.org/wiki/HTTP_cookie">Wikipedia article</a>.{% endblocktrans %}
-</p>
 
 </div>
 </div>

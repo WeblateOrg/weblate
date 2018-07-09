@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -23,10 +23,10 @@ Tests for user handling.
 """
 
 from django.test import TestCase
-from django.contrib.auth.models import AnonymousUser, User
 from django.test.utils import override_settings
 from django.http import HttpRequest, HttpResponseRedirect
 
+from weblate.auth.models import User, get_anonymous
 from weblate.accounts.middleware import RequireLoginMiddleware
 
 
@@ -58,8 +58,7 @@ class MiddlewareTest(TestCase):
             middleware.process_view(request, self.view_method, (), {})
         )
         # Protection for protected path and not logged in user
-        # pylint: disable=R0204
-        request.user = AnonymousUser()
+        request.user = get_anonymous()
         self.assertIsInstance(
             middleware.process_view(request, self.view_method, (), {}),
             HttpResponseRedirect

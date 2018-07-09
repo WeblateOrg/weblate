@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -51,6 +51,6 @@ class WeblateStrategy(DjangoStrategy):
         # This is mostly fix for lack of next validation in Python Social Auth
         # - https://github.com/python-social-auth/social-core/pull/92
         # - https://github.com/python-social-auth/social-core/issues/62
-        if 'next' in data and not is_safe_url(data['next']):
+        if 'next' in data and not is_safe_url(data['next'], allowed_hosts=None):
             data['next'] = '/accounts/profile/#auth'
         return data

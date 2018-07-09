@@ -15,11 +15,6 @@
 <div class="panel-heading"><h4 class="panel-title">{% trans "Legal Terms Overview" %}</h4></div>
 <div class="panel-body">
 
-<p>
-{% url 'legal:terms' as terms_url %}
-{% blocktrans %}This page is based on the <a href="{{ terms_url }}">Terms of Service</a>, you should still read the original document to fully understand them.{% endblocktrans %}
-</p>
-
 <ul>
 <li>{% blocktrans %}The services are provided “as is”, at your own risk, without any warranty.{% endblocktrans %}</li>
 <li>{% blocktrans %}Additional guarantees might apply to commercial customers, those are expressed in corresponding contracts.{% endblocktrans %}</li>
@@ -28,6 +23,15 @@
 <li>{% blocktrans %}Your name and email address is used in VCS commits, it will stay there indefinitely.{% endblocktrans %}</li>
 <li>{% blocktrans %}We use cookies to deliver our services.{% endblocktrans %}</li>
 </ul>
+
+<p>
+{% blocktrans %}This page is based on the Terms of Service and the Privacy Policy, you should still read the original documents to fully understand them:{% endblocktrans %}
+</p>
+
+<ul>
+<li><a href="{% url 'legal:terms' %}">{% trans "Terms of Service" %}</a></li>
+<li><a href="{% url 'legal:privacy' %}">{% trans "Privacy Policy" %}</a></li>
+<ul>
 
 </div>
 </div>

@@ -10,23 +10,23 @@
 {% endblock %}
 
 {% block content %}
-{% can_add_translation user object.project as user_can_add_translation %}
+{% perm 'translation.add' object as user_can_add_translation %}
 
 {% if object.can_add_language and user_can_add_translation %}
 
 <div class="tab-pane" id="newlang">
 
-<form action="{% url 'new-language' project=object.project.slug subproject=object.slug %}" method="post">
+<form action="{% url 'new-language' project=object.project.slug component=object.slug %}" method="post">
 {% csrf_token %}
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Start new translation" %}</h4></div>
   <div class="panel-body">
 {% if object.new_lang == 'url' %}
-<p>{% blocktrans with object.project.instructions as url %}Should your language be missing, please follow <a href="{{ url }}">translator instructions</a>.{% endblocktrans %}</p>
+<p><a href="{{ object.project.instructions }}">{% trans "Information on how to start translating into another language is to be found in the translator instructions." %}</a></p>
 {% else %}
-<p>{% trans "Please choose the language into which you would like to translate." %}</p>
+<p>{% trans "Please choose the language you want to translate to." %}</p>
 {% if object.new_lang == 'contact' %}
-<p>{% trans "Project maintainers will get notified about this request and will add the language manually." %}</p>
+<p>{% trans "Project maintainers are notified of this request, which prompts them to add the language manually." %}</p>
 {% endif %}
 {{ form|crispy }}
 <p class="help-block"><a href="{% url 'contact' %}?t=lang">{% trans "Can't find your language in the list above?" %}</a></p>

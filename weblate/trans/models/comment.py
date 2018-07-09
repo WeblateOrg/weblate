@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -20,52 +20,51 @@
 
 from __future__ import unicode_literals
 
-from django.contrib.auth.models import User
+from django.conf import settings
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 
-from weblate.lang.models import Language
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.change import Change
-from weblate.accounts.notifications import notify_new_comment
+from weblate.utils.unitdata import UnitData
 
 
 class CommentManager(models.Manager):
-    # pylint: disable=W0232
+    # pylint: disable=no-init
 
     def add(self, unit, user, lang, text):
         """Add comment to this unit."""
         new_comment = self.create(
             user=user,
             content_hash=unit.content_hash,
-            project=unit.translation.subproject.project,
+            project=unit.translation.component.project,
             comment=text,
             language=lang
         )
         Change.objects.create(
             unit=unit,
             action=Change.ACTION_COMMENT,
-            translation=unit.translation,
             user=user,
             author=user
         )
 
         # Notify subscribed users
+        from weblate.accounts.notifications import notify_new_comment
         notify_new_comment(
             unit,
             new_comment,
             user,
-            unit.translation.subproject.report_source_bugs
+            unit.translation.component.report_source_bugs
         )
 
 
 @python_2_unicode_compatible
-class Comment(models.Model, UserDisplayMixin):
-    content_hash = models.BigIntegerField(db_index=True)
+class Comment(UnitData, UserDisplayMixin):
     comment = models.TextField()
-    user = models.ForeignKey(User, null=True, blank=True)
-    project = models.ForeignKey('Project')
-    language = models.ForeignKey(Language, null=True, blank=True)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, null=True, blank=True,
+        on_delete=models.deletion.CASCADE
+    )
     timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
 
     objects = CommentManager()
@@ -73,6 +72,9 @@ class Comment(models.Model, UserDisplayMixin):
     class Meta(object):
         ordering = ['timestamp']
         app_label = 'trans'
+        index_together = [
+            ('project', 'language', 'content_hash'),
+        ]
 
     def __str__(self):
         return 'comment for {0} by {1}'.format(

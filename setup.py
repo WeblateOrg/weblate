@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -19,6 +19,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import io
 import os
 import sys
 from setuptools import setup
@@ -26,7 +27,7 @@ from setuptools import setup
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
-with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
+with io.open('README.rst', encoding='utf-8') as readme:
     README = readme.read()
 
 with open('requirements.txt') as requirements:
@@ -39,7 +40,7 @@ DATA_FILES = [
 
 setup(
     name='Weblate',
-    version='2.17',
+    version='3.1',
     packages=[
         'weblate',
     ],
@@ -60,13 +61,9 @@ setup(
     extras_require={
         'Mercurial': ['Mercurial>=2.8'],
         'Unicode': ['pyuca>=1.1', 'python-bidi>=0.4.0', 'chardet'],
-        'Avatars': [
-            'pyLibravatar',
-            'pydns' if sys.version_info[0] == 2 else 'py3dns'
-        ],
-        'Android': ['Babel'],
         'YAML': ['PyYAML>=3.0'],
         'OCR': ['tesserocr>=1.2'],
+        'PHP': ['phply>=1.2.3'],
     },
     classifiers=[
         'Environment :: Web Environment',
@@ -96,6 +93,7 @@ setup(
     tests_require=(
         'selenium',
         'httpretty',
+        'boto3',
     ),
     test_suite='runtests.runtests',
     data_files=DATA_FILES,

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -22,6 +22,7 @@ from importlib import import_module
 
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
+from django.utils.functional import cached_property
 
 
 def load_class(name, setting):
@@ -55,18 +56,22 @@ def load_class(name, setting):
 
 class ClassLoader(object):
     """Dict like object to lazy load list of classes."""
-    def __init__(self, name):
+    def __init__(self, name, construct=True):
         self.name = name
-        self._data = None
+        self.construct = construct
 
-    @property
+    def load_data(self):
+        result = {}
+        for path in getattr(settings, self.name):
+            obj = load_class(path, self.name)
+            if self.construct:
+                obj = obj()
+            result[obj.get_identifier()] = obj
+        return result
+
+    @cached_property
     def data(self):
-        if self._data is None:
-            self._data = {}
-            for path in getattr(settings, self.name):
-                obj = load_class(path, self.name)()
-                self._data[obj.get_identifier()] = obj
-        return self._data
+        return self.load_data()
 
     def __getitem__(self, key):
         return self.data.__getitem__(key)
@@ -74,11 +79,17 @@ class ClassLoader(object):
     def __setitem__(self, key, value):
         self.data.__setitem__(key, value)
 
+    def get(self, key):
+        return self.data.get(key)
+
     def items(self):
         return self.data.items()
 
     def keys(self):
         return self.data.keys()
+
+    def values(self):
+        return self.data.values()
 
     def __iter__(self):
         return self.data.__iter__()
@@ -88,3 +99,9 @@ class ClassLoader(object):
 
     def __contains__(self, item):
         return self.data.__contains__(item)
+
+    def exists(self):
+        return bool(self.data)
+
+    def get_choices(self):
+        return [(x, self[x].name) for x in sorted(self)]

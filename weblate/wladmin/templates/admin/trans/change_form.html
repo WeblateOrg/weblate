@@ -2,27 +2,40 @@
 {% load i18n %}
 {% load translations %}
 
-{% block form_top %}
-{% if opts.model_name == 'project' or opts.model_name == 'subproject' or opts.model_name == 'advertisement' or opts.model_name == 'whiteboardmessage' or opts.model_name == 'groupacl' or opts.model_name == 'componentlist' or opts.model_name == 'autocomponentlist' %}
-{% if opts.model_name == 'advertisement' %}
-{% doc_url 'admin/advertisement' as url %}
-{% else %}
+{% block object-tools %}
+{% if add and opts.model_name == 'component' %}
+  <ul class="object-tools">
+<li>
+<a href="{% documentation 'admin/projects' 'import-speed' %}" class="doclink">{% trans "Import speed documentation" %}</a>
+</li>
+  </ul>
+{% endif %}
+{{ block.super }}
+{% endblock %}
+
+{% block object-tools-items %}
 {% if opts.model_name == 'whiteboardmessage' %}
-{% doc_url 'admin/whiteboard' as url %}
+<li>
+<a href="{% documentation 'admin/whiteboard' %}" class="doclink">{% trans "Documentation" %}</a>
+</li>
 {% else %}
 {% if opts.model_name == 'componentlist' %}
-{% doc_url 'admin/componentlists' as url %}
+<li>
+<a href="{% documentation 'admin/componentlists' %}" class="doclink">{% trans "Documentation" %}</a>
+</li>
 {% else %}
-{% doc_url 'admin/projects' opts.model_name as url %}
+<li>
+<a href="{% documentation 'admin/projects' opts.model_name %}" class="doclink">{% trans "Documentation" %}</a>
+</li>
 {% endif %}
 {% endif %}
-{% endif %}
-<p>{% blocktrans %}Required fields are marked as bold, you can find more information in the <a href="{{ url }}">documentation</a>.{% endblocktrans %}</p>
+{{ block.super }}
+{% endblock %}
+
+{% block form_top %}
+{% if opts.model_name == 'project' or opts.model_name == 'component' or opts.model_name == 'whiteboardmessage' or opts.model_name == 'componentlist' or opts.model_name == 'autocomponentlist' or opts.model_name == 'contributoragreement' %}
+<p>{% blocktrans %}Required fields are marked in bold.{% endblocktrans %}</p>
 {% else %}
-<p class="errornote">{% blocktrans %}Do not change this object here, please use Weblate interface instead.{% endblocktrans %}</p>
-{% endif %}
-{% if add and opts.model_name == 'subproject' %}
-{% doc_url 'admin/projects' 'import-speed' as url %}
-<p>{% blocktrans %}Importing a new translation can take some time, please check <a href="{{ url }}">our documentation</a> for information on how to improve this.{% endblocktrans %}</p>
+<p class="errornote">{% blocktrans %}Do not change the object here, please use the Weblate interface instead.{% endblocktrans %}</p>
 {% endif %}
 {% endblock %}

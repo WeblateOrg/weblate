@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -21,6 +21,7 @@
 import os.path
 
 from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
 
 from PIL import ImageFont
 
@@ -687,8 +688,13 @@ def get_font(size, bold=False, base_font=True):
         else:
             name = 'DroidSansFallback.ttf'
 
-        FONT_CACHE[cache_key] = ImageFont.truetype(
-            os.path.join(settings.TTF_PATH, name),
-            size
-        )
+        try:
+            FONT_CACHE[cache_key] = ImageFont.truetype(
+                os.path.join(settings.TTF_PATH, name),
+                size
+            )
+        except IOError:
+            raise ImproperlyConfigured(
+                'Failed to load truetype fonts, maybe your TTF_PATH is wrong?'
+            )
     return FONT_CACHE[cache_key]

@@ -18,17 +18,17 @@
   <meta name="description" content="{{ description }}" />
 
 {% compress css %}
-  <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.css' %}{{ cache_param }}" />
 {% if LANGUAGE_BIDI %}
-  <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap-rtl.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap-rtl.css' %}{{ cache_param }}" />
 {% endif %}
-  <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap-theme.css' %}" />
-  <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap-datepicker3.css' %}" />
-  <link rel="stylesheet" type="text/css" href="{% static 'font-awesome/css/font-awesome.css' %}" />
-  <link rel="stylesheet" type="text/css" href="{% static 'font-linux/font-linux.css' %}" />
-  <link rel="stylesheet" type="text/css" href="{% static 'chartist.css' %}" />
-  <link rel="stylesheet" type="text/css" href="{% static 'multi-select.css' %}" />
-  <link rel="stylesheet" type="text/css" href="{% static 'style-bootstrap.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap-theme.css' %}{{ cache_param }}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap-datepicker3.css' %}{{ cache_param }}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'font-awesome/css/font-awesome.css' %}{{ cache_param }}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'font-linux/font-linux.css' %}{{ cache_param }}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'chartist.css' %}{{ cache_param }}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'multi.css' %}{{ cache_param }}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'style-bootstrap.css' %}{{ cache_param }}" />
 {% endcompress %}
   <script src="{% url 'js-catalog' %}" type="text/javascript"></script>
 {% compress js %}
@@ -52,27 +52,31 @@ var _rollbarConfig = {
     }
 };
 // Rollbar Snippet
-!function(r){function e(n){if(o[n])return o[n].exports;var t=o[n]={exports:{},id:n,loaded:!1};return r[n].call(t.exports,t,t.exports,e),t.loaded=!0,t.exports}var o={};return e.m=r,e.c=o,e.p="",e(0)}([function(r,e,o){"use strict";var n=o(1).Rollbar,t=o(2);_rollbarConfig.rollbarJsUrl=_rollbarConfig.rollbarJsUrl||"https://cdnjs.cloudflare.com/ajax/libs/rollbar.js/1.9.4/rollbar.nojson.min.js";var a=n.init(window,_rollbarConfig),i=t(a,_rollbarConfig);a.loadFull(window,document,!_rollbarConfig.async,_rollbarConfig,i)},function(r,e){"use strict";function o(r){return function(){try{return r.apply(this,arguments)}catch(r){try{console.error("[Rollbar]: Internal error",r)}catch(r){}}}}function n(r,e,o){window._rollbarWrappedError&&(o[4]||(o[4]=window._rollbarWrappedError),o[5]||(o[5]=window._rollbarWrappedError._rollbarContext),window._rollbarWrappedError=null),r.uncaughtError.apply(r,o),e&&e.apply(window,o)}function t(r){var e=function(){var e=Array.prototype.slice.call(arguments,0);n(r,r._rollbarOldOnError,e)};return e.belongsToShim=!0,e}function a(r){this.shimId=++c,this.notifier=null,this.parentShim=r,this._rollbarOldOnError=null}function i(r){var e=a;return o(function(){if(this.notifier)return this.notifier[r].apply(this.notifier,arguments);var o=this,n="scope"===r;n&&(o=new e(this));var t=Array.prototype.slice.call(arguments,0),a={shim:o,method:r,args:t,ts:new Date};return window._rollbarShimQueue.push(a),n?o:void 0})}function l(r,e){if(e.hasOwnProperty&&e.hasOwnProperty("addEventListener")){var o=e.addEventListener;e.addEventListener=function(e,n,t){o.call(this,e,r.wrap(n),t)};var n=e.removeEventListener;e.removeEventListener=function(r,e,o){n.call(this,r,e&&e._wrapped?e._wrapped:e,o)}}}var c=0;a.init=function(r,e){var n=e.globalAlias||"Rollbar";if("object"==typeof r[n])return r[n];r._rollbarShimQueue=[],r._rollbarWrappedError=null,e=e||{};var i=new a;return o(function(){if(i.configure(e),e.captureUncaught){i._rollbarOldOnError=r.onerror,r.onerror=t(i);var o,a,c="EventTarget,Window,Node,ApplicationCache,AudioTrackList,ChannelMergerNode,CryptoOperation,EventSource,FileReader,HTMLUnknownElement,IDBDatabase,IDBRequest,IDBTransaction,KeyOperation,MediaController,MessagePort,ModalWindow,Notification,SVGElementInstance,Screen,TextTrack,TextTrackCue,TextTrackList,WebSocket,WebSocketWorker,Worker,XMLHttpRequest,XMLHttpRequestEventTarget,XMLHttpRequestUpload".split(",");for(o=0;o<c.length;++o)a=c[o],r[a]&&r[a].prototype&&l(i,r[a].prototype)}return e.captureUnhandledRejections&&(i._unhandledRejectionHandler=function(r){var e=r.reason,o=r.promise,n=r.detail;!e&&n&&(e=n.reason,o=n.promise),i.unhandledRejection(e,o)},r.addEventListener("unhandledrejection",i._unhandledRejectionHandler)),r[n]=i,i})()},a.prototype.loadFull=function(r,e,n,t,a){var i=function(){var e;if(void 0===r._rollbarPayloadQueue){var o,n,t,i;for(e=new Error("rollbar.js did not load");o=r._rollbarShimQueue.shift();)for(t=o.args,i=0;i<t.length;++i)if(n=t[i],"function"==typeof n){n(e);break}}"function"==typeof a&&a(e)},l=!1,c=e.createElement("script"),p=e.getElementsByTagName("script")[0],s=p.parentNode;c.crossOrigin="",c.src=t.rollbarJsUrl,c.async=!n,c.onload=c.onreadystatechange=o(function(){if(!(l||this.readyState&&"loaded"!==this.readyState&&"complete"!==this.readyState)){c.onload=c.onreadystatechange=null;try{s.removeChild(c)}catch(r){}l=!0,i()}}),s.insertBefore(c,p)},a.prototype.wrap=function(r,e){try{var o;if(o="function"==typeof e?e:function(){return e||{}},"function"!=typeof r)return r;if(r._isWrap)return r;if(!r._wrapped){r._wrapped=function(){try{return r.apply(this,arguments)}catch(e){throw"string"==typeof e&&(e=new String(e)),e._rollbarContext=o()||{},e._rollbarContext._wrappedSource=r.toString(),window._rollbarWrappedError=e,e}},r._wrapped._isWrap=!0;for(var n in r)r.hasOwnProperty(n)&&(r._wrapped[n]=r[n])}return r._wrapped}catch(e){return r}};for(var p="log,debug,info,warn,warning,error,critical,global,configure,scope,uncaughtError,unhandledRejection".split(","),s=0;s<p.length;++s)a.prototype[p[s]]=i(p[s]);r.exports={Rollbar:a,_rollbarWindowOnError:n}},function(r,e){"use strict";r.exports=function(r,e){return function(o){if(!o&&!window._rollbarInitialized){var n=window.RollbarNotifier,t=e||{},a=t.globalAlias||"Rollbar",i=window.Rollbar.init(t,r);i._processShimQueue(window._rollbarShimQueue||[]),window[a]=i,window._rollbarInitialized=!0,n.processPayloads()}}}}]);
+!function(r){function e(n){if(o[n])return o[n].exports;var t=o[n]={exports:{},id:n,loaded:!1};return r[n].call(t.exports,t,t.exports,e),t.loaded=!0,t.exports}var o={};return e.m=r,e.c=o,e.p="",e(0)}([function(r,e,o){"use strict";var n=o(1),t=o(4);_rollbarConfig=_rollbarConfig||{},_rollbarConfig.rollbarJsUrl=_rollbarConfig.rollbarJsUrl||"https://cdnjs.cloudflare.com/ajax/libs/rollbar.js/2.4.1/rollbar.min.js",_rollbarConfig.async=void 0===_rollbarConfig.async||_rollbarConfig.async;var a=n.setupShim(window,_rollbarConfig),l=t(_rollbarConfig);window.rollbar=n.Rollbar,a.loadFull(window,document,!_rollbarConfig.async,_rollbarConfig,l)},function(r,e,o){"use strict";function n(r){return function(){try{return r.apply(this,arguments)}catch(r){try{console.error("[Rollbar]: Internal error",r)}catch(r){}}}}function t(r,e){this.options=r,this._rollbarOldOnError=null;var o=s++;this.shimId=function(){return o},"undefined"!=typeof window&&window._rollbarShims&&(window._rollbarShims[o]={handler:e,messages:[]})}function a(r,e){if(r){var o=e.globalAlias||"Rollbar";if("object"==typeof r[o])return r[o];r._rollbarShims={},r._rollbarWrappedError=null;var t=new p(e);return n(function(){e.captureUncaught&&(t._rollbarOldOnError=r.onerror,i.captureUncaughtExceptions(r,t,!0),i.wrapGlobals(r,t,!0)),e.captureUnhandledRejections&&i.captureUnhandledRejections(r,t,!0);var n=e.autoInstrument;return e.enabled!==!1&&(void 0===n||n===!0||"object"==typeof n&&n.network)&&r.addEventListener&&(r.addEventListener("load",t.captureLoad.bind(t)),r.addEventListener("DOMContentLoaded",t.captureDomContentLoaded.bind(t))),r[o]=t,t})()}}function l(r){return n(function(){var e=this,o=Array.prototype.slice.call(arguments,0),n={shim:e,method:r,args:o,ts:new Date};window._rollbarShims[this.shimId()].messages.push(n)})}var i=o(2),s=0,d=o(3),c=function(r,e){return new t(r,e)},p=d.bind(null,c);t.prototype.loadFull=function(r,e,o,t,a){var l=function(){var e;if(void 0===r._rollbarDidLoad){e=new Error("rollbar.js did not load");for(var o,n,t,l,i=0;o=r._rollbarShims[i++];)for(o=o.messages||[];n=o.shift();)for(t=n.args||[],i=0;i<t.length;++i)if(l=t[i],"function"==typeof l){l(e);break}}"function"==typeof a&&a(e)},i=!1,s=e.createElement("script"),d=e.getElementsByTagName("script")[0],c=d.parentNode;s.crossOrigin="",s.src=t.rollbarJsUrl,o||(s.async=!0),s.onload=s.onreadystatechange=n(function(){if(!(i||this.readyState&&"loaded"!==this.readyState&&"complete"!==this.readyState)){s.onload=s.onreadystatechange=null;try{c.removeChild(s)}catch(r){}i=!0,l()}}),c.insertBefore(s,d)},t.prototype.wrap=function(r,e,o){try{var n;if(n="function"==typeof e?e:function(){return e||{}},"function"!=typeof r)return r;if(r._isWrap)return r;if(!r._rollbar_wrapped&&(r._rollbar_wrapped=function(){o&&"function"==typeof o&&o.apply(this,arguments);try{return r.apply(this,arguments)}catch(o){var e=o;throw e&&("string"==typeof e&&(e=new String(e)),e._rollbarContext=n()||{},e._rollbarContext._wrappedSource=r.toString(),window._rollbarWrappedError=e),e}},r._rollbar_wrapped._isWrap=!0,r.hasOwnProperty))for(var t in r)r.hasOwnProperty(t)&&(r._rollbar_wrapped[t]=r[t]);return r._rollbar_wrapped}catch(e){return r}};for(var u="log,debug,info,warn,warning,error,critical,global,configure,handleUncaughtException,handleUnhandledRejection,captureEvent,captureDomContentLoaded,captureLoad".split(","),f=0;f<u.length;++f)t.prototype[u[f]]=l(u[f]);r.exports={setupShim:a,Rollbar:p}},function(r,e){"use strict";function o(r,e,o){if(r){var t;"function"==typeof e._rollbarOldOnError?t=e._rollbarOldOnError:r.onerror&&!r.onerror.belongsToShim&&(t=r.onerror,e._rollbarOldOnError=t);var a=function(){var o=Array.prototype.slice.call(arguments,0);n(r,e,t,o)};a.belongsToShim=o,r.onerror=a}}function n(r,e,o,n){r._rollbarWrappedError&&(n[4]||(n[4]=r._rollbarWrappedError),n[5]||(n[5]=r._rollbarWrappedError._rollbarContext),r._rollbarWrappedError=null),e.handleUncaughtException.apply(e,n),o&&o.apply(r,n)}function t(r,e,o){if(r){"function"==typeof r._rollbarURH&&r._rollbarURH.belongsToShim&&r.removeEventListener("unhandledrejection",r._rollbarURH);var n=function(r){var o,n,t;try{o=r.reason}catch(r){o=void 0}try{n=r.promise}catch(r){n="[unhandledrejection] error getting `promise` from event"}try{t=r.detail,!o&&t&&(o=t.reason,n=t.promise)}catch(r){t="[unhandledrejection] error getting `detail` from event"}o||(o="[unhandledrejection] error getting `reason` from event"),e&&e.handleUnhandledRejection&&e.handleUnhandledRejection(o,n)};n.belongsToShim=o,r._rollbarURH=n,r.addEventListener("unhandledrejection",n)}}function a(r,e,o){if(r){var n,t,a="EventTarget,Window,Node,ApplicationCache,AudioTrackList,ChannelMergerNode,CryptoOperation,EventSource,FileReader,HTMLUnknownElement,IDBDatabase,IDBRequest,IDBTransaction,KeyOperation,MediaController,MessagePort,ModalWindow,Notification,SVGElementInstance,Screen,TextTrack,TextTrackCue,TextTrackList,WebSocket,WebSocketWorker,Worker,XMLHttpRequest,XMLHttpRequestEventTarget,XMLHttpRequestUpload".split(",");for(n=0;n<a.length;++n)t=a[n],r[t]&&r[t].prototype&&l(e,r[t].prototype,o)}}function l(r,e,o){if(e.hasOwnProperty&&e.hasOwnProperty("addEventListener")){for(var n=e.addEventListener;n._rollbarOldAdd&&n.belongsToShim;)n=n._rollbarOldAdd;var t=function(e,o,t){n.call(this,e,r.wrap(o),t)};t._rollbarOldAdd=n,t.belongsToShim=o,e.addEventListener=t;for(var a=e.removeEventListener;a._rollbarOldRemove&&a.belongsToShim;)a=a._rollbarOldRemove;var l=function(r,e,o){a.call(this,r,e&&e._rollbar_wrapped||e,o)};l._rollbarOldRemove=a,l.belongsToShim=o,e.removeEventListener=l}}r.exports={captureUncaughtExceptions:o,captureUnhandledRejections:t,wrapGlobals:a}},function(r,e){"use strict";function o(r,e){this.impl=r(e,this),this.options=e,n(o.prototype)}function n(r){for(var e=function(r){return function(){var e=Array.prototype.slice.call(arguments,0);if(this.impl[r])return this.impl[r].apply(this.impl,e)}},o="log,debug,info,warn,warning,error,critical,global,configure,handleUncaughtException,handleUnhandledRejection,_createItem,wrap,loadFull,shimId,captureEvent,captureDomContentLoaded,captureLoad".split(","),n=0;n<o.length;n++)r[o[n]]=e(o[n])}o.prototype._swapAndProcessMessages=function(r,e){this.impl=r(this.options);for(var o,n,t;o=e.shift();)n=o.method,t=o.args,this[n]&&"function"==typeof this[n]&&("captureDomContentLoaded"===n||"captureLoad"===n?this[n].apply(this,[t[0],o.ts]):this[n].apply(this,t));return this},r.exports=o},function(r,e){"use strict";r.exports=function(r){return function(e){if(!e&&!window._rollbarInitialized){r=r||{};for(var o,n,t=r.globalAlias||"Rollbar",a=window.rollbar,l=function(r){return new a(r)},i=0;o=window._rollbarShims[i++];)n||(n=o.handler),o.handler._swapAndProcessMessages(l,o.messages);window[t]=n,window._rollbarInitialized=!0}}}}]);
 // End Rollbar Snippet
 </script>
 {% endif %}
-  <script src="{% static 'js/jquery-1.12.4.js' %}" type="text/javascript"></script>
-  <script src="{% static 'js/js.cookie.js' %}" type="text/javascript"></script>
-  <script src="{% static 'js/autosize.js' %}" type="text/javascript"></script>
-  <script src="{% static 'js/jquery.sortElements.js' %}" type="text/javascript"></script>
-  <script src="{% static 'js/jquery.multi-select.js' %}" type="text/javascript"></script>
-  <script src="{% static 'js/mousetrap.js' %}" type="text/javascript"></script>
-  <script src="{% static 'js/mousetrap-global-bind.js' %}" type="text/javascript"></script>
-  <script src="{% static 'js/chartist.js' %}" type="text/javascript"></script>
-  <script src="{% static 'bootstrap/js/bootstrap.js' %}" type="text/javascript"></script>
-  <script src="{% static 'loader-bootstrap.js' %}" type="text/javascript"></script>
-  <script src="{% static 'bootstrap/js/bootstrap-datepicker.js' %}" type="text/javascript"></script>
+  <script data-cfasync="false" src="{% static 'js/jquery.js' %}{{ cache_param }}" type="text/javascript"></script>
+  <script data-cfasync="false" src="{% static 'js/js.cookie.js' %}{{ cache_param }}" type="text/javascript"></script>
+  <script data-cfasync="false" src="{% static 'js/autosize.js' %}{{ cache_param }}" type="text/javascript"></script>
+  <script data-cfasync="false" src="{% static 'js/multi.js' %}{{ cache_param }}" type="text/javascript"></script>
+  <script data-cfasync="false" src="{% static 'js/mousetrap.js' %}{{ cache_param }}" type="text/javascript"></script>
+  <script data-cfasync="false" src="{% static 'js/mousetrap-global-bind.js' %}{{ cache_param }}" type="text/javascript"></script>
+  <script data-cfasync="false" src="{% static 'js/chartist.js' %}{{ cache_param }}" type="text/javascript"></script>
+  <script data-cfasync="false" src="{% static 'js/clipboard.js' %}{{ cache_param }}" type="text/javascript"></script>
+  <script data-cfasync="false" src="{% static 'bootstrap/js/bootstrap.js' %}{{ cache_param }}" type="text/javascript"></script>
+  <script data-cfasync="false" src="{% static 'bootstrap/js/bootstrap-datepicker.js' %}{{ cache_param }}" type="text/javascript"></script>
+  <script data-cfasync="false" src="{% static 'js/modernizr.js' %}{{ cache_param }}" type="text/javascript"></script>
+  <script data-cfasync="false" src="{% static 'loader-bootstrap.js' %}{{ cache_param }}" type="text/javascript"></script>
 {% endcompress %}
-  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon" />
 
-  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon" />
   <link rel="image_src" type="image/png" href="{% static 'weblate-128.png' %}"/>
   <link rel="apple-touch-icon" href="{% static 'weblate-128.png' %}"/>
+  <link rel="apple-touch-icon-precomposed" href="{% static 'weblate-152.png' %}">
+  <meta name="msapplication-TileColor" content="#FFFFFF">
+  <meta name="msapplication-TileImage" content="{% static 'weblate-144.png' %}">
   <meta name="robots" content="index, follow" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta property="og:site_name" content="{% if site_title %}{{ site_title }}{% else %}Weblate{% endif %}" />
@@ -115,13 +119,15 @@ var _rollbarConfig = {
           </ul>
         </li>
         {% endif %}
-        <li><a href="{% documentation 'index' %}">{% trans "Documentation" %}</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right flip">
         {% if user.is_authenticated %}
         <li><a class="button" id="profile-button" href="{% url 'profile' %}" title="{% trans "Your profile" %}">{{ user.profile.get_user_display }}</a></li>
-        {% if user.is_staff %}
+        {% if user.is_superuser %}
         <li><a class="button" id="admin-button" href="{% url 'admin:index' %}" title="{% trans "Administration" %}"><i class="fa fa-wrench"></i></a></li>
+        {% if configuration_errors.exists %}
+        <li><a class="button" id="errors-button" href="{% url 'admin:performance' %}" title="{% trans "Configuration errors" %}"><i class="fa fa-exclamation-triangle text-danger"></i></a></li>
+        {% endif %}
         {% endif %}
         <li><a class="button link-post" id="logout-button" href="{% url 'logout' %}" title="{% trans "Logout" %}"><i class="fa fa-sign-out"></i></a></li>
         {% else %}
@@ -130,6 +136,13 @@ var _rollbarConfig = {
         {% endif %}
         <li><a class="button" id="login-button" href="{% url 'login' %}{% if not skip_next %}?next={{ login_redirect_url|urlencode }}{% endif %}">{% trans "Login" %}</a></li>
         {% endif %}
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="{% trans "Help" %}"><i class="fa fa-question-circle"></i><b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="{% url 'contact' %}">{% trans "Contact" %}</a></li>
+            <li><a href="{% documentation 'index' %}">{% trans "Documentation" %}</a></li>
+          </ul>
+        </li>
       </ul>
     </div>
   </div>
@@ -147,7 +160,8 @@ var _rollbarConfig = {
 
 <div class="content">
 <!--[if lte IE 8]>
-{% show_message "error" _('Weblate does not support Microsoft Internet Explorer 8 and older, please use some more recent browser like <a href="https://www.mozilla.org/firefox/">Firefox</a>.') %}
+{% trans 'Weblate does not support Microsoft Internet Explorer 8 and older, please use some more recent browser like Firefox, Chrome or Edge.' as msg %}
+{% show_message "error" msg %}
 <![endif]-->
 {% if messages %}
 {% for message in messages %}

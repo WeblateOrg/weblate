@@ -8,7 +8,7 @@ While everybody can browse projects, view translations or suggest them, only
 registered users are allowed to actually save changes and are credited for
 every translation made.
 
-You can register following two simple steps:
+You can register by following a few simple steps:
 
 1. Fill out the registration form with your credentials
 2. Activate registration by following in email you receive
@@ -20,7 +20,7 @@ Dashboard
 ---------
 
 When you log in to Weblate, you will see an overview of projects and components
-and their translation progress.
+as well as their translation progress.
 
 .. versionadded:: 2.5
 
@@ -88,6 +88,10 @@ dashboard views will be displayed by default. If you pick :guilabel:`Component
 list`, you have to select which component list will be displayed from the
 :guilabel:`Default component list` drop-down.
 
+.. seealso::
+
+    :ref:`componentlists`
+
 .. _subscriptions:
 
 Subscriptions
@@ -120,5 +124,22 @@ Avatar
 ++++++
 
 Weblate can be configured to show avatar for each user (depending on
-:setting:`ENABLE_AVATARS`). These images are obtained using libravatar protocol
-(see https://www.libravatar.org/) or using https://gravatar.com/.
+:setting:`ENABLE_AVATARS`). These images are obtained using
+https://gravatar.com/.
+
+Editor link
++++++++++++
+
+By default Weblate does display source code in web browser configured in the
+:ref:`component`. By setting :guilabel:`Editor link` you can override this to
+use your local editor to open the source code where translated strings is being
+used.
+
+You can use ``%(branch)s`` for branch, ``%(file)s`` and ``%(line)s`` as
+filename and line placeholders.  Usually something like
+``editor://open/?file=%(file)s&line=%(line)s`` is good option.
+
+.. seealso::
+
+    You can find more information on registering custom URL protocols for editor in
+    `nette documentation <https://pla.nette.org/en/how-open-files-in-ide-from-debugger>`_.

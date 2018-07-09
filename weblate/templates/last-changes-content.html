@@ -8,7 +8,8 @@
 <th>{% trans "When" %}</th>
 <th>{% trans "User" %}</th>
 <th>{% trans "Action" %}</th>
-<th>{% trans "Translation" %}</th>
+<th>{% trans "Detail" %}</th>
+<th>{% trans "Object" %}</th>
 <th></th>
 </tr>
 <tbody>
@@ -17,18 +18,19 @@
 <td> {{ c.timestamp|naturaltime }}</td>
 <td>{{ c.get_user_display }}</td>
 <td><a href="{{ c.get_absolute_url }}">{{ c.get_action_display }}</a></td>
+<td>{{ c.get_details_display }}</td>
 <td><a href="{{ c.get_translation_url }}">{{ c.get_translation_display }}</a></td>
 <td></td>
 </tr>
 {% if c.can_revert %}
 <tr class="{{ rowcolors }}">
 {% if c.old %}
-<td colspan="4">{% format_translation c.target c.unit.translation.language diff=c.old %}</td>
+<td colspan="5">{% format_translation c.target c.unit.translation.language c.unit.translation.plural diff=c.old %}</td>
 {% else %}
-<td colspan="4">{% format_translation c.target c.unit.translation.language %}</td>
+<td colspan="5">{% format_translation c.target c.unit.translation.language c.unit.translation.plural %}</td>
 {% endif %}
 <td>
-{% can_translate request.user c.translation as user_can_translate %}
+{% perm 'unit.edit' c.unit as user_can_translate %}
 {% if user_can_translate %}
 <a class="btn btn-xs btn-default" href="{{ c.translation.get_translate_url}}?{% if search_url %}{{ search_url }}&amp;offset={{ offset }}&amp;{% endif %}checksum={{ c.unit.checksum }}&amp;revert={{ c.id }}" title="{% trans "Revert to this translation" %}">{% trans "Revert" %}</a>
 {% endif %}
@@ -36,18 +38,23 @@
 </tr>
 {% elif c.show_content %}
 <tr class="{{ rowcolors }}">
-<td colspan="4">{% format_translation c.target c.unit.translation.language %}</td>
+<td colspan="5">{% format_translation c.target c.unit.translation.language c.unit.translation.plural %}</td>
+<td></td>
+</tr>
+{% elif c.show_source %}
+<tr class="{{ rowcolors }}">
+<td colspan="5">{% format_translation c.target c.component.project.source_language diff=c.old %}</td>
 <td></td>
 </tr>
 {% elif c.target %}
 <tr class="{{ rowcolors }}">
-<td colspan="4"><pre>{{ c.target }}</td>
+<td colspan="5"><pre>{{ c.target }}</pre></td>
 <td></td>
 </tr>
 {% endif %}
 {% empty %}
-<tr><td colspan="4" class="tablenotice">
-{% trans "No matching activity has been found." %}
+<tr><td colspan="5" class="tablenotice">
+{% trans "No matching activity found." %}
 </td></tr>
 {% endfor %}
 </tbody>

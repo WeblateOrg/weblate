@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+{% load crispy_forms_tags %}
+
+{% block breadcrumbs %}
+<li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
+{% endblock %}
+
+{% block content %}
+
+<ul class="nav nav-pills">
+  <li class="active"><a href="#overview" data-toggle="tab">{% trans "Components" %}</a></li>
+  <li><a href="#information" data-toggle="tab">{% trans "Information" %}</a></li>
+</ul>
+
+<div class="tab-content">
+
+<div class="tab-pane active" id="overview">
+{% include "list-translations.html" with translations=object.components.all show_language=4 %}
+<p>{% include "legend.html" %}</p>
+</div>
+
+<div class="tab-pane" id="information">
+
+<table class="table table-striped">
+<tr>
+<th>{% trans "Number of components" %}</th>
+<td colspan="2">{{ object.components.all|length }}</td>
+</tr>
+{% include "project_stats.html" %}
+{% for auto in object.autocomponentlist_set.all %}
+<tr>
+<th>{%if forloop.first%}{% trans "Automatic component list assignment" %}{% endif %}</th>
+<td><code>project ~= {{ auto.project_match }}</code></td>
+<td><code>component ~= {{ auto.component_match }}</code></td>
+</tr>
+{% endfor %}
+</table>
+
+</div>
+
+</div>
+
+{% endblock %}

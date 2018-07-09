@@ -19,7 +19,7 @@
 </th>
 
 <td>
-{% format_translation unit.source unit.translation.subproject.project.source_language %}
+{% format_translation unit.source unit.translation.component.project.source_language %}
 </td>
 </tr>
 
@@ -29,7 +29,7 @@
 </th>
 
 <td>
-{% format_translation unit.target unit.translation.language %}
+{% format_translation unit.target unit.translation.language unit.translation.plural %}
 </td>
 </tr>
 
@@ -39,7 +39,7 @@
 </th>
 
 <td>
-{% format_translation unit.target unit.translation.language oldunit.target %}
+{% format_translation unit.target unit.translation.language unit.translation.plural oldunit.target %}
 </td>
 </tr>
 </table>

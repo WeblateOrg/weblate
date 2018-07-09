@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -26,39 +26,29 @@ from django.conf import settings
 from django.core.cache import cache
 from django.utils.encoding import force_bytes
 
-
-def get_ip_address(request):
-    """Return IP address for request."""
-    if settings.IP_BEHIND_REVERSE_PROXY:
-        proxy = request.META.get(settings.IP_PROXY_HEADER)
-    else:
-        proxy = None
-    if proxy:
-        # X_FORWARDED_FOR returns client1, proxy1, proxy2,...
-        return proxy.split(', ')[settings.IP_PROXY_OFFSET]
-    else:
-        return request.META.get('REMOTE_ADDR', '')
+from weblate.utils.request import get_ip_address
 
 
-def get_cache_key(request=None, address=None):
+def get_cache_key(scope, request=None, address=None):
     """Generate cache key for request."""
     if address is None:
         address = get_ip_address(request)
-    return 'ratelimit-{0}'.format(
+    return 'ratelimit-{0}-{1}'.format(
+        scope,
         md5(force_bytes(address)).hexdigest()
     )
 
 
-def reset_rate_limit(request=None, address=None):
+def reset_rate_limit(scope, request=None, address=None):
     """Resets rate limit."""
     cache.delete(
-        get_cache_key(request, address)
+        get_cache_key(scope, request, address)
     )
 
 
-def check_rate_limit(request):
+def check_rate_limit(scope, request):
     """Check authentication rate limit."""
-    key = get_cache_key(request)
+    key = get_cache_key(scope, request)
     attempts = cache.get(key) or 0
 
     if attempts >= settings.AUTH_MAX_ATTEMPTS:

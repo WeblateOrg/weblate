@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -25,7 +25,7 @@ Tests for automatix fixups.
 from __future__ import unicode_literals
 from django.test import TestCase
 from django.utils.encoding import force_text
-from weblate.trans.tests.test_checks import MockUnit
+from weblate.checks.tests.test_checks import MockUnit
 from weblate.trans.autofixes import fix_target
 from weblate.trans.autofixes.chars import (
     ReplaceTrailingDotsWithEllipsis, RemoveZeroSpace, RemoveControlChars,
@@ -85,6 +85,19 @@ class AutoFixTest(TestCase):
         self.assertEqual(
             fix.fix_target(['Bar\n'], unit),
             (['Bar'], True)
+        )
+
+    def test_whitespace_flags(self):
+        fix = SameBookendingWhitespace()
+        unit = MockUnit(source='str', flags='ignore-start-space')
+        self.assertEqual(
+            fix.fix_target(['  str'], unit),
+            (['  str'], False)
+        )
+        unit = MockUnit(source='str', flags='ignore-end-space')
+        self.assertEqual(
+            fix.fix_target(['  str  '], unit),
+            (['str  '], True)
         )
 
     def test_zerospace(self):

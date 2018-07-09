@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -23,21 +23,21 @@ from __future__ import unicode_literals
 
 import unicodedata
 
+from django.conf import settings
 from django.utils.translation import ugettext as _, ugettext_lazy
 
 import six
 
 
-# Hard coded list of special chars
-SPECIAL_CHARS = ('→', '↵', '…')
-
 # Names of hardcoded chars
 CHAR_NAMES = {
-    '→': ugettext_lazy('Insert tab character'),
-    '↵': ugettext_lazy('Insert new line'),
+    '\t': ugettext_lazy('Insert tab character'),
+    '\n': ugettext_lazy('Insert new line'),
     '…': ugettext_lazy('Insert horizontal ellipsis'),
-    '।': ugettext_lazy('Danda'),
-    '॥': ugettext_lazy('Double danda'),
+}
+DISPLAY_CHARS = {
+    '\t': '↹',
+    '\n': '↵',
 }
 
 # Quotes definition for each language, based on CLDR data
@@ -440,14 +440,24 @@ def get_quote(code, data, name):
 def format_char(char):
     """Return verbose description of a character."""
     display = char
+    if char in DISPLAY_CHARS:
+        display = DISPLAY_CHARS[char]
     if char in CHAR_NAMES:
         name = CHAR_NAMES[char]
     elif unicodedata.category(char)[0] in ('C', 'Z'):
         # Various control and space chars
-        name = unicodedata.name(char)
-        display = ''.join([
-            x[0] for x in name.replace('-TO-', ' ').replace('-', ' ').split()
-        ])
+        try:
+            name = unicodedata.name(char)
+            display = ''.join([
+                x[0] for x in
+                name.replace('-TO-', ' ').replace('-', ' ').split()
+            ])
+            name = _('Insert {0}').format(name)
+        except ValueError:
+            # Char now known to unicode data
+            # This mostly happens for control chars < 0x20
+            display = char.encode('unicode_escape')
+            name = _('Insert character {0}').format(display)
     else:
         name = _('Insert character {0}').format(char)
     return name, display, char
@@ -455,7 +465,7 @@ def format_char(char):
 
 def get_special_chars(language, additional=''):
     """Return list of special characters."""
-    for char in SPECIAL_CHARS:
+    for char in settings.SPECIAL_CHARS:
         yield format_char(char)
     code = language.code.replace('_', '-').split('-')[0]
 

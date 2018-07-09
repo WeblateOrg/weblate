@@ -4,28 +4,37 @@ Starting with internationalization
 ==================================
 
 You have a project and want to to translate it into several languages? This
-guide will help you to do so. We will showcase several usual situations, but
+guide will help you to do so. We will showcase several typical situations, but
 most of the examples are generic and can be applied to other scenarios as
 well.
 
-Before translating any software, you should realize that languages around
+Before translating any software, you should realize that languages around the
 world are really different and you should not make any assumption based on
 your experience. For most of languages it will look weird if you try to
-concatenate sentence out of translated segments. You also should properly
+concatenate a sentence out of translated segments. You also should properly
 handle plural forms because many languages have complex rules for that and the
 internationalization framework you end up using should support this. 
 
 Last but not least, sometimes it might be necessary to add some context to the
-translated string. Imagine translator would get string ``Sun`` to translate.
-Without context most people would translate that as our closest star, but you
-might be actually used as abbreviated name of day of week...
+translated string. Imagine a translator would get string ``Sun`` to translate.
+Without context most people would translate that as our closest star, but it
+might be actually used as an abbreviation for Sunday.
 
+Choosing internationalization framework
+---------------------------------------
+
+Choose whatever is standard on your platform, try to avoid reinventing the
+wheel by creating your own framework to handle localizations. Weblate supports
+most of the widely used frameworks, see :ref:`formats` for more information.
+
+Following chapters describe two use cases - GNU Gettext and Sphinx, but many of
+the steps are quite generic and apply to the other frameworks as well.
 
 Translating software using GNU Gettext
 --------------------------------------
 
 `GNU Gettext`_ is one of the most widely used tool for internationalization of
-free software. It provides simple yet flexible way to localize the software.
+free software. It provides a simple yet flexible way to localize the software.
 It has great support for plurals, it can add further context to the translated
 string and there are quite a lot of tools built around it. Of course it has
 great support in Weblate (see :ref:`gettext` file format description).
@@ -44,7 +53,7 @@ Additionally it provides `pgettext()` call to provide additional context to
 translators and `ngettext()` which can handle plural types as defined for
 target language.
 
-As a widely spread tool, it has many wrappers which make it's usage really
+As a widely spread tool, it has many wrappers which make its usage really
 simple, instead of manual invoking of Gettext described below, you might want
 to try one of them, for example `intltool`_.
 
@@ -82,16 +91,22 @@ Extracting translatable strings
 +++++++++++++++++++++++++++++++
 
 Once you have code using the gettext calls, you can use :program:`xgettext` to
-extract message from it:
+extract messages from it and store them into a `.pot
+<https://www.gnu.org/software/gettext/manual/gettext.html#index-files_002c-_002epot>`_:
 
 .. code-block:: console
 
     $ xgettext main.c -o po/hello.pot
 
-This creates template file, which you can use for starting new translations
+.. note::
+
+    There are alternative programs to extract strings from the code, for example
+    `pybabel`_.
+
+This creates a template file, which you can use for starting new translations
 (using :program:`msginit`) or updating existing ones after code change (you
 would use :program:`msgmerge` for that). The resulting file is simply
-structured text file:
+a structured text file:
 
 .. code-block:: po
 
@@ -132,15 +147,15 @@ in the beginning is the file header containing metadata about the translation.
 Starting new translation
 ++++++++++++++++++++++++
 
-With the template in place, we can start first translation:
+With the template in place, we can start our first translation:
 
 .. code-block:: console
 
     $ msginit -i po/hello.pot -l cs --no-translator -o po/cs.po
     Created cs.po.
 
-The just created :file:`cs.po` has already some information filled in. Most
-importantly it got proper plural forms definition for chosen language and you
+The just created :file:`cs.po` already has some information filled in. Most
+importantly it got the proper plural forms definition for chosen language and you
 can see number of plurals have changed according to that:
 
 .. code-block:: po
@@ -176,6 +191,11 @@ can see number of plurals have changed according to that:
     msgid "Thank you for using Weblate."
     msgstr ""
 
+
+This file is compiled into an optimized binary form, the `.mo
+<https://www.gnu.org/software/gettext/manual/gettext.html#MO-Files>`_
+file used by the `GNU Gettext`_ functions at runtime.
+
 Updating strings
 ++++++++++++++++
 
@@ -196,7 +216,7 @@ Then you can update individual translation files to match newly created template
 Importing to Weblate
 ++++++++++++++++++++
 
-To import such translation into Weblate, all you need to define are following
+To import such translation into Weblate, all you need to define are the following
 fields when creating component (see :ref:`component` for detailed description
 of the fields):
 
@@ -238,14 +258,14 @@ for this and it is quite nicely covered in their
 directives and invoking of the ``sphinx-intl`` tool.
 
 If you are using Read the Docs service, you can start building translated
-documentation on the Read the docs. Their `Localization of Documentation`_
-covers pretty much everything you need - creating another project, set it's
+documentation on the Read the Docs. Their `Localization of Documentation`_
+covers pretty much everything you need - creating another project, set its
 language and link it from master project as a translation.
 
 Now all you need is translating the documentation content. As Sphinx splits
 the translation files per source file, you might end up with dozen of files,
 which might be challenging to import using the Weblate's web interface. For
-that reason, there is :djadmin:`import_project` management command.
+that reason, there is the :djadmin:`import_project` management command.
 
 Depending on exact setup, importing of the translation might look like:
 
@@ -275,6 +295,41 @@ direcly supported, you currently have to list them separately:
     The `Odorik`_ python module documentation is built using Sphinx, Read the
     Docs and translated using Weblate.
 
+Integrating with Weblate
+------------------------
+
+Getting translations updates from Weblate
++++++++++++++++++++++++++++++++++++++++++
+
+To fetch updated strings from Weblate you can simply fetch the underlying
+repository (either from filesystem or it can be made available through
+:ref:`git-exporter`). Prior to this, you might want to commit any pending
+changes (see :ref:`lazy-commit`). This can be achieved in the user interface
+(in the :guilabel:`Repository maintenance`) or from command line using :ref:`wlc`.
+
+This can be automated if you grant Weblate push access to your repository and
+configure :guilabel:`Push URL` in the :ref:`component`.
+
+.. seealso::
+
+    :ref:`continuous-translation`
+
+Pushing string changes to Weblate
++++++++++++++++++++++++++++++++++
+
+To push newly updated strings to Weblate, just let it to pull from the upstream
+repo. This can be achieved in the user interface (in the :guilabel:`Repository
+maintenance`) or from command line using :ref:`wlc`.
+
+This can be automated by installing a webhook on your repository to trigger
+Weblate whenever there is new commit, see :ref:`update-vcs` for more details.
+
+.. seealso::
+
+    :ref:`continuous-translation`
+
+
+
 .. _Odorik: https://github.com/nijel/odorik/
 .. _GNU Gettext: http://www.gnu.org/software/gettext/
 .. _Sphinx: http://www.sphinx-doc.org/
@@ -282,3 +337,4 @@ direcly supported, you currently have to list them separately:
 .. _Internationalization Quick Guide: http://www.sphinx-doc.org/en/stable/intl.html#quick-guide
 .. _Localization of Documentation: https://docs.readthedocs.io/en/latest/localization.html
 .. _intltool: https://freedesktop.org/wiki/Software/intltool/
+.. _pybabel: http://babel.pocoo.org/

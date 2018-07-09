@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -29,12 +29,15 @@ from social_django.models import Partial
 
 from whoosh.index import EmptyIndexError
 
+from weblate.auth.models import get_anonymous
+from weblate.checks.models import Check
 from weblate.trans.models import (
-    Suggestion, Comment, Check, Unit, Project, Source, SubProject
+    Suggestion, Comment, Unit, Project, Source, Component, Change,
 )
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
 from weblate.trans.search import get_target_index, clean_search_unit
+from weblate.utils.state import STATE_TRANSLATED
 
 
 class Command(BaseCommand):
@@ -62,15 +65,15 @@ class Command(BaseCommand):
 
     def cleanup_sources(self):
         with transaction.atomic():
-            components = list(SubProject.objects.values_list('id', flat=True))
+            components = list(Component.objects.values_list('id', flat=True))
         for pk in components:
             with transaction.atomic():
-                component = SubProject.objects.get(pk=pk)
+                component = Component.objects.get(pk=pk)
                 source_ids = Unit.objects.filter(
-                    translation__subproject=component
+                    translation__component=component
                 ).values('id_hash').distinct()
                 Source.objects.filter(
-                    subproject=component
+                    component=component
                 ).exclude(
                     id_hash__in=source_ids
                 ).delete()
@@ -107,21 +110,20 @@ class Command(BaseCommand):
 
     def cleanup_database(self):
         """Cleanup the database"""
+        anonymous_user = get_anonymous()
         with transaction.atomic():
             projects = list(Project.objects.values_list('id', flat=True))
         for pk in projects:
             with transaction.atomic():
-                prj = Project.objects.get(pk=pk)
-
                 # List all current unit content_hashs
                 units = Unit.objects.filter(
-                    translation__subproject__project=prj
+                    translation__component__project__pk=pk
                 ).values('content_hash').distinct()
 
                 # Remove source comments referring to deleted units
                 Comment.objects.filter(
                     language=None,
-                    project=prj
+                    project__pk=pk
                 ).exclude(
                     content_hash__in=units
                 ).delete()
@@ -129,22 +131,22 @@ class Command(BaseCommand):
                 # Remove source checks referring to deleted units
                 Check.objects.filter(
                     language=None,
-                    project=prj
+                    project__pk=pk
                 ).exclude(
                     content_hash__in=units
                 ).delete()
 
-                for lang in Language.objects.all():
-
+            for lang in Language.objects.all():
+                with transaction.atomic():
                     # Remove checks referring to deleted or not translated
                     # units
                     translatedunits = Unit.objects.filter(
                         translation__language=lang,
-                        translated=True,
-                        translation__subproject__project=prj
+                        state__gte=STATE_TRANSLATED,
+                        translation__component__project__pk=pk
                     ).values('content_hash').distinct()
                     Check.objects.filter(
-                        language=lang, project=prj
+                        language=lang, project__pk=pk
                     ).exclude(
                         content_hash__in=translatedunits
                     ).delete()
@@ -152,13 +154,13 @@ class Command(BaseCommand):
                     # List current unit content_hashs
                     units = Unit.objects.filter(
                         translation__language=lang,
-                        translation__subproject__project=prj
+                        translation__component__project__pk=pk
                     ).values('content_hash').distinct()
 
                     # Remove suggestions referring to deleted units
                     Suggestion.objects.filter(
                         language=lang,
-                        project=prj
+                        project__pk=pk
                     ).exclude(
                         content_hash__in=units
                     ).delete()
@@ -166,7 +168,7 @@ class Command(BaseCommand):
                     # Remove translation comments referring to deleted units
                     Comment.objects.filter(
                         language=lang,
-                        project=prj
+                        project__pk=pk
                     ).exclude(
                         content_hash__in=units
                     ).delete()
@@ -174,29 +176,34 @@ class Command(BaseCommand):
                     # Process suggestions
                     all_suggestions = Suggestion.objects.filter(
                         language=lang,
-                        project=prj
+                        project__pk=pk
                     )
                     for sug in all_suggestions.iterator():
                         # Remove suggestions with same text as real translation
                         units = Unit.objects.filter(
                             content_hash=sug.content_hash,
                             translation__language=lang,
-                            translation__subproject__project=prj,
-                            target=sug.target
+                            translation__component__project__pk=pk,
                         )
-                        if units.exists():
-                            sug.delete()
-                            for unit in units:
-                                unit.update_has_suggestion()
+
+                        if not units.exclude(target=sug.target).exists():
+                            sug.delete_log(
+                                anonymous_user,
+                                Change.ACTION_SUGGESTION_CLEANUP
+                            )
+                            continue
 
                         # Remove duplicate suggestions
                         sugs = Suggestion.objects.filter(
                             content_hash=sug.content_hash,
                             language=lang,
-                            project=prj,
+                            project__pk=pk,
                             target=sug.target
                         ).exclude(
                             id=sug.id
                         )
                         if sugs.exists():
-                            sugs.delete()
+                            sug.delete_log(
+                                anonymous_user,
+                                Change.ACTION_SUGGESTION_CLEANUP
+                            )

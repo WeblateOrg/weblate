@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -24,28 +24,31 @@ from __future__ import unicode_literals
 
 import re
 import shutil
-import tempfile
-import os.path
 from unittest import TestCase
 from whoosh.filedb.filestore import FileStorage
 from whoosh.fields import Schema, ID, TEXT
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.test.utils import override_settings
 from django.http import QueryDict
 
+from weblate.accounts.ratelimit import reset_rate_limit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.search import update_index_unit, fulltext_search
 import weblate.trans.search
 from weblate.trans.models import IndexUpdate
+from weblate.trans.tests.utils import TempDirMixin
+from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
 
 class SearchViewTest(ViewTestCase):
     def setUp(self):
         super(SearchViewTest, self).setUp()
-        self.translation = self.subproject.translation_set.get(
+        self.translation = self.component.translation_set.get(
             language_code='cs'
         )
         self.translate_url = self.translation.get_translate_url()
+        self.update_fulltext_index()
+        reset_rate_limit('search', address='127.0.0.1')
 
     def do_search(self, params, expected, url=None):
         """Helper method for performing search test."""
@@ -74,6 +77,7 @@ class SearchViewTest(ViewTestCase):
         response = self.client.get(url, {'date': '2010-01-10'})
         self.assertContains(response, '2010-01-10')
 
+    @override_settings(AUTH_MAX_ATTEMPTS=20000)
     def test_all_search(self):
         """Searching in all projects."""
         response = self.client.get(
@@ -114,7 +118,7 @@ class SearchViewTest(ViewTestCase):
         )
         self.assertContains(
             response,
-            'No matching strings found!'
+            'No matching strings found.'
         )
         response = self.client.get(
             reverse('search'),
@@ -122,13 +126,13 @@ class SearchViewTest(ViewTestCase):
         )
         self.assertContains(
             response,
-            'No matching strings found!'
+            'No matching strings found.'
         )
         response = self.client.get(
             reverse('search'),
             {'type': 'xxx'}
         )
-        self.assertContains(response, 'Please select a valid filter type.')
+        self.assertContains(response, 'Please choose a valid filter type.')
         self.do_search_url(reverse('search'))
 
     def test_pagination(self):
@@ -174,7 +178,7 @@ class SearchViewTest(ViewTestCase):
 
     def test_component_search(self):
         """Searching within component."""
-        self.do_search_url(reverse('search', kwargs=self.kw_subproject))
+        self.do_search_url(reverse('search', kwargs=self.kw_component))
 
     def test_project_language_search(self):
         """Searching within project."""
@@ -220,7 +224,7 @@ class SearchViewTest(ViewTestCase):
         # Wrong type
         self.do_search(
             {'q': 'Thank', 'search': 'xxxx'},
-            'Please select a valid search type.'
+            'Please choose a valid search type.'
         )
 
     def test_random(self):
@@ -276,10 +280,10 @@ class SearchViewTest(ViewTestCase):
         # Extract search URL
         params = self.extract_params(response)
         # Try access to pages
-        params['offset'] = 0
+        params['offset'] = 1
         response = self.client.get(self.translate_url, params)
         self.assertContains(response, 'https://demo.weblate.org/')
-        params['offset'] = 1
+        params['offset'] = 2
         response = self.client.get(self.translate_url, params)
         self.assertContains(response, 'Thank you for using Weblate.')
         # Invalid offset
@@ -287,14 +291,14 @@ class SearchViewTest(ViewTestCase):
         response = self.client.get(self.translate_url, params)
         self.assertContains(response, 'https://demo.weblate.org/')
         # Go to end
-        params['offset'] = 2
+        params['offset'] = 3
         response = self.client.get(self.translate_url, params)
         self.assertRedirects(
             response,
             self.translation.get_absolute_url()
         )
         # Try no longer cached query (should be deleted above)
-        params['offset'] = 1
+        params['offset'] = 2
         response = self.client.get(self.translate_url, params)
         self.assertContains(
             response,
@@ -312,11 +316,11 @@ class SearchViewTest(ViewTestCase):
         # Extract search ID
         params = self.extract_params(response)
         # Navigation
-        params['offset'] = 0
+        params['offset'] = 1
         response = self.do_search(params, '1 / 4')
-        params['offset'] = 3
-        response = self.do_search(params, '4 / 4')
         params['offset'] = 4
+        response = self.do_search(params, '4 / 4')
+        params['offset'] = 5
         response = self.do_search(params, None)
 
     def test_search_type(self):
@@ -348,7 +352,7 @@ class SearchViewTest(ViewTestCase):
     def test_search_errors(self):
         self.do_search(
             {'type': 'nonexisting-type'},
-            'Please select a valid filter type.',
+            'Please choose a valid filter type.',
         )
         self.do_search(
             {'date': 'nonexisting'},
@@ -373,6 +377,10 @@ class SearchViewTest(ViewTestCase):
 
 
 class SearchBackendTest(ViewTestCase):
+    def setUp(self):
+        super(SearchBackendTest, self).setUp()
+        self.update_fulltext_index()
+
     def do_index_update(self):
         self.edit_unit(
             'Hello, world!\n',
@@ -397,18 +405,17 @@ class SearchBackendTest(ViewTestCase):
         self.assertTrue(update.source, True)
 
 
-class SearchMigrationTest(TestCase):
+class SearchMigrationTest(TestCase, TempDirMixin):
     """Search index migration testing"""
     def setUp(self):
-        self.path = tempfile.mkdtemp()
+        self.create_temp()
         self.backup = weblate.trans.search.STORAGE
-        self.storage = FileStorage(self.path)
+        self.storage = FileStorage(self.tempdir)
         weblate.trans.search.STORAGE = self.storage
         self.storage.create()
 
     def tearDown(self):
-        if os.path.exists(self.path):
-            shutil.rmtree(self.path)
+        self.remove_temp()
         weblate.trans.search.STORAGE = self.backup
 
     def do_test(self, source, target):
@@ -446,7 +453,8 @@ class SearchMigrationTest(TestCase):
         self.do_test(None, None)
 
     def test_nonexisting_dir(self):
-        shutil.rmtree(self.path)
+        shutil.rmtree(self.tempdir)
+        self.tempdir = None
         self.do_test(None, None)
 
     def test_current(self):
@@ -555,5 +563,66 @@ class ReplaceTest(ViewTestCase):
 
     def test_replace_component(self):
         self.do_replace_test(
-            reverse('replace', kwargs=self.kw_subproject),
+            reverse('replace', kwargs=self.kw_component),
+        )
+
+
+class MassStateTest(ViewTestCase):
+    """Test for mass state change functionality."""
+
+    def setUp(self):
+        super(MassStateTest, self).setUp()
+        self.edit_unit(
+            'Hello, world!\n',
+            'Nazdar svete!\n',
+            fuzzy=True,
+        )
+        self.unit = self.get_unit()
+        self.make_manager()
+
+    def do_mass_state_test(self, url, confirm=True):
+        response = self.client.post(
+            url,
+            {
+                'type': 'fuzzy',
+                'state': STATE_TRANSLATED,
+            },
+            follow=True
+        )
+        unit = self.get_unit()
+        self.assertContains(
+            response,
+            'Mass state change completed, 1 string was updated.'
+        )
+        self.assertEqual(unit.state, STATE_TRANSLATED)
+
+    def test_no_match(self):
+        response = self.client.post(
+            reverse('state-change', kwargs=self.kw_project),
+            {
+                'type': 'approved',
+                'state': STATE_FUZZY,
+            },
+            follow=True
+        )
+        self.assertContains(
+            response,
+            'Mass state change completed, no strings were updated.'
+        )
+        unit = self.get_unit()
+        self.assertEqual(unit.state, STATE_FUZZY)
+
+    def test_mass_state(self):
+        self.do_mass_state_test(
+            reverse('state-change', kwargs=self.kw_translation),
+        )
+
+    def test_mass_state_project(self):
+        self.do_mass_state_test(
+            reverse('state-change', kwargs=self.kw_project),
+        )
+
+    def test_mass_state_component(self):
+        self.do_mass_state_test(
+            reverse('state-change', kwargs=self.kw_component),
         )

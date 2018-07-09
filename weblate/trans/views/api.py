@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -25,6 +25,7 @@ import sys
 import threading
 
 import six
+from six.moves.urllib.parse import urlparse
 
 from django.conf import settings
 from django.db.models import Q
@@ -35,8 +36,8 @@ from django.http import (
     JsonResponse,
 )
 
-from weblate.trans.models import SubProject
-from weblate.trans.views.helper import get_project, get_subproject
+from weblate.trans.models import Component
+from weblate.trans.views.helper import get_project, get_component
 from weblate.trans.stats import get_project_stats
 from weblate.utils.errors import report_error
 from weblate.logger import LOGGER
@@ -56,13 +57,13 @@ BITBUCKET_HG_REPOS = (
 )
 
 BITBUCKET_REPOS = (
-    'ssh://git@bitbucket.org/%(full_name)s.git',
-    'git@bitbucket.org:%(full_name)s.git',
-    'https://bitbucket.org/%(full_name)s.git',
-    'https://bitbucket.org/%(full_name)s',
-    'ssh://hg@bitbucket.org/%(full_name)s',
-    'hg::ssh://hg@bitbucket.org/%(full_name)s',
-    'hg::https://bitbucket.org/%(full_name)s',
+    'ssh://git@{server}/{full_name}.git',
+    'git@{server}:{full_name}.git',
+    'https://{server}/{full_name}.git',
+    'https://{server}/{full_name}',
+    'ssh://hg@{server}/{full_name}',
+    'hg::ssh://hg@{server}/{full_name}',
+    'hg::https://{server}/{full_name}',
 )
 
 GITHUB_REPOS = (
@@ -73,6 +74,13 @@ GITHUB_REPOS = (
 )
 
 HOOK_HANDLERS = {}
+
+
+def background_hook(method):
+    try:
+        method()
+    except Exception as error:
+        report_error(error, sys.exc_info())
 
 
 def hook_response(response='Update triggered', status='success'):
@@ -92,18 +100,21 @@ def register_hook(handler):
 def perform_update(obj):
     """Trigger update of given object."""
     if settings.BACKGROUND_HOOKS:
-        thread = threading.Thread(target=obj.do_update)
+        thread = threading.Thread(
+            target=background_hook,
+            args=(obj.do_update,)
+        )
         thread.start()
     else:
         obj.do_update()
 
 
 @csrf_exempt
-def update_subproject(request, project, subproject):
+def update_component(request, project, component):
     """API hook for updating git repos."""
     if not settings.ENABLE_HOOKS:
         return HttpResponseNotAllowed([])
-    obj = get_subproject(request, project, subproject, True)
+    obj = get_component(request, project, component, True)
     if not obj.project.enable_hooks:
         return HttpResponseNotAllowed([])
     perform_update(obj)
@@ -123,13 +134,16 @@ def update_project(request, project):
 
 
 def parse_hook_payload(request):
-    """Parse hook payload."""
-    # GitLab sends json as application/json
-    if request.META['CONTENT_TYPE'] == 'application/json':
+    """Parse hook payload.
+
+    We handle both application/x-www-form-urlencoded and application/json.
+    """
+    # Bitbucket ping event
+    if request.META.get('HTTP_X_EVENT_KEY') == 'diagnostics:ping':
+        return {'diagnostics': 'ping'}
+    if 'application/json' in request.META['CONTENT_TYPE'].lower():
         return json.loads(request.body.decode('utf-8'))
-    # Bitbucket and GitHub sends json as x-www-form-data
-    else:
-        return json.loads(request.POST['payload'])
+    return json.loads(request.POST['payload'])
 
 
 @require_POST
@@ -162,14 +176,19 @@ def vcs_service_hook(request, service):
         report_error(error, sys.exc_info())
         return HttpResponseBadRequest('Invalid data in json payload!')
 
+    # This happens on ping request upon installation
+    if service_data is None:
+        return hook_response('Hook working')
+
     # Log data
     service_long_name = service_data['service_long_name']
     repos = service_data['repos']
     repo_url = service_data['repo_url']
     branch = service_data['branch']
+    full_name = service_data['full_name']
 
     # Generate filter
-    spfilter = Q(repo__in=repos)
+    spfilter = Q(repo__in=repos) | Q(repo__iendswith=full_name)
 
     # We need to match also URLs which include username and password
     for repo in repos:
@@ -180,23 +199,23 @@ def vcs_service_hook(request, service):
             Q(repo__endswith='@{0}'.format(repo[8:]))
         )
 
-    all_subprojects = SubProject.objects.filter(spfilter)
+    all_components = Component.objects.filter(spfilter)
 
     if branch is not None:
-        all_subprojects = all_subprojects.filter(branch=branch)
+        all_components = all_components.filter(branch=branch)
 
-    subprojects = all_subprojects.filter(project__enable_hooks=True)
+    components = all_components.filter(project__enable_hooks=True)
 
     LOGGER.info(
-        'received %s notification on repository %s, branch %s,'
+        'received %s notification on repository %s, branch %s, '
         '%d matching components, %d to process',
         service_long_name, repo_url, branch,
-        all_subprojects.count(), subprojects.count(),
+        all_components.count(), components.count(),
     )
 
     # Trigger updates
     updates = 0
-    for obj in subprojects:
+    for obj in components:
         updates += 1
         LOGGER.info(
             '%s notification will update %s',
@@ -213,9 +232,22 @@ def vcs_service_hook(request, service):
 
 def bitbucket_webhook_helper(data):
     """API to handle webhooks from Bitbucket"""
+    if 'full_name' in data['repository']:
+        full_name = data['repository']['full_name']
+    else:
+        full_name = data['repository']['fullName']
+    if 'html' in data['repository']['links']:
+        repo_url = data['repository']['links']['html']['href']
+    else:
+        repo_url = data['repository']['links']['self'][0]['href']
+
+    repo_servers = set(('bitbucket.org',))
+    repo_servers.add(urlparse(repo_url).hostname)
+
     repos = [
-        repo % {'full_name': data['repository']['full_name']}
+        repo.format(full_name=full_name, server=server)
         for repo in BITBUCKET_REPOS
+        for server in repo_servers
     ]
 
     branch = None
@@ -230,15 +262,18 @@ def bitbucket_webhook_helper(data):
 
     return {
         'service_long_name': 'Bitbucket',
-        'repo_url': data['repository']['links']['html']['href'],
+        'repo_url': repo_url,
         'repos': repos,
         'branch': branch,
+        'full_name': '{}.git'.format(full_name),
     }
 
 
 @register_hook
 def bitbucket_hook_helper(data):
     """API to handle service hooks from Bitbucket."""
+    if 'diagnostics' in data:
+        return None
     if 'push' in data:
         return bitbucket_webhook_helper(data)
 
@@ -270,12 +305,15 @@ def bitbucket_hook_helper(data):
         ]),
         'repos': repos,
         'branch': branch,
+        'full_name': '{}/{}.git'.format(owner, slug),
     }
 
 
 @register_hook
 def github_hook_helper(data):
     """API to handle commit hooks from GitHub."""
+    if 'ref' not in data and 'zen' in data:
+        return None
     # Parse owner, branch and repository name
     o_data = data['repository']['owner']
     owner = o_data['login'] if 'login' in o_data else o_data['name']
@@ -284,14 +322,22 @@ def github_hook_helper(data):
 
     params = {'owner': owner, 'slug': slug}
 
-    # Construct possible repository URLs
-    repos = [repo % params for repo in GITHUB_REPOS]
+    if 'clone_url' not in data['repository']:
+        # Construct possible repository URLs
+        repos = [repo % params for repo in GITHUB_REPOS]
+    else:
+        repos = []
+        keys = ['clone_url', 'git_url', 'ssh_url', 'svn_url', 'html_url']
+        for key in keys:
+            if key in data['repository']:
+                repos.append(data['repository'][key])
 
     return {
         'service_long_name': 'GitHub',
         'repo_url': data['repository']['url'],
         'repos': repos,
         'branch': branch,
+        'full_name': '{}/{}.git'.format(owner, slug),
     }
 
 
@@ -315,6 +361,7 @@ def gitlab_hook_helper(data):
         'repo_url': data['repository']['homepage'],
         'repos': repos,
         'branch': branch,
+        'full_name': ssh_url.split(':', 1)[1],
     }
 
 
@@ -340,9 +387,9 @@ def export_stats_project(request, project):
     )
 
 
-def export_stats(request, project, subproject):
+def export_stats(request, project, component):
     """Export stats in JSON format."""
-    subprj = get_subproject(request, project, subproject)
+    subprj = get_component(request, project, component)
 
     data = [
         trans.get_stats() for trans in subprj.translation_set.all()

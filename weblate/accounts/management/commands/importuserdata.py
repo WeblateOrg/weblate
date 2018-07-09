@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -22,7 +22,7 @@ import argparse
 import json
 
 from django.core.management.base import BaseCommand
-from django.contrib.auth.models import User
+from weblate.auth.models import User
 
 from weblate.accounts.models import Profile
 from weblate.lang.models import Language
@@ -61,11 +61,11 @@ class Command(BaseCommand):
         profile.language = userprofile['language']
         for lang in userprofile['secondary_languages']:
             profile.secondary_languages.add(
-                Language.objects.get(code=lang)
+                Language.objects.auto_get_or_create(lang)
             )
         for lang in userprofile['languages']:
             profile.languages.add(
-                Language.objects.get(code=lang)
+                Language.objects.auto_get_or_create(lang)
             )
 
     def handle(self, **options):
@@ -74,6 +74,7 @@ class Command(BaseCommand):
         Also ptionally updates them and moves users around to default group.
         """
         userdata = json.load(options['json-file'])
+        options['json-file'].close()
 
         for userprofile in userdata:
             try:

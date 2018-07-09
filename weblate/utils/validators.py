@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -27,9 +27,18 @@ from PIL import Image
 
 import six
 
+from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.core.validators import validate_email as validate_email_django
 from django.utils.translation import ugettext as _
 
+from weblate.utils.render import render_template
+
+
+USERNAME_MATCHER = re.compile(r'^[\w@+-][\w.@+-]*$')
+
+# Reject some suspicious email addresses, based on checks enforced by Exim MTA
+EMAIL_BLACKLIST = re.compile(r'^([./|]|.*([@%!`#&?]|/\.\./))')
 
 ALLOWED_IMAGES = frozenset((
     'image/jpeg',
@@ -69,11 +78,24 @@ FORBIDDEN_EXTENSIONS = frozenset((
 ))
 
 
-def validate_re(value):
+def validate_re(value, groups=None):
     try:
-        re.compile(value)
+        compiled = re.compile(value)
     except re.error as error:
         raise ValidationError(_('Failed to compile: {0}').format(error))
+    if not groups:
+        return
+    for group in groups:
+        if group not in compiled.groupindex:
+            raise ValidationError(
+                _(
+                    'Regular expression is missing named group "{0}", '
+                    'the simplest way to define it is {1}.'
+                ).format(
+                    group,
+                    '(?P<{}>.*)'.format(group)
+                )
+            )
 
 
 def validate_bitmap(value):
@@ -139,6 +161,7 @@ def validate_repoweb(val):
             'file': 'file.po',
             '../file': 'file.po',
             '../../file': 'file.po',
+            '../../../file': 'file.po',
             'line': '9',
             'branch': 'master'
         }
@@ -190,3 +213,34 @@ def validate_file_extension(value):
     if ext.lower() in FORBIDDEN_EXTENSIONS:
         raise ValidationError(_('Unsupported file format.'))
     return value
+
+
+def validate_render(value, **kwargs):
+    """Validates rendered template."""
+    try:
+        render_template(value, **kwargs)
+    except Exception as err:
+        raise ValidationError(
+            _('Failed to render template: {}').format(err)
+        )
+
+
+def validate_username(value):
+    if value.startswith('.'):
+        raise ValidationError(
+            _('Username can not start with a full stop.')
+        )
+    if not USERNAME_MATCHER.match(value):
+        raise ValidationError(_(
+            'Username may only contain letters, '
+            'numbers or the following characters: @ . + - _'
+        ))
+
+
+def validate_email(value):
+    validate_email_django(value)
+    user_part = value.rsplit('@', 1)[0]
+    if EMAIL_BLACKLIST.match(user_part):
+        raise ValidationError(_('Enter a valid email address.'))
+    if not re.match(settings.REGISTRATION_EMAIL_MATCH, value):
+        raise ValidationError(_('This email address is not allowed.'))

@@ -13,8 +13,17 @@ All settings are stored in :file:`settings.py` (as usual for Django).
 
 .. seealso::
 
-    Please check also :doc:`Django's documentation <django:ref/settings>` for
+    Please also check :doc:`Django's documentation <django:ref/settings>` for
     parameters which configure Django itself.
+
+.. setting:: AKISMET_API_KEY
+
+AKISMET_API_KEY
+---------------
+
+Weblate can use Akismet to check incoming anonymous suggestions for spam.
+Visit `akismet.com <https://akismet.com/>`_ to purchase an API key
+and associate it with a site.
 
 .. setting:: ANONYMOUS_USER_NAME
 
@@ -34,9 +43,9 @@ AUTH_LOCK_ATTEMPTS
 
 .. versionadded:: 2.14
 
-Maximal number of failed authentication attempts before rate limiting is applied.
+Maximum number of failed authentication attempts before rate limiting is applied.
 
-This is currently applied in following locations:
+This is currently applied in the following locations:
 
 * On login, the acccount password is reset. User will not be able to log in
   after that using password until he asks for password reset.
@@ -56,7 +65,7 @@ AUTH_MAX_ATTEMPTS
 
 .. versionadded:: 2.14
 
-Maximal number of authentication attempts before rate limiting applies.
+Maximum number of authentication attempts before rate limiting applies.
 
 Defaults to 5.
 
@@ -131,6 +140,8 @@ Defaults to 180 days.
 AUTO_LOCK
 ---------
 
+.. deprecated:: 2.18
+
 Enables automatic locking of translation when somebody is working on it.
 
 .. seealso::
@@ -141,6 +152,8 @@ Enables automatic locking of translation when somebody is working on it.
 
 AUTO_LOCK_TIME
 --------------
+
+.. deprecated:: 2.18
 
 Time in seconds for how long the automatic lock for translation will be active.
 Defaults to 60 seconds.
@@ -156,7 +169,7 @@ AUTOFIX_LIST
 
 List of automatic fixups to apply when saving the message.
 
-You need to provide fully-qualified path to Python class implementing the
+You need to provide a fully-qualified path to the Python class implementing the
 autofixer interface.
 
 Available fixes:
@@ -164,7 +177,7 @@ Available fixes:
 ``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``
     Fixes up whitespace in beginning and end of the string to match source.
 ``weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``
-    Replaces traling dots with ellipsis if source string has it.
+    Replaces trailing dots with ellipsis if source string has it.
 ``weblate.trans.autofixes.chars.RemoveZeroSpace``
     Removes zero width space char if source does not contain it.
 ``weblate.trans.autofixes.chars.RemoveControlCharS``
@@ -191,6 +204,19 @@ BACKGROUND_HOOKS
 Whether to run hooks in background. This is generally recommended unless you
 are debugging.
 
+.. setting:: BASE_DIR
+
+BASE_DIR
+--------
+
+Base directory where Weblate sources are located. This is used to derive
+several other paths by defalt:
+
+- :setting:`DATA_DIR`
+- :setting:`TTF_PATH`
+
+Default value: Toplevel directory of Weblate sources.
+
 .. setting:: CHECK_LIST
 
 CHECK_LIST
@@ -198,53 +224,53 @@ CHECK_LIST
 
 List of quality checks to perform on translation.
 
-You need to provide fully-qualified path to Python class implementing the check
+You need to provide afully-qualified path to the Python class implementing the check
 interface.
 
 Some of the checks are not useful for all projects, so you are welcome to
-adjust list of performed on your installation.
+adjust the list list of checks to be performed on your installation.
 
 For example you can enable only few of them:
 
 .. code-block:: python
 
     CHECK_LIST = (
-        'weblate.trans.checks.same.SameCheck',
-        'weblate.trans.checks.chars.BeginNewlineCheck',
-        'weblate.trans.checks.chars.EndNewlineCheck',
-        'weblate.trans.checks.chars.BeginSpaceCheck',
-        'weblate.trans.checks.chars.EndSpaceCheck',
-        'weblate.trans.checks.chars.EndStopCheck',
-        'weblate.trans.checks.chars.EndColonCheck',
-        'weblate.trans.checks.chars.EndQuestionCheck',
-        'weblate.trans.checks.chars.EndExclamationCheck',
-        'weblate.trans.checks.chars.EndEllipsisCheck',
-        'weblate.trans.checks.chars.EndSemicolonCheck',
-        'weblate.trans.checks.chars.MaxLengthCheck',
-        'weblate.trans.checks.format.PythonFormatCheck',
-        'weblate.trans.checks.format.PythonBraceFormatCheck',
-        'weblate.trans.checks.format.PHPFormatCheck',
-        'weblate.trans.checks.format.CFormatCheck',
-        'weblate.trans.checks.format.PerlFormatCheck',
-        'weblate.trans.checks.format.JavascriptFormatCheck',
-        'weblate.trans.checks.consistency.SamePluralsCheck',
-        'weblate.trans.checks.consistency.PluralsCheck',
-        'weblate.trans.checks.consistency.ConsistencyCheck',
-        'weblate.trans.checks.consistency.TranslatedCheck',
-        'weblate.trans.checks.chars.NewlineCountingCheck',
-        'weblate.trans.checks.markup.BBCodeCheck',
-        'weblate.trans.checks.chars.ZeroWidthSpaceCheck',
-        'weblate.trans.checks.markup.XMLTagsCheck',
-        'weblate.trans.checks.source.OptionalPluralCheck',
-        'weblate.trans.checks.source.EllipsisCheck',
-        'weblate.trans.checks.source.MultipleFailingCheck',
+        'weblate.checks.same.SameCheck',
+        'weblate.checks.chars.BeginNewlineCheck',
+        'weblate.checks.chars.EndNewlineCheck',
+        'weblate.checks.chars.BeginSpaceCheck',
+        'weblate.checks.chars.EndSpaceCheck',
+        'weblate.checks.chars.EndStopCheck',
+        'weblate.checks.chars.EndColonCheck',
+        'weblate.checks.chars.EndQuestionCheck',
+        'weblate.checks.chars.EndExclamationCheck',
+        'weblate.checks.chars.EndEllipsisCheck',
+        'weblate.checks.chars.EndSemicolonCheck',
+        'weblate.checks.chars.MaxLengthCheck',
+        'weblate.checks.format.PythonFormatCheck',
+        'weblate.checks.format.PythonBraceFormatCheck',
+        'weblate.checks.format.PHPFormatCheck',
+        'weblate.checks.format.CFormatCheck',
+        'weblate.checks.format.PerlFormatCheck',
+        'weblate.checks.format.JavascriptFormatCheck',
+        'weblate.checks.consistency.SamePluralsCheck',
+        'weblate.checks.consistency.PluralsCheck',
+        'weblate.checks.consistency.ConsistencyCheck',
+        'weblate.checks.consistency.TranslatedCheck',
+        'weblate.checks.chars.NewlineCountingCheck',
+        'weblate.checks.markup.BBCodeCheck',
+        'weblate.checks.chars.ZeroWidthSpaceCheck',
+        'weblate.checks.markup.XMLTagsCheck',
+        'weblate.checks.source.OptionalPluralCheck',
+        'weblate.checks.source.EllipsisCheck',
+        'weblate.checks.source.MultipleFailingCheck',
     )
 
 .. note::
 
-    Once you change this setting the existing checks will be still stored in
-    the database, only newly changed translation will be affected by the
-    change. To apply change to already stored translations, you need to run
+    Once you change this setting the existing checks will still be stored in
+    the database, only newly changed translations will be affected by the
+    change. To apply the change to the stored translations, you need to run
     :djadmin:`updatechecks`.
 
 .. seealso::
@@ -278,7 +304,7 @@ DATA_DIR
 Directory where Weblate stores all data. This consists of VCS repositories,
 fulltext index and various configuration files for external tools.
 
-Following subdirectories usually exist:
+The following subdirectories usually exist:
 
 :file:`home`
     Home directory used for invoking scripts.
@@ -288,10 +314,29 @@ Following subdirectories usually exist:
     Default location for Django static files, specified by ``STATIC_ROOT``.
 :file:`media`
     Default location for Django media files, specified by ``MEDIA_ROOT``.
+:file:`memory`
+    Translation memory data uwing Whoosh engine (see :ref:`translation-memory`).
 :file:`vcs`
     Version control repositories.
 :file:`whoosh`
     Fulltext search index using Whoosh engine.
+
+.. note::
+
+    This directory has to be writable by Weblate. If you are running Weblate as
+    uwsgi this means that it should be writable by the ``www-data`` user.
+
+    The easiest way to achieve is to make the user own the directory:
+
+    .. code-block:: sh
+
+        sudo chown www-data:www-data -R $DATA_DIR
+
+Defaults to ``$BASE_DIR/data``.
+
+.. seealso::
+
+    :setting:`BASE_DIR`
 
 .. setting:: DEFAULT_COMMITER_EMAIL
 
@@ -300,7 +345,7 @@ DEFAULT_COMMITER_EMAIL
 
 .. versionadded:: 2.4
 
-Default commiter email when creating translation component (see
+Default committer email when creating translation component (see
 :ref:`component`), defaults to ``noreply@weblate.org``.
 
 .. seealso::
@@ -314,12 +359,29 @@ DEFAULT_COMMITER_NAME
 
 .. versionadded:: 2.4
 
-Default commiter name when creating translation component (see
+Default committer name when creating translation component (see
 :ref:`component`), defaults to ``Weblate``.
 
 .. seealso::
 
    :setting:`DEFAULT_COMMITER_EMAIL`, :ref:`component`
+
+.. setting:: DEFAULT_CUSTOM_ACL
+
+DEFAULT_CUSTOM_ACL
+------------------
+
+.. versionadded:: 3.0
+
+Whether newly created projects should default to :guilabel:`Custom` ACL.
+Use if you are going to manage ACL manually and do not want to rely on Weblate
+internal management.
+
+.. seealso::
+
+   :ref:`acl`,
+   :ref:`privileges`
+
 
 .. setting:: DEFAULT_TRANSLATION_PROPAGATION
 
@@ -340,8 +402,7 @@ defaults to ``True``.
 ENABLE_AVATARS
 --------------
 
-Whether to enable libravatar/gravatar based avatars for users. By default this
-is enabled.
+Whether to enable Gravatar based avatars for users. By default this is enabled.
 
 The avatars are fetched and cached on the server, so there is no risk in
 leaking private information or slowing down the user experiences with enabling
@@ -368,7 +429,7 @@ Whether to enable anonymous remote hooks.
 ENABLE_HTTPS
 ------------
 
-Whether to send links to the Weblate as https or http. This setting
+Whether to send links to Weblate as https or http. This setting
 affects sent mails and generated absolute URLs.
 
 .. seealso::
@@ -390,7 +451,7 @@ GIT_ROOT
 .. deprecated:: 2.1
    This setting is no longer used, use :setting:`DATA_DIR` instead.
 
-Path where Weblate will store cloned VCS repositories. Defaults to
+Path where Weblate will store the cloned VCS repositories. Defaults to
 :file:`repos` subdirectory.
 
 .. setting:: GITHUB_USERNAME
@@ -431,7 +492,7 @@ IP_BEHIND_REVERSE_PROXY
 
 .. versionadded:: 2.14
 
-Indicates whether Weblate is running behind reverse proxy.
+Indicates whether Weblate is running behind a reverse proxy.
 
 If set to True, Weblate gets IP address from header defined by
 :setting:`IP_BEHIND_REVERSE_PROXY`. Ensure that you are actually using reverse
@@ -447,12 +508,12 @@ Defaults to False.
 
 .. setting:: IP_PROXY_HEADER
 
-IP_BEHIND_REVERSE_PROXY
------------------------
+IP_PROXY_HEADER
+---------------
 
 .. versionadded:: 2.14
 
-Indicates from which header Weblate should obtain IP address when
+Indicates from which header Weblate should obtain the IP address when
 :setting:`IP_BEHIND_REVERSE_PROXY` is enabled.
 
 Defaults to ``HTTP_X_FORWARDED_FOR``.
@@ -488,7 +549,11 @@ Defaults to 0.
 LAZY_COMMITS
 ------------
 
-Delay creating VCS commits until this is necessary. This heavily reduces
+.. deprecated:: 2.20
+
+    This setting can no longer be configured and is enabled permanently.
+
+Delay creating VCS commits until necessary. This heavily reduces
 number of commits generated by Weblate at expense of temporarily not being
 able to merge some changes as they are not yet committed.
 
@@ -500,6 +565,8 @@ able to merge some changes as they are not yet committed.
 
 LOCK_TIME
 ---------
+
+.. deprecated:: 2.18
 
 Time in seconds for how long the translation will be locked for single
 translator when locked manually.
@@ -513,7 +580,7 @@ translator when locked manually.
 LOGIN_REQUIRED_URLS
 -------------------
 
-List of URL which require login (besides standard rules built into Weblate).
+List of URLs which require login (besides standard rules built into Weblate).
 This allows you to password protect whole installation using:
 
 .. code-block:: python
@@ -527,9 +594,9 @@ This allows you to password protect whole installation using:
 LOGIN_REQUIRED_URLS_EXCEPTIONS
 ------------------------------
 
-List of exceptions for :setting:`LOGIN_REQUIRED_URLS`, in case you won't
+List of exceptions for :setting:`LOGIN_REQUIRED_URLS`. If you don't
 specify this list, the default value will be used, which allows users to access
-login page.
+the login page.
 
 Some of exceptions you might want to include:
 
@@ -542,12 +609,19 @@ Some of exceptions you might want to include:
         r'/data/(.*)$',     # Allowing public access to data exports
         r'/hooks/(.*)$',    # Allowing public access to notification hooks
         r'/api/(.*)$',      # Allowing access to API
+        r'/js/i18n/$',      # Javascript localization
     )
 
+.. setting:: MT_SERVICES
 .. setting:: MACHINE_TRANSLATION_SERVICES
 
-MACHINE_TRANSLATION_SERVICES
-----------------------------
+MT_SERVICES
+-----------
+
+.. versionchanged:: 3.0
+
+    The setting was renamed from ``MACHINE_TRANSLATION_SERVICES`` to
+    ``MT_SERVICES`` to be consistent with other machine translation settings.
 
 List of enabled machine translation services to use.
 
@@ -558,15 +632,19 @@ List of enabled machine translation services to use.
 
 .. code-block:: python
 
-    MACHINE_TRANSLATION_SERVICES = (
-        'weblate.trans.machine.apertium.ApertiumAPYTranslation',
-        'weblate.trans.machine.glosbe.GlosbeTranslation',
-        'weblate.trans.machine.google.GoogleTranslation',
-        'weblate.trans.machine.microsoft.MicrosoftTranslation',
-        'weblate.trans.machine.mymemory.MyMemoryTranslation',
-        'weblate.trans.machine.tmserver.TMServerTranslation',
-        'weblate.trans.machine.weblatetm.WeblateSimilarTranslation',
-        'weblate.trans.machine.weblatetm.WeblateTranslation',
+    MT_SERVICES = (
+        'weblate.machinery.apertium.ApertiumAPYTranslation',
+        'weblate.machinery.deepl.DeepLTranslation',
+        'weblate.machinery.glosbe.GlosbeTranslation',
+        'weblate.machinery.google.GoogleTranslation',
+        'weblate.machinery.microsoft.MicrosoftCognitiveTranslation',
+        'weblate.machinery.mymemory.MyMemoryTranslation',
+        'weblate.machinery.tmserver.AmagamaTranslation',
+        'weblate.machinery.tmserver.TMServerTranslation',
+        'weblate.machinery.yandex.YandexTranslation',
+        'weblate.machinery.weblatetm.WeblateTranslation',
+        'weblate.machinery.saptranslationhub.SAPTranslationHub',
+        'weblate.memory.machine.WeblateMemory',
     )
 
 .. seealso::
@@ -585,19 +663,49 @@ URL of the Apertium APy server, see http://wiki.apertium.org/wiki/Apertium-apy
 
    :ref:`apertium`, :ref:`machine-translation-setup`, :ref:`machine-translation`
 
+.. setting:: MT_AWS_ACCESS_KEY_ID
 
-.. setting:: MT_APERTIUM_KEY
+MT_AWS_ACCESS_KEY_ID
+--------------------
 
-MT_APERTIUM_KEY
----------------
-
-API key for Apertium Web Service, currently not used.
-
-Not needed at all when running own Apertium APy server.
+Access key ID for Amazon Translate.
 
 .. seealso::
 
-   :ref:`apertium`, :ref:`machine-translation-setup`, :ref:`machine-translation`
+    :ref:`aws`, :ref:`machine-translation-setup`, :ref:`machine-translation`
+
+.. setting:: MT_AWS_SECRET_ACCESS_KEY
+
+MT_AWS_SECRET_ACCESS_KEY
+------------------------
+
+API secret key for Amazon Translate.
+
+.. seealso::
+
+    :ref:`aws`, :ref:`machine-translation-setup`, :ref:`machine-translation`
+
+.. setting:: MT_AWS_REGION
+
+MT_AWS_REGION
+-------------
+
+Region name to use for Amazon Translate.
+
+.. seealso::
+
+    :ref:`aws`, :ref:`machine-translation-setup`, :ref:`machine-translation`
+
+.. setting:: MT_DEEPL_KEY
+
+MT_DEEPL_KEY
+------------
+
+API key for DeepL API, you can register at https://www.deepl.com/pro.html.
+
+.. seealso::
+
+   :ref:`deepl`, :ref:`machine-translation-setup`, :ref:`machine-translation`
 
 .. setting:: MT_GOOGLE_KEY
 
@@ -615,7 +723,7 @@ API key for Google Translate API, you can register at https://cloud.google.com/t
 MT_MICROSOFT_ID
 ---------------
 
-Cliend ID for Microsoft Translator service.
+Client ID for Microsoft Translator service.
 
 .. seealso::
 
@@ -692,7 +800,7 @@ URL where tmserver is running.
 .. seealso::
 
    :ref:`tmserver`, :ref:`machine-translation-setup`, :ref:`machine-translation`,
-   `tmserver, a Translation Memory service <http://docs.translatehouse.org/projects/translate-toolkit/en/latest/commands/tmserver.html>`_
+   :doc:`tt:commands/tmserver`
 
 .. setting:: MT_YANDEX_KEY
 
@@ -704,6 +812,57 @@ API key for Yandex Translate API, you can register at https://tech.yandex.com/tr
 .. seealso::
 
    :ref:`yandex-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`
+
+.. setting:: MT_SAP_BASE_URL
+
+MT_SAP_BASE_URL
+---------------
+
+API URL to the SAP Translation Hub service.
+
+.. seealso::
+    :ref:`saptranslationhub`, :ref:`machine-translation-setup`, :ref:`machine-translation`
+
+.. setting:: MT_SAP_SANDBOX_APIKEY
+
+MT_SAP_SANDBOX_APIKEY
+---------------------
+
+API key for sandbox API usage
+
+.. seealso::
+    :ref:`saptranslationhub`, :ref:`machine-translation-setup`, :ref:`machine-translation`
+
+.. setting:: MT_SAP_USERNAME
+
+MT_SAP_USERNAME
+---------------
+
+Your SAP username
+
+.. seealso::
+    :ref:`saptranslationhub`, :ref:`machine-translation-setup`, :ref:`machine-translation`
+
+.. setting:: MT_SAP_PASSWORD
+
+MT_SAP_PASSWORD
+---------------
+
+Your SAP password
+
+.. seealso::
+    :ref:`saptranslationhub`, :ref:`machine-translation-setup`, :ref:`machine-translation`
+
+.. setting:: MT_SAP_USE_MT
+
+MT_SAP_USE_MT
+-------------
+
+Should the machine translation service also be used? (in addition to the term database).
+Possible values: True / False
+
+.. seealso::
+    :ref:`saptranslationhub`, :ref:`machine-translation-setup`, :ref:`machine-translation`
 
 .. setting:: NEARBY_MESSAGES
 
@@ -724,7 +883,7 @@ outdated index, which might still point to older content.
 While enabling this, don't forget scheduling runs of
 :djadmin:`update_index` in cron or similar tool.
 
-This is recommended setup for production use.
+This is the recommended setup for production use.
 
 .. seealso::
 
@@ -735,7 +894,7 @@ This is recommended setup for production use.
 PIWIK_SITE_ID
 -------------
 
-ID of a site in Piwik you want to track.
+ID of a site in Matomo you want to track.
 
 .. seealso::
 
@@ -746,113 +905,12 @@ ID of a site in Piwik you want to track.
 PIWIK_URL
 ---------
 
-URL of a Piwik installation you want to use to track Weblate users. For more
-information about Piwik see <https://piwik.org/>.
+URL of a Matomo installation you want to use to track Weblate users. For more
+information about Matomo see <https://matomo.org/>.
 
 .. seealso::
 
    :setting:`PIWIK_SITE_ID`
-
-.. setting:: POST_ADD_SCRIPTS
-
-POST_ADD_SCRIPTS
-----------------
-
-.. versionadded:: 2.4
-
-List of scripts which are allowed as post add scripts. The script needs to be
-later enabled in the :ref:`component`.
-
-Weblate comes with few example hook scripts which you might find useful:
-
-:file:`examples/hook-update-linguas`
-    Updates LINGUAS file or ALL_LINGUAS in confiugure script.
-
-.. seealso::
-
-   :ref:`processing`
-
-.. setting:: POST_UPDATE_SCRIPTS
-
-POST_UPDATE_SCRIPTS
--------------------
-
-.. versionadded:: 2.3
-
-List of scripts which are allowed as post update scripts. The script needs to be
-later enabled in the :ref:`component`.
-
-Weblate comes with few example hook scripts which you might find useful:
-
-:file:`examples/hook-update-resx`
-    Updates resx file to match template by adding new translations and removing
-    obsolete ones.
-
-:file:`examples/hook-cleanup-android`
-    Removes obsolete units from Android resource strings.
-
-.. seealso::
-
-   :ref:`processing`
-
-.. setting:: PRE_COMMIT_SCRIPTS
-
-PRE_COMMIT_SCRIPTS
-------------------
-
-List of scripts which are allowed as pre commit scripts. The script needs to be
-later enabled in the :ref:`component`.
-
-For example you can allow script which does some cleanup:
-
-.. code-block:: python
-
-    PRE_COMMIT_SCRIPTS = (
-        '/usr/local/bin/cleanup-translation',
-    )
-
-Weblate comes with few example hook scripts which you might find useful:
-
-:file:`examples/hook-generate-mo`
-    Generates MO file from a PO file
-:file:`examples/hook-unwrap-po`
-    Unwraps lines in a PO file.
-:file:`examples/hook-sort-properties`
-    Sort and cleanups Java properties file.
-:file:`examples/hook-replace-single-quotes`
-    Replaces single quotes in a file.
-
-.. seealso::
-
-   :ref:`processing`
-
-.. setting:: POST_COMMIT_SCRIPTS
-
-POST_COMMIT_SCRIPTS
--------------------
-
-.. versionadded:: 2.4
-
-List of scripts which are allowed as post commit scripts. The script needs to be
-later enabled in the :ref:`component`.
-
-.. seealso::
-
-   :ref:`processing`
-
-.. setting:: POST_PUSH_SCRIPTS
-
-POST_PUSH_SCRIPTS
--------------------
-
-.. versionadded:: 2.4
-
-List of scripts which are allowed as post push scripts. The script needs to be
-later enabled in the :ref:`component`.
-
-.. seealso::
-
-   :ref:`processing`
 
 .. setting:: REGISTRATION_CAPTCHA
 
@@ -868,7 +926,7 @@ If enabled the captcha is added to all pages where users enter email address:
 * New account registration.
 * Password recovery.
 * Adding email to an account.
-* Contact form for not logged in users.
+* Contact form for users who are not logged in.
 
 .. setting:: REGISTRATION_EMAIL_MATCH
 
@@ -881,7 +939,7 @@ Allows you to filter email addresses which can register.
 
 Defaults to ``.*`` which allows any address to register.
 
-You can use it to restrict registration to single domain emails:
+You can use it to restrict registration to a single email domain:
 
 .. code-block:: python
 
@@ -895,17 +953,6 @@ REGISTRATION_OPEN
 A boolean (either ``True`` or ``False``) indicating whether registration of new
 accounts is currently permitted. This setting is optional, and a default of
 True will be assumed if it is not supplied.
-
-.. setting:: SELF_ADVERTISEMENT
-
-SELF_ADVERTISEMENT
-------------------
-
-Enables self advertisement of Weblate in case there are no configured ads.
-
-.. seealso::
-
-   :ref:`advertisement`
 
 .. setting:: SIMPLIFY_LANGUAGES
 
@@ -926,12 +973,38 @@ SITE_TITLE
 
 Site title to be used in website and emails as well.
 
+.. setting:: SPECIAL_CHARS
+
+SPECIAL_CHARS
+-------------
+
+Additional chars to show in the visual keyboard, see :ref:`visual-keyboard`.
+
+The default value is:
+
+.. code-block:: python
+
+    SPECIAL_CHARS = ('\t', '\n', '…')
+
+.. setting:: STATUS_URL
+
+STATUS_URL
+----------
+
+URL where your Weblate instance reports it's status.
+
 .. setting:: TTF_PATH
 
 TTF_PATH
 --------
 
 Path to Droid fonts used for widgets and charts.
+
+Defaults to ``$BASE_DIR/weblate/ttf``.
+
+.. seealso::
+
+    :setting:`BASE_DIR`
 
 .. setting:: URL_PREFIX
 
@@ -947,6 +1020,31 @@ achieved by setting ``WSGIScriptAlias``.
 
     This setting does not work with Django's builtin server, you would have to
     adjust :file:`urls.py` to contain this prefix.
+
+.. setting:: WEBLATE_ADDONS
+
+WEBLATE_ADDONS
+--------------
+
+List of addons available for use. To use them, they have to be enabled for
+given translation component.
+
+.. seealso::
+
+    :ref:`addons`
+
+.. setting:: WEBLATE_FORMATS
+
+WEBLATE_FORMATS
+---------------
+
+.. versionadded:: 3.0
+
+List of file formats available for use, you can usually keep this on default value.
+
+.. seealso::
+
+    :ref:`formats`
 
 .. setting:: WHOOSH_INDEX
 

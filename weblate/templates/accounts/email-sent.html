@@ -3,6 +3,7 @@
 
 {% block breadcrumbs %}
 <li><a href="{% url 'register' %}">{% trans "Registration" %}</a></li>
+<li><a>{{ title }}</a></li>
 {% endblock %}
 
 {% block content %}
@@ -11,6 +12,8 @@
   <div class="panel-heading"><h4 class="panel-title">
 {% if is_reset %}
 {% trans "Password reset almost complete" %}
+{% elif is_remove %}
+{% trans "Account removal almost complete" %}
 {% else %}
 {% trans "Registration almost complete" %}
 {% endif %}
@@ -18,17 +21,21 @@
   <div class="panel-body">
 
 {% if is_reset %}
-<p>{% blocktrans %}You will very soon receive an email with a confirmation link. Please follow this link in order to complete your password reset procedure.{% endblocktrans %}</p>
+<p>{% blocktrans %}Shortly you should receive an email containing a confirmation link. Click it to reset your password.{% endblocktrans %}</p>
+{% elif is_remove %}
+<p>{% blocktrans %}Shortly you should receive an email containing a confirmation link. Click it to remove your account.{% endblocktrans %}</p>
 {% else %}
-<p>{% blocktrans %}Thank you for registering. You will very soon receive an email with a confirmation link. Please follow this link in order to complete your registration.{% endblocktrans %}</p>
+<p>{% blocktrans %}Thank you for registering. Click the confirmation link you receive by email to complete the registration.{% endblocktrans %}</p>
 {% endif %}
 
-<p>{% blocktrans %}Please note that the confirmation link has limited validity. In case it does not work, please register again.{% endblocktrans %}</p>
+<p>{% blocktrans %}If the confirmation link expires before you get to use it, register again.{% endblocktrans %}</p>
 
 <p>
 {% url 'contact' as contact_url %}
-{% blocktrans %}If you don't receive it shortly, please check your spam folder or retry the registration. If the problem persists, please <a href="{{ contact_url }}?t=reg">contact us</a>.{% endblocktrans %}
+{% blocktrans %}If you don't receive it shortly, please check your spam folder or retry the registration. Should the problem persist, please contact us.{% endblocktrans %}
 </p>
+
+<p><a href="{{ contact_url }}?t=reg" class="btn btn-default">{% trans "Report an issue with registration" %}</a></p>
 
 </div>
 </div>

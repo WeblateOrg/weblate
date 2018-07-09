@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -22,7 +22,7 @@
 
 from __future__ import unicode_literals
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from weblate.trans.tests.test_views import ViewTestCase
 
@@ -79,9 +79,9 @@ class GitNoChangeProjectTest(ViewTestCase):
         self.assertContains(response, self.STATUS_CHECK)
 
 
-class GitNoChangeSubProjectTest(GitNoChangeProjectTest):
-    """Testing of subproject git manipulations."""
-    TEST_TYPE = 'subproject'
+class GitNoChangeComponentTest(GitNoChangeProjectTest):
+    """Testing of component git manipulations."""
+    TEST_TYPE = 'component'
 
 
 class GitNoChangeTranslationTest(GitNoChangeProjectTest):
@@ -92,16 +92,16 @@ class GitNoChangeTranslationTest(GitNoChangeProjectTest):
 class GitChangeProjectTest(GitNoChangeProjectTest):
     """Testing of project git manipulations with not committed change."""
 
-    STATUS_CHECK = 'There are some not committed changes!'
+    STATUS_CHECK = 'There are some uncommitted changes!'
 
     def setUp(self):
         super(GitChangeProjectTest, self).setUp()
         self.change_unit('Ahoj světe!\n')
 
 
-class GitChangeSubProjectTest(GitChangeProjectTest):
-    """Testing of subproject git manipulations with not committed change."""
-    TEST_TYPE = 'subproject'
+class GitChangeComponentTest(GitChangeProjectTest):
+    """Testing of component git manipulations with not committed change."""
+    TEST_TYPE = 'component'
 
 
 class GitChangeTranslationTest(GitChangeProjectTest):
@@ -112,7 +112,7 @@ class GitChangeTranslationTest(GitChangeProjectTest):
 class GitCommittedChangeProjectTest(GitNoChangeProjectTest):
     """Testing of project git manipulations with committed change in repo."""
 
-    STATUS_CHECK = 'There are some new commits in the local repository!'
+    STATUS_CHECK = 'There are some new commits in the local repository.'
 
     def setUp(self):
         super(GitCommittedChangeProjectTest, self).setUp()
@@ -120,9 +120,9 @@ class GitCommittedChangeProjectTest(GitNoChangeProjectTest):
         self.project.commit_pending(self.get_request('/'))
 
 
-class GitCommittedChangeSubProjectTest(GitCommittedChangeProjectTest):
-    """Testing of subproject git manipulations with committed change."""
-    TEST_TYPE = 'subproject'
+class GitCommittedChangeComponentTest(GitCommittedChangeProjectTest):
+    """Testing of component git manipulations with committed change."""
+    TEST_TYPE = 'component'
 
 
 class GitCommittedChangeTranslationTest(GitCommittedChangeProjectTest):

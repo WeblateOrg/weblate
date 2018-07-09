@@ -1,6 +1,7 @@
 {% load translations %}
 {% load i18n %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% for item in unitdata %}
 <tbody class="zen-unit">
@@ -16,7 +17,7 @@
 {% get_location_links user.profile item.unit %}
 </td>
 <td>
-<a href="{% url 'translate' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}?{{ search_url }}&amp;offset={{ item.offset }}" class="btn btn-xs btn-default pull-right flip" title="{% trans "Open in full editor" %}"><i class="fa fa-pencil"></i> {% trans "Edit" %}</a>
+<a href="{% url 'translate' project=object.component.project.slug component=object.component.slug lang=object.language.code %}?{{ search_url }}&amp;offset={{ item.offset }}" class="btn btn-xs btn-default pull-right flip" title="{% trans "Open in full editor" %}"><i class="fa fa-pencil"></i> {% trans "Edit" %}</a>
 </td>
 </tr>
 {% if item.unit.comment %}
@@ -24,7 +25,7 @@
 <td></td>
 <td colspan="2" class="translatetext">
     <label>{% trans "Source string comment" %}</label>
-    {% format_translation item.unit.comment item.unit.translation.subproject.project.source_language %}
+    {% format_translation item.unit.comment item.unit.translation.component.project.source_language %}
 </td>
 </tr>
 {% endif %}
@@ -35,21 +36,21 @@
 {% if item.unit.previous_source and item.unit.fuzzy %}
 <div class="form-group">
 <label>{% trans "Source change" %}</label>
-{% format_translation item.unit.source item.unit.translation.subproject.project.source_language diff=item.unit.previous_source num_plurals=item.unit.translation.language.nplurals %}
+{% format_translation item.unit.source item.unit.translation.component.project.source_language diff=item.unit.previous_source num_plurals=item.unit.translation.plural.number %}
 </div>
-{% endif %}
-
-{% if not user.profile.hide_source_secondary or not item.secondary %}
-{% format_translation item.unit.source item.unit.translation.subproject.project.source_language search_match=search_query num_plurals=item.unit.translation.language.nplurals unit=item.unit %}
 {% endif %}
 
 {% if item.secondary %}
 {% for unit in item.secondary %}
 <div class="form-group">
 <label>{{ unit.translation.language }}</label>
-{% format_translation unit.target unit.translation.language %}
+{% format_translation unit.target unit.translation.language unit.translation.plural %}
 </div>
 {% endfor %}
+{% endif %}
+
+{% if not user.profile.hide_source_secondary or not item.secondary %}
+{% format_translation item.unit.source item.unit.translation.component.project.source_language search_match=search_query num_plurals=item.unit.translation.plural.number unit=item.unit %}
 {% endif %}
 
 </td>
@@ -60,12 +61,7 @@
 <i id="status-{{ item.unit.checksum }}"></i>
 </td>
 <td colspan="2" class="translator">
-<form action="{% url 'save_zen' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post">
-{% csrf_token %}
-{{ item.form.checksum }}
-{{ item.form.target }}
-{{ item.form.fuzzy }} <label for="id_{{ item.unit.checksum }}_fuzzy">{% trans "Review" context "Message needs review" %}</label>
-</form>
+{% crispy item.form %}
 </td>
 </tr>
 </tbody>
@@ -74,7 +70,8 @@
 {% if last_section %}
 <tbody>
 <tr><td colspan="3" id="last-section">
-{% show_message 'info' _('You have reached end of translating.') %}
+{% trans 'The translation has come to an end.' as msg %}
+{% show_message 'info' msg %}
 </td></tr>
 </tbody>
 {% endif %}

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -25,6 +25,7 @@ from django.conf.urls import url, include
 from weblate.api.views import (
     ProjectViewSet, ComponentViewSet, TranslationViewSet, LanguageViewSet,
     UnitViewSet, ChangeViewSet, SourceViewSet, ScreenshotViewSet,
+    Metrics
 )
 from weblate.api.routers import WeblateRouter
 
@@ -68,6 +69,11 @@ router.register(
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
+    url(
+        r'^metrics/$',
+        Metrics.as_view(),
+        name='metrics',
+    ),
     url(
         r'^',
         include(router.urls)

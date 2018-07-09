@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -23,7 +23,6 @@ from email import message_from_string
 import os.path
 import subprocess
 
-from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
 from django.http.response import HttpResponseServerError, HttpResponse
@@ -32,8 +31,8 @@ from django.utils.encoding import force_text
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
 
-from weblate.trans.views.helper import get_subproject
-from weblate.permissions.helpers import can_access_vcs
+from weblate.auth.models import User
+from weblate.trans.views.helper import get_component
 
 
 GIT_PATHS = [
@@ -60,6 +59,7 @@ def find_git_http_backend():
         if os.path.exists(name):
             find_git_http_backend.result = name
             return name
+    return None
 
 
 def response_authenticate():
@@ -97,7 +97,7 @@ def authenticate(request, auth):
 
 @never_cache
 @csrf_exempt
-def git_export(request, project, subproject, path):
+def git_export(request, project, component, path):
     """Git HTTP server view.
 
     Wrapper around git-http-backend to provide Git repositories export over
@@ -106,9 +106,9 @@ def git_export(request, project, subproject, path):
     # Probably browser access
     if path == '':
         return redirect(
-            'subproject',
+            'component',
             project=project,
-            subproject=subproject,
+            component=component,
             permanent=False
         )
 
@@ -120,12 +120,12 @@ def git_export(request, project, subproject, path):
 
     # Permissions
     try:
-        obj = get_subproject(request, project, subproject)
+        obj = get_component(request, project, component)
     except Http404:
-        if not request.user.is_authenticated():
+        if not request.user.is_authenticated:
             return response_authenticate()
         raise
-    if not can_access_vcs(request.user, obj.project):
+    if not request.user.has_perm('vcs.access', obj):
         raise PermissionDenied('No VCS permissions')
 
     return run_git_http(request, obj, path)
@@ -143,7 +143,7 @@ def run_git_http(request, obj, path):
         [git_http_backend],
         env={
             'REQUEST_METHOD': request.method,
-            'PATH_TRANSLATED': os.path.join(obj.get_path(), path),
+            'PATH_TRANSLATED': os.path.join(obj.full_path, path),
             'GIT_HTTP_EXPORT_ALL': '1',
             'CONTENT_TYPE': request.META.get('CONTENT_TYPE', ''),
             'QUERY_STRING': request.META.get('QUERY_STRING', ''),

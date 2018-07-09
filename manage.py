@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -20,12 +20,10 @@
 #
 
 import os
-import sys
 
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "weblate.settings")
-    os.environ['DJANGO_IS_MANAGEMENT_COMMAND'] = '1'
 
-    from django.core.management import execute_from_command_line
+    from weblate.runner import main
 
-    execute_from_command_line(sys.argv)
+    main()

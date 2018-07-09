@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+{% load crispy_forms_tags %}
+{% load permissions %}
+
+{% block breadcrumbs %}
+<li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
+<li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></li>
+<li><a href="{% url 'addons' project=object.project.slug component=object.slug %}">{% trans "Addons" %}</a></li>
+<li>
+{% if instance %}
+<a href="{% url 'addon-detail' project=object.project.slug component=object.slug pk=instance.pk %}">{{ addon.verbose }}</a>
+{% else %}
+{{ addon.verbose }}
+{% endif %}
+</li>
+{% endblock %}
+
+{% block content %}
+
+<form method="post">
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">
+    {% documentation_icon 'admin/addons' right=True %}
+  {% trans "Configure addon" %}
+  </h4></div>
+  <div class="panel-body">
+  <input type="hidden" name="form" value="1" />
+  <input type="hidden" name="name" value="{{ addon.name }}" />
+  {% crispy form %}
+  </div>
+  <div class="panel-footer">
+  <input type="submit" value="{% trans "Save" %}" class="btn btn-success" />
+  </div>
+</div>
+</form>
+
+{% endblock %}

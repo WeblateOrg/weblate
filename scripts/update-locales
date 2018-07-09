@@ -5,26 +5,46 @@
 # Exit on failure
 set -e
 
+version=`DJANGO_SETTINGS_MODULE=weblate.settings_example python -c 'import weblate; print weblate.VERSION_BASE'`
+
 # Lock Weblate
 wlc lock weblate/master
 wlc lock weblate/javascript
+wlc lock weblate/languages
 
 # Push changes from Weblate to GitHub
-wlc commit
+wlc commit weblate
 
 # Pull changes from GitHub
-git pull
+git pull --rebase
 
 # Update po files itself
 ./manage.py makemessages --keep-pot -a -i 'data/*' -i 'docs/*' -i 'examples/*' -i 'build/*' --settings=weblate.settings_test
 ./manage.py makemessages --keep-pot -a -i 'data/*' -i 'docs/*' -i 'examples/*' -i 'build/*' -d djangojs --settings=weblate.settings_test
 
 # Fix Report-Msgid-Bugs-To as it gets removed
-sed -i 's/"Report-Msgid-Bugs-To:.*/"Report-Msgid-Bugs-To: weblate@lists.cihar.com\\n"/' weblate/locale/*/*/*.po
+sed \
+    -i \
+    -e 's/"Report-Msgid-Bugs-To:.*/"Report-Msgid-Bugs-To: weblate@lists.cihar.com\\n"/' \
+    -e 's/"Project-Id-Version:.*/"Project-Id-Version: Weblate '$version'\\n"/' \
+    weblate/locale/*/*/*.po weblate/locale/*.pot \
+    weblate/langdata/locale/*/*/*.po weblate/langdata/locale/*.pot
+
+# Include language names from CLDR
+for locale in weblate/langdata/locale/*/LC_MESSAGES/django.po ; do
+    code=${locale#weblate/locale/}
+    code=${code%/LC_MESSAGES/django.po}
+    file=scripts/language-data/languages-po/$code.po
+    if [ -f $file ] ; then
+        msgmerge --previous -C $file -U $locale weblate/langdata/locale/django.pot
+    fi
+done
 
 # Commit changes
 git add weblate/locale/*/*/*.po
-git add weblate/locale/django.pot weblate/locale/djangojs.pot
+git add weblate/locale/*.pot
+git add weblate/langdata/locale/*/*/*.po
+git add weblate/langdata/locale/*.pot
 
 git commit -s -m "Update po files
 
@@ -36,3 +56,4 @@ git push
 # Unlock Weblate
 wlc unlock weblate/master
 wlc unlock weblate/javascript
+wlc unlock weblate/languages

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -19,18 +19,20 @@
 #
 
 from django.utils.translation import ugettext as _
-from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
 
+from weblate.auth.models import Group, User
 from weblate.utils import messages
 from weblate.trans.util import render
-from weblate.trans.forms import UserManageForm
+from weblate.trans.forms import (
+    UserManageForm, ProjectAccessForm, DisabledProjectAccessForm,
+)
+from weblate.trans.models import Change
 from weblate.trans.views.helper import get_project
-from weblate.permissions.helpers import can_manage_acl
 
 
 def check_user_form(request, project, verbose=False):
@@ -41,7 +43,8 @@ def check_user_form(request, project, verbose=False):
     """
     obj = get_project(request, project)
 
-    if not can_manage_acl(request.user, obj):
+    if (not request.user.has_perm('project.permissions', obj) or
+            obj.access_control == obj.ACCESS_CUSTOM):
         raise PermissionDenied()
 
     form = UserManageForm(request.POST)
@@ -62,8 +65,9 @@ def set_groups(request, project):
     obj, form = check_user_form(request, project)
 
     try:
-        group = Group.objects.get(
-            groupacl__project=obj,
+        group = obj.group_set.get(
+            name__contains='@',
+            internal=True,
             pk=int(request.POST.get('group', '')),
         )
     except (Group.DoesNotExist, ValueError):
@@ -78,17 +82,29 @@ def set_groups(request, project):
         message = _('Invalid parameters!')
         status = None
     elif action == 'remove':
-        if (group.name.endswith('@Administration') and
-                obj.all_users('@Administration').count() <= 1):
+        owners = User.objects.all_admins(obj)
+        if group.name.endswith('@Administration') and owners.count() <= 1:
             code = 400
             message = _('You can not remove last owner!')
         else:
             code = 200
             message = ''
             user.groups.remove(group)
+            Change.objects.create(
+                project=obj,
+                action=Change.ACTION_REMOVE_USER,
+                user=request.user,
+                details={'username': user.username, 'group': group.name},
+            )
         status = user.groups.filter(pk=group.pk).exists()
     else:
         user.groups.add(group)
+        Change.objects.create(
+            project=obj,
+            action=Change.ACTION_ADD_USER,
+            user=request.user,
+            details={'username': user.username, 'group': group.name},
+        )
         code = 200
         message = ''
         status = user.groups.filter(pk=group.pk).exists()
@@ -110,7 +126,14 @@ def add_user(request, project):
 
     if form is not None:
         try:
-            obj.add_user(form.cleaned_data['user'])
+            user = form.cleaned_data['user']
+            obj.add_user(user)
+            Change.objects.create(
+                project=obj,
+                action=Change.ACTION_ADD_USER,
+                user=request.user,
+                details={'username': user.username},
+            )
             messages.success(
                 request, _('User has been added to this project.')
             )
@@ -132,15 +155,54 @@ def delete_user(request, project):
     obj, form = check_user_form(request, project, True)
 
     if form is not None:
-        owners = obj.all_users('@Administration')
-        is_owner = owners.filter(pk=form.cleaned_data['user'].pk).exists()
+        owners = User.objects.all_admins(obj)
+        user = form.cleaned_data['user']
+        is_owner = owners.filter(pk=user.pk).exists()
         if is_owner and owners.count() <= 1:
             messages.error(request, _('You can not remove last owner!'))
         else:
-            obj.remove_user(form.cleaned_data['user'])
+            obj.remove_user(user)
+            Change.objects.create(
+                project=obj,
+                action=Change.ACTION_REMOVE_USER,
+                user=request.user,
+                details={'username': user.username},
+            )
             messages.success(
                 request, _('User has been removed from this project.')
             )
+
+    return redirect(
+        'manage-access',
+        project=obj.slug,
+    )
+
+
+@require_POST
+@login_required
+def change_access(request, project):
+    obj = get_project(request, project)
+
+    if not request.user.has_perm('billing:project.permissions', obj):
+        raise PermissionDenied()
+
+    form = ProjectAccessForm(request.POST, instance=obj)
+
+    if not form.is_valid():
+        for error in form.errors:
+            for message in form.errors[error]:
+                messages.error(request, message)
+    else:
+        form.save()
+        Change.objects.create(
+            project=obj,
+            action=Change.ACTION_ACCESS_EDIT,
+            user=request.user,
+            details={'access_control': obj.access_control},
+        )
+        messages.success(
+            request, _('Project access control has been changed.')
+        )
 
     return redirect(
         'manage-access',
@@ -153,8 +215,13 @@ def manage_access(request, project):
     """User management view."""
     obj = get_project(request, project)
 
-    if not can_manage_acl(request.user, obj):
+    if not request.user.has_perm('project.permissions', obj):
         raise PermissionDenied()
+
+    if request.user.has_perm('billing:project.permissions', obj):
+        access_form = ProjectAccessForm(instance=obj)
+    else:
+        access_form = DisabledProjectAccessForm(instance=obj)
 
     return render(
         request,
@@ -162,7 +229,9 @@ def manage_access(request, project):
         {
             'object': obj,
             'project': obj,
-            'groups': obj.all_groups(),
+            'groups': Group.objects.for_project(obj),
+            'all_users': User.objects.for_project(obj),
             'add_user_form': UserManageForm(),
+            'access_form': access_form,
         }
     )

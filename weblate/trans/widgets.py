@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -26,15 +26,14 @@ try:
 except ImportError:
     from django.utils.encoding import force_text as get_display
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils.translation import ugettext as _, pgettext, get_language
 from django.template.loader import render_to_string
 
 from PIL import Image, ImageDraw
 
 from weblate.trans.fonts import is_base, get_font
-from weblate.trans.site import get_site_url
-from weblate.trans.stats import get_per_language_stats
+from weblate.utils.site import get_site_url
 
 
 COLOR_DATA = {
@@ -99,7 +98,11 @@ class ContentWidget(Widget):
         """Create Widget object."""
         super(ContentWidget, self).__init__(obj, color, lang)
         # Get translation status
-        self.percent = obj.get_translated_percent(lang)
+        if lang:
+            stats = obj.stats.get_single_language_stats(lang)
+        else:
+            stats = obj.stats
+        self.percent = stats.translated_percent
         # Set rendering variables
         self.image = None
 
@@ -127,7 +130,7 @@ class BitmapWidget(ContentWidget):
         """Create Widget object."""
         super(BitmapWidget, self).__init__(obj, color, lang)
         # Get object and related params
-        self.total = obj.get_total()
+        self.total = obj.stats.source_strings
         self.languages = obj.get_language_count()
         self.params = self.get_text_params()
 
@@ -387,8 +390,8 @@ class SVGBadgeWidget(SVGWidget):
                 'percent_width': percent_width,
                 'width': translated_width + percent_width,
                 'color': color,
-                'translated_offset': translated_width / 2,
-                'percent_offset': translated_width + percent_width / 2,
+                'translated_offset': translated_width // 2,
+                'percent_offset': translated_width + percent_width // 2,
                 'lang': get_language(),
             }
         )
@@ -411,9 +414,9 @@ class MultiLanguageWidget(SVGWidget):
         translations = []
         offset = 30
         color = self.COLOR_MAP[self.color]
-        for data in get_per_language_stats(self.obj):
-            language = data[0]
-            percent = data[5]
+        for stats in self.obj.stats.get_language_stats():
+            language = stats.language
+            percent = stats.translated_percent
             if self.color == 'auto':
                 if percent >= 90:
                     color = '#4c1'

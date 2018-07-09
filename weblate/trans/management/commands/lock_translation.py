@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -22,9 +22,9 @@ from weblate.trans.management.commands import WeblateComponentCommand
 
 
 class Command(WeblateComponentCommand):
-    help = 'locks subproject for editing'
+    help = 'locks component for editing'
 
     def handle(self, *args, **options):
-        for subproject in self.get_subprojects(*args, **options):
-            if not subproject.locked:
-                subproject.do_lock(None)
+        for component in self.get_components(*args, **options):
+            if not component.locked:
+                component.do_lock(None)

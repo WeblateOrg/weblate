@@ -10,8 +10,8 @@ Weblate's Python API
 Instalation
 ===========
 
-The Python API is shipped separately, you need to install wlc to have it,
-it also include :ref:`wlc`:
+The Python API is shipped separately, you need to install
+:ref:`wlc`:, wlc, to have it.
 
 .. code-block:: sh
 
@@ -36,9 +36,9 @@ it also include :ref:`wlc`:
 .. class:: Weblate(key='', url=None, config=None)
 
     :param key: User key
-    :type key: string
+    :type key: str
     :param url: API server URL, if not specified default is used
-    :type url: string
+    :type url: str
     :param config: Configuration object, overrides any other parameters.
     :type config: WeblateConfig
 
@@ -47,7 +47,7 @@ it also include :ref:`wlc`:
     .. method:: get(path)
 
         :param path: Request path
-        :type path: string
+        :type path: str
         :rtype: object
 
         Performs single API GET call.
@@ -55,7 +55,7 @@ it also include :ref:`wlc`:
     .. method:: post(path, **kwargs)
 
         :param path: Request path
-        :type path: string
+        :type path: str
         :rtype: object
 
         Performs single API GET call.
@@ -73,15 +73,15 @@ it also include :ref:`wlc`:
 .. class:: WeblateConfig(section='wlc')
     
     :param section: Configuration section to use
-    :type section: string
+    :type section: str
 
     Configuration file parser following XDG specification.
 
 
     .. method:: load(path=None)
 
-        :param path: Path where to load configuration.
-        :type path: string
+        :param path: Path from which to load configuration.
+        :type path: str
 
         Loads configuration from a file, if none is specified it loads from
         `wlc` configuration file placed in XDG configuration path

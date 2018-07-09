@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -38,14 +38,26 @@ class SameBookendingWhitespace(AutoFix):
         # normalize newlines of source
         source = NEWLINES.sub('\n', source)
 
-        # capture preceding and tailing whitespace
-        start = START.search(source)
-        end = END.search(source)
-        head = start.group() if start else ''
-        tail = end.group() if end else ''
+        flags = unit.all_flags
+        stripped = target
+
+        # Capture and strip leading space
+        if 'ignore-start-space' in flags:
+            head = ''
+        else:
+            start = START.search(source)
+            head = start.group() if start else ''
+            stripped = stripped.lstrip()
+
+        # Capture and strip trailing space
+        if 'ignore-end-space' in flags:
+            tail = ''
+        else:
+            end = END.search(source)
+            tail = end.group() if end else ''
+            stripped = stripped.rstrip()
 
         # add the whitespace around the target translation (ignore blanks)
-        stripped = target.strip()
         if stripped:
             newtarget = ''.join((head, stripped, tail))
             return newtarget, newtarget != target

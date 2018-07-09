@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -34,8 +34,14 @@ if 'CI_DATABASE' in os.environ:
         DATABASES['default']['USER'] = 'root'
         DATABASES['default']['PASSWORD'] = ''
         DATABASES['default']['OPTIONS'] = {
-            'init_command': 'SET NAMES utf8, wait_timeout=28800',
+            'init_command': (
+                'SET NAMES utf8, '
+                'wait_timeout=28800, '
+                'default_storage_engine=INNODB, '
+                'sql_mode="STRICT_TRANS_TABLES"'
+            ),
             'charset': 'utf8',
+            'isolation_level': 'read committed',
         }
     elif os.environ['CI_DATABASE'] == 'postgresql':
         DATABASES['default']['ENGINE'] = \
@@ -57,7 +63,7 @@ elif 'SCRUTINIZER' in os.environ:
 ADMINS = (('Weblate test', 'noreply@weblate.org'), )
 
 # Different root for test repos
-DATA_DIR = os.path.join(BASE_DIR, '..', 'data-test')
+DATA_DIR = os.path.join(BASE_DIR, 'data-test')
 
 # Silent logging setup
 LOGGING = {
@@ -119,7 +125,14 @@ AUTHENTICATION_BACKENDS = (
     'weblate.accounts.auth.WeblateUserBackend',
 )
 
+AUTH_VALIDATE_PERMS = True
+
 warnings.filterwarnings(
     'error', r"DateTimeField .* received a naive datetime",
     RuntimeWarning, r'django\.db\.models\.fields'
 )
+
+# Generate junit compatible XML for AppVeyor
+if 'APPVEYOR' in os.environ:
+    TEST_RUNNER = 'xmlrunner.extra.djangotestrunner.XMLTestRunner'
+    TEST_OUTPUT_FILE_NAME = 'junit.xml'

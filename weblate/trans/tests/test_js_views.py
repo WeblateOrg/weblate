@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -24,12 +24,11 @@ from __future__ import unicode_literals
 
 import json
 
-from django.core.urlresolvers import reverse
-from django.test.utils import override_settings
+from django.urls import reverse
 
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.utils.classloader import load_class
-from weblate.trans.machine import MACHINE_TRANSLATION_SERVICES
+from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 
 
 class JSViewsTest(FixtureTestCase):
@@ -39,7 +38,7 @@ class JSViewsTest(FixtureTestCase):
         """Ensure we have dummy mt installed"""
         if 'dummy' in MACHINE_TRANSLATION_SERVICES:
             return
-        name = 'weblate.trans.machine.dummy.DummyTranslation'
+        name = 'weblate.machinery.dummy.DummyTranslation'
         service = load_class(name, 'TEST')()
         MACHINE_TRANSLATION_SERVICES[service.mtid] = service
 
@@ -48,13 +47,12 @@ class JSViewsTest(FixtureTestCase):
         response = self.client.get(
             reverse('js-detail', kwargs={
                 'checksum': unit.checksum,
-                'subproject': unit.translation.subproject.slug,
-                'project': unit.translation.subproject.project.slug,
+                'component': unit.translation.component.slug,
+                'project': unit.translation.component.project.slug,
             }),
         )
         self.assertContains(response, 'Czech')
 
-    @override_settings(MACHINE_TRANSLATION_ENABLED=True)
     def test_translate(self):
         self.ensure_dummy_mt()
         unit = self.get_unit()
@@ -103,7 +101,6 @@ class JSViewsTest(FixtureTestCase):
         )
         self.assertContains(response, 'href="/translate/')
 
-    @override_settings(MACHINE_TRANSLATION_ENABLED=True)
     def test_mt_services(self):
         self.ensure_dummy_mt()
         response = self.client.get(reverse('js-mt-services'))

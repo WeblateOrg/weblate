@@ -11,7 +11,7 @@
 <h2>{% trans "Promoting translation projects" %}</h2>
 
 <p>
-{% blocktrans %}You can point newcomers to the introduction page at <a href="{{ engage_url }}">{{ engage_url }}</a>.{% endblocktrans %}
+{% blocktrans %}You can point newcomers to the introduction page at {{ engage_link }}.{% endblocktrans %}
 </p>
 
 <h3>{% trans "Promoting specific translations" %}</h3>
@@ -24,7 +24,7 @@
 <h3>{% trans "Image widgets" %}</h3>
 
 <p>
-{% trans "You can use the following widgets to promote translation of your project. They can increase visibility of your translation projects and bring new contributors." %}
+{% trans "You can use the following widgets to promote translation of your project. They can increase the visibility of your translation projects and bring in new contributors." %}
 </p>
 
 {% for widget in widget_list %}

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -71,7 +71,11 @@ urlpatterns = [
         r'^reset/', weblate.accounts.views.reset_password,
         name='password_reset'
     ),
-    url(r'^logout/', weblate.accounts.views.weblate_logout, name='logout'),
+    url(
+        r'^logout/',
+        weblate.accounts.views.WeblateLogoutView.as_view(),
+        name='logout'
+    ),
     url(r'^profile/', weblate.accounts.views.user_profile, name='profile'),
     url(
         r'^watch/(?P<project>[^/]+)/',
@@ -85,8 +89,12 @@ urlpatterns = [
     ),
     url(r'^remove/', weblate.accounts.views.user_remove, name='remove'),
     url(r'^confirm/', weblate.accounts.views.confirm, name='confirm'),
-    url(r'^login/$', weblate.accounts.views.weblate_login, name='login'),
+    url(
+        r'^login/$',
+        weblate.accounts.views.WeblateLoginView.as_view(),
+        name='login'
+    ),
     url(r'^register/$', weblate.accounts.views.register, name='register'),
     url(r'^email/$', weblate.accounts.views.email_login, name='email_login'),
-    url(r'', include(social_urls, namespace='social')),
+    url(r'', include((social_urls, 'social_auth'), namespace='social')),
 ]

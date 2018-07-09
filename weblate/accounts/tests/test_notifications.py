@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -22,9 +22,9 @@
 Tests for user handling.
 """
 
-from django.contrib.auth.models import User
 from django.core import mail
 
+from weblate.auth.models import User
 from weblate.accounts.models import Profile
 from weblate.accounts.notifications import (
     notify_merge_failure,
@@ -37,16 +37,19 @@ from weblate.accounts.notifications import (
     notify_new_language,
     notify_account_activity,
 )
-from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.trans.tests.test_views import (
+    FixtureTestCase, RegistrationTestMixin,
+)
 from weblate.trans.models import Suggestion, Comment
 from weblate.lang.models import Language
 
 
-class NotificationTest(FixtureTestCase):
+class NotificationTest(FixtureTestCase, RegistrationTestMixin):
     def setUp(self):
         super(NotificationTest, self).setUp()
-        self.user.email = 'noreply@weblate.org'
+        self.user.email = 'noreply+notify@weblate.org'
         self.user.save()
+        czech = Language.objects.get(code='cs')
         profile = Profile.objects.get(user=self.user)
         profile.subscribe_any_translation = True
         profile.subscribe_new_string = True
@@ -56,22 +59,20 @@ class NotificationTest(FixtureTestCase):
         profile.subscribe_new_language = True
         profile.subscribe_merge_failure = True
         profile.subscriptions.add(self.project)
-        profile.languages.add(
-            Language.objects.get(code='cs')
-        )
+        profile.languages.add(czech)
         profile.save()
 
     @staticmethod
     def second_user():
         return User.objects.create_user(
             'seconduser',
-            'noreply@example.org',
+            'noreply+second@example.org',
             'testpassword'
         )
 
     def test_notify_merge_failure(self):
         notify_merge_failure(
-            self.subproject,
+            self.component,
             'Failed merge',
             'Error\nstatus'
         )
@@ -84,9 +85,9 @@ class NotificationTest(FixtureTestCase):
         )
 
         # Add project owner
-        self.subproject.project.add_user(self.second_user(), '@Administration')
+        self.component.project.add_user(self.second_user(), '@Administration')
         notify_merge_failure(
-            self.subproject,
+            self.component,
             'Failed merge',
             'Error\nstatus'
         )
@@ -96,7 +97,7 @@ class NotificationTest(FixtureTestCase):
 
     def test_notify_parse_error(self):
         notify_parse_error(
-            self.subproject,
+            self.component,
             self.get_translation(),
             'Failed merge',
             'test/file.po',
@@ -110,9 +111,9 @@ class NotificationTest(FixtureTestCase):
         )
 
         # Add project owner
-        self.subproject.project.add_user(self.second_user(), '@Administration')
+        self.component.project.add_user(self.second_user(), '@Administration')
         notify_parse_error(
-            self.subproject,
+            self.component,
             self.get_translation(),
             'Error\nstatus',
             'test/file.po',
@@ -152,28 +153,28 @@ class NotificationTest(FixtureTestCase):
     def test_notify_new_language(self):
         second_user = self.second_user()
         notify_new_language(
-            self.subproject,
+            self.component,
             Language.objects.filter(code='de'),
             second_user
         )
 
-        # Check mail (second one is for admin)
-        self.assertEqual(len(mail.outbox), 2)
+        # Check mail
+        self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(
             mail.outbox[0].subject,
             '[Weblate] New language request in Test/Test'
         )
 
         # Add project owner
-        self.subproject.project.add_user(second_user, '@Administration')
+        self.component.project.add_user(second_user, '@Administration')
         notify_new_language(
-            self.subproject,
+            self.component,
             Language.objects.filter(code='de'),
             second_user,
         )
 
-        # Check mail (second one is for admin)
-        self.assertEqual(len(mail.outbox), 5)
+        # Check mail
+        self.assertEqual(len(mail.outbox), 3)
 
     def test_notify_new_contributor(self):
         unit = self.get_unit()
@@ -195,7 +196,7 @@ class NotificationTest(FixtureTestCase):
             unit,
             Suggestion.objects.create(
                 content_hash=unit.content_hash,
-                project=unit.translation.subproject.project,
+                project=unit.translation.component.project,
                 language=unit.translation.language,
                 target='Foo'
             ),
@@ -215,7 +216,7 @@ class NotificationTest(FixtureTestCase):
             unit,
             Comment.objects.create(
                 content_hash=unit.content_hash,
-                project=unit.translation.subproject.project,
+                project=unit.translation.component.project,
                 language=unit.translation.language,
                 comment='Foo'
             ),
@@ -236,7 +237,7 @@ class NotificationTest(FixtureTestCase):
             unit,
             Comment.objects.create(
                 content_hash=unit.content_hash,
-                project=unit.translation.subproject.project,
+                project=unit.translation.component.project,
                 language=None,
                 comment='Foo'
             ),
@@ -259,7 +260,14 @@ class NotificationTest(FixtureTestCase):
         request = self.get_request('/')
         notify_account_activity(request.user, request, 'password')
         self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(
-            mail.outbox[0].subject,
-            '[Weblate] Activity on your account at Weblate'
-        )
+        self.assert_notify_mailbox(mail.outbox[0])
+
+    def test_notify_html_language(self):
+        profile = Profile.objects.get(user=self.user)
+        profile.language = 'cs'
+        profile.save()
+        request = self.get_request('/')
+        notify_account_activity(request.user, request, 'password')
+        self.assertEqual(len(mail.outbox), 1)
+        # There is just one (html) alternative
+        self.assertIn('lang="cs"', mail.outbox[0].alternatives[0][0])

@@ -4,7 +4,7 @@
 %define WLETCDIR %{_sysconfdir}/weblate
 Name:           weblate
 %define _name Weblate
-Version:        2.17
+Version:        3.1
 Release:        0
 Summary:        Web-based translation tool
 License:        GPL-3.0+
@@ -17,7 +17,7 @@ BuildRequires:  graphviz
 BuildRequires:  graphviz-gd
 BuildRequires:  mercurial
 BuildRequires:  python-Babel
-BuildRequires:  python-Django >= 1.10
+BuildRequires:  python-Django >= 1.11
 BuildRequires:  python-Pillow
 BuildRequires:  python-Sphinx
 BuildRequires:  python-dateutil
@@ -34,13 +34,13 @@ BuildRequires:  python-Whoosh >= 2.7.0
 BuildRequires:  git-review
 BuildRequires:  git-svn
 BuildRequires:  python-PyYAML
-BuildRequires:  translate-toolkit >= 2.0.0
+BuildRequires:  translate-toolkit >= 2.3.0
 Requires:       apache2-mod_wsgi
 Requires:       cron
 Requires:       git
 Requires:       python-Babel
 Requires:       python-defusedxml
-Requires:       python-Django >= 1.10
+Requires:       python-Django >= 1.11
 Requires:       python-django_compressor >= 2.1.1
 Requires:       python-djangorestframework >= 3.3
 Requires:       python-Pillow
@@ -49,7 +49,7 @@ Requires:       python-django-crispy-forms >= 1.6.1
 Requires:       python-social-auth-app-django >= 1.2.0
 Requires:       python-social-auth-core >= 1.3.0
 Requires:       python-Whoosh >= 2.7.0
-Requires:       translate-toolkit >= 2.0.0
+Requires:       translate-toolkit >= 2.3.0
 Recommends:     git-review
 Recommends:     git-svn
 Recommends:     mercurial
@@ -91,7 +91,7 @@ make %{?_smp_mflags} -C docs html
 # Copy example settings
 cp weblate/settings_example.py weblate/settings.py
 # Set correct directories in settings
-sed -i 's@^BASE_DIR = .*@BASE_DIR = "%{WLDIR}/weblate"@g' weblate/settings.py
+sed -i 's@^BASE_DIR = .*@BASE_DIR = "%{WLDIR}"@g' weblate/settings.py
 sed -i 's@^DATA_DIR = .*@DATA_DIR = "%{WLDATADIR}"@g' weblate/settings.py
 sed -i "s@/usr/share/weblate/data@%{WLDATADIR}@" examples/apache.conf
 

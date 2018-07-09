@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -20,96 +20,21 @@
 
 from __future__ import unicode_literals
 
-from django.db.models import Sum
 from django.utils.encoding import force_text
-
-from weblate.lang.models import Language
-from weblate.trans.models import Translation, Project
-from weblate.trans.util import translation_percent
-
-
-def get_per_language_stats(project, lang=None):
-    """Calculate per language stats for project"""
-    result = []
-
-    if isinstance(project, Project):
-        language_objects = Language.objects.filter(
-            translation__subproject__project=project
-        )
-    else:
-        language_objects = Language.objects.filter(
-            translation__subproject=project
-        )
-
-    if lang:
-        language_objects = language_objects.filter(pk=lang.pk)
-
-    # List languages
-    languages = {
-        language.pk: language for language in language_objects
-    }
-    if isinstance(project, Project):
-        base = Translation.objects.filter(
-            language__pk__in=languages.keys(),
-            subproject__project=project
-        )
-    else:
-        base = Translation.objects.filter(
-            language__pk__in=languages.keys(),
-            subproject=project
-        )
-    # Translated strings in language
-    data = base.values(
-        'language'
-    ).annotate(
-        Sum('translated'),
-        Sum('translated_words'),
-        Sum('total'),
-        Sum('total_words'),
-    ).order_by()
-    for item in data:
-        translated = item['translated__sum']
-        total = item['total__sum']
-        if total == 0:
-            percent = 0
-        else:
-            percent = int(100 * translated / total)
-
-        # Insert sort
-        pos = None
-        for i, data in enumerate(result):
-            if percent >= data[5]:
-                pos = i
-                break
-
-        value = (
-            languages[item['language']],
-            translated,
-            total,
-            item['translated_words__sum'],
-            item['total_words__sum'],
-            percent,
-        )
-        if pos is not None:
-            result.insert(pos, value)
-        else:
-            result.append(value)
-
-    return result
 
 
 def get_project_stats(project):
     """Return stats for project"""
     return [
         {
-            'language': force_text(tup[0]),
-            'code': tup[0].code,
-            'total': tup[2],
-            'translated': tup[1],
-            'translated_percent': translation_percent(tup[1], tup[2]),
-            'total_words': tup[4],
-            'translated_words': tup[3],
-            'words_percent': translation_percent(tup[3], tup[4])
+            'language': force_text(tup.language.name),
+            'code': tup.language.code,
+            'total': tup.all,
+            'translated': tup.translated,
+            'translated_percent': tup.translated_percent,
+            'total_words': tup.all_words,
+            'translated_words': tup.translated_words,
+            'words_percent': tup.translated_words_percent,
         }
-        for tup in get_per_language_stats(project)
+        for tup in project.stats.get_language_stats()
     ]

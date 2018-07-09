@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,12 +18,12 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from django.contrib.auth.models import User, Group
 from django.core.files import File
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from rest_framework.test import APITestCase
 
+from weblate.auth.models import User, Group
 from weblate.screenshots.models import Screenshot
 from weblate.trans.models import Project, Change, Unit, Source
 from weblate.trans.tests.utils import RepoTestMixin, get_test_file
@@ -35,11 +35,11 @@ TEST_SCREENSHOT = get_test_file('screenshot.png')
 class APIBaseTest(APITestCase, RepoTestMixin):
     def setUp(self):
         self.clone_test_repos()
-        self.subproject = self.create_subproject()
+        self.component = self.create_component()
         self.translation_kwargs = {
             'language__code': 'cs',
-            'subproject__slug': 'test',
-            'subproject__project__slug': 'test'
+            'component__slug': 'test',
+            'component__project__slug': 'test'
         }
         self.component_kwargs = {
             'slug': 'test',
@@ -63,7 +63,7 @@ class APIBaseTest(APITestCase, RepoTestMixin):
             slug='acl',
             access_control=Project.ACCESS_PRIVATE,
         )
-        self._create_subproject(
+        self._create_component(
             'po-mono',
             'po-mono/*.po',
             'po-mono/en.po',
@@ -182,7 +182,7 @@ class ProjectAPITest(APIBaseTest):
             'api:project-changes',
             self.project_kwargs,
         )
-        self.assertEqual(request.data['count'], 7)
+        self.assertEqual(request.data['count'], 8)
 
     def test_statistics(self):
         request = self.do_request(
@@ -295,8 +295,8 @@ class ComponentAPITest(APIBaseTest):
         )
 
     def test_new_template(self):
-        self.subproject.new_base = 'po/cs.po'
-        self.subproject.save()
+        self.component.new_base = 'po/cs.po'
+        self.component.save()
         self.do_request(
             'api:component-new-template',
             self.component_kwargs,
@@ -310,10 +310,10 @@ class ComponentAPITest(APIBaseTest):
         )
 
     def test_monolingual(self):
-        self.subproject.format = 'po-mono'
-        self.subproject.filemask = 'po-mono/*.po'
-        self.subproject.template = 'po-mono/en.po'
-        self.subproject.save()
+        self.component.format = 'po-mono'
+        self.component.filemask = 'po-mono/*.po'
+        self.component.template = 'po-mono/en.po'
+        self.component.save()
         self.do_request(
             'api:component-monolingual-base',
             self.component_kwargs,
@@ -331,7 +331,7 @@ class ComponentAPITest(APIBaseTest):
             'api:component-changes',
             self.component_kwargs,
         )
-        self.assertEqual(request.data['count'], 7)
+        self.assertEqual(request.data['count'], 8)
 
 
 class LanguageAPITest(APIBaseTest):
@@ -414,7 +414,7 @@ class TranslationAPITest(APIBaseTest):
     def test_upload_denied(self):
         self.authenticate()
         # Remove all permissions
-        self.user.groups.all()[0].permissions.clear()
+        self.user.groups.clear()
         response = self.client.put(
             reverse(
                 'api:translation-file',
@@ -426,13 +426,14 @@ class TranslationAPITest(APIBaseTest):
 
     def test_upload(self):
         self.authenticate()
-        response = self.client.put(
-            reverse(
-                'api:translation-file',
-                kwargs=self.translation_kwargs
-            ),
-            {'file': open(TEST_PO, 'rb')},
-        )
+        with open(TEST_PO, 'rb') as handle:
+            response = self.client.put(
+                reverse(
+                    'api:translation-file',
+                    kwargs=self.translation_kwargs
+                ),
+                {'file': handle},
+            )
         self.assertEqual(
             response.data,
             {
@@ -444,6 +445,18 @@ class TranslationAPITest(APIBaseTest):
                 'total': 5
             }
         )
+
+    def test_upload_content(self):
+        self.authenticate()
+        with open(TEST_PO, 'rb') as handle:
+            response = self.client.put(
+                reverse(
+                    'api:translation-file',
+                    kwargs=self.translation_kwargs
+                ),
+                {'file': handle.read()},
+            )
+        self.assertEqual(response.status_code, 400)
 
     def test_upload_overwrite(self):
         self.test_upload()
@@ -580,12 +593,10 @@ class ScreenshotAPITest(APIBaseTest):
         super(ScreenshotAPITest, self).setUp()
         shot = Screenshot.objects.create(
             name='Obrazek',
-            component=self.subproject
+            component=self.component
         )
-        shot.image.save(
-            'screenshot.png',
-            File(open(TEST_SCREENSHOT, 'rb'))
-        )
+        with open(TEST_SCREENSHOT, 'rb') as handle:
+            shot.image.save('screenshot.png', File(handle))
 
     def test_list_screenshots(self):
         response = self.client.get(
@@ -664,3 +675,14 @@ class ChangeAPITest(APIBaseTest):
             'translation',
             response.data,
         )
+
+
+class MetricsAPITest(APIBaseTest):
+    def test_metrics(self):
+        self.authenticate()
+        response = self.client.get(reverse('api:metrics'))
+        self.assertEqual(response.data['projects'], 1)
+
+    def test_forbidden(self):
+        response = self.client.get(reverse('api:metrics'))
+        self.assertEqual(response.data['detail'].code, 'not_authenticated')

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -19,7 +19,7 @@
 #
 from __future__ import unicode_literals
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.shortcuts import redirect
 from django.utils.http import urlencode
 
@@ -46,3 +46,4 @@ def tos_confirm(strategy, backend, user, current_partial, **kwargs):
             )
         )
     strategy.request.session.pop('tos_user', None)
+    return None

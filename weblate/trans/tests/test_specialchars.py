@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -23,6 +23,11 @@ Tests for special chars.
 """
 
 from unittest import TestCase
+
+from django.test.utils import override_settings
+
+import six
+
 from weblate.lang.models import Language
 from weblate.trans.specialchars import get_special_chars
 
@@ -43,3 +48,8 @@ class SpecialCharsTest(TestCase):
     def test_brx_add(self):
         chars = list(get_special_chars(Language(code='brx'), 'ahoj'))
         self.assertEqual(len(chars), 13)
+
+    @override_settings(SPECIAL_CHARS=[six.unichr(x) for x in range(256)])
+    def test_settings(self):
+        chars = list(get_special_chars(Language(code='cs')))
+        self.assertEqual(len(chars), 262)

@@ -1,7 +1,0 @@
-#!/bin/sh
-# Post-update hook to merge POT translations into PO.
-# Requires gettext.
-
-[ -z "${WL_NEW_BASE}" -o -z "${WL_FILEMASK} ] && exit 0
-find . -type f -path "./${WL_FILEMASK}" -exec msgmerge -U "{}" "${WL_NEW_BASE}" \;
-exit $?

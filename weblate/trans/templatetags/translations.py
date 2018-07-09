@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -25,7 +25,7 @@ import re
 from datetime import date
 
 from django.utils.html import escape, urlize
-from django.contrib.admin.templatetags.admin_static import static
+from django.templatetags.static import static
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 from django.utils.encoding import force_text
@@ -33,19 +33,28 @@ from django.utils.translation import ugettext as _, ungettext, ugettext_lazy
 from django.utils import timezone
 from django import template
 
-import weblate
 from weblate.trans.simplediff import html_diff
 from weblate.trans.util import split_plural
 from weblate.lang.models import Language
 from weblate.trans.models import (
-    Project, SubProject, Dictionary, Advertisement, WhiteboardMessage, Unit,
+    Project, Component, Dictionary, WhiteboardMessage, Unit,
+    ContributorAgreement,
 )
-from weblate.trans.checks import CHECKS, highlight_string
+from weblate.checks import CHECKS, highlight_string
+from weblate.utils.docs import get_doc_url
+from weblate.utils.stats import BaseStats
 
 register = template.Library()
 
-SPACE_NL = '<span class="hlspace space-nl" title="{0}"></span><br />'
-SPACE_TAB = '<span class="hlspace space-tab" title="{0}"></span>'
+HIGHLIGTH_SPACE = '<span class="hlspace">{}</span>{}'
+SPACE_TEMPLATE = '<span class="{}"><span class="sr-only">{}</span></span>'
+SPACE_SPACE = SPACE_TEMPLATE.format('space-space', ' ')
+SPACE_NL = HIGHLIGTH_SPACE.format(
+    SPACE_TEMPLATE.format('space-nl', ''), '<br />'
+)
+SPACE_TAB = HIGHLIGTH_SPACE.format(
+    SPACE_TEMPLATE.format('space-tab', '\t'), ''
+)
 
 HL_CHECK = (
     '<span class="hlcheck">{0}'
@@ -82,19 +91,24 @@ PERM_TEMPLATE = '''
 </td>
 '''
 
+SOURCE_LINK = '''
+<a href="{0}" target="_blank">{1} <i class="fa fa-external-link"></i></a>
+'''
+
+
+def replace_whitespace(match):
+    spaces = match.group(1).replace(' ', SPACE_SPACE)
+    return HIGHLIGTH_SPACE.format(spaces, '')
+
 
 def fmt_whitespace(value):
     """Format whitespace so that it is more visible."""
     # Highlight exta whitespace
-    value = WHITESPACE_RE.sub(
-        '<span class="hlspace">\\1</span>',
-        value
-    )
+    value = WHITESPACE_RE.sub(replace_whitespace, value)
+
     # Highlight tabs
-    value = value.replace(
-        '\t',
-        SPACE_TAB.format(_('Tab character'))
-    )
+    value = value.replace('\t', SPACE_TAB.format(_('Tab character')))
+
     return value
 
 
@@ -147,11 +161,15 @@ def fmt_search(value, search_match, match):
 
 
 @register.inclusion_tag('format-translation.html')
-def format_translation(value, language, diff=None, search_match=None,
-                       simple=False, num_plurals=2, unit=None, match='search'):
+def format_translation(value, language, plural=None, diff=None,
+                       search_match=None, simple=False, num_plurals=2,
+                       unit=None, match='search'):
     """Nicely formats translation text possibly handling plurals or diff."""
     # Split plurals to separate strings
     plurals = split_plural(value)
+
+    if plural is None:
+        plural = language.plural
 
     # Show plurals?
     if int(num_plurals) <= 1:
@@ -195,7 +213,7 @@ def format_translation(value, language, diff=None, search_match=None,
         # Show label for plural (if there are any)
         title = ''
         if len(plurals) > 1:
-            title = language.get_plural_name(idx)
+            title = plural.get_plural_name(idx)
 
         # Join paragraphs
         content = mark_safe(newline.join(paras))
@@ -243,10 +261,10 @@ def project_name(prj):
 
 
 @register.simple_tag
-def subproject_name(prj, subprj):
-    """Get subproject name based on slug."""
+def component_name(prj, subprj):
+    """Get component name based on slug."""
     return escape(
-        force_text(SubProject.objects.get(project__slug=prj, slug=subprj))
+        force_text(Component.objects.get(project__slug=prj, slug=subprj))
     )
 
 
@@ -265,13 +283,15 @@ def dictionary_count(lang, project):
 @register.simple_tag
 def documentation(page, anchor=''):
     """Return link to Weblate documentation."""
-    return weblate.get_doc_url(page, anchor)
+    return get_doc_url(page, anchor)
 
 
-@register.assignment_tag
-def doc_url(page, anchor=''):
-    """Return link to Weblate documentation."""
-    return weblate.get_doc_url(page, anchor)
+@register.inclusion_tag('documentation-icon.html')
+def documentation_icon(page, anchor='', right=False):
+    return {
+        'right': right,
+        'doc_url': get_doc_url(page, anchor),
+    }
 
 
 @register.simple_tag
@@ -310,7 +330,7 @@ def naturaltime_past(value, now):
     """Handling of past dates for naturaltime."""
 
     # this function is huge
-    # pylint: disable=R0911,R0912
+    # pylint: disable=too-many-branches,too-many-return-statements
 
     delta = now - value
 
@@ -369,7 +389,7 @@ def naturaltime_future(value, now):
     """Handling of future dates for naturaltime."""
 
     # this function is huge
-    # pylint: disable=R0911,R0912
+    # pylint: disable=too-many-branches,too-many-return-statements
 
     delta = value - now
 
@@ -455,58 +475,42 @@ def naturaltime(value, now=None):
     )
 
 
-@register.simple_tag
-def get_advertisement_text_mail():
-    """Return advertisement text."""
-    advertisement = Advertisement.objects.get_advertisement(
-        Advertisement.PLACEMENT_MAIL_TEXT
-    )
-    if advertisement is None:
-        return ''
-    return advertisement.text
-
-
-@register.simple_tag
-def get_advertisement_html_mail():
-    """Return advertisement text."""
-    advertisement = Advertisement.objects.get_advertisement(
-        Advertisement.PLACEMENT_MAIL_HTML
-    )
-    if advertisement is None:
-        return ''
-    return mark_safe(advertisement.text)
-
-
-def translation_progress_data(translated, fuzzy, checks):
+def translation_progress_data(approved, translated, fuzzy, checks):
     return {
-        'good': '{0:.1f}'.format(translated - checks),
+        'approved': '{0:.1f}'.format(approved),
+        'good': '{0:.1f}'.format(translated - checks - approved),
         'checks': '{0:.1f}'.format(checks),
         'fuzzy': '{0:.1f}'.format(fuzzy),
         'percent': '{0:.1f}'.format(translated),
     }
 
 
-@register.inclusion_tag('progress.html')
-def generic_progress(translated):
-    return translation_progress_data(translated, 0, 0)
+def get_stats(obj):
+    if isinstance(obj, BaseStats):
+        return obj
+    return obj.stats
 
 
 @register.inclusion_tag('progress.html')
-def translation_progress(translation):
-    translated = translation.get_translated_percent()
-    fuzzy = translation.get_fuzzy_percent()
-    checks = translation.get_failing_checks_percent()
-
-    return translation_progress_data(translated, fuzzy, checks)
+def translation_progress(obj):
+    stats = get_stats(obj)
+    return translation_progress_data(
+        stats.approved_percent,
+        stats.translated_percent,
+        stats.fuzzy_percent,
+        stats.allchecks_percent,
+    )
 
 
 @register.inclusion_tag('progress.html')
-def words_progress(translation):
-    translated = translation.get_words_percent()
-    fuzzy = translation.get_fuzzy_words_percent()
-    checks = translation.get_failing_checks_words_percent()
-
-    return translation_progress_data(translated, fuzzy, checks)
+def words_progress(obj):
+    stats = get_stats(obj)
+    return translation_progress_data(
+        stats.approved_words_percent,
+        stats.translated_words_percent,
+        stats.fuzzy_words_percent,
+        stats.allchecks_words_percent,
+    )
 
 
 @register.simple_tag
@@ -516,7 +520,7 @@ def get_state_badge(unit):
 
     if unit.fuzzy:
         flag = (
-            _('Needs review'),
+            _('Needs editing'),
             'text-danger'
         )
     elif not unit.translated:
@@ -524,10 +528,15 @@ def get_state_badge(unit):
             _('Not translated'),
             'text-danger'
         )
+    elif unit.approved:
+        flag = (
+            _('Approved'),
+            'text-success'
+        )
     elif unit.translated:
         flag = (
             _('Translated'),
-            'text-success'
+            'text-primary'
         )
 
     if flag is None:
@@ -543,7 +552,7 @@ def get_state_flags(unit):
 
     if unit.fuzzy:
         flags.append((
-            _('Message needs review'),
+            _('Message needs edit'),
             'question-circle text-danger'
         ))
     elif not unit.translated:
@@ -556,10 +565,15 @@ def get_state_flags(unit):
             _('Message has failing checks'),
             'exclamation-circle text-warning'
         ))
+    elif unit.approved:
+        flags.append((
+            _('Message is approved'),
+            'check-circle text-success'
+        ))
     elif unit.translated:
         flags.append((
             _('Message is translated'),
-            'check-circle text-success'
+            'check-circle text-primary'
         ))
 
     if unit.has_comment:
@@ -579,12 +593,12 @@ def get_location_links(profile, unit):
     ret = []
 
     # Do we have any locations?
-    if len(unit.location) == 0:
+    if not unit.location:
         return ''
 
     # Is it just an ID?
     if unit.location.isdigit():
-        return _('unit ID %s') % unit.location
+        return _('string ID %s') % unit.location
 
     # Go through all locations separated by comma
     for location in unit.location.split(','):
@@ -601,38 +615,39 @@ def get_location_links(profile, unit):
             link = profile.editor_link % {
                 'file': filename,
                 'line': line,
-                'branch': unit.translation.subproject.branch
+                'branch': unit.translation.component.branch
             }
         else:
-            link = unit.translation.subproject.get_repoweb_link(filename, line)
+            link = unit.translation.component.get_repoweb_link(filename, line)
         location = location.replace('/', '/\u200B')
         if link is None:
             ret.append(escape(location))
         else:
-            ret.append(
-                '<a href="{0}">{1}</a>'.format(escape(link), escape(location))
-            )
+            ret.append(SOURCE_LINK.format(escape(link), escape(location)))
     return mark_safe('\n'.join(ret))
 
 
 @register.simple_tag
-def whiteboard_messages(project=None, subproject=None, language=None):
+def whiteboard_messages(project=None, component=None, language=None):
     """Display whiteboard messages for given context"""
     ret = []
 
     whiteboards = WhiteboardMessage.objects.context_filter(
-        project, subproject, language
+        project, component, language
     )
 
     for whiteboard in whiteboards:
+        if whiteboard.message_html:
+            content = mark_safe(whiteboard.message)
+        else:
+            content = mark_safe(urlize(whiteboard.message, autoescape=True))
+
         ret.append(
             render_to_string(
                 'message.html',
                 {
                     'tags': ' '.join((whiteboard.category, 'whiteboard')),
-                    'message': mark_safe(
-                        urlize(whiteboard.message, autoescape=True)
-                    )
+                    'message':  content,
                 }
             )
         )
@@ -653,11 +668,11 @@ def active_link(context, slug):
     return ''
 
 
-@register.assignment_tag
+@register.simple_tag
 def matching_cotentsum(item):
     """Find matching objects to suggestion, comment or check"""
     return Unit.objects.prefetch().filter(
-        translation__subproject__project=item.project,
+        translation__component__project=item.project,
         translation__language=item.language,
         content_hash=item.content_hash,
     )
@@ -669,14 +684,30 @@ def user_permissions(user, groups):
     result = []
     for group in groups:
         checked = ''
-        if user.groups.filter(pk=group[0]).exists():
+        if user.groups.filter(pk=group.pk).exists():
             checked = ' checked="checked"'
         result.append(
             PERM_TEMPLATE.format(
                 escape(user.username),
-                group[0],
-                escape(group[1]),
+                group.pk,
+                escape(group.short_name),
                 checked
             )
         )
     return mark_safe(''.join(result))
+
+
+@register.simple_tag(takes_context=True)
+def show_contributor_agreement(context, component):
+    if not component.agreement:
+        return ''
+    if ContributorAgreement.objects.has_agreed(context['user'], component):
+        return ''
+
+    return render_to_string(
+        'show-contributor-agreement.html',
+        {
+            'object': component,
+            'next': context['request'].get_full_path(),
+        }
+    )

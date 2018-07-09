@@ -1,0 +1,49 @@
+{% load i18n %}
+
+<table class="table">
+<thead>
+<tr><th>{% trans "Component" %}</th><th>{% trans "Matched files" %}</th></tr>
+</thead>
+<tbody>
+{% if matches_deleted %}
+<tr><th colspan="3" class="danger">{% trans "Following components would be deleted" %}</th></tr>
+{% for match in matches_deleted %}
+<tr><th><a href="{{ match.1.get_absolute_url }}">{{ match.1 }}</a></th><td></td></tr>
+{% endfor %}
+{% endif %}
+{% if matches_created %}
+<tr><th colspan="3" class="info">{% trans "Following components would be created" %}</th></tr>
+{% for match in matches_created %}
+<tr>
+<th>{{ match.0.name }}</th>
+<td>
+{% for file in match.0.files %}
+<code>{{ file }}</code><br/>
+{% endfor %}
+</td>
+</tr>
+{% endfor %}
+{% endif %}
+{% if matches_matched %}
+<tr><th colspan="3" class="info">{% trans "Following components matched existing ones" %}</th></tr>
+{% for match in matches_matched %}
+<tr>
+<th><a href="{{ match.1.get_absolute_url }}">{{ match.1 }}</a></th>
+<td>
+{% for file in match.0.files %}
+<code>{{ file }}</code><br/>
+{% endfor %}
+</td>
+</tr>
+{% endfor %}
+{% endif %}
+{% if not matches_deleted and not matches_created and not matches_matched %}
+<tr><th colspan="3" class="danger">{% trans "No components were matched!" %}</th></tr>
+{% endif %}
+</tbody>
+</table>
+
+
+{% for match in matches %}
+{{ match }}
+{% endfor %}

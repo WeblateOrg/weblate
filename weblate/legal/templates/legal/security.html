@@ -17,7 +17,7 @@
 <div class="panel-heading"><h4 class="panel-title">{% trans "Security Policy" %}</h4></div>
 <div class="panel-body">
 
-{% doc_url 'contributing' 'security' as security_url %}
+{% documentation 'contributing' 'security' as security_url %}
 <p>
 {% trans "At Weblate, we take security seriously and strive to maintain an environment that values the security and privacy of our users." %}
 </p>
@@ -29,7 +29,7 @@
 </p>
 
 <p>
-{% blocktrans %}Please see our <a href="{{ security_url }}">documentation</a> for instructions how to report security weaknesses in our platform.{% endblocktrans %}
+<a href="{{ security_url }}">{% blocktrans %}Please see our documentation for instructions how to report security weaknesses in our platform.{% endblocktrans %}</a>
 </p>
 
 </div>

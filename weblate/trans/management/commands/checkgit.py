@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -26,6 +26,6 @@ class Command(WeblateComponentCommand):
 
     def handle(self, *args, **options):
         """Show status of git repository in given projects."""
-        for subproject in self.get_subprojects(*args, **options):
-            self.stdout.write('{0}:'.format(subproject))
-            self.stdout.write(subproject.repository.status())
+        for component in self.get_components(*args, **options):
+            self.stdout.write('{0}:'.format(component))
+            self.stdout.write(component.repository.status())

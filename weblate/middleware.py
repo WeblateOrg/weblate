@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -33,12 +33,12 @@ CSP_TEMPLATE = (
 
 
 class SecurityMiddleware(object):
-    """Middleware that sets various security related headers.
+    """Middleware that sets Content-Security-Policy"""
+    def __init__(self, get_response=None):
+        self.get_response = get_response
 
-    - Content-Security-Policy
-    - X-XSS-Protection
-    """
-    def process_response(self, request, response):
+    def __call__(self, request):
+        response = self.get_response(request)
         # No CSP for debug mode (to allow djdt or error pages)
         if settings.DEBUG:
             return response
@@ -84,5 +84,4 @@ class SecurityMiddleware(object):
             ' '.join(connect),
             ' '.join(font),
         )
-        response['X-XSS-Protection'] = '1; mode=block'
         return response

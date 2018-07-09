@@ -3,31 +3,36 @@
 Supported formats
 =================
 
-Weblate supports any translation format understood by Translate-toolkit,
+Weblate supports most translation format understood by the translate-toolkit,
 however each format being slightly different, there might be some issues with
-not well tested formats.
+formats that are not well tested.
 
 .. seealso:: 
    
-   `Supported formats in translate-toolkit`_
+    :doc:`tt:formats/index`
 
 .. note::
 
-    When choosing file format for your application, it's better to stick some
-    well established format in toolkit/platform you use. This way your
+    When choosing a file format for your application, it's better to stick some
+    well established format in the toolkit/platform you use. This way your
     translators can use whatever tools they are get used to and will more
     likely contribute to your project.
 
 
+.. _bimono:
+
+Bilingual and monolignual formats
+---------------------------------
+
 Weblate does support both :index:`monolingual <pair: translation; monolingual>`
-and :index:`bilingual <pair: translation; bilingual>` formats.  Bilingual
+and :index:`bilingual <pair: translation; bilingual>` formats. Bilingual
 formats store two languages in single file - source and translation (typical
-examples is :ref:`gettext`, :ref:`xliff` or :ref:`apple`). On the other side,
+examples are :ref:`gettext`, :ref:`xliff` or :ref:`apple`). On the other side,
 monolingual formats identify the string by ID and each language file contains
 only mapping of those to given language (typically :ref:`aresource`). Some file
 formats are used in both variants, see detailed description below.
 
-For correct use of monolingual files, Weblate requires access to file
+For correct use of monolingual files, Weblate requires access to a file
 containing complete list of strings to translate with their source - this file
 is called :guilabel:`Monolingual base language file` within Weblate, though the
 naming might vary in your application.
@@ -49,7 +54,7 @@ GNU Gettext
     pair: PO; file format
 
 Most widely used format in translating free software. This was first format
-supported by Weblate and still has best support.
+supported by Weblate and still has the best support.
 
 Weblate supports contextual information stored in the file, adjusting its
 headers or linking to corresponding source files.
@@ -71,10 +76,27 @@ The bilingual gettext PO file typically looks like:
     msgid "None"
     msgstr "Žádný"
 
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| File mask                      | ``po/*.po``                      |
++--------------------------------+----------------------------------+
+| Monolingual base language file | `Empty`                          |
++--------------------------------+----------------------------------+
+| Base file for new translations | ``po/messages.pot``              |
++--------------------------------+----------------------------------+
+| File format                    | `Gettext PO file`                |
++--------------------------------+----------------------------------+
+
 .. seealso::
 
-   `Gettext on Wikipedia <https://en.wikipedia.org/wiki/Gettext>`_,
-   `Gettext in translate-toolkit documentation <http://docs.translatehouse.org/projects/translate-toolkit/en/latest/formats/po.html>`_
+    `Gettext on Wikipedia <https://en.wikipedia.org/wiki/Gettext>`_,
+    :doc:`tt:formats/po`,
+    :ref:`addon-weblate.gettext.configure`,
+    :ref:`addon-weblate.gettext.customize`,
+    :ref:`addon-weblate.gettext.linguas`,
+    :ref:`addon-weblate.gettext.mo`,
+    :ref:`addon-weblate.gettext.msgmerge`,
 
 Monolingual Gettext
 +++++++++++++++++++
@@ -116,6 +138,18 @@ While the base language file will be:
     msgid "none-user"
     msgstr "None"
 
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| File mask                      | ``po/*.po``                      |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``po/en.po``                     |
++--------------------------------+----------------------------------+
+| Base file for new translations | ``po/messages.pot``              |
++--------------------------------+----------------------------------+
+| File format                    | `Gettext PO file (monolingual)`  |
++--------------------------------+----------------------------------+
+
 .. _xliff:
 
 XLIFF
@@ -124,7 +158,7 @@ XLIFF
 .. index::
     pair: XLIFF; file format
 
-XML based format created to standardize translation files, but in the end it
+XML-based format created to standardize translation files, but in the end it
 is one of many standards in this area.
 
 XLIFF is usually used as bilingual, but Weblate supports it as monolingual as well.
@@ -132,12 +166,14 @@ XLIFF is usually used as bilingual, but Weblate supports it as monolingual as we
 Translations marked for review
 ++++++++++++++++++++++++++++++
 
-If the translation unit doesn't have ``approved="yes"`` it will be imported into
-Weblate as needing review (what matches XLIFF specification).
+.. versionchanged:: 2.18
 
-You can override this by adding ``skip-review-flag`` flag to the component,
-see :ref:`component`, what will make Weblate ignore this and all strings
-will appear as approved.
+    Since version 2.18 Weblate differentiates approved and fuzzy states, so
+    it should work as expected with Xliff. You still might apply note below in
+    cases where you don't want to use review process in Weblate.
+
+If the translation unit doesn't have ``approved="yes"`` it will be imported into
+Weblate as needing review (which matches XLIFF specification).
 
 Similarly on importing such files, you should choose
 :guilabel:`Import as translated` under
@@ -146,7 +182,7 @@ Similarly on importing such files, you should choose
 Whitespace and newlines in XLIFF
 ++++++++++++++++++++++++++++++++
 
-Generally the XML formats do not differentiate whitespace and amount of that.
+Generally the XML formats do not differentiate between types or ammounts of whitespace.
 If you want to keep it, you have to add the ``xml:space="preserve"`` flag to
 the unit.
 
@@ -160,10 +196,22 @@ For example:
     </target>
         </trans-unit>
 
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| File mask                      | ``localizations/*.xliff``        |
++--------------------------------+----------------------------------+
+| Monolingual base language file | `Empty`                          |
++--------------------------------+----------------------------------+
+| Base file for new translations | ``localizations/en-US.xliff``    |
++--------------------------------+----------------------------------+
+| File format                    | `XLIFF Translation File`         |
++--------------------------------+----------------------------------+
+
 .. seealso::
 
     `XLIFF on Wikipedia <https://en.wikipedia.org/wiki/XLIFF>`_,
-    `XLIFF in translate-toolkit documentation <http://docs.translatehouse.org/projects/translate-toolkit/en/latest/formats/xliff.html>`_
+    :doc:`tt:formats/xliff`
 
 Java properties
 ---------------
@@ -175,17 +223,26 @@ Native Java format for translations.
 
 Java properties are usually used as monolingual.
 
-This format supports creating new languages. When a new languages is created, a
-new empty file will be added to the repository. Only keys that are defined will
-be written to the newly created file. The Weblate maintainer needs to make sure
-that this is the expected behaviour with the framework in use.
-
 Weblate supports ISO-8859-1, UTF-8 and UTF-16 variants of this format.
+
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| File mask                      | ``src/app/Bundle_*.properties``  |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``src/app/Bundle.properties``    |
++--------------------------------+----------------------------------+
+| Base file for new translations | `Empty`                          |
++--------------------------------+----------------------------------+
+| File format                    | `Java Properties (ISO-8859-1)`   |
++--------------------------------+----------------------------------+
 
 .. seealso::
 
     `Java properties on Wikipedia <https://en.wikipedia.org/wiki/.properties>`_,
-    `Java properties in translate-toolkit documentation <http://docs.translatehouse.org/projects/translate-toolkit/en/latest/formats/properties.html>`_
+    :doc:`tt:formats/properties`,
+    :ref:`addon-weblate.properties.sort`,
+    :ref:`addon-weblate.cleanup.generic`,
 
 Joomla translations
 -------------------
@@ -197,20 +254,24 @@ Joomla translations
 
 Native Joomla format for translations.
 
-Joomla translation are usually used as monolingual.
+Joomla translations are usually used as monolingual.
 
-This format supports creating new languages. When a new languages is created, a
-new empty file will be added to the repository. Only keys that are defined will
-be written to the newly created file. This should work fine since Joomla 3.0.
-
-.. note::
-
-    You need translate-toolkit 2.1.0 or newer for Joomla support.
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| File mask                      | ``language/*/com_foobar.ini``    |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``language/en-GB/com_foobar.ini``|
++--------------------------------+----------------------------------+
+| Base file for new translations | `Empty`                          |
++--------------------------------+----------------------------------+
+| File format                    | `Joomla Language File`           |
++--------------------------------+----------------------------------+
 
 .. seealso::
 
     `Specification of Joomla language files <https://docs.joomla.org/Specification_of_language_files>`_,
-    `Properties in translate-toolkit documentation <http://docs.translatehouse.org/projects/translate-toolkit/en/latest/formats/properties.html>`_
+    :doc:`tt:formats/properties`
 
 Qt Linguist .ts
 ---------------
@@ -223,10 +284,35 @@ Translation format used in Qt based applications.
 
 Qt Linguist files are used as both bilingual and monolingual.
 
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component` when using as bilingual          |
++================================+==================================+
+| File mask                      | ``i18n/app.*.ts``                |
++--------------------------------+----------------------------------+
+| Monolingual base language file | `Empty`                          |
++--------------------------------+----------------------------------+
+| Base file for new translations | ``i18n/app.de.ts``               |
++--------------------------------+----------------------------------+
+| File format                    | `Qt Linguist Translation File`   |
++--------------------------------+----------------------------------+
+
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component` when using as monolingual        |
++================================+==================================+
+| File mask                      | ``i18n/app.*.ts``                |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``i18n/app.en.ts``               |
++--------------------------------+----------------------------------+
+| Base file for new translations | ``i18n/app.en.ts``               |
++--------------------------------+----------------------------------+
+| File format                    | `Qt Linguist Translation File`   |
++--------------------------------+----------------------------------+
+
 .. seealso::
 
     `Qt Linguist manual <http://doc.qt.io/qt-5/qtlinguist-index.html>`_,
-    `Qt .ts in translate-toolkit documentation <http://docs.translatehouse.org/projects/translate-toolkit/en/latest/formats/ts.html>`_
+    :doc:`tt:formats/ts`,
+    :ref:`bimono`
 
 .. _aresource:
 
@@ -240,13 +326,25 @@ Android string resources
 Android specific file format for translating applications.
 
 Android string resources are monolingual, the
-:guilabel:`Monolingual base language file` file being stored in different
-location than others :file:`res/values/strings.xml`.
+:guilabel:`Monolingual base language file` file is stored in a different
+location from the others :file:`res/values/strings.xml`.
+
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| File mask                      | ``res/values-*/strings.xml``     |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``res/values/strings.xml``       |
++--------------------------------+----------------------------------+
+| Base file for new translations | `Empty`                          |
++--------------------------------+----------------------------------+
+| File format                    | `Android String Resource`        |
++--------------------------------+----------------------------------+
 
 .. seealso::
 
     `Android string resources documentation <https://developer.android.com/guide/topics/resources/string-resource.html>`_,
-    `Android string resources in translate-toolkit documentation <http://docs.translatehouse.org/projects/translate-toolkit/en/latest/formats/android.html>`_
+    :doc:`tt:formats/android`
 
 .. note::
 
@@ -289,15 +387,22 @@ and :index:`iPhone <pair: iPhone; translation>`/:index:`iPad <pair: iPad; transl
 
 Apple OS X strings are usually used as bilingual.
 
++---------------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                          |
++================================+==========================================+
+| File mask                      |``Resources/*.lproj/Localizable.strings`` |
++--------------------------------+------------------------------------------+
+| Monolingual base language file |``Resources/en.lproj/Localizable.strings``|
++--------------------------------+------------------------------------------+
+| Base file for new translations | `Empty`                                  |
++--------------------------------+------------------------------------------+
+| File format                    | `OS X Strings (UTF-8)`                   |
++--------------------------------+------------------------------------------+
+
 .. seealso::
 
     `Apple Strings Files documentation <https://developer.apple.com/library/mac/#documentation/MacOSX/Conceptual/BPInternational/Articles/StringsFiles.html>`_,
-    `Apple strings in translate-toolkit documentation <http://docs.translatehouse.org/projects/translate-toolkit/en/latest/formats/strings.html>`_
-
-.. note::
-
-    You need translate-toolkit 1.12.0 or newer for proper support of Apple OS X
-    strings. Older versions might produce corrupted files.
+    :doc:`tt:formats/strings`
 
 PHP strings
 -----------
@@ -315,6 +420,18 @@ Example file:
     :language: php
     :encoding: utf-8
 
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| File mask                      | ``lang/*/texts.php``             |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``lang/en/texts.php``            |
++--------------------------------+----------------------------------+
+| Base file for new translations | ``lang/en/texts.php``            |
++--------------------------------+----------------------------------+
+| File format                    | `PHP strings`                    |
++--------------------------------+----------------------------------+
+
 .. note::
 
     Translate-toolkit currently has some limitations in processing PHP files,
@@ -329,10 +446,12 @@ Example file:
 
 .. seealso::
 
-    `PHP files in translate-toolkit documentation <http://docs.translatehouse.org/projects/translate-toolkit/en/latest/formats/php.html>`_
+    :doc:`tt:formats/php`
 
-JSON and nested structure JSON files
-------------------------------------
+.. _json:
+
+JSON files
+----------
 
 .. index::
     pair: JSON; file format
@@ -349,8 +468,14 @@ JSON and nested structure JSON files
     Since Weblate 2.17 and with translate-toolkit at least 2.2.5 i18next
     JSON files with plurals are supported as well.
 
-JSON is format used mostly for translating applications implemented in
+JSON format is used mostly for translating applications implemented in
 Javascript.
+
+Weblate currently supports several variants of JSON translations:
+
+* Simple key / value files.
+* Files with nested keys.
+* The i18next files with support for plurals.
 
 JSON translations are usually monolingual, so it is recommended to specify base
 file with English strings.
@@ -361,15 +486,30 @@ Example file:
     :language: json
     :encoding: utf-8
 
-Nested files are supported as well (see above for requirements), such file can look as:
+Nested files are supported as well (see above for requirements), such file can look like:
 
 .. literalinclude:: ../weblate/trans/tests/data/cs-nested.json
     :language: json
     :encoding: utf-8
 
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| File mask                      | ``langs/translation-*.json``     |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``langs/translation-en.json``    |
++--------------------------------+----------------------------------+
+| Base file for new translations | `Empty`                          |
++--------------------------------+----------------------------------+
+| File format                    | `JSON nested structure file`     |
++--------------------------------+----------------------------------+
+
 .. seealso::
 
-   `JSON in translate-toolkit documentation <http://docs.translatehouse.org/projects/translate-toolkit/en/latest/formats/json.html>`_
+    :doc:`tt:formats/json`,
+    `i18next JSON Format <https://www.i18next.com/misc/json-format>`_,
+    :ref:`addon-weblate.json.customize`,
+    :ref:`addon-weblate.cleanup.generic`,
 
 WebExtension JSON
 -----------------
@@ -378,7 +518,7 @@ WebExtension JSON
 
     This is supported since Weblate 2.16 and with translate-toolkit at least 2.2.4.
 
-File format used by translating extensions for Google Chrome or Mozilla Firefox.
+File format used when translating extensions for Google Chrome or Mozilla Firefox.
 
 Example file:
 
@@ -386,8 +526,21 @@ Example file:
     :language: json
     :encoding: utf-8
 
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| File mask                      | ``_locales/*/messages.json``     |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``_locales/en/messages.json``    |
++--------------------------------+----------------------------------+
+| Base file for new translations | `Empty`                          |
++--------------------------------+----------------------------------+
+| File format                    | `WebExtension JSON file`         |
++--------------------------------+----------------------------------+
+
 .. seealso::
 
+    :doc:`tt:formats/json`,
     `Google chrome.i18n <https://developer.chrome.com/extensions/i18n>`_,
     `Mozilla Extensions Internationalization <https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Internationalization>`_
 
@@ -403,9 +556,22 @@ Example file:
 .Net Resource (.resx) file is a monolingual XML file format used in Microsoft
 .Net Applications.
 
-.. note::
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| File mask                      | ``Resources/Language.*.resx``    |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``Resources/Language.resx``      |
++--------------------------------+----------------------------------+
+| Base file for new translations | `Empty`                          |
++--------------------------------+----------------------------------+
+| File format                    | `.Net resource file`             |
++--------------------------------+----------------------------------+
 
-    You need translate-toolkit 1.13.0 or newer to include support for this format.
+.. seealso::
+
+    :doc:`tt:formats/resx`,
+    :ref:`addon-weblate.cleanup.generic`,
 
 CSV files
 ---------
@@ -416,11 +582,11 @@ CSV files
 
 .. versionadded:: 2.4
 
-CSV files can contain simple list of source and translation. Weblate supports
-following files:
+CSV files can contain a simple list of source and translation. Weblate supports
+the following files:
 
 * Files with header defining fields (source, translation, location, ...)
-* Files with two fileld - source and translation (in this order), choose
+* Files with two fields - source and translation (in this order), choose
   :guilabel:`Simple CSV file` as file format
 * Files with fields as defined by translate-toolkit: location, source,
   target, id, fuzzy, context, translator_comments, developer_comments
@@ -430,6 +596,22 @@ Example file:
 .. literalinclude:: ../weblate/trans/tests/data/cs.csv
     :language: text
     :encoding: utf-8
+
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| File mask                      | ``locale/*.csv``                 |
++--------------------------------+----------------------------------+
+| Monolingual base language file | `Empty`                          |
++--------------------------------+----------------------------------+
+| Base file for new translations | ``locale/en.csv``                |
++--------------------------------+----------------------------------+
+| File format                    | `CSV file`                       |
++--------------------------------+----------------------------------+
+
+.. seealso:: :doc:`tt:formats/csv`
+
+.. _yaml:
 
 YAML files
 ----------
@@ -446,11 +628,6 @@ currently supports following:
 * Plain YAML files with string keys and values
 * Ruby i18n YAML files with language as root node
 
-.. note::
-
-    You currently need patched version of translate-toolkit to support YAML.
-    Check `translate-toolkit issue tracker <https://github.com/translate/translate/issues/3248>`_ for more details.
-
 Example YAML file:
 
 .. literalinclude:: ../weblate/trans/tests/data/cs.pyml
@@ -463,14 +640,115 @@ Example Ruby i18n YAML file:
     :language: yaml
     :encoding: utf-8
 
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| File mask                      | ``translations/messages.*.yml``  |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``translations/messages.en.yml`` |
++--------------------------------+----------------------------------+
+| Base file for new translations | `Empty`                          |
++--------------------------------+----------------------------------+
+| File format                    | `YAML file`                      |
++--------------------------------+----------------------------------+
+
+.. seealso:: :doc:`tt:formats/yaml`
+
+DTD files
+---------
+
+.. index::
+    pair: DTD; file format
+
+.. versionadded:: 2.18
+
+Example DTD file:
+
+.. literalinclude:: ../weblate/trans/tests/data/cs.dtd
+    :language: yaml
+    :encoding: utf-8
+
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| File mask                      | ``locale/*.dtd``                 |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``locale/en.dtd``                |
++--------------------------------+----------------------------------+
+| Base file for new translations | `Empty`                          |
++--------------------------------+----------------------------------+
+| File format                    | `DTD file`                       |
++--------------------------------+----------------------------------+
+
+.. seealso:: :doc:`tt:formats/dtd`
+
+Windows RC files
+----------------
+
+.. versionadded:: 3.0
+
+    Experimental support has been added in Weblate 3.0.
+
+.. index::
+    pair: DTD; file format
+
+.. versionadded:: 2.18
+
+Example DTD file:
+
+.. literalinclude:: ../weblate/trans/tests/data/cs-CZ.rc
+    :language: text
+    :encoding: utf-8
+
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| File mask                      | ``lang/*.rc``                    |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``lang/en-US.rc``                |
++--------------------------------+----------------------------------+
+| Base file for new translations | ``lang/en-US.rc``                |
++--------------------------------+----------------------------------+
+| File format                    | `RC file`                        |
++--------------------------------+----------------------------------+
+
+.. seealso:: :doc:`tt:formats/rc`
+
 Others
 ------
 
-As already mentioned, all Translate-toolkit formats are supported, but they
-did not (yet) receive deeper testing.
+Most formats supported by translate-toolkit which support serializing can be
+easily supported, but they did not (yet) receive any testing. In most cases
+some thin layer is needed in Weblate to hide differences in behavior of
+different translate-toolkit storages.
 
 .. seealso:: 
    
-   `Supported formats in translate-toolkit`_
+    :doc:`tt:formats/index`
 
-.. _Supported formats in translate-toolkit: http://docs.translatehouse.org/projects/translate-toolkit/en/latest/formats/index.html
+.. _new-translations:
+
+Adding new translations
+-----------------------
+
+.. versionchanged:: 2.18
+
+    In versions prior to 2.18 the behaviour of adding new translations was file
+    format specific.
+
+Weblate can automatically start new translation for all of the file
+formats.
+
+Some formats expect to start with empty file and only translated
+strings to be included (eg. :ref:`aresource`), while others expect to have all
+keys present (eg. :ref:`gettext`). In some situations this really doesn't depend
+on the format, but rather on framework you use to handle the translation (eg. with 
+:ref:`json`).
+
+When you specify :guilabel:`Base file for new translations` in
+:ref:`component`, Weblate will use this file to start new translations. Any
+exiting translations will be removed from the file when doing so.
+
+When :guilabel:`Base file for new translations` is empty and file format
+supports it, empty file is created where new units will be added once they are
+translated.

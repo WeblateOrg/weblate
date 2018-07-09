@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -20,21 +20,42 @@
 
 """Test for widgets."""
 
-from django.core.urlresolvers import reverse
+from django.test import TestCase
+from django.test.utils import override_settings
+
+from django.core.exceptions import ImproperlyConfigured
+from django.urls import reverse
 
 from weblate.trans.models import Translation
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.views.widgets import WIDGETS
+from weblate.trans.fonts import get_font
+import weblate.trans.fonts
+
+
+class FontsTest(TestCase):
+    def setUp(self):
+        # Always start with clear cache
+        weblate.trans.fonts.FONT_CACHE = {}
+
+    def tearDown(self):
+        # Always reset cache
+        weblate.trans.fonts.FONT_CACHE = {}
+
+    def test_get(self):
+        self.assertIsNotNone(get_font(12))
+        self.assertIsNotNone(get_font(12, True))
+        self.assertIsNotNone(get_font(12, False, False))
+        self.assertIsNotNone(get_font(12))
+
+    @override_settings(TTF_PATH='/nonexistent/')
+    def test_get_missing(self):
+        with self.assertRaises(ImproperlyConfigured):
+            get_font(12, True, False)
 
 
 class WidgetsTest(FixtureTestCase):
     """Testing of widgets."""
-    def test_view_widgets_root(self):
-        response = self.client.get(
-            reverse('widgets_root')
-        )
-        self.assertContains(response, 'Test')
-
     def test_view_widgets(self):
         response = self.client.get(
             reverse('widgets', kwargs=self.kw_project)
@@ -109,7 +130,10 @@ class WidgetsRenderTest(FixtureTestCase):
 class WidgetsPercentRenderTest(WidgetsRenderTest):
     def perform_test(self, widget, color):
         for translated in (0, 3, 4):
-            Translation.objects.update(translated=translated)
+            # Fake translated stats
+            for translation in Translation.objects.all():
+                translation.stats.store('translated', translated)
+                translation.stats.save()
             response = self.client.get(
                 reverse(
                     'widget-image',
@@ -125,14 +149,14 @@ class WidgetsPercentRenderTest(WidgetsRenderTest):
             self.assert_widget(widget, response)
 
 
-class WidgetsSubprojectRenderTest(WidgetsRenderTest):
+class WidgetsComponentRenderTest(WidgetsRenderTest):
     def perform_test(self, widget, color):
         response = self.client.get(
             reverse(
                 'widget-image',
                 kwargs={
                     'project': self.project.slug,
-                    'subproject': self.subproject.slug,
+                    'component': self.component.slug,
                     'widget': widget,
                     'color': color,
                     'extension': WIDGETS[widget].extension,

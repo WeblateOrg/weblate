@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -34,61 +34,28 @@ from django.core.cache import caches, InvalidCacheBackendError
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.utils.translation import pgettext
-from django.core.urlresolvers import reverse
-
-try:
-    import libravatar  # pylint: disable=import-error
-    HAS_LIBRAVATAR = True
-except ImportError:
-    HAS_LIBRAVATAR = False
+from django.urls import reverse
 
 from weblate import USER_AGENT
 from weblate.logger import LOGGER
 from weblate.utils.errors import report_error
 
 
-def avatar_for_email(email, size=80, skip_cache=False):
+def avatar_for_email(email, size=80):
     """Generate url for avatar."""
 
     # Safely handle blank email
-    if email == '':
+    if not email:
         email = 'noreply@weblate.org'
 
     mail_hash = hashlib.md5(email.lower().encode('utf-8')).hexdigest()
 
-    # Retrieve from cache
-    cache_key = '-'.join((
-        'avatar',
+    return "{0}avatar/{1}?d={2}&s={3}".format(
+        settings.AVATAR_URL_PREFIX,
         mail_hash,
-        str(size)
-    ))
-    cache = caches['default']
-    url = cache.get(cache_key)
-    if url is not None and not skip_cache:
-        return url
-
-    if HAS_LIBRAVATAR:
-        # Use libravatar library if available
-        url = libravatar.libravatar_url(
-            email=email,
-            https=True,
-            default=settings.AVATAR_DEFAULT_IMAGE,
-            size=size
-        )
-
-    else:
-        # Fallback to standard method
-        url = "{0}avatar/{1}?d={2}&s={3}".format(
-            settings.AVATAR_URL_PREFIX,
-            mail_hash,
-            quote(settings.AVATAR_DEFAULT_IMAGE),
-            str(size),
-        )
-
-    # Store result in cache
-    cache.set(cache_key, url)
-
-    return url
+        quote(settings.AVATAR_DEFAULT_IMAGE),
+        str(size),
+    )
 
 
 def get_fallback_avatar_url(size):
@@ -153,7 +120,7 @@ def download_avatar_image(user, size):
     handle = urlopen(request)
 
     # Read and possibly convert response
-    return handle.read()
+    return bytes(handle.read())
 
 
 def get_user_display(user, icon=True, link=False):
@@ -164,7 +131,7 @@ def get_user_display(user, icon=True, link=False):
         full_name = pgettext('No known user', 'None')
     else:
         # Get full name
-        full_name = user.first_name
+        full_name = user.full_name
 
         # Use user name if full name is empty
         if full_name.strip() == '':
@@ -192,5 +159,4 @@ def get_user_display(user, icon=True, link=False):
             name=full_name,
             link=reverse('user_page', kwargs={'user': user.username}),
         ))
-    else:
-        return mark_safe(full_name)
+    return mark_safe(full_name)

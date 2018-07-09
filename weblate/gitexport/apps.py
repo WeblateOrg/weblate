@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -23,5 +23,7 @@ from __future__ import unicode_literals
 from django.apps import AppConfig
 
 
-class GitexportConfig(AppConfig):
-    name = 'gitexport'
+class GitExportConfig(AppConfig):
+    name = 'weblate.gitexport'
+    label = 'gitexport'
+    verbose_name = 'Git Exporter'

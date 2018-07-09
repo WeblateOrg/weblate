@@ -5,8 +5,8 @@
 {% block breadcrumbs %}
 {% if project %}
 <li><a href="{{ project.get_absolute_url }}">{{ project.name }}</a></li>
-{% if subproject %}
-<li><a href="{{ subproject.get_absolute_url }}">{{ subproject.name }}</a></li>
+{% if component %}
+<li><a href="{{ component.get_absolute_url }}">{{ component.name }}</a></li>
 {% endif %}
 {% if language %}
 <li><a href="{% url 'project-language' project=project.slug lang=language.code %}">{{ language }}</a></li>
@@ -27,11 +27,11 @@
 </th></tr>
 <tr>
 <th class="source">{% trans "Source" %}</th>
-<td><a href="{{ unit.get_absolute_url }}">{% format_translation unit.source unit.translation.subproject.project.source_language search_match=search_query %}</a></td>
+<td><a href="{{ unit.get_absolute_url }}">{% format_translation unit.source unit.translation.component.project.source_language search_match=search_query %}</a></td>
 </tr>
 <tr>
 <th class="source">{{ unit.translation.language }}</th>
-<td><a href="{{ unit.get_absolute_url }}">{% format_translation unit.target unit.translation.language search_match=search_query %}</a></td>
+<td><a href="{{ unit.get_absolute_url }}">{% format_translation unit.target unit.translation.language unit.translation.plural search_match=search_query %}</a></td>
 </tr>
 {% endfor %}
 </tbody>
@@ -39,7 +39,8 @@
 
 {% include "paginator.html" %}
 {% else %}
-{% show_message "info" _("No matching strings found!") %}
+{% trans "No matching strings found." as msg %}
+{% show_message "info" msg %}
 {% endif %}
 
 {% include "search-form.html" %}

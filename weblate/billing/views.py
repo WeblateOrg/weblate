@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -37,7 +37,12 @@ def download_invoice(request, pk):
     if not invoice.ref:
         raise Http404('No reference!')
 
-    if invoice.billing.user != request.user:
+    permissions = [
+        request.user.has_perm('billing.view', p)
+        for p in invoice.billing.projects.all()
+    ]
+
+    if not any(permissions):
         raise PermissionDenied('Not an owner!')
 
     filename = invoice.filename
@@ -63,8 +68,7 @@ def download_invoice(request, pk):
 
 @login_required
 def overview(request):
-    if request.user.has_perm('billing.add_billing'):
-        billings = Billing.objects.all()
-    else:
-        billings = Billing.objects.filter(user=request.user)
+    billings = Billing.objects.filter(
+        projects__in=request.user.projects_with_perm('billing.view')
+    )
     return render(request, 'billing/overview.html', {'billings': billings})

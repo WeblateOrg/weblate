@@ -9,17 +9,21 @@
 
 <p>
 {% trans "The page you are looking for was not found." %}
+
+{% if not user.is_authenticated %}
+<a href="{% url 'login' %}" class="btn btn-default">{% trans "Log in" %}</a>
+{% endif %}
 </p>
 
 <p>
 {% trans "The project you are looking for does not exist or is not publicly available." %}
 </p>
 
-{% if acl_projects %}
-<p>{% trans "However the following translation projects are available on this server:" %}</p>
+{% if user.allowed_projects %}
+<p>{% trans "However, the following translation projects are available on this server:" %}</p>
 
 <ul>
-{% for p in acl_projects %}
+{% for p in user.allowed_projects %}
     <li><a href="{{ p.get_absolute_url }}">{{ p }}</a></li>
 {% endfor %}
 </ul>

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2017 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -26,6 +26,7 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'weblate.settings_test'
 TEST_DIR = os.path.dirname(__file__)
 sys.path.insert(0, TEST_DIR)
 
+# pylint: disable=wrong-import-position
 from django.core.management import execute_from_command_line  # noqa
 
 

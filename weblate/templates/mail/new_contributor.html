@@ -4,11 +4,11 @@
 
 {% block content %}
 <p>
-{% trans "Hi,"%}
+{% trans "Good news,"%}
 </p>
 
 <p>
-{% blocktrans with user.first_name as username %}User {{ username }} has just made a first contribution on {{ translation }} at {{ site_title }}.{% endblocktrans %}
+{% blocktrans with user.full_name as username %}The user {{ username }} has just made a first contribution to {{ translation }} at {{ site_title }}.{% endblocktrans %}
 <p>
 
 {% include "mail/footer.html" %}
