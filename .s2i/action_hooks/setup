@@ -43,9 +43,8 @@ python manage.py rebuild_index --all
 if [ x"$DJANGO_ADMIN_USERNAME" != x"" ]; then
     echo " -----> Creating predefined Django super user"
     (cat - | python manage.py shell) << !
-from weblate.auth.models import UserManager;
-manager = UserManager();
-manager.create_superuser('$DJANGO_ADMIN_USERNAME',
+from weblate.auth.models import User;
+User.objects.create_superuser('$DJANGO_ADMIN_USERNAME',
         '$DJANGO_ADMIN_EMAIL', '$DJANGO_ADMIN_PASSWORD')
 !
 else
