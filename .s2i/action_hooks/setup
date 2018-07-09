@@ -45,7 +45,7 @@ if [ x"$DJANGO_ADMIN_USERNAME" != x"" ]; then
     (cat - | python manage.py shell) << !
 from weblate.auth.models import UserManager;
 manager = UserManager();
-manager.create_super_user('$DJANGO_ADMIN_USERNAME',
+manager.create_superuser('$DJANGO_ADMIN_USERNAME',
         '$DJANGO_ADMIN_EMAIL', '$DJANGO_ADMIN_PASSWORD')
 !
 else
