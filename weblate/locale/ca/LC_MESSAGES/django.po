@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-07-07 08:58+0000\n"
-"PO-Revision-Date: 2018-04-27 13:34+0000\n"
+"PO-Revision-Date: 2018-07-12 12:35+0000\n"
 "Last-Translator: Joan Montané <joan@montane.cat>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/master/"
 "ca/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.0-dev\n"
+"X-Generator: Weblate 3.1-dev\n"
 
 #: weblate/accounts/avatar.py:131
 msgctxt "No known user"
@@ -78,8 +78,6 @@ msgstr ""
 "projectes que seguiu."
 
 #: weblate/accounts/forms.py:276 weblate/auth/models.py:274
-#, fuzzy
-#| msgid "E-mail"
 msgid "Email"
 msgstr "Adreça electrònica"
 
@@ -227,36 +225,30 @@ msgid "Password reset has been requested."
 msgstr "S'ha sol·licitat una reinicialització de la contrasenya."
 
 #: weblate/accounts/models.py:58
-#, fuzzy
-#| msgid "Password reset has been confirmed and password has been reset."
 msgid "Password reset has been confirmed and password has been disabled."
 msgstr ""
 "S'ha confirmat la reinicialització de la contrasenya i la contrasenya s'ha "
-"restablert."
+"inhabilitat."
 
 #: weblate/accounts/models.py:61
-#, fuzzy, python-brace-format
-#| msgid "Authentication using {method} ({name}) has been added."
+#, python-brace-format
 msgid "Authentication ({method}:{name}) has been added."
-msgstr "S'ha afegit l'autenticació amb {method} ({name})."
+msgstr "S'ha afegit l'autenticació  ({method}:{name})."
 
 #: weblate/accounts/models.py:64
-#, fuzzy, python-brace-format
-#| msgid "Authentication using {method} ({name}) has been removed."
+#, python-brace-format
 msgid "Authentication ({method}:{name}) has been removed."
-msgstr "S'ha suprimit l'autenticació amb {method} ({name})."
+msgstr "S'ha suprimit l'autenticació  ({method}:{name})."
 
 #: weblate/accounts/models.py:67
-#, fuzzy, python-brace-format
-#| msgid "Authenticated using {method} ({name})."
+#, python-brace-format
 msgid "Authenticated ({method}:{name})."
-msgstr "Autenticat amb {method} ({name})."
+msgstr "Autenticat ({method}:{name})."
 
 #: weblate/accounts/models.py:70
-#, fuzzy, python-brace-format
-#| msgid "Authenticated using {method} ({name}) from new device."
+#, python-brace-format
 msgid "Authenticated ({method}:{name}) from new device."
-msgstr "Autenticat amb {method} ({name}) des d'un aparell nou."
+msgstr "Autenticat ({method}:{name}) des d'un aparell nou."
 
 #: weblate/accounts/models.py:73
 msgid "Somebody has attempted to register with your email."
@@ -268,10 +260,9 @@ msgstr ""
 "Algú ha intentat d'afegir la vostra adreça electrònica a un compte existent."
 
 #: weblate/accounts/models.py:79
-#, fuzzy, python-brace-format
-#| msgid "Failed authentication attempt using {method} ({name})."
+#, python-brace-format
 msgid "Failed authentication attempt ({method}:{name})."
-msgstr "L'intent d'autenticació amb {method} ({name}) ha fallat."
+msgstr "L'intent d'autenticació ha fallat ({method}:{name})."
 
 #: weblate/accounts/models.py:82
 msgid "Account locked due to excessive failed authentication attempts."
@@ -321,8 +312,6 @@ msgstr ""
 "llengües a més de la cadena d'origen."
 
 #: weblate/accounts/models.py:311
-#, fuzzy
-#| msgid "Hide completed translations on dashboard"
 msgid "Hide completed translations on the dashboard"
 msgstr "Amaga les traduccions completades al tauler"
 
@@ -402,10 +391,6 @@ msgid "Watched projects"
 msgstr "Projectes en seguiment"
 
 #: weblate/accounts/models.py:390
-#, fuzzy
-#| msgid ""
-#| "You can receive notifications for watched projects and they are shown on "
-#| "dashboard by default."
 msgid ""
 "You can receive notifications for watched projects and they are shown on the "
 "dashboard by default."
@@ -442,18 +427,14 @@ msgid "Notification on new language request"
 msgstr "Notificació de sol·licitud nova de llengua"
 
 #: weblate/accounts/models.py:475
-#, fuzzy
-#| msgid "Component list must be selected when used as default."
 msgid "Component list must be chosen when used as default."
 msgstr ""
-"S'ha de seleccionar una llista de components quan s'empra com a "
+"Cal que seleccioneu una llista de components quan s'empra com a "
 "predeterminada."
 
 #: weblate/accounts/models.py:481
-#, fuzzy
-#| msgid "Component list must not be selected when not used."
 msgid "Component list can not be chosen when unused."
-msgstr "No s'ha de seleccionar una llista de components si no s'utilitza."
+msgstr "No podeu seleccionar una llista de components si no s'utilitza."
 
 #: weblate/accounts/models.py:536
 msgid ""
@@ -653,10 +634,8 @@ msgid ""
 msgstr ""
 
 #: weblate/addons/consistency.py:33
-#, fuzzy
-#| msgid "Language code"
 msgid "Language consistency"
-msgstr "Codi de llengua"
+msgstr "Consistència de les llengües"
 
 #: weblate/addons/consistency.py:35
 msgid ""
@@ -713,10 +692,8 @@ msgid ""
 msgstr ""
 
 #: weblate/addons/flags.py:78
-#, fuzzy
-#| msgid "Flag new translations to need edit"
 msgid "Flag unchanged translations to need edit"
-msgstr "Marca les traduccions noves com a pendents d'editar"
+msgstr "Marca les traduccions sense canvis com a pendents d'editar"
 
 #: weblate/addons/flags.py:80
 msgid ""
@@ -927,138 +904,94 @@ msgid "Important dates"
 msgstr "Dates importants"
 
 #: weblate/auth/data.py:35
-#, fuzzy
-#| msgid "More information"
 msgid "View billing information"
-msgstr "Més informació"
+msgstr "Mostra la informació de facturació"
 
 #: weblate/auth/data.py:37
-#, fuzzy
-#| msgid "Good translations"
 msgid "Download changes"
-msgstr "Bones traduccions"
+msgstr "Baixa els canvis"
 
 #: weblate/auth/data.py:39
-#, fuzzy
-#| msgid "Search in context strings"
 msgid "Edit component settings"
-msgstr "Cerca en les cadenes de context"
+msgstr "Edita la configuració del component"
 
 #: weblate/auth/data.py:40
-#, fuzzy
-#| msgid "Download compiled translation"
 msgid "Lock component from translating"
-msgstr "Baixa la traducció compilada"
+msgstr "Bloca el component de la traducció"
 
 #: weblate/auth/data.py:42
-#, fuzzy
-#| msgid "User comments"
 msgid "Post comment"
-msgstr "Comentaris de l'usuari"
+msgstr "Publica un comentari"
 
 #: weblate/auth/data.py:43
-#, fuzzy
-#| msgid "New comment"
 msgid "Delete comment"
-msgstr "Comentari nou"
+msgstr "Suprimeix el comentari"
 
 #: weblate/auth/data.py:45
-#, fuzzy
-#| msgid "Import glossary"
 msgid "Add glossary entry"
-msgstr "Importa el glossari"
+msgstr "Afegeix una entrada al glossari"
 
 #: weblate/auth/data.py:46
-#, fuzzy
-#| msgid "Export glossary"
 msgid "Edit glossary entry"
-msgstr "Exporta el glossari"
+msgstr "Edita l'entrada del glossari"
 
 #: weblate/auth/data.py:47
-#, fuzzy
-#| msgid "Delete this account"
 msgid "Delete glossary entry"
-msgstr "Elimina aquest compte"
+msgstr "Suprimeix l'entrada del glossari"
 
 #: weblate/auth/data.py:48
-#, fuzzy
-#| msgid "Import glossary"
 msgid "Upload glossary entries"
-msgstr "Importa el glossari"
+msgstr "Puja entrades al glossari"
 
 #: weblate/auth/data.py:50
-#, fuzzy
-#| msgid "Machine translation suggestions"
 msgid "Use machine translation services"
-msgstr "Suggeriments de traducció automàtica"
+msgstr "Usa serveis de traducció automàtica"
 
 #: weblate/auth/data.py:52
-#, fuzzy
-#| msgid "Edit source string"
 msgid "Edit project settings"
-msgstr "Edita cadenes originals"
+msgstr "Edita la configuració del projecte"
 
 #: weblate/auth/data.py:53
-#, fuzzy
-#| msgid "Managed projects"
 msgid "Manage project access"
-msgstr "Projectes gestionats"
+msgstr "Gestiona l'accés al projecte"
 
 #: weblate/auth/data.py:55
-#, fuzzy
-#| msgid "Download"
 msgid "Download reports"
-msgstr "Baixades"
+msgstr "Baixa els informes"
 
 #: weblate/auth/data.py:57
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add screenshot"
-msgstr "Afegir un usuari nou"
+msgstr "Afegeix una captura de pantalla"
 
 #: weblate/auth/data.py:58
 #: weblate/templates/screenshots/screenshot_detail.html:98
-#, fuzzy
-#| msgid "Edit source string"
 msgid "Edit screenshot"
-msgstr "Edita cadenes originals"
+msgstr "Edita la captura de pantalla"
 
 #: weblate/auth/data.py:59
 #: weblate/templates/screenshots/screenshot_detail.html:111
-#, fuzzy
-#| msgid "Delete this account"
 msgid "Delete screenshot"
-msgstr "Elimina aquest compte"
+msgstr "Suprimeix la captura de pantalla"
 
 #: weblate/auth/data.py:61
-#, fuzzy
-#| msgid "Edit source string"
 msgid "Edit info on source strings"
-msgstr "Edita cadenes originals"
+msgstr "Edita la informació en les cadenes originals"
 
 #: weblate/auth/data.py:63
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Accept suggestion"
-msgstr "Acceptar automàticament els suggeriments"
+msgstr "Accepta un suggeriment"
 
 #: weblate/auth/data.py:64
-#, fuzzy
-#| msgid "Add as a suggestion"
 msgid "Add suggestion"
-msgstr "Afegeix com a sugerència"
+msgstr "Afegeix un suggeriment"
 
 #: weblate/auth/data.py:65
-#, fuzzy
-#| msgid "Enable suggestions"
 msgid "Delete suggestion"
-msgstr "Habilita suggerències"
+msgstr "Suprimeix el suggeriment"
 
 #: weblate/auth/data.py:66
-#, fuzzy
-#| msgid "Enable suggestions"
 msgid "Vote suggestion"
-msgstr "Habilita suggerències"
+msgstr "Vota el suggeriment"
 
 #: weblate/auth/data.py:68 weblate/templates/component.html:60
 #: weblate/templates/component.html:116 weblate/templates/component.html:118
@@ -1068,70 +1001,48 @@ msgid "Start new translation"
 msgstr "Inicieu una traducció traducció"
 
 #: weblate/auth/data.py:69
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Perform automatic translation"
-msgstr "Traducció automàtica"
+msgstr "Fes una traducció automàtica"
 
 #: weblate/auth/data.py:70
-#, fuzzy
-#| msgid "Tweet this translation!"
 msgid "Delete existing translation"
-msgstr "Piula aquesta traducció!"
+msgstr "Suprimeix la traducció existent"
 
 #: weblate/auth/data.py:71
-#, fuzzy
-#| msgid "Start new translation"
 msgid "Start new translation into more languages"
-msgstr "Inicieu una traducció traducció"
+msgstr "Comença una traducció nova en més llengües"
 
 #: weblate/auth/data.py:73
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new string"
-msgstr "Afegir un usuari nou"
+msgstr "Afegeix una cadena nova"
 
 #: weblate/auth/data.py:74
-#, fuzzy
-#| msgid "Failing check"
 msgid "Ignore failing check"
-msgstr "Comprovació fallida"
+msgstr "Ignora les comprovacions fallides"
 
 #: weblate/auth/data.py:75
-#, fuzzy
-#| msgid "Edit source string"
 msgid "Edit strings"
-msgstr "Edita cadenes originals"
+msgstr "Edita les cadenes"
 
 #: weblate/auth/data.py:76
-#, fuzzy
-#| msgid "Overwrite strings"
 msgid "Review strings"
-msgstr "Sobreescriu les cadenes"
+msgstr "Revisa les cadenes"
 
 #: weblate/auth/data.py:77
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgid "Edit string when suggestions are enforced"
-msgstr "Cadenes amb suggeriments"
+msgstr "Edita la cadena si s'han forçat els suggeriments"
 
 #: weblate/auth/data.py:78
-#, fuzzy
-#| msgid "Edit source string"
 msgid "Edit source strings"
-msgstr "Edita cadenes originals"
+msgstr "Edita les cadenes originals"
 
 #: weblate/auth/data.py:80
-#, fuzzy
-#| msgid "Define the base file for new translations"
 msgid "Define author of translation upload"
-msgstr "Defineix el fitxer base per noves traduccions"
+msgstr "Defineix l'autor de la pujada de traduccions"
 
 #: weblate/auth/data.py:81
-#, fuzzy
-#| msgid "Overwrite strings"
 msgid "Overwrite existing strings with upload"
-msgstr "Sobreescriu les cadenes"
+msgstr "Sobreescriu les cadenes existents amb la pujuda"
 
 #: weblate/auth/data.py:82
 #, fuzzy
@@ -1809,18 +1720,18 @@ msgstr ""
 
 #: weblate/checks/source.py:66
 msgid "Multiple failing checks"
-msgstr "Varies comprovacions fallides"
+msgstr "Vàries comprovacions fallides"
 
 #: weblate/checks/source.py:68
 msgid "The translations in several languages have failing checks"
-msgstr ""
+msgstr "Les traduccions en diferents llengües tenen comprovacions fallides"
 
 #: weblate/checks/views.py:74 weblate/templates/language-project.html:25
 #: weblate/templates/language.html:25 weblate/templates/legend.html:11
 #: weblate/templates/progress.html:11 weblate/templates/project.html:50
 #: weblate/templates/source-review.html:27 weblate/templates/translate.html:568
 msgid "Failing checks"
-msgstr ""
+msgstr "Comprovacions fallides"
 
 #: weblate/formats/auto.py:79
 msgid "Automatic detection"
@@ -3282,7 +3193,7 @@ msgstr "Activitat en l'últim any"
 #: weblate/templates/addons/addon_list.html:10
 #: weblate/templates/component.html:81
 msgid "Addons"
-msgstr ""
+msgstr "Complements"
 
 #: weblate/templates/addons/addon_detail.html:26
 #, fuzzy
@@ -4725,19 +4636,17 @@ msgstr "No s'ha trobat cap paraula!"
 #: weblate/trans/forms.py:454 weblate/trans/templatetags/translations.py:533
 #: weblate/utils/state.py:34
 msgid "Approved"
-msgstr ""
+msgstr "Aprovades"
 
 #: weblate/templates/legend.html:8 weblate/templates/progress.html:8
 msgid "Good"
-msgstr ""
+msgstr "Bones"
 
 #: weblate/templates/legend.html:14 weblate/templates/progress.html:14
 #: weblate/trans/forms.py:434 weblate/trans/forms.py:452
 #: weblate/trans/templatetags/translations.py:523 weblate/utils/state.py:32
-#, fuzzy
-#| msgid "Overview"
 msgid "Needs editing"
-msgstr "Resum"
+msgstr "Cal revisar"
 
 #: weblate/templates/list-comments.html:12
 msgid "Translation comment"
@@ -4813,8 +4722,8 @@ msgstr[1] "Hi ha %(count)s cadenes dubtoses."
 #, python-format
 msgid "There is %(count)s failing check."
 msgid_plural "There are %(count)s failing checks."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Hi ha %(count)s comprovació fallida."
+msgstr[1] "Hi ha %(count)s comprovacions fallides."
 
 #: weblate/templates/list-translations.html:60
 #, python-format
@@ -5073,7 +4982,7 @@ msgstr "Documentació pels plurals."
 #: weblate/templates/mail/new_contributor.html:7
 #: weblate/templates/mail/new_contributor.txt:1
 msgid "Good news,"
-msgstr ""
+msgstr "Bones notícies,"
 
 #: weblate/templates/mail/new_contributor.html:11
 #: weblate/templates/mail/new_contributor.txt:3
@@ -5803,6 +5712,8 @@ msgid ""
 "Only reviewers can change approved strings, please add a suggestion if you "
 "think the string should be changed."
 msgstr ""
+"Només els revisor poden canviar les cadenes aprovades, afegiu-hi un "
+"suggeriment si penseu que caldria canviar la cadena."
 
 #: weblate/templates/translate.html:205 weblate/trans/views/edit.py:310
 #: weblate/trans/views/edit.py:343 weblate/trans/views/edit.py:369
@@ -6486,16 +6397,12 @@ msgid "Strings with any failing checks"
 msgstr "Cadenes amb comprovacions fallides"
 
 #: weblate/trans/filter.py:40 weblate/trans/models/translation.py:679
-#, fuzzy
-#| msgid "Source strings"
 msgid "Approved strings"
-msgstr "Cadenes originals"
+msgstr "Cadenes aprovades"
 
 #: weblate/trans/filter.py:43 weblate/trans/models/translation.py:704
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgid "Approved strings with suggestions"
-msgstr "Cadenes amb suggeriments"
+msgstr "Cadenes aprovades amb suggeriments"
 
 #: weblate/trans/filter.py:45 weblate/trans/models/translation.py:696
 #, fuzzy
@@ -6570,6 +6477,8 @@ msgid ""
 "Strings are usually marked as \"Needs editing\" after the source string is "
 "updated, or when marked as such manually."
 msgstr ""
+"Habitualment les cadenes es marquen com a «Cal revisar» després que "
+"s'actualitzi la cadena original o si es marca manualment."
 
 #: weblate/trans/forms.py:450
 #, fuzzy
@@ -7418,6 +7327,7 @@ msgid ""
 "Agreement which needs to be approved before user can translate this "
 "component."
 msgstr ""
+"Acord que cal aprovar abans que un usuari pugui traduir aquest component."
 
 #: weblate/trans/models/component.py:329
 msgid ""
@@ -8180,13 +8090,11 @@ msgstr "El missatge no s'ha traduït"
 
 #: weblate/trans/templatetags/translations.py:565
 msgid "Message has failing checks"
-msgstr ""
+msgstr "El missatge té comprovacions fallides"
 
 #: weblate/trans/templatetags/translations.py:570
-#, fuzzy
-#| msgid "Message is not translated"
 msgid "Message is approved"
-msgstr "El missatge no s'ha traduït"
+msgstr "El missatge s'ha aprovat"
 
 #: weblate/trans/templatetags/translations.py:575
 msgid "Message is translated"
