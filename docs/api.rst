@@ -65,7 +65,7 @@ Authentication examples
       GET /api/ HTTP/1.1
       Host: example.com
       Accept: application/json, text/javascript
-      Autorization: Token YOUR-TOKEN
+      Authorization: Token YOUR-TOKEN
 
 **Example response:**
 
@@ -149,11 +149,11 @@ form submission (:mimetype:`application/x-www-form-urlencoded`) or as JSON
 Rate limiting
 ~~~~~~~~~~~~~
 
-The API requests are rate limited, the default configuration limits it to 100
-requests per day for anonymous user and 1000 requests per day for authenticated
+The API requests are rate limited; the default configuration limits it to 100
+requests per day for anonymous users and 1000 requests per day for authenticated
 users.
 
-Rate limiting can be adjusted in the :file:`settings.py`, see 
+Rate limiting can be adjusted in the :file:`settings.py`; see 
 `Throttling in Django REST framework documentation <http://www.django-rest-framework.org/api-guide/throttling/>`_
 for more details how to configure it.
 
@@ -253,11 +253,11 @@ Projects
     :type project: string
     :>json string name: project name
     :>json string slug: project slug
-    :>json object source_language: source language object, see :http:get:`/api/languages/(string:language)/`
+    :>json object source_language: source language object; see :http:get:`/api/languages/(string:language)/`
     :>json string web: project website
-    :>json string components_list_url: URL to components list, see :http:get:`/api/projects/(string:project)/components/`
-    :>json string repository_url: URL to repository status, see :http:get:`/api/projects/(string:project)/repository/`
-    :>json string changes_list_url: URL to changes list, see :http:get:`/api/projects/(string:project)/changes/`
+    :>json string components_list_url: URL to components list; see :http:get:`/api/projects/(string:project)/components/`
+    :>json string repository_url: URL to repository status; see :http:get:`/api/projects/(string:project)/repository/`
+    :>json string changes_list_url: URL to changes list; see :http:get:`/api/projects/(string:project)/changes/`
 
     .. seealso::
 
@@ -288,7 +288,7 @@ Projects
 
     :param project: Project URL slug
     :type project: string
-    :>json array results: array of component objects, see :http:get:`/api/changes/(int:pk)/`
+    :>json array results: array of component objects; see :http:get:`/api/changes/(int:pk)/`
 
     .. seealso::
 
@@ -297,7 +297,7 @@ Projects
 .. http:get:: /api/projects/(string:project)/repository/
 
     Returns information about VCS repository status. This endpoint contains
-    only overall summary for all repositories for project. To get more detailed
+    only an overall summary for all repositories for the project. To get more detailed
     status use :http:get:`/api/components/(string:project)/(string:component)/repository/`.
 
     :param project: Project URL slug
@@ -328,7 +328,7 @@ Projects
 
     :param project: Project URL slug
     :type project: string
-    :<json string operation: Operation to perform, one of ``push``, ``pull``, ``commit``, ``reset``
+    :<json string operation: Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``
     :>json boolean result: result of the operation
 
     .. seealso::
@@ -379,7 +379,7 @@ Projects
 
     :param project: Project URL slug
     :type project: string
-    :>json array results: array of component objects, see :http:get:`/api/components/(string:project)/(string:component)/`
+    :>json array results: array of component objects; see :http:get:`/api/components/(string:project)/(string:component)/`
 
     .. seealso::
 
@@ -434,15 +434,15 @@ Components
     :>json string license_url: URL of license for translations
     :>json string name: name of component
     :>json string slug: slug of component
-    :>json object project: the translation project, see :http:get:`/api/projects/(string:project)/`
+    :>json object project: the translation project; see :http:get:`/api/projects/(string:project)/`
     :>json string repo: VCS repository URL
     :>json string template: base file for monolingual translations
     :>json string new_base: base file for adding new translations
     :>json string vcs: version control system
-    :>json string repository_url: URL to repository status, see :http:get:`/api/components/(string:project)/(string:component)/repository/`
-    :>json string translations_url: URL to translations list, see :http:get:`/api/components/(string:project)/(string:component)/translations/`
-    :>json string lock_url: URL to lock status, see :http:get:`/api/components/(string:project)/(string:component)/lock/`
-    :>json string changes_list_url: URL to changes list, see :http:get:`/api/components/(string:project)/(string:component)/changes/`
+    :>json string repository_url: URL to repository status; see :http:get:`/api/components/(string:project)/(string:component)/repository/`
+    :>json string translations_url: URL to translations list; see :http:get:`/api/components/(string:project)/(string:component)/translations/`
+    :>json string lock_url: URL to lock status; see :http:get:`/api/components/(string:project)/(string:component)/lock/`
+    :>json string changes_list_url: URL to changes list; see :http:get:`/api/components/(string:project)/(string:component)/changes/`
 
     .. seealso::
 
@@ -491,7 +491,7 @@ Components
     :type project: string
     :param component: Component URL slug
     :type component: string
-    :>json array results: array of component objects, see :http:get:`/api/changes/(int:pk)/`
+    :>json array results: array of component objects; see :http:get:`/api/changes/(int:pk)/`
 
     .. seealso::
 
@@ -552,7 +552,7 @@ Components
     :>json boolean needs_push: whether there are any local changes to push
     :>json string remote_commit: Remote commit information
     :>json string status: VCS repository status as reported by VCS
-    :>json merge_failure: Text describing merge failure, null if there is none
+    :>json merge_failure: Text describing merge failure or null if there is none
 
     .. seealso::
 
@@ -568,7 +568,7 @@ Components
     :type project: string
     :param component: Component URL slug
     :type component: string
-    :<json string operation: Operation to perform, one of ``push``, ``pull``, ``commit``, ``reset``
+    :<json string operation: Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``
     :>json boolean result: result of the operation
 
     .. seealso::
@@ -609,7 +609,7 @@ Components
     :type project: string
     :param component: Component URL slug
     :type component: string
-    :>json array results: array of translation objects, see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/`
+    :>json array results: array of translation objects; see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/`
 
     .. seealso::
 
@@ -625,7 +625,7 @@ Components
     :type project: string
     :param component: Component URL slug
     :type component: string
-    :>json array results: array of translation statistics objects, see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/statistics/`
+    :>json array results: array of translation statistics objects; see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/statistics/`
 
 Translations
 ++++++++++++
@@ -650,7 +650,7 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
-    :>json object component: component object, see :http:get:`/api/components/(string:project)/(string:component)/`
+    :>json object component: component object; see :http:get:`/api/components/(string:project)/(string:component)/`
     :>json int failing_checks: number of units failing check
     :>json float failing_checks_percent: percentage of units failing check
     :>json int failing_checks_words: number of words with failing check
@@ -661,8 +661,8 @@ Translations
     :>json int have_comment: number of units with comment
     :>json int have_suggestion: number of units with suggestion
     :>json boolean is_template: whether translation is monolingual base
-    :>json object language: source language object, see :http:get:`/api/languages/(string:language)/`
-    :>json string language_code: language code used in the repository, this can be different from language code in the language object
+    :>json object language: source language object; see :http:get:`/api/languages/(string:language)/`
+    :>json string language_code: language code used in the repository; this can be different from language code in the language object
     :>json string last_author: name of last author
     :>json timestamp last_change: last change timestamp
     :>json string revision: hash revision of the file
@@ -673,10 +673,10 @@ Translations
     :>json int translated: number of translated units
     :>json float translated_percent: percentage of translated units
     :>json int translated_words: number of translated words
-    :>json string repository_url: URL to repository status, see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/repository/`
-    :>json string file_url: URL to file object, see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/file/`
-    :>json string changes_list_url: URL to changes list, see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/changes/`
-    :>json string units_list_url: URL to units list, see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/units/`
+    :>json string repository_url: URL to repository status; see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/repository/`
+    :>json string file_url: URL to file object; see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/file/`
+    :>json string changes_list_url: URL to changes list; see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/changes/`
+    :>json string units_list_url: URL to units list; see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/units/`
 
     .. seealso::
 
@@ -760,7 +760,7 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
-    :>json array results: array of component objects, see :http:get:`/api/changes/(int:pk)/`
+    :>json array results: array of component objects; see :http:get:`/api/changes/(int:pk)/`
 
     .. seealso::
 
@@ -777,7 +777,7 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
-    :>json array results: array of component objects, see :http:get:`/api/units/(int:pk)/`
+    :>json array results: array of component objects; see :http:get:`/api/units/(int:pk)/`
 
     .. seealso::
 
@@ -787,8 +787,8 @@ Translations
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/file/
 
     Download current translation file as stored in VCS (without ``format``
-    parameter) or converted to one of standard formats (currently supported are
-    Gettext PO, MO, Xliff or TBX).
+    parameter) or as converted to a standard format (currently supported:
+    Gettext PO, MO, XLIFF and TBX).
 
     .. note::
 
@@ -797,7 +797,7 @@ Translations
         parameter differs and without such parameter you get translation file
         as stored in VCS.
 
-    :query format: File format to use, if not specified no format conversion happens, supported file formats: ``po``, ``mo``, ``xliff``, ``xliff11``, ``tbx``
+    :query format: File format to use; if not specified no format conversion happens; supported file formats: ``po``, ``mo``, ``xliff``, ``xliff11``, ``tbx``
 
     :param project: Project URL slug
     :type project: string
@@ -938,10 +938,10 @@ Units
     :>json boolean has_comment: whether unit has comments
     :>json boolean has_failing_check: whether unit has failing checks
     :>json int num_words: number of source words
-    :>json int priority: translation priority, 100 is default
+    :>json int priority: translation priority; 100 is default
     :>json int id: unit identifier
     :>json string web_url: URL where unit can be edited
-    :>json string souce_info: Source string information link, see :http:get:`/api/sources/(int:pk)/`
+    :>json string souce_info: Source string information link; see :http:get:`/api/sources/(int:pk)/`
 
 Changes
 +++++++
@@ -1002,8 +1002,8 @@ Sources
     :>json timestamp timestamp: timestamp when source string was first seen by Weblate
     :>json int priority: source string priority, 100 is default
     :>json string check_flags: source string flags
-    :>json array units: links to units, see :http:get:`/api/units/(int:pk)/`
-    :>json array screenshots: links to assigned screenshots, see :http:get:`/api/screenshots/(int:pk)/`
+    :>json array units: links to units; see :http:get:`/api/units/(int:pk)/`
+    :>json array screenshots: links to assigned screenshots; see :http:get:`/api/screenshots/(int:pk)/`
 
 Screenshots
 +++++++++++
@@ -1028,8 +1028,8 @@ Screenshots
     :type pk: int
     :>json string name: name of a screenshot
     :>json string component: URL of a related component object
-    :>json string file_url: URL to download a file, see :http:get:`/api/screenshots/(int:pk)/file/`
-    :>json array sources: link to asssociated source string information, see :http:get:`/api/sources/(int:pk)/`
+    :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:pk)/file/`
+    :>json array sources: link to asssociated source string information; see :http:get:`/api/sources/(int:pk)/`
 
 .. http:get:: /api/screenshots/(int:pk)/file/
 
@@ -1068,8 +1068,8 @@ Notification hooks
 Notification hooks allow external applications to notify Weblate that the VCS
 repository has been updated.
 
-You can use repository endpoints for project, component and translation to
-update individual repositories, see
+You can use repository endpoints for projects, components and translations to
+update individual repositories; see
 :http:post:`/api/projects/(string:project)/repository/` for documentation.
 
 .. http:get:: /hooks/update/(string:project)/(string:component)/
@@ -1099,8 +1099,8 @@ update individual repositories, see
 
     .. note::
 
-        GitHub includes direct support for notifying Weblate, just enable
-        Weblate service hook in repository settings and set the URL to URL of your
+        GitHub includes direct support for notifying Weblate: enable
+        Weblate service hook in repository settings and set the URL to the URL of your
         Weblate installation.
 
     .. seealso::
@@ -1145,17 +1145,17 @@ update individual repositories, see
 Exports
 -------
 
-Weblate provides various exports to allow you further process the data.
+Weblate provides various exports to allow you to further process the data.
 
 .. http:get:: /exports/stats/(string:project)/(string:component)/
 
-    :query string format: Output format, either ``json`` or ``csv``
+    :query string format: Output format: either ``json`` or ``csv``
 
     .. deprecated:: 2.6
 
         Please use :http:get:`/api/components/(string:project)/(string:component)/statistics/`
         and :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/statistics/`
-        instead, it allows to access ACL controlled projects as well.
+        instead; it allows access to ACL controlled projects as well.
 
     Retrieves statistics for given component in given format.
 
