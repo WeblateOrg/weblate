@@ -182,7 +182,7 @@ Similarly on importing such files, you should choose
 Whitespace and newlines in XLIFF
 ++++++++++++++++++++++++++++++++
 
-Generally the XML formats do not differentiate between types or ammounts of whitespace.
+Generally the XML formats do not differentiate between types or amounts of whitespace.
 If you want to keep it, you have to add the ``xml:space="preserve"`` flag to
 the unit.
 
