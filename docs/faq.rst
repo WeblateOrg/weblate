@@ -51,6 +51,10 @@ actions.
 
 .. code-block:: sh
 
+    # Commit all pending changes in Weblate, you can do this in the UI as well
+    wlc commit
+    # Lock translation in Weblate, again this can be done in the UI as well
+    wlc lock
     # Add weblate as remote
     git remote add weblate https://hosted.weblate.org/git/weblate/website/
     # You might need to include credentials in some cases:
@@ -70,6 +74,9 @@ actions.
 
     # Push changes to upstream respository, Weblate will fetch merge from there
     git push
+
+    # Open Weblate for translation
+    wlc unlock
 
 If you're using multiple branches in Weblate, you can work similarly on all
 branches:
