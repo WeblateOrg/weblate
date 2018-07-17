@@ -38,7 +38,7 @@ class BaseScriptAddon(BaseAddon):
         command = [self.script]
         if translation:
             component = translation.component
-            command.extend(translation.get_filename())
+            command.append(translation.get_filename())
         if component.is_repo_link:
             target = component.linked_component
         else:
