@@ -705,7 +705,9 @@ class WindowsRCFormat(FileFormat):
     def get_class(cls):
         """Return class for handling this module."""
         if six.PY3:
-            raise ImportError('RC not supported on Python 3')
+            raise ImportError(
+                'Windows RC file format is not supported on Python 3'
+            )
         return importlib.import_module(
             'translate.storage.rc'
         ).rcfile
