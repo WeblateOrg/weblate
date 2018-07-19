@@ -687,14 +687,12 @@ Windows RC files
 
 .. versionadded:: 3.0
 
-    Experimental support has been added in Weblate 3.0.
+    Experimental support has been added in Weblate 3.0, not supported on Python 3.
 
 .. index::
-    pair: DTD; file format
+    pair: RC; file format
 
-.. versionadded:: 2.18
-
-Example DTD file:
+Example Windows RC file:
 
 .. literalinclude:: ../weblate/trans/tests/data/cs-CZ.rc
     :language: text
