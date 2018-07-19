@@ -365,6 +365,15 @@ class User(AbstractBaseUser):
         """Compatibility API for admin interface."""
         return self.is_superuser
 
+    @is_staff.setter
+    def set_staff(self, is_staff):
+        """Compatibility API for third party auth modules.
+
+        We silently ignore this flag as we do not differentiate between staff
+        and admin flags.
+        """
+        return
+
     # pylint: disable=keyword-arg-before-vararg
     def has_perm(self, perm, obj=None, *args):
         """Permission check"""
