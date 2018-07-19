@@ -42,7 +42,10 @@ class AWSTranslation(MachineTranslation):
         )
 
     def download_languages(self):
-        return ('en', 'ar', 'zh', 'fr', 'de', 'pt', 'es')
+        return (
+            'en', 'ar', 'zh', 'fr', 'de', 'pt', 'es',
+            'ja', 'ru', 'it', 'zh-TW', 'tr', 'cs',
+        )
 
     def download_translations(self, source, language, text, unit, user):
         response = self.client.translate_text(
