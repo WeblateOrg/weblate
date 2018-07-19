@@ -336,8 +336,10 @@ class User(AbstractBaseUser):
         return self.full_name
 
     def __setattr__(self, name, value):
-        """Mimic first/last name for third party auth"""
-        if name in ('first_name', 'last_name'):
+        """Mimic first/last name for third party auth
+        and ignore is_staff flag.
+        """
+        if name in ('first_name', 'last_name', 'is_staff'):
             self.extra_data[name] = value
         else:
             super(User, self).__setattr__(name, value)
@@ -364,15 +366,6 @@ class User(AbstractBaseUser):
     def is_staff(self):
         """Compatibility API for admin interface."""
         return self.is_superuser
-
-    @is_staff.setter
-    def set_staff(self, is_staff):
-        """Compatibility API for third party auth modules.
-
-        We silently ignore this flag as we do not differentiate between staff
-        and admin flags.
-        """
-        return
 
     # pylint: disable=keyword-arg-before-vararg
     def has_perm(self, perm, obj=None, *args):
