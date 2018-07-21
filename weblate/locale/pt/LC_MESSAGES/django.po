@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-07-07 08:58+0000\n"
-"PO-Revision-Date: 2018-02-24 23:40+0000\n"
-"Last-Translator: Paulo Caldeira <paucal@gmail.com>\n"
+"PO-Revision-Date: 2018-07-22 10:36+0000\n"
+"Last-Translator: Pedro Albuquerque <palbuquerque73@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "master/pt/>\n"
 "Language: pt\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.20-dev\n"
+"X-Generator: Weblate 3.1-dev\n"
 
 #: weblate/accounts/avatar.py:131
 msgctxt "No known user"
@@ -81,8 +81,6 @@ msgstr ""
 "observados."
 
 #: weblate/accounts/forms.py:276 weblate/auth/models.py:274
-#, fuzzy
-#| msgid "E-mail"
 msgid "Email"
 msgstr "E-mail"
 
@@ -125,10 +123,8 @@ msgid "Activation email will be sent here."
 msgstr "Um e-mail de activação será enviado para aqui."
 
 #: weblate/accounts/forms.py:386
-#, fuzzy
-#| msgid "Too many registration attempts!"
 msgid "Too many registration attempts from this location!"
-msgstr "Muitas tentativas de autenticação!"
+msgstr "Muitas tentativas de registo nesta localização!"
 
 #: weblate/accounts/forms.py:393
 msgid "New password"
@@ -188,10 +184,8 @@ msgid "This account is inactive."
 msgstr "Esta conta está inactiva."
 
 #: weblate/accounts/forms.py:547
-#, fuzzy
-#| msgid "Too many authentication attempts!"
 msgid "Too many authentication attempts from this location!"
-msgstr "Muitas tentativas de autenticação!"
+msgstr "Muitas tentativas de autenticação nesta localização!"
 
 #: weblate/accounts/forms.py:605 weblate/templates/addons/generate_help.html:21
 #: weblate/trans/models/project.py:55
@@ -236,38 +230,28 @@ msgid "Password reset has been requested."
 msgstr "Foi solicitada a redefinição da palavra-passe."
 
 #: weblate/accounts/models.py:58
-#, fuzzy
-#| msgid "Password reset has been confirmed and password has been reset."
 msgid "Password reset has been confirmed and password has been disabled."
-msgstr ""
-"A redefinição da palavra-passe foi confirmada e a palavra-passe foi "
-"redefinida."
+msgstr "A redefinição da senha foi confirmada e a senha foi desactivada."
 
 #: weblate/accounts/models.py:61
-#, fuzzy, python-brace-format
-#| msgid "Authentication using {method} ({name}) has been added."
+#, python-brace-format
 msgid "Authentication ({method}:{name}) has been added."
 msgstr "A autenticação {method} ({name}) foi adicionada."
 
 #: weblate/accounts/models.py:64
-#, fuzzy, python-brace-format
-#| msgid "Authentication using {method} ({name}) has been removed."
+#, python-brace-format
 msgid "Authentication ({method}:{name}) has been removed."
 msgstr "A autenticação {method} ({name}) foi removida."
 
 #: weblate/accounts/models.py:67
-#, fuzzy, python-brace-format
-#| msgid "Successfully authenticated using {method} ({name})."
+#, python-brace-format
 msgid "Authenticated ({method}:{name})."
-msgstr "Autenticação com sucesso de {method} ({name})."
+msgstr "Autenticação {method} ({name})."
 
 #: weblate/accounts/models.py:70
-#, fuzzy, python-brace-format
-#| msgid "Successfully authenticated using {method} ({name}) from new device."
+#, python-brace-format
 msgid "Authenticated ({method}:{name}) from new device."
-msgstr ""
-"Autenticação com sucesso usando {method} ({name}) a partir de novo "
-"dispositivo."
+msgstr "Autenticação {method} ({name}) a partir de novo dispositivo."
 
 #: weblate/accounts/models.py:73
 msgid "Somebody has attempted to register with your email."
@@ -278,10 +262,9 @@ msgid "Somebody has attempted to add your email to existing account."
 msgstr "Alguém tentou adicionar o seu e-mail a uma conta existente."
 
 #: weblate/accounts/models.py:79
-#, fuzzy, python-brace-format
-#| msgid "Failed authentication attempt using {method} ({name})."
+#, python-brace-format
 msgid "Failed authentication attempt ({method}:{name})."
-msgstr "Falha na autenticação com {method} ({name})."
+msgstr "Falha na autenticação {method} ({name})."
 
 #: weblate/accounts/models.py:82
 msgid "Account locked due to excessive failed authentication attempts."
@@ -299,7 +282,7 @@ msgstr "Acordo com os termos do serviço {date}."
 
 #: weblate/accounts/models.py:94
 msgid "To restore access to your account, please reset your password."
-msgstr ""
+msgstr "Para repor o acesso à sua conta, por favor reinicie a sua senha."
 
 #: weblate/accounts/models.py:177 weblate/templates/accounts/profile.html:322
 msgid "Account activity"
@@ -330,8 +313,6 @@ msgstr ""
 "além da cadeia original."
 
 #: weblate/accounts/models.py:311
-#, fuzzy
-#| msgid "Hide completed translations on dashboard"
 msgid "Hide completed translations on the dashboard"
 msgstr "Ocultar as traduções completas no painel"
 
@@ -411,10 +392,6 @@ msgid "Watched projects"
 msgstr "Projectos observados"
 
 #: weblate/accounts/models.py:390
-#, fuzzy
-#| msgid ""
-#| "You can receive notifications for watched projects and they are shown on "
-#| "dashboard by default."
 msgid ""
 "You can receive notifications for watched projects and they are shown on the "
 "dashboard by default."
@@ -451,17 +428,12 @@ msgid "Notification on new language request"
 msgstr "Notificar sobre novo pedido de idioma"
 
 #: weblate/accounts/models.py:475
-#, fuzzy
-#| msgid "Component list must be selected when used as default."
 msgid "Component list must be chosen when used as default."
-msgstr ""
-"Deve seleccionar a lista de componentes quando usada como predefinição."
+msgstr "Deve seleccionar a lista de componentes quando usada como predefinição."
 
 #: weblate/accounts/models.py:481
-#, fuzzy
-#| msgid "Component list must not be selected when not used."
 msgid "Component list can not be chosen when unused."
-msgstr "A lista de componentes não deve ser seleccionada quando não for usada."
+msgstr "A lista de componentes não pode ser seleccionada quando não for usada."
 
 #: weblate/accounts/models.py:536
 msgid ""
@@ -666,46 +638,44 @@ msgstr ""
 "traduções obsoletas que já não existem no ficheiro base."
 
 #: weblate/addons/consistency.py:33
-#, fuzzy
-#| msgid "Language code"
 msgid "Language consistency"
-msgstr "Código do idioma"
+msgstr "Consistência do idioma"
 
 #: weblate/addons/consistency.py:35
 msgid ""
 "This addon ensures that all components within one project have translation "
 "to same languages."
 msgstr ""
+"Esta extensão garante que todos os componentes de um projecto têm tradução "
+"para os mesmos idiomas."
 
 #: weblate/addons/discovery.py:35
-#, fuzzy
-#| msgid "Component list"
 msgid "Component discovery"
-msgstr "Lista de componentes"
+msgstr "Descoberta de componentes"
 
 #: weblate/addons/discovery.py:37
 msgid ""
 "This addon automatically adds or removes components to the project based on "
 "file changes in the version control system."
 msgstr ""
+"Esta extensão adiciona ou remove componentes automaticamente ao projecto, "
+"baseada em alterações de ficheiros no sistema de controlo de versões."
 
 #: weblate/addons/example.py:42
 msgid "Example addon"
 msgstr "Extensão exemplo"
 
 #: weblate/addons/example.py:44
-#, fuzzy
-#| msgid "This addon does nothing it is just an example"
 msgid "This addon does nothing it is just an example."
-msgstr "Esta extensão não faz nada, é só um exemplo"
+msgstr "Esta extensão não faz nada, é só um exemplo."
 
 #: weblate/addons/example_pre.py:38
 msgid "Execute script before commit"
-msgstr ""
+msgstr "Executar o script antes de submeter"
 
 #: weblate/addons/example_pre.py:39
 msgid "This addon executes a script."
-msgstr ""
+msgstr "Esta extensão executa um script."
 
 #: weblate/addons/flags.py:50
 msgid "Flag new source strings to need edit"
@@ -726,41 +696,30 @@ msgid "Flag new translations to need edit"
 msgstr "Marcar novas traduções a editar"
 
 #: weblate/addons/flags.py:66
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translation unit is imported from the VCS, it is flagged "
-#| "as needing editing in Weblate. This way you can easily filter and edit "
-#| "translations created by the developers."
 msgid ""
 "Whenever a new translation string is imported from the VCS, it is flagged as "
 "needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
-"Sempre que uma nova unidade de tradução é importada do VCS, é marcada como "
+"Sempre que uma nova cadeia de tradução é importada do VCS, é marcada como "
 "necessitando de edição no Weblate. Assim pode facilmente filtrar e editar "
 "traduções escritas pelos programadores."
 
 #: weblate/addons/flags.py:78
-#, fuzzy
-#| msgid "Flag new translations to need edit"
 msgid "Flag unchanged translations to need edit"
-msgstr "Marcar novas traduções a editar"
+msgstr "Marcar traduções inalteradas como Necessita de edição"
 
 #: weblate/addons/flags.py:80
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translation unit is imported from the VCS, it is flagged "
-#| "as needing editing in Weblate. This way you can easily filter and edit "
-#| "translations created by the developers."
 msgid ""
 "Whenever a new translation string is imported from the VCS and it matches "
 "source strings, it is flagged as needing editing in Weblate. This is "
 "especially useful for file formats including all strings even if they are "
 "not translated."
 msgstr ""
-"Sempre que uma nova unidade de tradução é importada do VCS, é marcada como "
-"necessitando de edição no Weblate. Assim pode facilmente filtrar e editar "
-"traduções escritas pelos programadores."
+"Sempre que uma nova cadeia de tradução é importada do VCS e corresponde a "
+"cadeias-fonte, é marcada como necessitando de edição no Weblate. Isto é "
+"particularmente útil para formatos de ficheiro incluindo todas as cadeias, "
+"mesmo por traduzir."
 
 #: weblate/addons/forms.py:50
 msgid "Name of generated file"
@@ -772,45 +731,39 @@ msgstr "Conteúdo do ficheiro gerado"
 
 #: weblate/addons/forms.py:83
 msgid "Long lines wrapping"
-msgstr ""
+msgstr "Ajuste de linhas longas"
 
 #: weblate/addons/forms.py:85
 msgid "Wrap lines at 77 chars and at newlines"
-msgstr ""
+msgstr "Quebrar linhas aos 77 caracteres e em novas linhas"
 
 #: weblate/addons/forms.py:86
-#, fuzzy
-#| msgid "Trailing newline"
 msgid "Only wrap lines at newlines"
-msgstr "Quebra de linha no final"
+msgstr "Quebrar linhas só em novas linhas"
 
 #: weblate/addons/forms.py:87
 msgid "No line wrapping"
-msgstr ""
+msgstr "Sem quebra de linhas"
 
 #: weblate/addons/forms.py:92
 msgid ""
 "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
 "parameter it wraps only at newlines."
 msgstr ""
+"O getttext quebra as linhas nos 77 caracteres e em novas linhas, com a opção "
+"--no-wrap só o faz nas novas linhas."
 
 #: weblate/addons/forms.py:100
-#, fuzzy
-#| msgid "SSH keys"
 msgid "Sort JSON keys"
-msgstr "Chaves SSH"
+msgstr "Ordenar chaves JSON"
 
 #: weblate/addons/forms.py:104
-#, fuzzy
-#| msgid "API documentation"
 msgid "JSON indentation"
-msgstr "Documentação API"
+msgstr "Indentação JSON"
 
 #: weblate/addons/forms.py:124
-#, fuzzy
-#| msgid "Regular expression which is used to match user email."
 msgid "Regular expression to match translation files"
-msgstr "Expressão regular usada para comparar o email do utilizador."
+msgstr "Expressão regular para comparar ficheiros de tradução"
 
 #: weblate/addons/forms.py:128 weblate/trans/forms.py:564
 #: weblate/trans/models/component.py:229
@@ -824,39 +777,27 @@ msgstr ""
 "lenta."
 
 #: weblate/addons/forms.py:138
-#, fuzzy
-#| msgid "Component name"
 msgid "Customize the component name"
-msgstr "Nome do componente"
+msgstr "Personalizar nome do componente"
 
 #: weblate/addons/forms.py:143
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Define the monolingual base filename"
-msgstr "Ficheiro monolíngue de base"
+msgstr "Definir nome do ficheiro monolíngue de base"
 
 #: weblate/addons/forms.py:146
-#, fuzzy
-#| msgid "The request for machine translation has failed."
 msgid "Keep empty for bilingual translation files."
-msgstr "O pedido para a tradução automática falhou."
+msgstr "Manter vazio para ficheiros de tradução bilingues."
 
 #: weblate/addons/forms.py:149
-#, fuzzy
-#| msgid "Base file for new translations"
 msgid "Define the base file for new translations"
-msgstr "Ficheiro base para novas traduções"
+msgstr "Defina o ficheiro base para novas traduções"
 
 #: weblate/addons/forms.py:153 weblate/trans/models/component.py:224
-#, fuzzy
-#| msgid ""
-#| "Filename of file which is used for creating new translations. For Gettext "
-#| "choose .pot file."
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
 msgstr ""
-"Nome do ficheiro usado para criar novas traduções. Para Gettext escolher "
+"Nome do ficheiro usado para criar novas traduções. Para gettext escolher "
 "ficheiro \".pot\"."
 
 #: weblate/addons/forms.py:158 weblate/trans/models/component.py:400
@@ -873,17 +814,15 @@ msgstr ""
 
 #: weblate/addons/forms.py:168
 msgid "Remove components for non existing files"
-msgstr ""
+msgstr "Remover componentes para ficheiros inexistentes"
 
 #: weblate/addons/forms.py:172
 msgid "I confirm that the above matches look correct"
-msgstr ""
+msgstr "Confirmo que as correspondências acima parecem correctas"
 
 #: weblate/addons/forms.py:235
-#, fuzzy
-#| msgid "Please review and confirm the search and replace results."
 msgid "Please review and confirm matched components."
-msgstr "Por favor, reveja e confirme os resultados da procura e substituição."
+msgstr "Por favor, reveja e confirme os componentes comparados."
 
 #: weblate/addons/generate.py:36
 msgid "Statistics generator"
