@@ -24,6 +24,7 @@ from appconf import AppConf
 
 from django.db import models
 from django.db.models import Q
+from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.encoding import python_2_unicode_compatible
@@ -32,10 +33,10 @@ from django.utils.functional import cached_property
 from weblate.addons.events import (
     EVENT_CHOICES, EVENT_POST_PUSH, EVENT_POST_UPDATE, EVENT_PRE_COMMIT,
     EVENT_POST_COMMIT, EVENT_POST_ADD, EVENT_UNIT_PRE_CREATE,
-    EVENT_STORE_POST_LOAD,
+    EVENT_UNIT_POST_SAVE, EVENT_STORE_POST_LOAD,
 )
 
-from weblate.trans.models import Component
+from weblate.trans.models import Component, Unit
 from weblate.trans.signals import (
     vcs_post_push, vcs_post_update, vcs_pre_commit, vcs_post_commit,
     translation_post_add, unit_pre_create, store_post_load,
@@ -181,6 +182,17 @@ def unit_pre_create_handler(sender, unit, **kwargs):
     )
     for addon in addons:
         addon.addon.unit_pre_create(unit)
+
+
+@receiver(post_save)
+def unit_post_save_handler(sender, instance, created, **kwargs):
+    if sender is not Unit:
+        return
+    addons = Addon.objects.filter_event(
+        instance.translation.component, EVENT_UNIT_POST_SAVE
+    )
+    for addon in addons:
+        addon.addon.unit_post_save(instance, created)
 
 
 @receiver(store_post_load)
