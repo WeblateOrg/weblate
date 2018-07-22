@@ -6,7 +6,9 @@ Addons
 .. versionadded:: 2.19
 
 Addons provide ways to customize translation workflow. You can install addons
-to your translation component and they will work behind the scenes.
+to your translation component and they will work behind the scenes. The addon
+management can be found under :guilabel:`Manage` menu of a translation
+component.
 
 .. image:: ../images/addons.png
 
