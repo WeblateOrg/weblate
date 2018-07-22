@@ -1229,7 +1229,7 @@ LANGUAGES = (
         '(n == 1) ? 0 : ((n == 2) ? 1 : 2)',
     ),
     (
-        'nb',
+        'nb_NO',
         _('Norwegian Bokmål'),
         2,
         'n != 1',
@@ -1399,6 +1399,12 @@ LANGUAGES = (
     (
         'pt',
         _('Portuguese'),
+        2,
+        'n > 1',
+    ),
+    (
+        'pt_AO',
+        _('Portuguese (Angola)'),
         2,
         'n > 1',
     ),
