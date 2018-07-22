@@ -37,7 +37,7 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        # Use 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        # Use 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
         'ENGINE': 'django.db.backends.sqlite3',
         # Database name or path to database file if using sqlite3.
         'NAME': 'weblate.db',

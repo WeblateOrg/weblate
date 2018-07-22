@@ -496,7 +496,7 @@ The :file:`settings.py` snippet for PostgreSQL:
     DATABASES = {
         'default': {
             # Database engine
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'ENGINE': 'django.db.backends.postgresql',
             # Database name
             'NAME': 'weblate',
             # Database user

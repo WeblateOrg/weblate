@@ -44,16 +44,14 @@ if 'CI_DATABASE' in os.environ:
             'isolation_level': 'read committed',
         }
     elif os.environ['CI_DATABASE'] == 'postgresql':
-        DATABASES['default']['ENGINE'] = \
-            'django.db.backends.postgresql_psycopg2'
+        DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
         DATABASES['default']['NAME'] = 'weblate'
         DATABASES['default']['USER'] = 'postgres'
         DATABASES['default']['PASSWORD'] = ''
     else:
         DATABASES['default']['TEST'] = {'NAME': 'weblate_test.db'}
 elif 'SCRUTINIZER' in os.environ:
-    DATABASES['default']['ENGINE'] = \
-        'django.db.backends.postgresql_psycopg2'
+    DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
     DATABASES['default']['NAME'] = 'scrutinizer'
     DATABASES['default']['USER'] = 'scrutinizer'
     DATABASES['default']['PASSWORD'] = 'scrutinizer'

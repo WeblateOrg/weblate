@@ -52,7 +52,7 @@ if 'OPENSHIFT_MYSQL_DB_URL' in os.environ:
 if 'OPENSHIFT_POSTGRESQL_DB_URL' in os.environ:
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'ENGINE': 'django.db.backends.postgresql',
             'NAME': os.environ['OPENSHIFT_APP_NAME'],
             'USER': os.environ['OPENSHIFT_POSTGRESQL_DB_USERNAME'],
             'PASSWORD': os.environ['OPENSHIFT_POSTGRESQL_DB_PASSWORD'],
