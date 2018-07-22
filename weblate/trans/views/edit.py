@@ -194,31 +194,6 @@ def perform_suggestion(unit, form, request):
             )
             return False
 
-    # Invite user to become translator if there is nobody else
-    # and the project is accepting translations
-    translation = unit.translation
-    if (not translation.component.suggestion_voting
-            or not translation.component.suggestion_autoaccept):
-        recent_changes = Change.objects.content(True).filter(
-            translation=translation,
-        ).exclude(
-            user=None
-        )
-        if not recent_changes.exists():
-            messages.info(request, _(
-                'There is currently no active translator for this '
-                'translation, please consider becoming a translator '
-                'as your suggestion might otherwise remain unreviewed.'
-            ))
-            messages.info(request, mark_safe(
-                '<a href="{0}">{1}</a>'.format(
-                    escape(get_doc_url('user/translating')),
-                    escape(_(
-                        'See our documentation for more information '
-                        'on translating using Weblate.'
-                    )),
-                )
-            ))
     # Create the suggestion
     result = Suggestion.objects.add(
         unit,
