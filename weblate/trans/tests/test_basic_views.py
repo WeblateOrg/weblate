@@ -32,7 +32,7 @@ class BasicViewTest(FixtureTestCase):
         response = self.client.get(
             reverse('about')
         )
-        self.assertContains(response, 'Translate Toolkit')
+        self.assertContains(response, 'translate-toolkit')
 
     def test_stats(self):
         response = self.client.get(
