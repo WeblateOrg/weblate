@@ -97,7 +97,6 @@ DEFAULT_LANGS = (
     'mr_in',
     'ms_my',
     'mt_mt',
-    'nb_no',
     'ne_np',
     'nl_nl',
     'nn_no',
@@ -399,7 +398,7 @@ LOCALE_ALIASES = {
     'serbo-croatian': 'sr_Latn',
     'serbian': 'sr',
     'indonesian': 'id',
-    'norwegian': 'nb',
+    'norwegian': 'nb_NO',
     'spanish': 'es',
     'german': 'de',
     'french': 'fr',
@@ -408,7 +407,7 @@ LOCALE_ALIASES = {
     'be-rby': 'be_Latn',
     # Misc invalid codes
     'val_es': 'ca@valencia',
-    'no_nb': 'nb',
+    'no_nb': 'nb_NO',
     'es_eu': 'eu',
     'ru_r': 'ru',
     'ru_rr': 'ru',
@@ -428,11 +427,12 @@ LOCALE_ALIASES = {
     'scc': 'sr',  # Serbian
     'scr': 'hr',  # Croatian
     'sh': 'sr_Latn',  # Serbo-Croatian
-    'no': 'nb',  # Norwegian
+    'no': 'nb_NO',  # Norwegian
     # Strip not needed country
     'sr_latn_rs': 'sr_Latn',
     'bs_latn_ba': 'bs_Latn',
     # Prefer new variants
+    'nb': 'nb_NO',
     'be@latin': 'be_Latn',
     'sr@latin': 'sr_Latn',
     'sr_rs@latin': 'sr_Latn',
