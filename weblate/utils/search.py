@@ -20,15 +20,19 @@
 
 from __future__ import unicode_literals
 
-from translate.search.lshtein import LevenshteinComparer
+from jellyfish import damerau_levenshtein_distance
 
 
-class Comparer(LevenshteinComparer):
-    """Customized Levenshtein comparer with better default values."""
-    def __init__(self, max_len=10000):
-        LevenshteinComparer.__init__(self, max_len)
+class Comparer(object):
+    """String comparer abstraction.
 
-    def similarity(self, a, b, stoppercentage=50):
-        return int(
-            LevenshteinComparer.similarity(self, a, b, stoppercentage)
-        )
+    The reason is to be able to change implementation."""
+
+    def similarity(self, a, b):
+        """Returns string similarity in range 0 - 100%."""
+        try:
+            distance = damerau_levenshtein_distance(a, b)
+            return int(100 * (1.0 - (distance / max(len(a), len(b), 1))))
+        except MemoryError:
+            # Too long string, mark them as not much similar
+            return 50

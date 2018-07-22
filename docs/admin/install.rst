@@ -91,8 +91,8 @@ akismet (>= 1.0) (optional for suggestion spam protection)
     https://github.com/ubernostrum/akismet
 PyYAML (>= 3.0) (optional for :ref:`yaml`)
     https://pyyaml.org/
-python-Levenshtein (recommended for performance)
-    https://github.com/ztane/python-Levenshtein/
+jellyfish (>= 0.6.1)
+    https://github.com/jamesturk/jellyfish
 
 Other system requirements
 +++++++++++++++++++++++++

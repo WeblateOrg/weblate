@@ -16,6 +16,7 @@ Released on ? 2018.
 * New addon to mark unchanged translations as needing edit.
 * Add support for jumping to specific location while translating.
 * Downloaded translations can now be customized.
+* Improved calculation of string similarity in translation memory matches.
 
 weblate 3.0.1
 -------------

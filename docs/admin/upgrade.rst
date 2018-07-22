@@ -85,6 +85,7 @@ Notable configuration or dependencies changes:
 
 * Several no longer needed applications have been removed from :setting:`django:INSTALLED_APPS`.
 * The settings now recommend using several Django security features, see :ref:`django:security-recommendation-ssl`.
+* There is new dependency on the ``jellyfish`` module.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
