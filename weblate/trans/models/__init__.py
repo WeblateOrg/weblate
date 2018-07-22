@@ -44,6 +44,7 @@ from weblate.trans.models.componentlist import (
 )
 from weblate.trans.signals import user_pre_delete
 from weblate.utils.decorators import disable_for_loaddata
+from weblate.trans.tests.utils import remove_readonly
 
 __all__ = [
     'Project', 'Component', 'Translation', 'Unit', 'Suggestion',
@@ -65,7 +66,7 @@ def delete_object_dir(sender, instance, **kwargs):
 
     # Remove path if it exists
     if os.path.exists(project_path):
-        shutil.rmtree(project_path)
+        shutil.rmtree(project_path, onerror=remove_readonly)
 
 
 @receiver(post_save, sender=Source)
