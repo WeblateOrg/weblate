@@ -273,7 +273,7 @@ LANGUAGES = (
     ),
     (
         'nb_NO',
-        'nb',
+        'nb_NO',
         'ltr',
         'n != 1',
         'Norwegian Bokmål',
@@ -281,7 +281,7 @@ LANGUAGES = (
     ),
     (
         'nb-NO',
-        'nb',
+        'nb_NO',
         'ltr',
         'n != 1',
         'Norwegian Bokmål',
@@ -289,7 +289,7 @@ LANGUAGES = (
     ),
     (
         'nb',
-        'nb',
+        'nb_NO',
         'ltr',
         'n != 1',
         'Norwegian Bokmål',
