@@ -520,6 +520,20 @@ To make outgoing email work, you need to provide mail server.
 
     .. seealso:: :setting:`django:EMAIL_USE_TLS`
 
+Error reporting
+~~~~~~~~~~~~~~~
+
+It is recommended to collect errors from the installation in systematic way,
+see :ref:`collecting-errors`. To enable support for Rollbar, set following:
+
+.. envvar:: ROLLBAR_KEY
+
+    Your Rollbar post server access token.
+
+.. envvar:: ROLLBAR_ENVIRONMENT
+
+    Your Rollbar environment, defaults to ``production``.
+
 Further configuration customization
 +++++++++++++++++++++++++++++++++++
 

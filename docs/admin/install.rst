@@ -1299,6 +1299,8 @@ Monitoring Weblate
 Weblate provides ``/healthz/`` URL to be used in simple health checks, for example
 using Kubernetes.
 
+.. _collecting-errors:
+
 Collecting error reports
 ------------------------
 
