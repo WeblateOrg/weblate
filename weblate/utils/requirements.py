@@ -23,8 +23,13 @@ from __future__ import print_function, unicode_literals
 import importlib
 import sys
 from distutils.version import LooseVersion
+
+
 from django.core.checks import Error
 from django.core.exceptions import ImproperlyConfigured
+
+import pkg_resources
+
 from weblate.utils.docs import get_doc_url
 from weblate.vcs.git import (
     GitRepository, SubversionRepository, GitWithGerritRepository,
@@ -46,22 +51,20 @@ def get_version_module(module, name, url, optional=False):
             return None
         raise ImproperlyConfigured(
             'Failed to import {0}, please install {1} from {2}'.format(
-                module.replace('.__version__', ''),
-                name,
-                url
+                module, name, url
             )
         )
     return mod
 
 
-def get_optional_module(result, module, name, url, attr='__version__'):
+def get_optional_module(result, module, name, url):
     """Get metadata for optional dependency"""
     mod = get_version_module(module, name, url, True)
     if mod is not None:
         result.append((
             name,
             url,
-            getattr(mod, attr) if attr else 'N/A',
+            pkg_resources.get_distribution(name).version,
             None,
         ))
 
@@ -75,12 +78,12 @@ def get_optional_versions():
     )
 
     get_optional_module(
-        result, 'pyuca', 'pyuca', 'https://github.com/jtauber/pyuca', None
+        result, 'pyuca', 'pyuca', 'https://github.com/jtauber/pyuca'
     )
 
     get_optional_module(
         result, 'bidi', 'python-bidi',
-        'https://github.com/MeirKriheli/python-bidi', 'VERSION'
+        'https://github.com/MeirKriheli/python-bidi'
     )
 
     get_optional_module(
@@ -126,20 +129,13 @@ def get_optional_versions():
     return result
 
 
-def get_single(name, url, module, required, getter='__version__'):
+def get_single(name, url, module, required):
     """Return version information for single module"""
-    mod = get_version_module(module, name, url)
-    version_getter = getattr(mod, getter)
-    if hasattr(version_getter, '__call__'):
-        current = version_getter()
-    else:
-        current = version_getter
-    if isinstance(current, tuple):
-        current = '.'.join([str(x) for x in current])
+    get_version_module(module, name, url)
     return (
         name,
         url,
-        current,
+        pkg_resources.get_distribution(name).version,
         required,
     )
 
@@ -160,7 +156,6 @@ def get_versions():
         'https://www.djangoproject.com/',
         'django',
         '1.11',
-        'get_version'
     ))
 
     result.append(get_single(
@@ -192,11 +187,10 @@ def get_versions():
     ))
 
     result.append(get_single(
-        'Translate Toolkit',
+        'translate-toolkit',
         'http://toolkit.translatehouse.org/',
-        'translate.__version__',
+        'translate',
         '2.3.0',
-        'sver',
     ))
 
     result.append(get_single(
@@ -204,7 +198,6 @@ def get_versions():
         'https://bitbucket.org/mchaput/whoosh/',
         'whoosh',
         '2.7',
-        'versionstring',
     ))
 
     result.append(get_single(
@@ -225,15 +218,14 @@ def get_versions():
         raise ImproperlyConfigured('Failed to run git, please install it.')
 
     result.append(get_single(
-        'Pillow (PIL)',
+        'Pillow',
         'https://python-pillow.org/',
         'PIL.Image',
         '1.1.6',
-        'VERSION',
     ))
 
     result.append(get_single(
-        'dateutil',
+        'python-dateutil',
         'https://labix.org/python-dateutil',
         'dateutil',
         '1.0'
@@ -254,7 +246,7 @@ def get_versions():
     ))
 
     result.append(get_single(
-        'compressor',
+        'django_compressor',
         'https://github.com/django-compressor/django-compressor',
         'compressor',
         '2.1',
@@ -272,7 +264,6 @@ def get_versions():
         'https://github.com/selwin/python-user-agents',
         'user_agents',
         '1.1.0',
-        'VERSION',
     ))
 
     return result
