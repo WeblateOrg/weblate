@@ -341,7 +341,7 @@ def show_project(request, project):
     else:
         mass_state_form = None
 
-    if not request.user.has_perm('unit.edit', obj):
+    if request.user.has_perm('unit.edit', obj):
         replace_form = ReplaceForm()
     else:
         replace_form = None
@@ -382,7 +382,7 @@ def show_component(request, project, component):
     else:
         mass_state_form = None
 
-    if not request.user.has_perm('unit.edit', obj):
+    if request.user.has_perm('unit.edit', obj):
         replace_form = ReplaceForm()
     else:
         replace_form = None
@@ -445,7 +445,7 @@ def show_translation(request, project, component, lang):
             initial={'exclude_user': request.user.username}
         )
 
-    if not request.user.has_perm('unit.edit', obj):
+    if request.user.has_perm('unit.edit', obj):
         replace_form = ReplaceForm()
     else:
         replace_form = None
