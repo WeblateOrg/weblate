@@ -203,7 +203,7 @@ cleanup_avatar_cache
 
 .. django-admin:: cleanup_avatar_cache
 
-Removes invalid items in avatar chache. This can be useful when switching
+Removes invalid items in avatar cache. This can be useful when switching
 between Python 2 and 3 as the cache files might be not compatible.
 
 cleanuptrans
