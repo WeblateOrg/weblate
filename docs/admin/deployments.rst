@@ -520,7 +520,7 @@ To make outgoing email work, you need to provide mail server.
 
     .. seealso:: :setting:`django:EMAIL_USE_TLS`
 
-Further configuration custmoziation
+Further configuration customization
 +++++++++++++++++++++++++++++++++++
 
 You can additionally override the configuration by
