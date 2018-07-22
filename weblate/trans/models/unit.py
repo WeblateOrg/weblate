@@ -24,6 +24,7 @@ from copy import copy
 import functools
 import traceback
 import multiprocessing
+import sys
 
 from django.conf import settings
 from django.db import models, transaction
@@ -43,6 +44,7 @@ from weblate.trans.models.change import Change
 from weblate.trans.search import update_index_unit, fulltext_search, more_like
 from weblate.trans.signals import unit_pre_create
 from weblate.trans.mixins import LoggerMixin
+from weblate.utils.errors import report_error
 from weblate.trans.util import (
     is_plural, split_plural, join_plural, get_distinct_translations,
 )
@@ -603,7 +605,13 @@ class Unit(models.Model, LoggerMixin):
 
         # Commit possible previous changes on this unit
         if self.pending:
-            change = self.change_set.content().order_by('-timestamp')[0]
+            try:
+                change = self.change_set.content().order_by('-timestamp')[0]
+            except IndexError as error:
+                # This is probably bug in the change data, fallback by using
+                # any change entry
+                report_error(error, sys.exc_info(), request)
+                change = self.change_set.all().order_by('-timestamp')[0]
             if change.author_id != request.user.id:
                 self.translation.commit_pending(request)
 
