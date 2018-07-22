@@ -34,9 +34,8 @@ from weblate.vcs.git import (
     SubversionRepository
 )
 from weblate.vcs.mercurial import HgRepository
-from weblate.trans.tests.utils import (
-    get_test_file, remove_readonly, TempDirMixin,
-)
+from weblate.trans.tests.utils import get_test_file, TempDirMixin
+from weblate.utils.files import remove_readonly
 
 
 class GithubFakeRepository(GithubRepository):

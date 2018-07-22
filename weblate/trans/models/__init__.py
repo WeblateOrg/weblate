@@ -44,7 +44,7 @@ from weblate.trans.models.componentlist import (
 )
 from weblate.trans.signals import user_pre_delete
 from weblate.utils.decorators import disable_for_loaddata
-from weblate.trans.tests.utils import remove_readonly
+from weblate.utils.files import remove_readonly
 
 __all__ = [
     'Project', 'Component', 'Translation', 'Unit', 'Suggestion',

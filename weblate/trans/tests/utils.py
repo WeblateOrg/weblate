@@ -33,6 +33,7 @@ from weblate.formats.models import FILE_FORMATS
 from weblate.trans.models import Project, Component
 from weblate.trans.search import clean_indexes
 from weblate.vcs.models import VCS_REGISTRY
+from weblate.utils.files import remove_readonly
 
 # Directory holding test data
 TEST_DATA = os.path.join(
@@ -47,12 +48,6 @@ REPOWEB_URL = \
 def get_test_file(name):
     """Return filename of test file."""
     return os.path.join(TEST_DATA, name)
-
-
-def remove_readonly(func, path, _):
-    "Clear the readonly bit and reattempt the removal"
-    os.chmod(path, stat.S_IWRITE)
-    func(path)
 
 
 def create_test_user():
