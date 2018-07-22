@@ -14,7 +14,7 @@ python:
 env:
   matrix:
     - CI_DEPS="Django>=2.0,<2.1" CI_DATABASE=sqlite
-    - CI_DEPS="Django>=2.0,<2.1" CI_DATABASE=mysql
+    - CI_DEPS="Django==2.0.6" CI_DATABASE=mysql
     - CI_DEPS="Django>=2.0,<2.1" CI_DATABASE=postgresql
     - CI_DEPS="Django>=2.0,<2.1" CI_MODE=selenium
     - CI_DEPS="Django>=2.0,<2.1" CI_MODE=setup
