@@ -105,7 +105,7 @@ you can do that using following command:
     ./manage.py rebuild_index --clean --all
 
 The caches might be incompatible (depending on cache backend you are using), so
-it might be good idea to purge caches.
+it might be good idea to cleanup avatar cache using :djadmin:`cleanup_avatar_cache`.
 
 .. _pootle-migration:
 
