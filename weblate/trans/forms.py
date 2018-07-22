@@ -1481,6 +1481,10 @@ class ReplaceForm(forms.Form):
         required=True,
     )
 
+    def __init__(self, *args, **kwargs):
+        kwargs['auto_id'] = 'id_replace_%s'
+        super(ReplaceForm, self).__init__(*args, **kwargs)
+
 
 class ReplaceConfirmForm(forms.Form):
     units = forms.ModelMultipleChoiceField(
