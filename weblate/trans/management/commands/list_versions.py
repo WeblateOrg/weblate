@@ -18,9 +18,12 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import platform
+
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django import db
+
 from weblate.utils.requirements import get_versions_string
 
 
@@ -41,5 +44,12 @@ class Command(BaseCommand):
             ', '.join(
                 '{}:{}'.format(key, value['BACKEND'].split('.')[-1])
                 for key, value in settings.CACHES.items()
+            )
+        )
+        self.stdout.write(
+            ' * Platform: {} {} ({})'.format(
+                platform.system(),
+                platform.release(),
+                platform.machine(),
             )
         )
