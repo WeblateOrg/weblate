@@ -1046,6 +1046,30 @@ List of file formats available for use, you can usually keep this on default val
 
     :ref:`formats`
 
+.. setting:: WEBLATE_GPG_IDENTIY
+
+WEBLATE_GPG_IDENTIY
+-------------------
+
+.. versionadded:: 3.1
+
+Identity which should be used by Weblate to sign Git commits, for example:
+
+.. code-block:: python
+
+    WEBLATE_GPG_IDENTITY = 'Weblate <weblate@example.com>'
+
+.. warning::
+
+    If you are going to change value of setting, it is advisable to clean the
+    cache as the key information is cached for seved days. This is not
+    necessarry for initial setup as nothing is cached if this feature is not
+    configured.
+
+.. seealso::
+
+    :ref:`gpg-sign`
+
 .. setting:: WHOOSH_INDEX
 
 WHOOSH_INDEX

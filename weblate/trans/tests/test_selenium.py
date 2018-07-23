@@ -391,6 +391,15 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         """Test registration without cookies."""
         self.test_register(True)
 
+    @override_settings(WEBLATE_GPG_IDENTITY='Weblate <weblate@example.com>')
+    def test_gpg(self):
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element_by_partial_link_text('About Weblate')
+            )
+        self.screenshot('about-gpg.png')
+
+
     def test_ssh(self):
         """Test SSH admin interface."""
         self.open_admin()

@@ -55,6 +55,7 @@ from weblate.trans.views.helper import (
     try_set_language,
 )
 from weblate.trans.util import render, sort_objects, sort_unicode
+from weblate.vcs.gpg import get_gpg_public_key, get_gpg_sign_key
 
 
 def get_untranslated(base, limit=None):
@@ -541,6 +542,8 @@ def about(request):
             'title': _('About Weblate'),
             'versions': get_versions() + get_optional_versions(),
             'allow_index': True,
+            'gpg_key_id': get_gpg_sign_key(),
+            'gpg_key': get_gpg_public_key(),
         }
     )
 

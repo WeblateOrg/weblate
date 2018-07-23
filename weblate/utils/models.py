@@ -17,3 +17,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+
+from __future__ import unicode_literals
+
+from appconf import AppConf
+
+
+class WeblateConf(AppConf):
+    GPG_IDENTITY = None
+
+    class Meta(object):
+        prefix = 'WEBLATE'

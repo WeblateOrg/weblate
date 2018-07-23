@@ -34,6 +34,7 @@ from django.utils.functional import cached_property
 from weblate.trans.util import get_clean_env
 from weblate.vcs.ssh import get_wrapper_filename
 from weblate.vcs.base import Repository, RepositoryException
+from weblate.vcs.gpg import get_gpg_sign_key
 
 
 class GitRepository(Repository):
@@ -136,11 +137,14 @@ class GitRepository(Repository):
             # Checkout upstream branch
             self.execute(['checkout', tmp])
             # Merge current Weblate changes, this can lead to conflict
-            self.execute([
+            cmd = [
                 'merge',
-                '-m', "Merge branch '{}' into Weblate".format(remote),
-                self.branch
-            ])
+                '--message',
+                "Merge branch '{}' into Weblate".format(remote),
+            ]
+            cmd.extend(self._get_gpg_sign())
+            cmd.append(self.branch)
+            self.execute(cmd)
             # Checkout branch with Weblate changes
             self.execute(['checkout', self.branch])
             # Merge temporary branch (this is fast forward so does not create
@@ -165,6 +169,13 @@ class GitRepository(Repository):
         Used in tests.
         """
         return self.execute(['show', revision], needs_lock=False)
+
+    @staticmethod
+    def _get_gpg_sign():
+        sign_key = get_gpg_sign_key()
+        if sign_key:
+            return ['--gpg-sign={}'.format(sign_key)]
+        return []
 
     def _get_revision_info(self, revision):
         """Return dictionary with detailed revision information."""
@@ -254,6 +265,7 @@ class GitRepository(Repository):
             cmd.extend(['--author', author])
         if timestamp is not None:
             cmd.extend(['--date', timestamp.isoformat()])
+        cmd.extend(self._get_gpg_sign())
         # Execute it
         self.execute(cmd)
         # Clean cache

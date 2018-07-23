@@ -176,3 +176,29 @@ Akismet API key.
 .. seealso::
 
     :setting:`AKISMET_API_KEY`
+
+
+.. _gpg-sign:
+
+Signing Git commits by GnuPG
+----------------------------
+
+.. versionadded:: 3.1
+
+Weblate allows you to sign all commits by it's GnuPG key. To configure this,
+you need to enable :setting:`WEBLATE_GPG_IDENTIY`. Weblate will generate GnuPG
+key when needed and will use it to sign all translation commits.
+
+This feature needs GnuPG 2.1 or newer installed.
+
+You can find the key in the :setting:`DATA_DIR` and the public key is shown on
+the about page:
+
+.. image:: ../images/about-gpg.png
+
+Alternatively you can also import existing keys into Weblate, just set
+``HOME=$DATA_DIR/home`` when invoking gpg.
+
+.. seealso::
+
+    :setting:`WEBLATE_GPG_IDENTIY`

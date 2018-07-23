@@ -70,7 +70,19 @@
 </div>
 </div>
 
+{% if gpg_key %}
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Commit signing" %}</h4></div>
+
+  <div class="panel-body">
+  <p>{% blocktrans %}Weblate signs all commits by GPG key {{ gpg_key_id }}, you can view the public key below.{% endblocktrans %}</p>
+  <div class="list-group-item pre-scrollable">
+  {{ gpg_key|linebreaks }}
+  </div>
+  </div>
+</div>
+{% endif %}
+
 </div>
 
 {% endblock %}
-

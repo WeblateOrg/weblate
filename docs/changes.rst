@@ -17,6 +17,7 @@ Released on ? 2018.
 * Add support for jumping to specific location while translating.
 * Downloaded translations can now be customized.
 * Improved calculation of string similarity in translation memory matches.
+* Added support by signing Git commits by GnuPG.
 
 weblate 3.0.1
 -------------
