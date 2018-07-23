@@ -25,6 +25,7 @@ from appconf import AppConf
 
 class WeblateConf(AppConf):
     GPG_IDENTITY = None
+    GPG_ALGO = 'default'
 
     class Meta(object):
         prefix = 'WEBLATE'

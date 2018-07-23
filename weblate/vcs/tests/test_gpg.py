@@ -50,7 +50,10 @@ class GPGTest(TestCase):
             raise SkipTest('gpg not found')
 
     @tempdir_setting('DATA_DIR')
-    @override_settings(WEBLATE_GPG_IDENTITY='Weblate <weblate@example.com>')
+    @override_settings(
+        WEBLATE_GPG_IDENTITY='Weblate <weblate@example.com>',
+        WEBLATE_GPG_ALGO='rsa512',
+    )
     def test_generate(self):
         self.assertEqual(check_data_writable(), [])
         self.assertIsNone(get_gpg_key())
@@ -59,7 +62,10 @@ class GPGTest(TestCase):
         self.assertEqual(key, get_gpg_key())
 
     @tempdir_setting('DATA_DIR')
-    @override_settings(WEBLATE_GPG_IDENTITY='Weblate <weblate@example.com>')
+    @override_settings(
+        WEBLATE_GPG_IDENTITY='Weblate <weblate@example.com>',
+        WEBLATE_GPG_ALGO='rsa512',
+    )
     def test_get(self):
         self.assertEqual(check_data_writable(), [])
         # This will generate new key
@@ -73,7 +79,10 @@ class GPGTest(TestCase):
 
 
     @tempdir_setting('DATA_DIR')
-    @override_settings(WEBLATE_GPG_IDENTITY='Weblate <weblate@example.com>')
+    @override_settings(
+        WEBLATE_GPG_IDENTITY='Weblate <weblate@example.com>',
+        WEBLATE_GPG_ALGO='rsa512',
+    )
     def test_public(self):
         self.assertEqual(check_data_writable(), [])
         # This will generate new key
