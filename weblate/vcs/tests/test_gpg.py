@@ -47,9 +47,9 @@ class GPGTest(TestCase):
             ).decode('utf-8')
             version = output.splitlines()[0].strip().rsplit(None, 1)[-1]
             if LooseVersion(version) < LooseVersion('2.1'):
-                self.gpg_error = 'gpg too old'
+                cls.gpg_error = 'gpg too old'
         except (subprocess.CalledProcessError, OSError):
-            self.gpg_error = 'gpg not found'
+            cls.gpg_error = 'gpg not found'
 
     def setUp(self):
         if self.gpg_error:
