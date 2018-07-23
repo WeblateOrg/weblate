@@ -42,7 +42,7 @@ class GPGTest(TestCase):
             output = subprocess.check_output(
                 ['gpg', '--version'],
                 stderr=subprocess.STDOUT,
-            )
+            ).decode('utf-8')
             version = output.splitlines()[0].strip().rsplit(None, 1)[-1]
             if LooseVersion(version) < LooseVersion('2.1'):
                 raise SkipTest('gpg too old')
