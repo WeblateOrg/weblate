@@ -34,6 +34,8 @@ from weblate.utils.unittest import tempdir_setting
 
 
 class GPGTest(TestCase):
+    gpg_error = None
+
     @classmethod
     def setUpClass(cls):
         """Check whether we can use gpg."""
@@ -45,9 +47,13 @@ class GPGTest(TestCase):
             ).decode('utf-8')
             version = output.splitlines()[0].strip().rsplit(None, 1)[-1]
             if LooseVersion(version) < LooseVersion('2.1'):
-                raise SkipTest('gpg too old')
+                self.gpg_error = 'gpg too old'
         except (subprocess.CalledProcessError, OSError):
-            raise SkipTest('gpg not found')
+            self.gpg_error = 'gpg not found'
+
+    def setUp(self):
+        if self.gpg_error:
+            raise SkipTest(self.gpg_error)
 
     @tempdir_setting('DATA_DIR')
     @override_settings(
