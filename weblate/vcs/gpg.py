@@ -20,7 +20,6 @@
 
 from __future__ import unicode_literals
 
-from distutils.spawn import find_executable
 import subprocess
 
 from django.conf import settings
@@ -51,7 +50,7 @@ def generate_gpg_key():
         return None
 
 
-def get_gpg_key():
+def get_gpg_key(silent=False):
     try:
         output = subprocess.check_output(
             [
@@ -70,13 +69,9 @@ def get_gpg_key():
             return line.split(':')[9]
         return None
     except (subprocess.CalledProcessError, OSError) as exc:
-        add_configuration_error('GPG key listing', force_text(exc))
+        if not silent:
+            add_configuration_error('GPG key listing', force_text(exc))
         return None
-
-
-def is_gpg_supported():
-    """Check whether we can use gpg."""
-    return find_executable('gpg') is not None
 
 
 def get_gpg_sign_key():
@@ -85,7 +80,7 @@ def get_gpg_sign_key():
         return None
     keyid = cache.get('gpg-key-id')
     if keyid is None:
-        keyid = get_gpg_key()
+        keyid = get_gpg_key(silent=True)
         if keyid is None:
             keyid = generate_gpg_key()
         if keyid:

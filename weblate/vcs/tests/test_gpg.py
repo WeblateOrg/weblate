@@ -18,8 +18,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-import os
-import shutil
+from distutils.version import LooseVersion
+import subprocess
 from unittest import SkipTest
 
 from django.core.cache import cache
@@ -27,16 +27,26 @@ from django.test import TestCase
 from django.test.utils import override_settings
 
 from weblate.vcs.gpg import (
-    generate_gpg_key, get_gpg_key, is_gpg_supported, get_gpg_sign_key,
-    get_gpg_public_key,
+    generate_gpg_key, get_gpg_key, get_gpg_sign_key, get_gpg_public_key,
 )
 from weblate.utils.data import check_data_writable
 from weblate.utils.unittest import tempdir_setting
 
 
 class GPGTest(TestCase):
-    def setUp(self):
-        if not is_gpg_supported():
+    @classmethod
+    def setUpClass(cls):
+        """Check whether we can use gpg."""
+        super(GPGTest, cls).setUpClass()
+        try:
+            output = subprocess.check_output(
+                ['gpg', '--version'],
+                stderr=subprocess.STDOUT,
+            )
+            version = output.splitlines()[0].strip().rsplit(None, 1)[-1]
+            if LooseVersion(version) < LooseVersion('2.1'):
+                raise SkipTest('gpg too old')
+        except (subprocess.CalledProcessError, OSError):
             raise SkipTest('gpg not found')
 
     @tempdir_setting('DATA_DIR')
