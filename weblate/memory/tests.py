@@ -44,7 +44,7 @@ TEST_DOCUMENT = {
 
 class MemoryTest(TestCase):
     def setUp(self):
-        TranslationMemory.open_index(cleanup=True)
+        TranslationMemory.cleanup()
 
     def test_import_tmx_command(self):
         call_command(

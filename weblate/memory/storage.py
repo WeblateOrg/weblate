@@ -23,7 +23,6 @@ from __future__ import unicode_literals
 import contextlib
 
 import os.path
-import shutil
 
 from django.utils.encoding import force_text
 
@@ -31,13 +30,11 @@ from translate.misc.xml_helpers import getXMLlang, getXMLspace
 from translate.storage.tmx import tmxfile
 
 from whoosh.fields import SchemaClass, TEXT, ID, STORED, NUMERIC
-from whoosh.filedb.filestore import FileStorage
-from whoosh.index import EmptyIndexError
 from whoosh import qparser
 from whoosh import query
 
 from weblate.lang.models import Language
-from weblate.utils.data import data_dir
+from weblate.utils.index import WhooshIndex
 from weblate.utils.search import Comparer
 
 
@@ -62,7 +59,10 @@ class TMSchema(SchemaClass):
     category = NUMERIC(stored=True)
 
 
-class TranslationMemory(object):
+class TranslationMemory(WhooshIndex):
+    LOCATION = 'memory'
+    SCHEMA = TMSchema
+
     def __init__(self):
         self.index = self.open_index()
         self.parser = qparser.QueryParser(
@@ -76,19 +76,6 @@ class TranslationMemory(object):
 
     def __del__(self):
         self.close()
-
-    @staticmethod
-    def open_index(cleanup=False):
-        directory = data_dir('memory')
-        if cleanup:
-            shutil.rmtree(directory)
-
-        storage = FileStorage(directory)
-        try:
-            return storage.open_index()
-        except (OSError, EmptyIndexError):
-            storage.create()
-            return storage.create_index(TMSchema())
 
     def open_searcher(self):
         if self.searcher is None:
@@ -184,7 +171,8 @@ class TranslationMemory(object):
 
     def empty(self):
         """Recreates translation memory."""
-        self.index = self.open_index(cleanup=True)
+        self.cleanup()
+        self.index = self.open_index()
         self.searcher = None
 
     def get_origins(self):
