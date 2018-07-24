@@ -88,12 +88,9 @@ class Fulltext(WhooshIndex):
         # Update source index
         if units.exists():
             index = self.get_source_index()
-            writer = BufferedWriter(index)
-            try:
+            with BufferedWriter(index) as writer:
                 for unit in units.iterator():
                     self.update_source_unit_index(writer, unit)
-            finally:
-                writer.close()
 
         # Update per language indices
         for lang in languages:
@@ -105,12 +102,9 @@ class Fulltext(WhooshIndex):
 
             if language_units.exists():
                 index = self.get_target_index(lang.code)
-                writer = BufferedWriter(index)
-                try:
+                with BufferedWriter(index) as writer:
                     for unit in language_units.iterator():
                         self.update_target_unit_index(writer, unit)
-                finally:
-                    writer.close()
 
     @staticmethod
     def add_index_update(unit_id, to_delete, language_code):
@@ -262,18 +256,12 @@ class Fulltext(WhooshIndex):
         """Delete fulltext index for given set of units."""
         # Update source index
         index = self.get_source_index()
-        writer = index.writer()
-        try:
+        with index.writer() as writer:
             for pk in source_units:
                 writer.delete_by_term('pk', pk)
-        finally:
-            writer.commit()
 
         for lang, units in languages.items():
             index = self.get_target_index(lang)
-            writer = index.writer()
-            try:
+            with index.writer() as writer:
                 for pk in units:
                     writer.delete_by_term('pk', pk)
-            finally:
-                writer.commit()

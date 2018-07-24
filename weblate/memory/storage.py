@@ -20,8 +20,6 @@
 
 from __future__ import unicode_literals
 
-import contextlib
-
 import os.path
 
 from django.utils.encoding import force_text
@@ -90,13 +88,8 @@ class TranslationMemory(WhooshIndex):
             self.searcher.close()
             self.searcher = None
 
-    @contextlib.contextmanager
     def writer(self):
-        writer = self.index.writer()
-        try:
-            yield writer
-        finally:
-            writer.commit()
+        return self.index.writer()
 
     def get_language_code(self, code, langmap):
         language = Language.objects.auto_get_or_create(code)
