@@ -26,10 +26,7 @@ from weblate.memory.storage import TranslationMemory
 
 
 class Command(BaseCommand):
-    """
-    Command for importing translation memory from TMX.
-    """
-    help = 'imports translation memory for TMX'
+    help = 'list translation memory origins'
 
     def add_arguments(self, parser):
         super(Command, self).add_arguments(parser)
