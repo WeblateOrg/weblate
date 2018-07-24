@@ -342,10 +342,14 @@ class User(AbstractBaseUser):
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email', 'full_name']
+    DUMMY_FIELDS = ('first_name', 'last_name', 'is_staff')
 
     def __init__(self, *args, **kwargs):
         self.extra_data = {}
         self.perm_cache = {}
+        for name in self.DUMMY_FIELDS:
+            if name in kwargs:
+                self.extra_data[name] = kwargs.pop(name)
         super(User, self).__init__(*args, **kwargs)
 
     def clear_cache(self):
@@ -376,7 +380,7 @@ class User(AbstractBaseUser):
         """Mimic first/last name for third party auth
         and ignore is_staff flag.
         """
-        if name in ('first_name', 'last_name', 'is_staff'):
+        if name in self.DUMMY_FIELDS:
             self.extra_data[name] = value
         else:
             super(User, self).__setattr__(name, value)

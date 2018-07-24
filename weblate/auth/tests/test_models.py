@@ -21,7 +21,7 @@
 from django.contrib.auth.models import Group as DjangoGroup
 
 from weblate.auth.data import SELECTION_MANUAL, SELECTION_ALL
-from weblate.auth.models import Group, Role
+from weblate.auth.models import Group, Role, User
 from weblate.lang.models import Language
 from weblate.trans.models import Project, ComponentList
 from weblate.trans.tests.test_views import FixtureTestCase
@@ -116,3 +116,14 @@ class ModelTest(FixtureTestCase):
         # Remove Django group
         self.user.groups.remove(DjangoGroup.objects.get(name='Second'))
         self.assertEquals(self.user.groups.count(), 2)
+
+    def test_user(self):
+        # Create user with Django User fields
+        user = User.objects.create(
+            first_name='First',
+            last_name='Last',
+            is_staff=True,
+            is_superuser=True
+        )
+        self.assertEqual(user.full_name, 'First Last')
+        self.assertEqual(user.is_superuser, True)
