@@ -26,6 +26,7 @@ from django.core.paginator import Paginator, EmptyPage
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.translation import ugettext as _, ungettext
+from django.urls import reverse
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 
@@ -152,17 +153,35 @@ def search(request, project=None, component=None, lang=None):
         obj = get_component(request, project, component)
         context['component'] = obj
         context['project'] = obj.project
+        context['back_url'] = obj.get_absolute_url()
         search_kwargs = {'component': obj}
     elif project:
         obj = get_project(request, project)
         context['project'] = obj
+        context['back_url'] = obj.get_absolute_url()
         search_kwargs = {'project': obj}
     else:
         obj = None
+        context['back_url'] = None
     if lang:
         s_language = get_object_or_404(Language, code=lang)
         context['language'] = s_language
         search_kwargs = {'language': s_language}
+        if obj:
+            if component:
+                context['back_url'] = obj.translation_set.get(
+                    language=s_language
+                ).get_absolute_url()
+            else:
+                context['back_url'] = reverse(
+                    'project-language',
+                    kwargs={
+                        'project': project,
+                        'lang': lang,
+                    }
+                )
+        else:
+            context['back_url'] = s_language.get_absolute_url()
 
     if search_form.is_valid():
         # Filter results by ACL
