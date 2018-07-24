@@ -24,7 +24,6 @@ import os
 import zlib
 
 from django.conf import settings
-from django.core.cache import caches, InvalidCacheBackendError
 from django.core.management.base import BaseCommand
 
 

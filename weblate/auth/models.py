@@ -267,7 +267,9 @@ def wrap_group(func):
 class GroupManyToManyField(models.ManyToManyField):
     """Customized field to accept Django Groups objects as well."""
     def contribute_to_class(self, cls, name, **kwargs):
-        super(GroupManyToManyField, self).contribute_to_class(cls, name, **kwargs)
+        super(GroupManyToManyField, self).contribute_to_class(
+            cls, name, **kwargs
+        )
 
         # Get related descriptor
         descriptor = getattr(cls, self.name)

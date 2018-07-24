@@ -18,8 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-import os
-
 from django.apps import AppConfig
 from django.utils.translation import ugettext_lazy as _
 

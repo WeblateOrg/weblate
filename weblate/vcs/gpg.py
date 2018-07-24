@@ -112,4 +112,3 @@ def get_gpg_public_key():
             add_configuration_error('GPG key public', force_text(exc))
             return None
     return data
-

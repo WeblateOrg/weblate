@@ -28,7 +28,7 @@ import os
 import json
 from contextlib import contextmanager
 from base64 import b64encode
-from six.moves.http_client import HTTPConnection
+
 import django
 from django.conf import settings
 from django.contrib.sites.models import Site
@@ -52,6 +52,7 @@ from selenium.webdriver.support.expected_conditions import (
 )
 
 import six
+from six.moves.http_client import HTTPConnection
 
 import social_django.utils
 
@@ -398,7 +399,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
                 self.driver.find_element_by_partial_link_text('About Weblate')
             )
         self.screenshot('about-gpg.png')
-
 
     def test_ssh(self):
         """Test SSH admin interface."""

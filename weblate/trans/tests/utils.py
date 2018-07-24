@@ -20,7 +20,6 @@
 
 import os.path
 import shutil
-import stat
 import sys
 from tarfile import TarFile
 from tempfile import mkdtemp

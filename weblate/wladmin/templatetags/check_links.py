@@ -19,7 +19,6 @@
 #
 from __future__ import unicode_literals
 from django import template
-from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 
@@ -55,7 +54,7 @@ def check_link(check):
     elif check.id in DOC_LINKS:
         url = get_doc_url(*DOC_LINKS[check.id])
     if url:
-        return mark_safe('<a href="{}">{}</a>'.format(
-            url, _('Documentation'))
+        return mark_safe(
+            '<a href="{}">{}</a>'.format(url, _('Documentation'))
         )
     return ''

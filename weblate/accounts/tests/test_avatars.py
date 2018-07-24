@@ -23,7 +23,6 @@ Tests for user handling.
 """
 
 from io import BytesIO
-from unittest import SkipTest
 
 from django.urls import reverse
 

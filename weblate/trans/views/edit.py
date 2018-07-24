@@ -25,8 +25,6 @@ import time
 from django.contrib.messages import get_messages
 from django.shortcuts import get_object_or_404, redirect
 from django.views.decorators.http import require_POST
-from django.utils.html import escape
-from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _, ungettext
 from django.utils.encoding import force_text
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
@@ -34,7 +32,6 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.template.loader import render_to_string
 
-from weblate.utils.docs import get_doc_url
 from weblate.utils import messages
 from weblate.utils.antispam import is_spam
 from weblate.trans.models import Unit, Change, Comment, Suggestion, Dictionary

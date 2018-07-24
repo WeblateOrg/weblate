@@ -20,7 +20,7 @@
 from __future__ import unicode_literals
 
 from django.apps import AppConfig
-from django.core.checks import Error, register
+from django.core.checks import register
 
 from weblate.utils.checks import check_mail_connection
 from weblate.utils.data import check_data_writable

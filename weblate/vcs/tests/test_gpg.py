@@ -83,7 +83,6 @@ class GPGTest(TestCase):
         cache.delete('gpg-key-id')
         self.assertEqual(key, get_gpg_sign_key())
 
-
     @tempdir_setting('DATA_DIR')
     @override_settings(
         WEBLATE_GPG_IDENTITY='Weblate <weblate@example.com>',

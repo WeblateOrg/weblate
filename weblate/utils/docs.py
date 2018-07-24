@@ -18,8 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-import os
-
 import weblate
 
 
@@ -37,4 +35,3 @@ def get_doc_url(page, anchor=''):
         url += '#{0}'.format(anchor)
 
     return url
-
