@@ -124,7 +124,7 @@ should be no need for additional manual actions.
 .. note::
 
     Upgrades across 3.0 are not supported by Weblate. If you are on 2.x series
-    and want to upgrade to 3.x, first upgrade to lastest 3.0.1-x (at time of
+    and want to upgrade to 3.x, first upgrade to latest 3.0.1-x (at time of
     writing this it is ``3.0.1-6``) image which will do the migration and then
     continue in upgrading to newer versions.
 
