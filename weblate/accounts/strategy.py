@@ -25,6 +25,8 @@ from django.utils.http import is_safe_url
 
 from social_django.strategy import DjangoStrategy
 
+from weblate.utils.site import get_site_url
+
 
 class WeblateStrategy(DjangoStrategy):
     def __init__(self, storage, request=None, tpl=None):
@@ -54,3 +56,8 @@ class WeblateStrategy(DjangoStrategy):
         if 'next' in data and not is_safe_url(data['next'], allowed_hosts=None):
             data['next'] = '/accounts/profile/#auth'
         return data
+
+    def build_absolute_uri(self, path=None):
+        if self.request:
+            self.request.__dict__['_current_scheme_host'] = get_site_url()
+        return super(WeblateStrategy, self).build_absolute_uri(path)
