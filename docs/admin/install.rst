@@ -43,7 +43,7 @@ siphashc (>= 0.8)
 translate-toolkit (>= 2.3.0)
     http://toolkit.translatehouse.org/
 Six (>= 1.7.0)
-    https://pypi.python.org/pypi/six
+    https://pypi.org/project/six/
 filelock (>= 3.0.1)
     https://github.com/benediktschmitt/py-filelock
 Mercurial (>= 2.8) (optional for Mercurial repositories support)
@@ -82,7 +82,7 @@ Database backend
     Any database supported in Django will work, see :ref:`database-setup` and
     backends documentation for more details.
 pytz (optional, but recommended by Django)
-    https://pypi.python.org/pypi/pytz/
+    https://pypi.org/project/pytz/
 python-bidi (optional for proper rendering of badges in RTL languages)
     https://github.com/MeirKriheli/python-bidi
 tesserocr (>= 2.0.0) (optional for screenshots OCR)
@@ -104,7 +104,7 @@ Git (>= 1.6)
 hub (optional for sending pull requests to GitHub)
     https://hub.github.com/
 git-review (optional for Gerrit support)
-    https://pypi.python.org/pypi/git-review
+    https://pypi.org/project/git-review/
 git-svn (>= 2.10.0) (optional for Subversion support)
     https://git-scm.com/docs/git-svn
 tesseract and it's data (optional for screenshots OCR)

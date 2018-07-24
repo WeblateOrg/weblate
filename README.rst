@@ -34,10 +34,11 @@ Weblate
     :target: https://bestpractices.coreinfrastructure.org/projects/552
 
 .. image:: https://img.shields.io/pypi/v/Weblate.svg
-    :target: https://pypi.python.org/pypi/Weblate
+    :target: https://pypi.org/project/Weblate/
 
 .. image:: https://www.codetriage.com/weblateorg/weblate/badges/users.svg
     :target: https://www.codetriage.com/weblateorg/weblate
+
 .. image:: https://img.shields.io/badge/docs-latest-brightgreen.svg?style=flat
     :alt: Documentation
     :target: https://docs.weblate.org/

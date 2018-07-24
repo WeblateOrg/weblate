@@ -237,7 +237,7 @@ The default :file:`settings.py` comes with reasonable set of
 You can customize this setting to match your password policy.
 
 Additionally you can also install
-`django-zxcvbn-password <https://pypi.python.org/pypi/django-zxcvbn-password/>`_
+`django-zxcvbn-password <https://pypi.org/project/django-zxcvbn-password/>`_
 which gives quite realistic estimates of password difficulty and allows to reject
 passwords below certain threshold.
 

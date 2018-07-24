@@ -74,7 +74,7 @@ def get_optional_versions():
     result = []
 
     get_optional_module(
-        result, 'pytz', 'pytz', 'https://pypi.python.org/pypi/pytz/'
+        result, 'pytz', 'pytz', 'https://pypi.org/project/pytz/'
     )
 
     get_optional_module(
@@ -113,7 +113,7 @@ def get_optional_versions():
     if GitWithGerritRepository.is_supported():
         result.append((
             'git-review',
-            'https://pypi.python.org/pypi/git-review',
+            'https://pypi.org/project/git-review/',
             GitWithGerritRepository.get_version(),
             '1.0',
         ))
@@ -160,7 +160,7 @@ def get_versions():
 
     result.append(get_single(
         'six',
-        'https://pypi.python.org/pypi/six',
+        'https://pypi.org/project/six/',
         'six',
         '1.7.0',
     ))
