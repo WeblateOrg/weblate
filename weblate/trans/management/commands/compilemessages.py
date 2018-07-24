@@ -27,12 +27,14 @@ from django.core.management.commands.compilemessages import (
 
 DEFAULT_DATA_DIR = os.path.join(settings.BASE_DIR, 'data')
 DEFAULT_TEST_DIR = os.path.join(settings.BASE_DIR, 'data-test')
+BUILD_DIR = os.path.join(settings.BASE_DIR, 'build')
 
 
 def should_skip(location):
     return (
         location.startswith(settings.DATA_DIR) or
         location.startswith(DEFAULT_DATA_DIR) or
+        location.startswith(BUILD_DIR) or
         location.startswith(DEFAULT_TEST_DIR)
     )
 
