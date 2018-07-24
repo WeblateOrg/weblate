@@ -36,7 +36,7 @@ from weblate.trans.models import (
 )
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
-from weblate.trans.search import get_target_index, clean_search_unit
+from weblate.trans.search import Fulltext
 from weblate.utils.state import STATE_TRANSLATED
 
 
@@ -92,13 +92,14 @@ class Command(BaseCommand):
 
     def cleanup_fulltext(self):
         """Remove stale units from fulltext"""
+        fulltext = Fulltext()
         with transaction.atomic():
             languages = list(Language.objects.have_translation().values_list(
                 'code', flat=True
             ))
         # We operate only on target indexes as they will have all IDs anyway
         for lang in languages:
-            index = get_target_index(lang)
+            index = fulltext.get_target_index(lang)
             try:
                 fields = index.reader().all_stored_fields()
             except EmptyIndexError:
@@ -106,7 +107,7 @@ class Command(BaseCommand):
             for item in fields:
                 if Unit.objects.filter(pk=item['pk']).exists():
                     continue
-                clean_search_unit(item['pk'], lang)
+                fulltext.clean_search_unit(item['pk'], lang)
 
     def cleanup_database(self):
         """Cleanup the database"""

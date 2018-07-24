@@ -40,6 +40,7 @@ from weblate.trans.management.commands.update_index import (
     Command as UpdateIndexCommand
 )
 from weblate.trans.models import ComponentList, WhiteboardMessage, Project
+from weblate.trans.search import Fulltext
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.utils import create_test_user
 from weblate.utils.hash import hash_to_checksum
@@ -119,7 +120,7 @@ class ViewTestCase(RepoTestCase):
 
     def update_fulltext_index(self):
         command = UpdateIndexCommand()
-        command.do_update(100000)
+        command.do_update(Fulltext(), 100000)
 
     def make_manager(self):
         """Make user a Manager."""

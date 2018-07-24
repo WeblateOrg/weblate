@@ -31,7 +31,7 @@ from weblate.auth.models import User
 
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.models import Project, Component
-from weblate.trans.search import clean_indexes
+from weblate.trans.search import Fulltext
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.utils.files import remove_readonly
 
@@ -176,7 +176,7 @@ class RepoTestMixin(object):
             shutil.rmtree(test_repo_path, onerror=remove_readonly)
 
         # Remove indexes
-        clean_indexes()
+        Fulltext.cleanup()
 
     def create_project(self):
         """Create test project."""

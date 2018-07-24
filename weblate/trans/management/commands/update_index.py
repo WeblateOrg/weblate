@@ -24,7 +24,7 @@ from django.db import transaction
 from whoosh.index import LockError
 
 from weblate.trans.models import IndexUpdate, Unit
-from weblate.trans.search import update_index, delete_search_units
+from weblate.trans.search import Fulltext
 
 
 class Command(BaseCommand):
@@ -43,15 +43,16 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         try:
-            self.do_update(options['limit'])
-            self.do_delete(options['limit'])
+            fulltext = Fulltext()
+            self.do_update(fulltext, options['limit'])
+            self.do_delete(fulltext, options['limit'])
         except LockError:
             raise CommandError(
                 'Failed to acquire lock on the fulltext index, '
                 'probably some other update is already running.'
             )
 
-    def do_delete(self, limit):
+    def do_delete(self, fulltext, limit):
         indexupdates = set()
 
         langupdates = {}
@@ -65,7 +66,7 @@ class Command(BaseCommand):
                     langupdates[update.language_code] = set()
                 langupdates[update.language_code].add(update.pk)
 
-        delete_search_units(
+        fulltext.delete_search_units(
             indexupdates,
             langupdates,
         )
@@ -74,7 +75,7 @@ class Command(BaseCommand):
         with transaction.atomic():
             IndexUpdate.objects.filter(id__in=indexupdates).delete()
 
-    def do_update(self, limit):
+    def do_update(self, fulltext, limit):
         indexupdates = set()
         unit_ids = set()
 
@@ -91,7 +92,7 @@ class Command(BaseCommand):
         )
 
         # Udate index
-        update_index(units)
+        fulltext.update_index(units)
 
         # Delete processed updates
         with transaction.atomic():

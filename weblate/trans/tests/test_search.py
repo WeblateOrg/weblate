@@ -26,15 +26,13 @@ import re
 import shutil
 from unittest import TestCase
 from whoosh.filedb.filestore import FileStorage
-from whoosh.fields import Schema, ID, TEXT
 from django.urls import reverse
 from django.test.utils import override_settings
 from django.http import QueryDict
 
 from weblate.accounts.ratelimit import reset_rate_limit
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.trans.search import update_index_unit, fulltext_search
-import weblate.trans.search
+from weblate.trans.search import Fulltext
 from weblate.trans.models import IndexUpdate
 from weblate.trans.tests.utils import TempDirMixin
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
@@ -389,8 +387,8 @@ class SearchBackendTest(ViewTestCase):
         unit = self.get_translation().unit_set.get(
             source='Hello, world!\n',
         )
-        update_index_unit(unit)
-        update_index_unit(unit)
+        Fulltext.update_index_unit(unit)
+        Fulltext.update_index_unit(unit)
 
     @override_settings(OFFLOAD_INDEXING=False)
     def test_add(self):
@@ -409,24 +407,19 @@ class SearchMigrationTest(TestCase, TempDirMixin):
     """Search index migration testing"""
     def setUp(self):
         self.create_temp()
-        self.backup = weblate.trans.search.STORAGE
         self.storage = FileStorage(self.tempdir)
-        weblate.trans.search.STORAGE = self.storage
         self.storage.create()
 
     def tearDown(self):
         self.remove_temp()
-        weblate.trans.search.STORAGE = self.backup
 
-    def do_test(self, source, target):
-        if source is not None:
-            self.storage.create_index(source, 'source')
-        if target is not None:
-            self.storage.create_index(target, 'target-cs')
+    def do_test(self):
+        fulltext = Fulltext()
+        fulltext.storage = self.storage
 
-        sindex = weblate.trans.search.get_source_index()
+        sindex = fulltext.get_source_index()
         self.assertIsNotNone(sindex)
-        tindex = weblate.trans.search.get_target_index('cs')
+        tindex = fulltext.get_target_index('cs')
         self.assertIsNotNone(tindex)
         writer = sindex.writer()
         writer.update_document(
@@ -445,48 +438,17 @@ class SearchMigrationTest(TestCase, TempDirMixin):
         writer.commit()
         for item in ('source', 'context', 'location', 'target'):
             self.assertEqual(
-                fulltext_search(item, ['cs'], {item: True}),
+                fulltext.search(item, ['cs'], {item: True}),
                 set([1])
             )
 
     def test_nonexisting(self):
-        self.do_test(None, None)
+        self.do_test()
 
     def test_nonexisting_dir(self):
         shutil.rmtree(self.tempdir)
         self.tempdir = None
-        self.do_test(None, None)
-
-    def test_current(self):
-        source = weblate.trans.search.SourceSchema
-        target = weblate.trans.search.TargetSchema
-        self.do_test(source, target)
-
-    def test_2_4(self):
-        source = Schema(
-            checksum=ID(stored=True, unique=True),
-            source=TEXT(),
-            context=TEXT(),
-            location=TEXT()
-        )
-        target = Schema(
-            checksum=ID(stored=True, unique=True),
-            target=TEXT(),
-            comment=TEXT(),
-        )
-        self.do_test(source, target)
-
-    def test_2_1(self):
-        source = Schema(
-            checksum=ID(stored=True, unique=True),
-            source=TEXT(),
-            context=TEXT(),
-        )
-        target = Schema(
-            checksum=ID(stored=True, unique=True),
-            target=TEXT(),
-        )
-        self.do_test(source, target)
+        self.do_test()
 
 
 class ReplaceTest(ViewTestCase):

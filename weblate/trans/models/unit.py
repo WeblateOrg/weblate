@@ -41,7 +41,7 @@ from weblate.trans.models.source import Source
 from weblate.trans.models.comment import Comment
 from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.models.change import Change
-from weblate.trans.search import update_index_unit, fulltext_search, more_like
+from weblate.trans.search import Fulltext
 from weblate.trans.signals import unit_pre_create
 from weblate.trans.mixins import LoggerMixin
 from weblate.utils.errors import report_error
@@ -77,7 +77,7 @@ def more_like_queue(pk, source, top, queue):
     """
     Multiprocess wrapper around more_like.
     """
-    result = more_like(pk, source, top)
+    result = Fulltext().more_like(pk, source, top)
     queue.put(result)
 
 
@@ -278,7 +278,7 @@ class UnitQuerySet(models.QuerySet):
                 'translation__language__code', flat=True
             ))
             result = base.filter(
-                pk__in=fulltext_search(
+                pk__in=Fulltext().search(
                     params['q'],
                     langs,
                     params
@@ -306,7 +306,7 @@ class UnitQuerySet(models.QuerySet):
 
             more_results = queue.get()
         else:
-            more_results = more_like(unit.pk, unit.source, top)
+            more_results = Fulltext().more_like(unit.pk, unit.source, top)
 
         return self.filter(
             pk__in=more_results,
@@ -724,7 +724,7 @@ class Unit(models.Model, LoggerMixin):
             unit.update_has_comment()
             unit.update_has_suggestion()
             unit.run_checks(False, False)
-            update_index_unit(unit)
+            Fulltext.update_index_unit(unit)
             Change.objects.create(
                 unit=unit,
                 action=Change.ACTION_SOURCE_CHANGE,
@@ -797,7 +797,7 @@ class Unit(models.Model, LoggerMixin):
 
         # Update fulltext index if content has changed or this is a new unit
         if force_insert or not same_content:
-            update_index_unit(self)
+            Fulltext.update_index_unit(self)
 
     @cached_property
     def suggestions(self):
