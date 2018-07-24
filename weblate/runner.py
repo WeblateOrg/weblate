@@ -35,6 +35,7 @@ def main(argv=None):
     except Exception as error:
         from weblate.utils.errors import report_error
         report_error(error, sys.exc_info())
+        raise
 
 
 if __name__ == "__main__":
