@@ -28,9 +28,7 @@ from django.core.management.base import CommandError
 from six import StringIO
 
 from weblate.memory.machine import WeblateMemory
-from weblate.memory.storage import (
-    TranslationMemory, setup_index, CATEGORY_FILE
-)
+from weblate.memory.storage import TranslationMemory, CATEGORY_FILE
 from weblate.trans.tests.utils import get_test_file
 from weblate.checks.tests.test_checks import MockUnit
 
@@ -46,7 +44,7 @@ TEST_DOCUMENT = {
 
 class MemoryTest(TestCase):
     def setUp(self):
-        setup_index()
+        TranslationMemory.open_index(cleanup=True)
 
     def test_import_tmx_command(self):
         call_command(

@@ -39,12 +39,6 @@ from weblate.utils.data import data_dir
 from weblate.utils.search import Comparer
 
 
-def setup_index():
-    storage = FileStorage(data_dir('memory'))
-    storage.create()
-    return storage.create_index(TMSchema())
-
-
 def get_node_data(unit, node):
     """Generic implementation of LISAUnit.gettarget."""
     return (
@@ -68,7 +62,7 @@ class TMSchema(SchemaClass):
 
 class TranslationMemory(object):
     def __init__(self):
-        self.index = FileStorage(data_dir('memory')).open_index()
+        self.index = self.open_index()
         self.parser = qparser.QueryParser(
             'source',
             schema=self.index.schema,
@@ -80,6 +74,13 @@ class TranslationMemory(object):
 
     def __del__(self):
         self.close()
+
+    @staticmethod
+    def open_index(cleanup=False):
+        storage = FileStorage(data_dir('memory'))
+        if not cleanup and storage.index_exists():
+            return storage.open_index()
+        return storage.create_index(TMSchema())
 
     def open_searcher(self):
         if self.searcher is None:
@@ -175,7 +176,7 @@ class TranslationMemory(object):
 
     def empty(self):
         """Recreates translation memory."""
-        self.index = setup_index()
+        self.index = self.open_index(cleanup=True)
         self.searcher = None
 
     def get_origins(self):
