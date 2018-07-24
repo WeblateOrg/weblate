@@ -23,6 +23,7 @@ from __future__ import unicode_literals
 import contextlib
 
 import os.path
+import shutil
 
 from django.utils.encoding import force_text
 
@@ -31,6 +32,7 @@ from translate.storage.tmx import tmxfile
 
 from whoosh.fields import SchemaClass, TEXT, ID, STORED, NUMERIC
 from whoosh.filedb.filestore import FileStorage
+from whoosh.index import EmptyIndexError
 from whoosh import qparser
 from whoosh import query
 
@@ -77,10 +79,16 @@ class TranslationMemory(object):
 
     @staticmethod
     def open_index(cleanup=False):
-        storage = FileStorage(data_dir('memory'))
-        if not cleanup and storage.index_exists():
+        directory = data_dir('memory')
+        if cleanup:
+            shutil.rmtree(directory)
+
+        storage = FileStorage(directory)
+        try:
             return storage.open_index()
-        return storage.create_index(TMSchema())
+        except (OSError, EmptyIndexError):
+            storage.create()
+            return storage.create_index(TMSchema())
 
     def open_searcher(self):
         if self.searcher is None:
