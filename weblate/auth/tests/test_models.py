@@ -18,6 +18,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from django.contrib.auth.models import Group as DjangoGroup
+
 from weblate.auth.data import SELECTION_MANUAL, SELECTION_ALL
 from weblate.auth.models import Group, Role
 from weblate.lang.models import Language
@@ -93,3 +95,24 @@ class ModelTest(FixtureTestCase):
         self.group.languages.add(Language.objects.get(code='cs'))
         self.assertTrue(self.user.can_access_project(self.project))
         self.assertTrue(self.user.has_perm('unit.edit', self.translation))
+
+    def test_groups(self):
+        # Add test group
+        self.user.groups.add(self.group)
+        self.assertEquals(self.user.groups.count(), 3)
+
+        # Add same named Django group
+        self.user.groups.add(DjangoGroup.objects.create(name='Test'))
+        self.assertEquals(self.user.groups.count(), 3)
+
+        # Add different Django group
+        self.user.groups.add(DjangoGroup.objects.create(name='Second'))
+        self.assertEquals(self.user.groups.count(), 4)
+
+        # Remove Weblate group
+        self.user.groups.remove(Group.objects.get(name='Test'))
+        self.assertEquals(self.user.groups.count(), 3)
+
+        # Remove Django group
+        self.user.groups.remove(DjangoGroup.objects.get(name='Second'))
+        self.assertEquals(self.user.groups.count(), 2)

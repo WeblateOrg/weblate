@@ -25,6 +25,7 @@ from appconf import AppConf
 
 from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import Group as DjangoGroup
 from django.db import models
 from django.db.models.signals import (
     post_save, post_migrate, pre_delete, m2m_changed
@@ -35,6 +36,8 @@ from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext, ugettext_lazy as _, pgettext
+
+import six
 
 from weblate.auth.data import (
     ACL_GROUPS, SELECTION_MANUAL, SELECTION_ALL, SELECTION_COMPONENT_LIST,
@@ -249,6 +252,40 @@ def get_anonymous():
     return User.objects.get(username=settings.ANONYMOUS_USER_NAME)
 
 
+def wrap_group(func):
+    """Wrapper to replace Django Group instances by Weblate Group instances"""
+    def group_wrapper(self, *objs, **kwargs):
+        objs = list(objs)
+        for idx, obj in enumerate(objs):
+            if isinstance(obj, DjangoGroup):
+                objs[idx] = Group.objects.get_or_create(name=obj.name)[0]
+        return func(self, *objs, **kwargs)
+
+    return group_wrapper
+
+
+class GroupManyToManyField(models.ManyToManyField):
+    """Customized field to accept Django Groups objects as well."""
+    def contribute_to_class(self, cls, name, **kwargs):
+        super(GroupManyToManyField, self).contribute_to_class(cls, name, **kwargs)
+
+        # Get related descriptor
+        descriptor = getattr(cls, self.name)
+
+        # We care only on forward relation
+        if not descriptor.reverse:
+            # Running in migrations
+            if isinstance(descriptor.rel.model, six.string_types):
+                return
+
+            # Get related manager class
+            related_manager_cls = descriptor.related_manager_cls
+
+            # Monkey patch it to accept Django Group instances as well
+            related_manager_cls.add = wrap_group(related_manager_cls.add)
+            related_manager_cls.remove = wrap_group(related_manager_cls.remove)
+
+
 @python_2_unicode_compatible
 class User(AbstractBaseUser):
     username = models.CharField(
@@ -290,7 +327,7 @@ class User(AbstractBaseUser):
         help_text=_('Mark user as inactive instead of removing.'),
     )
     date_joined = models.DateTimeField(_('Date joined'), default=timezone.now)
-    groups = models.ManyToManyField(
+    groups = GroupManyToManyField(
         Group,
         verbose_name=_('Groups'),
         blank=True,
