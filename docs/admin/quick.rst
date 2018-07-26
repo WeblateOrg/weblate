@@ -99,7 +99,7 @@ development server.
 #. Open a web browser, go to http://localhost:8000/accounts/login/ 
    and login with the user name `admin` and paste the password in.
 
-#. Proceed with :ref:`adding-translation` to add some translatable contents to
+#. Proceed with :ref:`add-translatable-contents` to add some translatable contents to
    your test installation.
    
 You can stop the test server with Ctrl+C, and leave the virtual environment with ``deactivate``.
@@ -169,7 +169,7 @@ Installing on OpenShift 2
    
     For more information, including on how to retrieve the generated admin password, see :ref:`openshift`.
 
- .. _adding-translation:
+ .. _add-translatable-contents:
 
 Adding translation
 ------------------
