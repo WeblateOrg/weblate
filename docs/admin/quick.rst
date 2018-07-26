@@ -103,7 +103,7 @@ development server.
    your test installation.
    
 You can stop the test server with Ctrl+C, and leave the virtual environment with ``deactivate``.
-If you want to resume testing later, you need to repeat the steps 7 and 10 each time to start the development server.
+If you want to resume testing later, you need to repeat the steps 4, 8 and 11 each time to start the development server.
 
 
 Installing from sources
