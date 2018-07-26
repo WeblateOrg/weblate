@@ -7,6 +7,105 @@ Quick setup guide
     testing purposes. Please check :ref:`install` for more real world setup
     instructions.
 
+Installing in a virtualenv
+--------------------------
+
+If you'd just like to do a quick installation locally on your device to find 
+out if Weblate is for you, you can install it using a virtual environment for 
+Python 2, a simple (and slow!) SQLite database, and the lightweight Django 
+development server.
+
+#. Install development files for libraries needed for building some
+   Python modules:
+
+   .. code-block:: sh
+
+        # Debian/Ubuntu:
+        apt install libxml2-dev libxslt-dev libfreetype6-dev libjpeg-dev libz-dev libyaml-dev python-dev
+
+        # openSUSE/SLES:
+        zypper install libxslt-devel libxml2-devel freetype-devel libjpeg-devel zlib-devel libyaml-devel python-devel
+
+        # Fedora/RHEL/CentOS:
+        dnf install libxslt-devel libxml2-devel freetype-devel libjpeg-devel zlib-devel libyaml-devel python-devel
+
+#. Install pip and virtualenv. Usually they are shipped by your distribution or
+   with Python:
+
+   .. code-block:: sh
+
+        # Debian/Ubuntu:
+        apt-get install python-pip python-virtualenv
+
+        # openSUSE/SLES:
+        zypper install python-pip python-virtualenv
+
+        # Fedora/RHEL/CentOS:
+        dnf install python-pip python-virtualenv
+
+#. Create the virtualenv for Weblate (the path in ``/tmp`` is really
+   just an example, you rather want something more permanent, even if this is
+   just for testing):
+
+   .. code-block:: sh
+
+        virtualenv --python=python2.7 /tmp/weblate
+     
+#. Activate the virtualenv for Weblate, so Weblate will look for Python libraries there first:
+        
+   .. code-block:: sh
+    
+        . /tmp/weblate/bin/activate
+
+#. Install Weblate including all dependencies. You can also use pip to install
+   the optional dependencies:
+
+   .. code-block:: sh
+        
+        pip install Weblate
+        # Optional deps
+        pip install pytz python-bidi PyYAML Babel pyuca
+
+#. Copy the file :file:`/tmp/weblate/lib/python2.7/site-packages/weblate/settings-example.py`
+   to :file:`/tmp/weblate/lib/python2.7/site-packages/weblate/settings.py`
+
+#. Optionally, adjust the values in the new :file:`settings.py` file.
+
+#. Tell Django where to find the settings file for Weblate:
+
+   .. code-block:: sh
+   
+        export DJANGO_SETTINGS_MODULE=weblate.settings
+
+#. Create the SQLite database and its structure for Weblate:
+
+   .. code-block:: sh
+   
+        weblate migrate
+        
+#. Create the administrator user account and copy the password it outputs 
+   to the clipboard, and maybe also save it to a text file for later use:
+
+   .. code-block:: sh
+   
+        weblate createadmin
+
+#. Start the development server:
+
+   .. code-block:: sh
+   
+        weblate runserver
+
+#. Open a web browser, go to http://localhost:8000/accounts/login/ 
+   and login with the user name `admin` and paste the password in.
+
+#. Proceed with :ref:`add-translatable-contents` to add some translatable contents to
+   your test installation.
+   
+You can stop the test server with Ctrl+C, and leave the virtual environment with ``deactivate``.
+If you want to resume testing later, you need to repeat the steps 7 and 10 each time to start the development server.
+
+
 Installing from sources
 -----------------------
 
@@ -69,6 +168,8 @@ Installing on OpenShift 2
 .. seealso::
    
     For more information, including on how to retrieve the generated admin password, see :ref:`openshift`.
+
+ .. _add-translatable-contents:
 
 Adding translation
 ------------------
