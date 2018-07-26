@@ -690,7 +690,7 @@ class Unit(models.Model, LoggerMixin):
         # Find relevant units
         same_source = Unit.objects.filter(
             translation__component=self.translation.component,
-            context=self.context,
+            id_hash=self.id_hash,
         ).exclude(
             id=self.id
         )
