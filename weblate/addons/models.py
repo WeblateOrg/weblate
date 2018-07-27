@@ -184,10 +184,8 @@ def unit_pre_create_handler(sender, unit, **kwargs):
         addon.addon.unit_pre_create(unit)
 
 
-@receiver(post_save)
+@receiver(post_save, sender=Unit)
 def unit_post_save_handler(sender, instance, created, **kwargs):
-    if sender is not Unit:
-        return
     addons = Addon.objects.filter_event(
         instance.translation.component, EVENT_UNIT_POST_SAVE
     )
