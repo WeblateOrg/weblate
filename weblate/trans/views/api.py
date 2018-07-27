@@ -227,7 +227,9 @@ def vcs_service_hook(request, service):
     if updates == 0:
         return hook_response('No matching repositories found!', 'failure')
 
-    return hook_response()
+    return hook_response('Update triggered: {}'.format(
+        ', '.join([obj.log_prefix for obj in components])
+    ))
 
 
 def bitbucket_webhook_helper(data):
