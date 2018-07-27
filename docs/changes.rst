@@ -4,7 +4,7 @@ Changes
 weblate 3.1
 ------------
 
-Released on ? 2018.
+Released on July 27th 2018.
 
 * Upgrades from older version than 3.0.1 are not supported.
 * Allow to override default commit messages from settings.
