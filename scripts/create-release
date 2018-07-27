@@ -25,9 +25,9 @@ if [ "x$1" = "x--tag" ] ; then
     fi
     rev=$namever
     git tag -s $rev -m "Version $version"
-    cd ../weblate-test
+    cd ~/weblate/test
     git tag -s $rev -m "Test data for version $version"
-    cd ../weblate
+    cd ~/weblate/weblate
 fi
 
 # Compile po files
