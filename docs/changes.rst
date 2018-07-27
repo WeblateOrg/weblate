@@ -1,6 +1,13 @@
 Changes
 =======
 
+weblate 3.1.1
+-------------
+
+Released on July 27th 2018.
+
+* Fix testsuite failure on some setup.
+
 weblate 3.1
 ------------
 

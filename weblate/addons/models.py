@@ -42,6 +42,7 @@ from weblate.trans.signals import (
     translation_post_add, unit_pre_create, store_post_load,
 )
 from weblate.utils.classloader import ClassLoader
+from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.fields import JSONField
 
 # Initialize addons registry
@@ -185,6 +186,7 @@ def unit_pre_create_handler(sender, unit, **kwargs):
 
 
 @receiver(post_save, sender=Unit)
+@disable_for_loaddata
 def unit_post_save_handler(sender, instance, created, **kwargs):
     addons = Addon.objects.filter_event(
         instance.translation.component, EVENT_UNIT_POST_SAVE
