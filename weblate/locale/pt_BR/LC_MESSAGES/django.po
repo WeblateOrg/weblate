@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-07-23 12:54+0000\n"
-"PO-Revision-Date: 2018-06-26 21:41+0000\n"
+"PO-Revision-Date: 2018-07-29 19:42+0000\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/master/pt_BR/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 3.1-dev\n"
+"X-Generator: Weblate 3.1.1\n"
 
 #: weblate/accounts/avatar.py:131
 msgctxt "No known user"
@@ -701,26 +701,20 @@ msgstr ""
 "editar as traduções criadas pelos desenvolvedores."
 
 #: weblate/addons/flags.py:78
-#, fuzzy
-#| msgid "Flag new translations to need edit"
 msgid "Flag unchanged translations to need edit"
-msgstr "Marcar novas traduções como necessita edição"
+msgstr "Marcar traduções não alteradas como necessita edição"
 
 #: weblate/addons/flags.py:80
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translation string is imported from the VCS, it is flagged "
-#| "as needing editing in Weblate. This way you can easily filter and edit "
-#| "translations created by the developers."
 msgid ""
 "Whenever a new translation string is imported from the VCS and it matches "
 "source strings, it is flagged as needing editing in Weblate. This is "
 "especially useful for file formats including all strings even if they are "
 "not translated."
 msgstr ""
-"Sempre que um novo texto de tradução for importado do VCS, ele é marcado "
-"como necessita edição no Weblate. Desta forma você pode filtrar facilmente e "
-"editar as traduções criadas pelos desenvolvedores."
+"Sempre que um novo texto de tradução for importado do VCS e ele corresponde "
+"aos textos fontes, ele é marcado como necessita edição no Weblate. Isto é "
+"especialmente útil para formatos de arquivos que incluem todos os textos "
+"mesmo se eles não estiverem traduzidos."
 
 #: weblate/addons/forms.py:50
 msgid "Name of generated file"
@@ -1330,14 +1324,8 @@ msgid "superuser status"
 msgstr "status de superusuário"
 
 #: weblate/auth/models.py:284
-#, fuzzy
-#| msgid ""
-#| "Designates that this user has all permissions without explicitly "
-#| "assigning them."
 msgid "User has all permissions without having been given them."
-msgstr ""
-"Designa que este usuário tenha todas as permissões sem atribuí-las "
-"explicitamente."
+msgstr "O usuário tem todas as permissões sem ter elas terem sido dadas."
 
 #: weblate/auth/models.py:288
 msgid "active"
@@ -1345,7 +1333,7 @@ msgstr "ativo"
 
 #: weblate/auth/models.py:290
 msgid "Mark user as inactive instead of removing."
-msgstr ""
+msgstr "Marcar usuário como inativo ao invés de remover."
 
 #: weblate/auth/models.py:292
 msgid "Date joined"
@@ -1356,26 +1344,19 @@ msgid "Groups"
 msgstr "Grupos"
 
 #: weblate/auth/models.py:298
-#, fuzzy
-#| msgid ""
-#| "The groups this user belongs to. A user will get all permissions granted "
-#| "to each of their groups."
 msgid ""
 "The user is granted all permissions included in membership of these groups."
 msgstr ""
-"O grupo a qual este usuário pertence. Um usuário obterá todas as permissões "
-"concedidas para cada um de seus grupos."
+"O usuário recebe todas as permissões incluídas ao se tornar membro destes "
+"grupos."
 
 #: weblate/auth/models.py:444
 msgid "Email regular expression"
 msgstr "Expressão regular de e-mail"
 
 #: weblate/auth/models.py:448
-#, fuzzy
-#| msgid "Regular expression which is used to match user email."
 msgid "Regular expression used to match user email."
-msgstr ""
-"Expressão regular que será usada para corresponder a um e-mail de usuário."
+msgstr "Expressão regular usada para corresponder a um e-mail de usuário."
 
 #: weblate/auth/models.py:453
 msgid "Group to assign"
@@ -1723,41 +1704,32 @@ msgid "Automatic detection"
 msgstr "Detecção automática"
 
 #: weblate/formats/exporters.py:165
-#, fuzzy
-#| msgid "Gettext (PO)"
 msgid "gettext PO"
-msgstr "Gettext (PO)"
+msgstr "Gettext PO"
 
 #: weblate/formats/exporters.py:207
-#, fuzzy
-#| msgid "Download translation as XLIFF with gettext extensions"
 msgid "XLIFF with gettext extensions"
-msgstr "Baixar tradução como XLIFF com extensões gettext"
+msgstr "XLIFF com extensões gettext"
 
 #: weblate/formats/exporters.py:219
 msgid "XLIFF 1.1"
-msgstr ""
+msgstr "XLIFF 1.1"
 
 #: weblate/formats/exporters.py:230
 msgid "TBX"
-msgstr ""
+msgstr "TBX"
 
 #: weblate/formats/exporters.py:241
 msgid "TMX"
-msgstr ""
+msgstr "TMX"
 
 #: weblate/formats/exporters.py:252
-#, fuzzy
-#| msgid "Gettext (PO)"
 msgid "gettext MO"
-msgstr "Gettext (PO)"
+msgstr "Gettext MO"
 
 #: weblate/formats/exporters.py:285
-#, fuzzy
-#| msgctxt "Per project access control group"
-#| msgid "VCS"
 msgid "CSV"
-msgstr "VCS"
+msgstr "CSV"
 
 #: weblate/formats/ttkit.py:229
 msgid "Gettext PO file"
