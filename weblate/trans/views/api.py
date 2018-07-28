@@ -329,7 +329,9 @@ def github_hook_helper(data):
         repos = [repo % params for repo in GITHUB_REPOS]
     else:
         repos = []
-        keys = ['clone_url', 'git_url', 'ssh_url', 'svn_url', 'html_url']
+        keys = [
+            'clone_url', 'git_url', 'ssh_url', 'svn_url', 'html_url', 'url'
+        ]
         for key in keys:
             if key in data['repository']:
                 repos.append(data['repository'][key])
@@ -356,6 +358,7 @@ def gitlab_hook_helper(data):
         http_url,
         data['repository']['git_http_url'],
         data['repository']['git_ssh_url'],
+        data['repository']['homepage'],
     ]
 
     return {
