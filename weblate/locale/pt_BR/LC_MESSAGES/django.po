@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-07-23 12:54+0000\n"
-"PO-Revision-Date: 2018-07-29 19:42+0000\n"
+"PO-Revision-Date: 2018-07-30 13:41+0000\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/master/pt_BR/>\n"
@@ -2434,10 +2434,8 @@ msgid "Weblate owes its existence to these projects."
 msgstr "O Weblate deve sua existência a estes projetos."
 
 #: weblate/templates/about.html:75
-#, fuzzy
-#| msgid "C format string"
 msgid "Commit signing"
-msgstr "String de formato C"
+msgstr "Assinatura do envio"
 
 #: weblate/templates/about.html:78
 #, python-format
@@ -2445,6 +2443,8 @@ msgid ""
 "Weblate signs all commits by GPG key %(gpg_key_id)s, you can view the public "
 "key below."
 msgstr ""
+"O Weblate assina todos os envios pela chave GPG %(gpg_key_id)s, você pode "
+"ver a chave pública abaixo."
 
 #: weblate/templates/access_control_description.html:4
 #: weblate/trans/models/project.py:48
@@ -2461,10 +2461,8 @@ msgid "Protected"
 msgstr "Protegido"
 
 #: weblate/templates/access_control_description.html:7
-#, fuzzy
-#| msgid "Publicly visible, only translatable for selected users"
 msgid "Publicly visible, only translatable for chosen users"
-msgstr "Publicamente visível, traduzível apenas por usuários selecionados"
+msgstr "Publicamente visível, traduzível apenas por usuários escolhidos"
 
 #: weblate/templates/access_control_description.html:8
 #: weblate/trans/models/project.py:50
@@ -2472,10 +2470,8 @@ msgid "Private"
 msgstr "Privado"
 
 #: weblate/templates/access_control_description.html:9
-#, fuzzy
-#| msgid "Visible and translatable only for selected users"
 msgid "Visible and translatable only for chosen users"
-msgstr "Visível e traduzível apenas para usuários escolhidos"
+msgstr "Visível e traduzível apenas por usuários escolhidos"
 
 #: weblate/templates/access_control_description.html:10
 #: weblate/trans/models/project.py:51
@@ -2954,10 +2950,8 @@ msgid "Your avatar"
 msgstr "Seu avatar"
 
 #: weblate/templates/accounts/profile.html:284
-#, fuzzy
-#| msgid "Avatars are provided using libravatar."
 msgid "Avatars are provided using Gravatar."
-msgstr "Os avatares são fornecidos pelo libravatar."
+msgstr "Os avatares são fornecidos usando o Gravatar."
 
 #: weblate/templates/accounts/profile.html:295
 msgid "Your public appearance on this site."
@@ -3387,7 +3381,7 @@ msgstr "Encerrar sessão"
 
 #: weblate/templates/base.html:140
 msgid "Help"
-msgstr ""
+msgstr "Ajuda"
 
 #: weblate/templates/base.html:163
 msgid ""
@@ -3755,10 +3749,8 @@ msgid "Suggestions to improve translation are disabled."
 msgstr "As sugestões para aprimorar as traduções estão desabilitadas."
 
 #: weblate/templates/component_info.html:26
-#, fuzzy
-#| msgid "Only selected users can contribute."
 msgid "Only chosen users can contribute."
-msgstr "Apenas usuários selecionados podem contribuir."
+msgstr "Apenas usuários escolhidos podem contribuir."
 
 #: weblate/templates/component_info.html:28
 msgid "Any authenticated user can contribute."
@@ -5044,14 +5036,12 @@ msgid "matrix"
 msgstr "matriz"
 
 #: weblate/templates/matrix.html:34
-#, fuzzy
-#| msgid "Used languages"
 msgid "Displayed languages"
-msgstr "Idiomas usados"
+msgstr "Idiomas exibidos"
 
 #: weblate/templates/matrix.html:39
 msgid "Choose"
-msgstr ""
+msgstr "Escolher"
 
 #: weblate/templates/new-language.html:25
 msgid ""
@@ -5360,24 +5350,21 @@ msgid "Edit search parameters"
 msgstr "Editar parâmetros da pesquisa"
 
 #: weblate/templates/translate.html:62
-#, fuzzy
-#| msgid "Good configuration"
 msgid "Go to position"
-msgstr "Configuração ideal"
+msgstr "Ir para a posição"
 
 #: weblate/templates/translate.html:63
-#, fuzzy, python-format
-#| msgid "%(filter_name)s (%(filter_count)s)"
+#, python-format
 msgid "%(filter_pos)s / %(filter_count)s"
-msgstr "%(filter_name)s (%(filter_count)s)"
+msgstr "%(filter_pos)s / %(filter_count)s"
 
 #: weblate/templates/translate.html:72
 msgid "Jump to position"
-msgstr ""
+msgstr "Pular para a posição"
 
 #: weblate/templates/translate.html:77
 msgid "Jump"
-msgstr ""
+msgstr "Pular"
 
 #: weblate/templates/translate.html:83
 msgid "Next"
@@ -5726,7 +5713,7 @@ msgstr "Baixar textos que necessitam ação como TMX"
 #: weblate/templates/translation-download.html:23
 #: weblate/templates/translation.html:280
 msgid "Customize download"
-msgstr ""
+msgstr "Personalizar o download"
 
 #: weblate/templates/translation-download.html:26
 msgid "Upload translation"
@@ -6154,10 +6141,8 @@ msgid "Search filter"
 msgstr "Filtro de pesquisa"
 
 #: weblate/trans/forms.py:392
-#, fuzzy
-#| msgid "Please select a valid filter type."
 msgid "Please choose a valid filter type."
-msgstr "Selecione um tipo de filtro válido."
+msgstr "Escolha um tipo de filtro válido."
 
 #: weblate/trans/forms.py:426
 msgid "The string you wanted to translate is no longer available!"
@@ -6283,34 +6268,24 @@ msgid "Exact match"
 msgstr "Combinação exata"
 
 #: weblate/trans/forms.py:736
-#, fuzzy
-#| msgid "Please select a valid search type."
 msgid "Please choose a valid search type."
-msgstr "Selecione um tipo de pesquisa válido."
+msgstr "Escolha um tipo de pesquisa válido."
 
 #: weblate/trans/forms.py:745
-#, fuzzy
-#| msgid "Source strings"
 msgid "Target strings"
-msgstr "Textos fonte"
+msgstr "Textos destino"
 
 #: weblate/trans/forms.py:750
-#, fuzzy
-#| msgid "Search in context strings"
 msgid "Context strings"
-msgstr "Pesquisar nos textos de contexto"
+msgstr "Textos de contexto"
 
 #: weblate/trans/forms.py:755
-#, fuzzy
-#| msgid "Locations"
 msgid "Location strings"
-msgstr "Locações"
+msgstr "Textos de localização"
 
 #: weblate/trans/forms.py:760
-#, fuzzy
-#| msgid "C format string"
 msgid "Comment strings"
-msgstr "String de formato C"
+msgstr "Textos de comentário"
 
 #: weblate/trans/forms.py:767
 msgid "Show ignored checks as well"
@@ -6355,11 +6330,11 @@ msgstr "{filter_name}, {search_name}"
 
 #: weblate/trans/forms.py:882 weblate/trans/forms.py:884
 msgid "Could not find merged string."
-msgstr ""
+msgstr "Não foi possível encontrar o texto mesclado."
 
 #: weblate/trans/forms.py:903
 msgid "Could not find reverted change."
-msgstr ""
+msgstr "Não foi possível reverter a alteração."
 
 #: weblate/trans/forms.py:914
 msgid "Automatic translation source"
@@ -6370,10 +6345,8 @@ msgid "Other translation components"
 msgstr "Outros componentes da tradução"
 
 #: weblate/trans/forms.py:927
-#, fuzzy
-#| msgid "Machine translation engines to use"
 msgid "Machine translation engines"
-msgstr "Mecanismos de tradução de máquina a usar"
+msgstr "Mecanismos de tradução de máquina"
 
 #: weblate/trans/forms.py:932
 msgid "Score threshold"
@@ -6412,9 +6385,6 @@ msgid "Starting date"
 msgstr "Data de início"
 
 #: weblate/trans/forms.py:1064
-#, fuzzy
-#| msgctxt "Select starting letter in glossary"
-#| msgid "Any"
 msgctxt "Choose starting letter in glossary"
 msgid "Any"
 msgstr "Qualquer"
@@ -6452,17 +6422,13 @@ msgid "Similar translation already exists in the project ({0})!"
 msgstr "Já existe tradução similar no projeto ({0})!"
 
 #: weblate/trans/forms.py:1176
-#, fuzzy
-#| msgid "Please select"
 msgid "Please choose"
-msgstr "Selecione"
+msgstr "Escolha"
 
 #: weblate/trans/forms.py:1198
-#, fuzzy
-#| msgid "Strings with higher priority are offered first to translators."
 msgid "Higher priority strings are presented to translators earlier."
 msgstr ""
-"Textos com prioridade mais alta são oferecidos primeiro para os tradutores."
+"Textos com prioridade mais alta são apresentados primeiro para os tradutores."
 
 #: weblate/trans/forms.py:1212
 msgid "Check flags"
@@ -8464,10 +8430,8 @@ msgstr ""
 "dependências faltantes ou desatualizadas."
 
 #: weblate/wladmin/templates/admin/performance.html:60
-#, fuzzy
-#| msgid "checks"
 msgid "System checks"
-msgstr "verificações"
+msgstr "Verificações do sistema"
 
 #: weblate/wladmin/templates/admin/performance.html:92
 msgid "Check"
