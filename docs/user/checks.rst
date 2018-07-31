@@ -320,6 +320,34 @@ AngularJS interpolation string
 
     `AngularJS: API: $interpolate <https://docs.angularjs.org/api/ng/service/$interpolate>`_
 
+C# format
+*********
+
++------------------------+------------------------------------------------------------+
+| Position format string | ``There are {0} apples``                                   |
++------------------------+------------------------------------------------------------+
+| Flag to enable         | `c-sharp-format`                                           |
++------------------------+------------------------------------------------------------+
+
+.. seealso::
+
+    'C# Sting Format <https://docs.microsoft.com/en-us/dotnet/api/system.string.format?view=netframework-4.7.2>'_
+    
+Java format
+***********
+
++------------------------+------------------------------------------------------------+
+| Simple format string   | ``There are %d apples``                                    |
++------------------------+------------------------------------------------------------+
+| Position format string | ``Your balance is %1$d %2$s``                              |
++------------------------+------------------------------------------------------------+
+| Flag to enable         | `java-format`                                              |
++------------------------+------------------------------------------------------------+
+
+.. seealso::
+    
+    'Java Format Strings <https://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html>'_
+
 .. _check-plurals:
 
 Missing plurals
