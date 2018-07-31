@@ -97,7 +97,11 @@ flags`); here is a list of flags currently accepted:
     Skip the "Trailing stop" quality check.
 ``ignore-angularjs-format``
     Skip the "AngularJS interpolation string" quality check.
-
+```ignore-c-sharp-format```
+    Skip the "C# format" quality check.
+```ignore-java-format```
+    Skip the "Java format" quality check.
+    
 .. note::
 
     Generally the rule is named ``ignore-*`` for any check, using its

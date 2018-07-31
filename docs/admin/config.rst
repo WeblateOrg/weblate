@@ -253,6 +253,8 @@ For example you can enable only few of them:
         'weblate.checks.format.CFormatCheck',
         'weblate.checks.format.PerlFormatCheck',
         'weblate.checks.format.JavascriptFormatCheck',
+        'weblate.checks.format.CSharpFormatCheck',
+        'weblate.checks.format.JavaFormatCheck',
         'weblate.checks.consistency.SamePluralsCheck',
         'weblate.checks.consistency.PluralsCheck',
         'weblate.checks.consistency.ConsistencyCheck',
