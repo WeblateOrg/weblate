@@ -1,12 +1,9 @@
 Weblate basics
 ==============
 
-Projects structure
+Project structure
 ------------------
 
-Each project can contain various components. The reason for this structure is
-that all components in a project are expected to have a lot in common.
-Whenever translation is made in single component, it is automatically
-propagated to others within same project (this is especially useful when
-translating more than one version of the same project, but can be disabled, see
-:ref:`component`).
+Internally, each project has translations to common strings propangated across other components within it by default.
+This lightens the burden of repetitive and multi version translation.
+Disable it as per :ref:`component`, still producing errors for seemingly inconsistent resulting translations.
