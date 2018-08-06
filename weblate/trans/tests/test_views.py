@@ -70,6 +70,7 @@ class RegistrationTestMixin(object):
                 return line[18:]
 
         self.fail('Confirmation URL not found')
+        return ''
 
     def assert_notify_mailbox(self, sent_mail):
         self.assertEqual(

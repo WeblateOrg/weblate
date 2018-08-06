@@ -73,7 +73,7 @@ class Command(WeblateComponentCommand):
         try:
             user = User.objects.filter(is_superuser=True)[0]
         except IndexError:
-            user =get_anonymous()
+            user = get_anonymous()
         for component in self.get_components(*args, **options):
             addons = Addon.objects.filter_component(component).filter(
                 name=addon.name
