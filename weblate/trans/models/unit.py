@@ -712,7 +712,7 @@ class Unit(models.Model, LoggerMixin):
         )
         # Set fuzzy on changed
         same_source.filter(
-            state=STATE_TRANSLATED
+            state__gte=STATE_TRANSLATED
         ).exclude(
             id__in=reverted_ids
         ).update(
