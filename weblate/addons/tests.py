@@ -24,6 +24,7 @@ from unittest import SkipTest
 import os
 
 from django.core.management import call_command
+from django.core.management.base import CommandError
 from django.test import TestCase
 from django.urls import reverse
 
@@ -47,6 +48,7 @@ from weblate.addons.gettext import (
 )
 from weblate.addons.json import JSONCustomizeAddon
 from weblate.addons.properties import PropertiesSortAddon
+from weblate.addons.models import Addon
 from weblate.lang.models import Language
 from weblate.trans.models import Unit, Translation
 from weblate.utils.state import STATE_FUZZY, STATE_EMPTY
@@ -390,12 +392,87 @@ class PropertiesAddonTest(ViewTestCase):
         self.assertIn('java/swing_messages_cs.properties', commit)
 
 
-class CommandTest(TestCase):
+class CommandTest(ViewTestCase):
     """Test for management commands."""
     def test_list_languages(self):
         output = StringIO()
         call_command('list_addons', stdout=output)
         self.assertIn('msgmerge', output.getvalue())
+
+    def test_install_addon(self):
+        output = StringIO()
+        call_command(
+            'install_addon', '--all',
+            '--addon', 'weblate.gettext.customize',
+            '--configuration', '{"width":77}',
+            stdout=output,
+            stderr=output,
+        )
+        self.assertIn(
+            'Successfully installed on Test/Test',
+            output.getvalue()
+        )
+        addon = Addon.objects.get(component=self.component)
+        self.assertEqual(addon.configuration, {'width': 77})
+        call_command(
+            'install_addon', '--all',
+            '--addon', 'weblate.gettext.customize',
+            '--configuration', '{"width":-1}',
+            stdout=output,
+            stderr=output,
+        )
+        self.assertIn(
+            'Already installed on Test/Test',
+            output.getvalue()
+        )
+        addon = Addon.objects.get(component=self.component)
+        self.assertEqual(addon.configuration, {'width': 77})
+        call_command(
+            'install_addon', '--all', '--update',
+            '--addon', 'weblate.gettext.customize',
+            '--configuration', '{"width":-1}',
+            stdout=output,
+            stderr=output,
+        )
+        self.assertIn(
+            'Successfully updated on Test/Test',
+            output.getvalue()
+        )
+        addon = Addon.objects.get(component=self.component)
+        self.assertEqual(addon.configuration, {'width': -1})
+
+    def test_install_addon_wrong(self):
+        output = StringIO()
+        self.assertRaises(
+            CommandError,
+            call_command,
+            'install_addon', '--all',
+            '--addon', 'weblate.gettext.nonexisting',
+            '--configuration', '{"width":77}',
+        )
+        self.assertRaises(
+            CommandError,
+            call_command,
+            'install_addon', '--all',
+            '--addon', 'weblate.gettext.customize',
+            '--configuration', '{',
+        )
+        self.assertRaises(
+            CommandError,
+            call_command,
+            'install_addon', '--all',
+            '--addon', 'weblate.gettext.customize',
+            '--configuration', '{}',
+            stdout=output,
+        )
+        self.assertRaises(
+            CommandError,
+            call_command,
+            'install_addon', '--all',
+            '--addon', 'weblate.gettext.customize',
+            '--configuration', '{"width":-65535}',
+            stderr=output,
+        )
 
 
 class DiscoveryTest(ViewTestCase):

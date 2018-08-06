@@ -515,6 +515,34 @@ You can dump users from existing Django installation using:
 
     ./manage.py dumpdata auth.User > users.json
 
+install_addon
+-------------
+
+.. versionadded:: 3.2
+
+.. django-admin:: install_addon --addon ADDON <project|project/component>
+
+Installs addon to set of components.
+
+.. django-admin-option:: --addon ADDON
+
+   Name of addon to install. For example ``weblate.gettext.customize``.
+
+.. django-admin-option:: --configuration CONFIG
+
+   JSON encoded configuration of an addon.
+
+.. django-admin-option:: --update
+
+   Update existing addon configuration.
+
+You can either define on which project or component to install addon (eg.
+``weblate/master``) or use ``--all`` to include all existing components.
+
+.. seealso::
+
+   :ref:`addons`
+
 list_ignored_checks
 -------------------
 
