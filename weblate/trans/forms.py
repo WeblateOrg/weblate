@@ -793,7 +793,9 @@ class SearchForm(BaseSearchForm):
                 self.cleaned_data['search'] != 'exact' and
                 len(self.cleaned_data['q']) < 2):
             self.cleaned_data['q'] = None
-            raise ValidationError(_('The query string has to be longer!'))
+            raise ValidationError(
+                {'q': _('The query string has to be longer!')}
+            )
 
         # Default to source and target search
         if (not self.cleaned_data['source'] and
@@ -1304,11 +1306,10 @@ class ReportsForm(forms.Form):
             start = timezone.make_aware(datetime(year, 1, 1))
         else:
             # Validate custom period
-            if (not self.cleaned_data['start_date']
-                    or not self.cleaned_data['end_date']):
-                raise ValidationError(
-                    _('Starting and ending dates have to be specified!')
-                )
+            if self.cleaned_data['start_date']:
+                raise ValidationError({'start_date': _('Missing date!')})
+            if not self.cleaned_data['end_date']:
+                raise ValidationError({'end_date': _('Missing date!')})
             start = self.cleaned_data['start_date']
             end = self.cleaned_data['end_date']
         # Sanitize timestamps
@@ -1320,9 +1321,8 @@ class ReportsForm(forms.Form):
         )
         # Final validation
         if self.cleaned_data['start_date'] > self.cleaned_data['end_date']:
-            raise ValidationError(
-                _('Starting date has to be before ending date!')
-            )
+            msg = _('Starting date has to be before ending date!')
+            raise ValidationError({'start_date': msg, 'end_date': msg})
 
 
 class ComponentSettingsForm(forms.ModelForm):
