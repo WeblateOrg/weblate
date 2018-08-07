@@ -257,7 +257,11 @@ class AutoFormatTest(SimpleTestCase, TempDirMixin):
             newdata = handle.read()
 
         # Check if content matches
-        self.assertIn(self.NEW_UNIT_MATCH, newdata)
+        if isinstance(self.NEW_UNIT_MATCH, tuple):
+            for match in self.NEW_UNIT_MATCH:
+                self.assertIn(match, newdata)
+        else:
+            self.assertIn(self.NEW_UNIT_MATCH, newdata)
 
 
 class XMLMixin(object):
@@ -437,8 +441,8 @@ class RESXFormatTest(XMLMixin, AutoFormatTest):
     MATCH = 'text/microsoft-resx'
     BASE = ''
     NEW_UNIT_MATCH = (
-        b'\n<data name="key" xml:space="preserve">'
-        b'<value>Source string</value>\n  </data>'
+        b'<data name="key" xml:space="preserve">',
+        b'<value>Source string</value>',
     )
 
 
