@@ -21,7 +21,6 @@
 
 from __future__ import unicode_literals
 
-import csv
 import importlib
 import re
 
@@ -29,6 +28,7 @@ from django.utils.translation import ugettext_lazy as _
 
 import six
 
+from translate.storage.csvl10n import csv
 from translate.storage.po import pounit, pofile
 from translate.storage.poheader import default_header
 from translate.storage.ts2 import tsfile, tsunit
@@ -567,7 +567,10 @@ class CSVFormat(FileFormat):
         if store.fieldnames != ['location', 'source', 'target']:
             return store
 
-        if not isinstance(content, six.string_types) and six.PY3:
+        # Do we have python 3 compatible csv module?
+        new_csv = six.PY3 or hasattr(csv, 'PY3')
+
+        if new_csv:
             content = content.decode('utf-8')
 
         fileobj = csv.StringIO(content)
@@ -583,7 +586,7 @@ class CSVFormat(FileFormat):
             return store
 
         result = storeclass(fieldnames=['source', 'target'])
-        if six.PY3:
+        if new_csv:
             result.parse(content.encode('utf-8'))
         else:
             result.parse(content)
