@@ -464,10 +464,6 @@ class Unit(models.Model, LoggerMixin):
         previous_source = unit.get_previous_source()
         content_hash = unit.get_content_hash()
 
-        # Fill in target for monolingual source
-        if self.translation.is_template and source and not target:
-            target = source
-
         # Monolingual files handling (without target change)
         if unit.template is not None and target == self.target:
             if source != self.source and state == STATE_TRANSLATED:
