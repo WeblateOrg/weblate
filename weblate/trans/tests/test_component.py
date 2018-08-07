@@ -36,29 +36,39 @@ from weblate.utils.state import STATE_TRANSLATED
 
 class ComponentTest(RepoTestCase):
     """Component object testing."""
-    def verify_component(self, project, translations, lang=None, units=0,
+    def verify_component(self, component, translations, lang=None, units=0,
                          unit='Hello, world!\n', fail=False):
         # Validation
         if fail:
             self.assertRaises(
                 ValidationError,
-                project.full_clean
+                component.full_clean
             )
         else:
-            project.full_clean()
+            component.full_clean()
         # Correct path
-        self.assertTrue(os.path.exists(project.full_path))
+        self.assertTrue(os.path.exists(component.full_path))
         # Count translations
         self.assertEqual(
-            project.translation_set.count(), translations
+            component.translation_set.count(), translations
         )
         if lang is not None:
             # Grab translation
-            translation = project.translation_set.get(language_code=lang)
+            translation = component.translation_set.get(language_code=lang)
             # Count units in it
             self.assertEqual(translation.unit_set.count(), units)
             # Check whether unit exists
             self.assertTrue(translation.unit_set.filter(source=unit).exists())
+
+        if component.has_template() and component.edit_template:
+            translation = component.translation_set.get(filename=component.template)
+            # Count units in it
+            self.assertEqual(translation.unit_set.count(), units)
+            # Count translated units in it
+            self.assertEqual(
+                translation.unit_set.filter(state__gte=STATE_TRANSLATED).count(),
+                units
+            )
 
     def test_create(self):
         project = self.create_component()
