@@ -345,6 +345,12 @@ class XliffFormat(FileFormat):
             False
         )
 
+    def create_unit(self, key, source):
+        unit = super(XliffFormat, self).create_unit(key, source)
+        unit.marktranslated()
+        unit.markapproved(False)
+        return unit
+
 
 class PoXliffFormat(XliffFormat):
     name = _('XLIFF Translation File with PO extensions')

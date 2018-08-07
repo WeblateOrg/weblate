@@ -622,7 +622,7 @@ class FileFormat(object):
             if unit.istranslatable():
                 if hasattr(unit, 'markapproved'):
                     # Xliff only
-                    unit.markapproved(not fuzzy)
+                    unit.markapproved(False)
                 else:
                     unit.markfuzzy(fuzzy)
                 if unit.hasplural():
