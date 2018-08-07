@@ -68,9 +68,12 @@ after_script:
 sudo: false
 matrix:
   include:
-    - name: 'Django pre-release'
+    - name: 'Django 1.11'
       python: "2.7"
       env: CI_DEPS="Django>=1.11,<1.12" CI_DATABASE=postgresql
+    - name: 'Django pre-release'
+      python: "3.6"
+      env: CI_DEPS="--pre Django" CI_DATABASE=postgresql
     - name: 'translate-toolkit pre-release'
       python: "3.6"
       env: CI_DEPS="https://github.com/translate/translate.git@master" CI_DATABASE=postgresql
