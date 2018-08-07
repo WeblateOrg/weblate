@@ -68,13 +68,17 @@ after_script:
 sudo: false
 matrix:
   include:
-    - python: "2.7"
+    - name: 'Django pre-release'
+      python: "2.7"
       env: CI_DEPS="Django>=1.11,<1.12" CI_DATABASE=postgresql
-    - python: "3.6"
-      env: CI_DEPS="--pre Django" CI_DATABASE=postgresql
+    - name: 'translate-toolkit pre-release'
+      python: "3.6"
+      env: CI_DEPS="https://github.com/translate/translate.git@master" CI_DATABASE=postgresql
   allow_failures:
     - python: "3.6"
       env: CI_DEPS="--pre Django" CI_DATABASE=postgresql
+    - python: "3.6"
+      env: CI_DEPS="https://github.com/translate/translate.git@master" CI_DATABASE=postgresql
 addons:
   apt:
     packages:
