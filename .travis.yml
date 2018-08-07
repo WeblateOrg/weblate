@@ -76,7 +76,7 @@ matrix:
       env: CI_DEPS="--pre Django" CI_DATABASE=postgresql
     - name: 'translate-toolkit pre-release'
       python: "3.6"
-      env: CI_DEPS="https://github.com/translate/translate.git@master" CI_DATABASE=postgresql
+      env: CI_DEPS="https://github.com/translate/translate/archive/master.zip" CI_DATABASE=postgresql
   allow_failures:
     - python: "3.6"
       env: CI_DEPS="--pre Django" CI_DATABASE=postgresql
