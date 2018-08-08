@@ -24,8 +24,16 @@ from appconf import AppConf
 
 
 class WeblateConf(AppConf):
-    GPG_IDENTITY = None
-    GPG_ALGO = 'default'
+    WEBLATE_GPG_IDENTITY = None
+    WEBLATE_GPG_ALGO = 'default'
+
+    RATELIMIT_ATTEMPTS = 5
+    RATELIMIT_WINDOW = 300
+    RATELIMIT_LOCKOUT = 600
+
+    RATELIMIT_SEARCH_ATTEMPTS = 5
+    RATELIMIT_SEARCH_WINDOW = 60
+    RATELIMIT_SEARCH_LOCKOUT = 300
 
     class Meta(object):
-        prefix = 'WEBLATE'
+        prefix = ''

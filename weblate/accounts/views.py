@@ -199,7 +199,7 @@ def session_ratelimit_post(function):
     def rate_wrap(request, *args, **kwargs):
         attempts = request.session.get('auth_attempts', 0)
         if request.method == 'POST':
-            if attempts >= settings.AUTH_MAX_ATTEMPTS:
+            if attempts >= settings.RATELIMIT_ATTEMPTS:
                 rotate_token(request)
                 if request.user.is_authenticated:
                     logout(request)

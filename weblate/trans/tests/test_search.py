@@ -75,7 +75,7 @@ class SearchViewTest(ViewTestCase):
         response = self.client.get(url, {'date': '2010-01-10'})
         self.assertContains(response, '2010-01-10')
 
-    @override_settings(AUTH_MAX_ATTEMPTS=20000)
+    @override_settings(RATELIMIT_SEARCH_ATTEMPTS=20000)
     def test_all_search(self):
         """Searching in all projects."""
         response = self.client.get(

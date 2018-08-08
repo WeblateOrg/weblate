@@ -12,36 +12,8 @@ third party service.
 You can also completely disable new users registration using
 :setting:`REGISTRATION_OPEN`.
 
-.. _rate-limit:
+The authentication attempts are subjects to :ref:`rate-limit`.
 
-Rate limiting
--------------
-
-.. versionadded:: 2.14
-
-The password based authentication is subject to rate limiting. At most
-:setting:`AUTH_MAX_ATTEMPTS` attempts are allowed within
-:setting:`AUTH_CHECK_WINDOW` seconds. The user is then blocked
-for :setting:`AUTH_LOCKOUT_TIME`.
-
-If there are more than :setting:`AUTH_LOCK_ATTEMPTS` failed authentication
-attempts on one account, this account password authentication is disabled and
-it's not possible to login until user asks for password reset.
-
-.. _rate-ip:
-
-IP address for rate limiting
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The rate limiting is based on client IP address. This is obtained from HTTP
-headers and you will have to change configuration in the event Weblate is running
-behind reverse proxy to work it properly.
-
-.. seealso::
-
-    :setting:`IP_BEHIND_REVERSE_PROXY`,
-    :setting:`IP_PROXY_HEADER`,
-    :setting:`IP_PROXY_OFFSET`
 
 Authentication backends
 -----------------------

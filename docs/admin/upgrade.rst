@@ -89,6 +89,17 @@ Notable configuration or dependencies changes:
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
+Upgrade from 3.1 to 3.2
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+Notable configuration or dependencies changes:
+
+* Rate limiting configuration has been changed, please see :ref:`rate-limit`.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
 .. _py3:
 
 Upgrading from Python 2.x to 3.x
