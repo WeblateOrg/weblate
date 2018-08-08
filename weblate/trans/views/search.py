@@ -141,7 +141,8 @@ def search_replace(request, project, component=None, lang=None):
 @never_cache
 def search(request, project=None, component=None, lang=None):
     """Perform site-wide search on units."""
-    if not check_rate_limit('search', request):
+    is_ratelimited = not check_rate_limit('search', request)
+    if is_ratelimited:
         search_form = SiteSearchForm()
     else:
         search_form = SiteSearchForm(request.GET)
@@ -220,6 +221,8 @@ def search(request, project=None, component=None, lang=None):
         )
         context['query_string'] = search_form.urlencode()
         context['search_query'] = search_form.cleaned_data['q']
+    elif is_ratelimited:
+        messages.error(request, _('Too many search queries, please try again later.'))
     else:
         messages.error(request, _('Invalid search query!'))
 
