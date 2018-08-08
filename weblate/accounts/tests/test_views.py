@@ -28,7 +28,7 @@ from django.core import mail
 
 from weblate.auth.models import User
 from weblate.accounts.models import Profile
-from weblate.accounts.ratelimit import reset_rate_limit
+from weblate.utils.ratelimit import reset_rate_limit
 
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.lang.models import Language

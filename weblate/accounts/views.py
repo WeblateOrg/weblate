@@ -60,7 +60,7 @@ from weblate.accounts.forms import (
     LoginForm, HostingForm, CaptchaForm, SetPasswordForm,
     EmptyConfirmForm,
 )
-from weblate.accounts.ratelimit import check_rate_limit
+from weblate.utils.ratelimit import check_rate_limit
 from weblate.logger import LOGGER
 from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
 from weblate.accounts.models import set_lang, Profile

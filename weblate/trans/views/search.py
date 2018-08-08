@@ -30,7 +30,7 @@ from django.urls import reverse
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 
-from weblate.accounts.ratelimit import check_rate_limit
+from weblate.utils.ratelimit import check_rate_limit
 from weblate.lang.models import Language
 from weblate.trans.forms import (
     SiteSearchForm, ReplaceForm, ReplaceConfirmForm, MassStateForm,

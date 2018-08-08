@@ -24,7 +24,7 @@ from unittest import TestCase
 from django.http.request import HttpRequest
 from django.test.utils import override_settings
 
-from weblate.accounts.ratelimit import reset_rate_limit, check_rate_limit
+from weblate.utils.ratelimit import reset_rate_limit, check_rate_limit
 
 
 class RateLimitTest(TestCase):

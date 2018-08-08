@@ -30,7 +30,7 @@ from django.urls import reverse
 from django.test.utils import override_settings
 from django.http import QueryDict
 
-from weblate.accounts.ratelimit import reset_rate_limit
+from weblate.utils.ratelimit import reset_rate_limit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.search import Fulltext
 from weblate.trans.models import IndexUpdate
