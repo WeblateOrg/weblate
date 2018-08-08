@@ -17,6 +17,7 @@
 
 {% block content %}
 
+{% if show_results %}
 {% if page_obj.object_list %}
 <table class="table table-bordered">
 <tbody>
@@ -41,6 +42,7 @@
 {% else %}
 {% trans "No matching strings found." as msg %}
 {% show_message "info" msg %}
+{% endif %}
 {% endif %}
 
 {% include "search-form.html" %}

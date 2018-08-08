@@ -142,10 +142,7 @@ def search_replace(request, project, component=None, lang=None):
 def search(request, project=None, component=None, lang=None):
     """Perform site-wide search on units."""
     is_ratelimited = not check_rate_limit('search', request)
-    if is_ratelimited:
-        search_form = SiteSearchForm()
-    else:
-        search_form = SiteSearchForm(request.GET)
+    search_form = SiteSearchForm(request.GET)
     context = {
         'search_form': search_form,
     }
@@ -184,7 +181,7 @@ def search(request, project=None, component=None, lang=None):
         else:
             context['back_url'] = s_language.get_absolute_url()
 
-    if search_form.is_valid():
+    if not is_ratelimited and request.GET and search_form.is_valid():
         # Filter results by ACL
         if component:
             units = Unit.objects.filter(translation__component=obj)
@@ -215,6 +212,7 @@ def search(request, project=None, component=None, lang=None):
             # results.
             units = paginator.page(paginator.num_pages)
 
+        context['show_results'] = True
         context['page_obj'] = units
         context['title'] = _('Search for %s') % (
             search_form.cleaned_data['q']
@@ -223,7 +221,7 @@ def search(request, project=None, component=None, lang=None):
         context['search_query'] = search_form.cleaned_data['q']
     elif is_ratelimited:
         messages.error(request, _('Too many search queries, please try again later.'))
-    else:
+    elif request.GET:
         messages.error(request, _('Invalid search query!'))
 
     return render(

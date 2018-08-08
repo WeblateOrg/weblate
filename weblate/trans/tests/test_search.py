@@ -112,7 +112,7 @@ class SearchViewTest(ViewTestCase):
         )
         response = self.client.get(
             reverse('search'),
-            {'type': 'php_format'}
+            {'type': 'check:php_format'}
         )
         self.assertContains(
             response,
@@ -120,7 +120,7 @@ class SearchViewTest(ViewTestCase):
         )
         response = self.client.get(
             reverse('search'),
-            {'type': 'php_format', 'ignored': '1'}
+            {'type': 'check:php_format', 'ignored': '1'}
         )
         self.assertContains(
             response,

@@ -120,7 +120,8 @@ def search(translation, request):
     form = SearchForm(request.GET)
 
     # Process form
-    if not form.is_valid():
+    form_valid = form.is_valid()
+    if not form_valid:
         show_form_errors(request, form)
 
     search_result = {
@@ -140,8 +141,8 @@ def search(translation, request):
         translation=translation,
     )
 
-    search_query = form.get_search_query()
-    name = form.get_name()
+    search_query = form.get_search_query() if form_valid else ''
+    name = form.get_name() if form_valid else ''
 
     # Grab unit IDs
     unit_ids = list(allunits.values_list('id', flat=True))
