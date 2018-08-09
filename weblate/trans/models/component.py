@@ -569,13 +569,15 @@ class Component(models.Model, URLMixin, PathMixin):
             self.log_error('failed to update repository: %s', error_text)
             if validate:
                 if 'Host key verification failed' in error_text:
-                    raise ValidationError(_(
-                        'Failed to verify SSH host key, please add '
-                        'them in SSH page in the admin interface.'
-                    ))
-                raise ValidationError(
-                    _('Failed to fetch repository: %s') % error_text
-                )
+                    raise ValidationError({
+                        'repo': _(
+                            'Failed to verify SSH host key, please add '
+                            'them in SSH page in the admin interface.'
+                        )
+                    })
+                raise ValidationError({
+                    'repo': _('Failed to fetch repository: %s') % error_text
+                })
             return False
 
     def configure_repo(self, validate=False):
