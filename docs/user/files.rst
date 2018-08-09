@@ -27,7 +27,7 @@ You can upload translated files using the :guilabel:`Upload translation` action
 in the :guilabel:`Files` menu.
 
 Weblate accepts any file format it understands on upload, but it is still
-recommeded to use the same file format as is used for translation, otherwise some
+recommended to use the same file format as is used for translation, otherwise some
 features might not be translated properly.
 
 .. seealso:: 
