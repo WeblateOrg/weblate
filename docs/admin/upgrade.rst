@@ -63,16 +63,18 @@ work, but is not as well tested as single version upgrades.
 
         ./manage.py check --deploy
 
-.. versionchanged:: 3.0.1
-
-    If you are upgrading from 2.x release, always first upgrade to 3.0.1 (see
-    :ref:`weblate3:upgrade_3`) and the continue ugprading in the 3.x series.
-    Upgrades skipping this step are not supported and will break.
 
 .. _version-specific-instructions:
 
 Version specific instructions
 -----------------------------
+
+Upgrade from 2.x
+~~~~~~~~~~~~~~~~
+
+If you are upgrading from 2.x release, always first upgrade to 3.0.1 (see
+:ref:`weblate3:upgrade_3`) and the continue ugprading in the 3.x series.
+Upgrades skipping this step are not supported and will break.
 
 .. _up-3-1:
 
