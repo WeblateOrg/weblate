@@ -22,7 +22,6 @@ from __future__ import unicode_literals
 
 import os
 import codecs
-import sys
 
 from django.db import models, transaction
 from django.db.models.aggregates import Max
@@ -36,7 +35,6 @@ from django.urls import reverse
 from weblate.lang.models import Language, Plural
 from weblate.formats import ParseError
 from weblate.formats.auto import try_load
-from weblate.formats import external
 from weblate.checks import CHECKS
 from weblate.trans.models.unit import (
     Unit, STATE_TRANSLATED, STATE_FUZZY, STATE_APPROVED,
@@ -52,7 +50,6 @@ from weblate.trans.util import split_plural
 from weblate.trans.mixins import URLMixin, LoggerMixin
 from weblate.trans.models.change import Change
 from weblate.trans.checklists import TranslationChecklist
-from weblate.utils.errors import report_error
 
 class TranslationManager(models.Manager):
     def check_sync(self, component, lang, code, path, force=False,
@@ -872,19 +869,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         # Strip possible UTF-8 BOM
         if filecopy[:3] == codecs.BOM_UTF8:
             filecopy = filecopy[3:]
-
-        # check if the provided file is in an external format
-        # We are able to import different external file formats, but
-        # that needs to convert the external format to a translate-toolkit
-        external_format = external.detect_filename(fileobj.name)
-        if external_format is not None:
-            try:
-                name, content = external_format.convert_to_internal(fileobj.name, filecopy)
-                if name is not None and content is not None:
-                    fileobj.name = name
-                    filecopy = content
-            except Exception as error:
-                report_error(error, sys.exc_info())
 
         # Load backend file
         store = try_load(

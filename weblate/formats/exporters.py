@@ -24,7 +24,6 @@ from django.http import HttpResponse
 from django.utils.translation import ugettext_lazy as _
 
 from translate.misc.multistring import multistring
-from translate.storage.base import TranslationStore
 from translate.storage.po import pofile
 from translate.storage.mo import mofile, mounit
 from translate.storage.poxliff import PoXliffFile
@@ -317,43 +316,9 @@ class XlsxExporter(BaseExporter):
     extension = 'xlsx'
     verbose = _('Excel OpenXML')
 
-    # redefine __init__ problems since we have no storage here
-    def __init__(self, project=None, language=None, url=None,
-                 translation=None, fieldnames=None):
-        super(XlsxExporter, self).__init__(
-            project=project,
-            language=language,
-            url=url,
-            translation=translation,
-            fieldnames=fieldnames
-        )
-
-        if translation is not None:
-            self.subproject = translation.subproject
-
-        self.xlsx = XlsxFormat()
-
     def get_storage(self):
-        """just return a generic store to let the __init__ pass"""
-        return TranslationStore()
+        return csvfile(fieldnames=self.fieldnames)
 
-    def add_units(self, units):
-        self.xlsx.add_units(self.language, self.subproject, units)
-
-    def get_response(self, filetemplate='{project}-{language}.{extension}'):
-        filename = filetemplate.format(
-            project=self.project.slug,
-            language=self.language.code,
-            extension=self.extension
-        )
-
-        response = HttpResponse(
-            content_type='{0}; charset=utf-8'.format(self.content_type)
-        )
-        response['Content-Disposition'] = 'attachment; filename={0}'.format(
-            filename
-        )
-
-        # create response
-        response.write(self.xlsx.create_xlsx())
-        return response
+    def serialize(self):
+        """Return storage content"""
+        return XlsxFormat.serialize(self.storage)

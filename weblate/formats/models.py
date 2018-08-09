@@ -89,6 +89,7 @@ class FormatsConf(AppConf):
         'weblate.formats.ttkit.RubyYAMLFormat',
         'weblate.formats.ttkit.DTDFormat',
         'weblate.formats.ttkit.WindowsRCFormat',
+        'weblate.formats.external.XlsxFormat',
     )
 
     class Meta(object):
