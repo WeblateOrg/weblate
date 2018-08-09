@@ -555,7 +555,7 @@ def send_parse_error(profile, component, translation, error, filename):
 def send_mails(mails):
     """Send multiple mails in single connection."""
     try:
-        connection = get_connection()
+        connection = get_connection(fail_silently=True)
         connection.send_messages(
             [mail for mail in mails if mail is not None]
         )
