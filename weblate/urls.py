@@ -58,23 +58,22 @@ import weblate.accounts.urls
 import weblate.api.urls
 import weblate.wladmin.sites
 
+def optional(route_part):
+  return '(?:' + route_part + r')?'
+
 # URL regexp for language code
 LANGUAGE = r'(?P<lang>[^/]+)'
 
 # URL regexp for project
-PROJECT = r'(?P<project>[^/]+)/'
+PROJECT = r'project/(?P<project>[^/]+)/'
 
-COMPONENT = r'(?P<component>[^/]+)/'
+COMPONENT = r'component/(?P<component>[^/]+)/'
 
 # URL regexp for component
 COMPONENT_SCOPED_BY_PROJECT = PROJECT + COMPONENT
 
-# Hey Chat: Any idea where to put this? This seems a bit sluggish for  a location
-def optional(route_part):
-  return '(?:' + route_part + r')?'
-
 # URL regexp for translations
-TRANSLATION = optional(PROJECT) + optional(COMPONENT) + LANGUAGE + '/'
+TRANSLATION = PROJECT + optional(COMPONENT) + LANGUAGE + '/'
 
 # URL regexp for project language pages
 PROJECT_LANG = PROJECT + LANGUAGE + '/'

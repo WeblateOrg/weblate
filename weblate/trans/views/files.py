@@ -35,7 +35,7 @@ from weblate.trans.views.helper import (
 )
 
 
-def download_translation_format(request, project, component, lang):
+def download_translation_format(request, project, lang, component=None):
     obj = get_translation(request, project, component, lang)
 
     form = DownloadForm(request.GET)
@@ -51,7 +51,7 @@ def download_translation_format(request, project, component, lang):
     return download_translation_file(obj, form.cleaned_data['format'], units)
 
 
-def download_translation(request, project, component, lang):
+def download_translation(request, lang, project, component = ""):
     obj = get_translation(request, project, component, lang)
 
     return download_translation_file(obj)
