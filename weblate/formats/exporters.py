@@ -157,7 +157,7 @@ class BaseExporter(object):
         )
 
         # Save to response
-        response.write(FileFormat.serialize(self.storage))
+        response.write(self.serialize())
 
         return response
 
