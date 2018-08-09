@@ -36,7 +36,7 @@ from django.urls import reverse
 from weblate.lang.models import Language, Plural
 from weblate.formats import ParseError
 from weblate.formats.auto import try_load
-from weblate.trans import external_formats
+from weblate.formats import external
 from weblate.checks import CHECKS
 from weblate.trans.models.unit import (
     Unit, STATE_TRANSLATED, STATE_FUZZY, STATE_APPROVED,
@@ -876,7 +876,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         # check if the provided file is in an external format
         # We are able to import different external file formats, but
         # that needs to convert the external format to a translate-toolkit
-        external_format = external_formats.detect_filename(fileobj.name)
+        external_format = external.detect_filename(fileobj.name)
         if external_format is not None:
             try:
                 name, content = external_format.convert_to_internal(fileobj.name, filecopy)

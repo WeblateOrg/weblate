@@ -35,7 +35,7 @@ from translate.storage.csvl10n import csvfile
 
 import weblate
 from weblate.formats.base import FileFormat
-from weblate.trans.external_formats import XlsxFormat
+from weblate.formats.external import XlsxFormat
 from weblate.utils.site import get_site_url
 
 # Map to remove control chars except newlines and tabs
