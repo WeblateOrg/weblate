@@ -454,6 +454,8 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
             request,
             serializer.validated_data['file'],
             serializer.validated_data['overwrite'],
+            serializer.validated_data['email'],
+            serializer.validated_data['author'],
         )
 
         return Response(data={
