@@ -315,8 +315,7 @@ class XlsxExporter(BaseExporter):
     name = 'xlsx'
     content_type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     extension = 'xlsx'
-
-    has_lang = False
+    verbose = _('Excel OpenXML')
 
     # redefine __init__ problems since we have no storage here
     def __init__(self, project=None, language=None, url=None,
