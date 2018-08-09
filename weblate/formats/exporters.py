@@ -55,6 +55,13 @@ def get_exporter(name):
     return EXPORTERS[name]
 
 
+def list_exporters():
+    return [
+        {'name': x.name, 'verbose': x.verbose}
+        for x in sorted(EXPORTERS.values(), key=lambda x: x.name)
+    ]
+
+
 class BaseExporter(object):
     content_type = 'text/plain'
     extension = 'txt'

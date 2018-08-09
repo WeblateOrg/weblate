@@ -36,6 +36,7 @@ from django.utils.translation.trans_real import parse_accept_lang_header
 import django.views.defaults
 
 from weblate.checks.models import Check
+from weblate.formats.exporters import list_exporters
 from weblate.utils import messages
 from weblate.utils.stats import prefetch_stats
 from weblate.trans.models import (
@@ -487,6 +488,7 @@ def show_translation(request, project, component, lang):
                     pk=obj.pk
                 )
             ),
+            'exporters': list_exporters(),
         }
     )
 
