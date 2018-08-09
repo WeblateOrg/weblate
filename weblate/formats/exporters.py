@@ -24,6 +24,7 @@ from django.http import HttpResponse
 from django.utils.translation import ugettext_lazy as _
 
 from translate.misc.multistring import multistring
+from translate.storage.base import TranslationStore
 from translate.storage.po import pofile
 from translate.storage.mo import mofile, mounit
 from translate.storage.poxliff import PoXliffFile
@@ -34,6 +35,7 @@ from translate.storage.csvl10n import csvfile
 
 import weblate
 from weblate.formats.base import FileFormat
+from weblate.trans.external_formats import XlsxFormat
 from weblate.utils.site import get_site_url
 
 # Map to remove control chars except newlines and tabs
@@ -306,3 +308,53 @@ class CSVExporter(BaseExporter):
         if text and text[0] in ('=', '+', '-', '@', '|', '%'):
             return "'{0}'".format(text.replace('|', '\\|'))
         return text
+
+
+@register_exporter
+class XlsxExporter(BaseExporter):
+    name = 'xlsx'
+    content_type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    extension = 'xlsx'
+
+    has_lang = False
+
+    # redefine __init__ problems since we have no storage here
+    def __init__(self, project=None, language=None, url=None,
+                 translation=None, fieldnames=None):
+        super(XlsxExporter, self).__init__(
+            project=project,
+            language=language,
+            url=url,
+            translation=translation,
+            fieldnames=fieldnames
+        )
+
+        if translation is not None:
+            self.subproject = translation.subproject
+
+        self.xlsx = XlsxFormat()
+
+    def get_storage(self):
+        """just return a generic store to let the __init__ pass"""
+        return TranslationStore()
+
+    def add_units(self, units):
+        self.xlsx.add_units(self.language, self.subproject, units)
+
+    def get_response(self, filetemplate='{project}-{language}.{extension}'):
+        filename = filetemplate.format(
+            project=self.project.slug,
+            language=self.language.code,
+            extension=self.extension
+        )
+
+        response = HttpResponse(
+            content_type='{0}; charset=utf-8'.format(self.content_type)
+        )
+        response['Content-Disposition'] = 'attachment; filename={0}'.format(
+            filename
+        )
+
+        # create response
+        response.write(self.xlsx.create_xlsx())
+        return response
