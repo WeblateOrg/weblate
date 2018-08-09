@@ -10,7 +10,7 @@ fi
 
 export USER_ID=$(id -u)
 export GROUP_ID=$(id -g)
-export WEBLATE_HOST=127.0.0.1:8080
+export WEBLATE_HOST=0.0.0.0:8080
 
 export COMPOSE_FILE=docker-compose.dev.yml
 

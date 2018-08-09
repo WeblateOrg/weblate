@@ -1086,11 +1086,12 @@ class Component(models.Model, URLMixin, PathMixin):
                     os.path.join(dir_path, match),
                 )
                 if not self.file_format_cls.is_valid(parsed.store):
+
                     errors.append('{0}: {1}'.format(
                         match, _('File does not seem to be valid!')
                     ))
-            except ValueError:
-                notrecognized.append(match)
+            except ValueError as e:
+                notrecognized.append('%s: %s' % (match, e))
             except Exception as error:
                 errors.append('{0}: {1}'.format(match, str(error)))
         if notrecognized:
