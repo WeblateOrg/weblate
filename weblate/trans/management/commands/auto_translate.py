@@ -21,8 +21,9 @@
 from __future__ import unicode_literals
 
 from django.core.management.base import CommandError
-from weblate.auth.models import User
+from django.http.request import HttpRequest
 
+from weblate.auth.models import User
 from weblate.accounts.models import Profile
 from weblate.trans.models import Component
 from weblate.trans.autotranslate import AutoTranslate
@@ -108,6 +109,9 @@ class Command(WeblateTranslationCommand):
             filter_type = 'all'
         else:
             filter_type = 'todo'
-        auto = AutoTranslate(user, translation, filter_type)
+        # Create fake request object
+        request = HttpRequest()
+        request.user = user
+        auto = AutoTranslate(user, translation, filter_type, request)
         auto.process_others(source, check_acl=False)
         self.stdout.write('Updated {0} units'.format(auto.updated))
