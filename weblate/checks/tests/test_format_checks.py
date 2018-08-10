@@ -617,8 +617,8 @@ class JavaFormatCheckTest(CheckTestCase):
         ))
         
     def test_reordered_format(self):
-        self.assertFalse(self.check.check_format(
-            '%1s string %2s',
-            '%2s string %1s',
+        self.assertTrue(self.check.check_format(
+            '%1s string %2d',
+            '%2d string %1s',
             False
         ))
