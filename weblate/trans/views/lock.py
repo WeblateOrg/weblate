@@ -36,8 +36,6 @@ def lock_component(request, project, component):
     if not request.user.has_perm('component.lock', obj):
         raise PermissionDenied()
 
-    obj.commit_pending('lock', request)
-
     obj.do_lock(request.user)
 
     messages.success(
@@ -73,8 +71,6 @@ def lock_project(request, project):
 
     if not request.user.has_perm('component.lock', obj):
         raise PermissionDenied()
-
-    obj.commit_pending('lock', request)
 
     for component in obj.component_set.all():
         component.do_lock(request.user)
