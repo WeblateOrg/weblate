@@ -782,9 +782,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         skipped = 0
         accepted = 0
 
-        # Commit possible prior changes
-        self.commit_pending(request)
-
         for set_fuzzy, unit2 in store2.iterate_merge(fuzzy):
             try:
                 unit = self.unit_set.get_unit(unit2)
@@ -862,9 +859,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         """Top level handler for file uploads."""
         filecopy = fileobj.read()
         fileobj.close()
-
-        # Commit pending changes so far
-        self.commit_pending(request)
 
         # Strip possible UTF-8 BOM
         if filecopy[:3] == codecs.BOM_UTF8:
