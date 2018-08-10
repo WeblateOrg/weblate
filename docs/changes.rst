@@ -1,6 +1,15 @@
 Changes
 =======
 
+weblate 3.2
+------------
+
+Released on ? 2018.
+
+* Add install_addon management command for automated addon installation.
+* Allow more fine grained ratelimit settings.
+* Added support for export and import of Excel files.
+
 weblate 3.1.1
 -------------
 

@@ -34,6 +34,7 @@ from translate.storage.csvl10n import csvfile
 
 import weblate
 from weblate.formats.base import FileFormat
+from weblate.formats.external import XlsxFormat
 from weblate.utils.site import get_site_url
 
 # Map to remove control chars except newlines and tabs
@@ -53,6 +54,13 @@ def register_exporter(exporter):
 def get_exporter(name):
     """Return registered exporter"""
     return EXPORTERS[name]
+
+
+def list_exporters():
+    return [
+        {'name': x.name, 'verbose': x.verbose}
+        for x in sorted(EXPORTERS.values(), key=lambda x: x.name)
+    ]
 
 
 class BaseExporter(object):
@@ -148,7 +156,7 @@ class BaseExporter(object):
         )
 
         # Save to response
-        response.write(FileFormat.serialize(self.storage))
+        response.write(self.serialize())
 
         return response
 
@@ -299,3 +307,18 @@ class CSVExporter(BaseExporter):
         if text and text[0] in ('=', '+', '-', '@', '|', '%'):
             return "'{0}'".format(text.replace('|', '\\|'))
         return text
+
+
+@register_exporter
+class XlsxExporter(BaseExporter):
+    name = 'xlsx'
+    content_type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    extension = 'xlsx'
+    verbose = _('Excel OpenXML')
+
+    def get_storage(self):
+        return csvfile(fieldnames=self.fieldnames)
+
+    def serialize(self):
+        """Return storage content"""
+        return XlsxFormat.serialize(self.storage)

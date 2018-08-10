@@ -202,3 +202,44 @@ Alternatively you can also import existing keys into Weblate, just set
 .. seealso::
 
     :setting:`WEBLATE_GPG_IDENTITY`
+
+.. _rate-limit:
+
+Rate limiting
+-------------
+
+.. versionchanged:: 3.2
+
+      The rate limiting now accepts more fine grained configuration.
+
+Several operations in Weblate are rate limited. At most
+:setting:`RATELIMIT_ATTEMPTS` attempts are allowed within
+:setting:`RATELIMIT_WINDOW` seconds. The user is then blocked
+for :setting:`RATELIMIT_LOCKOUT`. There are also per scope variants of those
+settings, eg. `RATELIMIT_CONTACT_ATTEMPTS`, see scopes below.
+
+Following operations are subject to rate limiting:
+
+* Registration (`REGISTRATION` scope)
+* Sending message to admins (`MESSAGE` scope)
+* Password authentication on login (`LOGIN` scope)
+* Sitewide search (`SEARCH` scope)
+
+Additionally if there are more than :setting:`AUTH_LOCK_ATTEMPTS` failed
+authentication attempts on one account, this account password authentication is
+disabled and it's not possible to login until user asks for password reset.
+
+.. _rate-ip:
+
+IP address for rate limiting
+++++++++++++++++++++++++++++
+
+The rate limiting is based on client IP address. This is obtained from HTTP
+headers and you will have to change configuration in the event Weblate is running
+behind reverse proxy to work it properly.
+
+.. seealso::
+
+    :setting:`IP_BEHIND_REVERSE_PROXY`,
+    :setting:`IP_PROXY_HEADER`,
+    :setting:`IP_PROXY_OFFSET`

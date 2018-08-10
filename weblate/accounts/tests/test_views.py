@@ -28,7 +28,7 @@ from django.core import mail
 
 from weblate.auth.models import User
 from weblate.accounts.models import Profile
-from weblate.accounts.ratelimit import reset_rate_limit
+from weblate.utils.ratelimit import reset_rate_limit
 
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.lang.models import Language
@@ -110,7 +110,7 @@ class ViewTest(TestCase):
         self.assertContains(response, 'Enter a valid email address.')
 
     @override_settings(
-        AUTH_MAX_ATTEMPTS=0,
+        RATELIMIT_ATTEMPTS=0,
     )
     def test_contact_rate(self):
         """Test for contact form rate limiting."""
@@ -261,7 +261,7 @@ class ViewTest(TestCase):
             'This username/password combination was not found.'
         )
 
-    @override_settings(AUTH_MAX_ATTEMPTS=20, AUTH_LOCK_ATTEMPTS=5)
+    @override_settings(RATELIMIT_ATTEMPTS=20, AUTH_LOCK_ATTEMPTS=5)
     def test_login_ratelimit(self, login=False):
         if login:
             self.test_login()
@@ -283,7 +283,7 @@ class ViewTest(TestCase):
         )
         self.assertContains(response, 'Please try again.')
 
-    @override_settings(AUTH_MAX_ATTEMPTS=10, AUTH_LOCK_ATTEMPTS=5)
+    @override_settings(RATELIMIT_ATTEMPTS=10, AUTH_LOCK_ATTEMPTS=5)
     def test_login_ratelimit_login(self):
         self.test_login_ratelimit(True)
 

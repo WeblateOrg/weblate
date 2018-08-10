@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
@@ -17,33 +18,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+from __future__ import unicode_literals
 
-import os
-
-from weblate.vcs.base import RepositoryException
-from weblate.vcs.git import GitRepository
+from io import BytesIO
 
 
-def get_root_dir():
-    """Return Weblate root dir."""
-    curdir = os.path.dirname(os.path.abspath(__file__))
-    return os.path.abspath(os.path.join(curdir, '..'))
-
-
-# Weblate version
-VERSION = '3.2-dev'
-
-# Version string without suffix
-VERSION_BASE = VERSION.replace('-dev', '')
-
-# User-Agent string to use
-USER_AGENT = 'Weblate/{0}'.format(VERSION)
-
-# Grab some information from git
-try:
-    # Describe current checkout
-    GIT_VERSION = GitRepository(get_root_dir(), local=True).describe()
-except (RepositoryException, OSError):
-    # Import failed or git has troubles reading
-    # repo (eg. swallow clone)
-    GIT_VERSION = VERSION
+class StringIOMode(BytesIO):
+    """StringIO with mode attribute to make ttkit happy."""
+    def __init__(self, filename, data):
+        super(StringIOMode, self).__init__(data)
+        self.mode = 'r'
+        self.name = filename

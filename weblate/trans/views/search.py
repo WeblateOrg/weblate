@@ -30,7 +30,7 @@ from django.urls import reverse
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 
-from weblate.accounts.ratelimit import check_rate_limit
+from weblate.utils.ratelimit import check_rate_limit
 from weblate.lang.models import Language
 from weblate.trans.forms import (
     SiteSearchForm, ReplaceForm, ReplaceConfirmForm, MassStateForm,
@@ -111,8 +111,6 @@ def search_replace(request, project, component=None, lang=None):
 
         matching = confirm.cleaned_data['units']
 
-        obj.commit_pending(request)
-
         with transaction.atomic():
             for unit in matching.select_for_update():
                 if not request.user.has_perm('unit.edit', unit):
@@ -141,10 +139,8 @@ def search_replace(request, project, component=None, lang=None):
 @never_cache
 def search(request, project=None, component=None, lang=None):
     """Perform site-wide search on units."""
-    if not check_rate_limit('search', request):
-        search_form = SiteSearchForm()
-    else:
-        search_form = SiteSearchForm(request.GET)
+    is_ratelimited = not check_rate_limit('search', request)
+    search_form = SiteSearchForm(request.GET)
     context = {
         'search_form': search_form,
     }
@@ -183,7 +179,7 @@ def search(request, project=None, component=None, lang=None):
         else:
             context['back_url'] = s_language.get_absolute_url()
 
-    if search_form.is_valid():
+    if not is_ratelimited and request.GET and search_form.is_valid():
         # Filter results by ACL
         if component:
             units = Unit.objects.filter(translation__component=obj)
@@ -214,13 +210,16 @@ def search(request, project=None, component=None, lang=None):
             # results.
             units = paginator.page(paginator.num_pages)
 
+        context['show_results'] = True
         context['page_obj'] = units
         context['title'] = _('Search for %s') % (
             search_form.cleaned_data['q']
         )
         context['query_string'] = search_form.urlencode()
         context['search_query'] = search_form.cleaned_data['q']
-    else:
+    elif is_ratelimited:
+        messages.error(request, _('Too many search queries, please try again later.'))
+    elif request.GET:
         messages.error(request, _('Invalid search query!'))
 
     return render(
@@ -253,8 +252,6 @@ def state_change(request, project, component=None, lang=None):
     ).exclude(
         state=STATE_EMPTY
     )
-
-    obj.commit_pending(request)
 
     updated = 0
     with transaction.atomic():

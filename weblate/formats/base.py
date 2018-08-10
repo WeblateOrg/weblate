@@ -32,6 +32,7 @@ import six
 
 from translate.misc import quote
 from translate.misc.multistring import multistring
+from translate.storage.base import TranslationStore
 from translate.storage.lisa import LISAfile
 from translate.storage.po import pounit
 from translate.storage.properties import propunit, propfile
@@ -353,7 +354,11 @@ class FileFormat(object):
         """Create file format object, wrapping up translate-toolkit's store."""
         self.storefile = storefile
         # Load store
-        self.store = self.load(storefile)
+        if isinstance(storefile, TranslationStore):
+            # Used by XLSX writer
+            self.store = storefile
+        else:
+            self.store = self.load(storefile)
         # Check store validity
         if not self.is_valid(self.store):
             raise ValueError(
@@ -464,6 +469,10 @@ class FileFormat(object):
 
         self.store.updateheader(**kwargs)
 
+    def save_content(self, handle):
+        """Stores content to file."""
+        self.store.serialize(handle)
+
     def save(self):
         """Save underlaying store to disk."""
         dirname, basename = os.path.split(self.storefile)
@@ -471,7 +480,7 @@ class FileFormat(object):
             prefix=basename, dir=dirname, delete=False
         )
         try:
-            self.store.serialize(temp)
+            self.save_content(temp)
             temp.close()
             move_atomic(temp.name, self.storefile)
         finally:
@@ -622,7 +631,7 @@ class FileFormat(object):
             if unit.istranslatable():
                 if hasattr(unit, 'markapproved'):
                     # Xliff only
-                    unit.markapproved(not fuzzy)
+                    unit.markapproved(False)
                 else:
                     unit.markfuzzy(fuzzy)
                 if unit.hasplural():

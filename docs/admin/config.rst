@@ -58,12 +58,12 @@ Defaults to 10.
 
     :ref:`rate-limit`,
 
-.. setting:: AUTH_MAX_ATTEMPTS
+.. setting:: RATELIMIT_ATTEMPTS
 
-AUTH_MAX_ATTEMPTS
------------------
+RATELIMIT_ATTEMPTS
+------------------
 
-.. versionadded:: 2.14
+.. versionadded:: 3.2
 
 Maximum number of authentication attempts before rate limiting applies.
 
@@ -72,15 +72,15 @@ Defaults to 5.
 .. seealso::
 
     :ref:`rate-limit`,
-    :setting:`AUTH_CHECK_WINDOW`,
-    :setting:`AUTH_LOCKOUT_TIME`
+    :setting:`RATELIMIT_WINDOW`,
+    :setting:`RATELIMIT_LOCKOUT`
 
-.. setting:: AUTH_CHECK_WINDOW
+.. setting:: RATELIMIT_WINDOW
 
-AUTH_CHECK_WINDOW
------------------
+RATELIMIT_WINDOW
+----------------
 
-.. versionadded:: 2.14
+.. versionadded:: 3.2
 
 Length of authentication window for rate limiting in seconds.
 
@@ -89,15 +89,15 @@ Defaults to 300 (5 minutes).
 .. seealso::
 
     :ref:`rate-limit`,
-    :setting:`AUTH_MAX_ATTEMPTS`,
-    :setting:`AUTH_LOCKOUT_TIME`
+    :setting:`RATELIMIT_ATTEMPTS`,
+    :setting:`RATELIMIT_LOCKOUT`
 
-.. setting:: AUTH_LOCKOUT_TIME
+.. setting:: RATELIMIT_LOCKOUT
 
-AUTH_LOCKOUT_TIME
+RATELIMIT_LOCKOUT
 -----------------
 
-.. versionadded:: 2.14
+.. versionadded:: 3.2
 
 Length of authentication lockout window after rate limit is applied.
 
@@ -106,8 +106,8 @@ Defaults to 600 (10 minutes).
 .. seealso::
 
     :ref:`rate-limit`,
-    :setting:`AUTH_MAX_ATTEMPTS`,
-    :setting:`AUTH_CHECK_WINDOW`
+    :setting:`RATELIMIT_ATTEMPTS`,
+    :setting:`RATELIMIT_WINDOW`
 
 .. setting:: AUTH_TOKEN_VALID
 

@@ -63,16 +63,18 @@ work, but is not as well tested as single version upgrades.
 
         ./manage.py check --deploy
 
-.. versionchanged:: 3.0.1
-
-    If you are upgrading from 2.x release, always first upgrade to 3.0.1 (see
-    :ref:`weblate3:upgrade_3`) and the continue ugprading in the 3.x series.
-    Upgrades skipping this step are not supported and will break.
 
 .. _version-specific-instructions:
 
 Version specific instructions
 -----------------------------
+
+Upgrade from 2.x
+~~~~~~~~~~~~~~~~
+
+If you are upgrading from 2.x release, always first upgrade to 3.0.1 (see
+:ref:`weblate3:upgrade_3`) and the continue ugprading in the 3.x series.
+Upgrades skipping this step are not supported and will break.
 
 .. _up-3-1:
 
@@ -86,6 +88,17 @@ Notable configuration or dependencies changes:
 * Several no longer needed applications have been removed from :setting:`django:INSTALLED_APPS`.
 * The settings now recommend using several Django security features, see :ref:`django:security-recommendation-ssl`.
 * There is new dependency on the ``jellyfish`` module.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
+Upgrade from 3.1 to 3.2
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+Notable configuration or dependencies changes:
+
+* Rate limiting configuration has been changed, please see :ref:`rate-limit`.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

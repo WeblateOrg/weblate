@@ -40,6 +40,7 @@ TEST_BADPLURALS = get_test_file('cs-badplurals.po')
 TEST_MO = get_test_file('cs.mo')
 TEST_XLIFF = get_test_file('cs.poxliff')
 TEST_ANDROID = get_test_file('strings-cs.xml')
+TEST_XLSX = get_test_file('cs.xlsx')
 
 TRANSLATION_OURS = 'Nazdar světe!\n'
 TRANSLATION_PO = 'Ahoj světe!\n'
@@ -360,6 +361,10 @@ class CSVQuotesEscapedImportTest(CSVImportTest):
     test_file = TEST_CSV_QUOTES_ESCAPED
 
 
+class XlsxImportTest(CSVImportTest):
+    test_file = TEST_XLSX
+
+
 class ExportTest(ViewTestCase):
     """Testing of file export."""
     def create_component(self):
@@ -435,6 +440,17 @@ class ExportTest(ViewTestCase):
         )
         self.assertContains(
             response, 'Orangutan has %d banana'
+        )
+
+    def test_export_xlsx(self):
+        response = self.export_format('xlsx')
+        self.assertEqual(
+            response['Content-Disposition'],
+            'attachment; filename=test-test-cs.xlsx'
+        )
+        self.assertEqual(
+            response['Content-Type'],
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8'
         )
 
     def test_export_invalid(self):
