@@ -262,6 +262,7 @@ Once you have the package installed, you can hook it to Django authentication:
         # Weblate will merge them later
         # 'first_name': 'givenName',
         # 'last_name': 'sn',
+        # Email is required for Weblate (used in VCS commits)
         'email': 'mail',
     }
 
