@@ -409,11 +409,11 @@ class PythonBraceFormatCheckTest(CheckTestCase):
             '{s.bar} string',
             False
         ))
-        
-        
+
+
 class CSharpFormatCheckTest(CheckTestCase):
     check = CSharpFormatCheck()
-    
+
     def setUp(self):
         super(CSharpFormatCheckTest, self).setUp()
         self.test_highlight = (
@@ -421,116 +421,116 @@ class CSharpFormatCheckTest(CheckTestCase):
             '{0}string{1}',
             [(0, 3, u'{0}'), (9, 12, u'{1}')],
         )
-        
+
     def test_no_format(self):
         self.assertFalse(self.check.check_format(
             'strins',
             'string',
             False
         ))
-        
-    def test_escaping(self):
+
+    def test_escaping_no_position(self):
         self.assertFalse(self.check.check_format(
             '{{ string }}',
             'string',
             False
         ))
-        
+
     def test_simple_format(self):
         self.assertFalse(self.check.check_format(
             '{0} strins',
             '{0} string',
             False
         ))
-        
+
     def test_format_with_width(self):
         self.assertFalse(self.check.check_format(
             '{0,1} strins',
             '{0,1} string',
             False
         ))
-        
+
     def test_format_with_flag(self):
         self.assertFalse(self.check.check_format(
             '{0:C2} strins',
             '{0:C2} string',
             False
         ))
-        
+
     def test_full_format(self):
         self.assertFalse(self.check.check_format(
             '{0,1:N0} strins',
             '{0,1:N0} string',
             False
         ))
-        
+
     def test_missing_format(self):
         self.assertTrue(self.check.check_format(
             '{0} strins',
             'string',
             False
         ))
-        
+
     def test_missing_width_format(self):
         self.assertTrue(self.check.check_format(
             '{0,1} strins',
             'string',
             False
         ))
-        
+
     def test_missing_flag_format(self):
         self.assertTrue(self.check.check_format(
             '{0:C1} strins',
             'string',
             False
         ))
-        
+
     def test_missing_full_format(self):
         self.assertTrue(self.check.check_format(
             '{0,1:C3} strins',
             'string',
             False
         ))
-          
+
     def test_wrong_format(self):
         self.assertTrue(self.check.check_format(
             '{0} string',
             '{1} string',
             False
         ))
-        
+
     def test_missing_named_format_ignore(self):
         self.assertFalse(self.check.check_format(
             '{0} string',
             'string',
             True
         ))
-        
-    def test_escaping(self):
+
+    def test_escaping_with_position(self):
         self.assertFalse(self.check.check_format(
             '{{ 0 }}',
             'string',
             False
         ))
-        
+
     def test_wrong_attribute_format(self):
         self.assertTrue(self.check.check_format(
             '{0} string',
             '{1} string',
             False
         ))
-        
+
     def test_reordered_format(self):
         self.assertFalse(self.check.check_format(
             '{0} string {1}',
             '{1} string {0}',
             False
         ))
-        
-        
+
+
 class JavaFormatCheckTest(CheckTestCase):
     check = JavaFormatCheck()
-    
+
     def setUp(self):
         super(JavaFormatCheckTest, self).setUp()
         self.test_highlight = (
@@ -538,87 +538,87 @@ class JavaFormatCheckTest(CheckTestCase):
             '%1s string %2s',
             [(0, 3, u'%1s'), (11, 14, u'%2s')],
         )
-        
+
     def test_no_format(self):
         self.assertFalse(self.check.check_format(
             'strins',
             'string',
             False
         ))
-        
+
     def test_escaping(self):
         self.assertFalse(self.check.check_format(
             '%% s %%',
             'string',
             False
         ))
-        
+
     def test_format(self):
         self.assertFalse(self.check.check_format(
             '%s string',
             '%s string',
             False
         ))
-      
+
     def test_time_format(self):
         self.assertFalse(self.check.check_format(
             '%1$tH strins',
             '%1$tH string',
             False
         ))
-    
+
     def test_wrong_position_format(self):
         self.assertTrue(self.check.check_format(
             '%s string',
             '%s string %s',
             False
         ))
-        
+
     def test_named_format(self):
         self.assertFalse(self.check.check_format(
             '%1s string %2s',
             '%1s string %2s',
             False
         ))
-        
+
     def test_missing_format(self):
         self.assertTrue(self.check.check_format(
             '%1s string',
             'string',
             False
         ))
-        
+
     def test_missing_named_format(self):
         self.assertTrue(self.check.check_format(
             '%1$05d string',
             'string',
             False
         ))
-        
+
     def test_wrong_argument_format(self):
         self.assertTrue(self.check.check_format(
             '%1s string',
             '%2s string',
             False
         ))
-        
+
     def test_wrong_format(self):
         self.assertTrue(self.check.check_format(
             '%s strins',
             '%d string',
             False
         ))
-        
+
     def test_missing_named_format_ignore(self):
         self.assertFalse(self.check.check_format(
             '%1s string',
             'string',
             True
         ))
-        
+
     def test_reordered_format(self):
-        self.assertFalse(self.check.check_format(
-            '%1s string %2s',
-            '%2s string %1s',
+        self.assertTrue(self.check.check_format(
+            '%1s string %2d',
+            '%2d string %1s',
             False
         ))
