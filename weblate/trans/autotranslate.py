@@ -42,16 +42,8 @@ class AutoTranslate(object):
         )
 
     def update(self, unit, state, target):
-        unit.state = state
-        unit.target = target
-        # Save unit to backend
-        unit.save_backend(
-            self.request, False, Change.ACTION_AUTO, user=self.user
-        )
+        unit.translate(self.request, target, state, Change.ACTION_AUTO, False)
         self.updated += 1
-
-    def pre_process(self):
-        self.translation.commit_pending(None)
 
     def post_process(self):
         if self.updated > 0:
@@ -85,8 +77,6 @@ class AutoTranslate(object):
         units = self.get_units().filter(
             source__in=sources.values('source')
         )
-
-        self.pre_process()
 
         for unit in units.select_for_update().iterator():
             # Get first matching entry
@@ -151,8 +141,6 @@ class AutoTranslate(object):
         translations = self.fetch_mt(engines, threshold)
 
         with transaction.atomic():
-            self.pre_process()
-
             # Perform the translation
             for unit in self.get_units().select_for_update().iterator():
                 # Copy translation
