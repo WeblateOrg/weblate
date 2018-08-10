@@ -107,7 +107,7 @@ C_SHARP_MATCH = re.compile(
         (?P<arg>\d+)                    # variable order
         (?P<width>
             [,-?\s]+                    # flags
-            (?:\d+)?                    # width       
+            (?:\d+)?                    # width
             (?:\.\d+)?                  # precision
         )?
         (?P<format>
@@ -132,7 +132,7 @@ JAVA_MATCH = re.compile(
         (?:\.\d+)?                     # precision
         (?P<type>
             ((?<![tT])[tT][A-Za-z]|[A-Za-z])) # type (%s, %d, %te, etc.)
-       )        
+       )
     )
     ''',
     re.VERBOSE
@@ -312,10 +312,10 @@ class CSharpFormatCheck(BaseFormatCheck):
     name = _('C# format')
     description = _('C# format string does not match source')
     regexp = C_SHARP_MATCH
-    
+
     def is_position_based(self, string):
         return string == ''
-        
+
 
 class JavaFormatCheck(BaseFormatCheck):
     """Check for Java format string"""
@@ -323,6 +323,6 @@ class JavaFormatCheck(BaseFormatCheck):
     name = _('Java format')
     description = _('Java format string does not match source')
     regexp = JAVA_MATCH
-    
+
     def is_position_based(self, string):
         return '$' not in string and string != '%'
