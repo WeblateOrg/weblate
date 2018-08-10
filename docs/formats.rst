@@ -712,6 +712,24 @@ Example Windows RC file:
 
 .. seealso:: :doc:`tt:formats/rc`
 
+.. _xlsx:
+
+Excel OpenXML
+-------------
+
+.. versionadded:: 3.2
+
+Weblate can import and export Excel OpenXML (xlsx) files.
+
+When using xlsx files for translation upload, be aware that only the active
+worksheet is considered and there must be at least a column called ``source``
+(which contains the source string) and a column called ``target`` (which
+contains the translation). Additionally there should be the column ``context``
+(which contains the context path of the translation unit). If you use the xlsx
+download for exporting the translations into an Excel workbook, you already get
+a file with the correct file format.
+
+
 Others
 ------
 
