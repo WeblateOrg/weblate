@@ -111,8 +111,6 @@ def search_replace(request, project, component=None, lang=None):
 
         matching = confirm.cleaned_data['units']
 
-        obj.commit_pending(request)
-
         with transaction.atomic():
             for unit in matching.select_for_update():
                 if not request.user.has_perm('unit.edit', unit):
@@ -254,8 +252,6 @@ def state_change(request, project, component=None, lang=None):
     ).exclude(
         state=STATE_EMPTY
     )
-
-    obj.commit_pending(request)
 
     updated = 0
     with transaction.atomic():
