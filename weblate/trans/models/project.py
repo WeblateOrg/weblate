@@ -248,7 +248,7 @@ class Project(models.Model, URLMixin, PathMixin):
                 return True
         return False
 
-    def commit_pending(self, request, on_commit=True):
+    def commit_pending(self, reason, request, on_commit=True):
         """Commit any pending changes."""
         ret = False
 
@@ -256,7 +256,7 @@ class Project(models.Model, URLMixin, PathMixin):
 
         # Iterate all components
         for component in components:
-            component.commit_pending(request, skip_push=True)
+            component.commit_pending(reason, request, skip_push=True)
 
         # Push all components, this avoids multiple pushes for linked
         # components
@@ -274,7 +274,7 @@ class Project(models.Model, URLMixin, PathMixin):
 
     def do_push(self, request=None):
         """Push all Git repos."""
-        return self.commit_pending(request, on_commit=False)
+        return self.commit_pending('push', request, on_commit=False)
 
     def do_reset(self, request=None):
         """Push all Git repos."""

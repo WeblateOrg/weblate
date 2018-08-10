@@ -287,7 +287,7 @@ def handle_translate(translation, request, this_unit_url, next_unit_url):
         message = request.POST.get('commit_message')
         if message is not None and message != unit.translation.commit_message:
             # Commit pending changes so that they don't get new message
-            unit.translation.commit_pending(request)
+            unit.translation.commit_pending('commit message', request)
             # Store new commit message
             unit.translation.commit_message = message
             unit.translation.save()

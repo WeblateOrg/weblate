@@ -623,7 +623,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 return True
 
             # commit possible pending changes
-            self.commit_pending(request, skip_push=True)
+            self.commit_pending('update', request, skip_push=True)
 
             # update local branch
             ret = self.update_branch(request, method=method)
@@ -672,7 +672,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
         # Commit any pending changes
         if force_commit:
-            self.commit_pending(request, skip_push=True)
+            self.commit_pending('push', request, skip_push=True)
 
         # Do we have anything to push?
         if not self.repo_needs_push():
@@ -765,22 +765,22 @@ class Component(models.Model, URLMixin, PathMixin):
         """Return list of components which link repository to us."""
         return self.component_set.prefetch()
 
-    def commit_pending(self, request, from_link=False, skip_push=False):
+    def commit_pending(self, reason, request, from_link=False, skip_push=False):
         """Check whether there is any translation which needs commit."""
 
         # If we're not recursing, call on parent
         if not from_link and self.is_repo_link:
             return self.linked_component.commit_pending(
-                request, True, skip_push=skip_push
+                reason, request, True, skip_push=skip_push
             )
 
         # Commit all translations
         for translation in self.translation_set.all():
-            translation.commit_pending(request, skip_push=True)
+            translation.commit_pending(reason, request, skip_push=True)
 
         # Process linked projects
         for component in self.get_linked_childs():
-            component.commit_pending(request, True, skip_push=True)
+            component.commit_pending(reason, request, True, skip_push=True)
 
         if not from_link and not skip_push:
             self.push_if_needed(request)
@@ -996,7 +996,7 @@ class Component(models.Model, URLMixin, PathMixin):
         if skip_push is None:
             skip_push = validate
         self.configure_repo(validate)
-        self.commit_pending(None, skip_push=skip_push)
+        self.commit_pending('sync', None, skip_push=skip_push)
         self.configure_branch()
         self.update_branch()
 

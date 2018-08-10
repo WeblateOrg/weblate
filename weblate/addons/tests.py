@@ -91,7 +91,7 @@ class IntegrationTest(ViewTestCase):
         TestAddon.create(self.component)
         rev = self.component.repository.last_revision
         self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
-        self.get_translation().commit_pending(None)
+        self.get_translation().commit_pending('test', None)
         self.assertNotEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(
             self.component.repository.last_revision
@@ -135,7 +135,7 @@ class IntegrationTest(ViewTestCase):
         self.component.addons_cache = {}
         rev = self.component.repository.last_revision
         self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
-        self.get_translation().commit_pending(None)
+        self.get_translation().commit_pending('test', None)
         self.assertNotEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(
             self.component.repository.last_revision
@@ -206,7 +206,7 @@ class GettextAddonTest(ViewTestCase):
 }''',
             }
         )
-        self.get_translation().commit_pending(None)
+        self.get_translation().commit_pending('test', None)
         commit = self.component.repository.show(
             self.component.repository.last_revision
         )
@@ -300,7 +300,7 @@ class JsonAddonTest(ViewTestCase):
         self.component.addons_cache = {}
         rev = self.component.repository.last_revision
         self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
-        self.get_translation().commit_pending(None)
+        self.get_translation().commit_pending('test', None)
         self.assertNotEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(
             self.component.repository.last_revision
@@ -384,7 +384,7 @@ class PropertiesAddonTest(ViewTestCase):
         self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
         self.assertTrue(PropertiesSortAddon.can_install(self.component, None))
         PropertiesSortAddon.create(self.component)
-        self.get_translation().commit_pending(None)
+        self.get_translation().commit_pending('test', None)
         commit = self.component.repository.show(
             self.component.repository.last_revision
         )

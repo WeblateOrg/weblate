@@ -636,7 +636,7 @@ class EditComplexTest(ViewTestCase):
         )
 
         # Try commiting
-        translation.commit_pending(self.get_request('/'))
+        translation.commit_pending('test', self.get_request('/'))
 
     def test_edit_fixup(self):
         # Save with failing check
@@ -707,7 +707,7 @@ class EditComplexTest(ViewTestCase):
         self.assertTrue(self.component.repo_needs_commit())
         self.assertTrue(self.component.project.repo_needs_commit())
 
-        self.translation.commit_pending(self.get_request('/'))
+        self.translation.commit_pending('test', self.get_request('/'))
 
         self.assertFalse(self.translation.repo_needs_commit())
         self.assertFalse(self.component.repo_needs_commit())

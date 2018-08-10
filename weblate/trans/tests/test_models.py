@@ -218,7 +218,7 @@ class TranslationTest(RepoTestCase):
         self.assertEqual(start_rev, component.repository.last_revision)
 
         # Commit pending changes
-        translation.commit_pending(None)
+        translation.commit_pending('test', None)
         self.assertNotEqual(start_rev, component.repository.last_revision)
 
 

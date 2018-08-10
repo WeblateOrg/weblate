@@ -132,7 +132,7 @@ def user_commit_pending(sender, instance, **kwargs):
             # Non content changes
             continue
         if last_author == instance:
-            translation.commit_pending(None)
+            translation.commit_pending('user delete', None)
 
 
 @receiver(m2m_changed, sender=ComponentList.components.through)

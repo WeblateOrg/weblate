@@ -393,10 +393,12 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             return None
         return self.last_change_obj.timestamp
 
-    def commit_pending(self, request, skip_push=False):
+    def commit_pending(self, reason, request, skip_push=False):
         """Commit any pending changes."""
         if not self.unit_set.filter(pending=True).exists():
             return False
+
+        self.log_info('committing pending changes (%s)', reason)
 
         with self.component.repository.lock:
             while True:
@@ -823,7 +825,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 self.store.merge_header(store2)
                 self.store.save()
 
-            self.commit_pending(request)
+            self.commit_pending('upload', request)
 
         return (not_found, skipped, accepted, store2.count_units())
 
@@ -981,7 +983,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         )
 
     def new_unit(self, request, key, value):
-        self.commit_pending(request)
+        self.commit_pending('new unit', request)
         Change.objects.create(
             translation=self,
             action=Change.ACTION_NEW_UNIT,

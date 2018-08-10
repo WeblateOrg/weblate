@@ -87,7 +87,7 @@ class ProjectAdmin(WeblateModelAdmin):
     def force_commit(self, request, queryset):
         """Commit pending changes for selected components."""
         for project in queryset:
-            project.commit_pending(request)
+            project.commit_pending('admin', request)
         self.message_user(
             request,
             "Flushed changes in {0:d} git repos.".format(queryset.count())
@@ -141,7 +141,7 @@ class ComponentAdmin(WeblateModelAdmin):
     def force_commit(self, request, queryset):
         """Commit pending changes for selected components."""
         for project in queryset:
-            project.commit_pending(request)
+            project.commit_pending('admin', request)
         self.message_user(
             request,
             "Flushed changes in {0:d} git repos.".format(queryset.count())

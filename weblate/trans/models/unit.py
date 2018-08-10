@@ -613,7 +613,7 @@ class Unit(models.Model, LoggerMixin):
                 report_error(error, sys.exc_info(), request)
                 change = self.change_set.all().order_by('-timestamp')[0]
             if change.author_id != request.user.id:
-                self.translation.commit_pending(request)
+                self.translation.commit_pending('pending unit', request)
 
         # Return if there was no change
         # We have to explicitly check for fuzzy flag change on monolingual
@@ -673,7 +673,7 @@ class Unit(models.Model, LoggerMixin):
                 user=user,
                 author=user
             )
-            self.translation.commit_pending(request)
+            self.translation.commit_pending('completed', request)
 
         # Update related source strings if working on a template
         if self.translation.is_template:
