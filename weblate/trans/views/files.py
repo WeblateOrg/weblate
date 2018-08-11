@@ -35,26 +35,24 @@ from weblate.trans.views.helper import (
 )
 
 
-def download_translation_format(request, project, component, lang):
-    obj = get_translation(request, project, component, lang)
-
-    form = DownloadForm(request.GET)
-    if not form.is_valid():
-        show_form_errors(request, form)
-        return redirect(obj)
-
-    units = obj.unit_set.search(
-        form.cleaned_data,
-        translation=obj,
-    )
-
-    return download_translation_file(obj, form.cleaned_data['format'], units)
-
-
 def download_translation(request, project, component, lang):
     obj = get_translation(request, project, component, lang)
 
-    return download_translation_file(obj)
+    kwargs = {}
+
+    if 'format' in request.GET or 'type' in request.GET:
+        form = DownloadForm(request.GET)
+        if not form.is_valid():
+            show_form_errors(request, form)
+            return redirect(obj)
+
+        kwargs['units'] = obj.unit_set.search(
+            form.cleaned_data,
+            translation=obj,
+        )
+        kwargs['fmt'] = form.cleaned_data['format']
+
+    return download_translation_file(obj, **kwargs)
 
 
 @require_POST

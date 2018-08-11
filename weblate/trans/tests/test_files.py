@@ -397,7 +397,7 @@ class ExportTest(ViewTestCase):
         extra['format'] = fmt
         return self.client.get(
             reverse(
-                'download_translation_format',
+                'download_translation',
                 kwargs=self.kw_translation,
             ),
             extra

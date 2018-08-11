@@ -215,11 +215,6 @@ urlpatterns = [
         name='download_translation',
     ),
     url(
-        r'^download/' + TRANSLATION + 'custom/$',
-        weblate.trans.views.files.download_translation_format,
-        name='download_translation_format',
-    ),
-    url(
         r'^upload/' + TRANSLATION + '$',
         weblate.trans.views.files.upload_translation,
         name='upload_translation',
