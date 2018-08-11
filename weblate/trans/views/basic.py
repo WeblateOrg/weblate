@@ -57,6 +57,7 @@ from weblate.trans.views.helper import (
 )
 from weblate.trans.util import render, sort_objects, sort_unicode
 from weblate.vcs.gpg import get_gpg_public_key, get_gpg_sign_key
+from weblate.vcs.ssh import get_key_data
 
 
 def get_untranslated(base, limit=None):
@@ -544,8 +545,21 @@ def about(request):
             'title': _('About Weblate'),
             'versions': get_versions() + get_optional_versions(),
             'allow_index': True,
+        }
+    )
+
+
+def keys(request):
+    """Show keys information."""
+    return render(
+        request,
+        'keys.html',
+        {
+            'title': _('Weblate keys'),
             'gpg_key_id': get_gpg_sign_key(),
             'gpg_key': get_gpg_public_key(),
+            'ssh_key': get_key_data(),
+            'allow_index': True,
         }
     )
 
