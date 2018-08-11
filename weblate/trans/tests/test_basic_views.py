@@ -38,7 +38,7 @@ class BasicViewTest(FixtureTestCase):
         response = self.client.get(
             reverse('keys')
         )
-        self.assertContains(response, 'translate-toolkit')
+        self.assertContains(response, 'SSH')
 
     def test_stats(self):
         response = self.client.get(
