@@ -41,7 +41,7 @@ from weblate.formats.ttkit import CSVFormat
 
 
 class XlsxFormat(CSVFormat):
-    name = _('Excel OpenXML')
+    name = _('Excel Open XML')
     format_id = 'xlsx'
     autoload = ('.xlsx',)
 

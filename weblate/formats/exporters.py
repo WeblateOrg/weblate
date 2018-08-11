@@ -298,11 +298,10 @@ class CSVExporter(BaseExporter):
     def string_filter(self, text):
         """Avoid Excel interpreting text as formula.
 
-        This is really bad idea implemented in Excel as this change leads
+        This is really bad idea, implemented in Excel, as this change leads
         to displaying additional ' in all other tools, but this seems to be
-        what most people are get used to. Hopefully these chars are not widely
-        used at first position of translatable strings, so the harm is not
-        that big.
+        what most people have gotten used to. Hopefully these chars are not widely
+        used at first position of translatable strings, so that harm is reduced.
         """
         if text and text[0] in ('=', '+', '-', '@', '|', '%'):
             return "'{0}'".format(text.replace('|', '\\|'))
@@ -314,7 +313,7 @@ class XlsxExporter(BaseExporter):
     name = 'xlsx'
     content_type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     extension = 'xlsx'
-    verbose = _('Excel OpenXML')
+    verbose = _('Excel Open XML')
 
     def get_storage(self):
         return csvfile(fieldnames=self.fieldnames)
