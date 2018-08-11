@@ -714,12 +714,12 @@ Example Windows RC file:
 
 .. _xlsx:
 
-Excel OpenXML
--------------
+Excel Open XML
+--------------
 
 .. versionadded:: 3.2
 
-Weblate can import and export Excel OpenXML (xlsx) files.
+Weblate can import and export Excel Open XML (xlsx) files.
 
 When using xlsx files for translation upload, be aware that only the active
 worksheet is considered and there must be at least a column called ``source``
