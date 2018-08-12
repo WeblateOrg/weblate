@@ -18,12 +18,17 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 """Font handling wrapper."""
+
+from itertools import product
 import os.path
 
 from django.conf import settings
+from django.core.checks import Error
 from django.core.exceptions import ImproperlyConfigured
 
 from PIL import ImageFont
+
+from weblate.utils.docs import get_doc_url
 
 
 # List of chars in base DejaVu font, otherwise we use DroidSansFallback
@@ -693,8 +698,30 @@ def get_font(size, bold=False, base_font=True):
                 os.path.join(settings.TTF_PATH, name),
                 size
             )
-        except IOError:
-            raise ImproperlyConfigured(
-                'Failed to load truetype fonts, maybe your TTF_PATH is wrong?'
-            )
+        except IOError as error:
+            error.font = name
+            raise error
     return FONT_CACHE[cache_key]
+
+
+def check_fonts(app_configs, **kwargs):
+    """Perform check on requirements and raises an exception on error."""
+    errors = []
+    failures = set()
+
+    for args in product((True, False), repeat=2):
+        try:
+            get_font(11, *args)
+        except IOError as error:
+            if error.font in failures:
+                continue
+            failures.add(error.font)
+            errors.append(
+                Error(
+                    'Failed to load font {}: {}'.format(error.font, error),
+                    hint=get_doc_url('admin/config', 'ttf-path'),
+                    id='weblate.E004',
+                )
+            )
+
+    return errors
