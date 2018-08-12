@@ -314,7 +314,11 @@ def bitbucket_hook_helper(data):
 @register_hook
 def github_hook_helper(data):
     """API to handle commit hooks from GitHub."""
+    # Ignore ping on Webhook install
     if 'ref' not in data and 'zen' in data:
+        return None
+    # Ignore GitHub application installation
+    if data.get('action') == 'created':
         return None
     # Parse owner, branch and repository name
     o_data = data['repository']['owner']
