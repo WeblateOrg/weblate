@@ -29,18 +29,18 @@ from django.urls import reverse
 from weblate.trans.models import Translation
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.views.widgets import WIDGETS
-from weblate.trans.fonts import get_font
-import weblate.trans.fonts
+from weblate.utils.fonts import get_font
+import weblate.utils.fonts
 
 
 class FontsTest(TestCase):
     def setUp(self):
         # Always start with clear cache
-        weblate.trans.fonts.FONT_CACHE = {}
+        weblate.utils.fonts.FONT_CACHE = {}
 
     def tearDown(self):
         # Always reset cache
-        weblate.trans.fonts.FONT_CACHE = {}
+        weblate.utils.fonts.FONT_CACHE = {}
 
     def test_get(self):
         self.assertIsNotNone(get_font(12))
