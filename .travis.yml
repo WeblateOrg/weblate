@@ -74,25 +74,25 @@ matrix:
       env: CI_DEPS="Django>=2.1,<2.2" CI_MODE=selenium
     - name: 'Django 2.0'
       python: "3.6"
-      env: CI_DEPS="Django>=2.0,<2.1" CI_DATABASE=postgresql
+      env: CI_DEPS="Django>=2.0,<2.1"
     - name: 'Django 1.11'
       python: "2.7"
-      env: CI_DEPS="Django>=1.11,<1.12" CI_DATABASE=postgresql
+      env: CI_DEPS="Django>=1.11,<1.12"
     - name: 'Django pre-release'
       python: "3.6"
-      env: CI_DEPS="--pre Django" CI_DATABASE=postgresql
+      env: CI_DEPS="--pre Django"
     - name: 'translate-toolkit pre-release'
       python: "3.6"
-      env: CI_DEPS="https://github.com/translate/translate/archive/master.zip" CI_DATABASE=postgresql
+      env: CI_DEPS="https://github.com/translate/translate/archive/master.zip"
     - name: "Setup"
       python: "3.6"
-      env: CI_DEPS="Django>=2.1,<2.2" CI_MODE=setup
+      env: CI_MODE=setup
     - name: "Migrations"
       python: "3.6"
-      env: CI_DEPS="Django>=2.0,<2.1" CI_MODE=migrate
+      env: CI_MODE=migrate
     - name: "Documentation"
       python: "3.6"
-      env: CI_DEPS="sphinxcontrib-httpdomain" CI_MODE=docs
+      env: CI_MODE=docs
   allow_failures:
     - python: "3.6"
       env: CI_DEPS="--pre Django" CI_DATABASE=postgresql
