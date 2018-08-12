@@ -646,6 +646,9 @@ class Unit(models.Model, LoggerMixin):
         # Save updated unit to database
         self.save(backend=True)
 
+        # Generate Change object for this change
+        self.generate_change(request, user, change_action)
+
         if change_action not in (Change.ACTION_UPLOAD, Change.ACTION_AUTO):
             old_translated = self.translation.stats.translated
 
@@ -671,9 +674,6 @@ class Unit(models.Model, LoggerMixin):
         # Notify subscribed users about new translation
         from weblate.accounts.notifications import notify_new_translation
         notify_new_translation(self, self.old_unit, user)
-
-        # Generate Change object for this change
-        self.generate_change(request, user, change_action)
 
         # Update related source strings if working on a template
         if self.translation.is_template:
