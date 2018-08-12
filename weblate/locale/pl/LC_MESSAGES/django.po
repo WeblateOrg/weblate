@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-08-11 13:59+0000\n"
-"PO-Revision-Date: 2018-08-02 18:41+0000\n"
+"PO-Revision-Date: 2018-08-12 05:54+0000\n"
 "Last-Translator: WaldiS <admin@sto.ugu.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/master/pl/"
 ">\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 3.1.1\n"
+"X-Generator: Weblate 3.2-dev\n"
 
 #: weblate/accounts/avatar.py:131
 msgctxt "No known user"
@@ -757,6 +757,8 @@ msgid ""
 "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
 "parameter it wraps only at newlines."
 msgstr ""
+"Domyślnie gettext owija linie na 77 znakach i znakach nowej linii, z "
+"parametrem --no-wrap owija się tylko w znaki nowej linii."
 
 #: weblate/addons/forms.py:100
 msgid "Sort JSON keys"
@@ -822,8 +824,9 @@ msgid "Remove components for non existing files"
 msgstr "Usuń komponenty dla nie istniejących plików"
 
 #: weblate/addons/forms.py:172
+#, fuzzy
 msgid "I confirm that the above matches look correct"
-msgstr ""
+msgstr "Potwierdzam, że powyższe mecze wyglądają poprawnie"
 
 #: weblate/addons/forms.py:235
 msgid "Please review and confirm matched components."
@@ -861,65 +864,60 @@ msgid "Update ALL_LINGUAS variable in the configure file"
 msgstr "Aktualizuj zmienną ALL_LINGUAS w pliku konfiguracyjnym"
 
 #: weblate/addons/gettext.py:129
-#, fuzzy
-#| msgid ""
-#| "Updates the ALL_LINGUAS variable in configure, configure.in or configure."
-#| "ac files when adding new translation."
 msgid ""
 "Updates the ALL_LINGUAS variable in configure, configure.in or configure.ac "
 "files, when a new translation is added."
 msgstr ""
 "Aktualizuje zmienną ALL_LINGUAS w plikach configure, configure.in lub "
-"configure.ac podczas dodawania nowego tłumaczenia."
+"configure.ac, po dodaniu nowego tłumaczenia."
 
 #: weblate/addons/gettext.py:187
-#, fuzzy
-#| msgid "Update po files to match pot (msgmerge)"
 msgid "Update PO files to match POT (msgmerge)"
-msgstr "Aktualizuj pliki po, aby dopasować pot (msgmerge)"
+msgstr "Zaktualizuj pliki PO, aby dopasować POT (msgmerge)"
 
 #: weblate/addons/gettext.py:189
-#, fuzzy
-#| msgid ""
-#| "Update all po files to match the pot file using msgmerge. This is "
-#| "triggered whenever new changes are pulled from upstream repository."
 msgid ""
 "Update all PO files to match the POT file using msgmerge. This is triggered "
 "whenever new changes are pulled from the upstream repository."
 msgstr ""
-"Aktualizuj wszystkie pliki po, aby dopasować plik pot, stosujac msgmerge. "
+"Aktualizuj wszystkie pliki PO, aby dopasować plik POT, stosujac msgmerge. "
 "Jest to wyzwalane zawsze wtedy, gdy nowe zmiany są ściągane z repozytorium "
 "upstream."
 
 #: weblate/addons/gettext.py:213
 msgid "Customize gettext output"
-msgstr ""
+msgstr "Dostosuj wyjście gettext"
 
 #: weblate/addons/gettext.py:215
 msgid ""
 "Allows customization of gettext output behavior, for example line wrapping."
 msgstr ""
+"Umożliwia dostosowanie zachowania wyjścia gettext, na przykład zawijanie "
+"wierszy."
 
 #: weblate/addons/gettext.py:239
-#, fuzzy
-#| msgid "Contributor agreement"
 msgid "Contributors in comment"
-msgstr "Zgoda współpracownika"
+msgstr "Komentarz współautora"
 
 #: weblate/addons/gettext.py:241
+#, fuzzy
 msgid ""
 "Update comment in the PO file header to include contributor name and years "
 "of contributions."
 msgstr ""
+"Zaktualizuj komentarz w nagłówku pliku PO, aby zawierał nazwę autora i lata "
+"składek."
 
 #: weblate/addons/json.py:33
 msgid "Customize JSON output"
-msgstr ""
+msgstr "Dostosuj wyjście JSON"
 
 #: weblate/addons/json.py:35
 msgid ""
 "Allows to customize JSON output behavior, for example indentation or sorting."
 msgstr ""
+"Pozwala dostosować zachowanie wyjściowe JSON, na przykład wcięcie lub "
+"sortowanie."
 
 #: weblate/addons/properties.py:147
 msgid "Formats the Java properties file"
@@ -951,94 +949,64 @@ msgid "Important dates"
 msgstr "Ważne daty"
 
 #: weblate/auth/data.py:35
-#, fuzzy
-#| msgid "More information"
 msgid "View billing information"
-msgstr "Więcej informacji"
+msgstr "Wyświetl informacje o rozliczeniach"
 
 #: weblate/auth/data.py:37
-#, fuzzy
-#| msgid "Download latest changes as CSV"
 msgid "Download changes"
-msgstr "Pobierz ostatnie zmiany jako CSV"
+msgstr "Pobierz zmiany"
 
 #: weblate/auth/data.py:39
-#, fuzzy
-#| msgid "Version control settings"
 msgid "Edit component settings"
-msgstr "Ustawienia kontroli wersji"
+msgstr "Edytuj ustawienia komponentu"
 
 #: weblate/auth/data.py:40
-#, fuzzy
-#| msgid "Download compiled translation"
 msgid "Lock component from translating"
-msgstr "Pobierz skompilowane tłumaczenie"
+msgstr "Zablokuj komponent przed tłumaczeniem"
 
 #: weblate/auth/data.py:42
-#, fuzzy
-#| msgid "Posted new comment"
 msgid "Post comment"
-msgstr "Wysłany nowy komentarz"
+msgstr "Wyślij komentarz"
 
 #: weblate/auth/data.py:43
-#, fuzzy
-#| msgid "New comment"
 msgid "Delete comment"
-msgstr "Nowy komentarz"
+msgstr "Usuń komentarz"
 
 #: weblate/auth/data.py:45
-#, fuzzy
-#| msgid "Add word to glossary"
 msgid "Add glossary entry"
-msgstr "Dodaj słowo do słownika"
+msgstr "Dodaj wpis słownika"
 
 #: weblate/auth/data.py:46
-#, fuzzy
-#| msgid "Export glossary"
 msgid "Edit glossary entry"
-msgstr "Wyeksportuj słownik"
+msgstr "Edytuj wpis słownika"
 
 #: weblate/auth/data.py:47
-#, fuzzy
-#| msgid "Delete screenshot"
 msgid "Delete glossary entry"
-msgstr "Usuń zrzut ekranu"
+msgstr "Usuń wpis słownika"
 
 #: weblate/auth/data.py:48
-#, fuzzy
-#| msgid "Add word to glossary"
 msgid "Upload glossary entries"
-msgstr "Dodaj słowo do słownika"
+msgstr "Prześlij wpisy do słownika"
 
 #: weblate/auth/data.py:50
-#, fuzzy
-#| msgid "Machine translation suggestions"
 msgid "Use machine translation services"
-msgstr "Sugestie tłumaczenia maszynowego"
+msgstr "Skorzystaj z usług tłumaczenia maszynowego"
 
 #: weblate/auth/data.py:52
-#, fuzzy
-#| msgid "Edit source string"
 msgid "Edit project settings"
-msgstr "Edytuj źródłowy ciąg znaków"
+msgstr "Edytuj ustawienia projektu"
 
 #: weblate/auth/data.py:53
-#, fuzzy
-#| msgid "Managed projects"
 msgid "Manage project access"
-msgstr "Zarządzane projekty"
+msgstr "Zarządzaj dostępem do projektu"
 
 #: weblate/auth/data.py:55
-#, fuzzy
-#| msgid "Download"
 msgid "Download reports"
-msgstr "Pobierz"
+msgstr "Pobierz raporty"
 
 #: weblate/auth/data.py:57
-#, fuzzy
-#| msgid "Add new screenshot"
 msgid "Add screenshot"
-msgstr "Dodaj nowy zrzut ekranu"
+msgstr "Dodaj zrzut ekranu"
 
 #: weblate/auth/data.py:58
 #: weblate/templates/screenshots/screenshot_detail.html:98
@@ -1051,34 +1019,24 @@ msgid "Delete screenshot"
 msgstr "Usuń zrzut ekranu"
 
 #: weblate/auth/data.py:61
-#, fuzzy
-#| msgid "Editing source string"
 msgid "Edit info on source strings"
-msgstr "Edytowanie źródłowego ciągu znaków"
+msgstr "Edytuj informacje w łańcuchach źródłowych"
 
 #: weblate/auth/data.py:63
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Accept suggestion"
-msgstr "Automatycznie akceptuj sugestie"
+msgstr "Zaakceptuj sugestię"
 
 #: weblate/auth/data.py:64
-#, fuzzy
-#| msgid "Add as a suggestion"
 msgid "Add suggestion"
-msgstr "Dodaj jako sugestię"
+msgstr "Dodaj sugestię"
 
 #: weblate/auth/data.py:65
-#, fuzzy
-#| msgid "Enable suggestions"
 msgid "Delete suggestion"
-msgstr "Włącz sugestie"
+msgstr "Usuń sugestię"
 
 #: weblate/auth/data.py:66
-#, fuzzy
-#| msgid "Enable suggestions"
 msgid "Vote suggestion"
-msgstr "Włącz sugestie"
+msgstr "Głosuj na sugestie"
 
 #: weblate/auth/data.py:68 weblate/templates/component.html:60
 #: weblate/templates/component.html:116 weblate/templates/component.html:118
@@ -1088,88 +1046,62 @@ msgid "Start new translation"
 msgstr "Rozpocznij nowe tłumaczenie"
 
 #: weblate/auth/data.py:69
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Perform automatic translation"
-msgstr "Tłumaczenie automatyczne"
+msgstr "Wykonaj automatyczne tłumaczenie"
 
 #: weblate/auth/data.py:70
-#, fuzzy
-#| msgid "Overwrite existing translations"
 msgid "Delete existing translation"
-msgstr "Zastąpienie istniejących tłumaczeń"
+msgstr "Usuń istniejące tłumaczenie"
 
 #: weblate/auth/data.py:71
-#, fuzzy
-#| msgid "Start new translation"
 msgid "Start new translation into more languages"
-msgstr "Rozpocznij nowe tłumaczenie"
+msgstr "Rozpocznij nowe tłumaczenie na więcej języków"
 
 #: weblate/auth/data.py:73
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new string"
-msgstr "Dodaj nowego użytkownika"
+msgstr "Dodać nowy ciąg"
 
 #: weblate/auth/data.py:74
-#, fuzzy
-#| msgid "Failing check"
 msgid "Ignore failing check"
-msgstr "Nieudany test"
+msgstr "W przypadku braku wyboru Ignoruj"
 
 #: weblate/auth/data.py:75
-#, fuzzy
-#| msgid "Edit string"
 msgid "Edit strings"
-msgstr "Edytuj ciąg znaków"
+msgstr "Edytuj ciągi"
 
 #: weblate/auth/data.py:76
-#, fuzzy
-#| msgid "Overwrite strings"
 msgid "Review strings"
-msgstr "Nadpisz teksty"
+msgstr "Przejrzyj ciągi"
 
 #: weblate/auth/data.py:77
-#, fuzzy
-#| msgid "Strings with suggestions (%d)"
 msgid "Edit string when suggestions are enforced"
-msgstr "Napisy z sugestiami (%d)"
+msgstr "Edytuj ciąg po wymuszeniu sugestii"
 
 #: weblate/auth/data.py:78
-#, fuzzy
-#| msgid "Edit source string"
 msgid "Edit source strings"
-msgstr "Edytuj źródłowy ciąg znaków"
+msgstr "Edytuj łańcuchy źródłowe"
 
 #: weblate/auth/data.py:80
-#, fuzzy
-#| msgid "Base file for new translations"
 msgid "Define author of translation upload"
-msgstr "Szablon dla nowych tłumaczeń"
+msgstr "Zdefiniuj autora przesyłającego tłumaczenie"
 
 #: weblate/auth/data.py:81
 #, fuzzy
 #| msgid "Overwrite existing translations"
 msgid "Overwrite existing strings with upload"
-msgstr "Zastąpienie istniejących tłumaczeń"
+msgstr "Zastąp istniejące ciągi przesyłaniem"
 
 #: weblate/auth/data.py:82
-#, fuzzy
-#| msgid "Upload translation"
 msgid "Upload translation strings"
-msgstr "Wczytaj tłumaczenie"
+msgstr "Prześlij ciągi tłumaczenia"
 
 #: weblate/auth/data.py:84
-#, fuzzy
-#| msgid "Allow changes to the local repository"
 msgid "Access the internal repository"
-msgstr "Zezwól na zmiany w lokalnym repozytorium"
+msgstr "Uzyskaj dostęp do wewnętrznego repozytorium"
 
 #: weblate/auth/data.py:85
-#, fuzzy
-#| msgid "Commit pending changes to the local repository"
 msgid "Commit changes to the internal repository"
-msgstr "Wyślij oczekujące zmiany do lokalnego repozytorium"
+msgstr "Zatwierdź zmiany w wewnętrznym repozytorium"
 
 #: weblate/auth/data.py:86
 #, fuzzy
@@ -1184,28 +1116,23 @@ msgid "Reset changes in the internal repository"
 msgstr "Zresetuj wszystkie zmiany w repozytorium lokalnym"
 
 #: weblate/auth/data.py:88
+#, fuzzy
 msgid "View upstream repository location"
-msgstr ""
+msgstr "Wyświetl lokalizację upstream repozytorium"
 
 #: weblate/auth/data.py:89
-#, fuzzy
-#| msgid "Update VCS repository"
 msgid "Update the internal repository"
-msgstr "Uaktualnij repozytorium VCS"
+msgstr "Zaktualizuj wewnętrzne repozytorium"
 
 #: weblate/auth/data.py:111
-#, fuzzy
-#| msgid "Add as a suggestion"
 msgctxt "Access control role"
 msgid "Add suggestion"
-msgstr "Dodaj jako sugestię"
+msgstr "Dodaj sugestię"
 
 #: weblate/auth/data.py:117
-#, fuzzy
-#| msgid "Reset repository"
 msgctxt "Access control role"
 msgid "Access repository"
-msgstr "Resetuj repozytorium"
+msgstr "Uzyskaj dostęp do repozytorium"
 
 #: weblate/auth/data.py:123
 msgctxt "Access control role"
@@ -1213,67 +1140,49 @@ msgid "Power user"
 msgstr ""
 
 #: weblate/auth/data.py:132
-#, fuzzy
-#| msgid "Translate"
 msgctxt "Access control role"
 msgid "Translate"
 msgstr "Przetłumacz"
 
 #: weblate/auth/data.py:136
-#, fuzzy
-#| msgid "Edit source string"
 msgctxt "Access control role"
 msgid "Edit source"
-msgstr "Edytuj źródłowy ciąg znaków"
+msgstr "Edytuj źródło"
 
 #: weblate/auth/data.py:140
-#, fuzzy
-#| msgid "Manage your languages"
 msgctxt "Access control role"
 msgid "Manage languages"
 msgstr "Zarządzaj językami"
 
 #: weblate/auth/data.py:144
-#, fuzzy
-#| msgid "Manage glossary"
 msgctxt "Access control role"
 msgid "Manage glossary"
 msgstr "Zarządzaj słownikiem"
 
 #: weblate/auth/data.py:148
-#, fuzzy
-#| msgid "Manage screenshots"
 msgctxt "Access control role"
 msgid "Manage screenshots"
 msgstr "Zarządzaj zrzutami ekranu"
 
 #: weblate/auth/data.py:152
-#, fuzzy
-#| msgid "Overwrite strings"
 msgctxt "Access control role"
 msgid "Review strings"
-msgstr "Nadpisz teksty"
+msgstr "Przejrzyj ciągi"
 
 #: weblate/auth/data.py:156
-#, fuzzy
-#| msgid "Merged repository"
 msgctxt "Access control role"
 msgid "Manage repository"
-msgstr "Połączono repozytorium"
+msgstr "Zarządzaj repozytorium"
 
 #: weblate/auth/data.py:160
-#, fuzzy
-#| msgid "Administration"
 msgctxt "Access control role"
 msgid "Administration"
 msgstr "Administracja"
 
 #: weblate/auth/data.py:164
-#, fuzzy
-#| msgid "Billing"
 msgctxt "Access control role"
 msgid "Billing"
-msgstr "Biling"
+msgstr "Rozliczenia"
 
 #: weblate/auth/data.py:172
 msgctxt "Access control group"
@@ -1288,8 +1197,6 @@ msgid "Viewers"
 msgstr "Widok"
 
 #: weblate/auth/data.py:182
-#, fuzzy
-#| msgid "Users"
 msgctxt "Access control group"
 msgid "Users"
 msgstr "Użytkownicy"
@@ -1302,11 +1209,9 @@ msgid "Reviewers"
 msgstr "Przegląd"
 
 #: weblate/auth/data.py:192
-#, fuzzy
-#| msgid "Manage"
 msgctxt "Access control group"
 msgid "Managers"
-msgstr "Zarządzaj"
+msgstr "Zarządzanie"
 
 #: weblate/auth/data.py:200
 msgctxt "Per project access control group"
@@ -1349,15 +1254,11 @@ msgid "Administration"
 msgstr "Administracja"
 
 #: weblate/auth/data.py:216
-#, fuzzy
-#| msgid "Billing"
 msgctxt "Per project access control group"
 msgid "Billing"
-msgstr "Biling"
+msgstr "Rozliczenia"
 
 #: weblate/auth/models.py:68
-#, fuzzy
-#| msgid "Permissions"
 msgid "Permission"
 msgstr "Uprawnienia"
 
@@ -1370,51 +1271,39 @@ msgstr "Nazwa"
 
 #: weblate/auth/models.py:85
 msgid "Choose permissions granted to this role."
-msgstr ""
+msgstr "Wybierz uprawnienia przyznane tej roli."
 
 #: weblate/auth/models.py:113
 msgid "Roles"
 msgstr "Role"
 
 #: weblate/auth/models.py:115
-#, fuzzy
-#| msgid "Choose file format for the report"
 msgid "Choose roles granted to this group."
-msgstr "Wybierz format pliku dla raportu"
+msgstr "Wybierz role przyznane tej grupie."
 
 #: weblate/auth/models.py:119
-#, fuzzy
-#| msgid "Project Information"
 msgid "Project selection"
-msgstr "Informacje o projekcie"
+msgstr "Wybór projektu"
 
 #: weblate/auth/models.py:121 weblate/auth/models.py:145
-#, fuzzy
-#| msgid "Access denied."
 msgid "As defined"
-msgstr "Odmowa dostępu."
+msgstr "Jak zdefiniowano"
 
 #: weblate/auth/models.py:122 weblate/templates/index.html:51
 msgid "All projects"
 msgstr "Wszystkie projekty"
 
 #: weblate/auth/models.py:123
-#, fuzzy
-#| msgid "All projects"
 msgid "All public projects"
-msgstr "Wszystkie projekty"
+msgstr "Wszystkie projekty publiczne"
 
 #: weblate/auth/models.py:124
-#, fuzzy
-#| msgid "All projects"
 msgid "All protected projects"
-msgstr "Wszystkie projekty"
+msgstr "Wszystkie chronione projekty"
 
 #: weblate/auth/models.py:125
-#, fuzzy
-#| msgid "Component list"
 msgid "From component list"
-msgstr "Lista składników"
+msgstr "Z listy komponentów"
 
 #: weblate/auth/models.py:131 weblate/billing/admin.py:52
 #: weblate/billing/models.py:124 weblate/templates/accounts/user.html:38
