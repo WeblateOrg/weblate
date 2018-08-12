@@ -89,7 +89,7 @@ matrix:
       env: CI_DEPS="Django>=2.1,<2.2" CI_MODE=setup
     - name: "Migrations"
       python: "3.6"
-      env: CI_DEPS="Django>=2.1,<2.2" CI_MODE=migrate
+      env: CI_DEPS="Django>=2.0,<2.1" CI_MODE=migrate
     - name: "Documentation"
       python: "3.6"
       env: CI_DEPS="sphinxcontrib-httpdomain" CI_MODE=docs
