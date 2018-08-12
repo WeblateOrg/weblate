@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-08-11 13:59+0000\n"
-"PO-Revision-Date: 2018-08-12 11:15+0000\n"
+"PO-Revision-Date: 2018-08-12 11:37+0000\n"
 "Last-Translator: WaldiS <admin@sto.ugu.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/master/pl/"
 ">\n"
@@ -4303,10 +4303,6 @@ msgstr ""
 "przegląd wszystkich projektów, które dotyczą tłumaczeń w tych językach."
 
 #: weblate/templates/index.html:100
-#, fuzzy
-#| msgid ""
-#| "Could not find any suggestions for you, please choose your languages in "
-#| "preferences to get more suggestions."
 msgid ""
 "Could not find any suggestions for you, please choose your languages in the "
 "preferences to get some."
@@ -4464,28 +4460,20 @@ msgid "Removes current translation from the repository."
 msgstr "Usuwa bieżące tłumaczenie z repozytorium."
 
 #: weblate/templates/keys.html:17
-#, fuzzy
-#| msgid "SSH keys"
 msgid "SSH key"
 msgstr "Klucze SSH"
 
 #: weblate/templates/keys.html:23
-#, fuzzy
-#| msgid "Rebase local changes onto the remote repository"
 msgid "Weblate uses following SSH key to access remote repositories."
-msgstr "Wykonaj rebase zmian lokalnych do zdalnego repozytorium"
+msgstr "Weblate używa klucza SSH, aby uzyskać dostęp do odległych repozytoriów."
 
 #: weblate/templates/keys.html:28
-#, fuzzy
-#| msgid "Not available"
 msgid "SSH key not available."
-msgstr "Nie dostępne"
+msgstr "Klucz SSH jest niedostępny."
 
 #: weblate/templates/keys.html:37
-#, fuzzy
-#| msgid "Comment strings"
 msgid "Commit signing"
-msgstr "Teksty komentarzy"
+msgstr "Zatwierdź podpis"
 
 #: weblate/templates/keys.html:43
 #, python-format
@@ -4493,12 +4481,12 @@ msgid ""
 "Weblate signs all commits by GPG key %(gpg_key_id)s, you can view the public "
 "key below."
 msgstr ""
+"Weblate podpisuje wszystkie zatwierdzenia kluczem GPG %(gpg_key_id)s, możesz "
+"wyświetlić klucz publiczny poniżej."
 
 #: weblate/templates/keys.html:48
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Commit signing is not configured."
-msgstr "Tekst w formacie C nie pasuje do źródła"
+msgstr "Zatwierdzanie podpisu nie jest skonfigurowane."
 
 #: weblate/templates/language-project.html:26
 #: weblate/templates/language.html:26 weblate/templates/project.html:51
@@ -4530,8 +4518,6 @@ msgid "Plural: %(source_description)s"
 msgstr "Liczba mnoga: %(source_description)s"
 
 #: weblate/templates/language.html:84
-#, fuzzy
-#| msgid "Plural"
 msgid "Plurals"
 msgstr "Liczba mnoga"
 
@@ -4545,16 +4531,12 @@ msgid "User"
 msgstr "Użytkownik"
 
 #: weblate/templates/last-changes-content.html:11
-#, fuzzy
-#| msgid "Details"
 msgid "Detail"
-msgstr "Szczegóły"
+msgstr "Szczegół"
 
 #: weblate/templates/last-changes-content.html:12
-#, fuzzy
-#| msgid "Subject"
 msgid "Object"
-msgstr "Temat"
+msgstr "Obiekt"
 
 #: weblate/templates/last-changes-content.html:35
 msgid "Revert to this translation"
@@ -4859,10 +4841,9 @@ msgstr "Możesz tłumaczyć na %(translation_url)s"
 
 #: weblate/templates/mail/merge_failure.html:11
 #: weblate/templates/mail/merge_failure.txt:3
-#, fuzzy, python-format
-#| msgid "There has been a merge failure on %(subproject)s at %(site_title)s."
+#, python-format
 msgid "There has been a merge failure on %(component)s at %(site_title)s."
-msgstr "Wystąpiło nieudane scalanie w %(subproject)s na %(site_title)s."
+msgstr "Wystąpiło nieudane scalanie w %(component)s na %(site_title)s."
 
 #: weblate/templates/mail/merge_failure.html:15
 #: weblate/templates/mail/parse_error.html:15
@@ -4889,18 +4870,15 @@ msgid "Repository status:"
 msgstr "Stan repozytorium:"
 
 #: weblate/templates/mail/merge_failure_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Merge failure in %(subproject)s"
+#, python-format
 msgid "Merge failure in %(component)s"
-msgstr "Nieudane scalanie w projekcie %(subproject)s"
+msgstr "Nieudane scalanie w %(component)s"
 
 #: weblate/templates/mail/new_comment.html:11
 #: weblate/templates/mail/new_comment.txt:3
-#, fuzzy, python-format
-#| msgid "There has been a new comment on %(subproject)s at %(site_title)s."
+#, python-format
 msgid "There has been a new comment on %(component)s at %(site_title)s."
-msgstr ""
-"Dodano nowy komentarz w projekcie %(subproject)s na stronie %(site_title)s."
+msgstr "Dodano nowy komentarz w projekcie %(component)s na %(site_title)s."
 
 #: weblate/templates/mail/new_comment.html:28
 #: weblate/templates/mail/new_comment.txt:9
@@ -4908,10 +4886,9 @@ msgid "Comment:"
 msgstr "Komentarz:"
 
 #: weblate/templates/mail/new_comment_subject.txt:3
-#, fuzzy, python-format
-#| msgid "New comment in %(subproject)s"
+#, python-format
 msgid "New comment in %(component)s"
-msgstr "Nowy komentarz w projekcie %(subproject)s"
+msgstr "Nowy komentarz w %(component)s"
 
 #: weblate/templates/mail/new_contributor.html:7
 #: weblate/templates/mail/new_contributor.txt:1
@@ -4920,16 +4897,13 @@ msgstr "Dobre wieści,"
 
 #: weblate/templates/mail/new_contributor.html:11
 #: weblate/templates/mail/new_contributor.txt:3
-#, fuzzy, python-format
-#| msgid ""
-#| "User %(username)s has just made a first contribution on %(translation)s "
-#| "at %(site_title)s."
+#, python-format
 msgid ""
 "The user %(username)s has just made a first contribution to %(translation)s "
 "at %(site_title)s."
 msgstr ""
-"Użytkownik %(username)s właśnie dokonał pierwszego wkładu do %(translation)s "
-"na %(site_title)s."
+"Użytkownik %(username)s włożył pierwszy wkład w %(translation)s na "
+"%(site_title)s."
 
 #: weblate/templates/mail/new_contributor_subject.txt:3
 #, python-format
@@ -4947,28 +4921,20 @@ msgstr ""
 "%(site_title)s."
 
 #: weblate/templates/mail/new_language.html:15
-#, fuzzy
-#| msgid ""
-#| "Please add the language file to VCS, Weblate will automatically discover "
-#| "it on next update."
 msgid ""
 "Please add the language file to VCS, Weblate will automatically discover it "
 "upon next update."
 msgstr ""
-"Proszę dodać plik języka do systemu kontroli wersji, a Weblate wykryje go "
+"Dodaj plik języka do systemu kontroli wersji VCS, a Weblate wykryje go "
 "automatycznie podczas następnej aktualizacji."
 
 #: weblate/templates/mail/new_language.html:20
-#, fuzzy
-#| msgid ""
-#| "More information on adding new language files is available in the "
-#| "documentation:"
 msgid ""
 "More information on adding new language files is to be found in the "
 "documentation."
 msgstr ""
-"Więcej informacji na temat dodawania nowych plików języka dostępnych jest w "
-"dokumentacji:"
+"Więcej informacji na temat dodawania nowych plików językowych można znaleźć "
+"w dokumentacji."
 
 #: weblate/templates/mail/new_language.html:28
 #: weblate/templates/mail/new_language.txt:9
@@ -4976,10 +4942,8 @@ msgid "Requested language:"
 msgstr "Żądany język:"
 
 #: weblate/templates/mail/new_language.html:39
-#, fuzzy
-#| msgid "Requested language:"
 msgid "Requested by:"
-msgstr "Żądany język:"
+msgstr "Zgłoszony przez:"
 
 #: weblate/templates/mail/new_language.txt:5
 msgid ""
@@ -5061,12 +5025,10 @@ msgstr "Nowe tłumaczenie w projekcie %(translation)s"
 
 #: weblate/templates/mail/parse_error.html:11
 #: weblate/templates/mail/parse_error.txt:3
-#, fuzzy, python-format
-#| msgid "There has been a parse error on %(subproject)s at %(site_title)s."
+#, python-format
 msgid "There has been a parse error on %(component)s at %(site_title)s."
 msgstr ""
-"Wystąpił błąd przetwarzania w projekcie %(subproject)s na stronie "
-"%(site_title)s."
+"Wystąpił błąd przetwarzania w projekcie %(component)s na %(site_title)s."
 
 #: weblate/templates/mail/parse_error.html:21
 msgid "Failing file"
@@ -5077,10 +5039,9 @@ msgid "Failing file:"
 msgstr "Plik, który zawiódł:"
 
 #: weblate/templates/mail/parse_error_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Parse error in %(subproject)s"
+#, python-format
 msgid "Parse error in %(component)s"
-msgstr "Błąd przetwarzania w projekcie %(subproject)s"
+msgstr "Błąd przetwarzania w projekcie %(component)s"
 
 #: weblate/templates/mail/remove.html:11 weblate/templates/mail/remove.txt:3
 #, python-format
@@ -5117,16 +5078,12 @@ msgid "Remove"
 msgstr "Usuń"
 
 #: weblate/templates/manage-access.html:53
-#, fuzzy
-#| msgid ""
-#| "The user will be removed from the project once you remove last user "
-#| "permission."
 msgid ""
 "The user will be removed from the project once all user permissions are "
 "removed."
 msgstr ""
-"Użytkownik zostanie usunięty z projektu gdy tylko usuniesz ostatnie jego "
-"uprawnienie."
+"Użytkownik zostanie usunięty z projektu po usunięciu wszystkich uprawnień "
+"użytkownika."
 
 #: weblate/templates/manage-access.html:65
 msgid "Add new user"
@@ -5137,6 +5094,8 @@ msgid ""
 "The user management in Weblate is disabled, you can change permissions in "
 "the Django admin interface."
 msgstr ""
+"Zarządzanie użytkownikami w Weblate jest wyłączone, możesz zmienić "
+"uprawnienia w interfejsie administratora Django."
 
 #: weblate/templates/manage-access.html:94
 msgid "Project access control"
@@ -5155,38 +5114,26 @@ msgid "matrix"
 msgstr "matryca"
 
 #: weblate/templates/matrix.html:34
-#, fuzzy
-#| msgid "Used languages"
 msgid "Displayed languages"
-msgstr "Wykorzystane języki"
+msgstr "Wyświetlane języki"
 
 #: weblate/templates/matrix.html:39
 msgid "Choose"
-msgstr ""
+msgstr "Wybierz"
 
 #: weblate/templates/new-language.html:25
-#, fuzzy
-#| msgid ""
-#| "More information on adding new language files is available in the "
-#| "documentation:"
 msgid ""
 "Information on how to start translating into another language is to be found "
 "in the translator instructions."
 msgstr ""
-"Więcej informacji na temat dodawania nowych plików języka dostępnych jest w "
-"dokumentacji:"
+"Informacje na temat rozpoczęcia tłumaczenia na inny język można znaleźć w "
+"instrukcjach tłumacza."
 
 #: weblate/templates/new-language.html:27
-#, fuzzy
-#| msgid "Please choose the language into which you would like to translate."
 msgid "Please choose the language you want to translate to."
 msgstr "Wybierz język, na który chcesz tłumaczyć."
 
 #: weblate/templates/new-language.html:29
-#, fuzzy
-#| msgid ""
-#| "Project maintainers will get notified about this request and will add the "
-#| "language manually."
 msgid ""
 "Project maintainers are notified of this request, which prompts them to add "
 "the language manually."
@@ -5207,21 +5154,17 @@ msgid "%(position)s / %(total)s"
 msgstr "%(position)s / %(total)s"
 
 #: weblate/templates/project.html:83 weblate/templates/translation.html:90
-#, fuzzy
-#| msgid "Share on Facebook!"
 msgid "Share on Facebook"
-msgstr "Opublikuj na Facebooku!"
+msgstr "Opublikuj na Facebooku"
 
 #: weblate/templates/project.html:84
-#, fuzzy
-#| msgid "Tweet this translation!"
 msgid "Tweet this translation"
-msgstr "Opublikuj na Tweeterze!"
+msgstr "Opublikuj na Tweeterze"
 
 #: weblate/templates/project.html:111
 #, python-format
 msgid "Repository for this component is linked to %(target)s"
-msgstr ""
+msgstr "Repozytorium tego komponentu jest połączone z %(target)s"
 
 #: weblate/templates/project.html:111
 msgid "link"
@@ -5336,16 +5279,14 @@ msgid "No matching strings found."
 msgstr "Nie odnaleziono pasujących tekstów."
 
 #: weblate/templates/show-contributor-agreement.html:7
-#, fuzzy
-#| msgid "Contributor agreement"
 msgid "View contributor agreement"
-msgstr "Zgoda współpracownika"
+msgstr "Wyświetl umowę o współtwórcy"
 
 #: weblate/templates/show-contributor-agreement.html:8
 msgid ""
 "Contribution to this translation requires you to agree with a contributor "
 "agreement."
-msgstr ""
+msgstr "Udział w tym tłumaczeniu wymaga zgody na umowę o współtwórcę."
 
 #: weblate/templates/show-lock.html:4
 msgid "This translation is currently locked for updates."
@@ -5421,10 +5362,8 @@ msgid "Failing checks found"
 msgstr "Odnalezione nieudane testy"
 
 #: weblate/templates/trans/change_list.html:21
-#, fuzzy
-#| msgid "Change"
 msgid "Changes"
-msgstr "Zmień"
+msgstr "Zmiany"
 
 #: weblate/templates/trans/change_list.html:32
 msgid "Download latest changes as CSV"
