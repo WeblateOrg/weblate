@@ -97,5 +97,7 @@ def update_failed_check_flag(sender, instance, **kwargs):
     if instance.for_unit is not None:
         related = related.exclude(pk=instance.for_unit)
     for unit in related:
-        unit.update_has_failing_check(False)
+        unit.update_has_failing_check(
+            False, None if instance.ignore else True
+        )
         unit.translation.invalidate_cache()
