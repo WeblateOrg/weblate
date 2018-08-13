@@ -32,6 +32,7 @@ from weblate.logger import LOGGER
 from weblate.trans.models import Component
 from weblate.utils.render import render_template
 from weblate.trans.util import path_separator
+from weblate.utils.invalidate import InvalidateContext
 
 
 class ComponentDiscovery(object):
@@ -173,32 +174,33 @@ class ComponentDiscovery(object):
 
         main = self.component
 
-        for match in self.matched_components.values():
-            # Skip matches to main component
-            if match['mask'] == main.filemask:
-                continue
+        with InvalidateContext():
+            for match in self.matched_components.values():
+                # Skip matches to main component
+                if match['mask'] == main.filemask:
+                    continue
 
-            try:
-                found = main.get_linked_childs().filter(
-                    filemask=match['mask']
-                )[0]
-                # Component exists
-                matched.append((match, found))
-                processed.add(found.id)
-            except IndexError:
-                # Create new component
-                if preview:
-                    component = None
-                else:
-                    component = self.create_component(main, match)
-                    processed.add(component.id)
-                created.append((match, component))
+                try:
+                    found = main.get_linked_childs().filter(
+                        filemask=match['mask']
+                    )[0]
+                    # Component exists
+                    matched.append((match, found))
+                    processed.add(found.id)
+                except IndexError:
+                    # Create new component
+                    if preview:
+                        component = None
+                    else:
+                        component = self.create_component(main, match)
+                        processed.add(component.id)
+                    created.append((match, component))
 
-        if remove:
-            for found in main.get_linked_childs().exclude(pk__in=processed):
-                # Delete
-                deleted.append((None, found))
-                if not preview:
-                    found.delete()
+            if remove:
+                for found in main.get_linked_childs().exclude(pk__in=processed):
+                    # Delete
+                    deleted.append((None, found))
+                    if not preview:
+                        found.delete()
 
         return created, matched, deleted
