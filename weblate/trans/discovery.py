@@ -166,6 +166,28 @@ class ComponentDiscovery(object):
             **params
         )
 
+    def cleanup(self, main, processed, preview=False):
+        deleted = []
+        for component in main.get_linked_childs().exclude(pk__in=processed):
+            if component.has_template():
+                # Valid template?
+                if os.path.exists(component.get_template_filename()):
+                    continue
+            elif component.new_base:
+                # Valid new base?
+                if os.path.exists(component.get_new_base_filename()):
+                    continue
+            else:
+                if component.get_mask_matches():
+                    continue
+
+            # Delete as needed files seem to be missing
+            deleted.append((None, component))
+            if not preview:
+                component.delete()
+
+        return deleted
+
     def perform(self, preview=False, remove=False):
         created = []
         matched = []
@@ -197,10 +219,6 @@ class ComponentDiscovery(object):
                     created.append((match, component))
 
             if remove:
-                for found in main.get_linked_childs().exclude(pk__in=processed):
-                    # Delete
-                    deleted.append((None, found))
-                    if not preview:
-                        found.delete()
+                deleted = self.cleanup(main, processed, preview)
 
         return created, matched, deleted
