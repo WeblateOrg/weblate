@@ -17,6 +17,7 @@ env:
     - CI_MODE=test
     - CI_DATABASE=postgresql
     - SAUCE_USERNAME=nijel
+    - CC_TEST_REPORTER_ID=b477753e9d539176556058b92f0f6594e7823ab95d1db1348f189745ea618af6
 # commands to install dependencies
 install:
   - export TESSERACT_INSTALL=$HOME/.tesseract
@@ -42,6 +43,9 @@ before_script:
   - psql -c 'CREATE DATABASE weblate;' -U postgres
   - psql -c 'SELECT version();' -U postgres
   - ./manage.py list_versions
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
 # commands to run tests
 script:
   - ./ci/run-$CI_MODE
@@ -56,6 +60,8 @@ after_script:
   - codecov
   # Codacy
   - python-codacy-coverage -r coverage.xml
+  # CodeClimate
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 # use docker based faster build
 sudo: false
 matrix:
