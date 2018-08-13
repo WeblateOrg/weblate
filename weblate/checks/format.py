@@ -101,6 +101,43 @@ PYTHON_BRACE_MATCH = re.compile(
     re.VERBOSE
 )
 
+C_SHARP_MATCH = re.compile(
+    r'''
+        {                               # initial {
+        (?P<arg>\d+)                    # variable order
+        (?P<width>
+            [,-?\s]+                    # flags
+            (?:\d+)?                    # width
+            (?:\.\d+)?                  # precision
+        )?
+        (?P<format>
+            :                           # ':' identifier
+            ((
+                [a-zA-Z0#.,\s]*         # type
+                (?:\d+)?                # numerical
+            ))?
+        )?
+    }                                   # Ending }
+    ''',
+    re.VERBOSE
+)
+
+JAVA_MATCH = re.compile(
+    r'''
+        %((?![\s])                     # initial % (no space after)
+          (?:(?P<ord>\d+)\$)?          # variable order, like %1$s
+    (?P<fullvar>
+        [-.#+0,(]*                     # flags
+        (?:\d+)?                       # width
+        (?:\.\d+)?                     # precision
+        (?P<type>
+            ((?<![tT])[tT][A-Za-z]|[A-Za-z])) # type (%s, %d, %te, etc.)
+       )
+    )
+    ''',
+    re.VERBOSE
+)
+
 
 class BaseFormatCheck(TargetCheck):
     """Base class for fomat string checks."""
@@ -267,3 +304,25 @@ class PythonBraceFormatCheck(BaseFormatCheck):
 
     def is_position_based(self, string):
         return string == ''
+
+
+class CSharpFormatCheck(BaseFormatCheck):
+    """Check for C# format string"""
+    check_id = 'c_sharp_format'
+    name = _('C# format')
+    description = _('C# format string does not match source')
+    regexp = C_SHARP_MATCH
+
+    def is_position_based(self, string):
+        return string == ''
+
+
+class JavaFormatCheck(BaseFormatCheck):
+    """Check for Java format string"""
+    check_id = 'java_format'
+    name = _('Java format')
+    description = _('Java format string does not match source')
+    regexp = JAVA_MATCH
+
+    def is_position_based(self, string):
+        return '$' not in string and string != '%'
