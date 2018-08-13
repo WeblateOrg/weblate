@@ -87,6 +87,8 @@ class WeblateConf(AppConf):
         'weblate.checks.format.CFormatCheck',
         'weblate.checks.format.PerlFormatCheck',
         'weblate.checks.format.JavascriptFormatCheck',
+        'weblate.checks.format.CSharpFormatCheck',
+        'weblate.checks.format.JavaFormatCheck',
         'weblate.checks.angularjs.AngularJSInterpolationCheck',
         'weblate.checks.consistency.PluralsCheck',
         'weblate.checks.consistency.SamePluralsCheck',
