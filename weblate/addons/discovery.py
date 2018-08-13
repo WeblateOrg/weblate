@@ -44,7 +44,7 @@ class DiscoveryAddon(BaseAddon):
 
     @classmethod
     def can_install(cls, component, user):
-        if not user.is_superuser or component.is_repo_link:
+        if component.is_repo_link:
             return False
         return super(DiscoveryAddon, cls).can_install(component, user)
 
