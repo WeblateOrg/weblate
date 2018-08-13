@@ -50,6 +50,7 @@ from weblate.trans.util import split_plural
 from weblate.trans.mixins import URLMixin, LoggerMixin
 from weblate.trans.models.change import Change
 from weblate.trans.checklists import TranslationChecklist
+from weblate.utils.invalidate import InvalidateContext
 
 class TranslationManager(models.Manager):
     def check_sync(self, component, lang, code, path, force=False,
@@ -906,6 +907,9 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
     def invalidate_cache(self, recurse=True):
         """Invalidate any cached stats."""
+        if InvalidateContext.is_active():
+            InvalidateContext.enqueue_translation(self)
+            return
 
         # Invalidate summary stats
         self.stats.invalidate()

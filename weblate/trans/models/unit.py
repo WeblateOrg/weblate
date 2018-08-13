@@ -908,7 +908,7 @@ class Unit(models.Model, LoggerMixin):
                 checks = self.checks()
                 if checks.exists():
                     checks.delete()
-                    self.update_has_failing_check(True)
+                    self.update_has_failing_check(True, False)
             elif 'inconsistent' in CHECKS:
                 # Consistency check checks across more translations
                 checks_to_run['inconsistent'] = CHECKS['inconsistent']
@@ -983,11 +983,11 @@ class Unit(models.Model, LoggerMixin):
         if was_change or is_new or not same_content:
             self.update_has_failing_check(was_change)
 
-    def update_has_failing_check(self, recurse=False):
+    def update_has_failing_check(self, recurse=False, has_checks=None):
         """Update flag counting failing checks."""
         has_failing_check = (
             self.state >= STATE_TRANSLATED and
-            self.active_checks().exists()
+            self.active_checks().exists() if has_checks is None else has_checks
         )
 
         # Change attribute if it has changed
@@ -1000,7 +1000,7 @@ class Unit(models.Model, LoggerMixin):
 
         if recurse:
             for unit in Unit.objects.same(self):
-                unit.update_has_failing_check(False)
+                unit.update_has_failing_check(False, has_checks)
 
     def update_has_suggestion(self):
         """Update flag counting suggestions."""
