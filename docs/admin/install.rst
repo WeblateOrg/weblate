@@ -694,6 +694,13 @@ options:
     :command:`./manage.py clearsessions` to remove stale session data from the
     database.
 
+    If you are using redis as cache (see :ref:`production-cache`) it is
+    recommended to use it for sessions as well:
+
+    .. code-block:: python
+
+         SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+
     .. seealso::
 
         :ref:`django:configuring-sessions`,
