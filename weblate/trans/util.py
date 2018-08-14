@@ -142,6 +142,27 @@ def add_configuration_error(name, message):
     cache.set('configuration-errors', errors)
 
 
+def delete_configuration_error(name):
+    """Delete configuration error.
+
+    Uses cache in case database is not yet ready."""
+    if apps.models_ready:
+        from weblate.wladmin.models import ConfigurationError
+        try:
+            ConfigurationError.objects.remove(name)
+            return
+        except OperationalError:
+            # The table does not have to be created yet (eg. migration
+            # is about to be executed)
+            pass
+    errors = cache.get('configuration-errors', [])
+    errors.append({
+        'name': name,
+        'delete': True,
+    })
+    cache.set('configuration-errors', errors)
+
+
 def get_clean_env(extra=None):
     """Return cleaned up environment for subprocess execution."""
     environ = {

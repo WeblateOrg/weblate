@@ -45,21 +45,28 @@ class ConfigurationErrorsMiddleware(object):
 
     def __init__(self, get_response=None):
         for error in cache.get('configuration-errors', []):
-            ConfigurationError.objects.add(
-                error['name'],
-                error['message'],
-                error['timestamp'] if 'timestamp' in error else now(),
-            )
+            if 'delete' in error:
+                ConfigurationError.objects.remove(error['name'])
+            else:
+                ConfigurationError.objects.add(
+                    error['name'],
+                    error['message'],
+                    error['timestamp'] if 'timestamp' in error else now(),
+                )
         if self.does_fire(run_index_queue):
             ConfigurationError.objects.add(
                 'Offloaded index',
                 'The processing seems to be slow, '
                 'there are more than 20000 entries to process.'
             )
+        else:
+            ConfigurationError.objects.remove('Offloaded index')
         if self.does_fire(run_cache):
             ConfigurationError.objects.add(
                 'Cache',
                 'The configured cache backend will lead to serious '
                 'performance or consistency issues.'
             )
+        else:
+            ConfigurationError.objects.remove('Cache')
         raise MiddlewareNotUsed()

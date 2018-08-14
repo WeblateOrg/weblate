@@ -24,7 +24,9 @@ from django.conf import settings
 from django.urls import reverse
 
 from weblate.trans.tests.test_views import FixtureTestCase
-from weblate.trans.util import add_configuration_error
+from weblate.trans.util import (
+    add_configuration_error, delete_configuration_error,
+)
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.data import check_data_writable
 from weblate.utils.unittest import tempdir_setting
@@ -91,6 +93,9 @@ class AdminTest(FixtureTestCase):
         add_configuration_error('Test error', 'FOOOOOOOOOOOOOO')
         response = self.client.get(reverse('admin:performance'))
         self.assertContains(response, 'FOOOOOOOOOOOOOO')
+        delete_configuration_error('Test error')
+        response = self.client.get(reverse('admin:performance'))
+        self.assertNotContains(response, 'FOOOOOOOOOOOOOO')
 
     def test_report(self):
         response = self.client.get(reverse('admin:report'))

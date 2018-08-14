@@ -37,7 +37,8 @@ from filelock import FileLock
 from pkg_resources import Requirement, resource_filename
 
 from weblate.trans.util import (
-    get_clean_env, add_configuration_error, path_separator
+    get_clean_env, path_separator,
+    add_configuration_error, delete_configuration_error,
 )
 from weblate.vcs.ssh import get_wrapper_filename, create_ssh_wrapper
 
@@ -288,8 +289,10 @@ class Repository(object):
             return False
         if cls.req_version is None:
             cls._is_supported = True
+            delete_configuration_error(cls.name.lower())
         elif LooseVersion(version) >= LooseVersion(cls.req_version):
             cls._is_supported = True
+            delete_configuration_error(cls.name.lower())
         else:
             cls._is_supported = False
             add_configuration_error(

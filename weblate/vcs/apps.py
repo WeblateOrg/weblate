@@ -25,7 +25,9 @@ from django.apps import AppConfig
 from filelock import FileLock
 
 from weblate.utils.data import data_dir
-from weblate.trans.util import add_configuration_error
+from weblate.trans.util import (
+    add_configuration_error, delete_configuration_error,
+)
 from weblate.vcs.base import RepositoryException
 from weblate.vcs.git import GitRepository
 
@@ -43,6 +45,7 @@ class VCSConfig(AppConfig):
         with lockfile:
             try:
                 GitRepository.global_setup()
+                delete_configuration_error('Git global setup')
             except RepositoryException as error:
                 add_configuration_error(
                     'Git global setup',
