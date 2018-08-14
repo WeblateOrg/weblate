@@ -21,6 +21,7 @@
 from __future__ import unicode_literals
 
 from django.template import Template, Context, Engine
+from django.utils.translation import override
 
 from weblate.utils.site import get_site_url
 
@@ -51,9 +52,10 @@ def render_template(template, translation=None, **kwargs):
         context['stats'] = translation.stats.get_data()
         context['url'] = get_site_url(translation.get_absolute_url())
 
-    return Template(
-        template,
-        engine=RestrictedEngine(),
-    ).render(
-        Context(context, autoescape=False),
-    )
+    with override('en'):
+        return Template(
+            template,
+            engine=RestrictedEngine(),
+        ).render(
+            Context(context, autoescape=False),
+        )
