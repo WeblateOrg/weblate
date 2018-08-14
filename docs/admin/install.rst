@@ -549,6 +549,13 @@ this won't change collation of existing fields:
 
     ALTER DATABASE weblate CHARACTER SET utf8mb4;
 
+.. note::
+
+    If you opt in for ``utf8mb4`` charset from the beginning, you should also
+    set ``SOCIAL_AUTH_UID_LENGTH = 191`` in your :file:`settings.py`, otherwise
+    migration of social auth will fail because of index being too long. See
+    :doc:`psa:configuration/settings`.
+
 .. seealso::
 
     `Using Innodb_large_prefix to Avoid ERROR 1071 <http://mechanics.flite.com/blog/2014/07/29/using-innodb-large-prefix-to-avoid-error-1071/>`_
