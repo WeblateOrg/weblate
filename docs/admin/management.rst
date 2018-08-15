@@ -645,6 +645,24 @@ You can either define which project or component to update (eg.
    
    :djadmin:`unlock_translation`
 
+optimize_memory
+-----------
+
+.. django-admin:: optimize_memory
+
+.. versionadded:: 3.2
+
+Optimizes translation memory storage.
+
+.. django-admin-option:: --rebuild
+
+    The index will be completely rebuilt by dumping all content and creating it again.
+    It is recommended to backup it prior to this operation.
+
+.. seealso::
+
+    :ref:`translation-memory`
+
 pushgit
 -------
 
