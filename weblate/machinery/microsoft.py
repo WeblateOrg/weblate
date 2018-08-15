@@ -18,21 +18,14 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from uuid import uuid4
 from datetime import timedelta
-
-from defusedxml import ElementTree
-
-from six.moves.urllib.request import Request, urlopen
 
 from django.conf import settings
 from django.utils import timezone
-from django.template.loader import get_template
 
 from weblate.machinery.base import (
     MachineTranslation, MachineTranslationError, MissingConfiguration
 )
-from weblate.lang.data import DEFAULT_LANGS
 
 COGNITIVE_BASE_URL = 'https://api.cognitive.microsoft.com/sts/v1.0'
 COGNITIVE_TOKEN = COGNITIVE_BASE_URL + '/issueToken?Subscription-Key={0}'
@@ -184,87 +177,3 @@ class MicrosoftCognitiveTranslation(MicrosoftTranslation):
         if language in self.LANGUAGE_CONVERTER:
             return self.LANGUAGE_CONVERTER[language]
         return language.split('-')[0]
-
-
-class MicrosoftTerminologyService(MachineTranslation):
-    """
-    The Microsoft Terminology Service API.
-
-    Allows you to programmatically access the terminology,
-    definitions and user interface (UI) strings available
-    on the MS Language Portal through a web service (SOAP).
-    """
-    name = 'Microsoft Terminology'
-
-    MS_TM_BASE = 'http://api.terminology.microsoft.com'
-    MS_TM_API_URL = '{base}/Terminology.svc'.format(base=MS_TM_BASE)
-    MS_TM_SOAP_XMLNS = '{base}/terminology'.format(base=MS_TM_BASE)
-    MS_TM_SOAP_HEADER = '{xmlns}/Terminology/'.format(xmlns=MS_TM_SOAP_XMLNS)
-    MS_TM_XPATH = './/{{{xmlns}}}'.format(xmlns=MS_TM_SOAP_XMLNS)
-
-    def soap_req(self, action, **kwargs):
-        template = get_template(
-            'machine/microsoft_terminology_{}.xml'.format(action.lower())
-        )
-        payload = template.render(kwargs)
-
-        request = Request(self.MS_TM_API_URL, payload.encode('utf-8'))
-        request.timeout = 0.5
-        request.add_header(
-            'SOAPAction', '"{}"'.format(self.MS_TM_SOAP_HEADER + action)
-        )
-        request.add_header('Content-Type', 'text/xml; charset=utf-8')
-        # Store for exception handling
-        self.request_url = action
-        self.request_params = kwargs
-        return urlopen(request)
-
-    def download_languages(self):
-        """Get list of supported languages."""
-        xp_code = self.MS_TM_XPATH + 'Code'
-        languages = []
-        resp = self.soap_req('GetLanguages')
-        root = ElementTree.fromstring(resp.read())
-        results = root.find(self.MS_TM_XPATH + 'GetLanguagesResult')
-        if results is not None:
-            for lang in results:
-                languages.append(lang.find(xp_code).text)
-        return languages
-
-    def download_translations(self, source, language, text, unit, user):
-        """Download list of possible translations from the service."""
-        translations = []
-        xp_translated = self.MS_TM_XPATH + 'TranslatedText'
-        xp_confidence = self.MS_TM_XPATH + 'ConfidenceLevel'
-        xp_original = self.MS_TM_XPATH + 'OriginalText'
-        resp = self.soap_req(
-            'GetTranslations',
-            uuid=uuid4(),
-            text=text,
-            from_lang=source,
-            to_lang=language,
-            max_result=20,
-        )
-        root = ElementTree.fromstring(resp.read())
-        results = root.find(self.MS_TM_XPATH + 'GetTranslationsResult')
-        if results is not None:
-            for translation in results:
-                translations.append((
-                    translation.find(xp_translated).text,
-                    int(translation.find(xp_confidence).text),
-                    self.name,
-                    translation.find(xp_original).text,
-                ))
-        return translations
-
-    def convert_language(self, language):
-        """Convert language to service specific code.
-
-        Add country part of locale if missing.
-        """
-        language = language.replace('_', '-').lower()
-        if '-' not in language:
-            for lang in DEFAULT_LANGS:
-                if lang.split('_')[0] == language:
-                    return lang.replace('_', '-').lower()
-        return language

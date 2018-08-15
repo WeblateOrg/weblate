@@ -175,7 +175,7 @@ The Microsoft Terminology Service API allows you to programmatically access the
 terminology, definitions and user interface (UI) strings available on the
 Language Portal through a web service.
 
-To enable this service, add ``weblate.machinery.microsoft.MicrosoftTerminologyService`` to
+To enable this service, add ``weblate.machinery.microsoftterminology.MicrosoftTerminologyService`` to
 :setting:`MT_SERVICES`.
 
 .. seealso::

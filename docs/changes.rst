@@ -10,6 +10,7 @@ Released on ? 2018.
 * Allow more fine grained ratelimit settings.
 * Added support for export and import of Excel files.
 * Improve component cleanup in case of multiple component discovery addons.
+* Rewritten Microsoft Terminology machine translation backend.
 
 weblate 3.1.1
 -------------

@@ -518,6 +518,7 @@ if not HAVE_SYSLOG:
 #     'weblate.machinery.glosbe.GlosbeTranslation',
 #     'weblate.machinery.google.GoogleTranslation',
 #     'weblate.machinery.microsoft.MicrosoftCognitiveTranslation',
+#     'weblate.machinery.microsoftterminology.MicrosoftTerminologyService',
 #     'weblate.machinery.mymemory.MyMemoryTranslation',
 #     'weblate.machinery.tmserver.AmagamaTranslation',
 #     'weblate.machinery.tmserver.TMServerTranslation',

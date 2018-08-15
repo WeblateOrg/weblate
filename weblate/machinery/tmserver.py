@@ -77,9 +77,9 @@ class TMServerTranslation(MachineTranslation):
         """Download list of possible translations from a service."""
         url = '{0}/{1}/{2}/unit/{3}'.format(
             self.url,
-            quote(source, ''),
-            quote(language, ''),
-            quote(text[:500].replace('\r', ' ').encode('utf-8'), '')
+            quote(source, b''),
+            quote(language, b''),
+            quote(text[:500].replace('\r', ' ').encode('utf-8'), b'')
         )
         response = self.json_req(url)
 

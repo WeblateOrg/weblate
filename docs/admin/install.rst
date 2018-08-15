@@ -95,6 +95,8 @@ jellyfish (>= 0.6.1)
     https://github.com/jamesturk/jellyfish
 openpyxl (>=2.5.0) (for XLSX export/import)
     https://openpyxl.readthedocs.io/en/stable/
+zeep (>=3.0.0) (optional for :ref:`ms-terminology`)
+    http://python-zeep.readthedocs.io/
 
 Other system requirements
 +++++++++++++++++++++++++

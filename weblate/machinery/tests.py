@@ -31,6 +31,7 @@ import httpretty
 # pylint: disable=unused-import
 import weblate.trans.tests.mypretty  # noqa
 from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.trans.tests.utils import get_test_file
 from weblate.trans.models.unit import Unit
 from weblate.machinery.base import MachineTranslationError
 from weblate.machinery.dummy import DummyTranslation
@@ -41,10 +42,9 @@ from weblate.machinery.apertium import ApertiumAPYTranslation
 from weblate.machinery.aws import AWSTranslation
 from weblate.machinery.tmserver import AmagamaTranslation
 from weblate.machinery.microsoft import (
-    MicrosoftTranslation,
-    MicrosoftCognitiveTranslation,
-    MicrosoftTerminologyService
+    MicrosoftTranslation, MicrosoftCognitiveTranslation,
 )
+from weblate.machinery.microsoftterminology import MicrosoftTerminologyService
 from weblate.machinery.google import GoogleTranslation, GOOGLE_API_ROOT
 from weblate.machinery.yandex import YandexTranslation
 from weblate.machinery.saptranslationhub import SAPTranslationHub
@@ -226,6 +226,7 @@ TERMINOLOGY_TRANSLATE = '''
   </s:Body>
 </s:Envelope>
 '''.encode('utf-8')
+TERMINOLOGY_WDSL = get_test_file('microsoftterminology.wsdl')
 
 DEEPL_RESPONSE = b'''{
     "translations": [
@@ -403,12 +404,23 @@ class MachineTranslationTest(TestCase):
         self.assert_translate(machine)
         self.assert_translate(machine, word='Zkouška')
 
+    def register_microsoft_terminology(self):
+        with open(TERMINOLOGY_WDSL, 'rb') as handle:
+            httpretty.register_uri(
+                httpretty.GET,
+                'http://api.terminology.microsoft.com/Terminology.svc',
+                body=handle.read(),
+                content_type='text/xml',
+            )
+
     @httpretty.activate
     def test_microsoft_terminology(self):
         def request_callback(request, uri, headers):
             if b'GetLanguages' in request.body:
                 return (200, headers, TERMINOLOGY_LANGUAGES)
             return (200, headers, TERMINOLOGY_TRANSLATE)
+
+        self.register_microsoft_terminology()
 
         machine = self.get_machine(MicrosoftTerminologyService)
         httpretty.register_uri(
@@ -422,6 +434,7 @@ class MachineTranslationTest(TestCase):
 
     @httpretty.activate
     def test_microsoft_terminology_error(self):
+        self.register_microsoft_terminology()
         machine = self.get_machine(MicrosoftTerminologyService)
         httpretty.register_uri(
             httpretty.POST,

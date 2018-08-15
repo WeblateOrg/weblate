@@ -99,6 +99,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Notable configuration or dependencies changes:
 
 * Rate limiting configuration has been changed, please see :ref:`rate-limit`.
+* Microsoft Terminology machine translation was moved to separate module and now requires ``zeep`` module.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
