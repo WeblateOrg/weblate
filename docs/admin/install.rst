@@ -549,16 +549,30 @@ this won't change collation of existing fields:
 
     ALTER DATABASE weblate CHARACTER SET utf8mb4;
 
-.. note::
+Using this charset might however lead to problems with default MySQL server
+settings as each character is now taking 4 bytest to store and MySQL has limit
+of 767 bytes for an index. In case this happens you will get one of following
+error messages:
 
-    If you opt in for ``utf8mb4`` charset from the beginning, you should also
-    set ``SOCIAL_AUTH_UID_LENGTH = 191`` in your :file:`settings.py`, otherwise
-    migration of social auth will fail because of index being too long. See
-    :doc:`psa:configuration/settings`.
+* `1071: Specified key was too long; max key length is 767 bytes`
+* `1709: Index column size too large. The maximum column size is 767 bytes.`
 
-.. seealso::
+There are two ways to workaround this limitation. You can configure MySQL in a
+way to not have this limit, see `Using Innodb_large_prefix to Avoid ERROR 1071
+<http://mechanics.flite.com/blog/2014/07/29/using-innodb-large-prefix-to-avoid-error-1071/>`_.
+Alternatively you can  also adjust several settings for social-auth in your
+:file:`settings.py` (see :doc:`psa:configuration/settings`):
 
-    `Using Innodb_large_prefix to Avoid ERROR 1071 <http://mechanics.flite.com/blog/2014/07/29/using-innodb-large-prefix-to-avoid-error-1071/>`_
+.. code-block:: python
+
+   # Limit some social-auth fields to 191 chars to fit
+   # them in 767 bytes
+
+   SOCIAL_AUTH_UID_LENGTH = 191
+   SOCIAL_AUTH_NONCE_SERVER_URL_LENGTH = 191
+   SOCIAL_AUTH_ASSOCIATION_SERVER_URL_LENGTH = 191
+   SOCIAL_AUTH_EMAIL_LENGTH = 191
+
 
 Transaction locking
 ~~~~~~~~~~~~~~~~~~~
