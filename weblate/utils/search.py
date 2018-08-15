@@ -32,7 +32,7 @@ class Comparer(object):
         """Returns string similarity in range 0 - 100%."""
         try:
             distance = damerau_levenshtein_distance(a, b)
-            return int(100 * (1.0 - (distance / max(len(a), len(b), 1))))
+            return int(100 * (1.0 - (float(distance) / max(len(a), len(b), 1))))
         except MemoryError:
             # Too long string, mark them as not much similar
             return 50
