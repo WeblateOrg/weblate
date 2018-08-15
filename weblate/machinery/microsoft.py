@@ -214,6 +214,9 @@ class MicrosoftTerminologyService(MachineTranslation):
             'SOAPAction', '"{}"'.format(self.MS_TM_SOAP_HEADER + action)
         )
         request.add_header('Content-Type', 'text/xml; charset=utf-8')
+        # Store for exception handling
+        self.request_url = action
+        self.request_params = kwargs
         return urlopen(request)
 
     def download_languages(self):
