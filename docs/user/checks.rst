@@ -190,6 +190,8 @@ Unlike the other checks, the flag should be set as a ``key:value`` pair like
 .. _check-perl-format:
 .. _check-javascript-format:
 .. _check-angularjs-format:
+.. _check-c-sharp-format:
+.. _check-java-format:
 
 Format strings
 ~~~~~~~~~~~~~~
@@ -331,7 +333,7 @@ C# format
 
 .. seealso::
 
-    'C# Sting Format <https://docs.microsoft.com/en-us/dotnet/api/system.string.format?view=netframework-4.7.2>'_
+    'C# String Format <https://docs.microsoft.com/en-us/dotnet/api/system.string.format?view=netframework-4.7.2>'_
     
 Java format
 ***********
