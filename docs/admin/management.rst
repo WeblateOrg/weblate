@@ -646,7 +646,7 @@ You can either define which project or component to update (eg.
    :djadmin:`unlock_translation`
 
 optimize_memory
------------
+---------------
 
 .. django-admin:: optimize_memory
 
