@@ -531,8 +531,8 @@ you're using emojis or some other higher Unicode symbols you might hit errors
 when saving such data. Depending on MySQL and Python bindings version, the
 error might look like:
 
-* ``OperationalError: (1366, "Incorrect string value: '\\xF0\\xA8\\xAB\\xA1' for column 'target' at row 1")``
-* ``UnicodeEncodeError: 'ascii' codec can't encode characters in position 0-3: ordinal not in range(128)``
+* `OperationalError: (1366, "Incorrect string value: '\\xF0\\xA8\\xAB\\xA1' for column 'target' at row 1")`
+* `UnicodeEncodeError: 'ascii' codec can't encode characters in position 0-3: ordinal not in range(128)`
 
 To solve this, you need to change your database to use ``utf8mb4`` (what is again
 subset of Unicode, but this time which can be stored in four bytes in ``utf-8``
