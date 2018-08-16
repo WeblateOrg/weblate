@@ -105,21 +105,46 @@ Notable configuration or dependencies changes:
 
 .. _py3:
 
-Upgrading from Python 2.x to 3.x
---------------------------------
+Upgrading from Python 2 to Python 3
+-----------------------------------
 
-The upgrade from Python 2.x to 3.x, should work without major problems. Take
-care about some changed module names when installing dependencies.
+Weblate currently supports both Python 2.7 and 3.x. Upgrading existing
+installations is supported, but you should pay attention to some data stored on
+the disk as it might be incompatible between these two.
 
-The Whoosh index has to be rebuilt as it's encoding depends on Python version,
-you can do that using following command:
+Things which might be problematic include Whoosh indices and file based caches.
+Fortunately these are easy to handle. Recommended upgrade steps:
 
-.. code-block:: sh
+1. Backup your :ref:`translation-memory` using :djadmin:`dump_memory`:
 
-    ./manage.py rebuild_index --clean --all
+   .. code-block:: sh
 
-The caches might be incompatible (depending on cache backend you are using), so
-it might be good idea to cleanup avatar cache using :djadmin:`cleanup_avatar_cache`.
+         ./manage.py dump_memory > memory.json
+
+2. Upgrade your installation to Python 3.
+3. Delete :ref:`translation-memory` database :djadmin:`delete_memory`:
+
+   .. code-block:: sh
+
+         ./manage.py delete_memory --all
+
+4. Restore your :ref:`translation-memory` using :djadmin:`import_memory`.
+
+   .. code-block:: sh
+
+         ./manage.py import_memory memory.json
+
+5. Recreate fulltext index using :djadmin:`rebuild_index`:
+
+   .. code-block:: sh
+
+      ./manage.py rebuild_index --clean --all
+
+6. Cleanup avatar cache (if using file based) using :djadmin:`cleanup_avatar_cache`.
+
+   .. code-block:: sh
+
+      ./manage.py cleanup_avatar_cache
 
 .. _pootle-migration:
 
