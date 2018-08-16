@@ -39,10 +39,11 @@ flags`); here is a list of flags currently accepted:
     Limit maximal length for string to N chars, see :ref:`check-max-length`
 ``xml-text``
     Treat text as XML document, affects :ref:`check-xml-invalid` and :ref:`check-xml-tags`.
-``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, ``javascript-format``
+``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, ``javascript-format``, ``c-sharp-format``, ``java-format``
     Treats all strings like format strings, affects :ref:`check-python-format`,
     :ref:`check-c-format`, :ref:`check-php-format`,
-    :ref:`check-python-brace-format`, :ref:`check-javascript-format`, :ref:`check-same`.
+    :ref:`check-python-brace-format`, :ref:`check-javascript-format`,
+    :ref:`check-c-sharp-format`, :ref:`check-java-format`, :ref:`check-same`.
 ``ignore-end-space``
     Skip the "Trailing space" quality check.
 ``ignore-inconsistent``
@@ -97,9 +98,9 @@ flags`); here is a list of flags currently accepted:
     Skip the "Trailing stop" quality check.
 ``ignore-angularjs-format``
     Skip the "AngularJS interpolation string" quality check.
-```ignore-c-sharp-format```
+``ignore-c-sharp-format``
     Skip the "C# format" quality check.
-```ignore-java-format```
+``ignore-java-format``
     Skip the "Java format" quality check.
     
 .. note::
