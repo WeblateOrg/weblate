@@ -53,7 +53,10 @@ class MicrosoftTerminologyService(MachineTranslation):
 
     def download_languages(self):
         """Get list of supported languages."""
-        return [lang['Code'] for lang in self.soap_req('GetLanguages')]
+        languages = self.soap_req('GetLanguages')
+        if not languages:
+            return []
+        return [lang['Code'] for lang in languages]
 
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from the service."""
@@ -65,9 +68,12 @@ class MicrosoftTerminologyService(MachineTranslation):
             'sources': ['Terms', 'UiStrings'],
             'searchOperator': 'AnyWord'
         }
+        result = self.soap_req('GetTranslations', **args)
         translations = []
+        if not result:
+            return translations
 
-        for translation in self.soap_req('GetTranslations', **args):
+        for translation in result:
             translations.append((
                 translation['Translations']['Translation'][0]['TranslatedText'],
                 translation['ConfidenceLevel'],
