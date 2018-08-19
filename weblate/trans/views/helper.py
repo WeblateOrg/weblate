@@ -109,20 +109,23 @@ def import_message(request, count, message_none, message_ok):
     else:
         messages.success(request, message_ok % count)
 
+def get_formatted_translation_file(translation, fmt, units):
+    try:
+        exporter = get_exporter(fmt)(translation=translation)
+    except KeyError:
+        raise Http404('File format not supported')
+    if units is None:
+        units = translation.unit_set.all()
+    exporter.add_units(units)
+    return exporter.get_response(
+        '{{project}}-{0}-{{language}}.{{extension}}'.format(
+            translation.component.slug
+        )
+    )
+    
 def get_translation_file(translation, fmt, units):
     if fmt is not None:
-        try:
-            exporter = get_exporter(fmt)(translation=translation)
-        except KeyError:
-            raise Http404('File format not supported')
-        if units is None:
-            units = translation.unit_set.all()
-        exporter.add_units(units)
-        return exporter.get_response(
-            '{{project}}-{0}-{{language}}.{{extension}}'.format(
-                translation.component.slug
-            )
-        )
+        return get_formatted_translation_file(translation, fmt, units)
 
     # Force flushing pending units
     translation.commit_pending('download', None)
@@ -131,11 +134,48 @@ def get_translation_file(translation, fmt, units):
 
     return srcfilename
 
+def download_translation_file(translation, fmt=None, units=None):
+    if fmt is not None:
+        return get_formatted_translation_file(translation, fmt, units)
+
+
+    # Force flushing pending units
+    translation.commit_pending('download', None)
+
+    srcfilename = translation.get_filename()
+
+    # Construct file name (do not use real filename as it is usually not
+    # that useful)
+
+    filename = translation_filename(translation)
+
+    # Create response
+    with open(srcfilename) as handle:
+        response = HttpResponse(
+            handle.read(),
+            content_type=translation.store.mimetype
+        )
+
+    # Fill in response headers
+    response['Content-Disposition'] = 'attachment; filename={0}'.format(
+        filename
+    )
+
+    return response
+
+def translation_filename(translation):
+    return '{0}-{1}-{2}.{3}'.format(
+        translation.component.project.slug,
+        translation.component.slug,
+        translation.language.code,
+        translation.store.extension
+    )
+
 def download_translation_files(translations, fmt=None, units=None):
     zipFileName = tempfile.TemporaryFile().name
     with zipfile.ZipFile(zipFileName, 'w') as translationsZip:
         for translation in translations:
-            translationsZip.write(get_translation_file(translation, fmt, units))
+            translationsZip.write(get_translation_file(translation, fmt, units), translation_filename(translation))
 
     # Create response
     with open(zipFileName) as handle:
@@ -144,17 +184,8 @@ def download_translation_files(translations, fmt=None, units=None):
             content_type='application/zip'
         )
 
-    # Construct file name (do not use real filename as it is usually not
-    # that useful)
-    filename = 'test.zip'
+    filename = 'translations.zip'
 
-    # '{0}-{1}-{2}.{3}'.format(
-    #     translation.component.project.slug,
-    #     translation.component.slug,
-    #     translation.language.code,
-    #     fmt
-    # )
-    
     # Fill in response headers
     response['Content-Disposition'] = 'attachment; filename={0}'.format(
         filename
