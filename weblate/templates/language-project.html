@@ -20,6 +20,9 @@
     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
       {% trans "Tools" %} <span class="caret"></span>
     </a>
+      <li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>	  <li class="dropdown">
+      <li><a href="{% url 'checks' %}?language={{ language.code }}&amp;project={{ project.slug }}">{% trans "Failing checks" %}</a></li>	    
+      <li><a href="{% url 'checks' %}?language={{ language.code }}&amp;project={{ project.slug }}&amp;ignored=true">{% trans "Ignored checks" %}</a></li>
   </li>
   <li class="dropdown">
      <a class="dropdown-toggle" type="button" id="dropdownMenuDownload" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
