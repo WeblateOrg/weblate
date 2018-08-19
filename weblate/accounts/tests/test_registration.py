@@ -34,7 +34,7 @@ import social_django.utils
 
 from weblate.auth.models import User
 from weblate.accounts.models import VerifiedEmail
-from weblate.accounts.ratelimit import reset_rate_limit
+from weblate.utils.ratelimit import reset_rate_limit
 
 from weblate.trans.tests.test_views import RegistrationTestMixin
 

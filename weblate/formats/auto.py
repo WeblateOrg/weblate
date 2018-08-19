@@ -30,6 +30,7 @@ from django.utils.translation import ugettext_lazy as _
 from translate.storage import factory
 
 from weblate.formats.base import FileFormat
+from weblate.formats.helpers import StringIOMode
 from weblate.formats.models import FILE_FORMATS
 
 
@@ -103,11 +104,3 @@ class AutoFormat(FileFormat):
     @classmethod
     def get_class(cls):
         return None
-
-
-class StringIOMode(BytesIO):
-    """StringIO with mode attribute to make ttkit happy."""
-    def __init__(self, filename, data):
-        super(StringIOMode, self).__init__(data)
-        self.mode = 'r'
-        self.name = filename

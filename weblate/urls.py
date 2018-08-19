@@ -220,11 +220,6 @@ urlpatterns = [
         name='download_translation',
     ),
     url(
-        r'^download/' + TRANSLATION + 'custom/$',
-        weblate.trans.views.files.download_translation_format,
-        name='download_translation_format',
-    ),
-    url(
         r'^upload/' + TRANSLATION + '$',
         weblate.trans.views.files.upload_translation,
         name='upload_translation',
@@ -833,6 +828,7 @@ urlpatterns = [
     url(r'^contact/', weblate.accounts.views.contact, name='contact'),
     url(r'^hosting/', weblate.accounts.views.hosting, name='hosting'),
     url(r'^about/$', weblate.trans.views.basic.about, name='about'),
+    url(r'^keys/$', weblate.trans.views.basic.keys, name='keys'),
     url(r'^stats/$', weblate.trans.views.basic.stats, name='stats'),
 
     # User pages

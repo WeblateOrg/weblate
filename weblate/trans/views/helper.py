@@ -124,7 +124,7 @@ def download_translation_file(translation, fmt=None, units=None):
         )
 
     # Force flushing pending units
-    translation.commit_pending(None)
+    translation.commit_pending('download', None)
 
     srcfilename = translation.get_filename()
 

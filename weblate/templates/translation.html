@@ -275,7 +275,7 @@
 {% endif %}
 
 <div class="tab-pane" id="download">
-<form action="{% url 'download_translation_format' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" method="get" data-persist="download-translation">
+<form action="{% url 'download_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" method="get" data-persist="download-translation">
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Customize download" %}</h4></div>
 <div class="panel-body">

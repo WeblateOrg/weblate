@@ -58,10 +58,10 @@ from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.docs import get_doc_url
 
 REPO_OPERATIONS = {
-    'push': ('vcs.push', 'do_push'),
-    'pull': ('vcs.update', 'do_update'),
-    'reset': ('vcs.reset', 'do_reset'),
-    'commit': ('vcs.commit', 'commit_pending'),
+    'push': ('vcs.push', 'do_push', ()),
+    'pull': ('vcs.update', 'do_update', ()),
+    'reset': ('vcs.reset', 'do_reset', ()),
+    'commit': ('vcs.commit', 'commit_pending', ('api',)),
 }
 
 DOC_TEXT = """
@@ -150,12 +150,14 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
 class WeblateViewSet(DownloadViewSet):
     """Allow to skip content negotiation for certain requests."""
     def repository_operation(self, request, obj, project, operation):
-        permission, method = REPO_OPERATIONS[operation]
+        permission, method, args = REPO_OPERATIONS[operation]
 
         if not request.user.has_perm(permission, project):
             raise PermissionDenied()
 
-        return getattr(obj, method)(request)
+        args = args + (request,)
+
+        return getattr(obj, method)(*args)
 
     @action(
         detail=True,

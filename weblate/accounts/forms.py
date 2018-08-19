@@ -40,7 +40,7 @@ from weblate.accounts.models import Profile
 from weblate.accounts.utils import get_all_user_mails
 from weblate.accounts.captcha import MathCaptcha
 from weblate.accounts.notifications import notify_account_activity
-from weblate.accounts.ratelimit import reset_rate_limit, check_rate_limit
+from weblate.utils.ratelimit import reset_rate_limit, check_rate_limit
 from weblate.lang.models import Language
 from weblate.trans.util import sort_choices
 from weblate.utils import messages

@@ -95,14 +95,15 @@ class ReportsTest(ViewTestCase):
 
     def test_credits_view_json(self):
         response = self.get_credits('json')
-        data = json.loads(response.content.decode('utf-8'))
-        self.assertEqual(
-            data,
+        self.assertEqual(response.status_code, 200)
+        self.assertJSONEqual(
+            response.content.decode('utf-8'),
             [{'Czech': [['weblate@example.org', 'Weblate Test']]}]
         )
 
     def test_credits_view_rst(self):
         response = self.get_credits('rst')
+        self.assertEqual(response.status_code, 200)
         self.assertEqual(
             response.content.decode('utf-8'),
             '\n\n* Czech\n\n    * Weblate Test <weblate@example.org>\n\n'
@@ -110,6 +111,7 @@ class ReportsTest(ViewTestCase):
 
     def test_credits_view_html(self):
         response = self.get_credits('html')
+        self.assertEqual(response.status_code, 200)
         self.assertHTMLEqual(
             response.content.decode('utf-8'),
             '<table>\n'
@@ -144,25 +146,27 @@ class ReportsTest(ViewTestCase):
 
     def test_counts_view_json(self):
         response = self.get_counts('json')
-        data = json.loads(response.content.decode('utf-8'))
-        self.assertEqual(data, COUNTS_DATA)
+        self.assertEqual(response.status_code, 200)
+        self.assertJSONEqual(response.content.decode('utf-8'), COUNTS_DATA)
 
     def test_counts_view_month(self):
         response = self.get_counts('json', period='month')
-        data = json.loads(response.content.decode('utf-8'))
-        self.assertEqual(data, [])
+        self.assertEqual(response.status_code, 200)
+        self.assertJSONEqual(response.content.decode('utf-8'), [])
 
     def test_counts_view_year(self):
         response = self.get_counts('json', period='year')
-        data = json.loads(response.content.decode('utf-8'))
-        self.assertEqual(data, [])
+        self.assertEqual(response.status_code, 200)
+        self.assertJSONEqual(response.content.decode('utf-8'), [])
 
     def test_counts_view_rst(self):
         response = self.get_counts('rst')
+        self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'weblate@example.org')
 
     def test_counts_view_html(self):
         response = self.get_counts('html')
+        self.assertEqual(response.status_code, 200)
         self.assertHTMLEqual(
             response.content.decode('utf-8'),
             '<table>\n'

@@ -51,7 +51,6 @@ from weblate.trans.mixins import URLMixin, LoggerMixin
 from weblate.trans.models.change import Change
 from weblate.trans.checklists import TranslationChecklist
 
-
 class TranslationManager(models.Manager):
     def check_sync(self, component, lang, code, path, force=False,
                    request=None):
@@ -394,10 +393,12 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             return None
         return self.last_change_obj.timestamp
 
-    def commit_pending(self, request, skip_push=False):
+    def commit_pending(self, reason, request, skip_push=False):
         """Commit any pending changes."""
         if not self.unit_set.filter(pending=True).exists():
             return False
+
+        self.log_info('committing pending changes (%s)', reason)
 
         with self.component.repository.lock:
             while True:
@@ -783,9 +784,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         skipped = 0
         accepted = 0
 
-        # Commit possible prior changes
-        self.commit_pending(request)
-
         for set_fuzzy, unit2 in store2.iterate_merge(fuzzy):
             try:
                 unit = self.unit_set.get_unit(unit2)
@@ -827,7 +825,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 self.store.merge_header(store2)
                 self.store.save()
 
-            self.commit_pending(request)
+            self.commit_pending('upload', request)
 
         return (not_found, skipped, accepted, store2.count_units())
 
@@ -863,9 +861,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         """Top level handler for file uploads."""
         filecopy = fileobj.read()
         fileobj.close()
-
-        # Commit pending changes so far
-        self.commit_pending(request)
 
         # Strip possible UTF-8 BOM
         if filecopy[:3] == codecs.BOM_UTF8:
@@ -988,7 +983,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         )
 
     def new_unit(self, request, key, value):
-        self.commit_pending(request)
+        self.commit_pending('new unit', request)
         Change.objects.create(
             translation=self,
             action=Change.ACTION_NEW_UNIT,

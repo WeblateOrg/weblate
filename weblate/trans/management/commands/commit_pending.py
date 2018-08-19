@@ -65,4 +65,4 @@ class Command(WeblateLangCommand):
 
             if int(options['verbosity']) >= 1:
                 self.stdout.write('Committing {0}'.format(translation))
-            translation.commit_pending(None)
+            translation.commit_pending('manage commit_pending', None)

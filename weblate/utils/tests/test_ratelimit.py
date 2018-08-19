@@ -24,7 +24,7 @@ from unittest import TestCase
 from django.http.request import HttpRequest
 from django.test.utils import override_settings
 
-from weblate.accounts.ratelimit import reset_rate_limit, check_rate_limit
+from weblate.utils.ratelimit import reset_rate_limit, check_rate_limit
 
 
 class RateLimitTest(TestCase):
@@ -42,7 +42,10 @@ class RateLimitTest(TestCase):
             check_rate_limit('test', self.get_request())
         )
 
-    @override_settings(AUTH_MAX_ATTEMPTS=5, AUTH_CHECK_WINDOW=60)
+    @override_settings(
+        RATELIMIT_ATTEMPTS=5,
+        RATELIMIT_WINDOW=60,
+    )
     def test_limit(self):
         request = self.get_request()
         for dummy in range(5):
@@ -55,9 +58,9 @@ class RateLimitTest(TestCase):
         )
 
     @override_settings(
-        AUTH_MAX_ATTEMPTS=1,
-        AUTH_CHECK_WINDOW=2,
-        AUTH_LOCKOUT_TIME=1
+        RATELIMIT_ATTEMPTS=1,
+        RATELIMIT_WINDOW=2,
+        RATELIMIT_LOCKOUT=1,
     )
     def test_window(self):
         request = self.get_request()
@@ -74,9 +77,9 @@ class RateLimitTest(TestCase):
         )
 
     @override_settings(
-        AUTH_MAX_ATTEMPTS=1,
-        AUTH_CHECK_WINDOW=2,
-        AUTH_LOCKOUT_TIME=100
+        RATELIMIT_ATTEMPTS=1,
+        RATELIMIT_WINDOW=2,
+        RATELIMIT_LOCKOUT=100,
     )
     def test_lockout(self):
         request = self.get_request()

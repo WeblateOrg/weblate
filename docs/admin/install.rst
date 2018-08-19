@@ -93,6 +93,8 @@ PyYAML (>= 3.0) (optional for :ref:`yaml`)
     https://pyyaml.org/
 jellyfish (>= 0.6.1)
     https://github.com/jamesturk/jellyfish
+openpyxl (>=2.5.0) (for XLSX export/import)
+    https://openpyxl.readthedocs.io/en/stable/
 
 Other system requirements
 +++++++++++++++++++++++++

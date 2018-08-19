@@ -30,7 +30,7 @@ from django.urls import reverse
 from django.test.utils import override_settings
 from django.http import QueryDict
 
-from weblate.accounts.ratelimit import reset_rate_limit
+from weblate.utils.ratelimit import reset_rate_limit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.search import Fulltext
 from weblate.trans.models import IndexUpdate
@@ -75,7 +75,7 @@ class SearchViewTest(ViewTestCase):
         response = self.client.get(url, {'date': '2010-01-10'})
         self.assertContains(response, '2010-01-10')
 
-    @override_settings(AUTH_MAX_ATTEMPTS=20000)
+    @override_settings(RATELIMIT_SEARCH_ATTEMPTS=20000)
     def test_all_search(self):
         """Searching in all projects."""
         response = self.client.get(
@@ -112,7 +112,7 @@ class SearchViewTest(ViewTestCase):
         )
         response = self.client.get(
             reverse('search'),
-            {'type': 'php_format'}
+            {'type': 'check:php_format'}
         )
         self.assertContains(
             response,
@@ -120,7 +120,7 @@ class SearchViewTest(ViewTestCase):
         )
         response = self.client.get(
             reverse('search'),
-            {'type': 'php_format', 'ignored': '1'}
+            {'type': 'check:php_format', 'ignored': '1'}
         )
         self.assertContains(
             response,

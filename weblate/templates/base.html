@@ -140,7 +140,11 @@ var _rollbarConfig = {
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="{% trans "Help" %}"><i class="fa fa-question-circle"></i><b class="caret"></b></a>
           <ul class="dropdown-menu">
             <li><a href="{% url 'contact' %}">{% trans "Contact" %}</a></li>
+            <li><a href="{% url 'about' %}">{% blocktrans %}About Weblate{% endblocktrans %}</a></li>
+            <li><a href="{% url 'keys' %}">{% blocktrans %}Weblate keys{% endblocktrans %}</a></li>
+            {% if legal %}<li><a href="{% url 'legal:index' %}">{% trans "Legal" %}</a></li>{% endif %}
             <li><a href="{% documentation 'index' %}">{% trans "Documentation" %}</a></li>
+            {% if status_url %}<li><a href="{{ status_url }}">{% trans "Service status" %}</a></li>{% endif %}
           </ul>
         </li>
       </ul>

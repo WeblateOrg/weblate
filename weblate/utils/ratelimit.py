@@ -46,19 +46,26 @@ def reset_rate_limit(scope, request=None, address=None):
     )
 
 
+def get_rate_setting(scope, suffix):
+    key = 'RATELIMIT_{}_{}'.format(scope.upper(), suffix)
+    if hasattr(settings, key):
+        return getattr(settings, key)
+    return getattr(settings, 'RATELIMIT_{}'.format(suffix))
+
+
 def check_rate_limit(scope, request):
     """Check authentication rate limit."""
     key = get_cache_key(scope, request)
     attempts = cache.get(key) or 0
 
-    if attempts >= settings.AUTH_MAX_ATTEMPTS:
-        cache.set(key, attempts, settings.AUTH_LOCKOUT_TIME)
+    if attempts >= get_rate_setting(scope, 'ATTEMPTS'):
+        cache.set(key, attempts, get_rate_setting(scope, 'LOCKOUT'))
         return False
 
     try:
         attempts = cache.incr(key)
     except ValueError:
         # No such key, so set it
-        cache.set(key, 1, settings.AUTH_CHECK_WINDOW)
+        cache.set(key, 1, get_rate_setting(scope, 'WINDOW'))
 
     return True
