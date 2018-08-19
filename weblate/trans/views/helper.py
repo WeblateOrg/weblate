@@ -18,6 +18,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 """Helper methods for views."""
+import tempfile
+import zipfile
 
 from django.http import HttpResponse, Http404
 from django.shortcuts import get_object_or_404
@@ -107,8 +109,7 @@ def import_message(request, count, message_none, message_ok):
     else:
         messages.success(request, message_ok % count)
 
-
-def download_translation_file(translation, fmt=None, units=None):
+def get_translation_file(translation, fmt, units):
     if fmt is not None:
         try:
             exporter = get_exporter(fmt)(translation=translation)
@@ -128,22 +129,32 @@ def download_translation_file(translation, fmt=None, units=None):
 
     srcfilename = translation.get_filename()
 
-    # Construct file name (do not use real filename as it is usually not
-    # that useful)
-    filename = '{0}-{1}-{2}.{3}'.format(
-        translation.component.project.slug,
-        translation.component.slug,
-        translation.language.code,
-        translation.store.extension
-    )
+    return srcfilename
+
+def download_translation_files(translations, fmt=None, units=None):
+    zipFileName = tempfile.TemporaryFile().name
+    with zipfile.ZipFile(zipFileName, 'w') as translationsZip:
+        for translation in translations:
+            translationsZip.write(get_translation_file(translation, fmt, units))
 
     # Create response
-    with open(srcfilename) as handle:
+    with open(zipFileName) as handle:
         response = HttpResponse(
             handle.read(),
-            content_type=translation.store.mimetype
+            content_type='application/zip'
         )
 
+    # Construct file name (do not use real filename as it is usually not
+    # that useful)
+    filename = 'test.zip'
+
+    # '{0}-{1}-{2}.{3}'.format(
+    #     translation.component.project.slug,
+    #     translation.component.slug,
+    #     translation.language.code,
+    #     fmt
+    # )
+    
     # Fill in response headers
     response['Content-Disposition'] = 'attachment; filename={0}'.format(
         filename

@@ -218,6 +218,12 @@ class Project(models.Model, URLMixin, PathMixin):
 
         super(Project, self).save(*args, **kwargs)
 
+    def component_format_names(self):
+        format_names = []
+        for component in self.component_set.all():
+            format_names.append(unicode(component.file_format_name))
+        return ', '.join(format_names)
+
     def get_languages(self):
         """Return list of all languages used in project."""
         return Language.objects.filter(

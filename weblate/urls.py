@@ -65,18 +65,18 @@ def optional(route_part):
 LANGUAGE = r'(?P<lang>[^/]+)'
 
 # URL regexp for project
-PROJECT = r'project/(?P<project>[^/]+)/'
+PROJECT = r'(?P<project>[^/]+)'
 
-COMPONENT = r'component/(?P<component>[^/]+)/'
+COMPONENT = r'(?P<component>[^/]+)'
 
 # URL regexp for component
-COMPONENT_SCOPED_BY_PROJECT = PROJECT + COMPONENT
+COMPONENT_SCOPED_BY_PROJECT = PROJECT + '/' + COMPONENT + '/'
 
 # URL regexp for translations
-TRANSLATION = PROJECT + optional(COMPONENT) + LANGUAGE + '/'
+TRANSLATION = PROJECT + '/' + optional(COMPONENT + '/') + LANGUAGE + '/'
 
 # URL regexp for project language pages
-PROJECT_LANG = PROJECT + LANGUAGE + '/'
+PROJECT_LANG = PROJECT + '/' + LANGUAGE + '/'
 
 # URL regexp used as base for widgets
 WIDGET = r'(?P<widget>[^/-]+)-(?P<color>[^/-]+)'

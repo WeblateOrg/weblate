@@ -31,12 +31,21 @@ from weblate.utils import messages
 from weblate.utils.errors import report_error
 from weblate.trans.forms import get_upload_form, DownloadForm
 from weblate.trans.views.helper import (
-    get_translation, download_translation_file, show_form_errors,
+    get_translation, download_translation_files, show_form_errors,
 )
+from weblate.trans.models import Project
 
 
-def download_translation(request, project, component, lang):
-    obj = get_translation(request, project, component, lang)
+
+def download_translation(request, project, lang, component=None):
+    translations = []
+    if component == None:
+        projectRecord = Project.objects.get(slug=project)
+
+        for component in projectRecord.component_set.all():
+            translations.append(get_translation(request, project, component.slug, lang))
+    else:
+        translations.append(get_translation(request, project, component, lang))
 
     kwargs = {}
 
@@ -52,7 +61,7 @@ def download_translation(request, project, component, lang):
         )
         kwargs['fmt'] = form.cleaned_data['format']
 
-    return download_translation_file(obj, **kwargs)
+    return download_translation_files(translations, **kwargs)
 
 
 @require_POST
