@@ -91,6 +91,16 @@
 {% with object as project %}
 {% include "watch-dropdown.html" %}
 {% endwith %}
+
+  <li class="dropdown">
+    <a class="dropdown-toggle" type="button" id="dropdownMenuDownload" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+      <i class="fa fa-download"></i> {% trans "Download" %}
+      <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuDownload">
+      {% include "translation-download.html" %}
+  </ul>
+  </li>
 </ul>
 
 <div class="tab-content">

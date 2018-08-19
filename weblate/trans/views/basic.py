@@ -368,6 +368,7 @@ def show_project(request, project):
             'replace_form': replace_form,
             'mass_state_form': mass_state_form,
             'components': prefetch_stats(obj.component_set.select_related()),
+            'exporters': list_exporters()
         }
     )
 

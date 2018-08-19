@@ -5,32 +5,28 @@
     {% perm 'upload.perform' object as user_can_upload_translation %}
 {% endif %}
 
-{% if component != None %}
-    <li><a href="{% url 'download_translation' project=project.slug component=component.slug lang=language.code %}" title="{% trans "Download for an offline translation." %}">{% blocktrans with component.file_format_name as format %}Download original translation file ({{format}}){% endblocktrans %}</a></li>
-{% else %}
-    <li><a href="{% url 'download_translation' project=project.slug lang=language.code %}" title="{% trans "Download for an offline translation." %}">{% blocktrans with project.component_format_names as format %}Download original translation file ({{format}}){% endblocktrans %}</a></li>
-{% endif %}
+{% include "translation-download-link.html" %}
+
 <li role="separator" class="divider"></li>
+
 {% for exporter in exporters %}
-{% if component != None %}
-    <li><a href="{% url 'download_translation' project=project.slug component=component.slug lang=language.code %}?format={{ exporter.name }}" title="{% trans "Download for an offline translation." %}">{% blocktrans with exporter.verbose as format %}Download translation file as {{ format }}{% endblocktrans %}</a></li>
-{% else %}
-    <li><a href="{% url 'download_translation' project=project.slug lang=language.code %}?format={{ exporter.name }}" title="{% trans "Download for an offline translation." %}">{% blocktrans with exporter.verbose as format %}Download translation file as {{ format }}{% endblocktrans %}</a></li>
-{% endif %}
+    {% include "translation-download-link.html" %}
 {% endfor %}
+
 {% if stats.todo %}
-<li role="separator" class="divider"></li>
-{% for exporter in exporters %}
-{% if component != None %}
-    <li><a href="{% url 'download_translation' project=project.slug component=component.slug lang=language.code %}?format={{ exporter.name }}&amp;type=todo" title="{% trans "Download for an offline translation." %}">{% blocktrans with exporter.verbose as format %}Download strings needing action as {{ format }}{% endblocktrans %}</a></li>
-{% else %}
-    <li><a href="{% url 'download_translation' project=project.slug lang=language.code %}?format={{ exporter.name }}&amp;type=todo" title="{% trans "Download for an offline translation." %}">{% blocktrans with exporter.verbose as format %}Download strings needing action as {{ format }}{% endblocktrans %}</a></li>
+    <li role="separator" class="divider"></li>
+
+    {% for exporter in exporters %}
+        {% include "translation-download-link.html" with todo=True %}
+    {% endfor %}
 {% endif %}
-{% endfor %}
-{% endif %}
+
 <li role="separator" class="divider"></li>
+
 <li><a href="#download" data-toggle="tab">{% trans "Customize download" %}</a></li>
 {% if user_can_upload_translation %}
+
 <li role="separator" class="divider"></li>
+
 <li><a href="#upload" data-toggle="tab">{% trans "Upload translation" %}</a></li>
 {% endif %}

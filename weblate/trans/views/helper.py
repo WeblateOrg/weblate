@@ -109,7 +109,7 @@ def import_message(request, count, message_none, message_ok):
     else:
         messages.success(request, message_ok % count)
 
-def get_formatted_translation_file(translation, fmt, form_cleaned_data):
+def get_formatted_translation_file(translation, fmt, form_cleaned_data, http_response=False):
     try:
         exporter = get_exporter(fmt)(translation=translation)
     except KeyError:
@@ -124,15 +124,17 @@ def get_formatted_translation_file(translation, fmt, form_cleaned_data):
         units = translation.unit_set.all()
     exporter.add_units(units)
 
-    tmpFilePath = exporter.asTmpFile()
-     
     filename_template = '{{project}}-{0}-{{language}}.{{extension}}'.format(
         translation.component.slug
     )
+    
+    if http_response:
+        return exporter.get_response(filename_template)
+    else:    
+        tmpFilePath = exporter.asTmpFile()
+        filename = exporter.getFileName(filename_template)
 
-    filename = exporter.getFileName(filename_template)
-
-    return dict([('srcFilePath', tmpFilePath), ('destFileName', filename)])
+        return dict([('srcFilePath', tmpFilePath), ('destFileName', filename)])
     
 def get_translation_file(translation, fmt, form_cleaned_data):
     if fmt is not None:
@@ -148,7 +150,7 @@ def get_translation_file(translation, fmt, form_cleaned_data):
 def download_translation_file(translation, fmt=None, form_cleaned_data=None):
     if fmt is not None:
         # TODO: Fix to return HttpResponse version here
-        return get_formatted_translation_file(translation, fmt, form_cleaned_data)
+        return get_formatted_translation_file(translation, fmt, form_cleaned_data, http_response=True)
 
 
     # Force flushing pending units

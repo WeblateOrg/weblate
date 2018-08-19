@@ -37,15 +37,23 @@ from weblate.trans.models import Project
 
 
 
-def download_translation(request, project, lang, component=None):
-    translations = []
-    if component == None:
-        projectRecord = Project.objects.get(slug=project)
+def download_translation(request, project, component=None):
+    projectRecord = Project.objects.get(slug=project)
 
-        for component in projectRecord.component_set.all():
-            translations.append(get_translation(request, project, component.slug, lang))
+    if 'lang' in request.GET:
+        languages = [request.GET['lang']]
     else:
-        translations.append(get_translation(request, project, component, lang))
+        languages = [langRecord.code for langRecord in projectRecord.get_languages()]
+
+    translations = []
+
+
+    for lang in languages:
+        if component == None:
+            for projectsComponent in projectRecord.component_set.all():
+                translations.append(get_translation(request, project, projectsComponent.slug, lang))
+        else:
+            translations.append(get_translation(request, project, component, lang))
 
     kwargs = {}
 

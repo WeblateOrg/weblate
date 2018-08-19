@@ -73,7 +73,7 @@ COMPONENT = r'(?P<component>[^/]+)'
 COMPONENT_SCOPED_BY_PROJECT = PROJECT + '/' + COMPONENT + '/'
 
 # URL regexp for translations
-TRANSLATION = PROJECT + '/' + optional(COMPONENT + '/') + LANGUAGE + '/'
+TRANSLATION = PROJECT + '/' + COMPONENT + '/' + LANGUAGE + '/'
 
 # URL regexp for project language pages
 PROJECT_LANG = PROJECT + '/' + LANGUAGE + '/'
@@ -215,7 +215,7 @@ urlpatterns = [
         name='zen',
     ),
     url(
-        r'^download/' + TRANSLATION + '$',
+        r'^download/' + PROJECT + '/' + optional(COMPONENT + '/') + '$',
         weblate.trans.views.files.download_translation,
         name='download_translation',
     ),
