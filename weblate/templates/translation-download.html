@@ -1,7 +1,9 @@
 {% load i18n %}
 {% load permissions %}
 
-{ perm 'upload.perform' object as user_can_upload_translation %}
+{% if subject == 'translation'  %}
+    {% perm 'upload.perform' object as user_can_upload_translation %}
+{% endif %}
 
 {% if component != None %}
     <li><a href="{% url 'download_translation' project=project.slug component=component.slug lang=language.code %}" title="{% trans "Download for an offline translation." %}">{% blocktrans with component.file_format_name as format %}Download original translation file ({{format}}){% endblocktrans %}</a></li>
@@ -9,7 +11,6 @@
     <li><a href="{% url 'download_translation' project=project.slug lang=language.code %}" title="{% trans "Download for an offline translation." %}">{% blocktrans with project.component_format_names as format %}Download original translation file ({{format}}){% endblocktrans %}</a></li>
 {% endif %}
 <li role="separator" class="divider"></li>
-{{exporters}}
 {% for exporter in exporters %}
 {% if component != None %}
     <li><a href="{% url 'download_translation' project=project.slug component=component.slug lang=language.code %}?format={{ exporter.name }}" title="{% trans "Download for an offline translation." %}">{% blocktrans with exporter.verbose as format %}Download translation file as {{ format }}{% endblocktrans %}</a></li>

@@ -109,23 +109,34 @@ def import_message(request, count, message_none, message_ok):
     else:
         messages.success(request, message_ok % count)
 
-def get_formatted_translation_file(translation, fmt, units):
+def get_formatted_translation_file(translation, fmt, form_cleaned_data):
     try:
         exporter = get_exporter(fmt)(translation=translation)
     except KeyError:
         raise Http404('File format not supported')
+
+    units = translation.unit_set.search(
+        form_cleaned_data,
+        translation=translation,
+    )
+
     if units is None:
         units = translation.unit_set.all()
     exporter.add_units(units)
-    return exporter.get_response(
-        '{{project}}-{0}-{{language}}.{{extension}}'.format(
-            translation.component.slug
-        )
+
+    tmpFilePath = exporter.asTmpFile()
+     
+    filename_template = '{{project}}-{0}-{{language}}.{{extension}}'.format(
+        translation.component.slug
     )
+
+    filename = exporter.getFileName(filename_template)
+
+    return dict([('srcFilePath', tmpFilePath), ('destFileName', filename)])
     
-def get_translation_file(translation, fmt, units):
+def get_translation_file(translation, fmt, form_cleaned_data):
     if fmt is not None:
-        return get_formatted_translation_file(translation, fmt, units)
+        return get_formatted_translation_file(translation, fmt, form_cleaned_data)
 
     # Force flushing pending units
     translation.commit_pending('download', None)
@@ -134,9 +145,10 @@ def get_translation_file(translation, fmt, units):
 
     return srcfilename
 
-def download_translation_file(translation, fmt=None, units=None):
+def download_translation_file(translation, fmt=None, form_cleaned_data=None):
     if fmt is not None:
-        return get_formatted_translation_file(translation, fmt, units)
+        # TODO: Fix to return HttpResponse version here
+        return get_formatted_translation_file(translation, fmt, form_cleaned_data)
 
 
     # Force flushing pending units
@@ -171,11 +183,18 @@ def translation_filename(translation):
         translation.store.extension
     )
 
-def download_translation_files(translations, fmt=None, units=None):
+def download_translation_files(translations, fmt=None, form_cleaned_data=None):
     zipFileName = tempfile.TemporaryFile().name
     with zipfile.ZipFile(zipFileName, 'w') as translationsZip:
         for translation in translations:
-            translationsZip.write(get_translation_file(translation, fmt, units), translation_filename(translation))
+            translationFile = get_translation_file(translation, fmt, form_cleaned_data)
+            if isinstance(translationFile, dict):
+                import pdb; pdb.set_trace()
+                translationsZip.write(translationFile['srcFilePath'], translationFile['destFileName'])
+            else:            
+                translationsZip.write(translationFile, translation_filename(translation))
+
+
 
     # Create response
     with open(zipFileName) as handle:

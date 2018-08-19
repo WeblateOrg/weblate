@@ -54,11 +54,8 @@ def download_translation(request, project, lang, component=None):
         if not form.is_valid():
             show_form_errors(request, form)
             return redirect(obj)
-
-        kwargs['units'] = obj.unit_set.search(
-            form.cleaned_data,
-            translation=obj,
-        )
+        
+        kwargs['form_cleaned_data'] = form.cleaned_data
         kwargs['fmt'] = form.cleaned_data['format']
 
     return download_translation_files(translations, **kwargs)

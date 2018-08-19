@@ -59,7 +59,6 @@ from weblate.trans.util import render, sort_objects, sort_unicode
 from weblate.vcs.gpg import get_gpg_public_key, get_gpg_sign_key
 from weblate.vcs.ssh import get_key_data
 
-
 def get_untranslated(base, limit=None):
     """Filter untranslated."""
     result = []

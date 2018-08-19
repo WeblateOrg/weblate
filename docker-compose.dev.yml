@@ -11,6 +11,8 @@ version: '2'
 
 services:
   weblate:
+    stdin_open: true
+    tty: true
     image: weblate-dev:latest
     build:
       context: .

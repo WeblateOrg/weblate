@@ -45,7 +45,7 @@
       {% trans "Files" %} <span class="caret"></span>
     </a>
     <ul class="dropdown-menu">
-{% include "translation-download.html" with component=object.component language=object.language %}
+      { % include "translation-download.html" with component=object.component language=object.language subject='translation' %}
     </ul>
   </li>
   <li class="dropdown">
@@ -180,7 +180,7 @@
     <span class="caret"></span>
   </button>
   <ul class="dropdown-menu" aria-labelledby="dropdownMenuDownload">
-    {% include "translation-download.html" with component=object.component language=object.language %}
+    {% include "translation-download.html" with component=object.component language=object.language subject='translation' %}
   </ul>
 </div>
 {{ object.filename }}

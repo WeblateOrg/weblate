@@ -17,8 +17,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+
+
 """Exporter using translate-toolkit"""
 from __future__ import unicode_literals
+
+import tempfile
 
 from django.http import HttpResponse
 from django.utils.translation import ugettext_lazy as _
@@ -141,13 +145,21 @@ class BaseExporter(object):
             output.markfuzzy(True)
         self.storage.addunit(output)
 
-    def get_response(self, filetemplate='{project}-{language}.{extension}'):
-        filename = filetemplate.format(
+    def asTmpFile(self):
+        tmpFilePath = tempfile.TemporaryFile().name
+        with open(tmpFilePath, 'w') as handle:
+            handle.write(self.serialize())
+        return tmpFilePath
+
+    def getFileName(self, filetemplate='{project}-{language}.{extension}'):
+        return filetemplate.format(
             project=self.project.slug,
             language=self.language.code,
             extension=self.extension
         )
 
+    def get_response(self, filetemplate='{project}-{language}.{extension}'):
+        filename = self.getFileName(filetemplate)
         response = HttpResponse(
             content_type='{0}; charset=utf-8'.format(self.content_type)
         )
