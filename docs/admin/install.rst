@@ -1016,6 +1016,7 @@ recommended to use separate, file backed cache for this purpose:
 .. seealso::
 
     :setting:`ENABLE_AVATARS`, 
+    :setting:`AVATAR_URL_PREFIX`,
     :ref:`avatars`,
     :ref:`production-cache`, 
     :doc:`django:topics/cache`

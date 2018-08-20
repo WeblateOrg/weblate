@@ -161,6 +161,7 @@ Weblate currently supports single backend:
 .. seealso:: 
    
    :ref:`production-cache-avatar`,
+   :setting:`AVATAR_URL_PREFIX`,
    :setting:`ENABLE_AVATARS`
 
 Spam protection

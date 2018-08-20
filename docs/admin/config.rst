@@ -58,6 +58,26 @@ Defaults to 10.
 
     :ref:`rate-limit`,
 
+.. setting:: AVATAR_URL_PREFIX
+
+AVATAR_URL_PREFIX
+-----------------
+
+Prefix for constructing avatar URLs. The URL will be constructed like:
+``${AVATAR_URL_PREFIX}/avatar/${MAIL_HASH}?${PARAMS}``. Following services are
+known to work:
+
+Gravatar (default), see https://gravatar.com/
+    ``AVATAR_URL_PREFIX = 'https://www.gravatar.com/'``
+Libravatar, see https://www.libravatar.org/
+   ``AVATAR_URL_PREFIX = 'https://seccdn.libravatar.org/'``
+
+.. seealso::
+
+   :ref:`production-cache-avatar`,
+   :setting:`ENABLE_AVATARS`,
+   :ref:`avatars`
+
 .. setting:: RATELIMIT_ATTEMPTS
 
 RATELIMIT_ATTEMPTS
@@ -413,6 +433,7 @@ this.
 .. seealso::
 
    :ref:`production-cache-avatar`,
+   :setting:`AVATAR_URL_PREFIX`,
    :ref:`avatars`
 
 .. setting:: ENABLE_HOOKS
