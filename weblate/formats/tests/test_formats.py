@@ -423,7 +423,8 @@ class XliffFormatTest(XMLMixin, AutoFormatTest):
     MASK = 'loc/*/default.xliff'
     EXPECTED_PATH = 'loc/cs_CZ/default.xliff'
     NEW_UNIT_MATCH = (
-        b'<trans-unit xml:space="preserve" id="key" approved="no"><source>key</source>'
+        b'<trans-unit xml:space="preserve" id="key" approved="no">'
+        b'<source>key</source>'
         b'<target state="translated">Source string</target></trans-unit>'
     )
 

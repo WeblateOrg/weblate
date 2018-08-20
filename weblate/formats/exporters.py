@@ -300,8 +300,9 @@ class CSVExporter(BaseExporter):
 
         This is really bad idea, implemented in Excel, as this change leads
         to displaying additional ' in all other tools, but this seems to be
-        what most people have gotten used to. Hopefully these chars are not widely
-        used at first position of translatable strings, so that harm is reduced.
+        what most people have gotten used to. Hopefully these chars are not
+        widely used at first position of translatable strings, so that harm is
+        reduced.
         """
         if text and text[0] in ('=', '+', '-', '@', '|', '%'):
             return "'{0}'".format(text.replace('|', '\\|'))

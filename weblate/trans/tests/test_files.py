@@ -450,7 +450,8 @@ class ExportTest(ViewTestCase):
         )
         self.assertEqual(
             response['Content-Type'],
-            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8'
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            '; charset=utf-8'
         )
 
     def test_export_invalid(self):

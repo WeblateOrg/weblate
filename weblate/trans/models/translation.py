@@ -52,6 +52,7 @@ from weblate.trans.models.change import Change
 from weblate.trans.checklists import TranslationChecklist
 from weblate.utils.invalidate import InvalidateContext
 
+
 class TranslationManager(models.Manager):
     def check_sync(self, component, lang, code, path, force=False,
                    request=None):

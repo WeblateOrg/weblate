@@ -28,6 +28,7 @@ from weblate.lang.data import DEFAULT_LANGS
 WSDL_URL = 'http://api.terminology.microsoft.com/Terminology.svc?wsdl'
 WSDL_URL = 'http://api.terminology.microsoft.com/Terminology.svc?singleWsdl'
 
+
 class MicrosoftTerminologyService(MachineTranslation):
     """
     The Microsoft Terminology Service API.
@@ -73,12 +74,12 @@ class MicrosoftTerminologyService(MachineTranslation):
         if not result:
             return translations
 
-        for translation in result:
+        for item in result:
             translations.append((
-                translation['Translations']['Translation'][0]['TranslatedText'],
-                translation['ConfidenceLevel'],
+                item['Translations']['Translation'][0]['TranslatedText'],
+                item['ConfidenceLevel'],
                 self.name,
-                translation['OriginalText'],
+                item['OriginalText'],
             ))
         return translations
 

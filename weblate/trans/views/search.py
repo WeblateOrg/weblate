@@ -218,7 +218,9 @@ def search(request, project=None, component=None, lang=None):
         context['query_string'] = search_form.urlencode()
         context['search_query'] = search_form.cleaned_data['q']
     elif is_ratelimited:
-        messages.error(request, _('Too many search queries, please try again later.'))
+        messages.error(
+            request, _('Too many search queries, please try again later.')
+        )
     elif request.GET:
         messages.error(request, _('Invalid search query!'))
 

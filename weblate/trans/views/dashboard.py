@@ -31,7 +31,7 @@ from django.utils.translation.trans_real import parse_accept_lang_header
 
 from weblate.utils import messages
 from weblate.utils.stats import prefetch_stats
-from weblate.trans.models import Project, Translation, ComponentList
+from weblate.trans.models import Translation, ComponentList
 from weblate.lang.models import Language
 from weblate.trans.forms import SiteSearchForm
 from weblate.accounts.models import Profile
@@ -243,7 +243,7 @@ def dashboard_anonymous(request):
     all_projects = prefetch_stats(request.user.allowed_projects)
     top_projects = sorted(
         all_projects,
-        key=lambda prj:-prj.stats.recent_changes
+        key=lambda prj: -prj.stats.recent_changes
     )
 
     return render(
@@ -254,4 +254,3 @@ def dashboard_anonymous(request):
             'all_projects': len(all_projects),
         }
     )
-

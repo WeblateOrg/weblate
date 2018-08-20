@@ -768,7 +768,8 @@ class Component(models.Model, URLMixin, PathMixin):
         """Return list of components which link repository to us."""
         return self.component_set.prefetch()
 
-    def commit_pending(self, reason, request, from_link=False, skip_push=False):
+    def commit_pending(self, reason, request, from_link=False,
+                       skip_push=False):
         """Check whether there is any translation which needs commit."""
 
         # If we're not recursing, call on parent

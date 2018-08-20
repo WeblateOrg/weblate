@@ -61,12 +61,16 @@ class ComponentTest(RepoTestCase):
             self.assertTrue(translation.unit_set.filter(source=unit).exists())
 
         if component.has_template() and component.edit_template:
-            translation = component.translation_set.get(filename=component.template)
+            translation = component.translation_set.get(
+                filename=component.template
+            )
             # Count units in it
             self.assertEqual(translation.unit_set.count(), units)
             # Count translated units in it
             self.assertEqual(
-                translation.unit_set.filter(state__gte=STATE_TRANSLATED).count(),
+                translation.unit_set.filter(
+                    state__gte=STATE_TRANSLATED
+                ).count(),
                 units
             )
 

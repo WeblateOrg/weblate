@@ -142,7 +142,8 @@ class Repository(object):
         return get_clean_env({'GIT_SSH': get_wrapper_filename()})
 
     @classmethod
-    def _popen(cls, args, cwd=None, err=False, fullcmd=False, raw=False, local=False):
+    def _popen(cls, args, cwd=None, err=False, fullcmd=False, raw=False,
+               local=False):
         """Execute the command using popen."""
         if args is None:
             raise RepositoryException(0, 'Not supported functionality', '')
