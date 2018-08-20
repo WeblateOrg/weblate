@@ -466,6 +466,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             self.click(element)
 
     def test_activity(self):
+        self.do_login()
         # Generate nice changes data
         for day in range(365):
             for i in range(int(10 + 10 * math.sin(2 * math.pi * day / 30))):
