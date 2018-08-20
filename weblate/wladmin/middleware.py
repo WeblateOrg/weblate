@@ -25,7 +25,7 @@ from django.core.exceptions import MiddlewareNotUsed
 from django.utils.timezone import now
 
 from weblate.wladmin.models import ConfigurationError
-from weblate.wladmin.performance import run_index_queue, run_cache
+from weblate.wladmin.performance import run_cache
 
 
 class ConfigurationErrorsMiddleware(object):
@@ -53,14 +53,6 @@ class ConfigurationErrorsMiddleware(object):
                     error['message'],
                     error['timestamp'] if 'timestamp' in error else now(),
                 )
-        if self.does_fire(run_index_queue):
-            ConfigurationError.objects.add(
-                'Offloaded index',
-                'The processing seems to be slow, '
-                'there are more than 20000 entries to process.'
-            )
-        else:
-            ConfigurationError.objects.remove('Offloaded index')
         if self.does_fire(run_cache):
             ConfigurationError.objects.add(
                 'Cache',

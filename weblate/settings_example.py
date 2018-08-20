@@ -629,9 +629,6 @@ BACKGROUND_HOOKS = True
 # Number of nearby messages to show in each direction
 NEARBY_MESSAGES = 5
 
-# Offload indexing
-OFFLOAD_INDEXING = False
-
 # Use simple language codes for default language/country combinations
 SIMPLIFY_LANGUAGES = True
 

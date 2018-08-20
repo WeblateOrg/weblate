@@ -943,19 +943,6 @@ several other related Django settings in the example configuration.
 You might want to configure HSTS as well, see
 :ref:`django:security-recommendation-ssl` for more details.
 
-.. _production-indexing:
-
-Enable indexing offloading
-++++++++++++++++++++++++++
-
-Enable :setting:`OFFLOAD_INDEXING` to prevent locking issues and improve
-performance. Don't forget to schedule indexing as a background job to keep the
-index up to date.
-
-.. seealso::
-
-   :ref:`fulltext`, :setting:`OFFLOAD_INDEXING`, :ref:`production-cron`
-
 .. _production-database:
 
 Use powerful database engine
@@ -1207,9 +1194,6 @@ On a Unix-likesystem, this can be scheduled using cron:
 
 .. code-block:: text
 
-    # Fulltext index updates
-    */5 * * * * cd /usr/share/weblate/; ./manage.py update_index
-
     # Cleanup stale objects
     @daily cd /usr/share/weblate/; ./manage.py cleanuptrans
 
@@ -1218,7 +1202,7 @@ On a Unix-likesystem, this can be scheduled using cron:
 
 .. seealso::
 
-   :ref:`production-indexing`, :djadmin:`update_index`, :djadmin:`cleanuptrans`, :djadmin:`commit_pending`
+   :ref:`production-indexing`, :djadmin:`cleanuptrans`, :djadmin:`commit_pending`
 
 .. _server:
 

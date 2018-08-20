@@ -431,19 +431,10 @@ components and then it's just a matter of running :djadmin:`import_project` or
 Fulltext search
 ---------------
 
-Fulltext search is based on Whoosh. You can either allow Weblate to directly
-update the index on every change to content or offload this to separate process by
-:setting:`OFFLOAD_INDEXING`.
-
-The first approach (immediate updates) allows for a more up to date index, but
-suffers locking issues in some setups (eg. Apache's mod_wsgi) and produces a more
-fragmented index.
-
-Offloaded indexing is always the better choice for production setup - it only marks
-which items need to be reindexed and you need to schedule a background process
-(:djadmin:`update_index`) to update index. This leads to a faster response of the
-site and less fragmented index with the cost that it might be slightly outdated.
+Fulltext search is based on Whoosh. It is processed in background if Celery is
+configured.  This leads to a faster response of the site and less fragmented
+index with the cost that it might be slightly outdated.
 
 .. seealso:: 
    
-   :djadmin:`update_index`, :setting:`OFFLOAD_INDEXING`, :ref:`faq-ft-slow`, :ref:`faq-ft-lock`, :ref:`faq-ft-space`
+   :ref:`faq-ft-slow`, :ref:`faq-ft-lock`, :ref:`faq-ft-space`

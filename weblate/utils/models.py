@@ -47,5 +47,9 @@ class CeleryConf(AppConf):
     # List Celery beats (scheduled tasks)
     BEAT_SCHEDULE = {}
 
+    CELERY_IMPORTS = [
+        'weblate.trans.search',
+    ]
+
     class Meta(object):
         prefix = 'CELERY'

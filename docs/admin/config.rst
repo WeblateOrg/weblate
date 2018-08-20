@@ -896,24 +896,6 @@ NEARBY_MESSAGES
 
 How many messages around current one to show during translating.
 
-.. setting:: OFFLOAD_INDEXING
-
-OFFLOAD_INDEXING
-----------------
-
-Offload updating of fulltext index to separate process. This heavily
-improves responsiveness of online operation on expense of slightly
-outdated index, which might still point to older content.
-
-While enabling this, don't forget scheduling runs of
-:djadmin:`update_index` in cron or similar tool.
-
-This is the recommended setup for production use.
-
-.. seealso::
-
-   :ref:`fulltext`
-
 .. setting:: PIWIK_SITE_ID
 
 PIWIK_SITE_ID

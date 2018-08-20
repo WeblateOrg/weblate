@@ -1,6 +1,6 @@
-#!/bin/sh
+# -*- coding: utf-8 -*-
 #
-# Copyright © 2014 Daniel Tschan <tschan@puzzle.ch>
+# Copyright © 2012 - 2018 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,16 +18,19 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-# Work around https://bugzilla.redhat.com/show_bug.cgi?id=1157830
-for file in ~/.env/user_vars/*; do
-  key=$(basename $file)
-  export $key="$(< $file)"
-done
+"""Whoosh based full text search."""
 
-SECONDS_SINCE_LAST_RUN=`echo \`date +%s\` - 0\`stat -c%Y ${OPENSHIFT_DATA_DIR}/.update_index 2>/dev/null\` | bc`
+from __future__ import absolute_import, unicode_literals
 
-if [ $SECONDS_SINCE_LAST_RUN -ge 300 ]; then
-	source ${OPENSHIFT_HOMEDIR}/python/virtenv/bin/activate
-	python ${OPENSHIFT_REPO_DIR}/openshift/manage.py update_index
-	touch ${OPENSHIFT_DATA_DIR}/.update_index
-fi
+
+def extract_batch_args(*args):
+    """
+    Wrapper to extract args from batch task.
+
+    It can be either passed directly in eager mode or as requests in
+    batch mode.
+    """
+    if isinstance(args[0], list):
+        return [request.args for request in args]
+    else:
+        return [args]

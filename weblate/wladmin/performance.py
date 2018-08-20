@@ -120,37 +120,6 @@ def run_admin(checks, request):
 
 
 @register_check
-def run_index(checks, request):
-    """Check offloading indexing"""
-    checks.append((
-        # Translators: Indexing is postponed to cron job
-        _('Indexing offloading'),
-        settings.OFFLOAD_INDEXING,
-        'production-indexing',
-        settings.OFFLOAD_INDEXING
-    ))
-
-
-@register_check
-def run_index_queue(checks, request):
-    if settings.OFFLOAD_INDEXING:
-        if IndexUpdate.objects.count() < 1000:
-            index_updates = True
-        elif IndexUpdate.objects.count() < 20000:
-            index_updates = None
-        else:
-            index_updates = False
-
-        checks.append((
-            # Translators: Indexing is postponed to cron job
-            _('Indexing offloading queue'),
-            index_updates,
-            'production-indexing',
-            IndexUpdate.objects.count(),
-        ))
-
-
-@register_check
 def run_cache(checks, request):
     """Check for sane caching"""
     caches = settings.CACHES['default']['BACKEND'].split('.')[-1]

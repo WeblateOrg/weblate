@@ -64,9 +64,6 @@ class WeblateConf(AppConf):
     # Enable lazy commits
     COMMIT_PENDING_HOURS = 24
 
-    # Offload indexing
-    OFFLOAD_INDEXING = False
-
     # List of quality checks
     CHECK_LIST = (
         'weblate.checks.same.SameCheck',

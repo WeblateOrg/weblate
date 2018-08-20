@@ -364,40 +364,6 @@ class PeriodicCommandTest(RepoTestCase):
             Suggestion.objects.count(), 0
         )
 
-    def test_update_index_empty(self):
-        output = StringIO()
-        call_command(
-            'update_index',
-            stdout=output
-        )
-        self.assertEqual('', output.getvalue())
-
-    def test_update_index(self):
-        IndexUpdate.objects.create(
-            unitid=666,
-            language_code='fo',
-            to_delete=False,
-            source=False,
-        )
-        IndexUpdate.objects.create(
-            unitid=777,
-            language_code='fo',
-            to_delete=False,
-            source=False,
-        )
-        IndexUpdate.objects.create(
-            unitid=888,
-            language_code='fo',
-            to_delete=False,
-            source=True,
-        )
-        output = StringIO()
-        call_command(
-            'update_index',
-            stdout=output
-        )
-        self.assertEqual('', output.getvalue())
-
 
 class CheckGitTest(RepoTestCase):
     """Base class for handling tests of WeblateComponentCommand
