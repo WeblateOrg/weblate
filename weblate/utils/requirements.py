@@ -166,6 +166,13 @@ def get_versions():
     ))
 
     result.append(get_single(
+        'celery-batches',
+        'https://pypi.org/project/celery-batches/',
+        'celery_batches',
+        '0.2',
+    ))
+
+    result.append(get_single(
         'six',
         'https://pypi.org/project/six/',
         'six',

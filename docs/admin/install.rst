@@ -40,6 +40,8 @@ Django (>= 1.11)
     https://www.djangoproject.com/
 Celery (>= 4.0)
     http://www.celeryproject.org/
+celery-batches (>= 0.2)
+    https://pypi.org/project/celery-batches/
 siphashc (>= 0.8)
     https://github.com/WeblateOrg/siphashc
 translate-toolkit (>= 2.3.0)
