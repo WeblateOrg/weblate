@@ -42,6 +42,7 @@ import weblate.trans.views.agreement
 import weblate.trans.views.api
 import weblate.trans.views.basic
 import weblate.trans.views.charts
+import weblate.trans.views.dashboard
 import weblate.trans.views.dictionary
 import weblate.trans.views.edit
 import weblate.trans.views.files

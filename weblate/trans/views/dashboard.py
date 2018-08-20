@@ -132,9 +132,7 @@ def get_user_translations(request, user):
 
 @never_cache
 def home(request):
-    """Home page of Weblate showing list of projects, stats
-    and user links if logged in.
-    """
+    """Home page handler serving different views based on user."""
 
     if 'show_set_password' in request.session:
         messages.warning(
@@ -156,6 +154,17 @@ def home(request):
                 'however you are welcome to contribute to other ones.'
             )
         )
+
+    if not request.user.is_authenticated:
+        return dashboard_anonymous(request)
+
+    return dashboard_user(request)
+
+
+def dashboard_user(request):
+    """Home page of Weblate showing list of projects, stats
+    and user links if logged in.
+    """
 
     user = request.user
 
@@ -214,7 +223,7 @@ def home(request):
 
     return render(
         request,
-        'index.html',
+        'dashboard/user.html',
         {
             'allow_index': True,
             'suggestions': suggestions,
@@ -224,6 +233,25 @@ def home(request):
             'componentlists': componentlists,
             'all_componentlists': prefetch_stats(ComponentList.objects.all()),
             'active_tab_slug': active_tab_slug,
+        }
+    )
+
+
+def dashboard_anonymous(request):
+    """Home page of Weblate showing list of projects for anonymous user."""
+
+    all_projects = prefetch_stats(request.user.allowed_projects)
+    top_projects = sorted(
+        all_projects,
+        key=lambda prj:-prj.stats.recent_changes
+    )
+
+    return render(
+        request,
+        'dashboard/anonymous.html',
+        {
+            'top_projects': top_projects[:20],
+            'all_projects': len(all_projects),
         }
     )
 

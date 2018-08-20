@@ -21,11 +21,13 @@
 from __future__ import unicode_literals
 
 from copy import copy
+from datetime import timedelta
 
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Sum, Count
 from django.utils.functional import cached_property
+from django.utils import timezone
 
 from weblate.trans.filter import get_filter_choice
 from weblate.utils.query import conditional_sum
@@ -420,8 +422,21 @@ class ProjectStats(BaseStats):
         # Calculate percents
         self.calculate_basic_percents()
 
+        # Count recent changes
+        self.count_recent_changes()
+
+    def count_recent_changes(self):
+        date = timezone.now() - timedelta(days=30)
+        self.store(
+            'recent_changes',
+            self._object.change_set.filter(timestamp__gt=date).count()
+        )
+
     def calculate_item(self, item):
         """Calculate stats for translation."""
+        if item == 'recent_changes':
+            self.count_recent_changes()
+            return
         result = 0
         for component in self.component_set:
             result += getattr(component.stats, item)

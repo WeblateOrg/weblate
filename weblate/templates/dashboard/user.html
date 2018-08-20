@@ -5,17 +5,6 @@
 
 {% block content %}
 
-{% if not user.is_authenticated %}
-<p class="alert alert-info">
-{% if demo_server %}
-{% blocktrans %}This site runs {{ weblate_name_link }} demo server.{% endblocktrans %}
-{% else %}
-{% blocktrans %}This site runs {{ weblate_name_link }} for translating the software projects listed below.{% endblocktrans %}
-{% endif %}
-{% trans "You need to be logged in to translate, otherwise you can only make suggestions." %}
-</p>
-{% endif %}
-
 {% whiteboard_messages %}
 
 

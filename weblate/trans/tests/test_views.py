@@ -602,7 +602,12 @@ class BasicLinkViewTest(BasicViewTest):
 
 
 class HomeViewTest(ViewTestCase):
-    """Test for home/inidex view."""
+    """Test for home/index view."""
+    def test_view_home_anonymous(self):
+        self.client.logout()
+        response = self.client.get(reverse('home'))
+        self.assertContains(response, 'Browse 1 project')
+
     def test_view_home(self):
         response = self.client.get(reverse('home'))
         self.assertContains(response, 'Test/Test')
