@@ -11,6 +11,7 @@ Released on ? 2018.
 * Added support for export and import of Excel files.
 * Improve component cleanup in case of multiple component discovery addons.
 * Rewritten Microsoft Terminology machine translation backend.
+* Weblate now uses Celery to offload some processing.
 
 weblate 3.1.1
 -------------
