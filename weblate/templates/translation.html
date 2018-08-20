@@ -45,7 +45,7 @@
       {% trans "Files" %} <span class="caret"></span>
     </a>
     <ul class="dropdown-menu">
-      { % include "translation-download.html" with component=object.component language=object.language subject='translation' %}
+      {% include "translation-download.html" with component=object.component language=object.language subject='translation' %}
     </ul>
   </li>
   <li class="dropdown">
@@ -275,7 +275,7 @@
 {% endif %}
 
 <div class="tab-pane" id="download">
-<form action="{% url 'download_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" method="get" data-persist="download-translation">
+<form action="{% url 'download_translation' project=object.component.project.slug component=object.component.slug %}?lang={{object.language.code}}" method="get" data-persist="download-translation">
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Customize download" %}</h4></div>
 <div class="panel-body">

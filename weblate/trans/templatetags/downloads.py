@@ -10,11 +10,17 @@ def download_translation_url(context):
         template += "component=component.slug"
         
     template += "%}"
+
+    query_params = []
     if context.get('exporter') != None:
-        template += "?format={{exporter.name}}"
+        query_params.append("format={{exporter.name}}")
         
     if context.get('language') != None:
-        template += "&lang={{language.code}}"
+        query_params.append("lang={{language.code}}")
+
+    if query_params.__sizeof__ > 0:
+        template += '?'
+        template += "&".join(query_params)
 
     return Template(template).render(context)
 

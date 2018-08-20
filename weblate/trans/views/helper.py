@@ -18,6 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 """Helper methods for views."""
+import shutil
 import tempfile
 import zipfile
 
@@ -109,7 +110,7 @@ def import_message(request, count, message_none, message_ok):
     else:
         messages.success(request, message_ok % count)
 
-def get_formatted_translation_file(translation, fmt, form_cleaned_data, http_response=False):
+def get_formatted_translation_file(translation, fmt, form_cleaned_data, http_response=False, tmpdir=None):
     try:
         exporter = get_exporter(fmt)(translation=translation)
     except KeyError:
@@ -122,6 +123,7 @@ def get_formatted_translation_file(translation, fmt, form_cleaned_data, http_res
 
     if units is None:
         units = translation.unit_set.all()
+    
     exporter.add_units(units)
 
     filename_template = '{{project}}-{0}-{{language}}.{{extension}}'.format(
@@ -131,14 +133,15 @@ def get_formatted_translation_file(translation, fmt, form_cleaned_data, http_res
     if http_response:
         return exporter.get_response(filename_template)
     else:    
-        tmpFilePath = exporter.asTmpFile()
         filename = exporter.getFileName(filename_template)
+        filePath = tmpdir + '/' + filename
+        tmpFilePath = exporter.writeToFile(filePath)
 
-        return dict([('srcFilePath', tmpFilePath), ('destFileName', filename)])
+        return dict([('srcFilePath', filePath), ('destFileName', filename)])
     
-def get_translation_file(translation, fmt, form_cleaned_data):
+def get_translation_file(translation, fmt, form_cleaned_data, tmpdir):
     if fmt is not None:
-        return get_formatted_translation_file(translation, fmt, form_cleaned_data)
+        return get_formatted_translation_file(translation, fmt, form_cleaned_data, tmpdir=tmpdir)
 
     # Force flushing pending units
     translation.commit_pending('download', None)
@@ -149,7 +152,6 @@ def get_translation_file(translation, fmt, form_cleaned_data):
 
 def download_translation_file(translation, fmt=None, form_cleaned_data=None):
     if fmt is not None:
-        # TODO: Fix to return HttpResponse version here
         return get_formatted_translation_file(translation, fmt, form_cleaned_data, http_response=True)
 
 
@@ -186,33 +188,34 @@ def translation_filename(translation):
     )
 
 def download_translation_files(translations, fmt=None, form_cleaned_data=None):
-    zipFileName = tempfile.TemporaryFile().name
-    with zipfile.ZipFile(zipFileName, 'w') as translationsZip:
-        for translation in translations:
-            translationFile = get_translation_file(translation, fmt, form_cleaned_data)
-            if isinstance(translationFile, dict):
-                import pdb; pdb.set_trace()
-                translationsZip.write(translationFile['srcFilePath'], translationFile['destFileName'])
-            else:            
-                translationsZip.write(translationFile, translation_filename(translation))
+    try:
+        dirname = tempfile.mkdtemp()
+        zipFilePath = dirname + '/translations.zip'
+        with zipfile.ZipFile(zipFilePath, 'w') as translationsZip:
+            for translation in translations:
+                translationFile = get_translation_file(translation, fmt, form_cleaned_data, dirname)
+                if isinstance(translationFile, dict):
+                    translationsZip.write(translationFile['srcFilePath'], translationFile['destFileName'])
+                else:            
+                    translationsZip.write(translationFile, translation_filename(translation))
 
+        with open(zipFilePath, 'r') as translationsZipRaw:
+            response = HttpResponse(
+                translationsZipRaw.read(),
+                content_type='application/zip'
+            )
 
+            filename = 'translations.zip'
 
-    # Create response
-    with open(zipFileName) as handle:
-        response = HttpResponse(
-            handle.read(),
-            content_type='application/zip'
-        )
+            # Fill in response headers
+            response['Content-Disposition'] = 'attachment; filename={0}'.format(
+                filename
+            )
 
-    filename = 'translations.zip'
+            return response
+    finally:
+        shutil.rmtree(dirname)
 
-    # Fill in response headers
-    response['Content-Disposition'] = 'attachment; filename={0}'.format(
-        filename
-    )
-
-    return response
 
 
 def show_form_errors(request, form):

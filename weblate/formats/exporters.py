@@ -145,11 +145,9 @@ class BaseExporter(object):
             output.markfuzzy(True)
         self.storage.addunit(output)
 
-    def asTmpFile(self):
-        tmpFilePath = tempfile.TemporaryFile().name
-        with open(tmpFilePath, 'w') as handle:
+    def writeToFile(self, filePath):
+        with open(filePath, 'w') as handle:
             handle.write(self.serialize())
-        return tmpFilePath
 
     def getFileName(self, filetemplate='{project}-{language}.{extension}'):
         return filetemplate.format(
