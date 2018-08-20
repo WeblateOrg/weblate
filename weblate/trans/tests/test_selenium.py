@@ -319,7 +319,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             )
 
         # We should be back on home page
-        self.driver.find_element_by_id('suggestions')
+        self.driver.find_element_by_id('browse-projects')
 
     def register_user(self):
         # registration page

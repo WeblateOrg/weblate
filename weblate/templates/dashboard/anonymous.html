@@ -18,6 +18,6 @@
 
 {% include "list-projects.html" with projects=top_projects %}
 
-<p><a class="btn btn-default" href="{% url 'projects' %}">{% blocktrans count count=all_projects %}Browse {{ count }} project{% plural %}Browse all {{ count }} projects{% endblocktrans %}</a></p>
+<p><a class="btn btn-default" id="browse-projects" href="{% url 'projects' %}">{% blocktrans count count=all_projects %}Browse {{ count }} project{% plural %}Browse all {{ count }} projects{% endblocktrans %}</a></p>
 
 {% endblock %}
