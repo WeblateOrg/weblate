@@ -119,6 +119,8 @@ var _rollbarConfig = {
           </ul>
         </li>
         {% endif %}
+        <li><a href="{% url 'projects' %}">{% trans "Projects" %}</a></li>
+        <li><a href="{% url 'languages' %}">{% trans "Languages" %}</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right flip">
         {% if user.is_authenticated %}
