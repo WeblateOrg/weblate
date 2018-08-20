@@ -786,6 +786,3 @@ REST_FRAMEWORK = {
 #    r'/contact/$',             # Optional for contact form
 #    r'/legal/(.*)$',           # Optional for legal app
 # )
-
-# Force sane test runner
-TEST_RUNNER = 'django.test.runner.DiscoverRunner'
