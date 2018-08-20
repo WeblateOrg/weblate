@@ -88,7 +88,7 @@ handler500 = weblate.trans.views.basic.server_error
 urlpatterns = [
     url(
         r'^$',
-        weblate.trans.views.basic.home,
+        weblate.trans.views.dashboard.home,
         name='home',
     ),
     url(
