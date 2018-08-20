@@ -40,6 +40,7 @@ from weblate.trans.models import Component
 from weblate.trans.views.helper import get_project, get_component
 from weblate.trans.stats import get_project_stats
 from weblate.utils.errors import report_error
+from weblate.utils.invalidate import InvalidateContext
 from weblate.logger import LOGGER
 
 
@@ -78,7 +79,8 @@ HOOK_HANDLERS = {}
 
 def background_hook(method):
     try:
-        method()
+        with InvalidateContext():
+            method()
     except Exception as error:
         report_error(error, sys.exc_info())
 
