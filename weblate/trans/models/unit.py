@@ -95,7 +95,6 @@ class UnitManager(models.Manager):
         created = False
 
         # Try getting existing unit
-        created = False
         try:
             dbunit = translation.unit_set.get(id_hash=id_hash)
         except Unit.MultipleObjectsReturned:
