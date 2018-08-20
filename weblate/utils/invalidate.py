@@ -28,8 +28,10 @@ class InvalidateContext(object):
 
     """Batches cache invalidations"""
     def __init__(self):
-        self.storage.active = 0
-        self.storage.translations = {}
+        if not hasattr(self.storage, 'active'):
+            self.storage.active = 0
+        if not hasattr(self.storage, 'translations'):
+            self.storage.translations = {}
 
     @classmethod
     def is_active(cls):
