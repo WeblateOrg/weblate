@@ -32,6 +32,7 @@ from weblate.auth.models import User
 from weblate.accounts.models import Profile, AuditLog
 from weblate.utils.site import get_site_url, get_site_domain
 from weblate.utils.errors import report_error
+from weblate.utils.invalidate import InvalidateContext
 from weblate.utils.request import get_ip_address, get_user_agent
 from weblate import VERSION
 from weblate.logger import LOGGER
@@ -245,6 +246,9 @@ def get_notification_email(language, email, notification,
                            translation_obj=None, context=None, headers=None,
                            user=None, info=None):
     """Render notification email."""
+    # Flush possible pending cache invalidation
+    InvalidateContext().flush()
+
     cur_language = django_translation.get_language()
     context = context or {}
     headers = headers or {}
