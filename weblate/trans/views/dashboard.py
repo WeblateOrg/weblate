@@ -134,16 +134,6 @@ def get_user_translations(request, user):
 def home(request):
     """Home page handler serving different views based on user."""
 
-    if 'show_set_password' in request.session:
-        messages.warning(
-            request,
-            _(
-                'You have activated your account, now you should set '
-                'the password to be able to login next time.'
-            )
-        )
-        return redirect('password')
-
     # This is used on Hosted Weblate to handle removed translation projects.
     # The redirect itself is done in the http server.
     if 'removed' in request.GET:
@@ -158,6 +148,27 @@ def home(request):
     if not request.user.is_authenticated:
         return dashboard_anonymous(request)
 
+    if 'show_set_password' in request.session:
+        messages.warning(
+            request,
+            _(
+                'You have activated your account, now you should set '
+                'the password to be able to login next time.'
+            )
+        )
+        return redirect('password')
+
+    # Warn about not filled in username (usually caused by migration of
+    # users from older system
+    if request.user.full_name == '':
+        messages.warning(
+            request,
+            mark_safe('<a href="{0}">{1}</a>'.format(
+                reverse('profile') + '#account',
+                escape(_('Please set your full name in your profile.'))
+            ))
+        )
+
     return dashboard_user(request)
 
 
@@ -171,17 +182,6 @@ def dashboard_user(request):
     user_translations = get_user_translations(request, user)
 
     suggestions = get_suggestions(request, user, user_translations)
-
-    # Warn about not filled in username (usually caused by migration of
-    # users from older system
-    if user.is_authenticated and user.full_name == '':
-        messages.warning(
-            request,
-            mark_safe('<a href="{0}">{1}</a>'.format(
-                reverse('profile') + '#account',
-                escape(_('Please set your full name in your profile.'))
-            ))
-        )
 
     usersubscriptions = None
 
