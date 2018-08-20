@@ -671,6 +671,28 @@ Django documentation.
         You can verify whether outgoing mail is working correctly by using
         :djadmin:`django:sendtestemail` management command.
 
+.. _celery:
+
+Background tasks using Celery
++++++++++++++++++++++++++++++
+
+.. versionadded:: 3.2
+
+Weblate uses Celery to process background tasks. The example settings come with
+eager configuration, which does process all tasks in place, but you want to
+change this to something more reasonable for production setup.
+
+Typical setup using redis as a backend should look like:
+
+.. code-block:: python
+
+   CELERY_TASK_ALWAYS_EAGER = False
+   CELERY_BROKER_URL = 'redis://localhost:6379'
+
+.. seealso::
+
+   :doc:`celery:userguide/configuration`
+
 .. _installation:
 
 Installation

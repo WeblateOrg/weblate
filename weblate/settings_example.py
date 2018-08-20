@@ -786,3 +786,7 @@ REST_FRAMEWORK = {
 #    r'/contact/$',             # Optional for contact form
 #    r'/legal/(.*)$',           # Optional for legal app
 # )
+
+# Celery settings
+CELERY_TASK_ALWAYS_EAGER = True
+CELERY_BROKER_URL = None

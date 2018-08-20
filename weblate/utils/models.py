@@ -37,3 +37,15 @@ class WeblateConf(AppConf):
 
     class Meta(object):
         prefix = ''
+
+
+class CeleryConf(AppConf):
+    """Defaults for Celery settings."""
+    TASK_ALWAYS_EAGER = True
+    BROKER_URL = 'memory://'
+
+    # List Celery beats (scheduled tasks)
+    BEAT_SCHEDULE = {}
+
+    class Meta(object):
+        prefix = 'CELERY'

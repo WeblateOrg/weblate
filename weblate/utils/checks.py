@@ -20,6 +20,7 @@
 
 from __future__ import unicode_literals
 
+from django.conf import settings
 from django.core.mail import get_connection
 from django.core.checks import Error
 
@@ -39,6 +40,20 @@ def check_mail_connection(app_configs, **kwargs):
                 message.format(error),
                 hint=get_doc_url('admin/install', 'out-mail'),
                 id='weblate.E003',
+            )
+        )
+
+    return errors
+
+
+def check_celery(app_configs, **kwargs):
+    errors = []
+    if settings.CELERY_TASK_ALWAYS_EAGER:
+        errors.append(
+            Error(
+                'Celery is configured in the eager mode',
+                hint=get_doc_url('admin/install', 'celery'),
+                id='weblate.E005',
             )
         )
 
