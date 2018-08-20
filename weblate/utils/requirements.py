@@ -159,6 +159,13 @@ def get_versions():
     ))
 
     result.append(get_single(
+        'Celery',
+        'http://www.celeryproject.org/',
+        'celery',
+        '4.0',
+    ))
+
+    result.append(get_single(
         'six',
         'https://pypi.org/project/six/',
         'six',

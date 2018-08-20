@@ -38,6 +38,8 @@ distribution packages:
     
 Django (>= 1.11)
     https://www.djangoproject.com/
+Celery (>= 4.0)
+    http://www.celeryproject.org/
 siphashc (>= 0.8)
     https://github.com/WeblateOrg/siphashc
 translate-toolkit (>= 2.3.0)
@@ -269,7 +271,7 @@ install them you can use apt-get:
         python-whoosh python-pil \
         python-babel git mercurial \
         python-django-compressor python-django-crispy-forms \
-        python-djangorestframework python-dateutil
+        python-djangorestframework python-dateutil python-celery
 
     # Optional packages for database backend:
 
@@ -359,7 +361,7 @@ Most of requirements are available either directly in openSUSE or in
         python-Whoosh python-Pillow \
         python-social-auth-core python-social-auth-app-django \
         python-babel Git mercurial python-pyuca \
-        python-dateutil
+        python-dateutil python-celery
 
     # Optional for database backend
     zypper install python-psycopg2      # For PostgreSQL
