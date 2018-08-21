@@ -47,7 +47,7 @@ class FlagBase(BaseAddon):
 
 class SourceEditAddon(FlagBase):
     name = 'weblate.flags.source_edit'
-    verbose = _('Flag new source strings to need edit')
+    verbose = _('Flag new source strings as \"Needs editing\"')
     description = _(
         'Whenever a new source string is imported from the VCS, it is '
         'flagged as needing editing in Weblate. This way you can easily '
@@ -61,9 +61,9 @@ class SourceEditAddon(FlagBase):
 
 class TargetEditAddon(FlagBase):
     name = 'weblate.flags.target_edit'
-    verbose = _('Flag new translations to need edit')
+    verbose = _('Flag new translations as \"Needs editing\"')
     description = _(
-        'Whenever a new translation string is imported from the VCS, it is '
+        'Whenever a new translatable string is imported from the VCS, it is '
         'flagged as needing editing in Weblate. This way you can easily '
         'filter and edit translations created by the developers.'
     )
@@ -75,11 +75,11 @@ class TargetEditAddon(FlagBase):
 
 class SameEditAddon(FlagBase):
     name = 'weblate.flags.same_edit'
-    verbose = _('Flag unchanged translations to need edit')
+    verbose = _('Flag unchanged translations as \"Needs editing\"')
     description = _(
-        'Whenever a new translation string is imported from the VCS and it '
+        'Whenever a new translatable string is imported from the VCS and it '
         'matches source strings, it is flagged as needing editing in Weblate. '
-        'This is especially useful for file formats including all strings '
+        'This is especially useful for file formats that include all strings '
         'even if they are not translated.'
     )
 
