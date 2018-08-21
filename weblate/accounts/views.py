@@ -230,7 +230,7 @@ def user_profile(request):
 
     profile = request.user.profile
 
-    if not profile.language:
+    if not request.user.is_demo and not profile.language:
         profile.language = get_language()
         profile.save(update_fields=['language'])
 
