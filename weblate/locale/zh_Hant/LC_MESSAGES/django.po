@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-08-11 13:59+0000\n"
-"PO-Revision-Date: 2018-08-04 17:11+0000\n"
+"PO-Revision-Date: 2018-08-21 13:02+0000\n"
 "Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hant/>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.1.1\n"
+"X-Generator: Weblate 3.2-dev\n"
 
 #: weblate/accounts/avatar.py:131
 msgctxt "No known user"
@@ -671,19 +671,14 @@ msgid "Flag unchanged translations to need edit"
 msgstr "將未變動的翻譯標記為需要編輯"
 
 #: weblate/addons/flags.py:80
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translation string is imported from the VCS, it is flagged "
-#| "as needing editing in Weblate. This way you can easily filter and edit "
-#| "translations created by the developers."
 msgid ""
 "Whenever a new translation string is imported from the VCS and it matches "
 "source strings, it is flagged as needing editing in Weblate. This is "
 "especially useful for file formats including all strings even if they are "
 "not translated."
 msgstr ""
-"每當新翻譯字串從 VCS 匯入時，會在 Weblate 中標記為需要編輯。這樣你可以輕鬆過"
-"濾並編輯開發者建立的翻譯。"
+"每當新翻譯字串從 VCS 匯入且符合來源字串時，會在 Weblate "
+"中標記為需要編輯。這對於一次包含所有翻譯字串的檔案格式來說特別有用，即使這些字串皆未翻譯亦然。"
 
 #: weblate/addons/forms.py:50
 msgid "Name of generated file"
@@ -755,14 +750,10 @@ msgid "Define the base file for new translations"
 msgstr "定義新翻譯的基底檔"
 
 #: weblate/addons/forms.py:153 weblate/trans/models/component.py:224
-#, fuzzy
-#| msgid ""
-#| "Filename of file which is used for creating new translations. For Gettext "
-#| "choose .pot file."
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
-msgstr "用來建立新翻譯的檔名。如 Gettext 請選擇 .pot 檔。"
+msgstr "用來建立新翻譯的檔案名稱。例如 gettext，請選擇 .pot 檔。"
 
 #: weblate/addons/forms.py:158 weblate/trans/models/component.py:400
 msgid "Language filter"
@@ -1284,12 +1275,8 @@ msgid "superuser status"
 msgstr "超級使用者狀態"
 
 #: weblate/auth/models.py:323
-#, fuzzy
-#| msgid ""
-#| "Designates that this user has all permissions without explicitly "
-#| "assigning them."
 msgid "User has all permissions without having been given them."
-msgstr "指明這位使用者擁有所有的權利許可，無須特別指派。"
+msgstr "使用者擁有所有的權利許可，無須特別指派。"
 
 #: weblate/auth/models.py:327
 msgid "active"
@@ -1308,21 +1295,15 @@ msgid "Groups"
 msgstr "群組"
 
 #: weblate/auth/models.py:337
-#, fuzzy
-#| msgid ""
-#| "The groups this user belongs to. A user will get all permissions granted "
-#| "to each of their groups."
 msgid ""
 "The user is granted all permissions included in membership of these groups."
-msgstr "此使用者所屬的群組。使用者將取得所有其加入群組賦予的權利許可。"
+msgstr "使用者將取得所有其加入群組賦予的權利許可。"
 
 #: weblate/auth/models.py:487
 msgid "Email regular expression"
 msgstr "電子郵件正則表達式"
 
 #: weblate/auth/models.py:491
-#, fuzzy
-#| msgid "Regular expression which is used to match user email."
 msgid "Regular expression used to match user email."
 msgstr "用來比對使用者電子郵件的正則表達式。"
 
@@ -1664,16 +1645,12 @@ msgid "Automatic detection"
 msgstr "自動偵測"
 
 #: weblate/formats/exporters.py:173
-#, fuzzy
-#| msgid "Gettext (PO)"
 msgid "gettext PO"
-msgstr "Gettext (PO)"
+msgstr "gettext PO"
 
 #: weblate/formats/exporters.py:215
-#, fuzzy
-#| msgid "Download translation as XLIFF with gettext extensions"
 msgid "XLIFF with gettext extensions"
-msgstr "下載翻譯，格式為 XLIFF 附 gettext 擴展"
+msgstr "XLIFF 附 gettext 擴展"
 
 #: weblate/formats/exporters.py:227
 msgid "XLIFF 1.1"
@@ -1688,21 +1665,16 @@ msgid "TMX"
 msgstr "TMX"
 
 #: weblate/formats/exporters.py:260
-#, fuzzy
-#| msgid "Gettext (PO)"
 msgid "gettext MO"
-msgstr "Gettext (PO)"
+msgstr "gettext MO"
 
 #: weblate/formats/exporters.py:293
-#, fuzzy
-#| msgctxt "Per project access control group"
-#| msgid "VCS"
 msgid "CSV"
-msgstr "VCS"
+msgstr "CSV"
 
 #: weblate/formats/exporters.py:317 weblate/formats/external.py:44
 msgid "Excel Open XML"
-msgstr ""
+msgstr "Excel Open XML"
 
 #: weblate/formats/ttkit.py:229
 msgid "Gettext PO file"
@@ -2390,8 +2362,6 @@ msgid "Protected"
 msgstr "保護"
 
 #: weblate/templates/access_control_description.html:7
-#, fuzzy
-#| msgid "Publicly visible, only translatable for selected users"
 msgid "Publicly visible, only translatable for chosen users"
 msgstr "公開可見，但只有選定的使用者可以翻譯"
 
@@ -2401,10 +2371,8 @@ msgid "Private"
 msgstr "私人"
 
 #: weblate/templates/access_control_description.html:9
-#, fuzzy
-#| msgid "Visible and translatable only for selected users"
 msgid "Visible and translatable only for chosen users"
-msgstr "只有選擇的使用者可以查看和翻譯"
+msgstr "只有選定的使用者可以查看和翻譯"
 
 #: weblate/templates/access_control_description.html:10
 #: weblate/trans/models/project.py:51
@@ -2851,10 +2819,8 @@ msgid "Your avatar"
 msgstr "您的頭像"
 
 #: weblate/templates/accounts/profile.html:284
-#, fuzzy
-#| msgid "Avatars are provided using libravatar."
 msgid "Avatars are provided using Gravatar."
-msgstr "頭像由 libravatar 提供。"
+msgstr "個人頭像由 Gravatar 提供。"
 
 #: weblate/templates/accounts/profile.html:295
 msgid "Your public appearance on this site."
@@ -3259,14 +3225,12 @@ msgstr "登出"
 
 #: weblate/templates/base.html:140
 msgid "Help"
-msgstr ""
+msgstr "幫助"
 
 #: weblate/templates/base.html:144 weblate/templates/keys.html:6
 #: weblate/trans/views/basic.py:558
-#, fuzzy
-#| msgid "Weblate languages"
 msgid "Weblate keys"
-msgstr "Weblate 語言"
+msgstr "Weblate 按鍵"
 
 #: weblate/templates/base.html:147 weblate/templates/footer.html:8
 msgid "Service status"
@@ -3625,38 +3589,28 @@ msgid "Suggestions to improve translation are disabled."
 msgstr "已停用改善翻譯用的建議功能。"
 
 #: weblate/templates/component_info.html:26
-#, fuzzy
-#| msgid "Only selected users can contribute."
 msgid "Only chosen users can contribute."
-msgstr "只有選擇的使用者可以貢獻。"
+msgstr "只有選定的使用者可以貢獻。"
 
 #: weblate/templates/component_info.html:28
 msgid "Any authenticated user can contribute."
 msgstr "任何通過身份核對的使用者都可以貢獻。"
 
 #: weblate/templates/component_info.html:31
-#, fuzzy
-#| msgid "The translation is not valid XML"
 msgid "The translation is using monolingual files."
-msgstr "翻譯標記為無效 XML"
+msgstr "翻譯採用單語言檔案。"
 
 #: weblate/templates/component_info.html:33
-#, fuzzy
-#| msgid "The translation has come to an end."
 msgid "The translation base language can be edited."
-msgstr "已到達翻譯的盡頭。"
+msgstr "翻譯基礎語言可以修改。"
 
 #: weblate/templates/component_info.html:35
-#, fuzzy
-#| msgid "Format of translation base file could not be recognized."
 msgid "The translation base language can not be edited."
-msgstr "無法識別翻譯的基本檔案格式。"
+msgstr "翻譯基礎語言無法修改。"
 
 #: weblate/templates/component_info.html:38
-#, fuzzy
-#| msgid "The translation is not valid XML"
 msgid "The translation is using bilingual files."
-msgstr "翻譯標記為無效 XML"
+msgstr "翻譯採用雙語檔案。"
 
 #: weblate/templates/component_info.html:46
 #: weblate/trans/models/component.py:298
@@ -4280,41 +4234,31 @@ msgid "Removes current translation from the repository."
 msgstr "從儲存庫中移除目前的翻譯。"
 
 #: weblate/templates/keys.html:17
-#, fuzzy
-#| msgid "SSH keys"
 msgid "SSH key"
 msgstr "SSH 金鑰"
 
 #: weblate/templates/keys.html:23
-#, fuzzy
-#| msgid "Rebase local changes onto the remote repository"
 msgid "Weblate uses following SSH key to access remote repositories."
-msgstr "將本地更動衍合至遠端儲存庫"
+msgstr "Weblate 使用下列 SSH 金鑰存取遠端儲存庫。"
 
 #: weblate/templates/keys.html:28
-#, fuzzy
-#| msgid "Not available"
 msgid "SSH key not available."
-msgstr "不可用"
+msgstr "SSH 金鑰無法使用。"
 
 #: weblate/templates/keys.html:37
-#, fuzzy
-#| msgid "C format string"
 msgid "Commit signing"
-msgstr "C 格式字串"
+msgstr "提交簽署"
 
 #: weblate/templates/keys.html:43
 #, python-format
 msgid ""
 "Weblate signs all commits by GPG key %(gpg_key_id)s, you can view the public "
 "key below."
-msgstr ""
+msgstr "Weblate 採用  GPG 金鑰 %(gpg_key_id)s 簽署所有提交動作。您可以在下方檢視公鑰。"
 
 #: weblate/templates/keys.html:48
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Commit signing is not configured."
-msgstr "C 格式字串與來源不符"
+msgstr "尚未設定提交簽署。"
 
 #: weblate/templates/language-project.html:26
 #: weblate/templates/language.html:26 weblate/templates/project.html:51
@@ -4901,14 +4845,12 @@ msgid "matrix"
 msgstr "數表"
 
 #: weblate/templates/matrix.html:34
-#, fuzzy
-#| msgid "Used languages"
 msgid "Displayed languages"
-msgstr "使用的語言"
+msgstr "顯示的語言"
 
 #: weblate/templates/matrix.html:39
 msgid "Choose"
-msgstr ""
+msgstr "選擇"
 
 #: weblate/templates/new-language.html:25
 msgid ""
@@ -5209,24 +5151,21 @@ msgid "Edit search parameters"
 msgstr "編輯搜尋參數"
 
 #: weblate/templates/translate.html:62
-#, fuzzy
-#| msgid "Good configuration"
 msgid "Go to position"
-msgstr "良好的組態"
+msgstr "前往位置"
 
 #: weblate/templates/translate.html:63
-#, fuzzy, python-format
-#| msgid "%(filter_name)s (%(filter_count)s)"
+#, python-format
 msgid "%(filter_pos)s / %(filter_count)s"
-msgstr "%(filter_name)s (%(filter_count)s)"
+msgstr "%(filter_pos)s / %(filter_count)s"
 
 #: weblate/templates/translate.html:72
 msgid "Jump to position"
-msgstr ""
+msgstr "跳至位置"
 
 #: weblate/templates/translate.html:77
 msgid "Jump"
-msgstr ""
+msgstr "跳至"
 
 #: weblate/templates/translate.html:83
 msgid "Next"
@@ -5506,21 +5445,19 @@ msgid "Download original translation file (%(format)s)"
 msgstr "下載原始翻譯檔 (%(format)s)"
 
 #: weblate/templates/translation-download.html:9
-#, fuzzy, python-format
-#| msgid "Download original translation file (%(format)s)"
+#, python-format
 msgid "Download translation file as %(format)s"
-msgstr "下載原始翻譯檔 (%(format)s)"
+msgstr "下載翻譯檔，格式為 %(format)s"
 
 #: weblate/templates/translation-download.html:14
-#, fuzzy, python-format
-#| msgid "Download strings needing action as CSV"
+#, python-format
 msgid "Download strings needing action as %(format)s"
-msgstr "下載需要動作的字串，格式為 CSV"
+msgstr "下載需要動作的字串，格式為 %(format)s"
 
 #: weblate/templates/translation-download.html:18
 #: weblate/templates/translation.html:280
 msgid "Customize download"
-msgstr ""
+msgstr "自訂下載"
 
 #: weblate/templates/translation-download.html:21
 msgid "Upload translation"
@@ -5928,10 +5865,8 @@ msgid "Search filter"
 msgstr "搜尋篩選"
 
 #: weblate/trans/forms.py:392
-#, fuzzy
-#| msgid "Please select a valid filter type."
 msgid "Please choose a valid filter type."
-msgstr "請選取有效的篩選類型。"
+msgstr "請選擇有效的篩選類型。"
 
 #: weblate/trans/forms.py:426
 msgid "The string you wanted to translate is no longer available!"
@@ -6054,34 +5989,24 @@ msgid "Exact match"
 msgstr "完整單字比對"
 
 #: weblate/trans/forms.py:736
-#, fuzzy
-#| msgid "Please select a valid search type."
 msgid "Please choose a valid search type."
-msgstr "請選取有效的搜尋類型。"
+msgstr "請選擇有效的搜尋類型。"
 
 #: weblate/trans/forms.py:745
-#, fuzzy
-#| msgid "Source strings"
 msgid "Target strings"
-msgstr "來源字串數"
+msgstr "目標字串"
 
 #: weblate/trans/forms.py:750
-#, fuzzy
-#| msgid "Search in context strings"
 msgid "Context strings"
-msgstr "在情境字串中搜尋"
+msgstr "情境字串"
 
 #: weblate/trans/forms.py:755
-#, fuzzy
-#| msgid "Locations"
 msgid "Location strings"
-msgstr "位置"
+msgstr "位置字串"
 
 #: weblate/trans/forms.py:760
-#, fuzzy
-#| msgid "C format string"
 msgid "Comment strings"
-msgstr "C 格式字串"
+msgstr "評註字串"
 
 #: weblate/trans/forms.py:767
 msgid "Show ignored checks as well"
@@ -6126,11 +6051,11 @@ msgstr "{filter_name}, {search_name}"
 
 #: weblate/trans/forms.py:884 weblate/trans/forms.py:886
 msgid "Could not find merged string."
-msgstr ""
+msgstr "找不到合併的字串。"
 
 #: weblate/trans/forms.py:905
 msgid "Could not find reverted change."
-msgstr ""
+msgstr "找不到還原的字串。"
 
 #: weblate/trans/forms.py:916
 msgid "Automatic translation source"
@@ -6141,10 +6066,8 @@ msgid "Other translation components"
 msgstr "其他翻譯組件"
 
 #: weblate/trans/forms.py:929
-#, fuzzy
-#| msgid "Machine translation engines to use"
 msgid "Machine translation engines"
-msgstr "要使用的機器翻譯引擎"
+msgstr "機器翻譯引擎"
 
 #: weblate/trans/forms.py:934
 msgid "Score threshold"
@@ -6159,16 +6082,10 @@ msgid "Invalid integer list!"
 msgstr "無效的整數列表！"
 
 #: weblate/trans/forms.py:1031
-#, fuzzy
-#| msgid ""
-#| "You can upload any format which is understood by Translate Toolkit "
-#| "(including TBX, CSV or Gettext PO files)."
 msgid ""
 "You can upload any format understood by Translate Toolkit (including TBX, "
 "CSV or gettext PO files)."
-msgstr ""
-"您可以上傳 Translate Toolkit 能理解的任何格式（包括 TBX、 CSV 或 Gettext PO "
-"檔等）。"
+msgstr "您可以上傳 Translate Toolkit 能理解的任何格式（包括 TBX、 CSV、gettext PO 檔等）。"
 
 #: weblate/trans/forms.py:1038
 msgid "Keep current"
@@ -6187,9 +6104,6 @@ msgid "Starting date"
 msgstr "開始日期"
 
 #: weblate/trans/forms.py:1066
-#, fuzzy
-#| msgctxt "Select starting letter in glossary"
-#| msgid "Any"
 msgctxt "Choose starting letter in glossary"
 msgid "Any"
 msgstr "任何"
@@ -6225,16 +6139,12 @@ msgid "Similar translation already exists in the project ({0})!"
 msgstr "專案 ({0}) 中已經存在類似的翻譯！"
 
 #: weblate/trans/forms.py:1178
-#, fuzzy
-#| msgid "Please select"
 msgid "Please choose"
 msgstr "請選擇"
 
 #: weblate/trans/forms.py:1200
-#, fuzzy
-#| msgid "Strings with higher priority are offered first to translators."
 msgid "Higher priority strings are presented to translators earlier."
-msgstr "較高優先度的字串會優先提供給翻譯者。"
+msgstr "較高優先度的字串會優先呈現給翻譯者。"
 
 #: weblate/trans/forms.py:1214
 msgid "Check flags"
@@ -6301,10 +6211,8 @@ msgid "Ending date"
 msgstr "結束日期"
 
 #: weblate/trans/forms.py:1310 weblate/trans/forms.py:1312
-#, fuzzy
-#| msgid "Ending date"
 msgid "Missing date!"
-msgstr "結束日期"
+msgstr "缺少日期！"
 
 #: weblate/trans/forms.py:1324
 msgid "Starting date has to be before ending date!"
@@ -6847,10 +6755,9 @@ msgid "Got empty language code for %s, please check filemask!"
 msgstr "抓到 %s 的語言碼是空白，請檢查檔案遮罩！"
 
 #: weblate/trans/models/component.py:1063
-#, fuzzy, python-format
-#| msgid "Language code %s is too long, please check filemask!"
+#, python-format
 msgid "Language code \"%s\" is too long, please check filemask!"
-msgstr "%s 的語言碼是太長，請檢查檔案遮罩！"
+msgstr "「%s」語言碼太長，請檢查檔案遮罩！"
 
 #: weblate/trans/models/component.py:1067
 #, python-format
@@ -7032,43 +6939,31 @@ msgid "URL with instructions for translators."
 msgstr "寫給翻譯者的指示 URL。"
 
 #: weblate/trans/models/project.py:83
-#, fuzzy
-#| msgid "Set Translation-Team header"
 msgid "Set \"Translation-Team\" header"
-msgstr "設定翻譯團隊檔案標頭"
+msgstr "設定「Translation-Team」檔案標頭"
 
 #: weblate/trans/models/project.py:86
-#, fuzzy
-#| msgid ""
-#| "Whether the Translation-Team in file headers should be updated by Weblate."
 msgid ""
 "Whether the \"Translation-Team\" field in file headers should be updated by "
 "Weblate."
-msgstr "是否應由 Weblate 更新檔案標頭中的翻譯團隊。"
+msgstr "是否應由 Weblate 更新檔案標頭中的「Translation-Team」欄位。"
 
 #: weblate/trans/models/project.py:96
 msgid "Access control"
 msgstr "存取控制"
 
 #: weblate/trans/models/project.py:98
-#, fuzzy
-#| msgid ""
-#| "How to restrict access to this project, please check the documentation "
-#| "for more details."
 msgid ""
 "How to restrict access to this project is detailed in the documentation."
-msgstr "限制存取此專案的規則，請查看文件瞭解更多細節。"
+msgstr "限制存取此專案的詳細規則請參考文件。"
 
 #: weblate/trans/models/project.py:103
 msgid "Enable reviews"
 msgstr "啟用檢閱"
 
 #: weblate/trans/models/project.py:106
-#, fuzzy
-#| msgid ""
-#| "Enable this if you intend for dedicated reviewers to approve translations."
 msgid "Requires dedicated reviewers to approve translations."
-msgstr "如果您希望讓專門的檢閱者核可翻譯請啟用此功能。"
+msgstr "須要有專門的檢閱者核可翻譯。"
 
 #: weblate/trans/models/project.py:110
 msgid "Enable hooks"
@@ -7836,10 +7731,8 @@ msgid "Search for %s"
 msgstr "搜尋 %s"
 
 #: weblate/trans/views/search.py:221
-#, fuzzy
-#| msgid "Too many messages sent, please try again later!"
 msgid "Too many search queries, please try again later."
-msgstr "傳送過多訊息，稍後請再試一次！"
+msgstr "查詢太多次，請稍後重試。"
 
 #: weblate/trans/views/search.py:223
 msgid "Invalid search query!"
@@ -8158,10 +8051,8 @@ msgstr ""
 "足，或資訊太舊造成。"
 
 #: weblate/wladmin/templates/admin/performance.html:60
-#, fuzzy
-#| msgid "checks"
 msgid "System checks"
-msgstr "查核"
+msgstr "系統查核"
 
 #: weblate/wladmin/templates/admin/performance.html:92
 msgid "Check"
