@@ -29,6 +29,6 @@ On Git checkout:
 Using docker-compose:
 
 ```
-docker-compose run --rm weblate list_versions
-docker-compose run --rm weblate check --deploy
+docker-compose exec weblate weblate list_versions
+docker-compose exec weblate weblate check --deploy
 ```
