@@ -442,6 +442,7 @@ LOCALE_ALIASES = {
     'sr@cyrillic': 'sr_Cyrl',
     'sr_rs@cyrillic': 'sr_Cyrl',
     'uz@latin': 'uz_Latn',
+    'zh': 'zh_Hans',
     'zh_cn': 'zh_Hans',
     'zh_chs': 'zh_Hans',
     'zh_tw': 'zh_Hant',
