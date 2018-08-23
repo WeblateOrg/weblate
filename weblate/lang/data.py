@@ -429,6 +429,7 @@ LOCALE_ALIASES = {
     'scr': 'hr',  # Croatian
     'sh': 'sr_Latn',  # Serbo-Croatian
     'no': 'nb_NO',  # Norwegian
+    'sr_cs': 'sr', # Serbian
     # Strip not needed country
     'sr_latn_rs': 'sr_Latn',
     'bs_latn_ba': 'bs_Latn',
