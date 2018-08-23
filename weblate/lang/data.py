@@ -392,11 +392,11 @@ LOCALE_ALIASES = {
     'korean': 'ko',
     'dutch_be': 'nl_BE',
     'english': 'en',
-    'english-uk': 'en_GB',
+    'english_uk': 'en_GB',
     'portuguese_br': 'pt_BR',
     'portuguese_portugal': 'pt_PT',
     'russian': 'ru',
-    'serbo-croatian': 'sr_Latn',
+    'serbo_croatian': 'sr_Latn',
     'serbian': 'sr',
     'indonesian': 'id',
     'norwegian': 'nb_NO',
@@ -405,7 +405,7 @@ LOCALE_ALIASES = {
     'french': 'fr',
     'polish': 'pl',
     # Android
-    'be-rby': 'be_Latn',
+    'be_rby': 'be_Latn',
     # Misc invalid codes
     'val_es': 'ca@valencia',
     'no_nb': 'nb_NO',
