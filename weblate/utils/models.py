@@ -49,6 +49,7 @@ class CeleryConf(AppConf):
 
     CELERY_IMPORTS = [
         'weblate.trans.search',
+        'weblate.trans.views.api',
     ]
 
     class Meta(object):

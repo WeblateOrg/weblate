@@ -216,14 +216,6 @@ For example you can enable only few of them:
 
    :ref:`autofix`, :ref:`custom-autofix`
 
-.. setting:: BACKGROUND_HOOKS
-
-BACKGROUND_HOOKS
-----------------
-
-Whether to run hooks in background. This is generally recommended unless you
-are debugging.
-
 .. setting:: BASE_DIR
 
 BASE_DIR

@@ -458,21 +458,21 @@ BITBUCKET_PAYLOAD_WEBHOOK_CLOSED = r'''
 
 
 class HooksViewTest(ViewTestCase):
-    @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
+    @override_settings(ENABLE_HOOKS=True)
     def test_hook_project(self):
         response = self.client.get(
             reverse('hook-project', kwargs=self.kw_project)
         )
         self.assertContains(response, 'Update triggered')
 
-    @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
+    @override_settings(ENABLE_HOOKS=True)
     def test_hook_component(self):
         response = self.client.get(
             reverse('hook-component', kwargs=self.kw_component)
         )
         self.assertContains(response, 'Update triggered')
 
-    @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
+    @override_settings(ENABLE_HOOKS=True)
     def test_hook_github_exists(self):
         # Adjust matching repo
         self.component.repo = 'git://github.com/defunkt/github.git'
@@ -483,7 +483,7 @@ class HooksViewTest(ViewTestCase):
         )
         self.assertContains(response, 'Update triggered')
 
-    @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
+    @override_settings(ENABLE_HOOKS=True)
     def test_hook_github_new(self):
         # Adjust matching repo
         self.component.repo = 'git://github.com/defunkt/github.git'
@@ -494,7 +494,7 @@ class HooksViewTest(ViewTestCase):
         )
         self.assertContains(response, 'Update triggered')
 
-    @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
+    @override_settings(ENABLE_HOOKS=True)
     def test_hook_github_ping(self):
         response = self.client.post(
             reverse('hook-github'),
@@ -502,7 +502,7 @@ class HooksViewTest(ViewTestCase):
         )
         self.assertContains(response, 'Hook working')
 
-    @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
+    @override_settings(ENABLE_HOOKS=True)
     def test_hook_github_auth(self):
         # Adjust matching repo
         self.component.repo = 'https://user:pwd@github.com/defunkt/github.git'
@@ -513,7 +513,7 @@ class HooksViewTest(ViewTestCase):
         )
         self.assertContains(response, 'Update triggered')
 
-    @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
+    @override_settings(ENABLE_HOOKS=True)
     def test_hook_github_disabled(self):
         # Adjust matching repo
         self.component.repo = 'git://github.com/defunkt/github.git'
@@ -526,7 +526,7 @@ class HooksViewTest(ViewTestCase):
         )
         self.assertContains(response, 'No matching repositories found!')
 
-    @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
+    @override_settings(ENABLE_HOOKS=True)
     def test_hook_github(self):
         response = self.client.post(
             reverse('hook-github'),
@@ -534,7 +534,7 @@ class HooksViewTest(ViewTestCase):
         )
         self.assertContains(response, 'No matching repositories found!')
 
-    @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
+    @override_settings(ENABLE_HOOKS=True)
     def test_hook_gitlab(self):
         response = self.client.post(
             reverse('hook-gitlab'), GITLAB_PAYLOAD,
@@ -542,7 +542,7 @@ class HooksViewTest(ViewTestCase):
         )
         self.assertContains(response, 'No matching repositories found!')
 
-    @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
+    @override_settings(ENABLE_HOOKS=True)
     def test_hook_bitbucket_ping(self):
         response = self.client.post(
             reverse('hook-bitbucket'),
@@ -550,7 +550,7 @@ class HooksViewTest(ViewTestCase):
         )
         self.assertContains(response, 'Hook working')
 
-    @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
+    @override_settings(ENABLE_HOOKS=True)
     def test_hook_bitbucket_git(self):
         response = self.client.post(
             reverse('hook-bitbucket'),
@@ -558,7 +558,7 @@ class HooksViewTest(ViewTestCase):
         )
         self.assertContains(response, 'No matching repositories found!')
 
-    @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
+    @override_settings(ENABLE_HOOKS=True)
     def test_hook_bitbucket_hg(self):
         response = self.client.post(
             reverse('hook-bitbucket'),
@@ -566,7 +566,7 @@ class HooksViewTest(ViewTestCase):
         )
         self.assertContains(response, 'No matching repositories found!')
 
-    @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
+    @override_settings(ENABLE_HOOKS=True)
     def test_hook_bitbucket_hg_no_commit(self):
         response = self.client.post(
             reverse('hook-bitbucket'),
@@ -574,7 +574,7 @@ class HooksViewTest(ViewTestCase):
         )
         self.assertContains(response, 'No matching repositories found!')
 
-    @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
+    @override_settings(ENABLE_HOOKS=True)
     def test_hook_bitbucket_webhook(self):
         response = self.client.post(
             reverse('hook-bitbucket'),
@@ -582,7 +582,7 @@ class HooksViewTest(ViewTestCase):
         )
         self.assertContains(response, 'No matching repositories found!')
 
-    @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
+    @override_settings(ENABLE_HOOKS=True)
     def test_hook_bitbucket_hosted(self):
         response = self.client.post(
             reverse('hook-bitbucket'),
@@ -590,7 +590,7 @@ class HooksViewTest(ViewTestCase):
         )
         self.assertContains(response, 'No matching repositories found!')
 
-    @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
+    @override_settings(ENABLE_HOOKS=True)
     def test_hook_bitbucket_webhook_closed(self):
         response = self.client.post(
             reverse('hook-bitbucket'),
@@ -598,7 +598,7 @@ class HooksViewTest(ViewTestCase):
         )
         self.assertContains(response, 'No matching repositories found!')
 
-    @override_settings(ENABLE_HOOKS=False, BACKGROUND_HOOKS=False)
+    @override_settings(ENABLE_HOOKS=False)
     def test_disabled(self):
         """Test for hooks disabling."""
         self.assert_disabled()
@@ -634,7 +634,7 @@ class HooksViewTest(ViewTestCase):
         )
         self.assertEqual(response.status_code, 405)
 
-    @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
+    @override_settings(ENABLE_HOOKS=True)
     def test_wrong_payload_github(self):
         """Test for invalid payloads with github."""
         # missing
@@ -667,7 +667,7 @@ class HooksViewTest(ViewTestCase):
             status_code=400
         )
 
-    @override_settings(ENABLE_HOOKS=True, BACKGROUND_HOOKS=False)
+    @override_settings(ENABLE_HOOKS=True)
     def test_wrong_payload_gitlab(self):
         """Test for invalid payloads with gitlab."""
         # missing
