@@ -45,17 +45,17 @@ using :command:`docker exec`:
     docker exec <container> weblate list_versions
 
 With :program:`docker-compose` this is quite similar, you just have to use
-:command:`docker-compose run`:
+:command:`docker-compose exec`:
 
 .. code-block:: sh
 
-    docker-compose run --rm weblate list_versions
+    docker-compose exec weblate weblate list_versions
 
 In case you need to pass some file, you can temporary add a volume:
 
 .. code-block:: sh
 
-    docker-compose run --rm --volume /tmp:/tmp weblate importusers /tmp/users.json
+    docker-compose exec /tmp:/tmp weblate weblate importusers /tmp/users.json
 
 .. seealso::
 
