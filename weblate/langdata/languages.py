@@ -356,7 +356,6 @@ LANGUAGES = (
     ('yo', _('Yoruba'), 1, '0'),
     ('yue', _('Yue'), 1, '0'),
     ('za', _('Zhuang'), 2, 'n != 1'),
-    ('zh', _('Chinese'), 1, '0'),
     ('zh_Hans', _('Chinese (Simplified)'), 1, '0'),
     ('zh_Hant', _('Chinese (Traditional)'), 1, '0'),
     ('zh_Hant_HK', _('Chinese (Hong Kong)'), 1, '0'),
