@@ -329,6 +329,7 @@ LANGUAGES = (
     ('tr', _('Turkish'), 2, 'n != 1'),
     ('ts', _('Tsonga'), 2, 'n != 1'),
     ('tt', _('Tatar'), 1, '0'),
+    ('tt@iqtelif', _('Tatar (IQTElif)'), 1, '0'),
     ('tw', _('Twi'), 2, 'n != 1'),
     ('ty', _('Tahitian'), 2, 'n != 1'),
     ('tzm', _('Central Atlas Tamazight'), 2, 'n >= 2 && (n < 11 || n > 99)'),
