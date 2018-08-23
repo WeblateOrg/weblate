@@ -201,10 +201,14 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
 
     def update_translations(self, component, previous_head):
         cmd = [
-            'msgmerge', '--update', 'FILE', component.get_new_base_filename()
+            'msgmerge',
+            '--backup=none',
+            '--update',
+            'FILE',
+            component.get_new_base_filename()
         ]
         for translation in component.translation_set.all():
-            cmd[2] = translation.get_filename()
+            cmd[3] = translation.get_filename()
             popen_wrapper(cmd)
 
 
