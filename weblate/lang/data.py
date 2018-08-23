@@ -49,6 +49,7 @@ DEFAULT_LANGS = (
     'az_az',
     'be_by',
     'bg_bg',
+    'bo_bt',
     'br_fr',
     'bs_ba',
     'ca_es',
@@ -452,6 +453,7 @@ LOCALE_ALIASES = {
     'base': 'en',
     # commonly used
     'source': 'en',
+    'de_fo': 'de_form',
     # Country codes used instead of language,
     # we can map only those which do not collide with existing language code
     'dk': 'da',
@@ -460,4 +462,5 @@ LOCALE_ALIASES = {
     'jpn': 'ja',
     'swe': 'sv',
     'zho': 'zh_Hant',
+    'ca_es@valencia': 'ca@valencia',
 }
