@@ -201,7 +201,7 @@ LANGUAGES = (
         'zh_CN@test',
         'ltr',
         '0',
-        'Chinese (zh_CN@test)',
+        'Chinese (Simplified)',
         True,
     ),
     (
