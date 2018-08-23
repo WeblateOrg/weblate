@@ -84,7 +84,6 @@ LANGUAGES = (
     ('chm', _('Mari'), 2, 'n != 1'),
     ('chr', _('Cherokee'), 2, 'n != 1'),
     ('ckb', _('Sorani'), 2, 'n != 1'),
-    ('cmn', _('Chinese (Mandarin)'), 1, '0'),
     ('co', _('Corsican'), 2, 'n != 1'),
     ('cr', _('Cree'), 2, 'n != 1'),
     ('crh', _('Crimean Tatar'), 1, '0'),
