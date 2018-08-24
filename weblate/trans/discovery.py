@@ -23,6 +23,8 @@ from __future__ import unicode_literals
 import os
 import re
 
+from celery import shared_task
+
 from django.conf import settings
 from django.db.models import Q
 from django.utils.functional import cached_property
@@ -117,7 +119,7 @@ class ComponentDiscovery(object):
                 result[mask]['languages'].add(groups['language'])
         return result
 
-    def create_component(self, main, match, **params):
+    def create_component(self, main, match, background=False, **params):
         max_length = settings.COMPONENT_NAME_LENGTH
 
         def get_val(key, extra=0):
@@ -156,15 +158,21 @@ class ComponentDiscovery(object):
             self.component.log_info('Creating component %s', name)
         else:
             LOGGER.info('Creating component %s', name)
-        return Component.objects.create(
-            name=name,
-            slug=slug,
-            template=match['base_file'],
-            filemask=match['mask'],
-            file_format=self.file_format,
-            language_regex=self.language_re,
-            **params
-        )
+        kwargs = {
+            'name': name,
+            'slug': slug,
+            'template': match['base_file'],
+            'filemask': match['mask'],
+            'file_format': self.file_format,
+            'language_regex': self.language_re,
+        }
+        kwargs.update(params)
+
+        if background:
+            create_component.delay(**kwargs)
+            return None
+
+        return Component.objects.create(**kwargs)
 
     def cleanup(self, main, processed, preview=False):
         deleted = []
@@ -188,7 +196,7 @@ class ComponentDiscovery(object):
 
         return deleted
 
-    def perform(self, preview=False, remove=False):
+    def perform(self, preview=False, remove=False, background=False):
         created = []
         matched = []
         deleted = []
@@ -211,10 +219,12 @@ class ComponentDiscovery(object):
                     processed.add(found.id)
                 except IndexError:
                     # Create new component
-                    if preview:
-                        component = None
-                    else:
-                        component = self.create_component(main, match)
+                    component = None
+                    if not preview:
+                        component = self.create_component(
+                            main, match, background
+                        )
+                    if component:
                         processed.add(component.id)
                     created.append((match, component))
 
@@ -222,3 +232,8 @@ class ComponentDiscovery(object):
                 deleted = self.cleanup(main, processed, preview)
 
         return created, matched, deleted
+
+
+@shared_task
+def create_component(**kwargs):
+    Component.objects.create(**kwargs)
