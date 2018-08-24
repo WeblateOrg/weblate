@@ -22,7 +22,7 @@ from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.auth.models import User
-from weblate.trans.models import AutoComponentList, Unit
+from weblate.trans.models import AutoComponentList, Unit, Translation
 from weblate.trans.util import sort_choices
 
 from weblate.wladmin.models import WeblateModelAdmin
