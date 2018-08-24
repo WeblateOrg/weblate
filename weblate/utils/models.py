@@ -48,6 +48,7 @@ class CeleryConf(AppConf):
     BEAT_SCHEDULE = {}
 
     CELERY_IMPORTS = [
+        'weblate.accounts.notifications',
         'weblate.trans.discovery',
         'weblate.trans.models',
         'weblate.trans.search',

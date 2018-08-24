@@ -22,6 +22,8 @@ from __future__ import unicode_literals
 from smtplib import SMTPException
 import sys
 
+from celery import shared_task
+
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives, get_connection
 from django.template.loader import render_to_string
@@ -72,7 +74,7 @@ def notify_merge_failure(component, error, status):
             }
         )
     )
-    send_mails(mails)
+    enqueue_mails(mails)
 
 
 def notify_parse_error(component, translation, error, filename):
@@ -114,7 +116,7 @@ def notify_parse_error(component, translation, error, filename):
             }
         )
     )
-    send_mails(mails)
+    enqueue_mails(mails)
 
 
 def notify_new_string(translation):
@@ -128,7 +130,7 @@ def notify_new_string(translation):
             send_new_string(subscription, translation)
         )
 
-    send_mails(mails)
+    enqueue_mails(mails)
 
 
 def notify_new_language(component, language, user):
@@ -152,7 +154,7 @@ def notify_new_language(component, language, user):
             )
         )
 
-    send_mails(mails)
+    enqueue_mails(mails)
 
 
 def notify_new_translation(unit, oldunit, user):
@@ -168,7 +170,7 @@ def notify_new_translation(unit, oldunit, user):
             send_any_translation(subscription, unit, oldunit)
         )
 
-    send_mails(mails)
+    enqueue_mails(mails)
 
 
 def notify_new_contributor(unit, user):
@@ -187,7 +189,7 @@ def notify_new_contributor(unit, user):
             )
         )
 
-    send_mails(mails)
+    enqueue_mails(mails)
 
 
 def notify_new_suggestion(unit, suggestion, user):
@@ -208,7 +210,7 @@ def notify_new_suggestion(unit, suggestion, user):
             )
         )
 
-    send_mails(mails)
+    enqueue_mails(mails)
 
 
 def notify_new_comment(unit, comment, user, report_source_bugs):
@@ -239,7 +241,7 @@ def notify_new_comment(unit, comment, user, report_source_bugs):
             user=user,
         )
 
-    send_mails(mails)
+    enqueue_mails(mails)
 
 
 def get_notification_email(language, email, notification,
@@ -327,20 +329,14 @@ def get_notification_email(language, email, notification,
         else:
             emails = [email]
 
-        # Create message
-        email = EmailMultiAlternatives(
-            settings.EMAIL_SUBJECT_PREFIX + subject,
-            body,
-            to=emails,
-            headers=headers,
-        )
-        email.attach_alternative(
-            html_body,
-            'text/html'
-        )
-
-        # Return the mail
-        return email
+        # Return the mail content
+        return {
+            'subject': subject,
+            'body': body,
+            'to': emails,
+            'headers': headers,
+            'html_body': html_body,
+        }
     finally:
         django_translation.activate(cur_language)
 
@@ -353,7 +349,7 @@ def send_notification_email(language, email, notification,
         language, email, notification, translation_obj, context, headers,
         user, info
     )
-    send_mails([email])
+    enqueue_mails([email])
 
 
 def is_new_login(user, address):
@@ -556,13 +552,26 @@ def send_parse_error(profile, component, translation, error, filename):
     )
 
 
+def enqueue_mails(mails):
+    mails = [mail for mail in mails if mail is not None]
+    if mails:
+        send_mails.delay(mails)
+
+
+@shared_task
 def send_mails(mails):
     """Send multiple mails in single connection."""
-    try:
-        connection = get_connection()
-        connection.send_messages(
-            [mail for mail in mails if mail is not None]
-        )
-    except SMTPException as error:
-        LOGGER.error('Failed to send email: %s', error)
-        report_error(error, sys.exc_info())
+    with get_connection() as connection:
+        for mail in mails:
+            email = EmailMultiAlternatives(
+                settings.EMAIL_SUBJECT_PREFIX + mail['subject'],
+                mail['body'],
+                to=mail['to'],
+                headers=mail['headers'],
+                connection=connection,
+            )
+            email.attach_alternative(
+                mail['html_body'],
+                'text/html'
+            )
+            email.send()
