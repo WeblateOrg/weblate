@@ -691,9 +691,21 @@ Typical setup using redis as a backend should look like:
    CELERY_TASK_ALWAYS_EAGER = False
    CELERY_BROKER_URL = 'redis://localhost:6379'
 
+You should also start the Celery worker to process the tasks, this can be done
+directly on command line (what is mostly useful when debugging or developing):
+
+.. code-block:: sh
+
+   celery --app weblate worker --loglevel info --beat
+
+Most likely you will want to run Celery as a daemon and that is covered by
+:doc:`userguide/daemonizing`.
+
 .. seealso::
 
-   :doc:`celery:userguide/configuration`
+   :doc:`celery:userguide/configuration`,
+   :doc:`celery:userguide/workers`,
+   :doc:`userguide/daemonizing`
 
 .. _installation:
 

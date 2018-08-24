@@ -63,6 +63,8 @@ work, but is not as well tested as single version upgrades.
 
         ./manage.py check --deploy
 
+8. Restart celery worker (see :ref:`celery`).
+
 
 .. _version-specific-instructions:
 
