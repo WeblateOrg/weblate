@@ -922,8 +922,8 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             ).exclude(
                 pk=self.pk
             )
-            for component in related:
-                component.invalidate_cache(False)
+            for translation in related:
+                translation.invalidate_cache(False)
 
     def get_kwargs(self):
         return {
