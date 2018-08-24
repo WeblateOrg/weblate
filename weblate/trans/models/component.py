@@ -20,6 +20,7 @@
 
 from __future__ import unicode_literals
 
+from copy import copy
 from glob import glob
 import os
 import sys
@@ -437,6 +438,7 @@ class Component(models.Model, URLMixin, PathMixin):
         self._file_format = None
         self.stats = ComponentStats(self)
         self.addons_cache = {}
+        self.old_component = copy(self)
 
     @property
     def filemask_re(self):

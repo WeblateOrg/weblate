@@ -25,6 +25,7 @@ import shutil
 
 from django.core.exceptions import ValidationError
 
+from weblate.checks.models import Check
 from weblate.formats import ParseError
 from weblate.trans.models import (
     Project, Component, Unit, Suggestion,
@@ -324,6 +325,15 @@ class ComponentTest(RepoTestCase):
         component.clean()
         component.save()
         self.verify_component(component, 3, 'cs', 4)
+
+    def test_update_checks(self):
+        """Setting of check_flags changes checks for related units."""
+        component = self.create_component()
+        self.assertEqual(Check.objects.count(), 3)
+        check = Check.objects.all()[0]
+        component.check_flags = 'ignore-{0}'.format(check.check)
+        component.save()
+        self.assertEqual(Check.objects.count(), 0)
 
 
 class ComponentDeleteTest(RepoTestCase):
