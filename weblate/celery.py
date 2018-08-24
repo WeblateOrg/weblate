@@ -23,6 +23,13 @@ from __future__ import absolute_import, unicode_literals
 import os
 
 from celery import Celery
+from celery.signals import task_failure
+
+try:
+    import rollbar
+    HAS_ROLLBAR = True
+except ImportError:
+    HAS_ROLLBAR = False
 
 
 # set the default Django settings module for the 'celery' program.
@@ -38,3 +45,19 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 
 # Load task modules from all registered Django app configs.
 app.autodiscover_tasks()
+
+# Rollbar integration, based on
+# https://www.mattlayman.com/blog/2017/django-celery-rollbar/
+if bool(os.environ.get('CELERY_WORKER_RUNNING', False)) and HAS_ROLLBAR:
+    from django.conf import settings
+    if hasattr(settings, 'ROLLBAR'):
+        rollbar.init(**settings.ROLLBAR)
+
+        def celery_base_data_hook(request, data):
+            data['framework'] = 'celery'
+
+        rollbar.BASE_DATA_HOOK = celery_base_data_hook
+
+        @task_failure.connect
+        def handle_task_failure(**kw):
+            rollbar.report_exc_info(extra_data=kw)
