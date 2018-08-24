@@ -131,10 +131,11 @@ su - wwwrun -s /bin/bash -c '%{WLDIR}/manage.py collectstatic --noinput'
 
 %check
 export LANG=en_US.UTF-8
+export DJANGO_SETTINGS_MODULE=weblate.settings_test
 # Collect static files for testsuite
-./manage.py collectstatic --noinput --settings=weblate.settings_test -v 2
+./manage.py collectstatic --noinput -v 2
 # Run the testsuite
-./manage.py test --settings=weblate.settings_test -v 2
+./manage.py test -v 2
 
 %files
 %defattr(-,root,root)

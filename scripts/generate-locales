@@ -4,4 +4,5 @@
 
 set -e
 
-./manage.py compilemessages --settings=weblate.settings_test
+export DJANGO_SETTINGS_MODULE=weblate.settings_test
+./manage.py compilemessages

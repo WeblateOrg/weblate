@@ -28,12 +28,13 @@ install:
 build: off
 
 test_script:
-  - "python.exe manage.py collectstatic --settings weblate.settings_test --noinput"
-  - "python.exe manage.py check --settings weblate.settings_test"
+  - "SET DJANGO_SETTINGS_MODULE=weblate.settings_test"
+  - "python.exe manage.py collectstatic --noinput"
+  - "python.exe manage.py check"
   - ps: >-
         $failure = 0;
         try {
-            coverage run ./manage.py test --settings weblate.settings_test -v2
+            coverage run ./manage.py test -v2
             $failure = $lastExitCode;
         } catch {
             $failure = 1;

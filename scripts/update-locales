@@ -19,8 +19,9 @@ wlc commit weblate
 git pull --rebase
 
 # Update po files itself
-./manage.py makemessages --keep-pot -a -i 'data/*' -i 'docs/*' -i 'examples/*' -i 'build/*' --settings=weblate.settings_test
-./manage.py makemessages --keep-pot -a -i 'data/*' -i 'docs/*' -i 'examples/*' -i 'build/*' -d djangojs --settings=weblate.settings_test
+export DJANGO_SETTINGS_MODULE=weblate.settings_test
+./manage.py makemessages --keep-pot -a -i 'data/*' -i 'docs/*' -i 'examples/*' -i 'build/*'
+./manage.py makemessages --keep-pot -a -i 'data/*' -i 'docs/*' -i 'examples/*' -i 'build/*' -d djangojs
 
 # Fix Report-Msgid-Bugs-To as it gets removed
 sed \

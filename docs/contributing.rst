@@ -85,13 +85,13 @@ To run testsuite locally use:
 
 .. code-block:: sh
 
-    ./manage.py test --settings weblate.settings_test
+    DJANGO_SETTINGS_MODULE=weblate.settings_test ./manage.py test
 
 You can also specify individual tests to run:
 
 .. code-block:: sh
 
-    ./manage.py test --settings weblate.settings_test weblate.gitexport
+    DJANGO_SETTINGS_MODULE=weblate.settings_test ./manage.py test weblate.gitexport
 
 .. seealso::
 

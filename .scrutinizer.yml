@@ -23,9 +23,11 @@ build:
     tests:
         override:
             -
-                command: ./manage.py collectstatic --settings=weblate.settings_test --noinput
+                command: export DJANGO_SETTINGS_MODULE=weblate.settings_test
             -
-                command: coverage run --source . ./manage.py test --settings=weblate.settings_test
+                command: ./manage.py collectstatic --noinput
+            -
+                command: coverage run --source . ./manage.py test
             -
                 command: coverage combine
                 coverage:
