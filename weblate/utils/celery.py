@@ -22,6 +22,8 @@
 
 from __future__ import absolute_import, unicode_literals
 
+from weblate.celery import app as celery_app
+
 
 def extract_batch_args(*args):
     """
@@ -34,3 +36,8 @@ def extract_batch_args(*args):
         return [request.args for request in args]
     else:
         return [args]
+
+
+def get_queue_length():
+    with celery_app.connection_or_acquire() as conn:
+        return conn.default_channel.queue_declare(queue='celery').message_count

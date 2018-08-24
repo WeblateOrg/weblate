@@ -53,6 +53,7 @@ from weblate.trans.stats import get_project_stats
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
 from weblate.trans.views.helper import download_translation_file
+from weblate.utils.celery import get_queue_length
 from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.docs import get_doc_url
 
@@ -627,6 +628,6 @@ class Metrics(APIView):
             ).distinct().count(),
             'checks': Check.objects.count(),
             'suggestions': Suggestion.objects.count(),
-            'index_updates': 0,
+            'index_updates': get_queue_length(),
             'name': settings.SITE_TITLE,
         })

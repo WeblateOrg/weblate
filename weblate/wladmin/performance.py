@@ -29,6 +29,7 @@ import six
 
 from weblate import settings_example
 from weblate.trans.util import HAS_PYUCA, check_domain
+from weblate.utils.celery import get_queue_length
 from weblate.utils.site import get_site_url, get_site_domain
 
 DEFAULT_MAILS = frozenset((
@@ -115,6 +116,25 @@ def run_admin(checks, request):
         'noreply@weblate.org' in [x[1] for x in settings.ADMINS],
         'production-admins',
         ', '.join([x[1] for x in settings.ADMINS]),
+    ))
+
+
+@register_check
+def run_celery_queue(checks, request):
+    count = get_queue_length()
+
+    if count < 100:
+        index_updates = True
+    elif count < 2000:
+        index_updates = None
+    else:
+        index_updates = False
+
+    checks.append((
+        _('Celery tasks queue'),
+        index_updates,
+        'celery',
+        count,
     ))
 
 

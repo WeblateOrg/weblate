@@ -25,7 +25,7 @@ from django.core.exceptions import MiddlewareNotUsed
 from django.utils.timezone import now
 
 from weblate.wladmin.models import ConfigurationError
-from weblate.wladmin.performance import run_cache
+from weblate.wladmin.performance import run_cache, run_celery_queue
 
 
 class ConfigurationErrorsMiddleware(object):
@@ -61,4 +61,12 @@ class ConfigurationErrorsMiddleware(object):
             )
         else:
             ConfigurationError.objects.remove('Cache')
+        if self.does_fire(run_celery_queue):
+            ConfigurationError.objects.add(
+                'Celery',
+                'The Celery tasks queue is too long, either the worker '
+                'is not running or is too slow.'
+            )
+        else:
+            ConfigurationError.objects.remove('Celery')
         raise MiddlewareNotUsed()
