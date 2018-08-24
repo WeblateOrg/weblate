@@ -7,6 +7,7 @@ Administrators guide
     install
     deployments
     upgrade
+    backup
     auth
     access
     projects

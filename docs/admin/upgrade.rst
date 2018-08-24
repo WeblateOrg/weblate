@@ -20,7 +20,7 @@ work, but is not as well tested as single version upgrades.
 .. note::
 
     It is recommended to perform a full database backup prior to upgrade so that you
-    can roll back the database in case upgrade fails.
+    can roll back the database in case upgrade fails, see :doc:`admin/backup`.
 
 1. Upgrade configuration file, refer to :file:`settings_example.py` or
    :ref:`version-specific-instructions` for needed steps.

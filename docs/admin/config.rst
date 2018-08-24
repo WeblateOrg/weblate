@@ -358,7 +358,8 @@ Defaults to ``$BASE_DIR/data``.
 
 .. seealso::
 
-    :setting:`BASE_DIR`
+    :setting:`BASE_DIR`,
+    :doc:`backup`
 
 .. setting:: DEFAULT_COMMITER_EMAIL
 

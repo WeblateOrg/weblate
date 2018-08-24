@@ -661,7 +661,9 @@ Optimizes translation memory storage.
 
 .. seealso::
 
-    :ref:`translation-memory`
+    :ref:`translation-memory`,
+    :doc:`backup`,
+    :djadmin:`dump_memory`
 
 pushgit
 -------
