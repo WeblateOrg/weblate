@@ -28,6 +28,14 @@ from weblate.trans.util import sort_choices
 from weblate.wladmin.models import WeblateModelAdmin
 
 
+def perform_update_checks(units, translations):
+    for unit in units:
+        unit.run_checks()
+
+    for translation in translations:
+        translation.invalidate_cache()
+
+
 class ProjectAdmin(WeblateModelAdmin):
     list_display = (
         'name', 'slug', 'web', 'list_admins', 'access_control', 'enable_hooks',
@@ -70,17 +78,12 @@ class ProjectAdmin(WeblateModelAdmin):
         units = Unit.objects.filter(
             translation__component__project__in=queryset
         )
-        translations = {}
-        for unit in units.iterator():
-            unit.run_checks()
-            if unit.translation.id not in translations:
-                translations[unit.translation.id] = unit.translation
-            cnt += 1
-
-        for translation in translations.values():
-            translation.invalidate_cache()
+        translations = Translation.objects.filter(
+            component__project__in=queryset
+        )
+        perform_update_checks(units, translations)
         self.message_user(
-            request, "Updated checks for {0:d} units.".format(cnt)
+            request, "Updated checks for {0:d} units.".format(len(units))
         )
     update_checks.short_description = _('Update quality checks')
 
@@ -124,17 +127,16 @@ class ComponentAdmin(WeblateModelAdmin):
 
     def update_checks(self, request, queryset):
         """Recalculate checks for selected components."""
-        cnt = 0
         units = Unit.objects.filter(
             translation__component__in=queryset
         )
-        for unit in units.iterator():
-            unit.run_checks()
-            unit.translation.invalidate_cache()
-            cnt += 1
+        translations = Translation.objects.filter(
+            component__in=queryset
+        )
+        perform_update_checks(units, translations)
         self.message_user(
             request,
-            "Updated checks for {0:d} units.".format(cnt)
+            "Updated checks for {0:d} units.".format(len(units))
         )
     update_checks.short_description = _('Update quality checks')
 
