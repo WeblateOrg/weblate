@@ -413,14 +413,14 @@ class User(AbstractBaseUser):
     # pylint: disable=keyword-arg-before-vararg
     def has_perm(self, perm, obj=None, *args):
         """Permission check"""
-        if settings.AUTH_RESTRICT_ADMINS and self.is_superuser:
-            allowed = settings.AUTH_RESTRICT_ADMINS.get(self.username)
-            if allowed is not None and perm not in allowed:
-                return False
         # Compatibility API for admin interface
         if obj is None:
-            # Superuser has all permissions
-            return self.is_superuser
+            if not self.is_superuser:
+                return False
+
+            # Check permissions restrictions
+            allowed = settings.AUTH_RESTRICT_ADMINS.get(self.username)
+            return allowed is None or perm in allowed
 
         # Validate perms, this is expensive to perform, so this only in test by
         # default
@@ -673,7 +673,7 @@ def cleanup_group_acl(sender, instance, **kwargs):
 class WeblateAuthConf(AppConf):
     """Authentication settings."""
     AUTH_VALIDATE_PERMS = False
-    AUTH_RESTRICT_ADMINS = None
+    AUTH_RESTRICT_ADMINS = {}
 
     class Meta(object):
         prefix = ''

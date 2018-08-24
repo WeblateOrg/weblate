@@ -99,28 +99,24 @@ class PermissionsTest(TestCase):
             self.user.has_perm('comment.delete', comment, self.project)
         )
 
-    @override_settings(AUTH_RESTRICT_ADMINS={'super': ('comment.add',)})
-    def test_override_super(self):
-        comment = Comment(project=self.project, user=self.admin)
-        self.assertFalse(
-            self.superuser.has_perm('comment.delete', comment, self.project)
-        )
-        self.assertTrue(
-            self.admin.has_perm('comment.delete', comment, self.project)
-        )
-        self.assertFalse(
-            self.user.has_perm('comment.delete', comment, self.project)
-        )
+    @override_settings(AUTH_RESTRICT_ADMINS={'super': ('trans.add_project',)})
+    def test_restrict_super(self):
+        self.assertFalse(self.superuser.has_perm('trans.change_project'))
+        self.assertFalse(self.admin.has_perm('trans.change_project'))
+        self.assertFalse(self.user.has_perm('trans.change_project'))
+        self.assertTrue(self.superuser.has_perm('trans.add_project'))
+        self.assertFalse(self.admin.has_perm('trans.add_project'))
+        self.assertFalse(self.user.has_perm('trans.add_project'))
+        # Should have no effect here
+        self.test_delete_comment()
 
-    @override_settings(AUTH_RESTRICT_ADMINS={'admin': ('comment.add',)})
-    def test_override_admin(self):
-        comment = Comment(project=self.project, user=self.admin)
-        self.assertTrue(
-            self.superuser.has_perm('comment.delete', comment, self.project)
-        )
-        self.assertTrue(
-            self.admin.has_perm('comment.delete', comment, self.project)
-        )
-        self.assertFalse(
-            self.user.has_perm('comment.delete', comment, self.project)
-        )
+    @override_settings(AUTH_RESTRICT_ADMINS={'admin': ('trans.add_project',)})
+    def test_restrict_admin(self):
+        self.assertTrue(self.superuser.has_perm('trans.change_project'))
+        self.assertFalse(self.admin.has_perm('trans.change_project'))
+        self.assertFalse(self.user.has_perm('trans.change_project'))
+        self.assertTrue(self.superuser.has_perm('trans.add_project'))
+        self.assertFalse(self.admin.has_perm('trans.add_project'))
+        self.assertFalse(self.user.has_perm('trans.add_project'))
+        # Should have no effect here
+        self.test_delete_comment()
