@@ -36,6 +36,11 @@ from weblate.utils.render import render_template
 from weblate.trans.util import path_separator
 from weblate.utils.invalidate import InvalidateContext
 
+# Attributes to copy from main component
+COPY_ATTRIBUTES = (
+    'project', 'branch', 'vcs', 'push_on_commit', 'license_url', 'license',
+)
+
 
 class ComponentDiscovery(object):
     def __init__(self, component, match, name_template,
@@ -119,7 +124,13 @@ class ComponentDiscovery(object):
                 result[mask]['languages'].add(groups['language'])
         return result
 
-    def create_component(self, main, match, background=False, **params):
+    def log(self, *args):
+        if self.component:
+            self.component.log_info(*args)
+        else:
+            LOGGER.info(*args)
+
+    def create_component(self, main, match, background=False, **kwargs):
         max_length = settings.COMPONENT_NAME_LENGTH
 
         def get_val(key, extra=0):
@@ -128,20 +139,21 @@ class ComponentDiscovery(object):
                 result = result[:max_length - extra]
             return result
 
+        # Get name and slug
         name = get_val('name')
         slug = get_val('slug')
-        simple_keys = (
-            'project', 'branch', 'vcs', 'push_on_commit', 'license_url',
-            'license',
-        )
-        for key in simple_keys:
-            if key not in params:
-                params[key] = getattr(main, key)
-        if 'repo' not in params:
-            params['repo'] = main.get_repo_link_url()
 
-        components = Component.objects.filter(project=params['project'])
+        # Copy attributes from main component
+        for key in COPY_ATTRIBUTES:
+            if key not in kwargs:
+                kwargs[key] = getattr(main, key)
 
+        # Fill in repository
+        if 'repo' not in kwargs:
+            kwargs['repo'] = main.get_repo_link_url()
+
+        # Deal with duplicate name or slug
+        components = Component.objects.filter(project=kwargs['project'])
         if components.filter(Q(slug=slug) | Q(name=name)).exists():
             base_name = get_val('name', 4)
             base_slug = get_val('slug', 4)
@@ -154,20 +166,17 @@ class ComponentDiscovery(object):
                     continue
                 break
 
-        if self.component:
-            self.component.log_info('Creating component %s', name)
-        else:
-            LOGGER.info('Creating component %s', name)
-        kwargs = {
+        # Fill in remaining attributes
+        kwargs.update({
             'name': name,
             'slug': slug,
             'template': match['base_file'],
             'filemask': match['mask'],
             'file_format': self.file_format,
             'language_regex': self.language_re,
-        }
-        kwargs.update(params)
+        })
 
+        self.log('Creating component %s', name)
         if background:
             create_component.delay(**kwargs)
             return None
