@@ -47,8 +47,7 @@ from weblate.auth.models import User
 from weblate.checks.models import Check
 from weblate.formats.exporters import EXPORTERS
 from weblate.trans.models import (
-    Project, Component, Translation, Change, Unit, Source,
-    IndexUpdate, Suggestion,
+    Project, Component, Translation, Change, Unit, Source, Suggestion,
 )
 from weblate.trans.stats import get_project_stats
 from weblate.lang.models import Language
@@ -628,6 +627,6 @@ class Metrics(APIView):
             ).distinct().count(),
             'checks': Check.objects.count(),
             'suggestions': Suggestion.objects.count(),
-            'index_updates': IndexUpdate.objects.count(),
+            'index_updates': 0,
             'name': settings.SITE_TITLE,
         })

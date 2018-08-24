@@ -29,9 +29,7 @@ from django.core.management import call_command
 from django.core.management.base import CommandError
 
 from weblate.trans.tests.test_models import RepoTestCase
-from weblate.trans.models import (
-    Translation, Component, Suggestion, IndexUpdate
-)
+from weblate.trans.models import Translation, Component, Suggestion
 from weblate.runner import main
 from weblate.trans.tests.utils import get_test_file, create_test_user
 from weblate.vcs.mercurial import HgRepository

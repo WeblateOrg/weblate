@@ -36,7 +36,6 @@ from weblate.trans.models.translation import Translation
 from weblate.trans.models.unit import Unit
 from weblate.trans.models.comment import Comment
 from weblate.trans.models.suggestion import Suggestion, Vote
-from weblate.trans.models.search import IndexUpdate
 from weblate.trans.models.change import Change
 from weblate.trans.models.dictionary import Dictionary
 from weblate.trans.models.source import Source
@@ -50,7 +49,7 @@ from weblate.utils.files import remove_readonly
 
 __all__ = [
     'Project', 'Component', 'Translation', 'Unit', 'Suggestion',
-    'Comment', 'Vote', 'IndexUpdate', 'Change', 'Dictionary', 'Source',
+    'Comment', 'Vote', 'Change', 'Dictionary', 'Source',
     'WhiteboardMessage', 'ComponentList',
     'WeblateConf', 'ContributorAgreement',
 ]

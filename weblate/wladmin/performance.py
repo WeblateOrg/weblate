@@ -27,7 +27,6 @@ from django.utils.translation import ugettext as _
 
 import six
 
-from weblate.trans.models import IndexUpdate
 from weblate import settings_example
 from weblate.trans.util import HAS_PYUCA, check_domain
 from weblate.utils.site import get_site_url, get_site_domain
