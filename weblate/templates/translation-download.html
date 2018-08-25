@@ -1,23 +1,25 @@
 {% load i18n %}
 {% load permissions %}
+{% load downloads %}
 
 {% if subject == 'translation'  %}
     {% perm 'upload.perform' object as user_can_upload_translation %}
 {% endif %}
 
-{% include "translation-download-link.html" %}
+<li>{% translation_download_link %}</li>
 
 <li role="separator" class="divider"></li>
 
 {% for exporter in exporters %}
-    {% include "translation-download-link.html" %}
+    <li>{% translation_download_link %}</li>
 {% endfor %}
+
 
 {% if stats.todo %}
     <li role="separator" class="divider"></li>
 
     {% for exporter in exporters %}
-        {% include "translation-download-link.html" with todo=True %}
+        <li>{% translation_download_link todo=true %}</li>
     {% endfor %}
 {% endif %}
 

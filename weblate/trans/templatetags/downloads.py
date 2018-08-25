@@ -25,7 +25,7 @@ def download_translation_url(context):
     return Template(template).render(context)
 
 @register.simple_tag(takes_context=True)
-def translation_download_link(context):
+def translation_download_link(context, todo=False):
     before_link_text = '''
         {% load downloads %}
         {% load i18n %}
