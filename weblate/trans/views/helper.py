@@ -21,6 +21,7 @@
 import shutil
 import tempfile
 import zipfile
+import StringIO
 
 from django.http import HttpResponse, Http404
 from django.shortcuts import get_object_or_404
@@ -189,9 +190,10 @@ def translation_filename(translation):
 
 def download_translation_files(translations, fmt=None, form_cleaned_data=None):
     try:
+        s = StringIO.StringIO()
+
         dirname = tempfile.mkdtemp()
-        zipFilePath = dirname + '/translations.zip'
-        with zipfile.ZipFile(zipFilePath, 'w') as translationsZip:
+        with zipfile.ZipFile(s, 'w') as translationsZip:
             for translation in translations:
                 translationFile = get_translation_file(translation, fmt, form_cleaned_data, dirname)
                 if isinstance(translationFile, dict):
@@ -199,20 +201,19 @@ def download_translation_files(translations, fmt=None, form_cleaned_data=None):
                 else:            
                     translationsZip.write(translationFile, translation_filename(translation))
 
-        with open(zipFilePath, 'r') as translationsZipRaw:
-            response = HttpResponse(
-                translationsZipRaw.read(),
-                content_type='application/zip'
-            )
+        response = HttpResponse(
+            s.getvalue(),
+            content_type='application/zip'
+        )
 
-            filename = 'translations.zip'
+        filename = 'translations.zip'
 
-            # Fill in response headers
-            response['Content-Disposition'] = 'attachment; filename={0}'.format(
-                filename
-            )
+        # Fill in response headers
+        response['Content-Disposition'] = 'attachment; filename={0}'.format(
+            filename
+        )
 
-            return response
+        return response
     finally:
         shutil.rmtree(dirname)
 
