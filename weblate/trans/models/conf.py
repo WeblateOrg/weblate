@@ -52,9 +52,6 @@ class WeblateConf(AppConf):
     # Enable sharing
     ENABLE_SHARING = True
 
-    # Whether to run hooks in background
-    BACKGROUND_HOOKS = True
-
     # Number of nearby messages to show in each direction
     NEARBY_MESSAGES = 5
 
@@ -63,9 +60,6 @@ class WeblateConf(AppConf):
 
     # Enable lazy commits
     COMMIT_PENDING_HOURS = 24
-
-    # Offload indexing
-    OFFLOAD_INDEXING = False
 
     # List of quality checks
     CHECK_LIST = (

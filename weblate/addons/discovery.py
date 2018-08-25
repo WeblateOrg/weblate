@@ -57,7 +57,8 @@ class DiscoveryAddon(BaseAddon):
 
     def perform(self):
         self.discovery.perform(
-            remove=self.instance.configuration['remove']
+            remove=self.instance.configuration['remove'],
+            background=True
         )
 
     def get_settings_form(self, **kwargs):

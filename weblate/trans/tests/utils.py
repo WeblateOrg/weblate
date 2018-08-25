@@ -25,6 +25,9 @@ from tarfile import TarFile
 from tempfile import mkdtemp
 from unittest import SkipTest
 
+from celery.result import allow_join_result
+from celery.contrib.testing.tasks import ping
+
 from django.conf import settings
 from weblate.auth.models import User
 
@@ -42,6 +45,11 @@ TEST_DATA = os.path.join(
 
 REPOWEB_URL = \
     'https://github.com/WeblateOrg/test/blob/master/%(file)s#L%(line)s'
+
+
+def wait_for_celery(timeout=10):
+    with allow_join_result():
+        ping.delay().get(timeout=timeout)
 
 
 def get_test_file(name):

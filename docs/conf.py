@@ -350,6 +350,7 @@ intersphinx_mapping = {
     'psa': ('https://python-social-auth.readthedocs.io/en/latest/', None),
     'tt': ('http://docs.translatehouse.org/projects/translate-toolkit/en/latest/', None),
     'ldap': ('http://django-auth-ldap.readthedocs.io/en/latest/', None),
+    'celery': ('http://docs.celeryproject.org/en/latest/', None),
 }
 
 # Ignore missing targets for the http:obj <type>, it's how we declare the types

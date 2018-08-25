@@ -27,9 +27,9 @@ from django.utils.translation import ugettext as _
 
 import six
 
-from weblate.trans.models import IndexUpdate
 from weblate import settings_example
 from weblate.trans.util import HAS_PYUCA, check_domain
+from weblate.utils.celery import get_queue_length
 from weblate.utils.site import get_site_url, get_site_domain
 
 DEFAULT_MAILS = frozenset((
@@ -120,34 +120,22 @@ def run_admin(checks, request):
 
 
 @register_check
-def run_index(checks, request):
-    """Check offloading indexing"""
+def run_celery_queue(checks, request):
+    count = get_queue_length()
+
+    if count < 100:
+        index_updates = True
+    elif count < 2000:
+        index_updates = None
+    else:
+        index_updates = False
+
     checks.append((
-        # Translators: Indexing is postponed to cron job
-        _('Indexing offloading'),
-        settings.OFFLOAD_INDEXING,
-        'production-indexing',
-        settings.OFFLOAD_INDEXING
+        _('Celery tasks queue'),
+        index_updates,
+        'celery',
+        count,
     ))
-
-
-@register_check
-def run_index_queue(checks, request):
-    if settings.OFFLOAD_INDEXING:
-        if IndexUpdate.objects.count() < 1000:
-            index_updates = True
-        elif IndexUpdate.objects.count() < 20000:
-            index_updates = None
-        else:
-            index_updates = False
-
-        checks.append((
-            # Translators: Indexing is postponed to cron job
-            _('Indexing offloading queue'),
-            index_updates,
-            'production-indexing',
-            IndexUpdate.objects.count(),
-        ))
 
 
 @register_check

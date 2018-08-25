@@ -33,7 +33,6 @@ from django.http import QueryDict
 from weblate.utils.ratelimit import reset_rate_limit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.search import Fulltext
-from weblate.trans.models import IndexUpdate
 from weblate.trans.tests.utils import TempDirMixin
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
@@ -379,7 +378,7 @@ class SearchBackendTest(ViewTestCase):
         super(SearchBackendTest, self).setUp()
         self.update_fulltext_index()
 
-    def do_index_update(self):
+    def test_add(self):
         self.edit_unit(
             'Hello, world!\n',
             'Nazdar svete!\n'
@@ -389,18 +388,6 @@ class SearchBackendTest(ViewTestCase):
         )
         Fulltext.update_index_unit(unit)
         Fulltext.update_index_unit(unit)
-
-    @override_settings(OFFLOAD_INDEXING=False)
-    def test_add(self):
-        self.do_index_update()
-        self.assertEqual(IndexUpdate.objects.count(), 0)
-
-    @override_settings(OFFLOAD_INDEXING=True)
-    def test_add_offload(self):
-        self.do_index_update()
-        self.assertEqual(IndexUpdate.objects.count(), 1)
-        update = IndexUpdate.objects.all()[0]
-        self.assertTrue(update.source, True)
 
 
 class SearchMigrationTest(TestCase, TempDirMixin):

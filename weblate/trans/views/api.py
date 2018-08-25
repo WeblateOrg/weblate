@@ -18,11 +18,14 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from __future__ import absolute_import, unicode_literals
+
 import csv
 import json
 import re
 import sys
-import threading
+
+from celery import shared_task
 
 import six
 from six.moves.urllib.parse import urlparse
@@ -36,7 +39,7 @@ from django.http import (
     JsonResponse,
 )
 
-from weblate.trans.models import Component
+from weblate.trans.models import Project, Component
 from weblate.trans.views.helper import get_project, get_component
 from weblate.trans.stats import get_project_stats
 from weblate.utils.errors import report_error
@@ -77,12 +80,15 @@ GITHUB_REPOS = (
 HOOK_HANDLERS = {}
 
 
-def background_hook(method):
-    try:
-        with InvalidateContext():
-            method()
-    except Exception as error:
-        report_error(error, sys.exc_info())
+@shared_task
+def perform_update(cls, pk):
+    if cls == 'Project':
+        obj = Project.objects.get(pk=pk)
+    else:
+        obj = Component.objects.get(pk=pk)
+
+    with InvalidateContext():
+        obj.do_update()
 
 
 def hook_response(response='Update triggered', status='success'):
@@ -99,18 +105,6 @@ def register_hook(handler):
     return handler
 
 
-def perform_update(obj):
-    """Trigger update of given object."""
-    if settings.BACKGROUND_HOOKS:
-        thread = threading.Thread(
-            target=background_hook,
-            args=(obj.do_update,)
-        )
-        thread.start()
-    else:
-        obj.do_update()
-
-
 @csrf_exempt
 def update_component(request, project, component):
     """API hook for updating git repos."""
@@ -119,7 +113,7 @@ def update_component(request, project, component):
     obj = get_component(request, project, component, True)
     if not obj.project.enable_hooks:
         return HttpResponseNotAllowed([])
-    perform_update(obj)
+    perform_update.delay('Component', obj.pk)
     return hook_response()
 
 
@@ -131,7 +125,7 @@ def update_project(request, project):
     obj = get_project(request, project, True)
     if not obj.enable_hooks:
         return HttpResponseNotAllowed([])
-    perform_update(obj)
+    perform_update.delay('Project', obj.pk)
     return hook_response()
 
 
@@ -224,7 +218,7 @@ def vcs_service_hook(request, service):
             service_long_name,
             obj
         )
-        perform_update(obj)
+        perform_update.delay('Component', obj.pk)
 
     if updates == 0:
         return hook_response('No matching repositories found!', 'failure')

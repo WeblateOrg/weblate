@@ -23,6 +23,8 @@ from __future__ import unicode_literals
 import os
 import shutil
 
+from celery import shared_task
+
 from django.db.models.signals import post_delete, post_save, m2m_changed
 from django.dispatch import receiver
 
@@ -34,7 +36,6 @@ from weblate.trans.models.translation import Translation
 from weblate.trans.models.unit import Unit
 from weblate.trans.models.comment import Comment
 from weblate.trans.models.suggestion import Suggestion, Vote
-from weblate.trans.models.search import IndexUpdate
 from weblate.trans.models.change import Change
 from weblate.trans.models.dictionary import Dictionary
 from weblate.trans.models.source import Source
@@ -48,7 +49,7 @@ from weblate.utils.files import remove_readonly
 
 __all__ = [
     'Project', 'Component', 'Translation', 'Unit', 'Suggestion',
-    'Comment', 'Vote', 'IndexUpdate', 'Change', 'Dictionary', 'Source',
+    'Comment', 'Vote', 'Change', 'Dictionary', 'Source',
     'WhiteboardMessage', 'ComponentList',
     'WeblateConf', 'ContributorAgreement',
 ]
@@ -159,3 +160,20 @@ def auto_project_componentlist(sender, instance, **kwargs):
 def auto_component_list(sender, instance, **kwargs):
     for auto in AutoComponentList.objects.all():
         auto.check_match(instance)
+
+
+@receiver(post_save, sender=Component)
+@disable_for_loaddata
+def post_save_update_checks(sender, instance, **kwargs):
+    if instance.old_component.check_flags == instance.check_flags:
+        return
+    update_checks.delay(instance.pk)
+
+
+@shared_task
+def update_checks(pk):
+    component = Component.objects.get(pk=pk)
+    for translation in component.translation_set.all():
+        for unit in translation.unit_set.all():
+            unit.run_checks()
+        translation.invalidate_cache()

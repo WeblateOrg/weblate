@@ -36,7 +36,7 @@ from weblate.formats.exporters import list_exporters
 from weblate.utils import messages
 from weblate.utils.stats import prefetch_stats
 from weblate.trans.models import (
-    Project, Translation, ComponentList, Change, Unit, IndexUpdate,
+    Project, Translation, ComponentList, Change, Unit,
 )
 from weblate.utils.requirements import get_versions, get_optional_versions
 from weblate.lang.models import Language
@@ -282,11 +282,6 @@ def show_translation(request, project, component, lang):
             'last_changes': last_changes,
             'last_changes_url': urlencode(obj.get_kwargs()),
             'show_only_component': True,
-            'pending_fulltext': obj.unit_set.filter(
-                id__in=IndexUpdate.objects.filter(
-                    to_delete=False
-                ).values('unitid')
-            ).exists(),
             'other_translations': prefetch_stats(
                 Translation.objects.prefetch().filter(
                     component__project=obj.component.project,

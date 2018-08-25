@@ -36,13 +36,9 @@ from django.core.cache import cache
 
 from weblate.auth.models import Group, Role, Permission, setup_project_groups
 from weblate.lang.models import Language
-from weblate.trans.management.commands.update_index import (
-    Command as UpdateIndexCommand
-)
 from weblate.trans.models import ComponentList, WhiteboardMessage, Project
-from weblate.trans.search import Fulltext
 from weblate.trans.tests.test_models import RepoTestCase
-from weblate.trans.tests.utils import create_test_user
+from weblate.trans.tests.utils import create_test_user, wait_for_celery
 from weblate.utils.hash import hash_to_checksum
 from weblate.accounts.models import Profile
 
@@ -120,8 +116,7 @@ class ViewTestCase(RepoTestCase):
         self.component_url = self.component.get_absolute_url()
 
     def update_fulltext_index(self):
-        command = UpdateIndexCommand()
-        command.do_update(Fulltext(), 100000)
+        wait_for_celery()
 
     def make_manager(self):
         """Make user a Manager."""

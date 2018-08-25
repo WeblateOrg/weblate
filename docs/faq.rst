@@ -408,11 +408,11 @@ I get "Lock Error" quite often while translating
 
 This is usually caused by concurrent updates to the fulltext index. In case you are
 running a multi-threaded server (e.g. mod_wsgi), this happens quite often. For such
-a setup it is recommended to enable :setting:`OFFLOAD_INDEXING`.
+a setup it is recommended to use Celery to peform updates in the background.
 
 .. seealso:: 
    
-   :ref:`fulltext`
+   :ref:`fulltext`, :ref:`celery`
 
 .. _faq-ft-space:
 

@@ -20,9 +20,15 @@
 
 """Whoosh based full text search."""
 
+from __future__ import absolute_import, unicode_literals
+
 import functools
 
+from celery import shared_task
+from celery_batches import Batches
+
 from whoosh.fields import SchemaClass, TEXT, NUMERIC
+from whoosh.index import LockError
 from whoosh.query import Or, Term
 from whoosh.writing import AsyncWriter, BufferedWriter
 from whoosh import qparser
@@ -33,6 +39,7 @@ from django.utils.encoding import force_text
 from django.db import transaction
 
 from weblate.lang.models import Language
+from weblate.utils.celery import extract_batch_args
 from weblate.utils.index import WhooshIndex
 
 
@@ -106,47 +113,10 @@ class Fulltext(WhooshIndex):
                     for unit in language_units.iterator():
                         self.update_target_unit_index(writer, unit)
 
-    @staticmethod
-    def add_index_update(unit_id, to_delete, language_code):
-        from weblate.trans.models.search import IndexUpdate
-        try:
-            with transaction.atomic():
-                IndexUpdate.objects.create(
-                    unitid=unit_id,
-                    to_delete=to_delete,
-                    language_code=language_code,
-                )
-        except IntegrityError:
-            try:
-                update = IndexUpdate.objects.get(unitid=unit_id)
-                if to_delete and not update.to_delete:
-                    update.to_delete = True
-                    update.save()
-            except IndexUpdate.DoesNotExist:
-                # It did exist, but was deleted meanwhile
-                return
-
     @classmethod
     def update_index_unit(cls, unit):
         """Add single unit to index."""
-        # Should this happen in background?
-        if settings.OFFLOAD_INDEXING:
-            cls.add_index_update(
-                unit.id, False, unit.translation.language.code
-            )
-            return
-
-        # Update source
-        instance = cls()
-        index = instance.get_source_index()
-        with AsyncWriter(index) as writer:
-            instance.update_source_unit_index(writer, unit)
-
-        # Update target
-        if unit.target:
-            index = instance.get_target_index(unit.translation.language.code)
-            with AsyncWriter(index) as writer:
-                instance.update_target_unit_index(writer, unit)
+        update_fulltext.delay(unit.id)
 
     @staticmethod
     def base_search(index, query, params, search, schema):
@@ -235,10 +205,7 @@ class Fulltext(WhooshIndex):
 
     def clean_search_unit(self, pk, lang):
         """Cleanup search index on unit deletion."""
-        if settings.OFFLOAD_INDEXING:
-            self.add_index_update(pk, True, lang)
-        else:
-            self.delete_search_unit(pk, lang)
+        delete_fulltext.delay(pk, lang)
 
     def delete_search_unit(self, pk, lang):
         try:
@@ -265,3 +232,38 @@ class Fulltext(WhooshIndex):
             with index.writer() as writer:
                 for pk in units:
                     writer.delete_by_term('pk', pk)
+
+
+@shared_task(base=Batches, flush_every=500, flush_interval=300, bind=True)
+def update_fulltext(self, *args):
+    from weblate.trans.models import Unit
+    ids = extract_batch_args(*args)
+    try:
+        fulltext = Fulltext()
+
+        # Filter matching units
+        units = Unit.objects.filter(id__in=[x[0] for x in ids])
+
+        # Udate index
+        fulltext.update_index(units)
+    except LockError as exc:
+        raise self.retry(exc=exc)
+
+
+@shared_task(base=Batches, flush_every=500, flush_interval=300, bind=True)
+def delete_fulltext(self, *args):
+    ids = extract_batch_args(*args)
+    try:
+        fulltext = Fulltext()
+
+        units = set()
+        languages = {}
+        for unit, language in ids:
+            units.add(unit)
+            if language not in languages:
+                languages[language] = set()
+            languages[language].add(unit)
+
+        fulltext.delete_search_units(units, languages)
+    except LockError as exc:
+        raise self.retry(exc=exc)

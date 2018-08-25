@@ -134,7 +134,6 @@ Maintenance tasks
 The Docker container runs some cron jobs to perform maintenance tasks in
 background:
 
-* Update fulltext index by :djadmin:`update_index` (needed for :envvar:`WEBLATE_OFFLOAD_INDEXING`)
 * Cleanup stale objects by :djadmin:`cleanuptrans`
 * Commit pending changes by :djadmin:`commit_pending`
 
@@ -253,21 +252,6 @@ Generic settings
 .. envvar:: WEBLATE_TIME_ZONE
 
     Configures time zone used.
-
-.. envvar:: WEBLATE_OFFLOAD_INDEXING
-
-    Configures offloaded indexing, defaults to enabled.
-
-    **Example:**
-
-    .. code-block:: yaml
-
-        environment:
-          - WEBLATE_OFFLOAD_INDEXING=1
-
-    .. seealso::
-
-        :ref:`production-indexing`
 
 .. envvar:: WEBLATE_ENABLE_HTTPS
 
@@ -650,7 +634,6 @@ After installation on OpenShift Weblate is ready to use and preconfigured as fol
 * SQLite embedded database (:setting:`DATABASES`)
 * Random admin password
 * Random Django secret key (:setting:`SECRET_KEY`)
-* Indexing offloading if the cron cartridge is installed (:setting:`OFFLOAD_INDEXING`)
 * Committing of pending changes if the cron cartridge is installed (:djadmin:`commit_pending`)
 * Weblate machine translations for suggestions bases on previous translations (:setting:`MT_SERVICES`)
 * Weblate directories (STATIC_ROOT, :setting:`DATA_DIR`, :setting:`TTF_PATH`, Avatar cache) set according to OpenShift requirements/conventions

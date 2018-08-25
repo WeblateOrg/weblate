@@ -623,14 +623,8 @@ EMAIL_SUBJECT_PREFIX = '[{0}] '.format(SITE_TITLE)
 # Enable remote hooks
 ENABLE_HOOKS = True
 
-# Whether to run hooks in background
-BACKGROUND_HOOKS = True
-
 # Number of nearby messages to show in each direction
 NEARBY_MESSAGES = 5
-
-# Offload indexing
-OFFLOAD_INDEXING = False
 
 # Use simple language codes for default language/country combinations
 SIMPLIFY_LANGUAGES = True
@@ -787,5 +781,6 @@ REST_FRAMEWORK = {
 #    r'/legal/(.*)$',           # Optional for legal app
 # )
 
-# Force sane test runner
-TEST_RUNNER = 'django.test.runner.DiscoverRunner'
+# Celery settings
+CELERY_TASK_ALWAYS_EAGER = True
+CELERY_BROKER_URL = 'memory://'

@@ -63,6 +63,8 @@ work, but is not as well tested as single version upgrades.
 
         ./manage.py check --deploy
 
+8. Restart celery worker (see :ref:`celery`).
+
 
 .. _version-specific-instructions:
 
@@ -100,6 +102,7 @@ Notable configuration or dependencies changes:
 
 * Rate limiting configuration has been changed, please see :ref:`rate-limit`.
 * Microsoft Terminology machine translation was moved to separate module and now requires ``zeep`` module.
+* Weblate now uses Celery for several background tasks. There are new dependencies and settings because of this, see :ref:`celery`.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

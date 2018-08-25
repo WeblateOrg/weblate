@@ -705,20 +705,6 @@ have a huge set of translation units.
    
    :ref:`fulltext`
 
-update_index
-------------
-
-.. django-admin:: update_index
-
-Updates index for fulltext search when :setting:`OFFLOAD_INDEXING` is enabled.
-
-It is recommended to run this frequently (eg. every 5 minutes) to have index
-uptodate.
-
-.. seealso:: 
-   
-   :ref:`fulltext`, :ref:`production-cron`, :ref:`production-indexing`
-
 unlock_translation
 ------------------
 

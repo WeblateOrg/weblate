@@ -38,6 +38,10 @@ distribution packages:
     
 Django (>= 1.11)
     https://www.djangoproject.com/
+Celery (>= 4.0)
+    http://www.celeryproject.org/
+celery-batches (>= 0.2)
+    https://pypi.org/project/celery-batches/
 siphashc (>= 0.8)
     https://github.com/WeblateOrg/siphashc
 translate-toolkit (>= 2.3.0)
@@ -246,12 +250,12 @@ If you decide to install Weblate using pip installer, you will notice some
 differences. Most importantly the command line interface is installed  to the
 system path as :command:`weblate` instead of :command:`./manage.py` as used in
 this documentation. Also when invoking this command, you will have to specify
-settings, either by environment variable `DJANGO_SETTINGS` or on the command
-line, for example:
+settings, either by environment variable `DJANGO_SETTINGS_MODULE` on the
+command line, for example:
 
 .. code-block:: sh
 
-    weblate --settings=yourproject.settings migrate
+    DJANGO_SETTINGS_MODULE=yourproject.settings weblate migrate
 
 .. seealso:: :ref:`invoke-manage`
 
@@ -269,7 +273,7 @@ install them you can use apt-get:
         python-whoosh python-pil \
         python-babel git mercurial \
         python-django-compressor python-django-crispy-forms \
-        python-djangorestframework python-dateutil
+        python-djangorestframework python-dateutil python-celery
 
     # Optional packages for database backend:
 
@@ -359,7 +363,7 @@ Most of requirements are available either directly in openSUSE or in
         python-Whoosh python-Pillow \
         python-social-auth-core python-social-auth-app-django \
         python-babel Git mercurial python-pyuca \
-        python-dateutil
+        python-dateutil python-celery
 
     # Optional for database backend
     zypper install python-psycopg2      # For PostgreSQL
@@ -669,6 +673,40 @@ Django documentation.
         You can verify whether outgoing mail is working correctly by using
         :djadmin:`django:sendtestemail` management command.
 
+.. _celery:
+
+Background tasks using Celery
++++++++++++++++++++++++++++++
+
+.. versionadded:: 3.2
+
+Weblate uses Celery to process background tasks. The example settings come with
+eager configuration, which does process all tasks in place, but you want to
+change this to something more reasonable for production setup.
+
+Typical setup using redis as a backend should look like:
+
+.. code-block:: python
+
+   CELERY_TASK_ALWAYS_EAGER = False
+   CELERY_BROKER_URL = 'redis://localhost:6379'
+
+You should also start the Celery worker to process the tasks, this can be done
+directly on command line (what is mostly useful when debugging or developing):
+
+.. code-block:: sh
+
+   celery --app weblate worker --loglevel info --beat
+
+Most likely you will want to run Celery as a daemon and that is covered by
+:doc:`userguide/daemonizing`.
+
+.. seealso::
+
+   :doc:`celery:userguide/configuration`,
+   :doc:`celery:userguide/workers`,
+   :doc:`userguide/daemonizing`
+
 .. _installation:
 
 Installation
@@ -916,19 +954,6 @@ several other related Django settings in the example configuration.
 
 You might want to configure HSTS as well, see
 :ref:`django:security-recommendation-ssl` for more details.
-
-.. _production-indexing:
-
-Enable indexing offloading
-++++++++++++++++++++++++++
-
-Enable :setting:`OFFLOAD_INDEXING` to prevent locking issues and improve
-performance. Don't forget to schedule indexing as a background job to keep the
-index up to date.
-
-.. seealso::
-
-   :ref:`fulltext`, :setting:`OFFLOAD_INDEXING`, :ref:`production-cron`
 
 .. _production-database:
 
@@ -1181,9 +1206,6 @@ On a Unix-likesystem, this can be scheduled using cron:
 
 .. code-block:: text
 
-    # Fulltext index updates
-    */5 * * * * cd /usr/share/weblate/; ./manage.py update_index
-
     # Cleanup stale objects
     @daily cd /usr/share/weblate/; ./manage.py cleanuptrans
 
@@ -1192,7 +1214,7 @@ On a Unix-likesystem, this can be scheduled using cron:
 
 .. seealso::
 
-   :ref:`production-indexing`, :djadmin:`update_index`, :djadmin:`cleanuptrans`, :djadmin:`commit_pending`
+   :ref:`production-indexing`, :djadmin:`cleanuptrans`, :djadmin:`commit_pending`
 
 .. _server:
 

@@ -323,11 +323,6 @@
 <div class="row">
 <div class="col-lg-6">
 
-{% if pending_fulltext %}
-{% trans "The fulltext search might not work properly as the fulltext index for this translation is not yet up to date." as msg %}
-{% show_message "warning" msg %}
-{% endif %}
-
 <form action="{{ object.get_translate_url }}" method="GET" data-persist="search-translation">
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Search" %}</h4></div>

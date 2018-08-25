@@ -23,6 +23,8 @@ from __future__ import unicode_literals
 import os
 import re
 
+from celery import shared_task
+
 from django.conf import settings
 from django.db.models import Q
 from django.utils.functional import cached_property
@@ -33,6 +35,11 @@ from weblate.trans.models import Component
 from weblate.utils.render import render_template
 from weblate.trans.util import path_separator
 from weblate.utils.invalidate import InvalidateContext
+
+# Attributes to copy from main component
+COPY_ATTRIBUTES = (
+    'project', 'branch', 'vcs', 'push_on_commit', 'license_url', 'license',
+)
 
 
 class ComponentDiscovery(object):
@@ -117,7 +124,13 @@ class ComponentDiscovery(object):
                 result[mask]['languages'].add(groups['language'])
         return result
 
-    def create_component(self, main, match, **params):
+    def log(self, *args):
+        if self.component:
+            self.component.log_info(*args)
+        else:
+            LOGGER.info(*args)
+
+    def create_component(self, main, match, background=False, **kwargs):
         max_length = settings.COMPONENT_NAME_LENGTH
 
         def get_val(key, extra=0):
@@ -126,20 +139,21 @@ class ComponentDiscovery(object):
                 result = result[:max_length - extra]
             return result
 
+        # Get name and slug
         name = get_val('name')
         slug = get_val('slug')
-        simple_keys = (
-            'project', 'branch', 'vcs', 'push_on_commit', 'license_url',
-            'license',
-        )
-        for key in simple_keys:
-            if key not in params:
-                params[key] = getattr(main, key)
-        if 'repo' not in params:
-            params['repo'] = main.get_repo_link_url()
 
-        components = Component.objects.filter(project=params['project'])
+        # Copy attributes from main component
+        for key in COPY_ATTRIBUTES:
+            if key not in kwargs:
+                kwargs[key] = getattr(main, key)
 
+        # Fill in repository
+        if 'repo' not in kwargs:
+            kwargs['repo'] = main.get_repo_link_url()
+
+        # Deal with duplicate name or slug
+        components = Component.objects.filter(project=kwargs['project'])
         if components.filter(Q(slug=slug) | Q(name=name)).exists():
             base_name = get_val('name', 4)
             base_slug = get_val('slug', 4)
@@ -152,19 +166,22 @@ class ComponentDiscovery(object):
                     continue
                 break
 
-        if self.component:
-            self.component.log_info('Creating component %s', name)
-        else:
-            LOGGER.info('Creating component %s', name)
-        return Component.objects.create(
-            name=name,
-            slug=slug,
-            template=match['base_file'],
-            filemask=match['mask'],
-            file_format=self.file_format,
-            language_regex=self.language_re,
-            **params
-        )
+        # Fill in remaining attributes
+        kwargs.update({
+            'name': name,
+            'slug': slug,
+            'template': match['base_file'],
+            'filemask': match['mask'],
+            'file_format': self.file_format,
+            'language_regex': self.language_re,
+        })
+
+        self.log('Creating component %s', name)
+        if background:
+            create_component.delay(**kwargs)
+            return None
+
+        return Component.objects.create(**kwargs)
 
     def cleanup(self, main, processed, preview=False):
         deleted = []
@@ -188,7 +205,7 @@ class ComponentDiscovery(object):
 
         return deleted
 
-    def perform(self, preview=False, remove=False):
+    def perform(self, preview=False, remove=False, background=False):
         created = []
         matched = []
         deleted = []
@@ -211,10 +228,12 @@ class ComponentDiscovery(object):
                     processed.add(found.id)
                 except IndexError:
                     # Create new component
-                    if preview:
-                        component = None
-                    else:
-                        component = self.create_component(main, match)
+                    component = None
+                    if not preview:
+                        component = self.create_component(
+                            main, match, background
+                        )
+                    if component:
                         processed.add(component.id)
                     created.append((match, component))
 
@@ -222,3 +241,8 @@ class ComponentDiscovery(object):
                 deleted = self.cleanup(main, processed, preview)
 
         return created, matched, deleted
+
+
+@shared_task
+def create_component(**kwargs):
+    Component.objects.create(**kwargs)
