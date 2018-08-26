@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-08-26 16:17+0000\n"
-"PO-Revision-Date: 2018-08-26 22:34+0000\n"
+"PO-Revision-Date: 2018-08-26 22:38+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
@@ -4442,10 +4442,8 @@ msgid "Cleanup"
 msgstr "クリーンアップ"
 
 #: weblate/templates/js/git-status.html:184
-#, fuzzy
-#| msgid "Reset all changes in the local repository"
 msgid "Cleanup all untracked files in the local repository"
-msgstr "ローカルリポジトリ内のすべての変更をリセットする"
+msgstr "ローカルリポジトリ内の未追跡ファイルをクリーンアップする"
 
 #: weblate/templates/js/git-status.html:196
 msgid "Unlock"
@@ -5258,22 +5256,16 @@ msgid "Source string search"
 msgstr "原文の検索"
 
 #: weblate/templates/screenshots/screenshot_detail.html:111
-#, fuzzy
-#| msgid "Screenshots"
 msgid "Screenshot details"
-msgstr "スクリーンショット"
+msgstr "スクリーンショットの詳細"
 
 #: weblate/templates/screenshots/screenshot_detail.html:114
-#, fuzzy
-#| msgid "Created new SSH key."
 msgid "Created on"
-msgstr "新しい SSH 鍵を作成しました。"
+msgstr "作成日時"
 
 #: weblate/templates/screenshots/screenshot_detail.html:115
-#, fuzzy
-#| msgid "Upload"
 msgid "Uploaded by"
-msgstr "アップロード"
+msgstr "アップロード者"
 
 #: weblate/templates/screenshots/screenshot_detail.html:125
 msgid "Deleting screenshot will remove it from all associated source strings."
@@ -5351,16 +5343,12 @@ msgid "Suggested"
 msgstr "提案数"
 
 #: weblate/templates/stats.html:58
-#, fuzzy
-#| msgid "Most active suggesters"
 msgid "Most active screenshot uploaders"
-msgstr "最も活動している提案者"
+msgstr "最も活動しているスクリーンショットの登録者"
 
 #: weblate/templates/stats.html:63
-#, fuzzy
-#| msgid "Screenshot name"
 msgid "Screenshots uploaded"
-msgstr "スクリーンショットの名前"
+msgstr "アップロードしたスクリーンショット"
 
 #: weblate/templates/stats.html:87
 msgid "Translatable strings"
@@ -6118,10 +6106,8 @@ msgid "Strings with suggestions"
 msgstr "提案がある文字列"
 
 #: weblate/trans/filter.py:37 weblate/trans/models/translation.py:747
-#, fuzzy
-#| msgid "Strings without suggestions"
 msgid "Strings needing action without suggestions"
-msgstr "提案の無い文字列"
+msgstr "提案の無い、何らかの作業が必要な文字列"
 
 #: weblate/trans/filter.py:38 weblate/trans/models/translation.py:662
 #: weblate/trans/models/translation.py:775
@@ -6240,16 +6226,12 @@ msgid "Merge method"
 msgstr "マージ方法"
 
 #: weblate/trans/forms.py:581
-#, fuzzy
-#| msgid "Add as translation needing edit"
 msgid "Add as translation needing review"
-msgstr "翻訳を要編集として追加"
+msgstr "翻訳を要査読として追加"
 
 #: weblate/trans/forms.py:582
-#, fuzzy
-#| msgid "Add as other translation"
 msgid "Add as approved translation"
-msgstr "その他の翻訳として追加"
+msgstr "その他の承認済みの翻訳として追加"
 
 #: weblate/trans/forms.py:583
 msgid "Add as a suggestion"
@@ -7084,10 +7066,9 @@ msgid "Failed to reset to remote branch on %s."
 msgstr "%s のリモートブランチへのリセットが失敗しました。"
 
 #: weblate/trans/models/component.py:779
-#, fuzzy, python-format
-#| msgid "Failed to fetch repository: %s"
+#, python-format
 msgid "Failed to clean the repository on %s."
-msgstr "リポジトリへのアクセスに失敗しました: %s"
+msgstr "リポジトリのクリーンアップに失敗しました: %s"
 
 #: weblate/trans/models/component.py:846
 #, python-format
@@ -8098,10 +8079,8 @@ msgid "All repositories have been reset."
 msgstr "すべてのリポジトリをリセットしました。"
 
 #: weblate/trans/views/git.py:108
-#, fuzzy
-#| msgid "All repositories have been reset."
 msgid "All repositories have been cleaned up."
-msgstr "すべてのリポジトリをリセットしました。"
+msgstr "すべてのリポジトリをクリーンアップしました。"
 
 #: weblate/trans/views/git.py:290
 msgid "Translation has been removed."
@@ -8372,7 +8351,7 @@ msgstr "サイト管理者"
 
 #: weblate/wladmin/performance.py:134
 msgid "Celery tasks queue"
-msgstr ""
+msgstr "Celery タスクキュー"
 
 #: weblate/wladmin/performance.py:155
 msgid "Django caching"
