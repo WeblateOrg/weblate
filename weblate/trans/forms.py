@@ -1479,11 +1479,13 @@ class ReplaceForm(forms.Form):
         label=_('Search string'),
         min_length=1,
         required=True,
+        strip=False,
     )
     replacement = forms.CharField(
         label=_('Replacement string'),
         min_length=1,
         required=True,
+        strip=False,
     )
 
     def __init__(self, *args, **kwargs):
