@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-08-26 11:51+0000\n"
+"POT-Creation-Date: 2018-08-26 15:35+0000\n"
 "PO-Revision-Date: 2018-04-08 15:38+0000\n"
 "Last-Translator: Hong Lees <redf1123@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
@@ -73,7 +73,8 @@ msgid ""
 "your watched projects."
 msgstr "감시하고있는 프로젝트에서 번역된 언어에 대해서만 알림을 받게됩니다."
 
-#: weblate/accounts/forms.py:276 weblate/auth/models.py:313
+#: weblate/accounts/forms.py:276 weblate/accounts/forms.py:347
+#: weblate/auth/models.py:313 weblate/templates/manage-access.html:25
 #, fuzzy
 #| msgid "E-mail"
 msgid "Email"
@@ -106,10 +107,6 @@ msgid ""
 "Please contact us in English, otherwise we might be unable to understand "
 "your request."
 msgstr "영어로 연락하시지 않으면 저희가 요청 사항을 이해할 수 없을 것입니다."
-
-#: weblate/accounts/forms.py:347 weblate/templates/manage-access.html:25
-msgid "E-mail"
-msgstr "이메일"
 
 #: weblate/accounts/forms.py:348
 msgid "Activation email will be sent here."
@@ -559,7 +556,7 @@ msgid "Contact"
 msgstr "연락"
 
 #: weblate/accounts/views.py:465
-msgid "Please login using your personal account to request hosting."
+msgid "Please log in using your personal account to request hosting."
 msgstr ""
 
 #: weblate/accounts/views.py:493 weblate/templates/accounts/hosting.html:7
@@ -640,9 +637,13 @@ msgid "Authentication has been forbidden by server."
 msgstr "인증이 취소되었습니다."
 
 #: weblate/accounts/views.py:955
+#, fuzzy
+#| msgid ""
+#| "Failed to complete your registration! This authentication, email or "
+#| "username are already associated with another account!"
 msgid ""
 "Failed to complete your registration! This authentication, email or username "
-"are already associated with another account!"
+"is already associated with another account!"
 msgstr ""
 "등록을 완료하지 못했습니다! 이 인증, 이메일 또는 사용자 이름은 이미 다른 계정"
 "과 연결되어 있습니다!"
@@ -3619,13 +3620,13 @@ msgid "Using language in both path and filename."
 msgstr ""
 
 #: weblate/templates/addons/discovery_help.html:62
-msgid "Androuid resource strings split into several files."
+msgid "Android resource strings, split into several files."
 msgstr ""
 
 #: weblate/templates/addons/discovery_help.html:67
 msgid ""
-"You can use Django templates markup in both component name and monolingual "
-"base filename, for example:"
+"You can use Django template markup in both component name and the "
+"monolingual base filename, for example:"
 msgstr ""
 
 #: weblate/templates/addons/discovery_help.html:71
@@ -9495,6 +9496,9 @@ msgstr "보고"
 #| msgid "Configuration errors"
 msgid "Failed to dismiss configuration error!"
 msgstr "구성 오류"
+
+#~ msgid "E-mail"
+#~ msgstr "이메일"
 
 #~ msgid "Add as translation"
 #~ msgstr "번역으로서 추가"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-08-26 11:51+0000\n"
+"POT-Creation-Date: 2018-08-26 15:35+0000\n"
 "PO-Revision-Date: 2018-07-23 15:30+0000\n"
 "Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -71,7 +71,8 @@ msgid ""
 "your watched projects."
 msgstr "您将只收到您已关注项目之您已翻译语言的这些通知。"
 
-#: weblate/accounts/forms.py:276 weblate/auth/models.py:313
+#: weblate/accounts/forms.py:276 weblate/accounts/forms.py:347
+#: weblate/auth/models.py:313 weblate/templates/manage-access.html:25
 msgid "Email"
 msgstr "电子邮箱"
 
@@ -102,10 +103,6 @@ msgid ""
 "Please contact us in English, otherwise we might be unable to understand "
 "your request."
 msgstr "请使用英语与我们联系，否则我们可能无法理解您的请求。"
-
-#: weblate/accounts/forms.py:347 weblate/templates/manage-access.html:25
-msgid "E-mail"
-msgstr "电子邮箱"
 
 #: weblate/accounts/forms.py:348
 msgid "Activation email will be sent here."
@@ -517,7 +514,7 @@ msgid "Contact"
 msgstr "联系"
 
 #: weblate/accounts/views.py:465
-msgid "Please login using your personal account to request hosting."
+msgid "Please log in using your personal account to request hosting."
 msgstr ""
 
 #: weblate/accounts/views.py:493 weblate/templates/accounts/hosting.html:7
@@ -590,9 +587,13 @@ msgid "Authentication has been forbidden by server."
 msgstr "身份验证已被服务器禁止。"
 
 #: weblate/accounts/views.py:955
+#, fuzzy
+#| msgid ""
+#| "Failed to complete your registration! This authentication, email or "
+#| "username are already associated with another account!"
 msgid ""
 "Failed to complete your registration! This authentication, email or username "
-"are already associated with another account!"
+"is already associated with another account!"
 msgstr "未能完成注册！本次验证所用的电子邮箱或用户名已经与另一账号相关联！"
 
 #: weblate/addons/cleanup.py:34
@@ -3362,14 +3363,14 @@ msgid "Using language in both path and filename."
 msgstr "在路径和文件名处使用的语言。"
 
 #: weblate/templates/addons/discovery_help.html:62
-msgid "Androuid resource strings split into several files."
+msgid "Android resource strings, split into several files."
 msgstr ""
 
 #: weblate/templates/addons/discovery_help.html:67
 #, fuzzy
 msgid ""
-"You can use Django templates markup in both component name and monolingual "
-"base filename, for example:"
+"You can use Django template markup in both component name and the "
+"monolingual base filename, for example:"
 msgstr "您可以在组件名和单语言译文模版文件中使用 Django 模版标记，例如:"
 
 #: weblate/templates/addons/discovery_help.html:71
@@ -8622,6 +8623,9 @@ msgstr "报告"
 #: weblate/wladmin/views.py:59
 msgid "Failed to dismiss configuration error!"
 msgstr "排除配置错误时失败！"
+
+#~ msgid "E-mail"
+#~ msgstr "电子邮箱"
 
 #~ msgid ""
 #~ "The fulltext search might not work properly as the fulltext index for "

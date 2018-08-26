@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-08-26 11:51+0000\n"
+"POT-Creation-Date: 2018-08-26 15:35+0000\n"
 "PO-Revision-Date: 2018-08-12 12:46+0000\n"
 "Last-Translator: WaldiS <admin@sto.ugu.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/master/pl/"
@@ -78,7 +78,8 @@ msgstr ""
 "Otrzymasz te powiadomienia tylko dla twoich tłumaczonych języków w "
 "obserwowanych projektach."
 
-#: weblate/accounts/forms.py:276 weblate/auth/models.py:313
+#: weblate/accounts/forms.py:276 weblate/accounts/forms.py:347
+#: weblate/auth/models.py:313 weblate/templates/manage-access.html:25
 msgid "Email"
 msgstr "E-mail"
 
@@ -111,10 +112,6 @@ msgid ""
 msgstr ""
 "Prosimy o kontakt w języku angielskim, w przeciwnym wypadku możemy mieć "
 "kłopot ze zrozumieniem treści zapytania."
-
-#: weblate/accounts/forms.py:347 weblate/templates/manage-access.html:25
-msgid "E-mail"
-msgstr "E-mail"
 
 #: weblate/accounts/forms.py:348
 msgid "Activation email will be sent here."
@@ -545,7 +542,7 @@ msgid "Contact"
 msgstr "Kontakt"
 
 #: weblate/accounts/views.py:465
-msgid "Please login using your personal account to request hosting."
+msgid "Please log in using your personal account to request hosting."
 msgstr ""
 
 #: weblate/accounts/views.py:493 weblate/templates/accounts/hosting.html:7
@@ -624,9 +621,13 @@ msgid "Authentication has been forbidden by server."
 msgstr "Uwierzytelnienie zostało zabronine przez serwer."
 
 #: weblate/accounts/views.py:955
+#, fuzzy
+#| msgid ""
+#| "Failed to complete your registration! This authentication, email or "
+#| "username are already associated with another account!"
 msgid ""
 "Failed to complete your registration! This authentication, email or username "
-"are already associated with another account!"
+"is already associated with another account!"
 msgstr ""
 "Nie udało się sfinalizować twojej rejestracji! To uwierzytelnienie, e-mail "
 "lub nazwa użytkownika są już przypisane do innego konta!"
@@ -3364,13 +3365,17 @@ msgid "Using language in both path and filename."
 msgstr "Używanie języka w ścieżce i nazwie pliku."
 
 #: weblate/templates/addons/discovery_help.html:62
-msgid "Androuid resource strings split into several files."
+msgid "Android resource strings, split into several files."
 msgstr ""
 
 #: weblate/templates/addons/discovery_help.html:67
+#, fuzzy
+#| msgid ""
+#| "You can use Django templates markup in both component name and "
+#| "monolingual base filename, for example:"
 msgid ""
-"You can use Django templates markup in both component name and monolingual "
-"base filename, for example:"
+"You can use Django template markup in both component name and the "
+"monolingual base filename, for example:"
 msgstr ""
 "Znaczników szablonów Django można używać zarówno w nazwie komponentu, jak i "
 "w jednojęzycznej podstawowej nazwie pliku, na przykład:"
@@ -8717,6 +8722,9 @@ msgstr "Raporty"
 #: weblate/wladmin/views.py:59
 msgid "Failed to dismiss configuration error!"
 msgstr "Nie można odrzucić błędu konfiguracji!"
+
+#~ msgid "E-mail"
+#~ msgstr "E-mail"
 
 #~ msgid ""
 #~ "The fulltext search might not work properly as the fulltext index for "

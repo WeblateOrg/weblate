@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-08-26 11:51+0000\n"
+"POT-Creation-Date: 2018-08-26 15:35+0000\n"
 "PO-Revision-Date: 2018-08-08 11:33+0000\n"
 "Last-Translator: ButterflyOfFire <ButterflyOfFire@protonmail.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/weblate/master/ar/"
@@ -76,7 +76,8 @@ msgid ""
 msgstr ""
 "سوف تستقبل هذا الإشعار فقط في اللغات التي تترجمها في المشاريع التي تتابعها."
 
-#: weblate/accounts/forms.py:276 weblate/auth/models.py:313
+#: weblate/accounts/forms.py:276 weblate/accounts/forms.py:347
+#: weblate/auth/models.py:313 weblate/templates/manage-access.html:25
 msgid "Email"
 msgstr "البريد الإلكتروني"
 
@@ -107,10 +108,6 @@ msgid ""
 "Please contact us in English, otherwise we might be unable to understand "
 "your request."
 msgstr "نرجو أن تراسلونا باللغة الإنجليزية فقط، حتى نستطيع أن نفهم طلباتكم."
-
-#: weblate/accounts/forms.py:347 weblate/templates/manage-access.html:25
-msgid "E-mail"
-msgstr "البريد الإلكتروني"
 
 #: weblate/accounts/forms.py:348
 msgid "Activation email will be sent here."
@@ -534,7 +531,7 @@ msgid "Contact"
 msgstr "تواصل"
 
 #: weblate/accounts/views.py:465
-msgid "Please login using your personal account to request hosting."
+msgid "Please log in using your personal account to request hosting."
 msgstr ""
 
 #: weblate/accounts/views.py:493 weblate/templates/accounts/hosting.html:7
@@ -609,9 +606,13 @@ msgid "Authentication has been forbidden by server."
 msgstr "ألغى الخادوم المصادقة."
 
 #: weblate/accounts/views.py:955
+#, fuzzy
+#| msgid ""
+#| "Failed to complete your registration! This authentication, email or "
+#| "username are already associated with another account!"
 msgid ""
 "Failed to complete your registration! This authentication, email or username "
-"are already associated with another account!"
+"is already associated with another account!"
 msgstr ""
 "فشل إكمال تسجيلك! إنَّ هذه المصادقة أو البريد الإلكتروني أو اسم المستخدم "
 "مستعمل سابقاً مع حساب آخَر!"
@@ -3223,13 +3224,13 @@ msgid "Using language in both path and filename."
 msgstr ""
 
 #: weblate/templates/addons/discovery_help.html:62
-msgid "Androuid resource strings split into several files."
+msgid "Android resource strings, split into several files."
 msgstr ""
 
 #: weblate/templates/addons/discovery_help.html:67
 msgid ""
-"You can use Django templates markup in both component name and monolingual "
-"base filename, for example:"
+"You can use Django template markup in both component name and the "
+"monolingual base filename, for example:"
 msgstr ""
 
 #: weblate/templates/addons/discovery_help.html:71
@@ -8434,6 +8435,9 @@ msgstr "التقارير"
 #: weblate/wladmin/views.py:59
 msgid "Failed to dismiss configuration error!"
 msgstr ""
+
+#~ msgid "E-mail"
+#~ msgstr "البريد الإلكتروني"
 
 #~ msgid "Add as translation"
 #~ msgstr "إضافة كترجمة"
