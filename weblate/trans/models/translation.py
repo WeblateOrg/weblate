@@ -776,7 +776,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         return result
 
-    def merge_translations(self, request, store2, overwrite, add_fuzzy,
+    def merge_translations(self, request, store2, overwrite, method,
                            fuzzy, merge_header):
         """Merge translation unit wise
 
@@ -785,6 +785,8 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         not_found = 0
         skipped = 0
         accepted = 0
+        add_fuzzy = (method == 'fuzzy')
+        add_approve = (method == 'approve')
 
         for set_fuzzy, unit2 in store2.iterate_merge(fuzzy):
             try:
@@ -809,6 +811,8 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             state = STATE_TRANSLATED
             if add_fuzzy or set_fuzzy:
                 state = STATE_FUZZY
+            elif add_approve:
+                state = STATE_APPROVED
             unit.translate(
                 request,
                 split_plural(unit2.get_target()),
@@ -891,14 +895,14 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 # Formula wrong or missing
                 pass
 
-        if method in ('translate', 'fuzzy'):
+        if method in ('translate', 'fuzzy', 'approve'):
             # Merge on units level
             with self.component.repository.lock:
                 return self.merge_translations(
                     request,
                     store,
                     overwrite,
-                    (method == 'fuzzy'),
+                    method,
                     fuzzy,
                     merge_header,
                 )

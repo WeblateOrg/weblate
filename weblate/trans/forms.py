@@ -578,7 +578,8 @@ class SimpleUploadForm(forms.Form):
     method = forms.ChoiceField(
         label=_('Merge method'),
         choices=(
-            ('translate', _('Add as translation')),
+            ('approve', _('Add as approved translation')),
+            ('translate', _('Add as translation needing review')),
             ('suggest', _('Add as a suggestion')),
             ('fuzzy', _('Add as translation needing edit')),
         ),
@@ -649,6 +650,8 @@ def get_upload_form(user, translation, *args):
         result.remove_translation_choice('fuzzy')
     if not user.has_perm('suggestion.add', translation):
         result.remove_translation_choice('suggest')
+    if not user.has_perm('unit.review', translation):
+        result.remove_translation_choice('approve')
     return result
 
 

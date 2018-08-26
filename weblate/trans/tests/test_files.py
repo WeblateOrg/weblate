@@ -248,7 +248,7 @@ class ImportFuzzyTest(ImportBaseTest):
         self.assertEqual(translation.stats.all, 4)
 
     def test_import_process(self):
-        """Test importing normally."""
+        """Test importing including fuzzy strings."""
         response = self.do_import(
             fuzzy='process'
         )
@@ -261,7 +261,7 @@ class ImportFuzzyTest(ImportBaseTest):
         self.assertEqual(translation.stats.all, 4)
 
     def test_import_approve(self):
-        """Test importing normally."""
+        """Test importing ignoring fuzzy flag."""
         response = self.do_import(
             fuzzy='approve'
         )
@@ -269,6 +269,20 @@ class ImportFuzzyTest(ImportBaseTest):
 
         # Verify stats
         translation = self.get_translation()
+        self.assertEqual(translation.stats.translated, 1)
+        self.assertEqual(translation.stats.fuzzy, 0)
+        self.assertEqual(translation.stats.all, 4)
+
+    def test_import_approve(self):
+        """Test importing as approved."""
+        self.project.enable_review = True
+        self.project.save()
+        response = self.do_import(method='approve', fuzzy='approve')
+        self.assertRedirects(response, self.translation_url)
+
+        # Verify stats
+        translation = self.get_translation()
+        self.assertEqual(translation.stats.approved, 1)
         self.assertEqual(translation.stats.translated, 1)
         self.assertEqual(translation.stats.fuzzy, 0)
         self.assertEqual(translation.stats.all, 4)
