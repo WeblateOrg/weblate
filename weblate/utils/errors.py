@@ -33,6 +33,12 @@ try:
 except ImportError:
     HAS_ROLLBAR = False
 
+try:
+    from raven.contrib.django.models import client as raven_client
+    HAS_RAVEN = True
+except ImportError:
+    HAS_RAVEN = False
+
 
 def report_error(error, exc_info, request=None, extra_data=None, level=None):
     """Wrapper for error reporting
@@ -43,6 +49,11 @@ def report_error(error, exc_info, request=None, extra_data=None, level=None):
     if HAS_ROLLBAR and hasattr(settings, 'ROLLBAR'):
         rollbar.report_exc_info(
             exc_info, request, extra_data=extra_data, level=level
+        )
+
+    if HAS_RAVEN and hasattr(settings, 'RAVEN_CONFIG'):
+        raven_client.captureException(
+            exc_info, request=request, extra_data=extra_data
         )
 
     LOGGER.error(
