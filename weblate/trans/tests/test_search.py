@@ -216,11 +216,6 @@ class SearchViewTest(ViewTestCase):
             {'q': 'Thank you for using Weblate.', 'search': 'exact'},
             'Search for exact string'
         )
-        # Short string
-        self.do_search(
-            {'q': 'x'},
-            'The query string has to be longer!',
-        )
         # Short exact
         self.do_search(
             {'q': 'x', 'search': 'exact'},
