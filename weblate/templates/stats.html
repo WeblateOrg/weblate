@@ -53,10 +53,27 @@
 </div>
 </div>
 
+<div class="col-lg-6">
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Most active screenshot uploaders" %}</h4></div>
+<table class="table">
+<thead>
+<tr>
+<th>{% trans "User" %}</th>
+<th>{% trans "Screenshots uploaded" %}</th>
+</tr>
+<tbody>
+{% for u in top_uploads %}
+<tr>
+<td>{{ u.get_user_display_link }}</td>
+<td class="percent">{{ u.suggested }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
 </div>
 
-
-<div class="row">
 <div class="col-lg-6">
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Statistics" %}</h4></div>
