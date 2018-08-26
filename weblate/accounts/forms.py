@@ -344,7 +344,7 @@ class EmailForm(forms.Form, UniqueEmailMixin):
 
     email = EmailField(
         strip=False,
-        label=_("E-mail"),
+        label=_("Email"),
         help_text=_('Activation email will be sent here.'),
     )
     content = forms.CharField(required=False)
