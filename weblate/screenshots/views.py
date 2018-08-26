@@ -86,6 +86,7 @@ class ScreenshotList(ListView, ComponentViewMixin):
         if self._add_form.is_valid():
             obj = Screenshot.objects.create(
                 component=component,
+                user=request.user,
                 **self._add_form.cleaned_data
             )
             try_add_source(request, obj)
@@ -130,6 +131,8 @@ class ScreenshotDetail(DetailView):
                 request.POST, request.FILES, instance=obj
             )
             if self._edit_form.is_valid():
+                if request.FILES:
+                    obj.user = request.user
                 self._edit_form.save()
             else:
                 return self.get(request, **kwargs)

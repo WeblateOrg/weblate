@@ -20,17 +20,19 @@
 
 from __future__ import unicode_literals
 
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.trans.models import Source, Component
+from weblate.trans.mixins import UserDisplayMixin
 from weblate.screenshots.fields import ScreenshotField
 
 
 @python_2_unicode_compatible
-class Screenshot(models.Model):
+class Screenshot(models.Model, UserDisplayMixin):
     name = models.CharField(
         verbose_name=_('Screenshot name'),
         max_length=200,
@@ -48,6 +50,11 @@ class Screenshot(models.Model):
         Source,
         blank=True,
         related_name='screenshots',
+    )
+    timestamp = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, null=True, blank=True,
+        on_delete=models.deletion.SET_NULL
     )
 
     class Meta(object):
