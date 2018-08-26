@@ -722,6 +722,7 @@ class SearchForm(BaseSearchForm):
         label=_('Query'),
         min_length=1,
         required=False,
+        strip=False,
     )
     search = forms.ChoiceField(
         label=_('Search type'),
