@@ -35,7 +35,7 @@ def extract_batch_args(*args):
     batch mode.
     """
     if isinstance(args[0], list) and isinstance(args[0][0], SimpleRequest):
-        return [request.args for request in args]
+        return [request.args for request in args[0]]
     return [args]
 
 
