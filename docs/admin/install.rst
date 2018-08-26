@@ -1361,10 +1361,7 @@ Collecting error reports
 
 It is good idea to collect errors from any Django application in structured way
 and Weblate is not an exception from this. You might find several services providing
-this, for example:
-
-* `Sentry <https://sentry.io>`_
-* `Rollbar <https://rollbar.com/>`_
+this, Weblate has basic support for following ones.
 
 Sentry
 ++++++
