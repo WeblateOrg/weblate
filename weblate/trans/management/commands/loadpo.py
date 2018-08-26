@@ -20,6 +20,8 @@
 
 from weblate.trans.management.commands import WeblateLangCommand
 
+from weblate.trans.tasks import perform_load
+
 
 class Command(WeblateLangCommand):
     help = '(re)loads translations from disk'
@@ -39,4 +41,4 @@ class Command(WeblateLangCommand):
         if options['lang'] is not None:
             langs = options['lang'].split(',')
         for component in self.get_components(**options):
-            component.create_translations(options['force'], langs)
+            perform_load.delay(component.pk, options['force'], langs)

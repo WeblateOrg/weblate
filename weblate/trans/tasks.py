@@ -35,3 +35,10 @@ def perform_update(cls, pk):
 
     with InvalidateContext():
         obj.do_update()
+
+
+@shared_task
+def perform_load(pk, *args):
+    component = Component.objects.get(pk=pk)
+    with InvalidateContext():
+        component.create_translations(*args)
