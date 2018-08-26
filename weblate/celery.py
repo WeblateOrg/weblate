@@ -69,6 +69,6 @@ if bool(os.environ.get('CELERY_WORKER_RUNNING', False)):
         def handle_task_failure(**kw):
             rollbar.report_exc_info(extra_data=kw)
 
-    if HAS_RAVEN and hasattr(settings, 'RAVEN_CONFIG')
+    if HAS_RAVEN and hasattr(settings, 'RAVEN_CONFIG'):
         client = Client(settings['RAVEN_CONFIG']['dsn'])
         register_signal(client, ignore_expected=True)
