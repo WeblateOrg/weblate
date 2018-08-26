@@ -148,7 +148,7 @@ class LanguageQuerySet(models.QuerySet):
                     return ret
         return None
 
-    def fuzzy_get(self, code):
+    def fuzzy_get(self, code, strict=False):
         """Get matching language for code (the code does not have to be exactly
         same, cs_CZ is same as cs-CZ) or returns None
 
@@ -205,7 +205,7 @@ class LanguageQuerySet(models.QuerySet):
             if ret is not None:
                 return ret
 
-        return newcode
+        return None if strict else newcode
 
     def auto_get_or_create(self, code, create=True):
         """Try to get language using fuzzy_get and create it if that fails."""
@@ -235,12 +235,12 @@ class LanguageQuerySet(models.QuerySet):
         # Check for different variant
         if baselang is None and '@' in code:
             parts = code.split('@')
-            baselang = self.fuzzy_get(code=parts[0])
+            baselang = self.fuzzy_get(code=parts[0], strict=True)
 
         # Check for different country
         if baselang is None and '_' in code or '-' in code:
             parts = code.replace('-', '_').split('_')
-            baselang = self.fuzzy_get(code=parts[0])
+            baselang = self.fuzzy_get(code=parts[0], strict=True)
 
         if baselang is not None:
             lang.name = baselang.name
