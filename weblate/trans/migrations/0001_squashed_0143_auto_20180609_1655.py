@@ -471,7 +471,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='whiteboardmessage',
             name='message_html',
-            field=models.BooleanField(default=False, help_text='When disabled, URLs will be converted to links and any markup will be escaped.', verbose_name='Render as HTML'),
+            field=models.BooleanField(default=False, blank=True, help_text='When disabled, URLs will be converted to links and any markup will be escaped.', verbose_name='Render as HTML'),
         ),
         migrations.AddField(
             model_name='componentlist',
