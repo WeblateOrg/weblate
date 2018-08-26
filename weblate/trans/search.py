@@ -28,7 +28,6 @@ from celery import shared_task
 from celery_batches import Batches
 
 from whoosh.fields import SchemaClass, TEXT, NUMERIC
-from whoosh.index import LockError
 from whoosh.query import Or, Term
 from whoosh.writing import AsyncWriter, BufferedWriter
 from whoosh import qparser
@@ -235,32 +234,26 @@ class Fulltext(WhooshIndex):
 def update_fulltext(self, *args):
     from weblate.trans.models import Unit
     ids = extract_batch_args(*args)
-    try:
-        fulltext = Fulltext()
+    fulltext = Fulltext()
 
-        # Filter matching units
-        units = Unit.objects.filter(id__in=[x[0] for x in ids])
+    # Filter matching units
+    units = Unit.objects.filter(id__in=[x[0] for x in ids])
 
-        # Udate index
-        fulltext.update_index(units)
-    except LockError as exc:
-        raise self.retry(exc=exc)
+    # Udate index
+    fulltext.update_index(units)
 
 
 @shared_task(base=Batches, flush_every=500, flush_interval=300, bind=True)
 def delete_fulltext(self, *args):
     ids = extract_batch_args(*args)
-    try:
-        fulltext = Fulltext()
+    fulltext = Fulltext()
 
-        units = set()
-        languages = {}
-        for unit, language in ids:
-            units.add(unit)
-            if language not in languages:
-                languages[language] = set()
-            languages[language].add(unit)
+    units = set()
+    languages = {}
+    for unit, language in ids:
+        units.add(unit)
+        if language not in languages:
+            languages[language] = set()
+        languages[language].add(unit)
 
-        fulltext.delete_search_units(units, languages)
-    except LockError as exc:
-        raise self.retry(exc=exc)
+    fulltext.delete_search_units(units, languages)

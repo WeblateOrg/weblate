@@ -47,7 +47,9 @@ class CeleryConf(AppConf):
     # List Celery beats (scheduled tasks)
     BEAT_SCHEDULE = {}
 
-    CELERY_IMPORTS = [
+    TASK_ACKS_LATE = True
+
+    IMPORTS = [
         'weblate.accounts.notifications',
         'weblate.trans.discovery',
         'weblate.trans.models',
