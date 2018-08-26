@@ -459,7 +459,12 @@ def contact(request):
 @never_cache
 def hosting(request):
     """Form for hosting request."""
-    if not settings.OFFER_HOSTING:
+    if not settings.OFFER_HOSTING or request.user.is_demo:
+        if request.user.is_demo:
+            message = _(
+                'Please login using your personal account to request hosting.'
+            )
+            messages.warning(request, message)
         return redirect('home')
 
     if request.method == 'POST':
