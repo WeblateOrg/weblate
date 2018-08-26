@@ -462,7 +462,7 @@ def hosting(request):
     if not settings.OFFER_HOSTING or request.user.is_demo:
         if request.user.is_demo:
             message = _(
-                'Please login using your personal account to request hosting.'
+                'Please log in using your personal account to request hosting.'
             )
             messages.warning(request, message)
         return redirect('home')
@@ -552,7 +552,7 @@ def redirect_single(request, backend):
 
 
 class WeblateLoginView(LoginView):
-    """Login handler, just wrapper around standard Django login."""
+    """Login handler, just a wrapper around standard Django login."""
     form_class = LoginForm
     template_name = 'accounts/login.html'
     redirect_authenticated_user = True
@@ -588,7 +588,7 @@ class WeblateLoginView(LoginView):
 
 
 class WeblateLogoutView(LogoutView):
-    """Logout handler, just wrapper around standard Django logout."""
+    """Logout handler, just a wrapper around standard Django logout."""
     @method_decorator(require_POST)
     @method_decorator(login_required)
     @method_decorator(never_cache)
@@ -953,5 +953,5 @@ def social_complete(request, backend):
     except AuthAlreadyAssociated:
         return fail(_(
             'Failed to complete your registration! This authentication, '
-            'email or username are already associated with another account!'
+            'email or username is already associated with another account!'
         ))
