@@ -31,6 +31,7 @@ from django.utils.translation.trans_real import parse_accept_lang_header
 
 from weblate.utils import messages
 from weblate.utils.stats import prefetch_stats
+from weblate.utils.views import get_paginator
 from weblate.trans.models import Translation, ComponentList
 from weblate.lang.models import Language
 from weblate.trans.forms import SiteSearchForm
@@ -228,8 +229,10 @@ def dashboard_user(request):
             'allow_index': True,
             'suggestions': suggestions,
             'search_form': SiteSearchForm(),
-            'usersubscriptions': usersubscriptions,
-            'userlanguages': prefetch_stats(user_translations),
+            'usersubscriptions': get_paginator(request, usersubscriptions),
+            'userlanguages': prefetch_stats(
+                get_paginator(request, user_translations)
+            ),
             'componentlists': componentlists,
             'all_componentlists': prefetch_stats(ComponentList.objects.all()),
             'active_tab_slug': active_tab_slug,
