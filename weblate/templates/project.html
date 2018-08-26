@@ -121,6 +121,10 @@
 
 {% include "legend.html" %}
 
+{% with components as page_obj %}
+{% include "paginator.html" %}
+{% endwith %}
+
 </div>
 
 <div class="tab-pane" id="information">
