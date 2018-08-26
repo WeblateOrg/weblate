@@ -578,8 +578,8 @@ class SimpleUploadForm(forms.Form):
     method = forms.ChoiceField(
         label=_('Merge method'),
         choices=(
-            ('approve', _('Add as approved translation')),
             ('translate', _('Add as translation needing review')),
+            ('approve', _('Add as approved translation')),
             ('suggest', _('Add as a suggestion')),
             ('fuzzy', _('Add as translation needing edit')),
         ),
