@@ -31,6 +31,13 @@ try:
 except ImportError:
     HAS_ROLLBAR = False
 
+try:
+    from raven import Client
+    from raven.contrib.celery import register_signal, register_logger_signal
+    HAS_RAVEN = True
+except ImportError:
+    HAS_RAVEN = False
+
 
 # set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'weblate.settings')
@@ -48,9 +55,9 @@ app.autodiscover_tasks()
 
 # Rollbar integration, based on
 # https://www.mattlayman.com/blog/2017/django-celery-rollbar/
-if bool(os.environ.get('CELERY_WORKER_RUNNING', False)) and HAS_ROLLBAR:
+if bool(os.environ.get('CELERY_WORKER_RUNNING', False)):
     from django.conf import settings
-    if hasattr(settings, 'ROLLBAR'):
+    if HAS_ROLLBAR and hasattr(settings, 'ROLLBAR'):
         rollbar.init(**settings.ROLLBAR)
 
         def celery_base_data_hook(request, data):
@@ -61,3 +68,7 @@ if bool(os.environ.get('CELERY_WORKER_RUNNING', False)) and HAS_ROLLBAR:
         @task_failure.connect
         def handle_task_failure(**kw):
             rollbar.report_exc_info(extra_data=kw)
+
+    if HAS_RAVEN and hasattr(settings, 'RAVEN_CONFIG')
+        client = Client(settings['RAVEN_CONFIG']['dsn'])
+        register_signal(client, ignore_expected=True)

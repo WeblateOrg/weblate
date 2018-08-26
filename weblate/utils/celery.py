@@ -33,8 +33,8 @@ def extract_batch_args(*args):
     batch mode.
     """
     if isinstance(args[0], list):
-        return [request.args for request in args]
-    return [args]
+        return [args]
+    return [request.args for request in args]
 
 
 def get_queue_length():
