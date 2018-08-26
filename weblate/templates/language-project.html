@@ -32,6 +32,9 @@
 
 <div class="tab-pane active" id="overview">
 {% include "list-translations.html" %}
+{% with translations as page_obj %}
+{% include "paginator.html" %}
+{% endwith %}
 <p>{% include "legend.html" %}</p>
 </div>
 

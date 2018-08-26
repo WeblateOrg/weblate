@@ -18,6 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.http import Http404
 from django.utils.translation import ugettext as _
@@ -29,6 +30,7 @@ from weblate.trans.models import Change
 from weblate.trans.util import sort_objects
 from weblate.trans.views.helper import get_project
 from weblate.utils.stats import prefetch_stats
+from weblate.utils.views import get_page_limit
 
 
 def show_languages(request):
@@ -99,11 +101,16 @@ def show_project(request, lang, project):
         translation__language=obj,
         component__project=pobj
     )[:10]
-    translations = obj.translation_set.prefetch().filter(
+
+    # Paginate translations.
+    page, limit = get_page_limit(request, 50)
+    translation_list = obj.translation_set.prefetch().filter(
         component__project=pobj
     ).order_by(
         'component__project__slug', 'component__slug'
     )
+    paginator = Paginator(translation_list, limit)
+    translations = paginator.page(page)
 
     return render(
         request,
