@@ -18,14 +18,20 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from weblate.trans.management.commands import WeblateComponentCommand
+from __future__ import absolute_import, unicode_literals
 
-from weblate.trans.tasks import perform_update
+from celery import shared_task
+
+from weblate.trans.models import Project, Component
+from weblate.utils.invalidate import InvalidateContext
 
 
-class Command(WeblateComponentCommand):
-    help = 'updates git repos'
+@shared_task
+def perform_update(cls, pk):
+    if cls == 'Project':
+        obj = Project.objects.get(pk=pk)
+    else:
+        obj = Component.objects.get(pk=pk)
 
-    def handle(self, *args, **options):
-        for component in self.get_components(*args, **options):
-            perform_update.delay('Component', component.pk)
+    with InvalidateContext():
+        obj.do_update()

@@ -52,7 +52,6 @@ class CeleryConf(AppConf):
         'weblate.trans.discovery',
         'weblate.trans.models',
         'weblate.trans.search',
-        'weblate.trans.views.api',
     ]
 
     class Meta(object):

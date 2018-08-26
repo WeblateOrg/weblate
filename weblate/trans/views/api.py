@@ -25,7 +25,6 @@ import json
 import re
 import sys
 
-from celery import shared_task
 
 import six
 from six.moves.urllib.parse import urlparse
@@ -39,11 +38,11 @@ from django.http import (
     JsonResponse,
 )
 
-from weblate.trans.models import Project, Component
+from weblate.trans.models import Component
 from weblate.trans.views.helper import get_project, get_component
 from weblate.trans.stats import get_project_stats
+from weblate.trans.tasks import perform_update
 from weblate.utils.errors import report_error
-from weblate.utils.invalidate import InvalidateContext
 from weblate.logger import LOGGER
 
 
@@ -78,17 +77,6 @@ GITHUB_REPOS = (
 )
 
 HOOK_HANDLERS = {}
-
-
-@shared_task
-def perform_update(cls, pk):
-    if cls == 'Project':
-        obj = Project.objects.get(pk=pk)
-    else:
-        obj = Component.objects.get(pk=pk)
-
-    with InvalidateContext():
-        obj.do_update()
 
 
 def hook_response(response='Update triggered', status='success'):
