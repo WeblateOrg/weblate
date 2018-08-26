@@ -47,7 +47,11 @@ class CeleryConf(AppConf):
     # List Celery beats (scheduled tasks)
     BEAT_SCHEDULE = {}
 
+    # We want to retry failed tasks
     TASK_ACKS_LATE = True
+
+    # Needed for batches
+    WORKER_PREFETCH_MULTIPLIER = 0
 
     IMPORTS = [
         'weblate.accounts.notifications',
