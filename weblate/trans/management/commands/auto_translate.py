@@ -88,6 +88,7 @@ class Command(WeblateTranslationCommand):
         parser.add_argument(
             '--threshold',
             default=80,
+            type=int,
             help=(
                 'Set machine translation threshold'
             )
@@ -135,7 +136,7 @@ class Command(WeblateTranslationCommand):
         request.user = user
         auto = AutoTranslate(user, translation, filter_type, request)
         if len(options['mt']):
-            auto.process_mt(options['mt'], int(options['threshold']))
+            auto.process_mt(options['mt'], options['threshold'])
         else:
             auto.process_others(source, check_acl=False)
         self.stdout.write('Updated {0} units'.format(auto.updated))

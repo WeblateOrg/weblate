@@ -118,6 +118,14 @@ Performs automatic translation based on other component translations.
 
     Automatically add language if given translation does not exist.
 
+.. django-admin-option:: --mt MT
+
+    Use machine translation instead of other components.
+
+.. django-admin-option:: --threshold THRESHOLD
+
+    Similarity threshold for machine translation, defaults to 80.
+
 Example:
 
 .. code-block:: sh
