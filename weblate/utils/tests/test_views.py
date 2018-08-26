@@ -43,7 +43,7 @@ class PageLimitTest(TestCase):
 
     def test_negative(self):
         self.assertEqual(
-            (1, 42),
+            (1, 10),
             get_page_limit(fake_request('-1', '-1'), 42)
         )
 
