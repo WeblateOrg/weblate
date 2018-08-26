@@ -273,7 +273,7 @@ class ImportFuzzyTest(ImportBaseTest):
         self.assertEqual(translation.stats.fuzzy, 0)
         self.assertEqual(translation.stats.all, 4)
 
-    def test_import_approve(self):
+    def test_import_review(self):
         """Test importing as approved."""
         self.project.enable_review = True
         self.project.save()
