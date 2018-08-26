@@ -63,7 +63,6 @@ class XlsxFormat(CSVFormat):
                 value=field,
             )
 
-
         for row, unit in enumerate(self.store.units):
             data = unit.todict()
 
@@ -87,7 +86,8 @@ class XlsxFormat(CSVFormat):
     @classmethod
     def parse_store(cls, storefile):
         # try to load the given file via openpyxl
-        # catch at least the BadZipFile exception if an unsupported file has been given
+        # catch at least the BadZipFile exception if an unsupported
+        # file has been given
         try:
             workbook = load_workbook(filename=storefile)
             worksheet = workbook.active

@@ -34,8 +34,7 @@ def extract_batch_args(*args):
     """
     if isinstance(args[0], list):
         return [request.args for request in args]
-    else:
-        return [args]
+    return [args]
 
 
 def get_queue_length():

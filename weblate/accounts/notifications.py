@@ -19,9 +19,6 @@
 #
 from __future__ import unicode_literals
 
-from smtplib import SMTPException
-import sys
-
 from celery import shared_task
 
 from django.conf import settings
@@ -33,7 +30,6 @@ from django.utils.encoding import force_text
 from weblate.auth.models import User
 from weblate.accounts.models import Profile, AuditLog
 from weblate.utils.site import get_site_url, get_site_domain
-from weblate.utils.errors import report_error
 from weblate.utils.invalidate import InvalidateContext
 from weblate.utils.request import get_ip_address, get_user_agent
 from weblate import VERSION

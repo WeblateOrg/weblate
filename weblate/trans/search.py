@@ -33,10 +33,7 @@ from whoosh.query import Or, Term
 from whoosh.writing import AsyncWriter, BufferedWriter
 from whoosh import qparser
 
-from django.conf import settings
-from django.db.utils import IntegrityError
 from django.utils.encoding import force_text
-from django.db import transaction
 
 from weblate.lang.models import Language
 from weblate.utils.celery import extract_batch_args

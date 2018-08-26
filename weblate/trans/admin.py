@@ -74,7 +74,6 @@ class ProjectAdmin(WeblateModelAdmin):
 
     def update_checks(self, request, queryset):
         """Recalculate checks for selected components."""
-        cnt = 0
         units = Unit.objects.filter(
             translation__component__project__in=queryset
         )
