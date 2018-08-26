@@ -89,6 +89,9 @@ class ScreenshotList(ListView, ComponentViewMixin):
                 user=request.user,
                 **self._add_form.cleaned_data
             )
+            request.user.profile.uploaded += 1
+            request.user.profile.save(update_fields=['uploaded'])
+
             try_add_source(request, obj)
             messages.success(
                 request,
@@ -133,6 +136,8 @@ class ScreenshotDetail(DetailView):
             if self._edit_form.is_valid():
                 if request.FILES:
                     obj.user = request.user
+                    request.user.profile.uploaded += 1
+                    request.user.profile.save(update_fields=['uploaded'])
                 self._edit_form.save()
             else:
                 return self.get(request, **kwargs)
