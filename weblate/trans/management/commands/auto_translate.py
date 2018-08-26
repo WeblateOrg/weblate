@@ -28,6 +28,7 @@ from weblate.accounts.models import Profile
 from weblate.trans.models import Component
 from weblate.trans.autotranslate import AutoTranslate
 from weblate.trans.management.commands import WeblateTranslationCommand
+from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 
 
 class Command(WeblateTranslationCommand):
@@ -76,6 +77,21 @@ class Command(WeblateTranslationCommand):
                 'Process only inconsistent translations'
             )
         )
+        parser.add_argument(
+            '--mt',
+            action='append',
+            default=[],
+            help=(
+                'Add machine translation source'
+            )
+        )
+        parser.add_argument(
+            '--threshold',
+            default=80,
+            help=(
+                'Set machine translation threshold'
+            )
+        )
 
     def handle(self, *args, **options):
         # Get translation object
@@ -103,6 +119,11 @@ class Command(WeblateTranslationCommand):
         else:
             source = ''
 
+        if options['mt']:
+            for translator in options['mt']:
+                if translator not in MACHINE_TRANSLATION_SERVICES.keys():
+                    raise CommandError('mt ' + translator + ' is not available')
+
         if options['inconsistent']:
             filter_type = 'check:inconsistent'
         elif options['overwrite']:
@@ -113,5 +134,8 @@ class Command(WeblateTranslationCommand):
         request = HttpRequest()
         request.user = user
         auto = AutoTranslate(user, translation, filter_type, request)
-        auto.process_others(source, check_acl=False)
+        if len(options['mt']):
+            auto.process_mt(options['mt'], int(options['threshold']))
+        else:
+            auto.process_others(source, check_acl=False)
         self.stdout.write('Updated {0} units'.format(auto.updated))
