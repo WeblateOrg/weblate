@@ -87,6 +87,14 @@ class SearchViewTest(ViewTestCase):
         )
         response = self.client.get(
             reverse('search'),
+            {'q': '^Hello', 'search': 'regex'}
+        )
+        self.assertContains(
+            response,
+            'Hello, world'
+        )
+        response = self.client.get(
+            reverse('search'),
             {'q': 'hello', 'type': 'untranslated'}
         )
         self.assertContains(

@@ -223,6 +223,7 @@ def search(request, project=None, component=None, lang=None):
         )
     elif request.GET:
         messages.error(request, _('Invalid search query!'))
+        show_form_errors(request, search_form)
 
     return render(
         request,

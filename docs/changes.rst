@@ -12,6 +12,7 @@ Released on ? 2018.
 * Improve component cleanup in case of multiple component discovery addons.
 * Rewritten Microsoft Terminology machine translation backend.
 * Weblate now uses Celery to offload some processing.
+* Improved search capabilities and added regular expression search.
 
 weblate 3.1.1
 -------------

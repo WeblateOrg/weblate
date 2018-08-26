@@ -253,11 +253,14 @@ class UnitQuerySet(models.QuerySet):
         if 'q' not in params or not params['q']:
             result = base
 
-        elif params['search'] in ('exact', 'substring'):
+        elif params['search'] in ('exact', 'substring', 'regex'):
             queries = []
 
-            modifier = ''
-            if params['search'] != 'exact':
+            if params['search'] == 'exact':
+                modifier = '__iexact'
+            elif params['search'] == 'regex':
+                modifier = '__regex'
+            else:
                 modifier = '__icontains'
 
             for param in SEARCH_FILTERS:

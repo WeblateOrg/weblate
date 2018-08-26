@@ -734,6 +734,7 @@ class SearchForm(BaseSearchForm):
             ('ftx', _('Fulltext')),
             ('substring', _('Substring')),
             ('exact', _('Exact match')),
+            ('regex', _('Regular expression')),
         ),
         initial='ftx',
         error_messages={
