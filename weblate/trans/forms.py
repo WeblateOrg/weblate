@@ -794,14 +794,6 @@ class SearchForm(BaseSearchForm):
         if not self.cleaned_data.get('type'):
             self.cleaned_data['type'] = 'all'
 
-        if (self.cleaned_data['q'] and
-                self.cleaned_data['search'] != 'exact' and
-                len(self.cleaned_data['q']) < 2):
-            self.cleaned_data['q'] = None
-            raise ValidationError(
-                {'q': _('The query string has to be longer!')}
-            )
-
         # Default to source and target search
         if (not self.cleaned_data['source'] and
                 not self.cleaned_data['target'] and
