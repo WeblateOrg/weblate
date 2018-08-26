@@ -64,7 +64,6 @@ from weblate.trans.validators import (
 from weblate.lang.models import Language
 from weblate.trans.models.change import Change
 from weblate.utils.validators import validate_repoweb, validate_render
-from weblate.utils.invalidate import InvalidateContext
 
 
 NEW_LANG_CHOICES = (
@@ -632,11 +631,10 @@ class Component(models.Model, URLMixin, PathMixin):
             ret = self.update_branch(request, method=method)
 
         # create translation objects for all files
-        with InvalidateContext():
-            try:
-                self.create_translations(request=request)
-            except ParseError:
-                ret = False
+        try:
+            self.create_translations(request=request)
+        except ParseError:
+            ret = False
 
         # Push after possible merge
         if ret:
@@ -758,8 +756,7 @@ class Component(models.Model, URLMixin, PathMixin):
             return False
 
         # create translation objects for all files
-        with InvalidateContext():
-            self.create_translations(request=request)
+        self.create_translations(request=request)
 
         return True
 
@@ -1354,14 +1351,13 @@ class Component(models.Model, URLMixin, PathMixin):
 
         # Rescan for possibly new translations if there were changes, needs to
         # be done after actual creating the object above
-        with InvalidateContext():
-            if changed_setup:
-                self.create_translations(
-                    force=True,
-                    changed_template=changed_template
-                )
-            elif changed_git:
-                self.create_translations()
+        if changed_setup:
+            self.create_translations(
+                force=True,
+                changed_template=changed_template
+            )
+        elif changed_git:
+            self.create_translations()
 
         # Copy suggestions to new project
         if changed_project:

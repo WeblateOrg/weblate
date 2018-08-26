@@ -23,7 +23,6 @@ from __future__ import absolute_import, unicode_literals
 from celery import shared_task
 
 from weblate.trans.models import Project, Component
-from weblate.utils.invalidate import InvalidateContext
 
 
 @shared_task
@@ -33,12 +32,10 @@ def perform_update(cls, pk):
     else:
         obj = Component.objects.get(pk=pk)
 
-    with InvalidateContext():
-        obj.do_update()
+    obj.do_update()
 
 
 @shared_task
 def perform_load(pk, *args):
     component = Component.objects.get(pk=pk)
-    with InvalidateContext():
-        component.create_translations(*args)
+    component.create_translations(*args)

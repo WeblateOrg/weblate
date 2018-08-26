@@ -34,7 +34,6 @@ from weblate.logger import LOGGER
 from weblate.trans.models import Component
 from weblate.utils.render import render_template
 from weblate.trans.util import path_separator
-from weblate.utils.invalidate import InvalidateContext
 
 # Attributes to copy from main component
 COPY_ATTRIBUTES = (
@@ -213,32 +212,31 @@ class ComponentDiscovery(object):
 
         main = self.component
 
-        with InvalidateContext():
-            for match in self.matched_components.values():
-                # Skip matches to main component
-                if match['mask'] == main.filemask:
-                    continue
+        for match in self.matched_components.values():
+            # Skip matches to main component
+            if match['mask'] == main.filemask:
+                continue
 
-                try:
-                    found = main.get_linked_childs().filter(
-                        filemask=match['mask']
-                    )[0]
-                    # Component exists
-                    matched.append((match, found))
-                    processed.add(found.id)
-                except IndexError:
-                    # Create new component
-                    component = None
-                    if not preview:
-                        component = self.create_component(
-                            main, match, background
-                        )
-                    if component:
-                        processed.add(component.id)
-                    created.append((match, component))
+            try:
+                found = main.get_linked_childs().filter(
+                    filemask=match['mask']
+                )[0]
+                # Component exists
+                matched.append((match, found))
+                processed.add(found.id)
+            except IndexError:
+                # Create new component
+                component = None
+                if not preview:
+                    component = self.create_component(
+                        main, match, background
+                    )
+                if component:
+                    processed.add(component.id)
+                created.append((match, component))
 
-            if remove:
-                deleted = self.cleanup(main, processed, preview)
+        if remove:
+            deleted = self.cleanup(main, processed, preview)
 
         return created, matched, deleted
 
