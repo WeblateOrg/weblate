@@ -61,6 +61,7 @@ REPO_OPERATIONS = {
     'push': ('vcs.push', 'do_push', ()),
     'pull': ('vcs.update', 'do_update', ()),
     'reset': ('vcs.reset', 'do_reset', ()),
+    'cleanup': ('vcs.reset', 'do_cleanup', ()),
     'commit': ('vcs.commit', 'commit_pending', ('api',)),
 }
 

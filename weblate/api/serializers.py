@@ -345,7 +345,7 @@ class UploadRequestSerializer(ReadOnlySerializer):
 
 class RepoRequestSerializer(ReadOnlySerializer):
     operation = serializers.ChoiceField(
-        choices=('commit', 'pull', 'push', 'reset')
+        choices=('commit', 'pull', 'push', 'reset', 'cleanup')
     )
 
 

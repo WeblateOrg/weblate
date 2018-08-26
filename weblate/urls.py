@@ -480,6 +480,23 @@ urlpatterns = [
         name='reset_translation',
     ),
 
+    # VCS manipulation - cleanup
+    url(
+        r'^cleanup/' + PROJECT + '$',
+        weblate.trans.views.git.cleanup_project,
+        name='cleanup_project',
+    ),
+    url(
+        r'^cleanup/' + COMPONENT + '$',
+        weblate.trans.views.git.cleanup_component,
+        name='cleanup_component',
+    ),
+    url(
+        r'^cleanup/' + TRANSLATION + '$',
+        weblate.trans.views.git.cleanup_translation,
+        name='cleanup_translation',
+    ),
+
     # VCS manipulation - remove
     url(
         r'^remove/' + TRANSLATION + '$',

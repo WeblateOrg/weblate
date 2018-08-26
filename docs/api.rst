@@ -328,7 +328,7 @@ Projects
 
     :param project: Project URL slug
     :type project: string
-    :<json string operation: Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``
+    :<json string operation: Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, ``cleanup``
     :>json boolean result: result of the operation
 
     .. seealso::
@@ -568,7 +568,7 @@ Components
     :type project: string
     :param component: Component URL slug
     :type component: string
-    :<json string operation: Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``
+    :<json string operation: Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, ``cleanup``
     :>json boolean result: result of the operation
 
     .. seealso::
@@ -865,7 +865,7 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
-    :<json string operation: Operation to perform, one of ``push``, ``pull``, ``commit``, ``reset``
+    :<json string operation: Operation to perform, one of ``push``, ``pull``, ``commit``, ``reset``, ``cleanup``
     :>json boolean result: result of the operation
 
     .. seealso::

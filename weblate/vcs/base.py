@@ -389,3 +389,7 @@ class Repository(object):
         if merge_driver is None or not os.path.exists(merge_driver):
             return None
         return merge_driver
+
+    def cleanup(self):
+        """Remove not tracked files from the repository."""
+        raise NotImplementedError()

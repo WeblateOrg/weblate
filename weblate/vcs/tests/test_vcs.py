@@ -177,6 +177,10 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
             self.repo.reset()
             self.assertEqual(original, self.repo.last_revision)
 
+    def test_cleanup(self):
+        with self.repo.lock:
+            self.repo.cleanup()
+
     def test_merge_commit(self):
         self.test_commit()
         self.test_merge()

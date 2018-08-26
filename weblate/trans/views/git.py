@@ -100,6 +100,17 @@ def perform_reset(request, obj):
     )
 
 
+def perform_cleanup(request, obj):
+    """Helper function to do the repository cleanup."""
+    return execute_locked(
+        request,
+        obj,
+        _('All repositories have been cleaned up.'),
+        obj.do_cleanup,
+        request,
+    )
+
+
 @login_required
 @require_POST
 def commit_project(request, project):
@@ -230,6 +241,39 @@ def reset_translation(request, project, component, lang):
         raise PermissionDenied()
 
     return perform_reset(request, obj)
+
+
+@login_required
+@require_POST
+def cleanup_project(request, project):
+    obj = get_project(request, project)
+
+    if not request.user.has_perm('vcs.reset', obj):
+        raise PermissionDenied()
+
+    return perform_cleanup(request, obj)
+
+
+@login_required
+@require_POST
+def cleanup_component(request, project, component):
+    obj = get_component(request, project, component)
+
+    if not request.user.has_perm('vcs.reset', obj):
+        raise PermissionDenied()
+
+    return perform_cleanup(request, obj)
+
+
+@login_required
+@require_POST
+def cleanup_translation(request, project, component, lang):
+    obj = get_translation(request, project, component, lang)
+
+    if not request.user.has_perm('vcs.reset', obj):
+        raise PermissionDenied()
+
+    return perform_cleanup(request, obj)
 
 
 @login_required

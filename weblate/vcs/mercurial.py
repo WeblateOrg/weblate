@@ -352,3 +352,8 @@ class HgRepository(Repository):
             ['cat', '--rev', revision, path],
             needs_lock=False
         )
+
+    def cleanup(self):
+        """Remove not tracked files from the repository."""
+        self.set_config('extensions.purge', '')
+        self.execute(['purge'])

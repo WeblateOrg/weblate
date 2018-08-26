@@ -346,6 +346,9 @@ class Translation(models.Model, URLMixin, LoggerMixin):
     def do_reset(self, request=None):
         return self.component.do_reset(request)
 
+    def do_cleanup(self, request=None):
+        return self.component.do_cleanup(request)
+
     def can_push(self):
         return self.component.can_push()
 

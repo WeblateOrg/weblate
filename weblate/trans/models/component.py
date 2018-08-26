@@ -763,6 +763,29 @@ class Component(models.Model, URLMixin, PathMixin):
 
         return True
 
+    @perform_on_link
+    def do_cleanup(self, request=None):
+        """Wrapper for cleaning up repo."""
+        try:
+            self.log_info('cleaning up the repo')
+            with self.repository.lock:
+                self.repository.cleanup()
+        except RepositoryException as error:
+            self.log_error('failed to clean the repo')
+            msg = 'Error:\n{0}'.format(str(error))
+            mail_admins(
+                'failed clean the repo {0}'.format(force_text(self)),
+                msg
+            )
+            messages.error(
+                request,
+                _('Failed to clean the repository on %s.') %
+                force_text(self)
+            )
+            return False
+
+        return True
+
     def get_repo_link_url(self):
         return 'weblate://{0}/{1}'.format(self.project.slug, self.slug)
 

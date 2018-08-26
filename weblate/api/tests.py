@@ -121,7 +121,7 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(response.data['slug'], 'test')
 
     def test_repo_op_denied(self):
-        for operation in ('push', 'pull', 'reset', 'commit'):
+        for operation in ('push', 'pull', 'reset', 'cleanup', 'commit'):
             self.do_request(
                 'api:project-repository',
                 self.project_kwargs,
@@ -131,7 +131,7 @@ class ProjectAPITest(APIBaseTest):
             )
 
     def test_repo_ops(self):
-        for operation in ('push', 'pull', 'reset', 'commit'):
+        for operation in ('push', 'pull', 'reset', 'cleanup', 'commit'):
             self.do_request(
                 'api:project-repository',
                 self.project_kwargs,

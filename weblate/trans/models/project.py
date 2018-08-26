@@ -283,6 +283,13 @@ class Project(models.Model, URLMixin, PathMixin):
             ret |= component.do_reset(request)
         return ret
 
+    def do_cleanup(self, request=None):
+        """Push all Git repos."""
+        ret = False
+        for component in self.all_repo_components():
+            ret |= component.do_cleanup(request)
+        return ret
+
     def can_push(self):
         """Check whether any suprojects can push."""
         ret = False
