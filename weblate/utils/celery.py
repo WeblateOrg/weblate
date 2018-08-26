@@ -22,6 +22,8 @@
 
 from __future__ import absolute_import, unicode_literals
 
+from celery_batches import SimpleRequest
+
 from weblate.celery import app as celery_app
 
 
@@ -32,9 +34,9 @@ def extract_batch_args(*args):
     It can be either passed directly in eager mode or as requests in
     batch mode.
     """
-    if isinstance(args[0], list):
-        return [args]
-    return [request.args for request in args]
+    if isinstance(args[0], list) and isinstance(args[0][0], SimpleRequest):
+        return [request.args for request in args]
+    return [args]
 
 
 def get_queue_length():
