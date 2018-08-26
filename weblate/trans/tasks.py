@@ -22,7 +22,7 @@ from __future__ import absolute_import, unicode_literals
 
 from celery import shared_task
 
-from weblate.trans.models import Project, Component
+from weblate.trans.models import Project, Component, Translation
 
 
 @shared_task
@@ -39,3 +39,9 @@ def perform_update(cls, pk):
 def perform_load(pk, *args):
     component = Component.objects.get(pk=pk)
     component.create_translations(*args)
+
+
+@shared_task
+def perform_commit(pk, *args):
+    translation = Translation.objects.get(pk=pk)
+    translation.commit_pending(*args)

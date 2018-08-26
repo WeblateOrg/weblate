@@ -25,6 +25,7 @@ from datetime import timedelta
 from django.utils import timezone
 
 from weblate.trans.management.commands import WeblateLangCommand
+from weblate.trans.tasks import perform_commit
 
 
 class Command(WeblateLangCommand):
@@ -65,4 +66,4 @@ class Command(WeblateLangCommand):
 
             if int(options['verbosity']) >= 1:
                 self.stdout.write('Committing {0}'.format(translation))
-            translation.commit_pending('manage commit_pending', None)
+            perform_commit.delay(translation.pk, 'manage commit_pending', None)
