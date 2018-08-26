@@ -19,6 +19,7 @@
 #
 
 from weblate.trans.views.helper import get_component
+from django.core.paginator import Paginator, EmptyPage
 
 
 def get_page_limit(request, default):
@@ -27,13 +28,24 @@ def get_page_limit(request, default):
         limit = int(request.GET.get('limit', default))
     except ValueError:
         limit = default
-    limit = min(max(default, limit), 200)
+    # Cap it to range 10 - 200
+    limit = min(max(10, limit), 200)
     try:
         page = int(request.GET.get('page', 1))
     except ValueError:
         page = 1
     page = max(1, page)
     return page, limit
+
+
+def get_paginator(request, object_list, default_page_limit=50):
+    """Return paginator and current page."""
+    page, limit = get_page_limit(request, default_page_limit)
+    paginator = Paginator(object_list, limit)
+    try:
+        return paginator.page(page)
+    except EmptyPage:
+        return paginator.page(paginator.num_pages)
 
 
 class ComponentViewMixin(object):

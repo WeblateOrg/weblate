@@ -26,7 +26,6 @@ from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _, ungettext
 from django.http import JsonResponse
 from django.core.exceptions import PermissionDenied
-from django.core.paginator import Paginator, EmptyPage
 from django.urls import reverse
 from django.template.loader import render_to_string
 from django.utils.http import urlencode
@@ -42,7 +41,7 @@ from weblate.utils.errors import report_error
 from weblate.trans.util import render, redirect_next, redirect_param
 from weblate.trans.forms import WordForm, DictUploadForm, LetterForm
 from weblate.trans.views.helper import get_project, import_message
-from weblate.utils.views import get_page_limit
+from weblate.utils.views import get_paginator
 
 
 def dict_title(prj, lang):
@@ -309,8 +308,6 @@ def show_dictionary(request, project, lang):
         project=prj, language=lang
     ).order_by(Lower('source'))
 
-    page, limit = get_page_limit(request, 25)
-
     letterform = LetterForm(request.GET)
 
     if letterform.is_valid() and letterform.cleaned_data['letter'] != '':
@@ -321,13 +318,7 @@ def show_dictionary(request, project, lang):
     else:
         letter = ''
 
-    paginator = Paginator(words, limit)
-
-    try:
-        words = paginator.page(page)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        words = paginator.page(paginator.num_pages)
+    words = get_paginator(request, words)
 
     last_changes = Change.objects.last_changes(request.user).filter(
         dictionary__project=prj,
@@ -347,8 +338,6 @@ def show_dictionary(request, project, lang):
             'uploadform': uploadform,
             'letterform': letterform,
             'letter': letter,
-            'limit': limit,
-            'page': page,
             'last_changes': last_changes,
             'last_changes_url': urlencode({
                 'project': prj.slug,

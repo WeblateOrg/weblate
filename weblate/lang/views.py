@@ -30,7 +30,7 @@ from weblate.trans.models import Change
 from weblate.trans.util import sort_objects
 from weblate.trans.views.helper import get_project
 from weblate.utils.stats import prefetch_stats
-from weblate.utils.views import get_page_limit
+from weblate.utils.views import get_paginator
 
 
 def show_languages(request):
@@ -103,14 +103,12 @@ def show_project(request, lang, project):
     )[:10]
 
     # Paginate translations.
-    page, limit = get_page_limit(request, 50)
     translation_list = obj.translation_set.prefetch().filter(
         component__project=pobj
     ).order_by(
         'component__project__slug', 'component__slug'
     )
-    paginator = Paginator(translation_list, limit)
-    translations = paginator.page(page)
+    translations = get_paginator(request, translation_list)
 
     return render(
         request,

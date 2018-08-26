@@ -22,7 +22,6 @@ from __future__ import unicode_literals
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.core.paginator import Paginator, EmptyPage
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.translation import ugettext as _, ungettext
@@ -43,7 +42,7 @@ from weblate.trans.util import render
 from weblate.trans.views.helper import show_form_errors
 from weblate.utils import messages
 from weblate.utils.state import STATE_EMPTY
-from weblate.utils.views import get_page_limit
+from weblate.utils.views import get_paginator
 
 
 def parse_url(request, project, component=None, lang=None):
@@ -199,16 +198,7 @@ def search(request, project=None, component=None, lang=None):
                 translation__language=context['language']
             )
 
-        page, limit = get_page_limit(request, 50)
-
-        paginator = Paginator(units, limit)
-
-        try:
-            units = paginator.page(page)
-        except EmptyPage:
-            # If page is out of range (e.g. 9999), deliver last page of
-            # results.
-            units = paginator.page(paginator.num_pages)
+        units = get_paginator(request, units)
 
         context['show_results'] = True
         context['page_obj'] = units

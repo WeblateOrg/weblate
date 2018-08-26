@@ -71,8 +71,8 @@
 <form action="{% url 'delete_dictionary' project=project.slug lang=language.code pk=word.id %}" method="post" class="inlineform">
 {% csrf_token %}
 <input type="hidden" name="letter" value="{{ letter }}" />
-<input type="hidden" name="limit" value="{{ limit }}" />
-<input type="hidden" name="page" value="{{ page }}" />
+<input type="hidden" name="limit" value="{{ page_obj.paginator.per_page }}" />
+<input type="hidden" name="page" value="{{ page_obj.number }}" />
 <button type="submit" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> {% trans "Delete" %}</button>
 </form>
 {% endif %}

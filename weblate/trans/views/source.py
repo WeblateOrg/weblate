@@ -20,7 +20,6 @@
 
 from django.http import Http404
 from django.http.response import HttpResponseServerError
-from django.core.paginator import Paginator, EmptyPage
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
@@ -38,7 +37,7 @@ from weblate.trans.forms import (
 )
 from weblate.trans.util import render, redirect_next
 from weblate.utils.hash import checksum_to_hash
-from weblate.utils.views import get_page_limit
+from weblate.utils.views import get_paginator
 
 
 def get_source(request, project, component):
@@ -59,7 +58,6 @@ def review_source(request, project, component):
 
     # Grab search type and page number
     rqtype = request.GET.get('type', 'all')
-    page, limit = get_page_limit(request, 50)
     try:
         id_hash = checksum_to_hash(request.GET.get('checksum', ''))
     except ValueError:
@@ -82,13 +80,7 @@ def review_source(request, project, component):
             ignored
         )
 
-    paginator = Paginator(sources, limit)
-
-    try:
-        sources = paginator.page(page)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        sources = paginator.page(paginator.num_pages)
+    sources = get_paginator(request, sources)
 
     return render(
         request,

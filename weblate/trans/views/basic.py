@@ -21,7 +21,6 @@
 from __future__ import unicode_literals
 
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
 from django.db.models import Sum, Count
 from django.http import HttpResponse
 from django.shortcuts import redirect, get_object_or_404
@@ -36,7 +35,7 @@ from weblate.checks.models import Check
 from weblate.formats.exporters import list_exporters
 from weblate.utils import messages
 from weblate.utils.stats import prefetch_stats
-from weblate.utils.views import get_page_limit
+from weblate.utils.views import get_paginator
 from weblate.trans.models import (
     Project, Translation, ComponentList, Change, Unit,
 )
@@ -158,10 +157,9 @@ def show_project(request, project):
         replace_form = None
 
     # Paginate components of project.
-    page, limit = get_page_limit(request, 50)
-    component_list = obj.component_set.select_related()
-    paginator = Paginator(component_list, limit)
-    components = paginator.page(page)
+    components = get_paginator(
+        request, obj.component_set.select_related()
+    )
 
     return render(
         request,
