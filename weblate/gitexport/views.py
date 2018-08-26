@@ -139,6 +139,7 @@ def run_git_http(request, obj, path):
         return HttpResponseServerError('git-http-backend not found')
 
     # Invoke Git HTTP backend
+    query = request.META.get('QUERY_STRING', '')
     process = subprocess.Popen(
         [git_http_backend],
         env={
@@ -146,7 +147,7 @@ def run_git_http(request, obj, path):
             'PATH_TRANSLATED': os.path.join(obj.full_path, path),
             'GIT_HTTP_EXPORT_ALL': '1',
             'CONTENT_TYPE': request.META.get('CONTENT_TYPE', ''),
-            'QUERY_STRING': request.META.get('QUERY_STRING', ''),
+            'QUERY_STRING': query,
             'HTTP_CONTENT_ENCODING': request.META.get(
                 'HTTP_CONTENT_ENCODING', ''
             ),
@@ -160,7 +161,8 @@ def run_git_http(request, obj, path):
 
     # Log error
     if output_err:
-        obj.log_error('git: {0}'.format(force_text(output_err)))
+        obj.log_error('git-export: query: {0}'.format(force_text(query)))
+        obj.log_error('git-export: stderr: {0}'.format(force_text(output_err)))
 
     # Handle failure
     if retcode:
