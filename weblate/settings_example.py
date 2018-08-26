@@ -525,6 +525,7 @@ if not HAVE_SYSLOG:
 #     'weblate.machinery.yandex.YandexTranslation',
 #     'weblate.machinery.weblatetm.WeblateTranslation',
 #     'weblate.machinery.saptranslationhub.SAPTranslationHub',
+#     'weblate.machinery.youdao.YoudaoTranslation',
 #     'weblate.memory.machine.WeblateMemory',
 # )
 
@@ -550,6 +551,10 @@ MT_MYMEMORY_KEY = None
 
 # Google API key for Google Translate API
 MT_GOOGLE_KEY = None
+
+# Youdao Zhiyun app key and secret
+MT_YOUDAO_ID = None
+MT_YOUDAO_SECRET = None
 
 # API key for Yandex Translate API
 MT_YANDEX_KEY = None
