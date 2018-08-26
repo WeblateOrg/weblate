@@ -830,6 +830,28 @@ API key for Yandex Translate API, you can register at https://tech.yandex.com/tr
 
    :ref:`yandex-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`
 
+.. setting:: MT_YOUDAO_ID
+
+MT_YOUDAO_ID
+------------
+
+Client ID for Youdao Zhiyun API, you can register at http://fanyi.youdao.com/openapi
+
+.. seealso::
+
+   :ref:`youdao-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`
+
+.. setting:: MT_YOUDAO_SECRET
+
+MT_YOUDAO_SECRET
+----------------
+
+Client secret for Youdao Zhiyun API, you can register at http://fanyi.youdao.com/openapi
+
+.. seealso::
+
+   :ref:`youdao-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`
+
 .. setting:: MT_SAP_BASE_URL
 
 MT_SAP_BASE_URL

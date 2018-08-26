@@ -242,6 +242,7 @@ And configure Weblate to talk to it:
     `Amagama Translation Memory server <http://docs.translatehouse.org/projects/virtaal/en/latest/amagama.html>`_
     `Amagama Translation Memory <http://amagama.translatehouse.org/>`_
 
+
 .. _yandex-translate:
 
 Yandex Translate
@@ -259,6 +260,27 @@ To enable this service, add ``weblate.machinery.yandex.YandexTranslation`` to
     :setting:`MT_YANDEX_KEY`,
     `Yandex Translate API <https://tech.yandex.com/translate/>`_,
     `Powered by Yandex.Translate <http://translate.yandex.com/>`_
+
+.. _youdao-translate:
+
+Youdao Zhiyun API machine translation
+-------------------------------------
+
+.. versionadded:: 3.2
+
+Machine translation service provided by Youdao.
+
+This service uses an API and you need to obtain ID and API key from Youdao.
+
+To enable this service, add ``weblate.machinery.youdao.YoudaoTranslation`` to
+:setting:`MT_SERVICES` and set :setting:`MT_YOUDAO_ID` and
+:setting:`MT_YOUDAO_SECRET`.
+
+.. seealso::
+
+    :setting:`MT_YOUDAO_ID`,
+    :setting:`MT_YOUDAO_SECRET`
+    `Youdao Translate API <http://fanyi.youdao.com/openapi>`_
 
 Weblate
 -------

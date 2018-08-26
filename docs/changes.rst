@@ -13,6 +13,7 @@ Released on ? 2018.
 * Rewritten Microsoft Terminology machine translation backend.
 * Weblate now uses Celery to offload some processing.
 * Improved search capabilities and added regular expression search.
+* Added support for Youdao Zhiyun API machine translation.
 
 weblate 3.1.1
 -------------

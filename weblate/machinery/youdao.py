@@ -74,7 +74,7 @@ class YoudaoTranslation(MachineTranslation):
             'pt',
             'es',
             'vi'
-            ]
+        ]
 
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
@@ -86,7 +86,6 @@ class YoudaoTranslation(MachineTranslation):
 
         response = self.json_req(
             YOUDAO_API_ROOT,
-            skip_auth=True,
             q=text,
             _from=source,
             to=language,
@@ -95,8 +94,10 @@ class YoudaoTranslation(MachineTranslation):
             sign=sign,
         )
 
-        if response['errorCode'] != '0':
-            raise MachineTranslationError('Error code: '+response['errorCode'])
+        if response['errorCode'] != 0:
+            raise MachineTranslationError(
+                'Error code: {}'.format(response['errorCode'])
+            )
 
         translation = response['translation'][0]
 

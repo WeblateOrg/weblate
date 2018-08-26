@@ -47,6 +47,7 @@ from weblate.machinery.microsoft import (
 from weblate.machinery.microsoftterminology import MicrosoftTerminologyService
 from weblate.machinery.google import GoogleTranslation, GOOGLE_API_ROOT
 from weblate.machinery.yandex import YandexTranslation
+from weblate.machinery.youdao import YoudaoTranslation
 from weblate.machinery.saptranslationhub import SAPTranslationHub
 from weblate.machinery.weblatetm import WeblateTranslation
 from weblate.checks.tests.test_checks import MockUnit
@@ -574,6 +575,30 @@ class MachineTranslationTest(TestCase):
         )
         self.assertEqual(machine.supported_languages, [])
         self.assert_translate(machine, empty=True)
+
+    @override_settings(MT_YOUDAO_ID='id', MT_YOUDAO_SECRET='secret')
+    @httpretty.activate
+    def test_youdao(self):
+        machine = self.get_machine(YoudaoTranslation)
+        httpretty.register_uri(
+            httpretty.GET,
+            'https://openapi.youdao.com/api',
+            body=b'{"errorCode": 0, "translation": ["hello"]}',
+        )
+        self.assert_translate(machine, lang='ja')
+        self.assert_translate(machine, lang='ja', word='Zkouška')
+
+    @override_settings(MT_YOUDAO_ID='id', MT_YOUDAO_SECRET='secret')
+    @httpretty.activate
+    def test_youdao_error(self):
+        machine = self.get_machine(YoudaoTranslation)
+        httpretty.register_uri(
+            httpretty.GET,
+            'https://openapi.youdao.com/api',
+            body=b'{"errorCode": 1}',
+        )
+        with self.assertRaises(MachineTranslationError):
+            self.assert_translate(machine, lang='ja', empty=True)
 
     @override_settings(MT_SAP_BASE_URL='http://sth.example.com/')
     @override_settings(MT_SAP_SANDBOX_APIKEY='http://sandbox.example.com')
