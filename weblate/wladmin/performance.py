@@ -234,16 +234,3 @@ def run_templates(checks, request):
         'production-templates',
         loader,
     ))
-
-
-@register_check
-def run_static(checks, request):
-    """Check for serving static files"""
-    checks.append((
-        _('Admin static files'),
-        os.path.exists(
-            os.path.join(settings.STATIC_ROOT, 'admin', 'js', 'core.js')
-        ),
-        'production-admin-files',
-        settings.STATIC_ROOT,
-    ))
