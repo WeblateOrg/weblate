@@ -22,7 +22,7 @@
 from django.http import HttpResponse, Http404
 from django.shortcuts import get_object_or_404
 import django.utils.translation
-from django.utils.translation import trans_real, ugettext as _
+from django.utils.translation import activate, ugettext as _
 
 from weblate.utils import messages
 from weblate.formats.exporters import get_exporter
@@ -91,14 +91,10 @@ def try_set_language(lang):
     """Try to activate language"""
 
     try:
-        django.utils.translation.activate(lang)
-        # workaround for https://code.djangoproject.com/ticket/26050
-        # pylint: disable=protected-access
-        if trans_real.catalog()._catalog is None:
-            raise Exception('Invalid language!')
+        activate(lang)
     except Exception:
         # Ignore failure on activating language
-        django.utils.translation.activate('en')
+        activate('en')
 
 
 def import_message(request, count, message_none, message_ok):
