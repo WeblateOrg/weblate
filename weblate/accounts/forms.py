@@ -37,7 +37,7 @@ from django.utils.encoding import force_text
 from weblate.auth.models import User
 from weblate.accounts.auth import try_get_user
 from weblate.accounts.models import Profile
-from weblate.accounts.utils import get_all_user_mails
+from weblate.accounts.utils import get_all_user_mails, invalidate_reset_codes
 from weblate.accounts.captcha import MathCaptcha
 from weblate.accounts.notifications import notify_account_activity
 from weblate.utils.ratelimit import reset_rate_limit, check_rate_limit
@@ -419,6 +419,9 @@ class SetPasswordForm(DjangoSetPasswordForm):
 
             # Change key for current session
             request.session.cycle_key()
+
+            # Invalidate password reset codes
+            invalidate_reset_codes(self.user)
 
         messages.success(
             request,
