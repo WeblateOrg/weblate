@@ -549,7 +549,7 @@ def auto_assign_group(user):
         return
     # Add user to automatic groups
     for auto in AutoGroup.objects.all():
-        if re.match(auto.match, user.email):
+        if re.match(auto.match, user.email or ''):
             user.groups.add(auto.group)
 
 
