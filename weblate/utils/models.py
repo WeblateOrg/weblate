@@ -58,6 +58,10 @@ class CeleryConf(AppConf):
             'task': 'weblate.screenshots.tasks.cleanup_screenshot_files',
             'schedule': 3600 * 24,
         },
+        'fulltext-cleanup': {
+            'task': 'weblate.trans.tasks.cleanup_fulltext',
+            'schedule': 3600 * 24 * 7,
+        }
     }
 
     IMPORTS = [

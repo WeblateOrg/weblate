@@ -21,7 +21,6 @@
 from django.core.management.base import BaseCommand
 from django.db import transaction
 
-from whoosh.index import EmptyIndexError
 
 from weblate.auth.models import get_anonymous
 from weblate.accounts.tasks import cleanup_social_auth
@@ -29,9 +28,9 @@ from weblate.checks.models import Check
 from weblate.trans.models import (
     Suggestion, Comment, Unit, Project, Source, Component, Change,
 )
+from weblate.trans.tasks import cleanup_fulltext
 from weblate.lang.models import Language
 from weblate.screenshots.tasks import cleanup_screenshot_files
-from weblate.trans.search import Fulltext
 
 
 class Command(BaseCommand):
@@ -41,7 +40,7 @@ class Command(BaseCommand):
         """Perfom cleanup of Weblate database."""
         self.cleanup_sources()
         self.cleanup_database()
-        self.cleanup_fulltext()
+        cleanup_fulltext()
         cleanup_screenshot_files()
         with transaction.atomic():
             cleanup_social_auth()
@@ -60,25 +59,6 @@ class Command(BaseCommand):
                 ).exclude(
                     id_hash__in=source_ids
                 ).delete()
-
-    def cleanup_fulltext(self):
-        """Remove stale units from fulltext"""
-        fulltext = Fulltext()
-        with transaction.atomic():
-            languages = list(Language.objects.have_translation().values_list(
-                'code', flat=True
-            ))
-        # We operate only on target indexes as they will have all IDs anyway
-        for lang in languages:
-            index = fulltext.get_target_index(lang)
-            try:
-                fields = index.reader().all_stored_fields()
-            except EmptyIndexError:
-                continue
-            for item in fields:
-                if Unit.objects.filter(pk=item['pk']).exists():
-                    continue
-                fulltext.clean_search_unit(item['pk'], lang)
 
     def cleanup_database(self):
         """Cleanup the database"""

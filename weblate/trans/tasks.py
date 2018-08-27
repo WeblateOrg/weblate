@@ -26,7 +26,12 @@ from celery import shared_task
 
 from django.utils import timezone
 
-from weblate.trans.models import Project, Component, Translation
+from whoosh.index import EmptyIndexError
+
+from weblate.lang.models import Language
+
+from weblate.trans.models import Project, Component, Translation, Unit
+from weblate.trans.search import Fulltext
 
 
 @shared_task
@@ -77,3 +82,23 @@ def commit_pending(hours=None, pks=None, logger=None):
             logger('Committing {0}'.format(translation))
 
         perform_commit.delay(translation.pk, 'commit_pending', None)
+
+
+@shared_task
+def cleanup_fulltext():
+    """Remove stale units from fulltext"""
+    fulltext = Fulltext()
+    languages = list(Language.objects.have_translation().values_list(
+        'code', flat=True
+    ))
+    # We operate only on target indexes as they will have all IDs anyway
+    for lang in languages:
+        index = fulltext.get_target_index(lang)
+        try:
+            fields = index.reader().all_stored_fields()
+        except EmptyIndexError:
+            continue
+        for item in fields:
+            if Unit.objects.filter(pk=item['pk']).exists():
+                continue
+            fulltext.clean_search_unit(item['pk'], lang)
