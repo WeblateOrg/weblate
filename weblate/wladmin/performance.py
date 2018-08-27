@@ -39,13 +39,6 @@ DEFAULT_MAILS = frozenset((
     'noreply@example.com'
 ))
 
-GOOD_CACHE = frozenset((
-    'MemcachedCache', 'PyLibMCCache', 'DatabaseCache', 'RedisCache'
-))
-BAD_CACHE = frozenset((
-    'DummyCache', 'LocMemCache',
-))
-
 PERFORMANCE_CHECKS = []
 
 
@@ -113,39 +106,6 @@ def run_celery_queue(checks, request):
         index_updates,
         'celery',
         count,
-    ))
-
-
-@register_check
-def run_cache(checks, request):
-    """Check for sane caching"""
-    caches = settings.CACHES['default']['BACKEND'].split('.')[-1]
-    if caches in GOOD_CACHE:
-        # We consider these good
-        caches = True
-    elif caches in BAD_CACHE:
-        # This one is definitely bad
-        caches = False
-    else:
-        # These might not be that bad
-        caches = None
-    checks.append((
-        _('Django caching'),
-        caches,
-        'production-cache',
-        settings.CACHES['default']['BACKEND'],
-    ))
-
-
-@register_check
-def run_avatar_cache(checks, request):
-    """Avatar caching"""
-    checks.append((
-        _('Avatar caching'),
-        'avatar' in settings.CACHES,
-        'production-cache-avatar',
-        settings.CACHES['avatar']['BACKEND']
-        if 'avatar' in settings.CACHES else '',
     ))
 
 

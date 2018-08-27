@@ -26,6 +26,10 @@ from django.core.checks import Error
 
 from weblate.utils.docs import get_doc_url
 
+GOOD_CACHE = frozenset((
+    'MemcachedCache', 'PyLibMCCache', 'DatabaseCache', 'RedisCache'
+))
+
 
 def check_mail_connection(app_configs, **kwargs):
     errors = []
@@ -70,4 +74,30 @@ def check_database(app_configs, **kwargs):
                 id='weblate.E006',
             )
         )
+    return errors
+
+
+def check_cache(app_configs, **kwargs):
+    """Check for sane caching"""
+    errors = []
+
+    cache = settings.CACHES['default']['BACKEND'].split('.')[-1]
+    if cache not in GOOD_CACHE:
+        errors.append(
+            Error(
+                'Please choose better cache backend such as redis',
+                hint=get_doc_url('admin/install', 'production-cache'),
+                id='weblate.E007',
+            )
+        )
+
+    if settings.ENABLE_AVATARS and 'avatar' not in settings.CACHES:
+        errors.append(
+            Error(
+                'Please configure avatar caching',
+                hint=get_doc_url('admin/install', 'production-cache-avatar'),
+                id='weblate.E008',
+            )
+        )
+
     return errors
