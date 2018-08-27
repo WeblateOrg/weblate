@@ -24,13 +24,21 @@ from datetime import timedelta
 
 from celery import shared_task
 
+from django.db import transaction
 from django.utils import timezone
 
 from whoosh.index import EmptyIndexError
 
+from weblate.auth.models import get_anonymous
+
+from weblate.checks.models import Check
+
 from weblate.lang.models import Language
 
-from weblate.trans.models import Project, Component, Translation, Unit
+from weblate.trans.models import (
+    Suggestion, Comment, Unit, Project, Translation, Source, Component,
+    Change,
+)
 from weblate.trans.search import Fulltext
 
 
@@ -102,3 +110,99 @@ def cleanup_fulltext():
             if Unit.objects.filter(pk=item['pk']).exists():
                 continue
             fulltext.clean_search_unit(item['pk'], lang)
+
+
+def cleanup_sources(project):
+    """Remove stale Source objects."""
+    for pk in project.component_set.values_list('id', flat=True):
+        with transaction.atomic():
+            source_ids = Unit.objects.filter(
+                translation__component_id=pk
+            ).values('id_hash').distinct()
+
+            Source.objects.filter(
+                component_id=pk
+            ).exclude(
+                id_hash__in=source_ids
+            ).delete()
+
+
+def cleanup_source_data(project):
+    with transaction.atomic():
+        # List all current unit content_hashs
+        units = Unit.objects.filter(
+            translation__component__project=project
+        ).values('content_hash').distinct()
+
+        # Remove source comments and checks for deleted units
+        for obj in Comment, Check:
+            obj.objects.filter(
+                language=None, project=project
+            ).exclude(
+                content_hash__in=units
+            ).delete()
+
+
+def cleanup_language_data(project):
+    for lang in Language.objects.all():
+        with transaction.atomic():
+            # List current unit content_hashs
+            units = Unit.objects.filter(
+                translation__language=lang,
+                translation__component__project=project
+            ).values('content_hash').distinct()
+
+            # Remove checks, suggestions and comments for deleted units
+            for obj in Check, Suggestion, Comment:
+                obj.objects.filter(
+                    language=lang, project=project
+                ).exclude(
+                    content_hash__in=units
+                ).delete()
+
+
+@shared_task
+def cleanup_project(pk):
+    """Perform cleanup of project models."""
+    project = Project.objects.get(pk=pk)
+
+    cleanup_sources(project)
+    cleanup_source_data(project)
+    cleanup_language_data(project)
+
+
+@shared_task
+def cleanup_suggestions():
+    # Process suggestions
+    anonymous_user = get_anonymous()
+    suggestions = Suggestion.objects.prefetch_related('project', 'language')
+    for suggestion in suggestions.iterator():
+        with transaction.atomic():
+            # Remove suggestions with same text as real translation
+            units = Unit.objects.filter(
+                content_hash=suggestion.content_hash,
+                translation__language=suggestion.language,
+                translation__component__project=suggestion.project,
+            )
+
+            if not units.exclude(target=suggestion.target).exists():
+                suggestion.delete_log(
+                    anonymous_user,
+                    Change.ACTION_SUGGESTION_CLEANUP
+                )
+                continue
+
+            # Remove duplicate suggestions
+            sugs = Suggestion.objects.filter(
+                content_hash=suggestion.content_hash,
+                language=suggestion.language,
+                project=suggestion.project,
+                target=suggestion.target
+            ).exclude(
+                id=suggestion.id
+            )
+            if sugs.exists():
+                suggestion.delete_log(
+                    anonymous_user,
+                    Change.ACTION_SUGGESTION_CLEANUP
+                )

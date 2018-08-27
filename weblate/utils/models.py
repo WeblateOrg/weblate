@@ -61,7 +61,11 @@ class CeleryConf(AppConf):
         'fulltext-cleanup': {
             'task': 'weblate.trans.tasks.cleanup_fulltext',
             'schedule': 3600 * 24 * 7,
-        }
+        },
+        'suggestions-cleanup': {
+            'task': 'weblate.trans.tasks.cleanup_suggestions',
+            'schedule': 3600 * 24,
+        },
     }
 
     IMPORTS = [
