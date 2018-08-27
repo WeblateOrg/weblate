@@ -786,7 +786,12 @@ REST_FRAMEWORK = {
 #    r'/legal/(.*)$',           # Optional for legal app
 # )
 
-# Celery settings
+# Celery worker configuration
 CELERY_TASK_ALWAYS_EAGER = True
 CELERY_BROKER_URL = 'memory://'
+
+# Celery settings, it is not recommended to change these
 CELERY_WORKER_PREFETCH_MULTIPLIER = 0
+CELERY_BEAT_SCHEDULE_FILENAME = os.path.join(
+    DATA_DIR, 'celery', 'beat-schedule'
+)

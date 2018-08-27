@@ -690,7 +690,6 @@ Typical setup using redis as a backend should look like:
 
    CELERY_TASK_ALWAYS_EAGER = False
    CELERY_BROKER_URL = 'redis://localhost:6379'
-   CELERY_WORKER_PREFETCH_MULTIPLIER = 0
 
 You should also start the Celery worker to process the tasks and start
 scheduled tasks, this can be done directly on command line (what is mostly

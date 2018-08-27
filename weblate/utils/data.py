@@ -36,6 +36,7 @@ def check_data_writable(app_configs=None, **kwargs):
         data_dir('ssh'),
         data_dir('vcs'),
         data_dir('memory'),
+        data_dir('celery'),
     ]
     message = 'Path {} is not writable, check your DATA_DIR settings.'
     for path in dirs:
