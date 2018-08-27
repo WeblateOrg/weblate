@@ -21,11 +21,11 @@
 from __future__ import unicode_literals
 
 from django.core.cache import cache
+from django.core.checks import run_checks
 from django.core.exceptions import MiddlewareNotUsed
 from django.utils.timezone import now
 
 from weblate.wladmin.models import ConfigurationError
-from weblate.wladmin.performance import run_cache, run_celery_queue
 
 
 class ConfigurationErrorsMiddleware(object):
@@ -53,7 +53,9 @@ class ConfigurationErrorsMiddleware(object):
                     error['message'],
                     error['timestamp'] if 'timestamp' in error else now(),
                 )
-        if self.does_fire(run_cache):
+        checks = run_checks(include_deployment_checks=True)
+        check_ids = set([check.id for check in checks])
+        if 'weblate.E007' in check_ids:
             ConfigurationError.objects.add(
                 'Cache',
                 'The configured cache backend will lead to serious '
@@ -61,7 +63,7 @@ class ConfigurationErrorsMiddleware(object):
             )
         else:
             ConfigurationError.objects.remove('Cache')
-        if self.does_fire(run_celery_queue):
+        if 'weblate.E009' in check_ids:
             ConfigurationError.objects.add(
                 'Celery',
                 'The Celery tasks queue is too long, either the worker '

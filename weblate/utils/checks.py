@@ -24,11 +24,20 @@ from django.conf import settings
 from django.core.mail import get_connection
 from django.core.checks import Error
 
+import six
+
+from weblate import settings_example
 from weblate.utils.celery import get_queue_length
 from weblate.utils.docs import get_doc_url
 
 GOOD_CACHE = frozenset((
     'MemcachedCache', 'PyLibMCCache', 'DatabaseCache', 'RedisCache'
+))
+DEFAULT_MAILS = frozenset((
+    'root@localhost',
+    'webmaster@localhost',
+    'noreply@weblate.org'
+    'noreply@example.com'
 ))
 
 
@@ -110,4 +119,84 @@ def check_cache(app_configs, **kwargs):
             )
         )
 
+    return errors
+
+
+def check_settings(app_configs, **kwargs):
+    """Check for sane settings"""
+    errors = []
+
+    if (len(settings.ADMINS) == 0
+            or 'noreply@weblate.org' in [x[1] for x in settings.ADMINS]):
+        errors.append(
+            Error(
+                'The site admins seem to be wrongly configured',
+                hint=get_doc_url('admin/install', 'production-admins'),
+                id='weblate.E011',
+            )
+        )
+
+    if settings.SERVER_EMAIL in DEFAULT_MAILS:
+        errors.append(
+            Error(
+                'The server email has default value',
+                hint=get_doc_url('admin/install', 'production-email'),
+                id='weblate.E012',
+            )
+        )
+    if settings.DEFAULT_FROM_EMAIL in DEFAULT_MAILS:
+        errors.append(
+            Error(
+                'The default from email has default value',
+                hint=get_doc_url('admin/install', 'production-email'),
+                id='weblate.E013',
+            )
+        )
+
+    if settings.SECRET_KEY == settings_example.SECRET_KEY:
+        errors.append(
+            Error(
+                'The cookie secret key has default value',
+                hint=get_doc_url('admin/install', 'production-secret'),
+                id='weblate.E014',
+            )
+        )
+
+    if not settings.ALLOWED_HOSTS:
+        errors.append(
+            Error(
+                'The allowed hosts are not configured',
+                hint=get_doc_url('admin/install', 'production-hosts'),
+                id='weblate.E015',
+            )
+        )
+    return errors
+
+
+def check_templates(app_configs, **kwargs):
+    """Check for sane settings"""
+    errors = []
+
+    if settings.TEMPLATES:
+        loaders = settings.TEMPLATES[0].get(
+            'OPTIONS', {}
+        ).get(
+            'loaders', [['']]
+        )
+    else:
+        loaders = settings.TEMPLATE_LOADERS
+
+    if isinstance(loaders[0], six.string_types):
+        loader = loaders[0]
+    else:
+        loader = loaders[0][0]
+
+    if 'cached.Loader' not in loader:
+        errors.append(
+            Error(
+                'Configure cached template loader for better performance',
+                hint=get_doc_url('admin/install', 'production-templates'),
+                id='weblate.E016',
+            )
+        )
     return errors

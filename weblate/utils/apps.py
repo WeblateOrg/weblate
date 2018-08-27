@@ -24,7 +24,7 @@ from django.core.checks import register
 
 from weblate.utils.checks import (
     check_mail_connection, check_celery, check_database,
-    check_cache,
+    check_cache, check_settings, check_templates,
 )
 from weblate.utils.data import check_data_writable
 from weblate.utils.fonts import check_fonts
@@ -37,6 +37,7 @@ class UtilsConfig(AppConfig):
     verbose_name = 'Utils'
 
     def ready(self):
+        super(UtilsConfig, self).ready()
         register(check_requirements)
         register(check_data_writable)
         register(check_mail_connection, deploy=True)
@@ -44,4 +45,5 @@ class UtilsConfig(AppConfig):
         register(check_celery, deploy=True)
         register(check_database, deploy=True)
         register(check_cache, deploy=True)
-        super(UtilsConfig, self).ready()
+        register(check_settings, deploy=True)
+        register(check_templates, deploy=True)
