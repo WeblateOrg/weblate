@@ -23,7 +23,7 @@ import json
 
 from botocore.stub import Stubber, ANY
 
-from django.test import SimpleTestCase
+from django.test import TestCase
 from django.test.utils import override_settings
 
 import httpretty
@@ -236,7 +236,7 @@ DEEPL_RESPONSE = b'''{
 }'''
 
 
-class MachineTranslationTest(SimpleTestCase):
+class MachineTranslationTest(TestCase):
     """Testing of machine translation core."""
     def get_machine(self, cls):
         machine = cls()
