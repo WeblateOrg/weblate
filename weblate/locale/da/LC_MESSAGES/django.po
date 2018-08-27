@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-08-26 16:17+0000\n"
-"PO-Revision-Date: 2018-08-13 18:42+0000\n"
+"PO-Revision-Date: 2018-08-27 13:08+0000\n"
 "Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/master/da/"
 ">\n"
@@ -610,10 +610,6 @@ msgid "Authentication has been forbidden by server."
 msgstr "Godkendelse er blevet forbudt af serveren."
 
 #: weblate/accounts/views.py:955
-#, fuzzy
-#| msgid ""
-#| "Failed to complete your registration! This authentication, email or "
-#| "username are already associated with another account!"
 msgid ""
 "Failed to complete your registration! This authentication, email or username "
 "is already associated with another account!"
@@ -676,10 +672,8 @@ msgid "This addon executes a script."
 msgstr "Denne udvidelse udfører et script."
 
 #: weblate/addons/flags.py:50
-#, fuzzy
-#| msgid "Flag new source strings to need edit"
 msgid "Flag new source strings as \"Needs editing\""
-msgstr "Markér nye kildestrenge som behøver redigering"
+msgstr "Markér nye kildestrenge som \"Behøver redigering\""
 
 #: weblate/addons/flags.py:52
 msgid ""
@@ -692,47 +686,32 @@ msgstr ""
 "filtrere og redigere kildestrenge som er skrevet af udviklerne."
 
 #: weblate/addons/flags.py:64
-#, fuzzy
-#| msgid "Flag new translations to need edit"
 msgid "Flag new translations as \"Needs editing\""
-msgstr "Markér nye oversættelser som behøvende redigering"
+msgstr "Markér nye oversættelser som \"Behøver redigering\""
 
 #: weblate/addons/flags.py:66
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translation string is imported from the VCS, it is flagged "
-#| "as needing editing in Weblate. This way you can easily filter and edit "
-#| "translations created by the developers."
 msgid ""
 "Whenever a new translatable string is imported from the VCS, it is flagged "
 "as needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
-"Når en ny oversættelsesstreng bliver importeret fra "
+"Når en ny streng som kan oversættes bliver importeret fra "
 "versionsstyringssystemet, bliver den markeret som behøvende redigering i "
 "Weblate. På denne måde kan du let filtrere og redigere oversættelser som er "
 "oprettet af udviklerne."
 
 #: weblate/addons/flags.py:78
-#, fuzzy
-#| msgid "Flag unchanged translations to need edit"
 msgid "Flag unchanged translations as \"Needs editing\""
-msgstr "Markér uændrede oversættelser som behøvende redigering"
+msgstr "Markér uændrede oversættelser som \"Behøver redigering\""
 
 #: weblate/addons/flags.py:80
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translation string is imported from the VCS and it matches "
-#| "source strings, it is flagged as needing editing in Weblate. This is "
-#| "especially useful for file formats including all strings even if they are "
-#| "not translated."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches "
 "source strings, it is flagged as needing editing in Weblate. This is "
 "especially useful for file formats that include all strings even if they are "
 "not translated."
 msgstr ""
-"Når en ny oversættelsesstreng bliver importeret fra "
+"Når en ny streng som kan oversættes bliver importeret fra "
 "versionsstyringssystemet, og den matcher med kildestrenge, bliver den "
 "markeret som behøvende redigering i Weblate. Det er særligt nyttigt til "
 "filformater som inkluderer alle strenge selv hvis de ikke er oversat."
@@ -1656,28 +1635,20 @@ msgid "Python brace format string does not match source"
 msgstr "Python brace-formateret streng matcher ikke kilden"
 
 #: weblate/checks/format.py:312
-#, fuzzy
-#| msgid "C format"
 msgid "C# format"
-msgstr "C-formateret"
+msgstr "C#-formateret"
 
 #: weblate/checks/format.py:313
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "C# format string does not match source"
-msgstr "C-formateret streng matcher ikke kilden"
+msgstr "C#-formateret streng matcher ikke kilden"
 
 #: weblate/checks/format.py:323
-#, fuzzy
-#| msgid "Javascript format"
 msgid "Java format"
-msgstr "JavaScript-formateret"
+msgstr "Java-formateret"
 
 #: weblate/checks/format.py:324
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Java format string does not match source"
-msgstr "C-formateret streng matcher ikke kilden"
+msgstr "Java-formateret streng matcher ikke kilden"
 
 #: weblate/checks/markup.py:48
 msgid "Mismatched BBcode"
@@ -3309,19 +3280,15 @@ msgstr "Bruger sprog i både sti og filnavn."
 
 #: weblate/templates/addons/discovery_help.html:62
 msgid "Android resource strings, split into several files."
-msgstr ""
+msgstr "Android-ressourcestrenge, opdelt i flere filer."
 
 #: weblate/templates/addons/discovery_help.html:67
-#, fuzzy
-#| msgid ""
-#| "You can use Django templates markup in both component name and "
-#| "monolingual base filename, for example:"
 msgid ""
 "You can use Django template markup in both component name and the "
 "monolingual base filename, for example:"
 msgstr ""
-"Du kan bruge Django-skabelonsopmærkning i både komponentnavn og ensprogede "
-"basisfilnavn, f.eks.:"
+"Du kan bruge Django-skabelonsopmærkning i både komponentnavn og det "
+"ensprogede basisfilnavn, f.eks.:"
 
 #: weblate/templates/addons/discovery_help.html:71
 msgid "Component filename match"
@@ -3877,13 +3844,11 @@ msgstr ""
 "forslag."
 
 #: weblate/templates/dashboard/anonymous.html:21
-#, fuzzy, python-format
-#| msgid "%(count)s vote"
-#| msgid_plural "%(count)s votes"
+#, python-format
 msgid "Browse %(count)s project"
 msgid_plural "Browse all %(count)s projects"
-msgstr[0] "%(count)s stemme"
-msgstr[1] "%(count)s stemmer"
+msgstr[0] "Gennemse %(count)s projekt"
+msgstr[1] "Gennemse alle %(count)s projekter"
 
 #: weblate/templates/dashboard/user.html:30 weblate/templates/data.html:51
 #: weblate/templates/stats.html:5 weblate/templates/stats.html:79
@@ -4452,13 +4417,11 @@ msgstr "Nulstil alle ændringer i det lokale arkiv"
 
 #: weblate/templates/js/git-status.html:180
 msgid "Cleanup"
-msgstr ""
+msgstr "Ryd op"
 
 #: weblate/templates/js/git-status.html:184
-#, fuzzy
-#| msgid "Reset all changes in the local repository"
 msgid "Cleanup all untracked files in the local repository"
-msgstr "Nulstil alle ændringer i det lokale arkiv"
+msgstr "Ryd op i alle usporede ændringer i det lokale arkiv"
 
 #: weblate/templates/js/git-status.html:196
 msgid "Unlock"
@@ -5269,22 +5232,16 @@ msgid "Source string search"
 msgstr "Søgning efter kildestreng"
 
 #: weblate/templates/screenshots/screenshot_detail.html:111
-#, fuzzy
-#| msgid "Screenshots"
 msgid "Screenshot details"
-msgstr "Skærmbilleder"
+msgstr "Skærmbilleddetaljer"
 
 #: weblate/templates/screenshots/screenshot_detail.html:114
-#, fuzzy
-#| msgid "Created new SSH key."
 msgid "Created on"
-msgstr "Oprettede ny SSH-nøgle."
+msgstr "Oprettede"
 
 #: weblate/templates/screenshots/screenshot_detail.html:115
-#, fuzzy
-#| msgid "Upload"
 msgid "Uploaded by"
-msgstr "Overfør"
+msgstr "Overført af"
 
 #: weblate/templates/screenshots/screenshot_detail.html:125
 msgid "Deleting screenshot will remove it from all associated source strings."
@@ -6127,10 +6084,8 @@ msgid "Strings with suggestions"
 msgstr "Strenge med forslag"
 
 #: weblate/trans/filter.py:37 weblate/trans/models/translation.py:747
-#, fuzzy
-#| msgid "Strings without suggestions"
 msgid "Strings needing action without suggestions"
-msgstr "Strenge uden forslag"
+msgstr "Strenge der behøver handling uden forslag"
 
 #: weblate/trans/filter.py:38 weblate/trans/models/translation.py:662
 #: weblate/trans/models/translation.py:775
@@ -6252,10 +6207,8 @@ msgid "Merge method"
 msgstr "Flettemetode"
 
 #: weblate/trans/forms.py:581
-#, fuzzy
-#| msgid "Add as translation needing edit"
 msgid "Add as translation needing review"
-msgstr "Tilføj som en oversættelse der behøver redigering"
+msgstr "Tilføj som en oversættelse der behøver gennemgang"
 
 #: weblate/trans/forms.py:582
 #, fuzzy
