@@ -231,7 +231,10 @@ class Fulltext(WhooshIndex):
                     writer.delete_by_term('pk', pk)
 
 
-@shared_task(base=Batches, flush_every=500, flush_interval=300, bind=True)
+@shared_task(
+    base=Batches, flush_every=500, flush_interval=300, bind=True,
+    max_retries=1000
+)
 def update_fulltext(self, *args):
     from weblate.trans.models import Unit
     ids = extract_batch_args(*args)
@@ -247,7 +250,10 @@ def update_fulltext(self, *args):
         raise self.retry(exc=exc)
 
 
-@shared_task(base=Batches, flush_every=500, flush_interval=300, bind=True)
+@shared_task(
+    base=Batches, flush_every=500, flush_interval=300, bind=True,
+    max_retries=1000
+)
 def delete_fulltext(self, *args):
     ids = extract_batch_args(*args)
     fulltext = Fulltext()
