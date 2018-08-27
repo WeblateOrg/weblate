@@ -29,6 +29,7 @@ from celery_batches import Batches
 
 from whoosh.fields import SchemaClass, TEXT, NUMERIC
 from whoosh.query import Or, Term
+from whoosh.index import LockError
 from whoosh.writing import AsyncWriter, BufferedWriter
 from whoosh import qparser
 
@@ -239,8 +240,11 @@ def update_fulltext(self, *args):
     # Filter matching units
     units = Unit.objects.filter(id__in=[x[0] for x in ids])
 
-    # Udate index
-    fulltext.update_index(units)
+    # Update index
+    try:
+        fulltext.update_index(units)
+    except LockError as exc:
+        raise self.retry(exc=exc)
 
 
 @shared_task(base=Batches, flush_every=500, flush_interval=300, bind=True)
@@ -256,4 +260,7 @@ def delete_fulltext(self, *args):
             languages[language] = set()
         languages[language].add(unit)
 
-    fulltext.delete_search_units(units, languages)
+    try:
+        fulltext.delete_search_units(units, languages)
+    except LockError as exc:
+        raise self.retry(exc=exc)
