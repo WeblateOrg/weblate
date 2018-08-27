@@ -37,12 +37,6 @@ class ConfigurationErrorsMiddleware(object):
     This middleware is active only on first request and then removed
     by raising
     """
-    @staticmethod
-    def does_fire(func):
-        checks = []
-        func(checks, None)
-        return checks and checks[0][1] is False
-
     def __init__(self, get_response=None):
         for error in cache.get('configuration-errors', []):
             if 'delete' in error:
