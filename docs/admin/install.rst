@@ -1208,16 +1208,6 @@ background.
    Since version 3.2 the default way of executing these tasks is using Celery
    and Weblate already comes with proper configuration, see :ref:`celery`.
 
-On a Unix-likesystem, this can be scheduled using cron:
-
-.. code-block:: text
-
-    # Cleanup stale objects
-    @daily cd /usr/share/weblate/; ./manage.py cleanuptrans
-
-    # Commit pending changes after 96 hours
-    @hourly cd /usr/share/weblate/; ./manage.py commit_pending --all --age=96 --verbosity=0
-
 .. seealso::
 
    :djadmin:`cleanuptrans`, :djadmin:`commit_pending`
