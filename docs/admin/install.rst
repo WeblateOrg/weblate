@@ -690,9 +690,11 @@ Typical setup using redis as a backend should look like:
 
    CELERY_TASK_ALWAYS_EAGER = False
    CELERY_BROKER_URL = 'redis://localhost:6379'
+   CELERY_WORKER_PREFETCH_MULTIPLIER = 0
 
-You should also start the Celery worker to process the tasks, this can be done
-directly on command line (what is mostly useful when debugging or developing):
+You should also start the Celery worker to process the tasks and start
+scheduled tasks, this can be done directly on command line (what is mostly
+useful when debugging or developing):
 
 .. code-block:: sh
 
@@ -1201,6 +1203,11 @@ Running maintenance tasks
 
 For optimal performance, it is good idea to run some maintenance tasks in the
 background.
+
+.. versionchanged:: 3.2
+
+   Since version 3.2 the default way of executing these tasks is using Celery
+   and Weblate already comes with proper configuration, see :ref:`celery`.
 
 On a Unix-likesystem, this can be scheduled using cron:
 

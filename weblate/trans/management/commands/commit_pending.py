@@ -25,7 +25,7 @@ from datetime import timedelta
 from django.utils import timezone
 
 from weblate.trans.management.commands import WeblateLangCommand
-from weblate.trans.tasks import perform_commit
+from weblate.trans.tasks import commit_pending
 
 
 class Command(WeblateLangCommand):
@@ -43,27 +43,8 @@ class Command(WeblateLangCommand):
         )
 
     def handle(self, *args, **options):
-
-        hours = options['age']
-
-        if hours is not None:
-            age = timezone.now() - timedelta(hours=hours)
-
-        for translation in self.get_translations(**options):
-            if not translation.repo_needs_commit():
-                continue
-
-            if hours is None:
-                age = timezone.now() - timedelta(
-                    hours=translation.component.commit_pending_age
-                )
-
-            last_change = translation.last_change
-            if last_change is None:
-                continue
-            if last_change > age:
-                continue
-
-            if int(options['verbosity']) >= 1:
-                self.stdout.write('Committing {0}'.format(translation))
-            perform_commit.delay(translation.pk, 'manage commit_pending', None)
+        commit_pending(
+            options['age'],
+            set(self.get_translations(**options).values_list('id', flat=True)),
+            self.stdout.write if int(options['verbosity']) >= 1 else None,
+        )

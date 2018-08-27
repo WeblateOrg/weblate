@@ -20,7 +20,11 @@
 
 from __future__ import absolute_import, unicode_literals
 
+from datetime import timedelta
+
 from celery import shared_task
+
+from django.utils import timezone
 
 from weblate.trans.models import Project, Component, Translation
 
@@ -45,3 +49,31 @@ def perform_load(pk, *args):
 def perform_commit(pk, *args):
     translation = Translation.objects.get(pk=pk)
     translation.commit_pending(*args)
+
+
+@shared_task
+def commit_pending(hours=None, pks=None, logger=None):
+    if pks is None:
+        translations = Translation.objects.all()
+    else:
+        translations = Translation.objects.filter(pk__in=pks)
+
+    for translation in translations.prefetch():
+        if not translation.repo_needs_commit():
+            continue
+
+        if hours is None:
+            age = timezone.now() - timedelta(
+                hours=translation.component.commit_pending_age
+            )
+
+        last_change = translation.last_change
+        if last_change is None:
+            continue
+        if last_change > age:
+            continue
+
+        if logger:
+            logger('Committing {0}'.format(translation))
+
+        perform_commit.delay(translation.pk, 'commit_pending', None)

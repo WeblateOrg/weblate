@@ -45,7 +45,12 @@ class CeleryConf(AppConf):
     BROKER_URL = 'memory://'
 
     # List Celery beats (scheduled tasks)
-    BEAT_SCHEDULE = {}
+    BEAT_SCHEDULE = {
+        'commit-pending': {
+            'task': 'weblate.trans.tasks.commit_pending',
+            'schedule': 3600,
+        },
+    }
 
     # We want to retry failed tasks
     TASK_ACKS_LATE = True
