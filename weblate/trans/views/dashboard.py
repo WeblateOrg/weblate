@@ -161,12 +161,20 @@ def home(request):
 
     # Warn about not filled in username (usually caused by migration of
     # users from older system
-    if request.user.full_name == '':
+    if not request.user.full_name:
         messages.warning(
             request,
             mark_safe('<a href="{0}">{1}</a>'.format(
                 reverse('profile') + '#account',
                 escape(_('Please set your full name in your profile.'))
+            ))
+        )
+    if not request.user.email:
+        messages.warning(
+            request,
+            mark_safe('<a href="{0}">{1}</a>'.format(
+                reverse('profile') + '#account',
+                escape(_('Please set your email in your profile.'))
             ))
         )
 
