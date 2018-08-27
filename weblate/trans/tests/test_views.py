@@ -37,6 +37,7 @@ from django.core.cache import cache
 from weblate.auth.models import Group, Role, Permission, setup_project_groups
 from weblate.lang.models import Language
 from weblate.trans.models import ComponentList, WhiteboardMessage, Project
+from weblate.trans.search import Fulltext
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.utils import create_test_user, wait_for_celery
 from weblate.utils.hash import hash_to_checksum
@@ -76,8 +77,12 @@ class RegistrationTestMixin(object):
 
 
 class ViewTestCase(RepoTestCase):
+    fake_search = True
+
     def setUp(self):
         super(ViewTestCase, self).setUp()
+        if self.fake_search:
+            Fulltext.FAKE = True
         # Many tests needs access to the request factory.
         self.factory = RequestFactory()
         # Create user
@@ -114,6 +119,11 @@ class ViewTestCase(RepoTestCase):
         self.translation_url = self.get_translation().get_absolute_url()
         self.project_url = self.project.get_absolute_url()
         self.component_url = self.component.get_absolute_url()
+
+    def tearDown(self):
+        super(ViewTestCase, self).tearDown()
+        if self.fake_search:
+            Fulltext.FAKE = False
 
     def update_fulltext_index(self):
         wait_for_celery()

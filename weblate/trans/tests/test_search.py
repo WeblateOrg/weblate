@@ -38,6 +38,8 @@ from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
 
 class SearchViewTest(ViewTestCase):
+    fake_search = False
+
     def setUp(self):
         super(SearchViewTest, self).setUp()
         self.translation = self.component.translation_set.get(
@@ -377,6 +379,8 @@ class SearchViewTest(ViewTestCase):
 
 
 class SearchBackendTest(ViewTestCase):
+    fake_search = False
+
     def setUp(self):
         super(SearchBackendTest, self).setUp()
         self.update_fulltext_index()
@@ -443,6 +447,7 @@ class SearchMigrationTest(TestCase, TempDirMixin):
 
 class ReplaceTest(ViewTestCase):
     """Test for search and replace functionality."""
+    fake_search = False
 
     def setUp(self):
         super(ReplaceTest, self).setUp()

@@ -57,6 +57,7 @@ class SourceSchema(SchemaClass):
 
 class Fulltext(WhooshIndex):
     LOCATION = 'whoosh'
+    FAKE = False
 
     def get_source_index(self):
         return self.open_index(SourceSchema, 'source')
@@ -113,7 +114,8 @@ class Fulltext(WhooshIndex):
     @classmethod
     def update_index_unit(cls, unit):
         """Add single unit to index."""
-        update_fulltext.delay(unit.id)
+        if not cls.FAKE:
+            update_fulltext.delay(unit.id)
 
     @staticmethod
     def base_search(index, query, params, search, schema):
