@@ -37,7 +37,6 @@ from weblate.trans.models import (
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
 from weblate.trans.search import Fulltext
-from weblate.utils.state import STATE_TRANSLATED
 
 
 class Command(BaseCommand):
@@ -139,24 +138,18 @@ class Command(BaseCommand):
 
             for lang in Language.objects.all():
                 with transaction.atomic():
-                    # Remove checks referring to deleted or not translated
-                    # units
-                    translatedunits = Unit.objects.filter(
-                        translation__language=lang,
-                        state__gte=STATE_TRANSLATED,
-                        translation__component__project__pk=pk
-                    ).values('content_hash').distinct()
-                    Check.objects.filter(
-                        language=lang, project__pk=pk
-                    ).exclude(
-                        content_hash__in=translatedunits
-                    ).delete()
-
                     # List current unit content_hashs
                     units = Unit.objects.filter(
                         translation__language=lang,
                         translation__component__project__pk=pk
                     ).values('content_hash').distinct()
+
+                    # Remove checks referring to deleted units
+                    Check.objects.filter(
+                        language=lang, project__pk=pk
+                    ).exclude(
+                        content_hash__in=units
+                    ).delete()
 
                     # Remove suggestions referring to deleted units
                     Suggestion.objects.filter(
