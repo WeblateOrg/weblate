@@ -219,7 +219,9 @@ cleanuptrans
 
 .. django-admin:: cleanuptrans
 
-Cleanups orphaned checks and translation suggestions.
+Cleanups orphaned checks and translation suggestions. This is normally not
+needed to execute manually, the cleanups happen automatically in the
+background.
 
 .. seealso::
    

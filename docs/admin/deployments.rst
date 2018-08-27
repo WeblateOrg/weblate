@@ -128,15 +128,6 @@ should be no need for additional manual actions.
     writing this it is ``3.0.1-7``) image which will do the migration and then
     continue in upgrading to newer versions.
 
-Maintenance tasks
-+++++++++++++++++
-
-The Docker container runs some cron jobs to perform maintenance tasks in
-background:
-
-* Cleanup stale objects by :djadmin:`cleanuptrans`
-* Commit pending changes by :djadmin:`commit_pending`
-
 .. _docker-environment:
 
 Docker environment variables

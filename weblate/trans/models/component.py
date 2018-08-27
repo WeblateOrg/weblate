@@ -437,6 +437,7 @@ class Component(models.Model, URLMixin, PathMixin):
         self._file_format = None
         self.stats = ComponentStats(self)
         self.addons_cache = {}
+        self.needs_cleanup = False
         self.old_component = copy(self)
 
     @property
@@ -942,6 +943,7 @@ class Component(models.Model, URLMixin, PathMixin):
     def create_translations(self, force=False, langs=None, request=None,
                             changed_template=False):
         """Load translations from VCS."""
+        self.needs_cleanup = False
         translations = set()
         languages = set()
         matches = self.get_mask_matches()
@@ -980,6 +982,7 @@ class Component(models.Model, URLMixin, PathMixin):
         if langs is None:
             todelete = self.translation_set.exclude(id__in=translations)
             if todelete.exists():
+                self.needs_cleanup = True
                 with transaction.atomic():
                     self.log_info(
                         'removing stale translations: %s',
@@ -994,6 +997,11 @@ class Component(models.Model, URLMixin, PathMixin):
                 component
             )
             component.create_translations(force, langs, request=request)
+
+        if self.needs_cleanup:
+            from weblate.trans.tasks import cleanup_project
+            cleanup_project.delay(self.project.pk)
+            self.needs_cleanup = False
 
         self.log_info('updating completed')
 

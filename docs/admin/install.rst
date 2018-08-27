@@ -1220,7 +1220,7 @@ On a Unix-likesystem, this can be scheduled using cron:
 
 .. seealso::
 
-   :ref:`production-indexing`, :djadmin:`cleanuptrans`, :djadmin:`commit_pending`
+   :djadmin:`cleanuptrans`, :djadmin:`commit_pending`
 
 .. _server:
 

@@ -56,18 +56,24 @@ __all__ = [
 
 
 @receiver(post_delete, sender=Project)
-@receiver(post_delete, sender=Component)
 def delete_object_dir(sender, instance, **kwargs):
     """Handler to delete (sub)project directory on project deletion."""
-    # Do not delete linked components
-    if hasattr(instance, 'is_repo_link') and instance.is_repo_link:
-        return
-
     project_path = instance.full_path
 
     # Remove path if it exists
     if os.path.exists(project_path):
         shutil.rmtree(project_path, onerror=remove_readonly)
+
+
+@receiver(post_delete, sender=Component)
+def delete_component(sender, instance, **kwargs):
+    """Handler to delete (sub)project directory on project deletion."""
+    from weblate.trans.tasks import cleanup_project
+    cleanup_project.delay(instance.project.pk)
+
+    # Do not delete linked components
+    if not instance.is_repo_link:
+        delete_object_dir(sender, instance, **kwargs)
 
 
 @receiver(post_save, sender=Source)

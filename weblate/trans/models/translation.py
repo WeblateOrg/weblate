@@ -312,9 +312,8 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         # We should also do cleanup on source strings tracking objects
 
         # Delete stale units
-        self.unit_set.exclude(
-            id__in=created_units
-        ).delete()
+        if self.unit_set.exclude(id__in=created_units).delete()[0]:
+            self.component.needs_cleanup = True
 
         # Update revision and stats
         self.invalidate_cache()

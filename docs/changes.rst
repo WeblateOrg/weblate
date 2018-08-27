@@ -14,6 +14,7 @@ Released on ? 2018.
 * Weblate now uses Celery to offload some processing.
 * Improved search capabilities and added regular expression search.
 * Added support for Youdao Zhiyun API machine translation.
+* Integrated maintenance and cleanup tasks using Celery.
 
 weblate 3.1.1
 -------------
