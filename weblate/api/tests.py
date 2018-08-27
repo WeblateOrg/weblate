@@ -415,13 +415,14 @@ class TranslationAPITest(APIBaseTest):
         self.authenticate()
         # Remove all permissions
         self.user.groups.clear()
-        response = self.client.put(
-            reverse(
-                'api:translation-file',
-                kwargs=self.translation_kwargs
-            ),
-            {'file': open(TEST_PO, 'rb')},
-        )
+        with open(TEST_PO, 'rb') as handle:
+            response = self.client.put(
+                reverse(
+                    'api:translation-file',
+                    kwargs=self.translation_kwargs
+                ),
+                {'file': handle},
+            )
         self.assertEqual(response.status_code, 404)
 
     def test_upload(self):
@@ -460,13 +461,14 @@ class TranslationAPITest(APIBaseTest):
 
     def test_upload_overwrite(self):
         self.test_upload()
-        response = self.client.put(
-            reverse(
-                'api:translation-file',
-                kwargs=self.translation_kwargs
-            ),
-            {'file': open(TEST_PO, 'rb'), 'overwrite': 1},
-        )
+        with open(TEST_PO, 'rb') as handle:
+            response = self.client.put(
+                reverse(
+                    'api:translation-file',
+                    kwargs=self.translation_kwargs
+                ),
+                {'file': handle, 'overwrite': 1},
+            )
         self.assertEqual(
             response.data,
             {
