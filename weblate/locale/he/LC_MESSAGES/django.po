@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-08-26 16:17+0000\n"
-"PO-Revision-Date: 2018-08-27 06:18+0000\n"
+"PO-Revision-Date: 2018-08-27 06:23+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/master/he/"
 ">\n"
@@ -3758,15 +3758,13 @@ msgid ""
 msgstr "עליך להיכנס כדי לתרגם, אחרת תהיה לך אפשרות להציע הצעות בלבד."
 
 #: weblate/templates/dashboard/anonymous.html:21
-#, fuzzy, python-format
-#| msgid "%(count)s vote"
-#| msgid_plural "%(count)s votes"
+#, python-format
 msgid "Browse %(count)s project"
 msgid_plural "Browse all %(count)s projects"
-msgstr[0] "קול אחד"
-msgstr[1] "%(count)s קולות"
-msgstr[2] "%(count)s קולות"
-msgstr[3] "%(count)s קולות"
+msgstr[0] "עיון במיזם אחד"
+msgstr[1] "עיון ב־%(count)s מיזמים"
+msgstr[2] "עיון ב־%(count)s מיזמים"
+msgstr[3] "עיון ב־%(count)s מיזמים"
 
 #: weblate/templates/dashboard/user.html:30 weblate/templates/data.html:51
 #: weblate/templates/stats.html:5 weblate/templates/stats.html:79
@@ -4320,13 +4318,11 @@ msgstr "איפוס כל השינויים במאגר המקומי"
 
 #: weblate/templates/js/git-status.html:180
 msgid "Cleanup"
-msgstr ""
+msgstr "ניקוי"
 
 #: weblate/templates/js/git-status.html:184
-#, fuzzy
-#| msgid "Reset all changes in the local repository"
 msgid "Cleanup all untracked files in the local repository"
-msgstr "איפוס כל השינויים במאגר המקומי"
+msgstr "ניקוי כל הקבצים שאינם מסומנים במאגר המקומי"
 
 #: weblate/templates/js/git-status.html:196
 msgid "Unlock"
@@ -5129,22 +5125,16 @@ msgid "Source string search"
 msgstr "חיפוש מחרוזות מקור"
 
 #: weblate/templates/screenshots/screenshot_detail.html:111
-#, fuzzy
-#| msgid "Screenshots"
 msgid "Screenshot details"
-msgstr "צילומי מסך"
+msgstr "פרטי צילום מסך"
 
 #: weblate/templates/screenshots/screenshot_detail.html:114
-#, fuzzy
-#| msgid "Created new SSH key."
 msgid "Created on"
-msgstr "נוצר מפתח SSH חדש."
+msgstr "מועד היצירה"
 
 #: weblate/templates/screenshots/screenshot_detail.html:115
-#, fuzzy
-#| msgid "Upload"
 msgid "Uploaded by"
-msgstr "העלאה"
+msgstr "הועלה על ידי"
 
 #: weblate/templates/screenshots/screenshot_detail.html:125
 msgid "Deleting screenshot will remove it from all associated source strings."
@@ -5220,16 +5210,12 @@ msgid "Suggested"
 msgstr "הוצעו"
 
 #: weblate/templates/stats.html:58
-#, fuzzy
-#| msgid "Most active suggesters"
 msgid "Most active screenshot uploaders"
-msgstr "המציעים הפעילים ביותר"
+msgstr "מעלי צילומי המסך הפעילים ביותר"
 
 #: weblate/templates/stats.html:63
-#, fuzzy
-#| msgid "Screenshot name"
 msgid "Screenshots uploaded"
-msgstr "שם צילום המסך"
+msgstr "צילומי המסך הועלו"
 
 #: weblate/templates/stats.html:87
 msgid "Translatable strings"
@@ -5986,10 +5972,8 @@ msgid "Strings with suggestions"
 msgstr "מחרוזות עם הצעות"
 
 #: weblate/trans/filter.py:37 weblate/trans/models/translation.py:747
-#, fuzzy
-#| msgid "Strings without suggestions"
 msgid "Strings needing action without suggestions"
-msgstr "מחרוזות ללא הצעות"
+msgstr "מחרוזות טעונות שיפור ללא הצעות"
 
 #: weblate/trans/filter.py:38 weblate/trans/models/translation.py:662
 #: weblate/trans/models/translation.py:775
@@ -6105,16 +6089,12 @@ msgid "Merge method"
 msgstr "שיטת מיזוג"
 
 #: weblate/trans/forms.py:581
-#, fuzzy
-#| msgid "Add as translation needing edit"
 msgid "Add as translation needing review"
-msgstr "הוספה כתרגום טעון שיפור"
+msgstr "הוספה כתרגום טעון סקירה"
 
 #: weblate/trans/forms.py:582
-#, fuzzy
-#| msgid "Add as other translation"
 msgid "Add as approved translation"
-msgstr "הוספה כתרגום אחר"
+msgstr "הוספה כתרגום מאושר"
 
 #: weblate/trans/forms.py:583
 msgid "Add as a suggestion"
@@ -6929,10 +6909,9 @@ msgid "Failed to reset to remote branch on %s."
 msgstr "איפוס הענף המרוחק ב־%s נכשל."
 
 #: weblate/trans/models/component.py:779
-#, fuzzy, python-format
-#| msgid "Failed to fetch repository: %s"
+#, python-format
 msgid "Failed to clean the repository on %s."
-msgstr "אחזור המאגר נכשל: %s"
+msgstr "ניקוי המאגר נכשל ב־%s."
 
 #: weblate/trans/models/component.py:846
 #, python-format
@@ -7975,10 +7954,8 @@ msgid "All repositories have been reset."
 msgstr "כל המאגרים אופסו."
 
 #: weblate/trans/views/git.py:108
-#, fuzzy
-#| msgid "All repositories have been reset."
 msgid "All repositories have been cleaned up."
-msgstr "כל המאגרים אופסו."
+msgstr "כל המאגרים עברו ניקיון."
 
 #: weblate/trans/views/git.py:290
 msgid "Translation has been removed."
@@ -8251,7 +8228,7 @@ msgstr "מנהל האתר"
 
 #: weblate/wladmin/performance.py:134
 msgid "Celery tasks queue"
-msgstr ""
+msgstr "תור משימות Celery"
 
 #: weblate/wladmin/performance.py:155
 msgid "Django caching"
