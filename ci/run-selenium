@@ -3,7 +3,7 @@
 
 . ci/lib
 
-run_coverage ./manage.py collectstatic --noinput
+run_coverage ./manage.py collectstatic --noinput --verbosity 0
 check
 
 export DO_SELENIUM=1
