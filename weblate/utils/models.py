@@ -60,9 +60,6 @@ class CeleryConf(AppConf):
         },
     }
 
-    # We want to retry failed tasks
-    TASK_ACKS_LATE = True
-
     IMPORTS = [
         'weblate.accounts.notifications',
         'weblate.trans.discovery',
