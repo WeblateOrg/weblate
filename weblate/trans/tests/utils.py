@@ -77,8 +77,6 @@ class RepoTestMixin(object):
 
         Checks whether directory exists or is older than archive.
         """
-        print 'Extract', output
-
         tarname = get_test_file(tarname)
 
         if (not os.path.exists(output) or
