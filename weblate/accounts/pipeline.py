@@ -36,14 +36,13 @@ from six.moves.urllib.request import Request, urlopen
 from social_core.pipeline.partial import partial
 from social_core.exceptions import AuthMissingParameter, AuthAlreadyAssociated
 
-from social_django.models import Code
-
 from weblate.auth.models import User
 from weblate.accounts.notifications import (
     send_notification_email, notify_account_activity
 )
 from weblate.accounts.templatetags.authnames import get_auth_name
 from weblate.accounts.models import VerifiedEmail
+from weblate.accounts.utils import invalidate_reset_codes
 from weblate.utils import messages
 from weblate.utils.validators import clean_fullname, USERNAME_MATCHER
 from weblate import USER_AGENT
@@ -106,16 +105,10 @@ def require_email(backend, details, weblate_action, user=None, is_new=False,
 
     # Remove any pending email validation codes
     if details.get('email') and backend.name == 'email':
-        Code.objects.filter(email=details['email']).delete()
+        invalidate_reset_codes(emails=(details['email'],))
         # Remove all account reset codes
         if user and weblate_action == 'reset':
-            Code.objects.filter(
-                email__in=VerifiedEmail.objects.filter(
-                    social__user=user,
-                ).values_list(
-                    'email', flat=True
-                )
-            ).delete()
+            invalidate_reset_codes(user=user)
 
     if user and user.email:
         # Force validation of new email address
@@ -445,11 +438,7 @@ def cycle_session(strategy, *args, **kwargs):
 def adjust_primary_mail(strategy, entries, user, *args, **kwargs):
     """Fix primary mail on disconnect."""
     # Remove pending verification codes
-    mails = VerifiedEmail.objects.filter(
-        social__user=user,
-        social__in=entries
-    ).values_list('email', flat=True)
-    Code.objects.filter(email__in=mails).delete()
+    invalidate_reset_codes(user=user, entries=entries)
 
     # Check remaining verified mails
     verified = VerifiedEmail.objects.filter(
