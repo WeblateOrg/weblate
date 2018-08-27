@@ -21,7 +21,7 @@ from __future__ import unicode_literals
 
 import json
 
-from django.test import TestCase
+from django.test import SimpleTestCase, TestCase
 from django.core.management import call_command
 from django.core.management.base import CommandError
 
@@ -41,18 +41,15 @@ TEST_DOCUMENT = {
     'category': CATEGORY_FILE,
 }
 
+def add_document():
+    memory = TranslationMemory()
+    with memory.writer() as writer:
+        writer.add_document(**TEST_DOCUMENT)
 
-class MemoryTest(TestCase):
+
+class MemoryTest(SimpleTestCase):
     def setUp(self):
         TranslationMemory.cleanup()
-
-    def test_import_tmx_command(self):
-        call_command(
-            'import_memory',
-            get_test_file('memory.tmx')
-        )
-        memory = TranslationMemory()
-        self.assertEqual(memory.doc_count(), 2)
 
     def test_import_json_command(self):
         call_command(
@@ -63,7 +60,7 @@ class MemoryTest(TestCase):
         self.assertEqual(memory.doc_count(), 1)
 
     def test_dump_command(self):
-        self.add_document()
+        add_document()
         output = StringIO()
         call_command('dump_memory', stdout=output)
         data = json.loads(output.getvalue())
@@ -74,19 +71,19 @@ class MemoryTest(TestCase):
             call_command('delete_memory')
 
     def test_delete_command(self):
-        self.add_document()
+        add_document()
         call_command('delete_memory', '--origin', 'test')
         memory = TranslationMemory()
         self.assertEqual(memory.doc_count(), 0)
 
     def test_delete_all_command(self):
-        self.add_document()
+        add_document()
         call_command('delete_memory', '--all')
         memory = TranslationMemory()
         self.assertEqual(memory.doc_count(), 0)
 
     def test_list_command(self):
-        self.add_document()
+        add_document()
         output = StringIO()
         call_command(
             'list_memory',
@@ -94,21 +91,34 @@ class MemoryTest(TestCase):
         )
         self.assertIn('test', output.getvalue())
 
-    def test_import_map(self):
-        call_command(
-            'import_memory',
-            get_test_file('memory.tmx'),
-            language_map='en_US:en',
-        )
-        self.assertEqual(TranslationMemory().doc_count(), 2)
-
     def add_document(self):
         memory = TranslationMemory()
         with memory.writer() as writer:
             writer.add_document(**TEST_DOCUMENT)
 
+    def test_delete(self):
+        add_document()
+        memory = TranslationMemory()
+        self.assertEqual(memory.doc_count(), 1)
+        self.assertEqual(memory.delete('test'), 1)
+        self.assertEqual(memory.delete('missing'), 0)
+        memory = TranslationMemory()
+        self.assertEqual(memory.doc_count(), 0)
+
+    def test_list(self):
+        memory = TranslationMemory()
+        self.assertEqual(list(memory.get_origins()), [])
+        add_document()
+        memory = TranslationMemory()
+        self.assertEqual(memory.get_origins(), ['test'])
+
+
+class MemoryDBTest(TestCase):
+    def setUp(self):
+        TranslationMemory.cleanup()
+
     def test_machine(self):
-        self.add_document()
+        add_document()
         machine_translation = WeblateMemory()
         self.assertEqual(
             machine_translation.translate('cs', 'Hello', MockUnit(), None),
@@ -122,18 +132,18 @@ class MemoryTest(TestCase):
             ]
         )
 
-    def test_delete(self):
-        self.add_document()
+    def test_import_tmx_command(self):
+        call_command(
+            'import_memory',
+            get_test_file('memory.tmx')
+        )
         memory = TranslationMemory()
-        self.assertEqual(memory.doc_count(), 1)
-        self.assertEqual(memory.delete('test'), 1)
-        self.assertEqual(memory.delete('missing'), 0)
-        memory = TranslationMemory()
-        self.assertEqual(memory.doc_count(), 0)
+        self.assertEqual(memory.doc_count(), 2)
 
-    def test_list(self):
-        memory = TranslationMemory()
-        self.assertEqual(list(memory.get_origins()), [])
-        self.add_document()
-        memory = TranslationMemory()
-        self.assertEqual(memory.get_origins(), ['test'])
+    def test_import_map(self):
+        call_command(
+            'import_memory',
+            get_test_file('memory.tmx'),
+            language_map='en_US:en',
+        )
+        self.assertEqual(TranslationMemory().doc_count(), 2)
