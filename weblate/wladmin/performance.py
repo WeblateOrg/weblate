@@ -62,17 +62,6 @@ def run_checks(request):
 
 
 @register_check
-def run_debug(checks, request):
-    """Check for debug mode"""
-    checks.append((
-        _('Debug mode'),
-        not settings.DEBUG,
-        'production-debug',
-        settings.DEBUG,
-    ))
-
-
-@register_check
 def run_server(checks, request):
     """Detect Django built in server."""
     server = request.META.get('SERVER_SOFTWARE', None)
