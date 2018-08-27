@@ -24,6 +24,7 @@ from django.conf import settings
 from django.core.mail import get_connection
 from django.core.checks import Error
 
+from weblate.utils.celery import get_queue_length
 from weblate.utils.docs import get_doc_url
 
 GOOD_CACHE = frozenset((
@@ -58,6 +59,15 @@ def check_celery(app_configs, **kwargs):
                 'Celery is configured in the eager mode',
                 hint=get_doc_url('admin/install', 'celery'),
                 id='weblate.E005',
+            )
+        )
+
+    if get_queue_length() > 1000:
+        errors.append(
+            Error(
+                'Celery tasks queue is too long, is worker running?',
+                hint=get_doc_url('admin/install', 'celery'),
+                id='weblate.E009',
             )
         )
 
