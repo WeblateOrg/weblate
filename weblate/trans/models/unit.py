@@ -23,7 +23,6 @@ from __future__ import unicode_literals
 from copy import copy
 import functools
 import traceback
-import multiprocessing
 import sys
 
 from django.conf import settings
@@ -71,14 +70,6 @@ SIMPLE_FILTERS = {
 }
 
 SEARCH_FILTERS = ('source', 'target', 'context', 'location', 'comment')
-
-
-def more_like_queue(pk, source, top, queue):
-    """
-    Multiprocess wrapper around more_like.
-    """
-    result = Fulltext().more_like(pk, source, top)
-    queue.put(result)
 
 
 class UnitManager(models.Manager):
@@ -290,25 +281,7 @@ class UnitQuerySet(models.QuerySet):
 
     def more_like_this(self, unit, top=5):
         """Find closely similar units."""
-        if settings.MT_WEBLATE_LIMIT >= 0:
-            queue = multiprocessing.Queue()
-            proc = multiprocessing.Process(
-                target=more_like_queue,
-                args=(unit.pk, unit.source, top, queue)
-            )
-            proc.start()
-            proc.join(settings.MT_WEBLATE_LIMIT)
-            if proc.is_alive():
-                proc.terminate()
-
-            if queue.empty():
-                raise Exception(
-                    'Request for more like {0} timed out.'.format(unit.pk)
-                )
-
-            more_results = queue.get()
-        else:
-            more_results = Fulltext().more_like(unit.pk, unit.source, top)
+        more_results = Fulltext().more_like(unit.pk, unit.source, top)
 
         return self.filter(
             pk__in=more_results,

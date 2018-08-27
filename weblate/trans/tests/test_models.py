@@ -316,23 +316,7 @@ class SourceTest(ModelTestCase):
 
 
 class UnitTest(ModelTestCase):
-    @override_settings(MT_WEBLATE_LIMIT=15)
     def test_more_like(self):
-        unit = Unit.objects.all()[0]
-        self.assertEqual(Unit.objects.more_like_this(unit).count(), 0)
-
-    @override_settings(MT_WEBLATE_LIMIT=0)
-    def test_more_like_timeout(self):
-        unit = Unit.objects.all()[0]
-        self.assertRaisesMessage(
-            Exception,
-            'Request for more like {0} timed out.'.format(unit.pk),
-            Unit.objects.more_like_this,
-            unit
-        )
-
-    @override_settings(MT_WEBLATE_LIMIT=-1)
-    def test_more_like_no_fork(self):
         unit = Unit.objects.all()[0]
         self.assertEqual(Unit.objects.more_like_this(unit).count(), 0)
 

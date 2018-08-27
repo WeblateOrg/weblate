@@ -74,9 +74,6 @@ class WeblateConf(AppConf):
     YOUDAO_ID = None
     YOUDAO_SECRET = None
 
-    # Limit (in seconds) for Weblate machine translation
-    WEBLATE_LIMIT = 15
-
     # List of machine translations
     SERVICES = (
         'weblate.machinery.weblatetm.WeblateTranslation',
