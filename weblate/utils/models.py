@@ -50,6 +50,10 @@ class CeleryConf(AppConf):
             'task': 'weblate.trans.tasks.commit_pending',
             'schedule': 3600,
         },
+        'social-auth-cleanup': {
+            'task': 'weblate.accounts.tasks.cleanup_social_auth',
+            'schedule': 3600,
+        }
     }
 
     # We want to retry failed tasks

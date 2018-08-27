@@ -190,7 +190,7 @@ def get_versions():
         'social-auth-app-django',
         'https://python-social-auth.readthedocs.io/',
         'social_django',
-        '1.2.0',
+        '2.0.0',
     ))
 
     result.append(get_single(
