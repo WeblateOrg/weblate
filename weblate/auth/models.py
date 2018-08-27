@@ -312,6 +312,7 @@ class User(AbstractBaseUser):
     email = models.EmailField(
         _('Email'),
         blank=False,
+        null=True,
         max_length=190,
         unique=True,
         validators=[validate_email],
@@ -399,6 +400,8 @@ class User(AbstractBaseUser):
             self.full_name = self.extra_data['first_name']
         elif 'last_name' in self.extra_data:
             self.full_name = self.extra_data['last_name']
+        if not self.email:
+            self.email = None
         super(User, self).save(*args, **kwargs)
 
     def has_module_perms(self, module):
