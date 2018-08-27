@@ -37,7 +37,6 @@ from django.utils.translation import pgettext
 from django.urls import reverse
 
 from weblate import USER_AGENT
-from weblate.logger import LOGGER
 from weblate.utils.errors import report_error
 
 
@@ -98,11 +97,6 @@ def get_avatar_image(request, user, size):
                 error, sys.exc_info(), request,
                 extra_data={'avatar': user.username},
                 level='debug',
-            )
-            LOGGER.error(
-                'Failed to fetch avatar for %s: %s',
-                user.username,
-                str(error)
             )
             return get_fallback_avatar(size)
 
