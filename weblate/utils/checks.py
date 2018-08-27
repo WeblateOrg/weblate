@@ -58,3 +58,16 @@ def check_celery(app_configs, **kwargs):
         )
 
     return errors
+
+
+def check_database(app_configs, **kwargs):
+    errors = []
+    if 'sqlite' in settings.DATABASES['default']['ENGINE']:
+        errors.append(
+            Error(
+                'SQLite is not a good database backend for production use',
+                hint=get_doc_url('admin/install', 'production-database'),
+                id='weblate.E006',
+            )
+        )
+    return errors

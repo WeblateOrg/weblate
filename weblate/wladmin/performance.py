@@ -86,17 +86,6 @@ def run_domain(checks, request):
 
 
 @register_check
-def run_db(checks, request):
-    """Check database being used"""
-    checks.append((
-        _('Database backend'),
-        "sqlite" not in settings.DATABASES['default']['ENGINE'],
-        'production-database',
-        settings.DATABASES['default']['ENGINE'],
-    ))
-
-
-@register_check
 def run_admin(checks, request):
     """Check configured admins"""
     checks.append((

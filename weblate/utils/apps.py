@@ -22,7 +22,9 @@ from __future__ import unicode_literals
 from django.apps import AppConfig
 from django.core.checks import register
 
-from weblate.utils.checks import check_mail_connection, check_celery
+from weblate.utils.checks import (
+    check_mail_connection, check_celery, check_database,
+)
 from weblate.utils.data import check_data_writable
 from weblate.utils.fonts import check_fonts
 from weblate.utils.requirements import check_requirements
@@ -39,4 +41,5 @@ class UtilsConfig(AppConfig):
         register(check_mail_connection, deploy=True)
         register(check_fonts)
         register(check_celery, deploy=True)
+        register(check_database, deploy=True)
         super(UtilsConfig, self).ready()
