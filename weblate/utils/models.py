@@ -18,9 +18,11 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from __future__ import unicode_literals
+from __future__ import absolute_import, unicode_literals
 
 from appconf import AppConf
+
+from celery.schedules import crontab
 
 
 class WeblateConf(AppConf):
@@ -60,7 +62,11 @@ class CeleryConf(AppConf):
         },
         'fulltext-cleanup': {
             'task': 'weblate.trans.tasks.cleanup_fulltext',
-            'schedule': 3600 * 24 * 7,
+            'schedule': crontab(hour=2, minute=30, day_of_week='saturday'),
+        },
+        'fulltext-optimize': {
+            'task': 'weblate.trans.tasks.optimize_fulltext',
+            'schedule': crontab(hour=2, minute=30, day_of_week='sunday'),
         },
         'suggestions-cleanup': {
             'task': 'weblate.trans.tasks.cleanup_suggestions',

@@ -22,6 +22,7 @@ from weblate.trans.management.commands import WeblateComponentCommand
 from weblate.lang.models import Language
 from weblate.trans.models import Unit
 from weblate.trans.search import Fulltext
+from weblate.trans.tasks import optimize_fulltext
 
 
 class Command(WeblateComponentCommand):
@@ -43,15 +44,6 @@ class Command(WeblateComponentCommand):
             default=False,
             help='optimize index without rebuilding it'
         )
-
-    def optimize_index(self, fulltext):
-        """Optimize index structures"""
-        index = fulltext.get_source_index()
-        index.optimize()
-        languages = Language.objects.have_translation()
-        for lang in languages:
-            index = fulltext.get_target_index(lang.code)
-            index.optimize()
 
     def process_filtered(self, fulltext, **options):
         # Open writer
@@ -101,11 +93,11 @@ class Command(WeblateComponentCommand):
             source_writer.commit()
 
     def handle(self, *args, **options):
-        fulltext = Fulltext()
         # Optimize index
         if options['optimize']:
-            self.optimize_index(fulltext)
+            optimize_fulltext()
             return
+        fulltext = Fulltext()
         # Optionally rebuild indices from scratch
         if options['clean']:
             fulltext.cleanup()

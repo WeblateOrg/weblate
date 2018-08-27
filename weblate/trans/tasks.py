@@ -112,6 +112,17 @@ def cleanup_fulltext():
             fulltext.clean_search_unit(item['pk'], lang)
 
 
+@shared_task
+def optimize_fulltext():
+    fulltext = Fulltext()
+    index = fulltext.get_source_index()
+    index.optimize()
+    languages = Language.objects.have_translation()
+    for lang in languages:
+        index = fulltext.get_target_index(lang.code)
+        index.optimize()
+
+
 def cleanup_sources(project):
     """Remove stale Source objects."""
     for pk in project.component_set.values_list('id', flat=True):
