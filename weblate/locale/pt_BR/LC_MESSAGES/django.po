@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-08-26 16:17+0000\n"
-"PO-Revision-Date: 2018-08-27 14:34+0000\n"
+"PO-Revision-Date: 2018-08-27 14:48+0000\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/master/pt_BR/>\n"
@@ -1807,7 +1807,7 @@ msgstr "Arquivo de recurso .Net"
 
 #: weblate/formats/ttkit.py:457
 msgid "Android String Resource"
-msgstr "Textos do Android"
+msgstr "Textos de recurso do Android"
 
 #: weblate/formats/ttkit.py:486
 msgid "JSON file"
@@ -3304,7 +3304,7 @@ msgstr "Usando idioma em ambos caminho e nome do arquivo."
 
 #: weblate/templates/addons/discovery_help.html:62
 msgid "Android resource strings, split into several files."
-msgstr ""
+msgstr "Textos de recurso do Android, divididos em vários arquivos."
 
 #: weblate/templates/addons/discovery_help.html:67
 msgid ""
@@ -4497,10 +4497,8 @@ msgstr ""
 "ver a chave pública abaixo."
 
 #: weblate/templates/keys.html:48
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Commit signing is not configured."
-msgstr "O formato do texto C não corresponde com a fonte"
+msgstr "A assinatura do envio não está configurada."
 
 #: weblate/templates/language-project.html:26
 #: weblate/templates/language.html:26 weblate/templates/project.html:51
@@ -5262,22 +5260,16 @@ msgid "Source string search"
 msgstr "Pesquisa de textos fonte"
 
 #: weblate/templates/screenshots/screenshot_detail.html:111
-#, fuzzy
-#| msgid "Screenshots"
 msgid "Screenshot details"
-msgstr "Capturas de tela"
+msgstr "Detalhes da captura de tela"
 
 #: weblate/templates/screenshots/screenshot_detail.html:114
-#, fuzzy
-#| msgid "Created new SSH key."
 msgid "Created on"
-msgstr "Nova chave SSH criada."
+msgstr "Criado em"
 
 #: weblate/templates/screenshots/screenshot_detail.html:115
-#, fuzzy
-#| msgid "Upload"
 msgid "Uploaded by"
-msgstr "Enviar"
+msgstr "Enviado por"
 
 #: weblate/templates/screenshots/screenshot_detail.html:125
 msgid "Deleting screenshot will remove it from all associated source strings."
@@ -5356,16 +5348,12 @@ msgid "Suggested"
 msgstr "Sugerido"
 
 #: weblate/templates/stats.html:58
-#, fuzzy
-#| msgid "Most active suggesters"
 msgid "Most active screenshot uploaders"
-msgstr "Usuários com mais sugestões"
+msgstr "Usuários com mais capturas de tela enviadas"
 
 #: weblate/templates/stats.html:63
-#, fuzzy
-#| msgid "Screenshot name"
 msgid "Screenshots uploaded"
-msgstr "Nome da captura de tela"
+msgstr "Capturas de tela enviadas"
 
 #: weblate/templates/stats.html:87
 msgid "Translatable strings"
@@ -5765,16 +5753,14 @@ msgid "Download original translation file (%(format)s)"
 msgstr "Baixar arquivo de tradução original (%(format)s)"
 
 #: weblate/templates/translation-download.html:9
-#, fuzzy, python-format
-#| msgid "Download original translation file (%(format)s)"
+#, python-format
 msgid "Download translation file as %(format)s"
-msgstr "Baixar arquivo de tradução original (%(format)s)"
+msgstr "Baixar arquivo de tradução como %(format)s"
 
 #: weblate/templates/translation-download.html:14
-#, fuzzy, python-format
-#| msgid "Download strings needing action as CSV"
+#, python-format
 msgid "Download strings needing action as %(format)s"
-msgstr "Baixar textos que necessitam ação como CSV"
+msgstr "Baixar textos que necessitam ação como %(format)s"
 
 #: weblate/templates/translation-download.html:18
 #: weblate/templates/translation.html:280
@@ -6125,10 +6111,8 @@ msgid "Strings with suggestions"
 msgstr "Textos com sugestões"
 
 #: weblate/trans/filter.py:37 weblate/trans/models/translation.py:747
-#, fuzzy
-#| msgid "Strings without suggestions"
 msgid "Strings needing action without suggestions"
-msgstr "Textos sem sugestões"
+msgstr "Textos que necessitam ação sem sugestões"
 
 #: weblate/trans/filter.py:38 weblate/trans/models/translation.py:662
 #: weblate/trans/models/translation.py:775
@@ -6248,16 +6232,12 @@ msgid "Merge method"
 msgstr "Método de mesclagem"
 
 #: weblate/trans/forms.py:581
-#, fuzzy
-#| msgid "Add as translation needing edit"
 msgid "Add as translation needing review"
-msgstr "Adicionar como tradução que necessita edição"
+msgstr "Adicionar como tradução que necessita revisão"
 
 #: weblate/trans/forms.py:582
-#, fuzzy
-#| msgid "Add as other translation"
 msgid "Add as approved translation"
-msgstr "Adicionar como outra tradução"
+msgstr "Adicionar como tradução aprovada"
 
 #: weblate/trans/forms.py:583
 msgid "Add as a suggestion"
@@ -6560,10 +6540,8 @@ msgid "Ending date"
 msgstr "Data final"
 
 #: weblate/trans/forms.py:1307 weblate/trans/forms.py:1309
-#, fuzzy
-#| msgid "Ending date"
 msgid "Missing date!"
-msgstr "Data final"
+msgstr "Data faltante!"
 
 #: weblate/trans/forms.py:1321
 msgid "Starting date has to be before ending date!"
@@ -7102,10 +7080,9 @@ msgid "Failed to reset to remote branch on %s."
 msgstr "Falha ao redefinir para o ramo remoto em %s."
 
 #: weblate/trans/models/component.py:779
-#, fuzzy, python-format
-#| msgid "Failed to fetch repository: %s"
+#, python-format
 msgid "Failed to clean the repository on %s."
-msgstr "Falhou ao buscar o repositório: %s"
+msgstr "Falhou ao limpar o repositório em %s."
 
 #: weblate/trans/models/component.py:846
 #, python-format
@@ -8141,10 +8118,8 @@ msgid "All repositories have been reset."
 msgstr "Todos os repositórios foram redefinidos."
 
 #: weblate/trans/views/git.py:108
-#, fuzzy
-#| msgid "All repositories have been reset."
 msgid "All repositories have been cleaned up."
-msgstr "Todos os repositórios foram redefinidos."
+msgstr "Todos os repositórios foram limpos."
 
 #: weblate/trans/views/git.py:290
 msgid "Translation has been removed."
@@ -8188,10 +8163,8 @@ msgid "Search for %s"
 msgstr "Pesquisar por %s"
 
 #: weblate/trans/views/search.py:212
-#, fuzzy
-#| msgid "Too many messages sent, please try again later!"
 msgid "Too many search queries, please try again later."
-msgstr "Muitas mensagens enviadas, tente novamente mais tarde!"
+msgstr "Muitas consultas de pesquisa, tente novamente mais tarde."
 
 #: weblate/trans/views/search.py:215
 msgid "Invalid search query!"
@@ -8416,7 +8389,7 @@ msgstr "Administrador do site"
 
 #: weblate/wladmin/performance.py:134
 msgid "Celery tasks queue"
-msgstr ""
+msgstr "Fila de tarefas do Celery"
 
 #: weblate/wladmin/performance.py:155
 msgid "Django caching"
