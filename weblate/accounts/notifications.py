@@ -243,7 +243,6 @@ def get_notification_email(language, email, notification,
                            translation_obj=None, context=None, headers=None,
                            user=None, info=None):
     """Render notification email."""
-    cur_language = django_translation.get_language()
     context = context or {}
     headers = headers or {}
     references = None
@@ -259,20 +258,18 @@ def get_notification_email(language, email, notification,
         references = '<{0}@{1}>'.format(references, get_site_domain())
         headers['In-Reply-To'] = references
         headers['References'] = references
-    try:
-        if info is None:
-            info = force_text(translation_obj)
-        LOGGER.info(
-            'sending notification %s on %s to %s',
-            notification,
-            info,
-            email
-        )
 
-        # Load user language
-        if language is not None:
-            django_translation.activate(language)
+    if info is None:
+        info = force_text(translation_obj)
 
+    LOGGER.info(
+        'sending notification %s on %s to %s',
+        notification,
+        info,
+        email
+    )
+
+    with django_translation.override('en' if language is None else language):
         # Template name
         context['subject_template'] = 'mail/{0}_subject.txt'.format(
             notification
@@ -329,8 +326,6 @@ def get_notification_email(language, email, notification,
             'headers': headers,
             'html_body': html_body,
         }
-    finally:
-        django_translation.activate(cur_language)
 
 
 def send_notification_email(language, email, notification,
