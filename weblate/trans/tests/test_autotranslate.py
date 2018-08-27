@@ -213,6 +213,8 @@ class AutoTranslationTest(ViewTestCase):
 
 
 class AutoTranslationMtTest(ViewTestCase):
+    fake_search = False
+
     def setUp(self):
         super(AutoTranslationMtTest, self).setUp()
         # Need extra power
