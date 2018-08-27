@@ -18,9 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-import os.path
-
-from django.core.files.storage import DefaultStorage
 from django.core.management.base import BaseCommand
 from django.db import transaction
 
@@ -33,7 +30,7 @@ from weblate.trans.models import (
     Suggestion, Comment, Unit, Project, Source, Component, Change,
 )
 from weblate.lang.models import Language
-from weblate.screenshots.models import Screenshot
+from weblate.screenshots.tasks import cleanup_screenshot_files
 from weblate.trans.search import Fulltext
 
 
@@ -45,7 +42,7 @@ class Command(BaseCommand):
         self.cleanup_sources()
         self.cleanup_database()
         self.cleanup_fulltext()
-        self.cleanup_files()
+        cleanup_screenshot_files()
         with transaction.atomic():
             cleanup_social_auth()
 
@@ -63,18 +60,6 @@ class Command(BaseCommand):
                 ).exclude(
                     id_hash__in=source_ids
                 ).delete()
-
-    def cleanup_files(self):
-        """Remove stale screenshots"""
-        storage = DefaultStorage()
-        try:
-            files = storage.listdir('screenshots')[1]
-        except OSError:
-            return
-        for name in files:
-            fullname = os.path.join('screenshots', name)
-            if not Screenshot.objects.filter(image=fullname).exists():
-                storage.delete(fullname)
 
     def cleanup_fulltext(self):
         """Remove stale units from fulltext"""
