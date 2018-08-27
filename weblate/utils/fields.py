@@ -45,10 +45,10 @@ class JSONField(models.TextField):
             return json.dumps(value, cls=DjangoJSONEncoder)
         return super(JSONField, self).get_prep_value(value)
 
-    def from_db_value(self, value, expression, connection):
+    def from_db_value(self, value, *args, **kwargs):
         return self.to_python(value)
 
-    def get_db_prep_save(self, value, connection):
+    def get_db_prep_save(self, value, *args, **kwargs):
         if not value:
             value = {}
         return json.dumps(value, cls=DjangoJSONEncoder)
