@@ -103,6 +103,7 @@ Notable configuration or dependencies changes:
 * Rate limiting configuration has been changed, please see :ref:`rate-limit`.
 * Microsoft Terminology machine translation was moved to separate module and now requires ``zeep`` module.
 * Weblate now uses Celery for several background tasks. There are new dependencies and settings because of this, see :ref:`celery`.
+* There are several changes in :file:`settings_example.py`, most notable Celery configuration and middleware changes, please adjust your settings accordingly.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

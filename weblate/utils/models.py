@@ -72,6 +72,10 @@ class CeleryConf(AppConf):
             'task': 'weblate.trans.tasks.cleanup_suggestions',
             'schedule': 3600 * 24,
         },
+        'configuration-health-check': {
+            'task': 'weblate.wladmin.tasks.configuration_health_check',
+            'schedule': 3600,
+        },
     }
 
     IMPORTS = [
