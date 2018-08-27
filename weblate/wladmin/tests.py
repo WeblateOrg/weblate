@@ -87,7 +87,7 @@ class AdminTest(FixtureTestCase):
 
     def test_performace(self):
         response = self.client.get(reverse('admin:performance'))
-        self.assertContains(response, 'Django caching')
+        self.assertContains(response, 'weblate.E007')
 
     def test_error(self):
         add_configuration_error('Test error', 'FOOOOOOOOOOOOOO')
