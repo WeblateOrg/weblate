@@ -62,7 +62,6 @@ from weblate.utils.state import (
     STATE_CHOICES
 )
 from weblate.utils.validators import validate_file_extension
-from weblate.logger import LOGGER
 from weblate.utils.docs import get_doc_url
 
 ICON_TEMPLATE = '''
@@ -419,7 +418,7 @@ class ChecksumForm(forms.Form):
                 id_hash=self.cleaned_data['checksum']
             )[0]
         except (Unit.DoesNotExist, IndexError):
-            LOGGER.error(
+            self.translation.log_error(
                 'string %s disappeared!', self.cleaned_data['checksum']
             )
             raise ValidationError(_(
