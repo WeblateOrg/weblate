@@ -21,8 +21,10 @@
 
 from __future__ import unicode_literals
 
-import sys
+from hashlib import md5
 import json
+import random
+import sys
 
 from six.moves.urllib.request import Request, urlopen
 from six.moves.urllib.error import HTTPError
@@ -300,3 +302,13 @@ class MachineTranslation(object):
                 exc.__class__.__name__,
                 str(exc)
             ))
+
+    def signed_salt(self, appid, secret, text):
+        """Generates salt and sign as used by Chinese services."""
+
+        salt = str(random.randint(0, 10000000000))
+
+        payload = ''.join((appid, text, salt, secret))
+        digest = md5(payload.encode('utf-8')).hexdigest()
+
+        return salt, digest

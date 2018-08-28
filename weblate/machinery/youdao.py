@@ -26,9 +26,6 @@ from weblate.machinery.base import (
     MachineTranslation, MachineTranslationError, MissingConfiguration
 )
 
-import random
-from hashlib import md5
-
 # Map codes used by Youdao to codes used by Weblate
 LANGUAGE_MAP = {
     'zh_Hans': 'zh-CHS',
@@ -78,11 +75,9 @@ class YoudaoTranslation(MachineTranslation):
 
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
-        salt = str(random.randint(1, 65536))
-
-        sign = settings.MT_YOUDAO_ID + text + salt + settings.MT_YOUDAO_SECRET
-        sign = sign.encode('utf-8')
-        sign = md5(sign).hexdigest()
+        salt, sign = self.signed_salt(
+            settings.MT_YOUDAO_ID, settings.MT_YOUDAO_SECRET, text
+        )
 
         response = self.json_req(
             YOUDAO_API_ROOT,
@@ -94,7 +89,7 @@ class YoudaoTranslation(MachineTranslation):
             sign=sign,
         )
 
-        if response['errorCode'] != 0:
+        if int(response['errorCode']) != 0:
             raise MachineTranslationError(
                 'Error code: {}'.format(response['errorCode'])
             )
