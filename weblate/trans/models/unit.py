@@ -503,7 +503,6 @@ class Unit(models.Model, LoggerMixin):
         # Save into database
         self.save(
             force_insert=created,
-            backend=True,
             same_content=same_source and same_target,
             same_state=same_state,
         )
@@ -621,7 +620,7 @@ class Unit(models.Model, LoggerMixin):
             self.state = STATE_TRANSLATED
 
         # Save updated unit to database
-        self.save(backend=True)
+        self.save()
 
         # Run source checks
         self.source_info.run_checks(unit=self)
@@ -752,18 +751,11 @@ class Unit(models.Model, LoggerMixin):
         )
 
     def save(self, same_content=False, same_state=False, force_insert=False,
-             backend=False, **kwargs):
+             **kwargs):
         """
         Wrapper around save to warn when save did not come from
         git backend (eg. commit or by parsing file).
         """
-        # Warn if request is not coming from backend
-        if not backend:
-            self.log_error(
-                'Unit.save called without backend sync: %s',
-                ''.join(traceback.format_stack())
-            )
-
         # Store number of words
         if not same_content or not self.num_words:
             self.num_words = len(self.get_source_plurals()[0].split())
@@ -925,7 +917,7 @@ class Unit(models.Model, LoggerMixin):
         if has_failing_check != self.has_failing_check:
             self.has_failing_check = has_failing_check
             self.save(
-                backend=True, same_content=True, same_state=True,
+                same_content=True, same_state=True,
                 update_fields=['has_failing_check']
             )
 
@@ -941,7 +933,7 @@ class Unit(models.Model, LoggerMixin):
         if has_suggestion != self.has_suggestion:
             self.has_suggestion = has_suggestion
             self.save(
-                backend=True, same_content=True, same_state=True,
+                same_content=True, same_state=True,
                 update_fields=['has_suggestion']
             )
 
@@ -951,7 +943,7 @@ class Unit(models.Model, LoggerMixin):
         if has_comment != self.has_comment:
             self.has_comment = has_comment
             self.save(
-                backend=True, same_content=True, same_state=True,
+                same_content=True, same_state=True,
                 update_fields=['has_comment']
             )
 

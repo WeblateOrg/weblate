@@ -542,7 +542,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             # Bail out if we have not found anything
             if pounit is None or pounit.is_obsolete():
                 self.log_error('message %s disappeared!', unit)
-                unit.save(backend=True, update_fields=['pending'])
+                unit.save(update_fields=['pending'])
                 continue
 
             # Check for changes
@@ -550,7 +550,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                     unit.target == pounit.get_target() and
                     unit.approved == pounit.is_approved(unit.approved) and
                     unit.fuzzy == pounit.is_fuzzy()):
-                unit.save(backend=True, update_fields=['pending'])
+                unit.save(update_fields=['pending'])
                 continue
 
             updated = True
@@ -578,10 +578,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             if state != unit.state or flags != unit.flags:
                 unit.state = state
                 unit.flags = flags
-            unit.save(
-                backend=True,
-                update_fields=['state', 'flags', 'pending']
-            )
+            unit.save(update_fields=['state', 'flags', 'pending'])
 
         # Did we do any updates?
         if not updated:

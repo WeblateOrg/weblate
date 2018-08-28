@@ -375,7 +375,7 @@ class DictionaryTest(FixtureTestCase):
         """Test parsing long source string."""
         unit = self.get_unit()
         unit.source = LONG
-        unit.save(backend=True)
+        unit.save()
         self.assertEqual(
             Dictionary.objects.get_words(unit).count(),
             0
