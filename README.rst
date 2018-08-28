@@ -17,10 +17,6 @@ Weblate
     :alt: Codecov Coverage Status
     :target: https://codecov.io/gh/WeblateOrg/weblate
 
-.. image:: https://landscape.io/github/WeblateOrg/weblate/master/landscape.png
-    :alt: Code Health
-    :target: https://landscape.io/github/WeblateOrg/weblate/master
-
 .. image:: https://api.codacy.com/project/badge/Grade/394a22d396414d48abb6a85054f4415e
     :alt: Codacy Badge
     :target: https://www.codacy.com/app/Weblate/weblate
