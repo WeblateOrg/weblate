@@ -120,7 +120,6 @@ class BaiduTranslation(MachineTranslation):
         }
 
         response = self.json_req(BAIDU_API, **args)
-        print response
 
         if 'error_code' in response:
             raise MachineTranslationError(
