@@ -80,19 +80,19 @@ def delete_component(sender, instance, **kwargs):
 @disable_for_loaddata
 def update_source(sender, instance, **kwargs):
     """Update unit priority or checks based on source change."""
-    related_units = Unit.objects.filter(
-        id_hash=instance.id_hash,
-        translation__component=instance.component,
-    )
     if instance.priority_modified:
-        units = related_units.exclude(
+        Unit.objects.filter(
+            id_hash=instance.id_hash,
+            translation__component=instance.component,
+        ).exclude(
             priority=instance.priority
-        )
-        units.update(priority=instance.priority)
+        ).update(priority=instance.priority)
 
     if instance.check_flags_modified:
-        for unit in related_units:
+        for unit in instance.units:
             unit.run_checks()
+        instance.run_checks()
+        for unit in instance.units:
             unit.translation.invalidate_cache()
 
 
@@ -182,4 +182,7 @@ def update_checks(pk):
     for translation in component.translation_set.all():
         for unit in translation.unit_set.all():
             unit.run_checks()
+    for source in component.source_set.all():
+        source.run_checks()
+    for translation in component.translation_set.all():
         translation.invalidate_cache()

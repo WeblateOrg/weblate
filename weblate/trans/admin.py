@@ -31,6 +31,7 @@ from weblate.wladmin.models import WeblateModelAdmin
 def perform_update_checks(units, translations):
     for unit in units:
         unit.run_checks()
+        unit.source_info.run_checks()
 
     for translation in translations:
         translation.invalidate_cache()

@@ -111,6 +111,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         super(Translation, self).__init__(*args, **kwargs)
         self.stats = TranslationStats(self)
         self.addon_commit_files = []
+        self.notify_new_string = False
 
     @cached_property
     def log_prefix(self):
@@ -243,6 +244,8 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         else:
             return
 
+        self.notify_new_string = False
+
         self.log_info(
             'processing %s, %s',
             self.filename,
@@ -316,7 +319,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             self.component.needs_cleanup = True
 
         # Update revision and stats
-        self.invalidate_cache()
         self.store_hash()
 
         # Store change entry
@@ -328,9 +330,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         )
 
         # Notify subscribed users
-        if was_new:
-            from weblate.accounts.notifications import notify_new_string
-            notify_new_string(self)
+        self.notify_new_string = was_new
 
     def get_last_remote_commit(self):
         return self.component.get_last_remote_commit()

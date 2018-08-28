@@ -438,6 +438,7 @@ class Component(models.Model, URLMixin, PathMixin):
         self.stats = ComponentStats(self)
         self.addons_cache = {}
         self.needs_cleanup = False
+        self.updated_sources = {}
         self.old_component = copy(self)
 
     @property
@@ -940,11 +941,17 @@ class Component(models.Model, URLMixin, PathMixin):
 
         return sorted(matches)
 
+    def update_source_checks(self):
+        for units in self.updated_sources.values():
+            units[0].source_info.run_checks(units)
+        self.updated_sources = {}
+
     def create_translations(self, force=False, langs=None, request=None,
                             changed_template=False):
         """Load translations from VCS."""
         self.needs_cleanup = False
-        translations = set()
+        self.updated_sources = {}
+        translations = {}
         languages = set()
         matches = self.get_mask_matches()
         for pos, path in enumerate(matches):
@@ -968,7 +975,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 translation = Translation.objects.check_sync(
                     self, lang, code, path, force, request=request
                 )
-                translations.add(translation.id)
+                translations[translation.id] = translation
                 languages.add(lang.code)
                 # Remove fuzzy flag on template name change
                 if changed_template:
@@ -980,7 +987,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
         # Delete possibly no longer existing translations
         if langs is None:
-            todelete = self.translation_set.exclude(id__in=translations)
+            todelete = self.translation_set.exclude(id__in=translations.keys())
             if todelete.exists():
                 self.needs_cleanup = True
                 with transaction.atomic():
@@ -989,6 +996,9 @@ class Component(models.Model, URLMixin, PathMixin):
                         ','.join([trans.language.code for trans in todelete])
                     )
                     todelete.delete()
+
+        if self.updated_sources:
+            self.update_source_checks()
 
         # Process linked repos
         for component in self.get_linked_childs():
@@ -1001,7 +1011,16 @@ class Component(models.Model, URLMixin, PathMixin):
         if self.needs_cleanup:
             from weblate.trans.tasks import cleanup_project
             cleanup_project.delay(self.project.pk)
-            self.needs_cleanup = False
+
+        from weblate.accounts.notifications import notify_new_string
+        # First invalidate all caches
+        for translation in translations.values():
+            translation.invalidate_cache()
+        # Now send notifications to avoid calculating component stats
+        # several times
+        for translation in translations.values():
+            if translation.notify_new_string:
+                notify_new_string(translation)
 
         self.log_info('updating completed')
 
