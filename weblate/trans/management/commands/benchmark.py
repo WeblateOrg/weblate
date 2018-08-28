@@ -40,7 +40,7 @@ class Command(BaseCommand):
         )
         parser.add_argument(
             '--profile-filter',
-            default= '/weblate',
+            default='/weblate',
             help='filter for profile stats',
         )
         parser.add_argument(

@@ -867,15 +867,17 @@ class Unit(models.Model, LoggerMixin):
         if (not same_state or is_new) and self.state < STATE_TRANSLATED:
             # Check whether there is any message with same source
             project = self.translation.component.project
-            same_source = self.same_source_units.filter(
-                state__gte=STATE_TRANSLATED,
-            )
+            same_source_exists = False
+            for unit in self.same_source_units:
+                if unit.state >= STATE_TRANSLATED:
+                    same_source_exists = True
+                    break
 
             # We run only checks which span across more units
             checks_to_run = {}
 
             # Delete all checks if only message with this source is fuzzy
-            if not same_source.exists():
+            if not same_source_exists:
                 checks = self.checks()
                 if checks.exists():
                     checks.delete()

@@ -79,14 +79,12 @@ class ConsistencyCheck(TargetCheck):
         # Do not check consistency if user asked not to have it
         if not unit.translation.component.allow_translation_propagation:
             return False
-        related = unit.same_source_units.exclude(
-            target=unit.target
-        )
-
-        if not unit.translated:
-            related = related.filter(state=STATE_TRANSLATED)
-
-        return related.exists()
+        for other in unit.same_source_units:
+            if unit.target == other.target:
+                continue
+            if unit.translated or other.state >= STATE_TRANSLATED:
+                return True
+        return False
 
     def check_single(self, source, target, unit):
         """We don't check target strings here."""
