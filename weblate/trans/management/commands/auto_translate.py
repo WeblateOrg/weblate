@@ -123,7 +123,11 @@ class Command(WeblateTranslationCommand):
         if options['mt']:
             for translator in options['mt']:
                 if translator not in MACHINE_TRANSLATION_SERVICES.keys():
-                    raise CommandError('mt ' + translator + ' is not available')
+                    raise CommandError(
+                        'Machine translation {} is not available'.format(
+                            translator
+                        )
+                    )
 
         if options['inconsistent']:
             filter_type = 'check:inconsistent'
