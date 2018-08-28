@@ -867,14 +867,8 @@ class Unit(models.Model, LoggerMixin):
         if (not same_state or is_new) and self.state < STATE_TRANSLATED:
             # Check whether there is any message with same source
             project = self.translation.component.project
-            same_source = Unit.objects.filter(
-                translation__language=self.translation.language,
-                translation__component__project=project,
-                content_hash=self.content_hash,
+            same_source = self.same_source_units.filter(
                 state__gte=STATE_TRANSLATED,
-            ).exclude(
-                id=self.id,
-                translation__component__allow_translation_propagation=False,
             )
 
             # We run only checks which span across more units
@@ -1083,8 +1077,11 @@ class Unit(models.Model, LoggerMixin):
         """
         return hash_to_checksum(self.id_hash)
 
-    def same_units(self):
-        return Unit.objects.same(self)
+    @cached_property
+    def same_source_units(self):
+        return Unit.objects.same(self).filter(
+            translation__component__allow_translation_propagation=True
+        )
 
     def get_max_length(self):
         """Returns maximal translation length."""

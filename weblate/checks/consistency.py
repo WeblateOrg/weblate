@@ -79,10 +79,8 @@ class ConsistencyCheck(TargetCheck):
         # Do not check consistency if user asked not to have it
         if not unit.translation.component.allow_translation_propagation:
             return False
-        related = unit.same_units().exclude(
+        related = unit.same_source_units.exclude(
             target=unit.target
-        ).filter(
-            translation__component__allow_translation_propagation=True
         )
 
         if not unit.translated:
