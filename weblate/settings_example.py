@@ -513,6 +513,7 @@ if not HAVE_SYSLOG:
 # List of machine translations
 # MT_SERVICES = (
 #     'weblate.machinery.apertium.ApertiumAPYTranslation',
+#     'weblate.machinery.baidu.BaiduTranslation',
 #     'weblate.machinery.deepl.DeepLTranslation',
 #     'weblate.machinery.glosbe.GlosbeTranslation',
 #     'weblate.machinery.google.GoogleTranslation',
@@ -550,6 +551,10 @@ MT_MYMEMORY_KEY = None
 
 # Google API key for Google Translate API
 MT_GOOGLE_KEY = None
+
+# Baidu app key and secret
+MT_BAIDU_ID = None
+MT_BAIDU_SECRET = None
 
 # Youdao Zhiyun app key and secret
 MT_YOUDAO_ID = None

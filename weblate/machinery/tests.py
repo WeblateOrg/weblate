@@ -32,6 +32,7 @@ from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.trans.models.unit import Unit
 from weblate.machinery.base import MachineTranslationError
+from weblate.machinery.baidu import BaiduTranslation, BAIDU_API
 from weblate.machinery.dummy import DummyTranslation
 from weblate.machinery.deepl import DeepLTranslation
 from weblate.machinery.glosbe import GlosbeTranslation
@@ -594,6 +595,30 @@ class MachineTranslationTest(TestCase):
             httpretty.GET,
             'https://openapi.youdao.com/api',
             body=b'{"errorCode": 1}',
+        )
+        with self.assertRaises(MachineTranslationError):
+            self.assert_translate(machine, lang='ja', empty=True)
+
+    @override_settings(MT_BAIDU_ID='id', MT_BAIDU_SECRET='secret')
+    @httpretty.activate
+    def test_baidu(self):
+        machine = self.get_machine(BaiduTranslation)
+        httpretty.register_uri(
+            httpretty.GET,
+            BAIDU_API,
+            body=b'{"trans_result": [{"src": "hello", "dst": "hallo"}]}',
+        )
+        self.assert_translate(machine, lang='ja')
+        self.assert_translate(machine, lang='ja', word='Zkouška')
+
+    @override_settings(MT_BAIDU_ID='id', MT_BAIDU_SECRET='secret')
+    @httpretty.activate
+    def test_baidu_error(self):
+        machine = self.get_machine(BaiduTranslation)
+        httpretty.register_uri(
+            httpretty.GET,
+            BAIDU_API,
+            body=b'{"error_code": 1, "error_msg": "Error"}',
         )
         with self.assertRaises(MachineTranslationError):
             self.assert_translate(machine, lang='ja', empty=True)

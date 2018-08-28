@@ -59,6 +59,27 @@ To enable this service, add ``weblate.machinery.aws.AWSTranslation`` to
     :setting:`MT_AWS_REGION`, :setting:`MT_AWS_ACCESS_KEY_ID`, :setting:`MT_AWS_SECRET_ACCESS_KEY`
     `Amazon Translate Documentation <https://aws.amazon.com/documentation/translate/>`_
 
+.. _baidu-translate:
+
+Baidu API machine translation
+-----------------------------
+
+.. versionadded:: 3.2
+
+Machine translation service provided by Baidu.
+
+This service uses an API and you need to obtain ID and API key from Baidu.
+
+To enable this service, add ``weblate.machinery.baidu.BaiduTranslation`` to
+:setting:`MT_SERVICES` and set :setting:`MT_BAIDU_ID` and
+:setting:`MT_BAIDU_SECRET`.
+
+.. seealso::
+
+    :setting:`MT_BAIDU_ID`,
+    :setting:`MT_BAIDU_SECRET`
+    `Baidu Translate API <http://api.fanyi.baidu.com/api/trans/product/index>`_
+
 .. _deepl:
 
 DeepL

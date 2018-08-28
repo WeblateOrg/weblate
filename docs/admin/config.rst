@@ -713,6 +713,28 @@ Region name to use for Amazon Translate.
 
     :ref:`aws`, :ref:`machine-translation-setup`, :ref:`machine-translation`
 
+.. setting:: MT_BAIDU_ID
+
+MT_BAIDU_ID
+------------
+
+Client ID for Baidu Zhiyun API, you can register at http://api.fanyi.baidu.com/api/trans/product/index
+
+.. seealso::
+
+   :ref:`baidu-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`
+
+.. setting:: MT_BAIDU_SECRET
+
+MT_BAIDU_SECRET
+----------------
+
+Client secret for Baidu Zhiyun API, you can register at http://api.fanyi.baidu.com/api/trans/product/index
+
+.. seealso::
+
+   :ref:`baidu-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`
+
 .. setting:: MT_DEEPL_KEY
 
 MT_DEEPL_KEY
