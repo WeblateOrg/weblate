@@ -38,7 +38,7 @@ from weblate.machinery.glosbe import GlosbeTranslation
 from weblate.machinery.mymemory import MyMemoryTranslation
 from weblate.machinery.apertium import ApertiumAPYTranslation
 from weblate.machinery.aws import AWSTranslation
-from weblate.machinery.tmserver import AmagamaTranslation
+from weblate.machinery.tmserver import AmagamaTranslation, AMAGAMA_LIVE
 from weblate.machinery.microsoft import (
     MicrosoftTranslation, MicrosoftCognitiveTranslation,
 )
@@ -498,18 +498,18 @@ class MachineTranslationTest(TestCase):
         machine = self.get_machine(AmagamaTranslation)
         httpretty.register_uri(
             httpretty.GET,
-            'https://amagama-live.translatehouse.org/api/v1/languages/',
+            AMAGAMA_LIVE + '/languages/',
             body='',
             status=404,
         )
         httpretty.register_uri(
             httpretty.GET,
-            'https://amagama-live.translatehouse.org/api/v1/en/cs/unit/world',
+            AMAGAMA_LIVE + '/en/cs/unit/world',
             body=AMAGAMA_JSON
         )
         httpretty.register_uri(
             httpretty.GET,
-            'https://amagama-live.translatehouse.org/api/v1/en/cs/unit/Zkou%C5%A1ka',
+            AMAGAMA_LIVE + '/en/cs/unit/Zkou%C5%A1ka',
             body=AMAGAMA_JSON
         )
         self.assert_translate(machine)
@@ -524,17 +524,17 @@ class MachineTranslationTest(TestCase):
         machine = self.get_machine(AmagamaTranslation)
         httpretty.register_uri(
             httpretty.GET,
-            'https://amagama-live.translatehouse.org/api/v1/languages/',
+            AMAGAMA_LIVE + '/languages/',
             body='{"sourceLanguages": ["en"], "targetLanguages": ["cs"]}',
         )
         httpretty.register_uri(
             httpretty.GET,
-            'https://amagama-live.translatehouse.org/api/v1/en/cs/unit/world',
+            AMAGAMA_LIVE + '/en/cs/unit/world',
             body=AMAGAMA_JSON
         )
         httpretty.register_uri(
             httpretty.GET,
-            'https://amagama-live.translatehouse.org/api/v1/en/cs/unit/Zkou%C5%A1ka',
+            AMAGAMA_LIVE + '/en/cs/unit/Zkou%C5%A1ka',
             body=AMAGAMA_JSON
         )
         self.assert_translate(machine)
