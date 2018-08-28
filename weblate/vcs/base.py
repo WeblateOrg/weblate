@@ -288,10 +288,8 @@ class Repository(object):
         except (OSError, RepositoryException):
             cls._is_supported = False
             return False
-        if cls.req_version is None:
-            cls._is_supported = True
-            delete_configuration_error(cls.name.lower())
-        elif LooseVersion(version) >= LooseVersion(cls.req_version):
+        if (cls.req_version is None or
+                LooseVersion(version) >= LooseVersion(cls.req_version)):
             cls._is_supported = True
             delete_configuration_error(cls.name.lower())
         else:

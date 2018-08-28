@@ -181,13 +181,14 @@ class SameCheck(TargetCheck):
         source_language = unit.translation.component.project.\
             source_language.code.split('_')[0]
 
-        # Ignore the check for source language
-        if self.is_language(unit, source_language):
-            return True
-
+        # Ignore the check for source language,
         # English variants will have most things not translated
         # Interlingua is also quite often similar to English
-        elif source_language == 'en' and self.is_language(unit, ('en', 'ia')):
+        if (self.is_language(unit, source_language) or
+                (source_language == 'en' and
+                self.is_language(unit, ('en', 'ia')))):
+            return True
+
             return True
 
         return False

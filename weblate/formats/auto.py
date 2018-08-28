@@ -36,11 +36,9 @@ from weblate.formats.models import FILE_FORMATS
 def detect_filename(filename):
     """Filename based format autodetection"""
     name = os.path.basename(filename)
-    for autoload, storeclass in FILE_FORMATS.autoload:
-        if not isinstance(autoload, tuple) and name.endswith(autoload):
-            return storeclass
-        elif (name.startswith(autoload[0]) and
-              name.endswith(autoload[1])):
+    for pattern, storeclass in FILE_FORMATS.autoload:
+        if ((not isinstance(pattern, tuple) and name.endswith(pattern)) or
+                (name.startswith(pattern[0]) and name.endswith(pattern[1]))):
             return storeclass
     return None
 

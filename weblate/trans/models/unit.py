@@ -173,9 +173,8 @@ class UnitQuerySet(models.QuerySet):
             return self.all()
         elif strict:
             raise ValueError('Unknown filter: {}'.format(rqtype))
-        else:
-            # Catch anything not matching
-            return self.all()
+        # Catch anything not matching
+        return self.all()
 
     def review(self, date, exclude_user, only_user,
                project=None, component=None, language=None, translation=None):

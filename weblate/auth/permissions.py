@@ -130,12 +130,11 @@ def check_can_edit(user, permission, obj, is_vote=False):
         return False
 
     # Special check for voting
-    if is_vote and component and not component.suggestion_voting:
-        return False
-    elif not is_vote and translation \
-            and component.suggestion_voting \
-            and component.suggestion_autoaccept > 0 \
-            and not check_permission(user, 'unit.override', obj):
+    if ((is_vote and component and not component.suggestion_voting) or
+            (not is_vote and translation and
+            component.suggestion_voting and
+            component.suggestion_autoaccept > 0 and
+            not check_permission(user, 'unit.override', obj))):
         return False
 
     return True
