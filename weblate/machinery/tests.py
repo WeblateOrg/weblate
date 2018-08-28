@@ -482,13 +482,13 @@ class MachineTranslationTest(TestCase):
         machine = self.get_machine(GoogleTranslation)
         httpretty.register_uri(
             httpretty.GET,
-            'https://www.googleapis.com/language/translate/v2/languages',
+            GOOGLE_API_ROOT + 'languages',
             body='',
             status=500,
         )
         httpretty.register_uri(
             httpretty.GET,
-            'https://www.googleapis.com/language/translate/v2/',
+            GOOGLE_API_ROOT,
             body='',
             status=500,
         )
