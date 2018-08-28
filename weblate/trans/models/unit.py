@@ -292,7 +292,7 @@ class UnitQuerySet(models.QuerySet):
     def same(self, unit, exclude=True):
         """Unit with same source within same project."""
         project = unit.translation.component.project
-        result = self.prefetch().filter(
+        result = self.filter(
             content_hash=unit.content_hash,
             translation__component__project=project,
             translation__language=unit.translation.language
@@ -560,10 +560,7 @@ class Unit(models.Model, LoggerMixin):
 
     def propagate(self, request, change_action=None):
         """Propagate current translation to all others."""
-        allunits = Unit.objects.same(self).filter(
-            translation__component__allow_translation_propagation=True
-        )
-        for unit in allunits:
+        for unit in self.same_source_units:
             if not request.user.has_perm('unit.edit', unit):
                 continue
             unit.target = self.target
@@ -934,7 +931,7 @@ class Unit(models.Model, LoggerMixin):
             )
 
         if recurse:
-            for unit in Unit.objects.same(self):
+            for unit in Unit.objects.prefetch().same(self):
                 unit.update_has_failing_check(False, has_checks)
 
     def update_has_suggestion(self):

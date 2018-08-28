@@ -67,7 +67,7 @@ def get_other_units(unit):
             unit.translation.language,
     }
 
-    same = Unit.objects.same(unit, False)
+    same = Unit.objects.prefetch().same(unit, False)
     same_id = Unit.objects.prefetch().filter(
         id_hash=unit.id_hash,
         **kwargs
