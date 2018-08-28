@@ -40,7 +40,7 @@ from weblate.trans.util import (
     get_clean_env, path_separator,
     add_configuration_error, delete_configuration_error,
 )
-from weblate.vcs.ssh import get_wrapper_filename, create_ssh_wrapper
+from weblate.vcs.ssh import SSH_WRAPPER
 
 LOGGER = logging.getLogger('weblate-vcs')
 
@@ -101,7 +101,7 @@ class Repository(object):
         self.local = local
         if not local:
             # Create ssh wrapper for possible use
-            create_ssh_wrapper()
+            SSH_WRAPPER.create()
         if not self.is_valid():
             self.init()
 
@@ -139,7 +139,7 @@ class Repository(object):
     @staticmethod
     def _getenv():
         """Generate environment for process execution."""
-        return get_clean_env({'GIT_SSH': get_wrapper_filename()})
+        return get_clean_env({'GIT_SSH': SSH_WRAPPER.filename})
 
     @classmethod
     def _popen(cls, args, cwd=None, err=False, fullcmd=False, raw=False,
@@ -216,7 +216,7 @@ class Repository(object):
     @classmethod
     def clone(cls, source, target, branch=None):
         """Clone repository and return object for cloned repository."""
-        create_ssh_wrapper()
+        SSH_WRAPPER.create()
         cls._clone(source, target, branch)
         return cls(target, branch)
 

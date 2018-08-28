@@ -32,7 +32,7 @@ from django.conf import settings
 from django.utils.functional import cached_property
 
 from weblate.trans.util import get_clean_env
-from weblate.vcs.ssh import get_wrapper_filename
+from weblate.vcs.ssh import SSH_WRAPPER
 from weblate.vcs.base import Repository, RepositoryException
 from weblate.vcs.gpg import get_gpg_sign_key
 
@@ -565,7 +565,7 @@ class GithubRepository(GitRepository):
     @staticmethod
     def _getenv():
         """Generate environment for process execution."""
-        env = {'GIT_SSH': get_wrapper_filename()}
+        env = {'GIT_SSH': SSH_WRAPPER.filename}
 
         # Add path to config if it exists
         userconfig = os.path.expanduser('~/.config/hub')

@@ -29,7 +29,7 @@ from dateutil import parser
 import six
 from six.moves.configparser import RawConfigParser
 
-from weblate.vcs.ssh import get_wrapper_filename
+from weblate.vcs.ssh import SSH_WRAPPER
 from weblate.vcs.base import Repository, RepositoryException
 
 
@@ -60,7 +60,7 @@ class HgRepository(Repository):
     def check_config(self):
         """Check VCS configuration."""
         # We directly set config as it takes same time as reading it
-        self.set_config('ui.ssh', get_wrapper_filename())
+        self.set_config('ui.ssh', SSH_WRAPPER.filename)
 
     @classmethod
     def _clone(cls, source, target, branch=None):
