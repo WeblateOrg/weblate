@@ -519,11 +519,11 @@ class TranslationAPITest(APIBaseTest):
             data={
                 'last_author': None,
                 'code': 'cs',
-                'failing_percent': 0.0,
+                'failing_percent': 25.0,
                 'url': 'http://example.com/engage/test/cs/',
                 'translated_percent': 0.0,
                 'total_words': 15,
-                'failing': 0,
+                'failing': 1,
                 'translated_words': 0,
                 'url_translate': 'http://example.com/projects/test/test/cs/',
                 'fuzzy_percent': 0.0,

@@ -107,7 +107,7 @@ class UnitManager(models.Manager):
             created = True
 
         # Update all details
-        dbunit.update_from_unit(unit, pos, created)
+        dbunit.update_from_unit(unit, pos, created, translation.component)
 
         # Return result
         return dbunit, created
@@ -292,7 +292,7 @@ class UnitQuerySet(models.QuerySet):
     def same(self, unit, exclude=True):
         """Unit with same source within same project."""
         project = unit.translation.component.project
-        result = self.prefetch().filter(
+        result = self.filter(
             content_hash=unit.content_hash,
             translation__component__project=project,
             translation__language=unit.translation.language
@@ -427,7 +427,7 @@ class Unit(models.Model, LoggerMixin):
             return STATE_APPROVED
         return STATE_TRANSLATED
 
-    def update_from_unit(self, unit, pos, created):
+    def update_from_unit(self, unit, pos, created, component):
         """Update Unit from ttkit unit."""
         # Get unit attributes
         location = unit.get_locations()
@@ -458,9 +458,8 @@ class Unit(models.Model, LoggerMixin):
                 state = self.state
 
         # Update checks on fuzzy update or on content change
-        same_content = (
-            target == self.target and source == self.source
-        )
+        same_target = target == self.target
+        same_source = source == self.source
         same_state = (state == self.state and not created)
 
         # Check if we actually need to change anything
@@ -468,7 +467,7 @@ class Unit(models.Model, LoggerMixin):
         if (not created and
                 location == self.location and
                 flags == self.flags and
-                same_content and same_state and
+                same_source and same_target and same_state and
                 comment == self.comment and
                 pos == self.position and
                 content_hash == self.content_hash and
@@ -477,10 +476,11 @@ class Unit(models.Model, LoggerMixin):
 
         # Ensure we track source string
         source_info, source_created = Source.objects.get_or_create(
-            id_hash=self.id_hash,
-            component=self.translation.component
+            id_hash=self.id_hash, component=component
         )
         contentsum_changed = self.content_hash != content_hash
+
+        self.__dict__['source_info'] = source_info
 
         # Store updated values
         self.position = pos
@@ -505,7 +505,7 @@ class Unit(models.Model, LoggerMixin):
         self.save(
             force_insert=created,
             backend=True,
-            same_content=same_content,
+            same_content=same_source and same_target,
             same_state=same_state,
         )
 
@@ -519,6 +519,12 @@ class Unit(models.Model, LoggerMixin):
             self.update_has_failing_check(recurse=False)
             self.update_has_comment()
             self.update_has_suggestion()
+
+        # Track updated sources for source checks
+        if source_created or not same_source:
+            if self.id_hash not in component.updated_sources:
+                component.updated_sources[self.id_hash] = []
+            component.updated_sources[self.id_hash].append(self)
 
     def is_plural(self):
         """Check whether message is plural."""
@@ -554,10 +560,7 @@ class Unit(models.Model, LoggerMixin):
 
     def propagate(self, request, change_action=None):
         """Propagate current translation to all others."""
-        allunits = Unit.objects.same(self).filter(
-            translation__component__allow_translation_propagation=True
-        )
-        for unit in allunits:
+        for unit in self.same_source_units:
             if not request.user.has_perm('unit.edit', unit):
                 continue
             unit.target = self.target
@@ -620,6 +623,9 @@ class Unit(models.Model, LoggerMixin):
 
         # Save updated unit to database
         self.save(backend=True)
+
+        # Run source checks
+        self.source_info.run_checks(unit=self)
 
         # Generate Change object for this change
         self.generate_change(request, user, change_action)
@@ -783,21 +789,6 @@ class Unit(models.Model, LoggerMixin):
             language=self.translation.language
         )
 
-    def cleanup_checks(self, source, target):
-        """Cleanup listed source and target checks."""
-        # Short circuit if there is nothing to cleanup
-        if not source and not target:
-            return False
-        todelete = Check.objects.filter(
-            content_hash=self.content_hash,
-            project=self.translation.component.project
-        ).filter(
-            (Q(language=self.translation.language) & Q(check__in=target)) |
-            (Q(language=None) & Q(check__in=source))
-        )
-        result = todelete.delete()
-        return result[0] > 0
-
     def checks(self):
         """Return all checks for this unit (even ignored)."""
         return Check.objects.filter(
@@ -855,51 +846,30 @@ class Unit(models.Model, LoggerMixin):
 
         Returns tuple of checks to run and whether to do cleanup.
         """
-        # Run only source checks on template
         if self.translation.is_template:
-            return {x: y for x, y in CHECKS.data.items() if y.source}, True
-
-        checks_to_run = CHECKS.data
-        cleanup_checks = True
-
-        if (not same_state or is_new) and self.state < STATE_TRANSLATED:
+            # Run only source checks on template, this is done later
+            return {}, True
+        elif (not same_state or is_new) and self.state < STATE_TRANSLATED:
             # Check whether there is any message with same source
-            project = self.translation.component.project
-            same_source = Unit.objects.filter(
-                translation__language=self.translation.language,
-                translation__component__project=project,
-                content_hash=self.content_hash,
-                state__gte=STATE_TRANSLATED,
-            ).exclude(
-                id=self.id,
-                translation__component__allow_translation_propagation=False,
-            )
-
-            # We run only checks which span across more units
-            checks_to_run = {}
+            same_source_exists = False
+            for unit in self.same_source_units:
+                if unit.state >= STATE_TRANSLATED:
+                    same_source_exists = True
+                    break
 
             # Delete all checks if only message with this source is fuzzy
-            if not same_source.exists():
-                checks = self.checks()
-                if checks.exists():
-                    checks.delete()
-                    self.update_has_failing_check(True, False)
+            if not same_source_exists:
+                return {}, True
             elif 'inconsistent' in CHECKS:
                 # Consistency check checks across more translations
-                checks_to_run['inconsistent'] = CHECKS['inconsistent']
-
-            # Run source checks as well
-            for check in CHECKS:
-                if CHECKS[check].source:
-                    checks_to_run[CHECKS[check].check_id] = CHECKS[check]
-
-            cleanup_checks = False
-
-        return checks_to_run, cleanup_checks
+                return {'inconsistent': CHECKS['inconsistent']}, False
+        else:
+            return {x: y for x, y in CHECKS.data.items() if y.target}, True
 
     def run_checks(self, same_state=True, same_content=True, is_new=False):
         """Update checks for this unit."""
         was_change = False
+        has_checks = None
 
         checks_to_run, cleanup_checks = self.get_checks_to_run(
             same_state, is_new
@@ -907,56 +877,43 @@ class Unit(models.Model, LoggerMixin):
 
         src = self.get_source_plurals()
         tgt = self.get_target_plurals()
-        old_target_checks = set(
-            self.checks().values_list('check', flat=True)
-        )
-        old_source_checks = set(
-            self.source_checks().values_list('check', flat=True)
-        )
+        content_hash = self.content_hash
+        project = self.translation.component.project
+        language = self.translation.language
+        old_checks = set(self.checks().values_list('check', flat=True))
 
         # Run all target checks
         for check, check_obj in checks_to_run.items():
             if check_obj.target and check_obj.check_target(src, tgt, self):
-                if check in old_target_checks:
+                if check in old_checks:
                     # We already have this check
-                    old_target_checks.remove(check)
+                    old_checks.remove(check)
                 else:
                     # Create new check
                     Check.objects.create(
-                        content_hash=self.content_hash,
-                        project=self.translation.component.project,
-                        language=self.translation.language,
+                        content_hash=content_hash,
+                        project=project,
+                        language=language,
                         ignore=False,
                         check=check,
                         for_unit=self.pk
                     )
                     was_change = True
-        # Run all source checks
-        for check, check_obj in checks_to_run.items():
-            if check_obj.source and check_obj.check_source(src, self):
-                if check in old_source_checks:
-                    # We already have this check
-                    old_source_checks.remove(check)
-                else:
-                    # Create new check
-                    Check.objects.create(
-                        content_hash=self.content_hash,
-                        project=self.translation.component.project,
-                        language=None,
-                        ignore=False,
-                        check=check
-                    )
-                    was_change = True
+                    has_checks = True
 
         # Delete no longer failing checks
-        if cleanup_checks:
-            was_change |= self.cleanup_checks(
-                old_source_checks, old_target_checks
-            )
+        if cleanup_checks and old_checks:
+            was_change = True
+            Check.objects.filter(
+                content_hash=content_hash,
+                project=project,
+                language=language,
+                check__in=old_checks
+            ).delete()
 
         # Update failing checks flag
         if was_change or is_new or not same_content:
-            self.update_has_failing_check(was_change)
+            self.update_has_failing_check(was_change, has_checks)
 
     def update_has_failing_check(self, recurse=False, has_checks=None):
         """Update flag counting failing checks."""
@@ -974,7 +931,7 @@ class Unit(models.Model, LoggerMixin):
             )
 
         if recurse:
-            for unit in Unit.objects.same(self):
+            for unit in Unit.objects.prefetch().same(self):
                 unit.update_has_failing_check(False, has_checks)
 
     def update_has_suggestion(self):
@@ -1044,7 +1001,7 @@ class Unit(models.Model, LoggerMixin):
         flags.discard('')
         return flags
 
-    @property
+    @cached_property
     def source_info(self):
         """Return related source string object."""
         return Source.objects.get(
@@ -1074,8 +1031,11 @@ class Unit(models.Model, LoggerMixin):
         """
         return hash_to_checksum(self.id_hash)
 
-    def same_units(self):
-        return Unit.objects.same(self)
+    @cached_property
+    def same_source_units(self):
+        return Unit.objects.same(self).filter(
+            translation__component__allow_translation_propagation=True
+        )
 
     def get_max_length(self):
         """Returns maximal translation length."""

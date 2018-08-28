@@ -309,10 +309,15 @@ class SourceTest(ModelTestCase):
         self.assertEqual(Check.objects.count(), 3)
         check = Check.objects.all()[0]
         unit = check.related_units[0]
+        self.assertEqual(self.component.stats.allchecks, 3)
         source = unit.source_info
         source.check_flags = 'ignore-{0}'.format(check.check)
         source.save()
         self.assertEqual(Check.objects.count(), 0)
+        self.assertEqual(
+            Component.objects.get(pk=self.component.pk).stats.allchecks,
+            0
+        )
 
 
 class UnitTest(ModelTestCase):

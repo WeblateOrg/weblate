@@ -24,6 +24,7 @@ import pstats
 from django.core.management.base import BaseCommand
 
 from weblate.trans.models import Component, Project
+from weblate.trans.search import Fulltext
 
 
 class Command(BaseCommand):
@@ -39,7 +40,7 @@ class Command(BaseCommand):
         )
         parser.add_argument(
             '--profile-filter',
-            default= '/weblate',
+            default='/weblate',
             help='filter for profile stats',
         )
         parser.add_argument(
@@ -62,6 +63,7 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
+        Fulltext.FAKE = True
         project = Project.objects.get(slug=options['project'])
         # Delete any possible previous tests
         Component.objects.filter(
