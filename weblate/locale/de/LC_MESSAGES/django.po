@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-08-28 20:10+0000\n"
-"PO-Revision-Date: 2018-08-28 20:10+0000\n"
+"PO-Revision-Date: 2018-08-28 20:36+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/master/de/"
 ">\n"
@@ -739,21 +739,15 @@ msgid "Flag unchanged translations as \"Needs editing\""
 msgstr "Unveränderte Übersetzungen als \"bearbeitungsbedürftig\" markieren"
 
 #: weblate/addons/flags.py:80
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translation string is imported from the VCS and it matches "
-#| "source strings, it is flagged as needing editing in Weblate. This is "
-#| "especially useful for file formats including all strings even if they are "
-#| "not translated."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches "
 "source strings, it is flagged as needing editing in Weblate. This is "
 "especially useful for file formats that include all strings even if they are "
 "not translated."
 msgstr ""
-"Jedes Mal wenn ein neuer Übersetzungsstring aus dem VCS importiert wird und "
-"mit dem Quellstring übereinstimmt, wird er in Weblate als zu bearbeiten "
-"markiert. Dies ist besonders nützlich für Dateiformate, die alle "
+"Jedes Mal wenn eine neue übersetzbare Zeichenfolge aus dem VCS importiert "
+"wird und mit dem Quellstring übereinstimmt, wird er in Weblate als zu "
+"bearbeiten markiert. Dies ist besonders nützlich für Dateiformate, die alle "
 "Zeichenfolgen enthalten, auch wenn sie nicht übersetzt werden."
 
 #: weblate/addons/forms.py:50
@@ -1698,28 +1692,20 @@ msgstr ""
 "Ausgangszeichenkette"
 
 #: weblate/checks/format.py:312
-#, fuzzy
-#| msgid "C format"
 msgid "C# format"
-msgstr "C-Format"
+msgstr "C#-Format"
 
 #: weblate/checks/format.py:313
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "C# format string does not match source"
-msgstr "C-Format-Zeichenkette passt nicht zur Ausgangszeichenkette"
+msgstr "C#-Format-Zeichenkette passt nicht zur Ausgangszeichenkette"
 
 #: weblate/checks/format.py:323
-#, fuzzy
-#| msgid "Javascript format"
 msgid "Java format"
-msgstr "Javascript-Format"
+msgstr "Java-Format"
 
 #: weblate/checks/format.py:324
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Java format string does not match source"
-msgstr "C-Format-Zeichenkette passt nicht zur Ausgangszeichenkette"
+msgstr "Java-Format-Zeichenkette passt nicht zur Ausgangszeichenkette"
 
 #: weblate/checks/markup.py:48
 msgid "Mismatched BBcode"
@@ -3423,16 +3409,12 @@ msgid "Android resource strings, split into several files."
 msgstr "Android Resource Strings, aufgeteilt in mehrere Dateien."
 
 #: weblate/templates/addons/discovery_help.html:67
-#, fuzzy
-#| msgid ""
-#| "You can use Django templates markup in both component name and "
-#| "monolingual base filename, for example:"
 msgid ""
 "You can use Django template markup in both component name and the "
 "monolingual base filename, for example:"
 msgstr ""
-"Sie können z.B. Django-Templates sowohl im Komponentennamen als auch im "
-"einsprachigen Basisdateinamen verwenden:"
+"Sie können Django-Template-Markup sowohl im Komponentennamen als auch im "
+"einsprachigen Basisdateinamen verwenden, z.B.:"
 
 #: weblate/templates/addons/discovery_help.html:71
 msgid "Component filename match"
@@ -3999,13 +3981,11 @@ msgstr ""
 "Vorschläge unterbreiten."
 
 #: weblate/templates/dashboard/anonymous.html:21
-#, fuzzy, python-format
-#| msgid "%(count)s vote"
-#| msgid_plural "%(count)s votes"
+#, python-format
 msgid "Browse %(count)s project"
 msgid_plural "Browse all %(count)s projects"
-msgstr[0] "%(count)s Stimme"
-msgstr[1] "%(count)s Stimmen"
+msgstr[0] "%(count)s Projekt"
+msgstr[1] "%(count)s Projekte"
 
 #: weblate/templates/dashboard/user.html:30 weblate/templates/data.html:51
 #: weblate/templates/stats.html:5 weblate/templates/stats.html:79
@@ -4604,10 +4584,8 @@ msgid "Cleanup"
 msgstr "Bereinigung"
 
 #: weblate/templates/js/git-status.html:184
-#, fuzzy
-#| msgid "Reset all changes in the local repository"
 msgid "Cleanup all untracked files in the local repository"
-msgstr "Alle Änderungen in der lokalen Paketquelle zurücksetzen"
+msgstr "Bereinigung aller nicht verfolgten Dateien im lokalen Repository"
 
 #: weblate/templates/js/git-status.html:196
 msgid "Unlock"
@@ -5436,22 +5414,16 @@ msgid "Source string search"
 msgstr "Suche nach Ausgangszeichenketten"
 
 #: weblate/templates/screenshots/screenshot_detail.html:111
-#, fuzzy
-#| msgid "Screenshots"
 msgid "Screenshot details"
-msgstr "Bildschirmfotos"
+msgstr "Bildschirmfoto-Details"
 
 #: weblate/templates/screenshots/screenshot_detail.html:114
-#, fuzzy
-#| msgid "Created new SSH key."
 msgid "Created on"
-msgstr "Neuer SSH-Schlüssel wurde erzeugt."
+msgstr "Erstellt am"
 
 #: weblate/templates/screenshots/screenshot_detail.html:115
-#, fuzzy
-#| msgid "Upload"
 msgid "Uploaded by"
-msgstr "Hochladen"
+msgstr "Hochgeladen von"
 
 #: weblate/templates/screenshots/screenshot_detail.html:125
 msgid "Deleting screenshot will remove it from all associated source strings."
@@ -5531,16 +5503,12 @@ msgid "Suggested"
 msgstr "Vorgeschlagen"
 
 #: weblate/templates/stats.html:58
-#, fuzzy
-#| msgid "Most active suggesters"
 msgid "Most active screenshot uploaders"
-msgstr "Aktivste Vorschlagende"
+msgstr "Aktivste Bildschirmfoto-Hochladende"
 
 #: weblate/templates/stats.html:63
-#, fuzzy
-#| msgid "Screenshot name"
 msgid "Screenshots uploaded"
-msgstr "Name des Bildschirmfotos"
+msgstr "Bildschirmfotos hochgeladen"
 
 #: weblate/templates/stats.html:87
 msgid "Translatable strings"
@@ -6311,10 +6279,8 @@ msgid "Strings with suggestions"
 msgstr "Zeichenketten mit Übersetzungsvorschlägen"
 
 #: weblate/trans/filter.py:37 weblate/trans/models/translation.py:743
-#, fuzzy
-#| msgid "Strings without suggestions"
 msgid "Strings needing action without suggestions"
-msgstr "Zeichenketten ohne Übersetzungsvorschläge"
+msgstr "Zeichenketten ohne Übersetzungsvorschläge, die eine Aktion benötigen"
 
 #: weblate/trans/filter.py:38 weblate/trans/models/translation.py:658
 #: weblate/trans/models/translation.py:771
@@ -6439,16 +6405,12 @@ msgid "Merge method"
 msgstr "Merge-Methode"
 
 #: weblate/trans/forms.py:580
-#, fuzzy
-#| msgid "Add as translation needing edit"
 msgid "Add as translation needing review"
-msgstr "Als bearbeitungsbedürftige Übersetzung hinzufügen"
+msgstr "Als zu überprüfende Übersetzung hinzufügen"
 
 #: weblate/trans/forms.py:581
-#, fuzzy
-#| msgid "Add as other translation"
 msgid "Add as approved translation"
-msgstr "Als andere Übersetzung hinzufügen"
+msgstr "Als genehmigte Übersetzung hinzufügen"
 
 #: weblate/trans/forms.py:582
 msgid "Add as a suggestion"
@@ -7293,10 +7255,9 @@ msgid "Failed to reset to remote branch on %s."
 msgstr "Fehler beim Zurücksetzen des entfernten Zweiges auf %s."
 
 #: weblate/trans/models/component.py:781
-#, fuzzy, python-format
-#| msgid "Failed to fetch repository: %s"
+#, python-format
 msgid "Failed to clean the repository on %s."
-msgstr "Abrufen der Paketquelle fehlgeschlagen: %s"
+msgstr "Bereinigen der Paketquelle fehlgeschlagen auf: %s."
 
 #: weblate/trans/models/component.py:848
 #, python-format
@@ -8172,10 +8133,9 @@ msgstr ""
 "können."
 
 #: weblate/trans/views/dashboard.py:170
-#, fuzzy
-#| msgid "Please set your full name in your profile."
 msgid "Please set your full name and email in your profile."
-msgstr "Bitte stellen Sie im Profil Ihren vollen Namen ein."
+msgstr ""
+"Bitte stellen Sie im Profil Ihren vollen Namen und Ihre E-Mail-Adresse ein."
 
 #: weblate/trans/views/dictionary.py:49
 #, python-format
@@ -8355,10 +8315,8 @@ msgid "All repositories have been reset."
 msgstr "Alle Repositories wurden zurückgesetzt."
 
 #: weblate/trans/views/git.py:108
-#, fuzzy
-#| msgid "All repositories have been reset."
 msgid "All repositories have been cleaned up."
-msgstr "Alle Repositories wurden zurückgesetzt."
+msgstr "Alle Repositories wurden bereinigt."
 
 #: weblate/trans/views/git.py:290
 msgid "Translation has been removed."
