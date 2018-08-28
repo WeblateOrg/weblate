@@ -21,12 +21,13 @@
 """Test for management commands."""
 
 from unittest import SkipTest
+import sys
 
 from six import StringIO
 
-from django.test import TestCase
+from django.test import SimpleTestCase
 from django.core.management import call_command
-from django.core.management.base import CommandError
+from django.core.management.base import CommandError, SystemCheckError
 
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.models import Translation, Component, Suggestion
@@ -39,9 +40,15 @@ TEST_PO = get_test_file('cs.po')
 TEST_COMPONENTS = get_test_file('components.json')
 
 
-class RunnerTest(TestCase):
+class RunnerTest(SimpleTestCase):
     def test_help(self):
-        main(['help'])
+        restore = sys.stdout
+        try:
+            sys.stdout = StringIO()
+            main(['help'])
+            self.assertIn('list_versions', sys.stdout.getvalue())
+        finally:
+            sys.stdout = restore
 
 
 class ImportProjectTest(RepoTestCase):
@@ -334,7 +341,7 @@ class ImportProjectTest(RepoTestCase):
         )
 
 
-class BasicCommandTest(TestCase):
+class BasicCommandTest(SimpleTestCase):
     def test_versions(self):
         output = StringIO()
         call_command(
@@ -342,6 +349,13 @@ class BasicCommandTest(TestCase):
             stdout=output
         )
         self.assertIn('Weblate', output.getvalue())
+
+    def test_check(self):
+        with self.assertRaises(SystemCheckError):
+            call_command(
+                'check',
+                '--deploy',
+            )
 
 
 class PeriodicCommandTest(RepoTestCase):
