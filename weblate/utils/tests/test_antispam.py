@@ -33,8 +33,6 @@ except ImportError:
     HAS_AKISMET = False
 
 from weblate.utils.antispam import is_spam
-# pylint: disable=unused-import
-import weblate.trans.tests.mypretty  # noqa
 
 
 class SpamTest(TestCase):
