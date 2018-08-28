@@ -902,6 +902,7 @@ class Unit(models.Model, LoggerMixin):
     def run_checks(self, same_state=True, same_content=True, is_new=False):
         """Update checks for this unit."""
         was_change = False
+        has_checks = None
 
         checks_to_run, cleanup_checks = self.get_checks_to_run(
             same_state, is_new
@@ -933,6 +934,7 @@ class Unit(models.Model, LoggerMixin):
                         for_unit=self.pk
                     )
                     was_change = True
+                    has_checks = True
         # Run all source checks
         for check, check_obj in checks_to_run.items():
             if check_obj.source and check_obj.check_source(src, self):
@@ -949,6 +951,7 @@ class Unit(models.Model, LoggerMixin):
                         check=check
                     )
                     was_change = True
+                    has_checks = True
 
         # Delete no longer failing checks
         if cleanup_checks:
@@ -956,9 +959,13 @@ class Unit(models.Model, LoggerMixin):
                 old_source_checks, old_target_checks
             )
 
+        # We know there are no checks in this case
+        if not old_target_checks and not old_source_checks and not was_change:
+            has_checks = False
+
         # Update failing checks flag
         if was_change or is_new or not same_content:
-            self.update_has_failing_check(was_change)
+            self.update_has_failing_check(was_change, has_checks)
 
     def update_has_failing_check(self, recurse=False, has_checks=None):
         """Update flag counting failing checks."""
