@@ -482,6 +482,8 @@ class Unit(models.Model, LoggerMixin):
         )
         contentsum_changed = self.content_hash != content_hash
 
+        self.__dict__['source_info'] = source_info
+
         # Store updated values
         self.position = pos
         self.location = location
@@ -1044,7 +1046,7 @@ class Unit(models.Model, LoggerMixin):
         flags.discard('')
         return flags
 
-    @property
+    @cached_property
     def source_info(self):
         """Return related source string object."""
         return Source.objects.get(
