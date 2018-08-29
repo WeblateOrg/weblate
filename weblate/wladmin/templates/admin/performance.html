@@ -83,5 +83,9 @@
 
   {% endif %}
 
+  {% if not checks and not errors %}
+  <p>{% trans "Congratulations, your setup seems to be without any major problems." %}</p>
+  {% endif %}
+
 </div>
 {% endblock %}
