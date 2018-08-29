@@ -186,9 +186,7 @@ class SameCheck(TargetCheck):
         # Interlingua is also quite often similar to English
         if (self.is_language(unit, source_language) or
                 (source_language == 'en' and
-                self.is_language(unit, ('en', 'ia')))):
-            return True
-
+                 self.is_language(unit, ('en', 'ia')))):
             return True
 
         return False
