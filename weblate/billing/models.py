@@ -55,6 +55,22 @@ class Plan(models.Model):
         return self.name
 
 
+class BillingManager(models.Manager):
+    def check_limits(self, grace=30):
+        limit = []
+        due = []
+        for bill in self.all():
+            if not bill.in_limits():
+                limit.append(bill)
+
+        due_date = timezone.now() - timedelta(days=grace)
+        for bill in self.filter(state=Billing.STATE_ACTIVE):
+            if not bill.invoice_set.filter(end__gt=due_date).exists():
+                due.append(bill)
+
+        return limit, due
+
+
 @python_2_unicode_compatible
 class Billing(models.Model):
     STATE_ACTIVE = 0
@@ -74,6 +90,8 @@ class Billing(models.Model):
         ),
         default=STATE_ACTIVE,
     )
+
+    objects = BillingManager()
 
     def __str__(self):
         return '{0} ({1})'.format(
