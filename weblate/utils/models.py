@@ -22,8 +22,6 @@ from __future__ import absolute_import, unicode_literals
 
 from appconf import AppConf
 
-from celery.schedules import crontab
-
 
 class WeblateConf(AppConf):
     WEBLATE_GPG_IDENTITY = None
@@ -45,38 +43,6 @@ class CeleryConf(AppConf):
     """Defaults for Celery settings."""
     TASK_ALWAYS_EAGER = True
     BROKER_URL = 'memory://'
-
-    # List Celery beats (scheduled tasks)
-    BEAT_SCHEDULE = {
-        'commit-pending': {
-            'task': 'weblate.trans.tasks.commit_pending',
-            'schedule': 3600,
-        },
-        'social-auth-cleanup': {
-            'task': 'weblate.accounts.tasks.cleanup_social_auth',
-            'schedule': 3600,
-        },
-        'screenshot-files-cleanup': {
-            'task': 'weblate.screenshots.tasks.cleanup_screenshot_files',
-            'schedule': 3600 * 24,
-        },
-        'fulltext-cleanup': {
-            'task': 'weblate.trans.tasks.cleanup_fulltext',
-            'schedule': crontab(hour=2, minute=30, day_of_week='saturday'),
-        },
-        'fulltext-optimize': {
-            'task': 'weblate.trans.tasks.optimize_fulltext',
-            'schedule': crontab(hour=2, minute=30, day_of_week='sunday'),
-        },
-        'suggestions-cleanup': {
-            'task': 'weblate.trans.tasks.cleanup_suggestions',
-            'schedule': 3600 * 24,
-        },
-        'configuration-health-check': {
-            'task': 'weblate.wladmin.tasks.configuration_health_check',
-            'schedule': 3600,
-        },
-    }
 
     IMPORTS = [
         'weblate.accounts.notifications',
