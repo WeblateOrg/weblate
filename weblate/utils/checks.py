@@ -36,7 +36,7 @@ GOOD_CACHE = frozenset((
 DEFAULT_MAILS = frozenset((
     'root@localhost',
     'webmaster@localhost',
-    'noreply@weblate.org'
+    'noreply@weblate.org',
     'noreply@example.com'
 ))
 
