@@ -20,6 +20,7 @@
 
 from __future__ import absolute_import, unicode_literals
 
+import logging
 import os
 
 from celery import Celery
@@ -72,3 +73,4 @@ if bool(os.environ.get('CELERY_WORKER_RUNNING', False)):
     if HAS_RAVEN and hasattr(settings, 'RAVEN_CONFIG'):
         client = Client(settings['RAVEN_CONFIG']['dsn'])
         register_signal(client, ignore_expected=True)
+        register_logger_signal(client, loglevel=logging.INFO)
