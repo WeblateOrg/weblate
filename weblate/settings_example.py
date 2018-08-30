@@ -726,7 +726,7 @@ ALLOWED_HOSTS = []
 #             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
 #             'PARSER_CLASS': 'redis.connection.HiredisParser',
 #         }
-#     }
+#     },
 # Memcached alternative:
 #     'default': {
 #         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
