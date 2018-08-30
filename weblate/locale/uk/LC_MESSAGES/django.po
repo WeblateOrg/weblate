@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-08-28 20:10+0000\n"
-"PO-Revision-Date: 2018-08-11 18:41+0000\n"
+"PO-Revision-Date: 2018-08-30 10:00+0000\n"
 "Last-Translator: Андрій Бандура <andriykopanytsia@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/master/"
 "uk/>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.2-dev\n"
 
 #: weblate/accounts/avatar.py:125
@@ -541,6 +541,7 @@ msgstr "Контакти"
 #: weblate/accounts/views.py:465
 msgid "Please log in using your personal account to request hosting."
 msgstr ""
+"Щоби скористатися послугами хостингу, увійдіть з свого облікового запису."
 
 #: weblate/accounts/views.py:493 weblate/templates/accounts/hosting.html:7
 msgid "Hosting"
@@ -617,10 +618,6 @@ msgid "Authentication has been forbidden by server."
 msgstr "Автентифікація заборонена сервером."
 
 #: weblate/accounts/views.py:955
-#, fuzzy
-#| msgid ""
-#| "Failed to complete your registration! This authentication, email or "
-#| "username are already associated with another account!"
 msgid ""
 "Failed to complete your registration! This authentication, email or username "
 "is already associated with another account!"
@@ -683,10 +680,8 @@ msgid "This addon executes a script."
 msgstr "Це доповнення виконує сценарій."
 
 #: weblate/addons/flags.py:50
-#, fuzzy
-#| msgid "Flag new source strings to need edit"
 msgid "Flag new source strings as \"Needs editing\""
-msgstr "Позначити нові джерельні рядки, які потребують редагування"
+msgstr "Позначити нові джерельні рядки як „потребують редагування“"
 
 #: weblate/addons/flags.py:52
 msgid ""
@@ -699,47 +694,32 @@ msgstr ""
 "редагувати джерельні рядки, написані розробниками."
 
 #: weblate/addons/flags.py:64
-#, fuzzy
-#| msgid "Flag new translations to need edit"
 msgid "Flag new translations as \"Needs editing\""
 msgstr "Позначити нові переклади як такі, що потребують редагування"
 
 #: weblate/addons/flags.py:66
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translation string is imported from the VCS, it is flagged "
-#| "as needing editing in Weblate. This way you can easily filter and edit "
-#| "translations created by the developers."
 msgid ""
 "Whenever a new translatable string is imported from the VCS, it is flagged "
 "as needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
-"Кожного разу, коли новий рядок перекладів імпортується з VCS, він "
+"Кожного разу, коли новий перекладний рядок імпортується з VCS, він "
 "позначається як такий, що потребує редагування в Weblate. Таким чином, ви "
 "можете легко фільтрувати та редагувати джерельні рядки, створені "
 "розробниками."
 
 #: weblate/addons/flags.py:78
-#, fuzzy
-#| msgid "Flag unchanged translations to need edit"
 msgid "Flag unchanged translations as \"Needs editing\""
 msgstr "Позначити незмінені переклади як такі, що потребують редагування"
 
 #: weblate/addons/flags.py:80
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translation string is imported from the VCS and it matches "
-#| "source strings, it is flagged as needing editing in Weblate. This is "
-#| "especially useful for file formats including all strings even if they are "
-#| "not translated."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches "
 "source strings, it is flagged as needing editing in Weblate. This is "
 "especially useful for file formats that include all strings even if they are "
 "not translated."
 msgstr ""
-"Кожного разу, коли новий рядок перекладів імпортується з VCS і він "
+"Кожного разу, коли новий перекладний рядок імпортується з VCS і він "
 "збігається із джерельним рядком, то його позначають як такий, що потребує "
 "редагування в Weblate. Це корисно для форматів файлів, які включають усі "
 "рядки, в тому числі й такі, що не перекладаються."
@@ -1660,28 +1640,20 @@ msgid "Python brace format string does not match source"
 msgstr "Рядок, формату Python brace, не відповідає джерелу"
 
 #: weblate/checks/format.py:312
-#, fuzzy
-#| msgid "C format"
 msgid "C# format"
-msgstr "Формат C"
+msgstr "Формат C#"
 
 #: weblate/checks/format.py:313
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "C# format string does not match source"
-msgstr "Рядок, формату C, не відповідає джерелу"
+msgstr "Рядок формату C# не відповідає джерелу"
 
 #: weblate/checks/format.py:323
-#, fuzzy
-#| msgid "Javascript format"
 msgid "Java format"
-msgstr "Формат Javascript"
+msgstr "Формат Java"
 
 #: weblate/checks/format.py:324
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Java format string does not match source"
-msgstr "Рядок, формату C, не відповідає джерелу"
+msgstr "Рядок формату Java не відповідає джерелу"
 
 #: weblate/checks/markup.py:48
 msgid "Mismatched BBcode"
@@ -2408,6 +2380,8 @@ msgid ""
 "If you need assistance, you may reference this error as <strong>"
 "%(error_id)s</strong>."
 msgstr ""
+"При зверненні за допомогою на цю помилку можно посилатися як: "
+"<strong>1%(error_id)s</strong>."
 
 #: weblate/templates/about.html:5 weblate/templates/about.html:13
 #: weblate/templates/base.html:145 weblate/templates/footer.html:6
@@ -3331,13 +3305,9 @@ msgstr "Використанні мови у шляху та назві файл
 
 #: weblate/templates/addons/discovery_help.html:62
 msgid "Android resource strings, split into several files."
-msgstr ""
+msgstr "Рядки ресурсів Android, розбиті на декілька файлів."
 
 #: weblate/templates/addons/discovery_help.html:67
-#, fuzzy
-#| msgid ""
-#| "You can use Django templates markup in both component name and "
-#| "monolingual base filename, for example:"
 msgid ""
 "You can use Django template markup in both component name and the "
 "monolingual base filename, for example:"
@@ -3904,14 +3874,12 @@ msgstr ""
 "пропозиції."
 
 #: weblate/templates/dashboard/anonymous.html:21
-#, fuzzy, python-format
-#| msgid "%(count)s vote"
-#| msgid_plural "%(count)s votes"
+#, python-format
 msgid "Browse %(count)s project"
 msgid_plural "Browse all %(count)s projects"
-msgstr[0] "%(count)s голос"
-msgstr[1] "%(count)s голоси"
-msgstr[2] "%(count)s голосів"
+msgstr[0] "Переглянути %(count)s проект"
+msgstr[1] "Переглянути %(count)s проекти"
+msgstr[2] "Переглянути %(count)s проектів"
 
 #: weblate/templates/dashboard/user.html:30 weblate/templates/data.html:51
 #: weblate/templates/stats.html:5 weblate/templates/stats.html:79
@@ -4473,13 +4441,11 @@ msgstr "Очистити усі зміни у локальному сховищ�
 
 #: weblate/templates/js/git-status.html:180
 msgid "Cleanup"
-msgstr ""
+msgstr "Очищення"
 
 #: weblate/templates/js/git-status.html:184
-#, fuzzy
-#| msgid "Reset all changes in the local repository"
 msgid "Cleanup all untracked files in the local repository"
-msgstr "Очистити усі зміни у локальному сховищі"
+msgstr "Очистити усі невідстежувані файли у локальному сховищі"
 
 #: weblate/templates/js/git-status.html:196
 msgid "Unlock"
@@ -5294,22 +5260,16 @@ msgid "Source string search"
 msgstr "Пошук джерельного рядка"
 
 #: weblate/templates/screenshots/screenshot_detail.html:111
-#, fuzzy
-#| msgid "Screenshots"
 msgid "Screenshot details"
-msgstr "Знімки екрану"
+msgstr "Подробиці знімка екрану"
 
 #: weblate/templates/screenshots/screenshot_detail.html:114
-#, fuzzy
-#| msgid "Created new SSH key."
 msgid "Created on"
-msgstr "Створено новий ключ SSH."
+msgstr "Створено"
 
 #: weblate/templates/screenshots/screenshot_detail.html:115
-#, fuzzy
-#| msgid "Upload"
 msgid "Uploaded by"
-msgstr "Вивантажити"
+msgstr "Вивантажено"
 
 #: weblate/templates/screenshots/screenshot_detail.html:125
 msgid "Deleting screenshot will remove it from all associated source strings."
@@ -5388,16 +5348,12 @@ msgid "Suggested"
 msgstr "Запропоновано"
 
 #: weblate/templates/stats.html:58
-#, fuzzy
-#| msgid "Most active suggesters"
 msgid "Most active screenshot uploaders"
-msgstr "Найактивніші порадники"
+msgstr "Найактивніші вивантажувачі знімків екрану"
 
 #: weblate/templates/stats.html:63
-#, fuzzy
-#| msgid "Screenshot name"
 msgid "Screenshots uploaded"
-msgstr "Назва знімка екрану"
+msgstr "Знімки вивантажено"
 
 #: weblate/templates/stats.html:87
 msgid "Translatable strings"
@@ -6159,10 +6115,8 @@ msgid "Strings with suggestions"
 msgstr "Рядки з пропозиціями"
 
 #: weblate/trans/filter.py:37 weblate/trans/models/translation.py:743
-#, fuzzy
-#| msgid "Strings without suggestions"
 msgid "Strings needing action without suggestions"
-msgstr "Рядки без пропозицій"
+msgstr "Рядки, які потребують дій без пропозицій"
 
 #: weblate/trans/filter.py:38 weblate/trans/models/translation.py:658
 #: weblate/trans/models/translation.py:771
@@ -6281,16 +6235,12 @@ msgid "Merge method"
 msgstr "Метод злиття"
 
 #: weblate/trans/forms.py:580
-#, fuzzy
-#| msgid "Add as translation needing edit"
 msgid "Add as translation needing review"
-msgstr "Додати як переклад, що потребує редагування"
+msgstr "Додати як переклад, що потребує перевірки"
 
 #: weblate/trans/forms.py:581
-#, fuzzy
-#| msgid "Add as other translation"
 msgid "Add as approved translation"
-msgstr "Додати як інший переклад"
+msgstr "Додати як схвалений переклад"
 
 #: weblate/trans/forms.py:582
 msgid "Add as a suggestion"
@@ -7125,10 +7075,9 @@ msgid "Failed to reset to remote branch on %s."
 msgstr "Не вдалося відновити на віддаленій гілці %s."
 
 #: weblate/trans/models/component.py:781
-#, fuzzy, python-format
-#| msgid "Failed to fetch repository: %s"
+#, python-format
 msgid "Failed to clean the repository on %s."
-msgstr "Не вдалося стягнути репозиторій: %s"
+msgstr "Не вдалося очистити сховище: %s."
 
 #: weblate/trans/models/component.py:848
 #, python-format
@@ -7997,10 +7946,8 @@ msgstr ""
 "бути в змозі увійти наступного разу."
 
 #: weblate/trans/views/dashboard.py:170
-#, fuzzy
-#| msgid "Please set your full name in your profile."
 msgid "Please set your full name and email in your profile."
-msgstr "Будь ласка, встановіть своє повне ім'я в профілі."
+msgstr "Будь ласка, вкажіть у профілі повне ім'я та електронну пошту."
 
 #: weblate/trans/views/dictionary.py:49
 #, python-format
@@ -8179,10 +8126,8 @@ msgid "All repositories have been reset."
 msgstr "Усі сховища вже перевстановлені."
 
 #: weblate/trans/views/git.py:108
-#, fuzzy
-#| msgid "All repositories have been reset."
 msgid "All repositories have been cleaned up."
-msgstr "Усі сховища вже перевстановлені."
+msgstr "Усі сховища вже очищені."
 
 #: weblate/trans/views/git.py:290
 msgid "Translation has been removed."
