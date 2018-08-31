@@ -90,12 +90,14 @@ class Fulltext(WhooshIndex):
         """Update fulltext index for given set of units."""
         languages = Language.objects.have_translation()
 
+        if not units.exists():
+            return
+
         # Update source index
-        if units.exists():
-            index = self.get_source_index()
-            with BufferedWriter(index) as writer:
-                for unit in units.iterator():
-                    self.update_source_unit_index(writer, unit)
+        index = self.get_source_index()
+        with BufferedWriter(index) as writer:
+            for unit in units.iterator():
+                self.update_source_unit_index(writer, unit)
 
         # Update per language indices
         for lang in languages:
