@@ -137,7 +137,6 @@ def setup_periodic_tasks(sender, **kwargs):
 
     if 'weblate.billing' in settings.INSTALLED_APPS:
         from weblate.billing.tasks import billing_check
-        print 'bILL'
         sender.add_periodic_task(
             10,
             3600 * 24,
