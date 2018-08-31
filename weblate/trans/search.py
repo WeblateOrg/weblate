@@ -206,7 +206,8 @@ class Fulltext(WhooshIndex):
 
     def clean_search_unit(self, pk, lang):
         """Cleanup search index on unit deletion."""
-        delete_fulltext.delay(pk, lang)
+        if not cls.FAKE:
+            delete_fulltext.delay(pk, lang)
 
     def delete_search_unit(self, pk, lang):
         try:
