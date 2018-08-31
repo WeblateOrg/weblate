@@ -1,0 +1,20 @@
+{% load i18n %}{% autoescape off %}{% filter wordwrap:72 %}{% trans "Hi," %}
+
+{% if limit %}
+Following billings are over limit:
+
+{% for bill in due %}
+ * {{ bill }}
+{% endfor %}
+{% endif %}
+
+{% if due %}
+Following billings are past due date:
+
+{% for bill in due %}
+ * {{ bill }}
+{% endfor %}
+{% endif %}
+
+{% endfilter%}{% endautoescape %}{% include "mail/signature.txt" %}
+
