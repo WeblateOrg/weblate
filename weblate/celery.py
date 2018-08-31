@@ -55,9 +55,16 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 # Load task modules from all registered Django app configs.
 app.autodiscover_tasks()
 
-# Rollbar integration, based on
-# https://www.mattlayman.com/blog/2017/django-celery-rollbar/
-if bool(os.environ.get('CELERY_WORKER_RUNNING', False)):
+@app.on_after_configure.connect
+def configure_error_handling(sender, **kargs):
+    """Rollbar and Sentry integration
+
+    Based on
+    https://www.mattlayman.com/blog/2017/django-celery-rollbar/
+    """
+    if not bool(os.environ.get('CELERY_WORKER_RUNNING', False)):
+        return
+
     from django.conf import settings
     if HAS_ROLLBAR and hasattr(settings, 'ROLLBAR'):
         rollbar.init(**settings.ROLLBAR)
