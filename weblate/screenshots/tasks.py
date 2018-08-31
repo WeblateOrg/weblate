@@ -22,14 +22,13 @@ from __future__ import absolute_import, unicode_literals
 
 import os.path
 
-from celery import shared_task
-
 from django.core.files.storage import DefaultStorage
 
+from weblate.celery import app
 from weblate.screenshots.models import Screenshot
 
 
-@shared_task
+@app.task
 def cleanup_screenshot_files():
     """Remove stale screenshots"""
     storage = DefaultStorage()

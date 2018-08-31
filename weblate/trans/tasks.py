@@ -22,14 +22,13 @@ from __future__ import absolute_import, unicode_literals
 
 from datetime import timedelta
 
-from celery import shared_task
-
 from django.db import transaction
 from django.utils import timezone
 
 from whoosh.index import EmptyIndexError
 
 from weblate.auth.models import get_anonymous
+from weblate.celery import app
 
 from weblate.checks.models import Check
 
@@ -42,7 +41,7 @@ from weblate.trans.models import (
 from weblate.trans.search import Fulltext
 
 
-@shared_task
+@app.task
 def perform_update(cls, pk):
     if cls == 'Project':
         obj = Project.objects.get(pk=pk)
@@ -52,19 +51,19 @@ def perform_update(cls, pk):
     obj.do_update()
 
 
-@shared_task
+@app.task
 def perform_load(pk, *args):
     component = Component.objects.get(pk=pk)
     component.create_translations(*args)
 
 
-@shared_task
+@app.task
 def perform_commit(pk, *args):
     translation = Translation.objects.get(pk=pk)
     translation.commit_pending(*args)
 
 
-@shared_task
+@app.task
 def commit_pending(hours=None, pks=None, logger=None):
     if pks is None:
         translations = Translation.objects.all()
@@ -92,7 +91,7 @@ def commit_pending(hours=None, pks=None, logger=None):
         perform_commit.delay(translation.pk, 'commit_pending', None)
 
 
-@shared_task
+@app.task
 def cleanup_fulltext():
     """Remove stale units from fulltext"""
     fulltext = Fulltext()
@@ -112,7 +111,7 @@ def cleanup_fulltext():
             fulltext.clean_search_unit(item['pk'], lang)
 
 
-@shared_task
+@app.task
 def optimize_fulltext():
     fulltext = Fulltext()
     index = fulltext.get_source_index()
@@ -172,7 +171,7 @@ def cleanup_language_data(project):
                 ).delete()
 
 
-@shared_task
+@app.task
 def cleanup_project(pk):
     """Perform cleanup of project models."""
     project = Project.objects.get(pk=pk)
@@ -182,7 +181,7 @@ def cleanup_project(pk):
     cleanup_language_data(project)
 
 
-@shared_task
+@app.task
 def cleanup_suggestions():
     # Process suggestions
     anonymous_user = get_anonymous()

@@ -19,8 +19,6 @@
 #
 from __future__ import unicode_literals
 
-from celery import shared_task
-
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives, get_connection
 from django.template.loader import render_to_string
@@ -29,6 +27,7 @@ from django.utils.encoding import force_text
 
 from weblate.auth.models import User
 from weblate.accounts.models import Profile, AuditLog
+from weblate.celery import app
 from weblate.utils.site import get_site_url, get_site_domain
 from weblate.utils.request import get_ip_address, get_user_agent
 from weblate import VERSION
@@ -545,7 +544,7 @@ def enqueue_mails(mails):
         send_mails.delay(mails)
 
 
-@shared_task
+@app.task
 def send_mails(mails):
     """Send multiple mails in single connection."""
     with get_connection() as connection:

@@ -24,7 +24,6 @@ from __future__ import absolute_import, unicode_literals
 
 import functools
 
-from celery import shared_task
 from celery_batches import Batches
 
 from whoosh.fields import SchemaClass, TEXT, NUMERIC
@@ -35,6 +34,7 @@ from whoosh import qparser
 
 from django.utils.encoding import force_text
 
+from weblate.celery import app
 from weblate.lang.models import Language
 from weblate.utils.celery import extract_batch_args
 from weblate.utils.index import WhooshIndex
@@ -233,7 +233,7 @@ class Fulltext(WhooshIndex):
                     writer.delete_by_term('pk', pk)
 
 
-@shared_task(
+@app.task(
     base=Batches, flush_every=500, flush_interval=300, bind=True,
     max_retries=1000
 )
@@ -252,7 +252,7 @@ def update_fulltext(self, *args):
         raise self.retry(exc=exc)
 
 
-@shared_task(
+@app.task(
     base=Batches, flush_every=500, flush_interval=300, bind=True,
     max_retries=1000
 )

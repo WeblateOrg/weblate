@@ -23,15 +23,15 @@ from __future__ import absolute_import, unicode_literals
 from datetime import timedelta
 import time
 
-from celery import shared_task
-
 from django.conf import settings
 from django.utils.timezone import now
 
 from social_django.models import Partial, Code
 
+from weblate.celery import app
 
-@shared_task
+
+@app.task
 def cleanup_social_auth():
     """Cleanup expired partial social authentications."""
     for partial in Partial.objects.all():

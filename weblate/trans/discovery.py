@@ -23,13 +23,12 @@ from __future__ import unicode_literals
 import os
 import re
 
-from celery import shared_task
-
 from django.conf import settings
 from django.db.models import Q
 from django.utils.functional import cached_property
 from django.utils.text import slugify
 
+from weblate.celery import app
 from weblate.logger import LOGGER
 from weblate.trans.models import Component
 from weblate.utils.render import render_template
@@ -241,6 +240,6 @@ class ComponentDiscovery(object):
         return created, matched, deleted
 
 
-@shared_task
+@app.task
 def create_component(**kwargs):
     Component.objects.create(**kwargs)

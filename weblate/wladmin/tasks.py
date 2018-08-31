@@ -20,16 +20,15 @@
 
 from __future__ import absolute_import, unicode_literals
 
-from celery import shared_task
-
 from django.core.cache import cache
 from django.core.checks import run_checks
 from django.utils.timezone import now
 
+from weblate.celery import app
 from weblate.wladmin.models import ConfigurationError
 
 
-@shared_task
+@app.task
 def configuration_health_check(include_deployment_checks=True):
     # Fetch errors from cache, these are created from
     # code executed without apps ready

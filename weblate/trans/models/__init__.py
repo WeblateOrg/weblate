@@ -23,11 +23,10 @@ from __future__ import unicode_literals
 import os
 import shutil
 
-from celery import shared_task
-
 from django.db.models.signals import post_delete, post_save, m2m_changed
 from django.dispatch import receiver
 
+from weblate.celery import app
 from weblate.trans.models.agreement import ContributorAgreement
 from weblate.trans.models.conf import WeblateConf
 from weblate.trans.models.project import Project
@@ -176,7 +175,7 @@ def post_save_update_checks(sender, instance, **kwargs):
     update_checks.delay(instance.pk)
 
 
-@shared_task
+@app.task
 def update_checks(pk):
     component = Component.objects.get(pk=pk)
     for translation in component.translation_set.all():
