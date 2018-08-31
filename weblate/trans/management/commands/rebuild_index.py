@@ -77,8 +77,12 @@ class Command(WeblateComponentCommand):
         source_writer = fulltext.get_source_index().writer()
 
         try:
-            for language in Language.objects.have_translation():
-                self.stdout.write('Processing {0}'.format(language.code))
+            languages = Language.objects.have_translation()
+            lang_count = len(languages)
+            for index, language in enumerate(languages):
+                self.stdout.write('Processing {} ({}/{})'.format(
+                    language.code, index + 1, lang_count
+                ))
                 writer = fulltext.get_target_index(language.code).writer()
                 try:
                     units = Unit.objects.filter(translation__language=language)
