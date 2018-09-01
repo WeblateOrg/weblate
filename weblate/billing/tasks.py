@@ -33,3 +33,13 @@ def billing_check():
             'en', 'ADMINS', 'billing_check',
             context={'limit': limit, 'due': due}
         )
+
+
+@app.on_after_finalize.connect
+def setup_periodic_tasks(sender, **kwargs):
+    sender.add_periodic_task(
+        10,
+        3600 * 24,
+        billing_check.s(),
+        name='billing-check',
+    )

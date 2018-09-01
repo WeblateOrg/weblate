@@ -22,6 +22,8 @@ from __future__ import absolute_import, unicode_literals
 
 from datetime import timedelta
 
+from celery.schedules import crontab
+
 from django.db import transaction
 from django.utils import timezone
 
@@ -217,3 +219,30 @@ def cleanup_suggestions():
                     anonymous_user,
                     Change.ACTION_SUGGESTION_CLEANUP
                 )
+
+
+@app.on_after_finalize.connect
+def setup_periodic_tasks(sender, **kwargs):
+    sender.add_periodic_task(
+        3600,
+        commit_pending.s(),
+        name='commit-pending',
+    )
+    sender.add_periodic_task(
+        3600 * 24,
+        cleanup_suggestions.s(),
+        name='suggestions-cleanup',
+    )
+
+    # Following fulltext maintenance tasks should not be
+    # executed at same time
+    sender.add_periodic_task(
+        crontab(hour=2, minute=30, day_of_week='saturday'),
+        cleanup_fulltext.s(),
+        name='fulltext-cleanup',
+    )
+    sender.add_periodic_task(
+        crontab(hour=2, minute=30, day_of_week='sunday'),
+        optimize_fulltext.s(),
+        name='fulltext-optimize',
+    )

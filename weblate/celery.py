@@ -25,7 +25,6 @@ import os
 
 from celery import Celery
 from celery.signals import task_failure
-from celery.schedules import crontab
 
 try:
     import rollbar
@@ -83,64 +82,3 @@ def configure_error_handling(sender, **kargs):
         client = Client(settings['RAVEN_CONFIG']['dsn'])
         register_signal(client, ignore_expected=True)
         register_logger_signal(client, loglevel=logging.INFO)
-
-
-@app.on_after_finalize.connect
-def setup_periodic_tasks(sender, **kwargs):
-    from django.conf import settings
-    from weblate.trans.tasks import (
-        commit_pending, cleanup_fulltext, optimize_fulltext,
-        cleanup_suggestions,
-    )
-    from weblate.wladmin.tasks import configuration_health_check
-    from weblate.screenshots.tasks import cleanup_screenshot_files
-    from weblate.accounts.tasks import cleanup_social_auth
-
-    sender.add_periodic_task(
-        3600,
-        commit_pending.s(),
-        name='commit-pending',
-    )
-    sender.add_periodic_task(
-        3600,
-        cleanup_social_auth.s(),
-        name='social-auth-cleanup',
-    )
-    sender.add_periodic_task(
-        3600 * 24,
-        cleanup_screenshot_files.s(),
-        name='screenshot-files-cleanup',
-    )
-
-    # Following fulltext maintenance tasks should not be
-    # executed at same time
-    sender.add_periodic_task(
-        crontab(hour=2, minute=30, day_of_week='saturday'),
-        cleanup_fulltext.s(),
-        name='fulltext-cleanup',
-    )
-    sender.add_periodic_task(
-        crontab(hour=2, minute=30, day_of_week='sunday'),
-        optimize_fulltext.s(),
-        name='fulltext-optimize',
-    )
-
-    sender.add_periodic_task(
-        3600 * 24,
-        cleanup_suggestions.s(),
-        name='suggestions-cleanup',
-    )
-    sender.add_periodic_task(
-        3600,
-        configuration_health_check.s(),
-        name='configuration-health-check',
-    )
-
-    if 'weblate.billing' in settings.INSTALLED_APPS:
-        from weblate.billing.tasks import billing_check
-        sender.add_periodic_task(
-            10,
-            3600 * 24,
-            billing_check.s(),
-            name='billing-check',
-        )

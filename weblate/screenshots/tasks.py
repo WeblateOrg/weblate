@@ -40,3 +40,12 @@ def cleanup_screenshot_files():
         fullname = os.path.join('screenshots', name)
         if not Screenshot.objects.filter(image=fullname).exists():
             storage.delete(fullname)
+
+
+@app.on_after_finalize.connect
+def setup_periodic_tasks(sender, **kwargs):
+    sender.add_periodic_task(
+        3600 * 24,
+        cleanup_screenshot_files.s(),
+        name='screenshot-files-cleanup',
+    )

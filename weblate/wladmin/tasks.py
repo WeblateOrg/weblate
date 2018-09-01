@@ -63,3 +63,12 @@ def configuration_health_check(include_deployment_checks=True):
         )
     else:
         ConfigurationError.objects.remove('Celery')
+
+
+@app.on_after_finalize.connect
+def setup_periodic_tasks(sender, **kwargs):
+    sender.add_periodic_task(
+        3600,
+        configuration_health_check.s(),
+        name='configuration-health-check',
+    )
