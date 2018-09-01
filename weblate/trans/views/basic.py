@@ -21,7 +21,7 @@
 from __future__ import unicode_literals
 
 from django.contrib.auth.decorators import login_required
-from django.db.models import Sum, Count
+from django.db.models import Count
 from django.http import HttpResponse
 from django.shortcuts import redirect, get_object_or_404
 from django.views.decorators.cache import never_cache
@@ -31,30 +31,23 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 import django.views.defaults
 
-from weblate.checks.models import Check
 from weblate.formats.exporters import list_exporters
 from weblate.utils import messages
 from weblate.utils.stats import prefetch_stats
 from weblate.utils.views import get_paginator
-from weblate.trans.models import (
-    Project, Translation, ComponentList, Change, Unit,
-)
-from weblate.utils.requirements import get_versions, get_optional_versions
+from weblate.trans.models import Translation, ComponentList, Change, Unit
 from weblate.lang.models import Language
 from weblate.trans.forms import (
     get_upload_form, SearchForm,
     AutoForm, ReviewForm, get_new_language_form,
     ReportsForm, ReplaceForm, NewUnitForm, MassStateForm, DownloadForm,
 )
-from weblate.accounts.models import Profile
 from weblate.accounts.notifications import notify_new_language
 from weblate.trans.views.helper import (
     get_project, get_component, get_translation,
     try_set_language,
 )
 from weblate.trans.util import render, sort_objects, sort_unicode
-from weblate.vcs.gpg import get_gpg_public_key, get_gpg_sign_key
-from weblate.vcs.ssh import get_key_data
 
 
 @never_cache
@@ -341,77 +334,6 @@ def server_error(request):
         )
     except Exception:
         return django.views.defaults.server_error(request)
-
-
-def about(request):
-    """Show about page with version information."""
-    return render(
-        request,
-        'about.html',
-        {
-            'title': _('About Weblate'),
-            'versions': get_versions() + get_optional_versions(),
-            'allow_index': True,
-        }
-    )
-
-
-def keys(request):
-    """Show keys information."""
-    return render(
-        request,
-        'keys.html',
-        {
-            'title': _('Weblate keys'),
-            'gpg_key_id': get_gpg_sign_key(),
-            'gpg_key': get_gpg_public_key(),
-            'ssh_key': get_key_data(),
-            'allow_index': True,
-        }
-    )
-
-
-def stats(request):
-    """View with Various stats about Weblate."""
-
-    context = {}
-
-    context['title'] = _('Weblate statistics')
-
-    totals = Profile.objects.aggregate(
-        Sum('translated'), Sum('suggested'), Count('id')
-    )
-    total_strings = []
-    total_words = []
-    for project in prefetch_stats(Project.objects.all()):
-        total_strings.append(project.stats.source_strings)
-        total_words.append(project.stats.source_words)
-
-    context['total_translations'] = totals['translated__sum']
-    context['total_suggestions'] = totals['suggested__sum']
-    context['total_users'] = totals['id__count']
-    context['total_strings'] = sum(total_strings)
-    context['total_units'] = Unit.objects.count()
-    context['total_words'] = sum(total_words)
-    context['total_languages'] = Language.objects.filter(
-        translation__pk__gt=0
-    ).distinct().count()
-    context['total_checks'] = Check.objects.count()
-    context['ignored_checks'] = Check.objects.filter(ignore=True).count()
-
-    top_translations = Profile.objects.order_by('-translated')[:10]
-    top_suggestions = Profile.objects.order_by('-suggested')[:10]
-    top_uploads = Profile.objects.order_by('-uploaded')[:10]
-
-    context['top_translations'] = top_translations.select_related('user')
-    context['top_suggestions'] = top_suggestions.select_related('user')
-    context['top_uploads'] = top_uploads.select_related('user')
-
-    return render(
-        request,
-        'stats.html',
-        context
-    )
 
 
 @never_cache

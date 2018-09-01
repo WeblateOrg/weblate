@@ -3,10 +3,13 @@
 {% load translations %}
 
 {% block breadcrumbs %}
+<li><a href="{% url 'about' %}">{% trans "About Weblate" %}</a></li>
 <li><a href="{% url 'about' %}">{% trans "Weblate keys" %}</a></li>
 {% endblock %}
 
 {% block content %}
+
+{% include 'about/menu.html' %}
 
 <div class="container-fluid">
 

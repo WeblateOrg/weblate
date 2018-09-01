@@ -2,10 +2,13 @@
 {% load i18n %}
 
 {% block breadcrumbs %}
+<li><a href="{% url 'about' %}">{% trans "About Weblate" %}</a></li>
 <li><a href="{% url 'stats' %}">{% trans "Statistics" %}</a></li>
 {% endblock %}
 
 {% block content %}
+
+{% include 'about/menu.html' %}
 
 <div class="container-fluid">
 

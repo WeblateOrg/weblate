@@ -37,6 +37,7 @@ import weblate.addons.views
 import weblate.checks.views
 import weblate.lang.views
 import weblate.screenshots.views
+import weblate.trans.views.about
 import weblate.trans.views.acl
 import weblate.trans.views.agreement
 import weblate.trans.views.api
@@ -840,9 +841,21 @@ urlpatterns = [
     # Static pages
     url(r'^contact/', weblate.accounts.views.contact, name='contact'),
     url(r'^hosting/', weblate.accounts.views.hosting, name='hosting'),
-    url(r'^about/$', weblate.trans.views.basic.about, name='about'),
-    url(r'^keys/$', weblate.trans.views.basic.keys, name='keys'),
-    url(r'^stats/$', weblate.trans.views.basic.stats, name='stats'),
+    url(
+        r'^about/$',
+        weblate.trans.views.about.AboutView.as_view(),
+        name='about'
+    ),
+    url(
+        r'^keys/$',
+        weblate.trans.views.about.KeysView.as_view(),
+        name='keys'
+    ),
+    url(
+        r'^stats/$',
+        weblate.trans.views.about.StatsView.as_view(),
+        name='stats'
+    ),
 
     # User pages
     url(
