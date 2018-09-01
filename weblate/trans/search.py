@@ -35,7 +35,6 @@ from whoosh import qparser
 from django.utils.encoding import force_text
 
 from weblate.celery import app
-from weblate.lang.models import Language
 from weblate.utils.celery import extract_batch_args, extract_batch_kwargs
 from weblate.utils.index import WhooshIndex
 
