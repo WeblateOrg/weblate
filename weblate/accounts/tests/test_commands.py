@@ -103,7 +103,7 @@ class CommandTest(TestCase, TempDirMixin):
             picklefile = os.path.join(self.tempdir, 'pickle.djcache')
             with open(testfile, 'w') as handle:
                 handle.write('x')
-            with open(picklefile, 'w') as handle:
+            with open(picklefile, 'wb') as handle:
                 pickle.dump('fake', handle)
                 handle.write(zlib.compress(pickle.dumps('payload')))
             call_command('cleanup_avatar_cache')
