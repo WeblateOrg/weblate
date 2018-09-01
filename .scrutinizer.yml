@@ -33,3 +33,8 @@ build:
                 coverage:
                     file: .coverage
                     format: py-cc
+    nodes:
+        analysis:
+            tests:
+                override:
+                  - py-scrutinizer-run
