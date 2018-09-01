@@ -101,6 +101,12 @@ class ProjectAdmin(WeblateModelAdmin, RepoAdminMixin):
         return obj.stats.source_words
     get_source_words.short_description = _('Source words')
 
+    def get_language_count(self, obj):
+        """Return number of languages used in this project."""
+        return obj.stats.languages
+    get_language_count.short_description = _('Languages')
+
+
     def num_vcs(self, obj):
         return obj.component_set.exclude(repo__startswith='weblate:/').count()
     num_vcs.short_description = _('VCS repositories')

@@ -224,11 +224,6 @@ class Project(models.Model, URLMixin, PathMixin):
             translation__component__project=self
         ).distinct()
 
-    def get_language_count(self):
-        """Return number of languages used in this project."""
-        return self.get_languages().count()
-    get_language_count.short_description = _('Languages')
-
     def repo_needs_commit(self):
         """Check whether there are any uncommitted changes."""
         for component in self.component_set.all():

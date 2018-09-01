@@ -1564,6 +1564,3 @@ class Component(models.Model, URLMixin, PathMixin):
         if not self.edit_template or not self.has_template():
             return None
         return self.translation_set.get(filename=self.template)
-
-    def get_language_count(self):
-        return self.translation_set.count()

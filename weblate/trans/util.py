@@ -228,7 +228,7 @@ def get_project_description(project):
         'Join the translation or start translating your own project.',
     ).format(
         project,
-        project.get_language_count()
+        project.stats.languages
     )
 
 

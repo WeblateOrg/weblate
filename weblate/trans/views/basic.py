@@ -81,7 +81,7 @@ def show_engage(request, project, lang=None):
         stats_obj = obj.stats
     percent = stats_obj.translated_percent
 
-    languages = obj.get_language_count()
+    languages = obj.stats.language
 
     context = {
         'allow_index': True,

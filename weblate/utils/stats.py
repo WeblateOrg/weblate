@@ -38,10 +38,11 @@ from weblate.trans.util import translation_percent
 
 BASICS = frozenset((
     'all', 'fuzzy', 'translated', 'approved', 'untranslated',
-    'allchecks', 'suggestions', 'comments', 'approved_suggestions'
+    'allchecks', 'suggestions', 'comments', 'approved_suggestions',
+    'languages',
 ))
 BASIC_KEYS = frozenset(
-    ['{}_words'.format(x) for x in BASICS] +
+    ['{}_words'.format(x) for x in BASICS if x != 'languages'] +
     [
         'translated_percent', 'approved_percent', 'untranslated_percent',
         'fuzzy_percent', 'allchecks_percent', 'translated_words_percent',
@@ -270,6 +271,7 @@ class TranslationStats(BaseStats):
             'untranslated_words',
             self._data['all_words'] - self._data['translated_words']
         )
+        self.store('languages', 1)
 
         # Calculate percents
         self.calculate_basic_percents()
@@ -383,6 +385,10 @@ class ProjectLanguageStats(LanguageStats):
             )
         return prefetch_stats(result)
 
+    def prefetch_basic(self):
+        super(ProjectLanguageStats, self).prefetch_basic()
+        self.store('languages', 1)
+
 
 class ProjectStats(BaseStats):
     basic_keys = SOURCE_KEYS
@@ -418,6 +424,8 @@ class ProjectStats(BaseStats):
 
         for key, value in stats.items():
             self.store(key, value)
+
+        self.store('languages', self._object.get_languages().count())
 
         # Calculate percents
         self.calculate_basic_percents()

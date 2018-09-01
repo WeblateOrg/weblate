@@ -131,7 +131,7 @@ class BitmapWidget(ContentWidget):
         super(BitmapWidget, self).__init__(obj, color, lang)
         # Get object and related params
         self.total = obj.stats.source_strings
-        self.languages = obj.get_language_count()
+        self.languages = obj.stats.languages
         self.params = self.get_text_params()
 
         # Set rendering variables
