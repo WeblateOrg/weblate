@@ -27,6 +27,7 @@ from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.utils.encoding import python_2_unicode_compatible
+from django.utils.functional import cached_property
 from django.core.exceptions import ValidationError
 from django.urls import reverse
 
