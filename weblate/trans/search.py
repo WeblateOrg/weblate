@@ -238,7 +238,7 @@ class Fulltext(WhooshIndex):
 
 
 @app.task(
-    base=Batches, flush_every=500, flush_interval=300, bind=True,
+    base=Batches, flush_every=1000, flush_interval=300, bind=True,
     max_retries=1000
 )
 def update_fulltext(self, *args):
@@ -257,7 +257,7 @@ def update_fulltext(self, *args):
 
 
 @app.task(
-    base=Batches, flush_every=500, flush_interval=300, bind=True,
+    base=Batches, flush_every=1000, flush_interval=300, bind=True,
     max_retries=1000
 )
 def delete_fulltext(self, *args):
