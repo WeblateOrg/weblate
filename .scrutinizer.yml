@@ -10,15 +10,13 @@ filter:
     excluded_paths:
         - '*/migrations/*'
 before_commands:
-    - sudo pip3 install 'Django<2.0'
+    - sudo pip3 install ci/requirements-scrutinizer.txt
 build:
     environment:
         python: 3.6
         postgresql: true
     dependencies:
         override:
-            - pip install six
-            - pip install 'Django<2.0'
             - pip install -r ci/requirements-scrutinizer.txt
     tests:
         override:
