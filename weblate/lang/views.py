@@ -18,7 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.http import Http404
 from django.utils.translation import ugettext as _

@@ -25,7 +25,6 @@ import time
 
 from django.urls import reverse
 
-from weblate.checks.models import Check
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.models import Change
 from weblate.utils.hash import hash_to_checksum

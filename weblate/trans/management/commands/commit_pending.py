@@ -20,10 +20,6 @@
 
 from __future__ import unicode_literals
 
-from datetime import timedelta
-
-from django.utils import timezone
-
 from weblate.trans.management.commands import WeblateLangCommand
 from weblate.trans.tasks import commit_pending
 

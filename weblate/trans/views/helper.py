@@ -21,7 +21,6 @@
 
 from django.http import HttpResponse, Http404
 from django.shortcuts import get_object_or_404
-import django.utils.translation
 from django.utils.translation import activate, ugettext as _
 
 from weblate.utils import messages

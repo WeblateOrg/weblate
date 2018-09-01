@@ -22,7 +22,6 @@ from __future__ import unicode_literals
 
 from copy import copy
 import functools
-import traceback
 import sys
 
 from django.conf import settings
