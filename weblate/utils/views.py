@@ -18,8 +18,9 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from weblate.trans.views.helper import get_component
 from django.core.paginator import Paginator, EmptyPage
+
+from weblate.trans.views.helper import get_component
 
 
 def get_page_limit(request, default):
