@@ -32,6 +32,7 @@ from django.core.management.base import CommandError
 
 from weblate.auth.models import User
 from weblate.lang.models import Language
+from weblate.trans.models import Project
 from weblate.trans.tests.utils import TempDirMixin
 from weblate.accounts.models import Profile
 
@@ -46,6 +47,9 @@ class CommandTest(TestCase, TempDirMixin):
         user.profile.languages.add(language)
         user.profile.secondary_languages.add(language)
         user.profile.save()
+        user.profile.subscriptions.add(Project.objects.create(
+            name='name', slug='name'
+        ))
 
         try:
             self.create_temp()
@@ -66,6 +70,9 @@ class CommandTest(TestCase, TempDirMixin):
         )
         self.assertTrue(
             profile.secondary_languages.filter(code='cs').exists()
+        )
+        self.assertTrue(
+            profile.subscriptions.exists()
         )
 
     def test_changesite(self):
