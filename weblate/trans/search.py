@@ -36,7 +36,7 @@ from django.utils.encoding import force_text
 
 from weblate.celery import app
 from weblate.lang.models import Language
-from weblate.utils.celery import extract_batch_args
+from weblate.utils.celery import extract_batch_args, extract_batch_kwargs
 from weblate.utils.index import WhooshIndex
 
 
@@ -71,53 +71,54 @@ class Fulltext(WhooshIndex):
     def update_source_unit_index(writer, unit):
         """Update source index for given unit."""
         writer.update_document(
-            pk=unit.pk,
-            source=force_text(unit.source),
-            context=force_text(unit.context),
-            location=force_text(unit.location),
+            pk=unit['pk'],
+            source=force_text(unit['source']),
+            context=force_text(unit['context']),
+            location=force_text(unit['location']),
         )
 
     @staticmethod
     def update_target_unit_index(writer, unit):
         """Update target index for given unit."""
         writer.update_document(
-            pk=unit.pk,
-            target=force_text(unit.target),
-            comment=force_text(unit.comment),
+            pk=unit['pk'],
+            target=force_text(unit['target']),
+            comment=force_text(unit['comment']),
         )
 
     def update_index(self, units):
         """Update fulltext index for given set of units."""
-        languages = Language.objects.have_translation()
-
-        if not units.exists():
-            return
 
         # Update source index
         index = self.get_source_index()
         with BufferedWriter(index) as writer:
-            for unit in units.iterator():
+            for unit in units:
                 self.update_source_unit_index(writer, unit)
 
-        # Update per language indices
-        for lang in languages:
-            language_units = units.filter(
-                translation__language=lang
-            ).exclude(
-                target=''
-            )
+        languages = set([unit['language'] for unit in units])
 
-            if language_units.exists():
-                index = self.get_target_index(lang.code)
-                with BufferedWriter(index) as writer:
-                    for unit in language_units.iterator():
-                        self.update_target_unit_index(writer, unit)
+        # Update per language indices
+        for language in languages:
+            index = self.get_target_index(language)
+            with BufferedWriter(index) as writer:
+                for unit in units:
+                    if unit['language'] != language:
+                        continue
+                    self.update_target_unit_index(writer, unit)
 
     @classmethod
     def update_index_unit(cls, unit):
         """Add single unit to index."""
         if not cls.FAKE:
-            update_fulltext.delay(unit.id)
+            update_fulltext.delay(
+                pk=unit.pk,
+                source=force_text(unit.source),
+                context=force_text(unit.context),
+                location=force_text(unit.location),
+                target=force_text(unit.target),
+                comment=force_text(unit.comment),
+                language=force_text(unit.translation.language),
+            )
 
     @staticmethod
     def base_search(index, query, params, search, schema):
@@ -241,19 +242,17 @@ class Fulltext(WhooshIndex):
     base=Batches, flush_every=1000, flush_interval=300, bind=True,
     max_retries=1000
 )
-def update_fulltext(self, *args):
-    from weblate.trans.models import Unit
-    ids = extract_batch_args(*args)
+def update_fulltext(self, *args, **kwargs):
+    unitdata = extract_batch_kwargs(*args, **kwargs)
     fulltext = Fulltext()
-
-    # Filter matching units
-    units = Unit.objects.filter(id__in=[x[0] for x in ids])
 
     # Update index
     try:
-        fulltext.update_index(units)
+        fulltext.update_index(unitdata)
     except LockError as exc:
         raise self.retry(exc=exc)
+    except Exception as exc:
+        print exc
 
 
 @app.task(
