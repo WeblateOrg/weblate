@@ -251,8 +251,6 @@ def update_fulltext(self, *args, **kwargs):
         fulltext.update_index(unitdata)
     except LockError as exc:
         raise self.retry(exc=exc)
-    except Exception as exc:
-        print exc
 
 
 @app.task(
