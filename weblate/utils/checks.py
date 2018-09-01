@@ -24,7 +24,7 @@ import os.path
 
 from django.conf import settings
 from django.core.mail import get_connection
-from django.core.checks import Error
+from django.core.checks import Error, Critical
 
 import six
 
