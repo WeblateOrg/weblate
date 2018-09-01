@@ -139,7 +139,7 @@ class Command(WeblateTranslationCommand):
         request = HttpRequest()
         request.user = user
         auto = AutoTranslate(user, translation, filter_type, request)
-        if len(options['mt']):
+        if options['mt']:
             auto.process_mt(options['mt'], options['threshold'])
         else:
             auto.process_others(source, check_acl=False)
