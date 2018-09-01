@@ -22,6 +22,8 @@
 
 from __future__ import unicode_literals
 
+import json
+
 from django.urls import reverse
 
 from weblate.trans.tests.test_views import FixtureTestCase
@@ -396,3 +398,15 @@ class DictionaryTest(FixtureTestCase):
             Dictionary.objects.get_words(unit).count(),
             1
         )
+
+    def test_add(self):
+        """Test for adding word from translate page"""
+
+        unit = self.get_unit('Thank you for using Weblate.')
+        # Add word
+        response = self.client.post(
+            reverse('js-add-glossary', kwargs={'unit_id': unit.pk}),
+            {'source': 'source', 'target': 'překlad'}
+        )
+        content = json.loads(response.content)
+        self.assertEqual(content['responseCode'], 200)
