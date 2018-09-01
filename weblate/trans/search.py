@@ -204,7 +204,8 @@ class Fulltext(WhooshIndex):
             # Filter results with score above 50 and not current unit
             return [h[0] for h in results if scores[h[0]] > 50 and h[0] != pk]
 
-    def clean_search_unit(self, pk, lang):
+    @classmethod
+    def clean_search_unit(cls, pk, lang):
         """Cleanup search index on unit deletion."""
         if not cls.FAKE:
             delete_fulltext.delay(pk, lang)
