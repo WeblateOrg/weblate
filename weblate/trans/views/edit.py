@@ -643,16 +643,17 @@ def comment(request, pk):
 def delete_comment(request, pk):
     """Delete comment."""
     comment_obj = get_object_or_404(Comment, pk=pk)
-    request.user.check_access(comment_obj.project)
+    project = comment_obj.project
+    request.user.check_access(project)
 
-    if not request.user.has_perm('comment.delete', comment_obj, comment_obj.project):
+    if not request.user.has_perm('comment.delete', comment_obj, project):
         raise PermissionDenied()
 
     units = comment_obj.related_units
     if units.exists():
         fallback_url = units[0].get_absolute_url()
     else:
-        fallback_url = comment_obj.project.get_absolute_url()
+        fallback_url = project.get_absolute_url()
 
     comment_obj.delete()
     messages.info(request, _('Translation comment has been deleted.'))
