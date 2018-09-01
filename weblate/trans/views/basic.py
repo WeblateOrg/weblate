@@ -79,17 +79,14 @@ def show_engage(request, project, lang=None):
         stats_obj = obj.stats.get_single_language_stats(language)
     else:
         stats_obj = obj.stats
-    percent = stats_obj.translated_percent
-
-    languages = obj.stats.language
 
     context = {
         'allow_index': True,
         'object': obj,
         'project': obj,
-        'languages': languages,
+        'languages': stats_obj.languages,
         'total': obj.stats.source_strings,
-        'percent': percent,
+        'percent': stats_obj.translated_percent,
         'url': obj.get_absolute_url(),
         'lang_url': obj.get_absolute_url() + '#languages',
         'language': language,
