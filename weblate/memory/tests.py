@@ -41,6 +41,7 @@ TEST_DOCUMENT = {
     'category': CATEGORY_FILE,
 }
 
+
 def add_document():
     memory = TranslationMemory()
     with memory.writer() as writer:

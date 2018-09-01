@@ -29,7 +29,7 @@ from weblate.machinery.base import (
 # Map codes used by Youdao to codes used by Weblate
 LANGUAGE_MAP = {
     'zh_Hans': 'zh-CHS',
-    'en' : 'EN',
+    'en': 'EN',
 }
 
 YOUDAO_API_ROOT = 'https://openapi.youdao.com/api'

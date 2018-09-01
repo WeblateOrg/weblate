@@ -130,4 +130,3 @@ class BaiduTranslation(MachineTranslation):
             (item['dst'], self.max_score, self.name, item['src'])
             for item in response['trans_result']
         ]
-

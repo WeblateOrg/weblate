@@ -72,8 +72,6 @@ class AboutView(TemplateView):
 
         return context
 
-
-
     def get_template_names(self):
         return ['about/{0}.html'.format(self.page)]
 
@@ -112,6 +110,7 @@ class StatsView(AboutView):
         context['top_translations'] = top_translations.select_related('user')
         context['top_suggestions'] = top_suggestions.select_related('user')
         context['top_uploads'] = top_uploads.select_related('user')
+
 
 class KeysView(AboutView):
     page = 'keys'
