@@ -21,37 +21,6 @@
 import os
 
 from django.conf import settings
-from django.core.checks import Critical
-
-from weblate.utils.docs import get_doc_url
-
-
-def check_data_writable(app_configs=None, **kwargs):
-    """Check we can write to data dir."""
-    errors = []
-    dirs = [
-        settings.DATA_DIR,
-        data_dir('home'),
-        data_dir('whoosh'),
-        data_dir('ssh'),
-        data_dir('vcs'),
-        data_dir('memory'),
-        data_dir('celery'),
-    ]
-    message = 'Path {} is not writable, check your DATA_DIR settings.'
-    for path in dirs:
-        if not os.path.exists(path):
-            os.makedirs(path)
-        elif not os.access(path, os.W_OK):
-            errors.append(
-                Critical(
-                    message.format(path),
-                    hint=get_doc_url('admin/install', 'file-permissions'),
-                    id='weblate.E002',
-                )
-            )
-
-    return errors
 
 
 def data_dir(component):
