@@ -398,7 +398,7 @@ class ProjectStats(BaseStats):
         if language:
             self.get_single_language_stats(language).invalidate()
         else:
-            for lang in self._object.get_languages():
+            for lang in self._object.languages:
                 self.get_single_language_stats(lang).invalidate()
 
     @cached_property
@@ -410,7 +410,7 @@ class ProjectStats(BaseStats):
 
     def get_language_stats(self):
         result = []
-        for language in self._object.get_languages():
+        for language in self._object.languages:
             result.append(self.get_single_language_stats(language))
         return prefetch_stats(result)
 
@@ -425,7 +425,7 @@ class ProjectStats(BaseStats):
         for key, value in stats.items():
             self.store(key, value)
 
-        self.store('languages', self._object.get_languages().count())
+        self.store('languages', self._object.languages.count())
 
         # Calculate percents
         self.calculate_basic_percents()

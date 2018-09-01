@@ -218,7 +218,8 @@ class Project(models.Model, URLMixin, PathMixin):
 
         super(Project, self).save(*args, **kwargs)
 
-    def get_languages(self):
+    @cached_property
+    def languages(self):
         """Return list of all languages used in project."""
         return Language.objects.filter(
             translation__component__project=self

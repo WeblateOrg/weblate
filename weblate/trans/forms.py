@@ -1117,7 +1117,7 @@ class EngageForm(forms.Form):
 
     def __init__(self, project, *args, **kwargs):
         """Dynamically generate choices for used languages in project."""
-        choices = [(l.code, force_text(l)) for l in project.get_languages()]
+        choices = [(l.code, force_text(l)) for l in project.languages]
         components = [(c.slug, c.name) for c in project.component_set.all()]
 
         super(EngageForm, self).__init__(*args, **kwargs)
