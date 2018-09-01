@@ -92,7 +92,8 @@ PERM_TEMPLATE = '''
 '''
 
 SOURCE_LINK = '''
-<a href="{0}" target="_blank">{1} <i class="fa fa-external-link"></i></a>
+<a href="{0}" target="_blank" rel="noopener noreferrer">{1}
+<i class="fa fa-external-link"></i></a>
 '''
 
 
