@@ -69,6 +69,13 @@ class Fulltext(WhooshIndex):
     @staticmethod
     def update_source_unit_index(writer, unit):
         """Update source index for given unit."""
+        if not isinstance(unit, dict):
+            unit = {
+                'source': unit.source,
+                'context': unit.context,
+                'location': unit.location,
+                'pk': unit.pk,
+            }
         writer.update_document(
             pk=unit['pk'],
             source=force_text(unit['source']),
@@ -79,6 +86,12 @@ class Fulltext(WhooshIndex):
     @staticmethod
     def update_target_unit_index(writer, unit):
         """Update target index for given unit."""
+        if not isinstance(unit, dict):
+            unit = {
+                'pk': unit.pk,
+                'target': unit.target,
+                'comment': unit.comment,
+            }
         writer.update_document(
             pk=unit['pk'],
             target=force_text(unit['target']),
