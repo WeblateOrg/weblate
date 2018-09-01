@@ -268,6 +268,8 @@ def delete_fulltext(self, *args):
     languages = {}
     for unit, language in ids:
         units.add(unit)
+        if language is None:
+            continue
         if language not in languages:
             languages[language] = set()
         languages[language].add(unit)

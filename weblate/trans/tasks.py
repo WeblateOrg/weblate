@@ -95,12 +95,13 @@ def commit_pending(hours=None, pks=None, logger=None):
 def cleanup_fulltext():
     """Remove stale units from fulltext"""
     fulltext = Fulltext()
-    languages = list(Language.objects.have_translation().values_list(
-        'code', flat=True
-    ))
+    languages = list(Language.objects.values_list('code', flat=True)) + [None]
     # We operate only on target indexes as they will have all IDs anyway
     for lang in languages:
-        index = fulltext.get_target_index(lang)
+        if lang is None:
+            index = fulltext.get_source_index()
+        else:
+            index = fulltext.get_target_index(lang)
         try:
             fields = index.reader().all_stored_fields()
         except EmptyIndexError:
