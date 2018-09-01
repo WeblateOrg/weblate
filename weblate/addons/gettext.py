@@ -101,7 +101,7 @@ class UpdateLinguasAddon(GettextBaseAddon):
             # Comment
             if stripped.startswith('#'):
                 continue
-            # Langauges in one line
+            # Languages in one line
             if ' ' in stripped:
                 lines[i] = '{} {}\n'.format(
                     stripped, translation.language_code
