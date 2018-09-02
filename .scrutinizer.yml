@@ -2,6 +2,7 @@ checks:
     python:
         code_rating: true
         duplicate_code: true
+        classes_valid_slots: true
 tools:
     pylint:
         python_version: '3'
@@ -18,21 +19,25 @@ build:
     dependencies:
         override:
             - pip install -r ci/requirements-scrutinizer.txt
-    tests:
-        override:
-            -
-                command: export DJANGO_SETTINGS_MODULE=weblate.settings_test
-            -
-                command: ./manage.py collectstatic --noinput
-            -
-                command: coverage run --source . ./manage.py test
-            -
-                command: coverage combine
-                coverage:
-                    file: .coverage
-                    format: py-cc
     nodes:
         analysis:
             tests:
                 override:
+                  -
+                    command: pylint-run
+                    use_website_config: true
                   - py-scrutinizer-run
+        tests:
+            tests:
+                override:
+                    -
+                        command: export DJANGO_SETTINGS_MODULE=weblate.settings_test
+                    -
+                        command: ./manage.py collectstatic --noinput
+                    -
+                        command: coverage run --source . ./manage.py test
+                    -
+                        command: coverage combine
+                        coverage:
+                            file: .coverage
+                            format: py-cc
