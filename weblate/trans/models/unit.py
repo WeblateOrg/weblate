@@ -628,26 +628,12 @@ class Unit(models.Model, LoggerMixin):
         self.generate_change(request, user, change_action)
 
         if change_action not in (Change.ACTION_UPLOAD, Change.ACTION_AUTO):
-            old_translated = self.translation.stats.translated
-
             # Update translation stats
             self.translation.invalidate_cache()
 
             # Update user stats
             user.profile.translated += 1
             user.profile.save()
-
-            # Force commiting on completing translation
-            translated = self.translation.stats.translated
-            if (old_translated < translated and
-                    translated == self.translation.stats.all):
-                Change.objects.create(
-                    translation=self.translation,
-                    action=Change.ACTION_COMPLETE,
-                    user=user,
-                    author=user
-                )
-                self.translation.commit_pending('completed', request)
 
         # Notify subscribed users about new translation
         from weblate.accounts.notifications import notify_new_translation

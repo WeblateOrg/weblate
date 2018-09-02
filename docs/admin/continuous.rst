@@ -250,7 +250,6 @@ fulfilled:
 * import of translation happens
 * mass state change is performed
 * search and replace is executed
-* translation for a language is completed
 * explicit commit is requested
 
 You can also additionally set a cron job to commit pending changes after some
