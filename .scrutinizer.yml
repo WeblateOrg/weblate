@@ -6,6 +6,10 @@ checks:
 filter:
     excluded_paths:
         - '*/migrations/*'
+tools:
+    pylint:
+        python_version: '3'
+        config_file: '.pylintrc'
 build:
     environment:
         python: 3.6
