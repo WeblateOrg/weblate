@@ -610,7 +610,7 @@ class Unit(models.Model, LoggerMixin):
         self.pending = True
         # Update translated flag (not fuzzy and at least one translation)
         translation = bool(max(self.get_target_plurals()))
-        if self.state == STATE_TRANSLATED and not translation:
+        if self.state >= STATE_TRANSLATED and not translation:
             self.state = STATE_EMPTY
         elif self.state == STATE_EMPTY and translation:
             self.state = STATE_TRANSLATED
