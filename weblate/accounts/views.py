@@ -66,6 +66,9 @@ from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
 from weblate.accounts.models import set_lang, Profile
 from weblate.accounts.utils import remove_user
 from weblate.utils import messages
+from weblate.utils.ratelimit import (
+    session_ratelimit_post, session_ratelimit_reset,
+)
 from weblate.trans.models import Change, Project, Component, Suggestion
 from weblate.trans.views.helper import get_project
 from weblate.accounts.forms import (
@@ -192,29 +195,6 @@ def avoid_demo(function):
             return deny_demo(request)
         return function(request, *args, **kwargs)
     return demo_wrap
-
-
-def session_ratelimit_post(function):
-    """Session based rate limiting for POST requests."""
-    def rate_wrap(request, *args, **kwargs):
-        attempts = request.session.get('auth_attempts', 0)
-        if request.method == 'POST':
-            if attempts >= settings.RATELIMIT_ATTEMPTS:
-                rotate_token(request)
-                if request.user.is_authenticated:
-                    logout(request)
-                messages.error(
-                    request,
-                    _('Too many attempts, you have been logged out!')
-                )
-                return redirect('login')
-            request.session['auth_attempts'] = attempts + 1
-        return function(request, *args, **kwargs)
-    return rate_wrap
-
-
-def session_ratelimit_reset(request):
-    request.session['auth_attempts'] = 0
 
 
 def redirect_profile(page=''):

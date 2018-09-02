@@ -23,9 +23,14 @@ from __future__ import unicode_literals
 from hashlib import md5
 
 from django.conf import settings
+from django.contrib.auth import logout
 from django.core.cache import cache
+from django.middleware.csrf import rotate_token
+from django.shortcuts import redirect
 from django.utils.encoding import force_bytes
+from django.utils.translation import ugettext as _
 
+from weblate.utils import messages
 from weblate.utils.request import get_ip_address
 
 
@@ -69,3 +74,26 @@ def check_rate_limit(scope, request):
         cache.set(key, 1, get_rate_setting(scope, 'WINDOW'))
 
     return True
+
+
+def session_ratelimit_post(function):
+    """Session based rate limiting for POST requests."""
+    def rate_wrap(request, *args, **kwargs):
+        attempts = request.session.get('auth_attempts', 0)
+        if request.method == 'POST':
+            if attempts >= settings.RATELIMIT_ATTEMPTS:
+                rotate_token(request)
+                if request.user.is_authenticated:
+                    logout(request)
+                messages.error(
+                    request,
+                    _('Too many attempts, you have been logged out!')
+                )
+                return redirect('login')
+            request.session['auth_attempts'] = attempts + 1
+        return function(request, *args, **kwargs)
+    return rate_wrap
+
+
+def session_ratelimit_reset(request):
+    request.session['auth_attempts'] = 0
