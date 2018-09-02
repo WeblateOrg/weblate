@@ -13,7 +13,7 @@
 </p>
 
 {% if request.sentry.id %}
-<p>{% blocktrans with error_id=request.sentry.id %}If you need assistance, you may reference this error as <strong>{{ error_id }}</strong>.{% endblocktrans %}</p>
+<p>{% blocktrans with error_id=request.sentry.id %}If you need assistance, you may reference this error as {{ error_id }}.{% endblocktrans %}</p>
 {% endif %}
 
 {% endblock %}
