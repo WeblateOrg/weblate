@@ -187,9 +187,8 @@ class TranslationTest(RepoTestCase):
         # Initial translation
         for unit in translation.unit_set.all():
             unit.translate(request, 'test2', STATE_TRANSLATED)
-        # Translation completed, commit forced
-        self.assertNotEqual(start_rev, component.repository.last_revision)
-        start_rev = component.repository.last_revision
+        # Translation completed, no commit forced
+        self.assertEqual(start_rev, component.repository.last_revision)
         # Translation from same author should not trigger commit
         for unit in translation.unit_set.all():
             unit.translate(request, 'test3', STATE_TRANSLATED)
