@@ -21,6 +21,7 @@
 from __future__ import unicode_literals
 
 from hashlib import md5
+from time import time
 
 from django.conf import settings
 from django.contrib.auth import logout
@@ -79,10 +80,23 @@ def check_rate_limit(scope, request):
 def session_ratelimit_post(function):
     """Session based rate limiting for POST requests."""
     def rate_wrap(request, *args, **kwargs):
-        attempts = request.session.get('auth_attempts', 0)
         if request.method == 'POST':
-            if attempts >= settings.RATELIMIT_ATTEMPTS:
+            session = request.session
+            now = time()
+            # Reset expired counter
+            if ('rate_timeout' in session and
+                    'rate_attempts' in session and
+                    session['rate_timeout'] >= now):
+                session['rate_attempts'] = 0
+
+            # Get current attempts
+            attempts = session.get('rate_attempts', 0)
+
+            # Did we hit the limit?
+            if attempts >= get_rate_setting('session', 'ATTEMPTS'):
+                # Rotate session token
                 rotate_token(request)
+                # Logout user
                 if request.user.is_authenticated:
                     logout(request)
                 messages.error(
@@ -90,7 +104,12 @@ def session_ratelimit_post(function):
                     _('Too many attempts, you have been logged out!')
                 )
                 return redirect('login')
-            request.session['auth_attempts'] = attempts + 1
+
+            session['rate_attempts'] = attempts + 1
+            if 'rate_timeout' not in session:
+                window = get_rate_setting('session', 'WINDOW')
+                session['rate_timeout'] = now + window
+
         return function(request, *args, **kwargs)
     return rate_wrap
 

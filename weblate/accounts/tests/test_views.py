@@ -120,6 +120,18 @@ class ViewTest(TestCase):
             'Too many messages sent, please try again later!'
         )
 
+    @override_settings(
+        RATELIMIT_ATTEMPTS=1,
+        RATELIMIT_WINDOW=0,
+    )
+    def test_contact_rate_window(self):
+        """Test for contact form rate limiting."""
+        message = 'Too many messages sent, please try again later!'
+        response = self.client.post(reverse('contact'), CONTACT_DATA)
+        self.assertNotContains(response, message)
+        response = self.client.post(reverse('contact'), CONTACT_DATA)
+        self.assertNotContains(response, message)
+
     @override_settings(OFFER_HOSTING=False)
     def test_hosting_disabled(self):
         """Test for hosting form with disabled hosting"""
