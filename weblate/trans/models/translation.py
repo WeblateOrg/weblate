@@ -94,8 +94,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
     language_code = models.CharField(max_length=20, default='', blank=True)
 
-    commit_message = models.TextField(default='', blank=True)
-
     objects = TranslationManager.from_queryset(TranslationQuerySet)()
 
     is_lockable = False
@@ -112,6 +110,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         self.stats = TranslationStats(self)
         self.addon_commit_files = []
         self.notify_new_string = False
+        self.commit_template = ''
 
     @cached_property
     def log_prefix(self):
@@ -436,22 +435,16 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
     def get_commit_message(self, author):
         """Format commit message based on project configuration."""
-        template = self.component.commit_message
-        if self.commit_message == '__add__':
+        if self.commit_template == 'add':
             template = self.component.add_message
-            self.commit_message = ''
-            self.save()
-        elif self.commit_message == '__delete__':
+            self.commit_template = ''
+        elif self.commit_template == 'delete':
             template = self.component.delete_message
-            self.commit_message = ''
-            self.save()
+            self.commit_template = ''
+        else:
+            template = self.component.commit_message
 
         msg = render_template(template, self, author=author)
-
-        if self.commit_message:
-            msg = '{0}\n\n{1}'.format(msg, self.commit_message)
-            self.commit_message = ''
-            self.save()
 
         return msg
 
@@ -957,7 +950,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         )
 
         # Remove file from VCS
-        self.commit_message = '__delete__'
+        self.commit_template = 'delete'
         with self.component.repository.lock:
             self.component.repository.remove(
                 [self.filename],

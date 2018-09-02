@@ -618,26 +618,6 @@ class EditComplexTest(ViewTestCase):
         self.assertContains(response, 'Invalid revert request!')
         self.assert_backend(2)
 
-    def test_edit_message(self):
-        # Save with failing check
-        response = self.edit_unit(
-            'Hello, world!\n',
-            'Nazdar svete!',
-            commit_message='Fixing issue #666',
-        )
-        # We should get to second message
-        self.assert_redirects_offset(response, self.translate_url, 2)
-
-        # Did the commit message got stored?
-        translation = self.get_translation()
-        self.assertEqual(
-            'Fixing issue #666',
-            translation.commit_message
-        )
-
-        # Try commiting
-        translation.commit_pending('test', self.get_request('/'))
-
     def test_edit_fixup(self):
         # Save with failing check
         response = self.edit_unit(

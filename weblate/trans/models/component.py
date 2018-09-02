@@ -1530,13 +1530,13 @@ class Component(models.Model, URLMixin, PathMixin):
             plural=language.plural,
             filename=filename,
             language_code=language.code,
-            commit_message='__add__'
         )
         if send_signal:
             translation_post_add.send(
                 sender=self.__class__,
                 translation=translation
             )
+        translation.commit_template='add'
         translation.git_commit(
             request,
             request.user.get_author_name()

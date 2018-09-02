@@ -220,19 +220,6 @@
     ><i class="fa fa-comment"></i> {% trans "Suggest" %}</button>
     {% endif %}
     <button class="btn btn-info" type="submit" name="skip" tabindex="152"><i class="fa {% if LANGUAGE_BIDI %}fa-backward{% else %}fa-forward{% endif %}"></i> {% trans "Skip" %}</button>
-
-    {% if user_can_translate %}
-    <div class="pull-right flip hidden-xs">
-    {% trans "Commit message:" %}
-    <input type="text" name="commit_message" class="tooltip-control"
-        data-toggle="tooltip" data-placement="bottom"
-        placeholder="{% trans "Additional text to include" %}"
-        tabindex="152"
-        value="{{ unit.translation.commit_message }}"
-        title="{% trans "You can leave this empty in most cases, as Weblate generates basic commit messages automatically." %}"
-    />
-    </div>
-    {% endif %}
   </div>
 </div>
 </form>
