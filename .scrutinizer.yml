@@ -21,7 +21,7 @@ build:
         analysis:
             tests:
                 override:
-                  - pylint-run
+                  - pylint-run --rcfile=.pylintrc
                   - py-scrutinizer-run
         tests:
             tests:
