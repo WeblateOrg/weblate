@@ -1536,7 +1536,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 sender=self.__class__,
                 translation=translation
             )
-        translation.commit_template='add'
+        translation.commit_template = 'add'
         translation.git_commit(
             request,
             request.user.get_author_name()

@@ -30,7 +30,6 @@ import six
 
 from translate.storage.csvl10n import csv
 from translate.storage.po import pounit, pofile
-from translate.storage.poheader import default_header
 from translate.storage.ts2 import tsfile, tsunit
 from translate.storage.xliff import xlifffile, ID_SEPARATOR
 from translate.storage.poxliff import PoXliffFile
