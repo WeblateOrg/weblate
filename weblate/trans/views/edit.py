@@ -47,6 +47,7 @@ from weblate.checks import CHECKS
 from weblate.trans.util import join_plural, render, redirect_next
 from weblate.trans.autotranslate import AutoTranslate
 from weblate.utils.hash import hash_to_checksum
+from weblate.utils.ratelimit import session_ratelimit_post
 
 
 def get_other_units(unit):
@@ -601,6 +602,7 @@ def auto_translation(request, project, component, lang):
 
 
 @login_required
+@session_ratelimit_post
 def comment(request, pk):
     """Add new comment."""
     unit = get_object_or_404(Unit, pk=pk)
