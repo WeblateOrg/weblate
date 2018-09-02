@@ -21,6 +21,7 @@ build:
         analysis:
             tests:
                 override:
+                  - sed -i 's/pylint_django//' .pylintrc
                   - pylint-run --rcfile=.pylintrc
                   - py-scrutinizer-run
         tests:
