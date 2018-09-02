@@ -590,20 +590,17 @@ class Unit(models.Model, LoggerMixin):
             if change.author_id != request.user.id:
                 self.translation.commit_pending('pending unit', request)
 
+        # Propagate to other projects
+        # This has to be done before changing source/content_hash for template
+        if propagate:
+            self.propagate(request, change_action)
+
         # Return if there was no change
         # We have to explicitly check for fuzzy flag change on monolingual
         # files, where we handle it ourselves without storing to backend
         if (self.old_unit.state == self.state and
                 self.old_unit.target == self.target):
-            # Propagate if we should
-            if propagate:
-                self.propagate(request, change_action)
             return False
-
-        # Propagate to other projects
-        # This has to be done before changing source/content_hash for template
-        if propagate:
-            self.propagate(request, change_action)
 
         if self.translation.is_template:
             self.source = self.target
