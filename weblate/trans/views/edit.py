@@ -602,7 +602,7 @@ def auto_translation(request, project, component, lang):
 
 
 @login_required
-@session_ratelimit_post
+@session_ratelimit_post('comment')
 def comment(request, pk):
     """Add new comment."""
     unit = get_object_or_404(Unit, pk=pk)

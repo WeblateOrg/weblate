@@ -77,42 +77,46 @@ def check_rate_limit(scope, request):
     return True
 
 
-def session_ratelimit_post(function):
-    """Session based rate limiting for POST requests."""
-    def rate_wrap(request, *args, **kwargs):
-        if request.method == 'POST':
-            session = request.session
-            now = time()
-            # Reset expired counter
-            if ('rate_timeout' in session and
-                    'rate_attempts' in session and
-                    session['rate_timeout'] >= now):
-                session['rate_attempts'] = 0
+def session_ratelimit_post(scope):
+    def session_ratelimit_post_inner(function):
+        """Session based rate limiting for POST requests."""
+        def rate_wrap(request, *args, **kwargs):
+            if request.method == 'POST':
+                session = request.session
+                now = time()
+                k_timeout = '{}_timeout'.format(scope)
+                k_attempts = '{}_attempts'.format(scope)
+                # Reset expired counter
+                if (k_timeout in session and
+                        k_attempts in session and
+                        session[k_timeout] >= now):
+                    session[k_attempts] = 0
 
-            # Get current attempts
-            attempts = session.get('rate_attempts', 0)
+                # Get current attempts
+                attempts = session.get(k_attempts, 0)
 
-            # Did we hit the limit?
-            if attempts >= get_rate_setting('session', 'ATTEMPTS'):
-                # Rotate session token
-                rotate_token(request)
-                # Logout user
-                if request.user.is_authenticated:
-                    logout(request)
-                messages.error(
-                    request,
-                    _('Too many attempts, you have been logged out!')
-                )
-                return redirect('login')
+                # Did we hit the limit?
+                if attempts >= get_rate_setting(scope, 'ATTEMPTS'):
+                    # Rotate session token
+                    rotate_token(request)
+                    # Logout user
+                    if request.user.is_authenticated:
+                        logout(request)
+                    messages.error(
+                        request,
+                        _('Too many attempts, you have been logged out!')
+                    )
+                    return redirect('login')
 
-            session['rate_attempts'] = attempts + 1
-            if 'rate_timeout' not in session:
-                window = get_rate_setting('session', 'WINDOW')
-                session['rate_timeout'] = now + window
+                session[k_attempts] = attempts + 1
+                if k_timeout not in session:
+                    window = get_rate_setting(scope, 'WINDOW')
+                    session[k_timeout] = now + window
 
-        return function(request, *args, **kwargs)
-    return rate_wrap
+            return function(request, *args, **kwargs)
+        return rate_wrap
+    return session_ratelimit_post_inner
 
 
-def session_ratelimit_reset(request):
-    request.session['auth_attempts'] = 0
+def session_ratelimit_reset(request, scope):
+    request.session['{}_attempts'.format(scope)] = 0

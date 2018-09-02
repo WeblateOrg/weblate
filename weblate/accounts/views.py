@@ -309,7 +309,7 @@ def user_profile(request):
 
 @login_required
 @avoid_demo
-@session_ratelimit_post
+@session_ratelimit_post('remove')
 @never_cache
 def user_remove(request):
     is_confirmation = 'remove_confirm' in request.session
@@ -329,7 +329,7 @@ def user_remove(request):
     elif request.method == 'POST':
         confirm_form = PasswordConfirmForm(request, request.POST)
         if confirm_form.is_valid():
-            session_ratelimit_reset(request)
+            session_ratelimit_reset(request, 'remove')
             store_userid(request, remove=True)
             request.GET = {'email': request.user.email}
             return social_complete(request, 'email')
@@ -347,7 +347,7 @@ def user_remove(request):
 
 
 @avoid_demo
-@session_ratelimit_post
+@session_ratelimit_post('confirm')
 @never_cache
 def confirm(request):
     details = request.session.get('reauthenticate')
@@ -360,7 +360,7 @@ def confirm(request):
     if request.method == 'POST':
         confirm_form = PasswordConfirmForm(request, request.POST)
         if confirm_form.is_valid():
-            session_ratelimit_reset(request)
+            session_ratelimit_reset(request, 'confirm')
             request.session.pop('reauthenticate')
             request.session['reauthenticate_done'] = True
             return redirect('social:complete', backend=details['backend'])
@@ -435,7 +435,7 @@ def contact(request):
 
 
 @login_required
-@session_ratelimit_post
+@session_ratelimit_post('hosting')
 @never_cache
 def hosting(request):
     """Form for hosting request."""
@@ -590,7 +590,7 @@ def fake_email_sent(request, reset=False):
     return redirect('email-sent')
 
 
-@session_ratelimit_post
+@session_ratelimit_post('register')
 @never_cache
 def register(request):
     """Registration form."""
@@ -675,7 +675,7 @@ def email_login(request):
 
 @login_required
 @avoid_demo
-@session_ratelimit_post
+@session_ratelimit_post('password')
 @never_cache
 def password(request):
     """Password change / set form."""
@@ -690,7 +690,7 @@ def password(request):
     if request.method == 'POST':
         form = SetPasswordForm(request.user, request.POST)
         if form.is_valid() and do_change:
-            session_ratelimit_reset(request)
+            session_ratelimit_reset(request, 'password')
 
             # Clear flag forcing user to set password
             redirect_page = '#auth'
@@ -799,7 +799,7 @@ def reset_password(request):
 @require_POST
 @login_required
 @avoid_demo
-@session_ratelimit_post
+@session_ratelimit_post('reset_api')
 def reset_api_key(request):
     """Reset user API key"""
     # Need to delete old token as key is primary key
