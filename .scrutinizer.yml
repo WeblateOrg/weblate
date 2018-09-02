@@ -21,7 +21,6 @@ build:
         analysis:
             tests:
                 override:
-                  - sed -i 's/pylint_django//' .pylintrc
                   - 
                     command: pylint-run --rcfile=.pylintrc
                     idle_timeout: 360
