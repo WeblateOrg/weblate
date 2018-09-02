@@ -258,7 +258,8 @@ def perform_translation(unit, form, request):
     return True
 
 
-def handle_translate(translation, request, this_unit_url, next_unit_url):
+@session_ratelimit_post('translate')
+def handle_translate(request, translation, this_unit_url, next_unit_url):
     """Save translation or suggestion to database and backend."""
     # Antispam protection
     antispam = AntispamForm(request.POST)
@@ -419,7 +420,6 @@ def handle_suggestions(translation, request, this_unit_url, next_unit_url):
     return HttpResponseRedirect(redirect_url)
 
 
-@session_ratelimit_post('translate')
 def translate(request, project, component, lang):
     """Generic entry point for translating, suggesting and searching."""
     translation = get_translation(request, project, component, lang)
@@ -480,8 +480,7 @@ def translate(request, project, component, lang):
                 'downvote' not in request.POST):
             # Handle translation
             response = handle_translate(
-                translation, request,
-                this_unit_url, next_unit_url
+                request, translation, this_unit_url, next_unit_url
             )
         elif not locked or 'delete' in request.POST:
             # Handle accepting/deleting suggestions
