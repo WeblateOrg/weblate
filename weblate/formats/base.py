@@ -617,10 +617,6 @@ class FileFormat(object):
 
             yield set_fuzzy, unit
 
-    def merge_header(self, otherstore):
-        """Try to merge headers"""
-        return
-
     @classmethod
     def untranslate_store(cls, store, language, fuzzy=False):
         """Remove translations from ttkit store"""

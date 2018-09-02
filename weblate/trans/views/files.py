@@ -102,7 +102,6 @@ def upload_translation(request, project, component, lang):
             request.FILES['file'],
             overwrite,
             author,
-            merge_header=form.cleaned_data['merge_header'],
             method=form.cleaned_data['method'],
             fuzzy=form.cleaned_data['fuzzy'],
         )

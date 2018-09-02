@@ -774,8 +774,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         return result
 
-    def merge_translations(self, request, store2, overwrite, method,
-                           fuzzy, merge_header):
+    def merge_translations(self, request, store2, overwrite, method, fuzzy):
         """Merge translation unit wise
 
         Needed for template based translations to add new strings.
@@ -825,12 +824,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             request.user.profile.translated += accepted
             request.user.profile.save(update_fields=['translated'])
 
-            if merge_header:
-                self.store.merge_header(store2)
-                self.store.save()
-
-            self.commit_pending('upload', request)
-
         return (not_found, skipped, accepted, store2.count_units())
 
     def merge_suggestions(self, request, store, fuzzy):
@@ -861,7 +854,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         return (not_found, skipped, accepted, store.count_units())
 
     def merge_upload(self, request, fileobj, overwrite, author=None,
-                     merge_header=True, method='translate', fuzzy=''):
+                     method='translate', fuzzy=''):
         """Top level handler for file uploads."""
         filecopy = fileobj.read()
         fileobj.close()
@@ -902,7 +895,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                     overwrite,
                     method,
                     fuzzy,
-                    merge_header,
                 )
 
         # Add as sugestions

@@ -93,35 +93,6 @@ class ImportTest(ImportBaseTest):
         unit = self.get_unit()
         self.assertEqual(unit.target, TRANSLATION_PO)
 
-    def test_import_header(self):
-        """Test importing with header merge."""
-        response = self.do_import(
-            merge_header='1',
-        )
-        self.assertRedirects(response, self.translation_url)
-
-        # Verify stats
-        translation = self.get_translation()
-        self.assertEqual(translation.stats.translated, 1)
-        self.assertEqual(translation.stats.fuzzy, 0)
-        self.assertEqual(translation.stats.all, 4)
-
-        # Verify unit
-        unit = self.get_unit()
-        self.assertEqual(unit.target, TRANSLATION_PO)
-
-        # Verify header
-        if (self.test_file == TEST_PO and
-                hasattr(unit.translation.store.store, 'parseheader')):
-            header = unit.translation.store.store.parseheader()
-            self.assertEqual(
-                header['POT-Creation-Date'], '2000-01-02 03:04+0100'
-            )
-            self.assertIn(
-                'Testing Weblate, 2015.',
-                unit.translation.store.store.header().getnotes()
-            )
-
     def test_import_author(self):
         """Test importing normally."""
         response = self.do_import(

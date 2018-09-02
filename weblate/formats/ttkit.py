@@ -267,37 +267,6 @@ class PoFormat(FileFormat):
             language_team='none',
         )
 
-    def merge_header(self, otherstore):
-        """Try to merge headers"""
-        if (not hasattr(self.store, 'updateheader') or
-                not hasattr(otherstore.store, 'parseheader')):
-            return
-        values = otherstore.store.parseheader()
-        skip_list = (
-            'Plural-Forms',
-            'Content-Type',
-            'Content-Transfer-Encoding',
-            'MIME-Version',
-            'Language',
-        )
-        update = {}
-        for key in values:
-            if key in skip_list:
-                continue
-            if values[key] == default_header.get(key):
-                continue
-            update[key] = values[key]
-
-        self.store.updateheader(**update)
-
-        header = self.store.header()
-        newheader = otherstore.store.header()
-        if not header or not newheader:
-            return
-
-        header.removenotes()
-        header.addnote(newheader.getnotes())
-
 
 class PoMonoFormat(PoFormat):
     name = _('Gettext PO file (monolingual)')

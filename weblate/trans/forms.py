@@ -592,12 +592,6 @@ class SimpleUploadForm(forms.Form):
         ),
         required=False
     )
-    merge_header = forms.BooleanField(
-        label=_('Merge file header'),
-        help_text=_('Merges content of file header into the translation.'),
-        required=False,
-        initial=True,
-    )
 
     def remove_translation_choice(self, value):
         """Remove add as translation choice."""

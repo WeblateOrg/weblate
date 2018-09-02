@@ -17,6 +17,7 @@ Released on ? 2018.
 * Added support for Baidu API machine translation.
 * Integrated maintenance and cleanup tasks using Celery.
 * Improved performance of loading translations by almost 25%.
+* Removed support for merging headers on upload.
 
 weblate 3.1.1
 -------------
