@@ -181,7 +181,7 @@ class CSVUnit(MonolingualSimpleUnit):
         if self.template is not None:
             if self.template.id:
                 return self.template.id
-            elif self.template.context:
+            if self.template.context:
                 return self.template.context
             return self.template.getid()
         return self.mainunit.getcontext()
@@ -445,7 +445,7 @@ class AndroidFormat(FileFormat):
         # Android doesn't use Hans/Hant, but rather TW/CN variants
         if code == 'zh_Hans':
             return 'zh-rCN'
-        elif code == 'zh_Hant':
+        if code == 'zh_Hant':
             return 'zh-rTW'
         return code.replace('_', '-r')
 

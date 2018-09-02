@@ -176,7 +176,7 @@ def perform_suggestion(unit, form, request):
         messages.error(request, _('Your suggestion is empty!'))
         # Stay on same entry
         return False
-    elif not request.user.has_perm('suggestion.add', unit.translation):
+    if not request.user.has_perm('suggestion.add', unit.translation):
         # Need privilege to add
         messages.error(
             request,
@@ -184,7 +184,7 @@ def perform_suggestion(unit, form, request):
         )
         # Stay on same entry
         return False
-    elif not request.user.is_authenticated:
+    if not request.user.is_authenticated:
         # Spam check
         if is_spam('\n'.join(form.cleaned_data['target']), request):
             messages.error(
@@ -470,7 +470,7 @@ def translate(request, project, component, lang):
     # Any form submitted?
     if 'skip' in request.POST:
         return redirect(next_unit_url)
-    elif (request.method == 'POST' and
+    if (request.method == 'POST' and
           (not locked or 'delete' in request.POST)):
 
         if ('accept' not in request.POST and

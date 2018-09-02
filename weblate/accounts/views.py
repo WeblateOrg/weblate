@@ -323,8 +323,7 @@ def user_remove(request):
                 _('Your account has been removed.')
             )
             return redirect('home')
-        else:
-            confirm_form = EmptyConfirmForm(request)
+        confirm_form = EmptyConfirmForm(request)
 
     elif request.method == 'POST':
         confirm_form = PasswordConfirmForm(request, request.POST)
@@ -764,7 +763,7 @@ def reset_password(request):
     # We're already in the reset phase
     if 'perform_reset' in request.session:
         return reset_password_set(request)
-    elif request.method == 'POST':
+    if request.method == 'POST':
         form = ResetForm(request.POST)
         if settings.REGISTRATION_CAPTCHA:
             captcha = CaptchaForm(request, form, request.POST)
@@ -908,13 +907,13 @@ def social_complete(request, backend):
     except AuthMissingParameter as error:
         if error.parameter in ('email', 'user', 'expires'):
             return redirect_token()
-        elif error.parameter in ('state', 'code'):
+        if error.parameter in ('state', 'code'):
             return redirect_state()
-        elif error.parameter == 'demo':
+        if error.parameter == 'demo':
             return fail(
                 _('Can not change authentication for demo!')
             )
-        elif error.parameter == 'disabled':
+        if error.parameter == 'disabled':
             return fail(
                 _('New registrations are disabled!')
             )
