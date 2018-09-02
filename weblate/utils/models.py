@@ -35,6 +35,9 @@ class WeblateConf(AppConf):
     RATELIMIT_SEARCH_WINDOW = 60
     RATELIMIT_SEARCH_LOCKOUT = 60
 
+    RATELIMIT_TRANSLATE_ATTEMPTS = 6
+    RATELIMIT_TRANSLATE_WINDOW = 60
+
     class Meta(object):
         prefix = ''
 

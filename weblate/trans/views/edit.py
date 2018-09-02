@@ -419,6 +419,7 @@ def handle_suggestions(translation, request, this_unit_url, next_unit_url):
     return HttpResponseRedirect(redirect_url)
 
 
+@session_ratelimit_post('translate')
 def translate(request, project, component, lang):
     """Generic entry point for translating, suggesting and searching."""
     translation = get_translation(request, project, component, lang)
