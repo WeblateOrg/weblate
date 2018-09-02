@@ -22,7 +22,9 @@ build:
             tests:
                 override:
                   - sed -i 's/pylint_django//' .pylintrc
-                  - pylint-run --rcfile=.pylintrc
+                  - 
+                    command: pylint-run --rcfile=.pylintrc
+                    idle_timeout: 360
                   - py-scrutinizer-run
         tests:
             tests:
