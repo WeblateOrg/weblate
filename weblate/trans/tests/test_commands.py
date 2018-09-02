@@ -477,6 +477,15 @@ class RebuildIndexTest(CheckGitTest):
             clean=True,
         )
 
+    def test_optimize(self):
+        self.expected_string = ''
+        try:
+            self.do_test(
+                optimize=True,
+            )
+        finally:
+            self.expected_string = 'Processing'
+
 
 class LockTranslationTest(CheckGitTest):
     command_name = 'lock_translation'
