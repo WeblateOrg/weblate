@@ -116,7 +116,3 @@ def session_ratelimit_post(scope):
             return function(request, *args, **kwargs)
         return rate_wrap
     return session_ratelimit_post_inner
-
-
-def session_ratelimit_reset(request, scope):
-    request.session['{}_attempts'.format(scope)] = 0

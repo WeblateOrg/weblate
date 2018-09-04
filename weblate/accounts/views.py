@@ -66,9 +66,7 @@ from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
 from weblate.accounts.models import set_lang, Profile
 from weblate.accounts.utils import remove_user
 from weblate.utils import messages
-from weblate.utils.ratelimit import (
-    session_ratelimit_post, session_ratelimit_reset,
-)
+from weblate.utils.ratelimit import session_ratelimit_post
 from weblate.trans.models import Change, Project, Component, Suggestion
 from weblate.trans.views.helper import get_project
 from weblate.accounts.forms import (
@@ -328,7 +326,6 @@ def user_remove(request):
     elif request.method == 'POST':
         confirm_form = PasswordConfirmForm(request, request.POST)
         if confirm_form.is_valid():
-            session_ratelimit_reset(request, 'remove')
             store_userid(request, remove=True)
             request.GET = {'email': request.user.email}
             return social_complete(request, 'email')
@@ -359,7 +356,6 @@ def confirm(request):
     if request.method == 'POST':
         confirm_form = PasswordConfirmForm(request, request.POST)
         if confirm_form.is_valid():
-            session_ratelimit_reset(request, 'confirm')
             request.session.pop('reauthenticate')
             request.session['reauthenticate_done'] = True
             return redirect('social:complete', backend=details['backend'])
@@ -689,8 +685,6 @@ def password(request):
     if request.method == 'POST':
         form = SetPasswordForm(request.user, request.POST)
         if form.is_valid() and do_change:
-            session_ratelimit_reset(request, 'password')
-
             # Clear flag forcing user to set password
             redirect_page = '#auth'
             if 'show_set_password' in request.session:
