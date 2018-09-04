@@ -336,6 +336,9 @@ def github_hook_helper(data):
 @register_hook
 def gitlab_hook_helper(data):
     """API to handle commit hooks from GitLab."""
+    # Ignore non known events
+    if 'ref' not in data:
+        return None
     ssh_url = data['repository']['url']
     http_url = '.'.join((data['repository']['homepage'], 'git'))
     branch = re.sub(r'^refs/heads/', '', data['ref'])
