@@ -36,7 +36,14 @@ from weblate.trans.util import path_separator
 
 # Attributes to copy from main component
 COPY_ATTRIBUTES = (
-    'project', 'branch', 'vcs', 'push_on_commit', 'license_url', 'license',
+    'project', 'branch', 'vcs',
+    'license_url', 'license', 'agreement',
+    'report_source_bugs', 'allow_translation_propagation', 'save_history',
+    'enable_suggestions', 'suggestion_voting', 'suggestion_autoaccept',
+    'check_flags', 'new_lang',
+    'commit_message', 'add_message', 'delete_message',
+    'committer_name', 'committer_email',
+    'push_on_commit', 'commit_pending_age',
 )
 
 
