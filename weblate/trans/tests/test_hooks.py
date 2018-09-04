@@ -707,5 +707,5 @@ class HooksViewTest(ViewTestCase):
         self.assertContains(
             response,
             'Invalid data in json payload!',
-            status_code=400
+            status_code=200
         )
