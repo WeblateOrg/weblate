@@ -149,6 +149,9 @@ def vcs_service_hook(request, service):
     except (ValueError, KeyError, UnicodeError):
         return HttpResponseBadRequest('Could not parse JSON payload!')
 
+    if not data:
+        return HttpResponseBadRequest('Invalid data in json payload!')
+
     # Get service helper
     hook_helper = HOOK_HANDLERS[service]
 

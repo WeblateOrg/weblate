@@ -699,6 +699,16 @@ class HooksViewTest(ViewTestCase):
             'Could not parse JSON payload!',
             status_code=400
         )
+        # missing params
+        response = self.client.post(
+            reverse('hook-gitlab'), '{"other":42}',
+            content_type="application/json"
+        )
+        self.assertContains(
+            response,
+            'Hook working',
+            status_code=200
+        )
         # missing data
         response = self.client.post(
             reverse('hook-gitlab'), '{}',
@@ -707,5 +717,5 @@ class HooksViewTest(ViewTestCase):
         self.assertContains(
             response,
             'Invalid data in json payload!',
-            status_code=200
+            status_code=400
         )
