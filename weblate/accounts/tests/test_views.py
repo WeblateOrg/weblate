@@ -376,6 +376,7 @@ class ProfileTest(FixtureTestCase):
                 'email': 'weblate@example.org',
                 'username': 'testik',
                 'dashboard_view': Profile.DASHBOARD_WATCHED,
+                'translate_mode': Profile.TRANSLATE_FULL,
             }
         )
         self.assertRedirects(response, reverse('profile'))
