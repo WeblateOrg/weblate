@@ -80,7 +80,8 @@ def get_string(text):
         return ''
     if hasattr(text, 'strings'):
         return join_plural(text.strings)
-    return text
+    # We might get integer or float in some formats
+    return force_text(text)
 
 
 def is_repo_link(val):
