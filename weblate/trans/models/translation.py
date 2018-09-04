@@ -185,11 +185,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         )
 
     def get_translate_url(self):
-        return reverse('translate', kwargs={
-            'project': self.component.project.slug,
-            'component': self.component.slug,
-            'lang': self.language.code
-        })
+        return reverse('translate', kwargs=self.get_reverse_url_kwargs())
 
     def __str__(self):
         return '{0} - {1}'.format(
@@ -907,13 +903,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             )
             for translation in related:
                 translation.invalidate_cache(False)
-
-    def get_kwargs(self):
-        return {
-            'lang': self.language.code,
-            'component': self.component.slug,
-            'project': self.component.project.slug
-        }
 
     def get_export_url(self):
         """Return URL of exported git repository."""

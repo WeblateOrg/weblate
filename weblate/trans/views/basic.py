@@ -276,7 +276,7 @@ def show_translation(request, project, component, lang):
                 },
             ),
             'last_changes': last_changes,
-            'last_changes_url': urlencode(obj.get_kwargs()),
+            'last_changes_url': urlencode(obj.get_reverse_url_kwargs()),
             'show_only_component': True,
             'other_translations': prefetch_stats(
                 Translation.objects.prefetch().filter(
