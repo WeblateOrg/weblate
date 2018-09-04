@@ -1369,6 +1369,8 @@ In short, you need to adjust :file:`settings.py`:
 
 .. code-block:: python
 
+    import raven
+
     # Add raven to apps:
     INSTALLED_APPS = (
         # ... other app classes ...
@@ -1377,7 +1379,9 @@ In short, you need to adjust :file:`settings.py`:
 
 
     RAVEN_CONFIG = {
-        'dsn': 'https://your.sentry.example.com/',
+        'dsn': 'https://id:key@your.sentry.example.com/',
+        # Setting public_dsn will allow collecting user feedback on errors
+        'public_dsn': 'https://id@your.sentry.example.com/',
         # If you are using git, you can also automatically configure the
         # release based on the git info.
         'release': raven.fetch_git_sha(BASE_DIR),

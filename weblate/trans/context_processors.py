@@ -65,6 +65,12 @@ def weblate_context(request):
         rollbar_token = None
         rollbar_environment = None
 
+    if (hasattr(settings, 'RAVEN_CONFIG') and
+            'public_dsn' in settings.RAVEN_CONFIG):
+        sentry_dsn = settings.RAVEN_CONFIG['public_dsn']
+    else:
+        sentry_dsn = None
+
     weblate_url = URL_BASE % weblate.VERSION
 
     return {
@@ -111,6 +117,7 @@ def weblate_context(request):
 
         'rollbar_token': rollbar_token,
         'rollbar_environment': rollbar_environment,
+        'sentry_dsn': sentry_dsn,
         'allow_index': False,
         'legal': 'weblate.legal' in settings.INSTALLED_APPS,
         'status_url': settings.STATUS_URL,

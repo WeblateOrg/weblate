@@ -20,6 +20,7 @@ Released on ? 2018.
 * Removed support for merging headers on upload.
 * Removed support for custom commit messages.
 * Configurable editing mode (zen/full).
+* Added support for error reporting to Sentry.
 
 weblate 3.1.1
 -------------
