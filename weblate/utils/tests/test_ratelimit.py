@@ -19,18 +19,26 @@
 #
 
 from time import sleep
-from unittest import TestCase
 
+from django.contrib.auth.models import AnonymousUser
+from django.contrib.messages.storage import default_storage
 from django.http.request import HttpRequest
 from django.test.utils import override_settings
+from django.test import SimpleTestCase
 
-from weblate.utils.ratelimit import reset_rate_limit, check_rate_limit
+from weblate.utils.ratelimit import (
+    reset_rate_limit, check_rate_limit, session_ratelimit_post,
+)
 
 
-class RateLimitTest(TestCase):
+class RateLimitTest(SimpleTestCase):
     def get_request(self):
         request = HttpRequest()
         request.META['REMOTE_ADDR'] = '1.2.3.4'
+        request.method = 'POST'
+        request.session = {}
+        request._messages = default_storage(request)
+        request.user = AnonymousUser()
         return request
 
     def setUp(self):
@@ -94,3 +102,18 @@ class RateLimitTest(TestCase):
         self.assertFalse(
             check_rate_limit('test', request)
         )
+
+    @override_settings(
+        RATELIMIT_ATTEMPTS=1,
+        RATELIMIT_WINDOW=1,
+    )
+    def test_session(self):
+        request = self.get_request()
+
+        limiter = session_ratelimit_post('test')(lambda request: 'RESPONSE')
+
+        self.assertEqual(limiter(request), 'RESPONSE')
+        self.assertEqual(limiter(request).url, '/accounts/login/')
+        self.assertEqual(limiter(request).url, '/accounts/login/')
+        sleep(1)
+        self.assertEqual(limiter(request), 'RESPONSE')

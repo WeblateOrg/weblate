@@ -89,7 +89,7 @@ def session_ratelimit_post(scope):
                 # Reset expired counter
                 if (k_timeout in session and
                         k_attempts in session and
-                        session[k_timeout] >= now):
+                        session[k_timeout] <= now):
                     session[k_attempts] = 0
 
                 # Get current attempts
