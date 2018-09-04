@@ -1,0 +1,499 @@
+{
+    "kind": "Template",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "weblate-persistent-mysql",
+        "annotations": {
+            "openshift.io/display-name": "Weblate (Persistent / MySQL)",
+            "description": "Creates a Weblate installation with separate MySQL database instance. Requires that two persistent volumes be available. If a ReadWriteMany persistent volume type is available and used, Weblate can be scaled to multiple replicas and the deployment strategy switched to Rolling to permit rolling deployments on restarts.",
+            "tags": "quickstart,python,weblate",
+            "iconClass": "icon-python"
+        }
+    },
+    "parameters": [
+        {
+            "name": "APPLICATION_NAME",
+            "description": "The name of the Weblate instance.",
+            "value": "my-weblate-site",
+            "from": "[a-zA-Z0-9]",
+            "required": true
+        },
+        {
+            "name": "WEBLATE_REPOSITORY_URL",
+            "description": "The URL of the Weblate Git repository.",
+            "value": "https://github.com/GrahamDumpleton/weblate",
+            "required": true
+        },
+        {
+            "name": "WEBLATE_VOLUME_SIZE",
+            "description": "Size of the persistent volume for Weblate.",
+            "value": "1Gi",
+            "required": true
+        },
+        {
+            "name": "WEBLATE_VOLUME_TYPE",
+            "description": "Type of the persistent volume for Weblate.",
+            "value": "ReadWriteOnce",
+            "required": true
+        },
+        {
+            "name": "WEBLATE_DEPLOYMENT_STRATEGY",
+            "description": "Type of the deployment strategy for Weblate.",
+            "value": "Recreate",
+            "required": true
+        },
+        {
+            "name": "WEBLATE_MEMORY_LIMIT",
+            "description": "Amount of memory available to Weblate.",
+            "value": "256Mi",
+            "required": true
+        },
+        {
+            "name": "WEBLATE_ADMIN_USERNAME",
+            "description": "Name of initial admin user to create",
+            "from": "admin[0-9]{5}",
+            "generate": "expression"
+        },
+        {
+            "name": "WEBLATE_ADMIN_PASSWORD",
+            "description": "Password of the initial admin user.",
+            "from": "[a-zA-Z0-9]{12}",
+            "generate": "expression"
+        },
+        {
+            "name": "WEBLATE_ADMIN_EMAIL",
+            "description": "Email address of the initial admin user.",
+            "value": "noreply@example.com",
+            "required": true
+        },
+        {
+            "name": "DATABASE_VOLUME_SIZE",
+            "description": "Size of the persistent volume for the database.",
+            "value": "1Gi",
+            "required": true
+        },
+        {
+            "name": "DATABASE_MEMORY_LIMIT",
+            "description": "Amount of memory available to the database.",
+            "value": "512Mi",
+            "required": true
+        },
+        {
+            "description": "The name of the database user.",
+            "name": "DATABASE_USERNAME",
+            "from": "user[0-9]{6}",
+            "generate": "expression"
+        },
+        {
+            "description": "The password for the database user.",
+            "name": "DATABASE_PASSWORD",
+            "from": "[a-zA-Z0-9]{12}",
+            "generate": "expression"
+        },
+        {
+            "name": "MYSQL_VERSION",
+            "description": "The version of the MySQL database.",
+            "value": "5.7",
+            "required": true
+        },
+        {
+            "name": "PYTHON_VERSION",
+            "description": "The version of the Python builder.",
+            "value": "3.5",
+            "required": true
+        }
+    ],
+    "objects": [
+        {
+            "kind": "ImageStream",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "${APPLICATION_NAME}-img",
+                "labels": {
+                    "app": "${APPLICATION_NAME}"
+                }
+            }
+        },
+        {
+            "kind": "BuildConfig",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "${APPLICATION_NAME}",
+                "labels": {
+                    "app": "${APPLICATION_NAME}"
+                }
+            },
+            "spec": {
+                "triggers": [
+                    {
+                        "type": "ConfigChange"
+                    },
+                    {
+                        "type": "ImageChange"
+                    }
+                ],
+                "source": {
+                    "type": "Git",
+                    "git": {
+                        "uri": "${WEBLATE_REPOSITORY_URL}"
+                    }
+                },
+                "strategy": {
+                    "type": "Source",
+                    "sourceStrategy": {
+                        "from": {
+                            "kind": "ImageStreamTag",
+                            "namespace": "openshift",
+                            "name": "python:${PYTHON_VERSION}"
+                        }
+                    }
+                },
+                "output": {
+                    "to": {
+                        "kind": "ImageStreamTag",
+                        "name": "${APPLICATION_NAME}-img:latest"
+                    }
+                }
+            }
+        },
+        {
+            "kind": "DeploymentConfig",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "${APPLICATION_NAME}",
+                "labels": {
+                    "app": "${APPLICATION_NAME}"
+                }
+            },
+            "spec": {
+                "strategy": {
+                    "type": "${WEBLATE_DEPLOYMENT_STRATEGY}"
+                },
+                "triggers": [
+                    {
+                        "type": "ConfigChange"
+                    },
+                    {
+                        "type": "ImageChange",
+                        "imageChangeParams": {
+                            "automatic": true,
+                            "containerNames": [
+                                "weblate"
+                            ],
+                            "from": {
+                                "kind": "ImageStreamTag",
+                                "name": "${APPLICATION_NAME}-img:latest"
+                            }
+                        }
+                    }
+                ],
+                "replicas": 1,
+                "selector": {
+                    "app": "${APPLICATION_NAME}",
+                    "deploymentconfig": "${APPLICATION_NAME}"
+                },
+                "template": {
+                    "metadata": {
+                        "labels": {
+                            "app": "${APPLICATION_NAME}",
+                            "deploymentconfig": "${APPLICATION_NAME}"
+                        }
+                    },
+                    "spec": {
+                        "volumes": [
+                            {
+                                "name": "data",
+                                "persistentVolumeClaim": {
+                                    "claimName": "${APPLICATION_NAME}-weblate-data"
+                                }
+                            }
+                        ],
+                        "containers": [
+                            {
+                                "name": "weblate",
+                                "image": "${APPLICATION_NAME}-img",
+                                "ports": [
+                                    {
+                                        "containerPort": 8080,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {
+                                    "limits": {
+                                        "memory": "${WEBLATE_MEMORY_LIMIT}"
+                                    }
+                                },
+                                "env": [
+                                    {
+                                        "name": "DJANGO_ADMIN_USERNAME",
+                                        "value": "${WEBLATE_ADMIN_USERNAME}"
+                                    },
+                                    {
+                                        "name": "DJANGO_ADMIN_PASSWORD",
+                                        "value": "${WEBLATE_ADMIN_PASSWORD}"
+                                    },
+                                    {
+                                        "name": "DJANGO_ADMIN_EMAIL",
+                                        "value": "${WEBLATE_ADMIN_EMAIL}"
+                                    },
+                                    {
+                                        "name": "OPENSHIFT_APP_NAME",
+                                        "value": "weblate"
+                                    },
+                                    {
+                                        "name": "OPENSHIFT_MYSQL_DB_URL",
+                                        "value": "mysql://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@${APPLICATION_NAME}-db:3306/weblate"
+                                    },
+                                    {
+                                        "name": "OPENSHIFT_MYSQL_DB_USERNAME",
+                                        "value": "${DATABASE_USERNAME}"
+                                    },
+                                    {
+                                        "name": "OPENSHIFT_MYSQL_DB_PASSWORD",
+                                        "value": "${DATABASE_PASSWORD}"
+                                    },
+                                    {
+                                        "name": "OPENSHIFT_MYSQL_DB_HOST",
+                                        "value": "${APPLICATION_NAME}-db"
+                                    },
+                                    {
+                                        "name": "OPENSHIFT_MYSQL_DB_PORT",
+                                        "value": "3306"
+                                    }
+                                ],
+                                "volumeMounts": [
+                                    {
+                                        "name": "data",
+                                        "mountPath": "/opt/app-root/data"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "kind": "DeploymentConfig",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "${APPLICATION_NAME}-db",
+                "labels": {
+                    "app": "${APPLICATION_NAME}"
+                }
+            },
+            "spec": {
+                "strategy": {
+                    "type": "Recreate"
+                },
+                "triggers": [
+                    {
+                        "type": "ConfigChange"
+                    },
+                    {
+                        "type": "ImageChange",
+                        "imageChangeParams": {
+                            "automatic": true,
+                            "containerNames": [
+                                "mysql"
+                            ],
+                            "from": {
+                                "kind": "ImageStreamTag",
+                                "namespace": "openshift",
+                                "name": "mysql:${MYSQL_VERSION}"
+                            }
+                        }
+                    }
+                ],
+                "replicas": 1,
+                "selector": {
+                    "app": "${APPLICATION_NAME}",
+                    "deploymentconfig": "${APPLICATION_NAME}-db"
+                },
+                "template": {
+                    "metadata": {
+                        "labels": {
+                            "app": "${APPLICATION_NAME}",
+                            "deploymentconfig": "${APPLICATION_NAME}-db"
+                        }
+                    },
+                    "spec": {
+                        "volumes": [
+                            {
+                                "name": "data",
+                                "persistentVolumeClaim": {
+                                    "claimName": "${APPLICATION_NAME}-mysql-data"
+                                }
+                            }
+                        ],
+                        "containers": [
+                            {
+                                "name": "mysql",
+                                "image": "mysql",
+                                "ports": [
+                                    {
+                                        "containerPort": 3306,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {
+                                    "limits": {
+                                        "memory": "${DATABASE_MEMORY_LIMIT}"
+                                    }
+                                },
+                                "readinessProbe": {
+                                  "timeoutSeconds": 1,
+                                  "initialDelaySeconds": 5,
+                                  "exec": {
+                                    "command": [ "/bin/sh", "-i", "-c",
+                                      "MYSQL_PWD=\"$MYSQL_PASSWORD\" mysql -h 127.0.0.1 -u $MYSQL_USER -D $MYSQL_DATABASE -e 'SELECT 1'"]
+                                  }
+                                },
+                                "livenessProbe": {
+                                  "timeoutSeconds": 1,
+                                  "initialDelaySeconds": 30,
+                                  "tcpSocket": {
+                                    "port": 3306
+                                  }
+                                },
+                                "env": [
+                                    {
+                                        "name": "MYSQL_DATABASE",
+                                        "value": "weblate"
+                                    },
+                                    {
+                                        "name": "MYSQL_USER",
+                                        "value": "${DATABASE_USERNAME}"
+                                    },
+                                    {
+                                        "name": "MYSQL_PASSWORD",
+                                        "value": "${DATABASE_PASSWORD}"
+                                    }
+                                ],
+                                "volumeMounts": [
+                                    {
+                                        "name": "data",
+                                        "mountPath": "/var/lib/mysql/data"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "kind": "Service",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "${APPLICATION_NAME}",
+                "labels": {
+                    "app": "${APPLICATION_NAME}"
+                }
+            },
+            "spec": {
+                "ports": [
+                    {
+                        "name": "8080-tcp",
+                        "protocol": "TCP",
+                        "port": 8080,
+                        "targetPort": 8080
+                    }
+                ],
+                "selector": {
+                    "app": "${APPLICATION_NAME}",
+                    "deploymentconfig": "${APPLICATION_NAME}"
+                }
+            }
+        },
+        {
+            "kind": "Service",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "${APPLICATION_NAME}-db",
+                "labels": {
+                    "app": "${APPLICATION_NAME}"
+                }
+            },
+            "spec": {
+                "ports": [
+                    {
+                        "name": "3306-tcp",
+                        "protocol": "TCP",
+                        "port": 3306,
+                        "targetPort": 3306
+                    }
+                ],
+                "selector": {
+                    "app": "${APPLICATION_NAME}",
+                    "deploymentconfig": "${APPLICATION_NAME}-db"
+                }
+            }
+        },
+        {
+            "kind": "Route",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "${APPLICATION_NAME}",
+                "labels": {
+                    "app": "${APPLICATION_NAME}"
+                }
+            },
+            "spec": {
+                "host": "",
+                "to": {
+                    "kind": "Service",
+                    "name": "${APPLICATION_NAME}",
+                    "weight": 100
+                },
+                "port": {
+                    "targetPort": 8080
+                },
+                "tls": {
+                    "termination": "edge",
+                    "insecureEdgeTerminationPolicy": "Allow"
+                }
+            }
+        },
+        {
+            "kind": "PersistentVolumeClaim",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "${APPLICATION_NAME}-mysql-data",
+                "labels": {
+                    "app": "${APPLICATION_NAME}"
+                }
+            },
+            "spec": {
+                "accessModes": [
+                    "ReadWriteOnce"
+                ],
+                "resources": {
+                    "requests": {
+                        "storage": "${DATABASE_VOLUME_SIZE}"
+                    }
+                }
+            }
+        },
+        {
+            "kind": "PersistentVolumeClaim",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "${APPLICATION_NAME}-weblate-data",
+                "labels": {
+                    "app": "${APPLICATION_NAME}"
+                }
+            },
+            "spec": {
+                "accessModes": [
+                    "${WEBLATE_VOLUME_TYPE}"
+                ],
+                "resources": {
+                    "requests": {
+                        "storage": "${WEBLATE_VOLUME_SIZE}"
+                    }
+                }
+            }
+        }
+    ]
+}

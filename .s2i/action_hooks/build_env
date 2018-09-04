@@ -1,0 +1,14 @@
+# This is a 'build_env' action hook. This script will be executed inline
+# to the custom 'assemble' script and therefore doesn't need to start
+# with a '#!' line nor be marked as an executable file. This script will
+# be interpreted as if it is a 'bash' script. This script can be used to
+# dynamically set additional environment variables required by the build
+# process. These might for example be environment variables which
+# specify where third party libraries or packages installed from the
+# 'pre_build' hook are located and which may be needed when building
+# application artefacts. When we source the 'build_env' script, any
+# environment variables set by it will be automatically exported.
+# Although principally intended for setting environment variables, it
+# can include other script logic, but this should be avoided except
+# to the extent it is required to work out what to set any environment
+# variables to.
