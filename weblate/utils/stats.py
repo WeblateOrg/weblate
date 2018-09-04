@@ -246,7 +246,7 @@ class TranslationStats(BaseStats):
             ),
             suggestions=conditional_sum(1, has_suggestion=True),
             suggestions_words=conditional_sum(
-                1, has_suggestion=True
+                'num_words', has_suggestion=True
             ),
             comments=conditional_sum(1, has_comment=True),
             comments_words=conditional_sum(
