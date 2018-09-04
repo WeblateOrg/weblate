@@ -150,7 +150,7 @@ class ComponentDiscovery(object):
 
         # Copy attributes from main component
         for key in COPY_ATTRIBUTES:
-            if key not in kwargs:
+            if key not in kwargs and main is not None:
                 kwargs[key] = getattr(main, key)
 
         # Fill in repository
