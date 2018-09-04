@@ -865,7 +865,7 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
-    :<json string operation: Operation to perform, one of ``push``, ``pull``, ``commit``, ``reset``, ``cleanup``
+    :<json string operation: Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, ``cleanup``
     :>json boolean result: result of the operation
 
     .. seealso::
