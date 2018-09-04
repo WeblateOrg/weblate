@@ -28,7 +28,8 @@
 </tr>
 <tbody>
 {% for trans in translations %}
-{% with percent=trans.stats.translated_percent fuzzy=trans.stats.fuzzy_percent checks=trans.stats.allchecks untranslated=trans.stats.untranslated suggestions=trans.stats.suggestions translate_url=trans.get_translate_url %}
+{% get_translate_url trans as translate_url %}
+{% with percent=trans.stats.translated_percent fuzzy=trans.stats.fuzzy_percent checks=trans.stats.allchecks untranslated=trans.stats.untranslated suggestions=trans.stats.suggestions %}
 <tr>
 <th><a href="{{ trans.get_absolute_url }}">{% if show_language == 1 %}{{ trans.language }}{% elif show_only_component %}{{ trans.component.name }}{% elif show_language == 3 or show_language == 4 %}{{ trans }}{% else %}{{ trans.component }}{% endif %}{% if show_language == 2 %} ({{ trans.language }}){% endif %}</a>
 {% if trans.is_template %}<span class="badge pull-right flip tooltip-control" title="{% trans "This translation is being used as source strings within this component." %}">{% trans "source" %}</span>{% endif %}

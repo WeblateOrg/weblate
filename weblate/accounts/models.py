@@ -333,6 +333,16 @@ class Profile(models.Model):
         ),
         validators=[validate_editor],
     )
+    TRANSLATE_FULL = 0
+    TRANSLATE_ZEN = 1
+    translate_mode = models.IntegerField(
+        verbose_name=_('Translation editor mode'),
+        choices=(
+            (TRANSLATE_FULL, _('Full editor')),
+            (TRANSLATE_ZEN, _('Zen mode')),
+        ),
+        default=TRANSLATE_FULL,
+    )
     special_chars = models.CharField(
         default='', blank=True,
         max_length=30,

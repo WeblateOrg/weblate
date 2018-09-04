@@ -27,18 +27,20 @@ from datetime import date
 from django.utils.html import escape, urlize
 from django.templatetags.static import static
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _, ungettext, ugettext_lazy
 from django.utils import timezone
 from django import template
 
+from weblate.accounts.models import Profile
 from weblate.trans.simplediff import html_diff
 from weblate.trans.util import split_plural
 from weblate.lang.models import Language
 from weblate.trans.models import (
     Project, Component, Dictionary, WhiteboardMessage, Unit,
-    ContributorAgreement,
+    ContributorAgreement, Translation,
 )
 from weblate.checks import CHECKS, highlight_string
 from weblate.utils.docs import get_doc_url
@@ -712,3 +714,15 @@ def show_contributor_agreement(context, component):
             'next': context['request'].get_full_path(),
         }
     )
+
+
+@register.simple_tag(takes_context=True)
+def get_translate_url(context, translation):
+    """Get translate URL based on user preference."""
+    if not isinstance(translation, Translation):
+        return ''
+    if context['user'].profile.translate_mode == Profile.TRANSLATE_ZEN:
+        name = 'zen'
+    else:
+        name = 'translate'
+    return reverse(name, kwargs=translation.get_reverse_url_kwargs())

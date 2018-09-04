@@ -19,6 +19,7 @@ Released on ? 2018.
 * Improved performance of loading translations by almost 25%.
 * Removed support for merging headers on upload.
 * Removed support for custom commit messages.
+* Configurable editing mode (zen/full).
 
 weblate 3.1.1
 -------------
