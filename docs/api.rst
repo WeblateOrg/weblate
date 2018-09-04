@@ -171,7 +171,7 @@ API Entry Point
           GET /api/ HTTP/1.1
           Host: example.com
           Accept: application/json, text/javascript
-          Autorization: Token YOUR-TOKEN
+          Authorization: Token YOUR-TOKEN
 
     **Example response:**
 
