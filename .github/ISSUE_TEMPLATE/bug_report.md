@@ -20,16 +20,25 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
+**Server configuration and status**
+Please paste the output of `list_versions` and `check --deploy` commands over
+here. Depending on installation these can be executed in different way, please
+consult https://docs.weblate.org/en/latest/admin/management.html for more
+details.
 
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
+On Git checkout:
+
+```
+./manage.py list_versions
+./manage.py check --deploy
+```
+
+Using docker-compose:
+
+```
+docker-compose exec weblate weblate list_versions
+docker-compose exec weblate weblate check --deploy
+```
 
 **Additional context**
 Add any other context about the problem here.
