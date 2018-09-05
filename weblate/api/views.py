@@ -453,10 +453,14 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
                 not request.user.has_perm('upload.overwrite', obj)):
             raise PermissionDenied()
 
+        can_author = request.user.has_perm('upload.authorship', obj)
+
         not_found, skipped, accepted, total = obj.merge_upload(
             request,
             serializer.validated_data['file'],
             serializer.validated_data['overwrite'],
+            serializer.validated_data['email'] if can_author else None,
+            serializer.validated_data['author'] if can_author else None,
         )
 
         return Response(data={
