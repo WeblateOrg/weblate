@@ -367,7 +367,7 @@ def update_project_bill(sender, instance, **kwargs):
     if isinstance(instance, Component):
         instance = instance.project
     for billing in instance.billing_set.iterator():
-        instance.billing.check_limits()
+        billing.check_limits()
 
 
 @receiver(m2m_changed, sender=Billing.projects.through)
