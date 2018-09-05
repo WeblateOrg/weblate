@@ -24,6 +24,7 @@ from datetime import timedelta
 
 from celery.schedules import crontab
 
+from django.conf import settings
 from django.db import transaction
 from django.utils import timezone
 
@@ -221,12 +222,28 @@ def cleanup_suggestions():
                 )
 
 
+@app.task
+def update_remotes():
+    """Update all remote branches (without attempt to merge)."""
+    non_linked = Component.objects.exclude(repo__startswith='weblate:')
+    for component in non_linked.iterator():
+        if settings.AUTO_UPDATE:
+            component.do_update()
+        else:
+            component.update_remote_branch()
+
+
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(
         3600,
         commit_pending.s(),
         name='commit-pending',
+    )
+    sender.add_periodic_task(
+        3600,
+        update_remotes.s(),
+        name='update-remotes',
     )
     sender.add_periodic_task(
         3600 * 24,

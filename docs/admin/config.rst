@@ -58,6 +58,21 @@ Defaults to 10.
 
     :ref:`rate-limit`,
 
+.. setting:: AUTO_UPDATE
+
+AUTO_UPDATE
+-----------
+
+.. versionadded:: 3.2
+
+Automatically update all repositories on daily basis. This can be useful if you
+do not use :ref:`hooks` to update Weblate repositories automatically.
+
+.. note::
+
+    This requires :ref:`celery` working and you will have to restart celery for
+    this setting to take effect.
+
 .. setting:: AVATAR_URL_PREFIX
 
 AVATAR_URL_PREFIX
