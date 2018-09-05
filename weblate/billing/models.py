@@ -22,6 +22,8 @@ from __future__ import unicode_literals
 
 from datetime import timedelta
 
+from django.db.models.signals import post_save, m2m_changed
+from django.dispatch import receiver
 from django.db import models
 from django.db.models import Q
 from django.core.exceptions import ValidationError
@@ -266,19 +268,26 @@ class Billing(models.Model):
     # Translators: Whether the package is inside displayed (soft) limits
     in_display_limits.short_description = _('In display limits')
 
-    def check_limits(self, grace=30):
+    def check_limits(self, grace=30, save=True):
         due_date = timezone.now() - timedelta(days=grace)
         in_limits = self.check_in_limits()
         paid = self.invoice_set.filter(end__gt=due_date).exists()
 
         if self.check_trial_expiry():
             self.state = Billing.STATE_EXPIRED
-            self.save(update_fields=['state'])
+            if save:
+                self.save(update_fields=['state'])
 
         if self.in_limits != in_limits or self.paid != paid:
             self.in_limits = in_limits
             self.paid = paid
-            self.save(update_fields=['in_limits', 'paid'])
+            if save:
+                self.save(update_fields=['in_limits', 'paid'])
+
+    def save(self, *args, **kwargs):
+        if self.pk:
+            self.check_limits(save=False)
+        super(Billing, self).save(*args, **kwargs)
 
 
 @python_2_unicode_compatible
@@ -350,3 +359,17 @@ class Invoice(models.Model):
                     ', '.join([str(x) for x in overlapping])
                 )
             )
+
+
+@receiver(post_save, sender=Component)
+@receiver(post_save, sender=Project)
+def update_project_bill(sender, instance, **kwargs):
+    if isinstance(instance, Component):
+        instance = instance.project
+    for billing in instance.billing_set.iterator():
+        instance.billing.check_limits()
+
+
+@receiver(m2m_changed, sender=Billing.projects.through)
+def change_componentlist(sender, instance, **kwargs):
+    instance.check_limits()

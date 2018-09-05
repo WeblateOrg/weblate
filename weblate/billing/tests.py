@@ -93,11 +93,13 @@ class BillingTest(TestCase):
         self.assertContains(response, 'Current plan')
 
     def test_limit_projects(self):
-        self.assertTrue(self.billing.in_limits())
+        self.assertTrue(self.billing.in_limits)
         self.add_project()
-        self.assertTrue(self.billing.in_limits())
+        self.billing.refresh_from_db()
+        self.assertTrue(self.billing.in_limits)
         self.add_project()
-        self.assertFalse(self.billing.in_limits())
+        self.billing.refresh_from_db()
+        self.assertFalse(self.billing.in_limits)
 
     def test_commands(self):
         out = StringIO()
