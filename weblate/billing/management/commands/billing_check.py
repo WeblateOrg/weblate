@@ -21,6 +21,7 @@
 from django.core.management.base import BaseCommand
 
 from weblate.billing.models import Billing
+from weblate.billing.tasks import billing_notify
 
 
 class Command(BaseCommand):
@@ -39,8 +40,16 @@ class Command(BaseCommand):
             action='store_true',
             help='list valid ones',
         )
+        parser.add_argument(
+            '--notify',
+            action='store_true',
+            help='send email notifications',
+        )
 
     def handle(self, *args, **options):
+        if options['notify']:
+            billing_notify()
+            return
         Billing.objects.check_limits(options['grace'])
         if options['valid']:
             for bill in Billing.objects.get_valid():

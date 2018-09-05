@@ -23,6 +23,7 @@ import os.path
 
 from django.test import TestCase
 from django.test.utils import override_settings
+from django.core import mail
 from django.core.exceptions import ValidationError
 from django.core.management import call_command
 from django.urls import reverse
@@ -124,6 +125,8 @@ class BillingTest(TestCase):
             'Following billings are past due date:\n'
             ' * test0, test1 (test)\n'
         )
+        call_command('billing_check', '--notify', stdout=out)
+        self.assertEqual(len(mail.outbox), 1)
 
     def test_invoice_validation(self):
         invoice = Invoice(
