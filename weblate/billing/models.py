@@ -57,20 +57,9 @@ class Plan(models.Model):
 
 class BillingManager(models.Manager):
     def check_limits(self, grace=30):
-        now = timezone.now()
-        due_date = now - timedelta(days=grace)
         for bill in self.all():
-            in_limits = bill.check_in_limits()
-            paid = bill.invoice_set.filter(end__gt=due_date).exists()
+            bill.check_limits(grace)
 
-            if bill.check_trial_expiry():
-                bill.state = Billing.STATE_EXPIRED
-                bill.save(update_fields=['state'])
-
-            if bill.in_limits != in_limits or bill.paid != paid:
-                bill.in_limits = in_limits
-                bill.paid = paid
-                bill.save(update_fields=['in_limits', 'paid'])
 
     def get_out_of_limits(self):
         return self.filter(in_limits=False)
@@ -268,6 +257,20 @@ class Billing(models.Model):
     in_display_limits.boolean = True
     # Translators: Whether the package is inside displayed (soft) limits
     in_display_limits.short_description = _('In display limits')
+
+    def check_limits(self, grace=30):
+        due_date = timezone.now() - timedelta(days=grace)
+        in_limits = self.check_in_limits()
+        paid = self.invoice_set.filter(end__gt=due_date).exists()
+
+        if self.check_trial_expiry():
+            self.state = Billing.STATE_EXPIRED
+            self.save(update_fields=['state'])
+
+        if self.in_limits != in_limits or self.paid != paid:
+            self.in_limits = in_limits
+            self.paid = paid
+            self.save(update_fields=['in_limits', 'paid'])
 
 
 @python_2_unicode_compatible
