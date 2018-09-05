@@ -42,9 +42,9 @@ class BillingAdmin(WeblateModelAdmin):
         'unit_count',
         'display_projects', 'display_repositories', 'display_strings',
         'display_words', 'display_languages',
-        'in_limits', 'in_display_limits', 'last_invoice'
+        'in_limits', 'in_display_limits', 'paid', 'last_invoice',
     )
-    list_filter = ('plan', 'state')
+    list_filter = ('plan', 'state', 'paid', 'in_limits')
     search_fields = ('projects__name',)
 
     def list_projects(self, obj):

@@ -27,7 +27,11 @@ from weblate.billing.models import Billing
 
 @app.task
 def billing_check():
-    limit, due = Billing.objects.check_limits()
+    Billing.objects.check_limits()
+
+    limit = Billing.objects.get_out_of_limits()
+    due = Billing.objects.get_unpaid()
+
     if limit or due:
         send_notification_email(
             'en', 'ADMINS', 'billing_check',
@@ -38,7 +42,6 @@ def billing_check():
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(
-        10,
         3600 * 24,
         billing_check.s(),
         name='billing-check',

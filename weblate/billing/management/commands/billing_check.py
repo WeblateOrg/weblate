@@ -36,7 +36,9 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        limit, due = Billing.objects.check_limits(options['grace'])
+        Billing.objects.check_limits(options['grace'])
+        limit = Billing.objects.get_out_of_limits()
+        due = Billing.objects.get_unpaid()
 
         if limit:
             self.stdout.write('Following billings are over limit:')

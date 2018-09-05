@@ -57,18 +57,26 @@ class Plan(models.Model):
 
 class BillingManager(models.Manager):
     def check_limits(self, grace=30):
-        limit = []
-        due = []
+        now = timezone.now()
+        due_date = now - timedelta(days=grace)
         for bill in self.all():
-            if not bill.in_limits():
-                limit.append(bill)
+            in_limits = bill.check_in_limits()
+            paid = bill.invoice_set.filter(end__gt=due_date).exists()
 
-        due_date = timezone.now() - timedelta(days=grace)
-        for bill in self.filter(state=Billing.STATE_ACTIVE):
-            if not bill.invoice_set.filter(end__gt=due_date).exists():
-                due.append(bill)
+            if bill.check_trial_expiry():
+                bill.state = Billing.STATE_EXPIRED
+                bill.save(update_fields=['state'])
 
-        return limit, due
+            if bill.in_limits != in_limits or bill.paid != paid:
+                bill.in_limits = in_limits
+                bill.paid = paid
+                bill.save(update_fields=['in_limits', 'paid'])
+
+    def get_out_of_limits(self):
+        return self.filter(in_limits=False)
+
+    def get_unpaid(self):
+        return self.filter(state=Billing.STATE_ACTIVE, paid=False)
 
 
 @python_2_unicode_compatible
@@ -79,9 +87,13 @@ class Billing(models.Model):
 
     plan = models.ForeignKey(
         Plan,
-        on_delete=models.deletion.CASCADE
+        on_delete=models.deletion.CASCADE,
+        verbose_name=_('Billing plan'),
     )
-    projects = models.ManyToManyField(Project, blank=True)
+    projects = models.ManyToManyField(
+        Project, blank=True,
+        verbose_name=_('Billed projects'),
+    )
     state = models.IntegerField(
         choices=(
             (STATE_ACTIVE, _('Active')),
@@ -89,6 +101,22 @@ class Billing(models.Model):
             (STATE_EXPIRED, _('Expired')),
         ),
         default=STATE_ACTIVE,
+        verbose_name=_('Billing state'),
+    )
+    trial_expiry = models.DateTimeField(
+        blank=True, null=True, default=None,
+        verbose_name=_('Trial expiry date'),
+    )
+    paid = models.BooleanField(
+        default=False,
+        verbose_name=_('Paid'),
+        editable=False,
+    )
+    # Translators: Whether the package is inside actual (hard) limits
+    in_limits = models.BooleanField(
+        default=True,
+        verbose_name=_('In limits'),
+        editable=False,
     )
 
     objects = BillingManager()
@@ -176,7 +204,7 @@ class Billing(models.Model):
         )
     display_languages.short_description = _('Languages')
 
-    def in_limits(self):
+    def check_in_limits(self):
         return (
             (
                 self.plan.limit_repositories == 0 or
@@ -195,9 +223,13 @@ class Billing(models.Model):
                 self.count_languages() <= self.plan.limit_languages
             )
         )
-    in_limits.boolean = True
-    # Translators: Whether the package is inside actual (hard) limits
-    in_limits.short_description = _('In limits')
+
+    def check_trial_expiry(self):
+        return (
+            self.state == Billing.STATE_TRIAL and
+            self.trial_expiry and
+            self.trial_expiry < timezone.now()
+        )
 
     def unit_count(self):
         return Unit.objects.filter(
