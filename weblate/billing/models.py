@@ -61,11 +61,19 @@ class BillingManager(models.Manager):
             bill.check_limits(grace)
 
 
+class BillingQuerySet(models.QuerySet):
     def get_out_of_limits(self):
         return self.filter(in_limits=False)
 
     def get_unpaid(self):
         return self.filter(state=Billing.STATE_ACTIVE, paid=False)
+
+    def get_valid(self):
+        return self.filter(
+            Q(in_limits=True) &
+            ((Q(state=Billing.STATE_ACTIVE) & Q(paid=True)) |
+            Q(state=Billing.STATE_TRIAL))
+        )
 
 
 @python_2_unicode_compatible
@@ -108,7 +116,7 @@ class Billing(models.Model):
         editable=False,
     )
 
-    objects = BillingManager()
+    objects = BillingManager.from_queryset(BillingQuerySet)()
 
     def __str__(self):
         return '{0} ({1})'.format(

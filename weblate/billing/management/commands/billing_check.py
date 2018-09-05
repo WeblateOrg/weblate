@@ -34,9 +34,18 @@ class Command(BaseCommand):
             default=30,
             help='grace period'
         )
+        parser.add_argument(
+            '--valid',
+            action='store_true',
+            help='list valid ones',
+        )
 
     def handle(self, *args, **options):
         Billing.objects.check_limits(options['grace'])
+        if options['valid']:
+            for bill in Billing.objects.get_valid():
+                self.stdout.write(' * {0}'.format(bill))
+            return
         limit = Billing.objects.get_out_of_limits()
         due = Billing.objects.get_unpaid()
 

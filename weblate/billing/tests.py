@@ -111,6 +111,9 @@ class BillingTest(TestCase):
             'Following billings are over limit:\n'
             ' * test0, test1 (test)\n'
         )
+        out = StringIO()
+        call_command('billing_check', '--valid', stdout=out)
+        self.assertEqual(out.getvalue(), '')
         self.invoice.delete()
         out = StringIO()
         call_command('billing_check', stdout=out)
