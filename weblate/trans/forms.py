@@ -696,6 +696,8 @@ class BaseSearchForm(forms.Form):
             elif isinstance(value, list):
                 for val in value:
                     items.append((param, val))
+            elif isinstance(value, User):
+                items.append((param, value.username))
             else:
                 # It should be string here
                 if value:
