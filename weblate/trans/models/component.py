@@ -952,7 +952,7 @@ class Component(models.Model, URLMixin, PathMixin):
         self.needs_cleanup = False
         self.updated_sources = {}
         translations = {}
-        languages = set()
+        languages = {}
         matches = self.get_mask_matches()
         for pos, path in enumerate(matches):
             with transaction.atomic():
@@ -970,13 +970,16 @@ class Component(models.Model, URLMixin, PathMixin):
                 )
                 lang = Language.objects.auto_get_or_create(code=code)
                 if lang.code in languages:
-                    self.log_error('duplicate language found: %s', lang.code)
+                    self.log_error(
+                        'duplicate language found: %s (%s, %s)',
+                        lang.code, code, languages[lang.code]
+                    )
                     continue
                 translation = Translation.objects.check_sync(
                     self, lang, code, path, force, request=request
                 )
                 translations[translation.id] = translation
-                languages.add(lang.code)
+                languages[lang.code] = code
                 # Remove fuzzy flag on template name change
                 if changed_template:
                     translation.unit_set.filter(
