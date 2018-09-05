@@ -256,13 +256,17 @@ class Repository(object):
         """Check whether repository needs merge with upstream
         (is missing some revisions).
         """
-        raise NotImplementedError()
+        return bool(self.log_revisions(
+            self.ref_to_remote.format(self.get_remote_branch_name())
+        ))
 
     def needs_push(self):
         """Check whether repository needs push to upstream
         (has additional revisions).
         """
-        raise NotImplementedError()
+        return bool(self.log_revisions(
+            self.ref_from_remote.format(self.get_remote_branch_name())
+        ))
 
     def _get_revision_info(self, revision):
         """Return dictionary with detailed revision information."""
@@ -391,3 +395,13 @@ class Repository(object):
     def cleanup(self):
         """Remove not tracked files from the repository."""
         raise NotImplementedError()
+
+    def log_revisions(self, refspec):
+        """Log revisions for given refspec.
+
+        This is not universal as refspec is different per vcs.
+        """
+        raise NotImplementedError()
+
+    def get_remote_branch_name(self):
+        return 'origin/{0}'.format(self.branch)

@@ -51,6 +51,8 @@ class GitRepository(Repository):
     name = 'Git'
     req_version = '1.6'
     default_branch = 'master'
+    ref_to_remote = '..{0}'
+    ref_from_remote = '{0}..'
 
     def is_valid(self):
         """Check whether this is a valid repository."""
@@ -98,7 +100,7 @@ class GitRepository(Repository):
 
     def reset(self):
         """Reset working copy to match remote branch."""
-        self.execute(['reset', '--hard', 'origin/{0}'.format(self.branch)])
+        self.execute(['reset', '--hard', self.get_remote_branch_name()])
         self.clean_revision_cache()
 
     def rebase(self, abort=False):
@@ -225,28 +227,12 @@ class GitRepository(Repository):
 
         return result
 
-    def _log_revisions(self, refspec):
+    def log_revisions(self, refspec):
         """Return revisin log for given refspec."""
         return self.execute(
-            ['log', '--oneline', refspec, '--'],
+            ['log', '--format=format:%H', refspec, '--'],
             needs_lock=False
-        )
-
-    def needs_merge(self):
-        """Check whether repository needs merge with upstream
-        (is missing some revisions).
-        """
-        return self._log_revisions(
-            '..origin/{0}'.format(self.branch)
-        ) != ''
-
-    def needs_push(self):
-        """Check whether repository needs push to upstream
-        (has additional revisions).
-        """
-        return self._log_revisions(
-            'origin/{0}..'.format(self.branch)
-        ) != ''
+        ).splitlines()
 
     @classmethod
     def _get_version(cls):
@@ -501,27 +487,6 @@ class SubversionRepository(GitRepository):
             self.execute(['rebase', '--abort'])
         else:
             self.execute(['svn', 'rebase'])
-
-    def needs_merge(self):
-        """Check whether repository needs merge with upstream
-        (is missing some revisions).
-        """
-        return self._log_revisions(
-            '..{0}'.format(self.get_remote_branch_name())
-        ) != ''
-
-    def needs_push(self):
-        """Check whether repository needs push to upstream
-        (has additional revisions).
-        """
-        return self._log_revisions(
-            '{0}..'.format(self.get_remote_branch_name())
-        ) != ''
-
-    def reset(self):
-        """Reset working copy to match remote branch."""
-        self.execute(['reset', '--hard', self.get_remote_branch_name()])
-        self.clean_revision_cache()
 
     @cached_property
     def last_remote_revision(self):

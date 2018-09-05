@@ -46,6 +46,8 @@ class HgRepository(Repository):
     name = 'Mercurial'
     req_version = '2.8'
     default_branch = 'default'
+    ref_to_remote = 'heads(branch(.)) - .'
+    ref_from_remote = 'outgoing()'
 
     VERSION_RE = re.compile(r'.*\(version ([^)]*)\).*')
 
@@ -234,32 +236,18 @@ class HgRepository(Repository):
 
         return result
 
+    def log_revisions(self, refspec):
+        """Return revisin log for given refspec."""
+        return self.execute(
+            ['log', '--template', '"{node}\n"', '--rev', refspec],
+            needs_lock=False
+        ).splitlines()
+
     def needs_ff(self):
         """Check whether repository needs a fast-forward to upstream
         (the path to the upstream is linear).
         """
-        return self.execute(
-            ['log', '-r', '.::remote(.) - .'],
-            needs_lock=False
-        ) != ''
-
-    def needs_merge(self):
-        """Check whether repository needs merge with upstream
-        (has multiple heads or not up-to-date).
-        """
-        return self.execute(
-            ['log', '-r', 'heads(branch(.)) - .'],
-            needs_lock=False
-        ) != ''
-
-    def needs_push(self):
-        """Check whether repository needs push to upstream
-        (has additional revisions).
-        """
-        return self.execute(
-            ['log', '-r', 'outgoing()'],
-            needs_lock=False
-        ) != ''
+        return bool(self.log_revisions('.::remote(.) - .'))
 
     @classmethod
     def _get_version(cls):
