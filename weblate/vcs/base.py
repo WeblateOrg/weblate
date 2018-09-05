@@ -252,21 +252,29 @@ class Repository(object):
         """Check whether repository needs commit."""
         raise NotImplementedError()
 
+    def count_missing(self):
+        """Count missing commits."""
+        return len(self.log_revisions(
+            self.ref_to_remote.format(self.get_remote_branch_name())
+        ))
+
+    def count_outgoing(self):
+        """Count outgoing commits."""
+        return len(self.log_revisions(
+            self.ref_from_remote.format(self.get_remote_branch_name())
+        ))
+
     def needs_merge(self):
         """Check whether repository needs merge with upstream
         (is missing some revisions).
         """
-        return bool(self.log_revisions(
-            self.ref_to_remote.format(self.get_remote_branch_name())
-        ))
+        return self.count_missing() > 0
 
     def needs_push(self):
         """Check whether repository needs push to upstream
         (has additional revisions).
         """
-        return bool(self.log_revisions(
-            self.ref_from_remote.format(self.get_remote_branch_name())
-        ))
+        return self.count_outgoing() > 0
 
     def _get_revision_info(self, revision):
         """Return dictionary with detailed revision information."""
