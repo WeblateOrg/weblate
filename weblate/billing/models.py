@@ -363,6 +363,7 @@ class Invoice(models.Model):
 
 @receiver(post_save, sender=Component)
 @receiver(post_save, sender=Project)
+@receiver(post_save, sender=Plan)
 def update_project_bill(sender, instance, **kwargs):
     if isinstance(instance, Component):
         instance = instance.project
