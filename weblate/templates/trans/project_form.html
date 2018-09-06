@@ -11,6 +11,11 @@
 {% if not can_create %}
 {% trans "You currently do not have permission to create project." as msg %}
 {% show_message "warning" msg %}
+
+{% if has_billing %}
+<a class="btn btn-primary" href="{% url 'billing' %}">{% trans "Check your billing status" %}</a>
+{% endif %}
+
 {% else %}
 <form action="{% url 'create-project' %}" method="post" enctype="multipart/form-data">
 {% csrf_token %}

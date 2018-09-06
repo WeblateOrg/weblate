@@ -10,6 +10,10 @@
 {% block content %}
 {% if not projects %}
 {% trans "You currently do not have permission to create component in any project." as msg %}
+
+{% if has_billing %}
+<a class="btn btn-primary" href="{% url 'billing' %}">{% trans "Check your billing status" %}</a>
+{% endif %}
 {% show_message "warning" msg %}
 {% else %}
 <form action="{% url 'create-component' %}" method="post" enctype="multipart/form-data">
