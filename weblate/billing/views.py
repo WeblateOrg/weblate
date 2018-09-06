@@ -68,7 +68,5 @@ def download_invoice(request, pk):
 
 @login_required
 def overview(request):
-    billings = Billing.objects.filter(
-        projects__in=request.user.projects_with_perm('billing.view')
-    ).distinct()
+    billings = Billing.objects.for_user(request.user).distinct()
     return render(request, 'billing/overview.html', {'billings': billings})

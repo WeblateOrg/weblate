@@ -31,6 +31,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils import timezone
 
+from weblate.auth.models import User
 from weblate.trans.models import Project, Component, Change, Unit
 from weblate.lang.models import Language
 
@@ -77,6 +78,11 @@ class BillingQuerySet(models.QuerySet):
             Q(state=Billing.STATE_TRIAL))
         )
 
+    def for_user(self, user):
+        return self.filter(
+            Q(projects__in=user.projects_with_perm('billing.view')) |
+            Q(owners=user)
+        )
 
 @python_2_unicode_compatible
 class Billing(models.Model):
@@ -92,6 +98,10 @@ class Billing(models.Model):
     projects = models.ManyToManyField(
         Project, blank=True,
         verbose_name=_('Billed projects'),
+    )
+    owners = models.ManyToManyField(
+        User, blank=True,
+        verbose_name=_('Billing owners'),
     )
     state = models.IntegerField(
         choices=(
@@ -121,10 +131,15 @@ class Billing(models.Model):
     objects = BillingManager.from_queryset(BillingQuerySet)()
 
     def __str__(self):
-        return '{0} ({1})'.format(
-            ', '.join([str(x) for x in self.projects.all()]),
-            self.plan
-        )
+        projects = self.projects.all()
+        owners = self.owners.all()
+        if projects:
+            base =  ', '.join([str(x) for x in projects])
+        elif owners:
+            base = ', '.join([x.get_author_name(False) for x in owners])
+        else:
+            base = 'Unassigned'
+        return '{0} ({1})'.format(base, self.plan)
 
     def count_changes(self, interval):
         return Change.objects.filter(
