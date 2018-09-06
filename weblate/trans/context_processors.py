@@ -35,6 +35,23 @@ URL_BASE = 'https://weblate.org/?utm_source=weblate&utm_term=%s'
 URL_DONATE = 'https://weblate.org/donate/?utm_source=weblate&utm_term=%s'
 
 
+def add_error_logging_context(context):
+    if (hasattr(settings, 'ROLLBAR') and
+            'client_token' in settings.ROLLBAR and
+            'environment' in settings.ROLLBAR):
+        context['rollbar_token'] = settings.ROLLBAR['client_token']
+        context['rollbar_environment'] = settings.ROLLBAR['environment']
+    else:
+        context['rollbar_token'] = None
+        context['rollbar_environment'] = None
+
+    if (hasattr(settings, 'RAVEN_CONFIG') and
+            'public_dsn' in settings.RAVEN_CONFIG):
+        context['sentry_dsn'] = settings.RAVEN_CONFIG['public_dsn']
+    else:
+        context['sentry_dsn'] = None
+
+
 def weblate_context(request):
     """Context processor to inject various useful variables into context."""
     if is_safe_url(request.GET.get('next', ''), allowed_hosts=None):
@@ -56,24 +73,9 @@ def weblate_context(request):
             'This site runs Weblate for translating various software projects.'
         )
 
-    if (hasattr(settings, 'ROLLBAR') and
-            'client_token' in settings.ROLLBAR and
-            'environment' in settings.ROLLBAR):
-        rollbar_token = settings.ROLLBAR['client_token']
-        rollbar_environment = settings.ROLLBAR['environment']
-    else:
-        rollbar_token = None
-        rollbar_environment = None
-
-    if (hasattr(settings, 'RAVEN_CONFIG') and
-            'public_dsn' in settings.RAVEN_CONFIG):
-        sentry_dsn = settings.RAVEN_CONFIG['public_dsn']
-    else:
-        sentry_dsn = None
-
     weblate_url = URL_BASE % weblate.VERSION
 
-    return {
+    context = {
         'cache_param': '?v={}'.format(weblate.GIT_VERSION),
         'version': weblate.VERSION,
         'description': description,
@@ -115,9 +117,6 @@ def weblate_context(request):
         'registration_open': settings.REGISTRATION_OPEN,
         'subscribed_projects': subscribed_projects,
 
-        'rollbar_token': rollbar_token,
-        'rollbar_environment': rollbar_environment,
-        'sentry_dsn': sentry_dsn,
         'allow_index': False,
         'legal': 'weblate.legal' in settings.INSTALLED_APPS,
         'status_url': settings.STATUS_URL,
@@ -125,3 +124,7 @@ def weblate_context(request):
             ignored=False
         ),
     }
+
+    add_error_logging_context(context)
+
+    return context
