@@ -401,7 +401,7 @@ Apple OS X strings are usually used as bilingual.
 
 .. seealso::
 
-    `Apple Strings Files documentation <https://developer.apple.com/library/mac/#documentation/MacOSX/Conceptual/BPInternational/Articles/StringsFiles.html>`_,
+    `Apple Strings Files documentation <https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPInternational/MaintaingYourOwnStringsFiles/MaintaingYourOwnStringsFiles.html>`_,
     :doc:`tt:formats/strings`
 
 PHP strings
