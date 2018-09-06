@@ -1346,6 +1346,16 @@ $(function () {
         }
     });
 
+    /* Slugify name */
+    $('input[name="slug"]').each(function () {
+        var $slug = $(this);
+        var $form = $slug.parents('form');
+        $form.find('input[name="name"]').on('change keypress keydown paste', function () {
+            $slug.val(slugify($(this).val()));
+        });
+
+    });
+
     /* Warn users that they do not want to use developer console in most cases */
     console.log("%cStop!", "color: red; font-weight: bold; font-size: 50px;");
     console.log( "%cThis is a console for developers. If someone has asked you to open this "

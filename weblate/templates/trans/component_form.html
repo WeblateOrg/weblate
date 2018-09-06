@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+{% load crispy_forms_tags %}
+
+{% block breadcrumbs %}
+<li><a href="{% url 'create-component' %}">{% trans "Create component" %}</a></li>
+{% endblock %}
+
+{% block content %}
+{% if not projects %}
+{% trans "You currently do not have permission to create component in any project." as msg %}
+{% show_message "warning" msg %}
+{% else %}
+<form action="{% url 'create-component' %}" method="post" enctype="multipart/form-data">
+{% csrf_token %}
+<div class="panel panel-primary">
+<div class="panel-heading">
+<h4 class="panel-title">
+{% documentation_icon 'admin/projects' 'component' right=True %}
+{% trans "Add new translation component" %}
+</h4>
+</div>
+<div class="panel-body">
+{% crispy form %}
+</div>
+<div class="panel-footer">
+<input type="submit" value="{% trans "Save" %}" class="btn btn-default" />
+</div>
+</div>
+</form>
+{% endif %}
+{% endblock %}

@@ -3,6 +3,7 @@
 
 cd scripts/yarn/
 
+yarn install
 yarn upgrade-interactive
 yarn run build
 
@@ -46,6 +47,9 @@ cp node_modules/multi.js/src/multi.css ../../weblate/static/
 
 # Modernizr
 mv modernizr.js ../../weblate/static/js/
+
+# Slugify
+cp node_modules/slugify/index.js ../../weblate/static/js/slugify.js
 
 # Not updated:
 # Bootstrap, use online customizer

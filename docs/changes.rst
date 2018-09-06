@@ -22,6 +22,7 @@ Released on ? 2018.
 * Configurable editing mode (zen/full).
 * Added support for error reporting to Sentry.
 * Added support for automated daily update of repositories.
+* Added support for creating projects and components by users.
 
 weblate 3.1.1
 -------------

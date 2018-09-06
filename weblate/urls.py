@@ -43,6 +43,7 @@ import weblate.trans.views.agreement
 import weblate.trans.views.api
 import weblate.trans.views.basic
 import weblate.trans.views.charts
+import weblate.trans.views.create
 import weblate.trans.views.dashboard
 import weblate.trans.views.dictionary
 import weblate.trans.views.edit
@@ -305,6 +306,16 @@ urlpatterns = [
         r'^settings/' + COMPONENT + '$',
         weblate.trans.views.settings.change_component,
         name='settings',
+    ),
+    url(
+        r'^create/project/$',
+        weblate.trans.views.create.CreateProject.as_view(),
+        name='create-project',
+    ),
+    url(
+        r'^create/component/$',
+        weblate.trans.views.create.CreateComponent.as_view(),
+        name='create-component',
     ),
     url(
         r'^contributor-agreement/' + COMPONENT + '$',

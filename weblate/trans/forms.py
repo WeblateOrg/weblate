@@ -1424,6 +1424,42 @@ class ComponentSettingsForm(forms.ModelForm):
         )
 
 
+class ProjectCreateForm(forms.ModelForm):
+    """Project creation form."""
+    # This is fake field with is either hidden or configured
+    # in the view
+    billing = forms.ModelChoiceField(
+        label=_('Billing'),
+        queryset=User.objects.none(),
+        required=True,
+    )
+
+    class Meta(object):
+        model = Project
+        fields = ('name', 'slug', 'web', 'mail', 'instructions')
+
+    def __init__(self, *args, **kwargs):
+        super(ProjectCreateForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+
+
+class ComponentCreateForm(forms.ModelForm):
+    """Component creation form."""
+    class Meta(object):
+        model = Component
+        fields = [
+            'project', 'name', 'slug', 'vcs', 'repo', 'push',
+            'branch', 'file_format', 'filemask', 'template', 'new_base',
+            'license', 'new_lang',
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super(ComponentCreateForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+
+
 class ProjectSettingsForm(forms.ModelForm):
     """Project settings form."""
     class Meta(object):
