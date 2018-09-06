@@ -704,7 +704,8 @@ have a huge set of translation units.
 
 .. django-admin-option:: --clean
 
-    Removes all words from database prior updating.
+    Removes all words from database prior updating, this is implicit when
+    called with ``--all``.
 
 .. django-admin-option:: --optimize
 
