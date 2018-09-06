@@ -27,8 +27,6 @@ from unittest import TestCase, SkipTest
 from django.test import SimpleTestCase
 from django.utils.encoding import force_text
 
-import six
-
 import translate.__version__
 from translate.storage.po import pofile
 
@@ -38,6 +36,7 @@ from weblate.formats.ttkit import (
     PoFormat, AndroidFormat, PropertiesFormat, JoomlaFormat, JSONFormat,
     JSONNestedFormat, RESXFormat, PhpFormat, XliffFormat, TSFormat, YAMLFormat,
     RubyYAMLFormat, DTDFormat, WindowsRCFormat, WebExtensionJSONFormat,
+    PoXliffFormat, XCodeXliffFormat,
 )
 from weblate.formats.models import FILE_FORMATS
 from weblate.formats.auto import detect_filename
@@ -143,6 +142,7 @@ class AutoFormatTest(SimpleTestCase, TempDirMixin):
     MASK = 'po/*.po'
     EXPECTED_PATH = 'po/cs_CZ.po'
     FIND = 'Hello, world!\n'
+    FIND_CONTEXT = ''
     FIND_MATCH = 'Ahoj světe!\n'
     NEW_UNIT_MATCH = b'\nmsgid "key"\nmsgstr "Source string"\n'
     allow_database_queries = True
@@ -167,7 +167,7 @@ class AutoFormatTest(SimpleTestCase, TempDirMixin):
         self.assertEqual(storage.mimetype, self.MIME)
         self.assertEqual(storage.extension, self.EXT)
 
-    def test_save(self):
+    def test_save(self, edit=False):
         # Read test content
         with open(self.FILE, 'rb') as handle:
             testdata = handle.read()
@@ -182,6 +182,10 @@ class AutoFormatTest(SimpleTestCase, TempDirMixin):
         # Parse test file
         storage = self.FORMAT(testfile)
 
+        if edit:
+            units = list(storage.all_units())
+            units[0].set_target('Nazdar, svete!\n')
+
         # Save test file
         storage.save()
 
@@ -190,10 +194,14 @@ class AutoFormatTest(SimpleTestCase, TempDirMixin):
             newdata = handle.read()
 
         # Check if content matches
-        self.assert_same(
-            force_text(newdata),
-            force_text(testdata)
-        )
+        if edit:
+            with self.assertRaises(AssertionError):
+                self.assert_same(force_text(newdata), force_text(testdata))
+        else:
+            self.assert_same(force_text(newdata), force_text(testdata))
+
+    def test_edit(self):
+        self.test_save(True)
 
     def assert_same(self, newdata, testdata):
         """Content aware comparison.
@@ -205,11 +213,12 @@ class AutoFormatTest(SimpleTestCase, TempDirMixin):
 
     def test_find(self):
         storage = self.FORMAT(self.FILE)
-        unit, add = storage.find_unit('', self.FIND)
+        unit, add = storage.find_unit(self.FIND_CONTEXT, self.FIND)
         self.assertFalse(add)
         if self.COUNT == 0:
             self.assertTrue(unit is None)
         else:
+            self.assertIsNotNone(unit)
             self.assertEqual(unit.get_target(), self.FIND_MATCH)
 
     def test_add(self):
@@ -403,16 +412,55 @@ class AndroidFormatTest(XMLMixin, AutoFormatTest):
     FILE = TEST_ANDROID
     MIME = 'application/xml'
     EXT = 'xml'
-    COUNT = 0
+    COUNT = 1
     MATCH = '<resources></resources>'
     MASK = 'res/values-*/strings.xml'
     EXPECTED_PATH = 'res/values-cs-rCZ/strings.xml'
+    FIND = 'Hello, world!\n'
+    FIND_CONTEXT = 'hello'
+    FIND_MATCH = 'Hello, world!\n'
     BASE = ''
     NEW_UNIT_MATCH = b'\n<string name="key">Source string</string>\n'
 
 
 class XliffFormatTest(XMLMixin, AutoFormatTest):
     FORMAT = XliffFormat
+    FILE = TEST_XLIFF
+    BASE = TEST_XLIFF
+    MIME = 'application/x-xliff'
+    EXT = 'xlf'
+    COUNT = 4
+    MATCH = '<file target-language="cs">'
+    FIND_MATCH = ''
+    MASK = 'loc/*/default.xliff'
+    EXPECTED_PATH = 'loc/cs_CZ/default.xliff'
+    NEW_UNIT_MATCH = (
+        b'<trans-unit xml:space="preserve" id="key" approved="no">'
+        b'<source>key</source>'
+        b'<target state="translated">Source string</target></trans-unit>'
+    )
+
+
+class PoXliffFormatTest(XMLMixin, AutoFormatTest):
+    FORMAT = PoXliffFormat
+    FILE = TEST_XLIFF
+    BASE = TEST_XLIFF
+    MIME = 'application/x-xliff'
+    EXT = 'xlf'
+    COUNT = 4
+    MATCH = '<file target-language="cs">'
+    FIND_MATCH = ''
+    MASK = 'loc/*/default.xliff'
+    EXPECTED_PATH = 'loc/cs_CZ/default.xliff'
+    NEW_UNIT_MATCH = (
+        b'<trans-unit xml:space="preserve" id="key" approved="no">'
+        b'<source>key</source>'
+        b'<target state="translated">Source string</target></trans-unit>'
+    )
+
+
+class XCodeXliffFormatTest(XMLMixin, AutoFormatTest):
+    FORMAT = XCodeXliffFormat
     FILE = TEST_XLIFF
     BASE = TEST_XLIFF
     MIME = 'application/x-xliff'
@@ -461,7 +509,7 @@ class YAMLFormatTest(AutoFormatTest):
     MATCH = 'weblate:'
     NEW_UNIT_MATCH = b'\nkey: Source string\n'
 
-    def assert_same(self, newdata, testdata):
+    def assert_same(self, newdata, testdata, equal=True):
         # Fixup quotes as different translate toolkit versions behave
         # differently
         self.assertEqual(
@@ -487,6 +535,7 @@ class TSFormatTest(XMLMixin, AutoFormatTest):
     MASK = 'ts/*.ts'
     EXPECTED_PATH = 'ts/cs_CZ.ts'
     MATCH = '<TS version="2.0" language="cs">'
+    FIND_MATCH = 'Ahoj svete!\n'
     NEW_UNIT_MATCH = (
         b'\n<message><source>key</source>'
         b'<translation>Source string</translation>\n    </message>'
@@ -496,10 +545,6 @@ class TSFormatTest(XMLMixin, AutoFormatTest):
         # Comparing of XML with doctype fails...
         newdata = newdata.replace('<!DOCTYPE TS>', '')
         testdata = testdata.replace('<!DOCTYPE TS>', '')
-        # Magic for Python 2.x
-        if six.PY2:
-            testdata = testdata.encode('utf-8')
-            newdata = newdata.encode('utf-8')
         super(TSFormatTest, self).assert_same(newdata, testdata)
 
 
@@ -531,3 +576,6 @@ class WindowsRCFormatTest(AutoFormatTest):
     FIND = 'Hello, world!\n'
     FIND_MATCH = 'Hello, world!\n'
     NEW_UNIT_MATCH = None
+
+    def test_edit(self):
+        raise SkipTest('Known to be broken')

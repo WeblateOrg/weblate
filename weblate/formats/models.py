@@ -74,6 +74,7 @@ class FormatsConf(AppConf):
         'weblate.formats.ttkit.TSFormat',
         'weblate.formats.ttkit.XliffFormat',
         'weblate.formats.ttkit.PoXliffFormat',
+        'weblate.formats.ttkit.XCodeXliffFormat',
         'weblate.formats.ttkit.StringsFormat',
         'weblate.formats.ttkit.StringsUtf8Format',
         'weblate.formats.ttkit.PropertiesUtf8Format',

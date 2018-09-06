@@ -116,6 +116,34 @@ class XliffUnit(FileUnit):
         return
 
 
+class XCodeXliffUnit(XliffUnit):
+    """
+    XCode stores newlines as \n
+
+    This has no base in the xliff standard.
+    """
+    @staticmethod
+    def reformat(output, target):
+        if output:
+            args = ('\n', '\\n')
+        else:
+            args = ('\\n', '\n')
+        if isinstance(target, list):
+            target = [x.replace(*args) for x in target]
+        else:
+            target = target.replace(*args)
+        return target
+
+    def set_target(self, target):
+        super(XCodeXliffUnit, self).set_target(self.reformat(True, target))
+
+    def get_source(self):
+        return self.reformat(False, super(XCodeXliffUnit, self).get_source())
+
+    def get_target(self):
+        return self.reformat(False, super(XCodeXliffUnit, self).get_target())
+
+
 class MonolingualIDUnit(FileUnit):
     def get_context(self):
         if self.template is not None:
@@ -326,6 +354,13 @@ class PoXliffFormat(XliffFormat):
     format_id = 'poxliff'
     autoload = ('.poxliff',)
     loader = PoXliffFile
+
+
+class XCodeXliffFormat(XliffFormat):
+    name = _('XLIFF Translation File for XCode')
+    format_id = 'xcodexliff'
+    autoload = ()
+    unit_class = XCodeXliffUnit
 
 
 class StringsFormat(FileFormat):
