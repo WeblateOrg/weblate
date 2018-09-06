@@ -12,7 +12,7 @@
 
 
 {% if registration_open %}
-{% if legal %}
+{% if has_legal %}
 <div class="alert alert-info">
 {% url 'legal:terms' as legal_url %}
 <a href="{{ legal_url }}">{% blocktrans %}Please read our Terms of Service prior to registration.{% endblocktrans %}</a>

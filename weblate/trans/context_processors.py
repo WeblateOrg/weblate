@@ -48,6 +48,8 @@ CONTEXT_SETTINGS = [
     'STATUS_URL',
 ]
 
+CONTEXT_APPS = ['billing', 'legal']
+
 
 def add_error_logging_context(context):
     if (hasattr(settings, 'ROLLBAR') and
@@ -69,6 +71,12 @@ def add_error_logging_context(context):
 def add_settings_context(context):
     for name in CONTEXT_SETTINGS:
         context[name.lower()] = getattr(settings, name)
+
+
+def add_optional_context(context):
+    for name in CONTEXT_APPS:
+        appname = 'weblate.{}'.format(name)
+        context['has_{}'.format(name)] = appname in settings.INSTALLED_APPS
 
 
 def weblate_context(request):
@@ -126,8 +134,6 @@ def weblate_context(request):
         'subscribed_projects': subscribed_projects,
 
         'allow_index': False,
-        'legal': 'weblate.legal' in settings.INSTALLED_APPS,
-        'has_billing': 'weblate.billing' in settings.INSTALLED_APPS,
         'configuration_errors': ConfigurationError.objects.filter(
             ignored=False
         ),
@@ -135,5 +141,6 @@ def weblate_context(request):
 
     add_error_logging_context(context)
     add_settings_context(context)
+    add_optional_context(context)
 
     return context
