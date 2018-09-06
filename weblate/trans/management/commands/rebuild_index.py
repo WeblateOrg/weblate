@@ -107,6 +107,8 @@ class Command(WeblateComponentCommand):
             fulltext.cleanup()
 
         if options['all']:
+            # We will rebuild index from scratch
+            fulltext.cleanup()
             self.process_all(fulltext)
         else:
             self.process_filtered(fulltext, **options)
