@@ -371,6 +371,11 @@ def update_project_bill(sender, instance, **kwargs):
         billing.check_limits()
 
 
+@receiver(post_save, sender=Invoice)
+def update_invoice_bill(sender, instance, **kwargs):
+    instance.billing.check_limits()
+
+
 @receiver(m2m_changed, sender=Billing.projects.through)
 def change_componentlist(sender, instance, **kwargs):
     instance.check_limits()
