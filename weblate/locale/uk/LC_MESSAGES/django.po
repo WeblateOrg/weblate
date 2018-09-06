@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-09-06 13:43+0000\n"
-"PO-Revision-Date: 2018-09-05 17:33+0000\n"
+"PO-Revision-Date: 2018-09-06 20:27+0000\n"
 "Last-Translator: Андрій Бандура <andriykopanytsia@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/master/"
 "uk/>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.2-dev\n"
 
 #: weblate/accounts/avatar.py:125
@@ -1392,10 +1392,8 @@ msgid "Billed projects"
 msgstr "Оплачені проекти"
 
 #: weblate/billing/models.py:104
-#, fuzzy
-#| msgid "Billing plan"
 msgid "Billing owners"
-msgstr "Плани хостингу"
+msgstr "Власники платежів"
 
 #: weblate/billing/models.py:108
 msgid "Active"
@@ -1809,10 +1807,8 @@ msgid "XLIFF Translation File with PO extensions"
 msgstr "Файл перекладу XLIFF із розширенням PO"
 
 #: weblate/formats/ttkit.py:360
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "XLIFF Translation File for XCode"
-msgstr "Файл перекладу XLIFF"
+msgstr "Файл перекладу XLIFF для XCode"
 
 #: weblate/formats/ttkit.py:367
 msgid "OS X Strings"
@@ -3533,17 +3529,13 @@ msgid "Add"
 msgstr "Додати"
 
 #: weblate/templates/base.html:149 weblate/templates/trans/project_form.html:26
-#, fuzzy
-#| msgid "Add new translation string"
 msgid "Add new translation project"
-msgstr "Додати новий рядок перекладу"
+msgstr "Додати новий проект для перекладу"
 
 #: weblate/templates/base.html:150
 #: weblate/templates/trans/component_form.html:25
-#, fuzzy
-#| msgid "Other translation components"
 msgid "Add new translation component"
-msgstr "Інші компоненти перекладу"
+msgstr "Додати нову компоненту для перекладу"
 
 #: weblate/templates/base.html:157
 msgid "Help"
@@ -3554,16 +3546,13 @@ msgid "Service status"
 msgstr "Стан служби"
 
 #: weblate/templates/base.html:179
-#, fuzzy, python-format
-#| msgid "Logged in as %(name)s"
+#, python-format
 msgid "Logged in as %(user)s"
-msgstr "Ви увійшли як %(name)s"
+msgstr "Ви увійшли як %(user)s"
 
 #: weblate/templates/base.html:182
-#, fuzzy
-#| msgid "Waiting for review"
 msgid "Billing overview"
-msgstr "Очікує на перевірку"
+msgstr "Огляд платежу"
 
 #: weblate/templates/base.html:184 weblate/templates/component-settings.html:9
 #: weblate/templates/component.html:82
@@ -3622,10 +3611,8 @@ msgid "Projects limit"
 msgstr "Число проектів"
 
 #: weblate/templates/billing/detail.html:40
-#, fuzzy
-#| msgid "No context currently associated!"
 msgid "No projects currently assigned!"
-msgstr "Немає наразі прив'язаного змісту!"
+msgstr "Наразі ви не залучені ні одного проекту!"
 
 #: weblate/templates/billing/detail.html:52
 msgid "Invoices"
@@ -3657,7 +3644,7 @@ msgstr "Оплата"
 
 #: weblate/templates/billing/overview.html:15
 msgid "You currently do not have any billings active."
-msgstr ""
+msgstr "У вас немає поточних платежів."
 
 #: weblate/templates/billing/used.html:5
 #, python-format
@@ -5474,22 +5461,18 @@ msgid "Follow using RSS"
 msgstr "Стежити за допомогою RSS"
 
 #: weblate/templates/trans/component_form.html:7
-#, fuzzy
-#| msgid "Other components"
 msgid "Create component"
-msgstr "Інші компоненти"
+msgstr "Створити компоненту"
 
 #: weblate/templates/trans/component_form.html:12
-#, fuzzy
-#| msgid "You do not have permission to change project access control."
 msgid ""
 "You currently do not have permission to create component in any project."
-msgstr "У вас немає права змінювати доступ до проекту."
+msgstr "У вас немає права створювати компоненту в будь-якому проекті."
 
 #: weblate/templates/trans/component_form.html:15
 #: weblate/templates/trans/project_form.html:16
 msgid "Check your billing status"
-msgstr ""
+msgstr "Перевірте стан платежів"
 
 #: weblate/templates/trans/other-row.html:7
 msgid "This translation"
@@ -5508,16 +5491,12 @@ msgid "Change compared to this translation:"
 msgstr "Зміни стосовно цього перекладу:"
 
 #: weblate/templates/trans/project_form.html:7
-#, fuzzy
-#| msgid "Watched projects"
 msgid "Create project"
-msgstr "Відстежувані проекти"
+msgstr "Створити проект"
 
 #: weblate/templates/trans/project_form.html:12
-#, fuzzy
-#| msgid "You do not have permission to change project access control."
 msgid "You currently do not have permission to create project."
-msgstr "У вас немає права змінювати доступ до проекту."
+msgstr "У вас немає прав для створення проекту."
 
 #: weblate/templates/trans/suggestion_list.html:7
 #: weblate/templates/translate.html:230 weblate/templates/translate.html:426
@@ -8536,10 +8515,8 @@ msgid "System checks"
 msgstr "Системні перевірки"
 
 #: weblate/wladmin/templates/admin/performance.html:87
-#, fuzzy
-#| msgid "Congratulations, your setup seems to be without any major problems."
 msgid "Congratulations, your setup seems to work."
-msgstr "Вітаємо, ваше налаштування, здається, без будь-яких серйозних проблем."
+msgstr "Вітаємо, ваше налаштування, здається, працює."
 
 #: weblate/wladmin/templates/admin/report.html:4
 #: weblate/wladmin/templates/admin/report.html:13
