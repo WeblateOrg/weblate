@@ -34,6 +34,20 @@ from weblate.wladmin.models import ConfigurationError
 URL_BASE = 'https://weblate.org/?utm_source=weblate&utm_term=%s'
 URL_DONATE = 'https://weblate.org/donate/?utm_source=weblate&utm_term=%s'
 
+CONTEXT_SETTINGS = [
+    'SITE_TITLE',
+    'OFFER_HOSTING',
+    'DEMO_SERVER',
+    'ENABLE_AVATARS',
+    'ENABLE_SHARING',
+    'PIWIK_SITE_ID',
+    'PIWIK_URL',
+    'GOOGLE_ANALYTICS_ID',
+    'ENABLE_HOOKS',
+    'REGISTRATION_OPEN',
+    'STATUS_URL',
+]
+
 
 def add_error_logging_context(context):
     if (hasattr(settings, 'ROLLBAR') and
@@ -50,6 +64,11 @@ def add_error_logging_context(context):
         context['sentry_dsn'] = settings.RAVEN_CONFIG['public_dsn']
     else:
         context['sentry_dsn'] = None
+
+
+def add_settings_context(context):
+    for name in CONTEXT_SETTINGS:
+        context[name.lower()] = getattr(settings, name)
 
 
 def weblate_context(request):
@@ -93,17 +112,8 @@ def weblate_context(request):
         ),
         'donate_url': URL_DONATE % weblate.VERSION,
 
-        'site_title': settings.SITE_TITLE,
         'site_url': get_site_url(),
 
-        'offer_hosting': settings.OFFER_HOSTING,
-        'demo_server': settings.DEMO_SERVER,
-        'enable_avatars': settings.ENABLE_AVATARS,
-        'enable_sharing': settings.ENABLE_SHARING,
-
-        'piwik_site_id': settings.PIWIK_SITE_ID,
-        'piwik_url': settings.PIWIK_URL,
-        'google_analytics_id': settings.GOOGLE_ANALYTICS_ID,
 
         'current_date': datetime.utcnow().strftime('%Y-%m-%d'),
         'current_year': datetime.utcnow().strftime('%Y'),
@@ -111,20 +121,18 @@ def weblate_context(request):
 
         'login_redirect_url': login_redirect_url,
 
-        'hooks_enabled': settings.ENABLE_HOOKS,
         'has_ocr': weblate.screenshots.views.HAS_OCR,
 
-        'registration_open': settings.REGISTRATION_OPEN,
         'subscribed_projects': subscribed_projects,
 
         'allow_index': False,
         'legal': 'weblate.legal' in settings.INSTALLED_APPS,
-        'status_url': settings.STATUS_URL,
         'configuration_errors': ConfigurationError.objects.filter(
             ignored=False
         ),
     }
 
     add_error_logging_context(context)
+    add_settings_context(context)
 
     return context
