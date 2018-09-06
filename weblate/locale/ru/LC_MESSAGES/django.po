@@ -2,21 +2,22 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Igor <f2404@yandex.ru>, 2018.
+# mesnevi <shams@airpost.net>, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-09-06 13:43+0000\n"
-"PO-Revision-Date: 2018-09-06 13:43+0000\n"
-"Last-Translator: Igor <f2404@yandex.ru>\n"
+"PO-Revision-Date: 2018-09-06 20:27+0000\n"
+"Last-Translator: mesnevi <shams@airpost.net>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
 "ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.2-dev\n"
 
 #: weblate/accounts/avatar.py:125
@@ -1390,8 +1391,6 @@ msgid "Billed projects"
 msgstr "Проекты по тарифному плану"
 
 #: weblate/billing/models.py:104
-#, fuzzy
-#| msgid "Billing plan"
 msgid "Billing owners"
 msgstr "Тарифный план"
 
@@ -1809,10 +1808,8 @@ msgid "XLIFF Translation File with PO extensions"
 msgstr "Файл XLIFF Translation с расширением PO"
 
 #: weblate/formats/ttkit.py:360
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "XLIFF Translation File for XCode"
-msgstr "Файл XLIFF Translation"
+msgstr "Файл  перевода в формате XLIFF (XCode)"
 
 #: weblate/formats/ttkit.py:367
 msgid "OS X Strings"
@@ -3527,17 +3524,13 @@ msgid "Add"
 msgstr "Добавить"
 
 #: weblate/templates/base.html:149 weblate/templates/trans/project_form.html:26
-#, fuzzy
-#| msgid "Add new translation string"
 msgid "Add new translation project"
-msgstr "Добавить новую строку перевода"
+msgstr "Добавить новый проект для перевода"
 
 #: weblate/templates/base.html:150
 #: weblate/templates/trans/component_form.html:25
-#, fuzzy
-#| msgid "Other translation components"
 msgid "Add new translation component"
-msgstr "Другие компоненты перевода"
+msgstr "Добавить компонент для перевода"
 
 #: weblate/templates/base.html:157
 msgid "Help"
@@ -3550,13 +3543,11 @@ msgstr "Статус сервиса"
 #: weblate/templates/base.html:179
 #, python-format
 msgid "Logged in as %(user)s"
-msgstr ""
+msgstr "Выполнен вход: %(user)s"
 
 #: weblate/templates/base.html:182
-#, fuzzy
-#| msgid "Waiting for review"
 msgid "Billing overview"
-msgstr "Ожидает обзора"
+msgstr "Информация об оплате услуг"
 
 #: weblate/templates/base.html:184 weblate/templates/component-settings.html:9
 #: weblate/templates/component.html:82
@@ -3614,10 +3605,8 @@ msgid "Projects limit"
 msgstr "Ограничение проектов"
 
 #: weblate/templates/billing/detail.html:40
-#, fuzzy
-#| msgid "No context currently associated!"
 msgid "No projects currently assigned!"
-msgstr "Ни одного контекста не связано!"
+msgstr "Вы не заняты ни в одном проекте!"
 
 #: weblate/templates/billing/detail.html:52
 msgid "Invoices"
@@ -3649,7 +3638,7 @@ msgstr "Биллинг"
 
 #: weblate/templates/billing/overview.html:15
 msgid "You currently do not have any billings active."
-msgstr ""
+msgstr "У вас нет никаких текущих расчётов."
 
 #: weblate/templates/billing/used.html:5
 #, python-format
@@ -5466,22 +5455,18 @@ msgid "Follow using RSS"
 msgstr "Следить используя RSS"
 
 #: weblate/templates/trans/component_form.html:7
-#, fuzzy
-#| msgid "Other components"
 msgid "Create component"
-msgstr "Другие компоненты"
+msgstr "Создать компонент"
 
 #: weblate/templates/trans/component_form.html:12
-#, fuzzy
-#| msgid "You do not have permission to change project access control."
 msgid ""
 "You currently do not have permission to create component in any project."
-msgstr "У вас нет разрешения изменять контроль доступа к проекту."
+msgstr "У вас нет прав для создания компонентов ни в одном из проектов."
 
 #: weblate/templates/trans/component_form.html:15
 #: weblate/templates/trans/project_form.html:16
 msgid "Check your billing status"
-msgstr ""
+msgstr "Проверьте состояние расчётов"
 
 #: weblate/templates/trans/other-row.html:7
 msgid "This translation"
@@ -5500,16 +5485,12 @@ msgid "Change compared to this translation:"
 msgstr "Изменения относительно этого перевода:"
 
 #: weblate/templates/trans/project_form.html:7
-#, fuzzy
-#| msgid "Watched projects"
 msgid "Create project"
-msgstr "Наблюдаемые проекты"
+msgstr "Создать проект"
 
 #: weblate/templates/trans/project_form.html:12
-#, fuzzy
-#| msgid "You do not have permission to change project access control."
 msgid "You currently do not have permission to create project."
-msgstr "У вас нет разрешения изменять контроль доступа к проекту."
+msgstr "У вас нет прав для создания проекта."
 
 #: weblate/templates/trans/suggestion_list.html:7
 #: weblate/templates/translate.html:230 weblate/templates/translate.html:426
@@ -8536,10 +8517,8 @@ msgid "System checks"
 msgstr "Системные проверки"
 
 #: weblate/wladmin/templates/admin/performance.html:87
-#, fuzzy
-#| msgid "Congratulations, your setup seems to be without any major problems."
 msgid "Congratulations, your setup seems to work."
-msgstr "Поздравляем, похоже у вашей установки нет больших проблем."
+msgstr "Ура! Ваши настройки наконец работают."
 
 #: weblate/wladmin/templates/admin/report.html:4
 #: weblate/wladmin/templates/admin/report.html:13
