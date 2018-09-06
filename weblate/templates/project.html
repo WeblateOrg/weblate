@@ -115,6 +115,14 @@
 <td class="progress-cell">{% words_progress prj %}</td>
 <td class="percent">{{ prj.stats.translated_words_percent }}%</td>
 </tr>
+{% empty %}
+<tr><td colspan="5">
+  {% trans "There are currently no translation components!" as msg %}
+  {% show_message "warning" msg %}
+{% if user_can_edit_project %}
+  <a class="btn btn-primary" href="{% reverse 'create-component' %}">{% trans "Add new translation component" %}</a>
+{% endif %}
+</td></tr>
 {% endfor %}
 </tbody>
 </table>
