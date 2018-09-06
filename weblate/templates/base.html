@@ -123,21 +123,24 @@ var _rollbarConfig = {
         <li><a href="{% url 'languages' %}">{% trans "Languages" %}</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right flip">
-        {% if user.is_authenticated %}
-        <li><a class="button" id="profile-button" href="{% url 'profile' %}" title="{% trans "Your profile" %}">{{ user.profile.get_user_display }}</a></li>
+        
+        {# Superuser link to admin #}
         {% if user.is_superuser %}
         <li><a class="button" id="admin-button" href="{% url 'admin:index' %}" title="{% trans "Administration" %}"><i class="fa fa-wrench"></i></a></li>
         {% if configuration_errors.exists %}
         <li><a class="button" id="errors-button" href="{% url 'admin:performance' %}" title="{% trans "Configuration errors" %}"><i class="fa fa-exclamation-triangle text-danger"></i></a></li>
         {% endif %}
         {% endif %}
-        <li><a class="button link-post" id="logout-button" href="{% url 'logout' %}" title="{% trans "Logout" %}"><i class="fa fa-sign-out"></i></a></li>
-        {% else %}
+
+        {# Login and register for not authenticated #}
+        {% if not user.is_authenticated %}
         {% if registration_open %}
         <li><a class="button" id="register-button" href="{% url 'register' %}">{% trans "Register" %}</a></li>
         {% endif %}
         <li><a class="button" id="login-button" href="{% url 'login' %}{% if not skip_next %}?next={{ login_redirect_url|urlencode }}{% endif %}">{% trans "Login" %}</a></li>
         {% endif %}
+
+        {# Support menu #}
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="{% trans "Help" %}"><i class="fa fa-question-circle"></i><b class="caret"></b></a>
           <ul class="dropdown-menu">
@@ -149,6 +152,26 @@ var _rollbarConfig = {
             {% if status_url %}<li><a href="{{ status_url }}">{% trans "Service status" %}</a></li>{% endif %}
           </ul>
         </li>
+
+        {# Profile and logout for authenticated #}
+        {% if user.is_authenticated %}
+        <li class="dropdown">
+          <a href="#" id="user-dropdown" class="dropdown-toggle" data-toggle="dropdown" title="{% trans "Your profile" %}">
+            {% if enable_avatars %}
+            <img class="avatar" src="{% url 'user_avatar' user=user.username size=32 %}" />
+            {% else %}
+            {{ user.profile.get_user_name }}
+            {% endif %}
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="button" id="profile-button" href="{% url 'user_page' user=user.username %}">{% blocktrans with user=user.profile.get_user_name %}Logged in as {{ user }}{% endblocktrans %}</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a class="button" id="settings-button" href="{% url 'profile' %}">{% trans "Settings" %}</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a class="button link-post" id="logout-button" href="{% url 'logout' %}">{% trans "Logout" %}</a></li>
+          </ul>
+        </li>
+        {% endif %}
       </ul>
     </div>
   </div>

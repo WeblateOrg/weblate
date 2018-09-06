@@ -304,15 +304,15 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         self.do_login()
 
         # Load profile
+        self.click(self.driver.find_element_by_id('user-dropdown'))
         with self.wait_for_page_load():
-            self.click(
-                self.driver.find_element_by_id('profile-button')
-            )
+            self.click(self.driver.find_element_by_id('settings-button'))
 
         # Wait for profile to load
         self.driver.find_element_by_id('subscriptions')
 
         # Finally logout
+        self.click(self.driver.find_element_by_id('user-dropdown'))
         with self.wait_for_page_load():
             self.click(
                 self.driver.find_element_by_id('logout-button')
@@ -376,16 +376,17 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         # Confirm account
         self.driver.get(url)
 
-        # Check we're logged in
-        self.assertTrue(
-            'Test Example' in
-            self.driver.find_element_by_id('profile-button').text
-        )
-
         # Check we got message
         self.assertTrue(
             'You have activated' in
             self.driver.find_element_by_tag_name('body').text
+        )
+
+        # Check we're logged in
+        self.click(self.driver.find_element_by_id('user-dropdown'))
+        self.assertTrue(
+            'Test Example' in
+            self.driver.find_element_by_id('profile-button').text
         )
 
     def test_register_nocookie(self):
@@ -495,9 +496,10 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
             user.social_auth.create(
                 provider='bitbucket', uid='weblate'
             )
+            self.click(self.driver.find_element_by_id('user-dropdown'))
             with self.wait_for_page_load():
                 self.click(
-                    self.driver.find_element_by_id('profile-button')
+                    self.driver.find_element_by_id('settings-button')
                 )
             self.click('Authentication')
             self.screenshot('authentication.png')
@@ -990,9 +992,10 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         self.screenshot('source-review.png')
 
         # Profile
+        self.click(self.driver.find_element_by_id('user-dropdown'))
         with self.wait_for_page_load():
             self.click(
-                self.driver.find_element_by_id('profile-button')
+                self.driver.find_element_by_id('settings-button')
             )
         self.click('Preferences')
         self.screenshot('dashboard-dropdown.png')
