@@ -166,6 +166,9 @@ var _rollbarConfig = {
           <ul class="dropdown-menu">
             <li><a class="button" id="profile-button" href="{% url 'user_page' user=user.username %}">{% blocktrans with user=user.profile.get_user_name %}Logged in as {{ user }}{% endblocktrans %}</a></li>
             <li role="separator" class="divider"></li>
+            {% if has_billing %}
+            <li><a class="button" id="settings-button" href="{% url 'billing' %}">{% trans "Billing overview" %}</a></li>
+            {% endif %}
             <li><a class="button" id="settings-button" href="{% url 'profile' %}">{% trans "Settings" %}</a></li>
             <li role="separator" class="divider"></li>
             <li><a class="button link-post" id="logout-button" href="{% url 'logout' %}">{% trans "Logout" %}</a></li>

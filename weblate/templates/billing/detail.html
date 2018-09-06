@@ -1,5 +1,8 @@
 {% load i18n %}
+<div class="container-fluid">
+<div class="row">
 
+<div class="col-lg-6">
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Billing plan" %}</h4></div>
 
@@ -38,4 +41,39 @@
   </table>
   {% endwith %}
 </div>
+</div>
 
+<div class="col-lg-6">
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Invoices" %}</h4></div>
+<table class="table table-striped">
+<thead>
+<tr>
+<th>{% trans "Invoice period" %}</th>
+<th>{% trans "Invoice amount" %}</th>
+<th>{% trans "Download invoice" %}</th>
+</tr>
+</thead>
+<tbody>
+{% for invoice in billing.invoice_set.all %}
+<tr>
+<td>{{ invoice.start|date:"SHORT_DATE_FORMAT" }} - {{ invoice.end|date:"SHORT_DATE_FORMAT" }}</td>
+<td>{{ invoice.payment }} {{ invoice.get_currency_display }}</td>
+<td>
+{% if invoice.ref %}
+<a href="{% url 'invoice-download' pk=invoice.pk %}">{{ invoice.filename }}</a>
+{% else %}
+{% trans "Not available" %}
+{% endif %}
+</td>
+</tr>
+{% empty %}
+<tr><td colspan="3">{% trans "No invoices found!" %}</td/></tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+</div>

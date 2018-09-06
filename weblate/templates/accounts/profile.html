@@ -29,9 +29,6 @@
 <li><a data-toggle="tab" href="#licenses">{% trans "Licenses" %}</a></li>
 <li><a data-toggle="tab" href="#audit">{% trans "Audit log" %}</a></li>
 <li><a data-toggle="tab" href="#api">{% trans "API access" %}</a></li>
-{% if billings %}
-<li><a data-toggle="tab" href="#billing">{% trans "Billing" %}</a></li>
-{% endif %}
 </ul>
 
 <div class="tab-content">
@@ -481,56 +478,6 @@ wlc \
 </div>
 
 </div>
-
-{% if billings %}
-<div class="tab-pane" id="billing">
-{% for billing in billings %}
-<div class="container-fluid">
-<div class="row">
-
-
-<div class="col-lg-6">
-{% include "billing/detail.html" %}
-</div>
-
-<div class="col-lg-6">
-<div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Invoices" %}</h4></div>
-<table class="table table-striped">
-<thead>
-<tr>
-<th>{% trans "Invoice period" %}</th>
-<th>{% trans "Invoice amount" %}</th>
-<th>{% trans "Download invoice" %}</th>
-</tr>
-</thead>
-<tbody>
-{% for invoice in billing.invoice_set.all %}
-<tr>
-<td>{{ invoice.start|date:"SHORT_DATE_FORMAT" }} - {{ invoice.end|date:"SHORT_DATE_FORMAT" }}</td>
-<td>{{ invoice.payment }} {{ invoice.get_currency_display }}</td>
-<td>
-{% if invoice.ref %}
-<a href="{% url 'invoice-download' pk=invoice.pk %}">{{ invoice.filename }}</a>
-{% else %}
-{% trans "Not available" %}
-{% endif %}
-</td>
-</tr>
-{% empty %}
-<tr><td colspan="3">{% trans "No invoices found!" %}</td/></tr>
-{% endfor %}
-</tbody>
-</table>
-</div>
-</div>
-</div>
-
-</div>
-{% endfor %}
-
-</div>
-{% endif %}
 
 </div>
 

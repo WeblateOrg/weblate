@@ -127,6 +127,7 @@ def weblate_context(request):
 
         'allow_index': False,
         'legal': 'weblate.legal' in settings.INSTALLED_APPS,
+        'has_billing': 'weblate.billing' in settings.INSTALLED_APPS,
         'configuration_errors': ConfigurationError.objects.filter(
             ignored=False
         ),

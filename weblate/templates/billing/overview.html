@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load translations %}
 
 {% block breadcrumbs %}
 <li><a href="{% url 'profile' %}">{% trans "Your profile" %}</a></li>
@@ -8,9 +9,11 @@
 
 {% block content %}
 
-
 {% for billing in billings %}
 {% include "billing/detail.html" %}
+{% empty %}
+{% trans "You currently do not have any billings active." as msg %}
+{% show_message "info" msg %}
 {% endfor %}
 
 {% endblock %}
