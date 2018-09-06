@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load translations %}
 <div class="container-fluid">
 <div class="row">
 
@@ -35,6 +36,9 @@
   <td colspan="2"><div class="list-group">
   {% for project in billing.projects.all %}
   <a class="list-group-item" href="{{ project.get_absolute_url }}">{{ project }}</a>
+  {% empty %}
+  {% trans "No projects currently assigned!" as msg %}
+  {% show_message "warning" msg %}
   {% endfor %}
   </div></td>
   </tr>
