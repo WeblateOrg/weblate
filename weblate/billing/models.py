@@ -287,20 +287,27 @@ class Billing(models.Model):
         due_date = timezone.now() - timedelta(days=grace)
         in_limits = self.check_in_limits()
         paid = self.invoice_set.filter(end__gt=due_date).exists()
+        modified = False
 
         if self.check_trial_expiry():
             self.state = Billing.STATE_EXPIRED
-            if save:
-                self.save(update_fields=['state'])
+            self.trial_expiry = None
+            modified = True
+
+        if self.state != Billing.STATE_TRIAL and self.trial_expiry:
+            self.trial_expiry = None
+            modified = True
 
         if self.in_limits != in_limits or self.paid != paid:
             self.in_limits = in_limits
             self.paid = paid
-            if save:
-                self.save(update_fields=['in_limits', 'paid'])
+            modified = True
+
+        if save and modified:
+            self.save(skip_limits=True)
 
     def save(self, *args, **kwargs):
-        if self.pk:
+        if not kwargs.pop('skip_limits', False) and self.pk:
             self.check_limits(save=False)
         super(Billing, self).save(*args, **kwargs)
 
