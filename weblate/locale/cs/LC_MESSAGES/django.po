@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: Weblate 3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-09-06 13:43+0000\n"
-"PO-Revision-Date: 2018-09-06 06:06+0000\n"
+"PO-Revision-Date: 2018-09-07 11:03+0000\n"
 "Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
-"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/"
-">\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/>"
+"\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1381,10 +1381,8 @@ msgid "Billed projects"
 msgstr "Vyfakturované projekty"
 
 #: weblate/billing/models.py:104
-#, fuzzy
-#| msgid "Billing plan"
 msgid "Billing owners"
-msgstr "Hostovací balíček"
+msgstr "Vlastníci fakturace"
 
 #: weblate/billing/models.py:108
 msgid "Active"
@@ -1793,10 +1791,8 @@ msgid "XLIFF Translation File with PO extensions"
 msgstr "Překladový soubor XLIFF s rozšířením PO"
 
 #: weblate/formats/ttkit.py:360
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "XLIFF Translation File for XCode"
-msgstr "Překladový soubor XLIFF"
+msgstr "Překladový soubor XLIFF pro XCode"
 
 #: weblate/formats/ttkit.py:367
 msgid "OS X Strings"
@@ -3500,17 +3496,13 @@ msgid "Add"
 msgstr "Přidat"
 
 #: weblate/templates/base.html:149 weblate/templates/trans/project_form.html:26
-#, fuzzy
-#| msgid "Add new translation string"
 msgid "Add new translation project"
-msgstr "Přidat nový řetězec k překladu"
+msgstr "Přidat nový překladatelský projekt"
 
 #: weblate/templates/base.html:150
 #: weblate/templates/trans/component_form.html:25
-#, fuzzy
-#| msgid "Other translation components"
 msgid "Add new translation component"
-msgstr "Ostatní součásti překladu"
+msgstr "Přidat novou součást překladu"
 
 #: weblate/templates/base.html:157
 msgid "Help"
@@ -3521,16 +3513,13 @@ msgid "Service status"
 msgstr "Stav služby"
 
 #: weblate/templates/base.html:179
-#, fuzzy, python-format
-#| msgid "Logged in as %(name)s"
+#, python-format
 msgid "Logged in as %(user)s"
-msgstr "Přihlášen jako %(name)s"
+msgstr "Přihlášeni jako %(user)s"
 
 #: weblate/templates/base.html:182
-#, fuzzy
-#| msgid "Waiting for review"
 msgid "Billing overview"
-msgstr "Čeká na kontrolu"
+msgstr "Přehled fakturace"
 
 #: weblate/templates/base.html:184 weblate/templates/component-settings.html:9
 #: weblate/templates/component.html:82
@@ -3588,10 +3577,8 @@ msgid "Projects limit"
 msgstr "Počet projektů"
 
 #: weblate/templates/billing/detail.html:40
-#, fuzzy
-#| msgid "No context currently associated!"
 msgid "No projects currently assigned!"
-msgstr "V tuto chvíli nejsou přiřazeny žádné souvislosti!"
+msgstr "V tuto chvíli nejsou přiřazené žádné projekty!"
 
 #: weblate/templates/billing/detail.html:52
 msgid "Invoices"
@@ -3623,7 +3610,7 @@ msgstr "Účtování"
 
 #: weblate/templates/billing/overview.html:15
 msgid "You currently do not have any billings active."
-msgstr ""
+msgstr "V tuto chvíli nemáte aktivní žádné fakturace."
 
 #: weblate/templates/billing/used.html:5
 #, python-format
@@ -5442,22 +5429,18 @@ msgid "Follow using RSS"
 msgstr "Sledovat pomocí RSS"
 
 #: weblate/templates/trans/component_form.html:7
-#, fuzzy
-#| msgid "Other components"
 msgid "Create component"
-msgstr "Další součásti"
+msgstr "Vytvořit součást"
 
 #: weblate/templates/trans/component_form.html:12
-#, fuzzy
-#| msgid "You do not have permission to change project access control."
 msgid ""
 "You currently do not have permission to create component in any project."
-msgstr "Pro změnu přístupu nemáte oprávnění."
+msgstr "V tuto chvíli nemáte oprávnění vytvářet komponenty v žádném z projektů."
 
 #: weblate/templates/trans/component_form.html:15
 #: weblate/templates/trans/project_form.html:16
 msgid "Check your billing status"
-msgstr ""
+msgstr "Zkontrolovat stav fakturace"
 
 #: weblate/templates/trans/other-row.html:7
 msgid "This translation"
@@ -5476,16 +5459,12 @@ msgid "Change compared to this translation:"
 msgstr "Změna v porovnání s tímto překladem:"
 
 #: weblate/templates/trans/project_form.html:7
-#, fuzzy
-#| msgid "Watched projects"
 msgid "Create project"
-msgstr "Sledované projekty"
+msgstr "Vytvořit projekt"
 
 #: weblate/templates/trans/project_form.html:12
-#, fuzzy
-#| msgid "You do not have permission to change project access control."
 msgid "You currently do not have permission to create project."
-msgstr "Pro změnu přístupu nemáte oprávnění."
+msgstr "V tuto chvíli nemáte oprávnění pro vytváření projektů."
 
 #: weblate/templates/trans/suggestion_list.html:7
 #: weblate/templates/translate.html:230 weblate/templates/translate.html:426
@@ -8495,10 +8474,8 @@ msgid "System checks"
 msgstr "Kontroly systému"
 
 #: weblate/wladmin/templates/admin/performance.html:87
-#, fuzzy
-#| msgid "Congratulations, your setup seems to be without any major problems."
 msgid "Congratulations, your setup seems to work."
-msgstr "Gratulujeme, vaše nastavení se zdá být bez závažných problémů."
+msgstr "Gratulujeme, vaše nastavení se zdá být funkční."
 
 #: weblate/wladmin/templates/admin/report.html:4
 #: weblate/wladmin/templates/admin/report.html:13
