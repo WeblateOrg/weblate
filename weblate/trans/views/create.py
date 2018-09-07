@@ -123,7 +123,9 @@ class CreateComponent(BaseCreateView):
         return kwargs
 
     def dispatch(self, request, *args, **kwargs):
-        if self.has_billing:
+        if self.request.user.is_superuser:
+            self.projects = Project.objects.all()
+        elif self.has_billing:
             from weblate.billing.models import Billing
             self.projects = request.user.owned_projects.filter(
                 billing__in=Billing.objects.get_valid()
