@@ -1450,9 +1450,9 @@ class ComponentCreateForm(forms.ModelForm):
     class Meta(object):
         model = Component
         fields = [
-            'project', 'name', 'slug', 'vcs', 'repo', 'push',
+            'project', 'name', 'slug', 'vcs', 'repo', 'push', 'repoweb',
             'branch', 'file_format', 'filemask', 'template', 'new_base',
-            'license', 'new_lang',
+            'license', 'new_lang', 'language_regex',
         ]
 
     def __init__(self, *args, **kwargs):

@@ -446,13 +446,14 @@ class TempDirMixin(object):
 def create_billing(user):
     plan = Plan.objects.create(
         display_limit_projects=1,
-        name='Test plan'
+        name='Basic plan',
+        price=19, yearly_price=199,
     )
     billing = Billing.objects.create(plan=plan)
     billing.owners.add(user)
     Invoice.objects.create(
         billing=billing,
-        payment=1,
+        payment=19,
         start=timezone.now() - timedelta(days=1),
         end=timezone.now() + timedelta(days=1),
     )
