@@ -24,75 +24,44 @@ information.
 
     You can share cloned VCS repositories using :ref:`internal-urls`. Using shared repositories feature is highly recommended when you have many components that use the same VCS. It will improve performance and use less disk space.
 
-.. _admin-interface:
+Adding translation projects and components
+------------------------------------------
 
-Administration
---------------
+.. versionchanged:: 3.2
 
-Administration of Weblate is done through standard Django admin interface,
-which is available under :file:`/admin/` URL. Once logged in as user with
-proper privileges, you can access it using the wrench icon in top navigation:
+   Since the 3.2 release the interface for adding projects and components is
+   included in Weblate and no longer requires you to use
+   :ref:`admin-interface`.
 
-.. image:: ../images/admin-wrench.png
+Based on your permissions, you can be able to create new translation projects
+and componets in Weblate. It is always allowed for superusers and if your
+instance uses billing (eg. like https://hosted.weblate.org/), you can also
+create those based on your plans allowance.
 
-Here you can manage objects stored in the database, such as users, translations
-and other settings:
+You can view your current billing plan on separate page:
 
-.. image:: ../images/admin.png
+.. image:: ../images/user-billing.png
 
-In the :guilabel:`Reports` section you can check the status of your site, tweak
-it for :ref:`production` or manage SSH keys to access :ref:`vcs-repos`.
+The project creation can be intiated from there or using menu in navigation
+bar. All you need to do then is to fill in basic information about the
+translation project:
 
-With all sections below you can manage database objects. The most interesting one is
-probably :guilabel:`Weblate translations`, where you can manage translatable
-projects, see :ref:`project` and :ref:`component`.
+.. image:: ../images/user-add-project.png
 
-Another section, :guilabel:`Weblate languages` holds language definitions, see
-:ref:`languages` for more details.
+After creating the project, you are directly taken to the project page:
 
-Adding project
-++++++++++++++
+.. image:: ../images/user-add-project-done.png
 
-First you have to add project, which will serve as container for all
-components. Usually you create one project for one piece of software or book
-(see :ref:`project` for information on individual parameters):
+Creating new translation component can be initiated by single click there and
+you will have to fill in translation component information now:
 
-.. image:: ../images/add-project.png
+.. image:: ../images/user-add-component.png
 
-.. seealso:: 
-   
-   :ref:`project`
+.. seealso::
 
-.. _bilingual:
-
-Bilingual components
-++++++++++++++++++++
-
-Once you have added a project, you can add translation components to it
-(see :ref:`component` for information on individual parameters):
-
-.. image:: ../images/add-component.png
-
-.. seealso:: 
-   
-   :ref:`component`,
-   :ref:`bimono`
-
-.. _monolingual:
-
-Monolingual components
-++++++++++++++++++++++
-
-For easier translating of monolingual formats, you should provide a template
-file, which contains mapping of message IDs to source language (usually
-English) (see :ref:`component` for information on individual parameters):
-
-.. image:: ../images/add-component-mono.png
-
-.. seealso:: 
-   
-   :ref:`component`,
-   :ref:`bimono`
+      :ref:`admin-interface`,
+      :ref:`project`,
+      :ref:`component`
 
 .. _project:
 

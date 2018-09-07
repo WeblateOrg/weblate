@@ -25,3 +25,4 @@ Administrators guide
     whiteboard
     componentlists
     optionals
+    admin

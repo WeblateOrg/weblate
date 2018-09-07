@@ -1051,6 +1051,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         self.screenshot('user-add-project.png')
         with self.wait_for_page_load():
             self.driver.find_element_by_id('id_name').submit()
+        self.screenshot('user-add-project-done.png')
 
         # Click on add component
         with self.wait_for_page_load():
