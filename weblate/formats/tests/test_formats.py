@@ -36,7 +36,7 @@ from weblate.formats.ttkit import (
     PoFormat, AndroidFormat, PropertiesFormat, JoomlaFormat, JSONFormat,
     JSONNestedFormat, RESXFormat, PhpFormat, XliffFormat, TSFormat, YAMLFormat,
     RubyYAMLFormat, DTDFormat, WindowsRCFormat, WebExtensionJSONFormat,
-    PoXliffFormat, XCodeXliffFormat,
+    PoXliffFormat,
 )
 from weblate.formats.models import FILE_FORMATS
 from weblate.formats.auto import detect_filename
@@ -443,24 +443,6 @@ class XliffFormatTest(XMLMixin, AutoFormatTest):
 
 class PoXliffFormatTest(XMLMixin, AutoFormatTest):
     FORMAT = PoXliffFormat
-    FILE = TEST_XLIFF
-    BASE = TEST_XLIFF
-    MIME = 'application/x-xliff'
-    EXT = 'xlf'
-    COUNT = 4
-    MATCH = '<file target-language="cs">'
-    FIND_MATCH = ''
-    MASK = 'loc/*/default.xliff'
-    EXPECTED_PATH = 'loc/cs_CZ/default.xliff'
-    NEW_UNIT_MATCH = (
-        b'<trans-unit xml:space="preserve" id="key" approved="no">'
-        b'<source>key</source>'
-        b'<target state="translated">Source string</target></trans-unit>'
-    )
-
-
-class XCodeXliffFormatTest(XMLMixin, AutoFormatTest):
-    FORMAT = XCodeXliffFormat
     FILE = TEST_XLIFF
     BASE = TEST_XLIFF
     MIME = 'application/x-xliff'
