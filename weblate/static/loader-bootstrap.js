@@ -915,6 +915,9 @@ $(function () {
             e.preventDefault();
         });
 
+        if (width < 800) {
+            columnsMenu.find('#toggle-comments').click();
+        }
         if (width < 700) {
             columnsMenu.find('#toggle-suggestions').click();
         }
