@@ -13,6 +13,13 @@ mask of files to translate. Below :ref:`component` there are individual
 translations, which are handled automatically by Weblate as the translation
 files (matching mask defined in :ref:`component`) appear in VCS repository.
 
+All translation components need to be available as VCS repositories and are
+organized as project/component structure.
+
+Weblate supports wide range of translation formats (both bilingual and
+monolingua) supported by translate toolkit, see :ref:`formats` for more
+information.
+
 .. note::
 
     You can share cloned VCS repositories using :ref:`internal-urls`. Using shared repositories feature is highly recommended when you have many components that use the same VCS. It will improve performance and use less disk space.
@@ -42,16 +49,6 @@ projects, see :ref:`project` and :ref:`component`.
 
 Another section, :guilabel:`Weblate languages` holds language definitions, see
 :ref:`languages` for more details.
-
-Adding new components
----------------------
-
-All translation components need to be available as VCS repositories and are
-organized as project/component structure.
-
-Weblate supports wide range of translation formats (both bilingual and
-monolingua) supported by translate toolkit, see :ref:`formats` for more
-information.
 
 Adding project
 ++++++++++++++
