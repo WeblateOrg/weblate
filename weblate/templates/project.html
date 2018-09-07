@@ -120,7 +120,7 @@
   {% trans "There are currently no translation components!" as msg %}
   {% show_message "warning" msg %}
 {% if user_can_edit_project %}
-  <a class="btn btn-primary" href="{% reverse 'create-component' %}">{% trans "Add new translation component" %}</a>
+  <a class="btn btn-primary" href="{% url 'create-component' %}?project={{ object.pk }}">{% trans "Add new translation component" %}</a>
 {% endif %}
 </td></tr>
 {% endfor %}

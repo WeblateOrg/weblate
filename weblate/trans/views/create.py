@@ -105,7 +105,13 @@ class CreateComponent(BaseCreateView):
 
     def get_form(self, form_class=None):
         form = super(CreateComponent, self).get_form(form_class)
-        form.fields['project'].queryset = self.projects
+        project_field = form.fields['project']
+        project_field.queryset = self.projects
+        project_field.empty_label = None
+        try:
+            project_field.initial = int(self.request.GET['project'])
+        except (ValueError, KeyError):
+            pass
         return form
 
     def get_context_data(self, **kwargs):
