@@ -22,8 +22,10 @@ from __future__ import unicode_literals
 
 from django.template import Template, Context, Engine
 from django.utils.translation import override
-
+from django import template
 from weblate.utils.site import get_site_url
+
+register = template.Library()
 
 
 class RestrictedEngine(Engine):
@@ -34,6 +36,11 @@ class RestrictedEngine(Engine):
     def __init__(self, *args, **kwargs):
         kwargs['autoescape'] = False
         super(RestrictedEngine, self).__init__(*args, **kwargs)
+
+
+@register.simple_tag()
+def replace(value, char, replace_char):
+    return value.replace(char, replace_char)
 
 
 def render_template(template, translation=None, **kwargs):
