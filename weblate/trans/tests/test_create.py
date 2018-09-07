@@ -22,17 +22,12 @@
 
 from __future__ import unicode_literals
 
-from datetime import timedelta
-from unittest import SkipTest
-
-from django.conf import settings
-from django.test.utils import override_settings, modify_settings
+from django.test.utils import modify_settings
 from django.urls import reverse
-from django.utils import timezone
 
 import six
 
-from weblate.billing.models import Plan, Billing, Invoice
+from weblate.trans.tests.utils import create_billing
 from weblate.trans.tests.test_views import ViewTestCase
 
 
@@ -62,21 +57,6 @@ class CreateTest(ViewTestCase):
             self.assertEqual(response.status_code, 200)
         return response
 
-    def create_billing(self):
-        plan = Plan.objects.create(
-            display_limit_projects=1,
-            name='Test plan'
-        )
-        billing = Billing.objects.create(plan=plan)
-        billing.owners.add(self.user)
-        Invoice.objects.create(
-            billing=billing,
-            payment=1,
-            start=timezone.now() - timedelta(days=1),
-            end=timezone.now() + timedelta(days=1),
-        )
-        return billing
-
     @modify_settings(INSTALLED_APPS={'append': 'weblate.billing'})
     def test_create_project_billing(self):
         # No permissions without billing
@@ -84,7 +64,7 @@ class CreateTest(ViewTestCase):
         self.client_create_project(reverse('create-project'))
 
         # Create empty billing
-        billing = self.create_billing()
+        billing = create_billing(self.user)
         self.assert_create_project(True)
 
         # Create one project
@@ -92,7 +72,10 @@ class CreateTest(ViewTestCase):
         self.client_create_project(True, billing=billing.pk)
 
         # No more billings left
-        self.client_create_project(reverse('create-project'), name='p2', slug='p2', billing=billing.pk)
+        self.client_create_project(
+            reverse('create-project'),
+            name='p2', slug='p2', billing=billing.pk
+        )
 
     @modify_settings(INSTALLED_APPS={'remove': 'weblate.billing'})
     def test_create_project_admin(self):
@@ -137,7 +120,6 @@ class CreateTest(ViewTestCase):
             self.assertEqual(response.status_code, 200)
         return response
 
-
     @modify_settings(INSTALLED_APPS={'append': 'weblate.billing'})
     def test_create_component_billing(self):
         # No permissions without billing
@@ -145,7 +127,7 @@ class CreateTest(ViewTestCase):
         self.client_create_component(False)
 
         # Create billing and add permissions
-        billing = self.create_billing()
+        billing = create_billing(self.user)
         billing.projects.add(self.project)
         self.project.add_user(self.user, '@Administration')
         self.assert_create_component(True)

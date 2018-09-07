@@ -18,6 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from datetime import timedelta
 import os.path
 import shutil
 import sys
@@ -29,10 +30,12 @@ from celery.result import allow_join_result
 from celery.contrib.testing.tasks import ping
 
 from django.conf import settings
+from django.utils import timezone
 from django.utils.functional import cached_property
 
 from weblate.auth.models import User
 
+from weblate.billing.models import Plan, Billing, Invoice
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.models import Project, Component
 from weblate.trans.search import Fulltext
@@ -438,3 +441,19 @@ class TempDirMixin(object):
         if self.tempdir:
             shutil.rmtree(self.tempdir, onerror=remove_readonly)
             self.tempdir = None
+
+
+def create_billing(user):
+    plan = Plan.objects.create(
+        display_limit_projects=1,
+        name='Test plan'
+    )
+    billing = Billing.objects.create(plan=plan)
+    billing.owners.add(user)
+    Invoice.objects.create(
+        billing=billing,
+        payment=1,
+        start=timezone.now() - timedelta(days=1),
+        end=timezone.now() + timedelta(days=1),
+    )
+    return billing
