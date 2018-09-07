@@ -55,6 +55,8 @@ class CreateProject(BaseCreateView):
             billing_field.required = (
                 not self.request.user.is_superuser
             )
+            if self.request.user.is_superuser:
+                billing_field.empty_label = '-- without billing --'
         else:
             billing_field.required = False
             billing_field.widget = HiddenInput()
