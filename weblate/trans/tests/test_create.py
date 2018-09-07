@@ -111,6 +111,7 @@ class CreateTest(ViewTestCase):
             'filemask': 'po/*.po',
             'new_base': 'po/project.pot',
             'new_lang': 'add',
+            'language_regex': '^[^.]+$',
         }
         params.update(kwargs)
         response = self.client.post(reverse('create-component'), params)
