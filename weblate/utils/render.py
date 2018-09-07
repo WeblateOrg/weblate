@@ -22,13 +22,13 @@ from __future__ import unicode_literals
 
 from django.template import Template, Context, Engine
 from django.utils.translation import override
-
 from weblate.utils.site import get_site_url
 
 
 class RestrictedEngine(Engine):
     default_builtins = [
         'django.template.defaultfilters',
+        'weblate.utils.template_tags',
     ]
 
     def __init__(self, *args, **kwargs):
