@@ -1432,6 +1432,7 @@ class ProjectCreateForm(forms.ModelForm):
         label=_('Billing'),
         queryset=User.objects.none(),
         required=True,
+        empty_label=None,
     )
 
     class Meta(object):

@@ -45,14 +45,19 @@ class CreateProject(BaseCreateView):
 
     def get_form(self, form_class=None):
         form = super(CreateProject, self).get_form(form_class)
+        billing_field = form.fields['billing']
         if self.has_billing:
-            form.fields['billing'].queryset = self.billings
-            form.fields['billing'].required = (
+            billing_field.queryset = self.billings
+            try:
+                billing_field.initial = int(self.request.GET['billing'])
+            except (ValueError, KeyError):
+                pass
+            billing_field.required = (
                 not self.request.user.is_superuser
             )
         else:
-            form.fields['billing'].required = False
-            form.fields['billing'].widget = HiddenInput()
+            billing_field.required = False
+            billing_field.widget = HiddenInput()
         return form
 
     def form_valid(self, form):
