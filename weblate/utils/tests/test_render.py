@@ -23,7 +23,7 @@ from __future__ import unicode_literals
 from django.test import SimpleTestCase
 from django.utils.translation import override
 
-from weblate.utils.render import render_template
+from weblate.utils.render import render_template, replace
 
 
 class RenderTest(SimpleTestCase):
@@ -36,3 +36,8 @@ class RenderTest(SimpleTestCase):
     def test_float_cs(self):
         with override('cs'):
             self.test_float()
+
+    def test_replace(self):
+        result = replace('a-string-with-dashes', '-', ' ')
+        self.assertEqual(result, 'a string with dashes')
+
