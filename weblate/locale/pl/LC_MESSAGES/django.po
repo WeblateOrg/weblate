@@ -2,12 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Piotr Sokół <psokol.l10n@gmail.com>, 2016.
+# WaldiS <admin@sto.ugu.pl>, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-09-07 11:54+0000\n"
-"PO-Revision-Date: 2018-08-31 17:33+0000\n"
+"PO-Revision-Date: 2018-09-09 12:56+0000\n"
 "Last-Translator: WaldiS <admin@sto.ugu.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/master/pl/"
 ">\n"
@@ -339,22 +340,16 @@ msgstr ""
 "%(file)s&line=%(line)s."
 
 #: weblate/accounts/models.py:339
-#, fuzzy
-#| msgid "Translations made"
 msgid "Translation editor mode"
-msgstr "Tłumaczenia"
+msgstr "Tryb edytora tłumaczeń"
 
 #: weblate/accounts/models.py:341
-#, fuzzy
-#| msgid "Open in full editor"
 msgid "Full editor"
-msgstr "Otwórz w pełnym edytorze"
+msgstr "Pełny edytor"
 
 #: weblate/accounts/models.py:342
-#, fuzzy
-#| msgid "Edit in Zen mode"
 msgid "Zen mode"
-msgstr "Modyfikuj w trybie Zen"
+msgstr "Tryb zen"
 
 #: weblate/accounts/models.py:349
 msgid "Special characters"
@@ -1404,16 +1399,12 @@ msgid "Billing plan"
 msgstr "Plan bilingu"
 
 #: weblate/billing/models.py:100
-#, fuzzy
-#| msgid "All projects"
 msgid "Billed projects"
-msgstr "Wszystkie projekty"
+msgstr "Projekty rozliczane"
 
 #: weblate/billing/models.py:104
-#, fuzzy
-#| msgid "Billing plan"
 msgid "Billing owners"
-msgstr "Plan bilingu"
+msgstr "Rozliczenia właścicieli"
 
 #: weblate/billing/models.py:108
 msgid "Active"
@@ -1428,18 +1419,16 @@ msgid "Expired"
 msgstr "Wygasłe"
 
 #: weblate/billing/models.py:113
-#, fuzzy
-#| msgid "Billing plan"
 msgid "Billing state"
-msgstr "Plan bilingu"
+msgstr "Stan rozliczeń"
 
 #: weblate/billing/models.py:117
 msgid "Trial expiry date"
-msgstr ""
+msgstr "Termin ważności wersji próbnej"
 
 #: weblate/billing/models.py:121
 msgid "Paid"
-msgstr ""
+msgstr "Płatny"
 
 #: weblate/billing/models.py:127
 msgid "In limits"
@@ -2437,14 +2426,11 @@ msgstr ""
 "małpki” są na dobrej drodze, by to naprawić."
 
 #: weblate/templates/500.html:16
-#, fuzzy, python-format
-#| msgid ""
-#| "If you need assistance, you may reference this error as <strong>"
-#| "%(error_id)s</strong>."
+#, python-format
 msgid "If you need assistance, you may reference this error as %(error_id)s."
 msgstr ""
-"Jeśli potrzebujesz pomocy, możesz odwołać się do tego błędu jako <strong>"
-"%(error_id)s</strong>."
+"Jeśli potrzebujesz pomocy, możesz odwołać się do tego błędu jako "
+"%(error_id)s."
 
 #: weblate/templates/about/index.html:5 weblate/templates/about/index.html:15
 #: weblate/templates/about/keys.html:6 weblate/templates/about/stats.html:5
@@ -3573,17 +3559,13 @@ msgstr "Dodaj"
 
 #: weblate/templates/base.html:149 weblate/templates/billing/detail.html:42
 #: weblate/templates/trans/project_form.html:26
-#, fuzzy
-#| msgid "Add new translation string"
 msgid "Add new translation project"
-msgstr "Dodaj nowy ciąg tłumaczenia"
+msgstr "Dodaj nowy projekt tłumaczenia"
 
 #: weblate/templates/base.html:150 weblate/templates/project.html:123
 #: weblate/templates/trans/component_form.html:25
-#, fuzzy
-#| msgid "Other translation components"
 msgid "Add new translation component"
-msgstr "Inne składniki tłumaczenia"
+msgstr "Dodaj nowy składnik tłumaczeń"
 
 #: weblate/templates/base.html:157
 msgid "Help"
@@ -3594,16 +3576,13 @@ msgid "Service status"
 msgstr "Status usługi"
 
 #: weblate/templates/base.html:179
-#, fuzzy, python-format
-#| msgid "Logged in as %(name)s"
+#, python-format
 msgid "Logged in as %(user)s"
-msgstr "Zalogowany/-a jako %(name)s"
+msgstr "Zalogowany/-a jako %(user)s"
 
 #: weblate/templates/base.html:182
-#, fuzzy
-#| msgid "Waiting for review"
 msgid "Billing overview"
-msgstr "Oczekujące na kontrolę"
+msgstr "Przegląd płatności"
 
 #: weblate/templates/base.html:184 weblate/templates/component-settings.html:9
 #: weblate/templates/component.html:82
@@ -3635,7 +3614,7 @@ msgstr "Plan aktualny"
 #: weblate/templates/billing/detail.html:12
 #, python-format
 msgid ", expires %(expires)s"
-msgstr ""
+msgstr ", wygaśnięcie %(expires)s"
 
 #: weblate/templates/billing/detail.html:12
 msgid "See other plans"
@@ -3666,10 +3645,8 @@ msgid "Projects limit"
 msgstr "Limit projektów"
 
 #: weblate/templates/billing/detail.html:40
-#, fuzzy
-#| msgid "No context currently associated!"
 msgid "No projects currently assigned!"
-msgstr "Brak aktualnie powiązanego kontekstu!"
+msgstr "Brak aktualnie przydzielonych projektów!"
 
 #: weblate/templates/billing/detail.html:53
 msgid "Invoices"
@@ -3701,7 +3678,7 @@ msgstr "Biling"
 
 #: weblate/templates/billing/overview.html:15
 msgid "You currently do not have any billings active."
-msgstr ""
+msgstr "Obecnie nie masz żadnych aktywnych rachunków."
 
 #: weblate/templates/billing/used.html:5
 #, python-format
@@ -5359,10 +5336,8 @@ msgid "link"
 msgstr "odnośnik"
 
 #: weblate/templates/project.html:120
-#, fuzzy
-#| msgid "Other translation components"
 msgid "There are currently no translation components!"
-msgstr "Inne składniki tłumaczenia"
+msgstr "Obecnie nie ma składników tłumaczenia!"
 
 #: weblate/templates/project.html:180
 msgid "There are currently no glossaries defined for this project."
@@ -5540,22 +5515,18 @@ msgid "Follow using RSS"
 msgstr "Obserwuj za pomocą RSS"
 
 #: weblate/templates/trans/component_form.html:7
-#, fuzzy
-#| msgid "Other components"
 msgid "Create component"
-msgstr "Inne komponenty"
+msgstr "Utwórz komponent"
 
 #: weblate/templates/trans/component_form.html:12
-#, fuzzy
-#| msgid "You do not have permission to change project access control."
 msgid ""
 "You currently do not have permission to create component in any project."
-msgstr "Nie masz uprawnień do zmiany ustawień kontroli dostępu do projektu."
+msgstr "Obecnie nie masz uprawnień do tworzenia komponentu w żadnym projekcie."
 
 #: weblate/templates/trans/component_form.html:15
 #: weblate/templates/trans/project_form.html:16
 msgid "Check your billing status"
-msgstr ""
+msgstr "Sprawdź swój status płatności"
 
 #: weblate/templates/trans/other-row.html:7
 msgid "This translation"
@@ -5574,16 +5545,12 @@ msgid "Change compared to this translation:"
 msgstr "Zmiana w porównaniu do tego tłumaczenia:"
 
 #: weblate/templates/trans/project_form.html:7
-#, fuzzy
-#| msgid "Watched projects"
 msgid "Create project"
-msgstr "Projekty obserwowane"
+msgstr "Utwórz projekt"
 
 #: weblate/templates/trans/project_form.html:12
-#, fuzzy
-#| msgid "You do not have permission to change project access control."
 msgid "You currently do not have permission to create project."
-msgstr "Nie masz uprawnień do zmiany ustawień kontroli dostępu do projektu."
+msgstr "Nie masz uprawnień do tworzenia projektu."
 
 #: weblate/templates/trans/suggestion_list.html:7
 #: weblate/templates/translate.html:230 weblate/templates/translate.html:426
@@ -7983,7 +7950,7 @@ msgstr "O programie"
 
 #: weblate/trans/views/about.py:50
 msgid "Keys"
-msgstr ""
+msgstr "Klucze"
 
 #: weblate/trans/views/about.py:83
 msgid "Weblate statistics"
@@ -8620,7 +8587,7 @@ msgstr "Kontrola systemu"
 
 #: weblate/wladmin/templates/admin/performance.html:87
 msgid "Congratulations, your setup seems to work."
-msgstr ""
+msgstr "Gratulacje, Twoja konfiguracja działa."
 
 #: weblate/wladmin/templates/admin/report.html:4
 #: weblate/wladmin/templates/admin/report.html:13

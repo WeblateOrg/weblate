@@ -1,15 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 송태섭 <xotjq237@gmail.com>, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-09-07 11:54+0000\n"
-"PO-Revision-Date: 2018-04-08 15:38+0000\n"
-"Last-Translator: Hong Lees <redf1123@gmail.com>\n"
+"PO-Revision-Date: 2018-09-09 12:55+0000\n"
+"Last-Translator: 송태섭 <xotjq237@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
 ">\n"
 "Language: ko\n"
@@ -17,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2.20\n"
+"X-Generator: Weblate 3.2-dev\n"
 
 #: weblate/accounts/avatar.py:125
 msgctxt "No known user"
@@ -35,7 +34,7 @@ msgstr "이미 사용 중인 이메일 주소입니다. 다른 이메일 주소�
 msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
 "+ - _"
-msgstr "사용자 이름은 문자, 숫자 및 특수문자(@ . + - _)만을 포함할 수 있습니다"
+msgstr "사용자 이름은 문자, 숫자와 다음과 같은 특수 문자 만을 포함할 수 있습니다: @ . + - _"
 
 #: weblate/accounts/forms.py:105 weblate/templates/accounts/login.html:26
 #: weblate/templates/accounts/user.html:22
@@ -54,14 +53,12 @@ msgstr "전체 이름"
 
 #: weblate/accounts/forms.py:223
 msgid "Component wide notifications"
-msgstr "구성 요소 전체에 대한 통지"
+msgstr "구성 요소 전체 알림"
 
 #: weblate/accounts/forms.py:225
 msgid ""
 "You will receive notification on every such event in your watched projects."
-msgstr ""
-"감시하고 있는 프로젝트에서 이러한 모든 사건이 발생할 때마다 알림 메시지를 받"
-"게됩니다."
+msgstr "감시하고 있는 프로젝트에서 해당하는 사건이 일어나면 알림 메시지를 보냅니다."
 
 #: weblate/accounts/forms.py:232
 msgid "Translation notifications"
@@ -71,12 +68,10 @@ msgstr "번역 알림"
 msgid ""
 "You will receive these notifications only for your translated languages in "
 "your watched projects."
-msgstr "감시하고있는 프로젝트에서 번역된 언어에 대해서만 알림을 받게됩니다."
+msgstr "감시하고 있는 프로젝트에서 번역된 언어에 대해서만 알림을 받게 됩니다."
 
 #: weblate/accounts/forms.py:277 weblate/accounts/forms.py:348
 #: weblate/auth/models.py:313 weblate/templates/manage-access.html:25
-#, fuzzy
-#| msgid "E-mail"
 msgid "Email"
 msgstr "이메일"
 
@@ -106,17 +101,15 @@ msgstr "메세지"
 msgid ""
 "Please contact us in English, otherwise we might be unable to understand "
 "your request."
-msgstr "영어로 연락하시지 않으면 저희가 요청 사항을 이해할 수 없을 것입니다."
+msgstr "영어로 연락하시지 않으면, 저희가 요청 사항을 이해할 수 없을 것입니다."
 
 #: weblate/accounts/forms.py:349
 msgid "Activation email will be sent here."
 msgstr "활성화 이메일이 이 곳으로 전송됩니다."
 
 #: weblate/accounts/forms.py:387
-#, fuzzy
-#| msgid "Too many registration attempts!"
 msgid "Too many registration attempts from this location!"
-msgstr "등록 시도가 너무 많습니다!"
+msgstr "이 위치에서 등록 시도가 너무 많습니다!"
 
 #: weblate/accounts/forms.py:394
 msgid "New password"
@@ -174,10 +167,8 @@ msgid "This account is inactive."
 msgstr "이 계정은 비활성화된 계정입니다."
 
 #: weblate/accounts/forms.py:551
-#, fuzzy
-#| msgid "Too many authentication attempts!"
 msgid "Too many authentication attempts from this location!"
-msgstr "인증 시도가 너무 많습니다!"
+msgstr "이 위치에서 인증 시도가 너무 많습니다!"
 
 #: weblate/accounts/forms.py:609 weblate/templates/addons/generate_help.html:21
 #: weblate/trans/models/project.py:56
@@ -219,41 +210,35 @@ msgstr "암호가 변경되었습니다."
 
 #: weblate/accounts/models.py:55
 msgid "Password reset has been requested."
-msgstr "암호 재설정을 요청하였습니다."
+msgstr "비밀번호 재설정을 요청하였습니다."
 
 #: weblate/accounts/models.py:58
-#, fuzzy
-#| msgid "Password reset has been confirmed and password has been reset."
 msgid "Password reset has been confirmed and password has been disabled."
-msgstr "암호 재설정이 확인되어 암호가 초기화 되었습니다."
+msgstr "암호 재설정이 확인되어 암호가 비활성화 되었습니다."
 
 #: weblate/accounts/models.py:61
-#, fuzzy, python-brace-format
-#| msgid "Authentication using {method} ({name}) has been added."
+#, python-brace-format
 msgid "Authentication ({method}:{name}) has been added."
-msgstr "{method}{name}을 이용한 확인절차가 추가되었습니다."
+msgstr "{method}{name} 인증이 추가되었습니다."
 
 #: weblate/accounts/models.py:64
-#, fuzzy, python-brace-format
-#| msgid "Authentication using {method} ({name}) has been removed."
+#, python-brace-format
 msgid "Authentication ({method}:{name}) has been removed."
-msgstr "{method}{name}을 이용한 확인절차가 제거되었습니다."
+msgstr "{method}{name} 인증이 제거되었습니다."
 
 #: weblate/accounts/models.py:67
-#, fuzzy, python-brace-format
-#| msgid "Authenticated using {method} ({name})."
+#, python-brace-format
 msgid "Authenticated ({method}:{name})."
-msgstr "{method} ({name})을 이용하여 승인하였습니다."
+msgstr "{method} ({name}) 이 인증되었습니다."
 
 #: weblate/accounts/models.py:70
-#, fuzzy, python-brace-format
-#| msgid "Authenticated using {method} ({name}) from new device."
+#, python-brace-format
 msgid "Authenticated ({method}:{name}) from new device."
-msgstr "새 기기에서 {method} ({name})을 이용하여 인증하였습니다."
+msgstr "새 기기에서 {method} ({name}) 이 인증되었습니다."
 
 #: weblate/accounts/models.py:73
 msgid "Somebody has attempted to register with your email."
-msgstr "누군가 당신의 이메일을 이용하여 등록을 시도하였습니다."
+msgstr "누군가 당신의 이메일을 이용하여 등록을 시도하려 했습니다."
 
 #: weblate/accounts/models.py:76
 msgid "Somebody has attempted to add your email to existing account."
@@ -261,10 +246,9 @@ msgstr ""
 "누군가 당신의 이메일을 이미 존재하는 계정에 추가하려는 시도가 있었습니다."
 
 #: weblate/accounts/models.py:79
-#, fuzzy, python-brace-format
-#| msgid "Failed authentication attempt using {method} ({name})."
+#, python-brace-format
 msgid "Failed authentication attempt ({method}:{name})."
-msgstr "{method}{name}을 이용한 승인 절차에 실패하였습니다."
+msgstr "{method}{name} 인증 시도에 실패하였습니다."
 
 #: weblate/accounts/models.py:82
 msgid "Account locked due to excessive failed authentication attempts."
@@ -312,14 +296,12 @@ msgstr ""
 "이 표시됩니다."
 
 #: weblate/accounts/models.py:312
-#, fuzzy
-#| msgid "Hide completed translations on dashboard"
 msgid "Hide completed translations on the dashboard"
-msgstr "완료된 번역 대시보드에서 숨기기"
+msgstr "완료된 번역문을 대시보드에서 숨기기"
 
 #: weblate/accounts/models.py:316
 msgid "Show secondary translations in zen mode"
-msgstr "2차 번역을 전체 화면 모드에서 보기"
+msgstr "2차 번역을 선 모드에서 보기"
 
 #: weblate/accounts/models.py:320
 msgid "Hide source if there is secondary language"
@@ -343,22 +325,16 @@ msgstr ""
 "형식이 쓰입니다."
 
 #: weblate/accounts/models.py:339
-#, fuzzy
-#| msgid "Translations made"
 msgid "Translation editor mode"
-msgstr "게시된 번역"
+msgstr "번역 편집기 모드"
 
 #: weblate/accounts/models.py:341
-#, fuzzy
-#| msgid "Open in full editor"
 msgid "Full editor"
-msgstr "전체 화면 에디터에서 열기"
+msgstr "전체 편집기"
 
 #: weblate/accounts/models.py:342
-#, fuzzy
-#| msgid "Edit in Zen mode"
 msgid "Zen mode"
-msgstr "젠 모드에서 수정"
+msgstr "선 모드"
 
 #: weblate/accounts/models.py:349
 msgid "Special characters"
@@ -370,29 +346,27 @@ msgid ""
 "keyboard while translating. It can be useful for chars you use frequently "
 "but are hard to type on your keyboard."
 msgstr ""
-"당신은 번역중 쓰일 시각키보드를 위한 추가적인 특수문자를 설정할 수 있습니다. "
-"이 기능은 키보드의 자주 쓰이지만, 입력하기 어려운 문자를 위하여 쓰입니다."
+"당신은 번역 중 쓰일 시각 키보드를 위한 추가적인 특수 문자를 설정할 수 있습니다. 이 기능은 키보드의 자주 쓰이지만, 입력하기 어려운 "
+"문자를 위하여 쓰입니다."
 
 #: weblate/accounts/models.py:364 weblate/templates/dashboard/user.html:13
 msgid "Watched translations"
-msgstr "감시중인 번역"
+msgstr "감시 중인 번역"
 
 #: weblate/accounts/models.py:365 weblate/templates/dashboard/user.html:14
 msgid "Your languages"
-msgstr "귀하의 언어"
+msgstr "당신의 언어"
 
 #: weblate/accounts/models.py:366 weblate/templates/dashboard/user.html:17
 #: weblate/trans/models/componentlist.py:64
-#, fuzzy
-#| msgid "Components"
 msgid "Component lists"
-msgstr "컴포넌트"
+msgstr "구성 요소 목록들"
 
 #: weblate/accounts/models.py:367 weblate/auth/models.py:136
 #: weblate/templates/list-translations.html:7
 #: weblate/trans/models/componentlist.py:63
 msgid "Component list"
-msgstr "컴포넌트 목록"
+msgstr "구성 요소 목록"
 
 #: weblate/accounts/models.py:368 weblate/templates/dashboard/user.html:19
 msgid "Suggested translations"
@@ -404,64 +378,54 @@ msgstr "기본 대시보드 뷰"
 
 #: weblate/accounts/models.py:391
 msgid "Default component list"
-msgstr "기본 컴포넌트 리스트"
+msgstr "기본 구성 요소 리스트"
 
 #: weblate/accounts/models.py:399 weblate/templates/accounts/profile.html:120
 #: weblate/templates/base.html:113
 msgid "Watched projects"
-msgstr "감시중인 프로젝트"
+msgstr "감시 중인 프로젝트"
 
 #: weblate/accounts/models.py:401
-#, fuzzy
-#| msgid ""
-#| "You can receive notifications for watched projects and they are shown on "
-#| "dashboard by default."
 msgid ""
 "You can receive notifications for watched projects and they are shown on the "
 "dashboard by default."
-msgstr ""
-"당신이 보았던 프로젝트와 관련된 알림을 받을 수 있습니다. 이것은 당신의 대시보"
-"드에 기본적으로 나타나게 됩니다."
+msgstr "당신이 보았던 프로젝트와 관련된 알림을 받을 수 있습니다. 이것은 당신의 대시보드에 기본적으로 나타나게 됩니다."
 
 #: weblate/accounts/models.py:408
 msgid "Notification on any translation"
-msgstr "번역이 있을 경우 알리기"
+msgstr "번역이 있을 시 알림"
 
 #: weblate/accounts/models.py:412
 msgid "Notification on new string to translate"
-msgstr "새로 번역해야 할 문구가 있을경우 알리기"
+msgstr "새로운 번역 문구가 있을 시 알림"
 
 #: weblate/accounts/models.py:416
 msgid "Notification on new suggestion"
-msgstr "새로운 제안사항이 있을경우 알리기"
+msgstr "새로운 제안이 있을 시 알림"
 
 #: weblate/accounts/models.py:420
 msgid "Notification on new contributor"
-msgstr "새로운 참여자가 있을 경우 알리기"
+msgstr "새로운 참여자가 있을 시 알림"
 
 #: weblate/accounts/models.py:424
 msgid "Notification on new comment"
-msgstr "새로운 덧글이 있을 경우 알리기"
+msgstr "새로운 댓글이 있을 시 알림"
 
 #: weblate/accounts/models.py:428
 msgid "Notification on merge failure"
-msgstr "번역 통합 실패 시 알리기"
+msgstr "번역 통합 실패 시 알림"
 
 #: weblate/accounts/models.py:432
 msgid "Notification on new language request"
-msgstr "새로운 언어 추가 요청이 있을 경우 알리기"
+msgstr "새로운 언어 추가 요청이 있을 시 알림"
 
 #: weblate/accounts/models.py:486
-#, fuzzy
-#| msgid "Component list must be selected when used as default."
 msgid "Component list must be chosen when used as default."
-msgstr "구성요소 목록은 기본 설정으로 쓰이기 위해서는 꼭 선택되어야 합니다."
+msgstr "구성 요소 목록은 기본 설정으로 쓰이기 위해서는 꼭 선택되어야 합니다."
 
 #: weblate/accounts/models.py:492
-#, fuzzy
-#| msgid "Component list must not be selected when not used."
 msgid "Component list can not be chosen when unused."
-msgstr "구성 요소 목록은 쓰이지 않을 때는 선택되어서는 안됩니다."
+msgstr "사용하지 않을 경우 구성 요소 목록을 선택할 수 없습니다."
 
 #: weblate/accounts/models.py:547
 msgid ""
@@ -470,34 +434,28 @@ msgid ""
 msgstr "설정된 이메일 주소 없이는 번역을 제출할 수 없습니다."
 
 #: weblate/accounts/password_validation.py:41
-#, fuzzy
-#| msgid "This password consists of whitespace only."
 msgid "This password consists of only whitespace."
-msgstr "이 비밀번호는 공백으로만 이루어져있습니다."
+msgstr "이 비밀번호는 공백으로만 이루어져 있습니다."
 
 #: weblate/accounts/password_validation.py:46
-#, fuzzy
-#| msgid "This password consists of single character."
 msgid "This password is only a single character."
-msgstr "이 비밀번호는 동일한 문자로 이루어져있습니다."
+msgstr "이 비밀번호는 동일한 문자로 이루어져 있습니다."
 
 #: weblate/accounts/password_validation.py:52
-#, fuzzy
-#| msgid "Your password can't consist of single character or whitespace only."
 msgid "Your password can't consist of a single character or only whitespace."
-msgstr "당신의 비밀번호는 동일한 문자열이나 공백으로만 이루어질 수 없습니다."
+msgstr "당신의 비밀번호를 동일한 문자열이나 공백으로만 할 수는 없습니다."
 
 #: weblate/accounts/password_validation.py:74
 msgid "Can not reuse previously used password!"
-msgstr "이전에 사용한 암호를 다시 사용할 수 없습니다!"
+msgstr "이전에 사용한 비밀번호를 다시 사용할 수 없습니다!"
 
 #: weblate/accounts/password_validation.py:80
 msgid "Your password can't match a password you have used in the past."
-msgstr "과거에 사용한 암호를 사용해서는 안됩니다."
+msgstr "과거에 사용한 비밀번호와 일치해서는 안됩니다."
 
 #: weblate/accounts/pipeline.py:296
 msgid "You can not complete password reset while logged in!"
-msgstr "로그인된 상태에서는 암호 초기화를 완료할 수 없습니다!"
+msgstr "로그인한 상태에서는 비밀번호 초기화를 완료할 수 없습니다!"
 
 #: weblate/accounts/pipeline.py:300 weblate/accounts/pipeline.py:324
 msgid "The registration link has been invalidated."
@@ -505,11 +463,11 @@ msgstr "등록 링크가 무효화되었습니다."
 
 #: weblate/accounts/pipeline.py:315
 msgid "You can not complete registration while logged in!"
-msgstr "로그인중에는 등록을 완료 할 수 없습니다!"
+msgstr "로그인 중에는 등록을 완료할 수 없습니다!"
 
 #: weblate/accounts/pipeline.py:320
 msgid "You can confirm your registration only while logged in!"
-msgstr "로그인 중에 만 등록을 확인할 수 있습니다!"
+msgstr "로그인 중에만 등록을 확인할 수 있습니다!"
 
 #: weblate/accounts/pipeline.py:457
 #, python-brace-format
@@ -523,13 +481,11 @@ msgstr ""
 #: weblate/accounts/views.py:775 weblate/templates/accounts/reset.html:7
 #: weblate/templates/accounts/reset.html:27
 msgid "Password reset"
-msgstr "암호 초기화"
+msgstr "비밀번호 초기화"
 
 #: weblate/accounts/views.py:121
-#, fuzzy
-#| msgid "Remove my account"
 msgid "Remove account"
-msgstr "이 계정 삭제"
+msgstr "계정 삭제"
 
 #: weblate/accounts/views.py:124 weblate/accounts/views.py:617
 msgid "User registration"
@@ -549,7 +505,7 @@ msgstr "데모 서버에서는 데모 계정을 변경할 수 없습니다."
 
 #: weblate/accounts/views.py:248
 msgid "Your profile has been updated."
-msgstr "당신의 프로필이 업데이트되었습니다."
+msgstr "당신의 프로필이 업데이트 되었습니다."
 
 #: weblate/accounts/views.py:284
 msgid "User profile"
@@ -561,7 +517,7 @@ msgstr "계정이 삭제되었습니다."
 
 #: weblate/accounts/views.py:392
 msgid "Too many messages sent, please try again later!"
-msgstr "너무 많은 메시지가 전달되었습니다! 잠시 후 다시 시도하시기 바랍니다!"
+msgstr "너무 많은 메시지를 보냈습니다, 잠시 후 다시 시도하시기 바랍니다!"
 
 #: weblate/accounts/views.py:418 weblate/templates/accounts/contact.html:6
 #: weblate/templates/accounts/contact.html:21 weblate/templates/base.html:159
@@ -571,7 +527,7 @@ msgstr "연락"
 
 #: weblate/accounts/views.py:431
 msgid "Please log in using your personal account to request hosting."
-msgstr ""
+msgstr "호스팅을 요청하려면 개인 계정에 로그인하십시오."
 
 #: weblate/accounts/views.py:459 weblate/templates/accounts/hosting.html:7
 msgid "Hosting"
@@ -583,16 +539,12 @@ msgid "Login"
 msgstr "로그인"
 
 #: weblate/accounts/views.py:535
-#, fuzzy
-#| msgid "Manage users"
 msgid "Standard user"
-msgstr "사용자 관리"
+msgstr "표준 사용자"
 
 #: weblate/accounts/views.py:536
-#, fuzzy
-#| msgid "Versions"
 msgid "User with reviewer permissions"
-msgstr "버전"
+msgstr "검토 권한이 있는 사용자"
 
 #: weblate/accounts/views.py:567 weblate/wladmin/sites.py:148
 msgid "Thanks for using Weblate!"
@@ -605,23 +557,21 @@ msgstr "이메일 등록"
 #: weblate/accounts/views.py:696 weblate/templates/accounts/password.html:13
 #: weblate/templates/accounts/profile.html:199
 msgid "Change password"
-msgstr "암호 변경"
+msgstr "비밀번호 변경"
 
 #: weblate/accounts/views.py:711
 msgid "Password reset has been already completed!"
-msgstr "암호 초기화가 이미 완료되었습니다!"
+msgstr "비밀번호 초기화가 이미 완료되었습니다!"
 
 #: weblate/accounts/views.py:742
 msgid "Can not reset password, email authentication is disabled!"
-msgstr "이메일 인증이 활성화되어 있지 않아 비밀번호를 초기화할 수 없습니다!"
+msgstr "이메일 인증이 활성화되어 있지 않아서, 비밀번호를 초기화할 수 없습니다!"
 
 #: weblate/accounts/views.py:878
 msgid ""
 "Failed to verify your registration! Probably the verification token has "
 "expired. Please try the registration again."
-msgstr ""
-"등록을 확인할 수 없습니다! 등록된 데이터의 유효 시간이 초과되었을 수 있으니, "
-"다시 한번 등록해주시기 바랍니다."
+msgstr "등록을 확인할 수 없습니다! 토큰이 만료되었을 수 있습니다. 다시 한번 등록해주시기 바랍니다."
 
 #: weblate/accounts/views.py:885
 msgid "Authentication failed due to invalid session state."
@@ -633,7 +583,7 @@ msgstr "데모 환경은 인증을 변경할 수 없습니다!"
 
 #: weblate/accounts/views.py:903
 msgid "New registrations are disabled!"
-msgstr "회원 가입이 비활성화되어 있습니다!"
+msgstr "회원 가입이 비활성화 되어 있습니다!"
 
 #: weblate/accounts/views.py:910
 msgid ""
@@ -645,28 +595,18 @@ msgid "Authentication has been cancelled."
 msgstr "인증이 취소되었습니다."
 
 #: weblate/accounts/views.py:916
-#, fuzzy
-#| msgid "Authentication has been cancelled."
 msgid "Authentication has been forbidden by server."
-msgstr "인증이 취소되었습니다."
+msgstr "인증이 서버에 의해 금지되었습니다."
 
 #: weblate/accounts/views.py:919
-#, fuzzy
-#| msgid ""
-#| "Failed to complete your registration! This authentication, email or "
-#| "username are already associated with another account!"
 msgid ""
 "Failed to complete your registration! This authentication, email or username "
 "is already associated with another account!"
-msgstr ""
-"등록을 완료하지 못했습니다! 이 인증, 이메일 또는 사용자 이름은 이미 다른 계정"
-"과 연결되어 있습니다!"
+msgstr "등록을 완료하지 못했습니다! 이 인증, 이메일 또는 사용자 이름이 이미 다른 계정과 연결되어 있습니다!"
 
 #: weblate/addons/cleanup.py:34
-#, fuzzy
-#| msgid "Translation file"
 msgid "Cleanup translation files"
-msgstr "번역 파일"
+msgstr "번역 파일 정리"
 
 #: weblate/addons/cleanup.py:36
 msgid ""
@@ -674,34 +614,32 @@ msgid ""
 "file formats, this means removing stale translation keys no longer present "
 "in the base file."
 msgstr ""
+"모든 번역 파일을 단일 기본 파일에 맞도록 업데이트 하세요. 대부분의 파일 형식에서, 이는 기본 파일에 있던 오래된 번역 키를 제거해 "
+"버리는 것입니다."
 
 #: weblate/addons/consistency.py:33
-#, fuzzy
-#| msgid "Language code"
 msgid "Language consistency"
-msgstr "언어 코드"
+msgstr "언어 일관성"
 
 #: weblate/addons/consistency.py:35
 msgid ""
 "This addon ensures that all components within one project have translation "
 "to same languages."
-msgstr ""
+msgstr "이 애드온은 한 프로젝트 내의 모든 구성 요소가 같은 언어로 번역되도록 만듭니다."
 
 #: weblate/addons/discovery.py:35
-#, fuzzy
-#| msgid "Component list"
 msgid "Component discovery"
-msgstr "컴포넌트 목록"
+msgstr "구성 요소 발견"
 
 #: weblate/addons/discovery.py:37
 msgid ""
 "This addon automatically adds or removes components to the project based on "
 "file changes in the version control system."
-msgstr ""
+msgstr "이 애드온은 버전 제어 시스템에서 파일 변경을 기반으로 하여 프로젝트에서 구성 요소를 자동으로 추가하거나 삭제합니다."
 
 #: weblate/addons/example.py:42
 msgid "Example addon"
-msgstr ""
+msgstr "예시 애드온"
 
 #: weblate/addons/example.py:44
 msgid "This addon does nothing it is just an example."
@@ -709,17 +647,15 @@ msgstr "이 애드온은 그냥 예시일 뿐 아무런 의미가 없습니다."
 
 #: weblate/addons/example_pre.py:38
 msgid "Execute script before commit"
-msgstr ""
+msgstr "확정하기 전에 스크립트 실행"
 
 #: weblate/addons/example_pre.py:39
 msgid "This addon executes a script."
-msgstr ""
+msgstr "이 애드온은 스크립트를 실행합니다."
 
 #: weblate/addons/flags.py:50
-#, fuzzy
-#| msgid "Review source strings in %s"
 msgid "Flag new source strings as \"Needs editing\""
-msgstr "%s에 원본 문자열을 검토"
+msgstr "새 원본 문자열을 \"Needs editing\"으로 설정"
 
 #: weblate/addons/flags.py:52
 msgid ""
@@ -727,49 +663,35 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
+"VCS에서 새 번역 문자열을 가져올 때마다, Weblate에서 편집이 필요함으로 설정합니다. 이렇게 하면 개발자가 만든 번역 문자열을 "
+"쉽게 골라내 편집할 수 있습니다."
 
 #: weblate/addons/flags.py:64
-#, fuzzy
-#| msgid "Add as translation"
 msgid "Flag new translations as \"Needs editing\""
-msgstr "번역으로서 추가"
+msgstr "새 번역을 \"Needs editing\"으로 설정"
 
 #: weblate/addons/flags.py:66
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translation string is imported from the VCS, it is flagged "
-#| "as needing editing in Weblate. This way you can easily filter and edit "
-#| "translations created by the developers."
 msgid ""
 "Whenever a new translatable string is imported from the VCS, it is flagged "
 "as needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
-"VCS에서 새 번역 문자열을 가져올 때마다, Weblate에서는 편집이 필요한 것으로 플"
-"래그가 설정됩니다. 이렇게하면 개발자들이 만든 번역을 쉽게 필터링하고 수정할 "
-"수 있습니다."
+"VCS에서 새 번역 문자열을 가져올 때마다, Weblate에서 편집이 필요함으로 설정합니다. 이렇게 하면 개발자가 만든 번역을 쉽게 "
+"골라내 편집할 수 있습니다."
 
 #: weblate/addons/flags.py:78
-#, fuzzy
-#| msgid "Add as translation"
 msgid "Flag unchanged translations as \"Needs editing\""
-msgstr "번역으로서 추가"
+msgstr "바뀌지 않은 번역을 \"Needs editing\"으로 설정"
 
 #: weblate/addons/flags.py:80
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translation string is imported from the VCS, it is flagged "
-#| "as needing editing in Weblate. This way you can easily filter and edit "
-#| "translations created by the developers."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches "
 "source strings, it is flagged as needing editing in Weblate. This is "
 "especially useful for file formats that include all strings even if they are "
 "not translated."
 msgstr ""
-"VCS에서 새 번역 문자열을 가져올 때마다, Weblate에서는 편집이 필요한 것으로 플"
-"래그가 설정됩니다. 이렇게하면 개발자들이 만든 번역을 쉽게 필터링하고 수정할 "
-"수 있습니다."
+"VCS에서 새 번역 문자열을 가져올 때마다, Weblate에서 편집이 필요함으로 설정합니다. 이렇게 하면 개발자가 만든 번역을 쉽게 "
+"골라내 편집할 수 있습니다."
 
 #: weblate/addons/forms.py:50
 msgid "Name of generated file"
@@ -784,44 +706,34 @@ msgid "Long lines wrapping"
 msgstr "자동 줄 바꿈"
 
 #: weblate/addons/forms.py:85
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines (default gettext behavior)"
 msgid "Wrap lines at 77 chars and at newlines"
-msgstr "77글자를 넘으면 다음 줄로 줄 바꿈합니다 (gettext 기본설정 값)"
+msgstr "77글자를 넘으면 다음 줄로 줄 바꿈합니다"
 
 #: weblate/addons/forms.py:86
-#, fuzzy
-#| msgid "Trailing newline"
 msgid "Only wrap lines at newlines"
-msgstr "뒤쪽 새로운 줄"
+msgstr "줄 바꿈에서만 줄바꾸기"
 
 #: weblate/addons/forms.py:87
 msgid "No line wrapping"
-msgstr ""
+msgstr "줄 바꿈 없음"
 
 #: weblate/addons/forms.py:92
 msgid ""
 "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
 "parameter it wraps only at newlines."
-msgstr ""
+msgstr "기본적으로 gettext는 77문자마다 새 줄로 줄 바꿈합니다, --no-wrap 매개변수는 새 줄에서만 줄 바꿈합니다."
 
 #: weblate/addons/forms.py:100
-#, fuzzy
-#| msgid "SSH keys"
 msgid "Sort JSON keys"
-msgstr "SSH 키"
+msgstr "Sort JSON 키"
 
 #: weblate/addons/forms.py:104
-#, fuzzy
-#| msgid "Documentation"
 msgid "JSON indentation"
-msgstr "문서"
+msgstr "JSON 인덴션"
 
 #: weblate/addons/forms.py:124
-#, fuzzy
-#| msgid "The request for machine translation has failed."
 msgid "Regular expression to match translation files"
-msgstr "기계 번역 요청이 실패하였습니다."
+msgstr "번역 파일과 일치하는 정규 표현식"
 
 #: weblate/addons/forms.py:128 weblate/trans/forms.py:563
 #: weblate/trans/models/component.py:230
@@ -833,40 +745,26 @@ msgid "Automatic detection might fail for some formats and is slightly slower."
 msgstr "자동 감지는 일부형식에서 실패할 수 있고 약간 느려집니다."
 
 #: weblate/addons/forms.py:138
-#, fuzzy
-#| msgid "Component name"
 msgid "Customize the component name"
-msgstr "컴포넌트 이름"
+msgstr "구성 요소 이름을 커스터마이즈하기"
 
 #: weblate/addons/forms.py:143
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Define the monolingual base filename"
-msgstr "단일언어 기반 언어 파일"
+msgstr "단일 언어 기반 파일을 정의하기"
 
 #: weblate/addons/forms.py:146
-#, fuzzy
-#| msgid "The request for machine translation has failed."
 msgid "Keep empty for bilingual translation files."
-msgstr "기계 번역 요청이 실패하였습니다."
+msgstr "이중 번역 파일이 빈 상태로 유지하세요."
 
 #: weblate/addons/forms.py:149
-#, fuzzy
-#| msgid "Base file for new translations"
 msgid "Define the base file for new translations"
-msgstr "새로운 번역가를 위한 기본 파일"
+msgstr "새 번역을 위한 기본 파일 정의하기"
 
 #: weblate/addons/forms.py:153 weblate/trans/models/component.py:225
-#, fuzzy
-#| msgid ""
-#| "Filename of file which is used for creating new translations. For Gettext "
-#| "choose .pot file."
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
-msgstr ""
-"새로운 번역을 만들기 위해 사용되는 파일의 파일명. Gettext에서는 .pot파일을 선"
-"택하십시오."
+msgstr "새로운 번역을 만들기 위해 사용되는 파일의 파일 명. Gettext에서는 .pot파일을 선택하십시오."
 
 #: weblate/addons/forms.py:158 weblate/trans/models/component.py:401
 msgid "Language filter"
@@ -876,119 +774,109 @@ msgstr "언어 필터"
 msgid ""
 "Regular expression which is used to filter translation when scanning for "
 "file mask."
-msgstr ""
+msgstr "파일 마스크에서 스캔할 때 번역을 골라내기 위해 사용되는 정규 표현식."
 
 #: weblate/addons/forms.py:168
 msgid "Remove components for non existing files"
-msgstr ""
+msgstr "기존 파일이 아닌 구성 요소 제거"
 
 #: weblate/addons/forms.py:172
 msgid "I confirm that the above matches look correct"
-msgstr ""
+msgstr "위의 내용이 올바른지 확인합니다"
 
 #: weblate/addons/forms.py:235
 msgid "Please review and confirm matched components."
-msgstr ""
+msgstr "맞는 구성 요소인지 검토하고 확인하십시오."
 
 #: weblate/addons/generate.py:36
-#, fuzzy
-#| msgid "Statistics"
 msgid "Statistics generator"
-msgstr "통계"
+msgstr "통계 생성기"
 
 #: weblate/addons/generate.py:38
-#, fuzzy
-#| msgid "Merges content of file header into the translation."
 msgid ""
 "This addon generates a file containing detailed information about the "
 "translation."
-msgstr "번역으로 파일 헤더의 내용을 병합하십시오."
+msgstr "이 애드온은 번역에 관한 자세한 정보를 포함한 파일을 생성합니다."
 
 #: weblate/addons/gettext.py:55
-#, fuzzy
-#| msgid "Generate SSH key"
 msgid "Generate MO files"
-msgstr "SSH 키 생성"
+msgstr "MO 파일 생성하기"
 
 #: weblate/addons/gettext.py:57
 msgid "Automatically generates MO file for every changed PO file."
-msgstr ""
+msgstr "자동으로 변경된 모든 PO 파일을 MO 파일로 생성합니다."
 
 #: weblate/addons/gettext.py:72
 msgid "Update LINGUAS file"
-msgstr ""
+msgstr "LINGUAS 파일 업데이트하기"
 
 #: weblate/addons/gettext.py:74
-#, fuzzy
-#| msgid "Merges content of file header into the translation."
 msgid "Updates the LINGUAS file when a new translation is added."
-msgstr "번역으로 파일 헤더의 내용을 병합하십시오."
+msgstr "새 번역이 추가될 때 LINGUAS 파일을 업데이트 합니다."
 
 #: weblate/addons/gettext.py:127
 msgid "Update ALL_LINGUAS variable in the configure file"
-msgstr ""
+msgstr "configure 파일에서 ALL_LINGUAS 변수를 업데이트하기"
 
 #: weblate/addons/gettext.py:129
 msgid ""
 "Updates the ALL_LINGUAS variable in configure, configure.in or configure.ac "
 "files, when a new translation is added."
 msgstr ""
+"새 번역이 추가될 때, configure, configure.in 혹은 configure.ac 파일에서 ALL_LINGUAS 파일을 "
+"업데이트 합니다."
 
 #: weblate/addons/gettext.py:187
 msgid "Update PO files to match POT (msgmerge)"
-msgstr ""
+msgstr "PO 파일이 POT에 맞도록 업데이트하기 (msgmerge)"
 
 #: weblate/addons/gettext.py:189
 msgid ""
 "Update all PO files to match the POT file using msgmerge. This is triggered "
 "whenever new changes are pulled from the upstream repository."
 msgstr ""
+"msgmerge를 사용하여 모든 PO 파일이 POT 파일에 맞도록 업데이트 합니다. 새 변경 사항을 업스트림 저장소에서 꺼낼 때마다 "
+"작동됩니다."
 
 #: weblate/addons/gettext.py:217
 msgid "Customize gettext output"
-msgstr ""
+msgstr "gettext 출력을 커스터마이즈하기"
 
 #: weblate/addons/gettext.py:219
 msgid ""
 "Allows customization of gettext output behavior, for example line wrapping."
-msgstr ""
+msgstr "gettext 출력 방식을 커스터마이즈하도록 합니다, 예를 들어 줄 바꾸기."
 
 #: weblate/addons/gettext.py:243
-#, fuzzy
-#| msgid "Contributor stats"
 msgid "Contributors in comment"
-msgstr "참여자 통계"
+msgstr "주석에 기여한 사람들"
 
 #: weblate/addons/gettext.py:245
 msgid ""
 "Update comment in the PO file header to include contributor name and years "
 "of contributions."
-msgstr ""
+msgstr "PO 파일 헤더에서 기여한 사람들의 이름과 기여한 기간이 포함되도록 주석을 업데이트 합니다."
 
 #: weblate/addons/json.py:33
 msgid "Customize JSON output"
-msgstr ""
+msgstr "JSON 출력을 커스터마이즈하기"
 
 #: weblate/addons/json.py:35
 msgid ""
 "Allows to customize JSON output behavior, for example indentation or sorting."
-msgstr ""
+msgstr "JSON 출력 방식을 커스터마이즈하도록 합니다, 예를 들어 인덴션이나 분류."
 
 #: weblate/addons/properties.py:144
-#, fuzzy
-#| msgid "Revert to this translation"
 msgid "Formats the Java properties file"
-msgstr "이 번역으로 되돌림"
+msgstr "Java 특성 파일 형식을 지정하기"
 
 #: weblate/addons/properties.py:146
 msgid "This addon sorts the Java properties file."
-msgstr ""
+msgstr "이 애드온은 Java 특성 파일을 분류합니다."
 
 #: weblate/addons/views.py:83
-#, fuzzy
-#| msgid "Invalid user specified!"
 msgid "Invalid addon name specified!"
-msgstr "잘못된 사용자 정보입니다!"
+msgstr "잘못된 애드온 이름 정보입니다!"
 
 #: weblate/auth/admin.py:94 weblate/auth/admin.py:99
 msgid "Personal info"
@@ -1008,138 +896,94 @@ msgid "Important dates"
 msgstr "중요 날짜"
 
 #: weblate/auth/data.py:35
-#, fuzzy
-#| msgid "More information"
 msgid "View billing information"
-msgstr "자세한 정보"
+msgstr "결제 정보 보기"
 
 #: weblate/auth/data.py:37
-#, fuzzy
-#| msgid "Download all changes as CSV"
 msgid "Download changes"
-msgstr "모든 변경점을 CSV파일로 다운로드"
+msgstr "다운로드 변경"
 
 #: weblate/auth/data.py:39
-#, fuzzy
-#| msgid "Version control system"
 msgid "Edit component settings"
-msgstr "버전 관리 시스템"
+msgstr "구성 요소 설정 편집하기"
 
 #: weblate/auth/data.py:40
-#, fuzzy
-#| msgid "Download compiled translation"
 msgid "Lock component from translating"
-msgstr "컴파일된 번역 다운로드"
+msgstr "구성 요소를 번역에서 잠금"
 
 #: weblate/auth/data.py:42
-#, fuzzy
-#| msgid "Posted new comment"
 msgid "Post comment"
-msgstr "새로운 댓글이 등록되었습니다"
+msgstr "주석 달기"
 
 #: weblate/auth/data.py:43
-#, fuzzy
-#| msgid "New comment"
 msgid "Delete comment"
-msgstr "새로운 주석"
+msgstr "주석 삭제하기"
 
 #: weblate/auth/data.py:45
-#, fuzzy
-#| msgid "Add word to glossary"
 msgid "Add glossary entry"
-msgstr "용어집에 단어 추가"
+msgstr "용어집 항목 추가"
 
 #: weblate/auth/data.py:46
-#, fuzzy
-#| msgid "Export glossary"
 msgid "Edit glossary entry"
-msgstr "용어집 내보내기"
+msgstr "용어집 항목 편집"
 
 #: weblate/auth/data.py:47
-#, fuzzy
-#| msgid "Delete this account"
 msgid "Delete glossary entry"
-msgstr "이 계정을 삭제"
+msgstr "용어집 항목 삭제"
 
 #: weblate/auth/data.py:48
-#, fuzzy
-#| msgid "Add word to glossary"
 msgid "Upload glossary entries"
-msgstr "용어집에 단어 추가"
+msgstr "용어집 항목 업로드"
 
 #: weblate/auth/data.py:50
-#, fuzzy
-#| msgid "Machine translation suggestions"
 msgid "Use machine translation services"
-msgstr "기계 번역 제안"
+msgstr "기계 번역 서비스 사용"
 
 #: weblate/auth/data.py:52
-#, fuzzy
-#| msgid "source strings"
 msgid "Edit project settings"
-msgstr "원본 문자열"
+msgstr "프로젝트 설정 편집"
 
 #: weblate/auth/data.py:53
-#, fuzzy
-#| msgid "Hosting site"
 msgid "Manage project access"
-msgstr "호스팅 사이트"
+msgstr "프로젝트 접속 관리"
 
 #: weblate/auth/data.py:55
-#, fuzzy
-#| msgid "Download"
 msgid "Download reports"
-msgstr "다운로드"
+msgstr "보고서 다운로드"
 
 #: weblate/auth/data.py:57
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add screenshot"
-msgstr "새로운 사용자 추가"
+msgstr "스크린샷 추가"
 
 #: weblate/auth/data.py:58
 #: weblate/templates/screenshots/screenshot_detail.html:99
-#, fuzzy
-#| msgid "source strings"
 msgid "Edit screenshot"
-msgstr "원본 문자열"
+msgstr "스크린샷 편집"
 
 #: weblate/auth/data.py:59
 #: weblate/templates/screenshots/screenshot_detail.html:122
-#, fuzzy
-#| msgid "Delete this account"
 msgid "Delete screenshot"
-msgstr "이 계정을 삭제"
+msgstr "스크린샷 삭제"
 
 #: weblate/auth/data.py:61
-#, fuzzy
-#| msgid "source strings"
 msgid "Edit info on source strings"
-msgstr "원본 문자열"
+msgstr "원본 문자열의 정보 편집"
 
 #: weblate/auth/data.py:63
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Accept suggestion"
-msgstr "자동 승인된 번역"
+msgstr "제안 수락하기"
 
 #: weblate/auth/data.py:64
-#, fuzzy
-#| msgid "Add as a suggestion"
 msgid "Add suggestion"
-msgstr "제안으로 추가"
+msgstr "제안으로 추가하기"
 
 #: weblate/auth/data.py:65
-#, fuzzy
-#| msgid "Enable suggestions"
 msgid "Delete suggestion"
-msgstr "연상 활성화"
+msgstr "제안 삭제"
 
 #: weblate/auth/data.py:66
-#, fuzzy
-#| msgid "Enable suggestions"
 msgid "Vote suggestion"
-msgstr "연상 활성화"
+msgstr "제안 투표하기"
 
 #: weblate/auth/data.py:68 weblate/templates/component.html:60
 #: weblate/templates/component.html:116 weblate/templates/component.html:118
@@ -1149,64 +993,44 @@ msgid "Start new translation"
 msgstr "새로운 번역 시작하기"
 
 #: weblate/auth/data.py:69
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Perform automatic translation"
-msgstr "자동 번역"
+msgstr "자동 번역 수행"
 
 #: weblate/auth/data.py:70
-#, fuzzy
-#| msgid "Overwrite existing translations"
 msgid "Delete existing translation"
-msgstr "기존 번역 덮어쓰기"
+msgstr "기존 번역 삭제하기"
 
 #: weblate/auth/data.py:71
-#, fuzzy
-#| msgid "Start new translation"
 msgid "Start new translation into more languages"
-msgstr "새로운 번역 시작하기"
+msgstr "더 많은 언어로 새로운 번역 시작하기"
 
 #: weblate/auth/data.py:73
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new string"
-msgstr "새로운 사용자 추가"
+msgstr "새로운 문자열 추가"
 
 #: weblate/auth/data.py:74
-#, fuzzy
-#| msgid "Failing check"
 msgid "Ignore failing check"
-msgstr "검사 실패됨"
+msgstr "실패한 검사 무시"
 
 #: weblate/auth/data.py:75
-#, fuzzy
-#| msgid "source strings"
 msgid "Edit strings"
-msgstr "원본 문자열"
+msgstr "문자열 편집"
 
 #: weblate/auth/data.py:76
-#, fuzzy
-#| msgid "Overwrite strings"
 msgid "Review strings"
-msgstr "문자열 덮어쓰기"
+msgstr "문자열 확인"
 
 #: weblate/auth/data.py:77
-#, fuzzy
-#| msgid "Strings with suggestions (%d)"
 msgid "Edit string when suggestions are enforced"
-msgstr "제안된 문자열 (%d)"
+msgstr "제안이 있는 문자열 편집"
 
 #: weblate/auth/data.py:78
-#, fuzzy
-#| msgid "source strings"
 msgid "Edit source strings"
-msgstr "원본 문자열"
+msgstr "원본 문자열 편집"
 
 #: weblate/auth/data.py:80
-#, fuzzy
-#| msgid "Base file for new translations"
 msgid "Define author of translation upload"
-msgstr "새로운 번역가를 위한 기본 파일"
+msgstr "번역 업로드의 저자 정의"
 
 #: weblate/auth/data.py:81
 #, fuzzy
@@ -1281,11 +1105,9 @@ msgid "Translate"
 msgstr "번역하기"
 
 #: weblate/auth/data.py:136
-#, fuzzy
-#| msgid "source strings"
 msgctxt "Access control role"
 msgid "Edit source"
-msgstr "원본 문자열"
+msgstr "원본 편집"
 
 #: weblate/auth/data.py:140
 #, fuzzy
@@ -1704,7 +1526,7 @@ msgstr "앞쪽 공백"
 
 #: weblate/checks/chars.py:59
 msgid "Source and translation do not both start with same number of spaces"
-msgstr "원본과 번역이 같은 공란으로 시작하지 않습니다"
+msgstr "원본과 번역이 같은 단어나 공백으로 시작하지 않습니다"
 
 #: weblate/checks/chars.py:86
 msgid "Trailing space"
