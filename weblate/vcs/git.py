@@ -548,7 +548,7 @@ class GithubRepository(GitRepository):
             '-f',
             '-h', '{0}:{1}'.format(settings.GITHUB_USERNAME, fork_branch),
             '-b', origin_branch,
-            '-m', 'Update from Weblate.',
+            '-m', settings.DEFAULT_PULL_MESSAGE,
         ]
         self.execute(cmd)
 

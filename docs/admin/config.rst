@@ -427,6 +427,14 @@ defaults to ``True``.
 
    :ref:`component`
 
+.. setting:: DEFAULT_PULL_MESSAGE
+
+DEFAULT_PULL_MESSAGE
+--------------------
+
+Default pull request title,
+defaults to ``'Update from Weblate'``.
+
 .. setting:: ENABLE_AVATARS
 
 ENABLE_AVATARS
