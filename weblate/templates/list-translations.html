@@ -11,6 +11,7 @@
 <th class="col-fuzzy">{% trans "Review" context "Number of strings needing review" %}</th>
 <th class="col-checks">{% trans "Checks" context "Number of failing checks" %}</th>
 <th class="col-suggestions">{% trans "Suggestions" context "Number of suggestions" %}</th>
+<th class="col-comments">{% trans "Comments" context "Number of comments" %}</th>
 <th class="sort-skip">
 <div class="btn-group">
   <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false" title="{% trans "Configure columns" %}">
@@ -22,6 +23,7 @@
     <li><a><label><input type="checkbox" id="toggle-fuzzy" checked="true"> {% trans "Review" context "Number of strings needing review" %}</label></a></li>
     <li><a><label><input type="checkbox" id="toggle-checks" checked="true"> {% trans "Checks" context "Number of failing checks" %}</label></a></li>
     <li><a><label><input type="checkbox" id="toggle-suggestions" checked="true"> {% trans "Suggestions" context "Number of suggestions" %}</label></a></li>
+    <li><a><label><input type="checkbox" id="toggle-comments" checked="true"> {% trans "Comments" context "Number of comments" %} </label></a></li>
   </ul>
 </div>
 </th>
@@ -63,6 +65,15 @@
 </a>
 {% else %}
 {{ suggestions }}
+{% endif %}
+</td>
+<td class="number col-comments">
+{% if trans.stats.comments > and translate_url %}
+<a href="{{ translate_url }}?type=comments" title="{% blocktrans count checks as count %}There is {{ count }} comment.{% plural %}There are {{ count }} comments.{% endblocktrans %}">
+{{ checks }}
+</a>
+{% else %}
+{{ trans.stats.comments }}
 {% endif %}
 </td>
 <td>
