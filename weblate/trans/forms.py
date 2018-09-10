@@ -23,6 +23,7 @@ from __future__ import unicode_literals
 import copy
 from datetime import date, datetime, timedelta
 import json
+import re
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Field, Div
@@ -788,6 +789,17 @@ class SearchForm(BaseSearchForm):
             self.cleaned_data['search'] = 'ftx'
         if not self.cleaned_data.get('type'):
             self.cleaned_data['type'] = 'all'
+
+        # Validate regexp
+        if self.cleaned_data['search'] == 'regex':
+            try:
+                re.compile(self.cleaned_data['q'])
+            except re.error as error:
+                raise ValidationError({
+                    'q': _('Invalid regular expression: {}').format(
+                        error.message
+                    )
+                })
 
         # Default to source and target search
         if (not self.cleaned_data['source'] and
