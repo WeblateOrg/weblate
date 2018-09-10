@@ -36,3 +36,9 @@ class RenderTest(SimpleTestCase):
     def test_float_cs(self):
         with override('cs'):
             self.test_float()
+
+    def test_replace(self):
+        self.assertEqual(
+            render_template('{% replace "a-string-with-dashes" "-" " " %}'),
+            'a string with dashes'
+        )
