@@ -793,7 +793,7 @@ class SearchForm(BaseSearchForm):
         # Validate regexp
         if self.cleaned_data['search'] == 'regex':
             try:
-                re.compile(self.cleaned_data['q'])
+                re.compile(self.cleaned_data.get('q', ''))
             except re.error as error:
                 raise ValidationError({
                     'q': _('Invalid regular expression: {}').format(error)
