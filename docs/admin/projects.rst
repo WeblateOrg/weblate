@@ -319,6 +319,18 @@ You can use conditions:
 
     {% if stats.translated_percent > 80 %}Well translated!{% endif %}
 
+There is addtional tag available to replace chars:
+
+.. code-block:: django
+
+    {% replace component "-" " " %}
+
+You can combine it with filters:
+
+.. code-block:: django
+
+    {% replace component|capfirst "-" " " %}
+
 ...and other Django template features.
 
 .. _import-speed:
