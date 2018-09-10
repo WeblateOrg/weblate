@@ -796,9 +796,7 @@ class SearchForm(BaseSearchForm):
                 re.compile(self.cleaned_data['q'])
             except re.error as error:
                 raise ValidationError({
-                    'q': _('Invalid regular expression: {}').format(
-                        error.message
-                    )
+                    'q': _('Invalid regular expression: {}').format(error)
                 })
 
         # Default to source and target search
