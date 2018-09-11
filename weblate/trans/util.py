@@ -48,9 +48,6 @@ from weblate.utils.data import data_dir
 
 PLURAL_SEPARATOR = '\x1e\x1e'
 
-# List of default domain names on which warn user
-DEFAULT_DOMAINS = ('example.net', 'example.com')
-
 PRIORITY_CHOICES = (
     (60, ugettext_lazy('Very high')),
     (80, ugettext_lazy('High')),
@@ -281,16 +278,6 @@ def sort_choices(choices):
 def sort_objects(objects):
     """Sort objects alphabetically"""
     return sort_unicode(objects, force_text)
-
-
-def check_domain(domain):
-    """Check whether site domain is correctly set"""
-    return (
-        domain not in DEFAULT_DOMAINS and
-        not domain.startswith('http:') and
-        not domain.startswith('https:') and
-        not domain.endswith('/')
-    )
 
 
 def redirect_next(next_url, fallback):

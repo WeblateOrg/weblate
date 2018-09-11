@@ -231,3 +231,17 @@ def check_data_writable(app_configs=None, **kwargs):
             )
 
     return errors
+
+
+def check_site(app_configs, **kwargs):
+    from weblate.utils.site import get_site_domain, check_domain
+    errors = []
+    if not check_domain(get_site_domain()):
+        errors.append(
+            Error(
+                'Configure correct site domain',
+                hint=get_doc_url('admin/install', 'production-site'),
+                id='weblate.E017',
+            )
+        )
+    return errors
