@@ -24,6 +24,19 @@ is safe bet even if you will include some files which do not have to be backed
 up. Following sections in detail describe what you should backup and what you
 can skip.
 
+.. _backup-dumps:
+
+Dumped data for backups
++++++++++++++++++++++++
+
+Stored in :setting:`DATA_DIR` ``/backups``.
+
+Weblate dumps various data here and you can use the files here for better
+backups. The files are updated daily (requires running Celery beats server, see
+:ref:`celery`).  Currently this includes:
+
+* Translation memory dump in JSON format.
+
 Version control repositories
 ++++++++++++++++++++++++++++
 
@@ -59,6 +72,7 @@ Stored in :setting:`DATA_DIR` ``/memory``.
 The translation memory content. It is recommended to back it up using
 :djadmin:`dump_memory` in JSON format instead of using binary format as that
 might eventually change (and it is incompatible between Python 2 and Python 3).
+Weblate prepares this dump daily, see :ref:`backup-dumps`.
 
 Fulltext index
 ++++++++++++++

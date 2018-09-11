@@ -20,6 +20,7 @@
 
 from __future__ import unicode_literals
 
+import json
 import os.path
 
 from django.utils.encoding import force_text
@@ -173,3 +174,12 @@ class TranslationMemory(WhooshIndex):
         return [
             force_text(x) for x in self.searcher.lexicon('origin')
         ]
+
+    def dump(self, handle, indent=2):
+        """Dump memory content to JSON file."""
+        self.open_searcher()
+        json.dump(
+            list(self.searcher.documents()),
+            handle,
+            indent=indent,
+        )

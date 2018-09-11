@@ -344,11 +344,13 @@ The following subdirectories usually exist:
 :file:`media`
     Default location for Django media files, specified by ``MEDIA_ROOT``.
 :file:`memory`
-    Translation memory data uwing Whoosh engine (see :ref:`translation-memory`).
+    Translation memory data using Whoosh engine (see :ref:`translation-memory`).
 :file:`vcs`
     Version control repositories.
 :file:`whoosh`
     Fulltext search index using Whoosh engine.
+:file:`backups`
+    Dump of data in daily backups, see :ref:`backup-dumps`.
 
 .. note::
 
