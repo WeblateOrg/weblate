@@ -53,7 +53,7 @@ def check_mail_connection(app_configs, **kwargs):
     except Exception as error:
         message = 'Can not send email ({}), please check EMAIL_* settings.'
         errors.append(
-            Error(
+            Critical(
                 message.format(error),
                 hint=get_doc_url('admin/install', 'out-mail'),
                 id='weblate.E003',
@@ -76,8 +76,9 @@ def check_celery(app_configs, **kwargs):
 
     if get_queue_length() > 1000:
         errors.append(
-            Error(
-                'Celery tasks queue is too long, is worker running?',
+            Critical(
+                'The Celery tasks queue is too long, either the worker '
+-               'is not running or is too slow.',
                 hint=get_doc_url('admin/install', 'celery'),
                 id='weblate.E009',
             )
@@ -106,8 +107,9 @@ def check_cache(app_configs, **kwargs):
     cache = settings.CACHES['default']['BACKEND'].split('.')[-1]
     if cache not in GOOD_CACHE:
         errors.append(
-            Error(
-                'Please choose better cache backend such as redis',
+            Critical(
+                'The configured cache backend will lead to serious '
+                'performance or consistency issues.',
                 hint=get_doc_url('admin/install', 'production-cache'),
                 id='weblate.E007',
             )
@@ -116,7 +118,8 @@ def check_cache(app_configs, **kwargs):
     if settings.ENABLE_AVATARS and 'avatar' not in settings.CACHES:
         errors.append(
             Error(
-                'Please configure avatar caching',
+                'Please configure separate avatar caching to reduce pressure '
+                'on the default cache',
                 hint=get_doc_url('admin/install', 'production-cache-avatar'),
                 id='weblate.E008',
             )
@@ -141,7 +144,7 @@ def check_settings(app_configs, **kwargs):
 
     if settings.SERVER_EMAIL in DEFAULT_MAILS:
         errors.append(
-            Error(
+            Critical(
                 'The server email has default value',
                 hint=get_doc_url('admin/install', 'production-email'),
                 id='weblate.E012',
@@ -149,7 +152,7 @@ def check_settings(app_configs, **kwargs):
         )
     if settings.DEFAULT_FROM_EMAIL in DEFAULT_MAILS:
         errors.append(
-            Error(
+            Critical(
                 'The default from email has default value',
                 hint=get_doc_url('admin/install', 'production-email'),
                 id='weblate.E013',
@@ -158,7 +161,7 @@ def check_settings(app_configs, **kwargs):
 
     if settings.SECRET_KEY == settings_example.SECRET_KEY:
         errors.append(
-            Error(
+            Critical(
                 'The cookie secret key has default value',
                 hint=get_doc_url('admin/install', 'production-secret'),
                 id='weblate.E014',
@@ -167,7 +170,7 @@ def check_settings(app_configs, **kwargs):
 
     if not settings.ALLOWED_HOSTS:
         errors.append(
-            Error(
+            Critical(
                 'The allowed hosts are not configured',
                 hint=get_doc_url('admin/install', 'production-hosts'),
                 id='weblate.E015',
@@ -238,7 +241,7 @@ def check_site(app_configs, **kwargs):
     errors = []
     if not check_domain(get_site_domain()):
         errors.append(
-            Error(
+            Critical(
                 'Configure correct site domain',
                 hint=get_doc_url('admin/install', 'production-site'),
                 id='weblate.E017',

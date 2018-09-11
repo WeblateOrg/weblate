@@ -45,24 +45,26 @@ def configuration_health_check(include_deployment_checks=True):
     # Run deployment checks
     if not include_deployment_checks:
         return
-    checks = run_checks(include_deployment_checks=True)
-    check_ids = set([check.id for check in checks])
-    if 'weblate.E007' in check_ids:
-        ConfigurationError.objects.add(
-            'Cache',
-            'The configured cache backend will lead to serious '
-            'performance or consistency issues.'
-        )
-    else:
-        ConfigurationError.objects.remove('Cache')
-    if 'weblate.E009' in check_ids:
-        ConfigurationError.objects.add(
-            'Celery',
-            'The Celery tasks queue is too long, either the worker '
-            'is not running or is too slow.'
-        )
-    else:
-        ConfigurationError.objects.remove('Celery')
+    checks = {
+        check.id: check
+        for check in run_checks(include_deployment_checks=True)
+    }
+    criticals = set((
+        'weblate.E002',
+        'weblate.E003',
+        'weblate.E007',
+        'weblate.E009',
+        'weblate.E012',
+        'weblate.E013',
+        'weblate.E014',
+        'weblate.E015',
+        'weblate.E017',
+    ))
+    for check_id in criticals:
+        if check_id in checks:
+            ConfigurationError.objects.add(check_id, checks[check_id].msg)
+        else:
+            ConfigurationError.objects.remove(check_id)
 
 
 @app.on_after_finalize.connect
