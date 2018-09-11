@@ -20,6 +20,8 @@
 
 from __future__ import unicode_literals
 
+from django.conf import settings
+
 from weblate.lang.models import Language
 from weblate.memory.storage import TranslationMemory
 from weblate.machinery.base import MachineTranslation
@@ -53,7 +55,10 @@ class WeblateMemory(MachineTranslation):
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
         memory = TranslationMemory()
-        return [
-            self.format_unit_match(*result)
-            for result in memory.lookup(source.code, language.code, text)
-        ]
+        results = memory.lookup(
+            source.code, language.code, text,
+            user,
+            unit.translation.component.project,
+            settings.DEFAULT_SHARED_TM
+        )
+        return [self.format_unit_match(*result) for result in results]

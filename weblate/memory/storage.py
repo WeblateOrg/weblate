@@ -46,6 +46,9 @@ def get_node_data(unit, node):
 
 
 CATEGORY_FILE = 1
+CATEGORY_USER = 2
+CATEGORY_SHARED = 3
+CATEGORY_PRIVATE_OFFSET = 1000
 
 
 class TMSchema(SchemaClass):
@@ -139,10 +142,38 @@ class TranslationMemory(WhooshIndex):
                         category=CATEGORY_FILE,
                     )
 
-    def lookup(self, source_language, target_language, text):
+    @staticmethod
+    def get_filter(user, project, use_shared, use_file):
+        """Create query to filter categories based on selection."""
+        # Always include file imported memory
+        if use_file:
+            category_filter = [query.Term('category', CATEGORY_FILE)]
+        else:
+            category_filter = []
+        # Per user memory
+        if user:
+            category_filter.append(
+                query.And([
+                    query.Term('category', CATEGORY_USER),
+                    query.Term('origin', user.username),
+                ])
+            )
+        # Private project memory
+        if project:
+            category_filter.append(
+                query.Term('category', CATEGORY_PRIVATE_OFFSET + project.id)
+            )
+        # Shared memory
+        if use_shared:
+            category_filter.append(query.Term('category', CATEGORY_SHARED))
+        return query.Or(category_filter)
+
+    def lookup(self, source_language, target_language, text, user,
+               project, use_shared):
         langfilter = query.And([
             query.Term('source_language', source_language),
             query.Term('target_language', target_language),
+            self.get_filter(user, project, use_shared, True),
         ])
         self.open_searcher()
         text_query = self.parser.parse(text)
