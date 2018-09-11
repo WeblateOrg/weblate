@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-09-07 11:54+0000\n"
-"PO-Revision-Date: 2018-09-06 06:06+0000\n"
+"PO-Revision-Date: 2018-09-11 13:20+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
@@ -1397,10 +1397,8 @@ msgid "Billed projects"
 msgstr "課金プロジェクト"
 
 #: weblate/billing/models.py:104
-#, fuzzy
-#| msgid "Billing plan"
 msgid "Billing owners"
-msgstr "課金プラン"
+msgstr "課金担当者"
 
 #: weblate/billing/models.py:108
 msgid "Active"
@@ -3531,17 +3529,13 @@ msgstr "追加"
 
 #: weblate/templates/base.html:149 weblate/templates/billing/detail.html:42
 #: weblate/templates/trans/project_form.html:26
-#, fuzzy
-#| msgid "Add new translation string"
 msgid "Add new translation project"
-msgstr "新しい翻訳文字列として追加"
+msgstr "新しい翻訳プロジェクトの追加"
 
 #: weblate/templates/base.html:150 weblate/templates/project.html:123
 #: weblate/templates/trans/component_form.html:25
-#, fuzzy
-#| msgid "Other translation components"
 msgid "Add new translation component"
-msgstr "その他の翻訳コンポーネント"
+msgstr "新しい翻訳コンポーネントの追加"
 
 #: weblate/templates/base.html:157
 msgid "Help"
@@ -3552,16 +3546,13 @@ msgid "Service status"
 msgstr "サービス状態"
 
 #: weblate/templates/base.html:179
-#, fuzzy, python-format
-#| msgid "Logged in as %(name)s"
+#, python-format
 msgid "Logged in as %(user)s"
-msgstr "%(name)s でログイン中"
+msgstr "%(user)s でログイン中"
 
 #: weblate/templates/base.html:182
-#, fuzzy
-#| msgid "Waiting for review"
 msgid "Billing overview"
-msgstr "査読待ち"
+msgstr "課金の概要"
 
 #: weblate/templates/base.html:184 weblate/templates/component-settings.html:9
 #: weblate/templates/component.html:82
@@ -3593,7 +3584,7 @@ msgstr "現在のプラン"
 #: weblate/templates/billing/detail.html:12
 #, python-format
 msgid ", expires %(expires)s"
-msgstr ""
+msgstr ", 期限切れ %(expires)s"
 
 #: weblate/templates/billing/detail.html:12
 msgid "See other plans"
@@ -3624,10 +3615,8 @@ msgid "Projects limit"
 msgstr "プロジェクト数の制限"
 
 #: weblate/templates/billing/detail.html:40
-#, fuzzy
-#| msgid "No context currently associated!"
 msgid "No projects currently assigned!"
-msgstr "現時点ではコンテキストが割り当てられていません！"
+msgstr "現時点ではプロジェクトが割り当てられていません！"
 
 #: weblate/templates/billing/detail.html:53
 msgid "Invoices"
@@ -3659,7 +3648,7 @@ msgstr "課金"
 
 #: weblate/templates/billing/overview.html:15
 msgid "You currently do not have any billings active."
-msgstr ""
+msgstr "現時点で有効な課金はありません。"
 
 #: weblate/templates/billing/used.html:5
 #, python-format
@@ -5301,10 +5290,8 @@ msgid "link"
 msgstr "リンク"
 
 #: weblate/templates/project.html:120
-#, fuzzy
-#| msgid "Other translation components"
 msgid "There are currently no translation components!"
-msgstr "その他の翻訳コンポーネント"
+msgstr "現時点では翻訳コンポーネントがありません！"
 
 #: weblate/templates/project.html:180
 msgid "There are currently no glossaries defined for this project."
@@ -5481,22 +5468,18 @@ msgid "Follow using RSS"
 msgstr "RSS を利用して追跡"
 
 #: weblate/templates/trans/component_form.html:7
-#, fuzzy
-#| msgid "Other components"
 msgid "Create component"
-msgstr "その他のコンポーネント"
+msgstr "コンポーネントの作成"
 
 #: weblate/templates/trans/component_form.html:12
-#, fuzzy
-#| msgid "You do not have permission to change project access control."
 msgid ""
 "You currently do not have permission to create component in any project."
-msgstr "プロジェクトのアクセス制御を変更するための権限がありません。"
+msgstr "現時点では、どのプロジェクト内にもコンポーネントを作成する権限がありません。"
 
 #: weblate/templates/trans/component_form.html:15
 #: weblate/templates/trans/project_form.html:16
 msgid "Check your billing status"
-msgstr ""
+msgstr "課金状態の確認"
 
 #: weblate/templates/trans/other-row.html:7
 msgid "This translation"
@@ -5515,16 +5498,12 @@ msgid "Change compared to this translation:"
 msgstr "この翻訳と比較した場合の差異:"
 
 #: weblate/templates/trans/project_form.html:7
-#, fuzzy
-#| msgid "Watched projects"
 msgid "Create project"
-msgstr "プロジェクトの監視"
+msgstr "プロジェクトの作成"
 
 #: weblate/templates/trans/project_form.html:12
-#, fuzzy
-#| msgid "You do not have permission to change project access control."
 msgid "You currently do not have permission to create project."
-msgstr "プロジェクトのアクセス制御を変更するための権限がありません。"
+msgstr "現時点ではプロジェクトを作成する権限がありません。"
 
 #: weblate/templates/trans/suggestion_list.html:7
 #: weblate/templates/translate.html:230 weblate/templates/translate.html:426
@@ -8498,10 +8477,8 @@ msgid "System checks"
 msgstr "システムチェック"
 
 #: weblate/wladmin/templates/admin/performance.html:87
-#, fuzzy
-#| msgid "Congratulations, your setup seems to be without any major problems."
 msgid "Congratulations, your setup seems to work."
-msgstr "おめでとうございます、設定には特に大きな問題がないように思われます。"
+msgstr "おめでとうございます、設定した内容で問題なく動作するものと思われます。"
 
 #: weblate/wladmin/templates/admin/report.html:4
 #: weblate/wladmin/templates/admin/report.html:13
