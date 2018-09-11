@@ -343,6 +343,8 @@ class ImportProjectTest(RepoTestCase):
 
 
 class BasicCommandTest(SimpleTestCase):
+    allow_database_queries = True
+
     def test_versions(self):
         output = StringIO()
         call_command(
