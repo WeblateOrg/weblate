@@ -88,7 +88,16 @@ class Project(models.Model, URLMixin, PathMixin):
             'updated by Weblate.'
         ),
     )
-
+    use_shared_tm = models.BooleanField(
+        verbose_name=ugettext_lazy('Use shared translation memory'),
+        default=settings.DEFAULT_SHARED_TM,
+        help_text=ugettext_lazy(
+            'By enabling shared translation memory, the project will be able '
+            'to use translation memory shared by other projects. All '
+            'future translations on this project will be contributed the '
+            'shared translation memory.'
+        )
+    )
     access_control = models.IntegerField(
         default=(
             ACCESS_CUSTOM if settings.DEFAULT_CUSTOM_ACL else ACCESS_PUBLIC

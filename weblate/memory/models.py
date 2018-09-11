@@ -17,15 +17,3 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-
-from __future__ import absolute_import, unicode_literals
-
-from appconf import AppConf
-
-
-class MemoryConf(AppConf):
-    """Defaults for Celery settings."""
-    DEFAULT_SHARED_TM = True
-
-    class Meta(object):
-        prefix = ''
