@@ -2,15 +2,15 @@
 
 <div class="legend">
 {% with approved=100 %}
-{% include "progress.html" %} - {% trans "Approved" %}
+{% include "progress.html" %} {% trans "Approved" %}
 {% endwith %}
 {% with good=100 %}
-{% include "progress.html" %} - {% trans "Good" %}
+{% include "progress.html" %} {% trans "Good" %}
 {% endwith %}
 {% with checks=100 %}
-{% include "progress.html" %} - {% trans "Failing checks" %}
+{% include "progress.html" %} {% trans "Failing checks" %}
 {% endwith %}
 {% with fuzzy=100 %}
-{% include "progress.html" %} - {% trans "Needs editing" %}
+{% include "progress.html" %} {% trans "Needs editing" %}
 {% endwith %}
 </div>
