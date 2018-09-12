@@ -21,7 +21,7 @@
 from __future__ import unicode_literals
 
 from weblate.lang.models import Language
-from weblate.memory.storage import TranslationMemory
+from weblate.memory.storage import TranslationMemory, get_category_name
 from weblate.machinery.base import MachineTranslation
 
 
@@ -38,14 +38,14 @@ class WeblateMemory(MachineTranslation):
         """Any language is supported."""
         return True
 
-    def format_unit_match(self, text, target, similarity, origin):
+    def format_unit_match(self, text, target, similarity, category, origin):
         """Format match to translation service result."""
         return (
             target,
             similarity,
             '{0} ({1})'.format(
                 self.name,
-                origin,
+                get_category_name(category, origin),
             ),
             text,
         )

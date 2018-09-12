@@ -24,6 +24,8 @@ import json
 import os.path
 
 from django.utils.encoding import force_text
+from django.utils.translation import pgettext
+
 
 from translate.misc.xml_helpers import getXMLlang, getXMLspace
 from translate.storage.tmx import tmxfile
@@ -49,6 +51,18 @@ CATEGORY_FILE = 1
 CATEGORY_USER = 2
 CATEGORY_SHARED = 3
 CATEGORY_PRIVATE_OFFSET = 1000
+
+
+def get_category_name(category, origin):
+    if category > CATEGORY_PRIVATE_OFFSET or category == CATEGORY_SHARED:
+        text = pgettext('Translation memory category', 'Project: {}')
+    elif category == CATEGORY_USER:
+        text = pgettext('Translation memory category', 'User: {}')
+    elif category == CATEGORY_FILE:
+        text = pgettext('Translation memory category', 'File: {}')
+    else:
+        raise ValueError('Unknown category: {}'.format(category))
+    return text.format(origin)
 
 
 class TMSchema(SchemaClass):
@@ -186,7 +200,8 @@ class TranslationMemory(WhooshIndex):
             if similarity < 30:
                 continue
             yield (
-                match['source'], match['target'], similarity, match['origin']
+                match['source'], match['target'], similarity,
+                match['category'], match['origin']
             )
 
     def delete(self, origin):

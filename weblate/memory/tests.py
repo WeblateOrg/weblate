@@ -138,7 +138,7 @@ class MemoryDBTest(TestCase):
             [
                 {
                     'quality': 100,
-                    'service': 'Weblate Translation Memory (test)',
+                    'service': 'Weblate Translation Memory (File: test)',
                     'source': 'Hello',
                     'text': 'Ahoj'
                 },
