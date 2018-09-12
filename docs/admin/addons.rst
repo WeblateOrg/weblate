@@ -166,6 +166,13 @@ Formats the Java properties file
 This addon sorts the Java properties file.
 
 
+Customizing list of addons
+++++++++++++++++++++++++++
+
+List of addons is configured by :setting:`WEBLATE_ADDONS`, to add another addon
+simply include class absolute name in this setting.
+
+
 Writing addon
 +++++++++++++
 

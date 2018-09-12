@@ -1095,7 +1095,34 @@ WEBLATE_ADDONS
 --------------
 
 List of addons available for use. To use them, they have to be enabled for
-given translation component.
+given translation component. By default this includes all built in addons, when
+extending the list you will probably want to keep existing ones enabled, for
+example:
+
+
+.. code-block:: python
+
+    WEBLATE_ADDONS = (
+        # Built in addons
+        'weblate.addons.gettext.GenerateMoAddon',
+        'weblate.addons.gettext.UpdateLinguasAddon',
+        'weblate.addons.gettext.UpdateConfigureAddon',
+        'weblate.addons.gettext.MsgmergeAddon',
+        'weblate.addons.gettext.GettextCustomizeAddon',
+        'weblate.addons.gettext.GettextAuthorComments',
+        'weblate.addons.cleanup.CleanupAddon',
+        'weblate.addons.consistency.LangaugeConsistencyAddon',
+        'weblate.addons.discovery.DiscoveryAddon',
+        'weblate.addons.flags.SourceEditAddon',
+        'weblate.addons.flags.TargetEditAddon',
+        'weblate.addons.flags.SameEditAddon',
+        'weblate.addons.generate.GenerateFileAddon',
+        'weblate.addons.json.JSONCustomizeAddon',
+        'weblate.addons.properties.PropertiesSortAddon',
+
+        # Addon you want to include
+        'weblate.addons.example.ExampleAddon',
+    )
 
 .. seealso::
 
