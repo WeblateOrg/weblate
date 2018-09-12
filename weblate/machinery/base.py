@@ -38,6 +38,7 @@ from weblate import USER_AGENT
 from weblate.logger import LOGGER
 from weblate.utils.errors import report_error
 from weblate.utils.hash import calculate_hash, hash_to_checksum
+from weblate.utils.search import Comparer
 from weblate.utils.site import get_site_url
 
 
@@ -68,6 +69,7 @@ class MachineTranslation(object):
         self.languages_cache = '{}-languages'.format(self.mtid)
         self.request_url = None
         self.request_params = None
+        self.comparer = Comparer()
 
     def delete_cache(self):
         cache.delete_many([self.rate_limit_cache, self.languages_cache])
