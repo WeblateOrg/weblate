@@ -120,10 +120,10 @@ class MemoryTest(SimpleTestCase):
 
     def test_list(self):
         memory = TranslationMemory()
-        self.assertEqual(list(memory.get_origins()), [])
+        self.assertEqual(memory.get_values('origin'), [])
         add_document()
         memory = TranslationMemory()
-        self.assertEqual(memory.get_origins(), ['test'])
+        self.assertEqual(memory.get_values('origin'), ['test'])
 
 
 class MemoryDBTest(TestCase):

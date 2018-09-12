@@ -214,10 +214,10 @@ class TranslationMemory(WhooshIndex):
         self.index = self.open_index()
         self.searcher = None
 
-    def get_origins(self):
+    def get_values(self, field):
         self.open_searcher()
         return [
-            force_text(x) for x in self.searcher.lexicon('origin')
+            force_text(x) for x in self.searcher.reader().field_terms(field)
         ]
 
     def dump(self, handle, indent=2):
