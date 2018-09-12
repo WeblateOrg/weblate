@@ -48,20 +48,22 @@ def get_node_data(unit, node):
 
 
 CATEGORY_FILE = 1
-CATEGORY_USER = 2
-CATEGORY_SHARED = 3
-CATEGORY_PRIVATE_OFFSET = 1000
+CATEGORY_SHARED = 2
+CATEGORY_PRIVATE_OFFSET = 10000000
+CATEGORY_USER_OFFSET = 20000000
 
 
 def get_category_name(category, origin):
-    if category > CATEGORY_PRIVATE_OFFSET or category == CATEGORY_SHARED:
+    if CATEGORY_PRIVATE_OFFSET < category < CATEGORY_USER_OFFSET:
         text = pgettext('Translation memory category', 'Project: {}')
-    elif category == CATEGORY_USER:
-        text = pgettext('Translation memory category', 'User: {}')
+    elif CATEGORY_USER_OFFSET < category:
+        text = pgettext('Translation memory category', 'Personal: {}')
+    elif category == CATEGORY_SHARED:
+        text = pgettext('Translation memory category', 'Shared: {}')
     elif category == CATEGORY_FILE:
         text = pgettext('Translation memory category', 'File: {}')
     else:
-        raise ValueError('Unknown category: {}'.format(category))
+        text = 'Category {}: {{}}'.format(category)
     return text.format(origin)
 
 
@@ -167,10 +169,7 @@ class TranslationMemory(WhooshIndex):
         # Per user memory
         if user:
             category_filter.append(
-                query.And([
-                    query.Term('category', CATEGORY_USER),
-                    query.Term('origin', user.username),
-                ])
+                query.Term('category', CATEGORY_USER_OFFSET + user.id)
             )
         # Private project memory
         if project:

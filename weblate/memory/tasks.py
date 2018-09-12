@@ -28,7 +28,8 @@ from whoosh.index import LockError
 
 from weblate.celery import app
 from weblate.memory.storage import (
-    TranslationMemory, CATEGORY_USER, CATEGORY_SHARED, CATEGORY_PRIVATE_OFFSET,
+    TranslationMemory, CATEGORY_USER_OFFSET, CATEGORY_SHARED,
+    CATEGORY_PRIVATE_OFFSET,
 )
 from weblate.utils.celery import extract_batch_kwargs
 from weblate.utils.data import data_dir
@@ -43,23 +44,21 @@ def memory_backup(indent=2):
 
 
 def update_memory(user, unit):
-    categories = [(CATEGORY_USER, user.username)]
     component = unit.translation.component
     project = component.project
+    categories = [CATEGORY_USER_OFFSET + user.id]
     if unit.translation.component.project.use_shared_tm:
-        categories.append((CATEGORY_SHARED, component.log_prefix))
+        categories.append(CATEGORY_SHARED)
     else:
-        categories.append((
-            CATEGORY_PRIVATE_OFFSET + project.pk, component.log_prefix
-        ))
+        categories.append(CATEGORY_PRIVATE_OFFSET + project.pk)
 
-    for category, origin in categories:
+    for category in categories:
         update_memory_task.delay(
             source_language=project.source_language.code,
             target_language=unit.translation.language.code,
             source=unit.source,
             target=unit.target,
-            origin=origin,
+            origin=component.log_prefix,
             category=category,
         )
 
