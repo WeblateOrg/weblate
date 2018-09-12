@@ -203,10 +203,12 @@ class TranslationMemory(WhooshIndex):
                 match['category'], match['origin']
             )
 
-    def delete(self, origin):
+    def delete(self, origin, category):
         """Delete entries by origin."""
         with self.writer() as writer:
-            return writer.delete_by_term('origin', origin)
+            if origin:
+                return writer.delete_by_term('origin', origin)
+            return writer.delete_by_term('category', category)
 
     def empty(self):
         """Recreates translation memory."""

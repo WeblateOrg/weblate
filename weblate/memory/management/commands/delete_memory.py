@@ -38,6 +38,10 @@ class Command(BaseCommand):
             help='Origin to remove',
         )
         parser.add_argument(
+            '--category',
+            help='Category to remove',
+        )
+        parser.add_argument(
             '--all',
             action='store_true',
             help='Remove all entries',
@@ -49,7 +53,7 @@ class Command(BaseCommand):
         memory = TranslationMemory()
         if options['all']:
             memory.empty()
-        elif options['origin']:
-            memory.delete(options['origin'])
+        elif options['origin'] or options['category']:
+            memory.delete(options['origin'], options['category'])
         else:
             raise CommandError('Please specify what you want to delete')

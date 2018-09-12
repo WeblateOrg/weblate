@@ -71,11 +71,16 @@ class MemoryTest(SimpleTestCase):
         with self.assertRaises(CommandError):
             call_command('delete_memory')
 
-    def test_delete_command(self):
+    def test_delete_origin_command(self, params=None):
+        if params is None:
+            params = ['--origin', 'test']
         add_document()
-        call_command('delete_memory', '--origin', 'test')
+        call_command('delete_memory', *params)
         memory = TranslationMemory()
         self.assertEqual(memory.doc_count(), 0)
+
+    def test_delete_category_command(self):
+        self.test_delete_origin_command(['--category', '1'])
 
     def test_delete_all_command(self):
         add_document()
@@ -113,8 +118,8 @@ class MemoryTest(SimpleTestCase):
         add_document()
         memory = TranslationMemory()
         self.assertEqual(memory.doc_count(), 1)
-        self.assertEqual(memory.delete('test'), 1)
-        self.assertEqual(memory.delete('missing'), 0)
+        self.assertEqual(memory.delete('test', None), 1)
+        self.assertEqual(memory.delete('missing', None), 0)
         memory = TranslationMemory()
         self.assertEqual(memory.doc_count(), 0)
 
