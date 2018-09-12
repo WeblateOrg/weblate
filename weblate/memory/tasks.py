@@ -22,8 +22,15 @@ from __future__ import absolute_import, unicode_literals
 
 import os.path
 
+from celery_batches import Batches
+
+from whoosh.index import LockError
+
 from weblate.celery import app
-from weblate.memory.storage import TranslationMemory
+from weblate.memory.storage import (
+    TranslationMemory, CATEGORY_USER, CATEGORY_SHARED, CATEGORY_PRIVATE_OFFSET,
+)
+from weblate.utils.celery import extract_batch_kwargs
 from weblate.utils.data import data_dir
 
 
@@ -33,6 +40,44 @@ def memory_backup(indent=2):
     memory = TranslationMemory()
     with open(filename, 'w') as handle:
         memory.dump(handle, indent)
+
+
+def update_memory(user, unit):
+    categories = [(CATEGORY_USER, user.username)]
+    component = unit.translation.component
+    project = component.project
+    if unit.translation.component.project.use_shared_tm:
+        categories.append((CATEGORY_SHARED, component.log_prefix))
+    else:
+        categories.append((
+            CATEGORY_PRIVATE_OFFSET + project.pk, component.log_prefix
+        ))
+
+    for category, origin in categories:
+        update_memory_task.delay(
+            source_language=project.source_language.code,
+            target_language=unit.translation.language.code,
+            source=unit.source,
+            target=unit.target,
+            origin=origin,
+            category=category,
+        )
+
+
+@app.task(
+    base=Batches, flush_every=1000, flush_interval=300, bind=True,
+    max_retries=1000
+)
+def update_memory_task(self, *args, **kwargs):
+    data = extract_batch_kwargs(*args, **kwargs)
+
+    memory = TranslationMemory()
+    try:
+        with memory.writer() as writer:
+            for item in data:
+                writer.add_document(**item)
+    except LockError as exc:
+        raise self.retry(exc=exc)
 
 
 @app.on_after_finalize.connect
