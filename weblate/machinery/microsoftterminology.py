@@ -18,6 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from django.utils.encoding import force_text
 from django.utils.functional import cached_property
 
 from zeep import Client
@@ -75,9 +76,12 @@ class MicrosoftTerminologyService(MachineTranslation):
             return translations
 
         for item in result:
+            target = force_text(
+                item['Translations']['Translation'][0]['TranslatedText']
+            )
             translations.append((
-                item['Translations']['Translation'][0]['TranslatedText'],
-                item['ConfidenceLevel'],
+                target,
+                self.comparer.similarity(text, target),
                 self.name,
                 item['OriginalText'],
             ))
