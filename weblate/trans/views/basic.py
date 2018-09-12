@@ -20,6 +20,7 @@
 
 from __future__ import unicode_literals
 
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from django.http import HttpResponse
@@ -320,12 +321,18 @@ def denied(request, exception=None):
 def server_error(request):
     """Error handler for server errors."""
     try:
+        if (hasattr(settings, 'RAVEN_CONFIG') and
+                'public_dsn' in settings.RAVEN_CONFIG):
+            sentry_dsn = settings.RAVEN_CONFIG['public_dsn']
+        else:
+            sentry_dsn = None
         return render(
             request,
             '500.html',
             {
                 'request_path': request.path,
                 'title': _('Internal Server Error'),
+                'sentry_dsn': sentry_dsn,
             },
             status=500,
         )
