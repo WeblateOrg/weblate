@@ -67,7 +67,27 @@ installations as this might have severe implications:
 Managing translation memory
 ---------------------------
 
-There are several management commands to manipulate with the translation memory content:
+.. _memory-user:
+
+User interface
+++++++++++++++
+
+.. versionadded:: 3.2
+
+There is basic user interface to manage per user and per project translation
+memories. It can be used to download, wipe or import it.
+
+The downloads in JSON are useful for Weblate, TMX is provided for
+interoperability with other tools.
+
+.. image:: ../images/memory.png
+
+Management interface
+++++++++++++++++++++
+
+There are several management commands to manipulate with the translation memory
+content, these operate on memory as whole not filtered by scopes (unless
+requested by parameters):
 
 :djadmin:`dump_memory`
     Exporting the memory into JSON
