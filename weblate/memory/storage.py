@@ -124,9 +124,19 @@ class TranslationMemory(WhooshIndex):
             )
         return language.code
 
+    @staticmethod
+    def get_category(category=None, project=None, user=None):
+        if project:
+            return CATEGORY_PRIVATE_OFFSET + project.pk
+        if user:
+            return CATEGORY_USER_OFFSET + user.pk
+        return category
+
     @classmethod
-    def import_file(cls, fileobj, langmap, category=None):
+    def import_file(cls, fileobj, langmap=None, category=None, project=None,
+                    user=None):
         origin = force_text(os.path.basename(fileobj.name)).lower()
+        category = cls.get_category(category, project, user)
         name, extension = os.path.splitext(origin)
         if len(name) > 25:
             origin = '{}...{}'.format(name[:25], extension)
@@ -150,7 +160,10 @@ class TranslationMemory(WhooshIndex):
                 'category': category,
                 'origin': origin,
             }
+        found = 0
         for entry in data:
+            if not isinstance(entry, dict):
+                continue
             # Apply overrides
             entry.update(updates)
             # Ensure all fields are set
@@ -160,6 +173,11 @@ class TranslationMemory(WhooshIndex):
             # Ensure there are not extra fields
             record = {field: entry[field] for field in fields}
             update_memory_task.delay(**record)
+            found += 1
+        if not found:
+            raise MemoryImportError(
+                _('No valid entries found in the JSON file!')
+            )
 
     @classmethod
     def import_tmx(cls, fileobj, langmap=None, category=None, origin=None):
@@ -225,6 +243,11 @@ class TranslationMemory(WhooshIndex):
             category_filter.append(query.Term('category', CATEGORY_SHARED))
         return query.Or(category_filter)
 
+    def list_documents(self, user=None, project=None):
+        catfilter = self.get_filter(user, project, False, False)
+        self.open_searcher()
+        return self.searcher.search(catfilter)
+
     def lookup(self, source_language, target_language, text, user,
                project, use_shared):
         langfilter = query.And([
@@ -247,8 +270,9 @@ class TranslationMemory(WhooshIndex):
                 match['category'], match['origin']
             )
 
-    def delete(self, origin, category):
-        """Delete entries by origin."""
+    def delete(self, origin=None, category=None, project=None, user=None):
+        """Delete entries based on filter."""
+        category = self.get_category(category, project, user)
         with self.writer() as writer:
             if origin:
                 return writer.delete_by_term('origin', origin)

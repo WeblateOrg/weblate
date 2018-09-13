@@ -20,7 +20,8 @@
 """Helper methods for views."""
 
 from django.core.paginator import Paginator, EmptyPage
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, HttpResponseRedirect
+from django.views.generic.edit import FormView
 from django.shortcuts import get_object_or_404
 from django.utils.translation import activate, ugettext as _
 
@@ -196,3 +197,14 @@ def show_form_errors(request, form):
                     'error': error
                 }
             )
+
+
+class ErrorFormView(FormView):
+    def form_invalid(self, form):
+        """If the form is invalid, redirect to the supplied URL."""
+        show_form_errors(self.request, form)
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get(self, request, *args, **kwargs):
+        """There is no GET view here."""
+        return HttpResponseRedirect(self.get_success_url())

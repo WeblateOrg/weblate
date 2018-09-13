@@ -22,6 +22,7 @@ from __future__ import unicode_literals
 import json
 
 from django.test import SimpleTestCase, TestCase
+from django.urls import reverse
 from django.core.management import call_command
 from django.core.management.base import CommandError
 
@@ -30,6 +31,7 @@ from six import StringIO
 from weblate.memory.machine import WeblateMemory
 from weblate.memory.storage import TranslationMemory, CATEGORY_FILE
 from weblate.trans.tests.utils import get_test_file
+from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.checks.tests.test_checks import MockUnit
 
 TEST_DOCUMENT = {
@@ -165,3 +167,56 @@ class MemoryDBTest(TestCase):
             language_map='en_US:en',
         )
         self.assertEqual(TranslationMemory().doc_count(), 2)
+
+
+class MemoryViewTest(FixtureTestCase):
+    def test_memory(self, match='Number of your entries', fail=False,
+                    **kwargs):
+        response = self.client.get(reverse('memory', **kwargs))
+        self.assertContains(response, match)
+
+        response = self.client.post(
+            reverse('memory-delete', **kwargs),
+            {'confirm': '1'},
+            follow=True
+        )
+        if fail:
+            self.assertContains(response, 'Permission Denied', status_code=403)
+        else:
+            self.assertContains(response, 'Entries were successfully deleted')
+
+        with open(get_test_file('memory.tmx'), 'rb') as handle:
+            response = self.client.post(
+                reverse('memory-upload', **kwargs),
+                {'file': handle},
+                follow=True
+            )
+        if fail:
+            self.assertContains(response, 'Permission Denied', status_code=403)
+        else:
+            self.assertContains(response, 'File was successfully processed')
+
+        with open(get_test_file('cs.json'), 'rb') as handle:
+            response = self.client.post(
+                reverse('memory-upload', **kwargs),
+                {'file': handle},
+                follow=True
+            )
+        if fail:
+            self.assertContains(response, 'Permission Denied', status_code=403)
+        else:
+            self.assertContains(response, 'No valid entries found')
+
+    def test_memory_project(self):
+        self.test_memory(
+            'Number of entries for Test', True,
+            kwargs=self.kw_project
+        )
+
+    def test_memory_project_superuser(self):
+        self.user.is_superuser = True
+        self.user.save()
+        self.test_memory(
+            'Number of entries for Test', False,
+            kwargs=self.kw_project
+        )

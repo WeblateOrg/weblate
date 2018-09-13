@@ -17,3 +17,108 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+
+from __future__ import unicode_literals
+
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
+from django.urls import reverse
+from django.utils.decorators import method_decorator
+from django.utils.encoding import force_text
+from django.utils.translation import ugettext as _
+from django.views.generic.base import TemplateView
+
+from weblate.memory.forms import DeleteForm, UploadForm
+from weblate.memory.storage import TranslationMemory, MemoryImportError
+from weblate.utils import messages
+from weblate.utils.views import ErrorFormView, get_project
+
+
+def get_objects(request, kwargs):
+    if 'project' in kwargs:
+        return {'project': get_project(request, kwargs['project'])}
+    return {'user': request.user}
+
+
+def check_perm(user, permission, objects):
+    if 'project' in objects:
+        return user.has_perm(permission, objects['project'])
+    if 'user' in objects:
+        # User can edit own translation memory
+        return True
+    return False
+
+
+@method_decorator(login_required, name='dispatch')
+class MemoryFormView(ErrorFormView):
+    def get_success_url(self):
+        return reverse('memory', kwargs=self.kwargs)
+
+    def dispatch(self, request, *args, **kwargs):
+        self.objects = get_objects(request, kwargs)
+        return super(MemoryFormView, self).dispatch(request, *args, **kwargs)
+
+
+class DeleteView(MemoryFormView):
+
+    form_class = DeleteForm
+
+    def form_valid(self, form):
+        if not check_perm(self.request.user, 'memory.delete', self.objects):
+            raise PermissionDenied()
+        memory = TranslationMemory()
+        memory.delete(**self.objects)
+        messages.success(
+            self.request, _('Entries were successfully deleted.')
+        )
+        return super(DeleteView, self).form_valid(form)
+
+
+class UploadView(MemoryFormView):
+    form_class = UploadForm
+
+    def form_valid(self, form):
+        if not check_perm(self.request.user, 'memory.edit', self.objects):
+            raise PermissionDenied()
+        try:
+            TranslationMemory.import_file(
+                form.cleaned_data['file'], **self.objects
+            )
+            messages.success(
+                self.request,
+                _(
+                    'File was successfully processed, '
+                    'the entries will appear shortly.'
+                )
+            )
+        except MemoryImportError as error:
+            messages.error(self.request, force_text(error))
+        return super(UploadView, self).form_valid(form)
+
+
+@method_decorator(login_required, name='dispatch')
+class MemoryView(TemplateView):
+    template_name = 'memory/index.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        self.objects = get_objects(request, kwargs)
+        return super(MemoryView, self).dispatch(request, *args, **kwargs)
+
+    def get_url(self, name):
+        return reverse(name, kwargs=self.kwargs)
+
+    def get_context_data(self, **kwargs):
+        memory = TranslationMemory()
+        context = super(MemoryView, self).get_context_data(**kwargs)
+        context.update(self.objects)
+        entries = memory.list_documents(**self.objects)
+        context['num_entries'] = len(entries)
+        context['total_entries'] = memory.index.doc_count()
+        context['delete_url'] = self.get_url('memory-delete')
+        context['upload_url'] = self.get_url('memory-upload')
+        user = self.request.user
+        if check_perm(user, 'memory.delete', self.objects):
+            context['delete_form'] = DeleteForm()
+        if check_perm(user, 'memory.edit', self.objects):
+            context['upload_form'] = UploadForm()
+        return context

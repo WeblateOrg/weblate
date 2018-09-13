@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load permissions %}
+{% load crispy_forms_tags %}
+
+{% block breadcrumbs %}
+{% if project %}
+<li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
+<li><a href="{% url 'memory' project=project.slug %}">{% trans "Translation memory" %}</a></li>
+{% else %}
+<li><a href="{% url 'memory' %}">{% trans "Translation memory" %}</a></li>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Translation memory status" %}</h4></div>
+  <table class="table table-condensed table-striped">
+  <tr>
+  <th>{% if project %}{% blocktrans %}Number of entries for {{ project }}{% endblocktrans %}{% else %}{% trans "Number of your entries" %}{% endif %}</th>
+  <td>{{ num_entries }}</td>
+  </tr>
+  <tr>
+  <th>{% trans "Total number of entries" %}</th>
+  <td>{{ total_entries }}</td>
+  </tr>
+  </table>
+</div>
+
+{% if upload_form %}
+<form action="{{ upload_url }}" method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Import translation memory" %}</h4></div>
+  <div class="panel-body">
+  {{ upload_form|crispy }}
+  </div>
+  <div class="panel-footer">
+  <input type="submit" class="btn btn-success" value="{% trans "Upload" %}" />
+  </div>
+</div>
+</form>
+{% endif %}
+
+{% if delete_form %}
+<form action="{{ delete_url }}" method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+<div class="panel panel-danger">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Wipe translation memory" %}</h4></div>
+  <div class="panel-body">
+  {{ delete_form|crispy }}
+  </div>
+  <div class="panel-footer">
+  <input type="submit" class="btn btn-danger" value="{% trans "Wipe" %}" />
+  </div>
+</div>
+</form>
+{% endif %}
+
+{% endblock %}
