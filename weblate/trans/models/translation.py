@@ -46,6 +46,7 @@ from weblate.trans.signals import (
     vcs_pre_commit, vcs_post_commit, store_post_load
 )
 from weblate.utils.site import get_site_url
+from weblate.trans.filter import get_filter_choice
 from weblate.trans.util import split_plural
 from weblate.trans.mixins import URLMixin, LoggerMixin
 from weblate.trans.models.change import Change
@@ -613,20 +614,11 @@ class Translation(models.Model, URLMixin, LoggerMixin):
     def get_source_checks(self):
         """Return list of failing source checks on current component."""
         result = TranslationChecklist()
-        result.add(
-            self.stats,
-            'all',
-            _('All strings'),
-            'success',
-        )
+        choices = dict(get_filter_choice(True))
+        result.add(self.stats, choices, 'all', 'success')
 
         # All checks
-        result.add_if(
-            self.stats,
-            'sourcechecks',
-            _('Strings with any failing checks'),
-            'danger',
-        )
+        result.add_if(self.stats, choices, 'sourcechecks', 'danger')
 
         # Process specific checks
         for check in CHECKS:
@@ -634,19 +626,13 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             if not check_obj.source:
                 continue
             result.add_if(
-                self.stats,
+                self.stats, choices,
                 check_obj.url_id,
-                check_obj.description,
                 check_obj.severity,
             )
 
         # Grab comments
-        result.add_if(
-            self.stats,
-            'sourcecomments',
-            _('Strings with comments'),
-            'info',
-        )
+        result.add_if(self.stats, choices, 'sourcecomments', 'info')
 
         return result
 
@@ -654,92 +640,37 @@ class Translation(models.Model, URLMixin, LoggerMixin):
     def list_translation_checks(self):
         """Return list of failing checks on current translation."""
         result = TranslationChecklist()
+        choices = dict(get_filter_choice())
 
         # All strings
-        result.add(
-            self.stats,
-            'all',
-            _('All strings'),
-            'success',
-        )
-
-        result.add_if(
-            self.stats,
-            'approved',
-            _('Approved strings'),
-            'success',
-        )
+        result.add(self.stats, choices, 'all', 'success')
+        result.add_if(self.stats, choices, 'approved', 'success')
 
         # Count of translated strings
-        result.add_if(
-            self.stats,
-            'translated',
-            _('Translated strings'),
-            'success',
-        )
+        result.add_if(self.stats, choices, 'translated', 'success')
 
         # To approve
         if self.component.project.enable_review:
-            result.add_if(
-                self.stats,
-                'unapproved',
-                _('Strings waiting for review'),
-                'warning',
-            )
+            result.add_if(self.stats, choices, 'unapproved', 'warning')
 
         # Approved with suggestions
-        result.add_if(
-            self.stats,
-            'approved_suggestions',
-            _('Approved strings with suggestions'),
-            'danger',
-        )
+        result.add_if(self.stats, choices, 'approved_suggestions', 'danger')
 
         # Untranslated strings
-        result.add_if(
-            self.stats,
-            'todo',
-            _('Strings needing action'),
-            'danger',
-        )
+        result.add_if(self.stats, choices, 'todo', 'danger')
 
         # Not translated strings
-        result.add_if(
-            self.stats,
-            'nottranslated',
-            _('Not translated strings'),
-            'danger',
-        )
+        result.add_if(self.stats, choices, 'nottranslated', 'danger')
 
         # Fuzzy strings
-        result.add_if(
-            self.stats,
-            'fuzzy',
-            _('Strings marked as needing edit'),
-            'danger',
-        )
+        result.add_if(self.stats, choices, 'fuzzy', 'danger')
 
         # Translations with suggestions
-        result.add_if(
-            self.stats,
-            'suggestions',
-            _('Strings with suggestions'),
-            'info',
-        )
-        result.add_if(
-            self.stats,
-            'nosuggestions',
-            _('Strings needing action without suggestions'),
-            'info',
-        )
+        result.add_if(self.stats, choices, 'suggestions', 'info')
+        result.add_if(self.stats, choices, 'nosuggestions', 'info')
 
         # All checks
-        result.add_if(
-            self.stats,
-            'allchecks',
-            _('Strings with any failing checks'),
-            'danger',
-        )
+        result.add_if(self.stats, choices, 'allchecks', 'danger')
 
         # Process specific checks
         for check in CHECKS:
@@ -747,19 +678,13 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             if not check_obj.target:
                 continue
             result.add_if(
-                self.stats,
+                self.stats, choices,
                 check_obj.url_id,
-                check_obj.description,
                 check_obj.severity,
             )
 
         # Grab comments
-        result.add_if(
-            self.stats,
-            'comments',
-            _('Strings with comments'),
-            'info',
-        )
+        result.add_if(self.stats, choices, 'comments', 'info')
 
         return result
 
