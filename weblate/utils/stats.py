@@ -37,17 +37,16 @@ from weblate.utils.state import (
 from weblate.trans.util import translation_percent
 
 BASICS = frozenset((
-    'all', 'fuzzy', 'translated', 'approved', 'untranslated',
-    'allchecks', 'suggestions', 'comments', 'approved_suggestions',
-    'languages',
+    'all', 'fuzzy', 'translated', 'approved', 'allchecks', 'suggestions',
+    'comments', 'approved_suggestions', 'languages',
 ))
 BASIC_KEYS = frozenset(
     ['{}_words'.format(x) for x in BASICS if x != 'languages'] +
     [
-        'translated_percent', 'approved_percent', 'untranslated_percent',
-        'fuzzy_percent', 'allchecks_percent', 'translated_words_percent',
-        'approved_words_percent', 'untranslated_words_percent',
-        'fuzzy_words_percent', 'allchecks_words_percent',
+        'translated_percent', 'approved_percent', 'fuzzy_percent',
+        'allchecks_percent', 'translated_words_percent',
+        'approved_words_percent', 'fuzzy_words_percent',
+        'allchecks_words_percent',
     ] +
     list(BASICS)
 )
@@ -171,13 +170,11 @@ class BaseStats(object):
         """Calculate basic percents."""
         self.calculate_percents('translated_percent')
         self.calculate_percents('approved_percent')
-        self.calculate_percents('untranslated_percent')
         self.calculate_percents('fuzzy_percent')
         self.calculate_percents('allchecks_percent')
 
         self.calculate_percents('translated_words_percent')
         self.calculate_percents('approved_words_percent')
-        self.calculate_percents('untranslated_words_percent')
         self.calculate_percents('fuzzy_words_percent')
         self.calculate_percents('allchecks_words_percent')
 
@@ -263,14 +260,6 @@ class TranslationStats(BaseStats):
             self.store(key, value)
 
         # Calculate some values
-        self.store(
-            'untranslated',
-            self._data['all'] - self._data['translated']
-        )
-        self.store(
-            'untranslated_words',
-            self._data['all_words'] - self._data['translated_words']
-        )
         self.store('languages', 1)
 
         # Calculate percents

@@ -59,7 +59,6 @@ SIMPLE_FILTERS = {
         'state': STATE_APPROVED, 'has_suggestion': True
     },
     'unapproved': {'state': STATE_TRANSLATED},
-    'untranslated': {'state__lt': STATE_TRANSLATED},
     'todo': {'state__lt': STATE_TRANSLATED},
     'nottranslated': {'state': STATE_EMPTY},
     'translated': {'state__gte': STATE_TRANSLATED},
