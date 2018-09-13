@@ -49,19 +49,19 @@
 <td class="number col-checks">
 {% if trans.stats.allchecks > 0 and translate_url %}
 <a href="{{ translate_url }}?type=allchecks" title="{% blocktrans count trans.stats.allchecks as count %}There is {{ count }} failing check.{% plural %}There are {{ count }} failing checks.{% endblocktrans %}">
-{{ trans.stats.allchecks }}
+{{ trans.stats.allchecks_percent }}%
 </a>
 {% else %}
-{{ trans.stats.allchecks }}
+{{ trans.stats.allchecks_percent }}%
 {% endif %}
 </td>
 <td class="number col-suggestions">
 {% if trans.stats.suggestions > 0 and translate_url %}
 <a href="{{ translate_url }}?type=suggestions" title="{% blocktrans count trans.stats.suggestions as count %}There is {{ count }} suggestion.{% plural %}There are {{ count }} suggestions.{% endblocktrans %}">
-{{ trans.stats.suggestions }}
+{{ trans.stats.suggestions_percent }}%
 </a>
 {% else %}
-{{ trans.stats.suggestions }}
+{{ trans.stats.suggestions_percent }}%
 {% endif %}
 </td>
 <td>
