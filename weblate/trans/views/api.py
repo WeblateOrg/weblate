@@ -39,7 +39,7 @@ from django.http import (
 )
 
 from weblate.trans.models import Component
-from weblate.trans.views.helper import get_project, get_component
+from weblate.utils.views import get_project, get_component
 from weblate.trans.stats import get_project_stats
 from weblate.trans.tasks import perform_update
 from weblate.utils.errors import report_error

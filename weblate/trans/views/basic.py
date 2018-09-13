@@ -44,7 +44,7 @@ from weblate.trans.forms import (
     ReportsForm, ReplaceForm, NewUnitForm, MassStateForm, DownloadForm,
 )
 from weblate.accounts.notifications import notify_new_language
-from weblate.trans.views.helper import (
+from weblate.utils.views import (
     get_project, get_component, get_translation,
     try_set_language,
 )

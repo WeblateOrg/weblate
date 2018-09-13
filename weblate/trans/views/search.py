@@ -35,11 +35,11 @@ from weblate.trans.forms import (
     SiteSearchForm, ReplaceForm, ReplaceConfirmForm, MassStateForm,
 )
 from weblate.trans.models import Unit, Change
-from weblate.trans.views.helper import (
+from weblate.utils.views import (
     get_translation, get_component, get_project, import_message,
 )
 from weblate.trans.util import render
-from weblate.trans.views.helper import show_form_errors
+from weblate.utils.views import show_form_errors
 from weblate.utils import messages
 from weblate.utils.state import STATE_EMPTY
 from weblate.utils.views import get_paginator

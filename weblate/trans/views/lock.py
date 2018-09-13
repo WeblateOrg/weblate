@@ -25,7 +25,7 @@ from django.views.decorators.http import require_POST
 
 from weblate.utils import messages
 from weblate.trans.util import redirect_param
-from weblate.trans.views.helper import get_project, get_component
+from weblate.utils.views import get_project, get_component
 
 
 @require_POST

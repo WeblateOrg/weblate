@@ -40,7 +40,7 @@ from weblate.utils.site import get_site_url
 from weblate.utils.errors import report_error
 from weblate.trans.util import render, redirect_next, redirect_param
 from weblate.trans.forms import WordForm, DictUploadForm, LetterForm
-from weblate.trans.views.helper import get_project, import_message
+from weblate.utils.views import get_project, import_message
 from weblate.utils.views import get_paginator
 
 

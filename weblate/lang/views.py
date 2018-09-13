@@ -27,7 +27,7 @@ from weblate.lang.models import Language
 from weblate.trans.forms import SiteSearchForm
 from weblate.trans.models import Change
 from weblate.trans.util import sort_objects
-from weblate.trans.views.helper import get_project
+from weblate.utils.views import get_project
 from weblate.utils.stats import prefetch_stats
 from weblate.utils.views import get_paginator
 

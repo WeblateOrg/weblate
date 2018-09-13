@@ -28,7 +28,7 @@ from django.views.decorators.http import require_POST
 from filelock import Timeout
 
 from weblate.utils import messages
-from weblate.trans.views.helper import (
+from weblate.utils.views import (
     get_project, get_component, get_translation
 )
 from weblate.trans.util import redirect_param

@@ -32,7 +32,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
 
 from weblate.auth.models import User
-from weblate.trans.views.helper import get_component
+from weblate.utils.views import get_component
 
 
 GIT_PATHS = [

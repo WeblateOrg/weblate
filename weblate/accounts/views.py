@@ -68,7 +68,7 @@ from weblate.accounts.utils import remove_user
 from weblate.utils import messages
 from weblate.utils.ratelimit import session_ratelimit_post
 from weblate.trans.models import Change, Project, Component, Suggestion
-from weblate.trans.views.helper import get_project
+from weblate.utils.views import get_project
 from weblate.accounts.forms import (
     ProfileForm, SubscriptionForm, UserForm, ContactForm,
     SubscriptionSettingsForm, UserSettingsForm, DashboardSettingsForm

@@ -40,7 +40,7 @@ from weblate.trans.forms import (
     TranslationForm, ZenTranslationForm, SearchForm, InlineWordForm,
     MergeForm, AutoForm, AntispamForm, CommentForm, RevertForm, NewUnitForm,
 )
-from weblate.trans.views.helper import (
+from weblate.utils.views import (
     get_translation, import_message, show_form_errors,
 )
 from weblate.checks import CHECKS

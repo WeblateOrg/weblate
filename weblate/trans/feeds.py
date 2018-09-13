@@ -26,7 +26,7 @@ from django.urls import reverse
 
 from weblate.trans.models import Change
 from weblate.lang.models import Language
-from weblate.trans.views.helper import (
+from weblate.utils.views import (
     get_translation, get_component, get_project
 )
 

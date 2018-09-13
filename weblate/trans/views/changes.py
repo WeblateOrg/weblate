@@ -31,7 +31,7 @@ from django.utils.http import urlencode
 from weblate.auth.models import User
 from weblate.utils import messages
 from weblate.trans.models.change import Change
-from weblate.trans.views.helper import get_project_translation
+from weblate.utils.views import get_project_translation
 from weblate.lang.models import Language
 
 
