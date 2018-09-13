@@ -175,16 +175,7 @@ class MemoryViewTest(FixtureTestCase):
         response = self.client.get(reverse('memory', **kwargs))
         self.assertContains(response, match)
 
-        response = self.client.post(
-            reverse('memory-delete', **kwargs),
-            {'confirm': '1'},
-            follow=True
-        )
-        if fail:
-            self.assertContains(response, 'Permission Denied', status_code=403)
-        else:
-            self.assertContains(response, 'Entries were successfully deleted')
-
+        # Test upload
         with open(get_test_file('memory.tmx'), 'rb') as handle:
             response = self.client.post(
                 reverse('memory-upload', **kwargs),
@@ -196,6 +187,22 @@ class MemoryViewTest(FixtureTestCase):
         else:
             self.assertContains(response, 'File was successfully processed')
 
+        # Test download
+        response = self.client.get(reverse('memory-download', **kwargs))
+        self.assertContains(response, '[')
+
+        # Test wipe
+        response = self.client.post(
+            reverse('memory-delete', **kwargs),
+            {'confirm': '1'},
+            follow=True
+        )
+        if fail:
+            self.assertContains(response, 'Permission Denied', status_code=403)
+        else:
+            self.assertContains(response, 'Entries were successfully deleted')
+
+        # Test invalid upload
         with open(get_test_file('cs.json'), 'rb') as handle:
             response = self.client.post(
                 reverse('memory-upload', **kwargs),

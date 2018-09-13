@@ -598,6 +598,11 @@ urlpatterns = [
         name='memory-upload',
     ),
     url(
+        r'^memory/download/$',
+        weblate.memory.views.DownloadView.as_view(),
+        name='memory-download',
+    ),
+    url(
         r'^memory/project/' + PROJECT + '$',
         weblate.memory.views.MemoryView.as_view(),
         name='memory',
@@ -611,6 +616,11 @@ urlpatterns = [
         r'^memory/project/' + PROJECT + 'upload/$',
         weblate.memory.views.UploadView.as_view(),
         name='memory-upload',
+    ),
+    url(
+        r'^memory/project/' + PROJECT + 'download/$',
+        weblate.memory.views.DownloadView.as_view(),
+        name='memory-download',
     ),
 
     # Languages browsing

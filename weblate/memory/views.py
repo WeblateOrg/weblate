@@ -22,6 +22,7 @@ from __future__ import unicode_literals
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.http import JsonResponse
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.encoding import force_text
@@ -116,9 +117,21 @@ class MemoryView(TemplateView):
         context['total_entries'] = memory.index.doc_count()
         context['delete_url'] = self.get_url('memory-delete')
         context['upload_url'] = self.get_url('memory-upload')
+        context['download_url'] = self.get_url('memory-download')
         user = self.request.user
         if check_perm(user, 'memory.delete', self.objects):
             context['delete_form'] = DeleteForm()
         if check_perm(user, 'memory.edit', self.objects):
             context['upload_form'] = UploadForm()
         return context
+
+
+class DownloadView(MemoryView):
+    def get(self, request, *args, **kwargs):
+        memory = TranslationMemory()
+        response = JsonResponse(
+            [dict(x) for x in memory.list_documents(**self.objects)],
+            safe=False
+        )
+        response['Content-Disposition'] = 'attachment; filename=memory.json'
+        return response
