@@ -1,8 +1,8 @@
 {% load i18n %}{% load translations %}{% autoescape off %}{% filter wordwrap:72 %}{% trans "Translation summary:" %}
 
 {% trans "Total strings:" %} {{ translation.stats.all }}
-{% trans "Translated strings:" %} {{ translation.stas.translated }} ({{ translation.stats.translated_percent }}%)
-{% trans "Untranslated strings:" %} {{ translation.stat.untranslated }} ({{ translation.stats.untranslated_percent }}%)
+{% trans "Translated strings:" %} {{ translation.stats.translated }} ({{ translation.stats.translated_percent }}%)
+{% trans "Untranslated strings:" %} {{ translation.stats.untranslated }} ({{ translation.stats.untranslated_percent }}%)
 {% trans "Strings marked as needing edit:" %} {{ translation.stats.fuzzy }} ({{ translation.stats.fuzzy_percent }}%)
 
 {% blocktrans %}You can translate at {{ translation_url }}{% endblocktrans %}
