@@ -39,14 +39,17 @@ def migrate_permissions(model):
 
 def migrate_roles(model, perm_model):
     """Create roles as defined in the data."""
+    result = False
     for role, permissions in ROLES:
-        instance = model.objects.get_or_create(
+        instance, created = model.objects.get_or_create(
             name=role
-        )[0]
+        )
+        result |= created
         instance.permissions.set(
             perm_model.objects.filter(codename__in=permissions),
             clear=True
         )
+    return result
 
 
 def migrate_groups(model, role_model, update=False):

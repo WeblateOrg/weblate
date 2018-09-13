@@ -49,6 +49,9 @@ PERMISSIONS = (
 
     ('machinery.view', _('Use machine translation services')),
 
+    ('memory.edit', _('Edit translation memory')),
+    ('memory.delete', _('Delete translation memory')),
+
     ('project.edit', _('Edit project settings')),
     ('project.permissions', _('Manage project access')),
 
@@ -145,6 +148,10 @@ ROLES = (
         filter_perms('glossary.')
     ),
     (
+        pgettext('Access control role', 'Manage translation memory'),
+        filter_perms('memory.')
+    ),
+    (
         pgettext('Access control role', 'Manage screenshots'),
         filter_perms('screenshot.')
     ),
@@ -205,6 +212,8 @@ ACL_GROUPS = {
         'Manage languages',
     pgettext('Per project access control group', 'Glossary'):
         'Manage glossary',
+    pgettext('Per project access control group', 'Memory'):
+        'Manage translation memory',
     pgettext('Per project access control group', 'Screenshots'):
         'Manage screenshots',
     pgettext('Per project access control group', 'Review'):

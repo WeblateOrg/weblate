@@ -518,7 +518,7 @@ def create_groups(update):
 
     # Create permissions and roles
     migrate_permissions(Permission)
-    migrate_roles(Role, Permission)
+    new_roles = migrate_roles(Role, Permission)
     migrate_groups(Group, Role, update)
 
     # Create anonymous user
@@ -531,6 +531,11 @@ def create_groups(update):
     group = Group.objects.get(name='Viewers')
     if not AutoGroup.objects.filter(group=group).exists():
         AutoGroup.objects.create(group=group, match='^.*$')
+
+    # Create new per project groups
+    if new_roles:
+        for project in Project.objects.iterator():
+            project.save()
 
 
 @receiver(post_migrate)
