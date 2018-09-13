@@ -43,6 +43,7 @@ from weblate.trans.models import (
     ContributorAgreement, Translation,
 )
 from weblate.checks import CHECKS, highlight_string
+from weblate.trans.filter import get_filter_choice
 from weblate.utils.docs import get_doc_url
 from weblate.utils.stats import BaseStats
 
@@ -726,3 +727,9 @@ def get_translate_url(context, translation):
     else:
         name = 'translate'
     return reverse(name, kwargs=translation.get_reverse_url_kwargs())
+
+
+@register.simple_tag
+def get_filter_name(name):
+    names = dict(get_filter_choice(True))
+    return names[name]
