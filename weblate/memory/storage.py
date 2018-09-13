@@ -24,7 +24,7 @@ import json
 import os.path
 
 from django.utils.encoding import force_text
-from django.utils.translation import pgettext
+from django.utils.translation import pgettext, ugettext as _
 
 
 from translate.misc.xml_helpers import getXMLlang, getXMLspace
@@ -37,6 +37,10 @@ from whoosh import query
 from weblate.lang.models import Language
 from weblate.utils.index import WhooshIndex
 from weblate.utils.search import Comparer
+
+
+class MemoryImportError(Exception):
+    pass
 
 
 def get_node_data(unit, node):
@@ -111,7 +115,8 @@ class TranslationMemory(WhooshIndex):
     def writer(self):
         return self.index.writer()
 
-    def get_language_code(self, code, langmap):
+    @staticmethod
+    def get_language_code(code, langmap):
         language = Language.objects.auto_get_or_create(code)
         if langmap and language.code in langmap:
             language = Language.objects.auto_get_or_create(
@@ -119,8 +124,48 @@ class TranslationMemory(WhooshIndex):
             )
         return language.code
 
-    def import_tmx(self, fileobj, langmap=None, category=CATEGORY_FILE):
-        origin = force_text(os.path.basename(fileobj.name))
+    @classmethod
+    def import_file(cls, fileobj, langmap, category=None):
+        origin = force_text(os.path.basename(fileobj.name)).lower()
+        name, extension = os.path.splitext(origin)
+        if len(name) > 25:
+            origin = '{}...{}'.format(name[:25], extension)
+        if extension == '.tmx':
+            return cls.import_tmx(fileobj, langmap, category, origin)
+        if extension == '.json':
+            return cls.import_json(fileobj, category, origin)
+        raise MemoryImportError(_('Unsupported file!'))
+
+    @classmethod
+    def import_json(cls, fileobj, category=None, origin=None):
+        from weblate.memory.tasks import update_memory_task
+        try:
+            data = json.load(fileobj)
+        except ValueError:
+            raise MemoryImportError(_('Failed to parse JSON file!'))
+        updates = {}
+        fields = cls.SCHEMA().names()
+        if category:
+            updates = {
+                'category': category,
+                'origin': origin,
+            }
+        for entry in data:
+            # Apply overrides
+            entry.update(updates)
+            # Ensure all fields are set
+            for field in fields:
+                if not entry.get(field):
+                    continue
+            # Ensure there are not extra fields
+            record = {field: entry[field] for field in fields}
+            update_memory_task.delay(**record)
+
+    @classmethod
+    def import_tmx(cls, fileobj, langmap=None, category=None, origin=None):
+        from weblate.memory.tasks import update_memory_task
+        if category is None:
+            category = CATEGORY_FILE
         storage = tmxfile.parsefile(fileobj)
         header = next(
             storage.document.getroot().iterchildren(
@@ -128,35 +173,34 @@ class TranslationMemory(WhooshIndex):
             )
         )
         source_language_code = header.get('srclang')
-        source_language = self.get_language_code(source_language_code, langmap)
+        source_language = cls.get_language_code(source_language_code, langmap)
 
         languages = {}
-        with self.writer() as writer:
-            for unit in storage.units:
-                # Parse translations (translate-toolkit does not care about
-                # languages here, it just picks first and second XML elements)
-                translations = {}
-                for node in unit.getlanguageNodes():
-                    lang, text = get_node_data(unit, node)
-                    translations[lang] = text
-                    if lang not in languages:
-                        languages[lang] = self.get_language_code(lang, langmap)
+        for unit in storage.units:
+            # Parse translations (translate-toolkit does not care about
+            # languages here, it just picks first and second XML elements)
+            translations = {}
+            for node in unit.getlanguageNodes():
+                lang, text = get_node_data(unit, node)
+                translations[lang] = text
+                if lang not in languages:
+                    languages[lang] = cls.get_language_code(lang, langmap)
 
-                try:
-                    source = translations.pop(source_language_code)
-                except KeyError:
-                    # Skip if source language is not present
-                    continue
+            try:
+                source = translations.pop(source_language_code)
+            except KeyError:
+                # Skip if source language is not present
+                continue
 
-                for lang, text in translations.items():
-                    writer.add_document(
-                        source_language=source_language,
-                        target_language=languages[lang],
-                        source=source,
-                        target=text,
-                        origin=origin,
-                        category=category,
-                    )
+            for lang, text in translations.items():
+                update_memory_task.delay(
+                    source_language=source_language,
+                    target_language=languages[lang],
+                    source=source,
+                    target=text,
+                    origin=origin,
+                    category=category,
+                )
 
     @staticmethod
     def get_filter(user, project, use_shared, use_file):

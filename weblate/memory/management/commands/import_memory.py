@@ -25,7 +25,7 @@ import json
 
 from django.core.management.base import BaseCommand, CommandError
 
-from weblate.memory.storage import TranslationMemory
+from weblate.memory.storage import TranslationMemory, MemoryImportError
 
 
 class Command(BaseCommand):
@@ -56,20 +56,7 @@ class Command(BaseCommand):
                 )
             }
 
-        memory = TranslationMemory()
-        if options['file'].name.lower().endswith('.tmx'):
-            memory.import_tmx(options['file'], langmap)
-        elif options['file'].name.lower().endswith('.json'):
-            try:
-                data = json.load(options['file'])
-            except ValueError:
-                raise CommandError('Failed to parse JSON file!')
-            finally:
-                options['file'].close()
-            with memory.writer() as writer:
-                for entry in data:
-                    writer.add_document(**entry)
-        else:
-            raise CommandError(
-                'Unsupported file, needs .json or .tmx extension'
-            )
+        try:
+            TranslationMemory.import_file(options['file'], langmap)
+        except MemoryImportError as error:
+            raise CommandError('Import failed: {}'.format(error))
