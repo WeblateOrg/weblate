@@ -68,7 +68,7 @@
 {% endif %}
 </td>
 <td class="number col-comments">
-{% if trans.stats.comments > and translate_url %}
+{% if trans.stats.comments > 0 and translate_url %}
 <a href="{{ translate_url }}?type=comments" title="{% blocktrans count checks as count %}There is {{ count }} comment.{% plural %}There are {{ count }} comments.{% endblocktrans %}">
 {{ checks }}
 </a>
