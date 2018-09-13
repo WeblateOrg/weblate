@@ -119,7 +119,7 @@ class TranslationMemory(WhooshIndex):
             )
         return language.code
 
-    def import_tmx(self, fileobj, langmap=None):
+    def import_tmx(self, fileobj, langmap=None, category=CATEGORY_FILE):
         origin = force_text(os.path.basename(fileobj.name))
         storage = tmxfile.parsefile(fileobj)
         header = next(
@@ -155,7 +155,7 @@ class TranslationMemory(WhooshIndex):
                         source=source,
                         target=text,
                         origin=origin,
-                        category=CATEGORY_FILE,
+                        category=category,
                     )
 
     @staticmethod
