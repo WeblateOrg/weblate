@@ -23,6 +23,7 @@ from __future__ import unicode_literals
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.http import JsonResponse
+from django.shortcuts import render
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.encoding import force_text
@@ -33,6 +34,8 @@ from weblate.memory.forms import DeleteForm, UploadForm
 from weblate.memory.storage import TranslationMemory, MemoryImportError
 from weblate.utils import messages
 from weblate.utils.views import ErrorFormView, get_project
+
+CD_TEMPLATE = 'attachment; filename="weblate-memory.{}"'
 
 
 def get_objects(request, kwargs):
@@ -129,9 +132,17 @@ class MemoryView(TemplateView):
 class DownloadView(MemoryView):
     def get(self, request, *args, **kwargs):
         memory = TranslationMemory()
-        response = JsonResponse(
-            [dict(x) for x in memory.list_documents(**self.objects)],
-            safe=False
-        )
-        response['Content-Disposition'] = 'attachment; filename=memory.json'
+        fmt = request.GET.get('format', 'json')
+        data = [dict(x) for x in memory.list_documents(**self.objects)]
+        if fmt == 'tmx':
+            response = render(
+                request,
+                'memory/dump.tmx',
+                {'data': data},
+                content_type='application/x-tmx'
+            )
+        else:
+            fmt = 'json'
+            response = JsonResponse(data, safe=False)
+        response['Content-Disposition'] = CD_TEMPLATE.format(fmt)
         return response

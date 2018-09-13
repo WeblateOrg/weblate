@@ -191,6 +191,13 @@ class MemoryViewTest(FixtureTestCase):
         response = self.client.get(reverse('memory-download', **kwargs))
         self.assertContains(response, '[')
 
+        # Test download
+        response = self.client.get(
+            reverse('memory-download', **kwargs),
+            {'format': 'tmx'}
+        )
+        self.assertContains(response, '<tmx')
+
         # Test wipe
         response = self.client.post(
             reverse('memory-delete', **kwargs),
