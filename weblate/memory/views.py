@@ -117,7 +117,7 @@ class MemoryView(TemplateView):
         context.update(self.objects)
         entries = memory.list_documents(**self.objects)
         context['num_entries'] = len(entries)
-        context['total_entries'] = memory.index.doc_count()
+        context['total_entries'] = memory.doc_count()
         context['delete_url'] = self.get_url('memory-delete')
         context['upload_url'] = self.get_url('memory-upload')
         context['download_url'] = self.get_url('memory-download')

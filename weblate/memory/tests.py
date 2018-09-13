@@ -54,6 +54,15 @@ class MemoryTest(SimpleTestCase):
     def setUp(self):
         TranslationMemory.cleanup()
 
+    def test_import_invalid_command(self):
+        with self.assertRaises(CommandError):
+            call_command(
+                'import_memory',
+                get_test_file('cs.po')
+            )
+        memory = TranslationMemory()
+        self.assertEqual(memory.doc_count(), 0)
+
     def test_import_json_command(self):
         call_command(
             'import_memory',
@@ -61,6 +70,15 @@ class MemoryTest(SimpleTestCase):
         )
         memory = TranslationMemory()
         self.assertEqual(memory.doc_count(), 1)
+
+    def test_import_broken_json_command(self):
+        with self.assertRaises(CommandError):
+            call_command(
+                'import_memory',
+                get_test_file('memory-broken.json')
+            )
+        memory = TranslationMemory()
+        self.assertEqual(memory.doc_count(), 0)
 
     def test_dump_command(self):
         add_document()
@@ -170,18 +188,27 @@ class MemoryDBTest(TestCase):
 
 
 class MemoryViewTest(FixtureTestCase):
-    def test_memory(self, match='Number of your entries', fail=False,
-                    **kwargs):
-        response = self.client.get(reverse('memory', **kwargs))
-        self.assertContains(response, match)
-
-        # Test upload
-        with open(get_test_file('memory.tmx'), 'rb') as handle:
-            response = self.client.post(
+    def upload_file(self, name, **kwargs):
+        with open(get_test_file(name), 'rb') as handle:
+            return self.client.post(
                 reverse('memory-upload', **kwargs),
                 {'file': handle},
                 follow=True
             )
+
+    def test_memory(self, match='Number of your entries', fail=False,
+                    **kwargs):
+        response = self.client.get(reverse('memory-delete', **kwargs))
+        self.assertRedirects(response, reverse('memory', **kwargs))
+
+        response = self.client.post(reverse('memory-delete', **kwargs))
+        self.assertRedirects(response, reverse('memory', **kwargs))
+
+        response = self.client.get(reverse('memory', **kwargs))
+        self.assertContains(response, match)
+
+        # Test upload
+        response = self.upload_file('memory.tmx', **kwargs)
         if fail:
             self.assertContains(response, 'Permission Denied', status_code=403)
         else:
@@ -210,16 +237,18 @@ class MemoryViewTest(FixtureTestCase):
             self.assertContains(response, 'Entries were successfully deleted')
 
         # Test invalid upload
-        with open(get_test_file('cs.json'), 'rb') as handle:
-            response = self.client.post(
-                reverse('memory-upload', **kwargs),
-                {'file': handle},
-                follow=True
-            )
+        response = self.upload_file('cs.json', **kwargs)
         if fail:
             self.assertContains(response, 'Permission Denied', status_code=403)
         else:
             self.assertContains(response, 'No valid entries found')
+
+        # Test invalid upload
+        response = self.upload_file('memory-broken.json', **kwargs)
+        if fail:
+            self.assertContains(response, 'Permission Denied', status_code=403)
+        else:
+            self.assertContains(response, 'Failed to parse JSON file')
 
     def test_memory_project(self):
         self.test_memory(
