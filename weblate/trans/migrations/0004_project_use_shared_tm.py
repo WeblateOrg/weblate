@@ -16,6 +16,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='project',
             name='use_shared_tm',
-            field=models.BooleanField(default=settings.DEFAULT_SHARED_TM, help_text='By enabling shared translation memory, the project will be able to use translation memory shared by other projects. All future translations on this project will be contributed the shared translation memory.', verbose_name='Use shared translation memory'),
+            field=models.BooleanField(default=settings.DEFAULT_SHARED_TM, help_text='Uses and contributes to the pool of shared translations between projects.', verbose_name='Use shared translation memory'),
         ),
     ]

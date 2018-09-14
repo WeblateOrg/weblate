@@ -90,10 +90,7 @@ class UploadView(MemoryFormView):
             )
             messages.success(
                 self.request,
-                _(
-                    'File processed, '
-                    'the entries will appear shortly.'
-                )
+                _('File processed, the entries will appear shortly.')
             )
         except MemoryImportError as error:
             messages.error(self.request, force_text(error))

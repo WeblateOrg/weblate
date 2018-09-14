@@ -85,7 +85,7 @@ class Migration(migrations.Migration):
                 ('web', models.URLField(help_text='Main website of translated project.', verbose_name='Project website')),
                 ('mail', models.EmailField(blank=True, help_text='Mailing list for translators.', max_length=254, verbose_name='Mailing list')),
                 ('instructions', models.URLField(blank=True, help_text='URL with instructions for translators.', verbose_name='Translation instructions')),
-                ('set_translation_team', models.BooleanField(default=True, help_text='Whether the "Translation-Team" field in file headers should be updated by Weblate.', verbose_name='Set "Translation-Team" header')),
+                ('set_translation_team', models.BooleanField(default=True, help_text='Lets Weblate update the \"Translation-Team\" file header of your project.', verbose_name='Set "Translation-Team" header')),
             ],
             options={
                 'ordering': ['name'],

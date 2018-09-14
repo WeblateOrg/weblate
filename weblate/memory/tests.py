@@ -212,7 +212,7 @@ class MemoryViewTest(FixtureTestCase):
         if fail:
             self.assertContains(response, 'Permission Denied', status_code=403)
         else:
-            self.assertContains(response, 'File was successfully processed')
+            self.assertContains(response, 'File processed')
 
         # Test download
         response = self.client.get(reverse('memory-download', **kwargs))
@@ -234,7 +234,7 @@ class MemoryViewTest(FixtureTestCase):
         if fail:
             self.assertContains(response, 'Permission Denied', status_code=403)
         else:
-            self.assertContains(response, 'Entries were successfully deleted')
+            self.assertContains(response, 'Entries deleted')
 
         # Test invalid upload
         response = self.upload_file('cs.json', **kwargs)
