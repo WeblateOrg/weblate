@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load translations %}
+{% load permissions %}
 {% load crispy_forms_tags %}
 
 {% block breadcrumbs %}
@@ -22,6 +23,16 @@
   </h4>
 </div>
   <table class="table table-condensed table-striped">
+  {% if project %}
+  <tr>
+  <th>{% trans "Shared translation memory" %}</th>
+  <td>
+  {% if project.use_shared_tm %}{% trans "enabled" %}{% else %}{% trans "disabled" %}{% endif %}
+  {% perm 'project.edit' project as user_can_edit_project %}
+  {% if user_can_edit_project %}<a href="{% url 'settings' project=project.slug %}" class="btn btn-xs btn-default"><i class="fa fa-wrench"></i> {% trans "Configure" %}</a>{% endif %}
+  </td>
+  </tr>
+  {% endif %}
   <tr>
   <th>{% if project %}{% blocktrans %}Number of entries for {{ project }}{% endblocktrans %}{% else %}{% trans "Number of your entries" %}{% endif %}</th>
   <td>{{ num_entries }}</td>
