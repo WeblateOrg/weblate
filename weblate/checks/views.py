@@ -29,7 +29,7 @@ from django.db.models import Count
 from weblate.checks.models import Check
 from weblate.checks import CHECKS
 from weblate.trans.models import Unit
-from weblate.trans.views.helper import get_project, get_component
+from weblate.utils.views import get_project, get_component
 from weblate.trans.util import redirect_param
 
 

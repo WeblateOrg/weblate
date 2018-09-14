@@ -30,7 +30,7 @@ from django.views.decorators.http import require_POST
 
 from weblate.lang.models import Language
 from weblate.utils import messages
-from weblate.trans.views.helper import get_component
+from weblate.utils.views import get_component
 from weblate.trans.models import Translation, Source, Unit
 from weblate.trans.forms import (
     PriorityForm, CheckFlagsForm, MatrixLanguageForm, ContextForm,

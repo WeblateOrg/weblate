@@ -1480,6 +1480,7 @@ class ProjectSettingsForm(forms.ModelForm):
             'mail',
             'instructions',
             'set_translation_team',
+            'use_shared_tm',
             'enable_hooks',
             'source_language',
         )

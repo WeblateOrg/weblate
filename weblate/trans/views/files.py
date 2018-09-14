@@ -30,7 +30,7 @@ from django.views.decorators.http import require_POST
 from weblate.utils import messages
 from weblate.utils.errors import report_error
 from weblate.trans.forms import get_upload_form, DownloadForm
-from weblate.trans.views.helper import (
+from weblate.utils.views import (
     get_translation, download_translation_file, show_form_errors,
 )
 

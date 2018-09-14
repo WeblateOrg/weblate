@@ -86,6 +86,8 @@ Translation instructions
 Set Translation-Team header
     Whether Weblate should manage Translation-Team header (this is
     :ref:`gettext` only feature right now).
+Use shared translation memory
+    Whether to use shared translation memory, see :ref:`shared-tm` for more details.
 Access control
     Configure per project access control, see :ref:`acl` for more details.
 Enable reviews

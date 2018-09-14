@@ -28,7 +28,7 @@ from django.utils.translation import ugettext as _
 
 from weblate.trans.forms import ComponentSettingsForm, ProjectSettingsForm
 from weblate.trans.util import render
-from weblate.trans.views.helper import get_project, get_component
+from weblate.utils.views import get_project, get_component
 from weblate.utils import messages
 
 

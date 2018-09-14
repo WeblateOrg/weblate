@@ -30,7 +30,7 @@ from weblate.checks.models import Check
 from weblate.screenshots.forms import ScreenshotForm
 from weblate.trans.models import Unit, Change
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
-from weblate.trans.views.helper import (
+from weblate.utils.views import (
     get_project, get_component, get_translation
 )
 from weblate.trans.forms import PriorityForm, CheckFlagsForm, ContextForm

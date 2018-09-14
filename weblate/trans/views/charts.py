@@ -26,7 +26,7 @@ from django.utils.translation import pgettext
 from weblate.auth.models import User
 from weblate.trans.models import Change
 from weblate.lang.models import Language
-from weblate.trans.views.helper import get_project_translation
+from weblate.utils.views import get_project_translation
 
 
 def get_json_stats(request, days, step, project=None, component=None,

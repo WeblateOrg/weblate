@@ -28,7 +28,7 @@ from django.core.exceptions import PermissionDenied
 from weblate.trans.models.change import Change
 from weblate.trans.forms import ReportsForm
 from weblate.trans.util import redirect_param
-from weblate.trans.views.helper import get_component, show_form_errors
+from weblate.utils.views import get_component, show_form_errors
 
 
 RST_HEADING = ' '.join([

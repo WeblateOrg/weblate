@@ -312,6 +312,13 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin):
         # Wait for profile to load
         self.driver.find_element_by_id('subscriptions')
 
+        # Load translation memory
+        self.click(self.driver.find_element_by_id('user-dropdown'))
+        with self.wait_for_page_load():
+            self.click(self.driver.find_element_by_id('memory-button'))
+
+        self.screenshot('memory.png')
+
         # Finally logout
         self.click(self.driver.find_element_by_id('user-dropdown'))
         with self.wait_for_page_load():

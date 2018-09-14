@@ -32,7 +32,7 @@ from weblate.trans.forms import (
     UserManageForm, ProjectAccessForm, DisabledProjectAccessForm,
 )
 from weblate.trans.models import Change
-from weblate.trans.views.helper import get_project
+from weblate.utils.views import get_project
 
 
 def check_user_form(request, project, verbose=False):

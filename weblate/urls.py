@@ -36,6 +36,7 @@ import weblate.accounts.views
 import weblate.addons.views
 import weblate.checks.views
 import weblate.lang.views
+import weblate.memory.views
 import weblate.screenshots.views
 import weblate.trans.views.about
 import weblate.trans.views.acl
@@ -578,6 +579,48 @@ urlpatterns = [
         r'^js/screenshot/(?P<pk>[0-9]+)/add/$',
         weblate.screenshots.views.add_source,
         name='screenshot-js-add',
+    ),
+
+    # Translation memory
+    url(
+        r'^memory/$',
+        weblate.memory.views.MemoryView.as_view(),
+        name='memory',
+    ),
+    url(
+        r'^memory/delete/$',
+        weblate.memory.views.DeleteView.as_view(),
+        name='memory-delete',
+    ),
+    url(
+        r'^memory/upload/$',
+        weblate.memory.views.UploadView.as_view(),
+        name='memory-upload',
+    ),
+    url(
+        r'^memory/download/$',
+        weblate.memory.views.DownloadView.as_view(),
+        name='memory-download',
+    ),
+    url(
+        r'^memory/project/' + PROJECT + '$',
+        weblate.memory.views.MemoryView.as_view(),
+        name='memory',
+    ),
+    url(
+        r'^memory/project/' + PROJECT + 'delete/$',
+        weblate.memory.views.DeleteView.as_view(),
+        name='memory-delete',
+    ),
+    url(
+        r'^memory/project/' + PROJECT + 'upload/$',
+        weblate.memory.views.UploadView.as_view(),
+        name='memory-upload',
+    ),
+    url(
+        r'^memory/project/' + PROJECT + 'download/$',
+        weblate.memory.views.DownloadView.as_view(),
+        name='memory-download',
     ),
 
     # Languages browsing

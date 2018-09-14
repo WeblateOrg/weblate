@@ -22,6 +22,7 @@ from __future__ import unicode_literals
 import json
 
 from django.test import SimpleTestCase, TestCase
+from django.urls import reverse
 from django.core.management import call_command
 from django.core.management.base import CommandError
 
@@ -30,6 +31,7 @@ from six import StringIO
 from weblate.memory.machine import WeblateMemory
 from weblate.memory.storage import TranslationMemory, CATEGORY_FILE
 from weblate.trans.tests.utils import get_test_file
+from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.checks.tests.test_checks import MockUnit
 
 TEST_DOCUMENT = {
@@ -52,6 +54,15 @@ class MemoryTest(SimpleTestCase):
     def setUp(self):
         TranslationMemory.cleanup()
 
+    def test_import_invalid_command(self):
+        with self.assertRaises(CommandError):
+            call_command(
+                'import_memory',
+                get_test_file('cs.po')
+            )
+        memory = TranslationMemory()
+        self.assertEqual(memory.doc_count(), 0)
+
     def test_import_json_command(self):
         call_command(
             'import_memory',
@@ -59,6 +70,15 @@ class MemoryTest(SimpleTestCase):
         )
         memory = TranslationMemory()
         self.assertEqual(memory.doc_count(), 1)
+
+    def test_import_broken_json_command(self):
+        with self.assertRaises(CommandError):
+            call_command(
+                'import_memory',
+                get_test_file('memory-broken.json')
+            )
+        memory = TranslationMemory()
+        self.assertEqual(memory.doc_count(), 0)
 
     def test_dump_command(self):
         add_document()
@@ -71,11 +91,16 @@ class MemoryTest(SimpleTestCase):
         with self.assertRaises(CommandError):
             call_command('delete_memory')
 
-    def test_delete_command(self):
+    def test_delete_origin_command(self, params=None):
+        if params is None:
+            params = ['--origin', 'test']
         add_document()
-        call_command('delete_memory', '--origin', 'test')
+        call_command('delete_memory', *params)
         memory = TranslationMemory()
         self.assertEqual(memory.doc_count(), 0)
+
+    def test_delete_category_command(self):
+        self.test_delete_origin_command(['--category', '1'])
 
     def test_delete_all_command(self):
         add_document()
@@ -113,17 +138,17 @@ class MemoryTest(SimpleTestCase):
         add_document()
         memory = TranslationMemory()
         self.assertEqual(memory.doc_count(), 1)
-        self.assertEqual(memory.delete('test'), 1)
-        self.assertEqual(memory.delete('missing'), 0)
+        self.assertEqual(memory.delete('test', None), 1)
+        self.assertEqual(memory.delete('missing', None), 0)
         memory = TranslationMemory()
         self.assertEqual(memory.doc_count(), 0)
 
     def test_list(self):
         memory = TranslationMemory()
-        self.assertEqual(list(memory.get_origins()), [])
+        self.assertEqual(memory.get_values('origin'), [])
         add_document()
         memory = TranslationMemory()
-        self.assertEqual(memory.get_origins(), ['test'])
+        self.assertEqual(memory.get_values('origin'), ['test'])
 
 
 class MemoryDBTest(TestCase):
@@ -138,7 +163,7 @@ class MemoryDBTest(TestCase):
             [
                 {
                     'quality': 100,
-                    'service': 'Weblate Translation Memory (test)',
+                    'service': 'Weblate Translation Memory (File: test)',
                     'source': 'Hello',
                     'text': 'Ahoj'
                 },
@@ -160,3 +185,81 @@ class MemoryDBTest(TestCase):
             language_map='en_US:en',
         )
         self.assertEqual(TranslationMemory().doc_count(), 2)
+
+
+class MemoryViewTest(FixtureTestCase):
+    def upload_file(self, name, **kwargs):
+        with open(get_test_file(name), 'rb') as handle:
+            return self.client.post(
+                reverse('memory-upload', **kwargs),
+                {'file': handle},
+                follow=True
+            )
+
+    def test_memory(self, match='Number of your entries', fail=False,
+                    **kwargs):
+        response = self.client.get(reverse('memory-delete', **kwargs))
+        self.assertRedirects(response, reverse('memory', **kwargs))
+
+        response = self.client.post(reverse('memory-delete', **kwargs))
+        self.assertRedirects(response, reverse('memory', **kwargs))
+
+        response = self.client.get(reverse('memory', **kwargs))
+        self.assertContains(response, match)
+
+        # Test upload
+        response = self.upload_file('memory.tmx', **kwargs)
+        if fail:
+            self.assertContains(response, 'Permission Denied', status_code=403)
+        else:
+            self.assertContains(response, 'File was successfully processed')
+
+        # Test download
+        response = self.client.get(reverse('memory-download', **kwargs))
+        self.assertContains(response, '[')
+
+        # Test download
+        response = self.client.get(
+            reverse('memory-download', **kwargs),
+            {'format': 'tmx'}
+        )
+        self.assertContains(response, '<tmx')
+
+        # Test wipe
+        response = self.client.post(
+            reverse('memory-delete', **kwargs),
+            {'confirm': '1'},
+            follow=True
+        )
+        if fail:
+            self.assertContains(response, 'Permission Denied', status_code=403)
+        else:
+            self.assertContains(response, 'Entries were successfully deleted')
+
+        # Test invalid upload
+        response = self.upload_file('cs.json', **kwargs)
+        if fail:
+            self.assertContains(response, 'Permission Denied', status_code=403)
+        else:
+            self.assertContains(response, 'No valid entries found')
+
+        # Test invalid upload
+        response = self.upload_file('memory-broken.json', **kwargs)
+        if fail:
+            self.assertContains(response, 'Permission Denied', status_code=403)
+        else:
+            self.assertContains(response, 'Failed to parse JSON file')
+
+    def test_memory_project(self):
+        self.test_memory(
+            'Number of entries for Test', True,
+            kwargs=self.kw_project
+        )
+
+    def test_memory_project_superuser(self):
+        self.user.is_superuser = True
+        self.user.save()
+        self.test_memory(
+            'Number of entries for Test', False,
+            kwargs=self.kw_project
+        )

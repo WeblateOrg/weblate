@@ -35,6 +35,7 @@ import six
 
 from weblate.checks import CHECKS
 from weblate.checks.models import Check
+from weblate.memory.tasks import update_memory
 from weblate.trans.models.source import Source
 from weblate.trans.models.comment import Comment
 from weblate.trans.models.suggestion import Suggestion
@@ -959,6 +960,10 @@ class Unit(models.Model, LoggerMixin):
             change_action=change_action,
             propagate=propagate
         )
+        if (propagate and request and
+                self.target != self.old_unit.target and
+                self.state >= STATE_TRANSLATED):
+            update_memory(request.user, self)
 
         return saved
 

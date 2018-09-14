@@ -20,26 +20,24 @@
 
 from __future__ import unicode_literals
 
-from django.core.management.base import BaseCommand
+from django import forms
+from django.core.validators import FileExtensionValidator
+from django.utils.translation import ugettext_lazy as _
 
-from weblate.memory.storage import TranslationMemory
+
+class UploadForm(forms.Form):
+    """Uploading file to a dictionary."""
+    file = forms.FileField(
+        label=_('File'),
+        validators=[
+            FileExtensionValidator(allowed_extensions=['json', 'tmx'])
+        ],
+        help_text=_('You can upload TMX or JSON file.')
+    )
 
 
-class Command(BaseCommand):
-    help = 'list translation memory origins'
-
-    def add_arguments(self, parser):
-        super(Command, self).add_arguments(parser)
-        parser.add_argument(
-            '--type',
-            choices=['origin', 'category'],
-            default='origin',
-            required=False,
-            help='Type of objects to list',
-        )
-
-    def handle(self, *args, **options):
-        """Translation memory cleanup."""
-        memory = TranslationMemory()
-        for item in memory.get_values(options['type']):
-            self.stdout.write(item)
+class DeleteForm(forms.Form):
+    confirm = forms.BooleanField(
+        label=_('Confirm deleting all translation memory entries'),
+        required=True,
+    )

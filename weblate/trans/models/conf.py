@@ -163,6 +163,7 @@ class WeblateConf(AppConf):
     DEFAULT_TRANSLATION_PROPAGATION = True
 
     DEFAULT_CUSTOM_ACL = False
+    DEFAULT_SHARED_TM = True
 
     DEFAULT_PUSH_ON_COMMIT = True
     DEFAULT_VCS = 'git'
