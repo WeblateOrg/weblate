@@ -73,7 +73,7 @@ class DeleteView(MemoryFormView):
         memory = TranslationMemory()
         memory.delete(**self.objects)
         messages.success(
-            self.request, _('Entries were successfully deleted.')
+            self.request, _('Entries deleted.')
         )
         return super(DeleteView, self).form_valid(form)
 
@@ -91,7 +91,7 @@ class UploadView(MemoryFormView):
             messages.success(
                 self.request,
                 _(
-                    'File was successfully processed, '
+                    'File processed, '
                     'the entries will appear shortly.'
                 )
             )
