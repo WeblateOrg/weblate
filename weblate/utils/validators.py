@@ -19,6 +19,7 @@
 #
 
 from io import BytesIO
+import gettext
 import os
 import re
 import sys
@@ -243,3 +244,12 @@ def validate_email(value):
         raise ValidationError(_('Enter a valid email address.'))
     if not re.match(settings.REGISTRATION_EMAIL_MATCH, value):
         raise ValidationError(_('This email address is not allowed.'))
+
+
+def validate_pluraleq(value):
+    try:
+        gettext.c2py(value if value else '0')
+    except ValueError as error:
+        raise ValidationError(
+            _('Failed to evaluate plural equation: {}').format(error)
+        )

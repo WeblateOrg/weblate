@@ -42,6 +42,7 @@ from weblate.lang import data
 from weblate.langdata import languages
 from weblate.logger import LOGGER
 from weblate.utils.stats import LanguageStats
+from weblate.utils.validators import validate_pluraleq
 
 PLURAL_RE = re.compile(
     r'\s*nplurals\s*=\s*([0-9]+)\s*;\s*plural\s*=\s*([()n0-9!=|&<>+*/%\s?:-]+)'
@@ -501,6 +502,7 @@ class Plural(models.Model):
     equation = models.CharField(
         max_length=400,
         default='n != 1',
+        validators=[validate_pluraleq],
         blank=False,
         verbose_name=ugettext_lazy('Plural equation'),
     )
