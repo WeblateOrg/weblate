@@ -32,7 +32,7 @@ class UploadForm(forms.Form):
         validators=[
             FileExtensionValidator(allowed_extensions=['json', 'tmx'])
         ],
-        help_text=_('You can upload TMX or JSON file.')
+        help_text=_('You can upload a TMX or JSON file.')
     )
 
 

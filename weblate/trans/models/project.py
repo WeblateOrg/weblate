@@ -84,18 +84,16 @@ class Project(models.Model, URLMixin, PathMixin):
         verbose_name=ugettext_lazy('Set \"Translation-Team\" header'),
         default=True,
         help_text=ugettext_lazy(
-            'Whether the \"Translation-Team\" field in file headers should be '
-            'updated by Weblate.'
+            'Lets Weblate update the \"Translation-Team\" file header '
+            'of your project.'
         ),
     )
     use_shared_tm = models.BooleanField(
         verbose_name=ugettext_lazy('Use shared translation memory'),
         default=settings.DEFAULT_SHARED_TM,
         help_text=ugettext_lazy(
-            'By enabling shared translation memory, the project will be able '
-            'to use translation memory shared by other projects. All '
-            'future translations on this project will be contributed the '
-            'shared translation memory.'
+            'Uses and contributes to the pool of shared translations '
+            'between projects.'
         )
     )
     access_control = models.IntegerField(
