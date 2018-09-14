@@ -184,7 +184,7 @@ class Component(models.Model, URLMixin, PathMixin):
     )
     branch = models.CharField(
         verbose_name=ugettext_lazy('Repository branch'),
-        max_length=50,
+        max_length=200,
         help_text=ugettext_lazy('Repository branch to translate'),
         default='',
         blank=True
