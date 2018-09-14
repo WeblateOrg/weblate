@@ -74,6 +74,7 @@
       <li role="separator" class="divider"></li>
       {% endif %}
       <li><a href="{% url 'screenshots' project=object.project.slug component=object.slug %}">{% trans "Screenshots" %}</a></li>
+      <li><a href="{% url 'memory' project=object.project.slug %}">{% trans "Translation memory" %}</a></li>
       {% if user_can_manage_acl %}
       <li><a href="{% url 'manage-access' project=object.project.slug %}">{% trans "Users" %}</a></li>
       {% endif %}
