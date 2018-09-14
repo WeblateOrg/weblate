@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-09-14 09:13+0000\n"
+"POT-Creation-Date: 2018-09-14 11:31+0000\n"
 "PO-Revision-Date: 2018-08-22 20:38+0000\n"
 "Last-Translator: DPap <nothingface0@gmail.com>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/weblate/master/el/"
@@ -1491,7 +1491,7 @@ msgstr "Λίστα περιεχομένου"
 #: weblate/billing/models.py:184 weblate/templates/accounts/user.html:38
 #: weblate/templates/base.html:123 weblate/templates/billing/detail.html:35
 #: weblate/templates/language.html:15 weblate/templates/projects.html:5
-#: weblate/trans/models/project.py:143 weblate/trans/views/basic.py:64
+#: weblate/trans/models/project.py:141 weblate/trans/views/basic.py:64
 msgid "Projects"
 msgstr "Έργα"
 
@@ -2600,7 +2600,7 @@ msgid "File"
 msgstr "Αρχείο"
 
 #: weblate/memory/forms.py:35
-msgid "You can upload TMX or JSON file."
+msgid "You can upload a TMX or JSON file."
 msgstr ""
 
 #: weblate/memory/forms.py:41
@@ -2654,11 +2654,11 @@ msgid "No valid entries found in the JSON file!"
 msgstr "Δεν βρέθηκαν σχετικά κείμενα στο γλωσσάριο."
 
 #: weblate/memory/views.py:76
-msgid "Entries were successfully deleted."
+msgid "Entries deleted."
 msgstr ""
 
-#: weblate/memory/views.py:94
-msgid "File was successfully processed, the entries will appear shortly."
+#: weblate/memory/views.py:93
+msgid "File processed, the entries will appear shortly."
 msgstr ""
 
 #: weblate/screenshots/models.py:37
@@ -3609,7 +3609,7 @@ msgstr ""
 #: weblate/templates/language.html:37 weblate/templates/list-projects.html:8
 #: weblate/templates/list-translations.html:7
 #: weblate/trans/models/component.py:123 weblate/trans/models/component.py:146
-#: weblate/trans/models/project.py:142 weblate/trans/models/whiteboard.py:81
+#: weblate/trans/models/project.py:140 weblate/trans/models/whiteboard.py:81
 msgid "Project"
 msgstr "Έργο"
 
@@ -4284,13 +4284,13 @@ msgstr "ΜΙκροεφαρμογές κατάστασης"
 #: weblate/templates/component.html:119
 #, fuzzy
 #| msgid "You don't have privileges to save translations!"
-msgid "You don't have permission to start new translation"
+msgid "You don't have permission to start a new translation"
 msgstr "Δεν έχετε δικαιώματα για να αποθήκευση μεταφράσεων!"
 
 #: weblate/templates/component.html:119
 #, fuzzy
 #| msgid "Please log in to save translations."
-msgid "Please login to start new translation "
+msgid "Please log in to start new translation"
 msgstr "Αρχείο συνδεθείτε για να αποθηκεύσετε μεταφράσεις."
 
 #: weblate/templates/component.html:151 weblate/templates/project.html:215
@@ -8133,8 +8133,7 @@ msgstr "Ορισμός επικεφαλής Ομάδας Μετάφρασης"
 #| msgid ""
 #| "Whether the Translation-Team in file headers should be updated by Weblate."
 msgid ""
-"Whether the \"Translation-Team\" field in file headers should be updated by "
-"Weblate."
+"Lets Weblate update the \"Translation-Team\" file header of your project."
 msgstr ""
 "Αν θα πρέπει η Μεταφραστική Ομάδα στις κεφαλίδες αρχείου να ενημερώνετε από "
 "το Weblate."
@@ -8147,16 +8146,14 @@ msgstr "Χρήση αυτής της μετάφρασης"
 
 #: weblate/trans/models/project.py:95
 msgid ""
-"By enabling shared translation memory, the project will be able to use "
-"translation memory shared by other projects. All future translations on this "
-"project will be contributed the shared translation memory."
+"Uses and contributes to the pool of shared translations between projects."
 msgstr ""
 
-#: weblate/trans/models/project.py:106
+#: weblate/trans/models/project.py:104
 msgid "Access control"
 msgstr "Έλεγχος πρόσβασης"
 
-#: weblate/trans/models/project.py:108
+#: weblate/trans/models/project.py:106
 #, fuzzy
 #| msgid ""
 #| "Whether to enable ACL for this project, please check documentation before "
@@ -8167,35 +8164,35 @@ msgstr ""
 "Προκειμένου να ενεργοποιήσετε το ACL για αυτό το έργο, ελέξτε την τεκμηρίωση "
 "πριν το ενεργοποιήσετε αυτό."
 
-#: weblate/trans/models/project.py:113
+#: weblate/trans/models/project.py:111
 #, fuzzy
 #| msgid "Enable suggestions"
 msgid "Enable reviews"
 msgstr "Ενεργοποίηση προτάσεων"
 
-#: weblate/trans/models/project.py:116
+#: weblate/trans/models/project.py:114
 msgid "Requires dedicated reviewers to approve translations."
 msgstr ""
 
-#: weblate/trans/models/project.py:120
+#: weblate/trans/models/project.py:118
 msgid "Enable hooks"
 msgstr "Ενεργοποίηση αγκίστρων"
 
-#: weblate/trans/models/project.py:123
+#: weblate/trans/models/project.py:121
 msgid "Whether to allow updating this repository by remote hooks."
 msgstr ""
 "Αν θα επιτρέπεται η ενημέρωση του αποθετηρίου από απομακρυσμένο άγκιστρο."
 
-#: weblate/trans/models/project.py:128
+#: weblate/trans/models/project.py:126
 msgid "Source language"
 msgstr "Γλώσσα προέλευσης"
 
-#: weblate/trans/models/project.py:130
+#: weblate/trans/models/project.py:128
 msgid "Language used for source strings in all components"
 msgstr ""
 "Η γλώσσα που χρησιμοποιείται για κείμενα προέλευσης σε όλα τα περιεχόμενα"
 
-#: weblate/trans/models/project.py:177
+#: weblate/trans/models/project.py:175
 #, python-format
 msgid "Could not create project directory: %s"
 msgstr "Αδύνατη η δημιουργία φακέλου έργου: %s"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-09-14 09:13+0000\n"
+"POT-Creation-Date: 2018-09-14 11:31+0000\n"
 "PO-Revision-Date: 2018-09-06 20:27+0000\n"
 "Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
@@ -1268,7 +1268,7 @@ msgstr "取自組件列表"
 #: weblate/billing/models.py:184 weblate/templates/accounts/user.html:38
 #: weblate/templates/base.html:123 weblate/templates/billing/detail.html:35
 #: weblate/templates/language.html:15 weblate/templates/projects.html:5
-#: weblate/trans/models/project.py:143 weblate/trans/views/basic.py:64
+#: weblate/trans/models/project.py:141 weblate/trans/views/basic.py:64
 msgid "Projects"
 msgstr "專案"
 
@@ -2269,7 +2269,7 @@ msgid "File"
 msgstr "檔案"
 
 #: weblate/memory/forms.py:35
-msgid "You can upload TMX or JSON file."
+msgid "You can upload a TMX or JSON file."
 msgstr ""
 
 #: weblate/memory/forms.py:41
@@ -2323,11 +2323,11 @@ msgid "No valid entries found in the JSON file!"
 msgstr "在詞彙表中找不到相關字串。"
 
 #: weblate/memory/views.py:76
-msgid "Entries were successfully deleted."
+msgid "Entries deleted."
 msgstr ""
 
-#: weblate/memory/views.py:94
-msgid "File was successfully processed, the entries will appear shortly."
+#: weblate/memory/views.py:93
+msgid "File processed, the entries will appear shortly."
 msgstr ""
 
 #: weblate/screenshots/models.py:37
@@ -3172,7 +3172,7 @@ msgstr "下列翻譯已明確地指出其授權條款與著作權情形："
 #: weblate/templates/language.html:37 weblate/templates/list-projects.html:8
 #: weblate/templates/list-translations.html:7
 #: weblate/trans/models/component.py:123 weblate/trans/models/component.py:146
-#: weblate/trans/models/project.py:142 weblate/trans/models/whiteboard.py:81
+#: weblate/trans/models/project.py:140 weblate/trans/models/whiteboard.py:81
 msgid "Project"
 msgstr "專案"
 
@@ -3793,11 +3793,15 @@ msgid "Status widgets"
 msgstr "狀態小元件"
 
 #: weblate/templates/component.html:119
-msgid "You don't have permission to start new translation"
+#, fuzzy
+#| msgid "You don't have permission to start new translation"
+msgid "You don't have permission to start a new translation"
 msgstr "您沒有開始新翻譯的權利許可"
 
 #: weblate/templates/component.html:119
-msgid "Please login to start new translation "
+#, fuzzy
+#| msgid "Please login to start new translation "
+msgid "Please log in to start new translation"
 msgstr "請登入以開始新翻譯。 "
 
 #: weblate/templates/component.html:151 weblate/templates/project.html:215
@@ -7206,9 +7210,12 @@ msgid "Set \"Translation-Team\" header"
 msgstr "設定「Translation-Team」檔案標頭"
 
 #: weblate/trans/models/project.py:87
+#, fuzzy
+#| msgid ""
+#| "Whether the \"Translation-Team\" field in file headers should be updated "
+#| "by Weblate."
 msgid ""
-"Whether the \"Translation-Team\" field in file headers should be updated by "
-"Weblate."
+"Lets Weblate update the \"Translation-Team\" file header of your project."
 msgstr "是否應由 Weblate 更新檔案標頭中的「Translation-Team」欄位。"
 
 #: weblate/trans/models/project.py:92
@@ -7219,45 +7226,43 @@ msgstr "使用這個翻譯"
 
 #: weblate/trans/models/project.py:95
 msgid ""
-"By enabling shared translation memory, the project will be able to use "
-"translation memory shared by other projects. All future translations on this "
-"project will be contributed the shared translation memory."
+"Uses and contributes to the pool of shared translations between projects."
 msgstr ""
 
-#: weblate/trans/models/project.py:106
+#: weblate/trans/models/project.py:104
 msgid "Access control"
 msgstr "存取控制"
 
-#: weblate/trans/models/project.py:108
+#: weblate/trans/models/project.py:106
 msgid ""
 "How to restrict access to this project is detailed in the documentation."
 msgstr "限制存取此專案的詳細規則請參考文件。"
 
-#: weblate/trans/models/project.py:113
+#: weblate/trans/models/project.py:111
 msgid "Enable reviews"
 msgstr "啟用檢閱"
 
-#: weblate/trans/models/project.py:116
+#: weblate/trans/models/project.py:114
 msgid "Requires dedicated reviewers to approve translations."
 msgstr "須要有專門的檢閱者核可翻譯。"
 
-#: weblate/trans/models/project.py:120
+#: weblate/trans/models/project.py:118
 msgid "Enable hooks"
 msgstr "啟用掛勾"
 
-#: weblate/trans/models/project.py:123
+#: weblate/trans/models/project.py:121
 msgid "Whether to allow updating this repository by remote hooks."
 msgstr "是否允許接上遠端掛勾更新此儲存庫。"
 
-#: weblate/trans/models/project.py:128
+#: weblate/trans/models/project.py:126
 msgid "Source language"
 msgstr "來源語言"
 
-#: weblate/trans/models/project.py:130
+#: weblate/trans/models/project.py:128
 msgid "Language used for source strings in all components"
 msgstr "此語言將作為所有組件的來源字串"
 
-#: weblate/trans/models/project.py:177
+#: weblate/trans/models/project.py:175
 #, python-format
 msgid "Could not create project directory: %s"
 msgstr "無法建立專案目錄：%s"

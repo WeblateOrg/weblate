@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-09-14 09:13+0000\n"
+"POT-Creation-Date: 2018-09-14 11:31+0000\n"
 "PO-Revision-Date: 2018-09-14 09:36+0000\n"
 "Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
-"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/>"
-"\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/"
+">\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1303,7 +1303,7 @@ msgstr "Ze seznamu součástí"
 #: weblate/billing/models.py:184 weblate/templates/accounts/user.html:38
 #: weblate/templates/base.html:123 weblate/templates/billing/detail.html:35
 #: weblate/templates/language.html:15 weblate/templates/projects.html:5
-#: weblate/trans/models/project.py:143 weblate/trans/views/basic.py:64
+#: weblate/trans/models/project.py:141 weblate/trans/views/basic.py:64
 msgid "Projects"
 msgstr "Projekty"
 
@@ -2326,7 +2326,9 @@ msgid "File"
 msgstr "Soubor"
 
 #: weblate/memory/forms.py:35
-msgid "You can upload TMX or JSON file."
+#, fuzzy
+#| msgid "You can upload TMX or JSON file."
+msgid "You can upload a TMX or JSON file."
 msgstr "Je možné nahrát TMX nebo JSON soubor."
 
 #: weblate/memory/forms.py:41
@@ -2366,11 +2368,15 @@ msgid "No valid entries found in the JSON file!"
 msgstr "V JSON souboru nebyly nalezeny žádné platné položky!"
 
 #: weblate/memory/views.py:76
-msgid "Entries were successfully deleted."
+#, fuzzy
+#| msgid "Entries were successfully deleted."
+msgid "Entries deleted."
 msgstr "Položky byly úspěšně smazány."
 
-#: weblate/memory/views.py:94
-msgid "File was successfully processed, the entries will appear shortly."
+#: weblate/memory/views.py:93
+#, fuzzy
+#| msgid "File was successfully processed, the entries will appear shortly."
+msgid "File processed, the entries will appear shortly."
 msgstr "Soubor byl úspěšně zpracován, položky se zakrátko objeví."
 
 #: weblate/screenshots/models.py:37
@@ -3255,7 +3261,7 @@ msgstr "Následující překlady mají uvedenou svoji licenci:"
 #: weblate/templates/language.html:37 weblate/templates/list-projects.html:8
 #: weblate/templates/list-translations.html:7
 #: weblate/trans/models/component.py:123 weblate/trans/models/component.py:146
-#: weblate/trans/models/project.py:142 weblate/trans/models/whiteboard.py:81
+#: weblate/trans/models/project.py:140 weblate/trans/models/whiteboard.py:81
 msgid "Project"
 msgstr "Projekt"
 
@@ -3894,11 +3900,15 @@ msgid "Status widgets"
 msgstr "Stavová tlačítka"
 
 #: weblate/templates/component.html:119
-msgid "You don't have permission to start new translation"
+#, fuzzy
+#| msgid "You don't have permission to start new translation"
+msgid "You don't have permission to start a new translation"
 msgstr "Nemáte oprávnění zahájit nový překlad"
 
 #: weblate/templates/component.html:119
-msgid "Please login to start new translation "
+#, fuzzy
+#| msgid "Please login to start new translation "
+msgid "Please log in to start new translation"
 msgstr "Pro zahájení nového překladu se přihlaste. "
 
 #: weblate/templates/component.html:151 weblate/templates/project.html:215
@@ -7441,9 +7451,12 @@ msgid "Set \"Translation-Team\" header"
 msgstr "Nastavit hlavičku „Translation-Team“"
 
 #: weblate/trans/models/project.py:87
+#, fuzzy
+#| msgid ""
+#| "Whether the \"Translation-Team\" field in file headers should be updated "
+#| "by Weblate."
 msgid ""
-"Whether the \"Translation-Team\" field in file headers should be updated by "
-"Weblate."
+"Lets Weblate update the \"Translation-Team\" file header of your project."
 msgstr "Zda má být hlavička „Translation-Team“ aktualizována Weblate."
 
 #: weblate/trans/models/project.py:92
@@ -7454,46 +7467,44 @@ msgstr "Použít tento překlad"
 
 #: weblate/trans/models/project.py:95
 msgid ""
-"By enabling shared translation memory, the project will be able to use "
-"translation memory shared by other projects. All future translations on this "
-"project will be contributed the shared translation memory."
+"Uses and contributes to the pool of shared translations between projects."
 msgstr ""
 
-#: weblate/trans/models/project.py:106
+#: weblate/trans/models/project.py:104
 msgid "Access control"
 msgstr "Přístup k projektu"
 
-#: weblate/trans/models/project.py:108
+#: weblate/trans/models/project.py:106
 msgid ""
 "How to restrict access to this project is detailed in the documentation."
 msgstr ""
 "To, jak omezit přístup k projektu, je podrobněji popsáno v dokumentaci."
 
-#: weblate/trans/models/project.py:113
+#: weblate/trans/models/project.py:111
 msgid "Enable reviews"
 msgstr "Povolit kontroly"
 
-#: weblate/trans/models/project.py:116
+#: weblate/trans/models/project.py:114
 msgid "Requires dedicated reviewers to approve translations."
 msgstr "Vyžaduje pověřené recenzenty kteří schvalují překlady."
 
-#: weblate/trans/models/project.py:120
+#: weblate/trans/models/project.py:118
 msgid "Enable hooks"
 msgstr "Povolit háčky"
 
-#: weblate/trans/models/project.py:123
+#: weblate/trans/models/project.py:121
 msgid "Whether to allow updating this repository by remote hooks."
 msgstr "Zda má jít aktualizovat repozitář pomocí vzdálených háčků."
 
-#: weblate/trans/models/project.py:128
+#: weblate/trans/models/project.py:126
 msgid "Source language"
 msgstr "Jazyk zdroje"
 
-#: weblate/trans/models/project.py:130
+#: weblate/trans/models/project.py:128
 msgid "Language used for source strings in all components"
 msgstr "Jazyk, který je použitý jako zdrojový ve všech součástech"
 
-#: weblate/trans/models/project.py:177
+#: weblate/trans/models/project.py:175
 #, python-format
 msgid "Could not create project directory: %s"
 msgstr "Nepodařilo se vytvořit složku pro projekt: %s"

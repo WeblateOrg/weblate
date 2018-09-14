@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-09-14 09:13+0000\n"
+"POT-Creation-Date: 2018-09-14 11:31+0000\n"
 "PO-Revision-Date: 2018-09-14 11:30+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
@@ -1319,7 +1319,7 @@ msgstr "コンポーネントリストから"
 #: weblate/billing/models.py:184 weblate/templates/accounts/user.html:38
 #: weblate/templates/base.html:123 weblate/templates/billing/detail.html:35
 #: weblate/templates/language.html:15 weblate/templates/projects.html:5
-#: weblate/trans/models/project.py:143 weblate/trans/views/basic.py:64
+#: weblate/trans/models/project.py:141 weblate/trans/views/basic.py:64
 msgid "Projects"
 msgstr "プロジェクト"
 
@@ -2349,7 +2349,9 @@ msgid "File"
 msgstr "ファイル"
 
 #: weblate/memory/forms.py:35
-msgid "You can upload TMX or JSON file."
+#, fuzzy
+#| msgid "You can upload TMX or JSON file."
+msgid "You can upload a TMX or JSON file."
 msgstr "TMX もしくは JSON ファイルをアップロードすることができます。"
 
 #: weblate/memory/forms.py:41
@@ -2389,11 +2391,15 @@ msgid "No valid entries found in the JSON file!"
 msgstr "JSON ファイル内に正しい項目が見つかりませんでした！"
 
 #: weblate/memory/views.py:76
-msgid "Entries were successfully deleted."
+#, fuzzy
+#| msgid "Entries were successfully deleted."
+msgid "Entries deleted."
 msgstr "項目を削除しました。"
 
-#: weblate/memory/views.py:94
-msgid "File was successfully processed, the entries will appear shortly."
+#: weblate/memory/views.py:93
+#, fuzzy
+#| msgid "File was successfully processed, the entries will appear shortly."
+msgid "File processed, the entries will appear shortly."
 msgstr "ファイルの処理が成功しました。しばらくすると項目が現われるはずです。"
 
 #: weblate/screenshots/models.py:37
@@ -3292,7 +3298,7 @@ msgstr "下記の翻訳には、ライセンスと著作権に関する条件が
 #: weblate/templates/language.html:37 weblate/templates/list-projects.html:8
 #: weblate/templates/list-translations.html:7
 #: weblate/trans/models/component.py:123 weblate/trans/models/component.py:146
-#: weblate/trans/models/project.py:142 weblate/trans/models/whiteboard.py:81
+#: weblate/trans/models/project.py:140 weblate/trans/models/whiteboard.py:81
 msgid "Project"
 msgstr "プロジェクト"
 
@@ -3932,11 +3938,15 @@ msgid "Status widgets"
 msgstr "ステータスウィジェット"
 
 #: weblate/templates/component.html:119
-msgid "You don't have permission to start new translation"
+#, fuzzy
+#| msgid "You don't have permission to start new translation"
+msgid "You don't have permission to start a new translation"
 msgstr "新しい翻訳を開始するための権限がありません"
 
 #: weblate/templates/component.html:119
-msgid "Please login to start new translation "
+#, fuzzy
+#| msgid "Please login to start new translation "
+msgid "Please log in to start new translation"
 msgstr "新しい翻訳を開始するには、ログインを行なってください "
 
 #: weblate/templates/component.html:151 weblate/templates/project.html:215
@@ -7470,9 +7480,12 @@ msgid "Set \"Translation-Team\" header"
 msgstr "\"Translation-Team\" ヘッダの設定"
 
 #: weblate/trans/models/project.py:87
+#, fuzzy
+#| msgid ""
+#| "Whether the \"Translation-Team\" field in file headers should be updated "
+#| "by Weblate."
 msgid ""
-"Whether the \"Translation-Team\" field in file headers should be updated by "
-"Weblate."
+"Lets Weblate update the \"Translation-Team\" file header of your project."
 msgstr ""
 "ファイルヘッダ内の \"Translation-Team\" フィールドを Weblate 側で更新すべきか"
 "どうか。"
@@ -7483,49 +7496,45 @@ msgstr "共有翻訳メモリを使用する"
 
 #: weblate/trans/models/project.py:95
 msgid ""
-"By enabling shared translation memory, the project will be able to use "
-"translation memory shared by other projects. All future translations on this "
-"project will be contributed the shared translation memory."
+"Uses and contributes to the pool of shared translations between projects."
 msgstr ""
-"共有翻訳メモリを使用すると、他のプロジェクトで共有されている翻訳メモリを、お使いのプロジェクトで使用できるようになります。このプロジェクト内で行なわれる今"
-"後の翻訳についても、共有翻訳メモリに送信されることになります。"
 
-#: weblate/trans/models/project.py:106
+#: weblate/trans/models/project.py:104
 msgid "Access control"
 msgstr "アクセス制御"
 
-#: weblate/trans/models/project.py:108
+#: weblate/trans/models/project.py:106
 msgid ""
 "How to restrict access to this project is detailed in the documentation."
 msgstr ""
 "このプロジェクトに対するアクセス制限の設定 (詳しくはドキュメンテーションをお"
 "読みください) 。"
 
-#: weblate/trans/models/project.py:113
+#: weblate/trans/models/project.py:111
 msgid "Enable reviews"
 msgstr "査読の有効化"
 
-#: weblate/trans/models/project.py:116
+#: weblate/trans/models/project.py:114
 msgid "Requires dedicated reviewers to approve translations."
 msgstr "翻訳を承認する際、専門の査読者を必須とするかどうか。"
 
-#: weblate/trans/models/project.py:120
+#: weblate/trans/models/project.py:118
 msgid "Enable hooks"
 msgstr "フックの有効化"
 
-#: weblate/trans/models/project.py:123
+#: weblate/trans/models/project.py:121
 msgid "Whether to allow updating this repository by remote hooks."
 msgstr "リモートのフックによってこのリポジトリの更新を許可するかどうか。"
 
-#: weblate/trans/models/project.py:128
+#: weblate/trans/models/project.py:126
 msgid "Source language"
 msgstr "原文の言語"
 
-#: weblate/trans/models/project.py:130
+#: weblate/trans/models/project.py:128
 msgid "Language used for source strings in all components"
 msgstr "すべてのコンポーネント内の原文に対して使用されている言語"
 
-#: weblate/trans/models/project.py:177
+#: weblate/trans/models/project.py:175
 #, python-format
 msgid "Could not create project directory: %s"
 msgstr "プロジェクトのディレクトリを作成できませんでした: %s"
@@ -8667,6 +8676,15 @@ msgstr "レポート"
 #: weblate/wladmin/views.py:58
 msgid "Failed to dismiss configuration error!"
 msgstr "設定エラーを隠す処理に失敗しました！"
+
+#~ msgid ""
+#~ "By enabling shared translation memory, the project will be able to use "
+#~ "translation memory shared by other projects. All future translations on "
+#~ "this project will be contributed the shared translation memory."
+#~ msgstr ""
+#~ "共有翻訳メモリを使用すると、他のプロジェクトで共有されている翻訳メモリを、"
+#~ "お使いのプロジェクトで使用できるようになります。このプロジェクト内で行なわ"
+#~ "れる今後の翻訳についても、共有翻訳メモリに送信されることになります。"
 
 #~ msgid "%(words)s word to translate!"
 #~ msgid_plural "%(words)s words to translate!"

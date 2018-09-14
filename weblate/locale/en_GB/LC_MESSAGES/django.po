@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-09-14 09:13+0000\n"
+"POT-Creation-Date: 2018-09-14 11:31+0000\n"
 "PO-Revision-Date: 2018-09-12 09:49+0000\n"
 "Last-Translator: Robert Readman <robert_readman@hotmail.com>\n"
 "Language-Team: English (United Kingdom) <https://hosted.weblate.org/projects/"
@@ -1320,7 +1320,7 @@ msgstr "From component list"
 #: weblate/billing/models.py:184 weblate/templates/accounts/user.html:38
 #: weblate/templates/base.html:123 weblate/templates/billing/detail.html:35
 #: weblate/templates/language.html:15 weblate/templates/projects.html:5
-#: weblate/trans/models/project.py:143 weblate/trans/views/basic.py:64
+#: weblate/trans/models/project.py:141 weblate/trans/views/basic.py:64
 msgid "Projects"
 msgstr "Projects"
 
@@ -2358,7 +2358,7 @@ msgid "File"
 msgstr "File"
 
 #: weblate/memory/forms.py:35
-msgid "You can upload TMX or JSON file."
+msgid "You can upload a TMX or JSON file."
 msgstr ""
 
 #: weblate/memory/forms.py:41
@@ -2412,11 +2412,11 @@ msgid "No valid entries found in the JSON file!"
 msgstr "No related strings found in the glossary."
 
 #: weblate/memory/views.py:76
-msgid "Entries were successfully deleted."
+msgid "Entries deleted."
 msgstr ""
 
-#: weblate/memory/views.py:94
-msgid "File was successfully processed, the entries will appear shortly."
+#: weblate/memory/views.py:93
+msgid "File processed, the entries will appear shortly."
 msgstr ""
 
 #: weblate/screenshots/models.py:37
@@ -3315,7 +3315,7 @@ msgstr ""
 #: weblate/templates/language.html:37 weblate/templates/list-projects.html:8
 #: weblate/templates/list-translations.html:7
 #: weblate/trans/models/component.py:123 weblate/trans/models/component.py:146
-#: weblate/trans/models/project.py:142 weblate/trans/models/whiteboard.py:81
+#: weblate/trans/models/project.py:140 weblate/trans/models/whiteboard.py:81
 msgid "Project"
 msgstr "Project"
 
@@ -3968,11 +3968,15 @@ msgid "Status widgets"
 msgstr "Status widgets"
 
 #: weblate/templates/component.html:119
-msgid "You don't have permission to start new translation"
+#, fuzzy
+#| msgid "You don't have permission to start new translation"
+msgid "You don't have permission to start a new translation"
 msgstr "You don't have permission to start new translation"
 
 #: weblate/templates/component.html:119
-msgid "Please login to start new translation "
+#, fuzzy
+#| msgid "Please login to start new translation "
+msgid "Please log in to start new translation"
 msgstr "Please login to start new translation "
 
 #: weblate/templates/component.html:151 weblate/templates/project.html:215
@@ -7532,9 +7536,12 @@ msgid "Set \"Translation-Team\" header"
 msgstr "Set \"Translation-Team\" header"
 
 #: weblate/trans/models/project.py:87
+#, fuzzy
+#| msgid ""
+#| "Whether the \"Translation-Team\" field in file headers should be updated "
+#| "by Weblate."
 msgid ""
-"Whether the \"Translation-Team\" field in file headers should be updated by "
-"Weblate."
+"Lets Weblate update the \"Translation-Team\" file header of your project."
 msgstr ""
 "Whether the \"Translation-Team\" field in file headers should be updated by "
 "Weblate."
@@ -7547,46 +7554,44 @@ msgstr "Use this translation"
 
 #: weblate/trans/models/project.py:95
 msgid ""
-"By enabling shared translation memory, the project will be able to use "
-"translation memory shared by other projects. All future translations on this "
-"project will be contributed the shared translation memory."
+"Uses and contributes to the pool of shared translations between projects."
 msgstr ""
 
-#: weblate/trans/models/project.py:106
+#: weblate/trans/models/project.py:104
 msgid "Access control"
 msgstr "Access control"
 
-#: weblate/trans/models/project.py:108
+#: weblate/trans/models/project.py:106
 msgid ""
 "How to restrict access to this project is detailed in the documentation."
 msgstr ""
 "How to restrict access to this project is detailed in the documentation."
 
-#: weblate/trans/models/project.py:113
+#: weblate/trans/models/project.py:111
 msgid "Enable reviews"
 msgstr "Enable reviews"
 
-#: weblate/trans/models/project.py:116
+#: weblate/trans/models/project.py:114
 msgid "Requires dedicated reviewers to approve translations."
 msgstr "Requires dedicated reviewers to approve translations."
 
-#: weblate/trans/models/project.py:120
+#: weblate/trans/models/project.py:118
 msgid "Enable hooks"
 msgstr "Enable hooks"
 
-#: weblate/trans/models/project.py:123
+#: weblate/trans/models/project.py:121
 msgid "Whether to allow updating this repository by remote hooks."
 msgstr "Whether to allow updating this repository by remote hooks."
 
-#: weblate/trans/models/project.py:128
+#: weblate/trans/models/project.py:126
 msgid "Source language"
 msgstr "Source language"
 
-#: weblate/trans/models/project.py:130
+#: weblate/trans/models/project.py:128
 msgid "Language used for source strings in all components"
 msgstr "Language used for source strings in all components"
 
-#: weblate/trans/models/project.py:177
+#: weblate/trans/models/project.py:175
 #, python-format
 msgid "Could not create project directory: %s"
 msgstr "Could not create project directory: %s"
