@@ -557,6 +557,8 @@ class Plural(models.Model):
         formula = matches.group(2)
         if not formula:
             formula = '0'
+        # Try to parse the formula
+        gettext.c2py(formula)
 
         return number, formula
 
