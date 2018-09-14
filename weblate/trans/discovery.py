@@ -30,7 +30,7 @@ from django.utils.text import slugify
 
 from weblate.celery import app
 from weblate.logger import LOGGER
-from weblate.trans.models import Component
+from weblate.trans.models import Component, Project
 from weblate.utils.render import render_template
 from weblate.trans.util import path_separator
 
@@ -183,6 +183,8 @@ class ComponentDiscovery(object):
 
         self.log('Creating component %s', name)
         if background:
+            # Can't pass objects, pass only IDs
+            kwargs['project'] = kwargs['project'].pk
             create_component.delay(**kwargs)
             return None
 
@@ -249,4 +251,5 @@ class ComponentDiscovery(object):
 
 @app.task
 def create_component(**kwargs):
+    kwargs['project'] = Project.objects.get(pk=kwargs['project'])
     Component.objects.create(**kwargs)
