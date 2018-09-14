@@ -19,14 +19,24 @@
 #
 
 from django.contrib import admin
+from django.forms.models import ModelForm
 
 from weblate.wladmin.models import WeblateModelAdmin
 from weblate.lang.models import Plural
 
 
+class AlwaysChangedModelForm(ModelForm):
+    def has_changed(self, *args, **kwargs):
+        if self.instance.pk is None:
+            return True
+        return super(AlwaysChangedModelForm, self).has_changed(*args, **kwargs)
+
+
 class PluralAdmin(admin.TabularInline):
     model = Plural
-    extra = 1
+    extra = 0
+    min_num = 1
+    form = AlwaysChangedModelForm
 
 
 class LanguageAdmin(WeblateModelAdmin):
