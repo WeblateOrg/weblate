@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-09-14 11:31+0000\n"
-"PO-Revision-Date: 2018-09-06 20:27+0000\n"
+"PO-Revision-Date: 2018-09-14 19:58+0000\n"
 "Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hant/>\n"
@@ -939,16 +939,12 @@ msgid "Use machine translation services"
 msgstr "使用機器翻譯服務"
 
 #: weblate/auth/data.py:52
-#, fuzzy
-#| msgid "Translation summary:"
 msgid "Edit translation memory"
-msgstr "翻譯摘要："
+msgstr "編輯翻譯記憶"
 
 #: weblate/auth/data.py:53
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Delete translation memory"
-msgstr "Weblate 翻譯"
+msgstr "刪除翻譯記憶"
 
 #: weblate/auth/data.py:55
 msgid "Edit project settings"
@@ -1111,11 +1107,9 @@ msgid "Manage glossary"
 msgstr "管理詞彙表"
 
 #: weblate/auth/data.py:151
-#, fuzzy
-#| msgid "Save translation history"
 msgctxt "Access control role"
 msgid "Manage translation memory"
-msgstr "儲存翻譯歷史"
+msgstr "管理翻譯記憶"
 
 #: weblate/auth/data.py:155
 msgctxt "Access control role"
@@ -1190,7 +1184,7 @@ msgstr "詞彙表"
 #: weblate/auth/data.py:215
 msgctxt "Per project access control group"
 msgid "Memory"
-msgstr ""
+msgstr "記憶"
 
 #: weblate/auth/data.py:217
 msgctxt "Per project access control group"
@@ -2270,65 +2264,51 @@ msgstr "檔案"
 
 #: weblate/memory/forms.py:35
 msgid "You can upload a TMX or JSON file."
-msgstr ""
+msgstr "您可以上傳 TMX 或 JSON 檔。"
 
 #: weblate/memory/forms.py:41
 msgid "Confirm deleting all translation memory entries"
-msgstr ""
+msgstr "確認刪除所有翻譯記憶條目"
 
 #: weblate/memory/storage.py:62
-#, fuzzy
-#| msgid "Project"
 msgctxt "Translation memory category"
 msgid "Project: {}"
-msgstr "專案"
+msgstr "專案：{}"
 
 #: weblate/memory/storage.py:64
-#, fuzzy
-#| msgid "Personal info"
 msgctxt "Translation memory category"
 msgid "Personal: {}"
-msgstr "個人資訊"
+msgstr "個人：{}"
 
 #: weblate/memory/storage.py:66
-#, fuzzy
-#| msgid "Share"
 msgctxt "Translation memory category"
 msgid "Shared: {}"
-msgstr "分享"
+msgstr "共享：{}"
 
 #: weblate/memory/storage.py:68
-#, fuzzy
-#| msgid "File"
 msgctxt "Translation memory category"
 msgid "File: {}"
-msgstr "檔案"
+msgstr "檔案：{}"
 
 #: weblate/memory/storage.py:147
-#, fuzzy
-#| msgid "Unsupported file format."
 msgid "Unsupported file!"
-msgstr "不支援的檔案格式。"
+msgstr "不支援的檔案！"
 
 #: weblate/memory/storage.py:155
-#, fuzzy
-#| msgid "Failed to parse %d matched files!"
 msgid "Failed to parse JSON file!"
-msgstr "解析比對到的 %d 檔案失敗！"
+msgstr "解析 JSON 檔案失敗！"
 
 #: weblate/memory/storage.py:179
-#, fuzzy
-#| msgid "No related strings found in the glossary."
 msgid "No valid entries found in the JSON file!"
-msgstr "在詞彙表中找不到相關字串。"
+msgstr "在 JSON 檔中找不到有效的條目！"
 
 #: weblate/memory/views.py:76
 msgid "Entries deleted."
-msgstr ""
+msgstr "條目已刪除。"
 
 #: weblate/memory/views.py:93
 msgid "File processed, the entries will appear shortly."
-msgstr ""
+msgstr "檔案已處理，條目將盡快顯示。"
 
 #: weblate/screenshots/models.py:37
 #: weblate/templates/screenshots/screenshot_list.html:35
@@ -3493,10 +3473,8 @@ msgstr "帳單概覽"
 #: weblate/templates/base.html:185 weblate/templates/component.html:77
 #: weblate/templates/memory/index.html:10
 #: weblate/templates/memory/index.html:12 weblate/templates/project.html:68
-#, fuzzy
-#| msgid "Translation key"
 msgid "Translation memory"
-msgstr "翻譯鍵"
+msgstr "翻譯記憶"
 
 #: weblate/templates/base.html:186 weblate/templates/component-settings.html:9
 #: weblate/templates/component.html:83
@@ -3528,7 +3506,7 @@ msgstr "目前方案"
 #: weblate/templates/billing/detail.html:12
 #, python-format
 msgid ", expires %(expires)s"
-msgstr ""
+msgstr "，期限為 %(expires)s"
 
 #: weblate/templates/billing/detail.html:12
 msgid "See other plans"
@@ -3793,16 +3771,12 @@ msgid "Status widgets"
 msgstr "狀態小元件"
 
 #: weblate/templates/component.html:119
-#, fuzzy
-#| msgid "You don't have permission to start new translation"
 msgid "You don't have permission to start a new translation"
 msgstr "您沒有開始新翻譯的權利許可"
 
 #: weblate/templates/component.html:119
-#, fuzzy
-#| msgid "Please login to start new translation "
 msgid "Please log in to start new translation"
-msgstr "請登入以開始新翻譯。 "
+msgstr "請登入以開始新翻譯"
 
 #: weblate/templates/component.html:151 weblate/templates/project.html:215
 #: weblate/templates/translation.html:232
@@ -4644,11 +4618,9 @@ msgstr "建議"
 
 #: weblate/templates/list-translations.html:14
 #: weblate/templates/list-translations.html:26
-#, fuzzy
-#| msgid "Comments"
 msgctxt "Number of comments"
 msgid "Comments"
-msgstr "評論"
+msgstr "評註"
 
 #: weblate/templates/list-translations.html:17
 msgid "Configure columns"
@@ -5076,70 +5048,53 @@ msgid "Choose"
 msgstr "選擇"
 
 #: weblate/templates/memory/index.html:22
-#, fuzzy
-#| msgid "Translation status"
 msgid "Translation memory status"
-msgstr "翻譯狀態"
+msgstr "翻譯記憶狀態"
 
 #: weblate/templates/memory/index.html:28
-#, fuzzy
-#| msgid "Use this translation"
 msgid "Shared translation memory"
-msgstr "使用這個翻譯"
+msgstr "共享的翻譯記憶"
 
 #: weblate/templates/memory/index.html:30
 msgid "enabled"
-msgstr ""
+msgstr "已啟用"
 
 #: weblate/templates/memory/index.html:30
 msgid "disabled"
-msgstr ""
+msgstr "已停用"
 
 #: weblate/templates/memory/index.html:37
-#, fuzzy, python-format
-#| msgid "%(language)s dictionary for %(project)s"
+#, python-format
 msgid "Number of entries for %(project)s"
-msgstr "%(project)s 的 %(language)s 的字典"
+msgstr "%(project)s 的條目數"
 
 #: weblate/templates/memory/index.html:37
-#, fuzzy
-#| msgid "Number of source strings"
 msgid "Number of your entries"
-msgstr "來源字串數"
+msgstr "您的條目數"
 
 #: weblate/templates/memory/index.html:41
-#, fuzzy
-#| msgid "Number of strings"
 msgid "Total number of entries"
-msgstr "字串數目"
+msgstr "總條目數"
 
 #: weblate/templates/memory/index.html:46
-#, fuzzy
-#| msgid "Download statistics (JSON)"
 msgid "Download as JSON"
-msgstr "下載統計數據 (JSON)"
+msgstr "下載 JSON"
 
 #: weblate/templates/memory/index.html:47
-#, fuzzy
-#| msgid "Download translation as TMX"
 msgid "Download as TMX"
-msgstr "下載翻譯，格式為 TMX"
+msgstr "下載 TMX"
 
 #: weblate/templates/memory/index.html:55
-#, fuzzy
-#| msgid "Import as translated"
 msgid "Import translation memory"
-msgstr "匯入為已翻譯"
+msgstr "匯入翻譯記憶"
 
 #: weblate/templates/memory/index.html:70
-#, fuzzy
-#| msgid "Save translation history"
 msgid "Wipe translation memory"
-msgstr "儲存翻譯歷史"
+msgstr "抹除翻譯記憶"
 
 #: weblate/templates/memory/index.html:75
 msgid "Wipe"
-msgstr ""
+msgstr "抹除"
 
 #: weblate/templates/new-language.html:25
 msgid ""
@@ -5188,10 +5143,8 @@ msgid "link"
 msgstr "連結"
 
 #: weblate/templates/project.html:122
-#, fuzzy
-#| msgid "Other translation components"
 msgid "There are currently no translation components!"
-msgstr "其他翻譯組件"
+msgstr "目前還沒有翻譯組件！"
 
 #: weblate/templates/project.html:186
 msgid "There are currently no glossaries defined for this project."
@@ -6283,10 +6236,8 @@ msgid "Exclude changes by user"
 msgstr "排除使用者的更動"
 
 #: weblate/trans/forms.py:799
-#, fuzzy
-#| msgid "Email regular expression"
 msgid "Invalid regular expression: {}"
-msgstr "電子郵件正則表達式"
+msgstr "無效的正則表達式：{}"
 
 #: weblate/trans/forms.py:822
 #, python-format
@@ -7210,24 +7161,18 @@ msgid "Set \"Translation-Team\" header"
 msgstr "設定「Translation-Team」檔案標頭"
 
 #: weblate/trans/models/project.py:87
-#, fuzzy
-#| msgid ""
-#| "Whether the \"Translation-Team\" field in file headers should be updated "
-#| "by Weblate."
 msgid ""
 "Lets Weblate update the \"Translation-Team\" file header of your project."
-msgstr "是否應由 Weblate 更新檔案標頭中的「Translation-Team」欄位。"
+msgstr "讓 Weblate 更新您專案的「Translation-Team」檔案標頭欄位。"
 
 #: weblate/trans/models/project.py:92
-#, fuzzy
-#| msgid "Use this translation"
 msgid "Use shared translation memory"
-msgstr "使用這個翻譯"
+msgstr "使用共享的翻譯記憶"
 
 #: weblate/trans/models/project.py:95
 msgid ""
 "Uses and contributes to the pool of shared translations between projects."
-msgstr ""
+msgstr "在不同專案中使用這個共享的翻譯匯聚池並且也貢獻其中。"
 
 #: weblate/trans/models/project.py:104
 msgid "Access control"
