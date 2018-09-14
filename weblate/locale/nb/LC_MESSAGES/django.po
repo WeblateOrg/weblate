@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-09-14 09:13+0000\n"
-"PO-Revision-Date: 2018-09-14 05:24+0000\n"
+"PO-Revision-Date: 2018-09-14 11:31+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
 "master/nb/>\n"
@@ -338,19 +338,15 @@ msgstr ""
 #, fuzzy
 #| msgid "Translations made"
 msgid "Translation editor mode"
-msgstr "Oversettelser gjort"
+msgstr "Oversettelsesredigeringsmodus"
 
 #: weblate/accounts/models.py:341
-#, fuzzy
-#| msgid "Open in full editor"
 msgid "Full editor"
-msgstr "Åpne for full redigering"
+msgstr "Full redigering"
 
 #: weblate/accounts/models.py:342
-#, fuzzy
-#| msgid "Edit in Zen mode"
 msgid "Zen mode"
-msgstr "Redigere i Zen modus"
+msgstr "Zen-modus"
 
 #: weblate/accounts/models.py:349
 msgid "Special characters"
@@ -989,16 +985,12 @@ msgid "Use machine translation services"
 msgstr "Bruk tjenester for maskinoversettelsesforslag"
 
 #: weblate/auth/data.py:52
-#, fuzzy
-#| msgid "Translation summary:"
 msgid "Edit translation memory"
-msgstr "Oversettelsesoversikt:"
+msgstr "Rediger oversettelsesminne"
 
 #: weblate/auth/data.py:53
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Delete translation memory"
-msgstr "Weblate-oversettelser"
+msgstr "Slett oversettelsesminne"
 
 #: weblate/auth/data.py:55
 msgid "Edit project settings"
@@ -1161,11 +1153,9 @@ msgid "Manage glossary"
 msgstr "Behandle ordbok"
 
 #: weblate/auth/data.py:151
-#, fuzzy
-#| msgid "Save translation history"
 msgctxt "Access control role"
 msgid "Manage translation memory"
-msgstr "Lagre oversettelseshistorien"
+msgstr "Behandle oversettelsesminne"
 
 #: weblate/auth/data.py:155
 msgctxt "Access control role"
@@ -1183,8 +1173,6 @@ msgid "Manage repository"
 msgstr "Behandle kodelager"
 
 #: weblate/auth/data.py:167
-#, fuzzy
-#| msgid "Administration"
 msgctxt "Access control role"
 msgid "Administration"
 msgstr "Administrasjon"
@@ -1242,7 +1230,7 @@ msgstr "Ordliste"
 #: weblate/auth/data.py:215
 msgctxt "Per project access control group"
 msgid "Memory"
-msgstr ""
+msgstr "Minne"
 
 #: weblate/auth/data.py:217
 msgctxt "Per project access control group"
@@ -1419,7 +1407,7 @@ msgstr "Plan for fakturering"
 #, fuzzy
 #| msgid "All projects"
 msgid "Billed projects"
-msgstr "Alle prosjekter"
+msgstr "Fakturerte prosjekter"
 
 #: weblate/billing/models.py:104
 #, fuzzy
@@ -1443,7 +1431,7 @@ msgstr "Utløpt"
 #, fuzzy
 #| msgid "Billing plan"
 msgid "Billing state"
-msgstr "Plan for fakturering"
+msgstr "Fakturatilstand"
 
 #: weblate/billing/models.py:117
 msgid "Trial expiry date"
@@ -2359,65 +2347,55 @@ msgstr "Fil"
 
 #: weblate/memory/forms.py:35
 msgid "You can upload TMX or JSON file."
-msgstr ""
+msgstr "Du kan laste opp en TMX- eller JSON-fil."
 
 #: weblate/memory/forms.py:41
 msgid "Confirm deleting all translation memory entries"
-msgstr ""
+msgstr "Bekreft sletting av alle oversettelsesminneoppføringer"
 
 #: weblate/memory/storage.py:62
-#, fuzzy
-#| msgid "Project"
 msgctxt "Translation memory category"
 msgid "Project: {}"
-msgstr "Prosjekt"
+msgstr "Prosjekt: {}"
 
 #: weblate/memory/storage.py:64
-#, fuzzy
-#| msgid "Personal info"
 msgctxt "Translation memory category"
 msgid "Personal: {}"
-msgstr "Personlig info"
+msgstr "Personlig: {}"
 
 #: weblate/memory/storage.py:66
-#, fuzzy
-#| msgid "Share"
 msgctxt "Translation memory category"
 msgid "Shared: {}"
-msgstr "Del"
+msgstr "Delt: {}"
 
 #: weblate/memory/storage.py:68
-#, fuzzy
-#| msgid "File"
 msgctxt "Translation memory category"
 msgid "File: {}"
-msgstr "Fil"
+msgstr "Fil: {}"
 
 #: weblate/memory/storage.py:147
 #, fuzzy
 #| msgid "Unsupported file format."
 msgid "Unsupported file!"
-msgstr "Filformat som ikke støttes."
+msgstr "Ustøttet fil!"
 
 #: weblate/memory/storage.py:155
 #, fuzzy
 #| msgid "Failed to parse %d matched files!"
 msgid "Failed to parse JSON file!"
-msgstr "Kan ikke analysere %d filsamsvar!"
+msgstr "Klarte ikke å tolke JSON-fil!"
 
 #: weblate/memory/storage.py:179
-#, fuzzy
-#| msgid "No related strings found in the glossary."
 msgid "No valid entries found in the JSON file!"
-msgstr "Ingen relaterte strenger ble funnet i ordlisten."
+msgstr "Fant ingen gyldige oppføringer i JSON-filen!"
 
 #: weblate/memory/views.py:76
 msgid "Entries were successfully deleted."
-msgstr ""
+msgstr "Oppføringene ble slettet."
 
 #: weblate/memory/views.py:94
 msgid "File was successfully processed, the entries will appear shortly."
-msgstr ""
+msgstr "Filen ble behandlet, oppføringene vil vises snart."
 
 #: weblate/screenshots/models.py:37
 #: weblate/templates/screenshots/screenshot_list.html:35
@@ -2504,14 +2482,10 @@ msgstr ""
 "apekatter er på vei for å fikse problemet."
 
 #: weblate/templates/500.html:16
-#, fuzzy, python-format
-#| msgid ""
-#| "If you need assistance, you may reference this error as <strong>"
-#| "%(error_id)s</strong>."
+#, python-format
 msgid "If you need assistance, you may reference this error as %(error_id)s."
 msgstr ""
-"Hvis du trenger hjelp, kan du referere til denne feilen som <strong>"
-"%(error_id)s</strong>."
+"Hvis du trenger hjelp, kan du referere til denne feilen som %(error_id)s."
 
 #: weblate/templates/about/index.html:5 weblate/templates/about/index.html:15
 #: weblate/templates/about/keys.html:6 weblate/templates/about/stats.html:5
@@ -3629,17 +3603,13 @@ msgstr "Legg til"
 
 #: weblate/templates/base.html:149 weblate/templates/billing/detail.html:42
 #: weblate/templates/trans/project_form.html:26
-#, fuzzy
-#| msgid "Add new translation string"
 msgid "Add new translation project"
-msgstr "Legg til ny oversettelsesstreng"
+msgstr "Legg til nytt oversettelsesprosjekt"
 
 #: weblate/templates/base.html:150 weblate/templates/project.html:130
 #: weblate/templates/trans/component_form.html:25
-#, fuzzy
-#| msgid "Other translation components"
 msgid "Add new translation component"
-msgstr "Andre oversettelseskommentarer"
+msgstr "Legg til ny oversettelseskomponent"
 
 #: weblate/templates/base.html:157
 msgid "Help"
@@ -3652,21 +3622,17 @@ msgstr "Tjenestestatus"
 #: weblate/templates/base.html:180
 #, python-format
 msgid "Logged in as %(user)s"
-msgstr "Innlogget som"
+msgstr "Innlogget som %(user)s"
 
 #: weblate/templates/base.html:183
-#, fuzzy
-#| msgid "Waiting for review"
 msgid "Billing overview"
-msgstr "Til gjennomgang"
+msgstr "Faktureringsoversikt"
 
 #: weblate/templates/base.html:185 weblate/templates/component.html:77
 #: weblate/templates/memory/index.html:10
 #: weblate/templates/memory/index.html:12 weblate/templates/project.html:68
-#, fuzzy
-#| msgid "Translation key"
 msgid "Translation memory"
-msgstr "Oversettelsesnøkkel"
+msgstr "Oversettelsesminne"
 
 #: weblate/templates/base.html:186 weblate/templates/component-settings.html:9
 #: weblate/templates/component.html:83
@@ -3729,10 +3695,8 @@ msgid "Projects limit"
 msgstr "Grense for prosjekter"
 
 #: weblate/templates/billing/detail.html:40
-#, fuzzy
-#| msgid "No context currently associated!"
 msgid "No projects currently assigned!"
-msgstr "Har ingen tilknytninger!"
+msgstr "Ingen tilknyttede prosjekter!"
 
 #: weblate/templates/billing/detail.html:53
 msgid "Invoices"
@@ -5328,11 +5292,11 @@ msgstr "Bruk denne oversettelsen"
 
 #: weblate/templates/memory/index.html:30
 msgid "enabled"
-msgstr ""
+msgstr "påskrudd"
 
 #: weblate/templates/memory/index.html:30
 msgid "disabled"
-msgstr ""
+msgstr "avskrudd"
 
 #: weblate/templates/memory/index.html:37
 #, fuzzy, python-format
@@ -5371,14 +5335,12 @@ msgid "Import translation memory"
 msgstr "Importer som oversatt"
 
 #: weblate/templates/memory/index.html:70
-#, fuzzy
-#| msgid "Save translation history"
 msgid "Wipe translation memory"
-msgstr "Lagre oversettelseshistorien"
+msgstr "Tøm oversettelsesminne"
 
 #: weblate/templates/memory/index.html:75
 msgid "Wipe"
-msgstr ""
+msgstr "Tøm"
 
 #: weblate/templates/new-language.html:25
 msgid ""
@@ -7138,12 +7100,13 @@ msgstr ""
 "oversettelse i denne her"
 
 #: weblate/trans/models/component.py:257
+#, fuzzy
 msgid "Save translation history"
-msgstr "Lagre oversettelseshistorien"
+msgstr "Lagre oversettelseshistorikk"
 
 #: weblate/trans/models/component.py:260
 msgid "Whether Weblate should keep history of translations"
-msgstr "Om Weblate skal ta vare på oversettelseshistorien"
+msgstr "Hvorvidt Weblate skal ta vare på oversettelseshistorikken"
 
 #: weblate/trans/models/component.py:264
 msgid "Enable suggestions"
@@ -7569,6 +7532,9 @@ msgid ""
 "translation memory shared by other projects. All future translations on this "
 "project will be contributed the shared translation memory."
 msgstr ""
+"Ved å skru på delt oversettelsesminne, vil prosjektet kunne bruke "
+"oversettelsesminne delt av andre prosjekter. Alle fremtidige oversettelser "
+"for dette prosjektet vil inngå i det delte oversettelsesminnet."
 
 #: weblate/trans/models/project.py:106
 msgid "Access control"
@@ -8396,7 +8362,7 @@ msgstr "Søk etter %s"
 
 #: weblate/trans/views/search.py:212
 msgid "Too many search queries, please try again later."
-msgstr "For mange søk sendt, prøv igjen senere!"
+msgstr "For mange søk sendt, prøv igjen senere."
 
 #: weblate/trans/views/search.py:215
 msgid "Invalid search query!"
