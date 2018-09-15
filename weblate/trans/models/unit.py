@@ -886,24 +886,28 @@ class Unit(models.Model, LoggerMixin):
         if was_change or is_new or not same_content:
             self.update_has_failing_check(was_change, has_checks)
 
-    def update_has_failing_check(self, recurse=False, has_checks=None):
+    def update_has_failing_check(self, recurse=False, has_checks=None,
+                                 invalidate=False):
         """Update flag counting failing checks."""
-        has_failing_check = (
-            self.state >= STATE_TRANSLATED and
-            self.active_checks().exists() if has_checks is None else has_checks
-        )
+        if has_checks is None:
+            has_checks = (
+                self.state >= STATE_TRANSLATED and
+                self.active_checks().exists()
+            )
 
         # Change attribute if it has changed
-        if has_failing_check != self.has_failing_check:
-            self.has_failing_check = has_failing_check
+        if has_checks != self.has_failing_check:
+            self.has_failing_check = has_checks
             self.save(
                 same_content=True, same_state=True,
                 update_fields=['has_failing_check']
             )
+            if invalidate:
+                self.translation.invalidate_cache()
 
         if recurse:
             for unit in Unit.objects.prefetch().same(self):
-                unit.update_has_failing_check(False, has_checks)
+                unit.update_has_failing_check(False, has_checks, invalidate)
 
     def update_has_suggestion(self):
         """Update flag counting suggestions."""

@@ -84,8 +84,10 @@ def update_failed_check_flag(sender, instance, created, **kwargs):
     if instance.language is None or created:
         return
     related = instance.related_units
-    for unit in related:
-        unit.update_has_failing_check(
-            False, None if instance.ignore else True
+    try:
+        related[0].update_has_failing_check(
+            has_checks=None if instance.ignore else True,
+            invalidate=True
         )
-        unit.translation.invalidate_cache()
+    except IndexError:
+        return
