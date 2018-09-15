@@ -428,6 +428,10 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 self.git_commit(
                     request, author_name, change.timestamp, skip_push=skip_push
                 )
+
+        # Update stats (the translated flag might have changed)
+        self.invalidate_cache()
+
         return True
 
     def get_commit_message(self, author):
@@ -607,9 +611,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         # save translation changes
         self.store.save()
-
-        # Update stats (the translated flag might have changed)
-        self.invalidate_cache()
 
     def get_source_checks(self):
         """Return list of failing source checks on current component."""
