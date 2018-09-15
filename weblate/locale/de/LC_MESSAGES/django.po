@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-09-14 11:31+0000\n"
-"PO-Revision-Date: 2018-09-10 09:27+0000\n"
+"PO-Revision-Date: 2018-09-16 11:16+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/master/de/"
 ">\n"
@@ -1022,16 +1022,12 @@ msgid "Use machine translation services"
 msgstr "Maschinelle Übersetzung verwenden"
 
 #: weblate/auth/data.py:52
-#, fuzzy
-#| msgid "Translation summary:"
 msgid "Edit translation memory"
-msgstr "Zusammenfassung der Übersetzung:"
+msgstr "Übersetzungsspeicher bearbeiten"
 
 #: weblate/auth/data.py:53
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Delete translation memory"
-msgstr "Weblate-Übersetzungen"
+msgstr "Übersetzungsspeicher löschen"
 
 #: weblate/auth/data.py:55
 msgid "Edit project settings"
@@ -1194,11 +1190,9 @@ msgid "Manage glossary"
 msgstr "Glossar verwalten"
 
 #: weblate/auth/data.py:151
-#, fuzzy
-#| msgid "Save translation history"
 msgctxt "Access control role"
 msgid "Manage translation memory"
-msgstr "Verlauf der Übersetzungen speichern"
+msgstr "Übersetzungsspeicher verwalten"
 
 #: weblate/auth/data.py:155
 msgctxt "Access control role"
@@ -1273,7 +1267,7 @@ msgstr "Glossar"
 #: weblate/auth/data.py:215
 msgctxt "Per project access control group"
 msgid "Memory"
-msgstr ""
+msgstr "Speicher"
 
 #: weblate/auth/data.py:217
 msgctxt "Per project access control group"
@@ -2421,65 +2415,51 @@ msgstr "Datei"
 
 #: weblate/memory/forms.py:35
 msgid "You can upload a TMX or JSON file."
-msgstr ""
+msgstr "Sie können eine TMX- oder JSON-Datei hochladen."
 
 #: weblate/memory/forms.py:41
 msgid "Confirm deleting all translation memory entries"
-msgstr ""
+msgstr "Bestätigen Sie das Löschen aller Übersetzungsspeichereintrage"
 
 #: weblate/memory/storage.py:62
-#, fuzzy
-#| msgid "Project"
 msgctxt "Translation memory category"
 msgid "Project: {}"
-msgstr "Projekt"
+msgstr "Projekt: {}"
 
 #: weblate/memory/storage.py:64
-#, fuzzy
-#| msgid "Personal info"
 msgctxt "Translation memory category"
 msgid "Personal: {}"
-msgstr "Persönliche Informationen"
+msgstr "Persönlich: {}"
 
 #: weblate/memory/storage.py:66
-#, fuzzy
-#| msgid "Share"
 msgctxt "Translation memory category"
 msgid "Shared: {}"
-msgstr "Teilen"
+msgstr "Teilen: {}"
 
 #: weblate/memory/storage.py:68
-#, fuzzy
-#| msgid "File"
 msgctxt "Translation memory category"
 msgid "File: {}"
-msgstr "Datei"
+msgstr "Datei: {}"
 
 #: weblate/memory/storage.py:147
-#, fuzzy
-#| msgid "Unsupported file format."
 msgid "Unsupported file!"
-msgstr "Nicht unterstütztes Dateiformat."
+msgstr "Nicht unterstützte Datei!"
 
 #: weblate/memory/storage.py:155
-#, fuzzy
-#| msgid "Failed to parse %d matched files!"
 msgid "Failed to parse JSON file!"
-msgstr "Fehler beim Verarbeiten von %d passenden Dateien!"
+msgstr "Fehler beim Analysieren der JSON Datei!"
 
 #: weblate/memory/storage.py:179
-#, fuzzy
-#| msgid "No related strings found in the glossary."
 msgid "No valid entries found in the JSON file!"
-msgstr "Es wurden keine zugehörigen Begriffe im Glossar gefunden."
+msgstr "Keine gültigen Einträge in der JSON-Datei gefunden!"
 
 #: weblate/memory/views.py:76
 msgid "Entries deleted."
-msgstr ""
+msgstr "Einträge gelöscht."
 
 #: weblate/memory/views.py:93
 msgid "File processed, the entries will appear shortly."
-msgstr ""
+msgstr "Datei verarbeitet, die Einträge erscheinen in Kürze."
 
 #: weblate/screenshots/models.py:37
 #: weblate/templates/screenshots/screenshot_list.html:35
@@ -3748,10 +3728,8 @@ msgstr "Rechnungsübersicht"
 #: weblate/templates/base.html:185 weblate/templates/component.html:77
 #: weblate/templates/memory/index.html:10
 #: weblate/templates/memory/index.html:12 weblate/templates/project.html:68
-#, fuzzy
-#| msgid "Translation key"
 msgid "Translation memory"
-msgstr "Übersetzung"
+msgstr "Übersetzungsspeicher"
 
 #: weblate/templates/base.html:186 weblate/templates/component-settings.html:9
 #: weblate/templates/component.html:83
@@ -4054,16 +4032,12 @@ msgid "Status widgets"
 msgstr "Status-Widgets"
 
 #: weblate/templates/component.html:119
-#, fuzzy
-#| msgid "You don't have permission to start new translation"
 msgid "You don't have permission to start a new translation"
 msgstr "Sie haben keine Berechtigung, eine neue Übersetzung zu starten"
 
 #: weblate/templates/component.html:119
-#, fuzzy
-#| msgid "Please login to start new translation "
 msgid "Please log in to start new translation"
-msgstr "Bitte melden Sie sich an, um eine neue Übersetzung zu starten. "
+msgstr "Bitte melden Sie sich an, um eine neue Übersetzung zu starten"
 
 #: weblate/templates/component.html:151 weblate/templates/project.html:215
 #: weblate/templates/translation.html:232
@@ -4974,8 +4948,6 @@ msgstr "Vorschläge"
 
 #: weblate/templates/list-translations.html:14
 #: weblate/templates/list-translations.html:26
-#, fuzzy
-#| msgid "Comments"
 msgctxt "Number of comments"
 msgid "Comments"
 msgstr "Kommentare"
@@ -5443,70 +5415,53 @@ msgid "Choose"
 msgstr "Wählen"
 
 #: weblate/templates/memory/index.html:22
-#, fuzzy
-#| msgid "Translation status"
 msgid "Translation memory status"
-msgstr "Übersetzungsstatus"
+msgstr "Übersetzungsspeicherstatus"
 
 #: weblate/templates/memory/index.html:28
-#, fuzzy
-#| msgid "Use this translation"
 msgid "Shared translation memory"
-msgstr "Diese Übersetzung verwenden"
+msgstr "Geteilter Übersetzungspeicher"
 
 #: weblate/templates/memory/index.html:30
 msgid "enabled"
-msgstr ""
+msgstr "aktiviert"
 
 #: weblate/templates/memory/index.html:30
 msgid "disabled"
-msgstr ""
+msgstr "deaktiviert"
 
 #: weblate/templates/memory/index.html:37
-#, fuzzy, python-format
-#| msgid "%(language)s dictionary for %(project)s"
+#, python-format
 msgid "Number of entries for %(project)s"
-msgstr "%(language)s Wörterbuch für %(project)s"
+msgstr "Anzahl der Einträge für %(project)s"
 
 #: weblate/templates/memory/index.html:37
-#, fuzzy
-#| msgid "Number of source strings"
 msgid "Number of your entries"
-msgstr "Anzahl der Ausgangszeichenketten"
+msgstr "Anzahl Ihrer Einträge"
 
 #: weblate/templates/memory/index.html:41
-#, fuzzy
-#| msgid "Number of strings"
 msgid "Total number of entries"
-msgstr "Anzahl der Zeichenketten"
+msgstr "Gesamtzahl der Einträge"
 
 #: weblate/templates/memory/index.html:46
-#, fuzzy
-#| msgid "Download statistics (JSON)"
 msgid "Download as JSON"
-msgstr "Statistik als JSON herunterladen"
+msgstr "Als JSON herunterladen"
 
 #: weblate/templates/memory/index.html:47
-#, fuzzy
-#| msgid "Download translation as TMX"
 msgid "Download as TMX"
-msgstr "Übersetzungen als TMX herunterladen"
+msgstr "Als TMX herunterladen"
 
 #: weblate/templates/memory/index.html:55
-#, fuzzy
-#| msgid "Import as translated"
 msgid "Import translation memory"
-msgstr "Als gute Übersetzung importieren"
+msgstr "Übersetzungsspeicher importieren"
 
 #: weblate/templates/memory/index.html:70
-#, fuzzy
-#| msgid "Save translation history"
 msgid "Wipe translation memory"
-msgstr "Verlauf der Übersetzungen speichern"
+msgstr "Übersetzungsspeicher leeren"
 
 #: weblate/templates/memory/index.html:75
 msgid "Wipe"
-msgstr ""
+msgstr "Leeren"
 
 #: weblate/templates/new-language.html:25
 msgid ""
@@ -6708,10 +6663,8 @@ msgid "Exclude changes by user"
 msgstr "Änderungen durch Benutzer ausschließen"
 
 #: weblate/trans/forms.py:799
-#, fuzzy
-#| msgid "Email regular expression"
 msgid "Invalid regular expression: {}"
-msgstr "Email Regulärer Ausdruck"
+msgstr "Ungültiger regulärer Ausdruck: {}"
 
 #: weblate/trans/forms.py:822
 #, python-format
@@ -7706,26 +7659,22 @@ msgid "Set \"Translation-Team\" header"
 msgstr "Kopfzeile „Translation-Team“ setzen"
 
 #: weblate/trans/models/project.py:87
-#, fuzzy
-#| msgid ""
-#| "Whether the \"Translation-Team\" field in file headers should be updated "
-#| "by Weblate."
 msgid ""
 "Lets Weblate update the \"Translation-Team\" file header of your project."
 msgstr ""
-"Ob das \"Übersetzerteam\" in Dateiheadern von Weblate aktualisiert werden "
-"soll."
+"Lässt Weblate den \"Translation-Team\"-Dateiheader Ihres Projekts "
+"aktualisieren."
 
 #: weblate/trans/models/project.py:92
-#, fuzzy
-#| msgid "Use this translation"
 msgid "Use shared translation memory"
-msgstr "Diese Übersetzung verwenden"
+msgstr "Gemeinsamer Übersetzungsspeicher verwenden"
 
 #: weblate/trans/models/project.py:95
 msgid ""
 "Uses and contributes to the pool of shared translations between projects."
 msgstr ""
+"Nutzt und trägt zum Pool der gemeinsamen Übersetzungen zwischen den "
+"Projekten bei."
 
 #: weblate/trans/models/project.py:104
 msgid "Access control"
