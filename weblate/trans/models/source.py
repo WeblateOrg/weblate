@@ -105,18 +105,17 @@ class Source(models.Model):
             'component': self.component.slug,
         })
 
-    def run_checks(self, units=None, unit=None):
+    def run_checks(self, unit=None):
         """Update checks for this unit."""
-        units = self.units if units is None else units
-        if not units:
-            return
-        unit = units[0] if unit is None else unit
+        if unit is None:
+            try:
+                unit = self.units[0]
+            except IndexError:
+                return
 
         content_hash = unit.content_hash
         src = unit.get_source_plurals()
         project = self.component.project
-        was_change = False
-        has_checks = None
 
         # Fetch old checks
         old_checks = set(
@@ -142,8 +141,6 @@ class Source(models.Model):
                         ignore=False,
                         check=check
                     )
-                    was_change = True
-                    has_checks = True
 
         # Remove stale checks
         if old_checks:
@@ -153,9 +150,3 @@ class Source(models.Model):
                 language=None,
                 check__in=old_checks
             ).delete()
-            was_change = True
-
-        # Update unit flags
-        if was_change:
-            for unit in units:
-                unit.update_has_failing_check(was_change, has_checks)

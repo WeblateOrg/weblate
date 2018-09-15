@@ -631,7 +631,7 @@ class EditComplexTest(ViewTestCase):
         self.assertFalse(unit.has_failing_check)
         self.assertEqual(len(unit.checks()), 0)
         self.assertEqual(len(unit.active_checks()), 0)
-        self.assertEqual(unit.translation.stats.allchecks, 1)
+        self.assertEqual(unit.translation.stats.allchecks, 0)
         self.assert_backend(1)
 
     def test_edit_check(self):
@@ -647,7 +647,7 @@ class EditComplexTest(ViewTestCase):
         self.assertTrue(unit.has_failing_check)
         self.assertEqual(len(unit.checks()), 1)
         self.assertEqual(len(unit.active_checks()), 1)
-        self.assertEqual(unit.translation.stats.allchecks, 2)
+        self.assertEqual(unit.translation.stats.allchecks, 1)
 
         # Ignore check
         check_id = unit.checks()[0].id
@@ -660,7 +660,7 @@ class EditComplexTest(ViewTestCase):
         self.assertFalse(unit.has_failing_check)
         self.assertEqual(len(unit.checks()), 1)
         self.assertEqual(len(unit.active_checks()), 0)
-        self.assertEqual(unit.translation.stats.allchecks, 1)
+        self.assertEqual(unit.translation.stats.allchecks, 0)
 
         # Save with no failing checks
         response = self.edit_unit(
@@ -673,7 +673,7 @@ class EditComplexTest(ViewTestCase):
         self.assertEqual(unit.target, 'Nazdar svete!\n')
         self.assertFalse(unit.has_failing_check)
         self.assertEqual(len(unit.checks()), 0)
-        self.assertEqual(unit.translation.stats.allchecks, 1)
+        self.assertEqual(unit.translation.stats.allchecks, 0)
         self.assert_backend(1)
 
     def test_commit_push(self):

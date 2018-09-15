@@ -942,8 +942,8 @@ class Component(models.Model, URLMixin, PathMixin):
         return sorted(matches)
 
     def update_source_checks(self):
-        for units in self.updated_sources.values():
-            units[0].source_info.run_checks(units)
+        for unit in self.updated_sources.values():
+            unit.source_info.run_checks(unit)
         self.updated_sources = {}
 
     def create_translations(self, force=False, langs=None, request=None,

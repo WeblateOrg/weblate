@@ -348,7 +348,7 @@ class SearchViewTest(ViewTestCase):
         )
         self.do_search(
             {'type': 'allchecks'},
-            'Strings with any failing checks',
+            None
         )
         self.do_search(
             {'type': 'check:plurals'},
