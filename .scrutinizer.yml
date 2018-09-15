@@ -11,7 +11,7 @@ build:
         python: 3.6
         postgresql: true
     dependencies:
-        before:
+        override:
             - pip install -r ci/requirements-scrutinizer.txt
     nodes:
         analysis:
