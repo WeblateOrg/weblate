@@ -53,6 +53,10 @@ BASIC_KEYS = frozenset(
 SOURCE_KEYS = frozenset(list(BASIC_KEYS) + ['source_strings', 'source_words'])
 
 
+def aggregate(stats, item, stats_obj):
+    stats[item] += getattr(stats_obj, item)
+
+
 def prefetch_stats(queryset):
     objects = list(queryset)
     if not objects:
@@ -305,7 +309,7 @@ class LanguageStats(BaseStats):
             stats_obj = translation.stats
             stats_obj.ensure_basic()
             for item in BASIC_KEYS:
-                stats[item] += getattr(stats_obj, item)
+                aggregate(stats, item, stats_obj)
             # This is meaningless for language stats, but we share code
             # with the ComponentStats
             stats['source_words'] = max(
@@ -407,7 +411,7 @@ class ProjectStats(BaseStats):
             stats_obj = component.stats
             stats_obj.ensure_basic()
             for item in self.basic_keys:
-                stats[item] += getattr(stats_obj, item)
+                aggregate(stats, item, stats_obj)
 
         for key, value in stats.items():
             self.store(key, value)
@@ -451,7 +455,7 @@ class ComponentListStats(BaseStats):
             stats_obj = component.stats
             stats_obj.ensure_basic()
             for item in self.basic_keys:
-                stats[item] += getattr(stats_obj, item)
+                aggregate(stats, item, stats_obj)
 
         for key, value in stats.items():
             self.store(key, value)
