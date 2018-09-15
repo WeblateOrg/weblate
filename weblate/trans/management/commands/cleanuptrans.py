@@ -25,6 +25,7 @@ from weblate.accounts.tasks import cleanup_social_auth
 from weblate.trans.models import Project
 from weblate.trans.tasks import (
     cleanup_fulltext, cleanup_project, cleanup_suggestions,
+    cleanup_stale_repos,
 )
 from weblate.screenshots.tasks import cleanup_screenshot_files
 
@@ -41,3 +42,4 @@ class Command(BaseCommand):
         for project in Project.objects.values_list('id', flat=True):
             cleanup_project(project)
         cleanup_suggestions()
+        cleanup_stale_repos()

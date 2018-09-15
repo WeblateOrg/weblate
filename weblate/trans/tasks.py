@@ -21,6 +21,9 @@
 from __future__ import absolute_import, unicode_literals
 
 from datetime import timedelta
+from glob import glob
+import os
+from shutil import rmtree
 
 from celery.schedules import crontab
 
@@ -42,6 +45,8 @@ from weblate.trans.models import (
     Change,
 )
 from weblate.trans.search import Fulltext
+from weblate.utils.data import data_dir
+from weblate.utils.files import remove_readonly
 
 
 @app.task
@@ -233,6 +238,30 @@ def update_remotes():
             component.update_remote_branch()
 
 
+@app.task
+def cleanup_stale_repos():
+    prefix = data_dir('vcs')
+    vcs_mask = os.path.join(prefix, '*', '*')
+    for path in glob(vcs_mask):
+        if not os.path.isdir(path):
+            continue
+
+        # Parse path
+        project, component = os.path.split(path[len(prefix) + 1:])
+
+        # Find matching components
+        objects = Component.objects.filter(
+            slug=component,
+            project__slug=project
+        ).exclude(
+            repo__startswith='weblate:'
+        )
+
+        # Remove stale dirs
+        if not objects.exists():
+            rmtree(path, onerror=remove_readonly)
+
+
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(
@@ -249,6 +278,11 @@ def setup_periodic_tasks(sender, **kwargs):
         3600 * 24,
         cleanup_suggestions.s(),
         name='suggestions-cleanup',
+    )
+    sender.add_periodic_task(
+        3600 * 24,
+        cleanup_stale_repos.s(),
+        name='cleanup-stale-repos',
     )
 
     # Following fulltext maintenance tasks should not be
