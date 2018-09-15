@@ -461,14 +461,6 @@ class Profile(models.Model):
         return reverse('user_page', kwargs={'user': self.user.username})
 
     @property
-    def last_change(self):
-        """Return date of last change user has done in Weblate."""
-        try:
-            return self.user.change_set.values_list('timestamp', flat=True)[0]
-        except IndexError:
-            return None
-
-    @property
     def full_name(self):
         """Return user's full name."""
         return self.user.full_name
