@@ -201,7 +201,7 @@ class DummyTranslationStats(BaseStats):
         return 0
 
     def prefetch_basic(self):
-        self._data = {item: 0 for item in BASIC_KEYS}
+        self._data = {item: 0 for item in self.basic_keys}
 
 
 class TranslationStats(BaseStats):
@@ -300,16 +300,14 @@ class LanguageStats(BaseStats):
         return prefetch_stats(self._object.translation_set.all())
 
     def prefetch_basic(self):
-        stats = {item: 0 for item in BASIC_KEYS}
-        # This is meaningless for language stats, but we share code
-        # with the ComponentStats
-        stats['source_strings'] = 0
-        stats['source_words'] = 0
+        stats = {item: 0 for item in self.basic_keys}
         for translation in self.translation_set:
             stats_obj = translation.stats
             stats_obj.ensure_basic()
             for item in BASIC_KEYS:
                 stats[item] += getattr(stats_obj, item)
+            # This is meaningless for language stats, but we share code
+            # with the ComponentStats
             stats['source_words'] = max(
                 stats_obj.all_words, stats['source_words']
             )
