@@ -82,8 +82,8 @@ def commit_pending(hours=None, pks=None, logger=None):
                 hours=translation.component.commit_pending_age
             )
 
-        last_change = translation.last_change
-        if last_change is None:
+        last_change = translation.stats.last_changed
+        if not last_change:
             continue
         if last_change > age:
             continue

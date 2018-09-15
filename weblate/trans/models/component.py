@@ -1447,18 +1447,6 @@ class Component(models.Model, URLMixin, PathMixin):
         except Exception as exc:
             self.handle_parse_error(exc)
 
-    @property
-    def last_change(self):
-        """Return date of last change done in Weblate."""
-        try:
-            return Change.objects.content().filter(
-                translation__component=self
-            ).values_list(
-                'timestamp', flat=True
-            )[0]
-        except IndexError:
-            return None
-
     @cached_property
     def all_flags(self):
         """Return parsed list of flags."""

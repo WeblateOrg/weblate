@@ -409,7 +409,6 @@ class Change(models.Model, UserDisplayMixin):
             self.translation = self.unit.translation
         if self.translation:
             self.component = self.translation.component
-            self.translation.invalidate_last_change()
         if self.component:
             self.project = self.component.project
         if self.dictionary:

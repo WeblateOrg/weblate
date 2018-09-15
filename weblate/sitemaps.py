@@ -52,7 +52,7 @@ class WeblateSitemap(Sitemap):
         raise NotImplementedError()
 
     def lastmod(self, item):
-        return item.last_change
+        return item.stats.last_changed
 
 
 class ProjectSitemap(WeblateSitemap):

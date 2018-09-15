@@ -301,16 +301,6 @@ class Project(models.Model, URLMixin, PathMixin):
             ret |= component.can_push()
         return ret
 
-    @property
-    def last_change(self):
-        """Return date of last change done in Weblate."""
-        components = self.component_set.all()
-        changes = [component.last_change for component in components]
-        changes = [c for c in changes if c is not None]
-        if not changes:
-            return None
-        return max(changes)
-
     def all_repo_components(self):
         """Return list of all unique VCS components."""
         result = list(

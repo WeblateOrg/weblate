@@ -367,30 +367,10 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
     def get_last_author(self, email=False):
         """Return last autor of change done in Weblate."""
-        if self.last_change_obj is None:
+        if not self.stats.last_author:
             return None
-        return self.last_change_obj.author.get_author_name(email)
-
-    def invalidate_last_change(self):
-        """Invalidate last change cache."""
-        if 'last_change_obj' in self.__dict__:
-            del self.__dict__['last_change_obj']
-
-    @property
-    def last_change_obj(self):
-        """Cached getter for last content change."""
-        changes = self.change_set.content()
-        try:
-            return changes.select_related('author')[0]
-        except IndexError:
-            return None
-
-    @property
-    def last_change(self):
-        """Return date of last change done in Weblate."""
-        if self.last_change_obj is None:
-            return None
-        return self.last_change_obj.timestamp
+        from weblate.auth.models import User
+        return User.objects.get(pk=self.stats.last_author).get_author_name(email)
 
     def commit_pending(self, reason, request, skip_push=False):
         """Commit any pending changes."""
@@ -841,7 +821,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             'name': self.language.name,
             'total': self.stats.all,
             'total_words': self.stats.all_words,
-            'last_change': self.last_change,
+            'last_change': self.stats.last_changed,
             'last_author': self.get_last_author(),
             'translated': self.stats.translated,
             'translated_words': self.stats.translated_words,

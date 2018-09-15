@@ -48,13 +48,31 @@ BASIC_KEYS = frozenset(
         'approved_words_percent', 'fuzzy_words_percent',
         'allchecks_words_percent',
     ] +
-    list(BASICS)
+    list(BASICS) +
+    ['last_changed', 'last_author']
 )
 SOURCE_KEYS = frozenset(list(BASIC_KEYS) + ['source_strings', 'source_words'])
 
 
 def aggregate(stats, item, stats_obj):
-    stats[item] += getattr(stats_obj, item)
+    if item == 'last_changed':
+        if stats_obj.last_changed and (not stats['last_changed'] or
+                stats['last_changed'] < stats_obj.last_changed):
+            stats['last_changed'] = stats_obj.last_changed
+            stats['last_author'] = stats_obj.last_author
+    elif item == 'last_author':
+        # Already handled above
+        return
+    else:
+        stats[item] += getattr(stats_obj, item)
+
+
+def zero_stats(keys):
+    stats = {item: 0 for item in keys}
+    if 'last_changed' in keys:
+        stats['last_changed'] = None
+        stats['last_author'] = None
+    return stats
 
 
 def prefetch_stats(queryset):
@@ -137,7 +155,7 @@ class BaseStats(object):
     def store(self, key, value):
         if self._data is None:
             self._data = self.load()
-        if value is None:
+        if value is None and not key.startswith('last_'):
             self._data[key] = 0
         else:
             self._data[key] = value
@@ -205,7 +223,7 @@ class DummyTranslationStats(BaseStats):
         return 0
 
     def prefetch_basic(self):
-        self._data = {item: 0 for item in self.basic_keys}
+        self._data = zero_stats(self.basic_keys)
 
 
 class TranslationStats(BaseStats):
@@ -263,6 +281,14 @@ class TranslationStats(BaseStats):
         for key, value in stats.items():
             self.store(key, value)
 
+        try:
+            last_change = self._object.change_set.content()[0]
+            self.store('last_changed', last_change.timestamp)
+            self.store('last_author', last_change.author_id)
+        except IndexError:
+            self.store('last_changed', None)
+            self.store('last_author', None)
+
         # Calculate some values
         self.store('languages', 1)
 
@@ -304,7 +330,7 @@ class LanguageStats(BaseStats):
         return prefetch_stats(self._object.translation_set.all())
 
     def prefetch_basic(self):
-        stats = {item: 0 for item in self.basic_keys}
+        stats = zero_stats(self.basic_keys)
         for translation in self.translation_set:
             stats_obj = translation.stats
             stats_obj.ensure_basic()
@@ -406,7 +432,7 @@ class ProjectStats(BaseStats):
         return prefetch_stats(result)
 
     def prefetch_basic(self):
-        stats = {item: 0 for item in self.basic_keys}
+        stats = zero_stats(self.basic_keys)
         for component in self.component_set:
             stats_obj = component.stats
             stats_obj.ensure_basic()
@@ -450,7 +476,7 @@ class ComponentListStats(BaseStats):
         return prefetch_stats(self._object.components.all())
 
     def prefetch_basic(self):
-        stats = {item: 0 for item in self.basic_keys}
+        stats = zero_stats(self.basic_keys)
         for component in self.component_set:
             stats_obj = component.stats
             stats_obj.ensure_basic()

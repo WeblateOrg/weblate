@@ -246,6 +246,9 @@ class TranslationSerializer(RemovableSerializer):
     have_comment = serializers.IntegerField(
         source='stats.comments', read_only=True,
     )
+    last_change = serializers.DateTimeField(
+        source='stats.last_changed', read_only=True,
+    )
     last_author = serializers.CharField(
         source='get_last_author', read_only=True,
     )
