@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-09-14 11:31+0000\n"
-"PO-Revision-Date: 2018-09-16 11:16+0000\n"
+"PO-Revision-Date: 2018-09-17 12:22+0000\n"
 "Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/master/da/"
 ">\n"
@@ -637,8 +637,8 @@ msgid ""
 "in the base file."
 msgstr ""
 "Opdater alle oversættelsesfiler til at stemme overens med den enkeltsproget "
-"basisfil. For de fleste filformater vil dette betyde fjernelse af alle "
-"ubrugte oversættelsesnøgler som ikke længere findes i basisfilen."
+"grundfil. For de fleste filformater vil dette betyde fjernelse af alle "
+"ubrugte oversættelsesnøgler som ikke længere findes i grundfilen."
 
 #: weblate/addons/consistency.py:33
 msgid "Language consistency"
@@ -786,7 +786,7 @@ msgstr "Tilpas komponentnavnet"
 
 #: weblate/addons/forms.py:143
 msgid "Define the monolingual base filename"
-msgstr "Definer det enkeltsproget basisfilnavn"
+msgstr "Definer det enkeltsproget grundfilnavn"
 
 #: weblate/addons/forms.py:146
 msgid "Keep empty for bilingual translation files."
@@ -794,7 +794,7 @@ msgstr "Hold tom til tosprogede oversættelsesfiler."
 
 #: weblate/addons/forms.py:149
 msgid "Define the base file for new translations"
-msgstr "Definer basisfilen for nye oversættelser"
+msgstr "Definer grundfilen for nye oversættelser"
 
 #: weblate/addons/forms.py:153 weblate/trans/models/component.py:225
 msgid ""
@@ -1101,7 +1101,7 @@ msgstr "Tilgå det interne arkiv"
 
 #: weblate/auth/data.py:88
 msgid "Commit changes to the internal repository"
-msgstr "Indsende ventende ændringer til det interne arkiv"
+msgstr "Indsend ændringer til det interne arkiv"
 
 #: weblate/auth/data.py:89
 msgid "Push change from the internal repository"
@@ -2557,7 +2557,7 @@ msgstr "Weblate ville ikke eksistere uden disse projekter."
 #: weblate/templates/about/keys.html:7 weblate/templates/base.html:161
 #: weblate/trans/views/about.py:120
 msgid "Weblate keys"
-msgstr "Weblate-taster"
+msgstr "Weblate-nøgler"
 
 #: weblate/templates/about/keys.html:20
 msgid "SSH key"
@@ -3479,7 +3479,7 @@ msgid ""
 "monolingual base filename, for example:"
 msgstr ""
 "Du kan bruge Django-skabelonsopmærkning i både komponentnavn og det "
-"ensprogede basisfilnavn, f.eks.:"
+"ensprogede grundfilnavn, f.eks.:"
 
 #: weblate/templates/addons/discovery_help.html:71
 msgid "Component filename match"
@@ -4024,11 +4024,11 @@ msgstr "Oversættelsen bruger enkeltsprogede filer."
 
 #: weblate/templates/component_info.html:33
 msgid "The translation base language can be edited."
-msgstr "Oversættelsens basissprog kan redigeres."
+msgstr "Oversættelsens grundsprog kan redigeres."
 
 #: weblate/templates/component_info.html:35
 msgid "The translation base language can not be edited."
-msgstr "Oversættelsens basissprog kan ikke redigeres."
+msgstr "Oversættelsens grundsprog kan ikke redigeres."
 
 #: weblate/templates/component_info.html:38
 msgid "The translation is using bilingual files."
@@ -4621,7 +4621,7 @@ msgstr "Værktøjer for arkiv"
 
 #: weblate/templates/js/git-status.html:116
 msgid "Commit pending changes to the local repository"
-msgstr "Indsend ventende ændringer til det lokale arkiv"
+msgstr "Indsend afventende ændringer til det lokale arkiv"
 
 #: weblate/templates/js/git-status.html:126
 msgid "Pull"
@@ -6049,7 +6049,7 @@ msgstr "Afventende forslag"
 
 #: weblate/templates/user-activity.html:15
 msgid "Browse pending"
-msgstr "Gennemse ventende"
+msgstr "Gennemse afventende"
 
 #: weblate/templates/user-activity.html:20
 msgid "Last login"
@@ -6175,7 +6175,7 @@ msgstr "%(filter_name)s (%(filter_count)s)"
 
 #: weblate/trans/admin.py:49
 msgid "Commit pending changes"
-msgstr "Indsend ventende ændringer"
+msgstr "Indsend afventende ændringer"
 
 #: weblate/trans/admin.py:58
 msgid "Update VCS repository"
@@ -6989,25 +6989,25 @@ msgstr ""
 
 #: weblate/trans/models/component.py:203
 msgid "Monolingual base language file"
-msgstr "Enkeltsproget basissprogfil"
+msgstr "Enkeltsproget grundsprogfil"
 
 #: weblate/trans/models/component.py:207
 msgid ""
 "Filename of translations base file, which contains all strings and their "
 "source; this is recommended to use for monolingual translation formats."
 msgstr ""
-"Filnavn på oversættelses basisfil, der indeholder alle strenge og deres "
+"Filnavn på oversættelses grundfil, der indeholder alle strenge og deres "
 "kilde, det anbefales at bruge for enkeltsprogede oversættelsesformater."
 
 #: weblate/trans/models/component.py:213
 msgid "Edit base file"
-msgstr "Rediger basisfil"
+msgstr "Rediger grundfil"
 
 #: weblate/trans/models/component.py:216
 msgid ""
 "Whether users will be able to edit base file for monolingual translations."
 msgstr ""
-"Om brugerne vil kunne redigere basisfil til enkeltsprogede oversættelser."
+"Om brugerne vil kunne redigere grundfil til enkeltsprogede oversættelser."
 
 #: weblate/trans/models/component.py:221
 msgid "Base file for new translations"
@@ -7295,24 +7295,24 @@ msgid ""
 "provide base file to do that!"
 msgstr ""
 "Weblate er konfigureret til at tilføje nye oversættelsesfiler, men der er "
-"ikke opgivet en basisfil til at gøre det!"
+"ikke opgivet en grundfil til at gøre det!"
 
 #: weblate/trans/models/component.py:1187
 msgid ""
 "Base file for new translations is not used because of component settings. "
 "You probably want to enable automatic adding of new translations."
 msgstr ""
-"Basisfilen til nye oversættelser bliver ikke brugt på grund af "
+"Grundfilen til nye oversættelser bliver ikke brugt på grund af "
 "komponentindstillinger. Du ville sikkert aktivere automatisk tilføjelse af "
 "nye oversættelser."
 
 #: weblate/trans/models/component.py:1198
 msgid "You can not use base file with bilingual translation!"
-msgstr "Du kan ikke bruge basissprogfil til tosprogede oversættelser!"
+msgstr "Du kan ikke bruge grundfil med tosproget oversættelse!"
 
 #: weblate/trans/models/component.py:1203
 msgid "Using .pot file as base file is not supported!"
-msgstr ".pot filformat som basissprogfil understøttes ikke!"
+msgstr ".pot filformat som grundfil understøttes ikke!"
 
 #: weblate/trans/models/component.py:1210
 msgid "Template file not found!"
@@ -7330,7 +7330,7 @@ msgstr "Skabelonsproget ({0}) svarer ikke til projektets kildesprog ({1})!"
 
 #: weblate/trans/models/component.py:1233
 msgid "You can not use monolingual translation without base file!"
-msgstr "Du kan ikke bruge enkeltsprogede oversættelse uden basissprogfil!"
+msgstr "Du kan ikke bruge enkeltsprogede oversættelse uden grundfil!"
 
 #: weblate/trans/models/component.py:1244
 msgid ""
