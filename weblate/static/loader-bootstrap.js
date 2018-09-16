@@ -376,7 +376,7 @@ function loadMachineTranslations(data, textStatus) {
     data.forEach(function (el, idx) {
         increaseLoading('#mt-loading');
         $.ajax({
-            url: $('#js-translate').attr('href') + '?service=' + el,
+            url: $('#js-translate').attr('href').replace('__service__', el),
             success: processMachineTranslation,
             error: failedMachineTranslation,
             dataType: 'json'

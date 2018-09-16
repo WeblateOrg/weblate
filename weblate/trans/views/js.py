@@ -40,19 +40,17 @@ from weblate.utils.hash import checksum_to_hash
 from weblate.trans.util import sort_objects
 
 
-def translate(request, unit_id):
+def translate(request, unit_id, service):
     """AJAX handler for translating."""
     unit = get_object_or_404(Unit, pk=int(unit_id))
     request.user.check_access(unit.translation.component.project)
     if not request.user.has_perm('machinery.view', unit.translation):
         raise PermissionDenied()
 
-    service_name = request.GET.get('service', 'INVALID')
-
-    if service_name not in MACHINE_TRANSLATION_SERVICES:
+    if service not in MACHINE_TRANSLATION_SERVICES:
         return HttpResponseBadRequest('Invalid service specified')
 
-    translation_service = MACHINE_TRANSLATION_SERVICES[service_name]
+    translation_service = MACHINE_TRANSLATION_SERVICES[service]
 
     # Error response
     response = {
