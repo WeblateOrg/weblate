@@ -106,6 +106,7 @@ TRANSLATE_PERMS = {
     'suggestion.accept', 'suggestion.add', 'suggestion.vote',
     'unit.check', 'unit.edit',
     'upload.overwrite', 'upload.perform',
+    'machinery.view',
 }
 
 # Default set of roles
@@ -126,7 +127,6 @@ ROLES = (
         pgettext('Access control role', 'Power user'),
         TRANSLATE_PERMS | {
             'translation.add',
-            'machinery.view',
             'unit.template',
             'vcs.access', 'vcs.view',
         } | filter_perms('glossary.')
