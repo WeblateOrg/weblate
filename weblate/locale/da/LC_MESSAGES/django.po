@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-09-14 11:31+0000\n"
-"PO-Revision-Date: 2018-09-17 12:22+0000\n"
+"PO-Revision-Date: 2018-09-18 18:22+0000\n"
 "Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/master/da/"
 ">\n"
@@ -980,7 +980,7 @@ msgstr "Slette skærmbillede"
 
 #: weblate/auth/data.py:48
 msgid "Upload glossary entries"
-msgstr "Upload ord til ordbog"
+msgstr "Upload indtastninger til ordbog"
 
 #: weblate/auth/data.py:50
 msgid "Use machine translation services"
@@ -2337,7 +2337,7 @@ msgstr "Du kan uploade en TMX- eller JSON-fil."
 
 #: weblate/memory/forms.py:41
 msgid "Confirm deleting all translation memory entries"
-msgstr ""
+msgstr "Bekræft sletning af alle indtastninger i oversættelseshukommelsen"
 
 #: weblate/memory/storage.py:62
 msgctxt "Translation memory category"
@@ -2368,18 +2368,16 @@ msgid "Failed to parse JSON file!"
 msgstr "Kunne ikke fortolke JSON-fil!"
 
 #: weblate/memory/storage.py:179
-#, fuzzy
-#| msgid "No related strings found in the glossary."
 msgid "No valid entries found in the JSON file!"
-msgstr "Fandt ingen relaterede strenge i ordlisten."
+msgstr "Fandt ingen gyldige indtastninger i JSON-filen!"
 
 #: weblate/memory/views.py:76
 msgid "Entries deleted."
-msgstr ""
+msgstr "Indtastninger slettet."
 
 #: weblate/memory/views.py:93
 msgid "File processed, the entries will appear shortly."
-msgstr ""
+msgstr "Fil behandlet. Indtastningerne vises om kort tid."
 
 #: weblate/screenshots/models.py:37
 #: weblate/templates/screenshots/screenshot_list.html:35
@@ -4340,7 +4338,7 @@ msgstr "Gennemse alle ordlisteændringer"
 
 #: weblate/templates/edit_dictionary.html:20
 msgid "Change word"
-msgstr "Tilret ord"
+msgstr "Rediger ord"
 
 #: weblate/templates/engage.html:18
 #, python-format
@@ -5252,50 +5250,37 @@ msgid "disabled"
 msgstr "deaktiveret"
 
 #: weblate/templates/memory/index.html:37
-#, fuzzy, python-format
-#| msgid "%(language)s dictionary for %(project)s"
+#, python-format
 msgid "Number of entries for %(project)s"
-msgstr "%(language)s-ordbog for %(project)s"
+msgstr "Antal indtastninger for %(project)s"
 
 #: weblate/templates/memory/index.html:37
-#, fuzzy
-#| msgid "Number of source strings"
 msgid "Number of your entries"
-msgstr "Antal kildestrenge"
+msgstr "Antal indtastninger af dig"
 
 #: weblate/templates/memory/index.html:41
-#, fuzzy
-#| msgid "Number of strings"
 msgid "Total number of entries"
-msgstr "Antal strenge"
+msgstr "Samlet antal indtastninger"
 
 #: weblate/templates/memory/index.html:46
-#, fuzzy
-#| msgid "Download statistics (JSON)"
 msgid "Download as JSON"
-msgstr "Download statistikker (JSON)"
+msgstr "Download som JSON"
 
 #: weblate/templates/memory/index.html:47
-#, fuzzy
-#| msgid "Download translation as TMX"
 msgid "Download as TMX"
-msgstr "Hent oversættelse som TMX"
+msgstr "Download som TMX"
 
 #: weblate/templates/memory/index.html:55
-#, fuzzy
-#| msgid "Import as translated"
 msgid "Import translation memory"
-msgstr "Importér som oversat"
+msgstr "Importér oversættelseshukommelse"
 
 #: weblate/templates/memory/index.html:70
-#, fuzzy
-#| msgid "Save translation history"
 msgid "Wipe translation memory"
-msgstr "Gem oversættelseshistorik"
+msgstr "Ryd oversættelseshistorik"
 
 #: weblate/templates/memory/index.html:75
 msgid "Wipe"
-msgstr ""
+msgstr "Ryd"
 
 #: weblate/templates/new-language.html:25
 msgid ""
@@ -6475,10 +6460,8 @@ msgid "Exclude changes by user"
 msgstr "Udeluk ændringer af bruger"
 
 #: weblate/trans/forms.py:799
-#, fuzzy
-#| msgid "Email regular expression"
 msgid "Invalid regular expression: {}"
-msgstr "E-mail regulært udtryk"
+msgstr "Ugyldigt regulært udtryk: {}"
 
 #: weblate/trans/forms.py:822
 #, python-format
@@ -7447,24 +7430,18 @@ msgid "Set \"Translation-Team\" header"
 msgstr "Angiv \"Translation-Team\"-header"
 
 #: weblate/trans/models/project.py:87
-#, fuzzy
-#| msgid ""
-#| "Whether the \"Translation-Team\" field in file headers should be updated "
-#| "by Weblate."
 msgid ""
 "Lets Weblate update the \"Translation-Team\" file header of your project."
-msgstr "Om \"Translation-Team\"-feltet i filheadere skal opdateres af Weblate."
+msgstr "Lader Weblate opdatere \"Translation-Team\"-filhederen i dit projekt."
 
 #: weblate/trans/models/project.py:92
-#, fuzzy
-#| msgid "Use this translation"
 msgid "Use shared translation memory"
-msgstr "Benyt oversættelsen"
+msgstr "Brug delt oversættelseshukommelse"
 
 #: weblate/trans/models/project.py:95
 msgid ""
 "Uses and contributes to the pool of shared translations between projects."
-msgstr ""
+msgstr "Brug og bidrag til samlingen af delte oversættelser mellem projekter."
 
 #: weblate/trans/models/project.py:104
 msgid "Access control"
