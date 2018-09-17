@@ -57,8 +57,10 @@ class JSViewsTest(FixtureTestCase):
         self.ensure_dummy_mt()
         unit = self.get_unit()
         response = self.client.get(
-            reverse('js-translate', kwargs={'unit_id': unit.id}),
-            {'service': 'dummy'}
+            reverse(
+                'js-translate',
+                kwargs={'unit_id': unit.id, 'service': 'dummy'}
+            )
         )
         self.assertContains(response, 'Ahoj')
         data = json.loads(response.content.decode('utf-8'))
@@ -82,8 +84,10 @@ class JSViewsTest(FixtureTestCase):
 
         # Invalid service
         response = self.client.get(
-            reverse('js-translate', kwargs={'unit_id': unit.id}),
-            {'service': 'invalid'}
+            reverse(
+                'js-translate',
+                kwargs={'unit_id': unit.id, 'service': 'invalid'}
+            )
         )
         self.assertEqual(response.status_code, 400)
 
