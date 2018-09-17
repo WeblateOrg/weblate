@@ -20,6 +20,8 @@
 
 from __future__ import unicode_literals
 
+import sys
+
 from django.db import transaction
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
@@ -69,6 +71,7 @@ from weblate.utils import messages
 from weblate.utils.ratelimit import session_ratelimit_post
 from weblate.trans.models import Change, Project, Component, Suggestion
 from weblate.utils.views import get_project
+from weblate.utils.errors import report_error
 from weblate.accounts.forms import (
     ProfileForm, SubscriptionForm, UserForm, ContactForm,
     SubscriptionSettingsForm, UserSettingsForm, DashboardSettingsForm
@@ -890,6 +893,7 @@ def social_complete(request, backend):
     except InvalidEmail:
         return redirect_token()
     except AuthMissingParameter as error:
+        report_error(error, sys.exc_info())
         if error.parameter in ('email', 'user', 'expires'):
             return redirect_token()
         if error.parameter in ('state', 'code'):
