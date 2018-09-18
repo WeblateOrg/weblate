@@ -54,11 +54,11 @@ class FileFormatLoader(ClassLoader):
             try:
                 fileformat.get_class()
                 delete_configuration_error(error_name)
-            except (AttributeError, ImportError):
+            except (AttributeError, ImportError) as error:
                 result.pop(fileformat.format_id)
                 if fileformat.format_id == 'rc' and six.PY3:
                     continue
-                add_configuration_error(error_name, traceback.format_exc())
+                add_configuration_error(error_name, str(error))
 
         return result
 
