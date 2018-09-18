@@ -301,7 +301,7 @@ To enable this service, add ``weblate.machinery.youdao.YoudaoTranslation`` to
 
     :setting:`MT_YOUDAO_ID`,
     :setting:`MT_YOUDAO_SECRET`
-    `Youdao Translate API <http://fanyi.youdao.com/openapi>`_
+    `Youdao Zhiyun Natural Language Translation Service <http://ai.youdao.com/product-fanyi.s>`_
 
 Weblate
 -------

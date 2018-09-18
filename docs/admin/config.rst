@@ -882,7 +882,7 @@ API key for Yandex Translate API, you can register at https://tech.yandex.com/tr
 MT_YOUDAO_ID
 ------------
 
-Client ID for Youdao Zhiyun API, you can register at http://fanyi.youdao.com/openapi
+Client ID for Youdao Zhiyun API, you can register at http://ai.youdao.com/product-fanyi.s
 
 .. seealso::
 
@@ -893,7 +893,7 @@ Client ID for Youdao Zhiyun API, you can register at http://fanyi.youdao.com/ope
 MT_YOUDAO_SECRET
 ----------------
 
-Client secret for Youdao Zhiyun API, you can register at http://fanyi.youdao.com/openapi
+Client secret for Youdao Zhiyun API, you can register at http://ai.youdao.com/product-fanyi.s
 
 .. seealso::
 
