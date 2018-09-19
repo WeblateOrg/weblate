@@ -9,7 +9,7 @@
 
 {% block content %}
 {% if not projects %}
-{% trans "You currently do not have permission to create component in any project." as msg %}
+{% trans "You do not have permission to create components in any projects." as msg %}
 {% show_message "warning" msg %}
 
 {% if has_billing %}
