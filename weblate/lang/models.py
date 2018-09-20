@@ -222,14 +222,14 @@ class LanguageQuerySet(models.QuerySet):
         of parameters.
         """
         # Create standard language
+        name = '{0} (generated)'.format(code)
         if create:
-            meth = self.create
+            lang = self.get_or_create(
+                code=code,
+                defaults={'name': name},
+            )[0]
         else:
-            meth = Language
-        lang = meth(
-            code=code,
-            name='{0} (generated)'.format(code),
-        )
+            lang = Language(code=code, name=name)
 
         baselang = None
 
