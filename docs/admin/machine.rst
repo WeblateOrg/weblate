@@ -20,8 +20,8 @@ To enable this service, add ``weblate.machinery.tmserver.AmagamaTranslation`` to
 
 .. seealso:: 
    
-    `Amagama Translation Memory server <http://docs.translatehouse.org/projects/virtaal/en/latest/amagama.html>`_
-    `Amagama Translation Memory <http://amagama.translatehouse.org/>`_
+    `Amagama Translation Memory server <https://docs.translatehouse.org/projects/virtaal/en/latest/amagama.html>`_
+    `Amagama Translation Memory <https://amagama.translatehouse.org/>`_
 
 .. _apertium:
 
@@ -78,7 +78,7 @@ To enable this service, add ``weblate.machinery.baidu.BaiduTranslation`` to
 
     :setting:`MT_BAIDU_ID`,
     :setting:`MT_BAIDU_SECRET`
-    `Baidu Translate API <http://api.fanyi.baidu.com/api/trans/product/index>`_
+    `Baidu Translate API <https://api.fanyi.baidu.com/api/trans/product/index>`_
 
 .. _deepl:
 
@@ -260,8 +260,8 @@ And configure Weblate to talk to it:
 
     :setting:`MT_TMSERVER`,
     :doc:`tt:commands/tmserver`
-    `Amagama Translation Memory server <http://docs.translatehouse.org/projects/virtaal/en/latest/amagama.html>`_
-    `Amagama Translation Memory <http://amagama.translatehouse.org/>`_
+    `Amagama Translation Memory server <https://docs.translatehouse.org/projects/virtaal/en/latest/amagama.html>`_
+    `Amagama Translation Memory <https://amagama.translatehouse.org/>`_
 
 
 .. _yandex-translate:
@@ -280,7 +280,7 @@ To enable this service, add ``weblate.machinery.yandex.YandexTranslation`` to
 
     :setting:`MT_YANDEX_KEY`,
     `Yandex Translate API <https://tech.yandex.com/translate/>`_,
-    `Powered by Yandex.Translate <http://translate.yandex.com/>`_
+    `Powered by Yandex.Translate <https://translate.yandex.com/>`_
 
 .. _youdao-translate:
 
@@ -301,7 +301,7 @@ To enable this service, add ``weblate.machinery.youdao.YoudaoTranslation`` to
 
     :setting:`MT_YOUDAO_ID`,
     :setting:`MT_YOUDAO_SECRET`
-    `Youdao Zhiyun Natural Language Translation Service <http://ai.youdao.com/product-fanyi.s>`_
+    `Youdao Zhiyun Natural Language Translation Service <https://ai.youdao.com/product-fanyi.s>`_
 
 Weblate
 -------

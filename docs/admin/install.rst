@@ -45,7 +45,7 @@ celery-batches (>= 0.2)
 siphashc (>= 0.8)
     https://github.com/WeblateOrg/siphashc
 translate-toolkit (>= 2.3.0)
-    http://toolkit.translatehouse.org/
+    https://toolkit.translatehouse.org/
 Six (>= 1.7.0)
     https://pypi.org/project/six/
 filelock (>= 3.0.1)
@@ -63,7 +63,7 @@ Whoosh (>= 2.7.0)
 PIL or Pillow library
     https://python-pillow.org/
 lxml (>= 3.1.0)
-    http://lxml.de/
+    https://lxml.de/
 defusedxml (>= 0.4)
     https://bitbucket.org/tiran/defusedxml
 dateutil
@@ -73,7 +73,7 @@ django_compressor (>= 2.1.1)
 django-crispy-forms (>= 1.6.1)
     https://django-crispy-forms.readthedocs.io/
 Django REST Framework (>=3.8)
-    http://www.django-rest-framework.org/
+    https://www.django-rest-framework.org/
 user-agents (>= 1.1.0)
     https://github.com/selwin/python-user-agents
 pyuca (>= 1.1) (optional for proper sorting of strings)
@@ -100,7 +100,7 @@ jellyfish (>= 0.6.1)
 openpyxl (>=2.5.0) (for XLSX export/import)
     https://openpyxl.readthedocs.io/en/stable/
 zeep (>=3.0.0) (optional for :ref:`ms-terminology`)
-    http://python-zeep.readthedocs.io/
+    https://python-zeep.readthedocs.io/
 
 Other system requirements
 +++++++++++++++++++++++++
@@ -565,7 +565,7 @@ error messages:
 
 There are two ways to workaround this limitation. You can configure MySQL in a
 way to not have this limit, see `Using Innodb_large_prefix to Avoid ERROR 1071
-<http://mechanics.flite.com/blog/2014/07/29/using-innodb-large-prefix-to-avoid-error-1071/>`_.
+<https://mechanics.flite.com/blog/2014/07/29/using-innodb-large-prefix-to-avoid-error-1071/>`_.
 Alternatively you can  also adjust several settings for social-auth in your
 :file:`settings.py` (see :doc:`psa:configuration/settings`):
 

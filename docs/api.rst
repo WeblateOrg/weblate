@@ -15,7 +15,7 @@ REST API
     The API is available since Weblate 2.6.
 
 The API is accessible on the ``/api/`` URL and it is based on
-`Django REST framework <http://www.django-rest-framework.org/>`_.
+`Django REST framework <https://www.django-rest-framework.org/>`_.
 You can use it directly or by :ref:`wlc`.
 
 .. _api-generic:

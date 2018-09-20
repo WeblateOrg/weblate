@@ -12,7 +12,7 @@ Git exporter
 .. versionadded:: 2.10
 
 The Git exporter provides you read only access to the underlaying Git repository
-using http.
+using HTTP.
 
 Installation
 ++++++++++++

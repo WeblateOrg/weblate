@@ -569,7 +569,7 @@ list_languages
 Lists supported language in MediaWiki markup - language codes, English names
 and localized names.
 
-This is used to generate <http://wiki.l10n.cz/Jazyky>.
+This is used to generate <https://wiki.l10n.cz/Jazyky>.
 
 list_memory
 -----------

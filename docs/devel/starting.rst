@@ -331,7 +331,7 @@ Weblate whenever there is new commit, see :ref:`update-vcs` for more details.
 
 
 .. _Odorik: https://github.com/nijel/odorik/
-.. _GNU Gettext: http://www.gnu.org/software/gettext/
+.. _GNU Gettext: https://www.gnu.org/software/gettext/
 .. _Sphinx: http://www.sphinx-doc.org/
 .. _Read the Docs: https://readthedocs.org/
 .. _Internationalization Quick Guide: http://www.sphinx-doc.org/en/stable/intl.html#quick-guide

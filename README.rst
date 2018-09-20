@@ -29,7 +29,7 @@ Weblate
     :alt: Bountysource
     :target: https://www.bountysource.com/trackers/253393-weblate?utm_source=253393&utm_medium=shield&utm_campaign=TRACKER_BADGE
 
-.. image:: http://img.shields.io/liberapay/receives/Weblate.svg?logo=liberapay
+.. image:: https://img.shields.io/liberapay/receives/Weblate.svg?logo=liberapay
     :alt: Liberapay
     :target: https://liberapay.com/Weblate/
 

@@ -91,7 +91,7 @@ every language. Weblate shows the basic information, but you can find more
 detailed description in the `Language Plural Rules`_ from the Unicode
 Consortium.
 
-.. _Language Plural Rules: http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html
+.. _Language Plural Rules: https://unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html
 
 .. image:: ../images/plurals.png
 
