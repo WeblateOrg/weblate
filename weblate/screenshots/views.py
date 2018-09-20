@@ -193,7 +193,11 @@ def search_results(code, obj, units=None):
         )
 
     results = [
-        {'text': unit.get_source_plurals()[0], 'pk': unit.source_info.pk}
+        {'text': unit.get_source_plurals()[0],
+         'pk': unit.source_info.pk,
+         'context': unit.context,
+         'location': unit.location}
+
         for unit in units
     ]
 
