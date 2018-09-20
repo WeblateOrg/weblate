@@ -114,6 +114,7 @@ class ComponentDiscovery(object):
                 result[mask] = {
                     'files': {path},
                     'languages': {groups['language']},
+                    'files_langs': {(path, groups['language'])},
                     'base_file': render_template(
                         self.base_file_template, **groups
                     ),
@@ -127,6 +128,7 @@ class ComponentDiscovery(object):
             else:
                 result[mask]['files'].add(path)
                 result[mask]['languages'].add(groups['language'])
+                result[mask]['files_langs'].add((path, groups['language']))
         return result
 
     def log(self, *args):
