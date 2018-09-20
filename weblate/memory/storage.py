@@ -200,6 +200,8 @@ class TranslationMemory(WhooshIndex):
             translations = {}
             for node in unit.getlanguageNodes():
                 lang, text = get_node_data(unit, node)
+                if not lang or not text:
+                    continue
                 translations[lang] = text
                 if lang not in languages:
                     languages[lang] = cls.get_language_code(lang, langmap)
