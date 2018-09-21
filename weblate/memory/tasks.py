@@ -24,6 +24,8 @@ import os.path
 
 from celery_batches import Batches
 
+from django.utils.encoding import force_text
+
 from whoosh.index import LockError
 
 from weblate.celery import app
@@ -69,13 +71,22 @@ def update_memory(user, unit):
     max_retries=1000
 )
 def update_memory_task(self, *args, **kwargs):
+    def fixup_strings(data):
+        result = {}
+        for key, value in data.items():
+            if isinstance(value, int):
+                result[key] = value
+            else:
+                result[key] = force_text(value)
+        return result
+
     data = extract_batch_kwargs(*args, **kwargs)
 
     memory = TranslationMemory()
     try:
         with memory.writer() as writer:
             for item in data:
-                writer.add_document(**item)
+                writer.add_document(**fixup_strings(item))
     except LockError as exc:
         raise self.retry(exc=exc)
 
