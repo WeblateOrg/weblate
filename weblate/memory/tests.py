@@ -178,6 +178,14 @@ class MemoryDBTest(TestCase):
         memory = TranslationMemory()
         self.assertEqual(memory.doc_count(), 2)
 
+    def test_import_tmx2_command(self):
+        call_command(
+            'import_memory',
+            get_test_file('memory2.tmx')
+        )
+        memory = TranslationMemory()
+        self.assertEqual(memory.doc_count(), 1)
+
     def test_import_map(self):
         call_command(
             'import_memory',
