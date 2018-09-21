@@ -37,8 +37,8 @@ from weblate.utils.state import (
 from weblate.trans.util import translation_percent
 
 BASICS = frozenset((
-    'all', 'fuzzy', 'translated', 'approved', 'allchecks', 'suggestions',
-    'comments', 'approved_suggestions', 'languages',
+    'all', 'fuzzy', 'todo', 'translated', 'approved', 'allchecks',
+    'suggestions', 'comments', 'approved_suggestions', 'languages',
 ))
 BASIC_KEYS = frozenset(
     ['{}_words'.format(x) for x in BASICS if x != 'languages'] +
