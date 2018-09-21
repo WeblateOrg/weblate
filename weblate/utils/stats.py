@@ -49,7 +49,7 @@ BASIC_KEYS = frozenset(
         'allchecks_words_percent',
     ] +
     list(BASICS) +
-    ['last_changed', 'last_author']
+    ['last_changed', 'last_author', 'recent_changes']
 )
 SOURCE_KEYS = frozenset(list(BASIC_KEYS) + ['source_strings', 'source_words'])
 
@@ -295,6 +295,16 @@ class TranslationStats(BaseStats):
         # Calculate percents
         self.calculate_basic_percents()
 
+        # Count recent changes
+        self.count_recent_changes()
+
+    def count_recent_changes(self):
+        date = timezone.now() - timedelta(days=30)
+        self.store(
+            'recent_changes',
+            self._object.change_set.filter(timestamp__gt=date).count()
+        )
+
     def calculate_item(self, item):
         """Calculate stats for translation."""
         if item.endswith('_words'):
@@ -447,21 +457,8 @@ class ProjectStats(BaseStats):
         # Calculate percents
         self.calculate_basic_percents()
 
-        # Count recent changes
-        self.count_recent_changes()
-
-    def count_recent_changes(self):
-        date = timezone.now() - timedelta(days=30)
-        self.store(
-            'recent_changes',
-            self._object.change_set.filter(timestamp__gt=date).count()
-        )
-
     def calculate_item(self, item):
         """Calculate stats for translation."""
-        if item == 'recent_changes':
-            self.count_recent_changes()
-            return
         result = 0
         for component in self.component_set:
             result += getattr(component.stats, item)
