@@ -48,10 +48,12 @@ def memory_backup(indent=2):
 def update_memory(user, unit):
     component = unit.translation.component
     project = component.project
+
     categories = [
-        CATEGORY_USER_OFFSET + user.id,
         CATEGORY_PRIVATE_OFFSET + project.pk,
     ]
+    if user:
+        categories.append(CATEGORY_USER_OFFSET + user.id)
     if unit.translation.component.project.use_shared_tm:
         categories.append(CATEGORY_SHARED)
 
