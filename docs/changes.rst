@@ -25,6 +25,8 @@ Released on ? 2018.
 * Added support for creating projects and components by users.
 * Built in translation memory now automatically stores transaltions done.
 * Users and projects can import their existing translation memories.
+* Better management of related strings for screenshots.
+
 
 weblate 3.1.1
 -------------
@@ -884,3 +886,4 @@ weblate 0.1
 Released on February 6th 2012.
 
 * Initial release.
+i
