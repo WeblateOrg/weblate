@@ -28,7 +28,7 @@ from weblate.checks.models import Check
 from weblate.lang.models import Language
 from weblate.trans.models import Project, Unit
 from weblate.utils.requirements import get_versions, get_optional_versions
-from weblate.utils.stats import prefetch_stats
+from weblate.utils.stats import prefetch_stats, GlobalStats
 from weblate.vcs.gpg import get_gpg_public_key, get_gpg_sign_key
 from weblate.vcs.ssh import get_key_data
 
@@ -82,24 +82,19 @@ class StatsView(AboutView):
     def page_context(self, context):
         context['title'] = _('Weblate statistics')
 
+        stats = GlobalStats()
+
         totals = Profile.objects.aggregate(
             Sum('translated'), Sum('suggested'), Count('id')
         )
-        total_strings = []
-        total_words = []
-        for project in prefetch_stats(Project.objects.all()):
-            total_strings.append(project.stats.source_strings)
-            total_words.append(project.stats.source_words)
 
         context['total_translations'] = totals['translated__sum']
         context['total_suggestions'] = totals['suggested__sum']
         context['total_users'] = totals['id__count']
-        context['total_strings'] = sum(total_strings)
-        context['total_units'] = Unit.objects.count()
-        context['total_words'] = sum(total_words)
-        context['total_languages'] = Language.objects.filter(
-            translation__pk__gt=0
-        ).distinct().count()
+        context['total_strings'] = stats.source_strings
+        context['total_units'] = stats.all
+        context['total_words'] = stats.source_words
+        context['total_languages'] = stats.languages
         context['total_checks'] = Check.objects.count()
         context['ignored_checks'] = Check.objects.filter(ignore=True).count()
 
