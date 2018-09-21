@@ -251,6 +251,10 @@ class TranslationStats(BaseStats):
             translated_words=conditional_sum(
                 'num_words', state__gte=STATE_TRANSLATED
             ),
+            todo=conditional_sum(1, state__lt=STATE_TRANSLATED),
+            todo_words=conditional_sum(
+                'num_words', state__lt=STATE_TRANSLATED
+            ),
             nottranslated=conditional_sum(1, state=STATE_EMPTY),
             nottranslated_words=conditional_sum(
                 'num_words', state=STATE_EMPTY
