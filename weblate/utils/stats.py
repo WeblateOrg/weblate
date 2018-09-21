@@ -49,7 +49,7 @@ BASIC_KEYS = frozenset(
         'allchecks_words_percent',
     ] +
     list(BASICS) +
-    ['last_changed', 'last_author', 'recent_changes']
+    ['last_changed', 'last_author', 'recent_changes', 'total_changes']
 )
 SOURCE_KEYS = frozenset(list(BASIC_KEYS) + ['source_strings', 'source_words'])
 
@@ -300,13 +300,17 @@ class TranslationStats(BaseStats):
         self.calculate_basic_percents()
 
         # Count recent changes
-        self.count_recent_changes()
+        self.count_changes()
 
-    def count_recent_changes(self):
+    def count_changes(self):
         date = timezone.now() - timedelta(days=30)
         self.store(
             'recent_changes',
             self._object.change_set.filter(timestamp__gt=date).count()
+        )
+        self.store(
+            'total_changes',
+            self._object.change_set.count()
         )
 
     def calculate_item(self, item):
