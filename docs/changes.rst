@@ -886,4 +886,3 @@ weblate 0.1
 Released on February 6th 2012.
 
 * Initial release.
-i
