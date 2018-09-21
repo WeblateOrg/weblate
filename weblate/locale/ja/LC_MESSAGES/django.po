@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-09-21 19:28+0000\n"
-"PO-Revision-Date: 2018-09-21 13:23+0000\n"
+"PO-Revision-Date: 2018-09-21 23:11+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
@@ -76,9 +76,7 @@ msgstr "翻訳の通知"
 msgid ""
 "You will receive these notifications only for your translated languages in "
 "your watched projects."
-msgstr ""
-"監視しているプロジェクトにおいて、お使いの言語への翻訳に対してのみこれらの通"
-"知を行ないます。"
+msgstr "監視中のプロジェクトで、翻訳設定した言語のみ通知が届きます。"
 
 #: weblate/accounts/forms.py:277 weblate/accounts/forms.py:348
 #: weblate/auth/models.py:313 weblate/templates/manage-access.html:25
@@ -297,7 +295,7 @@ msgstr "インターフェイスの言語"
 
 #: weblate/accounts/models.py:293
 msgid "Translated languages"
-msgstr "翻訳する言語"
+msgstr "翻訳言語"
 
 #: weblate/accounts/models.py:295
 msgid "Choose languages to which you can translate."
@@ -409,9 +407,7 @@ msgstr "監視中のプロジェクト"
 msgid ""
 "You can receive notifications for watched projects and they are shown on the "
 "dashboard by default."
-msgstr ""
-"プロジェクトを監視することで通知を受け取ることができるほか、ダッシュボードに"
-"もデフォルトで表示されるようになります。"
+msgstr "監視中のプロジェクトから通知を受け取り、デフォルトでダッシュボードにも表示します。"
 
 #: weblate/accounts/models.py:408
 msgid "Notification on any translation"
@@ -695,7 +691,7 @@ msgstr "このアドオンは、スクリプトを実行します。"
 
 #: weblate/addons/flags.py:50
 msgid "Flag new source strings as \"Needs editing\""
-msgstr "新しい原文文字列に対して、 \"要編集\" フラグを付ける"
+msgstr "新しい原文に \"要編集\" フラグを付ける"
 
 #: weblate/addons/flags.py:52
 msgid ""
@@ -703,9 +699,8 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
-"新しい原文文字列が VCS からインポートされると、 Weblate 内では常に要編集フラ"
-"グを設定します。この仕組みにより、開発者が作成した原文を簡単にフィルタした"
-"り、編集したりすることができるようになります。"
+"新しい原文を VCS からインポートすると、Weblate は毎回 ”要編集\" "
+"フラグを付けます。このため、開発者が作成した原文を簡単にフィルタしたり、編集できます。"
 
 #: weblate/addons/flags.py:64
 msgid "Flag new translations as \"Needs editing\""
@@ -5329,7 +5324,7 @@ msgid ""
 "Schedules import of all existing translations within this project into "
 "translation memory. This can be useful after wiping memory or after initial "
 "setup."
-msgstr ""
+msgstr "このプロジェクト内のすべての翻訳を、翻訳メモリにインポートするスケジュールをします。メモリの消去後、または初期設定後に便利です。"
 
 #: weblate/templates/memory/index.html:86
 msgid "Wipe translation memory"
