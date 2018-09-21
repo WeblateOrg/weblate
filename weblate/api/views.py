@@ -55,6 +55,7 @@ from weblate.screenshots.models import Screenshot
 from weblate.utils.views import download_translation_file
 from weblate.utils.celery import get_queue_length
 from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.stats import GlobalStats
 from weblate.utils.docs import get_doc_url
 
 REPO_OPERATIONS = {
@@ -618,19 +619,17 @@ class Metrics(APIView):
         """
         Return a list of all users.
         """
+        stats = GlobalStats()
+
         return Response({
-            'units': Unit.objects.count(),
-            'units_translated': Unit.objects.filter(
-                state=STATE_TRANSLATED
-            ).count(),
+            'units': stats.all,
+            'units_translated': stats.translated,
             'users': User.objects.count(),
             'changes': Change.objects.count(),
             'projects': Project.objects.count(),
             'components': Component.objects.count(),
             'translations': Translation.objects.count(),
-            'languages': Language.objects.filter(
-                translation__pk__gt=0
-            ).distinct().count(),
+            'languages': stats.languages,
             'checks': Check.objects.count(),
             'suggestions': Suggestion.objects.count(),
             'index_updates': get_queue_length(),
