@@ -622,6 +622,11 @@ urlpatterns = [
         weblate.memory.views.DownloadView.as_view(),
         name='memory-download',
     ),
+    url(
+        r'^memory/project/' + PROJECT + 'import/$',
+        weblate.memory.views.ImportView.as_view(),
+        name='memory-import',
+    ),
 
     # Languages browsing
     url(

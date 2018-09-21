@@ -35,6 +35,7 @@ from weblate.memory.storage import (
 )
 from weblate.utils.celery import extract_batch_kwargs
 from weblate.utils.data import data_dir
+from weblate.utils.state import STATE_TRANSLATED
 
 
 @app.task
@@ -43,6 +44,17 @@ def memory_backup(indent=2):
     memory = TranslationMemory()
     with open(filename, 'w') as handle:
         memory.dump(handle, indent)
+
+
+@app.task
+def import_memory(project_id):
+    from weblate.trans.models import Unit
+    units = Unit.objects.filter(
+        translation__component__project_id=project_id,
+        state__gte=STATE_TRANSLATED,
+    )
+    for unit in units.iterator():
+        update_memory(None, unit)
 
 
 def update_memory(user, unit):
