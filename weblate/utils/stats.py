@@ -435,6 +435,7 @@ class ProjectStats(BaseStats):
         else:
             for lang in self._object.languages:
                 self.get_single_language_stats(lang).invalidate()
+        GlobalStats().invalidate()
 
     @cached_property
     def component_set(self):
@@ -500,3 +501,46 @@ class ComponentListStats(BaseStats):
         for component in self.component_set:
             result += getattr(component.stats, item)
         self.store(item, result)
+
+
+class GlobalStats(BaseStats):
+    basic_keys = SOURCE_KEYS
+
+    def __init__(self):
+        super(GlobalStats, self).__init__(None)
+
+    @cached_property
+    def project_set(self):
+        from weblate.trans.models import Project
+        return prefetch_stats(Project.objects.all())
+
+    def prefetch_basic(self):
+        from weblate.lang.models import Language
+        stats = zero_stats(self.basic_keys)
+        for project in self.project_set:
+            stats_obj = project.stats
+            stats_obj.ensure_basic()
+            for item in self.basic_keys:
+                aggregate(stats, item, stats_obj)
+
+        for key, value in stats.items():
+            self.store(key, value)
+
+        self.store(
+            'languages',
+            Language.objects.filter(translation__pk__gt=0).distinct().count()
+        )
+
+        # Calculate percents
+        self.calculate_basic_percents()
+
+    def calculate_item(self, item):
+        """Calculate stats for translation."""
+        result = 0
+        for project in self.project_set:
+            result += getattr(project.stats, item)
+        self.store(item, result)
+
+    @cached_property
+    def cache_key(self):
+        return 'stats-global'
