@@ -363,7 +363,7 @@ Qt Linguist files are used as both bilingual and monolingual.
 
 .. seealso::
 
-    `Qt Linguist manual <http://doc.qt.io/qt-5/qtlinguist-index.html>`_,
+    `Qt Linguist manual <https://doc.qt.io/qt-5/qtlinguist-index.html>`_,
     :doc:`tt:formats/ts`,
     :ref:`bimono`
 

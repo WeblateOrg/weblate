@@ -743,7 +743,7 @@ Region name to use for Amazon Translate.
 MT_BAIDU_ID
 ------------
 
-Client ID for Baidu Zhiyun API, you can register at http://api.fanyi.baidu.com/api/trans/product/index
+Client ID for Baidu Zhiyun API, you can register at https://api.fanyi.baidu.com/api/trans/product/index
 
 .. seealso::
 
@@ -754,7 +754,7 @@ Client ID for Baidu Zhiyun API, you can register at http://api.fanyi.baidu.com/a
 MT_BAIDU_SECRET
 ----------------
 
-Client secret for Baidu Zhiyun API, you can register at http://api.fanyi.baidu.com/api/trans/product/index
+Client secret for Baidu Zhiyun API, you can register at https://api.fanyi.baidu.com/api/trans/product/index
 
 .. seealso::
 
@@ -882,7 +882,7 @@ API key for Yandex Translate API, you can register at https://tech.yandex.com/tr
 MT_YOUDAO_ID
 ------------
 
-Client ID for Youdao Zhiyun API, you can register at http://ai.youdao.com/product-fanyi.s
+Client ID for Youdao Zhiyun API, you can register at https://ai.youdao.com/product-fanyi.s
 
 .. seealso::
 
@@ -893,7 +893,7 @@ Client ID for Youdao Zhiyun API, you can register at http://ai.youdao.com/produc
 MT_YOUDAO_SECRET
 ----------------
 
-Client secret for Youdao Zhiyun API, you can register at http://ai.youdao.com/product-fanyi.s
+Client secret for Youdao Zhiyun API, you can register at https://ai.youdao.com/product-fanyi.s
 
 .. seealso::
 

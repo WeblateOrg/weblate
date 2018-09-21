@@ -134,7 +134,7 @@ by email to michal@cihar.com. You can choose to encrypt it using his PGP key
     Some of these are:
 
     * :doc:`Django <django:internals/security>`
-    * `Django REST Framework <http://www.django-rest-framework.org/#security>`_
+    * `Django REST Framework <https://www.django-rest-framework.org/#security>`_
     * `Python Social Auth <https://github.com/python-social-auth>`_
 
 Starting with our codebase

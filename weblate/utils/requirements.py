@@ -87,7 +87,7 @@ def get_optional_versions():
     )
 
     get_optional_module(
-        result, 'yaml', 'PyYAML', 'http://pyyaml.org/wiki/PyYAML'
+        result, 'yaml', 'PyYAML', 'https://pyyaml.org/wiki/PyYAML'
     )
 
     get_optional_module(
@@ -202,7 +202,7 @@ def get_versions():
 
     result.append(get_single(
         'translate-toolkit',
-        'http://toolkit.translatehouse.org/',
+        'https://toolkit.translatehouse.org/',
         'translate',
         '2.3.0',
     ))
@@ -247,7 +247,7 @@ def get_versions():
 
     result.append(get_single(
         'lxml',
-        'http://lxml.de/',
+        'https://lxml.de/',
         'lxml.etree',
         '3.1.0',
     ))
@@ -268,7 +268,7 @@ def get_versions():
 
     result.append(get_single(
         'djangorestframework',
-        'http://www.django-rest-framework.org/',
+        'https://www.django-rest-framework.org/',
         'rest_framework',
         '3.8',
     ))
