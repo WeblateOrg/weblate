@@ -1485,6 +1485,12 @@ class ProjectSettingsForm(forms.ModelForm):
             'source_language',
         )
 
+    def __init__(self, *args, **kwargs):
+        super(ProjectSettingsForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+        self.helper.disable_csrf = True
+
 
 class ProjectAccessForm(forms.ModelForm):
     """Project access control settings form."""
