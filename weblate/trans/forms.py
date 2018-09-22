@@ -1348,6 +1348,9 @@ class ComponentSettingsForm(forms.ModelForm):
             'commit_message',
             'add_message',
             'delete_message',
+            'repo',
+            'branch',
+            'push',
             'repoweb',
             'push_on_commit',
             'commit_pending_age',
@@ -1405,6 +1408,10 @@ class ComponentSettingsForm(forms.ModelForm):
                     _('Version control'),
                     Fieldset(
                         _('Locations'),
+                        Div(template='trans/repo_help.html'),
+                        'repo',
+                        'branch',
+                        'push',
                         'repoweb',
                     ),
                     Fieldset(
