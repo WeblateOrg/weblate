@@ -250,7 +250,7 @@ class TranslationMemory(WhooshIndex):
     def list_documents(self, user=None, project=None):
         catfilter = self.get_filter(user, project, False, False)
         self.open_searcher()
-        return self.searcher.search(catfilter)
+        return self.searcher.search(catfilter, limit=None)
 
     def lookup(self, source_language, target_language, text, user,
                project, use_shared):
