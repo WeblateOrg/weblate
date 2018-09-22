@@ -1332,6 +1332,7 @@ class ComponentSettingsForm(forms.ModelForm):
     class Meta(object):
         model = Component
         fields = (
+            'name',
             'report_source_bugs',
             'license',
             'license_url',
@@ -1368,6 +1369,10 @@ class ComponentSettingsForm(forms.ModelForm):
             TabHolder(
                 Tab(
                     _('Basic'),
+                    Fieldset(
+                        _('Name'),
+                        'name',
+                    ),
                     Fieldset(
                         _('License'),
                         'license',
@@ -1476,6 +1481,7 @@ class ProjectSettingsForm(forms.ModelForm):
     class Meta(object):
         model = Project
         fields = (
+            'name',
             'web',
             'mail',
             'instructions',
