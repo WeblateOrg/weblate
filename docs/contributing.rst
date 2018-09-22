@@ -3,7 +3,7 @@
 Contributing
 ============
 
-There are dozens of ways to contribute to Weblate. We welcome any help, be it
+There are dozens of ways to contribute in Weblate. We welcome any help, be it
 coding help, graphics design, documentation or sponsorship.
 
 Code and development
@@ -29,7 +29,7 @@ by script :file:`ci/run-lint`.
 Developer's Certificate of Origin
 ---------------------------------
 
-If you would like to make a contribution to the Weblate Project, please
+If you would like to make a contribution to the Weblate project, please
 certify to the following:
 
     Weblate Developer's Certificate of Origin. Version 1.0
@@ -81,7 +81,7 @@ functionality and verify that it works. You can see current test results on
 Travis <https://travis-ci.org/WeblateOrg/weblate> and coverage on Codecov
 <https://codecov.io/github/WeblateOrg/weblate>.
 
-To run testsuite locally use:
+To run testsuite locally, use:
 
 .. code-block:: sh
 
@@ -95,7 +95,7 @@ You can also specify individual tests to run:
 
 .. seealso::
 
-    See :doc:`django:topics/testing/index` for more information on running and
+    See :doc:`django:topics/testing/index` for more info on running and
     writing tests for Django.
 
 Reporting issues
@@ -104,8 +104,8 @@ Reporting issues
 Our issue tracker is hosted at GitHub:
 <https://github.com/WeblateOrg/weblate/issues>
 
-Feel welcome to report any issues or suggestions to improve Weblate there. In
-case you have found a security issue in Weblate, please consult the "Security
+Feel welcome to report any issues with or suggest improvement of Weblate there.
+In case you have found a security issue in Weblate, please consult the "Security
 issues" section below.
 
 .. _security:
@@ -121,7 +121,7 @@ security issues, so you are welcome to report issues directly at
 Alternatively you can report them to security@weblate.org, which ends up on
 HackerOne as well.
 
-If you don't want to use HackerOne for whatever reason, you can send the report
+If you don't want to use HackerOne, for whatever reason, you can send the report
 by email to michal@cihar.com. You can choose to encrypt it using his PGP key
 `3CB 1DF1 EF12 CF2A C0EE  5A32 9C27 B313 42B7 511D`.
 
@@ -134,7 +134,7 @@ by email to michal@cihar.com. You can choose to encrypt it using his PGP key
     Some of these are:
 
     * :doc:`Django <django:internals/security>`
-    * `Django REST Framework <https://www.django-rest-framework.org/#security>`_
+    * `Django REST framework <https://www.django-rest-framework.org/#security>`_
     * `Python Social Auth <https://github.com/python-social-auth>`_
 
 Starting with our codebase
@@ -155,8 +155,8 @@ environment simply by running:
 Earning money by coding
 -----------------------
 
-We're using Bountysource to fund our development, you can participate on this
-as well by implementing issues with bounties:
+We're using Bountysource to fund our development, you can participate in this
+as well by solving issues with bounties on them:
 
 https://github.com/WeblateOrg/weblate/labels/bounty
 
@@ -164,7 +164,7 @@ Translating
 -----------
 
 Weblate is being translated using Weblate on <https://hosted.weblate.org/>, feel
-free to join us in effort to make Weblate available in as many world languages
+free to join us in the effort of making Weblate available in as many human languages
 as possible.
 
 
@@ -172,8 +172,8 @@ Funding Weblate development
 ---------------------------
 
 You can fund further Weblate development on `Bountysource`_. Funds collected
-there are used to fund free hosting for free software projects and further
-development of Weblate. Please check the `Bountysource`_ page for details such
+there are used to fund free hosting for libre software projects and further
+development of Weblate. Please check the `Bountysource`_ page for details, such
 as funding goals and rewards you can get for funding.
 
 .. include:: ../BACKERS.rst
@@ -184,12 +184,12 @@ as funding goals and rewards you can get for funding.
 Releasing Weblate
 -----------------
 
-Releasing checklist:
+Release checklist:
 
 1. Make sure screenshots are up to date ``make -C docs update-screenshots``
 2. Create a release ``./scripts/create-release --tag``
 3. Push tags to GitHub
 4. Update Docker image
 5. Close GitHub milestone
-6. Enable building version docs on Read rhe Docs
-7. Once Docker image is tested, add tag and push it
+6. Enable building version docs on Read the Docs
+7. Once the Docker image is tested, add a tag and push it
