@@ -22,6 +22,13 @@ from __future__ import absolute_import, unicode_literals
 
 from appconf import AppConf
 
+from django.core.cache import cache
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+from weblate.trans.models import Change
+from weblate.utils.decorators import disable_for_loaddata
+
 
 class WeblateConf(AppConf):
     WEBLATE_GPG_IDENTITY = None
@@ -56,3 +63,17 @@ class CeleryConf(AppConf):
 
     class Meta(object):
         prefix = 'CELERY'
+
+
+@receiver(post_save, sender=Change)
+@disable_for_loaddata
+def update_source(sender, instance, created, **kwargs):
+    if (not created or
+            instance.action not in Change.ACTIONS_CONTENT or
+            instance.translation is None):
+        return
+    cache.set(
+        'last-content-change-{}'.format(instance.translation.pk),
+        instance.pk,
+        30 * 86400
+    )

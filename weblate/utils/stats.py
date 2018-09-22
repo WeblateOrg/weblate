@@ -285,14 +285,6 @@ class TranslationStats(BaseStats):
         for key, value in stats.items():
             self.store(key, value)
 
-        try:
-            last_change = self._object.change_set.content()[0]
-            self.store('last_changed', last_change.timestamp)
-            self.store('last_author', last_change.author_id)
-        except IndexError:
-            self.store('last_changed', None)
-            self.store('last_author', None)
-
         # Calculate some values
         self.store('languages', 1)
 
@@ -301,6 +293,30 @@ class TranslationStats(BaseStats):
 
         # Count recent changes
         self.count_changes()
+
+        self.fetch_last_change()
+
+    def fetch_last_change(self):
+        from weblate.trans.models import Change
+        change_pk = cache.get('last-content-change-{}'.format(self._object.pk))
+        last_change = None
+        if change_pk:
+            try:
+                last_change = Change.objects.get(pk=change_pk)
+            except Change.DoesNotExist:
+                pass
+        if last_change is None:
+            try:
+                last_change = self._object.change_set.content()[0]
+            except IndexError:
+                pass
+
+        if last_change is None:
+            self.store('last_changed', None)
+            self.store('last_author', None)
+        else:
+            self.store('last_changed', last_change.timestamp)
+            self.store('last_author', last_change.author_id)
 
     def count_changes(self):
         date = timezone.now() - timedelta(days=30)
