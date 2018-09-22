@@ -193,6 +193,9 @@ ensure to mark the `read_user` scope.
     SOCIAL_AUTH_GITLAB_SECRET = 'Secret'
     SOCIAL_AUTH_GITLAB_SCOPE = ['api']
 
+    # If your using own GitLab
+    # SOCIAL_AUTH_GITLAB_API_URL = 'https://gitlab.example.com/'
+
 Password authentication
 -----------------------
 
