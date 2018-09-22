@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-09-21 19:28+0000\n"
+"POT-Creation-Date: 2018-09-22 13:43+0000\n"
 "PO-Revision-Date: 2018-09-22 13:20+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
@@ -407,7 +407,9 @@ msgstr "監視中のプロジェクト"
 msgid ""
 "You can receive notifications for watched projects and they are shown on the "
 "dashboard by default."
-msgstr "監視中のプロジェクトから通知を受け取り、デフォルトでダッシュボードに表示します。"
+msgstr ""
+"監視中のプロジェクトから通知を受け取り、デフォルトでダッシュボードに表示しま"
+"す。"
 
 #: weblate/accounts/models.py:408
 msgid "Notification on any translation"
@@ -699,8 +701,8 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
-"新しい原文を VCS からインポートすると、Weblate は毎回 ”要編集\" "
-"フラグを付けます。このため、開発者が作成した原文を簡単にフィルタしたり、編集できます。"
+"新しい原文を VCS からインポートすると、Weblate は毎回 ”要編集\" フラグを付け"
+"ます。このため、開発者が作成した原文を簡単にフィルタしたり、編集できます。"
 
 #: weblate/addons/flags.py:64
 msgid "Flag new translations as \"Needs editing\""
@@ -1268,7 +1270,7 @@ msgid "Permission"
 msgstr "パーミッション"
 
 #: weblate/auth/models.py:78 weblate/auth/models.py:107
-#: weblate/templates/accounts/user.html:26
+#: weblate/templates/accounts/user.html:26 weblate/trans/forms.py:1376
 #: weblate/wladmin/templates/admin/performance.html:29
 #: weblate/wladmin/templates/admin/performance.html:66
 msgid "Name"
@@ -1335,7 +1337,7 @@ msgstr "すべての言語"
 #: weblate/templates/project.html:27
 #: weblate/templates/trans/change_list.html:18 weblate/trans/admin.py:107
 #: weblate/trans/forms.py:853 weblate/trans/forms.py:1138
-#: weblate/trans/forms.py:1552
+#: weblate/trans/forms.py:1571
 msgid "Languages"
 msgstr "言語"
 
@@ -3034,7 +3036,7 @@ msgstr "API アクセス"
 #: weblate/templates/accounts/profile.html:146
 #: weblate/templates/accounts/profile.html:163
 #: weblate/templates/addons/addon_detail.html:34
-#: weblate/templates/component-settings.html:18
+#: weblate/templates/component-settings.html:17
 #: weblate/templates/edit_dictionary.html:26
 #: weblate/templates/js/detail.html:58 weblate/templates/js/detail.html:68
 #: weblate/templates/js/detail.html:78
@@ -3295,7 +3297,7 @@ msgstr "下記の翻訳には、ライセンスと著作権に関する条件が
 msgid "Project"
 msgstr "プロジェクト"
 
-#: weblate/templates/accounts/profile.html:445 weblate/trans/forms.py:1372
+#: weblate/templates/accounts/profile.html:445 weblate/trans/forms.py:1380
 msgid "License"
 msgstr "ライセンス"
 
@@ -3721,7 +3723,7 @@ msgstr "ご利用いただけません"
 msgid "No invoices found!"
 msgstr "インボイスが見つかりません！"
 
-#: weblate/templates/billing/overview.html:7 weblate/trans/forms.py:1442
+#: weblate/templates/billing/overview.html:7 weblate/trans/forms.py:1454
 msgid "Billing"
 msgstr "課金"
 
@@ -4327,7 +4329,7 @@ msgstr "原文"
 #: weblate/templates/translate.html:250 weblate/templates/translate.html:317
 #: weblate/templates/translate.html:367 weblate/templates/translate.html:456
 #: weblate/trans/forms.py:312 weblate/trans/forms.py:1010
-#: weblate/trans/forms.py:1384
+#: weblate/trans/forms.py:1392
 msgid "Translation"
 msgstr "翻訳"
 
@@ -5320,7 +5322,9 @@ msgid ""
 "Schedules import of all existing translations within this project into "
 "translation memory. This can be useful after wiping memory or after initial "
 "setup."
-msgstr "このプロジェクト内のすべての翻訳を、翻訳メモリにインポートするスケジュールをします。メモリの消去後、または初期設定後に便利です。"
+msgstr ""
+"このプロジェクト内のすべての翻訳を、翻訳メモリにインポートするスケジュールを"
+"します。メモリの消去後、または初期設定後に便利です。"
 
 #: weblate/templates/memory/index.html:86
 msgid "Wipe translation memory"
@@ -5600,9 +5604,17 @@ msgstr "プロジェクトの作成"
 msgid "You currently do not have permission to create project."
 msgstr "現時点ではプロジェクトを作成する権限がありません。"
 
+#: weblate/templates/trans/repo_help.html:2
+msgid ""
+"When changing the repository URL, the existing content will be merged with "
+"new repository. This will work just fine the repository has been moved to "
+"different location. If the repository content is different, it might be "
+"better to create new translation component."
+msgstr ""
+
 #: weblate/templates/trans/suggestion_list.html:7
 #: weblate/templates/translate.html:230 weblate/templates/translate.html:426
-#: weblate/trans/forms.py:1386
+#: weblate/trans/forms.py:1394
 msgid "Suggestions"
 msgstr "提案"
 
@@ -5943,7 +5955,7 @@ msgstr "ダウンロードのカスタマイズ"
 msgid "Upload translation"
 msgstr "翻訳のアップロード"
 
-#: weblate/templates/translation.html:47 weblate/trans/forms.py:1420
+#: weblate/templates/translation.html:47 weblate/trans/forms.py:1432
 msgid "Files"
 msgstr "ファイル"
 
@@ -6704,51 +6716,51 @@ msgstr "日付が正しくありません！"
 msgid "Starting date has to be before ending date!"
 msgstr "開始日は終了日よりも前の日付でなければなりません！"
 
-#: weblate/trans/forms.py:1370
+#: weblate/trans/forms.py:1374
 msgid "Basic"
 msgstr "基本"
 
-#: weblate/trans/forms.py:1378
+#: weblate/trans/forms.py:1386
 msgid "Upstream links"
 msgstr "アップストリームのリンク"
 
-#: weblate/trans/forms.py:1392
+#: weblate/trans/forms.py:1400
 msgid "Translation settings"
 msgstr "翻訳設定"
 
-#: weblate/trans/forms.py:1400
+#: weblate/trans/forms.py:1408
 msgid "Version control"
 msgstr "バージョン管理"
 
-#: weblate/trans/forms.py:1402
+#: weblate/trans/forms.py:1410
 msgid "Locations"
 msgstr "場所"
 
-#: weblate/trans/forms.py:1406
+#: weblate/trans/forms.py:1418
 msgid "Version control settings"
 msgstr "バージョンコントロールの設定"
 
-#: weblate/trans/forms.py:1412
+#: weblate/trans/forms.py:1424
 msgid "Commit messages"
 msgstr "コミットメッセージ"
 
-#: weblate/trans/forms.py:1422
+#: weblate/trans/forms.py:1434
 msgid "Languages processing"
 msgstr "処理中の言語"
 
-#: weblate/trans/forms.py:1516
+#: weblate/trans/forms.py:1535
 msgid "Search string"
 msgstr "検索文字列"
 
-#: weblate/trans/forms.py:1522
+#: weblate/trans/forms.py:1541
 msgid "Replacement string"
 msgstr "置換文字列"
 
-#: weblate/trans/forms.py:1567
+#: weblate/trans/forms.py:1586
 msgid "Translation key"
 msgstr "翻訳キー"
 
-#: weblate/trans/forms.py:1569
+#: weblate/trans/forms.py:1588
 msgid ""
 "Key used to identify string in translation file. File format specific rules "
 "might apply."
@@ -6756,20 +6768,20 @@ msgstr ""
 "キーは翻訳ファイル内での文字列の識別に利用します。ファイル固有のルールが適用"
 "される場合があります。"
 
-#: weblate/trans/forms.py:1575
+#: weblate/trans/forms.py:1594
 msgid "Source language text"
 msgstr "原文の言語テキスト"
 
-#: weblate/trans/forms.py:1577
+#: weblate/trans/forms.py:1596
 msgid ""
 "You can edit this later, as with any other string in the source language."
 msgstr "ソース言語内の他の文字列と同様に、後から変更することもできます。"
 
-#: weblate/trans/forms.py:1598
+#: weblate/trans/forms.py:1617
 msgid "State to set"
 msgstr "設定する状態"
 
-#: weblate/trans/forms.py:1631
+#: weblate/trans/forms.py:1650
 msgid "I agree with the contributor agreement"
 msgstr "貢献者同意条項への合意"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-09-21 19:28+0000\n"
+"POT-Creation-Date: 2018-09-22 13:43+0000\n"
 "PO-Revision-Date: 2018-08-26 17:25+0000\n"
 "Last-Translator: Viktar Vauchkevich <victorenator@gmail.com>\n"
 "Language-Team: Belarusian (latin) <https://hosted.weblate.org/projects/"
@@ -1285,7 +1285,7 @@ msgid "Permission"
 msgstr "Dazvol"
 
 #: weblate/auth/models.py:78 weblate/auth/models.py:107
-#: weblate/templates/accounts/user.html:26
+#: weblate/templates/accounts/user.html:26 weblate/trans/forms.py:1376
 #: weblate/wladmin/templates/admin/performance.html:29
 #: weblate/wladmin/templates/admin/performance.html:66
 msgid "Name"
@@ -1352,7 +1352,7 @@ msgstr "Usie movy"
 #: weblate/templates/project.html:27
 #: weblate/templates/trans/change_list.html:18 weblate/trans/admin.py:107
 #: weblate/trans/forms.py:853 weblate/trans/forms.py:1138
-#: weblate/trans/forms.py:1552
+#: weblate/trans/forms.py:1571
 msgid "Languages"
 msgstr "Movy"
 
@@ -3079,7 +3079,7 @@ msgstr "Dostup da API"
 #: weblate/templates/accounts/profile.html:146
 #: weblate/templates/accounts/profile.html:163
 #: weblate/templates/addons/addon_detail.html:34
-#: weblate/templates/component-settings.html:18
+#: weblate/templates/component-settings.html:17
 #: weblate/templates/edit_dictionary.html:26
 #: weblate/templates/js/detail.html:58 weblate/templates/js/detail.html:68
 #: weblate/templates/js/detail.html:78
@@ -3348,7 +3348,7 @@ msgstr "Nastupnyja pieraklady jasna paznačylі іch lіcenzіі і aŭtarskіja
 msgid "Project"
 msgstr "Prajekt"
 
-#: weblate/templates/accounts/profile.html:445 weblate/trans/forms.py:1372
+#: weblate/templates/accounts/profile.html:445 weblate/trans/forms.py:1380
 msgid "License"
 msgstr "Lіcenzіja"
 
@@ -3788,7 +3788,7 @@ msgstr "Nie dastupnaje"
 msgid "No invoices found!"
 msgstr "Rachunkaŭ nie znojdziena!"
 
-#: weblate/templates/billing/overview.html:7 weblate/trans/forms.py:1442
+#: weblate/templates/billing/overview.html:7 weblate/trans/forms.py:1454
 msgid "Billing"
 msgstr "Aplata"
 
@@ -4407,7 +4407,7 @@ msgstr "Kliuč"
 #: weblate/templates/translate.html:250 weblate/templates/translate.html:317
 #: weblate/templates/translate.html:367 weblate/templates/translate.html:456
 #: weblate/trans/forms.py:312 weblate/trans/forms.py:1010
-#: weblate/trans/forms.py:1384
+#: weblate/trans/forms.py:1392
 msgid "Translation"
 msgstr "Pieraklad"
 
@@ -5704,9 +5704,17 @@ msgstr "Nazirajemyja prajekty"
 msgid "You currently do not have permission to create project."
 msgstr "Vam nie dastaje pravoŭ, kab zmianić pravy dostupu da prajekta."
 
+#: weblate/templates/trans/repo_help.html:2
+msgid ""
+"When changing the repository URL, the existing content will be merged with "
+"new repository. This will work just fine the repository has been moved to "
+"different location. If the repository content is different, it might be "
+"better to create new translation component."
+msgstr ""
+
 #: weblate/templates/trans/suggestion_list.html:7
 #: weblate/templates/translate.html:230 weblate/templates/translate.html:426
-#: weblate/trans/forms.py:1386
+#: weblate/trans/forms.py:1394
 msgid "Suggestions"
 msgstr "Prapanovy"
 
@@ -6050,7 +6058,7 @@ msgstr "Naladzić spampoŭku"
 msgid "Upload translation"
 msgstr "Uklascі pieraklad"
 
-#: weblate/templates/translation.html:47 weblate/trans/forms.py:1420
+#: weblate/templates/translation.html:47 weblate/trans/forms.py:1432
 msgid "Files"
 msgstr "Fajly"
 
@@ -6817,51 +6825,51 @@ msgstr "Data adsutničaje!"
 msgid "Starting date has to be before ending date!"
 msgstr "Pačatkovaja data pavinna być pierad dataj zakančennia!"
 
-#: weblate/trans/forms.py:1370
+#: weblate/trans/forms.py:1374
 msgid "Basic"
 msgstr "Asnoŭny"
 
-#: weblate/trans/forms.py:1378
+#: weblate/trans/forms.py:1386
 msgid "Upstream links"
 msgstr "Zniešnija spasylki"
 
-#: weblate/trans/forms.py:1392
+#: weblate/trans/forms.py:1400
 msgid "Translation settings"
 msgstr "Nalady pierakladu"
 
-#: weblate/trans/forms.py:1400
+#: weblate/trans/forms.py:1408
 msgid "Version control"
 msgstr "Kantroĺ viersij"
 
-#: weblate/trans/forms.py:1402
+#: weblate/trans/forms.py:1410
 msgid "Locations"
 msgstr "Miescy"
 
-#: weblate/trans/forms.py:1406
+#: weblate/trans/forms.py:1418
 msgid "Version control settings"
 msgstr "Nalady sistemy kantroliu viersij"
 
-#: weblate/trans/forms.py:1412
+#: weblate/trans/forms.py:1424
 msgid "Commit messages"
 msgstr "Paviedamlienni revizij"
 
-#: weblate/trans/forms.py:1422
+#: weblate/trans/forms.py:1434
 msgid "Languages processing"
 msgstr "Apracoŭka moŭ"
 
-#: weblate/trans/forms.py:1516
+#: weblate/trans/forms.py:1535
 msgid "Search string"
 msgstr "Pošuk radka"
 
-#: weblate/trans/forms.py:1522
+#: weblate/trans/forms.py:1541
 msgid "Replacement string"
 msgstr "Radok zamieny"
 
-#: weblate/trans/forms.py:1567
+#: weblate/trans/forms.py:1586
 msgid "Translation key"
 msgstr "Kliuč pierakladu"
 
-#: weblate/trans/forms.py:1569
+#: weblate/trans/forms.py:1588
 msgid ""
 "Key used to identify string in translation file. File format specific rules "
 "might apply."
@@ -6869,21 +6877,21 @@ msgstr ""
 "Kliuč vykarystoŭvajecca dlia vyznačennia radka ŭ fajlie pierakladu. Mohuć "
 "prymianiacca admyslovyja pravily farmatu fajla."
 
-#: weblate/trans/forms.py:1575
+#: weblate/trans/forms.py:1594
 msgid "Source language text"
 msgstr "Tekst zychodnaj movaj"
 
-#: weblate/trans/forms.py:1577
+#: weblate/trans/forms.py:1596
 msgid ""
 "You can edit this later, as with any other string in the source language."
 msgstr ""
 "Vy možacie adredahavać heta pazniej, jak i inšyja radki zychodnaj movy."
 
-#: weblate/trans/forms.py:1598
+#: weblate/trans/forms.py:1617
 msgid "State to set"
 msgstr "Stan dlia ŭstanaŭliennia"
 
-#: weblate/trans/forms.py:1631
+#: weblate/trans/forms.py:1650
 msgid "I agree with the contributor agreement"
 msgstr "Ja zhodny z pahadnienniem z udzieĺnikam"
 

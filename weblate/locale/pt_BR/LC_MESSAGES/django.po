@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-09-21 19:28+0000\n"
+"POT-Creation-Date: 2018-09-22 13:43+0000\n"
 "PO-Revision-Date: 2018-09-10 16:06+0000\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
@@ -1269,7 +1269,7 @@ msgid "Permission"
 msgstr "Permissão"
 
 #: weblate/auth/models.py:78 weblate/auth/models.py:107
-#: weblate/templates/accounts/user.html:26
+#: weblate/templates/accounts/user.html:26 weblate/trans/forms.py:1376
 #: weblate/wladmin/templates/admin/performance.html:29
 #: weblate/wladmin/templates/admin/performance.html:66
 msgid "Name"
@@ -1336,7 +1336,7 @@ msgstr "Todos os idiomas"
 #: weblate/templates/project.html:27
 #: weblate/templates/trans/change_list.html:18 weblate/trans/admin.py:107
 #: weblate/trans/forms.py:853 weblate/trans/forms.py:1138
-#: weblate/trans/forms.py:1552
+#: weblate/trans/forms.py:1571
 msgid "Languages"
 msgstr "Idiomas"
 
@@ -3042,7 +3042,7 @@ msgstr "Acesso a API"
 #: weblate/templates/accounts/profile.html:146
 #: weblate/templates/accounts/profile.html:163
 #: weblate/templates/addons/addon_detail.html:34
-#: weblate/templates/component-settings.html:18
+#: weblate/templates/component-settings.html:17
 #: weblate/templates/edit_dictionary.html:26
 #: weblate/templates/js/detail.html:58 weblate/templates/js/detail.html:68
 #: weblate/templates/js/detail.html:78
@@ -3313,7 +3313,7 @@ msgstr ""
 msgid "Project"
 msgstr "Projeto"
 
-#: weblate/templates/accounts/profile.html:445 weblate/trans/forms.py:1372
+#: weblate/templates/accounts/profile.html:445 weblate/trans/forms.py:1380
 msgid "License"
 msgstr "Licença"
 
@@ -3741,7 +3741,7 @@ msgstr "Não disponível"
 msgid "No invoices found!"
 msgstr "Nenhuma fatura encontrada!"
 
-#: weblate/templates/billing/overview.html:7 weblate/trans/forms.py:1442
+#: weblate/templates/billing/overview.html:7 weblate/trans/forms.py:1454
 msgid "Billing"
 msgstr "Cobrança"
 
@@ -4359,7 +4359,7 @@ msgstr "Fonte"
 #: weblate/templates/translate.html:250 weblate/templates/translate.html:317
 #: weblate/templates/translate.html:367 weblate/templates/translate.html:456
 #: weblate/trans/forms.py:312 weblate/trans/forms.py:1010
-#: weblate/trans/forms.py:1384
+#: weblate/trans/forms.py:1392
 msgid "Translation"
 msgstr "Tradução"
 
@@ -5647,9 +5647,17 @@ msgstr "Criar projeto"
 msgid "You currently do not have permission to create project."
 msgstr "Você atualmente não tem permissões para criar projeto."
 
+#: weblate/templates/trans/repo_help.html:2
+msgid ""
+"When changing the repository URL, the existing content will be merged with "
+"new repository. This will work just fine the repository has been moved to "
+"different location. If the repository content is different, it might be "
+"better to create new translation component."
+msgstr ""
+
 #: weblate/templates/trans/suggestion_list.html:7
 #: weblate/templates/translate.html:230 weblate/templates/translate.html:426
-#: weblate/trans/forms.py:1386
+#: weblate/trans/forms.py:1394
 msgid "Suggestions"
 msgstr "Sugestões"
 
@@ -5991,7 +5999,7 @@ msgstr "Personalizar o download"
 msgid "Upload translation"
 msgstr "Enviar tradução"
 
-#: weblate/templates/translation.html:47 weblate/trans/forms.py:1420
+#: weblate/templates/translation.html:47 weblate/trans/forms.py:1432
 msgid "Files"
 msgstr "Arquivos"
 
@@ -6758,51 +6766,51 @@ msgstr "Data faltante!"
 msgid "Starting date has to be before ending date!"
 msgstr "A data inicial precisa ser antes da final!"
 
-#: weblate/trans/forms.py:1370
+#: weblate/trans/forms.py:1374
 msgid "Basic"
 msgstr "Básico"
 
-#: weblate/trans/forms.py:1378
+#: weblate/trans/forms.py:1386
 msgid "Upstream links"
 msgstr "Links \"upstream\""
 
-#: weblate/trans/forms.py:1392
+#: weblate/trans/forms.py:1400
 msgid "Translation settings"
 msgstr "Configurações da tradução"
 
-#: weblate/trans/forms.py:1400
+#: weblate/trans/forms.py:1408
 msgid "Version control"
 msgstr "Controle de versão"
 
-#: weblate/trans/forms.py:1402
+#: weblate/trans/forms.py:1410
 msgid "Locations"
 msgstr "Locações"
 
-#: weblate/trans/forms.py:1406
+#: weblate/trans/forms.py:1418
 msgid "Version control settings"
 msgstr "Configurações do controle de versão"
 
-#: weblate/trans/forms.py:1412
+#: weblate/trans/forms.py:1424
 msgid "Commit messages"
 msgstr "Mensagens de envio"
 
-#: weblate/trans/forms.py:1422
+#: weblate/trans/forms.py:1434
 msgid "Languages processing"
 msgstr "Idiomas em processamento"
 
-#: weblate/trans/forms.py:1516
+#: weblate/trans/forms.py:1535
 msgid "Search string"
 msgstr "Pesquisar texto"
 
-#: weblate/trans/forms.py:1522
+#: weblate/trans/forms.py:1541
 msgid "Replacement string"
 msgstr "Substituição de texto"
 
-#: weblate/trans/forms.py:1567
+#: weblate/trans/forms.py:1586
 msgid "Translation key"
 msgstr "Chave de tradução"
 
-#: weblate/trans/forms.py:1569
+#: weblate/trans/forms.py:1588
 msgid ""
 "Key used to identify string in translation file. File format specific rules "
 "might apply."
@@ -6810,22 +6818,22 @@ msgstr ""
 "Chave usada para identificar o texto no arquivo de tradução. As regras "
 "específicas do formato do arquivo devem ser aplicadas."
 
-#: weblate/trans/forms.py:1575
+#: weblate/trans/forms.py:1594
 msgid "Source language text"
 msgstr "Texto do idioma fonte"
 
-#: weblate/trans/forms.py:1577
+#: weblate/trans/forms.py:1596
 msgid ""
 "You can edit this later, as with any other string in the source language."
 msgstr ""
 "Você pode editar posteriormente, assim como qualquer outro texto no idioma "
 "fonte."
 
-#: weblate/trans/forms.py:1598
+#: weblate/trans/forms.py:1617
 msgid "State to set"
 msgstr "Estado a definir"
 
-#: weblate/trans/forms.py:1631
+#: weblate/trans/forms.py:1650
 msgid "I agree with the contributor agreement"
 msgstr "Concordo com o acordo do colaborador"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2018-09-21 19:28+0000\n"
+"POT-Creation-Date: 2018-09-22 13:43+0000\n"
 "PO-Revision-Date: 2018-01-30 18:47+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Breton <https://hosted.weblate.org/projects/weblate/master/br/"
@@ -1449,7 +1449,7 @@ msgid "Permission"
 msgstr "Stummoù"
 
 #: weblate/auth/models.py:78 weblate/auth/models.py:107
-#: weblate/templates/accounts/user.html:26
+#: weblate/templates/accounts/user.html:26 weblate/trans/forms.py:1376
 #: weblate/wladmin/templates/admin/performance.html:29
 #: weblate/wladmin/templates/admin/performance.html:66
 msgid "Name"
@@ -1530,7 +1530,7 @@ msgstr "yezhoù"
 #: weblate/templates/project.html:27
 #: weblate/templates/trans/change_list.html:18 weblate/trans/admin.py:107
 #: weblate/trans/forms.py:853 weblate/trans/forms.py:1138
-#: weblate/trans/forms.py:1552
+#: weblate/trans/forms.py:1571
 msgid "Languages"
 msgstr "Yezhoù"
 
@@ -3380,7 +3380,7 @@ msgstr ""
 #: weblate/templates/accounts/profile.html:146
 #: weblate/templates/accounts/profile.html:163
 #: weblate/templates/addons/addon_detail.html:34
-#: weblate/templates/component-settings.html:18
+#: weblate/templates/component-settings.html:17
 #: weblate/templates/edit_dictionary.html:26
 #: weblate/templates/js/detail.html:58 weblate/templates/js/detail.html:68
 #: weblate/templates/js/detail.html:78
@@ -3669,7 +3669,7 @@ msgstr ""
 msgid "Project"
 msgstr "Raktres"
 
-#: weblate/templates/accounts/profile.html:445 weblate/trans/forms.py:1372
+#: weblate/templates/accounts/profile.html:445 weblate/trans/forms.py:1380
 #, fuzzy
 #| msgid "Licenses"
 msgid "License"
@@ -4157,7 +4157,7 @@ msgstr ""
 msgid "No invoices found!"
 msgstr "Ger ebet kavet !"
 
-#: weblate/templates/billing/overview.html:7 weblate/trans/forms.py:1442
+#: weblate/templates/billing/overview.html:7 weblate/trans/forms.py:1454
 msgid "Billing"
 msgstr ""
 
@@ -4855,7 +4855,7 @@ msgstr "Mammenn"
 #: weblate/templates/translate.html:250 weblate/templates/translate.html:317
 #: weblate/templates/translate.html:367 weblate/templates/translate.html:456
 #: weblate/trans/forms.py:312 weblate/trans/forms.py:1010
-#: weblate/trans/forms.py:1384
+#: weblate/trans/forms.py:1392
 msgid "Translation"
 msgstr "Troidigezh"
 
@@ -6257,9 +6257,17 @@ msgstr "Lec'hienn herberc'hiañ"
 msgid "You currently do not have permission to create project."
 msgstr "N'oc'h ket aotreet da ziskwel ar bajenn-mañ."
 
+#: weblate/templates/trans/repo_help.html:2
+msgid ""
+"When changing the repository URL, the existing content will be merged with "
+"new repository. This will work just fine the repository has been moved to "
+"different location. If the repository content is different, it might be "
+"better to create new translation component."
+msgstr ""
+
 #: weblate/templates/trans/suggestion_list.html:7
 #: weblate/templates/translate.html:230 weblate/templates/translate.html:426
-#: weblate/trans/forms.py:1386
+#: weblate/trans/forms.py:1394
 msgid "Suggestions"
 msgstr "Kinnigoù"
 
@@ -6669,7 +6677,7 @@ msgstr ""
 msgid "Upload translation"
 msgstr "Ho troidigezhioù"
 
-#: weblate/templates/translation.html:47 weblate/trans/forms.py:1420
+#: weblate/templates/translation.html:47 weblate/trans/forms.py:1432
 msgid "Files"
 msgstr "Restroù"
 
@@ -7579,92 +7587,92 @@ msgstr "Neudennadoù bet troet"
 msgid "Starting date has to be before ending date!"
 msgstr ""
 
-#: weblate/trans/forms.py:1370
+#: weblate/trans/forms.py:1374
 msgid "Basic"
 msgstr ""
 
-#: weblate/trans/forms.py:1378
+#: weblate/trans/forms.py:1386
 msgid "Upstream links"
 msgstr ""
 
-#: weblate/trans/forms.py:1392
+#: weblate/trans/forms.py:1400
 #, fuzzy
 #| msgid "Translation status"
 msgid "Translation settings"
 msgstr "Stad an treiñ"
 
-#: weblate/trans/forms.py:1400
+#: weblate/trans/forms.py:1408
 #, fuzzy
 #| msgid "Source strings review"
 msgid "Version control"
 msgstr "Selladenn ouzh mammennoù an neudennadoù"
 
-#: weblate/trans/forms.py:1402
+#: weblate/trans/forms.py:1410
 #, fuzzy
 #| msgid "Action"
 msgid "Locations"
 msgstr "Ober"
 
-#: weblate/trans/forms.py:1406
+#: weblate/trans/forms.py:1418
 #, fuzzy
 #| msgid "Source strings review"
 msgid "Version control settings"
 msgstr "Selladenn ouzh mammennoù an neudennadoù"
 
-#: weblate/trans/forms.py:1412
+#: weblate/trans/forms.py:1424
 #, fuzzy
 #| msgid "Commit message:"
 msgid "Commit messages"
 msgstr "Kemennadenn bostañ :"
 
-#: weblate/trans/forms.py:1422
+#: weblate/trans/forms.py:1434
 #, fuzzy
 #| msgid "Fuzzy strings"
 msgid "Languages processing"
 msgstr "Neudennadoù fuilhet"
 
-#: weblate/trans/forms.py:1516
+#: weblate/trans/forms.py:1535
 #, fuzzy
 #| msgid "Source strings review"
 msgid "Search string"
 msgstr "Selladenn ouzh mammennoù an neudennadoù"
 
-#: weblate/trans/forms.py:1522
+#: weblate/trans/forms.py:1541
 #, fuzzy
 #| msgid "Source strings review"
 msgid "Replacement string"
 msgstr "Selladenn ouzh mammennoù an neudennadoù"
 
-#: weblate/trans/forms.py:1567
+#: weblate/trans/forms.py:1586
 #, fuzzy
 #| msgid "Translation"
 msgid "Translation key"
 msgstr "Troidigezh"
 
-#: weblate/trans/forms.py:1569
+#: weblate/trans/forms.py:1588
 msgid ""
 "Key used to identify string in translation file. File format specific rules "
 "might apply."
 msgstr ""
 
-#: weblate/trans/forms.py:1575
+#: weblate/trans/forms.py:1594
 #, fuzzy
 #| msgid "Source change"
 msgid "Source language text"
 msgstr "Kemm er vammenn"
 
-#: weblate/trans/forms.py:1577
+#: weblate/trans/forms.py:1596
 msgid ""
 "You can edit this later, as with any other string in the source language."
 msgstr ""
 
-#: weblate/trans/forms.py:1598
+#: weblate/trans/forms.py:1617
 #, fuzzy
 #| msgid "Donate to Weblate"
 msgid "State to set"
 msgstr "Reiñ un dra bennak da Weblate"
 
-#: weblate/trans/forms.py:1631
+#: weblate/trans/forms.py:1650
 msgid "I agree with the contributor agreement"
 msgstr ""
 
