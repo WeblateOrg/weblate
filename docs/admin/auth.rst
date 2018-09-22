@@ -55,6 +55,10 @@ authentication. Please note that some backends do not provide user email by
 default, you have to request it explicitly, otherwise Weblate will not be able
 to properly credit users contributions.
 
+.. seealso::
+
+    :doc:`Python Social Auth backend <psa:backends/index>`
+
 OpenID authentication
 ~~~~~~~~~~~~~~~~~~~~~
 
@@ -72,7 +76,12 @@ section enables OpenID authentication for OpenSUSE, Fedora and Ubuntu:
         'weblate.accounts.auth.WeblateUserBackend',
     )
 
+.. seealso:: 
+   
+   :doc:`psa:backends/openid`
+
 .. _github_auth:
+
 
 GitHub authentication
 ~~~~~~~~~~~~~~~~~~~~~
@@ -95,7 +104,7 @@ You need to register an application on GitHub and then tell Weblate all the secr
 
 .. seealso::
 
-    :doc:`Python Social Auth backend <psa:backends/index>`
+    :doc:`psa:backends/github`
 
 .. _bitbucket_auth:
 
@@ -118,9 +127,9 @@ You need to register an application on Bitbucket and then tell Weblate all the s
     SOCIAL_AUTH_BITBUCKET_SECRET = 'Bitbucket Client Secret'
     SOCIAL_AUTH_BITBUCKET_VERIFIED_EMAILS_ONLY = True
 
-.. seealso::
-
-    :doc:`Python Social Auth backend <psa:backends/index>`
+.. seealso:: 
+   
+   :doc:`psa:backends/bitbucket`
 
 .. _google_auth:
 
@@ -145,6 +154,10 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/google-oauth2/``
     SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'Client ID'
     SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'Client secret'
 
+.. seealso:: 
+   
+   :doc:`psa:backends/google`
+
 .. _facebook_auth:
 
 Facebook OAuth2
@@ -167,10 +180,14 @@ Facebook. Once this is done, you can configure Weblate to use it:
     SOCIAL_AUTH_FACEBOOK_SECRET = 'secret'
     SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'public_profile']
 
+.. seealso:: 
+   
+   :doc:`psa:backends/facebook`
+
 
 .. _gitlab_auth:
 
-Gitlab OAuth2
+GitLab OAuth2
 ~~~~~~~~~~~~~
 
 For using Gitlab OAuth2, you need to register application on
@@ -195,6 +212,10 @@ ensure to mark the `read_user` scope.
 
     # If your using own GitLab
     # SOCIAL_AUTH_GITLAB_API_URL = 'https://gitlab.example.com/'
+
+.. seealso:: 
+   
+   :doc:`psa:backends/gitlab`
 
 Password authentication
 -----------------------
