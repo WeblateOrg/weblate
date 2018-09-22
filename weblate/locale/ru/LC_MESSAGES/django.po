@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-09-21 19:28+0000\n"
-"PO-Revision-Date: 2018-09-21 13:23+0000\n"
+"PO-Revision-Date: 2018-09-22 13:20+0000\n"
 "Last-Translator: mesnevi <shams@airpost.net>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
 "ru/>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.2-dev\n"
 
 #: weblate/accounts/avatar.py:125
@@ -2389,10 +2389,8 @@ msgid "Entries deleted."
 msgstr "Элементы удалены."
 
 #: weblate/memory/views.py:92
-#, fuzzy
-#| msgid "Import as string needing edit"
 msgid "Import of strings scheduled."
-msgstr "Импортировать строки как требующие редактуры"
+msgstr "Импорт строк для перевода запланирован."
 
 #: weblate/memory/views.py:109
 msgid "File processed, the entries will appear shortly."
@@ -5299,10 +5297,8 @@ msgid "Import translation memory"
 msgstr "Импортировать историю переводов"
 
 #: weblate/templates/memory/index.html:70
-#, fuzzy
-#| msgid "Overwrite existing translations"
 msgid "Import existing translations"
-msgstr "Заменить существующие переводы"
+msgstr "Импортировать существующие переводы"
 
 #: weblate/templates/memory/index.html:72
 msgid ""
@@ -5310,6 +5306,9 @@ msgid ""
 "translation memory. This can be useful after wiping memory or after initial "
 "setup."
 msgstr ""
+"Организует импорт всех существующих переведенных строк проекта в специальное "
+"хранилище, \"Историю переводов\". Оно может пригодиться при настройке нового "
+"устройства или при очистке памяти на старом."
 
 #: weblate/templates/memory/index.html:86
 msgid "Wipe translation memory"
@@ -5445,10 +5444,8 @@ msgid "Context"
 msgstr "Контекст"
 
 #: weblate/templates/screenshots/screenshot_detail.html:55
-#, fuzzy
-#| msgid "Locations"
 msgid "Location"
-msgstr "Местоположения"
+msgstr "Местоположение"
 
 #: weblate/templates/screenshots/screenshot_detail.html:60
 msgid "Loading results…"
@@ -5558,9 +5555,6 @@ msgid "Create component"
 msgstr "Создать компонент"
 
 #: weblate/templates/trans/component_form.html:12
-#, fuzzy
-#| msgid ""
-#| "You currently do not have permission to create component in any project."
 msgid "You do not have permission to create components in any projects."
 msgstr "У вас нет прав для создания компонентов ни в одном из проектов."
 
@@ -8518,10 +8512,8 @@ msgid "This email address is not allowed."
 msgstr "Такой адрес электронной почты недопустим."
 
 #: weblate/utils/validators.py:254
-#, fuzzy
-#| msgid "Failed to save translation!"
 msgid "Failed to evaluate plural equation: {}"
-msgstr "Не удалось сохранить перевод!"
+msgstr "Не удалось проверить согласование форм множественного числа: {}"
 
 #: weblate/utils/views.py:195
 #, python-format
