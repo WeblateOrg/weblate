@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2018-09-22 15:00+0000\n"
-"PO-Revision-Date: 2018-09-18 18:22+0000\n"
+"PO-Revision-Date: 2018-09-22 17:36+0000\n"
 "Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/master/da/"
 ">\n"
@@ -190,7 +190,7 @@ msgstr "Projektets websted"
 
 #: weblate/accounts/forms.py:619 weblate/trans/models/component.py:137
 msgid "Source code repository"
-msgstr "Kildekode arkiv"
+msgstr "Kildekodearkiv"
 
 #: weblate/accounts/forms.py:621
 msgid "URL of source code repository for example Git or Mercurial."
@@ -2376,10 +2376,8 @@ msgid "Entries deleted."
 msgstr "Indtastninger slettet."
 
 #: weblate/memory/views.py:92
-#, fuzzy
-#| msgid "Import as string needing edit"
 msgid "Import of strings scheduled."
-msgstr "Importér som streng der behøver redigering"
+msgstr "Import af strenge som er planlagt."
 
 #: weblate/memory/views.py:109
 msgid "File processed, the entries will appear shortly."
@@ -4798,7 +4796,7 @@ msgstr "Konfigurer kolonner"
 #: weblate/templates/list-translations.html:36
 #: weblate/templates/translation.html:114
 msgid "This translation is being used as source strings within this component."
-msgstr "Oversættelsen bliver brugt som kildestreng i denne komponent."
+msgstr "Oversættelsen bliver brugt som kildestrenge inden for komponenten."
 
 #: weblate/templates/list-translations.html:36
 msgid "source"
@@ -5281,10 +5279,8 @@ msgid "Import translation memory"
 msgstr "Importér oversættelseshukommelse"
 
 #: weblate/templates/memory/index.html:70
-#, fuzzy
-#| msgid "Overwrite existing translations"
 msgid "Import existing translations"
-msgstr "Overskriv eksisterende oversættelser"
+msgstr "Importér eksisterende oversættelser"
 
 #: weblate/templates/memory/index.html:72
 msgid ""
@@ -5292,6 +5288,9 @@ msgid ""
 "translation memory. This can be useful after wiping memory or after initial "
 "setup."
 msgstr ""
+"Planlægger import af eksisterende oversættelser inden for projektet til "
+"oversættelseshukommelse. Det kan være nyttigt efter hukommelsen er blevet "
+"ryddet efter indledende opsætning."
 
 #: weblate/templates/memory/index.html:86
 msgid "Wipe translation memory"
@@ -5427,10 +5426,8 @@ msgid "Context"
 msgstr "Kontekst"
 
 #: weblate/templates/screenshots/screenshot_detail.html:55
-#, fuzzy
-#| msgid "Locations"
 msgid "Location"
-msgstr "Placeringer"
+msgstr "Placering"
 
 #: weblate/templates/screenshots/screenshot_detail.html:60
 msgid "Loading results…"
@@ -5541,12 +5538,8 @@ msgid "Create component"
 msgstr "Opret komponent"
 
 #: weblate/templates/trans/component_form.html:12
-#, fuzzy
-#| msgid ""
-#| "You currently do not have permission to create component in any project."
 msgid "You do not have permission to create components in any projects."
-msgstr ""
-"Du har ikke tilladelse til at oprette komponent i noget projekt i øjeblikket."
+msgstr "Du har ikke tilladelse til at oprette komponenter i nogen projekter."
 
 #: weblate/templates/trans/component_form.html:16
 #: weblate/templates/trans/project_form.html:16
@@ -5584,6 +5577,10 @@ msgid ""
 "a different location. If the repository content is different, it might be "
 "better to create new translation component."
 msgstr ""
+"Når arkiv-URL'en ændres, så sammenlægges det eksisterende indhold med det "
+"nye arkiv. Det virker fint hvis arkivet er blevet flyttet til en anden "
+"placering. Hvis arkivets indhold er forskelligt, så kan det være bedre at "
+"oprette en ny oversættelseskomponent."
 
 #: weblate/templates/trans/suggestion_list.html:7
 #: weblate/templates/translate.html:230 weblate/templates/translate.html:426
@@ -8470,10 +8467,8 @@ msgid "This email address is not allowed."
 msgstr "Denne e-mailadresse er ikke tilladt."
 
 #: weblate/utils/validators.py:254
-#, fuzzy
-#| msgid "Failed to save translation!"
 msgid "Failed to evaluate plural equation: {}"
-msgstr "Kunne ikke gemme oversættelse!"
+msgstr "Kunne ikke evaluere flertalsligning: {}"
 
 #: weblate/utils/views.py:195
 #, python-format
