@@ -187,6 +187,9 @@ class ProfileForm(forms.ModelForm):
         qs = Language.objects.have_translation()
         self.fields['languages'].queryset = qs
         self.fields['secondary_languages'].queryset = qs
+        self.helper = FormHelper(self)
+        self.helper.disable_csrf = True
+        self.helper.form_tag = False
 
 
 class SubscriptionForm(forms.ModelForm):
@@ -206,6 +209,9 @@ class SubscriptionForm(forms.ModelForm):
         user = kwargs['instance'].user
         self.fields['subscriptions'].required = False
         self.fields['subscriptions'].queryset = user.allowed_projects
+        self.helper = FormHelper(self)
+        self.helper.disable_csrf = True
+        self.helper.form_tag = False
 
 
 class SubscriptionSettingsForm(forms.ModelForm):
@@ -216,7 +222,8 @@ class SubscriptionSettingsForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(SubscriptionSettingsForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper()
+        self.helper = FormHelper(self)
+        self.helper.disable_csrf = True
         self.helper.form_tag = False
         self.helper.layout = Layout(
             Fieldset(
@@ -256,6 +263,12 @@ class UserSettingsForm(forms.ModelForm):
             'special_chars',
         )
 
+    def __init__(self, *args, **kwargs):
+        super(UserSettingsForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.disable_csrf = True
+        self.helper.form_tag = False
+
 
 class DashboardSettingsForm(forms.ModelForm):
     """Dashboard settings form."""
@@ -268,6 +281,12 @@ class DashboardSettingsForm(forms.ModelForm):
         widgets = {
             'dashboard_view': forms.RadioSelect,
         }
+
+    def __init__(self, *args, **kwargs):
+        super(DashboardSettingsForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.disable_csrf = True
+        self.helper.form_tag = False
 
 
 class UserForm(forms.ModelForm):
@@ -294,13 +313,16 @@ class UserForm(forms.ModelForm):
         )
 
     def __init__(self, *args, **kwargs):
-
         super(UserForm, self).__init__(*args, **kwargs)
 
         emails = get_all_user_mails(self.instance)
 
         self.fields['email'].choices = [(x, x) for x in sorted(emails)]
         self.fields['username'].valid = self.instance.username
+
+        self.helper = FormHelper(self)
+        self.helper.disable_csrf = True
+        self.helper.form_tag = False
 
 
 class ContactForm(forms.Form):

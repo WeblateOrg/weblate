@@ -277,7 +277,7 @@ def user_profile(request):
         request,
         'accounts/profile.html',
         {
-            'form': forms[0],
+            'languagesform': forms[0],
             'subscriptionform': forms[1],
             'subscriptionsettingsform': forms[2],
             'usersettingsform': forms[3],

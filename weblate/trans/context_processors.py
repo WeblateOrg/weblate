@@ -28,7 +28,7 @@ from django.conf import settings
 
 import weblate
 import weblate.screenshots.views
-from weblate.utils.site import get_site_url
+from weblate.utils.site import get_site_url, get_site_domain
 from weblate.wladmin.models import ConfigurationError
 
 URL_BASE = 'https://weblate.org/?utm_source=weblate&utm_term=%s'
@@ -48,7 +48,7 @@ CONTEXT_SETTINGS = [
     'STATUS_URL',
 ]
 
-CONTEXT_APPS = ['billing', 'legal']
+CONTEXT_APPS = ['billing', 'legal', 'gitexport']
 
 
 def add_error_logging_context(context):
@@ -121,7 +121,7 @@ def weblate_context(request):
         'donate_url': URL_DONATE % weblate.VERSION,
 
         'site_url': get_site_url(),
-
+        'site_domain': get_site_domain(),
 
         'current_date': datetime.utcnow().strftime('%Y-%m-%d'),
         'current_year': datetime.utcnow().strftime('%Y'),

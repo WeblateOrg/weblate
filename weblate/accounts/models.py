@@ -292,7 +292,11 @@ class Profile(models.Model):
         Language,
         verbose_name=_('Translated languages'),
         blank=True,
-        help_text=_('Choose languages to which you can translate.')
+        help_text=_(
+            'Choose which languages you prefer to translate. '
+            'These will be offered to you on the dashboard to '
+            'have easier access to chosen translations.'
+        )
     )
     secondary_languages = models.ManyToManyField(
         Language,

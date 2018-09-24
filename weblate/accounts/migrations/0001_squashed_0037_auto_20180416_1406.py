@@ -37,7 +37,7 @@ class Migration(migrations.Migration):
                 ('subscribe_new_comment', models.BooleanField(default=False, verbose_name='Notification on new comment')),
                 ('subscribe_merge_failure', models.BooleanField(default=False, verbose_name='Notification on merge failure')),
                 ('subscribe_new_language', models.BooleanField(default=False, verbose_name='Notification on new language request')),
-                ('languages', models.ManyToManyField(blank=True, help_text='Choose languages to which you can translate.', to='lang.Language', verbose_name='Translated languages')),
+                ('languages', models.ManyToManyField(blank=True, help_text='Choose which languages you prefer to translate. These will be offered to you on the dashboard to have easier access to chosen translations.', to='lang.Language', verbose_name='Translated languages')),
                 ('secondary_languages', models.ManyToManyField(blank=True, help_text='Choose languages you can understand, strings in those languages will be shown in addition to the source string.', related_name='secondary_profile_set', to='lang.Language', verbose_name='Secondary languages')),
                 ('subscriptions', models.ManyToManyField(blank=True, help_text='You can receive notifications for watched projects and they are shown on the dashboard by default.', to='trans.Project', verbose_name='Watched projects')),
                 ('user', models.OneToOneField(editable=False, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
