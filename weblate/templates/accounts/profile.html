@@ -193,7 +193,7 @@
 </tr>
 <tbody>
 <tr>
-<th>{% trans "Password" %}</th>
+<th><i class="fa fa-lg fa-wl-social fa-key" aria-hidden="true"></i> {% trans "Password" %}</th>
 <td>{{ request.user.username }}</td>
 <td>
 <a href="{% url 'password' %}" class="btn btn-default">{% if request.user.has_usable_password %}{% trans "Change password" %}{% else %}{% trans "Set password" %}{% endif %}</a>
