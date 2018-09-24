@@ -828,8 +828,8 @@ $(function () {
     });
 
     /* Copy from dictionary */
-    $('.copydict').click(function (e) {
-        var text = $(this).parents('tr').find('.target').text();
+    $('.glossary-embed').click(function (e) {
+        var text = $(this).find('.target').text();
 
         insertEditor(text);
         e.preventDefault();
