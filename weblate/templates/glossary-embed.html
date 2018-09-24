@@ -9,6 +9,7 @@
     <tr>
     <td>{{ item.source }}</td>
     <td class="target">{% format_translation item.target unit.translation.language unit.translation.plural simple=True %}</td>
+    </tr>
     <tr>
     <td colspan="2">
     {% if user_can_translate or user_can_suggest %}
