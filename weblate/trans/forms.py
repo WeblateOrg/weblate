@@ -481,6 +481,8 @@ class TranslationForm(ChecksumForm):
             self.fields['review'].choices.append((STATE_EMPTY, ''))
         self.helper = FormHelper()
         self.helper.form_method = 'post'
+        self.helper.form_tag = False
+        self.helper.disable_csrf = True
         self.helper.layout = Layout(
             Field('checksum'),
             Field('target'),
@@ -543,6 +545,8 @@ class ZenTranslationForm(TranslationForm):
         self.helper.form_action = reverse(
             'save_zen', kwargs=translation.get_reverse_url_kwargs()
         )
+        self.helper.form_tag = True
+        self.helper.disable_csrf = False
 
 
 class AntispamForm(forms.Form):
