@@ -459,20 +459,25 @@
         <tbody>
         {% include "glossary-embed.html" %}
         </tbody>
+    </table>
 {% if user_can_add_dictionary %}
+    <table class="table table-condensed table-add-glossary">
         <tfoot>
-        <tr class="form-inline">
-        <td>{{ addword_form.source }}</td>
-        <td>{{ addword_form.target }}</td>
-        </tr>
         <tr>
-        <td colspan="2">
-        <input type="submit" class="btn btn-default btn-xs" title="{% trans "Add word to glossary" %}" value="{% trans "Add" %}" />
+        <th>{% trans "Add word to glossary" %}</th>
+        <td>
+        <input type="submit" class="btn btn-default btn-xs pull-right flip" value="{% trans "Add" %}" />
         </td>
         </tr>
+        <tr class="form-inline">
+        <td colspan="2">{{ addword_form.source }}</td>
+        </tr>
+        <tr class="form-inline">
+        <td colspan="2">{{ addword_form.target }}</td>
+        </tr>
         </tfoot>
-{% endif %}
     </table>
+{% endif %}
 </div>
 </form>
 

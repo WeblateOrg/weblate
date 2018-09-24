@@ -1025,7 +1025,6 @@ class InlineWordForm(WordForm):
         for fieldname in ('source', 'target'):
             field = self.fields[fieldname]
             field.widget.attrs['placeholder'] = field.label
-            field.widget.attrs['size'] = 10
 
 
 class DictUploadForm(forms.Form):
