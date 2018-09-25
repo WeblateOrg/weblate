@@ -49,7 +49,7 @@ class BillingTest(TestCase):
             password='kill',
             email='noreply@example.net'
         )
-        self.plan = Plan.objects.create(name='test', limit_projects=1, price=0)
+        self.plan = Plan.objects.create(name='test', limit_projects=1, price=1.0)
         self.billing = Billing.objects.create(plan=self.plan)
         self.invoice = Invoice.objects.create(
             billing=self.billing,
