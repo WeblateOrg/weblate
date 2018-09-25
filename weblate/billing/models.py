@@ -69,7 +69,7 @@ class BillingQuerySet(models.QuerySet):
         return self.filter(in_limits=False)
 
     def get_unpaid(self):
-        return self.filter(state=Billing.STATE_ACTIVE, paid=False)
+        return self.filter(paid=False)
 
     def get_valid(self):
         return self.filter(
@@ -286,7 +286,11 @@ class Billing(models.Model):
     def check_limits(self, grace=30, save=True):
         due_date = timezone.now() - timedelta(days=grace)
         in_limits = self.check_in_limits()
-        paid = self.invoice_set.filter(end__gt=due_date).exists()
+        paid = (
+            self.plan.price == 0 or
+            self.invoice_set.filter(end__gt=due_date).exists() or
+            self.state != Billing.STATE_ACTIVE
+        )
         modified = False
 
         if self.check_trial_expiry():
