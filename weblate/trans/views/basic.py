@@ -148,9 +148,9 @@ def show_project(request, project):
         replace_form = None
 
     # Paginate components of project.
-    components = get_paginator(
+    components = prefetch_stats(get_paginator(
         request, obj.component_set.select_related()
-    )
+    ))
 
     return render(
         request,
@@ -171,7 +171,10 @@ def show_project(request, project):
             'search_form': SearchForm(),
             'replace_form': replace_form,
             'mass_state_form': mass_state_form,
-            'components': prefetch_stats(components),
+            'components': components,
+            'licenses': ', '.join(
+                [x.license for x in components if x.license]
+            ),
         }
     )
 
