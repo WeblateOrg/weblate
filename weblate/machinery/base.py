@@ -37,7 +37,7 @@ from django.utils.http import urlencode
 from weblate import USER_AGENT
 from weblate.logger import LOGGER
 from weblate.utils.errors import report_error
-from weblate.utils.hash import calculate_hash, hash_to_checksum
+from weblate.utils.hash import calculate_hash
 from weblate.utils.search import Comparer
 from weblate.utils.site import get_site_url
 
@@ -274,7 +274,7 @@ class MachineTranslation(object):
             cache_key = 'mt:{}:{}:{}'.format(
                 self.mtid,
                 calculate_hash(source, language),
-                hash_to_checksum(calculate_hash(None, text)),
+                calculate_hash(None, text),
             )
             result = cache.get(cache_key)
             if result is not None:
