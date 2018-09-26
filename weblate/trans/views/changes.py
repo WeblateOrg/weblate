@@ -182,18 +182,11 @@ class ChangesView(ListView):
         result = Change.objects.last_changes(self.request.user)
 
         if self.translation is not None:
-            result = result.filter(
-                translation=self.translation
-            )
+            result = result.filter(translation=self.translation)
         elif self.component is not None:
-            result = result.filter(
-                translation__component=self.component
-            )
+            result = result.filter(component=self.component)
         elif self.project is not None:
-            result = result.filter(
-                Q(translation__component__project=self.project) |
-                Q(dictionary__project=self.project)
-            )
+            result = result.filter(project=self.project)
 
         if self.language is not None:
             result = result.filter(
@@ -202,14 +195,10 @@ class ChangesView(ListView):
             )
 
         if self.glossary:
-            result = result.filter(
-                dictionary__isnull=False
-            )
+            result = result.filter(dictionary__isnull=False)
 
         if self.user is not None:
-            result = result.filter(
-                user=self.user
-            )
+            result = result.filter(user=self.user)
 
         return result
 
