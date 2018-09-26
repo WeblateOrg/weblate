@@ -9,7 +9,7 @@ coding help, graphics design, documentation or sponsorship.
 Code and development
 --------------------
 
-Weblate is being developed on GitHub <https://github.com/WeblateOrg/weblate>. You
+Weblate is being developed on `GitHub <https://github.com/WeblateOrg/weblate>`_. You
 are welcome to fork the code and open pull requests. Patches in any other form
 are welcome as well.
 
@@ -78,8 +78,7 @@ Testsuite
 
 We do write testsuite for our code, so please add testcases for any new
 functionality and verify that it works. You can see current test results on
-Travis <https://travis-ci.org/WeblateOrg/weblate> and coverage on Codecov
-<https://codecov.io/github/WeblateOrg/weblate>.
+`Travis <https://travis-ci.org/WeblateOrg/weblate>`_ and coverage on `Codecov <https://codecov.io/github/WeblateOrg/weblate>`_.
 
 To run testsuite locally, use:
 
@@ -101,8 +100,7 @@ You can also specify individual tests to run:
 Reporting issues
 ----------------
 
-Our issue tracker is hosted at GitHub:
-<https://github.com/WeblateOrg/weblate/issues>
+Our `issue tracker <https://github.com/WeblateOrg/weblate/issues>`_ is hosted at GitHub:
 
 Feel welcome to report any issues with or suggest improvement of Weblate there.
 In case you have found a security issue in Weblate, please consult the "Security
@@ -115,8 +113,7 @@ Security issues
 
 In order to give the community time to respond and upgrade we strongly urge you
 report all security issues privately. We're currently using HackerOne to handle
-security issues, so you are welcome to report issues directly at
-<https://hackerone.com/weblate>.
+security issues, so you are welcome to report issues directly at `HackerOne <https://hackerone.com/weblate>`_.
 
 Alternatively you can report them to security@weblate.org, which ends up on
 HackerOne as well.
@@ -141,9 +138,7 @@ Starting with our codebase
 --------------------------
 
 If you are looking for some bugs which should be good for starting with our
-codebase, you can find them labelled with :guilabel:`good first issue` tag:
-
-https://github.com/WeblateOrg/weblate/labels/good%20first%20issue
+codebase, you can find them labelled with :guilabel:` `good first issue <https://github.com/WeblateOrg/weblate/labels/good%20first%20issue>`_ ` tag:
 
 If you have Docker and docker-compose installed you can spin up the development
 environment simply by running:
@@ -155,16 +150,15 @@ environment simply by running:
 Earning money by coding
 -----------------------
 
-We're using Bountysource to fund our development, you can participate in this
-as well by solving issues with bounties on them:
+We're using Bountysource to fund our development, you can participate as well by solving issues with bounties on them:
 
 https://github.com/WeblateOrg/weblate/labels/bounty
 
 Translating
 -----------
 
-Weblate is being translated using Weblate on <https://hosted.weblate.org/>, feel
-free to join us in the effort of making Weblate available in as many human languages
+Weblate is being `translated <https://hosted.weblate.org/>`_ using Weblate itself, feel
+free to take part in the effort of making Weblate available in as many human languages
 as possible.
 
 
