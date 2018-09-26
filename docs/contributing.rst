@@ -150,7 +150,9 @@ environment simply by running:
 Earning money by coding
 -----------------------
 
-We're using `Bountysource <https://github.com/WeblateOrg/weblate/labels/bounty>`_ to fund our development, you can participate as well by solving issues with bounties on them:
+We're using Bountysource to fund our development, you can participate as well by solving issues with bounties on them:
+
+https://github.com/WeblateOrg/weblate/labels/bounty
 
 Translating
 -----------
