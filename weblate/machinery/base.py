@@ -242,10 +242,7 @@ class MachineTranslation(object):
 
     def translate(self, language, text, unit, user, source=None):
         """Return list of machine translations."""
-        if text == '':
-            return []
-
-        if self.is_rate_limited():
+        if not text or self.is_rate_limited():
             return []
 
         if source is None:
