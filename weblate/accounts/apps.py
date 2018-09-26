@@ -17,5 +17,19 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+from __future__ import unicode_literals
 
-default_app_config = 'weblate.accounts.apps.AccountsConfig'
+from django.apps import AppConfig
+from django.core.checks import register
+
+from weblate.accounts.checks import check_avatars
+
+
+class AccountsConfig(AppConfig):
+    name = 'weblate.accounts'
+    label = 'accounts'
+    verbose_name = 'Accounts'
+
+    def ready(self):
+        super(AccountsConfig, self).ready()
+        register(check_avatars, deploy=True)

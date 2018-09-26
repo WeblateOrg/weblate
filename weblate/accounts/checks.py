@@ -18,4 +18,30 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-default_app_config = 'weblate.accounts.apps.AccountsConfig'
+from __future__ import unicode_literals
+
+import os.path
+from ssl import CertificateError
+
+from django.conf import settings
+from django.core.checks import Critical
+
+from weblate.utils.docs import get_doc_url
+
+
+def check_avatars(app_configs, **kwargs):
+    from weblate.auth.models import get_anonymous
+    from weblate.accounts.avatar import download_avatar_image
+    if not settings.ENABLE_AVATARS:
+        return []
+    try:
+        download_avatar_image(get_anonymous(), 32)
+        return []
+    except (IOError, CertificateError) as error:
+        return [
+            Critical(
+                'Failed to download avatar: {}'.format(error),
+                hint=get_doc_url('admin/optionals', 'avatars'),
+                id='weblate.E018',
+            )
+        ]
